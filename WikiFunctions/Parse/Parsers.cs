@@ -466,13 +466,17 @@ namespace WikiFunctions.Parse
         
         // date ranges use an en-dash per [[WP:MOSDATE]]
         private static readonly Regex SameMonthInternationalDateRange = new Regex(@"\b([1-3]?\d) *- *([1-3]?\d +" + WikiRegexes.MonthsNoGroup + @")\b", RegexOptions.Compiled);
-        private static readonly Regex SameMonthAmericanDateRange = new Regex(@"(" + WikiRegexes.MonthsNoGroup + @" *[1-3]?\d) *- *([1-3]?\d)\b", RegexOptions.Compiled);
+        private static readonly Regex SameMonthAmericanDateRange = new Regex(@"(" + WikiRegexes.MonthsNoGroup + @" *)([1-3]?\d) *- *([1-3]?\d)\b", RegexOptions.Compiled);
         
         // 13 July -28 July 2009 -> 13–28 July 2009
         // July 13 - July 28 2009 -> July 13–28, 2009
         private static readonly Regex LongFormatInternationalDateRange = new Regex(@"\b([1-3]?\d) +" + WikiRegexes.Months + @" *(?:-|–|&nbsp;) *([1-3]?\d) +\2,? *([12]\d{3})\b", RegexOptions.Compiled);
         private static readonly Regex LongFormatAmericanDateRange  = new Regex(WikiRegexes.Months + @" +([1-3]?\d) +" + @" *(?:-|–|&nbsp;) *\1 +([1-3]?\d) *,? *([12]\d{3})\b", RegexOptions.Compiled);
 
+        private static readonly Regex FullYearRange = new Regex(@"(?:[\(,=;]|\b(?:from|between|and|reigned|for)) *([12]\d{3}) *- *([12]\d{3}) *(?=\)|[,;]|and\b|\s*$)", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex SpacedFullYearRange = new Regex(@"([12]\d{3})(?: +– *| *– +)([12]\d{3})", RegexOptions.Compiled);
+        private static readonly Regex YearRangeShortenedCentury = new Regex(@"(?:[\(,=;]|\b(?:from|between|and|reigned)) *([12]\d{3}) *- *(\d{2}) *(?=\)|[,;]|and\b|\s*$)", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex YearRangeToPresent = new Regex(@"([12]\d{3}) *- *([Pp]resent)", RegexOptions.Compiled);
         // Covered by: LinkTests.FixDates()
         /// <summary>
         /// Fix date and decade formatting errors, and replace &lt;br&gt; and &lt;p&gt; HTML tags
@@ -490,17 +494,50 @@ namespace WikiFunctions.Parse
             articleText = IncorrectCommaInternationalDates.Replace(articleText, @"$1 $2");
             
             articleText = SameMonthInternationalDateRange.Replace(articleText, @"$1–$2");
-            articleText = SameMonthAmericanDateRange.Replace(articleText, @"$1–$2");
+            
+            foreach (Match m in SameMonthAmericanDateRange.Matches(articleText))
+            {
+                int day1 = Convert.ToInt32(m.Groups[2].Value);
+                int day2 = Convert.ToInt32(m.Groups[3].Value);
+                
+                if(day2 > day1)
+                    articleText = articleText.Replace(m.Value, Regex.Replace(m.Value, @" *- *", @"–"));
+            }            
             
             articleText = LongFormatInternationalDateRange.Replace(articleText, @"$1–$3 $2 $4");
             articleText = LongFormatAmericanDateRange.Replace(articleText, @"$1 $2–$3, $4");
             
             // run this after the date range fixes
-            articleText = NoCommaAmericanDates.Replace(articleText, @"$1, $2");
+            articleText = NoCommaAmericanDates.Replace(articleText, @"$1, $2");      
+            
+            articleText = SpacedFullYearRange.Replace(articleText, @"$1–$2");
             
             articleText = AddBackTextImages(articleText);
             
-            articleText = HideMoreText(articleText);
+            // fixes bellow need full HideMore
+            articleText = HideMoreText(articleText); 
+
+            articleText = YearRangeToPresent.Replace(articleText, @"$1–$2");
+            
+            // 1965–1968 fixes: only appy year range fix if two years are in order
+            foreach (Match m in FullYearRange.Matches(articleText))
+            {
+                int year1 = Convert.ToInt32(m.Groups[1].Value);
+                int year2 = Convert.ToInt32(m.Groups[2].Value);
+                
+                if(year2 > year1 && year2-year1 <= 300)
+                    articleText = articleText.Replace(m.Value, Regex.Replace(m.Value, @" *- *", @"–"));
+            }
+            
+            // 1965–68 fixes
+            foreach (Match m in YearRangeShortenedCentury.Matches(articleText))
+            {
+                int year1 = Convert.ToInt32(m.Groups[1].Value); // 1965
+                int year2 = Convert.ToInt32(m.Groups[1].Value.Substring(0, 2) + m.Groups[2].Value); // 68 -> 19 || 68 -> 1968
+                
+                if(year2 > year1 && year2-year1 <= 99)
+                    articleText = articleText.Replace(m.Value, Regex.Replace(m.Value, @" *- *", @"–"));
+            }
 
             articleText = FixDatesRaw(articleText);
 
@@ -511,7 +548,7 @@ namespace WikiFunctions.Parse
             articleText = SyntaxRemoveParagraphs.Replace(articleText, "\r\n\r\n");
 
             return AddBackMoreText(articleText);
-        }
+        }        
 
         private static readonly Regex DiedDateRegex =
             new Regex(
