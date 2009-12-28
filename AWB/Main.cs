@@ -1363,7 +1363,7 @@ namespace AutoWikiBrowser
                 if (chkFindandReplace.Checked && !FindAndReplace.AfterOtherFixes)
                 {
                     theArticle.PerformFindAndReplace(FindAndReplace, SubstTemplates, RplcSpecial,
-                                                     chkSkipWhenNoFAR.Checked);
+                                                     chkSkipWhenNoFAR.Checked, chkSkipOnlyMinorFaR.Checked);
 
                     Variables.Profiler.Profile("F&R");
 
@@ -1439,7 +1439,7 @@ namespace AutoWikiBrowser
                 if (chkFindandReplace.Checked && FindAndReplace.AfterOtherFixes)
                 {
                     theArticle.PerformFindAndReplace(FindAndReplace, SubstTemplates, RplcSpecial,
-                                                     chkSkipWhenNoFAR.Checked);
+                                                     chkSkipWhenNoFAR.Checked, chkSkipOnlyMinorFaR.Checked);
 
                     Variables.Profiler.Profile("F&R (2nd)");
 
@@ -2089,10 +2089,8 @@ window.scrollTo(0, diffTopY);
 
         private void chkFindandReplace_CheckedChanged(object sender, EventArgs e)
         {
-            btnMoreFindAndReplce.Enabled = chkFindandReplace.Checked;
-            btnFindAndReplaceAdvanced.Enabled = chkFindandReplace.Checked;
-            chkSkipWhenNoFAR.Enabled = chkFindandReplace.Checked;
-            btnSubst.Enabled = chkFindandReplace.Checked;
+            btnMoreFindAndReplce.Enabled = btnFindAndReplaceAdvanced.Enabled =
+            chkSkipWhenNoFAR.Enabled = chkSkipOnlyMinorFaR.Checked = btnSubst.Enabled = chkFindandReplace.Checked;
         }
 
         private void chkSkipGeneralFixes_CheckedChanged(object sender, EventArgs e)

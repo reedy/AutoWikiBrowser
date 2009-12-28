@@ -551,8 +551,9 @@ namespace WikiFunctions
         /// <param name="substTemplates">A SubstTemplates object</param>
         /// <param name="replaceSpecial">An MWB ReplaceSpecial object</param>
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
+        /// <param name="skipIfOnlyMinorChange"></param>
         public void PerformFindAndReplace(FindandReplace findAndReplace, SubstTemplates substTemplates,
-                                          ReplaceSpecial.ReplaceSpecial replaceSpecial, bool skipIfNoChange)
+                                          ReplaceSpecial.ReplaceSpecial replaceSpecial, bool skipIfNoChange, bool skipIfOnlyMinorChange)
         {
             if (!findAndReplace.HasReplacements && !replaceSpecial.HasRules && !substTemplates.HasSubstitutions)
                 return;
@@ -561,8 +562,13 @@ namespace WikiFunctions
             testText = strTemp,
             tmpEditSummary = "";
 
-            strTemp = findAndReplace.MultipleFindAndReplace(strTemp, mName, ref tmpEditSummary);
+            bool majorChangesMade;
+            strTemp = findAndReplace.MultipleFindAndReplace(strTemp, mName, ref tmpEditSummary, out majorChangesMade);
+
+            bool farMadeMajorChanges = (testText != strTemp && majorChangesMade);
+
             strTemp = replaceSpecial.ApplyRules(strTemp, mName);
+
             strTemp = substTemplates.SubstituteTemplates(strTemp, mName);
 
             if (testText == strTemp)
@@ -574,6 +580,9 @@ namespace WikiFunctions
             }
             else
             {
+                if (skipIfOnlyMinorChange && !farMadeMajorChanges)
+                    Trace.AWBSkipped("Only minor Find And Replace Changes");
+
                 AWBChangeArticleText("Find and replace applied" + tmpEditSummary,
                                      Tools.ConvertToLocalLineEndings(strTemp), true);
                 EditSummary += tmpEditSummary;
