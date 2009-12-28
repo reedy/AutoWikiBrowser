@@ -618,37 +618,17 @@ namespace WikiFunctions
         /// <summary>
         /// 
         /// </summary>
-        public static void SetToEnglish()
+        private static void SetToEnglish()
         {
-            SetToEnglish("Wikipedia:", "Wikipedia talk:");
+            foreach (var i in CanonicalNamespaces.Keys)
+                Namespaces[i] = CanonicalNamespaces[i];
+
+            Namespaces[4] = "Wikipedia:";
+            Namespaces[5] = "Wikipedia talk:";
             Namespaces[100] = "Portal:";
             Namespaces[101] = "Portal talk:";
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="project"></param>
-        /// <param name="projectTalk"></param>
-        private static void SetToEnglish(string project, string projectTalk)
-        {
-            Namespaces[-2] = "Media:";
-            Namespaces[-1] = "Special:";
-            Namespaces[1] = "Talk:";
-            Namespaces[2] = "User:";
-            Namespaces[3] = "User talk:";
-            Namespaces[4] = project;
-            Namespaces[5] = projectTalk;
-            Namespaces[6] = "File:";
-            Namespaces[7] = "File talk:";
-            Namespaces[8] = "MediaWiki:";
-            Namespaces[9] = "MediaWiki talk:";
-            Namespaces[10] = "Template:";
-            Namespaces[11] = "Template talk:";
-            Namespaces[12] = "Help:";
-            Namespaces[13] = "Help talk:";
-            Namespaces[14] = "Category:";
-            Namespaces[15] = "Category talk:";
+            Namespaces[108] = "Book:";
+            Namespaces[109] = "Book talk:";
 
             mSummaryTag = " using ";
 
