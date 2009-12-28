@@ -136,45 +136,22 @@ namespace WikiFunctions.ReplaceSpecial
         /// <summary>
         /// 
         /// </summary>
-        class ParseTemplate
-        {
-            private readonly string _text = "", _title = "";
-
-            public ParseTemplate(string text, string title)
-            {
-                _text = text;
-                _title = title;
-            }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="tn"></param>
-            public string Parse(TreeNode tn)
-            {
-                string result = _text;
-                foreach(Match m in Parsers.GetTemplates(_text, Parsers.EveryTemplate))
-                {
-                    if(CheckIf(tn, m.Value))
-                    {
-                        result = result.Replace(m.Value, ApplyOn(tn, m.Value, _title));
-                    }
-                }
-
-                return result;
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="tn"></param>
         /// <param name="text"></param>
         /// <param name="title"></param>
         /// <returns></returns>
         private static string ApplyInsideTemplate(TreeNode tn, string text, string title)
         {
-            return new ParseTemplate(text, title).Parse(tn);
+            string result = text;
+            foreach (Match m in Parsers.GetTemplates(text, Parsers.EveryTemplate))
+            {
+                if (CheckIf(tn, m.Value))
+                {
+                    result = result.Replace(m.Value, ApplyOn(tn, m.Value, title));
+                }
+            }
+
+            return result;
         }
 
         /// <summary>
