@@ -52,7 +52,6 @@ namespace AutoWikiBrowser
             this.linkBugs = new System.Windows.Forms.LinkLabel();
             this.linkFeatureRequests = new System.Windows.Forms.LinkLabel();
             this.lblDevs = new System.Windows.Forms.Label();
-            this.lblTimeAndEdits = new System.Windows.Forms.Label();
             this.lblNETVersion = new System.Windows.Forms.Label();
             this.lblIEVersion = new System.Windows.Forms.Label();
             this.lblOSVersion = new System.Windows.Forms.Label();
@@ -144,14 +143,6 @@ namespace AutoWikiBrowser
             this.lblDevs.Size = new System.Drawing.Size(174, 13);
             this.lblDevs.TabIndex = 5;
             this.lblDevs.Text = "Now developed and maintained by:";
-            // 
-            // lblTimeAndEdits
-            // 
-            this.lblTimeAndEdits.Location = new System.Drawing.Point(237, 235);
-            this.lblTimeAndEdits.Name = "lblTimeAndEdits";
-            this.lblTimeAndEdits.Size = new System.Drawing.Size(170, 13);
-            this.lblTimeAndEdits.TabIndex = 11;
-            this.lblTimeAndEdits.Visible = false;
             // 
             // lblNETVersion
             // 
@@ -342,7 +333,6 @@ namespace AutoWikiBrowser
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(255)))), ((int)(((byte)(200)))));
             this.CancelButton = this.okButton;
             this.ClientSize = new System.Drawing.Size(500, 265);
-            this.Controls.Add(this.lblTimeAndEdits);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.txtWarning);
             this.Controls.Add(this.flwOSVersion);
@@ -390,7 +380,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Label lblOSVersion;
         private System.Windows.Forms.Label lblIEVersion;
         private System.Windows.Forms.Label lblNETVersion;
-        private System.Windows.Forms.Label lblTimeAndEdits;
         private System.Windows.Forms.Label lblDevs;
         private System.Windows.Forms.LinkLabel linkBugs;
         private System.Windows.Forms.LinkLabel linkFeatureRequests;
