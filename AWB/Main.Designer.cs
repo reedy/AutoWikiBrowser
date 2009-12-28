@@ -3115,6 +3115,7 @@ namespace AutoWikiBrowser
             this.chkSkipNoCatChange.TabIndex = 4;
             this.chkSkipNoCatChange.Text = "Skip if &no cat changed";
             this.chkSkipNoCatChange.UseVisualStyleBackColor = true;
+            this.ToolTip.SetToolTip(this.chkSkipNoCatChange, "Automatically skips page if no category changed");
             // 
             // chkRemoveSortKey
             // 
@@ -3126,6 +3127,7 @@ namespace AutoWikiBrowser
             this.chkRemoveSortKey.TabIndex = 5;
             this.chkRemoveSortKey.Text = "&Remove sortkey";
             this.chkRemoveSortKey.UseVisualStyleBackColor = true;
+            this.ToolTip.SetToolTip( this.chkRemoveSortKey, "Remove sortkey from category");
             // 
             // txtNewCategory2
             // 
