@@ -720,13 +720,8 @@ namespace WikiFunctions
         public static readonly Regex GregorianYear = new Regex(@"\b[12]\d{3}\b", RegexOptions.Compiled);
 
         #region Parsers.FixFootnotes **NOT READY FOR PRODUCTION**
-        // One space/linefeed
-        public static readonly Regex WhiteSpaceRef = new Regex("[\\n\\r\\f\\t ]+?<ref([ >])", RegexOptions.Compiled);
-        // remove trailing spaces from named refs
-        public static readonly Regex RefTagWithParams = new Regex("<ref ([^>]*[^>])[ ]*>", RegexOptions.Compiled);
         // removed superscripted punctuation between refs
         public static readonly Regex SuperscriptedPunctuationBetweenRefs = new Regex("(</ref>|<ref[^>]*?/>)<sup>[ ]*[,;-]?[ ]*</sup><ref", RegexOptions.Compiled);
-        public static readonly Regex PunctuationBetweenRefs = new Regex("(</ref>|<ref[^>]*?/>)[ ]*[,;-]?[ ]*<ref", RegexOptions.Compiled);
 
         private const string FactTag = "{{[ ]*(fact|fact[ ]*[\\|][^}]*|facts|citequote|citation needed|cn|verification needed|verify source|verify credibility|who|failed verification|nonspecific|dubious|or|lopsided|GR[ ]*[\\|][ ]*[^ ]+|[c]?r[e]?f[ ]*[\\|][^}]*|ref[ _]label[ ]*[\\|][^}]*|ref[ _]num[ ]*[\\|][^}]*)[ ]*}}";
         public static readonly Regex WhiteSpaceFactTag = new Regex("[\\n\\r\\f\\t ]+?" + FactTag, RegexOptions.Compiled);
