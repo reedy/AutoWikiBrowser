@@ -24,10 +24,7 @@ namespace WikiFunctions.ReplaceSpecial
 {
     public class TemplateParamRule : IRule
     {
-        public const string XmlName = "TemplateParamRule";
-
-        public string ParamName = "";
-        public string NewParamName = "";
+        public string ParamName = "", NewParamName = "";
 
         TemplateParamRuleControl ruleControl_;
 
