@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using WikiFunctions.Lists.Providers;
 using WikiFunctions.Plugin;
 using WikiFunctions.Background;
 using System.Net;
@@ -314,7 +315,7 @@ namespace WikiFunctions
         {
             BackgroundRequest r = new BackgroundRequest(UnderscoresLoaded) {HasUI = false};
             DelayedRequests.Add(r);
-            r.GetList(new Lists.CategoryListProvider(), cats);
+            r.GetList(new CategoryListProvider(), cats);
         }
 
         private static void UnderscoresLoaded(BackgroundRequest req)

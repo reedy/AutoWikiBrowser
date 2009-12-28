@@ -18,6 +18,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System.Collections.Generic;
+using WikiFunctions.Lists.Providers;
 
 namespace WikiFunctions.Plugin
 {
@@ -142,7 +143,7 @@ namespace WikiFunctions.Plugin
     /// </summary>
     /// <remarks>Ideally we would pass an IAutoWikiBrowser at init() time, but that might not be thread-safe
     /// and also the Listmaker control is not AWB specific.</remarks>
-    public interface IListMakerPlugin : Lists.IListProvider
+    public interface IListMakerPlugin : IListProvider
     {
         /// <summary>
         /// The name of the plugin

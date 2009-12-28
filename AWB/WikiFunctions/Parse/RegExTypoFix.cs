@@ -142,11 +142,11 @@ namespace WikiFunctions.Parse
             Postfix = postfix;
         }
 
-        readonly int GroupSize;
-        readonly Regex Allow, Disallow;
-        readonly string Prefix, Postfix;
+        private readonly int GroupSize;
+        private readonly Regex Allow, Disallow;
+        private readonly string Prefix, Postfix;
 
-        List<Regex> Groups;
+        private List<Regex> Groups;
 
         public readonly List<KeyValuePair<Regex, string>> Typos = new List<KeyValuePair<Regex, string>>(20);
 

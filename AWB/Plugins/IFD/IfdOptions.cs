@@ -22,6 +22,7 @@ using System.Windows.Forms;
 using WikiFunctions;
 using System.Text.RegularExpressions;
 using WikiFunctions.Background;
+using WikiFunctions.Lists.Providers;
 
 namespace AutoWikiBrowser.Plugins.IFD
 {
@@ -105,7 +106,7 @@ namespace AutoWikiBrowser.Plugins.IFD
                     ToDo.Keys.CopyTo(imgs, 0);
                     Enabled = false;
 
-                    req.GetList(new WikiFunctions.Lists.ImageFileLinksListProvider(), imgs);
+                    req.GetList(new ImageFileLinksListProvider(), imgs);
                     req.Wait();
 
                     Enabled = true;

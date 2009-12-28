@@ -16,9 +16,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+
 using System.Collections.Generic;
 
-namespace WikiFunctions.Lists
+namespace WikiFunctions.Lists.Providers
 {
     /// <summary>
     /// An interface implemented by objects which attach to the WikiFunctions' ListMaker combo box and return lists of pages
@@ -80,3 +81,5 @@ namespace WikiFunctions.Lists
         bool NamespacesEnabled { get; }
     }
 }
+
+

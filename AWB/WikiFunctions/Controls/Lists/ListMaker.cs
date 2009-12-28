@@ -28,6 +28,7 @@ using System.Threading;
 using System.Text.RegularExpressions;
 using WikiFunctions.API;
 using WikiFunctions.Lists;
+using WikiFunctions.Lists.Providers;
 
 namespace WikiFunctions.Controls.Lists
 {

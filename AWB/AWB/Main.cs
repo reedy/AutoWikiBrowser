@@ -34,6 +34,7 @@ using System.Collections;
 using System.Diagnostics;
 using WikiFunctions;
 using WikiFunctions.API;
+using WikiFunctions.Lists.Providers;
 using WikiFunctions.Plugin;
 using WikiFunctions.Parse;
 using WikiFunctions.Properties;
@@ -4006,7 +4007,7 @@ window.scrollTo(0, diffTopY);
                 txtDabVariants.Text = "";
                 foreach (
                     Article a in
-                    new WikiFunctions.Lists.LinksOnPageListProvider().MakeList(
+                    new LinksOnPageListProvider().MakeList(
                         txtDabLink.Text.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries)))
                 {
                     uint i;

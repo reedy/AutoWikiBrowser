@@ -16,6 +16,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -24,7 +25,7 @@ using System.Xml;
 using System.IO;
 using WikiFunctions.API;
 
-namespace WikiFunctions.Lists
+namespace WikiFunctions.Lists.Providers
 {
     /// <summary>
     /// Parent abstract class for all API-based providers
@@ -187,7 +188,7 @@ namespace WikiFunctions.Lists
             string title = HttpUtility.UrlEncode(category);
 
             string url = "?action=query&list=categorymembers&cmtitle=Category:" + title + "&cmcategory=" + title 
-                + "&cmlimit=max";
+                         + "&cmlimit=max";
 
             return ApiMakeList(url, 0);
         }
@@ -242,7 +243,7 @@ namespace WikiFunctions.Lists
             foreach (string cat in source)
             {
                 cats.Add(Regex.Replace(Tools.RemoveHashFromPageTitle(Tools.WikiDecode(cat)).Trim(),
-                    "^" + Variables.NamespacesCaseInsensitive[Namespace.Category], "").Trim());
+                                       "^" + Variables.NamespacesCaseInsensitive[Namespace.Category], "").Trim());
             }
 
             return cats;
@@ -258,3 +259,5 @@ namespace WikiFunctions.Lists
         { }
     }
 }
+
+

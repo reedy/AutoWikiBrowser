@@ -24,6 +24,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.Web;
 using WikiFunctions.API;
+using WikiFunctions.Lists.Providers;
 
 namespace WikiFunctions.Background
 {
@@ -379,7 +380,7 @@ namespace WikiFunctions.Background
         /// </summary>
         /// <param name="what">Which source to use</param>
         /// <param name="params1">Optional parameters, depend on source</param>
-        public void GetList(Lists.IListProvider what, params string[] params1)
+        public void GetList(IListProvider what, params string[] params1)
         {
             ObjParam1 = what;
             ObjParam2 = params1;
@@ -403,7 +404,7 @@ namespace WikiFunctions.Background
 
             try
             {
-                Result = ((Lists.IListProvider)ObjParam1).MakeList((string[])ObjParam2);
+                Result = ((IListProvider)ObjParam1).MakeList((string[])ObjParam2);
                 InvokeOnComplete();
             }
             catch (Exception e)
