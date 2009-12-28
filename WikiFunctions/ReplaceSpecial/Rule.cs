@@ -66,7 +66,6 @@ namespace WikiFunctions.ReplaceSpecial
             ruleControl_ = null;
         }
 
-
         public override Control CreateControl(IRuleControlOwner owner, Control.ControlCollection collection, System.Drawing.Point pos)
         {
             RuleControl rc = new RuleControl(owner) {Location = pos};
@@ -100,10 +99,7 @@ namespace WikiFunctions.ReplaceSpecial
 
         public override string Apply(TreeNode tn, string text, string title)
         {
-            if (string.IsNullOrEmpty(text))
-                return text;
-
-            if (!enabled_)
+            if (string.IsNullOrEmpty(text) || !enabled_)
                 return text;
 
             int apply = numoftimes_;
@@ -142,35 +138,30 @@ namespace WikiFunctions.ReplaceSpecial
         /// </summary>
         class ParseTemplate
         {
-            readonly string text_ = "";
-            readonly string title_ = "";
-            string result_ = "";
+            private readonly string _text = "", _title = "";
 
             public ParseTemplate(string text, string title)
             {
-                text_ = text;
-                title_ = title;
+                _text = text;
+                _title = title;
             }
 
             /// <summary>
             /// 
             /// </summary>
-            public string Result { get { return result_; } }
-
-            /// <summary>
-            /// 
-            /// </summary>
             /// <param name="tn"></param>
-            public void Parse(TreeNode tn)
+            public string Parse(TreeNode tn)
             {
-                result_ = text_;
-                foreach(Match m in Parsers.GetTemplates(text_, Parsers.EveryTemplate))
+                string result = _text;
+                foreach(Match m in Parsers.GetTemplates(_text, Parsers.EveryTemplate))
                 {
                     if(CheckIf(tn, m.Value))
                     {
-                        result_ = result_.Replace(m.Value, ApplyOn(tn, m.Value, title_));
+                        result = result.Replace(m.Value, ApplyOn(tn, m.Value, _title));
                     }
                 }
+
+                return result;
             }
         }
 
@@ -183,11 +174,7 @@ namespace WikiFunctions.ReplaceSpecial
         /// <returns></returns>
         private static string ApplyInsideTemplate(TreeNode tn, string text, string title)
         {
-            ParseTemplate p = new ParseTemplate(text, title);
-
-            p.Parse(tn);
-
-            return p.Result;
+            return new ParseTemplate(text, title).Parse(tn);
         }
 
         /// <summary>
@@ -198,15 +185,17 @@ namespace WikiFunctions.ReplaceSpecial
         /// <returns></returns>
         private static bool CheckIf(TreeNode tn, string text)
         {
-            Rule r = (Rule)tn.Tag;
+            Rule r = (Rule) tn.Tag;
 
-            StringComparison sc = (((int)r.ifRegexOptions_ & (int)RegexOptions.IgnoreCase) != 0)?StringComparison.OrdinalIgnoreCase:StringComparison.Ordinal;
+            StringComparison sc = (((int) r.ifRegexOptions_ & (int) RegexOptions.IgnoreCase) != 0)
+                                      ? StringComparison.OrdinalIgnoreCase
+                                      : StringComparison.Ordinal;
 
             if (!string.IsNullOrEmpty(r.ifContains_))
             {
                 if ((r.ifIsRegex_ && !Regex.IsMatch(text, r.ifContains_, r.ifRegexOptions_))
-                    || (!r.ifIsRegex_ && text.IndexOf(r.ifContains_, sc)<0))
-                        return false;
+                    || (!r.ifIsRegex_ && text.IndexOf(r.ifContains_, sc) < 0))
+                    return false;
             }
             if (!string.IsNullOrEmpty(r.ifNotContains_))
             {
