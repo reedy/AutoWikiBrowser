@@ -445,6 +445,7 @@ namespace WikiFunctions
             else
                 URL = "http://" + LangCode + "." + Project + ".org";
 
+            // HACK:
             switch (projectName)
             {
                 case ProjectEnum.wikipedia:
@@ -457,7 +458,8 @@ namespace WikiFunctions
                     switch (langCode)
                     {
                         case "en":
-                            SetToEnglish();
+                            if (projectName == ProjectEnum.wikipedia)
+                                SetToEnglish();
                             break;
 
                         case "ar":
