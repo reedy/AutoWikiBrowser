@@ -7,6 +7,7 @@
 'but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 'You should have received a copy of the GNU General Public License Version 2 along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+Imports WikiFunctions.Lists.Providers
 
 Namespace AutoWikiBrowser.Plugins.Kingbotk
     Partial Class PluginBase
@@ -105,7 +106,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             End Get
         End Property
 
-        Private Shared ReadOnly rlp As New WikiFunctions.Lists.RedirectsListProvider()
+        Private Shared ReadOnly rlp As New RedirectsListProvider()
 
         ' Get the redirects from Wikipedia:
         ''' <summary>

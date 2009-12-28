@@ -1,5 +1,6 @@
 using System.Windows.Forms;
 using WikiFunctions.Lists;
+using WikiFunctions.Lists.Providers;
 
 namespace WikiFunctions.Controls
 {

@@ -1749,10 +1749,7 @@ Message: {2}
             foreach (Article a in list)
             {
                 string s = ConvertFromTalk(a);
-                if (a.Equals(s))
-                    newList.Add(a);
-                else
-                    newList.Add(new Article(s));
+                newList.Add(a.Equals(s) ? a : new Article(s));
             }
             return newList;
         }

@@ -1,4 +1,4 @@
-﻿namespace WikiFunctions.Lists
+﻿namespace WikiFunctions.Lists.Providers
 {
     partial class SpecialPageListProvider
     {
@@ -63,7 +63,7 @@
             // cboNamespace
             // 
             this.cboNamespace.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+                                                                             | System.Windows.Forms.AnchorStyles.Right)));
             this.cboNamespace.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboNamespace.FormattingEnabled = true;
             this.cboNamespace.Location = new System.Drawing.Point(98, 65);
@@ -92,7 +92,7 @@
             // txtPages
             // 
             this.txtPages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+                                                                         | System.Windows.Forms.AnchorStyles.Right)));
             this.txtPages.Location = new System.Drawing.Point(98, 39);
             this.txtPages.Name = "txtPages";
             this.txtPages.Size = new System.Drawing.Size(166, 20);
@@ -101,7 +101,7 @@
             // cmboSourceSelect
             // 
             this.cmboSourceSelect.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+                                                                                 | System.Windows.Forms.AnchorStyles.Right)));
             this.cmboSourceSelect.DropDownHeight = 250;
             this.cmboSourceSelect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboSourceSelect.FormattingEnabled = true;
@@ -158,3 +158,5 @@
         private System.Windows.Forms.Label lblPages;
     }
 }
+
+

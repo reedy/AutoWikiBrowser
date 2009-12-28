@@ -24,6 +24,7 @@ using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Globalization;
 using WikiFunctions.Controls.Lists;
+using WikiFunctions.Lists.Providers;
 
 namespace WikiFunctions.Lists
 {

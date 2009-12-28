@@ -17,12 +17,13 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace WikiFunctions.Lists
+namespace WikiFunctions.Lists.Providers
 {
     /// <summary>
     /// Gets the list of pages on the Named Special Pages
@@ -131,3 +132,5 @@ namespace WikiFunctions.Lists
         }
     }
 }
+
+

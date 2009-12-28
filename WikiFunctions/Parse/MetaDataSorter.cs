@@ -76,8 +76,8 @@ namespace WikiFunctions.Parse
         }
 
         // now will be generated dynamically using Variables.Stub
-        readonly Regex InterLangRegex = new Regex("<!-- ?(other languages?|language links?|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wikis?|The below are interlanguage links\\.?) ?-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        readonly Regex CatCommentRegex = new Regex("<!-- ?cat(egories)? ?-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private readonly Regex InterLangRegex = new Regex("<!-- ?(other languages?|language links?|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wikis?|The below are interlanguage links\\.?) ?-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private readonly Regex CatCommentRegex = new Regex("<!-- ?cat(egories)? ?-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private List<string> InterwikiLocalAlpha;
         private List<string> InterwikiLocalFirst;
@@ -356,7 +356,7 @@ en, sq, ru
             MatchCollection matches = r.Matches(articleText);
             foreach (Match m in matches)
             {
-                string cat = WikiRegexes.Category.Match(m.Value).Value;
+                //string cat = WikiRegexes.Category.Match(m.Value).Value;
                 
                 if (!Regex.IsMatch(m.Value, "\\[\\[Category:(Pages|Categories|Articles) for deletion\\]\\]"))
                     categoryList.Add(m.Value);
@@ -419,8 +419,8 @@ en, sq, ru
         /// <summary>
         /// Returns whether the comments are the same in the two strings
         /// </summary>
-        /// <param name="articleText">the first string to search</param>
-        /// <param name="category">the second string to search</param>
+        /// <param name="originalArticleText">the first string to search</param>
+        /// <param name="articleText">the second string to search</param>
         /// <returns>whether the comments are the same in the two strings</returns>
         private bool CommentsNotChanged(string originalArticleText, string articleText)
         {

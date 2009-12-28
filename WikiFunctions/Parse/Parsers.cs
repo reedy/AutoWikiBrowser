@@ -23,6 +23,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using WikiFunctions.Lists;
+using WikiFunctions.Lists.Providers;
 
 namespace WikiFunctions.Parse
 {
