@@ -42,7 +42,7 @@ namespace AutoWikiBrowser
 
             lblTimeAndEdits.Visible = true;
 
-            lblTimeAndEdits.Text = "You have made " + edits + " edits in " + time;
+            lblTimeAndEdits.Text = "You have made " + edits + " edit" + (edits > 1 ? "s" : "") + " in " + new DateTime(time.Ticks).ToString("HH:mm:ss");
         }
 
         private void okButton_Click(object sender, EventArgs e)
