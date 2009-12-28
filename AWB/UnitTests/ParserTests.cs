@@ -757,7 +757,104 @@ Jones 2005</ref>"));
             Assert.AreEqual(correct2, parser.FixDates(@"On May 3 - May 17, 2009 a dog"));
             Assert.AreEqual(correct2, parser.FixDates(@"On May 3 – May 17 2009 a dog"));
             Assert.AreEqual(correct2, parser.FixDates(@"On May 3 – May 17, 2009 a dog"));
+            
+            // no change
+            const string nochange1 = @"May 17 - 13,009 dogs";
+            Assert.AreEqual(nochange1, parser.FixDates(nochange1));
         }
+        
+        [Test]
+        public void TestFullYearRanges()
+        {
+            const string correct = @"from (1900–1933) there";
+            Assert.AreEqual(correct, parser.FixDates(@"from (1900-1933) there"));
+            Assert.AreEqual(correct, parser.FixDates(@"from (1900  –  1933) there"));
+            Assert.AreEqual(correct, parser.FixDates(@"from (1900 -1933) there"));
+            Assert.AreEqual(correct, parser.FixDates(@"from (1900 - 1933) there"));
+            Assert.AreEqual(correct, parser.FixDates(@"from (1900 -  1933) there"));
+            Assert.AreEqual(@"from (1900–1901) there", parser.FixDates(@"from (1900 - 1901) there"));
+            Assert.AreEqual(@"from (1900–1933, 2000) there", parser.FixDates(@"from (1900-1933, 2000) there"));
+            Assert.AreEqual(@"from (1900–1933, 2000–2002) there", parser.FixDates(@"from (1900-1933, 2000-2002) there"));
+            Assert.AreEqual(@"from ( 1900–1933) there", parser.FixDates(@"from ( 1900-1933) there"));
+            
+            Assert.AreEqual(@"from 1950–1960,", parser.FixDates(@"from 1950-1960,"));
+            Assert.AreEqual(@"(1950–1960 and 1963–1968)", parser.FixDates(@"(1950-1960 and 1963-1968)"));
+            
+            // no change – not valid date range
+            const string invaliddaterange = @"from (1900–1870) there";
+            Assert.AreEqual(invaliddaterange, parser.FixDates(invaliddaterange));
+            
+            // already okay
+            const string alreadycorrect1 = @"from (1900&ndash;1933) there";
+            Assert.AreEqual(alreadycorrect1, parser.FixDates(alreadycorrect1));
+            const string alreadycorrect2 = @"from (1900–1933) there";
+            Assert.AreEqual(alreadycorrect2, parser.FixDates(alreadycorrect2));
+        
+            Assert.AreEqual(@"now between 1900–1920
+was", parser.FixDates(@"now between 1900-1920
+was"));
+        }
+        
+        [Test]
+        public void TestYearToPresentRanges()
+        {
+            const string present = @"from 2002–present was";
+            Assert.AreEqual(present, parser.FixDates(@"from 2002-present was"));
+            Assert.AreEqual(present, parser.FixDates(@"from 2002 -   present was"));
+            Assert.AreEqual(present, parser.FixDates(@"from 2002–present was"));
+            
+             Assert.AreEqual(@"from 2002–Present was", parser.FixDates(@"from 2002-Present was"));
+            
+            const string present2 = @"== Members ==
+* [[Nick Hexum]] - Vocals, [[Rhythm Guitar]], Programming (1989 - present)
+* [[S. A. Martinez|Doug Martinez]] - Vocals, [[Phonograph|Turntables]], DJ (1992 - present)
+* [[Tim Mahoney (guitarist)|Tim Mahoney]] - [[Lead Guitar]] (1991 - present)
+* [[P-Nut|Aaron Wills]] - [[Bass guitar]] (1989 - present)
+* [[Chad Sexton]] - [[Drum]]s, Programming, Percussion (1989 - present)";
+            
+            Assert.AreEqual(present2.Replace(@" - p", @"–p"), parser.FixDates(present2));
+        }
+        
+        [Test]
+        public void TestShortenedYearRanges()
+        {
+            const string correct = @"from (1900–33) there";
+            Assert.AreEqual(correct, parser.FixDates(@"from (1900-33) there"));
+            Assert.AreEqual(correct, parser.FixDates(@"from (1900 -33) there"));
+            Assert.AreEqual(correct, parser.FixDates(@"from (1900 - 33) there"));
+            Assert.AreEqual(correct, parser.FixDates(@"from (1900 -  33) there"));
+            Assert.AreEqual(@"from (1900–1901) there", parser.FixDates(@"from (1900 - 1901) there"));
+            Assert.AreEqual(@"from (1900–33, 2000) there", parser.FixDates(@"from (1900-33, 2000) there"));
+            Assert.AreEqual(@"from (1900–33, 2000–2002) there", parser.FixDates(@"from (1900-33, 2000-2002) there"));
+            Assert.AreEqual(@"from ( 1900–33) there", parser.FixDates(@"from ( 1900-33) there"));
+            
+            Assert.AreEqual(@"from 1950–60,", parser.FixDates(@"from 1950-60,"));
+            Assert.AreEqual(@"(1950–60 and 1963–68)", parser.FixDates(@"(1950-60 and 1963-68)"));
+            
+            // no change – not valid date range
+            const string invaliddaterange = @"from (1920–18) there";
+            Assert.AreEqual(invaliddaterange, parser.FixDates(invaliddaterange));
+            
+            // already okay
+            const string alreadycorrect1 = @"from (1900&ndash;33) there";
+            Assert.AreEqual(alreadycorrect1, parser.FixDates(alreadycorrect1));
+            const string alreadycorrect2 = @"from (1900–33) there";
+            Assert.AreEqual(alreadycorrect2, parser.FixDates(alreadycorrect2));
+        }
+        
+        [Test]
+        public void TestYearRangesCategories()
+        {
+            const string catYearRange = @"now foo
+[[Category:abc (2004-present)]]";
+            Assert.AreEqual(catYearRange, parser.FixDates(catYearRange));
+            
+            const string catYearRange2 = @"now abc (2004-present) was
+" + catYearRange;
+            Assert.AreEqual(@"now abc (2004–present) was
+" + catYearRange, parser.FixDates(catYearRange2));
+        }
+        
 
         [Test]
         public void FixDatesRaw()
