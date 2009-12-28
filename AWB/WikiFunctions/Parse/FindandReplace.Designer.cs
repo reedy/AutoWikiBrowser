@@ -57,6 +57,7 @@ namespace WikiFunctions.Parse
             this.regex = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.multi = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.single = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Minor = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.enabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FindAndReplaceContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -115,13 +116,14 @@ namespace WikiFunctions.Parse
             this.regex,
             this.multi,
             this.single,
+            this.Minor,
             this.enabled,
             this.Comment});
             this.dataGridView1.ContextMenuStrip = this.FindAndReplaceContextMenu;
             this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dataGridView1.Location = new System.Drawing.Point(12, 80);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(706, 290);
+            this.dataGridView1.Size = new System.Drawing.Size(717, 290);
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             this.dataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView1_RowsAdded);
@@ -193,6 +195,13 @@ namespace WikiFunctions.Parse
             this.single.TrueValue = "1";
             this.single.Width = 58;
             // 
+            // Minor
+            // 
+            this.Minor.FalseValue = "0";
+            this.Minor.HeaderText = "Minor";
+            this.Minor.Name = "Minor";
+            this.Minor.TrueValue = "1";
+            // 
             // enabled
             // 
             this.enabled.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
@@ -234,152 +243,152 @@ namespace WikiFunctions.Parse
             this.uncheckAllSinglelineToolStripMenuItem,
             this.disableAllToolStripMenuItem});
             this.FindAndReplaceContextMenu.Name = "FindAndReplaceContextMenu";
-            this.FindAndReplaceContextMenu.Size = new System.Drawing.Size(236, 424);
+            this.FindAndReplaceContextMenu.Size = new System.Drawing.Size(239, 424);
             this.FindAndReplaceContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.FindAndReplaceContextMenu_Opening);
             // 
             // addRowToolStripMenuItem
             // 
             this.addRowToolStripMenuItem.Name = "addRowToolStripMenuItem";
-            this.addRowToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.addRowToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.addRowToolStripMenuItem.Text = "Insert row";
             this.addRowToolStripMenuItem.Click += new System.EventHandler(this.addRowToolStripMenuItem_Click);
             // 
             // deleteRowToolStripMenuItem
             // 
             this.deleteRowToolStripMenuItem.Name = "deleteRowToolStripMenuItem";
-            this.deleteRowToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.deleteRowToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.deleteRowToolStripMenuItem.Text = "Delete row";
             this.deleteRowToolStripMenuItem.Click += new System.EventHandler(this.deleteRowToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(232, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(235, 6);
             // 
             // testRegexToolStripMenuItem
             // 
             this.testRegexToolStripMenuItem.Name = "testRegexToolStripMenuItem";
-            this.testRegexToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.testRegexToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.testRegexToolStripMenuItem.Text = "Test regex...";
             this.testRegexToolStripMenuItem.Click += new System.EventHandler(this.testRegexToolStripMenuItem_Click);
             // 
             // createRetfRuleToolStripMenuItem
             // 
             this.createRetfRuleToolStripMenuItem.Name = "createRetfRuleToolStripMenuItem";
-            this.createRetfRuleToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.createRetfRuleToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.createRetfRuleToolStripMenuItem.Text = "Copy as a RETF rule";
             this.createRetfRuleToolStripMenuItem.Click += new System.EventHandler(this.createRetfRuleToolStripMenuItem_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(232, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(235, 6);
             // 
             // moveToTopToolStripMenuItem
             // 
             this.moveToTopToolStripMenuItem.Name = "moveToTopToolStripMenuItem";
-            this.moveToTopToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.moveToTopToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.moveToTopToolStripMenuItem.Text = "Move to top";
             this.moveToTopToolStripMenuItem.Click += new System.EventHandler(this.moveToTopToolStripMenuItem_Click);
             // 
             // moveUpToolStripMenuItem
             // 
             this.moveUpToolStripMenuItem.Name = "moveUpToolStripMenuItem";
-            this.moveUpToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.moveUpToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.moveUpToolStripMenuItem.Text = "Move up";
             this.moveUpToolStripMenuItem.Click += new System.EventHandler(this.moveUpToolStripMenuItem_Click);
             // 
             // moveDownToolStripMenuItem
             // 
             this.moveDownToolStripMenuItem.Name = "moveDownToolStripMenuItem";
-            this.moveDownToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.moveDownToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.moveDownToolStripMenuItem.Text = "Move down";
             this.moveDownToolStripMenuItem.Click += new System.EventHandler(this.moveDownToolStripMenuItem_Click);
             // 
             // moveToBottomToolStripMenuItem
             // 
             this.moveToBottomToolStripMenuItem.Name = "moveToBottomToolStripMenuItem";
-            this.moveToBottomToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.moveToBottomToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.moveToBottomToolStripMenuItem.Text = "Move to bottom";
             this.moveToBottomToolStripMenuItem.Click += new System.EventHandler(this.moveToBottomToolStripMenuItem_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(232, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(235, 6);
             // 
             // allCaseSensitiveToolStripMenuItem
             // 
             this.allCaseSensitiveToolStripMenuItem.Name = "allCaseSensitiveToolStripMenuItem";
-            this.allCaseSensitiveToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.allCaseSensitiveToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.allCaseSensitiveToolStripMenuItem.Text = "Check all case sensitive";
             this.allCaseSensitiveToolStripMenuItem.Click += new System.EventHandler(this.allCaseSensitiveToolStripMenuItem_Click);
             // 
             // checkAllRegularExpressionsToolStripMenuItem
             // 
             this.checkAllRegularExpressionsToolStripMenuItem.Name = "checkAllRegularExpressionsToolStripMenuItem";
-            this.checkAllRegularExpressionsToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.checkAllRegularExpressionsToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.checkAllRegularExpressionsToolStripMenuItem.Text = "Check all regular expressions";
             this.checkAllRegularExpressionsToolStripMenuItem.Click += new System.EventHandler(this.checkAllRegularExpressionsToolStripMenuItem_Click);
             // 
             // checkAllMultlineToolStripMenuItem
             // 
             this.checkAllMultlineToolStripMenuItem.Name = "checkAllMultlineToolStripMenuItem";
-            this.checkAllMultlineToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.checkAllMultlineToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.checkAllMultlineToolStripMenuItem.Text = "Check all multline";
             this.checkAllMultlineToolStripMenuItem.Click += new System.EventHandler(this.checkAllMultlineToolStripMenuItem_Click);
             // 
             // checkAllSinglelineToolStripMenuItem
             // 
             this.checkAllSinglelineToolStripMenuItem.Name = "checkAllSinglelineToolStripMenuItem";
-            this.checkAllSinglelineToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.checkAllSinglelineToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.checkAllSinglelineToolStripMenuItem.Text = "Check all singleline";
             this.checkAllSinglelineToolStripMenuItem.Click += new System.EventHandler(this.checkAllSinglelineToolStripMenuItem_Click);
             // 
             // enableAllToolStripMenuItem
             // 
             this.enableAllToolStripMenuItem.Name = "enableAllToolStripMenuItem";
-            this.enableAllToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.enableAllToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.enableAllToolStripMenuItem.Text = "Enable all";
             this.enableAllToolStripMenuItem.Click += new System.EventHandler(this.enableAllToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(232, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(235, 6);
             // 
             // uncheckAllCaseSensitiveToolStripMenuItem
             // 
             this.uncheckAllCaseSensitiveToolStripMenuItem.Name = "uncheckAllCaseSensitiveToolStripMenuItem";
-            this.uncheckAllCaseSensitiveToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.uncheckAllCaseSensitiveToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.uncheckAllCaseSensitiveToolStripMenuItem.Text = "Uncheck all case sensitive";
             this.uncheckAllCaseSensitiveToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllCaseSensitiveToolStripMenuItem_Click);
             // 
             // uncheckAllRegularExpressionsToolStripMenuItem
             // 
             this.uncheckAllRegularExpressionsToolStripMenuItem.Name = "uncheckAllRegularExpressionsToolStripMenuItem";
-            this.uncheckAllRegularExpressionsToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.uncheckAllRegularExpressionsToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.uncheckAllRegularExpressionsToolStripMenuItem.Text = "Uncheck all regular expressions";
             this.uncheckAllRegularExpressionsToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllRegularExpressionsToolStripMenuItem_Click);
             // 
             // uncheckAllMultilineToolStripMenuItem
             // 
             this.uncheckAllMultilineToolStripMenuItem.Name = "uncheckAllMultilineToolStripMenuItem";
-            this.uncheckAllMultilineToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.uncheckAllMultilineToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.uncheckAllMultilineToolStripMenuItem.Text = "Uncheck all multiline";
             this.uncheckAllMultilineToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllMultilineToolStripMenuItem_Click);
             // 
             // uncheckAllSinglelineToolStripMenuItem
             // 
             this.uncheckAllSinglelineToolStripMenuItem.Name = "uncheckAllSinglelineToolStripMenuItem";
-            this.uncheckAllSinglelineToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.uncheckAllSinglelineToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.uncheckAllSinglelineToolStripMenuItem.Text = "Uncheck all singleline";
             this.uncheckAllSinglelineToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllSinglelineToolStripMenuItem_Click);
             // 
             // disableAllToolStripMenuItem
             // 
             this.disableAllToolStripMenuItem.Name = "disableAllToolStripMenuItem";
-            this.disableAllToolStripMenuItem.Size = new System.Drawing.Size(235, 22);
+            this.disableAllToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.disableAllToolStripMenuItem.Text = "Disable all";
             this.disableAllToolStripMenuItem.Click += new System.EventHandler(this.disableAllToolStripMenuItem_Click);
             // 
@@ -387,7 +396,7 @@ namespace WikiFunctions.Parse
             // 
             this.btnDone.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDone.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnDone.Location = new System.Drawing.Point(643, 37);
+            this.btnDone.Location = new System.Drawing.Point(654, 37);
             this.btnDone.Name = "btnDone";
             this.btnDone.Size = new System.Drawing.Size(75, 23);
             this.btnDone.TabIndex = 2;
@@ -411,7 +420,7 @@ namespace WikiFunctions.Parse
             // btnClear
             // 
             this.btnClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnClear.Location = new System.Drawing.Point(643, 8);
+            this.btnClear.Location = new System.Drawing.Point(654, 8);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(75, 23);
             this.btnClear.TabIndex = 10;
@@ -524,7 +533,7 @@ namespace WikiFunctions.Parse
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnDone;
-            this.ClientSize = new System.Drawing.Size(730, 382);
+            this.ClientSize = new System.Drawing.Size(741, 382);
             this.Controls.Add(this.lblMsdn);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -587,19 +596,20 @@ namespace WikiFunctions.Parse
         private System.Windows.Forms.ToolStripMenuItem moveUpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem moveDownToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem testRegexToolStripMenuItem;
-        private System.Windows.Forms.DataGridViewTextBoxColumn find;
-        private System.Windows.Forms.DataGridViewTextBoxColumn replace;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn casesensitive;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn regex;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn multi;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn single;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn enabled;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Comment;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripMenuItem moveToTopToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem moveToBottomToolStripMenuItem;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.LinkLabel lblMsdn;
         private System.Windows.Forms.ToolStripMenuItem createRetfRuleToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn find;
+        private System.Windows.Forms.DataGridViewTextBoxColumn replace;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn casesensitive;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn regex;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn multi;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn single;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Minor;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn enabled;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Comment;
     }
 }
