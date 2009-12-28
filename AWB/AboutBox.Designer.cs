@@ -62,15 +62,15 @@ namespace AutoWikiBrowser
             this.UsageStatsLabel = new System.Windows.Forms.LinkLabel();
             this.lblRevision = new System.Windows.Forms.Label();
             this.flwDevs = new System.Windows.Forms.FlowLayoutPanel();
-            this.flwOriginalDevs = new System.Windows.Forms.FlowLayoutPanel();
-            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
-            this.flwOSVersion = new System.Windows.Forms.FlowLayoutPanel();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.MaxSemLabel = new WikiFunctions.Controls.DeveloperLinkLabel();
             this.ReedyLabel = new WikiFunctions.Controls.DeveloperLinkLabel();
             this.RjLabel = new WikiFunctions.Controls.DeveloperLinkLabel();
+            this.flwOriginalDevs = new System.Windows.Forms.FlowLayoutPanel();
             this.BluemooseLink = new WikiFunctions.Controls.DeveloperLinkLabel();
             this.LigulemLink = new WikiFunctions.Controls.DeveloperLinkLabel();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.flwOSVersion = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.flwDevs.SuspendLayout();
             this.flwOriginalDevs.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
@@ -147,9 +147,9 @@ namespace AutoWikiBrowser
             // 
             // lblTimeAndEdits
             // 
-            this.lblTimeAndEdits.Location = new System.Drawing.Point(234, 235);
+            this.lblTimeAndEdits.Location = new System.Drawing.Point(237, 235);
             this.lblTimeAndEdits.Name = "lblTimeAndEdits";
-            this.lblTimeAndEdits.Size = new System.Drawing.Size(161, 13);
+            this.lblTimeAndEdits.Size = new System.Drawing.Size(170, 13);
             this.lblTimeAndEdits.TabIndex = 11;
             this.lblTimeAndEdits.Visible = false;
             // 
@@ -238,48 +238,6 @@ namespace AutoWikiBrowser
             this.flwDevs.Size = new System.Drawing.Size(200, 48);
             this.flwDevs.TabIndex = 6;
             // 
-            // flwOriginalDevs
-            // 
-            this.flwOriginalDevs.Controls.Add(this.BluemooseLink);
-            this.flwOriginalDevs.Controls.Add(this.LigulemLink);
-            this.flwOriginalDevs.Location = new System.Drawing.Point(28, 97);
-            this.flwOriginalDevs.Name = "flwOriginalDevs";
-            this.flwOriginalDevs.Size = new System.Drawing.Size(200, 22);
-            this.flwOriginalDevs.TabIndex = 4;
-            // 
-            // flowLayoutPanel3
-            // 
-            this.flowLayoutPanel3.Controls.Add(this.linkBugs);
-            this.flowLayoutPanel3.Controls.Add(this.linkFeatureRequests);
-            this.flowLayoutPanel3.Controls.Add(this.UsageStatsLabel);
-            this.flowLayoutPanel3.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(28, 209);
-            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(200, 44);
-            this.flowLayoutPanel3.TabIndex = 8;
-            // 
-            // flwOSVersion
-            // 
-            this.flwOSVersion.Controls.Add(this.lblIEVersion);
-            this.flwOSVersion.Controls.Add(this.lblNETVersion);
-            this.flwOSVersion.Controls.Add(this.lblOSVersion);
-            this.flwOSVersion.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flwOSVersion.Location = new System.Drawing.Point(234, 41);
-            this.flwOSVersion.Name = "flwOSVersion";
-            this.flwOSVersion.Size = new System.Drawing.Size(254, 43);
-            this.flwOSVersion.TabIndex = 9;
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.AutoSize = true;
-            this.flowLayoutPanel1.Controls.Add(this.lblAWBVersion);
-            this.flowLayoutPanel1.Controls.Add(this.lblRevision);
-            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 41);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(216, 37);
-            this.flowLayoutPanel1.TabIndex = 2;
-            // 
             // MaxSemLabel
             // 
             this.MaxSemLabel.AutoSize = true;
@@ -313,6 +271,15 @@ namespace AutoWikiBrowser
             this.RjLabel.Text = "Rjwilmsi";
             this.RjLabel.WhichDeveloper = WikiFunctions.Controls.Developers.Rjwilmsi;
             // 
+            // flwOriginalDevs
+            // 
+            this.flwOriginalDevs.Controls.Add(this.BluemooseLink);
+            this.flwOriginalDevs.Controls.Add(this.LigulemLink);
+            this.flwOriginalDevs.Location = new System.Drawing.Point(28, 97);
+            this.flwOriginalDevs.Name = "flwOriginalDevs";
+            this.flwOriginalDevs.Size = new System.Drawing.Size(200, 22);
+            this.flwOriginalDevs.TabIndex = 4;
+            // 
             // BluemooseLink
             // 
             this.BluemooseLink.AutoSize = true;
@@ -333,6 +300,39 @@ namespace AutoWikiBrowser
             this.LigulemLink.TabStop = true;
             this.LigulemLink.Text = "Ligulem";
             this.LigulemLink.WhichDeveloper = WikiFunctions.Controls.Developers.Ligulem;
+            // 
+            // flowLayoutPanel3
+            // 
+            this.flowLayoutPanel3.Controls.Add(this.linkBugs);
+            this.flowLayoutPanel3.Controls.Add(this.linkFeatureRequests);
+            this.flowLayoutPanel3.Controls.Add(this.UsageStatsLabel);
+            this.flowLayoutPanel3.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(28, 209);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(200, 44);
+            this.flowLayoutPanel3.TabIndex = 8;
+            // 
+            // flwOSVersion
+            // 
+            this.flwOSVersion.Controls.Add(this.lblIEVersion);
+            this.flwOSVersion.Controls.Add(this.lblNETVersion);
+            this.flwOSVersion.Controls.Add(this.lblOSVersion);
+            this.flwOSVersion.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flwOSVersion.Location = new System.Drawing.Point(234, 41);
+            this.flwOSVersion.Name = "flwOSVersion";
+            this.flwOSVersion.Size = new System.Drawing.Size(254, 43);
+            this.flwOSVersion.TabIndex = 9;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.AutoSize = true;
+            this.flowLayoutPanel1.Controls.Add(this.lblAWBVersion);
+            this.flowLayoutPanel1.Controls.Add(this.lblRevision);
+            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 41);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(216, 37);
+            this.flowLayoutPanel1.TabIndex = 2;
             // 
             // AboutBox
             // 

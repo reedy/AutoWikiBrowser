@@ -2190,9 +2190,7 @@ window.scrollTo(0, diffTopY);
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TimeSpan time = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute,
-                                         DateTime.Now.Second).Subtract(StartTime);
-            new AboutBox(webBrowserHistory.Version.ToString(), time, NumberOfEdits).Show();
+            new AboutBox(webBrowserHistory.Version.ToString(), new TimeSpan(DateTime.Now.Ticks).Subtract(StartTime), NumberOfEdits).Show();
         }
 
         public bool CheckStatus(bool fromLoginForm)
