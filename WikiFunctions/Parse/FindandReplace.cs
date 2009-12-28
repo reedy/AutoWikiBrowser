@@ -72,7 +72,9 @@ namespace WikiFunctions.Parse
         {
             Replacement rep = new Replacement
                                   {
-                                      Enabled = ((bool)dataGridRow.Cells["enabled"].FormattedValue)
+                                      Enabled = ((bool)dataGridRow.Cells["enabled"].FormattedValue),
+                                      Minor = ((bool)dataGridRow.Cells["minor"].FormattedValue),
+                                      IsRegex = (bool)dataGridRow.Cells["regex"].FormattedValue
                                   };
 
             if (dataGridRow.Cells["replace"].Value == null)
@@ -81,19 +83,15 @@ namespace WikiFunctions.Parse
             string f = Encode(dataGridRow.Cells["find"].Value.ToString());
             string r = Encode(dataGridRow.Cells["replace"].Value.ToString());
 
-            if (!(bool)dataGridRow.Cells["regex"].FormattedValue)
-            {
+            if (!rep.IsRegex)
                 f = Regex.Escape(f);
-                rep.IsRegex = false;
-            }
-            else
-                rep.IsRegex = true;
 
             rep.Find = f;
             rep.Replace = r;
 
             rep.RegularExpressionOptions = RegexOptions.None;
             if (!(bool)dataGridRow.Cells["casesensitive"].FormattedValue)
+
                 rep.RegularExpressionOptions = rep.RegularExpressionOptions | RegexOptions.IgnoreCase;
             if ((bool)dataGridRow.Cells["multi"].FormattedValue)
                 rep.RegularExpressionOptions = rep.RegularExpressionOptions | RegexOptions.Multiline;
@@ -161,12 +159,18 @@ namespace WikiFunctions.Parse
             else if (chkIgnoreLinks.Checked)
                 articleText = _remove.Hide(articleText);
 
+            bool majorChangesMade = false;
+
             foreach (Replacement rep in _replacementList)
             {
                 if (!rep.Enabled)
                     continue;
 
-                articleText = PerformFindAndReplace(rep.Find, rep.Replace, articleText, strTitle, rep.RegularExpressionOptions);
+                bool changeMade;
+                articleText = PerformFindAndReplace(rep, articleText, strTitle, out changeMade);
+
+                if (changeMade && !rep.Minor)
+                    majorChangesMade = true;
             }
 
             if (chkIgnoreMore.Checked)
@@ -195,19 +199,22 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="findThis"></param>
-        /// <param name="replaceWith"></param>
+        /// <param name="rep"></param>
         /// <param name="articleText"></param>
         /// <param name="articleTitle"></param>
-        /// <param name="rOptions"></param>
+        /// <param name="changeMade"></param>
         /// <returns></returns>
-        private string PerformFindAndReplace(string findThis, string replaceWith, string articleText, string articleTitle, RegexOptions rOptions)
+        private string PerformFindAndReplace(Replacement rep, string articleText, string articleTitle, out bool changeMade)
         {
-            findThis = Tools.ApplyKeyWords(articleTitle, findThis);
-            replaceWith = Tools.ApplyKeyWords(articleTitle, PrepareReplacePart(replaceWith));
+            if (rep == null) throw new ArgumentNullException("rep");
 
-            Regex findRegex = new Regex(findThis, rOptions);
+            string findThis = Tools.ApplyKeyWords(articleTitle, rep.Find);
+            string replaceWith = Tools.ApplyKeyWords(articleTitle, PrepareReplacePart(rep.Replace));
+
+            Regex findRegex = new Regex(findThis, rep.RegularExpressionOptions);
             MatchCollection matches = findRegex.Matches(articleText);
+
+            changeMade = false;
 
             if (matches.Count > 0)
             {
@@ -215,6 +222,8 @@ namespace WikiFunctions.Parse
 
                 if (matches[0].Value != matches[0].Result(replaceWith))
                 {
+                    changeMade = true;
+
                     if (!string.IsNullOrEmpty(matches[0].Result(replaceWith)))
                     {
                         _summary = matches[0].Value + Arrow + matches[0].Result(replaceWith);
@@ -314,10 +323,8 @@ namespace WikiFunctions.Parse
             bool multiine = r.RegularExpressionOptions.ToString().Contains("Multiline");
             bool singleLine = r.RegularExpressionOptions.ToString().Contains("Singleline");
 
-            if (!r.IsRegex)
-                dataGridView1.Rows.Add(Regex.Unescape(Decode(r.Find)), Decode(r.Replace), caseSens, r.IsRegex, multiine, singleLine, r.Enabled, r.Comment);
-            else
-                dataGridView1.Rows.Add(Decode(r.Find), Decode(r.Replace), caseSens, r.IsRegex, multiine, singleLine, r.Enabled, r.Comment);
+            dataGridView1.Rows.Add(r.IsRegex ? Decode(r.Find) : Regex.Unescape(Decode(r.Find)), Decode(r.Replace),
+                                   caseSens, r.IsRegex, multiine, singleLine, r.Minor, r.Enabled, r.Comment);
 
             if (!r.Enabled)
                 dataGridView1.Rows[dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGray;
@@ -657,16 +664,20 @@ namespace WikiFunctions.Parse
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class Replacement
     {
         public Replacement() { }
 
-        public Replacement(string find, string replace, bool isRegex, bool enabled, RegexOptions regularExpressionOptions, string comment)
+        public Replacement(string find, string replace, bool isRegex, bool enabled, bool minor, RegexOptions regularExpressionOptions, string comment)
         {
             Find = find;
             Replace = replace;
             IsRegex = isRegex;
             Enabled = enabled;
+            Minor = minor;
             RegularExpressionOptions = regularExpressionOptions;
             Comment = comment;
         }
@@ -675,7 +686,7 @@ namespace WikiFunctions.Parse
             Replace, Comment;
 
         public bool IsRegex,
-            Enabled;
+            Enabled, Minor;
 
         public RegexOptions RegularExpressionOptions;
     }
