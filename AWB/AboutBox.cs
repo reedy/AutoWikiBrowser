@@ -27,7 +27,7 @@ namespace AutoWikiBrowser
 {
     internal sealed partial class AboutBox : Form
     {
-        public AboutBox(string ieVersion, TimeSpan time, int edits)
+        public AboutBox(string ieVersion)
         {
             InitializeComponent();
 
@@ -37,12 +37,6 @@ namespace AutoWikiBrowser
             txtWarning.Text = WikiFunctions.Controls.AboutBox.GetDetailedMessage(Assembly.GetExecutingAssembly());
             lblOSVersion.Text = "Windows version: " + Environment.OSVersion.Version.Major + "." + Environment.OSVersion.Version.Minor;
             lblNETVersion.Text = ".NET version: " + Environment.Version;
-
-            if (edits < 1) return;
-
-            lblTimeAndEdits.Visible = true;
-
-            lblTimeAndEdits.Text = "You have made " + edits + " edit" + (edits > 1 ? "s" : "") + " in " + new DateTime(time.Ticks).ToString("HH:mm:ss");
         }
 
         private void okButton_Click(object sender, EventArgs e)

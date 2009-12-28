@@ -2182,7 +2182,7 @@ window.scrollTo(0, diffTopY);
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new AboutBox(webBrowserHistory.Version.ToString(), new TimeSpan(DateTime.Now.Ticks).Subtract(StartTime), NumberOfEdits).Show();
+            new AboutBox(webBrowserHistory.Version.ToString()).Show();
         }
 
         public bool CheckStatus(bool fromLoginForm)
