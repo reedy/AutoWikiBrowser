@@ -149,6 +149,8 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string MultipleFindAndReplace(string articleText, string strTitle, ref string editSummary, out bool majorChangesMade)
         {
+            majorChangesMade = false;
+
             if (!HasReplacements)
                 return articleText;
 
@@ -159,8 +161,6 @@ namespace WikiFunctions.Parse
                 articleText = _remove.HideMore(articleText);
             else if (chkIgnoreLinks.Checked)
                 articleText = _remove.Hide(articleText);
-
-            majorChangesMade = false;
 
             foreach (Replacement rep in _replacementList)
             {
