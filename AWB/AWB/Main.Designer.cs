@@ -268,6 +268,8 @@ namespace AutoWikiBrowser
             this.chkFindCaseSensitive = new System.Windows.Forms.CheckBox();
             this.chkFindRegex = new System.Windows.Forms.CheckBox();
             this.txtFind = new System.Windows.Forms.TextBox();
+            this.chkSkipNoCatChange = new System.Windows.Forms.CheckBox();
+            this.chkRemoveSortKey = new System.Windows.Forms.CheckBox();
             this.txtEdit = new WikiFunctions.Controls.ArticleTextBox();
             this.mnuHistory = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -308,6 +310,8 @@ namespace AutoWikiBrowser
             this.chkRegExTypo = new System.Windows.Forms.CheckBox();
             this.EnableRegexTypoFixLinkLabel = new System.Windows.Forms.LinkLabel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkSkipOnlyMinorFaR = new System.Windows.Forms.CheckBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.chkSkipWhenNoFAR = new System.Windows.Forms.CheckBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.btnMoreSkip = new System.Windows.Forms.Button();
@@ -323,8 +327,6 @@ namespace AutoWikiBrowser
             this.lblUse = new System.Windows.Forms.Label();
             this.udNewlineChars = new System.Windows.Forms.NumericUpDown();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.chkSkipNoCatChange = new System.Windows.Forms.CheckBox();
-            this.chkRemoveSortKey = new System.Windows.Forms.CheckBox();
             this.txtNewCategory2 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cmboCategorise = new System.Windows.Forms.ComboBox();
@@ -2549,6 +2551,30 @@ namespace AutoWikiBrowser
             this.txtFind.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFind_KeyPress);
             this.txtFind.MouseHover += new System.EventHandler(this.txtFind_MouseHover);
             // 
+            // chkSkipNoCatChange
+            // 
+            this.chkSkipNoCatChange.AutoSize = true;
+            this.chkSkipNoCatChange.Enabled = false;
+            this.chkSkipNoCatChange.Location = new System.Drawing.Point(7, 68);
+            this.chkSkipNoCatChange.Name = "chkSkipNoCatChange";
+            this.chkSkipNoCatChange.Size = new System.Drawing.Size(133, 17);
+            this.chkSkipNoCatChange.TabIndex = 4;
+            this.chkSkipNoCatChange.Text = "Skip if &no cat changed";
+            this.ToolTip.SetToolTip(this.chkSkipNoCatChange, "Automatically skips page if no category changed");
+            this.chkSkipNoCatChange.UseVisualStyleBackColor = true;
+            // 
+            // chkRemoveSortKey
+            // 
+            this.chkRemoveSortKey.AutoSize = true;
+            this.chkRemoveSortKey.Enabled = false;
+            this.chkRemoveSortKey.Location = new System.Drawing.Point(153, 68);
+            this.chkRemoveSortKey.Name = "chkRemoveSortKey";
+            this.chkRemoveSortKey.Size = new System.Drawing.Size(103, 17);
+            this.chkRemoveSortKey.TabIndex = 5;
+            this.chkRemoveSortKey.Text = "&Remove sortkey";
+            this.ToolTip.SetToolTip(this.chkRemoveSortKey, "Remove sortkey from category");
+            this.chkRemoveSortKey.UseVisualStyleBackColor = true;
+            // 
             // txtEdit
             // 
             this.txtEdit.AcceptsTab = true;
@@ -2909,6 +2935,8 @@ namespace AutoWikiBrowser
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.chkSkipOnlyMinorFaR);
+            this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.chkSkipWhenNoFAR);
             this.groupBox1.Controls.Add(this.btnSubst);
             this.groupBox1.Controls.Add(this.btnFindAndReplaceAdvanced);
@@ -2921,17 +2949,36 @@ namespace AutoWikiBrowser
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "&Find and replace";
             // 
+            // chkSkipOnlyMinorFaR
+            // 
+            this.chkSkipOnlyMinorFaR.AutoSize = true;
+            this.chkSkipOnlyMinorFaR.Enabled = false;
+            this.chkSkipOnlyMinorFaR.Location = new System.Drawing.Point(149, 129);
+            this.chkSkipOnlyMinorFaR.Name = "chkSkipOnlyMinorFaR";
+            this.chkSkipOnlyMinorFaR.Size = new System.Drawing.Size(123, 17);
+            this.chkSkipOnlyMinorFaR.TabIndex = 6;
+            this.chkSkipOnlyMinorFaR.Text = "only minor rep. made";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(7, 130);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(36, 13);
+            this.label9.TabIndex = 5;
+            this.label9.Text = "Skip if";
+            // 
             // chkSkipWhenNoFAR
             // 
             this.chkSkipWhenNoFAR.AutoSize = true;
             this.chkSkipWhenNoFAR.Checked = true;
             this.chkSkipWhenNoFAR.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkSkipWhenNoFAR.Enabled = false;
-            this.chkSkipWhenNoFAR.Location = new System.Drawing.Point(6, 129);
+            this.chkSkipWhenNoFAR.Location = new System.Drawing.Point(44, 129);
             this.chkSkipWhenNoFAR.Name = "chkSkipWhenNoFAR";
-            this.chkSkipWhenNoFAR.Size = new System.Drawing.Size(222, 17);
+            this.chkSkipWhenNoFAR.Size = new System.Drawing.Size(99, 17);
             this.chkSkipWhenNoFAR.TabIndex = 4;
-            this.chkSkipWhenNoFAR.Text = "Skip article when no replacement is made";
+            this.chkSkipWhenNoFAR.Text = "no replacement";
             // 
             // groupBox6
             // 
@@ -3104,30 +3151,6 @@ namespace AutoWikiBrowser
             this.groupBox5.TabIndex = 2;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "&Categories";
-            // 
-            // chkSkipNoCatChange
-            // 
-            this.chkSkipNoCatChange.AutoSize = true;
-            this.chkSkipNoCatChange.Enabled = false;
-            this.chkSkipNoCatChange.Location = new System.Drawing.Point(7, 68);
-            this.chkSkipNoCatChange.Name = "chkSkipNoCatChange";
-            this.chkSkipNoCatChange.Size = new System.Drawing.Size(133, 17);
-            this.chkSkipNoCatChange.TabIndex = 4;
-            this.chkSkipNoCatChange.Text = "Skip if &no cat changed";
-            this.chkSkipNoCatChange.UseVisualStyleBackColor = true;
-            this.ToolTip.SetToolTip(this.chkSkipNoCatChange, "Automatically skips page if no category changed");
-            // 
-            // chkRemoveSortKey
-            // 
-            this.chkRemoveSortKey.AutoSize = true;
-            this.chkRemoveSortKey.Enabled = false;
-            this.chkRemoveSortKey.Location = new System.Drawing.Point(153, 68);
-            this.chkRemoveSortKey.Name = "chkRemoveSortKey";
-            this.chkRemoveSortKey.Size = new System.Drawing.Size(103, 17);
-            this.chkRemoveSortKey.TabIndex = 5;
-            this.chkRemoveSortKey.Text = "&Remove sortkey";
-            this.chkRemoveSortKey.UseVisualStyleBackColor = true;
-            this.ToolTip.SetToolTip( this.chkRemoveSortKey, "Remove sortkey from category");
             // 
             // txtNewCategory2
             // 
@@ -4598,5 +4621,7 @@ namespace AutoWikiBrowser
         private WikiFunctions.Logging.ArticleActionLogControl articleActionLogControl1;
         private System.Windows.Forms.ToolStripMenuItem clearCurrentListToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel lblNewArticles;
+        private System.Windows.Forms.CheckBox chkSkipOnlyMinorFaR;
+        private System.Windows.Forms.Label label9;
     }
 }
