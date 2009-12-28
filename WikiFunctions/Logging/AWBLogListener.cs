@@ -36,7 +36,7 @@ namespace WikiFunctions.Logging
                      UploadingLogDefaultEditSummary = "Uploading log",
                      LoggingStartButtonClicked = "Initialising log.",
                      StringUser = "User",
-                     StringUserSkipped = "Clicked ignore",
+                     StringUserSkipped = "Clicked skip",
                      StringPlugin = "Plugin",
                      StringPluginSkipped = "Plugin sent skip event";
         
