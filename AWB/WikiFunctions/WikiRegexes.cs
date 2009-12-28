@@ -223,7 +223,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches level 2 headings
         /// </summary>
-        public static readonly Regex HeadingLevelTwo = new Regex(@"^==([^=].*?[^=])==\s*$", RegexOptions.Multiline);
+        public static readonly Regex HeadingLevelTwo = new Regex(@"^==([^=](?:.*?[^=])?)==\s*$", RegexOptions.Multiline);
         
         /// <summary>
         /// Matches the whole of a level 2 section including heading and any subsections up to but not including the next level 2 section
