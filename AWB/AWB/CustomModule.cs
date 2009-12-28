@@ -83,6 +83,8 @@ namespace AutoWikiBrowser
             }
         }
 
+        private const string BuiltPrefix = "Custom Module Built At: ";
+
         IModule M;
         public IModule Module
         {
@@ -95,18 +97,18 @@ namespace AutoWikiBrowser
                 {
                     lblStatus.Text = "No module loaded";
                     lblStatus.BackColor = Color.Orange;
-                    lblBuilt.Text = "Custom Module Built At: n/a";
+                    lblBuilt.Text = BuiltPrefix + "n/a";
                 }
                 else
                 {
                     lblStatus.Text = "Module compiled and loaded";
                     lblStatus.BackColor = Color.LightGreen;
-                    lblBuilt.Text = "Custom Module Built At: " + DateTime.Now;
+                    lblBuilt.Text = BuiltPrefix + DateTime.Now;
                 }
             }
         }
 
-        string CodeStart = "", CodeEnd = "", CodeExample = @"";
+        private string CodeStart = "", CodeEnd = "", CodeExample = @"";
 
         public void MakeModule()
         {
