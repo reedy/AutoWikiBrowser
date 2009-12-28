@@ -90,7 +90,8 @@ namespace WikiFunctions.Controls.Lists
                 DefaultProviders.Add(WhatTranscludesLProvider);
                 DefaultProviders.Add(new WhatTranscludesPageAllNSListProvider());
                 DefaultProviders.Add(new LinksOnPageListProvider());
-                DefaultProviders.Add(new LinksOnPageExcludingRedLinksListProvider());
+                DefaultProviders.Add(new LinksOnPageOnlyBlueListProvider());
+                DefaultProviders.Add(new LinksOnPageOnlyRedListProvider());
                 DefaultProviders.Add(new ImagesOnPageListProvider());
                 DefaultProviders.Add(new TransclusionsOnPageListProvider());
                 DefaultProviders.Add(new TextFileListProvider());
