@@ -22,7 +22,6 @@ namespace WikiFunctions.ReplaceSpecial
 {
     static class Utility
     {
-
         /// <summary>
         /// returns true if testnode is the same or a subnode of refnode
         /// </summary>
