@@ -391,7 +391,7 @@ namespace AutoWikiBrowser
                 Properties.Settings.Default.AskForTerminate = chkAlwaysConfirmExit.Checked;
                 save = true;
             }
-            if (Properties.Settings.Default.Privacy != chkPrivacy.Checked)
+            if (Properties.Settings.Default.Privacy == chkPrivacy.Checked)
             {
                 Properties.Settings.Default.Privacy = !chkPrivacy.Checked;
                 save = true;
