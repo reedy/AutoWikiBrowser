@@ -747,10 +747,10 @@ words"));
             Assert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
 ==H==
 a"));
-                        Assert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
+            Assert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
 ==Hi==
 a"));
-                        Assert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
+            Assert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
 ==Here and=there==
 a"));
 
