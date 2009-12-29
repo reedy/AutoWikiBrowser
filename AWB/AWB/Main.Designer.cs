@@ -2958,6 +2958,7 @@ namespace AutoWikiBrowser
             this.chkSkipOnlyMinorFaR.Size = new System.Drawing.Size(123, 17);
             this.chkSkipOnlyMinorFaR.TabIndex = 6;
             this.chkSkipOnlyMinorFaR.Text = "only minor rep. made";
+            this.chkSkipOnlyMinorFaR.CheckedChanged += new System.EventHandler(this.chkSkipOnlyMinorFaR_CheckedChanged);
             // 
             // label9
             // 
@@ -2979,6 +2980,7 @@ namespace AutoWikiBrowser
             this.chkSkipWhenNoFAR.Size = new System.Drawing.Size(99, 17);
             this.chkSkipWhenNoFAR.TabIndex = 4;
             this.chkSkipWhenNoFAR.Text = "no replacement";
+            this.chkSkipWhenNoFAR.CheckedChanged += new System.EventHandler(this.chkSkipWhenNoFAR_CheckedChanged);
             // 
             // groupBox6
             // 
