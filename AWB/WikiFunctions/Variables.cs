@@ -581,9 +581,14 @@ namespace WikiFunctions
             RefreshProxy();
 
             //HACK:HACK:HACK:HACK:HACK:
-            if (MainForm != null && MainForm.TheSession != null && !MainForm.TheSession.UpdateProject())
+            if (MainForm != null && MainForm.TheSession != null)
             {
-                return;
+                if (!MainForm.TheSession.UpdateProject())
+                {
+                    LangCode = "en";
+                    Project = ProjectEnum.wikipedia;
+                    SetToEnglish();
+                }
             }
 
             RegenerateRegexes();
