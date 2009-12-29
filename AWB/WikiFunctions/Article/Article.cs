@@ -559,8 +559,8 @@ namespace WikiFunctions
                 return;
 
             string strTemp = Tools.ConvertFromLocalLineEndings(mArticleText),
-            testText = strTemp,
-            tmpEditSummary = "";
+                   testText = strTemp,
+                   tmpEditSummary = "";
 
             bool majorChangesMade;
             strTemp = findAndReplace.MultipleFindAndReplace(strTemp, mName, ref tmpEditSummary, out majorChangesMade);
@@ -576,13 +576,14 @@ namespace WikiFunctions
                 if (skipIfNoChange)
                     Trace.AWBSkipped("No Find And Replace Changes");
                 else
-                    return;
+                    return; //No changes, so nothing to change in article text (but we're not skipping either)
+            }
+            else if (!farMadeMajorChanges && skipIfOnlyMinorChange)
+            {
+                Trace.AWBSkipped("Only minor Find And Replace Changes");
             }
             else
             {
-                if (skipIfOnlyMinorChange && !farMadeMajorChanges)
-                    Trace.AWBSkipped("Only minor Find And Replace Changes");
-
                 AWBChangeArticleText("Find and replace applied" + tmpEditSummary,
                                      Tools.ConvertToLocalLineEndings(strTemp), true);
                 EditSummary += tmpEditSummary;
