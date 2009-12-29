@@ -2090,7 +2090,7 @@ window.scrollTo(0, diffTopY);
         private void chkFindandReplace_CheckedChanged(object sender, EventArgs e)
         {
             btnMoreFindAndReplce.Enabled = btnFindAndReplaceAdvanced.Enabled =
-            chkSkipWhenNoFAR.Enabled = chkSkipOnlyMinorFaR.Checked = btnSubst.Enabled = chkFindandReplace.Checked;
+            chkSkipWhenNoFAR.Enabled = chkSkipOnlyMinorFaR.Enabled = btnSubst.Enabled = chkFindandReplace.Checked;
         }
 
         private void chkSkipGeneralFixes_CheckedChanged(object sender, EventArgs e)
@@ -4899,6 +4899,18 @@ window.scrollTo(0, diffTopY);
             if (MessageBox.Show(this, "Do you want to clear the current list?", "Clear current list", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                 == DialogResult.Yes)
                 listMaker.Clear();
+        }
+
+        private void chkSkipWhenNoFAR_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkSkipWhenNoFAR.Checked && chkSkipOnlyMinorFaR.Checked)
+                chkSkipOnlyMinorFaR.Checked = false;
+        }
+
+        private void chkSkipOnlyMinorFaR_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkSkipOnlyMinorFaR.Checked && chkSkipWhenNoFAR.Checked)
+                chkSkipWhenNoFAR.Checked = false;
         }
     }
         #endregion
