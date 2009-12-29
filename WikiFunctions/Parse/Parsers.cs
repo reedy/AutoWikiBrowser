@@ -2208,12 +2208,12 @@ namespace WikiFunctions.Parse
                 return title;
 
             string titlePart = title.Substring(0, pos + 1);
-            foreach (var p in Variables.NamespacesCaseInsensitive)
+            foreach (var regex in WikiRegexes.NamespacesCaseInsensitive)
             {
-                if (!Regex.IsMatch(titlePart, p.Value))
+                if (!regex.Value.IsMatch(titlePart))
                     continue;
 
-                title = Variables.Namespaces[p.Key] + Tools.TurnFirstToUpper(title.Substring(pos + 1).Trim());
+                title = Variables.Namespaces[regex.Key] + Tools.TurnFirstToUpper(title.Substring(pos + 1).Trim());
                 break;
             }
             return title;

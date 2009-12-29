@@ -18,6 +18,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace WikiFunctions
 {
@@ -28,6 +29,12 @@ namespace WikiFunctions
     {
         public static void MakeLangSpecificRegexes()
         {
+            NamespacesCaseInsensitive = new Dictionary<int,Regex>();
+            foreach (var p in Variables.NamespacesCaseInsensitive)
+            {
+                NamespacesCaseInsensitive[p.Key] = new Regex(p.Value, RegexOptions.Compiled);
+            }
+
             TemplateStart = @"\{\{\s*(:?" + Variables.NamespacesCaseInsensitive[Namespace.Template] + ")?";
 
             Category = new Regex(@"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category] +
@@ -158,6 +165,12 @@ namespace WikiFunctions
             sb.Replace(" ", "[ _]");
             return sb.ToString();
         }
+
+
+        /// <summary>
+        /// Variables.NamespacesCaseInsensitive compiled into regexes
+        /// </summary>
+        public static Dictionary<int, Regex> NamespacesCaseInsensitive;
 
         /// <summary>
         /// Piece of template call, including curly brace and possible namespace
