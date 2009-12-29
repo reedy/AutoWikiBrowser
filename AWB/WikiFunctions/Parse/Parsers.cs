@@ -2610,9 +2610,10 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string FixMainArticle(string articleText)
         {
-            return RegexMainArticle.Match(articleText).Groups[2].Value.Length == 0
-                ? RegexMainArticle.Replace(articleText, "{{main|$1}}")
-                : RegexMainArticle.Replace(articleText, "{{main|$1|l1=$3}}");
+            return RegexMainArticle.Replace(articleText, 
+                m => m.Groups[2].Value.Length == 0
+                    ? "{{main|" + m.Groups[1].Value + "}}"
+                    : "{{main|" + m.Groups[1].Value + "|l1=" + m.Groups[3].Value + "}}");
         }
 
         // Covered by LinkTests.TestFixEmptyLinksAndTemplates()
