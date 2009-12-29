@@ -479,6 +479,9 @@ namespace AutoWikiBrowser
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void HandleLogoff()
         {
             MessageBox.Show("You've been logged off, probably due to loss of session data.\r\n" +
@@ -487,6 +490,9 @@ namespace AutoWikiBrowser
             CheckStatus(false);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void CreateEditor()
         {
             TheSession.PreviewComplete += PreviewComplete;
@@ -599,6 +605,9 @@ namespace AutoWikiBrowser
 
         private bool _stopProcessing, _inStart, _startAgain;
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void Start()
         {
             if (TheSession.Status != WikiStatusResult.Registered || TheSession.IsBusy) return;
@@ -731,6 +740,10 @@ namespace AutoWikiBrowser
             SkipPage(reason);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="page"></param>
         private void PageLoaded(PageInfo page)
         {
             if (!LoadSuccessApi())
@@ -1597,6 +1610,9 @@ window.scrollTo(0, diffTopY);
             GuiUpdateAfterProcessing();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void GuiUpdateAfterProcessing()
         {
             Bleepflash();
@@ -1604,6 +1620,9 @@ window.scrollTo(0, diffTopY);
             EnableButtons();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void Save()
         {
             // Fail-safe against http://es.wikipedia.org/w/index.php?diff=28114575
@@ -2917,6 +2936,9 @@ window.scrollTo(0, diffTopY);
             BeginProcess();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void BeginProcess()
         {
             if (!TheSession.User.IsLoggedIn)
