@@ -379,7 +379,8 @@ namespace WikiFunctions.Controls.Lists
                 return;
             }
 
-            UserInputTextBox.AutoCompleteCustomSource.Add(UserInputTextBox.Text);
+            if (!UserInputTextBox.AutoCompleteCustomSource.Contains(UserInputTextBox.Text))
+                UserInputTextBox.AutoCompleteCustomSource.Add(UserInputTextBox.Text);
 
             MakeList();
         }
@@ -655,7 +656,7 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public void Add(List<Article> l)
         {
-            if (l == null)
+            if (l == null || l.Count == 0)
                 return;
 
             if (InvokeRequired)
@@ -765,10 +766,9 @@ namespace WikiFunctions.Controls.Lists
 
                 try
                 {
-                    if (!provider.UserInputTextBoxEnabled)
-                        Add(_providerToRun.MakeList(new string[0]));
-                    else
-                        Add(_providerToRun.MakeList(sourceValues));
+                    Add(!provider.UserInputTextBoxEnabled
+                            ? _providerToRun.MakeList(new string[0])
+                            : _providerToRun.MakeList(sourceValues));
                 }
                 catch (FeatureDisabledException fde)
                 {
