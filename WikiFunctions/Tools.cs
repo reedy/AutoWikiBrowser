@@ -96,7 +96,7 @@ namespace WikiFunctions
 
         private readonly static char[] InvalidChars = new[] { '[', ']', '{', '}', '|', '<', '>', '#' };
 
-        // Covered by ToolsTests.InvalidChars()
+        // Covered by ToolsTests.IsValidTitle()
         /// <summary>
         /// Tests article title to see if it is valid
         /// </summary>
