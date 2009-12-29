@@ -2205,16 +2205,17 @@ namespace WikiFunctions.Parse
             if (title.StartsWith(":"))
                 title = title.Remove(0, 1).Trim(); 
 
-            if (!title.Contains(":"))
+            var pos = title.IndexOf(':');
+            if (pos <= 0)
                 return title;
 
-            string prevTitle = title;
+            string titlePart = title.Substring(0, pos + 1);
             foreach (var p in Variables.NamespacesCaseInsensitive)
             {
-                title = Regex.Replace(title, @"^\s*" + p.Value + @"\s*", "");
-                if (title == prevTitle) continue;
+                if (!Regex.IsMatch(titlePart, p.Value))
+                    continue;
 
-                title = Variables.Namespaces[p.Key] + Tools.TurnFirstToUpper(title);
+                title = Variables.Namespaces[p.Key] + Tools.TurnFirstToUpper(title.Substring(pos + 1).Trim());
                 break;
             }
             return title;
