@@ -2232,7 +2232,7 @@ namespace AutoWikiBrowser
             this.txtSkipIfNotContains.Name = "txtSkipIfNotContains";
             this.txtSkipIfNotContains.Size = new System.Drawing.Size(154, 20);
             this.txtSkipIfNotContains.TabIndex = 3;
-            this.ToolTip.SetToolTip(this.txtSkipIfNotContains, "Skip articles that do not contain this text");
+            this.ToolTip.SetToolTip(this.txtSkipIfNotContains, "Skip pages that do not contain this text");
             this.txtSkipIfNotContains.TextChanged += new System.EventHandler(this.txtSkipIfNotContains_TextChanged);
             // 
             // txtSkipIfContains
@@ -2242,7 +2242,7 @@ namespace AutoWikiBrowser
             this.txtSkipIfContains.Name = "txtSkipIfContains";
             this.txtSkipIfContains.Size = new System.Drawing.Size(154, 20);
             this.txtSkipIfContains.TabIndex = 1;
-            this.ToolTip.SetToolTip(this.txtSkipIfContains, "Skip articles that contain this text");
+            this.ToolTip.SetToolTip(this.txtSkipIfContains, "Skip pages that contain this text");
             this.txtSkipIfContains.TextChanged += new System.EventHandler(this.txtSkipIfContains_TextChanged);
             // 
             // chkSkipIfNotContains
@@ -2252,7 +2252,7 @@ namespace AutoWikiBrowser
             this.chkSkipIfNotContains.Size = new System.Drawing.Size(103, 18);
             this.chkSkipIfNotContains.TabIndex = 2;
             this.chkSkipIfNotContains.Text = "Does&n\'t contain:";
-            this.ToolTip.SetToolTip(this.chkSkipIfNotContains, "Skip articles that do not contain this text");
+            this.ToolTip.SetToolTip(this.chkSkipIfNotContains, "Skip pages that do not contain this text");
             this.chkSkipIfNotContains.UseVisualStyleBackColor = true;
             this.chkSkipIfNotContains.CheckedChanged += new System.EventHandler(this.chkOnlyIfContains_CheckedChanged);
             // 
@@ -2276,7 +2276,7 @@ namespace AutoWikiBrowser
             this.chkSkipAfterProcessing.Size = new System.Drawing.Size(82, 17);
             this.chkSkipAfterProcessing.TabIndex = 6;
             this.chkSkipAfterProcessing.Text = "Check &After";
-            this.ToolTip.SetToolTip(this.chkSkipAfterProcessing, "Apply the \"Skip if contains\" check after processing the article");
+            this.ToolTip.SetToolTip(this.chkSkipAfterProcessing, "Apply the \"Skip if contains\" check after processing the page");
             this.chkSkipAfterProcessing.UseVisualStyleBackColor = true;
             // 
             // chkSkipNoChanges
@@ -2287,7 +2287,7 @@ namespace AutoWikiBrowser
             this.chkSkipNoChanges.Size = new System.Drawing.Size(131, 17);
             this.chkSkipNoChanges.TabIndex = 3;
             this.chkSkipNoChanges.Text = "No c&hanges are made";
-            this.ToolTip.SetToolTip(this.chkSkipNoChanges, "Automatically skips articles when no changes were automatically made");
+            this.ToolTip.SetToolTip(this.chkSkipNoChanges, "Automatically skips pages when no changes were automatically made");
             this.chkSkipNoChanges.UseVisualStyleBackColor = true;
             // 
             // chkSkipSpamFilter
@@ -2320,7 +2320,7 @@ namespace AutoWikiBrowser
             this.chkSkipWhitespace.Size = new System.Drawing.Size(159, 17);
             this.chkSkipWhitespace.TabIndex = 4;
             this.chkSkipWhitespace.Text = "Only &whitespace is changed";
-            this.ToolTip.SetToolTip(this.chkSkipWhitespace, "Automatically skips articles when only whitespace changes were automatically made" +
+            this.ToolTip.SetToolTip(this.chkSkipWhitespace, "Automatically skips pages when only whitespace changes were automatically made" +
                     "");
             this.chkSkipWhitespace.UseVisualStyleBackColor = true;
             // 
@@ -2332,7 +2332,7 @@ namespace AutoWikiBrowser
             this.chkSkipGeneralFixes.Size = new System.Drawing.Size(89, 17);
             this.chkSkipGeneralFixes.TabIndex = 6;
             this.chkSkipGeneralFixes.Text = "Only genfixes";
-            this.ToolTip.SetToolTip(this.chkSkipGeneralFixes, "Automatically skips articles when only general fixes changes were automatically m" +
+            this.ToolTip.SetToolTip(this.chkSkipGeneralFixes, "Automatically skips pages when only general fixes changes were automatically m" +
                     "ade");
             this.chkSkipGeneralFixes.UseVisualStyleBackColor = true;
             this.chkSkipGeneralFixes.CheckedChanged += new System.EventHandler(this.chkSkipGeneralFixes_CheckedChanged);
@@ -2345,7 +2345,7 @@ namespace AutoWikiBrowser
             this.chkSkipMinorGeneralFixes.Size = new System.Drawing.Size(117, 17);
             this.chkSkipMinorGeneralFixes.TabIndex = 7;
             this.chkSkipMinorGeneralFixes.Text = "Only minor genfixes";
-            this.ToolTip.SetToolTip(this.chkSkipMinorGeneralFixes, "Automatically skips articles when only minor general fixes changes were automatic" +
+            this.ToolTip.SetToolTip(this.chkSkipMinorGeneralFixes, "Automatically skips pages when only minor general fixes changes were automatic" +
                     "ally made");
             this.chkSkipMinorGeneralFixes.UseVisualStyleBackColor = true;
             // 
@@ -2357,7 +2357,7 @@ namespace AutoWikiBrowser
             this.chkSkipCasing.Size = new System.Drawing.Size(136, 17);
             this.chkSkipCasing.TabIndex = 5;
             this.chkSkipCasing.Text = "Only &casing is changed";
-            this.ToolTip.SetToolTip(this.chkSkipCasing, "Automatically skips articles when only case changes were automatically made");
+            this.ToolTip.SetToolTip(this.chkSkipCasing, "Automatically skips pages when only case changes were automatically made");
             this.chkSkipCasing.UseVisualStyleBackColor = true;
             // 
             // imgComment
@@ -2382,7 +2382,7 @@ namespace AutoWikiBrowser
             this.chkSkipIfRedirect.Size = new System.Drawing.Size(99, 17);
             this.chkSkipIfRedirect.TabIndex = 8;
             this.chkSkipIfRedirect.Text = "Page is redirect";
-            this.ToolTip.SetToolTip(this.chkSkipIfRedirect, "Automatically skips articles if they are redirects");
+            this.ToolTip.SetToolTip(this.chkSkipIfRedirect, "Automatically skips pages if they are redirects");
             this.chkSkipIfRedirect.UseVisualStyleBackColor = true;
             // 
             // chkSkipIfNoAlerts
@@ -2393,7 +2393,7 @@ namespace AutoWikiBrowser
             this.chkSkipIfNoAlerts.Size = new System.Drawing.Size(68, 17);
             this.chkSkipIfNoAlerts.TabIndex = 9;
             this.chkSkipIfNoAlerts.Text = "No alerts";
-            this.ToolTip.SetToolTip(this.chkSkipIfNoAlerts, "Automatically skips articles if there are no alerts");
+            this.ToolTip.SetToolTip(this.chkSkipIfNoAlerts, "Automatically skips pages if there are no alerts");
             this.chkSkipIfNoAlerts.UseVisualStyleBackColor = true;
             // 
             // chkSkipCaseSensitive
@@ -2620,7 +2620,7 @@ namespace AutoWikiBrowser
             // 
             this.saveListDialog.DefaultExt = "txt";
             this.saveListDialog.Filter = "Text file|*.txt";
-            this.saveListDialog.Title = "Save article list";
+            this.saveListDialog.Title = "Save page list";
             // 
             // saveXML
             // 
