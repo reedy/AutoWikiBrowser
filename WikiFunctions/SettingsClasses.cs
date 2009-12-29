@@ -303,6 +303,7 @@ namespace WikiFunctions.AWBSettings
         public bool CaseSensitive = false;
 
         public bool SkipNoFindAndReplace = false;
+        public bool SkipMinorFindAndReplace = false;
         public bool SkipNoRegexTypoFix = false;
         public bool SkipNoDisambiguation = false;
         public bool SkipNoLinksOnPage = false;
