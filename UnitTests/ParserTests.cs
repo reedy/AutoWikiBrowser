@@ -2679,6 +2679,11 @@ http://example.com }}");
             // a bit of ambiguousness here, but
             // http://en.wikipedia.org/wiki/Wikipedia:AWB/B#Problem_.28on_runecape_wikia.29_with_articles_with_.2B_in_the_name.
             Assert.AreEqual("Romeo+Juliet", Parsers.CanonicalizeTitleAggressively("Romeo+Juliet"));
+
+            Assert.AreEqual("Foo", Parsers.CanonicalizeTitleAggressively(":Foo"));
+            Assert.AreEqual("Foo", Parsers.CanonicalizeTitleAggressively(": Foo"));
+            Assert.AreEqual(":Foo", Parsers.CanonicalizeTitleAggressively("::Foo"));
+            Assert.AreEqual("User:Foo", Parsers.CanonicalizeTitleAggressively(":user:Foo"));
         }
 
         [Test]

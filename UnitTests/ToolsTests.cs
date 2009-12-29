@@ -12,7 +12,7 @@ namespace UnitTests
     public class ToolsTests : RequiresInitialization
     {
         [Test]
-        public void InvalidChars()
+        public void IsValidTitle()
         {
             Assert.IsTrue(Tools.IsValidTitle("test"));
             Assert.IsTrue(Tools.IsValidTitle("This is a_test"));
@@ -20,6 +20,10 @@ namespace UnitTests
             Assert.IsTrue(Tools.IsValidTitle("А & Б сидели на трубе! ة日?"));
 
             Assert.IsFalse(Tools.IsValidTitle(""), "Empty strings are not supposed to be valid titles");
+            Assert.IsFalse(Tools.IsValidTitle(" "));
+            Assert.IsFalse(Tools.IsValidTitle("%20"));
+            Assert.IsFalse(Tools.IsValidTitle("_"));
+
             Assert.IsFalse(Tools.IsValidTitle("[xxx"));
             Assert.IsFalse(Tools.IsValidTitle("]abc"));
             Assert.IsFalse(Tools.IsValidTitle("{duh!"));
@@ -36,7 +40,12 @@ namespace UnitTests
             Assert.IsTrue(Tools.IsValidTitle("index.php/Viagra")); //even more unfortunately
             Assert.IsTrue(Tools.IsValidTitle("index.php?title=foobar"));
 
+            Assert.IsFalse(Tools.IsValidTitle("::Foo"));
             Assert.IsFalse(Tools.IsValidTitle("User:"));
+            Assert.IsFalse(Tools.IsValidTitle("User::"));
+            Assert.IsFalse(Tools.IsValidTitle("User::Foo"));
+            Assert.IsTrue(Tools.IsValidTitle(":Foo"));
+            Assert.IsTrue(Tools.IsValidTitle(":User:Foo"));
         }
 
         [Test]
