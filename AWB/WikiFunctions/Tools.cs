@@ -106,7 +106,13 @@ namespace WikiFunctions
             articleTitle = WikiDecode(articleTitle).Trim();
             if (articleTitle.Length == 0) return false;
 
-            return (articleTitle.IndexOfAny(InvalidChars) < 0);
+            if (articleTitle.IndexOfAny(InvalidChars) >= 0)
+                return false;
+
+            articleTitle = Parsers.CanonicalizeTitleAggressively(articleTitle);
+            var a = new Article(articleTitle);
+            var name = a.NamespacelessName;
+            return name.Length > 0 && !name.StartsWith(":");
         }
 
         // Covered by ToolsTests.RemoveInvalidChars()

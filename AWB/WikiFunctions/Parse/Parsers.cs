@@ -2202,7 +2202,11 @@ namespace WikiFunctions.Parse
             title = Tools.WikiDecode(title).Trim();
             title = Tools.TurnFirstToUpper(title);
 
-            if (!title.Contains(":")) return title;
+            if (title.StartsWith(":"))
+                title = title.Remove(0, 1).Trim(); 
+
+            if (!title.Contains(":"))
+                return title;
 
             string prevTitle = title;
             foreach (var p in Variables.NamespacesCaseInsensitive)
