@@ -35,6 +35,8 @@ namespace UnitTests
             Assert.IsTrue(Tools.IsValidTitle("http://www.wikipedia.org")); //unfortunately
             Assert.IsTrue(Tools.IsValidTitle("index.php/Viagra")); //even more unfortunately
             Assert.IsTrue(Tools.IsValidTitle("index.php?title=foobar"));
+
+            Assert.IsFalse(Tools.IsValidTitle("User:"));
         }
 
         [Test]
