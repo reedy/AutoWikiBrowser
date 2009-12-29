@@ -2181,8 +2181,6 @@ namespace WikiFunctions.Parse
             if (!Tools.IsValidTitle(title) || title.Contains(":/"))
                 return title;
 
-            //AnchorDecode(ref title); // disabled, breaks things such as [[Windows#Version_3.11]]
-
             Variables.WaitForDelayedRequests();
             string s = CanonicalizeTitleRaw(title);
             if (Variables.UnderscoredTitles.Contains(Tools.TurnFirstToUpper(s)))
@@ -2338,41 +2336,6 @@ namespace WikiFunctions.Parse
             return byte.Parse(new string(new[] { (char)a, (char)b }), System.Globalization.NumberStyles.HexNumber);
         }
 
-        // NOT covered, unused
-        /// <summary>
-        /// Decodes anchor-encoded links. Don't use unless rewrittten not to screw stuff like [[Windows#3.11]]
-        /// </summary>
-        [Obsolete("unfit for production use")]
-        public static void AnchorDecode(ref string link)
-        {
-            Match m = WikiRegexes.AnchorEncodedLink.Match(link);
-            if (!m.Success)
-                return;
-
-            string anchor = m.Value.Replace('_', ' ');
-            byte[] src = Encoding.UTF8.GetBytes(anchor);
-            byte[] dest = (byte[])src.Clone();
-
-            int destCount = 0;
-
-            for (int srcCount = 0; srcCount < src.Length; srcCount++)
-            {
-                if (src[srcCount] != '.' || !(srcCount + 3 <= src.Length &&
-                                              IsHex(src[srcCount + 1]) && IsHex(src[srcCount + 2])))
-                    // then
-                    dest[destCount] = src[srcCount];
-                else
-                {
-                    dest[destCount] = DecodeHex(src[srcCount + 1], src[srcCount + 2]);
-                    srcCount += 2;
-                }
-
-                destCount++;
-            }
-
-            link = link.Replace(m.Value, Encoding.UTF8.GetString(dest, 0, destCount));
-        }
-
         private static readonly Regex LinkWhitespace1 = new Regex(@" \[\[ ([^\]]{1,30})\]\]", RegexOptions.Compiled);
         private static readonly Regex LinkWhitespace2 = new Regex(@"(?<=\w)\[\[ ([^\]]{1,30})\]\]", RegexOptions.Compiled);
         private static readonly Regex LinkWhitespace3 = new Regex(@"\[\[([^\]]{1,30}?) {2,10}([^\]]{1,30})\]\]", RegexOptions.Compiled);
@@ -2454,7 +2417,9 @@ namespace WikiFunctions.Parse
             // don't apply if there's an imagemap on the page or some noinclude transclusion business
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Includes_and_selflinks
             // TODO, better to not apply to text within imagemaps
-            if (!WikiRegexes.ImageMap.IsMatch(articleText) && !WikiRegexes.Noinclude.IsMatch(articleText) && !WikiRegexes.Includeonly.IsMatch(articleText))
+            if (!WikiRegexes.ImageMap.IsMatch(articleText)
+                && !WikiRegexes.Noinclude.IsMatch(articleText)
+                && !WikiRegexes.Includeonly.IsMatch(articleText))
             {
                 // remove any self-links, but not other links with different capitaliastion e.g. [[Foo]] vs [[FOO]]
                 articleText = Regex.Replace(articleText, @"\[\[\s*(" + Tools.CaseInsensitive(escTitle)
