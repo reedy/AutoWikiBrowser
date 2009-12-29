@@ -270,6 +270,8 @@ namespace AutoWikiBrowser
             this.txtFind = new System.Windows.Forms.TextBox();
             this.chkSkipNoCatChange = new System.Windows.Forms.CheckBox();
             this.chkRemoveSortKey = new System.Windows.Forms.CheckBox();
+            this.chkSkipOnlyMinorFaR = new System.Windows.Forms.CheckBox();
+            this.chkSkipWhenNoFAR = new System.Windows.Forms.CheckBox();
             this.txtEdit = new WikiFunctions.Controls.ArticleTextBox();
             this.mnuHistory = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -310,9 +312,7 @@ namespace AutoWikiBrowser
             this.chkRegExTypo = new System.Windows.Forms.CheckBox();
             this.EnableRegexTypoFixLinkLabel = new System.Windows.Forms.LinkLabel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.chkSkipOnlyMinorFaR = new System.Windows.Forms.CheckBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.chkSkipWhenNoFAR = new System.Windows.Forms.CheckBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.btnMoreSkip = new System.Windows.Forms.Button();
             this.tpMoreOptions = new System.Windows.Forms.TabPage();
@@ -2320,8 +2320,7 @@ namespace AutoWikiBrowser
             this.chkSkipWhitespace.Size = new System.Drawing.Size(159, 17);
             this.chkSkipWhitespace.TabIndex = 4;
             this.chkSkipWhitespace.Text = "Only &whitespace is changed";
-            this.ToolTip.SetToolTip(this.chkSkipWhitespace, "Automatically skips pages when only whitespace changes were automatically made" +
-                    "");
+            this.ToolTip.SetToolTip(this.chkSkipWhitespace, "Automatically skips pages when only whitespace changes were automatically made");
             this.chkSkipWhitespace.UseVisualStyleBackColor = true;
             // 
             // chkSkipGeneralFixes
@@ -2332,8 +2331,8 @@ namespace AutoWikiBrowser
             this.chkSkipGeneralFixes.Size = new System.Drawing.Size(89, 17);
             this.chkSkipGeneralFixes.TabIndex = 6;
             this.chkSkipGeneralFixes.Text = "Only genfixes";
-            this.ToolTip.SetToolTip(this.chkSkipGeneralFixes, "Automatically skips pages when only general fixes changes were automatically m" +
-                    "ade");
+            this.ToolTip.SetToolTip(this.chkSkipGeneralFixes, "Automatically skips pages when only general fixes changes were automatically made" +
+                    "");
             this.chkSkipGeneralFixes.UseVisualStyleBackColor = true;
             this.chkSkipGeneralFixes.CheckedChanged += new System.EventHandler(this.chkSkipGeneralFixes_CheckedChanged);
             // 
@@ -2345,8 +2344,8 @@ namespace AutoWikiBrowser
             this.chkSkipMinorGeneralFixes.Size = new System.Drawing.Size(117, 17);
             this.chkSkipMinorGeneralFixes.TabIndex = 7;
             this.chkSkipMinorGeneralFixes.Text = "Only minor genfixes";
-            this.ToolTip.SetToolTip(this.chkSkipMinorGeneralFixes, "Automatically skips pages when only minor general fixes changes were automatic" +
-                    "ally made");
+            this.ToolTip.SetToolTip(this.chkSkipMinorGeneralFixes, "Automatically skips pages when only minor general fixes changes were automaticall" +
+                    "y made");
             this.chkSkipMinorGeneralFixes.UseVisualStyleBackColor = true;
             // 
             // chkSkipCasing
@@ -2574,6 +2573,30 @@ namespace AutoWikiBrowser
             this.chkRemoveSortKey.Text = "&Remove sortkey";
             this.ToolTip.SetToolTip(this.chkRemoveSortKey, "Remove sortkey from category");
             this.chkRemoveSortKey.UseVisualStyleBackColor = true;
+            // 
+            // chkSkipOnlyMinorFaR
+            // 
+            this.chkSkipOnlyMinorFaR.AutoSize = true;
+            this.chkSkipOnlyMinorFaR.Enabled = false;
+            this.chkSkipOnlyMinorFaR.Location = new System.Drawing.Point(40, 128);
+            this.chkSkipOnlyMinorFaR.Name = "chkSkipOnlyMinorFaR";
+            this.chkSkipOnlyMinorFaR.Size = new System.Drawing.Size(163, 17);
+            this.chkSkipOnlyMinorFaR.TabIndex = 6;
+            this.chkSkipOnlyMinorFaR.Text = "only minor replacement made";
+            this.ToolTip.SetToolTip(this.chkSkipOnlyMinorFaR, "Automatically skip pages when only minor change made");
+            this.chkSkipOnlyMinorFaR.CheckedChanged += new System.EventHandler(this.chkSkipOnlyMinorFaR_CheckedChanged);
+            // 
+            // chkSkipWhenNoFAR
+            // 
+            this.chkSkipWhenNoFAR.AutoSize = true;
+            this.chkSkipWhenNoFAR.Enabled = false;
+            this.chkSkipWhenNoFAR.Location = new System.Drawing.Point(40, 105);
+            this.chkSkipWhenNoFAR.Name = "chkSkipWhenNoFAR";
+            this.chkSkipWhenNoFAR.Size = new System.Drawing.Size(99, 17);
+            this.chkSkipWhenNoFAR.TabIndex = 4;
+            this.chkSkipWhenNoFAR.Text = "no replacement";
+            this.ToolTip.SetToolTip(this.chkSkipWhenNoFAR, "Automatically skip pages when no change made");
+            this.chkSkipWhenNoFAR.CheckedChanged += new System.EventHandler(this.chkSkipWhenNoFAR_CheckedChanged);
             // 
             // txtEdit
             // 
@@ -2949,18 +2972,6 @@ namespace AutoWikiBrowser
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "&Find and replace";
             // 
-            // chkSkipOnlyMinorFaR
-            // 
-            this.chkSkipOnlyMinorFaR.AutoSize = true;
-            this.chkSkipOnlyMinorFaR.Enabled = false;
-            this.chkSkipOnlyMinorFaR.Location = new System.Drawing.Point(40, 128);
-            this.chkSkipOnlyMinorFaR.Name = "chkSkipOnlyMinorFaR";
-            this.chkSkipOnlyMinorFaR.Size = new System.Drawing.Size(163, 17);
-            this.chkSkipOnlyMinorFaR.TabIndex = 6;
-            this.chkSkipOnlyMinorFaR.Text = "only minor replacement made";
-            this.ToolTip.SetToolTip(this.chkSkipOnlyMinorFaR, "Automatically skip pages when only minor change made");
-            this.chkSkipOnlyMinorFaR.CheckedChanged += new System.EventHandler(this.chkSkipOnlyMinorFaR_CheckedChanged);
-            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -2969,18 +2980,6 @@ namespace AutoWikiBrowser
             this.label9.Size = new System.Drawing.Size(36, 13);
             this.label9.TabIndex = 5;
             this.label9.Text = "Skip if";
-            // 
-            // chkSkipWhenNoFAR
-            // 
-            this.chkSkipWhenNoFAR.AutoSize = true;
-            this.chkSkipWhenNoFAR.Enabled = false;
-            this.chkSkipWhenNoFAR.Location = new System.Drawing.Point(40, 105);
-            this.chkSkipWhenNoFAR.Name = "chkSkipWhenNoFAR";
-            this.chkSkipWhenNoFAR.Size = new System.Drawing.Size(99, 17);
-            this.chkSkipWhenNoFAR.TabIndex = 4;
-            this.chkSkipWhenNoFAR.Text = "no replacement";
-            this.ToolTip.SetToolTip(this.chkSkipWhenNoFAR, "Automatically skip pages when no change made");
-            this.chkSkipWhenNoFAR.CheckedChanged += new System.EventHandler(this.chkSkipWhenNoFAR_CheckedChanged);
             // 
             // groupBox6
             // 
@@ -3848,7 +3847,7 @@ namespace AutoWikiBrowser
             this.tpArticleActionLogs.Name = "tpArticleActionLogs";
             this.tpArticleActionLogs.Size = new System.Drawing.Size(394, 351);
             this.tpArticleActionLogs.TabIndex = 6;
-            this.tpArticleActionLogs.Text = "Article Logs";
+            this.tpArticleActionLogs.Text = "Page Logs";
             this.tpArticleActionLogs.UseVisualStyleBackColor = true;
             // 
             // articleActionLogControl1
