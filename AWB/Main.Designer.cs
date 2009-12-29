@@ -1906,7 +1906,7 @@ namespace AutoWikiBrowser
             // chkFindandReplace
             // 
             this.chkFindandReplace.AutoSize = true;
-            this.chkFindandReplace.Location = new System.Drawing.Point(6, 19);
+            this.chkFindandReplace.Location = new System.Drawing.Point(6, 52);
             this.chkFindandReplace.Name = "chkFindandReplace";
             this.chkFindandReplace.Size = new System.Drawing.Size(65, 17);
             this.chkFindandReplace.TabIndex = 0;
@@ -1997,7 +1997,7 @@ namespace AutoWikiBrowser
             // btnSubst
             // 
             this.btnSubst.Enabled = false;
-            this.btnSubst.Location = new System.Drawing.Point(25, 100);
+            this.btnSubst.Location = new System.Drawing.Point(77, 77);
             this.btnSubst.Name = "btnSubst";
             this.btnSubst.Size = new System.Drawing.Size(118, 23);
             this.btnSubst.TabIndex = 3;
@@ -2181,7 +2181,7 @@ namespace AutoWikiBrowser
             // btnFindAndReplaceAdvanced
             // 
             this.btnFindAndReplaceAdvanced.Enabled = false;
-            this.btnFindAndReplaceAdvanced.Location = new System.Drawing.Point(25, 71);
+            this.btnFindAndReplaceAdvanced.Location = new System.Drawing.Point(77, 48);
             this.btnFindAndReplaceAdvanced.Name = "btnFindAndReplaceAdvanced";
             this.btnFindAndReplaceAdvanced.Size = new System.Drawing.Size(118, 23);
             this.btnFindAndReplaceAdvanced.TabIndex = 2;
@@ -2192,7 +2192,7 @@ namespace AutoWikiBrowser
             // btnMoreFindAndReplce
             // 
             this.btnMoreFindAndReplce.Enabled = false;
-            this.btnMoreFindAndReplce.Location = new System.Drawing.Point(25, 42);
+            this.btnMoreFindAndReplce.Location = new System.Drawing.Point(77, 19);
             this.btnMoreFindAndReplce.Name = "btnMoreFindAndReplce";
             this.btnMoreFindAndReplce.Size = new System.Drawing.Size(118, 23);
             this.btnMoreFindAndReplce.TabIndex = 1;
@@ -2953,17 +2953,17 @@ namespace AutoWikiBrowser
             // 
             this.chkSkipOnlyMinorFaR.AutoSize = true;
             this.chkSkipOnlyMinorFaR.Enabled = false;
-            this.chkSkipOnlyMinorFaR.Location = new System.Drawing.Point(149, 129);
+            this.chkSkipOnlyMinorFaR.Location = new System.Drawing.Point(40, 128);
             this.chkSkipOnlyMinorFaR.Name = "chkSkipOnlyMinorFaR";
-            this.chkSkipOnlyMinorFaR.Size = new System.Drawing.Size(123, 17);
+            this.chkSkipOnlyMinorFaR.Size = new System.Drawing.Size(163, 17);
             this.chkSkipOnlyMinorFaR.TabIndex = 6;
-            this.chkSkipOnlyMinorFaR.Text = "only minor rep. made";
+            this.chkSkipOnlyMinorFaR.Text = "only minor replacement made";
             this.chkSkipOnlyMinorFaR.CheckedChanged += new System.EventHandler(this.chkSkipOnlyMinorFaR_CheckedChanged);
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(7, 130);
+            this.label9.Location = new System.Drawing.Point(3, 106);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(36, 13);
             this.label9.TabIndex = 5;
@@ -2975,7 +2975,7 @@ namespace AutoWikiBrowser
             this.chkSkipWhenNoFAR.Checked = true;
             this.chkSkipWhenNoFAR.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkSkipWhenNoFAR.Enabled = false;
-            this.chkSkipWhenNoFAR.Location = new System.Drawing.Point(44, 129);
+            this.chkSkipWhenNoFAR.Location = new System.Drawing.Point(40, 105);
             this.chkSkipWhenNoFAR.Name = "chkSkipWhenNoFAR";
             this.chkSkipWhenNoFAR.Size = new System.Drawing.Size(99, 17);
             this.chkSkipWhenNoFAR.TabIndex = 4;
