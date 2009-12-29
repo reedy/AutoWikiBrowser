@@ -2972,8 +2972,6 @@ namespace AutoWikiBrowser
             // chkSkipWhenNoFAR
             // 
             this.chkSkipWhenNoFAR.AutoSize = true;
-            this.chkSkipWhenNoFAR.Checked = true;
-            this.chkSkipWhenNoFAR.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkSkipWhenNoFAR.Enabled = false;
             this.chkSkipWhenNoFAR.Location = new System.Drawing.Point(40, 105);
             this.chkSkipWhenNoFAR.Name = "chkSkipWhenNoFAR";
