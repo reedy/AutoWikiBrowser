@@ -611,7 +611,7 @@ namespace AutoWikiBrowser
             do
             {
                 _startAgain = false;
-                StartProcess();
+                StartArticleProcessing();
             } while (_startAgain);
             _inStart = false;
         }
@@ -619,7 +619,7 @@ namespace AutoWikiBrowser
         /// <summary>
         /// </summary>
         /// <returns>true if it is ok to call again, or false if processing should now stop</returns>
-        private void StartProcess()
+        private void StartArticleProcessing()
         {
             if (_stopProcessing)
                 return;
@@ -2914,6 +2914,11 @@ window.scrollTo(0, diffTopY);
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+            BeginProcess();
+        }
+
+        private void BeginProcess()
+        {
             if (!TheSession.User.IsLoggedIn)
             {
                 Profiles.ShowDialog();
@@ -3648,8 +3653,7 @@ window.scrollTo(0, diffTopY);
 
         private void btntsStart_Click(object sender, EventArgs e)
         {
-            _stopProcessing = false;
-            Start();
+            BeginProcess();
         }
 
         private void btntsSave_Click(object sender, EventArgs e)

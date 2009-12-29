@@ -31,7 +31,7 @@ namespace AutoWikiBrowser
         void IAutoWikiBrowserCommands.GetPreview(IAWBPlugin sender) { ((IAutoWikiBrowserCommands)this).GetPreview(sender.Name); }
         void IAutoWikiBrowserCommands.Save(IAWBPlugin sender) { ((IAutoWikiBrowserCommands)this).Save(sender.Name); }
         void IAutoWikiBrowserCommands.SkipPage(string sender, string reason) { SkipPage(reason); }
-        void IAutoWikiBrowserCommands.Start(string sender) { _stopProcessing = false; Start(); }
+        void IAutoWikiBrowserCommands.Start(string sender) { BeginProcess(); }
         void IAutoWikiBrowserCommands.Stop(string sender) { Stop(); }
         void IAutoWikiBrowserCommands.GetDiff(string sender) { GetDiff(); }
         void IAutoWikiBrowserCommands.GetPreview(string sender) { GetPreview(); }
