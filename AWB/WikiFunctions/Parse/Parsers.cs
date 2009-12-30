@@ -1277,6 +1277,9 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string CiteTemplateDates(string articleText)
         {
+            if (!Variables.IsWikipediaEN)
+                return articleText;
+
             // cite podcast is non-compliant to citation core standards
             if (Regex.IsMatch(articleText, @"({{\s*[Cc]ite podcast\s*\|)"))
                 return articleText;
@@ -1293,7 +1296,7 @@ namespace WikiFunctions.Parse
                 // convert invalid date formats like DD-MM-YYYY, MM-DD-YYYY, YYYY-D-M, YYYY-DD-MM, YYYY_MM_DD etc. to iso format of YYYY-MM-DD
                 // for accessdate= and archivedate=
                 // provided no ambiguous ones
-                if (Variables.LangCode == "en" && AccessOrArchiveDate.IsMatch(articleText) && !AmbiguousCiteTemplateDates(articleText))
+                if (AccessOrArchiveDate.IsMatch(articleText) && !AmbiguousCiteTemplateDates(articleText))
                     foreach (RegexReplacement rr in CiteTemplateIncorrectISOAccessdates)
                         articleText = rr.Regex.Replace(articleText, rr.Replacement);
 
@@ -1303,10 +1306,9 @@ namespace WikiFunctions.Parse
                     foreach (RegexReplacement rr in CiteTemplateIncorrectISODates)
                         articleText = rr.Regex.Replace(articleText, rr.Replacement);
 
-                    // date = YYYY-Month-DD fix, on en-wiki only
-                    if (Variables.LangCode == "en")
-                        foreach (RegexReplacement rr in CiteTemplateAbbreviatedMonths)
-                            articleText = rr.Regex.Replace(articleText, rr.Replacement);
+                    // date = YYYY-Month-DD fix
+                    foreach (RegexReplacement rr in CiteTemplateAbbreviatedMonths)
+                        articleText = rr.Regex.Replace(articleText, rr.Replacement);
                 }
 
                 // all citation dates
