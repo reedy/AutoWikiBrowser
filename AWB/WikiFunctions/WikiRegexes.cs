@@ -482,7 +482,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches persondata (en only)
         /// </summary>
-        public static readonly Regex Persondata = new Regex(@"{{ ?[Pp]ersondata.*?}}", RegexOptions.Singleline | RegexOptions.Compiled);
+        public static readonly Regex Persondata = new Regex(@"{{\s*[Pp]ersondata((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})", RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
         /// Comment often put on the line before the Persondata template on the en-wiki

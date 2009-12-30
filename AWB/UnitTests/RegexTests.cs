@@ -303,6 +303,30 @@ namespace UnitTests
 bar</ POEM>", @"< Poem >foo
 bar</ POEM>");
         }
+        
+        [Test]
+        public void Persondata()
+        {
+            string pd1 = @"{{Persondata
+|NAME= Skipworth, Alison
+|ALTERNATIVE NAMES=
+|SHORT DESCRIPTION=British actress
+|DATE OF BIRTH= 25 July 1863
+|PLACE OF BIRTH= [[London, England]], England
+|DATE OF DEATH= 5 July 1952
+|PLACE OF DEATH= {{city-state|Los Angeles|California}}, U.S.
+}}", pd2 = @"{{Persondata
+|NAME= Skipworth, Alison
+|ALTERNATIVE NAMES=
+|SHORT DESCRIPTION=British actress
+|DATE OF BIRTH= 25 July 1863
+|PLACE OF BIRTH= [[London, England]], England
+|DATE OF DEATH= 5 July 1952
+|PLACE OF DEATH= Los Angeles, California, U.S.
+}}";
+            TestMatch(WikiRegexes.Persondata, pd1, pd1);
+            TestMatch(WikiRegexes.Persondata, pd2, pd2);
+        }
 
         [Test]
         public void ImageMapTests()
