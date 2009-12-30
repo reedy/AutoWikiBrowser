@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 namespace UnitTests
 {
     /// <summary>
-    /// 
+    /// Unit tests for dynamic wikiRegexes – those regexes that depend on language-specific variables retrieved from the wiki
     /// </summary>
     [TestFixture]
     public class DynamicRegexTests : RequiresInitialization
@@ -21,6 +21,21 @@ namespace UnitTests
             RegexAssert.NoMatch(WikiRegexes.Category, "[[Test]]");
             RegexAssert.NoMatch(WikiRegexes.Category, "[[Image:Test.jpg]]");
         }
+        
+        [Test]
+        public void LooseCategoryTests()
+        {
+            RegexAssert.IsMatch(WikiRegexes.LooseCategory, "[[Category :Test]]");
+            RegexAssert.IsMatch(WikiRegexes.LooseCategory, "[[ category :Test]]");
+            RegexAssert.IsMatch(WikiRegexes.LooseCategory, "[[CATEGORY :Test]]");
+            RegexAssert.IsMatch(WikiRegexes.LooseCategory, "[[ Category: Test]]");
+            RegexAssert.IsMatch(WikiRegexes.LooseCategory, "[[_Category: Test]]");
+            RegexAssert.IsMatch(WikiRegexes.LooseCategory, "[[ Category :Test|here]]");            
+
+            RegexAssert.NoMatch(WikiRegexes.LooseCategory, "[[Test]]");
+            RegexAssert.NoMatch(WikiRegexes.LooseCategory, "[[Category");
+            RegexAssert.NoMatch(WikiRegexes.LooseCategory, "[[Image:Test.jpg]]");
+        }
 
         [Test]
         public void ImageTestsStandard()
@@ -32,7 +47,10 @@ namespace UnitTests
             RegexAssert.IsMatch(WikiRegexes.Images, "[[Image:Test.JPG]]");
             RegexAssert.IsMatch(WikiRegexes.Images, "[[Image:Test here.png|right|200px|Some description [[here]] or there]]");
             RegexAssert.IsMatch(WikiRegexes.Images, @"[[Image:Test here.png|right|200px|Some description [[here]] or there
- over lines]]");
+ over lines]]");            
+            RegexAssert.IsMatch(WikiRegexes.Images, "[[File:Test.JPG");
+            
+            RegexAssert.NoMatch(WikiRegexes.Images, "[[File Test.JPG]]");
         }
         
         [Test]
@@ -86,6 +104,21 @@ Test.JPG
 Foo.JPEG
 </Gallery>");
         }
+        
+        [Test]
+        public void LooseImageTests()
+        {
+            RegexAssert.IsMatch(WikiRegexes.LooseImage, "[[File:Test.JPG]]");
+            RegexAssert.IsMatch(WikiRegexes.LooseImage, "[[File:Test.jpg]]");
+            RegexAssert.IsMatch(WikiRegexes.LooseImage, "[[File:Test of the.ogg]]");
+            RegexAssert.IsMatch(WikiRegexes.LooseImage, "[[File:Test_of_the.ogg]]");
+            RegexAssert.IsMatch(WikiRegexes.LooseImage, "[[Image:Test.JPG]]");
+            RegexAssert.IsMatch(WikiRegexes.LooseImage, "[[  Image: Test.JPG]]");
+            RegexAssert.IsMatch(WikiRegexes.LooseImage, "[[Image:Test here.png|right|200px|Some description [[here]] or there]]");
+            RegexAssert.IsMatch(WikiRegexes.LooseImage, @"[[Image:Test here.png|right|200px|Some description [[here]] or there
+ over lines]]");
+            RegexAssert.NoMatch(WikiRegexes.LooseImage, "[[File:Test.JPG");
+        }
 
         public void StubTests()
         {
@@ -101,34 +134,65 @@ Foo.JPEG
             RegexAssert.NoMatch(WikiRegexes.Stub, @"{{stubby}}");
         }
 
-        [Test, Ignore("Incomplete")]
+        [Test]
         public void PossiblyCommentedStubTests()
         {
+            RegexAssert.IsMatch(WikiRegexes.PossiblyCommentedStub, @"{{footballer-bio-stub}}");
+            RegexAssert.IsMatch(WikiRegexes.PossiblyCommentedStub, @"{{ footballer-bio-stub}}");
+            RegexAssert.IsMatch(WikiRegexes.PossiblyCommentedStub, @"{{ Footballer-Bio-Stub}}");
+            RegexAssert.IsMatch(WikiRegexes.PossiblyCommentedStub, @"{{bio-stub}}");
+            RegexAssert.IsMatch(WikiRegexes.PossiblyCommentedStub, @"{{stub}}");
+            RegexAssert.IsMatch(WikiRegexes.PossiblyCommentedStub, @"{{ stub}}");
+            RegexAssert.IsMatch(WikiRegexes.PossiblyCommentedStub, @"{{Stub}}");
+            RegexAssert.IsMatch(WikiRegexes.PossiblyCommentedStub, @"<!--{{Stub}}-->");
+            
+            RegexAssert.NoMatch(WikiRegexes.PossiblyCommentedStub, @"{{now stubborn}}");
+            RegexAssert.NoMatch(WikiRegexes.PossiblyCommentedStub, @"{{stubby}}");
         }
 
-        [Test, Ignore("Incomplete")]
+        [Test]
         public void TemplateCallTests()
         {
+            RegexAssert.IsMatch(WikiRegexes.TemplateCall, @"{{now stubborn}}");
+            RegexAssert.IsMatch(WikiRegexes.TemplateCall, @"{{ now stubborn}}");
+            RegexAssert.IsMatch(WikiRegexes.TemplateCall, @"{{
+now stubborn}}");
+            RegexAssert.IsMatch(WikiRegexes.TemplateCall, @"{{now stubborn|abc|derf=gh|ijk}}");
+            RegexAssert.IsMatch(WikiRegexes.TemplateCall, @"{{Template:now stubborn}}");
+            
+            RegexAssert.NoMatch(WikiRegexes.TemplateCall, "[[Test]]");
+            RegexAssert.NoMatch(WikiRegexes.TemplateCall, "Test");
+            RegexAssert.NoMatch(WikiRegexes.TemplateCall, "[[Image:Test.jpg]]");
         }
 
-        [Test, Ignore("Incomplete")]
-        public void LooseCategoryTests()
-        {
-        }
-
-        [Test, Ignore("Incomplete")]
-        public void LooseImageTests()
-        {
-        }
-
-        [Test, Ignore("Incomplete")]
+        [Test]
         public void DatesTests()
         {
+            RegexAssert.IsMatch(WikiRegexes.Dates, @"1 May");
+            RegexAssert.IsMatch(WikiRegexes.Dates, @"1 June");
+            RegexAssert.IsMatch(WikiRegexes.Dates, @"01 May");
+            RegexAssert.IsMatch(WikiRegexes.Dates, @"11 May");
+            RegexAssert.IsMatch(WikiRegexes.Dates, @"31 May");
+            
+            RegexAssert.NoMatch(WikiRegexes.Dates, @"33 May");
+            RegexAssert.NoMatch(WikiRegexes.Dates, @"May 13");
+            RegexAssert.NoMatch(WikiRegexes.Dates, @"3 Maybe");
+            RegexAssert.NoMatch(WikiRegexes.Dates, @"3 may");
         }
 
-        [Test, Ignore("Incomplete")]
+        [Test]
         public void Dates2Tests()
         {
+            RegexAssert.IsMatch(WikiRegexes.Dates2, @"May 1");
+            RegexAssert.IsMatch(WikiRegexes.Dates2, @"June 1");
+            RegexAssert.IsMatch(WikiRegexes.Dates2, @"May 01");
+            RegexAssert.IsMatch(WikiRegexes.Dates2, @"May 11");
+            RegexAssert.IsMatch(WikiRegexes.Dates2, @"May 31");
+            
+            RegexAssert.NoMatch(WikiRegexes.Dates2, @"May 33");
+            RegexAssert.NoMatch(WikiRegexes.Dates2, @"13 May");
+            RegexAssert.NoMatch(WikiRegexes.Dates2, @"MigMay 3");
+            RegexAssert.NoMatch(WikiRegexes.Dates2, @"may 3");
         }
 
         [Test]
@@ -147,24 +211,44 @@ Foo.JPEG
             RegexAssert.NoMatch(WikiRegexes.Redirect, @"#  REDIRECT:[[Foo]]");
         }
 
-        [Test, Ignore("Incomplete")]
+        [Test]
         public void DisambigsTests()
         {
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{disambig}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Disambig}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{surname}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{  disambig}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Template:disambig}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{template:disambig}}");
+            
+            RegexAssert.NoMatch(WikiRegexes.Disambigs, @"{{now disambig}}");
         }
 
-        [Test, Ignore("Incomplete")]
+        [Test]
         public void ExtractTitleTests()
         {
+            RegexAssert.IsMatch(WikiRegexes.ExtractTitle, @"http://en.wikipedia.org/wiki/Foo");
+            RegexAssert.IsMatch(WikiRegexes.ExtractTitle, @"http://en.wikipedia.org/wiki/Foo_bar");
+            
+            Assert.AreEqual(WikiRegexes.ExtractTitle.Match(@"http://en.wikipedia.org/wiki/Foo").Groups[1].Value, "Foo");
+            Assert.AreEqual(WikiRegexes.ExtractTitle.Match(@"http://en.wikipedia.org/w/index.php?title=Foo").Groups[1].Value, "Foo");
+            Assert.AreEqual(WikiRegexes.ExtractTitle.Match(@"http://en.wikipedia.org/w/index.php/Foo").Groups[1].Value, "Foo");
+            Assert.AreEqual(WikiRegexes.ExtractTitle.Match(@"http://en.wikipedia.org/w/index.php/Foo bar here").Groups[1].Value, "Foo bar here");            
+            
+            RegexAssert.NoMatch(WikiRegexes.ExtractTitle, @"http://random.org/wiki/Foo");
+            RegexAssert.NoMatch(WikiRegexes.ExtractTitle, @"http://en.wikipedia.org/wikirandom/Foo");
         }
 
-        [Test, Ignore("Incomplete")]
-        // add tests for empty category and Image
+        [Test]
         public void EmptyLinkTests()
         {
             RegexAssert.IsMatch(WikiRegexes.EmptyLink, "[[]]");
             RegexAssert.IsMatch(WikiRegexes.EmptyLink, "[[   ]]");
             RegexAssert.IsMatch(WikiRegexes.EmptyLink, "[[|]]");
             RegexAssert.IsMatch(WikiRegexes.EmptyLink, "[[       |    ]]");
+            RegexAssert.IsMatch(WikiRegexes.EmptyLink, "[[Category:]]");
+            RegexAssert.IsMatch(WikiRegexes.EmptyLink, "[[Image:]]");
+            RegexAssert.IsMatch(WikiRegexes.EmptyLink, "[[File:]]");
         }
 
         [Test]
@@ -201,7 +285,6 @@ Foo.JPEG
 
             RegexAssert.IsMatch(WikiRegexes.Defaultsort, @"{{DEFAULTSORT:foo
 ");
-
 
             Assert.AreEqual("{{DEFAULTSORT:foo}}", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo}}").Value);
             Assert.AreEqual("{{DEFAULTSORT:foo\r", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo
