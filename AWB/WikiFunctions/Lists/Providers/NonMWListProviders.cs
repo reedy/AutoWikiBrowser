@@ -17,7 +17,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -39,9 +38,19 @@ namespace WikiFunctions.Lists.Providers
 
             foreach (string url in searchCriteria)
             {
+                string urlBuilt = url.Contains("http") ? url : "http://" + url;
+                //try
+                //{
+                //    new Uri(urlBuilt);
+                //}
+                //catch (UriFormatException)
+                //{
+                //    continue;
+                //}
+
                 foreach (
                     string entry in
-                        Tools.StringBetween(Tools.GetHTML(url.Contains("http") ? url : "http://" + url), "<body>",
+                        Tools.StringBetween(Tools.GetHTML(urlBuilt), "<body>",
                                             "</body>").Split(new[] {"\r\n", "\n"},
                                                              StringSplitOptions.RemoveEmptyEntries))
                 {
