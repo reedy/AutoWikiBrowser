@@ -107,7 +107,7 @@ namespace WikiFunctions.Controls
         /// </summary>
         /// <param name="clb"></param>
         /// <returns></returns>
-        private static List<int> GetSelectedNamespaces(CheckedListBox clb)
+        private static IEnumerable<int> GetSelectedNamespaces(CheckedListBox clb)
         {
             List<int> ret = new List<int>();
             for (int i = 0; i < clb.Items.Count; i++)
