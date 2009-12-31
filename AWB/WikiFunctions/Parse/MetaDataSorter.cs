@@ -291,7 +291,7 @@ en, sq, ru
                 if (Variables.LangCode == "en")
                 {
                     articleText = MovePortalTemplates(articleText);
-                    articleText = MoveMoreNoFootnotes(articleText);
+              //      articleText = MoveMoreNoFootnotes(articleText); // disabled -- August 2009, There is no consensus on where this tag should be placed within the article text 
                     articleText = MoveExternalLinks(articleText);
                     articleText = MoveSeeAlso(articleText);
                 }
