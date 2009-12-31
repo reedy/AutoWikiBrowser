@@ -5,6 +5,7 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 --
 -- Stand-in structure for view `FriendlyLog`
 --
+DROP VIEW IF EXISTS `FriendlyLog`;
 CREATE TABLE IF NOT EXISTS `FriendlyLog` (
 `LogID` int(10) unsigned
 ,`Operation` tinyint(3) unsigned
@@ -23,6 +24,7 @@ CREATE TABLE IF NOT EXISTS `FriendlyLog` (
 --
 -- Stand-in structure for view `FriendlySessions`
 --
+DROP VIEW IF EXISTS `FriendlySessions`;
 CREATE TABLE IF NOT EXISTS `FriendlySessions` (
 `SessionID` int(10) unsigned
 ,`DateTime` datetime
@@ -41,6 +43,7 @@ CREATE TABLE IF NOT EXISTS `FriendlySessions` (
 -- Table structure for table `lkpCultures`
 --
 
+DROP VIEW IF EXISTS `lkpCultures`;
 CREATE TABLE IF NOT EXISTS `lkpCultures` (
   `CultureID` smallint(5) unsigned NOT NULL auto_increment,
   `Language` varchar(2) NOT NULL,
@@ -55,6 +58,7 @@ CREATE TABLE IF NOT EXISTS `lkpCultures` (
 -- Table structure for table `lkpOS`
 --
 
+DROP VIEW IF EXISTS `lkpOS`;
 CREATE TABLE IF NOT EXISTS `lkpOS` (
   `OSID` mediumint(8) unsigned NOT NULL auto_increment,
   `OS` varchar(100) NOT NULL,
@@ -68,6 +72,7 @@ CREATE TABLE IF NOT EXISTS `lkpOS` (
 -- Table structure for table `lkpPlugins`
 --
 
+DROP VIEW IF EXISTS `lkpPlugins`;
 CREATE TABLE IF NOT EXISTS `lkpPlugins` (
   `PluginID` mediumint(8) unsigned NOT NULL auto_increment,
   `Plugin` varchar(255) character set utf8 NOT NULL,
@@ -82,6 +87,7 @@ CREATE TABLE IF NOT EXISTS `lkpPlugins` (
 -- Table structure for table `lkpUsers`
 --
 
+DROP VIEW IF EXISTS `lkpUsers`;
 CREATE TABLE IF NOT EXISTS `lkpUsers` (
   `UserID` mediumint(8) unsigned NOT NULL auto_increment,
   `User` varchar(255) character set utf8 NOT NULL,
@@ -95,6 +101,7 @@ CREATE TABLE IF NOT EXISTS `lkpUsers` (
 -- Table structure for table `lkpVersions`
 --
 
+DROP VIEW IF EXISTS `lkpVersions`;
 CREATE TABLE IF NOT EXISTS `lkpVersions` (
   `VersionID` mediumint(8) unsigned NOT NULL auto_increment,
   `Major` tinyint(3) unsigned NOT NULL,
@@ -113,6 +120,7 @@ CREATE TABLE IF NOT EXISTS `lkpVersions` (
 -- Table structure for table `lkpWikis`
 --
 
+DROP VIEW IF EXISTS `lkpWikis`;
 CREATE TABLE IF NOT EXISTS `lkpWikis` (
   `SiteID` mediumint(8) unsigned NOT NULL auto_increment,
   `Site` varchar(256) NOT NULL,
@@ -127,6 +135,7 @@ CREATE TABLE IF NOT EXISTS `lkpWikis` (
 -- Table structure for table `log`
 --
 
+DROP VIEW IF EXISTS `log`;
 CREATE TABLE IF NOT EXISTS `log` (
   `LogID` int(10) unsigned NOT NULL auto_increment,
   `Operation` tinyint(3) unsigned NOT NULL COMMENT '1=First contact, 2=Subsequent , 3=Test',
@@ -148,6 +157,7 @@ CREATE TABLE IF NOT EXISTS `log` (
 -- Table structure for table `plugins`
 --
 
+DROP VIEW IF EXISTS `plugins`;
 CREATE TABLE IF NOT EXISTS `plugins` (
   `SessionID` int(10) unsigned NOT NULL,
   `PluginID` mediumint(8) unsigned NOT NULL,
@@ -167,6 +177,7 @@ CREATE TABLE IF NOT EXISTS `plugins` (
 -- Table structure for table `sessions`
 --
 
+DROP TABLE IF EXISTS `sessions`;
 CREATE TABLE IF NOT EXISTS `sessions` (
   `SessionID` int(10) unsigned NOT NULL auto_increment,
   `TempKey` tinyint(3) unsigned NOT NULL COMMENT 'Key for AWB to update record',
