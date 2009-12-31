@@ -785,9 +785,11 @@ namespace WikiFunctions.Controls.Lists
 
             try
             {
-                Add(_providerToRun.MakeList(_source));
+                Add(_providerToRun.MakeList(_providerToRun.UserInputTextBoxEnabled ? _source : new string[0]));
             }
-            catch (ThreadAbortException) { }
+            catch (ThreadAbortException)
+            {
+            }
             catch (FeatureDisabledException fde)
             {
                 DisabledListProvider(fde);
