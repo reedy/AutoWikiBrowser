@@ -34,7 +34,10 @@ namespace WikiFunctions.Lists.Providers
     public abstract class ApiListProviderBase : IListProvider
     {
         #region Internals
-        int m_Limit = 25000;
+        protected ApiListProviderBase()
+        {
+            Limit = 25000;
+        }
 
         #endregion
 
@@ -44,16 +47,15 @@ namespace WikiFunctions.Lists.Providers
         /// </summary>
         protected abstract ICollection<string> PageElements { get; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected abstract ICollection<string> Actions { get; }
 
         /// <summary>
         /// Upper limit for number of pages returned, could be a bit exceeded by number of pages in the last request
         /// </summary>
-        public int Limit
-        {
-            get { return m_Limit;}
-            set { m_Limit = value; }
-        }
+        public int Limit  { get; set; }
 
         /// <summary>
         /// Main function that retrieves the list from API, including paging
