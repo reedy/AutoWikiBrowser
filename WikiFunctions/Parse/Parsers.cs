@@ -3739,10 +3739,10 @@ namespace WikiFunctions.Parse
                 || WikiRegexes.BLPSources.IsMatch(articleText)
                 || RefImprove.IsMatch(articleText)
                 || (!string.IsNullOrEmpty(articleTitle) && parseTalkPage &&
-                    TryGetArticleText(articleTitle).Contains(@"{{WPBiography"));
+                    TryGetArticleText(Variables.Namespaces[Namespace.Talk] + articleTitle).Contains(@"{{WPBiography"));
         }
 
-        public static string TryGetArticleText(string title)
+        private static string TryGetArticleText(string title)
         {
             try
             {
