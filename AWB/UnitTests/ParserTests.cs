@@ -5160,6 +5160,16 @@ asdfasdf}} was here", "foo"));
             string text = parser.Tagger(ShortText + @"{{for|foo|bar}}", "Test", out noChange, ref summary);
             //Stub, no existing stub tag. Needs all tags
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
+            
+            Globals.UnitTestBoolValue = true;
+            
+            text = parser.Tagger(ShortText, "Test", out noChange, ref summary);
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+            
+            Globals.UnitTestBoolValue = false;
+            
+            text = parser.Tagger(ShortText, "Test", out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
         }
 
         private const string ShortText =
@@ -5203,10 +5213,14 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 
             text = parser.Tagger("{{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", "Test", out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
-
+        }
+        
+        [Test]
+        public void RemoveOrphan()
+        {
             Globals.UnitTestBoolValue = false;
 
-            text = parser.Tagger("{{orphan}}", "Test", out noChange, ref summary);
+            string text = parser.Tagger("{{orphan}}", "Test", out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
 
             Globals.UnitTestBoolValue = true;
