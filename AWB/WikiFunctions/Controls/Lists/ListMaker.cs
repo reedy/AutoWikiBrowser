@@ -804,6 +804,10 @@ namespace WikiFunctions.Controls.Lists
                                     "Invalid Title");
                 }
             }
+            catch (ArgumentException ae)
+            {
+                MessageBox.Show(ae.Message, "Invalid Parameter passed to List Maker");
+            }
             catch (Exception ex)
             {
                 ErrorHandler.ListMakerText = UserInputTextBox.Text;

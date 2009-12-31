@@ -39,14 +39,9 @@ namespace WikiFunctions.Lists.Providers
             foreach (string url in searchCriteria)
             {
                 string urlBuilt = url.Contains("http") ? url : "http://" + url;
-                //try
-                //{
-                //    new Uri(urlBuilt);
-                //}
-                //catch (UriFormatException)
-                //{
-                //    continue;
-                //}
+
+                if (!WikiRegexes.UrlValidator.IsMatch(urlBuilt))
+                    throw new ArgumentException("Url \"" + urlBuilt + "\" is not valid", "searchCriteria");
 
                 foreach (
                     string entry in
@@ -178,9 +173,9 @@ namespace WikiFunctions.Lists.Providers
     {
         private readonly static Regex RegexFromFile = new Regex("(^[a-z]{2,3}:)|(simple:)", RegexOptions.Compiled);
         private readonly static Regex LoadWikiLink = new Regex(@"\[\[:?(.*?)(?:\]\]|\|)", RegexOptions.Compiled);
-        private readonly OpenFileDialog OpenListDialog = new OpenFileDialog();
+        private readonly static OpenFileDialog OpenListDialog = new OpenFileDialog();
 
-        public TextFileListProvider()
+        static TextFileListProvider()
         {
             OpenListDialog.Filter = "Text files|*.txt|Text files (no validation)|*.txt|All files|*.*";
             OpenListDialog.Multiselect = true;
