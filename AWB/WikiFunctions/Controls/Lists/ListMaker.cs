@@ -812,6 +812,14 @@ namespace WikiFunctions.Controls.Lists
             {
                 UserLoggedOff();
             }
+            catch (ApiErrorException aee)
+            {
+                if (aee.ErrorCode == "eiinvalidtitle")
+                {
+                    MessageBox.Show("An invalid title of \"" + aee.GetErrorVariable() + "\" was passed to the API.",
+                                    "Invalid Title");
+                }
+            }
             catch (Exception ex)
             {
                 ErrorHandler.ListMakerText = UserInputTextBox.Text;

@@ -16,6 +16,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 using System;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace WikiFunctions.API
@@ -64,11 +65,13 @@ namespace WikiFunctions.API
     }
 
     /// <summary>
-    /// Thrown when an API call returned an <error> tag.
+    /// Thrown when an API call returned an &lt;error> tag.
     /// See http://www.mediawiki.org/wiki/API:Errors for details
     /// </summary>
     public class ApiErrorException : ApiException
     {
+        private static readonly Regex ExtractErrorVariable = new Regex("``(.*?)''", RegexOptions.Compiled);
+
         /// <summary>
         /// Short error code
         /// </summary>
@@ -80,6 +83,14 @@ namespace WikiFunctions.API
         public string ApiErrorMessage
         { get; private set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public string GetErrorVariable()
+        {
+            return ExtractErrorVariable.Match(ApiErrorMessage).Groups[1].Value;
+        }
 
         public ApiErrorException(ApiEdit editor, string errorCode, string errorMessage)
             : base(editor, "Bot API returned the following error: '" + errorMessage + "'")

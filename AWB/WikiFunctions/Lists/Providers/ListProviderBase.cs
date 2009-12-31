@@ -112,10 +112,7 @@ namespace WikiFunctions.Lists.Providers
                             break;
                         }
 
-                        if (ns >= 0) 
-                            list.Add(new Article(name, ns));
-                        else
-                            list.Add(new Article(name));
+                        list.Add(ns >= 0 ? new Article(name, ns) : new Article(name));
                     }
                 }
                 if (string.IsNullOrEmpty(postfix)) break;
