@@ -301,6 +301,7 @@ namespace WikiFunctions.AWBSettings
 
         public bool Regex = false;
         public bool CaseSensitive = false;
+        public bool AfterProcessing = false;
 
         public bool SkipNoFindAndReplace = false;
         public bool SkipMinorFindAndReplace = false;
@@ -334,7 +335,7 @@ namespace WikiFunctions.AWBSettings
         public string FindText = "";
         public bool FindRegex = false;
         public bool FindCaseSensitive = false;
-
+        
         public bool WordWrap = true;
         public bool ToolBarEnabled = false;
         public bool BypassRedirect = true;

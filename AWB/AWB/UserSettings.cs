@@ -313,6 +313,7 @@ namespace AutoWikiBrowser
                         SkipDoesNotText = txtSkipIfNotContains.Text,
                         Regex = chkSkipIsRegex.Checked,
                         CaseSensitive = chkSkipCaseSensitive.Checked,
+                        AfterProcessing = chkSkipAfterProcessing.Checked,                        
                         SkipNoFindAndReplace = chkSkipWhenNoFAR.Checked,
                         SkipMinorFindAndReplace = chkSkipOnlyMinorFaR.Checked,
                         SkipNoRegexTypoFix = chkSkipIfNoRegexTypo.Checked,
@@ -554,6 +555,7 @@ namespace AutoWikiBrowser
 
             chkSkipIsRegex.Checked = p.SkipOptions.Regex;
             chkSkipCaseSensitive.Checked = p.SkipOptions.CaseSensitive;
+            chkSkipAfterProcessing.Checked = p.SkipOptions.AfterProcessing;
 
             chkSkipWhenNoFAR.Checked = p.SkipOptions.SkipNoFindAndReplace;
             chkSkipOnlyMinorFaR.Checked = p.SkipOptions.SkipMinorFindAndReplace;
