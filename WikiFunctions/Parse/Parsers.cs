@@ -22,7 +22,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
-using WikiFunctions.Lists;
 using WikiFunctions.Lists.Providers;
 
 namespace WikiFunctions.Parse
@@ -182,11 +181,7 @@ namespace WikiFunctions.Parse
 
         public MetaDataSorter Sorter
         {
-            get
-            {
-                if (metaDataSorter == null) metaDataSorter = new MetaDataSorter();
-                return metaDataSorter;
-            }
+            get { return metaDataSorter ?? (metaDataSorter = new MetaDataSorter()); }
         }
 
         #endregion
@@ -3119,7 +3114,7 @@ namespace WikiFunctions.Parse
                 return true;
             
             // second check: bold just after infobox
-            Regex BoldAfterInfobox = new Regex(WikiRegexes.InfoBox.ToString() + @"\s*'''" + escapedTitle);
+            Regex BoldAfterInfobox = new Regex(WikiRegexes.InfoBox + @"\s*'''" + escapedTitle);
             
             return BoldAfterInfobox.IsMatch(articletextoriginal);
         }
@@ -4065,13 +4060,10 @@ namespace WikiFunctions.Parse
             return ((sort.Length > 3) ? "|" + sort : "") + "]]";
         }
 
-        private const string YearOfBirthMissingLivingPeople = "Year of birth missing (living people)";
-
-        private const string YearOfBirthMissing = "Year of birth missing";
-
-        private const string YearOfBirthUncertain = "Year of birth uncertain";
-
-        private const string YearofDeathMissing = "Year of death missing";
+        private const string YearOfBirthMissingLivingPeople = "Year of birth missing (living people)",
+                             YearOfBirthMissing = "Year of birth missing",
+                             YearOfBirthUncertain = "Year of birth uncertain",
+                             YearofDeathMissing = "Year of death missing";
 
         private static readonly Regex Cat4YearBirths = new Regex(@"\[\[Category:\d{4} births(?:\s*\|[^\[\]]+)? *\]\]", RegexOptions.Compiled);
         private static readonly Regex Cat4YearDeaths = new Regex(@"\[\[Category:\d{4} deaths(?:\s*\|[^\[\]]+)? *\]\]", RegexOptions.Compiled);
@@ -4084,8 +4076,7 @@ namespace WikiFunctions.Parse
             // if there is a 'year of birth missing' and a year of birth, remove the 'missing' category
             if (CategoryMatch(articleText, YearOfBirthMissingLivingPeople) && Cat4YearBirths.IsMatch(articleText))
                 articleText = RemoveCategory(YearOfBirthMissingLivingPeople, articleText);
-            else
-                if (CategoryMatch(articleText, YearOfBirthMissing))
+            else if (CategoryMatch(articleText, YearOfBirthMissing))
             {
                 if (Cat4YearBirths.IsMatch(articleText))
                     articleText = RemoveCategory(YearOfBirthMissing, articleText);
