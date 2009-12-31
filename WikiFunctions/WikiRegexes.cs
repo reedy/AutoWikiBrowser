@@ -779,5 +779,16 @@ namespace WikiFunctions
         /// Matches consecutive whitespace
         /// </summary>
         public static readonly Regex WhiteSpace = new Regex(@"\s+", RegexOptions.Compiled);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// From http://www.dreamincode.net/code/snippet3490.htm
+        /// </remarks>
+        public static readonly Regex UrlValidator =
+            new Regex(
+                @"^(http|https|ftp)\://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\-\._\?\,\'/\\\+&amp;%\$#\=~])*[^\.\,\)\(\s]$",
+                RegexOptions.Compiled);
     }
 }
