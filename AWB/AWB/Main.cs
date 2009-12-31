@@ -933,7 +933,7 @@ namespace AutoWikiBrowser
                 else
                 {
                     Stop();
-                    if (autoSaveSettingsToolStripMenuItem.Checked && !(NumberOfIgnoredEdits % 10 == 0) && !string.IsNullOrEmpty(SettingsFile))
+                    if (autoSaveSettingsToolStripMenuItem.Checked && (NumberOfIgnoredEdits % 10 != 0) && !string.IsNullOrEmpty(SettingsFile))
                         SavePrefs(SettingsFile);
                 }
 
@@ -1118,6 +1118,7 @@ namespace AutoWikiBrowser
                                                               chkSkipIsRegex.Checked,
                                                               false, // singleline
                                                               false); // multiline
+
             _notContainsComparer = ArticleComparerFactory.Create(txtSkipIfNotContains.Text,
                                                                  chkSkipCaseSensitive.Checked,
                                                                  chkSkipIsRegex.Checked,
