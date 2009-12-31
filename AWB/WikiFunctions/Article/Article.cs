@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
 using System;
+using System.Text;
 using System.Xml.Serialization;
 using WikiFunctions.Logging;
 using System.Text.RegularExpressions;
@@ -41,16 +42,13 @@ namespace WikiFunctions
     /// </summary>
     public class Article : IProcessArticleEventArgs, IArticleSimple, IComparable<Article>
     {
-        protected string mName = "";
-        protected string mEditSummary = "";
-        protected string mSavedSummary = "";
         protected AWBLogListener mAWBLogListener;
         protected string mArticleText = "";
         protected string mOriginalArticleText = "";
         protected string mPluginEditSummary = "";
         protected bool mPluginSkip;
 
-        private PageInfo mPage;
+        private readonly PageInfo mPage;
 
         private bool noChange;
 
@@ -72,7 +70,7 @@ namespace WikiFunctions
         public Article(string name, int nameSpaceKey)
             : this()
         {
-            mName = name.Contains("#") ? name.Substring(0, name.IndexOf('#')) : name;
+            Name = name.Contains("#") ? name.Substring(0, name.IndexOf('#')) : name;
 
             NameSpaceKey = nameSpaceKey;
         }
@@ -106,25 +104,24 @@ namespace WikiFunctions
         }
 
         private void InitLog()
-        { mAWBLogListener = new AWBLogListener(mName); }
+        { mAWBLogListener = new AWBLogListener(Name); }
         #endregion
 
         #region Serialisable properties
         /// <summary>
         /// The full name of the article
         /// </summary>
-        public string Name
-        { get { return mName; } set { mName = value; } }
+        public string Name { get; set; }
 
         [XmlIgnore]
         public string NamespacelessName
         {
             get
             {
-                if (NameSpaceKey == Namespace.Article) return mName;
+                if (NameSpaceKey == Namespace.Article) return Name;
 
-                int pos = mName.IndexOf(':');
-                return pos < 0 ? mName : mName.Substring(pos + 1).Trim();
+                int pos = Name.IndexOf(':');
+                return pos < 0 ? Name : Name.Substring(pos + 1).Trim();
             }
         }
 
@@ -151,7 +148,7 @@ namespace WikiFunctions
         /// </summary>
         [XmlIgnore]
         public string URLEncodedName
-        { get { return Tools.WikiEncode(mName); } }
+        { get { return Tools.WikiEncode(Name); } }
 
         /// <summary>
         /// The text of the article. This is deliberately readonly; set using methods
@@ -174,7 +171,25 @@ namespace WikiFunctions
         /// </summary>
         [XmlIgnore]
         public string EditSummary
-        { get { return mEditSummary; } set { mEditSummary = value; } }
+        { get { return summary.ToString(); } }
+
+        public void ResetEditSummary()
+        {
+            summary.Length = 0;
+        }
+
+        private readonly StringBuilder summary = new StringBuilder();
+
+        private void AppendToSummary(string newText)
+        {
+            if (string.IsNullOrEmpty(newText.Trim()))
+                return;
+
+            if (summary.Length > 0)
+                summary.Append(", " + newText);
+            else
+                summary.Append(newText);
+        }
 
         /// <summary>
         /// Returns true if the article is a stub (a very short article or an article tagged with a "stub template")
@@ -504,7 +519,7 @@ namespace WikiFunctions
 
                 case CategorisationOptions.AddCat:
                     if (categoryText.Length < 1) return;
-                    strTemp = parsers.AddCategory(categoryText, mArticleText, mName, out noChange);
+                    strTemp = parsers.AddCategory(categoryText, mArticleText, Name, out noChange);
                     action = "Added " + categoryText;
                     break;
 
@@ -530,21 +545,6 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Add or remove a specified category
-        /// </summary>
-        /// <param name="option">The action to take</param>
-        /// <param name="parsers">An initialised Parsers object</param>
-        /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
-        /// <param name="newCategoryText">The category to add or remove</param>
-        public void Categorisation(CategorisationOptions option, Parsers parsers,
-                                   bool skipIfNoChange, string newCategoryText)
-        {
-            if (option == CategorisationOptions.ReCat)
-                throw new ArgumentException("This overload has no CategoryText2 argument");
-            Categorisation(option, parsers, skipIfNoChange, newCategoryText, "", false);
-        }
-
-        /// <summary>
         /// Process a "find and replace"
         /// </summary>
         /// <param name="findAndReplace">A FindandReplace object</param>
@@ -563,13 +563,13 @@ namespace WikiFunctions
                    tmpEditSummary = "";
 
             bool majorChangesMade;
-            strTemp = findAndReplace.MultipleFindAndReplace(strTemp, mName, ref tmpEditSummary, out majorChangesMade);
+            strTemp = findAndReplace.MultipleFindAndReplace(strTemp, Name, ref tmpEditSummary, out majorChangesMade);
 
             bool farMadeMajorChanges = (testText != strTemp && majorChangesMade);
 
-            strTemp = replaceSpecial.ApplyRules(strTemp, mName);
+            strTemp = replaceSpecial.ApplyRules(strTemp, Name);
 
-            strTemp = substTemplates.SubstituteTemplates(strTemp, mName);
+            strTemp = substTemplates.SubstituteTemplates(strTemp, Name);
 
             if (testText == strTemp)
             {
@@ -586,7 +586,7 @@ namespace WikiFunctions
             {
                 AWBChangeArticleText("Find and replace applied" + tmpEditSummary,
                                      Tools.ConvertToLocalLineEndings(strTemp), true);
-                EditSummary += tmpEditSummary;
+                AppendToSummary(tmpEditSummary);
             }
         }
 
@@ -597,14 +597,15 @@ namespace WikiFunctions
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
         public void PerformTypoFixes(RegExTypoFix regexTypos, bool skipIfNoChange)
         {
-            string strTemp = regexTypos.PerformTypoFixes(mArticleText, out noChange, out mPluginEditSummary, mName);
+            string tmpEditSummary;
+            string strTemp = regexTypos.PerformTypoFixes(mArticleText, out noChange, out tmpEditSummary, Name);
 
             if (noChange && skipIfNoChange)
                 Trace.AWBSkipped("No typo fixes");
             else if (!noChange)
             {
-                AWBChangeArticleText(mPluginEditSummary, strTemp, false);
-                AppendPluginEditSummary();
+                AWBChangeArticleText(tmpEditSummary, strTemp, false);
+                AppendToSummary(tmpEditSummary);
             }
         }
 
@@ -616,30 +617,29 @@ namespace WikiFunctions
         public void AutoTag(Parsers parsers, bool skipIfNoChange)
         {
             string tmpEditSummary = "";
-            string strTemp = parsers.Tagger(mArticleText, mName, out noChange, ref tmpEditSummary);
+            string strTemp = parsers.Tagger(mArticleText, Name, out noChange, ref tmpEditSummary);
 
             if (skipIfNoChange && noChange)
                 Trace.AWBSkipped("No Tag changed");
             else if (!noChange)
             {
                 AWBChangeArticleText("Auto tagger changes applied" + tmpEditSummary, strTemp, false);
-                EditSummary += tmpEditSummary;
+                AppendToSummary(tmpEditSummary);
             }
         }
 
         /// <summary>
         /// Fix header errors
         /// </summary>
-        /// <param name="parsers"></param>
         /// <param name="langCode">The wiki's language code</param>
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
-        protected void FixHeaderErrors(Parsers parsers, string langCode, bool skipIfNoChange)
+        protected void FixHeaderErrors(string langCode, bool skipIfNoChange)
         {
             if (langCode == "en")
             {
                 string strTemp = Parsers.Conversions(mArticleText);
                 strTemp = Parsers.FixLivingThingsRelatedDates(strTemp);
-                strTemp = Parsers.FixHeadings(strTemp, mName, out noChange);
+                strTemp = Parsers.FixHeadings(strTemp, Name, out noChange);
 
                 if (mArticleText == strTemp)
                 {
@@ -670,7 +670,7 @@ namespace WikiFunctions
         {
             if (langCode == "en" && Variables.IsWikimediaProject && !Variables.IsWikimediaMonolingualProject)
             {
-                string strTemp = Parsers.ChangeToDefaultSort(mArticleText, mName, out noChange, restrictDefaultsortAddition);
+                string strTemp = Parsers.ChangeToDefaultSort(mArticleText, Name, out noChange, restrictDefaultsortAddition);
 
                 if (skipIfNoChange && noChange)
                     Trace.AWBSkipped("No DefaultSort Added");
@@ -757,7 +757,7 @@ namespace WikiFunctions
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
         public void EmboldenTitles(Parsers parsers, bool skipIfNoChange)
         {
-            string strTemp = parsers.BoldTitle(mArticleText, mName, out noChange);
+            string strTemp = parsers.BoldTitle(mArticleText, Name, out noChange);
             if (skipIfNoChange && noChange)
                 Trace.AWBSkipped("No Titles to embolden");
             else if (!noChange)
@@ -784,7 +784,8 @@ namespace WikiFunctions
                 AWBChangeArticleText("Custom module", strTemp, true);
                 AppendPluginEditSummary();
             }
-            else Trace.AWBSkipped("Skipped by custom module");
+            else
+                Trace.AWBSkipped("Skipped by custom module");
         }
         #endregion
 
@@ -822,7 +823,7 @@ namespace WikiFunctions
                                  bool skipIfNoChange)
         {
             Disambiguation.DabForm df = new Disambiguation.DabForm(session);
-            string strTemp = df.Disambiguate(mArticleText, mName, dabLinkText,
+            string strTemp = df.Disambiguate(mArticleText, Name, dabLinkText,
                                              dabVariantsLines, context, botMode, out noChange);
 
             if (df.Abort) return false;
@@ -890,7 +891,7 @@ namespace WikiFunctions
         {
             if (mPluginEditSummary.Length > 0)
             {
-                EditSummary += mPluginEditSummary.Trim();
+                AppendToSummary(mPluginEditSummary.Trim());
                 mPluginEditSummary = "";
             }
         }
@@ -911,12 +912,12 @@ namespace WikiFunctions
         #region Overrides
         public override string ToString()
         {
-            return mName;
+            return Name;
         }
 
         public override int GetHashCode()
         {
-            return mName.GetHashCode();
+            return Name.GetHashCode();
         }
 
         public override bool Equals(object obj)
@@ -925,7 +926,7 @@ namespace WikiFunctions
             if (a == null)
             {
                 if (obj is string)
-                    return mName == obj as string;
+                    return Name == obj as string;
 
                 return false;
             }
@@ -939,7 +940,7 @@ namespace WikiFunctions
 
         public int CompareTo(Article other)
         {
-            return string.Compare(mName, other.mName, false, System.Globalization.CultureInfo.InvariantCulture);
+            return string.Compare(Name, other.Name, false, System.Globalization.CultureInfo.InvariantCulture);
         }
 
         #endregion
@@ -953,7 +954,7 @@ namespace WikiFunctions
             if ((object)a == null || (object)b == null)
                 return false;
 
-            return (a.mName == b.mName);
+            return (a.Name == b.Name);
         }
 
         public static bool operator !=(Article a, Article b)
@@ -967,7 +968,7 @@ namespace WikiFunctions
         //{ get { return mAWBLogListener; } }
 
         string IProcessArticleEventArgs.ArticleTitle
-        { get { return mName; } }
+        { get { return Name; } }
 
         string IProcessArticleEventArgs.EditSummary // this is temp edit summary field, sent from plugin
         { get { return mPluginEditSummary; } set { mPluginEditSummary = value.Trim(); } }
@@ -977,8 +978,6 @@ namespace WikiFunctions
 
         [XmlIgnore]
         public Exists Exists { get; protected set; }
-
-        // and NamespaceKey
 
         Article IArticleSimple.Article { get { return this; } }
         #endregion
@@ -997,6 +996,8 @@ namespace WikiFunctions
         /// <param name="restrictDefaultsortAddition"></param>
         /// <param name="noMOSComplianceFixes"></param>
         /// will be replaced with {{reflist}}</param>
+        /// <param name="restrictDefaultsortAddition"></param>
+        /// <param name="noMOSComplianceFixes"></param>
         public void PerformGeneralFixes(Parsers parsers, HideText removeText, ISkipOptions skip, bool replaceReferenceTags, bool restrictDefaultsortAddition, bool noMOSComplianceFixes)
         { //TODO: 2009-01-28 review which of the genfixes below should be labelled 'significant'
             BeforeGeneralFixesTextChanged();
@@ -1013,7 +1014,7 @@ namespace WikiFunctions
             AWBChangeArticleText("Fixes for {{article issues}}", parsers.ArticleIssues(ArticleText), true);
             Variables.Profiler.Profile("ArticleIssues");
 
-            FixHeaderErrors(parsers, Variables.LangCode, skip.SkipNoHeaderError);
+            FixHeaderErrors(Variables.LangCode, skip.SkipNoHeaderError);
             Variables.Profiler.Profile("FixHeaderErrors");
 
             FixPeopleCategories(parsers, skip.SkipNoPeopleCategoriesFixed);

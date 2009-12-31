@@ -241,10 +241,13 @@ namespace WikiFunctions.Parse
                     if (res != m.Value)
                     {
                         count++;
-                        if (1 == count) summary += (summary.Length > 0 ? ", " : "") + m.Value + FindandReplace.Arrow + res;
+                        if (1 == count)
+                            summary += (summary.Length > 0 ? ", " : "") + m.Value + FindandReplace.Arrow + res;
                     }
                 }
-                if (count > 1) summary += " (" + count + ")";
+                if (count > 1)
+                    summary += " (" + count + ")";
+
                 stats.SelfMatches = stats.Total - count;
                 Statistics.Add(stats);
             }
@@ -481,15 +484,9 @@ namespace WikiFunctions.Parse
 
             noChange = (originalText == articleText);
 
-            articleText = removeText.AddBackMore(articleText + tail);
+            summary = Variables.TypoSummaryTag + strSummary.Trim();
 
-            if (!string.IsNullOrEmpty(strSummary))
-            {
-                strSummary = Variables.TypoSummaryTag + strSummary.Trim();
-                summary = strSummary;
-            }
-
-            return articleText;
+            return removeText.AddBackMore(articleText + tail);
         }
 
         /// <summary>

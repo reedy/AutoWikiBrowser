@@ -69,7 +69,7 @@ namespace WikiFunctions
             }
 
             PHP5 = false;
-            TypoSummaryTag = ", typos fixed: ";
+            TypoSummaryTag = "typos fixed: ";
             WPAWB = "[[Project:AWB|AWB]]";
         }
 
@@ -250,10 +250,13 @@ namespace WikiFunctions
             }
         }
 
-        private static string mSummaryTag = " using ";
-
+        /// <summary>
+        /// 
+        /// </summary>
         public static string TypoSummaryTag
         { get; private set; }
+
+        private static string mSummaryTag = " using ";
 
         /// <summary>
         /// Gets the tag to add to the edit summary, e.g. " using [[Project:AWB]]".
