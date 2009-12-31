@@ -285,7 +285,7 @@ their username or switching to a different wiki mid-session.</p>
 <a href="http://validator.w3.org/check?uri=referer"><img
     src="http://www.w3.org/Icons/valid-xhtml10"
     alt="Valid XHTML 1.0 Transitional" height="31" width="88" /></a>
-<a href="http://www.php.net/"><img src="/res/php5-power-micro.png" alt="Powered by PHP 5" height="15" width="80" /></a>
+<a href="http://www.php.net/"><img src="./res/php5-power-micro.png" alt="Powered by PHP 5" height="15" width="80" /></a>
 </p>
 </body>
 </html>
