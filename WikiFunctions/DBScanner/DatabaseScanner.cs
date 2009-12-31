@@ -32,7 +32,7 @@ using WikiFunctions.Background;
 
 namespace WikiFunctions.DBScanner
 {
-    //TODO:Load proper NS for loaded Dump (if not current project in use/loaded). Same for protection levels
+    //TODO:Load proper protection levels
     /// <summary>
     /// Provides a form and functions for searching XML data dumps
     /// </summary>
