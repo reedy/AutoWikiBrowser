@@ -89,7 +89,7 @@ namespace WikiFunctions
             FormatException(ex, errorMessage, ExceptionKind.TopLevel);
             errorMessage.AppendLine("</table>\r\n~~~~");
             errorMessage.AppendLine(" | OS          = " + Environment.OSVersion);
-            errorMessage.AppendLine(" | version     = " + Assembly.GetExecutingAssembly().GetName().Version);
+            errorMessage.Append(" | version     = " + Assembly.GetExecutingAssembly().GetName().Version);
 
             // suppress unhandled exception if Variables constructor says 'ouch'
             string revision;
@@ -102,9 +102,9 @@ namespace WikiFunctions
                 revision = "?";
             }
 
-            if (!revision.Contains("?")) errorMessage.Append(", revision " + revision);
+            if (!revision.Contains("?")) errorMessage.AppendLine(", revision " + revision);
 
-            errorMessage.AppendLine(" | net = " + Environment.Version);
+            errorMessage.AppendLine(" | net     = " + Environment.Version);
 
             if (!string.IsNullOrEmpty(CurrentPage))
             {
@@ -112,13 +112,13 @@ namespace WikiFunctions
                 // as it's not a pretty URL, we don't need to follow the MediaWiki encoding rules
                 string link = "[" + Variables.URLIndex + "?title=" + HttpUtility.UrlEncode(CurrentPage) + "&oldid=" + CurrentRevision + "]";
 
-                errorMessage.Append("\r\n | duplicate = [encountered while processing page ''" + link + "'']");
+                errorMessage.AppendLine(" | duplicate   = [encountered while processing page ''" + link + "'']");
             }
             else if (!string.IsNullOrEmpty(ListMakerText))
-                errorMessage.Append("\r\n | duplicate = '''ListMaker Text:''' " + ListMakerText);
+                errorMessage.AppendLine(" | duplicate   = '''ListMaker Text:''' " + ListMakerText);
 
             if (!string.IsNullOrEmpty(Variables.URL))
-                errorMessage.Append("\r\n | site = " + Variables.URL);
+                errorMessage.AppendLine(" | site    = " + Variables.URL);
 
             errorMessage.AppendLine(" | workaround     = <!-- Any workaround for the problem -->");
             errorMessage.AppendLine(" | fix_version    = <!-- Version of AWB the fix will be included in; AWB developer will complete when it's fixed -->");
