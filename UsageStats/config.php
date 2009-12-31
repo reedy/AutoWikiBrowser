@@ -8,4 +8,3 @@ final class Config {
 }
 
 $GlobalConfig = new Config();
-?>

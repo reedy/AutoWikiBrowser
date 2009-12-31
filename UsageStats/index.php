@@ -128,4 +128,3 @@ function dead($msg) {
 	ob_end_clean(); // gets rid of warning messages etc; comment out if want to see those
 	die("Error: $msg");
 }
-?>

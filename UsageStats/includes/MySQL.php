@@ -340,5 +340,3 @@ ORDER BY Sum(sessions.Saves) DESC LIMIT 1', 'busiest_user');
 		FROM sessions WHERE (((sessions.User) Is Null))', 'missing_usernames_count');
 	}
 }
-
-?>

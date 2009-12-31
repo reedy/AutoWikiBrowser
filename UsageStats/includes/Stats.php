@@ -378,4 +378,3 @@ function PrintTableRow($header, $data) {
 	</tr>
 ';
 }
-?>
