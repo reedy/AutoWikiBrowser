@@ -1784,7 +1784,7 @@ window.scrollTo(0, diffTopY);
                         break;
                 }
 
-                TheArticle.EditSummary = "";
+                TheArticle.ResetEditSummary();
                 GetDiff();
 
                 // now put caret back where it was
@@ -1995,7 +1995,7 @@ window.scrollTo(0, diffTopY);
             if (TheArticle == null)
                 return "";
 
-            string summary = cmboEditSummary.Text + TheArticle.EditSummary;
+            string summary = cmboEditSummary.Text + " " + TheArticle.EditSummary;
 
             // check to see if we have only edited one level 2 section
             if (!noSectionEditSummaryToolStripMenuItem.Checked)
@@ -2504,7 +2504,7 @@ window.scrollTo(0, diffTopY);
 
             // After manual changes, automatic edit summary may be inaccurate, removing it altogether
             if (TheArticle != null && TheArticle.ArticleText != txtEdit.Text)
-                TheArticle.EditSummary = "";
+                TheArticle.ResetEditSummary();
         }
 
         private void btnFind_Click(object sender, EventArgs e)
@@ -4277,7 +4277,7 @@ window.scrollTo(0, diffTopY);
                 return;
 
             txtEdit.Text = TheArticle.OriginalArticleText;
-            TheArticle.EditSummary = "";
+            TheArticle.ResetEditSummary();
         }
 
         #region History

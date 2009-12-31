@@ -38,8 +38,6 @@ namespace WikiFunctions.Parse
             InitializeComponent();
         }
 
-        private string _editSummary = "";
-
         private readonly HideText _remove = new HideText(true, false, true);
 
         private readonly List<Replacement> _replacementList = new List<Replacement>();
@@ -153,7 +151,7 @@ namespace WikiFunctions.Parse
             if (!HasReplacements)
                 return articleText;
 
-            _editSummary = "";
+            _replacedSummary = "";
             _removedSummary = "";
 
             if (chkIgnoreMore.Checked)
@@ -180,13 +178,14 @@ namespace WikiFunctions.Parse
 
             if (chkAddToSummary.Checked)
             {
-                if (!string.IsNullOrEmpty(_editSummary))
-                    editSummary = ", replaced: " + _editSummary.Trim();
+                if (!string.IsNullOrEmpty(_replacedSummary))
+                      editSummary = "replaced: " + _replacedSummary.Trim();
 
                 if (!string.IsNullOrEmpty(_removedSummary))
                 {
-                    if (string.IsNullOrEmpty(_editSummary))
+                    if (!string.IsNullOrEmpty(editSummary))
                         editSummary += ", ";
+
                     editSummary += "removed: " + _removedSummary.Trim();
                 }
             }
@@ -194,7 +193,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private string _summary = "", _removedSummary = "";
+        private string _removedSummary, _replacedSummary;
 
         /// <summary>
         /// 
@@ -226,21 +225,25 @@ namespace WikiFunctions.Parse
 
                     if (!string.IsNullOrEmpty(matches[0].Result(replaceWith)))
                     {
-                        _summary = matches[0].Value + Arrow + matches[0].Result(replaceWith);
+                        if (!string.IsNullOrEmpty(_replacedSummary)) //Add comma before next replaced
+                            _replacedSummary +=  ", ";
+
+                        string summary = matches[0].Value + Arrow + matches[0].Result(replaceWith);
 
                         if (matches.Count > 1)
-                            _summary += " (" + matches.Count + ")";
+                            summary += " (" + matches.Count + ")";
 
-                        _editSummary += _summary + ", ";
+                        _replacedSummary += summary;
                     }
                     else
                     {
+                        if (!string.IsNullOrEmpty(_removedSummary)) //Add comma before next removed
+                            _removedSummary += ", ";
+
                         _removedSummary += matches[0].Value;
 
                         if (matches.Count > 1)
                             _removedSummary += " (" + matches.Count + ")";
-
-                        _removedSummary += ", ";
                     }
                 }
             }
