@@ -2052,6 +2052,9 @@ namespace WikiFunctions.Parse
         /// <returns>The updated wiki text</returns>
         public static string FixCitationTemplates(string articleText)
         {
+            if (Variables.LangCode != "en")
+                return articleText;
+
             articleText = AccessdateTypo.Replace(articleText, "$1accessdate$2");
 
             articleText = PublisherTypo.Replace(articleText, @"publisher$1");
@@ -2061,11 +2064,13 @@ namespace WikiFunctions.Parse
             // {{cite web}} needs lower case field names; two loops in case a single template has multiple uppercase fields
             // restrict to en-wiki
             // exceptionally, 'ISBN' is allowed
-            while (Variables.LangCode == "en")
+            int matchCount;
+            int urlMatches;
+            do
             {
-                MatchCollection matches = UppercaseCiteFields.Matches(articleText);
-                int matchcount = matches.Count;
-                int urlmatches = 0;
+                var matches = UppercaseCiteFields.Matches(articleText);
+                matchCount = matches.Count;
+                urlMatches = 0;
 
                 foreach (Match m in matches)
                 {
@@ -2075,12 +2080,10 @@ namespace WikiFunctions.Parse
                     if (!urlmatch)
                         articleText = articleText.Replace(m.Value, m.Groups[1].Value + m.Groups[2].Value.ToLower() + m.Groups[3].Value);
                     else
-                        urlmatches++;
+                        urlMatches++;
                 }
 
-                if (matchcount == 0 || matchcount == urlmatches)
-                    break;
-            }
+            } while (matchCount > 0 && matchCount != urlMatches);
 
             articleText = CiteFormatFieldTypo.Replace(articleText, "$1format$2");
 
