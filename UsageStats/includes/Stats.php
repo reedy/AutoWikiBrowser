@@ -90,7 +90,7 @@ function htmlstats(){
 <h2><a href="http://en.wikipedia.org/wiki/WP:AWB">AutoWikiBrowser</a> Usage Stats</h2>
 <p>Statistics on AWB usage since 20 May 2009.</p>
 <p>For more information about the AutoWikiBrowser wiki editor, please see our <a href="http://en.wikipedia.org/wiki/WP:AWB">Wikipedia page</a>.</p>
-<p>For statistics between 3 March 2008 and 19 May 2009, please see <a href="/archive/May2009.html">here</a></p>
+<p>For statistics between 3 March 2008 and 19 May 2009, please see <a href="./archive/May2009.html">here</a></p>
 <table>
 	<caption>Overview</caption>
 <?php

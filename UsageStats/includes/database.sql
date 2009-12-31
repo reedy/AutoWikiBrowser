@@ -1,7 +1,9 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
--- --------------------------------------------------------
+DROP SCHEMA IF EXISTS `p_awb_usagestats`;
+CREATE SCHEMA IF NOT EXISTS `p_awb_usagestats`;
 
+USE `p_awb_usagestats`;
 --
 -- Stand-in structure for view `FriendlyLog`
 --
