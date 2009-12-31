@@ -2063,10 +2063,11 @@ namespace WikiFunctions.Parse
             // exceptionally, 'ISBN' is allowed
             while (Variables.LangCode == "en")
             {
-                int matchcount = UppercaseCiteFields.Matches(articleText).Count;
+                MatchCollection matches = UppercaseCiteFields.Matches(articleText);
+                int matchcount = matches.Count;
                 int urlmatches = 0;
 
-                foreach (Match m in UppercaseCiteFields.Matches(articleText))
+                foreach (Match m in matches)
                 {
                     bool urlmatch = CiteUrl.Match(m.Value).Value.Contains(m.Groups[2].Value);
 
