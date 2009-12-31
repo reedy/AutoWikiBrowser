@@ -187,8 +187,8 @@ function htmlstats(){
 		  echo '
 
 	<tr>
-		<td>'.$row['Language'].'</td>
-		<td>'.$row['Country'].'</td>
+		<td>'.htmlspecialchars( $row['Language'] ).'</td>
+		<td>'.htmlspecialchars( $row['Country'] ).'</td>
 		<td>'.FormatNumber($row['SumOfSaves']).'</td>
 	</tr>
 ';
@@ -299,7 +299,7 @@ function OS_XHTML($result, $headersuffix) {
 </table>
 <p/>
 <table class="sortable">
-<caption>Operating Systems'.$headersuffix.'</caption>
+<caption>Operating Systems'.htmlspecialchars( $headersuffix ).'</caption>
 <thead>
 	<tr>
 		<th scope="col" class="sortable">OS</th>
@@ -314,7 +314,7 @@ function OS_XHTML($result, $headersuffix) {
 		echo '
 
 	<tr>
-		<td>'.$row['OS'].'</td>
+		<td>'.htmlspecialchars( $row['OS'] ).'</td>
 		<td>'.FormatNumber($row['CountOfSessionID']).'</td>
 		<td>'.FormatNumber($row['SumOfSaves']).'</td>
 	</tr>
@@ -347,6 +347,7 @@ function BuildWikiHostname($lang, $site) {
 		default: // Other Wikimedia sites
 			$site = "{$lang}.{$site}.org";
 	}
+	$site=htmlspecialchars( $site );
 	return "<a href=\"http://{$site}/\">{$site}</a>";
 }
 
@@ -374,7 +375,7 @@ function PrintTableRow($header, $data) {
 	echo '
 	
 	<tr>
-		<th align="left" scope="row">'.$header.'</th><td>'.$data.'</td>
+		<th align="left" scope="row">'.htmlspecialchars( $header ).'</th><td>'.htmlspecialchars( $data ).'</td>
 	</tr>
 ';
 }
