@@ -791,31 +791,6 @@ namespace WikiFunctions
 
         #region AWB worker functions
         /// <summary>
-        /// Returns true if the article should be skipped based on the text it does or doesn't contain
-        /// </summary>
-        /// <param name="findText">The text to find</param>
-        /// <param name="regEx">True if FindText contains a regular expression</param>
-        /// <param name="caseSensitive">True if the search should be case sensitive</param>
-        /// <param name="doesContain">True if the article should be skipped if it contains the text, false if it should be skipped if it does *not* contain the text</param>
-        /// <returns>A boolean value indicating whether or not the article should be skipped</returns>
-        public bool SkipIfContains(string findText, bool regEx, bool caseSensitive, bool doesContain)
-        {
-            if (findText.Length > 0)
-            {
-                RegexOptions regexOptions = (caseSensitive) ? RegexOptions.None : RegexOptions.IgnoreCase;
-
-                findText = Tools.ApplyKeyWords(Name, findText);
-
-                if (!regEx)
-                    findText = Regex.Escape(findText);
-
-                return (Regex.IsMatch(OriginalArticleText, findText, regexOptions)) ? doesContain : !doesContain;
-            }
-
-            return false;
-        }
-
-        /// <summary>
         /// Disambiguate
         /// </summary>
         /// <returns>True if OK to proceed, false to abort</returns>
