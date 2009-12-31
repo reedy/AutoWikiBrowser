@@ -4,6 +4,7 @@ final class Config {
 	public $dbserver = '';
 	public $dbuser = '';
 	public $dbpass = '';
+	public $dbname = '';
 }
 
 $GlobalConfig = new Config();

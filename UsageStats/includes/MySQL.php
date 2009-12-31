@@ -29,7 +29,7 @@ class DB {
 		
 		global $GlobalConfig, $mysqli;
 		
-		$mysqli = new mysqli($GlobalConfig->dbserver, $GlobalConfig->dbuser, $GlobalConfig->dbpass, "awb");
+		$mysqli = new mysqli($GlobalConfig->dbserver, $GlobalConfig->dbuser, $GlobalConfig->dbpass, $GlobalConfig->dbname);
 	
 		if (!$mysqli) {
 		    dead("Connect failed: " . $mysqli->connect_error());
