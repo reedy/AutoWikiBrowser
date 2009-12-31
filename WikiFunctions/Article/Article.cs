@@ -40,7 +40,7 @@ namespace WikiFunctions
     /// <summary>
     /// A class which represents a wiki article
     /// </summary>
-    public class Article : IProcessArticleEventArgs, IArticleSimple, IComparable<Article>
+    public class Article : IProcessArticleEventArgs, IComparable<Article>
     {
         protected AWBLogListener mAWBLogListener;
         protected string mArticleText = "";
@@ -978,8 +978,6 @@ namespace WikiFunctions
 
         [XmlIgnore]
         public Exists Exists { get; protected set; }
-
-        Article IArticleSimple.Article { get { return this; } }
         #endregion
 
         #region General fixes
@@ -1282,19 +1280,5 @@ namespace WikiFunctions
                 ? dlgArticleAction.Summary + " (" + Variables.SummaryTag.Trim() + ")"
                 : dlgArticleAction.Summary;
         }
-    }
-
-    /// <summary>
-    /// A simple read-only article interface
-    /// </summary>
-    public interface IArticleSimple
-    {
-        Article Article { get; }
-        string Name { get; }
-        int NameSpaceKey { get; }
-        string ArticleText { get; }
-        bool IsStub { get; }
-        bool HasStubTemplate { get; }
-        bool HasInfoBox { get; }
     }
 }
