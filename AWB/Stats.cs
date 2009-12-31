@@ -97,15 +97,16 @@ namespace AutoWikiBrowser
 
     /// <summary>
     /// A class to collect and submit some non-invasive usage stats, to help AWB developers track usage and plan development
-    /// Stats can be viewed at http://awb.kingboyk.com/
-    /// SQL and FTP access is available to Sourceforge-registered AWB developers only: please ask Reedy or Kingboyk for
-    /// the login details.
     /// </summary>
+    /// <remarks>
+    /// Stats can be viewed at http://toolserver.org/~awb/stats/
+    /// ToolServer access is needed to access files/database
+    /// </remarks>
     internal static class UsageStats
     {
         // TODO: Add other stuff we'd like to track. e.g. I'd quite like to know if anybody is using log to file.
 
-        private const string StatsURL = "http://awb.kingboyk.com/";
+        private const string StatsURL = "http://toolserver.org/~awb/stats/";
         private static int RecordId;
         private static int SecretNumber;
         private static int LastEditCount;

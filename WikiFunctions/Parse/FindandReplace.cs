@@ -89,15 +89,14 @@ namespace WikiFunctions.Parse
             rep.Find = f;
             rep.Replace = r;
 
-            rep.RegularExpressionOptions = RegexOptions.None;
             if (!(bool)dataGridRow.Cells["casesensitive"].FormattedValue)
+                rep.RegularExpressionOptions |= RegexOptions.IgnoreCase;
 
-                rep.RegularExpressionOptions = rep.RegularExpressionOptions | RegexOptions.IgnoreCase;
             if ((bool)dataGridRow.Cells["multi"].FormattedValue)
-                rep.RegularExpressionOptions = rep.RegularExpressionOptions | RegexOptions.Multiline;
+                rep.RegularExpressionOptions |= RegexOptions.Multiline;
 
             if ((bool)dataGridRow.Cells["single"].FormattedValue)
-                rep.RegularExpressionOptions = rep.RegularExpressionOptions | RegexOptions.Singleline;
+                rep.RegularExpressionOptions |= RegexOptions.Singleline;
 
             rep.Comment = (string)dataGridRow.Cells["comment"].FormattedValue ?? "";
 
@@ -670,7 +669,10 @@ namespace WikiFunctions.Parse
     /// </summary>
     public class Replacement
     {
-        public Replacement() { }
+        public Replacement()
+        {
+            RegularExpressionOptions = RegexOptions.None;
+        }
 
         public Replacement(string find, string replace, bool isRegex, bool enabled, bool minor, RegexOptions regularExpressionOptions, string comment)
         {
