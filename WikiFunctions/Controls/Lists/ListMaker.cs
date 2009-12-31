@@ -735,6 +735,9 @@ namespace WikiFunctions.Controls.Lists
 
         private Thread _listerThread;
 
+        /// <summary>
+        /// Makes a list of pages from the currently selected item
+        /// </summary>
         public void MakeList()
         {
             MakeList((IListProvider)cmboSourceSelect.SelectedItem,
@@ -751,52 +754,33 @@ namespace WikiFunctions.Controls.Lists
             btnStop.Visible = true;
 
             _providerToRun = provider;
+            _source = sourceValues;
 
             if (_providerToRun.RunOnSeparateThread)
             {
-                _source = sourceValues;
-                _listerThread = new Thread(MakeListPlugin);
+                _listerThread = new Thread(MakeTheListThreaded)
+                                    {
+                                        IsBackground = true
+                                    };
                 _listerThread.SetApartmentState(ApartmentState.STA);
-                _listerThread.IsBackground = true;
                 _listerThread.Start();
             }
             else
-            {
-                BusyStatus = true;
-
-                try
-                {
-                    Add(!provider.UserInputTextBoxEnabled
-                            ? _providerToRun.MakeList(new string[0])
-                            : _providerToRun.MakeList(sourceValues));
-                }
-                catch (FeatureDisabledException fde)
-                {
-                    DisabledListProvider(fde);
-                }
-                catch (LoggedOffException)
-                {
-                    UserLoggedOff();
-                }
-
-                BusyStatus = false;
-                UpdateNumberOfArticles();
-                btnStop.Visible = false;
-            }
-
-            if (FilterNonMainAuto)
-                FilterNonMainArticles();
-            if (FilterDuplicates)
-                RemoveListDuplicates();
+                MakeTheList();
         }
 
-        string[] _source;
-        IListProvider _providerToRun;
+        private string[] _source;
+        private IListProvider _providerToRun;
 
-        private void MakeListPlugin()
+        private void MakeTheListThreaded()
         {
             Thread.CurrentThread.Name = "ListMaker (" + _providerToRun.GetType().Name + ": "
-                + UserInputTextBox.Text + ")";
+                                        + UserInputTextBox.Text + ")";
+            MakeTheList();
+        }
+
+        private void MakeTheList()
+        {
             StartProgressBar();
 
             try
