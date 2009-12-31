@@ -280,7 +280,7 @@ namespace WikiFunctions.Parse
                         for (int j = 0; j < Math.Min(GroupSize, Typos.Count - i * GroupSize); j++)
                         {
                             // don't apply the typo if it matches on a link target
-                            if (!Regex.IsMatch(originalArticleText, @"\[\[[^\[\]\r\n\|]*?" + Typos[i * GroupSize + j].Key.ToString() + @"[^\[\]\r\n\|]*?(?:\]\]|\|)"))
+                            if (!Regex.IsMatch(originalArticleText, @"\[\[[^\[\]\r\n\|]*?" + Typos[i * GroupSize + j].Key + @"[^\[\]\r\n\|]*?(?:\]\]|\|)"))
                                 FixTypo(ref articleText, ref summary, Typos[i * GroupSize + j], articleTitle);
                         }
                     }

@@ -316,11 +316,13 @@ en, sq, ru
                         if (Variables.LangCode == "de" && personData.Length > 0 && interwikis.Length > 0)
                             articleText += "\r\n";
                         break;
+
                     case "pl":
                     case "ru":
                     case "simple":
                         articleText += personData + strStub + categories;
                         break;
+
                     default:
                         articleText += personData + categories + strStub;
                         break;
