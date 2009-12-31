@@ -48,48 +48,6 @@ namespace WikiFunctions.DBScanner
 	
 	//TODO:Update TextContains etc to use Inheritors of IArticleComparer
 
-	/// <summary>
-    /// 
-    /// </summary>
-    public class TextContains : Scan
-    {
-        private readonly Dictionary<string, bool> Conditions;
-
-        public TextContains(Dictionary<string, bool> conditions)
-        {
-            Conditions = conditions;
-        }
-
-        public override bool Check(ArticleInfo article)
-        {
-            foreach(KeyValuePair<string, bool> p in Conditions)
-            {
-                if (article.Text.IndexOf(
-                    Tools.ApplyKeyWords(article.Title, p.Key), p.Value ? StringComparison.Ordinal : StringComparison.OrdinalIgnoreCase) < 0)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-    }
-
-	/// <summary>
-    /// 
-    /// </summary>
-    public class TextDoesNotContain : TextContains
-    {
-        public TextDoesNotContain(Dictionary<string, bool> conditions)
-            : base(conditions)
-        { }
-
-        public override bool Check(ArticleInfo article)
-        {
-            return !base.Check(article);
-        }
-    }
-
     /// <summary>
     /// Returns whether the article matches the provided regexes
     /// </summary>
