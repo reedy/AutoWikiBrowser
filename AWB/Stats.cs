@@ -107,10 +107,13 @@ namespace AutoWikiBrowser
         // TODO: Add other stuff we'd like to track. e.g. I'd quite like to know if anybody is using log to file.
 
         private const string StatsURL = "http://toolserver.org/~awb/stats/";
-        private static int RecordId;
-        private static int SecretNumber;
-        private static int LastEditCount;
+        
+        private static int RecordId,
+            SecretNumber, 
+            LastEditCount;
+
         private static bool SentUserName;
+
         private static readonly List<IAWBPlugin> NewAWBPlugins = new List<IAWBPlugin>();
         private static readonly List<IAWBBasePlugin> NewAWBBasePlugins = new List<IAWBBasePlugin>();
         private static readonly List<IListMakerPlugin> NewListMakerPlugins = new List<IListMakerPlugin>();
