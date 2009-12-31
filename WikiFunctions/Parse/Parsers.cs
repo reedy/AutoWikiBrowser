@@ -3739,7 +3739,19 @@ namespace WikiFunctions.Parse
                 || WikiRegexes.BLPSources.IsMatch(articleText)
                 || RefImprove.IsMatch(articleText)
                 || (!string.IsNullOrEmpty(articleTitle) && parseTalkPage &&
-                    Tools.GetArticleText(Variables.Namespaces[Namespace.Talk] + articleTitle, true).Contains(@"{{WPBiography"));
+                    TryGetArticleText(articleTitle).Contains(@"{{WPBiography"));
+        }
+
+        public static string TryGetArticleText(string title)
+        {
+            try
+            {
+                return Variables.MainForm.TheSession.Editor.SynchronousEditor.Open(title);
+            }
+            catch
+            {
+                return "";
+            }
         }
 
         /// <summary>

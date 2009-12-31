@@ -376,44 +376,6 @@ namespace WikiFunctions
             return text;
         }
 
-        //TODO: replace all usages with ApiEdit
-        /// <summary>
-        /// Gets the wiki text of the given article.
-        /// </summary>
-        /// <param name="articleTitle">The name of the article.</param>
-        /// <param name="returnNullStringOnException"></param>
-        /// <returns>The wiki text of the article.</returns>
-        //[Obsolete("Should be replaced with usage of ApiEdit")]
-        public static string GetArticleText(string articleTitle, bool returnNullStringOnException)
-        {
-            if (!IsValidTitle(articleTitle))
-                return "";
-
-            string url = Variables.GetPlainTextURL(articleTitle);
-            try
-            {
-                return GetHTML(url, Encoding.UTF8);
-            }
-            catch
-            {
-                if (!returnNullStringOnException)
-                    throw new Exception("There was a problem loading " + url + ", please make sure the page exists");
-                
-                return "";
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="articleTitle">Title of the article</param>
-        /// <returns></returns>
-        [Obsolete("Should be replaced with usage of ApiEdit")]
-        public static string GetArticleText(string articleTitle)
-        {
-            return GetArticleText(articleTitle, false);
-        }
-
         #if !MONO
         [DllImport("user32.dll")]
         private static extern void FlashWindow(IntPtr hwnd, bool bInvert);
