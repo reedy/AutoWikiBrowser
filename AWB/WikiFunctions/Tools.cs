@@ -336,7 +336,7 @@ namespace WikiFunctions
 
             if (Encoding.UTF8.GetByteCount(summary) >= maxAvailableSummaryLength)
                 summary = summary.Substring(0, maxAvailableSummaryLength);
-            
+
             return summary;
         }
 
@@ -376,7 +376,7 @@ namespace WikiFunctions
             return text;
         }
 
-        #if !MONO
+#if !MONO
         [DllImport("user32.dll")]
         private static extern void FlashWindow(IntPtr hwnd, bool bInvert);
 
@@ -391,7 +391,7 @@ namespace WikiFunctions
             }
             catch { }
         }
-        #endif
+#endif
 
         // Covered by ToolsTests.CaseInsensitiveStringCompare()
         /// <summary>
@@ -544,7 +544,7 @@ namespace WikiFunctions
                 {
                     words++;
                     do
-                        i++ ;
+                        i++;
                     while (i < text.Length && char.IsLetterOrDigit(text[i]));
                 }
             }
@@ -1905,5 +1905,68 @@ Message: {2}
             }
             return false;
         }
+
+        /// <summary>
+        /// Optionally remove duplicates, and return List as string.
+        /// </summary>
+        /// <param name="items"></param>
+        /// <param name="removeDupes"></param>
+        /// <returns></returns>
+        public static string ListToString(ICollection<string> items, bool removeDupes)
+        {
+            if (items.Count == 0)
+                return "";
+
+            if (removeDupes)
+            {
+                List<string> uniqueItems = new List<string>();
+
+                //remove duplicates
+                foreach (string s in items)
+                {
+                    if (!uniqueItems.Contains(s))
+                        uniqueItems.Add(s);
+                }
+
+                return ListToStringNewlineSeperator(uniqueItems);
+            }
+            return ListToStringNewlineSeperator(items);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="items"></param>
+        /// <returns></returns>
+        public static string ListToStringNewlineSeperator(ICollection<string> items)
+        {
+            StringBuilder builder = new StringBuilder();
+            foreach (string s in items)
+            {
+                builder.AppendLine(s);
+            }
+
+            return builder.ToString();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="items"></param>
+        /// <returns></returns>
+        public static string ListToStringCommaSeparator(ICollection<string> items)
+        {
+            StringBuilder builder = new StringBuilder();
+            foreach (string s in items)
+            {
+                builder.Append(s).AppendFormat(", ");
+            }
+
+            if (builder.Length > 0)
+                builder.Remove(builder.Length - 2, 2);
+
+            return builder.ToString();
+        }
+
     }
 }
