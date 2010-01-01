@@ -4276,6 +4276,9 @@ namespace WikiFunctions.Parse
                 articleText = WikiRegexes.Stub.Replace(articleText, StubChecker).Trim();
                 summary += ", removed Stub tag";
             }
+            
+            // do orphan tagging before template analysis for categorisation tags
+            articleText = TagOrphans(articleText, articleTitle, ref summary);
 
             // skip article if contains any template except for stub templates
             // because templates may provide categories/references
@@ -4368,7 +4371,7 @@ namespace WikiFunctions.Parse
                 summary += ", removed wikify tag";
             }
 
-            return TagOrphans(articleText, articleTitle, ref summary);
+            return articleText;
         }
 
         private static readonly WhatLinksHereExcludingPageRedirectsListProvider WlhProv = new WhatLinksHereExcludingPageRedirectsListProvider(MinIncomingLinksToBeConsideredAnOrphan);
