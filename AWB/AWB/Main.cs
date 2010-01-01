@@ -2254,7 +2254,7 @@ window.scrollTo(0, diffTopY);
                     }
 
                     //Get list of articles not to apply RETF to.
-                    Match noRETF = WikiRegexes.NoGeneralFixes.Match(TheSession.CheckPageText);
+                    Match noRETF = WikiRegexes.NoRETF.Match(TheSession.CheckPageText);
                     if (noRETF.Success)
                     {
                         foreach (Match link in WikiRegexes.UnPipedWikiLink.Matches(noRETF.Value))
