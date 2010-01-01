@@ -5156,12 +5156,11 @@ asdfasdf}} was here", "foo"));
         [Test]
         public void AddOrphan()
         {
+            Globals.UnitTestBoolValue = true;
             // orphan not added if disambig found – skips since a template present
-            string text = parser.Tagger(ShortText + @"{{for|foo|bar}}", "Test", out noChange, ref summary);
+            string text = parser.Tagger(ShortText + @"{{disambig}}", "Test", out noChange, ref summary);
             //Stub, no existing stub tag. Needs all tags
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
-            
-            Globals.UnitTestBoolValue = true;
             
             text = parser.Tagger(ShortText, "Test", out noChange, ref summary);
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
@@ -5291,6 +5290,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         [Test]
         public void General()
         {
+            Globals.UnitTestBoolValue = false;
             Assert.AreEqual("#REDIRECT [[Test]]", parser.Tagger("#REDIRECT [[Test]]", "Test", out noChange, ref summary));
             Assert.IsTrue(noChange);
 
