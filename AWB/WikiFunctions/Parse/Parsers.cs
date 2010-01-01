@@ -2238,9 +2238,9 @@ namespace WikiFunctions.Parse
             
             if(Americans == Internationals)
                 return DateLocale.Undetermined;
-            if(Americans == 0 && Internationals > 0 || ((int) Internationals/Americans > 2 && Internationals > 4))
+            if(Americans == 0 && Internationals > 0 || ((int) Internationals/Americans >= 2 && Internationals > 4))
                 return DateLocale.International;
-            if(Internationals == 0 && Americans > 0 || ((int) Americans/Internationals > 2 && Americans > 4))
+            if(Internationals == 0 && Americans > 0 || ((int) Americans/Internationals >= 2 && Americans > 4))
                 return DateLocale.American;
             
             return DateLocale.Undetermined;
