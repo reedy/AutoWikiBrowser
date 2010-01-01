@@ -1935,5 +1935,10 @@ Message: {2}
             }
             return false;
         }
+
+        public static string ListToStringCommaSeparator(List<string> items)
+        {
+            return string.Join(", ", items.ToArray());
+        }
     }
 }

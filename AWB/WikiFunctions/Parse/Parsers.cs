@@ -4282,6 +4282,9 @@ namespace WikiFunctions.Parse
 
         private static readonly CategoriesOnPageNoHiddenListProvider CategoryProv = new CategoriesOnPageNoHiddenListProvider();
 
+        private readonly List<string> tagsRemoved = new List<string>();
+        private readonly List<string> tagsAdded = new List<string>();
+
         //TODO:Needs re-write
         /// <summary>
         /// If necessary, adds/removes wikify or stub tag
@@ -4295,6 +4298,9 @@ namespace WikiFunctions.Parse
             // don't tag redirects/outside article namespace/no tagging changes
             if (Tools.IsRedirect(articleText) || !Namespace.IsMainSpace(articleTitle))
                 return articleText;
+
+            tagsRemoved.Clear();
+            tagsAdded.Clear();
 
             string commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
             Sorter.Interwikis(ref commentsStripped);
@@ -4310,18 +4316,18 @@ namespace WikiFunctions.Parse
                 WikiRegexes.Expand.IsMatch(commentsStripped))
             {
                 articleText = WikiRegexes.Expand.Replace(articleText, "");
-                summary += ", removed expand tag";
+                tagsRemoved.Add("expand");
             }
 
             // remove stub tags from long articles
             if ((words > StubMaxWordCount) && WikiRegexes.Stub.IsMatch(commentsStripped))
             {
                 articleText = WikiRegexes.Stub.Replace(articleText, StubChecker).Trim();
-                summary += ", removed Stub tag";
+                tagsRemoved.Add("stub");
             }
             
             // do orphan tagging before template analysis for categorisation tags
-            articleText = TagOrphans(articleText, articleTitle, ref summary);
+            articleText = TagOrphans(articleText, articleTitle);
 
             // skip article if contains any template except for stub templates
             // because templates may provide categories/references
@@ -4335,7 +4341,12 @@ namespace WikiFunctions.Parse
                       || WikiRegexes.ReferenceList.IsMatch(m.Value)
                       || WikiRegexes.NewUnReviewedArticle.IsMatch(m.Value)
                       || m.Value.Contains("subst")))
+                {
+
+                    summary = PrepareTaggerEditSummary();
+
                     return articleText;
+                }
             }
 
             double length = articleText.Length + 1,
@@ -4364,55 +4375,57 @@ namespace WikiFunctions.Parse
                     // add uncategorized stub tag
                     articleText +=
                         "\r\n\r\n{{Uncategorizedstub|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
-                    summary += ", added [[:Category:Uncategorized stubs|uncategorised]] tag";
+                    tagsAdded.Add("[[:Category:Uncategorized stubs|uncategorised]]");
                 }
                 else
                 {
                     // add uncategorized tag
                     articleText += "\r\n\r\n{{Uncategorized|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
-                    summary += ", added [[CAT:UNCAT|uncategorised]] tag";
+                    tagsAdded.Add("[[CAT:UNCAT|uncategorised]]");
                 }
             }
             else if (totalCategories > 0
                      && WikiRegexes.Uncat.IsMatch(articleText))
             {
                 articleText = WikiRegexes.Uncat.Replace(articleText, "");
-                summary += ", removed uncategorised tag";
+                tagsRemoved.Add("uncategorised");
             }
 
             if (commentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped))
             {
                 // add stub tag
                 articleText = articleText + "\r\n\r\n\r\n{{stub}}";
-                summary += ", added stub tag";
+                tagsAdded.Add("stub");
             }
 
             if (linkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(articleText))
             {
                 // add dead-end tag
                 articleText = "{{deadend|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
-                summary += ", added [[:Category:Dead-end pages|deadend]] tag";
+                tagsAdded.Add("[[:Category:Dead-end pages|deadend]]");
             }
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#.7B.7BDeadend.7D.7D_gets_removed_from_categorized_pages
             // don't include categories as 'links'
             else if ((linkCount - totalCategories) > 0 && WikiRegexes.DeadEnd.IsMatch(articleText))
             {
                 articleText = WikiRegexes.DeadEnd.Replace(articleText, "");
-                summary += ", removed deadend tag";
+                tagsRemoved.Add("deadend");
             }
 
             if (linkCount < 3 && ((linkCount / length) < 0.0025) && !WikiRegexes.Wikify.IsMatch(articleText))
             {
                 // add wikify tag
                 articleText = "{{Wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
-                summary += ", added [[WP:WFY|wikify]] tag";
+                tagsAdded.Add("[[WP:WFY|wikify]]");
             }
             else if (linkCount > 3 && ((linkCount / length) > 0.0025) &&
                      WikiRegexes.Wikify.IsMatch(articleText))
             {
                 articleText = WikiRegexes.Wikify.Replace(articleText, "");
-                summary += ", removed wikify tag";
+                tagsRemoved.Add("wikify");
             }
+
+            summary = PrepareTaggerEditSummary();
 
             return articleText;
         }
@@ -4426,9 +4439,8 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
-        /// <param name="summary"></param>
         /// <returns></returns>
-        private string TagOrphans(string articleText, string articleTitle, ref string summary)
+        private string TagOrphans(string articleText, string articleTitle)
         {
             // check if not orphaned
             bool orphaned;
@@ -4458,14 +4470,35 @@ namespace WikiFunctions.Parse
                 && !WikiRegexes.Disambigs.IsMatch(articleText))
             {
                 articleText = "{{orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
-                summary += ", added [[CAT:O|orphan]] tag";
+                tagsAdded.Add("[[CAT:O|orphan]]");
             }
             else if (!orphaned && WikiRegexes.Orphan.IsMatch(articleText))
             {
                 articleText = WikiRegexes.Orphan.Replace(articleText, "");
-                summary += ", removed orphan tag";
+                tagsRemoved.Add("orphan");
             }
             return articleText;
+        }
+
+        private string PrepareTaggerEditSummary()
+        {
+            string summary = "";
+            if (tagsRemoved.Count > 0)
+            {
+                summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " tag" +
+                          (tagsRemoved.Count == 1 ? "" : "s");
+            }
+
+            if (tagsAdded.Count > 0)
+            {
+                if (!string.IsNullOrEmpty(summary))
+                    summary += ", ";
+
+                summary += "added " + Tools.ListToStringCommaSeparator(tagsAdded) + " tag" +
+                          (tagsAdded.Count == 1 ? "" : "s");
+            }
+
+            return summary;
         }
 
         /// <summary>
