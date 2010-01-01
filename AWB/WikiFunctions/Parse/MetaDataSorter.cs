@@ -415,7 +415,7 @@ en, sq, ru
                 }
             }
 
-            return defaultSort + Tools.ListToString(categoryList) + lifetime;
+            return defaultSort + Tools.ListToString(categoryList, true) + lifetime;
         }
         
         /// <summary>
@@ -499,7 +499,7 @@ en, sq, ru
             articleText = sb.ToString();
 
             stubList.Reverse();
-            return (stubList.Count != 0) ? Tools.ListToString(stubList) : "";
+            return (stubList.Count != 0) ? Tools.ListToString(stubList, true) : "";
         }
 
         /// <summary>
@@ -755,7 +755,7 @@ en, sq, ru
 
             articleText = hider.Hide(articleText);
 
-            string interWikis = Tools.ListToString(RemoveLinkFGAs(ref articleText)) + Tools.ListToString(RemoveInterWikis(ref articleText));
+            string interWikis = Tools.ListToString(RemoveLinkFGAs(ref articleText), true) + Tools.ListToString(RemoveInterWikis(ref articleText), true);
 
             articleText = hider.AddBack(articleText);
 
