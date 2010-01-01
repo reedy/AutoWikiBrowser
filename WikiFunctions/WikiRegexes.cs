@@ -438,6 +438,9 @@ namespace WikiFunctions
         public static Regex AmericanDates;
         public static Regex InternationalDates;
         
+        // strictly should accept year form 1583
+        public static readonly Regex ISODates = new Regex(@"\b(20[0-2]\d|1[6-9]\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\b", RegexOptions.Compiled);
+        
         /// <summary>
         /// Matchehthee {{talk header}} templates and its redirects
         /// </summary>

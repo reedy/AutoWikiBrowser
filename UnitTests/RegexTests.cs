@@ -337,6 +337,23 @@ bar</ POEM>");
             
             Assert.AreEqual(WikiRegexes.UseDatesTemplate.Match( @"{{use mdy dates}}").Groups[1].Value, "mdy");
         }
+        
+        [Test]
+        public void ISODates()
+        {
+            TestMatch(WikiRegexes.ISODates, @"on 2009-12-11 a", true);
+            TestMatch(WikiRegexes.ISODates, @"on 2009-12-01 a", true);
+            TestMatch(WikiRegexes.ISODates, @"on 2009-12-21 a", true);
+            TestMatch(WikiRegexes.ISODates, @"on 2009-08-31 a", true);
+            TestMatch(WikiRegexes.ISODates, @"BC]] |date=2003-10-19 }}", true);
+            
+            TestMatch(WikiRegexes.ISODates, @"on 1009-12-11 a", false);
+            TestMatch(WikiRegexes.ISODates, @"on 2209-12-11 a", false);
+            TestMatch(WikiRegexes.ISODates, @"on 2009-14-11 a", false);
+            TestMatch(WikiRegexes.ISODates, @"on 2009-2-11 a", false);
+            TestMatch(WikiRegexes.ISODates, @"on 2009-08-33 a", false);
+            TestMatch(WikiRegexes.ISODates, @"on 2009/08/31 a", false);
+        }
 
         [Test]
         public void ImageMapTests()
