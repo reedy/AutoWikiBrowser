@@ -5166,6 +5166,9 @@ asdfasdf}} was here", "foo"));
             text = parser.Tagger(ShortText, "Test", out noChange, ref summary);
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
             
+            text = parser.Tagger(@"{{Infobox foo bar|great=yes}}" + ShortText, "Test", out noChange, ref summary);
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+            
             Globals.UnitTestBoolValue = false;
             
             text = parser.Tagger(ShortText, "Test", out noChange, ref summary);
@@ -5262,6 +5265,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         [Test]
         public void UpdateCitationNeededTag()
         {
+            Globals.UnitTestBoolValue = false;
             string text = parser.Tagger("{{citation needed}}", "Test", out noChange, ref summary);
             Assert.AreEqual(text, @"{{citation needed|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
 
