@@ -4410,8 +4410,9 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            // add orphan tag if applicable
-            if (orphaned && !WikiRegexes.Orphan.IsMatch(articleText) && !WikiRegexes.OrphanArticleIssues.IsMatch(articleText))
+            // add orphan tag if applicable, and no disambig
+            if (orphaned && !WikiRegexes.Orphan.IsMatch(articleText) && !WikiRegexes.OrphanArticleIssues.IsMatch(articleText)
+                && !WikiRegexes.Disambigs.IsMatch(articleText))
             {
                 articleText = "{{orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
                 summary += ", added [[CAT:O|orphan]] tag";
