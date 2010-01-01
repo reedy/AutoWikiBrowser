@@ -303,6 +303,7 @@ now").Value);
             RegexAssert.IsMatch(WikiRegexes.InternationalDates, @"On 1 July 1809");
             
             RegexAssert.NoMatch(WikiRegexes.InternationalDates, @"On 11 July 44");
+            RegexAssert.NoMatch(WikiRegexes.InternationalDates, @"On July 11, 2009 a");
         }
         
         [Test]
@@ -313,6 +314,65 @@ now").Value);
             RegexAssert.IsMatch(WikiRegexes.AmericanDates, @"On July 11,  1809 a");
             
             RegexAssert.NoMatch(WikiRegexes.AmericanDates, @"On July 11, 29 a");
+            RegexAssert.NoMatch(WikiRegexes.AmericanDates, @"On 11 July 2009");
         }
+        
+        [Test]
+        public void MonthDay()
+        {
+            RegexAssert.IsMatch(WikiRegexes.MonthDay, @"On July 11, 2009 a");
+            RegexAssert.IsMatch(WikiRegexes.MonthDay, @"On July 11 a");
+            RegexAssert.IsMatch(WikiRegexes.MonthDay, @"On July 11–12 a");
+            RegexAssert.IsMatch(WikiRegexes.MonthDay, @"On July 11,  1809 a");
+            
+            RegexAssert.NoMatch(WikiRegexes.MonthDay, @"In July 07, a");
+            RegexAssert.NoMatch(WikiRegexes.MonthDay, @"In July 2007, a");
+        }
+        
+        [Test]
+        public void DayMonth()
+        {
+            RegexAssert.IsMatch(WikiRegexes.DayMonth, @"On 11 July, 2009 a");
+            RegexAssert.IsMatch(WikiRegexes.DayMonth, @"On 11 July 2009 a");
+            RegexAssert.IsMatch(WikiRegexes.DayMonth, @"On 11 July a");
+            RegexAssert.IsMatch(WikiRegexes.DayMonth, @"On 11–12 July a");
+            RegexAssert.IsMatch(WikiRegexes.DayMonth, @"On 11 July,  1809 a");
+            
+            RegexAssert.NoMatch(WikiRegexes.DayMonth, @"In 07 July, a");
+            RegexAssert.NoMatch(WikiRegexes.DayMonth, @"In July 27, a");
+        }
+        
+        [Test]
+        public void MonthDayRangeSpan()
+        {
+            RegexAssert.IsMatch(WikiRegexes.MonthDayRangeSpan, @"On July 11–12 a");
+            RegexAssert.IsMatch(WikiRegexes.MonthDayRangeSpan, @"On July 11–12, 2004 a");
+             RegexAssert.IsMatch(WikiRegexes.MonthDayRangeSpan, @"On July 11–12 2004 a");
+            RegexAssert.IsMatch(WikiRegexes.MonthDayRangeSpan, @"On July 11&ndash;12 a");
+            RegexAssert.IsMatch(WikiRegexes.MonthDayRangeSpan, @"On July 11{{ndash}}12 a");
+            RegexAssert.IsMatch(WikiRegexes.MonthDayRangeSpan, @"On July 11/12 a");
+            
+            RegexAssert.NoMatch(WikiRegexes.MonthDayRangeSpan, @"On July 11-12 a");
+            RegexAssert.NoMatch(WikiRegexes.MonthDayRangeSpan, @"On July 1112 a");
+            RegexAssert.NoMatch(WikiRegexes.MonthDayRangeSpan, @"On July 11 12 a");
+            RegexAssert.NoMatch(WikiRegexes.MonthDayRangeSpan, @"On 11–12 July a");
+        }
+        
+        [Test]
+        public void DayMonthRangeSpan()
+        {
+            RegexAssert.IsMatch(WikiRegexes.DayMonthRangeSpan, @"On 11–12 July a");
+            RegexAssert.IsMatch(WikiRegexes.DayMonthRangeSpan, @"On 11–12 July, 2004 a");
+            RegexAssert.IsMatch(WikiRegexes.DayMonthRangeSpan, @"On 11&ndash;12 July a");
+            RegexAssert.IsMatch(WikiRegexes.DayMonthRangeSpan, @"On 11{{ndash}}12 July a");
+            RegexAssert.IsMatch(WikiRegexes.DayMonthRangeSpan, @"On 11/12 July a");
+            
+            RegexAssert.NoMatch(WikiRegexes.DayMonthRangeSpan, @"On 11-12 July a");
+            RegexAssert.NoMatch(WikiRegexes.DayMonthRangeSpan, @"On 1112 July a");
+            RegexAssert.NoMatch(WikiRegexes.DayMonthRangeSpan, @"On  11 12 July a");
+            RegexAssert.NoMatch(WikiRegexes.DayMonthRangeSpan, @"On July 11–12 a");
+        }
+            
+           
     }
 }

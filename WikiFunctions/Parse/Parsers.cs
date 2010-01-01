@@ -2183,41 +2183,68 @@ namespace WikiFunctions.Parse
             return articleText;
         }
         
+        /// <summary>
+        /// The in-use date formats on Wikipedia
+        /// </summary>
         public enum DateLocale { International, American, ISO, Undetermined };
         
+        /// <summary>
+        /// Determines the predominant date format in the article text (American/International), if available
+        /// </summary>
+        /// <param name="articleText">the article text</param>
+        /// <returns>The date locale determined</returns>
         public static DateLocale DeterminePredominantDateLocale(string articleText)
-          {
-              // first check for template telling us the preference
-              string DatesT = WikiRegexes.UseDatesTemplate.Match(articleText).Groups[1].Value;
-
-              if (DatesT.Length > 0)
-              {
-                  switch (DatesT)
-                  {
-                      case "dmy":
-                          return DateLocale.International;
-                      case "mdy":
-                          return DateLocale.American;
-                      case "ymd":
-                          return DateLocale.ISO;
-                      default:
-                          return DateLocale.Undetermined;
-                  }
-              }
-
+        {
+            return DeterminePredominantDateLocale(articleText, false);
+        }
+        
+        /// <summary>
+        /// Determines the predominant date format in the article text (American/International/ISO), if available
+        /// </summary>
+        /// <param name="articleText">the article text</param>
+        /// <param name="considerISO">whether to consider ISO as a possible predominant date format</param>
+        /// <returns>The date locale determined</returns>
+        public static DateLocale DeterminePredominantDateLocale(string articleText, bool considerISO)
+        {
+            // first check for template telling us the preference
+            string DatesT = WikiRegexes.UseDatesTemplate.Match(articleText).Groups[1].Value;
+            
+            if(DatesT.Length > 0)
+            {
+                switch (DatesT)
+                {
+                    case "dmy":
+                        return DateLocale.International;
+                    case "mdy":
+                        return DateLocale.American;
+                    case "ymd":
+                        return DateLocale.ISO;
+                    default:
+                        return DateLocale.Undetermined;
+                }
+            }
+            
             // secondly count the American and International dates
-              int Americans = WikiRegexes.AmericanDates.Matches(articleText).Count;
-              int Internationals = WikiRegexes.InternationalDates.Matches(articleText).Count;
-              
-              if(Americans == Internationals)
-                  return DateLocale.Undetermined;
-              if(Americans == 0 && Internationals > 0 || (Internationals/Americans > 2 && Internationals > 4))
-                  return DateLocale.International;
-              if(Internationals == 0 && Americans > 0 || (Americans/Internationals > 2 && Americans > 4))
-                  return DateLocale.American;
-              
-              return DateLocale.Undetermined;
-          }
+            int Americans = WikiRegexes.MonthDay.Matches(articleText).Count;
+            int Internationals = WikiRegexes.DayMonth.Matches(articleText).Count;
+            
+            if(considerISO)
+            {
+                int ISOs = WikiRegexes.ISODates.Matches(articleText).Count;
+                
+                if(ISOs > Americans && ISOs > Internationals)
+                    return DateLocale.ISO;
+            }
+            
+            if(Americans == Internationals)
+                return DateLocale.Undetermined;
+            if(Americans == 0 && Internationals > 0 || ((int) Internationals/Americans > 2 && Internationals > 4))
+                return DateLocale.International;
+            if(Internationals == 0 && Americans > 0 || ((int) Americans/Internationals > 2 && Americans > 4))
+                return DateLocale.American;
+            
+            return DateLocale.Undetermined;
+        }
 
         // Covered by: LinkTests.TestCanonicalizeTitle(), incomplete
         /// <summary>
@@ -4286,9 +4313,6 @@ namespace WikiFunctions.Parse
 
         private static readonly CategoriesOnPageNoHiddenListProvider CategoryProv = new CategoriesOnPageNoHiddenListProvider();
 
-        private readonly List<string> tagsRemoved = new List<string>();
-        private readonly List<string> tagsAdded = new List<string>();
-
         //TODO:Needs re-write
         /// <summary>
         /// If necessary, adds/removes wikify or stub tag
@@ -4302,9 +4326,6 @@ namespace WikiFunctions.Parse
             // don't tag redirects/outside article namespace/no tagging changes
             if (Tools.IsRedirect(articleText) || !Namespace.IsMainSpace(articleTitle))
                 return articleText;
-
-            tagsRemoved.Clear();
-            tagsAdded.Clear();
 
             string commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
             Sorter.Interwikis(ref commentsStripped);
@@ -4320,18 +4341,18 @@ namespace WikiFunctions.Parse
                 WikiRegexes.Expand.IsMatch(commentsStripped))
             {
                 articleText = WikiRegexes.Expand.Replace(articleText, "");
-                tagsRemoved.Add("expand");
+                summary += ", removed expand tag";
             }
 
             // remove stub tags from long articles
             if ((words > StubMaxWordCount) && WikiRegexes.Stub.IsMatch(commentsStripped))
             {
                 articleText = WikiRegexes.Stub.Replace(articleText, StubChecker).Trim();
-                tagsRemoved.Add("stub");
+                summary += ", removed Stub tag";
             }
             
             // do orphan tagging before template analysis for categorisation tags
-            articleText = TagOrphans(articleText, articleTitle);
+            articleText = TagOrphans(articleText, articleTitle, ref summary);
 
             // skip article if contains any template except for stub templates
             // because templates may provide categories/references
@@ -4345,12 +4366,7 @@ namespace WikiFunctions.Parse
                       || WikiRegexes.ReferenceList.IsMatch(m.Value)
                       || WikiRegexes.NewUnReviewedArticle.IsMatch(m.Value)
                       || m.Value.Contains("subst")))
-                {
-
-                    summary = PrepareTaggerEditSummary();
-
                     return articleText;
-                }
             }
 
             double length = articleText.Length + 1,
@@ -4379,57 +4395,55 @@ namespace WikiFunctions.Parse
                     // add uncategorized stub tag
                     articleText +=
                         "\r\n\r\n{{Uncategorizedstub|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
-                    tagsAdded.Add("[[:Category:Uncategorized stubs|uncategorised]]");
+                    summary += ", added [[:Category:Uncategorized stubs|uncategorised]] tag";
                 }
                 else
                 {
                     // add uncategorized tag
                     articleText += "\r\n\r\n{{Uncategorized|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
-                    tagsAdded.Add("[[CAT:UNCAT|uncategorised]]");
+                    summary += ", added [[CAT:UNCAT|uncategorised]] tag";
                 }
             }
             else if (totalCategories > 0
                      && WikiRegexes.Uncat.IsMatch(articleText))
             {
                 articleText = WikiRegexes.Uncat.Replace(articleText, "");
-                tagsRemoved.Add("uncategorised");
+                summary += ", removed uncategorised tag";
             }
 
             if (commentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped))
             {
                 // add stub tag
                 articleText = articleText + "\r\n\r\n\r\n{{stub}}";
-                tagsAdded.Add("stub");
+                summary += ", added stub tag";
             }
 
             if (linkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(articleText))
             {
                 // add dead-end tag
                 articleText = "{{deadend|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
-                tagsAdded.Add("[[:Category:Dead-end pages|deadend]]");
+                summary += ", added [[:Category:Dead-end pages|deadend]] tag";
             }
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#.7B.7BDeadend.7D.7D_gets_removed_from_categorized_pages
             // don't include categories as 'links'
             else if ((linkCount - totalCategories) > 0 && WikiRegexes.DeadEnd.IsMatch(articleText))
             {
                 articleText = WikiRegexes.DeadEnd.Replace(articleText, "");
-                tagsRemoved.Add("deadend");
+                summary += ", removed deadend tag";
             }
 
             if (linkCount < 3 && ((linkCount / length) < 0.0025) && !WikiRegexes.Wikify.IsMatch(articleText))
             {
                 // add wikify tag
                 articleText = "{{Wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
-                tagsAdded.Add("[[WP:WFY|wikify]]");
+                summary += ", added [[WP:WFY|wikify]] tag";
             }
             else if (linkCount > 3 && ((linkCount / length) > 0.0025) &&
                      WikiRegexes.Wikify.IsMatch(articleText))
             {
                 articleText = WikiRegexes.Wikify.Replace(articleText, "");
-                tagsRemoved.Add("wikify");
+                summary += ", removed wikify tag";
             }
-
-            summary = PrepareTaggerEditSummary();
 
             return articleText;
         }
@@ -4443,8 +4457,9 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
+        /// <param name="summary"></param>
         /// <returns></returns>
-        private string TagOrphans(string articleText, string articleTitle)
+        private string TagOrphans(string articleText, string articleTitle, ref string summary)
         {
             // check if not orphaned
             bool orphaned;
@@ -4474,35 +4489,14 @@ namespace WikiFunctions.Parse
                 && !WikiRegexes.Disambigs.IsMatch(articleText))
             {
                 articleText = "{{orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
-                tagsAdded.Add("[[CAT:O|orphan]]");
+                summary += ", added [[CAT:O|orphan]] tag";
             }
             else if (!orphaned && WikiRegexes.Orphan.IsMatch(articleText))
             {
                 articleText = WikiRegexes.Orphan.Replace(articleText, "");
-                tagsRemoved.Add("orphan");
+                summary += ", removed orphan tag";
             }
             return articleText;
-        }
-
-        private string PrepareTaggerEditSummary()
-        {
-            string summary = "";
-            if (tagsRemoved.Count > 0)
-            {
-                summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " tag" +
-                          (tagsRemoved.Count == 1 ? "" : "s");
-            }
-
-            if (tagsAdded.Count > 0)
-            {
-                if (!string.IsNullOrEmpty(summary))
-                    summary += ", ";
-
-                summary += "added " + Tools.ListToStringCommaSeparator(tagsAdded) + " tag" +
-                          (tagsAdded.Count == 1 ? "" : "s");
-            }
-
-            return summary;
         }
 
         /// <summary>

@@ -75,9 +75,16 @@ namespace WikiFunctions
             Dates = new Regex("^(0?[1-9]|[12][0-9]|3[01]) " + Months + "$", RegexOptions.Compiled);
             Dates2 = new Regex("^" + Months + " (0?[1-9]|[12][0-9]|3[01])$", RegexOptions.Compiled);
             
-            InternationalDates = new Regex(@"\b(0?[1-9]|[12][0-9]|3[01]) +" + MonthsNoGroup + @" +[12]\d{3}\b", RegexOptions.Compiled);
-            AmericanDates = new Regex(MonthsNoGroup + @" +(0?[1-9]|[12][0-9]|3[01]),? +[12]\d{3}\b", RegexOptions.Compiled);
+            InternationalDates = new Regex(@"\b([1-9]|[12][0-9]|3[01]) +" + Months + @" +([12]\d{3})\b", RegexOptions.Compiled);
+            AmericanDates = new Regex(Months + @" +([1-9]|[12][0-9]|3[01]),? +([12]\d{3})\b", RegexOptions.Compiled);
 
+            DayMonth = new Regex(@"\b([1-9]|[12][0-9]|3[01]) +" + Months + @"\b", RegexOptions.Compiled);
+            MonthDay = new Regex(Months + @" +([1-9]|[12][0-9]|3[01])\b", RegexOptions.Compiled);
+            
+            DayMonthRangeSpan = new Regex(@"\b((?:[1-9]|[12][0-9]|3[01])(?:–|&ndash;|{{ndash}}|\/)(?:[1-9]|[12][0-9]|3[01])) " + Months + @"\b", RegexOptions.Compiled);
+            
+            MonthDayRangeSpan = new Regex(Months + @" ((?:[1-9]|[12][0-9]|3[01])(?:–|&ndash;|{{ndash}}|\/)(?:[1-9]|[12][0-9]|3[01]))\b", RegexOptions.Compiled);
+            
             string s = Variables.MagicWords.ContainsKey("redirect")
                 ? string.Join("|", Variables.MagicWords["redirect"].ToArray()).Replace("#", "")
                     : "REDIRECT";
@@ -435,11 +442,41 @@ namespace WikiFunctions
         
         public static readonly Regex UseDatesTemplate = new Regex(@"{{\s*[Uu]se (dmy|mdy|ymd) dates\s*}}", RegexOptions.Compiled);
         
+        /// <summary>
+        /// Matches dates in American format – "Month dd, YYYY"
+        /// </summary>
         public static Regex AmericanDates;
+        
+        /// <summary>
+        /// Matches dates in International format – "dd Month YYYY"
+        /// </summary>
         public static Regex InternationalDates;
         
+        /// <summary>
+        /// Matches month day combinations in American format – "Month dd"
+        /// </summary>
+        public static Regex MonthDay;
+        
+        /// <summary>
+        /// Matches day month combinations in International format – "dd Month"
+        /// </summary>
+        public static Regex DayMonth;
+        
+        /// <summary>
+        /// Matches month day ranges – "May 13–17"
+        /// </summary>
+        public static Regex MonthDayRangeSpan;
+        
+        /// <summary>
+        /// Matches day month ranges – "13–17 May"
+        /// </summary>
+        public static Regex DayMonthRangeSpan;
+        
         // strictly should accept year form 1583
-        public static readonly Regex ISODates = new Regex(@"\b(20[0-2]\d|1[6-9]\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\b", RegexOptions.Compiled);
+        /// <summary>
+        /// Matches ISO 8601 format dates – YYYY-DD-MM – between 1600 and 2099
+        /// </summary>
+        public static readonly Regex ISODates = new Regex(@"\b(20\d\d|1[6-9]\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\b", RegexOptions.Compiled);
         
         /// <summary>
         /// Matchehthee {{talk header}} templates and its redirects
