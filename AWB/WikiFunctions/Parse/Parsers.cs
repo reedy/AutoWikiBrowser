@@ -1364,6 +1364,17 @@ namespace WikiFunctions.Parse
         public string Mdashes(string articleText, string articleTitle, int nameSpaceKey)
         {
             articleText = HideMoreText(articleText);
+            
+            // replace hyphen with dash and convert Pp. to pp.
+            foreach (Match m in PageRangeIncorrectMdash.Matches(articleText))
+            {
+                string pagespart = m.Groups[1].Value;
+                if (pagespart.Contains(@"Pp"))
+                    pagespart = pagespart.ToLower();
+          
+                articleText = articleText.Replace(m.Value, pagespart + m.Groups[2].Value + @"–" + m.Groups[3].Value);
+            }
+            
             articleText = PageRangeIncorrectMdash.Replace(articleText, @"$1$2–$3");
             articleText = UnitTimeRangeIncorrectMdash.Replace(articleText, @"$1–$2$3$4");
             articleText = DollarAmountIncorrectMdash.Replace(articleText, @"$1–$2");
