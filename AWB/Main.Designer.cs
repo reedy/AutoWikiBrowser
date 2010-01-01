@@ -3619,6 +3619,7 @@ namespace AutoWikiBrowser
             this.AlertGroup.TabIndex = 5;
             this.AlertGroup.TabStop = false;
             this.AlertGroup.Text = "Alerts";
+            this.ToolTip.SetToolTip(this.AlertGroup, "Displays alerts for the current page over problems in the page text that may require manual correction");
             // 
             // lbDuplicateWikilinks
             // 
@@ -3662,6 +3663,7 @@ namespace AutoWikiBrowser
             this.SummaryGroup.TabIndex = 4;
             this.SummaryGroup.TabStop = false;
             this.SummaryGroup.Text = "Page statistics";
+            this.ToolTip.SetToolTip(this.SummaryGroup, "Displays statistics on the current page");
             // 
             // lblWords
             // 
