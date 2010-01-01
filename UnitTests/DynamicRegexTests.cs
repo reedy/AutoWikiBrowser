@@ -294,5 +294,25 @@ now stubborn}}");
 now").Value);
 
         }
+        
+        [Test]
+        public void InternationalDates()
+        {
+            RegexAssert.IsMatch(WikiRegexes.InternationalDates, @"On 11 July 2009");
+            RegexAssert.IsMatch(WikiRegexes.InternationalDates, @"On 11 July  2009");
+            RegexAssert.IsMatch(WikiRegexes.InternationalDates, @"On 1 July 1809");
+            
+            RegexAssert.NoMatch(WikiRegexes.InternationalDates, @"On 11 July 44");
+        }
+        
+        [Test]
+        public void AmericanDates()
+        {
+            RegexAssert.IsMatch(WikiRegexes.AmericanDates, @"On July 11, 2009 a");
+            RegexAssert.IsMatch(WikiRegexes.AmericanDates, @"On July 11 2009 a");
+            RegexAssert.IsMatch(WikiRegexes.AmericanDates, @"On July 11,  1809 a");
+            
+            RegexAssert.NoMatch(WikiRegexes.AmericanDates, @"On July 11, 29 a");
+        }
     }
 }

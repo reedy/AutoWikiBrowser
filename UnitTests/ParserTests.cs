@@ -3389,6 +3389,20 @@ was"));
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Overzealous_de-ordinaling
             Assert.AreEqual(@"On 27 June 2nd and 3rd Panzer Groups", parser.FixDateOrdinalsAndOf(@"On 27 June 2nd and 3rd Panzer Groups", "test"));
         }
+        
+        [Test]
+        public void DeterminePredominantDateLocale()
+        {
+            string none = @"hello", American1 = @"On July 17, 2009 a", International1 = @"on 17 July 2009 a";
+            string ISO = @"now {{use ymd dates}} here", American2 = @"now {{use mdy dates}} here", International2 = @"{{use dmy dates}}";
+            
+            Assert.AreEqual(Parsers.DateLocale.Undetermined, Parsers.DeterminePredominantDateLocale(none));
+            Assert.AreEqual(Parsers.DateLocale.American, Parsers.DeterminePredominantDateLocale(American1));
+            Assert.AreEqual(Parsers.DateLocale.International, Parsers.DeterminePredominantDateLocale(International1));
+            Assert.AreEqual(Parsers.DateLocale.American, Parsers.DeterminePredominantDateLocale(American2));
+            Assert.AreEqual(Parsers.DateLocale.International, Parsers.DeterminePredominantDateLocale(International2));
+            Assert.AreEqual(Parsers.DateLocale.ISO, Parsers.DeterminePredominantDateLocale(ISO));            
+        }
     }
 
     [TestFixture]
@@ -5559,19 +5573,6 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             // don't remove 'update'field
             const string a3 = @"{{Article issues|wikfy=May 2008|COI=May 2008|update=May 2008}}";
             Assert.AreEqual(a3, Parsers.Conversions(a3));
-        }
-
-        [Test]
-        public void NullTemplateParameterRemoval()
-        {
-            Assert.AreEqual(@"{{Article issues}}", Parsers.Conversions(@"{{Article issues|}}"));
-            Assert.AreEqual(@"{{Article issues|POV=May 2008}}", Parsers.Conversions(@"{{Article issues||POV=May 2008}}"));
-            Assert.AreEqual(@"{{Article issues|POV=May 2008}}", Parsers.Conversions(@"{{Article issues|  |POV=May 2008}}"));
-
-
-            Assert.AreEqual(@"{{cite web|url=http://www.site.com|title=hello}}", Parsers.Conversions(@"{{cite web||url=http://www.site.com|title=hello}}"));
-            Assert.AreEqual(@"{{cite web|url=http://www.site.com|title=hello}}", Parsers.Conversions(@"{{cite web|url=http://www.site.com|title=hello|}}"));
-            Assert.AreEqual(@"{{cite web|url=http://www.site.com|title=hello}}", Parsers.Conversions(@"{{cite web|url=http://www.site.com|  |title=hello}}"));
         }
     }
 }

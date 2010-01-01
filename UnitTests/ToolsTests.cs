@@ -971,5 +971,20 @@ Jones", "*"));
             Assert.AreEqual(1, Tools.LinkCount(@"[[foo]]"));
             Assert.AreEqual(2, Tools.LinkCount(@"[[foo]]s and [[barbie|bar]]"));
         }
+        
+        [Test]
+        public void ISOToDate()
+        {
+            string iso = @"2009-06-11", iso2 = @"1890-07-04";
+            Assert.AreEqual(@"11 June 2009", Tools.ISOToDate(iso, Parsers.DateLocale.International));
+            Assert.AreEqual(@"June 11, 2009", Tools.ISOToDate(iso, Parsers.DateLocale.American));
+            Assert.AreEqual(iso, Tools.ISOToDate(iso, Parsers.DateLocale.ISO));
+            Assert.AreEqual(iso, Tools.ISOToDate(iso, Parsers.DateLocale.Undetermined));
+            Assert.AreEqual(@"4 July 1890", Tools.ISOToDate(iso2, Parsers.DateLocale.International));
+            
+            // handles incorect format
+            string wrong = @"foo";
+            Assert.AreEqual(wrong, Tools.ISOToDate(wrong, Parsers.DateLocale.International));
+        }
     }
 }
