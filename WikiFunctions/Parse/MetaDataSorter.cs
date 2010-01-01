@@ -415,7 +415,7 @@ en, sq, ru
                 }
             }
 
-            return defaultSort + ListToString(categoryList) + lifetime;
+            return defaultSort + Tools.ListToString(categoryList) + lifetime;
         }
         
         /// <summary>
@@ -499,7 +499,7 @@ en, sq, ru
             articleText = sb.ToString();
 
             stubList.Reverse();
-            return (stubList.Count != 0) ? ListToString(stubList) : "";
+            return (stubList.Count != 0) ? Tools.ListToString(stubList) : "";
         }
 
         /// <summary>
@@ -755,7 +755,7 @@ en, sq, ru
 
             articleText = hider.Hide(articleText);
 
-            string interWikis = ListToString(RemoveLinkFGAs(ref articleText)) + ListToString(RemoveInterWikis(ref articleText));
+            string interWikis = Tools.ListToString(RemoveLinkFGAs(ref articleText)) + Tools.ListToString(RemoveInterWikis(ref articleText));
 
             articleText = hider.AddBack(articleText);
 
@@ -809,36 +809,6 @@ en, sq, ru
         {
             string[] textArray = new[] { "[[", match.Groups["site"].ToString().ToLower(), ":", match.Groups["text"].ToString(), "]]" };
             return string.Concat(textArray);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="items"></param>
-        /// <returns></returns>
-        private static string ListToString(ICollection<string> items)
-        {//remove duplicates, and return List as string.
-
-            if (items.Count == 0)
-                return "";
-
-            List<string> uniqueItems = new List<string>();
-
-            //remove duplicates
-            foreach (string s in items)
-            {
-                if (!uniqueItems.Contains(s))
-                    uniqueItems.Add(s);
-            }
-
-            StringBuilder list = new StringBuilder();
-            //add to string
-            foreach (string s in uniqueItems)
-            {
-                list.AppendLine(s);
-            }
-
-            return list.ToString();
         }
 
         /// <summary>
