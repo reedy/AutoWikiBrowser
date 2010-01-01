@@ -268,7 +268,7 @@ namespace WikiFunctions.Controls.Lists
             this.lblOnly2.Name = "lblOnly2";
             this.lblOnly2.Size = new System.Drawing.Size(83, 13);
             this.lblOnly2.TabIndex = 21;
-            this.lblOnly2.Text = "Unqiue in List 2:";
+            this.lblOnly2.Text = "Unique in List 2:";
             // 
             // lblNo2
             // 
