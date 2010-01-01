@@ -2182,6 +2182,38 @@ namespace WikiFunctions.Parse
 
             return articleText;
         }
+        
+        public enum DateLocale { International, American, ISO, Undetermined };
+        
+        public static DateLocale DeterminePredominantDateLocale(string articleText)
+          {
+              // first check for template telling us the preference
+              string DatesT = WikiRegexes.UseDatesTemplate.Match(articleText).Groups[1].Value;
+              
+              if(DatesT.Length > 0)
+              {
+                  if(DatesT == "dmy")
+                      return DateLocale.International;
+                  else if (DatesT == "mdy")
+                      return DateLocale.American;
+                  else if (DatesT == "ymd")
+                      return DateLocale.ISO;
+                  else return DateLocale.Undetermined;
+              }
+              
+              // secondly count the American and International dates
+              int Americans = WikiRegexes.AmericanDates.Matches(articleText).Count;
+              int Internationals = WikiRegexes.InternationalDates.Matches(articleText).Count;
+              
+              if(Americans == Internationals)
+                  return DateLocale.Undetermined;
+              if(Americans == 0 && Internationals > 0 || ((int) Internationals/Americans > 2 && Internationals > 4))
+                  return DateLocale.International;
+              if(Internationals == 0 && Americans > 0 || ((int) Americans/Internationals > 2 && Americans > 4))
+                  return DateLocale.American;
+              
+              return DateLocale.Undetermined;
+          }
 
         // Covered by: LinkTests.TestCanonicalizeTitle(), incomplete
         /// <summary>

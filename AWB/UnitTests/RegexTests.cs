@@ -327,6 +327,16 @@ bar</ POEM>");
             TestMatch(WikiRegexes.Persondata, pd1, pd1);
             TestMatch(WikiRegexes.Persondata, pd2, pd2);
         }
+        
+        [Test]
+        public void UseDatesTemplateTests()
+        {
+            TestMatch(WikiRegexes.UseDatesTemplate, @"{{use mdy dates}}", true);
+            TestMatch(WikiRegexes.UseDatesTemplate, @"{{ Use dmy dates}}", true);
+            TestMatch(WikiRegexes.UseDatesTemplate, @"{{use ymd dates}}", true);
+            
+            Assert.AreEqual(WikiRegexes.UseDatesTemplate.Match( @"{{use mdy dates}}").Groups[1].Value, "mdy");
+        }
 
         [Test]
         public void ImageMapTests()

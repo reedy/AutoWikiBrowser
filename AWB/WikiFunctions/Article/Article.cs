@@ -314,6 +314,13 @@ namespace WikiFunctions
         [XmlIgnore]
         public bool IsMissingReferencesDisplay
         { get { return Parsers.IsMissingReferencesDisplay(mArticleText); } }
+        
+        /// <summary>
+        /// Returns the predominant date locale of the article (may be Undetermined)
+        /// </summary>
+        [XmlIgnore]
+        public Parsers.DateLocale DateLocale
+        { get { return Parsers.DeterminePredominantDateLocale(mArticleText); }}
         #endregion
 
         #region AWB worker subroutines

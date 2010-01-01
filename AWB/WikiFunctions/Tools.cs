@@ -1889,6 +1889,36 @@ Message: {2}
         {
             return ReplaceWithSpaces(input, regex.Matches(input));
         }
+        
+        /// <summary>
+        /// Returns the input ISO date in the requested format (American or International). If another Locale is pasased in the input date is returned.
+        /// </summary>
+        /// <param name="ISODate">string representing ISO date</param>
+        /// <param name="Locale">Locale of output date required (American or International)</param>
+        /// <returns>The (American or International) date</returns>
+        public static string ISOToDate(string ISODate, Parsers.DateLocale Locale)
+        {
+            string output = "";
+
+            DateTime dt;
+            
+            try
+            {
+                dt = Convert.ToDateTime(ISODate);
+            }
+            catch
+            {
+                return ISODate;
+            }
+
+            if(Locale == Parsers.DateLocale.American)
+                output = dt.ToString("MMMM d, yyyy");
+            else if (Locale == Parsers.DateLocale.International)
+                output = dt.ToString("d MMMM yyyy");
+            else return ISODate;
+            
+            return output;
+        }
 
         /// <summary>
         /// returns true if testnode is the same or a subnode of refnode

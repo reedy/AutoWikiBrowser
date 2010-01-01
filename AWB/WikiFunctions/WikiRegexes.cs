@@ -74,9 +74,12 @@ namespace WikiFunctions
 
             Dates = new Regex("^(0?[1-9]|[12][0-9]|3[01]) " + Months + "$", RegexOptions.Compiled);
             Dates2 = new Regex("^" + Months + " (0?[1-9]|[12][0-9]|3[01])$", RegexOptions.Compiled);
+            
+            InternationalDates = new Regex(@"\b(0?[1-9]|[12][0-9]|3[01]) +" + MonthsNoGroup + @" +[12]\d{3}\b", RegexOptions.Compiled);
+            AmericanDates = new Regex(MonthsNoGroup + @" +(0?[1-9]|[12][0-9]|3[01]),? +[12]\d{3}\b", RegexOptions.Compiled);
 
             string s = Variables.MagicWords.ContainsKey("redirect")
-                    ? string.Join("|", Variables.MagicWords["redirect"].ToArray()).Replace("#", "")
+                ? string.Join("|", Variables.MagicWords["redirect"].ToArray()).Replace("#", "")
                     : "REDIRECT";
 
             Redirect = new Regex(@"#(?:" + s + @")\s*:?\s*\[\[\s*:?\s*([^\|\[\]]*?)\s*(\|.*?)?\]\]", RegexOptions.IgnoreCase);
@@ -429,6 +432,11 @@ namespace WikiFunctions
         /// Matches sic either in template or as bracketed text, also related {{typo}} template
         /// </summary>
         public static readonly Regex SicTag = new Regex(@"({{\s*(?:[Ss]ic|[Tt]ypo)(?:\||}})|([\(\[{]\s*[Ss]ic!?\s*[\)\]}]))", RegexOptions.Compiled);
+        
+        public static readonly Regex UseDatesTemplate = new Regex(@"{{\s*[Uu]se (dmy|mdy|ymd) dates\s*}}", RegexOptions.Compiled);
+        
+        public static Regex AmericanDates;
+        public static Regex InternationalDates;
         
         /// <summary>
         /// Matchehthee {{talk header}} templates and its redirects
