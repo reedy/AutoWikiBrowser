@@ -2285,7 +2285,8 @@ namespace WikiFunctions.Parse
             string titlePart = title.Substring(0, pos + 1);
             foreach (var regex in WikiRegexes.NamespacesCaseInsensitive)
             {
-                if (!regex.Value.IsMatch(titlePart))
+                var m = regex.Value.Match(titlePart);
+                if (!m.Success || m.Index != 0)
                     continue;
 
                 title = Variables.Namespaces[regex.Key] + Tools.TurnFirstToUpper(title.Substring(pos + 1).Trim());
