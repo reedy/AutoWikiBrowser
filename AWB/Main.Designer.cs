@@ -369,6 +369,7 @@ namespace AutoWikiBrowser
             this.SummaryGroup = new System.Windows.Forms.GroupBox();
             this.lblWords = new System.Windows.Forms.Label();
             this.lblInterLinks = new System.Windows.Forms.Label();
+            this.lblDates = new System.Windows.Forms.Label();
             this.lblCats = new System.Windows.Forms.Label();
             this.lblImages = new System.Windows.Forms.Label();
             this.lblLinks = new System.Windows.Forms.Label();
@@ -1929,18 +1930,18 @@ namespace AutoWikiBrowser
             // chkLock
             // 
             this.chkLock.AutoSize = true;
-            this.chkLock.Location = new System.Drawing.Point(55, 30);
+            this.chkLock.Location = new System.Drawing.Point(10, 30);
             this.chkLock.Name = "chkLock";
             this.chkLock.Size = new System.Drawing.Size(94, 17);
             this.chkLock.TabIndex = 2;
-            this.chkLock.Text = "&Lock summary";
+            this.chkLock.Text = "&Lock";
             this.ToolTip.SetToolTip(this.chkLock, "Lock the Edit Summary\r\nPrevents the Edit Summary from being changed");
             this.chkLock.CheckedChanged += new System.EventHandler(this.chkLock_CheckedChanged);
             // 
             // chkMinor
             // 
             this.chkMinor.AutoSize = true;
-            this.chkMinor.Location = new System.Drawing.Point(55, 49);
+            this.chkMinor.Location = new System.Drawing.Point(65, 30);
             this.chkMinor.Name = "chkMinor";
             this.chkMinor.Size = new System.Drawing.Size(72, 17);
             this.chkMinor.TabIndex = 3;
@@ -3654,12 +3655,13 @@ namespace AutoWikiBrowser
             // 
             this.SummaryGroup.Controls.Add(this.lblWords);
             this.SummaryGroup.Controls.Add(this.lblInterLinks);
+            this.SummaryGroup.Controls.Add(this.lblDates);
             this.SummaryGroup.Controls.Add(this.lblCats);
             this.SummaryGroup.Controls.Add(this.lblImages);
             this.SummaryGroup.Controls.Add(this.lblLinks);
-            this.SummaryGroup.Location = new System.Drawing.Point(10, 67);
+            this.SummaryGroup.Location = new System.Drawing.Point(10, 54);
             this.SummaryGroup.Name = "SummaryGroup";
-            this.SummaryGroup.Size = new System.Drawing.Size(139, 90);
+            this.SummaryGroup.Size = new System.Drawing.Size(139, 103);
             this.SummaryGroup.TabIndex = 4;
             this.SummaryGroup.TabStop = false;
             this.SummaryGroup.Text = "Page statistics";
@@ -3682,6 +3684,16 @@ namespace AutoWikiBrowser
             this.lblInterLinks.Size = new System.Drawing.Size(73, 13);
             this.lblInterLinks.TabIndex = 4;
             this.lblInterLinks.Text = "Interwiki links:";
+                        // 
+            // lblDates
+            // 
+            this.lblDates.AutoSize = true;
+            this.lblDates.Location = new System.Drawing.Point(5, 81);
+            this.lblDates.Name = "lblDates";
+            this.lblDates.Size = new System.Drawing.Size(86, 13);
+            this.lblDates.TabIndex = 5;
+            this.lblDates.Text = @"Dates O/I/A:";
+            this.ToolTip.SetToolTip(this.lblDates, @"Number of dates found in page in ISO 8601 / International / American format");
             // 
             // lblCats
             // 
@@ -4461,6 +4473,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.GroupBox SummaryGroup;
         private System.Windows.Forms.Label lblWords;
         private System.Windows.Forms.Label lblInterLinks;
+        private System.Windows.Forms.Label lblDates;
         private System.Windows.Forms.Label lblCats;
         private System.Windows.Forms.Label lblImages;
         private System.Windows.Forms.Label lblLinks;

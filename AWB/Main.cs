@@ -2353,6 +2353,7 @@ window.scrollTo(0, diffTopY);
                 lblLinks.Text = "Links: ";
                 lblInterLinks.Text = "Interwiki links: ";
                 lblWarn.Text = "";
+                lblDates.Text = @"Dates O/I/A: ";
             }
             else
             {
@@ -2362,7 +2363,9 @@ window.scrollTo(0, diffTopY);
                 int intCats = WikiRegexes.Category.Matches(articleText).Count;
                 int intImages = WikiRegexes.Images.Matches(articleText).Count;
                 int intInterLinks = Tools.InterwikiCount(articleText);
-                int intLinks = WikiRegexes.WikiLinksOnly.Matches(articleText).Count;
+                int intLinks = WikiRegexes.WikiLinksOnly.Matches(articleText).Count;                
+                string dates = WikiRegexes.ISODates.Matches(articleText).Count + "/" + WikiRegexes.DayMonth.Matches(articleText).Count 
+                	+ "/" + WikiRegexes.MonthDay.Matches(articleText).Count;
 
                 StringBuilder warnings = new StringBuilder();
 
@@ -2413,6 +2416,7 @@ window.scrollTo(0, diffTopY);
                 lblImages.Text = "Images: " + intImages;
                 lblLinks.Text = "Links: " + intLinks;
                 lblInterLinks.Text = "Interwiki links: " + intInterLinks;
+                lblDates.Text = @"Dates O/I/A: " + dates;
                 lblWarn.Text = warnings.ToString();
 
                 //Find multiple links
