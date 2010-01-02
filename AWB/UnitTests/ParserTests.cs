@@ -880,7 +880,11 @@ was"));
             // must be about a person
             const string a0 = @"'''Fred Smith''' (born 1960) is a bloke.";
             Assert.AreEqual(a0, Parsers.FixPeopleCategories(a0, "foo"));
-
+        }
+        
+        [Test]
+        public void FixPeopleCategoriesBirth()
+        {
             // birth
             const string a1 = @"'''Fred Smith''' (born 1960) is a bloke. {{Persondata}}";
             const string b2 = @"[[Category:1960 births]]";
@@ -915,7 +919,13 @@ was"));
             const string b11 = @"'''Kid 'n Play''' was a [[hip-hop music|hip-hop]] and [[comedy]] duo from [[New York City]] that was popular in the late 1980s and early 1990s. The duo comprised '''[[Christopher Kid Reid]]''' (born [[April 5]] [[1964]] in [[The Bronx|The Bronx, New York City]])
 and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[July 10]] [[1962]] in [[Queens, New York City]]). Besides their successful musical careers, Kid 'n Play are also notable for branching out into acting. [[Category:Living people]]";
             Assert.AreEqual(b11, Parsers.FixPeopleCategories(b11, "foo"));
-
+        }
+        
+        [Test]
+        public void FixPeopleCategoriesDeath()
+        {
+            const string b2 = @"[[Category:1960 births]]";
+            
             // death
             const string a3 = @"'''Fred Smith''' (died 1960) is a bloke. {{Persondata}}";
             const string b3 = @"[[Category:1960 deaths]]";
@@ -941,7 +951,11 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             // no matches if not identified as born
             const string b1 = @"'''Fred Smith''' is a bloke.";
             Assert.AreEqual(b1, Parsers.FixPeopleCategories(b1, "foo"));
-
+        }
+        
+        [Test]
+        public void FixPeopleCategoriesAlreadyCategorized()
+        {
             // no matches if already categorised
             const string a = @"'''Fred Smith''' (born 1960) is a bloke.
 [[Category:1960 births]]
@@ -974,7 +988,11 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             Assert.AreEqual(g, Parsers.FixPeopleCategories(g, "foo"));
             Assert.AreEqual(g2, Parsers.FixPeopleCategories(g2, "foo"));
             Assert.AreEqual(h, Parsers.FixPeopleCategories(h, "foo"));
-
+        }
+        
+        [Test]
+        public void FixPeopleCategoriesYOBUncertain()
+        {           
             // year of birth uncertain
             const string u = "\r\n" + @"[[Category:Year of birth uncertain]]";
 
@@ -1029,7 +1047,13 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
 [[Category:Year of birth missing (living people)]]";
 
             Assert.AreEqual(n4, Parsers.FixPeopleCategories(n4, "foo"));
-
+        }
+        
+        [Test]
+        public void FixPeopleCategoriesLimits()
+        {            
+            const string b2 = @"[[Category:1960 births]]";
+            const string u = "\r\n" + @"[[Category:Year of birth uncertain]]";
             // don't use born info if after died info in text
             const string n5 = @"'''Alexander II''' ({{lang-ka|ალექსანდრე II, '''''Aleksandre II'''''}}) (died [[April 1]], [[1510]]) was a.
 * Prince David (born 1505)
@@ -1229,7 +1253,12 @@ died 2002
 [[Category:Year of birth uncertain]]";
 
             Assert.AreEqual(bug3, Parsers.FixPeopleCategories(bug3, "foo"));
-
+        }
+        
+        [Test]
+        public void FixPeopleCategoriesFromInfobox()
+        {
+            const string a1 = @"'''Fred Smith''' (born 1960) is a bloke. {{Persondata}}";
             // infobox scraping
             const string infob1 = @"{{Infobox Officeholder
 |honorific-prefix   =
