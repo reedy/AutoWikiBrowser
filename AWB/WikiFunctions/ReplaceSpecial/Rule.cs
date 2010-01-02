@@ -29,16 +29,14 @@ namespace WikiFunctions.ReplaceSpecial
         public enum T { OnWholePage = 0, InsideTemplate };
 
         public T ruletype_ = T.OnWholePage;
-        public string replace_ = "";
-        public string with_ = "";
-        public bool regex_;
-        public RegexOptions regexOptions_ = RegexOptions.None;
+
+        public string replace_ = "", with_ = "", ifContains_ = "", ifNotContains_ = "";
+
+        public bool regex_, ifIsRegex_;
+
         public int numoftimes_ = 1;
 
-        public string ifContains_ = "";
-        public string ifNotContains_ = "";
-        public bool ifIsRegex_;
-        public RegexOptions ifRegexOptions_ = RegexOptions.None;
+        public RegexOptions ifRegexOptions_ = RegexOptions.None, regexOptions_ = RegexOptions.None;
 
         RuleControl ruleControl_;
 
