@@ -98,9 +98,7 @@ namespace WikiFunctions
         /// </summary>
         public class EncryptionUtils
         {
-            internal readonly string IV16Chars;
-            internal readonly string PassPhrase;
-            internal readonly string Salt;
+            private readonly string IV16Chars, PassPhrase, Salt;
 
             public EncryptionUtils(string initVector, string passPhrase, string salt)
             {

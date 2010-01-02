@@ -26,8 +26,6 @@ namespace WikiFunctions.ReplaceSpecial
 {
     public class Rule : IRule
     {
-        public const string XmlName = "rule";
-
         public enum T { OnWholePage = 0, InsideTemplate };
 
         public T ruletype_ = T.OnWholePage;
