@@ -239,16 +239,16 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.ArticleStatsGroupBox.Controls.Add(Me.lblCats)
             Me.ArticleStatsGroupBox.Controls.Add(Me.lblImages)
             Me.ArticleStatsGroupBox.Controls.Add(Me.lblLinks)
-            Me.ArticleStatsGroupBox.Location = New System.Drawing.Point(6, 143)
+            Me.ArticleStatsGroupBox.Location = New System.Drawing.Point(6, 141)
             Me.ArticleStatsGroupBox.Name = "ArticleStatsGroupBox"
-            Me.ArticleStatsGroupBox.Size = New System.Drawing.Size(123, 102)
+            Me.ArticleStatsGroupBox.Size = New System.Drawing.Size(123, 104)
             Me.ArticleStatsGroupBox.TabIndex = 43
             Me.ArticleStatsGroupBox.TabStop = False
             '
             'lblWords
             '
             Me.lblWords.AutoSize = True
-            Me.lblWords.Location = New System.Drawing.Point(6, 18)
+            Me.lblWords.Location = New System.Drawing.Point(5, 8)
             Me.lblWords.Name = "lblWords"
             Me.lblWords.Size = New System.Drawing.Size(41, 13)
             Me.lblWords.TabIndex = 17
@@ -257,25 +257,25 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             'lblInterLinks
             '
             Me.lblInterLinks.AutoSize = True
-            Me.lblInterLinks.Location = New System.Drawing.Point(5, 86)
+            Me.lblInterLinks.Location = New System.Drawing.Point(5, 68)
             Me.lblInterLinks.Name = "lblInterLinks"
             Me.lblInterLinks.Size = New System.Drawing.Size(55, 13)
             Me.lblInterLinks.TabIndex = 22
             Me.lblInterLinks.Text = "Inter links:"
-             '
+            '
             'lblDates
             '
             Me.lblDates.AutoSize = True
-            Me.lblDates.Location = New System.Drawing.Point(5, 93)
+            Me.lblDates.Location = New System.Drawing.Point(5, 83)
             Me.lblDates.Name = "lblDates"
-            Me.lblDates.Size = New System.Drawing.Size(55, 13)
+            Me.lblDates.Size = New System.Drawing.Size(38, 13)
             Me.lblDates.TabIndex = 23
-            Me.lblDates.Text = "Datess:"
+            Me.lblDates.Text = "Dates:"
             '
             'lblCats
             '
             Me.lblCats.AutoSize = True
-            Me.lblCats.Location = New System.Drawing.Point(5, 69)
+            Me.lblCats.Location = New System.Drawing.Point(5, 53)
             Me.lblCats.Name = "lblCats"
             Me.lblCats.Size = New System.Drawing.Size(60, 13)
             Me.lblCats.TabIndex = 18
@@ -284,7 +284,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             'lblImages
             '
             Me.lblImages.AutoSize = True
-            Me.lblImages.Location = New System.Drawing.Point(6, 52)
+            Me.lblImages.Location = New System.Drawing.Point(5, 38)
             Me.lblImages.Name = "lblImages"
             Me.lblImages.Size = New System.Drawing.Size(44, 13)
             Me.lblImages.TabIndex = 19
@@ -293,7 +293,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             'lblLinks
             '
             Me.lblLinks.AutoSize = True
-            Me.lblLinks.Location = New System.Drawing.Point(6, 35)
+            Me.lblLinks.Location = New System.Drawing.Point(5, 23)
             Me.lblLinks.Name = "lblLinks"
             Me.lblLinks.Size = New System.Drawing.Size(35, 13)
             Me.lblLinks.TabIndex = 20
