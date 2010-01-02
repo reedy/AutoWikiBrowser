@@ -962,6 +962,9 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
 [[Category:1950 births|Smith, Fred]]
 [[Category:Year of death missing]]";
             const string h = @"'''Fred Smith''' (born 1950) is a bloke. {{lifetime|||Smith}}";
+            const string g2 = @"'''Fred Smith''' (born 1950) is a bloke.
+[[Category:1950 births|Smith, Fred]]
+[[Category:Year of death unknown]]";
 
             Assert.AreEqual(a, Parsers.FixPeopleCategories(a, "foo"));
             Assert.AreEqual(b, Parsers.FixPeopleCategories(b, "foo"));
@@ -969,6 +972,7 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             Assert.AreEqual(e, Parsers.FixPeopleCategories(e, "foo"));
             Assert.AreEqual(f, Parsers.FixPeopleCategories(f, "foo"));
             Assert.AreEqual(g, Parsers.FixPeopleCategories(g, "foo"));
+            Assert.AreEqual(g2, Parsers.FixPeopleCategories(g2, "foo"));
             Assert.AreEqual(h, Parsers.FixPeopleCategories(h, "foo"));
 
             // year of birth uncertain
