@@ -725,6 +725,60 @@ Jones", "*"));
             Assert.AreEqual("foo", Tools.StringBetween("now foo here blah here", "now ", " here"));
             Assert.AreEqual("foo", Tools.StringBetween("now foo here now foo2 here", "now ", " here"));
         }
+
+        [Test]
+        public void RegexMatchCount()
+        {
+            Assert.AreEqual(1, Tools.RegexMatchCount("a", "a"));
+            Assert.AreEqual(5, Tools.RegexMatchCount("\\w", "abcde"));
+            Assert.AreEqual(4, Tools.RegexMatchCount("a", "aAAa", RegexOptions.IgnoreCase));
+            Assert.AreEqual(2, Tools.RegexMatchCount("\\w+", "test case"));
+        }
+
+        [Test]
+        public void InterwikiCount()
+        {
+            SiteMatrix.Languages = new List<string> { "de", "es", "fr", "it", "sv" };
+
+            Assert.AreEqual(0, Tools.InterwikiCount(@"now [[foo]] was great"));
+            Assert.AreEqual(0, Tools.LinkCount(@"now [[lol:foo]] was great"));
+
+            Assert.AreEqual(1, Tools.InterwikiCount(@"now [[de:foo]] was great"));
+            Assert.AreEqual(1, Tools.InterwikiCount(@"now [[de:foo]] was great [[aa:now]] here"));
+
+            Assert.AreEqual(2, Tools.InterwikiCount(@"now [[de:foo]] was great [[aa:now]] here [[fr:bye]]"));
+        }
+
+        [Test]
+        public void LinkCountTests()
+        {
+            Assert.AreEqual(0, Tools.LinkCount(@"foo"));
+            Assert.AreEqual(0, Tools.LinkCount(@"[foo]"));
+            Assert.AreEqual(1, Tools.LinkCount(@"[[foo]]"));
+            Assert.AreEqual(2, Tools.LinkCount(@"[[foo]]s and [[barbie|bar]]"));
+        }
+
+        [Test]
+        public void ISOToDate()
+        {
+            string iso = @"2009-06-11", iso2 = @"1890-07-04";
+            Assert.AreEqual(@"11 June 2009", Tools.ISOToDate(iso, Parsers.DateLocale.International));
+            Assert.AreEqual(@"June 11, 2009", Tools.ISOToDate(iso, Parsers.DateLocale.American));
+            Assert.AreEqual(iso, Tools.ISOToDate(iso, Parsers.DateLocale.ISO));
+            Assert.AreEqual(iso, Tools.ISOToDate(iso, Parsers.DateLocale.Undetermined));
+            Assert.AreEqual(@"4 July 1890", Tools.ISOToDate(iso2, Parsers.DateLocale.International));
+
+            // handles incorect format
+            string wrong = @"foo";
+            Assert.AreEqual(wrong, Tools.ISOToDate(wrong, Parsers.DateLocale.International));
+        }
+
+        [Test, SetCulture("ru-RU")]
+        public void ISOToDate_Local()
+        {
+            string iso = @"2009-06-11";
+            Assert.AreEqual(@"11 June 2009", Tools.ISOToDate(iso, Parsers.DateLocale.International));
+        }
     }
 
     [TestFixture]
@@ -939,52 +993,5 @@ Jones", "*"));
                                            new[] { "Foo", "Foo bar", "User:Foo", "Special:Foo" });
         }
         #endregion
-
-        [Test]
-        public void RegexMatchCount()
-        {
-            Assert.AreEqual(1, Tools.RegexMatchCount("a", "a"));
-            Assert.AreEqual(5, Tools.RegexMatchCount("\\w", "abcde"));
-            Assert.AreEqual(4, Tools.RegexMatchCount("a", "aAAa", RegexOptions.IgnoreCase));
-            Assert.AreEqual(2, Tools.RegexMatchCount("\\w+", "test case"));
-        }
-
-        [Test]
-        public void InterwikiCount()
-        {
-            SiteMatrix.Languages = new List<string> { "de", "es", "fr", "it", "sv" };
-
-            Assert.AreEqual(0, Tools.InterwikiCount(@"now [[foo]] was great"));
-            Assert.AreEqual(0, Tools.LinkCount(@"now [[lol:foo]] was great"));
-
-            Assert.AreEqual(1, Tools.InterwikiCount(@"now [[de:foo]] was great"));
-            Assert.AreEqual(1, Tools.InterwikiCount(@"now [[de:foo]] was great [[aa:now]] here"));
-
-            Assert.AreEqual(2, Tools.InterwikiCount(@"now [[de:foo]] was great [[aa:now]] here [[fr:bye]]"));
-        }
-
-        [Test]
-        public void LinkCountTests()
-        {
-            Assert.AreEqual(0, Tools.LinkCount(@"foo"));
-            Assert.AreEqual(0, Tools.LinkCount(@"[foo]"));
-            Assert.AreEqual(1, Tools.LinkCount(@"[[foo]]"));
-            Assert.AreEqual(2, Tools.LinkCount(@"[[foo]]s and [[barbie|bar]]"));
-        }
-        
-        [Test]
-        public void ISOToDate()
-        {
-            string iso = @"2009-06-11", iso2 = @"1890-07-04";
-            Assert.AreEqual(@"11 June 2009", Tools.ISOToDate(iso, Parsers.DateLocale.International));
-            Assert.AreEqual(@"June 11, 2009", Tools.ISOToDate(iso, Parsers.DateLocale.American));
-            Assert.AreEqual(iso, Tools.ISOToDate(iso, Parsers.DateLocale.ISO));
-            Assert.AreEqual(iso, Tools.ISOToDate(iso, Parsers.DateLocale.Undetermined));
-            Assert.AreEqual(@"4 July 1890", Tools.ISOToDate(iso2, Parsers.DateLocale.International));
-            
-            // handles incorect format
-            string wrong = @"foo";
-            Assert.AreEqual(wrong, Tools.ISOToDate(wrong, Parsers.DateLocale.International));
-        }
     }
 }
