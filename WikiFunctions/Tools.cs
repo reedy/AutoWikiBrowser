@@ -1898,62 +1898,32 @@ Message: {2}
         /// <returns>The English-language (American or International) date</returns>
         public static string ISOToENDate(string ISODate, Parsers.DateLocale Locale)
         {
-            if (Variables.LangCode != "en")
-                return ISODate;
-            
-            string monthname = "";
+        	if (Variables.LangCode != "en")
+        		return ISODate;
+        	
+        	string output = "";
 
-            Match m = WikiRegexes.ISODates.Match(ISODate);
-            string monthnumber =m.Groups[2].Value, daynumber = Regex.Replace(m.Groups[3].Value, @"0(\d)", "$1"), year = m.Groups[1].Value;
-            
-            switch(monthnumber)
-            {
-                case "01":
-                    monthname = "January";
-                    break;
-                case "02":
-                    monthname = "February";
-                    break;
-                case "03":
-                    monthname = "March";
-                    break;
-                case "04":
-                    monthname = "April";
-                    break;
-                case "05":
-                    monthname = "May";
-                    break;
-                case "06":
-                    monthname = "June";
-                    break;
-                case "07":
-                    monthname = "July";
-                    break;
-                case "08":
-                    monthname = "August";
-                    break;
-                case "09":
-                    monthname = "September";
-                    break;
-                case "10":
-                    monthname = "October";
-                    break;
-                case "11":
-                    monthname = "November";
-                    break;
-                case "12":
-                    monthname = "December";
-                    break;
-                default:
-                    return ISODate;
-            }
+        	DateTime dt;
+        	
+        	try
+        	{
+        		dt = Convert.ToDateTime(ISODate);
+        	}
+        	catch
+        	{
+        		return ISODate;
+        	}
+        	
+        	// ensure dates returned are English.
+        	System.Globalization.CultureInfo English = new System.Globalization.CultureInfo("en-GB");
 
-            if(Locale == Parsers.DateLocale.American)
-                return(monthname + " " + daynumber + ", " + year);
-            else if (Locale == Parsers.DateLocale.International)
-                return(daynumber + " " + monthname + " " + year);
-            
-            return ISODate;            
+        	if(Locale == Parsers.DateLocale.American)
+        		output = dt.ToString("MMMM d, yyyy", English);
+        	else if (Locale == Parsers.DateLocale.International)
+        		output = dt.ToString("d MMMM yyyy", English);
+        	else return ISODate;
+        	
+        	return output;
         }
 
         /// <summary>
