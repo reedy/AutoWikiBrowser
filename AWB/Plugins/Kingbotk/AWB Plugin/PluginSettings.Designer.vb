@@ -35,6 +35,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.ArticleStatsGroupBox = New System.Windows.Forms.GroupBox
             Me.lblWords = New System.Windows.Forms.Label
             Me.lblInterLinks = New System.Windows.Forms.Label
+            Me.lblDates = New System.Windows.Forms.Label
             Me.lblCats = New System.Windows.Forms.Label
             Me.lblImages = New System.Windows.Forms.Label
             Me.lblLinks = New System.Windows.Forms.Label
@@ -234,6 +235,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             '
             Me.ArticleStatsGroupBox.Controls.Add(Me.lblWords)
             Me.ArticleStatsGroupBox.Controls.Add(Me.lblInterLinks)
+            Me.ArticleStatsGroupBox.Controls.Add(Me.lblDates)
             Me.ArticleStatsGroupBox.Controls.Add(Me.lblCats)
             Me.ArticleStatsGroupBox.Controls.Add(Me.lblImages)
             Me.ArticleStatsGroupBox.Controls.Add(Me.lblLinks)
@@ -260,6 +262,15 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.lblInterLinks.Size = New System.Drawing.Size(55, 13)
             Me.lblInterLinks.TabIndex = 22
             Me.lblInterLinks.Text = "Inter links:"
+             '
+            'lblDates
+            '
+            Me.lblDates.AutoSize = True
+            Me.lblDates.Location = New System.Drawing.Point(5, 93)
+            Me.lblDates.Name = "lblDates"
+            Me.lblDates.Size = New System.Drawing.Size(55, 13)
+            Me.lblDates.TabIndex = 23
+            Me.lblDates.Text = "Datess:"
             '
             'lblCats
             '
@@ -809,6 +820,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Friend WithEvents ArticleStatsGroupBox As System.Windows.Forms.GroupBox
         Friend WithEvents lblWords As System.Windows.Forms.Label
         Friend WithEvents lblInterLinks As System.Windows.Forms.Label
+        Friend WithEvents lblDates As System.Windows.Forms.Label
         Friend WithEvents lblCats As System.Windows.Forms.Label
         Friend WithEvents lblImages As System.Windows.Forms.Label
         Friend WithEvents lblLinks As System.Windows.Forms.Label
