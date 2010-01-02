@@ -27,16 +27,11 @@ namespace WikiFunctions.ReplaceSpecial
     [System.Xml.Serialization.XmlInclude(typeof(InTemplateRule))]
     public abstract class IRule : ICloneable
     {
-        private string name_ = "";
         public bool enabled_ = true;
 
         public List<IRule> Children;
 
-        public string Name
-        {
-            set { name_ = value; }
-            get { return name_; }
-        }
+        public string Name { get; set; }
 
         /// <summary>
         /// 

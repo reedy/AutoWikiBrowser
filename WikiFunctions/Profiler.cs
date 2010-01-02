@@ -99,9 +99,9 @@ namespace WikiFunctions
         #endif
 
         //[Conditional("DEBUG")]
-        /// <summary>
-        /// Closes profiling log. The profiler will continue in dummy mode
-        /// </summary>
+        ///// <summary>
+        ///// Closes profiling log. The profiler will continue in dummy mode
+        ///// </summary>
         //public void Close()
         //{
         //    if (log == null) return;

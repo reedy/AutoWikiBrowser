@@ -141,7 +141,7 @@ namespace WikiFunctions
             return res;
         }
 
-        private static BackgroundRequest Request;
+        private static BackgroundRequest _request;
 
         /// <summary>
         /// Checks to see if AWBUpdater.exe.new exists, if it does, replace it.
@@ -162,10 +162,10 @@ namespace WikiFunctions
         /// </summary>
         public static void CheckForUpdates()
         {
-            if (Request != null) return;
+            if (_request != null) return;
 
-            Request = new BackgroundRequest();
-            Request.Execute(UpdateFunc);
+            _request = new BackgroundRequest();
+            _request.Execute(UpdateFunc);
         }
 
         /// <summary>
@@ -173,9 +173,9 @@ namespace WikiFunctions
         /// </summary>
         public static void WaitForCompletion()
         {
-            if (Request == null) return;
-            Request.Wait();
-            Request = null;
+            if (_request == null) return;
+            _request.Wait();
+            _request = null;
         }
 
         /// <summary>
