@@ -2722,6 +2722,9 @@ http://example.com }}");
             Assert.AreEqual("Foo", Parsers.CanonicalizeTitleAggressively(": Foo"));
             Assert.AreEqual(":Foo", Parsers.CanonicalizeTitleAggressively("::Foo"));
             Assert.AreEqual("User:Foo", Parsers.CanonicalizeTitleAggressively(":user:Foo"));
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#List_of_.22User_talk:.22_pages_change_to_list_of_.22Talk:.22_pages_when_started
+            Assert.AreEqual("User talk:Foo", Parsers.CanonicalizeTitleAggressively("User talk:Foo"));
         }
 
         [Test]
