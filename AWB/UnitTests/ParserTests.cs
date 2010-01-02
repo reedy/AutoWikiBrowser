@@ -778,6 +778,7 @@ Jones 2005</ref>"));
             Assert.AreEqual(@"from ( 1900–1933) there", parser.FixDates(@"from ( 1900-1933) there"));
             
             Assert.AreEqual(@"from 1950–1960,", parser.FixDates(@"from 1950-1960,"));
+               Assert.AreEqual(@"|1950–1960|", parser.FixDates(@"|1950-1960|"));
             Assert.AreEqual(@"(1950–1960 and 1963–1968)", parser.FixDates(@"(1950-1960 and 1963-1968)"));
             Assert.AreEqual(@"or 1900–1901,", parser.FixDates(@"or 1900 - 1901,"));
             Assert.AreEqual(@"for 1900–1901,", parser.FixDates(@"for 1900 - 1901,"));
