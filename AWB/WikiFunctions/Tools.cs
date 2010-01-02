@@ -1891,33 +1891,69 @@ Message: {2}
         }
         
         /// <summary>
-        /// Returns the input ISO date in the requested format (American or International). If another Locale is pasased in the input date is returned.
+        /// Returns the input ISO date in the requested format (American or International). If another Locale is pasased in the input date is returned. For en-wiki only.
         /// </summary>
         /// <param name="ISODate">string representing ISO date</param>
         /// <param name="Locale">Locale of output date required (American or International)</param>
-        /// <returns>The (American or International) date</returns>
-        public static string ISOToDate(string ISODate, Parsers.DateLocale Locale)
+        /// <returns>The English-language (American or International) date</returns>
+        public static string ISOToENDate(string ISODate, Parsers.DateLocale Locale)
         {
-            string output = "";
-
-            DateTime dt;
-            
-            try
-            {
-                dt = Convert.ToDateTime(ISODate);
-            }
-            catch
-            {
+            if (Variables.LangCode != "en")
                 return ISODate;
+            
+            string monthname = "";
+
+            Match m = WikiRegexes.ISODates.Match(ISODate);
+            string monthnumber =m.Groups[2].Value, daynumber = Regex.Replace(m.Groups[3].Value, @"0(\d)", "$1"), year = m.Groups[1].Value;
+            
+            switch(monthnumber)
+            {
+                case "01":
+                    monthname = "January";
+                    break;
+                case "02":
+                    monthname = "February";
+                    break;
+                case "03":
+                    monthname = "March";
+                    break;
+                case "04":
+                    monthname = "April";
+                    break;
+                case "05":
+                    monthname = "May";
+                    break;
+                case "06":
+                    monthname = "June";
+                    break;
+                case "07":
+                    monthname = "July";
+                    break;
+                case "08":
+                    monthname = "August";
+                    break;
+                case "09":
+                    monthname = "September";
+                    break;
+                case "10":
+                    monthname = "October";
+                    break;
+                case "11":
+                    monthname = "November";
+                    break;
+                case "12":
+                    monthname = "December";
+                    break;
+                default:
+                    return ISODate;
             }
 
             if(Locale == Parsers.DateLocale.American)
-                output = dt.ToString("MMMM d, yyyy");
+                return(monthname + " " + daynumber + ", " + year);
             else if (Locale == Parsers.DateLocale.International)
-                output = dt.ToString("d MMMM yyyy");
-            else return ISODate;
+                return(daynumber + " " + monthname + " " + year);
             
-            return output;
+            return ISODate;            
         }
 
         /// <summary>
