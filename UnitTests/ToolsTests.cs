@@ -762,22 +762,23 @@ Jones", "*"));
         public void ISOToDate()
         {
             string iso = @"2009-06-11", iso2 = @"1890-07-04";
-            Assert.AreEqual(@"11 June 2009", Tools.ISOToDate(iso, Parsers.DateLocale.International));
-            Assert.AreEqual(@"June 11, 2009", Tools.ISOToDate(iso, Parsers.DateLocale.American));
-            Assert.AreEqual(iso, Tools.ISOToDate(iso, Parsers.DateLocale.ISO));
-            Assert.AreEqual(iso, Tools.ISOToDate(iso, Parsers.DateLocale.Undetermined));
-            Assert.AreEqual(@"4 July 1890", Tools.ISOToDate(iso2, Parsers.DateLocale.International));
+            Assert.AreEqual(@"11 June 2009", Tools.ISOToENDate(iso, Parsers.DateLocale.International));
+            Assert.AreEqual(@"June 11, 2009", Tools.ISOToENDate(iso, Parsers.DateLocale.American));
+            Assert.AreEqual(iso, Tools.ISOToENDate(iso, Parsers.DateLocale.ISO));
+            Assert.AreEqual(iso, Tools.ISOToENDate(iso, Parsers.DateLocale.Undetermined));
+            Assert.AreEqual(@"4 July 1890", Tools.ISOToENDate(iso2, Parsers.DateLocale.International));
 
             // handles incorect format
             string wrong = @"foo";
-            Assert.AreEqual(wrong, Tools.ISOToDate(wrong, Parsers.DateLocale.International));
+            Assert.AreEqual(wrong, Tools.ISOToENDate(wrong, Parsers.DateLocale.International));
         }
 
         [Test, SetCulture("ru-RU")]
-        public void ISOToDate_Local()
+        public void ISOToDateOtherCulture()
         {
+            // if user's computer has non-en culture, ISOToENDate should still work
             string iso = @"2009-06-11";
-            Assert.AreEqual(@"11 June 2009", Tools.ISOToDate(iso, Parsers.DateLocale.International));
+            Assert.AreEqual(@"11 June 2009", Tools.ISOToENDate(iso, Parsers.DateLocale.International));
         }
     }
 
