@@ -42,6 +42,28 @@ namespace UnitTests
             Assert.AreEqual("{{stub}}\r\n", MetaDataSorter.RemoveStubs(ref s));
             Assert.AreEqual("", s);
         }
+        
+        [Test]
+        public void RemoveDupelicateStubs()
+        {
+        	string stub = @"{{foo stub}}", articleTextBack = "";
+        	string articletext = stub + " " + stub;
+        	articleTextBack = parser2.SortMetaData(articletext, "test");
+        	
+        	Assert.IsTrue(WikiFunctions.WikiRegexes.Stub.Matches(articleTextBack).Count == 1);
+        	
+        	// don't remove if different capitalisation
+        	articletext = stub + " " + @"{{fOO stub}}";
+        	articleTextBack = parser2.SortMetaData(articletext, "test");
+        	
+        	Assert.IsTrue(WikiFunctions.WikiRegexes.Stub.Matches(articleTextBack).Count == 2);
+        	
+        	// ignore stubs in comments
+        	articletext = stub + " " + @"<!--{{foo stub}}-->";
+        	articleTextBack = parser2.SortMetaData(articletext, "test");
+        	
+        	Assert.IsTrue(WikiFunctions.WikiRegexes.Stub.Matches(articleTextBack).Count == 2);
+        }
 
         [Test]
         public void MovePersonDataTests()
