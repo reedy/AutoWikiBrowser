@@ -175,6 +175,8 @@ namespace AutoWikiBrowser
             this.launchDumpSearcherToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.launchListComparerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.launchListSplitterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
+            this.submitStatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator29 = new System.Windows.Forms.ToolStripSeparator();
             this.profileTyposToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.invalidateCacheToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -413,8 +415,6 @@ namespace AutoWikiBrowser
             this.toolStripSeparatorMakeFromTextBox = new System.Windows.Forms.ToolStripSeparator();
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
-            this.submitStatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuTextBox.SuspendLayout();
             this.MnuMain.SuspendLayout();
             this.StatusMain.SuspendLayout();
@@ -1249,21 +1249,21 @@ namespace AutoWikiBrowser
             // loadPluginToolStripMenuItem
             // 
             this.loadPluginToolStripMenuItem.Name = "loadPluginToolStripMenuItem";
-            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.loadPluginToolStripMenuItem.Text = "&Load...";
             this.loadPluginToolStripMenuItem.Click += new System.EventHandler(this.loadPluginToolStripMenuItem_Click);
             // 
             // managePluginsToolStripMenuItem
             // 
             this.managePluginsToolStripMenuItem.Name = "managePluginsToolStripMenuItem";
-            this.managePluginsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.managePluginsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.managePluginsToolStripMenuItem.Text = "&Manager...";
             this.managePluginsToolStripMenuItem.Click += new System.EventHandler(this.managePluginsToolStripMenuItem_Click);
             // 
             // toolStripSeparator26
             // 
             this.toolStripSeparator26.Name = "toolStripSeparator26";
-            this.toolStripSeparator26.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator26.Size = new System.Drawing.Size(127, 6);
             // 
             // ToolStripMenuGeneral
             // 
@@ -1520,6 +1520,18 @@ namespace AutoWikiBrowser
             this.launchListSplitterToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.launchListSplitterToolStripMenuItem.Text = "List &splitter";
             this.launchListSplitterToolStripMenuItem.Click += new System.EventHandler(this.launchListSplitterToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator21
+            // 
+            this.toolStripSeparator21.Name = "toolStripSeparator21";
+            this.toolStripSeparator21.Size = new System.Drawing.Size(212, 6);
+            // 
+            // submitStatToolStripMenuItem
+            // 
+            this.submitStatToolStripMenuItem.Name = "submitStatToolStripMenuItem";
+            this.submitStatToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.submitStatToolStripMenuItem.Text = "Submit stats";
+            this.submitStatToolStripMenuItem.Click += new System.EventHandler(this.submitStatToolStripMenuItem_Click);
             // 
             // toolStripSeparator29
             // 
@@ -2012,7 +2024,6 @@ namespace AutoWikiBrowser
             // 
             // btnWatch
             // 
-            this.btnWatch.Enabled = false;
             this.btnWatch.Location = new System.Drawing.Point(155, 119);
             this.btnWatch.Name = "btnWatch";
             this.btnWatch.Size = new System.Drawing.Size(58, 23);
@@ -4160,18 +4171,6 @@ namespace AutoWikiBrowser
             // 
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
-            // 
-            // submitStatToolStripMenuItem
-            // 
-            this.submitStatToolStripMenuItem.Name = "submitStatToolStripMenuItem";
-            this.submitStatToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
-            this.submitStatToolStripMenuItem.Text = "Submit stats";
-            this.submitStatToolStripMenuItem.Click += new System.EventHandler(this.submitStatToolStripMenuItem_Click);
-            // 
-            // toolStripSeparator21
-            // 
-            this.toolStripSeparator21.Name = "toolStripSeparator21";
-            this.toolStripSeparator21.Size = new System.Drawing.Size(212, 6);
             // 
             // MainForm
             // 
