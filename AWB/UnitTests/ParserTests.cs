@@ -3223,6 +3223,7 @@ text", "Talk:foo"));
         public void TestMdashesPageRanges()
         {
             Assert.AreEqual("pp. 55–57", parser.Mdashes("pp. 55-57", "test", 0));
+            Assert.AreEqual("pp.&nbsp;55–57", parser.Mdashes("pp.&nbsp;55-57", "test", 0));
             Assert.AreEqual("pp. 55 – 57", parser.Mdashes("pp. 55 - 57", "test", 0));
             Assert.AreEqual("pp. 55 – 57", parser.Mdashes("Pp. 55 - 57", "test", 0));
             Assert.AreEqual("pp 55–57", parser.Mdashes("pp 55-57", "test", 0));
@@ -3233,6 +3234,9 @@ text", "Talk:foo"));
             Assert.AreEqual("pages=55–57", parser.Mdashes("pages=55—57", "test", 0));
             Assert.AreEqual("pages=55–57", parser.Mdashes("pages=55&#8212;57", "test", 0));
             Assert.AreEqual("pages=55–57", parser.Mdashes("pages=55&mdash;57", "test", 0));
+            
+            // no change if already correct
+            Assert.AreEqual("pages=55–57", parser.Mdashes("pages=55–57", "test", 0));
         }
         
         [Test]
