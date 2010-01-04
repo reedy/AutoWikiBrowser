@@ -134,7 +134,7 @@ namespace AutoWikiBrowser
             {
                 if (EstablishedContact)
                 {
-                    if (Program.AWB.NumberOfEdits > LastEditCount || NewAWBPlugins.Count > 0
+                    if (Program.AWB.NumberOfEdits > LastEditCount || NewPluginsAdded
                         || HaveUserNameToSend) SubsequentContact();
                 }
                 else
@@ -146,6 +146,15 @@ namespace AutoWikiBrowser
             catch (Exception ex)
             {
                 if (appexit) ErrorHandler.Handle(ex); // else try again later
+            }
+        }
+
+        static bool NewPluginsAdded
+        {
+            get
+            {
+                return NewAWBPlugins.Count > 0 || NewAWBBasePlugins.Count > 0
+                       || NewListMakerPlugins.Count > 0;
             }
         }
 
@@ -255,7 +264,10 @@ namespace AutoWikiBrowser
                 postvars.Add("Saves", Program.AWB.NumberOfEdits.ToString());
 
             PostData(postvars);
+
+            //Clear lists as we've posted
             NewAWBPlugins.Clear();
+            NewAWBBasePlugins.Clear();
             NewListMakerPlugins.Clear();
         }
 
