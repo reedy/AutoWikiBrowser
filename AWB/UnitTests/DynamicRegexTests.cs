@@ -216,6 +216,10 @@ now stubborn}}");
         {
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{disambig}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{disambig|surname}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{
+disambig|surname
+}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{disambig|page=Foo|page2=Bar}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{disamb}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{dab}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Disambig}}");
