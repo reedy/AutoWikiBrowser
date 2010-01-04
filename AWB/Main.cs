@@ -4681,6 +4681,7 @@ window.scrollTo(0, diffTopY);
 
         private void profileTyposToolStripMenuItem_Click(object sender, EventArgs e)
         {
+#if DEBUG
             if (RegexTypos == null)
             {
                 MessageBox.Show("No typos loaded", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -4705,7 +4706,7 @@ window.scrollTo(0, diffTopY);
                                 "Test typos", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                 return;
 
-            int iterations = 1000000 / text.Length;
+            int iterations = 1000000/text.Length;
             if (iterations > 500) iterations = 500;
 
             List<KeyValuePair<int, string>> times = new List<KeyValuePair<int, string>>();
@@ -4718,7 +4719,7 @@ window.scrollTo(0, diffTopY);
                 {
                     p.Key.IsMatch(text);
                 }
-                times.Add(new KeyValuePair<int, string>((int)watch.ElapsedMilliseconds, p.Key + " > " + p.Value));
+                times.Add(new KeyValuePair<int, string>((int) watch.ElapsedMilliseconds, p.Key + " > " + p.Value));
             }
 
             times.Sort(new Comparison<KeyValuePair<int, string>>(CompareRegexPairs));
@@ -4731,6 +4732,7 @@ window.scrollTo(0, diffTopY);
 
             MessageBox.Show("Results are saved in the file 'typos.txt'", "Profiling complete",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
+#endif
         }
 
         private void loadPluginToolStripMenuItem_Click(object sender, EventArgs e)
