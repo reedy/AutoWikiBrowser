@@ -31,7 +31,7 @@ namespace WikiFunctions.ReplaceSpecial
 
         public List<IRule> Children;
 
-        public string Name { get; set; }
+        public string Name { get; protected set; }
 
         /// <summary>
         /// 
@@ -57,6 +57,11 @@ namespace WikiFunctions.ReplaceSpecial
         /// 
         /// </summary>
         public abstract void Restore();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public abstract void SetName(string value);
 
         public abstract Control CreateControl(IRuleControlOwner owner, Control.ControlCollection collection, System.Drawing.Point pos);
 

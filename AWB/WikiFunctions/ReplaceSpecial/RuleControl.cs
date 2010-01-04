@@ -52,7 +52,7 @@ namespace WikiFunctions.ReplaceSpecial
             if (r == null)
                 return;
 
-            r.Name = NameTextbox.Text.Trim();
+            r.SetName(NameTextbox.Text.Trim());
             r.replace_ = ReplaceTextbox.Text.Replace("\r\n", "\n");
             r.with_ = WithTextbox.Text.Replace("\r\n", "\n");
             r.ruletype_ = (Rule.T)RuleTypeCombobox.SelectedIndex;

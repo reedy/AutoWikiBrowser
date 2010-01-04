@@ -133,7 +133,7 @@ namespace WikiFunctions.ReplaceSpecial
                 ruleControl_ = CurrentRule.CreateControl(this, RuleControlSpace.Controls, new Point());
                 ruleControl_.Size = RuleControlSpace.Size;
 
-                CurrentRule.Name = RulesTreeView.SelectedNode.Text;
+                CurrentRule.SetName(RulesTreeView.SelectedNode.Text);
 
                 CurrentRule.Restore();
 
@@ -753,5 +753,16 @@ namespace WikiFunctions.ReplaceSpecial
             return (new UTF8Encoding().GetBytes(pXmlString));
         }
         #endregion
+
+        private void RulesTreeView_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
+        {
+            if (RulesTreeView.SelectedNode == null)
+                return;
+
+            CurrentRule.SetName(RulesTreeView.SelectedNode.Text);
+
+            SaveCurrentRule();
+            RestoreSelectedRule();
+        }
     }
 }

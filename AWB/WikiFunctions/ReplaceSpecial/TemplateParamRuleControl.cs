@@ -50,7 +50,7 @@ namespace WikiFunctions.ReplaceSpecial
                 return;
 
             r.enabled_ = RuleEnabledCheckBox.Checked;
-            r.Name = NameTextbox.Text.Trim();
+            r.SetName(NameTextbox.Text.Trim());
             r.ParamName = ParamNameTextBox.Text.Trim();
             r.NewParamName = ChangeNameToTextBox.Text.Trim();
         }

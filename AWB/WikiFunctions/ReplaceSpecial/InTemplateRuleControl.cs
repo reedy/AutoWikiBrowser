@@ -54,7 +54,7 @@ namespace WikiFunctions.ReplaceSpecial
                 return;
 
             r.enabled_ = RuleEnabledCheckBox.Checked;
-            r.Name = NameTextbox.Text.Trim();
+            r.SetName(NameTextbox.Text.Trim());
             r.ReplaceWith_ = ReplaceWithTextBox.Text.Trim();
             r.DoReplace_ = ReplaceCheckBox.Checked;
 

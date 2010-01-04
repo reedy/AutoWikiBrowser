@@ -93,6 +93,12 @@ namespace WikiFunctions.ReplaceSpecial
             ruleControl_.SelectName();
         }
 
+        public override void SetName(string value)
+        {
+            Name = value;
+            ruleControl_.SetName(value);
+        }
+
         public override string Apply(TreeNode tn, string text, string title)
         {
             if (string.IsNullOrEmpty(text) || !enabled_)
