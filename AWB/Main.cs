@@ -2374,7 +2374,7 @@ window.scrollTo(0, diffTopY);
                     warnings.AppendLine("Long article with a stub tag.");
 
                 if (intCats == 0)
-                    warnings.AppendLine("No category (although one may be in a template)");
+                    warnings.AppendLine("No category (may be one in a template)");
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Replace_nofootnotes_with_morefootnote_if_references_exists
                 if (TheArticle.HasMorefootnotesAndManyReferences)
