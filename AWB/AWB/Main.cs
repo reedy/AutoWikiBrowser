@@ -2781,7 +2781,7 @@ window.scrollTo(0, diffTopY);
         {
             btnIgnore.Enabled = btnPreview.Enabled = btnDiff.Enabled =
                 btntsPreview.Enabled = btntsChanges.Enabled = /*listMaker.MakeListEnabled = */
-                btntsSave.Enabled = btntsIgnore.Enabled = /*btnWatch.Enabled = */ findGroup.Enabled = enabled;
+                btntsSave.Enabled = btntsIgnore.Enabled = btnWatch.Enabled =  findGroup.Enabled = enabled;
 
             btnSave.Enabled = enabled && TheArticle != null && !string.IsNullOrEmpty(TheSession.Page.Title);
 
