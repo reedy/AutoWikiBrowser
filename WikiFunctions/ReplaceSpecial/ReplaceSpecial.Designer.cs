@@ -144,7 +144,6 @@ namespace WikiFunctions.ReplaceSpecial
         this.RulesTreeView.Name = "RulesTreeView";
         this.RulesTreeView.Size = new System.Drawing.Size(176, 359);
         this.RulesTreeView.TabIndex = 2;
-        this.RulesTreeView.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.RulesTreeView_AfterLabelEdit);
         this.RulesTreeView.DragDrop += new System.Windows.Forms.DragEventHandler(this.RulesTreeView_DragDrop);
         this.RulesTreeView.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.RulesTreeView_AfterSelect);
         this.RulesTreeView.DragEnter += new System.Windows.Forms.DragEventHandler(this.RulesTreeView_DragEnter);
@@ -166,32 +165,32 @@ namespace WikiFunctions.ReplaceSpecial
             this.collapseAllToolStripMenuItem});
         this.TreeViewContextMenu.Name = "TreeViewContextMenu";
         this.TreeViewContextMenu.ShowImageMargin = false;
-        this.TreeViewContextMenu.Size = new System.Drawing.Size(120, 192);
+        this.TreeViewContextMenu.Size = new System.Drawing.Size(126, 192);
         // 
         // NewRuleContextMenuItem
         // 
         this.NewRuleContextMenuItem.Name = "NewRuleContextMenuItem";
-        this.NewRuleContextMenuItem.Size = new System.Drawing.Size(119, 22);
+        this.NewRuleContextMenuItem.Size = new System.Drawing.Size(125, 22);
         this.NewRuleContextMenuItem.Text = "New &Rule";
         this.NewRuleContextMenuItem.Click += new System.EventHandler(this.NewRuleContextMenuItem_Click);
         // 
         // NewSubruleContextMenuItem
         // 
         this.NewSubruleContextMenuItem.Name = "NewSubruleContextMenuItem";
-        this.NewSubruleContextMenuItem.Size = new System.Drawing.Size(119, 22);
+        this.NewSubruleContextMenuItem.Size = new System.Drawing.Size(125, 22);
         this.NewSubruleContextMenuItem.Text = "New &Subrule";
         this.NewSubruleContextMenuItem.Click += new System.EventHandler(this.NewSubruleContextMenuItem_Click);
         // 
         // toolStripSeparator1
         // 
         this.toolStripSeparator1.Name = "toolStripSeparator1";
-        this.toolStripSeparator1.Size = new System.Drawing.Size(116, 6);
+        this.toolStripSeparator1.Size = new System.Drawing.Size(122, 6);
         // 
         // CutContextMenuItem
         // 
         this.CutContextMenuItem.Name = "CutContextMenuItem";
         this.CutContextMenuItem.ShortcutKeyDisplayString = "Ctrl+X";
-        this.CutContextMenuItem.Size = new System.Drawing.Size(119, 22);
+        this.CutContextMenuItem.Size = new System.Drawing.Size(125, 22);
         this.CutContextMenuItem.Text = "Cu&t";
         this.CutContextMenuItem.Click += new System.EventHandler(this.CutMenuItem_Click);
         // 
@@ -199,7 +198,7 @@ namespace WikiFunctions.ReplaceSpecial
         // 
         this.CopyContextMenuItem.Name = "CopyContextMenuItem";
         this.CopyContextMenuItem.ShortcutKeyDisplayString = "Ctrl+C";
-        this.CopyContextMenuItem.Size = new System.Drawing.Size(119, 22);
+        this.CopyContextMenuItem.Size = new System.Drawing.Size(125, 22);
         this.CopyContextMenuItem.Text = "&Copy";
         this.CopyContextMenuItem.Click += new System.EventHandler(this.CopyMenuItem_Click);
         // 
@@ -207,7 +206,7 @@ namespace WikiFunctions.ReplaceSpecial
         // 
         this.PasteContextMenuItem.Name = "PasteContextMenuItem";
         this.PasteContextMenuItem.ShortcutKeyDisplayString = "Ctrl+V";
-        this.PasteContextMenuItem.Size = new System.Drawing.Size(119, 22);
+        this.PasteContextMenuItem.Size = new System.Drawing.Size(125, 22);
         this.PasteContextMenuItem.Text = "&Paste";
         this.PasteContextMenuItem.Click += new System.EventHandler(this.PasteMenuItem_Click);
         // 
@@ -215,26 +214,26 @@ namespace WikiFunctions.ReplaceSpecial
         // 
         this.DeleteContextMenuItem.Name = "DeleteContextMenuItem";
         this.DeleteContextMenuItem.ShortcutKeyDisplayString = "Del";
-        this.DeleteContextMenuItem.Size = new System.Drawing.Size(119, 22);
+        this.DeleteContextMenuItem.Size = new System.Drawing.Size(125, 22);
         this.DeleteContextMenuItem.Text = "&Delete";
         this.DeleteContextMenuItem.Click += new System.EventHandler(this.DeleteMenuItem_Click);
         // 
         // toolStripSeparator4
         // 
         this.toolStripSeparator4.Name = "toolStripSeparator4";
-        this.toolStripSeparator4.Size = new System.Drawing.Size(116, 6);
+        this.toolStripSeparator4.Size = new System.Drawing.Size(122, 6);
         // 
         // expandAllToolStripMenuItem
         // 
         this.expandAllToolStripMenuItem.Name = "expandAllToolStripMenuItem";
-        this.expandAllToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+        this.expandAllToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
         this.expandAllToolStripMenuItem.Text = "&Expand all";
         this.expandAllToolStripMenuItem.Click += new System.EventHandler(this.expandAllToolStripMenuItem_Click);
         // 
         // collapseAllToolStripMenuItem
         // 
         this.collapseAllToolStripMenuItem.Name = "collapseAllToolStripMenuItem";
-        this.collapseAllToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
+        this.collapseAllToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
         this.collapseAllToolStripMenuItem.Text = "&Collapse all";
         this.collapseAllToolStripMenuItem.Click += new System.EventHandler(this.collapseAllToolStripMenuItem_Click);
         // 
@@ -256,7 +255,7 @@ namespace WikiFunctions.ReplaceSpecial
             this.NewMenu,
             this.NewSubruleMenu});
         this.RuleMenu.Name = "RuleMenu";
-        this.RuleMenu.Size = new System.Drawing.Size(43, 20);
+        this.RuleMenu.Size = new System.Drawing.Size(40, 20);
         this.RuleMenu.Text = "&New";
         // 
         // NewMenu
@@ -267,28 +266,28 @@ namespace WikiFunctions.ReplaceSpecial
             this.NewInTemplateRuleMenuItem,
             this.NewTemplateParameterRuleMenuItem});
         this.NewMenu.Name = "NewMenu";
-        this.NewMenu.Size = new System.Drawing.Size(114, 22);
+        this.NewMenu.Size = new System.Drawing.Size(152, 22);
         this.NewMenu.Text = "&Rule";
         // 
         // NewRuleMenuItem
         // 
         this.NewRuleMenuItem.Name = "NewRuleMenuItem";
         this.NewRuleMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-        this.NewRuleMenuItem.Size = new System.Drawing.Size(204, 22);
+        this.NewRuleMenuItem.Size = new System.Drawing.Size(203, 22);
         this.NewRuleMenuItem.Text = "&Find and replace";
         this.NewRuleMenuItem.Click += new System.EventHandler(this.NewRuleMenuItem_Click);
         // 
         // NewInTemplateRuleMenuItem
         // 
         this.NewInTemplateRuleMenuItem.Name = "NewInTemplateRuleMenuItem";
-        this.NewInTemplateRuleMenuItem.Size = new System.Drawing.Size(204, 22);
+        this.NewInTemplateRuleMenuItem.Size = new System.Drawing.Size(203, 22);
         this.NewInTemplateRuleMenuItem.Text = "In template &call";
         this.NewInTemplateRuleMenuItem.Click += new System.EventHandler(this.NewInTemplateRuleMenuItem_Click);
         // 
         // NewTemplateParameterRuleMenuItem
         // 
         this.NewTemplateParameterRuleMenuItem.Name = "NewTemplateParameterRuleMenuItem";
-        this.NewTemplateParameterRuleMenuItem.Size = new System.Drawing.Size(204, 22);
+        this.NewTemplateParameterRuleMenuItem.Size = new System.Drawing.Size(203, 22);
         this.NewTemplateParameterRuleMenuItem.Text = "Template &parameter";
         this.NewTemplateParameterRuleMenuItem.Click += new System.EventHandler(this.NewTemplateParameterRuleMenuItem_Click);
         // 
@@ -300,27 +299,27 @@ namespace WikiFunctions.ReplaceSpecial
             this.NewSubruleInTemplateCallMenuItem,
             this.NewSubruleTemplateParameterMenuItem});
         this.NewSubruleMenu.Name = "NewSubruleMenu";
-        this.NewSubruleMenu.Size = new System.Drawing.Size(114, 22);
+        this.NewSubruleMenu.Size = new System.Drawing.Size(152, 22);
         this.NewSubruleMenu.Text = "&Subrule";
         // 
         // NewSubruleMenuItem
         // 
         this.NewSubruleMenuItem.Name = "NewSubruleMenuItem";
-        this.NewSubruleMenuItem.Size = new System.Drawing.Size(181, 22);
+        this.NewSubruleMenuItem.Size = new System.Drawing.Size(182, 22);
         this.NewSubruleMenuItem.Text = "&Find and replace";
         this.NewSubruleMenuItem.Click += new System.EventHandler(this.NewSubruleMenuItem_Click);
         // 
         // NewSubruleInTemplateCallMenuItem
         // 
         this.NewSubruleInTemplateCallMenuItem.Name = "NewSubruleInTemplateCallMenuItem";
-        this.NewSubruleInTemplateCallMenuItem.Size = new System.Drawing.Size(181, 22);
+        this.NewSubruleInTemplateCallMenuItem.Size = new System.Drawing.Size(182, 22);
         this.NewSubruleInTemplateCallMenuItem.Text = "In template &call";
         this.NewSubruleInTemplateCallMenuItem.Click += new System.EventHandler(this.NewSubruleInTemplateCallMenuItem_Click);
         // 
         // NewSubruleTemplateParameterMenuItem
         // 
         this.NewSubruleTemplateParameterMenuItem.Name = "NewSubruleTemplateParameterMenuItem";
-        this.NewSubruleTemplateParameterMenuItem.Size = new System.Drawing.Size(181, 22);
+        this.NewSubruleTemplateParameterMenuItem.Size = new System.Drawing.Size(182, 22);
         this.NewSubruleTemplateParameterMenuItem.Text = "Template &parameter";
         this.NewSubruleTemplateParameterMenuItem.Click += new System.EventHandler(this.NewSubruleTemplateParameterMenuItem_Click);
         // 
@@ -339,7 +338,7 @@ namespace WikiFunctions.ReplaceSpecial
             this.toolStripSeparator3,
             this.refreshColoursToolStripMenuItem});
         this.EditMenu.Name = "EditMenu";
-        this.EditMenu.Size = new System.Drawing.Size(42, 20);
+        this.EditMenu.Size = new System.Drawing.Size(40, 20);
         this.EditMenu.Text = "R&ule";
         // 
         // UndoMenuItem
@@ -347,7 +346,7 @@ namespace WikiFunctions.ReplaceSpecial
         this.UndoMenuItem.Name = "UndoMenuItem";
         this.UndoMenuItem.ShortcutKeyDisplayString = "";
         this.UndoMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-        this.UndoMenuItem.Size = new System.Drawing.Size(174, 22);
+        this.UndoMenuItem.Size = new System.Drawing.Size(179, 22);
         this.UndoMenuItem.Text = "&Undo";
         this.UndoMenuItem.Click += new System.EventHandler(this.UndoMenuItem_Click);
         // 
@@ -356,21 +355,21 @@ namespace WikiFunctions.ReplaceSpecial
         this.RedoMenuItem.Name = "RedoMenuItem";
         this.RedoMenuItem.ShortcutKeyDisplayString = "";
         this.RedoMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-        this.RedoMenuItem.Size = new System.Drawing.Size(174, 22);
+        this.RedoMenuItem.Size = new System.Drawing.Size(179, 22);
         this.RedoMenuItem.Text = "&Redo";
         this.RedoMenuItem.Click += new System.EventHandler(this.RedoMenuItem_Click);
         // 
         // toolStripSeparator2
         // 
         this.toolStripSeparator2.Name = "toolStripSeparator2";
-        this.toolStripSeparator2.Size = new System.Drawing.Size(171, 6);
+        this.toolStripSeparator2.Size = new System.Drawing.Size(176, 6);
         // 
         // CutMenuItem
         // 
         this.CutMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
         this.CutMenuItem.Name = "CutMenuItem";
         this.CutMenuItem.ShortcutKeyDisplayString = "Ctrl+X";
-        this.CutMenuItem.Size = new System.Drawing.Size(174, 22);
+        this.CutMenuItem.Size = new System.Drawing.Size(179, 22);
         this.CutMenuItem.Text = "Cu&t";
         this.CutMenuItem.Click += new System.EventHandler(this.CutMenuItem_Click);
         // 
@@ -379,7 +378,7 @@ namespace WikiFunctions.ReplaceSpecial
         this.CopyMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
         this.CopyMenuItem.Name = "CopyMenuItem";
         this.CopyMenuItem.ShortcutKeyDisplayString = "Ctrl+C";
-        this.CopyMenuItem.Size = new System.Drawing.Size(174, 22);
+        this.CopyMenuItem.Size = new System.Drawing.Size(179, 22);
         this.CopyMenuItem.Text = "&Copy";
         this.CopyMenuItem.Click += new System.EventHandler(this.CopyMenuItem_Click);
         // 
@@ -388,21 +387,21 @@ namespace WikiFunctions.ReplaceSpecial
         this.PasteMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
         this.PasteMenuItem.Name = "PasteMenuItem";
         this.PasteMenuItem.ShortcutKeyDisplayString = "Ctrl+V";
-        this.PasteMenuItem.Size = new System.Drawing.Size(174, 22);
+        this.PasteMenuItem.Size = new System.Drawing.Size(179, 22);
         this.PasteMenuItem.Text = "&Paste";
         this.PasteMenuItem.Click += new System.EventHandler(this.PasteMenuItem_Click);
         // 
         // toolStripSeparator5
         // 
         this.toolStripSeparator5.Name = "toolStripSeparator5";
-        this.toolStripSeparator5.Size = new System.Drawing.Size(171, 6);
+        this.toolStripSeparator5.Size = new System.Drawing.Size(176, 6);
         // 
         // DeleteMenuItem
         // 
         this.DeleteMenuItem.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
         this.DeleteMenuItem.Name = "DeleteMenuItem";
         this.DeleteMenuItem.ShortcutKeyDisplayString = "Del";
-        this.DeleteMenuItem.Size = new System.Drawing.Size(174, 22);
+        this.DeleteMenuItem.Size = new System.Drawing.Size(179, 22);
         this.DeleteMenuItem.Text = "&Delete";
         this.DeleteMenuItem.TextDirection = System.Windows.Forms.ToolStripTextDirection.Horizontal;
         this.DeleteMenuItem.Click += new System.EventHandler(this.DeleteMenuItem_Click);
@@ -410,13 +409,13 @@ namespace WikiFunctions.ReplaceSpecial
         // toolStripSeparator3
         // 
         this.toolStripSeparator3.Name = "toolStripSeparator3";
-        this.toolStripSeparator3.Size = new System.Drawing.Size(171, 6);
+        this.toolStripSeparator3.Size = new System.Drawing.Size(176, 6);
         // 
         // refreshColoursToolStripMenuItem
         // 
         this.refreshColoursToolStripMenuItem.Name = "refreshColoursToolStripMenuItem";
         this.refreshColoursToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-        this.refreshColoursToolStripMenuItem.Size = new System.Drawing.Size(174, 22);
+        this.refreshColoursToolStripMenuItem.Size = new System.Drawing.Size(179, 22);
         this.refreshColoursToolStripMenuItem.Text = "Re&fresh colours";
         this.refreshColoursToolStripMenuItem.Click += new System.EventHandler(this.refreshColoursToolStripMenuItem_Click);
         // 
