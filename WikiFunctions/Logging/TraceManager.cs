@@ -51,10 +51,15 @@ namespace WikiFunctions.Logging
 			Listeners.Remove(key);
 		}
 
-		public bool ContainsKey(string key)
+	    protected bool TryGetValue(string key, out IMyTraceListener listener)
 		{
-			return Listeners.ContainsKey(key);
+			return Listeners.TryGetValue(key, out listener);
 		}
+
+        public bool ContainsKey(string key)
+        {
+            return Listeners.ContainsKey(key);
+        }
 
 		public bool ContainsValue(IMyTraceListener listener)
 		{
