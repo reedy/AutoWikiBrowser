@@ -4943,6 +4943,11 @@ window.scrollTo(0, diffTopY);
             if (chkSkipOnlyMinorFaR.Checked && chkSkipWhenNoFAR.Checked)
                 chkSkipWhenNoFAR.Checked = false;
         }
+
+        private void submitStatToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UsageStats.Do(false);
+        }
     }
         #endregion
 }
