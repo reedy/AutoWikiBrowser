@@ -72,7 +72,7 @@ namespace WikiFunctions.Parse
                                   {
                                       Enabled = ((bool)dataGridRow.Cells["enabled"].FormattedValue),
                                       Minor = ((bool)dataGridRow.Cells["minor"].FormattedValue),
-                                      IsRegex = (bool)dataGridRow.Cells["regex"].FormattedValue
+                                      IsRegex = ((bool)dataGridRow.Cells["regex"].FormattedValue)
                                   };
 
             if (dataGridRow.Cells["replace"].Value == null)
