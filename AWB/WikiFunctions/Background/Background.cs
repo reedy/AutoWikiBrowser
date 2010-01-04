@@ -328,7 +328,8 @@ namespace WikiFunctions.Background
 
                     string ftu = Tools.TurnFirstToUpper(article);
 
-                    if (!knownLinks.ContainsKey(ftu))
+                    string value;
+                    if (!knownLinks.TryGetValue(ftu, out value))
                     {
                         //get text
                         string text;
@@ -353,9 +354,9 @@ namespace WikiFunctions.Background
                         }
                         knownLinks.Add(ftu, Tools.TurnFirstToUpper(dest));
                     }
-                    else if (knownLinks[ftu] != ftu)
+                    else if (value != ftu)
                     {
-                        string directLink = "[[" + knownLinks[ftu] + "|" + linkText + "]]";
+                        string directLink = "[[" + value + "|" + linkText + "]]";
 
                         StrParam = StrParam.Replace(link, directLink);
                     }

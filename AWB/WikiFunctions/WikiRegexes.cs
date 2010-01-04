@@ -84,10 +84,11 @@ namespace WikiFunctions
             DayMonthRangeSpan = new Regex(@"\b((?:[1-9]|[12][0-9]|3[01])(?:–|&ndash;|{{ndash}}|\/)(?:[1-9]|[12][0-9]|3[01])) " + Months + @"\b", RegexOptions.Compiled);
             
             MonthDayRangeSpan = new Regex(Months + @" ((?:[1-9]|[12][0-9]|3[01])(?:–|&ndash;|{{ndash}}|\/)(?:[1-9]|[12][0-9]|3[01]))\b", RegexOptions.Compiled);
-            
-            string s = Variables.MagicWords.ContainsKey("redirect")
-                ? string.Join("|", Variables.MagicWords["redirect"].ToArray()).Replace("#", "")
-                    : "REDIRECT";
+
+            List<string> magic;
+            string s = Variables.MagicWords.TryGetValue("redirect", out magic)
+                           ? string.Join("|", magic.ToArray()).Replace("#", "")
+                           : "REDIRECT";
 
             Redirect = new Regex(@"#(?:" + s + @")\s*:?\s*\[\[\s*:?\s*([^\|\[\]]*?)\s*(\|.*?)?\]\]", RegexOptions.IgnoreCase);
 
@@ -102,8 +103,8 @@ namespace WikiFunctions
             }
             Disambigs = new Regex(TemplateStart + s + "[^{}]*?}}", RegexOptions.Compiled);
 
-            if (Variables.MagicWords.ContainsKey("defaultsort"))
-                s = "(?i:" + string.Join("|", Variables.MagicWords["defaultsort"].ToArray()).Replace(":", "") + ")";
+            if (Variables.MagicWords.TryGetValue("defaultsort", out magic))
+                s = "(?i:" + string.Join("|", magic.ToArray()).Replace(":", "") + ")";
             else
                 s = (Variables.LangCode == "en")
                     ? "(?:(?i:defaultsort(key|CATEGORYSORT)?))"
@@ -157,15 +158,17 @@ namespace WikiFunctions
 
                 string nsName = Variables.Namespaces[ns];
                 sb.Append(Tools.StripNamespaceColon(nsName));
-                if (Variables.CanonicalNamespaces.ContainsKey(ns)
-                    && Variables.CanonicalNamespaces[ns] != nsName)
+                string canNS;
+                if (Variables.CanonicalNamespaces.TryGetValue(ns, out canNS)
+                    && canNS != nsName)
                 {
                     sb.Append('|');
-                    sb.Append(Tools.StripNamespaceColon(Variables.CanonicalNamespaces[ns]));
+                    sb.Append(Tools.StripNamespaceColon(canNS));
                 }
 
-                if (Variables.NamespaceAliases.ContainsKey(ns))
-                    foreach (string s in Variables.NamespaceAliases[ns])
+                List<string> nsAlias;
+                if (Variables.NamespaceAliases.TryGetValue(ns, out nsAlias))
+                    foreach (string s in nsAlias)
                     {
                         sb.Append('|');
                         sb.Append(Tools.StripNamespaceColon(s));

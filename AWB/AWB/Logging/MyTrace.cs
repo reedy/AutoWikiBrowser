@@ -210,8 +210,9 @@ namespace AutoWikiBrowser.Logging
             string str = GetFileNameFromActiveListener(key);
             RemoveListener(key);
             NewWikiTraceListener();
-            if (Listeners.ContainsKey(key))
-                Listeners[key].WriteCommentAndNewLine("logging continued from " + str);
+            IMyTraceListener listener;
+            if (Listeners.TryGetValue(key, out listener))
+                listener.WriteCommentAndNewLine("logging continued from " + str);
         }
         private void Busy()
         {
@@ -237,7 +238,11 @@ namespace AutoWikiBrowser.Logging
         }
         private bool WikiLogToUpload
         {
-            get { return (ContainsKey(ConWiki) && ((WikiTraceListener)(Listeners[ConWiki])).TraceStatus.LinesWrittenSinceLastUpload > 1); }
+            get
+            {
+                IMyTraceListener listener;
+                return (TryGetValue(ConWiki, out listener) && ((WikiTraceListener)listener).TraceStatus.LinesWrittenSinceLastUpload > 1);
+            }
         }
 
         // Overrides:
@@ -256,8 +261,9 @@ namespace AutoWikiBrowser.Logging
         }
         public override void RemoveListener(string key)
         {
-            if (!Listeners.ContainsKey(key)) return;
-            IMyTraceListener listener = Listeners[key];
+            IMyTraceListener listener;
+            if (!Listeners.TryGetValue(key, out listener))
+                return;
 
             if (listener.Uploadable)
             {
@@ -293,9 +299,10 @@ namespace AutoWikiBrowser.Logging
 
         internal void UploadWikiLog()
         {
-            if (ContainsKey(ConWiki))
+            IMyTraceListener listener;
+            if (TryGetValue(ConWiki, out listener))
             {
-                ((WikiTraceListener)(Listeners[ConWiki])).UploadLog();
+                ((WikiTraceListener)listener).UploadLog();
             }
         }
 
@@ -417,15 +424,13 @@ namespace AutoWikiBrowser.Logging
         {
             if (LoggingSettings.Settings.LogFolder == LogFolder)
             {
-                if (LoggingSettings.Settings.LogXHTML)
-                    if (!ContainsKey(ConXhtml))
-                        NewXhtmlTraceListener();
+                if (LoggingSettings.Settings.LogXHTML && !ContainsKey(ConXhtml))
+                    NewXhtmlTraceListener();
                 else if (ContainsKey(ConXhtml))
                     RemoveListener(ConXhtml);
 
-                if (LoggingSettings.Settings.LogWiki)
-                    if (!ContainsKey(ConWiki))
-                        NewWikiTraceListener();
+                if (LoggingSettings.Settings.LogWiki && !ContainsKey(ConWiki))
+                    NewWikiTraceListener();
                 else if (ContainsKey(ConWiki))
                     RemoveListener(ConWiki);
             }
