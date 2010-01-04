@@ -215,6 +215,7 @@ now stubborn}}");
         public void DisambigsTests()
         {
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{disambig}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{disambig|surname}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{disamb}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{dab}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Disambig}}");
