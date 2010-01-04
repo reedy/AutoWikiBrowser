@@ -74,9 +74,10 @@ namespace WikiFunctions.API
             ApiURL = URL + "api.php" + (PHP5 ? "5" : "");
             Maxlag = 5;
 
-            if (ProxyCache.ContainsKey(url))
+            IWebProxy proxy;
+            if (ProxyCache.TryGetValue(url, out proxy))
             {
-                ProxySettings = ProxyCache[url];
+                ProxySettings = proxy;
             }
             else
             {

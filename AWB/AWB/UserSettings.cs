@@ -655,8 +655,9 @@ namespace AutoWikiBrowser
 
             foreach (PluginPrefs pp in p.Plugin)
             {
-                if (Plugin.AWBPlugins.ContainsKey(pp.Name))
-                    Plugin.AWBPlugins[pp.Name].LoadSettings(pp.PluginSettings);
+                IAWBPlugin plugin;
+                if (Plugin.AWBPlugins.TryGetValue(pp.Name, out plugin))
+                    plugin.LoadSettings(pp.PluginSettings);
             }
         }
 
