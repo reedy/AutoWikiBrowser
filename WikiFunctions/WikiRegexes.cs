@@ -100,7 +100,7 @@ namespace WikiFunctions
                     s = "([234]CC|[Dd]isamb(?:ig(?:uation)?)?|[Dd]ab|[Mm]athdab|[Ss]urname|(?:[Nn]umber[Rr]oad|[Hh]ospital|[Gg]eo|[Hh]n|[Ss]choo)dis|SIA|[Ll]etter-disambig)";
                     break;
             }
-            Disambigs = new Regex(TemplateStart + s + "}}", RegexOptions.Compiled);
+            Disambigs = new Regex(TemplateStart + s + "[^{}]*?}}", RegexOptions.Compiled);
 
             if (Variables.MagicWords.ContainsKey("defaultsort"))
                 s = "(?i:" + string.Join("|", Variables.MagicWords["defaultsort"].ToArray()).Replace(":", "") + ")";
