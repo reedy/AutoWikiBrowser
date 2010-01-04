@@ -272,6 +272,17 @@ namespace AutoWikiBrowser
             this.chkRemoveSortKey = new System.Windows.Forms.CheckBox();
             this.chkSkipOnlyMinorFaR = new System.Windows.Forms.CheckBox();
             this.chkSkipWhenNoFAR = new System.Windows.Forms.CheckBox();
+            this.AlertGroup = new System.Windows.Forms.GroupBox();
+            this.lbDuplicateWikilinks = new System.Windows.Forms.ListBox();
+            this.lblDuplicateWikilinks = new System.Windows.Forms.Label();
+            this.lblWarn = new System.Windows.Forms.Label();
+            this.SummaryGroup = new System.Windows.Forms.GroupBox();
+            this.lblWords = new System.Windows.Forms.Label();
+            this.lblInterLinks = new System.Windows.Forms.Label();
+            this.lblDates = new System.Windows.Forms.Label();
+            this.lblCats = new System.Windows.Forms.Label();
+            this.lblImages = new System.Windows.Forms.Label();
+            this.lblLinks = new System.Windows.Forms.Label();
             this.txtEdit = new WikiFunctions.Controls.ArticleTextBox();
             this.mnuHistory = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -362,17 +373,6 @@ namespace AutoWikiBrowser
             this.lblSummary = new System.Windows.Forms.Label();
             this.cmboEditSummary = new System.Windows.Forms.ComboBox();
             this.findGroup = new System.Windows.Forms.GroupBox();
-            this.AlertGroup = new System.Windows.Forms.GroupBox();
-            this.lbDuplicateWikilinks = new System.Windows.Forms.ListBox();
-            this.lblDuplicateWikilinks = new System.Windows.Forms.Label();
-            this.lblWarn = new System.Windows.Forms.Label();
-            this.SummaryGroup = new System.Windows.Forms.GroupBox();
-            this.lblWords = new System.Windows.Forms.Label();
-            this.lblInterLinks = new System.Windows.Forms.Label();
-            this.lblDates = new System.Windows.Forms.Label();
-            this.lblCats = new System.Windows.Forms.Label();
-            this.lblImages = new System.Windows.Forms.Label();
-            this.lblLinks = new System.Windows.Forms.Label();
             this.EditBoxTab = new System.Windows.Forms.TabControl();
             this.tpEdit = new System.Windows.Forms.TabPage();
             this.tpHistory = new System.Windows.Forms.TabPage();
@@ -413,6 +413,8 @@ namespace AutoWikiBrowser
             this.toolStripSeparatorMakeFromTextBox = new System.Windows.Forms.ToolStripSeparator();
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
+            this.submitStatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator21 = new System.Windows.Forms.ToolStripSeparator();
             this.mnuTextBox.SuspendLayout();
             this.MnuMain.SuspendLayout();
             this.StatusMain.SuspendLayout();
@@ -429,6 +431,8 @@ namespace AutoWikiBrowser
             ((System.ComponentModel.ISupportInitialize)(this.imgBold)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgStrike)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgComment)).BeginInit();
+            this.AlertGroup.SuspendLayout();
+            this.SummaryGroup.SuspendLayout();
             this.mnuHistory.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.mnuNotify.SuspendLayout();
@@ -459,8 +463,6 @@ namespace AutoWikiBrowser
             ((System.ComponentModel.ISupportInitialize)(this.BotImage)).BeginInit();
             this.tpStart.SuspendLayout();
             this.findGroup.SuspendLayout();
-            this.AlertGroup.SuspendLayout();
-            this.SummaryGroup.SuspendLayout();
             this.EditBoxTab.SuspendLayout();
             this.tpEdit.SuspendLayout();
             this.tpHistory.SuspendLayout();
@@ -1247,21 +1249,21 @@ namespace AutoWikiBrowser
             // loadPluginToolStripMenuItem
             // 
             this.loadPluginToolStripMenuItem.Name = "loadPluginToolStripMenuItem";
-            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.loadPluginToolStripMenuItem.Text = "&Load...";
             this.loadPluginToolStripMenuItem.Click += new System.EventHandler(this.loadPluginToolStripMenuItem_Click);
             // 
             // managePluginsToolStripMenuItem
             // 
             this.managePluginsToolStripMenuItem.Name = "managePluginsToolStripMenuItem";
-            this.managePluginsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.managePluginsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.managePluginsToolStripMenuItem.Text = "&Manager...";
             this.managePluginsToolStripMenuItem.Click += new System.EventHandler(this.managePluginsToolStripMenuItem_Click);
             // 
             // toolStripSeparator26
             // 
             this.toolStripSeparator26.Name = "toolStripSeparator26";
-            this.toolStripSeparator26.Size = new System.Drawing.Size(127, 6);
+            this.toolStripSeparator26.Size = new System.Drawing.Size(149, 6);
             // 
             // ToolStripMenuGeneral
             // 
@@ -1457,6 +1459,8 @@ namespace AutoWikiBrowser
             this.launchDumpSearcherToolStripMenuItem,
             this.launchListComparerToolStripMenuItem,
             this.launchListSplitterToolStripMenuItem,
+            this.toolStripSeparator21,
+            this.submitStatToolStripMenuItem,
             this.toolStripSeparator29,
             this.profileTyposToolStripMenuItem,
             this.invalidateCacheToolStripMenuItem});
@@ -1932,7 +1936,7 @@ namespace AutoWikiBrowser
             this.chkLock.AutoSize = true;
             this.chkLock.Location = new System.Drawing.Point(10, 30);
             this.chkLock.Name = "chkLock";
-            this.chkLock.Size = new System.Drawing.Size(94, 17);
+            this.chkLock.Size = new System.Drawing.Size(50, 17);
             this.chkLock.TabIndex = 2;
             this.chkLock.Text = "&Lock";
             this.ToolTip.SetToolTip(this.chkLock, "Lock the Edit Summary\r\nPrevents the Edit Summary from being changed");
@@ -2598,6 +2602,121 @@ namespace AutoWikiBrowser
             this.chkSkipWhenNoFAR.Text = "no replacement";
             this.ToolTip.SetToolTip(this.chkSkipWhenNoFAR, "Automatically skip pages when no change made");
             this.chkSkipWhenNoFAR.CheckedChanged += new System.EventHandler(this.chkSkipWhenNoFAR_CheckedChanged);
+            // 
+            // AlertGroup
+            // 
+            this.AlertGroup.Controls.Add(this.btnRemove);
+            this.AlertGroup.Controls.Add(this.lbDuplicateWikilinks);
+            this.AlertGroup.Controls.Add(this.lblDuplicateWikilinks);
+            this.AlertGroup.Controls.Add(this.lblWarn);
+            this.AlertGroup.Location = new System.Drawing.Point(10, 163);
+            this.AlertGroup.Name = "AlertGroup";
+            this.AlertGroup.Size = new System.Drawing.Size(139, 185);
+            this.AlertGroup.TabIndex = 5;
+            this.AlertGroup.TabStop = false;
+            this.AlertGroup.Text = "Alerts";
+            this.ToolTip.SetToolTip(this.AlertGroup, "Displays alerts for the current page over problems in the page text that may requ" +
+                    "ire manual correction");
+            // 
+            // lbDuplicateWikilinks
+            // 
+            this.lbDuplicateWikilinks.FormattingEnabled = true;
+            this.lbDuplicateWikilinks.Location = new System.Drawing.Point(7, 89);
+            this.lbDuplicateWikilinks.Name = "lbDuplicateWikilinks";
+            this.lbDuplicateWikilinks.Size = new System.Drawing.Size(127, 69);
+            this.lbDuplicateWikilinks.TabIndex = 2;
+            this.lbDuplicateWikilinks.Visible = false;
+            this.lbDuplicateWikilinks.Click += new System.EventHandler(this.lbDuplicateWikilinks_Click);
+            // 
+            // lblDuplicateWikilinks
+            // 
+            this.lblDuplicateWikilinks.AutoSize = true;
+            this.lblDuplicateWikilinks.ForeColor = System.Drawing.Color.Red;
+            this.lblDuplicateWikilinks.Location = new System.Drawing.Point(5, 73);
+            this.lblDuplicateWikilinks.Name = "lblDuplicateWikilinks";
+            this.lblDuplicateWikilinks.Size = new System.Drawing.Size(91, 13);
+            this.lblDuplicateWikilinks.TabIndex = 1;
+            this.lblDuplicateWikilinks.Text = "Multiple wiki-links:";
+            this.lblDuplicateWikilinks.Visible = false;
+            // 
+            // lblWarn
+            // 
+            this.lblWarn.ForeColor = System.Drawing.Color.Red;
+            this.lblWarn.Location = new System.Drawing.Point(6, 14);
+            this.lblWarn.Name = "lblWarn";
+            this.lblWarn.Size = new System.Drawing.Size(127, 59);
+            this.lblWarn.TabIndex = 0;
+            // 
+            // SummaryGroup
+            // 
+            this.SummaryGroup.Controls.Add(this.lblWords);
+            this.SummaryGroup.Controls.Add(this.lblInterLinks);
+            this.SummaryGroup.Controls.Add(this.lblDates);
+            this.SummaryGroup.Controls.Add(this.lblCats);
+            this.SummaryGroup.Controls.Add(this.lblImages);
+            this.SummaryGroup.Controls.Add(this.lblLinks);
+            this.SummaryGroup.Location = new System.Drawing.Point(10, 54);
+            this.SummaryGroup.Name = "SummaryGroup";
+            this.SummaryGroup.Size = new System.Drawing.Size(139, 103);
+            this.SummaryGroup.TabIndex = 4;
+            this.SummaryGroup.TabStop = false;
+            this.SummaryGroup.Text = "Page statistics";
+            this.ToolTip.SetToolTip(this.SummaryGroup, "Displays statistics on the current page");
+            // 
+            // lblWords
+            // 
+            this.lblWords.AutoSize = true;
+            this.lblWords.Location = new System.Drawing.Point(6, 16);
+            this.lblWords.Name = "lblWords";
+            this.lblWords.Size = new System.Drawing.Size(41, 13);
+            this.lblWords.TabIndex = 0;
+            this.lblWords.Text = "Words:";
+            // 
+            // lblInterLinks
+            // 
+            this.lblInterLinks.AutoSize = true;
+            this.lblInterLinks.Location = new System.Drawing.Point(5, 68);
+            this.lblInterLinks.Name = "lblInterLinks";
+            this.lblInterLinks.Size = new System.Drawing.Size(73, 13);
+            this.lblInterLinks.TabIndex = 4;
+            this.lblInterLinks.Text = "Interwiki links:";
+            // 
+            // lblDates
+            // 
+            this.lblDates.AutoSize = true;
+            this.lblDates.Location = new System.Drawing.Point(5, 81);
+            this.lblDates.Name = "lblDates";
+            this.lblDates.Size = new System.Drawing.Size(69, 13);
+            this.lblDates.TabIndex = 5;
+            this.lblDates.Text = "Dates O/I/A:";
+            this.ToolTip.SetToolTip(this.lblDates, "Number of dates found in page in ISO 8601 / International / American format");
+            // 
+            // lblCats
+            // 
+            this.lblCats.AutoSize = true;
+            this.lblCats.Location = new System.Drawing.Point(5, 55);
+            this.lblCats.Name = "lblCats";
+            this.lblCats.Size = new System.Drawing.Size(60, 13);
+            this.lblCats.TabIndex = 3;
+            this.lblCats.Text = "Categories:";
+            // 
+            // lblImages
+            // 
+            this.lblImages.AutoSize = true;
+            this.lblImages.Location = new System.Drawing.Point(6, 42);
+            this.lblImages.Name = "lblImages";
+            this.lblImages.Size = new System.Drawing.Size(44, 13);
+            this.lblImages.TabIndex = 2;
+            this.lblImages.Text = "Images:";
+            // 
+            // lblLinks
+            // 
+            this.lblLinks.AutoSize = true;
+            this.lblLinks.Location = new System.Drawing.Point(6, 29);
+            this.lblLinks.Name = "lblLinks";
+            this.lblLinks.Size = new System.Drawing.Size(35, 13);
+            this.lblLinks.TabIndex = 1;
+            this.lblLinks.Text = "Links:";
             // 
             // txtEdit
             // 
@@ -3608,120 +3727,6 @@ namespace AutoWikiBrowser
             this.findGroup.TabStop = false;
             this.findGroup.Text = "Fi&nd";
             // 
-            // AlertGroup
-            // 
-            this.AlertGroup.Controls.Add(this.btnRemove);
-            this.AlertGroup.Controls.Add(this.lbDuplicateWikilinks);
-            this.AlertGroup.Controls.Add(this.lblDuplicateWikilinks);
-            this.AlertGroup.Controls.Add(this.lblWarn);
-            this.AlertGroup.Location = new System.Drawing.Point(10, 163);
-            this.AlertGroup.Name = "AlertGroup";
-            this.AlertGroup.Size = new System.Drawing.Size(139, 185);
-            this.AlertGroup.TabIndex = 5;
-            this.AlertGroup.TabStop = false;
-            this.AlertGroup.Text = "Alerts";
-            this.ToolTip.SetToolTip(this.AlertGroup, "Displays alerts for the current page over problems in the page text that may require manual correction");
-            // 
-            // lbDuplicateWikilinks
-            // 
-            this.lbDuplicateWikilinks.FormattingEnabled = true;
-            this.lbDuplicateWikilinks.Location = new System.Drawing.Point(7, 89);
-            this.lbDuplicateWikilinks.Name = "lbDuplicateWikilinks";
-            this.lbDuplicateWikilinks.Size = new System.Drawing.Size(127, 69);
-            this.lbDuplicateWikilinks.TabIndex = 2;
-            this.lbDuplicateWikilinks.Visible = false;
-            this.lbDuplicateWikilinks.Click += new System.EventHandler(this.lbDuplicateWikilinks_Click);
-            // 
-            // lblDuplicateWikilinks
-            // 
-            this.lblDuplicateWikilinks.AutoSize = true;
-            this.lblDuplicateWikilinks.ForeColor = System.Drawing.Color.Red;
-            this.lblDuplicateWikilinks.Location = new System.Drawing.Point(5, 73);
-            this.lblDuplicateWikilinks.Name = "lblDuplicateWikilinks";
-            this.lblDuplicateWikilinks.Size = new System.Drawing.Size(91, 13);
-            this.lblDuplicateWikilinks.TabIndex = 1;
-            this.lblDuplicateWikilinks.Text = "Multiple wiki-links:";
-            this.lblDuplicateWikilinks.Visible = false;
-            // 
-            // lblWarn
-            // 
-            this.lblWarn.ForeColor = System.Drawing.Color.Red;
-            this.lblWarn.Location = new System.Drawing.Point(6, 14);
-            this.lblWarn.Name = "lblWarn";
-            this.lblWarn.Size = new System.Drawing.Size(127, 59);
-            this.lblWarn.TabIndex = 0;
-            // 
-            // SummaryGroup
-            // 
-            this.SummaryGroup.Controls.Add(this.lblWords);
-            this.SummaryGroup.Controls.Add(this.lblInterLinks);
-            this.SummaryGroup.Controls.Add(this.lblDates);
-            this.SummaryGroup.Controls.Add(this.lblCats);
-            this.SummaryGroup.Controls.Add(this.lblImages);
-            this.SummaryGroup.Controls.Add(this.lblLinks);
-            this.SummaryGroup.Location = new System.Drawing.Point(10, 54);
-            this.SummaryGroup.Name = "SummaryGroup";
-            this.SummaryGroup.Size = new System.Drawing.Size(139, 103);
-            this.SummaryGroup.TabIndex = 4;
-            this.SummaryGroup.TabStop = false;
-            this.SummaryGroup.Text = "Page statistics";
-            this.ToolTip.SetToolTip(this.SummaryGroup, "Displays statistics on the current page");
-            // 
-            // lblWords
-            // 
-            this.lblWords.AutoSize = true;
-            this.lblWords.Location = new System.Drawing.Point(6, 16);
-            this.lblWords.Name = "lblWords";
-            this.lblWords.Size = new System.Drawing.Size(41, 13);
-            this.lblWords.TabIndex = 0;
-            this.lblWords.Text = "Words:";
-            // 
-            // lblInterLinks
-            // 
-            this.lblInterLinks.AutoSize = true;
-            this.lblInterLinks.Location = new System.Drawing.Point(5, 68);
-            this.lblInterLinks.Name = "lblInterLinks";
-            this.lblInterLinks.Size = new System.Drawing.Size(73, 13);
-            this.lblInterLinks.TabIndex = 4;
-            this.lblInterLinks.Text = "Interwiki links:";
-                        // 
-            // lblDates
-            // 
-            this.lblDates.AutoSize = true;
-            this.lblDates.Location = new System.Drawing.Point(5, 81);
-            this.lblDates.Name = "lblDates";
-            this.lblDates.Size = new System.Drawing.Size(86, 13);
-            this.lblDates.TabIndex = 5;
-            this.lblDates.Text = @"Dates O/I/A:";
-            this.ToolTip.SetToolTip(this.lblDates, @"Number of dates found in page in ISO 8601 / International / American format");
-            // 
-            // lblCats
-            // 
-            this.lblCats.AutoSize = true;
-            this.lblCats.Location = new System.Drawing.Point(5, 55);
-            this.lblCats.Name = "lblCats";
-            this.lblCats.Size = new System.Drawing.Size(60, 13);
-            this.lblCats.TabIndex = 3;
-            this.lblCats.Text = "Categories:";
-            // 
-            // lblImages
-            // 
-            this.lblImages.AutoSize = true;
-            this.lblImages.Location = new System.Drawing.Point(6, 42);
-            this.lblImages.Name = "lblImages";
-            this.lblImages.Size = new System.Drawing.Size(44, 13);
-            this.lblImages.TabIndex = 2;
-            this.lblImages.Text = "Images:";
-            // 
-            // lblLinks
-            // 
-            this.lblLinks.AutoSize = true;
-            this.lblLinks.Location = new System.Drawing.Point(6, 29);
-            this.lblLinks.Name = "lblLinks";
-            this.lblLinks.Size = new System.Drawing.Size(35, 13);
-            this.lblLinks.TabIndex = 1;
-            this.lblLinks.Text = "Links:";
-            // 
             // EditBoxTab
             // 
             this.EditBoxTab.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
@@ -4156,6 +4161,18 @@ namespace AutoWikiBrowser
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
             // 
+            // submitStatToolStripMenuItem
+            // 
+            this.submitStatToolStripMenuItem.Name = "submitStatToolStripMenuItem";
+            this.submitStatToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.submitStatToolStripMenuItem.Text = "Submit stats";
+            this.submitStatToolStripMenuItem.Click += new System.EventHandler(this.submitStatToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator21
+            // 
+            this.toolStripSeparator21.Name = "toolStripSeparator21";
+            this.toolStripSeparator21.Size = new System.Drawing.Size(212, 6);
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -4196,6 +4213,10 @@ namespace AutoWikiBrowser
             ((System.ComponentModel.ISupportInitialize)(this.imgBold)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgStrike)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgComment)).EndInit();
+            this.AlertGroup.ResumeLayout(false);
+            this.AlertGroup.PerformLayout();
+            this.SummaryGroup.ResumeLayout(false);
+            this.SummaryGroup.PerformLayout();
             this.mnuHistory.ResumeLayout(false);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();
@@ -4244,10 +4265,6 @@ namespace AutoWikiBrowser
             this.tpStart.PerformLayout();
             this.findGroup.ResumeLayout(false);
             this.findGroup.PerformLayout();
-            this.AlertGroup.ResumeLayout(false);
-            this.AlertGroup.PerformLayout();
-            this.SummaryGroup.ResumeLayout(false);
-            this.SummaryGroup.PerformLayout();
             this.EditBoxTab.ResumeLayout(false);
             this.tpEdit.ResumeLayout(false);
             this.tpEdit.PerformLayout();
@@ -4639,5 +4656,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripStatusLabel lblNewArticles;
         private System.Windows.Forms.CheckBox chkSkipOnlyMinorFaR;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ToolStripMenuItem submitStatToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator21;
     }
 }
