@@ -791,15 +791,14 @@ namespace WikiFunctions.Parse
                 string inner = m.Groups[1].Value.Trim();
                 int hash = inner.GetHashCode();
                 List<Ref> list;
-                if (!refs.ContainsKey(hash))
+                if (refs.TryGetValue(hash, out list))
                 {
-                    list = new List<Ref>();
-                    refs[hash] = list;
+                    haveRefsToFix = true;
                 }
                 else
                 {
-                    list = refs[hash];
-                    haveRefsToFix = true;
+                    list = new List<Ref>();
+                    refs[hash] = list;
                 }
 
                 list.Add(new Ref { Text = str, InnerText = inner });
@@ -2943,9 +2942,7 @@ namespace WikiFunctions.Parse
 
             lock (CachedGetTemplatesRegexes)
             {
-                if (CachedGetTemplatesRegexes.ContainsKey(ciTemplateName))
-                    search = CachedGetTemplatesRegexes[ciTemplateName];
-                else
+                if (!CachedGetTemplatesRegexes.TryGetValue(ciTemplateName, out search))
                 {
                     search = new Regex(@"{{\s*" + ciTemplateName + @"\s*(\|((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})|}})", RegexOptions.Compiled);
                     CachedGetTemplatesRegexes[ciTemplateName] = search;

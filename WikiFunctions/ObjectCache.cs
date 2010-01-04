@@ -147,9 +147,10 @@ namespace WikiFunctions
             lock (Storage)
             {
                 Type type = typeof(T);
-                if (Storage.ContainsKey(type) && Storage[type].ContainsKey(key))
+                StoredData found;
+                Dictionary<string, StoredData> foundD;
+                if (Storage.TryGetValue(type, out foundD) && foundD.TryGetValue(key, out found))
                 {
-                    StoredData found = Storage[type][key];
                     if (found.Expires < DateTime.Now)
                     {
                         Storage[type].Remove(key);
@@ -204,7 +205,8 @@ namespace WikiFunctions
 
             lock (Storage)
             {
-                if (!Storage.ContainsKey(type)) Storage[type] = new Dictionary<string, StoredData>();
+                if (!Storage.ContainsKey(type))
+                    Storage[type] = new Dictionary<string, StoredData>();
                 Storage[type][key] = new StoredData(value, expiry);
             }
         }
