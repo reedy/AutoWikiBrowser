@@ -34,6 +34,7 @@ namespace WikiFunctions.Controls
         public LED()
         {
             InitializeComponent();
+            DoubleBuffered = true;
         }
 
         protected override void OnPaint(PaintEventArgs e)
