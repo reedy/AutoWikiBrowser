@@ -197,19 +197,17 @@ namespace WikiFunctions
             if (value == null) throw new ArgumentNullException("value");
 
             Type type = value.GetType();
-            TimeSpan time;
-            if (!SupportedTypes.TryGetValue(type, out time))
+            if (!SupportedTypes.ContainsKey(type))
                 throw new ArgumentException("Caching of type " + value.GetType().Name + " is not supported",
                                             "value");
 
-            if (expiry == DateTime.MinValue) expiry = DateTime.Now + time;
+            if (expiry == DateTime.MinValue) expiry = DateTime.Now + SupportedTypes[type];
 
             lock (Storage)
             {
-                Dictionary<string, StoredData> data;
-                if (!Storage.TryGetValue(type, out data))
+                if (!Storage.ContainsKey(type))
                     Storage[type] = new Dictionary<string, StoredData>();
-                data[key] = new StoredData(value, expiry);
+                Storage[type][key] = new StoredData(value, expiry);
             }
         }
 
@@ -333,9 +331,9 @@ namespace WikiFunctions
                             Type type = Type.GetType(entry.Name);
                             if (type == null || !SupportedTypes.ContainsKey(type)) continue;
 
-                            Dictionary<string, StoredData> dict = Storage[type] = new Dictionary<string, StoredData>();
+                            Storage[type] = new Dictionary<string, StoredData>();
                             foreach (var data in entry.Items)
-                                dict[data.Key] = new StoredData(data.Value, data.Expires);
+                                Storage[type][data.Key] = new StoredData(data.Value, data.Expires);
                         }
                         catch (Exception ex)
                         {
