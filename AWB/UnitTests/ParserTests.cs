@@ -1867,30 +1867,52 @@ journal=Crypt of Cthulhu #19: A Pulp Thriller and Theological Journal |volume=sp
         [Test]
         public void CiteTemplatesPageRange()
         {
-            const string correct = @"{{cite journal|first=Robert M.|last=Price|year=Candlemas 1984|title=Brian Lumley&mdash;Reanimator|
+        	const string correct = @"{{cite journal|first=Robert M.|last=Price|year=Candlemas 1984|title=Brian Lumley&mdash;Reanimator|
 journal=Crypt of Cthulhu |volume= 3|issue= 3|pages = 140–148}}";
 
-            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite journal|first=Robert M.|last=Price|year=Candlemas 1984|title=Brian Lumley&mdash;Reanimator|
+        	Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite journal|first=Robert M.|last=Price|year=Candlemas 1984|title=Brian Lumley&mdash;Reanimator|
 journal=Crypt of Cthulhu |volume= 3|issue= 3|pages = 140-148}}")); // hyphen
-            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite journal|first=Robert M.|last=Price|year=Candlemas 1984|title=Brian Lumley&mdash;Reanimator|
+        	Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite journal|first=Robert M.|last=Price|year=Candlemas 1984|title=Brian Lumley&mdash;Reanimator|
 journal=Crypt of Cthulhu |volume= 3|issue= 3|pages = 140   - 148}}")); // hyphen
+        	
+        	const string journalstart = @"{{cite journal|first=Robert M.|last=Price|year=Candlemas 1984|title=Brian Lumley&mdash;Reanimator|
+journal=Crypt of Cthulhu |volume= 3|issue= 3| ";
 
-            Assert.AreEqual(@"{{cite journal|first=Robert M.|last=Price|year=Candlemas 1984|title=Brian Lumley&mdash;Reanimator|
-journal=Crypt of Cthulhu |volume= 3|issue= 3| pages = 140–148}}", Parsers.FixCitationTemplates(@"{{cite journal|first=Robert M.|last=Price|year=Candlemas 1984|title=Brian Lumley&mdash;Reanimator|
-journal=Crypt of Cthulhu |volume= 3|issue= 3| pages = 140   - 148}}")); // hyphen
-            
-            // do not change page sections etc.
-            const string nochange1 = @"{{cite journal|first=Robert M.|last=Price|year=Candlemas 1984|title=Brian Lumley&mdash;Reanimator|
-journal=Crypt of Cthulhu |volume= 3|issue= 3|pages = 140–7-2}}",
-            // non-breaking hyphens to represent page sections rather than ranges
-            nochange2 = @"{{cite journal|first=Robert M.|last=Price|year=Candlemas 1984|title=Brian Lumley&mdash;Reanimator|
-journal=Crypt of Cthulhu |volume= 3|issue= 3|pages = 140‑7}}",
-            nochange3 = @"{{cite journal|first=Robert M.|last=Price|year=Candlemas 1984|title=Brian Lumley&mdash;Reanimator|
+        	Assert.AreEqual(journalstart + @"pages = 140–148}}", Parsers.FixCitationTemplates(journalstart + @"pages = 140   - 148}}")); // hyphen
+        	
+        	Assert.AreEqual(journalstart + @"pages = 140–8}}", Parsers.FixCitationTemplates(journalstart + @"pages = 140-8}}")); // hyphen
+        	
+        	Assert.AreEqual(journalstart + @"pages = 140–48}}", Parsers.FixCitationTemplates(journalstart + @"pages = 140 -48}}")); // hyphen
+        	
+        	Assert.AreEqual(journalstart + @"pages = 140–148}}", Parsers.FixCitationTemplates(journalstart + @"pages = 140   - 148}}")); // hyphen
+        	Assert.AreEqual(journalstart + @"pages = 940–1083}}", Parsers.FixCitationTemplates(journalstart + @"pages = 940   - 1083}}")); // hyphen
+        	
+        	// mulitple ranges
+        	Assert.AreEqual(journalstart + @"pages = 140–148, 150, 152–157}}", Parsers.FixCitationTemplates(journalstart + @"pages = 140-148, 150, 152-157}}")); // hyphen
+        }
+        
+        [Test]
+        public void CiteTemplatesPageSections()
+        {
+        	const string journalstart = @"{{cite journal|first=Robert M.|last=Price|year=Candlemas 1984|title=Brian Lumley&mdash;Reanimator|
+journal=Crypt of Cthulhu |volume= 3|issue= 3| ";
+        	
+        	// do not change page sections etc.
+        	const string nochange1 = @"{{cite journal|first=Robert M.|last=Price|year=Candlemas 1984|title=Brian Lumley&mdash;Reanimator|
+journal=Crypt of Cthulhu |volume= 3|issue= 3|pages = 140–7-2}}";
+        	
+        	Assert.AreEqual(nochange1, Parsers.FixCitationTemplates(nochange1));
+        	
+        	Assert.AreEqual(journalstart + @"pages = 8-4}}", Parsers.FixCitationTemplates(journalstart + @"pages = 8-4}}")); // hyphen
+        	Assert.AreEqual(journalstart + @"pages = 8-8}}", Parsers.FixCitationTemplates(journalstart + @"pages = 8-8}}")); // hyphen
+        	
+        	// non-breaking hyphens to represent page sections rather than ranges
+        	const string nochange2 = @"{{cite journal|first=Robert M.|last=Price|year=Candlemas 1984|title=Brian Lumley&mdash;Reanimator|
+journal=Crypt of Cthulhu |volume= 3|issue= 3|pages = 140‑7}}", nochange3 = @"{{cite journal|first=Robert M.|last=Price|year=Candlemas 1984|title=Brian Lumley&mdash;Reanimator|
 journal=Crypt of Cthulhu |volume= 3|issue= 3|pages = 140&#8209;7}}";
-            
-            Assert.AreEqual(nochange1, Parsers.FixCitationTemplates(nochange1));
-            Assert.AreEqual(nochange2, Parsers.FixCitationTemplates(nochange2));
-            Assert.AreEqual(nochange3, Parsers.FixCitationTemplates(nochange3));
+        	
+        	Assert.AreEqual(nochange2, Parsers.FixCitationTemplates(nochange2));
+        	Assert.AreEqual(nochange3, Parsers.FixCitationTemplates(nochange3));
         }
 
         [Test]

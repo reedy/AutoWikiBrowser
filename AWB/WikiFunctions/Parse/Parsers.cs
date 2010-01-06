@@ -1587,6 +1587,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex DateLeadingZerosAm = new Regex(@"(?<!\b[0-3]?\d\s*)\b" + WikiRegexes.Months + @"\s+0([1-9])" + @"\b", RegexOptions.Compiled);
         private static readonly Regex DateLeadingZerosInt = new Regex(@"\b" + @"0([1-9])\s+" + WikiRegexes.Months + @"\b", RegexOptions.Compiled);
         private static readonly Regex MonthsRegex = new Regex(@"\b" + WikiRegexes.MonthsNoGroup + @"\b", RegexOptions.Compiled);
+
         // Covered by TestFixDateOrdinalsAndOf
         /// <summary>
         /// Removes ordinals, leading zeros from dates and 'of' between a month and a year, per [[WP:MOSDATE]]; on en wiki only
@@ -2046,7 +2047,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex CiteTemplatesJournalVolume = new Regex(@"(?<=\|\s*volume\s*=\s*)vol(?:umes?|\.)?(?:&nbsp;|:)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex CiteTemplatesJournalVolumeAndIssue = new Regex(@"(?<=\|\s*volume\s*=\s*[0-9VXMILC]+?)(?:[;,]?\s*(?:no[\.:;]?|(?:numbers?|issue|iss)\s*[:;]?))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex CiteTemplatesJournalIssue = new Regex(@"(?<=\|\s*issue\s*=\s*)(?:issues?|(?:nos?|iss)(?:[\.,;:]|\b)|numbers?[\.,;:]?)(?:&nbsp;)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        private static readonly Regex CiteTemplatesPageRange = new Regex(@"(?<=\|\s*pages?\s*=\s*(?:p?p\.?)?\s*\d+)\s*[-—]\s*(\d)", RegexOptions.Compiled);
+        private static readonly Regex CiteTemplatesPageRange = new Regex(@"(?<=\|\s*pages?\s*=[^\|{}]*?)(\d+)\s*[-—]\s*(\d+)", RegexOptions.Compiled);
         private static readonly Regex CiteTemplatesPageRangeName = new Regex(@"(\|\s*)page(\s*=\s*\d+\s*–\s*\d)", RegexOptions.Compiled);
 
         private static readonly Regex AccessDateYear = new Regex(@"(?<=\|\s*accessdate\s*=\s*(?:[1-3]?\d\s+" + WikiRegexes.MonthsNoGroup + @"|\s*" + WikiRegexes.MonthsNoGroup + @"\s+[1-3]?\d))(\s*)\|\s*accessyear\s*=\s*(20[01]\d)\s*(\||}})", RegexOptions.Compiled);
@@ -2174,9 +2175,22 @@ namespace WikiFunctions.Parse
                 // catch after any other fixes
                 newValue = NoCommaAmericanDates.Replace(newValue, @"$1, $2");
 
-                // page range should have unspaced en-dash
-                newValue = CiteTemplatesPageRange.Replace(newValue, @"–$1");
-                
+                // page range should have unspaced en-dash; validate that page is range not section link
+                while(CiteTemplatesPageRange.IsMatch(newValue))
+                {
+                	Match pagerange = CiteTemplatesPageRange.Match(newValue);
+                	string page1 = pagerange.Groups[1].Value;
+                	string page2 = pagerange.Groups[2].Value;
+                	
+                	// convert 350-2 into 350-352 etc.
+                	if(page1.Length > page2.Length)
+                		page2 = page1.Substring(0, page1.Length - page2.Length) + page2;
+                	
+                	if(Convert.ToInt32(page1) < Convert.ToInt32(page2))
+                		newValue = CiteTemplatesPageRange.Replace(newValue, @"$1–$2");
+                	else break;
+                }
+                      
                 // page range should use 'pages' parameter not 'page'
                 newValue = CiteTemplatesPageRangeName.Replace(newValue, @"$1pages$2");
 
