@@ -79,6 +79,10 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             PluginManager.StatusText.Text = "Started"
         End Sub
 
+        Friend Sub AWBProcessingAborted(ByVal editor As AsyncApiEdit)
+            TimerStats1.StopStats()
+        End Sub
+
         ' Properties:
         Private mAssessmentsAlwaysLeaveAComment As Boolean
 
