@@ -27,11 +27,10 @@ namespace AWBPackager
 {
     class Program
     {
-        static readonly Regex SvnVersion = new Regex(@"""(\d+).*?""", RegexOptions.Compiled);
+        private static readonly Regex SvnVersion = new Regex(@"""(\d+).*?""", RegexOptions.Compiled);
 
         static void Main()
         {
-            string tmp = "temp\\";
             try
             {
                 string filename = "AutoWikiBrowser{0}";
@@ -50,8 +49,8 @@ Is this SVN (1) or a release (2)? ");
                     return;
                 }
 
-                string awbDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase).Replace("file:\\", "");
-                tmp = awbDir + "\\" + tmp;
+                string awbDir = Directory.GetCurrentDirectory();
+                string tmp = awbDir + "\\temp\\";
                 awbDir = awbDir.Remove(awbDir.IndexOf("Extras"));
                 Directory.CreateDirectory(tmp);
 
