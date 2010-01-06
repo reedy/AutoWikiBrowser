@@ -158,6 +158,8 @@ namespace WikiFunctions.API
 
         public event AsyncEventHandler StateChanged;
 
+        public event AsyncEventHandler Aborted;
+
         #endregion
 
         #region Events internal
@@ -464,6 +466,9 @@ namespace WikiFunctions.API
             if (TheThread != null)
                 TheThread.Join();
             TheThread = null; // the thread should reset this even if aborted, but let's be sure
+
+            if (Aborted != null)
+                Aborted(this);
 
             State = EditState.Aborted;
         }

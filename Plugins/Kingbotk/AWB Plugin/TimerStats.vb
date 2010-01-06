@@ -29,11 +29,18 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         End Property
         Friend Sub Init(ByVal e As AsyncApiEdit, ByVal ETALabel As Label, _
         ByVal Stats As PluginSettingsControl.Stats)
-            editor = e
-            ResetVars()
-            mETALabel = ETALabel
-            TimerEnabled = True
-            mStats = Stats
+
+            If Not TimerEnabled Then
+                editor = e
+
+                ResetVars()
+                mETALabel = ETALabel
+
+                TimerEnabled = True
+                mStats = Stats
+
+                Timer1_Tick(Nothing, Nothing)
+            End If
         End Sub
         Friend Sub Reset()
             ResetVars()
@@ -45,6 +52,10 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             NumberOfEdits = 0
             Start = Date.Now
             mSkipped = 0
+        End Sub
+        Friend Sub StopStats()
+            ResetVars()
+            TimerEnabled = False
         End Sub
         Private Property ETA() As String
             Get
@@ -71,11 +82,14 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
                 End If
             End If
         End Sub
-        Private WriteOnly Property TimerEnabled() As Boolean
+        Private Property TimerEnabled() As Boolean
             Set(ByVal value As Boolean)
                 mETALabel.Visible = value
                 Timer1.Enabled = value
             End Set
+            Get
+                Return Timer1.Enabled
+            End Get
         End Property
 
         ' Event handlers
@@ -99,15 +113,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
                     UpdateETACount = 0
                     CalculateETA(TimeSpan.TotalSeconds / (NumberOfEdits + mSkipped))
                 End If
-            End If
-        End Sub
-        Private Sub Editor_StateChanged(ByVal sender As AsyncApiEdit) Handles editor.StateChanged
-            If editor.IsActive Then
-                mETALabel.Visible = True
-            Else
-                TimerEnabled = False
-                TimeSpan = Nothing
-                editor = Nothing
             End If
         End Sub
         Friend Sub IncrementSavedEdits(ByVal sender As AsyncApiEdit, ByVal save As SaveInfo) Handles editor.SaveComplete
