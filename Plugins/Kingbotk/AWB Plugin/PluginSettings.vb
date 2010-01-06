@@ -72,6 +72,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             For Each lbl As Label In StatLabels
                 If lbl.Text = "" Then lbl.Text = "0"
             Next
+
             TimerStats1.Visible = True
             TimerStats1.Init(editor, ETALabel, PluginStats)
 
