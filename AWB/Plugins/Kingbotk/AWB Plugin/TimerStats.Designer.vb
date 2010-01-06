@@ -37,9 +37,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.TimerLabel.AutoSize = True
             Me.TimerLabel.Location = New System.Drawing.Point(3, 9)
             Me.TimerLabel.Name = "TimerLabel"
-            Me.TimerLabel.Size = New System.Drawing.Size(28, 13)
+            Me.TimerLabel.Size = New System.Drawing.Size(49, 13)
             Me.TimerLabel.TabIndex = 0
-            Me.TimerLabel.Text = "0:00"
+            Me.TimerLabel.Text = "00:00:00"
             Me.ToolTip1.SetToolTip(Me.TimerLabel, "Time running")
             '
             'SpeedLabel
