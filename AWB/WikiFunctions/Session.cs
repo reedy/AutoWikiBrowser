@@ -106,7 +106,6 @@ namespace WikiFunctions
 
         public event AsyncEventHandler StateChanged;
 
-
         void OnOpenComplete(AsyncApiEdit sender, PageInfo pageInfo)
         {
             if (OpenComplete != null) OpenComplete(sender, pageInfo);
