@@ -180,8 +180,5 @@ namespace WikiFunctions.Plugin
         string CustomModule { get; }
 
         event GetLogUploadLocationsEvent GetLogUploadLocations;
-
-        [ObsoleteAttribute]
-        TabControl Tab { get; }
     }
 }
