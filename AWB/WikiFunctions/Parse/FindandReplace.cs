@@ -548,12 +548,12 @@ namespace WikiFunctions.Parse
         private void chkIgnoreMore_CheckedChanged(object sender, EventArgs e)
         {
             if (chkIgnoreMore.Checked)
-                chkIgnoreLinks.Checked = true;
+                chkIgnoreLinks.Checked = false;
         }
 
         private void chkIgnoreLinks_CheckedChanged(object sender, EventArgs e)
         {
-            if (!chkIgnoreLinks.Checked)
+            if (chkIgnoreLinks.Checked)
                 chkIgnoreMore.Checked = false;
         }
 
