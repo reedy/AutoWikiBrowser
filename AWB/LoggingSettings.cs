@@ -185,7 +185,6 @@ namespace AutoWikiBrowser
             Settings.LogVerbose = VerboseCheckBox.Checked;
             Settings.LogWiki = WikiLogCheckBox.Checked;
             Settings.LogXHTML = XHTMLLogCheckBox.Checked;
-            Settings.LogSQL = SQLLogCheckBox.Checked;
             Settings.UploadYN = UploadCheckBox.Checked;
             Settings.UploadAddToWatchlist = UploadWatchlistCheckBox.Checked;
             Settings.UploadJobName = UploadJobNameTextBox.Text;
@@ -301,8 +300,7 @@ namespace AutoWikiBrowser
 
         private void ResetButton_Click(object sender, EventArgs e)
         {
-            XHTMLLogCheckBox.Checked = SQLLogCheckBox.Checked =
-                VerboseCheckBox.Checked = UploadCheckBox.Checked = false;
+            XHTMLLogCheckBox.Checked = VerboseCheckBox.Checked = UploadCheckBox.Checked = false;
             WikiLogCheckBox.Checked = UploadOpenInBrowserCheckBox.Checked =
                 UploadWatchlistCheckBox.Checked = UploadWikiProjectCheckBox.Checked = true;
             CategoryReset();
