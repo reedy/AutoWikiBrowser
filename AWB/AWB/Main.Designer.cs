@@ -3703,18 +3703,6 @@ namespace AutoWikiBrowser
             this.cmboEditSummary.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmboEditSummary.FormattingEnabled = true;
             this.cmboEditSummary.IntegralHeight = false;
-            this.cmboEditSummary.Items.AddRange(new object[] {
-            "clean up",
-            "re-categorisation per [[WP:CFD|CFD]]",
-            "clean up and re-categorisation per [[WP:CFD|CFD]]",
-            "removing category per [[WP:CFD|CFD]]",
-            "[[Wikipedia:Template substitution|subst:\'ing]]",
-            "[[Wikipedia:WikiProject Stub sorting|stub sorting]]",
-            "[[WP:AWB/T|Typo fixing]]",
-            "bad link repair",
-            "Fixing [[Wikipedia:Disambiguation pages with links|links to disambiguation pages]" +
-                "]",
-            "Unicodifying"});
             this.cmboEditSummary.Location = new System.Drawing.Point(55, 6);
             this.cmboEditSummary.MaxLength = 155;
             this.cmboEditSummary.Name = "cmboEditSummary";
@@ -3904,7 +3892,7 @@ namespace AutoWikiBrowser
             this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
             this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
             this.loggingSettings1.Name = "loggingSettings1";
-//            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
+            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
             this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
             this.loggingSettings1.TabIndex = 0;
             // 
