@@ -1889,6 +1889,11 @@ journal=Crypt of Cthulhu |volume= 3|issue= 3| ";
         	
         	// mulitple ranges
         	Assert.AreEqual(journalstart + @"pages = 140–148, 150, 152–157}}", Parsers.FixCitationTemplates(journalstart + @"pages = 140-148, 150, 152-157}}")); // hyphen
+        	
+        	// don't go beyond =,\,/
+        	Assert.AreEqual(journalstart + @"pages = 140–148, 150, 152–157 isbn= 1-15-0908-99}}", Parsers.FixCitationTemplates(journalstart + @"pages = 140-148, 150, 152-157 isbn= 1-15-0908-99}}")); // hyphen
+        	Assert.AreEqual(journalstart + @"pages = 140–148, 150, 152–157 isbn\ 1-15-0908-99}}", Parsers.FixCitationTemplates(journalstart + @"pages = 140-148, 150, 152-157 isbn\ 1-15-0908-99}}")); // hyphen
+        	Assert.AreEqual(journalstart + @"pages = 140–148, 150, 152–157 isbn/ 1-15-0908-99}}", Parsers.FixCitationTemplates(journalstart + @"pages = 140-148, 150, 152-157 isbn/ 1-15-0908-99}}")); // hyphen
         }
         
         [Test]
