@@ -84,7 +84,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         End Sub
         Private Property TimerEnabled() As Boolean
             Set(ByVal value As Boolean)
-                mETALabel.Visible = value
+                If mETALabel IsNot Nothing Then
+                    mETALabel.Visible = value
+                End If
                 Timer1.Enabled = value
             End Set
             Get
