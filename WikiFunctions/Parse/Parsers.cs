@@ -2047,7 +2047,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex CiteTemplatesJournalVolume = new Regex(@"(?<=\|\s*volume\s*=\s*)vol(?:umes?|\.)?(?:&nbsp;|:)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex CiteTemplatesJournalVolumeAndIssue = new Regex(@"(?<=\|\s*volume\s*=\s*[0-9VXMILC]+?)(?:[;,]?\s*(?:no[\.:;]?|(?:numbers?|issue|iss)\s*[:;]?))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex CiteTemplatesJournalIssue = new Regex(@"(?<=\|\s*issue\s*=\s*)(?:issues?|(?:nos?|iss)(?:[\.,;:]|\b)|numbers?[\.,;:]?)(?:&nbsp;)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        private static readonly Regex CiteTemplatesPageRange = new Regex(@"(?<=\|\s*pages?\s*=[^\|{}=/\\]*?)(\d+)\s*[-—]\s*(\d+)", RegexOptions.Compiled);
+        private static readonly Regex CiteTemplatesPageRange = new Regex(@"(?<=\|\s*pages?\s*=[^\|{}=/\\]*?)\b(\d+)\s*[-—]\s*(\d+)", RegexOptions.Compiled);
         private static readonly Regex CiteTemplatesPageRangeName = new Regex(@"(\|\s*)page(\s*=\s*\d+\s*–\s*\d)", RegexOptions.Compiled);
 
         private static readonly Regex AccessDateYear = new Regex(@"(?<=\|\s*accessdate\s*=\s*(?:[1-3]?\d\s+" + WikiRegexes.MonthsNoGroup + @"|\s*" + WikiRegexes.MonthsNoGroup + @"\s+[1-3]?\d))(\s*)\|\s*accessyear\s*=\s*(20[01]\d)\s*(\||}})", RegexOptions.Compiled);
@@ -2186,7 +2186,7 @@ namespace WikiFunctions.Parse
                 	if(page1.Length > page2.Length)
                 		page2 = page1.Substring(0, page1.Length - page2.Length) + page2;
                 	
-                	if(Convert.ToInt32(page1) < Convert.ToInt32(page2))
+                	if(Convert.ToInt32(page1) < Convert.ToInt32(page2) && Convert.ToInt32(page2)-Convert.ToInt32(page1) < 999)
                 		newValue = CiteTemplatesPageRange.Replace(newValue, @"$1–$2");
                 	else break;
                 }
