@@ -334,8 +334,8 @@ namespace WikiFunctions
             if (Encoding.UTF8.GetByteCount(summary) >= maxAvailableSummaryLength && summary.EndsWith(@"]]"))
                 summary = Regex.Replace(summary, @"\s*\[\[[^\[\]\r\n]+?\]\]$", "...");
 
-            if (Encoding.UTF8.GetByteCount(summary) >= maxAvailableSummaryLength)
-                summary = summary.Substring(0, maxAvailableSummaryLength);
+            if (Encoding.UTF8.GetByteCount(summary) > maxAvailableSummaryLength)
+                summary = summary.Substring(0, maxAvailableSummaryLength - 1);
             
             return summary;
         }

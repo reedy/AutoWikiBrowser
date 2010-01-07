@@ -501,8 +501,8 @@ bar"));
         {
             Assert.AreEqual("test", Tools.TrimEditSummary("test"));
             
-            string bug1 = @"replaced category 'Actual event ballads' → 'Songs based on actual events' per [[Wikipedia:Categories for discussion/Log/2009 November 6|CfD 2009 Nov 6]]";
-            string waffle = @"some waffle here to make the edit summary too long";
+            const string bug1 = @"replaced category 'Actual event ballads' → 'Songs based on actual events' per [[Wikipedia:Categories for discussion/Log/2009 November 6|CfD 2009 Nov 6]]";
+            const string waffle = @"some waffle here to make the edit summary too long";
             
             Assert.AreEqual(bug1, Tools.TrimEditSummary(bug1));
             Assert.AreEqual(waffle + bug1, Tools.TrimEditSummary(waffle + bug1));

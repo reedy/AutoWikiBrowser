@@ -2010,12 +2010,7 @@ window.scrollTo(0, diffTopY);
                 || (!Variables.IsWikimediaProject && _suppressUsingAWB))
                 return summary;
 
-            int maxAvailableSummaryLength = ((Parsers.MaxSummaryLength - 5) - (Variables.SummaryTag.Length + 1));
-
-            if (Encoding.UTF8.GetByteCount(summary) >= maxAvailableSummaryLength)
-            {
-                summary = Tools.TrimEditSummary(summary);
-            }
+            summary = Tools.TrimEditSummary(summary);
 
 #if DEBUG
             if (!Parsers.IsCorrectEditSummary(summary + Variables.SummaryTag))
