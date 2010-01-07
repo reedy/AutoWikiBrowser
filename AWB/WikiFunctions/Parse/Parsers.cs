@@ -4411,7 +4411,7 @@ namespace WikiFunctions.Parse
                     // add uncategorized stub tag
                     articleText +=
                         "\r\n\r\n{{Uncategorizedstub|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
-                    summary += ", added [[:Category:Uncategorized stubs|uncategorised]] tag";
+                    summary += ", added [[CAT:UNCATSTUBS|uncategorised]] tag";
                 }
                 else
                 {
