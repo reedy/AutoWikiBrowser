@@ -1894,6 +1894,16 @@ journal=Crypt of Cthulhu |volume= 3|issue= 3| ";
         	Assert.AreEqual(journalstart + @"pages = 140–148, 150, 152–157 isbn= 1-15-0908-99}}", Parsers.FixCitationTemplates(journalstart + @"pages = 140-148, 150, 152-157 isbn= 1-15-0908-99}}")); // hyphen
         	Assert.AreEqual(journalstart + @"pages = 140–148, 150, 152–157 isbn\ 1-15-0908-99}}", Parsers.FixCitationTemplates(journalstart + @"pages = 140-148, 150, 152-157 isbn\ 1-15-0908-99}}")); // hyphen
         	Assert.AreEqual(journalstart + @"pages = 140–148, 150, 152–157 isbn/ 1-15-0908-99}}", Parsers.FixCitationTemplates(journalstart + @"pages = 140-148, 150, 152-157 isbn/ 1-15-0908-99}}")); // hyphen
+        	
+        	const string nochange1 = @"{{cite conference
+  | first = Owen
+  | title = System Lifecycle Cost 
+  | booktitle = AIAA Space 2007
+  | pages = Paper No. AIAA-2007–6023
+  | date = 2007
+  | accessdate = }}";
+        	
+        	Assert.AreEqual(nochange1, Parsers.FixCitationTemplates(nochange1)); // range over 999 pages
         }
         
         [Test]
