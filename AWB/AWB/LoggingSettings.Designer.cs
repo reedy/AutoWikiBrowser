@@ -69,7 +69,6 @@ namespace AutoWikiBrowser
             this.Label7 = new System.Windows.Forms.Label();
             this.GroupBox1 = new System.Windows.Forms.GroupBox();
             this.DebugUploadingCheckBox = new System.Windows.Forms.CheckBox();
-            this.SQLLogCheckBox = new System.Windows.Forms.CheckBox();
             this.GroupBox4 = new System.Windows.Forms.GroupBox();
             this.FolderTextBox = new System.Windows.Forms.TextBox();
             this.FolderButton = new System.Windows.Forms.Button();
@@ -483,7 +482,6 @@ namespace AutoWikiBrowser
             // GroupBox1
             // 
             this.GroupBox1.Controls.Add(this.DebugUploadingCheckBox);
-            this.GroupBox1.Controls.Add(this.SQLLogCheckBox);
             this.GroupBox1.Controls.Add(this.GroupBox4);
             this.GroupBox1.Controls.Add(this.UploadCheckBox);
             this.GroupBox1.Controls.Add(this.WikiLogCheckBox);
@@ -499,25 +497,13 @@ namespace AutoWikiBrowser
             // DebugUploadingCheckBox
             // 
             this.DebugUploadingCheckBox.AutoSize = true;
-            this.DebugUploadingCheckBox.Location = new System.Drawing.Point(70, 111);
+            this.DebugUploadingCheckBox.Location = new System.Drawing.Point(70, 88);
             this.DebugUploadingCheckBox.Name = "DebugUploadingCheckBox";
             this.DebugUploadingCheckBox.Size = new System.Drawing.Size(58, 17);
             this.DebugUploadingCheckBox.TabIndex = 5;
             this.DebugUploadingCheckBox.Text = "Debug";
             this.DebugUploadingCheckBox.UseVisualStyleBackColor = true;
             this.DebugUploadingCheckBox.CheckedChanged += new System.EventHandler(this.WeHaveUnappliedChanges);
-            // 
-            // SQLLogCheckBox
-            // 
-            this.SQLLogCheckBox.AutoSize = true;
-            this.SQLLogCheckBox.Enabled = false;
-            this.SQLLogCheckBox.Location = new System.Drawing.Point(6, 65);
-            this.SQLLogCheckBox.Name = "SQLLogCheckBox";
-            this.SQLLogCheckBox.Size = new System.Drawing.Size(94, 17);
-            this.SQLLogCheckBox.TabIndex = 2;
-            this.SQLLogCheckBox.Text = "Log to MySQL";
-            this.SQLLogCheckBox.UseVisualStyleBackColor = true;
-            this.SQLLogCheckBox.CheckedChanged += new System.EventHandler(this.WeHaveUnappliedChanges);
             // 
             // GroupBox4
             // 
@@ -551,7 +537,7 @@ namespace AutoWikiBrowser
             // UploadCheckBox
             // 
             this.UploadCheckBox.AutoSize = true;
-            this.UploadCheckBox.Location = new System.Drawing.Point(6, 111);
+            this.UploadCheckBox.Location = new System.Drawing.Point(6, 88);
             this.UploadCheckBox.Name = "UploadCheckBox";
             this.UploadCheckBox.Size = new System.Drawing.Size(60, 17);
             this.UploadCheckBox.TabIndex = 4;
@@ -584,7 +570,7 @@ namespace AutoWikiBrowser
             // VerboseCheckBox
             // 
             this.VerboseCheckBox.AutoSize = true;
-            this.VerboseCheckBox.Location = new System.Drawing.Point(6, 88);
+            this.VerboseCheckBox.Location = new System.Drawing.Point(6, 65);
             this.VerboseCheckBox.Name = "VerboseCheckBox";
             this.VerboseCheckBox.Size = new System.Drawing.Size(102, 17);
             this.VerboseCheckBox.TabIndex = 3;
@@ -672,7 +658,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem SetToMaximumToolStripMenuItem;
         private System.Windows.Forms.FolderBrowserDialog FolderBrowserDialog1;
         private System.Windows.Forms.ToolTip ToolTip1;
-        private System.Windows.Forms.CheckBox SQLLogCheckBox;
         private System.Windows.Forms.CheckBox DebugUploadingCheckBox;
         private System.Windows.Forms.Button ResetButton;
         internal System.Windows.Forms.TextBox LoggingCategoryTextBox;
