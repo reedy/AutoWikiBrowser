@@ -1995,7 +1995,7 @@ window.scrollTo(0, diffTopY);
             if (TheArticle == null)
                 return "";
 
-            string summary = cmboEditSummary.Text + " " + TheArticle.EditSummary;
+            string summary = cmboEditSummary.Text + ", " + TheArticle.EditSummary;
 
             // check to see if we have only edited one level 2 section
             if (!noSectionEditSummaryToolStripMenuItem.Checked)
