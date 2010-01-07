@@ -50,11 +50,11 @@ namespace WikiFunctions.Logging
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openHistoryInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openLogInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lvSuccessful = new WikiFunctions.Logging.ArticleActionListView();
             this.lvFailed = new WikiFunctions.Logging.ArticleActionListView();
-            this.openLogInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuListView.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -154,7 +154,7 @@ namespace WikiFunctions.Logging
             this.toolStripSeparator1,
             this.clearToolStripMenuItem});
             this.mnuListView.Name = "mnuListView";
-            this.mnuListView.Size = new System.Drawing.Size(204, 276);
+            this.mnuListView.Size = new System.Drawing.Size(204, 254);
             // 
             // addSelectedToArticleListToolStripMenuItem
             // 
@@ -232,6 +232,13 @@ namespace WikiFunctions.Logging
             this.openHistoryInBrowserToolStripMenuItem.Text = "Open history in browser";
             this.openHistoryInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openHistoryInBrowserToolStripMenuItem_Click);
             // 
+            // openLogInBrowserToolStripMenuItem
+            // 
+            this.openLogInBrowserToolStripMenuItem.Name = "openLogInBrowserToolStripMenuItem";
+            this.openLogInBrowserToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.openLogInBrowserToolStripMenuItem.Text = "Open log in browser";
+            this.openLogInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openLogInBrowserToolStripMenuItem_Click);
+            // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
@@ -277,13 +284,6 @@ namespace WikiFunctions.Logging
             this.lvFailed.UseCompatibleStateImageBehavior = false;
             this.lvFailed.View = System.Windows.Forms.View.Details;
             this.lvFailed.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
-            // 
-            // openLogInBrowserToolStripMenuItem
-            // 
-            this.openLogInBrowserToolStripMenuItem.Name = "openLogInBrowserToolStripMenuItem";
-            this.openLogInBrowserToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
-            this.openLogInBrowserToolStripMenuItem.Text = "Open log in browser";
-            this.openLogInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openLogInBrowserToolStripMenuItem_Click);
             // 
             // ArticleActionLogControl
             // 
