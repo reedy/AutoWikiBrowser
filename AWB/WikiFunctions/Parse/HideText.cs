@@ -50,7 +50,8 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// 
+        /// Hides Unformatted text (nowiki, pre, math, html comments, timelines), source tags
+        /// Also hides images and external links if set on call to constructor
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns></returns>
@@ -92,7 +93,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// 
+        /// Adds stuff removed by Hide back
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns></returns>
@@ -125,7 +126,7 @@ namespace WikiFunctions.Parse
         private readonly List<HideObject> HiddenUnformattedText = new List<HideObject>();
 
         /// <summary>
-        /// 
+        /// Hides unformatted text regions: nowiki, pre, math, html comments, timelines
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns></returns>
@@ -147,7 +148,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// 
+        /// Adds things removed by HideUnformatted back
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns></returns>
@@ -168,6 +169,7 @@ namespace WikiFunctions.Parse
 
         /// <summary>
         /// Replaces back hidden images, external links, templates, headings etc.
+        /// (ie what was hidden by HideMore)
         /// </summary>
         /// <param name="matches"></param>
         /// <param name="articleText">The wiki text of the article.</param>
