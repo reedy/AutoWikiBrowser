@@ -4929,7 +4929,7 @@ window.scrollTo(0, diffTopY);
 
         private void clearCurrentListToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show(this, "Do you want to clear the current list?", "Clear current list", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+            if (listMaker.Count > 0 && MessageBox.Show(this, "Do you want to clear the current list?", "Clear current list", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                 == DialogResult.Yes)
                 listMaker.Clear();
         }
