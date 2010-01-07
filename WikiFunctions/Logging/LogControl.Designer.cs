@@ -298,7 +298,7 @@ namespace WikiFunctions.Logging
             this.lvIgnored.Location = new System.Drawing.Point(3, 187);
             this.lvIgnored.Name = "lvIgnored";
             this.lvIgnored.ShowItemToolTips = true;
-            this.lvIgnored.Size = new System.Drawing.Size(249, 117);
+            this.lvIgnored.Size = new System.Drawing.Size(249, 115);
             this.lvIgnored.SortColumnsOnClick = true;
             this.lvIgnored.TabIndex = 21;
             this.lvIgnored.UseCompatibleStateImageBehavior = false;

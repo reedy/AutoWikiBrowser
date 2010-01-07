@@ -3851,7 +3851,7 @@ namespace AutoWikiBrowser
             // 
             // logControl
             // 
-            this.logControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.logControl.Dock = System.Windows.Forms.DockStyle.Top;
             this.logControl.Location = new System.Drawing.Point(3, 3);
             this.logControl.Margin = new System.Windows.Forms.Padding(4);
             this.logControl.Name = "logControl";
@@ -3870,10 +3870,13 @@ namespace AutoWikiBrowser
             // 
             // articleActionLogControl1
             // 
-            this.articleActionLogControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.articleActionLogControl1.Location = new System.Drawing.Point(0, 0);
+            this.articleActionLogControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.articleActionLogControl1.Location = new System.Drawing.Point(3, 3);
+            this.articleActionLogControl1.Margin = new System.Windows.Forms.Padding(4);
             this.articleActionLogControl1.Name = "articleActionLogControl1";
-            this.articleActionLogControl1.Size = new System.Drawing.Size(394, 351);
+            this.articleActionLogControl1.Size = new System.Drawing.Size(388, 345);
             this.articleActionLogControl1.TabIndex = 0;
             // 
             // tpLoggingOptions
