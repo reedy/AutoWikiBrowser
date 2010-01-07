@@ -230,6 +230,7 @@ disambig|surname
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{template:disambig}}");
             
             RegexAssert.NoMatch(WikiRegexes.Disambigs, @"{{now disambig}}");
+            RegexAssert.NoMatch(WikiRegexes.Disambigs, @"{{dablink|foo}}");
         }
 
         [Test]
