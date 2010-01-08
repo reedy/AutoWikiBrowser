@@ -3553,6 +3553,13 @@ window.scrollTo(0, diffTopY);
         {
             if (_loadingTypos)
                 return;
+            
+            if(!chkRegExTypo.Checked)
+            {
+                chkSkipIfNoRegexTypo.Checked = chkSkipIfNoRegexTypo.Enabled = false;
+            }
+            else
+                chkSkipIfNoRegexTypo.Enabled = true;
 
             if (chkRegExTypo.Checked && BotMode)
             {
