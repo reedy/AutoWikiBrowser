@@ -11,8 +11,17 @@ namespace WikiFunctions.Parse
     /// </summary>
     public sealed class HideText
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public HideText() { }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="hideExternalLinks"></param>
+        /// <param name="leaveMetaHeadings"></param>
+        /// <param name="hideImages"></param>
         public HideText(bool hideExternalLinks, bool leaveMetaHeadings, bool hideImages)
         {
             HideExternalLinks = hideExternalLinks;
@@ -22,8 +31,10 @@ namespace WikiFunctions.Parse
 
         private readonly bool LeaveMetaHeadings, HideImages, HideExternalLinks;
 
-        private readonly List<HideObject> HiddenTokens = new List<HideObject>();
         private static readonly Regex NoWikiIgnoreRegex = new Regex("<!-- ?(cat(egories)?|\\{\\{.*?stub\\}\\}.*?|other languages?|language links?|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wikis?|The below are interlanguage links\\.?) ?-->", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        #region Hide
+        private readonly List<HideObject> HiddenTokens = new List<HideObject>();
 
         /// <summary>
         /// 
@@ -92,6 +103,8 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
+        private static readonly Regex HiddenRegex = new Regex("⌊⌊⌊⌊(\\d*)⌋⌋⌋⌋", RegexOptions.Compiled);
+
         /// <summary>
         /// Adds stuff removed by Hide back
         /// </summary>
@@ -121,8 +134,9 @@ namespace WikiFunctions.Parse
             HiddenTokens.Clear();
             return articleText;
         }
+        #endregion
 
-        #region Separate hiding of unformatted text
+        #region Unformatted Text
         private readonly List<HideObject> HiddenUnformattedText = new List<HideObject>();
 
         /// <summary>
@@ -192,8 +206,21 @@ namespace WikiFunctions.Parse
             articleText = sb.ToString();
         }
 
-        static readonly Regex HiddenRegex = new Regex("⌊⌊⌊⌊(\\d*)⌋⌋⌋⌋", RegexOptions.Compiled);
-        static readonly Regex HiddenMoreRegex = new Regex("⌊⌊⌊⌊M(\\d*)⌋⌋⌋⌋", RegexOptions.Compiled);
+        /// <summary>
+        /// Hides images, external links, templates, headings
+        /// </summary>
+        public string HideMore(string articleText)
+        {
+            return HideMore(articleText, false, true);
+        }
+
+        /// <summary>
+        /// Hides images, external links, templates, headings
+        /// </summary>
+        public string HideMore(string articleText, bool hideOnlyTargetOfWikilink)
+        {
+            return HideMore(articleText, hideOnlyTargetOfWikilink, true);
+        }
 
         /// <summary>
         /// Hides images, external links, templates, headings
@@ -261,21 +288,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        /// <summary>
-        /// Hides images, external links, templates, headings
-        /// </summary>
-        public string HideMore(string articleText)
-        {
-            return HideMore(articleText, false, true);
-        }
-
-        /// <summary>
-        /// Hides images, external links, templates, headings
-        /// </summary>
-        public string HideMore(string articleText, bool hideOnlyTargetOfWikilink)
-        {
-            return HideMore(articleText, hideOnlyTargetOfWikilink, true);
-        }
+        private static readonly Regex HiddenMoreRegex = new Regex("⌊⌊⌊⌊M(\\d*)⌋⌋⌋⌋", RegexOptions.Compiled);
 
         /// <summary>
         /// Adds back hidden stuff from HideMore
