@@ -31,12 +31,11 @@ namespace WikiFunctions.Disambiguation
             InitializeComponent();
         }
 
-        public DabControl(string articleText, string link, Match match, List<string> variants, int contextChars)
+        public DabControl(string articleText, Match match, List<string> variants, int contextChars)
         {
             try
             {
                 ArticleText = articleText;
-                DabLink = link;
                 Match = match;
                 Variants = variants;
                 ContextChars = contextChars;
@@ -52,10 +51,9 @@ namespace WikiFunctions.Disambiguation
         public event EventHandler Changed;
 
         // input data
-        public string DabLink;
-        public string ArticleText;
-        public Match Match;
-        public List<string> Variants;
+        public readonly string ArticleText;
+        public readonly Match Match;
+        public readonly List<string> Variants;
 
         // output data
         public string Surroundings;
@@ -66,17 +64,13 @@ namespace WikiFunctions.Disambiguation
         }
 
         //internal
-        readonly int ContextChars;
-        int PosStart;
-        int PosEnd;
-        bool StartOfSentence;
-        string VisibleLink;
-        string RealLink;
-        string CurrentLink;
-        string LinkTrail;
-        int PosInSurroundings;
+        private readonly int ContextChars;
+        private int PosStart, PosEnd, PosInSurroundings;
+        private bool StartOfSentence;
 
-        static readonly Regex UnpipeRegex = new Regex(@"\[\[\s*([^\|\]]*)\s*\|\s*[^\]]*\s*\]\](.*)", RegexOptions.Compiled);
+        private string VisibleLink, RealLink, CurrentLink, LinkTrail;
+
+        private static readonly Regex UnpipeRegex = new Regex(@"\[\[\s*([^\|\]]*)\s*\|\s*[^\]]*\s*\]\](.*)", RegexOptions.Compiled);
 
         public bool CanSave
         {
@@ -191,39 +185,41 @@ namespace WikiFunctions.Disambiguation
         {
             try
             {
-                if (n == 0) // no change
+                switch (n)
                 {
-                    txtCorrection.Text = Surroundings;
-                    CurrentLink = Match.Value;
-                }
-                else if (n == 1) // unlink
-                {
-                    txtCorrection.Text = Surroundings.Replace(Match.Value, VisibleLink + LinkTrail);
-                    CurrentLink = VisibleLink + LinkTrail;
-                }
-                else if (n == 2) // add {{dn}}
-                {
-                    CurrentLink = Match.Value + "{{dn}}";
-                    if ((Surroundings.Length > PosInSurroundings + Match.Value.Length) &&
-                        (char.IsPunctuation(Surroundings[PosInSurroundings + Match.Value.Length])))
-                    {
-                        txtCorrection.Text = Surroundings.Insert(PosInSurroundings + Match.Value.Length + 1, "{{dn}}");
-                    }
-                    else
-                        txtCorrection.Text = Surroundings.Replace(Match.Value, CurrentLink);
-                }
-                else
-                {
-                    CurrentLink = "[[";
-                    if (StartOfSentence || char.IsUpper(RealLink[0])) CurrentLink += Tools.TurnFirstToUpper(Variants[n - 3]);
-                    else CurrentLink += Variants[n - 3];
-                    CurrentLink += "|" + VisibleLink;
-                    if (RealLink == VisibleLink)
-                        CurrentLink += LinkTrail + "]]";
-                    else
-                        CurrentLink += "]]" + LinkTrail;
-                    CurrentLink = Parse.Parsers.SimplifyLinks(CurrentLink);
-                    txtCorrection.Text = Parse.Parsers.StickyLinks(Surroundings.Replace(Match.Value, CurrentLink));
+                    case 0:
+                        txtCorrection.Text = Surroundings;
+                        CurrentLink = Match.Value;
+                        break;
+
+                    case 1:
+                        txtCorrection.Text = Surroundings.Replace(Match.Value, VisibleLink + LinkTrail);
+                        CurrentLink = VisibleLink + LinkTrail;
+                        break;
+
+                    case 2:
+                        CurrentLink = Match.Value + "{{dn}}";
+                        if ((Surroundings.Length > PosInSurroundings + Match.Value.Length) &&
+                            (char.IsPunctuation(Surroundings[PosInSurroundings + Match.Value.Length])))
+                        {
+                            txtCorrection.Text = Surroundings.Insert(PosInSurroundings + Match.Value.Length + 1, "{{dn}}");
+                        }
+                        else
+                            txtCorrection.Text = Surroundings.Replace(Match.Value, CurrentLink);
+                        break;
+
+                    default:
+                        CurrentLink = "[[";
+                        if (StartOfSentence || char.IsUpper(RealLink[0])) CurrentLink += Tools.TurnFirstToUpper(Variants[n - 3]);
+                        else CurrentLink += Variants[n - 3];
+                        CurrentLink += "|" + VisibleLink;
+                        if (RealLink == VisibleLink)
+                            CurrentLink += LinkTrail + "]]";
+                        else
+                            CurrentLink += "]]" + LinkTrail;
+                        CurrentLink = Parse.Parsers.SimplifyLinks(CurrentLink);
+                        txtCorrection.Text = Parse.Parsers.StickyLinks(Surroundings.Replace(Match.Value, CurrentLink));
+                        break;
                 }
 
                 btnUnpipe.Enabled = btnFlip.Enabled = CurrentLink.Contains("|");
