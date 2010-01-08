@@ -107,7 +107,7 @@ namespace WikiFunctions.Disambiguation
 
             foreach (Match m in matches)
             {
-                DabControl c = new DabControl(articleText, dabLink, m, Variants, contextChars);
+                DabControl c = new DabControl(articleText, m, Variants, contextChars);
                 c.Changed += OnUserInput;
                 tableLayout.Controls.Add(c);
                 Dabs.Add(c);
