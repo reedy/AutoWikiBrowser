@@ -68,7 +68,7 @@ namespace WikiFunctions.Disambiguation
         /// </summary>
         public bool NoChange
         {
-            get { return cmboChoice.SelectedIndex == 0; }
+            get { return cmboChoice.SelectedIndex == 0 && txtCorrection.Text == Surroundings; }
         }
 
         //internal
@@ -95,10 +95,6 @@ namespace WikiFunctions.Disambiguation
                 Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 
                 // prepare variants
-                cmboChoice.Items.Add("[no change]");
-                cmboChoice.Items.Add("[unlink]");
-                cmboChoice.Items.Add("{{dn}}");
-
                 foreach (string s in Variants) cmboChoice.Items.Add(s);
 
                 //find our paragraph

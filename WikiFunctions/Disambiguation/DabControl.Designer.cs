@@ -55,6 +55,10 @@ namespace WikiFunctions.Disambiguation
             this.cmboChoice.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cmboChoice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboChoice.FormattingEnabled = true;
+            this.cmboChoice.Items.AddRange(new object[] {
+            "[no change]",
+            "[unlink]",
+            "{{dn}}"});
             this.cmboChoice.Location = new System.Drawing.Point(360, 0);
             this.cmboChoice.MaxDropDownItems = 15;
             this.cmboChoice.Name = "cmboChoice";
