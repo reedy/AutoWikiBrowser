@@ -3066,7 +3066,7 @@ namespace AutoWikiBrowser
             this.chkSkipIfNoRegexTypo.Size = new System.Drawing.Size(118, 17);
             this.chkSkipIfNoRegexTypo.TabIndex = 2;
             this.chkSkipIfNoRegexTypo.Text = "Skip if no typo fixed";
-            // 
+            this.ToolTip.SetToolTip(this.chkSkipIfNoRegexTypo, "Automatically skip pages when no typo fixed"); 
             // chkRegExTypo
             // 
             this.chkRegExTypo.AutoSize = true;
