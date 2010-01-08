@@ -5,7 +5,6 @@
 using System;
 using System.Collections;
 using System.IO;
-using System.Text;
 
 namespace WikiFunctions {
 	
@@ -18,14 +17,14 @@ namespace WikiFunctions {
 			WriteUnifiedDiff(diff, writer, leftName, rightName, context);
 		}
 
-		public static void WriteUnifiedDiff(string leftFile, string rightFile, System.IO.TextWriter writer, int context, bool caseSensitive, bool compareWhitespace) {
+		public static void WriteUnifiedDiff(string leftFile, string rightFile, TextWriter writer, int context, bool caseSensitive, bool compareWhitespace) {
 			WriteUnifiedDiff(LoadFileLines(leftFile), leftFile, LoadFileLines(rightFile), rightFile, writer, context, caseSensitive, compareWhitespace);
 		}
 		
 		internal static string[] LoadFileLines(string file) {
 			if (file == null) throw new ArgumentNullException("file");
 			ArrayList lines = new ArrayList();
-			using (System.IO.StreamReader reader = new System.IO.StreamReader(file)) {
+			using (StreamReader reader = new StreamReader(file)) {
 				string s;
 				while ((s = reader.ReadLine()) != null)
 					lines.Add(s);
