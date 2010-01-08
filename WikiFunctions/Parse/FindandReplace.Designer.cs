@@ -49,8 +49,17 @@ namespace WikiFunctions.Parse
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.find = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.replace = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.casesensitive = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.regex = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.multi = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.single = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Minor = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.enabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FindAndReplaceContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -64,14 +73,16 @@ namespace WikiFunctions.Parse
             this.moveToBottomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.allCaseSensitiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.checkAllRegularExpressionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkAllMinorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkAllMultlineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkAllRegularExpressionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkAllSinglelineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enableAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.uncheckAllCaseSensitiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.uncheckAllRegularExpressionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.uncheckAllMinorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uncheckAllMultilineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.uncheckAllRegularExpressionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uncheckAllSinglelineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.disableAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnDone = new System.Windows.Forms.Button();
@@ -87,17 +98,6 @@ namespace WikiFunctions.Parse
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.lblMsdn = new System.Windows.Forms.LinkLabel();
-            this.find = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.replace = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.casesensitive = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.regex = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.multi = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.single = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Minor = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.enabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.checkAllMinorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.uncheckAllMinorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.FindAndReplaceContextMenu.SuspendLayout();
             this.SuspendLayout();
@@ -129,6 +129,108 @@ namespace WikiFunctions.Parse
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellValueChanged);
             this.dataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView1_RowsAdded);
+            // 
+            // find
+            // 
+            this.find.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.find.FillWeight = 92.50688F;
+            this.find.Frozen = true;
+            this.find.HeaderText = "Find";
+            this.find.MinimumWidth = 45;
+            this.find.Name = "find";
+            this.find.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.find.Width = 98;
+            // 
+            // replace
+            // 
+            this.replace.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            dataGridViewCellStyle1.NullValue = null;
+            this.replace.DefaultCellStyle = dataGridViewCellStyle1;
+            this.replace.FillWeight = 87.66718F;
+            this.replace.Frozen = true;
+            this.replace.HeaderText = "Replace with";
+            this.replace.MinimumWidth = 45;
+            this.replace.Name = "replace";
+            this.replace.Width = 92;
+            // 
+            // casesensitive
+            // 
+            this.casesensitive.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.casesensitive.FalseValue = "0";
+            this.casesensitive.FillWeight = 71.79286F;
+            this.casesensitive.Frozen = true;
+            this.casesensitive.HeaderText = "CaseSensitive";
+            this.casesensitive.Name = "casesensitive";
+            this.casesensitive.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.casesensitive.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.casesensitive.TrueValue = "1";
+            this.casesensitive.Width = 75;
+            // 
+            // regex
+            // 
+            this.regex.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.regex.FalseValue = "0";
+            this.regex.FillWeight = 131.5755F;
+            this.regex.Frozen = true;
+            this.regex.HeaderText = "Regex";
+            this.regex.Name = "regex";
+            this.regex.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.regex.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.regex.TrueValue = "1";
+            this.regex.Width = 40;
+            // 
+            // multi
+            // 
+            this.multi.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.multi.FalseValue = "0";
+            this.multi.FillWeight = 150.1532F;
+            this.multi.Frozen = true;
+            this.multi.HeaderText = "MultiLine";
+            this.multi.Name = "multi";
+            this.multi.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.multi.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.multi.TrueValue = "1";
+            this.multi.Width = 50;
+            // 
+            // single
+            // 
+            this.single.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.single.FalseValue = "0";
+            this.single.FillWeight = 173.4641F;
+            this.single.Frozen = true;
+            this.single.HeaderText = "SingleLine";
+            this.single.Name = "single";
+            this.single.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.single.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.single.TrueValue = "1";
+            this.single.Width = 58;
+            // 
+            // Minor
+            // 
+            this.Minor.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Minor.FalseValue = "0";
+            this.Minor.Frozen = true;
+            this.Minor.HeaderText = "Minor";
+            this.Minor.Name = "Minor";
+            this.Minor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.Minor.TrueValue = "1";
+            this.Minor.Width = 50;
+            // 
+            // enabled
+            // 
+            this.enabled.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.enabled.FalseValue = "0";
+            this.enabled.HeaderText = "Enabled";
+            this.enabled.Name = "enabled";
+            this.enabled.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.enabled.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.enabled.TrueValue = "1";
+            this.enabled.Width = 50;
+            // 
+            // Comment
+            // 
+            this.Comment.HeaderText = "Comment";
+            this.Comment.Name = "Comment";
             // 
             // FindAndReplaceContextMenu
             // 
@@ -164,6 +266,7 @@ namespace WikiFunctions.Parse
             // addRowToolStripMenuItem
             // 
             this.addRowToolStripMenuItem.Name = "addRowToolStripMenuItem";
+            this.addRowToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Insert;
             this.addRowToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.addRowToolStripMenuItem.Text = "Insert row";
             this.addRowToolStripMenuItem.Click += new System.EventHandler(this.addRowToolStripMenuItem_Click);
@@ -171,6 +274,7 @@ namespace WikiFunctions.Parse
             // deleteRowToolStripMenuItem
             // 
             this.deleteRowToolStripMenuItem.Name = "deleteRowToolStripMenuItem";
+            this.deleteRowToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
             this.deleteRowToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.deleteRowToolStripMenuItem.Text = "Delete row";
             this.deleteRowToolStripMenuItem.Click += new System.EventHandler(this.deleteRowToolStripMenuItem_Click);
@@ -239,12 +343,12 @@ namespace WikiFunctions.Parse
             this.allCaseSensitiveToolStripMenuItem.Text = "Check all case sensitive";
             this.allCaseSensitiveToolStripMenuItem.Click += new System.EventHandler(this.allCaseSensitiveToolStripMenuItem_Click);
             // 
-            // checkAllRegularExpressionsToolStripMenuItem
+            // checkAllMinorToolStripMenuItem
             // 
-            this.checkAllRegularExpressionsToolStripMenuItem.Name = "checkAllRegularExpressionsToolStripMenuItem";
-            this.checkAllRegularExpressionsToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.checkAllRegularExpressionsToolStripMenuItem.Text = "Check all regular expressions";
-            this.checkAllRegularExpressionsToolStripMenuItem.Click += new System.EventHandler(this.checkAllRegularExpressionsToolStripMenuItem_Click);
+            this.checkAllMinorToolStripMenuItem.Name = "checkAllMinorToolStripMenuItem";
+            this.checkAllMinorToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.checkAllMinorToolStripMenuItem.Text = "Check all minor";
+            this.checkAllMinorToolStripMenuItem.Click += new System.EventHandler(this.checkAllMinorToolStripMenuItem_Click);
             // 
             // checkAllMultlineToolStripMenuItem
             // 
@@ -252,6 +356,13 @@ namespace WikiFunctions.Parse
             this.checkAllMultlineToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.checkAllMultlineToolStripMenuItem.Text = "Check all multline";
             this.checkAllMultlineToolStripMenuItem.Click += new System.EventHandler(this.checkAllMultlineToolStripMenuItem_Click);
+            // 
+            // checkAllRegularExpressionsToolStripMenuItem
+            // 
+            this.checkAllRegularExpressionsToolStripMenuItem.Name = "checkAllRegularExpressionsToolStripMenuItem";
+            this.checkAllRegularExpressionsToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.checkAllRegularExpressionsToolStripMenuItem.Text = "Check all regular expressions";
+            this.checkAllRegularExpressionsToolStripMenuItem.Click += new System.EventHandler(this.checkAllRegularExpressionsToolStripMenuItem_Click);
             // 
             // checkAllSinglelineToolStripMenuItem
             // 
@@ -279,12 +390,12 @@ namespace WikiFunctions.Parse
             this.uncheckAllCaseSensitiveToolStripMenuItem.Text = "Uncheck all case sensitive";
             this.uncheckAllCaseSensitiveToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllCaseSensitiveToolStripMenuItem_Click);
             // 
-            // uncheckAllRegularExpressionsToolStripMenuItem
+            // uncheckAllMinorToolStripMenuItem
             // 
-            this.uncheckAllRegularExpressionsToolStripMenuItem.Name = "uncheckAllRegularExpressionsToolStripMenuItem";
-            this.uncheckAllRegularExpressionsToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.uncheckAllRegularExpressionsToolStripMenuItem.Text = "Uncheck all regular expressions";
-            this.uncheckAllRegularExpressionsToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllRegularExpressionsToolStripMenuItem_Click);
+            this.uncheckAllMinorToolStripMenuItem.Name = "uncheckAllMinorToolStripMenuItem";
+            this.uncheckAllMinorToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.uncheckAllMinorToolStripMenuItem.Text = "Uncheck all minor";
+            this.uncheckAllMinorToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllMinorToolStripMenuItem_Click);
             // 
             // uncheckAllMultilineToolStripMenuItem
             // 
@@ -292,6 +403,13 @@ namespace WikiFunctions.Parse
             this.uncheckAllMultilineToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.uncheckAllMultilineToolStripMenuItem.Text = "Uncheck all multiline";
             this.uncheckAllMultilineToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllMultilineToolStripMenuItem_Click);
+            // 
+            // uncheckAllRegularExpressionsToolStripMenuItem
+            // 
+            this.uncheckAllRegularExpressionsToolStripMenuItem.Name = "uncheckAllRegularExpressionsToolStripMenuItem";
+            this.uncheckAllRegularExpressionsToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.uncheckAllRegularExpressionsToolStripMenuItem.Text = "Uncheck all regular expressions";
+            this.uncheckAllRegularExpressionsToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllRegularExpressionsToolStripMenuItem_Click);
             // 
             // uncheckAllSinglelineToolStripMenuItem
             // 
@@ -442,122 +560,6 @@ namespace WikiFunctions.Parse
             this.lblMsdn.TabStop = true;
             this.lblMsdn.Text = "MSDN";
             this.lblMsdn.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblMsdn_LinkClicked);
-            // 
-            // find
-            // 
-            this.find.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.find.FillWeight = 92.50688F;
-            this.find.Frozen = true;
-            this.find.HeaderText = "Find";
-            this.find.MinimumWidth = 45;
-            this.find.Name = "find";
-            this.find.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.find.Width = 98;
-            // 
-            // replace
-            // 
-            this.replace.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle3.NullValue = null;
-            this.replace.DefaultCellStyle = dataGridViewCellStyle3;
-            this.replace.FillWeight = 87.66718F;
-            this.replace.Frozen = true;
-            this.replace.HeaderText = "Replace with";
-            this.replace.MinimumWidth = 45;
-            this.replace.Name = "replace";
-            this.replace.Width = 92;
-            // 
-            // casesensitive
-            // 
-            this.casesensitive.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.casesensitive.FalseValue = "0";
-            this.casesensitive.FillWeight = 71.79286F;
-            this.casesensitive.Frozen = true;
-            this.casesensitive.HeaderText = "CaseSensitive";
-            this.casesensitive.Name = "casesensitive";
-            this.casesensitive.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.casesensitive.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.casesensitive.TrueValue = "1";
-            this.casesensitive.Width = 75;
-            // 
-            // regex
-            // 
-            this.regex.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.regex.FalseValue = "0";
-            this.regex.FillWeight = 131.5755F;
-            this.regex.Frozen = true;
-            this.regex.HeaderText = "Regex";
-            this.regex.Name = "regex";
-            this.regex.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.regex.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.regex.TrueValue = "1";
-            this.regex.Width = 40;
-            // 
-            // multi
-            // 
-            this.multi.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.multi.FalseValue = "0";
-            this.multi.FillWeight = 150.1532F;
-            this.multi.Frozen = true;
-            this.multi.HeaderText = "MultiLine";
-            this.multi.Name = "multi";
-            this.multi.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.multi.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.multi.TrueValue = "1";
-            this.multi.Width = 50;
-            // 
-            // single
-            // 
-            this.single.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.single.FalseValue = "0";
-            this.single.FillWeight = 173.4641F;
-            this.single.Frozen = true;
-            this.single.HeaderText = "SingleLine";
-            this.single.Name = "single";
-            this.single.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.single.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.single.TrueValue = "1";
-            this.single.Width = 58;
-            // 
-            // Minor
-            // 
-            this.Minor.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Minor.FalseValue = "0";
-            this.Minor.Frozen = true;
-            this.Minor.HeaderText = "Minor";
-            this.Minor.Name = "Minor";
-            this.Minor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Minor.TrueValue = "1";
-            this.Minor.Width = 50;
-            // 
-            // enabled
-            // 
-            this.enabled.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.enabled.FalseValue = "0";
-            this.enabled.HeaderText = "Enabled";
-            this.enabled.Name = "enabled";
-            this.enabled.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.enabled.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.enabled.TrueValue = "1";
-            this.enabled.Width = 50;
-            // 
-            // Comment
-            // 
-            this.Comment.HeaderText = "Comment";
-            this.Comment.Name = "Comment";
-            // 
-            // checkAllMinorToolStripMenuItem
-            // 
-            this.checkAllMinorToolStripMenuItem.Name = "checkAllMinorToolStripMenuItem";
-            this.checkAllMinorToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.checkAllMinorToolStripMenuItem.Text = "Check all minor";
-            this.checkAllMinorToolStripMenuItem.Click += new System.EventHandler(this.checkAllMinorToolStripMenuItem_Click);
-            // 
-            // uncheckAllMinorToolStripMenuItem
-            // 
-            this.uncheckAllMinorToolStripMenuItem.Name = "uncheckAllMinorToolStripMenuItem";
-            this.uncheckAllMinorToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
-            this.uncheckAllMinorToolStripMenuItem.Text = "Uncheck all minor";
-            this.uncheckAllMinorToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllMinorToolStripMenuItem_Click);
             // 
             // FindandReplace
             // 
