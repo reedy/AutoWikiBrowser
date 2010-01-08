@@ -127,6 +127,9 @@ namespace WikiFunctions.Disambiguation
             int adjust = 0;
             foreach (DabControl d in Dabs)
             {
+                if (d.NoChange)
+                    continue;
+
                 int start;
                 for (start = 0;
                      (start < Math.Min(d.Surroundings.Length, d.Result.Length)) &&

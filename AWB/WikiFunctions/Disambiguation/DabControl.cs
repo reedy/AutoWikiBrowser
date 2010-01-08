@@ -63,6 +63,14 @@ namespace WikiFunctions.Disambiguation
             get { return txtCorrection.Text; }
         }
 
+        /// <summary>
+        /// Returns whether this disambiguation makes a change
+        /// </summary>
+        public bool NoChange
+        {
+            get { return cmboChoice.SelectedIndex == 0; }
+        }
+
         //internal
         private readonly int ContextChars;
         private int PosStart, PosEnd, PosInSurroundings;
