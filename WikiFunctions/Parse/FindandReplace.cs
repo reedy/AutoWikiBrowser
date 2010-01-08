@@ -601,7 +601,7 @@ namespace WikiFunctions.Parse
         {
             foreach (DataGridViewRow row in dataGridView1.SelectedRows)
             {
-                if (row.Index > 0)
+                if (row.Index > 0 && row.Index < (dataGridView1.Rows.Count - 1))
                 {
                     int index = row.Index;
                     DataGridViewRow tmp = row;
@@ -615,7 +615,7 @@ namespace WikiFunctions.Parse
         {
             foreach (DataGridViewRow row in dataGridView1.SelectedRows)
             {
-                if (row.Index != (dataGridView1.Rows.Count - 2))
+                if (row.Index < (dataGridView1.Rows.Count - 2))
                 {
                     int index = row.Index;
                     DataGridViewRow tmp = row;
@@ -629,7 +629,7 @@ namespace WikiFunctions.Parse
         {
             foreach (DataGridViewRow row in dataGridView1.SelectedRows)
             {
-                if (row.Index > 0)
+                if (row.Index > 0 && row.Index < (dataGridView1.Rows.Count - 1))
                 {
                     DataGridViewRow tmp = row;
                     dataGridView1.Rows.Remove(row);
@@ -642,7 +642,7 @@ namespace WikiFunctions.Parse
         {
             foreach (DataGridViewRow row in dataGridView1.SelectedRows)
             {
-                if (row.Index != (dataGridView1.Rows.Count - 2))
+                if (row.Index < (dataGridView1.Rows.Count - 2))
                 {
                     DataGridViewRow tmp = row;
                     dataGridView1.Rows.Remove(row);
