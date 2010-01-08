@@ -69,6 +69,14 @@ namespace WikiFunctions.Disambiguation
 
             skip = true;
 
+            foreach (string s in dabVariants)
+            {
+                if (s.Trim().Length == 0) continue;
+                Variants.Add(s.Trim());
+            }
+
+            if (Variants.Count == 0) return articleText;
+
             BotMode = botMode;
 
             if (dabLink.Contains("|"))
@@ -88,14 +96,6 @@ namespace WikiFunctions.Disambiguation
 
             string newText = articleText;
             ArticleTitle = articleTitle;
-
-            foreach (string s in dabVariants)
-            {
-                if (s.Trim().Length == 0) continue;
-                Variants.Add(s.Trim());
-            }
-
-            if (Variants.Count == 0) return articleText;
 
             Search = new Regex(@"\[\[\s*(" + dabLink +
                                @")\s*(?:|#[^\|\]]*)(|\|[^\]]*)\]\]([\p{Ll}\p{Lu}\p{Lt}\p{Pc}\p{Lm}]*)");
