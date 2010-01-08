@@ -49,7 +49,7 @@ namespace WikiFunctions.Parse
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.FindAndReplaceContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addRowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -96,6 +96,8 @@ namespace WikiFunctions.Parse
             this.Minor = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.enabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.Comment = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.checkAllMinorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.uncheckAllMinorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.FindAndReplaceContextMenu.SuspendLayout();
             this.SuspendLayout();
@@ -143,18 +145,20 @@ namespace WikiFunctions.Parse
             this.moveToBottomToolStripMenuItem,
             this.toolStripSeparator3,
             this.allCaseSensitiveToolStripMenuItem,
-            this.checkAllRegularExpressionsToolStripMenuItem,
+            this.checkAllMinorToolStripMenuItem,
             this.checkAllMultlineToolStripMenuItem,
+            this.checkAllRegularExpressionsToolStripMenuItem,
             this.checkAllSinglelineToolStripMenuItem,
             this.enableAllToolStripMenuItem,
             this.toolStripSeparator2,
             this.uncheckAllCaseSensitiveToolStripMenuItem,
-            this.uncheckAllRegularExpressionsToolStripMenuItem,
+            this.uncheckAllMinorToolStripMenuItem,
             this.uncheckAllMultilineToolStripMenuItem,
+            this.uncheckAllRegularExpressionsToolStripMenuItem,
             this.uncheckAllSinglelineToolStripMenuItem,
             this.disableAllToolStripMenuItem});
             this.FindAndReplaceContextMenu.Name = "FindAndReplaceContextMenu";
-            this.FindAndReplaceContextMenu.Size = new System.Drawing.Size(239, 424);
+            this.FindAndReplaceContextMenu.Size = new System.Drawing.Size(239, 490);
             this.FindAndReplaceContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.FindAndReplaceContextMenu_Opening);
             // 
             // addRowToolStripMenuItem
@@ -453,8 +457,8 @@ namespace WikiFunctions.Parse
             // replace
             // 
             this.replace.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle1.NullValue = null;
-            this.replace.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.NullValue = null;
+            this.replace.DefaultCellStyle = dataGridViewCellStyle3;
             this.replace.FillWeight = 87.66718F;
             this.replace.Frozen = true;
             this.replace.HeaderText = "Replace with";
@@ -541,6 +545,20 @@ namespace WikiFunctions.Parse
             this.Comment.HeaderText = "Comment";
             this.Comment.Name = "Comment";
             // 
+            // checkAllMinorToolStripMenuItem
+            // 
+            this.checkAllMinorToolStripMenuItem.Name = "checkAllMinorToolStripMenuItem";
+            this.checkAllMinorToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.checkAllMinorToolStripMenuItem.Text = "Check all minor";
+            this.checkAllMinorToolStripMenuItem.Click += new System.EventHandler(this.checkAllMinorToolStripMenuItem_Click);
+            // 
+            // uncheckAllMinorToolStripMenuItem
+            // 
+            this.uncheckAllMinorToolStripMenuItem.Name = "uncheckAllMinorToolStripMenuItem";
+            this.uncheckAllMinorToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.uncheckAllMinorToolStripMenuItem.Text = "Uncheck all minor";
+            this.uncheckAllMinorToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllMinorToolStripMenuItem_Click);
+            // 
             // FindandReplace
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -624,5 +642,7 @@ namespace WikiFunctions.Parse
         private System.Windows.Forms.DataGridViewCheckBoxColumn Minor;
         private System.Windows.Forms.DataGridViewCheckBoxColumn enabled;
         private System.Windows.Forms.DataGridViewTextBoxColumn Comment;
+        private System.Windows.Forms.ToolStripMenuItem checkAllMinorToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem uncheckAllMinorToolStripMenuItem;
     }
 }

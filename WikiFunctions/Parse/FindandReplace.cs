@@ -665,6 +665,16 @@ namespace WikiFunctions.Parse
             Tools.CopyToClipboard(RegExTypoFix.CreateRule((string)row.Cells["find"].Value,
                                                           (string)row.Cells["replace"].Value, typoName));
         }
+
+        private void checkAllMinorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeChecked("minor", 1);
+        }
+
+        private void uncheckAllMinorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeChecked("minor", 0);
+        }
     }
 
     /// <summary>
