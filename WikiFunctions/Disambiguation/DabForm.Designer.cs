@@ -142,57 +142,57 @@ namespace WikiFunctions.Disambiguation
             this.watchWithDefaultBrowserToolStripMenuItem,
             this.unwatchWithDefaultBrowserToolStripMenuItem});
             this.contextMenuStripOther.Name = "contextMenuStripOther";
-            this.contextMenuStripOther.Size = new System.Drawing.Size(230, 148);
+            this.contextMenuStripOther.Size = new System.Drawing.Size(233, 148);
             // 
             // openInBrowserToolStripMenuItem
             // 
             this.openInBrowserToolStripMenuItem.Name = "openInBrowserToolStripMenuItem";
-            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
+            this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
             this.openInBrowserToolStripMenuItem.Text = "&Open in browser";
             this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
             // 
             // editInBrowserToolStripMenuItem
             // 
             this.editInBrowserToolStripMenuItem.Name = "editInBrowserToolStripMenuItem";
-            this.editInBrowserToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
+            this.editInBrowserToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
             this.editInBrowserToolStripMenuItem.Text = "&Edit in browser";
             this.editInBrowserToolStripMenuItem.Click += new System.EventHandler(this.editInBrowserToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(226, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(229, 6);
             // 
             // watchToolStripMenuItem
             // 
             this.watchToolStripMenuItem.Name = "watchToolStripMenuItem";
-            this.watchToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
+            this.watchToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
             this.watchToolStripMenuItem.Text = "&Watch with this account";
             this.watchToolStripMenuItem.Click += new System.EventHandler(this.watchToolStripMenuItem_Click);
             // 
             // unwatchToolStripMenuItem
             // 
             this.unwatchToolStripMenuItem.Name = "unwatchToolStripMenuItem";
-            this.unwatchToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
+            this.unwatchToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
             this.unwatchToolStripMenuItem.Text = "&Unwatch with this account";
             this.unwatchToolStripMenuItem.Click += new System.EventHandler(this.unwatchToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(226, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(229, 6);
             // 
             // watchWithDefaultBrowserToolStripMenuItem
             // 
             this.watchWithDefaultBrowserToolStripMenuItem.Name = "watchWithDefaultBrowserToolStripMenuItem";
-            this.watchWithDefaultBrowserToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
+            this.watchWithDefaultBrowserToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
             this.watchWithDefaultBrowserToolStripMenuItem.Text = "Watch with default browser";
             this.watchWithDefaultBrowserToolStripMenuItem.Click += new System.EventHandler(this.watchWithDefaultBrowserToolStripMenuItem_Click);
             // 
             // unwatchWithDefaultBrowserToolStripMenuItem
             // 
             this.unwatchWithDefaultBrowserToolStripMenuItem.Name = "unwatchWithDefaultBrowserToolStripMenuItem";
-            this.unwatchWithDefaultBrowserToolStripMenuItem.Size = new System.Drawing.Size(229, 22);
+            this.unwatchWithDefaultBrowserToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
             this.unwatchWithDefaultBrowserToolStripMenuItem.Text = "Unwatch with default browser";
             this.unwatchWithDefaultBrowserToolStripMenuItem.Click += new System.EventHandler(this.unwatchWithDefaultBrowserToolStripMenuItem_Click);
             // 
