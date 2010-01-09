@@ -506,7 +506,11 @@ bar"));
             
             Assert.AreEqual(bug1, Tools.TrimEditSummary(bug1));
             Assert.AreEqual(waffle + bug1, Tools.TrimEditSummary(waffle + bug1));
-            Assert.AreEqual(waffle + waffle + @"replaced category 'Actual event ballads' → 'Songs based on actual events' per...", Tools.TrimEditSummary(waffle + waffle + bug1));            
+            Assert.AreEqual(waffle + waffle + @"replaced category 'Actual event ballads' → 'Songs based on actual events' per...", Tools.TrimEditSummary(waffle + waffle + bug1));
+
+            Assert.AreEqual("clean upclean upclean up, typos fixed: dissapointment → disappointment (2), attatched → attached (2), begining → beginning, Expiditionary → Expeditionary, manuever → maneuver (5), thier → their (7), independant ",
+                            Tools.TrimEditSummary(
+                                "clean upclean upclean up, typos fixed: dissapointment → disappointment (2), attatched → attached (2), begining → beginning, Expiditionary → Expeditionary, manuever → maneuver (5), thier → their (7), independant → independent"));
         }
 
         [Test]
