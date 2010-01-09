@@ -2050,7 +2050,7 @@ window.scrollTo(0, diffTopY);
 
             // can't provide a section edit summary if there are changes in text before first level 2 heading
             if (!string.IsNullOrEmpty(zerothSectionBefore) && zerothSectionBefore != zerothSectionAfter)
-                return ("");
+                return "";
 
             // get sections for article text before any AWB changes
             foreach (Match m in WikiRegexes.SectionLevelTwo.Matches(originalArticleTextLocal))
@@ -2061,7 +2061,7 @@ window.scrollTo(0, diffTopY);
                 before++;
 
                 if (before == 20)
-                    return ("");
+                    return "";
             }
             // add the last section to the array
             levelTwoHeadingsBefore[before] = originalArticleTextLocal;
@@ -2074,7 +2074,7 @@ window.scrollTo(0, diffTopY);
                 after++;
 
                 if (after == 20)
-                    return ("");
+                    return "";
             }
 
             // handle the array not being big enough
@@ -2085,8 +2085,8 @@ window.scrollTo(0, diffTopY);
             levelTwoHeadingsAfter[after] = articleTextLocal;
 
             // if number of sections has changed, can't provide section edit summary
-            if (!(after == before))
-                return ("");
+            if (after != before)
+                return "";
 
             int sectionsChanged = 0, sectionChangeNumber = 0;
 
@@ -2100,7 +2100,7 @@ window.scrollTo(0, diffTopY);
 
                 // if multiple level 2 sections changed, can't provide section edit summary
                 if (sectionsChanged == 2)
-                    return ("");
+                    return "";
             }
 
             // so SectionsChanged == 1, get heading name from LevelTwoHeadingsBefore
@@ -2340,6 +2340,13 @@ window.scrollTo(0, diffTopY);
             }
         }
 
+        private const string Words = "Words: ",
+                             Cats = "Categories: ",
+                             Imgs = "Images: ",
+                             Links = "Links: ",
+                             IWLinks = "Interwiki links: ",
+                             Dates = "Dates O/I/A: ";
+
         private void ArticleInfo(bool reset)
         {
             lbDuplicateWikilinks.Items.Clear();
@@ -2347,33 +2354,28 @@ window.scrollTo(0, diffTopY);
             if (reset)
             {
                 //Resets all the alerts.
-                lblWords.Text = "Words: ";
-                lblCats.Text = "Categories: ";
-                lblImages.Text = "Images: ";
-                lblLinks.Text = "Links: ";
-                lblInterLinks.Text = "Interwiki links: ";
+                lblWords.Text = Words;
+                lblCats.Text = Cats;
+                lblImages.Text = Imgs;
+                lblLinks.Text = Links;
+                lblInterLinks.Text = IWLinks;
                 lblWarn.Text = "";
-                lblDates.Text = @"Dates O/I/A: ";
+                lblDates.Text = Dates;
             }
             else
             {
                 string articleText = txtEdit.Text;
 
-                int intWords = Tools.WordCount(articleText);
-                int intCats = WikiRegexes.Category.Matches(articleText).Count;
-                int intImages = WikiRegexes.Images.Matches(articleText).Count;
-                int intInterLinks = Tools.InterwikiCount(articleText);
-                int intLinks = WikiRegexes.WikiLinksOnly.Matches(articleText).Count;                
-                string dates = WikiRegexes.ISODates.Matches(articleText).Count + "/" + WikiRegexes.DayMonth.Matches(articleText).Count 
-                	+ "/" + WikiRegexes.MonthDay.Matches(articleText).Count;
+                int wordCount = Tools.WordCount(articleText);
+                int catCount = WikiRegexes.Category.Matches(articleText).Count;
 
                 StringBuilder warnings = new StringBuilder();
 
                 if (TheArticle.NameSpaceKey == Namespace.Article && WikiRegexes.Stub.IsMatch(articleText) &&
-                    intWords > 500)
+                    wordCount > 500)
                     warnings.AppendLine("Long article with a stub tag.");
 
-                if (intCats == 0)
+                if (catCount == 0)
                     warnings.AppendLine("No category (may be one in a template)");
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Replace_nofootnotes_with_morefootnote_if_references_exists
@@ -2411,12 +2413,13 @@ window.scrollTo(0, diffTopY);
                 if (badCiteParameters.Count > 0)
                     warnings.AppendLine("Invalid citation parameter(s) found");
 
-                lblWords.Text = "Words: " + intWords;
-                lblCats.Text = "Categories: " + intCats;
-                lblImages.Text = "Images: " + intImages;
-                lblLinks.Text = "Links: " + intLinks;
-                lblInterLinks.Text = "Interwiki links: " + intInterLinks;
-                lblDates.Text = @"Dates O/I/A: " + dates;
+                lblWords.Text = Words + wordCount;
+                lblCats.Text = catCount;
+                lblImages.Text = Imgs + WikiRegexes.Images.Matches(articleText).Count;
+                lblLinks.Text = Links + WikiRegexes.WikiLinksOnly.Matches(articleText).Count;
+                lblInterLinks.Text = IWLinks + Tools.InterwikiCount(articleText);
+                lblDates.Text = Dates + WikiRegexes.ISODates.Matches(articleText).Count + "/" + WikiRegexes.DayMonth.Matches(articleText).Count 
+                	+ "/" + WikiRegexes.MonthDay.Matches(articleText).Count;
                 lblWarn.Text = warnings.ToString();
 
                 //Find multiple links
