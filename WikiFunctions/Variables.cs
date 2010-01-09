@@ -70,7 +70,7 @@ namespace WikiFunctions
 
             PHP5 = false;
             TypoSummaryTag = "typos fixed: ";
-            WPAWB = "[[Project:AWB|AWB]]";
+            AWBDefaultSummaryTag();
         }
 
         /// <summary>
@@ -283,7 +283,7 @@ namespace WikiFunctions
         private static void AWBDefaultSummaryTag()
         {
             mSummaryTag = " using ";
-            WPAWB = "[[Project:AWB]]";
+            WPAWB = "[[Project:AWB|AWB]]";
         }
 
         #region Delayed load stuff
