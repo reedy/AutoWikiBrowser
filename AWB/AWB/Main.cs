@@ -4415,6 +4415,9 @@ window.scrollTo(0, diffTopY);
             if (!string.IsNullOrEmpty(Profiles.SettingsToLoad))
                 LoadPrefs(Profiles.SettingsToLoad);
 
+            if (TheSession.IsBusy)
+                TheSession.Editor.Abort();
+
             TheArticle = null;
             txtEdit.Text = "";
 
