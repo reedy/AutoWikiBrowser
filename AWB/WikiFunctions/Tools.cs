@@ -334,10 +334,31 @@ namespace WikiFunctions
             if (Encoding.UTF8.GetByteCount(summary) >= maxAvailableSummaryLength && summary.EndsWith(@"]]"))
                 summary = Regex.Replace(summary, @"\s*\[\[[^\[\]\r\n]+?\]\]$", "...");
 
-            if (Encoding.UTF8.GetByteCount(summary) > maxAvailableSummaryLength)
-                summary = summary.Substring(0, maxAvailableSummaryLength - 1);
-            
-            return summary;
+            return (Encoding.UTF8.GetByteCount(summary) > maxAvailableSummaryLength)
+                       ? LimitByteLength(summary, maxAvailableSummaryLength)
+                       : summary;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="maxLength"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// http://stackoverflow.com/questions/1225052/best-way-to-shorten-utf8-string-based-on-byte-length
+        /// </remarks>
+        private static string LimitByteLength(string input, int maxLength)
+        {
+            for (int i = input.Length - 1; i >= 0; i--)
+            {
+                if (Encoding.UTF8.GetByteCount(input.Substring(0, i + 1)) <= maxLength)
+                {
+                    return input.Substring(0, i + 1);
+                }
+            }
+
+            return string.Empty;
         }
 
         /// <summary>
