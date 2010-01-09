@@ -2015,16 +2015,16 @@ window.scrollTo(0, diffTopY);
                 || (!Variables.IsWikimediaProject && _suppressUsingAWB))
                 return summary;
 
-            summary = Tools.TrimEditSummary(summary);
+            summary = Tools.TrimEditSummary(summary) + Variables.SummaryTag;
 
 #if DEBUG
-            if (!Parsers.IsCorrectEditSummary(summary + Variables.SummaryTag))
+            if (!Parsers.IsCorrectEditSummary(summary))
             {
-                Tools.WriteDebug("edit summary not correct", summary + Variables.SummaryTag);
+                Tools.WriteDebug("edit summary not correct", summary);
             }
 #endif
 
-            return summary + Variables.SummaryTag;
+            return summary;
         }
 
         private string SectionEditSummary(string originalArticleTextLocal, string articleTextLocal)
@@ -4129,7 +4129,7 @@ window.scrollTo(0, diffTopY);
                         selectedtext = selectedtext.Substring(0, selectedtext.IndexOf("("));
                     if (selectedtext.Contains(":"))
                         selectedtext = selectedtext.Substring(selectedtext.IndexOf(":")).TrimEnd('|');
-                    if ("[[" + selectedtext + "]]" == txtEdit.SelectedText)
+                    if (txtEdit.SelectedText == "[[" + selectedtext + "]]")
                     {
                         MessageBox.Show("The selected link could not be removed.");
                         selectedtext = "[[" + selectedtext + "]]";
