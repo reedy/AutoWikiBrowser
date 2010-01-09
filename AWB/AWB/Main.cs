@@ -2414,7 +2414,7 @@ window.scrollTo(0, diffTopY);
                     warnings.AppendLine("Invalid citation parameter(s) found");
 
                 lblWords.Text = Words + wordCount;
-                lblCats.Text = catCount;
+                lblCats.Text = Cats + catCount;
                 lblImages.Text = Imgs + WikiRegexes.Images.Matches(articleText).Count;
                 lblLinks.Text = Links + WikiRegexes.WikiLinksOnly.Matches(articleText).Count;
                 lblInterLinks.Text = IWLinks + Tools.InterwikiCount(articleText);
