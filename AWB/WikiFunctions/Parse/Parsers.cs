@@ -4691,7 +4691,7 @@ namespace WikiFunctions.Parse
                 return false;
 
             int externalLinksIndex =
-                WikiRegexes.ExternalLinksRegex.Match(articleText).Index;
+                WikiRegexes.ExternalLinksHeaderRegex.Match(articleText).Index;
 
             // get the references section: to external links or end of article, whichever is earlier
             string refsArea = externalLinksIndex > referencesIndex

@@ -761,7 +761,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the external links level 2 heading
         /// </summary>
-        public static readonly Regex ExternalLinksRegex = new Regex(@"== *External +links? *==", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
+        public static readonly Regex ExternalLinksHeaderRegex = new Regex(@"== *External +links? *==", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
 
         /// <summary>
         /// Matches parameters within the {{article issues}} template using title case (invalid casing)
