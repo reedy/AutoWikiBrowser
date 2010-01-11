@@ -23,6 +23,7 @@
  *    distribution.
  */
 
+using System;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 
@@ -165,6 +166,9 @@ namespace UnitTests
         //FIXME:
         public static void Matches(string message, Regex regex, string input, params string[] expected)
         {
+            if (expected.Length == 0)
+                throw new ArgumentException("Expected is empty", "expected");
+
             //MatchCollection mc = regex.Matches(input);
 
             //int firstDifference = -1;
