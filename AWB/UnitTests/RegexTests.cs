@@ -463,9 +463,6 @@ bar</ INCLUDEONLY>");
             RegexAssert.Matches(WikiRegexes.Refs, "<ref>foo<!-- bar --></ref> <ref>foo</ref>", "<ref>foo<!-- bar --></ref>", "<ref>foo</ref>");
         }
 
-        /// <remarks>
-        /// See http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Regex_problem for failing ness
-        /// </remarks>
         [Test]
         public void ExternalLink()
         {
@@ -480,6 +477,7 @@ bar</ INCLUDEONLY>");
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "lol [http://www.google.co.uk] lol", "[http://www.google.co.uk]");
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "lol [http://www.google.co.uk google] lol", "[http://www.google.co.uk google]");
 
+            //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_14#Regex_problem
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://www.google.co.uk google}}", "http://www.google.co.uk");
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://www.google.co.uk}}", "http://www.google.co.uk");
             
