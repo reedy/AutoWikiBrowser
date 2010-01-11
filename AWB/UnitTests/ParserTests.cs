@@ -610,6 +610,15 @@ Jones 2005</ref>"));
             Assert.AreEqual(SingleRef + "\r\n\r\n" + @"==References==
 {{Reflist}}" + Cat, Parsers.AddMissingReflist(SingleRef + "\r\n\r\n" + @"==References==
 {{Reflist}}" + Cat));
+            
+                        // after tracklist, before cats
+            const string Tracklist = @"
+{{tracklist
+| foo = bar
+| foo2
+}}";
+            Assert.AreEqual(SingleRef + Tracklist + "\r\n\r\n" + @"==References==
+{{Reflist}}" + Cat, Parsers.AddMissingReflist(SingleRef + Tracklist + Cat));
         }
     }
 
