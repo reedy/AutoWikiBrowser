@@ -1062,8 +1062,11 @@ namespace WikiFunctions
             AWBChangeArticleText("Add missing {{reflist}}", Parsers.AddMissingReflist(ArticleText), true, true);
             Variables.Profiler.Profile("AddMissingReflist");
 
-            AWBChangeArticleText("Mdashes", parsers.Mdashes(ArticleText, Name, NameSpaceKey), true);
-            Variables.Profiler.Profile("Mdashes");
+            if (!noMOSComplianceFixes)
+            {
+                AWBChangeArticleText("Mdashes", parsers.Mdashes(ArticleText, Name, NameSpaceKey), true);
+                Variables.Profiler.Profile("Mdashes");
+            }
 
             CiteTemplateDates(parsers, skip.SkipNoCiteTemplateDatesFixed);
             Variables.Profiler.Profile("CiteTemplateDates");
