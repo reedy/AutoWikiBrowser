@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<project version="5.5" encoding="default">
+	<project_entity ID="debugger">
+		<connectionInfo use_defaults="true" tempFilesLocation="F:\Work\Windows" debug_mode="local" serverHost="http://Server_Address/" port="10000"/>
+		<breakpoints/>
+		<watches/>
+	</project_entity>
+	<project_entity ID="SourceControl">
+		<encodingStyle value="Subversion"/>
+	</project_entity>
+	<project_entity ID="project_roots">
+		<vfile name="F:\Work\Programming\AWB\UsageStats"/>
+		<vfile name="F:\Work\Programming\AWB\UsageStats\includes\MySQL.php"/>
+		<vfile name="F:\Work\Programming\AWB\UsageStats\res\sorttable.js"/>
+	</project_entity>
+	<project_entity ID="bookmarks"/>
+	<project_entity ID="javaBridge" JRE_Name="1.5.0_06"/>
+	<project_entity ID="Subversion">
+		<svnCmdArguments>
+			<SubversionCommand commandType="update"/>
+			<SubversionCommand commandType="commit"/>
+			<SubversionCommand commandType="add"/>
+			<SubversionCommand commandType="status"/>
+			<SubversionCommand commandType="diff"/>
+			<SubversionCommand commandType="delete"/>
+			<SubversionCommand commandType="revert"/>
+			<SubversionCommand commandType="resolve"/>
+		</svnCmdArguments>
+	</project_entity>
+	<project_entity ID="editor_component" selectedEditor="4">
+		<openEditors>
+			<editor fileName="F:\Work\Programming\AWB\UsageStats\index.php" caretPosition="1413" clone="false" encoding="default"/>
+			<editor fileName="F:\Work\Programming\AWB\UsageStats\includes\MySQL.php" caretPosition="3512" clone="false" encoding="default"/>
+			<editor fileName="F:\Work\Programming\AWB\UsageStats\includes\Stats.php" caretPosition="8299" clone="false" encoding="default"/>
+			<editor fileName="F:\Work\Programming\AWB\UsageStats\config.php" caretPosition="0" clone="false" encoding="default"/>
+			<editor fileName="F:\Work\Programming\AWB\UsageStats\res\sorttable.js" caretPosition="0" clone="false" encoding="default"/>
+		</openEditors>
+	</project_entity>
+	<project_entity ID="CVS">
+		<lastArguments>
+			<CVSCommand commandType="update"/>
+			<CVSCommand commandType="commit"/>
+			<CVSCommand commandType="add"/>
+			<CVSCommand commandType="status"/>
+			<CVSCommand commandType="diff"/>
+		</lastArguments>
+	</project_entity>
+</project>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Settings Program="IRCMonitor" Schema="1">
+	<Options>
+		<editFilter IPIndex="0" minorIndex="0" namespaceIndex="0" />
+		<editTitleRegex enabled="False" value="" />
+		<editLessMoreThan less="0" more="0" />
+		<newFilter showNewArticles="True" showUploads="True" namespace="0" />
+		<actions showBlocks="True" showUnblocks="True" showProtections="True" showUnprotections="True" showDeletions="True" showRestores="True" pageMoveNamespace="0" />
+		<lists flashOnBlacklisted="True" flashWatchlisted="True" soundOnBlacklisted="True" soundOnWatchListed="True" />
+		<colours IPColour="-7876870" userColour="-7278960" whiteListColour="-663885" blacklistColour="-65536" watchedColour="-2252579" checkedColour="-16744448" />
+		<preferences changeCheckedColour="True" ignoreWhiteList="False" onlyBlackAndWatched="False" userBrowser="True" />
+		<IRCSettings nickName="" server="irc.wikimedia.org" channel="0" port="6667" />
+	</Options>
+	<Lists />
+</Settings>
