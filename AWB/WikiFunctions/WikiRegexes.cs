@@ -299,7 +299,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches external links
         /// </summary>
-        public static readonly Regex ExternalLinks = new Regex(@"(?:[Hh]ttp|[Hh]ttps|[Ff]tp|[Mm]ailto)://[\w\._-~!\*""'\(\):;@&=+$,\\\?%#\[\]]*|\[(?:[Hh]ttp|[Hh]ttps|[Ff]tp|[Mm]ailto):.*?\]", RegexOptions.Compiled);
+        public static readonly Regex ExternalLinks = new Regex(@"(?:[Hh]ttps?|[Ff]tp|[Mm]ailto)://[\w\._-~!\*""'\(\):;@&=+$,\\\?%#\[\]]+?(?=}})|(?:[Hh]ttps?|[Ff]tp|[Mm]ailto)://[\w\._-~!\*""'\(\):;@&=+$,\\\?%#\[\]]*|\[(?:[Hh]ttps?|[Ff]tp|[Mm]ailto)://.*?\]", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches links that may be interwikis, i.e. containing colon, group 1 being the wiki language, group 2 being the link target

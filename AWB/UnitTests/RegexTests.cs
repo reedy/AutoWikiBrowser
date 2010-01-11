@@ -482,10 +482,11 @@ bar</ INCLUDEONLY>");
 
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://www.google.co.uk google}}", "http://www.google.co.uk");
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://www.google.co.uk}}", "http://www.google.co.uk");
+            
+            // incorrect brackets
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, "lol [http://www.google.co.uk lol", "http://www.google.co.uk");
 
             RegexAssert.NoMatch(WikiRegexes.ExternalLinks, "Google");
-
-            RegexAssert.NoMatch(WikiRegexes.ExternalLinks, "http://xxxxxxxxxxxxxx");
         }
 
         [Test]
