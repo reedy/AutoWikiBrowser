@@ -464,6 +464,23 @@ bar</ INCLUDEONLY>");
         }
 
         [Test]
+        public void ExternalLink()
+        {
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://google.co.uk","http://google.co.uk");
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://www.google.co.uk", "http://www.google.co.uk");
+
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, "lol http://www.google.co.uk lol", "http://www.google.co.uk");
+
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, "[http://www.google.co.uk]", "[http://www.google.co.uk]");
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, "[http://www.google.co.uk google]", "[http://www.google.co.uk google]");
+
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, "lol [http://www.google.co.uk] lol", "[http://www.google.co.uk]");
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, "lol [http://www.google.co.uk google] lol", "[http://www.google.co.uk google]");
+   
+            RegexAssert.NoMatch(WikiRegexes.ExternalLinks, "Google");
+        }
+
+        [Test]
         public void PossibleInterwikis()
         {
             RegexAssert.Matches(WikiRegexes.PossibleInterwikis, "foo[[en:bar]]", "[[en:bar]]");
