@@ -30,6 +30,7 @@ using WikiFunctions.Controls;
 using System.Windows.Forms;
 using WikiFunctions.API;
 using System.Collections.Generic;
+using WikiFunctions.TalkPages;
 
 namespace WikiFunctions
 {
@@ -305,6 +306,15 @@ namespace WikiFunctions
                         || NameSpaceKey == Namespace.Category
                         || Name.Contains("Sandbox"))
                         || Name.Contains("/doc");
+            }
+        }
+
+        [XmlIgnore]
+        public bool CanDoTalkGeneralFixes
+        {
+            get
+            {
+                return (NameSpaceKey == Namespace.Talk);
             }
         }
 
@@ -1171,6 +1181,18 @@ namespace WikiFunctions
             if (skipIfNoChange && (originalText == ArticleText))
             {
                 Trace.AWBSkipped("No user talk templates subst'd");
+            }
+        }
+
+        public void PerformTalkGeneralFixes()
+        {
+            string articleText = ArticleText, newSummary = "";
+            TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
+
+            if (articleText != ArticleText)
+            {
+                AWBChangeArticleText("Talk Page general fixes", articleText, false);
+                AppendToSummary(newSummary);
             }
         }
 

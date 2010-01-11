@@ -66,18 +66,20 @@ namespace WikiFunctions.TalkPages
             return WikiRegexes.Defaultsort.IsMatch(articleText);
         }
 
-        public static bool ProcessTalkPage(ref string articleText, IMyTraceListener trace, 
-        DEFAULTSORT moveDefaultsort, string pluginName)
+        public static bool ProcessTalkPage(ref string articleText, ref string summary, DEFAULTSORT moveDefaultsort)
         {
             Processor pr = new Processor();
             articleText = WikiRegexes.TalkHeaderTemplate.Replace(articleText, 
-                new MatchEvaluator(pr.TalkHeaderMatchEvaluator),
-                1);
+                new MatchEvaluator(pr.TalkHeaderMatchEvaluator), 1);
+
             articleText = WikiRegexes.SkipTOCTemplateRegex.Replace(articleText, new MatchEvaluator(pr.SkipTOCMatchEvaluator), 1);
+            
             if (pr.FoundTalkHeader)
-                WriteHeaderTemplate("talkheader", ref articleText, trace, pluginName);
+                WriteHeaderTemplate("talkheader", ref articleText, ref summary);
+
             if (pr.FoundSkipTOC)
-                WriteHeaderTemplate("skiptotoctalk", ref articleText, trace, pluginName);
+                WriteHeaderTemplate("skiptotoctalk", ref articleText, ref summary);
+
             if (moveDefaultsort != DEFAULTSORT.NoChange)
             {
                 articleText = WikiRegexes.Defaultsort.Replace(articleText, 
@@ -86,12 +88,11 @@ namespace WikiFunctions.TalkPages
                 {
                     if (string.IsNullOrEmpty(pr.DefaultSortKey))
                     {
-                        if (trace != null)
-                            trace.WriteArticleActionLine("DEFAULTSORT has no key; removed", pluginName);
+                        AppendToSummary(ref summary, "DEFAULTSORT has no key; removed");
                     }
                     else
                     {
-                        articleText = SetDefaultSort(pr.DefaultSortKey, moveDefaultsort, trace, pluginName, articleText);
+                        articleText = SetDefaultSort(pr.DefaultSortKey, moveDefaultsort, articleText, ref summary);
                     }
                 }
             }
@@ -102,9 +103,17 @@ namespace WikiFunctions.TalkPages
         {
             return WikiRegexes.Defaultsort.Replace(articleText, "{{DEFAULTSORT:${key}}}");
         }
+
+        private static void AppendToSummary(ref string summary, string newText)
+        {
+            if (!string.IsNullOrEmpty(summary))
+                summary += ", ";
+
+            summary += newText;
+            }
         
         // Helper routines:
-        private static string SetDefaultSort(string key, DEFAULTSORT location, IMyTraceListener trace, string pluginName, string articleText)
+        private static string SetDefaultSort(string key, DEFAULTSORT location, string articleText, ref string summary)
         {
             string movedTo;
             switch (location)
@@ -122,17 +131,17 @@ namespace WikiFunctions.TalkPages
                     break;
             }
 
-            if (location != DEFAULTSORT.NoChange && trace != null)
-                trace.WriteArticleActionLine("DEFAULTSORT" + movedTo, pluginName, false);
+            if (location != DEFAULTSORT.NoChange)
+                AppendToSummary(ref summary, "DEFAULTSORT" + movedTo);
 
             return articleText;
         }
 
-        private static void WriteHeaderTemplate(string name, ref string articleText, IMyTraceListener trace, string pluginName)
+        private static void WriteHeaderTemplate(string name, ref string articleText, ref string summary)
         {
             articleText = "{{" + name + "}}\r\n" + articleText;
-            if (trace != null)
-                trace.WriteArticleActionLine("{{tl|" + name + "}} given top billing", pluginName, false);
+
+            AppendToSummary(ref summary, "{{tl|" + name + "}} given top billing");
         }
     }
 }

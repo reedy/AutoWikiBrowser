@@ -1399,7 +1399,8 @@ namespace AutoWikiBrowser
                     if (theArticle.SkipArticle)
                     {
                         if (mainProcess)
-                        {   // update stats only if not called from e.g. 'Re-parse' than could be clicked repeatedly
+                        {
+                            // update stats only if not called from e.g. 'Re-parse' than could be clicked repeatedly
                             OverallTypoStats.UpdateStats(TypoStats, true);
                             UpdateTypoCount();
                         }
@@ -1411,43 +1412,58 @@ namespace AutoWikiBrowser
                 if (cmboCategorise.SelectedIndex != 0)
                 {
                     theArticle.Categorisation((WikiFunctions.Options.CategorisationOptions)
-                                              cmboCategorise.SelectedIndex, Parser, chkSkipNoCatChange.Checked, txtNewCategory.Text.Trim(),
+                                              cmboCategorise.SelectedIndex, Parser, chkSkipNoCatChange.Checked,
+                                              txtNewCategory.Text.Trim(),
                                               txtNewCategory2.Text.Trim(), chkRemoveSortKey.Checked);
                     if (theArticle.SkipArticle) return;
-                    else if (!chkGeneralFixes.Checked) theArticle.AWBChangeArticleText("Fix categories", Parsers.FixCategories(theArticle.ArticleText), true);
+                    else if (!chkGeneralFixes.Checked)
+                        theArticle.AWBChangeArticleText("Fix categories",
+                                                        Parsers.FixCategories(theArticle.ArticleText), true);
                 }
 
                 Variables.Profiler.Profile("Categories");
 
-                if (process && theArticle.CanDoGeneralFixes)
+                if (process)
                 {
-                    // auto tag
-                    if (chkAutoTagger.Checked)
+                    if (theArticle.CanDoGeneralFixes)
                     {
-                        theArticle.AutoTag(Parser, Skip.SkipNoTag);
-                        if (theArticle.SkipArticle) return;
+                        // auto tag
+                        if (chkAutoTagger.Checked)
+                        {
+                            theArticle.AutoTag(Parser, Skip.SkipNoTag);
+                            if (theArticle.SkipArticle) return;
+                        }
+
+                        Variables.Profiler.Profile("Auto-tagger");
+
+                        if (chkGeneralFixes.Checked)
+                        {
+                            theArticle.PerformGeneralFixes(Parser, RemoveText, Skip,
+                                                           replaceReferenceTagsToolStripMenuItem.Checked,
+                                                           restrictDefaultsortChangesToolStripMenuItem.Checked,
+                                                           noMOSComplianceFixesToolStripMenuItem.Checked);
+                        }
                     }
-
-                    Variables.Profiler.Profile("Auto-tagger");
-
-                    if (chkGeneralFixes.Checked)
+                    else if (chkGeneralFixes.Checked)
                     {
-                        theArticle.PerformGeneralFixes(Parser, RemoveText, Skip,
-                                                       replaceReferenceTagsToolStripMenuItem.Checked,
-                                                       restrictDefaultsortChangesToolStripMenuItem.Checked,
-                                                       noMOSComplianceFixesToolStripMenuItem.Checked);
+                        if (theArticle.NameSpaceKey == Namespace.UserTalk)
+                        {
+                            if (!UserTalkWarningsLoaded)
+                            {
+                                LoadUserTalkWarnings();
+                                Variables.Profiler.Profile("loadUserTalkWarnings");
+                            }
+
+                            theArticle.PerformUserTalkGeneralFixes(RemoveText, UserTalkTemplatesRegex,
+                                                                   Skip.SkipNoUserTalkTemplatesSubstd);
+                        }
+                        else if (theArticle.CanDoTalkGeneralFixes)
+                        {
+                            theArticle.PerformTalkGeneralFixes();
+                        }
                     }
                 }
-                else if (process && chkGeneralFixes.Checked && theArticle.NameSpaceKey == Namespace.UserTalk)
-                {
-                    if (!UserTalkWarningsLoaded)
-                    {
-                        LoadUserTalkWarnings();
-                        Variables.Profiler.Profile("loadUserTalkWarnings");
-                    }
 
-                    theArticle.PerformUserTalkGeneralFixes(RemoveText, UserTalkTemplatesRegex, Skip.SkipNoUserTalkTemplatesSubstd);
-                }
 
                 // find and replace after general fixes
                 if (chkFindandReplace.Checked && FindAndReplace.AfterOtherFixes)
