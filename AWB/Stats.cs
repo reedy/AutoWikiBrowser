@@ -106,7 +106,7 @@ namespace AutoWikiBrowser
     {
         // TODO: Add other stuff we'd like to track. e.g. I'd quite like to know if anybody is using log to file.
 
-        private const string StatsURL = "http://awb.kingboyk.com/";//"http://toolserver.org/~awb/stats/";
+        private const string StatsURL = "http://toolserver.org/~awb/stats/";
         
         private static int RecordId,
             SecretNumber, 
