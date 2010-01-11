@@ -488,6 +488,13 @@ namespace WikiFunctions
            RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
 
         /// <summary>
+        /// 
+        /// </summary>
+        public static readonly Regex SkipTOCTemplateRegex = new Regex(
+            @"\{\{\s*(template *:)?\s*(skiptotoctalk|Skiptotoc|Skiptotoc-talk)\s*\}\}\s*",
+            RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
+
+        /// <summary>
         /// Matches {{nofootnotes}} OR {{morefootnotes}} templates
         /// </summary>
         public static readonly Regex MoreNoFootnotes = new Regex(@"{{\s*([Mm]ore|[Nn]o) ?footnotes[^{}]*}}", RegexOptions.Compiled);

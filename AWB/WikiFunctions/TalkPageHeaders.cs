@@ -61,23 +61,9 @@ namespace WikiFunctions.TalkPages
 
     public static class TalkPageHeaders
     {
-        private static readonly Regex SkipTOCTemplateRegex = new Regex(
-           @"\{\{\s*(template *:)?\s*(skiptotoctalk|Skiptotoc|Skiptotoc-talk)\s*\}\}\s*",
-           RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
-
         public static bool ContainsDefaultSortKeywordOrTemplate(string articleText)
         {
             return WikiRegexes.Defaultsort.IsMatch(articleText);
-        }
-
-        public static void ProcessTalkPage(ref string articleText, string pluginName)
-        {
-            ProcessTalkPage(ref articleText, null, DEFAULTSORT.NoChange, pluginName);
-        }
-
-        public static void ProcessTalkPage(ref string articleText, DEFAULTSORT moveDefaultsort, string pluginName)
-        {
-            ProcessTalkPage(ref articleText, null, moveDefaultsort, pluginName);
         }
 
         public static bool ProcessTalkPage(ref string articleText, IMyTraceListener trace, 
@@ -87,7 +73,7 @@ namespace WikiFunctions.TalkPages
             articleText = WikiRegexes.TalkHeaderTemplate.Replace(articleText, 
                 new MatchEvaluator(pr.TalkHeaderMatchEvaluator),
                 1);
-            articleText = SkipTOCTemplateRegex.Replace(articleText, new MatchEvaluator(pr.SkipTOCMatchEvaluator), 1);
+            articleText = WikiRegexes.SkipTOCTemplateRegex.Replace(articleText, new MatchEvaluator(pr.SkipTOCMatchEvaluator), 1);
             if (pr.FoundTalkHeader)
                 WriteHeaderTemplate("talkheader", ref articleText, trace, pluginName);
             if (pr.FoundSkipTOC)
