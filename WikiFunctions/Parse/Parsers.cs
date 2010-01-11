@@ -2090,7 +2090,9 @@ namespace WikiFunctions.Parse
 
                     // check not within URL
                     if (!urlmatch)
-                        articleText = articleText.Replace(m.Value, m.Groups[1].Value + m.Groups[2].Value.ToLower() + m.Groups[3].Value);
+                        articleText = articleText.Replace(m.Value,
+                                                          m.Groups[1].Value + m.Groups[2].Value.ToLower() +
+                                                          m.Groups[3].Value);
                     else
                         urlMatches++;
                 }
@@ -2115,31 +2117,32 @@ namespace WikiFunctions.Parse
                     newValue = CiteTemplateFormatnull.Replace(newValue, "");
 
                 // page= and pages= fields don't need p. or pp. in them when nopp not set
-                if (!Regex.IsMatch(newValue, @"\bnopp\s*=\s*") && !Regex.IsMatch(newValue, @"^{{\s*[Cc]ite journal\s*\|"))
+                if (!Regex.IsMatch(newValue, @"\bnopp\s*=\s*") &&
+                    !Regex.IsMatch(newValue, @"^{{\s*[Cc]ite journal\s*\|"))
                     newValue = CiteTemplatePagesPP.Replace(newValue, "");
-                
+
                 // remove duplicated fields, ensure the URL is not touched (may have pipes in)
-                if(DupeFields.IsMatch(newValue))
+                if (DupeFields.IsMatch(newValue))
                 {
                     string URL = CiteUrl.Match(newValue).Value;
                     string newvaluetemp = newValue;
                     Match m2 = DupeFields.Match(newValue);
-                    
+
                     string val1 = m2.Groups[4].Value.Trim();
                     string val2 = m2.Groups[5].Value.Trim();
                     string firstfieldandvalue = m2.Groups[2].Value;
-                    
+
                     // get rid of second one if second is zero length or contained in first, provided first one not in URL
-                    if(val2.Length == 0 || (val1.Length > 0 && val1.Contains(val2))
-                       && !URL.Contains(firstfieldandvalue))
+                    if (val2.Length == 0 || (val1.Length > 0 && val1.Contains(val2))
+                        && !URL.Contains(firstfieldandvalue))
                         newvaluetemp = DupeFields.Replace(newValue, @"$1$6", 1);
-                    // get rid of first one if firs is zero length or contains second, provided second one not in URL
-                    else if(val1.Length == 0 || (val2.Length > 0 && val2.Contains(val1))
-                            && !URL.Contains(firstfieldandvalue))
+                        // get rid of first one if firs is zero length or contains second, provided second one not in URL
+                    else if (val1.Length == 0 || (val2.Length > 0 && val2.Contains(val1))
+                             && !URL.Contains(firstfieldandvalue))
                         newvaluetemp = newValue.Remove(m2.Groups[2].Index, m2.Groups[2].Length);
-                    
+
                     // ensure URL not changed
-                    if(newvaluetemp != newValue && (URL.Length == 0 || newvaluetemp.Contains(URL)))
+                    if (newvaluetemp != newValue && (URL.Length == 0 || newvaluetemp.Contains(URL)))
                         newValue = newvaluetemp;
                 }
 
@@ -2166,31 +2169,32 @@ namespace WikiFunctions.Parse
                     // merge accessdate of 'D Month' or 'Month D' and accessyear of 'YYYY' in cite web
                     newValue = AccessDateYear.Replace(newValue, @" $2$1$3");
                 }
-                
+
                 // remove accessyear where accessdate is present and contains said year
                 string year = AccessYear.Match(newValue).Groups[1].Value;
-                if(year.Length > 0 && Regex.IsMatch(newValue, @"\|\s*accessdate\s*=[^{}\|]*\b" + year + @"\b"))
+                if (year.Length > 0 && Regex.IsMatch(newValue, @"\|\s*accessdate\s*=[^{}\|]*\b" + year + @"\b"))
                     newValue = AccessYear.Replace(newValue, "");
-                
+
                 // catch after any other fixes
                 newValue = NoCommaAmericanDates.Replace(newValue, @"$1, $2");
 
                 // page range should have unspaced en-dash; validate that page is range not section link
-                while(CiteTemplatesPageRange.IsMatch(newValue))
+                while (CiteTemplatesPageRange.IsMatch(newValue))
                 {
-                	Match pagerange = CiteTemplatesPageRange.Match(newValue);
-                	string page1 = pagerange.Groups[1].Value;
-                	string page2 = pagerange.Groups[2].Value;
-                	
-                	// convert 350-2 into 350-352 etc.
-                	if(page1.Length > page2.Length)
-                		page2 = page1.Substring(0, page1.Length - page2.Length) + page2;
-                	
-                	if(Convert.ToInt32(page1) < Convert.ToInt32(page2) && Convert.ToInt32(page2)-Convert.ToInt32(page1) < 999)
-                		newValue = CiteTemplatesPageRange.Replace(newValue, @"$1–$2");
-                	else break;
+                    Match pagerange = CiteTemplatesPageRange.Match(newValue);
+                    string page1 = pagerange.Groups[1].Value;
+                    string page2 = pagerange.Groups[2].Value;
+
+                    // convert 350-2 into 350-352 etc.
+                    if (page1.Length > page2.Length)
+                        page2 = page1.Substring(0, page1.Length - page2.Length) + page2;
+
+                    if (Convert.ToInt32(page1) < Convert.ToInt32(page2) &&
+                        Convert.ToInt32(page2) - Convert.ToInt32(page1) < 999)
+                        newValue = CiteTemplatesPageRange.Replace(newValue, @"$1–$2");
+                    else break;
                 }
-                      
+
                 // page range should use 'pages' parameter not 'page'
                 newValue = CiteTemplatesPageRangeName.Replace(newValue, @"$1pages$2");
 
@@ -2199,7 +2203,7 @@ namespace WikiFunctions.Parse
 
             return articleText;
         }
-        
+
         /// <summary>
         /// The in-use date formats on Wikipedia
         /// </summary>
@@ -2225,8 +2229,8 @@ namespace WikiFunctions.Parse
         {
             // first check for template telling us the preference
             string DatesT = WikiRegexes.UseDatesTemplate.Match(articleText).Groups[1].Value;
-            
-            if(DatesT.Length > 0)
+
+            if (DatesT.Length > 0)
             {
                 switch (DatesT)
                 {
@@ -2240,26 +2244,26 @@ namespace WikiFunctions.Parse
                         return DateLocale.Undetermined;
                 }
             }
-            
+
             // secondly count the American and International dates
             int Americans = WikiRegexes.MonthDay.Matches(articleText).Count;
             int Internationals = WikiRegexes.DayMonth.Matches(articleText).Count;
-            
-            if(considerISO)
+
+            if (considerISO)
             {
                 int ISOs = WikiRegexes.ISODates.Matches(articleText).Count;
-                
-                if(ISOs > Americans && ISOs > Internationals)
+
+                if (ISOs > Americans && ISOs > Internationals)
                     return DateLocale.ISO;
             }
-            
-            if(Americans == Internationals)
+
+            if (Americans == Internationals)
                 return DateLocale.Undetermined;
-            if(Americans == 0 && Internationals > 0 || ((int) Internationals/Americans >= 2 && Internationals > 4))
+            if (Americans == 0 && Internationals > 0 || (Internationals/Americans >= 2 && Internationals > 4))
                 return DateLocale.International;
-            if(Internationals == 0 && Americans > 0 || ((int) Americans/Internationals >= 2 && Americans > 4))
+            if (Internationals == 0 && Americans > 0 || (Americans/Internationals >= 2 && Americans > 4))
                 return DateLocale.American;
-            
+
             return DateLocale.Undetermined;
         }
 
