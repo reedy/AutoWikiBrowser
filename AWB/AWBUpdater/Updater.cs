@@ -220,39 +220,36 @@ namespace AwbUpdater
                 StringToVersion(Regex.Match(text, @"<!-- Newest version: (.*?) -->").Groups[1].Value);
             int updaterVersion = StringToVersion(Regex.Match(text, @"<!-- Updater version: (.*?) -->").Groups[1].Value);
 
-            if ((awbCurrentVersion > 4000) || (awbNewestVersion > 4000))
+            try
             {
-                try
+                AWBUpdate = UpdaterUpdate = false;
+                FileVersionInfo awbVersionInfo = FileVersionInfo.GetVersionInfo(AWBdirectory + "AutoWikiBrowser.exe");
+                int awbFileVersion = StringToVersion(awbVersionInfo.FileVersion);
+
+                if (awbFileVersion < awbCurrentVersion)
+                    AWBUpdate = true;
+                else if ((awbFileVersion >= awbCurrentVersion) &&
+                         (awbFileVersion < awbNewestVersion) &&
+                         MessageBox.Show("There is an optional update to AutoWikiBrowser. Would you like to upgrade?", "Optional update", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    AWBUpdate = true;
+
+                if (AWBUpdate)
                 {
-                    AWBUpdate = UpdaterUpdate = false;
-                    FileVersionInfo awbVersionInfo = FileVersionInfo.GetVersionInfo(AWBdirectory + "AutoWikiBrowser.exe");
-                    int awbFileVersion = StringToVersion(awbVersionInfo.FileVersion);
-
-                    if (awbFileVersion < awbCurrentVersion)
-                        AWBUpdate = true;
-                    else if ((awbFileVersion >= awbCurrentVersion) &&
-                        (awbFileVersion < awbNewestVersion) &&
-                        MessageBox.Show("There is an optional update to AutoWikiBrowser. Would you like to upgrade?", "Optional update", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        AWBUpdate = true;
-
-                    if (AWBUpdate)
-                    {
-                        AWBZipName = "AutoWikiBrowser" + awbNewestVersion + ".zip";
-                        AWBWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + AWBZipName;
-                    }
-                    else if ((updaterVersion > 1400) &&
-                        (updaterVersion > AssemblyVersion))
-                    {
-                        UpdaterZipName = "AWBUpdater" + updaterVersion + ".zip";
-                        UpdaterWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + UpdaterZipName;
-                        UpdaterUpdate = true;
-                    }
+                    AWBZipName = "AutoWikiBrowser" + awbNewestVersion + ".zip";
+                    AWBWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + AWBZipName;
                 }
-                catch
-                { UpdateUI("   Unable to find AutoWikiBrowser.exe to query its version", true); }
-
-                progressUpdate.Value = 35;
+                else if ((updaterVersion > 1400) &&
+                         (updaterVersion > AssemblyVersion))
+                {
+                    UpdaterZipName = "AWBUpdater" + updaterVersion + ".zip";
+                    UpdaterWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + UpdaterZipName;
+                    UpdaterUpdate = true;
+                }
             }
+            catch
+            { UpdateUI("   Unable to find AutoWikiBrowser.exe to query its version", true); }
+
+            progressUpdate.Value = 35;
         }
 
         /// <summary>
@@ -339,7 +336,7 @@ namespace AwbUpdater
         /// </summary>
         private void CopyFiles()
         {
-            if (UpdaterUpdate && File.Exists(TempDirectory + "AWBUpdater.exe"))
+            if (UpdaterUpdate || File.Exists(TempDirectory + "AWBUpdater.exe"))
                 CopyFile(TempDirectory + "AWBUpdater.exe", AWBdirectory + "AWBUpdater.exe.new");
 
             if (AWBUpdate)
