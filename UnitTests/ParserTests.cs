@@ -3451,7 +3451,7 @@ was"));
     public class MOSTests : RequiresParser
     {
         [Test]
-        public void TestFixDateOrdinalsAndOf()
+        public void TestFixDateMonthOfYear()
         {
             // 'of' between month and year
             Assert.AreEqual(@"Now in July 2007 a new", parser.FixDateOrdinalsAndOf(@"Now in July of 2007 a new", "test"));
@@ -3466,7 +3466,11 @@ was"));
             Assert.AreEqual(@"Now ""in July of 1707"" a new", parser.FixDateOrdinalsAndOf(@"Now ""in July of 1707"" a new", "test"));
             Assert.AreEqual(@"Now a march of 2007 resulted", parser.FixDateOrdinalsAndOf(@"Now a march of 2007 resulted", "test"));
             Assert.AreEqual(@"Now the June of 2007 was", parser.FixDateOrdinalsAndOf(@"Now the June of 2007 was", "test"));
-
+        }
+        
+        [Test]
+        public void TestFixDateOrdinals()
+        {
             // no ordinals on dates
             Assert.AreEqual(@"On 14 March elections were", parser.FixDateOrdinalsAndOf(@"On 14th March elections were", "test"));
             Assert.AreEqual(@"On 14 June elections were", parser.FixDateOrdinalsAndOf(@"On 14th June elections were", "test"));
@@ -3488,11 +3492,24 @@ was"));
 
             // no Matches, particularly dates with 'the' before where fixing the ordinal may leave 'on the 11 May' which wouldn't read well
             Assert.AreEqual(@"On 14th march was", parser.FixDateOrdinalsAndOf(@"On 14th march was", "test"));
-            Assert.AreEqual(@"On 14th of February was", parser.FixDateOrdinalsAndOf(@"On 14th of February was", "test"));
             Assert.AreEqual(@"Now the 14th February was", parser.FixDateOrdinalsAndOf(@"Now the 14th February was", "test"));
             Assert.AreEqual(@"Now the February 14th was", parser.FixDateOrdinalsAndOf(@"Now the February 14th was", "test"));
             Assert.AreEqual(@"'''6th October City''' is", parser.FixDateOrdinalsAndOf(@"'''6th October City''' is", "6th October City"));
             Assert.AreEqual(@"<poem>On March 14th, 2008 elections were</poem>", parser.FixDateOrdinalsAndOf(@"<poem>On March 14th, 2008 elections were</poem>", "test"));
+        }
+        
+        [Test]
+        public void TestFixDateDayOfMonth()
+        {
+            Assert.AreEqual(@"On 14 February was", parser.FixDateOrdinalsAndOf(@"On 14th of February was", "test"));
+            Assert.AreEqual(@"On 4 February was", parser.FixDateOrdinalsAndOf(@"On 4th of February was", "test"));
+            Assert.AreEqual(@"On 14 February was", parser.FixDateOrdinalsAndOf(@"On 14th of  February was", "test"));
+            Assert.AreEqual(@"14 February 2009 was", parser.FixDateOrdinalsAndOf(@"14th of February 2009 was", "test"));
+            Assert.AreEqual(@"24 June 2009 was", parser.FixDateOrdinalsAndOf(@"24th of June 2009 was", "test"));
+            
+            // no change
+            string nochange1= @"On the 14th of February 2009 was";
+            Assert.AreEqual(nochange1, parser.FixDateOrdinalsAndOf(nochange1, "test"));
         }
         
         [Test]
