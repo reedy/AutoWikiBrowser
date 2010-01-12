@@ -132,6 +132,7 @@ namespace AutoWikiBrowser
                 btntsShowHide.Image = Resources.Showhide;
                 btntsShowHideParameters.Image = Resources.Showhideparameters;
                 btntsSave.Image = Resources.Save;
+
                 btntsIgnore.Image = Resources.RightArrow;
                 btntsStop.Image = Resources.Stop;
                 btntsPreview.Image = Resources.preview;
@@ -2013,11 +2014,9 @@ window.scrollTo(0, diffTopY);
 
             string summary = "";
 
-            if (!string.IsNullOrEmpty(cmboEditSummary.Text.Trim()))
-                summary = cmboEditSummary.Text.Trim() + ", ";
-            
-            summary += TheArticle.EditSummary;
-
+            if (!string.IsNullOrEmpty(cmboEditSummary.Text.Trim()) && !string.IsNullOrEmpty(TheArticle.EditSummary))
+                summary = cmboEditSummary.Text.Trim() + ", " + TheArticle.EditSummary;
+           
             // check to see if we have only edited one level 2 section
             if (!noSectionEditSummaryToolStripMenuItem.Checked)
             {
