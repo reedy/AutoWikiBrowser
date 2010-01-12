@@ -303,8 +303,7 @@ namespace AutoWikiBrowser
 
                     if (updaterUpdate)
                     {
-                        MessageBox.Show("There is an Update to the AWB updater. Updating Now", "Updater update",
-                                        MessageBoxButtons.YesNo);
+                        MessageBox.Show("There is an Update to the AWB updater. Updating Now", "Updater update");
                         runUpdater = true;
                     }
 
