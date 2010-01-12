@@ -1587,6 +1587,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex DateLeadingZerosAm = new Regex(@"(?<!\b[0-3]?\d\s*)\b" + WikiRegexes.Months + @"\s+0([1-9])" + @"\b", RegexOptions.Compiled);
         private static readonly Regex DateLeadingZerosInt = new Regex(@"\b" + @"0([1-9])\s+" + WikiRegexes.Months + @"\b", RegexOptions.Compiled);
         private static readonly Regex MonthsRegex = new Regex(@"\b" + WikiRegexes.MonthsNoGroup + @"\b", RegexOptions.Compiled);
+        private static readonly Regex DayOfMonth = new Regex(@"(?<![Tt]he +)\b([1-9]|[12][0-9]|3[01])(?:st|nd|rd|th) +of +" + WikiRegexes.Months, RegexOptions.Compiled);
 
         // Covered by TestFixDateOrdinalsAndOf
         /// <summary>
@@ -1610,6 +1611,7 @@ namespace WikiFunctions.Parse
             {
                 articleText = OrdinalsInDatesAm.Replace(articleText, "$1 $2$3");
                 articleText = OrdinalsInDatesInt.Replace(articleText, "$1$2$3 $4");
+                articleText = DayOfMonth.Replace(articleText, "$1 $2");
             }
 
             articleText = DateLeadingZerosAm.Replace(articleText, "$1 $2");
