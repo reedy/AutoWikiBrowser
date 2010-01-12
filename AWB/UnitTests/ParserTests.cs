@@ -1672,34 +1672,46 @@ complementary and alternative medicine: evidence is a better friend than power. 
         }
         
         [Test]
+        public void FixCitationYear()
+        {
+            string correct = @"now {{cite book|title=a |url=http://books.google.com/foo | year=2009}}";
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite book|title=a |url=http://books.google.com/foo | date=2009}}"));
+            
+            string nochange1 = @"now {{cite book|title=a |url=http://books.google.com/foo | year=2009a}}",
+            nochange2 = @"now {{cite book|title=a |url=http://books.google.com/foo | year=2009a| date = 2009-05-16}}";
+            Assert.AreEqual(nochange1, Parsers.FixCitationTemplates(nochange1));
+            Assert.AreEqual(nochange2, Parsers.FixCitationTemplates(nochange2));
+        }
+        
+        [Test]
         public void FixCitationDupeFields()
         {
-            string correct = @"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008}}";
-            string correct2 = @"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008|work=here}}";
-            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008|date=2008}}"));
-            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008|  date = 2008  }}"));
-            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008|date=200}}"));
-            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008|date= }}"));
+            string correct = @"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008}}";
+            string correct2 = @"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008|work=here}}";
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008|year=2008}}"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008|  year = 2008  }}"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008|year=200}}"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008|year= }}"));
             
-            Assert.AreEqual(correct2, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008|date=2008|work=here}}"));
-            Assert.AreEqual(correct2, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008|  date = 2008  |work=here}}"));
-            Assert.AreEqual(correct2, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008|date=200|work=here}}"));
-            Assert.AreEqual(correct2, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008|date= |work=here}}"));
+            Assert.AreEqual(correct2, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008|year=2008|work=here}}"));
+            Assert.AreEqual(correct2, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008|  year = 2008  |work=here}}"));
+            Assert.AreEqual(correct2, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008|year=200|work=here}}"));
+            Assert.AreEqual(correct2, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008|year= |work=here}}"));
             
-            string correct3 = @"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008|work=here there}}";
-            Assert.AreEqual(correct3, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008|work=here there|work=here}}"));
-            Assert.AreEqual(correct3, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008|work=here|work=here there}}"));
-            Assert.AreEqual(correct3, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008|work=here there|work = here }}"));
-            Assert.AreEqual(correct3, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008|work=here there|work=here th}}"));
-            Assert.AreEqual(correct3, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008|work=here there|work=here there}}"));
+            string correct3 = @"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008|work=here there}}";
+            Assert.AreEqual(correct3, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008|work=here there|work=here}}"));
+            Assert.AreEqual(correct3, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008|work=here|work=here there}}"));
+            Assert.AreEqual(correct3, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008|work=here there|work = here }}"));
+            Assert.AreEqual(correct3, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008|work=here there|work=here th}}"));
+            Assert.AreEqual(correct3, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008|work=here there|work=here there}}"));
             
-            string nochange1 = @"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008|date=2004}}";
+            string nochange1 = @"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008|year=2004}}";
             Assert.AreEqual(nochange1, Parsers.FixCitationTemplates(nochange1));
             
-            string nochange2 = @"{{cite web|url=http://www.tise.com/abc|date=2008|page.php=7 |title=b |date=2008 | accessdate=11 May 2008}}";
+            string nochange2 = @"{{cite web|url=http://www.tise.com/abc|year=2008|page.php=7 |title=b |year=2008 | accessdate=11 May 2008}}";
             Assert.AreEqual(nochange2, Parsers.FixCitationTemplates(nochange2));
             
-            string nochange3 = @"{{cite book|title=b |date=2008 | accessdate=11 May 2008|date=2004}}";
+            string nochange3 = @"{{cite book|title=b |year=2008 | accessdate=11 May 2008|year=2004}}";
             Assert.AreEqual(nochange3, Parsers.FixCitationTemplates(nochange3));
             
             // null fields
@@ -1718,46 +1730,46 @@ complementary and alternative medicine: evidence is a better friend than power. 
         [Test]
         public void MergeCiteWebAccessDateYear()
         {
-            string correct = @"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008}}";
-            string correct2 = @"{{cite web|url=a |title=b |date=2008 | accessdate=May 11, 2008}}";
-            string correct3 = @"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008 |work=c}}";
-            string correct4 = @"{{cite book|url=a |title=b |date=2008 | accessdate=11 May 2008 |work=c}}";
+            string correct = @"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008}}";
+            string correct2 = @"{{cite web|url=a |title=b |year=2008 | accessdate=May 11, 2008}}";
+            string correct3 = @"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008 |work=c}}";
+            string correct4 = @"{{cite book|url=a |title=b |year=2008 | accessdate=11 May 2008 |work=c}}";
             
-            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May| accessyear=2008}}"));
-            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May| accessyear = 2008  }}"));
-            Assert.AreEqual(correct2, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=May 11| accessyear=2008}}"));
-            Assert.AreEqual(correct2, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=May 11| accessyear = 2008  }}"));
-            Assert.AreEqual(correct3, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May | accessyear = 2008 |work=c}}"));
-            Assert.AreEqual(correct4, Parsers.FixCitationTemplates(@"{{cite book|url=a |title=b |date=2008 | accessdate=11 May | accessyear = 2008 |work=c}}"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=11 May| accessyear=2008}}"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=11 May| accessyear = 2008  }}"));
+            Assert.AreEqual(correct2, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=May 11| accessyear=2008}}"));
+            Assert.AreEqual(correct2, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=May 11| accessyear = 2008  }}"));
+            Assert.AreEqual(correct3, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=11 May | accessyear = 2008 |work=c}}"));
+            Assert.AreEqual(correct4, Parsers.FixCitationTemplates(@"{{cite book|url=a |title=b |year=2008 | accessdate=11 May | accessyear = 2008 |work=c}}"));
             
             // only for cite web
-            string nochange2 = @"{{cite news|url=a |title=b |date=2008 | accessdate=11 May |accessyear=2008 |work=c}}";
+            string nochange2 = @"{{cite news|url=a |title=b |year=2008 | accessdate=11 May |accessyear=2008 |work=c}}";
             Assert.AreEqual(nochange2, Parsers.FixCitationTemplates(nochange2));
         }
         
         [Test]
         public void AccessDayMonthDay()
         {
-            string a = @"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008}}";
-            Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008|accessdaymonth=   }}"));
-            Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008|accessmonthday  =   }}"));
-            Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 |accessmonthday  = | accessdate=11 May 2008}}"));
+            string a = @"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008}}";
+            Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008|accessdaymonth=   }}"));
+            Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008|accessmonthday  =   }}"));
+            Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 |accessmonthday  = | accessdate=11 May 2008}}"));
         }
         
         [Test]
         public void AccessYear()
         {
-            string a = @"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008}}";
-            Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008|accessyear=2008   }}"));
-            Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=11 May 2008| accessyear =  2008   }}"));
-            Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 |accessyear=2008   | accessdate=11 May 2008}}"));
+            string a = @"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008}}";
+            Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008|accessyear=2008   }}"));
+            Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008| accessyear =  2008   }}"));
+            Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 |accessyear=2008   | accessdate=11 May 2008}}"));
         }
         
         [Test]
         public void DateLeadingZero()
         {
-            string a = @"{{cite web|url=a |title=b |date=2008 | accessdate=1 May 2008}}";
-            Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |date=2008 | accessdate=01 May 2008}}"));
+            string a = @"{{cite web|url=a |title=b |year=2008 | accessdate=1 May 2008}}";
+            Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=01 May 2008}}"));
             
             string b = @"{{cite book|url=a |title=b | date=May 1, 2008}}";
             Assert.AreEqual(b, Parsers.FixCitationTemplates(@"{{cite book|url=a |title=b | date=May 01, 2008}}"));
@@ -1766,8 +1778,8 @@ complementary and alternative medicine: evidence is a better friend than power. 
             string c = @"{{cite book|url=a |title=b | date=May 1, 2008|author=Lee}}";
             Assert.AreEqual(c, Parsers.FixCitationTemplates(@"{{cite book|url=a |title=b | date=May 01, 2008|author=Lee}}"));
             
-            string d = @"{{cite book|url=a |title=b |date=2008 | date=May 1|author=Lee}}";
-            Assert.AreEqual(d, Parsers.FixCitationTemplates(@"{{cite book|url=a |title=b |date=2008 | date=May 01|author=Lee}}"));
+            string d = @"{{cite book|url=a |title=b |year=2008 | date=May 1|author=Lee}}";
+            Assert.AreEqual(d, Parsers.FixCitationTemplates(@"{{cite book|url=a |title=b |year=2008 | date=May 01|author=Lee}}"));
         }
 
         [Test]
@@ -1909,7 +1921,7 @@ journal=Crypt of Cthulhu |volume= 3|issue= 3| ";
   | title = System Lifecycle Cost 
   | booktitle = AIAA Space 2007
   | pages = Paper No. AIAA-2007–6023
-  | date = 2007
+  | year = 2007
   | accessdate = }}";
         	
         	Assert.AreEqual(nochange1, Parsers.FixCitationTemplates(nochange1)); // range over 999 pages
