@@ -408,7 +408,7 @@ namespace WikiFunctions.Lists.Providers
         }
 
         public override string DisplayText
-        { get { return base.DisplayText + " (No Redirects)"; } }
+        { get { return base.DisplayText + " (no Redirects)"; } }
     }
 
     /// <summary>
