@@ -415,8 +415,7 @@ namespace WikiFunctions.DBScanner
 
                 if (value.Length > 0)
                 {
-                    string shortened = value.Substring(FileName.LastIndexOf("\\") + 1);
-                    Text = "Wiki Database Scanner - " + shortened;
+                    Text = "Wiki Database Scanner - " + Path.GetFileName(FileName);
                 }
                 else
                     Text = "Wiki Database Scanner";

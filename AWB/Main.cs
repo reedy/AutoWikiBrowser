@@ -220,7 +220,7 @@ namespace AutoWikiBrowser
                 mSettingsFile = value;
                 _settingsFileDisplay = Program.Name;
                 if (!string.IsNullOrEmpty(value))
-                    _settingsFileDisplay += " - " + value.Remove(0, value.LastIndexOf("\\") + 1);
+                    _settingsFileDisplay += " - " + Path.GetFileName(value);
                 Text = _settingsFileDisplay;
 
                 ntfyTray.Text = (_settingsFileDisplay.Length > 64) ? _settingsFileDisplay.Substring(0, 63) : _settingsFileDisplay;
@@ -404,7 +404,7 @@ namespace AutoWikiBrowser
         private bool _saveArticleList = true;
         private bool _autoSaveEditBoxEnabled;
 
-        private string _autoSaveEditBoxFile = Application.StartupPath + "\\Edit Box.txt";
+        private string _autoSaveEditBoxFile = Path.Combine(Application.StartupPath, "Edit Box.txt");
 
         private bool _suppressUsingAWB;
 
@@ -4170,7 +4170,7 @@ window.scrollTo(0, diffTopY);
 
         private void RunUpdater()
         {
-            string file = Path.GetDirectoryName(Application.ExecutablePath) + "\\AWBUpdater.exe";
+            string file = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "AWBUpdater.exe");
 
             if (!File.Exists(file))
             {
