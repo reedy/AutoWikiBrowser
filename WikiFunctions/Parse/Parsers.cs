@@ -2332,7 +2332,8 @@ namespace WikiFunctions.Parse
         private static readonly Regex SingleRoundBrackets = new Regex(@"\(((?>[^\(\)]+|\((?<DEPTH>)|\)(?<-DEPTH>))*(?(DEPTH)(?!))\))", RegexOptions.Compiled);
         private static readonly Regex Tags = new Regex(@"\<((?>[^\<\>]+|\<(?<DEPTH>)|\>(?<-DEPTH>))*(?(DEPTH)(?!))\>)", RegexOptions.Compiled);
         private static readonly Regex HideNestedBrackets = new Regex(@"[^\[\]{}<>]\[[^\[\]{}<>]*?&#93;", RegexOptions.Compiled);
-
+        private static readonly Regex AmountComparison = new Regex(@"[<>]\s*\d", RegexOptions.Compiled);
+        
         /// <summary>
         /// Checks the article text for unbalanced brackets, either square or curly
         /// </summary>
@@ -2394,17 +2395,12 @@ namespace WikiFunctions.Parse
             //TODO: move everything possible to the parent function, however, it shouldn't be performed blindly,
             //without a performance review
 
-            if (openingBrackets == "[")
-            {
-                // need to remove double square brackets first
+            if (openingBrackets == "[") // need to remove double square brackets first
                 articleText = Tools.ReplaceWithSpaces(articleText, DoubleSquareBrackets);
-            }
+            
 
-            if (openingBrackets == "{")
-            {
-                // need to remove double curly brackets first
+            if (openingBrackets == "{") // need to remove double curly brackets first
                 articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.NestedTemplates);
-            }
 
             // replace all the valid balanced bracket sets with spaces
             articleText = Tools.ReplaceWithSpaces(articleText, bracketsRegex);
@@ -2413,6 +2409,10 @@ namespace WikiFunctions.Parse
             int open = Regex.Matches(articleText, Regex.Escape(openingBrackets)).Count;
             int closed = Regex.Matches(articleText, Regex.Escape(closingBrackets)).Count;
 
+            // for tags don't mark "> 50 cm" as unbalanced
+            if(openingBrackets == "<" && AmountComparison.IsMatch(articleText))
+                return -1;
+            
             if (open == 0 && closed >= 1)
                 return articleText.IndexOf(closingBrackets);
 
