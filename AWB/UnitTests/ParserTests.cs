@@ -1596,7 +1596,7 @@ was [[foo|bar]] too"));
         }
 
         [Test]
-        public void UnbalancedBracketsTests()
+        public void UnbalancedBrackets()
         {
             int bracketLength = 0;
             Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now}", ref bracketLength));
@@ -1621,7 +1621,12 @@ was [[foo|bar]] too"));
             // only first reported
             Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now} or {{now} was", ref bracketLength));
             Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now} or [[now] was", ref bracketLength));
-
+        }
+        
+        [Test]
+        public void UnbalancedBracketsNone()
+        {
+            int bracketLength = 0;
             // brackets all okay
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now}}", ref bracketLength));
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello [[bye]] {{now}}", ref bracketLength));
@@ -1636,12 +1641,21 @@ complementary and alternative medicine: evidence is a better friend than power. 
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <math>{a{b}}</math>", ref bracketLength));
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <code>{now}}</code>", ref bracketLength));
 
+        }
+        
+        [Test]
+        public void UnbalancedTags()
+        {
+            int bracketLength = 0;
             // unbalanced tags
             Assert.AreEqual(15, Parsers.UnbalancedBrackets(@"now <b>hello /b>", ref bracketLength));
             Assert.AreEqual(1, bracketLength);
 
             Assert.AreEqual(27, Parsers.UnbalancedBrackets(@"<a>asdf</a> now <b>hello /b>", ref bracketLength));
             Assert.AreEqual(1, bracketLength);
+            
+            // not unbalanced
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now was < 50 cm long", ref bracketLength));
         }
 
         [Test]
