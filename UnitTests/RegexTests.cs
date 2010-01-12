@@ -129,6 +129,7 @@ namespace UnitTests
             TestMatches(WikiRegexes.TalkHeaderTemplate, @"{{talkheader
 |foo|bar
 |here}}", 1);
+            TestMatches(WikiRegexes.TalkHeaderTemplate, @"{{Talkheader}}", 1);
         }
 
         [Test]
