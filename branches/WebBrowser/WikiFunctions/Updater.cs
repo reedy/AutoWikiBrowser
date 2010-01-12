@@ -42,6 +42,12 @@ namespace WikiFunctions
 
                     string text = Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
 
+                    FileVersionInfo awbVersionInfo = FileVersionInfo.GetVersionInfo(AWBDirectory + "AutoWikiBrowser.exe");
+                    int awbFileVersion = StringToVersion(awbVersionInfo.FileVersion);
+
+                    if (text.Contains(awbVersionInfo.FileVersion + " enabled"))
+                        return;
+
                     int awbCurrentVersion =
     StringToVersion(Regex.Match(text, @"<!-- Current version: (.*?) -->").Groups[1].Value);
                     int awbNewestVersion =
@@ -50,9 +56,6 @@ namespace WikiFunctions
 
                     if ((awbCurrentVersion > 4000) || (awbNewestVersion > 4000))
                     {
-                        FileVersionInfo awbVersionInfo = FileVersionInfo.GetVersionInfo(AWBDirectory + "AutoWikiBrowser.exe");
-                        int awbFileVersion = StringToVersion(awbVersionInfo.FileVersion);
-
                         if (awbFileVersion < awbCurrentVersion)
                             update = true;
                         else if ((awbFileVersion >= awbCurrentVersion) && (awbFileVersion < awbNewestVersion) &&
