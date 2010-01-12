@@ -4491,7 +4491,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly WhatLinksHereExcludingPageRedirectsListProvider WlhProv = new WhatLinksHereExcludingPageRedirectsListProvider(MinIncomingLinksToBeConsideredAnOrphan);
+        private static readonly WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider WlhProv = new WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider(MinIncomingLinksToBeConsideredAnOrphan);
 
         private const int MinIncomingLinksToBeConsideredAnOrphan = 3;
 
