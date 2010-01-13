@@ -491,7 +491,7 @@ namespace WikiFunctions
         /// 
         /// </summary>
         public static readonly Regex SkipTOCTemplateRegex = new Regex(
-            @"\{\{\s*(template *:)?\s*(skiptotoctalk|Skiptotoc|Skiptotoc-talk)\s*\}\}\s*",
+            @"\{\{\s*(template *:)?\s*(skiptotoctalk|Skiptotoc|Skip to talk)\s*\}\}\s*",
             RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
 
         /// <summary>
