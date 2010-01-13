@@ -484,7 +484,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the {{talk header}} templates and its redirects
         /// </summary>
-        public static readonly Regex TalkHeaderTemplate = new Regex(@"\{\{\s*(template *:)?\s*(talk[ _]?(page)?(header)?)[^{}]*\}\}\s*", 
+        public static readonly Regex TalkHeaderTemplate = new Regex(@"\{\{\s*(template *:)?\s*(talk[ _]?(page)?(header)?)\s*(?:\|[^{}]*)?\}\}\s*", 
            RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
 
         /// <summary>
