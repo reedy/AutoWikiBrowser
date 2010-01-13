@@ -1170,6 +1170,9 @@ namespace WikiFunctions.Controls.Lists
             bool toTop = (toIndex == 0);
             lbArticles.BeginUpdate();
             
+            /* Get the selected articles, reverse order so when re-inserted the original order is maintained and
+             * remove the articles by index to ensure the selected pages are removed, rather than any earlier instances
+             * of the same page in the list */
             List<Article> articlesToMove = GetSelectedArticleList();
             articlesToMove.Reverse();
             lbArticles.RemoveSelected();
