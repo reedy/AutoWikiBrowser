@@ -75,7 +75,7 @@ namespace WikiFunctions.TalkPages
             articleText = WikiRegexes.SkipTOCTemplateRegex.Replace(articleText, new MatchEvaluator(pr.SkipTOCMatchEvaluator), 1);
             
             if (pr.FoundTalkHeader)
-                WriteHeaderTemplate("talkheader", ref articleText, ref summary);
+                WriteHeaderTemplate("talk header", ref articleText, ref summary);
 
             if (pr.FoundSkipTOC)
                 WriteHeaderTemplate("skiptotoctalk", ref articleText, ref summary);
