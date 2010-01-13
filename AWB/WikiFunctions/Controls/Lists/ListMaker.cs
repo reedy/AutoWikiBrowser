@@ -1162,17 +1162,23 @@ namespace WikiFunctions.Controls.Lists
         }
 
         /// <summary>
-        /// Moves the currently selected items in the listbox to the position selected
+        /// Moves the currently selected page(s) in the listbox to the position selected
         /// </summary>
         /// <param name="toIndex">Index to move items to</param>
         private void MoveSelectedItems(int toIndex)
         {
             bool toTop = (toIndex == 0);
             lbArticles.BeginUpdate();
+            
+            List<Article> articlesToMove = GetSelectedArticleList();
+            articlesToMove.Reverse();
+            lbArticles.RemoveSelected();
+            
+            if(toIndex > lbArticles.Items.Count)
+                toIndex = lbArticles.Items.Count;
 
-            foreach (Article a in GetSelectedArticleList())
+            foreach (Article a in articlesToMove)
             {
-                lbArticles.Items.Remove(a);
                 lbArticles.Items.Insert(toIndex, a);
 
                 if (toTop)
