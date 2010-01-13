@@ -78,7 +78,7 @@ namespace WikiFunctions.TalkPages
                 WriteHeaderTemplate("talk header", ref articleText, ref summary);
 
             if (pr.FoundSkipTOC)
-                WriteHeaderTemplate("skiptotoctalk", ref articleText, ref summary);
+                WriteHeaderTemplate("skip to talk", ref articleText, ref summary);
 
             if (moveDefaultsort != DEFAULTSORT.NoChange)
             {
