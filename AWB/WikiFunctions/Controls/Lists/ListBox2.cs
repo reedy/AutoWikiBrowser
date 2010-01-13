@@ -80,11 +80,11 @@ namespace WikiFunctions.Controls.Lists
 
             int i = SelectedIndex;
 
-            if (SelectedItems.Count == 1)
-                Items.Remove(SelectedItem);
-            else
-                while (SelectedItems.Count > 0)
-                    Items.Remove(SelectedItem);
+            /* remove at index rather than removing article, else if list has article twice the first instance of it 
+             * will be removed – not necessarily the one the user selected
+            */ 
+            while (SelectedItems.Count > 0)
+                Items.RemoveAt(SelectedIndex);
 
             if (Items.Count > i)
                 SelectedIndex = i;
