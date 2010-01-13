@@ -179,13 +179,13 @@ namespace WikiFunctions.API
             switch (code.ToLower())
             {
                 case "noname":
-                    return "You didn't set the lgname parameter";
+                    return "You didn't specify your username";
                 case "illegal":
                     return "You provided an illegal username";
                 case "notexists":
                     return "The username you provided doesn't exist";
                 case "emptypass":
-                    return "You didn't set the lgpassword parameter or you left it empty";
+                    return "You must specify your password to log in";
                 case "wrongpass":
                     return "The password you provided is incorrect";
                 case "wrongpluginpass":
