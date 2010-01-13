@@ -130,6 +130,7 @@ namespace UnitTests
 |foo|bar
 |here}}", 1);
             TestMatches(WikiRegexes.TalkHeaderTemplate, @"{{Talkheader}}", 1);
+            TestMatches(WikiRegexes.TalkHeaderTemplate, @"{{talk header|search=yes}}", 1);
             
             // no match
             TestMatches(WikiRegexes.TalkHeaderTemplate, @"{{talkarchivenav|noredlinks=yes}}", 0);
