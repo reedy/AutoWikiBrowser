@@ -333,7 +333,7 @@ namespace AwbUpdater
                     File.Delete(path);
             }
             
-            catch (UnauthorizedAccessException)
+            catch (Exception ex)
             {
                 if (MessageBox.Show(
                     this,
