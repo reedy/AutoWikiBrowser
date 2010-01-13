@@ -326,32 +326,35 @@ namespace AwbUpdater
 
         private void DeleteIfExists(string name)
         {
-            string path = Path.Combine(AWBdirectory, name);
-            try
-            {
-                if (File.Exists(path))
-                    File.Delete(path);
-            }
-            
-            catch (Exception ex)
-            {
-                if (MessageBox.Show(
-                    this,
-                    "Problem deleting file:\r\n   " + ex.Message + "\r\n\r\n" +
-                    "Please close all applications that may use it and press 'Retry' to try again " +
-                    "or 'Cancel' to cancel the upgrade.",
-                    "Error",
-                    MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) == DialogResult.Retry)
-                {
-                    continue;
-                }
+        	string path = Path.Combine(AWBdirectory, name);
+        	while (true)
+        	{
+        		try
+        		{
+        			if (File.Exists(path))
+        				File.Delete(path);
+        		}
+        		
+        		catch (Exception ex)
+        		{
+        			if (MessageBox.Show(
+        				this,
+        				"Problem deleting file:\r\n   " + ex.Message + "\r\n\r\n" +
+        				"Please close all applications that may use it and press 'Retry' to try again " +
+        				"or 'Cancel' to cancel the upgrade.",
+        				"Error",
+        				MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) == DialogResult.Retry)
+        			{
+        				continue;
+        			}
 
-                AppendLine("... FAILED");
-                UpdateUI("Update aborted. AutoWikiBrowser may be unfunctional", true);
-                KillTempDir();
-                ReadyToExit();
-                throw new AbortException();
-            }
+        			AppendLine("... FAILED");
+        			UpdateUI("Update aborted. AutoWikiBrowser may be unfunctional", true);
+        			KillTempDir();
+        			ReadyToExit();
+        			throw new AbortException();
+        		}
+        	}
         }
 
         /// <summary>
