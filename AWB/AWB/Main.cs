@@ -2011,10 +2011,10 @@ window.scrollTo(0, diffTopY);
             if (TheArticle == null)
                 return "";
 
-            string summary = "";
+            string summary = string.IsNullOrEmpty(cmboEditSummary.Text.Trim()) ? "" : cmboEditSummary.Text.Trim();
 
-            if (!string.IsNullOrEmpty(cmboEditSummary.Text.Trim()) && !string.IsNullOrEmpty(TheArticle.EditSummary))
-                summary = cmboEditSummary.Text.Trim() + ", " + TheArticle.EditSummary;
+            if (!string.IsNullOrEmpty(TheArticle.EditSummary))
+                summary += string.IsNullOrEmpty(summary) ? "" : ", " + TheArticle.EditSummary;
            
             // check to see if we have only edited one level 2 section
             if (!noSectionEditSummaryToolStripMenuItem.Checked)

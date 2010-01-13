@@ -3011,7 +3011,6 @@ namespace AutoWikiBrowser
             this.listMaker.SelectedProvider = "CategoryListProvider";
             this.listMaker.Size = new System.Drawing.Size(209, 356);
             this.listMaker.SourceText = "";
-            this.listMaker.SpecialFilterSettings = ((WikiFunctions.AWBSettings.SpecialFilterPrefs)(resources.GetObject("listMaker.SpecialFilterSettings")));
             this.listMaker.TabIndex = 0;
             // 
             // MainTab
