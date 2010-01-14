@@ -38,9 +38,10 @@ namespace WikiFunctions
     {
         static Tools()
         {
-            DefaultUserAgentString = string.Format("WikiFunctions/{0} ({1})",
+            DefaultUserAgentString = string.Format("WikiFunctions/{0} ({1}; .NET CLR {2})",
                                                    VersionString,
-                                                   Environment.OSVersion.VersionString);
+                                                   Environment.OSVersion.VersionString,
+                                                   Environment.Version);
         }
 
         public delegate void SetProgress(int percent);

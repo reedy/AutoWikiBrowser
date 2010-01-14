@@ -194,8 +194,9 @@ namespace AwbUpdater
 
                 rq.Proxy = Proxy;
 
-                rq.UserAgent = string.Format("AWBUpdater/{0} ({1})", Assembly.GetExecutingAssembly().GetName().Version,
-                                             Environment.OSVersion.VersionString);
+                rq.UserAgent = string.Format("AWBUpdater/{0} ({1}; .NET CLR {2})",
+                                             Assembly.GetExecutingAssembly().GetName().Version,
+                                             Environment.OSVersion.VersionString, Environment.Version);
 
                 HttpWebResponse response = (HttpWebResponse)rq.GetResponse();
 
