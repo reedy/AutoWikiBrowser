@@ -36,6 +36,13 @@ namespace WikiFunctions
     /// </summary>
     public static class Tools
     {
+        static Tools()
+        {
+            DefaultUserAgentString = string.Format("WikiFunctions/{0} ({1})",
+                                                   VersionString,
+                                                   Environment.OSVersion.VersionString);
+        }
+
         public delegate void SetProgress(int percent);
 
         /// <summary>
@@ -54,7 +61,7 @@ namespace WikiFunctions
         /// 
         /// </summary>
         public static string DefaultUserAgentString
-        { get { return "WikiFunctions/" + VersionString; } }
+        { get; private set; }
 
         /// <summary>
         /// Displays the WikiFunctions About box

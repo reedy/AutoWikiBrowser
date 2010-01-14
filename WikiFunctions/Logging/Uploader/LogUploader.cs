@@ -43,11 +43,13 @@ namespace WikiFunctions.Logging.Uploader
 
 	    private readonly AsyncApiEdit editor;
 
-	    protected string UserAgent
-        { get { 
-            return Tools.DefaultUserAgentString;
-            //return "WikiFunctionsLogUploader/" + Tools.VersionString; 
-        } }
+        protected string UserAgent
+        {
+            get
+            {
+                return Tools.DefaultUserAgentString;
+            }
+        }
 
 		public LogUploader(AsyncApiEdit e)
 		{
