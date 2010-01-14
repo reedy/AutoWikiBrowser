@@ -1954,6 +1954,18 @@ Message: {2}
         	        return ISODate;
         	}
         }
+        
+        /// <summary>
+        /// Appends the input parameter and value to the input template
+        /// </summary>
+        /// <param name="template">The input template</param>
+        /// <param name="parameter">The input parameter name</param>
+        /// <param name="value">The input parameter value</param>
+        /// <returns>The updated template string</returns>
+        public static string AppendParameterToTemplate(string template, string parameter, string value)
+        {
+            return(Regex.Replace(template, @" *}}$", @" | " + parameter + "=" + value + @"}}"));
+        }
 
         /// <summary>
         /// returns true if testnode is the same or a subnode of refnode

@@ -784,6 +784,14 @@ Jones", "*"));
             string iso = @"2009-06-11";
             Assert.AreEqual(@"11 June 2009", Tools.ISOToENDate(iso, Parsers.DateLocale.International));
         }
+        
+        
+        [Test]
+        public void AppendParameterToTemplate()
+        {
+            Assert.AreEqual(@"{{cite|title=abc | location=London}}", Tools.AppendParameterToTemplate(@"{{cite|title=abc}}", "location", "London"));
+            Assert.AreEqual(@"{{cite|title=abc | location=London}}", Tools.AppendParameterToTemplate(@"{{cite|title=abc }}", "location", "London"));
+        }
     }
 
     [TestFixture]
