@@ -1686,6 +1686,15 @@ complementary and alternative medicine: evidence is a better friend than power. 
         }
         
         [Test]
+        public void WorkInItalics()
+        {
+        	string correct = @"now {{cite web| url=http://site.net/1.pdf|format=PDF|work=Foo}}";
+        	
+        	Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web| url=http://site.net/1.pdf|format=PDF|work=''Foo''}}"));
+        	Assert.AreEqual(correct, Parsers.FixCitationTemplates(correct));
+        }
+        
+        [Test]
         public void FixCitationYear()
         {
             string correct = @"now {{cite book|title=a |url=http://books.google.com/foo | year=2009}}";

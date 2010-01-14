@@ -2040,6 +2040,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex CiteUrl = new Regex(@"\|\s*url\s*=\s*([^\[\]<>""\s]+)", RegexOptions.Compiled);
 
         private static readonly Regex CiteFormatFieldTypo = new Regex(@"(\{\{\s*[Cc]it[^{}]*?\|\s*)(?i)(?:fprmat)(\s*=\s*)", RegexOptions.Compiled);
+        private static readonly Regex WorkInItalics = new Regex(@"(\|\s*work\s*=\s*)''([^'{}\|]+)''(?=\s*(?:\||}}))", RegexOptions.Compiled);
 
         private static readonly Regex CiteTemplateFormatHTML = new Regex(@"\|\s*format\s*=\s*(?:HTML?|\[\[HTML?\]\]|html?)\s*(?=\||}})", RegexOptions.Compiled);
         private static readonly Regex CiteTemplateFormatnull = new Regex(@"\|\s*format\s*=\s*(?=\||}})", RegexOptions.Compiled);
@@ -2119,6 +2120,9 @@ namespace WikiFunctions.Parse
                 // remove format= field with null value when URL is HTML page
                 if (CiteTemplateHTMLURL.IsMatch(newValue))
                     newValue = CiteTemplateFormatnull.Replace(newValue, "");
+                
+                // remove italics for works field -- auto italicised by template
+                newValue = WorkInItalics.Replace(newValue, "$1$2");
 
                 // page= and pages= fields don't need p. or pp. in them when nopp not set
                 if (!Regex.IsMatch(newValue, @"\bnopp\s*=\s*") &&
