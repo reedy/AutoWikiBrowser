@@ -299,8 +299,11 @@ namespace WikiFunctions.API
         #region Network access
         private static readonly Dictionary<string, IWebProxy> ProxyCache = new Dictionary<string, IWebProxy>();
         private IWebProxy ProxySettings;
-        private static readonly string UserAgent = string.Format("WikiFunctions/{0} ({1})", Assembly.GetExecutingAssembly().GetName().Version,
-            Environment.OSVersion.VersionString);
+
+        private static readonly string UserAgent = string.Format("WikiFunctions ApiEdit/{0} ({1}; .NET CLR {2})",
+                                                                 Assembly.GetExecutingAssembly().GetName().Version,
+                                                                 Environment.OSVersion.VersionString,
+                                                                 Environment.Version);
 
         /// <summary>
         /// 
