@@ -310,9 +310,7 @@ namespace WikiFunctions.Parse
         public void AddNew(string findText, string replaceWith, bool caseSensitive, bool isRegex, bool multiline, bool singleline, bool lineEnabled, string lineComment)
         {
             dataGridView1.Rows.Add(findText, replaceWith, caseSensitive, isRegex, multiline, singleline, lineEnabled, lineComment);
-            if (!lineEnabled)
-                dataGridView1.Rows[dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGray;
-
+            
             MakeList();
         }
 
@@ -322,9 +320,9 @@ namespace WikiFunctions.Parse
         /// <param name="r"></param>
         public void AddNew(Replacement r)
         {
-            bool caseSens = !r.RegularExpressionOptions.ToString().Contains("IgnoreCase");
-            bool multiline = r.RegularExpressionOptions.ToString().Contains("Multiline");
-            bool singleLine = r.RegularExpressionOptions.ToString().Contains("Singleline");
+            bool caseSens = (r.RegularExpressionOptions & RegexOptions.IgnoreCase) != RegexOptions.IgnoreCase;
+            bool multiline = (r.RegularExpressionOptions & RegexOptions.Multiline) == RegexOptions.Multiline;
+            bool singleLine = (r.RegularExpressionOptions & RegexOptions.Singleline) == RegexOptions.Singleline;
 
             dataGridView1.Rows.Add(r.IsRegex ? Decode(r.Find) : Regex.Unescape(Decode(r.Find)), Decode(r.Replace),
                                    caseSens, r.IsRegex, multiline, singleLine, r.Minor, r.Enabled, r.Comment);
