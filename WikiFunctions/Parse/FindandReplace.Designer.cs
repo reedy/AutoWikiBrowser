@@ -212,6 +212,7 @@ namespace WikiFunctions.Parse
             this.Minor.Frozen = true;
             this.Minor.HeaderText = "Minor";
             this.Minor.Name = "Minor";
+            this.Minor.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Minor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.Minor.TrueValue = "1";
             this.Minor.Width = 50;
@@ -220,7 +221,8 @@ namespace WikiFunctions.Parse
             // 
             this.enabled.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.enabled.FalseValue = "0";
-            this.enabled.HeaderText = "Enabled";
+   			this.enabled.Frozen = true;
+   			this.enabled.HeaderText = "Enabled";
             this.enabled.Name = "enabled";
             this.enabled.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.enabled.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
