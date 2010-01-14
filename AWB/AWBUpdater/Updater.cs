@@ -46,10 +46,9 @@ namespace AwbUpdater
         {
             InitializeComponent();
 
-            AWBdirectory = Path.GetDirectoryName(Application.ExecutablePath) + "\\";
+            AWBdirectory = Path.GetDirectoryName(Application.ExecutablePath);
             TempDirectory = Environment.GetEnvironmentVariable("TEMP") ?? "C:\\Windows\\Temp";
-            if (!TempDirectory.EndsWith("\\")) TempDirectory += "\\";
-            TempDirectory += "$AWB$Updater$Temp$\\";
+            TempDirectory = Path.Combine(TempDirectory,"$AWB$Updater$Temp$");
         }
 
         /// <summary>
@@ -195,7 +194,7 @@ namespace AwbUpdater
 
                 rq.Proxy = Proxy;
 
-                rq.UserAgent = "AWBUpdater " + Assembly.GetExecutingAssembly().GetName().Version;
+                rq.UserAgent = "AWBUpdater/" + Assembly.GetExecutingAssembly().GetName().Version;
 
                 HttpWebResponse response = (HttpWebResponse)rq.GetResponse();
 
@@ -223,7 +222,7 @@ namespace AwbUpdater
             try
             {
                 AWBUpdate = UpdaterUpdate = false;
-                FileVersionInfo awbVersionInfo = FileVersionInfo.GetVersionInfo(AWBdirectory + "AutoWikiBrowser.exe");
+                FileVersionInfo awbVersionInfo = FileVersionInfo.GetVersionInfo(Path.Combine(AWBdirectory, "AutoWikiBrowser.exe"));
                 int awbFileVersion = StringToVersion(awbVersionInfo.FileVersion);
 
                 if (awbFileVersion < awbCurrentVersion)
@@ -274,11 +273,13 @@ namespace AwbUpdater
         /// </summary>
         private void UnzipAwb()
         {
-            if (!string.IsNullOrEmpty(AWBZipName) && File.Exists(TempDirectory + AWBZipName))
-                Extract(TempDirectory + AWBZipName);
+            string zip = Path.Combine(TempDirectory, AWBZipName);
+            if (!string.IsNullOrEmpty(AWBZipName) && File.Exists(zip))
+                Extract(zip);
 
-            if (!string.IsNullOrEmpty(UpdaterZipName) && File.Exists(TempDirectory + UpdaterZipName))
-                Extract(TempDirectory + UpdaterZipName);
+            zip = Path.Combine(TempDirectory, UpdaterZipName);
+            if (!string.IsNullOrEmpty(UpdaterZipName) && File.Exists(zip))
+                Extract(zip);
 
             progressUpdate.Value = 70;
         }
@@ -375,8 +376,9 @@ namespace AwbUpdater
         /// </summary>
         private void CopyFiles()
         {
-            if (UpdaterUpdate || File.Exists(TempDirectory + "AWBUpdater.exe"))
-                CopyFile(TempDirectory + "AWBUpdater.exe", AWBdirectory + "AWBUpdater.exe.new");
+            string dir = Path.Combine(TempDirectory, "AWBUpdater.exe");
+            if (UpdaterUpdate || File.Exists(dir))
+                CopyFile(dir, Path.Combine(AWBdirectory, "AWBUpdater.exe.new"));
 
             if (AWBUpdate)
             {
@@ -389,18 +391,18 @@ namespace AwbUpdater
 
                 DeleteIfExists("WPAssessmentsCatCreator.dll");
 
-                if (Directory.Exists(AWBdirectory + "\\Plugins\\WPAssessmentsCatCreator"))
-                    Directory.Delete(AWBdirectory + "\\Plugins\\WPAssessmentsCatCreator", true);
+                if (Directory.Exists(Path.Combine(AWBdirectory, "Plugins\\WPAssessmentsCatCreator")))
+                    Directory.Delete(Path.Combine(AWBdirectory, "Plugins\\WPAssessmentsCatCreator"), true);
 
                 foreach (string file in Directory.GetFiles(TempDirectory, "*.*", SearchOption.AllDirectories))
                 {
-                    if (!file.Contains("AWBUpdater"))
-                        CopyFile(file, AWBdirectory + file.Replace(TempDirectory, ""));
-                    else
-                        CopyFile(file, AWBdirectory + file.Replace(TempDirectory, "") + ".new");
+                    CopyFile(file,
+                             file.Contains("AWBUpdater")
+                                 ? Path.Combine(AWBdirectory, file + ".new")
+                                 : Path.Combine(AWBdirectory, file));
                 }
 
-                string[] pluginFiles = Directory.GetFiles(AWBdirectory + "\\Plugins", "*.*", SearchOption.AllDirectories);
+                string[] pluginFiles = Directory.GetFiles(Path.Combine(AWBdirectory, "Plugins"), "*.*", SearchOption.AllDirectories);
 
                 foreach (string file in Directory.GetFiles(AWBdirectory, "*.*", SearchOption.TopDirectoryOnly))
                 {
