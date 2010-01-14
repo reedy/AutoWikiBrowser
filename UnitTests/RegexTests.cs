@@ -135,6 +135,8 @@ namespace UnitTests
             
             // no match
             TestMatches(WikiRegexes.TalkHeaderTemplate, @"{{talkarchivenav|noredlinks=yes}}", 0);
+
+            TestMatches(WikiRegexes.TalkHeaderTemplate, @"{{talkheadernav}}", 0);
         }
 
         [Test]

@@ -323,14 +323,11 @@ namespace WikiFunctions.Parse
         public void AddNew(Replacement r)
         {
             bool caseSens = !r.RegularExpressionOptions.ToString().Contains("IgnoreCase");
-            bool multiine = r.RegularExpressionOptions.ToString().Contains("Multiline");
+            bool multiline = r.RegularExpressionOptions.ToString().Contains("Multiline");
             bool singleLine = r.RegularExpressionOptions.ToString().Contains("Singleline");
 
             dataGridView1.Rows.Add(r.IsRegex ? Decode(r.Find) : Regex.Unescape(Decode(r.Find)), Decode(r.Replace),
-                                   caseSens, r.IsRegex, multiine, singleLine, r.Minor, r.Enabled, r.Comment);
-
-            if (!r.Enabled)
-                dataGridView1.Rows[dataGridView1.Rows.Count - 1].DefaultCellStyle.BackColor = Color.LightGray;
+                                   caseSens, r.IsRegex, multiline, singleLine, r.Minor, r.Enabled, r.Comment);
 
             _replacementList.Add(r);
         }
