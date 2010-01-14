@@ -1918,6 +1918,9 @@ Message: {2}
         {
             return ReplaceWithSpaces(input, regex.Matches(input));
         }
+
+        // ensure dates returned are English.
+        private static readonly System.Globalization.CultureInfo English = new System.Globalization.CultureInfo("en-GB");
         
         /// <summary>
         /// Returns the input ISO date in the requested format (American or International). If another Locale is pasased in the input date is returned. For en-wiki only.
@@ -1929,8 +1932,6 @@ Message: {2}
         {
         	if (Variables.LangCode != "en")
         		return ISODate;
-        	
-        	string output = "";
 
         	DateTime dt;
         	
@@ -1942,17 +1943,16 @@ Message: {2}
         	{
         		return ISODate;
         	}
-        	
-        	// ensure dates returned are English.
-        	System.Globalization.CultureInfo English = new System.Globalization.CultureInfo("en-GB");
 
-        	if(Locale == Parsers.DateLocale.American)
-        		output = dt.ToString("MMMM d, yyyy", English);
-        	else if (Locale == Parsers.DateLocale.International)
-        		output = dt.ToString("d MMMM yyyy", English);
-        	else return ISODate;
-        	
-        	return output;
+        	switch (Locale)
+        	{
+        	    case Parsers.DateLocale.American:
+        	        return dt.ToString("MMMM d, yyyy", English);
+        	    case Parsers.DateLocale.International:
+        	        return dt.ToString("d MMMM yyyy", English);
+        	    default:
+        	        return ISODate;
+        	}
         }
 
         /// <summary>
