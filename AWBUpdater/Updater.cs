@@ -348,13 +348,20 @@ namespace AwbUpdater
         				continue;
         			}
 
-        			AppendLine("... FAILED");
-        			UpdateUI("Update aborted. AutoWikiBrowser may be unfunctional", true);
-        			KillTempDir();
-        			ReadyToExit();
-        			throw new AbortException();
+        		    Fail();
         		}
+
+        	    break;
         	}
+        }
+
+        private void Fail()
+        {
+            AppendLine("... FAILED");
+            UpdateUI("Update aborted. AutoWikiBrowser may be unfunctional", true);
+            KillTempDir();
+            ReadyToExit();
+            throw new AbortException();
         }
 
         /// <summary>
@@ -429,11 +436,7 @@ namespace AwbUpdater
                         continue;
                     }
 
-                    AppendLine("... FAILED");
-                    UpdateUI("Update aborted. AutoWikiBrowser may be unfunctional", true);
-                    KillTempDir();
-                    ReadyToExit();
-                    throw new AbortException();
+                    Fail();
                 }
 
                 break;
