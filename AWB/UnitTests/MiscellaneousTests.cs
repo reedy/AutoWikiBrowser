@@ -1,4 +1,5 @@
 ﻿using WikiFunctions;
+using WikiFunctions.TalkPages;
 using WikiFunctions.Parse;
 using NUnit.Framework;
 using System.Text.RegularExpressions;
@@ -574,5 +575,37 @@ Image:quux[http://example.com]
             //Assert.AreNotEqual(p1.StubMaxWordCount, p2.StubMaxWordCount);
 
         }
+    }
+    
+    [TestFixture]
+    public class TalkHeaderTests : RequiresInitialization
+    {
+        [Test]
+        public void MoveTalkHeader()
+        {
+            string talkheader = @"{{talk header|noarchive=no|search=no|arpol=no|wp=no|disclaimer=no|shortcut1|shortcut2}}", talkrest = @"==hello==
+hello talk";
+            string articleText = talkrest + "\r\n" + talkheader, newSummary = "";
+            
+            TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
+            
+            Assert.AreEqual(talkheader + "\r\n" + talkrest+ "\r\n", articleText);
+            Assert.IsTrue(newSummary.Contains("{{tl|Talk header}} given top billing"));
+            
+            // no change if already at top
+            articleText = talkheader + "\r\n" + talkrest;
+            newSummary = "";
+            TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
+            Assert.AreEqual(talkheader + "\r\n" + talkrest, articleText);
+            Assert.IsFalse(newSummary.Contains("{{tl|Talk header}} given top billing"));
+            
+            // no change if no talk header
+            articleText = talkrest;
+            newSummary = "";
+            TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
+            Assert.AreEqual(talkrest, articleText);
+            Assert.IsFalse(newSummary.Contains("{{tl|Talk header}} given top billing"));
+        }
+        
     }
 }
