@@ -2180,7 +2180,7 @@ namespace WikiFunctions.Parse
                     newValue = AccessYear.Replace(newValue, "");
                 
                 // date = YYYY --> year = YYYY; not for {{cite video}}
-                if(!Regex.IsMatch(newValue, @"{{\s*[Cc]ite video\b"))
+                if(!Regex.IsMatch(newValue, @"{{\s*[Cc]ite (?:video|podcast)\b"))
                     newValue = YearInDate.Replace(newValue, "$1year$2");
                 
                 // year = ISO date --> date = ISO date
