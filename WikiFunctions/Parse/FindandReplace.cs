@@ -21,7 +21,6 @@ using System;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
-using System.Drawing;
 using WikiFunctions.Controls;
 
 namespace WikiFunctions.Parse
@@ -400,21 +399,6 @@ namespace WikiFunctions.Parse
 
                 r.Cells[col].Value = value;
             }
-        }
-
-        private void dataGridView1_CellValueChanged(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex < 0)
-                return;
-
-            dataGridView1.EndEdit();
-
-            if (!(bool)dataGridView1.Rows[e.RowIndex].Cells["enabled"].FormattedValue)
-                dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.LightGray;
-            else
-                dataGridView1.Rows[e.RowIndex].DefaultCellStyle.BackColor = Color.White;
-            dataGridView1.EndEdit();
-
         }
 
         private void dataGridView1_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
