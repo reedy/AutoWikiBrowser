@@ -334,7 +334,13 @@ namespace AwbUpdater
         			if (File.Exists(path))
         				File.Delete(path);
         		}
-        		
+                catch (UnauthorizedAccessException) //The exception that is thrown when the operating system denies access because of an I/O error or a specific type of security error.
+                {
+                    MessageBox.Show(this,
+                        "Access denied for deleting files. Program Files and such are not the best place to run AWB from.\r\n" +
+                        "Please run the updater with Administrator rights.");
+                    Fail();
+                }
         		catch (Exception ex)
         		{
         			if (MessageBox.Show(
@@ -422,6 +428,13 @@ namespace AwbUpdater
                 try
                 {
                     File.Copy(source, destination, true);
+                }
+                catch (UnauthorizedAccessException) //The exception that is thrown when the operating system denies access because of an I/O error or a specific type of security error.
+                {
+                    MessageBox.Show(this,
+                        "Access denied for copying files. Program Files and such are not the best place to run AWB from.\r\n" +
+                        "Please run the updater with Administrator rights.");
+                    Fail();
                 }
                 catch (Exception ex)
                 {
