@@ -1695,9 +1695,12 @@ complementary and alternative medicine: evidence is a better friend than power. 
             Assert.AreEqual(correct2, Parsers.FixCitationTemplates(@"now {{cite book|title=a |url=http://books.google.com/foo | date=2009 |page=32}}"));
             
             string nochange1 = @"now {{cite book|title=a |url=http://books.google.com/foo | year=2009a}}",
-            nochange2 = @"now {{cite book|title=a |url=http://books.google.com/foo | year=2009a| date = 2009-05-16}}";
+            nochange2 = @"now {{cite book|title=a |url=http://books.google.com/foo | year=2009a| date = 2009-05-16}}",
+            nochange3 =  @"now {{cite video|title=a |url=http://books.google.com/foo | date = 2009}}";
+            
             Assert.AreEqual(nochange1, Parsers.FixCitationTemplates(nochange1));
             Assert.AreEqual(nochange2, Parsers.FixCitationTemplates(nochange2));
+            Assert.AreEqual(nochange3, Parsers.FixCitationTemplates(nochange3));
         }
         
         [Test]

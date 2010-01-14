@@ -2179,8 +2179,9 @@ namespace WikiFunctions.Parse
                 if (year.Length > 0 && Regex.IsMatch(newValue, @"\|\s*accessdate\s*=[^{}\|]*\b" + year + @"\b"))
                     newValue = AccessYear.Replace(newValue, "");
                 
-                // date = YYYY --> year = YYYY
-                newValue = YearInDate.Replace(newValue, "$1year$2");
+                // date = YYYY --> year = YYYY; not for {{cite video}}
+                if(!Regex.IsMatch(newValue, @"{{\s*[Cc]ite video\b"))
+                    newValue = YearInDate.Replace(newValue, "$1year$2");
                 
                 // year = ISO date --> date = ISO date
                 newValue = ISODateInYear.Replace(newValue, "$1date$2");
