@@ -69,13 +69,11 @@ namespace WikiFunctions.TalkPages
         public static bool ProcessTalkPage(ref string articleText, ref string summary, DEFAULTSORT moveDefaultsort)
         {
             Processor pr = new Processor();
-            articleText = WikiRegexes.TalkHeaderTemplate.Replace(articleText, 
-                new MatchEvaluator(pr.TalkHeaderMatchEvaluator), 1);
 
             articleText = WikiRegexes.SkipTOCTemplateRegex.Replace(articleText, new MatchEvaluator(pr.SkipTOCMatchEvaluator), 1);
             
-            if (pr.FoundTalkHeader)
-                WriteHeaderTemplate("talk header", ref articleText, ref summary);
+            // move talk page header to the top
+            articleText = MoveTalkHeader(articleText, ref summary);
 
             if (pr.FoundSkipTOC)
                 WriteHeaderTemplate("skip to talk", ref articleText, ref summary);
@@ -142,6 +140,29 @@ namespace WikiFunctions.TalkPages
             articleText = "{{" + name + "}}\r\n" + articleText;
 
             AppendToSummary(ref summary, "{{tl|" + name + "}} given top billing");
+        }
+        
+        /// <summary>
+        /// Moves the {{talk header}} template to the top of the talk page
+        /// </summary>
+        /// <param name="articleText">the talk page text</param>
+        /// <param name="summary">the edit summary</param>
+        /// <returns>the update talk page text</returns>
+        private static string MoveTalkHeader(string articleText, ref string summary)
+        {
+            Match m = WikiRegexes.TalkHeaderTemplate.Match(articleText);
+            if(m.Success && m.Index > 0)
+            {
+                // remove existing talk header
+                articleText = WikiRegexes.TalkHeaderTemplate.Replace(articleText, "");
+                
+                // write existing talk header to top
+                articleText = m.Value + "\r\n" + articleText;
+                
+                AppendToSummary(ref summary, "{{tl|Talk header}} given top billing");
+            }
+            
+            return articleText;
         }
     }
 }
