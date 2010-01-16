@@ -2113,6 +2113,8 @@ namespace WikiFunctions.Parse
             foreach (Match m in WikiRegexes.CiteTemplate.Matches(articleText))
             {
                 string newValue = m.Value;
+                string templatename = WikiRegexes.TemplateName.Match(newValue).Groups[1].Value;
+                
                 // remove the unneeded 'format=HTML' field
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.22format.3DHTML.22_in_citation_templates
                 newValue = CiteTemplateFormatHTML.Replace(newValue, "");
@@ -2129,8 +2131,8 @@ namespace WikiFunctions.Parse
                 newValue = WorkInItalics.Replace(newValue, "$1$2");
                 
                 // page= and pages= fields don't need p. or pp. in them when nopp not set
-                if (!Regex.IsMatch(newValue, @"\bnopp\s*=\s*") &&
-                    !Regex.IsMatch(newValue, @"^{{\s*[Cc]ite journal\s*\|"))
+                if (Tools.GetTemplateParameterValue(newValue, "nopp").Length == 0 &&
+                    !templatename.Equals("cite journal", StringComparison.OrdinalIgnoreCase))
                 	newValue = CiteTemplatePagesPP.Replace(newValue, "");
 
                 // remove duplicated fields, ensure the URL is not touched (may have pipes in)
@@ -2159,7 +2161,7 @@ namespace WikiFunctions.Parse
                 }
 
                 // correct volume=vol 7... and issue=no. 8 for {{cite journal}} only
-                if (Regex.IsMatch(newValue, @"\b[Cc]ite journal\b"))
+                if (templatename.Equals("cite journal", StringComparison.OrdinalIgnoreCase))
                 {
                     newValue = CiteTemplatesJournalVolume.Replace(newValue, "");
                     newValue = CiteTemplatesJournalIssue.Replace(newValue, "");
@@ -2167,13 +2169,13 @@ namespace WikiFunctions.Parse
                 }
 
                 // {{cite web}} for Google books -> {{cite book}}
-                if (Regex.IsMatch(newValue, @"^{{\s*[Cc]ite ?web\s*\|") && newValue.Contains("http://books.google.com"))
+                if (Regex.IsMatch(templatename, @"[Cc]ite ?web") && newValue.Contains("http://books.google."))
                     newValue = Regex.Replace(newValue, @"^{{\s*[Cc]ite ?web(?=\s*\|)", @"{{cite book");
 
                 // remove leading zero in day of month
                 newValue = DateLeadingZero.Replace(newValue, @"$1$2$3$4$5");
 
-                if (Regex.IsMatch(newValue, @"^{{\s*[Cc]ite(?: ?web| book)\s*\|"))
+                if (Regex.IsMatch(templatename, @"[Cc]ite(?: ?web| book)"))
                 {
                     // remove any empty accessdaymonth and accessmonthday
                     newValue = AccessDayMonthDay.Replace(newValue, "");
@@ -2184,7 +2186,7 @@ namespace WikiFunctions.Parse
 
                 // remove accessyear where accessdate is present and contains said year
                 string year = AccessYear.Match(newValue).Groups[1].Value;
-                if (year.Length > 0 && Regex.IsMatch(newValue, @"\|\s*accessdate\s*=[^{}\|]*\b" + year + @"\b"))
+                if (year.Length > 0 && Tools.GetTemplateParameterValue(newValue, "accessdate").Contains(year))
                     newValue = AccessYear.Replace(newValue, "");
                 
                 // date = YYYY --> year = YYYY; not for {{cite video}}
