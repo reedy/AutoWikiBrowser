@@ -338,6 +338,7 @@
       <DependentUpon>SubstTemplates.cs</DependentUpon>
     </Compile>
     <None Include="SvnInfo.template.cs" />
+    <Compile Include="Summary.cs" />
     <Compile Include="SvnInfo.cs" />
     <Compile Include="TalkPageHeaders.cs" />
     <Compile Include="Tools.cs" />

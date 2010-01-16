@@ -2646,31 +2646,6 @@ namespace WikiFunctions.Parse
             return trim ? title.Trim() : title;
         }
 
-        public const int MaxSummaryLength = 255;
-
-        // Covered by: UtilityFunctionTests.IsCorrectEditSummary()
-        /// <summary>
-        /// returns true if given string has matching double square brackets and is within the maximum permitted length
-        /// </summary>
-        public static bool IsCorrectEditSummary(string s)
-        {
-            if (Encoding.UTF8.GetByteCount(s) > MaxSummaryLength)
-                return false;
-
-            bool res = true;
-
-            int pos = s.IndexOf("[[");
-            while (pos >= 0)
-            {
-                s = s.Remove(0, pos);
-
-                pos = res ? s.IndexOf("]]") : s.IndexOf("[[");
-
-                res = !res;
-            }
-            return res;
-        }
-
         // Covered by: LinkTests.TestSimplifyLinks()
         /// <summary>
         /// Simplifies some links in article wiki text such as changing [[Dog|Dogs]] to [[Dog]]s
