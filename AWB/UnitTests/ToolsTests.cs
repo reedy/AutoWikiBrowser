@@ -812,6 +812,19 @@ Jones", "*"));
         	// returns first value
         	Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite|param1=here|foo=bar|param1=there}}", "param1"));
         }
+        
+        [Test]
+        public void RenameTemplateParameter()
+        {
+        	Assert.AreEqual(@"{{cite |param1=bar|param3=great}}", Tools.RenameTemplateParameter(@"{{cite |param1=bar|param2=great}}", "param2", "param3"));
+        	Assert.AreEqual(@"{{cite |param1=bar| param3 = great}}", Tools.RenameTemplateParameter(@"{{cite |param1=bar| param2 = great}}", "param2", "param3"));
+        	Assert.AreEqual(@"{{cite
+|param1=bar
+|param3=great}}", Tools.RenameTemplateParameter(@"{{cite
+|param1=bar
+|param2=great}}", "param2", "param3"));
+        	Assert.AreEqual(@"{{cite |param1=bar|param3=great|param=here}}", Tools.RenameTemplateParameter(@"{{cite |param1=bar|param2=great|param=here}}", "param2", "param3"));
+        }
     }
 
     [TestFixture]

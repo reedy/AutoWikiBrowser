@@ -1979,6 +1979,13 @@ Message: {2}
         	
         	return(param.Match(template).Groups[1].Value.Trim());
         }
+        
+        public static string RenameTemplateParameter(string template, string oldparameter, string newparameter)
+        {
+        	Regex param = new Regex(@"(\|\s*)" + Regex.Escape(oldparameter) + @"(\s*=)", RegexOptions.Compiled);
+        	
+        	return (param.Replace(template, "$1" + newparameter + "$2"));        	
+        }
 
         /// <summary>
         /// returns true if testnode is the same or a subnode of refnode
