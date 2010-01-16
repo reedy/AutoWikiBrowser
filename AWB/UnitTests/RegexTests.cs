@@ -133,6 +133,8 @@ namespace UnitTests
             TestMatches(WikiRegexes.TalkHeaderTemplate, @"{{talk header|search=yes}}", 1);
             TestMatches(WikiRegexes.TalkHeaderTemplate, @"{{talk header|noarchive=yes}}", 1);
             
+            Assert.AreEqual(@"Talkpageheader", WikiRegexes.TalkHeaderTemplate.Match(@"{{ Talkpageheader  |foo}}").Groups[1].Value);
+            
             // no match
             TestMatches(WikiRegexes.TalkHeaderTemplate, @"{{talkarchivenav|noredlinks=yes}}", 0);
 
