@@ -295,6 +295,9 @@ namespace WikiFunctions.Parse
         {
             if (Variables.LangCode != "en")
                 return articleText;
+            
+            if (WikiRegexes.ArticleIssues.IsMatch(articleText))
+            	articleText = MetaDataSorter.MoveOrphanTags(articleText);
 
             // convert title case parameters within {{Article issues}} to lower case
             foreach (Match m in WikiRegexes.ArticleIssuesInTitleCase.Matches(articleText))
