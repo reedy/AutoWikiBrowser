@@ -792,6 +792,26 @@ Jones", "*"));
             Assert.AreEqual(@"{{cite|title=abc | location=London}}", Tools.AppendParameterToTemplate(@"{{cite|title=abc}}", "location", "London"));
             Assert.AreEqual(@"{{cite|title=abc | location=London}}", Tools.AppendParameterToTemplate(@"{{cite|title=abc }}", "location", "London"));
         }
+        
+        [Test]
+        public void GetTemplateParameterValue()
+        {
+        	Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite|param1=here}}", "param1"));
+        	Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite|param1 = here }}", "param1"));
+        	Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite
+| param1=here
+|param=there}}", "param1"));
+        	Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite|param1=here|foo=bar}}", "param1"));
+        	
+        	// not found
+        	Assert.AreEqual("", Tools.GetTemplateParameterValue(@"{{cite|param2=here}}", "param1"));
+        	
+        	// null value
+        	Assert.AreEqual("", Tools.GetTemplateParameterValue(@"{{cite|param1= }}", "param1"));
+        	
+        	// returns first value
+        	Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite|param1=here|foo=bar|param1=there}}", "param1"));
+        }
     }
 
     [TestFixture]

@@ -1966,6 +1966,19 @@ Message: {2}
         {
             return(Regex.Replace(template, @" *}}$", @" | " + parameter + "=" + value + @"}}"));
         }
+        
+        /// <summary>
+        /// Returns the value of the input parameter in the input template
+        /// </summary>
+        /// <param name="template">the input template</param>
+        /// <param name="parameter">the input parameter to find</param>
+        /// <returns>The trimmed parameter value, or a null string if the parameter is not found</returns>
+        public static string GetTemplateParameterValue(string template, string parameter)
+        {
+        	Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=\s*([^{}\|]+?)\s*(?:\||}})", RegexOptions.Compiled);
+        	
+        	return(param.Match(template).Groups[1].Value.Trim());
+        }
 
         /// <summary>
         /// returns true if testnode is the same or a subnode of refnode
