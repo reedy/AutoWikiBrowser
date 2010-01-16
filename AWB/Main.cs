@@ -2389,7 +2389,7 @@ window.scrollTo(0, diffTopY);
                     wordCount > 500)
                     warnings.AppendLine("Long article with a stub tag.");
 
-                if (catCount == 0)
+                if (catCount == 0 && !Namespace.IsTalk(TheArticle.Name))
                     warnings.AppendLine("No category (may be one in a template)");
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Replace_nofootnotes_with_morefootnote_if_references_exists
