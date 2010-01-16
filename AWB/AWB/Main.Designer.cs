@@ -2237,7 +2237,7 @@ namespace AutoWikiBrowser
             this.chkSkipIfContains.Size = new System.Drawing.Size(89, 17);
             this.chkSkipIfContains.TabIndex = 0;
             this.chkSkipIfContains.Text = "&Contains:";
-            this.ToolTip.SetToolTip(this.chkSkipIfContains, "Skip articles that contain this text");
+            this.ToolTip.SetToolTip(this.chkSkipIfContains, "Skip pages that contain this text");
             this.chkSkipIfContains.UseVisualStyleBackColor = true;
             this.chkSkipIfContains.CheckedChanged += new System.EventHandler(this.chkIgnoreIfContains_CheckedChanged);
             // 
@@ -3181,6 +3181,7 @@ namespace AutoWikiBrowser
             this.chkSkipNoImgChange.Size = new System.Drawing.Size(179, 17);
             this.chkSkipNoImgChange.TabIndex = 4;
             this.chkSkipNoImgChange.Text = "&Skip page when no file changed";
+            this.ToolTip.SetToolTip(this.chkSkipNoImgChange, "Automatically skips page if no file changed");
             this.chkSkipNoImgChange.UseVisualStyleBackColor = true;
             // 
             // txtImageWith
