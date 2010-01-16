@@ -159,6 +159,9 @@ namespace WikiFunctions.TalkPages
                 // write existing talk header to top
                 articleText = m.Value + "\r\n" + articleText;
                 
+                // ensure template is now named {{talk header}}
+                articleText = articleText.Replace(m.Groups[1].Value, "talk header");
+                
                 AppendToSummary(ref summary, "{{tl|Talk header}} given top billing");
             }
             

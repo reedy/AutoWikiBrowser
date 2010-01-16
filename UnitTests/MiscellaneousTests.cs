@@ -607,5 +607,18 @@ hello talk";
             Assert.IsFalse(newSummary.Contains("{{tl|Talk header}} given top billing"));
         }
         
+        [Test]
+        public void RenameTalkHeader()
+        {
+        	 string talkheader = @"{{talkheader|noarchive=no}}", talkrest = @"==hello==
+hello talk";
+            string articleText = talkrest + "\r\n" + talkheader, newSummary = "";
+            
+            TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
+            
+            Assert.AreEqual(@"{{talk header|noarchive=no}}" + "\r\n" + talkrest+ "\r\n", articleText);
+            Assert.IsTrue(newSummary.Contains("{{tl|Talk header}} given top billing"));
+        }
+        
     }
 }
