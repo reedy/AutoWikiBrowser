@@ -497,23 +497,6 @@ bar"));
         }
 
         [Test]
-        public void TrimEditSummary()
-        {
-            Assert.AreEqual("test", Tools.TrimEditSummary("test"));
-            
-            const string bug1 = @"replaced category 'Actual event ballads' → 'Songs based on actual events' per [[Wikipedia:Categories for discussion/Log/2009 November 6|CfD 2009 Nov 6]]";
-            const string waffle = @"some waffle here to make the edit summary too long";
-            
-            Assert.AreEqual(bug1, Tools.TrimEditSummary(bug1));
-            Assert.AreEqual(waffle + bug1, Tools.TrimEditSummary(waffle + bug1));
-            Assert.AreEqual(waffle + waffle + @"replaced category 'Actual event ballads' → 'Songs based on actual events' per...", Tools.TrimEditSummary(waffle + waffle + bug1));
-
-            Assert.AreEqual("clean upclean upclean up, typos fixed: dissapointment → disappointment (2), attatched → attached (2), begining → beginning, Expiditionary → Expeditionary, manuever → maneuver (5), thier → their (7), independant ",
-                            Tools.TrimEditSummary(
-                                "clean upclean upclean up, typos fixed: dissapointment → disappointment (2), attatched → attached (2), begining → beginning, Expiditionary → Expeditionary, manuever → maneuver (5), thier → their (7), independant → independent"));
-        }
-
-        [Test]
         public void ApplyKeyWords()
         {
             //Test majority of Key Words except %%key%%

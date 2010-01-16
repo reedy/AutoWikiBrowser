@@ -328,47 +328,6 @@ namespace WikiFunctions
             return true;
         }
 
-        // Covered by ToolsTests.TrimEditSummary()
-        /// <summary>
-        /// Truncates an edit summary that's over the maximum supported length
-        /// </summary>
-        /// <param name="summary">input long edit summary</param>
-        /// <returns>shortened edit summary</returns>
-        public static string TrimEditSummary(string summary)
-        {
-            int maxAvailableSummaryLength = ((Parsers.MaxSummaryLength - 5) - (Variables.SummaryTag.Length + 1));
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#Edit_summary_issue
-            // replace last wikilink with dots as an attempt to prevent broken wikilinks in edit summary
-            if (Encoding.UTF8.GetByteCount(summary) >= maxAvailableSummaryLength && summary.EndsWith(@"]]"))
-                summary = Regex.Replace(summary, @"\s*\[\[[^\[\]\r\n]+?\]\]$", "...");
-
-            return (Encoding.UTF8.GetByteCount(summary) > maxAvailableSummaryLength)
-                       ? LimitByteLength(summary, maxAvailableSummaryLength)
-                       : summary;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="input"></param>
-        /// <param name="maxLength"></param>
-        /// <returns></returns>
-        /// <remarks>
-        /// http://stackoverflow.com/questions/1225052/best-way-to-shorten-utf8-string-based-on-byte-length
-        /// </remarks>
-        private static string LimitByteLength(string input, int maxLength)
-        {
-            for (int i = input.Length - 1; i >= 0; i--)
-            {
-                if (Encoding.UTF8.GetByteCount(input.Substring(0, i + 1)) <= maxLength)
-                {
-                    return input.Substring(0, i + 1);
-                }
-            }
-
-            return string.Empty;
-        }
-
         /// <summary>
         /// Gets the HTML from the given web address.
         /// </summary>

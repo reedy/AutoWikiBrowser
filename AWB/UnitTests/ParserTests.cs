@@ -4348,37 +4348,6 @@ foo
     [TestFixture]
     public class UtilityFunctionTests : RequiresParser
     {
-        [Test, Ignore("Known Failing")]
-        public void IsCorrectEditSummary()
-        {
-            // too long
-            StringBuilder sb = new StringBuilder(300);
-            for (int i = 0; i < 256; i++) sb.Append('x');
-            Assert.IsFalse(Parsers.IsCorrectEditSummary(sb.ToString()));
-
-            // no wikilinks
-            Assert.IsTrue(Parsers.IsCorrectEditSummary(""));
-            Assert.IsTrue(Parsers.IsCorrectEditSummary("test"));
-            Assert.IsTrue(Parsers.IsCorrectEditSummary("["));
-            Assert.IsTrue(Parsers.IsCorrectEditSummary("]"));
-            Assert.IsTrue(Parsers.IsCorrectEditSummary("[test]"));
-            Assert.IsTrue(Parsers.IsCorrectEditSummary("[test]]"));
-            Assert.IsTrue(Parsers.IsCorrectEditSummary("[[]]"));
-
-            // correctly (sort of..) terminated wikilinks
-            Assert.IsTrue(Parsers.IsCorrectEditSummary("[[test]]"));
-            Assert.IsTrue(Parsers.IsCorrectEditSummary("[[test]] [[foo]]"));
-            Assert.IsTrue(Parsers.IsCorrectEditSummary("[[foo[[]]]"));
-
-            //broken wikilinks, should be found to be invalid
-            Assert.IsFalse(Parsers.IsCorrectEditSummary("[["));
-            Assert.IsFalse(Parsers.IsCorrectEditSummary("[[["));
-            Assert.IsFalse(Parsers.IsCorrectEditSummary("[[test]"));
-            Assert.IsFalse(Parsers.IsCorrectEditSummary("[[test]] [["));
-
-            Assert.IsFalse(Parsers.IsCorrectEditSummary("[[123456789 123456789 123456789 1[[WP:AWB]]"));
-        }
-
         [Test]
         public void ChangeToDefaultSort()
         {
