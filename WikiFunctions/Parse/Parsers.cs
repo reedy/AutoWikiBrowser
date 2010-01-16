@@ -2119,24 +2119,24 @@ namespace WikiFunctions.Parse
 
                 // remove language=English on en-wiki
                 if (Variables.LangCode == "en")
-                    newValue = CiteTemplateLangEnglish.Replace(newValue, "");
+                	newValue = CiteTemplateLangEnglish.Replace(newValue, "");
 
                 // remove format= field with null value when URL is HTML page
                 if (CiteTemplateHTMLURL.IsMatch(newValue))
-                    newValue = CiteTemplateFormatnull.Replace(newValue, "");
+                	newValue = CiteTemplateFormatnull.Replace(newValue, "");
                 
                 // remove italics for works field -- auto italicised by template
                 newValue = WorkInItalics.Replace(newValue, "$1$2");
-
+                
                 // page= and pages= fields don't need p. or pp. in them when nopp not set
                 if (!Regex.IsMatch(newValue, @"\bnopp\s*=\s*") &&
                     !Regex.IsMatch(newValue, @"^{{\s*[Cc]ite journal\s*\|"))
-                    newValue = CiteTemplatePagesPP.Replace(newValue, "");
+                	newValue = CiteTemplatePagesPP.Replace(newValue, "");
 
                 // remove duplicated fields, ensure the URL is not touched (may have pipes in)
                 if (DupeFields.IsMatch(newValue))
                 {
-                    string URL = CiteUrl.Match(newValue).Value;
+                	string URL = CiteUrl.Match(newValue).Value;
                     string newvaluetemp = newValue;
                     Match m2 = DupeFields.Match(newValue);
 
@@ -2221,6 +2221,43 @@ namespace WikiFunctions.Parse
             }
 
             return articleText;
+        }
+        
+        private static readonly Regex CiteWebOrNews = new Regex(@"[Cc]ite( ?web| news)", RegexOptions.Compiled);
+        private static readonly Regex PressPublishers = new Regex(@"(Associated Press|United Press International)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        /// <summary>
+        /// Where the publisher field is used incorrectly instead of the work field in a {{cite web}} or {{cite news}} citation
+        /// convert the parameter to be 'work'
+        /// Scenarios covered:
+        /// * publisher == URL domain, no work= used
+        /// </summary>
+        /// <param name="citation">the citaiton</param>
+        /// <returns>the updated citation</returns>
+        public static string CitationPublisherToWork(string citation)
+        {
+        	string citationtemplate = WikiRegexes.CiteTemplate.Match(citation).Groups[1].Value;
+        	
+        	// only for {{cite web}} or {{cite news}}
+        	if(!CiteWebOrNews.IsMatch(citationtemplate))
+        		return citation;
+        	string publisher = Tools.GetTemplateParameterValue(citation, "publisher");
+        	
+        	// nothing to do if no publisher, or publisher is a press publisher
+        	if(publisher.Length == 0 | PressPublishers.IsMatch(publisher))
+        		return citation;
+        	
+        	string workandaliases = Tools.GetTemplateParameterValue(citation, "work") + Tools.GetTemplateParameterValue(citation, "newspaper")
+        		+ Tools.GetTemplateParameterValue(citation, "journal") + Tools.GetTemplateParameterValue(citation, "periodical") +
+        		Tools.GetTemplateParameterValue(citation, "magazine");
+        	
+        	if (workandaliases.Length == 0)
+        	{
+        		citation = Tools.RenameTemplateParameter(citation, "publisher", "work");
+        		citation = WorkInItalics.Replace(citation, "$1$2");
+        	}
+        	
+        	
+        	return citation;
         }
 
         /// <summary>
