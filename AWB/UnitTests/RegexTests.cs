@@ -616,10 +616,18 @@ fast„ "));
         [Test]
         public void CiteTemplate()
         {
-            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite web|url=a|title=b}}"));
-            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{ cite web|url=a|title=b}}"));
-            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{Citeweb|url=a|title=b}}"));
-            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{Citeweb|url=a|title=b and {{foo}} there}}"));
+        	Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite web|url=a|title=b}}"));
+        	Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite web}}"));
+        	Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{ cite web|url=a|title=b}}"));
+        	Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{Citeweb|url=a|title=b}}"));
+        	Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{Citeweb|url=a|title=b and {{foo}} there}}"));
+        	
+        	// name derivation
+        	Assert.AreEqual(WikiRegexes.CiteTemplate.Match(@"{{cite web|url=a|title=b}}").Groups[1].Value, "cite web");
+        	Assert.AreEqual(WikiRegexes.CiteTemplate.Match(@"{{ cite web |url=a|title=b}}").Groups[1].Value, "cite web");
+        	Assert.AreEqual(WikiRegexes.CiteTemplate.Match(@"{{Cite web
+|url=a|title=b}}").Groups[1].Value, "Cite web");
+        	Assert.AreEqual(WikiRegexes.CiteTemplate.Match(@"{{cite press release|url=a|title=b}}").Groups[1].Value, "cite press release");
         }
 
         [Test]

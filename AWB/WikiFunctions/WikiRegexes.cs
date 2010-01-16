@@ -525,7 +525,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the various citation templates {{citation}}, {{cite web}} etc. on en-wiki
         /// </summary>
-        public static readonly Regex CiteTemplate = new Regex(@"{{\s*[Cc]it[ae]((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})", RegexOptions.Compiled);
+        public static readonly Regex CiteTemplate = new Regex(@"{{\s*([Cc]it[ae][^{}\|]*?)\s*(\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))?}}", RegexOptions.Compiled);
         
         /// <summary>
         /// Matches {{lifetime}} and its aliases
