@@ -65,10 +65,13 @@ namespace UnitTests
             Assert.AreEqual("", Summary.ModifiedSection("foo", "foo"));
             Assert.AreEqual("", Summary.ModifiedSection("foo", "bar"));
 
-            Assert.AreEqual("foo", Summary.ModifiedSection("==foo==\n123", "==foo==\ntest"));
-            Assert.AreEqual("foo", Summary.ModifiedSection("rawr\n==foo==\n123", "rawr\n==foo==\ntest"));
-            Assert.AreEqual("foo", Summary.ModifiedSection("==foo==\n123", "== foo ==\ntest"));
-            Assert.AreEqual("bar", Summary.ModifiedSection("==foo==\n123", "==bar==\ntest"));
+            Assert.AreEqual("foo", Summary.ModifiedSection("==foo==\r\n123", "==foo==\r\ntest"));
+            Assert.AreEqual("foo", Summary.ModifiedSection("rawr\r\n==foo==\r\n123", "rawr\r\n==foo==\r\ntest"));
+            Assert.AreEqual("foo", Summary.ModifiedSection("==foo==\r\n123", "== foo ==\r\ntest"));
+            Assert.AreEqual("bar", Summary.ModifiedSection("==foo==\r\n123", "==bar==\r\ntest"));
+
+            // http://en.wikipedia.org/w/index.php?diff=prev&oldid=338360216
+            Assert.AreEqual("", Summary.ModifiedSection("==foo==\r\nbar", "test\r\n==foo==\r\nbar"));
         }
     }
 }
