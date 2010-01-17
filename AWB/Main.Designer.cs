@@ -3643,7 +3643,7 @@ namespace AutoWikiBrowser
             this.lblOnlyBots.Name = "lblOnlyBots";
             this.lblOnlyBots.Size = new System.Drawing.Size(277, 348);
             this.lblOnlyBots.TabIndex = 1;
-            this.lblOnlyBots.Text = "Sorry, these options";
+            this.lblOnlyBots.Text = "Sorry, these options\r\nare available only\r\nfor approved bots.";
             this.lblOnlyBots.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // tpStart
