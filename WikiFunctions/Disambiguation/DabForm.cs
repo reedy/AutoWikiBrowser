@@ -270,15 +270,5 @@ namespace WikiFunctions.Disambiguation
                 ErrorHandler.Handle(ex);
             }
         }
-
-        private void watchWithDefaultBrowserToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Tools.WatchArticleInBrowser(ArticleTitle);
-        }
-
-        private void unwatchWithDefaultBrowserToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Tools.UnwatchArticleInBrowser(ArticleTitle);
-        }
     }
 }
