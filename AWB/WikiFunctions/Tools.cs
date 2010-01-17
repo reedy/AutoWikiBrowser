@@ -1369,22 +1369,6 @@ Message: {2}
             OpenURLInBrowser(Variables.GetEditURL(title));
         }
 
-        /// <summary>
-        /// Add the specified article to the current users watchlist
-        /// </summary>
-        public static void WatchArticleInBrowser(string title)
-        {
-            OpenURLInBrowser(Variables.GetAddToWatchlistURL(title));
-        }
-
-        /// <summary>
-        /// Removes the specified article from the current users watchlist
-        /// </summary>
-        public static void UnwatchArticleInBrowser(string title)
-        {
-            OpenURLInBrowser(Variables.GetRemoveFromWatchlistURL(title));
-        }
-
         // Covered by ToolsTests.WikiEncode()
         /// <summary>
         /// Replaces spaces with underscores for article title names
