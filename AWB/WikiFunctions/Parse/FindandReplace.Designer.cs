@@ -220,8 +220,8 @@ namespace WikiFunctions.Parse
             // 
             this.enabled.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.enabled.FalseValue = "0";
-   			this.enabled.Frozen = true;
-   			this.enabled.HeaderText = "Enabled";
+            this.enabled.Frozen = true;
+            this.enabled.HeaderText = "Enabled";
             this.enabled.Name = "enabled";
             this.enabled.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.enabled.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
@@ -275,7 +275,6 @@ namespace WikiFunctions.Parse
             // deleteRowToolStripMenuItem
             // 
             this.deleteRowToolStripMenuItem.Name = "deleteRowToolStripMenuItem";
-            this.deleteRowToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete;
             this.deleteRowToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.deleteRowToolStripMenuItem.Text = "Delete row";
             this.deleteRowToolStripMenuItem.Click += new System.EventHandler(this.deleteRowToolStripMenuItem_Click);
