@@ -2019,7 +2019,7 @@ window.scrollTo(0, diffTopY);
             // check to see if we have only edited one level 2 section
             if (!noSectionEditSummaryToolStripMenuItem.Checked)
             {
-                string sectionEditText = Summary.SectionEditSummary(TheArticle.OriginalArticleText, txtEdit.Text);
+                string sectionEditText = Summary.ModifiedSection(TheArticle.OriginalArticleText, txtEdit.Text);
 
                 if (sectionEditText.Length > 0)
                     summary = @"/* " + sectionEditText + @" */" + summary;

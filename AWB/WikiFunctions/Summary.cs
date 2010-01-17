@@ -10,84 +10,41 @@ namespace WikiFunctions
     {
         public const int MaxLength = 255;
 
-        public static string SectionEditSummary(string originalArticleTextLocal, string articleTextLocal)
+        /// <summary>
+        /// Returns the name of modified section or empty string if more than one section has changed
+        /// </summary>
+        /// <param name="originalText"></param>
+        /// <param name="articleText"></param>
+        /// <returns></returns>
+        public static string ModifiedSection(string originalText, string articleText)
         {
-            // TODO: could add recursion to look for edits to only a level 3 section within a level 2 etc.
-
-            // if edit only affects one level 2 heading, add /* heading  title */ to make a section edit
-            if (!WikiRegexes.HeadingLevelTwo.IsMatch(originalArticleTextLocal))
-                return ("");
-
-            string[] levelTwoHeadingsBefore = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
-            string[] levelTwoHeadingsAfter = { "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "" };
-
-            int before = 0, after = 0;
-
-            string zerothSectionBefore = WikiRegexes.ArticleToFirstLevelTwoHeading.Match(originalArticleTextLocal).Value;
-            if (!string.IsNullOrEmpty(zerothSectionBefore))
-                originalArticleTextLocal = originalArticleTextLocal.Replace(zerothSectionBefore, "");
-
-            string zerothSectionAfter = WikiRegexes.ArticleToFirstLevelTwoHeading.Match(articleTextLocal).Value;
-            if (!string.IsNullOrEmpty(zerothSectionAfter))
-                articleTextLocal = articleTextLocal.Replace(zerothSectionAfter, "");
-
-            // can't provide a section edit summary if there are changes in text before first level 2 heading
-            if (!string.IsNullOrEmpty(zerothSectionBefore) && zerothSectionBefore != zerothSectionAfter)
+            var sectionsBefore = Tools.SplitToSections(originalText);
+            if (sectionsBefore.Length == 0)
                 return "";
 
-            // get sections for article text before any AWB changes
-            foreach (Match m in WikiRegexes.SectionLevelTwo.Matches(originalArticleTextLocal))
-            {
-                levelTwoHeadingsBefore[before] = null;
-                levelTwoHeadingsBefore[before] = m.Value;
-                originalArticleTextLocal = originalArticleTextLocal.Replace(m.Value, "");
-                before++;
-
-                if (before == 20)
-                    return "";
-            }
-            // add the last section to the array
-            levelTwoHeadingsBefore[before] = originalArticleTextLocal;
-
-            // get sections for article text after AWB changes
-            foreach (Match m in WikiRegexes.SectionLevelTwo.Matches(articleTextLocal))
-            {
-                levelTwoHeadingsAfter[after] = m.Value;
-                articleTextLocal = articleTextLocal.Replace(m.Value, "");
-                after++;
-
-                if (after == 20)
-                    return "";
-            }
-
-            // handle the array not being big enough
-            if (levelTwoHeadingsAfter.Length < after)
-                return "";
-
-            // add the last section to the array
-            levelTwoHeadingsAfter[after] = articleTextLocal;
+            var sectionsAfter = Tools.SplitToSections(articleText);
 
             // if number of sections has changed, can't provide section edit summary
-            if (after != before)
+            if (sectionsAfter.Length != sectionsBefore.Length)
                 return "";
 
             int sectionsChanged = 0, sectionChangeNumber = 0;
 
-            for (int i = 0; i <= after; i++)
+            for (int i = 0; i < sectionsAfter.Length; i++)
             {
-                if (levelTwoHeadingsBefore[i] != levelTwoHeadingsAfter[i])
+                if (sectionsBefore[i] != sectionsAfter[i])
                 {
                     sectionsChanged++;
                     sectionChangeNumber = i;
                 }
 
-                // if multiple level 2 sections changed, can't provide section edit summary
-                if (sectionsChanged == 2)
+                // if multiple sections changed, can't provide section edit summary
+                if (sectionsChanged > 1)
                     return "";
             }
 
-            // so SectionsChanged == 1, get heading name from LevelTwoHeadingsBefore
-            return WikiRegexes.HeadingLevelTwo.Match(levelTwoHeadingsBefore[sectionChangeNumber]).Groups[1].Value.Trim();
+            // so SectionsChanged == 1, get heading name from regex
+            return WikiRegexes.Headings.Match(sectionsAfter[sectionChangeNumber]).Groups[1].Value.Trim();
         }
 
 
