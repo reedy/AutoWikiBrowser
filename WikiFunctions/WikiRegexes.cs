@@ -244,7 +244,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches headings of all levels
         /// </summary>
-        public static readonly Regex Headings = new Regex(@"^={1,6}.*={1,6}\s*$", RegexOptions.Multiline | RegexOptions.Compiled);
+        public static readonly Regex Headings = new Regex(@"^={1,6}(.*?)={1,6}\s*$", RegexOptions.Multiline | RegexOptions.Compiled);
         
         /// <summary>
         /// Matches level 2 headings

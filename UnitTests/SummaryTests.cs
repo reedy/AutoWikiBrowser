@@ -57,5 +57,18 @@ namespace UnitTests
                             Summary.Trim(
                                 "clean upclean upclean up, typos fixed: dissapointment → disappointment (2), attatched → attached (2), begining → beginning, Expiditionary → Expeditionary, manuever → maneuver (5), thier → their (7), independant → independent"));
         }
+
+        [Test]
+        public void ModifiedSection()
+        {
+            Assert.AreEqual("", Summary.ModifiedSection("", ""));
+            Assert.AreEqual("", Summary.ModifiedSection("foo", "foo"));
+            Assert.AreEqual("", Summary.ModifiedSection("foo", "bar"));
+
+            Assert.AreEqual("foo", Summary.ModifiedSection("==foo==\n123", "==foo==\ntest"));
+            Assert.AreEqual("foo", Summary.ModifiedSection("rawr\n==foo==\n123", "rawr\n==foo==\ntest"));
+            Assert.AreEqual("foo", Summary.ModifiedSection("==foo==\n123", "== foo ==\ntest"));
+            Assert.AreEqual("bar", Summary.ModifiedSection("==foo==\n123", "==bar==\ntest"));
+        }
     }
 }
