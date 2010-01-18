@@ -1260,12 +1260,26 @@ namespace AutoWikiBrowser
                 StopDelayedAutoSaveTimer();
                 NudgeTimer.Stop();
                 txtEdit.Text = "";
-                listMaker.Remove(TheArticle);
+
+                //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Endless_cycle_of_loading_and_skipping
+                bool successfullyremoved = listMaker.Remove(TheArticle);
+                
                 SameArticleNudges = 0;
-                logControl.AddLog(true, TheArticle.LogListener);
-                TheArticle = null;
-                Retries = 0;
-                Start();
+                
+                if(!successfullyremoved)
+                {
+                    TheArticle = null;
+                    MessageBox.Show("AWB failed to automatically remove the page from the list while skipping the page. Please remove it manually.", "Page removal from list failed", MessageBoxButtons.OK,
+                                    MessageBoxIcon.Exclamation);
+                    Stop();
+                }
+                else
+                {
+                    logControl.AddLog(true, TheArticle.LogListener);
+                    TheArticle = null;
+                    Retries = 0;
+                    Start();
+                }
             }
             catch (Exception ex)
             {
