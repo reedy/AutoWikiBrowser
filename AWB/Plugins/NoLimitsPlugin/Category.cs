@@ -15,6 +15,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+using System.Collections.Generic;
+
 using WikiFunctions.Lists.Providers;
 using WikiFunctions.Plugin;
 
@@ -30,7 +32,7 @@ namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
             Limit = 1000000;
         }
 
-        public override System.Collections.Generic.List<Article> MakeList(params string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             if (Base.AWB.TheSession.User.IsBot || Base.AWB.TheSession.User.IsSysop)
                 return base.MakeList(searchCriteria);
@@ -40,7 +42,7 @@ namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
         }
 
         public override string DisplayText
-        { get { return "Category (NL, Admin & Bot)"; } }
+        { get { return base.DisplayText + " (NL, Admin & Bot)"; } }
 
         public string Name
         { get { return "CategoryNoLimitsForAdminAndBotsPlugin"; } }
@@ -57,7 +59,7 @@ namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
             Depth = 1000;
         }
 
-        public override System.Collections.Generic.List<Article> MakeList(params string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             if (Base.AWB.TheSession.User.IsBot || Base.AWB.TheSession.User.IsSysop)
                 return base.MakeList(searchCriteria);
@@ -67,7 +69,7 @@ namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
         }
 
         public override string DisplayText
-        { get { return "Category (NL, Admin & Bot, recursive)"; } }
+        { get { return base.DisplayText + " (NL, Admin & Bot, recursive)"; } }
 
         public string Name
         { get { return "CategoryRecursiveNoLimitsForAdminAndBotsPlugin"; } }
