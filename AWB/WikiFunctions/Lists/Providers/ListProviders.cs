@@ -730,7 +730,7 @@ namespace WikiFunctions.Lists.Providers
     /// <summary>
     /// Gets the user contribs of the Named Users
     /// </summary>
-    public class UserContribsListProvider : ApiListProviderBase
+    public class UserContribsListProvider : ApiListProviderBase, ISpecialPageProvider
     {
         #region Tags: <usercontribs>/<item>
         static readonly List<string> pe = new List<string>(new[] { "item" });
@@ -750,6 +750,11 @@ namespace WikiFunctions.Lists.Providers
 
         public override List<Article> MakeList(params string[] searchCriteria)
         {
+            return MakeList("", searchCriteria);
+        }
+
+        public List<Article> MakeList(string @namespace, string[] searchCriteria)
+        {
             searchCriteria = Tools.FirstToUpperAndRemoveHashOnArray(searchCriteria);
 
             List<Article> list = new List<Article>();
@@ -759,7 +764,8 @@ namespace WikiFunctions.Lists.Providers
                 string url = "list=usercontribs&ucuser=" +
                              Tools.WikiEncode(
                                  Regex.Replace(page, Variables.NamespacesCaseInsensitive[Namespace.Category], ""))
-                             + "&uclimit=" + uclimit;
+                             + "&uclimit=" + uclimit
+                             + "&ucnamespace=" + @namespace;
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
@@ -781,6 +787,25 @@ namespace WikiFunctions.Lists.Providers
 
         public override bool RunOnSeparateThread
         { get { return true; } }
+        #endregion
+
+        #region ISpecialPageProvider Members
+
+        public List<Article> MakeList(int @namespace, params string[] searchCriteria)
+        {
+            return MakeList(@namespace.ToString(), searchCriteria);
+        }
+
+        public bool PagesNeeded
+        {
+            get { return true; }
+        }
+
+        public bool NamespacesEnabled
+        {
+            get { return true; }
+        }
+
         #endregion
     }
 

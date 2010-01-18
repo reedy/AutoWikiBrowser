@@ -53,7 +53,8 @@ namespace WikiFunctions.Controls.Lists
                                               NewPagesLProvider = new NewPagesListProvider(),
                                               RandomPagesLProvider = new RandomPagesSpecialPageProvider(),
                                               HtmlScraperLProvider = new HTMLPageScraperListProvider(),
-                                              CheckWikiLProvider = new CheckWikiListProvider();
+                                              CheckWikiLProvider = new CheckWikiListProvider(),
+                                              UserContribLProvider = new UserContribsListProvider();
         #endregion
 
         public event ListMakerEventHandler StatusTextChanged,
@@ -96,11 +97,12 @@ namespace WikiFunctions.Controls.Lists
                 DefaultProviders.Add(new TransclusionsOnPageListProvider());
                 DefaultProviders.Add(new TextFileListProvider());
                 DefaultProviders.Add(new GoogleSearchListProvider());
-                DefaultProviders.Add(new UserContribsListProvider());
+                DefaultProviders.Add(UserContribLProvider);
                 DefaultProviders.Add(new UserContribUserDefinedNumberListProvider());
                 DefaultProviders.Add(new SpecialPageListProvider(WhatLinksHereLProvider, NewPagesLProvider,
                                                           CategoriesOnPageLProvider, RandomPagesLProvider,
-                                                          WhatTranscludesLProvider, RedirectLProvider));
+                                                          WhatTranscludesLProvider, RedirectLProvider,
+                                                          UserContribLProvider));
                 DefaultProviders.Add(new ImageFileLinksListProvider());
                 DefaultProviders.Add(new MyWatchlistListProvider());
                 DefaultProviders.Add(new WikiSearchListProvider());
