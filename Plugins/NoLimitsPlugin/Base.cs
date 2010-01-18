@@ -2,7 +2,7 @@
 
 namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
 {
-    class Base : IAWBBasePlugin
+    internal class Base : IAWBBasePlugin
     {
         static internal IAutoWikiBrowser AWB;
 

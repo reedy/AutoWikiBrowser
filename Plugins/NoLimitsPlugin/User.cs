@@ -23,11 +23,11 @@ using WikiFunctions.Plugin;
 namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
 {
     /// <summary>
-    /// What transcludes page list getter with no limits for admin and bot users (wont work for non admin/bots)
+    /// User contrib list getter with no limits for admin and bot users (wont work for non admin/bots)
     /// </summary>
-    public class WhatTranscludesPageNoLimitsForAdminAndBotsPlugin : WhatTranscludesPageListProvider, IListMakerPlugin
+    public class UserContribsNoLimitsForAdminAndBotsPlugin : UserContribsListProvider, IListMakerPlugin
     {
-        public WhatTranscludesPageNoLimitsForAdminAndBotsPlugin()
+        public UserContribsNoLimitsForAdminAndBotsPlugin()
         {
             Limit = 1000000;
         }
@@ -44,33 +44,10 @@ namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
         public override string DisplayText
         { get { return base.DisplayText + " (NL, Admin & Bot)"; } }
 
-        public string Name
-        { get { return "WhatTranscludesPageNoLimitsForAdminAndBotsPlugin"; } }
-    }
-
-    /// <summary>
-    /// What transcludes page (in all namespaces) list getter with no limits for admin and bot users (wont work for non admin/bots)
-    /// </summary>
-    public class WhatTranscludesPageAllNSNoLimitsForAdminAndBotsPagePlugin : WhatTranscludesPageAllNSListProvider, IListMakerPlugin
-    {
-        public WhatTranscludesPageAllNSNoLimitsForAdminAndBotsPagePlugin()
-        {
-            Limit = 1000000;
-        }
-
-        public override List<Article> MakeList(params string[] searchCriteria)
-        {
-            if (Base.AWB.TheSession.User.IsBot || Base.AWB.TheSession.User.IsSysop)
-                return base.MakeList(searchCriteria);
-
-            Tools.MessageBox("Action only allowed for Admins and Bot accounts");
-            return null;
-        }
-
-        public override string DisplayText
-        { get { return base.DisplayText + " (all NS) (NL, Admin & Bot)"; } }
 
         public string Name
-        { get { return "WhatTranscludesPageAllNSNoLimitsForAdminAndBotsPagePlugin"; } }
+        {
+            get { return "UserContribsNoLimitsForAdminAndBotsPlugin"; }
+        }
     }
 }
