@@ -282,6 +282,11 @@ namespace WikiFunctions
         public static readonly Regex Template = new Regex(@"{{[^{\n]*?}}", RegexOptions.Compiled);
 
         /// <summary>
+        /// 
+        /// </summary>
+        public static readonly Regex TemplateEnd = new Regex(@" *}}$", RegexOptions.Compiled);
+
+        /// <summary>
         /// Matches single and multiline templates, NOT nested templates
         /// </summary>
         public static readonly Regex TemplateMultiline = new Regex(@"{{[^{]*?}}", RegexOptions.Compiled);
