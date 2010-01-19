@@ -189,6 +189,8 @@ namespace WikiFunctions.Disambiguation
         {
             try
             {
+                string text;
+
                 switch (n)
                 {
                     case 0: //No change
@@ -197,8 +199,13 @@ namespace WikiFunctions.Disambiguation
                         break;
 
                     case 1: //unlink
-                        txtCorrection.Text = Surroundings.Replace(Match.Value, VisibleLink + LinkTrail);
                         CurrentLink = VisibleLink + LinkTrail;
+
+                        text = Surroundings;
+                        Tools.ReplaceOnce(ref text, Match.Value, CurrentLink);
+
+                        txtCorrection.Text = text;
+
                         break;
 
                     case 2: //{{dn}}
@@ -210,7 +217,12 @@ namespace WikiFunctions.Disambiguation
                                                                      "{{dn}}");
                         }
                         else
-                            txtCorrection.Text = Surroundings.Replace(Match.Value, CurrentLink);
+                        {
+                            text = Surroundings;
+                            Tools.ReplaceOnce(ref text, Match.Value, CurrentLink);
+
+                            txtCorrection.Text = text;
+                        }
                         break;
 
                     default: //everything else
@@ -228,7 +240,7 @@ namespace WikiFunctions.Disambiguation
 
                         CurrentLink = Parse.Parsers.SimplifyLinks(CurrentLink);
 
-                        string text = Surroundings;
+                        text = Surroundings;
                         Tools.ReplaceOnce(ref text, Match.Value, CurrentLink);
 
                         txtCorrection.Text = Parse.Parsers.StickyLinks(text);
