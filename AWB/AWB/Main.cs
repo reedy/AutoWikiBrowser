@@ -1660,7 +1660,14 @@ window.scrollTo(0, diffTopY);
             if (TheArticle == null || TheArticle.Name != TheSession.Page.Title)
             {
                 DisableButtons();
-                throw new Exception("Attempted to save a wrong page");
+                string extext = "Attempted to save a wrong page";
+                
+                if(TheArticle != null)
+                    extext += " (Article name: '" + TheArticle.Name + "', session page title: '" + TheSession.Page.Title + "')";
+                else
+                    extext += " (the article was null)";
+                
+                throw new Exception(extext);
             }
 
             if (!TheSession.Editor.IsActive)
