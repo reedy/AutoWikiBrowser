@@ -233,19 +233,30 @@ bar"));
         }
 
         // Helper function
-        private string ReplaceOnce(string input, string oldValue, string newValue)
+        private string ReplaceOnceStringBuilder(string input, string oldValue, string newValue)
         {
             StringBuilder sb = new StringBuilder(input);
             Tools.ReplaceOnce(sb, oldValue, newValue);
             return sb.ToString();
         }
 
+        // Helper function
+        private string ReplaceOnceString(string input, string oldValue, string newValue)
+        {
+            Tools.ReplaceOnce(ref input, oldValue, newValue);
+            return input;
+        }
+
         [Test]
         public void ReplaceOnce()
         {
-            Assert.AreEqual("", ReplaceOnce("", "foo", "bar"));
-            Assert.AreEqual("test bar!", ReplaceOnce("test foo!", "foo", "bar"));
-            Assert.AreEqual("foobar", ReplaceOnce("barbar", "bar", "foo"));
+            Assert.AreEqual("", ReplaceOnceStringBuilder("", "foo", "bar"));
+            Assert.AreEqual("test bar!", ReplaceOnceStringBuilder("test foo!", "foo", "bar"));
+            Assert.AreEqual("foobar", ReplaceOnceStringBuilder("barbar", "bar", "foo"));
+
+            Assert.AreEqual("", ReplaceOnceString("", "foo", "bar"));
+            Assert.AreEqual("test bar!", ReplaceOnceString("test foo!", "foo", "bar"));
+            Assert.AreEqual("foobar", ReplaceOnceString("barbar", "bar", "foo"));
         }
 
         [Test]

@@ -1278,6 +1278,17 @@ Message: {2}
             return true;
         }
 
+        public static bool ReplaceOnce(ref string text, string oldValue, string newValue)
+        {
+            int index = text.IndexOf(oldValue);
+            if (index < 0)
+                return false;
+
+            text = text.Remove(index, oldValue.Length);
+            text = text.Insert(index, newValue);
+            return true;
+        }
+
         // Covered by ToolsTests.FirstChars()
         /// <summary>
         /// Returns substring at the start of a given string
@@ -1617,10 +1628,7 @@ Message: {2}
         /// <returns>Article Title</returns>
         public static string ConvertToTalk(Article a)
         {
-            if (Namespace.IsSpecial(a.NameSpaceKey))
-                return a.Name;
-
-            if (Namespace.IsTalk(a.NameSpaceKey))
+            if (Namespace.IsSpecial(a.NameSpaceKey) || Namespace.IsTalk(a.NameSpaceKey))
                 return a.Name;
 
             if (a.NameSpaceKey == Namespace.Article)
@@ -1642,10 +1650,7 @@ Message: {2}
             foreach (Article a in list)
             {
                 string s = ConvertToTalk(a);
-                if (a.Equals(s))
-                    newList.Add(a);
-                else
-                    newList.Add(new Article(s));
+                newList.Add(a.Equals(s) ? a : new Article(s));
             }
             return newList;
         }
@@ -1869,9 +1874,9 @@ Message: {2}
         /// Returns the input ISO date in the requested format (American or International). If another Locale is pasased in the input date is returned. For en-wiki only.
         /// </summary>
         /// <param name="ISODate">string representing ISO date</param>
-        /// <param name="Locale">Locale of output date required (American or International)</param>
+        /// <param name="locale">Locale of output date required (American or International)</param>
         /// <returns>The English-language (American or International) date</returns>
-        public static string ISOToENDate(string ISODate, Parsers.DateLocale Locale)
+        public static string ISOToENDate(string ISODate, Parsers.DateLocale locale)
         {
         	if (Variables.LangCode != "en")
         		return ISODate;
@@ -1887,7 +1892,7 @@ Message: {2}
         		return ISODate;
         	}
 
-        	switch (Locale)
+        	switch (locale)
         	{
         	    case Parsers.DateLocale.American:
         	        return dt.ToString("MMMM d, yyyy", English);
