@@ -37,7 +37,7 @@ namespace AutoWikiBrowser
             // 
             this.btnIE.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnIE.DialogResult = System.Windows.Forms.DialogResult.No;
-            this.btnIE.Location = new System.Drawing.Point(12, 59);
+            this.btnIE.Location = new System.Drawing.Point(115, 58);
             this.btnIE.Name = "btnIE";
             this.btnIE.Size = new System.Drawing.Size(97, 23);
             this.btnIE.TabIndex = 0;
@@ -48,7 +48,7 @@ namespace AutoWikiBrowser
             // 
             this.btnDefault.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnDefault.DialogResult = System.Windows.Forms.DialogResult.Yes;
-            this.btnDefault.Location = new System.Drawing.Point(115, 59);
+            this.btnDefault.Location = new System.Drawing.Point(12, 59);
             this.btnDefault.Name = "btnDefault";
             this.btnDefault.Size = new System.Drawing.Size(97, 23);
             this.btnDefault.TabIndex = 1;
