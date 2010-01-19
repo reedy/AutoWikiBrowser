@@ -1918,7 +1918,7 @@ Message: {2}
         /// <returns>The trimmed parameter value, or a null string if the parameter is not found</returns>
         public static string GetTemplateParameterValue(string template, string parameter)
         {// (?:\[\[[^{}]+?\|[^{}]+?\]\])?
-        	Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=\s*((?:(?:\[\[[^{}]+?\|[^{}]+?\]\])?[^{}\|]*?(?:\[\[[^{}]+?\|[^{}]+?\]\])?)*)\s*(?:\||}})", RegexOptions.Compiled);
+        	Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=\s*((?:(?:\[\[[^{}]+?\|[^{}]+?\]\])?[^{}\|]*?(?:\[\[[^{}]+?\|[^{}]+?\]\])?)*)\s*(?:\||}})");
 
             return param.Match(template).Groups[1].Value.Trim();
         }
