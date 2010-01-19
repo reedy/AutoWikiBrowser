@@ -191,17 +191,17 @@ namespace WikiFunctions.Disambiguation
             {
                 switch (n)
                 {
-                    case 0:
+                    case 0: //No change
                         txtCorrection.Text = Surroundings;
                         CurrentLink = Match.Value;
                         break;
 
-                    case 1:
+                    case 1: //unlink
                         txtCorrection.Text = Surroundings.Replace(Match.Value, VisibleLink + LinkTrail);
                         CurrentLink = VisibleLink + LinkTrail;
                         break;
 
-                    case 2:
+                    case 2: //{{dn}}
                         CurrentLink = Match.Value + "{{dn}}";
                         if ((Surroundings.Length > PosInSurroundings + Match.Value.Length) &&
                             (char.IsPunctuation(Surroundings[PosInSurroundings + Match.Value.Length])))
@@ -213,7 +213,7 @@ namespace WikiFunctions.Disambiguation
                             txtCorrection.Text = Surroundings.Replace(Match.Value, CurrentLink);
                         break;
 
-                    default:
+                    default: //everything else
                         CurrentLink = "[[";
                         if (StartOfSentence || char.IsUpper(RealLink[0]))
                             CurrentLink += Tools.TurnFirstToUpper(Variants[n - 3]);
@@ -227,7 +227,11 @@ namespace WikiFunctions.Disambiguation
                             CurrentLink += "]]" + LinkTrail;
 
                         CurrentLink = Parse.Parsers.SimplifyLinks(CurrentLink);
-                        txtCorrection.Text = Parse.Parsers.StickyLinks(Surroundings.Replace(Match.Value, CurrentLink));
+
+                        string text = Surroundings;
+                        Tools.ReplaceOnce(ref text, Match.Value, CurrentLink);
+
+                        txtCorrection.Text = Parse.Parsers.StickyLinks(text);
                         break;
                 }
 
