@@ -119,7 +119,7 @@ namespace WikiFunctions.Disambiguation
                     VisibleLink = Match.Groups[2].Value.Trim();
                     RealLink = Match.Groups[1].Value.Trim();
                 }
-                VisibleLink = VisibleLink.TrimStart(new [] { '|' });
+                VisibleLink = VisibleLink.TrimStart(new[] { '|' });
 
                 LinkTrail = Match.Groups[3].Value;
 
@@ -206,7 +206,8 @@ namespace WikiFunctions.Disambiguation
                         if ((Surroundings.Length > PosInSurroundings + Match.Value.Length) &&
                             (char.IsPunctuation(Surroundings[PosInSurroundings + Match.Value.Length])))
                         {
-                            txtCorrection.Text = Surroundings.Insert(PosInSurroundings + Match.Value.Length + 1, "{{dn}}");
+                            txtCorrection.Text = Surroundings.Insert(PosInSurroundings + Match.Value.Length + 1,
+                                                                     "{{dn}}");
                         }
                         else
                             txtCorrection.Text = Surroundings.Replace(Match.Value, CurrentLink);
@@ -214,13 +215,17 @@ namespace WikiFunctions.Disambiguation
 
                     default:
                         CurrentLink = "[[";
-                        if (StartOfSentence || char.IsUpper(RealLink[0])) CurrentLink += Tools.TurnFirstToUpper(Variants[n - 3]);
-                        else CurrentLink += Variants[n - 3];
+                        if (StartOfSentence || char.IsUpper(RealLink[0]))
+                            CurrentLink += Tools.TurnFirstToUpper(Variants[n - 3]);
+                        else
+                            CurrentLink += Variants[n - 3];
+
                         CurrentLink += "|" + VisibleLink;
                         if (RealLink == VisibleLink)
                             CurrentLink += LinkTrail + "]]";
                         else
                             CurrentLink += "]]" + LinkTrail;
+
                         CurrentLink = Parse.Parsers.SimplifyLinks(CurrentLink);
                         txtCorrection.Text = Parse.Parsers.StickyLinks(Surroundings.Replace(Match.Value, CurrentLink));
                         break;
