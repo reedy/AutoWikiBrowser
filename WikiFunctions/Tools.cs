@@ -1907,7 +1907,7 @@ Message: {2}
         /// <returns>The updated template string</returns>
         public static string AppendParameterToTemplate(string template, string parameter, string value)
         {
-            return(Regex.Replace(template, @" *}}$", @" | " + parameter + "=" + value + @"}}"));
+            return WikiRegexes.TemplateEnd.Replace(template, @" | " + parameter + "=" + value + @"}}");
         }
         
         /// <summary>
@@ -1919,8 +1919,8 @@ Message: {2}
         public static string GetTemplateParameterValue(string template, string parameter)
         {// (?:\[\[[^{}]+?\|[^{}]+?\]\])?
         	Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=\s*((?:(?:\[\[[^{}]+?\|[^{}]+?\]\])?[^{}\|]*?(?:\[\[[^{}]+?\|[^{}]+?\]\])?)*)\s*(?:\||}})", RegexOptions.Compiled);
-        	
-        	return(param.Match(template).Groups[1].Value.Trim());
+
+            return param.Match(template).Groups[1].Value.Trim();
         }
         
         public static string RenameTemplateParameter(string template, string oldparameter, string newparameter)
