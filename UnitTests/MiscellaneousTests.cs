@@ -341,6 +341,15 @@ Image:quux[http://example.com]
             AssertAllHiddenMore("[http://foo bar]", true);
             AssertAllHiddenMore("[http://foo [bar]", true);
         }
+        
+        [Test]
+        public void HidePlainExternalLinks()
+        {
+            AssertAllHiddenMore("http://foo.com/asdfasdf/asdf.htm", true);
+            AssertAllHiddenMore("https://www.foo.com/asdfasdf/asdf.htm", true);
+            Assert.IsFalse(HideMore(@"http://foo.com/asdfasdf/asdf.htm", true, false, false).Contains("asdf"));
+            Assert.IsTrue(HideMore(@"http://foo.com/asdfasdf/asdf.htm", false, false, false).Contains("asdf"));
+        }        
 
         [Test]
         public void HideWikiLinksOnlyPlusWord()
