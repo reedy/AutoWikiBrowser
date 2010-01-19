@@ -101,9 +101,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 
             With PluginManager.AWBForm.ListMaker
                 If .Count > 0 Then
-                    If .Count > 1 AndAlso .Item(1).Name = State.strNextTalkPageExpected Then .RemoveAt(1)
+                    If .Count > 1 AndAlso State.IsNextPage(.Item(1).Name) Then .RemoveAt(1)
 
-                    If .Item(0).Name = State.strNextTalkPageExpected Then .RemoveAt(0)
+                    If State.IsNextPage(.Item(0).Name) Then .RemoveAt(0)
                 End If
             End With
 
@@ -111,33 +111,33 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             State = New StateClass
         End Sub
         Friend Sub ProcessMainSpaceArticle(ByVal ArticleTitle As String)
-            If State.blnNextArticleShouldBeTalk Then
+            If State.NextArticleShouldBeTalk Then
                 IsThisABug("a talk page")
             End If
 
-            State.strNextTalkPageExpected = "Talk:" & ArticleTitle
+            State.NextTalkPageExpected = ArticleTitle
 
             With PluginManager.AWBForm.ListMaker
                 If .Count < 2 Then
-                    .Insert(1, State.strNextTalkPageExpected)
-                ElseIf Not .Item(1).Name = State.strNextTalkPageExpected Then
-                    .Insert(1, State.strNextTalkPageExpected)
+                    .Insert(1, State.NextTalkPageExpected)
+                ElseIf Not State.IsNextPage(.Item(1).Name) Then
+                    .Insert(1, State.NextTalkPageExpected)
                 End If
             End With
 
-            State.blnNextEventShouldBeMainSpace = True
-            State.blnNextArticleShouldBeTalk = True
+            State.NextEventShouldBeMainSpace = True
+            State.NextArticleShouldBeTalk = True
         End Sub
         Friend Function ProcessTalkPage(ByVal TheArticle As Article, ByVal PluginSettings As PluginSettingsControl, _
         ByVal Manager As PluginManager, ByRef ReqPhoto As Boolean) As Boolean
             Dim WeAddedAReqPhotoParam As Boolean
 
-            If Not State.blnNextArticleShouldBeTalk Then
+            If Not State.NextArticleShouldBeTalk Then
                 IsThisABug("an article")
-            ElseIf Not State.strNextTalkPageExpected = TheArticle.FullArticleTitle Then
-                IsThisABug(State.strNextTalkPageExpected)
+            ElseIf Not State.IsNextPage(TheArticle.FullArticleTitle) Then
+                IsThisABug(State.NextTalkPageExpected)
             Else
-                State.blnNextArticleShouldBeTalk = False
+                State.NextArticleShouldBeTalk = False
 
                 PluginManager.StatusText.Text = "Assessments plugin: please assess the article or click cancel"
 
@@ -146,7 +146,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                 ProcessTalkPage = (frmDialog.ShowDialog(State.Classification, State.Importance, _
                    State.NeedsInfobox, State.NeedsAttention, State.ShowComments, _
                    PluginSettings.AssessmentsAlwaysLeaveAComment, State.NeedsPhoto, _
-                   State.strNextTalkPageExpected) = DialogResult.OK)
+                   State.NextTalkPageExpected) = DialogResult.OK)
 
                 If ProcessTalkPage Then
                     PluginManager.StatusText.Text = "Processing " & TheArticle.FullArticleTitle
@@ -231,24 +231,24 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 
             State.ShowComments = False
             frmComments.ShowDialog(State.Classification, State.NeedsInfobox, State.NeedsPhoto, _
-               State.strNextTalkPageExpected, PluginSettings.TimerStats1)
+               State.NextTalkPageExpected, PluginSettings.TimerStats1)
         End Sub
 
         ' UI event handlers:
         Private Sub Save_Click(ByVal sender As Object, ByVal e As EventArgs)
             If Not disposed Then
-                If State.blnNextEventShouldBeMainSpace Then
+                If State.NextEventShouldBeMainSpace Then
                     LoadTalkPage()
                 Else
                     LoadArticle()
                 End If
 
-                State.blnNextEventShouldBeMainSpace = Not State.blnNextEventShouldBeMainSpace
+                State.NextEventShouldBeMainSpace = Not State.NextEventShouldBeMainSpace
             End If
         End Sub
         Private Sub Skip_Click(ByVal sender As Object, ByVal e As EventArgs)
             If Not disposed Then
-                If State.blnNextEventShouldBeMainSpace Then
+                If State.NextEventShouldBeMainSpace Then
                     LoadTalkPage()
                 Else
                     LoadArticle()
@@ -256,7 +256,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                     PluginSettings.PluginStats.SkippedMiscellaneousIncrement(True)
                 End If
 
-                State.blnNextEventShouldBeMainSpace = Not State.blnNextEventShouldBeMainSpace
+                State.NextEventShouldBeMainSpace = Not State.NextEventShouldBeMainSpace
             End If
         End Sub
         Private Sub Preview_Click(ByVal sender As Object, ByVal e As EventArgs)
@@ -279,11 +279,28 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         ' State:
         Private NotInheritable Class StateClass
             Friend LastArticle As String
-            Friend strNextTalkPageExpected As String
-            Friend strEditSummary As String
 
-            Friend blnNextEventShouldBeMainSpace As Boolean
-            Friend blnNextArticleShouldBeTalk As Boolean
+            Dim page As String
+
+            Friend Property NextTalkPageExpected() As String
+                Get
+                    Return page
+                End Get
+                Set(ByVal value As String)
+                    pageRegex = New Regex(Variables.NamespacesCaseInsensitive([Namespace].Talk) & value)
+                    page = Variables.Namespaces([Namespace].Talk) & value
+                End Set
+            End Property
+
+            Friend EditSummary As String
+
+            Friend pageRegex As Regex
+
+            Friend Function IsNextPage(ByVal title As String) As Boolean
+                Return pageRegex.IsMatch(title)
+            End Function
+
+            Friend NextEventShouldBeMainSpace As Boolean, NextArticleShouldBeTalk As Boolean
 
             ' Assessment:
             Friend Classification As Classification, Importance As Importance, ShowComments As Boolean
