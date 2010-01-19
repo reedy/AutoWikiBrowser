@@ -477,6 +477,8 @@ bar</ INCLUDEONLY>");
         public void ExternalLink()
         {
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://google.co.uk","http://google.co.uk");
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, "https://google.co.uk","https://google.co.uk");
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://foo.com/asdfasdf/asdf.htm", "http://foo.com/asdfasdf/asdf.htm");
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://www.google.co.uk", "http://www.google.co.uk");
 
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "lol http://www.google.co.uk lol", "http://www.google.co.uk");

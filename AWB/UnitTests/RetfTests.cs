@@ -110,8 +110,17 @@ namespace UnitTests
             AssertFix("quux", "boz");
             AssertFix("quux", "Boz");
             AssertNoFix("BOZ");
-            AssertFix("furbag", "FuBaRbag");
+            AssertFix("furbag", "FuBaRbag");            
         }
+        
+        [Test]
+        public void DontChangeURLs()
+        {
+            Typos["foo"] = "bar";
+            AssertNoFix("http://foo.com/asdfasdf/asdf.htm");
+            AssertNoFix(@"[http://foo.com/asdfasdf/asdf.htm Foo's best]");
+            AssertNoFix("http://foo.com/asdfasdf/foo.htm");            
+        }        
 
         [Test]
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#Rules_in_Finnish_Regex_TypoFix_list_not_always_applied
