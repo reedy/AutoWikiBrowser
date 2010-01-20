@@ -1022,6 +1022,8 @@ words2"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{inappropriate person|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{in-universe|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{importance|date =  April 2009}}"));
+            Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{Inappropriate tone|date =  April 2009}}"));
+            Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{inappropriate tone|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{incomplete|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{intro length|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{intromissing|date =  April 2009}}"));
