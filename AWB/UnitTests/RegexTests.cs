@@ -497,6 +497,15 @@ bar</ INCLUDEONLY>");
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "lol [http://www.google.co.uk lol", "http://www.google.co.uk");
 
             RegexAssert.NoMatch(WikiRegexes.ExternalLinks, "Google");
+            
+            // protocol is group 1
+            Assert.AreEqual("http", WikiRegexes.ExternalLinks.Match(@"http://google.co.uk").Groups[1].Value);
+            Assert.AreEqual("svn", WikiRegexes.ExternalLinks.Match(@"svn://google.co.uk Google}}").Groups[1].Value);
+            Assert.AreEqual("Http", WikiRegexes.ExternalLinks.Match(@"Http://google.co.uk").Groups[1].Value);
+            Assert.AreEqual("HTTP", WikiRegexes.ExternalLinks.Match(@"HTTP://google.co.uk").Groups[1].Value);
+            
+            // not when in external link brackets
+            Assert.AreEqual("", WikiRegexes.ExternalLinks.Match(@"[http://google.co.uk Google]").Groups[1].Value);
         }
 
         [Test]
