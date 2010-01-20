@@ -5738,5 +5738,33 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             const string a3 = @"{{Article issues|wikfy=May 2008|COI=May 2008|update=May 2008}}";
             Assert.AreEqual(a3, Parsers.Conversions(a3));
         }
+        
+        [Test]
+        public void RedirectTaggerMod()
+        {
+            const string correct = @"#REDIRECT:[[Foo–bar]]
+{{R from modification}}", redirectendash = @"#REDIRECT:[[Foo–bar]]";
+            Assert.AreEqual(correct, Parsers.RedirectTagger(redirectendash, "Foo-bar"));
+            
+            // already tagged
+            Assert.AreEqual(correct, Parsers.RedirectTagger(correct, "Foo-bar"));
+            
+            // different change
+            Assert.AreEqual(redirectendash, Parsers.RedirectTagger(redirectendash, "Foo barism"));
+        }
+        
+                [Test]
+        public void RedirectTaggerDiacr()
+        {
+            const string correct = @"#REDIRECT:[[Fiancée]]
+{{R from title without diacritics}}", redirectaccent = @"#REDIRECT:[[Fiancée]]";
+            Assert.AreEqual(correct, Parsers.RedirectTagger(redirectaccent, "Fiancee"));
+            
+            // already tagged
+            Assert.AreEqual(correct, Parsers.RedirectTagger(correct, "Fiancee"));
+            
+            // different change
+            Assert.AreEqual(redirectaccent, Parsers.RedirectTagger(redirectaccent, "Fiancee-bar"));
+        }
     }
 }

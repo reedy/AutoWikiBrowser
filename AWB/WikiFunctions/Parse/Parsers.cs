@@ -4599,6 +4599,37 @@ namespace WikiFunctions.Parse
             }
             return articleText;
         }
+        
+        /// <summary>
+        /// For en-wiki tags redirect pages with one or more of the templates from [[Wikipedia:Template messages/Redirect pages]]
+        /// </summary>
+        /// <param name="articleText">the article text</param>
+        /// <param name="articleTitle">the article title</param>
+        /// <returns></returns>
+        public static string RedirectTagger(string articleText, string articleTitle)
+        {
+            // only for en-wiki redirects
+            if(!Tools.IsRedirect(articleText) || !Variables.IsWikipediaEN)
+                return articleText;
+            
+            string redirecttarget = Tools.RedirectTarget(articleText);
+            
+            // {{R from modification}}
+            
+            // difference is hyphen to endash
+            if(redirecttarget != redirecttarget.Replace("–", "-") && redirecttarget.Replace("–", "-") == articleTitle
+               && !WikiRegexes.RFromModification.IsMatch(articleText))
+                articleText += "\r\n" + WikiRegexes.RFromModificationString;
+            
+            // {{R from title without diacritics}}
+            
+            // title and redirect target the same if dacritics removed from redirect target
+            if(redirecttarget != Tools.RemoveDiacritics(redirecttarget) && Tools.RemoveDiacritics(redirecttarget) == articleTitle
+               && !WikiRegexes.RFromTitleWithoutDiacritics.IsMatch(articleText))
+                articleText += "\r\n" + WikiRegexes.RFromTitleWithoutDiacriticsString;
+            
+            return articleText;
+        }
 
         private static string StubChecker(Match m)
         {
