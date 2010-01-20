@@ -1426,11 +1426,27 @@ namespace WikiFunctions.Lists.Providers
         {
             List<Article> list = new List<Article>();
 
-            foreach (string page in searchCriteria)
+            foreach (string searchUrl in searchCriteria)
             {
+                int index = searchUrl.IndexOf("://");
+
+                string protocol, urlEnd;
+
+                if (index > -1)
+                {
+                    protocol = searchUrl.Substring(0, index);
+                    urlEnd = searchUrl.Substring(index + 3);
+                }
+                else
+                {
+                    protocol = "";
+                    urlEnd = searchUrl;
+                }
+
+
                 string url = "list=exturlusage&euquery=" +
-                             HttpUtility.UrlEncode(page.Replace("http://", "")) + "&eunamespace=" + Namespace +
-                             "&eulimit=max";
+                             HttpUtility.UrlEncode(urlEnd) + "&eunamespace=" + Namespace +
+                               "&euprotocol=" + protocol + "&eulimit=max";
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
