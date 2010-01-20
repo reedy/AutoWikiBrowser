@@ -576,6 +576,34 @@ fast„ "));
             Assert.IsFalse(WikiRegexes.SicTag.IsMatch("now sickened by"));
             Assert.IsFalse(WikiRegexes.SicTag.IsMatch("now helo sic there"));
         }
+        
+        [Test]
+        public void RFromModification()
+        {
+            Assert.IsTrue(WikiRegexes.RFromModification.IsMatch(@"{{R from modification}}"));
+            Assert.IsTrue(WikiRegexes.RFromModification.IsMatch(@"{{ r from modification}}"));
+            Assert.IsTrue(WikiRegexes.RFromModification.IsMatch(@"{{R mod }}"));
+            Assert.IsTrue(WikiRegexes.RFromModification.IsMatch(@"{{R from modifcation}}"));
+            Assert.IsTrue(WikiRegexes.RFromModification.IsMatch(@"{{R from alternate punctuation}}"));
+            Assert.IsTrue(WikiRegexes.RFromModification.IsMatch(@"{{R from alternative punctuation}}"));
+        }
+        
+        [Test]
+        public void RFromTitleWithoutDiacritics()
+        {
+            Assert.IsTrue(WikiRegexes.RFromTitleWithoutDiacritics.IsMatch(@"{{R to accents}}"));
+            Assert.IsTrue(WikiRegexes.RFromTitleWithoutDiacritics.IsMatch(@"{{Redirects from title without diacritics}}"));
+            Assert.IsTrue(WikiRegexes.RFromTitleWithoutDiacritics.IsMatch(@"{{RDiacr}}"));
+            Assert.IsTrue(WikiRegexes.RFromTitleWithoutDiacritics.IsMatch(@"{{r to unicode name}}"));
+            Assert.IsTrue(WikiRegexes.RFromTitleWithoutDiacritics.IsMatch(@"{{ R to unicode}}"));
+            Assert.IsTrue(WikiRegexes.RFromTitleWithoutDiacritics.IsMatch(@"{{R to unicode  }}"));
+            Assert.IsTrue(WikiRegexes.RFromTitleWithoutDiacritics.IsMatch(@"{{R to title with diacritics}}"));
+            Assert.IsTrue(WikiRegexes.RFromTitleWithoutDiacritics.IsMatch(@"{{R to diacritics}}"));
+            Assert.IsTrue(WikiRegexes.RFromTitleWithoutDiacritics.IsMatch(@"{{R from name without diacritics}}"));
+            Assert.IsTrue(WikiRegexes.RFromTitleWithoutDiacritics.IsMatch(@"{{R from title without diacritics}}"));
+            Assert.IsTrue(WikiRegexes.RFromTitleWithoutDiacritics.IsMatch(@"{{R from original name without diacritics}}"));
+            Assert.IsTrue(WikiRegexes.RFromTitleWithoutDiacritics.IsMatch(@"{{R without diacritics}}"));
+        }
 
         [Test]
         public void MoreNoFootnotesTests()
