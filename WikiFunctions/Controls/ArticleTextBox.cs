@@ -155,24 +155,25 @@ namespace WikiFunctions.Controls
         /// <param name="articleName"></param>
         public Dictionary<int, int> FindAll(string strRegex, bool isRegex, bool caseSensitive, string articleName)
         {
+            Dictionary<int, int> found = new Dictionary<int, int>();
+
+            if (string.IsNullOrEmpty(strRegex))
+                return found;
+
             string articleText = RawText;
-
-            Dictionary<int, int> Founds = new Dictionary<int, int>();
-
-            RegexOptions regOptions = caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase;
 
             strRegex = Tools.ApplyKeyWords(articleName, strRegex);
 
             if (!isRegex)
                 strRegex = Regex.Escape(strRegex);
 
-            RegexObj = new Regex(strRegex, regOptions);
-            foreach (Match MatchObj in RegexObj.Matches(articleText))
+            RegexObj = new Regex(strRegex, caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase);
+            foreach (Match m in RegexObj.Matches(articleText))
             {
-                Founds.Add(MatchObj.Index, MatchObj.Length);
+                found.Add(m.Index, m.Length);
             }
 
-            return Founds;
+            return found;
         }
 
         /// <summary>
