@@ -3995,6 +3995,8 @@ window.scrollTo(0, diffTopY);
                 if (name.Contains("|")) name = name.Substring(0, name.IndexOf('|') - 1);
 
                 txtDabVariants.Text = "";
+
+                StringBuilder builder = new StringBuilder();
                 foreach (
                     Article a in
                     new LinksOnPageListProvider().MakeList(
@@ -4007,9 +4009,9 @@ window.scrollTo(0, diffTopY);
                     // disambigs typically link to pages in the same namespace only
                     if (Namespace.Determine(name) != a.NameSpaceKey) continue;
 
-                    txtDabVariants.Text += a.Name + "\r\n";
+                    builder.AppendLine(a.Name);
                 }
-                txtDabVariants.Text = txtDabVariants.Text.Trim();
+                txtDabVariants.Text = builder.ToString();
             }
             catch (Exception ex)
             {
