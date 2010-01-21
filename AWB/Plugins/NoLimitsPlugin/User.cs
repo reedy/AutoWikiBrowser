@@ -44,7 +44,6 @@ namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
         public override string DisplayText
         { get { return base.DisplayText + " (NL, Admin & Bot)"; } }
 
-
         public string Name
         {
             get { return "UserContribsNoLimitsForAdminAndBotsPlugin"; }
