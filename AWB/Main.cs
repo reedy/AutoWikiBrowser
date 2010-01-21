@@ -1017,11 +1017,7 @@ namespace AutoWikiBrowser
                 }
 
                 if (highlightAllFindToolStripMenuItem.Checked)
-                {
-                    txtEdit.Visible = false;
                     HighlightAllFind();
-                    txtEdit.Visible = true;
-                }
 
                 if (focusAtEndOfEditTextBoxToolStripMenuItem.Checked)
                 {
@@ -4847,6 +4843,9 @@ window.scrollTo(0, diffTopY);
 
         private void HighlightAllFind()
         {
+            if (string.IsNullOrEmpty(txtFind.Text))
+                return;
+
             Dictionary<int, int> found = txtEdit.FindAll(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, TheArticle.Name);
 
             foreach (KeyValuePair<int, int> a in found)
