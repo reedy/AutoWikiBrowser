@@ -4324,9 +4324,9 @@ namespace WikiFunctions.Parse
             if (WikiRegexes.Refs.IsMatch(articleText))
                 articleText = Tools.RenameTemplate(articleText, @"nofootnotes", "morefootnotes");
             
-            // {{unreferenced}} --> {{BLP unsourced}} if article has [[:Category:Living people]]
+            // {{unreferenced}} --> {{BLP unsourced}} if article has [[Category:Living people]]
             if(Variables.IsWikipediaEN && WikiRegexes.Unreferenced.IsMatch(articleText) && articleText.Contains(@"[[Category:Living people"))
-                articleText = Tools.RenameTemplate(articleText, "unreferenced", "BLP unsourced");
+                articleText = Tools.RenameTemplate(articleText, WikiRegexes.Unreferenced.Match(articleText).Groups[1].Value, "BLP unsourced");
             
             return articleText;
         }

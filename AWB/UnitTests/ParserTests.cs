@@ -5579,6 +5579,8 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 {{unreferenced}}";
              
              Assert.AreEqual(correct, Parsers.Conversions(nochange + "\r\n" + @"[[Category:Living people]]"));
+             Assert.AreEqual(correct, Parsers.Conversions(@"Foo
+{{no refs}}" + "\r\n" + @"[[Category:Living people]]"));
              
              Assert.AreEqual(correct, Parsers.Conversions(correct));
              
