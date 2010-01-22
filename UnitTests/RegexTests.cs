@@ -726,6 +726,7 @@ fast„ "));
     Fred (dancer)}}"));
 
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{Otheruse|something}}"));
+            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{Otheruses|something}}"));
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{Otheruses2|something}}"));
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{otheruse|something}}"));
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{otheruse
