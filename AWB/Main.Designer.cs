@@ -1906,7 +1906,7 @@ namespace AutoWikiBrowser
             this.chkAutoTagger.Size = new System.Drawing.Size(66, 17);
             this.chkAutoTagger.TabIndex = 0;
             this.chkAutoTagger.Text = "Auto tag";
-            this.ToolTip.SetToolTip(this.chkAutoTagger, "Automatically add {{wikify}} and {{stub}} tags when appropriate");
+            this.ToolTip.SetToolTip(this.chkAutoTagger, "Automatically add {{orphan}}, {{deadend}}, {{wikify}} and {{stub}} tags when appropriate");
             // 
             // chkUnicodifyWhole
             // 
