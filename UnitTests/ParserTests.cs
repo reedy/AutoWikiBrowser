@@ -5518,30 +5518,6 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 
             Assert.AreEqual(@"{{Article issues|cleanup=March 2008|expert=Anime and manga|refimprove=May 2008|date=February 2009}}", Parsers.Conversions(@"{{Article issues|cleanup=March 2008|expert=Anime and manga|refimprove=May 2008|date=February 2009}}"));
 
-            // nofootnotes --> morefootnotes
-            Assert.AreEqual(@"Article <ref>A</ref>
-            ==References==
-            {{morefootnotes}}
-            {{reflist}}", Parsers.Conversions(@"Article <ref>A</ref>
-            ==References==
-            {{nofootnotes}}
-            {{reflist}}"));
-
-            Assert.AreEqual(@"Article <ref>A</ref>
-            ==References==
-            {{morefootnotes}}
-            {{reflist}}", Parsers.Conversions(@"Article <ref>A</ref>
-            ==References==
-            {{Nofootnotes}}
-            {{reflist}}"));
-
-            // no change
-            Assert.AreEqual(@"Article
-            ==References==
-            {{nofootnotes}}", Parsers.Conversions(@"Article
-            ==References==
-            {{nofootnotes}}"));
-
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.7B.7Bcommons.7CCategory:XXX.7D.7D_.3E_.7B.7Bcommonscat.7CXXX.7D.7D
             // {{commons|Category:XXX}} > {{commonscat|XXX}}
             Assert.AreEqual(@"{{Commons category|XXX}}", Parsers.Conversions(@"{{commons|Category:XXX}}"));
@@ -5565,6 +5541,49 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(@"{{Article issues|sections=May 2008|POV=March 2008|COI=May 2009}}", Parsers.Conversions(@"{{Articleissues|sections=May 2008|POV=March 2008|COI=May 2009}}"));
             Assert.AreEqual(@"{{article issues|sections=May 2008|POV=March 2008|COI=May 2009}}", Parsers.Conversions(@"{{articleissues|sections=May 2008|POV=March 2008|COI=May 2009}}"));
         }
+        
+        [Test]
+        public void ConversionTestsMoreFootnotes()
+        {
+             // nofootnotes --> morefootnotes
+            Assert.AreEqual(@"Article <ref>A</ref>
+            ==References==
+            {{morefootnotes}}
+            {{reflist}}", Parsers.Conversions(@"Article <ref>A</ref>
+            ==References==
+            {{nofootnotes}}
+            {{reflist}}"));
+
+            Assert.AreEqual(@"Article <ref>A</ref>
+            ==References==
+            {{morefootnotes}}
+            {{reflist}}", Parsers.Conversions(@"Article <ref>A</ref>
+            ==References==
+            {{Nofootnotes}}
+            {{reflist}}"));
+
+            // no change
+            Assert.AreEqual(@"Article
+            ==References==
+            {{nofootnotes}}", Parsers.Conversions(@"Article
+            ==References==
+            {{nofootnotes}}"));
+        }
+        
+         [Test]
+         public void ConversionTestsBLPUnsourced()
+         {
+             string correct = @"Foo
+{{BLP unsourced}}
+[[Category:Living people]]", nochange = @"Foo
+{{unreferenced}}";
+             
+             Assert.AreEqual(correct, Parsers.Conversions(nochange + "\r\n" + @"[[Category:Living people]]"));
+             
+             Assert.AreEqual(correct, Parsers.Conversions(correct));
+             
+             Assert.AreEqual(nochange, Parsers.Conversions(nochange));
+         }
 
         [Test]
         public void ConversionTestsInterwikiMigration()

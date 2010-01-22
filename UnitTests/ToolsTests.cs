@@ -822,6 +822,22 @@ Jones", "*"));
 |param2=great}}", "param2", "param3"));
         	Assert.AreEqual(@"{{cite |param1=bar|param3=great|param=here}}", Tools.RenameTemplateParameter(@"{{cite |param1=bar|param2=great|param=here}}", "param2", "param3"));
         }
+        
+        [Test]
+        public void RenameTemplate()
+        {
+            string correct = @"Now {{bar}} was {{bar|here}} there", correct2 = @"Now {{bar}} was {{bar
+|here
+|other}} there";
+            Assert.AreEqual(correct, Tools.RenameTemplate(@"Now {{foo}} was {{foo|here}} there", "foo", "bar"));
+            Assert.AreEqual(correct, Tools.RenameTemplate(@"Now {{Foo}} was {{foo|here}} there", "Foo", "bar"));
+            
+             Assert.AreEqual(correct2, Tools.RenameTemplate(@"Now {{foo}} was {{foo
+|here
+|other}} there", "Foo", "bar"));
+            
+            Assert.AreEqual(correct, Tools.RenameTemplate(correct, "bar2", "foo"));
+        }
     }
 
     [TestFixture]

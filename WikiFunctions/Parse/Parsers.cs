@@ -4323,7 +4323,11 @@ namespace WikiFunctions.Parse
             // {{nofootnotes}} --> {{morefootnotes}}, if some <ref>...</ref> references in article, uses regex from WikiRegexes.Refs
             if (WikiRegexes.Refs.IsMatch(articleText))
                 articleText = Regex.Replace(articleText, @"{{nofootnotes}}", "{{morefootnotes}}", RegexOptions.IgnoreCase);
-
+            
+            // {{unreferenced}} --> {{BLP unsourced}} if article has [[:Category:Living people]]
+            if(Variables.IsWikipediaEN && WikiRegexes.Unreferenced.IsMatch(articleText) && articleText.Contains(@"[[Category:Living people"))
+                articleText = Tools.RenameTemplate(articleText, "unreferenced", "BLP unsourced");
+            
             return articleText;
         }
 

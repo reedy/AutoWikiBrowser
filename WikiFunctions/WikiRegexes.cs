@@ -693,6 +693,10 @@ namespace WikiFunctions
         public static readonly Regex Dablinks = new Regex(@"{{\s*(?:[Aa]bout|[Ff]or[2-3]?|[Dd]ablink|[Dd]istinguish2?|[Oo]therpeople[1-4]|[Oo]therpersons|[Oo]therplaces[23]?|[Oo]theruses-number|[Oo]theruse(?:s[1-4]|s)?|2otheruses|[Rr]edirect-acronym|[Rr]edirect[2-4]?|[Aa]mbiguous link|[Dd]isambig-acronym)\s*(?:\|[^{}]*(?:{{[^{}]*}}[^{}]*)?)?}}", RegexOptions.Compiled);
         
         /// <summary>
+        /// Matches the {{Unreferenced}} template
+        /// </summary>
+        public static readonly Regex Unreferenced = new Regex(@"{{\s*([Uu]nreferenced|[Uu]nsourced|[Uu]nverified|[Uu]nref|[Rr]eferences|[Uu]ncited-article|[Cc]itesources|[Nn][Rr]|[Nn]o references|[Uu]nrefarticle|[Nn]o ?refs?|[Nn]oreferences|[Cc]leanup-cite|[Rr]eferences needed)\s*(?:\|.*?)?}}", RegexOptions.Singleline);
+        /// <summary>
         /// Matches {{XX Portal}} templates
         /// </summary>
         public static readonly Regex PortalTemplate = new Regex(@"{{\s*[Pp]ortal(?:\|[^{}]+)?}}", RegexOptions.RightToLeft);

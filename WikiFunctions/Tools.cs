@@ -1934,6 +1934,22 @@ Message: {2}
         	
         	return (param.Replace(template, "$1" + newparameter + "$2"));        	
         }
+        
+        /// <summary>
+        /// Renames all matches of the given template name in the input text to the new name given
+        /// </summary>
+        /// <param name="articletext">the page text</param>
+        /// <param name="templatename">the old template name</param>
+        /// <param name="newtemplatename">teh new template name</param>
+        /// <returns></returns>
+        public static string RenameTemplate(string articletext, string templatename, string newtemplatename)
+        {
+            templatename = Regex.Escape(templatename);
+            
+            Regex oldtemplate = new Regex(@"({{\s*)" + Tools.CaseInsensitive(templatename) + @"(\s*(?:\||}}))");
+            
+            return oldtemplate.Replace(articletext, "$1" + newtemplatename + "$2");
+        }
 
         /// <summary>
         /// returns true if testnode is the same or a subnode of refnode
