@@ -739,6 +739,19 @@ fast„ "));
         }
         
         [Test]
+        public void Unreferenced()
+        {
+            Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(@"{{unreferenced}}"));
+            Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(@"{{  Unreferenced}}"));
+            Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(@"{{unreferenced  }}"));
+            Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(@"{{unreferenced|date=May 2009}}"));
+            Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(@"{{No refs}}"));
+            
+            Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(@"{{unreferenced-stub}}"));
+        }
+            
+        
+        [Test]
         public void PortalTemplateTests()
         {
             Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal}}"));
