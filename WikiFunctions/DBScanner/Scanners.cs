@@ -242,7 +242,7 @@ namespace WikiFunctions.DBScanner
     }
 
     /// <summary>
-    /// Returns whether the article has not got its title emboldened in the article
+    /// Returns whether the article has not got its title emboldened by BoldTitle
     /// </summary>
     public class HasNoBoldTitle : Scan
     {
