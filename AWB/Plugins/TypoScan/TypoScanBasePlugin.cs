@@ -173,6 +173,10 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         private static readonly BackgroundRequest Thread = new BackgroundRequest(UploadFinishedArticlesToServerFinished,
                                                             UploadFinishedArticlesToServerErrored);
 
+        private static readonly List<string> currentlyUploadingSkipped = new List<string>(),
+            currentlyUploadingSaved = new List<string>(),
+            currentlyUploadingReasons = new List<string>();
+
         /// <summary>
         /// 
         /// </summary>
@@ -188,11 +192,15 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             AWB.StartProgressBar();
             AWB.StatusLabelText = "Uploading " + EditsAndIgnored + " TypoScan articles to server...";
 
+            currentlyUploadingSaved.AddRange(SavedPages);
+            currentlyUploadingSkipped.AddRange(SkippedPages);
+            currentlyUploadingReasons.AddRange(SkippedReasons);
+
             NameValueCollection postVars = new NameValueCollection
                                                {
-                                                   {"articles", string.Join(",", SavedPages.ToArray())},
-                                                   {"skipped", string.Join(",", SkippedPages.ToArray())},
-                                                   {"skipreason", string.Join(",", SkippedReasons.ToArray())},
+                                                   {"articles", string.Join(",", currentlyUploadingSaved.ToArray())},
+                                                   {"skipped", string.Join(",", currentlyUploadingSkipped.ToArray())},
+                                                   {"skipreason", string.Join(",", currentlyUploadingReasons.ToArray())},
                                                    {"user", AWB.Privacy ? "[withheld]" : AWB.TheSession.User.Name}
                                                };
 
@@ -212,9 +220,24 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             if (string.IsNullOrEmpty(Common.CheckOperation(result)))
             {
                 UploadedThisSession += EditsAndIgnored;
-                SavedPages.Clear();
-                SkippedPages.Clear();
-                SkippedReasons.Clear();
+
+                if (currentlyUploadingSaved.Count > 0)
+                {
+                    SavedPages.RemoveRange(0, currentlyUploadingSaved.Count - 1);
+                    currentlyUploadingSaved.Clear();
+                }
+
+                if (currentlyUploadingSkipped.Count > 0)
+                {
+                    SkippedPages.RemoveRange(0, currentlyUploadingSkipped.Count - 1);
+                    currentlyUploadingSkipped.Clear();
+                }
+
+                if (currentlyUploadingReasons.Count > 0)
+                {
+                    SkippedReasons.RemoveRange(0, currentlyUploadingReasons.Count - 1);
+                    currentlyUploadingReasons.Clear();
+                }
 
                 if ((UploadedThisSession % 100) == 0)
                     CheckoutTime = DateTime.Now;
