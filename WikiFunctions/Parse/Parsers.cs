@@ -3205,8 +3205,8 @@ namespace WikiFunctions.Parse
             // first try title with brackets removed
             if (regexBoldNoBrackets.IsMatch(articleTextHidden))
             {
-                articleText = regexBoldNoBrackets.Replace(articleTextHidden, "$1'''$2'''$3", 1);
-                articleText = AddBackMoreText(articleText);
+                articleTextHidden = regexBoldNoBrackets.Replace(articleTextHidden, "$1'''$2'''$3", 1);
+                articleText = AddBackMoreText(articleTextHidden);
             }
 
             // check that the bold added is the first bit in bold in the main body of the article
