@@ -3202,8 +3202,6 @@ namespace WikiFunctions.Parse
 
             Regex regexBoldNoBrackets = new Regex(@"([^\[]|^)(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + ")([ ,.:;])");
 
-            articleTextHidden = HideMoreText(articleText);
-
             // first try title with brackets removed
             if (regexBoldNoBrackets.IsMatch(articleTextHidden))
             {
