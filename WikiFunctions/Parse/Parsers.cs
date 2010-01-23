@@ -3116,10 +3116,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private static string BoldedSelfLinks(string articleTitle, string articleText)
         {
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#If_a_selflink_is_also_bolded.2C_AWB_should_just_remove_the_selflink
-
             string escTitle = Regex.Escape(articleTitle);
-            //string escTitleNoBrackets = Regex.Escape(Regex.Replace(articleTitle, @" \(.*?\)$", ""));
 
             Regex r1 = new Regex(@"'''\[\[\s*" + escTitle + @"\s*\]\]'''");
             Regex r2 = new Regex(@"'''\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]'''");
@@ -3127,7 +3124,6 @@ namespace WikiFunctions.Parse
             if (!WikiRegexes.Noinclude.IsMatch(articleText) && !WikiRegexes.Includeonly.IsMatch(articleText))
             {
                 articleText = r1.Replace(articleText, @"'''" + articleTitle + @"'''");
-
                 articleText = r2.Replace(articleText, @"'''" + Tools.TurnFirstToLower(articleTitle) + @"'''");
             }
 
@@ -3146,6 +3142,8 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string BoldTitle(string articleText, string articleTitle, out bool noChange)
         {
+            HideText Hider2 = new HideText();
+            HideText Hider3 = new HideText(true, true, true);
             // clean up bolded self links first
             articleText = BoldedSelfLinks(articleTitle, articleText);
 
@@ -3159,7 +3157,7 @@ namespace WikiFunctions.Parse
             string restOfArticle = (zerothSection.Length > 0) ? articleText.Replace(zerothSection, "") : "";
 
             // There's a limitation here in that we can't hide image descriptions that may be above lead sentence without hiding the self links we are looking to correct
-            string zerothSectionHidden = Hider.HideMore(zerothSection, false, false);
+            string zerothSectionHidden = Hider2.HideMore(zerothSection, false, false);
             string zerothSectionHiddenOriginal = zerothSectionHidden;
 
             // first check for any self links and no bold title, if found just convert first link to bold and return
@@ -3173,25 +3171,18 @@ namespace WikiFunctions.Parse
             if (zerothSectionHiddenOriginal == zerothSectionHidden && !Regex.IsMatch(zerothSection, @"'''" + Tools.TurnFirstToLower(escTitle) + @"'''"))
                 zerothSectionHidden = r2.Replace(zerothSectionHidden, "'''" + Tools.TurnFirstToLower(articleTitle) + @"'''");
 
+            zerothSection = Hider2.AddBackMore(zerothSectionHidden);
+            
             if (zerothSectionHiddenOriginal != zerothSectionHidden)
             {
                 noChange = false;
-                return (Hider.AddBackMore(zerothSectionHidden) + restOfArticle);
+                return (zerothSection + restOfArticle);
             }
-
-            // so no self links to remove, check for the need to add bold
-            string articleTextHidden = HideMoreText(articleText);
-
-            // first quick check: ignore articles with some bold in first 5% of hidemore article
-            int fivepc = articleTextHidden.Length / 20;
-            //ArticleText5.Length
-            if (articleTextHidden.Substring(0, fivepc).Contains("'''"))
-                return articleTextAtStart;
-
+            
             // ignore date articles (date in American or international format)
             if (WikiRegexes.Dates2.IsMatch(articleTitle) || WikiRegexes.Dates.IsMatch(articleTitle))
                 return articleTextAtStart;
-
+            
             Regex boldTitleAlready1 = new Regex(@"'''\s*(" + escTitle + "|" + Tools.TurnFirstToLower(escTitle) + @")\s*'''");
             Regex boldTitleAlready2 = new Regex(@"'''\s*(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + @")\s*'''");
 
@@ -3200,15 +3191,26 @@ namespace WikiFunctions.Parse
                 || BoldTitleAlready3.IsMatch(articleText))
                 return articleTextAtStart;
 
+            // so no self links to remove, check for the need to add bold
+            string articleTextHidden = Hider3.HideMore(articleText);
+
+            // first quick check: ignore articles with some bold in first 5% of hidemore article
+            int fivepc = articleTextHidden.Length / 20;
+
+            if (articleTextHidden.Substring(0, fivepc).Contains("'''"))
+            {
+                articleText = Hider3.AddBackMore(articleTextHidden);
+                return articleTextAtStart;
+            }
+
             Regex regexBoldNoBrackets = new Regex(@"([^\[]|^)(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + ")([ ,.:;])");
 
             // first try title with brackets removed
             if (regexBoldNoBrackets.IsMatch(articleTextHidden))
-            {
                 articleTextHidden = regexBoldNoBrackets.Replace(articleTextHidden, "$1'''$2'''$3", 1);
-                articleText = AddBackMoreText(articleTextHidden);
-            }
-
+            
+            articleText = Hider3.AddBackMore(articleTextHidden);
+            
             // check that the bold added is the first bit in bold in the main body of the article
             if (AddedBoldIsValid(articleText, escTitleNoBrackets))
             {
@@ -3226,6 +3228,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         private bool AddedBoldIsValid(string articleText, string escapedTitle)
         {
+            HideText Hider2 = new HideText(true, true, true);
             string articletextoriginal = articleText;
             Regex regexBoldAdded = new Regex(@"^(.*?)'''" + escapedTitle, RegexOptions.Singleline);
 
@@ -3233,11 +3236,13 @@ namespace WikiFunctions.Parse
 
             int firstBoldPos = RegexFirstBold.Match(articleText).Length;
 
-            articleText = HideMoreText(articleText);
+            articleText = Hider2.HideMore(articleText);
 
             // was bold added in first 5% of article?
             bool inFirst5Percent = articleText.Substring(0, articleText.Length / 20).Contains("'''");
 
+            articleText = Hider2.AddBackMore(articleText);
+            
             // check that the bold added is the first bit in bold in the main body of the article, and in first 5% of HideMore article
             if(inFirst5Percent && boldAddedPos <= firstBoldPos)
                 return true;
