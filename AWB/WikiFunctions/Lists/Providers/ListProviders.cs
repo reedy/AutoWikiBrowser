@@ -388,6 +388,11 @@ namespace WikiFunctions.Lists.Providers
 
         public override string DisplayText
         { get { return base.DisplayText + " directly"; } }
+
+        protected override bool EvaluateXmlElement(XmlTextReader xml)
+        {
+            return !xml.MoveToAttribute("redirect");
+        }
     }
 
     /// <summary>
