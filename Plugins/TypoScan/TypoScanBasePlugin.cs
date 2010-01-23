@@ -177,6 +177,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
             currentlyUploadingSaved = new List<string>(),
             currentlyUploadingReasons = new List<string>();
 
+        //TODO:No point passing a number of literal strings for the skip reasons... We should use an ID or something, and pass it once
         /// <summary>
         /// 
         /// </summary>
