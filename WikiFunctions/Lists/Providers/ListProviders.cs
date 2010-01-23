@@ -17,7 +17,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-
 using System;
 using System.Web;
 using System.Text.RegularExpressions;
@@ -392,7 +391,7 @@ namespace WikiFunctions.Lists.Providers
     }
 
     /// <summary>
-    /// Gets a list of pages (excluding redirects) which link to the Named Pages
+    /// Gets a list of pages (excluding any redirects) which link to the Named Pages
     /// </summary>
     public class WhatLinksHereExcludingPageRedirectsListProvider : WhatLinksHereListProvider
     {
@@ -885,6 +884,7 @@ namespace WikiFunctions.Lists.Providers
     /// <summary>
     /// Gets a list of pages which are returned from a wiki search of the Named Pages
     /// </summary>
+    /// <remarks>Slow query!!</remarks>
     public class WikiSearchListProvider : ApiListProviderBase
     {
         protected string Srwhat = "text";
@@ -1340,6 +1340,7 @@ namespace WikiFunctions.Lists.Providers
     /// <summary>
     /// Returns a list of new pages, by default in the 0 namespace
     /// </summary>
+    /// <remarks>Slow query!</remarks>
     public class NewPagesListProvider : ApiListProviderBase, ISpecialPageProvider
     {
         public NewPagesListProvider()
@@ -1505,6 +1506,7 @@ namespace WikiFunctions.Lists.Providers
     /// <summary>
     /// Returns a list of new files
     /// </summary>
+    /// <remarks>Slow query!</remarks>
     public class GalleryNewFilesSpecialPageProvider : ApiListProviderBase, ISpecialPageProvider
     {
         #region Tags: <logevents>/<item>
@@ -1530,9 +1532,7 @@ namespace WikiFunctions.Lists.Providers
         {
             List<Article> list = new List<Article>();
 
-            string url = "list=logevents&letype=upload&lelimit=max";
-
-            list.AddRange(ApiMakeList(url, list.Count));
+            list.AddRange(ApiMakeList("list=logevents&letype=upload&lelimit=max", list.Count));
 
             return list;
         }
