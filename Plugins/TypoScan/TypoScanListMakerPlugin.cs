@@ -59,6 +59,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
                             //Probably shouldnt get this as the wanted site was sent to the server
                         {
                             MessageBox.Show("Wrong Site");
+                            return articles;
                         }
                     }
                     else if (reader.Name.Equals("article"))
