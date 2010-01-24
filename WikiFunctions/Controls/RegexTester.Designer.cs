@@ -209,7 +209,7 @@ namespace WikiFunctions.Controls
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(45, 26);
             this.label4.TabIndex = 7;
-            this.label4.Text = "&Text to\r\nsearch :";
+            this.label4.Text = "&Text to\r\nsearch:";
             this.toolTip1.SetToolTip(this.label4, "Enter or paste in the text to be searched here");
             // 
             // chkSingleline
