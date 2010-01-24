@@ -123,6 +123,7 @@ namespace WikiFunctions.Controls
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.txtInput.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.txtInput.Location = new System.Drawing.Point(54, 0);
+            this.txtInput.MaxLength = 2147483647;
             this.txtInput.Multiline = true;
             this.txtInput.Name = "txtInput";
             this.txtInput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -207,7 +208,7 @@ namespace WikiFunctions.Controls
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(3, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(45, 26);
+            this.label4.Size = new System.Drawing.Size(42, 26);
             this.label4.TabIndex = 7;
             this.label4.Text = "&Text to\r\nsearch:";
             this.toolTip1.SetToolTip(this.label4, "Enter or paste in the text to be searched here");
