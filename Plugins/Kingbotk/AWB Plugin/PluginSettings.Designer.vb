@@ -43,7 +43,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.lblAWBNudges = New System.Windows.Forms.Label
             Me.ResetTimerButton = New System.Windows.Forms.Button
             Me.ETALabel = New System.Windows.Forms.Label
-            Me.BotCheckBox = New System.Windows.Forms.CheckBox
+            Me.Led1 = New WikiFunctions.Controls.LED
             Me.GroupBox4 = New System.Windows.Forms.GroupBox
             Me.PluginMenuStrip = New System.Windows.Forms.MenuStrip
             Me.PluginToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -82,7 +82,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.BotTimer = New System.Windows.Forms.Timer(Me.components)
             Me.OpenBadInBrowserCheckBox = New System.Windows.Forms.CheckBox
             Me.TimerStats1 = New AutoWikiBrowser.Plugins.Kingbotk.Components.TimerStats
-            Me.Led1 = New WikiFunctions.Controls.LED
             Me.GroupBox2.SuspendLayout()
             Me.GroupBox4.SuspendLayout()
             Me.PluginMenuStrip.SuspendLayout()
@@ -105,7 +104,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.GroupBox2.Controls.Add(Me.Label1)
             Me.GroupBox2.Location = New System.Drawing.Point(3, 3)
             Me.GroupBox2.Name = "GroupBox2"
-            Me.GroupBox2.Size = New System.Drawing.Size(135, 251)
+            Me.GroupBox2.Size = New System.Drawing.Size(135, 128)
             Me.GroupBox2.TabIndex = 36
             Me.GroupBox2.TabStop = False
             Me.GroupBox2.Text = "Statistics"
@@ -245,7 +244,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             '
             Me.CleanupCheckBox.AutoSize = True
             Me.CleanupCheckBox.Enabled = False
-            Me.CleanupCheckBox.Location = New System.Drawing.Point(68, 14)
+            Me.CleanupCheckBox.Location = New System.Drawing.Point(59, 14)
             Me.CleanupCheckBox.Name = "CleanupCheckBox"
             Me.CleanupCheckBox.Size = New System.Drawing.Size(70, 17)
             Me.CleanupCheckBox.TabIndex = 39
@@ -257,7 +256,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             'Label7
             '
             Me.Label7.AutoSize = True
-            Me.Label7.Location = New System.Drawing.Point(144, 231)
+            Me.Label7.Location = New System.Drawing.Point(149, 19)
             Me.Label7.Name = "Label7"
             Me.Label7.Size = New System.Drawing.Size(31, 13)
             Me.Label7.TabIndex = 45
@@ -267,7 +266,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             'SkipNoChangesCheckBox
             '
             Me.SkipNoChangesCheckBox.AutoSize = True
-            Me.SkipNoChangesCheckBox.Location = New System.Drawing.Point(176, 231)
+            Me.SkipNoChangesCheckBox.Location = New System.Drawing.Point(181, 19)
             Me.SkipNoChangesCheckBox.Name = "SkipNoChangesCheckBox"
             Me.SkipNoChangesCheckBox.Size = New System.Drawing.Size(46, 17)
             Me.SkipNoChangesCheckBox.TabIndex = 46
@@ -279,7 +278,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             'SkipBadTagsCheckBox
             '
             Me.SkipBadTagsCheckBox.AutoSize = True
-            Me.SkipBadTagsCheckBox.Location = New System.Drawing.Point(223, 231)
+            Me.SkipBadTagsCheckBox.Location = New System.Drawing.Point(228, 19)
             Me.SkipBadTagsCheckBox.Name = "SkipBadTagsCheckBox"
             Me.SkipBadTagsCheckBox.Size = New System.Drawing.Size(45, 17)
             Me.SkipBadTagsCheckBox.TabIndex = 47
@@ -291,7 +290,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             'lblAWBNudges
             '
             Me.lblAWBNudges.AutoSize = True
-            Me.lblAWBNudges.Location = New System.Drawing.Point(69, 257)
+            Me.lblAWBNudges.Location = New System.Drawing.Point(67, 146)
             Me.lblAWBNudges.Name = "lblAWBNudges"
             Me.lblAWBNudges.Size = New System.Drawing.Size(56, 13)
             Me.lblAWBNudges.TabIndex = 48
@@ -301,7 +300,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             '
             'ResetTimerButton
             '
-            Me.ResetTimerButton.Location = New System.Drawing.Point(66, 274)
+            Me.ResetTimerButton.Location = New System.Drawing.Point(64, 163)
             Me.ResetTimerButton.Name = "ResetTimerButton"
             Me.ResetTimerButton.Size = New System.Drawing.Size(69, 23)
             Me.ResetTimerButton.TabIndex = 49
@@ -312,7 +311,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             'ETALabel
             '
             Me.ETALabel.AutoSize = True
-            Me.ETALabel.Location = New System.Drawing.Point(86, 335)
+            Me.ETALabel.Location = New System.Drawing.Point(141, 168)
             Me.ETALabel.Name = "ETALabel"
             Me.ETALabel.Size = New System.Drawing.Size(34, 13)
             Me.ETALabel.TabIndex = 50
@@ -320,24 +319,22 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.ToolTip1.SetToolTip(Me.ETALabel, "Estimated time of completion")
             Me.ETALabel.Visible = False
             '
-            'BotCheckBox
+            'Led1
             '
-            Me.BotCheckBox.AutoSize = True
-            Me.BotCheckBox.Location = New System.Drawing.Point(66, 303)
-            Me.BotCheckBox.Name = "BotCheckBox"
-            Me.BotCheckBox.Size = New System.Drawing.Size(42, 17)
-            Me.BotCheckBox.TabIndex = 51
-            Me.BotCheckBox.Text = "Bot"
-            Me.ToolTip1.SetToolTip(Me.BotCheckBox, "Auto-save (AWB bot mode)")
-            Me.BotCheckBox.UseVisualStyleBackColor = True
+            Me.Led1.Colour = WikiFunctions.Controls.Colour.Red
+            Me.Led1.Location = New System.Drawing.Point(7, 207)
+            Me.Led1.Name = "Led1"
+            Me.Led1.Size = New System.Drawing.Size(20, 20)
+            Me.Led1.TabIndex = 43
+            Me.ToolTip1.SetToolTip(Me.Led1, "Green when the plugin is processing article text")
             '
             'GroupBox4
             '
-            Me.GroupBox4.Controls.Add(Me.ManuallyAssessCheckBox)
             Me.GroupBox4.Controls.Add(Me.CleanupCheckBox)
-            Me.GroupBox4.Location = New System.Drawing.Point(118, 300)
+            Me.GroupBox4.Controls.Add(Me.ManuallyAssessCheckBox)
+            Me.GroupBox4.Location = New System.Drawing.Point(144, 81)
             Me.GroupBox4.Name = "GroupBox4"
-            Me.GroupBox4.Size = New System.Drawing.Size(145, 35)
+            Me.GroupBox4.Size = New System.Drawing.Size(132, 35)
             Me.GroupBox4.TabIndex = 41
             Me.GroupBox4.TabStop = False
             Me.GroupBox4.Text = "Wikipedia Assessments"
@@ -561,7 +558,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             'OpenBadInBrowserCheckBox
             '
             Me.OpenBadInBrowserCheckBox.AutoSize = True
-            Me.OpenBadInBrowserCheckBox.Location = New System.Drawing.Point(158, 257)
+            Me.OpenBadInBrowserCheckBox.Location = New System.Drawing.Point(163, 45)
             Me.OpenBadInBrowserCheckBox.Name = "OpenBadInBrowserCheckBox"
             Me.OpenBadInBrowserCheckBox.Size = New System.Drawing.Size(105, 30)
             Me.OpenBadInBrowserCheckBox.TabIndex = 52
@@ -571,39 +568,29 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             '
             'TimerStats1
             '
-            Me.TimerStats1.Location = New System.Drawing.Point(5, 250)
+            Me.TimerStats1.Location = New System.Drawing.Point(3, 139)
             Me.TimerStats1.MaximumSize = New System.Drawing.Size(63, 70)
             Me.TimerStats1.Name = "TimerStats1"
             Me.TimerStats1.Size = New System.Drawing.Size(61, 68)
             Me.TimerStats1.TabIndex = 44
             Me.TimerStats1.Visible = False
             '
-            'Led1
-            '
-            Me.Led1.Colour = WikiFunctions.Controls.Colour.Red
-            Me.Led1.Location = New System.Drawing.Point(9, 318)
-            Me.Led1.Name = "Led1"
-            Me.Led1.Size = New System.Drawing.Size(20, 20)
-            Me.Led1.TabIndex = 43
-            Me.ToolTip1.SetToolTip(Me.Led1, "Green when the plugin is processing article text")
-            '
             'PluginSettingsControl
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
             Me.Controls.Add(Me.OpenBadInBrowserCheckBox)
-            Me.Controls.Add(Me.ETALabel)
             Me.Controls.Add(Me.ResetTimerButton)
+            Me.Controls.Add(Me.ETALabel)
             Me.Controls.Add(Me.GroupBox2)
             Me.Controls.Add(Me.lblAWBNudges)
-            Me.Controls.Add(Me.TimerStats1)
             Me.Controls.Add(Me.GroupBox4)
+            Me.Controls.Add(Me.TimerStats1)
             Me.Controls.Add(Me.SkipNoChangesCheckBox)
-            Me.Controls.Add(Me.BotCheckBox)
+            Me.Controls.Add(Me.PluginMenuStrip)
             Me.Controls.Add(Me.Led1)
             Me.Controls.Add(Me.SkipBadTagsCheckBox)
             Me.Controls.Add(Me.Label7)
-            Me.Controls.Add(Me.PluginMenuStrip)
             Me.Name = "PluginSettingsControl"
             Me.Size = New System.Drawing.Size(276, 349)
             Me.ToolTip1.SetToolTip(Me, "Open in the web browser pages skipped because they have bad tags")
@@ -677,7 +664,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Friend WithEvents ToolStripSeparator6 As System.Windows.Forms.ToolStripSeparator
         Friend WithEvents NAPriorityMenuItem As System.Windows.Forms.ToolStripMenuItem
         Private WithEvents ETALabel As System.Windows.Forms.Label
-        Friend WithEvents BotCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents SetAWBToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents OpenBadInBrowserCheckBox As System.Windows.Forms.CheckBox
 
