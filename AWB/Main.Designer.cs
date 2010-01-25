@@ -1751,7 +1751,7 @@ namespace AutoWikiBrowser
             this.btnPreview.Size = new System.Drawing.Size(58, 23);
             this.btnPreview.TabIndex = 9;
             this.btnPreview.Text = "Pre&view";
-            this.ToolTip.SetToolTip(this.btnPreview, "Preview your changes (Ctrl + E)");
+            this.ToolTip.SetToolTip(this.btnPreview, "Preview your changes");
             this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
             // 
             // btnStart
