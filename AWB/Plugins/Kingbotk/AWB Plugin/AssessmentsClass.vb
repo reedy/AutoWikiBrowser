@@ -39,12 +39,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 
             AddHandler PluginSettings.CleanupCheckBox.CheckedChanged, AddressOf Me.CleanupCheckBox_CheckedChanged
             AddHandler PluginManager.AWBForm.TheSession.StateChanged, AddressOf Me.EditorStatusChanged
-            AddHandler PluginManager.AWBForm.PreviewButton.Click, AddressOf Me.Preview_Click
-            AddHandler PluginSettings.btnPreview.Click, AddressOf Me.Preview_Click
             AddHandler PluginManager.AWBForm.SaveButton.Click, AddressOf Me.Save_Click
-            AddHandler PluginSettings.btnSave.Click, AddressOf Me.Save_Click
             AddHandler PluginManager.AWBForm.SkipButton.Click, AddressOf Me.Skip_Click
-            AddHandler PluginSettings.btnIgnore.Click, AddressOf Me.Skip_Click
         End Sub
 
 #Region "IDisposable"
@@ -61,12 +57,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                 ' only from inside this block
                 RemoveHandler PluginSettings.CleanupCheckBox.CheckedChanged, AddressOf Me.CleanupCheckBox_CheckedChanged
                 RemoveHandler PluginManager.AWBForm.TheSession.StateChanged, AddressOf Me.EditorStatusChanged
-                RemoveHandler PluginManager.AWBForm.PreviewButton.Click, AddressOf Me.Preview_Click
-                RemoveHandler PluginSettings.btnPreview.Click, AddressOf Me.Preview_Click
                 RemoveHandler PluginManager.AWBForm.SaveButton.Click, AddressOf Me.Save_Click
-                RemoveHandler PluginSettings.btnSave.Click, AddressOf Me.Save_Click
                 RemoveHandler PluginManager.AWBForm.SkipButton.Click, AddressOf Me.Skip_Click
-                RemoveHandler PluginSettings.btnIgnore.Click, AddressOf Me.Skip_Click
             End If
 
             ' Perform cleanup that has to be executed in either case:
@@ -107,7 +99,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                 End If
             End With
 
-            PreviewButtonColour(True)
             State = New StateClass
         End Sub
         Friend Sub ProcessMainSpaceArticle(ByVal ArticleTitle As String)
@@ -190,15 +181,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         End Function
 
         ' Private:
-        Private Sub PreviewButtonColour(ByVal Reset As Boolean)
-            If Reset Then
-                PluginManager.AWBForm.PreviewButton.BackColor = Drawing.Color.Transparent
-                PluginSettings.btnPreview.BackColor = Drawing.Color.Transparent
-            Else
-                PluginManager.AWBForm.PreviewButton.BackColor = Drawing.Color.Red
-                PluginSettings.btnPreview.BackColor = Drawing.Color.Red
-            End If
-        End Sub
         Private Sub IsThisABug(ByVal text As String)
             PluginManager.StatusText.Text = "Unexpected sequence: Assessments plugin is stopping AWB."
             MessageBox.Show("The assessments plugin was expecting to receive " & text & _
@@ -215,14 +197,11 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             'State.blnWaitingForATalkPage = True
 
             ToggleAWBCleanup(False)
-            PreviewButtonColour(True)
 
             PluginManager.StatusText.Text = "Assessments plugin: loading talk page"
         End Sub
         Private Sub LoadArticle()
             ToggleAWBCleanup(PluginSettings.Cleanup)
-
-            PreviewButtonColour(False)
 
             If State.ShowComments Then DoShowComments()
         End Sub
@@ -257,11 +236,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                 End If
 
                 State.NextEventShouldBeMainSpace = Not State.NextEventShouldBeMainSpace
-            End If
-        End Sub
-        Private Sub Preview_Click(ByVal sender As Object, ByVal e As EventArgs)
-            If Not disposed Then
-                PreviewButtonColour(True)
             End If
         End Sub
         Private Sub CleanupCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs)

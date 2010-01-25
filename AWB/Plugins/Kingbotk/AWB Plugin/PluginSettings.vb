@@ -32,14 +32,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             InitializeComponent()
 
             With PluginManager.AWBForm
-                AddHandler .SkipButton.Click, AddressOf Me.AWBSkipButtonClickEventHandler
                 ' Get notification when AWB buttons enabled-state changes:
-                AddHandler .DiffButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
-                AddHandler .StopButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
-                AddHandler .StartButton.EnabledChanged, AddressOf Me.AWBStartButtonEnabledHandler
-                AddHandler .PreviewButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
-                AddHandler .SaveButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
-                AddHandler .SkipButton.EnabledChanged, AddressOf Me.AWBButtonsEnabledHandler
                 AddHandler .BotModeCheckbox.CheckedChanged, AddressOf Me.BotStatusChangedHandler
                 AddHandler .BotModeCheckbox.EnabledChanged, AddressOf Me.AWBBotModeEnabledChanged
                 AddHandler .BotModeCheckbox.CheckedChanged, AddressOf Me.AWBBotModeCheckedChanged
@@ -50,14 +43,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             End With
 
             StatLabels.AddRange(New Label() {lblTagged, lblSkipped, lblNoChange, lblBadTag, lblNamespace, lblRedlink})
-
-            ' Initialise enabled state of our replica buttons:
-            AWBButtonsEnabledHandler(PluginManager.AWBForm.StartTab.Controls("btnDiff"), Nothing)
-            AWBButtonsEnabledHandler(PluginManager.AWBForm.StartTab.Controls("btnStop"), Nothing)
-            AWBStartButtonEnabledHandler(PluginManager.AWBForm.StartTab.Controls("btnStart"), Nothing)
-            AWBButtonsEnabledHandler(PluginManager.AWBForm.StartTab.Controls("btnPreview"), Nothing)
-            AWBButtonsEnabledHandler(PluginManager.AWBForm.SaveButton, Nothing)
-            AWBButtonsEnabledHandler(PluginManager.AWBForm.SkipButton, Nothing)
 
             ' Initialise bot checkbox:
             With PluginManager.AWBForm.BotModeCheckbox
@@ -218,8 +203,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Private Sub ResetTimerButton_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ResetTimerButton.Click
             TimerStats1.Reset()
         End Sub
-        Private Sub btnStart_EnabledChanged(ByVal sender As Object, ByVal e As System.EventArgs) _
-        Handles btnStart.EnabledChanged
+        Private Sub btnStart_EnabledChanged(ByVal sender As Object, ByVal e As System.EventArgs)
+
             If DirectCast(sender, Button).Enabled Then PluginManager.TestSkipNonExistingPages()
         End Sub
         Private Sub BotCheckBox_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) _
@@ -229,28 +214,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Private Sub SkipBadTagsCheckBox_CheckedChanged(ByVal sender As System.Object, _
         ByVal e As System.EventArgs) Handles SkipBadTagsCheckBox.CheckedChanged
             OpenBadInBrowserCheckBox.Visible = SkipBadTagsCheckBox.Checked
-        End Sub
-
-        ' Event handlers - AWB components (some additionally double-handled in Plugin Manager):
-        Private Sub AWBButtonsEnabledHandler(ByVal sender As Object, ByVal e As EventArgs)
-            Dim btn As Button = DirectCast(sender, Button)
-
-            DirectCast(Me.AWBGroupBox.Controls(btn.Name), Button).Enabled = btn.Enabled
-        End Sub
-        Private Sub AWBStartButtonEnabledHandler(ByVal sender As Object, ByVal e As EventArgs)
-            Dim btn As Button = DirectCast(sender, Button)
-
-            btnStart.Enabled = btn.Enabled
-        End Sub
-        Private Sub AWBSkipButtonClickEventHandler(ByVal sender As Object, ByVal e As EventArgs) _
-        Handles btnIgnore.Click
-            If Not ManuallyAssess AndAlso PluginManager.ActivePlugins.Count > 0 Then ' If ManuallyAssess is True, defer to the handler in Assessments class
-                If Not sender Is PluginManager.AWBForm.SkipButton Then
-                    PluginManager.AWBForm.TraceManager.SkippedArticle("User", WikiFunctions.Logging.AWBLogListener.StringUserSkipped)
-                End If
-                PluginStats.SkippedMiscellaneousIncrement(True)
-
-            End If
         End Sub
         Private Sub AWBBotModeCheckedChanged(ByVal sender As Object, ByVal e As EventArgs)
             If PluginManager.AWBForm.BotModeCheckbox.Checked Then

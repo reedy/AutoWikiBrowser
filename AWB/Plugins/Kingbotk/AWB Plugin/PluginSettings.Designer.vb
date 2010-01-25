@@ -21,13 +21,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         <System.Diagnostics.DebuggerStepThrough()> _
         Private Sub InitializeComponent()
             Me.components = New System.ComponentModel.Container
-            Me.btnStop = New System.Windows.Forms.Button
-            Me.btnStart = New System.Windows.Forms.Button
-            Me.btnPreview = New System.Windows.Forms.Button
-            Me.btnSave = New System.Windows.Forms.Button
-            Me.btnDiff = New System.Windows.Forms.Button
-            Me.btnIgnore = New System.Windows.Forms.Button
-            Me.AWBGroupBox = New System.Windows.Forms.GroupBox
             Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
             Me.GroupBox2 = New System.Windows.Forms.GroupBox
             Me.Label9 = New System.Windows.Forms.Label
@@ -51,7 +44,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.ResetTimerButton = New System.Windows.Forms.Button
             Me.ETALabel = New System.Windows.Forms.Label
             Me.BotCheckBox = New System.Windows.Forms.CheckBox
-            Me.Led1 = New WikiFunctions.Controls.LED
             Me.GroupBox4 = New System.Windows.Forms.GroupBox
             Me.PluginMenuStrip = New System.Windows.Forms.MenuStrip
             Me.PluginToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
@@ -88,97 +80,14 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator
             Me.NAPriorityMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.BotTimer = New System.Windows.Forms.Timer(Me.components)
-            Me.TimerStats1 = New AutoWikiBrowser.Plugins.Kingbotk.Components.TimerStats
             Me.OpenBadInBrowserCheckBox = New System.Windows.Forms.CheckBox
-            Me.AWBGroupBox.SuspendLayout()
+            Me.TimerStats1 = New AutoWikiBrowser.Plugins.Kingbotk.Components.TimerStats
+            Me.Led1 = New WikiFunctions.Controls.LED
             Me.GroupBox2.SuspendLayout()
             Me.GroupBox4.SuspendLayout()
             Me.PluginMenuStrip.SuspendLayout()
             Me.TextInsertContextMenuStrip.SuspendLayout()
             Me.SuspendLayout()
-            '
-            'btnStop
-            '
-            Me.btnStop.DialogResult = System.Windows.Forms.DialogResult.Cancel
-            Me.btnStop.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.btnStop.Location = New System.Drawing.Point(10, 49)
-            Me.btnStop.Name = "btnStop"
-            Me.btnStop.Size = New System.Drawing.Size(102, 32)
-            Me.btnStop.TabIndex = 34
-            Me.btnStop.Text = "Stop"
-            Me.btnStop.UseVisualStyleBackColor = True
-            '
-            'btnStart
-            '
-            Me.btnStart.Enabled = False
-            Me.btnStart.Location = New System.Drawing.Point(10, 11)
-            Me.btnStart.Name = "btnStart"
-            Me.btnStart.Size = New System.Drawing.Size(102, 36)
-            Me.btnStart.TabIndex = 29
-            Me.btnStart.Tag = "Start the process"
-            Me.btnStart.Text = "Start the process"
-            Me.ToolTip1.SetToolTip(Me.btnStart, "Shortcut Ctrl + S")
-            Me.btnStart.UseVisualStyleBackColor = True
-            '
-            'btnPreview
-            '
-            Me.btnPreview.Enabled = False
-            Me.btnPreview.Location = New System.Drawing.Point(10, 83)
-            Me.btnPreview.Name = "btnPreview"
-            Me.btnPreview.Size = New System.Drawing.Size(102, 32)
-            Me.btnPreview.TabIndex = 32
-            Me.btnPreview.Text = "Preview"
-            Me.btnPreview.UseVisualStyleBackColor = True
-            '
-            'btnSave
-            '
-            Me.btnSave.Enabled = False
-            Me.btnSave.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-            Me.btnSave.Location = New System.Drawing.Point(10, 185)
-            Me.btnSave.Name = "btnSave"
-            Me.btnSave.Size = New System.Drawing.Size(102, 32)
-            Me.btnSave.TabIndex = 30
-            Me.btnSave.Tag = "Apply all the changes"
-            Me.btnSave.Text = "Save"
-            Me.btnSave.UseVisualStyleBackColor = True
-            '
-            'btnDiff
-            '
-            Me.btnDiff.Enabled = False
-            Me.btnDiff.Location = New System.Drawing.Point(10, 117)
-            Me.btnDiff.Name = "btnDiff"
-            Me.btnDiff.Size = New System.Drawing.Size(102, 32)
-            Me.btnDiff.TabIndex = 33
-            Me.btnDiff.Text = "Show changes"
-            Me.btnDiff.UseVisualStyleBackColor = True
-            '
-            'btnIgnore
-            '
-            Me.btnIgnore.Enabled = False
-            Me.btnIgnore.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.btnIgnore.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-            Me.btnIgnore.Location = New System.Drawing.Point(10, 151)
-            Me.btnIgnore.Name = "btnIgnore"
-            Me.btnIgnore.Size = New System.Drawing.Size(102, 32)
-            Me.btnIgnore.TabIndex = 31
-            Me.btnIgnore.Text = "Skip"
-            Me.btnIgnore.UseVisualStyleBackColor = True
-            '
-            'AWBGroupBox
-            '
-            Me.AWBGroupBox.Controls.Add(Me.btnIgnore)
-            Me.AWBGroupBox.Controls.Add(Me.btnStop)
-            Me.AWBGroupBox.Controls.Add(Me.btnDiff)
-            Me.AWBGroupBox.Controls.Add(Me.btnStart)
-            Me.AWBGroupBox.Controls.Add(Me.btnSave)
-            Me.AWBGroupBox.Controls.Add(Me.btnPreview)
-            Me.AWBGroupBox.Location = New System.Drawing.Point(141, 3)
-            Me.AWBGroupBox.Name = "AWBGroupBox"
-            Me.AWBGroupBox.Size = New System.Drawing.Size(122, 222)
-            Me.AWBGroupBox.TabIndex = 35
-            Me.AWBGroupBox.TabStop = False
-            Me.AWBGroupBox.Text = "AWB"
             '
             'GroupBox2
             '
@@ -422,15 +331,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.ToolTip1.SetToolTip(Me.BotCheckBox, "Auto-save (AWB bot mode)")
             Me.BotCheckBox.UseVisualStyleBackColor = True
             '
-            'Led1
-            '
-            Me.Led1.Colour = WikiFunctions.Controls.Colour.Red
-            Me.Led1.Location = New System.Drawing.Point(9, 318)
-            Me.Led1.Name = "Led1"
-            Me.Led1.Size = New System.Drawing.Size(20, 20)
-            Me.Led1.TabIndex = 43
-            Me.ToolTip1.SetToolTip(Me.Led1, "Green when the plugin is processing article text")
-            '
             'GroupBox4
             '
             Me.GroupBox4.Controls.Add(Me.ManuallyAssessCheckBox)
@@ -658,15 +558,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             '
             Me.BotTimer.Interval = 600000
             '
-            'TimerStats1
-            '
-            Me.TimerStats1.Location = New System.Drawing.Point(5, 250)
-            Me.TimerStats1.MaximumSize = New System.Drawing.Size(63, 70)
-            Me.TimerStats1.Name = "TimerStats1"
-            Me.TimerStats1.Size = New System.Drawing.Size(61, 68)
-            Me.TimerStats1.TabIndex = 44
-            Me.TimerStats1.Visible = False
-            '
             'OpenBadInBrowserCheckBox
             '
             Me.OpenBadInBrowserCheckBox.AutoSize = True
@@ -677,6 +568,24 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.OpenBadInBrowserCheckBox.Text = "Open bad pages" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "in browser"
             Me.OpenBadInBrowserCheckBox.UseVisualStyleBackColor = True
             Me.OpenBadInBrowserCheckBox.Visible = False
+            '
+            'TimerStats1
+            '
+            Me.TimerStats1.Location = New System.Drawing.Point(5, 250)
+            Me.TimerStats1.MaximumSize = New System.Drawing.Size(63, 70)
+            Me.TimerStats1.Name = "TimerStats1"
+            Me.TimerStats1.Size = New System.Drawing.Size(61, 68)
+            Me.TimerStats1.TabIndex = 44
+            Me.TimerStats1.Visible = False
+            '
+            'Led1
+            '
+            Me.Led1.Colour = WikiFunctions.Controls.Colour.Red
+            Me.Led1.Location = New System.Drawing.Point(9, 318)
+            Me.Led1.Name = "Led1"
+            Me.Led1.Size = New System.Drawing.Size(20, 20)
+            Me.Led1.TabIndex = 43
+            Me.ToolTip1.SetToolTip(Me.Led1, "Green when the plugin is processing article text")
             '
             'PluginSettingsControl
             '
@@ -693,13 +602,11 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.Controls.Add(Me.BotCheckBox)
             Me.Controls.Add(Me.Led1)
             Me.Controls.Add(Me.SkipBadTagsCheckBox)
-            Me.Controls.Add(Me.AWBGroupBox)
             Me.Controls.Add(Me.Label7)
             Me.Controls.Add(Me.PluginMenuStrip)
             Me.Name = "PluginSettingsControl"
             Me.Size = New System.Drawing.Size(276, 349)
             Me.ToolTip1.SetToolTip(Me, "Open in the web browser pages skipped because they have bad tags")
-            Me.AWBGroupBox.ResumeLayout(False)
             Me.GroupBox2.ResumeLayout(False)
             Me.GroupBox2.PerformLayout()
             Me.GroupBox4.ResumeLayout(False)
@@ -711,14 +618,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.PerformLayout()
 
         End Sub
-        Friend WithEvents AWBGroupBox As System.Windows.Forms.GroupBox
         Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip
-        Friend WithEvents btnStop As System.Windows.Forms.Button
-        Friend WithEvents btnStart As System.Windows.Forms.Button
-        Friend WithEvents btnPreview As System.Windows.Forms.Button
-        Friend WithEvents btnSave As System.Windows.Forms.Button
-        Friend WithEvents btnDiff As System.Windows.Forms.Button
-        Friend WithEvents btnIgnore As System.Windows.Forms.Button
         Friend WithEvents GroupBox2 As System.Windows.Forms.GroupBox
         Friend WithEvents Label5 As System.Windows.Forms.Label
         Friend WithEvents Label4 As System.Windows.Forms.Label
