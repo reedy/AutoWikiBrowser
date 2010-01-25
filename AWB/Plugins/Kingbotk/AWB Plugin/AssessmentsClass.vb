@@ -39,12 +39,14 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 
             AddHandler PluginSettings.CleanupCheckBox.CheckedChanged, AddressOf Me.CleanupCheckBox_CheckedChanged
             AddHandler PluginManager.AWBForm.TheSession.StateChanged, AddressOf Me.EditorStatusChanged
+            AddHandler PluginManager.AWBForm.SaveButton.Click, AddressOf Me.Save_Click
+            AddHandler PluginManager.AWBForm.SkipButton.Click, AddressOf Me.Skip_Click
         End Sub
 
 #Region "IDisposable"
-            Private disposed As Boolean        ' To detect redundant calls
+        Private disposed As Boolean        ' To detect redundant calls
 
-            ' This procedure is where the actual cleanup occurs
+        ' This procedure is where the actual cleanup occurs
         Private Sub Dispose(ByVal disposing As Boolean)
             ' Exit now if the object has already been disposed
             If disposed Then Exit Sub
@@ -55,6 +57,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                 ' only from inside this block
                 RemoveHandler PluginSettings.CleanupCheckBox.CheckedChanged, AddressOf Me.CleanupCheckBox_CheckedChanged
                 RemoveHandler PluginManager.AWBForm.TheSession.StateChanged, AddressOf Me.EditorStatusChanged
+                RemoveHandler PluginManager.AWBForm.SaveButton.Click, AddressOf Me.Save_Click
+                RemoveHandler PluginManager.AWBForm.SkipButton.Click, AddressOf Me.Skip_Click
             End If
 
             ' Perform cleanup that has to be executed in either case:
@@ -207,6 +211,32 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             State.ShowComments = False
             frmComments.ShowDialog(State.Classification, State.NeedsInfobox, State.NeedsPhoto, _
                State.NextTalkPageExpected, PluginSettings.TimerStats1)
+        End Sub
+
+        ' UI event handlers:
+        Private Sub Save_Click(ByVal sender As Object, ByVal e As EventArgs)
+            If Not disposed Then
+                If State.NextEventShouldBeMainSpace Then
+                    LoadTalkPage()
+                Else
+                    LoadArticle()
+                End If
+
+                State.NextEventShouldBeMainSpace = Not State.NextEventShouldBeMainSpace
+            End If
+        End Sub
+        Private Sub Skip_Click(ByVal sender As Object, ByVal e As EventArgs)
+            If Not disposed Then
+                If State.NextEventShouldBeMainSpace Then
+                    LoadTalkPage()
+                Else
+                    LoadArticle()
+                    PluginManager.AWBForm.TraceManager.SkippedArticle("User", WikiFunctions.Logging.AWBLogListener.StringUserSkipped)
+                    PluginSettings.PluginStats.SkippedMiscellaneousIncrement(True)
+                End If
+
+                State.NextEventShouldBeMainSpace = Not State.NextEventShouldBeMainSpace
+            End If
         End Sub
         Private Sub CleanupCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs)
             If Not disposed AndAlso PluginSettings.Cleanup Then _
