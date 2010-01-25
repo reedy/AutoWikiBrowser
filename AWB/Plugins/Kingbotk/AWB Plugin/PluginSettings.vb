@@ -252,11 +252,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 
             End If
         End Sub
-        Friend Sub AWBArticleStatsLabelChangeEventHandler(ByVal sender As Object, ByVal e As EventArgs)
-            Dim lbl As Label = DirectCast(sender, Label)
-
-            DirectCast(Me.ArticleStatsGroupBox.Controls(lbl.Name), Label).Text = lbl.Text
-        End Sub
         Private Sub AWBBotModeCheckedChanged(ByVal sender As Object, ByVal e As EventArgs)
             If PluginManager.AWBForm.BotModeCheckbox.Checked Then
                 SkipBadTagsCheckBox.Checked = True

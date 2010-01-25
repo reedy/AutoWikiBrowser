@@ -32,13 +32,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.GroupBox2 = New System.Windows.Forms.GroupBox
             Me.Label9 = New System.Windows.Forms.Label
             Me.lblRedlink = New System.Windows.Forms.Label
-            Me.ArticleStatsGroupBox = New System.Windows.Forms.GroupBox
-            Me.lblWords = New System.Windows.Forms.Label
-            Me.lblInterLinks = New System.Windows.Forms.Label
-            Me.lblDates = New System.Windows.Forms.Label
-            Me.lblCats = New System.Windows.Forms.Label
-            Me.lblImages = New System.Windows.Forms.Label
-            Me.lblLinks = New System.Windows.Forms.Label
             Me.lblTagged = New System.Windows.Forms.Label
             Me.lblSkipped = New System.Windows.Forms.Label
             Me.lblNoChange = New System.Windows.Forms.Label
@@ -100,7 +93,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.OpenBadInBrowserCheckBox = New System.Windows.Forms.CheckBox
             Me.AWBGroupBox.SuspendLayout()
             Me.GroupBox2.SuspendLayout()
-            Me.ArticleStatsGroupBox.SuspendLayout()
             Me.GroupBox4.SuspendLayout()
             Me.PluginMenuStrip.SuspendLayout()
             Me.TextInsertContextMenuStrip.SuspendLayout()
@@ -193,7 +185,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             '
             Me.GroupBox2.Controls.Add(Me.Label9)
             Me.GroupBox2.Controls.Add(Me.lblRedlink)
-            Me.GroupBox2.Controls.Add(Me.ArticleStatsGroupBox)
             Me.GroupBox2.Controls.Add(Me.lblTagged)
             Me.GroupBox2.Controls.Add(Me.lblSkipped)
             Me.GroupBox2.Controls.Add(Me.lblNoChange)
@@ -230,74 +221,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.lblRedlink.Size = New System.Drawing.Size(0, 13)
             Me.lblRedlink.TabIndex = 44
             Me.ToolTip1.SetToolTip(Me.lblRedlink, "Talk pages skipped because the article was a redlink")
-            '
-            'ArticleStatsGroupBox
-            '
-            Me.ArticleStatsGroupBox.Controls.Add(Me.lblWords)
-            Me.ArticleStatsGroupBox.Controls.Add(Me.lblInterLinks)
-            Me.ArticleStatsGroupBox.Controls.Add(Me.lblDates)
-            Me.ArticleStatsGroupBox.Controls.Add(Me.lblCats)
-            Me.ArticleStatsGroupBox.Controls.Add(Me.lblImages)
-            Me.ArticleStatsGroupBox.Controls.Add(Me.lblLinks)
-            Me.ArticleStatsGroupBox.Location = New System.Drawing.Point(6, 141)
-            Me.ArticleStatsGroupBox.Name = "ArticleStatsGroupBox"
-            Me.ArticleStatsGroupBox.Size = New System.Drawing.Size(123, 104)
-            Me.ArticleStatsGroupBox.TabIndex = 43
-            Me.ArticleStatsGroupBox.TabStop = False
-            '
-            'lblWords
-            '
-            Me.lblWords.AutoSize = True
-            Me.lblWords.Location = New System.Drawing.Point(5, 8)
-            Me.lblWords.Name = "lblWords"
-            Me.lblWords.Size = New System.Drawing.Size(41, 13)
-            Me.lblWords.TabIndex = 17
-            Me.lblWords.Text = "Words:"
-            '
-            'lblInterLinks
-            '
-            Me.lblInterLinks.AutoSize = True
-            Me.lblInterLinks.Location = New System.Drawing.Point(5, 68)
-            Me.lblInterLinks.Name = "lblInterLinks"
-            Me.lblInterLinks.Size = New System.Drawing.Size(55, 13)
-            Me.lblInterLinks.TabIndex = 22
-            Me.lblInterLinks.Text = "Inter links:"
-            '
-            'lblDates
-            '
-            Me.lblDates.AutoSize = True
-            Me.lblDates.Location = New System.Drawing.Point(5, 83)
-            Me.lblDates.Name = "lblDates"
-            Me.lblDates.Size = New System.Drawing.Size(38, 13)
-            Me.lblDates.TabIndex = 23
-            Me.lblDates.Text = "Dates:"
-            '
-            'lblCats
-            '
-            Me.lblCats.AutoSize = True
-            Me.lblCats.Location = New System.Drawing.Point(5, 53)
-            Me.lblCats.Name = "lblCats"
-            Me.lblCats.Size = New System.Drawing.Size(60, 13)
-            Me.lblCats.TabIndex = 18
-            Me.lblCats.Text = "Categories:"
-            '
-            'lblImages
-            '
-            Me.lblImages.AutoSize = True
-            Me.lblImages.Location = New System.Drawing.Point(5, 38)
-            Me.lblImages.Name = "lblImages"
-            Me.lblImages.Size = New System.Drawing.Size(44, 13)
-            Me.lblImages.TabIndex = 19
-            Me.lblImages.Text = "Images:"
-            '
-            'lblLinks
-            '
-            Me.lblLinks.AutoSize = True
-            Me.lblLinks.Location = New System.Drawing.Point(5, 23)
-            Me.lblLinks.Name = "lblLinks"
-            Me.lblLinks.Size = New System.Drawing.Size(35, 13)
-            Me.lblLinks.TabIndex = 20
-            Me.lblLinks.Text = "Links:"
             '
             'lblTagged
             '
@@ -787,8 +710,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.AWBGroupBox.ResumeLayout(False)
             Me.GroupBox2.ResumeLayout(False)
             Me.GroupBox2.PerformLayout()
-            Me.ArticleStatsGroupBox.ResumeLayout(False)
-            Me.ArticleStatsGroupBox.PerformLayout()
             Me.GroupBox4.ResumeLayout(False)
             Me.GroupBox4.PerformLayout()
             Me.PluginMenuStrip.ResumeLayout(False)
@@ -817,13 +738,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Friend WithEvents lblBadTag As System.Windows.Forms.Label
         Friend WithEvents lblNamespace As System.Windows.Forms.Label
         Friend WithEvents lblTagged As System.Windows.Forms.Label
-        Friend WithEvents ArticleStatsGroupBox As System.Windows.Forms.GroupBox
-        Friend WithEvents lblWords As System.Windows.Forms.Label
-        Friend WithEvents lblInterLinks As System.Windows.Forms.Label
-        Friend WithEvents lblDates As System.Windows.Forms.Label
-        Friend WithEvents lblCats As System.Windows.Forms.Label
-        Friend WithEvents lblImages As System.Windows.Forms.Label
-        Friend WithEvents lblLinks As System.Windows.Forms.Label
         Friend WithEvents ManuallyAssessCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents CleanupCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents GroupBox4 As System.Windows.Forms.GroupBox
