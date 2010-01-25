@@ -88,7 +88,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.ToolStripSeparator6 = New System.Windows.Forms.ToolStripSeparator
             Me.NAPriorityMenuItem = New System.Windows.Forms.ToolStripMenuItem
             Me.BotTimer = New System.Windows.Forms.Timer(Me.components)
-            Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
             Me.TimerStats1 = New AutoWikiBrowser.Plugins.Kingbotk.Components.TimerStats
             Me.OpenBadInBrowserCheckBox = New System.Windows.Forms.CheckBox
             Me.AWBGroupBox.SuspendLayout()
@@ -659,13 +658,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             '
             Me.BotTimer.Interval = 600000
             '
-            'SaveFileDialog1
-            '
-            Me.SaveFileDialog1.DefaultExt = "txt"
-            Me.SaveFileDialog1.Filter = "Text files|*.txt"
-            Me.SaveFileDialog1.OverwritePrompt = False
-            Me.SaveFileDialog1.Title = "Save article list"
-            '
             'TimerStats1
             '
             Me.TimerStats1.Location = New System.Drawing.Point(5, 250)
@@ -784,7 +776,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Friend WithEvents TopPriorityMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents ToolStripSeparator6 As System.Windows.Forms.ToolStripSeparator
         Friend WithEvents NAPriorityMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents SaveFileDialog1 As System.Windows.Forms.SaveFileDialog
         Private WithEvents ETALabel As System.Windows.Forms.Label
         Friend WithEvents BotCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents SetAWBToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
