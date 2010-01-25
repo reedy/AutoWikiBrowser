@@ -32,10 +32,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             InitializeComponent()
 
             With PluginManager.AWBForm
-                ' Get notification when AWB buttons enabled-state changes:
-                AddHandler .BotModeCheckbox.CheckedChanged, AddressOf Me.BotStatusChangedHandler
-                AddHandler .BotModeCheckbox.EnabledChanged, AddressOf Me.AWBBotModeEnabledChanged
-                AddHandler .BotModeCheckbox.CheckedChanged, AddressOf Me.AWBBotModeCheckedChanged
                 .CategoryTextBox.ContextMenuStrip.Items.Insert(0, LivingPeopleToolStripMenuItem)
                 .CategoryTextBox.ContextMenuStrip.Items.Insert(1, New ToolStripSeparator())
 
@@ -43,13 +39,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             End With
 
             StatLabels.AddRange(New Label() {lblTagged, lblSkipped, lblNoChange, lblBadTag, lblNamespace, lblRedlink})
-
-            ' Initialise bot checkbox:
-            With PluginManager.AWBForm.BotModeCheckbox
-                BotCheckBox.Enabled = .Enabled
-                BotCheckBox.Checked = .Checked
-                BotCheckBox.Visible = PluginManager.AWBForm.TheSession.User.IsBot
-            End With
         End Sub
 
         ' AWB processing stopped/started:
@@ -190,7 +179,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
                 SkipNoChangesCheckBox.Enabled = False
             Else
                 PluginManager.AWBForm.BotModeCheckbox.Enabled = PluginManager.AWBForm.TheSession.User.IsBot
-                BotCheckBox.Visible = PluginManager.AWBForm.TheSession.User.IsBot
                 SkipBadTagsCheckBox.Enabled = True
                 SkipNoChangesCheckBox.Enabled = True
             End If
@@ -203,43 +191,14 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Private Sub ResetTimerButton_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ResetTimerButton.Click
             TimerStats1.Reset()
         End Sub
-        Private Sub btnStart_EnabledChanged(ByVal sender As Object, ByVal e As System.EventArgs)
-
-            If DirectCast(sender, Button).Enabled Then PluginManager.TestSkipNonExistingPages()
-        End Sub
-        Private Sub BotCheckBox_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) _
-        Handles BotCheckBox.CheckedChanged
-            PluginManager.AWBForm.BotModeCheckbox.Checked = BotCheckBox.Checked
-        End Sub
         Private Sub SkipBadTagsCheckBox_CheckedChanged(ByVal sender As System.Object, _
         ByVal e As System.EventArgs) Handles SkipBadTagsCheckBox.CheckedChanged
             OpenBadInBrowserCheckBox.Visible = SkipBadTagsCheckBox.Checked
-        End Sub
-        Private Sub AWBBotModeCheckedChanged(ByVal sender As Object, ByVal e As EventArgs)
-            If PluginManager.AWBForm.BotModeCheckbox.Checked Then
-                SkipBadTagsCheckBox.Checked = True
-                SkipBadTagsCheckBox.Enabled = False
-                SkipNoChangesCheckBox.Checked = True
-                'SkipNoChangesCheckBox.Enabled = False
-                lblAWBNudges.Visible = True
-                BotCheckBox.Checked = True
-            Else
-                SkipBadTagsCheckBox.Enabled = True
-                'SkipNoChangesCheckBox.Enabled = True
-                lblAWBNudges.Visible = False
-                BotCheckBox.Checked = False
-            End If
         End Sub
         Private Sub SkipNoChangesCheckBoxCheckedChanged(ByVal sender As Object, ByVal e As EventArgs)
             If (PluginManager.AWBForm.SkipNoChanges <> SkipNoChangesCheckBox.Checked) Then
                 SkipNoChangesCheckBox.Checked = PluginManager.AWBForm.SkipNoChanges
             End If
-        End Sub
-        Private Sub AWBBotModeEnabledChanged(ByVal sender As Object, ByVal e As EventArgs)
-            BotCheckBox.Enabled = PluginManager.AWBForm.BotModeCheckbox.Enabled
-        End Sub
-        Private Sub BotStatusChangedHandler(ByVal sender As Object, ByVal e As EventArgs)
-            BotCheckBox.Visible = PluginManager.AWBForm.TheSession.User.IsBot
         End Sub
         ' Event handlers - plugin stats:
         Private Sub PluginStats_SkipBadTag(ByVal val As Integer) Handles PluginStats.SkipBadTag
