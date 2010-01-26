@@ -2170,7 +2170,7 @@ namespace WikiFunctions.Parse
 
                 // {{cite web}} for Google books -> {{cite book}}
                 if (Regex.IsMatch(templatename, @"[Cc]ite ?web") && newValue.Contains("http://books.google."))
-                    newValue = Regex.Replace(newValue, @"^{{\s*[Cc]ite ?web(?=\s*\|)", @"{{cite book");
+                    newValue = Tools.RenameTemplate(newValue, templatename, "cite book");
 
                 // remove leading zero in day of month
                 newValue = DateLeadingZero.Replace(newValue, @"$1$2$3$4$5");
