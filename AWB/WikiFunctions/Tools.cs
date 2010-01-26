@@ -1922,7 +1922,7 @@ Message: {2}
         /// <param name="parameter">the input parameter to find</param>
         /// <returns>The trimmed parameter value, or a null string if the parameter is not found</returns>
         public static string GetTemplateParameterValue(string template, string parameter)
-        {// (?:\[\[[^{}]+?\|[^{}]+?\]\])?
+        {
         	Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=\s*((?:(?:\[\[[^{}]+?\|[^{}]+?\]\])?[^{}\|]*?(?:\[\[[^{}]+?\|[^{}]+?\]\])?)*)\s*(?:\||}})");
 
             return param.Match(template).Groups[1].Value.Trim();
@@ -1933,6 +1933,31 @@ Message: {2}
         	Regex param = new Regex(@"(\|\s*)" + Regex.Escape(oldparameter) + @"(\s*=)", RegexOptions.Compiled);
         	
         	return (param.Replace(template, "$1" + newparameter + "$2"));        	
+        }
+        
+        /// <summary>
+        /// Removes the input parameter from all instances of the input template in the article text
+        /// </summary>
+        /// <param name="articletext"></param>
+        /// <param name="templatename"></param>
+        /// <param name="parameter"></param>
+        /// <returns>The updated article text</returns>
+        public static string RemoveTemplateParameter(string articletext, string templatename, string parameter)
+        {
+            templatename = Regex.Escape(templatename);
+            
+            Regex oldtemplate = new Regex(@"{{\s*" + Tools.CaseInsensitive(templatename) +@"\s*(\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))?}}");
+            
+            Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=\s*(?:(?:(?:\[\[[^{}]+?\|[^{}]+?\]\])?[^{}\|]*?(?:\[\[[^{}]+?\|[^{}]+?\]\])?)*)\s*(?=\||}})");
+            
+            foreach(Match m in oldtemplate.Matches(articletext))
+            {
+                string template = m.Value;
+                if(param.IsMatch(template))
+                    articletext = articletext.Replace(template, param.Replace(template, ""));
+            }
+            
+            return articletext;            
         }
         
         /// <summary>

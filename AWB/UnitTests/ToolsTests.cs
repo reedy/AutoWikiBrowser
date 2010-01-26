@@ -838,6 +838,35 @@ Jones", "*"));
             
             Assert.AreEqual(correct, Tools.RenameTemplate(correct, "bar2", "foo"));
         }
+        
+        [Test]
+        public void RemoveTemplateParameter()
+        {
+            string correct = @"{{cite web|url=http://www.site.com |title=here |year=2008 }}";
+            
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here |year=2008 |dateformat=mdy}}", "cite web", "dateformat"));
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here |year=2008 |dateformat=mdy }}", "cite web", "dateformat"));
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here |year=2008 |dateformat=}}", "cite web", "dateformat"));
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here |year=2008 | dateformat =   mdy}}", "cite web", "dateformat"));
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here | dateformat=mdy|year=2008 }}", "cite web", "dateformat"));
+            
+            // first letter case insensitive
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here |year=2008 |dateformat=mdy}}", "Cite web", "dateformat"));
+            
+            // no change when parameter doesn't exist
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameter(correct, "cite web", "dateformat"));
+            
+            // no partial match on paramter name
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameter(correct, "cite web", "yea"));
+            
+            // no partial match on template name
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameter(correct, "cite webs", "year"));
+            
+            // parameter name case sensitive
+            string nochange = @"{{cite web|url=http://www.site.com |title=here |year=2008 |dateformat=mdy}}";
+            Assert.AreEqual(nochange, Tools.RemoveTemplateParameter(nochange, "cite web", "Dateformat"));
+
+            }
     }
 
     [TestFixture]
