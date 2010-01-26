@@ -3054,7 +3054,7 @@ namespace WikiFunctions.Parse
         public string FixUnicode(string articleText)
         {
             // http://en.wikipedia.org/wiki/Wikipedia:AWB/B#Line_break_insertion
-            // most brosers handle Unicode line separator as whitespace, so should we
+            // most browsers handle Unicode line separator as whitespace, so should we
             // looks like paragraph separator is properly converted by RichEdit itself
             return articleText.Replace('\x2028', ' ');
         }
