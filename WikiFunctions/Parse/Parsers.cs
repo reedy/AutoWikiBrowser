@@ -2186,7 +2186,7 @@ namespace WikiFunctions.Parse
                 // remove accessyear where accessdate is present and contains said year
                 string year = Tools.GetTemplateParameterValue(newValue, "accessyear");
                 if (year.Length > 0 && Tools.GetTemplateParameterValue(newValue, "accessdate").Contains(year))
-                    newValue = Tools.RemoveTemplateParameter(newValue, templatename, "accessyear");
+                    newValue = Tools.RemoveTemplateParameter(newValue, "accessyear");
                 
                 // date = YYYY --> year = YYYY; not for {{cite video}}
                 if(!Regex.IsMatch(newValue, @"{{\s*[Cc]ite (?:video|podcast)\b"))

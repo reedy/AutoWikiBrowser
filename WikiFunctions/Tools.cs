@@ -1948,16 +1948,26 @@ Message: {2}
             
             Regex oldtemplate = new Regex(@"{{\s*" + Tools.CaseInsensitive(templatename) +@"\s*(\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))?}}");
             
-            Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=\s*(?:(?:(?:\[\[[^{}]+?\|[^{}]+?\]\])?[^{}\|]*?(?:\[\[[^{}]+?\|[^{}]+?\]\])?)*)\s*(?=\||}})");
-            
             foreach(Match m in oldtemplate.Matches(articletext))
             {
                 string template = m.Value;
-                if(param.IsMatch(template))
-                    articletext = articletext.Replace(template, param.Replace(template, ""));
+                articletext = articletext.Replace(template, RemoveTemplateParameter(template, parameter));
             }
             
-            return articletext;            
+            return articletext;
+        }
+        
+        /// <summary>
+        /// Removes the input parameter from the input template
+        /// </summary>
+        /// <param name="template"></param>
+        /// <param name="parameter"></param>
+        /// <returns>The updated template</returns>
+        public static string RemoveTemplateParameter(string template, string parameter)
+        {
+            Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=\s*(?:(?:(?:\[\[[^{}]+?\|[^{}]+?\]\])?[^{}\|]*?(?:\[\[[^{}]+?\|[^{}]+?\]\])?)*)\s*(?=\||}})");
+            
+            return(param.Replace(template, ""));
         }
         
         /// <summary>
