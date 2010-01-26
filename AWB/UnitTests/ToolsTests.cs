@@ -840,7 +840,7 @@ Jones", "*"));
         }
         
         [Test]
-        public void RemoveTemplateParameter()
+        public void RemoveTemplateParameterTemplateName()
         {
             string correct = @"{{cite web|url=http://www.site.com |title=here |year=2008 }}";
             
@@ -849,6 +849,10 @@ Jones", "*"));
             Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here |year=2008 |dateformat=}}", "cite web", "dateformat"));
             Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here |year=2008 | dateformat =   mdy}}", "cite web", "dateformat"));
             Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here | dateformat=mdy|year=2008 }}", "cite web", "dateformat"));
+
+            // processes multiple templates
+            string citeweb = @"{{cite web|url=http://www.site.com |title=here | dateformat=mdy|year=2008 }}";
+            Assert.AreEqual(correct + correct, Tools.RemoveTemplateParameter(citeweb + citeweb, "cite web", "dateformat"));
             
             // first letter case insensitive
             Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here |year=2008 |dateformat=mdy}}", "Cite web", "dateformat"));
@@ -865,8 +869,32 @@ Jones", "*"));
             // parameter name case sensitive
             string nochange = @"{{cite web|url=http://www.site.com |title=here |year=2008 |dateformat=mdy}}";
             Assert.AreEqual(nochange, Tools.RemoveTemplateParameter(nochange, "cite web", "Dateformat"));
-
             }
+        
+        [Test]
+        public void RemoveTemplateParameterSingleTemplate()
+        {
+            string correct = @"{{cite web|url=http://www.site.com |title=here |year=2008 }}";
+            
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here |year=2008 |dateformat=mdy}}", "dateformat"));
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here |year=2008 |dateformat=mdy }}", "dateformat"));
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here |year=2008 |dateformat=}}", "dateformat"));
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here |year=2008 | dateformat =   mdy}}", "dateformat"));
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here | dateformat=mdy|year=2008 }}", "dateformat"));
+            
+            // first letter case insensitive
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here |year=2008 |dateformat=mdy}}", "dateformat"));
+            
+            // no change when parameter doesn't exist
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameter(correct, "dateformat"));
+            
+            // no partial match on paramter name
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameter(correct, "yea"));
+            
+            // parameter name case sensitive
+            string nochange = @"{{cite web|url=http://www.site.com |title=here |year=2008 |dateformat=mdy}}";
+            Assert.AreEqual(nochange, Tools.RemoveTemplateParameter(nochange, "Dateformat")); 
+        }
     }
 
     [TestFixture]
