@@ -2059,8 +2059,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex AccessDateYear = new Regex(@"(?<=\|\s*accessdate\s*=\s*(?:[1-3]?\d\s+" + WikiRegexes.MonthsNoGroup + @"|\s*" + WikiRegexes.MonthsNoGroup + @"\s+[1-3]?\d))(\s*)\|\s*accessyear\s*=\s*(20[01]\d)\s*(\||}})", RegexOptions.Compiled);
         private static readonly Regex AccessDayMonthDay = new Regex(@"\|\s*access(?:daymonth|month(?:day)|year)\s*=\s*(?=\||}})", RegexOptions.Compiled);
-        private static readonly Regex DateLeadingZero = new Regex(@"(?<=\|\s*(?:access|archive)?date\s*=\s*)(?:0([1-9]\s+" + WikiRegexes.MonthsNoGroup + @")|(\s*" + WikiRegexes.MonthsNoGroup + @"\s)+0([1-9],?))(\s+20[01]\d)?(\s*\||}})", RegexOptions.Compiled);
-        private static readonly Regex AccessYear = new Regex(@"\|\s*accessyear\s*=\s*(20\d\d)\s*(?=\||}})", RegexOptions.Compiled);
+        private static readonly Regex DateLeadingZero = new Regex(@"(?<=\|\s*(?:access|archive)?date\s*=\s*)(?:0([1-9]\s+" + WikiRegexes.MonthsNoGroup + @")|(\s*" + WikiRegexes.MonthsNoGroup + @"\s)+0([1-9],?))(\s+20[01]\d)?(\s*\||}})", RegexOptions.Compiled);        
         private static readonly Regex YearInDate = new Regex(@"(\|\s*)date(\s*=\s*[12]\d{3}\s*)(?=\||}})", RegexOptions.Compiled);
         private static readonly Regex ISODateInYear = new Regex(@"(\|\s*)year(\s*=\s*(?:20\d\d|1[6-9]\d\d)-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])\s*)(?=\||}})", RegexOptions.Compiled);
         
@@ -2185,9 +2184,9 @@ namespace WikiFunctions.Parse
                 }
 
                 // remove accessyear where accessdate is present and contains said year
-                string year = AccessYear.Match(newValue).Groups[1].Value;
+                string year = Tools.GetTemplateParameterValue(newValue, "accessyear");
                 if (year.Length > 0 && Tools.GetTemplateParameterValue(newValue, "accessdate").Contains(year))
-                    newValue = AccessYear.Replace(newValue, "");
+                    newValue = Tools.RemoveTemplateParameter(newValue, templatename, "accessyear");
                 
                 // date = YYYY --> year = YYYY; not for {{cite video}}
                 if(!Regex.IsMatch(newValue, @"{{\s*[Cc]ite (?:video|podcast)\b"))
