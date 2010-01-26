@@ -304,7 +304,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches external links
         /// </summary>
-        public static readonly Regex ExternalLinks = new Regex(@"(https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://(?:[\w\._-~!/\*""'\(\):;@&=+$,\\\?%#\[\]]+?(?=}})|[\w\._-~!/\*""'\(\):;@&=+$,\\\?%#\[\]]*)|\[(https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://.*?\]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public static readonly Regex ExternalLinks = new Regex(@"(https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://(?:[\w\._\-~!/\*""'\(\):;@&=+$,\\\?%#\[\]]+?(?=}})|[\w\._\-~!/\*""'\(\):;@&=+$,\\\?%#\[\]]*)|\[(https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://.*?\]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Matches links that may be interwikis, i.e. containing colon, group 1 being the wiki language, group 2 being the link target
