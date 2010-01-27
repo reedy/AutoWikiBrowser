@@ -4834,7 +4834,7 @@ window.scrollTo(0, diffTopY);
             string a = txtEdit.Text.Substring(0, index);
             int b = Regex.Matches(a, "\n").Count;
             txtEdit.SetEditBoxSelection(index - b, length);
-            txtEdit.SelectionBackColor = Color.Red;
+            txtEdit.SelectionBackColor = Color.Tomato;
         }
 
         private void YellowSelection(int index, int length)
