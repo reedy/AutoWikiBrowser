@@ -565,6 +565,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.OpenBadInBrowserCheckBox.Text = "Open bad pages" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "in browser"
             Me.OpenBadInBrowserCheckBox.UseVisualStyleBackColor = True
             Me.OpenBadInBrowserCheckBox.Visible = False
+            Me.ToolTip1.SetToolTip(OpenBadInBrowserCheckBox, "Open in the web browser pages skipped because they have bad tags")
             '
             'TimerStats1
             '
@@ -593,7 +594,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.Controls.Add(Me.Label7)
             Me.Name = "PluginSettingsControl"
             Me.Size = New System.Drawing.Size(276, 349)
-            Me.ToolTip1.SetToolTip(Me, "Open in the web browser pages skipped because they have bad tags")
             Me.GroupBox2.ResumeLayout(False)
             Me.GroupBox2.PerformLayout()
             Me.GroupBox4.ResumeLayout(False)
