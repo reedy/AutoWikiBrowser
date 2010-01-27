@@ -382,7 +382,7 @@ namespace WikiFunctions.Lists.Providers
 
         public WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider()
         {
-            //Blfilterredir = "nonredirects"; //Decomment this line when http://www.mediawiki.org/wiki/Special:Code/MediaWiki/61447 is live on WMF
+            Blfilterredir = "nonredirects";
             IncludeWhatLinksToRedirects = true;
         }
 
