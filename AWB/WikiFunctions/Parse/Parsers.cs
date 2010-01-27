@@ -714,43 +714,36 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string DuplicateNamedReferences(string articleText)
         {
+            Dictionary<string, string> NamedRefs = new Dictionary<string, string>();
+            
             foreach (Match m in NamedReferences.Matches(articleText))
             {
                 string refName = m.Groups[2].Value;
-                string unnamedRefValue = m.Groups[3].Value;
-
-                int a = 0;
-                string firstref = "";
-                // duplicate citation fixer (both named): <ref name="Fred">(...)</ref>....<ref name="Fred">\2</ref> --> ..<ref name="Fred"/>, minimum 25 characters to avoid short refs
-                // don't fix the fist match, change the later ones to use <ref name="a"/> format, don't bother to change really short refs (value < 25 chars)
-                foreach (Match m2 in Regex.Matches(articleText, @"((<\s*ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(refName) + @"(?:""|')?)\s*>\s*" + Regex.Escape(unnamedRefValue) + @"\s*<\s*/\s*ref>)"))
+                string namedRefValue = m.Groups[3].Value;
+                string name2 = "";
+                
+                if(!NamedRefs.ContainsKey(namedRefValue))
+                    NamedRefs.Add(namedRefValue, refName);
+                else
                 {
-                    if (unnamedRefValue.Length < 25)
-                        break;
-
-                    // mask first match
-                    if (a == 0)
+                    // we've already seen this reference, can condense later ones
+                    NamedRefs.TryGetValue(namedRefValue, out name2);
+                    
+                    if(name2.Equals(refName) && namedRefValue.Length >= 25)
                     {
-                        firstref = m2.Value;
-                        Regex r = new Regex(Regex.Escape(firstref));
-
-                        articleText = r.Replace(articleText, "\u230A\u230A\u230A\u230A@@\u230B\u230B\u230B\u230B", 1);
+                        // duplicate citation fixer (both named): <ref name="Fred">(...)</ref>....<ref name="Fred">\2</ref> --> ..<ref name="Fred"/>, minimum 25 characters to avoid short refs
+                        string texttomatch = articleText.Substring(0, m.Index);
+                        string textaftermatch = articleText.Substring(m.Index);
+                        
+                        articleText = texttomatch + textaftermatch.Replace(m.Value, @"<ref name=""" + refName + @"""/>");
                     }
-                    else // replace all duplicates
-                        articleText = articleText.Replace(m2.Value, @"<ref name=""" + refName + @"""/>");
-
-                    a++;
                 }
-
-                // unmask first match
-                articleText = articleText.Replace("\u230A\u230A\u230A\u230A@@\u230B\u230B\u230B\u230B", firstref);
-
+                
                 // duplicate citation fixer (first named): <ref name="Fred">(...)</ref>....<ref>\2</ref> --> ..<ref name="Fred"/>
                 // duplicate citation fixer (second named): <ref>(...)</ref>....<ref name="Fred">\2</ref> --> ..<ref name="Fred"/>
-                foreach (Match m3 in Regex.Matches(articleText, @"<\s*ref\s*>\s*" + Regex.Escape(unnamedRefValue) + @"\s*<\s*/\s*ref>"))
-                {
+                foreach (Match m3 in Regex.Matches(articleText, @"<\s*ref\s*>\s*" + Regex.Escape(namedRefValue) + @"\s*<\s*/\s*ref>"))
                     articleText = articleText.Replace(m3.Value, @"<ref name=""" + refName + @"""/>");
-                }
+                
             }
 
             return articleText;
@@ -848,7 +841,7 @@ namespace WikiFunctions.Parse
             }
 
             return result.ToString();
-        }        
+        }
         
         /// <summary>
         /// Corrects named references where the reference is the same but the reference name is different
