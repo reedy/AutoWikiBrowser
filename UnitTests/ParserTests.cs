@@ -5480,7 +5480,18 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(text, @"{{citation needed|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
 
             text = parser.Tagger("{{template:citation needed  }}", "Test", out noChange, ref summary);
-            Assert.AreEqual(text, @"{{citation needed|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+            Assert.AreEqual(text, @"{{citation needed  |date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+            
+            text = parser.Tagger("{{ citation needed}}", "Test", out noChange, ref summary);
+            Assert.AreEqual(text, @"{{ citation needed|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+            
+            text = parser.Tagger("{{citation needed|reason=something}}", "Test", out noChange, ref summary);
+            Assert.AreEqual(text, @"{{citation needed|reason=something|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+            
+            // no change if already dated            
+            const string correctcn =  @"{{citation needed|reason=something|date=May 2009}}";
+            text = parser.Tagger(correctcn, "Test", out noChange, ref summary);
+            Assert.AreEqual(text, correctcn);
         }
         
         [Test]

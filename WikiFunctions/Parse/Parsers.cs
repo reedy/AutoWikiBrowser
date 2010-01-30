@@ -87,7 +87,7 @@ namespace WikiFunctions.Parse
             RegexTagger.Add(new Regex(@"\{\{(template:)?(Uncategori[zs]edstub|uncatstub)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Uncategorizedstub|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
             RegexTagger.Add(new Regex(@"\{\{(template:)?(Importance)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Importance|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
             RegexTagger.Add(new Regex(@"\{\{(template:)?(Expand)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Expand|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
-            RegexTagger.Add(new Regex(@"\{\{([Tt]emplate:)?\s*([Cc]n|[Ff]act|[Pp]roveit|[Cc]iteneeded|[Uu]ncited|[Cc]itation needed)\s*\}\}", RegexOptions.Compiled), "{{$2|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+            RegexTagger.Add(new Regex(@"\{\{(?:\s*[Tt]emplate:)?(\s*(?:[Cc]n|[Ff]act|[Pp]roveit|[Cc]iteneeded|[Uu]ncited|[Cc]itation needed)\s*(?:\|[^{}]+(?<!\|\s*date\s*=[^{}]+))?)\}\}", RegexOptions.Compiled), "{{$1|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
             RegexTagger.Add(new Regex(@"\{\{(template:)?(COI|Conflict of interest|Selfpromotion)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{COI|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
 
             RegexConversion.Add(new Regex(@"\{\{(?:Template:)?(Dab|Disamb|Disambiguation)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Disambig}}");
