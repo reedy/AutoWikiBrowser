@@ -646,11 +646,11 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Fix header errors
+        /// Fixes some crap
         /// </summary>
         /// <param name="langCode">The wiki's language code</param>
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
-        protected void FixHeaderErrors(string langCode, bool skipIfNoChange)
+        protected void MinorFixes(string langCode, bool skipIfNoChange)
         {
             if (langCode == "en")
             {
@@ -1004,8 +1004,8 @@ namespace WikiFunctions
             AWBChangeArticleText("Fixes for {{article issues}}", parsers.ArticleIssues(ArticleText), true);
             Variables.Profiler.Profile("ArticleIssues");
 
-            FixHeaderErrors(Variables.LangCode, skip.SkipNoHeaderError);
-            Variables.Profiler.Profile("FixHeaderErrors");
+            MinorFixes(Variables.LangCode, skip.SkipNoHeaderError);
+            Variables.Profiler.Profile("MinorFixes");
 
             FixPeopleCategories(parsers, skip.SkipNoPeopleCategoriesFixed);
             Variables.Profiler.Profile("FixPeopleCategories");
