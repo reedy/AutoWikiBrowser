@@ -2827,12 +2827,6 @@ namespace WikiFunctions.Parse
             // three or more at start
             articleText = Regex.Replace(articleText, @"\[+(?=" + Regex.Escape(cat) + @"[^\r\n\[\]{}<>]+\]\])", "");
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Substituted_templates
-            // for en-wiki mainspace articles any match on these three regexes means there's some dodgy template programming that should be cleaned up, so add to cleanup category
-            // only add cat "if the page is actually transcluded somewhere and only apply [category] if not"
-            //       if (isMainSpace && Variables.LangCode == LangCodeEnum.en && NoIncludeIncludeOnlyProgrammingElement(articleText) && !articleText.Contains(@"[[Category:Substituted templates]]"))
-            //           articleText += "\r\n" + @"[[Category:Substituted templates]]";
-
             foreach (Match m in WikiRegexes.LooseCategory.Matches(articleText))
             {
                 if (!Tools.IsValidTitle(m.Groups[1].Value))

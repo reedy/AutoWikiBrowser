@@ -129,19 +129,23 @@ namespace UnitTests
             Assert.IsFalse(Tools.CaseInsensitiveStringCompare("test ", " test"));
         }
 
-        [Test, Ignore("Too slow")]
+        [Test]
         public void TurnFirstToUpper()
         {
-            Assert.AreEqual("", Tools.TurnFirstToUpper(""));
-            Assert.AreEqual("ASDA", Tools.TurnFirstToUpper("ASDA"));
-            Assert.AreEqual("ASDA", Tools.TurnFirstToUpper("aSDA"));
-            Assert.AreEqual("Test", Tools.TurnFirstToUpper("test"));
-            Assert.AreEqual("%test", Tools.TurnFirstToUpper("%test"));
-            Assert.AreEqual("Ыыыы", Tools.TurnFirstToUpper("ыыыы"));
-
-            Variables.SetProject("en", ProjectEnum.wiktionary);
-            Assert.AreEqual("test", Tools.TurnFirstToUpper("test"));
-            Assert.AreEqual("Test", Tools.TurnFirstToUpper("Test"));
+        	Assert.AreEqual("", Tools.TurnFirstToUpper(""));
+        	Assert.AreEqual("ASDA", Tools.TurnFirstToUpper("ASDA"));
+        	Assert.AreEqual("ASDA", Tools.TurnFirstToUpper("aSDA"));
+        	Assert.AreEqual("Test", Tools.TurnFirstToUpper("test"));
+        	Assert.AreEqual("%test", Tools.TurnFirstToUpper("%test"));
+        	Assert.AreEqual("Ыыыы", Tools.TurnFirstToUpper("ыыыы"));
+        }
+        
+        [Test, Ignore("Too slow")]
+        public void TurnFirstToUpper2()
+        {
+        	Variables.SetProject("en", ProjectEnum.wiktionary);
+        	Assert.AreEqual("test", Tools.TurnFirstToUpper("test"));
+        	Assert.AreEqual("Test", Tools.TurnFirstToUpper("Test"));
         }
 
         [Test]
