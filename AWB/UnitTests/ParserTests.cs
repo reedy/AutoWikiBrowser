@@ -2922,23 +2922,6 @@ http://example.com }}");
             Assert.AreEqual(@"[[Category:London]]", Parsers.FixCategories(@"[[Category:London]]"));
         }
 
-        [Test, Ignore]
-        public void SubstitutedTemplatesCategory()
-        {
-            Assert.AreEqual(@"<includeonly>foo</includeonly> foo
-[[Category:Substituted templates]]", Parsers.FixCategories(@"<includeonly>foo</includeonly> foo"));
-            Assert.AreEqual(@"<noinclude>foo</noinclude> foo
-[[Category:Substituted templates]]", Parsers.FixCategories(@"<noinclude>foo</noinclude> foo"));
-            Assert.AreEqual(@"{{{1}}} foo
-[[Category:Substituted templates]]", Parsers.FixCategories(@"{{{1}}} foo"));
-
-            Assert.AreEqual(@"{{{1}}} foo
-[[Category:Substituted templates]]", Parsers.FixCategories(@"{{{1}}} foo
-[[Category:Substituted templates]]"));
-
-            Assert.AreEqual(@"{{{1}}} foo", Parsers.FixCategories(@"{{{1}}} foo"));
-        }
-
         [Test]
         public void TestFixEmptyLinksAndTemplates()
         {
