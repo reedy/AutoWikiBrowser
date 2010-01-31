@@ -1081,10 +1081,6 @@ namespace WikiFunctions
             CiteTemplateDates(parsers, skip.SkipNoCiteTemplateDatesFixed);
             Variables.Profiler.Profile("CiteTemplateDates");
 
-            //Just a bit broken/Some unwanted fixes (moving of <ref> tags around)
-            //AWBChangeArticleText("Fix Footnotes", parsers.FixFootnotes(articleText), true);
-            //Variables.Profiler.Profile("FixFootnotes");
-
             BulletExternalLinks(skip.SkipNoBulletedLink);
             Variables.Profiler.Profile("BulletExternalLinks");
 
@@ -1096,12 +1092,6 @@ namespace WikiFunctions
                 AWBChangeArticleText("Fix Date Ordinals/Of", parsers.FixDateOrdinalsAndOf(ArticleText, Name), true, true);
                 Variables.Profiler.Profile("FixDateOrdinalsAndOf");
             }
-
-            //if (Variables.IsWikimediaProject)
-            //{
-            //    AWBChangeArticleText("External to internal links", Parsers.ExternalURLToInternalLink(articleText), true);
-            //    Variables.Profiler.Profile("ExternalURLToInternalLink");
-            //}
 
             Variables.Profiler.Profile("Links");
 
