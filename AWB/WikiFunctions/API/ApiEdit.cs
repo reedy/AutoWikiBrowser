@@ -838,7 +838,7 @@ namespace WikiFunctions.API
             RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
-        /// Loads wiki's UI HTML and scraps everything we need to make correct previews
+        /// Loads wiki's UI HTML and scrapes everything we need to make correct previews
         /// </summary>
         private void EnsureHtmlHeadersLoaded()
         {
