@@ -5613,9 +5613,9 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         public void ConversionTestsInterwikiMigration()
         {
             Assert.AreEqual(@"{{hello}}", Parsers.Conversions(@"{{msg:hello}}"));
-            Assert.AreEqual(@"[[zh:foo]]", Parsers.Conversions(@"[[zh-tw:foo]]"));
-            Assert.AreEqual(@"[[no:foo]]", Parsers.Conversions(@"[[nb:foo]]"));
-            Assert.AreEqual(@"[[da:foo]]", Parsers.Conversions(@"[[dk:foo]]"));
+            Assert.AreEqual(@"[[zh:foo]]", Parsers.InterwikiConversions(@"[[zh-tw:foo]]"));
+            Assert.AreEqual(@"[[no:foo]]", Parsers.InterwikiConversions(@"[[nb:foo]]"));
+            Assert.AreEqual(@"[[da:foo]]", Parsers.InterwikiConversions(@"[[dk:foo]]"));
         }
         [Test]
         public void PageNameTests()
