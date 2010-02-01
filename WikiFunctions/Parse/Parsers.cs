@@ -4050,7 +4050,7 @@ namespace WikiFunctions.Parse
             bool alreadyUncertain = false;
 
             // scrape any infobox for birth year
-            string fromInfoBox = GetInfoBoxFieldValue(zerothSection, @"(?:(?:[Yy]ear|[Dd]ate)ofbirth|[Bb]orn|birth_?date)");
+            string fromInfoBox = GetInfoBoxFieldValue(zerothSection, @"(?:(?:[Yy]ear|[Dd]ate)[Oo]f[Bb]irth|[Bb]orn|birth_?date)");
 
             if (fromInfoBox.Length > 0 && !UncertainWordings.IsMatch(fromInfoBox))
                 yearFromInfoBox = YearPossiblyWithBC.Match(fromInfoBox).Value;
@@ -4109,7 +4109,7 @@ namespace WikiFunctions.Parse
 
             // scrape any infobox
             yearFromInfoBox = "";
-            fromInfoBox = GetInfoBoxFieldValue(articleText, @"(?:(?:[Yy]ear|[Dd]ate)ofdeath|[Dd]ied|death_?date)");
+            fromInfoBox = GetInfoBoxFieldValue(articleText, @"(?:(?:[Yy]ear|[Dd]ate)[Oo]f[Dd]eath|[Dd]ied|death_?date)");
 
             if (fromInfoBox.Length > 0 && !UncertainWordings.IsMatch(fromInfoBox))
                 yearFromInfoBox = YearPossiblyWithBC.Match(fromInfoBox).Value;
