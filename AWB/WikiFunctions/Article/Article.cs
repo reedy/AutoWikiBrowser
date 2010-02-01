@@ -652,9 +652,12 @@ namespace WikiFunctions
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
         protected void MinorFixes(string langCode, bool skipIfNoChange)
         {
-            if (langCode == "en")
+            string strTemp = Parsers.InterwikiConversions(mArticleText);
+            if (!noChange)
+                AWBChangeArticleText("Fixed interwikis", strTemp, true);
+
+        	if (langCode == "en")
             {
-                string strTemp = Parsers.Conversions(mArticleText);
                 strTemp = Parsers.FixLivingThingsRelatedDates(strTemp);
                 strTemp = Parsers.FixHeadings(strTemp, Name, out noChange);
 

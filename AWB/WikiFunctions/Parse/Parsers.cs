@@ -4275,11 +4275,46 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
+        /// Replaces legacy/deprecated language codes in interwikis with correct ones
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <param name="noChange"></param>
+        /// <returns></returns>
+		public static string InterwikiConversions(string articleText, out bool noChange)
+        {
+            string newText = InterwikiConversions(articleText);
+
+            noChange = (newText == articleText);
+
+            return newText;
+        }
+
+        /// <summary>
+        /// Replaces legacy/deprecated language codes in interwikis with correct ones
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <returns>Page text</returns>
+        public static string InterwikiConversions(string articleText)
+        {
+        	//Use proper codes
+            //checking first instead of substituting blindly saves some
+            //time due to low occurrence rate
+            if (articleText.Contains("[[zh-tw:"))
+                articleText = articleText.Replace("[[zh-tw:", "[[zh:");
+            if (articleText.Contains("[[nb:"))
+                articleText = articleText.Replace("[[nb:", "[[no:");
+            if (articleText.Contains("[[dk:"))
+                articleText = articleText.Replace("[[dk:", "[[da:");
+          return articleText;
+		}
+
+        /// <summary>
         /// Converts/subst'd some deprecated templates
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="noChange">Value that indicated whether no change was made.</param>
         /// <returns>The new article text.</returns>
+        /// 
         public static string Conversions(string articleText, out bool noChange)
         {
             string newText = Conversions(articleText);
@@ -4296,16 +4331,6 @@ namespace WikiFunctions.Parse
         /// <returns>The new article text.</returns>
         public static string Conversions(string articleText)
         {
-            //Use proper codes
-            //checking first instead of substituting blindly saves some
-            //time due to low occurrence rate
-            if (articleText.Contains("[[zh-tw:"))
-                articleText = articleText.Replace("[[zh-tw:", "[[zh:");
-            if (articleText.Contains("[[nb:"))
-                articleText = articleText.Replace("[[nb:", "[[no:");
-            if (articleText.Contains("[[dk:"))
-                articleText = articleText.Replace("[[dk:", "[[da:");
-
             if (articleText.Contains("{{msg:"))
                 articleText = articleText.Replace("{{msg:", "{{");
 
