@@ -1657,12 +1657,13 @@ window.scrollTo(0, diffTopY);
             {
                 DisableButtons();
                 string extext = "Attempted to save a wrong page";
-                
-                if(TheArticle != null)
-                    extext += " (Article name: '" + TheArticle.Name + "', session page title: '" + TheSession.Page.Title + "')";
+
+                if (TheArticle != null)
+                    extext += " (Article name: '" + TheArticle.Name + "', session page title: '" + TheSession.Page.Title +
+                              "')";
                 else
                     extext += " (the article was null)";
-                
+
                 throw new Exception(extext);
             }
 
@@ -1674,15 +1675,17 @@ window.scrollTo(0, diffTopY);
                 return;
             }
 
-            if (!TheSession.Page.Exists)
-                NumberOfNewPages++;
-
             DisableButtons();
-            if (txtEdit.Text.Length > 0)
+            if (txtEdit.Text.Length > 0 ||
+                (TheArticle.Exists == Exists.Yes && MessageBox.Show("Do you really want to save a blank page?", "Save?",
+                                                                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
+                 DialogResult.Yes))
+            {
+                if (!TheSession.Page.Exists)
+                    NumberOfNewPages++;
+
                 SaveArticle();
-            else if (TheArticle.Exists == Exists.Yes && MessageBox.Show("Do you really want to save a blank page?", "Save?",
-                                                                        MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                SaveArticle();
+            }
             else
                 SkipPage("Nothing to save - blank page");
         }
