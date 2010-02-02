@@ -723,10 +723,12 @@ namespace WikiFunctions.Controls.Lists
                 return;
             }
 
-            Cursor = Cursors.Default;
-            btnGenerate.Enabled = true;
-            Status = "List complete!";
             BusyStatus = false;
+
+            Cursor = Cursors.Default;
+            Status = "List complete!";
+            btnGenerate.Enabled = true;
+
             btnStop.Visible = false;
             UpdateNumberOfArticles();
 
