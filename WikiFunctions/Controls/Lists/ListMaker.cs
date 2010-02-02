@@ -699,12 +699,12 @@ namespace WikiFunctions.Controls.Lists
             return list;
         }
 
-        private delegate void StartProgBarDelegate();
+        private delegate void StartStopProgBarDelegate();
         private void StartProgressBar()
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new StartProgBarDelegate(StartProgressBar));
+                BeginInvoke(new StartStopProgBarDelegate(StartProgressBar));
                 return;
             }
 
@@ -715,12 +715,11 @@ namespace WikiFunctions.Controls.Lists
             btnGenerate.Enabled = false;
         }
 
-        private delegate void SetProgBarDelegate();
         private void StopProgressBar()
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new SetProgBarDelegate(StopProgressBar));
+                BeginInvoke(new StartStopProgBarDelegate(StopProgressBar));
                 return;
             }
 
