@@ -287,5 +287,11 @@ namespace WikiFunctions.Logging
             }
         }
         #endregion
+
+        private void btnAddSuccessToList_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem article in lvSaved.Items)
+                listMaker.Add(new Article(article.Text));
+        }
     }
 }

@@ -219,5 +219,11 @@ namespace WikiFunctions.Logging
             foreach (ListViewItem item in MenuItemOwner(sender).SelectedItems)
                 Tools.OpenArticleLogInBrowser(item.Text);
         }
+
+        private void btnAddSucessfulToList_Click(object sender, EventArgs e)
+        {
+            foreach (ListViewItem article in lvSuccessful.Items)
+                _listMaker.Add(new Article(article.Text));
+        }
     }
 }

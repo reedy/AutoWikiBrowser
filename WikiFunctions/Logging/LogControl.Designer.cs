@@ -29,7 +29,7 @@ namespace WikiFunctions.Logging
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.btnAddToList = new System.Windows.Forms.Button();
+            this.btnAddSkippedToList = new System.Windows.Forms.Button();
             this.btnClearIgnored = new System.Windows.Forms.Button();
             this.btnSaveIgnored = new System.Windows.Forms.Button();
             this.btnClearSaved = new System.Windows.Forms.Button();
@@ -64,18 +64,19 @@ namespace WikiFunctions.Logging
             this.lvSaved = new WikiFunctions.Controls.NoFlickerExtendedListView();
             this.colSuccessSave = new System.Windows.Forms.ColumnHeader();
             this.colSuccessTime = new System.Windows.Forms.ColumnHeader();
+            this.btnAddSuccessToList = new System.Windows.Forms.Button();
             this.mnuListView.SuspendLayout();
             this.SuspendLayout();
             // 
-            // btnAddToList
+            // btnAddSkippedToList
             // 
-            this.btnAddToList.Location = new System.Drawing.Point(87, 310);
-            this.btnAddToList.Name = "btnAddToList";
-            this.btnAddToList.Size = new System.Drawing.Size(78, 24);
-            this.btnAddToList.TabIndex = 19;
-            this.btnAddToList.Text = "Add all to list";
-            this.btnAddToList.UseVisualStyleBackColor = true;
-            this.btnAddToList.Click += new System.EventHandler(this.btnAddToList_Click);
+            this.btnAddSkippedToList.Location = new System.Drawing.Point(87, 310);
+            this.btnAddSkippedToList.Name = "btnAddSkippedToList";
+            this.btnAddSkippedToList.Size = new System.Drawing.Size(75, 24);
+            this.btnAddSkippedToList.TabIndex = 19;
+            this.btnAddSkippedToList.Text = "Add all to list";
+            this.btnAddSkippedToList.UseVisualStyleBackColor = true;
+            this.btnAddSkippedToList.Click += new System.EventHandler(this.btnAddToList_Click);
             // 
             // btnClearIgnored
             // 
@@ -354,10 +355,21 @@ namespace WikiFunctions.Logging
             // 
             this.colSuccessTime.Text = "Time";
             // 
+            // btnAddSuccessToList
+            // 
+            this.btnAddSuccessToList.Location = new System.Drawing.Point(87, 137);
+            this.btnAddSuccessToList.Name = "btnAddSuccessToList";
+            this.btnAddSuccessToList.Size = new System.Drawing.Size(75, 24);
+            this.btnAddSuccessToList.TabIndex = 22;
+            this.btnAddSuccessToList.Text = "Add all to list";
+            this.btnAddSuccessToList.UseVisualStyleBackColor = true;
+            this.btnAddSuccessToList.Click += new System.EventHandler(this.btnAddSuccessToList_Click);
+            // 
             // LogControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnAddSuccessToList);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.lvIgnored);
@@ -366,7 +378,7 @@ namespace WikiFunctions.Logging
             this.Controls.Add(this.btnSaveSaved);
             this.Controls.Add(this.btnClearIgnored);
             this.Controls.Add(this.btnClearSaved);
-            this.Controls.Add(this.btnAddToList);
+            this.Controls.Add(this.btnAddSkippedToList);
             this.Name = "LogControl";
             this.Size = new System.Drawing.Size(257, 341);
             this.mnuListView.ResumeLayout(false);
@@ -385,7 +397,7 @@ namespace WikiFunctions.Logging
         private Controls.NoFlickerExtendedListView lvSaved;
         private System.Windows.Forms.ColumnHeader colSuccessSave;
         private System.Windows.Forms.ColumnHeader colSuccessTime;
-        private System.Windows.Forms.Button btnAddToList;
+        private System.Windows.Forms.Button btnAddSkippedToList;
         private System.Windows.Forms.Button btnClearIgnored;
         private System.Windows.Forms.Button btnSaveIgnored;
         private System.Windows.Forms.Button btnClearSaved;
@@ -412,5 +424,6 @@ namespace WikiFunctions.Logging
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator6;
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resetToolStripMenuItem;
+        private System.Windows.Forms.Button btnAddSuccessToList;
     }
 }
