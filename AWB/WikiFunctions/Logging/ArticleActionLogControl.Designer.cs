@@ -29,7 +29,7 @@ namespace WikiFunctions.Logging
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.btnAddToList = new System.Windows.Forms.Button();
+            this.btnAddFailedToList = new System.Windows.Forms.Button();
             this.btnClearFailed = new System.Windows.Forms.Button();
             this.btnSaveFailed = new System.Windows.Forms.Button();
             this.btnClearSuccessful = new System.Windows.Forms.Button();
@@ -55,18 +55,19 @@ namespace WikiFunctions.Logging
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lvSuccessful = new WikiFunctions.Logging.ArticleActionListView();
             this.lvFailed = new WikiFunctions.Logging.ArticleActionListView();
+            this.btnAddSucessfulToList = new System.Windows.Forms.Button();
             this.mnuListView.SuspendLayout();
             this.SuspendLayout();
             // 
-            // btnAddToList
+            // btnAddFailedToList
             // 
-            this.btnAddToList.Location = new System.Drawing.Point(87, 310);
-            this.btnAddToList.Name = "btnAddToList";
-            this.btnAddToList.Size = new System.Drawing.Size(78, 24);
-            this.btnAddToList.TabIndex = 19;
-            this.btnAddToList.Text = "Add all to list";
-            this.btnAddToList.UseVisualStyleBackColor = true;
-            this.btnAddToList.Click += new System.EventHandler(this.btnAddToList_Click);
+            this.btnAddFailedToList.Location = new System.Drawing.Point(87, 310);
+            this.btnAddFailedToList.Name = "btnAddFailedToList";
+            this.btnAddFailedToList.Size = new System.Drawing.Size(75, 24);
+            this.btnAddFailedToList.TabIndex = 19;
+            this.btnAddFailedToList.Text = "Add all to list";
+            this.btnAddFailedToList.UseVisualStyleBackColor = true;
+            this.btnAddFailedToList.Click += new System.EventHandler(this.btnAddToList_Click);
             // 
             // btnClearFailed
             // 
@@ -285,10 +286,21 @@ namespace WikiFunctions.Logging
             this.lvFailed.View = System.Windows.Forms.View.Details;
             this.lvFailed.DoubleClick += new System.EventHandler(this.LogLists_DoubleClick);
             // 
+            // btnAddSucessfulToList
+            // 
+            this.btnAddSucessfulToList.Location = new System.Drawing.Point(87, 137);
+            this.btnAddSucessfulToList.Name = "btnAddSucessfulToList";
+            this.btnAddSucessfulToList.Size = new System.Drawing.Size(75, 24);
+            this.btnAddSucessfulToList.TabIndex = 21;
+            this.btnAddSucessfulToList.Text = "Add all to list";
+            this.btnAddSucessfulToList.UseVisualStyleBackColor = true;
+            this.btnAddSucessfulToList.Click += new System.EventHandler(this.btnAddSucessfulToList_Click);
+            // 
             // ArticleActionLogControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnAddSucessfulToList);
             this.Controls.Add(this.lvFailed);
             this.Controls.Add(this.lvSuccessful);
             this.Controls.Add(this.label7);
@@ -297,7 +309,7 @@ namespace WikiFunctions.Logging
             this.Controls.Add(this.btnSaveSuccessful);
             this.Controls.Add(this.btnClearFailed);
             this.Controls.Add(this.btnClearSuccessful);
-            this.Controls.Add(this.btnAddToList);
+            this.Controls.Add(this.btnAddFailedToList);
             this.Name = "ArticleActionLogControl";
             this.Size = new System.Drawing.Size(257, 341);
             this.mnuListView.ResumeLayout(false);
@@ -308,7 +320,7 @@ namespace WikiFunctions.Logging
 
         #endregion
 
-        private System.Windows.Forms.Button btnAddToList;
+        private System.Windows.Forms.Button btnAddFailedToList;
         private System.Windows.Forms.Button btnClearFailed;
         private System.Windows.Forms.Button btnSaveFailed;
         private System.Windows.Forms.Button btnClearSuccessful;
@@ -334,5 +346,6 @@ namespace WikiFunctions.Logging
         private ArticleActionListView lvSuccessful;
         private ArticleActionListView lvFailed;
         private System.Windows.Forms.ToolStripMenuItem openLogInBrowserToolStripMenuItem;
+        private System.Windows.Forms.Button btnAddSucessfulToList;
     }
 }
