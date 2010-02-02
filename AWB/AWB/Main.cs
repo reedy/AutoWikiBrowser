@@ -4626,12 +4626,15 @@ window.scrollTo(0, diffTopY);
                 return;
             }
 
+            btnWatch.Enabled = false;
+
             if (PageWatched)
                 TheSession.Editor.Watch(TheArticle.Name);
             else
                 TheSession.Editor.Unwatch(TheArticle.Name);
 
             PageWatched = !PageWatched;
+            btnWatch.Enabled = true;
         }
 
         /// <summary>
