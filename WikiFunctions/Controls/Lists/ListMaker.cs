@@ -699,12 +699,12 @@ namespace WikiFunctions.Controls.Lists
             return list;
         }
 
-        private delegate void StartStopProgBarDelegate();
+        private delegate void StartProgBarDelegate();
         private void StartProgressBar()
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new StartStopProgBarDelegate(StartProgressBar));
+                BeginInvoke(new StartProgBarDelegate(StartProgressBar));
                 return;
             }
 
@@ -715,18 +715,26 @@ namespace WikiFunctions.Controls.Lists
             btnGenerate.Enabled = false;
         }
 
-        private void StopProgressBar()
+        private delegate void StopProgBarDelegate(int count);
+        private void StopProgressBar(int newArticles)
         {
             if (InvokeRequired)
             {
-                BeginInvoke(new StartStopProgBarDelegate(StopProgressBar));
+                BeginInvoke(new StopProgBarDelegate(StopProgressBar), newArticles);
                 return;
             }
 
             BusyStatus = false;
 
             Cursor = Cursors.Default;
-            Status = "List complete!";
+
+            if (newArticles == -1)
+                Status = "List creation aborted.";
+            else if (newArticles > 0)
+                Status = "List complete!";
+            else
+                Status = "No results.";
+
             btnGenerate.Enabled = true;
 
             btnStop.Visible = false;
@@ -786,9 +794,12 @@ namespace WikiFunctions.Controls.Lists
         {
             StartProgressBar();
 
+            List<Article> articles = null;
+
             try
             {
-                Add(_providerToRun.MakeList(_providerToRun.UserInputTextBoxEnabled ? _source : new string[0]));
+                articles = _providerToRun.MakeList(_providerToRun.UserInputTextBoxEnabled ? _source : new string[0]);
+                Add(articles);
             }
             catch (ThreadAbortException)
             {
@@ -825,7 +836,7 @@ namespace WikiFunctions.Controls.Lists
                     FilterNonMainArticles();
                 if (FilterDuplicates)
                     RemoveListDuplicates();
-                StopProgressBar();
+                StopProgressBar((articles != null) ? articles.Count : 0);
             }
         }
 
@@ -946,7 +957,7 @@ namespace WikiFunctions.Controls.Lists
             if (_listerThread != null)
                 _listerThread.Abort();
 
-            StopProgressBar();
+            StopProgressBar(-1);
         }
 
         /// <summary>
