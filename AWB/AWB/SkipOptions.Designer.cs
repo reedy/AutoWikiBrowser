@@ -70,10 +70,10 @@ namespace AutoWikiBrowser
             this.chkNoTag.AutoSize = true;
             this.chkNoTag.Location = new System.Drawing.Point(6, 111);
             this.chkNoTag.Name = "chkNoTag";
-            this.chkNoTag.Size = new System.Drawing.Size(90, 17);
+            this.chkNoTag.Size = new System.Drawing.Size(111, 17);
             this.chkNoTag.TabIndex = 5;
             this.chkNoTag.Tag = 2;
-            this.chkNoTag.Text = "Tag changed";
+            this.chkNoTag.Text = "AutoTag changes";
             this.chkNoTag.UseVisualStyleBackColor = true;
             // 
             // gbOptions
