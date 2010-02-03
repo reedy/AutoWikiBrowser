@@ -1003,7 +1003,7 @@ namespace WikiFunctions
 
             Variables.Profiler.Profile("HideText");
 
-            // call this before FixHeaderErrors so that Parsers.Conversions cleans up from ArticleIssues
+            // call this before MinorFixes so that Parsers.Conversions cleans up from ArticleIssues
             AWBChangeArticleText("Fixes for {{article issues}}", parsers.ArticleIssues(ArticleText), true);
             Variables.Profiler.Profile("ArticleIssues");
 
@@ -1075,12 +1075,6 @@ namespace WikiFunctions
             AWBChangeArticleText("Add missing {{reflist}}", Parsers.AddMissingReflist(ArticleText), true, true);
             Variables.Profiler.Profile("AddMissingReflist");
 
-            if (!noMOSComplianceFixes)
-            {
-                AWBChangeArticleText("Mdashes", parsers.Mdashes(ArticleText, Name, NameSpaceKey), true);
-                Variables.Profiler.Profile("Mdashes");
-            }
-
             CiteTemplateDates(parsers, skip.SkipNoCiteTemplateDatesFixed);
             Variables.Profiler.Profile("CiteTemplateDates");
 
@@ -1092,6 +1086,9 @@ namespace WikiFunctions
 
             if (!noMOSComplianceFixes)
             {
+                AWBChangeArticleText("Mdashes", parsers.Mdashes(ArticleText, Name, NameSpaceKey), true);
+                Variables.Profiler.Profile("Mdashes");
+
                 AWBChangeArticleText("Fix Date Ordinals/Of", parsers.FixDateOrdinalsAndOf(ArticleText, Name), true, true);
                 Variables.Profiler.Profile("FixDateOrdinalsAndOf");
             }
