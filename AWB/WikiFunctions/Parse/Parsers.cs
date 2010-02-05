@@ -4624,6 +4624,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
         
+        private static readonly Regex CommonPunctuation = new Regex(@"[""',\.;:`!\(\)\[\]\?\-–/]", RegexOptions.Compiled);
         /// <summary>
         /// For en-wiki tags redirect pages with one or more of the templates from [[Wikipedia:Template messages/Redirect pages]]
         /// </summary>
@@ -4638,11 +4639,13 @@ namespace WikiFunctions.Parse
             
             string redirecttarget = Tools.RedirectTarget(articleText);
             
-            // {{R from modification}}
+            // skip recursive redirects
+            if(redirecttarget.Equals(articleTitle))
+                return articleText;
             
-            // difference is hyphen to endash
-            if(redirecttarget != redirecttarget.Replace("–", "-") && redirecttarget.Replace("–", "-") == articleTitle
-               && !WikiRegexes.RFromModification.IsMatch(articleText))
+            // {{R from modification}}
+            // difference is extra/removed/changed puntuation
+            if(!WikiRegexes.RFromModification.IsMatch(articleText) && !CommonPunctuation.Replace(redirecttarget, "").Equals(redirecttarget) && CommonPunctuation.Replace(redirecttarget, "").Equals(CommonPunctuation.Replace(articleTitle, "")))
                 articleText += "\r\n" + WikiRegexes.RFromModificationString;
             
             // {{R from title without diacritics}}

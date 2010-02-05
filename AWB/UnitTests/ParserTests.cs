@@ -5803,7 +5803,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         }
         
         [Test]
-        public void RedirectTaggerMod()
+        public void RedirectTaggerModDashes()
         {
             const string correct = @"#REDIRECT:[[Foo–bar]]
 {{R from modification}}", redirectendash = @"#REDIRECT:[[Foo–bar]]";
@@ -5816,7 +5816,26 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(redirectendash, Parsers.RedirectTagger(redirectendash, "Foo barism"));
         }
         
-                [Test]
+        [Test]
+        public void RedirectTaggerModPunct()
+        {
+            const string correct = @"#REDIRECT:[[Foo .bar]]
+{{R from modification}}", redirectpunct = @"#REDIRECT:[[Foo .bar]]";
+            
+            // removed punct
+            Assert.AreEqual(correct, Parsers.RedirectTagger(redirectpunct, "Foo bar"));
+            
+            // different punct
+            Assert.AreEqual(correct, Parsers.RedirectTagger(redirectpunct, "Foo /bar"));
+            
+            // extra punct
+            Assert.AreEqual(correct, Parsers.RedirectTagger(redirectpunct, "Foo ..bar"));
+            
+            // other changes in addition to punctuation
+            Assert.AreEqual(redirectpunct, Parsers.RedirectTagger(redirectpunct, "Foo ..bar (long)"));
+        }
+        
+        [Test]
         public void RedirectTaggerDiacr()
         {
             const string correct = @"#REDIRECT:[[Fiancée]]
@@ -5828,6 +5847,19 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             
             // different change
             Assert.AreEqual(redirectaccent, Parsers.RedirectTagger(redirectaccent, "Fiancee-bar"));
+        }
+        
+        [Test]
+        public void RedirectTagger()
+        {
+            const string redirecttext = @"#REDIRECT:[[Foo bar]]";
+            
+            // skips recursive redirects
+            Assert.AreEqual(redirecttext, Parsers.RedirectTagger(redirecttext, "Foo bar"));
+            
+            // skips if not a redirect
+            string notredirect = @"Now foo bar";
+            Assert.AreEqual(notredirect, Parsers.RedirectTagger(notredirect, "Foo bar"));
         }
     }
 }
