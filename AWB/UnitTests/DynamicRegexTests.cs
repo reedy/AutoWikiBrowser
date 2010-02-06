@@ -231,6 +231,8 @@ disambig|surname
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{  disambig}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Template:disambig}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{template:disambig}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Shipindex}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{mountainindex}}");
             
             RegexAssert.NoMatch(WikiRegexes.Disambigs, @"{{now disambig}}");
             RegexAssert.NoMatch(WikiRegexes.Disambigs, @"{{dablink|foo}}");

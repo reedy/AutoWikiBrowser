@@ -98,7 +98,7 @@ namespace WikiFunctions
                     s = "([Dd]isambiguation|[Dd]isambig|[Нн]еоднозначность)";
                     break;
                 default:
-                    s = "([234]CC|[Dd]isamb(?:ig(?:uation)?)?|[Dd]ab|[Mm]athdab|[Ss]urname|(?:[Nn]umber[Rr]oad|[Hh]ospital|[Gg]eo|[Hh]n|[Ss]choo)dis|SIA|[Ll]etter-disambig)";
+                    s = "([234]CC|[Dd]isamb(?:ig(?:uation)?)?|[Dd]ab|[Mm]athdab|[Ss]urname|(?:[Nn]umber[Rr]oad|[Hh]ospital|[Gg]eo|[Hh]n|[Ss]choo)dis|SIA|[Ll]etter-disambig|[Ss]hipindex|[Mm]ountainindex)";
                     break;
             }
             Disambigs = new Regex(TemplateStart + s + @"\s*(?:\|[^{}]*?)?}}", RegexOptions.Compiled);
