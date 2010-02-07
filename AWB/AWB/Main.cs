@@ -484,8 +484,8 @@ namespace AutoWikiBrowser
         /// </summary>
         private void HandleLogoff()
         {
-            MessageBox.Show("You've been logged off, probably due to loss of session data.\r\n" +
-                            "Please relogin.", "Logged off", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            MessageBox.Show("You've been logged off, probably due to loss of session data.\r\nPlease relogin.",
+                            "Logged off", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             Stop();
             CheckStatus(false);
         }
@@ -524,8 +524,7 @@ namespace AutoWikiBrowser
             else
             {
                 Stop();
-                MessageBox.Show(this, "Maxlag exceeded " + MaxRetries + " times in a row. Processing stopped, " +
-                                "please try later when the server is under a less load.", "Stopped", MessageBoxButtons.OK,
+                MessageBox.Show(this, "Maxlag exceeded " + MaxRetries + " times in a row. Processing stopped, please try later when the server is under a less load.", "Stopped", MessageBoxButtons.OK,
                                 MessageBoxIcon.Error);
             }
         }
@@ -556,7 +555,7 @@ namespace AutoWikiBrowser
                 {
                     case "editconflict":
                         //TODO: must be a less crude way
-                        MessageBox.Show(this, "There has been an edit conflict. AWB will now re-apply its changes on the updated page. \r\n Please re-review the changes before saving. Any Custom edits will be lost, and have to be re-added manually.", "Edit conflict");
+                        MessageBox.Show(this, "There has been an edit conflict. AWB will now re-apply its changes on the updated page.\r\nPlease re-review the changes before saving. Any Custom edits will be lost, and have to be re-added manually.", "Edit conflict");
                         NudgeTimer.Stop();
                         Start();
                         break;
