@@ -2045,11 +2045,9 @@ window.scrollTo(0, diffTopY);
                     summary = @"/* " + sectionEditText + @" */" + summary;
             }
 
-            if ((TheSession.User.IsBot && chkSuppressTag.Checked)
-                || (!Variables.IsWikimediaProject && _suppressUsingAWB))
-                return summary;
-
-            summary = Summary.Trim(summary) + Variables.SummaryTag;
+            if (!(TheSession.User.IsBot && chkSuppressTag.Checked)
+                && (Variables.IsWikimediaProject && !_suppressUsingAWB))
+                summary = Summary.Trim(summary) + Variables.SummaryTag;
 
 #if DEBUG
             if (!Summary.IsCorrect(summary))
