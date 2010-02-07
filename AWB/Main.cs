@@ -1681,9 +1681,6 @@ window.scrollTo(0, diffTopY);
                                                                     MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
                  DialogResult.Yes))
             {
-                if (!TheSession.Page.Exists)
-                    NumberOfNewPages++;
-
                 SaveArticle();
             }
             else
@@ -1692,8 +1689,6 @@ window.scrollTo(0, diffTopY);
 
         private void SaveArticle()
         {
-            //if (txtEdit.Text.Length == 0) //TODO: Do something when its blank/at least check it
-
             //remember article text in case it is lost, this is set to "" again when the article title is removed
             LastArticle = txtEdit.Text;
 
@@ -1721,8 +1716,13 @@ window.scrollTo(0, diffTopY);
             }
 
             if (!TheSession.Editor.IsActive)
+            {
+                if (!TheSession.Page.Exists)
+                    NumberOfNewPages++;
+
                 TheSession.Editor.Save(txtEdit.Text, MakeSummary(), markAllAsMinorToolStripMenuItem.Checked,
                                        opt);
+            }
             else
             {
                 StatusLabelText = "Editor busy";
