@@ -1343,7 +1343,7 @@ namespace AutoWikiBrowser
 
                 Variables.Profiler.Profile("Initial skip checks");
 
-                if (CModule.ModuleEnabled && CModule.Module != null)
+                if (CModule.ModuleUsable)
                 {
                     theArticle.SendPageToCustomModule(CModule.Module);
                     if (theArticle.SkipArticle) return;
