@@ -4405,7 +4405,7 @@ namespace WikiFunctions.Parse
         public string Tagger(string articleText, string articleTitle, ref string summary)
         {
             // don't tag redirects/outside article namespace/no tagging changes
-            if (Tools.IsRedirect(articleText) || !Namespace.IsMainSpace(articleTitle))
+            if (!Namespace.IsMainSpace(articleTitle) || Tools.IsRedirect(articleText))
                 return articleText;
 
             tagsRemoved.Clear();
