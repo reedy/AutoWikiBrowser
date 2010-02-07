@@ -652,31 +652,24 @@ namespace WikiFunctions
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
         protected void MinorFixes(string langCode, bool skipIfNoChange)
         {
-            string strTemp = Parsers.InterwikiConversions(mArticleText, out noChange);
-            if (!noChange)
-                AWBChangeArticleText("Fixed interwikis", strTemp, true);
+            AWBChangeArticleText("Fixed interwikis", Parsers.InterwikiConversions(mArticleText, out noChange), true);
 
-        	if (langCode == "en")
+            if (langCode == "en")
             {
-                strTemp = Parsers.Conversions(strTemp);
+                string strTemp = Parsers.Conversions(mArticleText);
                 strTemp = Parsers.FixLivingThingsRelatedDates(strTemp);
                 strTemp = Parsers.FixHeadings(strTemp, Name, out noChange);
 
-                if (mArticleText == strTemp)
+                if (mArticleText == strTemp && skipIfNoChange)
                 {
-                    if (skipIfNoChange)
-                        Trace.AWBSkipped("No header errors");
+                    Trace.AWBSkipped("No header errors");
                 }
+                else if (!noChange)
+                    AWBChangeArticleText("Fixed header errors", strTemp, true);
                 else
                 {
-                    if (!noChange)
-                        AWBChangeArticleText("Fixed header errors", strTemp, true);
-                    else
-                    {
-                        AWBChangeArticleText("Fixed minor formatting issues", strTemp, true);
-                        if (skipIfNoChange) Trace.AWBSkipped("No header errors");
-                    }
-
+                    AWBChangeArticleText("Fixed minor formatting issues", strTemp, true);
+                    if (skipIfNoChange) Trace.AWBSkipped("No header errors");
                 }
             }
         }
