@@ -32,7 +32,7 @@ namespace AutoWikiBrowser
 
         WikiFunctions.Parse.FindandReplace IAutoWikiBrowser.FindandReplace { get { return FindAndReplace; } }
         WikiFunctions.SubstTemplates IAutoWikiBrowser.SubstTemplates { get { return SubstTemplates; } }
-        string IAutoWikiBrowser.CustomModule { get { return (CModule.ModuleEnabled && CModule.Module != null) ? CModule.Code : null; } }
+        string IAutoWikiBrowser.CustomModule { get { return (CModule.ModuleUsable) ? CModule.Code : null; } }
 
         public event GetLogUploadLocationsEvent GetLogUploadLocations;
 

@@ -41,12 +41,18 @@ namespace AutoWikiBrowser
             txtCode.Text = CodeExample;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string Code
         {
             get { return txtCode.Text; }
             set { txtCode.Text = value.Replace("\r\n\r\n", "\r\n"); }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string Language
         {
             get { return cmboLang.SelectedItem.ToString(); }
@@ -67,11 +73,17 @@ namespace AutoWikiBrowser
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public CustomModuleCompiler Compiler
         {
             get { return (CustomModuleCompiler)cmboLang.SelectedItem; }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool ModuleEnabled
         {
             get { return chkModuleEnabled.Checked; }
@@ -83,9 +95,20 @@ namespace AutoWikiBrowser
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool ModuleUsable
+        {
+            get { return ModuleEnabled && Module != null; }
+        }
+
         private const string BuiltPrefix = "Custom Module Built At: ";
 
         IModule M;
+        /// <summary>
+        /// 
+        /// </summary>
         public IModule Module
         {
             get { return M; }
@@ -110,6 +133,9 @@ namespace AutoWikiBrowser
 
         private string CodeStart = "", CodeEnd = "", CodeExample = @"";
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void MakeModule()
         {
             try
