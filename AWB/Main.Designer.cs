@@ -285,6 +285,8 @@ namespace AutoWikiBrowser
             this.lblCats = new System.Windows.Forms.Label();
             this.lblImages = new System.Windows.Forms.Label();
             this.lblLinks = new System.Windows.Forms.Label();
+            this.chkSkipIfNoRegexTypo = new System.Windows.Forms.CheckBox();
+            this.chkSkipNoImgChange = new System.Windows.Forms.CheckBox();
             this.txtEdit = new WikiFunctions.Controls.ArticleTextBox();
             this.mnuHistory = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -321,7 +323,6 @@ namespace AutoWikiBrowser
             this.MainTab = new System.Windows.Forms.TabControl();
             this.tpOptions = new System.Windows.Forms.TabPage();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
-            this.chkSkipIfNoRegexTypo = new System.Windows.Forms.CheckBox();
             this.chkRegExTypo = new System.Windows.Forms.CheckBox();
             this.EnableRegexTypoFixLinkLabel = new System.Windows.Forms.LinkLabel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -331,7 +332,6 @@ namespace AutoWikiBrowser
             this.tpMoreOptions = new System.Windows.Forms.TabPage();
             this.ImageGroupBox = new System.Windows.Forms.GroupBox();
             this.lblImageWith = new System.Windows.Forms.Label();
-            this.chkSkipNoImgChange = new System.Windows.Forms.CheckBox();
             this.txtImageWith = new System.Windows.Forms.TextBox();
             this.txtImageReplace = new System.Windows.Forms.TextBox();
             this.cmboImages = new System.Windows.Forms.ComboBox();
@@ -1906,7 +1906,8 @@ namespace AutoWikiBrowser
             this.chkAutoTagger.Size = new System.Drawing.Size(66, 17);
             this.chkAutoTagger.TabIndex = 0;
             this.chkAutoTagger.Text = "Auto tag";
-            this.ToolTip.SetToolTip(this.chkAutoTagger, "Automatically add {{orphan}}, {{deadend}}, {{wikify}} and {{stub}} tags when appropriate");
+            this.ToolTip.SetToolTip(this.chkAutoTagger, "Automatically add {{orphan}}, {{deadend}}, {{wikify}} and {{stub}} tags when appr" +
+                    "opriate");
             // 
             // chkUnicodifyWhole
             // 
@@ -2729,6 +2730,29 @@ namespace AutoWikiBrowser
             this.lblLinks.TabIndex = 1;
             this.lblLinks.Text = "Links:";
             // 
+            // chkSkipIfNoRegexTypo
+            // 
+            this.chkSkipIfNoRegexTypo.AutoSize = true;
+            this.chkSkipIfNoRegexTypo.Enabled = false;
+            this.chkSkipIfNoRegexTypo.Location = new System.Drawing.Point(6, 40);
+            this.chkSkipIfNoRegexTypo.Name = "chkSkipIfNoRegexTypo";
+            this.chkSkipIfNoRegexTypo.Size = new System.Drawing.Size(118, 17);
+            this.chkSkipIfNoRegexTypo.TabIndex = 2;
+            this.chkSkipIfNoRegexTypo.Text = "Skip if no typo fixed";
+            this.ToolTip.SetToolTip(this.chkSkipIfNoRegexTypo, "Automatically skip pages when no typo fixed");
+            // 
+            // chkSkipNoImgChange
+            // 
+            this.chkSkipNoImgChange.AutoSize = true;
+            this.chkSkipNoImgChange.Enabled = false;
+            this.chkSkipNoImgChange.Location = new System.Drawing.Point(7, 68);
+            this.chkSkipNoImgChange.Name = "chkSkipNoImgChange";
+            this.chkSkipNoImgChange.Size = new System.Drawing.Size(179, 17);
+            this.chkSkipNoImgChange.TabIndex = 4;
+            this.chkSkipNoImgChange.Text = "&Skip page when no file changed";
+            this.ToolTip.SetToolTip(this.chkSkipNoImgChange, "Automatically skips page if no file changed");
+            this.chkSkipNoImgChange.UseVisualStyleBackColor = true;
+            // 
             // txtEdit
             // 
             this.txtEdit.AcceptsTab = true;
@@ -3011,6 +3035,7 @@ namespace AutoWikiBrowser
             this.listMaker.SelectedProvider = "CategoryListProvider";
             this.listMaker.Size = new System.Drawing.Size(209, 356);
             this.listMaker.SourceText = "";
+            this.listMaker.SpecialFilterSettings = ((WikiFunctions.AWBSettings.SpecialFilterPrefs)(resources.GetObject("listMaker.SpecialFilterSettings")));
             this.listMaker.TabIndex = 0;
             // 
             // MainTab
@@ -3056,17 +3081,6 @@ namespace AutoWikiBrowser
             this.groupBox13.TabStop = false;
             this.groupBox13.Text = "Regex typo fixing";
             // 
-            // chkSkipIfNoRegexTypo
-            // 
-            this.chkSkipIfNoRegexTypo.AutoSize = true;
-            this.chkSkipIfNoRegexTypo.Enabled = false;
-            this.chkSkipIfNoRegexTypo.Location = new System.Drawing.Point(6, 40);
-            this.chkSkipIfNoRegexTypo.Name = "chkSkipIfNoRegexTypo";
-            this.chkSkipIfNoRegexTypo.Size = new System.Drawing.Size(118, 17);
-            this.chkSkipIfNoRegexTypo.TabIndex = 2;
-            this.chkSkipIfNoRegexTypo.Text = "Skip if no typo fixed";
-            this.ToolTip.SetToolTip(this.chkSkipIfNoRegexTypo, "Automatically skip pages when no typo fixed"); 
-			//
             // chkRegExTypo
             // 
             this.chkRegExTypo.AutoSize = true;
@@ -3131,7 +3145,7 @@ namespace AutoWikiBrowser
             this.btnMoreSkip.Name = "btnMoreSkip";
             this.btnMoreSkip.Size = new System.Drawing.Size(82, 40);
             this.btnMoreSkip.TabIndex = 3;
-            this.btnMoreSkip.Text = "General fixes skip options";
+            this.btnMoreSkip.Text = "Auto changes skip options";
             this.btnMoreSkip.Click += new System.EventHandler(this.btnMoreSkip_Click);
             // 
             // tpMoreOptions
@@ -3171,18 +3185,6 @@ namespace AutoWikiBrowser
             this.lblImageWith.TabIndex = 2;
             this.lblImageWith.Text = "&With File:";
             this.lblImageWith.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // chkSkipNoImgChange
-            // 
-            this.chkSkipNoImgChange.AutoSize = true;
-            this.chkSkipNoImgChange.Enabled = false;
-            this.chkSkipNoImgChange.Location = new System.Drawing.Point(7, 68);
-            this.chkSkipNoImgChange.Name = "chkSkipNoImgChange";
-            this.chkSkipNoImgChange.Size = new System.Drawing.Size(179, 17);
-            this.chkSkipNoImgChange.TabIndex = 4;
-            this.chkSkipNoImgChange.Text = "&Skip page when no file changed";
-            this.ToolTip.SetToolTip(this.chkSkipNoImgChange, "Automatically skips page if no file changed");
-            this.chkSkipNoImgChange.UseVisualStyleBackColor = true;
             // 
             // txtImageWith
             // 
@@ -3896,6 +3898,7 @@ namespace AutoWikiBrowser
             this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
             this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
             this.loggingSettings1.Name = "loggingSettings1";
+            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
             this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
             this.loggingSettings1.TabIndex = 0;
             // 
