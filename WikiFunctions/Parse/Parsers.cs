@@ -3235,9 +3235,9 @@ namespace WikiFunctions.Parse
                 return true;
             
             // second check: bold just after infobox
-            Regex BoldAfterInfobox = new Regex(WikiRegexes.InfoBox + @"\s*'''" + escapedTitle);
+            Regex boldAfterInfobox = new Regex(WikiRegexes.InfoBox + @"\s*'''" + escapedTitle);
             
-            return BoldAfterInfobox.IsMatch(articletextoriginal);
+            return boldAfterInfobox.IsMatch(articletextoriginal);
         }
 
         /// <summary>
@@ -4039,8 +4039,9 @@ namespace WikiFunctions.Parse
                 yearFromInfoBox = YearPossiblyWithBC.Match(fromInfoBox).Value;
 
             // birth
-            if (!WikiRegexes.BirthsCategory.IsMatch(articleText) && (PersonYearOfBirth.Matches(zerothSection).Count == 1 || WikiRegexes.DateBirthAndAge.IsMatch(zerothSection) || WikiRegexes.DeathDateAndAge.IsMatch(zerothSection)
-                                                                     || ThreeOrFourDigitNumber.IsMatch(yearFromInfoBox)))
+            if (!WikiRegexes.BirthsCategory.IsMatch(articleText) && (PersonYearOfBirth.Matches(zerothSection).Count == 1 
+                || WikiRegexes.DateBirthAndAge.IsMatch(zerothSection) || WikiRegexes.DeathDateAndAge.IsMatch(zerothSection)
+                || ThreeOrFourDigitNumber.IsMatch(yearFromInfoBox)))
             {
                 // look for '{{birth date...' template first
                 yearstring = WikiRegexes.DateBirthAndAge.Match(articleText).Groups[1].Value;
@@ -4087,8 +4088,6 @@ namespace WikiFunctions.Parse
                     && !(articleText.Contains(@"[[Category:Living people") && Convert.ToInt32(yearstring) < (DateTime.Now.Year - 121)))
                     articleText += "\r\n" + @"[[Category:" + yearstring + " births" + CatEnd(sort);
             }
-
-            // death
 
             // scrape any infobox
             yearFromInfoBox = "";
