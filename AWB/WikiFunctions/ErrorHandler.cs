@@ -9,7 +9,7 @@ using System.Web;
 using WikiFunctions.API;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-/// Don't use anything WikiFunctions-specific here, for source-compatibility with Updater  ///
+/* Don't use anything WikiFunctions-specific here, for source-compatibility with Updater  */
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 namespace WikiFunctions
@@ -183,6 +183,8 @@ namespace WikiFunctions
             return MethodNames(ex.StackTrace);
         }
 
+        private static readonly Regex StackTrace = new Regex(@"([a-zA-Z_0-9.`]+)(?=\()", RegexOptions.Compiled);
+
         /// <summary>
         /// Returns names of functions in stack trace of an exception
         /// </summary>
@@ -190,7 +192,7 @@ namespace WikiFunctions
         /// <returns>List of fully qualified function names</returns>
         public static string[] MethodNames(string stackTrace)
         {
-            MatchCollection mc = Regex.Matches(stackTrace, @"([a-zA-Z_0-9.`]+)(?=\()");
+            MatchCollection mc = StackTrace.Matches(stackTrace);
 
             string[] res = new string[mc.Count];
 
