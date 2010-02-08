@@ -109,6 +109,7 @@ namespace WikiFunctions.ReplaceSpecial
             readonly string template_;
             string text_;
             readonly string title_;
+            string result_ = "";
 
             public ParseTemplate(string template, string text, string title)
             {
@@ -117,36 +118,36 @@ namespace WikiFunctions.ReplaceSpecial
                 title_ = title;
             }
 
-            public string Parse(TreeNode tn)
+            public string Result { get { return result_; } }
+
+            public void Parse(TreeNode tn)
             {
-                string result= "";
                 for (; ; )
                 {
                     int i = text_.IndexOf("{{");
                     if (i < 0)
                     {
-                        return result + text_;
+                        result_ += text_;
+                        return;
                     }
 
                     i += 2;
-                    result += text_.Substring(0, i);
+                    result_ += text_.Substring(0, i);
 
                     text_ = text_.Substring(i);
                     Inside(tn);
                 }
             }
 
-            private string Inside(TreeNode tn)
+            private void Inside(TreeNode tn)
             {
                 bool checkDone = false, check = true;
-
-                string result = "";
 
                 for (; ; )
                 {
                     int i = text_.IndexOf("}}");
                     if (i < 0)
-                        return ""; // error: template not closed
+                        return; // error: template not closed
 
                     int j = text_.IndexOf("{{");
 
@@ -164,10 +165,16 @@ namespace WikiFunctions.ReplaceSpecial
                             checkDone = true;
                         }
 
-                        result = check ? ReplaceOn(template_, tn, t, title_) : t;
-
-                        result += "{{";
-                        result += Inside(tn);
+                        if (check)
+                        {
+                            result_ += ReplaceOn(template_, tn, t, title_);
+                        }
+                        else
+                        {
+                            result_ += t;
+                        }
+                        result_ += "{{";
+                        Inside(tn);
                         continue;
                     }
 
@@ -178,16 +185,16 @@ namespace WikiFunctions.ReplaceSpecial
                     if (checkDone)
                     {
                         if (check)
-                            result += ReplaceOn(template_, tn, t, title_);
+                            result_ += ReplaceOn(template_, tn, t, title_);
                         else
-                            result += t;
+                            result_ += t;
                     }
                     else
-                        result += ApplyOn(template_, tn, t, title_);
+                        result_ += ApplyOn(template_, tn, t, title_);
 
-                    result += "}}";
+                    result_ += "}}";
 
-                    return result;
+                    return;
 
                 }
             }
@@ -195,7 +202,11 @@ namespace WikiFunctions.ReplaceSpecial
 
         private static string ApplyInsideTemplate(string template, TreeNode tn, string text, string title)
         {
-            return new ParseTemplate(template, text, title).Parse(tn);
+            ParseTemplate p = new ParseTemplate(template, text, title);
+
+            p.Parse(tn);
+
+            return p.Result;
         }
 
         private static bool CheckIf(string template, string text)
