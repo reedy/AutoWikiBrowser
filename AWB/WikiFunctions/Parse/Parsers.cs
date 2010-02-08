@@ -3634,9 +3634,8 @@ namespace WikiFunctions.Parse
 
             string sort = GetCategorySort(articleText, articleTitle, out matches);
 
-            // limited support for {{Lifetime}}
             MatchCollection ds = WikiRegexes.Defaultsort.Matches(articleText);
-            if (WikiRegexes.Lifetime.IsMatch(articleText) || ds.Count > 1 || (ds.Count == 1 && !ds[0].Value.ToUpper().Contains("DEFAULTSORT")))
+            if (ds.Count > 1 || (ds.Count == 1 && !ds[0].Value.ToUpper().Contains("DEFAULTSORT")))
             {
                 bool allsame2 = false;
                 string lastvalue = "";
@@ -3828,8 +3827,7 @@ namespace WikiFunctions.Parse
             if (dateBirthAndAgeCount > 1 || dateDeathAndAgeCount > 1)
                 return false;
 
-            if (WikiRegexes.Lifetime.IsMatch(articleText)
-                || WikiRegexes.Persondata.Matches(articleText).Count == 1
+            if (WikiRegexes.Persondata.Matches(articleText).Count == 1
                 || articleText.Contains(@"-bio-stub}}")
                 || articleText.Contains(@"[[Category:Living people"))
                 return true;
@@ -4014,9 +4012,6 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string FixPeopleCategories(string articleText, string articleTitle, bool parseTalkPage)
         {
-            if (Variables.LangCode != "en" || WikiRegexes.Lifetime.IsMatch(articleText))
-                return YearOfBirthMissingCategory(articleText);
-
             // over 20 references or long and not DOB/DOD categorised at all yet: implausible
             if (WikiRegexes.Refs.Matches(articleText).Count > 20 || (articleText.Length > 15000 && !WikiRegexes.BirthsCategory.IsMatch(articleText)
                                                                      && !WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText)))
