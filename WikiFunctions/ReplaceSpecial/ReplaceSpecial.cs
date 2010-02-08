@@ -327,6 +327,12 @@ namespace WikiFunctions.ReplaceSpecial
         /// </summary>
         public bool HasRules { get { return NoOfRules != 0; } }
 
+        /// <summary>
+        /// Applys the Replace Special Rules
+        /// </summary>
+        /// <param name="text">Article title</param>
+        /// <param name="title">Article text</param>
+        /// <returns>Amended text</returns>
         public string ApplyRules(string text, string title)
         {
             foreach (TreeNode tn in RulesTreeView.Nodes)

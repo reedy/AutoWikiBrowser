@@ -88,10 +88,7 @@ namespace WikiFunctions.ReplaceSpecial
 
         public override string Apply(TreeNode tn, string text, string title)
         {
-            if (string.IsNullOrEmpty(text))
-                return text;
-
-            if (!enabled_)
+            if (!enabled || string.IsNullOrEmpty(text))
                 return text;
 
             foreach (string template in TemplateNames_)
