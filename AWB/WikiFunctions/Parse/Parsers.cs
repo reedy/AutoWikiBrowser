@@ -3634,14 +3634,6 @@ namespace WikiFunctions.Parse
 
             string sort = GetCategorySort(articleText, articleTitle, out matches);
 
-            // clean diacritics from any lifetime template
-            if (WikiRegexes.Lifetime.Matches(articleText).Count == 1)
-            {
-                Match m = WikiRegexes.Lifetime.Match(articleText);
-                articleText = articleText.Replace(m.Value, Tools.RemoveDiacritics(m.Value));
-                noChange = (testText == articleText);
-            }
-
             // limited support for {{Lifetime}}
             MatchCollection ds = WikiRegexes.Defaultsort.Matches(articleText);
             if (WikiRegexes.Lifetime.IsMatch(articleText) || ds.Count > 1 || (ds.Count == 1 && !ds[0].Value.ToUpper().Contains("DEFAULTSORT")))
@@ -3908,9 +3900,9 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text.</returns>
         public static string LivingPeople(string articleText)
         {
-            // don't add living people category if already dead, or thought to be dead, or there's a lifetime template
+            // don't add living people category if already dead, or thought to be dead
             if (WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) || WikiRegexes.LivingPeopleRegex2.IsMatch(articleText) ||
-                BornDeathRegex.IsMatch(articleText) || DiedDateRegex.IsMatch(articleText) || WikiRegexes.Lifetime.IsMatch(articleText))
+                BornDeathRegex.IsMatch(articleText) || DiedDateRegex.IsMatch(articleText))
                 return articleText;
 
             Match m = WikiRegexes.BirthsCategory.Match(articleText);
@@ -4178,8 +4170,6 @@ namespace WikiFunctions.Parse
                         articleText += "\r\n" + @"[[Category:" + deathyear + @" deaths" + CatEnd(sort);
                 }
             }
-
-            // TODO: check for lifetime and explicit XXX births/deaths categories and remove the categories if they co-incide
 
             // do this check last as IsArticleAboutAPerson can be relatively slow
             if (articleText != articleTextBefore && !IsArticleAboutAPerson(articleTextBefore, articleTitle, parseTalkPage))

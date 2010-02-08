@@ -1006,10 +1006,6 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             const string g = @"'''Fred Smith''' (born 1950) is a bloke.
 [[Category:1950 births|Smith, Fred]]
 [[Category:Year of death missing]]";
-            const string h = @"'''Fred Smith''' (born 1950) is a bloke. {{lifetime|||Smith}}";
-            const string g2 = @"'''Fred Smith''' (born 1950) is a bloke.
-[[Category:1950 births|Smith, Fred]]
-[[Category:Year of death unknown]]";
 
             Assert.AreEqual(a, Parsers.FixPeopleCategories(a, "foo"));
             Assert.AreEqual(b, Parsers.FixPeopleCategories(b, "foo"));
@@ -1628,12 +1624,6 @@ was [[foo|bar]] too"));
             // check correctly handles birth category with no year to parse
             const string d2 = @"Fred [[Category:15th-century births]]";
             Assert.AreEqual(d2, Parsers.LivingPeople(d2));
-
-            // ignores if {{lifetime}} present
-
-            const string d3 = @"Fred [[Category:1961 births]]
-{{Lifetime|1961||Clopatofsky Ghisays, Jairo}}";
-            Assert.AreEqual(d3, Parsers.LivingPeople(d3));
         }
 
         [Test]
@@ -4454,17 +4444,7 @@ foo
                                                         out noChange));
             Assert.IsTrue(noChange);
 
-            // {{Lifetime}} is not fully supported
-            Parsers.ChangeToDefaultSort("{{lifetime|blah}}[[Category:Test1|Foooo]][[Category:Test2|Foooo]]",
-                                        "Bar", out noChange);
-            Assert.IsTrue(noChange);
-
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#AWB_needs_to_handle_lifetime_template_correctly
             // pages with multiple sort specifiers shouldn't be changed
-            Parsers.ChangeToDefaultSort("{{DEFAULTSORT:Foo}}{{lifetime|Bar}}",
-                                        "Foo", out noChange);
-            Assert.IsTrue(noChange);
-            // continued...
             Parsers.ChangeToDefaultSort("{{defaultsort| Tést}}{{DEFAULTSORT: Tést}}", "Foo", out noChange);
             Assert.IsTrue(noChange);
 
@@ -4605,19 +4585,6 @@ foo {{persondata}}
 [[Category:All foos]]", "Category:Special foos", out noChange, false));
         }
 
-        [Test]
-        public void LifetimeDiacritics()
-        {
-            bool noChange;
-
-            Assert.AreEqual(@"{{Lifetime|1900|2000|Smithe, Fred}}",
-                            Parsers.ChangeToDefaultSort(@"{{Lifetime|1900|2000|Smithé, Fred}}", "Hi", out noChange));
-            Assert.IsFalse(noChange);
-
-            Assert.AreEqual(@"{{Lifetime|1900|2000|Smithe, Fred}}",
-                            Parsers.ChangeToDefaultSort(@"{{Lifetime|1900|2000|Smithe, Fred}}", "Hi", out noChange));
-            Assert.IsTrue(noChange);
-        }
 
         [Test]
         public void CategorySortKeyPartialCleaning()
@@ -4685,13 +4652,6 @@ foo {{persondata}}
             Assert.IsTrue(noChange);
 
 
-            // lifetime provides a defaultsort, no change
-            Assert.AreEqual(@"[[Category:Parishes in Asturias]]
-{{Lifetime|1833|1907|Bisson, Elie-Hercule}}",
-                            Parsers.ChangeToDefaultSort(@"[[Category:Parishes in Asturias]]
-{{Lifetime|1833|1907|Bisson, Elie-Hercule}}", "Abándames", out noChange));
-            Assert.IsTrue(noChange);
-
             // category sortkeys are cleaned too
             Assert.AreEqual(@"[[Category:Parishes of the Azores]]
 [[Category:São Miguel Island]]
@@ -4699,15 +4659,7 @@ foo {{persondata}}
 [[Category:São Miguel Island]]", @"Água Retorta", out noChange));
             Assert.IsFalse(noChange);
 
-            // lifetime provides a defaultsort, no change
-            Assert.AreEqual(@"[[Category:Parishes of the Azores]]
-[[Category:São Miguel Island]]
-{{Lifetime|1833|1907|Bisson, Elie-Hercule}}", Parsers.ChangeToDefaultSort(@"[[Category:Parishes of the Azores]]
-[[Category:São Miguel Island]]
-{{Lifetime|1833|1907|Bisson, Elie-Hercule}}", @"Água Retorta", out noChange));
-            Assert.IsTrue(noChange);
-
-            // else if no lifetime, use article name
+            // use article name
             Assert.AreEqual(@"[[Category:Parishes of the Azores]]
 [[Category:São Miguel Island]]
 {{DEFAULTSORT:Agua Retorta}}", Parsers.ChangeToDefaultSort(@"[[Category:Parishes of the Azores]]
@@ -4718,7 +4670,6 @@ foo {{persondata}}
         [Test]
         public void TestIsArticleAboutAPerson()
         {
-            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo {{Lifetime|||smith}}", "foo"));
             Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo {{persondata|name=smith}}", "foo"));
             Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:1900 deaths]]", "foo"));
             Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:1900 births]]", "foo"));
@@ -4740,7 +4691,6 @@ foo {{persondata}}
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[fictional character]] {{persondata|name=smith}}", "foo"));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[fictional character|character]] {{persondata|name=smith}}", "foo"));
             
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{Infobox fraternity|f=a}} {{Lifetime|||smith}}", "foo"));
 
             // multiple birth dates means not about one person
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"{{nat fs player|no=1|pos=GK|name=[[Meg]]|age={{Birth date|1956|01|01}} ({{Age at date|1956|01|01|1995|6|5}})|caps=|club=|clubnat=}}

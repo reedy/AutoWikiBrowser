@@ -546,16 +546,6 @@ namespace WikiFunctions
         public static readonly Regex CiteTemplate = new Regex(@"{{\s*([Cc]it[ae][^{}\|]*?)\s*(\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))?}}", RegexOptions.Compiled);
         
         /// <summary>
-        /// Matches {{lifetime}} and its aliases
-        /// </summary>
-        public static readonly Regex Lifetime = new Regex(@"{{\s*(?:[Ll]ifetime|BIRTH-DEATH-SORT|BD)\s*\|[^\}]*}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
-
-        /// <summary>
-        /// Matches the sorkey in a {{lifetime}} template and its aliases
-        /// </summary>
-        public static readonly Regex LifetimeSortkey = new Regex(@"{{\s*(?:[Ll]ifetime|BIRTH-DEATH-SORT|BD)\s*\|[^\}\|]*\|[^\}\|]*\|\s*([^\}\|]+?)\s*}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
-
-        /// <summary>
         /// Matches persondata (en only)
         /// </summary>
         public static readonly Regex Persondata = new Regex(@"{{\s*[Pp]ersondata((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})", RegexOptions.Singleline | RegexOptions.Compiled);
