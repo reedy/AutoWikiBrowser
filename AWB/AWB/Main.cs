@@ -2580,6 +2580,10 @@ window.scrollTo(0, diffTopY);
                 _minimize = myPrefs.PrefMinimize;
                 _saveArticleList = myPrefs.PrefSaveArticleList;
                 _autoSaveEditBoxEnabled = myPrefs.PrefAutoSaveEditBoxEnabled;
+
+                if (EditBoxSaveTimer.Enabled && !_autoSaveEditBoxEnabled)
+                    EditBoxSaveTimer.Enabled = false; 
+
                 AutoSaveEditBoxPeriod = myPrefs.PrefAutoSaveEditBoxPeriod;
                 _autoSaveEditBoxFile = myPrefs.PrefAutoSaveEditBoxFile;
                 _suppressUsingAWB = myPrefs.PrefSuppressUsingAWB;
