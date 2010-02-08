@@ -384,63 +384,6 @@ blah";
             Assert.AreEqual(a + "\r\n" + b + "\r\n" + c + "\r\n" + d, MetaDataSorter.MoveSeeAlso(a + "\r\n" + b + "\r\n" + c + "\r\n" + d));
         }
 
-        // {{Lifetime}} template lives after categories on en-wiki
-        [Test]
-        public void LifetimeTests()
-        {
-            string a = @"Fred is a doctor. Fred has a dog.
-{{Lifetime|1922|1987|Smith, Fred}}
-[[Category:Dog owners]]";
-            const string b = @"[[Category:Dog owners]]
-{{Lifetime|1922|1987|Smith, Fred}}
-";
-
-            Assert.AreEqual(b, parser2.Sorter.RemoveCats(ref a, "test"));
-
-            string c = @"Fred is a doctor. Fred has a dog.
-{{lifetime|1922|1987|Smith, Fred}}
-[[Category:Dog owners]]
-[[Category:Foo]]
-[[Category:Bar]]";
-            const string d = @"[[Category:Dog owners]]
-[[Category:Foo]]
-[[Category:Bar]]
-{{lifetime|1922|1987|Smith, Fred}}
-";
-
-            Assert.AreEqual(d, parser2.Sorter.RemoveCats(ref c, "test"));
-
-            string e = @"Fred is a doctor. Fred has a dog.
-{{BIRTH-DEATH-SORT|1922|1987|Smith, Fred}}
-[[Category:Dog owners]]
-[[Category:Foo]]
-[[Category:Bar]]";
-            const string f = @"[[Category:Dog owners]]
-[[Category:Foo]]
-[[Category:Bar]]
-{{BIRTH-DEATH-SORT|1922|1987|Smith, Fred}}
-";
-
-            Assert.AreEqual(f, parser2.Sorter.RemoveCats(ref e, "test"));
-
-            // normal spacing rules apply for {{lifetime}} 1 for interwikis, two for stubs
-            string g = @"{{Maroon 5}}
-
-{{Lifetime|1979||Carmichael, Jesse}}
-[[Category:American keyboardists]]
-[[Category:Maroon 5]]
-
-";
-
-            const string h = @"[[Category:American keyboardists]]
-[[Category:Maroon 5]]
-{{Lifetime|1979||Carmichael, Jesse}}
-";
-
-            Assert.AreEqual(h, parser2.Sorter.RemoveCats(ref g, "test"));
-
-        }
-
         [Test]
         public void CategoryAndCommentTests()
         {
