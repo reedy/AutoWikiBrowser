@@ -1013,8 +1013,6 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             Assert.AreEqual(e, Parsers.FixPeopleCategories(e, "foo"));
             Assert.AreEqual(f, Parsers.FixPeopleCategories(f, "foo"));
             Assert.AreEqual(g, Parsers.FixPeopleCategories(g, "foo"));
-            Assert.AreEqual(g2, Parsers.FixPeopleCategories(g2, "foo"));
-            Assert.AreEqual(h, Parsers.FixPeopleCategories(h, "foo"));
         }
         
         [Test]

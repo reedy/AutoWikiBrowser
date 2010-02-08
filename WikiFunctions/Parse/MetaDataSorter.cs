@@ -400,22 +400,7 @@ en, sq, ru
             }
             if (!string.IsNullOrEmpty(defaultSort)) defaultSort += "\r\n";
 
-            // on en-wiki find any {{Lifetime}} template and move directly after categories
-            string lifetime = "";
-            if (Variables.LangCode == "en")
-            {
-                lifetime = WikiRegexes.Lifetime.Match(articleText).Value;
-
-                if (!string.IsNullOrEmpty(lifetime))
-                {
-                    articleText = articleText.Replace(lifetime, "");
-
-                    // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#Blank_lines_after_Lifetime
-                    lifetime += "\r\n";
-                }
-            }
-
-            return defaultSort + ListToString(categoryList) + lifetime;
+            return defaultSort + ListToString(categoryList);
         }
         
         /// <summary>
