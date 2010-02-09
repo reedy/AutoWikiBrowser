@@ -639,6 +639,8 @@ fast„ "));
             Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> {{References}}"));
             Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> {{references}}"));
             Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> <references/>"));
+            Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> {{Listaref|2}}"));
+            Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> {{ listaref | 2}}"));
             Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"<references>
 <ref name =Fred>Fred</ref> </references>"));
 
