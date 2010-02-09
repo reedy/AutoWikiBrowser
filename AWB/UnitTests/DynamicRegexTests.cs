@@ -68,13 +68,17 @@ image = [[File:Test.JPG]]
   bar = a|
   img = [[File:Test.JPG]]
   | there=here}}");
-            RegexAssert.IsMatch(WikiRegexes.Images, @"{{Infobox foo|
+             RegexAssert.IsMatch(WikiRegexes.Images, @"{{Infobox foo|
   bar = a|
-  cover = [[File:Test.JPG]]
+  img = Test.JPEG
   | there=here}}");
             RegexAssert.IsMatch(WikiRegexes.Images, @"{{Infobox foo|
   bar = a|
-  cover art = [[File:Test.JPG]]
+  cover = [[Image:Test.JPG]]
+  | there=here}}");
+            RegexAssert.IsMatch(WikiRegexes.Images, @"{{Infobox foo|
+  bar = a|
+  cover art = Test2.png
   | there=here}}");
             RegexAssert.IsMatch(WikiRegexes.Images, @"{{Infobox foo|
   bar = a|
@@ -85,6 +89,11 @@ image = [[File:Test.JPG]]
   | there=here}}");
             RegexAssert.IsMatch(WikiRegexes.Images, @"{{Infobox foo|
   bar = a| map = [[File:Test.JPG]]
+  | there=here}}");
+            
+            RegexAssert.NoMatch(WikiRegexes.Images, @"{{Infobox foo|
+  bar = a|
+  strangename = Test.JPEG
   | there=here}}");
         }
         
