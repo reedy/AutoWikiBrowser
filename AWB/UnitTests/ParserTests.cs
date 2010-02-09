@@ -2127,6 +2127,8 @@ journal=Crypt of Cthulhu |volume= 3|issue= 3|pages = 140&#8209;7}}";
         public void FixSyntaxHTTPFormat()
         {
             Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http//www.site.com</ref>"));
+            Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http:://www.site.com</ref>"));
+            Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http:www.site.com</ref>"));
             Assert.AreEqual("at http://www.site.com", Parsers.FixSyntax(@"at http//www.site.com"));
             Assert.AreEqual("<ref>[http://www.site.com a website]</ref>",
                             Parsers.FixSyntax(@"<ref>[http:/www.site.com a website]</ref>"));
@@ -2153,6 +2155,20 @@ journal=Crypt of Cthulhu |volume= 3|issue= 3|pages = 140&#8209;7}}";
             Assert.AreEqual("the HTTP/1.2 protocol", Parsers.FixSyntax("the HTTP/1.2 protocol"));
             Assert.AreEqual(@"<ref>[http://cdiac.esd.ornl.gov/ftp/cdiac74/a.pdf chapter 5]</ref>",
                             Parsers.FixSyntax(@"<ref>[http://cdiac.esd.ornl.gov/ftp/cdiac74/a.pdf chapter 5]</ref>"));
+        }
+        
+        [Test]
+        public void TestFixSyntaxExternalLinkSpacing()
+        {
+            Assert.AreEqual(@"their new [http://www.site.com site]", Parsers.FixSyntax(@"their new[http://www.site.com site]"));
+            Assert.AreEqual(@"their new [http://www.site.com site] was", Parsers.FixSyntax(@"their new [http://www.site.com site]was"));
+            Assert.AreEqual(@"their new [http://www.site.com site] was", Parsers.FixSyntax(@"their new[http://www.site.com site]was"));
+            
+            Assert.AreEqual(@"their new [http://www.site.com site]", Parsers.FixSyntax(@"their new [http://www.site.com site]"));
+            Assert.AreEqual(@"their new [http://www.site.com site] was", Parsers.FixSyntax(@"their new [http://www.site.com site] was"));
+            
+            const string nochange1 = @"their [[play]]ers";
+            Assert.AreEqual(nochange1, Parsers.FixSyntax(nochange1));            
         }
 
         [Test, Category("Incomplete")]

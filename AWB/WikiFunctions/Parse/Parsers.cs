@@ -1739,7 +1739,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex MultipleHttpInLink = new Regex(@"([\s\[>=])((?:ht|f)tp:?/+)(\2)+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex PipedExternalLink = new Regex(@"(\[\w+://[^\]\[<>\""\s]*?\s*)(?: +\||\|([ ']))(?=[^\[\]\|]*\])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private static readonly Regex MissingColonInHttpLink = new Regex(@"([\s\[>=](?:ht|f))tp//?:?(\w+)", RegexOptions.Compiled);
+        private static readonly Regex MissingColonInHttpLink = new Regex(@"([\s\[>=](?:ht|f))tp(?://?:?|:(?::+//)?)(\w+)", RegexOptions.Compiled);
         private static readonly Regex SingleTripleSlashInHttpLink = new Regex(@"([\s\[>=](?:ht|f))tp:(?:/|///)(\w+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private static readonly Regex CellpaddingTypo = new Regex(@"({\s*\|\s*class\s*=\s*""wikitable[^}]*?)cel(?:lpa|pad?)ding\b", RegexOptions.IgnoreCase | RegexOptions.Singleline);
@@ -1762,6 +1762,10 @@ namespace WikiFunctions.Parse
 
         // refs with wording and bare link: combine the two
         private static readonly Regex WordingIntoBareExternalLinks = new Regex(@"(?<=<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*)([^<>{}\[\]\r\n]{3,70}?)[\.,::]?\s*\[\s*((?:[Hh]ttp|[Hh]ttps|[Ff]tp|[Mm]ailto)://[^\ \n\r<>]+)\s*\](?=\s*</ref>)", RegexOptions.Compiled);
+        
+        // space needed between word and external link
+        private static readonly Regex ExternalLinkWordSpacingBefore = new Regex(@"(\w)(?=\[(?:https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://.*?\])", RegexOptions.Compiled);        
+        private static readonly Regex ExternalLinkWordSpacingAfter = new Regex(@"(?<=\[(?:https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://.*?\])(\w)", RegexOptions.Compiled);
 
         // for correcting square brackets within external links
         private static readonly Regex SquareBracketsInExternalLinks = new Regex(@"(\[https?://(?>[^\[\]<>]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])", RegexOptions.Compiled);
@@ -1885,6 +1889,9 @@ namespace WikiFunctions.Parse
             articleText = IncorrectBr.Replace(articleText, "<br />");
 
             articleText = WordingIntoBareExternalLinks.Replace(articleText, @"[$2 $1]");
+            
+            articleText = ExternalLinkWordSpacingBefore.Replace(articleText, "$1 ");
+            articleText = ExternalLinkWordSpacingAfter.Replace(articleText, " $1");
 
             return articleText.Trim();
         }
