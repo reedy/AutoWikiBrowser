@@ -42,6 +42,9 @@ namespace WikiFunctions.API
     /// </remarks>
     public class ApiEdit : IApiEdit
     {
+        /// <summary>
+        /// 
+        /// </summary>
         private ApiEdit()
         {
             Cookies = new CookieContainer();
@@ -62,7 +65,7 @@ namespace WikiFunctions.API
         /// Creates a new instance of the ApiEdit class
         /// </summary>
         /// <param name="url">Path to scripts on server</param>
-        /// <param name="usePHP5"></param>
+        /// <param name="usePHP5">Whether a .php5 extension is to be used</param>
         public ApiEdit(string url, bool usePHP5)
             : this()
         {
