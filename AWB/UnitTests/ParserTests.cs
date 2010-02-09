@@ -2170,6 +2170,19 @@ journal=Crypt of Cthulhu |volume= 3|issue= 3|pages = 140&#8209;7}}";
             const string nochange1 = @"their [[play]]ers";
             Assert.AreEqual(nochange1, Parsers.FixSyntax(nochange1));            
         }
+        
+        [Test]
+        public void FixImagesBr()
+        {            
+            Assert.AreEqual(@"[[File:Foo.png|description]]", Parsers.FixSyntax(@"[[File:Foo.png|description<br>]]"));
+            Assert.AreEqual(@"[[File:Foo.png|description]]", Parsers.FixSyntax(@"[[File:Foo.png|description<br >]]"));
+            Assert.AreEqual(@"[[File:Foo.png|description]]", Parsers.FixSyntax(@"[[File:Foo.png|description<br/>]]"));
+            Assert.AreEqual(@"[[File:Foo.png|description]]", Parsers.FixSyntax(@"[[File:Foo.png|description<BR>]]"));
+            Assert.AreEqual(@"[[File:Foo.png|description]]", Parsers.FixSyntax(@"[[File:Foo.png|description<br />]]"));
+            
+            const string nochange1 = @"[[File:Foo.png|description<br>here]]";
+            Assert.AreEqual(nochange1, Parsers.FixSyntax(nochange1));
+        }
 
         [Test, Category("Incomplete")]
         public void TestFixSyntax()

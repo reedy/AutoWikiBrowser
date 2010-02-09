@@ -1767,6 +1767,8 @@ namespace WikiFunctions.Parse
         private static readonly Regex ExternalLinkWordSpacingBefore = new Regex(@"(\w)(?=\[(?:https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://.*?\])", RegexOptions.Compiled);        
         private static readonly Regex ExternalLinkWordSpacingAfter = new Regex(@"(?<=\[(?:https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://.*?\])(\w)", RegexOptions.Compiled);
 
+        private static readonly Regex WikilinkEndsBr = new Regex(@"<br[\s/]*>\]\]$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        
         // for correcting square brackets within external links
         private static readonly Regex SquareBracketsInExternalLinks = new Regex(@"(\[https?://(?>[^\[\]<>]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])", RegexOptions.Compiled);
 
@@ -1892,6 +1894,13 @@ namespace WikiFunctions.Parse
             
             articleText = ExternalLinkWordSpacingBefore.Replace(articleText, "$1 ");
             articleText = ExternalLinkWordSpacingAfter.Replace(articleText, " $1");
+            
+            // WP:CHECKWIKI 065 – http://toolserver.org/~sk/cgi-bin/checkwiki/checkwiki.cgi?project=enwiki&view=only&id=65
+            foreach (Match m in WikiRegexes.FileNamespaceLink.Matches(articleText))
+            {
+                if(WikilinkEndsBr.IsMatch(m.Value))
+                    articleText = articleText.Replace(m.Value, WikilinkEndsBr.Replace(m.Value, @"]]"));
+            }
 
             return articleText.Trim();
         }

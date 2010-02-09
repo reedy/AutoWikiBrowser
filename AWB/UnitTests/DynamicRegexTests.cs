@@ -118,6 +118,8 @@ Foo.JPEG
         public void LooseImageTests()
         {
             RegexAssert.IsMatch(WikiRegexes.LooseImage, "[[File:Test.JPG]]");
+            RegexAssert.IsMatch(WikiRegexes.LooseImage, "[[ File:Test.JPG]]");
+            RegexAssert.IsMatch(WikiRegexes.LooseImage, "[[ File :Test.JPG]]");
             RegexAssert.IsMatch(WikiRegexes.LooseImage, "[[File:Test.jpg]]");
             RegexAssert.IsMatch(WikiRegexes.LooseImage, "[[File:Test of the.ogg]]");
             RegexAssert.IsMatch(WikiRegexes.LooseImage, "[[File:Test_of_the.ogg]]");
@@ -127,6 +129,24 @@ Foo.JPEG
             RegexAssert.IsMatch(WikiRegexes.LooseImage, @"[[Image:Test here.png|right|200px|Some description [[here]] or there
  over lines]]");
             RegexAssert.NoMatch(WikiRegexes.LooseImage, "[[File:Test.JPG");
+        }
+        
+        [Test]
+        public void FileNamespaceLinkTests()
+        {
+            RegexAssert.IsMatch(WikiRegexes.FileNamespaceLink, "[[File:Test.JPG]]");
+            RegexAssert.IsMatch(WikiRegexes.FileNamespaceLink, "[[ File:Test.JPG]]");
+            RegexAssert.IsMatch(WikiRegexes.FileNamespaceLink, "[[ File :Test.JPG]]");
+            RegexAssert.IsMatch(WikiRegexes.FileNamespaceLink, "[[File:Test.jpg]]");
+            RegexAssert.IsMatch(WikiRegexes.FileNamespaceLink, "[[File:Test of the.ogg]]");
+            RegexAssert.IsMatch(WikiRegexes.FileNamespaceLink, "[[File:Test_of_the.ogg]]");
+            RegexAssert.IsMatch(WikiRegexes.FileNamespaceLink, "[[Image:Test.JPG]]");
+            RegexAssert.IsMatch(WikiRegexes.FileNamespaceLink, "[[Image:Test here.png|right|200px|Some description [[here]] or there]]");
+            RegexAssert.IsMatch(WikiRegexes.FileNamespaceLink, @"[[Image:Test here.png|right|200px|Some description [[here]] or there
+ over lines]]");
+            
+            RegexAssert.NoMatch(WikiRegexes.FileNamespaceLink, "[[File:Test.JPG");            
+            RegexAssert.NoMatch(WikiRegexes.FileNamespaceLink, "[[File Test.JPG]]");
         }
 
         public void StubTests()
