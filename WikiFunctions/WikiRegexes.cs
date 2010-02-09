@@ -46,9 +46,12 @@ namespace WikiFunctions
             // @"[^\[\]\|\{\}]+\.[a-zA-Z]{3,4}\b(?:\s*(?:\]\]|\|))
             Images =
                 new Regex(
-                    @"\[\[" + Variables.NamespacesCaseInsensitive[Namespace.File] +
+                    @"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.File] +
                     @"[ \%\!""$&'\(\)\*,\-.\/0-9:;=\?@A-Z\\\^_`a-z~\x80-\xFF\+]+\.[a-zA-Z]{3,4}\b(?:\s*(?:\]\]|\|))?|<[Gg]allery\b([^>]*?)>[\s\S]*?</ ?[Gg]allery>|\|\s*(?:[Pp]hoto|[Ii]mg|[Ii]mage\d*|[Cc]over|[Mm]ap)(?:[_ ]\w+)?\s*=[^\|{}]+?\.[a-zA-Z]{3,4}\s*(?=\||}})",
                     RegexOptions.Compiled | RegexOptions.Singleline);
+            
+            FileNamespaceLink = new Regex(@"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.File] +
+                                          @"((?>[^\[\]]+|\[\[(?<DEPTH>)|\]\](?<-DEPTH>))*(?(DEPTH)(?!)))\]\]", RegexOptions.Compiled);
 
             Stub = new Regex(@"{{.*?" + Variables.Stub + @"}}", RegexOptions.Compiled);
 
@@ -401,9 +404,14 @@ namespace WikiFunctions
         public static Regex Category;
 
         /// <summary>
-        /// Matches images
+        /// Matches images (file namespace links and parameters in infoboxes etc.)
         /// </summary>
         public static Regex Images;
+        
+        /// <summary>
+        /// Matches links to the file namespace (images etc.)
+        /// </summary>
+        public static Regex FileNamespaceLink;
 
         /// <summary>
         /// Matches disambig templates (en only)
