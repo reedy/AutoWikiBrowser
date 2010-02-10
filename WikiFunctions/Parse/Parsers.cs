@@ -4549,6 +4549,7 @@ namespace WikiFunctions.Parse
         {
             // check if not orphaned
             bool orphaned;
+            int incomingLinks = 0;
 #if DEBUG
             if (Globals.UnitTestMode)
             {
@@ -4559,7 +4560,8 @@ namespace WikiFunctions.Parse
             {
                 try
                 {
-                    orphaned = (WlhProv.MakeList(Namespace.Article, articleTitle).Count < MinIncomingLinksToBeConsideredAnOrphan);
+                    incomingLinks = WlhProv.MakeList(Namespace.Article, articleTitle).Count;
+                    orphaned = (incomingLinks < MinIncomingLinksToBeConsideredAnOrphan);
                 }
                 catch (Exception ex)
                 {
