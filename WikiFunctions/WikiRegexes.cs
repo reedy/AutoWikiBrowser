@@ -846,8 +846,13 @@ namespace WikiFunctions
         /// <summary>
         /// matches "ibid" and "op cit"
         /// </summary>
-        public static readonly Regex IbidOpCitation = new Regex(@"(?is)\b(ibid|op.{1,4}cit)\b", RegexOptions.Compiled);
+        public static readonly Regex IbidOpCitation = new Regex(@"\b(ibid|op.{1,4}cit)\b", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
+        /// <summary>
+        /// Matches the {{Ibid}} template
+        /// </summary>
+        public static readonly Regex Ibid = new Regex(@"{{\s*[Ii]bid\s*(?:\|.*?)?}}", RegexOptions.Singleline);
+        
         /// <summary>
         /// Matches the {{Inuse}} template
         /// </summary>
