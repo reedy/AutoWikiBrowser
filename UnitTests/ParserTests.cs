@@ -2167,8 +2167,11 @@ journal=Crypt of Cthulhu |volume= 3|issue= 3|pages = 140&#8209;7}}";
             Assert.AreEqual(@"their new [http://www.site.com site]", Parsers.FixSyntax(@"their new [http://www.site.com site]"));
             Assert.AreEqual(@"their new [http://www.site.com site] was", Parsers.FixSyntax(@"their new [http://www.site.com site] was"));
             
-            const string nochange1 = @"their [[play]]ers";
-            Assert.AreEqual(nochange1, Parsers.FixSyntax(nochange1));            
+            Assert.AreEqual(@"their new [http://www.site.com site] was [[blog]]ger then", Parsers.FixSyntax(@"their new [http://www.site.com site] was [[blog]]ger then"));
+            
+            const string nochange1 = @"their [[play]]ers", nochange2 = @"ts borders.<ref>[http://cyber.law.harvard.edu/filtering/a/ Saudi Arabia]</ref> A Saudi";
+            Assert.AreEqual(nochange1, Parsers.FixSyntax(nochange1));
+            Assert.AreEqual(nochange2, Parsers.FixSyntax(nochange2));
         }
         
         [Test]
