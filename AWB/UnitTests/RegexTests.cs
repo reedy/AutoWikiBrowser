@@ -709,6 +709,35 @@ fast„ "));
             
             Assert.IsFalse(WikiRegexes.RefAfterReflist.IsMatch(bug1));
         }
+        
+        [Test]
+        public void IbidOpCitation()
+        {
+            Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"ibid"));
+            Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"Ibid"));
+            Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"IBID"));            
+            Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"op cit"));
+            Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"Op.cit"));
+            Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"Op. cit"));
+            Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"Op 
+cit"));
+            
+            Assert.IsFalse(WikiRegexes.IbidOpCitation.IsMatch(@"Libid was"));
+            Assert.IsFalse(WikiRegexes.IbidOpCitation.IsMatch(@"The op was later cit"));
+        }
+        
+        [Test]
+        public void Ibid()
+        {
+             Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid}}"));
+             Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ Ibid }}"));
+             Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid|date=May 2009}}"));
+             Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid|date=May 2009|foo=bar}}"));
+             
+             Assert.IsFalse(WikiRegexes.Ibid.IsMatch(@"Libid was"));
+             Assert.IsFalse(WikiRegexes.Ibid.IsMatch(@"{{IBID}}"));
+             Assert.IsFalse(WikiRegexes.Ibid.IsMatch(@"{{Ibidate}}"));
+        }
 
         [Test]
         public void DablinksTests()
