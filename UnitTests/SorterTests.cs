@@ -294,38 +294,67 @@ some words"));
         [Test]
         public void MoveMoreNoFootnotesTests()
         {
-            const string a = @"{{nofootnotes}}";
-            const string a2 = @"{{Morefootnotes}}";
-
-            const string b = @"
+            const string a = @"{{nofootnotes}}", a2 = @"{{Morefootnotes}}", b = @"
 '''Article''' words.
 == section ==
 words.
 ";
             const string c = @"== References ==
-";
-            const string d = @"== Notes ==
-";
-            const string e = @"== Footnotes ==
-";
-
-            const string f = @"'''Article''' words.
+", d = @"== Notes ==
+", e = @"== Footnotes ==
+", f = @"'''Article''' words.
 == section ==
 {{nofootnotes}}
 words.
 ";
             const string g = @"words";
 
-            Assert.AreEqual(b + c + a + "\r\n" + g, MetaDataSorter.MoveMoreNoFootnotes(a + b + c + g));
-            Assert.AreEqual(b + d + a + "\r\n" + g, MetaDataSorter.MoveMoreNoFootnotes(a + b + d + g));
-            Assert.AreEqual(b + e + a + "\r\n" + g, MetaDataSorter.MoveMoreNoFootnotes(a + b + e + g));
-            Assert.AreEqual(b + e + a + "\r\n", MetaDataSorter.MoveMoreNoFootnotes(a + b + e));
-            Assert.AreEqual(b + e + a2 + "\r\n", MetaDataSorter.MoveMoreNoFootnotes(a2 + b + e));
+            Assert.AreEqual(b + c + a + "\r\n" + g, MetaDataSorter.MoveTemplateToReferencesSection(a + b + c + g, WikiFunctions.WikiRegexes.MoreNoFootnotes, true));
+            Assert.AreEqual(b + d + a + "\r\n" + g, MetaDataSorter.MoveTemplateToReferencesSection(a + b + d + g, WikiFunctions.WikiRegexes.MoreNoFootnotes, true));
+            Assert.AreEqual(b + e + a + "\r\n" + g, MetaDataSorter.MoveTemplateToReferencesSection(a + b + e + g, WikiFunctions.WikiRegexes.MoreNoFootnotes, true));
+            Assert.AreEqual(b + e + a + "\r\n", MetaDataSorter.MoveTemplateToReferencesSection(a + b + e, WikiFunctions.WikiRegexes.MoreNoFootnotes, true));
+            Assert.AreEqual(b + e + a2 + "\r\n", MetaDataSorter.MoveTemplateToReferencesSection(a2 + b + e, WikiFunctions.WikiRegexes.MoreNoFootnotes, true));
+            Assert.AreEqual(b + e + a2 + "\r\n", MetaDataSorter.MoveTemplateToReferencesSection(a2 + b + e, WikiFunctions.WikiRegexes.MoreNoFootnotes, false));
 
             // not moved if outside zeroth section
-            Assert.AreEqual(f + c + g, MetaDataSorter.MoveMoreNoFootnotes(f + c + g));
-            Assert.AreEqual(f + d + g, MetaDataSorter.MoveMoreNoFootnotes(f + d + g));
-            Assert.AreEqual(f + e + g, MetaDataSorter.MoveMoreNoFootnotes(f + e + g));
+            Assert.AreEqual(f + c + g, MetaDataSorter.MoveTemplateToReferencesSection(f + c + g, WikiFunctions.WikiRegexes.MoreNoFootnotes, true));
+            Assert.AreEqual(f + d + g, MetaDataSorter.MoveTemplateToReferencesSection(f + d + g, WikiFunctions.WikiRegexes.MoreNoFootnotes, true));
+            Assert.AreEqual(f + e + g, MetaDataSorter.MoveTemplateToReferencesSection(f + e + g, WikiFunctions.WikiRegexes.MoreNoFootnotes, true));
+        }
+        
+        [Test]
+        public void MoveIbidTests()
+        {
+            const string a = @"{{Ibid|date=May 2009}}", b = @"
+'''Article''' words<ref>ibid</ref>.
+== section ==
+words.
+", c = @"== References ==
+", d = @"== Notes ==
+", e = @"== Footnotes ==
+", f = @"'''Article''' words.
+== section ==
+{{Ibid|date=May 2009}}
+words.
+";
+            const string g = @"more words";
+
+            Assert.AreEqual(b + c + a + "\r\n" + g, MetaDataSorter.MoveTemplateToReferencesSection(a + b + c + g, WikiFunctions.WikiRegexes.Ibid, true));
+            Assert.AreEqual(b + d + a + "\r\n" + g, MetaDataSorter.MoveTemplateToReferencesSection(a + b + d + g, WikiFunctions.WikiRegexes.Ibid, true));
+            Assert.AreEqual(b + e + a + "\r\n" + g, MetaDataSorter.MoveTemplateToReferencesSection(a + b + e + g, WikiFunctions.WikiRegexes.Ibid, true));
+            Assert.AreEqual(b + e + a + "\r\n", MetaDataSorter.MoveTemplateToReferencesSection(a + b + e, WikiFunctions.WikiRegexes.Ibid, true));
+            
+            Assert.AreEqual(b + c + a + "\r\n" + g, MetaDataSorter.MoveTemplateToReferencesSection(a + b + c + g, WikiFunctions.WikiRegexes.Ibid, false));
+            Assert.AreEqual(b + d + a + "\r\n" + g, MetaDataSorter.MoveTemplateToReferencesSection(a + b + d + g, WikiFunctions.WikiRegexes.Ibid, false));
+            Assert.AreEqual(b + e + a + "\r\n" + g, MetaDataSorter.MoveTemplateToReferencesSection(a + b + e + g, WikiFunctions.WikiRegexes.Ibid));
+            Assert.AreEqual(b + e + a + "\r\n", MetaDataSorter.MoveTemplateToReferencesSection(a + b + e, WikiFunctions.WikiRegexes.Ibid));
+            
+            // outside zeroth section – okay
+            Assert.AreEqual(@"'''Article''' words.
+== section ==
+
+words.
+" + c + a + "\r\n" + g, MetaDataSorter.MoveTemplateToReferencesSection(f + c + g, WikiFunctions.WikiRegexes.Ibid, false));
         }
 
         [Test]

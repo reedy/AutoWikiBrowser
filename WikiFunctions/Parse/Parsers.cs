@@ -4431,6 +4431,8 @@ namespace WikiFunctions.Parse
 
             // do orphan tagging before template analysis for categorisation tags
             articleText = TagOrphans(articleText, articleTitle);
+            
+            articleText = TagRefsIbid(articleText);
 
             // skip article if contains any template except for stub templates
             // because templates may provide categories/references
@@ -4580,6 +4582,23 @@ namespace WikiFunctions.Parse
                 articleText = WikiRegexes.Orphan.Replace(articleText, "");
                 tagsRemoved.Add("orphan");
             }
+            return articleText;
+        }
+        
+        private static readonly Regex IbidOpCitRef = new Regex(@"<\s*ref\b[^<>]*>\s*(ibid\.?|op\.?\s*cit\.?|loc\.?\s*cit\.?)\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        /// <summary>
+        /// Tags references of 'ibid' with the {{ibid}} cleanup template, en-wiki mainspace only
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <returns></returns>
+        private string TagRefsIbid(string articleText)
+        {
+            if(Variables.LangCode == "en" && IbidOpCitRef.IsMatch(articleText) && !WikiRegexes.Ibid.IsMatch(articleText))   
+            {
+                tagsAdded.Add("Ibid");
+                return articleText + @"{{Ibid|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
+            }
+            
             return articleText;
         }
 
