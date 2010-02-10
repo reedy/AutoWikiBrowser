@@ -4538,6 +4538,7 @@ namespace WikiFunctions.Parse
         private static readonly WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider WlhProv = new WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider(MinIncomingLinksToBeConsideredAnOrphan);
 
         private const int MinIncomingLinksToBeConsideredAnOrphan = 3;
+        private static readonly Regex Rq = new Regex(@"{{\s*[Rr]q\s*(?:\|.*?)?}}", RegexOptions.Singleline);
 
         /// <summary>
         /// 
@@ -4570,6 +4571,13 @@ namespace WikiFunctions.Parse
                     ErrorHandler.CurrentPage = articleTitle;
                     ErrorHandler.Handle(ex);
                 }
+            }
+            
+            if(Variables.LangCode == "ru" && incomingLinks == 0 && Rq.Matches(articleText).Count == 1)
+            {
+                string RqText = Rq.Match(articleText).Value;
+                if(!RqText.Contains("linkless"))
+                    return articleText.Replace(RqText, RqText.Replace(@"}}", @"|linkless}}"));
             }
 
             // add orphan tag if applicable, and no disambig
