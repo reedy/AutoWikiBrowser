@@ -599,53 +599,66 @@ en, sq, ru
         private static readonly Regex FootnotesSectionRegex = new Regex(@"^== *[Ff]ootnotes *==\s*", RegexOptions.Multiline);
 
         /// <summary>
-        /// Moves any {{nofootnotes}} or {{morefootnotes}} to the references section from the zeroth section, if present (en only)
+        /// Moves given template to the references section from the zeroth section, if present (en only)
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
-        /// <returns>Article text with {{nofootnotes}} or {{morefootnotes}} template correctly placed</returns>
-        public static string MoveMoreNoFootnotes(string articleText)
+        /// <param name="TemplateRegex">A Regex to match the template to move</param>
+        /// <param name="onlyfromzerothsection">Whether to check only the zeroth section of the article for the template</param>
+        /// <returns>Article text with template correctly placed</returns>
+        public static string MoveTemplateToReferencesSection(string articleText, Regex TemplateRegex, bool onlyfromzerothsection)
         {
             // no support for more than one of these templates in the article
-            string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
-            if (WikiRegexes.MoreNoFootnotes.Matches(zerothSection).Count != 1)
+            if(TemplateRegex.Matches(articleText).Count != 1)
                 return articleText;
+            
+            if(onlyfromzerothsection)
+            {
+                string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
+                if (TemplateRegex.Matches(zerothSection).Count != 1)
+                    return articleText;
+            }
 
             // find the template position
-            int moreNoFootnotesPosition = WikiRegexes.MoreNoFootnotes.Match(articleText).Index;
+            int templatePosition = TemplateRegex.Match(articleText).Index;
 
             // the template must be in one of the 'References', 'Notes' or 'Footnotes' section
             int referencesSectionPosition = ReferencesSectionRegex.Match(articleText).Index;
 
-            if (referencesSectionPosition > 0 && moreNoFootnotesPosition < referencesSectionPosition)
-                return MoveMoreNoFootnotesToSection(articleText, 1);
+            if (referencesSectionPosition > 0 && templatePosition < referencesSectionPosition)
+                return MoveTemplateToSection(articleText, TemplateRegex, 1);
 
             int notesSectionPosition = NotesSectionRegex.Match(articleText).Index;
 
-            if (notesSectionPosition > 0 && moreNoFootnotesPosition < notesSectionPosition)
-                return MoveMoreNoFootnotesToSection(articleText, 2);
+            if (notesSectionPosition > 0 && templatePosition < notesSectionPosition)
+                return MoveTemplateToSection(articleText, TemplateRegex, 2);
 
             int footnotesSectionPosition = FootnotesSectionRegex.Match(articleText).Index;
 
-            if (footnotesSectionPosition > 0 && moreNoFootnotesPosition < footnotesSectionPosition)
-                return MoveMoreNoFootnotesToSection(articleText, 3);
+            if (footnotesSectionPosition > 0 && templatePosition < footnotesSectionPosition)
+                return MoveTemplateToSection(articleText, TemplateRegex, 3);
 
             return articleText;
         }
+        
+        public static string MoveTemplateToReferencesSection(string articleText, Regex TemplateRegex)
+        {
+            return MoveTemplateToReferencesSection(articleText, TemplateRegex, false);
+        }
 
-        private static string MoveMoreNoFootnotesToSection(string articleText, int section)
+        private static string MoveTemplateToSection(string articleText, Regex TemplateRegex, int section)
         {
             // extract the template
-            string moreNoFootnotes = WikiRegexes.MoreNoFootnotes.Match(articleText).Value;
-            articleText = articleText.Replace(moreNoFootnotes, "");
+            string extractedTemplate = TemplateRegex.Match(articleText).Value;
+            articleText = articleText.Replace(extractedTemplate, "");
 
             switch (section)
             {
                 case 1:
-                    return ReferencesSectionRegex.Replace(articleText, "$0" + moreNoFootnotes + "\r\n");
+                    return ReferencesSectionRegex.Replace(articleText, "$0" + extractedTemplate + "\r\n");
                 case 2:
-                    return NotesSectionRegex.Replace(articleText, "$0" + moreNoFootnotes + "\r\n");
+                    return NotesSectionRegex.Replace(articleText, "$0" + extractedTemplate + "\r\n");
                 case 3:
-                    return FootnotesSectionRegex.Replace(articleText, "$0" + moreNoFootnotes + "\r\n");
+                    return FootnotesSectionRegex.Replace(articleText, "$0" + extractedTemplate + "\r\n");
                 default:
                     return articleText;
             }

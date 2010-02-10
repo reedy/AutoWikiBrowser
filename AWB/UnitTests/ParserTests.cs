@@ -5838,5 +5838,24 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             string notredirect = @"Now foo bar";
             Assert.AreEqual(notredirect, Parsers.RedirectTagger(notredirect, "Foo bar"));
         }
+        
+        [Test]
+        public void TagRefsIbid()
+        {
+            string summary = "";
+            string returned = parser.Tagger(@"now<ref>ibid</ref> was", "test", ref summary);
+            
+            Assert.IsTrue(returned.Contains(@"{{Ibid|date="));
+            Assert.IsTrue(summary.Contains("Ibid"));
+            
+            returned = parser.Tagger(@"now<ref name=""again"">ibid</ref> was", "test", ref summary);
+            
+            Assert.IsTrue(returned.Contains(@"{{Ibid|date="));
+            Assert.IsTrue(summary.Contains("Ibid"));
+            
+            returned = parser.Tagger(@"now<ref>foo</ref> was", "test", ref summary);
+            Assert.IsFalse(returned.Contains(@"{{Ibid|date="));
+            Assert.IsFalse(summary.Contains("Ibid"));
+        }
     }
 }
