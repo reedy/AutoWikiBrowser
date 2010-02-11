@@ -4924,6 +4924,17 @@ foo {{persondata}}
 <ref name=modern>{{cite news |first=William }}
         }}"));
         }
+        
+        [Test]
+        public void IsMissingReferencesDisplayTestsEnOnly()
+        {
+            Variables.SetProjectLangCode("fr");
+            
+            Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref>"));
+            Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref name=""F"">Fred</ref>"));
+            
+            Variables.SetProjectLangCode("en");
+        }
 
         [Test]
         public void InfoboxTests()
