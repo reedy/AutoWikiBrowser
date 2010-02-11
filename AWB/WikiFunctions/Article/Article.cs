@@ -1074,6 +1074,8 @@ namespace WikiFunctions
 
             CiteTemplateDates(parsers, skip.SkipNoCiteTemplateDatesFixed);
             Variables.Profiler.Profile("CiteTemplateDates");
+            
+            AWBChangeArticleText("Redirect tagger", Parsers.RedirectTagger(ArticleText, Name), false);
 
             BulletExternalLinks(skip.SkipNoBulletedLink);
             Variables.Profiler.Profile("BulletExternalLinks");
