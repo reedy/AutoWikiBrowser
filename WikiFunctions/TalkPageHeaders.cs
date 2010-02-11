@@ -94,6 +94,9 @@ namespace WikiFunctions.TalkPages
                     }
                 }
             }
+            
+            articleText = AddMissingFirstCommentHeader(articleText, ref summary);
+            
             return pr.FoundTalkHeader || pr.FoundSkipTOC || pr.FoundDefaultSort;
         }
 
@@ -165,6 +168,31 @@ namespace WikiFunctions.TalkPages
                 AppendToSummary(ref summary, "{{tl|Talk header}} given top billing");
             }
             
+            return articleText;
+        }
+        
+        private static readonly Regex FirstComment = new Regex(@"^\s*[:\*\w']", RegexOptions.Compiled | RegexOptions.Multiline);
+        
+        /// <summary>
+        /// Adds a section 2 heading before the first comment if the talk page does not have one
+        /// </summary>
+        /// <param name="articleText">The talk page text</param>
+        /// <param name="summary">the edit summary</param>
+        /// <returns>The updated article text</returns>
+        private static string AddMissingFirstCommentHeader(string articleText, ref string summary)
+        {
+            if(FirstComment.IsMatch(articleText))
+            {
+                int firstCommentIndex = FirstComment.Match(articleText).Index;                
+                
+                int firstLevelTwoHeading = WikiRegexes.HeadingLevelTwo.IsMatch(articleText) ? WikiRegexes.HeadingLevelTwo.Match(articleText).Index : 99999999;
+                
+                if (firstCommentIndex < firstLevelTwoHeading)
+                {
+                    AppendToSummary(ref summary, "Added missing comments section header");
+                    articleText = articleText.Insert(firstCommentIndex, "==Untitled==\r\n");
+                }
+            }
             return articleText;
         }
     }

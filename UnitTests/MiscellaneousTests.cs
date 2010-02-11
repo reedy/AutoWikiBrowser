@@ -589,12 +589,16 @@ Image:quux[http://example.com]
     [TestFixture]
     public class TalkHeaderTests : RequiresInitialization
     {
+        const string articleTextHeader = @"{{talkheader|noarchive=no}}
+[[Category:Foo bar]]";
+        string newSummary = "";
+        
         [Test]
         public void MoveTalkHeader()
         {
             string talkheader = @"{{talk header|noarchive=no|search=no|arpol=no|wp=no|disclaimer=no|shortcut1|shortcut2}}", talkrest = @"==hello==
 hello talk";
-            string articleText = talkrest + "\r\n" + talkheader, newSummary = "";
+            string articleText = talkrest + "\r\n" + talkheader;
             
             TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
             
@@ -629,5 +633,103 @@ hello talk";
             Assert.IsTrue(newSummary.Contains("{{tl|Talk header}} given top billing"));
         }
         
+        [Test]
+        public void AddMissingFirstCommentHeader()
+        {
+            const string comment = @"
+Hello world comment.";
+            string newSummary = "";
+            string articleTextIn = articleTextHeader + comment;
+            
+            // plain comment
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
+            
+            Assert.AreEqual(articleTextIn, articleTextHeader + @"
+==Untitled==
+Hello world comment.");
+            Assert.IsTrue(newSummary.Contains("Added missing comments section header"));
+            
+            // idented comment2
+            articleTextIn = articleTextHeader + @"
+*Hello world comment2.";
+            newSummary = "";
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
+            
+            Assert.AreEqual(articleTextIn, articleTextHeader + @"
+==Untitled==
+*Hello world comment2.");
+            Assert.IsTrue(newSummary.Contains("Added missing comments section header"));
+            
+            // idented comment3
+            articleTextIn = articleTextHeader + @"
+:Hello world comment3.";
+            newSummary = "";
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
+            
+            Assert.AreEqual(articleTextIn, articleTextHeader + @"
+==Untitled==
+:Hello world comment3.");
+            Assert.IsTrue(newSummary.Contains("Added missing comments section header"));
+        }
+        
+         [Test]
+        public void AddMissingFirstCommentHeaderNoChanges()
+        {
+            // no change – header already
+            string articleTextIn = articleTextHeader + @"
+==Question==
+:Hello world comment3.";
+            
+            newSummary = "";
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
+            
+            Assert.AreEqual(articleTextIn, articleTextHeader + @"
+==Question==
+:Hello world comment3.");
+            Assert.IsFalse(newSummary.Contains("Added missing comments section header"));
+            
+            // no change – already header at top
+            articleTextIn = @"
+{{Some template}}
+==Question==
+:Hello world comment3.";
+            
+            newSummary = "";
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
+            
+            Assert.AreEqual(@"
+{{Some template}}
+==Question==
+:Hello world comment3.", articleTextIn);
+            Assert.IsFalse(newSummary.Contains("Added missing comments section header"));
+            
+            // no change – already header at top 2
+            articleTextIn = @"
+==Question==
+{{Some template}}
+:Hello world comment3.";
+            
+            newSummary = "";
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
+            
+            Assert.AreEqual(@"
+==Question==
+{{Some template}}
+:Hello world comment3.", articleTextIn);
+            Assert.IsFalse(newSummary.Contains("Added missing comments section header"));
+            
+            // no change – no comments
+                  articleTextIn = @"
+==Question==
+{{Some template}}";
+            
+            newSummary = "";
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
+            
+            Assert.AreEqual(@"
+==Question==
+{{Some template}}", articleTextIn);
+            Assert.IsFalse(newSummary.Contains("Added missing comments section header"));
+        }        
     }
 }
