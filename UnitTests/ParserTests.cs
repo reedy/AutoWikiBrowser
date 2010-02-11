@@ -5713,11 +5713,12 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         {
             const string a1 = @"{{Wikify}} {{expand}}", a2 = @" {{COI}}", a3 = @" the article";
             const string a4 = @" {{COI|date=May 2008}}", a5 = @"{{Article issues|POV|prose|spam}} ";
-            const string a4A = @" {{COI|Date=May 2008}}";
+            const string a4A = @" {{COI|Date=May 2008}}", a4B= @"{{COI|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
 
             // adding new {{article issues}}
             Assert.IsTrue(parser.ArticleIssues(a1 + a2 + a3).Contains(@"{{Article issues|wikify|expand|COI}}"));
             Assert.IsTrue(parser.ArticleIssues(a1 + a4 + a3).Contains(@"{{Article issues|wikify|expand|COI date=May 2008}}"));
+            Assert.IsTrue(parser.ArticleIssues(a1 + a4B + a3).Contains(@"{{Article issues|wikify|expand|COI date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
 
             // amend existing {{article issues}}
             Assert.IsTrue(parser.ArticleIssues(a5 + a1 + a2 + a3).Contains(@"{{Article issues|POV|prose|spam|wikify|expand|COI"));
