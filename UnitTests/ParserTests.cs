@@ -5368,6 +5368,38 @@ asdfasdf}} was here", "foo"));
             text = parser.Tagger(ShortText, "Test", out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
         }
+        
+        [Test]
+        public void AddLinklessRu()
+        {
+            Variables.SetProjectLangCode("ru");
+            Globals.UnitTestBoolValue = true;
+            
+            const string textIn = @"Foo bar {{rq|wikify|style}} here",  textIn2 = @"Foo bar";
+            
+            // standard case -- add pararmeter
+            string text = parser.Tagger(textIn, "Test", out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsTrue(text.Contains(@"{{rq|wikify|style|linkless}}"));
+            
+            // no {{Rq}} to update
+           
+            text = parser.Tagger(textIn2, "Test", out noChange, ref summary);
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsFalse(text.Contains(@"|linkless}}"));
+            
+            // multiple {{Rq}} -- don't change
+             text = parser.Tagger(textIn + textIn, "Test", out noChange, ref summary);
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsFalse(text.Contains(@"|linkless}}"));
+            
+            Variables.SetProjectLangCode("en");
+            
+            // non-ru operation            
+            text = parser.Tagger(textIn, "Test", out noChange, ref summary);
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsFalse(text.Contains(@"{{rq|wikify|style|linkless}}"));
+        }
 
         private const string ShortText =
             @"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet tortor nec neque faucibus pharetra. Fusce lorem arcu, tempus et, imperdiet a, commodo a, pede. Nulla sit amet turpis gravida elit dictum cursus. Praesent tincidunt velit eu urna.";
