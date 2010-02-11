@@ -396,17 +396,17 @@ namespace WikiFunctions
                 "volgota.com",
                 "wikireality.ru"
             };
-        
+#if DEBUG
         /// <summary>
         /// Sets the language code of the current project
         /// </summary>
         /// <param name="langCode">The new language code to use</param>
+        /// <remarks>Do not use this outside unit tests</remarks>
         public static void SetProjectLangCode(string langCode)
         {
-            #if DEBUG
             LangCode = langCode;
-            #endif
         }
+#endif
 
         /// <summary>
         /// Sets different language variables, such as namespaces. Default is english Wikipedia
