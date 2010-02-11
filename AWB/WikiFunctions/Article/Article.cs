@@ -584,11 +584,14 @@ namespace WikiFunctions
 
             bool farMadeMajorChanges = (testText != strTemp && majorChangesMade);
 
-            strTemp = replaceSpecial.ApplyRules(strTemp, Name);
+            string strTemp2 = replaceSpecial.ApplyRules(strTemp, Name);
 
-            strTemp = substTemplates.SubstituteTemplates(strTemp, Name);
+            strTemp2 = substTemplates.SubstituteTemplates(strTemp2, Name);
 
-            if (testText == strTemp)
+            if (!farMadeMajorChanges && strTemp2 != strTemp) //override minor changes if other replcements did something
+                farMadeMajorChanges = true;
+
+            if (testText == strTemp2)
             {
                 if (skipIfNoChange)
                     Trace.AWBSkipped("No Find And Replace Changes");
@@ -602,7 +605,7 @@ namespace WikiFunctions
             else
             {
                 AWBChangeArticleText("Find and replace applied" + tmpEditSummary,
-                                     Tools.ConvertToLocalLineEndings(strTemp), true);
+                                     Tools.ConvertToLocalLineEndings(strTemp2), true);
                 AppendToSummary(tmpEditSummary);
             }
         }
