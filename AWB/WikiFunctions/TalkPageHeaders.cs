@@ -108,7 +108,7 @@ namespace WikiFunctions.TalkPages
                 summary += ", ";
 
             summary += newText;
-            }
+        }
         
         // Helper routines:
         private static string SetDefaultSort(string key, DEFAULTSORT location, string articleText, ref string summary)
