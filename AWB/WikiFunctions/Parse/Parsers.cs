@@ -2065,7 +2065,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex CiteTemplatesPageRangeName = new Regex(@"(\|\s*)page(\s*=\s*\d+\s*–\s*\d)", RegexOptions.Compiled);
 
         private static readonly Regex AccessDateYear = new Regex(@"(?<=\|\s*accessdate\s*=\s*(?:[1-3]?\d\s+" + WikiRegexes.MonthsNoGroup + @"|\s*" + WikiRegexes.MonthsNoGroup + @"\s+[1-3]?\d))(\s*)\|\s*accessyear\s*=\s*(20[01]\d)\s*(\||}})", RegexOptions.Compiled);
-        private static readonly Regex AccessDayMonthDay = new Regex(@"\|\s*access(?:daymonth|month(?:day)|year)\s*=\s*(?=\||}})", RegexOptions.Compiled);
+        private static readonly Regex AccessDayMonthDay = new Regex(@"\|\s*access(?:daymonth|month(?:day)?|year)\s*=\s*(?=\||}})", RegexOptions.Compiled);
         private static readonly Regex DateLeadingZero = new Regex(@"(?<=\|\s*(?:access|archive)?date\s*=\s*)(?:0([1-9]\s+" + WikiRegexes.MonthsNoGroup + @")|(\s*" + WikiRegexes.MonthsNoGroup + @"\s)+0([1-9],?))(\s+20[01]\d)?(\s*\||}})", RegexOptions.Compiled);
         private static readonly Regex YearInDate = new Regex(@"(\|\s*)date(\s*=\s*[12]\d{3}\s*)(?=\||}})", RegexOptions.Compiled);
         private static readonly Regex ISODateInYear = new Regex(@"(\|\s*)year(\s*=\s*(?:20\d\d|1[6-9]\d\d)-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])\s*)(?=\||}})", RegexOptions.Compiled);
@@ -2183,7 +2183,7 @@ namespace WikiFunctions.Parse
 
                 if (Regex.IsMatch(templatename, @"[Cc]ite(?: ?web| book| news)"))
                 {
-                    // remove any empty accessdaymonth, accessmonthday and accessyear
+                    // remove any empty accessdaymonth, accessmonthday, accessmonth and accessyear
                     newValue = AccessDayMonthDay.Replace(newValue, "");
 
                     // merge accessdate of 'D Month' or 'Month D' and accessyear of 'YYYY' in cite web
