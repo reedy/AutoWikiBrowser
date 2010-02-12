@@ -181,18 +181,20 @@ namespace WikiFunctions.TalkPages
         /// <returns>The updated article text</returns>
         private static string AddMissingFirstCommentHeader(string articleText, ref string summary)
         {
-            if(FirstComment.IsMatch(articleText))
+            // don't match on lines within templates
+            if(!FirstComment.IsMatch(WikiRegexes.NestedTemplates.Replace(articleText, "{{a}}")))
+                return articleText;            
+            
+            int firstCommentIndex = FirstComment.Match(articleText).Index;
+            
+            int firstLevelTwoHeading = WikiRegexes.HeadingLevelTwo.IsMatch(articleText) ? WikiRegexes.HeadingLevelTwo.Match(articleText).Index : 99999999;
+            
+            if (firstCommentIndex < firstLevelTwoHeading)
             {
-                int firstCommentIndex = FirstComment.Match(articleText).Index;                
-                
-                int firstLevelTwoHeading = WikiRegexes.HeadingLevelTwo.IsMatch(articleText) ? WikiRegexes.HeadingLevelTwo.Match(articleText).Index : 99999999;
-                
-                if (firstCommentIndex < firstLevelTwoHeading)
-                {
-                    AppendToSummary(ref summary, "Added missing comments section header");
-                    articleText = articleText.Insert(firstCommentIndex, "==Untitled==\r\n");
-                }
+                AppendToSummary(ref summary, "Added missing comments section header");
+                articleText = articleText.Insert(firstCommentIndex, "==Untitled==\r\n");
             }
+            
             return articleText;
         }
     }
