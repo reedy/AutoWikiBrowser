@@ -143,7 +143,7 @@ namespace UnitTests
         [Test, Ignore("Too slow")]
         public void TurnFirstToUpper2()
         {
-        	Variables.SetProject("en", ProjectEnum.wiktionary);
+        	//Variables.SetProject("en", ProjectEnum.wiktionary); // TODO --cannot change project in this way in unit tests
         	Assert.AreEqual("test", Tools.TurnFirstToUpper("test"));
         	Assert.AreEqual("Test", Tools.TurnFirstToUpper("Test"));
         }
