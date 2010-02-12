@@ -730,6 +730,21 @@ Hello world comment.");
 ==Question==
 {{Some template}}", articleTextIn);
             Assert.IsFalse(newSummary.Contains("Added missing comments section header"));
+            
+            // no change – only text in template
+                  articleTextIn = @"
+{{foo|
+bar|
+end}}";
+            
+            newSummary = "";
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
+            
+            Assert.AreEqual(@"
+{{foo|
+bar|
+end}}", articleTextIn);
+            Assert.IsFalse(newSummary.Contains("Added missing comments section header"));
         }        
     }
 }
