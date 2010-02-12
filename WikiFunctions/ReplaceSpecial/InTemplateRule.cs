@@ -161,7 +161,7 @@ namespace WikiFunctions.ReplaceSpecial
 
                         if (!checkDone)
                         {
-                            check = CheckIf(template_, t);
+                            check = TemplateUsedInText(template_, t);
                             checkDone = true;
                         }
 
@@ -209,16 +209,23 @@ namespace WikiFunctions.ReplaceSpecial
             return p.Result;
         }
 
-        private static bool CheckIf(string template, string text)
+        /// <summary>
+        /// Returns whether the input template name is used in the input text
+        /// </summary>
+        /// <param name="template">The template name</param>
+        /// <param name="text">The template text</param>
+        /// <returns></returns>
+        public static bool TemplateUsedInText(string template, string text)
         {
             if (string.IsNullOrEmpty(template))
                 return true;
 
-            string pattern =
-              "^[\\s]*" + Tools.CaseInsensitive(template) + "[\\s]*(\\}\\}|\\|)";
+            string pattern = @"^\s*" + Tools.CaseInsensitive(template) + @"\s*(?:}}|\|)";
 
+            // allow match on spaces or underscores
             pattern = pattern.Replace(" ", "[ _]+");
 
+            // don't match on comments
             text = WikiRegexes.Comments.Replace(text, "");
 
             return Regex.IsMatch(text, pattern);
@@ -252,7 +259,7 @@ namespace WikiFunctions.ReplaceSpecial
 
         private static string ApplyOn(string template, TreeNode tn, string text, string title)
         {
-            return !CheckIf(template, text) ? text : ReplaceOn(template, tn, text, title);
+            return !TemplateUsedInText(template, text) ? text : ReplaceOn(template, tn, text, title);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using WikiFunctions;
 using WikiFunctions.TalkPages;
 using WikiFunctions.Parse;
+using WikiFunctions.ReplaceSpecial;
 using NUnit.Framework;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
@@ -757,6 +758,55 @@ __TOC__";
             Assert.AreEqual(@"
 __TOC__", articleTextIn);
             Assert.IsFalse(newSummary.Contains("Added missing comments section header"));
+        }
+    }
+    
+    [TestFixture]
+    public class InTemplateRuleTests
+    {
+        [Test]
+        public void TemplateUsedInText()
+        {
+            // casing
+            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"Bert}} was great"));
+            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"bert}} was great"));
+            Assert.IsTrue(InTemplateRule.TemplateUsedInText("bert", @"Bert}} was great"));
+            Assert.IsTrue(InTemplateRule.TemplateUsedInText("bert", @"bert}} was great"));
+            
+            //spacing
+            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"Bert }} was great"));
+            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @" Bert}} was great"));
+            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"Bert|fo=yes}} was great"));
+            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"Bert
+|fo=yes}} was great"));
+            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"Bert |fo=yes}} was great"));
+            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @" Bert|fo=yes}} was great"));
+            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"
+    Bert|fo=yes}} was great"));
+            
+            //comments
+            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"Bert|fo=yes}} was <!--great-->"));
+            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert", @"<!--thing--> Bert }} was great"));
+            
+            Assert.IsTrue(InTemplateRule.TemplateUsedInText("", @"Bert}} was great"));
+            
+            // underscores
+            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert Li", @"Bert Li}} was great"));
+            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert Li", @"Bert   Li}} was great"));
+            Assert.IsTrue(InTemplateRule.TemplateUsedInText("Bert Li", @"Bert_Li}} was great"));
+        }
+        
+        [Test]
+        public void TemplateUsedInTextNoMatches()
+        {
+            Assert.IsFalse(InTemplateRule.TemplateUsedInText("Bert", @"{{Bert}} was great"));
+            Assert.IsFalse(InTemplateRule.TemplateUsedInText("Bert", @"Bert was great"));
+            Assert.IsFalse(InTemplateRule.TemplateUsedInText("Bert", @"[[Bert]] was great"));
+            Assert.IsFalse(InTemplateRule.TemplateUsedInText("Bert", @"Tim}} was great"));
+            Assert.IsFalse(InTemplateRule.TemplateUsedInText("Bert", @"BERT}} was great"));
+            Assert.IsFalse(InTemplateRule.TemplateUsedInText("Bert Li", @"BertLi}} was great"));
+            
+            Assert.IsFalse(InTemplateRule.TemplateUsedInText("Bert", @"<!--Bert}}--> was great"));
         }
     }
 }
