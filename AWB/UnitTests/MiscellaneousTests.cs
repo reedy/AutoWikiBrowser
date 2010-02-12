@@ -644,7 +644,7 @@ Hello world comment.";
             // plain comment
             TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
             
-            Assert.AreEqual(articleTextIn, articleTextHeader + @"
+            Assert.AreEqual(articleTextIn, articleTextHeader + "\r\n" + @"
 ==Untitled==
 Hello world comment.");
             Assert.IsTrue(newSummary.Contains("Added missing comments section header"));
@@ -655,7 +655,7 @@ Hello world comment.");
             newSummary = "";
             TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
             
-            Assert.AreEqual(articleTextIn, articleTextHeader + @"
+            Assert.AreEqual(articleTextIn, articleTextHeader +"\r\n" + @"
 ==Untitled==
 *Hello world comment2.");
             Assert.IsTrue(newSummary.Contains("Added missing comments section header"));
@@ -666,7 +666,7 @@ Hello world comment.");
             newSummary = "";
             TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
             
-            Assert.AreEqual(articleTextIn, articleTextHeader + @"
+            Assert.AreEqual(articleTextIn, articleTextHeader + "\r\n" + @"
 ==Untitled==
 :Hello world comment3.");
             Assert.IsTrue(newSummary.Contains("Added missing comments section header"));
