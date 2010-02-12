@@ -192,7 +192,7 @@ namespace WikiFunctions.TalkPages
             if (firstCommentIndex < firstLevelTwoHeading)
             {
                 AppendToSummary(ref summary, "Added missing comments section header");
-                articleText = articleText.Insert(firstCommentIndex, "==Untitled==\r\n");
+                articleText = articleText.Insert(firstCommentIndex, "\r\n==Untitled==\r\n");
             }
             
             return articleText;
