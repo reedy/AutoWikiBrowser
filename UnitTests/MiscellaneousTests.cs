@@ -745,6 +745,17 @@ end}}";
 bar|
 end}}", articleTextIn);
             Assert.IsFalse(newSummary.Contains("Added missing comments section header"));
-        }        
+            
+            // no change – only TOC
+            articleTextIn = @"
+__TOC__";
+            
+            newSummary = "";
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
+            
+            Assert.AreEqual(@"
+__TOC__", articleTextIn);
+            Assert.IsFalse(newSummary.Contains("Added missing comments section header"));
+        }
     }
 }
