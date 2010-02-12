@@ -434,9 +434,10 @@ Image:quux[http://example.com]
             Assert.AreEqual(Namespace.Project, Namespace.Determine("Project:Foo"));
         }
 
-        [Test, Ignore("feature not implemented")]
+        [Test]
         public void DetermineDeviations()
         {
+            Assert.AreEqual(Namespace.File, Namespace.Determine("File : foo"));
             Assert.AreEqual(Namespace.User, Namespace.Determine("user:foo"));
             Assert.AreEqual(Namespace.UserTalk, Namespace.Determine("user_talk:foo"));
             Assert.AreEqual(Namespace.UserTalk, Namespace.Determine("user%20talk:foo"));
