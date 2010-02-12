@@ -105,6 +105,11 @@ namespace WikiFunctions.TalkPages
             return WikiRegexes.Defaultsort.Replace(articleText, "{{DEFAULTSORT:${key}}}");
         }
 
+        /// <summary>
+        /// Appends the input text to the input edit summary (comma separated clauses)
+        /// </summary>
+        /// <param name="summary">the edit summary to update</param>
+        /// <param name="newText">the text to append</param>
         private static void AppendToSummary(ref string summary, string newText)
         {
             if (!string.IsNullOrEmpty(summary))
@@ -138,6 +143,12 @@ namespace WikiFunctions.TalkPages
             return articleText;
         }
 
+        /// <summary>
+        /// Writes the input template to the top of the input page; updates the input edit summary
+        /// </summary>
+        /// <param name="name">template name to write</param>
+        /// <param name="articleText">article text to update</param>
+        /// <param name="summary">edit summary to update</param>
         private static void WriteHeaderTemplate(string name, ref string articleText, ref string summary)
         {
             articleText = "{{" + name + "}}\r\n" + articleText;
