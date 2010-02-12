@@ -74,11 +74,14 @@ namespace WikiFunctions
 
         // Covered by: NamespaceTests.Determine
         /// <summary>
-        /// Deduces the namespace number.
-        /// TODO: doesn't recognise acceptable deviations such as "template:foo" or "Category : bar"
+        /// Deduces the namespace number from the input article title.
         /// </summary>
         public static int Determine(string articleTitle)
         {
+            articleTitle = Tools.TurnFirstToUpper(Regex.Replace(articleTitle, @"\s*:\s*", ":"));
+            
+            articleTitle = Tools.WikiDecode(articleTitle);
+            
             if (!articleTitle.Contains(":"))
                 return 0;
 
