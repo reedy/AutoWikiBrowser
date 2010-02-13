@@ -727,7 +727,10 @@ namespace WikiFunctions.Parse
 
                     if (name2.Equals(refName) && namedRefValue.Length >= 25)
                     {
-                        // duplicate citation fixer (both named): <ref name="Fred">(...)</ref>....<ref name="Fred">\2</ref> --> ..<ref name="Fred"/>, minimum 25 characters to avoid short refs
+                    	if(m.Index > articleText.Length)
+                    		continue;
+                    	
+                        // duplicate citation fixer (both named): <ref name="Fred">(...)</ref>....<ref name="Fred">\2</ref> --> ..<ref name="Fred"/>, minimum 25 characters to avoid short refs                        
                         string texttomatch = articleText.Substring(0, m.Index);
                         string textaftermatch = articleText.Substring(m.Index);
 
