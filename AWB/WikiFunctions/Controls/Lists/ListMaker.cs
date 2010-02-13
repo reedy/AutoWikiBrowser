@@ -259,13 +259,16 @@ namespace WikiFunctions.Controls.Lists
         public bool Remove(Article item)
         {
             if (lbArticles.Items.Contains(item))
-            {
-                while (lbArticles.SelectedItems.Count > 0)
-                    lbArticles.SetSelected(lbArticles.SelectedIndex, false);
-
+            {            
                 txtPage.Text = item.Name;
 
-                int intPosition = lbArticles.Items.IndexOf(item);
+                int intPosition = 0;
+                
+                // if replacing the second instance of the article in the list maker avoid jumping selected article to the first
+                if(lbArticles.SelectedItems.Count == 1 && lbArticles.SelectedItems.Contains(item))
+                    intPosition = lbArticles.SelectedIndex;
+                else
+                    intPosition = lbArticles.Items.IndexOf(item);
 
                 lbArticles.Items.Remove(item);
 
@@ -933,19 +936,24 @@ namespace WikiFunctions.Controls.Lists
         }
 
         /// <summary>
-        /// Replaces one article in the list with another, in the same place
+        /// Replaces one article in the list with another, in the same place        /// 
         /// </summary>
         public void ReplaceArticle(Article oldArticle, Article newArticle)
         {
-            int intPos = lbArticles.Items.IndexOf(oldArticle);
+            int intPos = 0;
+            
+            // if replacing the second instance of the article in the list maker avoid jumping selected article to the first
+            // if the selected article is the oldArticle
+            if(lbArticles.SelectedItems.Count == 1 && lbArticles.SelectedItems.Contains(oldArticle))
+                intPos = lbArticles.SelectedIndex;
+            else
+                lbArticles.Items.IndexOf(oldArticle);
 
-            Remove(oldArticle);
-            lbArticles.Items.Insert(intPos, newArticle);
-
+            lbArticles.Items.Remove(oldArticle);
             lbArticles.ClearSelected();
+            lbArticles.Items.Insert(intPos, newArticle);            
 
             // set current position by index of new article rather than name in case new entry already exists earlier in list
-            //lbArticles.SelectedItem = newArticle;
             lbArticles.SetSelected(intPos, true);
         }
 
