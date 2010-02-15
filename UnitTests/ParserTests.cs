@@ -4409,6 +4409,15 @@ foo
     [TestFixture]
     public class UtilityFunctionTests : RequiresParser
     {
+        [SetUp]
+        public void SetUp()
+        {
+#if DEBUG
+            Variables.SetProjectLangCode("en");
+#endif
+        }
+
+
         [Test]
         public void ChangeToDefaultSort()
         {
@@ -4938,12 +4947,13 @@ foo {{persondata}}
         [Test]
         public void IsMissingReferencesDisplayTestsEnOnly()
         {
+#if DEBUG
             Variables.SetProjectLangCode("fr");
             
             Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref>"));
             Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref name=""F"">Fred</ref>"));
             
-            Variables.SetProjectLangCode("en");
+#endif
         }
 
         [Test]
@@ -5244,6 +5254,14 @@ asdfasdf}} was here", "foo"));
         Deadend = "{{Deadend|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
         Stub = "{{stub}}";
 
+        [SetUp]
+        public void SetUp()
+        {
+#if DEBUG
+            Variables.SetProjectLangCode("en");
+#endif
+        }
+
         [Test]
         public void Add()
         {
@@ -5393,6 +5411,7 @@ asdfasdf}} was here", "foo"));
         [Test]
         public void AddLinklessRu()
         {
+#if DEBUG
             Variables.SetProjectLangCode("ru");
             Globals.UnitTestBoolValue = true;
             
@@ -5420,6 +5439,7 @@ asdfasdf}} was here", "foo"));
             text = parser.Tagger(textIn, "Test", out noChange, ref summary);
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
             Assert.IsFalse(text.Contains(@"{{rq|wikify|style|linkless}}"));
+#endif
         }
 
         private const string ShortText =
@@ -5857,6 +5877,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         [Test]
         public void ArticleIssuesEnOnly()
         {
+#if DEBUG
             Variables.SetProjectLangCode("fr");
             
             const string a1 = @"{{Wikify}} {{expand}}", a2 = @" {{COI}}", a3 = @" the article";
@@ -5867,6 +5888,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Variables.SetProjectLangCode("en");
             
             Assert.IsTrue(parser.ArticleIssues(a1 + a2 + a3).Contains(@"{{Article issues|wikify|expand|COI}}"));
+#endif
         }
         
         [Test]
