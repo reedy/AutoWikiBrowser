@@ -1989,6 +1989,11 @@ journal=Crypt of Cthulhu #19: A Pulp Thriller and Theological Journal |volume=vo
 journal=Crypt of Cthulhu #19: A Pulp Thriller and Theological Journal |volume=special numbers 3–4|url=http://www.clare.ltd.new.net/cryptofcthulhu/blreanimator.htm}}";
 
             Assert.AreEqual(nochange1, Parsers.FixCitationTemplates(nochange1));
+            
+            string nochange2 = @"*{{cite journal|first=Robert M.|last=Price|year=Candlemas 1984|title=Brian Lumley&mdash;Reanimator|
+journal=Crypt of Cthulhu #19: |volume=3 Issue 3|url=http://www.clare.ltd.new.net/cryptofcthulhu/blreanimator.htm|issue=December}} Robert M. Price (ed.), Bloomfield, NJ";
+            
+            Assert.AreEqual(nochange2, Parsers.FixCitationTemplates(nochange2));
         }
 
         [Test]
