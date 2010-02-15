@@ -2174,7 +2174,9 @@ namespace WikiFunctions.Parse
                 {
                     newValue = CiteTemplatesJournalVolume.Replace(newValue, "");
                     newValue = CiteTemplatesJournalIssue.Replace(newValue, "");
-                    newValue = CiteTemplatesJournalVolumeAndIssue.Replace(newValue, @"| issue = ");
+                    
+                    if(Tools.GetTemplateParameterValue(newValue, "issue").Length ==0)
+                        newValue = CiteTemplatesJournalVolumeAndIssue.Replace(newValue, @"| issue = ");
                 }
 
                 // {{cite web}} for Google books -> {{cite book}}
