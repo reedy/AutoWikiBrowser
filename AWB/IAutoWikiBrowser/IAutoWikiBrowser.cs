@@ -40,7 +40,7 @@ namespace AutoWikiBrowser
          * the code is here and ready to go. */
 
         // Fire GetLogUploadLocations event
-        internal void GetLogUploadLocationsEvent(object sender, List<WikiFunctions.Logging.Uploader.LogEntry> locations)
+        internal void RaiseGetLogUploadLocationsEvent(object sender, List<WikiFunctions.Logging.Uploader.LogEntry> locations)
         {
             if (GetLogUploadLocations != null)
                 GetLogUploadLocations(this, locations);
