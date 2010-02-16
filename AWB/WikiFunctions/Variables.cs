@@ -387,7 +387,6 @@ namespace WikiFunctions
             SetProject(langCode, projectName, "");
         }
 
-
         static readonly string[] AttackSites = new[]
             {
                 "encyclopediadramatica",
@@ -396,6 +395,7 @@ namespace WikiFunctions
                 "volgota.com",
                 "wikireality.ru"
             };
+
 #if DEBUG
         /// <summary>
         /// Sets the language code of the current project
