@@ -371,7 +371,7 @@ namespace AutoWikiBrowser
 
                 // If "uploading to WikiProjects" (or other plugin-specified locations), get details from plugins:
                 if (uploadToWikiProjects)
-                    ((MainForm)Program.AWB).GetLogUploadLocationsEvent(this, tempLinksToLog);
+                    ((MainForm)Program.AWB).RaiseGetLogUploadLocationsEvent(this, tempLinksToLog);
 
                 return tempLinksToLog;
             }
