@@ -43,6 +43,7 @@
             this.SingleLineCheckBox = new System.Windows.Forms.CheckBox();
             this.MultiLineCheckBox = new System.Windows.Forms.CheckBox();
             this.CaseSensitiveCheckBox = new System.Windows.Forms.CheckBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.GroupNumber)).BeginInit();
             this.menu.SuspendLayout();
             this.SuspendLayout();
@@ -58,6 +59,7 @@
             // 
             // RegexTextBox
             // 
+            this.RegexTextBox.ContextMenuStrip = this.menu;
             this.RegexTextBox.Location = new System.Drawing.Point(59, 12);
             this.RegexTextBox.Name = "RegexTextBox";
             this.RegexTextBox.Size = new System.Drawing.Size(221, 20);
@@ -83,7 +85,7 @@
             // 
             this.OkBtn.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.OkBtn.Location = new System.Drawing.Point(124, 89);
-            this.OkBtn.Name = "OkButton";
+            this.OkBtn.Name = "OkBtn";
             this.OkBtn.Size = new System.Drawing.Size(75, 23);
             this.OkBtn.TabIndex = 4;
             this.OkBtn.Text = "Ok";
@@ -94,7 +96,7 @@
             // 
             this.CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.CancelBtn.Location = new System.Drawing.Point(205, 89);
-            this.CancelBtn.Name = "CancelButton";
+            this.CancelBtn.Name = "CancelBtn";
             this.CancelBtn.Size = new System.Drawing.Size(75, 23);
             this.CancelBtn.TabIndex = 5;
             this.CancelBtn.Text = "Cancel";
@@ -214,5 +216,6 @@
         private System.Windows.Forms.CheckBox SingleLineCheckBox;
         private System.Windows.Forms.CheckBox MultiLineCheckBox;
         private System.Windows.Forms.CheckBox CaseSensitiveCheckBox;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
