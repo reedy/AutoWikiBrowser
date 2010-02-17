@@ -33,8 +33,8 @@
             this.RegexTextBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.GroupNumber = new System.Windows.Forms.NumericUpDown();
-            this.OkButton = new System.Windows.Forms.Button();
-            this.CancelButton = new System.Windows.Forms.Button();
+            this.OkBtn = new System.Windows.Forms.Button();
+            this.CancelBtn = new System.Windows.Forms.Button();
             this.menu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -79,27 +79,27 @@
             this.GroupNumber.Size = new System.Drawing.Size(59, 20);
             this.GroupNumber.TabIndex = 3;
             // 
-            // OkButton
+            // OkBtn
             // 
-            this.OkButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OkButton.Location = new System.Drawing.Point(124, 89);
-            this.OkButton.Name = "OkButton";
-            this.OkButton.Size = new System.Drawing.Size(75, 23);
-            this.OkButton.TabIndex = 4;
-            this.OkButton.Text = "Ok";
-            this.OkButton.UseVisualStyleBackColor = true;
-            this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
+            this.OkBtn.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.OkBtn.Location = new System.Drawing.Point(124, 89);
+            this.OkBtn.Name = "OkButton";
+            this.OkBtn.Size = new System.Drawing.Size(75, 23);
+            this.OkBtn.TabIndex = 4;
+            this.OkBtn.Text = "Ok";
+            this.OkBtn.UseVisualStyleBackColor = true;
+            this.OkBtn.Click += new System.EventHandler(this.OkButton_Click);
             // 
-            // CancelButton
+            // CancelBtn
             // 
-            this.CancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelButton.Location = new System.Drawing.Point(205, 89);
-            this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(75, 23);
-            this.CancelButton.TabIndex = 5;
-            this.CancelButton.Text = "Cancel";
-            this.CancelButton.UseVisualStyleBackColor = true;
-            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
+            this.CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.CancelBtn.Location = new System.Drawing.Point(205, 89);
+            this.CancelBtn.Name = "CancelButton";
+            this.CancelBtn.Size = new System.Drawing.Size(75, 23);
+            this.CancelBtn.TabIndex = 5;
+            this.CancelBtn.Text = "Cancel";
+            this.CancelBtn.UseVisualStyleBackColor = true;
+            this.CancelBtn.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // menu
             // 
@@ -174,15 +174,15 @@
             // 
             // AdvancedRegexHtmlScraper
             // 
-            this.AcceptButton = this.OkButton;
+            this.AcceptButton = this.OkBtn;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(292, 121);
             this.Controls.Add(this.CaseSensitiveCheckBox);
             this.Controls.Add(this.MultiLineCheckBox);
             this.Controls.Add(this.SingleLineCheckBox);
-            this.Controls.Add(this.CancelButton);
-            this.Controls.Add(this.OkButton);
+            this.Controls.Add(this.CancelBtn);
+            this.Controls.Add(this.OkBtn);
             this.Controls.Add(this.RegexTextBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
@@ -204,8 +204,8 @@
         private System.Windows.Forms.TextBox RegexTextBox;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown GroupNumber;
-        private System.Windows.Forms.Button OkButton;
-        private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.Button OkBtn;
+        private System.Windows.Forms.Button CancelBtn;
         private System.Windows.Forms.ContextMenuStrip menu;
         private System.Windows.Forms.ToolStripMenuItem cutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;

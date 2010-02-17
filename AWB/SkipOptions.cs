@@ -103,27 +103,50 @@ namespace AutoWikiBrowser
             get
             {
                 List<int> ret = new List<int>();
-                foreach (CheckBox chk in gbOptions.Controls)
+                foreach (CheckBox c in CheckBoxPanel.Controls)
                 {
-                    if (chk.Checked)
-                        ret.Add((int)chk.Tag);
+                    if (c.Checked)
+                        ret.Add((int)c.Tag);
                 }
 
                 return ret;
             }
             set
             {
-                if (value.Count > 0)
+                if (value.Count <= 0) return;
+                foreach (CheckBox c in CheckBoxPanel.Controls)
                 {
-                    foreach (CheckBox chk in gbOptions.Controls)
-                    {
-                        chk.Checked = value.Contains((int)chk.Tag);
-                    }
+                    c.Checked = value.Contains((int)c.Tag);
                 }
             }
         }
 
         #endregion
 
+        private void CheckAll_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CheckAll.Checked)
+            {
+                CheckNone.Checked = false;
+                SetCheckboxes(true);
+            }
+        }
+
+        private void CheckNone_CheckedChanged(object sender, EventArgs e)
+        {
+            if (CheckNone.Checked)
+            {
+                CheckAll.Checked = false;
+                SetCheckboxes(false);
+            }
+        }
+
+        private void SetCheckboxes(bool value)
+        {
+            foreach (CheckBox c in CheckBoxPanel.Controls)
+            {
+                c.Checked = value;
+            }
+        }
     }
 }
