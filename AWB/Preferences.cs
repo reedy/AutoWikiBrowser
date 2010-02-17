@@ -274,6 +274,12 @@ namespace AutoWikiBrowser
             set { txtAutosave.Text = value; }
         }
 
+        public bool EnableLogging
+        {
+            get { return chkEnableLogging.Checked; }
+            set { chkEnableLogging.Checked = value; }
+        }
+
         //TODO:Reinstate/Use?
         public List<string> PrefCustomWikis
         {

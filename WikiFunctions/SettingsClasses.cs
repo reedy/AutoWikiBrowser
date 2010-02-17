@@ -375,6 +375,8 @@ namespace WikiFunctions.AWBSettings
 
         public bool SortInterWikiOrder = true;
         public bool ReplaceReferenceTags = true;
+
+        public bool LoggingEnabled = true;
     }
 
     [Serializable]

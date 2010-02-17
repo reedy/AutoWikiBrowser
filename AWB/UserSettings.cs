@@ -313,7 +313,7 @@ namespace AutoWikiBrowser
                         SkipDoesNotText = txtSkipIfNotContains.Text,
                         Regex = chkSkipIsRegex.Checked,
                         CaseSensitive = chkSkipCaseSensitive.Checked,
-                        AfterProcessing = chkSkipAfterProcessing.Checked,                        
+                        AfterProcessing = chkSkipAfterProcessing.Checked,
                         SkipNoFindAndReplace = chkSkipWhenNoFAR.Checked,
                         SkipMinorFindAndReplace = chkSkipOnlyMinorFaR.Checked,
                         SkipNoRegexTypoFix = chkSkipIfNoRegexTypo.Checked,
@@ -391,7 +391,8 @@ namespace AutoWikiBrowser
                         scrollToUnbalancedBrackets = scrollToUnbalancedBracketsToolStripMenuItem.Checked,
 
                         SortInterWikiOrder = alphaSortInterwikiLinksToolStripMenuItem.Checked,
-                        ReplaceReferenceTags = replaceReferenceTagsToolStripMenuItem.Checked
+                        ReplaceReferenceTags = replaceReferenceTagsToolStripMenuItem.Checked,
+                        LoggingEnabled = loggingEnabled
                     },
 
                 new DabPrefs
@@ -623,6 +624,8 @@ namespace AutoWikiBrowser
             scrollToUnbalancedBracketsToolStripMenuItem.Checked = p.General.scrollToUnbalancedBrackets;
 
             txtEdit.Font = new System.Drawing.Font(p.General.TextBoxFont, p.General.TextBoxSize);
+
+            loggingEnabled = p.General.LoggingEnabled;
 
             LowThreadPriority = p.General.LowThreadPriority;
             _flash = p.General.Flash;
