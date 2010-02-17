@@ -28,6 +28,7 @@ namespace AutoWikiBrowser
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btnClose = new System.Windows.Forms.Button();
             this.CheckAll = new System.Windows.Forms.CheckBox();
             this.CheckNone = new System.Windows.Forms.CheckBox();
@@ -43,6 +44,7 @@ namespace AutoWikiBrowser
             this.chkNoHeaderError = new System.Windows.Forms.CheckBox();
             this.chkNoUnicode = new System.Windows.Forms.CheckBox();
             this.chkNoTag = new System.Windows.Forms.CheckBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.CheckBoxPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -258,5 +260,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkNoHeaderError;
         private System.Windows.Forms.CheckBox chkNoUnicode;
         private System.Windows.Forms.CheckBox chkNoTag;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
