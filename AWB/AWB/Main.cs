@@ -58,7 +58,7 @@ namespace AutoWikiBrowser
         private readonly Splash SplashScreen = new Splash();
         private readonly WikiFunctions.Profiles.AWBProfilesForm Profiles;
 
-        private bool Abort, IgnoreNoBots, ClearPageListOnProjectChange, PageReload, doDiffInBotMode;
+        private bool Abort, IgnoreNoBots, ClearPageListOnProjectChange, PageReload, doDiffInBotMode, loggingEnabled;
 
         private string LastArticle = "", mSettingsFile = "";
 
@@ -1231,7 +1231,8 @@ namespace AutoWikiBrowser
             SameArticleNudges = 0;
             if (EditBoxTab.SelectedTab == tpHistory)
                 EditBoxTab.SelectedTab = tpEdit;
-            logControl.AddLog(false, TheArticle.LogListener);
+            if (loggingEnabled)
+                logControl.AddLog(false, TheArticle.LogListener);
             UpdateOverallTypoStats();
 
             if (listMaker.Count == 0 && _autoSaveEditBoxEnabled)
@@ -1270,7 +1271,8 @@ namespace AutoWikiBrowser
                 }
                 else
                 {
-                    logControl.AddLog(true, TheArticle.LogListener);
+                    if (loggingEnabled)
+                        logControl.AddLog(true, TheArticle.LogListener);
                     TheArticle = null;
                     Retries = 0;
                     Start();
@@ -2568,7 +2570,9 @@ window.scrollTo(0, diffTopY);
                 PrefDBScannerUseCurrentArticleList = _dbScannerUseCurrentArticleList,
 
                 PrefDiffInBotMode = doDiffInBotMode,
-                PrefOnLoad = actionOnLoad
+                PrefOnLoad = actionOnLoad,
+
+                EnableLogging = loggingEnabled
             };
 
             if (myPrefs.ShowDialog(this) == DialogResult.OK)
@@ -2600,6 +2604,8 @@ window.scrollTo(0, diffTopY);
 
                 doDiffInBotMode = myPrefs.PrefDiffInBotMode;
                 actionOnLoad = myPrefs.PrefOnLoad;
+
+                loggingEnabled = myPrefs.EnableLogging;
 
                 if (myPrefs.Language != Variables.LangCode || myPrefs.Project != Variables.Project
                     || (myPrefs.CustomProject != Variables.CustomProject))

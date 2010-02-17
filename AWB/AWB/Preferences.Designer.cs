@@ -85,6 +85,7 @@ namespace AutoWikiBrowser
             this.tabPrivacy = new System.Windows.Forms.TabPage();
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.lblSaveAsDefaultFile = new System.Windows.Forms.Label();
+            this.chkEnableLogging = new System.Windows.Forms.CheckBox();
             this.AutoSaveEditBoxGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudEditBoxAutosave)).BeginInit();
             this.tbPrefs.SuspendLayout();
@@ -426,6 +427,7 @@ namespace AutoWikiBrowser
             // 
             // tabGeneral
             // 
+            this.tabGeneral.Controls.Add(this.chkEnableLogging);
             this.tabGeneral.Controls.Add(this.chkDiffInBotMode);
             this.tabGeneral.Controls.Add(this.cmboOnLoad);
             this.tabGeneral.Controls.Add(this.label4);
@@ -655,6 +657,18 @@ namespace AutoWikiBrowser
             this.lblSaveAsDefaultFile.TabIndex = 1;
             this.lblSaveAsDefaultFile.Text = "\"Save settings as default\" to retain values";
             // 
+            // chkEnableLogging
+            // 
+            this.chkEnableLogging.AutoSize = true;
+            this.chkEnableLogging.Checked = true;
+            this.chkEnableLogging.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkEnableLogging.Location = new System.Drawing.Point(8, 148);
+            this.chkEnableLogging.Name = "chkEnableLogging";
+            this.chkEnableLogging.Size = new System.Drawing.Size(100, 17);
+            this.chkEnableLogging.TabIndex = 8;
+            this.chkEnableLogging.Text = "Enable Logging";
+            this.chkEnableLogging.UseVisualStyleBackColor = true;
+            // 
             // MyPreferences
             // 
             this.AcceptButton = this.btnOK;
@@ -744,5 +758,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.CheckBox chkDiffInBotMode;
         private System.Windows.Forms.CheckBox chkEmptyOnProjectChange;
+        private System.Windows.Forms.CheckBox chkEnableLogging;
     }
 }
