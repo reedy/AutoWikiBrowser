@@ -123,7 +123,7 @@ namespace WikiFunctions.Parse
             RegexConversion.Add(new Regex(@"(?<={{[Cc]ommons cat(?:egory)?\|\s*)([^{}\|]+?)\s*\|\s*\1\s*}}", RegexOptions.Compiled), @"$1}}");
 
             // tidy up || or |}} (maybe with whitespace between) within templates that don't use null parameters
-            RegexConversion.Add(new Regex(@"(\{\{\s*(?:[Cc]it|[Aa]rticle ?issues)[^{}]*)\|\s*(\}\}|\|)", RegexOptions.Compiled), "$1$2");
+            RegexConversion.Add(new Regex(@"(?!{{[Cc]ite wikisource)(\{\{\s*(?:[Cc]it[ae]|[Aa]rticle ?issues)[^{}]*)\|\s*(\}\}|\|)", RegexOptions.Compiled), "$1$2");
 
             // remove duplicate / populated and null fields in cite/article issues templates
             RegexConversion.Add(new Regex(@"({{\s*[Aa]rticle ?issues[^{}]*\|\s*)(\w+)\s*=\s*([^\|}{]+?)\s*\|((?:[^{}]*?\|)?\s*)\2(\s*=\s*)\3(\s*(\||\}\}))", RegexOptions.Compiled), "$1$4$2$5$3$6"); // duplicate field remover for cite templates
@@ -2159,7 +2159,7 @@ namespace WikiFunctions.Parse
                     if (val2.Length == 0 || (val1.Length > 0 && val1.Contains(val2))
                         && !URL.Contains(firstfieldandvalue))
                         newvaluetemp = DupeFields.Replace(newValue, @"$1$6", 1);
-                    // get rid of first one if firs is zero length or contains second, provided second one not in URL
+                    // get rid of first one if first is zero length or contains second, provided second one not in URL
                     else if (val1.Length == 0 || (val2.Length > 0 && val2.Contains(val1))
                              && !URL.Contains(firstfieldandvalue))
                         newvaluetemp = newValue.Remove(m2.Groups[2].Index, m2.Groups[2].Length);
@@ -2261,14 +2261,13 @@ namespace WikiFunctions.Parse
 
             string workandaliases = Tools.GetTemplateParameterValue(citation, "work") + Tools.GetTemplateParameterValue(citation, "newspaper")
                 + Tools.GetTemplateParameterValue(citation, "journal") + Tools.GetTemplateParameterValue(citation, "periodical") +
-                Tools.GetTemplateParameterValue(citation, "magazine");
+            	Tools.GetTemplateParameterValue(citation, "magazine");
 
             if (workandaliases.Length == 0)
             {
-                citation = Tools.RenameTemplateParameter(citation, "publisher", "work");
-                citation = WorkInItalics.Replace(citation, "$1$2");
+            	citation = Tools.RenameTemplateParameter(citation, "publisher", "work");
+            	citation = WorkInItalics.Replace(citation, "$1$2");
             }
-
 
             return citation;
         }
