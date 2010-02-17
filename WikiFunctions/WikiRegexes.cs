@@ -851,7 +851,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the {{Ibid}} template
         /// </summary>
-        public static readonly Regex Ibid = new Regex(@"{{\s*[Ii]bid\s*(?:\|.*?)?}}", RegexOptions.Singleline);
+        public static readonly Regex Ibid = new Regex(@"{{\s*[Ii]bid\s*(?:\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))?}}", RegexOptions.Singleline);
         
         /// <summary>
         /// Matches the {{Inuse}} template
