@@ -140,7 +140,6 @@ namespace WikiFunctions.Lists.Providers
             if (MultiLineCheckBox.Checked)
                 opts |= RegexOptions.Multiline;
 
-
             if (_regexToUse == null || _regexToUse.ToString() != RegexTextBox.Text || _regexToUse.Options != opts)
             {
                 try

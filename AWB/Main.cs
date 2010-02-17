@@ -2659,8 +2659,10 @@ window.scrollTo(0, diffTopY);
 
                     case "ms":
                     case "et":
+                    case "nn":
                     case "fi":
                     case "vi":
+                    case "ur":
                         Parser.InterWikiOrder = InterWikiOrderEnum.LocalLanguageFirstWord;
                         break;
 
