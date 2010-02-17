@@ -261,10 +261,7 @@ namespace WikiFunctions.Controls.Lists
         public bool Remove(Article item)
         {
             if (lbArticles.Items.Contains(item))
-            {
-                while (lbArticles.SelectedItems.Count > 0)
-                    lbArticles.SetSelected(lbArticles.SelectedIndex, false);
-                
+            {               
                 txtPage.Text = item.Name;
 
                 int intPosition = 0;
@@ -274,6 +271,9 @@ namespace WikiFunctions.Controls.Lists
                     intPosition = lbArticles.SelectedIndex;
                 else
                     intPosition = lbArticles.Items.IndexOf(item);
+
+                while (lbArticles.SelectedItems.Count > 0)
+                    lbArticles.SetSelected(lbArticles.SelectedIndex, false);
 
                 lbArticles.Items.Remove(item);
 
