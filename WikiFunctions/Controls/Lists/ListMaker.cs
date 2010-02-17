@@ -53,6 +53,7 @@ namespace WikiFunctions.Controls.Lists
                                               NewPagesLProvider = new NewPagesListProvider(),
                                               RandomPagesLProvider = new RandomPagesSpecialPageProvider(),
                                               HtmlScraperLProvider = new HTMLPageScraperListProvider(),
+                                              AdvHtmlScraperLProvider = new AdvancedRegexHtmlScraper(),
                                               CheckWikiLProvider = new CheckWikiListProvider(),
                                               UserContribLProvider = new UserContribsListProvider();
         #endregion
@@ -136,9 +137,10 @@ namespace WikiFunctions.Controls.Lists
                                  {
                                      new DatabaseScannerListProvider(this),
 
-                                     //Add these 2 list providers later, we dont really need/want them on the Right click "Add to list from.." menu
+                                     //Add these list providers later, we dont really need/want them on the Right click "Add to list from.." menu
                                      HtmlScraperLProvider,
-                                     CheckWikiLProvider
+                                     CheckWikiLProvider,
+                                     AdvHtmlScraperLProvider
                                  };
 
             foreach (IListProvider lvi in DefaultProviders)
