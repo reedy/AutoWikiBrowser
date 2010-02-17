@@ -758,6 +758,19 @@ __TOC__";
             Assert.AreEqual(@"
 __TOC__", articleTextIn);
             Assert.IsFalse(newSummary.Contains("Added missing comments section header"));
+            
+            // no change -- only in template
+            const string allInTemplate = @"{{archive box|
+*[[/Archive: GA review|Good Article review]]}}
+
+== Explanation of Wright's work in ''Certaine Errors'' ==";
+            
+            articleTextIn = allInTemplate;
+             newSummary = "";
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
+            
+            Assert.AreEqual(allInTemplate, articleTextIn);
+            Assert.IsFalse(newSummary.Contains("Added missing comments section header"));
         }
     }
     

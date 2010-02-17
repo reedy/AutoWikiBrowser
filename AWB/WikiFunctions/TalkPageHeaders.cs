@@ -182,7 +182,7 @@ namespace WikiFunctions.TalkPages
             return articleText;
         }
         
-        private static readonly Regex FirstComment = new Regex(@"^\s*[:\*\w'](?<!_)", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex FirstComment = new Regex(@"^ *[:\*\w'](?<!_)", RegexOptions.Compiled | RegexOptions.Multiline);
         
         /// <summary>
         /// Adds a section 2 heading before the first comment if the talk page does not have one
@@ -193,17 +193,19 @@ namespace WikiFunctions.TalkPages
         private static string AddMissingFirstCommentHeader(string articleText, ref string summary)
         {
             // don't match on lines within templates
-            if(!FirstComment.IsMatch(WikiRegexes.NestedTemplates.Replace(articleText, "{{a}}")))
-                return articleText;            
+            string articleTextTemplatesSpaced = Tools.ReplaceWithSpaces(articleText, WikiRegexes.NestedTemplates.Matches(articleText));
             
-            int firstCommentIndex = FirstComment.Match(articleText).Index;
-            
-            int firstLevelTwoHeading = WikiRegexes.HeadingLevelTwo.IsMatch(articleText) ? WikiRegexes.HeadingLevelTwo.Match(articleText).Index : 99999999;
-            
-            if (firstCommentIndex < firstLevelTwoHeading)
+            if(FirstComment.IsMatch(articleTextTemplatesSpaced))
             {
-                AppendToSummary(ref summary, "Added missing comments section header");
-                articleText = articleText.Insert(firstCommentIndex, "\r\n==Untitled==\r\n");
+                int firstCommentIndex = FirstComment.Match(articleTextTemplatesSpaced).Index;
+                
+                int firstLevelTwoHeading = WikiRegexes.HeadingLevelTwo.IsMatch(articleText) ? WikiRegexes.HeadingLevelTwo.Match(articleText).Index : 99999999;
+                
+                if (firstCommentIndex < firstLevelTwoHeading)
+                {
+                    AppendToSummary(ref summary, "Added missing comments section header");
+                    articleText = articleText.Insert(firstCommentIndex, "\r\n==Untitled==\r\n");
+                }
             }
             
             return articleText;
