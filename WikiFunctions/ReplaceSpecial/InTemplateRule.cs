@@ -210,11 +210,11 @@ namespace WikiFunctions.ReplaceSpecial
         }
 
         /// <summary>
-        /// Returns whether the input template name is used in the input text
+        /// Checks the input text for the input template
         /// </summary>
         /// <param name="template">The template name</param>
         /// <param name="text">The template text</param>
-        /// <returns></returns>
+        /// <returns>whether the input template name is used in the input text</returns>
         public static bool TemplateUsedInText(string template, string text)
         {
             if (string.IsNullOrEmpty(template))
