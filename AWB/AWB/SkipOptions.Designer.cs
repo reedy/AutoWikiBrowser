@@ -31,7 +31,6 @@ namespace AutoWikiBrowser
             this.btnClose = new System.Windows.Forms.Button();
             this.chkNoUnicode = new System.Windows.Forms.CheckBox();
             this.chkNoTag = new System.Windows.Forms.CheckBox();
-            this.gbOptions = new System.Windows.Forms.GroupBox();
             this.chkUserTalkTemplates = new System.Windows.Forms.CheckBox();
             this.chkDefaultSortAdded = new System.Windows.Forms.CheckBox();
             this.chkNoBadLink = new System.Windows.Forms.CheckBox();
@@ -40,13 +39,12 @@ namespace AutoWikiBrowser
             this.chkNoHeaderError = new System.Windows.Forms.CheckBox();
             this.chkCiteTemplateDates = new System.Windows.Forms.CheckBox();
             this.chkPeopleCategories = new System.Windows.Forms.CheckBox();
-            this.gbOptions.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnClose
             // 
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(101, 274);
+            this.btnClose.Location = new System.Drawing.Point(95, 242);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 1;
@@ -57,7 +55,7 @@ namespace AutoWikiBrowser
             // chkNoUnicode
             // 
             this.chkNoUnicode.AutoSize = true;
-            this.chkNoUnicode.Location = new System.Drawing.Point(6, 88);
+            this.chkNoUnicode.Location = new System.Drawing.Point(12, 81);
             this.chkNoUnicode.Name = "chkNoUnicode";
             this.chkNoUnicode.Size = new System.Drawing.Size(96, 17);
             this.chkNoUnicode.TabIndex = 4;
@@ -68,7 +66,7 @@ namespace AutoWikiBrowser
             // chkNoTag
             // 
             this.chkNoTag.AutoSize = true;
-            this.chkNoTag.Location = new System.Drawing.Point(6, 111);
+            this.chkNoTag.Location = new System.Drawing.Point(12, 104);
             this.chkNoTag.Name = "chkNoTag";
             this.chkNoTag.Size = new System.Drawing.Size(110, 17);
             this.chkNoTag.TabIndex = 5;
@@ -76,29 +74,10 @@ namespace AutoWikiBrowser
             this.chkNoTag.Text = "Auto tag changes";
             this.chkNoTag.UseVisualStyleBackColor = true;
             // 
-            // gbOptions
-            // 
-            this.gbOptions.Controls.Add(this.chkUserTalkTemplates);
-            this.gbOptions.Controls.Add(this.chkDefaultSortAdded);
-            this.gbOptions.Controls.Add(this.chkNoBadLink);
-            this.gbOptions.Controls.Add(this.chkNoBulletedLink);
-            this.gbOptions.Controls.Add(this.chkNoBoldTitle);
-            this.gbOptions.Controls.Add(this.chkNoHeaderError);
-            this.gbOptions.Controls.Add(this.chkNoTag);
-            this.gbOptions.Controls.Add(this.chkNoUnicode);
-            this.gbOptions.Controls.Add(this.chkCiteTemplateDates);
-            this.gbOptions.Controls.Add(this.chkPeopleCategories);
-            this.gbOptions.Location = new System.Drawing.Point(12, 12);
-            this.gbOptions.Name = "gbOptions";
-            this.gbOptions.Size = new System.Drawing.Size(164, 256);
-            this.gbOptions.TabIndex = 0;
-            this.gbOptions.TabStop = false;
-            this.gbOptions.Text = "Skip if no...";
-            // 
             // chkUserTalkTemplates
             // 
             this.chkUserTalkTemplates.AutoSize = true;
-            this.chkUserTalkTemplates.Location = new System.Drawing.Point(6, 180);
+            this.chkUserTalkTemplates.Location = new System.Drawing.Point(12, 173);
             this.chkUserTalkTemplates.Name = "chkUserTalkTemplates";
             this.chkUserTalkTemplates.Size = new System.Drawing.Size(152, 17);
             this.chkUserTalkTemplates.TabIndex = 8;
@@ -109,7 +88,7 @@ namespace AutoWikiBrowser
             // chkDefaultSortAdded
             // 
             this.chkDefaultSortAdded.AutoSize = true;
-            this.chkDefaultSortAdded.Location = new System.Drawing.Point(6, 157);
+            this.chkDefaultSortAdded.Location = new System.Drawing.Point(12, 150);
             this.chkDefaultSortAdded.Name = "chkDefaultSortAdded";
             this.chkDefaultSortAdded.Size = new System.Drawing.Size(124, 17);
             this.chkDefaultSortAdded.TabIndex = 7;
@@ -120,7 +99,7 @@ namespace AutoWikiBrowser
             // chkNoBadLink
             // 
             this.chkNoBadLink.AutoSize = true;
-            this.chkNoBadLink.Location = new System.Drawing.Point(6, 65);
+            this.chkNoBadLink.Location = new System.Drawing.Point(12, 58);
             this.chkNoBadLink.Name = "chkNoBadLink";
             this.chkNoBadLink.Size = new System.Drawing.Size(94, 17);
             this.chkNoBadLink.TabIndex = 3;
@@ -131,7 +110,7 @@ namespace AutoWikiBrowser
             // chkNoBulletedLink
             // 
             this.chkNoBulletedLink.AutoSize = true;
-            this.chkNoBulletedLink.Location = new System.Drawing.Point(6, 42);
+            this.chkNoBulletedLink.Location = new System.Drawing.Point(12, 35);
             this.chkNoBulletedLink.Name = "chkNoBulletedLink";
             this.chkNoBulletedLink.Size = new System.Drawing.Size(123, 17);
             this.chkNoBulletedLink.TabIndex = 2;
@@ -142,7 +121,7 @@ namespace AutoWikiBrowser
             // chkNoBoldTitle
             // 
             this.chkNoBoldTitle.AutoSize = true;
-            this.chkNoBoldTitle.Location = new System.Drawing.Point(6, 19);
+            this.chkNoBoldTitle.Location = new System.Drawing.Point(12, 12);
             this.chkNoBoldTitle.Name = "chkNoBoldTitle";
             this.chkNoBoldTitle.Size = new System.Drawing.Size(93, 17);
             this.chkNoBoldTitle.TabIndex = 1;
@@ -153,7 +132,7 @@ namespace AutoWikiBrowser
             // chkNoHeaderError
             // 
             this.chkNoHeaderError.AutoSize = true;
-            this.chkNoHeaderError.Location = new System.Drawing.Point(6, 134);
+            this.chkNoHeaderError.Location = new System.Drawing.Point(12, 127);
             this.chkNoHeaderError.Name = "chkNoHeaderError";
             this.chkNoHeaderError.Size = new System.Drawing.Size(110, 17);
             this.chkNoHeaderError.TabIndex = 6;
@@ -164,7 +143,7 @@ namespace AutoWikiBrowser
             // chkCiteTemplateDates
             // 
             this.chkCiteTemplateDates.AutoSize = true;
-            this.chkCiteTemplateDates.Location = new System.Drawing.Point(6, 203);
+            this.chkCiteTemplateDates.Location = new System.Drawing.Point(12, 196);
             this.chkCiteTemplateDates.Name = "chkCiteTemplateDates";
             this.chkCiteTemplateDates.Size = new System.Drawing.Size(158, 17);
             this.chkCiteTemplateDates.TabIndex = 9;
@@ -175,7 +154,7 @@ namespace AutoWikiBrowser
             // chkPeopleCategories
             // 
             this.chkPeopleCategories.AutoSize = true;
-            this.chkPeopleCategories.Location = new System.Drawing.Point(6, 226);
+            this.chkPeopleCategories.Location = new System.Drawing.Point(12, 219);
             this.chkPeopleCategories.Name = "chkPeopleCategories";
             this.chkPeopleCategories.Size = new System.Drawing.Size(148, 17);
             this.chkPeopleCategories.TabIndex = 10;
@@ -189,19 +168,27 @@ namespace AutoWikiBrowser
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(188, 302);
-            this.Controls.Add(this.gbOptions);
+            this.ClientSize = new System.Drawing.Size(182, 278);
+            this.Controls.Add(this.chkUserTalkTemplates);
+            this.Controls.Add(this.chkDefaultSortAdded);
             this.Controls.Add(this.btnClose);
+            this.Controls.Add(this.chkNoBadLink);
+            this.Controls.Add(this.chkNoBoldTitle);
+            this.Controls.Add(this.chkNoBulletedLink);
+            this.Controls.Add(this.chkPeopleCategories);
+            this.Controls.Add(this.chkCiteTemplateDates);
+            this.Controls.Add(this.chkNoHeaderError);
+            this.Controls.Add(this.chkNoUnicode);
+            this.Controls.Add(this.chkNoTag);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "SkipOptions";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Skip options";
+            this.Text = "Skip if no...";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SkipOptions_FormClosing);
-            this.gbOptions.ResumeLayout(false);
-            this.gbOptions.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -210,7 +197,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.CheckBox chkNoUnicode;
         private System.Windows.Forms.CheckBox chkNoTag;
-        private System.Windows.Forms.GroupBox gbOptions;
         private System.Windows.Forms.CheckBox chkNoHeaderError;
         private System.Windows.Forms.CheckBox chkNoBoldTitle;
         private System.Windows.Forms.CheckBox chkNoBulletedLink;
