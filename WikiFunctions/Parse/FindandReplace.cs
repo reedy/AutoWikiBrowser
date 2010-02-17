@@ -406,7 +406,7 @@ namespace WikiFunctions.Parse
             if (!ApplyDefaultFormatting)
                 return;
 
-            dataGridView1.Rows[e.RowIndex].Cells["enabled"].Value = 1;
+            dataGridView1.Rows[e.RowIndex].Cells["enabled"].Value = "1";
         }
 
         private void FindandReplace_Shown(object sender, EventArgs e)
