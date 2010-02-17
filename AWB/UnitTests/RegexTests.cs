@@ -734,7 +734,10 @@ cit"));
              Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid}}"));
              Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ Ibid }}"));
              Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid|date=May 2009}}"));
+             Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid | date=May 2009}}"));
+             Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{Ibid|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
              Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid|date=May 2009|foo=bar}}"));
+             Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid|}}"));
              
              Assert.IsFalse(WikiRegexes.Ibid.IsMatch(@"Libid was"));
              Assert.IsFalse(WikiRegexes.Ibid.IsMatch(@"{{IBID}}"));
