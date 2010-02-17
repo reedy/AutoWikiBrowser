@@ -82,6 +82,12 @@
     <Compile Include="Diff\Patch.cs" />
     <Compile Include="Diff\UnifiedDiff.cs" />
     <Compile Include="Globals.cs" />
+    <Compile Include="Lists\Providers\AdvancedRegexHtmlScraper.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Lists\Providers\AdvancedRegexHtmlScraper.Designer.cs">
+      <DependentUpon>AdvancedRegexHtmlScraper.cs</DependentUpon>
+    </Compile>
     <Compile Include="Lists\Providers\NonMWListProviders.cs" />
     <Compile Include="Logging\ArticleActionListView.cs">
       <SubType>Component</SubType>
@@ -367,6 +373,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\NamespacesControl.resx">
       <DependentUpon>NamespacesControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Lists\Providers\AdvancedRegexHtmlScraper.resx">
+      <DependentUpon>AdvancedRegexHtmlScraper.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Logging\ArticleActionListView.resx">
       <DependentUpon>ArticleActionListView.cs</DependentUpon>
