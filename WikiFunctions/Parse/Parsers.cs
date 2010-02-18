@@ -454,7 +454,8 @@ namespace WikiFunctions.Parse
         private static readonly Regex CommaDates = new Regex(WikiRegexes.Months + @" ?, *([1-3]?\d) ?, ?((?:200|19\d)\d)\b");
 
         // fixes missing comma or space in American format dates
-        private static readonly Regex NoCommaAmericanDates = new Regex(@"\b(" + WikiRegexes.MonthsNoGroup + @" [1-3]?\d(?:–[1-3]?\d)?) *,?([12]\d{3})\b");
+        private static readonly Regex NoCommaAmericanDates = new Regex(@"\b(" + WikiRegexes.MonthsNoGroup + @" *[1-3]?\d(?:–[1-3]?\d)?)\b *,?([12]\d{3})\b");
+        private static readonly Regex NoSpaceAmericanDates = new Regex(@"\b" + WikiRegexes.Months + @"([1-3]?\d(?:–[1-3]?\d)?), *([12]\d{3})\b");
 
         // fix incorrect comma between month and year in Internaltional-format dates
         private static readonly Regex IncorrectCommaInternationalDates = new Regex(@"\b((?:[1-3]?\d) +" + WikiRegexes.MonthsNoGroup + @") *, *(1\d{3}|20\d{2})\b", RegexOptions.Compiled);
@@ -504,6 +505,7 @@ namespace WikiFunctions.Parse
 
             // run this after the date range fixes
             articleText = NoCommaAmericanDates.Replace(articleText, @"$1, $2");
+            articleText = NoSpaceAmericanDates.Replace(articleText, @"$1 $2, $3");
 
             articleText = SpacedFullYearRange.Replace(articleText, @"$1–$2");
 

@@ -751,6 +751,10 @@ Jones 2005</ref>"));
 			Assert.AreEqual(correct1, parser.FixDates(@"Retrieved on April 14,2009 was"));
 			Assert.AreEqual(correct1, parser.FixDates(@"Retrieved on April 14 ,2009 was"));
 			Assert.AreEqual(correct1, parser.FixDates(@"Retrieved on April 14 2009 was"));
+			Assert.AreEqual(correct1, parser.FixDates(@"Retrieved on April14,2009 was"));
+			Assert.AreEqual(correct1, parser.FixDates(@"Retrieved on April14, 2009 was"));
+			Assert.AreEqual(correct1, parser.FixDates(@"Retrieved on April14 2009 was"));
+			Assert.AreEqual(correct1, parser.FixDates(correct1));
 			
 			// don't change image names
 			string image1 = @"now foo [[Image:Foo July 24 2009.png]] was";
@@ -761,8 +765,9 @@ Jones 2005</ref>"));
 			Assert.AreEqual(correct2, parser.FixDates(@"Retrieved on 14 April , 2009 was"));
 			Assert.AreEqual(correct2, parser.FixDates(@"Retrieved on 14 April,  2009 was"));
 			
-			const string nochange1 = @"On 14 April, 2590 people";
+			const string nochange1 = @"On 14 April, 2590 people", nochange2 = @"Retrieved on April 142009 was";
 			Assert.AreEqual(nochange1, parser.FixDates(nochange1));
+			Assert.AreEqual(nochange2, parser.FixDates(nochange2));
 		}
 		
 		[Test]
