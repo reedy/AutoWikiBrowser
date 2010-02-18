@@ -830,17 +830,24 @@ Jones", "*"));
         [Test]
         public void RenameTemplate()
         {
-            string correct = @"Now {{bar}} was {{bar|here}} there", correct2 = @"Now {{bar}} was {{bar
+        	string correct = @"Now {{bar}} was {{bar|here}} there", correct2 = @"Now {{bar}} was {{bar
 |here
-|other}} there";
-            Assert.AreEqual(correct, Tools.RenameTemplate(@"Now {{foo}} was {{foo|here}} there", "foo", "bar"));
-            Assert.AreEqual(correct, Tools.RenameTemplate(@"Now {{Foo}} was {{foo|here}} there", "Foo", "bar"));
-            
-             Assert.AreEqual(correct2, Tools.RenameTemplate(@"Now {{foo}} was {{foo
+|other}} there", correct3= @"Now {{bar man}} was {{bar man|here}} there";
+        	Assert.AreEqual(correct, Tools.RenameTemplate(@"Now {{foo}} was {{foo|here}} there", "foo", "bar"));
+        	Assert.AreEqual(correct, Tools.RenameTemplate(@"Now {{Foo}} was {{foo|here}} there", "Foo", "bar"));
+        	
+        	Assert.AreEqual(correct2, Tools.RenameTemplate(@"Now {{foo}} was {{foo
 |here
 |other}} there", "Foo", "bar"));
-            
-            Assert.AreEqual(correct, Tools.RenameTemplate(correct, "bar2", "foo"));
+        	
+        	Assert.AreEqual(correct, Tools.RenameTemplate(correct, "bar2", "foo"));
+        	
+        	Assert.AreEqual(correct3, Tools.RenameTemplate(@"Now {{foo man}} was {{foo man|here}} there", "foo man", "bar man"));
+        	Assert.AreEqual(correct3, Tools.RenameTemplate(@"Now {{foo man}} was {{foo man|here}} there", "Foo man", "bar man"));
+        	Assert.AreEqual(correct3, Tools.RenameTemplate(@"Now {{foo_man}} was {{foo man|here}} there", "Foo man", "bar man"));
+        	
+        	// handles invalid template names gracefully
+        	Assert.AreEqual(correct, Tools.RenameTemplate(correct, @"foo(", "bar"));
         }
         
         [Test]
