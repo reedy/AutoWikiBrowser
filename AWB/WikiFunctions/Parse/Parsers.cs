@@ -1155,7 +1155,7 @@ namespace WikiFunctions.Parse
         /// <returns>Dictionary of parameter index in wiki text, and parameter length</returns>
         public static Dictionary<int, int> BadCiteParameters(string articleText)
         {
-            Regex citeWebParameters = new Regex(@"\b(first\d?|last\d?|author|authorlink\d?|coauthors|title|url|archiveurl|work|publisher|location|page|pages|language|trans_title|format|doi|date|month|year|archivedate|accessdate|quote|ref|separator|postscript|at)\b");
+            Regex citeWebParameters = new Regex(@"\b(first\d?|last\d?|author|authorlink\d?|coauthors|title|url|archiveurl|work|publisher|location|pages?|language|trans_title|format|doi|date|month|year|archivedate|accessdate|quote|ref|separator|postscript|at)\b");
 
             Dictionary<int, int> found = new Dictionary<int, int>();
             foreach (Match m in CiteWeb.Matches(articleText))
