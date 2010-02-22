@@ -91,7 +91,7 @@ image = [[File:Test.JPG]]
   bar = a| map = [[File:Test.JPG]]
   | there=here}}");
             
-            RegexAssert.NoMatch(WikiRegexes.Images, @"{{Infobox foo|
+            RegexAssert.IsMatch(WikiRegexes.Images, @"{{Infobox foo|
   bar = a|
   strangename = Test.JPEG
   | there=here}}");
@@ -100,6 +100,11 @@ image = [[File:Test.JPG]]
 bar = a|
 picture = Test.JPG
 | there=here}}");
+            
+            RegexAssert.NoMatch(WikiRegexes.Images, @"{{Infobox foo|
+  bar = a|
+  map = Image without exension
+  | there=here}}");
         }
         
         [Test]
