@@ -95,6 +95,11 @@ image = [[File:Test.JPG]]
   bar = a|
   strangename = Test.JPEG
   | there=here}}");
+            
+            RegexAssert.IsMatch(WikiRegexes.Images, @"{{Infobox foo|
+bar = a|
+picture = Test.JPG
+| there=here}}");
         }
         
         [Test]
