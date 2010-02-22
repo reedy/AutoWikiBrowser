@@ -315,7 +315,7 @@ namespace WikiFunctions.DBScanner
             this.chkArticleCaseSensitive.Size = new System.Drawing.Size(94, 17);
             this.chkArticleCaseSensitive.TabIndex = 5;
             this.chkArticleCaseSensitive.Text = "Case &sensitive";
-            this.tooltip.SetToolTip(this.chkArticleCaseSensitive, "Changes case sensitivity");
+            this.tooltip.SetToolTip(this.chkArticleCaseSensitive, "Enables case sensitivity");
             // 
             // chkSingle
             // 
@@ -915,7 +915,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.lblCount.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.lblCount.Name = "lblCount";
-            this.lblCount.Size = new System.Drawing.Size(232, 17);
+            this.lblCount.Size = new System.Drawing.Size(263, 17);
             this.lblCount.Spring = true;
             this.lblCount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 

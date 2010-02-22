@@ -31,21 +31,21 @@
             this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.RegexTextBox = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.GroupNumber = new System.Windows.Forms.NumericUpDown();
-            this.OkBtn = new System.Windows.Forms.Button();
-            this.CancelBtn = new System.Windows.Forms.Button();
             this.menu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.cutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pasteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.copyToRegexTesterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label2 = new System.Windows.Forms.Label();
+            this.GroupNumber = new System.Windows.Forms.NumericUpDown();
+            this.OkBtn = new System.Windows.Forms.Button();
+            this.CancelBtn = new System.Windows.Forms.Button();
             this.SingleLineCheckBox = new System.Windows.Forms.CheckBox();
             this.MultiLineCheckBox = new System.Windows.Forms.CheckBox();
             this.CaseSensitiveCheckBox = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.GroupNumber)).BeginInit();
             this.menu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.GroupNumber)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -64,44 +64,7 @@
             this.RegexTextBox.Name = "RegexTextBox";
             this.RegexTextBox.Size = new System.Drawing.Size(221, 20);
             this.RegexTextBox.TabIndex = 1;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(14, 63);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(39, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Group:";
-            // 
-            // GroupNumber
-            // 
-            this.GroupNumber.Location = new System.Drawing.Point(59, 61);
-            this.GroupNumber.Name = "GroupNumber";
-            this.GroupNumber.Size = new System.Drawing.Size(59, 20);
-            this.GroupNumber.TabIndex = 3;
-            // 
-            // OkBtn
-            // 
-            this.OkBtn.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OkBtn.Location = new System.Drawing.Point(124, 89);
-            this.OkBtn.Name = "OkBtn";
-            this.OkBtn.Size = new System.Drawing.Size(75, 23);
-            this.OkBtn.TabIndex = 4;
-            this.OkBtn.Text = "Ok";
-            this.OkBtn.UseVisualStyleBackColor = true;
-            this.OkBtn.Click += new System.EventHandler(this.OkButton_Click);
-            // 
-            // CancelBtn
-            // 
-            this.CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CancelBtn.Location = new System.Drawing.Point(205, 89);
-            this.CancelBtn.Name = "CancelBtn";
-            this.CancelBtn.Size = new System.Drawing.Size(75, 23);
-            this.CancelBtn.TabIndex = 5;
-            this.CancelBtn.Text = "Cancel";
-            this.CancelBtn.UseVisualStyleBackColor = true;
-            this.CancelBtn.Click += new System.EventHandler(this.CancelButton_Click);
+            this.toolTip1.SetToolTip(this.RegexTextBox, "Regex to match against the HTML of the target website");
             // 
             // menu
             // 
@@ -144,6 +107,46 @@
             this.copyToRegexTesterToolStripMenuItem.Text = "Copy to Regex Tester";
             this.copyToRegexTesterToolStripMenuItem.Click += new System.EventHandler(this.copyToRegexTesterToolStripMenuItem_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(14, 63);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(39, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Group:";
+            // 
+            // GroupNumber
+            // 
+            this.GroupNumber.Location = new System.Drawing.Point(59, 61);
+            this.GroupNumber.Name = "GroupNumber";
+            this.GroupNumber.Size = new System.Drawing.Size(59, 20);
+            this.GroupNumber.TabIndex = 3;
+            this.toolTip1.SetToolTip(this.GroupNumber, "What match group to add to the article list. Use group 0 for the complete regex m" +
+                    "atc");
+            // 
+            // OkBtn
+            // 
+            this.OkBtn.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.OkBtn.Location = new System.Drawing.Point(124, 89);
+            this.OkBtn.Name = "OkBtn";
+            this.OkBtn.Size = new System.Drawing.Size(75, 23);
+            this.OkBtn.TabIndex = 4;
+            this.OkBtn.Text = "Ok";
+            this.OkBtn.UseVisualStyleBackColor = true;
+            this.OkBtn.Click += new System.EventHandler(this.OkButton_Click);
+            // 
+            // CancelBtn
+            // 
+            this.CancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.CancelBtn.Location = new System.Drawing.Point(205, 89);
+            this.CancelBtn.Name = "CancelBtn";
+            this.CancelBtn.Size = new System.Drawing.Size(75, 23);
+            this.CancelBtn.TabIndex = 5;
+            this.CancelBtn.Text = "Cancel";
+            this.CancelBtn.UseVisualStyleBackColor = true;
+            this.CancelBtn.Click += new System.EventHandler(this.CancelButton_Click);
+            // 
             // SingleLineCheckBox
             // 
             this.SingleLineCheckBox.AutoSize = true;
@@ -152,6 +155,8 @@
             this.SingleLineCheckBox.Size = new System.Drawing.Size(75, 17);
             this.SingleLineCheckBox.TabIndex = 6;
             this.SingleLineCheckBox.Text = "SingleLine";
+            this.toolTip1.SetToolTip(this.SingleLineCheckBox, "Changes meaing of \".\"  so it matches all characters, as opposed to all apart from" +
+                    " newlines");
             this.SingleLineCheckBox.UseVisualStyleBackColor = true;
             // 
             // MultiLineCheckBox
@@ -162,6 +167,8 @@
             this.MultiLineCheckBox.Size = new System.Drawing.Size(68, 17);
             this.MultiLineCheckBox.TabIndex = 7;
             this.MultiLineCheckBox.Text = "MultiLine";
+            this.toolTip1.SetToolTip(this.MultiLineCheckBox, "Changes meaning of \"^\" and \"$\" so they represent the beginning and end respective" +
+                    "ly of every line, rather just of the entire string");
             this.MultiLineCheckBox.UseVisualStyleBackColor = true;
             // 
             // CaseSensitiveCheckBox
@@ -172,6 +179,7 @@
             this.CaseSensitiveCheckBox.Size = new System.Drawing.Size(96, 17);
             this.CaseSensitiveCheckBox.TabIndex = 8;
             this.CaseSensitiveCheckBox.Text = "Case Sensitive";
+            this.toolTip1.SetToolTip(this.CaseSensitiveCheckBox, "Enables case sensitivity");
             this.CaseSensitiveCheckBox.UseVisualStyleBackColor = true;
             // 
             // AdvancedRegexHtmlScraper
@@ -193,8 +201,8 @@
             this.Name = "AdvancedRegexHtmlScraper";
             this.Text = "Advanced Regex Html Scraper";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AdvancedRegexHtmlScraper_FormClosing);
-            ((System.ComponentModel.ISupportInitialize)(this.GroupNumber)).EndInit();
             this.menu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.GroupNumber)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
