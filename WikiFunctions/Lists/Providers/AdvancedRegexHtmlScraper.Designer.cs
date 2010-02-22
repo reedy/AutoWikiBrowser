@@ -155,8 +155,8 @@
             this.SingleLineCheckBox.Size = new System.Drawing.Size(75, 17);
             this.SingleLineCheckBox.TabIndex = 6;
             this.SingleLineCheckBox.Text = "SingleLine";
-            this.toolTip1.SetToolTip(this.SingleLineCheckBox, "Changes meaing of \".\"  so it matches all characters, as opposed to all apart from" +
-                    " newlines");
+            this.toolTip1.SetToolTip(this.SingleLineCheckBox, "Changes meaning of \".\"  so it matches all characters, as opposed to all apart fro" +
+                    "m newlines");
             this.SingleLineCheckBox.UseVisualStyleBackColor = true;
             // 
             // MultiLineCheckBox

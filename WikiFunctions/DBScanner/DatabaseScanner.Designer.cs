@@ -326,8 +326,8 @@ namespace WikiFunctions.DBScanner
             this.chkSingle.Size = new System.Drawing.Size(71, 17);
             this.chkSingle.TabIndex = 6;
             this.chkSingle.Text = "S&ingleline";
-            this.tooltip.SetToolTip(this.chkSingle, "Changes meaing of \".\"  so it matches all characters, as opposed to all apart from" +
-                    " newlines");
+            this.tooltip.SetToolTip(this.chkSingle, "Changes meaning of \".\"  so it matches all characters, as opposed to all apart fro" +
+                    "m newlines");
             // 
             // chkMulti
             // 
