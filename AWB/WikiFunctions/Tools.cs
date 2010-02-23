@@ -1979,21 +1979,12 @@ Message: {2}
         /// <returns></returns>
         public static string RenameTemplate(string articletext, string templatename, string newtemplatename)
         {
-        	// handle underscores instead of spaces
-        	templatename = templatename.Replace(" ", @"[_ ]");
-        	
-        	try
-        	{
-        		Regex oldtemplate = new Regex(@"({{\s*)" + Tools.CaseInsensitive(templatename) + @"(\s*(?:\||}}))");
-        		
-        		return oldtemplate.Replace(articletext, "$1" + newtemplatename + "$2");
-        	}
-        	
-        	catch(Exception ex)
-        	{
-        		return articletext;
-        	}
-        	
+            // handle underscores instead of spaces
+            templatename = Regex.Escape(templatename.Replace('_', ' ')).Replace(@"\ ", @"[_ ]");
+
+            Regex oldtemplate = new Regex(@"(\{\{\s*)" + Tools.CaseInsensitive(templatename) + @"(\s*(?:\||\}\}))");
+
+            return oldtemplate.Replace(articletext, "$1" + newtemplatename + "$2");        	
         }
 
         /// <summary>
