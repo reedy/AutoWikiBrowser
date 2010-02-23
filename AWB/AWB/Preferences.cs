@@ -410,20 +410,5 @@ namespace AutoWikiBrowser
         {
             chkDiffInBotMode.Enabled = (cmboOnLoad.SelectedIndex == 0);
         }
-        
-        void ChkEnableLoggingCheckedChanged(object sender, EventArgs e)
-        {
-        	
-        }
-        
-        void ToolTipPopup(object sender, PopupEventArgs e)
-        {
-        	
-        }
-        
-        void ChkLowPriorityCheckedChanged(object sender, EventArgs e)
-        {
-        	
-        }
     }
 }
