@@ -2027,6 +2027,10 @@ window.scrollTo(0, diffTopY);
             //Application.Exit();
         }
 
+        /// <summary>
+        /// Sets the edits summary for the current edit
+        /// </summary>
+        /// <returns>The completed edit summary</returns>
         private string MakeSummary()
         {
             if (TheArticle == null)
@@ -2035,7 +2039,7 @@ window.scrollTo(0, diffTopY);
             string summary = string.IsNullOrEmpty(cmboEditSummary.Text.Trim()) ? "" : cmboEditSummary.Text.Trim();
 
             if (!string.IsNullOrEmpty(TheArticle.EditSummary))
-                summary += string.IsNullOrEmpty(summary) ? "" : ", " + TheArticle.EditSummary;
+                summary += (string.IsNullOrEmpty(summary) ? "" : ", ") + TheArticle.EditSummary;
            
             // check to see if we have only edited one level 2 section
             if (!noSectionEditSummaryToolStripMenuItem.Checked)
