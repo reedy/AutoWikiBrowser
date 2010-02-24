@@ -5060,6 +5060,7 @@ asdfasdf}} was here", "foo"));
 			Assert.AreEqual(@"", Parsers.GetTemplate(@"now {{ foo|bar asdfasdf}} was here", "foot"));
 			Assert.AreEqual(@"", Parsers.GetTemplate(@"now {{ foo|bar asdfasdf}} was here", ""));
 			Assert.AreEqual(@"", Parsers.GetTemplate(@"", "foo"));
+			Assert.AreEqual(@"{{foo<!--comm-->}}", Parsers.GetTemplate(@"now {{foo<!--comm-->}} was here", "foo"));
 
 			Assert.AreEqual(@"{{foo  |a={{bar}} here}}", Parsers.GetTemplate(@"now {{foo  |a={{bar}} here}} was here", "foo"));
 		}
@@ -5071,11 +5072,14 @@ asdfasdf}} was here", "foo"));
 			string text = @"now " + foo1 + " and " + foo2;
 
 			Regex foo = new Regex(@"{{foo.*?}}");
-			MatchCollection fred = foo.Matches(text);
+			List<Match> fred = new List<Match>();
+			
+			foreach(Match m in foo.Matches(text))
+			    fred.Add(m);
 
 			Assert.AreEqual(fred.ToString(), Parsers.GetTemplates(text, "foo").ToString());
 			Assert.AreEqual(fred.ToString(), Parsers.GetTemplates(text, "Foo").ToString());
-			MatchCollection templates = Parsers.GetTemplates(text, "foo");
+			List<Match> templates = Parsers.GetTemplates(text, "foo");
 			Assert.AreEqual(foo1, templates[0].Value);
 			Assert.AreEqual(foo2, templates[1].Value);
 			Assert.AreEqual(2, templates.Count);
@@ -5107,13 +5111,13 @@ asdfasdf}} was here", "foo"));
 			Assert.AreEqual(0, templates.Count);
 		}
 		
-		[Test, Ignore("fails due to GetTemplates bug")]
+		[Test]
 		public void GetTemplatesEmbeddedComments()
-		{		    
+		{
 		    const string foo1 = "{{foo|a}}", foo2 = "{{foo|b}}", foo2a = @"{{foo<!--comm-->|b}}";
 		    string text = @"now " + foo1 + " and " + foo2;
+		    List<Match> templates = new List<Match>();
 		    
-		    MatchCollection templates = Parsers.GetTemplates(text, "foo");
 		    // templates with embedded comments caught
 		    templates = Parsers.GetTemplates(text + " space " + foo2a, "foo");
 		    Assert.AreEqual(3, templates.Count);
