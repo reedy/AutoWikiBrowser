@@ -3006,6 +3006,9 @@ namespace WikiFunctions.Parse
                 }
             }
 
+            // TODO: we must continue to not return matches on commented out templates, but where a template contains an embedded comment
+            // we must return the match containing that comment
+            // i.e. return matchcollection based on input articletext but with only matches on the replacewithspaces version
             return search.Matches(articleText);
         }
 
