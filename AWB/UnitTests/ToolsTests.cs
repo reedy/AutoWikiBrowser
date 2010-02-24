@@ -843,7 +843,8 @@ Jones", "*"));
         {
         	string correct = @"Now {{bar}} was {{bar|here}} there", correct2 = @"Now {{bar}} was {{bar
 |here
-|other}} there", correct3= @"Now {{bar man}} was {{bar man|here}} there";
+|other}} there", correct3= @"Now {{bar man}} was {{bar man|here}} there", 
+        	correct4= @"Now {{bar man<!--comm-->}} was {{bar man<!--comm-->|here}} there";
         	Assert.AreEqual(correct, Tools.RenameTemplate(@"Now {{foo}} was {{foo|here}} there", "foo", "bar"));
         	Assert.AreEqual(correct, Tools.RenameTemplate(@"Now {{Foo}} was {{foo|here}} there", "Foo", "bar"));
         	
@@ -856,6 +857,9 @@ Jones", "*"));
         	Assert.AreEqual(correct3, Tools.RenameTemplate(@"Now {{foo man}} was {{foo man|here}} there", "foo man", "bar man"));
         	Assert.AreEqual(correct3, Tools.RenameTemplate(@"Now {{foo man}} was {{foo man|here}} there", "Foo man", "bar man"));
         	Assert.AreEqual(correct3, Tools.RenameTemplate(@"Now {{foo_man}} was {{foo man|here}} there", "Foo man", "bar man"));
+        	
+        	// comment handling
+        	Assert.AreEqual(correct4, Tools.RenameTemplate(@"Now {{foo_man<!--comm-->}} was {{foo man<!--comm-->|here}} there", "Foo man", "bar man"));
         	
         	// handles invalid template names gracefully
         	Assert.AreEqual(correct, Tools.RenameTemplate(correct, @"foo(", "bar"));
