@@ -5067,8 +5067,7 @@ asdfasdf}} was here", "foo"));
 		[Test]
 		public void GetTemplatesTests()
 		{
-			const string foo1 = "{{foo|a}}";
-			const string foo2 = "{{foo|b}}";
+			const string foo1 = "{{foo|a}}", foo2 = "{{foo|b}}", foo2a = @"{{foo<!--comm-->|b}}";
 			string text = @"now " + foo1 + " and " + foo2;
 
 			Regex foo = new Regex(@"{{foo.*?}}");
@@ -5106,6 +5105,21 @@ asdfasdf}} was here", "foo"));
 			// no matches here
 			templates = Parsers.GetTemplates(@"now " + foo3 + @" there", "fo");
 			Assert.AreEqual(0, templates.Count);
+		}
+		
+		[Test, Ignore("fails due to GetTemplates bug")]
+		public void GetTemplatesEmbeddedComments()
+		{		    
+		    const string foo1 = "{{foo|a}}", foo2 = "{{foo|b}}", foo2a = @"{{foo<!--comm-->|b}}";
+		    string text = @"now " + foo1 + " and " + foo2;
+		    
+		    MatchCollection templates = Parsers.GetTemplates(text, "foo");
+		    // templates with embedded comments caught
+		    templates = Parsers.GetTemplates(text + " space " + foo2a, "foo");
+		    Assert.AreEqual(3, templates.Count);
+		    Assert.AreEqual(foo1, templates[0].Value);
+		    Assert.AreEqual(foo2, templates[1].Value);
+		    Assert.AreEqual(foo2a, templates[2].Value);		    
 		}
 
 		[Test]
