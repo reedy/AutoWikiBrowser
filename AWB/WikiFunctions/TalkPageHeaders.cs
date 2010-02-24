@@ -203,8 +203,20 @@ namespace WikiFunctions.TalkPages
                 
                 if (firstCommentIndex < firstLevelTwoHeading)
                 {
-                    AppendToSummary(ref summary, "Added missing comments section header");
-                    articleText = articleText.Insert(firstCommentIndex, "\r\n==Untitled==\r\n");
+                    
+                    // is there a heading level 3? If yes, change to level 2
+                    string articletexttofirstcomment = articleText.Substring(0, firstCommentIndex);
+                    
+                    if(WikiRegexes.HeadingLevelThree.IsMatch(articletexttofirstcomment))
+                    {
+                        AppendToSummary(ref summary, "Corrected comments section header");
+                        articleText = WikiRegexes.HeadingLevelThree.Replace(articleText, @"==$1==", 1);
+                    }
+                    else
+                    {
+                        AppendToSummary(ref summary, "Added missing comments section header");
+                        articleText = articleText.Insert(firstCommentIndex, "\r\n==Untitled==\r\n");
+                    }
                 }
             }
             

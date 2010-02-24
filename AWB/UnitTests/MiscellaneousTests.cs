@@ -672,6 +672,16 @@ Hello world comment.");
 ==Untitled==
 :Hello world comment3.");
             Assert.IsTrue(newSummary.Contains("Added missing comments section header"));
+            
+            // heading level 3 changed to level 2
+            articleTextIn = articleTextHeader + "\r\n" + @"===Foo bar===
+*Hello world comment2.";
+            newSummary = "";
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
+            
+            Assert.IsTrue(articleTextIn.Contains(@"==Foo bar=="));
+            Assert.IsFalse(articleTextIn.Contains(@"==Untitled=="));
+            Assert.IsTrue(newSummary.Contains("Corrected comments section header"));
         }
         
          [Test]
