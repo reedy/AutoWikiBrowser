@@ -255,6 +255,11 @@ namespace WikiFunctions
         public static readonly Regex HeadingLevelTwo = new Regex(@"^==([^=](?:.*?[^=])?)==\s*$", RegexOptions.Multiline);
         
         /// <summary>
+        /// Matches level 3 headings
+        /// </summary>
+        public static readonly Regex HeadingLevelThree = new Regex(@"^===([^=](?:.*?[^=])?)===\s*$", RegexOptions.Multiline);
+        
+        /// <summary>
         /// Matches the whole of a level 2 section including heading and any subsections up to but not including the next level 2 section
         /// </summary>
         public static readonly Regex SectionLevelTwo = new Regex(@"^==[^=][^\r\n]*?[^=]==.*?(?=^==[^=][^\r\n]*?[^=]==(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);

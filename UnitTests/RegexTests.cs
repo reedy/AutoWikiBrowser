@@ -919,9 +919,15 @@ article words, '''bold''' blah.
             Assert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
 ==heading==
 a"));
+             Assert.AreEqual("heading", WikiRegexes.HeadingLevelTwo.Match(@"article
+==heading==
+a").Groups[1].Value);
             Assert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
 == heading ==
 a"));
+             Assert.AreEqual(" heading ", WikiRegexes.HeadingLevelTwo.Match(@"article
+== heading ==
+a").Groups[1].Value);
             Assert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
 == heading ==
 words"));
@@ -943,6 +949,45 @@ heading=="));
             Assert.IsFalse(WikiRegexes.HeadingLevelTwo.IsMatch(@"article ===heading=="));
             Assert.IsFalse(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
 ====heading===
+words"));
+        }
+        
+          [Test]
+        public void HeadingLevelThreeTests()
+        {
+            Assert.IsTrue(WikiRegexes.HeadingLevelThree.IsMatch(@"article
+===heading===
+a"));
+            Assert.AreEqual("heading", WikiRegexes.HeadingLevelThree.Match(@"article
+===heading===
+a").Groups[1].Value);
+            Assert.IsTrue(WikiRegexes.HeadingLevelThree.IsMatch(@"article
+=== heading ===
+a"));
+             Assert.AreEqual(" heading ", WikiRegexes.HeadingLevelThree.Match(@"article
+=== heading ===
+a").Groups[1].Value);
+            Assert.IsTrue(WikiRegexes.HeadingLevelThree.IsMatch(@"article
+=== heading ===
+words"));
+            Assert.IsTrue(WikiRegexes.HeadingLevelThree.IsMatch(@"article
+===H===
+a"));
+            Assert.IsTrue(WikiRegexes.HeadingLevelThree.IsMatch(@"article
+===Hi===
+a"));
+            Assert.IsTrue(WikiRegexes.HeadingLevelThree.IsMatch(@"article
+===Here and=there===
+a"));
+
+            // no matches
+            Assert.IsFalse(WikiRegexes.HeadingLevelThree.IsMatch(@"article ===
+heading==="));
+            Assert.IsFalse(WikiRegexes.HeadingLevelThree.IsMatch(@"article
+===heading=== words"));
+            Assert.IsFalse(WikiRegexes.HeadingLevelThree.IsMatch(@"article ====heading==="));
+            Assert.IsFalse(WikiRegexes.HeadingLevelThree.IsMatch(@"article
+=====heading====
 words"));
         }
 
