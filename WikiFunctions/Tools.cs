@@ -1982,7 +1982,7 @@ Message: {2}
             // handle underscores instead of spaces
             templatename = Regex.Escape(templatename.Replace('_', ' ')).Replace(@"\ ", @"[_ ]");
 
-            Regex oldtemplate = new Regex(@"(\{\{\s*)" + Tools.CaseInsensitive(templatename) + @"(\s*(?:\||\}\}))");
+            Regex oldtemplate = new Regex(@"(\{\{\s*)" + Tools.CaseInsensitive(templatename) + @"(\s*(?:<!--[^>]*?-->\s*)?(?:\||\}\}))");
 
             return oldtemplate.Replace(articletext, "$1" + newtemplatename + "$2");        	
         }
