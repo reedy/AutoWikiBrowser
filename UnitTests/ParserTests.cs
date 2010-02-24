@@ -5114,7 +5114,8 @@ asdfasdf}} was here", "foo"));
 		[Test]
 		public void GetTemplatesEmbeddedComments()
 		{
-		    const string foo1 = "{{foo|a}}", foo2 = "{{foo|b}}", foo2a = @"{{foo<!--comm-->|b}}";
+		    const string foo1 = "{{foo|a}}", foo2 = "{{foo|b}}", 
+		    foo2a = @"{{foo<!--comm-->|b}}", foo2b = @"{{foo|b<!--comm-->}}";
 		    string text = @"now " + foo1 + " and " + foo2;
 		    List<Match> templates = new List<Match>();
 		    
@@ -5123,7 +5124,13 @@ asdfasdf}} was here", "foo"));
 		    Assert.AreEqual(3, templates.Count);
 		    Assert.AreEqual(foo1, templates[0].Value);
 		    Assert.AreEqual(foo2, templates[1].Value);
-		    Assert.AreEqual(foo2a, templates[2].Value);		    
+		    Assert.AreEqual(foo2a, templates[2].Value);
+		    
+		    templates = Parsers.GetTemplates(text + " space " + foo2b, "foo");
+		    Assert.AreEqual(3, templates.Count);
+		    Assert.AreEqual(foo1, templates[0].Value);
+		    Assert.AreEqual(foo2, templates[1].Value);
+		    Assert.AreEqual(foo2b, templates[2].Value);
 		}
 
 		[Test]
