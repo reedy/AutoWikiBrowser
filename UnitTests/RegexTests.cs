@@ -1134,6 +1134,7 @@ words2"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{criticisms|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{crystal|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{deadend|date =  April 2009}}"));
+            Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{dead end|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{disputed|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{do-attempt|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{essay|date =  April 2009}}"));
