@@ -189,7 +189,7 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
                 return text;
 
             // Get the set of templates from the article text
-            MatchCollection matches = WikiFunctions.Parse.Parsers.GetTemplates(text, Settings.TemplateName);
+            List<Match> matches = WikiFunctions.Parse.Parsers.GetTemplates(text, Settings.TemplateName);
             if (matches.Count == 0)
             {
                 eventargs.Skip = Settings.SkipIfNoTemplates;

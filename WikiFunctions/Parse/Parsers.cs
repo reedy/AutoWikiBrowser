@@ -2984,13 +2984,16 @@ namespace WikiFunctions.Parse
         private static readonly Dictionary<string, Regex> CachedGetTemplatesRegexes = new Dictionary<string, Regex>();
         /// <summary>
         /// Finds every occurrence of a given template in article text.
-        /// Handles nested templates correctly.
+        /// Handles nested templates and templates with embedded HTML comments correctly.
         /// </summary>
         /// <param name="articleText">Source text</param>
         /// <param name="template">Name of template, can be regex without a group capture</param>
-        /// <returns>Template with all params, enclosed in curly brackets</returns>
-        public static MatchCollection GetTemplates(string articleText, string template)
+        /// <returns>List of matches found</returns>               
+        public static List<Match> GetTemplates(string articleText, string template)
         {
+            List<Match> templateMatches = new List<Match>();
+            string articleTextAtStart = articleText;
+            
             // replace with spaces any commented out templates etc., this means index of real matches remains the same as in actual article text
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.UnformattedText);
 
@@ -3001,15 +3004,26 @@ namespace WikiFunctions.Parse
             {
                 if (!CachedGetTemplatesRegexes.TryGetValue(ciTemplateName, out search))
                 {
-                    search = new Regex(@"{{\s*" + ciTemplateName + @"\s*(\|((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})|}})", RegexOptions.Compiled);
+                    search = new Regex(@"{{\s*" + ciTemplateName + @"\s*((?:<!--[^>]*?-->\s*)?\|((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})|}})", RegexOptions.Compiled);
                     CachedGetTemplatesRegexes[ciTemplateName] = search;
                 }
             }
 
-            // TODO: we must continue to not return matches on commented out templates, but where a template contains an embedded comment
-            // we must return the match containing that comment
-            // i.e. return matchcollection based on input articletext but with only matches on the replacewithspaces version
-            return search.Matches(articleText);
+            // return matches found in article text at start, provided they exist in cleaned text
+            // i.e. don't include matches for commented out/nowiki'd templates
+            foreach (Match m in search.Matches(articleText))
+            {
+                foreach (Match m2 in search.Matches(articleTextAtStart))
+                {
+                    if(m2.Index.Equals(m.Index))
+                    {
+                        templateMatches.Add(m2);
+                        break;
+                    }
+                }                
+            }
+
+            return templateMatches;
         }
 
         // covered by GetTemplateNameTests
