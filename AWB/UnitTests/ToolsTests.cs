@@ -74,12 +74,24 @@ namespace UnitTests
             Assert.IsFalse(Tools.IsRomanNumber(""));
         }
 
-        [Test, Category("Incomplete")] //TODO: address the need of escaped string as argument
+        [Test]
         public void CaseInsensitive()
         {
+            // standard cases
+            Assert.AreEqual(@"[Aa]bc", Tools.CaseInsensitive("Abc"));
+            Assert.AreEqual(@"[Aa]bc", Tools.CaseInsensitive("abc"));
+            Assert.AreEqual(@"[Aa]BC", Tools.CaseInsensitive("aBC"));
+            Assert.AreEqual(@"[Aa]bc[de]", Tools.CaseInsensitive("abc[de]"));
+            
+            // trimming
+            Assert.AreEqual(@"[Aa]bc", Tools.CaseInsensitive("abc "));
+            
+            // no changes
+            Assert.AreEqual(@" abc", Tools.CaseInsensitive(" abc"));
             Assert.AreEqual("", Tools.CaseInsensitive(""));
             Assert.AreEqual("123", Tools.CaseInsensitive("123"));
-            Assert.AreEqual("-", Tools.CaseInsensitive("-"));
+            Assert.AreEqual("-", Tools.CaseInsensitive("-"));            
+            Assert.AreEqual(@"[Aa]bc", Tools.CaseInsensitive(@"[Aa]bc"));
 
             Regex r = new Regex(Tools.CaseInsensitive("test"));
             Assert.IsTrue(r.IsMatch("test 123"));
@@ -91,11 +103,10 @@ namespace UnitTests
             Assert.AreEqual("Test", r.Match("Test").Value);
             Assert.IsFalse(r.IsMatch("TEst"));
 
-            //behavior changed
-            //r = new Regex(Tools.CaseInsensitive("[test}"));
-            //Assert.IsTrue(r.IsMatch("[test}"));
-            //Assert.IsFalse(r.IsMatch("[Test}"));
-            //Assert.IsFalse(r.IsMatch("test"));
+            r = new Regex(Tools.CaseInsensitive("#test#"));
+            Assert.IsTrue(r.IsMatch("#test#"));
+            Assert.IsFalse(r.IsMatch("#Test#"));
+            Assert.IsFalse(r.IsMatch("test"));
         }
 
         [Test]
