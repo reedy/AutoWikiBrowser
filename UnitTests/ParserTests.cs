@@ -5067,7 +5067,7 @@ asdfasdf}} was here", "foo"));
 		[Test]
 		public void GetTemplatesTests()
 		{
-			const string foo1 = "{{foo|a}}", foo2 = "{{foo|b}}", foo2a = @"{{foo<!--comm-->|b}}";
+			const string foo1 = "{{foo|a}}", foo2 = "{{foo|b}}";
 			string text = @"now " + foo1 + " and " + foo2;
 
 			Regex foo = new Regex(@"{{foo.*?}}");
