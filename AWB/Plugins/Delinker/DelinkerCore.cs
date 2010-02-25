@@ -21,19 +21,25 @@ namespace AutoWikiBrowser.Plugins.Delinker
         internal static string Link;
         internal static bool RemoveEmptiedSections = true;
 
-        Regex r1, r2, r3, r4;
+        private Regex r1,
+                      r2,
+                      r3;
 
-        readonly Regex RefStartRegex = new Regex(@"< ?ref(|[^>]*?[^/> ])\s*>", RegexOptions.Compiled);
-        readonly Regex RefNameRegex = new Regex(@"name ?= ?""?(\S*)""?", RegexOptions.Compiled);
+        private readonly Regex RefStartRegex = new Regex(@"< ?ref(|[^>]*?[^/> ])\s*>", RegexOptions.Compiled);
+        private readonly Regex RefNameRegex = new Regex(@"name ?= ?""?(\S*)""?", RegexOptions.Compiled);
 
-        readonly Regex ExternalLinksSectionRegex = new Regex(@"^={2,3}\s*((external )?links?|web ?links?|(внешн(€€|ие) )?ссылк[аи])\s*={2,3}\s*\r?\n",
-            RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline);
+        private readonly Regex ExternalLinksSectionRegex =
+            new Regex(@"^={2,3}\s*((external )?links?|web ?links?|(внешн(€€|ие) )?ссылк[аи])\s*={2,3}\s*\r?\n",
+                      RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline),
+                               r4 = new Regex(@"< ?ref(|[^>]*?[^/> ])\s*>(.*?)< ?/ ?ref ?>",
+                                              RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.Singleline |
+                                              RegexOptions.IgnoreCase);
 
-        string LinkRegexed;
+        private string LinkRegexed;
 
-        readonly List<string> RefNames = new List<string>();
+        private readonly List<string> RefNames = new List<string>();
 
-        readonly Parsers parser = new Parsers();
+        private readonly Parsers parser = new Parsers();
 
         public void Initialise(IAutoWikiBrowser sender)
         {
@@ -77,18 +83,18 @@ namespace AutoWikiBrowser.Plugins.Delinker
             get { return "Delinker plugin"; }
         }
 
-        string RemoveSection(string ArticleText)
+        private string RemoveSection(string articleText)
         {
             //string text = WikiRegexes.Comments.Replace(ArticleText, "");
 
-            string[] sections = Tools.SplitToSections(ArticleText);
+            string[] sections = Tools.SplitToSections(articleText);
 
             for (int i = 0; i < sections.Length; i++)
             {
                 if (ExternalLinksSectionRegex.IsMatch(sections[i]))
                 {
                     bool lastSection = (i == (sections.Length - 1));
-                    if (WikiRegexes.ExternalLinks.IsMatch(sections[i])) return ArticleText;
+                    if (WikiRegexes.ExternalLinks.IsMatch(sections[i])) return articleText;
 
                     string el = ExternalLinksSectionRegex.Replace(sections[i], "").Trim();
 
@@ -96,20 +102,20 @@ namespace AutoWikiBrowser.Plugins.Delinker
                     {
                         parser.Sorter.RemoveCats(ref el, "");
                         parser.Sorter.Interwikis(ref el);
-                        MetaDataSorter.RemoveDisambig(ref ArticleText);
-                        MetaDataSorter.RemovePersonData(ref ArticleText);
-                        MetaDataSorter.RemoveStubs(ref ArticleText);
+                        MetaDataSorter.RemoveDisambig(ref articleText);
+                        MetaDataSorter.RemovePersonData(ref articleText);
+                        MetaDataSorter.RemoveStubs(ref articleText);
                     }
-                    el = Parsers.RemoveAllWhiteSpace(ArticleText).Trim();
+                    el = Parsers.RemoveAllWhiteSpace(articleText).Trim();
 
                     if (el.Length == 0)
-                        return ExternalLinksSectionRegex.Replace(ArticleText, "");
-                    
+                        return ExternalLinksSectionRegex.Replace(articleText, "");
+
                     break;
                 }
             }
 
-            return ArticleText;
+            return articleText;
         }
 
         string R4Evaluator(Match match)
@@ -123,7 +129,7 @@ namespace AutoWikiBrowser.Plugins.Delinker
 
                 return "";
             }
-            
+
             return match.Value;
         }
 
@@ -131,21 +137,21 @@ namespace AutoWikiBrowser.Plugins.Delinker
         {
             if (!Enabled) return eventargs.ArticleText;
 
-            string ArticleText = eventargs.ArticleText;
+            string articleText = eventargs.ArticleText;
             RefNames.Clear();
 
-            ArticleText = r4.Replace(ArticleText, R4Evaluator);
-            ArticleText = r1.Replace(ArticleText, "");
-            ArticleText = r2.Replace(ArticleText, "");
-            ArticleText = r3.Replace(ArticleText, "");
+            articleText = r4.Replace(articleText, R4Evaluator);
+            articleText = r1.Replace(articleText, "");
+            articleText = r2.Replace(articleText, "");
+            articleText = r3.Replace(articleText, "");
 
             if (RefNames.Count > 0)
                 foreach (string name in RefNames)
                 {
-                    ArticleText = Regex.Replace(ArticleText, @"< ?ref\b[^>]*?name ?= ?""?" + name + "[\" ]? ?/ ?>", "");
+                    articleText = Regex.Replace(articleText, @"< ?ref\b[^>]*?name ?= ?""?" + name + "[\" ]? ?/ ?>", "");
                 }
 
-            if (ArticleText == eventargs.ArticleText)
+            if (articleText == eventargs.ArticleText)
             {
                 eventargs.Skip = Skip;
             }
@@ -153,10 +159,10 @@ namespace AutoWikiBrowser.Plugins.Delinker
             {
                 if (RemoveEmptiedSections && (Variables.LangCode == "en" ||
                     Variables.LangCode == "de" || Variables.LangCode == "ru"))
-                    ArticleText = RemoveSection(ArticleText);
+                    articleText = RemoveSection(articleText);
             }
 
-            return ArticleText;
+            return articleText;
         }
 
         public void LoadSettings(object[] prefs)
@@ -223,9 +229,6 @@ namespace AutoWikiBrowser.Plugins.Delinker
 
             r3 = new Regex(@"\[" + LinkRegexed + @"\]",
                 RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.IgnoreCase);
-
-            r4 = new Regex(@"< ?ref(|[^>]*?[^/> ])\s*>(.*?)< ?/ ?ref ?>",
-                RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.Singleline | RegexOptions.IgnoreCase);
         }
 
         public void Nudge(out bool Cancel)
