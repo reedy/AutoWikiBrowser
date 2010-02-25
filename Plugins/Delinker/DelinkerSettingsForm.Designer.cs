@@ -34,15 +34,14 @@ namespace AutoWikiBrowser.Plugins.Delinker
             this.label2 = new System.Windows.Forms.Label();
             this.Skip = new System.Windows.Forms.CheckBox();
             this.Cancel = new System.Windows.Forms.Button();
-            this.Subdomains = new System.Windows.Forms.CheckBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.RemoveSections = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // OK
             // 
+            this.OK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.OK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.OK.Location = new System.Drawing.Point(245, 181);
+            this.OK.Location = new System.Drawing.Point(244, 96);
             this.OK.Name = "OK";
             this.OK.Size = new System.Drawing.Size(75, 23);
             this.OK.TabIndex = 7;
@@ -80,7 +79,7 @@ namespace AutoWikiBrowser.Plugins.Delinker
             // Skip
             // 
             this.Skip.AutoSize = true;
-            this.Skip.Location = new System.Drawing.Point(15, 95);
+            this.Skip.Location = new System.Drawing.Point(15, 57);
             this.Skip.Name = "Skip";
             this.Skip.Size = new System.Drawing.Size(156, 17);
             this.Skip.TabIndex = 5;
@@ -89,40 +88,19 @@ namespace AutoWikiBrowser.Plugins.Delinker
             // 
             // Cancel
             // 
+            this.Cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.Cancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.Cancel.Location = new System.Drawing.Point(326, 181);
+            this.Cancel.Location = new System.Drawing.Point(325, 96);
             this.Cancel.Name = "Cancel";
             this.Cancel.Size = new System.Drawing.Size(75, 23);
             this.Cancel.TabIndex = 8;
             this.Cancel.Text = "Cancel";
             this.Cancel.UseVisualStyleBackColor = true;
             // 
-            // Subdomains
-            // 
-            this.Subdomains.AutoSize = true;
-            this.Subdomains.Location = new System.Drawing.Point(15, 72);
-            this.Subdomains.Name = "Subdomains";
-            this.Subdomains.Size = new System.Drawing.Size(120, 17);
-            this.Subdomains.TabIndex = 3;
-            this.Subdomains.Text = "&Include subdomains";
-            this.Subdomains.UseVisualStyleBackColor = true;
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Remove all",
-            "Remove only "});
-            this.comboBox1.Location = new System.Drawing.Point(279, 70);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 4;
-            // 
             // RemoveSections
             // 
             this.RemoveSections.AutoSize = true;
-            this.RemoveSections.Location = new System.Drawing.Point(15, 118);
+            this.RemoveSections.Location = new System.Drawing.Point(15, 80);
             this.RemoveSections.Name = "RemoveSections";
             this.RemoveSections.Size = new System.Drawing.Size(212, 17);
             this.RemoveSections.TabIndex = 6;
@@ -135,10 +113,8 @@ namespace AutoWikiBrowser.Plugins.Delinker
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.Cancel;
-            this.ClientSize = new System.Drawing.Size(412, 216);
+            this.ClientSize = new System.Drawing.Size(411, 126);
             this.Controls.Add(this.RemoveSections);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.Subdomains);
             this.Controls.Add(this.Cancel);
             this.Controls.Add(this.Skip);
             this.Controls.Add(this.label2);
@@ -167,8 +143,6 @@ namespace AutoWikiBrowser.Plugins.Delinker
         private System.Windows.Forms.Label label2;
         internal System.Windows.Forms.CheckBox Skip;
         private System.Windows.Forms.Button Cancel;
-        private System.Windows.Forms.CheckBox Subdomains;
-        private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.CheckBox RemoveSections;
     }
 }
