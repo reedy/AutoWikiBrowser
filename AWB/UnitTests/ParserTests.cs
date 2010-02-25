@@ -1531,6 +1531,27 @@ died 2002
 			Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"{{Template:    foo|bar}}"));
 			Assert.AreEqual(@"foo here", Parsers.GetTemplateName(@"{{Template:    foo here|bar}}"));
 			Assert.AreEqual(@"foo-bar", Parsers.GetTemplateName(@"{{Template:    foo-bar}}"));
+			Assert.AreEqual(@"", Parsers.GetTemplateName(@"Bert"));
+			Assert.AreEqual(@"", Parsers.GetTemplateName(@""));
+		}
+		
+		[Test]
+		public void GetTemplateNameTests2()
+		{
+		    WikiRegexes.TemplateCall = new Regex(@"{{Template:\s*([^\]\|]*)\s*(.*)}}", RegexOptions.Singleline);
+
+		    Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"{{Template:foo|bar}}", false));
+		    Assert.AreEqual(@"Foo", Parsers.GetTemplateName(@"{{Template:Foo|bar}}", false));
+		    Assert.AreEqual(@"Foo", Parsers.GetTemplateName(@"{{Template:Foo|bar}}", true));
+		    Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"{{Template:    foo|bar}}", false));
+		    Assert.AreEqual(@"foo here", Parsers.GetTemplateName(@"{{Template:    foo here|bar}}", false));
+		    Assert.AreEqual(@"foo-bar", Parsers.GetTemplateName(@"{{Template:    foo-bar}}", false));
+		    
+		    Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"{{Template:foo|bar=yes}}", true));
+		    Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"{{Template: foo |bar=yes}}", true));
+		    Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"{{Template:foo|bar=yes}}", true));
+		    Assert.AreEqual(@"", Parsers.GetTemplateName(@"", true));
+		    Assert.AreEqual(@"", Parsers.GetTemplateName(@" ", true));
 		}
 
 		[Test]
@@ -4982,6 +5003,18 @@ fish | name = Bert }} ''Bert'' is a good fish."));
 			Assert.IsFalse(Parsers.HasInfobox(@"{{infoboxfish | name = Bert }} ''Bert'' is a good fish."));
 			Assert.IsFalse(Parsers.HasInfobox(@"<!--{{infobox fish | name = Bert }}--> ''Bert'' is a good fish."));
 			Assert.IsFalse(Parsers.HasInfobox(@"<nowiki>{{infobox fish | name = Bert }}</nowiki> ''Bert'' is a good fish."));
+		}
+		
+		[Test]
+		public void InfoboxTestsEnOnly()
+		{
+		    #if DEBUG
+			Variables.SetProjectLangCode("fr");
+			Assert.IsFalse(Parsers.HasInfobox(@"{{Infobox fish | name = Bert }} ''Bert'' is a good fish."));
+			Assert.IsFalse(Parsers.HasInfobox(@"{{INFOBOX fish | name = Bert }} ''Bert'' is a good fish."));
+			Variables.SetProjectLangCode("en");
+			Assert.IsTrue(Parsers.HasInfobox(@"{{Infobox fish | name = Bert }} ''Bert'' is a good fish."));
+			#endif		    
 		}
 
 		[Test]
