@@ -1043,7 +1043,7 @@ namespace AutoWikiBrowser
             this.saveCurrentSettingsToolStripMenuItem.Name = "saveCurrentSettingsToolStripMenuItem";
             this.saveCurrentSettingsToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
             this.saveCurrentSettingsToolStripMenuItem.Text = "Save settings &as...";
-            this.saveCurrentSettingsToolStripMenuItem.Click += new System.EventHandler(this.saveCurrentSettingsToolStripMenuItem_Click);
+            this.saveCurrentSettingsToolStripMenuItem.Click += new System.EventHandler(this.saveSettingsAsToolStripMenuItem_Click);
             // 
             // saveAsDefaultToolStripMenuItem
             // 

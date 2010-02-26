@@ -60,7 +60,7 @@ namespace AutoWikiBrowser
                 SavePrefs();
             else
             {
-                saveCurrentSettingsToolStripMenuItem_Click(null, null);
+                saveSettingsAsToolStripMenuItem_Click(null, null);
             }
         }
 
@@ -75,7 +75,7 @@ namespace AutoWikiBrowser
                 ResetSettings();
         }
 
-        private void saveCurrentSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void saveSettingsAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (SettingsFile != AwbDirs.DefaultSettings)
                 saveXML.FileName = SettingsFile;
