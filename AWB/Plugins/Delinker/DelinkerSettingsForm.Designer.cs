@@ -28,6 +28,7 @@ namespace AutoWikiBrowser.Plugins.Delinker
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.OK = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.Link = new System.Windows.Forms.TextBox();
@@ -35,6 +36,7 @@ namespace AutoWikiBrowser.Plugins.Delinker
             this.Skip = new System.Windows.Forms.CheckBox();
             this.Cancel = new System.Windows.Forms.Button();
             this.RemoveSections = new System.Windows.Forms.CheckBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // OK
@@ -144,5 +146,6 @@ namespace AutoWikiBrowser.Plugins.Delinker
         internal System.Windows.Forms.CheckBox Skip;
         private System.Windows.Forms.Button Cancel;
         private System.Windows.Forms.CheckBox RemoveSections;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
