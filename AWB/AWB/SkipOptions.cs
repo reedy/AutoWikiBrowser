@@ -114,6 +114,11 @@ namespace AutoWikiBrowser
             set
             {
                 if (value.Count <= 0) return;
+
+                CheckAll.Checked = false;
+                CheckNone.Checked = false;
+                SetCheckboxes(false);
+
                 foreach (CheckBox c in CheckBoxPanel.Controls)
                 {
                     c.Checked = value.Contains((int)c.Tag);
