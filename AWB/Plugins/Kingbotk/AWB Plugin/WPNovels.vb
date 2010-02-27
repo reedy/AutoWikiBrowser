@@ -281,8 +281,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         ' Regular expressions:
         Private Shared ReadOnly InfoboxIncompleteRegex As New Regex(TemplatePrefix & "Novelinfoboxincomp\s*\}\}[\s\n\r]*", _
            RegexOptions.IgnoreCase Or RegexOptions.Compiled Or RegexOptions.ExplicitCapture)
-        Private Shared ReadOnly InfoboxNeededRegex As New Regex(TemplatePrefix & "Novelinfoboxneeded\s*\}\}[\s\n\r]*", _
-           RegexOptions.IgnoreCase Or RegexOptions.Compiled Or RegexOptions.ExplicitCapture)
 
         ' Settings:
         Private OurTab As New TabPage("Novels")
