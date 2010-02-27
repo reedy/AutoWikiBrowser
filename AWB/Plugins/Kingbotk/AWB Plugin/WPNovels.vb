@@ -278,10 +278,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
     Friend NotInheritable Class WPNovels
         Inherits PluginBase
 
-        ' Regular expressions:
-        Private Shared ReadOnly InfoboxIncompleteRegex As New Regex(TemplatePrefix & "Novelinfoboxincomp\s*\}\}[\s\n\r]*", _
-           RegexOptions.IgnoreCase Or RegexOptions.Compiled Or RegexOptions.ExplicitCapture)
-
         ' Settings:
         Private OurTab As New TabPage("Novels")
         Private WithEvents OurSettingsControl As New WPNovelSettings
@@ -366,11 +362,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             ' None
         End Function
         Protected Overrides Sub ProcessArticleFinish()
-            ReplaceATemplateWithAYesParameter(InfoboxIncompleteRegex, "incomp-infobox", _
-               "{{[[Template:Novelinfoboxincomp|Novelinfoboxincomp]]}}", True)
-            ReplaceATemplateWithAYesParameter(InfoboxNeededRegex, "needs-infobox", _
-               "{{[[Template:Novelinfoboxneeded|Novelinfoboxneeded]]}}", True)
-
+        	
             StubClass()
             With OurSettingsControl
                 If .CrimeWG Then
