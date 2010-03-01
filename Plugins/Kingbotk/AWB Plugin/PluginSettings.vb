@@ -24,7 +24,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Private Const conOpenBadInBrowser As String = "OpenBadInBrowser"
 
         ' Statistics:
-        Friend WithEvents PluginStats As New Stats
+        Friend PluginStats As AutoWikiBrowser.Plugins.Kingbotk.Components.PluginSettingsControl.Stats = New Stats
         Private StatLabels As New List(Of Label)
 
         Friend Sub New()
