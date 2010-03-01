@@ -68,7 +68,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Private Sub CalculateETA(ByVal SecondsPerPage As Double)
             Dim Count As Integer = PluginManager.AWBForm.ListMaker.Count
 
-            If Count < 1 Then
+            If Count = 0 Then
                 ETA = "Now"
             Else
                 Dim ETADateTime As Date = Date.Now.AddSeconds(SecondsPerPage * Count)
