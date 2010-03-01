@@ -483,83 +483,77 @@ namespace WikiFunctions.Parse
             // casesensitive
             // 
             this.casesensitive.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.casesensitive.FalseValue = "0";
+            this.casesensitive.FalseValue = false;
             this.casesensitive.FillWeight = 71.79286F;
             this.casesensitive.Frozen = true;
             this.casesensitive.HeaderText = "CaseSensitive";
-            this.casesensitive.IndeterminateValue = "0";
             this.casesensitive.Name = "casesensitive";
             this.casesensitive.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.casesensitive.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.casesensitive.TrueValue = "1";
+            this.casesensitive.TrueValue = true;
             this.casesensitive.Width = 75;
             // 
             // regex
             // 
             this.regex.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.regex.FalseValue = "0";
+            this.regex.FalseValue = false;
             this.regex.FillWeight = 131.5755F;
             this.regex.Frozen = true;
             this.regex.HeaderText = "Regex";
-            this.regex.IndeterminateValue = "0";
             this.regex.Name = "regex";
             this.regex.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.regex.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.regex.TrueValue = "1";
+            this.regex.TrueValue = true;
             this.regex.Width = 40;
             // 
             // multi
             // 
             this.multi.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.multi.FalseValue = "0";
+            this.multi.FalseValue = false;
             this.multi.FillWeight = 150.1532F;
             this.multi.Frozen = true;
             this.multi.HeaderText = "MultiLine";
-            this.multi.IndeterminateValue = "0";
             this.multi.Name = "multi";
             this.multi.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.multi.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.multi.TrueValue = "1";
+            this.multi.TrueValue = true;
             this.multi.Width = 50;
             // 
             // single
             // 
             this.single.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.single.FalseValue = "0";
+            this.single.FalseValue = false;
             this.single.FillWeight = 173.4641F;
             this.single.Frozen = true;
             this.single.HeaderText = "SingleLine";
-            this.single.IndeterminateValue = "0";
             this.single.Name = "single";
             this.single.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.single.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.single.TrueValue = "1";
+            this.single.TrueValue = true;
             this.single.Width = 58;
             // 
             // Minor
             // 
             this.Minor.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Minor.FalseValue = "0";
+            this.Minor.FalseValue = false;
             this.Minor.Frozen = true;
             this.Minor.HeaderText = "Minor";
-            this.Minor.IndeterminateValue = "0";
             this.Minor.Name = "Minor";
             this.Minor.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Minor.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.Minor.TrueValue = "1";
+            this.Minor.TrueValue = true;
             this.Minor.Width = 50;
             // 
             // enabled
             // 
             this.enabled.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.enabled.FalseValue = "0";
+            this.enabled.FalseValue = false;
             this.enabled.Frozen = true;
             this.enabled.HeaderText = "Enabled";
-            this.enabled.IndeterminateValue = "0";
             this.enabled.Name = "enabled";
             this.enabled.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.enabled.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.enabled.TrueValue = "1";
+            this.enabled.TrueValue = true;
             this.enabled.Width = 50;
             // 
             // Comment
