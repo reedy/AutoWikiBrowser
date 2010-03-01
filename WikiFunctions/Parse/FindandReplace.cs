@@ -389,7 +389,7 @@ namespace WikiFunctions.Parse
 
         #region Events
 
-        private void ChangeChecked(string col, int value)
+        private void ChangeChecked(string col, bool value)
         {
             dataGridView1.EndEdit();
             foreach (DataGridViewRow r in dataGridView1.Rows)
@@ -406,7 +406,7 @@ namespace WikiFunctions.Parse
             if (!ApplyDefaultFormatting)
                 return;
 
-            dataGridView1.Rows[e.RowIndex].Cells["enabled"].Value = "1";
+            dataGridView1.Rows[e.RowIndex].Cells["enabled"].Value = true;
         }
 
         private void FindandReplace_Shown(object sender, EventArgs e)
@@ -427,52 +427,52 @@ namespace WikiFunctions.Parse
 
         private void allCaseSensitiveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ChangeChecked("casesensitive", 1);
+            ChangeChecked("casesensitive", true);
         }
 
         private void uncheckAllCaseSensitiveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ChangeChecked("casesensitive", 0);
+            ChangeChecked("casesensitive", false);
         }
 
         private void checkAllRegularExpressionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ChangeChecked("regex", 1);
+            ChangeChecked("regex", true);
         }
 
         private void uncheckAllRegularExpressionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ChangeChecked("regex", 0);
+            ChangeChecked("regex", false);
         }
 
         private void checkAllMultlineToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ChangeChecked("multi", 1);
+            ChangeChecked("multi", true);
         }
 
         private void uncheckAllMultilineToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ChangeChecked("multi", 0);
+            ChangeChecked("multi", false);
         }
 
         private void enableAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ChangeChecked("enabled", 1);
+            ChangeChecked("enabled", true);
         }
 
         private void disableAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ChangeChecked("enabled", 0);
+            ChangeChecked("enabled", false);
         }
 
         private void checkAllSinglelineToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ChangeChecked("single", 1);
+            ChangeChecked("single", true);
         }
 
         private void uncheckAllSinglelineToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ChangeChecked("single", 0);
+            ChangeChecked("single", false);
         }
 
         private void deleteRowToolStripMenuItem_Click(object sender, EventArgs e)
@@ -571,7 +571,7 @@ namespace WikiFunctions.Parse
         private void addRowToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (dataGridView1.SelectedRows.Count > 0)
-                dataGridView1.Rows.Insert(dataGridView1.SelectedRows[0].Index, "1");
+                dataGridView1.Rows.Insert(dataGridView1.SelectedRows[0].Index, true);
             else
                 dataGridView1.Rows.Add();
         }
@@ -647,12 +647,12 @@ namespace WikiFunctions.Parse
 
         private void checkAllMinorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ChangeChecked("minor", 1);
+            ChangeChecked("minor", true);
         }
 
         private void uncheckAllMinorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ChangeChecked("minor", 0);
+            ChangeChecked("minor", false);
         }
     }
 
