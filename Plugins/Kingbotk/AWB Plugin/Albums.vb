@@ -81,8 +81,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Inherits PluginBase
 
         ' Regular expressions:
-        Private ReadOnly InfoboxRegex As New Regex(TemplatePrefix & "Needsinfobox\s*\}\}\s*", _
-           RegexOptions.IgnoreCase Or RegexOptions.Compiled Or RegexOptions.ExplicitCapture)
 
         ' Settings:
         Private OurTab As New TabPage("Albums")
