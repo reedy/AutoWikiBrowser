@@ -425,9 +425,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
            "<!-- begin Bot added message -->\s*This article has been automatically assessed as.*Biography.*?<!-- end Bot added message -->", _
            RegexOptions.Compiled Or RegexOptions.Singleline) ' Bizarrely, Singleline causes a "." to match linebreaks, Multiline doesn't! :) http://www.thescripts.com/forum/thread223868.html
         Private Shared ReadOnly SkierBotPlaceholderRegex As New Regex(Regex.Escape(conSkierBotPlaceholder), RegexOptions.Compiled)
-        'Private Shared ReadOnly InfoboxNeededRegex As New Regex ' No use because the template takes a parameter
-        Protected Shared ReadOnly StubClassRegex As New Regex(TemplatePrefix & "[Ss]tubclass[^{}]*?Biography[^{}]*?\}\}", _
-           RegexOptions.Singleline Or RegexOptions.Compiled)
 
         ' Strings:
         Private Const conStringsRoyaltyWorkGroup As String = "royalty-work-group"
