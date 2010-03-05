@@ -24,13 +24,13 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Private Const conOpenBadInBrowser As String = "OpenBadInBrowser"
 
         ' Statistics:
-        Friend PluginStats As AutoWikiBrowser.Plugins.Kingbotk.Components.PluginSettingsControl.Stats = New Stats
+        Friend WithEvents PluginStats As AutoWikiBrowser.Plugins.Kingbotk.Components.PluginSettingsControl.Stats = New Stats
         Private StatLabels As New List(Of Label)
 
         Friend Sub New()
             ' This call is required by the Windows Form Designer and must come first:
             InitializeComponent()
-               AddHandler LivingPeopleToolStripMenuItem.Click, AddressOf Me.LivingPeopleToolStripMenuItemClick
+            AddHandler LivingPeopleToolStripMenuItem.Click, AddressOf Me.LivingPeopleToolStripMenuItemClick
 
             With PluginManager.AWBForm
                 .CategoryTextBox.ContextMenuStrip.Items.Insert(0, LivingPeopleToolStripMenuItem)
