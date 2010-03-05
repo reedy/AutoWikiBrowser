@@ -158,7 +158,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             End With
         End Sub
         Private Sub LivingPeopleToolStripMenuItemClick(ByVal sender As Object, ByVal e As EventArgs)
-
             CategoryName = "Living people"
         End Sub
         Private Sub MenuAbout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuAbout.Click

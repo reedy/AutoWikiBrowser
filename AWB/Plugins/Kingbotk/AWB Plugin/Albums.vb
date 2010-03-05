@@ -142,8 +142,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Function
         Protected Overrides Sub ProcessArticleFinish()
             StubClass()
-            ReplaceATemplateWithAYesParameter(InfoboxRegex, "needs-infobox", _
-                "{{[[Template:Needsinfobox|Needsinfobox]]}}")
         End Sub
         Protected Overrides Function TemplateFound() As Boolean
             ' Nothing to do here
