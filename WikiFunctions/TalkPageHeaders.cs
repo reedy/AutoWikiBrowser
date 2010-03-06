@@ -171,7 +171,7 @@ namespace WikiFunctions.TalkPages
                 articleText = WikiRegexes.TalkHeaderTemplate.Replace(articleText, "");
                 
                 // write existing talk header to top
-                articleText = m.Value + "\r\n" + articleText;
+                articleText = m.Value.TrimEnd() + "\r\n" + articleText.TrimStart();
                 
                 // ensure template is now named {{talk header}}
                 articleText = articleText.Replace(m.Groups[1].Value, "talk header");
