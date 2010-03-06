@@ -34,7 +34,7 @@ namespace WikiFunctions.TalkPages
     {
         public string DefaultSortKey;
         public bool FoundDefaultSort;
-        public bool FoundSkipTOC;
+        public bool FoundSkipToTalk;
         public bool FoundTalkHeader;
 
         // Match evaluators:
@@ -48,7 +48,7 @@ namespace WikiFunctions.TalkPages
 
         public string SkipTOCMatchEvaluator(Match match)
         {
-            FoundSkipTOC = true;
+            FoundSkipToTalk = true;
             return "";
         }
 
@@ -75,7 +75,7 @@ namespace WikiFunctions.TalkPages
             // move talk page header to the top
             articleText = MoveTalkHeader(articleText, ref summary);
 
-            if (pr.FoundSkipTOC)
+            if (pr.FoundSkipToTalk)
                 WriteHeaderTemplate("skip to talk", ref articleText, ref summary);
 
             if (moveDefaultsort != DEFAULTSORT.NoChange)
@@ -97,7 +97,7 @@ namespace WikiFunctions.TalkPages
             
             articleText = AddMissingFirstCommentHeader(articleText, ref summary);
             
-            return pr.FoundTalkHeader || pr.FoundSkipTOC || pr.FoundDefaultSort;
+            return pr.FoundTalkHeader || pr.FoundSkipToTalk || pr.FoundDefaultSort;
         }
 
         public static string FormatDefaultSort(string articleText)
