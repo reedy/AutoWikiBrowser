@@ -81,10 +81,11 @@ namespace WikiFunctions.Controls
         }
 
         private bool sortColumnsOnClick;
-        [DefaultValue(false)]
+
         /// <summary>
         /// Enables or disables sorting upon click on column header
         /// </summary>
+        [DefaultValue(false)]
         public bool SortColumnsOnClick
         {
             set
