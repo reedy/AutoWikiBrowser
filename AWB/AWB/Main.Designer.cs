@@ -116,7 +116,7 @@ namespace AutoWikiBrowser
             this.recentToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.saveSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveCurrentSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveSettingsAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.profilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -995,7 +995,7 @@ namespace AutoWikiBrowser
             this.recentToolStripMenuItem,
             this.toolStripSeparator2,
             this.saveSettingsToolStripMenuItem,
-            this.saveCurrentSettingsToolStripMenuItem,
+            this.saveSettingsAsToolStripMenuItem,
             this.saveAsDefaultToolStripMenuItem,
             this.toolStripSeparator8,
             this.profilesToolStripMenuItem,
@@ -1038,12 +1038,12 @@ namespace AutoWikiBrowser
             this.saveSettingsToolStripMenuItem.Text = "&Save settings";
             this.saveSettingsToolStripMenuItem.Click += new System.EventHandler(this.saveSettingsToolStripMenuItem_Click);
             // 
-            // saveCurrentSettingsToolStripMenuItem
+            // saveSettingsAsToolStripMenuItem
             // 
-            this.saveCurrentSettingsToolStripMenuItem.Name = "saveCurrentSettingsToolStripMenuItem";
-            this.saveCurrentSettingsToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
-            this.saveCurrentSettingsToolStripMenuItem.Text = "Save settings &as...";
-            this.saveCurrentSettingsToolStripMenuItem.Click += new System.EventHandler(this.saveSettingsAsToolStripMenuItem_Click);
+            this.saveSettingsAsToolStripMenuItem.Name = "saveSettingsAsToolStripMenuItem";
+            this.saveSettingsAsToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.saveSettingsAsToolStripMenuItem.Text = "Save settings &as...";
+            this.saveSettingsAsToolStripMenuItem.Click += new System.EventHandler(this.saveSettingsAsToolStripMenuItem_Click);
             // 
             // saveAsDefaultToolStripMenuItem
             // 
@@ -4388,7 +4388,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator5;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem humanNameCategoryKeyToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem saveCurrentSettingsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveSettingsAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem PreferencesToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
