@@ -157,6 +157,7 @@ namespace AutoWikiBrowser
             this.focusAtEndOfEditTextBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.noSectionEditSummaryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.restrictDefaultsortChangesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.restrictOrphanTaggingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.noMOSComplianceFixesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.syntaxHighlightEditBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.highlightAllFindToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1279,6 +1280,7 @@ namespace AutoWikiBrowser
             this.focusAtEndOfEditTextBoxToolStripMenuItem,
             this.noSectionEditSummaryToolStripMenuItem,
             this.restrictDefaultsortChangesToolStripMenuItem,
+            this.restrictOrphanTaggingToolStripMenuItem,
             this.noMOSComplianceFixesToolStripMenuItem,
             this.syntaxHighlightEditBoxToolStripMenuItem,
             this.highlightAllFindToolStripMenuItem,
@@ -1371,6 +1373,14 @@ namespace AutoWikiBrowser
             this.restrictDefaultsortChangesToolStripMenuItem.Name = "restrictDefaultsortChangesToolStripMenuItem";
             this.restrictDefaultsortChangesToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
             this.restrictDefaultsortChangesToolStripMenuItem.Text = "Restrict {{&DEFAULTSORT}} change/addition";
+            // 
+            // restrictOrphanTaggingToolStripMenuItem
+            // 
+            this.restrictOrphanTaggingToolStripMenuItem.Checked = false;
+            this.restrictOrphanTaggingToolStripMenuItem.CheckOnClick = true;
+            this.restrictOrphanTaggingToolStripMenuItem.Name = "restrictOrphanTaggingToolStripMenuItem";
+            this.restrictOrphanTaggingToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
+            this.restrictOrphanTaggingToolStripMenuItem.Text = "Restrict orphan tag addition to linkless pages";
             // 
             // noMOSComplianceFixesToolStripMenuItem
             // 
@@ -4571,6 +4581,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem focusAtEndOfEditTextBoxToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem noSectionEditSummaryToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem restrictDefaultsortChangesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem restrictOrphanTaggingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem noMOSComplianceFixesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem syntaxHighlightEditBoxToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem highlightAllFindToolStripMenuItem;
