@@ -165,10 +165,14 @@ namespace WikiFunctions.TalkPages
         private static string MoveTalkHeader(string articleText, ref string summary)
         {
             Match m = WikiRegexes.TalkHeaderTemplate.Match(articleText);
+            
             if(m.Success && m.Index > 0)
             {
-                // remove existing talk header
-                articleText = WikiRegexes.TalkHeaderTemplate.Replace(articleText, "");
+                // remove existing talk header – handle case where not at beginning of line
+                if(articleText.Contains("\r\n" + m.Value))
+                    articleText = articleText.Replace(m.Value, "");
+                else
+                    articleText = articleText.Replace(m.Value, "\r\n");
                 
                 // write existing talk header to top
                 articleText = m.Value.TrimEnd() + "\r\n" + articleText.TrimStart();
