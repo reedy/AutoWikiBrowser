@@ -673,6 +673,17 @@ Hello world comment.");
 :Hello world comment3.");
             Assert.IsTrue(newSummary.Contains("Added missing comments section header"));
             
+            // quoted comment
+            articleTextIn = articleTextHeader + @"
+""Hello world comment4"".";
+            newSummary = "";
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
+            
+            Assert.AreEqual(articleTextIn, articleTextHeader + "\r\n" + @"
+==Untitled==
+""Hello world comment4"".");
+            Assert.IsTrue(newSummary.Contains("Added missing comments section header"));
+            
             // heading level 3 changed to level 2
             articleTextIn = articleTextHeader + "\r\n" + @"===Foo bar===
 *Hello world comment2.";

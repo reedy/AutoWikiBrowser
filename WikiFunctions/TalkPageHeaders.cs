@@ -182,7 +182,7 @@ namespace WikiFunctions.TalkPages
             return articleText;
         }
         
-        private static readonly Regex FirstComment = new Regex(@"^ *[:\*\w'](?<!_)", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex FirstComment = new Regex(@"^ *[:\*\w'""](?<!_)", RegexOptions.Compiled | RegexOptions.Multiline);
         
         /// <summary>
         /// Adds a section 2 heading before the first comment if the talk page does not have one
