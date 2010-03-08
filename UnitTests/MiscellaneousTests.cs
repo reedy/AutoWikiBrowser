@@ -604,7 +604,21 @@ hello talk";
             
             TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
             
-            Assert.AreEqual(talkheader + "\r\n" + talkrest+ "\r\n", articleText);
+            Assert.AreEqual(talkheader + "\r\n" + talkrest + "\r\n", articleText);
+            Assert.IsTrue(newSummary.Contains("{{tl|Talk header}} given top billing"));
+            
+            // handles {{talk header}} on same line as other template
+            string WPBS = @"{{WikiProjectBannerShell|blp=yes|1=
+{{OH-Project|class=B|importance=Low|nested=yes}}
+{{WPBiography|living=yes|class=B|priority=Low|filmbio-work-group=yes|nested=yes|listas=Parker, Sarah Jessica}}
+{{WikiProject Cincinnati|class=B|importance=mid|nested=yes}}
+}}", rest = "\r\n" +  @"==Song Jessie by Joshua Kadison==
+In the article it says that above mentioned";
+            articleText = WPBS + @"{{Talkheader}}" + rest;
+            
+            TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
+            
+            Assert.AreEqual(@"{{talk header}}" + "\r\n" + WPBS + rest, articleText);
             Assert.IsTrue(newSummary.Contains("{{tl|Talk header}} given top billing"));
             
             // no change if already at top
