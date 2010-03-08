@@ -358,6 +358,7 @@ namespace AutoWikiBrowser
                         PreParseMode = preParseModeToolStripMenuItem.Checked,
                         noSectionEditSummary = noSectionEditSummaryToolStripMenuItem.Checked,
                         restrictDefaultsortAddition = restrictDefaultsortChangesToolStripMenuItem.Checked,
+                        restrictOrphanTagging = restrictOrphanTaggingToolStripMenuItem.Checked,
                         noMOSComplianceFixes = noMOSComplianceFixesToolStripMenuItem.Checked,
                         syntaxHighlightEditBox = syntaxHighlightEditBoxToolStripMenuItem.Checked,
                         highlightAllFind = highlightAllFindToolStripMenuItem.Checked,
@@ -595,6 +596,7 @@ namespace AutoWikiBrowser
             preParseModeToolStripMenuItem.Checked = p.General.PreParseMode;
             noSectionEditSummaryToolStripMenuItem.Checked = p.General.noSectionEditSummary;
             restrictDefaultsortChangesToolStripMenuItem.Checked = p.General.restrictDefaultsortAddition;
+            restrictOrphanTaggingToolStripMenuItem.Checked = p.General.restrictOrphanTagging;
             noMOSComplianceFixesToolStripMenuItem.Checked = p.General.noMOSComplianceFixes;
             syntaxHighlightEditBoxToolStripMenuItem.Checked = p.General.syntaxHighlightEditBox;
             highlightAllFindToolStripMenuItem.Checked = p.General.highlightAllFind;
