@@ -122,6 +122,22 @@ Foo.JPEG
 Test.JPG
 Foo.JPEG
 </Gallery>");
+            RegexAssert.IsMatch(WikiRegexes.Images, @"{{Gallery
+|title=Lamu images
+|width=150
+|lines=2
+|Image:LamuFort.jpg|Lamu Fort
+|Image:LAMU Riyadha Mosque.jpg|Riyadha Mosque
+|Image:04 Donkey Hospital (June 30 2001).jpg|Donkey Sanctuary
+}}");
+            RegexAssert.IsMatch(WikiRegexes.Images, @"{{ gallery
+|title=Lamu images
+|width=150
+|lines=2
+|Image:LamuFort.jpg|Lamu Fort
+|Image:LAMU Riyadha Mosque.jpg|Riyadha Mosque
+|Image:04 Donkey Hospital (June 30 2001).jpg|Donkey Sanctuary
+}}");
         }
         
         [Test]

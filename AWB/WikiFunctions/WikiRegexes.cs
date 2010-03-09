@@ -44,10 +44,11 @@ namespace WikiFunctions
             // this allows typo fixing and find&replace to operate on image descriptions
             // or, alternatively, an image filename has to have a pipe or ]] after it if using the [[Image: start, so just set first one to 
             // @"[^\[\]\|\{\}]+\.[a-zA-Z]{3,4}\b(?:\s*(?:\]\]|\|))
+            // handles <gallery> and {{gallery}} too
             Images =
                 new Regex(
                     @"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.File] +
-                    @"[ \%\!""$&'\(\)\*,\-.\/0-9:;=\?@A-Z\\\^_`a-z~\x80-\xFF\+]+\.[a-zA-Z]{3,4}\b(?:\s*(?:\]\]|\|))?|<[Gg]allery\b([^>]*?)>[\s\S]*?</ ?[Gg]allery>|\|\s*[a-zA-Z\d_ ]+\s*=[^\|{}]+?\.[a-zA-Z]{3,4}\s*(?=\||}})",
+                    @"[ \%\!""$&'\(\)\*,\-.\/0-9:;=\?@A-Z\\\^_`a-z~\x80-\xFF\+]+\.[a-zA-Z]{3,4}\b(?:\s*(?:\]\]|\|))?|<[Gg]allery\b([^>]*?)>[\s\S]*?</ ?[Gg]allery>|{{\s*[Gg]allery\s*(?:\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))?}}|\|\s*[a-zA-Z\d_ ]+\s*=[^\|{}]+?\.[a-zA-Z]{3,4}\s*(?=\||}})",
                     RegexOptions.Compiled | RegexOptions.Singleline);
             
             FileNamespaceLink = new Regex(@"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.File] +

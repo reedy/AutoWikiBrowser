@@ -240,6 +240,15 @@ image = AmorMexicanaThalia.jpg |"), Hidden + @"\|"));
    | image=Chlorothiazide.svg
    | image2=Chlorothiazide-from-xtal-3D-balls.png
    | CAS_number=58-94-6").Contains("=Chlorothiazide"));
+            
+            AssertAllHidden(@"{{ gallery
+|title=Lamu images
+|width=150
+|lines=2
+|Image:LamuFort.jpg|Lamu Fort
+|Image:LAMU Riyadha Mosque.jpg|Riyadha Mosque
+|Image:04 Donkey Hospital (June 30 2001).jpg|Donkey Sanctuary
+}}");
         }
 
         [Test]
