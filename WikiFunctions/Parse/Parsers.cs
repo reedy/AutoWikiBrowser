@@ -4396,9 +4396,9 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// If necessary, adds/removes wikify or stub tag
         /// </summary>
-        public string Tagger(string articleText, string articleTitle, out bool noChange, ref string summary)
+        public string Tagger(string articleText, string articleTitle, bool restrictOrphanTagging, out bool noChange, ref string summary)
         {
-            string newText = Tagger(articleText, articleTitle, ref summary);
+            string newText = Tagger(articleText, articleTitle, restrictOrphanTagging, ref summary);
             newText = TagUpdater(newText);
 
             noChange = (newText == articleText);
@@ -4419,7 +4419,7 @@ namespace WikiFunctions.Parse
         /// <param name="articleTitle">The article title.</param>
         /// <param name="summary"></param>
         /// <returns>The tagged article.</returns>
-        public string Tagger(string articleText, string articleTitle, ref string summary)
+        public string Tagger(string articleText, string articleTitle, bool restrictOrphanTagging, ref string summary)
         {
             // don't tag redirects/outside article namespace/no tagging changes
             if (!Namespace.IsMainSpace(articleTitle) || Tools.IsRedirect(articleText))
@@ -4453,7 +4453,7 @@ namespace WikiFunctions.Parse
             }
 
             // do orphan tagging before template analysis for categorisation tags
-            articleText = TagOrphans(articleText, articleTitle);
+            articleText = TagOrphans(articleText, articleTitle, restrictOrphanTagging);
             
             articleText = TagRefsIbid(articleText);
 
@@ -4569,15 +4569,17 @@ namespace WikiFunctions.Parse
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
         /// <returns></returns>
-        private string TagOrphans(string articleText, string articleTitle)
+        private string TagOrphans(string articleText, string articleTitle, bool restrictOrphanTagging)
         {
             // check if not orphaned
             bool orphaned;
+            bool orphaned2;
             int incomingLinks = 0;
 #if DEBUG
             if (Globals.UnitTestMode)
             {
                 orphaned = Globals.UnitTestBoolValue;
+                orphaned2 = Globals.UnitTestBoolValue;
             }
             else
 #endif
@@ -4586,11 +4588,18 @@ namespace WikiFunctions.Parse
                 {
                     incomingLinks = WlhProv.MakeList(Namespace.Article, articleTitle).Count;
                     orphaned = (incomingLinks < MinIncomingLinksToBeConsideredAnOrphan);
+                    orphaned2 = orphaned;					
+                    if (restrictOrphanTagging)
+                    {
+                    	orphaned2 = (incomingLinks == 0);
+                    }
                 }
+                   
                 catch (Exception ex)
                 {
                     // don't mark as orphan in case of exception
                     orphaned = false;
+                    orphaned2 = false;
                     ErrorHandler.CurrentPage = articleTitle;
                     ErrorHandler.Handle(ex);
                 }
@@ -4604,7 +4613,7 @@ namespace WikiFunctions.Parse
             }
 
             // add orphan tag if applicable, and no disambig
-            if (orphaned && !WikiRegexes.Orphan.IsMatch(articleText) && !WikiRegexes.OrphanArticleIssues.IsMatch(articleText)
+            if (orphaned2 && !WikiRegexes.Orphan.IsMatch(articleText) && !WikiRegexes.OrphanArticleIssues.IsMatch(articleText)
                 && !WikiRegexes.Disambigs.IsMatch(articleText))
             {
                 articleText = "{{orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
