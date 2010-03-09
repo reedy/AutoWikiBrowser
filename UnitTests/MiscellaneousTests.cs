@@ -189,7 +189,11 @@ abc={{bar}}
             AssertAllHidden(@"[[Image:foo_here.png|");
             AssertAllHidden(@"[[Image:foo with SPACE() and 0004.png|");
             AssertAllHidden(@"[[Image:westminster.tube.station.jubilee.arp.jpg|");
-
+        }
+        
+        [Test]
+        public void HideImagesLimits()
+        {
             // in these ones all but the last | is hidden
             Assert.IsTrue(Regex.IsMatch(Hide(@"|image_skyline=442px_-_London_Lead_Image.jpg|"), Hidden + @"\|"));
             Assert.IsTrue(Regex.IsMatch(Hide(@"|image_map=London (European Parliament constituency).svg   |"), Hidden + @"\|"));
@@ -203,7 +207,11 @@ image = AmorMexicanaThalia.jpg |"), Hidden + @"\|"));
             Assert.IsTrue(Regex.IsMatch(Hide(@"| image name = Fred Astaire.jpg |"), Hidden + @"\|"));
             Assert.IsTrue(Regex.IsMatch(Hide(@"|image2 = AmorMexicanaThalia.jpg |"), Hidden + @"\|"));
             Assert.IsTrue(Regex.IsMatch(Hide(@"|map = AmorMexicanaThalia.jpg |"), Hidden + @"\|"));
-            
+        }
+        
+        [Test]
+        public void HideImagesPartial()
+        {
             // in tests below no text is hidden
             Assert.AreEqual(Caption1, Hide(Caption1));
             Assert.AreEqual(Caption2, Hide(Caption2));
@@ -222,19 +230,11 @@ image = AmorMexicanaThalia.jpg |"), Hidden + @"\|"));
             Assert.IsTrue(Hide(@"[[Image:some_image_name.png|thumb|words with typo]] Normal words in text").EndsWith(@"thumb|words with typo]] Normal words in text"));
             Assert.IsTrue(Hide(@"[[Image:some_image_name.png]] Normal words in text").EndsWith(@" Normal words in text"));
             Assert.IsTrue(Hide(Caption4 + Field1).EndsWith(Field1));
-
-            //following changes to not mask image descriptions, the following old tests are now invalid
-            /*
-            AssertAllHidden("[[Image:foo]]");
-            AssertAllHidden("[[Image:foo|100px|bar]]");
-            AssertAllHidden("[[Image:foo|A [[bar]] [http://boz.com gee].]]");
-            AssertAllHidden("[[Image:foo|A [[bar]] [[test]].]]");
-            AssertAllHidden("[[File:foo|A [[bar]]]]");
-            AssertAllHidden("[[Image:foo|A [[bar|quux]].]]");
-            AssertAllHidden("[[Image:foo|A [[bar]][http://fubar].]]");
-            AssertAllHidden("[[FILE:foo|A [[bar]][http://fubar].{{quux}}]]");
-            AssertAllHidden("[[Image:foo|test [[Image:bar|thumb|[[boz]]]]]]"); */
-
+        }
+        
+        [Test]
+        public void HideImagesMisc()
+        {
             Assert.IsFalse(HideMore(@"{{Drugbox|
    |IUPAC_name = 6-chloro-1,1-dioxo-2''H''-1,2,4-benzothiadiazine-7-sulfonamide
    | image=Chlorothiazide.svg
