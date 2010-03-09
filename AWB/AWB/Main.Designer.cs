@@ -1299,14 +1299,14 @@ namespace AutoWikiBrowser
             // 
             this.PreferencesToolStripMenuItem.Name = "PreferencesToolStripMenuItem";
             this.PreferencesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            this.PreferencesToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
+            this.PreferencesToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
             this.PreferencesToolStripMenuItem.Text = "&Preferences...";
             this.PreferencesToolStripMenuItem.Click += new System.EventHandler(this.PreferencesToolStripMenuItem_Click);
             // 
             // summariesToolStripMenuItem
             // 
             this.summariesToolStripMenuItem.Name = "summariesToolStripMenuItem";
-            this.summariesToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
+            this.summariesToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
             this.summariesToolStripMenuItem.Text = "&Summaries...";
             this.summariesToolStripMenuItem.Click += new System.EventHandler(this.summariesToolStripMenuItem_Click);
             // 
@@ -1314,20 +1314,20 @@ namespace AutoWikiBrowser
             // 
             this.autoSaveSettingsToolStripMenuItem.CheckOnClick = true;
             this.autoSaveSettingsToolStripMenuItem.Name = "autoSaveSettingsToolStripMenuItem";
-            this.autoSaveSettingsToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
+            this.autoSaveSettingsToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
             this.autoSaveSettingsToolStripMenuItem.Text = "A&uto save settings file every 10 pages";
             // 
             // preParseModeToolStripMenuItem
             // 
             this.preParseModeToolStripMenuItem.CheckOnClick = true;
             this.preParseModeToolStripMenuItem.Name = "preParseModeToolStripMenuItem";
-            this.preParseModeToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
+            this.preParseModeToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
             this.preParseModeToolStripMenuItem.Text = "Use pre-parse m&ode";
             // 
             // toolStripSeparator14
             // 
             this.toolStripSeparator14.Name = "toolStripSeparator14";
-            this.toolStripSeparator14.Size = new System.Drawing.Size(298, 6);
+            this.toolStripSeparator14.Size = new System.Drawing.Size(307, 6);
             // 
             // bypassRedirectsToolStripMenuItem
             // 
@@ -1335,7 +1335,7 @@ namespace AutoWikiBrowser
             this.bypassRedirectsToolStripMenuItem.CheckOnClick = true;
             this.bypassRedirectsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.bypassRedirectsToolStripMenuItem.Name = "bypassRedirectsToolStripMenuItem";
-            this.bypassRedirectsToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
+            this.bypassRedirectsToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
             this.bypassRedirectsToolStripMenuItem.Text = "Follow r&edirects";
             // 
             // automaticallyDoAnythingToolStripMenuItem
@@ -1344,19 +1344,19 @@ namespace AutoWikiBrowser
             this.automaticallyDoAnythingToolStripMenuItem.CheckOnClick = true;
             this.automaticallyDoAnythingToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.automaticallyDoAnythingToolStripMenuItem.Name = "automaticallyDoAnythingToolStripMenuItem";
-            this.automaticallyDoAnythingToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
+            this.automaticallyDoAnythingToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
             this.automaticallyDoAnythingToolStripMenuItem.Text = "Apply &changes automatically";
             // 
             // toolStripSeparator31
             // 
             this.toolStripSeparator31.Name = "toolStripSeparator31";
-            this.toolStripSeparator31.Size = new System.Drawing.Size(298, 6);
+            this.toolStripSeparator31.Size = new System.Drawing.Size(307, 6);
             // 
             // focusAtEndOfEditTextBoxToolStripMenuItem
             // 
             this.focusAtEndOfEditTextBoxToolStripMenuItem.CheckOnClick = true;
             this.focusAtEndOfEditTextBoxToolStripMenuItem.Name = "focusAtEndOfEditTextBoxToolStripMenuItem";
-            this.focusAtEndOfEditTextBoxToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
+            this.focusAtEndOfEditTextBoxToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
             this.focusAtEndOfEditTextBoxToolStripMenuItem.Text = "Auto &focus end of the edit box";
             this.focusAtEndOfEditTextBoxToolStripMenuItem.Click += new System.EventHandler(this.focusAtEndOfEditTextBoxToolStripMenuItem_Click);
             // 
@@ -1364,63 +1364,62 @@ namespace AutoWikiBrowser
             // 
             this.noSectionEditSummaryToolStripMenuItem.CheckOnClick = true;
             this.noSectionEditSummaryToolStripMenuItem.Name = "noSectionEditSummaryToolStripMenuItem";
-            this.noSectionEditSummaryToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
+            this.noSectionEditSummaryToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
             this.noSectionEditSummaryToolStripMenuItem.Text = "Do &not use section edit summaries";
             // 
             // restrictDefaultsortChangesToolStripMenuItem
             // 
             this.restrictDefaultsortChangesToolStripMenuItem.CheckOnClick = true;
             this.restrictDefaultsortChangesToolStripMenuItem.Name = "restrictDefaultsortChangesToolStripMenuItem";
-            this.restrictDefaultsortChangesToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
+            this.restrictDefaultsortChangesToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
             this.restrictDefaultsortChangesToolStripMenuItem.Text = "Restrict {{&DEFAULTSORT}} change/addition";
             // 
             // restrictOrphanTaggingToolStripMenuItem
             // 
-            this.restrictOrphanTaggingToolStripMenuItem.Checked = false;
             this.restrictOrphanTaggingToolStripMenuItem.CheckOnClick = true;
             this.restrictOrphanTaggingToolStripMenuItem.Name = "restrictOrphanTaggingToolStripMenuItem";
-            this.restrictOrphanTaggingToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
+            this.restrictOrphanTaggingToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
             this.restrictOrphanTaggingToolStripMenuItem.Text = "Restrict orphan tag addition to linkless pages";
             // 
             // noMOSComplianceFixesToolStripMenuItem
             // 
             this.noMOSComplianceFixesToolStripMenuItem.CheckOnClick = true;
             this.noMOSComplianceFixesToolStripMenuItem.Name = "noMOSComplianceFixesToolStripMenuItem";
-            this.noMOSComplianceFixesToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
+            this.noMOSComplianceFixesToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
             this.noMOSComplianceFixesToolStripMenuItem.Text = "Do not apply &WP:MOS fixes";
             // 
             // syntaxHighlightEditBoxToolStripMenuItem
             // 
             this.syntaxHighlightEditBoxToolStripMenuItem.CheckOnClick = true;
             this.syntaxHighlightEditBoxToolStripMenuItem.Name = "syntaxHighlightEditBoxToolStripMenuItem";
-            this.syntaxHighlightEditBoxToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
+            this.syntaxHighlightEditBoxToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
             this.syntaxHighlightEditBoxToolStripMenuItem.Text = "Highlight s&yntax in edit box";
             // 
             // highlightAllFindToolStripMenuItem
             // 
             this.highlightAllFindToolStripMenuItem.CheckOnClick = true;
             this.highlightAllFindToolStripMenuItem.Name = "highlightAllFindToolStripMenuItem";
-            this.highlightAllFindToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
+            this.highlightAllFindToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
             this.highlightAllFindToolStripMenuItem.Text = "Highlight Find matches";
             // 
             // scrollToUnbalancedBracketsToolStripMenuItem
             // 
             this.scrollToUnbalancedBracketsToolStripMenuItem.CheckOnClick = true;
             this.scrollToUnbalancedBracketsToolStripMenuItem.Name = "scrollToUnbalancedBracketsToolStripMenuItem";
-            this.scrollToUnbalancedBracketsToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
+            this.scrollToUnbalancedBracketsToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
             this.scrollToUnbalancedBracketsToolStripMenuItem.Text = "Highlight errors";
             this.scrollToUnbalancedBracketsToolStripMenuItem.Click += new System.EventHandler(this.scrollToUnbalancedBracketsToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 
             this.toolStripSeparator6.Name = "toolStripSeparator6";
-            this.toolStripSeparator6.Size = new System.Drawing.Size(298, 6);
+            this.toolStripSeparator6.Size = new System.Drawing.Size(307, 6);
             // 
             // markAllAsMinorToolStripMenuItem
             // 
             this.markAllAsMinorToolStripMenuItem.CheckOnClick = true;
             this.markAllAsMinorToolStripMenuItem.Name = "markAllAsMinorToolStripMenuItem";
-            this.markAllAsMinorToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
+            this.markAllAsMinorToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
             this.markAllAsMinorToolStripMenuItem.Text = "Mark all as &minor";
             this.markAllAsMinorToolStripMenuItem.Click += new System.EventHandler(this.markAllAsMinorToolStripMenuItem_Click);
             // 
@@ -1438,7 +1437,7 @@ namespace AutoWikiBrowser
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(298, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(307, 6);
             // 
             // alphaSortInterwikiLinksToolStripMenuItem
             // 
@@ -1446,7 +1445,7 @@ namespace AutoWikiBrowser
             this.alphaSortInterwikiLinksToolStripMenuItem.CheckOnClick = true;
             this.alphaSortInterwikiLinksToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.alphaSortInterwikiLinksToolStripMenuItem.Name = "alphaSortInterwikiLinksToolStripMenuItem";
-            this.alphaSortInterwikiLinksToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
+            this.alphaSortInterwikiLinksToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
             this.alphaSortInterwikiLinksToolStripMenuItem.Text = "Sort &interwiki links";
             this.alphaSortInterwikiLinksToolStripMenuItem.CheckStateChanged += new System.EventHandler(this.alphaSortInterwikiLinksToolStripMenuItem_CheckStateChanged);
             // 
@@ -1456,7 +1455,7 @@ namespace AutoWikiBrowser
             this.replaceReferenceTagsToolStripMenuItem.CheckOnClick = true;
             this.replaceReferenceTagsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.replaceReferenceTagsToolStripMenuItem.Name = "replaceReferenceTagsToolStripMenuItem";
-            this.replaceReferenceTagsToolStripMenuItem.Size = new System.Drawing.Size(301, 22);
+            this.replaceReferenceTagsToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
             this.replaceReferenceTagsToolStripMenuItem.Text = "Replace &reference tags";
             // 
             // toolsToolStripMenuItem
@@ -1916,8 +1915,8 @@ namespace AutoWikiBrowser
             this.chkAutoTagger.Size = new System.Drawing.Size(66, 17);
             this.chkAutoTagger.TabIndex = 0;
             this.chkAutoTagger.Text = "Auto tag";
-            this.ToolTip.SetToolTip(this.chkAutoTagger, "Automatically add {{orphan}}, {{deadend}}, {{wikify}}, {{ibid} and {{stub}} tags when" +
-                    "appropriate");
+            this.ToolTip.SetToolTip(this.chkAutoTagger, "Automatically add {{orphan}}, {{deadend}}, {{wikify}}, {{ibid} and {{stub}} tags " +
+                    "whenappropriate");
             // 
             // chkUnicodifyWhole
             // 
@@ -3908,6 +3907,7 @@ namespace AutoWikiBrowser
             this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
             this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
             this.loggingSettings1.Name = "loggingSettings1";
+            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
             this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
             this.loggingSettings1.TabIndex = 0;
             // 
