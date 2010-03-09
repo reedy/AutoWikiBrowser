@@ -1441,7 +1441,7 @@ namespace AutoWikiBrowser
                         // auto tag
                         if (chkAutoTagger.Checked)
                         {
-                            theArticle.AutoTag(Parser, Skip.SkipNoTag);
+                            theArticle.AutoTag(Parser, Skip.SkipNoTag, restrictOrphanTaggingToolStripMenuItem.Checked);
                             if (theArticle.SkipArticle) return;
                         }
 
