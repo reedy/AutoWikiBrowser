@@ -4568,18 +4568,17 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
+        /// <param name="restrictOrphanTagging"></param>
         /// <returns></returns>
         private string TagOrphans(string articleText, string articleTitle, bool restrictOrphanTagging)
         {
             // check if not orphaned
-            bool orphaned;
-            bool orphaned2;
+            bool orphaned, orphaned2;
             int incomingLinks = 0;
 #if DEBUG
             if (Globals.UnitTestMode)
             {
-                orphaned = Globals.UnitTestBoolValue;
-                orphaned2 = Globals.UnitTestBoolValue;
+                orphaned = orphaned2 = Globals.UnitTestBoolValue;
             }
             else
 #endif
@@ -4588,18 +4587,15 @@ namespace WikiFunctions.Parse
                 {
                     incomingLinks = WlhProv.MakeList(Namespace.Article, articleTitle).Count;
                     orphaned = (incomingLinks < MinIncomingLinksToBeConsideredAnOrphan);
-                    orphaned2 = orphaned;					
-                    if (restrictOrphanTagging)
-                    {
-                    	orphaned2 = (incomingLinks == 0);
-                    }
+                    orphaned2 = restrictOrphanTagging
+                                   ? (incomingLinks == 0)
+                                   : orphaned;
                 }
-                   
+
                 catch (Exception ex)
                 {
                     // don't mark as orphan in case of exception
-                    orphaned = false;
-                    orphaned2 = false;
+                    orphaned = orphaned2 = false;
                     ErrorHandler.CurrentPage = articleTitle;
                     ErrorHandler.Handle(ex);
                 }
@@ -4607,9 +4603,9 @@ namespace WikiFunctions.Parse
             
             if(Variables.LangCode == "ru" && incomingLinks == 0 && Rq.Matches(articleText).Count == 1)
             {
-                string RqText = Rq.Match(articleText).Value;
-                if(!RqText.Contains("linkless"))
-                    return articleText.Replace(RqText, RqText.Replace(@"}}", @"|linkless}}"));
+                string rqText = Rq.Match(articleText).Value;
+                if(!rqText.Contains("linkless"))
+                    return articleText.Replace(rqText, rqText.Replace(@"}}", @"|linkless}}"));
             }
 
             // add orphan tag if applicable, and no disambig
