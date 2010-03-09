@@ -634,7 +634,8 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="parsers">An initialised Parsers object</param>
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
-        public void AutoTag(Parsers parsers, bool restrictOrphanTagging, bool skipIfNoChange)
+        /// <param name="restrictOrphanTagging"></param>
+        public void AutoTag(Parsers parsers, bool skipIfNoChange, bool restrictOrphanTagging)
         {
             string tmpEditSummary = "";
             string strTemp = parsers.Tagger(mArticleText, Name, restrictOrphanTagging, out noChange, ref tmpEditSummary);
