@@ -46,6 +46,8 @@ namespace AwbUpdater
         {
             InitializeComponent();
 
+            Text += " - " + Application.ProductVersion;
+
             AWBdirectory = Path.GetDirectoryName(Application.ExecutablePath);
             TempDirectory = Environment.GetEnvironmentVariable("TEMP") ?? "C:\\Windows\\Temp";
             TempDirectory = Path.Combine(TempDirectory,"$AWB$Updater$Temp$");
