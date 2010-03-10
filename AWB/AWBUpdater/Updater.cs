@@ -33,14 +33,11 @@ namespace AwbUpdater
     internal sealed partial class Updater : Form
     {
         private readonly string AWBdirectory = "", TempDirectory = "";
-        private string AWBZipName = "", AWBWebAddress = "";
-        private string UpdaterZipName = "", UpdaterWebAddress = "";
+        private string AWBZipName = "", AWBWebAddress = "", UpdaterZipName = "", UpdaterWebAddress = "";
 
         private IWebProxy Proxy;
 
-        private bool UpdaterUpdate;
-        private bool AWBUpdate;
-        private bool UpdateSucessful;
+        private bool UpdaterUpdate, AWBUpdate, UpdateSucessful;
 
         public Updater()
         {
@@ -58,7 +55,7 @@ namespace AwbUpdater
         /// </summary>
         private static int AssemblyVersion
         {
-            get { return StringToVersion(Assembly.GetExecutingAssembly().GetName().Version.ToString()); }
+            get { return StringToVersion(Application.ProductVersion); }
         }
 
         private void Updater_Load(object sender, EventArgs e)
