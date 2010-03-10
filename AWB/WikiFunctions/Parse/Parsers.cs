@@ -1564,6 +1564,9 @@ namespace WikiFunctions.Parse
             
             // <ref name="Fred" Smith> --> <ref name="Fred Smith">
             new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?)""([^<>=""\/]{2,}?)(?<!\s+)(?=\s*/?>)", RegexOptions.Compiled | RegexOptions.IgnoreCase), @"$1$2"""),
+            
+            // <ref name-"Fred"> --> <ref name="Fred">
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*)-", RegexOptions.Compiled), "$1="),
         };
         // Covered by TestFixReferenceTags
         /// <summary>
