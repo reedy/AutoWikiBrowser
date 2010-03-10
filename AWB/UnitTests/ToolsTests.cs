@@ -927,7 +927,7 @@ Jones", "*"));
     public class HumanCatKeyTests : RequiresInitialization
     {
         [Test]
-        public void OneWordNames()
+        public void MakeHumanCatKeyOneWordNames()
         {
             Assert.AreEqual("Onewordname", Tools.MakeHumanCatKey("OneWordName"));
             Assert.AreEqual("Onewordname", Tools.MakeHumanCatKey("ONEWORDNAME"));
@@ -936,34 +936,34 @@ Jones", "*"));
         }
 
         [Test]
-        public void WithRomanNumbers()
+        public void MakeHumanCatKeyWithRomanNumbers()
         {
             Assert.AreEqual("Doe, John, Iii", Tools.MakeHumanCatKey("John Doe III"));
             Assert.AreEqual("Xvii", Tools.MakeHumanCatKey("XVII"));
         }
 
         [Test]
-        public void WithJrSr()
+        public void MakeHumanCatKeyWithJrSr()
         {
             Assert.AreEqual("Doe, John, Jr.", Tools.MakeHumanCatKey("John Doe, Jr."));
             Assert.AreEqual("Doe, John, Sr.", Tools.MakeHumanCatKey("John Doe, Sr."));
         }
 
         [Test]
-        public void WithApostrophes()
+        public void MakeHumanCatKeyWithApostrophes()
         {
             Assert.AreEqual("Ddoe, John", Tools.MakeHumanCatKey("J'ohn D'Doe"));
             Assert.AreEqual("Test", Tools.MakeHumanCatKey("'Test"));
         }
 
         [Test]
-        public void WithPrefixes()
+        public void MakeHumanCatKeyWithPrefixes()
         {
             Assert.AreEqual("Doe, John De", Tools.MakeHumanCatKey("John de Doe"));
         }
 
         [Test]
-        public void MakeHumanCatKey()
+        public void MakeHumanCatKeyDiacritics()
         {
             Assert.AreEqual("Doe", Tools.MakeHumanCatKey("Ďöê"));
             Assert.AreEqual("Doe, John", Tools.MakeHumanCatKey("Ĵǒħń Ďöê"));
@@ -975,13 +975,25 @@ Jones", "*"));
         }
 
         [Test]
-        public void ArabicNames()
+        public void MakeHumanCatKeyArabicNames()
         {
             Assert.AreEqual(@"Ahmed Mohammed Mukit", Tools.MakeHumanCatKey(@"Ahmed Mohammed Mukit"));
             Assert.AreEqual(@"Ahmed Mohammed Mukit", Tools.MakeHumanCatKey(@"AHMED Mohammed MUKIT"));
             Assert.AreEqual(@"Ahmed Mohammed Mukit", Tools.MakeHumanCatKey(@"ahmed Mohammed mukit"));
             
             Assert.AreEqual(@"Smith, John", Tools.MakeHumanCatKey(@"John Smith"));
+        }
+        
+        [Test]
+        public void MakeHumanCatKeyMcName()
+        {
+            Assert.AreEqual(@"Macsmith, John", Tools.MakeHumanCatKey(@"John McSmith"));
+            Assert.AreEqual(@"Macsmith, John", Tools.MakeHumanCatKey(@"John MacSmith"));
+            
+            Assert.AreEqual(@"Mcsmith, John", Tools.MakeHumanCatKey(@"John Mcsmith"));
+            
+            Assert.AreEqual(@"Smith, John", Tools.MakeHumanCatKey(@"John Smith"));
+            Assert.AreEqual(@"Macintosh, John", Tools.MakeHumanCatKey(@"John Macintosh"));
         }
 
         [Test]
