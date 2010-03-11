@@ -729,6 +729,9 @@ en, sq, ru
                 case "fr" :
                     matches =WikiRegexes.LinkFGAsFrench.Matches(articleText);
                     break;
+                case "it" :
+                    matches =WikiRegexes.LinkFGAsItalian.Matches(articleText);
+                    break;
                 case "ar" :
                     matches =WikiRegexes.LinkFGAsArabic.Matches(articleText);
                     break;

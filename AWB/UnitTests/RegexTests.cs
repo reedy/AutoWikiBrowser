@@ -1523,6 +1523,12 @@ Bert").Groups[2].Value, "foo bar\r");
         }
         
         [Test]
+        public void LinkFGAsItalian()
+        {
+            Assert.IsTrue(WikiRegexes.LinkFGAsFrench.IsMatch(@"foo {{link FA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAsFrench.IsMatch(@"foo {{Link AdQ|ar}}"));
+        }
+        [Test]
         public void LinkFGAsArabic()
         {
             Assert.IsTrue(WikiRegexes.LinkFGAsArabic.IsMatch(@"foo {{وصلة مقالة مختارة|he}}"));
