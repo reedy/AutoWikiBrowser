@@ -610,6 +610,10 @@ namespace WikiFunctions
         public static readonly Regex LinkFGAsFrench = new Regex(@"{{\s*[Ll]ien (?:BA|[PA]dQ)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
 
         /// <summary>
+        /// Matches the {{Link FA|xxx}} template used on ar-wiki
+        /// </summary>
+        public static readonly Regex LinkFGAsArabic = new Regex(@"{{وصلة مقالة مختارة|.*?}}", RegexOptions.Compiled);
+        /// <summary>
         /// Matches {{Deadend|xxx}} (en only)
         /// </summary>
         public static readonly Regex DeadEnd = new Regex(@"({{\s*([Dd]ead ?end|[Ii]nternal ?links|[Nn]uevointernallinks|[Dd]ep)(\|(?:[^{}]+|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}))?}}|(?<={{[Aa]rticle\s*issues\b[^{}]*?)\|\s*deadend\s*=[^{}\|]+)", RegexOptions.Compiled);
