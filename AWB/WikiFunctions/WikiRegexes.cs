@@ -612,7 +612,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the {{Link FA|xxx}} template used on ar-wiki
         /// </summary>
-        public static readonly Regex LinkFGAsArabic = new Regex(@"{{وصلة مقالة مختارة|.*?}}", RegexOptions.Compiled);
+        public static readonly Regex LinkFGAsArabic = new Regex(@"{{\s*وصلة مقالة مختارة\s*\|.*?}}", RegexOptions.Compiled | RegexOptions.Singleline);
         /// <summary>
         /// Matches {{Deadend|xxx}} (en only)
         /// </summary>

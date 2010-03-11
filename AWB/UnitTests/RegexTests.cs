@@ -1526,6 +1526,10 @@ Bert").Groups[2].Value, "foo bar\r");
         public void LinkFGAsArabic()
         {
             Assert.IsTrue(WikiRegexes.LinkFGAsArabic.IsMatch(@"foo {{وصلة مقالة مختارة|he}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAsArabic.IsMatch(@"foo {{وصلة مقالة مختارة|
+he}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAsArabic.IsMatch(@"foo {{وصلة مقالة مختارة
+|he}}"));
         }
 
         [Test]
