@@ -608,11 +608,17 @@ namespace WikiFunctions
         /// Matches {{Lien BA}}, {{Lien AdQ}}, {{Lien PdQ}} in French
         /// </summary>
         public static readonly Regex LinkFGAsFrench = new Regex(@"{{\s*[Ll]ien (?:BA|[PA]dQ)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
+        
+        /// <summary>
+        /// Matches {{{Link AdQ}} and {{Link FA}} in Italian
+        /// </summary>
+        public static readonly Regex LinkFGAsItalian = new Regex(@"{{\s*[Ll]ink (?:FA|AdQ)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
 
         /// <summary>
         /// Matches the {{Link FA|xxx}} template used on ar-wiki
         /// </summary>
         public static readonly Regex LinkFGAsArabic = new Regex(@"{{\s*وصلة مقالة مختارة\s*\|.*?}}", RegexOptions.Compiled | RegexOptions.Singleline);
+
         /// <summary>
         /// Matches {{Deadend|xxx}} (en only)
         /// </summary>
