@@ -723,8 +723,19 @@ en, sq, ru
         {
             List<string> linkFGAList = new List<string>();
 
-            MatchCollection matches = (Variables.LangCode == "fr") ?
-                WikiRegexes.LinkFGAsFrench.Matches(articleText) : WikiRegexes.LinkFGAs.Matches(articleText);
+            MatchCollection matches;
+            switch(Variables.LangCode)
+            {
+                case "fr" :
+                    matches =WikiRegexes.LinkFGAsFrench.Matches(articleText);
+                    break;
+                case "ar" :
+                    matches =WikiRegexes.LinkFGAsArabic.Matches(articleText);
+                    break;
+                    default :
+                        matches =    WikiRegexes.LinkFGAs.Matches(articleText);
+                    break;
+            }
 
             if (matches.Count == 0)
                 return linkFGAList;
