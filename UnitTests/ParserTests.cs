@@ -5070,6 +5070,15 @@ fish | name = Bert }} ''Bert'' is a good fish."));
 			Assert.IsFalse(Parsers.CheckNoBots("{{bots|deny=awb,test}}", "test"));
 			Assert.IsFalse(Parsers.CheckNoBots("{{bots|deny=test}}", "test"));
 			Assert.IsFalse(Parsers.CheckNoBots("{{bots|allow=none}}", ""));
+			
+			Assert.IsFalse(Parsers.CheckNoBots(@"{{bots|allow=MiszaBot III,SineBot}}", "otherBot"));
+			Assert.IsTrue(Parsers.CheckNoBots(@"{{bots|allow=MiszaBot III,SineBot}}", "SineBot"));
+			Assert.IsTrue(Parsers.CheckNoBots(@"{{bots|allow=MiszaBot III,SineBot, AWB}}", "SomeotherBot"));
+			
+			/* prospective future changes to bots template
+			Assert.IsTrue(Parsers.CheckNoBots(@"{{bots|deny=all|allow=MiszaBot III,SineBot}}", "SineBot"));
+			Assert.IsTrue(Parsers.CheckNoBots(@"{{bots|deny=all|allow=MiszaBot III,SineBot}}", "MiszaBot III"));
+			Assert.IsFalse(Parsers.CheckNoBots(@"{{bots|deny=all|allow=MiszaBot III,SineBot}}", "OtherBot")); */
 		}
 
 		[Test]
