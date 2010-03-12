@@ -1525,9 +1525,24 @@ Bert").Groups[2].Value, "foo bar\r");
         [Test]
         public void LinkFGAsItalian()
         {
-            Assert.IsTrue(WikiRegexes.LinkFGAsFrench.IsMatch(@"foo {{link FA|ar}}"));
-            Assert.IsTrue(WikiRegexes.LinkFGAsFrench.IsMatch(@"foo {{Link AdQ|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAsItalian.IsMatch(@"foo {{link FA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAsItalian.IsMatch(@"foo {{Link AdQ|ar}}"));
         }
+        
+        [Test]
+        public void LinkFGAsSpanish()
+        {
+            Assert.IsTrue(WikiRegexes.LinkFGAsSpanish.IsMatch(@"foo {{link FA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAsSpanish.IsMatch(@"foo {{Destacado|ar}}"));
+        }
+        
+        [Test]
+        public void LinkFGAsCatalan()
+        {
+            Assert.IsTrue(WikiRegexes.LinkFGAsCatalan.IsMatch(@"foo {{link FA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAsCatalan.IsMatch(@"foo {{Enllaç AD|ar}}"));
+        }
+
         [Test]
         public void LinkFGAsArabic()
         {
