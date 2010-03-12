@@ -4719,7 +4719,7 @@ namespace WikiFunctions.Parse
             return Variables.SectStubRegex.IsMatch(m.Value) ? m.Value : "";
         }
 
-        private static readonly Regex BotsAllow = new Regex(@"{{\s*(?:[Nn]obots|[Bb]ots)\s*\|\s*allow\s*=(.*?)}}", RegexOptions.Singleline);
+        private static readonly Regex BotsAllow = new Regex(@"{{\s*(?:[Nn]obots|[Bb]ots)\s*\|\s*allow\s*=(.*?)}}", RegexOptions.Singleline | RegexOptions.Compiled);
         
         // Covered by UtilityFunctionTests.NoBotsTests()
         /// <summary>
@@ -4731,14 +4731,15 @@ namespace WikiFunctions.Parse
         /// <returns>true if you can edit, false otherwise</returns>
         public static bool CheckNoBots(string articleText, string user)
         {
-            if(BotsAllow.IsMatch(articleText))
+            Match bot = BotsAllow.Match(articleText);
+
+            if (bot.Success)
             {
-                if(Regex.IsMatch(BotsAllow.Match(articleText).Groups[1].Value, @"(?:^|,)\s*(?:" + user.Normalize() + @"|AWB|awb)\s*(?:,|$)"))
-                    return true;
-                else
-                    return false;
+                return
+                    (Regex.IsMatch(bot.Groups[1].Value,
+                                   @"(?:^|,)\s*(?:" + user.Normalize() + @"|awb)\s*(?:,|$)", RegexOptions.IgnoreCase));
             }
-            
+
             return
                 !Regex.IsMatch(articleText,
                                @"\{\{(nobots|bots\|(allow=none|deny=(?!none).*(" + user.Normalize() +
