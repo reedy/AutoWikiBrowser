@@ -4719,6 +4719,8 @@ namespace WikiFunctions.Parse
             return Variables.SectStubRegex.IsMatch(m.Value) ? m.Value : "";
         }
 
+        private static readonly Regex BotsAllow = new Regex(@"{{\s*(?:[Nn]obots|[Bb]ots)\s*\|\s*allow\s*=(.*?)}}", RegexOptions.Singleline);
+        
         // Covered by UtilityFunctionTests.NoBotsTests()
         /// <summary>
         /// checks if a user is allowed to edit this article
@@ -4729,6 +4731,14 @@ namespace WikiFunctions.Parse
         /// <returns>true if you can edit, false otherwise</returns>
         public static bool CheckNoBots(string articleText, string user)
         {
+            if(BotsAllow.IsMatch(articleText))
+            {
+                if(Regex.IsMatch(BotsAllow.Match(articleText).Groups[1].Value, @"(?:^|,)\s*(?:" + user.Normalize() + @"|AWB|awb)\s*(?:,|$)"))
+                    return true;
+                else
+                    return false;
+            }
+            
             return
                 !Regex.IsMatch(articleText,
                                @"\{\{(nobots|bots\|(allow=none|deny=(?!none).*(" + user.Normalize() +
