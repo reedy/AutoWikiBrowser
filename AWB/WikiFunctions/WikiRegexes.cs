@@ -612,8 +612,18 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{{Link AdQ}} and {{Link FA}} in Italian
         /// </summary>
-        public static readonly Regex LinkFGAsItalian = new Regex(@"{{\s*[Ll]ink (?:FA|AdQ)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
+        public static readonly Regex LinkFGAsItalian = new Regex(@"{{\s*[Ll]ink (FA|AdQ)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
 
+        /// <summary>
+        /// Matches {{{Destacado}} and {{Link FA}} in Spanish
+        /// </summary>
+        public static readonly Regex LinkFGAsSpanish = new Regex(@"{{\s*([Ll]ink FA|[Dd]estacado)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
+
+        /// <summary>
+        /// Matches {{{Enllaç AD}} and {{Link FA}} in Spanish
+        /// </summary>
+        public static readonly Regex LinkFGAsCatalan = new Regex(@"{{\s*([Ll]ink FA|[Ee]nllaç AD)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
+        
         /// <summary>
         /// Matches the {{Link FA|xxx}} template used on ar-wiki
         /// </summary>

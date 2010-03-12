@@ -726,14 +726,20 @@ en, sq, ru
             MatchCollection matches;
             switch(Variables.LangCode)
             {
+                case "ar" :
+                    matches =WikiRegexes.LinkFGAsArabic.Matches(articleText);
+                    break;
+               case "ca" :
+                    matches =WikiRegexes.LinkFGAsCatalan.Matches(articleText);
+                    break;
+               case "es" :
+                    matches =WikiRegexes.LinkFGAsSpanish.Matches(articleText);
+                    break;
                 case "fr" :
                     matches =WikiRegexes.LinkFGAsFrench.Matches(articleText);
                     break;
                 case "it" :
                     matches =WikiRegexes.LinkFGAsItalian.Matches(articleText);
-                    break;
-                case "ar" :
-                    matches =WikiRegexes.LinkFGAsArabic.Matches(articleText);
                     break;
                     default :
                         matches =    WikiRegexes.LinkFGAs.Matches(articleText);
