@@ -1934,6 +1934,13 @@ Message: {2}
             return param.Match(template).Groups[1].Value.Trim();
         }
         
+        /// <summary>
+        /// Renames the given template named parameter in the input template
+        /// </summary>
+        /// <param name="template">The template to update</param>
+        /// <param name="oldparameter">Existing parameter name</param>
+        /// <param name="newparameter">New parameter name</param>
+        /// <returns>The updated template</returns>
         public static string RenameTemplateParameter(string template, string oldparameter, string newparameter)
         {
         	Regex param = new Regex(@"(\|\s*)" + Regex.Escape(oldparameter) + @"(\s*=)", RegexOptions.Compiled);
