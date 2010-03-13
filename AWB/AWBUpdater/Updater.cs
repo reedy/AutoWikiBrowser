@@ -377,9 +377,9 @@ namespace AwbUpdater
         /// </summary>
         private void CopyFiles()
         {
-            string dir = Path.Combine(TempDirectory, "AWBUpdater.exe");
-            if (UpdaterUpdate || File.Exists(dir))
-                CopyFile(dir, Path.Combine(AWBdirectory, "AWBUpdater.exe.new"));
+            string updater = Path.Combine(TempDirectory, "AWBUpdater.exe");
+            if (UpdaterUpdate || File.Exists(updater))
+                CopyFile(updater, Path.Combine(AWBdirectory, "AWBUpdater.exe.new"));
 
             if (AWBUpdate)
             {
@@ -398,9 +398,8 @@ namespace AwbUpdater
                 foreach (string file in Directory.GetFiles(TempDirectory, "*.*", SearchOption.AllDirectories))
                 {
                     CopyFile(file,
-                             file.Contains("AWBUpdater")
-                                 ? Path.Combine(AWBdirectory, file + ".new")
-                                 : Path.Combine(AWBdirectory, file));
+                             Path.Combine(AWBdirectory,
+                                          file.Replace(TempDirectory, "") + (file.Contains("AWBUpdater") ? ".new" : "")));
                 }
 
                 string[] pluginFiles = Directory.GetFiles(Path.Combine(AWBdirectory, "Plugins"), "*.*", SearchOption.AllDirectories);
