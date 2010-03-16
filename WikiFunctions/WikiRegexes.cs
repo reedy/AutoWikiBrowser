@@ -723,7 +723,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{XX Portal}} templates
         /// </summary>
-        public static readonly Regex PortalTemplate = new Regex(@"{{\s*[Pp]ortal(?:\|[^{}]+)?}}", RegexOptions.RightToLeft);
+        public static readonly Regex PortalTemplate = new Regex(@"{{\s*[Pp]ortal(?:par)?(?:\|[^{}]+)?}}", RegexOptions.RightToLeft);
         #endregion
 
         /// <summary>
