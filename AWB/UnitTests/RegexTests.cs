@@ -790,12 +790,15 @@ cit"));
         public void PortalTemplateTests()
         {
             Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal}}"));
+            Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{ portal}}"));
             Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{Portal}}"));
+            Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{Portalpar}}"));
             Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal|Science}}"));
             Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal|Spaceflight|RocketSunIcon.svg|break=yes}}"));
             
             Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{PORTAL}}"));
             Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{portalos}}"));
+            Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{portalparity}}"));
             Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{Spanish portal|game}}"));
             Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{portal|Bert|{{here}}}}"));
         }
