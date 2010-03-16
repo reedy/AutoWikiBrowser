@@ -4163,7 +4163,7 @@ namespace WikiFunctions.Parse
 
                 // validate a YYYY date is not in the future
                 if (!string.IsNullOrEmpty(yearstring) && yearstring.Length > 2
-                    && (!Regex.IsMatch(yearstring, @"\d{4}") || Convert.ToInt32(yearstring) <= DateTime.Now.Year))
+                    && (!Regex.IsMatch(yearstring, @"^\d{4}$") || Convert.ToInt32(yearstring) <= DateTime.Now.Year))
                     articleText += "\r\n" + @"[[Category:" + yearstring + " deaths" + CatEnd(sort);
             }
 
