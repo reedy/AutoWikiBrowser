@@ -1929,9 +1929,26 @@ Message: {2}
         /// <returns>The trimmed parameter value, or a null string if the parameter is not found</returns>
         public static string GetTemplateParameterValue(string template, string parameter)
         {
-        	Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=\s*((?:(?:\[\[[^{}]+?\|[^{}]+?\]\])?[^{}\|]*?(?:\[\[[^{}]+?\|[^{}]+?\]\])?)*)\s*(?:\||}})");
-
-            return param.Match(template).Groups[1].Value.Trim();
+            Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=(.*?)(?=\||}}$)", RegexOptions.Singleline);
+            
+            Match m = param.Match(template);
+            
+            if(m.Success)
+            {
+                int start = m.Index;
+                string restoftemplate = template.Substring(start);
+                
+                // clear out what may contain pipes that are not the pipe indicating the end of the parameter's value
+                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.NestedTemplates);
+                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.SimpleWikiLink);
+                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.UnformattedText);
+                
+                Group paramValue = param.Match(restoftemplate).Groups[1];
+                
+                return template.Substring(start + paramValue.Index, paramValue.Length).Trim();
+            }
+            
+            return "";
         }
         
         /// <summary>
@@ -1978,7 +1995,7 @@ Message: {2}
         /// <returns>The updated template</returns>
         public static string RemoveTemplateParameter(string template, string parameter)
         {
-            Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=.*?(?=\||}}$)", RegexOptions.Singleline);
+            Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=(.*?)(?=\||}}$)", RegexOptions.Singleline);
             
             Match m = param.Match(template);
             

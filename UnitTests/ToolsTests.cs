@@ -805,24 +805,37 @@ Jones", "*"));
         [Test]
         public void GetTemplateParameterValue()
         {
-        	Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite|param1=here}}", "param1"));
-        	Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite|param1 = here }}", "param1"));
-        	Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite
+            Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite|param1=here}}", "param1"));
+            Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite|param1 = here }}", "param1"));
+            Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite
 | param1=here
 |param=there}}", "param1"));
-        	Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite|param1=here|foo=bar}}", "param1"));
-        	
-        	Assert.AreEqual(@"here [[piped|link]]", Tools.GetTemplateParameterValue(@"{{cite|param1 = here [[piped|link]]}}", "param1"));
-        	Assert.AreEqual(@"[[piped|link]], [[another|piped link]] here", Tools.GetTemplateParameterValue(@"{{cite|param1 = [[piped|link]], [[another|piped link]] here}}", "param1"));
-        	
-        	// not found
-        	Assert.AreEqual("", Tools.GetTemplateParameterValue(@"{{cite|param2=here}}", "param1"));
-        	
-        	// null value
-        	Assert.AreEqual("", Tools.GetTemplateParameterValue(@"{{cite|param1= }}", "param1"));
-        	
-        	// returns first value
-        	Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite|param1=here|foo=bar|param1=there}}", "param1"));
+            Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite|param1=here|foo=bar}}", "param1"));
+            
+            Assert.AreEqual(@"here [[piped|link]]", Tools.GetTemplateParameterValue(@"{{cite|param1 = here [[piped|link]]}}", "param1"));
+            Assert.AreEqual(@"[[piped|link]], [[another|piped link]] here", Tools.GetTemplateParameterValue(@"{{cite|param1 = [[piped|link]], [[another|piped link]] here}}", "param1"));
+            
+            // not found
+            Assert.AreEqual("", Tools.GetTemplateParameterValue(@"{{cite|param2=here}}", "param1"));
+            
+            // null value
+            Assert.AreEqual("", Tools.GetTemplateParameterValue(@"{{cite|param1= }}", "param1"));
+            
+            // returns first value
+            Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite|param1=here|foo=bar|param1=there}}", "param1"));
+        }
+        
+        [Test]
+        public void GetTemplateParameterValueAdvancedCases()
+        {
+            Assert.AreEqual(@"here {{foo}}", Tools.GetTemplateParameterValue(@"{{cite|param1 = here {{foo}}}}", "param1"));
+            Assert.AreEqual(@"here {{foo|bar}}", Tools.GetTemplateParameterValue(@"{{cite|param1 = here {{foo|bar}}}}", "param1"));
+            Assert.AreEqual(@"here <!--foo|bar-->", Tools.GetTemplateParameterValue(@"{{cite|param1 = here <!--foo|bar-->}}", "param1"));
+            Assert.AreEqual(@"[[File:abc.png|asdf|dsfjk|a]]", Tools.GetTemplateParameterValue(@"{{cite|param1 = [[File:abc.png|asdf|dsfjk|a]] }}", "param1"));
+            Assert.AreEqual(@"[[File:abc.png|asdf|dsfjk|a]]", Tools.GetTemplateParameterValue(@"{{cite|param1 = [[File:abc.png|asdf|dsfjk|a]]
+}}", "param1"));
+            Assert.AreEqual(@"here <nowiki>|</nowiki> there", Tools.GetTemplateParameterValue(@"{{cite|param1 = here <nowiki>|</nowiki> there}}", "param1"));
+            Assert.AreEqual(@"here <nowiki>|</nowiki> there", Tools.GetTemplateParameterValue(@"{{cite|param1 = here <nowiki>|</nowiki> there|parae=aaa}}", "param1"));
         }
         
         [Test]
