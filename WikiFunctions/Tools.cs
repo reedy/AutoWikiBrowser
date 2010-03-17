@@ -1978,9 +1978,26 @@ Message: {2}
         /// <returns>The updated template</returns>
         public static string RemoveTemplateParameter(string template, string parameter)
         {
-            Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=\s*(?:(?:(?:\[\[[^{}]+?\|[^{}]+?\]\])?[^{}\|]*?(?:\[\[[^{}]+?\|[^{}]+?\]\])?)*)\s*(?=\||}})");
+            Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=.*?(?=\||}}$)", RegexOptions.Singleline);
             
-            return(param.Replace(template, ""));
+            Match m = param.Match(template);
+            
+            if(m.Success)
+            {
+                int start = m.Index;
+                string restoftemplate = template.Substring(start);
+                
+                // clear out what may contain pipes that are not the pipe indicating the end of the parameter's value
+                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.NestedTemplates);
+                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.SimpleWikiLink);
+                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.UnformattedText);
+                
+                int valuelength = param.Match(restoftemplate).Length;
+                
+                return (template.Substring(0, start) + template.Substring(start + valuelength));
+            }
+            
+            return template;
         }
         
         /// <summary>
