@@ -282,6 +282,12 @@ disambig|surname
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{dab}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Disambig}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{surname}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Numberdis}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{numberdis}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Roaddis}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Roadis}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{roaddis}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{roadis}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{hndis}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{  disambig}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Template:disambig}}");
