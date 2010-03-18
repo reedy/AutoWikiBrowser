@@ -889,6 +889,9 @@ Jones", "*"));
             Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here |year=2008 | dateformat =   mdy}}", "cite web", "dateformat"));
             Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here | dateformat=mdy|year=2008 }}", "cite web", "dateformat"));
             
+            Assert.AreEqual(@"{{cite web<!--foo-->|url=http://www.site.com |title=here |year=2008 }}",
+                            Tools.RemoveTemplateParameter(@"{{cite web<!--foo-->|url=http://www.site.com |title=here |year=2008 |dateformat=mdy}}", "cite web", "dateformat"));
+            
             // processes multiple templates
             string citeweb = @"{{cite web|url=http://www.site.com |title=here | dateformat=mdy|year=2008 }}";
             Assert.AreEqual(correct + correct, Tools.RemoveTemplateParameter(citeweb + citeweb, "cite web", "dateformat"));
