@@ -1976,7 +1976,7 @@ Message: {2}
         {
             templatename = Regex.Escape(templatename);
             
-            Regex oldtemplate = new Regex(@"{{\s*" + Tools.CaseInsensitive(templatename) +@"\s*(\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))?}}");
+            Regex oldtemplate = new Regex(@"{{\s*" + Tools.CaseInsensitive(templatename) +@"\s*((?:<!--.*?-->\s*)?\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))?}}", RegexOptions.Singleline);
             
             foreach(Match m in oldtemplate.Matches(articletext))
             {
