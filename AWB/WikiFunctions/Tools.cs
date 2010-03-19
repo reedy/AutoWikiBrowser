@@ -77,9 +77,9 @@ namespace WikiFunctions
         /// Tests article to see if it is a redirect
         /// </summary>
         /// <param name="text">The title.</param>
-        public static bool IsRedirect(string text)
+        public static bool IsRedirect(string articletext)
         {
-            return (RedirectTarget(text).Length > 0);
+            return (RedirectTarget(articletext).Length > 0);
         }
 
         // Covered by ToolsTests.RedirectTarget()
