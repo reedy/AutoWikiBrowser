@@ -1727,7 +1727,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegex8 = new Regex("\\[\\[([A-Za-z]*) \\]\\]", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegex9 = new Regex("\\[\\[(.*)?_#(.*)\\]\\]", RegexOptions.Compiled);
 
-        private static readonly Regex SyntaxRegexTemplate = new Regex("(\\{\\{[\\s]*)[Tt]emplate:(.*?\\}\\})", RegexOptions.Singleline | RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexTemplate = new Regex(@"(\{\{\s*)[Tt]emplate\s*:(.*?\}\})", RegexOptions.Singleline | RegexOptions.Compiled);
         private static readonly Regex SyntaxRegex11 = new Regex(@"^([#\*:;]+.*?) *<[/\\]?br ?[/\\]?> *\r\n", RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         // make double spaces within wikilinks just single spaces
@@ -1811,10 +1811,10 @@ namespace WikiFunctions.Parse
             // double piped links e.g. [[foo||bar]]
             articleText = DoublePipeInWikiLink.Replace(articleText, "|");
 
-            //remove unnecessary namespace
+            // remove unnecessary namespace
             articleText = SyntaxRegexTemplate.Replace(articleText, "$1$2");
 
-            //remove <br> from lists
+            // remove <br> from lists
             articleText = SyntaxRegex11.Replace(articleText, "$1\r\n");
 
             //fix uneven bracketing on links
