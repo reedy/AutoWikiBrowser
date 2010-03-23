@@ -890,6 +890,15 @@ cit"));
             
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphanblahblah}}"));
         }
+        
+        [Test]
+        public void TemplateEndTests()
+        {    
+            Assert.AreEqual(WikiRegexes.TemplateEnd.Match(@"{{foo}}").Value, @"}}");
+            Assert.AreEqual(WikiRegexes.TemplateEnd.Match(@"{{foo }}").Value, @" }}");
+            Assert.AreEqual(WikiRegexes.TemplateEnd.Match(@"{{foo
+}}").Value, @"}}");
+        }
 
         [Test]
         public void PstylesTests()
