@@ -3000,15 +3000,14 @@ namespace WikiFunctions.Parse
             // replace with spaces any commented out templates etc., this means index of real matches remains the same as in actual article text
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.UnformattedText);
 
-            string ciTemplateName = Tools.CaseInsensitive(template);
             Regex search;
 
             lock (CachedGetTemplatesRegexes)
             {
-                if (!CachedGetTemplatesRegexes.TryGetValue(ciTemplateName, out search))
+                if (!CachedGetTemplatesRegexes.TryGetValue(template, out search))
                 {
-                    search = new Regex(@"{{\s*" + ciTemplateName + @"\s*((?:<!--[^>]*?-->\s*)?\|((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})|}})", RegexOptions.Compiled);
-                    CachedGetTemplatesRegexes[ciTemplateName] = search;
+                    search = Tools.NestedTemplateRegex(template);
+                    CachedGetTemplatesRegexes[template] = search;
                 }
             }
 

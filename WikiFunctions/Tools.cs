@@ -1974,9 +1974,7 @@ Message: {2}
         /// <returns>The updated article text</returns>
         public static string RemoveTemplateParameter(string articletext, string templatename, string parameter)
         {
-            templatename = Regex.Escape(templatename);
-            
-            Regex oldtemplate = new Regex(@"{{\s*" + Tools.CaseInsensitive(templatename) +@"\s*((?:<!--.*?-->\s*)?\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))?}}", RegexOptions.Singleline);
+            Regex oldtemplate = Tools.NestedTemplateRegex(templatename);
             
             foreach(Match m in oldtemplate.Matches(articletext))
             {
@@ -2032,6 +2030,48 @@ Message: {2}
             Regex oldtemplate = new Regex(@"(\{\{\s*)" + Tools.CaseInsensitive(templatename) + @"(\s*(?:<!--[^>]*?-->\s*)?(?:\||\}\}))");
 
             return oldtemplate.Replace(articletext, "$1" + newtemplatename + "$2");        	
+        }
+        
+        private static readonly string NestedTemplateRegexEnd = @"\s*(?:<!--[^>]*?-->\s*)?(\|((?>[^\{\}]+|\{\{(?<DEPTH>)|\}\}(?<-DEPTH>))*(?(DEPTH)(?!))))?\}\}";
+        
+        /// <summary>
+        /// Returns a regex to match the input template
+        /// Supports nested templates and comments at end of template call
+        /// </summary>
+        /// <param name="templatename">The template name</param>
+        /// <returns>A Regex matching calls to the template, match group 1 being the template name</returns>
+        public static Regex NestedTemplateRegex(string templatename)
+        {
+            if(templatename.Length ==0)
+                return null;
+            
+            templatename = Regex.Escape(templatename.Replace('_', ' ')).Replace(@"\ ", @"[_ ]");
+            
+            return (new Regex(@"{{\s*(" + Tools.CaseInsensitive(templatename) + @")" + NestedTemplateRegexEnd, RegexOptions.Compiled));
+        }
+        
+        /// <summary>
+        /// Returns a regex to match the input templates
+        /// Supports nested templates and comments at end of template call
+        /// </summary>
+        /// <param name="templatenames">The list of template names</param>
+        /// <returns>A Regex matching calls to the template, match group 1 being the template name</returns>
+        public static Regex NestedTemplateRegex(List<string> templatenames)
+        {
+            if(templatenames.Count == 0)
+                return null;
+            
+            string theRegex = @"{{\s*(";
+            
+            foreach(string templatename in templatenames)
+            {
+                string templatename2 = Regex.Escape(templatename.Replace('_', ' ')).Replace(@"\ ", @"[_ ]");
+                theRegex += Tools.CaseInsensitive(templatename2) + @"|";
+            }
+            
+            theRegex = Regex.Replace(theRegex, @"\|$", @")");
+            
+            return(new Regex(theRegex  + NestedTemplateRegexEnd, RegexOptions.Compiled));
         }
 
         /// <summary>
