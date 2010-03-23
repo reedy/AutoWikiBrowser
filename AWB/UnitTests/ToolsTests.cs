@@ -861,6 +861,8 @@ Jones", "*"));
         	Assert.AreEqual(correct, Tools.RenameTemplate(@"Now {{foo}} was {{foo|here}} there", "foo", "bar"));
         	Assert.AreEqual(correct, Tools.RenameTemplate(@"Now {{Foo}} was {{foo|here}} there", "Foo", "bar"));
         	
+        	Assert.AreEqual(@"Now {{bar}} was {{ bar |here}} there", Tools.RenameTemplate(@"Now {{foo}} was {{ foo |here}} there", "foo", "bar"));
+        	
         	Assert.AreEqual(correct2, Tools.RenameTemplate(@"Now {{foo}} was {{foo
 |here
 |other}} there", "Foo", "bar"));
@@ -965,8 +967,10 @@ dateformat=mdy}}", "cite web", "dateformat"));
         {
             Regex FooTemplate =  Tools.NestedTemplateRegex("foo");
             
-            Assert.AreEqual(FooTemplate.Match(@"{{foo}}").Groups[1].Value, @"foo");
-            Assert.AreEqual(FooTemplate.Match(@"{{ Foo}}").Groups[1].Value, @"Foo");
+            Assert.AreEqual(FooTemplate.Match(@"{{  foo}}").Groups[1].Value, @"{{  ");
+            Assert.AreEqual(FooTemplate.Match(@"{{foo}}").Groups[2].Value, @"foo");
+            Assert.AreEqual(FooTemplate.Match(@"{{ Foo}}").Groups[2].Value, @"Foo");
+            Assert.AreEqual(FooTemplate.Match(@"{{ Foo|title=abc}}").Groups[3].Value, @"|title=abc}}");
             
             Assert.IsTrue(FooTemplate.IsMatch(@"{{foo}}"));
             Assert.IsTrue(FooTemplate.IsMatch(@"{{Foo}}"));
@@ -1027,8 +1031,8 @@ foo<!--comm-->|title=abc
             
             Regex MultipleTemplates = Tools.NestedTemplateRegex(ListOfTemplates);
             
-            Assert.AreEqual(MultipleTemplates.Match(@"{{foo}}").Groups[1].Value, @"foo");
-            Assert.AreEqual(MultipleTemplates.Match(@"{{ Foo}}").Groups[1].Value, @"Foo");
+            Assert.AreEqual(MultipleTemplates.Match(@"{{foo}}").Groups[2].Value, @"foo");
+            Assert.AreEqual(MultipleTemplates.Match(@"{{ Foo}}").Groups[2].Value, @"Foo");
             
             Assert.IsTrue(MultipleTemplates.IsMatch(@"{{foo}}"));
             Assert.IsTrue(MultipleTemplates.IsMatch(@"{{Foo}}"));
@@ -1056,17 +1060,17 @@ foo<!--comm-->|title=abc
         [Test]
         public void  NestedTemplateRegexListMultiple()
         {
-            List<string> ListOfTemplates = new List<string>();
-            ListOfTemplates.Add(@"Foo");
-            ListOfTemplates.Add(@"bar");
+            List<string> ListOfTemplates = new List<string>(@"Foo,bar".Split(','));
             
-            Regex MultipleTemplates = Tools.NestedTemplateRegex(ListOfTemplates);
+            Regex MultipleTemplates = Tools.NestedTemplateRegex(ListOfTemplates);            
             
-            Assert.AreEqual(MultipleTemplates.Match(@"{{foo}}").Groups[1].Value, @"foo");
-            Assert.AreEqual(MultipleTemplates.Match(@"{{ Foo}}").Groups[1].Value, @"Foo");
-            Assert.AreEqual(MultipleTemplates.Match(@"{{Bar |akjldasf=a}}").Groups[1].Value, @"Bar");
+            Assert.AreEqual(MultipleTemplates.Match(@"{{foo}}").Groups[2].Value, @"foo");
+            Assert.AreEqual(MultipleTemplates.Match(@"{{ Foo}}").Groups[2].Value, @"Foo");
+            Assert.AreEqual(MultipleTemplates.Match(@"{{Bar |akjldasf=a}}").Groups[2].Value, @"Bar");
             Assert.AreEqual(MultipleTemplates.Match(@"{{bar
-}}").Groups[1].Value, @"bar");
+}}").Groups[2].Value, @"bar");
+            Assert.AreEqual(MultipleTemplates.Match(@"{{ foo}}").Groups[1].Value, @"{{ ");
+            Assert.AreEqual(MultipleTemplates.Match(@"{{ foo |akjldasf=a}}").Groups[3].Value, @" |akjldasf=a}}");
             
             Assert.IsTrue(MultipleTemplates.IsMatch(@"{{foo}}"));
             Assert.IsTrue(MultipleTemplates.IsMatch(@"{{Foo}}"));

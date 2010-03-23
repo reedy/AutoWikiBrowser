@@ -2020,26 +2020,22 @@ Message: {2}
         /// </summary>
         /// <param name="articletext">the page text</param>
         /// <param name="templatename">the old template name</param>
-        /// <param name="newtemplatename">teh new template name</param>
-        /// <returns></returns>
+        /// <param name="newtemplatename">the new template name</param>
+        /// <returns>The updated article text</returns>
         public static string RenameTemplate(string articletext, string templatename, string newtemplatename)
         {
-            // handle underscores instead of spaces
-            templatename = Regex.Escape(templatename.Replace('_', ' ')).Replace(@"\ ", @"[_ ]");
-
-            Regex oldtemplate = new Regex(@"(\{\{\s*)" + Tools.CaseInsensitive(templatename) + @"(\s*(?:<!--[^>]*?-->\s*)?(?:\||\}\}))");
-
-            return oldtemplate.Replace(articletext, "$1" + newtemplatename + "$2");        	
+            return NestedTemplateRegex(templatename).Replace(articletext, "$1" + newtemplatename + "$3");
         }
         
-        private static readonly string NestedTemplateRegexEnd = @"\s*(?:<!--[^>]*?-->\s*)?(\|((?>[^\{\}]+|\{\{(?<DEPTH>)|\}\}(?<-DEPTH>))*(?(DEPTH)(?!))))?\}\}";
+        private static readonly string NestedTemplateRegexStart = @"({{\s*)(";
+        private static readonly string NestedTemplateRegexEnd = @"(\s*(?:<!--[^>]*?-->\s*)?(\|((?>[^\{\}]+|\{\{(?<DEPTH>)|\}\}(?<-DEPTH>))*(?(DEPTH)(?!))))?\}\})";
         
         /// <summary>
         /// Returns a regex to match the input template
         /// Supports nested templates and comments at end of template call
         /// </summary>
         /// <param name="templatename">The template name</param>
-        /// <returns>A Regex matching calls to the template, match group 1 being the template name</returns>
+        /// <returns>A Regex matching calls to the template, match group 2 being the template name</returns>
         public static Regex NestedTemplateRegex(string templatename)
         {
             if(templatename.Length ==0)
@@ -2047,7 +2043,7 @@ Message: {2}
             
             templatename = Regex.Escape(templatename.Replace('_', ' ')).Replace(@"\ ", @"[_ ]");
             
-            return (new Regex(@"{{\s*(" + Tools.CaseInsensitive(templatename) + @")" + NestedTemplateRegexEnd, RegexOptions.Compiled));
+            return (new Regex(NestedTemplateRegexStart + Tools.CaseInsensitive(templatename) + @")" + NestedTemplateRegexEnd, RegexOptions.Compiled));
         }
         
         /// <summary>
@@ -2055,13 +2051,13 @@ Message: {2}
         /// Supports nested templates and comments at end of template call
         /// </summary>
         /// <param name="templatenames">The list of template names</param>
-        /// <returns>A Regex matching calls to the template, match group 1 being the template name</returns>
+        /// <returns>A Regex matching calls to the template, match group 2 being the template name</returns>
         public static Regex NestedTemplateRegex(List<string> templatenames)
         {
             if(templatenames.Count == 0)
                 return null;
             
-            string theRegex = @"{{\s*(";
+            string theRegex = NestedTemplateRegexStart;
             
             foreach(string templatename in templatenames)
             {
