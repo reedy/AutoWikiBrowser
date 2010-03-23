@@ -2105,6 +2105,20 @@ journal=Crypt of Cthulhu |volume= 3|issue= 3|pages = 140&#8209;7}}";
 		}
 		
 		[Test]
+		public void FixSyntaxTemplateNamespace()
+		{
+		    Assert.AreEqual(@"{{foo}}", Parsers.FixSyntax(@"{{Template:foo}}"));
+		    Assert.AreEqual(@"{{ foo}}", Parsers.FixSyntax(@"{{ Template:foo}}"));
+		    Assert.AreEqual(@"{{ foo}}", Parsers.FixSyntax(@"{{ template :foo}}"));
+		    Assert.AreEqual(@"{{
+foo}}", Parsers.FixSyntax(@"{{
+Template:foo}}"));
+		    Assert.AreEqual(@"{{foo
+|bar=yes}}", Parsers.FixSyntax(@"{{Template:foo
+|bar=yes}}"));
+		}
+		
+		[Test]
 		public void FixSyntaxExternalLinkBrackets()
 		{
 			Assert.AreEqual("[http://example.com] site", Parsers.FixSyntax("[http://example.com] site"));
