@@ -475,6 +475,9 @@ namespace WikiFunctions
         /// </summary>
         public static readonly Regex SicTag = new Regex(@"({{\s*(?:[Ss]ic|[Tt]ypo)(?:\||}})|([\(\[{]\s*[Ss]ic!?\s*[\)\]}]))", RegexOptions.Compiled);
         
+        /// <summary>
+        /// Matches the {{use dmy dates}} family of templates
+        /// </summary>
         public static readonly Regex UseDatesTemplate = new Regex(@"{{\s*[Uu]se (dmy|mdy|ymd) dates\s*}}", RegexOptions.Compiled);
         
         /// <summary>
