@@ -1719,19 +1719,19 @@ namespace WikiFunctions.Parse
         private static readonly Regex BracketsAtBeginCiteTemplateURL = new Regex(CitUrl + @"\[+\s*((?:(?:ht|f)tp://)?[^\[\]<>""\s]+?\s*)\]?" + TemEnd, RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex BracketsAtEndCiteTemplateURL = new Regex(CitUrl + @"\[?\s*((?:(?:ht|f)tp://)?[^\[\]<>""\s]+?\s*)\]+" + TemEnd, RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private static readonly Regex SyntaxRegex4 = new Regex(@"\[\[([^][]*?)\](?=[^\]]*?(?:$|\[|\n))", RegexOptions.Compiled);
-        private static readonly Regex SyntaxRegex5 = new Regex(@"(?<=(?:^|\]|\n)[^\[]*?)\[([^][]*?)\]\](?!\])", RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexWikilinkMissingClosingBracket = new Regex(@"\[\[([^][]*?)\](?=[^\]]*?(?:$|\[|\n))", RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexWikilinkMissingOpeningBracket = new Regex(@"(?<=(?:^|\]|\n)[^\[]*?)\[([^][]*?)\]\](?!\])", RegexOptions.Compiled);
 
-        private static readonly Regex SyntaxRegex6 = new Regex("\\[?\\[image:(http:\\/\\/.*?)\\]\\]?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex SyntaxRegex7 = new Regex("\\[\\[ (.*)?\\]\\]", RegexOptions.Compiled);
-        private static readonly Regex SyntaxRegex8 = new Regex("\\[\\[([A-Za-z]*) \\]\\]", RegexOptions.Compiled);
-        private static readonly Regex SyntaxRegex9 = new Regex("\\[\\[(.*)?_#(.*)\\]\\]", RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexExternalLinkToImageURL = new Regex("\\[?\\[image:(http:\\/\\/.*?)\\]\\]?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexSimpleWikilinkStartsWithSpaces = new Regex("\\[\\[ (.*)?\\]\\]", RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexSimpleWikilinkEndsWithSpaces = new Regex("\\[\\[([A-Za-z]*) \\]\\]", RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexSectionLinkUnnecessaryUnderscore = new Regex("\\[\\[(.*)?_#(.*)\\]\\]", RegexOptions.Compiled);
 
         private static readonly Regex SyntaxRegexTemplate = new Regex(@"(\{\{\s*)[Tt]emplate\s*:(.*?\}\})", RegexOptions.Singleline | RegexOptions.Compiled);
-        private static readonly Regex SyntaxRegex11 = new Regex(@"^([#\*:;]+.*?) *<[/\\]?br ?[/\\]?> *\r\n", RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexListRowBrTag = new Regex(@"^([#\*:;]+.*?) *<[/\\]?br ?[/\\]?> *\r\n", RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         // make double spaces within wikilinks just single spaces
-        private static readonly Regex SyntaxRegex12 = new Regex(@"(\[\[[^\[\]]+?) {2,}([^\[\]]+\]\])", RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexMultipleSpacesInWikilink = new Regex(@"(\[\[[^\[\]]+?) {2,}([^\[\]]+\]\])", RegexOptions.Compiled);
 
         private static readonly Regex SyntaxRegexItalic = new Regex("< *i *>(.*?)< */ *i *>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexBold = new Regex("< *b *>(.*?)< */ *b *>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -1780,13 +1780,13 @@ namespace WikiFunctions.Parse
         // fix incorrect <br> of <br.>, <\br> and <br\>
         private static readonly Regex IncorrectBr = new Regex(@"< *br\. *>|<\\ *br *>|< *br *\\ *>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private static readonly Regex SyntaxRegex16 = new Regex("^<hr>|^----+", RegexOptions.Compiled | RegexOptions.Multiline);
-        private static readonly Regex SyntaxRegex17 = new Regex("(^==?[^=]*==?)\r\n(\r\n)?----+", RegexOptions.Compiled | RegexOptions.Multiline);
-        private static readonly Regex SyntaxRegex18 = new Regex(@"HTTP/\d\.", RegexOptions.Compiled);
-        private static readonly Regex SyntaxRegex19 = new Regex("ISBN: ?([0-9])", RegexOptions.Compiled);
-        private static readonly Regex SyntaxRegex20 = new Regex(@"^\[(\s*http.*?)\]$", RegexOptions.Compiled | RegexOptions.Singleline);
-        private static readonly Regex SyntaxRegex21 = new Regex(@"([^]])\]([^]]|$)", RegexOptions.Compiled);
-        private static readonly Regex SyntaxRegex22 = new Regex("\\[\\[[Ii]mage:[^]]*http", RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexHorizontalRule = new Regex("^<hr>|^----+", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex SyntaxRegexHeadingWithHorizontalRule = new Regex("(^==?[^=]*==?)\r\n(\r\n)?----+", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex SyntaxRegexHTTPNumber = new Regex(@"HTTP/\d\.", RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexISBN = new Regex("ISBN: ?([0-9])", RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexExternalLinkOnWholeLine = new Regex(@"^\[(\s*http.*?)\]$", RegexOptions.Compiled | RegexOptions.Singleline);
+        private static readonly Regex SyntaxRegexClosingBracket = new Regex(@"([^]])\]([^]]|$)", RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexImageWithHTTP = new Regex("\\[\\[[Ii]mage:[^]]*http", RegexOptions.Compiled);
 
         private static readonly Regex DoublePipeInWikiLink = new Regex(@"(?<=\[\[[^\[\[\r\n\|{}]+)\|\|(?=[^\[\[\r\n\|{}]+\]\])", RegexOptions.Compiled);
 
@@ -1803,10 +1803,10 @@ namespace WikiFunctions.Parse
 
             articleText = SyntaxRegexBold.Replace(articleText, "'''$1'''");
 
-            articleText = SyntaxRegex16.Replace(articleText, "----");
+            articleText = SyntaxRegexHorizontalRule.Replace(articleText, "----");
 
             //remove appearance of double line break
-            articleText = SyntaxRegex17.Replace(articleText, "$1");
+            articleText = SyntaxRegexHeadingWithHorizontalRule.Replace(articleText, "$1");
 
             // double piped links e.g. [[foo||bar]]
             articleText = DoublePipeInWikiLink.Replace(articleText, "|");
@@ -1815,7 +1815,7 @@ namespace WikiFunctions.Parse
             articleText = SyntaxRegexTemplate.Replace(articleText, "$1$2");
 
             // remove <br> from lists
-            articleText = SyntaxRegex11.Replace(articleText, "$1\r\n");
+            articleText = SyntaxRegexListRowBrTag.Replace(articleText, "$1\r\n");
 
             //fix uneven bracketing on links
             articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "$1");
@@ -1831,21 +1831,21 @@ namespace WikiFunctions.Parse
             articleText = PipedExternalLink.Replace(articleText, "$1 $2");
 
             //repair bad external links
-            articleText = SyntaxRegex6.Replace(articleText, "[$1]");
+            articleText = SyntaxRegexExternalLinkToImageURL.Replace(articleText, "[$1]");
 
             //repair bad internal links
-            articleText = SyntaxRegex7.Replace(articleText, "[[$1]]");
-            articleText = SyntaxRegex8.Replace(articleText, "[[$1]]");
-            articleText = SyntaxRegex9.Replace(articleText, "[[$1#$2]]");
-            articleText = SyntaxRegex12.Replace(articleText, @"$1 $2");
+            articleText = SyntaxRegexSimpleWikilinkStartsWithSpaces.Replace(articleText, "[[$1]]");
+            articleText = SyntaxRegexSimpleWikilinkEndsWithSpaces.Replace(articleText, "[[$1]]");
+            articleText = SyntaxRegexSectionLinkUnnecessaryUnderscore.Replace(articleText, "[[$1#$2]]");
+            articleText = SyntaxRegexMultipleSpacesInWikilink.Replace(articleText, @"$1 $2");
 
-            if (!SyntaxRegex18.IsMatch(articleText))
+            if (!SyntaxRegexHTTPNumber.IsMatch(articleText))
             {
                 articleText = MissingColonInHttpLink.Replace(articleText, "$1tp://$2");
                 articleText = SingleTripleSlashInHttpLink.Replace(articleText, "$1tp://$2");
             }
 
-            articleText = SyntaxRegex19.Replace(articleText, "ISBN $1");
+            articleText = SyntaxRegexISBN.Replace(articleText, "ISBN $1");
 
             articleText = CellpaddingTypo.Replace(articleText, "$1cellpadding");
 
@@ -1868,24 +1868,24 @@ namespace WikiFunctions.Parse
             foreach (Match m in SquareBracketsInExternalLinks.Matches(articleText))
             {
                 // strip off leading [ and trailing ]
-                string externalLink = SyntaxRegex20.Replace(m.Value, "$1");
+                string externalLink = SyntaxRegexExternalLinkOnWholeLine.Replace(m.Value, "$1");
 
                 // if there are some brackets left then they need fixing; the mediawiki parser finishes the external link
                 // at the first ] found
                 if (externalLink.Contains("]"))
                 {
                     // replace single ] with &#93; when used for brackets in the link description
-                    externalLink = SyntaxRegex21.Replace(externalLink, @"$1&#93;$2");
+                    externalLink = SyntaxRegexClosingBracket.Replace(externalLink, @"$1&#93;$2");
 
                     articleText = articleText.Replace(m.Value, @"[" + externalLink + @"]");
                 }
             }
 
             // needs to be applied after SquareBracketsInExternalLinks
-            if (!SyntaxRegex22.IsMatch(articleText))
+            if (!SyntaxRegexImageWithHTTP.IsMatch(articleText))
             {
-                articleText = SyntaxRegex4.Replace(articleText, "[[$1]]");
-                articleText = SyntaxRegex5.Replace(articleText, "[[$1]]");
+                articleText = SyntaxRegexWikilinkMissingClosingBracket.Replace(articleText, "[[$1]]");
+                articleText = SyntaxRegexWikilinkMissingOpeningBracket.Replace(articleText, "[[$1]]");
             }
 
             // if there are some unbalanced brackets, see whether we can fix them
