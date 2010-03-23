@@ -562,7 +562,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches persondata (en only)
         /// </summary>
-        public static readonly Regex Persondata = new Regex(@"{{\s*[Pp]ersondata((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})", RegexOptions.Singleline | RegexOptions.Compiled);
+        public static readonly Regex Persondata = Tools.NestedTemplateRegex(@"Persondata");
 
         /// <summary>
         /// Comment often put on the line before the Persondata template on the en-wiki
@@ -580,7 +580,7 @@ namespace WikiFunctions
         public static readonly Regex LivingPeopleRegex2 = new Regex(@"\{\{\s*(Template:)?(Recent ?death|Recentlydeceased)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         
         /// <summary>
-        /// 
+        /// Matches the XXXX births / xxth Century / XXXX BC births categories (en only)
         /// </summary>
         public static readonly Regex BirthsCategory = new Regex(@"\[\[ ?Category ?:[ _]?(?:(\d{3,4})(?:s| BC)?|\d{1,2}\w{0,2}[- _]century)[ _]births(\|.*?)?\]\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
@@ -708,7 +708,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the {{circa}} template
         /// </summary>
-        public static readonly Regex CircaTemplate = new Regex(@"{{\s*[Cc]irca\s*(?:\|.*?)?}}", RegexOptions.Singleline);
+        public static readonly Regex CircaTemplate = Tools.NestedTemplateRegex(@"Circa");
 
         // covered by DablinksTests
         /// <summary>
@@ -877,12 +877,12 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the {{Ibid}} template
         /// </summary>
-        public static readonly Regex Ibid = new Regex(@"{{\s*[Ii]bid\s*(?:\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))?}}", RegexOptions.Singleline);
+        public static readonly Regex Ibid = Tools.NestedTemplateRegex(@"Ibid");
         
         /// <summary>
         /// Matches the {{Inuse}} template
         /// </summary>
-        public static readonly Regex InUse = new Regex(@"{{\s*[Ii]nuse\s*[\}\|]", RegexOptions.Compiled);
+        public static readonly Regex InUse = Tools.NestedTemplateRegex(@"Inuse");
 
         /// <summary>
         /// Matches consecutive whitespace
