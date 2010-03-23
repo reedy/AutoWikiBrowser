@@ -130,9 +130,6 @@ namespace WikiFunctions.Parse
             RegexConversion.Add(new Regex(@"(\{\{\s*[Aa]rticle ?issues[^{}]*\|\s*)(\w+)(\s*=\s*[^\|}{]+(?:\|[^{}]+?)?)\|\s*\2\s*=\s*(\||\}\})", RegexOptions.Compiled), "$1$2$3$4"); // 'field=populated | field=null' drop field=null
             RegexConversion.Add(new Regex(@"(\{\{\s*[Aa]rticle ?issues[^{}]*\|\s*)(\w+)\s*=\s*\|\s*((?:[^{}]+?\|)?\s*\2\s*=\s*[^\|}{\s])", RegexOptions.Compiled), "$1$3"); // 'field=null | field=populated' drop field=null
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Add_.7B.7Botheruse.7D.7D_and_.7B.7B2otheruses.7D.7D_in_the_supported_DABlinks
-            RegexConversion.Add(new Regex(@"({{)2otheruses(\s*(?:\|[^{}]*}}|}}))", RegexOptions.Compiled), "$1Two other uses$2");
-
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#AWB_is_still_using_.7B.7BArticleissues.7D.7D_instead_of_.7B.7BArticle_issues.7D.7D
             // replace any {{articleissues}} with {{article issues}}
             RegexConversion.Add(new Regex(@"(?<={{[Aa]rticle)i(?=ssues.*}})", RegexOptions.Compiled), " i");
@@ -4359,6 +4356,9 @@ namespace WikiFunctions.Parse
             {
                 articleText = k.Key.Replace(articleText, k.Value);
             }
+            
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Add_.7B.7Botheruse.7D.7D_and_.7B.7B2otheruses.7D.7D_in_the_supported_DABlinks
+            articleText = Tools.RenameTemplate(articleText, @"2otheruses", "Two other uses");
 
             // {{nofootnotes}} --> {{morefootnotes}}, if some <ref>...</ref> references in article, uses regex from WikiRegexes.Refs
             if (WikiRegexes.Refs.IsMatch(articleText))
