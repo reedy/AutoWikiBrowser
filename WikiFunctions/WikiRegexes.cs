@@ -356,19 +356,15 @@ namespace WikiFunctions
         /// </summary>
         public static Regex Redirect;
         
-        /// <summary>
-        /// Matches the {{R from modification}} redirect tag, and its aliases
-        /// </summary>
-        public static readonly Regex RFromModification = new Regex(@"{{\s*[Rr] (?:from modifi?cation|mod|from alternat(?:e|ive) punctuation)\s*}}", RegexOptions.Compiled);
-
-        /// <summary>
-        /// Matches the {{R from title without diacritics}} redirect tag, and its aliases
-        /// </summary>
-        public static readonly Regex RFromTitleWithoutDiacritics = new Regex(@"{{\s*(?:[Rr] (?:from (?:(?:original )?name|title) without diacritics|to (?:accents|diacritics|title with diacritics|unicode(?: name)?)|without diacritics)|[Rr]Diacr|[Rr]edirects from title without diacritics)\s*}}", RegexOptions.Compiled);
+        public const string RFromModificationString = @"{{R from modification}}";        
+        public static readonly List<string> RFromModificationList = new List<string>(@"R from alternative punctuation,R mod,R from modifcation,R from modification,R from alternate punctuation".Split(','));
         
-        public const string RFromModificationString = @"{{R from modification}}";
         public const string RFromTitleWithoutDiacriticsString = @"{{R from title without diacritics}}";
+        public static readonly List<string> RFromTitleWithoutDiacriticsList = new List<string>(@"R from name without diacritics,R from original name without diacritics,R from title without diacritics,R to accents,R to diacritics,R to title with diacritics,R to unicode,R to unicode name,R without diacritics,RDiacr,Redirects from title without diacritics".Split(','));
         
+        public const string RFromOtherCapitaliastionString = @"{{R from other capitalisation}}";
+        public static readonly List<string> RFromOtherCapitaliastionList = new List<string>(@"R cap,R for alternate capitalisation,R for alternate capitalization,R for alternative capitalisation,R for alternative capitalization,R from Capitalisation,R from Capitalization,R from alt cap,R from alt case,R from alternate capitalisation,R from alternate capitalization,R from alternative capitalisation,R from alternative capitalization,R from another capitalisation,R from another capitalization,R from cap,R from capitalisation,R from capitalization,R from caps,R from different capitalization ,R from lowercase,R from miscapitalization,R from other Capitalization,R from other capitalisation,R from other capitalization,R from other caps,R to Capitalization,R to alternate capitalisation,Redirect from capitalisation".Split(','));
+                
         /// <summary>
         /// Matches words
         /// </summary>
