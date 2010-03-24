@@ -922,7 +922,7 @@ namespace AutoWikiBrowser
                 // if we reach here the article has valid changes, so move on to next article
 
                 // if user has loaded a settings file, save it every 10 ignored edits
-                if (!string.IsNullOrEmpty(SettingsFile) && (NumberOfIgnoredEdits > 5) && (NumberOfIgnoredEdits % 10 == 0))
+                if (autoSaveSettingsToolStripMenuItem.Checked && !string.IsNullOrEmpty(SettingsFile) && (NumberOfIgnoredEdits > 5) && (NumberOfIgnoredEdits % 10 == 0))
                     SavePrefs(SettingsFile);
 
                 // request list maker to focus next article in list; if there is a next article process it, otherwise pre-parsing has finished, save settings
