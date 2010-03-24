@@ -587,6 +587,22 @@ namespace WikiFunctions
 
             return text.TrimStart(':');
         }
+        
+        /// <summary>
+        /// Returns the value of an HTML meta tag
+        /// </summary>
+        /// <param name="pagesource">page source HTML</param>
+        /// <param name="metaname">meta content name</param>
+        /// <returns>The meta tag value</returns>
+        public static string GetMetaContentValue(string pagesource, string metaname)
+        {
+            if(pagesource.Length == 0 || metaname.Length == 0)
+                return "";
+            
+            Regex MetaContent = new Regex(@"< *meta +name *= *""" + Regex.Escape(metaname) + @""" +content *= *""([^""<>]+?)"" */? *>", RegexOptions.IgnoreCase);
+            
+            return MetaContent.Match(pagesource).Groups[1].Value.Trim();
+        }
 
         // Covered by ToolsTests.SplitToSections()
         /// <summary>
