@@ -6058,13 +6058,26 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 		public void RedirectTagger()
 		{
 			const string redirecttext = @"#REDIRECT:[[Foo bar]]";
+			const string redirecttext2 = @"#REDIRECT:[[foo bar]]";
 			
 			// skips recursive redirects
-			Assert.AreEqual(redirecttext, Parsers.RedirectTagger(redirecttext, "Foo bar"));
+			Assert.AreEqual(redirecttext, Parsers.RedirectTagger(redirecttext, "Foo bar"));			
+			Assert.AreEqual(redirecttext2, Parsers.RedirectTagger(redirecttext2, "Foo bar"));			
+			Assert.AreEqual(redirecttext, Parsers.RedirectTagger(redirecttext, "foo bar"));
 			
 			// skips if not a redirect
 			string notredirect = @"Now foo bar";
 			Assert.AreEqual(notredirect, Parsers.RedirectTagger(notredirect, "Foo bar"));
+		}
+		
+		[Test]
+		public void RedirectTaggerCapitalisation()
+		{
+		const string correct = @"#REDIRECT:[[FooBar]]
+{{R from other capitalisation}}", redirectCap = @"#REDIRECT:[[FooBar]]";
+			Assert.AreEqual(correct, Parsers.RedirectTagger(redirectCap, "Foobar"));
+			Assert.AreEqual(correct, Parsers.RedirectTagger(redirectCap, "foobar"));
+			Assert.AreEqual(correct, Parsers.RedirectTagger(redirectCap, "FOObar"));
 		}
 		
 		[Test]

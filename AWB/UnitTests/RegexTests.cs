@@ -590,29 +590,29 @@ fast„ "));
         [Test]
         public void RFromModification()
         {
-            Assert.IsTrue(WikiRegexes.RFromModification.IsMatch(@"{{R from modification}}"));
-            Assert.IsTrue(WikiRegexes.RFromModification.IsMatch(@"{{ r from modification}}"));
-            Assert.IsTrue(WikiRegexes.RFromModification.IsMatch(@"{{R mod }}"));
-            Assert.IsTrue(WikiRegexes.RFromModification.IsMatch(@"{{R from modifcation}}"));
-            Assert.IsTrue(WikiRegexes.RFromModification.IsMatch(@"{{R from alternate punctuation}}"));
-            Assert.IsTrue(WikiRegexes.RFromModification.IsMatch(@"{{R from alternative punctuation}}"));
+            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromModificationList).IsMatch(@"{{R from modification}}"));
+            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromModificationList).IsMatch(@"{{ r from modification}}"));
+            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromModificationList).IsMatch(@"{{R mod }}"));
+            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromModificationList).IsMatch(@"{{R from modifcation}}"));
+            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromModificationList).IsMatch(@"{{R from alternate punctuation}}"));
+            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromModificationList).IsMatch(@"{{R from alternative punctuation}}"));
         }
         
         [Test]
         public void RFromTitleWithoutDiacritics()
         {
-            Assert.IsTrue(WikiRegexes.RFromTitleWithoutDiacritics.IsMatch(@"{{R to accents}}"));
-            Assert.IsTrue(WikiRegexes.RFromTitleWithoutDiacritics.IsMatch(@"{{Redirects from title without diacritics}}"));
-            Assert.IsTrue(WikiRegexes.RFromTitleWithoutDiacritics.IsMatch(@"{{RDiacr}}"));
-            Assert.IsTrue(WikiRegexes.RFromTitleWithoutDiacritics.IsMatch(@"{{r to unicode name}}"));
-            Assert.IsTrue(WikiRegexes.RFromTitleWithoutDiacritics.IsMatch(@"{{ R to unicode}}"));
-            Assert.IsTrue(WikiRegexes.RFromTitleWithoutDiacritics.IsMatch(@"{{R to unicode  }}"));
-            Assert.IsTrue(WikiRegexes.RFromTitleWithoutDiacritics.IsMatch(@"{{R to title with diacritics}}"));
-            Assert.IsTrue(WikiRegexes.RFromTitleWithoutDiacritics.IsMatch(@"{{R to diacritics}}"));
-            Assert.IsTrue(WikiRegexes.RFromTitleWithoutDiacritics.IsMatch(@"{{R from name without diacritics}}"));
-            Assert.IsTrue(WikiRegexes.RFromTitleWithoutDiacritics.IsMatch(@"{{R from title without diacritics}}"));
-            Assert.IsTrue(WikiRegexes.RFromTitleWithoutDiacritics.IsMatch(@"{{R from original name without diacritics}}"));
-            Assert.IsTrue(WikiRegexes.RFromTitleWithoutDiacritics.IsMatch(@"{{R without diacritics}}"));
+            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R to accents}}"));
+            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{Redirects from title without diacritics}}"));
+            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{RDiacr}}"));
+            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{r to unicode name}}"));
+            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{ R to unicode}}"));
+            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R to unicode  }}"));
+            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R to title with diacritics}}"));
+            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R to diacritics}}"));
+            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R from name without diacritics}}"));
+            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R from title without diacritics}}"));
+            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R from original name without diacritics}}"));
+            Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(@"{{R without diacritics}}"));
         }
 
         [Test]
