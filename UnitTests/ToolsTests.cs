@@ -836,6 +836,22 @@ Jones", "*"));
 }}", "param1"));
             Assert.AreEqual(@"here <nowiki>|</nowiki> there", Tools.GetTemplateParameterValue(@"{{cite|param1 = here <nowiki>|</nowiki> there}}", "param1"));
             Assert.AreEqual(@"here <nowiki>|</nowiki> there", Tools.GetTemplateParameterValue(@"{{cite|param1 = here <nowiki>|</nowiki> there|parae=aaa}}", "param1"));
+        
+        string ItFilm = @"{{Film
+|titoloitaliano= Matrix
+|immagine= [[image:Matrix.png|200px|Il codice di Matrix]]
+|didascalia= Il codice di Matrix
+|titolooriginale= The Matrix
+|nomepaese= [[Stati Uniti d'America|USA]]
+|annoproduzione= [[1999]]
+|durata= 136 min
+|tipocolore= colore
+|tipoaudio= sonoro}}";
+        
+        Assert.AreEqual(@"[[1999]]", Tools.GetTemplateParameterValue(ItFilm, "annoproduzione"));
+        Assert.AreEqual(@"[[1999]", Tools.GetTemplateParameterValue(ItFilm.Replace(@"[[1999]]", @"[[1999]"), "annoproduzione"));
+        Assert.AreEqual(@"[[1999", Tools.GetTemplateParameterValue(ItFilm.Replace(@"[[1999]]", @"[[1999"), "annoproduzione"));
+        Assert.AreEqual(@"1999]]", Tools.GetTemplateParameterValue(ItFilm.Replace(@"[[1999]]", @"1999]]"), "annoproduzione"));
         }
         
         [Test]
