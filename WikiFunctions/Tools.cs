@@ -1945,7 +1945,7 @@ Message: {2}
         /// <returns>The trimmed parameter value, or a null string if the parameter is not found</returns>
         public static string GetTemplateParameterValue(string template, string parameter)
         {
-            Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=(.*?)(?=\||}}$)", RegexOptions.Singleline);
+            Regex param = new Regex(@"\|\s*(?:<!--.*?-->)?" + Regex.Escape(parameter) + @"\s*(?:<!--.*?-->\s*)?=(.*?)(?=\||}}$)", RegexOptions.Singleline);
             
             Match m = param.Match(template);
             

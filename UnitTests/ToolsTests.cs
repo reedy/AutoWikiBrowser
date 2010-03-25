@@ -821,6 +821,11 @@ Jones", "*"));
             // null value
             Assert.AreEqual("", Tools.GetTemplateParameterValue(@"{{cite|param1= }}", "param1"));
             
+            // comments handled
+            Assert.AreEqual("", Tools.GetTemplateParameterValue(@"{{cite|<!--param1=foo-->other=yes }}", "param1"));
+            Assert.AreEqual("yes", Tools.GetTemplateParameterValue(@"{{cite|<!--param1=foo-->other=yes }}", "other"));
+            Assert.AreEqual("yes", Tools.GetTemplateParameterValue(@"{{cite|other<!--param1=foo-->=yes }}", "other"));
+            
             // returns first value
             Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite|param1=here|foo=bar|param1=there}}", "param1"));
         }
