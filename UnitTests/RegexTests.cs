@@ -431,6 +431,8 @@ bar</ INCLUDEONLY>");
             RegexAssert.Matches("{{foo| {bar} }}", WikiRegexes.NestedTemplates, "{{foo| {bar} }}");
             RegexAssert.Matches("{{foo {{bar}} end}}", WikiRegexes.NestedTemplates, "{{foo {{bar}} end}}");
             
+            RegexAssert.Matches("{{ foo |bar}}", WikiRegexes.NestedTemplates, "{{ foo |bar}}");
+            RegexAssert.Matches("{{foo<!--comm-->|bar}}", WikiRegexes.NestedTemplates, "{{foo<!--comm-->|bar}}");
             RegexAssert.Matches("", WikiRegexes.NestedTemplates, "{{foo");
         }
 
@@ -438,6 +440,19 @@ bar</ INCLUDEONLY>");
         public void TemplateName()
         {           
             Assert.IsTrue(WikiRegexes.TemplateName.Match(@"{{Start date and age|1833|7|11}}").Groups[1].Value == "Start date and age");
+            
+            // whitespace handling
+            Assert.IsTrue(WikiRegexes.TemplateName.Match(@"{{ Start date and age |1833|7|11}}").Groups[1].Value == "Start date and age");
+            Assert.IsTrue(WikiRegexes.TemplateName.Match(@"{{
+Start date and age
+|1833|7|11}}").Groups[1].Value == "Start date and age");
+            
+            // embedded comments
+            Assert.IsTrue(WikiRegexes.TemplateName.Match(@"{{start date and age <!--comm--> |1833|7|11}}").Groups[1].Value == "start date and age");
+            Assert.IsTrue(WikiRegexes.TemplateName.Match(@"{{start date and age <!--comm-->}}").Groups[1].Value == "start date and age");
+            
+            // works on part templates
+            Assert.IsTrue(WikiRegexes.TemplateName.Match(@"{{Start date and age|1833|7|").Groups[1].Value == "Start date and age");
         }
 
         [Test]
