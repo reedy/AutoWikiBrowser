@@ -986,6 +986,21 @@ dateformat=mdy}}", "cite web", "dateformat"));
         }
         
         [Test]
+        public void UpdateTemplateParameterValue()
+        {
+            Assert.AreEqual(@"{{foo|param1=valueafter}}", Tools.UpdateTemplateParameterValue(@"{{foo|param1=before}}", "param1", "valueafter"));
+            Assert.AreEqual(@"{{foo|param1= valueafter }}", Tools.UpdateTemplateParameterValue(@"{{foo|param1= before }}", "param1", "valueafter"));
+            
+            Assert.AreEqual(@"{{foo|param1=valueafter|param2=before}}", Tools.UpdateTemplateParameterValue(@"{{foo|param1=before|param2=before}}", "param1", "valueafter")); 
+            
+            // parameter not used – no change
+            Assert.AreEqual(@"{{foo|param1=before}}", Tools.UpdateTemplateParameterValue(@"{{foo|param1=before}}", "param2", "valueafter"));
+            
+            // old value null – updated correctly
+            Assert.AreEqual(@"{{foo|param1=valueafter}}", Tools.UpdateTemplateParameterValue(@"{{foo|param1=}}", "param1", "valueafter"));
+        }
+        
+        [Test]
         public void  NestedTemplateRegexSingleWord()
         {
             Regex FooTemplate =  Tools.NestedTemplateRegex("foo");
