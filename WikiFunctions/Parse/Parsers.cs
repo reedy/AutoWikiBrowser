@@ -2124,7 +2124,7 @@ namespace WikiFunctions.Parse
             foreach (Match m in WikiRegexes.CiteTemplate.Matches(articleText))
             {
                 string newValue = m.Value;
-                string templatename = WikiRegexes.TemplateName.Match(newValue).Groups[1].Value;
+                string templatename = Tools.GetTemplateName(newValue);
 
                 // remove the unneeded 'format=HTML' field
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.22format.3DHTML.22_in_citation_templates

@@ -1127,6 +1127,25 @@ foo<!--comm-->|title=abc
             Assert.AreEqual(@"", Tools.GetMetaContentValue(@"<meta name  =""PubDate"" CONTENT="" 2009-03-02 "">", "PUBDATEXX"));
             Assert.AreEqual(@"", Tools.GetMetaContentValue(@"<meta name  =""PubDateX"" CONTENT="" 2009-03-02 "">", "PUBDATE"));
         }
+        
+        [Test]
+        public void GetTemplateName()
+        {
+            Assert.AreEqual(Tools.GetTemplateName(@"{{Start date and age|1833|7|11}}"),"Start date and age");
+            
+            // whitespace handling
+            Assert.AreEqual(Tools.GetTemplateName(@"{{ Start date and age |1833|7|11}}"),"Start date and age");
+            Assert.AreEqual(Tools.GetTemplateName(@"{{
+Start date and age
+|1833|7|11}}"),"Start date and age");
+            
+            // embedded comments
+            Assert.AreEqual(Tools.GetTemplateName(@"{{start date and age <!--comm--> |1833|7|11}}"),"start date and age");
+            Assert.AreEqual(Tools.GetTemplateName(@"{{start date and age <!--comm-->}}"),"start date and age");
+            
+            // works on part templates
+            Assert.AreEqual(Tools.GetTemplateName(@"{{Start date and age|1833|7|"),"Start date and age");
+        }
     }
 
     [TestFixture]

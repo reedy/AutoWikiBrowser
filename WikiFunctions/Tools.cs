@@ -2032,6 +2032,16 @@ Message: {2}
         }
         
         /// <summary>
+        /// Returns the name of the input template
+        /// </summary>
+        /// <param name="template">the template call</param>
+        /// <returns>the template name</returns>
+        public static string GetTemplateName(string template)
+        {
+            return WikiRegexes.TemplateName.Match(template).Groups[1].Value;
+        }
+        
+        /// <summary>
         /// Renames all matches of the given template name in the input text to the new name given
         /// </summary>
         /// <param name="articletext">the page text</param>
