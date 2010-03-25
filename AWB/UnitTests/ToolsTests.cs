@@ -875,7 +875,7 @@ Jones", "*"));
         }
         
         [Test]
-        public void RenameTemplate()
+        public void RenameTemplateArticleText()
         {
         	string correct = @"Now {{bar}} was {{bar|here}} there", correct2 = @"Now {{bar}} was {{bar
 |here
@@ -901,6 +901,26 @@ Jones", "*"));
         	
         	// handles invalid template names gracefully
         	Assert.AreEqual(correct, Tools.RenameTemplate(correct, @"foo(", "bar"));
+        }
+        
+        [Test]
+        public void RenameTemplate()
+        {
+            Assert.AreEqual(@"{{bar}}", Tools.RenameTemplate(@"{{foo}}", "bar"));
+            
+            // space kept
+            Assert.AreEqual(@"{{ bar }}", Tools.RenameTemplate(@"{{ foo }}", "bar"));
+            
+            // casing
+            Assert.AreEqual(@"{{bar}}", Tools.RenameTemplate(@"{{Foo}}", "bar"));
+            Assert.AreEqual(@"{{Bar}}", Tools.RenameTemplate(@"{{Foo}}", "Bar"));
+            
+            // with params
+            Assert.AreEqual(@"{{bar|parameters=adsfjk}}", Tools.RenameTemplate(@"{{Foo|parameters=adsfjk}}", "bar"));
+            Assert.AreEqual(@"{{bar |parameters=adsfjk}}", Tools.RenameTemplate(@"{{Foo |parameters=adsfjk}}", "bar"));
+            
+            // comment handling
+            Assert.AreEqual(@"{{bar man<!--comm-->|here}}", Tools.RenameTemplate(@"{{foo man<!--comm-->|here}}", "bar man"));
         }
         
         [Test]
