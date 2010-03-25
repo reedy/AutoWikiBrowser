@@ -2231,7 +2231,21 @@ namespace WikiFunctions.Parse
 
                 // page range should use 'pages' parameter not 'page'
                 newValue = CiteTemplatesPageRangeName.Replace(newValue, @"$1pages$2");
+                
+                // remove ordinals from dates
+                if(OrdinalsInDatesInt.IsMatch(newValue))
+                {
+                    newValue = Tools.UpdateTemplateParameterValue(newValue, "date", OrdinalsInDatesInt.Replace(Tools.GetTemplateParameterValue(newValue, "date"), "$1$2$3 $4"));
+                    newValue = Tools.UpdateTemplateParameterValue(newValue, "accessdate", OrdinalsInDatesInt.Replace(Tools.GetTemplateParameterValue(newValue, "accessdate"), "$1$2$3 $4"));
+                }
+                
+                if(OrdinalsInDatesAm.IsMatch(newValue))
+                {
+                    newValue = Tools.UpdateTemplateParameterValue(newValue, "date", OrdinalsInDatesAm.Replace(Tools.GetTemplateParameterValue(newValue, "date"), "$1 $2$3"));
+                    newValue = Tools.UpdateTemplateParameterValue(newValue, "accessdate", OrdinalsInDatesAm.Replace(Tools.GetTemplateParameterValue(newValue, "accessdate"), "$1 $2$3"));
+                }
 
+                // merge changes to article text
                 articleText = articleText.Replace(m.Value, newValue);
             }
 

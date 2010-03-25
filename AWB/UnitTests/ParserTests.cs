@@ -2094,6 +2094,23 @@ journal=Crypt of Cthulhu |volume= 3|issue= 3|pages = 140&#8209;7}}";
 			Assert.AreEqual(nochange2, Parsers.FixCitationTemplates(nochange2));
 			Assert.AreEqual(nochange3, Parsers.FixCitationTemplates(nochange3));
 		}
+		
+		[Test]
+		public void FixCitationTemplatesOrdinalDates()
+		{
+		    Assert.AreEqual(@"{{cite web|url=http://news.bbc.co.uk/1/hi/uk_politics/8080777.stm|title=Brown pressure as Blears quits|
+publisher=The BBC|date=June 3, 2009|accessdate=January 15, 2010}}", Parsers.FixCitationTemplates(@"{{cite web|url=http://news.bbc.co.uk/1/hi/uk_politics/8080777.stm|title=Brown pressure as Blears quits|
+publisher=The BBC|date=June 3rd, 2009|accessdate=January 15th, 2010}}"));
+		    
+		    Assert.AreEqual(@"{{cite web|url=http://news.bbc.co.uk/1/hi/uk_politics/8080777.stm|title=Brown pressure as Blears quits|
+publisher=The BBC|date=June 3, 2009|accessdate=January 15, 2010}}", Parsers.FixCitationTemplates(@"{{cite web|url=http://news.bbc.co.uk/1/hi/uk_politics/8080777.stm|title=Brown pressure as Blears quits|
+publisher=The BBC|date=June 3rd, 2009|accessdate=January 15, 2010}}"));
+		    
+		    // no change - only in title
+		    string nochange = @"{{cite web|url=http://news.bbc.co.uk/1/hi/uk_politics/8080777.stm|title=Brown pressure at January 15th, 2010}}";
+		    
+		    Assert.AreEqual(nochange, Parsers.FixCitationTemplates(nochange));
+		}
 
 		[Test]
 		public void TestWordingIntoBareExternalLinks()
