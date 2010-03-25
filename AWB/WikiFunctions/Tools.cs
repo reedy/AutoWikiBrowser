@@ -2032,6 +2032,37 @@ Message: {2}
         }
         
         /// <summary>
+        /// Sets the template parameter value to the new value input
+        /// </summary>
+        /// <param name="template">The template call to update</param>
+        /// <param name="parameter">The template parameter</param>
+        /// <param name="newvalue">The new value for the parameter</param>
+        /// <returns>The updated template call</returns>
+        public static string UpdateTemplateParameterValue(string template, string parameter, string newvalue)
+        {
+            Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=\s*(.*?)(?=\s*(?:\||}}$))", RegexOptions.Singleline);
+            
+            Match m = param.Match(template);
+            
+            if(m.Success)
+            {
+                int start = m.Groups[1].Index;
+                string restoftemplate = template.Substring(start);
+                
+                // clear out what may contain pipes that are not the pipe indicating the end of the parameter's value
+                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.NestedTemplates);
+                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.SimpleWikiLink);
+                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.UnformattedText);
+                
+                int valuelength = m.Groups[1].Length;
+                
+                return (template.Substring(0, start) + newvalue + template.Substring(start + valuelength));
+            }
+            
+            return template;
+        }
+        
+        /// <summary>
         /// Returns the name of the input template
         /// </summary>
         /// <param name="template">the template call</param>
