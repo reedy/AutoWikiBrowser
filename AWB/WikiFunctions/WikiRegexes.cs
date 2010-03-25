@@ -308,7 +308,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches templates: group 1 matches the names of templates
         /// </summary>
-        public static readonly Regex TemplateName = new Regex(@"{{\s*([^\|{}]+?)(?=\s*(?:\||}}))");
+        public static readonly Regex TemplateName = new Regex(@"{{\s*([^\|{}]+?)(?:\s*<!--.*?-->\s*)?\s*(?:\||}})");
 
         /// <summary>
         /// Matches external links
