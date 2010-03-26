@@ -709,6 +709,22 @@ Jones", "*"));
             Assert.AreEqual(@"*1980 Fred
 *2004 Jones", Tools.HTMLListToWiki(@"1980 Fred
 2004 Jones", "*"));
+            // do not add list to blank lines/lines with just whitespace
+            Assert.AreEqual(@"*Fred
+*Tim
+*John", Tools.HTMLListToWiki(@"Fred
+Tim
+John", "*"));
+
+            Assert.AreEqual(@"*Fred
+ 
+*Tim
+ 
+*John", Tools.HTMLListToWiki(@"Fred
+ 
+Tim
+ 
+John", "*"));
         }
 
         [Test]

@@ -1200,8 +1200,8 @@ namespace WikiFunctions
             text = Regex.Replace(text, "^</?(ol|ul|li)>\r\n", "", RegexOptions.Multiline | RegexOptions.IgnoreCase);
             text = Regex.Replace(text, @"^(\:|\*|#|\(? ?[0-9]{1,3}\b ?\)|[0-9]{1,3}\b\.?)", "", RegexOptions.Multiline);
 
-            // add bullet to start of each line
-            return Regex.Replace(text, "^", bullet, RegexOptions.Multiline);
+            // add bullet to start of each line, but not lines with just whitespace
+            return Regex.Replace(text, @"^(.*)$(?<!^\s+$)", bullet + "$1", RegexOptions.Multiline);
         }
 
         private static readonly System.Media.SoundPlayer Sound = new System.Media.SoundPlayer();
