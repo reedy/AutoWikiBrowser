@@ -1506,6 +1506,19 @@ words2"));
             Assert.IsFalse(WikiRegexes.BareExternalLink.IsMatch(@"<ref>http://www.site.com</ref>
 "));
         }
+        
+        [Test]
+        public void BareRefExternalLink()
+        {
+            TestMatch(WikiRegexes.BareRefExternalLink, @"<ref>[http://news.bbc.co.uk/hi/England/story4384.htm]</ref>");
+            TestMatch(WikiRegexes.BareRefExternalLink, @"<ref>[http://news.bbc.co.uk/hi/England/story4384.htm]]</ref>");
+            TestMatch(WikiRegexes.BareRefExternalLink, @"< REF > [   http://news.bbc.co.uk/hi/England/story4384.htm]
+< / ref  >");
+            TestMatch(WikiRegexes.BareRefExternalLink, @"<ref name=hello>[http://news.bbc.co.uk/hi/England/story4384.htm]</ref>");
+            TestMatch(WikiRegexes.BareRefExternalLink, @"<ref>[   http://news.bbc.co.uk/hi/England/story4384.htm   ]   </ref>");
+            
+            TestMatch(WikiRegexes.BareRefExternalLink, @"<ref>[http://news.bbc.co.uk/hi/England/story4384.htm title here]</ref>", false);
+        }
 
         [Test]
         public void BoldItalicTests()
