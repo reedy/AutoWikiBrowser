@@ -86,10 +86,10 @@ namespace WikiFunctions
         /// <summary>
         /// Gets the target of the redirect
         /// </summary>
-        /// <param name="text">Title of redirect target</param>
-        public static string RedirectTarget(string text)
+        /// <param name="articleText">The text of the article</param>
+        public static string RedirectTarget(string articleText)
         {
-            Match m = WikiRegexes.Redirect.Match(WikiRegexes.UnformattedText.Replace(FirstChars(text, 512), ""));
+            Match m = WikiRegexes.Redirect.Match(WikiRegexes.UnformattedText.Replace(FirstChars(articleText, 512), ""));
             return WikiDecode(m.Groups[1].Value).Trim();
         }
 
