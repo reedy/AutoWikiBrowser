@@ -554,9 +554,9 @@ namespace WikiFunctions
         public static readonly Regex BareExternalLink = new Regex(@"^ *\*? *(?:[Hh]ttp|[Hh]ttps|[Ff]tp|[Mm]ailto)://[^\ \n\r<>]+\s+$", RegexOptions.Multiline);
         
         /// <summary>
-        /// Matches a bare external link (URL only, no title) within a &lt;ref&gt; tag
+        /// Matches a bare external link (URL only, no title) within a &lt;ref&gt; tag, group 1 being the URL
         /// </summary>
-        public static readonly Regex BareRefExternalLink = new Regex(@"<\s*ref\b[^<>]*>\s*\[*\s*(?:https?|ftp|mailto)://[^\ \n\r<>]+\s*\]*\s*<\s*/\s*ref\s*>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex BareRefExternalLink = new Regex(@"<\s*ref\b[^<>]*>\s*\[*\s*((?:https?|ftp|mailto)://[^\ \n\r<>]+)\s*\]*\s*<\s*/\s*ref\s*>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
         /// Matches the various citation templates {{citation}}, {{cite web}} etc. on en-wiki
