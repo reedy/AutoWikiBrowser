@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Collections.Specialized;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Net;
 using System.Web;
@@ -509,6 +510,25 @@ namespace WikiFunctions
         public static string TurnFirstToLower(string input)
         {
             return (string.IsNullOrEmpty(input)) ? "" : (char.ToLower(input[0]) + input.Remove(0, 1));
+        }
+        
+        /// <summary>
+        /// Returns the trimmed input string in Title Case if:
+        /// string all upper case
+        /// string all lower case
+        /// Otherwise returns lower/mixed case words in Title Case and UPPER case in UPPER
+        /// </summary>
+        /// <param name="text">the input text</param>
+        /// <returns>the text in Title Case</returns>
+        public static string TitleCaseEN(string text)
+        {
+            if(text.ToUpper().Equals(text))
+                text = text.ToLower();
+            
+            CultureInfo English = new CultureInfo("en-GB");
+            TextInfo info = English.TextInfo;
+            
+            return(info.ToTitleCase(text.Trim()));
         }
 
         private static readonly Regex RegexWordCountTable = new Regex(@"\{\|.*?\|\}", RegexOptions.Compiled | RegexOptions.Singleline);
