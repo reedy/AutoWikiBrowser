@@ -170,6 +170,20 @@ namespace UnitTests
             Assert.AreEqual("tEST", Tools.TurnFirstToLower("TEST"));
             Assert.AreEqual("test", Tools.TurnFirstToLower("Test"));
         }
+        
+        [Test]
+        public void TitleCaseEN()
+        {
+            Assert.AreEqual(@"Foo", Tools.TitleCaseEN("FOO"));
+            Assert.AreEqual(@"Foo", Tools.TitleCaseEN(" FOO "));
+            Assert.AreEqual(@"Foo Bar", Tools.TitleCaseEN("FOO BAR"));
+            Assert.AreEqual(@"Foo Bar", Tools.TitleCaseEN("foo bar"));
+            Assert.AreEqual(@"Foo Bar", Tools.TitleCaseEN("foo Bar"));
+            Assert.AreEqual(@"FOO BAR A", Tools.TitleCaseEN("FOO BAR a"), "Not all text uppercase");
+            
+            Assert.AreEqual(@"Jane E", Tools.TitleCaseEN("JANE E"), "doesn't reformat initials");
+            Assert.AreEqual(@"Jane E.", Tools.TitleCaseEN("JANE E."), "doesn't reformat initials");
+        }
 
         [Test]
         public void WordCount()
