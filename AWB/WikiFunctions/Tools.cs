@@ -1215,6 +1215,7 @@ namespace WikiFunctions
         public static string HTMLListToWiki(string text, string bullet)
         {
             text = text.Replace("\r\n\r\n", "\r\n");
+         //   text = text.Replace("\n\n", "\n");
             text = Regex.Replace(text, "<br ?/?>", "", RegexOptions.IgnoreCase);
             text = Regex.Replace(text, "</?(ol|ul|li)>", "", RegexOptions.IgnoreCase);
             text = Regex.Replace(text, "^</?(ol|ul|li)>\r\n", "", RegexOptions.Multiline | RegexOptions.IgnoreCase);
@@ -1987,6 +1988,18 @@ Message: {2}
             return "";
         }
         
+        public static List<string> GetTemplateParametersValues(string template, List<string> parameters)
+        {
+            List<string> returnedvalues = new List<string>();
+
+            foreach(string param in parameters)
+            {                
+                returnedvalues.Add(GetTemplateParameterValue(template, param));
+            }
+            
+            return returnedvalues;
+        }
+        
         /// <summary>
         /// Renames the given template named parameter in the input template
         /// </summary>
@@ -2116,7 +2129,7 @@ Message: {2}
         }
         
         private static readonly string NestedTemplateRegexStart = @"({{\s*)(";
-        private static readonly string NestedTemplateRegexEnd = @"(\s*(?:<!--[^>]*?-->\s*)?(\|((?>[^\{\}]+|\{\{(?<DEPTH>)|\}\}(?<-DEPTH>))*(?(DEPTH)(?!))))?\}\})";
+        private static readonly string NestedTemplateRegexEnd = @"(\s*(?:<!--[^>]*?-->\s*)?(\|((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))))?\}\})";
         
         /// <summary>
         /// Returns a regex to match the input template
