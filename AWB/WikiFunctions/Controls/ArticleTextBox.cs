@@ -48,6 +48,17 @@ namespace WikiFunctions.Controls
                 Locked = false;
             }
         }
+        
+        public override string SelectedText
+        {
+            get { return base.SelectedText.Replace("\n", "\r\n"); }
+            set
+            {
+                Locked = true;
+                base.SelectedText = value;
+                Locked = false;
+            }
+        }
 
         /// <summary>
         /// 
