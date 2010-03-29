@@ -175,6 +175,8 @@ namespace UnitTests
         public void TitleCaseEN()
         {
             Assert.AreEqual(@"Foo", Tools.TitleCaseEN("FOO"));
+            Assert.AreEqual(@"Mastermind's Interrogation", Tools.TitleCaseEN("mastermind's interrogation"));
+              
             Assert.AreEqual(@"Foo", Tools.TitleCaseEN(" FOO "));
             Assert.AreEqual(@"Foo Bar", Tools.TitleCaseEN("FOO BAR"));
             Assert.AreEqual(@"Foo Bar", Tools.TitleCaseEN("foo bar"));
@@ -892,6 +894,33 @@ John", "*"));
         Assert.AreEqual(@"1999]]", Tools.GetTemplateParameterValue(ItFilm.Replace(@"[[1999]]", @"1999]]"), "annoproduzione"));
         }
         
+         [Test]
+        public void GetTemplateParametersValues()
+        {
+            List<string> returned = new List<string>();
+            
+            List<string> parameters = new List<string>();
+            
+            string template = @"{{cite web| title=abc |date=1 May 2009 | author=Smith, Ed | work=Times | location=Here }}";
+            
+            Assert.AreEqual(returned, Tools.GetTemplateParametersValues(template, parameters));
+            
+            parameters.Add("title");
+            returned.Add("abc");
+            
+            Assert.AreEqual(returned, Tools.GetTemplateParametersValues(template, parameters));
+            
+            parameters.Add("date");
+            returned.Add("1 May 2009");
+            
+            Assert.AreEqual(returned, Tools.GetTemplateParametersValues(template, parameters));
+            
+            parameters.Add("page");
+            returned.Add("");
+            
+            Assert.AreEqual(returned, Tools.GetTemplateParametersValues(template, parameters));            
+        }
+        
         [Test]
         public void RenameTemplateParameter()
         {
@@ -1085,6 +1114,8 @@ foo<!--comm-->|title=abc
             
             Assert.IsFalse(FooTemplate.IsMatch(@"{{foobar}}"));
             Assert.IsFalse(FooTemplate.IsMatch(@"{{foo"));
+            Assert.IsFalse(FooTemplate.IsMatch(@"{{foo}"));
+            Assert.IsFalse(FooTemplate.IsMatch(@"{foo}"));
             
             FooTemplate =  Tools.NestedTemplateRegex("Foo");
             Assert.IsTrue(FooTemplate.IsMatch(@"{{foo}}"));
