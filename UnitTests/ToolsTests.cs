@@ -1107,10 +1107,15 @@ title=abc
 foo<!--comm-->|title=abc
 }}"));
             Assert.IsTrue(FooTemplate.IsMatch(@"{{foo|title={{abc}}}}"));
-            Assert.IsTrue(FooTemplate.IsMatch(@"{{foo|title={{abc}}|last=Fred}}"));
+            Assert.IsTrue(FooTemplate.IsMatch(@"{{foo|title={{abc}}|last=Fred}}"), "matches nested templates");
+             Assert.IsTrue(FooTemplate.IsMatch(@"{{foo|
+title={{abc|fdkjdsfjk=fdaskjlfds
+|fdof=affdsa}}
+|last=Fred}}"), "matches nested parameterised templates");
             
-            // limitation or feature: no match when {...} phrases
-            Assert.IsFalse(FooTemplate.IsMatch(@"{{foo|title={abc} def|last=Fred}}"));
+            Assert.IsTrue(FooTemplate.IsMatch(@"{{foo|title={abc} def|last=Fred}}"), "matches balanced single curly braces");
+            
+            Assert.IsFalse(FooTemplate.IsMatch(@"{{foo|title={abc def|last=Fred}}"), "doesn't match unbalanced single curly braces");
             
             Assert.IsFalse(FooTemplate.IsMatch(@"{{foobar}}"));
             Assert.IsFalse(FooTemplate.IsMatch(@"{{foo"));
