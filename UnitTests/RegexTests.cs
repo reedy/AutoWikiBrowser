@@ -900,8 +900,6 @@ cit"));
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{orphan|date=May 2008}}"));
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{Orphan| date = May 2008}}"));
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{orphan|date=subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{linkless|date=May 2008}}"));
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{ Linkless}}"));
             
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphanblahblah}}"));
         }
