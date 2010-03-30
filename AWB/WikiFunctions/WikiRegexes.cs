@@ -656,7 +656,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{orphan}} tag
         /// </summary>
-        public static readonly Regex Orphan = new Regex(@"{{\s*(?:[Oo]rphan|[Ll]inkless)(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public static readonly Regex Orphan = new Regex(@"{{\s*[Oo]rphan(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// matches orphan tag within {{Article issues}} template
