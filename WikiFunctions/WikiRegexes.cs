@@ -99,7 +99,7 @@ namespace WikiFunctions
             switch (Variables.LangCode)
             {
                 case "ru":
-                    s = "([Dd]isambiguation|[Dd]isambig|[Нн]еоднозначность)";
+                    s = "([Dd]isambiguation|[Dd]isambig|[Нн]еоднозначность|[Мm]ногозначность)";
                     break;
                 default:
                     s = "([Dd]isamb(?:ig(?:uation)?)?|[Dd]ab|[Mm]athdab|[Ss]urname|(?:[Nn]umber|[Rr]oad?|[Hh]ospital|[Gg]eo|[Hh]n|[Ss]chool)dis|SIA|[Ll]etter-disambig|[Ss]hipindex|[Mm]ountainindex)|[[Aa]irport disambig|[Cc]allsigndis|[Dd]isambig-cleanup)";
