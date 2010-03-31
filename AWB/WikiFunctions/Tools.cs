@@ -1955,7 +1955,26 @@ Message: {2}
         /// <returns>The updated template string</returns>
         public static string AppendParameterToTemplate(string template, string parameter, string value)
         {
-            return WikiRegexes.TemplateEnd.Replace(template, @" | " + parameter + "=" + value + @"}}");
+            if(!template.StartsWith(@"{{"))
+                return template;
+            
+            // determine whether to use newline: use if > 2 newlines and a newline per bar, allowing up to two without
+            string separator = " ", mask = @"@";
+            string templatecopy = template;
+            templatecopy = @"{{" + Tools.ReplaceWithSpaces(templatecopy.Substring(2), WikiRegexes.NestedTemplates);
+            templatecopy = Tools.ReplaceWithSpaces(templatecopy, WikiRegexes.SimpleWikiLink);
+            templatecopy = Tools.ReplaceWithSpaces(templatecopy, WikiRegexes.UnformattedText);
+            templatecopy = templatecopy.Replace(mask, "");
+            
+            int bars = (templatecopy.Length - templatecopy.Replace(@"|", "").Length);
+            
+            templatecopy = templatecopy.Replace("\r\n", mask);
+            int newlines = (templatecopy.Length - templatecopy.Replace(mask, "").Length);
+            
+            if(newlines > 2 && newlines >= (bars-2))
+                separator = "\r\n";
+            
+            return WikiRegexes.TemplateEnd.Replace(template, separator + @"| " + parameter + "=" + value + @"}}");
         }
         
         /// <summary>

@@ -833,8 +833,43 @@ John", "*"));
         [Test]
         public void AppendParameterToTemplate()
         {
+            Assert.AreEqual(@"", Tools.AppendParameterToTemplate("", "location", "London"));
+            
             Assert.AreEqual(@"{{cite|title=abc | location=London}}", Tools.AppendParameterToTemplate(@"{{cite|title=abc}}", "location", "London"));
             Assert.AreEqual(@"{{cite|title=abc | location=London}}", Tools.AppendParameterToTemplate(@"{{cite|title=abc }}", "location", "London"));
+            Assert.AreEqual(@"{{cite|title=abc|last=a|first=b|date=2009-12-12 | location=London}}", Tools.AppendParameterToTemplate(@"{{cite|title=abc|last=a|first=b|date=2009-12-12 }}", "location", "London"), "no newlines in template");
+            
+            Assert.AreEqual(@"{{cite
+|title=abc | location=London}}", Tools.AppendParameterToTemplate(@"{{cite
+|title=abc }}", "location", "London"), "insufficient newlines – space used");
+            
+             Assert.AreEqual(@"{{cite
+|title=abc 
+|date=2009-12-12 | location=London}}", Tools.AppendParameterToTemplate(@"{{cite
+|title=abc 
+|date=2009-12-12 }}", "location", "London"), "insufficient newlines – space used");
+            
+            Assert.AreEqual(@"{{cite
+|title=abc
+|last=a
+|first=b
+|date=2009-12-12
+| location=London}}", Tools.AppendParameterToTemplate(@"{{cite
+|title=abc
+|last=a
+|first=b
+|date=2009-12-12 }}", "location", "London"), "newline set when > 2 existing");
+            
+            Assert.AreEqual(@"{{cite
+|title=abc
+|last=a
+|first=b
+|date=2009-12-12
+| location=London}}", Tools.AppendParameterToTemplate(@"{{cite
+|title=abc
+|last=a
+|first=b
+|date=2009-12-12        }}", "location", "London"), "existing template end spaces removed");
         }
         
         [Test]
