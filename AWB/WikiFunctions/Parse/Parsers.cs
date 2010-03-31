@@ -2254,6 +2254,8 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex CiteWebOrNews = new Regex(@"[Cc]ite( ?web| news)", RegexOptions.Compiled);
         private static readonly Regex PressPublishers = new Regex(@"(Associated Press|United Press International)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly List<string> WorkParameterAndAliases = new List<string>("work,newspaper,journal,periodical,magazine".Split(','));
+        
         /// <summary>
         /// Where the publisher field is used incorrectly instead of the work field in a {{cite web}} or {{cite news}} citation
         /// convert the parameter to be 'work'
@@ -2264,25 +2266,22 @@ namespace WikiFunctions.Parse
         /// <returns>the updated citation</returns>
         public static string CitationPublisherToWork(string citation)
         {
-            string citationtemplate = WikiRegexes.CiteTemplate.Match(citation).Groups[1].Value;
-
             // only for {{cite web}} or {{cite news}}
-            if (!CiteWebOrNews.IsMatch(citationtemplate))
+            if (!CiteWebOrNews.IsMatch(Tools.GetTemplateName(citation)))
                 return citation;
+            
             string publisher = Tools.GetTemplateParameterValue(citation, "publisher");
 
             // nothing to do if no publisher, or publisher is a press publisher
             if (publisher.Length == 0 | PressPublishers.IsMatch(publisher))
                 return citation;
+            
+            List<string> workandaliases = Tools.GetTemplateParametersValues(citation, WorkParameterAndAliases);
 
-            string workandaliases = Tools.GetTemplateParameterValue(citation, "work") + Tools.GetTemplateParameterValue(citation, "newspaper")
-                + Tools.GetTemplateParameterValue(citation, "journal") + Tools.GetTemplateParameterValue(citation, "periodical") +
-            	Tools.GetTemplateParameterValue(citation, "magazine");
-
-            if (workandaliases.Length == 0)
+            if (string.Join("", workandaliases.ToArray()).Length == 0)
             {
-            	citation = Tools.RenameTemplateParameter(citation, "publisher", "work");
-            	citation = WorkInItalics.Replace(citation, "$1$2");
+                citation = Tools.RenameTemplateParameter(citation, "publisher", "work");
+                citation = WorkInItalics.Replace(citation, "$1$2");
             }
 
             return citation;
