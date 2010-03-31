@@ -179,6 +179,8 @@ namespace UnitTests
               
             Assert.AreEqual(@"Foo", Tools.TitleCaseEN(" FOO "));
             Assert.AreEqual(@"Foo Bar", Tools.TitleCaseEN("FOO BAR"));
+            Assert.AreEqual(@"Foo-Bar", Tools.TitleCaseEN("FOO-BAR"));
+            Assert.AreEqual(@"Foo~Bar", Tools.TitleCaseEN("FOO~BAR"));
             Assert.AreEqual(@"Foo Bar", Tools.TitleCaseEN("foo bar"));
             Assert.AreEqual(@"Foo Bar", Tools.TitleCaseEN("foo Bar"));
             Assert.AreEqual(@"FOO BAR A", Tools.TitleCaseEN("FOO BAR a"), "Not all text uppercase");
@@ -932,6 +934,22 @@ John", "*"));
 |param1=bar
 |param2=great}}", "param2", "param3"));
         	Assert.AreEqual(@"{{cite |param1=bar|param3=great|param=here}}", Tools.RenameTemplateParameter(@"{{cite |param1=bar|param2=great|param=here}}", "param2", "param3"));
+        }
+        
+        [Test]
+        public void RenameTemplateParameterList()
+        {
+            List<string> Params = new List<string>(@"param1".Split(','));
+            
+            Assert.AreEqual(@"{{cite |paramx=bar|param2=great}}", Tools.RenameTemplateParameter(@"{{cite |param1=bar|param2=great}}", Params, "paramx"));
+            
+            Params.Add("param2");
+            
+            Assert.AreEqual(@"{{cite |paramx=bar|paramx=great}}", Tools.RenameTemplateParameter(@"{{cite |param1=bar|param2=great}}", Params, "paramx"));
+            
+            Params.Add("param3");
+            Assert.AreEqual(@"{{cite |paramx=bar|paramx=great}}", Tools.RenameTemplateParameter(@"{{cite |param1=bar|param2=great}}", Params, "paramx"));
+            Assert.AreEqual(@"{{cite |paramx=bar|param4=great}}", Tools.RenameTemplateParameter(@"{{cite |param1=bar|param4=great}}", Params, "paramx"));
         }
         
         [Test]
