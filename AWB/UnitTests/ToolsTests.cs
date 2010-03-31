@@ -896,7 +896,7 @@ John", "*"));
         Assert.AreEqual(@"1999]]", Tools.GetTemplateParameterValue(ItFilm.Replace(@"[[1999]]", @"1999]]"), "annoproduzione"));
         }
         
-         [Test]
+        [Test]
         public void GetTemplateParametersValues()
         {
             List<string> returned = new List<string>();
@@ -907,20 +907,30 @@ John", "*"));
             
             Assert.AreEqual(returned, Tools.GetTemplateParametersValues(template, parameters));
             
+            Assert.IsTrue(returned.Count.Equals(0));
+            
             parameters.Add("title");
             returned.Add("abc");
             
             Assert.AreEqual(returned, Tools.GetTemplateParametersValues(template, parameters));
+            
+            Assert.IsTrue(returned.Count.Equals(1));
             
             parameters.Add("date");
             returned.Add("1 May 2009");
             
             Assert.AreEqual(returned, Tools.GetTemplateParametersValues(template, parameters));
             
+            Assert.IsTrue(returned.Count.Equals(2));
+            
             parameters.Add("page");
             returned.Add("");
             
-            Assert.AreEqual(returned, Tools.GetTemplateParametersValues(template, parameters));            
+            Assert.AreEqual(returned, Tools.GetTemplateParametersValues(template, parameters));
+            
+            Assert.IsTrue(returned.Count.Equals(3), "zero length string added to return list if parameter not found");
+                
+            Assert.AreEqual(string.Join("", returned.ToArray()), "abc1 May 2009");
         }
         
         [Test]
