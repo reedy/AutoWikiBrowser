@@ -2015,6 +2015,21 @@ Message: {2}
         }
         
         /// <summary>
+        /// Renames the given template named parameters in the input template
+        /// </summary>
+        /// <param name="template">The template to update</param>
+        /// <param name="oldparameters">List of existing template names</param>
+        /// <param name="newparameter">New parameter name</param>
+        /// <returns>The updated template</returns>
+        public static string RenameTemplateParameter(string template, List<string> oldparameters, string newparameter)
+        {
+            foreach(string oldparameter in oldparameters)
+                template = RenameTemplateParameter(template, oldparameter, newparameter);
+            
+            return template;
+        }
+        
+        /// <summary>
         /// Removes the input parameter from all instances of the input template in the article text
         /// </summary>
         /// <param name="articletext"></param>
