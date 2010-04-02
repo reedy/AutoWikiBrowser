@@ -438,7 +438,7 @@ bar</ INCLUDEONLY>");
 
         [Test]
         public void TemplateName()
-        {           
+        {
             Assert.IsTrue(WikiRegexes.TemplateName.Match(@"{{Start date and age|1833|7|11}}").Groups[1].Value == "Start date and age");
             
             // whitespace handling
@@ -673,18 +673,18 @@ fast„ "));
         [Test]
         public void CiteTemplate()
         {
-        	Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite web|url=a|title=b}}"));
-        	Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite web}}"));
-        	Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{ cite web|url=a|title=b}}"));
-        	Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{Citeweb|url=a|title=b}}"));
-        	Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{Citeweb|url=a|title=b and {{foo}} there}}"));
-        	
-        	// name derivation
-        	Assert.AreEqual(WikiRegexes.CiteTemplate.Match(@"{{cite web|url=a|title=b}}").Groups[1].Value, "cite web");
-        	Assert.AreEqual(WikiRegexes.CiteTemplate.Match(@"{{ cite web |url=a|title=b}}").Groups[1].Value, "cite web");
-        	Assert.AreEqual(WikiRegexes.CiteTemplate.Match(@"{{Cite web
+            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite web|url=a|title=b}}"));
+            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{cite web}}"));
+            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{ cite web|url=a|title=b}}"));
+            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{Citeweb|url=a|title=b}}"));
+            Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{Citeweb|url=a|title=b and {{foo}} there}}"));
+            
+            // name derivation
+            Assert.AreEqual(WikiRegexes.CiteTemplate.Match(@"{{cite web|url=a|title=b}}").Groups[1].Value, "cite web");
+            Assert.AreEqual(WikiRegexes.CiteTemplate.Match(@"{{ cite web |url=a|title=b}}").Groups[1].Value, "cite web");
+            Assert.AreEqual(WikiRegexes.CiteTemplate.Match(@"{{Cite web
 |url=a|title=b}}").Groups[1].Value, "Cite web");
-        	Assert.AreEqual(WikiRegexes.CiteTemplate.Match(@"{{cite press release|url=a|title=b}}").Groups[1].Value, "cite press release");
+            Assert.AreEqual(WikiRegexes.CiteTemplate.Match(@"{{cite press release|url=a|title=b}}").Groups[1].Value, "cite press release");
         }
 
         [Test]
@@ -732,11 +732,11 @@ fast„ "));
         {
             Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"ibid"));
             Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"Ibid"));
-            Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"IBID"));            
+            Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"IBID"));
             Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"op cit"));
             Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"Op.cit"));
             Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"Op. cit"));
-            Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"Op 
+            Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"Op
 cit"));
             
             Assert.IsFalse(WikiRegexes.IbidOpCitation.IsMatch(@"Libid was"));
@@ -746,17 +746,17 @@ cit"));
         [Test]
         public void Ibid()
         {
-             Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid}}"));
-             Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ Ibid }}"));
-             Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid|date=May 2009}}"));
-             Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid | date=May 2009}}"));
-             Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{Ibid|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
-             Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid|date=May 2009|foo=bar}}"));
-             Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid|}}"));
-             
-             Assert.IsFalse(WikiRegexes.Ibid.IsMatch(@"Libid was"));
-             Assert.IsFalse(WikiRegexes.Ibid.IsMatch(@"{{IBID}}"));
-             Assert.IsFalse(WikiRegexes.Ibid.IsMatch(@"{{Ibidate}}"));
+            Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid}}"));
+            Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ Ibid }}"));
+            Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid|date=May 2009}}"));
+            Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid | date=May 2009}}"));
+            Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{Ibid|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+            Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid|date=May 2009|foo=bar}}"));
+            Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid|}}"));
+            
+            Assert.IsFalse(WikiRegexes.Ibid.IsMatch(@"Libid was"));
+            Assert.IsFalse(WikiRegexes.Ibid.IsMatch(@"{{IBID}}"));
+            Assert.IsFalse(WikiRegexes.Ibid.IsMatch(@"{{Ibidate}}"));
         }
 
         [Test]
@@ -799,7 +799,7 @@ cit"));
             
             Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(@"{{unreferenced-stub}}"));
         }
-            
+        
         
         [Test]
         public void PortalTemplateTests()
@@ -830,6 +830,8 @@ cit"));
             Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(@"{{Article issues|Orphan=May 2008|cleanup=May 2008|story=May 2008}}"));
             Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(@"{{Article issues| orphan |cleanup=May 2008|story=May 2008}}"));
             Assert.IsFalse(WikiRegexes.OrphanArticleIssues.IsMatch(@"{{Article issues|cleanup=May 2008|story=May 2008}}"));
+            
+               Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(@"{{multiple issues|orphan=May 2008|cleanup=May 2008|story=May 2008}}"));
         }
 
         [Test]
@@ -861,6 +863,7 @@ cit"));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Articleissues|wikify=May 2008|a=b|c=d}}"));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{articleissues|wikify=May 2008|a=b|c=d}}"));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{article issues|wikify=May 2008|a=b|c=d}}"));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{multiple issues|wikify=May 2008|a=b|c=d}}"));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Article issues|a=b|c=d| wikify = May 2008|a=b|c=d}}"));
 
             // don't remove the whole of an {{article issues}} template if removing wikify tag
@@ -906,7 +909,7 @@ cit"));
         
         [Test]
         public void TemplateEndTests()
-        {    
+        {
             Assert.AreEqual(WikiRegexes.TemplateEnd.Match(@"{{foo}}").Value, @"}}");
             Assert.AreEqual(WikiRegexes.TemplateEnd.Match(@"{{foo }}").Value, @" }}");
             Assert.AreEqual(WikiRegexes.TemplateEnd.Match(@"{{foo
@@ -946,13 +949,13 @@ article words, '''bold''' blah.
             Assert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
 ==heading==
 a"));
-             Assert.AreEqual("heading", WikiRegexes.HeadingLevelTwo.Match(@"article
+            Assert.AreEqual("heading", WikiRegexes.HeadingLevelTwo.Match(@"article
 ==heading==
 a").Groups[1].Value);
             Assert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
 == heading ==
 a"));
-             Assert.AreEqual(" heading ", WikiRegexes.HeadingLevelTwo.Match(@"article
+            Assert.AreEqual(" heading ", WikiRegexes.HeadingLevelTwo.Match(@"article
 == heading ==
 a").Groups[1].Value);
             Assert.IsTrue(WikiRegexes.HeadingLevelTwo.IsMatch(@"article
@@ -979,7 +982,7 @@ heading=="));
 words"));
         }
         
-          [Test]
+        [Test]
         public void HeadingLevelThreeTests()
         {
             Assert.IsTrue(WikiRegexes.HeadingLevelThree.IsMatch(@"article
@@ -991,7 +994,7 @@ a").Groups[1].Value);
             Assert.IsTrue(WikiRegexes.HeadingLevelThree.IsMatch(@"article
 === heading ===
 a"));
-             Assert.AreEqual(" heading ", WikiRegexes.HeadingLevelThree.Match(@"article
+            Assert.AreEqual(" heading ", WikiRegexes.HeadingLevelThree.Match(@"article
 === heading ===
 a").Groups[1].Value);
             Assert.IsTrue(WikiRegexes.HeadingLevelThree.IsMatch(@"article
@@ -1134,6 +1137,8 @@ words2"));
             Assert.IsTrue(WikiRegexes.ArticleIssues.IsMatch(@"{{articleissues}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssues.IsMatch(@"{{Articleissues}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssues.IsMatch(@"{{Articleissues }}"));
+            Assert.IsTrue(WikiRegexes.ArticleIssues.IsMatch(@"{{Multiple issues|wikify=May 2008|a=b|c=d}}"));
+            Assert.IsTrue(WikiRegexes.ArticleIssues.IsMatch(@"{{ multiple issues|wikify=May 2008|a=b|c=d}}"));
 
             // no matches
             Assert.IsFalse(WikiRegexes.ArticleIssues.IsMatch(@"{{ARTICLEISSUES }}"));
@@ -1483,6 +1488,9 @@ words2"));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dep|date=May 2008|Foobar}}"));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Article issues|deadend=May 2008|a=b|c=d}}"));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{articleissues|deadend=May 2008|a=b|c=d}}"));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Article issues|dead end=May 2008|a=b|c=d}}"));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Multiple issues|deadend=May 2008|a=b|c=d}}"));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{ Article issues|dead end=May 2008|a=b|c=d}}"));
 
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(@"{{deadend|}}"));
         }
@@ -1516,7 +1524,7 @@ words2"));
             TestMatch(WikiRegexes.BareRefExternalLink, @"<ref>[   http://news.bbc.co.uk/hi/England/story4384.htm   ]   </ref>");
             
             TestMatch(WikiRegexes.BareRefExternalLink, @"<ref>[http://news.bbc.co.uk/hi/England/story4384.htm title here]</ref>", false);
-        
+            
             Assert.AreEqual(WikiRegexes.BareRefExternalLink.Match(@"<ref>[ http://news.bbc.co.uk/hi/England/story4384.htm ] </ref>").Groups[1].Value, @"http://news.bbc.co.uk/hi/England/story4384.htm");
             Assert.AreEqual(WikiRegexes.BareRefExternalLink.Match(@"<ref>[ http://news.bbc.co.uk/hi/England/story4384.htm] </ref>").Groups[1].Value, @"http://news.bbc.co.uk/hi/England/story4384.htm");
         }
