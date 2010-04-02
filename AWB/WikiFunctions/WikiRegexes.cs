@@ -640,12 +640,12 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{Deadend|xxx}} (en only)
         /// </summary>
-        public static readonly Regex DeadEnd = new Regex(@"({{\s*([Dd]ead ?end|[Ii]nternal ?links|[Nn]uevointernallinks|[Dd]ep)(\|(?:[^{}]+|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}))?}}|(?<={{[Aa]rticle\s*issues\b[^{}]*?)\|\s*deadend\s*=[^{}\|]+)", RegexOptions.Compiled);
+        public static readonly Regex DeadEnd = new Regex(@"({{\s*([Dd]ead ?end|[Ii]nternal ?links|[Nn]uevointernallinks|[Dd]ep)(\|(?:[^{}]+|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}))?}}|(?<={{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?)\|\s*dead ?end\s*=[^{}\|]+)", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches {{wikify}} tag including within {{article issues}}
         /// </summary>
-        public static readonly Regex Wikify = new Regex(@"({{\s*Wikify(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|(?<={{Article\s*issues\b[^{}]*?)\|\s*wikify\s*=[^{}\|]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public static readonly Regex Wikify = new Regex(@"({{\s*Wikify(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|(?<={{\s*(?:Article|Multiple)\s*issues\b[^{}]*?)\|\s*wikify\s*=[^{}\|]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Matches {{dead link}} template and its redirects
@@ -655,7 +655,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{expand}} tag and its redirects and also {{expand}} within {{article issues}}
         /// </summary>
-        public static readonly Regex Expand = new Regex(@"({{\s*(?:Expand-?article|Expand|Develop|Elaborate|Expansion)(?:\s*\|\s*(?:date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|(?<={{Article\s*issues\b[^{}]*?)\|\s*expand\s*=[^{}\|]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public static readonly Regex Expand = new Regex(@"({{\s*(?:Expand-?article|Expand|Develop|Elaborate|Expansion)(?:\s*\|\s*(?:date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|(?<={{(?:Article|Multiple)\s*issues\b[^{}]*?)\|\s*expand\s*=[^{}\|]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Matches {{orphan}} tag
@@ -665,7 +665,7 @@ namespace WikiFunctions
         /// <summary>
         /// matches orphan tag within {{Article issues}} template
         /// </summary>
-        public static readonly Regex OrphanArticleIssues = new Regex(@"{{\s*article\s*issues\s*\|[^{}]*?\borphan\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public static readonly Regex OrphanArticleIssues = new Regex(@"{{\s*(?:article|multiple)\s*issues\s*\|[^{}]*?\borphan\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// matches uncategorised templates: {{Uncat}}, {{Uncaegorised}}, {{Uncategorised stub}} allowing for nested subst: {{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
@@ -675,7 +675,7 @@ namespace WikiFunctions
         /// <summary>
         /// matches {{Article issues}} template
         /// </summary>
-        public static readonly Regex ArticleIssues = new Regex(@"({{\s*[Aa]rticle ?issues(?:\s*\|[^{}]*)?\s*)}}", RegexOptions.Compiled);
+        public static readonly Regex ArticleIssues = new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues(?:\s*\|[^{}]*)?\s*)}}", RegexOptions.Compiled);
 
         /// <summary>
         /// matches {{New unreviewed article}} template
@@ -827,17 +827,17 @@ namespace WikiFunctions
         /// <summary>
         /// Matches parameters within the {{article issues}} template using title case (invalid casing)
         /// </summary>
-        public static readonly Regex ArticleIssuesInTitleCase = new Regex(@"({{\s*[Aa]rticle ?issues\|\s*(?:[^{}]+?\|\s*)?)([A-Z])([a-z]+(?: [a-z]+)?\s*=)", RegexOptions.Compiled);
+        public static readonly Regex ArticleIssuesInTitleCase = new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\|\s*(?:[^{}]+?\|\s*)?)([A-Z])([a-z]+(?: [a-z]+)?\s*=)", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches the {{article issues}} template using the 'expert' parameter
         /// </summary>
-        public static readonly Regex ArticleIssuesRegexExpert = new Regex(@"{{\s*[Aa]rticle ?issues[^{}]+?expert", RegexOptions.Compiled);
+        public static readonly Regex ArticleIssuesRegexExpert = new Regex(@"{{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues[^{}]+?expert", RegexOptions.Compiled);
 
         /// <summary>
         /// 
         /// </summary>
-        public static readonly Regex ArticleIssuesRegexWithDate = new Regex(@"({{\s*[Aa]rticle ?issues\s*(?:\|[^{}]*?)?)\|\s*date\s*=[^{}\|]{0,20}?(\||}})", RegexOptions.Compiled);
+        public static readonly Regex ArticleIssuesRegexWithDate = new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*?)?)\|\s*date\s*=[^{}\|]{0,20}?(\||}})", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches a number between 1000 and 2999
