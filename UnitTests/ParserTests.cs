@@ -5728,16 +5728,16 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 			Assert.AreEqual(@"{{trivia|date= May 2010}} Article text here", Parsers.Conversions(@"{{articleissues|trivia = May 2010}} Article text here"));
 
 			// no changes
-			string a = @"{{article issues|trivia=January 2008|cleanup=January 2008}} Article text here";
+			string a = @"{{multiple issues|trivia=January 2008|cleanup=January 2008}} Article text here";
 			Assert.AreEqual(a, Parsers.Conversions(a));
 
 			a = @"{{ARTICLEISSUES|cleanup=January 2008}} Article text here";
 			Assert.AreEqual(a, Parsers.Conversions(a));
 
-			a = @"{{Article issues|cleanup=May 2007|trivia=January 2008}} Article text here";
+			a = @"{{multiple issues|cleanup=May 2007|trivia=January 2008}} Article text here";
 			Assert.AreEqual(a, Parsers.Conversions(a));
 
-			Assert.AreEqual(@"{{Article issues|cleanup=March 2008|expert=Anime and manga|refimprove=May 2008|date=February 2009}}", Parsers.Conversions(@"{{Article issues|cleanup=March 2008|expert=Anime and manga|refimprove=May 2008|date=February 2009}}"));
+			Assert.AreEqual(@"{{multiple issues|cleanup=March 2008|expert=Anime and manga|refimprove=May 2008|date=February 2009}}", Parsers.Conversions(@"{{Article issues|cleanup=March 2008|expert=Anime and manga|refimprove=May 2008|date=February 2009}}"));
 		}
 		
 		[Test]
@@ -5751,12 +5751,12 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 |a|b}}"));
 			Assert.AreEqual(@"{{Two other uses|aasd}}", Parsers.Conversions(@"{{2otheruses|aasd}}"));
 
-			// {{articleissues}} with {{article issues}}
-			Assert.AreEqual(@"{{Article issues|sections=May 2008|POV=March 2008|COI=May 2009}}", Parsers.Conversions(@"{{Articleissues|sections=May 2008|POV=March 2008|COI=May 2009}}"));
-			Assert.AreEqual(@"{{article issues|sections=May 2008|POV=March 2008|COI=May 2009}}", Parsers.Conversions(@"{{articleissues|sections=May 2008|POV=March 2008|COI=May 2009}}"));
+			// {{articleissues}} with {{multiple issues}}
+			Assert.AreEqual(@"{{multiple issues|sections=May 2008|POV=March 2008|COI=May 2009}}", Parsers.Conversions(@"{{Articleissues|sections=May 2008|POV=March 2008|COI=May 2009}}"));
+			Assert.AreEqual(@"{{multiple issues|sections=May 2008|POV=March 2008|COI=May 2009}}", Parsers.Conversions(@"{{articleissues|sections=May 2008|POV=March 2008|COI=May 2009}}"));
 			
 			// extra pipe
-			Assert.AreEqual(@"{{Article issues|sections=May 2008|POV=March 2008|COI=May 2009}}", Parsers.Conversions(@"{{Articleissues|sections=May 2008||POV=March 2008|COI=May 2009}}"));
+			Assert.AreEqual(@"{{multiple issues|sections=May 2008|POV=March 2008|COI=May 2009}}", Parsers.Conversions(@"{{Articleissues|sections=May 2008||POV=March 2008|COI=May 2009}}"));
 			Assert.AreEqual(@"{{cite web | url=http://www.site.com | title=hello}}", Parsers.Conversions(@"{{cite web | url=http://www.site.com || title=hello}}"));
 			Assert.AreEqual(@"{{cite web | url=http://www.site.com | title=hello}}", Parsers.Conversions(@"{{cite web | url=http://www.site.com | | title=hello}}"));
 			Assert.AreEqual(@"{{cite wikisource|bar||foo}}", Parsers.Conversions(@"{{cite wikisource|bar||foo}}"));
@@ -5856,8 +5856,8 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 			Assert.AreEqual(@"", Parsers.Conversions(@"{{Article issues | section= y}}"));
 
 			// no match, 'section' and 'sections' are different parameters for the template
-			Assert.AreEqual(@"{{Article issues|cleanup=May 2008|POV=March 2008}}", Parsers.Conversions(@"{{Article issues|cleanup=May 2008|POV=March 2008}}"));
-			Assert.AreEqual(@"{{Article issues|sections=May 2008|POV=March 2008}}", Parsers.Conversions(@"{{Article issues|sections=May 2008|POV=March 2008}}"));
+			Assert.AreEqual(@"{{multiple issues|cleanup=May 2008|POV=March 2008}}", Parsers.Conversions(@"{{Article issues|cleanup=May 2008|POV=March 2008}}"));
+			Assert.AreEqual(@"{{multiple issues|sections=May 2008|POV=March 2008}}", Parsers.Conversions(@"{{Article issues|sections=May 2008|POV=March 2008}}"));
 		}
 
 		[Test]
@@ -5865,13 +5865,13 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 		{
 			Assert.AreEqual("", Parsers.Conversions(""));
 
-			Assert.AreEqual(@"{{Article issues|wikify=May 2008|POV=May 2008|Expand=June 2008}}", Parsers.Conversions(@"{{Article issues|wikify=May 2008|POV=May 2008|Expand=June 2008|Expand=June 2008}}"));
-			Assert.AreEqual(@"{{Article issues|wikify=May 2008|POV=May 2008|Expand=June 2008}}", Parsers.Conversions(@"{{Articleissues|wikify=May 2008|Expand=June 2008|POV=May 2008|Expand=June 2008}}"));
+			Assert.AreEqual(@"{{multiple issues|wikify=May 2008|POV=May 2008|Expand=June 2008}}", Parsers.Conversions(@"{{Article issues|wikify=May 2008|POV=May 2008|Expand=June 2008|Expand=June 2008}}"));
+			Assert.AreEqual(@"{{multiple issues|wikify=May 2008|POV=May 2008|Expand=June 2008}}", Parsers.Conversions(@"{{Articleissues|wikify=May 2008|Expand=June 2008|POV=May 2008|Expand=June 2008}}"));
 
-			Assert.AreEqual(@"{{Article issues|wikify=May 2008|Expand=June 2008|POV=May 2008}}", Parsers.Conversions(@"{{Article issues|wikify=May 2008|Expand=June 2008|POV=May 2008|Expand=}}"));
-			Assert.AreEqual(@"{{Article issues|wikify=May 2008|POV=May 2008|Expand=June 2008}}", Parsers.Conversions(@"{{Article issues|wikify=May 2008|Expand=|POV=May 2008|Expand=June 2008}}"));
+			Assert.AreEqual(@"{{multiple issues|wikify=May 2008|Expand=June 2008|POV=May 2008}}", Parsers.Conversions(@"{{Article issues|wikify=May 2008|Expand=June 2008|POV=May 2008|Expand=}}"));
+			Assert.AreEqual(@"{{multiple issues|wikify=May 2008|POV=May 2008|Expand=June 2008}}", Parsers.Conversions(@"{{Article issues|wikify=May 2008|Expand=|POV=May 2008|Expand=June 2008}}"));
 			
-			Assert.AreEqual(@"{{Article issues|wikify=May 2008|POV=May 2008|Expand=June 2008|Expand=June 2009}}", Parsers.Conversions(@"{{Article issues|wikify=May 2008|POV=May 2008|Expand=June 2008|Expand=June 2009}}"));
+			Assert.AreEqual(@"{{multiple issues|wikify=May 2008|POV=May 2008|Expand=June 2008|Expand=June 2009}}", Parsers.Conversions(@"{{Article issues|wikify=May 2008|POV=May 2008|Expand=June 2008|Expand=June 2009}}"));
 		}
 
 
@@ -5983,36 +5983,36 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 		public void ArticleIssuesDates()
 		{
 			// addition of date
-			Assert.AreEqual(@"{{Article issues|wikfy=May 2008|COI=May 2008|expand={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|COI=May 2008|expand}}"));
-			Assert.AreEqual(@"{{Article issues|wikfy=May 2008|expand={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI=May 2008}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|expand|COI=May 2008}}"));
+			Assert.AreEqual(@"{{multiple issues|wikfy=May 2008|COI=May 2008|expand={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|COI=May 2008|expand}}"));
+			Assert.AreEqual(@"{{multiple issues|wikfy=May 2008|expand={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI=May 2008}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|expand|COI=May 2008}}"));
 
 			// multiple dates
-			Assert.AreEqual(@"{{Article issues|wikfy=May 2008|COI=May 2008|expand={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|external links={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|COI=May 2008|expand|external links}}"));
+			Assert.AreEqual(@"{{multiple issues|wikfy=May 2008|COI=May 2008|expand={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|external links={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|COI=May 2008|expand|external links}}"));
 
 			// removal of date word
-			Assert.AreEqual(@"{{Article issues|wikfy=May 2008|COI=May 2008|expand =March 2009|POV=May 2008}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|COI=May 2008|expand date=March 2009|POV=May 2008}}"));
-			Assert.AreEqual(@"{{Article issues|wikfy =May 2008|COI =May 2008|expand =March 2009|POV =May 2008}}", Parsers.Conversions(@"{{Article issues|wikfy date=May 2008|COI date=May 2008|expand date=March 2009|POV date=May 2008}}"));
-			Assert.AreEqual(@"{{Article issues|wikfy=May 2008|COI=May 2008|expand =March 2009}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|COI=May 2008|expand date=March 2009}}"));
-			Assert.AreEqual(@"{{article issues|unreferenced=March 2009|wikify=March 2009|cleanup=March 2009|autobiography={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI = April 2009}}", Parsers.Conversions(@"{{article issues|unreferenced=March 2009|wikify=March 2009|cleanup=March 2009|autobiography={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI =date April 2009}}"));
-			Assert.AreEqual(@"{{Article issues|wikfy ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|POV ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", Parsers.Conversions(@"{{Article issues|wikfy date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|POV date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+			Assert.AreEqual(@"{{multiple issues|wikfy=May 2008|COI=May 2008|expand =March 2009|POV=May 2008}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|COI=May 2008|expand date=March 2009|POV=May 2008}}"));
+			Assert.AreEqual(@"{{multiple issues|wikfy =May 2008|COI =May 2008|expand =March 2009|POV =May 2008}}", Parsers.Conversions(@"{{Article issues|wikfy date=May 2008|COI date=May 2008|expand date=March 2009|POV date=May 2008}}"));
+			Assert.AreEqual(@"{{multiple issues|wikfy=May 2008|COI=May 2008|expand =March 2009}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|COI=May 2008|expand date=March 2009}}"));
+			Assert.AreEqual(@"{{multiple issues|unreferenced=March 2009|wikify=March 2009|cleanup=March 2009|autobiography={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI = April 2009}}", Parsers.Conversions(@"{{article issues|unreferenced=March 2009|wikify=March 2009|cleanup=March 2009|autobiography={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI =date April 2009}}"));
+			Assert.AreEqual(@"{{multiple issues|wikfy ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|POV ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", Parsers.Conversions(@"{{Article issues|wikfy date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|POV date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
 
 			// clean of 'do-attempt =July 2006|att=April 2008'
-			Assert.AreEqual(@"{{Article issues|wikfy=May 2008|COI=May 2008|do-attempt =April 2008}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|COI=May 2008|do-attempt =July 2006|att=April 2008}}"));
-			Assert.AreEqual(@"{{Article issues|wikfy=May 2008|do-attempt =April 2008|COI=May 2008}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|do-attempt =July 2006|att=April 2008|COI=May 2008}}"));
+			Assert.AreEqual(@"{{multiple issues|wikfy=May 2008|COI=May 2008|do-attempt =April 2008}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|COI=May 2008|do-attempt =July 2006|att=April 2008}}"));
+			Assert.AreEqual(@"{{multiple issues|wikfy=May 2008|do-attempt =April 2008|COI=May 2008}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|do-attempt =July 2006|att=April 2008|COI=May 2008}}"));
 
 			// clean of "Copyedit|for=grammar|date=April 2009"to "Copyedit=April 2009"
-			Assert.AreEqual(@"{{Article issues|wikfy=May 2008|COI=May 2008|Copyedit =April 2009}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|COI=May 2008|Copyedit for=grammar|date=April 2009}}"));
-			Assert.AreEqual(@"{{Article issues|wikfy=May 2008|copyedit=April 2009|COI=May 2008}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|copyeditfor=grammar|date=April 2009|COI=May 2008}}"));
+			Assert.AreEqual(@"{{multiple issues|wikfy=May 2008|COI=May 2008|Copyedit =April 2009}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|COI=May 2008|Copyedit for=grammar|date=April 2009}}"));
+			Assert.AreEqual(@"{{multiple issues|wikfy=May 2008|copyedit=April 2009|COI=May 2008}}", Parsers.Conversions(@"{{Article issues|wikfy=May 2008|copyeditfor=grammar|date=April 2009|COI=May 2008}}"));
 
 			// don't add date for expert field
-			const string a1 = @"{{Article issues|wikfy=May 2008|COI=May 2008|expert}}";
+			const string a1 = @"{{multiple issues|wikfy=May 2008|COI=May 2008|expert}}";
 			Assert.AreEqual(a1, Parsers.Conversions(a1));
 
-			const string a2 = @"{{Article issues|wikfy=May 2008|COI=May 2008|expert=Fred}}";
+			const string a2 = @"{{multiple issues|wikfy=May 2008|COI=May 2008|expert=Fred}}";
 			Assert.AreEqual(a2, Parsers.Conversions(a2));
 
 			// don't remove 'update'field
-			const string a3 = @"{{Article issues|wikfy=May 2008|COI=May 2008|update=May 2008}}";
+			const string a3 = @"{{multiple issues|wikfy=May 2008|COI=May 2008|update=May 2008}}";
 			Assert.AreEqual(a3, Parsers.Conversions(a3));
 		}
 		
