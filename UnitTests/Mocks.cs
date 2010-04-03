@@ -1,4 +1,4 @@
-using WikiFunctions.Plugin;
+﻿using WikiFunctions.Plugin;
 
 namespace UnitTests
 {
