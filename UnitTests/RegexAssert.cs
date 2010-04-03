@@ -1,7 +1,7 @@
-/* For full compatibility with NUnit, this source file is licensed under
+﻿/* For full compatibility with NUnit, this source file is licensed under
  * the zlib license:
  * 
- * Copyright � 2008 Max Semenik
+ * Copyright © 2008 Max Semenik
  * 
  * This software is provided 'as-is', without any express or implied
  * warranty. In no event will the authors be held liable for any damages
