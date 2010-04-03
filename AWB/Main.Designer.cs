@@ -1,4 +1,4 @@
-/*
+﻿/*
     Autowikibrowser
     Copyright (C) 2007 Martin Richards
 
@@ -3399,7 +3399,7 @@ namespace AutoWikiBrowser
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(35, 13);
             this.label4.TabIndex = 2;
-            this.label4.Text = "Use �";
+            this.label4.Text = "Use ±";
             // 
             // chkSkipNoDab
             // 

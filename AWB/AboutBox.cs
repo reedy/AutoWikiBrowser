@@ -1,4 +1,4 @@
-/*
+﻿/*
 Autowikibrowser
 Copyright (C) 2007 Martin Richards
 (C) 2007 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/

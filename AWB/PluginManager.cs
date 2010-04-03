@@ -1,4 +1,4 @@
-/*
+﻿/*
 AWB Plugin Manager
 Copyright
 (C) 2007 Martin Richards
