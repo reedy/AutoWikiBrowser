@@ -1,4 +1,4 @@
-namespace AutoWikiBrowser
+﻿namespace AutoWikiBrowser
 {
     partial class Help
     {

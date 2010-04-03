@@ -1,4 +1,4 @@
-/*
+﻿/*
 Autowikibrowser
 Copyright (C) 2007 Martin Richards
 (C) 2008 Stephen Kennedy

@@ -1,4 +1,4 @@
-/*
+﻿/*
 Autowikibrowser
 (C) 2007 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 
