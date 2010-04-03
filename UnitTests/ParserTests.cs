@@ -65,7 +65,7 @@ namespace UnitTests
 		[Test]
 		public void PrecededByEqualSign()
 		{
-			Assert.That(Parsers.FixFootnotes("a=<ref>b</ref>"), Is.Not.StringContaining("\n"));
+			Assert.IsFalse(Parsers.FixFootnotes("a=<ref>b</ref>").Contains("\n"));
 		}
 
 		[Test]
@@ -110,10 +110,10 @@ namespace UnitTests
 </div></div>"));
 
 			// evil don't do's
-			Assert.That(Parsers.FixReferenceListTags(@"<div class=""references-small""><div class=""references-2column"">
-<references/></div>* some other ref</div>"), Is.Not.Contains("{{reflist"));
-			Assert.That(Parsers.FixReferenceListTags(@"<div class=""references-small""><div class=""references-2column"">
-<references/></div>"), Is.Not.Contains("{{reflist"));
+			Assert.IsFalse(Parsers.FixReferenceListTags(@"<div class=""references-small""><div class=""references-2column"">
+<references/></div>* some other ref</div>").Contains("{{reflist"));
+			Assert.IsFalse(Parsers.FixReferenceListTags(@"<div class=""references-small""><div class=""references-2column"">
+<references/></div>").Contains("{{reflist"));
 		}
 
 		[Test]
@@ -3852,9 +3852,9 @@ When DST ends in central Europe, clocks retreat from 03:00 CEST to 02:00 CET. Ot
 		//http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Title_bolding
 		public void DontEmboldenImagesAndTemplates()
 		{
-			Assert.That(parser.BoldTitle("[[Image:Foo.jpg]]", "Foo", out noChangeBack), Is.Not.Contains("'''Foo'''"));
-			Assert.That(parser.BoldTitle("{{Foo}}", "Foo", out noChangeBack), Is.Not.Contains("'''Foo'''"));
-			Assert.That(parser.BoldTitle("{{template| Foo is a bar}}", "Foo", out noChangeBack), Is.Not.Contains("'''Foo'''"));
+			Assert.IsFalse(parser.BoldTitle("[[Image:Foo.jpg]]", "Foo", out noChangeBack).Contains("'''Foo'''"));
+			Assert.IsFalse(parser.BoldTitle("{{Foo}}", "Foo", out noChangeBack).Contains("'''Foo'''"));
+			Assert.IsFalse(parser.BoldTitle("{{template| Foo is a bar}}", "Foo", out noChangeBack).Contains("'''Foo'''"));
 		}
 
 		[Test]
@@ -5252,8 +5252,7 @@ asdfasdf}} was here", "foo"));
 			// shouldn't add if category already exists
 			Assert.AreEqual("[[Category:Foo]]", parser.AddCategory("Foo", "[[Category:Foo]]", "bar", out noChange));
 			Assert.IsTrue(noChange);
-			Assert.That(parser.AddCategory("Foo bar", "[[Category:Foo_bar]]", "bar", out noChange),
-			            Is.StringMatching(@"\[\[Category:Foo[ _]bar\]\]"));
+			Assert.IsTrue(Regex.IsMatch(parser.AddCategory("Foo bar", "[[Category:Foo_bar]]", "bar", out noChange), @"\[\[Category:Foo[ _]bar\]\]"));
 			Assert.IsTrue(noChange);
 
 			Assert.AreEqual("[[category : foo_bar%20|quux]]", parser.AddCategory("Foo bar", "[[category : foo_bar%20|quux]]", "bar", out noChange));
