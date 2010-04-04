@@ -2870,7 +2870,18 @@ now {{cite web | url=http://site.it | title=hello|date = 5-5-1998}} was";
 			Assert.IsFalse(Parsers.AmbiguousCiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 5-5-1998}} was"));
 		}
 
-
+[Test]
+		public void AmbiguousCiteTemplateDates2()
+		{
+		    Dictionary<int, int> ambigDates = new Dictionary<int, int>();
+		    
+		    ambigDates = Parsers.AmbigCiteTemplateDates(@"now {{cite web | url=http://site.it | title=a |date=7-6-2005 }}");
+		    
+		    Assert.AreEqual(ambigDates.Count, 1);
+		    Assert.IsTrue(ambigDates.ContainsKey(52));
+		    Assert.IsTrue(ambigDates.ContainsValue(8));
+		}
+		
 		[Test]
 		public void ExtraBracketInExternalLink()
 		{

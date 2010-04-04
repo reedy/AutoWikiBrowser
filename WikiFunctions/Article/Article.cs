@@ -289,7 +289,7 @@ namespace WikiFunctions
         [XmlIgnore]
         public bool HasAmbiguousCiteTemplateDates
         { get { return Parsers.AmbiguousCiteTemplateDates(mArticleText); } }
-
+        
         /// <summary>
         /// Returns true if the article should be skipped; check after each call to a worker member. See AWB main.cs.
         /// </summary>
@@ -470,6 +470,11 @@ namespace WikiFunctions
         public Dictionary<int, int> DeadLinks()
         {
             return Parsers.DeadLinks(ArticleText);
+        }
+        
+        public Dictionary<int, int> AmbiguousCiteTemplateDates()
+        {
+            return Parsers.AmbigCiteTemplateDates(ArticleText);
         }
 
         /// <summary>
