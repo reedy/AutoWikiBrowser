@@ -65,6 +65,8 @@ namespace WikiFunctions.Lists.Providers
 
         private static string ModifyArticleName(string title)
         {
+            title = Regex.Replace(title, @"&#0?39;|&#146;|&amp;#0?39;|&amp;#146;|[`’]", "'");
+            
             title = title.Replace(@"&amp;", "&");
             title = title.Replace(@"&quot;", @"""");
             return title.Replace("<br />", "");

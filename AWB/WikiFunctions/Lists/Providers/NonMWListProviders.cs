@@ -66,6 +66,10 @@ namespace WikiFunctions.Lists.Providers
 
         protected virtual string ModifyArticleName(string title)
         {
+            WikiFunctions.Parse.Parsers p = new WikiFunctions.Parse.Parsers();
+            
+            title = p.Unicodify(title);
+            
             title = title.Replace(@"&amp;", "&");
             title = title.Replace(@"&quot;", @"""");
             return title.Replace("<br />", "");
@@ -99,6 +103,10 @@ namespace WikiFunctions.Lists.Providers
 
         protected override string ModifyArticleName(string title)
         {
+            title = Regex.Replace(title, @"&#0?39;|&#146;|&amp;#0?39;|&amp;#146;|[`’]", "'");
+            
+            title = title.Replace(@"&amp;", "&");
+            title = title.Replace(@"&quot;", @"""");
             return title.Replace("<br />", "");
         }
 
