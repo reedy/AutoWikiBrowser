@@ -352,9 +352,9 @@ namespace AutoWikiBrowser
             SplashScreen.SetProgress(100);
             SplashScreen.Close();
 
-#if DEBUG && INSTASTATS
+            #if DEBUG && INSTASTATS
             UsageStats.Do(false);
-#endif
+            #endif
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
@@ -730,7 +730,8 @@ namespace AutoWikiBrowser
 
         private Dictionary<int, int> badCiteParameters = new Dictionary<int, int>();
         private Dictionary<int, int> deadLinks = new Dictionary<int, int>();
-
+        private Dictionary<int, int> ambigCiteDates = new Dictionary<int, int>();
+        
         private void SkipRedirect(string redirectTitle, string reason)
         {
             listMaker.Remove(TheArticle); // or we get stuck in a loop
@@ -834,12 +835,12 @@ namespace AutoWikiBrowser
             //check not in use
             if (TheArticle.IsInUse)
                 if (chkSkipIfInuse.Checked)
-                {
-                    SkipPage("Page contains {{inuse}}");
-                    return;
-                }
-                else if (!BotMode && !preParseModeToolStripMenuItem.Checked)
-                    MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
+            {
+                SkipPage("Page contains {{inuse}}");
+                return;
+            }
+            else if (!BotMode && !preParseModeToolStripMenuItem.Checked)
+                MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
 
             if (automaticallyDoAnythingToolStripMenuItem.Checked)
             {
@@ -1025,7 +1026,8 @@ namespace AutoWikiBrowser
                 }
                 else
                 {
-                    if (_unbalancedBracket < 0 && badCiteParameters.Count == 0)
+                    if (_unbalancedBracket < 0 && badCiteParameters.Count == 0 && deadLinks.Count == 0
+                       && ambigCiteDates.Count == 0)
                         btnSave.Focus();
                     else if (scrollToUnbalancedBracketsToolStripMenuItem.Checked)
                     {
@@ -1035,10 +1037,13 @@ namespace AutoWikiBrowser
                             HighlightUnbalancedBrackets();
 
                         if (badCiteParameters.Count > 0)
-                            HighlightBadCitationParameter();
+                            HighlightErrors(badCiteParameters);
                         
                         if(deadLinks.Count > 0)
-                            HighlightDeadLinks();
+                            HighlightErrors(deadLinks);
+                        
+                        if(ambigCiteDates.Count > 0)
+                            HighlightErrors(ambigCiteDates);
                     }
                 }
 
@@ -1141,9 +1146,9 @@ namespace AutoWikiBrowser
         private void Bleepflash()
         {
             if (ContainsFocus) return;
-#if !MONO
+            #if !MONO
             if (_flash) Tools.FlashWindow(this);
-#endif
+            #endif
             if (_beep) Tools.Beep();
         }
 
@@ -1322,9 +1327,9 @@ namespace AutoWikiBrowser
             bool process = true;
             TypoStats = null;
 
-#if DEBUG
+            #if DEBUG
             Variables.Profiler.Start("ProcessPage(\"" + theArticle.Name + "\")");
-#endif
+            #endif
 
             try
             {
@@ -1661,7 +1666,7 @@ window.scrollTo(0, diffTopY);
 
                 if (TheArticle != null)
                     extext += " (Article name: '" + TheArticle.Name + "', session page title: '" + TheSession.Page.Title +
-                              "')";
+                        "')";
                 else
                     extext += " (the article was null)";
 
@@ -1981,7 +1986,7 @@ window.scrollTo(0, diffTopY);
             {
                 TimeSpan time =
                     new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second).Subtract
-                        (StartTime);
+                    (StartTime);
                 dlg = new ExitQuestion(time, NumberOfEdits, "");
                 dlg.ShowDialog();
                 Properties.Settings.Default.AskForTerminate = !dlg.CheckBoxDontAskAgain;
@@ -2040,7 +2045,7 @@ window.scrollTo(0, diffTopY);
 
             if (!string.IsNullOrEmpty(TheArticle.EditSummary))
                 summary += (string.IsNullOrEmpty(summary) ? "" : ", ") + TheArticle.EditSummary;
-           
+            
             // check to see if we have only edited one level 2 section
             if (!noSectionEditSummaryToolStripMenuItem.Checked)
             {
@@ -2054,12 +2059,12 @@ window.scrollTo(0, diffTopY);
                 && (Variables.IsWikimediaProject && !_suppressUsingAWB))
                 summary = Summary.Trim(summary) + Variables.SummaryTag;
 
-#if DEBUG
+            #if DEBUG
             if (!Summary.IsCorrect(summary))
             {
                 Tools.WriteDebug("edit summary not correct", summary);
             }
-#endif
+            #endif
 
             return summary;
         }
@@ -2067,7 +2072,7 @@ window.scrollTo(0, diffTopY);
         private void chkFindandReplace_CheckedChanged(object sender, EventArgs e)
         {
             btnMoreFindAndReplce.Enabled = btnFindAndReplaceAdvanced.Enabled =
-            chkSkipWhenNoFAR.Enabled = chkSkipOnlyMinorFaR.Enabled = btnSubst.Enabled = chkFindandReplace.Checked;
+                chkSkipWhenNoFAR.Enabled = chkSkipOnlyMinorFaR.Enabled = btnSubst.Enabled = chkFindandReplace.Checked;
         }
 
         private void chkSkipGeneralFixes_CheckedChanged(object sender, EventArgs e)
@@ -2298,11 +2303,11 @@ window.scrollTo(0, diffTopY);
         }
 
         private const string Words = "Words: ",
-                             Cats = "Categories: ",
-                             Imgs = "Images: ",
-                             Links = "Links: ",
-                             IWLinks = "Interwiki links: ",
-                             Dates = "Dates O/I/A: ";
+        Cats = "Categories: ",
+        Imgs = "Images: ",
+        Links = "Links: ",
+        IWLinks = "Interwiki links: ",
+        Dates = "Dates O/I/A: ";
 
         private void ArticleInfo(bool reset)
         {
@@ -2359,7 +2364,8 @@ window.scrollTo(0, diffTopY);
                 if (deadLinks.Count > 0)
                     warnings.AppendLine("Dead links found");
 
-                if (TheArticle.HasAmbiguousCiteTemplateDates)
+                ambigCiteDates = TheArticle.AmbiguousCiteTemplateDates();
+                if (ambigCiteDates.Count > 0)
                     warnings.AppendLine("Ambiguous citation dates found");
 
                 _unbalancedBracket = TheArticle.UnbalancedBrackets(ref _bracketLength);
@@ -2375,8 +2381,8 @@ window.scrollTo(0, diffTopY);
                 lblImages.Text = Imgs + WikiRegexes.Images.Matches(articleText).Count;
                 lblLinks.Text = Links + WikiRegexes.WikiLinksOnly.Matches(articleText).Count;
                 lblInterLinks.Text = IWLinks + Tools.InterwikiCount(articleText);
-                lblDates.Text = Dates + WikiRegexes.ISODates.Matches(articleText).Count + "/" + WikiRegexes.DayMonth.Matches(articleText).Count 
-                	+ "/" + WikiRegexes.MonthDay.Matches(articleText).Count;
+                lblDates.Text = Dates + WikiRegexes.ISODates.Matches(articleText).Count + "/" + WikiRegexes.DayMonth.Matches(articleText).Count
+                    + "/" + WikiRegexes.MonthDay.Matches(articleText).Count;
                 lblWarn.Text = warnings.ToString();
 
                 //Find multiple links
@@ -2530,9 +2536,9 @@ window.scrollTo(0, diffTopY);
             toolStripSeparator29.Visible = true;
             invalidateCacheToolStripMenuItem.Visible = true;
 
-#if DEBUG
+            #if DEBUG
             Variables.Profiler = new Profiler("profiling.txt", true);
-#endif
+            #endif
         }
 
         [Conditional("RELEASE")]
@@ -2590,7 +2596,7 @@ window.scrollTo(0, diffTopY);
                 _autoSaveEditBoxEnabled = myPrefs.PrefAutoSaveEditBoxEnabled;
 
                 if (EditBoxSaveTimer.Enabled && !_autoSaveEditBoxEnabled)
-                    EditBoxSaveTimer.Enabled = false; 
+                    EditBoxSaveTimer.Enabled = false;
 
                 AutoSaveEditBoxPeriod = myPrefs.PrefAutoSaveEditBoxPeriod;
                 _autoSaveEditBoxFile = myPrefs.PrefAutoSaveEditBoxFile;
@@ -3229,12 +3235,12 @@ window.scrollTo(0, diffTopY);
 
         private void bypassAllRedirectsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-#if !DEBUG
-        if (MessageBox.Show("Replacement of links to redirects with direct links is strongly discouraged, " +
-                            "however it could be useful in some circumstances. Are you sure you want to continue?",
-                            "Bypass redirects", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
-            return;
-#endif
+            #if !DEBUG
+            if (MessageBox.Show("Replacement of links to redirects with direct links is strongly discouraged, " +
+                                "however it could be useful in some circumstances. Are you sure you want to continue?",
+                                "Bypass redirects", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
+                return;
+            #endif
 
             BackgroundRequest r = new BackgroundRequest();
 
@@ -3438,7 +3444,13 @@ window.scrollTo(0, diffTopY);
                     HighlightUnbalancedBrackets();
 
                 if (badCiteParameters.Count > 0)
-                    HighlightBadCitationParameter();
+                    HighlightErrors(badCiteParameters);
+                
+                if(ambigCiteDates.Count > 0)
+                    HighlightErrors(ambigCiteDates);
+                
+                if(deadLinks.Count > 0)
+                    HighlightErrors(deadLinks);
             }
 
             if (syntaxHighlightEditBoxToolStripMenuItem.Checked)
@@ -3483,8 +3495,8 @@ window.scrollTo(0, diffTopY);
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 string[] dlgStrings = new[] {
-                dlg.String1, dlg.String2, dlg.String3, dlg.String4, dlg.String5, dlg.String6, dlg.String7, dlg.String8, dlg.String9, dlg.String10,
-            };
+                    dlg.String1, dlg.String2, dlg.String3, dlg.String4, dlg.String5, dlg.String6, dlg.String7, dlg.String8, dlg.String9, dlg.String10,
+                };
                 for (int i = 0; i < 10; ++i)
                     SetPasteMoreText(i, dlgStrings[i]);
             }
@@ -3548,23 +3560,23 @@ window.scrollTo(0, diffTopY);
 
                 StatusLabelText = "Loading typos";
 
-#if !DEBUG
-            string message = @"1. Check each edit before you make it. Although this has been built to be very accurate there will be errors.
+                #if !DEBUG
+                string message = @"1. Check each edit before you make it. Although this has been built to be very accurate there will be errors.
 
 2. Optional: Select [[WP:AWB/T|Typo fixing]] as the edit summary. This lets everyone know where to bring issues with the typo correction.";
 
-            if (RegexTypos == null)
-            {
-                string s = Variables.RetfPath;
+                if (RegexTypos == null)
+                {
+                    string s = Variables.RetfPath;
 
-                if (!s.StartsWith("http:"))
-                    s = Variables.URL + "/wiki/" + s;
+                    if (!s.StartsWith("http:"))
+                        s = Variables.URL + "/wiki/" + s;
 
-                message += "\r\n\r\nThe newest typos will now be downloaded from " + s + " when you press OK.";
-            }
+                    message += "\r\n\r\nThe newest typos will now be downloaded from " + s + " when you press OK.";
+                }
 
-            MessageBox.Show(message, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-#endif
+                MessageBox.Show(message, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                #endif
 
                 RegexTypos = new RegExTypoFix();
                 RegexTypos.Complete += RegexTyposComplete;
@@ -4666,7 +4678,7 @@ window.scrollTo(0, diffTopY);
 
         private void profileTyposToolStripMenuItem_Click(object sender, EventArgs e)
         {
-#if DEBUG
+            #if DEBUG
             if (RegexTypos == null)
             {
                 MessageBox.Show("No typos loaded", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -4717,7 +4729,7 @@ window.scrollTo(0, diffTopY);
 
             MessageBox.Show("Results are saved in the file 'typos.txt'", "Profiling complete",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
-#endif
+            #endif
         }
 
         private void loadPluginToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4833,16 +4845,10 @@ window.scrollTo(0, diffTopY);
         {
             RedSelection(_unbalancedBracket, _bracketLength);
         }
-
-        private void HighlightBadCitationParameter()
-        {
-            foreach (KeyValuePair<int, int> a in badCiteParameters)
-                RedSelection(a.Key, a.Value);
-        }
         
-        private void HighlightDeadLinks()
+        private void HighlightErrors(Dictionary<int, int> errors)
         {
-            foreach (KeyValuePair<int, int> a in deadLinks)
+            foreach (KeyValuePair<int, int> a in errors)
                 RedSelection(a.Key, a.Value);
         }
 
@@ -4939,5 +4945,5 @@ window.scrollTo(0, diffTopY);
             UsageStats.Do(false);
         }
     }
-        #endregion
+    #endregion
 }
