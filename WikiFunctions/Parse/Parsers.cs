@@ -768,9 +768,9 @@ namespace WikiFunctions.Parse
         /// <returns>the modified article text</returns>
         public static string DuplicateUnnamedReferences(string articleText)
         {
-            /* AWB is asked not to add named references to an article if there are none currently, as some users feel
+            /* On en-wiki AWB is asked not to add named references to an article if there are none currently, as some users feel
              * this is a change of citation style, so is against the [[WP:CITE]] "don't change established style" guidelines */
-            if (!HasNamedReferences(articleText))
+            if (Variables.LangCode == "en" && !HasNamedReferences(articleText))
                 return articleText;
 
             var refs = new Dictionary<int, List<Ref>>();
