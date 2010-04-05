@@ -134,17 +134,21 @@ namespace WikiFunctions
             EmptyLink = new Regex("\\[\\[(:?" + cat + "|" + img + "|)(|" + img + "|" + cat + "|.*?)\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
             EmptyTemplate = new Regex(@"{{(" + Variables.NamespacesCaseInsensitive[Namespace.Template] + @")?[|\s]*}}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
             
-            // set orphan template
+            // set orphan, wikify templates
+            string orphantemplate = "";
             switch(Variables.LangCode)
             {
                 case "sv":
-                    s = @"[Ff]öräldralös";
+                    orphantemplate = @"[Ff]öräldralös";
+                    Wikify = new Regex(@"{{\s*" + @"[Ii]ckewiki" + @"(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                     break;
                 default:
-                    s = "[Oo]rphan";
+                    orphantemplate = "[Oo]rphan";
+                    Wikify = new Regex(@"({{\s*Wikify(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|(?<={{\s*(?:Article|Multiple)\s*issues\b[^{}]*?)\|\s*wikify\s*=[^{}\|]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                     break;
-            }            
-            Orphan = new Regex(@"{{\s*" + s + @"(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            }
+            Orphan = new Regex(@"{{\s*" + orphantemplate + @"(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            
         }
 
         /// <summary>
@@ -655,9 +659,9 @@ namespace WikiFunctions
         public static readonly Regex DeadEnd = new Regex(@"({{\s*([Dd]ead ?end|[Ii]nternal ?links|[Nn]uevointernallinks|[Dd]ep)(\|(?:[^{}]+|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}))?}}|(?<={{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?)\|\s*dead ?end\s*=[^{}\|]+)", RegexOptions.Compiled);
 
         /// <summary>
-        /// Matches {{wikify}} tag including within {{article issues}}
+        /// Matches {{wikify}} tag (including within {{multiple issues}} for en-wiki)
         /// </summary>
-        public static readonly Regex Wikify = new Regex(@"({{\s*Wikify(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|(?<={{\s*(?:Article|Multiple)\s*issues\b[^{}]*?)\|\s*wikify\s*=[^{}\|]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public static Regex Wikify;
 
         /// <summary>
         /// Matches {{dead link}} template and its redirects
@@ -665,7 +669,7 @@ namespace WikiFunctions
         public static readonly Regex DeadLink = new Regex(@"{{\s*((?:[Dd]ead|[Bb]roken) ?link|[Ll]ink ?broken|404|[Dd]l(?:-s)?|[Cc]leanup-link)\s*(\|((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})|}})");
 
         /// <summary>
-        /// Matches {{expand}} tag and its redirects and also {{expand}} within {{article issues}}
+        /// Matches {{expand}} tag and its redirects and also {{expand}} within {{multiple issues}}
         /// </summary>
         public static readonly Regex Expand = new Regex(@"({{\s*(?:Expand-?article|Expand|Develop|Elaborate|Expansion)(?:\s*\|\s*(?:date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|(?<={{(?:Article|Multiple)\s*issues\b[^{}]*?)\|\s*expand\s*=[^{}\|]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
