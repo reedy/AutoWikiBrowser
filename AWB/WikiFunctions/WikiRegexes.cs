@@ -139,16 +139,15 @@ namespace WikiFunctions
             switch(Variables.LangCode)
             {
                 case "sv":
-                    orphantemplate = @"[Ff]öräldralös";
-                    Wikify = new Regex(@"{{\s*" + @"[Ii]ckewiki" + @"(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                    orphantemplate = @"Föräldralös";
+                    Wikify = new Regex(@"{{\s*Ickewiki(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                     break;
                 default:
-                    orphantemplate = "[Oo]rphan";
+                    orphantemplate = "Orphan";
                     Wikify = new Regex(@"({{\s*Wikify(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|(?<={{\s*(?:Article|Multiple)\s*issues\b[^{}]*?)\|\s*wikify\s*=[^{}\|]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                     break;
             }
             Orphan = new Regex(@"{{\s*" + orphantemplate + @"(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            
         }
 
         /// <summary>
