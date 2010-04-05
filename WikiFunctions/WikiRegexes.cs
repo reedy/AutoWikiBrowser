@@ -133,6 +133,18 @@ namespace WikiFunctions
 
             EmptyLink = new Regex("\\[\\[(:?" + cat + "|" + img + "|)(|" + img + "|" + cat + "|.*?)\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
             EmptyTemplate = new Regex(@"{{(" + Variables.NamespacesCaseInsensitive[Namespace.Template] + @")?[|\s]*}}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            
+            // set orphan template
+            switch(Variables.LangCode)
+            {
+                case "sv":
+                    s = @"[Ff]öräldralös";
+                    break;
+                default:
+                    s = "[Oo]rphan";
+                    break;
+            }            
+            Orphan = new Regex(@"{{\s*" + s + @"(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         }
 
         /// <summary>
@@ -660,7 +672,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{orphan}} tag
         /// </summary>
-        public static readonly Regex Orphan = new Regex(@"{{\s*[Oo]rphan(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public static Regex Orphan;
 
         /// <summary>
         /// matches orphan tag within {{Article issues}} template

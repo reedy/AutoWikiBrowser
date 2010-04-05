@@ -896,18 +896,6 @@ cit"));
             Assert.AreEqual(WikiRegexes.Expand.Replace(@"{{article issues|wikify=May 2009|COI=March 2009|expand=May 2008}}", ""), @"{{article issues|wikify=May 2009|COI=March 2009}}");
             Assert.AreEqual(WikiRegexes.Expand.Replace(@"{{article issues|wikify=May 2009| expand = May 2008|COI=March 2009}}", ""), @"{{article issues|wikify=May 2009|COI=March 2009}}");
         }
-
-        [Test]
-        public void OrphanTests()
-        {
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{Orphan}}"));
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{orphan|date=May 2008}}"));
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{Orphan| date = May 2008}}"));
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{orphan|date=subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
-            
-            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphanblahblah}}"));
-        }
         
         [Test]
         public void TemplateEndTests()
