@@ -665,7 +665,12 @@ namespace WikiFunctions
 
             if (langCode == "en")
             {
-                string strTemp = Parsers.Conversions(mArticleText);
+            	string strTemp = mArticleText;
+            	
+            	// do not subst on Template documentation pages
+            	if(!(Namespace.Determine(Name).Equals(Namespace.Template) && Name.EndsWith(@"/doc")))
+            		strTemp = Parsers.Conversions(mArticleText);
+            	
                 strTemp = Parsers.FixLivingThingsRelatedDates(strTemp);
                 strTemp = Parsers.FixHeadings(strTemp, Name, out noChange);
 
