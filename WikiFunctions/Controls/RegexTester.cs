@@ -1,4 +1,4 @@
-/*
+﻿/*
 Autowikibrowser
 Copyright (C) 2008 Max Semenik, Stephen Kennedy
 

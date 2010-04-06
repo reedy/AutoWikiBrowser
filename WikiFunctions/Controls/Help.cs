@@ -1,4 +1,4 @@
-/*
+ï»¿/*
 Autowikibrowser
 Copyright (C) 2007 Mets501, Stephen Kennedy
 
@@ -66,16 +66,16 @@ namespace WikiFunctions.Controls
                             lbTopics.Items.Add(m.Groups[2].Value.Replace("_", " ").Replace(".28", "(").Replace(".29", ")"));
                             break;
                         case "2":
-                            lbTopics.Items.Add("  • " + m.Groups[2].Value.Replace("_", " ").Replace(".28", "(").Replace(".29", ")"));
+                            lbTopics.Items.Add("  ï¿½ " + m.Groups[2].Value.Replace("_", " ").Replace(".28", "(").Replace(".29", ")"));
                             break;
                         case "3":
-                            lbTopics.Items.Add("      • " + m.Groups[2].Value.Replace("_", " ").Replace(".28", "(").Replace(".29", ")"));
+                            lbTopics.Items.Add("      ï¿½ " + m.Groups[2].Value.Replace("_", " ").Replace(".28", "(").Replace(".29", ")"));
                             break;
                         case "4":
-                            lbTopics.Items.Add("          • " + m.Groups[2].Value.Replace("_", " ").Replace(".28", "(").Replace(".29", ")"));
+                            lbTopics.Items.Add("          ï¿½ " + m.Groups[2].Value.Replace("_", " ").Replace(".28", "(").Replace(".29", ")"));
                             break;
                         case "5":
-                            lbTopics.Items.Add("              • " + m.Groups[2].Value.Replace("_", " ").Replace(".28", "(").Replace(".29", ")"));
+                            lbTopics.Items.Add("              ï¿½ " + m.Groups[2].Value.Replace("_", " ").Replace(".28", "(").Replace(".29", ")"));
                             break;
                     }
                 }
@@ -86,7 +86,7 @@ namespace WikiFunctions.Controls
         {
             try
             {
-                webBrowserHelp.Navigate(URL + "#" + lbTopics.SelectedItem.ToString().Replace("• ", "").Trim().Replace(" ", "_").Replace("(", ".28").Replace(")", ".29"));
+                webBrowserHelp.Navigate(URL + "#" + lbTopics.SelectedItem.ToString().Replace("ï¿½ ", "").Trim().Replace(" ", "_").Replace("(", ".28").Replace(")", ".29"));
             }
             catch { }
         }

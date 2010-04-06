@@ -1,4 +1,4 @@
-namespace WikiFunctions.ReplaceSpecial
+﻿namespace WikiFunctions.ReplaceSpecial
 {
   partial class RuleControl
   {

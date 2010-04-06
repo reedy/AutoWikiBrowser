@@ -1,4 +1,4 @@
-// ZipNameTransform.cs
+﻿// ZipNameTransform.cs
 //
 // Copyright 2005 John Reilly
 //

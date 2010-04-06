@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Patches, a supporting class for Diffs
  */
 

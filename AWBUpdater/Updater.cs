@@ -1,4 +1,4 @@
-/*
+﻿/*
 AWBUpdater
 Copyright (C) 2009 Sam Reed, Max Semenik
 

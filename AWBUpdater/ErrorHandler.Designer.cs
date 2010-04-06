@@ -1,4 +1,4 @@
-namespace AwbUpdater
+﻿namespace AwbUpdater
 {
     partial class ErrorHandler
     {

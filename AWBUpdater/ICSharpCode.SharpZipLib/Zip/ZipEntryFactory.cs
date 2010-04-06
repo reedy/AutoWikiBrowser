@@ -1,4 +1,4 @@
-// ZipEntryFactory.cs
+﻿// ZipEntryFactory.cs
 //
 // Copyright 2006 John Reilly
 //

@@ -1,4 +1,4 @@
-// ZipHelperStream.cs
+﻿// ZipHelperStream.cs
 //
 // Copyright 2006, 2007 John Reilly
 //

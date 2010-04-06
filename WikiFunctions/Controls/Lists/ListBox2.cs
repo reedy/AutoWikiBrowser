@@ -1,4 +1,4 @@
-/*
+ï»¿/*
 
 Copyright (C) 2007 Martin Richards
 (C) 2007 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
@@ -81,7 +81,7 @@ namespace WikiFunctions.Controls.Lists
             int i = SelectedIndex;
 
             /* remove at index rather than removing article, else if list has article twice the first instance of it 
-             * will be removed – not necessarily the one the user selected
+             * will be removed ï¿½ not necessarily the one the user selected
             */ 
             while (SelectedItems.Count > 0)
                 Items.RemoveAt(SelectedIndex);

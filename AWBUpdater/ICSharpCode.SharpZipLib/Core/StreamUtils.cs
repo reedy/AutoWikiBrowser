@@ -1,4 +1,4 @@
-// StreamUtils.cs
+﻿// StreamUtils.cs
 //
 // Copyright 2005 John Reilly
 //

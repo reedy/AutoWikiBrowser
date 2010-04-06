@@ -1,4 +1,4 @@
-// INameTransform.cs
+﻿// INameTransform.cs
 //
 // Copyright 2005 John Reilly
 //

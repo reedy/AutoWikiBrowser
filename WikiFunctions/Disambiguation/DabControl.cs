@@ -1,4 +1,4 @@
-/*
+ï»¿/*
 
 Copyright (C) 2007 Max Semenik
 
@@ -125,7 +125,7 @@ namespace WikiFunctions.Disambiguation
 
                 while (PosEnd < ArticleText.Length - 1 && !"\n\r".Contains(ArticleText[PosEnd] + "")) PosEnd++;
 
-                // find surroundings (~ ±ContextChars from link)
+                // find surroundings (~ ï¿½ContextChars from link)
                 int n = Match.Index - ContextChars;
                 if (n < PosStart) n = PosStart;
                 for (; n > PosStart; n--)

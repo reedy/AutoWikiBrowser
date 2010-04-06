@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Collections.Generic;
 using WikiFunctions;
 using WikiFunctions.Plugin;
@@ -29,7 +29,7 @@ namespace AutoWikiBrowser.Plugins.Delinker
         private readonly Regex RefNameRegex = new Regex(@"name ?= ?""?(\S*)""?", RegexOptions.Compiled);
 
         private readonly Regex ExternalLinksSectionRegex =
-            new Regex(@"^={2,3}\s*((external )?links?|web ?links?|(внешн(яя|ие) )?ссылк[аи])\s*={2,3}\s*\r?\n",
+            new Regex(@"^={2,3}\s*((external )?links?|web ?links?|(пїЅпїЅпїЅпїЅпїЅ(пїЅпїЅ|пїЅпїЅ) )?пїЅпїЅпїЅпїЅпїЅ[пїЅпїЅ])\s*={2,3}\s*\r?\n",
                       RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Multiline),
                                r4 = new Regex(@"< ?ref(|[^>]*?[^/> ])\s*>(.*?)< ?/ ?ref ?>",
                                               RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.Singleline |

@@ -1,4 +1,4 @@
-// FastZip.cs
+﻿// FastZip.cs
 //
 // Copyright 2005 John Reilly
 //

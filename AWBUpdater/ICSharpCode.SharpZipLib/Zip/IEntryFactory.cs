@@ -1,4 +1,4 @@
-// IEntryFactory.cs
+﻿// IEntryFactory.cs
 //
 // Copyright 2006 John Reilly
 //

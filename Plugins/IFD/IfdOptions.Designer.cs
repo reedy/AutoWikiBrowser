@@ -1,4 +1,4 @@
-namespace AutoWikiBrowser.Plugins.IFD
+﻿namespace AutoWikiBrowser.Plugins.IFD
 {
     partial class IfdOptions
     {
