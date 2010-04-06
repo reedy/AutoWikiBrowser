@@ -1,4 +1,4 @@
-/*
+﻿/*
 AWB Profiles
 Copyright (C) 2007 Sam Reed
 

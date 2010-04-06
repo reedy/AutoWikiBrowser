@@ -1,4 +1,4 @@
-/*
+﻿/*
 WikiFunctions
 Copyright (C) 2007 Max Semenik
 

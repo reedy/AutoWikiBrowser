@@ -1,4 +1,4 @@
-/*
+﻿/*
 DumpSearcher
 Copyright (C) 2007 Martin Richards
 

@@ -1,4 +1,4 @@
-namespace WikiFunctions.Lists
+﻿namespace WikiFunctions.Lists
 {
     partial class ListFilterForm
     {

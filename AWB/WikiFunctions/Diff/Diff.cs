@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Diff Algorithm in C#
  * Based on Tye McQueen's Algorithm::Diff Perl module version 1.19_01
  * Converted to C# by Joshua Tauberer <tauberer@for.net>

@@ -1,4 +1,4 @@
-//
+﻿//
 // PkzipClassic encryption
 //
 // Copyright 2004 John Reilly

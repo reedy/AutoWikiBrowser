@@ -1,4 +1,4 @@
-namespace WikiFunctions.Profiles
+﻿namespace WikiFunctions.Profiles
 {
     partial class AWBLogUploadProfilesForm
     {

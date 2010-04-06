@@ -1,4 +1,4 @@
-//
+﻿//
 // ZipExtraData.cs
 //
 // Copyright 2004-2007 John Reilly

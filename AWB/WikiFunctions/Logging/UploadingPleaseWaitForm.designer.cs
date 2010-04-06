@@ -1,4 +1,4 @@
-namespace WikiFunctions.Logging
+﻿namespace WikiFunctions.Logging
 {
     partial class UploadingPleaseWaitForm
     {

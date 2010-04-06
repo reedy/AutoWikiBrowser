@@ -1,4 +1,4 @@
-/*
+﻿/*
 ListMaker
 (C) Martin Richards
 (C) Stephen Kennedy, Sam Reed 2009

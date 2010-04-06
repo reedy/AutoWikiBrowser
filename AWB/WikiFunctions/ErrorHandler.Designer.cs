@@ -1,4 +1,4 @@
-namespace WikiFunctions
+﻿namespace WikiFunctions
 {
     partial class ErrorHandler
     {

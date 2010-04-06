@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 Copyright (C) 2007 Martin Richards
 Copyright (C) 2008 Sam Reed

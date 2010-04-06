@@ -1,4 +1,4 @@
-// FileSystemScanner.cs
+﻿// FileSystemScanner.cs
 //
 // Copyright 2005 John Reilly
 //

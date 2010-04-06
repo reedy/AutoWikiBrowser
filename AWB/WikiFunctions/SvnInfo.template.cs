@@ -1,4 +1,4 @@
-/////////////////////////////////////////////////////////////////////////////////////////////////
+﻿/////////////////////////////////////////////////////////////////////////////////////////////////
 /// DON'T MODIFY SvnInfo.cs, it is automatically generated from SvnInfo.template.cs, which you 
 /// should edit. This system is used for embedding the SVN revision number into the binaries.
 /// For details, see http://tortoisesvn.net/docs/release/TortoiseSVN_en/tsvn-subwcrev.html

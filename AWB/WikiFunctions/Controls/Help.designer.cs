@@ -1,4 +1,4 @@
-namespace WikiFunctions.Controls
+﻿namespace WikiFunctions.Controls
 {
     partial class Help
     {

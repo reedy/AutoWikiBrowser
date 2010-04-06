@@ -1,4 +1,4 @@
-/*
+﻿/*
 Yahoo Search Plugin
 Copyright (C) 2008 Sam Reed
 

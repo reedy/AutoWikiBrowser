@@ -1,4 +1,4 @@
-namespace WikiFunctions.Controls.Lists
+﻿namespace WikiFunctions.Controls.Lists
 {
     partial class ListComparer
     {

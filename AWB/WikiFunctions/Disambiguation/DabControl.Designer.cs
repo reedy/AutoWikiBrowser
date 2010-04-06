@@ -1,4 +1,4 @@
-namespace WikiFunctions.Disambiguation
+﻿namespace WikiFunctions.Disambiguation
 {
     partial class DabControl
     {

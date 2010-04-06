@@ -1,4 +1,4 @@
-/*
+﻿/*
 ListComparer
 Copyright (C) 2007 Sam Reed
 

@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright (C) 2007 Stephen Kennedy <steve@sdk-software.com>
 
 This program is free software; you can redistribute it and/or modify

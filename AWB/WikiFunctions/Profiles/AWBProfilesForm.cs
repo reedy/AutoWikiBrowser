@@ -1,4 +1,4 @@
-/*
+﻿/*
 AWB Profiles
 Copyright (C) 2008 Sam Reed, Stephen Kennedy
 

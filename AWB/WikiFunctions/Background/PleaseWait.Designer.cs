@@ -1,4 +1,4 @@
-namespace WikiFunctions.Background
+﻿namespace WikiFunctions.Background
 {
     partial class PleaseWait
     {

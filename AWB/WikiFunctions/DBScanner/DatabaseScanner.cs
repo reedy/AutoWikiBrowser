@@ -1,4 +1,4 @@
-/*
+﻿/*
 Database Scanner
 Copyright (C) 2007 Martin Richards
 

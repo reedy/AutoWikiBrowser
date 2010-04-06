@@ -1,4 +1,4 @@
-namespace WikiFunctions.Disambiguation
+ï»¿namespace WikiFunctions.Disambiguation
 {
     partial class DabForm
     {
@@ -123,7 +123,7 @@ namespace WikiFunctions.Disambiguation
             this.btnArticle.Name = "btnArticle";
             this.btnArticle.Size = new System.Drawing.Size(75, 23);
             this.btnArticle.TabIndex = 1;
-            this.btnArticle.Text = "&Page…";
+            this.btnArticle.Text = "&Pageï¿½";
             this.btnArticle.UseVisualStyleBackColor = true;
             this.btnArticle.Click += new System.EventHandler(this.btnArticle_Click);
             // 

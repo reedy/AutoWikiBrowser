@@ -1,4 +1,4 @@
-/*
+ï»¿/*
 AWB Profiles
 Copyright (C) 2008 Sam Reed, Stephen Kennedy
 
@@ -50,7 +50,7 @@ namespace WikiFunctions.Profiles
     public static class AWBProfiles
     {
         private static readonly EncryptionUtils EncryptionUtils = new EncryptionUtils("tnf47bgfdwlp9,.q",
-            "oi frjweopi 4r390%^($%%^$HJKJNMHJGY 2`';'[#", "SH1ew yuhn gxe$£$%^y HNKLHWEQ JEW`b");
+            "oi frjweopi 4r390%^($%%^$HJKJNMHJGY 2`';'[#", "SH1ew yuhn gxe$ï¿½$%^y HNKLHWEQ JEW`b");
         private const string ProfileRegistryString = "Profiles\\";
 
         static AWBProfiles()

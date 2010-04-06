@@ -1,4 +1,4 @@
-/*
+﻿/*
 AWBPackager
 Copyright (C) 2009 Sam Reed
 
