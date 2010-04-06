@@ -1117,9 +1117,6 @@ namespace WikiFunctions
             FixLinks(skip.SkipNoBadLink);
             Variables.Profiler.Profile("FixLinks");
 
-            AWBChangeArticleText("Format sticky links",
-                                 Parsers.StickyLinks(Parsers.SimplifyLinks(ArticleText)), true);
-
             //AWBChangeArticleText("Remove duplicate wikilink", parsers.RemoveDuplicateWikiLinks(articleText), true);
 
             UnHideText(removeText);

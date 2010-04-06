@@ -2740,6 +2740,7 @@ namespace WikiFunctions.Parse
         }
 
         // Covered by: LinkTests.TestStickyLinks()
+        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Link_simplification_too_greedy_-_eating_spaces -- disabled as genfix
         /// <summary>
         /// Joins nearby words with links
         ///   e.g. "[[Russian literature|Russian]] literature" to "[[Russian literature]]"
