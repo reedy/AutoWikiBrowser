@@ -2099,7 +2099,7 @@ Message: {2}
         }
         
         /// <summary>
-        /// Sets the template parameter value to the new value input
+        /// Sets the template parameter value to the new value input, only if the template already has the parameter (with or without a value)
         /// </summary>
         /// <param name="template">The template call to update</param>
         /// <param name="parameter">The template parameter</param>
@@ -2127,6 +2127,25 @@ Message: {2}
             }
             
             return template;
+        }
+
+        /// <summary>
+        /// Sets the template parameter value to the new value input: if the template already has the parameter then its value is updated, otherwise the new value is appended
+        /// </summary>
+        /// <param name="template">The template call to update</param>
+        /// <param name="parameter">The template parameter</param>
+        /// <param name="newvalue">The new value for the parameter</param>
+        /// <returns>The updated template call</returns>
+        public static string SetTemplateParameterValue(string template, string parameter, string newvalue)
+        {
+            // first try to update existing field's value
+            string updatedtemplate = UpdateTemplateParameterValue(template, parameter, newvalue);
+
+            // if no update then append value in new field
+            if(updatedtemplate.Equals(template))
+                updatedtemplate = AppendParameterToTemplate(template, parameter, newvalue);
+
+            return updatedtemplate;
         }
         
         /// <summary>
