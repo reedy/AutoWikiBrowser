@@ -463,7 +463,26 @@ namespace WikiFunctions.API
 
             XmlReader xr = XmlReader.Create(new StringReader(result));
             xr.ReadToFollowing("login");
+
+            if (xr.GetAttribute("result").Equals("NeedToken", StringComparison.InvariantCultureIgnoreCase))
+            {
+                string token = xr.GetAttribute("token");
+
+                result = HttpPost(new[,] { { "action", "login" } },
+                                  new[,]
+                                      {
+                                          {"lgname", username},
+                                          {"lgpassword", password},
+                                          {"lgtoken", token}
+                                      }
+                    );
+
+                xr = XmlReader.Create(new StringReader(result));
+                xr.ReadToFollowing("login");
+            }
+
             string status = xr.GetAttribute("result");
+
             if (!status.Equals("Success", StringComparison.InvariantCultureIgnoreCase))
             {
                 throw new LoginException(this, status);
