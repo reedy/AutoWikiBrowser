@@ -59,9 +59,9 @@ namespace UnitTests
 
         public static void IsMatch(Regex regex, string input, string message)
         {
-            if(!regex.IsMatch(input)) throw new AssertionException(string.Format(
-                "The string <{0}> does not match the given regex <{1}>{2}", input, regex,
-                (message.Length == 0 ? "" : ": " + message)));
+            if (!regex.IsMatch(input)) throw new AssertionException(string.Format(
+                 "The string <{0}> does not match the given regex <{1}>{2}", input, regex,
+                 (message.Length == 0 ? "" : ": " + message)));
         }
         #endregion
 
