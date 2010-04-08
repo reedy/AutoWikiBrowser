@@ -186,7 +186,7 @@ namespace WikiFunctions.TalkPages
             return articleText;
         }
         
-        private static readonly Regex FirstComment = new Regex(@"^ *[:\*\w'""](?<!_)", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex FirstComment = new Regex(@"^ {0,4}[:\*\w'""](?<!_)", RegexOptions.Compiled | RegexOptions.Multiline);
         
         /// <summary>
         /// Adds a section 2 heading before the first comment if the talk page does not have one
@@ -206,8 +206,7 @@ namespace WikiFunctions.TalkPages
                 int firstLevelTwoHeading = WikiRegexes.HeadingLevelTwo.IsMatch(articleText) ? WikiRegexes.HeadingLevelTwo.Match(articleText).Index : 99999999;
                 
                 if (firstCommentIndex < firstLevelTwoHeading)
-                {
-                    
+                {                    
                     // is there a heading level 3? If yes, change to level 2
                     string articletexttofirstcomment = articleText.Substring(0, firstCommentIndex);
                     

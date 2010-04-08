@@ -815,6 +815,19 @@ __TOC__", articleTextIn);
             
             Assert.AreEqual(allInTemplate, articleTextIn);
             Assert.IsFalse(newSummary.Contains("Added missing comments section header"));
+            
+            // no change -- only after template on same line
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Section_header_added_in_wrong_position
+            const string allAfterTemplate = @"{{archive box|words}} extra foo
+
+{{another one}}";
+            
+            articleTextIn = allAfterTemplate;
+            newSummary = "";
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
+            
+            Assert.AreEqual(allAfterTemplate, articleTextIn);
+            Assert.IsFalse(newSummary.Contains("Added missing comments section header"));
         }
     }
     
