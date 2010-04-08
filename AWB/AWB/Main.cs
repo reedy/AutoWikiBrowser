@@ -4121,8 +4121,9 @@ window.scrollTo(0, diffTopY);
                 }
                 else if (selectedtext.Contains("|"))
                     selectedtext = selectedtext.Substring(selectedtext.IndexOf("|") + 1);
-
+                
                 txtEdit.SelectedText = selectedtext;
+                txtEdit.ResetFind();
             }
             else
                 MessageBox.Show("Please select a link to remove either manually or by clicking a link in the list above.");
