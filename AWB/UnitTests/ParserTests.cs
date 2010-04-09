@@ -5522,6 +5522,25 @@ asdfasdf}} was here", "foo"));
 			Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
 			Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(text));
 		}
+		
+		[Test]
+		public void AddSv()
+		{
+		    Globals.UnitTestIntValue = 0;
+			Globals.UnitTestBoolValue = true;
+
+			#if DEBUG
+			Variables.SetProjectLangCode("sv");
+			string text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
+			//Stub, no existing stub tag. Needs all tags
+			Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+			Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+			Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text));
+			Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text));
+			Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
+			Variables.SetProjectLangCode("en");
+			#endif
+		}
 
 		[Test]
 		public void AddOrphan()
