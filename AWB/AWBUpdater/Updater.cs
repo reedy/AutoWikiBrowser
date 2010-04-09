@@ -247,7 +247,9 @@ namespace AwbUpdater
                 }
             }
             catch
-            { UpdateUI("   Unable to find AutoWikiBrowser.exe to query its version", true); }
+            {
+                UpdateUI("   Unable to find AutoWikiBrowser.exe to query its version", true);
+            }
 
             progressUpdate.Value = 35;
         }
@@ -260,9 +262,9 @@ namespace AwbUpdater
             WebClient client = new WebClient {Proxy = Proxy};
 
             if (!string.IsNullOrEmpty(AWBWebAddress))
-                client.DownloadFile(AWBWebAddress, TempDirectory + AWBZipName);
+                client.DownloadFile(AWBWebAddress, Path.Combine(TempDirectory, AWBZipName));
             else if (!string.IsNullOrEmpty(UpdaterWebAddress))
-                client.DownloadFile(UpdaterWebAddress, TempDirectory + UpdaterZipName);
+                client.DownloadFile(UpdaterWebAddress, Path.Combine(TempDirectory, UpdaterZipName));
 
             client.Dispose();
 
