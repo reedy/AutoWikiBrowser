@@ -4594,7 +4594,7 @@ namespace WikiFunctions.Parse
         private static readonly WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider WlhProv = new WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider(MinIncomingLinksToBeConsideredAnOrphan);
 
         private const int MinIncomingLinksToBeConsideredAnOrphan = 3;
-        private static readonly Regex Rq = new Regex(@"{{\s*[Rr]q\s*(?:\|.*?)?}}", RegexOptions.Singleline);
+        private static readonly Regex Rq = Tools.NestedTemplateRegex("Rq");
 
         /// <summary>
         /// 
