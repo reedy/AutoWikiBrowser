@@ -882,6 +882,8 @@ John", "*"));
 |param=there}}", "param1"));
             Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite|param1=here|foo=bar}}", "param1"));
             
+            Assert.AreEqual("here {{t1|foo|bar}} there", Tools.GetTemplateParameterValue(@"{{cite|param1=here {{t1|foo|bar}} there|foo=bar}}", "param1"));
+            
             Assert.AreEqual(@"here [[piped|link]]", Tools.GetTemplateParameterValue(@"{{cite|param1 = here [[piped|link]]}}", "param1"));
             Assert.AreEqual(@"[[piped|link]], [[another|piped link]] here", Tools.GetTemplateParameterValue(@"{{cite|param1 = [[piped|link]], [[another|piped link]] here}}", "param1"));
             
@@ -1157,6 +1159,16 @@ dateformat=mdy}}", "cite web", "dateformat"));
             
             // old value null – updated correctly
             Assert.AreEqual(@"{{foo|param1=valueafter}}", Tools.SetTemplateParameterValue(@"{{foo|param1=}}", "param1", "valueafter"));
+        
+        string bug1 = @"{{Infobox college coach|
+| Name          = Bill 
+| CurrentRecord = 202–43 ({{Winning percentage|202|43}})
+| OverallRecord = 409-148 ({{Winning percentage|409|148}})
+| Player        = *
+| CollegeHOFID  = 
+| BBallHOF      = 
+}}}";
+        Assert.AreEqual(bug1.Replace(@"409-148 ({{Winning percentage", @"409–148 ({{Winning percentage"), Tools.SetTemplateParameterValue(bug1, "OverallRecord", @"409–148 ({{Winning percentage|409|148}})"));
         }
         
         [Test]

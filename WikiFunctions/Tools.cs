@@ -1987,21 +1987,15 @@ Message: {2}
         {
             Regex param = new Regex(@"\|\s*(?:<!--.*?-->)?" + Regex.Escape(parameter) + @"\s*(?:<!--.*?-->\s*)?=(.*?)(?=\||}}$)", RegexOptions.Singleline);
             
-            Match m = param.Match(template);
+            string pipecleanedtemplate = PipeCleanedTemplate(template);
+            
+            Match m = param.Match(pipecleanedtemplate);
             
             if(m.Success)
-            {
-                int start = m.Index;
-                string restoftemplate = template.Substring(start);
+            {                
+                Group paramValue = param.Match(pipecleanedtemplate).Groups[1];
                 
-                // clear out what may contain pipes that are not the pipe indicating the end of the parameter's value
-                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.NestedTemplates);
-                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.SimpleWikiLink);
-                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.UnformattedText);
-                
-                Group paramValue = param.Match(restoftemplate).Groups[1];
-                
-                return template.Substring(start + paramValue.Index, paramValue.Length).Trim();
+                return template.Substring(paramValue.Index, paramValue.Length).Trim();
             }
             
             return "";
@@ -2078,19 +2072,14 @@ Message: {2}
         {
             Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=(.*?)(?=\||}}$)", RegexOptions.Singleline);
             
-            Match m = param.Match(template);
+            string pipecleanedtemplate = PipeCleanedTemplate(template);
+            
+            Match m = param.Match(pipecleanedtemplate);
             
             if(m.Success)
             {
-                int start = m.Index;
-                string restoftemplate = template.Substring(start);
-                
-                // clear out what may contain pipes that are not the pipe indicating the end of the parameter's value
-                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.NestedTemplates);
-                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.SimpleWikiLink);
-                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.UnformattedText);
-                
-                int valuelength = param.Match(restoftemplate).Length;
+                int start = m.Index;                
+                int valuelength = param.Match(pipecleanedtemplate).Length;
                 
                 return (template.Substring(0, start) + template.Substring(start + valuelength));
             }
@@ -2109,24 +2098,34 @@ Message: {2}
         {
             Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=\s*(.*?)(?=\s*(?:\||}}$))", RegexOptions.Singleline);
             
-            Match m = param.Match(template);
+            string pipecleanedtemplate = PipeCleanedTemplate(template);
+            
+            Match m = param.Match(pipecleanedtemplate);
             
             if(m.Success)
             {
                 int start = m.Groups[1].Index;
-                string restoftemplate = template.Substring(start);
-                
-                // clear out what may contain pipes that are not the pipe indicating the end of the parameter's value
-                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.NestedTemplates);
-                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.SimpleWikiLink);
-                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.UnformattedText);
-                
+
                 int valuelength = m.Groups[1].Length;
                 
                 return (template.Substring(0, start) + newvalue + template.Substring(start + valuelength));
             }
             
             return template;
+        }
+        
+        private static string PipeCleanedTemplate(string template)
+        {
+            if(template.Length < 5)
+                return template;
+            
+            string restoftemplate = template.Substring(3);
+            // clear out what may contain pipes that are not the pipe indicating the end of the parameter's value
+            restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.NestedTemplates);
+            restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.SimpleWikiLink);
+            restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.UnformattedText);
+            
+            return (template.Substring(0, 3) + restoftemplate);
         }
 
         /// <summary>
