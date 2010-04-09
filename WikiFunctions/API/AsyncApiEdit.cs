@@ -451,6 +451,11 @@ namespace WikiFunctions.API
             InvokeFunction("QueryApi", queryParameters);
         }
 
+        public void Rollback(string title, string user)
+        {
+            InvokeFunction("Rollback", title, user);
+        }
+
         public void ExpandTemplates(string title, string text)
         {
             InvokeFunction("ExpandTemplates", title, text);
