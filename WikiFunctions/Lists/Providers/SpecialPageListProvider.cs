@@ -50,7 +50,6 @@ namespace WikiFunctions.Lists.Providers
                 ListItems.Add(new ProtectedPagesSpecialPageProvider());
                 ListItems.Add(new GalleryNewFilesSpecialPageProvider());
                 ListItems.Add(new DisambiguationPagesSpecialPageProvider());
-                ListItems.Add(new UserContribsListProvider());
             }
 
             cmboSourceSelect.DataSource = ListItems;
