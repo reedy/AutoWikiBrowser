@@ -233,6 +233,13 @@ namespace WikiFunctions.API
         /// 
         /// </summary>
         /// <param name="title"></param>
+        /// <param name="user"></param>
+        void Rollback(string title, string user);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="title"></param>
         /// <param name="text"></param>
         /// <returns></returns>
         string ExpandTemplates(string title, string text);

@@ -908,6 +908,39 @@ namespace WikiFunctions.API
             }
         }
 
+        public void Rollback(string title, string user)
+        {
+            string result = HttpGet(
+                new[,]
+                    {
+                        { "action", "query" },
+                        { "prop", "revisions" },
+                        { "rvtoken", "rollback" },
+                        { "titles", title },
+
+                    },
+                    ActionOptions.All);
+
+            CheckForErrors(result, "query");
+
+            XmlReader xr = XmlReader.Create(new StringReader(result));
+            if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
+            string rollbackToken = xr.GetAttribute("rollbacktoken");
+
+            result = HttpPost(
+                new[,]
+                    {
+                        {"action", "rollback"}
+                    },
+                new[,]
+                    {
+                        {"title", title},
+                        {"token", rollbackToken},
+                    });
+
+            CheckForErrors(result, "rollback");
+        }
+
         public string ExpandTemplates(string title, string text)
         {
             string result = HttpPost(

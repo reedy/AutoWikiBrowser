@@ -332,8 +332,7 @@ namespace AutoWikiBrowser
                 if ((Updater.Result & Updater.AWBEnabledStatus.Error) == Updater.AWBEnabledStatus.Error)
                 {
                     lblUserName.BackColor = Color.Red;
-                    MessageBox.Show(this, "Cannot load version check page from Wikipedia. "
-                                    + "Please verify that you're connected to Internet.", "Error",
+                    MessageBox.Show(this, "Cannot load version check page from Wikipedia. Please verify that you're connected to Internet.", "Error",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
