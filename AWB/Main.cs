@@ -4858,7 +4858,7 @@ window.scrollTo(0, diffTopY);
             // indexes in articleText and txtEdit.Edit are offset by the number of newlines before the index of the unbalanced brackets
             // so allow for this when highlighting the unbalanced bracket
             string a = txtEdit.Text.Substring(0, index);
-            int b = Regex.Matches(a, "\n").Count;
+            int b = WikiRegexes.Newline.Matches(a).Count;
             txtEdit.SetEditBoxSelection(index - b, length);
             txtEdit.SelectionBackColor = Color.Tomato;
         }

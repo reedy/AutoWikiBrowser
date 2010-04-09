@@ -386,6 +386,11 @@ namespace WikiFunctions
         public static readonly Regex RegexWord = new Regex(@"\w+", RegexOptions.Compiled);
 
         /// <summary>
+        /// 
+        /// </summary>
+        public static readonly Regex Newline = new Regex("\\n", RegexOptions.Compiled);
+
+        /// <summary>
         /// Matches words, and allows words with apostrophes to be treated as one whole word
         /// </summary>
         public static readonly Regex RegexWordApostrophes = new Regex(@"\w+(?:'\w+)?", RegexOptions.Compiled);
