@@ -124,6 +124,20 @@ namespace WikiFunctions.Parse
     class TypoGroup
     {
         /// <summary>
+        /// Regex Options to use for Grouped Regex building
+        /// Compiled for x86, None for x64
+        /// </summary>
+        /// <remarks>
+        /// It seems RegexOptions.Compiled is borkeded on x64 for some retarded reason
+        /// </remarks>
+        private static readonly RegexOptions GroupedRegexOptionsForPlatform;
+
+        static TypoGroup()
+        {
+            GroupedRegexOptionsForPlatform = (IntPtr.Size * 8) == 64 ? RegexOptions.None : RegexOptions.Compiled;
+        }
+
+        /// <summary>
         /// Creates a group that holds similar typos
         /// </summary>
         /// <param name="groupSize">Typos in a batch</param>
@@ -207,7 +221,7 @@ namespace WikiFunctions.Parse
                 }
                 if (s.Length > 0)
                 {
-                    Groups.Add(new Regex(Prefix + "(" + s + ")" + Postfix, RegexOptions.Compiled));
+                    Groups.Add(new Regex(Prefix + "(" + s + ")" + Postfix, GroupedRegexOptionsForPlatform));
                 }
             }
         }
@@ -289,8 +303,13 @@ namespace WikiFunctions.Parse
                     }
                 }
             else
+            {
                 foreach (KeyValuePair<Regex, string> typo in Typos)
+                {
                     FixTypo(ref articleText, ref summary, typo, articleTitle);
+                }
+
+            }
         }
     }
 
@@ -578,6 +597,8 @@ namespace WikiFunctions.Parse
             return ((item.Find == Find) && (item.Replace == Replace));
         }
         #endregion
+    
+    
     }
 
     [Serializable]
