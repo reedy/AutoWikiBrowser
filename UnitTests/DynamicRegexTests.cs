@@ -321,6 +321,26 @@ now stubborn}}");
             WikiRegexes.MakeLangSpecificRegexes();
             #endif
         }
+        
+        [Test]
+        public void DateYearMonthParameterTests()
+        {
+            #if DEBUG
+            Variables.SetProjectLangCode("sv");
+            WikiRegexes.MakeLangSpecificRegexes();
+            
+            Assert.AreEqual(WikiRegexes.DateYearMonthParameter, @"datum={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}");
+            
+            Variables.SetProjectLangCode("fr");
+            WikiRegexes.MakeLangSpecificRegexes();
+            
+            Assert.AreEqual(WikiRegexes.DateYearMonthParameter, @"date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}");
+            
+            Variables.SetProjectLangCode("en");
+            WikiRegexes.MakeLangSpecificRegexes();
+            #endif
+            Assert.AreEqual(WikiRegexes.DateYearMonthParameter, @"date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}");
+        }
 
         [Test]
         public void DisambigsTests()
