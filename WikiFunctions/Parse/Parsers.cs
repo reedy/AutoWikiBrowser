@@ -4559,7 +4559,7 @@ namespace WikiFunctions.Parse
                 tagsAdded.Add("stub");
             }
 
-            if (linkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(articleText))
+            if (linkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(articleText) && Variables.LangCode != "sv")
             {
                 // add dead-end tag
                 articleText = "{{deadend|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
