@@ -399,9 +399,11 @@ namespace AwbUpdater
 
                 foreach (string file in Directory.GetFiles(TempDirectory, "*.*", SearchOption.AllDirectories))
                 {
+                    if (file.Contains("AWBUpdater"))
+                        continue;
+
                     CopyFile(file,
-                             Path.Combine(AWBdirectory,
-                                          file.Replace(TempDirectory, "") + (file.Contains("AWBUpdater") ? ".new" : "")));
+                             Path.Combine(AWBdirectory, file.Replace(TempDirectory + "\\", "")));
                 }
 
                 string[] pluginFiles = Directory.GetFiles(Path.Combine(AWBdirectory, "Plugins"), "*.*", SearchOption.AllDirectories);
