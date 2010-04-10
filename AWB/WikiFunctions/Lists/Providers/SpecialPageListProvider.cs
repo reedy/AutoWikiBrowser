@@ -92,7 +92,7 @@ namespace WikiFunctions.Lists.Providers
 
             Hide();
             
-            return Tools.FilterSomeArticles(list);
+            return list;
         }
 
         public string DisplayText
