@@ -5232,6 +5232,31 @@ asdfasdf}} was here", "foo"));
 		    Assert.AreEqual(foo2, templates[1].Value);
 		    Assert.AreEqual(foo2b, templates[2].Value);
 		}
+		
+		[Test]
+		public void GetTemplatesTestsAllTemplates()
+		{
+		    const string foo1 = "{{foo|a}}", foo2 = "{{foo|b}}", 
+		    foo2a = @"{{foo<!--comm-->|b}}", foo2b = @"{{foo|b<!--comm-->}}";
+		    string text = @"now " + foo1 + " and " + foo2;
+		    List<Match> templates = new List<Match>();
+		    
+		    // templates with embedded comments caught
+		    templates = Parsers.GetTemplates(text + " space " + foo2a);
+		    Assert.AreEqual(3, templates.Count);
+		    Assert.AreEqual(foo1, templates[0].Value);
+		    Assert.AreEqual(foo2, templates[1].Value);
+		    Assert.AreEqual(foo2a, templates[2].Value);
+		    
+		    templates = Parsers.GetTemplates(text + " space " + foo2b);
+		    Assert.AreEqual(3, templates.Count);
+		    Assert.AreEqual(foo1, templates[0].Value);
+		    Assert.AreEqual(foo2, templates[1].Value);
+		    Assert.AreEqual(foo2b, templates[2].Value);
+		    
+		    templates = Parsers.GetTemplates(@" {{one}} {{two}} {{three|a={{bcd}} |ef=gh}}");
+		    Assert.AreEqual(3, templates.Count);
+		}
 
 		[Test]
 		public void FixUnicode()

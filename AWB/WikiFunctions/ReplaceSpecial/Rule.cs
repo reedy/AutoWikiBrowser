@@ -139,7 +139,7 @@ namespace WikiFunctions.ReplaceSpecial
         private static string ApplyInsideTemplate(TreeNode tn, string text, string title)
         {
             string result = text;
-            foreach (Match m in Parsers.GetTemplates(text, Parsers.EveryTemplate))
+            foreach (Match m in Parsers.GetTemplates(text))
             {
                 if (CheckIf(tn, m.Value))
                 {
