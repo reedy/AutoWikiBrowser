@@ -2967,11 +2967,6 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// regex that Matches every template, for GetTemplate
-        /// </summary>
-        public const string EveryTemplate = @"[^\|\{\}]+";
-
-        /// <summary>
         /// Extracts template using the given match.
         /// </summary>
         private static string ExtractTemplate(string articleText, Match m)
@@ -3012,32 +3007,43 @@ namespace WikiFunctions.Parse
             return "";
         }
 
-        private static readonly Dictionary<string, Regex> CachedGetTemplatesRegexes = new Dictionary<string, Regex>();
         /// <summary>
-        /// Finds every occurrence of a given template in article text.
+        /// Finds every occurrence of a given template in article text, excludes commented out/nowiki'd templates
         /// Handles nested templates and templates with embedded HTML comments correctly.
         /// </summary>
         /// <param name="articleText">Source text</param>
-        /// <param name="template">Name of template, can be regex without a group capture</param>
+        /// <param name="template">Name of template</param>
         /// <returns>List of matches found</returns>               
         public static List<Match> GetTemplates(string articleText, string template)
         {
+            return GetTemplates(articleText, Tools.NestedTemplateRegex(template));
+        }
+        
+        /// <summary>
+        /// Finds all templates in article text excluding commented out/nowiki'd templates.
+        /// Handles nested templates and templates with embedded HTML comments correctly.
+        /// </summary>
+        /// <param name="articleText">Source text</param>
+        /// <returns>List of matches found</returns>
+        public static List<Match> GetTemplates(string articleText)
+        {
+            return GetTemplates(articleText, WikiRegexes.NestedTemplates);
+        }
+        
+        /// <summary>
+        /// Finds all templates in article text excluding commented out/nowiki'd templates.
+        /// Handles nested templates and templates with embedded HTML comments correctly.
+        /// </summary>
+        /// <param name="articleText">Source text</param>
+        /// <param name="search">nested template regex to use</param>
+        /// <returns>List of matches found</returns>    
+        private static List<Match> GetTemplates(string articleText, Regex search)
+         {
             List<Match> templateMatches = new List<Match>();
             string articleTextAtStart = articleText;
             
             // replace with spaces any commented out templates etc., this means index of real matches remains the same as in actual article text
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.UnformattedText);
-
-            Regex search;
-
-            lock (CachedGetTemplatesRegexes)
-            {
-                if (!CachedGetTemplatesRegexes.TryGetValue(template, out search))
-                {
-                    search = Tools.NestedTemplateRegex(template);
-                    CachedGetTemplatesRegexes[template] = search;
-                }
-            }
 
             // return matches found in article text at start, provided they exist in cleaned text
             // i.e. don't include matches for commented out/nowiki'd templates
