@@ -1025,10 +1025,12 @@ namespace AutoWikiBrowser
                 }
                 else
                 {
-                    if (_unbalancedBracket < 0 && badCiteParameters.Count == 0 && deadLinks.Count == 0
-                       && ambigCiteDates.Count == 0)
-                        btnSave.Focus();
-                    else if (scrollToUnbalancedBracketsToolStripMenuItem.Checked)
+                    /*   if (_unbalancedBracket < 0 && badCiteParameters.Count == 0 && deadLinks.Count == 0
+                        && ambigCiteDates.Count == 0)
+                    {
+                        btnSave.Select();
+                    }
+                    else */if (scrollToUnbalancedBracketsToolStripMenuItem.Checked)
                     {
                         EditBoxTab.SelectedTab = tpEdit;
 
@@ -1045,7 +1047,9 @@ namespace AutoWikiBrowser
                             HighlightErrors(ambigCiteDates);
                     }
                 }
-
+                
+                //  tpStart.Select();
+                btnSave.Select();
                 StatusLabelText = "Ready to save";
             }
             else
@@ -1650,6 +1654,8 @@ window.scrollTo(0, diffTopY);
             Bleepflash();
             Focus();
             EnableButtons();
+            //    btnSave.BringToFront();
+            btnSave.Select();
         }
 
         /// <summary>
