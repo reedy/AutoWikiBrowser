@@ -326,7 +326,7 @@ namespace WikiFunctions
         public static readonly Regex NestedTemplates = new Regex(@"{{(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}}");
 
         /// <summary>
-        /// Matches templates: group 1 matches the names of templates
+        /// Matches templates: group 1 matches the names of templates. Not for templates including the template namespace prefix
         /// </summary>
         public static readonly Regex TemplateName = new Regex(@"{{\s*([^\|{}]+?)(?:\s*<!--.*?-->\s*)?\s*(?:\||}})");
 
@@ -791,7 +791,7 @@ namespace WikiFunctions
         public static readonly Regex Nowiki = new Regex("<nowiki>.*?</nowiki>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
-        /// matches template
+        /// matches templates, including templates with the template namespace prefix
         /// </summary>
         public static Regex TemplateCall;
 

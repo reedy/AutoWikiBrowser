@@ -214,10 +214,14 @@ Foo.JPEG
 now stubborn}}");
             RegexAssert.IsMatch(WikiRegexes.TemplateCall, @"{{now stubborn|abc|derf=gh|ijk}}");
             RegexAssert.IsMatch(WikiRegexes.TemplateCall, @"{{Template:now stubborn}}");
+            RegexAssert.IsMatch(WikiRegexes.TemplateCall, @"{{template:now stubborn}}");
             
             RegexAssert.NoMatch(WikiRegexes.TemplateCall, "[[Test]]");
             RegexAssert.NoMatch(WikiRegexes.TemplateCall, "Test");
             RegexAssert.NoMatch(WikiRegexes.TemplateCall, "[[Image:Test.jpg]]");
+            RegexAssert.IsMatch(WikiRegexes.TemplateCall, @"{{cite book|url=http://www.site.com
+|pages = 50{{ndash}}70
+|year=2009");
         }
 
         [Test]

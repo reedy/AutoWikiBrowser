@@ -2148,7 +2148,7 @@ Message: {2}
         }
         
         /// <summary>
-        /// Returns the name of the input template
+        /// Returns the name of the input template. Not for templates including the template namespace prefix
         /// </summary>
         /// <param name="template">the template call</param>
         /// <returns>the template name</returns>
