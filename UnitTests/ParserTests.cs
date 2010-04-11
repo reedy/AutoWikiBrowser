@@ -5515,7 +5515,7 @@ asdfasdf}} was here", "foo"));
 			//Non orphan categorised page
 			Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
 			Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));			
-			Assert.IsTrue(text.Contains("{{deadend|" + WikiRegexes.DateYearMonthParameter + @"}}
+			Assert.IsTrue(text.Contains("{{dead end|" + WikiRegexes.DateYearMonthParameter + @"}}
 
 "));
 

@@ -4568,7 +4568,7 @@ namespace WikiFunctions.Parse
             if (linkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(articleText) && Variables.LangCode != "sv")
             {
                 // add dead-end tag
-                articleText = "{{deadend|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
+                articleText = "{{dead end|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                 tagsAdded.Add("[[:Category:Dead-end pages|deadend]]");
             }
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#.7B.7BDeadend.7D.7D_gets_removed_from_categorized_pages
