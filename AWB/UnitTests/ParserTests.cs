@@ -5514,7 +5514,10 @@ asdfasdf}} was here", "foo"));
 			text = parser.Tagger(ShortText + ShortText, "Test", false, out noChange, ref summary);
 			//Non orphan categorised page
 			Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
-			Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+			Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));			
+			Assert.IsTrue(text.Contains("{{deadend|" + WikiRegexes.DateYearMonthParameter + @"}}
+
+"));
 
 			Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
 			Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
@@ -5560,6 +5563,9 @@ asdfasdf}} was here", "foo"));
 			//Stub, no existing stub tag. Needs all tags
 			Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
 			Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+			Assert.IsTrue(text.Contains("{{Wikify|" + WikiRegexes.DateYearMonthParameter + @"}}
+
+"));
 			Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text));
 			Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text));
 			Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
@@ -5578,6 +5584,9 @@ asdfasdf}} was here", "foo"));
 			
 			text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
 			Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+			Assert.IsTrue(text.Contains("{{orphan|" + WikiRegexes.DateYearMonthParameter + @"}}
+
+"));
 			
 			text = parser.Tagger(@"{{Infobox foo bar|great=yes}}" + ShortText, "Test", false, out noChange, ref summary);
 			Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));

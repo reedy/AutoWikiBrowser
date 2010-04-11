@@ -4568,7 +4568,7 @@ namespace WikiFunctions.Parse
             if (linkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(articleText) && Variables.LangCode != "sv")
             {
                 // add dead-end tag
-                articleText = "{{deadend|" + WikiRegexes.DateYearMonthParameter + @"}}\r\n\r\n" + articleText;
+                articleText = "{{deadend|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                 tagsAdded.Add("[[:Category:Dead-end pages|deadend]]");
             }
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#.7B.7BDeadend.7D.7D_gets_removed_from_categorized_pages
@@ -4582,7 +4582,7 @@ namespace WikiFunctions.Parse
             if (linkCount < 3 && ((linkCount / length) < 0.0025) && !WikiRegexes.Wikify.IsMatch(articleText))
             {
                 // add wikify tag
-                articleText = "{{Wikify|" + WikiRegexes.DateYearMonthParameter + @"}}\r\n\r\n" + articleText;
+                articleText = "{{Wikify|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                 tagsAdded.Add("[[WP:WFY|wikify]]");
             }
             else if (linkCount > 3 && ((linkCount / length) > 0.0025) &&
@@ -4651,7 +4651,7 @@ namespace WikiFunctions.Parse
             if (orphaned2 && !WikiRegexes.Orphan.IsMatch(articleText) && !WikiRegexes.OrphanArticleIssues.IsMatch(articleText)
                 && !WikiRegexes.Disambigs.IsMatch(articleText))
             {
-                articleText = "{{orphan|" + WikiRegexes.DateYearMonthParameter + @"}}\r\n\r\n" + articleText;
+                articleText = "{{orphan|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                 tagsAdded.Add("[[CAT:O|orphan]]");
             }
             else if (!orphaned && WikiRegexes.Orphan.IsMatch(articleText))
