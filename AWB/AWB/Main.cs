@@ -2160,8 +2160,8 @@ window.scrollTo(0, diffTopY);
 
         private void SetBotModeEnabled(bool enabled)
         {
-            label2.Enabled /*= chkSuppressTag.Enabled*/ = nudBotSpeed.Enabled
-                = lblAutoDelay.Enabled = btnResetNudges.Enabled = lblNudges.Enabled = chkNudge.Enabled
+            label2.Enabled = nudBotSpeed.Enabled = botEditsStop.Enabled
+                = lblAutoDelay.Enabled = lblbotEditsStop.Enabled = btnResetNudges.Enabled = lblNudges.Enabled = chkNudge.Enabled
                 = chkNudgeSkip.Enabled = chkNudge.Checked = chkShutdown.Enabled = enabled;
         }
 
@@ -2841,6 +2841,12 @@ window.scrollTo(0, diffTopY);
             }
 
             UpdateBotTimer();
+            
+            if(botEditsStop.Value > 0 && NumberOfEdits >= botEditsStop.Value)
+            {
+                Stop();
+                StatusLabelText = "Stopped: " + botEditsStop.Value.ToString() + " edits reached";
+            }
         }
 
         private void ShowTimer()
