@@ -273,6 +273,7 @@ namespace WikiFunctions.AWBSettings
         public int Newlines = 2;
 
         public int AutoDelay = 10;
+        public int BotMaxEdits = 0;
         public bool SupressTag = false;
         public bool RegexTypoFix = false;
     }
