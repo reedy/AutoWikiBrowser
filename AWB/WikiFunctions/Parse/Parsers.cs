@@ -4475,20 +4475,20 @@ namespace WikiFunctions.Parse
             string crapStripped = WikiRegexes.BulletedText.Replace(commentsStripped, "");
             int words = (Tools.WordCount(commentsStripped) + Tools.WordCount(crapStripped)) / 2;
 
-            // on en wiki, remove expand template when a stub template exists
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.7B.7Bexpand.7D.7D_when_a_stub_template_exists
-            if (Variables.LangCode == "en" && WikiRegexes.Stub.IsMatch(commentsStripped) &&
-                WikiRegexes.Expand.IsMatch(commentsStripped))
-            {
-                articleText = WikiRegexes.Expand.Replace(articleText, "");
-                tagsRemoved.Add("expand");
-            }
-
             // remove stub tags from long articles
             if ((words > StubMaxWordCount) && WikiRegexes.Stub.IsMatch(commentsStripped))
             {
                 articleText = WikiRegexes.Stub.Replace(articleText, StubChecker).Trim();
                 tagsRemoved.Add("stub");
+            }
+
+            // on en wiki, remove expand template when a stub template exists
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Remove_.7B.7Bexpand.7D.7D_when_a_stub_template_exists
+            if (Variables.LangCode == "en" && WikiRegexes.Stub.IsMatch(commentsStripped) &&
+                WikiRegexes.Expand.IsMatch(commentsStripped))
+            {
+                articleText = WikiRegexes.Expand.Replace(articleText, "");
+                tagsRemoved.Add("expand");
             }
 
             // do orphan tagging before template analysis for categorisation tags
