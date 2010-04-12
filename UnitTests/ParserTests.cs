@@ -2094,6 +2094,8 @@ journal=Crypt of Cthulhu |volume= 3|issue= 3|pages = 140–7-2}}";
 			
 			Assert.AreEqual(journalstart + @"pages = 8-4}}", Parsers.FixCitationTemplates(journalstart + @"pages = 8-4}}")); // hyphen
 			Assert.AreEqual(journalstart + @"pages = 8-8}}", Parsers.FixCitationTemplates(journalstart + @"pages = 8-8}}")); // hyphen
+			Assert.AreEqual(journalstart + @"pages = 8-4, 17-34}}", Parsers.FixCitationTemplates(journalstart + @"pages = 8-4, 17-34}}")); // hyphen
+			Assert.AreEqual(journalstart + @"pages = 17-34, 8-4}}", Parsers.FixCitationTemplates(journalstart + @"pages = 17-34, 8-4}}")); // hyphen
 			
 			// non-breaking hyphens to represent page sections rather than ranges
 			const string nochange2 = @"{{cite journal|first=Robert M.|last=Price|year=Candlemas 1984|title=Brian Lumley&mdash;Reanimator|
@@ -2102,6 +2104,14 @@ journal=Crypt of Cthulhu |volume= 3|issue= 3|pages = 140&#8209;7}}";
 			
 			Assert.AreEqual(nochange2, Parsers.FixCitationTemplates(nochange2));
 			Assert.AreEqual(nochange3, Parsers.FixCitationTemplates(nochange3));
+			
+			const string nochange4 = @"*{{cite book
+ | author = United States Navy
+ | pages = 4-13 to 4-17
+ | chapter = 4
+}}";
+			
+			Assert.AreEqual(nochange4, Parsers.FixCitationTemplates(nochange4), "two section links with word to");
 		}
 		
 		[Test]
@@ -5209,6 +5219,13 @@ asdfasdf}} was here", "foo"));
 			// no matches here
 			templates = Parsers.GetTemplates(@"now " + foo3 + @" there", "fo");
 			Assert.AreEqual(0, templates.Count);
+			
+			templates = Parsers.GetTemplates(@"{{test}}", "test");
+			Assert.AreEqual(1, templates.Count);
+			
+			templates = Parsers.GetTemplates(@"{{test}}
+", "test");
+			Assert.AreEqual(1, templates.Count);
 		}
 		
 		[Test]

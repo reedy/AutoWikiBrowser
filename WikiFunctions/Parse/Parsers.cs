@@ -2230,20 +2230,36 @@ namespace WikiFunctions.Parse
                 newValue = NoCommaAmericanDates.Replace(newValue, @"$1, $2");
 
                 // page range should have unspaced en-dash; validate that page is range not section link
-                while (CiteTemplatesPageRange.IsMatch(newValue))
+                string page = Tools.GetTemplateParameterValue(newValue, "page");
+                
+                if(page.Length == 0)
+                    page = Tools.GetTemplateParameterValue(newValue, "pages");
+                
+                bool pagerangesokay = true;
+                
+                if(page.Length > 2 && !page.Contains(" to "))
                 {
-                    Match pagerange = CiteTemplatesPageRange.Match(newValue);
-                    string page1 = pagerange.Groups[1].Value;
-                    string page2 = pagerange.Groups[2].Value;
+                    foreach (Match pagerange in CiteTemplatesPageRange.Matches(newValue))
+                    {
+                        string page1 = pagerange.Groups[1].Value;
+                        string page2 = pagerange.Groups[2].Value;
 
-                    // convert 350-2 into 350-352 etc.
-                    if (page1.Length > page2.Length)
-                        page2 = page1.Substring(0, page1.Length - page2.Length) + page2;
+                        // convert 350-2 into 350-352 etc.
+                        if (page1.Length > page2.Length)
+                            page2 = page1.Substring(0, page1.Length - page2.Length) + page2;
 
-                    if (Convert.ToInt32(page1) < Convert.ToInt32(page2) &&
-                        Convert.ToInt32(page2) - Convert.ToInt32(page1) < 999)
+                        if (Convert.ToInt32(page1) < Convert.ToInt32(page2) &&
+                            Convert.ToInt32(page2) - Convert.ToInt32(page1) < 999)
+                            pagerangesokay = true;
+                        else
+                        {
+                            pagerangesokay = false;
+                            break;
+                        }
+                    }
+                    
+                    if(pagerangesokay)
                         newValue = CiteTemplatesPageRange.Replace(newValue, @"$1–$2");
-                    else break;
                 }
 
                 // page range should use 'pages' parameter not 'page'
