@@ -2236,6 +2236,7 @@ namespace WikiFunctions.Parse
                     page = Tools.GetTemplateParameterValue(newValue, "pages");
                 
                 bool pagerangesokay = true;
+                Dictionary<int, int> PageRanges = new Dictionary<int, int>();
                 
                 if(page.Length > 2 && !page.Contains(" to "))
                 {
@@ -2248,14 +2249,29 @@ namespace WikiFunctions.Parse
                         if (page1.Length > page2.Length)
                             page2 = page1.Substring(0, page1.Length - page2.Length) + page2;
 
+                        // check a valid range with difference < 999
                         if (Convert.ToInt32(page1) < Convert.ToInt32(page2) &&
                             Convert.ToInt32(page2) - Convert.ToInt32(page1) < 999)
                             pagerangesokay = true;
                         else
-                        {
                             pagerangesokay = false;
-                            break;
+                        
+                        // check range doesn't overlap with another range found
+                        foreach (KeyValuePair<int, int> kvp in PageRanges)
+                        {
+                            // check if page 1 or page 2 within existing range
+                            if ((Convert.ToInt32(page1) >= kvp.Key && Convert.ToInt32(page1) <= kvp.Value) || (Convert.ToInt32(page2) >= kvp.Key && Convert.ToInt32(page2) <= kvp.Value))
+                            {
+                                pagerangesokay = false;
+                                break;
+                            }
                         }
+                        
+                        if(!pagerangesokay)
+                            break;
+                        
+                        // add to dictionary of ranges found
+                        PageRanges.Add(Convert.ToInt32(page1), Convert.ToInt32(page2));
                     }
                     
                     if(pagerangesokay)
