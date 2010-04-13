@@ -64,6 +64,41 @@ namespace UnitTests
         	
         	Assert.IsTrue(WikiFunctions.WikiRegexes.Stub.Matches(articleTextBack).Count == 2);
         }
+        
+        [Test]
+        public void InterwikiSpacing()
+        {
+            parser2.SortInterwikis = false;
+            parser2.Sorter.PossibleInterwikis = new System.Collections.Generic.List<string> { "de", "es", "fr", "it", "sv", "ar", "bs", "br" };
+            
+            const string correct = @"
+
+[[Category:Pub chains in the United Kingdom]]
+[[Category:Companies established in 1997]]
+
+[[de:Punch Taverns]]
+[[fr:Punch Taverns]]";
+            
+            Assert.AreEqual(correct, parser2.SortMetaData(correct, "test"));
+            Assert.AreEqual(correct, parser2.SortMetaData(@"
+
+[[Category:Pub chains in the United Kingdom]]
+[[Category:Companies established in 1997]]
+
+
+
+[[de:Punch Taverns]]
+[[fr:Punch Taverns]]", "test"));
+            
+            Assert.AreEqual(correct, parser2.SortMetaData(@"
+
+[[Category:Pub chains in the United Kingdom]]
+[[Category:Companies established in 1997]]
+[[de:Punch Taverns]]
+
+[[fr:Punch Taverns]]
+", "test"));
+        }
 
         [Test]
         public void MovePersonDataTests()
