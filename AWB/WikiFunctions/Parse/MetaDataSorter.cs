@@ -585,7 +585,7 @@ en, sq, ru
                     // check portal template NOT currently in 'see also'
                     if (!seeAlsoSectionString.Contains(portalTemplateFound.Trim()))
                     {
-                        articleText = articleText.Replace(portalTemplateFound + "\r\n", "");
+                        articleText = Regex.Replace(articleText, Regex.Escape(portalTemplateFound) + @"\s*\r\n", "");
                         articleText = SeeAlso.Replace(articleText, "$0" + "\r\n" + portalTemplateFound);
                     }
                 }

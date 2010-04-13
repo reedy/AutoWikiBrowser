@@ -227,6 +227,16 @@ some words", MetaDataSorter.MovePortalTemplates(@"text here
 text here2
 == see also ==
 some words"));
+            
+                        Assert.AreEqual(@"text here
+text here2
+== see also ==
+{{Portal|Football}}
+some words", MetaDataSorter.MovePortalTemplates(@"text here
+{{Portal|Football}}       
+text here2
+== see also ==
+some words"), "whitespace at end of line after portal template");
 
             Assert.AreEqual(@"text here
 text here2
