@@ -559,15 +559,17 @@ namespace WikiFunctions.API
             Reset();
 
             // action=query&prop=info|revisions&intoken=edit&titles=Main%20Page&rvprop=timestamp|user|comment|content
-            string result = HttpGet(new[,] { 
-                { "action", "query" },
-                { "prop", "info|revisions" },
-                { "intoken","edit" },
-                { "titles", title },
-                { "inprop", "protection|watched" },
-                { "rvprop", "content|timestamp" } // timestamp|user|comment|
-            },
-            ActionOptions.All);
+            string result = HttpGet(new[,]
+                                        {
+                                            {"action", "query"},
+                                            {"prop", "info|revisions"},
+                                            {"intoken", "edit"},
+                                            {"titles", title},
+                                            {"inprop", "protection|watched"},
+                                            {"rvprop", "content|timestamp"}, // timestamp|user|comment|
+                                            {"redirects", null}
+                                        },
+                                    ActionOptions.All);
 
             CheckForErrors(result, "query");
 
