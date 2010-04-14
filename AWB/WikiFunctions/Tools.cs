@@ -1882,16 +1882,23 @@ Message: {2}
         }
 
         /// <summary>
-        /// 
+        /// Replaces the values of all matches with spaces
         /// </summary>
-        /// <param name="input"></param>
-        /// <param name="matches"></param>
-        /// <returns></returns>
+        /// <param name="input">The article text to update</param>
+        /// <param name="matches">Collection of matches to replace with spaces</param>
+        /// <returns>The updated article text</returns>
         public static string ReplaceWithSpaces(string input, MatchCollection matches)
         {
             return ReplaceWith(input, matches, ' ');
         }
         
+        /// <summary>
+        /// Replaces the values of all matches with a given character
+        /// </summary>
+        /// <param name="input">The article text to update</param>
+        /// <param name="matches">Collection of matches to replace with spaces</param>
+        /// <param name="rwith">The character to use</param>
+        /// <returns>The updated article text</returns>
         public static string ReplaceWith(string input, MatchCollection matches, char rwith)
         {
             StringBuilder sb = new StringBuilder(input.Length);
@@ -1905,16 +1912,25 @@ Message: {2}
         }
 
         /// <summary>
-        /// Replaces all matches of a given regex in a string with space character
+        /// Replaces all matches of a given regex in a string with space characters
+        /// such that the length of the string remains the same
         /// </summary>
-        /// <param name="input"></param>
-        /// <param name="regex"></param>
-        /// <returns></returns>
+        /// <param name="input">The article text to update</param>
+        /// <param name="regex">The regex to replace all matches of</param>
+        /// <returns>The updated article text</returns>
         public static string ReplaceWithSpaces(string input, Regex regex)
         {
             return ReplaceWithSpaces(input, regex.Matches(input));
         }
         
+        /// <summary>
+        /// Replaces all matches of a given regex in a string with a character
+        /// such that the length of the string remains the same
+        /// </summary>
+        /// <param name="input">The article text to update</param>
+        /// <param name="regex">The regex to replace all matches of</param>
+        /// <param name="rwith">The character to use</param>
+        /// <returns>The updated article text</returns>
         public static string ReplaceWith(string input, Regex regex, char rwith)
         {
             return ReplaceWith(input, regex.Matches(input), rwith);
@@ -2106,7 +2122,7 @@ Message: {2}
         /// <returns>The updated template call</returns>
         public static string UpdateTemplateParameterValue(string template, string parameter, string newvalue)
         {
-            // HACK we are allowing matching on tilde character around parameter name to represent cleaned HTML comment, so may falsely match 
+            // HACK we are allowing matching on tilde character around parameter name to represent cleaned HTML comment, so may falsely match
             // on stray templates with stray tildes. Will that ever happen?
             Regex param = new Regex(@"\|[\s~]*" + Regex.Escape(parameter) + @"[\s~]*=\s*(.*?)\s*(?=(?:\r\n)?(?:\||}}$))", RegexOptions.Singleline);
             
