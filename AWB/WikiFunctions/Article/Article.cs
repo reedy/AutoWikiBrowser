@@ -1121,6 +1121,9 @@ namespace WikiFunctions
 
             FixLinks(skip.SkipNoBadLink);
             Variables.Profiler.Profile("FixLinks");
+            
+            AWBChangeArticleText("Simplify links", Parsers.SimplifyLinks(ArticleText), true);
+            Variables.Profiler.Profile("SimplifyLinks");
 
             //AWBChangeArticleText("Remove duplicate wikilink", parsers.RemoveDuplicateWikiLinks(articleText), true);
 
