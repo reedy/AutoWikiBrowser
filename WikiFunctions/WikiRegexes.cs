@@ -633,9 +633,9 @@ namespace WikiFunctions
         public static readonly Regex DeathDateAndAge = new Regex(@"{{\s*[Dd](?:eath[ -]date and age|da)\s*\|(?:[^{}]*?\|)?\s*([12]\d{3})\s*\|[^{}]+?\|\s*([12]\d{3})\s*\|");
 
         /// <summary>
-        /// Matches {{Link FA|xxx}}, {{Link GA|xxx}}
+        /// Matches {{Link FA|xxx}}, {{Link GA|xxx}}, {{Link FL|xxx}}
         /// </summary>
-        public static readonly Regex LinkFGAs = new Regex(@"{{\s*[Ll]ink [FG]A\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
+        public static readonly Regex LinkFGAs = new Regex(@"{{\s*[Ll]ink (?:[FG]A|FL)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
 
         /// <summary>
         /// Matches {{Lien BA}}, {{Lien AdQ}}, {{Lien PdQ}} in French
