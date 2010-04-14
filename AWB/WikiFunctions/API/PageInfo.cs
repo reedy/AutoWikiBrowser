@@ -34,7 +34,37 @@ namespace WikiFunctions.API
         internal PageInfo(string xml)
         {
             XmlReader xr = XmlReader.Create(new StringReader(xml));
-            if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
+
+            string normalisedFrom = null, redirectFrom = null;
+            bool exit = false;
+            while (xr.Read() && !exit)
+            {
+                switch (xr.Name)
+                {
+                    case "r":
+                        redirectFrom = xr.GetAttribute("from");
+                        continue;
+                    case "n":
+                        normalisedFrom = xr.GetAttribute("from");
+                        continue;
+                    case "pages":
+                        if (!xr.ReadToFollowing("page"))
+                            throw new Exception("Cannot find <page> element");
+
+                        exit = true;
+                        break;
+
+                }
+            }
+
+            if (!string.IsNullOrEmpty(normalisedFrom))
+            {
+                OriginalTitle = normalisedFrom;
+            }
+            else if (!string.IsNullOrEmpty(redirectFrom))
+            {
+                OriginalTitle = redirectFrom;
+            }
 
             Exists = (xr.GetAttribute("missing") == null); //if null, page exists
             IsWatched = (xr.GetAttribute("watched") != null);
@@ -74,19 +104,25 @@ namespace WikiFunctions.API
         }
 
         /// <summary>
-        /// 
+        /// Title of the Page
         /// </summary>
         public string Title
         { get; private set; }
-        
+
         /// <summary>
-        /// 
+        /// Original title (before redirects/normalisation) of the Page
+        /// </summary>
+        public string OriginalTitle
+        { get; private set; }
+
+        /// <summary>
+        /// Text of the Page
         /// </summary>
         public string Text
         { get; private set; }
 
         /// <summary>
-        /// 
+        /// Whether the page exists or not
         /// </summary>
         public bool Exists
         { get; private set; }
@@ -122,19 +158,19 @@ namespace WikiFunctions.API
         { get; private set; }
 
         /// <summary>
-        /// 
+        /// String of any edit protection applied to the page
         /// </summary>
         public string EditProtection
         { get; private set; }
 
         /// <summary>
-        /// 
+        /// String of any move protection applied to the page
         /// </summary>
         public string MoveProtection
         { get; private set; }
 
         /// <summary>
-        /// 
+        /// Whether the current user is watching this page
         /// </summary>
         public bool IsWatched
         { get; set; }
