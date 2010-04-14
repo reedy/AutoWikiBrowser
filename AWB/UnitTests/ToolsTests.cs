@@ -90,7 +90,7 @@ namespace UnitTests
             Assert.AreEqual(@" abc", Tools.CaseInsensitive(" abc"));
             Assert.AreEqual("", Tools.CaseInsensitive(""));
             Assert.AreEqual("123", Tools.CaseInsensitive("123"));
-            Assert.AreEqual("-", Tools.CaseInsensitive("-"));            
+            Assert.AreEqual("-", Tools.CaseInsensitive("-"));
             Assert.AreEqual(@"[Aa]bc", Tools.CaseInsensitive(@"[Aa]bc"));
 
             Regex r = new Regex(Tools.CaseInsensitive("test"));
@@ -143,20 +143,20 @@ namespace UnitTests
         [Test]
         public void TurnFirstToUpper()
         {
-        	Assert.AreEqual("", Tools.TurnFirstToUpper(""));
-        	Assert.AreEqual("ASDA", Tools.TurnFirstToUpper("ASDA"));
-        	Assert.AreEqual("ASDA", Tools.TurnFirstToUpper("aSDA"));
-        	Assert.AreEqual("Test", Tools.TurnFirstToUpper("test"));
-        	Assert.AreEqual("%test", Tools.TurnFirstToUpper("%test"));
-        	Assert.AreEqual("Ыыыы", Tools.TurnFirstToUpper("ыыыы"));
+            Assert.AreEqual("", Tools.TurnFirstToUpper(""));
+            Assert.AreEqual("ASDA", Tools.TurnFirstToUpper("ASDA"));
+            Assert.AreEqual("ASDA", Tools.TurnFirstToUpper("aSDA"));
+            Assert.AreEqual("Test", Tools.TurnFirstToUpper("test"));
+            Assert.AreEqual("%test", Tools.TurnFirstToUpper("%test"));
+            Assert.AreEqual("Ыыыы", Tools.TurnFirstToUpper("ыыыы"));
         }
         
         [Test, Ignore("Too slow")]
         public void TurnFirstToUpper2()
         {
-        	//Variables.SetProject("en", ProjectEnum.wiktionary); // TODO --cannot change project in this way in unit tests
-        	Assert.AreEqual("test", Tools.TurnFirstToUpper("test"));
-        	Assert.AreEqual("Test", Tools.TurnFirstToUpper("Test"));
+            //Variables.SetProject("en", ProjectEnum.wiktionary); // TODO --cannot change project in this way in unit tests
+            Assert.AreEqual("test", Tools.TurnFirstToUpper("test"));
+            Assert.AreEqual("Test", Tools.TurnFirstToUpper("Test"));
         }
 
         [Test]
@@ -176,7 +176,7 @@ namespace UnitTests
         {
             Assert.AreEqual(@"Foo", Tools.TitleCaseEN("FOO"));
             Assert.AreEqual(@"Mastermind's Interrogation", Tools.TitleCaseEN("mastermind's interrogation"));
-              
+            
             Assert.AreEqual(@"Foo", Tools.TitleCaseEN(" FOO "));
             Assert.AreEqual(@"Foo Bar", Tools.TitleCaseEN("FOO BAR"));
             Assert.AreEqual(@"Foo-Bar", Tools.TitleCaseEN("FOO-BAR"));
@@ -844,10 +844,10 @@ John", "*"));
 |title=abc | location=London}}", Tools.AppendParameterToTemplate(@"{{cite
 |title=abc }}", "location", "London"), "insufficient newlines – space used");
             
-             Assert.AreEqual(@"{{cite
-|title=abc 
+            Assert.AreEqual(@"{{cite
+|title=abc
 |date=2009-12-12 | location=London}}", Tools.AppendParameterToTemplate(@"{{cite
-|title=abc 
+|title=abc
 |date=2009-12-12 }}", "location", "London"), "insufficient newlines – space used");
             
             Assert.AreEqual(@"{{cite
@@ -882,14 +882,20 @@ John", "*"));
 | param1=here
 |param=there}}", "param1"));
             Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite|param1=here|foo=bar}}", "param1"));
+            Assert.AreEqual("[[1892]]-[[1893]]", Tools.GetTemplateParameterValue(@"{{cite|param1 = [[1892]]-[[1893]]}}", "param1"));
             
             Assert.AreEqual("here {{t1|foo|bar}} there", Tools.GetTemplateParameterValue(@"{{cite|param1=here {{t1|foo|bar}} there|foo=bar}}", "param1"));
+            Assert.AreEqual("here <!--comm|bar--> there", Tools.GetTemplateParameterValue(@"{{cite|param1=here <!--comm|bar--> there|foo=bar}}", "param1"));
             
             Assert.AreEqual(@"here [[piped|link]]", Tools.GetTemplateParameterValue(@"{{cite|param1 = here [[piped|link]]}}", "param1"));
             Assert.AreEqual(@"[[piped|link]], [[another|piped link]] here", Tools.GetTemplateParameterValue(@"{{cite|param1 = [[piped|link]], [[another|piped link]] here}}", "param1"));
             
             // not found
             Assert.AreEqual("", Tools.GetTemplateParameterValue(@"{{cite|param2=here}}", "param1"));
+            
+            Assert.AreEqual("", Tools.GetTemplateParameterValue(@"{{cite|param1 {{test}} =here}}", "param1"));
+            Assert.AreEqual("", Tools.GetTemplateParameterValue(@"{{cite|param1 [[test|2]] =here}}", "param1"));
+            Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite|param1 <!--comm--> =here}}", "param1"));
             
             // null value
             Assert.AreEqual("", Tools.GetTemplateParameterValue(@"{{cite|param1= }}", "param1"));
@@ -898,6 +904,9 @@ John", "*"));
             Assert.AreEqual("", Tools.GetTemplateParameterValue(@"{{cite|<!--param1=foo-->other=yes }}", "param1"));
             Assert.AreEqual("yes", Tools.GetTemplateParameterValue(@"{{cite|<!--param1=foo-->other=yes }}", "other"));
             Assert.AreEqual("yes", Tools.GetTemplateParameterValue(@"{{cite|other<!--param1=foo-->=yes }}", "other"));
+            
+            Assert.AreEqual("[[1892]]-[[1893]]", Tools.GetTemplateParameterValue(@"{{cite|param1<!--comm--> = [[1892]]-[[1893]]}}", "param1"));
+            Assert.AreEqual("[[1892]]-[[1893]]", Tools.GetTemplateParameterValue(@"{{cite|<!--comm-->param1 = [[1892]]-[[1893]]}}", "param1"));
             
             // returns first value
             Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite|param1=here|foo=bar|param1=there}}", "param1"));
@@ -916,8 +925,8 @@ John", "*"));
 |param2=other}}", "param1"));
             Assert.AreEqual(@"here <nowiki>|</nowiki> there", Tools.GetTemplateParameterValue(@"{{cite|param1 = here <nowiki>|</nowiki> there}}", "param1"));
             Assert.AreEqual(@"here <nowiki>|</nowiki> there", Tools.GetTemplateParameterValue(@"{{cite|param1 = here <nowiki>|</nowiki> there|parae=aaa}}", "param1"));
-        
-        string ItFilm = @"{{Film
+            
+            string ItFilm = @"{{Film
 |titoloitaliano= Matrix
 |immagine= [[image:Matrix.png|200px|Il codice di Matrix]]
 |didascalia= Il codice di Matrix
@@ -927,11 +936,11 @@ John", "*"));
 |durata= 136 min
 |tipocolore= colore
 |tipoaudio= sonoro}}";
-        
-        Assert.AreEqual(@"[[1999]]", Tools.GetTemplateParameterValue(ItFilm, "annoproduzione"));
-        Assert.AreEqual(@"[[1999]", Tools.GetTemplateParameterValue(ItFilm.Replace(@"[[1999]]", @"[[1999]"), "annoproduzione"));
-        Assert.AreEqual(@"[[1999", Tools.GetTemplateParameterValue(ItFilm.Replace(@"[[1999]]", @"[[1999"), "annoproduzione"));
-        Assert.AreEqual(@"1999]]", Tools.GetTemplateParameterValue(ItFilm.Replace(@"[[1999]]", @"1999]]"), "annoproduzione"));
+            
+            Assert.AreEqual(@"[[1999]]", Tools.GetTemplateParameterValue(ItFilm, "annoproduzione"));
+            Assert.AreEqual(@"[[1999]", Tools.GetTemplateParameterValue(ItFilm.Replace(@"[[1999]]", @"[[1999]"), "annoproduzione"));
+            Assert.AreEqual(@"[[1999", Tools.GetTemplateParameterValue(ItFilm.Replace(@"[[1999]]", @"[[1999"), "annoproduzione"));
+            Assert.AreEqual(@"1999]]", Tools.GetTemplateParameterValue(ItFilm.Replace(@"[[1999]]", @"1999]]"), "annoproduzione"));
         }
         
         [Test]
@@ -967,21 +976,25 @@ John", "*"));
             Assert.AreEqual(returned, Tools.GetTemplateParametersValues(template, parameters));
             
             Assert.IsTrue(returned.Count.Equals(3), "zero length string added to return list if parameter not found");
-                
+            
             Assert.AreEqual(string.Join("", returned.ToArray()), "abc1 May 2009");
         }
         
         [Test]
         public void RenameTemplateParameter()
         {
-        	Assert.AreEqual(@"{{cite |param1=bar|param3=great}}", Tools.RenameTemplateParameter(@"{{cite |param1=bar|param2=great}}", "param2", "param3"));
-        	Assert.AreEqual(@"{{cite |param1=bar| param3 = great}}", Tools.RenameTemplateParameter(@"{{cite |param1=bar| param2 = great}}", "param2", "param3"));
-        	Assert.AreEqual(@"{{cite
+            Assert.AreEqual(@"{{cite |param1=bar|param3=great}}", Tools.RenameTemplateParameter(@"{{cite |param1=bar|param2=great}}", "param2", "param3"));
+            Assert.AreEqual(@"{{cite |param1=bar| param3 = great}}", Tools.RenameTemplateParameter(@"{{cite |param1=bar| param2 = great}}", "param2", "param3"));
+            Assert.AreEqual(@"{{cite
 |param1=bar
 |param3=great}}", Tools.RenameTemplateParameter(@"{{cite
 |param1=bar
 |param2=great}}", "param2", "param3"));
-        	Assert.AreEqual(@"{{cite |param1=bar|param3=great|param=here}}", Tools.RenameTemplateParameter(@"{{cite |param1=bar|param2=great|param=here}}", "param2", "param3"));
+            Assert.AreEqual(@"{{cite |param1=bar|param3=great|param=here}}", Tools.RenameTemplateParameter(@"{{cite |param1=bar|param2=great|param=here}}", "param2", "param3"));
+            
+            // comment handling
+            Assert.AreEqual(@"{{cite |param1=bar|<!--comm-->param3=great}}", Tools.RenameTemplateParameter(@"{{cite |param1=bar|<!--comm-->param2=great}}", "param2", "param3"));
+            Assert.AreEqual(@"{{cite |param1=bar|param3<!--comm-->=great}}", Tools.RenameTemplateParameter(@"{{cite |param1=bar|param2<!--comm-->=great}}", "param2", "param3"));
         }
         
         [Test]
@@ -1003,30 +1016,30 @@ John", "*"));
         [Test]
         public void RenameTemplateArticleText()
         {
-        	string correct = @"Now {{bar}} was {{bar|here}} there", correct2 = @"Now {{bar}} was {{bar
+            string correct = @"Now {{bar}} was {{bar|here}} there", correct2 = @"Now {{bar}} was {{bar
 |here
-|other}} there", correct3= @"Now {{bar man}} was {{bar man|here}} there", 
-        	correct4= @"Now {{bar man<!--comm-->}} was {{bar man<!--comm-->|here}} there";
-        	Assert.AreEqual(correct, Tools.RenameTemplate(@"Now {{foo}} was {{foo|here}} there", "foo", "bar"));
-        	Assert.AreEqual(correct, Tools.RenameTemplate(@"Now {{Foo}} was {{foo|here}} there", "Foo", "bar"));
-        	
-        	Assert.AreEqual(@"Now {{bar}} was {{ bar |here}} there", Tools.RenameTemplate(@"Now {{foo}} was {{ foo |here}} there", "foo", "bar"));
-        	
-        	Assert.AreEqual(correct2, Tools.RenameTemplate(@"Now {{foo}} was {{foo
+|other}} there", correct3= @"Now {{bar man}} was {{bar man|here}} there",
+            correct4= @"Now {{bar man<!--comm-->}} was {{bar man<!--comm-->|here}} there";
+            Assert.AreEqual(correct, Tools.RenameTemplate(@"Now {{foo}} was {{foo|here}} there", "foo", "bar"));
+            Assert.AreEqual(correct, Tools.RenameTemplate(@"Now {{Foo}} was {{foo|here}} there", "Foo", "bar"));
+            
+            Assert.AreEqual(@"Now {{bar}} was {{ bar |here}} there", Tools.RenameTemplate(@"Now {{foo}} was {{ foo |here}} there", "foo", "bar"));
+            
+            Assert.AreEqual(correct2, Tools.RenameTemplate(@"Now {{foo}} was {{foo
 |here
 |other}} there", "Foo", "bar"));
-        	
-        	Assert.AreEqual(correct, Tools.RenameTemplate(correct, "bar2", "foo"));
-        	
-        	Assert.AreEqual(correct3, Tools.RenameTemplate(@"Now {{foo man}} was {{foo man|here}} there", "foo man", "bar man"));
-        	Assert.AreEqual(correct3, Tools.RenameTemplate(@"Now {{foo man}} was {{foo man|here}} there", "Foo man", "bar man"));
-        	Assert.AreEqual(correct3, Tools.RenameTemplate(@"Now {{foo_man}} was {{foo man|here}} there", "Foo man", "bar man"));
-        	
-        	// comment handling
-        	Assert.AreEqual(correct4, Tools.RenameTemplate(@"Now {{foo_man<!--comm-->}} was {{foo man<!--comm-->|here}} there", "Foo man", "bar man"));
-        	
-        	// handles invalid template names gracefully
-        	Assert.AreEqual(correct, Tools.RenameTemplate(correct, @"foo(", "bar"));
+            
+            Assert.AreEqual(correct, Tools.RenameTemplate(correct, "bar2", "foo"));
+            
+            Assert.AreEqual(correct3, Tools.RenameTemplate(@"Now {{foo man}} was {{foo man|here}} there", "foo man", "bar man"));
+            Assert.AreEqual(correct3, Tools.RenameTemplate(@"Now {{foo man}} was {{foo man|here}} there", "Foo man", "bar man"));
+            Assert.AreEqual(correct3, Tools.RenameTemplate(@"Now {{foo_man}} was {{foo man|here}} there", "Foo man", "bar man"));
+            
+            // comment handling
+            Assert.AreEqual(correct4, Tools.RenameTemplate(@"Now {{foo_man<!--comm-->}} was {{foo man<!--comm-->|here}} there", "Foo man", "bar man"));
+            
+            // handles invalid template names gracefully
+            Assert.AreEqual(correct, Tools.RenameTemplate(correct, @"foo(", "bar"));
         }
         
         [Test]
@@ -1059,6 +1072,12 @@ John", "*"));
             Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here |year=2008 |dateformat=}}", "cite web", "dateformat"));
             Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here |year=2008 | dateformat =   mdy}}", "cite web", "dateformat"));
             Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here | dateformat=mdy|year=2008 }}", "cite web", "dateformat"));
+            
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here |year=2008 |dateformat=<!--comm-->mdy}}", "cite web", "dateformat"));
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here |year=2008 |dateformat=mdy<!--comm-->}}", "cite web", "dateformat"));
+            
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here |year=2008 |dateformat=[[200]]-[[288]]}}", "cite web", "dateformat"));
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here |year=2008 |dateformat = [[200]]-[[288]]}}", "cite web", "dateformat"));
             
             Assert.AreEqual(@"{{cite web<!--foo-->|url=http://www.site.com |title=here |year=2008 }}",
                             Tools.RemoveTemplateParameter(@"{{cite web<!--foo-->|url=http://www.site.com |title=here |year=2008 |dateformat=mdy}}", "cite web", "dateformat"));
@@ -1106,7 +1125,7 @@ John", "*"));
             
             // parameter name case sensitive
             string nochange = @"{{cite web|url=http://www.site.com |title=here |year=2008 |dateformat=mdy}}";
-            Assert.AreEqual(nochange, Tools.RemoveTemplateParameter(nochange, "Dateformat")); 
+            Assert.AreEqual(nochange, Tools.RemoveTemplateParameter(nochange, "Dateformat"));
         }
         
         [Test]
@@ -1135,9 +1154,30 @@ dateformat=mdy}}", "cite web", "dateformat"));
         public void UpdateTemplateParameterValue()
         {
             Assert.AreEqual(@"{{foo|param1=valueafter}}", Tools.UpdateTemplateParameterValue(@"{{foo|param1=before}}", "param1", "valueafter"));
-            Assert.AreEqual(@"{{foo|param1= valueafter }}", Tools.UpdateTemplateParameterValue(@"{{foo|param1= before }}", "param1", "valueafter"));
+            Assert.AreEqual(@"{{foo|param1= valueafter }}", Tools.UpdateTemplateParameterValue(@"{{foo|param1= before }}", "param1", "valueafter"), "whitepsace kept");
+            
+            Assert.AreEqual(@"{{foo
+|param1=valueafter
+|param2=okay}}", Tools.UpdateTemplateParameterValue(@"{{foo
+|param1=before
+|param2=okay}}", "param1", "valueafter"), "existing newline kept");
+            
+            Assert.AreEqual(@"{{foo
+|param1= valueafter 
+|param2=okay}}", Tools.UpdateTemplateParameterValue(@"{{foo
+|param1= before 
+|param2=okay}}", "param1", "valueafter"), "existing newline & whitespace kept");
+            
+            Assert.AreEqual(@"{{foo|param1<!--comm-->= valueafter }}", Tools.UpdateTemplateParameterValue(@"{{foo|param1<!--comm-->= before }}", "param1", "valueafter"));
+            Assert.AreEqual(@"{{foo|<!--comm-->param1= valueafter }}", Tools.UpdateTemplateParameterValue(@"{{foo|<!--comm-->param1= before }}", "param1", "valueafter"));
+            
+            Assert.AreEqual(@"{{foo|param1=[[1891]]–[[1892]]}}", Tools.UpdateTemplateParameterValue(@"{{foo|param1=[[1891]]-[[1892]]}}", "param1", "[[1891]]–[[1892]]"));
+            Assert.AreEqual(@"{{foo|param1= [[1891]]–[[1892]] }}", Tools.UpdateTemplateParameterValue(@"{{foo|param1= [[1891]]-[[1892]] }}", "param1", "[[1891]]–[[1892]]"));
             
             Assert.AreEqual(@"{{foo|param1=valueafter|param2=before}}", Tools.UpdateTemplateParameterValue(@"{{foo|param1=before|param2=before}}", "param1", "valueafter"));
+            
+            Assert.AreEqual(@"{{foo|param1=valueafter<!--comm-->|param2=before}}", Tools.UpdateTemplateParameterValue(@"{{foo|param1=before<!--comm-->|param2=before}}", "param1", "valueafter<!--comm-->"));
+            Assert.AreEqual(@"{{foo|param1=<!--comm-->valueafter|param2=before}}", Tools.UpdateTemplateParameterValue(@"{{foo|param1=<!--comm-->before|param2=before}}", "param1", "<!--comm-->valueafter"));
             
             // parameter not used – no change
             Assert.AreEqual(@"{{foo|param1=before}}", Tools.UpdateTemplateParameterValue(@"{{foo|param1=before}}", "param2", "valueafter"));
@@ -1160,16 +1200,16 @@ dateformat=mdy}}", "cite web", "dateformat"));
             
             // old value null – updated correctly
             Assert.AreEqual(@"{{foo|param1=valueafter}}", Tools.SetTemplateParameterValue(@"{{foo|param1=}}", "param1", "valueafter"));
-        
-        string bug1 = @"{{Infobox college coach|
-| Name          = Bill 
+            
+            string bug1 = @"{{Infobox college coach|
+| Name          = Bill
 | CurrentRecord = 202–43 ({{Winning percentage|202|43}})
 | OverallRecord = 409-148 ({{Winning percentage|409|148}})
 | Player        = *
-| CollegeHOFID  = 
-| BBallHOF      = 
+| CollegeHOFID  =
+| BBallHOF      =
 }}}";
-        Assert.AreEqual(bug1.Replace(@"409-148 ({{Winning percentage", @"409–148 ({{Winning percentage"), Tools.SetTemplateParameterValue(bug1, "OverallRecord", @"409–148 ({{Winning percentage|409|148}})"));
+            Assert.AreEqual(bug1.Replace(@"409-148 ({{Winning percentage", @"409–148 ({{Winning percentage"), Tools.SetTemplateParameterValue(bug1, "OverallRecord", @"409–148 ({{Winning percentage|409|148}})"));
         }
         
         [Test]
@@ -1200,7 +1240,7 @@ foo<!--comm-->|title=abc
 }}"));
             Assert.IsTrue(FooTemplate.IsMatch(@"{{foo|title={{abc}}}}"));
             Assert.IsTrue(FooTemplate.IsMatch(@"{{foo|title={{abc}}|last=Fred}}"), "matches nested templates");
-             Assert.IsTrue(FooTemplate.IsMatch(@"{{foo|
+            Assert.IsTrue(FooTemplate.IsMatch(@"{{foo|
 title={{abc|fdkjdsfjk=fdaskjlfds
 |fdof=affdsa}}
 |last=Fred}}"), "matches nested parameterised templates");
@@ -1279,7 +1319,7 @@ foo<!--comm-->|title=abc
         {
             List<string> ListOfTemplates = new List<string>(@"Foo,bar".Split(','));
             
-            Regex MultipleTemplates = Tools.NestedTemplateRegex(ListOfTemplates);            
+            Regex MultipleTemplates = Tools.NestedTemplateRegex(ListOfTemplates);
             
             Assert.AreEqual(MultipleTemplates.Match(@"{{foo}}").Groups[2].Value, @"foo");
             Assert.AreEqual(MultipleTemplates.Match(@"{{ Foo}}").Groups[2].Value, @"Foo");

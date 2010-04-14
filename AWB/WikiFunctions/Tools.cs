@@ -1215,7 +1215,7 @@ namespace WikiFunctions
         public static string HTMLListToWiki(string text, string bullet)
         {
             text = text.Replace("\r\n\r\n", "\r\n");
-         //   text = text.Replace("\n\n", "\n");
+            //   text = text.Replace("\n\n", "\n");
             text = Regex.Replace(text, "<br ?/?>", "", RegexOptions.IgnoreCase);
             text = Regex.Replace(text, "</?(ol|ul|li)>", "", RegexOptions.IgnoreCase);
             text = Regex.Replace(text, "^</?(ol|ul|li)>\r\n", "", RegexOptions.Multiline | RegexOptions.IgnoreCase);
@@ -1889,11 +1889,16 @@ Message: {2}
         /// <returns></returns>
         public static string ReplaceWithSpaces(string input, MatchCollection matches)
         {
+            return ReplaceWith(input, matches, ' ');
+        }
+        
+        public static string ReplaceWith(string input, MatchCollection matches, char rwith)
+        {
             StringBuilder sb = new StringBuilder(input.Length);
             foreach (Match m in matches)
             {
                 sb.Append(input, sb.Length, m.Index - sb.Length);
-                sb.Append(' ', m.Length);
+                sb.Append(rwith, m.Length);
             }
             sb.Append(input, sb.Length, input.Length - sb.Length);
             return sb.ToString();
@@ -1909,6 +1914,11 @@ Message: {2}
         {
             return ReplaceWithSpaces(input, regex.Matches(input));
         }
+        
+        public static string ReplaceWith(string input, Regex regex, char rwith)
+        {
+            return ReplaceWith(input, regex.Matches(input), rwith);
+        }
 
         // ensure dates returned are English.
         private static readonly System.Globalization.CultureInfo English = new System.Globalization.CultureInfo("en-GB");
@@ -1921,29 +1931,29 @@ Message: {2}
         /// <returns>The English-language (American or International) date</returns>
         public static string ISOToENDate(string ISODate, Parsers.DateLocale locale)
         {
-        	if (Variables.LangCode != "en")
-        		return ISODate;
+            if (Variables.LangCode != "en")
+                return ISODate;
 
-        	DateTime dt;
-        	
-        	try
-        	{
-        		dt = Convert.ToDateTime(ISODate);
-        	}
-        	catch
-        	{
-        		return ISODate;
-        	}
+            DateTime dt;
+            
+            try
+            {
+                dt = Convert.ToDateTime(ISODate);
+            }
+            catch
+            {
+                return ISODate;
+            }
 
-        	switch (locale)
-        	{
-        	    case Parsers.DateLocale.American:
-        	        return dt.ToString("MMMM d, yyyy", English);
-        	    case Parsers.DateLocale.International:
-        	        return dt.ToString("d MMMM yyyy", English);
-        	    default:
-        	        return ISODate;
-        	}
+            switch (locale)
+            {
+                case Parsers.DateLocale.American:
+                    return dt.ToString("MMMM d, yyyy", English);
+                case Parsers.DateLocale.International:
+                    return dt.ToString("d MMMM yyyy", English);
+                default:
+                    return ISODate;
+            }
         }
         
         /// <summary>
@@ -1985,14 +1995,14 @@ Message: {2}
         /// <returns>The trimmed parameter value, or a null string if the parameter is not found</returns>
         public static string GetTemplateParameterValue(string template, string parameter)
         {
-            Regex param = new Regex(@"\|\s*(?:<!--.*?-->)?" + Regex.Escape(parameter) + @"\s*(?:<!--.*?-->\s*)?=(.*?)(?=\||}}$)", RegexOptions.Singleline);
+            Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=(.*?)(?=\||}}$)", RegexOptions.Singleline);
             
             string pipecleanedtemplate = PipeCleanedTemplate(template);
             
             Match m = param.Match(pipecleanedtemplate);
             
             if(m.Success)
-            {                
+            {
                 Group paramValue = param.Match(pipecleanedtemplate).Groups[1];
                 
                 return template.Substring(paramValue.Index, paramValue.Length).Trim();
@@ -2006,7 +2016,7 @@ Message: {2}
             List<string> returnedvalues = new List<string>();
 
             foreach(string param in parameters)
-            {                
+            {
                 returnedvalues.Add(GetTemplateParameterValue(template, param));
             }
             
@@ -2022,9 +2032,9 @@ Message: {2}
         /// <returns>The updated template</returns>
         public static string RenameTemplateParameter(string template, string oldparameter, string newparameter)
         {
-        	Regex param = new Regex(@"(\|\s*)" + Regex.Escape(oldparameter) + @"(\s*=)", RegexOptions.Compiled);
-        	
-        	return (param.Replace(template, "$1" + newparameter + "$2"));        	
+            Regex param = new Regex(@"(\|\s*(?:<!--.*?-->)?)" + Regex.Escape(oldparameter) + @"(\s*(?:<!--.*?-->\s*)?=)", RegexOptions.Compiled);
+            
+            return (param.Replace(template, "$1" + newparameter + "$2"));
         }
         
         /// <summary>
@@ -2078,7 +2088,7 @@ Message: {2}
             
             if(m.Success)
             {
-                int start = m.Index;                
+                int start = m.Index;
                 int valuelength = param.Match(pipecleanedtemplate).Length;
                 
                 return (template.Substring(0, start) + template.Substring(start + valuelength));
@@ -2096,9 +2106,11 @@ Message: {2}
         /// <returns>The updated template call</returns>
         public static string UpdateTemplateParameterValue(string template, string parameter, string newvalue)
         {
-            Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=\s*(.*?)(?=\s*(?:\||}}$))", RegexOptions.Singleline);
+            // HACK we are allowing matching on tilde character around parameter name to represent cleaned HTML comment, so may falsely match 
+            // on stray templates with stray tildes. Will that ever happen?
+            Regex param = new Regex(@"\|[\s~]*" + Regex.Escape(parameter) + @"[\s~]*=\s*(.*?)\s*(?=(?:\r\n)?(?:\||}}$))", RegexOptions.Singleline);
             
-            string pipecleanedtemplate = PipeCleanedTemplate(template);
+            string pipecleanedtemplate = PipeCleanedTemplate(template, true);
             
             Match m = param.Match(pipecleanedtemplate);
             
@@ -2114,18 +2126,32 @@ Message: {2}
             return template;
         }
         
-        private static string PipeCleanedTemplate(string template)
+        /// <summary>
+        /// Removes pipes that are not the pipe indicating the end of the parameter's value
+        /// </summary>
+        /// <param name="template">The template call to clean</param>
+        /// <returns>The pipe cleaned template call</returns>
+        private static string PipeCleanedTemplate(string template, bool commentsastilde)
         {
+            char rwith = '#';
             if(template.Length < 5)
                 return template;
             
             string restoftemplate = template.Substring(3);
             // clear out what may contain pipes that are not the pipe indicating the end of the parameter's value
-            restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.NestedTemplates);
-            restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.SimpleWikiLink);
-            restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.UnformattedText);
+            restoftemplate = Tools.ReplaceWith(restoftemplate, WikiRegexes.NestedTemplates, rwith);
+            restoftemplate = Tools.ReplaceWith(restoftemplate, WikiRegexes.SimpleWikiLink, rwith);
+            if(commentsastilde)
+                restoftemplate = Tools.ReplaceWith(restoftemplate, WikiRegexes.UnformattedText, '~');
+            else
+                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.UnformattedText);
             
             return (template.Substring(0, 3) + restoftemplate);
+        }
+        
+        private static string PipeCleanedTemplate(string template)
+        {
+            return PipeCleanedTemplate(template, false);
         }
 
         /// <summary>
