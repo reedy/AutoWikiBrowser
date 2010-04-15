@@ -2124,7 +2124,7 @@ Message: {2}
         {
             // HACK we are allowing matching on tilde character around parameter name to represent cleaned HTML comment, so may falsely match
             // on stray templates with stray tildes. Will that ever happen?
-            Regex param = new Regex(@"\|[\s~]*" + Regex.Escape(parameter) + @"[\s~]*=\s*(.*?)\s*(?=(?:\r\n)?(?:\||}}$))", RegexOptions.Singleline);
+            Regex param = new Regex(@"\|[\s~]*" + Regex.Escape(parameter) + @"[\s~]*= *\s*?(.*?)\s*(?=(?:\||}}$))", RegexOptions.Singleline);
             
             string pipecleanedtemplate = PipeCleanedTemplate(template, true);
             
@@ -2132,9 +2132,7 @@ Message: {2}
             
             if(m.Success)
             {
-                int start = m.Groups[1].Index;
-
-                int valuelength = m.Groups[1].Length;
+                int start = m.Groups[1].Index, valuelength = m.Groups[1].Length;
                 
                 return (template.Substring(0, start) + newvalue + template.Substring(start + valuelength));
             }

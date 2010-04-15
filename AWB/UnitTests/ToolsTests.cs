@@ -1193,6 +1193,27 @@ dateformat=mdy}}", "cite web", "dateformat"));
             
             // old value null – updated correctly
             Assert.AreEqual(@"{{foo|param1=valueafter}}", Tools.UpdateTemplateParameterValue(@"{{foo|param1=}}", "param1", "valueafter"));
+            
+            string input=@"{{cite news
+|author=
+|title=Obituary 1 -- No Title
+|date=
+|work=[[New York Times]]
+|url=http://query.nytimes.com/gst/abstra
+|accessdate=2008-08-08
+}}";
+            Assert.AreEqual(input.Replace("|date=", "|date=April 4, 1922"), Tools.UpdateTemplateParameterValue(input, "date", "April 4, 1922"));
+            
+            input=@"{{cite news
+|author=
+|title=Obituary 1 -- No Title
+|date=
+
+
+|work=[[New York Times]]
+|url=http://query.nytimes.com/gst/abstra }}";
+            
+            Assert.AreEqual(input.Replace("|date=", "|date=April 4, 1922"), Tools.UpdateTemplateParameterValue(input, "date", "April 4, 1922"));
         }
 
         [Test]
@@ -1219,6 +1240,16 @@ dateformat=mdy}}", "cite web", "dateformat"));
 | BBallHOF      =
 }}}";
             Assert.AreEqual(bug1.Replace(@"409-148 ({{Winning percentage", @"409–148 ({{Winning percentage"), Tools.SetTemplateParameterValue(bug1, "OverallRecord", @"409–148 ({{Winning percentage|409|148}})"));
+            
+            string input=@"{{cite news
+|author=
+|title=Obituary 1 -- No Title
+|date=
+|work=[[New York Times]]
+|url=http://query.nytimes.com/gst/abstra
+|accessdate=2008-08-08
+}}";
+            Assert.AreEqual(input.Replace("|date=", "|date=April 4, 1922"), Tools.SetTemplateParameterValue(input, "date", "April 4, 1922"));
         }
         
         [Test]
