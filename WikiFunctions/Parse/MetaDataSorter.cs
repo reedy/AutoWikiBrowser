@@ -327,7 +327,7 @@ en, sq, ru
                         articleText += personData + categories + strStub;
                         break;
                 }
-                return (articleText + interwikis.TrimEnd());
+                return (articleText + interwikis).TrimEnd();
             }
             catch (Exception ex)
             {
