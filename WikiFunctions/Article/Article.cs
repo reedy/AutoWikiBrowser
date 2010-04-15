@@ -1184,8 +1184,13 @@ namespace WikiFunctions
             }
         }
 
+        /// <summary>
+        /// Executes general fixes specific to article talk pages
+        /// </summary>
         public void PerformTalkGeneralFixes()
         {
+            BeforeGeneralFixesTextChanged();
+            
             string articleText = ArticleText, newSummary = "";
             TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
 
@@ -1194,6 +1199,8 @@ namespace WikiFunctions
                 AWBChangeArticleText("Talk Page general fixes", articleText, false);
                 AppendToSummary(newSummary);
             }
+            
+            AfterGeneralFixesTextChanged();
         }
 
         /// <summary>
