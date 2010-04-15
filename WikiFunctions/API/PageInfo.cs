@@ -201,6 +201,22 @@ namespace WikiFunctions.API
         /// </summary>
         public bool IsWatched
         { get; set; }
+
+        /// <summary>
+        /// Was the specified PageInfo redirected to get to the final target
+        /// </summary>
+        /// <param name="page">PageInfo object</param>
+        /// <returns>Whether the article was redirected</returns>
+        public static bool WasRedirected(PageInfo page)
+        {
+            if (page.TitleChangedStatus == PageTitleStatus.NoChange)
+                return false;
+
+            PageTitleStatus pts = page.TitleChangedStatus;
+            return ((pts & PageTitleStatus.Redirected) == PageTitleStatus.Redirected ||
+                    (pts & PageTitleStatus.RedirectLoop) == PageTitleStatus.RedirectLoop ||
+                    (pts & PageTitleStatus.MultipleRedirects) == PageTitleStatus.MultipleRedirects);
+        }
     }
 
     /// <summary>

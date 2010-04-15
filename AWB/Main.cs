@@ -765,58 +765,37 @@ namespace AutoWikiBrowser
 
             Text = _settingsFileDisplay + " - " + page.Title;
 
-            bool articleIsRedirect = Tools.IsRedirect(page.Text);
-
+            bool articleIsRedirect = PageInfo.WasRedirected(page);
+         
             if (chkSkipIfRedirect.Checked && articleIsRedirect)
             {
                 SkipPage("Page is a redirect");
                 return;
             }
 
-            if (articleIsRedirect)
-                _redirects++;
-            else
-                _redirects = 0;
-
             //check for redirect
             if (bypassRedirectsToolStripMenuItem.Checked && articleIsRedirect && !PageReload)
             {
-                // Warning: Creating an ArticleEX causes a new AWBLogListener to be created and it becomes the active listener in MyTrace; be careful we're writing to the correct log listener
-                string redirect = Parsers.CanonicalizeTitleAggressively(Tools.RedirectTarget(page.Text));
-
-                if (!String.IsNullOrEmpty(redirect) && Tools.IsValidTitle(redirect))
+                if ((page.TitleChangedStatus & PageTitleStatus.RedirectLoop) == PageTitleStatus.RedirectLoop)
                 {
-                    if (filterOutNonMainSpaceToolStripMenuItem.Checked
-                        && (Namespace.Determine(redirect) != Namespace.Article))
-                    {
-                        SkipRedirect(redirect, "Page is not in mainspace");
-                        return;
-                    }
-
-                    if (redirect == TheArticle.Name)
-                    {
-                        //ignore recursive redirects
-                        SkipRedirect(redirect, "Recursive redirect");
-                        return;
-                    }
-
-                    if (ArticleWasRedirected != null)
-                        ArticleWasRedirected(TheArticle.Name, redirect);
-
-                    listMaker.ReplaceArticle(TheArticle, new Article(redirect));
-                    TheArticle = new ArticleEX(redirect, "");
-
-                    // don't allow redirects to a redirect as we could go round in circles
-                    if (_redirects > 1)
-                    {
-                        SkipPage("Double redirect");
-                        return;
-                    }
-
-                    OpenPage(redirect);
-
+                    //ignore recursive redirects
+                    SkipRedirect(page.OriginalTitle, "Recursive redirect");
                     return;
                 }
+                //No double redirects, API should've resolved it
+
+                if (filterOutNonMainSpaceToolStripMenuItem.Checked
+                    && (Namespace.Determine(page.Title) != Namespace.Article))
+                {
+                    SkipRedirect(page.Title, "Page is not in mainspace");
+                    return;
+                }
+
+                if (ArticleWasRedirected != null)
+                    ArticleWasRedirected(TheArticle.Name, page.Title);
+
+                listMaker.ReplaceArticle(TheArticle, new Article(page.Title));
+                TheArticle = new ArticleEX(page.Title, "");
             }
 
             ErrorHandler.CurrentRevision = page.RevisionID;
