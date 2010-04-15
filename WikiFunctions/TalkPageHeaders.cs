@@ -153,7 +153,7 @@ namespace WikiFunctions.TalkPages
         {
             articleText = "{{" + name + "}}\r\n" + articleText;
 
-            AppendToSummary(ref summary, "{{tl|" + name + "}} given top billing");
+            AppendToSummary(ref summary, "{{" + name + "}} given top billing");
         }
         
         /// <summary>
@@ -180,7 +180,7 @@ namespace WikiFunctions.TalkPages
                 // ensure template is now named {{talk header}}
                 articleText = articleText.Replace(m.Groups[1].Value, "talk header");
                 
-                AppendToSummary(ref summary, "{{tl|Talk header}} given top billing");
+                AppendToSummary(ref summary, "{{Talk header}} given top billing");
             }
             
             return articleText;

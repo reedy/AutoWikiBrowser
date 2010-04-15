@@ -614,7 +614,7 @@ hello talk";
             TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(talkheader + "\r\n" + talkrest + "\r\n", articleText);
-            Assert.IsTrue(newSummary.Contains("{{tl|Talk header}} given top billing"));
+            Assert.IsTrue(newSummary.Contains("{{Talk header}} given top billing"));
             
             // handles {{talk header}} on same line as other template
             string WPBS = @"{{WikiProjectBannerShell|blp=yes|1=
@@ -628,21 +628,21 @@ In the article it says that above mentioned";
             TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(@"{{talk header}}" + "\r\n" + WPBS + rest, articleText);
-            Assert.IsTrue(newSummary.Contains("{{tl|Talk header}} given top billing"));
+            Assert.IsTrue(newSummary.Contains("{{Talk header}} given top billing"));
             
             // no change if already at top
             articleText = talkheader + "\r\n" + talkrest;
             newSummary = "";
             TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
             Assert.AreEqual(talkheader + "\r\n" + talkrest, articleText);
-            Assert.IsFalse(newSummary.Contains("{{tl|Talk header}} given top billing"));
+            Assert.IsFalse(newSummary.Contains("{{Talk header}} given top billing"));
             
             // no change if no talk header
             articleText = talkrest;
             newSummary = "";
             TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
             Assert.AreEqual(talkrest, articleText);
-            Assert.IsFalse(newSummary.Contains("{{tl|Talk header}} given top billing"));
+            Assert.IsFalse(newSummary.Contains("{{Talk header}} given top billing"));
         }
         
         [Test]
@@ -655,7 +655,7 @@ hello talk";
             TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(@"{{talk header|noarchive=no}}" + "\r\n" + talkrest+ "\r\n", articleText);
-            Assert.IsTrue(newSummary.Contains("{{tl|Talk header}} given top billing"));
+            Assert.IsTrue(newSummary.Contains("{{Talk header}} given top billing"));
         }
         
         [Test]
