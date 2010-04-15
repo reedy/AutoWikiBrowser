@@ -551,6 +551,11 @@ namespace WikiFunctions.API
 
         #region Page modification
 
+        public string Open(string title)
+        {
+            return Open(title, false);
+        }
+
         public string Open(string title, bool resolveRedirects)
         {
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
