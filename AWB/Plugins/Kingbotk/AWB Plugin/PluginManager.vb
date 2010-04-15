@@ -202,7 +202,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                     Case [Namespace].Talk
                         Dim editor As AsyncApiEdit = PluginManager.AWBForm.TheSession.Editor.Clone()
 
-                        editor.Open(Tools.ConvertFromTalk(.ArticleTitle))
+                        editor.Open(Tools.ConvertFromTalk(.ArticleTitle), False)
 
                         editor.Wait()
 

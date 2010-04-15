@@ -254,7 +254,7 @@ namespace WikiFunctions
                         //it cannot be used to approve users, but it could be used to set some settings
                         //such as underscores and pages to ignore
 
-                        string s = Editor.SynchronousEditor.Open("Project:AutoWikiBrowser/CheckPage");
+                        string s = Editor.SynchronousEditor.Open("Project:AutoWikiBrowser/CheckPage", true);
 
                         // selectively add content of the local checkpage to the global one
                         strText += Message.Match(s).Value

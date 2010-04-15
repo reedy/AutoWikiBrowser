@@ -598,7 +598,7 @@ namespace AutoWikiBrowser
         private void OpenPage(string title)
         {
             StatusLabelText = "Loading...";
-            TheSession.Editor.Open(title);
+            TheSession.Editor.Open(title, bypassRedirectsToolStripMenuItem.Checked);
         }
 
         private bool _stopProcessing, _inStart, _startAgain;
@@ -724,8 +724,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        // counts number of redirects so that we catch double redirects
-        private int _redirects, _unbalancedBracket, _bracketLength;
+        private int _unbalancedBracket, _bracketLength;
 
         private Dictionary<int, int> badCiteParameters = new Dictionary<int, int>();
         private Dictionary<int, int> deadLinks = new Dictionary<int, int>();
@@ -4229,7 +4228,7 @@ window.scrollTo(0, diffTopY);
                 string text;
                 try
                 {
-                    text = TheSession.Editor.SynchronousEditor.Clone().Open("Project:AutoWikiBrowser/User talk templates"); //TheSession.Editor.SynchronousEditor.HttpGet() ??
+                    text = TheSession.Editor.SynchronousEditor.Clone().Open("Project:AutoWikiBrowser/User talk templates", true); //TheSession.Editor.SynchronousEditor.HttpGet() ??
                 }
                 catch
                 {

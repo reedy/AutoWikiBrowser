@@ -3960,7 +3960,7 @@ namespace WikiFunctions.Parse
         {
             try
             {
-                return Variables.MainForm.TheSession.Editor.SynchronousEditor.Clone().Open(title);
+                return Variables.MainForm.TheSession.Editor.SynchronousEditor.Clone().Open(title, false);
             }
             catch
             {

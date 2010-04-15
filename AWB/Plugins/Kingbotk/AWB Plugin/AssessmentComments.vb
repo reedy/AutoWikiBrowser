@@ -48,7 +48,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         Private Sub AssessmentComments_Shown(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Shown
             Application.UseWaitCursor = True
 
-            editor.Open(mTalkTitle & "/Comments")
+            editor.Open(mTalkTitle & "/Comments", False)
 
             editor.Wait()
 
