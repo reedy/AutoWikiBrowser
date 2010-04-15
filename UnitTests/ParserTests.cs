@@ -5304,13 +5304,13 @@ asdfasdf}} was here", "foo"));
 		{
 			bool noChange;
 
-			Assert.AreEqual("\r\n\r\n[[Category:Foo]]\r\n", parser.AddCategory("Foo", "", "bar", out noChange));
+			Assert.AreEqual("\r\n\r\n[[Category:Foo]]", parser.AddCategory("Foo", "", "bar", out noChange));
 			Assert.IsFalse(noChange);
 
-			Assert.AreEqual("bar\r\n\r\n[[Category:Foo]]\r\n", parser.AddCategory("Foo", "bar", "bar", out noChange));
+			Assert.AreEqual("bar\r\n\r\n[[Category:Foo]]", parser.AddCategory("Foo", "bar", "bar", out noChange));
 			Assert.IsFalse(noChange);
 
-			Assert.AreEqual("test\r\n\r\n[[Category:Foo|bar]]\r\n[[Category:Bar]]\r\n",
+			Assert.AreEqual("test\r\n\r\n[[Category:Foo|bar]]\r\n[[Category:Bar]]",
 			                parser.AddCategory("Bar", "test[[Category:Foo|bar]]", "foo", out noChange));
 			Assert.IsFalse(noChange);
 
