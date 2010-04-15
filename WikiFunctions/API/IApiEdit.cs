@@ -109,8 +109,9 @@ namespace WikiFunctions.API
         /// Opens a page for editing
         /// </summary>
         /// <param name="title">Title of the page to edit</param>
+        /// <param name="resolveRedirects">Whether to have the API resolve any redirects</param>
         /// <returns>Page content</returns>
-        string Open(string title);
+        string Open(string title, bool resolveRedirects);
 
         /// <summary>
         /// Saves the previously opened page

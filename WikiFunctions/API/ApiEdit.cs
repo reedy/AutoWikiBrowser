@@ -551,7 +551,7 @@ namespace WikiFunctions.API
 
         #region Page modification
 
-        public string Open(string title)
+        public string Open(string title, bool resolveRedirects)
         {
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
             if (!User.IsLoggedIn) throw new LoggedOffException(this);
@@ -567,7 +567,7 @@ namespace WikiFunctions.API
                                             {"titles", title},
                                             {"inprop", "protection|watched"},
                                             {"rvprop", "content|timestamp"}, // timestamp|user|comment|
-                                            {"redirects", null}
+                                            {resolveRedirects ? "redirects" : null, null}
                                         },
                                     ActionOptions.All);
 

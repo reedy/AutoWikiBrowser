@@ -376,9 +376,9 @@ namespace WikiFunctions.API
             InvokeFunction("Logout");
         }
 
-        public void Open(string title)
+        public void Open(string title, bool resolveRedirects)
         {
-            InvokeFunction("Open", title);
+            InvokeFunction("Open", title, resolveRedirects);
         }
 
         public void Save(string pageText, string summary, bool minor, WatchOptions watch)

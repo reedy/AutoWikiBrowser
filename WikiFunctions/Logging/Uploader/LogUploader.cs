@@ -121,7 +121,7 @@ namespace WikiFunctions.Logging.Uploader
 
             try
             {
-                editor.Open(uploadToNoSpaces);
+                editor.Open(uploadToNoSpaces, true);
                 editor.Wait();
 
                 SaveInfo save = editor.SynchronousEditor.Save(strLogText, editSummary, false, WatchOptions.NoChange);
@@ -163,7 +163,7 @@ namespace WikiFunctions.Logging.Uploader
 
             try
             {
-                editor.Open(logEntry.Location);
+                editor.Open(logEntry.Location, true);
                 editor.Wait();
 
                 string strExistingText = editor.Page.Text;

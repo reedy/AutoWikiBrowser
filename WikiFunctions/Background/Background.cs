@@ -335,7 +335,7 @@ namespace WikiFunctions.Background
                         string text;
                         try
                         {
-                            text = editor.Open(article);
+                            text = editor.Open(article, false); //TODO:Resolve redirects betterer
                         }
                         catch
                         {
