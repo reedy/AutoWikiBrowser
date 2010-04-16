@@ -76,7 +76,7 @@ namespace WikiFunctions.Parse
         }
 
         // now will be generated dynamically using Variables.Stub
-        private readonly Regex InterLangRegex = new Regex("<!-- ?(other languages?|language links?|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wikis?|The below are interlanguage links\\.?) ?-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private readonly Regex InterLangRegex = new Regex(@"<!--\s*(other languages?|language links?|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wikis?|The below are interlanguage links\.?|interwiki links to this article in other languages, below)\s*-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private readonly Regex CatCommentRegex = new Regex("<!-- ?cat(egories)? ?-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private List<string> InterwikiLocalAlpha;
@@ -768,15 +768,27 @@ en, sq, ru
         /// <returns>string of interwiki and interwiki featured article links</returns>
         public string Interwikis(ref string articleText)
         {
+            string interWikiComment = "";
+            if (InterLangRegex.IsMatch(articleText))
+            {
+                interWikiComment = InterLangRegex.Match(articleText).Value;
+                articleText = articleText.Replace(interWikiComment, "");
+            }
+            
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#Interwiki_links_moved_out_of_comment
             HideText hider = new HideText(false, true, false);
 
             articleText = hider.Hide(articleText);
 
-            string interWikis = ListToString(RemoveLinkFGAs(ref articleText)) + ListToString(RemoveInterWikis(ref articleText));
+            string interWikis = ListToString(RemoveLinkFGAs(ref articleText));
+            
+            if(interWikiComment.Length > 0)
+                interWikis += interWikiComment + "\r\n";
+            
+            interWikis += ListToString(RemoveInterWikis(ref articleText));
 
             articleText = hider.AddBack(articleText);
-
+            
             return interWikis;
         }
 
@@ -803,17 +815,8 @@ en, sq, ru
 
             articleText = Tools.RemoveMatches(articleText, goodMatches);
 
-            string interWikiComment = "";
-            if (InterLangRegex.IsMatch(articleText))
-            {
-                interWikiComment = InterLangRegex.Match(articleText).Value;
-                articleText = articleText.Replace(interWikiComment, "");
-            }
-
             if (SortInterwikis)
                 interWikiList.Sort(Comparer);
-
-            if (!string.IsNullOrEmpty(interWikiComment)) interWikiList.Insert(0, interWikiComment);
 
             return interWikiList;
         }
