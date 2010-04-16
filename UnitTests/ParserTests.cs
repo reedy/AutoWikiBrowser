@@ -6051,6 +6051,8 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 			Assert.AreEqual(@"{{Article issues|wikfy=May 2008|COI=May 2008|cleanup=May 2008}}", parser.ArticleIssues(@"{{Article issues|wikfy=May 2008|COI=May 2008|cleanup=May 2008|date = March 2007}}"));
 			Assert.AreEqual(@"{{Article issues|wikfy=May 2008|COI=May 2008|cleanup=May 2008}}", parser.ArticleIssues(@"{{Article issues|wikfy=May 2008|COI=May 2008|cleanup=May 2008| date=March 2007}}"));
 			Assert.AreEqual(@"{{Article issues|wikfy=May 2008|COI=May 2008|cleanup=May 2008}}", parser.ArticleIssues(@"{{Article issues|wikfy=May 2008|COI=May 2008|date = March 2007|cleanup=May 2008}}"));
+			
+			Assert.AreEqual(@"{{Multiple issues|wikfy=May 2008|COI=May 2008|cleanup=May 2008}}", parser.ArticleIssues(@"{{Multiple issues|wikfy=May 2008|COI=May 2008|date = March 2007|cleanup=May 2008}}"));
 
 			// tags with a parameter value that's not a date are not supported
 			Assert.AreEqual(@"{{Article issues|wikfy=May 2008|copyedit=April 2009|COI=May 2008}} {{update|some date reason}}", parser.ArticleIssues(@"{{Article issues|wikfy=May 2008|copyedit=April 2009|COI=May 2008}} {{update|some date reason}}"));
