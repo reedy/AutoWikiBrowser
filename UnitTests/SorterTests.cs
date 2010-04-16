@@ -576,6 +576,19 @@ foo";
             string b = a;
 
             Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
+            
+            // comment handling
+            string comm = @"<!-- other languages -->";
+            a = @"[[de:Canadian National Railway]]
+[[es:Canadian National]]
+[[fr:Canadien National]]" + comm;
+            Assert.AreEqual(comm + "\r\n" + b + "\r\n", parser2.Sorter.Interwikis(ref a));
+            
+            comm = @"<!-- interwiki links to this article in other languages, below -->";
+            a = @"[[de:Canadian National Railway]]
+[[es:Canadian National]]
+[[fr:Canadien National]]" + comm;
+            Assert.AreEqual(comm + "\r\n" + b + "\r\n", parser2.Sorter.Interwikis(ref a));
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#Interwiki_links_moved_out_of_comment
             string c = @"{{Canadianmetros}}
