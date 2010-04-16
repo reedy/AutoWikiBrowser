@@ -481,6 +481,9 @@ Start date and age
 
             RegexAssert.NoMatch(WikiRegexes.Refs, "<refname=foo>bar</ref>");
             RegexAssert.NoMatch(WikiRegexes.Refs, "<refname=foo/>");
+            
+            RegexAssert.Matches(WikiRegexes.Refs, "<ref group=a name=foo/>", "<ref group=a name=foo/>");
+            RegexAssert.Matches(WikiRegexes.Refs, "<ref name=foo group=a />", "<ref name=foo group=a />");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#.3Cp.3E_deletion_in_references_and_notes
             RegexAssert.Matches(WikiRegexes.Refs, "<ref>foo<!-- bar --></ref>", "<ref>foo<!-- bar --></ref>");
