@@ -3917,6 +3917,9 @@ namespace WikiFunctions.Parse
                 || articleText.Contains(@"[[Category:Military careers")
                 || CategoryCharacters.IsMatch(articleText))
                 return false;
+            
+            if(Tools.GetTemplateParameterValue(Tools.NestedTemplateRegex(new List<string>(@"Infobox musical artist,Infobox musical artist 2,Infobox Musical Artist,Infobox singer,Infobox Musician,Infobox musician,Music artist,Infobox Musical Artist 2,Infobox Musicial Artist 2,Infobox Composer,Infobox composer,Infobox Musical artist,Infobox Band".Split(','))).Match(articleText).Value, "Background").Contains("group_or_band"))
+                return false;
 
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
 
