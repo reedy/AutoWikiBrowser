@@ -2162,6 +2162,13 @@ namespace WikiFunctions.Parse
                 if (Tools.GetTemplateParameterValue(newValue, "nopp").Length == 0 &&
                     !templatename.Equals("cite journal", StringComparison.OrdinalIgnoreCase))
                     newValue = CiteTemplatePagesPP.Replace(newValue, "");
+                
+                // date = YYYY --> year = YYYY; not for {{cite video}}
+                if (!Regex.IsMatch(newValue, @"{{\s*[Cc]ite (?:video|podcast)\b"))
+                    newValue = YearInDate.Replace(newValue, "$1year$2");
+
+                // year = ISO date --> date = ISO date
+                newValue = ISODateInYear.Replace(newValue, "$1date$2");
 
                 // remove duplicated fields, ensure the URL is not touched (may have pipes in)
                 if (DupeFields.IsMatch(newValue))
@@ -2218,13 +2225,6 @@ namespace WikiFunctions.Parse
                 string year = Tools.GetTemplateParameterValue(newValue, "accessyear");
                 if (year.Length > 0 && Tools.GetTemplateParameterValue(newValue, "accessdate").Contains(year))
                     newValue = Tools.RemoveTemplateParameter(newValue, "accessyear");
-
-                // date = YYYY --> year = YYYY; not for {{cite video}}
-                if (!Regex.IsMatch(newValue, @"{{\s*[Cc]ite (?:video|podcast)\b"))
-                    newValue = YearInDate.Replace(newValue, "$1year$2");
-
-                // year = ISO date --> date = ISO date
-                newValue = ISODateInYear.Replace(newValue, "$1date$2");
 
                 // catch after any other fixes
                 newValue = NoCommaAmericanDates.Replace(newValue, @"$1, $2");
