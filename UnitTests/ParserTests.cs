@@ -1803,6 +1803,20 @@ complementary and alternative medicine: evidence is a better friend than power. 
 		}
 		
 		[Test]
+		public void FixCitationTemplatesYearWithinDate()
+		{
+		    string correct1 = @"now {{cite book|title=a |url=http://books.google.com/foo | date=2009-10-17}}",
+		    nochange1 = @"now {{cite book|title=a |url=http://books.google.com/foo | date=2009-10-17 | year=2009a}}",
+		    nochange2 = @"now {{cite book|title=a |url=http://books.google.com/foo | date=2009-10-17 | year=2004}}";
+		    
+		    Assert.AreEqual(correct1, Parsers.FixCitationTemplates(correct1.Replace(@"}}", @"|year=2009}}")));
+		    Assert.AreEqual(correct1, Parsers.FixCitationTemplates(correct1.Replace(@"foo", @"foo |year=2009")));
+		    
+		    Assert.AreEqual(nochange1, Parsers.FixCitationTemplates(nochange1), "Harvard anchors using YYYYa are not removed");
+		    Assert.AreEqual(nochange2, Parsers.FixCitationTemplates(nochange2), "Year not removed if different to year in date");
+		}
+		
+		[Test]
 		public void CitationPublisherToWork()
 		{
 			string correct0 = @"{{cite news|url=http://www.timesonline.co.uk/foo494390.htm | date =2008-09-07 | work=The Times }}",
