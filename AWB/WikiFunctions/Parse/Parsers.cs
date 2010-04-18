@@ -2194,6 +2194,12 @@ namespace WikiFunctions.Parse
                     if (newvaluetemp != newValue && (URL.Length == 0 || newvaluetemp.Contains(URL)))
                         newValue = newvaluetemp;
                 }
+                
+                // year=YYYY and date=...YYYY -> remove year; not for year=YYYYa
+                string year = Tools.GetTemplateParameterValue(newValue, "year");
+                
+                if(Regex.IsMatch(year, @"^[12]\d{3}$") && Tools.GetTemplateParameterValue(newValue, "date").Contains(year))
+                    newValue = Tools.RemoveTemplateParameter(newValue, "year");
 
                 // correct volume=vol 7... and issue=no. 8 for {{cite journal}} only
                 if (templatename.Equals("cite journal", StringComparison.OrdinalIgnoreCase))
@@ -2222,8 +2228,8 @@ namespace WikiFunctions.Parse
                 }
 
                 // remove accessyear where accessdate is present and contains said year
-                string year = Tools.GetTemplateParameterValue(newValue, "accessyear");
-                if (year.Length > 0 && Tools.GetTemplateParameterValue(newValue, "accessdate").Contains(year))
+                string accessyear = Tools.GetTemplateParameterValue(newValue, "accessyear");
+                if (accessyear.Length > 0 && Tools.GetTemplateParameterValue(newValue, "accessdate").Contains(accessyear))
                     newValue = Tools.RemoveTemplateParameter(newValue, "accessyear");
 
                 // catch after any other fixes
