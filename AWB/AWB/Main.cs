@@ -755,7 +755,8 @@ namespace AutoWikiBrowser
                 return;
             TheArticle = new ArticleEX(page);
 
-            if (!preParseModeToolStripMenuItem.Checked && !CheckLoginStatus()) return;
+            if (!preParseModeToolStripMenuItem.Checked && !CheckLoginStatus())
+				return;
 
             if (Program.MyTrace.HaveOpenFile)
                 Program.MyTrace.WriteBulletedLine("AWB started processing", true, true, true);
@@ -791,10 +792,9 @@ namespace AutoWikiBrowser
                 }
 
                 if (ArticleWasRedirected != null)
-                    ArticleWasRedirected(TheArticle.Name, page.Title);
+                    ArticleWasRedirected(page.OriginalTitle, page.Title);
 
-                listMaker.ReplaceArticle(new ArticleEX(page.OriginalTitle, page.Text), new Article(page.Title));
-                TheArticle = new ArticleEX(page.Title, "");
+                listMaker.ReplaceArticle(new Article(page.OriginalTitle), TheArticle);
             }
 
             ErrorHandler.CurrentRevision = page.RevisionID;
@@ -811,13 +811,17 @@ namespace AutoWikiBrowser
 
             //check not in use
             if (TheArticle.IsInUse)
-                if (chkSkipIfInuse.Checked)
             {
-                SkipPage("Page contains {{inuse}}");
-                return;
+                if (chkSkipIfInuse.Checked)
+                {
+                    SkipPage("Page contains {{inuse}}");
+                    return;
+                }
+                if (!BotMode && !preParseModeToolStripMenuItem.Checked)
+                {
+                    MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
+                }
             }
-            else if (!BotMode && !preParseModeToolStripMenuItem.Checked)
-                MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
 
             if (automaticallyDoAnythingToolStripMenuItem.Checked)
             {
