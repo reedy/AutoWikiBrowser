@@ -793,7 +793,7 @@ namespace AutoWikiBrowser
                 if (ArticleWasRedirected != null)
                     ArticleWasRedirected(TheArticle.Name, page.Title);
 
-                listMaker.ReplaceArticle(TheArticle, new Article(page.Title));
+                listMaker.ReplaceArticle(new ArticleEX(page.OriginalTitle, page.Text), new Article(page.Title));
                 TheArticle = new ArticleEX(page.Title, "");
             }
 
