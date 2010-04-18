@@ -1789,7 +1789,7 @@ complementary and alternative medicine: evidence is a better friend than power. 
 		}
 		
 		[Test]
-		public void FixCitationISODateInYear()
+		public void FixCitationTemplatesISODateInYear()
 		{
 			string correct1 = @"now {{cite book|title=a |url=http://books.google.com/foo | date=2009-10-17}}",
 			correct2 = @"now {{cite book|title=a |url=http://books.google.com/foo | date=2009-10-17|last=Smith}}";
