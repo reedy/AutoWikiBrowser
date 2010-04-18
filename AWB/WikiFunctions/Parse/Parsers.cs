@@ -2090,7 +2090,6 @@ namespace WikiFunctions.Parse
         private static readonly Regex AccessDayMonthDay = new Regex(@"\|\s*access(?:daymonth|month(?:day)?|year)\s*=\s*(?=\||}})", RegexOptions.Compiled);
         private static readonly Regex DateLeadingZero = new Regex(@"(?<=\|\s*(?:access|archive)?date\s*=\s*)(?:0([1-9]\s+" + WikiRegexes.MonthsNoGroup + @")|(\s*" + WikiRegexes.MonthsNoGroup + @"\s)+0([1-9],?))(\s+20[01]\d)?(\s*\||}})", RegexOptions.Compiled);
         private static readonly Regex YearInDate = new Regex(@"(\|\s*)date(\s*=\s*[12]\d{3}\s*)(?=\||}})", RegexOptions.Compiled);
-        private static readonly Regex ISODateInYear = new Regex(@"(\|\s*)year(\s*=\s*(?:20\d\d|1[6-9]\d\d)-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])\s*)(?=\||}})", RegexOptions.Compiled);
 
         private static readonly Regex DupeFields = new Regex(@"((\|\s*([a-z\d]+)\s*=\s*([^\{\}\|]*?))\s*(?:\|.*?)?)\|\s*\3\s*=\s*([^\{\}\|]*?)\s*(\||}})", RegexOptions.Singleline | RegexOptions.Compiled);
 
@@ -2168,7 +2167,8 @@ namespace WikiFunctions.Parse
                     newValue = YearInDate.Replace(newValue, "$1year$2");
 
                 // year = ISO date --> date = ISO date
-                newValue = ISODateInYear.Replace(newValue, "$1date$2");
+                if(WikiRegexes.ISODates.IsMatch(Tools.GetTemplateParameterValue(newValue, "year")))
+                    newValue = Tools.RenameTemplateParameter(newValue, "year", "date");
 
                 // remove duplicated fields, ensure the URL is not touched (may have pipes in)
                 if (DupeFields.IsMatch(newValue))
