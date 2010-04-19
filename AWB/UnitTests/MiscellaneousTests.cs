@@ -342,6 +342,9 @@ Image:quux[http://example.com]
             AssertAllHiddenMore("[http://foo]", true);
             AssertAllHiddenMore("[http://foo bar]", true);
             AssertAllHiddenMore("[http://foo [bar]", true);
+            
+            Assert.IsTrue(Hide(@"date=April 2010|url=http://w/010111a.html}}", true, true, true).Contains(@"date=April 2010|url="));
+            Assert.IsTrue(Hide(@"date=April 2010|url=http://w/010111a.html}}", true, true, true).Contains(@"}}"));
         }
         
         [Test]
