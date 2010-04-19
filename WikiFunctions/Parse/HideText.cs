@@ -82,11 +82,6 @@ namespace WikiFunctions.Parse
             }
             Replace(matches, ref articleText);
 
-            if (HideImages)
-            {
-                Replace(WikiRegexes.Images.Matches(articleText), ref articleText);
-            }
-
             if (HideExternalLinks)
             {
                 Replace(WikiRegexes.ExternalLinks.Matches(articleText), ref articleText);
@@ -98,6 +93,11 @@ namespace WikiFunctions.Parse
                         matches2.Add(m);
                 }
                 Replace(matches2, ref articleText);
+            }
+            
+            if (HideImages)
+            {
+                Replace(WikiRegexes.Images.Matches(articleText), ref articleText);
             }
 
             return articleText;
