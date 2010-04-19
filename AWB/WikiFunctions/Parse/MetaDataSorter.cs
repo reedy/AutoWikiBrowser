@@ -498,7 +498,9 @@ en, sq, ru
                 return "";
 
             string strDisambig = "";
-            if (WikiRegexes.Disambigs.IsMatch(articleText))
+            
+            // don't pull out of comments
+            if (WikiRegexes.Disambigs.IsMatch(WikiRegexes.Comments.Replace(articleText, "")))
             {
                 strDisambig = WikiRegexes.Disambigs.Match(articleText).Value;
                 articleText = articleText.Replace(strDisambig, "");
@@ -533,7 +535,7 @@ en, sq, ru
             }
 
             articleText = strDablinks + zerothSection + restOfArticle;
-
+            
             // may now have two newlines between dablinks and rest of article, so cut down to one
             return articleText.Replace(strDablinks + "\r\n", strDablinks);
         }

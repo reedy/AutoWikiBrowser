@@ -198,6 +198,41 @@ more words
 
             Assert.AreEqual(e + "\r\n" + g + "\r\n\r\n" + h, MetaDataSorter.MoveDablinks(g + "\r\n" + e + "\r\n" + h));
         }
+        
+        
+        [Test]
+        public void MoveDablinksCommentsTests()
+        {
+            const string d = @"Fred is a doctor.
+Fred has a dog.
+[[Category:Dog owners]]
+{{some template}}
+", e = @"<!-- {{otheruses}} this allows users with [[WP:POPUPS|popups]] to disambiguate links.-->";
+            
+            // don't pull dabs out of comments
+            Assert.AreEqual(d + e, MetaDataSorter.MoveDablinks(d + e));
+        }
+        
+        [Test]
+        public void RemoveDisambig()
+        {
+            const string dab = @"{{dab}}", foo = @"foo";
+            
+            string a = dab + "\r\n" + foo;
+            
+            Assert.AreEqual(dab, MetaDataSorter.RemoveDisambig(ref a));
+            Assert.AreEqual(a, "\r\n" + foo);
+            
+            // no dabs to take out – no change
+            a = foo;
+            Assert.AreEqual("", MetaDataSorter.RemoveDisambig(ref a));
+            Assert.AreEqual(a, foo);
+            
+            // don't pull out of comments
+            a = @"<!--" + dab + @"-->" + "\r\n" + foo;
+            Assert.AreEqual("", MetaDataSorter.RemoveDisambig(ref a));
+            Assert.AreEqual(a,  @"<!--" + dab + @"-->" + "\r\n" + foo);
+        }
 
         [Test]
         public void MoveOrphanTagsTests()
