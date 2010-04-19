@@ -105,6 +105,11 @@ picture = Test.JPG
   bar = a|
   map = Image without exension
   | there=here}}");
+            
+            RegexAssert.Matches(WikiRegexes.Images, @"{{Infobox foo|
+  bar = a|
+  picture = Test.JPG
+  | there=here}}", @" Test.JPG");
         }
         
         [Test]
