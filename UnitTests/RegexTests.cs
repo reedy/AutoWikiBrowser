@@ -512,6 +512,8 @@ Start date and age
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://www.google.co.uk google}}", "http://www.google.co.uk");
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://www.google.co.uk}}", "http://www.google.co.uk");
             
+            RegexAssert.Matches(WikiRegexes.ExternalLinks,  @"date=April 2010|url=http://w/010111a.html}}", "http://w/010111a.html");
+            
             // incorrect brackets
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "lol [http://www.google.co.uk lol", "http://www.google.co.uk");
 
