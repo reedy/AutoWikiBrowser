@@ -55,7 +55,7 @@ namespace WikiFunctions.API
         /// Whether the current user is a flagged bot
         /// </summary>
         public bool IsBot
-        { get { return IsInGroup("bot"); } }
+        { get { return IsInGroup("bot") || HasRight("bot"); } }
 
         /// <summary>
         /// Whether the current user is blocked from editing
