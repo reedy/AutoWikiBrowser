@@ -64,6 +64,7 @@ namespace WikiFunctions.DBScanner
             this.btnClearList = new System.Windows.Forms.Button();
             this.chkNoBold = new System.Windows.Forms.CheckBox();
             this.chkCiteTemplateDates = new System.Windows.Forms.CheckBox();
+            this.chkReorderReferences = new System.Windows.Forms.CheckBox();
             this.chkPeopleCategories = new System.Windows.Forms.CheckBox();
             this.chkUnbalancedBrackets = new System.Windows.Forms.CheckBox();
             this.chkBadLinks = new System.Windows.Forms.CheckBox();
@@ -599,6 +600,16 @@ namespace WikiFunctions.DBScanner
             this.chkCiteTemplateDates.TabIndex = 7;
             this.chkCiteTemplateDates.Text = "Citation dates AWB will fix";
             this.tooltip.SetToolTip(this.chkCiteTemplateDates, "AWB fixes various errors in dates within the citation family of templates");
+            //
+            // chkReorderReferences
+            //
+            this.chkReorderReferences.AutoSize = true;
+            this.chkReorderReferences.Location = new System.Drawing.Point(167, 72);
+            this.chkReorderReferences.Name = "chkReorderReferences";
+            this.chkReorderReferences.Size = new System.Drawing.Size(148, 17);
+            this.chkReorderReferences.TabIndex = 7;
+            this.chkReorderReferences.Text = "References to reorder";
+            this.tooltip.SetToolTip(this.chkReorderReferences, "AWB reorders consecutive references to be in numercial order");
             // 
             // chkPeopleCategories
             // 
@@ -1009,6 +1020,7 @@ namespace WikiFunctions.DBScanner
             this.flwAWB.Controls.Add(this.chkHeaderError);
             this.flwAWB.Controls.Add(this.chkCiteTemplateDates);
             this.flwAWB.Controls.Add(this.chkUnbalancedBrackets);
+            this.flwAWB.Controls.Add(this.chkReorderReferences);
             this.flwAWB.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flwAWB.Location = new System.Drawing.Point(3, 13);
             this.flwAWB.Name = "flwAWB";
@@ -1730,6 +1742,7 @@ namespace WikiFunctions.DBScanner
         private CheckBox chkSimpleLinks;
         private CheckBox chkNoBold;
         private CheckBox chkCiteTemplateDates;
+        private CheckBox chkReorderReferences;
         private CheckBox chkPeopleCategories;
         private CheckBox chkUnbalancedBrackets;
         private CheckBox chkTypo;

@@ -272,6 +272,19 @@ namespace WikiFunctions.DBScanner
             return !Skip;
         }
     }
+    
+    /// <summary>
+    /// Returns whether ReorderReferences fixed something in the article
+    /// </summary>
+    public class ReorderReferences : Scan
+    {
+        public override bool Check(ArticleInfo article)
+        {
+            string articleTextAfter = Parsers.ReorderReferences(article.Text);
+
+            return !articleTextAfter.Equals(article.Text);
+        }
+    }
 
     /// <summary>
     /// Returns whether FixPeopleCategories did something (birth/death categories for living people altered)
