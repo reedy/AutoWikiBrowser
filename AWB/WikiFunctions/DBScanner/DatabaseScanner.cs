@@ -240,6 +240,9 @@ namespace WikiFunctions.DBScanner
 
             if (chkCiteTemplateDates.Checked)
                 s.Add(new CiteTemplateDates());
+            
+            if(chkReorderReferences.Checked)
+                s.Add(new ReorderReferences());
 
             if (chkPeopleCategories.Checked)
                 s.Add(new PeopleCategories());
