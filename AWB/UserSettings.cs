@@ -139,7 +139,8 @@ namespace AutoWikiBrowser
             LoadPrefs(openXML.FileName);
             SettingsFile = openXML.FileName;
 
-            listMaker.RemoveListDuplicates();
+            if(removeDuplicatesToolStripMenuItem.Checked)
+                listMaker.RemoveListDuplicates();
         }
 
         private void LoadRecentSettingsList()
@@ -470,7 +471,9 @@ namespace AutoWikiBrowser
             }
 
             SettingsFile = path;
-            listMaker.RemoveListDuplicates();
+            
+            if(removeDuplicatesToolStripMenuItem.Checked)
+                listMaker.RemoveListDuplicates();
         }
 
         /// <summary>
