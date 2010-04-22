@@ -490,6 +490,10 @@ blah";
 
             // only matching level two headings following references
             Assert.AreEqual(a + "\r\n" + b + "\r\n" + c + "\r\n" + d, MetaDataSorter.MoveExternalLinks(a + "\r\n" + b + "\r\n" + c + "\r\n" + d));
+            
+            // don't' move external links if would create ref after reflist
+            string ExtLinkRef = a + "\r\n" + b + "<ref>foo</ref>\r\n" + c + "\r\n" + e;
+            Assert.AreEqual(ExtLinkRef, MetaDataSorter.MoveExternalLinks(ExtLinkRef));
         }
 
         [Test]
