@@ -290,7 +290,7 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             if (WikiRegexes.ArticleIssues.IsMatch(articleText))
-                articleText = MetaDataSorter.MoveOrphanTags(articleText);
+                articleText = MetaDataSorter.MoveMaintenanceTags(articleText);
 
             // convert title case parameters within {{Article issues}} to lower case
             foreach (Match m in WikiRegexes.ArticleIssuesInTitleCase.Matches(articleText))

@@ -282,7 +282,7 @@ en, sq, ru
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Move_orphan_tags_on_the_top
                 // Dablinks above orphan tags per [[WP:LAYOUT]]
                 if(Variables.LangCode == "en")
-                    articleText = MoveOrphanTags(articleText);
+                    articleText = MoveMaintenanceTags(articleText);
 
                 articleText = MoveDablinks(articleText);
 
@@ -541,23 +541,55 @@ en, sq, ru
         }
 
         /// <summary>
-        /// Moves the {{orphan}} template to the top of the article
+        /// Moves maintenance tags to the top of the article text.
+        /// Does not move tags when only non-infobox templates are above the last tag
         /// </summary>
         /// <param name="articleText">the article text</param>
         /// <returns>the modified article text</returns>
-        public static string MoveOrphanTags(string articleText)
-        {
-            string strOrphanTags = "";
-
-            foreach (Match m in WikiRegexes.Orphan.Matches(articleText))
+        public static string MoveMaintenanceTags(string articleText)
+        {            
+            bool doMove = false;
+            int lastIndex = -1;
+            // if all templates removed from articletext before last MaintenanceTemplates match are not infoboxes then do not change anything
+            foreach(Match m in WikiRegexes.MaintenanceTemplates.Matches(articleText))
             {
-                strOrphanTags = strOrphanTags + m.Value + "\r\n";
+                lastIndex = m.Index;
+            }
+
+            // return if no MaintenanceTemplates to move
+            if (lastIndex < 0)
+                return articleText;
+
+            string articleTextToCheck = articleText.Substring(0, lastIndex);
+
+            foreach(Match m in WikiRegexes.NestedTemplates.Matches(articleTextToCheck))
+            {
+                if (Tools.GetTemplateName(m.Value).ToLower().Contains("infobox"))
+                {
+                    doMove = true;
+                    break;
+                }
+
+                articleTextToCheck = articleTextToCheck.Replace(m.Value, "");
+            }
+
+            if(articleTextToCheck.Trim().Length > 0)
+                doMove = true;
+
+            if(!doMove)
+                return articleText;
+
+            string strMaintTags = "";
+
+            foreach (Match m in WikiRegexes.MaintenanceTemplates.Matches(articleText))
+            {
+                strMaintTags = strMaintTags + m.Value + "\r\n";
                 articleText = articleText.Replace(m.Value, "");
             }
 
-            articleText = strOrphanTags + articleText;
+            articleText = strMaintTags + articleText;
 
-            return strOrphanTags.Length > 0 ? articleText.Replace(strOrphanTags + "\r\n", strOrphanTags) : articleText;
+            return strMaintTags.Length > 0 ? articleText.Replace(strMaintTags + "\r\n", strMaintTags) : articleText;
         }
 
         private static readonly Regex SeeAlso = new Regex(@"(\s*(==+)\s*see\s+also\s*\2)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
