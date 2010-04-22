@@ -711,6 +711,7 @@ en, sq, ru
         /// <returns>Article text with external links section below the references section</returns>
         public static string MoveExternalLinks(string articleText)
         {
+            string articleTextAtStart = articleText;
             // is external links section above references?
             string externalLinks = ExternalLinksSection.Match(articleText).Groups[1].Value;
             string references = ReferencesSection.Match(articleText).Groups[1].Value;
@@ -724,8 +725,11 @@ en, sq, ru
                 articleText = articleText.Replace(externalLinks, "");
                 articleText = articleText.Replace(references, references + externalLinks);
             }
-            // newlines are fixed by later logic
-            return articleText;
+            
+            // newlines are fixed by later logic; validate no <ref> in external links section
+            if(!Parsers.HasRefAfterReflist(articleText))
+                return articleText;
+            else return articleTextAtStart;
         }
 
         /// <summary>
