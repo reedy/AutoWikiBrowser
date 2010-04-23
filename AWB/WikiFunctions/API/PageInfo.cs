@@ -116,8 +116,8 @@ namespace WikiFunctions.API
                     }
                 }
             }
-            else
-                xr.ReadToFollowing("revisions");
+       
+            xr.ReadToFollowing("revisions");
 
             xr.ReadToDescendant("rev");
             Timestamp = xr.GetAttribute("timestamp");
