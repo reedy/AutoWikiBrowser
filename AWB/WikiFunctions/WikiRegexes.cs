@@ -688,11 +688,6 @@ namespace WikiFunctions
         public static Regex Orphan;
 
         /// <summary>
-        /// matches orphan tag within {{Article issues}} template
-        /// </summary>
-        public static readonly Regex OrphanArticleIssues = new Regex(@"{{\s*(?:article|multiple)\s*issues\s*\|[^{}]*?\borphan\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-        /// <summary>
         /// matches uncategorised templates: {{Uncat}}, {{Uncaegorised}}, {{Uncategorised stub}} allowing for nested subst: {{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
         /// </summary>
         public static Regex Uncat;
