@@ -313,7 +313,7 @@ namespace WikiFunctions
         /// <summary>
         /// 
         /// </summary>
-        public static readonly Regex TemplateEnd = new Regex(@" *}}$", RegexOptions.Compiled);
+        public static readonly Regex TemplateEnd = new Regex(@" *(\r\n)*}}$", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches single and multiline templates, NOT nested templates

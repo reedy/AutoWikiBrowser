@@ -2000,7 +2000,7 @@ Message: {2}
             if(newlines > 2 && newlines >= (bars-2))
                 separator = "\r\n";
             
-            return WikiRegexes.TemplateEnd.Replace(template, separator + @"| " + parameter + "=" + value + @"}}");
+            return WikiRegexes.TemplateEnd.Replace(template, separator + @"| " + parameter + "=" + value + @"$1}}");
         }
         
         /// <summary>

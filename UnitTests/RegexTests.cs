@@ -871,7 +871,10 @@ cit"));
             Assert.AreEqual(WikiRegexes.TemplateEnd.Match(@"{{foo}}").Value, @"}}");
             Assert.AreEqual(WikiRegexes.TemplateEnd.Match(@"{{foo }}").Value, @" }}");
             Assert.AreEqual(WikiRegexes.TemplateEnd.Match(@"{{foo
-}}").Value, @"}}");
+}}").Value, @"
+}}");
+            Assert.AreEqual(WikiRegexes.TemplateEnd.Match(@"{{foo
+}}").Groups[1].Value, "\r\n");
         }
 
         [Test]
