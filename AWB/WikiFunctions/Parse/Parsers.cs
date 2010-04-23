@@ -350,8 +350,10 @@ namespace WikiFunctions.Parse
             }
 
             // if article currently has {{Article issues}}, add tags to it
-            if (WikiRegexes.ArticleIssues.IsMatch(zerothSection))
-                zerothSection = WikiRegexes.ArticleIssues.Replace(zerothSection, "$1" + newTags + @"}}");
+            string ai = WikiRegexes.ArticleIssues.Match(zerothSection).Value;
+            if (ai.Length > 0)
+                zerothSection = zerothSection.Replace(ai, ai.Substring(0, ai.Length-2) + newTags + @"}}");
+            
             else // add {{article issues}} to top of article, metaDataSorter will arrange correctly later
                 zerothSection = @"{{Article issues" + newTags + "}}\r\n" + zerothSection;
 
@@ -4606,7 +4608,8 @@ namespace WikiFunctions.Parse
                 tagsAdded.Add("stub");
             }
 
-            if (linkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(articleText) && Variables.LangCode != "sv")
+            if (linkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(articleText) && Variables.LangCode != "sv"
+               && !Regex.IsMatch(WikiRegexes.ArticleIssues.Match(articleText).Value.ToLower(), @"\bdead ?end\b"))
             {
                 // add dead-end tag
                 articleText = "{{dead end|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
@@ -4620,7 +4623,8 @@ namespace WikiFunctions.Parse
                 tagsRemoved.Add("deadend");
             }
 
-            if (linkCount < 3 && ((linkCount / length) < 0.0025) && !WikiRegexes.Wikify.IsMatch(articleText))
+            if (linkCount < 3 && ((linkCount / length) < 0.0025) && !WikiRegexes.Wikify.IsMatch(articleText)
+               && !WikiRegexes.ArticleIssues.Match(articleText).Value.ToLower().Contains("wikify"))
             {
                 // add wikify tag
                 articleText = "{{Wikify|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
@@ -4689,7 +4693,7 @@ namespace WikiFunctions.Parse
             }
 
             // add orphan tag if applicable, and no disambig
-            if (orphaned2 && !WikiRegexes.Orphan.IsMatch(articleText) && !WikiRegexes.OrphanArticleIssues.IsMatch(articleText)
+            if (orphaned2 && !WikiRegexes.Orphan.IsMatch(articleText) && Tools.GetTemplateParameterValue(WikiRegexes.ArticleIssues.Match(articleText).Value, "orphan").Length == 0
                 && !WikiRegexes.Disambigs.IsMatch(articleText))
             {
                 articleText = "{{orphan|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;

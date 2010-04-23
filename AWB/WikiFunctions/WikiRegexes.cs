@@ -663,7 +663,7 @@ namespace WikiFunctions
         public static readonly Regex LinkFGAsArabic = new Regex(@"{{\s*وصلة مقالة مختارة\s*\|.*?}}", RegexOptions.Compiled | RegexOptions.Singleline);
 
         /// <summary>
-        /// Matches {{Deadend|xxx}} (en only)
+        /// Matches {{Deadend|xxx}} (en only), including in {{multiple issues}}
         /// </summary>
         public static readonly Regex DeadEnd = new Regex(@"({{\s*([Dd]ead ?end|[Ii]nternal ?links|[Nn]uevointernallinks|[Dd]ep)(\|(?:[^{}]+|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}))?}}|(?<={{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?)\|\s*dead ?end\s*=[^{}\|]+)", RegexOptions.Compiled);
 
@@ -698,9 +698,9 @@ namespace WikiFunctions
         public static Regex Uncat;
 
         /// <summary>
-        /// matches {{Article issues}} template
+        /// matches {{Article issues}}/{{multiple issues}} template
         /// </summary>
-        public static readonly Regex ArticleIssues = new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues(?:\s*\|[^{}]*)?\s*)}}", RegexOptions.Compiled);
+        public static readonly Regex ArticleIssues = Tools.NestedTemplateRegex(new List<string>(@"article issues,articleissues,multipleissues,multiple issues".Split(',')));
 
         /// <summary>
         /// matches {{New unreviewed article}} template
