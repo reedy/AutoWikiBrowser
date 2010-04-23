@@ -5614,6 +5614,10 @@ asdfasdf}} was here", "foo"));
 			text = parser.Tagger(@"{{Article issues|orphan=May 2008|cleanup=May 2008|story=May 2008}}\r\n" + ShortText, "Test", false, out noChange, ref summary);
 			Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
 			Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(text));
+			
+			text = parser.Tagger(@"{{Article issues|orphan={{subst:CURRENTMONTH}} {{subst:CURRENTYEAR}}|deadend={{subst:CURRENTMONTH}} {{subst:CURRENTYEAR}}|wikify=May 2008}}\r\n" + ShortText, "Test", false, out noChange, ref summary);
+			Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
+			Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(text));
 		}
 		
 		[Test]
@@ -5655,6 +5659,9 @@ asdfasdf}} was here", "foo"));
 			
 			text = parser.Tagger(@"{{Infobox foo bar|great=yes}}" + ShortText, "Test", false, out noChange, ref summary);
 			Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+			
+			text = parser.Tagger(@"{{multiple issues|foo={{subst:CURRENTMONTH}} |orphan={{subst:FOOBAR}} }}" + ShortText, "Test", false, out noChange, ref summary);
+			Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
 			
 			Globals.UnitTestBoolValue = false;
 			
