@@ -2334,6 +2334,9 @@ window.scrollTo(0, diffTopY);
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
                 if (TheArticle.HasRefAfterReflist)
                     warnings.AppendLine(@"Has a <ref> after <references/>");
+                
+                if(TheArticle.IsDisambiguationPageWithRefs)
+                    warnings.AppendLine(@"DAB page with <ref>s");
 
                 if (articleText.StartsWith("=="))
                     warnings.AppendLine("Starts with heading");
