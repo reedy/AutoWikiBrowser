@@ -260,7 +260,21 @@ namespace WikiFunctions
         [XmlIgnore]
         public bool HasMorefootnotesAndManyReferences
         { get { return Parsers.HasMorefootnotesAndManyReferences(mArticleText); } }
+        
+        /// <summary>
+        /// Returns whether the article is a disambiguation page (en only)
+        /// </summary>
+        [XmlIgnore]
+        public bool IsDisambiguationPage
+        { get { return Variables.LangCode == "en" && NameSpaceKey == Namespace.Mainspace && WikiRegexes.Disambigs.IsMatch(mArticleText); } }
 
+        /// <summary>
+        /// Returns whether the article is a disambiguation page has references
+        /// </summary>
+        [XmlIgnore]
+        public bool IsDisambiguationPageWithRefs
+        { get { return IsDisambiguationPage && WikiRegexes.Refs.IsMatch(mArticleText); } }
+        
         /// <summary>
         /// Returns true if the article contains a <ref>...</ref> reference after the {{reflist}} to show them
         /// </summary>
