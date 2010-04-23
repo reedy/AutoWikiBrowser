@@ -5613,11 +5613,11 @@ asdfasdf}} was here", "foo"));
 
 			text = parser.Tagger(@"{{Article issues|orphan=May 2008|cleanup=May 2008|story=May 2008}}\r\n" + ShortText, "Test", false, out noChange, ref summary);
 			Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
-			Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(text));
+			Assert.IsTrue(WikiRegexes.ArticleIssues.Match(text).Value.Contains("orphan"));
 			
 			text = parser.Tagger(@"{{Article issues|orphan={{subst:CURRENTMONTH}} {{subst:CURRENTYEAR}}|deadend={{subst:CURRENTMONTH}} {{subst:CURRENTYEAR}}|wikify=May 2008}}\r\n" + ShortText, "Test", false, out noChange, ref summary);
 			Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
-			Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(text));
+			Assert.IsTrue(WikiRegexes.ArticleIssues.Match(text).Value.Contains("orphan"));
 		}
 		
 		[Test]

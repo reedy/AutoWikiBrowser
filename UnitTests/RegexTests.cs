@@ -826,22 +826,6 @@ cit"));
         }
 
         [Test]
-        public void OrphanArticleIssuesTests()
-        {
-            Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(@"{{Article issues|orphan=May 2008|cleanup=May 2008|story=May 2008}}"));
-            Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(@"{{Articleissues|orphan=May 2008|cleanup=May 2008|story=May 2008}}"));
-            Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(@"{{ Articleissues|orphan=May 2008|cleanup=May 2008|story=May 2008}}"));
-            Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(@"{{Article issues
-            |orphan=May 2008|cleanup=May 2008|story=May 2008}}"));
-            Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(@"{{Article issues|orphan = May 2008|cleanup=May 2008|story=May 2008}}"));
-            Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(@"{{Article issues|Orphan=May 2008|cleanup=May 2008|story=May 2008}}"));
-            Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(@"{{Article issues| orphan |cleanup=May 2008|story=May 2008}}"));
-            Assert.IsFalse(WikiRegexes.OrphanArticleIssues.IsMatch(@"{{Article issues|cleanup=May 2008|story=May 2008}}"));
-            
-               Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(@"{{multiple issues|orphan=May 2008|cleanup=May 2008|story=May 2008}}"));
-        }
-
-        [Test]
         public void InfoboxTests()
         {
             TestMatch(WikiRegexes.InfoBox, @" {{Infobox hello| bye}} ", @"{{Infobox hello| bye}}", @"Infobox hello");
