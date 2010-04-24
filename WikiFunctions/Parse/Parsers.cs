@@ -649,7 +649,7 @@ namespace WikiFunctions.Parse
                 foreach (Match m in OutofOrderRefs1.Matches(articleText))
                 {
                     string ref1 = m.Groups[1].Value;
-                    int ref1Index = Regex.Match(articleText, @"(?i)<ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(m.Groups[4].Value) + @"(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>").Index;
+                    int ref1Index = Regex.Match(articleText, @"(?si)<ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(m.Groups[4].Value) + @"(?:""|')?\s*(?:\/\s*|>.+?</ref)>").Index;
                     int ref2Index = articleText.IndexOf(ref1);
 
                     if (ref1Index < ref2Index && ref2Index > 0 && m.Groups[3].Index < referencestags)
@@ -682,8 +682,8 @@ namespace WikiFunctions.Parse
         {
             foreach (Match m in outofOrderRegex.Matches(articleText))
             {
-                int ref1Index = Regex.Match(articleText, @"(?i)<ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(m.Groups[2].Value) + @"(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>").Index;
-                int ref2Index = Regex.Match(articleText, @"(?i)<ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(m.Groups[6].Value) + @"(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>").Index;
+                int ref1Index = Regex.Match(articleText, @"(?si)<ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(m.Groups[2].Value) + @"(?:""|')?\s*(?:\/\s*|>.+?</ref)>").Index;
+                int ref2Index = Regex.Match(articleText, @"(?si)<ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(m.Groups[6].Value) + @"(?:""|')?\s*(?:\/\s*|>.+?</ref)>").Index;
 
                 if (ref1Index > ref2Index && ref1Index > 0 && m.Groups[5].Index < referencestagindex)
                 {
