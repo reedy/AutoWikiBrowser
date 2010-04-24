@@ -2221,7 +2221,7 @@ Message: {2}
         }
         
         private static readonly string NestedTemplateRegexStart = @"({{\s*)(";
-        private static readonly string NestedTemplateRegexEnd = @"(\s*(?:<!--[^>]*?-->\s*)?(\|((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))))?\}\})";
+        private static readonly string NestedTemplateRegexEnd = @"(\s*(?:<!--[^>]*?-->\s*|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋\s*)?(\|((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))))?\}\})";
         
         /// <summary>
         /// Returns a regex to match the input template

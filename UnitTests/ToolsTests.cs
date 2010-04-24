@@ -1288,6 +1288,7 @@ title=abc
 |other=yes}}"));
             Assert.IsTrue(FooTemplate.IsMatch(@"{{foo<!--comm-->|title=abc}}"));
             Assert.IsTrue(FooTemplate.IsMatch(@"{{foo <!--comm--> |title=abc}}"));
+            Assert.IsTrue(FooTemplate.IsMatch(@"{{foo ⌊⌊⌊⌊0⌋⌋⌋⌋ |title=abc}}"));
             Assert.IsTrue(FooTemplate.IsMatch(@"{{
 foo<!--comm-->|title=abc
 }}"));
