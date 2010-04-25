@@ -1465,6 +1465,13 @@ Start date and age
         {
             Assert.AreEqual("Doe, John, Jr.", Tools.MakeHumanCatKey("John Doe, Jr."));
             Assert.AreEqual("Doe, John, Sr.", Tools.MakeHumanCatKey("John Doe, Sr."));
+            Assert.AreEqual("Doe, John, Jnr.", Tools.MakeHumanCatKey("John Doe, Jnr."));
+            Assert.AreEqual("Doe, John, Snr.", Tools.MakeHumanCatKey("John Doe, Snr."));
+            
+            Assert.AreEqual("Doe, John, Snr.", Tools.MakeHumanCatKey("John Doe Snr."));
+            Assert.AreEqual("Hickham, Steven A., Jr.", Tools.MakeHumanCatKey("Steven A. Hickham Jr."));
+            Assert.AreEqual("Hickham, Steven A., Jnr.", Tools.MakeHumanCatKey("Steven A. Hickham Jnr."));
+            Assert.AreEqual("Hickham, Steven, Jr.", Tools.MakeHumanCatKey("Steven Hickham Jr."));
         }
 
         [Test]

@@ -197,11 +197,13 @@ namespace WikiFunctions
         public static string MakeHumanCatKey(string name)
         {
             name = RemoveNamespaceString(Regex.Replace(RemoveDiacritics(name), @"\(.*?\)$", "").Replace("'", "").Trim()).Trim();
+            
             string origName = name;
+            
+            // ukwiki uses "Lastname Firstname Patronymic" convention, nothing more is needed
             if (!name.Contains(" ") || Variables.LangCode == "uk")
                 return FixupDefaultSort(origName);
-            // ukwiki uses "Lastname Firstname Patronymic" convention, nothing more is needed
-
+            
             string suffix = "";
             int pos = name.IndexOf(',');
 
@@ -213,7 +215,7 @@ namespace WikiFunctions
             }
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Arabic_names
-            // Arabic, Chinese names etc. don't use the "Lastname, Firstname" format, perferring "Full Name" format
+            // Arabic names etc. use "Full Name" format
             // find the most common of these names and use that format for them
             if (Regex.IsMatch(origName, @"(\b(Abd[au]ll?ah?|Ahmed|Mustaq|Merza|Kandah[a-z]*|Mohabet|Nasrat|Nazargul|Yasi[mn]|Husayn|Akram|M[ou]hamm?[ae]d\w*|Abd[eu]l|Razzaq|Adil|Anwar|Fahed|Habi[bdr]|Hafiz|Jawad|Hassan|Ibr[ao]him|Khal[ei]d|Karam|Majid|Mustafa|Rash[ie]d|Yusef|[Bb]in|Nasir|Aziz|Rahim|Kareem|Abu|Aminullah|Fahd|Fawaz|Ahmad|Rahman|Hasan|Nassar|A(?:zz|s)am|Jam[ai]l|Tariqe?|Yussef|Said|Wass?im|Wazir|Tarek|Umran|Mahmoud|Malik|Shoaib|Hizani|Abib|Raza|Salim|Iqbal|Saleh|Hajj|Brahim|Zahir|Wasm|Yo?usef|Yunis|Zakim|Shah|Yasser|Samil|Akh[dk]ar|Haji|Uthman|Khadr|Asiri|Rajab|Shakouri|Ishmurat|Anazi|Nahdi|Zaheed|Ramzi|Rasul|Muktar|Muhassen|Radhi|Rafat|Kadir|Zaman|Karim|Awal|Mahmud|Mohammon|Husein|Airat|Alawi|Ullah|Sayaf|Henali|Ismael|Salih|Mahnut|Faha|Hammad|Hozaifa|Ravil|Jehan|Abdah|Djamel|Sabir|Ruhani|Hisham|Rehman|Mesut|Mehdi|Lakhdar|Mourad|Fazal[a-z]*|Mukit|Jalil|Rustam|Jumm?a|Omar Ali)\b|(?:[bdfmtnrz]ullah|alludin|[hm]atulla|r[ao]llah|harudin|millah)\b|\b(?:Abd[aeu][lr]|Nazur| Al[- ][A-Z]| al-[A-Z]))"))
                 return FixupDefaultSort(origName);
@@ -221,7 +223,8 @@ namespace WikiFunctions
             int intLast = name.LastIndexOf(" ") + 1;
             string lastName = name.Substring(intLast).Trim();
             name = name.Remove(intLast).Trim();
-            if (IsRomanNumber(lastName))
+            
+            if (IsRomanNumber(lastName) || Regex.IsMatch(lastName, @"^[SJsj]n?r\.$"))
             {
                 if (name.Contains(" "))
                 {
@@ -231,7 +234,7 @@ namespace WikiFunctions
                     name = name.Remove(intLast).Trim();
                 }
                 else
-                { //if (Suffix != "") {
+                {
                     // We have something like "Peter" "II" "King of Spain" (first/last/suffix), so return what we started with
                     // OR We have "Fred" "II", we don't want to return "II, Fred" so we must return "Fred II"
                     return FixupDefaultSort(origName);
@@ -246,8 +249,6 @@ namespace WikiFunctions
             name = (lastName + ", " + (name.Length > 0 ? name + ", " : "") + suffix).Trim(" ,".ToCharArray());
 
             // set correct casing
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Correct_case_for_.25.25key.25.25
-
             return FixupDefaultSort(name);
         }
 
