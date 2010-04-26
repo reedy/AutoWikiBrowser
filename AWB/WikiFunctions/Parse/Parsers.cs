@@ -4904,7 +4904,7 @@ namespace WikiFunctions.Parse
         {
             return (Variables.LangCode != "en")
                 ? false
-                : WikiRegexes.InUse.IsMatch(WikiRegexes.Comments.Replace(articleText, ""));
+                : WikiRegexes.InUse.IsMatch(WikiRegexes.UnformattedText.Replace(articleText, ""));
         }
 
         /// <summary>
