@@ -3275,7 +3275,16 @@ window.scrollTo(0, diffTopY);
 
             try
             {
-                MatchCollection m = RegexDates.Matches(txtEdit.Text);
+                string articleTextLocal = txtEdit.Text;
+                
+                // ignore dates from dated maintenance tags etc.
+                foreach(Match m2 in WikiRegexes.NestedTemplates.Matches(articleTextLocal))
+                {
+                    if(Tools.GetTemplateParameterValue(m2.Value, "date").Length > 0)
+                        articleTextLocal = articleTextLocal.Replace(m2.Value, "");
+                }
+                
+                MatchCollection m = RegexDates.Matches(articleTextLocal);
 
                 //find first dates
                 string births = "", deaths = "";
