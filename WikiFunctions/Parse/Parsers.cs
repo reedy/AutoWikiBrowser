@@ -279,18 +279,28 @@ namespace WikiFunctions.Parse
         private const int MinCleanupTagsToCombine = 3; // article must have at least this many tags to combine to {{Article issues}}
 
         /// <summary>
-        /// Combines multiple cleanup tags into {{article issues}} template, ensures parameters have correct case, removes date parameter where not needed
+        /// Combines multiple cleanup tags into {{multiple issues}} template, ensures parameters have correct case, removes date parameter where not needed
         /// only for English-language wikis
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public string ArticleIssues(string articleText)
+        public string ArticleIssues(string articleText, string articleTitle)
         {
             if (Variables.LangCode != "en")
                 return articleText;
 
             if (WikiRegexes.ArticleIssues.IsMatch(articleText))
+            {
+                string aiat = WikiRegexes.ArticleIssues.Match(articleText).Value;
+                
+                // unref to BLPunref for bio articles
+                if(Tools.GetTemplateParameterValue(aiat, "unreferenced").Length > 0 && IsArticleAboutAPerson(articleText, articleTitle, true))
+                    articleText = articleText.Replace(aiat, Tools.RenameTemplateParameter(aiat, "unreferenced", "BLPunreferenced"));
+                else if(Tools.GetTemplateParameterValue(aiat, "unref").Length > 0 && IsArticleAboutAPerson(articleText, articleTitle, true))
+                    articleText = articleText.Replace(aiat, Tools.RenameTemplateParameter(aiat, "unref", "BLPunreferenced"));
+                
                 articleText = MetaDataSorter.MoveMaintenanceTags(articleText);
+            }
 
             // convert title case parameters within {{Article issues}} to lower case
             foreach (Match m in WikiRegexes.ArticleIssuesInTitleCase.Matches(articleText))
@@ -3914,6 +3924,11 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static bool IsArticleAboutAPerson(string articleText, string articleTitle, bool parseTalkPage)
         {
+            #if DEBUG
+            if(Globals.UnitTestMode)
+                parseTalkPage = false;
+            #endif
+            
             if (Variables.LangCode != "en"
                 || articleText.Contains(@"[[Category:Multiple people]]")
                 || articleText.Contains(@"[[Category:Married couples")
