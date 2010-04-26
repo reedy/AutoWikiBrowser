@@ -5073,6 +5073,7 @@ foo {{persondata}}
 
 			// ignore commented inuse
 			Assert.IsFalse(Parsers.IsInUse("<!--{{inuse}}--> Hello world"));
+			Assert.IsFalse(Parsers.IsInUse("<nowiki>{{inuse}}</nowiki> Hello world"));
 			Assert.IsTrue(Parsers.IsInUse("<!--{{inuse}}--> {{inuse|5 minutes}} Hello world"));
 
 			Assert.IsFalse(Parsers.IsInUse("{{INUSE}} Hello world")); // no such template
