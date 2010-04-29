@@ -662,7 +662,7 @@ namespace WikiFunctions.Parse
                     int ref1Index = Regex.Match(articleText, @"(?si)<ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(m.Groups[4].Value) + @"(?:""|')?\s*(?:\/\s*|>.+?</ref)>").Index;
                     int ref2Index = articleText.IndexOf(ref1);
 
-                    if (ref1Index < ref2Index && ref2Index > 0 && m.Groups[3].Index < referencestags)
+                    if (ref1Index < ref2Index && ref2Index > 0 && ref1Index > 0 && m.Groups[3].Index < referencestags)
                     {
                         string whitespace = m.Groups[2].Value;
                         string rptemplate = m.Groups[5].Value;
