@@ -61,7 +61,7 @@ namespace WikiFunctions.Lists.Providers
         
         protected virtual bool CheckExtra(string entry)
         {
-            return (!entry.StartsWith(@"<h1>") && !entry.StartsWith("<pre>") && !entry.EndsWith("</pre>"));
+            return (!entry.StartsWith(@"<h1>", StringComparison.OrdinalIgnoreCase) && !entry.StartsWith("<pre>", StringComparison.OrdinalIgnoreCase) && !entry.EndsWith("</pre>", StringComparison.OrdinalIgnoreCase));
         }
 
         protected virtual string ModifyArticleName(string title)
