@@ -139,7 +139,8 @@ namespace AutoWikiBrowser
             LoadPrefs(openXML.FileName);
             SettingsFile = openXML.FileName;
 
-            listMaker.RemoveListDuplicates();
+            if(removeDuplicatesToolStripMenuItem.Checked)
+                listMaker.RemoveListDuplicates();
         }
 
         private void LoadRecentSettingsList()
@@ -294,6 +295,7 @@ namespace AutoWikiBrowser
                         Text = txtAppendMessage.Text,
                         Newlines = (int) udNewlineChars.Value,
                         AutoDelay = (int) nudBotSpeed.Value,
+                        BotMaxEdits = (int) botEditsStop.Value,
                         SupressTag = chkSuppressTag.Checked,
                         RegexTypoFix = chkRegExTypo.Checked
                     },
@@ -469,7 +471,9 @@ namespace AutoWikiBrowser
             }
 
             SettingsFile = path;
-            listMaker.RemoveListDuplicates();
+            
+            if(removeDuplicatesToolStripMenuItem.Checked)
+                listMaker.RemoveListDuplicates();
         }
 
         /// <summary>
@@ -533,6 +537,7 @@ namespace AutoWikiBrowser
             udNewlineChars.Value = p.Editprefs.Newlines;
 
             nudBotSpeed.Value = p.Editprefs.AutoDelay;
+            botEditsStop.Value = p.Editprefs.BotMaxEdits;
             chkSuppressTag.Checked = p.Editprefs.SupressTag;
 
             chkRegExTypo.Checked = p.Editprefs.RegexTypoFix;

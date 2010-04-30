@@ -376,9 +376,9 @@ namespace WikiFunctions.API
             InvokeFunction("Logout");
         }
 
-        public void Open(string title)
+        public void Open(string title, bool resolveRedirects)
         {
-            InvokeFunction("Open", title);
+            InvokeFunction("Open", title, resolveRedirects);
         }
 
         public void Save(string pageText, string summary, bool minor, WatchOptions watch)
@@ -449,6 +449,11 @@ namespace WikiFunctions.API
         public void QueryApi(string queryParameters)
         {
             InvokeFunction("QueryApi", queryParameters);
+        }
+
+        public void Rollback(string title, string user)
+        {
+            InvokeFunction("Rollback", title, user);
         }
 
         public void ExpandTemplates(string title, string text)

@@ -332,8 +332,7 @@ namespace AutoWikiBrowser
                 if ((Updater.Result & Updater.AWBEnabledStatus.Error) == Updater.AWBEnabledStatus.Error)
                 {
                     lblUserName.BackColor = Color.Red;
-                    MessageBox.Show(this, "Cannot load version check page from Wikipedia. "
-                                    + "Please verify that you're connected to Internet.", "Error",
+                    MessageBox.Show(this, "Cannot load version check page from Wikipedia. Please verify that you're connected to Internet.", "Error",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
@@ -599,7 +598,7 @@ namespace AutoWikiBrowser
         private void OpenPage(string title)
         {
             StatusLabelText = "Loading...";
-            TheSession.Editor.Open(title);
+            TheSession.Editor.Open(title, bypassRedirectsToolStripMenuItem.Checked);
         }
 
         private bool _stopProcessing, _inStart, _startAgain;
@@ -725,8 +724,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        // counts number of redirects so that we catch double redirects
-        private int _redirects, _unbalancedBracket, _bracketLength;
+        private int _unbalancedBracket, _bracketLength;
 
         private Dictionary<int, int> badCiteParameters = new Dictionary<int, int>();
         private Dictionary<int, int> deadLinks = new Dictionary<int, int>();
@@ -757,7 +755,8 @@ namespace AutoWikiBrowser
                 return;
             TheArticle = new ArticleEX(page);
 
-            if (!preParseModeToolStripMenuItem.Checked && !CheckLoginStatus()) return;
+            if (!preParseModeToolStripMenuItem.Checked && !CheckLoginStatus())
+				return;
 
             if (Program.MyTrace.HaveOpenFile)
                 Program.MyTrace.WriteBulletedLine("AWB started processing", true, true, true);
@@ -766,58 +765,36 @@ namespace AutoWikiBrowser
 
             Text = _settingsFileDisplay + " - " + page.Title;
 
-            bool articleIsRedirect = Tools.IsRedirect(page.Text);
-
+            bool articleIsRedirect = PageInfo.WasRedirected(page);
+         
             if (chkSkipIfRedirect.Checked && articleIsRedirect)
             {
                 SkipPage("Page is a redirect");
                 return;
             }
 
-            if (articleIsRedirect)
-                _redirects++;
-            else
-                _redirects = 0;
-
             //check for redirect
             if (bypassRedirectsToolStripMenuItem.Checked && articleIsRedirect && !PageReload)
             {
-                // Warning: Creating an ArticleEX causes a new AWBLogListener to be created and it becomes the active listener in MyTrace; be careful we're writing to the correct log listener
-                string redirect = Parsers.CanonicalizeTitleAggressively(Tools.RedirectTarget(page.Text));
-
-                if (!String.IsNullOrEmpty(redirect) && Tools.IsValidTitle(redirect))
+                if ((page.TitleChangedStatus & PageTitleStatus.RedirectLoop) == PageTitleStatus.RedirectLoop)
                 {
-                    if (filterOutNonMainSpaceToolStripMenuItem.Checked
-                        && (Namespace.Determine(redirect) != Namespace.Article))
-                    {
-                        SkipRedirect(redirect, "Page is not in mainspace");
-                        return;
-                    }
-
-                    if (redirect == TheArticle.Name)
-                    {
-                        //ignore recursive redirects
-                        SkipRedirect(redirect, "Recursive redirect");
-                        return;
-                    }
-
-                    if (ArticleWasRedirected != null)
-                        ArticleWasRedirected(TheArticle.Name, redirect);
-
-                    listMaker.ReplaceArticle(TheArticle, new Article(redirect));
-                    TheArticle = new ArticleEX(redirect, "");
-
-                    // don't allow redirects to a redirect as we could go round in circles
-                    if (_redirects > 1)
-                    {
-                        SkipPage("Double redirect");
-                        return;
-                    }
-
-                    OpenPage(redirect);
-
+                    //ignore recursive redirects
+                    SkipRedirect(page.OriginalTitle, "Recursive redirect");
                     return;
                 }
+                //No double redirects, API should've resolved it
+
+                if (filterOutNonMainSpaceToolStripMenuItem.Checked
+                    && (Namespace.Determine(page.Title) != Namespace.Article))
+                {
+                    SkipRedirect(page.Title, "Page is not in mainspace");
+                    return;
+                }
+
+                if (ArticleWasRedirected != null)
+                    ArticleWasRedirected(page.OriginalTitle, page.Title);
+
+                listMaker.ReplaceArticle(new Article(page.OriginalTitle), TheArticle);
             }
 
             ErrorHandler.CurrentRevision = page.RevisionID;
@@ -834,13 +811,17 @@ namespace AutoWikiBrowser
 
             //check not in use
             if (TheArticle.IsInUse)
-                if (chkSkipIfInuse.Checked)
             {
-                SkipPage("Page contains {{inuse}}");
-                return;
+                if (chkSkipIfInuse.Checked)
+                {
+                    SkipPage("Page contains {{inuse}}");
+                    return;
+                }
+                if (!BotMode && !preParseModeToolStripMenuItem.Checked)
+                {
+                    MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
+                }
             }
-            else if (!BotMode && !preParseModeToolStripMenuItem.Checked)
-                MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
 
             if (automaticallyDoAnythingToolStripMenuItem.Checked)
             {
@@ -1026,10 +1007,12 @@ namespace AutoWikiBrowser
                 }
                 else
                 {
-                    if (_unbalancedBracket < 0 && badCiteParameters.Count == 0 && deadLinks.Count == 0
-                       && ambigCiteDates.Count == 0)
-                        btnSave.Focus();
-                    else if (scrollToUnbalancedBracketsToolStripMenuItem.Checked)
+                    /*   if (_unbalancedBracket < 0 && badCiteParameters.Count == 0 && deadLinks.Count == 0
+                        && ambigCiteDates.Count == 0)
+                    {
+                        btnSave.Select();
+                    }
+                    else */if (scrollToUnbalancedBracketsToolStripMenuItem.Checked)
                     {
                         EditBoxTab.SelectedTab = tpEdit;
 
@@ -1046,7 +1029,9 @@ namespace AutoWikiBrowser
                             HighlightErrors(ambigCiteDates);
                     }
                 }
-
+                
+                //  tpStart.Select();
+                btnSave.Select();
                 StatusLabelText = "Ready to save";
             }
             else
@@ -1651,6 +1636,8 @@ window.scrollTo(0, diffTopY);
             Bleepflash();
             Focus();
             EnableButtons();
+            //    btnSave.BringToFront();
+            btnSave.Select();
         }
 
         /// <summary>
@@ -2155,8 +2142,8 @@ window.scrollTo(0, diffTopY);
 
         private void SetBotModeEnabled(bool enabled)
         {
-            label2.Enabled /*= chkSuppressTag.Enabled*/ = nudBotSpeed.Enabled
-                = lblAutoDelay.Enabled = btnResetNudges.Enabled = lblNudges.Enabled = chkNudge.Enabled
+            label2.Enabled = nudBotSpeed.Enabled = botEditsStop.Enabled
+                = lblAutoDelay.Enabled = lblbotEditsStop.Enabled = btnResetNudges.Enabled = lblNudges.Enabled = chkNudge.Enabled
                 = chkNudgeSkip.Enabled = chkNudge.Checked = chkShutdown.Enabled = enabled;
         }
 
@@ -2347,6 +2334,9 @@ window.scrollTo(0, diffTopY);
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
                 if (TheArticle.HasRefAfterReflist)
                     warnings.AppendLine(@"Has a <ref> after <references/>");
+                
+                if(TheArticle.IsDisambiguationPageWithRefs)
+                    warnings.AppendLine(@"DAB page with <ref>s");
 
                 if (articleText.StartsWith("=="))
                     warnings.AppendLine("Starts with heading");
@@ -2836,6 +2826,12 @@ window.scrollTo(0, diffTopY);
             }
 
             UpdateBotTimer();
+            
+            if(botEditsStop.Value > 0 && NumberOfEdits >= botEditsStop.Value)
+            {
+                Stop();
+                StatusLabelText = "Stopped: " + botEditsStop.Value.ToString() + " edits reached";
+            }
         }
 
         private void ShowTimer()
@@ -3279,7 +3275,16 @@ window.scrollTo(0, diffTopY);
 
             try
             {
-                MatchCollection m = RegexDates.Matches(txtEdit.Text);
+                string articleTextLocal = txtEdit.Text;
+                
+                // ignore dates from dated maintenance tags etc.
+                foreach(Match m2 in WikiRegexes.NestedTemplates.Matches(articleTextLocal))
+                {
+                    if(Tools.GetTemplateParameterValue(m2.Value, "date").Length > 0)
+                        articleTextLocal = articleTextLocal.Replace(m2.Value, "");
+                }
+                
+                MatchCollection m = RegexDates.Matches(articleTextLocal);
 
                 //find first dates
                 string births = "", deaths = "";
@@ -4239,7 +4244,7 @@ window.scrollTo(0, diffTopY);
                 string text;
                 try
                 {
-                    text = TheSession.Editor.SynchronousEditor.Clone().Open("Project:AutoWikiBrowser/User talk templates"); //TheSession.Editor.SynchronousEditor.HttpGet() ??
+                    text = TheSession.Editor.SynchronousEditor.Clone().Open("Project:AutoWikiBrowser/User talk templates", true); //TheSession.Editor.SynchronousEditor.HttpGet() ??
                 }
                 catch
                 {

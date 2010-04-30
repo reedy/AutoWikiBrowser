@@ -34,7 +34,61 @@ namespace WikiFunctions.API
         internal PageInfo(string xml)
         {
             XmlReader xr = XmlReader.Create(new StringReader(xml));
-            if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
+
+            if (!xr.ReadToFollowing("page"))
+                throw new Exception("Cannot find <page> element");
+
+            string normalisedFrom = null, redirectFrom = null;
+
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(xml);
+
+            var redirects = doc.GetElementsByTagName("r");
+
+            if (redirects.Count >= 1) //We have redirects
+            {
+                if (redirects.Count > 1 &&
+                    redirects[0].Attributes["from"].Value == redirects[redirects.Count - 1].Attributes["to"].Value)
+                {
+                    //Redirect loop
+                    TitleChangedStatus = PageTitleStatus.RedirectLoop;
+                }
+                else
+                {
+                    //Valid redirects
+                    TitleChangedStatus = redirects.Count == 1
+                                             ? PageTitleStatus.Redirected
+                                             : PageTitleStatus.MultipleRedirects;
+                }
+                redirectFrom = redirects[0].Attributes["from"].Value;
+            }
+            else
+            {
+                TitleChangedStatus = PageTitleStatus.NoChange;
+            }
+
+            //Normalised before redirect, so would be root. Could still be multiple redirects, or looped
+            var normalised = doc.GetElementsByTagName("n");
+
+            if (normalised.Count > 0)
+            {
+                normalisedFrom = normalised[0].Attributes["from"].Value;
+
+                if (TitleChangedStatus == PageTitleStatus.NoChange)
+                    TitleChangedStatus = PageTitleStatus.Normalised;
+                else
+                    TitleChangedStatus |= PageTitleStatus.Normalised;
+            }
+
+            //Normalisation occurs before redirection, so if that exists, that is the title passed to the API
+            if (!string.IsNullOrEmpty(normalisedFrom))
+            {
+                OriginalTitle = normalisedFrom;
+            }
+            else if (!string.IsNullOrEmpty(redirectFrom))
+            {
+                OriginalTitle = redirectFrom;
+            }
 
             Exists = (xr.GetAttribute("missing") == null); //if null, page exists
             IsWatched = (xr.GetAttribute("watched") != null);
@@ -49,9 +103,6 @@ namespace WikiFunctions.API
 
             if (xr.ReadToDescendant("protection") && !xr.IsEmptyElement)
             {
-                XmlDocument doc = new XmlDocument();
-                doc.LoadXml(xr.ReadOuterXml());
-
                 foreach (XmlNode xn in doc.GetElementsByTagName("pr"))
                 {
                     switch (xn.Attributes["type"].Value)
@@ -65,8 +116,8 @@ namespace WikiFunctions.API
                     }
                 }
             }
-            else
-                xr.ReadToFollowing("revisions");
+       
+            xr.ReadToFollowing("revisions");
 
             xr.ReadToDescendant("rev");
             Timestamp = xr.GetAttribute("timestamp");
@@ -74,19 +125,31 @@ namespace WikiFunctions.API
         }
 
         /// <summary>
-        /// 
+        /// Title of the Page
         /// </summary>
         public string Title
         { get; private set; }
-        
+
         /// <summary>
-        /// 
+        /// Original title (before redirects/normalisation) of the Page
+        /// </summary>
+        public string OriginalTitle
+        { get; private set; }
+
+        /// <summary>
+        /// Why OriginalTitle differs from Title
+        /// </summary>
+        public PageTitleStatus TitleChangedStatus 
+        { get; private set; }
+
+        /// <summary>
+        /// Text of the Page
         /// </summary>
         public string Text
         { get; private set; }
 
         /// <summary>
-        /// 
+        /// Whether the page exists or not
         /// </summary>
         public bool Exists
         { get; private set; }
@@ -122,21 +185,50 @@ namespace WikiFunctions.API
         { get; private set; }
 
         /// <summary>
-        /// 
+        /// String of any edit protection applied to the page
         /// </summary>
         public string EditProtection
         { get; private set; }
 
         /// <summary>
-        /// 
+        /// String of any move protection applied to the page
         /// </summary>
         public string MoveProtection
         { get; private set; }
 
         /// <summary>
-        /// 
+        /// Whether the current user is watching this page
         /// </summary>
         public bool IsWatched
         { get; set; }
+
+        /// <summary>
+        /// Was the specified PageInfo redirected to get to the final target
+        /// </summary>
+        /// <param name="page">PageInfo object</param>
+        /// <returns>Whether the article was redirected</returns>
+        public static bool WasRedirected(PageInfo page)
+        {
+            if (page.TitleChangedStatus == PageTitleStatus.NoChange)
+                return false;
+
+            PageTitleStatus pts = page.TitleChangedStatus;
+            return ((pts & PageTitleStatus.Redirected) == PageTitleStatus.Redirected ||
+                    (pts & PageTitleStatus.RedirectLoop) == PageTitleStatus.RedirectLoop ||
+                    (pts & PageTitleStatus.MultipleRedirects) == PageTitleStatus.MultipleRedirects);
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [Flags]
+    public enum PageTitleStatus
+    {
+        NoChange = 0,
+        RedirectLoop = 1,
+        MultipleRedirects = 2,
+        Redirected = 4,
+        Normalised = 5,
     }
 }

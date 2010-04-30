@@ -260,7 +260,21 @@ namespace WikiFunctions
         [XmlIgnore]
         public bool HasMorefootnotesAndManyReferences
         { get { return Parsers.HasMorefootnotesAndManyReferences(mArticleText); } }
+        
+        /// <summary>
+        /// Returns whether the article is a disambiguation page (en only)
+        /// </summary>
+        [XmlIgnore]
+        public bool IsDisambiguationPage
+        { get { return Variables.LangCode == "en" && NameSpaceKey == Namespace.Mainspace && WikiRegexes.Disambigs.IsMatch(mArticleText); } }
 
+        /// <summary>
+        /// Returns whether the article is a disambiguation page has references
+        /// </summary>
+        [XmlIgnore]
+        public bool IsDisambiguationPageWithRefs
+        { get { return IsDisambiguationPage && WikiRegexes.Refs.IsMatch(mArticleText); } }
+        
         /// <summary>
         /// Returns true if the article contains a <ref>...</ref> reference after the {{reflist}} to show them
         /// </summary>
@@ -1012,7 +1026,7 @@ namespace WikiFunctions
             Variables.Profiler.Profile("HideText");
 
             // call this before MinorFixes so that Parsers.Conversions cleans up from ArticleIssues
-            AWBChangeArticleText("Fixes for {{article issues}}", parsers.ArticleIssues(ArticleText), true);
+            AWBChangeArticleText("Fixes for {{article issues}}", parsers.ArticleIssues(ArticleText, Name), true);
             Variables.Profiler.Profile("ArticleIssues");
 
             MinorFixes(Variables.LangCode, skip.SkipNoHeaderError);
@@ -1121,6 +1135,9 @@ namespace WikiFunctions
 
             FixLinks(skip.SkipNoBadLink);
             Variables.Profiler.Profile("FixLinks");
+            
+            AWBChangeArticleText("Simplify links", Parsers.SimplifyLinks(ArticleText), true);
+            Variables.Profiler.Profile("SimplifyLinks");
 
             //AWBChangeArticleText("Remove duplicate wikilink", parsers.RemoveDuplicateWikiLinks(articleText), true);
 
@@ -1181,8 +1198,13 @@ namespace WikiFunctions
             }
         }
 
+        /// <summary>
+        /// Executes general fixes specific to article talk pages
+        /// </summary>
         public void PerformTalkGeneralFixes()
         {
+            BeforeGeneralFixesTextChanged();
+            
             string articleText = ArticleText, newSummary = "";
             TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
 
@@ -1191,6 +1213,8 @@ namespace WikiFunctions
                 AWBChangeArticleText("Talk Page general fixes", articleText, false);
                 AppendToSummary(newSummary);
             }
+            
+            AfterGeneralFixesTextChanged();
         }
 
         /// <summary>

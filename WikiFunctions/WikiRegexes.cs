@@ -48,7 +48,7 @@ namespace WikiFunctions
             Images =
                 new Regex(
                     @"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.File] +
-                    @"[ \%\!""$&'\(\)\*,\-.\/0-9:;=\?@A-Z\\\^_`a-z~\x80-\xFF\+]+\.[a-zA-Z]{3,4}\b(?:\s*(?:\]\]|\|))?|<[Gg]allery\b([^>]*?)>[\s\S]*?</ ?[Gg]allery>|{{\s*[Gg]allery\s*(?:\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))?}}|\|\s*[a-zA-Z\d_ ]+\s*=[^\|{}]+?\.[a-zA-Z]{3,4}\s*(?=\||}})",
+                    @"[ \%\!""$&'\(\)\*,\-.\/0-9:;=\?@A-Z\\\^_`a-z~\x80-\xFF\+]+\.[a-zA-Z]{3,4}\b(?:\s*(?:\]\]|\|))?|<[Gg]allery\b([^>]*?)>[\s\S]*?</ ?[Gg]allery>|{{\s*[Gg]allery\s*(?:\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))?}}|(?<=\|\s*[a-zA-Z\d_ ]+\s*=)[^\|{}]+?\.[a-zA-Z]{3,4}(?=\s*(?:\||}}))",
                     RegexOptions.Compiled | RegexOptions.Singleline);
             
             FileNamespaceLink = new Regex(@"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.File] +
@@ -134,20 +134,25 @@ namespace WikiFunctions
             EmptyLink = new Regex("\\[\\[(:?" + cat + "|" + img + "|)(|" + img + "|" + cat + "|.*?)\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
             EmptyTemplate = new Regex(@"{{(" + Variables.NamespacesCaseInsensitive[Namespace.Template] + @")?[|\s]*}}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
             
-            // set orphan, wikify templates
-            string orphantemplate = "";
+            // set orphan, wikify, uncat templates & dateparameter string
+            string orphantemplate = "", uncattemplate = "";
             switch(Variables.LangCode)
             {
                 case "sv":
                     orphantemplate = @"Föräldralös";
+                    uncattemplate = "[Oo]kategoriserad";
                     Wikify = new Regex(@"{{\s*Ickewiki(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                    DateYearMonthParameter = @"datum={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}";
                     break;
                 default:
                     orphantemplate = "Orphan";
+                    uncattemplate = @"([Uu]ncat|[Cc]lassify|[Cc]at[Nn]eeded|[Uu]ncategori[sz]ed|[Cc]ategori[sz]e|[Cc]ategories needed|[Cc]ategory ?needed|[Cc]ategory requested|[Cc]ategories requested|[Nn]ocats?|[Uu]ncat-date|[Uu]ncategorized-date|[Nn]eeds cats?|[Cc]ats? needed|[Uu]ncategori[sz]edstub)";
                     Wikify = new Regex(@"({{\s*Wikify(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|(?<={{\s*(?:Article|Multiple)\s*issues\b[^{}]*?)\|\s*wikify\s*=[^{}\|]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                    DateYearMonthParameter = @"date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
                     break;
             }
-            Orphan = new Regex(@"{{\s*" + orphantemplate + @"(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            Orphan = new Regex(@"{{\s*" + orphantemplate + @"(?:\s*\|\s*(" + DateYearMonthParameter + @"|.*?))?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            Uncat = new Regex(@"{{\s*" + uncattemplate + @"((\s*\|[^{}]+)?\s*|\s*\|((?>[^\{\}]+|\{\{(?<DEPTH>)|\}\}(?<-DEPTH>))*(?(DEPTH)(?!))))\}\}", RegexOptions.Compiled);
         }
 
         /// <summary>
@@ -308,7 +313,7 @@ namespace WikiFunctions
         /// <summary>
         /// 
         /// </summary>
-        public static readonly Regex TemplateEnd = new Regex(@" *}}$", RegexOptions.Compiled);
+        public static readonly Regex TemplateEnd = new Regex(@" *(\r\n)*}}$", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches single and multiline templates, NOT nested templates
@@ -321,7 +326,7 @@ namespace WikiFunctions
         public static readonly Regex NestedTemplates = new Regex(@"{{(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}}");
 
         /// <summary>
-        /// Matches templates: group 1 matches the names of templates
+        /// Matches templates: group 1 matches the names of templates. Not for templates including the template namespace prefix
         /// </summary>
         public static readonly Regex TemplateName = new Regex(@"{{\s*([^\|{}]+?)(?:\s*<!--.*?-->\s*)?\s*(?:\||}})");
 
@@ -628,9 +633,9 @@ namespace WikiFunctions
         public static readonly Regex DeathDateAndAge = new Regex(@"{{\s*[Dd](?:eath[ -]date and age|da)\s*\|(?:[^{}]*?\|)?\s*([12]\d{3})\s*\|[^{}]+?\|\s*([12]\d{3})\s*\|");
 
         /// <summary>
-        /// Matches {{Link FA|xxx}}, {{Link GA|xxx}}
+        /// Matches {{Link FA|xxx}}, {{Link GA|xxx}}, {{Link FL|xxx}}
         /// </summary>
-        public static readonly Regex LinkFGAs = new Regex(@"{{\s*[Ll]ink [FG]A\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
+        public static readonly Regex LinkFGAs = new Regex(@"{{\s*[Ll]ink (?:[FG]A|FL)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
 
         /// <summary>
         /// Matches {{Lien BA}}, {{Lien AdQ}}, {{Lien PdQ}} in French
@@ -658,7 +663,7 @@ namespace WikiFunctions
         public static readonly Regex LinkFGAsArabic = new Regex(@"{{\s*وصلة مقالة مختارة\s*\|.*?}}", RegexOptions.Compiled | RegexOptions.Singleline);
 
         /// <summary>
-        /// Matches {{Deadend|xxx}} (en only)
+        /// Matches {{Deadend|xxx}} (en only), including in {{multiple issues}}
         /// </summary>
         public static readonly Regex DeadEnd = new Regex(@"({{\s*([Dd]ead ?end|[Ii]nternal ?links|[Nn]uevointernallinks|[Dd]ep)(\|(?:[^{}]+|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}))?}}|(?<={{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?)\|\s*dead ?end\s*=[^{}\|]+)", RegexOptions.Compiled);
 
@@ -683,19 +688,14 @@ namespace WikiFunctions
         public static Regex Orphan;
 
         /// <summary>
-        /// matches orphan tag within {{Article issues}} template
-        /// </summary>
-        public static readonly Regex OrphanArticleIssues = new Regex(@"{{\s*(?:article|multiple)\s*issues\s*\|[^{}]*?\borphan\b", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-        /// <summary>
         /// matches uncategorised templates: {{Uncat}}, {{Uncaegorised}}, {{Uncategorised stub}} allowing for nested subst: {{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
         /// </summary>
-        public static readonly Regex Uncat = new Regex(@"{{\s*([Uu]ncat|[Cc]lassify|[Cc]at[Nn]eeded|[Uu]ncategori[sz]ed|[Cc]ategori[sz]e|[Cc]ategories needed|[Cc]ategory ?needed|[Cc]ategory requested|[Cc]ategories requested|[Nn]ocats?|[Uu]ncat-date|[Uu]ncategorized-date|[Nn]eeds cats?|[Cc]ats? needed|[Uu]ncategori[sz]edstub)((\s*\|[^{}]+)?\s*|\s*\|((?>[^\{\}]+|\{\{(?<DEPTH>)|\}\}(?<-DEPTH>))*(?(DEPTH)(?!))))\}\}", RegexOptions.Compiled);
+        public static Regex Uncat;
 
         /// <summary>
-        /// matches {{Article issues}} template
+        /// matches {{Article issues}}/{{multiple issues}} template
         /// </summary>
-        public static readonly Regex ArticleIssues = new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues(?:\s*\|[^{}]*)?\s*)}}", RegexOptions.Compiled);
+        public static readonly Regex ArticleIssues = Tools.NestedTemplateRegex(new List<string>(@"article issues,articleissues,multipleissues,multiple issues".Split(',')));
 
         /// <summary>
         /// matches {{New unreviewed article}} template
@@ -717,6 +717,7 @@ namespace WikiFunctions
         /// </summary>
         public static readonly Regex CoiOrPovBlp = new Regex("(COI|OR|POV|BLP)", RegexOptions.Compiled);
 
+        public static string DateYearMonthParameter;
         
         /// <summary>
         /// matches the cleanup templates that can be moved into the {{article issues}} template, notably does not match templates with multiple parameters
@@ -742,12 +743,17 @@ namespace WikiFunctions
         /// <summary>
         /// Finds article disamiguation links from http://en.wikipedia.org/wiki/Wikipedia:Template_messages/General#Disambiguation_and_redirection (en only)
         /// </summary>
-        public static readonly Regex Dablinks = new Regex(@"{{\s*(?:[Aa]bout|[Ff]or[2-3]?|[Dd]ablink|[Dd]istinguish2?|[Oo]therpeople[1-4]|[Oo]therpersons|[Oo]therplaces[23]?|[Oo]theruses-number|[Oo]theruse(?:s[1-4]|s)?|2otheruses|[Rr]edirect-acronym|[Rr]edirect[2-4]?|[Aa]mbiguous link|[Dd]isambig-acronym)\s*(?:\|[^{}]*(?:{{[^{}]*}}[^{}]*)?)?}}", RegexOptions.Compiled);
+        public static readonly Regex Dablinks = new Regex(@"{{\s*(?:[Aa]bout|[Ff]or[2-3]?|[Dd]ablink|[Dd]istinguish2?|[Oo]therpeople[1-4]|[Oo]ther ?persons|[Oo]ther ?places[23]?|[Oo]ther ?ships|[Oo]theruses-number|[Oo]ther ?use(?:s[2-5]|s)?|2otheruses|[Rr]edirect-acronym|[Rr]edirect[2-4]?|[Aa]mbiguous link|[Dd]isambig-acronym)\s*(?:\|[^{}]*(?:{{[^{}]*}}[^{}]*)?)?}}", RegexOptions.Compiled);
+        
+        /// <summary>
+        /// Matches the maintenance tags (en-wiki only) such as orphan, cleanup
+        /// </summary>
+        public static readonly Regex MaintenanceTemplates = Tools.NestedTemplateRegex(new List<string>(@"orphan,BLPunsourced,cleanup".Split(',')));
         
         /// <summary>
         /// Matches the {{Unreferenced}} template
         /// </summary>
-        public static readonly Regex Unreferenced = new Regex(@"{{\s*([Uu]nreferenced|[Uu]nsourced|[Uu]nverified|[Uu]nref|[Rr]eferences|[Uu]ncited-article|[Cc]itesources|[Nn][Rr]|[Nn]o references|[Uu]nrefarticle|[Nn]o ?refs?|[Nn]oreferences|[Cc]leanup-cite|[Rr]eferences needed)\s*(?:\|.*?)?}}", RegexOptions.Singleline);
+        public static readonly Regex Unreferenced = new Regex(@"{{\s*([Uu]nreferenced( stub)?|[Uu]nsourced|[Uu]nverified|[Uu]nref|[Rr]eferences|[Uu]ncited-article|[Cc]itesources|[Nn][Rr]|[Nn]o references|[Uu]nrefarticle|[Nn]o ?refs?|[Nn]oreferences|[Cc]leanup-cite|[Rr]eferences needed)\s*(?:\|.*?)?}}", RegexOptions.Singleline);
         /// <summary>
         /// Matches {{XX Portal}} templates
         /// </summary>
@@ -772,7 +778,7 @@ namespace WikiFunctions
         /// <summary>
         /// matches &lt;ref&gt; tags, including named references
         /// </summary>
-        public static readonly Regex Refs = new Regex(@"(<ref\s+name\s*=\s*[^<>]*?/\s*>|<ref\b[^>/]*?>.*?<\s*/\s*ref\s*>)", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex Refs = new Regex(@"(<ref\s+(?:name|group)\s*=\s*[^<>]*?/\s*>|<ref\b[^>/]*?>.*?<\s*/\s*ref\s*>)", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
         /// matches &lt;cite&gt; tags
@@ -785,7 +791,7 @@ namespace WikiFunctions
         public static readonly Regex Nowiki = new Regex("<nowiki>.*?</nowiki>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
-        /// matches template
+        /// matches templates, including templates with the template namespace prefix
         /// </summary>
         public static Regex TemplateCall;
 

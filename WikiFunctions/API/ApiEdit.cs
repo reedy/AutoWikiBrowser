@@ -553,21 +553,28 @@ namespace WikiFunctions.API
 
         public string Open(string title)
         {
+            return Open(title, false);
+        }
+
+        public string Open(string title, bool resolveRedirects)
+        {
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
             if (!User.IsLoggedIn) throw new LoggedOffException(this);
 
             Reset();
 
             // action=query&prop=info|revisions&intoken=edit&titles=Main%20Page&rvprop=timestamp|user|comment|content
-            string result = HttpGet(new[,] { 
-                { "action", "query" },
-                { "prop", "info|revisions" },
-                { "intoken","edit" },
-                { "titles", title },
-                { "inprop", "protection|watched" },
-                { "rvprop", "content|timestamp" } // timestamp|user|comment|
-            },
-            ActionOptions.All);
+            string result = HttpGet(new[,]
+                                        {
+                                            {"action", "query"},
+                                            {"prop", "info|revisions"},
+                                            {"intoken", "edit"},
+                                            {"titles", title},
+                                            {"inprop", "protection|watched"},
+                                            {"rvprop", "content|timestamp"}, // timestamp|user|comment|
+                                            {resolveRedirects ? "redirects" : null, null}
+                                        },
+                                    ActionOptions.All);
 
             CheckForErrors(result, "query");
 
@@ -906,6 +913,39 @@ namespace WikiFunctions.API
             {
                 throw new BrokenXmlException(this, ex);
             }
+        }
+
+        public void Rollback(string title, string user)
+        {
+            string result = HttpGet(
+                new[,]
+                    {
+                        { "action", "query" },
+                        { "prop", "revisions" },
+                        { "rvtoken", "rollback" },
+                        { "titles", title },
+
+                    },
+                    ActionOptions.All);
+
+            CheckForErrors(result, "query");
+
+            XmlReader xr = XmlReader.Create(new StringReader(result));
+            if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
+            string rollbackToken = xr.GetAttribute("rollbacktoken");
+
+            result = HttpPost(
+                new[,]
+                    {
+                        {"action", "rollback"}
+                    },
+                new[,]
+                    {
+                        {"title", title},
+                        {"token", rollbackToken},
+                    });
+
+            CheckForErrors(result, "rollback");
         }
 
         public string ExpandTemplates(string title, string text)

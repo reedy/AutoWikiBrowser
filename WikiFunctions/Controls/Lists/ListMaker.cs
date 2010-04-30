@@ -941,7 +941,7 @@ namespace WikiFunctions.Controls.Lists
         }
 
         /// <summary>
-        /// Replaces one article in the list with another, in the same place        /// 
+        /// Replaces one article in the list with another, in the same place
         /// </summary>
         public void ReplaceArticle(Article oldArticle, Article newArticle)
         {

@@ -197,11 +197,13 @@ namespace WikiFunctions
         public static string MakeHumanCatKey(string name)
         {
             name = RemoveNamespaceString(Regex.Replace(RemoveDiacritics(name), @"\(.*?\)$", "").Replace("'", "").Trim()).Trim();
+            
             string origName = name;
+            
+            // ukwiki uses "Lastname Firstname Patronymic" convention, nothing more is needed
             if (!name.Contains(" ") || Variables.LangCode == "uk")
                 return FixupDefaultSort(origName);
-            // ukwiki uses "Lastname Firstname Patronymic" convention, nothing more is needed
-
+            
             string suffix = "";
             int pos = name.IndexOf(',');
 
@@ -213,7 +215,7 @@ namespace WikiFunctions
             }
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Arabic_names
-            // Arabic, Chinese names etc. don't use the "Lastname, Firstname" format, perferring "Full Name" format
+            // Arabic names etc. use "Full Name" format
             // find the most common of these names and use that format for them
             if (Regex.IsMatch(origName, @"(\b(Abd[au]ll?ah?|Ahmed|Mustaq|Merza|Kandah[a-z]*|Mohabet|Nasrat|Nazargul|Yasi[mn]|Husayn|Akram|M[ou]hamm?[ae]d\w*|Abd[eu]l|Razzaq|Adil|Anwar|Fahed|Habi[bdr]|Hafiz|Jawad|Hassan|Ibr[ao]him|Khal[ei]d|Karam|Majid|Mustafa|Rash[ie]d|Yusef|[Bb]in|Nasir|Aziz|Rahim|Kareem|Abu|Aminullah|Fahd|Fawaz|Ahmad|Rahman|Hasan|Nassar|A(?:zz|s)am|Jam[ai]l|Tariqe?|Yussef|Said|Wass?im|Wazir|Tarek|Umran|Mahmoud|Malik|Shoaib|Hizani|Abib|Raza|Salim|Iqbal|Saleh|Hajj|Brahim|Zahir|Wasm|Yo?usef|Yunis|Zakim|Shah|Yasser|Samil|Akh[dk]ar|Haji|Uthman|Khadr|Asiri|Rajab|Shakouri|Ishmurat|Anazi|Nahdi|Zaheed|Ramzi|Rasul|Muktar|Muhassen|Radhi|Rafat|Kadir|Zaman|Karim|Awal|Mahmud|Mohammon|Husein|Airat|Alawi|Ullah|Sayaf|Henali|Ismael|Salih|Mahnut|Faha|Hammad|Hozaifa|Ravil|Jehan|Abdah|Djamel|Sabir|Ruhani|Hisham|Rehman|Mesut|Mehdi|Lakhdar|Mourad|Fazal[a-z]*|Mukit|Jalil|Rustam|Jumm?a|Omar Ali)\b|(?:[bdfmtnrz]ullah|alludin|[hm]atulla|r[ao]llah|harudin|millah)\b|\b(?:Abd[aeu][lr]|Nazur| Al[- ][A-Z]| al-[A-Z]))"))
                 return FixupDefaultSort(origName);
@@ -221,7 +223,8 @@ namespace WikiFunctions
             int intLast = name.LastIndexOf(" ") + 1;
             string lastName = name.Substring(intLast).Trim();
             name = name.Remove(intLast).Trim();
-            if (IsRomanNumber(lastName))
+            
+            if (IsRomanNumber(lastName) || Regex.IsMatch(lastName, @"^[SJsj]n?r\.$"))
             {
                 if (name.Contains(" "))
                 {
@@ -231,7 +234,7 @@ namespace WikiFunctions
                     name = name.Remove(intLast).Trim();
                 }
                 else
-                { //if (Suffix != "") {
+                {
                     // We have something like "Peter" "II" "King of Spain" (first/last/suffix), so return what we started with
                     // OR We have "Fred" "II", we don't want to return "II, Fred" so we must return "Fred II"
                     return FixupDefaultSort(origName);
@@ -246,8 +249,6 @@ namespace WikiFunctions
             name = (lastName + ", " + (name.Length > 0 ? name + ", " : "") + suffix).Trim(" ,".ToCharArray());
 
             // set correct casing
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Correct_case_for_.25.25key.25.25
-
             return FixupDefaultSort(name);
         }
 
@@ -1215,7 +1216,7 @@ namespace WikiFunctions
         public static string HTMLListToWiki(string text, string bullet)
         {
             text = text.Replace("\r\n\r\n", "\r\n");
-         //   text = text.Replace("\n\n", "\n");
+            //   text = text.Replace("\n\n", "\n");
             text = Regex.Replace(text, "<br ?/?>", "", RegexOptions.IgnoreCase);
             text = Regex.Replace(text, "</?(ol|ul|li)>", "", RegexOptions.IgnoreCase);
             text = Regex.Replace(text, "^</?(ol|ul|li)>\r\n", "", RegexOptions.Multiline | RegexOptions.IgnoreCase);
@@ -1882,32 +1883,58 @@ Message: {2}
         }
 
         /// <summary>
-        /// 
+        /// Replaces the values of all matches with spaces
         /// </summary>
-        /// <param name="input"></param>
-        /// <param name="matches"></param>
-        /// <returns></returns>
+        /// <param name="input">The article text to update</param>
+        /// <param name="matches">Collection of matches to replace with spaces</param>
+        /// <returns>The updated article text</returns>
         public static string ReplaceWithSpaces(string input, MatchCollection matches)
+        {
+            return ReplaceWith(input, matches, ' ');
+        }
+        
+        /// <summary>
+        /// Replaces the values of all matches with a given character
+        /// </summary>
+        /// <param name="input">The article text to update</param>
+        /// <param name="matches">Collection of matches to replace with spaces</param>
+        /// <param name="rwith">The character to use</param>
+        /// <returns>The updated article text</returns>
+        public static string ReplaceWith(string input, MatchCollection matches, char rwith)
         {
             StringBuilder sb = new StringBuilder(input.Length);
             foreach (Match m in matches)
             {
                 sb.Append(input, sb.Length, m.Index - sb.Length);
-                sb.Append(' ', m.Length);
+                sb.Append(rwith, m.Length);
             }
             sb.Append(input, sb.Length, input.Length - sb.Length);
             return sb.ToString();
         }
 
         /// <summary>
-        /// Replaces all matches of a given regex in a string with space character
+        /// Replaces all matches of a given regex in a string with space characters
+        /// such that the length of the string remains the same
         /// </summary>
-        /// <param name="input"></param>
-        /// <param name="regex"></param>
-        /// <returns></returns>
+        /// <param name="input">The article text to update</param>
+        /// <param name="regex">The regex to replace all matches of</param>
+        /// <returns>The updated article text</returns>
         public static string ReplaceWithSpaces(string input, Regex regex)
         {
             return ReplaceWithSpaces(input, regex.Matches(input));
+        }
+        
+        /// <summary>
+        /// Replaces all matches of a given regex in a string with a character
+        /// such that the length of the string remains the same
+        /// </summary>
+        /// <param name="input">The article text to update</param>
+        /// <param name="regex">The regex to replace all matches of</param>
+        /// <param name="rwith">The character to use</param>
+        /// <returns>The updated article text</returns>
+        public static string ReplaceWith(string input, Regex regex, char rwith)
+        {
+            return ReplaceWith(input, regex.Matches(input), rwith);
         }
 
         // ensure dates returned are English.
@@ -1921,29 +1948,29 @@ Message: {2}
         /// <returns>The English-language (American or International) date</returns>
         public static string ISOToENDate(string ISODate, Parsers.DateLocale locale)
         {
-        	if (Variables.LangCode != "en")
-        		return ISODate;
+            if (Variables.LangCode != "en")
+                return ISODate;
 
-        	DateTime dt;
-        	
-        	try
-        	{
-        		dt = Convert.ToDateTime(ISODate);
-        	}
-        	catch
-        	{
-        		return ISODate;
-        	}
+            DateTime dt;
+            
+            try
+            {
+                dt = Convert.ToDateTime(ISODate);
+            }
+            catch
+            {
+                return ISODate;
+            }
 
-        	switch (locale)
-        	{
-        	    case Parsers.DateLocale.American:
-        	        return dt.ToString("MMMM d, yyyy", English);
-        	    case Parsers.DateLocale.International:
-        	        return dt.ToString("d MMMM yyyy", English);
-        	    default:
-        	        return ISODate;
-        	}
+            switch (locale)
+            {
+                case Parsers.DateLocale.American:
+                    return dt.ToString("MMMM d, yyyy", English);
+                case Parsers.DateLocale.International:
+                    return dt.ToString("d MMMM yyyy", English);
+                default:
+                    return ISODate;
+            }
         }
         
         /// <summary>
@@ -1974,7 +2001,7 @@ Message: {2}
             if(newlines > 2 && newlines >= (bars-2))
                 separator = "\r\n";
             
-            return WikiRegexes.TemplateEnd.Replace(template, separator + @"| " + parameter + "=" + value + @"}}");
+            return WikiRegexes.TemplateEnd.Replace(template, separator + @"| " + parameter + "=" + value + @"$1}}");
         }
         
         /// <summary>
@@ -1985,23 +2012,17 @@ Message: {2}
         /// <returns>The trimmed parameter value, or a null string if the parameter is not found</returns>
         public static string GetTemplateParameterValue(string template, string parameter)
         {
-            Regex param = new Regex(@"\|\s*(?:<!--.*?-->)?" + Regex.Escape(parameter) + @"\s*(?:<!--.*?-->\s*)?=(.*?)(?=\||}}$)", RegexOptions.Singleline);
+            Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=(.*?)(?=\||}}$)", RegexOptions.Singleline);
             
-            Match m = param.Match(template);
+            string pipecleanedtemplate = PipeCleanedTemplate(template);
+            
+            Match m = param.Match(pipecleanedtemplate);
             
             if(m.Success)
             {
-                int start = m.Index;
-                string restoftemplate = template.Substring(start);
+                Group paramValue = param.Match(pipecleanedtemplate).Groups[1];
                 
-                // clear out what may contain pipes that are not the pipe indicating the end of the parameter's value
-                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.NestedTemplates);
-                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.SimpleWikiLink);
-                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.UnformattedText);
-                
-                Group paramValue = param.Match(restoftemplate).Groups[1];
-                
-                return template.Substring(start + paramValue.Index, paramValue.Length).Trim();
+                return template.Substring(paramValue.Index, paramValue.Length).Trim();
             }
             
             return "";
@@ -2012,7 +2033,7 @@ Message: {2}
             List<string> returnedvalues = new List<string>();
 
             foreach(string param in parameters)
-            {                
+            {
                 returnedvalues.Add(GetTemplateParameterValue(template, param));
             }
             
@@ -2028,9 +2049,9 @@ Message: {2}
         /// <returns>The updated template</returns>
         public static string RenameTemplateParameter(string template, string oldparameter, string newparameter)
         {
-        	Regex param = new Regex(@"(\|\s*)" + Regex.Escape(oldparameter) + @"(\s*=)", RegexOptions.Compiled);
-        	
-        	return (param.Replace(template, "$1" + newparameter + "$2"));        	
+            Regex param = new Regex(@"(\|\s*(?:<!--.*?-->)?)" + Regex.Escape(oldparameter) + @"(\s*(?:<!--.*?-->\s*)?=)", RegexOptions.Compiled);
+            
+            return (param.Replace(template, "$1" + newparameter + "$2"));
         }
         
         /// <summary>
@@ -2078,19 +2099,14 @@ Message: {2}
         {
             Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=(.*?)(?=\||}}$)", RegexOptions.Singleline);
             
-            Match m = param.Match(template);
+            string pipecleanedtemplate = PipeCleanedTemplate(template);
+            
+            Match m = param.Match(pipecleanedtemplate);
             
             if(m.Success)
             {
                 int start = m.Index;
-                string restoftemplate = template.Substring(start);
-                
-                // clear out what may contain pipes that are not the pipe indicating the end of the parameter's value
-                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.NestedTemplates);
-                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.SimpleWikiLink);
-                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.UnformattedText);
-                
-                int valuelength = param.Match(restoftemplate).Length;
+                int valuelength = param.Match(pipecleanedtemplate).Length;
                 
                 return (template.Substring(0, start) + template.Substring(start + valuelength));
             }
@@ -2107,26 +2123,50 @@ Message: {2}
         /// <returns>The updated template call</returns>
         public static string UpdateTemplateParameterValue(string template, string parameter, string newvalue)
         {
-            Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=\s*(.*?)(?=\s*(?:\||}}$))", RegexOptions.Singleline);
+            // HACK we are allowing matching on tilde character around parameter name to represent cleaned HTML comment, so may falsely match
+            // on stray templates with stray tildes. Will that ever happen?
+            Regex param = new Regex(@"\|[\s~]*" + Regex.Escape(parameter) + @"[\s~]*= *\s*?(.*?)\s*(?=(?:\||}}$))", RegexOptions.Singleline);
             
-            Match m = param.Match(template);
+            string pipecleanedtemplate = PipeCleanedTemplate(template, true);
+            
+            Match m = param.Match(pipecleanedtemplate);
             
             if(m.Success)
             {
-                int start = m.Groups[1].Index;
-                string restoftemplate = template.Substring(start);
-                
-                // clear out what may contain pipes that are not the pipe indicating the end of the parameter's value
-                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.NestedTemplates);
-                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.SimpleWikiLink);
-                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.UnformattedText);
-                
-                int valuelength = m.Groups[1].Length;
+                int start = m.Groups[1].Index, valuelength = m.Groups[1].Length;
                 
                 return (template.Substring(0, start) + newvalue + template.Substring(start + valuelength));
             }
             
             return template;
+        }
+        
+        /// <summary>
+        /// Removes pipes that are not the pipe indicating the end of the parameter's value
+        /// </summary>
+        /// <param name="template">The template call to clean</param>
+        /// <returns>The pipe cleaned template call</returns>
+        private static string PipeCleanedTemplate(string template, bool commentsastilde)
+        {
+            char rwith = '#';
+            if(template.Length < 5)
+                return template;
+            
+            string restoftemplate = template.Substring(3);
+            // clear out what may contain pipes that are not the pipe indicating the end of the parameter's value
+            restoftemplate = Tools.ReplaceWith(restoftemplate, WikiRegexes.NestedTemplates, rwith);
+            restoftemplate = Tools.ReplaceWith(restoftemplate, WikiRegexes.SimpleWikiLink, rwith);
+            if(commentsastilde)
+                restoftemplate = Tools.ReplaceWith(restoftemplate, WikiRegexes.UnformattedText, '~');
+            else
+                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.UnformattedText);
+            
+            return (template.Substring(0, 3) + restoftemplate);
+        }
+        
+        private static string PipeCleanedTemplate(string template)
+        {
+            return PipeCleanedTemplate(template, false);
         }
 
         /// <summary>
@@ -2149,7 +2189,7 @@ Message: {2}
         }
         
         /// <summary>
-        /// Returns the name of the input template
+        /// Returns the name of the input template. Not for templates including the template namespace prefix
         /// </summary>
         /// <param name="template">the template call</param>
         /// <returns>the template name</returns>
@@ -2182,7 +2222,7 @@ Message: {2}
         }
         
         private static readonly string NestedTemplateRegexStart = @"({{\s*)(";
-        private static readonly string NestedTemplateRegexEnd = @"(\s*(?:<!--[^>]*?-->\s*)?(\|((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))))?\}\})";
+        private static readonly string NestedTemplateRegexEnd = @"(\s*(?:<!--[^>]*?-->\s*|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋\s*)?(\|((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))))?\}\})";
         
         /// <summary>
         /// Returns a regex to match the input template

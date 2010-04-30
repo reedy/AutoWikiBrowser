@@ -64,6 +64,41 @@ namespace UnitTests
         	
         	Assert.IsTrue(WikiFunctions.WikiRegexes.Stub.Matches(articleTextBack).Count == 2);
         }
+        
+        [Test]
+        public void InterwikiSpacing()
+        {
+            parser2.SortInterwikis = false;
+            parser2.Sorter.PossibleInterwikis = new System.Collections.Generic.List<string> { "de", "es", "fr", "it", "sv", "ar", "bs", "br" };
+            
+            const string correct = @"
+
+[[Category:Pub chains in the United Kingdom]]
+[[Category:Companies established in 1997]]
+
+[[de:Punch Taverns]]
+[[fr:Punch Taverns]]";
+            
+            Assert.AreEqual(correct, parser2.SortMetaData(correct, "test"));
+            Assert.AreEqual(correct, parser2.SortMetaData(@"
+
+[[Category:Pub chains in the United Kingdom]]
+[[Category:Companies established in 1997]]
+
+
+
+[[de:Punch Taverns]]
+[[fr:Punch Taverns]]", "test"));
+            
+            Assert.AreEqual(correct, parser2.SortMetaData(@"
+
+[[Category:Pub chains in the United Kingdom]]
+[[Category:Companies established in 1997]]
+[[de:Punch Taverns]]
+
+[[fr:Punch Taverns]]
+", "test"));
+        }
 
         [Test]
         public void MovePersonDataTests()
@@ -163,9 +198,44 @@ more words
 
             Assert.AreEqual(e + "\r\n" + g + "\r\n\r\n" + h, MetaDataSorter.MoveDablinks(g + "\r\n" + e + "\r\n" + h));
         }
+        
+        
+        [Test]
+        public void MoveDablinksCommentsTests()
+        {
+            const string d = @"Fred is a doctor.
+Fred has a dog.
+[[Category:Dog owners]]
+{{some template}}
+", e = @"<!-- {{otheruses}} this allows users with [[WP:POPUPS|popups]] to disambiguate links.-->";
+            
+            // don't pull dabs out of comments
+            Assert.AreEqual(d + e, MetaDataSorter.MoveDablinks(d + e));
+        }
+        
+        [Test]
+        public void RemoveDisambig()
+        {
+            const string dab = @"{{dab}}", foo = @"foo";
+            
+            string a = dab + "\r\n" + foo;
+            
+            Assert.AreEqual(dab, MetaDataSorter.RemoveDisambig(ref a));
+            Assert.AreEqual(a, "\r\n" + foo);
+            
+            // no dabs to take out – no change
+            a = foo;
+            Assert.AreEqual("", MetaDataSorter.RemoveDisambig(ref a));
+            Assert.AreEqual(a, foo);
+            
+            // don't pull out of comments
+            a = @"<!--" + dab + @"-->" + "\r\n" + foo;
+            Assert.AreEqual("", MetaDataSorter.RemoveDisambig(ref a));
+            Assert.AreEqual(a,  @"<!--" + dab + @"-->" + "\r\n" + foo);
+        }
 
         [Test]
-        public void MoveOrphanTagsTests()
+        public void MoveMaintenanceTagsTests()
         {
             const string d = @"Fred is a doctor.
 Fred has a dog.
@@ -174,10 +244,30 @@ Fred has a dog.
 ";
 
             string e = @"{{Orphan|date=May 2008}}";
-            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveOrphanTags(d + e));
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveMaintenanceTags(d + e));
 
             e = @"{{orphan|date=May 2008}}";
-            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveOrphanTags(d + e));
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveMaintenanceTags(d + e));
+            
+            // don't move above other maintenance templates
+            string f = @"{{cleanup|date=June 2009}}
+" + e + d;
+            Assert.AreEqual(f, MetaDataSorter.MoveMaintenanceTags(f));
+            
+            string g = @"{{BLP unsourced|date=August 2009|bot=yes}}
+{{Orphan|date=February 2008}}
+'''Charles M. McKim'''";
+            
+            Assert.AreEqual(g, MetaDataSorter.MoveMaintenanceTags(g));
+            
+            // do move above infoboxes
+            string h1 = @"{{Infobox foo| sdajklfsdjk | dDJfsdjkl }}", h2 = @"{{Orphan|date=February 2008}}", h3 = @"'''Charles M. McKim'''";
+            
+            Assert.AreEqual(h2 + "\r\n" + h1 + "\r\n" + h3, MetaDataSorter.MoveMaintenanceTags(h2 + "\r\n" + h1 + "\r\n" + h3));
+            
+            string i1 = @"{{cleanup|date=June 2009}}";
+            // move when tags not all at top
+            Assert.AreEqual(e + "\r\n" + i1 + "\r\nfoo\r\n", MetaDataSorter.MoveMaintenanceTags(e + "\r\nfoo\r\n" + i1));
         }
 
         [Test]
@@ -192,6 +282,16 @@ some words", MetaDataSorter.MovePortalTemplates(@"text here
 text here2
 == see also ==
 some words"));
+            
+                        Assert.AreEqual(@"text here
+text here2
+== see also ==
+{{Portal|Football}}
+some words", MetaDataSorter.MovePortalTemplates(@"text here
+{{Portal|Football}}       
+text here2
+== see also ==
+some words"), "whitespace at end of line after portal template");
 
             Assert.AreEqual(@"text here
 text here2
@@ -390,6 +490,10 @@ blah";
 
             // only matching level two headings following references
             Assert.AreEqual(a + "\r\n" + b + "\r\n" + c + "\r\n" + d, MetaDataSorter.MoveExternalLinks(a + "\r\n" + b + "\r\n" + c + "\r\n" + d));
+            
+            // don't' move external links if would create ref after reflist
+            string ExtLinkRef = a + "\r\n" + b + "<ref>foo</ref>\r\n" + c + "\r\n" + e;
+            Assert.AreEqual(ExtLinkRef, MetaDataSorter.MoveExternalLinks(ExtLinkRef));
         }
 
         [Test]
@@ -531,6 +635,19 @@ foo";
             string b = a;
 
             Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
+            
+            // comment handling
+            string comm = @"<!-- other languages -->";
+            a = @"[[de:Canadian National Railway]]
+[[es:Canadian National]]
+[[fr:Canadien National]]" + comm;
+            Assert.AreEqual(comm + "\r\n" + b + "\r\n", parser2.Sorter.Interwikis(ref a));
+            
+            comm = @"<!-- interwiki links to this article in other languages, below -->";
+            a = @"[[de:Canadian National Railway]]
+[[es:Canadian National]]
+[[fr:Canadien National]]" + comm;
+            Assert.AreEqual(comm + "\r\n" + b + "\r\n", parser2.Sorter.Interwikis(ref a));
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#Interwiki_links_moved_out_of_comment
             string c = @"{{Canadianmetros}}

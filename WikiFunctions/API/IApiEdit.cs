@@ -113,6 +113,14 @@ namespace WikiFunctions.API
         string Open(string title);
 
         /// <summary>
+        /// Opens a page for editing
+        /// </summary>
+        /// <param name="title">Title of the page to edit</param>
+        /// <param name="resolveRedirects">Whether to have the API resolve any redirects</param>
+        /// <returns>Page content</returns>
+        string Open(string title, bool resolveRedirects);
+
+        /// <summary>
         /// Saves the previously opened page
         /// </summary>
         /// <param name="pageText">New page content.</param>
@@ -228,6 +236,13 @@ namespace WikiFunctions.API
         /// <param name="text"></param>
         /// <returns></returns>
         string Preview(string title, string text);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="user"></param>
+        void Rollback(string title, string user);
 
         /// <summary>
         /// 
