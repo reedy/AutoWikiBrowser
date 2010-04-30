@@ -481,6 +481,9 @@ Start date and age
 
             RegexAssert.NoMatch(WikiRegexes.Refs, "<refname=foo>bar</ref>");
             RegexAssert.NoMatch(WikiRegexes.Refs, "<refname=foo/>");
+            
+            RegexAssert.Matches(WikiRegexes.Refs, "<ref group=a name=foo/>", "<ref group=a name=foo/>");
+            RegexAssert.Matches(WikiRegexes.Refs, "<ref name=foo group=a />", "<ref name=foo group=a />");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#.3Cp.3E_deletion_in_references_and_notes
             RegexAssert.Matches(WikiRegexes.Refs, "<ref>foo<!-- bar --></ref>", "<ref>foo<!-- bar --></ref>");
@@ -508,6 +511,8 @@ Start date and age
             //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_14#Regex_problem
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://www.google.co.uk google}}", "http://www.google.co.uk");
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://www.google.co.uk}}", "http://www.google.co.uk");
+            
+            RegexAssert.Matches(WikiRegexes.ExternalLinks,  @"date=April 2010|url=http://w/010111a.html}}", "http://w/010111a.html");
             
             // incorrect brackets
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "lol [http://www.google.co.uk lol", "http://www.google.co.uk");
@@ -821,22 +826,6 @@ cit"));
         }
 
         [Test]
-        public void OrphanArticleIssuesTests()
-        {
-            Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(@"{{Article issues|orphan=May 2008|cleanup=May 2008|story=May 2008}}"));
-            Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(@"{{Articleissues|orphan=May 2008|cleanup=May 2008|story=May 2008}}"));
-            Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(@"{{ Articleissues|orphan=May 2008|cleanup=May 2008|story=May 2008}}"));
-            Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(@"{{Article issues
-            |orphan=May 2008|cleanup=May 2008|story=May 2008}}"));
-            Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(@"{{Article issues|orphan = May 2008|cleanup=May 2008|story=May 2008}}"));
-            Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(@"{{Article issues|Orphan=May 2008|cleanup=May 2008|story=May 2008}}"));
-            Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(@"{{Article issues| orphan |cleanup=May 2008|story=May 2008}}"));
-            Assert.IsFalse(WikiRegexes.OrphanArticleIssues.IsMatch(@"{{Article issues|cleanup=May 2008|story=May 2008}}"));
-            
-               Assert.IsTrue(WikiRegexes.OrphanArticleIssues.IsMatch(@"{{multiple issues|orphan=May 2008|cleanup=May 2008|story=May 2008}}"));
-        }
-
-        [Test]
         public void InfoboxTests()
         {
             TestMatch(WikiRegexes.InfoBox, @" {{Infobox hello| bye}} ", @"{{Infobox hello| bye}}", @"Infobox hello");
@@ -882,7 +871,10 @@ cit"));
             Assert.AreEqual(WikiRegexes.TemplateEnd.Match(@"{{foo}}").Value, @"}}");
             Assert.AreEqual(WikiRegexes.TemplateEnd.Match(@"{{foo }}").Value, @" }}");
             Assert.AreEqual(WikiRegexes.TemplateEnd.Match(@"{{foo
-}}").Value, @"}}");
+}}").Value, @"
+}}");
+            Assert.AreEqual(WikiRegexes.TemplateEnd.Match(@"{{foo
+}}").Groups[1].Value, "\r\n");
         }
 
         [Test]
@@ -1029,69 +1021,6 @@ words2"));
         }
 
         [Test]
-        public void UncatTests()
-        {
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorised}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorized}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncat}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncat}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncat|date=January 2009}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised|date=May 2008}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorised|date=May 2008}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorisedstub|date=May 2008}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorisedstub|date = May 2008}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
-
-            // all the other redirects
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Classify}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{CatNeeded}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Catneeded}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorised}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncat}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categorize}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categories needed}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categoryneeded}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Category needed}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Category requested}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categories requested}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Nocats}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categorise}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Nocat}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncat-date}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized-date}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Needs cat}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Needs cats}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Cats needed}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Cat needed}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{classify}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{catneeded}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{catneeded}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncat}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categorize}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categories needed}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categoryneeded}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{category needed}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{category requested}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categories requested}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{nocats}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categorise}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{nocat}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncat-date}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorized-date}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{needs cat}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{needs cats}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{cats needed}}"));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{cat needed}}"));
-
-            // no match
-            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized other template}}"));
-            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized other template|foo=bar}}"));
-        }
-
-        [Test]
         public void ArticleIssuesTests()
         {
             Assert.IsTrue(WikiRegexes.ArticleIssues.IsMatch(@"{{Article issues|wikify=May 2008|a=b|c=d}}"));
@@ -1108,6 +1037,8 @@ words2"));
             Assert.IsTrue(WikiRegexes.ArticleIssues.IsMatch(@"{{Articleissues }}"));
             Assert.IsTrue(WikiRegexes.ArticleIssues.IsMatch(@"{{Multiple issues|wikify=May 2008|a=b|c=d}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssues.IsMatch(@"{{ multiple issues|wikify=May 2008|a=b|c=d}}"));
+            
+            Assert.IsTrue(WikiRegexes.ArticleIssues.IsMatch(@"{{ multiple issues|wikify={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|orphan={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|c=d}}"));
 
             // no matches
             Assert.IsFalse(WikiRegexes.ArticleIssues.IsMatch(@"{{ARTICLEISSUES }}"));
@@ -1546,6 +1477,7 @@ Bert").Groups[2].Value, "foo bar\r");
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Link FA|ar}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Link GA|ar}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link FA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Link FL|ar}}"));
         }
         
         [Test]

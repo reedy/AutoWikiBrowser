@@ -76,7 +76,7 @@ namespace WikiFunctions.Parse
         }
 
         // now will be generated dynamically using Variables.Stub
-        private readonly Regex InterLangRegex = new Regex("<!-- ?(other languages?|language links?|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wikis?|The below are interlanguage links\\.?) ?-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private readonly Regex InterLangRegex = new Regex(@"<!--\s*(other languages?|language links?|inter ?(language|wiki)? ?links|inter ?wiki ?language ?links|inter ?wikis?|The below are interlanguage links\.?|interwiki links to this article in other languages, below)\s*-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private readonly Regex CatCommentRegex = new Regex("<!-- ?cat(egories)? ?-->", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private List<string> InterwikiLocalAlpha;
@@ -282,7 +282,7 @@ en, sq, ru
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Move_orphan_tags_on_the_top
                 // Dablinks above orphan tags per [[WP:LAYOUT]]
                 if(Variables.LangCode == "en")
-                    articleText = MoveOrphanTags(articleText);
+                    articleText = MoveMaintenanceTags(articleText);
 
                 articleText = MoveDablinks(articleText);
 
@@ -327,7 +327,7 @@ en, sq, ru
                         articleText += personData + categories + strStub;
                         break;
                 }
-                return (articleText + interwikis);
+                return (articleText + interwikis).TrimEnd();
             }
             catch (Exception ex)
             {
@@ -498,7 +498,9 @@ en, sq, ru
                 return "";
 
             string strDisambig = "";
-            if (WikiRegexes.Disambigs.IsMatch(articleText))
+            
+            // don't pull out of comments
+            if (WikiRegexes.Disambigs.IsMatch(WikiRegexes.Comments.Replace(articleText, "")))
             {
                 strDisambig = WikiRegexes.Disambigs.Match(articleText).Value;
                 articleText = articleText.Replace(strDisambig, "");
@@ -533,29 +535,61 @@ en, sq, ru
             }
 
             articleText = strDablinks + zerothSection + restOfArticle;
-
+            
             // may now have two newlines between dablinks and rest of article, so cut down to one
             return articleText.Replace(strDablinks + "\r\n", strDablinks);
         }
 
         /// <summary>
-        /// Moves the {{orphan}} template to the top of the article
+        /// Moves maintenance tags to the top of the article text.
+        /// Does not move tags when only non-infobox templates are above the last tag
         /// </summary>
         /// <param name="articleText">the article text</param>
         /// <returns>the modified article text</returns>
-        public static string MoveOrphanTags(string articleText)
-        {
-            string strOrphanTags = "";
-
-            foreach (Match m in WikiRegexes.Orphan.Matches(articleText))
+        public static string MoveMaintenanceTags(string articleText)
+        {            
+            bool doMove = false;
+            int lastIndex = -1;
+            // if all templates removed from articletext before last MaintenanceTemplates match are not infoboxes then do not change anything
+            foreach(Match m in WikiRegexes.MaintenanceTemplates.Matches(articleText))
             {
-                strOrphanTags = strOrphanTags + m.Value + "\r\n";
+                lastIndex = m.Index;
+            }
+
+            // return if no MaintenanceTemplates to move
+            if (lastIndex < 0)
+                return articleText;
+
+            string articleTextToCheck = articleText.Substring(0, lastIndex);
+
+            foreach(Match m in WikiRegexes.NestedTemplates.Matches(articleTextToCheck))
+            {
+                if (Tools.GetTemplateName(m.Value).ToLower().Contains("infobox"))
+                {
+                    doMove = true;
+                    break;
+                }
+
+                articleTextToCheck = articleTextToCheck.Replace(m.Value, "");
+            }
+
+            if(articleTextToCheck.Trim().Length > 0)
+                doMove = true;
+
+            if(!doMove)
+                return articleText;
+
+            string strMaintTags = "";
+
+            foreach (Match m in WikiRegexes.MaintenanceTemplates.Matches(articleText))
+            {
+                strMaintTags = strMaintTags + m.Value + "\r\n";
                 articleText = articleText.Replace(m.Value, "");
             }
 
-            articleText = strOrphanTags + articleText;
+            articleText = strMaintTags + articleText;
 
-            return strOrphanTags.Length > 0 ? articleText.Replace(strOrphanTags + "\r\n", strOrphanTags) : articleText;
+            return strMaintTags.Length > 0 ? articleText.Replace(strMaintTags + "\r\n", strMaintTags) : articleText;
         }
 
         private static readonly Regex SeeAlso = new Regex(@"(\s*(==+)\s*see\s+also\s*\2)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
@@ -585,7 +619,7 @@ en, sq, ru
                     // check portal template NOT currently in 'see also'
                     if (!seeAlsoSectionString.Contains(portalTemplateFound.Trim()))
                     {
-                        articleText = articleText.Replace(portalTemplateFound + "\r\n", "");
+                        articleText = Regex.Replace(articleText, Regex.Escape(portalTemplateFound) + @"\s*\r\n", "");
                         articleText = SeeAlso.Replace(articleText, "$0" + "\r\n" + portalTemplateFound);
                     }
                 }
@@ -677,6 +711,7 @@ en, sq, ru
         /// <returns>Article text with external links section below the references section</returns>
         public static string MoveExternalLinks(string articleText)
         {
+            string articleTextAtStart = articleText;
             // is external links section above references?
             string externalLinks = ExternalLinksSection.Match(articleText).Groups[1].Value;
             string references = ReferencesSection.Match(articleText).Groups[1].Value;
@@ -690,8 +725,11 @@ en, sq, ru
                 articleText = articleText.Replace(externalLinks, "");
                 articleText = articleText.Replace(references, references + externalLinks);
             }
-            // newlines are fixed by later logic
-            return articleText;
+            
+            // newlines are fixed by later logic; validate no <ref> in external links section
+            if(!Parsers.HasRefAfterReflist(articleText))
+                return articleText;
+            else return articleTextAtStart;
         }
 
         /// <summary>
@@ -768,15 +806,27 @@ en, sq, ru
         /// <returns>string of interwiki and interwiki featured article links</returns>
         public string Interwikis(ref string articleText)
         {
+            string interWikiComment = "";
+            if (InterLangRegex.IsMatch(articleText))
+            {
+                interWikiComment = InterLangRegex.Match(articleText).Value;
+                articleText = articleText.Replace(interWikiComment, "");
+            }
+            
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#Interwiki_links_moved_out_of_comment
             HideText hider = new HideText(false, true, false);
 
             articleText = hider.Hide(articleText);
 
-            string interWikis = ListToString(RemoveLinkFGAs(ref articleText)) + ListToString(RemoveInterWikis(ref articleText));
+            string interWikis = ListToString(RemoveLinkFGAs(ref articleText));
+            
+            if(interWikiComment.Length > 0)
+                interWikis += interWikiComment + "\r\n";
+            
+            interWikis += ListToString(RemoveInterWikis(ref articleText));
 
             articleText = hider.AddBack(articleText);
-
+            
             return interWikis;
         }
 
@@ -803,17 +853,8 @@ en, sq, ru
 
             articleText = Tools.RemoveMatches(articleText, goodMatches);
 
-            string interWikiComment = "";
-            if (InterLangRegex.IsMatch(articleText))
-            {
-                interWikiComment = InterLangRegex.Match(articleText).Value;
-                articleText = articleText.Replace(interWikiComment, "");
-            }
-
             if (SortInterwikis)
                 interWikiList.Sort(Comparer);
-
-            if (!string.IsNullOrEmpty(interWikiComment)) interWikiList.Insert(0, interWikiComment);
 
             return interWikiList;
         }

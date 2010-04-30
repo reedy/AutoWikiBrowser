@@ -208,6 +208,7 @@ namespace AutoWikiBrowser
             this.btnFind = new System.Windows.Forms.Button();
             this.btnFalsePositive = new System.Windows.Forms.Button();
             this.nudBotSpeed = new System.Windows.Forms.NumericUpDown();
+            this.botEditsStop = new System.Windows.Forms.NumericUpDown();
             this.txtNewCategory = new System.Windows.Forms.TextBox();
             this.txtAppendMessage = new System.Windows.Forms.TextBox();
             this.chkAppend = new System.Windows.Forms.CheckBox();
@@ -268,6 +269,7 @@ namespace AutoWikiBrowser
             this.chkSuppressTag = new System.Windows.Forms.CheckBox();
             this.chkAutoMode = new System.Windows.Forms.CheckBox();
             this.lblAutoDelay = new System.Windows.Forms.Label();
+            this.lblbotEditsStop = new System.Windows.Forms.Label();
             this.chkFindCaseSensitive = new System.Windows.Forms.CheckBox();
             this.chkFindRegex = new System.Windows.Forms.CheckBox();
             this.txtFind = new System.Windows.Forms.TextBox();
@@ -420,6 +422,7 @@ namespace AutoWikiBrowser
             this.MnuMain.SuspendLayout();
             this.StatusMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudBotSpeed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.botEditsStop)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgSub)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgSup)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgRedirect)).BeginInit();
@@ -1834,6 +1837,20 @@ namespace AutoWikiBrowser
             0,
             0});
             // 
+            // botEditsStop
+            // 
+            this.botEditsStop.Enabled = false;
+            this.botEditsStop.Location = new System.Drawing.Point(204, 19);
+            this.botEditsStop.Maximum = new decimal(new int[] {
+            5000,
+            0,
+            0,
+            0});
+            this.botEditsStop.Name = "botEditsStop";
+            this.botEditsStop.Size = new System.Drawing.Size(51, 20);
+            this.botEditsStop.TabIndex = 2;
+            this.ToolTip.SetToolTip(this.botEditsStop, "If set > 0 AWB will stop at this number of edits");
+            // 
             // txtNewCategory
             // 
             this.txtNewCategory.Enabled = false;
@@ -2542,6 +2559,17 @@ namespace AutoWikiBrowser
             this.lblAutoDelay.TabIndex = 1;
             this.lblAutoDelay.Text = "&Delay";
             this.ToolTip.SetToolTip(this.lblAutoDelay, "Specify a delay between pages while in bot mode");
+            // 
+            // lblbotEditsStop
+            // 
+            this.lblbotEditsStop.AutoSize = true;
+            this.lblbotEditsStop.Enabled = false;
+            this.lblbotEditsStop.Location = new System.Drawing.Point(146, 22);
+            this.lblbotEditsStop.Name = "lblbotEditsStop";
+            this.lblbotEditsStop.Size = new System.Drawing.Size(52, 13);
+            this.lblbotEditsStop.TabIndex = 1;
+            this.lblbotEditsStop.Text = "Max edits";
+            this.ToolTip.SetToolTip(this.lblbotEditsStop, "Specify the maximum number of edits AWB should make");
             // 
             // chkFindCaseSensitive
             // 
@@ -3616,6 +3644,8 @@ namespace AutoWikiBrowser
             this.groupBox7.Controls.Add(this.chkSuppressTag);
             this.groupBox7.Controls.Add(this.chkAutoMode);
             this.groupBox7.Controls.Add(this.nudBotSpeed);
+            this.groupBox7.Controls.Add(this.botEditsStop);
+            this.groupBox7.Controls.Add(this.lblbotEditsStop);
             this.groupBox7.Controls.Add(this.lblAutoDelay);
             this.groupBox7.Location = new System.Drawing.Point(9, 6);
             this.groupBox7.Name = "groupBox7";
@@ -4203,6 +4233,7 @@ namespace AutoWikiBrowser
             this.StatusMain.ResumeLayout(false);
             this.StatusMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudBotSpeed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.botEditsStop)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgSub)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgSup)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgRedirect)).EndInit();
@@ -4469,7 +4500,9 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkSuppressTag;
         private System.Windows.Forms.CheckBox chkAutoMode;
         private System.Windows.Forms.NumericUpDown nudBotSpeed;
+        private System.Windows.Forms.NumericUpDown botEditsStop;
         private System.Windows.Forms.Label lblAutoDelay;
+        private System.Windows.Forms.Label lblbotEditsStop;
         private System.Windows.Forms.TabPage tpStart;
         private System.Windows.Forms.Label lblSummary;
         private System.Windows.Forms.CheckBox chkLock;

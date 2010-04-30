@@ -105,6 +105,11 @@ picture = Test.JPG
   bar = a|
   map = Image without exension
   | there=here}}");
+            
+            RegexAssert.Matches(WikiRegexes.Images, @"{{Infobox foo|
+  bar = a|
+  picture = Test.JPG
+  | there=here}}", @" Test.JPG");
         }
         
         [Test]
@@ -214,10 +219,14 @@ Foo.JPEG
 now stubborn}}");
             RegexAssert.IsMatch(WikiRegexes.TemplateCall, @"{{now stubborn|abc|derf=gh|ijk}}");
             RegexAssert.IsMatch(WikiRegexes.TemplateCall, @"{{Template:now stubborn}}");
+            RegexAssert.IsMatch(WikiRegexes.TemplateCall, @"{{template:now stubborn}}");
             
             RegexAssert.NoMatch(WikiRegexes.TemplateCall, "[[Test]]");
             RegexAssert.NoMatch(WikiRegexes.TemplateCall, "Test");
             RegexAssert.NoMatch(WikiRegexes.TemplateCall, "[[Image:Test.jpg]]");
+            RegexAssert.IsMatch(WikiRegexes.TemplateCall, @"{{cite book|url=http://www.site.com
+|pages = 50{{ndash}}70
+|year=2009");
         }
 
         [Test]
@@ -316,6 +325,101 @@ now stubborn}}");
             
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(@"{{wikify}}"));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{ickewiki}}"));
+            
+            Variables.SetProjectLangCode("en");
+            WikiRegexes.MakeLangSpecificRegexes();
+            #endif
+        }
+        
+        [Test]
+        public void DateYearMonthParameterTests()
+        {
+            #if DEBUG
+            Variables.SetProjectLangCode("sv");
+            WikiRegexes.MakeLangSpecificRegexes();
+            
+            Assert.AreEqual(WikiRegexes.DateYearMonthParameter, @"datum={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}");
+            
+            Variables.SetProjectLangCode("fr");
+            WikiRegexes.MakeLangSpecificRegexes();
+            
+            Assert.AreEqual(WikiRegexes.DateYearMonthParameter, @"date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}");
+            
+            Variables.SetProjectLangCode("en");
+            WikiRegexes.MakeLangSpecificRegexes();
+            #endif
+            Assert.AreEqual(WikiRegexes.DateYearMonthParameter, @"date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}");
+        }
+        
+        [Test]
+        public void UncatTests()
+        {
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorised}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorized}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncat}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncat}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncat|date=January 2009}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised|date=May 2008}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorised|date=May 2008}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorisedstub|date=May 2008}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorisedstub|date = May 2008}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+
+            // all the other redirects
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Classify}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{CatNeeded}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Catneeded}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorised}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncat}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categorize}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categories needed}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categoryneeded}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Category needed}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Category requested}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categories requested}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Nocats}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Categorise}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Nocat}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncat-date}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized-date}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Needs cat}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Needs cats}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Cats needed}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Cat needed}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{classify}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{catneeded}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{catneeded}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncat}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categorize}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categories needed}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categoryneeded}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{category needed}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{category requested}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categories requested}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{nocats}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{categorise}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{nocat}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncat-date}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorized-date}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{needs cat}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{needs cats}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{cats needed}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{cat needed}}"));
+
+            // no match
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized other template}}"));
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized other template|foo=bar}}"));
+            
+            // language variation
+            #if DEBUG
+            Variables.SetProjectLangCode("sv");
+            WikiRegexes.MakeLangSpecificRegexes();
+            
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{okategoriserad}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Okategoriserad}}"));
             
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();

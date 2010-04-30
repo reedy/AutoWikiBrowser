@@ -18,7 +18,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System.Collections.Generic;
 using System.Xml;
-using System.IO;
 
 namespace WikiFunctions.API
 {
@@ -55,7 +54,7 @@ namespace WikiFunctions.API
         /// Whether the current user is a flagged bot
         /// </summary>
         public bool IsBot
-        { get { return IsInGroup("bot"); } }
+        { get { return IsInGroup("bot") || HasRight("bot"); } }
 
         /// <summary>
         /// Whether the current user is blocked from editing

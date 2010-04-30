@@ -213,7 +213,18 @@ namespace WikiFunctions.Disambiguation
                         if ((Surroundings.Length > PosInSurroundings + Match.Value.Length) &&
                             (char.IsPunctuation(Surroundings[PosInSurroundings + Match.Value.Length])))
                         {
-                            txtCorrection.Text = Surroundings.Insert(PosInSurroundings + Match.Value.Length + 1,
+                            int repIndex = 0;
+                            
+                            // keep going until a non-punctuation character is found – ''[[link]]'' to ''[[link]]''{{dn}} rather than ''[[link]]'{{dn}}'
+                            for(int a = PosInSurroundings + Match.Value.Length; a < Surroundings.Length; a++)
+                            {
+                                if (char.IsPunctuation(Surroundings[a]))
+                                    repIndex++;
+                                else
+                                    break;
+                            }
+                            
+                            txtCorrection.Text = Surroundings.Insert(PosInSurroundings + Match.Value.Length + repIndex,
                                                                      "{{dn}}");
                         }
                         else

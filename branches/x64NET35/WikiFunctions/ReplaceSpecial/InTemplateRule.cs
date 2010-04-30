@@ -220,10 +220,8 @@ namespace WikiFunctions.ReplaceSpecial
             if (string.IsNullOrEmpty(template))
                 return true;
 
-            string pattern = @"^\s*" + Tools.CaseInsensitive(template) + @"\s*(?:}}|\|)";
-
             // allow match on spaces or underscores
-            pattern = pattern.Replace(" ", "[ _]+");
+            string pattern = @"^\s*" + Tools.CaseInsensitive(template).Replace(" ", "[ _]+") + @"\s*(?:}}|\|)";
 
             // don't match on comments
             text = WikiRegexes.Comments.Replace(text, "");

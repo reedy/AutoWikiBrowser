@@ -70,22 +70,22 @@ namespace WikiFunctions.Parse
             //interfere with wiki syntax
             RegexUnicode.Add(new Regex("&#(0?13|126|x5[BD]|x7[bcd]|0?9[13]|0?12[345]|0?0?3[92]);", RegexOptions.Compiled | RegexOptions.IgnoreCase), "&amp;#$1;");
 
-            RegexTagger.Add(new Regex(@"\{\{\s*(?:template:)?\s*(?:wikify(?:-date)?|wfy|wiki)(\s*\|\s*section)?\s*\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Wikify$1|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
-            RegexTagger.Add(new Regex(@"\{\{(template:)?(Clean( ?up)?|CU|Tidy)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Cleanup|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
-            RegexTagger.Add(new Regex(@"\{\{(template:)?(Linkless|Orphan)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
-            RegexTagger.Add(new Regex(@"\{\{(template:)?(Uncategori[sz]ed|Uncat|Classify|Category needed|Catneeded|categori[zs]e|nocats?)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Uncategorized|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+            RegexTagger.Add(new Regex(@"\{\{\s*(?:template:)?\s*(?:wikify(?:-date)?|wfy|wiki)(\s*\|\s*section)?\s*\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Wikify$1|" + WikiRegexes.DateYearMonthParameter + @"}}");
+            RegexTagger.Add(new Regex(@"\{\{(template:)?(Clean( ?up)?|CU|Tidy)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Cleanup|" + WikiRegexes.DateYearMonthParameter + @"}}");
+            RegexTagger.Add(new Regex(@"\{\{(template:)?(Linkless|Orphan)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Orphan|" + WikiRegexes.DateYearMonthParameter + @"}}");
+            RegexTagger.Add(new Regex(@"\{\{(template:)?(Uncategori[sz]ed|Uncat|Classify|Category needed|Catneeded|categori[zs]e|nocats?)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Uncategorized|" + WikiRegexes.DateYearMonthParameter + @"}}");
 
-            RegexTagger.Add(new Regex(@"\{\{(template:)?(Unreferenced(sect)?|add references|cite[ -]sources?|cleanup-sources?|needs? references|no sources|no references?|not referenced|references|unref|unsourced)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Unreferenced|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
-            RegexTagger.Add(new Regex(@"\{\{(template:)?(Trivia2?|Too ?much ?trivia|Trivia section|Cleanup-trivia)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Trivia|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
-            RegexTagger.Add(new Regex(@"\{\{(template:)?(deadend|DEP)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Deadend|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
-            RegexTagger.Add(new Regex(@"\{\{(template:)?(copyedit|g(rammar )?check|copy-edit|cleanup-copyedit|cleanup-english)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{copyedit|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
-            RegexTagger.Add(new Regex(@"\{\{(template:)?(sources|refimprove|not verified)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Refimprove|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
-            RegexTagger.Add(new Regex(@"\{\{(template:)?(Uncategori[zs]edstub|uncatstub)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Uncategorizedstub|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
-            RegexTagger.Add(new Regex(@"\{\{(template:)?(Expand)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Expand|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
-            RegexTagger.Add(new Regex(@"\{\{(?:\s*[Tt]emplate:)?(\s*(?:[Cc]n|[Ff]act|[Pp]roveit|[Cc]iteneeded|[Uu]ncited|[Cc]itation needed)\s*(?:\|[^{}]+(?<!\|\s*date\s*=[^{}]+))?)\}\}", RegexOptions.Compiled), "{{$1|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
-            RegexTagger.Add(new Regex(@"\{\{(template:)?(COI|Conflict of interest|Selfpromotion)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{COI|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
-            RegexTagger.Add(new Regex(@"\{\{(template:)?(Intro( |-)?missing|Nointro(duction)?|Lead missing|No ?lead|Missingintro|Opening|No-intro|Leadsection|No lead section)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Intro missing|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
-            RegexTagger.Add(new Regex(@"\{\{(template:)?([Pp]rimary ?[Ss]ources?|[Rr]eliable ?sources)\}\}", RegexOptions.Compiled), "{{Primary sources|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+            RegexTagger.Add(new Regex(@"\{\{(template:)?(Unreferenced(sect)?|add references|cite[ -]sources?|cleanup-sources?|needs? references|no sources|no references?|not referenced|references|unref|unsourced)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Unreferenced|" + WikiRegexes.DateYearMonthParameter + @"}}");
+            RegexTagger.Add(new Regex(@"\{\{(template:)?(Trivia2?|Too ?much ?trivia|Trivia section|Cleanup-trivia)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Trivia|" + WikiRegexes.DateYearMonthParameter + @"}}");
+            RegexTagger.Add(new Regex(@"\{\{(template:)?(deadend|DEP)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Deadend|" + WikiRegexes.DateYearMonthParameter + @"}}");
+            RegexTagger.Add(new Regex(@"\{\{(template:)?(copyedit|g(rammar )?check|copy-edit|cleanup-copyedit|cleanup-english)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{copyedit|" + WikiRegexes.DateYearMonthParameter + @"}}");
+            RegexTagger.Add(new Regex(@"\{\{(template:)?(sources|refimprove|not verified)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Refimprove|" + WikiRegexes.DateYearMonthParameter + @"}}");
+            RegexTagger.Add(new Regex(@"\{\{(template:)?(Uncategori[zs]edstub|uncatstub)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Uncategorizedstub|" + WikiRegexes.DateYearMonthParameter + @"}}");
+            RegexTagger.Add(new Regex(@"\{\{(template:)?(Expand)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Expand|" + WikiRegexes.DateYearMonthParameter + @"}}");
+            RegexTagger.Add(new Regex(@"\{\{(?:\s*[Tt]emplate:)?(\s*(?:[Cc]n|[Ff]act|[Pp]roveit|[Cc]iteneeded|[Uu]ncited|[Cc]itation needed)\s*(?:\|[^{}]+(?<!\|\s*date\s*=[^{}]+))?)\}\}", RegexOptions.Compiled), "{{$1|" + WikiRegexes.DateYearMonthParameter + @"}}");
+            RegexTagger.Add(new Regex(@"\{\{(template:)?(COI|Conflict of interest|Selfpromotion)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{COI|" + WikiRegexes.DateYearMonthParameter + @"}}");
+            RegexTagger.Add(new Regex(@"\{\{(template:)?(Intro( |-)?missing|Nointro(duction)?|Lead missing|No ?lead|Missingintro|Opening|No-intro|Leadsection|No lead section)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Intro missing|" + WikiRegexes.DateYearMonthParameter + @"}}");
+            RegexTagger.Add(new Regex(@"\{\{(template:)?([Pp]rimary ?[Ss]ources?|[Rr]eliable ?sources)\}\}", RegexOptions.Compiled), "{{Primary sources|" + WikiRegexes.DateYearMonthParameter + @"}}");
 
             RegexConversion.Add(new Regex(@"\{\{(?:Template:)?(Dab|Disamb|Disambiguation)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Disambig}}");
             RegexConversion.Add(new Regex(@"\{\{(?:Template:)?(Bio-dab|Hndisambig)", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Hndis");
@@ -94,27 +94,27 @@ namespace WikiFunctions.Parse
             RegexConversion.Add(new Regex(@"\{\{(?:[Tt]emplate:)?((?:BASE)?PAGENAMEE?\}\}|[Ll]ived\||[Bb]io-cats\|)", RegexOptions.Compiled), "{{subst:$1");
 
             // clean 'do-attempt =July 2006|att=April 2008' to 'do attempt = April 2008'
-            RegexConversion.Add(new Regex(@"({{\s*[Aa]rticle ?issues\s*(?:\|[^{}]*|\|)\s*[Dd]o-attempt\s*=\s*)[^{}\|]+\|\s*att\s*=\s*([^{}\|]+)(?=\||}})", RegexOptions.Compiled), "$1$2");
+            RegexConversion.Add(new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*|\|)\s*[Dd]o-attempt\s*=\s*)[^{}\|]+\|\s*att\s*=\s*([^{}\|]+)(?=\||}})", RegexOptions.Compiled), "$1$2");
 
             // clean "Copyedit for=grammar|date=April 2009"to "Copyedit=April 2009"
-            RegexConversion.Add(new Regex(@"({{\s*[Aa]rticle ?issues\s*(?:\|[^{}]*|\|)\s*[Cc]opyedit\s*)for\s*=\s*[^{}\|]+\|\s*date(\s*=[^{}\|]+)(?=\||}})", RegexOptions.Compiled), "$1$2");
+            RegexConversion.Add(new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*|\|)\s*[Cc]opyedit\s*)for\s*=\s*[^{}\|]+\|\s*date(\s*=[^{}\|]+)(?=\||}})", RegexOptions.Compiled), "$1$2");
 
             // could be multiple to date per template so loop
             for (int a = 0; a < 5; a++)
             {
                 // add date to any undated tags within {{Article issues}}
-                RegexConversion.Add(new Regex(@"({{\s*[Aa]rticle ?issues\s*(?:\|[^{}]*|\|)\s*)(?![Ee]xpert)" + WikiRegexes.ArticleIssuesTemplatesString + @"\s*(\||}})", RegexOptions.Compiled), "$1$2={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}$3");
+                RegexConversion.Add(new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*|\|)\s*)(?![Ee]xpert)" + WikiRegexes.ArticleIssuesTemplatesString + @"\s*(\||}})", RegexOptions.Compiled), "$1$2={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}$3");
 
                 // clean any 'date' word within {{Article issues}} (but not 'update' or 'out of date' fields), place after the date adding rule above
-                RegexConversion.Add(new Regex(@"(?<={{\s*[Aa]rticle ?issues\s*(?:\|[^{}]*?)?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?){0,4}\|[^{}\|]{3,}?)\b(?i)date(?<!.*out of.*)", RegexOptions.Compiled), "");
+                RegexConversion.Add(new Regex(@"(?<={{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*?)?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?){0,4}\|[^{}\|]{3,}?)\b(?i)date(?<!.*out of.*)", RegexOptions.Compiled), "");
             }
 
             // articleissues with one issue -> single issue tag (e.g. {{articleissues|cleanup=January 2008}} to {{cleanup|date=January 2008}} etc.)
-            RegexConversion.Add(new Regex(@"\{\{[Aa]rticle ?issues\s*\|\s*([^\|{}=]{3,}?)\s*(=\s*\w{3,10}\s+20\d\d)\s*\}\}", RegexOptions.Compiled), "{{$1|date$2}}");
+            RegexConversion.Add(new Regex(@"\{\{(?:[Aa]rticle|[Mm]ultiple) ?issues\s*\|\s*([^\|{}=]{3,}?)\s*(=\s*\w{3,10}\s+20\d\d)\s*\}\}", RegexOptions.Compiled), "{{$1|date$2}}");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_empty_.7B.7BArticle_issues.7D.7D
             // articleissues with no issues -> remove tag
-            RegexConversion.Add(new Regex(@"\{\{[Aa]rticle ?issues(?:\s*\|\s*(?:section|article)\s*=\s*[Yy])?\s*\}\}", RegexOptions.Compiled), "");
+            RegexConversion.Add(new Regex(@"\{\{(?:[Aa]rticle|[Mm]ultiple) ?issues(?:\s*\|\s*(?:section|article)\s*=\s*[Yy])?\s*\}\}", RegexOptions.Compiled), "");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.7B.7Bcommons.7CCategory:XXX.7D.7D_.3E_.7B.7Bcommonscat.7CXXX.7D.7D
             RegexConversion.Add(new Regex(@"\{\{[Cc]ommons\|\s*[Cc]ategory:\s*([^{}]+?)\s*\}\}", RegexOptions.Compiled), @"{{Commons category|$1}}");
@@ -126,13 +126,13 @@ namespace WikiFunctions.Parse
             RegexConversion.Add(new Regex(@"(?!{{[Cc]ite wikisource)(\{\{\s*(?:[Cc]it[ae]|[Aa]rticle ?issues)[^{}]*)\|\s*(\}\}|\|)", RegexOptions.Compiled), "$1$2");
 
             // remove duplicate / populated and null fields in cite/article issues templates
-            RegexConversion.Add(new Regex(@"({{\s*[Aa]rticle ?issues[^{}]*\|\s*)(\w+)\s*=\s*([^\|}{]+?)\s*\|((?:[^{}]*?\|)?\s*)\2(\s*=\s*)\3(\s*(\||\}\}))", RegexOptions.Compiled), "$1$4$2$5$3$6"); // duplicate field remover for cite templates
-            RegexConversion.Add(new Regex(@"(\{\{\s*[Aa]rticle ?issues[^{}]*\|\s*)(\w+)(\s*=\s*[^\|}{]+(?:\|[^{}]+?)?)\|\s*\2\s*=\s*(\||\}\})", RegexOptions.Compiled), "$1$2$3$4"); // 'field=populated | field=null' drop field=null
-            RegexConversion.Add(new Regex(@"(\{\{\s*[Aa]rticle ?issues[^{}]*\|\s*)(\w+)\s*=\s*\|\s*((?:[^{}]+?\|)?\s*\2\s*=\s*[^\|}{\s])", RegexOptions.Compiled), "$1$3"); // 'field=null | field=populated' drop field=null
+            RegexConversion.Add(new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues[^{}]*\|\s*)(\w+)\s*=\s*([^\|}{]+?)\s*\|((?:[^{}]*?\|)?\s*)\2(\s*=\s*)\3(\s*(\||\}\}))", RegexOptions.Compiled), "$1$4$2$5$3$6"); // duplicate field remover for cite templates
+            RegexConversion.Add(new Regex(@"(\{\{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues[^{}]*\|\s*)(\w+)(\s*=\s*[^\|}{]+(?:\|[^{}]+?)?)\|\s*\2\s*=\s*(\||\}\})", RegexOptions.Compiled), "$1$2$3$4"); // 'field=populated | field=null' drop field=null
+            RegexConversion.Add(new Regex(@"(\{\{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues[^{}]*\|\s*)(\w+)\s*=\s*\|\s*((?:[^{}]+?\|)?\s*\2\s*=\s*[^\|}{\s])", RegexOptions.Compiled), "$1$3"); // 'field=null | field=populated' drop field=null
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#AWB_is_still_using_.7B.7BArticleissues.7D.7D_instead_of_.7B.7BArticle_issues.7D.7D
             // replace any {{articleissues}} with {{article issues}}
-            RegexConversion.Add(new Regex(@"(?<={{\s*)[Aa]rticle ?(?=issues.*}})", RegexOptions.Compiled), "multiple ");
+            RegexConversion.Add(new Regex(@"(?<={{\s*)(?:[Aa]rticle|[Mm]ultiple) ?(?=issues.*}})", RegexOptions.Compiled), "multiple ");
 
             // http://en.wikipedia.org/wiki/Template_talk:Citation_needed#Requested_move
             RegexConversion.Add(new Regex(@"{{\s*(?:[Cc]n|[Ff]act|[Pp]roveit|[Cc]iteneeded|[Uu]ncited)(?=\s*[\|}])", RegexOptions.Compiled), @"{{Citation needed");
@@ -279,18 +279,28 @@ namespace WikiFunctions.Parse
         private const int MinCleanupTagsToCombine = 3; // article must have at least this many tags to combine to {{Article issues}}
 
         /// <summary>
-        /// Combines multiple cleanup tags into {{article issues}} template, ensures parameters have correct case, removes date parameter where not needed
+        /// Combines multiple cleanup tags into {{multiple issues}} template, ensures parameters have correct case, removes date parameter where not needed
         /// only for English-language wikis
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public string ArticleIssues(string articleText)
+        public string ArticleIssues(string articleText, string articleTitle)
         {
             if (Variables.LangCode != "en")
                 return articleText;
 
             if (WikiRegexes.ArticleIssues.IsMatch(articleText))
-                articleText = MetaDataSorter.MoveOrphanTags(articleText);
+            {
+                string aiat = WikiRegexes.ArticleIssues.Match(articleText).Value;
+                
+                // unref to BLPunref for bio articles
+                if(Tools.GetTemplateParameterValue(aiat, "unreferenced").Length > 0 && IsArticleAboutAPerson(articleText, articleTitle, true))
+                    articleText = articleText.Replace(aiat, Tools.RenameTemplateParameter(aiat, "unreferenced", "BLPunreferenced"));
+                else if(Tools.GetTemplateParameterValue(aiat, "unref").Length > 0 && IsArticleAboutAPerson(articleText, articleTitle, true))
+                    articleText = articleText.Replace(aiat, Tools.RenameTemplateParameter(aiat, "unref", "BLPunreferenced"));
+                
+                articleText = MetaDataSorter.MoveMaintenanceTags(articleText);
+            }
 
             // convert title case parameters within {{Article issues}} to lower case
             foreach (Match m in WikiRegexes.ArticleIssuesInTitleCase.Matches(articleText))
@@ -350,8 +360,10 @@ namespace WikiFunctions.Parse
             }
 
             // if article currently has {{Article issues}}, add tags to it
-            if (WikiRegexes.ArticleIssues.IsMatch(zerothSection))
-                zerothSection = WikiRegexes.ArticleIssues.Replace(zerothSection, "$1" + newTags + @"}}");
+            string ai = WikiRegexes.ArticleIssues.Match(zerothSection).Value;
+            if (ai.Length > 0)
+                zerothSection = zerothSection.Replace(ai, ai.Substring(0, ai.Length-2) + newTags + @"}}");
+            
             else // add {{article issues}} to top of article, metaDataSorter will arrange correctly later
                 zerothSection = @"{{Article issues" + newTags + "}}\r\n" + zerothSection;
 
@@ -647,10 +659,10 @@ namespace WikiFunctions.Parse
                 foreach (Match m in OutofOrderRefs1.Matches(articleText))
                 {
                     string ref1 = m.Groups[1].Value;
-                    int ref1Index = Regex.Match(articleText, @"(?i)<ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(m.Groups[4].Value) + @"(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>").Index;
+                    int ref1Index = Regex.Match(articleText, @"(?si)<ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(m.Groups[4].Value) + @"(?:""|')?\s*(?:\/\s*|>.+?</ref)>").Index;
                     int ref2Index = articleText.IndexOf(ref1);
 
-                    if (ref1Index < ref2Index && ref2Index > 0 && m.Groups[3].Index < referencestags)
+                    if (ref1Index < ref2Index && ref2Index > 0 && ref1Index > 0 && m.Groups[3].Index < referencestags)
                     {
                         string whitespace = m.Groups[2].Value;
                         string rptemplate = m.Groups[5].Value;
@@ -680,8 +692,8 @@ namespace WikiFunctions.Parse
         {
             foreach (Match m in outofOrderRegex.Matches(articleText))
             {
-                int ref1Index = Regex.Match(articleText, @"(?i)<ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(m.Groups[2].Value) + @"(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>").Index;
-                int ref2Index = Regex.Match(articleText, @"(?i)<ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(m.Groups[6].Value) + @"(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>").Index;
+                int ref1Index = Regex.Match(articleText, @"(?si)<ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(m.Groups[2].Value) + @"(?:""|')?\s*(?:\/\s*|>.+?</ref)>").Index;
+                int ref2Index = Regex.Match(articleText, @"(?si)<ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(m.Groups[6].Value) + @"(?:""|')?\s*(?:\/\s*|>.+?</ref)>").Index;
 
                 if (ref1Index > ref2Index && ref1Index > 0 && m.Groups[5].Index < referencestagindex)
                 {
@@ -698,7 +710,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly Regex NamedReferences = new Regex(@"(<\s*ref\s+name\s*=\s*(?:""|')?([^<>=\r\n]+?)(?:""|')?\s*>\s*([^<>]+?)\s*<\s*/\s*ref>)", RegexOptions.Compiled);
+        private static readonly Regex NamedReferences = new Regex(@"(<\s*ref\s+name\s*=\s*(?:""|')?([^<>=\r\n]+?)(?:""|')?\s*>\s*(.+?)\s*<\s*/\s*ref>)", RegexOptions.Compiled | RegexOptions.Singleline);
         private static readonly Regex LongNamedReferences = new Regex(@"(<\s*ref\s+name\s*=\s*(?:""|')?([^<>=\r\n]+?)(?:""|')?\s*>\s*([^<>]{30,}?)\s*<\s*/\s*ref>)", RegexOptions.Compiled);
 
         // Covered by: DuplicateNamedReferencesTests()
@@ -1213,7 +1225,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex CiteTemplateArchiveAirDate = new Regex(@"{{\s*cit[^{}]*\|\s*(?:archive|air)?date2?\s*=", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private static readonly RegexReplacement[] CiteTemplateIncorrectISODates = new[] {
-            new RegexReplacement(CitDate + @"\[?\[?)(200\d|19[7-9]\d)[/_]?([0-1]\d)[/_]?([0-3]\d\s*(?:\||}}))", "$1$2-$3-$4"),
+            new RegexReplacement(CitDate + @"\[?\[?)(20\d\d|19[7-9]\d)[/_]?([0-1]\d)[/_]?([0-3]\d\s*(?:\||}}))", "$1$2-$3-$4"),
             new RegexReplacement(CitDate + @"\[?\[?)(1[0-2])[/_\-\.]?([2-3]\d)[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-$2-$3"),
             new RegexReplacement(CitDate + @"\[?\[?)0?([1-9])[/_\-\.]?([2-3]\d)[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-0$2-$3"),
             new RegexReplacement(CitDate + @"\[?\[?)([2-3]\d)[/_\-\.]?0?([1-9])[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-0$3-$2"),
@@ -1230,16 +1242,16 @@ namespace WikiFunctions.Parse
             new RegexReplacement(CitDate + @"\[?\[?)([1-9])[/_\-\.](1[3-9])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-0$2-$3"),
             new RegexReplacement(CitDate + @"\[?\[?)(1[3-9])[/_\-\.]?([1-9])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-0$3-$2"),
             new RegexReplacement(CitDate + @"\[?\[?)(1[3-9])[/_\-\.](1[0-2])[/_\-\.](?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$3-$2"),
-            new RegexReplacement(CitDate + @")0?([1-9])[/_\-\.]0?\2[/_\-\.](200\d|19[7-9]\d)(?=\s*(?:\||}}))", "$1$3-0$2-0$2"), // n-n-2004 and n-n-1980 to ISO format (both n the same)
+            new RegexReplacement(CitDate + @")0?([1-9])[/_\-\.]0?\2[/_\-\.](20\d\d|19[7-9]\d)(?=\s*(?:\||}}))", "$1$3-0$2-0$2"), // n-n-2004 and n-n-1980 to ISO format (both n the same)
             new RegexReplacement(CitDate + @")0?([1-9])[/_\-\.]0?\2[/_\-\.]([01]\d)(?=\s*(?:\||}}))", "${1}20$3-0$2-0$2"), // n-n-04 to ISO format (both n the same)
-            new RegexReplacement(CitDate + @")(1[0-2])[/_\-\.]?\2[/_\-\.]?(200\d|19[7-9]\d)(?=\s*(?:\||}}))", "$1$3-$2-$2"), // nn-nn-2004 and nn-nn-1980 to ISO format (both nn the same)
+            new RegexReplacement(CitDate + @")(1[0-2])[/_\-\.]?\2[/_\-\.]?(20\d\d|19[7-9]\d)(?=\s*(?:\||}}))", "$1$3-$2-$2"), // nn-nn-2004 and nn-nn-1980 to ISO format (both nn the same)
             new RegexReplacement(CitDate + @")(1[0-2])[/_\-\.]?\2[/_\-\.]?([01]\d)(?=\s*(?:\||}}))", "${1}20$3-$2-$2"), // nn-nn-04 to ISO format (both nn the same)
-            new RegexReplacement(CitDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]([1-9])[/_\-\.]0?([1-9](?:\]\])?\s*(?:\||}}))", "$1$2-0$3-0$4"),
-            new RegexReplacement(CitDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]0?([1-9])[/_\-\.]([1-9](?:\]\])?\s*(?:\||}}))", "$1$2-0$3-0$4"),
-            new RegexReplacement(CitDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]?([0-1]\d)[/_\-\.]?([1-9](?:\]\])?\s*(?:\||}}))", "$1$2-$3-0$4"),
-            new RegexReplacement(CitDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]?([1-9])[/_\-\.]?([0-3]\d(?:\]\])?\s*(?:\||}}))", "$1$2-0$3-$4"),
-            new RegexReplacement(CitDate + @")((?:\[\[)?200\d|19[7-9]\d)([0-1]\d)[/_\-\.]([0-3]\d(?:\]\])?\s*(?:\||}}))", "$1$2-$3-$4"),
-            new RegexReplacement(CitDate + @")((?:\[\[)?200\d|19[7-9]\d)[/_\-\.]([0-1]\d)0?([0-3]\d(?:\]\])?\s*(?:\||}}))", "$1$2-$3-$4"),
+            new RegexReplacement(CitDate + @")((?:\[\[)?20\d\d|19[7-9]\d)[/_\-\.]([1-9])[/_\-\.]0?([1-9](?:\]\])?\s*(?:\||}}))", "$1$2-0$3-0$4"),
+            new RegexReplacement(CitDate + @")((?:\[\[)?20\d\d|19[7-9]\d)[/_\-\.]0?([1-9])[/_\-\.]([1-9](?:\]\])?\s*(?:\||}}))", "$1$2-0$3-0$4"),
+            new RegexReplacement(CitDate + @")((?:\[\[)?20\d\d|19[7-9]\d)[/_\-\.]?([0-1]\d)[/_\-\.]?([1-9](?:\]\])?\s*(?:\||}}))", "$1$2-$3-0$4"),
+            new RegexReplacement(CitDate + @")((?:\[\[)?20\d\d|19[7-9]\d)[/_\-\.]?([1-9])[/_\-\.]?([0-3]\d(?:\]\])?\s*(?:\||}}))", "$1$2-0$3-$4"),
+            new RegexReplacement(CitDate + @")((?:\[\[)?20\d\d|19[7-9]\d)([0-1]\d)[/_\-\.]([0-3]\d(?:\]\])?\s*(?:\||}}))", "$1$2-$3-$4"),
+            new RegexReplacement(CitDate + @")((?:\[\[)?20\d\d|19[7-9]\d)[/_\-\.]([0-1]\d)0?([0-3]\d(?:\]\])?\s*(?:\||}}))", "$1$2-$3-$4"),
         };
 
         private static readonly RegexReplacement[] CiteTemplateAbbreviatedMonths = new[] {
@@ -1257,8 +1269,8 @@ namespace WikiFunctions.Parse
             new RegexReplacement(CitYMonthD + @"Dec(?:ember|\.)" + dTemEnd, "$1-12-$2"),
         };
 
-        private static readonly Regex CiteTemplateDateYYYYDDMMFormat = new Regex(SiCitStart + @"(?:archive|air|access)?date2?\s*=\s*(?:\[\[)?200\d)-([2-3]\d|1[3-9])-(0[1-9]|1[0-2])(\]\])?", RegexOptions.Compiled);
-        private static readonly Regex CiteTemplateTimeInDateParameter = new Regex(@"(\{\{\s*cite[^\{\}]*\|\s*(?:archive|air|access)?date2?\s*=\s*(?:(?:200\d|19[7-9]\d)-[01]?\d-[0-3]?\d|[0-3]?\d\s*\w+,?\s*(?:200\d|19[7-9]\d)|\w+\s*[0-3]?\d,?\s*(?:200\d|19[7-9]\d)))(\s*[,-:]?\s+[0-2]?\d\:?[0-5]\d(?:\:?[0-5]\d)?\s*[^\|\}]*)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        private static readonly Regex CiteTemplateDateYYYYDDMMFormat = new Regex(SiCitStart + @"(?:archive|air|access)?date2?\s*=\s*(?:\[\[)?20\d\d)-([2-3]\d|1[3-9])-(0[1-9]|1[0-2])(\]\])?", RegexOptions.Compiled);
+        private static readonly Regex CiteTemplateTimeInDateParameter = new Regex(@"(\{\{\s*cite[^\{\}]*\|\s*(?:archive|air|access)?date2?\s*=\s*(?:(?:20\d\d|19[7-9]\d)-[01]?\d-[0-3]?\d|[0-3]?\d\s*\w+,?\s*(?:20\d\d|19[7-9]\d)|\w+\s*[0-3]?\d,?\s*(?:20\d\d|19[7-9]\d)))(\s*[,-:]?\s+[0-2]?\d[:\.]?[0-5]\d(?:\:?[0-5]\d)?\s*[^\|\}]*)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
         /// Corrects common formatting errors in dates in external reference citation templates (doesn't link/delink dates)
@@ -1310,7 +1322,7 @@ namespace WikiFunctions.Parse
         }
 
 
-        private static readonly Regex PossibleAmbiguousCiteDate = new Regex(@"(?<={{[Cc]it[ae][^{}]+?\|\s*(?:access|archive|air)?date2?\s*=\s*)(0?[1-9]|1[0-2])[/_\-\.](0?[1-9]|1[0-2])[/_\-\.](200\d|19[7-9]\d|[01]\d)\b");
+        private static readonly Regex PossibleAmbiguousCiteDate = new Regex(@"(?<={{[Cc]it[ae][^{}]+?\|\s*(?:access|archive|air)?date2?\s*=\s*)(0?[1-9]|1[0-2])[/_\-\.](0?[1-9]|1[0-2])[/_\-\.](20\d\d|19[7-9]\d|[01]\d)\b");
 
         /// <summary>
         /// Returns whether the input article text contains ambiguous cite template dates in XX-XX-YYYY or XX-XX-YY format
@@ -1597,7 +1609,7 @@ namespace WikiFunctions.Parse
         }
 
         // don't match on 'in the June of 2007', 'on the 11th May 2008' etc. as these won't read well if changed
-        private static readonly Regex OfBetweenMonthAndYear = new Regex(@"\b" + WikiRegexes.Months + @"\s+of\s+(200\d|1[89]\d\d)\b(?<!\b[Tt]he\s{1,5}\w{3,15}\s{1,5}of\s{1,5}(200\d|1[89]\d\d))", RegexOptions.Compiled);
+        private static readonly Regex OfBetweenMonthAndYear = new Regex(@"\b" + WikiRegexes.Months + @"\s+of\s+(20\d\d|1[89]\d\d)\b(?<!\b[Tt]he\s{1,5}\w{3,15}\s{1,5}of\s{1,5}(20\d\d|1[89]\d\d))", RegexOptions.Compiled);
         private static readonly Regex OrdinalsInDatesAm = new Regex(@"(?<!\b[1-3]\d +)\b" + WikiRegexes.Months + @"\s+([0-3]?\d)(?:st|nd|rd|th)\b(?<!\b[Tt]he\s+\w{3,10}\s+(?:[0-3]?\d)(?:st|nd|rd|th)\b)(?:(\s*(?:to|and|.|&.dash;)\s*[0-3]?\d)(?:st|nd|rd|th)\b)?", RegexOptions.Compiled);
         private static readonly Regex OrdinalsInDatesInt = new Regex(@"(?:\b([0-3]?\d)(?:st|nd|rd|th)(\s*(?:to|and|.|&.dash;)\s*))?\b([0-3]?\d)(?:st|nd|rd|th)\s+" + WikiRegexes.Months + @"\b(?<!\b[Tt]he\s+(?:[0-3]?\d)(?:st|nd|rd|th)\s+\w{3,10})", RegexOptions.Compiled);
         private static readonly Regex DateLeadingZerosAm = new Regex(@"(?<!\b[0-3]?\d\s*)\b" + WikiRegexes.Months + @"\s+0([1-9])" + @"\b", RegexOptions.Compiled);
@@ -2090,7 +2102,6 @@ namespace WikiFunctions.Parse
         private static readonly Regex AccessDayMonthDay = new Regex(@"\|\s*access(?:daymonth|month(?:day)?|year)\s*=\s*(?=\||}})", RegexOptions.Compiled);
         private static readonly Regex DateLeadingZero = new Regex(@"(?<=\|\s*(?:access|archive)?date\s*=\s*)(?:0([1-9]\s+" + WikiRegexes.MonthsNoGroup + @")|(\s*" + WikiRegexes.MonthsNoGroup + @"\s)+0([1-9],?))(\s+20[01]\d)?(\s*\||}})", RegexOptions.Compiled);
         private static readonly Regex YearInDate = new Regex(@"(\|\s*)date(\s*=\s*[12]\d{3}\s*)(?=\||}})", RegexOptions.Compiled);
-        private static readonly Regex ISODateInYear = new Regex(@"(\|\s*)year(\s*=\s*(?:20\d\d|1[6-9]\d\d)-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|3[01])\s*)(?=\||}})", RegexOptions.Compiled);
 
         private static readonly Regex DupeFields = new Regex(@"((\|\s*([a-z\d]+)\s*=\s*([^\{\}\|]*?))\s*(?:\|.*?)?)\|\s*\3\s*=\s*([^\{\}\|]*?)\s*(\||}})", RegexOptions.Singleline | RegexOptions.Compiled);
 
@@ -2162,6 +2173,14 @@ namespace WikiFunctions.Parse
                 if (Tools.GetTemplateParameterValue(newValue, "nopp").Length == 0 &&
                     !templatename.Equals("cite journal", StringComparison.OrdinalIgnoreCase))
                     newValue = CiteTemplatePagesPP.Replace(newValue, "");
+                
+                // date = YYYY --> year = YYYY; not for {{cite video}}
+                if (!Regex.IsMatch(newValue, @"{{\s*[Cc]ite (?:video|podcast)\b"))
+                    newValue = YearInDate.Replace(newValue, "$1year$2");
+
+                // year = ISO date --> date = ISO date
+                if(WikiRegexes.ISODates.IsMatch(Tools.GetTemplateParameterValue(newValue, "year")))
+                    newValue = Tools.RenameTemplateParameter(newValue, "year", "date");
 
                 // remove duplicated fields, ensure the URL is not touched (may have pipes in)
                 if (DupeFields.IsMatch(newValue))
@@ -2187,6 +2206,12 @@ namespace WikiFunctions.Parse
                     if (newvaluetemp != newValue && (URL.Length == 0 || newvaluetemp.Contains(URL)))
                         newValue = newvaluetemp;
                 }
+                
+                // year=YYYY and date=...YYYY -> remove year; not for year=YYYYa
+                string year = Tools.GetTemplateParameterValue(newValue, "year");
+                
+                if(Regex.IsMatch(year, @"^[12]\d{3}$") && Tools.GetTemplateParameterValue(newValue, "date").Contains(year))
+                    newValue = Tools.RemoveTemplateParameter(newValue, "year");
 
                 // correct volume=vol 7... and issue=no. 8 for {{cite journal}} only
                 if (templatename.Equals("cite journal", StringComparison.OrdinalIgnoreCase))
@@ -2215,35 +2240,60 @@ namespace WikiFunctions.Parse
                 }
 
                 // remove accessyear where accessdate is present and contains said year
-                string year = Tools.GetTemplateParameterValue(newValue, "accessyear");
-                if (year.Length > 0 && Tools.GetTemplateParameterValue(newValue, "accessdate").Contains(year))
+                string accessyear = Tools.GetTemplateParameterValue(newValue, "accessyear");
+                if (accessyear.Length > 0 && Tools.GetTemplateParameterValue(newValue, "accessdate").Contains(accessyear))
                     newValue = Tools.RemoveTemplateParameter(newValue, "accessyear");
-
-                // date = YYYY --> year = YYYY; not for {{cite video}}
-                if (!Regex.IsMatch(newValue, @"{{\s*[Cc]ite (?:video|podcast)\b"))
-                    newValue = YearInDate.Replace(newValue, "$1year$2");
-
-                // year = ISO date --> date = ISO date
-                newValue = ISODateInYear.Replace(newValue, "$1date$2");
 
                 // catch after any other fixes
                 newValue = NoCommaAmericanDates.Replace(newValue, @"$1, $2");
 
                 // page range should have unspaced en-dash; validate that page is range not section link
-                while (CiteTemplatesPageRange.IsMatch(newValue))
+                string page = Tools.GetTemplateParameterValue(newValue, "page");
+                
+                if(page.Length == 0)
+                    page = Tools.GetTemplateParameterValue(newValue, "pages");
+                
+                bool pagerangesokay = true;
+                Dictionary<int, int> PageRanges = new Dictionary<int, int>();
+                
+                if(page.Length > 2 && !page.Contains(" to "))
                 {
-                    Match pagerange = CiteTemplatesPageRange.Match(newValue);
-                    string page1 = pagerange.Groups[1].Value;
-                    string page2 = pagerange.Groups[2].Value;
+                    foreach (Match pagerange in CiteTemplatesPageRange.Matches(newValue))
+                    {
+                        string page1 = pagerange.Groups[1].Value;
+                        string page2 = pagerange.Groups[2].Value;
 
-                    // convert 350-2 into 350-352 etc.
-                    if (page1.Length > page2.Length)
-                        page2 = page1.Substring(0, page1.Length - page2.Length) + page2;
+                        // convert 350-2 into 350-352 etc.
+                        if (page1.Length > page2.Length)
+                            page2 = page1.Substring(0, page1.Length - page2.Length) + page2;
 
-                    if (Convert.ToInt32(page1) < Convert.ToInt32(page2) &&
-                        Convert.ToInt32(page2) - Convert.ToInt32(page1) < 999)
+                        // check a valid range with difference < 999
+                        if (Convert.ToInt32(page1) < Convert.ToInt32(page2) &&
+                            Convert.ToInt32(page2) - Convert.ToInt32(page1) < 999)
+                            pagerangesokay = true;
+                        else
+                            pagerangesokay = false;
+                        
+                        // check range doesn't overlap with another range found
+                        foreach (KeyValuePair<int, int> kvp in PageRanges)
+                        {
+                            // check if page 1 or page 2 within existing range
+                            if ((Convert.ToInt32(page1) >= kvp.Key && Convert.ToInt32(page1) <= kvp.Value) || (Convert.ToInt32(page2) >= kvp.Key && Convert.ToInt32(page2) <= kvp.Value))
+                            {
+                                pagerangesokay = false;
+                                break;
+                            }
+                        }
+                        
+                        if(!pagerangesokay)
+                            break;
+                        
+                        // add to dictionary of ranges found
+                        PageRanges.Add(Convert.ToInt32(page1), Convert.ToInt32(page2));
+                    }
+                    
+                    if(pagerangesokay)
                         newValue = CiteTemplatesPageRange.Replace(newValue, @"$1–$2");
-                    else break;
                 }
 
                 // page range should use 'pages' parameter not 'page'
@@ -2967,11 +3017,6 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// regex that Matches every template, for GetTemplate
-        /// </summary>
-        public const string EveryTemplate = @"[^\|\{\}]+";
-
-        /// <summary>
         /// Extracts template using the given match.
         /// </summary>
         private static string ExtractTemplate(string articleText, Match m)
@@ -3012,32 +3057,43 @@ namespace WikiFunctions.Parse
             return "";
         }
 
-        private static readonly Dictionary<string, Regex> CachedGetTemplatesRegexes = new Dictionary<string, Regex>();
         /// <summary>
-        /// Finds every occurrence of a given template in article text.
+        /// Finds every occurrence of a given template in article text, excludes commented out/nowiki'd templates
         /// Handles nested templates and templates with embedded HTML comments correctly.
         /// </summary>
         /// <param name="articleText">Source text</param>
-        /// <param name="template">Name of template, can be regex without a group capture</param>
+        /// <param name="template">Name of template</param>
         /// <returns>List of matches found</returns>               
         public static List<Match> GetTemplates(string articleText, string template)
         {
+            return GetTemplates(articleText, Tools.NestedTemplateRegex(template));
+        }
+        
+        /// <summary>
+        /// Finds all templates in article text excluding commented out/nowiki'd templates.
+        /// Handles nested templates and templates with embedded HTML comments correctly.
+        /// </summary>
+        /// <param name="articleText">Source text</param>
+        /// <returns>List of matches found</returns>
+        public static List<Match> GetTemplates(string articleText)
+        {
+            return GetTemplates(articleText, WikiRegexes.NestedTemplates);
+        }
+        
+        /// <summary>
+        /// Finds all templates in article text excluding commented out/nowiki'd templates.
+        /// Handles nested templates and templates with embedded HTML comments correctly.
+        /// </summary>
+        /// <param name="articleText">Source text</param>
+        /// <param name="search">nested template regex to use</param>
+        /// <returns>List of matches found</returns>    
+        private static List<Match> GetTemplates(string articleText, Regex search)
+         {
             List<Match> templateMatches = new List<Match>();
             string articleTextAtStart = articleText;
             
             // replace with spaces any commented out templates etc., this means index of real matches remains the same as in actual article text
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.UnformattedText);
-
-            Regex search;
-
-            lock (CachedGetTemplatesRegexes)
-            {
-                if (!CachedGetTemplatesRegexes.TryGetValue(template, out search))
-                {
-                    search = Tools.NestedTemplateRegex(template);
-                    CachedGetTemplatesRegexes[template] = search;
-                }
-            }
 
             // return matches found in article text at start, provided they exist in cleaned text
             // i.e. don't include matches for commented out/nowiki'd templates
@@ -3868,6 +3924,11 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static bool IsArticleAboutAPerson(string articleText, string articleTitle, bool parseTalkPage)
         {
+            #if DEBUG
+            if(Globals.UnitTestMode)
+                parseTalkPage = false;
+            #endif
+            
             if (Variables.LangCode != "en"
                 || articleText.Contains(@"[[Category:Multiple people]]")
                 || articleText.Contains(@"[[Category:Married couples")
@@ -3878,6 +3939,9 @@ namespace WikiFunctions.Parse
                 || articleText.Contains(@"[[Category:Presidencies")
                 || articleText.Contains(@"[[Category:Military careers")
                 || CategoryCharacters.IsMatch(articleText))
+                return false;
+            
+            if(Tools.GetTemplateParameterValue(Tools.NestedTemplateRegex(new List<string>(@"Infobox musical artist,Infobox musical artist 2,Infobox Musical Artist,Infobox singer,Infobox Musician,Infobox musician,Music artist,Infobox Musical Artist 2,Infobox Musicial Artist 2,Infobox Composer,Infobox composer,Infobox Musical artist,Infobox Band".Split(','))).Match(articleText).Value, "Background").Contains("group_or_band"))
                 return false;
 
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
@@ -3922,7 +3986,7 @@ namespace WikiFunctions.Parse
         {
             try
             {
-                return Variables.MainForm.TheSession.Editor.SynchronousEditor.Clone().Open(title);
+                return Variables.MainForm.TheSession.Editor.SynchronousEditor.Clone().Open(title, false);
             }
             catch
             {
@@ -4469,20 +4533,20 @@ namespace WikiFunctions.Parse
             string crapStripped = WikiRegexes.BulletedText.Replace(commentsStripped, "");
             int words = (Tools.WordCount(commentsStripped) + Tools.WordCount(crapStripped)) / 2;
 
-            // on en wiki, remove expand template when a stub template exists
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.7B.7Bexpand.7D.7D_when_a_stub_template_exists
-            if (Variables.LangCode == "en" && WikiRegexes.Stub.IsMatch(commentsStripped) &&
-                WikiRegexes.Expand.IsMatch(commentsStripped))
-            {
-                articleText = WikiRegexes.Expand.Replace(articleText, "");
-                tagsRemoved.Add("expand");
-            }
-
             // remove stub tags from long articles
             if ((words > StubMaxWordCount) && WikiRegexes.Stub.IsMatch(commentsStripped))
             {
                 articleText = WikiRegexes.Stub.Replace(articleText, StubChecker).Trim();
                 tagsRemoved.Add("stub");
+            }
+
+            // on en wiki, remove expand template when a stub template exists
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Remove_.7B.7Bexpand.7D.7D_when_a_stub_template_exists
+            if (Variables.LangCode == "en" && WikiRegexes.Stub.IsMatch(commentsStripped) &&
+                WikiRegexes.Expand.IsMatch(commentsStripped))
+            {
+                articleText = WikiRegexes.Expand.Replace(articleText, "");
+                tagsRemoved.Add("expand");
             }
 
             // do orphan tagging before template analysis for categorisation tags
@@ -4535,13 +4599,13 @@ namespace WikiFunctions.Parse
                 {
                     // add uncategorized stub tag
                     articleText +=
-                        "\r\n\r\n{{Uncategorizedstub|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
+                        "\r\n\r\n{{Uncategorizedstub|" + WikiRegexes.DateYearMonthParameter + @"}}";
                     tagsAdded.Add("[[CAT:UNCATSTUBS|uncategorised]]");
                 }
                 else
                 {
                     // add uncategorized tag
-                    articleText += "\r\n\r\n{{Uncategorized|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
+                    articleText += "\r\n\r\n{{Uncategorized|" + WikiRegexes.DateYearMonthParameter + @"}}";
                     tagsAdded.Add("[[CAT:UNCAT|uncategorised]]");
                 }
             }
@@ -4559,10 +4623,11 @@ namespace WikiFunctions.Parse
                 tagsAdded.Add("stub");
             }
 
-            if (linkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(articleText))
+            if (linkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(articleText) && Variables.LangCode != "sv"
+               && !Regex.IsMatch(WikiRegexes.ArticleIssues.Match(articleText).Value.ToLower(), @"\bdead ?end\b"))
             {
                 // add dead-end tag
-                articleText = "{{deadend|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
+                articleText = "{{dead end|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                 tagsAdded.Add("[[:Category:Dead-end pages|deadend]]");
             }
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#.7B.7BDeadend.7D.7D_gets_removed_from_categorized_pages
@@ -4573,10 +4638,11 @@ namespace WikiFunctions.Parse
                 tagsRemoved.Add("deadend");
             }
 
-            if (linkCount < 3 && ((linkCount / length) < 0.0025) && !WikiRegexes.Wikify.IsMatch(articleText))
+            if (linkCount < 3 && ((linkCount / length) < 0.0025) && !WikiRegexes.Wikify.IsMatch(articleText)
+               && !WikiRegexes.ArticleIssues.Match(articleText).Value.ToLower().Contains("wikify"))
             {
                 // add wikify tag
-                articleText = "{{Wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
+                articleText = "{{Wikify|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                 tagsAdded.Add("[[WP:WFY|wikify]]");
             }
             else if (linkCount > 3 && ((linkCount / length) > 0.0025) &&
@@ -4594,7 +4660,7 @@ namespace WikiFunctions.Parse
         private static readonly WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider WlhProv = new WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider(MinIncomingLinksToBeConsideredAnOrphan);
 
         private const int MinIncomingLinksToBeConsideredAnOrphan = 3;
-        private static readonly Regex Rq = new Regex(@"{{\s*[Rr]q\s*(?:\|.*?)?}}", RegexOptions.Singleline);
+        private static readonly Regex Rq = Tools.NestedTemplateRegex("Rq");
 
         /// <summary>
         /// 
@@ -4642,10 +4708,10 @@ namespace WikiFunctions.Parse
             }
 
             // add orphan tag if applicable, and no disambig
-            if (orphaned2 && !WikiRegexes.Orphan.IsMatch(articleText) && !WikiRegexes.OrphanArticleIssues.IsMatch(articleText)
+            if (orphaned2 && !WikiRegexes.Orphan.IsMatch(articleText) && Tools.GetTemplateParameterValue(WikiRegexes.ArticleIssues.Match(articleText).Value, "orphan").Length == 0
                 && !WikiRegexes.Disambigs.IsMatch(articleText))
             {
-                articleText = "{{orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + articleText;
+                articleText = "{{orphan|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                 tagsAdded.Add("[[CAT:O|orphan]]");
             }
             else if (!orphaned && WikiRegexes.Orphan.IsMatch(articleText))
@@ -4667,7 +4733,7 @@ namespace WikiFunctions.Parse
             if(Variables.LangCode == "en" && IbidOpCitRef.IsMatch(articleText) && !WikiRegexes.Ibid.IsMatch(articleText))   
             {
                 tagsAdded.Add("Ibid");
-                return @"{{Ibid|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}" + articleText;
+                return @"{{Ibid|" + WikiRegexes.DateYearMonthParameter + @"}}" + articleText;
             }
             
             return articleText;
@@ -4853,7 +4919,7 @@ namespace WikiFunctions.Parse
         {
             return (Variables.LangCode != "en")
                 ? false
-                : WikiRegexes.InUse.IsMatch(WikiRegexes.Comments.Replace(articleText, ""));
+                : WikiRegexes.InUse.IsMatch(WikiRegexes.UnformattedText.Replace(articleText, ""));
         }
 
         /// <summary>
