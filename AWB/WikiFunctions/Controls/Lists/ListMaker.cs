@@ -939,6 +939,14 @@ namespace WikiFunctions.Controls.Lists
         {
             lbArticles.Sort();
         }
+        
+        /// <summary>
+        /// Reverse Alphabetically sorts the list
+        /// </summary>
+        public void ReverseAlphaSortList()
+        {
+            lbArticles.ReverseSort();
+        }
 
         /// <summary>
         /// Replaces one article in the list with another, in the same place
@@ -1023,6 +1031,11 @@ namespace WikiFunctions.Controls.Lists
         private void sortAlphebeticallyMenuItem_Click(object sender, EventArgs e)
         {
             AlphaSortList();
+        }
+        
+        private void sortReverseAlphebeticallyMenuItem_Click(object sender, EventArgs e)
+        {
+            ReverseAlphaSortList();
         }
 
         private void saveListToTextFileToolStripMenuItem1_Click(object sender, EventArgs e)
