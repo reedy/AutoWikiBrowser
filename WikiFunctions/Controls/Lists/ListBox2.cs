@@ -89,7 +89,7 @@ namespace WikiFunctions.Controls.Lists
         {
             BeginUpdate();
             Sorted = false;
-            
+
             string[] currentArticles = new string[Items.Count];
 
             for (int i = 0; i < Items.Count; i++)
@@ -111,8 +111,8 @@ namespace WikiFunctions.Controls.Lists
 
             int i = SelectedIndex;
 
-            /* remove at index rather than removing article, else if list has article twice the first instance of it 
-             * will be removed � not necessarily the one the user selected
+            /* remove at index rather than removing article, else if list has article twice the first instance of it
+             * will be removed, not necessarily the one the user selected
             */ 
             while (SelectedItems.Count > 0)
                 Items.RemoveAt(SelectedIndex);

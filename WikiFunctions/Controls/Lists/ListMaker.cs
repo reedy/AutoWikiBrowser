@@ -264,7 +264,7 @@ namespace WikiFunctions.Controls.Lists
             {               
                 txtPage.Text = item.Name;
 
-                int intPosition = 0;
+                int intPosition;
                 
                 // if replacing the second instance of the article in the list maker avoid jumping selected article to the first
                 if(lbArticles.SelectedItems.Count == 1 && lbArticles.SelectedItems.Contains(item))
@@ -653,9 +653,12 @@ namespace WikiFunctions.Controls.Lists
             }
 
             lbArticles.Items.Add(new Article(Tools.TurnFirstToUpper(Tools.RemoveSyntax(s))));
+
             UpdateNumberOfArticles();
+
             if (FilterNonMainAuto)
                 FilterNonMainArticles();
+
             if (FilterDuplicates)
                 RemoveListDuplicates();
         }
@@ -674,6 +677,9 @@ namespace WikiFunctions.Controls.Lists
                 Invoke(new AddDel(Add), l);
                 return;
             }
+
+            if (AutoAlpha)
+                l.Sort();
 
             lbArticles.BeginUpdate();
             lbArticles.Items.AddRange(l.ToArray());
