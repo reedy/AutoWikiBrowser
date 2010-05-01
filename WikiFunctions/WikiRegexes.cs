@@ -653,7 +653,7 @@ namespace WikiFunctions
         public static readonly Regex LinkFGAsSpanish = new Regex(@"{{\s*([Ll]ink FA|[Dd]estacado)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
 
         /// <summary>
-        /// Matches {{{Enllaç AD}} and {{Link FA}} in Spanish
+        /// Matches {{{Enllaç AD}} and {{Link FA}} in Catalan
         /// </summary>
         public static readonly Regex LinkFGAsCatalan = new Regex(@"{{\s*([Ll]ink FA|[Ee]nllaç AD)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
         
