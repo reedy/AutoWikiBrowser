@@ -959,18 +959,18 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public void ReplaceArticle(Article oldArticle, Article newArticle)
         {
-            int intPos = 0;
-            
+            int intPos;
+
             // if replacing the second instance of the article in the list maker avoid jumping selected article to the first
             // if the selected article is the oldArticle
-            if(lbArticles.SelectedItems.Count == 1 && lbArticles.SelectedItems.Contains(oldArticle))
+            if (lbArticles.SelectedItems.Count == 1 && lbArticles.SelectedItems.Contains(oldArticle))
                 intPos = lbArticles.SelectedIndex;
             else
-                lbArticles.Items.IndexOf(oldArticle);
+                intPos = lbArticles.Items.IndexOf(oldArticle);
 
             lbArticles.Items.Remove(oldArticle);
             lbArticles.ClearSelected();
-            lbArticles.Items.Insert(intPos, newArticle);            
+            lbArticles.Items.Insert(intPos, newArticle);
 
             // set current position by index of new article rather than name in case new entry already exists earlier in list
             lbArticles.SetSelected(intPos, true);
