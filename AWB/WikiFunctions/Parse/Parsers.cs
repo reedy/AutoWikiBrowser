@@ -2809,7 +2809,11 @@ namespace WikiFunctions.Parse
 
                 if (Tools.TurnFirstToLower(a).StartsWith(Tools.TurnFirstToLower(b), StringComparison.Ordinal))
                 {
-                    bool hasSpace = a[b.Length] == ' ';
+                    bool hasSpace = false;
+                    
+                    if (a.Length > b.Length)
+                        hasSpace = a[b.Length] == ' ';
+                    
                     string search = @"\[\[" + Regex.Escape(a) + @"\|" + Regex.Escape(b) +
                         @"\]\]" + (hasSpace ? "[ ]+" : "") + Regex.Escape(a.Remove(0,
                                                                                    b.Length + (hasSpace ? 1 : 0))) + @"\b";

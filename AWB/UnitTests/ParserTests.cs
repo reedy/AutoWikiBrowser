@@ -685,6 +685,8 @@ Jones 2005</ref>"));
 			// http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Link_de-piping_false_positive
 			Assert.AreEqual("[[Sacramento, California|Sacramento]], California's [[capital city]]",
 			                Parsers.StickyLinks("[[Sacramento, California|Sacramento]], California's [[capital city]]"));
+			
+			Assert.AreEqual("[[Russian literature|Russian literature]] was", Parsers.StickyLinks("[[Russian literature|Russian literature]] was"), "bugfix – no exception when pipe same length as target");
 		}
 
 		[Test]
