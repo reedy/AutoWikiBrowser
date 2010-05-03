@@ -590,17 +590,27 @@ Jones 2005</ref>"));
 		{
 
 			Assert.AreEqual(@"Foo<ref name=Jones>Jones 2005 extra words of interest</ref> and bar<ref name=""Jones""/>",
-			                Parsers.SameRefDifferentName(@"Foo<ref name=Jones>Jones 2005 extra words of interest</ref> and bar<ref name=Jones>2</ref>"));
+			                Parsers.SameRefDifferentName(@"Foo<ref name=Jones>Jones 2005 extra words of interest</ref> and bar<ref name=Jones>a</ref>"));
 
 			Assert.AreEqual(@"Foo<ref name=""Jones""/> and bar<ref name=Jones>Jones 2005 extra words of interest</ref>",
-			                Parsers.SameRefDifferentName(@"Foo<ref name=Jones>2</ref> and bar<ref name=Jones>Jones 2005 extra words of interest</ref>"));
+			                Parsers.SameRefDifferentName(@"Foo<ref name=Jones>x</ref> and bar<ref name=Jones>Jones 2005 extra words of interest</ref>"));
 
 			Assert.AreEqual(@"Foo<ref name=Jones>Jones 2005 extra words of interest</ref> and bar<ref name=""Jones""/> and bar2<ref name=""Jones""/>",
-			                Parsers.SameRefDifferentName(@"Foo<ref name=Jones>Jones 2005 extra words of interest</ref> and bar<ref name=Jones>2</ref> and bar2<ref name=Jones>3</ref>"));
+			                Parsers.SameRefDifferentName(@"Foo<ref name=Jones>Jones 2005 extra words of interest</ref> and bar<ref name=Jones>a</ref> and bar2<ref name=Jones>x</ref>"));
 
 			Assert.AreEqual(@"Foo<ref name=Jones>Jones 2005 extra words of interest</ref> and bar2<ref name=""Jones""/>",
 			                Parsers.SameRefDifferentName(@"Foo<ref name=Jones>Jones 2005 extra words of interest</ref> and bar2<ref name=Jones>[see above]</ref>"));
-
+		    
+		    
+		    string pageref1 = @"Foo<ref name=Jones>Jones 2005 extra words of interest</ref> and bar<ref name=Jones>2</ref>";
+		    string pageref2 = @"Foo<ref name=Jones>Jones 2005 extra words of interest</ref> and bar<ref name=Jones> page 2</ref>";
+		    string pageref3 = @"Foo<ref name=Jones>Jones 2005 extra words of interest</ref> and bar<ref name=Jones>pp. 2</ref>";
+		    string pageref4 = @"Foo<ref name=Jones>Jones 2005 extra words of interest</ref> and bar<ref name=Jones>P 2</ref>";
+		    
+		    Assert.AreEqual(pageref1, Parsers.SameRefDifferentName(pageref1));
+		    Assert.AreEqual(pageref2, Parsers.SameRefDifferentName(pageref2));
+		    Assert.AreEqual(pageref3, Parsers.SameRefDifferentName(pageref3));
+		    Assert.AreEqual(pageref4, Parsers.SameRefDifferentName(pageref4));
 		}
 		
 		[Test]
@@ -685,6 +695,8 @@ Jones 2005</ref>"));
 			// http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Link_de-piping_false_positive
 			Assert.AreEqual("[[Sacramento, California|Sacramento]], California's [[capital city]]",
 			                Parsers.StickyLinks("[[Sacramento, California|Sacramento]], California's [[capital city]]"));
+			
+			Assert.AreEqual("[[Russian literature|Russian literature]] was", Parsers.StickyLinks("[[Russian literature|Russian literature]] was"), "bugfix – no exception when pipe same length as target");
 		}
 
 		[Test]
@@ -1797,13 +1809,23 @@ complementary and alternative medicine: evidence is a better friend than power. 
 		}
 		
 		[Test]
-		public void FixCitationTemplatesISODateInYear()
+		public void FixCitationTemplatesDateInYear()
 		{
 			string correct1 = @"now {{cite book|title=a |url=http://books.google.com/foo | date=2009-10-17}}",
 			correct2 = @"now {{cite book|title=a |url=http://books.google.com/foo | date=2009-10-17|last=Smith}}";
 			
+			// ISO
 			Assert.AreEqual(correct1, Parsers.FixCitationTemplates(@"now {{cite book|title=a |url=http://books.google.com/foo | year=2009-10-17}}"));
 			Assert.AreEqual(correct2, Parsers.FixCitationTemplates(@"now {{cite book|title=a |url=http://books.google.com/foo | year=2009-10-17|last=Smith}}"));
+			
+			// Int
+			Assert.AreEqual(correct1.Replace("2009-10-17", "17 October 2009"), Parsers.FixCitationTemplates(@"now {{cite book|title=a |url=http://books.google.com/foo | year=2009-10-17}}".Replace("2009-10-17", "17 October 2009")));
+			Assert.AreEqual(correct2.Replace("2009-10-17", "17 October 2009"), Parsers.FixCitationTemplates(@"now {{cite book|title=a |url=http://books.google.com/foo | year=2009-10-17|last=Smith}}".Replace("2009-10-17", "17 October 2009")));
+			
+			// American
+			Assert.AreEqual(correct1.Replace("2009-10-17", "October 17, 2009"), Parsers.FixCitationTemplates(@"now {{cite book|title=a |url=http://books.google.com/foo | year=2009-10-17}}".Replace("2009-10-17", "October 17, 2009")));
+			Assert.AreEqual(correct2.Replace("2009-10-17", "October 17, 2009"), Parsers.FixCitationTemplates(@"now {{cite book|title=a |url=http://books.google.com/foo | year=2009-10-17|last=Smith}}".Replace("2009-10-17", "October 17, 2009")));
+			
 			Assert.AreEqual(correct1, Parsers.FixCitationTemplates(correct1));
 			
 			string nochange1 = @"now {{cite book|title=a |url=http://books.google.com/foo | year=2009–2010}}";
