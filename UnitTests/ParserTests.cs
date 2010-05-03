@@ -1799,13 +1799,23 @@ complementary and alternative medicine: evidence is a better friend than power. 
 		}
 		
 		[Test]
-		public void FixCitationTemplatesISODateInYear()
+		public void FixCitationTemplatesDateInYear()
 		{
 			string correct1 = @"now {{cite book|title=a |url=http://books.google.com/foo | date=2009-10-17}}",
 			correct2 = @"now {{cite book|title=a |url=http://books.google.com/foo | date=2009-10-17|last=Smith}}";
 			
+			// ISO
 			Assert.AreEqual(correct1, Parsers.FixCitationTemplates(@"now {{cite book|title=a |url=http://books.google.com/foo | year=2009-10-17}}"));
 			Assert.AreEqual(correct2, Parsers.FixCitationTemplates(@"now {{cite book|title=a |url=http://books.google.com/foo | year=2009-10-17|last=Smith}}"));
+			
+			// Int
+			Assert.AreEqual(correct1.Replace("2009-10-17", "17 October 2009"), Parsers.FixCitationTemplates(@"now {{cite book|title=a |url=http://books.google.com/foo | year=2009-10-17}}".Replace("2009-10-17", "17 October 2009")));
+			Assert.AreEqual(correct2.Replace("2009-10-17", "17 October 2009"), Parsers.FixCitationTemplates(@"now {{cite book|title=a |url=http://books.google.com/foo | year=2009-10-17|last=Smith}}".Replace("2009-10-17", "17 October 2009")));
+			
+			// American
+			Assert.AreEqual(correct1.Replace("2009-10-17", "October 17, 2009"), Parsers.FixCitationTemplates(@"now {{cite book|title=a |url=http://books.google.com/foo | year=2009-10-17}}".Replace("2009-10-17", "October 17, 2009")));
+			Assert.AreEqual(correct2.Replace("2009-10-17", "October 17, 2009"), Parsers.FixCitationTemplates(@"now {{cite book|title=a |url=http://books.google.com/foo | year=2009-10-17|last=Smith}}".Replace("2009-10-17", "October 17, 2009")));
+			
 			Assert.AreEqual(correct1, Parsers.FixCitationTemplates(correct1));
 			
 			string nochange1 = @"now {{cite book|title=a |url=http://books.google.com/foo | year=2009–2010}}";

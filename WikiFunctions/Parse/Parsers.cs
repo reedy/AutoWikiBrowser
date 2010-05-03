@@ -2179,7 +2179,9 @@ namespace WikiFunctions.Parse
                     newValue = YearInDate.Replace(newValue, "$1year$2");
 
                 // year = ISO date --> date = ISO date
-                if(WikiRegexes.ISODates.IsMatch(Tools.GetTemplateParameterValue(newValue, "year")))
+                string TheYear = Tools.GetTemplateParameterValue(newValue, "year");
+                if(WikiRegexes.ISODates.IsMatch(TheYear) || WikiRegexes.InternationalDates.IsMatch(TheYear) 
+                   || WikiRegexes.AmericanDates.IsMatch(TheYear))
                     newValue = Tools.RenameTemplateParameter(newValue, "year", "date");
 
                 // remove duplicated fields, ensure the URL is not touched (may have pipes in)
