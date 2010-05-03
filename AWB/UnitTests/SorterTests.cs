@@ -249,6 +249,12 @@ Fred has a dog.
             e = @"{{orphan|date=May 2008}}";
             Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveMaintenanceTags(d + e));
             
+            e = @"{{cleanup|date=May 2008}}";
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveMaintenanceTags(d + e), "template moved when not a section one");
+            
+            e = @"{{cleanup|section|date=May 2008}}";
+            Assert.AreEqual(d + e, MetaDataSorter.MoveMaintenanceTags(d + e), "section templates not moved");
+            
             // don't move above other maintenance templates
             string f = @"{{cleanup|date=June 2009}}
 " + e + d;
@@ -266,6 +272,7 @@ Fred has a dog.
             Assert.AreEqual(h2 + "\r\n" + h1 + "\r\n" + h3, MetaDataSorter.MoveMaintenanceTags(h2 + "\r\n" + h1 + "\r\n" + h3));
             
             string i1 = @"{{cleanup|date=June 2009}}";
+            e = @"{{orphan|date=May 2008}}";
             // move when tags not all at top
             Assert.AreEqual(e + "\r\n" + i1 + "\r\nfoo\r\n", MetaDataSorter.MoveMaintenanceTags(e + "\r\nfoo\r\n" + i1));
         }

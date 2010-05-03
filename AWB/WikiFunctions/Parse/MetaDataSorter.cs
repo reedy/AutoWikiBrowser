@@ -583,8 +583,11 @@ en, sq, ru
 
             foreach (Match m in WikiRegexes.MaintenanceTemplates.Matches(articleText))
             {
-                strMaintTags = strMaintTags + m.Value + "\r\n";
-                articleText = articleText.Replace(m.Value, "");
+                if(!m.Value.Contains("section"))
+                {
+                    strMaintTags = strMaintTags + m.Value + "\r\n";
+                    articleText = articleText.Replace(m.Value, "");
+                }
             }
 
             articleText = strMaintTags + articleText;
