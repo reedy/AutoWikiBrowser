@@ -73,6 +73,37 @@ namespace WikiFunctions.Controls.Lists
             Sorted = false;
             EndUpdate();
         }
+        
+        private class ReverseComparer: IComparer
+        {
+            public int Compare (Object object1, Object object2)
+            {
+                return -((IComparable)  object1).CompareTo (object2);
+            }
+        }
+        
+        /// <summary>
+        /// Sorts the article list in reverse alphabetical order
+        /// </summary>
+        public void ReverseSort()
+        {
+            BeginUpdate();
+            Sorted = false;
+
+            string[] currentArticles = new string[Items.Count];
+
+            for (int i = 0; i < Items.Count; i++)
+                currentArticles[i] = Items[i].ToString();
+
+            Array.Sort(currentArticles, new ReverseComparer());
+
+            Items.Clear();
+
+            foreach (string str in currentArticles)
+                Items.Add(new Article(str));
+
+            EndUpdate();
+        }
 
         public void RemoveSelected()
         {
@@ -80,8 +111,8 @@ namespace WikiFunctions.Controls.Lists
 
             int i = SelectedIndex;
 
-            /* remove at index rather than removing article, else if list has article twice the first instance of it 
-             * will be removed � not necessarily the one the user selected
+            /* remove at index rather than removing article, else if list has article twice the first instance of it
+             * will be removed, not necessarily the one the user selected
             */ 
             while (SelectedItems.Count > 0)
                 Items.RemoveAt(SelectedIndex);

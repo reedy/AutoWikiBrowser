@@ -70,6 +70,7 @@ namespace WikiFunctions.Controls.Lists
             this.specialFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveListToFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sortAlphaMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sortReverseAlphaMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tooltip = new System.Windows.Forms.ToolTip(this.components);
             this.btnStop = new System.Windows.Forms.Button();
             this.btnFilter = new System.Windows.Forms.Button();
@@ -192,7 +193,8 @@ namespace WikiFunctions.Controls.Lists
             this.toolStripSeparator1,
             this.specialFilterToolStripMenuItem,
             this.saveListToFileToolStripMenuItem,
-            this.sortAlphaMenuItem});
+            this.sortAlphaMenuItem,
+            this.sortReverseAlphaMenuItem});
             this.mnuListBox.Name = "contextMenuStrip2";
             this.mnuListBox.Size = new System.Drawing.Size(276, 370);
             this.mnuListBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListBox_Opening);
@@ -409,6 +411,14 @@ namespace WikiFunctions.Controls.Lists
             this.sortAlphaMenuItem.ToolTipText = "Sorts the list alphabetically";
             this.sortAlphaMenuItem.Click += new System.EventHandler(this.sortAlphebeticallyMenuItem_Click);
             // 
+            // sortReverseAlphaMenuItem
+            // 
+            this.sortReverseAlphaMenuItem.Name = "sortReverseAlphaMenuItem";
+            this.sortReverseAlphaMenuItem.Size = new System.Drawing.Size(275, 22);
+            this.sortReverseAlphaMenuItem.Text = "Sort reverse alphabetically";
+            this.sortReverseAlphaMenuItem.ToolTipText = "Sorts the list alphabetically";
+            this.sortReverseAlphaMenuItem.Click += new System.EventHandler(this.sortReverseAlphebeticallyMenuItem_Click);
+            // 
             // btnStop
             // 
             this.btnStop.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -501,6 +511,7 @@ namespace WikiFunctions.Controls.Lists
         private System.Windows.Forms.ToolStripMenuItem convertToTalkPagesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem convertFromTalkPagesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sortAlphaMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sortReverseAlphaMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveListToFileToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
         private System.Windows.Forms.ToolStripMenuItem addSelectedToListToolStripMenuItem;

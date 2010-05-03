@@ -264,7 +264,7 @@ namespace WikiFunctions.Controls.Lists
             {               
                 txtPage.Text = item.Name;
 
-                int intPosition = 0;
+                int intPosition;
                 
                 // if replacing the second instance of the article in the list maker avoid jumping selected article to the first
                 if(lbArticles.SelectedItems.Count == 1 && lbArticles.SelectedItems.Contains(item))
@@ -653,9 +653,12 @@ namespace WikiFunctions.Controls.Lists
             }
 
             lbArticles.Items.Add(new Article(Tools.TurnFirstToUpper(Tools.RemoveSyntax(s))));
+
             UpdateNumberOfArticles();
+
             if (FilterNonMainAuto)
                 FilterNonMainArticles();
+
             if (FilterDuplicates)
                 RemoveListDuplicates();
         }
@@ -674,6 +677,9 @@ namespace WikiFunctions.Controls.Lists
                 Invoke(new AddDel(Add), l);
                 return;
             }
+
+            if (AutoAlpha)
+                l.Sort();
 
             lbArticles.BeginUpdate();
             lbArticles.Items.AddRange(l.ToArray());
@@ -939,24 +945,32 @@ namespace WikiFunctions.Controls.Lists
         {
             lbArticles.Sort();
         }
+        
+        /// <summary>
+        /// Reverse Alphabetically sorts the list
+        /// </summary>
+        public void ReverseAlphaSortList()
+        {
+            lbArticles.ReverseSort();
+        }
 
         /// <summary>
         /// Replaces one article in the list with another, in the same place
         /// </summary>
         public void ReplaceArticle(Article oldArticle, Article newArticle)
         {
-            int intPos = 0;
-            
+            int intPos;
+
             // if replacing the second instance of the article in the list maker avoid jumping selected article to the first
             // if the selected article is the oldArticle
-            if(lbArticles.SelectedItems.Count == 1 && lbArticles.SelectedItems.Contains(oldArticle))
+            if (lbArticles.SelectedItems.Count == 1 && lbArticles.SelectedItems.Contains(oldArticle))
                 intPos = lbArticles.SelectedIndex;
             else
-                lbArticles.Items.IndexOf(oldArticle);
+                intPos = lbArticles.Items.IndexOf(oldArticle);
 
             lbArticles.Items.Remove(oldArticle);
             lbArticles.ClearSelected();
-            lbArticles.Items.Insert(intPos, newArticle);            
+            lbArticles.Items.Insert(intPos, newArticle);
 
             // set current position by index of new article rather than name in case new entry already exists earlier in list
             lbArticles.SetSelected(intPos, true);
@@ -1023,6 +1037,11 @@ namespace WikiFunctions.Controls.Lists
         private void sortAlphebeticallyMenuItem_Click(object sender, EventArgs e)
         {
             AlphaSortList();
+        }
+        
+        private void sortReverseAlphebeticallyMenuItem_Click(object sender, EventArgs e)
+        {
+            ReverseAlphaSortList();
         }
 
         private void saveListToTextFileToolStripMenuItem1_Click(object sender, EventArgs e)

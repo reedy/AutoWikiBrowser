@@ -1849,7 +1849,6 @@ namespace AutoWikiBrowser
             this.botEditsStop.Name = "botEditsStop";
             this.botEditsStop.Size = new System.Drawing.Size(51, 20);
             this.botEditsStop.TabIndex = 2;
-            this.ToolTip.SetToolTip(this.botEditsStop, "If set > 0 AWB will stop at this number of edits");
             // 
             // txtNewCategory
             // 
@@ -2569,7 +2568,7 @@ namespace AutoWikiBrowser
             this.lblbotEditsStop.Size = new System.Drawing.Size(52, 13);
             this.lblbotEditsStop.TabIndex = 1;
             this.lblbotEditsStop.Text = "Max edits";
-            this.ToolTip.SetToolTip(this.lblbotEditsStop, "Specify the maximum number of edits AWB should make");
+            this.ToolTip.SetToolTip(this.lblbotEditsStop, "Specify the maximum number of edits AWB should make (0=no limit)");
             // 
             // chkFindCaseSensitive
             // 

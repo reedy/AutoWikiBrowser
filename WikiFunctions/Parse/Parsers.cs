@@ -738,10 +738,10 @@ namespace WikiFunctions.Parse
 
                     if (name2.Equals(refName) && namedRefValue.Length >= 25)
                     {
-                    	if(m.Index > articleText.Length)
-                    		continue;
-                    	
-                        // duplicate citation fixer (both named): <ref name="Fred">(...)</ref>....<ref name="Fred">\2</ref> --> ..<ref name="Fred"/>, minimum 25 characters to avoid short refs                        
+                        if(m.Index > articleText.Length)
+                            continue;
+                        
+                        // duplicate citation fixer (both named): <ref name="Fred">(...)</ref>....<ref name="Fred">\2</ref> --> ..<ref name="Fred"/>, minimum 25 characters to avoid short refs
                         string texttomatch = articleText.Substring(0, m.Index);
                         string textaftermatch = articleText.Substring(m.Index);
 
@@ -852,6 +852,8 @@ namespace WikiFunctions.Parse
 
             return result.ToString();
         }
+        
+        private static readonly Regex StartsWithPageRef = new Regex(@"^\s*(?:[Pp]ages?|[Pp][pg]?\.?)?\s*\d", RegexOptions.Compiled);
 
         /// <summary>
         /// Corrects named references where the reference is the same but the reference name is different
@@ -880,6 +882,7 @@ namespace WikiFunctions.Parse
 
                 NamedRefs.TryGetValue(refvalue, out existingname);
 
+                // don't apply to ibid short ref
                 if (existingname.Length > 0 && !existingname.Equals(refname) && !WikiRegexes.IbidOpCitation.IsMatch(refvalue))
                 {
                     string newRefName = refname;
@@ -919,7 +922,8 @@ namespace WikiFunctions.Parse
 
                 foreach (Match m2 in shortNamedReferences.Matches(articleText))
                 {
-                    if (refvalue.Length > 30)
+                    // don't apply if short ref is a page ref
+                    if (refvalue.Length > 30 && !StartsWithPageRef.IsMatch(m2.Groups[3].Value))
                         articleText = articleText.Replace(m2.Value, @"<ref name=""" + refname + @"""/>");
                 }
             }
@@ -1798,7 +1802,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex WordingIntoBareExternalLinks = new Regex(@"(?<=<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*)([^<>{}\[\]\r\n]{3,70}?)[\.,::]?\s*\[\s*((?:[Hh]ttp|[Hh]ttps|[Ff]tp|[Mm]ailto)://[^\ \n\r<>]+)\s*\](?=\s*</ref>)", RegexOptions.Compiled);
         
         // space needed between word and external link
-        private static readonly Regex ExternalLinkWordSpacingBefore = new Regex(@"(\w)(?=\[(?:https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://.*?\])", RegexOptions.Compiled);        
+        private static readonly Regex ExternalLinkWordSpacingBefore = new Regex(@"(\w)(?=\[(?:https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://.*?\])", RegexOptions.Compiled);
         private static readonly Regex ExternalLinkWordSpacingAfter = new Regex(@"(?<=\[(?:https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://[^\]\[<>]*?\])(\w)", RegexOptions.Compiled);
 
         private static readonly Regex WikilinkEndsBr = new Regex(@"<br[\s/]*>\]\]$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -2072,6 +2076,35 @@ namespace WikiFunctions.Parse
 
             return articleText;
         }
+        
+        private static List<string> DateFields = new List<string>(@"date,accessdate,archivedate".Split(','));
+        
+        public static string PredominantDates(string articleText)
+        {
+            DateLocale predominantLocale = DeterminePredominantDateLocale(articleText, true, true);
+            
+            if(predominantLocale.Equals(DateLocale.Undetermined))
+               return articleText;
+            
+            foreach (Match m in WikiRegexes.CiteTemplate.Matches(articleText))
+            {
+                string newValue = m.Value;
+                
+                foreach(string field in DateFields)
+                {
+                    string fvalue = Tools.GetTemplateParameterValue(newValue, field);
+                    
+                    if(WikiRegexes.ISODates.IsMatch(fvalue) || WikiRegexes.AmericanDates.IsMatch(fvalue) || WikiRegexes.InternationalDates.IsMatch(fvalue))
+                        newValue = Tools.UpdateTemplateParameterValue(newValue, field, Tools.ISOToENDate(fvalue, predominantLocale));
+                }
+                
+                // merge changes to article text
+                if(!m.Value.Equals(newValue))
+                    articleText = articleText.Replace(m.Value, newValue);
+            }
+
+            return articleText;
+        }
 
         private static readonly Regex AccessdateTypo = new Regex(@"(\{\{\s*cit[^{}]*?\|\s*)ac(?:(?:ess?s?|cc?es|cess[es]|ccess)date|cessda[ry]e|c?essdat|cess(?:daste|ate)|cdessdate|cess?data|cesdsate|cessdaet|cessdatge|cesseddate|cessedon|cess-date)(\s*=\s*)", RegexOptions.IgnoreCase);
 
@@ -2179,7 +2212,9 @@ namespace WikiFunctions.Parse
                     newValue = YearInDate.Replace(newValue, "$1year$2");
 
                 // year = ISO date --> date = ISO date
-                if(WikiRegexes.ISODates.IsMatch(Tools.GetTemplateParameterValue(newValue, "year")))
+                string TheYear = Tools.GetTemplateParameterValue(newValue, "year");
+                if(WikiRegexes.ISODates.IsMatch(TheYear) || WikiRegexes.InternationalDates.IsMatch(TheYear)
+                   || WikiRegexes.AmericanDates.IsMatch(TheYear))
                     newValue = Tools.RenameTemplateParameter(newValue, "year", "date");
 
                 // remove duplicated fields, ensure the URL is not touched (may have pipes in)
@@ -2366,9 +2401,9 @@ namespace WikiFunctions.Parse
         /// <returns>The date locale determined</returns>
         public static DateLocale DeterminePredominantDateLocale(string articleText)
         {
-            return DeterminePredominantDateLocale(articleText, false);
+            return DeterminePredominantDateLocale(articleText, false, false);
         }
-
+        
         /// <summary>
         /// Determines the predominant date format in the article text (American/International/ISO), if available
         /// </summary>
@@ -2376,6 +2411,18 @@ namespace WikiFunctions.Parse
         /// <param name="considerISO">whether to consider ISO as a possible predominant date format</param>
         /// <returns>The date locale determined</returns>
         public static DateLocale DeterminePredominantDateLocale(string articleText, bool considerISO)
+        {
+            return DeterminePredominantDateLocale(articleText, considerISO, false);
+        }
+
+        /// <summary>
+        /// Determines the predominant date format in the article text (American/International/ISO), if available
+        /// </summary>
+        /// <param name="articleText">the article text</param>
+        /// <param name="considerISO">whether to consider ISO as a possible predominant date format</param>
+        /// <param name="explicitonly">whether to restrict logic to look at {{use xxx dates}} template only</param>
+        /// <returns>The date locale determined</returns>
+        public static DateLocale DeterminePredominantDateLocale(string articleText, bool considerISO, bool explicitonly)
         {
             // first check for template telling us the preference
             string DatesT = WikiRegexes.UseDatesTemplate.Match(articleText).Groups[1].Value;
@@ -2394,6 +2441,9 @@ namespace WikiFunctions.Parse
                         return DateLocale.Undetermined;
                 }
             }
+            
+            if(explicitonly)
+                return DateLocale.Undetermined;
 
             // secondly count the American and International dates
             int Americans = WikiRegexes.MonthDay.Matches(articleText).Count;
@@ -2809,7 +2859,11 @@ namespace WikiFunctions.Parse
 
                 if (Tools.TurnFirstToLower(a).StartsWith(Tools.TurnFirstToLower(b), StringComparison.Ordinal))
                 {
-                    bool hasSpace = a[b.Length] == ' ';
+                    bool hasSpace = false;
+                    
+                    if (a.Length > b.Length)
+                        hasSpace = a[b.Length] == ' ';
+                    
                     string search = @"\[\[" + Regex.Escape(a) + @"\|" + Regex.Escape(b) +
                         @"\]\]" + (hasSpace ? "[ ]+" : "") + Regex.Escape(a.Remove(0,
                                                                                    b.Length + (hasSpace ? 1 : 0))) + @"\b";
@@ -2834,9 +2888,9 @@ namespace WikiFunctions.Parse
         public static string FixMainArticle(string articleText)
         {
             return RegexMainArticle.Replace(articleText,
-                m => m.Groups[2].Value.Length == 0
-                    ? "{{main|" + m.Groups[1].Value + "}}"
-                    : "{{main|" + m.Groups[1].Value + "|l1=" + m.Groups[3].Value + "}}");
+                                            m => m.Groups[2].Value.Length == 0
+                                            ? "{{main|" + m.Groups[1].Value + "}}"
+                                            : "{{main|" + m.Groups[1].Value + "|l1=" + m.Groups[3].Value + "}}");
         }
 
         // Covered by LinkTests.TestFixEmptyLinksAndTemplates()
@@ -3063,7 +3117,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="articleText">Source text</param>
         /// <param name="template">Name of template</param>
-        /// <returns>List of matches found</returns>               
+        /// <returns>List of matches found</returns>
         public static List<Match> GetTemplates(string articleText, string template)
         {
             return GetTemplates(articleText, Tools.NestedTemplateRegex(template));
@@ -3086,9 +3140,9 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="articleText">Source text</param>
         /// <param name="search">nested template regex to use</param>
-        /// <returns>List of matches found</returns>    
+        /// <returns>List of matches found</returns>
         private static List<Match> GetTemplates(string articleText, Regex search)
-         {
+        {
             List<Match> templateMatches = new List<Match>();
             string articleTextAtStart = articleText;
             
@@ -3106,7 +3160,7 @@ namespace WikiFunctions.Parse
                         templateMatches.Add(m2);
                         break;
                     }
-                }                
+                }
             }
 
             return templateMatches;
@@ -4173,8 +4227,8 @@ namespace WikiFunctions.Parse
 
             // birth
             if (!WikiRegexes.BirthsCategory.IsMatch(articleText) && (PersonYearOfBirth.Matches(zerothSection).Count == 1
-                || WikiRegexes.DateBirthAndAge.IsMatch(zerothSection) || WikiRegexes.DeathDateAndAge.IsMatch(zerothSection)
-                || ThreeOrFourDigitNumber.IsMatch(yearFromInfoBox)))
+                                                                     || WikiRegexes.DateBirthAndAge.IsMatch(zerothSection) || WikiRegexes.DeathDateAndAge.IsMatch(zerothSection)
+                                                                     || ThreeOrFourDigitNumber.IsMatch(yearFromInfoBox)))
             {
                 // look for '{{birth date...' template first
                 yearstring = WikiRegexes.DateBirthAndAge.Match(articleText).Groups[1].Value;
@@ -4311,9 +4365,9 @@ namespace WikiFunctions.Parse
         }
 
         private const string YearOfBirthMissingLivingPeople = "Year of birth missing (living people)",
-                             YearOfBirthMissing = "Year of birth missing",
-                             YearOfBirthUncertain = "Year of birth uncertain",
-                             YearofDeathMissing = "Year of death missing";
+        YearOfBirthMissing = "Year of birth missing",
+        YearOfBirthUncertain = "Year of birth uncertain",
+        YearofDeathMissing = "Year of death missing";
 
         private static readonly Regex Cat4YearBirths = new Regex(@"\[\[Category:\d{4} births(?:\s*\|[^\[\]]+)? *\]\]", RegexOptions.Compiled);
         private static readonly Regex Cat4YearDeaths = new Regex(@"\[\[Category:\d{4} deaths(?:\s*\|[^\[\]]+)? *\]\]", RegexOptions.Compiled);
@@ -4579,13 +4633,13 @@ namespace WikiFunctions.Parse
 
             int totalCategories;
 
-#if DEBUG
+            #if DEBUG
             if (Globals.UnitTestMode)
             {
                 totalCategories = Globals.UnitTestIntValue;
             }
             else
-#endif
+                #endif
             {
                 totalCategories = CategoryProv.MakeList(new[] { articleTitle }).Count;
             }
@@ -4624,7 +4678,7 @@ namespace WikiFunctions.Parse
             }
 
             if (linkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(articleText) && Variables.LangCode != "sv"
-               && !Regex.IsMatch(WikiRegexes.ArticleIssues.Match(articleText).Value.ToLower(), @"\bdead ?end\b"))
+                && !Regex.IsMatch(WikiRegexes.ArticleIssues.Match(articleText).Value.ToLower(), @"\bdead ?end\b"))
             {
                 // add dead-end tag
                 articleText = "{{dead end|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
@@ -4639,7 +4693,7 @@ namespace WikiFunctions.Parse
             }
 
             if (linkCount < 3 && ((linkCount / length) < 0.0025) && !WikiRegexes.Wikify.IsMatch(articleText)
-               && !WikiRegexes.ArticleIssues.Match(articleText).Value.ToLower().Contains("wikify"))
+                && !WikiRegexes.ArticleIssues.Match(articleText).Value.ToLower().Contains("wikify"))
             {
                 // add wikify tag
                 articleText = "{{Wikify|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
@@ -4674,21 +4728,21 @@ namespace WikiFunctions.Parse
             // check if not orphaned
             bool orphaned, orphaned2;
             int incomingLinks = 0;
-#if DEBUG
+            #if DEBUG
             if (Globals.UnitTestMode)
             {
                 orphaned = orphaned2 = Globals.UnitTestBoolValue;
             }
             else
-#endif
+                #endif
             {
                 try
                 {
                     incomingLinks = WlhProv.MakeList(Namespace.Article, articleTitle).Count;
                     orphaned = (incomingLinks < MinIncomingLinksToBeConsideredAnOrphan);
                     orphaned2 = restrictOrphanTagging
-                                   ? (incomingLinks == 0)
-                                   : orphaned;
+                        ? (incomingLinks == 0)
+                        : orphaned;
                 }
 
                 catch (Exception ex)
@@ -4730,7 +4784,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private string TagRefsIbid(string articleText)
         {
-            if(Variables.LangCode == "en" && IbidOpCitRef.IsMatch(articleText) && !WikiRegexes.Ibid.IsMatch(articleText))   
+            if(Variables.LangCode == "en" && IbidOpCitRef.IsMatch(articleText) && !WikiRegexes.Ibid.IsMatch(articleText))
             {
                 tagsAdded.Add("Ibid");
                 return @"{{Ibid|" + WikiRegexes.DateYearMonthParameter + @"}}" + articleText;
@@ -4745,7 +4799,7 @@ namespace WikiFunctions.Parse
             if (tagsRemoved.Count > 0)
             {
                 summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " tag" +
-                          (tagsRemoved.Count == 1 ? "" : "s");
+                    (tagsRemoved.Count == 1 ? "" : "s");
             }
 
             if (tagsAdded.Count > 0)
@@ -4754,7 +4808,7 @@ namespace WikiFunctions.Parse
                     summary += ", ";
 
                 summary += "added " + Tools.ListToStringCommaSeparator(tagsAdded) + " tag" +
-                          (tagsAdded.Count == 1 ? "" : "s");
+                    (tagsAdded.Count == 1 ? "" : "s");
             }
 
             return summary;
@@ -4796,7 +4850,7 @@ namespace WikiFunctions.Parse
 
             // {{R from modification}}
             // difference is extra/removed/changed puntuation
-            if (!Tools.NestedTemplateRegex(WikiRegexes.RFromModificationList).IsMatch(articleText) 
+            if (!Tools.NestedTemplateRegex(WikiRegexes.RFromModificationList).IsMatch(articleText)
                 && !CommonPunctuation.Replace(redirecttarget, "").Equals(redirecttarget) && CommonPunctuation.Replace(redirecttarget, "").Equals(CommonPunctuation.Replace(articleTitle, "")))
                 articleText += "\r\n" + WikiRegexes.RFromModificationString;
 
@@ -4804,7 +4858,7 @@ namespace WikiFunctions.Parse
 
             // title and redirect target the same if dacritics removed from redirect target
             if (redirecttarget != Tools.RemoveDiacritics(redirecttarget) && Tools.RemoveDiacritics(redirecttarget) == articleTitle
-               && !Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(articleText))
+                && !Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(articleText))
                 articleText += "\r\n" + WikiRegexes.RFromTitleWithoutDiacriticsString;
             
             // {{R from other capitalisation}}
