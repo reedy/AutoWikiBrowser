@@ -605,11 +605,12 @@ Jones 2005</ref>"));
 		    string pageref1 = @"Foo<ref name=Jones>Jones 2005 extra words of interest</ref> and bar<ref name=Jones>2</ref>";
 		    string pageref2 = @"Foo<ref name=Jones>Jones 2005 extra words of interest</ref> and bar<ref name=Jones> page 2</ref>";
 		    string pageref3 = @"Foo<ref name=Jones>Jones 2005 extra words of interest</ref> and bar<ref name=Jones>pp. 2</ref>";
+		    string pageref4 = @"Foo<ref name=Jones>Jones 2005 extra words of interest</ref> and bar<ref name=Jones>P 2</ref>";
 		    
 		    Assert.AreEqual(pageref1, Parsers.SameRefDifferentName(pageref1));
 		    Assert.AreEqual(pageref2, Parsers.SameRefDifferentName(pageref2));
 		    Assert.AreEqual(pageref3, Parsers.SameRefDifferentName(pageref3));
-
+		    Assert.AreEqual(pageref4, Parsers.SameRefDifferentName(pageref4));
 		}
 		
 		[Test]
