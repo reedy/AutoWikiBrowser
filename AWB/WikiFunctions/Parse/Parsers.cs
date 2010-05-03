@@ -853,7 +853,7 @@ namespace WikiFunctions.Parse
             return result.ToString();
         }
         
-        private static readonly Regex StartsWithPageRef = new Regex(@"^\s*(?:[Pp]ages?|[Pp]?p\.?)?\s*\d", RegexOptions.Compiled);
+        private static readonly Regex StartsWithPageRef = new Regex(@"^\s*(?:[Pp]ages?|[Pp][pg]?\.?)?\s*\d", RegexOptions.Compiled);
 
         /// <summary>
         /// Corrects named references where the reference is the same but the reference name is different
