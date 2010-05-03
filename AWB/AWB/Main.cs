@@ -1483,8 +1483,8 @@ namespace AutoWikiBrowser
                     // customized number of newlines
                     string newlines = "";
                     for (int i = 0; i < (int)udNewlineChars.Value; i++)
-                        newlines += "\r\n";
-
+                        newlines += "\n";
+                    
                     if (rdoAppend.Checked)
                         theArticle.AWBChangeArticleText("Appended your message",
                                                         theArticle.ArticleText + newlines + Tools.ApplyKeyWords(theArticle.Name, txtAppendMessage.Text), false);
