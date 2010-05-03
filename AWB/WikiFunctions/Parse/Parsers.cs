@@ -852,6 +852,8 @@ namespace WikiFunctions.Parse
 
             return result.ToString();
         }
+        
+        private static readonly Regex StartsWithPageRef = new Regex(@"^\s*(?:[Pp]ages?|[Pp]?p\.?)?\s*\d", RegexOptions.Compiled);
 
         /// <summary>
         /// Corrects named references where the reference is the same but the reference name is different
@@ -880,6 +882,7 @@ namespace WikiFunctions.Parse
 
                 NamedRefs.TryGetValue(refvalue, out existingname);
 
+                // don't apply to ibid short ref
                 if (existingname.Length > 0 && !existingname.Equals(refname) && !WikiRegexes.IbidOpCitation.IsMatch(refvalue))
                 {
                     string newRefName = refname;
@@ -919,7 +922,8 @@ namespace WikiFunctions.Parse
 
                 foreach (Match m2 in shortNamedReferences.Matches(articleText))
                 {
-                    if (refvalue.Length > 30)
+                    // don't apply if short ref is a page ref
+                    if (refvalue.Length > 30 && !StartsWithPageRef.IsMatch(m2.Groups[3].Value))
                         articleText = articleText.Replace(m2.Value, @"<ref name=""" + refname + @"""/>");
                 }
             }
