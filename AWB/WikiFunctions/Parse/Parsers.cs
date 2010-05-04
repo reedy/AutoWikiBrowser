@@ -215,8 +215,8 @@ namespace WikiFunctions.Parse
         {
             return HiderHideExtLinksImages.AddBackMore(articleText);
         }
-
-        /// <summary>
+        
+              /// <summary>
         /// Re-organises the Person Data, stub/disambig templates, categories and interwikis
         /// except when a mainspace article has some 'includeonly' tags etc.
         /// </summary>
@@ -225,12 +225,25 @@ namespace WikiFunctions.Parse
         /// <returns>The re-organised text.</returns>
         public string SortMetaData(string articleText, string articleTitle)
         {
+            return SortMetaData(articleText, articleTitle, true);
+        }
+
+        /// <summary>
+        /// Re-organises the Person Data, stub/disambig templates, categories and interwikis
+        /// except when a mainspace article has some 'includeonly' tags etc.
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitle">The article title.</param>
+        /// <param name="fixExcessWhitespace">Whether to request optional excess whitespace to be fixed</param>
+        /// <returns>The re-organised text.</returns>
+        public string SortMetaData(string articleText, string articleTitle, bool fixOptionalWhitespace)
+        {
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Substituted_templates
             // if article contains some substituted template stuff, sorting the data may mess it up (further)
             if (Namespace.IsMainSpace(articleTitle) && NoIncludeIncludeOnlyProgrammingElement(articleText))
                 return articleText;
 
-            return (Variables.Project <= ProjectEnum.species) ? Sorter.Sort(articleText, articleTitle) : articleText;
+            return (Variables.Project <= ProjectEnum.species) ? Sorter.Sort(articleText, articleTitle, fixOptionalWhitespace) : articleText;
         }
 
         private static readonly Regex ApostropheInDecades = new Regex(@"(?<=(?:the |later? |early |mid-|[12]\d\d0'?s and )(?:\[?\[?[12]\d\d0\]?\]?))'s(?=\]\])?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -853,7 +866,7 @@ namespace WikiFunctions.Parse
             return result.ToString();
         }
         
-        private static readonly Regex PageRef = new Regex(@"\s*(?:[Pp]ages?|[Pp][pg]?[:\.]?)?\s*[XxVvIi\d]", RegexOptions.Compiled);
+        private static readonly Regex PageRef = new Regex(@"\s*(?:(?:[Pp]ages?|[Pp][pg]?[:\.]?)|^)\s*[XVI\d]", RegexOptions.Compiled);
 
         /// <summary>
         /// Corrects named references where the reference is the same but the reference name is different
@@ -1667,8 +1680,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex WikiList = new Regex(@"^([\*#]+)", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SpacedHeadings = new Regex("^(={1,4}) ?(.*?) ?(={1,4})$", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SpacedDashes = new Regex(" (–|—|&#15[01];|&[nm]dash;|&#821[12];|&#x201[34];) ", RegexOptions.Compiled);
-
-        // Covered by: FormattingTests.TestFixWhitespace(), incomplete
+        
         /// <summary>
         /// Applies/removes some excess whitespace from the article
         /// </summary>
@@ -1676,12 +1688,26 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string RemoveWhiteSpace(string articleText)
         {
+            return RemoveWhiteSpace(articleText, true);
+        }
+        
+        // Covered by: FormattingTests.TestFixWhitespace(), incomplete
+        /// <summary>
+        /// Applies/removes some excess whitespace from the article
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="fixOptionalWhitespace">Whether to remove cosmetic whitespace</param>
+        /// <returns>The modified article text.</returns>
+        public static string RemoveWhiteSpace(string articleText, bool fixOptionalWhitespace)
+        {
             //Remove <br /> if followed by double newline
             articleText = BrTwoNewlines.Replace(articleText.Trim(), "\r\n\r\n");
 
             articleText = ThreeOrMoreNewlines.Replace(articleText, "\r\n\r\n");
 
-            articleText = TwoNewlinesInBlankSection.Replace(articleText, "==\r\n==");
+            if(fixOptionalWhitespace)
+                articleText = TwoNewlinesInBlankSection.Replace(articleText, "==\r\n==");
+            
             articleText = NewlinesBelowExternalLinks.Replace(articleText, "==External links==\r\n*");
             articleText = NewlinesBeforeUrl.Replace(articleText, "\r\n$1");
 
@@ -3598,7 +3624,7 @@ namespace WikiFunctions.Parse
             else
                 articleText += cat;
 
-            return SortMetaData(articleText, articleTitle); //Sort metadata ordering so general fixes don't need to be enabled
+            return SortMetaData(articleText, articleTitle, false); //Sort metadata ordering so general fixes don't need to be enabled
         }
 
         // Covered by: RecategorizerTests.Replacement()
