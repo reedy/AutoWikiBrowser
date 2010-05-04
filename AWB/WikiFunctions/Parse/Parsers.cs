@@ -853,7 +853,7 @@ namespace WikiFunctions.Parse
             return result.ToString();
         }
         
-        private static readonly Regex StartsWithPageRef = new Regex(@"^\s*(?:[Pp]ages?|[Pp][pg]?\.?)?\s*\d", RegexOptions.Compiled);
+        private static readonly Regex PageRef = new Regex(@"\s*(?:[Pp]ages?|[Pp][pg]?[:\.]?)?\s*[XxVvIi\d]", RegexOptions.Compiled);
 
         /// <summary>
         /// Corrects named references where the reference is the same but the reference name is different
@@ -923,7 +923,7 @@ namespace WikiFunctions.Parse
                 foreach (Match m2 in shortNamedReferences.Matches(articleText))
                 {
                     // don't apply if short ref is a page ref
-                    if (refvalue.Length > 30 && !StartsWithPageRef.IsMatch(m2.Groups[3].Value))
+                    if (refvalue.Length > 30 && !PageRef.IsMatch(m2.Groups[3].Value))
                         articleText = articleText.Replace(m2.Value, @"<ref name=""" + refname + @"""/>");
                 }
             }
