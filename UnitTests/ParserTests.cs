@@ -5398,6 +5398,12 @@ asdfasdf}} was here", "foo"));
 			Assert.AreEqual("test<noinclude>\r\n[[Category:Foo]]\r\n</noinclude>",
 			                parser.AddCategory("Foo", "test", "Template:foo", out noChange));
 			Assert.IsFalse(noChange);
+			
+			// don't change cosmetic whitespace when adding a category
+			const string Newlineheading = @"==Persian==
+
+===Pronunciation===";
+			Assert.AreEqual(Newlineheading + "\r\n\r\n" + @"[[Category:Foo]]", parser.AddCategory("Foo", Newlineheading, "bar", out noChange));
 		}
 
 		[Test]
