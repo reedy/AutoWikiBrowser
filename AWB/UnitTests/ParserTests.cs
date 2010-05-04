@@ -2922,6 +2922,10 @@ now"));
 now {{cite web | url=http://site.it | title=hello|date = 5-5-1998}} was";
 
 			Assert.AreEqual(ambig, Parsers.CiteTemplateDates(ambig));
+			
+			// no change on YYYY-MM format
+			string Y4M2 = @"now {{cite web | url=http://site.it | title=hello|date = 2010-03 }} was";
+			Assert.AreEqual(Y4M2, Parsers.CiteTemplateDates(Y4M2));
 		}
 		
 		[Test]
