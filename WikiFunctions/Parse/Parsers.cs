@@ -3598,7 +3598,7 @@ namespace WikiFunctions.Parse
             else
                 articleText += cat;
 
-            return SortMetaData(articleText, articleTitle); //Sort metadata ordering so general fixes dont need to be enabled
+            return SortMetaData(articleText, articleTitle); //Sort metadata ordering so general fixes don't need to be enabled
         }
 
         // Covered by: RecategorizerTests.Replacement()
