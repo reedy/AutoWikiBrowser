@@ -311,7 +311,7 @@ namespace WikiFunctions
         public static readonly Regex Template = new Regex(@"{{[^{\n]*?}}", RegexOptions.Compiled);
 
         /// <summary>
-        /// 
+        /// Matches the end of a template call including trailing whitespace
         /// </summary>
         public static readonly Regex TemplateEnd = new Regex(@" *(\r\n)*}}$", RegexOptions.Compiled);
 
@@ -700,7 +700,7 @@ namespace WikiFunctions
         /// <summary>
         /// matches {{New unreviewed article}} template
         /// </summary>
-        public static readonly Regex NewUnReviewedArticle = new Regex(@"({{\s*[Nn]ew unreviewed article(?:\s*\|[^{}]*)?\s*)}}", RegexOptions.Compiled);
+        public static readonly Regex NewUnReviewedArticle = Tools.NestedTemplateRegex("new unreviewed article");
 
         /// <summary>
         /// The cleanup templates that can be moved into the {{article issues}} template
