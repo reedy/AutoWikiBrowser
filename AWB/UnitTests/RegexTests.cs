@@ -163,6 +163,17 @@ namespace UnitTests
             TestMatches(WikiRegexes.BLPSources, @"{{ BLP Unreferenced | foo}}", 1);
             TestMatches(WikiRegexes.BLPSources, @"{{bLP Unreferenced}}", 1);
         }
+        
+        [Test]
+        public void NamedReferences()
+        {
+            Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name = ""foo"">text</ref>"));
+            Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name =foo>text</ref>"));
+            Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name = 'foo'>text</ref>"));
+            Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"< REF NAME = ""foo"">text</ref>"));
+            
+            Assert.AreEqual(@"<ref name=""Shul726"">Shul, p. 726</ref>", WikiRegexes.NamedReferences.Match(@"<ref name=""vietnam.ttu.edu""/><ref name=""Shul726"">Shul, p. 726</ref>").Value);
+        }
 
         [Test]
         public void UnformattedTextTests()
