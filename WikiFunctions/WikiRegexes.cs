@@ -738,6 +738,11 @@ namespace WikiFunctions
         /// Matches the {{circa}} template
         /// </summary>
         public static readonly Regex CircaTemplate = Tools.NestedTemplateRegex(@"Circa");
+        
+        /// <summary>
+        /// matches named references in format &lt;ref name="foo"&gt;text&lt/ref&gt;
+        /// </summary>
+        public static readonly Regex NamedReferences = new Regex(@"(<\s*ref\s+name\s*=\s*(?:""|')?([^<>=\r\n/]+?)(?:""|')?\s*>\s*(.+?)\s*<\s*/\s*ref>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
 
         // covered by DablinksTests
         /// <summary>

@@ -723,7 +723,6 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly Regex NamedReferences = new Regex(@"(<\s*ref\s+name\s*=\s*(?:""|')?([^<>=\r\n]+?)(?:""|')?\s*>\s*(.+?)\s*<\s*/\s*ref>)", RegexOptions.Compiled | RegexOptions.Singleline);
         private static readonly Regex LongNamedReferences = new Regex(@"(<\s*ref\s+name\s*=\s*(?:""|')?([^<>=\r\n]+?)(?:""|')?\s*>\s*([^<>]{30,}?)\s*<\s*/\s*ref>)", RegexOptions.Compiled);
 
         // Covered by: DuplicateNamedReferencesTests()
@@ -736,7 +735,7 @@ namespace WikiFunctions.Parse
         {
             Dictionary<string, string> NamedRefs = new Dictionary<string, string>();
 
-            foreach (Match m in NamedReferences.Matches(articleText))
+            foreach (Match m in WikiRegexes.NamedReferences.Matches(articleText))
             {
                 string refName = m.Groups[2].Value;
                 string namedRefValue = m.Groups[3].Value;
@@ -777,7 +776,7 @@ namespace WikiFunctions.Parse
 
         public static bool HasNamedReferences(string articleText)
         {
-            return NamedReferences.IsMatch(WikiRegexes.Comments.Replace(articleText, ""));
+            return WikiRegexes.NamedReferences.IsMatch(WikiRegexes.Comments.Replace(articleText, ""));
         }
 
         private struct Ref
@@ -880,7 +879,7 @@ namespace WikiFunctions.Parse
 
             Dictionary<string, string> NamedRefs = new Dictionary<string, string>();
 
-            foreach (Match m in NamedReferences.Matches(articleText))
+            foreach (Match m in WikiRegexes.NamedReferences.Matches(articleText))
             {
                 string refname = m.Groups[2].Value;
                 string refvalue = m.Groups[3].Value;
