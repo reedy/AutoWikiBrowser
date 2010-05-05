@@ -1170,7 +1170,7 @@ namespace WikiFunctions.Parse
             return newText;
         }
 
-        private static readonly Regex CiteWeb = new Regex(@"{{\s*[Cc]ite ?web\s*\|[^{}]+}}", RegexOptions.Compiled);
+        private static readonly Regex CiteWeb = Tools.NestedTemplateRegex(new List<string>("cite web,citeweb".Split(',')));
         private static readonly Regex CitationPopulatedParameter = new Regex(@"\|\s*([a-z_0-9-]+)\s*=\s*([^\|}]{3,}?)\s*");
 
         /// <summary>
@@ -1299,7 +1299,7 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             // cite podcast is non-compliant to citation core standards
-            if (Regex.IsMatch(articleText, @"({{\s*[Cc]ite podcast\s*\|)"))
+            if (Tools.NestedTemplateRegex("cite podcast").IsMatch(articleText))
                 return articleText;
 
             // note some incorrect date formats such as 3-2-2009 are ambiguous as could be 3-FEB-2009 or MAR-2-2009
@@ -1338,7 +1338,7 @@ namespace WikiFunctions.Parse
         }
 
 
-        private static readonly Regex PossibleAmbiguousCiteDate = new Regex(@"(?<={{[Cc]it[ae][^{}]+?\|\s*(?:access|archive|air)?date2?\s*=\s*)(0?[1-9]|1[0-2])[/_\-\.](0?[1-9]|1[0-2])[/_\-\.](20\d\d|19[7-9]\d|[01]\d)\b");
+        private static readonly Regex PossibleAmbiguousCiteDate = new Regex(@"(?<={{\s*[Cc]it[ae][^{}]+?\|\s*(?:access|archive|air)?date2?\s*=\s*)(0?[1-9]|1[0-2])[/_\-\.](0?[1-9]|1[0-2])[/_\-\.](20\d\d|19[7-9]\d|[01]\d)\b");
 
         /// <summary>
         /// Returns whether the input article text contains ambiguous cite template dates in XX-XX-YYYY or XX-XX-YY format

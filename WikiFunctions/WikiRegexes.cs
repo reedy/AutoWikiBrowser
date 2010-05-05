@@ -675,7 +675,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{dead link}} template and its redirects
         /// </summary>
-        public static readonly Regex DeadLink = new Regex(@"{{\s*((?:[Dd]ead|[Bb]roken) ?link|[Ll]ink ?broken|404|[Dd]l(?:-s)?|[Cc]leanup-link)\s*(\|((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})|}})");
+        public static readonly Regex DeadLink = Tools.NestedTemplateRegex(new List<string>("dead link,deadlink,broken link,brokenlink,link broken,linkbroken,404,dl,dl-s,cleanup-link".Split(',')));
 
         /// <summary>
         /// Matches {{expand}} tag and its redirects and also {{expand}} within {{multiple issues}}
