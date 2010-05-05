@@ -551,9 +551,9 @@ namespace WikiFunctions
             RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
 
         /// <summary>
-        /// Matches {{nofootnotes}} OR {{morefootnotes}} templates
+        /// Matches {{no footnotes}} OR {{more footnotes}} templates
         /// </summary>
-        public static readonly Regex MoreNoFootnotes = new Regex(@"{{\s*([Mm]ore|[Nn]o) ?footnotes[^{}]*}}", RegexOptions.Compiled);
+        public static readonly Regex MoreNoFootnotes = Tools.NestedTemplateRegex(new List<string>(@"no footnotes,nofootnotes,more footnotes,morefootnotes".Split(',')));
 
         /// <summary>
         /// Matches the various {{BLP unsourced}} templates
