@@ -169,10 +169,22 @@ namespace UnitTests
         {
             Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name = ""foo"">text</ref>"));
             Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name =foo>text</ref>"));
+            Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name=foo>text< / ref >"));
             Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name = 'foo'>text</ref>"));
             Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"< REF NAME = ""foo"">text</ref>"));
+            Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"< REF NAME = ""foo"">
+{{ cite web|
+title = text |
+work = text
+}}</ref>"), "matches multiple line ref");
+            Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"< REF NAME = ""foo"">text <br>more</ref>"), "case insensitive matching");
             
-            Assert.AreEqual(@"<ref name=""Shul726"">Shul, p. 726</ref>", WikiRegexes.NamedReferences.Match(@"<ref name=""vietnam.ttu.edu""/><ref name=""Shul726"">Shul, p. 726</ref>").Value);
+            Assert.AreEqual(@"<ref name=""Shul726"">Shul, p. 726</ref>", WikiRegexes.NamedReferences.Match(@"<ref name=""vietnam.ttu.edu""/><ref name=""Shul726"">Shul, p. 726</ref>").Value, "match is not across consecutive references – first condensed");
+            Assert.AreEqual(@"<ref name=""Shul726"">Shul, p. 726</ref>", WikiRegexes.NamedReferences.Match(@"<ref name=""Shul726"">Shul, p. 726</ref><ref name=""Foo"">foo text</ref>").Value, "match is not across consecutive references – first full");
+            Assert.AreEqual(@"Shul726", WikiRegexes.NamedReferences.Match(@"<ref name=""vietnam.ttu.edu""/><ref name=""Shul726"">Shul, p. 726</ref>").Groups[2].Value, "ref name is group 2");
+            Assert.AreEqual(@"Shul, p. 726", WikiRegexes.NamedReferences.Match(@"<ref name=""vietnam.ttu.edu""/><ref name=""Shul726"">Shul, p. 726</ref>").Groups[3].Value, "ref value is group 3");
+            Assert.AreEqual(@"Shul726", WikiRegexes.NamedReferences.Match(@"<ref name=""vietnam.ttu.edu""/><ref name=""Shul726"">
+Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/trailing whitespace");
         }
 
         [Test]
