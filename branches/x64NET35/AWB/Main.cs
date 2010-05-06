@@ -2371,11 +2371,15 @@ window.scrollTo(0, diffTopY);
                 lblImages.Text = Imgs + WikiRegexes.Images.Matches(articleText).Count;
                 lblLinks.Text = Links + WikiRegexes.WikiLinksOnly.Matches(articleText).Count;
                 lblInterLinks.Text = IWLinks + Tools.InterwikiCount(articleText);
-                lblDates.Text = Dates + WikiRegexes.ISODates.Matches(articleText).Count + "/" + WikiRegexes.DayMonth.Matches(articleText).Count
-                    + "/" + WikiRegexes.MonthDay.Matches(articleText).Count;
+                
+                // for date types count ignore images and URLs
+                string articleTextNoImagesURLs = WikiRegexes.Images.Replace(WikiRegexes.ExternalLinks.Replace(articleText, ""), "");
+                lblDates.Text = Dates + WikiRegexes.ISODates.Matches(articleTextNoImagesURLs).Count + "/" + WikiRegexes.DayMonth.Matches(articleTextNoImagesURLs).Count
+                    + "/" + WikiRegexes.MonthDay.Matches(articleTextNoImagesURLs).Count;
+                
                 lblWarn.Text = warnings.ToString();
 
-                //Find multiple links
+                // Find multiple links
                 ArrayList arrayLinks = new ArrayList();
                 ArrayList arrayLinks2 = new ArrayList();
 

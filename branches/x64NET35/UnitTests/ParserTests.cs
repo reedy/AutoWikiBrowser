@@ -606,11 +606,13 @@ Jones 2005</ref>"));
 		    string pageref2 = @"Foo<ref name=Jones>Jones 2005 extra words of interest</ref> and bar<ref name=Jones> page 2</ref>";
 		    string pageref3 = @"Foo<ref name=Jones>Jones 2005 extra words of interest</ref> and bar<ref name=Jones>pp. 2</ref>";
 		    string pageref4 = @"Foo<ref name=Jones>Jones 2005 extra words of interest</ref> and bar<ref name=Jones>P 2</ref>";
+		    string pageref5 = @"Foo<ref name=Jones>Jones 2005 extra words of interest</ref> and bar<ref name=Jones>Jones P 2</ref>";
 		    
 		    Assert.AreEqual(pageref1, Parsers.SameRefDifferentName(pageref1));
 		    Assert.AreEqual(pageref2, Parsers.SameRefDifferentName(pageref2));
 		    Assert.AreEqual(pageref3, Parsers.SameRefDifferentName(pageref3));
 		    Assert.AreEqual(pageref4, Parsers.SameRefDifferentName(pageref4));
+		    Assert.AreEqual(pageref5, Parsers.SameRefDifferentName(pageref5));
 		}
 		
 		[Test]
@@ -2920,6 +2922,10 @@ now"));
 now {{cite web | url=http://site.it | title=hello|date = 5-5-1998}} was";
 
 			Assert.AreEqual(ambig, Parsers.CiteTemplateDates(ambig));
+			
+			// no change on YYYY-MM format
+			string Y4M2 = @"now {{cite web | url=http://site.it | title=hello|date = 2010-03 }} was";
+			Assert.AreEqual(Y4M2, Parsers.CiteTemplateDates(Y4M2));
 		}
 		
 		[Test]
@@ -5396,6 +5402,12 @@ asdfasdf}} was here", "foo"));
 			Assert.AreEqual("test<noinclude>\r\n[[Category:Foo]]\r\n</noinclude>",
 			                parser.AddCategory("Foo", "test", "Template:foo", out noChange));
 			Assert.IsFalse(noChange);
+			
+			// don't change cosmetic whitespace when adding a category
+			const string Newlineheading = @"==Persian==
+
+===Pronunciation===";
+			Assert.AreEqual(Newlineheading + "\r\n\r\n" + @"[[Category:Foo]]", parser.AddCategory("Foo", Newlineheading, "bar", out noChange));
 		}
 
 		[Test]

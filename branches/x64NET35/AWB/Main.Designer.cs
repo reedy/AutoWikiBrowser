@@ -208,7 +208,6 @@ namespace AutoWikiBrowser
             this.btnFind = new System.Windows.Forms.Button();
             this.btnFalsePositive = new System.Windows.Forms.Button();
             this.nudBotSpeed = new System.Windows.Forms.NumericUpDown();
-            this.botEditsStop = new System.Windows.Forms.NumericUpDown();
             this.txtNewCategory = new System.Windows.Forms.TextBox();
             this.txtAppendMessage = new System.Windows.Forms.TextBox();
             this.chkAppend = new System.Windows.Forms.CheckBox();
@@ -290,6 +289,7 @@ namespace AutoWikiBrowser
             this.lblLinks = new System.Windows.Forms.Label();
             this.chkSkipIfNoRegexTypo = new System.Windows.Forms.CheckBox();
             this.chkSkipNoImgChange = new System.Windows.Forms.CheckBox();
+            this.botEditsStop = new System.Windows.Forms.NumericUpDown();
             this.txtEdit = new WikiFunctions.Controls.ArticleTextBox();
             this.mnuHistory = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -422,7 +422,6 @@ namespace AutoWikiBrowser
             this.MnuMain.SuspendLayout();
             this.StatusMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudBotSpeed)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.botEditsStop)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgSub)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgSup)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgRedirect)).BeginInit();
@@ -437,6 +436,7 @@ namespace AutoWikiBrowser
             ((System.ComponentModel.ISupportInitialize)(this.imgComment)).BeginInit();
             this.AlertGroup.SuspendLayout();
             this.SummaryGroup.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.botEditsStop)).BeginInit();
             this.mnuHistory.SuspendLayout();
             this.toolStrip.SuspendLayout();
             this.mnuNotify.SuspendLayout();
@@ -1253,21 +1253,21 @@ namespace AutoWikiBrowser
             // loadPluginToolStripMenuItem
             // 
             this.loadPluginToolStripMenuItem.Name = "loadPluginToolStripMenuItem";
-            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.loadPluginToolStripMenuItem.Text = "&Load...";
             this.loadPluginToolStripMenuItem.Click += new System.EventHandler(this.loadPluginToolStripMenuItem_Click);
             // 
             // managePluginsToolStripMenuItem
             // 
             this.managePluginsToolStripMenuItem.Name = "managePluginsToolStripMenuItem";
-            this.managePluginsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
+            this.managePluginsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.managePluginsToolStripMenuItem.Text = "&Manager...";
             this.managePluginsToolStripMenuItem.Click += new System.EventHandler(this.managePluginsToolStripMenuItem_Click);
             // 
             // toolStripSeparator26
             // 
             this.toolStripSeparator26.Name = "toolStripSeparator26";
-            this.toolStripSeparator26.Size = new System.Drawing.Size(127, 6);
+            this.toolStripSeparator26.Size = new System.Drawing.Size(149, 6);
             // 
             // ToolStripMenuGeneral
             // 
@@ -1428,6 +1428,7 @@ namespace AutoWikiBrowser
             // 
             // addToWatchList
             // 
+            this.addToWatchList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.addToWatchList.DropDownWidth = 160;
             this.addToWatchList.Items.AddRange(new object[] {
             "Add all to watchlist",
@@ -1836,19 +1837,6 @@ namespace AutoWikiBrowser
             0,
             0,
             0});
-            // 
-            // botEditsStop
-            // 
-            this.botEditsStop.Enabled = false;
-            this.botEditsStop.Location = new System.Drawing.Point(204, 19);
-            this.botEditsStop.Maximum = new decimal(new int[] {
-            5000,
-            0,
-            0,
-            0});
-            this.botEditsStop.Name = "botEditsStop";
-            this.botEditsStop.Size = new System.Drawing.Size(51, 20);
-            this.botEditsStop.TabIndex = 2;
             // 
             // txtNewCategory
             // 
@@ -2788,6 +2776,19 @@ namespace AutoWikiBrowser
             this.chkSkipNoImgChange.Text = "&Skip page when no file changed";
             this.ToolTip.SetToolTip(this.chkSkipNoImgChange, "Automatically skips page if no file changed");
             this.chkSkipNoImgChange.UseVisualStyleBackColor = true;
+            // 
+            // botEditsStop
+            // 
+            this.botEditsStop.Enabled = false;
+            this.botEditsStop.Location = new System.Drawing.Point(204, 19);
+            this.botEditsStop.Maximum = new decimal(new int[] {
+            5000,
+            0,
+            0,
+            0});
+            this.botEditsStop.Name = "botEditsStop";
+            this.botEditsStop.Size = new System.Drawing.Size(51, 20);
+            this.botEditsStop.TabIndex = 2;
             // 
             // txtEdit
             // 
@@ -4232,7 +4233,6 @@ namespace AutoWikiBrowser
             this.StatusMain.ResumeLayout(false);
             this.StatusMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudBotSpeed)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.botEditsStop)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgSub)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgSup)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgRedirect)).EndInit();
@@ -4249,6 +4249,7 @@ namespace AutoWikiBrowser
             this.AlertGroup.PerformLayout();
             this.SummaryGroup.ResumeLayout(false);
             this.SummaryGroup.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.botEditsStop)).EndInit();
             this.mnuHistory.ResumeLayout(false);
             this.toolStrip.ResumeLayout(false);
             this.toolStrip.PerformLayout();

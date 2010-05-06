@@ -257,14 +257,26 @@ en, sq, ru
                 s = "\r\n" + s;
             return s;
         }
-
-        /// <summary>
+        
+         /// <summary>
         /// 
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
         /// <returns></returns>
         internal string Sort(string articleText, string articleTitle)
+        {
+            return Sort(articleText, articleTitle, true);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitle">Title of the article</param>
+        /// <param name="fixExcessWhitespace">Whether to request optional excess whitespace to be fixed</param>
+        /// <returns></returns>
+        internal string Sort(string articleText, string articleTitle, bool fixOptionalWhitespace)
         {
             if (Namespace.Determine(articleTitle) == 10) //Dont really want to be fooling around with templates
                 return articleText;
@@ -302,7 +314,7 @@ en, sq, ru
                 string strStub = Newline(RemoveStubs(ref articleText), Variables.LangCode == "ru" ? 1 : 2);
 
                 //filter out excess white space and remove "----" from end of article
-                articleText = Parsers.RemoveWhiteSpace(articleText) + "\r\n";
+                    articleText = Parsers.RemoveWhiteSpace(articleText, fixOptionalWhitespace) + "\r\n";
                 articleText += disambig;
 
                 switch (Variables.LangCode)
