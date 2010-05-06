@@ -311,7 +311,7 @@ namespace WikiFunctions
         public static readonly Regex Template = new Regex(@"{{[^{\n]*?}}", RegexOptions.Compiled);
 
         /// <summary>
-        /// 
+        /// Matches the end of a template call including trailing whitespace
         /// </summary>
         public static readonly Regex TemplateEnd = new Regex(@" *(\r\n)*}}$", RegexOptions.Compiled);
 
@@ -551,9 +551,9 @@ namespace WikiFunctions
             RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
 
         /// <summary>
-        /// Matches {{nofootnotes}} OR {{morefootnotes}} templates
+        /// Matches {{no footnotes}} OR {{more footnotes}} templates
         /// </summary>
-        public static readonly Regex MoreNoFootnotes = new Regex(@"{{\s*([Mm]ore|[Nn]o) ?footnotes[^{}]*}}", RegexOptions.Compiled);
+        public static readonly Regex MoreNoFootnotes = Tools.NestedTemplateRegex(new List<string>(@"no footnotes,nofootnotes,more footnotes,morefootnotes".Split(',')));
 
         /// <summary>
         /// Matches the various {{BLP unsourced}} templates
@@ -675,7 +675,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{dead link}} template and its redirects
         /// </summary>
-        public static readonly Regex DeadLink = new Regex(@"{{\s*((?:[Dd]ead|[Bb]roken) ?link|[Ll]ink ?broken|404|[Dd]l(?:-s)?|[Cc]leanup-link)\s*(\|((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})|}})");
+        public static readonly Regex DeadLink = Tools.NestedTemplateRegex(new List<string>("dead link,deadlink,broken link,brokenlink,link broken,linkbroken,404,dl,dl-s,cleanup-link".Split(',')));
 
         /// <summary>
         /// Matches {{expand}} tag and its redirects and also {{expand}} within {{multiple issues}}
@@ -700,7 +700,7 @@ namespace WikiFunctions
         /// <summary>
         /// matches {{New unreviewed article}} template
         /// </summary>
-        public static readonly Regex NewUnReviewedArticle = new Regex(@"({{\s*[Nn]ew unreviewed article(?:\s*\|[^{}]*)?\s*)}}", RegexOptions.Compiled);
+        public static readonly Regex NewUnReviewedArticle = Tools.NestedTemplateRegex("new unreviewed article");
 
         /// <summary>
         /// The cleanup templates that can be moved into the {{article issues}} template
@@ -738,6 +738,11 @@ namespace WikiFunctions
         /// Matches the {{circa}} template
         /// </summary>
         public static readonly Regex CircaTemplate = Tools.NestedTemplateRegex(@"Circa");
+        
+        /// <summary>
+        /// matches named references in format &lt;ref name="foo"&gt;text&lt/ref&gt;
+        /// </summary>
+        public static readonly Regex NamedReferences = new Regex(@"(<\s*ref\s+name\s*=\s*(?:""|')?([^<>=\r\n/]+?)(?:""|')?\s*>\s*(.+?)\s*<\s*/\s*ref\s*>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
 
         // covered by DablinksTests
         /// <summary>

@@ -151,7 +151,7 @@ namespace AutoWikiBrowser
             // lblNonEnNotice
             // 
             this.lblNonEnNotice.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                                    | System.Windows.Forms.AnchorStyles.Right)));
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.lblNonEnNotice.Location = new System.Drawing.Point(6, 80);
             this.lblNonEnNotice.Name = "lblNonEnNotice";
             this.lblNonEnNotice.Size = new System.Drawing.Size(370, 19);
@@ -367,23 +367,23 @@ namespace AutoWikiBrowser
             // 
             this.nudEditBoxAutosave.Location = new System.Drawing.Point(189, 18);
             this.nudEditBoxAutosave.Maximum = new decimal(new int[] {
-        	        	        	300,
-        	        	        	0,
-        	        	        	0,
-        	        	        	0});
+            300,
+            0,
+            0,
+            0});
             this.nudEditBoxAutosave.Minimum = new decimal(new int[] {
-        	        	        	30,
-        	        	        	0,
-        	        	        	0,
-        	        	        	0});
+            30,
+            0,
+            0,
+            0});
             this.nudEditBoxAutosave.Name = "nudEditBoxAutosave";
             this.nudEditBoxAutosave.Size = new System.Drawing.Size(58, 20);
             this.nudEditBoxAutosave.TabIndex = 1;
             this.nudEditBoxAutosave.Value = new decimal(new int[] {
-        	        	        	30,
-        	        	        	0,
-        	        	        	0,
-        	        	        	0});
+            30,
+            0,
+            0,
+            0});
             // 
             // saveFile
             // 
@@ -403,8 +403,8 @@ namespace AutoWikiBrowser
             // lblPrivacy
             // 
             this.lblPrivacy.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                                    | System.Windows.Forms.AnchorStyles.Left)
-                                    | System.Windows.Forms.AnchorStyles.Right)));
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPrivacy.Location = new System.Drawing.Point(6, 26);
             this.lblPrivacy.Name = "lblPrivacy";
             this.lblPrivacy.Size = new System.Drawing.Size(370, 129);
@@ -414,8 +414,8 @@ namespace AutoWikiBrowser
             // tbPrefs
             // 
             this.tbPrefs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                                    | System.Windows.Forms.AnchorStyles.Left)
-                                    | System.Windows.Forms.AnchorStyles.Right)));
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tbPrefs.Controls.Add(this.tabGeneral);
             this.tbPrefs.Controls.Add(this.tabSite);
             this.tbPrefs.Controls.Add(this.tabEditing);
@@ -470,11 +470,12 @@ namespace AutoWikiBrowser
             // 
             // cmboOnLoad
             // 
+            this.cmboOnLoad.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmboOnLoad.FormattingEnabled = true;
             this.cmboOnLoad.Items.AddRange(new object[] {
-        	        	        	"Show changes",
-        	        	        	"Show preview",
-        	        	        	"Show edit page"});
+            "Show changes",
+            "Show preview",
+            "Show edit page"});
             this.cmboOnLoad.Location = new System.Drawing.Point(58, 98);
             this.cmboOnLoad.Name = "cmboOnLoad";
             this.cmboOnLoad.Size = new System.Drawing.Size(121, 21);
@@ -542,7 +543,7 @@ namespace AutoWikiBrowser
             this.chkIgnoreNoBots.TabIndex = 10;
             this.chkIgnoreNoBots.Text = "&Ignore {{bots}} and {{nobots}}";
             this.ToolTip.SetToolTip(this.chkIgnoreNoBots, "Checking this box will cause you to edit pages with the {{bots}} and {{nobots}} t" +
-                        "ags on them. By default these pages are skipped.");
+                    "ags on them. By default these pages are skipped.");
             this.chkIgnoreNoBots.UseVisualStyleBackColor = true;
             // 
             // tabEditing
@@ -592,9 +593,9 @@ namespace AutoWikiBrowser
             // 
             this.cmboDBScanner.FormattingEnabled = true;
             this.cmboDBScanner.Items.AddRange(new object[] {
-        	        	        	"Ask",
-        	        	        	"Always",
-        	        	        	"Never"});
+            "Ask",
+            "Always",
+            "Never"});
             this.cmboDBScanner.Location = new System.Drawing.Point(227, 66);
             this.cmboDBScanner.Name = "cmboDBScanner";
             this.cmboDBScanner.Size = new System.Drawing.Size(121, 21);
@@ -613,9 +614,9 @@ namespace AutoWikiBrowser
             // 
             this.cmboListSplitter.FormattingEnabled = true;
             this.cmboListSplitter.Items.AddRange(new object[] {
-        	        	        	"Ask",
-        	        	        	"Always",
-        	        	        	"Never"});
+            "Ask",
+            "Always",
+            "Never"});
             this.cmboListSplitter.Location = new System.Drawing.Point(227, 39);
             this.cmboListSplitter.Name = "cmboListSplitter";
             this.cmboListSplitter.Size = new System.Drawing.Size(121, 21);
@@ -634,9 +635,9 @@ namespace AutoWikiBrowser
             // 
             this.cmboListComparer.FormattingEnabled = true;
             this.cmboListComparer.Items.AddRange(new object[] {
-        	        	        	"Ask",
-        	        	        	"Always",
-        	        	        	"Never"});
+            "Ask",
+            "Always",
+            "Never"});
             this.cmboListComparer.Location = new System.Drawing.Point(227, 12);
             this.cmboListComparer.Name = "cmboListComparer";
             this.cmboListComparer.Size = new System.Drawing.Size(121, 21);
@@ -706,6 +707,7 @@ namespace AutoWikiBrowser
             this.tabPrivacy.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
+
         }
 
         #endregion

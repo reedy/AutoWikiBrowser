@@ -600,13 +600,13 @@ namespace WikiFunctions.DBScanner
             this.chkCiteTemplateDates.TabIndex = 7;
             this.chkCiteTemplateDates.Text = "Citation dates AWB will fix";
             this.tooltip.SetToolTip(this.chkCiteTemplateDates, "AWB fixes various errors in dates within the citation family of templates");
-            //
+            // 
             // chkReorderReferences
-            //
+            // 
             this.chkReorderReferences.AutoSize = true;
-            this.chkReorderReferences.Location = new System.Drawing.Point(167, 72);
+            this.chkReorderReferences.Location = new System.Drawing.Point(167, 118);
             this.chkReorderReferences.Name = "chkReorderReferences";
-            this.chkReorderReferences.Size = new System.Drawing.Size(148, 17);
+            this.chkReorderReferences.Size = new System.Drawing.Size(129, 17);
             this.chkReorderReferences.TabIndex = 7;
             this.chkReorderReferences.Text = "References to reorder";
             this.tooltip.SetToolTip(this.chkReorderReferences, "AWB reorders consecutive references to be in numercial order");
@@ -1233,7 +1233,7 @@ namespace WikiFunctions.DBScanner
             this.btnBrowse.Size = new System.Drawing.Size(75, 23);
             this.btnBrowse.TabIndex = 2;
             this.btnBrowse.Text = "Br&owse...";
-            this.btnBrowse.Click += new System.EventHandler(this.btnOpen);
+            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
             // 
             // txtDumpLocation
             // 

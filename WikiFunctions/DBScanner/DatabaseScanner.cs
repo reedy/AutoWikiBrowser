@@ -816,7 +816,7 @@ namespace WikiFunctions.DBScanner
 
         }
 
-        private void btnOpen(object sender, EventArgs e)
+        private void btnBrowse_Click(object sender, EventArgs e)
         {
             try
             {
@@ -860,10 +860,19 @@ namespace WikiFunctions.DBScanner
                         }
                     }
 
-                    if (new Uri(lnkBase.Text).Host != Variables.Host)
+                    try
+                    {
+                        if (new Uri(lnkBase.Text).Host != Variables.Host)
+                            MessageBox.Show(
+                                "The project of the loaded dump doesn't match the project AWB is currently setup for.\r\nIt is reccomended you change the current project to that of the database dump.\r\nThis will ensure the namespaces are correct.",
+                                "Project mismatch", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    catch (UriFormatException)
+                    {
                         MessageBox.Show(
-                            "The project of the loaded dump doesn't match the project AWB is currently setup for.\r\nIt is reccomended you change the current project to that of the database dump.\r\nThis will ensure the namespaces are correct.",
-                            "Project mismatch", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            "Apparent error with the host URI.\r\nChances are that probably means you're loading the wrong file type. Is it a MediaWiki XML Dump?",
+                            "Invalid Document Uri");
+                    }
                 }
             }
             catch (Exception ex) { ErrorHandler.Handle(ex); }
