@@ -211,6 +211,7 @@ namespace AutoWikiBrowser
             this.txtNewCategory = new System.Windows.Forms.TextBox();
             this.txtAppendMessage = new System.Windows.Forms.TextBox();
             this.chkAppend = new System.Windows.Forms.CheckBox();
+            this.chkAppendMetaDataSort = new System.Windows.Forms.CheckBox();
             this.rdoAppend = new System.Windows.Forms.RadioButton();
             this.rdoPrepend = new System.Windows.Forms.RadioButton();
             this.chkGeneralFixes = new System.Windows.Forms.CheckBox();
@@ -1871,6 +1872,17 @@ namespace AutoWikiBrowser
             this.ToolTip.SetToolTip(this.chkAppend, "For appending a message to a user talk page for example");
             this.chkAppend.UseVisualStyleBackColor = true;
             this.chkAppend.CheckedChanged += new System.EventHandler(this.chkAppend_CheckedChanged);
+            //
+            // chkAppendMetaDataSort
+            //
+            this.chkAppendMetaDataSort.AutoSize = true;
+            this.chkAppendMetaDataSort.Location = new System.Drawing.Point(130, 113);
+            this.chkAppendMetaDataSort.Name = "chkAppendMetaDataSort";
+            this.chkAppendMetaDataSort.Enabled = false;
+            this.chkAppendMetaDataSort.Size = new System.Drawing.Size(65, 17);
+            this.chkAppendMetaDataSort.Text = "Sort meta data after";
+            this.ToolTip.SetToolTip(this.chkAppendMetaDataSort, "Perform a sort of the page meta data after the append/prepend action (mainspace only)");
+            this.chkAppendMetaDataSort.UseVisualStyleBackColor = true;
             // 
             // rdoAppend
             // 
@@ -3263,6 +3275,7 @@ namespace AutoWikiBrowser
             this.groupBox4.Controls.Add(this.rdoPrepend);
             this.groupBox4.Controls.Add(this.rdoAppend);
             this.groupBox4.Controls.Add(this.chkAppend);
+            this.groupBox4.Controls.Add(this.chkAppendMetaDataSort);
             this.groupBox4.Controls.Add(this.txtAppendMessage);
             this.groupBox4.Location = new System.Drawing.Point(6, 6);
             this.groupBox4.Name = "groupBox4";
@@ -3279,7 +3292,7 @@ namespace AutoWikiBrowser
             this.lblNewlineCharacters.Name = "lblNewlineCharacters";
             this.lblNewlineCharacters.Size = new System.Drawing.Size(96, 13);
             this.lblNewlineCharacters.TabIndex = 6;
-            this.lblNewlineCharacters.Text = "newline characters";
+            this.lblNewlineCharacters.Text = "newlines";
             // 
             // lblUse
             // 
@@ -4468,6 +4481,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.RadioButton rdoPrepend;
         private System.Windows.Forms.RadioButton rdoAppend;
         private System.Windows.Forms.CheckBox chkAppend;
+        private System.Windows.Forms.CheckBox chkAppendMetaDataSort;
         private System.Windows.Forms.TextBox txtAppendMessage;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.CheckBox chkSkipNoCatChange;
