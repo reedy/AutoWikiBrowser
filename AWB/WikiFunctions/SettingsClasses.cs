@@ -268,6 +268,7 @@ namespace WikiFunctions.AWBSettings
         public bool SkipIfNoImgChange = false;
 
         public bool AppendText = false;
+        public bool AppendTextMetaDataSort = false;
         public bool Append = true;
         public string Text = "";
         public int Newlines = 2;

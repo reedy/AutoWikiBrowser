@@ -1491,6 +1491,9 @@ namespace AutoWikiBrowser
                     else
                         theArticle.AWBChangeArticleText("Prepended your message",
                                                         Tools.ApplyKeyWords(theArticle.Name, txtAppendMessage.Text) + newlines + theArticle.ArticleText, false);
+                
+                    if(chkAppendMetaDataSort.Checked)
+                        theArticle.PerformMetaDataSort(Parser);
                 }
 
                 // replace/remove/comment out images
@@ -2258,7 +2261,7 @@ window.scrollTo(0, diffTopY);
         private void chkAppend_CheckedChanged(object sender, EventArgs e)
         {
             txtAppendMessage.Enabled = rdoAppend.Enabled = rdoPrepend.Enabled =
-                udNewlineChars.Enabled = lblUse.Enabled = lblNewlineCharacters.Enabled = chkAppend.Checked;
+                udNewlineChars.Enabled = lblUse.Enabled = lblNewlineCharacters.Enabled = chkAppendMetaDataSort.Enabled = chkAppend.Checked;
         }
 
         private void wordWrapToolStripMenuItem1_Click(object sender, EventArgs e)
