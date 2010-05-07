@@ -858,7 +858,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches parameters within the {{article issues}} template using title case (invalid casing)
         /// </summary>
-        public static readonly Regex ArticleIssuesInTitleCase = new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\|\s*(?:[^{}]+?\|\s*)?)([A-Z])([a-z]+(?: [a-z]+)?\s*=)", RegexOptions.Compiled);
+        public static readonly Regex ArticleIssuesInTitleCase = new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\|\s*(?:[^{}]+?\|\s*)?)([A-Z])([a-z]+[ a-zA-Z]*\s*=)", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches the {{article issues}} template using the 'expert' parameter
