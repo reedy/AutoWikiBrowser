@@ -1881,8 +1881,9 @@ namespace AutoWikiBrowser
             this.chkAppendMetaDataSort.Enabled = false;
             this.chkAppendMetaDataSort.Size = new System.Drawing.Size(65, 17);
             this.chkAppendMetaDataSort.Text = "Sort meta data after";
-            this.ToolTip.SetToolTip(this.chkAppendMetaDataSort, "Perform a sort of the page meta data after the append/prepend action (mainspace only)");
+       //     this.ToolTip.SetToolTip(this.chkAppendMetaDataSort, "Perform a sort of the page meta data after the append/prepend action (mainspace only)");
             this.chkAppendMetaDataSort.UseVisualStyleBackColor = true;
+            this.lblNewlineCharacters.TabIndex = 7;
             // 
             // rdoAppend
             // 
