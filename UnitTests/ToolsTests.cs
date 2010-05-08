@@ -1062,6 +1062,8 @@ John", "*"));
             
             // handles invalid template names gracefully
             Assert.AreEqual(correct, Tools.RenameTemplate(correct, @"foo(", "bar"));
+            
+            Assert.AreEqual(@"{{bar}} {{foo}}", Tools.RenameTemplate(@"{{foo}} {{foo}}", "foo", "bar", 1), "count applied correctly");
         }
         
         [Test]

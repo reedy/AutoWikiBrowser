@@ -2221,6 +2221,19 @@ Message: {2}
             return NestedTemplateRegex(GetTemplateName(template)).Replace(template, "$1" + newtemplatename + "$3");
         }
         
+        /// <summary>
+        /// Renames the input template to the new name given
+        /// </summary>
+        /// <param name="articletext">the page text</param>
+        /// <param name="templatename">the template call</param>
+        /// <param name="newtemplatename">the new template name</param>
+        /// <param name="count">The number of templates to rename</param>
+        /// <returns></returns>
+        public static string RenameTemplate(string articletext, string templatename, string newtemplatename, int count)
+        {
+            return NestedTemplateRegex(templatename).Replace(articletext, "$1" + newtemplatename + "$3", count);
+        }
+        
         private static readonly string NestedTemplateRegexStart = @"({{\s*)(";
         private static readonly string NestedTemplateRegexEnd = @"(\s*(?:<!--[^>]*?-->\s*|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋\s*)?(\|((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))))?\}\})";
         
