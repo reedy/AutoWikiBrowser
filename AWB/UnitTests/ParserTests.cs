@@ -4573,6 +4573,17 @@ foo
 		    
 		    Assert.AreEqual(@"{{about|foo|bar}}", Parsers.Dablinks(OU));
 		}
+		
+		[Test]
+		public void DablinksMerging()
+		{
+		    string AboutBefore = @"{{about|Foo|a|b}}", forBefore = @"{{for|c|d}}", aboutAfter = @"{{about|Foo|a|b|c|d}}";
+		    
+		    Assert.AreEqual(aboutAfter, Parsers.Dablinks(AboutBefore + forBefore), "merges for into about");
+		    Assert.AreEqual(aboutAfter, Parsers.Dablinks(forBefore + AboutBefore), "merges for into about – for first");
+		    Assert.AreEqual(forBefore, Parsers.Dablinks(forBefore), "single for not changed");
+		    Assert.AreEqual(AboutBefore, Parsers.Dablinks(AboutBefore), "single about not changed");
+		}
 	}
 
 	[TestFixture]
