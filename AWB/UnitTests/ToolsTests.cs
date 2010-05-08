@@ -1344,6 +1344,7 @@ title={{abc|fdkjdsfjk=fdaskjlfds
             
             Assert.AreEqual(MultipleTemplates.Match(@"{{foo}}").Groups[2].Value, @"foo");
             Assert.AreEqual(MultipleTemplates.Match(@"{{ Foo}}").Groups[2].Value, @"Foo");
+            Assert.AreEqual(MultipleTemplates.Match(@"{{ Foo|bar}}").Groups[3].Value, @"|bar}}");
             
             Assert.IsTrue(MultipleTemplates.IsMatch(@"{{foo}}"));
             Assert.IsTrue(MultipleTemplates.IsMatch(@"{{Foo}}"));
