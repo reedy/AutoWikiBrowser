@@ -4557,13 +4557,21 @@ foo
 		}
 		
 		[Test]
-		public void Dablinks()
+		public void DablinksAboutAbout()
 		{
 		    const string AboutAbout = @"{{About|about a historical district in the foo|the modern district|Nurfoo District, Republic of Bar}}";
 		    Assert.AreEqual(AboutAbout.Replace("about ", ""), Parsers.Dablinks(AboutAbout), "removes about...about");
 		    Assert.AreEqual(AboutAbout.Replace("about ", ""), Parsers.Dablinks(AboutAbout.Replace("about ", "  About ")), "removes about...about, allows extra whitespace");
 		    
 		    Assert.AreEqual(AboutAbout.Replace("about ", ""), Parsers.Dablinks(AboutAbout.Replace("about ", " about")), "no change if already correct");
+		}
+		
+		[Test]
+		public void DablinksOtheruses4()
+		{
+		    string OU = @"{{Otheruses4|foo|bar}}";
+		    
+		    Assert.AreEqual(@"{{about|foo|bar}}", Parsers.Dablinks(OU));
 		}
 	}
 
