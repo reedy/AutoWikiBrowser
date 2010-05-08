@@ -4555,6 +4555,16 @@ foo
 			Assert.IsFalse(Parsers.HasBareReferences(@""));
 			Assert.IsFalse(Parsers.HasBareReferences(@"foo"));
 		}
+		
+		[Test]
+		public void Dablinks()
+		{
+		    const string AboutAbout = @"{{About|about a historical district in the foo|the modern district|Nurfoo District, Republic of Bar}}";
+		    Assert.AreEqual(AboutAbout.Replace("about ", ""), Parsers.Dablinks(AboutAbout), "removes about...about");
+		    Assert.AreEqual(AboutAbout.Replace("about ", ""), Parsers.Dablinks(AboutAbout.Replace("about ", "  About ")), "removes about...about, allows extra whitespace");
+		    
+		    Assert.AreEqual(AboutAbout.Replace("about ", ""), Parsers.Dablinks(AboutAbout.Replace("about ", " about")), "no change if already correct");
+		}
 	}
 
 	[TestFixture]
@@ -6054,8 +6064,6 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 			
 			Assert.AreEqual(@"{{multiple issues|wikify=May 2008|POV=May 2008|Expand=June 2008|Expand=June 2009}}", Parsers.Conversions(@"{{Article issues|wikify=May 2008|POV=May 2008|Expand=June 2008|Expand=June 2009}}"));
 		}
-
-
 
 		[Test]
 		public void CitationNeededRedirectTests()
