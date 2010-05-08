@@ -407,10 +407,20 @@ namespace WikiFunctions.Parse
                     articleText = articleText.Replace(m.Value, m.Groups[1].Value + m.Groups[2].Value + Regex.Replace(m.Groups[3].Value, @"^\|\s*[Aa]bout\s*", "|"));
             }
             
-            // merging
-            Regex ForAbout = Tools.NestedTemplateRegex(new List<string>(@"For,About".Split(',')));
-            
-
+            // merging: for into existing about
+            if(Tools.NestedTemplateRegex("about").Matches(articleText).Count == 1)
+            {
+                foreach(Match m in Tools.NestedTemplateRegex("for").Matches(articleText))
+                {
+                    string About = Tools.NestedTemplateRegex("about").Match(articleText).Value;
+                    
+                    // append {{for}} value to the {{about}}
+                    articleText = articleText.Replace(About, About.Replace(@"}}",  m.Groups[3].Value));
+                    
+                    // remove the old {{for}}
+                    articleText = articleText.Replace(m.Value, "");
+                }
+            }
             
             return articleText;
         }
