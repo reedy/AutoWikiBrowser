@@ -72,7 +72,7 @@ namespace WikiFunctions.Parse
 
             RegexTagger.Add(new Regex(@"\{\{\s*(?:template:)?\s*(?:wikify(?:-date)?|wfy|wiki)(\s*\|\s*section)?\s*\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Wikify$1|" + WikiRegexes.DateYearMonthParameter + @"}}");
             RegexTagger.Add(new Regex(@"\{\{(template:)?(Clean( ?up)?|CU|Tidy)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Cleanup|" + WikiRegexes.DateYearMonthParameter + @"}}");
-            RegexTagger.Add(new Regex(@"\{\{(template:)?(Linkless|Orphan)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Orphan|" + WikiRegexes.DateYearMonthParameter + @"}}");
+            RegexTagger.Add(new Regex(@"\{\{(template:)?(Orphan)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Orphan|" + WikiRegexes.DateYearMonthParameter + @"}}");
             RegexTagger.Add(new Regex(@"\{\{(template:)?(Uncategori[sz]ed|Uncat|Classify|Category needed|Catneeded|categori[zs]e|nocats?)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Uncategorized|" + WikiRegexes.DateYearMonthParameter + @"}}");
 
             RegexTagger.Add(new Regex(@"\{\{(template:)?(Unreferenced(sect)?|add references|cite[ -]sources?|cleanup-sources?|needs? references|no sources|no references?|not referenced|references|unref|unsourced)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Unreferenced|" + WikiRegexes.DateYearMonthParameter + @"}}");
