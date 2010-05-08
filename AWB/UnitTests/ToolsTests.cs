@@ -1064,6 +1064,8 @@ John", "*"));
             Assert.AreEqual(correct, Tools.RenameTemplate(correct, @"foo(", "bar"));
             
             Assert.AreEqual(@"{{bar}} {{foo}}", Tools.RenameTemplate(@"{{foo}} {{foo}}", "foo", "bar", 1), "count applied correctly");
+            
+            Assert.AreEqual(@"{{bar||here1}} {{foo|here2}}", Tools.RenameTemplate(@"{{foo|here1}} {{foo|here2}}", "foo", "bar|", 1), "rename to add pipe");
         }
         
         [Test]
