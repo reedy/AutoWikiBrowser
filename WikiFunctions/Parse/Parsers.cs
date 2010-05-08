@@ -383,6 +383,34 @@ namespace WikiFunctions.Parse
             // Parsers.Conversions will add any missing dates and correct ...|wikify date=May 2008|...
             return (zerothSection + restOfArticle);
         }
+        
+        /// <summary>
+        /// Performs some cleanup operations on dablinks
+        /// Merges some for & about dablinks
+        /// </summary>
+        /// <param name="articleText">The article text</param>
+        /// <returns>The updated article text</returns>
+        public static string Dablinks(string articleText)
+        {
+            if(Variables.LangCode != "en")
+                return articleText;
+            
+            // conversions
+            
+            // "{{about|about x..." --> "{{about|x..."
+            foreach(Match m in Tools.NestedTemplateRegex("about").Matches(articleText))
+            {
+                if(m.Groups[3].Value.TrimStart("| ".ToCharArray()).ToLower().StartsWith("about"))
+                    articleText = articleText.Replace(m.Value, m.Groups[1].Value + m.Groups[2].Value + Regex.Replace(m.Groups[3].Value, @"^\|\s*[Aa]bout\s*", "|"));
+            }
+            
+            // merging
+            Regex ForAbout = Tools.NestedTemplateRegex(new List<string>(@"For,About".Split(',')));
+            
+
+            
+            return articleText;
+        }
 
         // Covered by: FormattingTests.TestFixHeadings(), incomplete
         /// <summary>
@@ -4542,7 +4570,7 @@ namespace WikiFunctions.Parse
             if (Variables.IsWikipediaEN && WikiRegexes.Unreferenced.IsMatch(articleText) && articleText.Contains(@"[[Category:Living people"))
                 articleText = Tools.RenameTemplate(articleText, WikiRegexes.Unreferenced.Match(articleText).Groups[1].Value, "BLP unsourced");
 
-            return articleText;
+            return Dablinks(articleText);
         }
 
         private static readonly Regex TemplateParameter2 = new Regex(" \\{\\{\\{2\\|\\}\\}\\}", RegexOptions.Compiled);
