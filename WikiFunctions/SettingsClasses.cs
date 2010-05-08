@@ -344,7 +344,7 @@ namespace WikiFunctions.AWBSettings
         public bool AutoSaveSettings = false;
         public bool noSectionEditSummary = false;
         public bool restrictDefaultsortAddition = true;
-        public bool restrictOrphanTagging = false;
+        public bool restrictOrphanTagging = true;
         public bool noMOSComplianceFixes = false;
         public bool syntaxHighlightEditBox = false;
         public bool highlightAllFind = false;
