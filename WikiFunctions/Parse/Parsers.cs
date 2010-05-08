@@ -397,6 +397,9 @@ namespace WikiFunctions.Parse
             
             // conversions
             
+            // otheruses4 rename
+            articleText = Tools.RenameTemplate(articleText, "otheruses4", "about");
+            
             // "{{about|about x..." --> "{{about|x..."
             foreach(Match m in Tools.NestedTemplateRegex("about").Matches(articleText))
             {
