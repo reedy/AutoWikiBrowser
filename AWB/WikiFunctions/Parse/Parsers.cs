@@ -407,7 +407,13 @@ namespace WikiFunctions.Parse
                     articleText = articleText.Replace(m.Value, m.Groups[1].Value + m.Groups[2].Value + Regex.Replace(m.Groups[3].Value, @"^\|\s*[Aa]bout\s*", "|"));
             }
             
-            // merging: for into existing about
+            // merging
+            
+            // multiple for into about
+            if(Tools.NestedTemplateRegex("about").Matches(articleText).Count == 0 && Tools.NestedTemplateRegex("for").Matches(articleText).Count > 1)
+                articleText = Tools.RenameTemplate(articleText, "for", "about|", 1);
+            
+            // for into existing about
             if(Tools.NestedTemplateRegex("about").Matches(articleText).Count == 1)
             {
                 foreach(Match m in Tools.NestedTemplateRegex("for").Matches(articleText))
