@@ -1003,6 +1003,19 @@ John", "*"));
         }
         
         [Test]
+        public void GetTemplateArgument()
+        {
+            Assert.AreEqual("foo", Tools.GetTemplateArgument(@"{{abc|foo}}", 1));
+            Assert.AreEqual("foo", Tools.GetTemplateArgument(@"{{abc| foo}}", 1));
+            Assert.AreEqual("foo", Tools.GetTemplateArgument(@"{{abc |  foo  }}", 1));            
+            Assert.AreEqual("foo", Tools.GetTemplateArgument(@"{{abc |  foo  |bar}}", 1));
+            
+            Assert.AreEqual("bar", Tools.GetTemplateArgument(@"{{abc |  foo  |bar }}", 2));
+            Assert.AreEqual("", Tools.GetTemplateArgument(@"{{abc ||  foo  |bar }}", 1));
+            Assert.AreEqual("bar [[piped|link]]", Tools.GetTemplateArgument(@"{{abc |  foo  |bar [[piped|link]] }}", 2));
+        }
+        
+        [Test]
         public void RenameTemplateParameter()
         {
             Assert.AreEqual(@"{{cite |param1=bar|param3=great}}", Tools.RenameTemplateParameter(@"{{cite |param1=bar|param2=great}}", "param2", "param3"));

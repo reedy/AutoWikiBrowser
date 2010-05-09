@@ -2041,6 +2041,30 @@ Message: {2}
         }
         
         /// <summary>
+        /// Returns the requested argument from the input template
+        /// </summary>
+        /// <param name="template">The template call</param>
+        /// <param name="argument">The argument to return</param>
+        /// <returns>The argument value (trimmed)</returns>
+        public static string GetTemplateArgument(string template, int argument)
+        {
+             Regex arg = new Regex(@"\|\s*(.*?)\s*(?=\||}}$)", RegexOptions.Singleline);
+            
+            string pipecleanedtemplate = PipeCleanedTemplate(template);
+            int count = 1;
+            
+            foreach(Match m in arg.Matches(pipecleanedtemplate))
+            {
+                if(count.Equals(argument))
+                    return template.Substring(m.Groups[1].Index, m.Groups[1].Length);
+                
+                count++;
+            }
+            
+            return "";
+        }
+        
+        /// <summary>
         /// Renames the given template named parameter in the input template
         /// </summary>
         /// <param name="template">The template to update</param>
