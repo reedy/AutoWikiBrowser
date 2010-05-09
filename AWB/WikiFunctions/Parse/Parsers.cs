@@ -409,6 +409,27 @@ namespace WikiFunctions.Parse
             
             // merging
             
+            // multiple same about into one
+            bool doneAboutMerge = false;
+            foreach(Match m in Tools.NestedTemplateRegex("about").Matches(articleText))
+            {
+                string firstarg = Tools.GetTemplateArgument(m.Value, 1);
+                
+                foreach(Match m2 in Tools.NestedTemplateRegex("about").Matches(articleText))
+                {
+                    if(m2.Value != m.Value && Tools.GetTemplateArgument(m2.Value, 1).Equals(firstarg))
+                    {
+                        articleText = articleText.Replace(m.Value, m.Value.TrimEnd('}') + @"|" + Tools.GetTemplateArgument(m2.Value, 2) + @"|" + Tools.GetTemplateArgument(m2.Value, 3) + @"}}");
+                        articleText = articleText.Replace(m2.Value, "");
+                        doneAboutMerge = true;
+                    }
+                    if(doneAboutMerge)
+                        break;
+                }
+                if(doneAboutMerge)
+                    break;
+            }
+            
             // multiple for into about
             if(Tools.NestedTemplateRegex("about").Matches(articleText).Count == 0 && Tools.NestedTemplateRegex("for").Matches(articleText).Count > 1)
                 articleText = Tools.RenameTemplate(articleText, "for", "about|", 1);
@@ -427,6 +448,8 @@ namespace WikiFunctions.Parse
                     articleText = articleText.Replace(m.Value, "");
                 }
             }
+            
+
             
             return articleText;
         }
