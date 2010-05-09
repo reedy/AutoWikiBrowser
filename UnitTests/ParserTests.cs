@@ -4587,6 +4587,11 @@ foo
 		    const string for1 = @"{{for|a|b}}", about1 = @"{{about||a|b|c|d}}";
 		    
 		    Assert.AreEqual(about1, Parsers.Dablinks(for1 + forBefore));
+		    
+		    
+		    const string singleAbout = @"{{about|foo}}";
+		    
+		    Assert.AreEqual(singleAbout + forBefore, Parsers.Dablinks(singleAbout + forBefore), "no merge if {{about}} has <3 arguments");
 		}
 		
 		[Test]

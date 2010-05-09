@@ -434,8 +434,9 @@ namespace WikiFunctions.Parse
             if(Tools.NestedTemplateRegex("about").Matches(articleText).Count == 0 && Tools.NestedTemplateRegex("for").Matches(articleText).Count > 1)
                 articleText = Tools.RenameTemplate(articleText, "for", "about|", 1);
             
-            // for into existing about
-            if(Tools.NestedTemplateRegex("about").Matches(articleText).Count == 1)
+            // for into existing about, when about has >=3 arguments
+            if(Tools.NestedTemplateRegex("about").Matches(articleText).Count == 1 && 
+               Tools.GetTemplateArgument(Tools.NestedTemplateRegex("about").Match(articleText).Value, 3).Length > 0)
             {
                 foreach(Match m in Tools.NestedTemplateRegex("for").Matches(articleText))
                 {
