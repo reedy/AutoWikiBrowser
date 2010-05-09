@@ -4575,7 +4575,7 @@ foo
 		}
 		
 		[Test]
-		public void DablinksMerging()
+		public void DablinksMergingFor()
 		{
 		    const string AboutBefore = @"{{about|Foo|a|b}}", forBefore = @"{{for|c|d}}", aboutAfter = @"{{about|Foo|a|b|c|d}}";
 		    
@@ -4587,6 +4587,22 @@ foo
 		    const string for1 = @"{{for|a|b}}", about1 = @"{{about||a|b|c|d}}";
 		    
 		    Assert.AreEqual(about1, Parsers.Dablinks(for1 + forBefore));
+		}
+		
+		[Test]
+		public void DablinksMergingAbout()
+		{
+		    const string AboutAfter = @"{{about||a|b|c|d}}", a1 = @"{{about||a|b}}", a2 = @"{{about||c|d}}";
+		    
+		    Assert.AreEqual(AboutAfter, Parsers.Dablinks(a1 + a2), "merges abouts with same reason: null reason");		    
+		    Assert.AreEqual(AboutAfter, Parsers.Dablinks(AboutAfter), "no change if already correct");
+		    
+		    const string AboutAfterFoo = @"{{about|Foo|a|b|c|d}}", a1Foo = @"{{about|Foo|a|b}}", a2Foo = @"{{about|Foo|c|d}}";
+		    
+		    Assert.AreEqual(AboutAfterFoo, Parsers.Dablinks(a1Foo + a2Foo), "merges abouts with same reason: reason given");		    
+		    Assert.AreEqual(AboutAfterFoo, Parsers.Dablinks(AboutAfterFoo), "no change if already correct");
+		    
+		    Assert.AreEqual(a1 + a2Foo, Parsers.Dablinks(a1 + a2Foo), "not merged when reason different");
 		}
 	}
 
