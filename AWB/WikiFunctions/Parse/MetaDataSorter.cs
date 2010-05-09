@@ -543,13 +543,13 @@ en, sq, ru
             foreach (Match m in WikiRegexes.Dablinks.Matches(zerothSection))
             {
                 strDablinks = strDablinks + m.Value + "\r\n";
+                
+                if(zerothSection.Contains(m.Value + "\r\n"))
+                    zerothSection = zerothSection.Replace(m.Value + "\r\n", "");
                 zerothSection = zerothSection.Replace(m.Value, "");
             }
 
-            articleText = strDablinks + zerothSection + restOfArticle;
-            
-            // may now have two newlines between dablinks and rest of article, so cut down to one
-            return articleText.Replace(strDablinks + "\r\n", strDablinks);
+            return(strDablinks + zerothSection + restOfArticle);
         }
 
         /// <summary>
