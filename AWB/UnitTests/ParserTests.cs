@@ -4579,7 +4579,7 @@ foo
 		{
 		    const string AboutBefore = @"{{about|Foo|a|b}}", forBefore = @"{{for|c|d}}", aboutAfter = @"{{about|Foo|a|b|c|d}}";
 		    
-		    Assert.AreEqual(aboutAfter, Parsers.Dablinks(AboutBefore + forBefore), "merges for into about");
+		    Assert.AreEqual(aboutAfter, Parsers.Dablinks(AboutBefore + forBefore), "merges for into about (3 args)");
 		    Assert.AreEqual(aboutAfter, Parsers.Dablinks(forBefore + AboutBefore), "merges for into about – for first");
 		    Assert.AreEqual(forBefore, Parsers.Dablinks(forBefore), "single for not changed");
 		    Assert.AreEqual(AboutBefore, Parsers.Dablinks(AboutBefore), "single about not changed");
@@ -4591,7 +4591,13 @@ foo
 		    
 		    const string singleAbout = @"{{about|foo}}";
 		    
-		    Assert.AreEqual(singleAbout + forBefore, Parsers.Dablinks(singleAbout + forBefore), "no merge if {{about}} has <3 arguments");
+		    Assert.AreEqual(singleAbout + forBefore, Parsers.Dablinks(singleAbout + forBefore), "no merge if {{about}} has <2 arguments");
+		    
+		    const string About2Before = @"{{about|foo|a}}";
+		    
+		    Assert.AreEqual(@"{{about|foo|a||c|d}}", Parsers.Dablinks(About2Before + forBefore), "merges for into about (2 args)");
+		    
+		    Assert.AreEqual(@"{{about|foo|a||c|d|e|f}}", Parsers.Dablinks(About2Before + forBefore + @"{{for|e|f}}"), "two for merges");
 		}
 		
 		[Test]

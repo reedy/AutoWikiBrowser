@@ -434,29 +434,27 @@ namespace WikiFunctions.Parse
             if(Tools.NestedTemplateRegex("about").Matches(articleText).Count == 0 && Tools.NestedTemplateRegex("for").Matches(articleText).Count > 1)
                 articleText = Tools.RenameTemplate(articleText, "for", "about|", 1);
             
-            // for into existing about, when about has >=3 arguments
+            // for into existing about, when about has >=2 arguments
             if(Tools.NestedTemplateRegex("about").Matches(articleText).Count == 1 &&
-               Tools.GetTemplateArgument(Tools.NestedTemplateRegex("about").Match(articleText).Value, 3).Length > 0)
+               Tools.GetTemplateArgument(Tools.NestedTemplateRegex("about").Match(articleText).Value, 2).Length > 0)
             {
                 foreach(Match m in Tools.NestedTemplateRegex("for").Matches(articleText))
                 {
                     string About = Tools.NestedTemplateRegex("about").Match(articleText).Value;
+                    string extra = "";
+                    
+                    // where about has 2 arguments need extra pipe
+                    if(Tools.GetTemplateArgument(Tools.NestedTemplateRegex("about").Match(articleText).Value, 3).Length == 0
+                      && Tools.GetTemplateArgument(Tools.NestedTemplateRegex("about").Match(articleText).Value, 4).Length == 0)
+                        extra = @"|";
                     
                     // append {{for}} value to the {{about}}
-                    articleText = articleText.Replace(About, About.TrimEnd('}') +  m.Groups[3].Value);
+                    articleText = articleText.Replace(About, About.TrimEnd('}') +  extra + m.Groups[3].Value);
                     
                     // remove the old {{for}}
                     articleText = articleText.Replace(m.Value, "");
                 }
             }
-            
-            // for into existing about, where about has 2 arguments
-     /*             if(Tools.NestedTemplateRegex("about").Matches(articleText).Count == 1 &&
-               Tools.GetTemplateArgument(Tools.NestedTemplateRegex("about").Match(articleText).Value, 2).Length > 0
-              && Tools.GetTemplateArgument(Tools.NestedTemplateRegex("about").Match(articleText).Value, 3).Length == 0)
-            {
-                
-            } */
             
             return articleText;
         }
