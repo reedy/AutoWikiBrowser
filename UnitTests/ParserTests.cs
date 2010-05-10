@@ -4623,6 +4623,10 @@ foo
 {{About||the British comedy|The League of Gentlemen}}", m1a = @"{{About||the film adaptation|The League of Extraordinary Gentlemen (film)|a list of the characters and their origins|Characters in The League of Extraordinary Gentlemen|the British comedy|The League of Gentlemen}}";
 		    
 		    Assert.AreEqual(m1a + "\r\n\r\n", Parsers.Dablinks(m1));
+		    
+		    string zerosec = @"{{about|foo||a}}{{about|foo||b}}";
+		    
+		    Assert.AreEqual(@"{{about|foo||a|and|b}}", Parsers.Dablinks(zerosec));
 		}
 	}
 

@@ -424,9 +424,20 @@ namespace WikiFunctions.Parse
                     {
                         if(m2.Value != m.Value && Tools.GetTemplateArgument(m2.Value, 1).Equals(firstarg))
                         {
-                            articleText = articleText.Replace(m.Value, m.Value.TrimEnd('}') + @"|" + Tools.GetTemplateArgument(m2.Value, 2) + @"|" + Tools.GetTemplateArgument(m2.Value, 3) + @"}}");
-                            articleText = articleText.Replace(m2.Value, "");
-                            doneAboutMerge = true;
+                            if(Tools.GetTemplateArgument(m.Value, 2).Length > 0 && Tools.GetTemplateArgument(m2.Value, 2).Length > 0)
+                            {
+                                articleText = articleText.Replace(m.Value, m.Value.TrimEnd('}') + @"|" + Tools.GetTemplateArgument(m2.Value, 2) + @"|" + Tools.GetTemplateArgument(m2.Value, 3) + @"}}");
+                                articleText = articleText.Replace(m2.Value, "");
+                                doneAboutMerge = true;
+                            }
+                            
+                            if(Tools.GetTemplateArgument(m.Value, 2).Length == 0 && Tools.GetTemplateArgument(m2.Value, 2).Length == 0)
+                            {
+                                articleText = articleText.Replace(m.Value, m.Value.TrimEnd('}') + @"|and|" + Tools.GetTemplateArgument(m2.Value, 3) + @"}}");
+                                articleText = articleText.Replace(m2.Value, "");
+                                doneAboutMerge = true;
+                            }
+                            
                         }
                         if(doneAboutMerge)
                             break;
