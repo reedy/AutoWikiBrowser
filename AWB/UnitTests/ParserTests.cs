@@ -4616,7 +4616,8 @@ foo
 		    Assert.AreEqual(AboutAfterFoo, Parsers.Dablinks(a1Foo + a2Foo), "merges abouts with same reason: reason given");		    
 		    Assert.AreEqual(AboutAfterFoo, Parsers.Dablinks(AboutAfterFoo), "no change if already correct");
 		    
-		    Assert.AreEqual(a1 + a2Foo, Parsers.Dablinks(a1 + a2Foo), "not merged when reason different");
+		    string a2Bar = @"{{about|Bar|c|d}}";
+		    Assert.AreEqual(a2Bar + a2Foo, Parsers.Dablinks(a2Bar + a2Foo), "not merged when reason different");
 		    
 		    const string m1 = @"{{About||the film adaptation|The League of Extraordinary Gentlemen (film)}}
 {{About||a list of the characters and their origins|Characters in The League of Extraordinary Gentlemen}}
@@ -4627,6 +4628,8 @@ foo
 		    string zerosec = @"{{about|foo||a}}{{about|foo||b}}";
 		    
 		    Assert.AreEqual(@"{{about|foo||a|and|b}}", Parsers.Dablinks(zerosec));
+		    
+		    Assert.AreEqual(@"{{about|Foo|a|b|c|d}}", Parsers.Dablinks(a1Foo + a2));
 		}
 	}
 

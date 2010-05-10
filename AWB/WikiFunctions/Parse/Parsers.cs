@@ -422,17 +422,33 @@ namespace WikiFunctions.Parse
                     
                     foreach(Match m2 in Tools.NestedTemplateRegex("about").Matches(articleText))
                     {
-                        if(m2.Value != m.Value && Tools.GetTemplateArgument(m2.Value, 1).Equals(firstarg))
+                        if(m2.Value == m.Value)
+                            continue;
+                        
+                        // match when reason is the same, not matching on self
+                        if(Tools.GetTemplateArgument(m2.Value, 1).Equals(firstarg))
                         {
+                            // argument 2 length > 0
                             if(Tools.GetTemplateArgument(m.Value, 2).Length > 0 && Tools.GetTemplateArgument(m2.Value, 2).Length > 0)
                             {
                                 articleText = articleText.Replace(m.Value, m.Value.TrimEnd('}') + @"|" + Tools.GetTemplateArgument(m2.Value, 2) + @"|" + Tools.GetTemplateArgument(m2.Value, 3) + @"}}");
                                 doneAboutMerge = true;
                             }
                             
+                            // argument 2 is null
                             if(Tools.GetTemplateArgument(m.Value, 2).Length == 0 && Tools.GetTemplateArgument(m2.Value, 2).Length == 0)
                             {
                                 articleText = articleText.Replace(m.Value, m.Value.TrimEnd('}') + @"|and|" + Tools.GetTemplateArgument(m2.Value, 3) + @"}}");
+                                doneAboutMerge = true;
+                            }
+                        }
+                        // match when reason of one is null, the other not
+                        else if(Tools.GetTemplateArgument(m2.Value, 1).Length == 0)
+                        {
+                            // argument 2 length > 0
+                            if(Tools.GetTemplateArgument(m.Value, 2).Length > 0 && Tools.GetTemplateArgument(m2.Value, 2).Length > 0)
+                            {
+                                articleText = articleText.Replace(m.Value, m.Value.TrimEnd('}') + @"|" + Tools.GetTemplateArgument(m2.Value, 2) + @"|" + Tools.GetTemplateArgument(m2.Value, 3) + @"}}");
                                 doneAboutMerge = true;
                             }
                         }
