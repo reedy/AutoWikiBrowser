@@ -131,6 +131,10 @@ namespace UnitTests
 			Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name=foo bar>and"));
 			Assert.AreEqual(@"now <ref name=""foo bar"" /> and", Parsers.FixReferenceTags(@"now <ref name=foo bar /> and"));
 			Assert.AreEqual(@"now <ref name = ""foo bar"" >and", Parsers.FixReferenceTags(@"now <ref name = foo bar >and"));
+			
+			const string nochange = @"<ref name=VulgarisAerae1
+/>";
+			Assert.AreEqual(nochange, Parsers.FixReferenceTags(nochange));
 
 			// <ref name=foo bar"> --> <ref name="foo bar">
 			Assert.AreEqual(@"now <ref name=""foo bar"">and", Parsers.FixReferenceTags(@"now <ref name=foo bar"">and"));
