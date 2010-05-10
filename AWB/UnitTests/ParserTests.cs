@@ -4608,12 +4608,21 @@ foo
 		    Assert.AreEqual(AboutAfter, Parsers.Dablinks(a1 + a2), "merges abouts with same reason: null reason");		    
 		    Assert.AreEqual(AboutAfter, Parsers.Dablinks(AboutAfter), "no change if already correct");
 		    
+		    string co = @"<!--" + a1 + a2 + @"-->";
+		    Assert.AreEqual(co, Parsers.Dablinks(co), "no change to commented out tags");	
+		    
 		    const string AboutAfterFoo = @"{{about|Foo|a|b|c|d}}", a1Foo = @"{{about|Foo|a|b}}", a2Foo = @"{{about|Foo|c|d}}";
 		    
 		    Assert.AreEqual(AboutAfterFoo, Parsers.Dablinks(a1Foo + a2Foo), "merges abouts with same reason: reason given");		    
 		    Assert.AreEqual(AboutAfterFoo, Parsers.Dablinks(AboutAfterFoo), "no change if already correct");
 		    
 		    Assert.AreEqual(a1 + a2Foo, Parsers.Dablinks(a1 + a2Foo), "not merged when reason different");
+		    
+		    const string m1 = @"{{About||the film adaptation|The League of Extraordinary Gentlemen (film)}}
+{{About||a list of the characters and their origins|Characters in The League of Extraordinary Gentlemen}}
+{{About||the British comedy|The League of Gentlemen}}", m1a = @"{{About||the film adaptation|The League of Extraordinary Gentlemen (film)|a list of the characters and their origins|Characters in The League of Extraordinary Gentlemen|the British comedy|The League of Gentlemen}}";
+		    
+		    Assert.AreEqual(m1a + "\r\n\r\n", Parsers.Dablinks(m1));
 		}
 	}
 

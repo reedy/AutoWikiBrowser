@@ -395,6 +395,9 @@ namespace WikiFunctions.Parse
             if(Variables.LangCode != "en")
                 return articleText;
             
+            HideText Hider3 = new HideText(true, true, true);
+            articleText = Hider3.Hide(articleText);
+            
             // conversions
             
             // otheruses4 rename
@@ -409,25 +412,28 @@ namespace WikiFunctions.Parse
             
             // merging
             
-            // multiple same about into one
-            bool doneAboutMerge = false;
-            foreach(Match m in Tools.NestedTemplateRegex("about").Matches(articleText))
+            // multiple same about into one            
+            for(int a = 0; a < 3; a++)
             {
-                string firstarg = Tools.GetTemplateArgument(m.Value, 1);
-                
-                foreach(Match m2 in Tools.NestedTemplateRegex("about").Matches(articleText))
+                bool doneAboutMerge = false;
+                foreach(Match m in Tools.NestedTemplateRegex("about").Matches(articleText))
                 {
-                    if(m2.Value != m.Value && Tools.GetTemplateArgument(m2.Value, 1).Equals(firstarg))
+                    string firstarg = Tools.GetTemplateArgument(m.Value, 1);
+                    
+                    foreach(Match m2 in Tools.NestedTemplateRegex("about").Matches(articleText))
                     {
-                        articleText = articleText.Replace(m.Value, m.Value.TrimEnd('}') + @"|" + Tools.GetTemplateArgument(m2.Value, 2) + @"|" + Tools.GetTemplateArgument(m2.Value, 3) + @"}}");
-                        articleText = articleText.Replace(m2.Value, "");
-                        doneAboutMerge = true;
+                        if(m2.Value != m.Value && Tools.GetTemplateArgument(m2.Value, 1).Equals(firstarg))
+                        {
+                            articleText = articleText.Replace(m.Value, m.Value.TrimEnd('}') + @"|" + Tools.GetTemplateArgument(m2.Value, 2) + @"|" + Tools.GetTemplateArgument(m2.Value, 3) + @"}}");
+                            articleText = articleText.Replace(m2.Value, "");
+                            doneAboutMerge = true;
+                        }
+                        if(doneAboutMerge)
+                            break;
                     }
                     if(doneAboutMerge)
                         break;
                 }
-                if(doneAboutMerge)
-                    break;
             }
             
             // multiple for into about
@@ -456,7 +462,7 @@ namespace WikiFunctions.Parse
                 }
             }
             
-            return articleText;
+            return(Hider3.AddBack(articleText));
         }
 
         // Covered by: FormattingTests.TestFixHeadings(), incomplete
