@@ -396,7 +396,10 @@ namespace WikiFunctions.Parse
                 return articleText;
             
             HideText Hider3 = new HideText(true, true, true);
-            articleText = Hider3.Hide(articleText);
+            
+            string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
+            string restOfArticle = (zerothSection.Length > 0) ? articleText.Replace(zerothSection, "") : "";
+            articleText = Hider3.Hide(zerothSection);
             
             // conversions
             
@@ -490,7 +493,7 @@ namespace WikiFunctions.Parse
                 }
             }
             
-            return(Hider3.AddBack(articleText));
+            return(Hider3.AddBack(articleText) + restOfArticle);
         }
 
         // Covered by: FormattingTests.TestFixHeadings(), incomplete
