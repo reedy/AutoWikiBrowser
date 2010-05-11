@@ -68,7 +68,7 @@ namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
         }
 
         public override string DisplayText
-        { get { return base.DisplayText + " (all NS) (NL, Admin & Bot)"; } }
+        { get { return base.DisplayText + " (NL, Admin & Bot)"; } }
 
         public string Name
         { get { return "WhatTranscludesPageAllNSNoLimitsForAdminAndBotsPagePlugin"; } }
