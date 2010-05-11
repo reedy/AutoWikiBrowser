@@ -248,6 +248,13 @@ namespace WikiFunctions
 
             Tools.OpenURLInBrowser(url);
         }
+
+        public void OpenPageInBrowserNoEncode(string title)
+        {
+            string url = ArticleUrl.Replace("$1", title);
+
+            Tools.OpenURLInBrowser(url);
+        }
         #endregion
 
         #region IXmlSerializable Members
