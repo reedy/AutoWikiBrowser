@@ -110,6 +110,7 @@ namespace WikiFunctions.Controls.Lists
                 DefaultProviders.Add(new WikiTitleSearchListProvider());
                 DefaultProviders.Add(RandomPagesLProvider);
                 DefaultProviders.Add(RedirectLProvider);
+                DefaultProviders.Add(new RedirectsAllNSListProvider());
                 DefaultProviders.Add(NewPagesLProvider);
             }
         }
