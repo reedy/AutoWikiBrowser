@@ -433,6 +433,23 @@ namespace WikiFunctions.Lists.Providers
     }
 
     /// <summary>
+    /// Gets a list of pages which redirect to the Named Pages (in all NS's)
+    /// </summary>
+    public class RedirectsAllNSListProvider : WhatLinksHereAllNSListProvider
+    {
+        public RedirectsAllNSListProvider()
+        {
+            Blfilterredir = "redirects";
+        }
+
+        public override string DisplayText
+        { get { return "What redirects here (all NS)"; } }
+
+        public override string UserInputTextBoxText
+        { get { return "Redirects to"; } }
+    }
+
+    /// <summary>
     /// Gets a list of pages which transclude the Named Pages
     /// </summary>
     public class WhatTranscludesPageListProvider : ApiListProviderBase, ISpecialPageProvider
