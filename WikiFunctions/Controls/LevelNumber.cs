@@ -1,12 +1,11 @@
 ﻿using System.Windows.Forms;
-using WikiFunctions.Lists;
 using WikiFunctions.Lists.Providers;
 
 namespace WikiFunctions.Controls
 {
     public partial class LevelNumber : Form
     {
-        public LevelNumber(bool edits)
+        public LevelNumber(bool edits, int max)
         {
             InitializeComponent();
 
@@ -14,7 +13,7 @@ namespace WikiFunctions.Controls
             {
                 label1.Text = "Enter number of user contribs:";
                 numLevels.Minimum = 1;
-                numLevels.Maximum = 25000;
+                numLevels.Maximum = max;
             }
             else
                 numLevels.Maximum = CategoryRecursiveListProvider.MaxDepth;

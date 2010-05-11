@@ -1873,9 +1873,9 @@ Message: {2}
         /// 
         /// </summary>
         /// <returns></returns>
-        public static int GetNumberFromUser(bool edits)
+        public static int GetNumberFromUser(bool edits, int max)
         {
-            using (Controls.LevelNumber num = new Controls.LevelNumber(edits))
+            using (Controls.LevelNumber num = new Controls.LevelNumber(edits, max))
             {
                 if (num.ShowDialog() != DialogResult.OK) return -1;
                 return num.Levels;
