@@ -756,6 +756,7 @@ Jones 2005</ref>"));
 		public void FixDates()
 		{
 			Assert.AreEqual("the later 1990s", parser.FixDates("the later 1990's"));
+			Assert.AreEqual("the later 1990s", parser.FixDates("the later 1990’s"));
 
 			// http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Title_bolding
 			Assert.AreEqual("the later A1990's", parser.FixDates("the later A1990's"));

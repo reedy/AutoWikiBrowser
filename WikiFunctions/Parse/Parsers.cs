@@ -246,7 +246,7 @@ namespace WikiFunctions.Parse
             return (Variables.Project <= ProjectEnum.species) ? Sorter.Sort(articleText, articleTitle, fixOptionalWhitespace) : articleText;
         }
 
-        private static readonly Regex ApostropheInDecades = new Regex(@"(?<=(?:the |later? |early |mid-|[12]\d\d0'?s and )(?:\[?\[?[12]\d\d0\]?\]?))'s(?=\]\])?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex ApostropheInDecades = new Regex(@"(?<=(?:the |later? |early |mid-|[12]\d\d0'?s and )(?:\[?\[?[12]\d\d0\]?\]?))['’]s(?=\]\])?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex RegexHeadings0 = new Regex("(== ?)(see also:?|related topics:?|related articles:?|internal links:?|also see:?)( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex RegexHeadings1 = new Regex("(== ?)(external link[s]?|external site[s]?|outside link[s]?|web ?link[s]?|exterior link[s]?):?( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         //private readonly Regex regexHeadings2 = new Regex("(== ?)(external link:?|external site:?|web ?link:?|exterior link:?)( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
