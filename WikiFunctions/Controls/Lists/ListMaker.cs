@@ -857,9 +857,7 @@ namespace WikiFunctions.Controls.Lists
         private void DisabledListProvider(FeatureDisabledException fde)
         {
             MessageBox.Show(
-                "Unable to generate lists using " + _providerToRun.DisplayText +
-                ". Removing from the list of providers during this session", fde.ApiErrorMessage);
-            _listProviders.Remove(_providerToRun);
+                "Unable to generate lists using " + _providerToRun.DisplayText, fde.ApiErrorMessage);
         }
 
         private void UserLoggedOff()
