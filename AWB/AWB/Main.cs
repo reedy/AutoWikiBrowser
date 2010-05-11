@@ -3346,22 +3346,22 @@ window.scrollTo(0, diffTopY);
 
         private void openPageInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Tools.OpenURLInBrowser(Variables.URLIndex + "?title=" + TheArticle.URLEncodedName);
+            TheSession.Site.OpenPageInBrowser(TheArticle.Name);
         }
 
         private void openTalkPageInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Tools.OpenURLInBrowser(Variables.URLIndex + "?title=" + Tools.ConvertToTalk(TheArticle));
+            TheSession.Site.OpenPageInBrowser(Tools.ConvertToTalk(TheArticle));
         }
 
         private void openHistoryMenuItem_Click(object sender, EventArgs e)
         {
-            Tools.OpenURLInBrowser(Variables.URLIndex + "?title=" + TheArticle.URLEncodedName + "&action=history");
+            TheSession.Site.OpenPageInBrowserNoEncode(TheArticle.URLEncodedName + "?action=history");
         }
 
         private void openSelectionInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Tools.OpenURLInBrowser(Variables.URLIndex + "?title=" + txtEdit.SelectedText);
+            TheSession.Site.OpenPageInBrowser(txtEdit.SelectedText);
         }
 
         private void chkGeneralParse_CheckedChanged(object sender, EventArgs e)
