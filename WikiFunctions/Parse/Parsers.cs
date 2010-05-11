@@ -2226,8 +2226,16 @@ namespace WikiFunctions.Parse
         
         private static List<string> DateFields = new List<string>(@"date,accessdate,archivedate,airdate".Split(','));
         
+        /// <summary>
+        /// Updates dates in citation templates to use the strict predominant date format in the article (en wiki only)
+        /// </summary>
+        /// <param name="articleText">The article text</param>
+        /// <returns>The updated article text</returns>
         public static string PredominantDates(string articleText)
         {
+            if(Variables.LangCode != "en")
+                return articleText;
+            
             DateLocale predominantLocale = DeterminePredominantDateLocale(articleText, true, true);
             
             if(predominantLocale.Equals(DateLocale.Undetermined))
@@ -2574,7 +2582,7 @@ namespace WikiFunctions.Parse
             // first check for template telling us the preference
             string DatesT = WikiRegexes.UseDatesTemplate.Match(articleText).Groups[1].Value;
 
-            if (DatesT.Length > 0)
+            if (Variables.LangCode == "en" && DatesT.Length > 0)
             {
                 switch (DatesT)
                 {
