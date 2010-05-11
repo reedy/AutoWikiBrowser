@@ -395,11 +395,9 @@ namespace WikiFunctions.Parse
             if(Variables.LangCode != "en")
                 return articleText;
             
-            HideText Hider3 = new HideText(true, true, true);
-            
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
             string restOfArticle = (zerothSection.Length > 0) ? articleText.Replace(zerothSection, "") : "";
-            articleText = Hider3.Hide(zerothSection);
+            articleText = zerothSection;
             
             // conversions
             
@@ -505,7 +503,7 @@ namespace WikiFunctions.Parse
                 }
             }
             
-            return(Hider3.AddBack(articleText) + restOfArticle);
+            return(articleText + restOfArticle);
         }
 
         // Covered by: FormattingTests.TestFixHeadings(), incomplete

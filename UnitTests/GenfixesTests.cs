@@ -67,6 +67,13 @@ namespace UnitTests
 
             AssertChange("[[http://some_link]] testing", "[http://some_link] testing");
         }
+        
+        [Test]
+        public void DablinksHTMLComments()
+        {
+            const string a1 = @"{{about||a|b}}", a2 = @"{{about||c|d}}";
+            AssertNotChanged(@"<!--" + a1 + a2 + @"-->"); // no change to commented out tags
+        }
 
         [Test]
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Incorrect_Underscore_removal_in_URL.27s_in_wikilinks

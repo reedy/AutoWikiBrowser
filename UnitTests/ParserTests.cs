@@ -4620,9 +4620,6 @@ foo
 		    Assert.AreEqual(AboutAfter, Parsers.Dablinks(a1 + a2), "merges abouts with same reason: null reason");		    
 		    Assert.AreEqual(AboutAfter, Parsers.Dablinks(AboutAfter), "no change if already correct");
 		    
-		    string co = @"<!--" + a1 + a2 + @"-->";
-		    Assert.AreEqual(co, Parsers.Dablinks(co), "no change to commented out tags");	
-		    
 		    const string AboutAfterFoo = @"{{about|Foo|a|b|c|d}}", a1Foo = @"{{about|Foo|a|b}}", a2Foo = @"{{about|Foo|c|d}}";
 		    
 		    Assert.AreEqual(AboutAfterFoo, Parsers.Dablinks(a1Foo + a2Foo), "merges abouts with same reason: reason given");		    
