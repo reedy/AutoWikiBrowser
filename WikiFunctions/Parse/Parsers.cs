@@ -467,9 +467,18 @@ namespace WikiFunctions.Parse
                 }
             }
             
-            // multiple for into about
+            // multiple for into about: rename a 2-argument for into an about with no reason value
             if(Tools.NestedTemplateRegex("about").Matches(articleText).Count == 0 && Tools.NestedTemplateRegex("for").Matches(articleText).Count > 1)
-                articleText = Tools.RenameTemplate(articleText, "for", "about|", 1);
+            {
+                foreach(Match m in Tools.NestedTemplateRegex("for").Matches(articleText))
+                {
+                    if(Tools.GetTemplateArgument(m.Value, 3).Length == 0)
+                    {
+                        articleText = articleText.Replace(m.Value, Tools.RenameTemplate(m.Value, "about|"));
+                        break;
+                    }
+                }
+            }                
             
             // for into existing about, when about has >=2 arguments
             if(Tools.NestedTemplateRegex("about").Matches(articleText).Count == 1 &&
@@ -486,7 +495,10 @@ namespace WikiFunctions.Parse
                         extra = @"|";
                     
                     // append {{for}} value to the {{about}}
+                    if(Tools.GetTemplateArgument(m.Value, 3).Length == 0)
                     articleText = articleText.Replace(About, About.TrimEnd('}') +  extra + m.Groups[3].Value);
+                    else // where for has 3 arguments need extra and
+                        articleText = articleText.Replace(About, About.TrimEnd('}') +  extra + m.Groups[3].Value.Insert(m.Groups[3].Value.LastIndexOf('|')+1, "and|"));
                     
                     // remove the old {{for}}
                     articleText = articleText.Replace(m.Value, "");

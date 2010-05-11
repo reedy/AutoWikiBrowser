@@ -4605,6 +4605,11 @@ foo
 		    Assert.AreEqual(@"{{about|foo|a||c|d|e|f}}", Parsers.Dablinks(About2Before + forBefore + @"{{for|e|f}}"), "two for merges");
 		    
 		    Assert.AreEqual(for1 + @"==foo==" + forBefore, Parsers.Dablinks(for1 + @"==foo==" + forBefore), "only merges dablinks in zeroth section");
+		    
+		    const string For3 = @"{{for|c|d|e}}";
+		    
+		    Assert.AreEqual(@"{{about||a|b|c|d|and|e}}", Parsers.Dablinks(for1 + For3));
+		    Assert.AreEqual(@"{{about||a|b|c|d|and|e}}", Parsers.Dablinks(For3 + for1));
 		}
 		
 		[Test]
