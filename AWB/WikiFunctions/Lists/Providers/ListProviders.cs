@@ -125,7 +125,7 @@ namespace WikiFunctions.Lists.Providers
 
         public override List<Article> MakeList(params string[] searchCriteria)
         {
-            int userDepth = Tools.GetNumberFromUser(false);
+            int userDepth = Tools.GetNumberFromUser(false, 1000);
             if (userDepth < 0)
                 return new List<Article>();
 
@@ -818,9 +818,15 @@ namespace WikiFunctions.Lists.Providers
     /// </summary>
     public class UserContribUserDefinedNumberListProvider : UserContribsListProvider
     {
+        public UserContribUserDefinedNumberListProvider()
+        {
+            UpperLimit = 25000;
+        }
+
+        protected int UpperLimit;
         public override List<Article> MakeList(params string[] searchCriteria)
         {
-            Limit = Tools.GetNumberFromUser(true);
+            Limit = Tools.GetNumberFromUser(true, UpperLimit);
             if (Limit < 500)
                 uclimit = Limit.ToString();
 
