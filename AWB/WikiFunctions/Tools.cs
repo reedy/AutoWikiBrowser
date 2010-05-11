@@ -2065,9 +2065,9 @@ Message: {2}
         }
         
         /// <summary>
-        /// Renames the given template named parameter in the input template
+        /// Renames the given template named parameter in the input template call
         /// </summary>
-        /// <param name="template">The template to update</param>
+        /// <param name="template">The template call to update</param>
         /// <param name="oldparameter">Existing parameter name</param>
         /// <param name="newparameter">New parameter name</param>
         /// <returns>The updated template</returns>
