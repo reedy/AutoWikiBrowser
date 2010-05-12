@@ -568,6 +568,10 @@ namespace AutoWikiBrowser
                         break;
                 }
             }
+            else if (ex is ApiBlankException)
+            {
+                StartDelayedRestartTimer();
+            }
             else if (ex is NewMessagesException)
             {
                 WeHaveNewMessages();
