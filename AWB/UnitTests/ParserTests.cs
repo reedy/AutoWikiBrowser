@@ -2952,6 +2952,20 @@ now {{cite web | url=http://site.it | title=hello|date = 5-5-1998}} was";
 		    Assert.AreEqual(correctpart.Replace("2018-03-25", "25 March 2018") + @"<!--" +datestamp + @"-->}} was", Parsers.CiteTemplateDates(correctpart.Replace("2018-03-25", "25 March 2018") +datestamp + @"}} was"));
 		    Assert.AreEqual(correctpart.Replace("2018-03-25", "March 25, 2018") + @"<!--" +datestamp + @"-->}} was", Parsers.CiteTemplateDates(correctpart.Replace("2018-03-25", "March 25, 2018") +datestamp + @"}} was"));
 		}
+		
+		[Test]
+		public void CiteTemplateDatesEnOnly()
+		{
+		    #if DEBUG
+		    const string bad = @"now {{cite web | url=http://site.it | title=hello|accessdate = 25/03/2008 }} was";
+		    
+		    Variables.SetProjectLangCode("fr");
+		    Assert.AreEqual(bad, Parsers.CiteTemplateDates(bad));
+		    
+		    Variables.SetProjectLangCode("en");
+		    Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-03-25 }} was", Parsers.CiteTemplateDates(bad));
+		    #endif
+		}
 
 		[Test]
 		public void AmbiguousCiteTemplateDates()
@@ -4652,6 +4666,20 @@ foo
 		    Assert.AreEqual(@"{{about|foo||a|and|b}}", Parsers.Dablinks(zerosec));
 		    
 		    Assert.AreEqual(@"{{about|Foo|a|b|c|d}}", Parsers.Dablinks(a1Foo + a2));
+		}
+		
+		[Test]
+		public void DablinksEnOnly()
+		{
+		    #if DEBUG
+		    string zerosec = @"{{about|foo||a}}{{about|foo||b}}";
+		    
+		    Variables.SetProjectLangCode("fr");		    
+		    Assert.AreEqual(zerosec, Parsers.Dablinks(zerosec));
+		    
+		    Variables.SetProjectLangCode("en");
+		    Assert.AreEqual(@"{{about|foo||a|and|b}}", Parsers.Dablinks(zerosec));
+		    #endif
 		}
 	}
 
