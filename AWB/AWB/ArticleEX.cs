@@ -35,6 +35,14 @@ namespace AutoWikiBrowser
             return mAWBLogListener;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <remarks>Don't use, for serialisation!</remarks>
+        public ArticleEX()
+        {
+        }
+
         public ArticleEX(string title, string text)
             : base(title, text)
         {
