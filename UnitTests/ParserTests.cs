@@ -1871,6 +1871,11 @@ complementary and alternative medicine: evidence is a better friend than power. 
 			string workalready1 = @"{{cite web|url=http://www.timesonline.co.uk/foo494390.htm | publisher=Media International |date =2008-09-07 | work = The Times }}";
 			// work already
 			Assert.AreEqual(workalready1, Parsers.CitationPublisherToWork(workalready1));
+			Assert.AreEqual(correct0, Parsers.CitationPublisherToWork(correct0));
+			
+			// no cite web/news
+			const string citeJournal = @"{{cite journal|url=http://www.timesonline.co.uk/foo494390.htm | date =2008-09-07 | publisher=The Times }}";
+			Assert.AreEqual(citeJournal, Parsers.CitationPublisherToWork(citeJournal));
 		}
 		
 		[Test]
@@ -5024,6 +5029,12 @@ foo {{persondata}}
 {{DEFAULTSORT:Agua Retorta}}", Parsers.ChangeToDefaultSort(@"[[Category:Parishes of the Azores]]
 [[Category:São Miguel Island]]", @"Água Retorta", out noChange));
 			Assert.IsFalse(noChange);
+		}
+		[Test]
+		public void TestIsArticleAboutAPersonInfoboxFraternity()
+		{
+		    Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{persondata|name=smith}} {{infobox fraternity|bar}}", "foo"));
+		    Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{persondata|name=smith}} {{infobox Fraternity|bar}}", "foo"));
 		}
 
 		[Test]
