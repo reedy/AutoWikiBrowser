@@ -500,6 +500,7 @@ namespace WikiFunctions
         /// Matches the {{use dmy dates}} family of templates
         /// </summary>
         public static readonly Regex UseDatesTemplate = new Regex(@"{{\s*[Uu]se (dmy|mdy|ymd) dates\s*}}", RegexOptions.Compiled);
+        // TODO match redirects of UseDates templates
         
         /// <summary>
         /// Matches dates in American format – "Month dd, YYYY"
