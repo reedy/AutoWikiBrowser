@@ -76,7 +76,7 @@ namespace WikiFunctions.TalkPages
             articleText = MoveTalkHeader(articleText, ref summary);
 
             if (pr.FoundSkipToTalk)
-                WriteHeaderTemplate("skip to talk", ref articleText, ref summary);
+                WriteHeaderTemplate("Skip to talk", ref articleText, ref summary);
 
             if (moveDefaultsort != DEFAULTSORT.NoChange)
             {
@@ -178,7 +178,7 @@ namespace WikiFunctions.TalkPages
                 articleText = m.Value.TrimEnd() + "\r\n" + articleText.TrimStart();
                 
                 // ensure template is now named {{talk header}}
-                articleText = articleText.Replace(m.Groups[1].Value, "talk header");
+                articleText = articleText.Replace(m.Groups[1].Value, "Talk header");
                 
                 AppendToSummary(ref summary, "{{Talk header}} given top billing");
             }
