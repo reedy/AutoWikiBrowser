@@ -196,7 +196,7 @@ namespace WikiFunctions.Controls.Lists
             this.sortAlphaMenuItem,
             this.sortReverseAlphaMenuItem});
             this.mnuListBox.Name = "contextMenuStrip2";
-            this.mnuListBox.Size = new System.Drawing.Size(276, 370);
+            this.mnuListBox.Size = new System.Drawing.Size(276, 392);
             this.mnuListBox.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListBox_Opening);
             // 
             // openInBrowserToolStripMenuItem
@@ -465,6 +465,7 @@ namespace WikiFunctions.Controls.Lists
             this.lbArticles.Location = new System.Drawing.Point(3, 105);
             this.lbArticles.MinimumSize = new System.Drawing.Size(202, 212);
             this.lbArticles.Name = "lbArticles";
+            this.lbArticles.ScrollAlwaysVisible = true;
             this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lbArticles.Size = new System.Drawing.Size(202, 212);
             this.lbArticles.TabIndex = 9;

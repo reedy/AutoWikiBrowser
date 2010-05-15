@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="About.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="DebugOutput.cs">
       <SubType>Form</SubType>
