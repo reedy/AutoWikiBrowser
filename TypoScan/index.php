@@ -305,7 +305,7 @@
 		if ($error)
 			$attribs['error'] = $error;
 
-		echo Xml::XmlHeader() . Xml::element('operation', $attribs,  $message);
+		echo Xml::XmlHeader() . Xml::element('operation', $attribs, $message);
 		die;
 	}
 	
