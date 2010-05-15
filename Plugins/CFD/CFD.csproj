@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="About.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="CfdCore.cs" />
     <Compile Include="CfdOptions.cs">
