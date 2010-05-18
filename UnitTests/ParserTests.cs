@@ -2007,6 +2007,20 @@ complementary and alternative medicine: evidence is a better friend than power. 
 		}
 		
 		[Test]
+		public void FixCitationTemplatesEnOnly()
+		{
+		    #if DEBUG
+		    const string bad = @"{{cite web|title=foo|url=http://site.net|year=2009|format=HTML}}";
+		    
+		    Variables.SetProjectLangCode("fr");
+		    Assert.AreEqual(bad, Parsers.FixCitationTemplates(bad));
+		    
+		    Variables.SetProjectLangCode("en");
+		    Assert.AreEqual(@"{{cite web|title=foo|url=http://site.net|year=2009}}", Parsers.FixCitationTemplates(bad));
+		    #endif
+		}
+		
+		[Test]
 		public void FixCitationTemplatesPagesPP()
 		{
 			// removal of pp. from 'pages' field
