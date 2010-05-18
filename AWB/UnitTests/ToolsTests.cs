@@ -1016,6 +1016,18 @@ John", "*"));
         }
         
         [Test]
+        public void GetTemplateArgumentCount()
+        {
+            Assert.AreEqual(0, Tools.GetTemplateArgumentCount(@"{{foo}}"));
+            Assert.AreEqual(1, Tools.GetTemplateArgumentCount(@"{{foo|bar}}"), "counts unnamed parameters");
+            Assert.AreEqual(1, Tools.GetTemplateArgumentCount(@"{{foo|bar=yes}}"), "counts named parameters");
+            
+            Assert.AreEqual(3, Tools.GetTemplateArgumentCount(@"{{foo|bar|here|yte}}"), "counts multiple parameters");
+            
+            Assert.AreEqual(1, Tools.GetTemplateArgumentCount(@"{{foo|bar={{yes|foo}}}}"), "doesn't count nested template calls");
+        }
+        
+        [Test]
         public void RenameTemplateParameter()
         {
             Assert.AreEqual(@"{{cite |param1=bar|param3=great}}", Tools.RenameTemplateParameter(@"{{cite |param1=bar|param2=great}}", "param2", "param3"));

@@ -2041,7 +2041,7 @@ Message: {2}
         }
         
         /// <summary>
-        /// Returns the requested argument from the input template
+        /// Returns the requested argument from the input template call
         /// </summary>
         /// <param name="template">The template call</param>
         /// <param name="argument">The argument to return</param>
@@ -2062,6 +2062,21 @@ Message: {2}
             }
             
             return "";
+        }
+        
+        /// <summary>
+        /// Returns the number of arguments to the input template call
+        /// </summary>
+        /// <param name="template">The template call</param>
+        /// <param name="argument">The argument to return</param>
+        /// <returns>The argument count</returns>
+        public static int GetTemplateArgumentCount(string template)
+        {
+            Regex arg = new Regex(@"\|\s*(.*?)\s*(?=\||}}$)", RegexOptions.Singleline);
+            
+            string pipecleanedtemplate = PipeCleanedTemplate(template);
+            
+            return arg.Matches(pipecleanedtemplate).Count;
         }
         
         /// <summary>
