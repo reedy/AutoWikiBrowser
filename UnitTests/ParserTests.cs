@@ -4674,6 +4674,14 @@ foo
 		}
 		
 		[Test]
+		public void DablinksMergingAboutNamespace()
+		{
+		    const string a2Foo = @"{{about|Foo|Category:Bar|d}}";
+		    
+		    Assert.AreEqual(a2Foo.Replace("|C", "|:C"), Parsers.Dablinks(a2Foo), "escapes category in {{about}}");
+		}
+		
+		[Test]
 		public void DablinksEnOnly()
 		{
 		    #if DEBUG

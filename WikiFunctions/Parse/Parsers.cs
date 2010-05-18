@@ -503,6 +503,17 @@ namespace WikiFunctions.Parse
                 }
             }
             
+            // non-mainspace links need escaping in {{about}}
+            foreach(Match m in Tools.NestedTemplateRegex("about").Matches(articleText))
+            {
+                for(int a = 1; a <= Tools.GetTemplateArgumentCount(m.Value); a++)
+                {
+                    string arg = Tools.GetTemplateArgument(m.Value, a);
+                    if(arg.Length > 0 && Namespace.Determine(arg) != Namespace.Mainspace)
+                        articleText = articleText.Replace(m.Value, m.Value.Replace(arg, @":" + arg));
+                }
+            }            
+            
             return(articleText + restOfArticle);
         }
 
