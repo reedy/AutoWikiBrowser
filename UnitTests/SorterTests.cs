@@ -569,7 +569,7 @@ blah";
 
             string n = m;
 
-            Assert.AreEqual(m + "\r\n", parser2.Sorter.RemoveCats(ref n, "test"));
+            Assert.AreEqual(m + "\r\n", parser2.Sorter.RemoveCats(ref n, "test"), "cats not pulled out of comments");
 
             // comments on same line of category
             const string o = @"[[Category:Canadian Aviation Hall of Fame inductees]]
@@ -621,6 +621,16 @@ text
 foo";
             
             Assert.IsFalse(parser2.Sorter.RemoveCats(ref bug2, "test").Contains(@"[[Category:Living People]]"));
+            
+            string nw = @"[[Category:American women writers]]
+[[Category:Autism activists]]
+<nowiki>
+[[Category:LGBT people from the United States]]
+[[Category:LGBT television personalities]]</nowiki>
+[[Category:Parents of people on the autistic spectrum]]";
+
+            Assert.AreEqual("", parser2.Sorter.RemoveCats(ref nw, "test"));
+            Assert.IsFalse(parser2.Sorter.RemoveCats(ref nw, "test").Contains(@"[[Category:LGBT people from the United States]]"));
         }
 
         [Test]
