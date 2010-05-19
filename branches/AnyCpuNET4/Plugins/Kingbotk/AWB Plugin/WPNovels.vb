@@ -1,4 +1,6 @@
-﻿'Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
+﻿Imports WikiFunctions
+
+'Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 'Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
 
 'This program is free software; you can redistribute it and/or modify it under the terms of Version 2 of the GNU General Public License as published by the Free Software Foundation.
@@ -362,7 +364,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             ' None
         End Function
         Protected Overrides Sub ProcessArticleFinish()
-        	
+
             StubClass()
             With OurSettingsControl
                 If .CrimeWG Then
