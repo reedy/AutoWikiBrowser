@@ -2597,18 +2597,14 @@ namespace WikiFunctions.Parse
             DatesT = Regex.Match(DatesT, @"(ymd|dmy|mdy)").Value;
 
             if (Variables.LangCode == "en" && DatesT.Length > 0)
-            {
                 switch (DatesT)
-                {
-                    case "dmy":
-                        return DateLocale.International;
-                    case "mdy":
-                        return DateLocale.American;
-                    case "ymd":
-                        return DateLocale.ISO;
-                    default:
-                        return DateLocale.Undetermined;
-                }
+            {
+                case "dmy":
+                    return DateLocale.International;
+                case "mdy":
+                    return DateLocale.American;
+                case "ymd":
+                    return DateLocale.ISO;
             }
             
             if(explicitonly)
