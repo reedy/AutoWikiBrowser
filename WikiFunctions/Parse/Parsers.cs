@@ -306,10 +306,10 @@ namespace WikiFunctions.Parse
             {
                 string aiat = WikiRegexes.ArticleIssues.Match(articleText).Value;
                 
-                // unref to BLPunref for bio articles
-                if(Tools.GetTemplateParameterValue(aiat, "unreferenced").Length > 0 && IsArticleAboutAPerson(articleText, articleTitle, true))
+                // unref to BLPunref for living person bio articles
+                if(Tools.GetTemplateParameterValue(aiat, "unreferenced").Length > 0 && articleText.Contains(@"[[Category:Living people"))
                     articleText = articleText.Replace(aiat, Tools.RenameTemplateParameter(aiat, "unreferenced", "BLPunreferenced"));
-                else if(Tools.GetTemplateParameterValue(aiat, "unref").Length > 0 && IsArticleAboutAPerson(articleText, articleTitle, true))
+                else if(Tools.GetTemplateParameterValue(aiat, "unref").Length > 0 && articleText.Contains(@"[[Category:Living people"))
                     articleText = articleText.Replace(aiat, Tools.RenameTemplateParameter(aiat, "unref", "BLPunreferenced"));
                 
                 articleText = MetaDataSorter.MoveMaintenanceTags(articleText);

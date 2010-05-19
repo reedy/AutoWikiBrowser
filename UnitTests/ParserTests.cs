@@ -6376,12 +6376,13 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 		public void MultipleIssuesUnref()
 		{
 		    string at = @"Foo
-{{Persondata | foo}}", ai = @"{{multiple issues|wikify=May 2008 | expand=June 2007 | COI=March 2010  | unref=June 2009}}";
-		
+[[Category:Living people]]", ai = @"{{multiple issues|wikify=May 2008 | expand=June 2007 | COI=March 2010  | unref=June 2009}}";
+		    
 		    Assert.AreEqual(ai.Replace("unref", "BLPunreferenced") + at, parser.ArticleIssues(ai + at, "test"), "unref changed if article about a person");
 		    Assert.AreEqual(ai.Replace("unref", "BLPunreferenced") + at, parser.ArticleIssues(ai.Replace("unref", "unreferenced") + at, "test"), "unreferenced changed if article about a person");
 		    
 		    Assert.AreEqual(ai + "foo", parser.ArticleIssues(ai + "foo", "test"), "unref not changed if article not about a person");
+		    Assert.AreEqual(ai + "foo {{persondata|here=there}}", parser.ArticleIssues(ai + "foo {{persondata|here=there}}", "test"), "unref not changed if article not about a living person");
 		}
 		
 		[Test]
