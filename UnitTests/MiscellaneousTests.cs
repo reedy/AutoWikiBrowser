@@ -608,7 +608,7 @@ hello talk";
             
             TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
             
-            Assert.AreEqual(talkheader + "\r\n" + talkrest + "\r\n", articleText);
+            Assert.AreEqual(talkheader.Replace("{{talk", @"{{Talk") + "\r\n" + talkrest + "\r\n", articleText);
             Assert.IsTrue(newSummary.Contains("{{Talk header}} given top billing"));
             
             // handles {{talk header}} on same line as other template
@@ -622,7 +622,7 @@ In the article it says that above mentioned";
             
             TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
             
-            Assert.AreEqual(@"{{talk header}}" + "\r\n" + WPBS + rest, articleText);
+            Assert.AreEqual(@"{{Talk header}}" + "\r\n" + WPBS + rest, articleText);
             Assert.IsTrue(newSummary.Contains("{{Talk header}} given top billing"));
             
             // no change if already at top
@@ -649,7 +649,7 @@ hello talk";
             
             TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
             
-            Assert.AreEqual(@"{{talk header|noarchive=no}}" + "\r\n" + talkrest+ "\r\n", articleText);
+            Assert.AreEqual(@"{{Talk header|noarchive=no}}" + "\r\n" + talkrest+ "\r\n", articleText, "renamed to upper case with space");
             Assert.IsTrue(newSummary.Contains("{{Talk header}} given top billing"));
         }
         

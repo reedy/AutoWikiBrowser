@@ -110,6 +110,7 @@ namespace WikiFunctions.Controls.Lists
                 DefaultProviders.Add(new WikiTitleSearchListProvider());
                 DefaultProviders.Add(RandomPagesLProvider);
                 DefaultProviders.Add(RedirectLProvider);
+                DefaultProviders.Add(new RedirectsAllNSListProvider());
                 DefaultProviders.Add(NewPagesLProvider);
             }
         }
@@ -857,9 +858,7 @@ namespace WikiFunctions.Controls.Lists
         private void DisabledListProvider(FeatureDisabledException fde)
         {
             MessageBox.Show(
-                "Unable to generate lists using " + _providerToRun.DisplayText +
-                ". Removing from the list of providers during this session", fde.ApiErrorMessage);
-            _listProviders.Remove(_providerToRun);
+                "Unable to generate lists using " + _providerToRun.DisplayText, fde.ApiErrorMessage);
         }
 
         private void UserLoggedOff()

@@ -378,8 +378,8 @@ en, sq, ru
 
             articleText = Tools.RemoveMatches(articleText, matches);
             
-            // if category tidying has changed comments return with no changes – we've pulled a cat from a comment
-            if(!CommentsNotChanged(originalArticleText, articleText))
+            // if category tidying has changed comments/nowikis return with no changes – we've pulled a cat from a comment
+            if(!UnformattedTextNotChanged(originalArticleText, articleText))
             {
                 articleText = originalArticleText;
                 return "";
@@ -416,23 +416,23 @@ en, sq, ru
         }
         
         /// <summary>
-        /// Returns whether the comments are the same in the two strings
+        /// Returns whether the unformatted text content is the same in the two strings
         /// </summary>
         /// <param name="originalArticleText">the first string to search</param>
         /// <param name="articleText">the second string to search</param>
-        /// <returns>whether the comments are the same in the two strings</returns>
-        private bool CommentsNotChanged(string originalArticleText, string articleText)
+        /// <returns>whether the unformatted text content is the same in the two strings</returns>
+        private bool UnformattedTextNotChanged(string originalArticleText, string articleText)
         {
-            if(WikiRegexes.Comments.Matches(originalArticleText).Count != WikiRegexes.Comments.Matches(articleText).Count)
+            if(WikiRegexes.UnformattedText.Matches(originalArticleText).Count != WikiRegexes.UnformattedText.Matches(articleText).Count)
                 return true;
             
             string before = "", after = "";
-            foreach(Match m in WikiRegexes.Comments.Matches(originalArticleText))
+            foreach(Match m in WikiRegexes.UnformattedText.Matches(originalArticleText))
             {
                 before += m.Value;
             }            
             
-            foreach(Match m in WikiRegexes.Comments.Matches(articleText))
+            foreach(Match m in WikiRegexes.UnformattedText.Matches(articleText))
             {
                 after += m.Value;
             }
@@ -543,13 +543,13 @@ en, sq, ru
             foreach (Match m in WikiRegexes.Dablinks.Matches(zerothSection))
             {
                 strDablinks = strDablinks + m.Value + "\r\n";
+                
+                if(zerothSection.Contains(m.Value + "\r\n"))
+                    zerothSection = zerothSection.Replace(m.Value + "\r\n", "");
                 zerothSection = zerothSection.Replace(m.Value, "");
             }
 
-            articleText = strDablinks + zerothSection + restOfArticle;
-            
-            // may now have two newlines between dablinks and rest of article, so cut down to one
-            return articleText.Replace(strDablinks + "\r\n", strDablinks);
+            return(strDablinks + zerothSection + restOfArticle);
         }
 
         /// <summary>

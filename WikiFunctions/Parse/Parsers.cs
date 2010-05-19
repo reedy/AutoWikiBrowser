@@ -72,7 +72,7 @@ namespace WikiFunctions.Parse
 
             RegexTagger.Add(new Regex(@"\{\{\s*(?:template:)?\s*(?:wikify(?:-date)?|wfy|wiki)(\s*\|\s*section)?\s*\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Wikify$1|" + WikiRegexes.DateYearMonthParameter + @"}}");
             RegexTagger.Add(new Regex(@"\{\{(template:)?(Clean( ?up)?|CU|Tidy)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Cleanup|" + WikiRegexes.DateYearMonthParameter + @"}}");
-            RegexTagger.Add(new Regex(@"\{\{(template:)?(Linkless|Orphan)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Orphan|" + WikiRegexes.DateYearMonthParameter + @"}}");
+            RegexTagger.Add(new Regex(@"\{\{(template:)?(Orphan)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Orphan|" + WikiRegexes.DateYearMonthParameter + @"}}");
             RegexTagger.Add(new Regex(@"\{\{(template:)?(Uncategori[sz]ed|Uncat|Classify|Category needed|Catneeded|categori[zs]e|nocats?)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Uncategorized|" + WikiRegexes.DateYearMonthParameter + @"}}");
 
             RegexTagger.Add(new Regex(@"\{\{(template:)?(Unreferenced(sect)?|add references|cite[ -]sources?|cleanup-sources?|needs? references|no sources|no references?|not referenced|references|unref|unsourced)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Unreferenced|" + WikiRegexes.DateYearMonthParameter + @"}}");
@@ -246,7 +246,7 @@ namespace WikiFunctions.Parse
             return (Variables.Project <= ProjectEnum.species) ? Sorter.Sort(articleText, articleTitle, fixOptionalWhitespace) : articleText;
         }
 
-        private static readonly Regex ApostropheInDecades = new Regex(@"(?<=(?:the |later? |early |mid-|[12]\d\d0'?s and )(?:\[?\[?[12]\d\d0\]?\]?))'s(?=\]\])?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex ApostropheInDecades = new Regex(@"(?<=(?:the |later? |early |mid-|[12]\d\d0'?s and )(?:\[?\[?[12]\d\d0\]?\]?))['’]s(?=\]\])?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex RegexHeadings0 = new Regex("(== ?)(see also:?|related topics:?|related articles:?|internal links:?|also see:?)( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex RegexHeadings1 = new Regex("(== ?)(external link[s]?|external site[s]?|outside link[s]?|web ?link[s]?|exterior link[s]?):?( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         //private readonly Regex regexHeadings2 = new Regex("(== ?)(external link:?|external site:?|web ?link:?|exterior link:?)( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -306,10 +306,10 @@ namespace WikiFunctions.Parse
             {
                 string aiat = WikiRegexes.ArticleIssues.Match(articleText).Value;
                 
-                // unref to BLPunref for bio articles
-                if(Tools.GetTemplateParameterValue(aiat, "unreferenced").Length > 0 && IsArticleAboutAPerson(articleText, articleTitle, true))
+                // unref to BLPunref for living person bio articles
+                if(Tools.GetTemplateParameterValue(aiat, "unreferenced").Length > 0 && articleText.Contains(@"[[Category:Living people"))
                     articleText = articleText.Replace(aiat, Tools.RenameTemplateParameter(aiat, "unreferenced", "BLPunreferenced"));
-                else if(Tools.GetTemplateParameterValue(aiat, "unref").Length > 0 && IsArticleAboutAPerson(articleText, articleTitle, true))
+                else if(Tools.GetTemplateParameterValue(aiat, "unref").Length > 0 && articleText.Contains(@"[[Category:Living people"))
                     articleText = articleText.Replace(aiat, Tools.RenameTemplateParameter(aiat, "unref", "BLPunreferenced"));
                 
                 articleText = MetaDataSorter.MoveMaintenanceTags(articleText);
@@ -382,6 +382,139 @@ namespace WikiFunctions.Parse
 
             // Parsers.Conversions will add any missing dates and correct ...|wikify date=May 2008|...
             return (zerothSection + restOfArticle);
+        }
+        
+        /// <summary>
+        /// Performs some cleanup operations on dablinks
+        /// Merges some for & about dablinks
+        /// </summary>
+        /// <param name="articleText">The article text</param>
+        /// <returns>The updated article text</returns>
+        public static string Dablinks(string articleText)
+        {
+            if(Variables.LangCode != "en")
+                return articleText;
+            
+            string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
+            string restOfArticle = (zerothSection.Length > 0) ? articleText.Replace(zerothSection, "") : "";
+            articleText = zerothSection;
+            
+            // conversions
+            
+            // otheruses4 rename
+            articleText = Tools.RenameTemplate(articleText, "otheruses4", "about");
+            
+            // "{{about|about x..." --> "{{about|x..."
+            foreach(Match m in Tools.NestedTemplateRegex("about").Matches(articleText))
+            {
+                if(m.Groups[3].Value.TrimStart("| ".ToCharArray()).ToLower().StartsWith("about"))
+                    articleText = articleText.Replace(m.Value, m.Groups[1].Value + m.Groups[2].Value + Regex.Replace(m.Groups[3].Value, @"^\|\s*[Aa]bout\s*", "|"));
+            }
+            
+            // merging
+            
+            // multiple same about into one            
+            for(int a = 0; a < 3; a++)
+            {
+                bool doneAboutMerge = false;
+                foreach(Match m in Tools.NestedTemplateRegex("about").Matches(articleText))
+                {
+                    string firstarg = Tools.GetTemplateArgument(m.Value, 1);
+                    
+                    foreach(Match m2 in Tools.NestedTemplateRegex("about").Matches(articleText))
+                    {
+                        if(m2.Value == m.Value)
+                            continue;
+                        
+                        // match when reason is the same, not matching on self
+                        if(Tools.GetTemplateArgument(m2.Value, 1).Equals(firstarg))
+                        {
+                            // argument 2 length > 0
+                            if(Tools.GetTemplateArgument(m.Value, 2).Length > 0 && Tools.GetTemplateArgument(m2.Value, 2).Length > 0)
+                            {
+                                articleText = articleText.Replace(m.Value, m.Value.TrimEnd('}') + @"|" + Tools.GetTemplateArgument(m2.Value, 2) + @"|" + Tools.GetTemplateArgument(m2.Value, 3) + @"}}");
+                                doneAboutMerge = true;
+                            }
+                            
+                            // argument 2 is null
+                            if(Tools.GetTemplateArgument(m.Value, 2).Length == 0 && Tools.GetTemplateArgument(m2.Value, 2).Length == 0)
+                            {
+                                articleText = articleText.Replace(m.Value, m.Value.TrimEnd('}') + @"|and|" + Tools.GetTemplateArgument(m2.Value, 3) + @"}}");
+                                doneAboutMerge = true;
+                            }
+                        }
+                        // match when reason of one is null, the other not
+                        else if(Tools.GetTemplateArgument(m2.Value, 1).Length == 0)
+                        {
+                            // argument 2 length > 0
+                            if(Tools.GetTemplateArgument(m.Value, 2).Length > 0 && Tools.GetTemplateArgument(m2.Value, 2).Length > 0)
+                            {
+                                articleText = articleText.Replace(m.Value, m.Value.TrimEnd('}') + @"|" + Tools.GetTemplateArgument(m2.Value, 2) + @"|" + Tools.GetTemplateArgument(m2.Value, 3) + @"}}");
+                                doneAboutMerge = true;
+                            }
+                        }
+                        
+                        if(doneAboutMerge)
+                        {
+                            articleText = articleText.Replace(m2.Value, "");
+                            break;
+                        }
+                    }
+                    if(doneAboutMerge)
+                        break;
+                }
+            }
+            
+            // multiple for into about: rename a 2-argument for into an about with no reason value
+            if(Tools.NestedTemplateRegex("about").Matches(articleText).Count == 0 && Tools.NestedTemplateRegex("for").Matches(articleText).Count > 1)
+            {
+                foreach(Match m in Tools.NestedTemplateRegex("for").Matches(articleText))
+                {
+                    if(Tools.GetTemplateArgument(m.Value, 3).Length == 0)
+                    {
+                        articleText = articleText.Replace(m.Value, Tools.RenameTemplate(m.Value, "about|"));
+                        break;
+                    }
+                }
+            }                
+            
+            // for into existing about, when about has >=2 arguments
+            if(Tools.NestedTemplateRegex("about").Matches(articleText).Count == 1 &&
+               Tools.GetTemplateArgument(Tools.NestedTemplateRegex("about").Match(articleText).Value, 2).Length > 0)
+            {
+                foreach(Match m in Tools.NestedTemplateRegex("for").Matches(articleText))
+                {
+                    string About = Tools.NestedTemplateRegex("about").Match(articleText).Value;
+                    string extra = "";
+                    
+                    // where about has 2 arguments need extra pipe
+                    if(Tools.GetTemplateArgument(Tools.NestedTemplateRegex("about").Match(articleText).Value, 3).Length == 0
+                      && Tools.GetTemplateArgument(Tools.NestedTemplateRegex("about").Match(articleText).Value, 4).Length == 0)
+                        extra = @"|";
+                    
+                    // append {{for}} value to the {{about}}
+                    if(Tools.GetTemplateArgument(m.Value, 3).Length == 0)
+                    articleText = articleText.Replace(About, About.TrimEnd('}') +  extra + m.Groups[3].Value);
+                    else // where for has 3 arguments need extra and
+                        articleText = articleText.Replace(About, About.TrimEnd('}') +  extra + m.Groups[3].Value.Insert(m.Groups[3].Value.LastIndexOf('|')+1, "and|"));
+                    
+                    // remove the old {{for}}
+                    articleText = articleText.Replace(m.Value, "");
+                }
+            }
+            
+            // non-mainspace links need escaping in {{about}}
+            foreach(Match m in Tools.NestedTemplateRegex("about").Matches(articleText))
+            {
+                for(int a = 1; a <= Tools.GetTemplateArgumentCount(m.Value); a++)
+                {
+                    string arg = Tools.GetTemplateArgument(m.Value, a);
+                    if(arg.Length > 0 && Namespace.Determine(arg) != Namespace.Mainspace)
+                        articleText = articleText.Replace(m.Value, m.Value.Replace(arg, @":" + arg));
+                }
+            }            
+            
+            return(articleText + restOfArticle);
         }
 
         // Covered by: FormattingTests.TestFixHeadings(), incomplete
@@ -1566,7 +1699,7 @@ namespace WikiFunctions.Parse
             new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)'+([^<>=""\/]+?)''+(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase), @"$1""$2""$3"),
 
             // <ref name=foo bar> --> <ref name="foo bar">, match when spaces
-            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)([^<>=""'\/]+?\s+[^<>=""'\/]+?)(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase), @"$1""$2""$3"),
+            new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)([^<>=""'\/]+?\s+[^<>=""'\/\s]+?)(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase), @"$1""$2""$3"),
 
             // <ref name=foo bar> --> <ref name="foo bar">, match when non-ASCII characters ([\x00-\xff]*)
             new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*)([^<>=""'\/]*?[^\x00-\xff]+?[^<>=""'\/]*?)(\s*/?>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase), @"$1""$2""$3"),
@@ -2104,8 +2237,16 @@ namespace WikiFunctions.Parse
         
         private static List<string> DateFields = new List<string>(@"date,accessdate,archivedate,airdate".Split(','));
         
+        /// <summary>
+        /// Updates dates in citation templates to use the strict predominant date format in the article (en wiki only)
+        /// </summary>
+        /// <param name="articleText">The article text</param>
+        /// <returns>The updated article text</returns>
         public static string PredominantDates(string articleText)
         {
+            if(Variables.LangCode != "en")
+                return articleText;
+            
             DateLocale predominantLocale = DeterminePredominantDateLocale(articleText, true, true);
             
             if(predominantLocale.Equals(DateLocale.Undetermined))
@@ -2452,7 +2593,7 @@ namespace WikiFunctions.Parse
             // first check for template telling us the preference
             string DatesT = WikiRegexes.UseDatesTemplate.Match(articleText).Groups[1].Value;
 
-            if (DatesT.Length > 0)
+            if (Variables.LangCode == "en" && DatesT.Length > 0)
             {
                 switch (DatesT)
                 {
@@ -4542,7 +4683,7 @@ namespace WikiFunctions.Parse
             if (Variables.IsWikipediaEN && WikiRegexes.Unreferenced.IsMatch(articleText) && articleText.Contains(@"[[Category:Living people"))
                 articleText = Tools.RenameTemplate(articleText, WikiRegexes.Unreferenced.Match(articleText).Groups[1].Value, "BLP unsourced");
 
-            return articleText;
+            return Dablinks(articleText);
         }
 
         private static readonly Regex TemplateParameter2 = new Regex(" \\{\\{\\{2\\|\\}\\}\\}", RegexOptions.Compiled);

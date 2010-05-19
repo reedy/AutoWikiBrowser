@@ -38,6 +38,7 @@ namespace AutoWikiBrowser
         CheckBox IAutoWikiBrowserForm.ApplyGeneralFixesCheckBox { get { return chkGeneralFixes; } }
         CheckBox IAutoWikiBrowserForm.AutoTagCheckBox { get { return chkAutoTagger; } }
         CheckBox IAutoWikiBrowserForm.RegexTypoFix { get { return chkRegExTypo; } }
+        bool IAutoWikiBrowserForm.PreParseMode { get { return preParseModeToolStripMenuItem.Checked; }}
         TextBoxBase IAutoWikiBrowserForm.EditBox { get { return txtEdit; } }
         TextBox IAutoWikiBrowserForm.CategoryTextBox { get { return loggingSettings1.LoggingCategoryTextBox; } }
         Form IAutoWikiBrowserForm.Form { get { return this; } }

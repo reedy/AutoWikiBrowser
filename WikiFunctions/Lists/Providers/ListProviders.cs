@@ -125,7 +125,7 @@ namespace WikiFunctions.Lists.Providers
 
         public override List<Article> MakeList(params string[] searchCriteria)
         {
-            int userDepth = Tools.GetNumberFromUser(false);
+            int userDepth = Tools.GetNumberFromUser(false, 1000);
             if (userDepth < 0)
                 return new List<Article>();
 
@@ -427,6 +427,23 @@ namespace WikiFunctions.Lists.Providers
 
         public override string DisplayText
         { get { return "What redirects here"; } }
+
+        public override string UserInputTextBoxText
+        { get { return "Redirects to"; } }
+    }
+
+    /// <summary>
+    /// Gets a list of pages which redirect to the Named Pages (in all NS's)
+    /// </summary>
+    public class RedirectsAllNSListProvider : WhatLinksHereAllNSListProvider
+    {
+        public RedirectsAllNSListProvider()
+        {
+            Blfilterredir = "redirects";
+        }
+
+        public override string DisplayText
+        { get { return "What redirects here (all NS)"; } }
 
         public override string UserInputTextBoxText
         { get { return "Redirects to"; } }
@@ -818,9 +835,15 @@ namespace WikiFunctions.Lists.Providers
     /// </summary>
     public class UserContribUserDefinedNumberListProvider : UserContribsListProvider
     {
+        public UserContribUserDefinedNumberListProvider()
+        {
+            UpperLimit = 25000;
+        }
+
+        protected int UpperLimit;
         public override List<Article> MakeList(params string[] searchCriteria)
         {
-            Limit = Tools.GetNumberFromUser(true);
+            Limit = Tools.GetNumberFromUser(true, UpperLimit);
             if (Limit < 500)
                 uclimit = Limit.ToString();
 

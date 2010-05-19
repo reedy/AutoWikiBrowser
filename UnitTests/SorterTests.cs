@@ -164,7 +164,7 @@ namespace UnitTests
 Fred has a dog.
 [[Category:Dog owners]]
 {{some template}}
-";
+", e0 = @"{{redirect|foo|bar}}";
 
             string e = @"{{otherpeople1|Fred the dancer|Fred Smith (dancer)}}";
             Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveDablinks(d + e));
@@ -177,10 +177,7 @@ Fred has a dog.
 
             e = @"{{redirect2|Fred the {{dancer}}|Fred Smith (dancer)}}";
             Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveDablinks(d + e));
-
-            // check no change when already in correct position
-            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveDablinks(e + "\r\n" + d));
-
+            
             // don't move dablinks in a section
             const string f = @"Article words
 == heading ==
@@ -196,9 +193,18 @@ words";
 more words
 [[Category:Foo]]";
 
-            Assert.AreEqual(e + "\r\n" + g + "\r\n\r\n" + h, MetaDataSorter.MoveDablinks(g + "\r\n" + e + "\r\n" + h));
+            Assert.AreEqual(e + "\r\n" + g + "\r\n" + h, MetaDataSorter.MoveDablinks(g + "\r\n" + e + "\r\n" + h));
+            
+            Assert.AreEqual(e + "\r\n" + e0 + "\r\n" + d, MetaDataSorter.MoveDablinks(d + e + e0));
+            Assert.AreEqual(e + "\r\n" + e0 + "\r\n\r\n" + d, MetaDataSorter.MoveDablinks(e + e0 + "\r\n\r\n" + d));
+            
+            // check spacing
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveDablinks(e + "\r\n" + d));
+            Assert.AreEqual(e + "\r\n" + e0 + "\r\n" + d, MetaDataSorter.MoveDablinks(e + "\r\n" + e0 + d));
+            Assert.AreEqual(e + "\r\n" + e0 + "\r\n" + d, MetaDataSorter.MoveDablinks(e + "\r\n" + e0 + "\r\n" + d));
+            Assert.AreEqual(e + "\r\n" + e0 + "\r\n\r\n" + d, MetaDataSorter.MoveDablinks(e + "\r\n" + e0 + "\r\n\r\n" + d));
+            Assert.AreEqual(e + "\r\n" + e0 + "\r\n" + e0 + "\r\n\r\n" + d, MetaDataSorter.MoveDablinks(e + "\r\n" + e0 + e0 + "\r\n\r\n" + d));
         }
-        
         
         [Test]
         public void MoveDablinksCommentsTests()
@@ -563,7 +569,7 @@ blah";
 
             string n = m;
 
-            Assert.AreEqual(m + "\r\n", parser2.Sorter.RemoveCats(ref n, "test"));
+            Assert.AreEqual(m + "\r\n", parser2.Sorter.RemoveCats(ref n, "test"), "cats not pulled out of comments");
 
             // comments on same line of category
             const string o = @"[[Category:Canadian Aviation Hall of Fame inductees]]
@@ -615,6 +621,16 @@ text
 foo";
             
             Assert.IsFalse(parser2.Sorter.RemoveCats(ref bug2, "test").Contains(@"[[Category:Living People]]"));
+            
+            string nw = @"[[Category:American women writers]]
+[[Category:Autism activists]]
+<nowiki>
+[[Category:LGBT people from the United States]]
+[[Category:LGBT television personalities]]</nowiki>
+[[Category:Parents of people on the autistic spectrum]]";
+
+            Assert.AreEqual("", parser2.Sorter.RemoveCats(ref nw, "test"));
+            Assert.IsFalse(parser2.Sorter.RemoveCats(ref nw, "test").Contains(@"[[Category:LGBT people from the United States]]"));
         }
 
         [Test]
