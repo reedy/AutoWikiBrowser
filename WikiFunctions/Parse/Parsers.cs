@@ -2591,7 +2591,10 @@ namespace WikiFunctions.Parse
         public static DateLocale DeterminePredominantDateLocale(string articleText, bool considerISO, bool explicitonly)
         {
             // first check for template telling us the preference
-            string DatesT = WikiRegexes.UseDatesTemplate.Match(articleText).Groups[1].Value;
+            string DatesT = WikiRegexes.UseDatesTemplate.Match(articleText).Groups[2].Value.ToLower();
+            
+            DatesT = DatesT.Replace("iso", "ymd");
+            DatesT = Regex.Match(DatesT, @"(ymd|dmy|mdy)").Value;
 
             if (Variables.LangCode == "en" && DatesT.Length > 0)
             {

@@ -497,10 +497,9 @@ namespace WikiFunctions
         public static readonly Regex SicTag = new Regex(@"({{\s*(?:[Ss]ic|[Tt]ypo)(?:\||}})|([\(\[{]\s*[Ss]ic!?\s*[\)\]}]))", RegexOptions.Compiled);
         
         /// <summary>
-        /// Matches the {{use dmy dates}} family of templates
+        /// Matches the {{use dmy dates}} family of templates and redirects
         /// </summary>
-        public static readonly Regex UseDatesTemplate = new Regex(@"{{\s*[Uu]se (dmy|mdy|ymd) dates\s*}}", RegexOptions.Compiled);
-        // TODO match redirects of UseDates templates
+        public static readonly Regex UseDatesTemplate = Tools.NestedTemplateRegex(new List<string>(@"DMY,dmy,use dmy dates,MDY,mdy,use mdy dates,ISO,use ymd dates".Split(',')));
         
         /// <summary>
         /// Matches dates in American format – "Month dd, YYYY"
