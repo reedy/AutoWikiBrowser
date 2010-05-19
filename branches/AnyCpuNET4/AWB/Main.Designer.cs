@@ -289,6 +289,7 @@ namespace AutoWikiBrowser
             this.lblLinks = new System.Windows.Forms.Label();
             this.chkSkipIfNoRegexTypo = new System.Windows.Forms.CheckBox();
             this.chkSkipNoImgChange = new System.Windows.Forms.CheckBox();
+            this.chkAppendMetaDataSort = new System.Windows.Forms.CheckBox();
             this.botEditsStop = new System.Windows.Forms.NumericUpDown();
             this.txtEdit = new WikiFunctions.Controls.ArticleTextBox();
             this.mnuHistory = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -1253,21 +1254,21 @@ namespace AutoWikiBrowser
             // loadPluginToolStripMenuItem
             // 
             this.loadPluginToolStripMenuItem.Name = "loadPluginToolStripMenuItem";
-            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.loadPluginToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.loadPluginToolStripMenuItem.Text = "&Load...";
             this.loadPluginToolStripMenuItem.Click += new System.EventHandler(this.loadPluginToolStripMenuItem_Click);
             // 
             // managePluginsToolStripMenuItem
             // 
             this.managePluginsToolStripMenuItem.Name = "managePluginsToolStripMenuItem";
-            this.managePluginsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.managePluginsToolStripMenuItem.Size = new System.Drawing.Size(130, 22);
             this.managePluginsToolStripMenuItem.Text = "&Manager...";
             this.managePluginsToolStripMenuItem.Click += new System.EventHandler(this.managePluginsToolStripMenuItem_Click);
             // 
             // toolStripSeparator26
             // 
             this.toolStripSeparator26.Name = "toolStripSeparator26";
-            this.toolStripSeparator26.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator26.Size = new System.Drawing.Size(127, 6);
             // 
             // ToolStripMenuGeneral
             // 
@@ -2657,6 +2658,7 @@ namespace AutoWikiBrowser
             // lbDuplicateWikilinks
             // 
             this.lbDuplicateWikilinks.FormattingEnabled = true;
+            this.lbDuplicateWikilinks.HorizontalScrollbar = true;
             this.lbDuplicateWikilinks.Location = new System.Drawing.Point(7, 89);
             this.lbDuplicateWikilinks.Name = "lbDuplicateWikilinks";
             this.lbDuplicateWikilinks.Size = new System.Drawing.Size(127, 69);
@@ -2776,6 +2778,17 @@ namespace AutoWikiBrowser
             this.chkSkipNoImgChange.Text = "&Skip page when no file changed";
             this.ToolTip.SetToolTip(this.chkSkipNoImgChange, "Automatically skips page if no file changed");
             this.chkSkipNoImgChange.UseVisualStyleBackColor = true;
+            // 
+            // chkAppendMetaDataSort
+            // 
+            this.chkAppendMetaDataSort.AutoSize = true;
+            this.chkAppendMetaDataSort.Enabled = false;
+            this.chkAppendMetaDataSort.Location = new System.Drawing.Point(130, 113);
+            this.chkAppendMetaDataSort.Name = "chkAppendMetaDataSort";
+            this.chkAppendMetaDataSort.Size = new System.Drawing.Size(119, 17);
+            this.chkAppendMetaDataSort.TabIndex = 7;
+            this.chkAppendMetaDataSort.Text = "Sort meta data after";
+            this.chkAppendMetaDataSort.UseVisualStyleBackColor = true;
             // 
             // botEditsStop
             // 
@@ -3095,6 +3108,7 @@ namespace AutoWikiBrowser
             // 
             // tpOptions
             // 
+            this.tpOptions.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.tpOptions.Controls.Add(this.groupBox13);
             this.tpOptions.Controls.Add(this.groupBox1);
             this.tpOptions.Controls.Add(this.groupBox6);
@@ -3104,7 +3118,6 @@ namespace AutoWikiBrowser
             this.tpOptions.Size = new System.Drawing.Size(278, 351);
             this.tpOptions.TabIndex = 0;
             this.tpOptions.Text = "Options";
-            this.tpOptions.UseVisualStyleBackColor = true;
             // 
             // groupBox13
             // 
@@ -3188,6 +3201,7 @@ namespace AutoWikiBrowser
             // tpMoreOptions
             // 
             this.tpMoreOptions.AutoScroll = true;
+            this.tpMoreOptions.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.tpMoreOptions.Controls.Add(this.ImageGroupBox);
             this.tpMoreOptions.Controls.Add(this.groupBox4);
             this.tpMoreOptions.Controls.Add(this.groupBox5);
@@ -3197,7 +3211,6 @@ namespace AutoWikiBrowser
             this.tpMoreOptions.Size = new System.Drawing.Size(278, 351);
             this.tpMoreOptions.TabIndex = 1;
             this.tpMoreOptions.Text = "More...";
-            this.tpMoreOptions.UseVisualStyleBackColor = true;
             // 
             // ImageGroupBox
             // 
@@ -3263,6 +3276,7 @@ namespace AutoWikiBrowser
             this.groupBox4.Controls.Add(this.rdoPrepend);
             this.groupBox4.Controls.Add(this.rdoAppend);
             this.groupBox4.Controls.Add(this.chkAppend);
+            this.groupBox4.Controls.Add(this.chkAppendMetaDataSort);
             this.groupBox4.Controls.Add(this.txtAppendMessage);
             this.groupBox4.Location = new System.Drawing.Point(6, 6);
             this.groupBox4.Name = "groupBox4";
@@ -3277,9 +3291,9 @@ namespace AutoWikiBrowser
             this.lblNewlineCharacters.Enabled = false;
             this.lblNewlineCharacters.Location = new System.Drawing.Point(78, 113);
             this.lblNewlineCharacters.Name = "lblNewlineCharacters";
-            this.lblNewlineCharacters.Size = new System.Drawing.Size(96, 13);
+            this.lblNewlineCharacters.Size = new System.Drawing.Size(48, 13);
             this.lblNewlineCharacters.TabIndex = 6;
-            this.lblNewlineCharacters.Text = "newline characters";
+            this.lblNewlineCharacters.Text = "newlines";
             // 
             // lblUse
             // 
@@ -3358,6 +3372,7 @@ namespace AutoWikiBrowser
             // 
             // tpDab
             // 
+            this.tpDab.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.tpDab.Controls.Add(this.panelDab);
             this.tpDab.Controls.Add(this.chkEnableDab);
             this.tpDab.Location = new System.Drawing.Point(4, 22);
@@ -3366,7 +3381,6 @@ namespace AutoWikiBrowser
             this.tpDab.Size = new System.Drawing.Size(278, 351);
             this.tpDab.TabIndex = 4;
             this.tpDab.Text = "Disambig";
-            this.tpDab.UseVisualStyleBackColor = true;
             // 
             // panelDab
             // 
@@ -3380,7 +3394,7 @@ namespace AutoWikiBrowser
             // 
             // groupBox12
             // 
-            this.groupBox12.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.groupBox12.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.groupBox12.Controls.Add(this.label5);
             this.groupBox12.Controls.Add(this.udContextChars);
             this.groupBox12.Controls.Add(this.label4);
@@ -3453,6 +3467,7 @@ namespace AutoWikiBrowser
             // 
             // groupBox11
             // 
+            this.groupBox11.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.groupBox11.Controls.Add(this.btnLoadLinks);
             this.groupBox11.Controls.Add(this.txtDabLink);
             this.groupBox11.Location = new System.Drawing.Point(3, 3);
@@ -3484,6 +3499,7 @@ namespace AutoWikiBrowser
             // 
             // tpSkip
             // 
+            this.tpSkip.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.tpSkip.Controls.Add(this.gbRegexSkip);
             this.tpSkip.Controls.Add(this.groupBox8);
             this.tpSkip.Controls.Add(this.gbPageExisting);
@@ -3493,7 +3509,6 @@ namespace AutoWikiBrowser
             this.tpSkip.Size = new System.Drawing.Size(278, 351);
             this.tpSkip.TabIndex = 6;
             this.tpSkip.Text = "Skip";
-            this.tpSkip.UseVisualStyleBackColor = true;
             // 
             // gbRegexSkip
             // 
@@ -3554,6 +3569,7 @@ namespace AutoWikiBrowser
             // 
             // tpBots
             // 
+            this.tpBots.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.tpBots.Controls.Add(this.groupBox16);
             this.tpBots.Controls.Add(this.groupBox14);
             this.tpBots.Controls.Add(this.groupBox7);
@@ -3565,7 +3581,6 @@ namespace AutoWikiBrowser
             this.tpBots.Size = new System.Drawing.Size(278, 351);
             this.tpBots.TabIndex = 5;
             this.tpBots.Text = "Bots";
-            this.tpBots.UseVisualStyleBackColor = true;
             // 
             // groupBox16
             // 
@@ -3678,7 +3693,7 @@ namespace AutoWikiBrowser
             // 
             // lblOnlyBots
             // 
-            this.lblOnlyBots.BackColor = System.Drawing.Color.Transparent;
+            this.lblOnlyBots.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.lblOnlyBots.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
             this.lblOnlyBots.Location = new System.Drawing.Point(0, 0);
             this.lblOnlyBots.Name = "lblOnlyBots";
@@ -3689,6 +3704,7 @@ namespace AutoWikiBrowser
             // 
             // tpStart
             // 
+            this.tpStart.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.tpStart.Controls.Add(this.btnStart);
             this.tpStart.Controls.Add(this.btnStop);
             this.tpStart.Controls.Add(this.btnFalsePositive);
@@ -3714,7 +3730,6 @@ namespace AutoWikiBrowser
             this.tpStart.Size = new System.Drawing.Size(278, 351);
             this.tpStart.TabIndex = 3;
             this.tpStart.Text = "Start";
-            this.tpStart.UseVisualStyleBackColor = true;
             // 
             // SummaryLabel
             // 
@@ -4468,6 +4483,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.RadioButton rdoPrepend;
         private System.Windows.Forms.RadioButton rdoAppend;
         private System.Windows.Forms.CheckBox chkAppend;
+        private System.Windows.Forms.CheckBox chkAppendMetaDataSort;
         private System.Windows.Forms.TextBox txtAppendMessage;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.CheckBox chkSkipNoCatChange;
@@ -4504,7 +4520,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Label lblAutoDelay;
         private System.Windows.Forms.Label lblbotEditsStop;
         private System.Windows.Forms.TabPage tpStart;
-        private System.Windows.Forms.Label lblSummary;
         private System.Windows.Forms.CheckBox chkLock;
         private System.Windows.Forms.Button btnMove;
         private System.Windows.Forms.Button btnDelete;
@@ -4694,5 +4709,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ToolStripMenuItem submitStatToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator21;
+        private System.Windows.Forms.Label lblSummary;
     }
 }

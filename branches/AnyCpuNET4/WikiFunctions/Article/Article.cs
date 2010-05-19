@@ -1147,6 +1147,16 @@ namespace WikiFunctions
 
             Variables.Profiler.Profile("End of general fixes");
         }
+        
+        /// <summary>
+        /// Calls the MetaDataSorter on the article if it is on mainspace
+        /// </summary>
+        /// <param name="parsers"></param>
+        public void PerformMetaDataSort(Parsers parsers)
+        {
+            if (!Globals.UnitTestMode && NameSpaceKey == Namespace.Mainspace)
+                mArticleText = parsers.SortMetaData(ArticleText, Name);
+        }
         #endregion
 
         /// <summary>

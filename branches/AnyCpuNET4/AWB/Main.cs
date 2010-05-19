@@ -568,6 +568,10 @@ namespace AutoWikiBrowser
                         break;
                 }
             }
+            else if (ex is ApiBlankException)
+            {
+                StartDelayedRestartTimer();
+            }
             else if (ex is NewMessagesException)
             {
                 WeHaveNewMessages();
@@ -1491,6 +1495,9 @@ namespace AutoWikiBrowser
                     else
                         theArticle.AWBChangeArticleText("Prepended your message",
                                                         Tools.ApplyKeyWords(theArticle.Name, txtAppendMessage.Text) + newlines + theArticle.ArticleText, false);
+                
+                    if(chkAppendMetaDataSort.Checked)
+                        theArticle.PerformMetaDataSort(Parser);
                 }
 
                 // replace/remove/comment out images
@@ -2258,7 +2265,7 @@ window.scrollTo(0, diffTopY);
         private void chkAppend_CheckedChanged(object sender, EventArgs e)
         {
             txtAppendMessage.Enabled = rdoAppend.Enabled = rdoPrepend.Enabled =
-                udNewlineChars.Enabled = lblUse.Enabled = lblNewlineCharacters.Enabled = chkAppend.Checked;
+                udNewlineChars.Enabled = lblUse.Enabled = lblNewlineCharacters.Enabled = chkAppendMetaDataSort.Enabled = chkAppend.Checked;
         }
 
         private void wordWrapToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -3343,22 +3350,22 @@ window.scrollTo(0, diffTopY);
 
         private void openPageInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Tools.OpenURLInBrowser(Variables.URLIndex + "?title=" + TheArticle.URLEncodedName);
+            TheSession.Site.OpenPageInBrowser(TheArticle.Name);
         }
 
         private void openTalkPageInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Tools.OpenURLInBrowser(Variables.URLIndex + "?title=" + Tools.ConvertToTalk(TheArticle));
+            TheSession.Site.OpenPageInBrowser(Tools.ConvertToTalk(TheArticle));
         }
 
         private void openHistoryMenuItem_Click(object sender, EventArgs e)
         {
-            Tools.OpenURLInBrowser(Variables.URLIndex + "?title=" + TheArticle.URLEncodedName + "&action=history");
+            TheSession.Site.OpenPageInBrowserNoEncode(TheArticle.URLEncodedName + "?action=history");
         }
 
         private void openSelectionInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Tools.OpenURLInBrowser(Variables.URLIndex + "?title=" + txtEdit.SelectedText);
+            TheSession.Site.OpenPageInBrowser(txtEdit.SelectedText);
         }
 
         private void chkGeneralParse_CheckedChanged(object sender, EventArgs e)

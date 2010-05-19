@@ -1873,9 +1873,9 @@ Message: {2}
         /// 
         /// </summary>
         /// <returns></returns>
-        public static int GetNumberFromUser(bool edits)
+        public static int GetNumberFromUser(bool edits, int max)
         {
-            using (Controls.LevelNumber num = new Controls.LevelNumber(edits))
+            using (Controls.LevelNumber num = new Controls.LevelNumber(edits, max))
             {
                 if (num.ShowDialog() != DialogResult.OK) return -1;
                 return num.Levels;
@@ -2041,9 +2041,48 @@ Message: {2}
         }
         
         /// <summary>
-        /// Renames the given template named parameter in the input template
+        /// Returns the requested argument from the input template call
         /// </summary>
-        /// <param name="template">The template to update</param>
+        /// <param name="template">The template call</param>
+        /// <param name="argument">The argument to return</param>
+        /// <returns>The argument value (trimmed)</returns>
+        public static string GetTemplateArgument(string template, int argument)
+        {
+             Regex arg = new Regex(@"\|\s*(.*?)\s*(?=\||}}$)", RegexOptions.Singleline);
+            
+            string pipecleanedtemplate = PipeCleanedTemplate(template);
+            int count = 1;
+            
+            foreach(Match m in arg.Matches(pipecleanedtemplate))
+            {
+                if(count.Equals(argument))
+                    return template.Substring(m.Groups[1].Index, m.Groups[1].Length);
+                
+                count++;
+            }
+            
+            return "";
+        }
+        
+        /// <summary>
+        /// Returns the number of arguments to the input template call
+        /// </summary>
+        /// <param name="template">The template call</param>
+        /// <param name="argument">The argument to return</param>
+        /// <returns>The argument count</returns>
+        public static int GetTemplateArgumentCount(string template)
+        {
+            Regex arg = new Regex(@"\|\s*(.*?)\s*(?=\||}}$)", RegexOptions.Singleline);
+            
+            string pipecleanedtemplate = PipeCleanedTemplate(template);
+            
+            return arg.Matches(pipecleanedtemplate).Count;
+        }
+        
+        /// <summary>
+        /// Renames the given template named parameter in the input template call
+        /// </summary>
+        /// <param name="template">The template call to update</param>
         /// <param name="oldparameter">Existing parameter name</param>
         /// <param name="newparameter">New parameter name</param>
         /// <returns>The updated template</returns>
@@ -2219,6 +2258,19 @@ Message: {2}
         public static string RenameTemplate(string template, string newtemplatename)
         {
             return NestedTemplateRegex(GetTemplateName(template)).Replace(template, "$1" + newtemplatename + "$3");
+        }
+        
+        /// <summary>
+        /// Renames the input template to the new name given
+        /// </summary>
+        /// <param name="articletext">the page text</param>
+        /// <param name="templatename">the template call</param>
+        /// <param name="newtemplatename">the new template name</param>
+        /// <param name="count">The number of templates to rename</param>
+        /// <returns></returns>
+        public static string RenameTemplate(string articletext, string templatename, string newtemplatename, int count)
+        {
+            return NestedTemplateRegex(templatename).Replace(articletext, "$1" + newtemplatename + "$3", count);
         }
         
         private static readonly string NestedTemplateRegexStart = @"({{\s*)(";

@@ -291,6 +291,7 @@ namespace AutoWikiBrowser
                         RemoveSortKey = chkRemoveSortKey.Checked,
                         SkipIfNoImgChange = chkSkipNoImgChange.Checked,
                         AppendText = chkAppend.Checked,
+                        AppendTextMetaDataSort = chkAppendMetaDataSort.Checked,
                         Append = !rdoPrepend.Checked,
                         Text = txtAppendMessage.Text,
                         Newlines = (int) udNewlineChars.Value,
@@ -531,6 +532,7 @@ namespace AutoWikiBrowser
             chkSkipNoImgChange.Checked = p.Editprefs.SkipIfNoImgChange;
 
             chkAppend.Checked = p.Editprefs.AppendText;
+            chkAppendMetaDataSort.Checked = p.Editprefs.AppendTextMetaDataSort;
             rdoAppend.Checked = p.Editprefs.Append;
             rdoPrepend.Checked = !p.Editprefs.Append;
             txtAppendMessage.Text = p.Editprefs.Text;

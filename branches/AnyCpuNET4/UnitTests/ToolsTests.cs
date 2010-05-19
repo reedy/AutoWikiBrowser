@@ -1003,6 +1003,31 @@ John", "*"));
         }
         
         [Test]
+        public void GetTemplateArgument()
+        {
+            Assert.AreEqual("foo", Tools.GetTemplateArgument(@"{{abc|foo}}", 1));
+            Assert.AreEqual("foo", Tools.GetTemplateArgument(@"{{abc| foo}}", 1));
+            Assert.AreEqual("foo", Tools.GetTemplateArgument(@"{{abc |  foo  }}", 1));            
+            Assert.AreEqual("foo", Tools.GetTemplateArgument(@"{{abc |  foo  |bar}}", 1));
+            
+            Assert.AreEqual("bar", Tools.GetTemplateArgument(@"{{abc |  foo  |bar }}", 2));
+            Assert.AreEqual("", Tools.GetTemplateArgument(@"{{abc ||  foo  |bar }}", 1));
+            Assert.AreEqual("bar [[piped|link]]", Tools.GetTemplateArgument(@"{{abc |  foo  |bar [[piped|link]] }}", 2));
+        }
+        
+        [Test]
+        public void GetTemplateArgumentCount()
+        {
+            Assert.AreEqual(0, Tools.GetTemplateArgumentCount(@"{{foo}}"));
+            Assert.AreEqual(1, Tools.GetTemplateArgumentCount(@"{{foo|bar}}"), "counts unnamed parameters");
+            Assert.AreEqual(1, Tools.GetTemplateArgumentCount(@"{{foo|bar=yes}}"), "counts named parameters");
+            
+            Assert.AreEqual(3, Tools.GetTemplateArgumentCount(@"{{foo|bar|here|yte}}"), "counts multiple parameters");
+            
+            Assert.AreEqual(1, Tools.GetTemplateArgumentCount(@"{{foo|bar={{yes|foo}}}}"), "doesn't count nested template calls");
+        }
+        
+        [Test]
         public void RenameTemplateParameter()
         {
             Assert.AreEqual(@"{{cite |param1=bar|param3=great}}", Tools.RenameTemplateParameter(@"{{cite |param1=bar|param2=great}}", "param2", "param3"));
@@ -1062,6 +1087,10 @@ John", "*"));
             
             // handles invalid template names gracefully
             Assert.AreEqual(correct, Tools.RenameTemplate(correct, @"foo(", "bar"));
+            
+            Assert.AreEqual(@"{{bar}} {{foo}}", Tools.RenameTemplate(@"{{foo}} {{foo}}", "foo", "bar", 1), "count applied correctly");
+            
+            Assert.AreEqual(@"{{bar||here1}} {{foo|here2}}", Tools.RenameTemplate(@"{{foo|here1}} {{foo|here2}}", "foo", "bar|", 1), "rename to add pipe");
         }
         
         [Test]
@@ -1344,6 +1373,7 @@ title={{abc|fdkjdsfjk=fdaskjlfds
             
             Assert.AreEqual(MultipleTemplates.Match(@"{{foo}}").Groups[2].Value, @"foo");
             Assert.AreEqual(MultipleTemplates.Match(@"{{ Foo}}").Groups[2].Value, @"Foo");
+            Assert.AreEqual(MultipleTemplates.Match(@"{{ Foo|bar}}").Groups[3].Value, @"|bar}}");
             
             Assert.IsTrue(MultipleTemplates.IsMatch(@"{{foo}}"));
             Assert.IsTrue(MultipleTemplates.IsMatch(@"{{Foo}}"));

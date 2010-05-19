@@ -500,6 +500,7 @@ namespace WikiFunctions
         /// Matches the {{use dmy dates}} family of templates
         /// </summary>
         public static readonly Regex UseDatesTemplate = new Regex(@"{{\s*[Uu]se (dmy|mdy|ymd) dates\s*}}", RegexOptions.Compiled);
+        // TODO match redirects of UseDates templates
         
         /// <summary>
         /// Matches dates in American format – "Month dd, YYYY"
@@ -748,7 +749,7 @@ namespace WikiFunctions
         /// <summary>
         /// Finds article disamiguation links from http://en.wikipedia.org/wiki/Wikipedia:Template_messages/General#Disambiguation_and_redirection (en only)
         /// </summary>
-        public static readonly Regex Dablinks = new Regex(@"{{\s*(?:[Aa]bout|[Ff]or[2-3]?|[Dd]ablink|[Dd]istinguish2?|[Oo]therpeople[1-4]|[Oo]ther ?persons|[Oo]ther ?places[23]?|[Oo]ther ?ships|[Oo]theruses-number|[Oo]ther ?use(?:s[2-5]|s)?|2otheruses|[Rr]edirect-acronym|[Rr]edirect[2-4]?|[Aa]mbiguous link|[Dd]isambig-acronym)\s*(?:\|[^{}]*(?:{{[^{}]*}}[^{}]*)?)?}}", RegexOptions.Compiled);
+        public static readonly Regex Dablinks = new Regex(@"{{\s*(?:[Aa]bout|[Ff]or[2-3]?|[Dd]ablink|[Dd]istinguish2?|[Oo]therpeople[1-4]|[Oo]ther ?persons|[Oo]ther ?places[23]?|[Oo]ther ?ships|[Oo]theruses-number|[Oo]ther ?use(?:s[2-5]|s)?|2otheruses|[Rr]edirect-acronym|[Rr]edirect[2-4]?|[Tt]his|[Aa]mbiguous link|[Dd]isambig-acronym)\s*\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}}", RegexOptions.Compiled);
         
         /// <summary>
         /// Matches the maintenance tags (en-wiki only) such as orphan, cleanup
@@ -858,7 +859,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches parameters within the {{article issues}} template using title case (invalid casing)
         /// </summary>
-        public static readonly Regex ArticleIssuesInTitleCase = new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\|\s*(?:[^{}]+?\|\s*)?)([A-Z])([a-z]+(?: [a-z]+)?\s*=)", RegexOptions.Compiled);
+        public static readonly Regex ArticleIssuesInTitleCase = new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\|\s*(?:[^{}]+?\|\s*)?)([A-Z])([a-z]+[ a-zA-Z]*\s*=)", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches the {{article issues}} template using the 'expert' parameter
