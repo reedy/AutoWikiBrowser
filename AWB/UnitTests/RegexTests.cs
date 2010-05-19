@@ -365,10 +365,15 @@ bar</ POEM>");
         public void UseDatesTemplateTests()
         {
             TestMatch(WikiRegexes.UseDatesTemplate, @"{{use mdy dates}}", true);
+            TestMatch(WikiRegexes.UseDatesTemplate, @"{{mdy}}", true);
+            TestMatch(WikiRegexes.UseDatesTemplate, @"{{Mdy}}", true);
             TestMatch(WikiRegexes.UseDatesTemplate, @"{{ Use dmy dates}}", true);
+            TestMatch(WikiRegexes.UseDatesTemplate, @"{{dmy}}", true);
+            TestMatch(WikiRegexes.UseDatesTemplate, @"{{DMY}}", true);
             TestMatch(WikiRegexes.UseDatesTemplate, @"{{use ymd dates}}", true);
+            TestMatch(WikiRegexes.UseDatesTemplate, @"{{ISO}}", true);
             
-            Assert.AreEqual(WikiRegexes.UseDatesTemplate.Match( @"{{use mdy dates}}").Groups[1].Value, "mdy");
+            Assert.AreEqual(WikiRegexes.UseDatesTemplate.Match( @"{{use mdy dates}}").Groups[2].Value, "use mdy dates");
         }
         
         [Test]
