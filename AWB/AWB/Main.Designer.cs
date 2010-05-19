@@ -2660,7 +2660,6 @@ namespace AutoWikiBrowser
             this.lbDuplicateWikilinks.FormattingEnabled = true;
             this.lbDuplicateWikilinks.Location = new System.Drawing.Point(7, 89);
             this.lbDuplicateWikilinks.Name = "lbDuplicateWikilinks";
-            this.lbDuplicateWikilinks.ScrollAlwaysVisible = true;
             this.lbDuplicateWikilinks.Size = new System.Drawing.Size(127, 69);
             this.lbDuplicateWikilinks.TabIndex = 2;
             this.lbDuplicateWikilinks.Visible = false;
