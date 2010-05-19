@@ -1449,6 +1449,9 @@ foo<!--comm-->|title=abc
             
             Assert.AreEqual(@"", Tools.GetMetaContentValue(@"<meta name  =""PubDate"" CONTENT="" 2009-03-02 "">", "PUBDATEXX"));
             Assert.AreEqual(@"", Tools.GetMetaContentValue(@"<meta name  =""PubDateX"" CONTENT="" 2009-03-02 "">", "PUBDATE"));
+            
+            Assert.AreEqual(@"", Tools.GetMetaContentValue(@"<meta name  =""PubDateX"" CONTENT="" 2009-03-02 "">", ""));
+            Assert.AreEqual(@"", Tools.GetMetaContentValue("", "PUBDATE"));
         }
         
         [Test]
