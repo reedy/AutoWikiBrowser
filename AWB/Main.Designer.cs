@@ -376,6 +376,7 @@ namespace AutoWikiBrowser
             this.lblOnlyBots = new System.Windows.Forms.Label();
             this.tpStart = new System.Windows.Forms.TabPage();
             this.SummaryLabel = new System.Windows.Forms.Label();
+            this.lblSummary = new System.Windows.Forms.Label();
             this.cmboEditSummary = new System.Windows.Forms.ComboBox();
             this.findGroup = new System.Windows.Forms.GroupBox();
             this.EditBoxTab = new System.Windows.Forms.TabControl();
@@ -418,7 +419,6 @@ namespace AutoWikiBrowser
             this.toolStripSeparatorMakeFromTextBox = new System.Windows.Forms.ToolStripSeparator();
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
-            this.lblSummary = new System.Windows.Forms.Label();
             this.mnuTextBox.SuspendLayout();
             this.MnuMain.SuspendLayout();
             this.StatusMain.SuspendLayout();
@@ -2658,6 +2658,7 @@ namespace AutoWikiBrowser
             // lbDuplicateWikilinks
             // 
             this.lbDuplicateWikilinks.FormattingEnabled = true;
+            this.lbDuplicateWikilinks.HorizontalScrollbar = true;
             this.lbDuplicateWikilinks.Location = new System.Drawing.Point(7, 89);
             this.lbDuplicateWikilinks.Name = "lbDuplicateWikilinks";
             this.lbDuplicateWikilinks.Size = new System.Drawing.Size(127, 69);
@@ -3738,6 +3739,20 @@ namespace AutoWikiBrowser
             this.SummaryLabel.TabIndex = 0;
             this.SummaryLabel.Text = "S&ummary:";
             // 
+            // lblSummary
+            // 
+            this.lblSummary.AutoEllipsis = true;
+            this.lblSummary.AutoSize = true;
+            this.lblSummary.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSummary.Location = new System.Drawing.Point(52, 9);
+            this.lblSummary.MaximumSize = new System.Drawing.Size(220, 13);
+            this.lblSummary.MinimumSize = new System.Drawing.Size(220, 13);
+            this.lblSummary.Name = "lblSummary";
+            this.lblSummary.Size = new System.Drawing.Size(220, 13);
+            this.lblSummary.TabIndex = 13;
+            this.lblSummary.UseMnemonic = false;
+            this.lblSummary.Visible = false;
+            // 
             // cmboEditSummary
             // 
             this.cmboEditSummary.DropDownHeight = 198;
@@ -4204,20 +4219,6 @@ namespace AutoWikiBrowser
             // 
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
-            // 
-            // lblSummary
-            // 
-            this.lblSummary.AutoEllipsis = true;
-            this.lblSummary.AutoSize = true;
-            this.lblSummary.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSummary.Location = new System.Drawing.Point(52, 9);
-            this.lblSummary.MaximumSize = new System.Drawing.Size(220, 13);
-            this.lblSummary.MinimumSize = new System.Drawing.Size(220, 13);
-            this.lblSummary.Name = "lblSummary";
-            this.lblSummary.Size = new System.Drawing.Size(220, 13);
-            this.lblSummary.TabIndex = 13;
-            this.lblSummary.UseMnemonic = false;
-            this.lblSummary.Visible = false;
             // 
             // MainForm
             // 
