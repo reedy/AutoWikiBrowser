@@ -8,6 +8,7 @@
 
 'You should have received a copy of the GNU General Public License Version 2 along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 Imports WikiFunctions.API
+Imports WikiFunctions
 
 Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
     Friend NotInheritable Class AssessmentComments

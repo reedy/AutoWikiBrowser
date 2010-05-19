@@ -1,3 +1,5 @@
+Imports WikiFunctions
+
 'Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 'Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
 
@@ -38,13 +40,13 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Private Const conGujaratParm As String = "IndGujarat"
         Private Const conHaryanaParm As String = "IndHaryana"
         Private Const conHimachalParm As String = "IndHimachal"
-        Private Const conJandKParm As String = "IndJandK"        
+        Private Const conJandKParm As String = "IndJandK"
         Private Const conJharkhandParm As String = "IndJharkhand"
         Private Const conKarnatakaParm As String = "IndKarnataka"
         Private Const conKeralaParm As String = "IndKerala"
         Private Const conMadhyaParm As String = "IndMadhya"
         Private Const conMaharashtraParm As String = "IndMaharashtra"
-        Private Const conManipurParm As String = "IndManipur"        
+        Private Const conManipurParm As String = "IndManipur"
         Private Const conMeghalayaParm As String = "IndMeghalaya"
         Private Const conMizoramParm As String = "IndMizoram"
         Private Const conNagalandParm As String = "IndNagaland"
@@ -394,10 +396,10 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         Friend Property JandK() As Boolean
             Get
-                Return JandKCheckBox.Checked
+                Return JandkCheckBox.Checked
             End Get
             Set(ByVal value As Boolean)
-                JandKCheckBox.Checked = value
+                JandkCheckBox.Checked = value
             End Set
         End Property
 

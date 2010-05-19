@@ -10,6 +10,7 @@
 
 ' Manual assessment:
 Imports WikiFunctions.API
+Imports WikiFunctions
 
 Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
     Friend NotInheritable Class Assessments

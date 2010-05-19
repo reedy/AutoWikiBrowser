@@ -17,7 +17,8 @@
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -60,9 +61,6 @@
     <Import Include="System.Text.RegularExpressions" />
     <Import Include="System.Windows.Forms" />
     <Import Include="System.Xml" />
-    <Import Include="WikiFunctions" />
-    <Import Include="WikiFunctions.Logging.Uploader" />
-    <Import Include="WikiFunctions.Plugin" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AboutBox.Designer.vb">
