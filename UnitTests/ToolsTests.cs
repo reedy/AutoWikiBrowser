@@ -829,6 +829,20 @@ John", "*"));
             string wrong = @"foo";
             Assert.AreEqual(wrong, Tools.ISOToENDate(wrong, Parsers.DateLocale.International));
         }
+        
+        [Test]
+        public void ISOToDateEnOnly()
+        {
+            #if DEBUG         
+            string iso2 = @"1890-07-04";
+            
+            Variables.SetProjectLangCode("fr");
+            Assert.AreEqual(iso2, Tools.ISOToENDate(iso2, Parsers.DateLocale.International));
+            
+            Variables.SetProjectLangCode("en");
+            Assert.AreEqual(@"4 July 1890", Tools.ISOToENDate(iso2, Parsers.DateLocale.International));
+            #endif
+        }
 
         [Test, SetCulture("ru-RU")]
         public void ISOToDateOtherCulture()
@@ -1367,6 +1381,10 @@ title={{abc|fdkjdsfjk=fdaskjlfds
         public void  NestedTemplateRegexListSingle()
         {
             List<string> ListOfTemplates = new List<string>();
+            
+            Regex MultipleTemplatesN = Tools.NestedTemplateRegex(ListOfTemplates);
+            Assert.Null(MultipleTemplatesN, "null return if zero-entry list input");
+            
             ListOfTemplates.Add(@"Foo");
             
             Regex MultipleTemplates = Tools.NestedTemplateRegex(ListOfTemplates);
