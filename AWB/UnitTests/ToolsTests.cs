@@ -1508,7 +1508,9 @@ Start date and age
         public void MakeHumanCatKeyWithRomanNumbers()
         {
             Assert.AreEqual("Doe, John, Iii", Tools.MakeHumanCatKey("John Doe III"));
+            Assert.AreEqual("John Iii", Tools.MakeHumanCatKey("John III"));
             Assert.AreEqual("Xvii", Tools.MakeHumanCatKey("XVII"));
+            Assert.AreEqual("Spain, John Doe King Of, Iii", Tools.MakeHumanCatKey("John Doe King of Spain III"));
         }
 
         [Test]
