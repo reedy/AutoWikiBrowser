@@ -751,6 +751,20 @@ Jones 2005</ref>"));
             // nothing to do here
             Assert.AreEqual("[[dog|]]", Parsers.SimplifyLinks("[[dog|]]"));
         }
+        
+        [Test]
+        public void FixDatesEnOnly()
+        {
+            #if DEBUG
+            const string bad = "the later 1990's";
+            
+            Variables.SetProjectLangCode("fr");
+            Assert.AreEqual(bad, parser.FixDates(bad));
+            
+            Variables.SetProjectLangCode("en");
+            Assert.AreEqual("the later 1990s", parser.FixDates(bad));
+            #endif
+        }
 
         [Test]
         public void FixDates()
@@ -2227,6 +2241,10 @@ publisher=The BBC|date=June 3rd, 2009|accessdate=January 15th, 2010}}"));
             Assert.AreEqual(@"{{cite web|url=http://news.bbc.co.uk/1/hi/uk_politics/8080777.stm|title=Brown pressure as Blears quits|
 publisher=The BBC|date=June 3, 2009|accessdate=January 15, 2010}}", Parsers.FixCitationTemplates(@"{{cite web|url=http://news.bbc.co.uk/1/hi/uk_politics/8080777.stm|title=Brown pressure as Blears quits|
 publisher=The BBC|date=June 3rd, 2009|accessdate=January 15, 2010}}"));
+            
+            Assert.AreEqual(@"{{cite web|url=http://news.bbc.co.uk/1/hi/uk_politics/8080777.stm|title=Brown pressure as Blears quits|
+publisher=The BBC|date=3 June 2009|accessdate=15 January 2010}}", Parsers.FixCitationTemplates(@"{{cite web|url=http://news.bbc.co.uk/1/hi/uk_politics/8080777.stm|title=Brown pressure as Blears quits|
+publisher=The BBC|date=3rd June 2009|accessdate=15th January 2010}}"));
             
             // no change - only in title
             string nochange = @"{{cite web|url=http://news.bbc.co.uk/1/hi/uk_politics/8080777.stm|title=Brown pressure at January 15th, 2010}}";
@@ -4006,6 +4024,24 @@ When DST ends in central Europe, clocks retreat from 03:00 CEST to 02:00 CET. Ot
 
             Assert.AreEqual("{{infobox|image=}}",
                             Parsers.RemoveImage("foo", "{{infobox|image=foo}}", false, "", out noChange));
+            Assert.IsFalse(noChange);
+            
+            Assert.AreEqual("", Parsers.RemoveImage("Foo, bar", "[[File:foo%2C_bar|quux [[here]] there]]", false, "", out noChange));
+            Assert.IsFalse(noChange);
+        }
+        
+        [Test]
+        public void RemovalMultipleLines()
+        {
+            bool noChange;
+            
+            Assert.AreEqual("", Parsers.RemoveImage("Foo, bar", @"[[File:foo%2C_bar|quux [[here]]
+there]]", false, "", out noChange));
+            Assert.IsFalse(noChange);
+            
+            Assert.AreEqual(" [[now]]", Parsers.RemoveImage("Foo, bar", @"[[File:foo%2C_bar|quux [[here]] there]] [[now]]", false, "", out noChange));
+            Assert.IsFalse(noChange);
+            Assert.AreEqual(" [[now]]", Parsers.RemoveImage("Foo, bar", @"[[File:foo%2C_bar|quux there]] [[now]]", false, "", out noChange));
             Assert.IsFalse(noChange);
         }
 
