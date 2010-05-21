@@ -3644,7 +3644,7 @@ namespace WikiFunctions.Parse
 
             Regex r = new Regex(@"\[\[\s*:?\s*(?i:"
                                 + WikiRegexes.GenerateNamespaceRegex(Namespace.File, Namespace.Media)
-                                + @")\s*:\s*" + image + @".*\]\]");
+                                + @")\s*:\s*" + image + @".*\]\]", RegexOptions.Singleline);
 
             MatchCollection n = r.Matches(articleText);
             if (n.Count > 0)
