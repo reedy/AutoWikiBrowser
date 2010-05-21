@@ -1330,7 +1330,7 @@ died 2002
         
         [Test]
         public void YearOfBirthMissingCategoryEnOnly()
-        {            
+        {
             #if DEBUG
             const string good = @"[[Category:Pakistani lawyers]]
 [[Category:Attorneys General of Pakistan]]
@@ -5462,6 +5462,7 @@ asdfasdf}} was here", "foo"));
             Assert.AreEqual(@"{{foo<!--comm-->}}", Parsers.GetTemplate(@"now {{foo<!--comm-->}} was here", "foo"));
 
             Assert.AreEqual(@"{{foo  |a={{bar}} here}}", Parsers.GetTemplate(@"now {{foo  |a={{bar}} here}} was here", "foo"));
+            Assert.AreEqual(@"{{foo|bar}}", Parsers.GetTemplate(@"now <!--{{foo|bar}}--> {{foo}} was here", "Foo"));
         }
 
         [Test]
@@ -5934,7 +5935,7 @@ asdfasdf}} was here", "foo"));
             text = parser.Tagger(textIn.Replace(@"}}", "|linkless}}"), "Test", false, out noChange, ref summary);
             Assert.IsTrue(text.Contains(@"{{rq|wikify|style|linkless}}"));
             
-            // no {{Rq}} to update            
+            // no {{Rq}} to update
             text = parser.Tagger(textIn2, "Test", false, out noChange, ref summary);
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
             Assert.IsFalse(text.Contains(@"|linkless}}"));
