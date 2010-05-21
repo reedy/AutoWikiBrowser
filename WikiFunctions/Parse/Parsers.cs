@@ -1324,6 +1324,8 @@ namespace WikiFunctions.Parse
                         found.Add(m.Index + m2.Groups[1].Index, m2.Groups[1].Length);
                 }
             }
+            
+            // TODO add search for: WikiRegex.CiteTemplate pipecleaned value has more | than =, or no = between two |
             return found;
         }
 
