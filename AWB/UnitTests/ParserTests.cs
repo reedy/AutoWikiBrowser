@@ -6135,6 +6135,17 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual("hello {{Pt}} hello", parser.Tagger("hello {{Pt}} hello", "Test", false, out noChange, ref summary));
             Assert.IsTrue(noChange);
         }
+        
+        [Test]
+        public void ConversionsTestsCitationNeeded()
+        {
+            string correct = @"{{citation needed|date=May 2010}}";
+            
+            Assert.AreEqual(correct, Parsers.Conversions(@"{{citation needed|May 2010|date=May 2010}}"));
+            Assert.AreEqual(correct, Parsers.Conversions(@"{{citation needed|may 2010|date=May 2010}}"));
+            Assert.AreEqual(correct, Parsers.Conversions(@"{{citation needed|  May 2010  |date=May 2010}}"));
+            Assert.AreEqual(correct.Replace("ci", "Ci"), Parsers.Conversions(@"{{Citation needed|May 2010|date=May 2010}}"));
+        }
 
         [Test]
         public void ConversionsTestsArticleIssues()
