@@ -319,7 +319,7 @@ namespace WikiFunctions
                 return (NameSpaceKey == Namespace.Article
                         || NameSpaceKey == Namespace.Category
                         || Name.Contains("Sandbox"))
-                        || Name.Contains("/doc");
+                    || Name.Contains("/doc");
             }
         }
 
@@ -486,6 +486,10 @@ namespace WikiFunctions
             return Parsers.DeadLinks(ArticleText);
         }
         
+        /// <summary>
+        /// Returns a dictionary of ambiguously formatted dates within citation templates
+        /// </summary>
+        /// <returns></returns>
         public Dictionary<int, int> AmbiguousCiteTemplateDates()
         {
             return Parsers.AmbigCiteTemplateDates(ArticleText);
@@ -595,8 +599,8 @@ namespace WikiFunctions
                 return;
 
             string strTemp = Tools.ConvertFromLocalLineEndings(mArticleText),
-                   testText = strTemp,
-                   tmpEditSummary = "";
+            testText = strTemp,
+            tmpEditSummary = "";
 
             bool majorChangesMade;
             strTemp = findAndReplace.MultipleFindAndReplace(strTemp, Name, ref tmpEditSummary, out majorChangesMade);
@@ -679,12 +683,12 @@ namespace WikiFunctions
 
             if (langCode == "en")
             {
-            	string strTemp = mArticleText;
-            	
-            	// do not subst on Template documentation pages
-            	if(!(Namespace.Determine(Name).Equals(Namespace.Template) && Name.EndsWith(@"/doc")))
-            		strTemp = Parsers.Conversions(mArticleText);
-            	
+                string strTemp = mArticleText;
+                
+                // do not subst on Template documentation pages
+                if(!(Namespace.Determine(Name).Equals(Namespace.Template) && Name.EndsWith(@"/doc")))
+                    strTemp = Parsers.Conversions(mArticleText);
+                
                 strTemp = Parsers.FixLivingThingsRelatedDates(strTemp);
                 strTemp = Parsers.FixHeadings(strTemp, Name, out noChange);
 
