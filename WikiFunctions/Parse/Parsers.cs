@@ -1325,7 +1325,25 @@ namespace WikiFunctions.Parse
                 }
             }
             
-            // TODO add search for: WikiRegex.CiteTemplate pipecleaned value has more | than =, or no = between two |
+            foreach(Match m in WikiRegexes.CiteTemplate.Matches(articleText))
+            {
+                if(Regex.IsMatch(Tools.GetTemplateName(m.Value), @"[Cc]ite\s*(?:web|book|news|journal|paper|press release|hansard|encyclopedia)"))
+                {
+                    string pipecleaned = Tools.PipeCleanedTemplate(m.Value, false);
+                    if(Regex.Matches(pipecleaned, @"=").Count > 0)
+                    {
+                        if(Regex.Matches(pipecleaned, @"\|").Count > Regex.Matches(pipecleaned, @"=").Count)
+                            found.Add(m.Index, m.Length);
+                        else
+                        {
+                            int noequals = Regex.Match(pipecleaned, @"\|[^=]+?\|").Index;
+                            
+                            if(noequals > 0)
+                                found.Add(m.Index+noequals, Regex.Match(pipecleaned, @"\|[^=]+?\|").Value.Length);
+                        }
+                    }
+                }
+            }
             return found;
         }
 
