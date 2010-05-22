@@ -583,10 +583,8 @@ namespace AutoWikiBrowser.Logging
         // Allow plugins to turn off all logging:
         public void TurnOffLogging()
         {
-            Close(); LS.TurnOffLogging();
+            Close();
+            LS.TurnOffLogging();
         }
-
-        internal static AWBLogListener InitialiseLogListener(ArticleEX article) 
-        { return null;/* Article.InitialiseLogListener("AWB", Program.MyTrace);*/ }
     }
 }
