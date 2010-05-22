@@ -81,7 +81,6 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="ArticleEX.cs" />
     <Compile Include="ConfigurePasteMoreItems.cs">
       <SubType>Form</SubType>
     </Compile>

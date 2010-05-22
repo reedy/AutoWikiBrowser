@@ -369,7 +369,7 @@ namespace AutoWikiBrowser
 
         #region Properties
 
-        internal ArticleEX TheArticle { get; private set; }
+        internal Article TheArticle { get; private set; }
 
         /// <summary>
         /// Is AWB running in Bot Mode
@@ -695,7 +695,7 @@ namespace AutoWikiBrowser
                 if (BotMode)
                     NudgeTimer.StartMe();
 
-                TheArticle = new ArticleEX(title, "");
+                TheArticle = new Article(title, "");
 
                 //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#.27Find.27_sometimes_fails_to_use_the_search_key
                 txtEdit.ResetFind();
@@ -737,7 +737,7 @@ namespace AutoWikiBrowser
         private void SkipRedirect(string redirectTitle, string reason)
         {
             listMaker.Remove(TheArticle); // or we get stuck in a loop
-            TheArticle = new ArticleEX(redirectTitle, "");
+            TheArticle = new Article(redirectTitle, "");
             // if we didn't do this, we were writing the SkipPage info to the AWBLogListener belonging to the object redirect and resident in the MyTrace collection, but then attempting to add TheArticle's log listener to the logging tab
             SkipPage(reason);
         }
@@ -757,7 +757,7 @@ namespace AutoWikiBrowser
 
             if (_stopProcessing)
                 return;
-            TheArticle = new ArticleEX(page);
+            TheArticle = new Article(page);
 
             if (!preParseModeToolStripMenuItem.Checked && !CheckLoginStatus())
 				return;
@@ -3437,8 +3437,8 @@ window.scrollTo(0, diffTopY);
             if (TheArticle == null)
                 return;
 
-            ArticleEX a = new ArticleEX(TheArticle.Name, txtEdit.Text);
-            ArticleEX theArtricleOriginal = TheArticle;
+            Article a = new Article(TheArticle.Name, txtEdit.Text);
+            Article theArtricleOriginal = TheArticle;
             ErrorHandler.CurrentPage = TheArticle.Name;
             ProcessPage(a, false);
             ErrorHandler.CurrentPage = "";
