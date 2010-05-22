@@ -64,18 +64,18 @@ namespace WikiFunctions
         public Article()
         {
             Exists = Exists.Unknown;
-            InitialiseLogListener();
         }
 
         public Article(string name)
             : this(name, Namespace.Determine(name))
-        { }
+        {
+        }
 
         public Article(string name, int nameSpaceKey)
             : this()
         {
             Name = name.Contains("#") ? name.Substring(0, name.IndexOf('#')) : name;
-
+            InitialiseLogListener();
             NameSpaceKey = nameSpaceKey;
         }
 
@@ -104,22 +104,19 @@ namespace WikiFunctions
             whatName = what;
         }
 
-        public AWBLogListener InitialiseLogListener()
+        public void InitialiseLogListener()
         {
+            if (mAWBLogListener != null)
+                return;
+
             // Initialise a Log Listener and add it to a TraceManager collection
-            InitLog();
+            mAWBLogListener = new AWBLogListener(Name);
             currentTraceManager.AddListener(whatName, mAWBLogListener);
 
             if (addListener != null)
             {
                 addListener(whatName, mAWBLogListener);
             }
-            return mAWBLogListener;
-        }
-
-        private void InitLog()
-        {
-            mAWBLogListener = new AWBLogListener(Name);
         }
         #endregion
 
