@@ -4318,7 +4318,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex PersonYearOfBirth = new Regex(@"(?<='''.{0,100}?)\( *[Bb]orn[^\)\.;]{1,150}?(?<!.*(?:[Dd]ied|&[nm]dash;|—).*)([12]?\d{3}(?: BC)?)\b[^\)]{0,200}", RegexOptions.Compiled);
         private static readonly Regex PersonYearOfDeath = new Regex(@"(?<='''.{0,100}?)\([^\(\)]*?[Dd]ied[^\)\.;]+?([12]?\d{3}(?: BC)?)\b", RegexOptions.Compiled);
-        private static readonly Regex PersonYearOfBirthAndDeath = new Regex(@"^.{0,100}'''\s*\([^\)\r\n]*?(?<![Dd]ied)\b([12]?\d{3})\b[^\)\r\n]*?(-|–|—|&[nm]dash;)[^\)\r\n]*?([12]?\d{3})\b[^\)]{0,200}", RegexOptions.Singleline | RegexOptions.Compiled);
+        private static readonly Regex PersonYearOfBirthAndDeath = new Regex(@"^.{0,100}?'''\s*\([^\)\r\n]*?(?<![Dd]ied)\b([12]?\d{3})\b[^\)\r\n]*?(-|–|—|&[nm]dash;)[^\)\r\n]*?([12]?\d{3})\b[^\)]{0,200}", RegexOptions.Singleline | RegexOptions.Compiled);
 
         private static readonly Regex UncertainWordings = new Regex(@"(?:\b(about|before|after|either|prior to|around|late|[Cc]irca|between|[Bb]irth based on age as of date|\d{3,4}(?:\]\])?/(?:\[\[)?\d{1,4}|or +(?:\[\[)?\d{3,})\b|\d{3} *\?|\bca?(?:'')?\.|\bca\b|\b(bef|abt)\.|~)", RegexOptions.Compiled);
         private static readonly Regex ReignedRuledUnsure = new Regex(@"(?:\?|[Rr](?:uled|eign(?:ed)?\b)|\br\.|(chr|fl(?:\]\])?)\.|\b(?:[Ff]lo(?:urished|ruit)|active)\b)", RegexOptions.Compiled);
@@ -4527,17 +4527,11 @@ namespace WikiFunctions.Parse
                 string deathyear = m.Groups[3].Value;
                 int deathyearint = int.Parse(deathyear);
 
-                // logical valdiation of dates, and can't have any other born/died before this one
+                // logical valdiation of dates
                 if (birthyearint <= deathyearint && (deathyearint - birthyearint) <= 125)
                 {
-                    if (m.Index > PersonYearOfDeath.Match(zerothSection).Index && PersonYearOfDeath.IsMatch(zerothSection))
-                        return YearOfBirthMissingCategory(articleText);
-                    if (m.Index > PersonYearOfBirth.Match(zerothSection).Index && PersonYearOfBirth.IsMatch(zerothSection))
-                        return YearOfBirthMissingCategory(articleText);
-
-                    string birthpart = zerothSection.Substring(m.Index, m.Groups[2].Index - m.Index);
-
-                    string deathpart = zerothSection.Substring(m.Groups[2].Index, (m.Value.Length + m.Index) - m.Groups[2].Index);
+                    string birthpart = zerothSection.Substring(m.Index, m.Groups[2].Index - m.Index),
+                    deathpart = zerothSection.Substring(m.Groups[2].Index, (m.Value.Length + m.Index) - m.Groups[2].Index);
 
                     if (!WikiRegexes.BirthsCategory.IsMatch(articleText))
                     {
