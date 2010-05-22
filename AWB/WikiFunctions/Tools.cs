@@ -2185,7 +2185,7 @@ Message: {2}
         /// </summary>
         /// <param name="template">The template call to clean</param>
         /// <returns>The pipe cleaned template call</returns>
-        private static string PipeCleanedTemplate(string template, bool commentsastilde)
+        public static string PipeCleanedTemplate(string template, bool commentsastilde)
         {
             char rwith = '#';
             if (template.Length < 5)
