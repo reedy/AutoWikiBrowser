@@ -644,6 +644,16 @@ Jones 2005</ref>"));
             Found.Add(15, 6);
             Found.Add(36, 4);
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|foodoo=bar|date=2009|bert= false}} was"));
+            
+            // no = between two bars
+            Found.Clear();
+            Found.Add(14, 11);
+            Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|title-bar|url=foo}}"));
+            
+            Found.Clear();
+            Found.Add(24, 6);
+            Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|title=bar|bee |url=foo}}"));
+            
         }
         
         [Test]
@@ -5057,7 +5067,16 @@ foo {{persondata}}
 {{DEFAULTSORT:Special Foos}}", Parsers.ChangeToDefaultSort(@"foo
 [[Category:All foos]]", "Category:Special foos", out noChange, false));
         }
-
+        
+        [Test]
+        public void ChangeToDefaultSortMultiple()
+        {
+            bool noChange;
+            const string Multi = "[[Category:Test1|Foooo]][[Category:Test2|Foooo]]\r\n{{DEFAULTSORT:Foooo}}\r\n{{DEFAULTSORTKEY:Foo2oo}}";
+            
+             Assert.AreEqual(Multi, Parsers.ChangeToDefaultSort(Multi, "Bar", out noChange), "no change when multiple different defaultsorts");
+            Assert.IsTrue(noChange);            
+        }
 
         [Test]
         public void CategorySortKeyPartialCleaning()
