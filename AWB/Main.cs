@@ -1153,7 +1153,7 @@ namespace AutoWikiBrowser
             if (_dlgTalk.ShowDialog() == DialogResult.Yes)
                 Tools.OpenUserTalkInBrowser(TheSession.User.Name);
             else
-                Process.Start("iexplore", Variables.GetUserTalkURL(TheSession.User.Name));
+                Process.Start(Variables.GetUserTalkURL(TheSession.User.Name));
         }
 
         private void NoWriteApiRight()
