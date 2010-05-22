@@ -106,7 +106,7 @@ namespace WikiFunctions
 
         public void InitialiseLogListener()
         {
-            if (mAWBLogListener != null)
+            if (mAWBLogListener != null || Globals.UnitTestMode)
                 return;
 
             // Initialise a Log Listener and add it to a TraceManager collection
