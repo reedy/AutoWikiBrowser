@@ -294,6 +294,11 @@ now stubborn}}");
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{föräldralös}}"));
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{Föräldralös}}"));
             
+            Variables.SetProjectLangCode("ru");
+            WikiRegexes.MakeLangSpecificRegexes();
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{изолированная статья}}"));
+            
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
             #endif
