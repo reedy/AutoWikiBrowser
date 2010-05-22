@@ -218,7 +218,7 @@ namespace WikiFunctions.Parse
             return HiderHideExtLinksImages.AddBackMore(articleText);
         }
         
-              /// <summary>
+        /// <summary>
         /// Re-organises the Person Data, stub/disambig templates, categories and interwikis
         /// except when a mainspace article has some 'includeonly' tags etc.
         /// </summary>
@@ -415,7 +415,7 @@ namespace WikiFunctions.Parse
             
             // merging
             
-            // multiple same about into one            
+            // multiple same about into one
             for(int a = 0; a < 3; a++)
             {
                 bool doneAboutMerge = false;
@@ -478,7 +478,7 @@ namespace WikiFunctions.Parse
                         break;
                     }
                 }
-            }                
+            }
             
             // for into existing about, when about has >=2 arguments
             if(Tools.NestedTemplateRegex("about").Matches(articleText).Count == 1 &&
@@ -491,12 +491,12 @@ namespace WikiFunctions.Parse
                     
                     // where about has 2 arguments need extra pipe
                     if(Tools.GetTemplateArgument(Tools.NestedTemplateRegex("about").Match(articleText).Value, 3).Length == 0
-                      && Tools.GetTemplateArgument(Tools.NestedTemplateRegex("about").Match(articleText).Value, 4).Length == 0)
+                       && Tools.GetTemplateArgument(Tools.NestedTemplateRegex("about").Match(articleText).Value, 4).Length == 0)
                         extra = @"|";
                     
                     // append {{for}} value to the {{about}}
                     if(Tools.GetTemplateArgument(m.Value, 3).Length == 0)
-                    articleText = articleText.Replace(About, About.TrimEnd('}') +  extra + m.Groups[3].Value);
+                        articleText = articleText.Replace(About, About.TrimEnd('}') +  extra + m.Groups[3].Value);
                     else // where for has 3 arguments need extra and
                         articleText = articleText.Replace(About, About.TrimEnd('}') +  extra + m.Groups[3].Value.Insert(m.Groups[3].Value.LastIndexOf('|')+1, "and|"));
                     
@@ -514,8 +514,30 @@ namespace WikiFunctions.Parse
                     if(arg.Length > 0 && Namespace.Determine(arg) != Namespace.Mainspace)
                         articleText = articleText.Replace(m.Value, m.Value.Replace(arg, @":" + arg));
                 }
-            }            
+            }
             
+            // multiple {{distinguish}} into one
+            for(int a = 0; a < 3; a++)
+            {
+                bool doneDistinguishMerge = false;
+                foreach(Match m in Tools.NestedTemplateRegex("distinguish").Matches(articleText))
+                {
+                    foreach(Match m2 in Tools.NestedTemplateRegex("distinguish").Matches(articleText))
+                    {
+                        if(m2.Value == m.Value)
+                            continue;
+                        
+                        articleText = articleText.Replace(m.Value, m.Value.TrimEnd('}') + m2.Groups[3].Value);
+                        
+                        doneDistinguishMerge = true;
+                        articleText = articleText.Replace(m2.Value, "");
+                        break;
+                    }
+                    
+                    if(doneDistinguishMerge)
+                        break;
+                }
+            }
             return(articleText + restOfArticle);
         }
 
@@ -2272,7 +2294,7 @@ namespace WikiFunctions.Parse
             DateLocale predominantLocale = DeterminePredominantDateLocale(articleText, true, true);
             
             if(predominantLocale.Equals(DateLocale.Undetermined))
-               return articleText;
+                return articleText;
             
             foreach (Match m in WikiRegexes.CiteTemplate.Matches(articleText))
             {

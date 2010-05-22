@@ -4786,6 +4786,15 @@ foo
             Assert.AreEqual(@"{{about|foo||a|and|b}}", Parsers.Dablinks(zerosec));
             #endif
         }
+        
+        [Test]
+        public void DablinksMergingDistinguish()
+        {
+            const string AB = @"{{Distinguish|a|b}}";
+            Assert.AreEqual(AB, Parsers.Dablinks(@"{{Distinguish|a}}{{Distinguish|b}}"), "merges when single argument");
+            Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.Dablinks(@"{{Distinguish|a}}{{Distinguish|b|c}}"), "merges multiple arguments");
+            Assert.AreEqual(AB, Parsers.Dablinks(AB), "no change if already merged");
+        }
     }
 
     [TestFixture]
