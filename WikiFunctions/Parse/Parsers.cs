@@ -136,6 +136,8 @@ namespace WikiFunctions.Parse
 
             // http://en.wikipedia.org/wiki/Template_talk:Citation_needed#Requested_move
             RegexConversion.Add(new Regex(@"{{\s*(?:[Cc]n|[Ff]act|[Pp]roveit|[Cc]iteneeded|[Uu]ncited)(?=\s*[\|}])", RegexOptions.Compiled), @"{{Citation needed");
+            
+            RegexConversion.Add(new Regex(@"({{\s*[Cc]itation needed\s*\|)\s*(?:[Dd]ate:)?([A-Z][a-z]+ 20\d\d)\s*\|\s*(date\s*=\s*\2\s*}})", RegexOptions.Compiled | RegexOptions.IgnoreCase), @"$1$3");
         }
 
         private static readonly Dictionary<Regex, string> RegexUnicode = new Dictionary<Regex, string>();
