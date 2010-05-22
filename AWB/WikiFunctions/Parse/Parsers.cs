@@ -1355,16 +1355,11 @@ namespace WikiFunctions.Parse
                 {
                     string pipecleaned = Tools.PipeCleanedTemplate(m.Value, false);
                     if(Regex.Matches(pipecleaned, @"=").Count > 0)
-                    {
-                        if(Regex.Matches(pipecleaned, @"\|").Count > Regex.Matches(pipecleaned, @"=").Count)
-                            found.Add(m.Index, m.Length);
-                        else
-                        {
-                            int noequals = Regex.Match(pipecleaned, @"\|[^=]+?\|").Index;
-                            
-                            if(noequals > 0)
-                                found.Add(m.Index+noequals, Regex.Match(pipecleaned, @"\|[^=]+?\|").Value.Length);
-                        }
+                    {                        
+                        int noequals = Regex.Match(pipecleaned, @"\|[^=]+?\|").Index;
+                        
+                        if(noequals > 0)
+                            found.Add(m.Index+noequals, Regex.Match(pipecleaned, @"\|[^=]+?\|").Value.Length);                 
                     }
                 }
             }
@@ -4049,8 +4044,6 @@ namespace WikiFunctions.Parse
 
             // match again, after normalisation
             ds = WikiRegexes.Defaultsort.Matches(articleText);
-            if (ds.Count > 1)
-                return testText;
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_9#AWB_didn.27t_fix_special_characters_in_a_pipe
             articleText = FixCategories(articleText);
