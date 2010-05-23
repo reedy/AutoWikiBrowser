@@ -466,11 +466,11 @@ End of.";
                             Parsers.DuplicateUnnamedReferences(@"<ref>http://ecomodder.com/forum/showthread.php/obd-mpguino-gauge-2702.html</ref> foo bar <ref>http://ecomodder.com/wiki/index.php/MPGuino</ref> now <ref>http://ecomodder.com/wiki/index.php/MPGuino</ref>now <ref>http://ecomodder.com/forum/showthread.php/obd-mpguino-gauge-2702.html</ref>" + namedref));
             
             const string Ibid = @"now <ref>ibid</ref> was<ref>ibid</ref> there";
-            Assert.AreEqual(Ibid, Parsers.DuplicateUnnamedReferences(Ibid));
+            Assert.AreEqual(Ibid + namedref, Parsers.DuplicateUnnamedReferences(Ibid + namedref));
             
             // nothing to do here
             const string SingleRef = @"now <ref>first</ref> was";
-            Assert.AreEqual(SingleRef, Parsers.DuplicateUnnamedReferences(SingleRef));
+            Assert.AreEqual(SingleRef + namedref, Parsers.DuplicateUnnamedReferences(SingleRef + namedref));
         }
         
         [Test]
