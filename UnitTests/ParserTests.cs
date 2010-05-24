@@ -452,6 +452,7 @@ End of.";
         {
             string namedref = @"now <ref name=foo>foo</ref>";
             Assert.AreEqual("", Parsers.DuplicateUnnamedReferences(""));
+            Assert.AreEqual(namedref, Parsers.DuplicateUnnamedReferences(namedref));
             
             // no existing named ref
             string nonamedref = @"<ref>""bookrags.com""</ref> foo <ref> ""bookrags.com"" </ref>";
@@ -471,6 +472,11 @@ End of.";
             // nothing to do here
             const string SingleRef = @"now <ref>first</ref> was";
             Assert.AreEqual(SingleRef + namedref, Parsers.DuplicateUnnamedReferences(SingleRef + namedref));
+            
+            const string E = @"Foo<ref name=a>a</ref> bar<ref name=a/> was<ref>b</ref> and 1<ref>c</ref> or 2<ref>c</ref>", 
+            E2 = @"Foo<ref name=a>a</ref> bar<ref name=a/> was<ref>b</ref> and 1<ref name=""ReferenceA"">c</ref> or 2<ref name=""ReferenceA""/>";
+
+            Assert.AreEqual(E2, Parsers.DuplicateUnnamedReferences(E));
         }
         
         [Test]
