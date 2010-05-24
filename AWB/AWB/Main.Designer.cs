@@ -2626,7 +2626,6 @@ namespace AutoWikiBrowser
             this.chkSkipOnlyMinorFaR.TabIndex = 6;
             this.chkSkipOnlyMinorFaR.Text = "only minor replacement made";
             this.ToolTip.SetToolTip(this.chkSkipOnlyMinorFaR, "Automatically skip pages when only minor change made");
-            this.chkSkipOnlyMinorFaR.CheckedChanged += new System.EventHandler(this.chkSkipOnlyMinorFaR_CheckedChanged);
             // 
             // chkSkipWhenNoFAR
             // 
@@ -2638,7 +2637,6 @@ namespace AutoWikiBrowser
             this.chkSkipWhenNoFAR.TabIndex = 4;
             this.chkSkipWhenNoFAR.Text = "no replacement";
             this.ToolTip.SetToolTip(this.chkSkipWhenNoFAR, "Automatically skip pages when no change made");
-            this.chkSkipWhenNoFAR.CheckedChanged += new System.EventHandler(this.chkSkipWhenNoFAR_CheckedChanged);
             // 
             // AlertGroup
             // 
