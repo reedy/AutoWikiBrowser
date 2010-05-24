@@ -93,6 +93,13 @@ namespace UnitTests
             AssertFix("the bars are cute", FixTypos("the foos are cute"));
             AssertFix("the bars are cute bars", FixTypos("the foos are cute foos"));
         }
+        
+        [Test]
+        public void NoTypos()
+        {
+            Typos["foo"] = "bar";
+            AssertNoFix("spellfixno foos are");
+        }
 
         [Test]
         public void CaseSensitivity()
