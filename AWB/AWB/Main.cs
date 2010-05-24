@@ -771,7 +771,8 @@ namespace AutoWikiBrowser
 
             bool articleIsRedirect = PageInfo.WasRedirected(page);
          
-            if (chkSkipIfRedirect.Checked && articleIsRedirect)
+            // check for redirects when 'follow redirects' is off
+            if (chkSkipIfRedirect.Checked && Tools.IsRedirect(page.Text))
             {
                 SkipPage("Page is a redirect");
                 return;
