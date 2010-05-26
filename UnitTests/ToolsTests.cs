@@ -404,6 +404,10 @@ bar"));
 
             matches = Regex.Matches("test", "[Tt]est");
             Assert.AreEqual("", Tools.RemoveMatches("test", matches));
+            
+            List<Match> MatchesList = new List<Match>();
+            
+            Assert.AreEqual("test", Tools.RemoveMatches("test", MatchesList));
         }
 
         [Test]
