@@ -1548,11 +1548,10 @@ namespace WikiFunctions.Parse
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">The article's title</param>
         /// <returns>The modified article text.</returns>
-        [Obsolete("cannot provide correct namespace key")]
-        public string Mdashes(string articleText, string articleTitle)
+        [Obsolete("namespace key no longer needed as input")]
+        public string Mdashes(string articleText, string articleTitle, int nameSpaceKey)
         {
-            // use dummy namespace of -1
-            return Mdashes(articleText, articleTitle, -1);
+            return Mdashes(articleText, articleTitle);
         }
 
         private static readonly Regex PageRangeIncorrectMdash = new Regex(@"(pages\s*=\s*|pp\.?\s*)((?:&nbsp;)?\d+\s*)(?:-|—|&mdash;|&#8212;)(\s*\d+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -1573,7 +1572,7 @@ namespace WikiFunctions.Parse
         /// <param name="articleTitle">The article's title</param>
         /// <param name="nameSpaceKey">The namespace of the article</param>
         /// <returns>The modified article text.</returns>
-        public string Mdashes(string articleText, string articleTitle, int nameSpaceKey)
+        public string Mdashes(string articleText, string articleTitle)
         {
             articleText = HideMoreText(articleText);
 
@@ -1599,7 +1598,7 @@ namespace WikiFunctions.Parse
                 articleText = Regex.Replace(articleText, Regex.Escape(articleTitle.Replace(@"–", @"-").Replace(@"—", @"-")), articleTitle);
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Change_--_.28two_dashes.29_to_.E2.80.94_.28em_dash.29
-            if (nameSpaceKey == Namespace.Mainspace)
+            if (Namespace.Determine(articleTitle) == Namespace.Mainspace)
                 articleText = SentenceClauseIncorrectMdash.Replace(articleText, @"—");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#minuses
