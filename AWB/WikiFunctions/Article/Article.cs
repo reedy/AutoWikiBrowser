@@ -1130,7 +1130,7 @@ namespace WikiFunctions
 
             if (!noMOSComplianceFixes)
             {
-                AWBChangeArticleText("Mdashes", parsers.Mdashes(ArticleText, Name, NameSpaceKey), true);
+                AWBChangeArticleText("Mdashes", parsers.Mdashes(ArticleText, Name), true);
                 Variables.Profiler.Profile("Mdashes");
 
                 AWBChangeArticleText("Fix Date Ordinals/Of", parsers.FixDateOrdinalsAndOf(ArticleText, Name), true, true);
