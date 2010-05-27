@@ -66,6 +66,13 @@ namespace WikiFunctions.TalkPages
             return WikiRegexes.Defaultsort.IsMatch(articleText);
         }
 
+        /// <summary>
+        /// Processes talk pages: moves any talk page header template, moves any default, adds a section heading if missing
+        /// </summary>
+        /// <param name="articleText">The talk page text</param>
+        /// <param name="summary">The edit summary to update</param>
+        /// <param name="moveDefaultsort">The action to take over any defaultsort on the page</param>
+        /// <returns>The updated talk page text</returns>
         public static bool ProcessTalkPage(ref string articleText, ref string summary, DEFAULTSORT moveDefaultsort)
         {
             Processor pr = new Processor();
