@@ -1561,7 +1561,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex DollarAmountIncorrectMdash = new Regex(@"(\$[1-9]?\d{1,3}\s*)(?:-|—|&mdash;|&#8212;)(\s*\$?[1-9]?\d{1,3})", RegexOptions.Compiled);
         private static readonly Regex AMPMIncorrectMdash = new Regex(@"([01]?\d:[0-5]\d\s*([AP]M)\s*)(?:-|—|&mdash;|&#8212;)(\s*[01]?\d:[0-5]\d\s*([AP]M))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex AgeIncorrectMdash = new Regex(@"([Aa]ge[sd])\s([1-9]?\d\s*)(?:-|—|&mdash;|&#8212;)(\s*[1-9]?\d)", RegexOptions.Compiled);
-        private static readonly Regex SentenceClauseIncorrectMdash = new Regex(@"(?<=\w)\s*--\s*(?=\w)", RegexOptions.Compiled);
+        private static readonly Regex SentenceClauseIncorrectMdash = new Regex(@"(?!xn--)(\w{2})\s*--\s*(?=\w)", RegexOptions.Compiled);
         private static readonly Regex SuperscriptMinus = new Regex(@"(?<=<sup>)(?:-|–|—)(?=\d+</sup>)", RegexOptions.Compiled);
 
         // Covered by: FormattingTests.TestMdashes()
@@ -1599,7 +1599,7 @@ namespace WikiFunctions.Parse
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Change_--_.28two_dashes.29_to_.E2.80.94_.28em_dash.29
             if (Namespace.Determine(articleTitle) == Namespace.Mainspace)
-                articleText = SentenceClauseIncorrectMdash.Replace(articleText, @"—");
+                articleText = SentenceClauseIncorrectMdash.Replace(articleText, @"$1—");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#minuses
             // replace hyphen or en-dash or emdash with Unicode minus (&minus;)
