@@ -360,12 +360,11 @@ en, sq, ru
             string originalArticleText = articleText;
 
             // allow comments between categories, and keep them in the same place, but don't grab any comment just after the last category
-            Regex r = new Regex(@"<!-- [^<>]*?\[\[" + Variables.NamespacesCaseInsensitive[Namespace.Category]
+            Regex r = new Regex(@"<!-- [^<>]*?\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category]
                                 + @".*?(\]\]|\|.*?\]\]).*?-->|\[\["
                                 + Variables.NamespacesCaseInsensitive[Namespace.Category]
-                                + @".*?(\]\]|\|.*?\]\])( {0,4}⌊⌊⌊⌊[0-9]{1,4}⌋⌋⌋⌋|\s*<!--.*?-->(?=\r\n\[\[))?", RegexOptions.Singleline);
-
-            //      Regex CatOnly = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[Namespace.Category] + @".*?(\]\]|\|.*?\]\])", RegexOptions.Compiled);
+                                + @".*?(\]\]|\|.*?\]\])(\s*⌊⌊⌊⌊\d{1,4}⌋⌋⌋⌋|\s*<!--.*?-->(?=\r\n\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category]
+                                + @"))?", RegexOptions.Singleline);
             
             MatchCollection matches = r.Matches(articleText);
             foreach (Match m in matches)
