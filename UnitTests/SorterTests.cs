@@ -659,6 +659,18 @@ foo";
             Assert.AreEqual(iw1 + "\r\n", parser2.Sorter.RemoveCats(ref iwall, "test"), "don't pull the interwiki comment");
             Assert.IsTrue(iwall.Contains(@"<!--interwiki-->"), "don't pull the interwiki comment");
         }
+        
+        [Test]
+        public void CategoryCommentTests()
+        {
+            const string cats = @"[[Category:Hampshire|  ]]
+[[Category:Articles including recorded pronunciations (UK English)]]
+[[Category:Non-metropolitan counties]]", comm = @"<!-- cat -->";
+            
+            string a = cats + "\r\n" + comm;
+            
+            Assert.AreEqual(comm + "\r\n" + cats + "\r\n", parser2.Sorter.RemoveCats(ref a, "test"));
+        }
 
         [Test]
         public void DefaultSortAndCommentTests()
