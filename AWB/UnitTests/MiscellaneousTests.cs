@@ -550,6 +550,9 @@ Image:quux[http://example.com]
             Assert.AreEqual("Image:", Namespace.Normalize("image:", 6));
             Assert.AreEqual("File:", Namespace.Normalize("file:", 6));
             Assert.AreEqual("Image talk:", Namespace.Normalize("image talk:", 7));
+            
+            Assert.AreEqual("user:", Namespace.Normalize("user :", 7), "only changes colon for incorrect namespace number");
+            Assert.AreEqual("user:", Namespace.Normalize("user:", 7), "only changes colon for incorrect namespace number");
         }
 
         [Test]
