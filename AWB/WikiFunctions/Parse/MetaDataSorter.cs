@@ -353,7 +353,7 @@ en, sq, ru
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
-        /// <returns></returns>
+        /// <returns>The cleaned page categories in a single string</returns>
         public string RemoveCats(ref string articleText, string articleTitle)
         {
             List<string> categoryList = new List<string>();
@@ -370,9 +370,7 @@ en, sq, ru
             MatchCollection matches = r.Matches(articleText);
             foreach (Match m in matches)
             {
-                //string cat = WikiRegexes.Category.Match(m.Value).Value;
-                
-                if (!Regex.IsMatch(m.Value, "\\[\\[Category:(Pages|Categories|Articles) for deletion\\]\\]"))
+                if (!Regex.IsMatch(m.Value, @"\[\[Category:(Pages|Categories|Articles) for deletion\]\]"))
                     categoryList.Add(m.Value);
             }
 
