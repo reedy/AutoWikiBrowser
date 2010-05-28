@@ -6592,6 +6592,11 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             // skips if not a redirect
             string notredirect = @"Now foo bar";
             Assert.AreEqual(notredirect, Parsers.RedirectTagger(notredirect, "Foo bar"));
+            
+            // don't tag if already tagged
+            string alreadytagged = @"#REDIRECT [[Bethune's Gully]] {{R from alternative spelling}}";
+            
+            Assert.AreEqual(alreadytagged, Parsers.RedirectTagger(alreadytagged, @"""Bethune's Gully"""));
         }
         
         [Test]

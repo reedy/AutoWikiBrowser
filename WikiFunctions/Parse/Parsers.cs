@@ -5033,8 +5033,8 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text</returns>
         public static string RedirectTagger(string articleText, string articleTitle)
         {
-            // only for en-wiki redirects
-            if (!Tools.IsRedirect(articleText) || !Variables.IsWikipediaEN)
+            // only for untagged en-wiki redirects
+            if (!Tools.IsRedirect(articleText) || !Variables.IsWikipediaEN || WikiRegexes.Template.IsMatch(articleText))
                 return articleText;
 
             string redirecttarget = Tools.RedirectTarget(articleText);
@@ -5047,19 +5047,19 @@ namespace WikiFunctions.Parse
             // difference is extra/removed/changed puntuation
             if (!Tools.NestedTemplateRegex(WikiRegexes.RFromModificationList).IsMatch(articleText)
                 && !CommonPunctuation.Replace(redirecttarget, "").Equals(redirecttarget) && CommonPunctuation.Replace(redirecttarget, "").Equals(CommonPunctuation.Replace(articleTitle, "")))
-                articleText += "\r\n" + WikiRegexes.RFromModificationString;
+                return (articleText + "\r\n" + WikiRegexes.RFromModificationString);
 
             // {{R from title without diacritics}}
 
             // title and redirect target the same if dacritics removed from redirect target
             if (redirecttarget != Tools.RemoveDiacritics(redirecttarget) && Tools.RemoveDiacritics(redirecttarget) == articleTitle
                 && !Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(articleText))
-                articleText += "\r\n" + WikiRegexes.RFromTitleWithoutDiacriticsString;
+                return (articleText + "\r\n" + WikiRegexes.RFromTitleWithoutDiacriticsString);
             
             // {{R from other capitalisation}}
             if(redirecttarget.ToLower().Equals(articleTitle.ToLower())
                && !Tools.NestedTemplateRegex(WikiRegexes.RFromOtherCapitaliastionList).IsMatch(articleText))
-                articleText += "\r\n" + WikiRegexes.RFromOtherCapitaliastionString;
+                return (articleText + "\r\n" + WikiRegexes.RFromOtherCapitaliastionString);
 
             return articleText;
         }
