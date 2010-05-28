@@ -529,6 +529,22 @@ blah";
             // no change when already correct
             Assert.AreEqual(a + "\r\n" + b + "\r\n" + c + "\r\n" + d, MetaDataSorter.MoveSeeAlso(a + "\r\n" + b + "\r\n" + c + "\r\n" + d));
         }
+        
+        [Test]
+        public void CategoriesForDeletion()
+        {
+            const string a = @"[[Category:Railway companies established in 1851]]";
+            const string b1 = @"[[Category:Pages for deletion]]", b2 = @"[[Category:Categories for deletion]]", b3 = @"[[Category:Articles for deletion]]";
+
+            string k = a + "\r\n" + b1;
+            Assert.AreEqual(a + "\r\n", parser2.Sorter.RemoveCats(ref k, "test"), "Pages for deletion cat not kept");
+            
+            k = a + "\r\n" + b2;
+            Assert.AreEqual(a + "\r\n", parser2.Sorter.RemoveCats(ref k, "test"), "Categories for deletion cat not kept");
+            
+            k = a + "\r\n" + b3;
+            Assert.AreEqual(a + "\r\n", parser2.Sorter.RemoveCats(ref k, "test"), "Articles for deletion cat not kept");
+        }
 
         [Test]
         public void CategoryAndCommentTests()
@@ -661,6 +677,12 @@ foo";
             
             // comment handling
             string comm = @"<!-- other languages -->";
+            a = @"[[de:Canadian National Railway]]
+[[es:Canadian National]]
+[[fr:Canadien National]]" + comm;
+            Assert.AreEqual(comm + "\r\n" + b + "\r\n", parser2.Sorter.Interwikis(ref a));
+            
+            comm = @"<!--Interwikis-->";
             a = @"[[de:Canadian National Railway]]
 [[es:Canadian National]]
 [[fr:Canadien National]]" + comm;
