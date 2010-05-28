@@ -1121,6 +1121,7 @@ namespace WikiFunctions
             Variables.Profiler.Profile("CiteTemplateDates");
 
             AWBChangeArticleText("Redirect tagger", Parsers.RedirectTagger(ArticleText, Name), false);
+            Variables.Profiler.Profile("RedirectTagger");
 
             BulletExternalLinks(skip.SkipNoBulletedLink);
             Variables.Profiler.Profile("BulletExternalLinks");
