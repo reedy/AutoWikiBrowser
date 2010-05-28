@@ -485,12 +485,20 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Returns the index and length of any invalid or unknown citation parameters within a citation template
+        /// Returns a dictionary of the index and length of any invalid or unknown citation parameters within a citation template
         /// </summary>
         /// <returns></returns>
         public Dictionary<int, int> BadCiteParameters()
         {
             return Parsers.BadCiteParameters(ArticleText);
+        }
+        
+        /// <summary>
+        /// Returns a dictionary of the index and length of any unclosed &lt;math&gt;, &lt;source&gt;, &lt;code&gt;, &lt;nowiki&gt; or &lt;pre&gt; tags
+        /// </summary>
+        public Dictionary<int, int> UnclosedTags()
+        { 
+            return Parsers.UnclosedTags(ArticleText); 
         }
 
         /// <summary>
