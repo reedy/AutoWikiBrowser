@@ -935,6 +935,7 @@ namespace WikiFunctions
 
             // new
             new KeyValuePair<string, string>("ộ", "o"),
+            new KeyValuePair<string, string>("ọ", "o"),
             new KeyValuePair<string, string>("ầ", "a"),
             new KeyValuePair<string, string>("ơ", "o"),
             new KeyValuePair<string, string>("Ơ", "O"),
@@ -1096,9 +1097,11 @@ namespace WikiFunctions
             new KeyValuePair<string, string>("ả", "a"),
             new KeyValuePair<string, string>("ằ", "a"),
             new KeyValuePair<string, string>("ẩ", "a"),
+            new KeyValuePair<string, string>("ậ", "a"), 
             new KeyValuePair<string, string>("ế", "e"),
             new KeyValuePair<string, string>("ễ", "e"),
             new KeyValuePair<string, string>("ệ", "e"),
+            new KeyValuePair<string, string>("ể", "e"),
             new KeyValuePair<string, string>("ị", "i"),
             new KeyValuePair<string, string>("ỉ", "i"),
             new KeyValuePair<string, string>("ỏ", "o"),
