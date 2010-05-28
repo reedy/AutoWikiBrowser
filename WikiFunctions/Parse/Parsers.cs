@@ -397,6 +397,8 @@ namespace WikiFunctions.Parse
             if(Variables.LangCode != "en")
                 return articleText;
             
+            string oldArticleText = "";
+
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
             string restOfArticle = (zerothSection.Length > 0) ? articleText.Replace(zerothSection, "") : "";
             articleText = zerothSection;
@@ -412,12 +414,14 @@ namespace WikiFunctions.Parse
                 if(m.Groups[3].Value.TrimStart("| ".ToCharArray()).ToLower().StartsWith("about"))
                     articleText = articleText.Replace(m.Value, m.Groups[1].Value + m.Groups[2].Value + Regex.Replace(m.Groups[3].Value, @"^\|\s*[Aa]bout\s*", "|"));
             }
-            
+
             // merging
             
             // multiple same about into one
-            for(int a = 0; a < 3; a++)
+            oldArticleText = "";
+            while (oldArticleText != articleText)
             {
+                oldArticleText = articleText;
                 bool doneAboutMerge = false;
                 foreach(Match m in Tools.NestedTemplateRegex("about").Matches(articleText))
                 {
@@ -468,7 +472,7 @@ namespace WikiFunctions.Parse
             }
             
             // multiple for into about: rename a 2-argument for into an about with no reason value
-            if(Tools.NestedTemplateRegex("about").Matches(articleText).Count == 0 && Tools.NestedTemplateRegex("for").Matches(articleText).Count > 1)
+            if(Tools.NestedTemplateRegex("for").Matches(articleText).Count > 1 && Tools.NestedTemplateRegex("about").Matches(articleText).Count == 0)
             {
                 foreach(Match m in Tools.NestedTemplateRegex("for").Matches(articleText))
                 {
@@ -517,14 +521,16 @@ namespace WikiFunctions.Parse
             }
             
             // multiple {{distinguish}} into one
-            for(int a = 0; a < 3; a++)
+            oldArticleText = "";
+            while (oldArticleText != articleText)
             {
+                oldArticleText = articleText;
                 bool doneDistinguishMerge = false;
                 foreach(Match m in Tools.NestedTemplateRegex("distinguish").Matches(articleText))
                 {
                     foreach(Match m2 in Tools.NestedTemplateRegex("distinguish").Matches(articleText))
                     {
-                        if(m2.Value == m.Value)
+                        if(m2.Value.Equals(m.Value))
                             continue;
                         
                         articleText = articleText.Replace(m.Value, m.Value.TrimEnd('}') + m2.Groups[3].Value);
@@ -538,6 +544,7 @@ namespace WikiFunctions.Parse
                         break;
                 }
             }
+            
             return(articleText + restOfArticle);
         }
 
