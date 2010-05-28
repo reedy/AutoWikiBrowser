@@ -647,6 +647,17 @@ foo";
 
             Assert.AreEqual("", parser2.Sorter.RemoveCats(ref nw, "test"));
             Assert.IsFalse(parser2.Sorter.RemoveCats(ref nw, "test").Contains(@"[[Category:LGBT people from the United States]]"));
+        
+            string iw1 = @"[[Category:Hampshire|  ]]
+[[Category:Articles including recorded pronunciations (UK English)]]
+[[Category:Non-metropolitan counties]]", iw2 = @"
+
+<!--interwiki-->
+[[af:Hampshire]]";
+            string iwall = iw1 + iw2;
+            
+            Assert.AreEqual(iw1 + "\r\n", parser2.Sorter.RemoveCats(ref iwall, "test"), "don't pull the interwiki comment");
+            Assert.IsTrue(iwall.Contains(@"<!--interwiki-->"), "don't pull the interwiki comment");
         }
 
         [Test]
