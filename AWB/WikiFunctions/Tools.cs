@@ -932,6 +932,8 @@ namespace WikiFunctions
             //Russian
             new KeyValuePair<string, string>("Ё", "Е"),
             new KeyValuePair<string, string>("ё", "е"),
+            new KeyValuePair<string, string>("б", "b"),
+            new KeyValuePair<string, string>("л", "l"),
 
             // new
             new KeyValuePair<string, string>("ộ", "o"),
