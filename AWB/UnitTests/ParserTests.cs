@@ -3074,6 +3074,36 @@ now {{cite web | url=http://site.it | title=hello|date = 5-5-1998}} was";
         }
         
         [Test]
+        public void UnclosedTags()
+        {
+            Dictionary<int, int> uct = new Dictionary<int, int>();
+            
+            uct = Parsers.UnclosedTags(@"<pre>bar</pre>");
+            Assert.AreEqual(uct.Count, 0);
+            
+            uct = Parsers.UnclosedTags(@"<pre>bar</pre> <math> not ended");
+            Assert.AreEqual(uct.Count, 1);
+            Assert.IsTrue(uct.ContainsKey(15));
+            Assert.IsTrue(uct.ContainsValue(6));
+            
+            uct = Parsers.UnclosedTags(@"<pre>bar</pre> <source lang=""bar""> not ended");
+            Assert.AreEqual(uct.Count, 1);
+            Assert.IsTrue(uct.ContainsKey(15));
+            
+            uct = Parsers.UnclosedTags(@"<pre>bar</pre> < code> not ended");
+            Assert.AreEqual(uct.Count, 1);
+            Assert.IsTrue(uct.ContainsKey(15));
+            
+            uct = Parsers.UnclosedTags(@"<pre>bar</pre> < nowiki > not ended");
+            Assert.AreEqual(uct.Count, 1);
+            Assert.IsTrue(uct.ContainsKey(15));
+            
+            uct = Parsers.UnclosedTags(@"<pre>bar</pre> <pre> not ended");
+            Assert.AreEqual(uct.Count, 1);
+            Assert.IsTrue(uct.ContainsKey(15));
+        }
+        
+        [Test]
         public void ExtraBracketInExternalLink()
         {
             //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_9#Bug_in_regex_to_correct_double_bracketed_external_links

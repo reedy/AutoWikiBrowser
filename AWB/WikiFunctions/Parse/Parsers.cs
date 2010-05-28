@@ -1529,6 +1529,28 @@ namespace WikiFunctions.Parse
             return AmbigCiteTemplateDates(articleText).Count > 0;
         }
         
+        private static readonly Regex MathSourceCodeNowikiPreTagStart = new Regex(@"<\s*(?:math|source\b[^>]*|code|nowiki|pre)\s*>", RegexOptions.Compiled);
+        /// <summary>
+        ///  Searches for any unclosed &lt;math&gt;, &lt;source&gt;, &lt;code&gt;, &lt;nowiki&gt; or &lt;pre&gt; tags
+        /// </summary>
+        /// <param name="articleText">The article text</param>
+        /// <returns>dictionary of the index and length of any unclosed tags</returns>
+        public static Dictionary<int, int> UnclosedTags(string articleText)
+        {
+            Dictionary<int, int> back = new Dictionary<int, int>();
+
+            // clear out all the matched tags
+            articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.UnformattedText);
+            articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Code);
+            articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Source);
+            
+            foreach(Match m in MathSourceCodeNowikiPreTagStart.Matches(articleText))
+            {
+                back.Add(m.Index, m.Length);
+            }
+            return back;
+        }
+        
         /// <summary>
         /// Returns whether the input article text contains ambiguous cite template dates in XX-XX-YYYY or XX-XX-YY format
         /// </summary>

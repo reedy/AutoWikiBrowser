@@ -731,6 +731,7 @@ namespace AutoWikiBrowser
         private int _unbalancedBracket, _bracketLength;
 
         private Dictionary<int, int> badCiteParameters = new Dictionary<int, int>();
+        private Dictionary<int, int> unclosedTags = new Dictionary<int, int>();
         private Dictionary<int, int> deadLinks = new Dictionary<int, int>();
         private Dictionary<int, int> ambigCiteDates = new Dictionary<int, int>();
         
@@ -1020,18 +1021,7 @@ namespace AutoWikiBrowser
                     else */if (scrollToUnbalancedBracketsToolStripMenuItem.Checked)
                     {
                         EditBoxTab.SelectedTab = tpEdit;
-
-                        if (_unbalancedBracket >= 0)
-                            HighlightUnbalancedBrackets();
-
-                        if (badCiteParameters.Count > 0)
-                            HighlightErrors(badCiteParameters);
-                        
-                        if(deadLinks.Count > 0)
-                            HighlightErrors(deadLinks);
-                        
-                        if(ambigCiteDates.Count > 0)
-                            HighlightErrors(ambigCiteDates);
+                        HighlightErrors();
                     }
                 }
                 
@@ -1044,6 +1034,24 @@ namespace AutoWikiBrowser
                 EnableButtons();
                 Abort = false;
             }
+        }
+        
+        private void HighlightErrors()
+        {
+            if (_unbalancedBracket >= 0)
+                HighlightUnbalancedBrackets();
+
+            if (badCiteParameters.Count > 0)
+                HighlightErrors(badCiteParameters);
+            
+            if(deadLinks.Count > 0)
+                HighlightErrors(deadLinks);
+            
+            if(ambigCiteDates.Count > 0)
+                HighlightErrors(ambigCiteDates);
+            
+            if(unclosedTags.Count > 0)
+                HighlightErrors(unclosedTags);
         }
 
         /// <summary>
@@ -2373,6 +2381,10 @@ window.scrollTo(0, diffTopY);
                 badCiteParameters = TheArticle.BadCiteParameters();
                 if (badCiteParameters.Count > 0)
                     warnings.AppendLine("Invalid citation parameter(s) found");
+                
+                unclosedTags = TheArticle.UnclosedTags();
+                if (unclosedTags.Count > 0)
+                    warnings.AppendLine("Unclosed tag(s) found");
 
                 lblWords.Text = Words + wordCount;
                 lblCats.Text = Cats + catCount;
@@ -3456,19 +3468,7 @@ window.scrollTo(0, diffTopY);
                 HighlightAllFind();
 
             if (scrollToUnbalancedBracketsToolStripMenuItem.Checked)
-            {
-                if (_unbalancedBracket >= 0)
-                    HighlightUnbalancedBrackets();
-
-                if (badCiteParameters.Count > 0)
-                    HighlightErrors(badCiteParameters);
-                
-                if(ambigCiteDates.Count > 0)
-                    HighlightErrors(ambigCiteDates);
-                
-                if(deadLinks.Count > 0)
-                    HighlightErrors(deadLinks);
-            }
+                HighlightErrors();
 
             if (syntaxHighlightEditBoxToolStripMenuItem.Checked)
             {
