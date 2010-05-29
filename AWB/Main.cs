@@ -971,6 +971,8 @@ namespace AutoWikiBrowser
                 }
 
                 PageWatched = TheSession.Page.IsWatched;
+                
+                Variables.Profiler.Profile("ActionOnLoad");
 
                 txtReviewEditSummary.Text = MakeSummary();
 
