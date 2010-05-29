@@ -6660,5 +6660,45 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.IsFalse(returned.Contains(@"{{Ibid|date="));
             Assert.IsFalse(summary.Contains("Ibid"));
         }
+        
+        [Test]
+        public void TagEmptySection()
+        {
+            string summary = "";
+            string twoTwos = @"==Foo1==
+==Foo2==
+";
+            string returned = parser.Tagger(twoTwos, "test", false, ref summary);
+            Assert.IsTrue(returned.Contains(@"==Foo1==
+{{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
+==Foo2==
+"));
+            Assert.IsTrue(summary.Contains("Empty section"));
+            
+            twoTwos = @"==Foo1==
+
+==Foo2==
+";
+            returned = parser.Tagger(twoTwos, "test", false, ref summary);
+            Assert.IsTrue(returned.Contains(@"{{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
+==Foo2==
+"));
+            
+            // not empty
+            twoTwos = @"==Foo1==
+x
+==Foo2==
+";
+            returned = parser.Tagger(twoTwos, "test", false, ref summary);
+            Assert.IsFalse(returned.Contains(@"{{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+            
+            // level 3
+            twoTwos = @"===Foo1===
+
+===Foo2===
+";
+            returned = parser.Tagger(twoTwos, "test", false, ref summary);
+            Assert.IsFalse(returned.Contains(@"{{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+        }
     }
 }

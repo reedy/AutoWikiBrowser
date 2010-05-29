@@ -4834,6 +4834,8 @@ namespace WikiFunctions.Parse
             articleText = TagOrphans(articleText, articleTitle, restrictOrphanTagging);
             
             articleText = TagRefsIbid(articleText);
+            
+            articleText = TagEmptySection(articleText);
 
             // skip article if contains any template except for stub templates
             // because templates may provide categories/references
@@ -5015,6 +5017,32 @@ namespace WikiFunctions.Parse
             {
                 tagsAdded.Add("Ibid");
                 return @"{{Ibid|" + WikiRegexes.DateYearMonthParameter + @"}}" + articleText;
+            }
+            
+            return articleText;
+        }
+        
+        /// <summary>
+        /// Tags empty level-2 sections with {{Empty section}}
+        /// </summary>
+        /// <param name="articleText">The article text</param>
+        /// <returns>The updated article text</returns>
+        private string TagEmptySection(string articleText)
+        {
+            if(Variables.LangCode != "en")
+                return articleText;
+            
+            int lastpos = -1;
+            foreach (Match m in WikiRegexes.HeadingLevelTwo.Matches(articleText))
+            {
+                // empty setion if only whitespace between two level-2 headings
+                if(lastpos > -1 && articleText.Substring(lastpos, (m.Index-lastpos)).Trim().Length == 0)
+                {
+                    articleText = articleText.Insert(m.Index, @"{{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}" + "\r\n");
+                    tagsAdded.Add("Empty section");
+                }
+                
+                lastpos = m.Index+m.Length;
             }
             
             return articleText;
