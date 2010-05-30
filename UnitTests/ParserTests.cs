@@ -702,6 +702,21 @@ Jones 2005</ref>"));
 }}";
             Assert.AreEqual(SingleRef + Tracklist + "\r\n\r\n" + @"==References==
 {{Reflist}}" + Cat, Parsers.AddMissingReflist(SingleRef + Tracklist + Cat));
+            
+            // missing slash in <references>
+            const string missingSlash = @"Foo <ref>a</ref>
+==References==
+<references>";
+            Assert.AreEqual(missingSlash.Replace(@"s>", @"s/>"), Parsers.AddMissingReflist(missingSlash));
+            
+            // list of references alreadypresent
+            const string LDR = @"Foo <ref name='ab'/>
+==References==
+<references>
+<ref name='ab'>abc</ref>
+</references>";
+            
+            Assert.AreEqual(LDR, Parsers.AddMissingReflist(LDR));
         }
     }
 

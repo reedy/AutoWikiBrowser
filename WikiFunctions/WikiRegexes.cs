@@ -567,10 +567,14 @@ namespace WikiFunctions
         public static readonly Regex BLPSources = new Regex(@"{{\s*([Bb](LP|lp) ?(sources|[Uu]n(sourced|ref(?:erenced)?))|[Uu]n(sourced|referenced) ?[Bb](LP|lp))\b", RegexOptions.Compiled);
 
         public const string ReferencesTemplates = @"(\{\{\s*(?:ref(?:-?li(?:st|nk)|erence)|[Ll]istaref)(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))\}\}|<\s*references\s*/>|\{\{refs|<\s*references\s*>.*</\s*references\s*>)";
+        
+        /// <summary>
+        /// Matches a closing &lt;/ref&gt: tag or the {{GR}} template
+        /// </summary>
         public const string ReferenceEndGR = @"(?:</ref>|{{GR\|\d}})";
 
         /// <summary>
-        /// Matches any of the recognised templates for displaying cite references
+        /// Matches any of the recognised templates for displaying cite references e.g. {{reflist}}, &lt;references/&gt;
         /// </summary>
         public static readonly Regex ReferencesTemplate = new Regex(ReferencesTemplates, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 

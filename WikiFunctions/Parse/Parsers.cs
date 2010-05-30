@@ -1694,8 +1694,10 @@ namespace WikiFunctions.Parse
         //private static readonly Regex AMR8 = new Regex(@"(?sim)(^==.*?)(^\{\{[^{}]+?\}\}.*?)(\r\n==+References==+\r\n{{Reflist}}<!--added to end of article by script-assisted edit-->)", RegexOptions.Compiled);
         private static readonly Regex ReflistByScript = new Regex(@"(\{\{Reflist\}\})<!--added[^<>]+by script-assisted edit-->", RegexOptions.Compiled);
 
-        // NOT covered
+        private static readonly Regex ReferencesMissingSlash = new Regex(@"<references>", RegexOptions.Compiled);
+        
         /// <summary>
+        /// First checks for a &lt;references&glt; missing '/' to correct, otherwise:
         /// if the article uses cite references but has no recognised template to display the references, add {{reflist}} in the appropriate place
         /// </summary>
         /// <param name="articleText">The wiki text of the article</param>
@@ -1704,6 +1706,9 @@ namespace WikiFunctions.Parse
         {
             if (!IsMissingReferencesDisplay(articleText))
                 return articleText;
+            
+            if(ReferencesMissingSlash.IsMatch(articleText))
+                return ReferencesMissingSlash.Replace(articleText, @"<references/>");
 
             // Rename ==Links== to ==External links==
             articleText = LinksHeading.Replace(articleText, "$1External links$2");
