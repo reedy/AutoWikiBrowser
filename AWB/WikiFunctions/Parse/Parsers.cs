@@ -512,12 +512,16 @@ namespace WikiFunctions.Parse
             // non-mainspace links need escaping in {{about}}
             foreach(Match m in Tools.NestedTemplateRegex("about").Matches(articleText))
             {
+                string aboutcall = m.Value;
                 for(int a = 1; a <= Tools.GetTemplateArgumentCount(m.Value); a++)
-                {
-                    string arg = Tools.GetTemplateArgument(m.Value, a);
+                {                    
+                    string arg = Tools.GetTemplateArgument(aboutcall, a);
                     if(arg.Length > 0 && Namespace.Determine(arg) != Namespace.Mainspace)
-                        articleText = articleText.Replace(m.Value, m.Value.Replace(arg, @":" + arg));
+                        aboutcall = aboutcall.Replace(arg, @":" + arg);
                 }
+                
+                if(!m.Value.Equals(aboutcall))
+                    articleText = articleText.Replace(m.Value, aboutcall);
             }
             
             // multiple {{distinguish}} into one
