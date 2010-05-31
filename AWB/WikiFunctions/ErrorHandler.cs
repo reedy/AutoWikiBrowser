@@ -91,7 +91,7 @@ namespace WikiFunctions
 
             errorMessage.Append("<table>");
             FormatException(ex, errorMessage, ExceptionKind.TopLevel);
-            errorMessage.AppendLine("</table>\r\n~~~~");
+            errorMessage.AppendLine("</table>");
 
             if (AppendToEventHandler != null)
             {
@@ -100,6 +100,8 @@ namespace WikiFunctions
                     errorMessage.AppendLine(d.DynamicInvoke().ToString());
                 }
             }
+            
+            errorMessage.AppendLine("~~~~");
 
             errorMessage.AppendLine(" | OS          = " + Environment.OSVersion);
             errorMessage.Append(" | version     = " + Assembly.GetExecutingAssembly().GetName().Version);

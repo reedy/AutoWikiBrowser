@@ -294,8 +294,8 @@ namespace AutoWikiBrowser
 
                 bool optUpdate = ((Updater.Result & Updater.AWBEnabledStatus.OptionalUpdate) ==
                                   Updater.AWBEnabledStatus.OptionalUpdate),
-                updaterUpdate = ((Updater.Result & Updater.AWBEnabledStatus.UpdaterUpdate) ==
-                                 Updater.AWBEnabledStatus.UpdaterUpdate);
+                     updaterUpdate = ((Updater.Result & Updater.AWBEnabledStatus.UpdaterUpdate) ==
+                                      Updater.AWBEnabledStatus.UpdaterUpdate);
 
                 if (optUpdate || updaterUpdate)
                 {
@@ -332,7 +332,9 @@ namespace AutoWikiBrowser
                 if ((Updater.Result & Updater.AWBEnabledStatus.Error) == Updater.AWBEnabledStatus.Error)
                 {
                     lblUserName.BackColor = Color.Red;
-                    MessageBox.Show(this, "Cannot load version check page from Wikipedia. Please verify that you're connected to Internet.", "Error",
+                    MessageBox.Show(this,
+                                    "Cannot load version check page from Wikipedia. Please verify that you're connected to Internet.",
+                                    "Error",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
@@ -351,9 +353,9 @@ namespace AutoWikiBrowser
             SplashScreen.SetProgress(100);
             SplashScreen.Close();
 
-            #if DEBUG && INSTASTATS
+#if DEBUG && INSTASTATS
             UsageStats.Do(false);
-            #endif
+#endif
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
