@@ -191,20 +191,24 @@ namespace AutoWikiBrowser.Logging
         {
             return string.Format("{1}\\{0:MMM-d yyyy HHmm-ss.FF}", DateTime.Now, logFolder);
         }
+
         private void NewXhtmlTraceListener()
         {
             AddListener(ConXhtml, new XhtmlTraceListener(GetFilePrefix(LoggingSettings.Settings.LogFolder) + 
                 " log.html", LoggingSettings));
         }
+
         private void NewWikiTraceListener()
         {
             AddListener(ConWiki, new WikiTraceListener(GetFilePrefix(LoggingSettings.Settings.LogFolder) + 
                 " log.txt", LoggingSettings));
         }
+
         private string GetFileNameFromActiveListener(string key)
         {
             return ((ITraceStatusProvider)(Listeners[key])).TraceStatus.FileName;
         }
+
         private void RemoveListenerAndReplaceWithSameType(string key)
         {
             string str = GetFileNameFromActiveListener(key);
@@ -214,6 +218,7 @@ namespace AutoWikiBrowser.Logging
             if (Listeners.TryGetValue(key, out listener))
                 listener.WriteCommentAndNewLine("logging continued from " + str);
         }
+
         private void Busy()
         {
             if (Listeners.Count == 0)
@@ -221,6 +226,7 @@ namespace AutoWikiBrowser.Logging
             BusyCounter += 1;
             LoggingSettings.LedColour = WikiFunctions.Controls.Colour.Green;
         }
+
         private void NotBusy()
         {
             if (Listeners.Count == 0)
@@ -524,7 +530,7 @@ namespace AutoWikiBrowser.Logging
         private sealed class XhtmlTraceListener : XHTMLTraceListener,
             ITraceStatusProvider, IAWBTraceListener
         {
-            private TraceStatus mTraceStatus;
+            private readonly TraceStatus mTraceStatus;
 
             public XhtmlTraceListener(string fileName, LoggingSettings ls)
                 : base(fileName, ls.Settings.LogVerbose)
@@ -543,10 +549,14 @@ namespace AutoWikiBrowser.Logging
             }
 
             public void UserSkipped()
-            { SkippedArticle(AWBLogListener.StringUser, AWBLogListener.StringUserSkipped); }
+            {
+                SkippedArticle(AWBLogListener.StringUser, AWBLogListener.StringUserSkipped);
+            }
 
             public void PluginSkipped()
-            { SkippedArticle(AWBLogListener.StringPlugin, AWBLogListener.StringPluginSkipped); }
+            {
+                SkippedArticle(AWBLogListener.StringPlugin, AWBLogListener.StringPluginSkipped);
+            }
         }
 
         /// <summary>
@@ -564,9 +574,13 @@ namespace AutoWikiBrowser.Logging
                 SkippedArticle("AWB", reason);
             }
             public void UserSkipped()
-            { SkippedArticle(AWBLogListener.StringUser, AWBLogListener.StringUserSkipped); }
+            { 
+                SkippedArticle(AWBLogListener.StringUser, AWBLogListener.StringUserSkipped); 
+            }
             public void PluginSkipped()
-            { SkippedArticle(AWBLogListener.StringPlugin, AWBLogListener.StringPluginSkipped); }
+            {
+                SkippedArticle(AWBLogListener.StringPlugin, AWBLogListener.StringPluginSkipped);
+            }
         }
 
         internal LoggingSettings LS
@@ -583,10 +597,8 @@ namespace AutoWikiBrowser.Logging
         // Allow plugins to turn off all logging:
         public void TurnOffLogging()
         {
-            Close(); LS.TurnOffLogging();
+            Close();
+            LS.TurnOffLogging();
         }
-
-        internal static AWBLogListener InitialiseLogListener(ArticleEX article) 
-        { return null;/* Article.InitialiseLogListener("AWB", Program.MyTrace);*/ }
     }
 }

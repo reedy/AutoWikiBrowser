@@ -75,19 +75,24 @@ namespace WikiFunctions.Parse
                 {
                     if (string.IsNullOrEmpty(text))
                     {
-                        if (MessageBox.Show("No list of typos was found. Would you like to use the list of typos from the English Wikipedia?\r\nOnly choose 'Yes' if this is an English wiki.", "Load from English Wikipedia?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        if (
+                            MessageBox.Show(
+                                "No list of typos was found. Would you like to use the list of typos from the English Wikipedia?\r\nOnly choose 'Yes' if this is an English wiki.",
+                                "Load from English Wikipedia?", MessageBoxButtons.YesNo) != DialogResult.Yes)
                         {
-                            try
-                            {
-                                text = Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/Typos&action=raw", Encoding.UTF8);
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show("There was a problem loading the list of typos: " + ex.Message);
-                            }
+                            return typoStrings;
                         }
-                        else
-                            text = "";
+                        try
+                        {
+                            text =
+                                Tools.GetHTML(
+                                    "http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/Typos&action=raw",
+                                    Encoding.UTF8);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("There was a problem loading the list of typos: " + ex.Message);
+                        }
                     }
                 }
 
@@ -243,7 +248,7 @@ namespace WikiFunctions.Parse
 
             if (matches.Count > 0)
             {
-                TypoStat stats = new TypoStat(typo) {Total = matches.Count};
+                TypoStat stats = new TypoStat(typo) { Total = matches.Count };
 
                 articleText = typo.Key.Replace(articleText, typo.Value);
 

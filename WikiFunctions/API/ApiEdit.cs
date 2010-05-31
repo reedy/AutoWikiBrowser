@@ -873,11 +873,18 @@ namespace WikiFunctions.API
         {
             if (!string.IsNullOrEmpty(HtmlHeaders)) return;
 
-            string html = HttpGet(URL + "index.php" + (PHP5 ? "5" : ""));
-            html = Tools.StringBetween(html, "<head>", "</head>");
+            string result = HttpGet(
+                new[,]
+                    {
+                        {"action", "parse"},
+                        {"prop", "headhtml"}
+                    }
+                );
+
+            result = Tools.StringBetween(Tools.UnescapeXML(result), "<head>", "</head>");
             StringBuilder extracted = new StringBuilder(2048);
 
-            foreach (Match m in ExtractCssAndJs.Matches(html))
+            foreach (Match m in ExtractCssAndJs.Matches(result))
             {
                 extracted.Append(m.Value);
                 extracted.Append("\n");

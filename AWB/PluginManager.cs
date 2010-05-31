@@ -58,7 +58,7 @@ namespace AutoWikiBrowser
 
             pluginOpen.DefaultExt = "dll";
             pluginOpen.Filter = "DLL files|*.dll";
-            pluginOpen.CheckFileExists = pluginOpen.Multiselect = /*pluginOpen.AutoUpgradeEnabled =*/ true;
+            pluginOpen.CheckFileExists = pluginOpen.Multiselect = true;
 
             pluginOpen.ShowDialog();
 
@@ -196,6 +196,53 @@ namespace AutoWikiBrowser
     {
         internal static class Plugin
         {
+            static Plugin()
+            {
+                ErrorHandler.AppendToEventHandler += ErrorHandler_AppendToEventHandler;
+            }
+
+            static string ErrorHandler_AppendToEventHandler()
+            {
+                StringBuilder builder = new StringBuilder();
+
+                builder.AppendLine("<table>");
+                builder.AppendLine("<tr>");
+                builder.AppendLine("<th>AWBBasePlugins</th>");
+                builder.AppendLine("<th>AWBBasePlugins</th>");
+                builder.AppendLine("<th>ListMakerPlugins</th>");
+                builder.AppendLine("</tr>");
+
+                builder.AppendLine("<tr>");
+                builder.AppendLine("<td>");
+
+                foreach (var p in AWBPlugins)
+                {
+                    builder.AppendLine("*" + p.Key);
+                }
+
+                builder.AppendLine("</td>");
+                builder.AppendLine("<td>");
+
+                foreach (var p in AWBBasePlugins)
+                {
+                    builder.AppendLine("*" + p.Key);
+                }
+
+                builder.AppendLine("</td>");
+                builder.AppendLine("<td>");
+
+                foreach (var p in ListMakerPlugins)
+                {
+                    builder.AppendLine("*" + p.Key);
+                }
+
+                builder.AppendLine("</td>");
+                builder.AppendLine("</tr>");
+                builder.AppendLine("</table>");
+
+                return builder.ToString();
+            }
+
             /// <summary>
             /// Dictionary of Plugins, name, and reference to AWB Plugin
             /// </summary>

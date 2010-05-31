@@ -14,11 +14,15 @@ using WikiFunctions.API;
 
 namespace WikiFunctions
 {
+    public delegate string EventHandlerAddition();
+
     /// <summary>
     /// This class provides helper functions for handling errors and displaying them to users
     /// </summary>
     public partial class ErrorHandler : Form
     {
+        public static event EventHandlerAddition AppendToEventHandler;
+
         /// <summary>
         /// Title of the page currently being processed
         /// </summary>
@@ -87,7 +91,18 @@ namespace WikiFunctions
 
             errorMessage.Append("<table>");
             FormatException(ex, errorMessage, ExceptionKind.TopLevel);
-            errorMessage.AppendLine("</table>\r\n~~~~");
+            errorMessage.AppendLine("</table>");
+
+            if (AppendToEventHandler != null)
+            {
+                foreach (Delegate d in AppendToEventHandler.GetInvocationList())
+                {
+                    errorMessage.AppendLine(d.DynamicInvoke().ToString());
+                }
+            }
+            
+            errorMessage.AppendLine("~~~~");
+
             errorMessage.AppendLine(" | OS          = " + Environment.OSVersion);
             errorMessage.Append(" | version     = " + Assembly.GetExecutingAssembly().GetName().Version);
 

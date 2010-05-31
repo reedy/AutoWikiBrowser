@@ -388,6 +388,8 @@ namespace WikiFunctions.DBScanner
                     s = a.ToString().Replace("&amp;", "&");
 
                     string sr = (s.Length > 1) ? s.Remove(1) : s;
+                    
+                    sr = Tools.RemoveDiacritics(sr);
 
                     if (sr != l)
                         strbList.AppendLine("\r\n== " + sr + " ==");

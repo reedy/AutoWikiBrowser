@@ -294,8 +294,8 @@ namespace AutoWikiBrowser
 
                 bool optUpdate = ((Updater.Result & Updater.AWBEnabledStatus.OptionalUpdate) ==
                                   Updater.AWBEnabledStatus.OptionalUpdate),
-                updaterUpdate = ((Updater.Result & Updater.AWBEnabledStatus.UpdaterUpdate) ==
-                                 Updater.AWBEnabledStatus.UpdaterUpdate);
+                     updaterUpdate = ((Updater.Result & Updater.AWBEnabledStatus.UpdaterUpdate) ==
+                                      Updater.AWBEnabledStatus.UpdaterUpdate);
 
                 if (optUpdate || updaterUpdate)
                 {
@@ -332,7 +332,9 @@ namespace AutoWikiBrowser
                 if ((Updater.Result & Updater.AWBEnabledStatus.Error) == Updater.AWBEnabledStatus.Error)
                 {
                     lblUserName.BackColor = Color.Red;
-                    MessageBox.Show(this, "Cannot load version check page from Wikipedia. Please verify that you're connected to Internet.", "Error",
+                    MessageBox.Show(this,
+                                    "Cannot load version check page from Wikipedia. Please verify that you're connected to Internet.",
+                                    "Error",
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
 
@@ -351,9 +353,9 @@ namespace AutoWikiBrowser
             SplashScreen.SetProgress(100);
             SplashScreen.Close();
 
-            #if DEBUG && INSTASTATS
+#if DEBUG && INSTASTATS
             UsageStats.Do(false);
-            #endif
+#endif
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
@@ -369,7 +371,7 @@ namespace AutoWikiBrowser
 
         #region Properties
 
-        internal ArticleEX TheArticle { get; private set; }
+        internal Article TheArticle { get; private set; }
 
         /// <summary>
         /// Is AWB running in Bot Mode
@@ -695,7 +697,7 @@ namespace AutoWikiBrowser
                 if (BotMode)
                     NudgeTimer.StartMe();
 
-                TheArticle = new ArticleEX(title, "");
+                TheArticle = new Article(title, "");
 
                 //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#.27Find.27_sometimes_fails_to_use_the_search_key
                 txtEdit.ResetFind();
@@ -731,13 +733,14 @@ namespace AutoWikiBrowser
         private int _unbalancedBracket, _bracketLength;
 
         private Dictionary<int, int> badCiteParameters = new Dictionary<int, int>();
+        private Dictionary<int, int> unclosedTags = new Dictionary<int, int>();
         private Dictionary<int, int> deadLinks = new Dictionary<int, int>();
         private Dictionary<int, int> ambigCiteDates = new Dictionary<int, int>();
         
         private void SkipRedirect(string redirectTitle, string reason)
         {
             listMaker.Remove(TheArticle); // or we get stuck in a loop
-            TheArticle = new ArticleEX(redirectTitle, "");
+            TheArticle = new Article(redirectTitle, "");
             // if we didn't do this, we were writing the SkipPage info to the AWBLogListener belonging to the object redirect and resident in the MyTrace collection, but then attempting to add TheArticle's log listener to the logging tab
             SkipPage(reason);
         }
@@ -757,7 +760,7 @@ namespace AutoWikiBrowser
 
             if (_stopProcessing)
                 return;
-            TheArticle = new ArticleEX(page);
+            TheArticle = new Article(page);
 
             if (!preParseModeToolStripMenuItem.Checked && !CheckLoginStatus())
 				return;
@@ -771,7 +774,8 @@ namespace AutoWikiBrowser
 
             bool articleIsRedirect = PageInfo.WasRedirected(page);
          
-            if (chkSkipIfRedirect.Checked && articleIsRedirect)
+            // check for redirects when 'follow redirects' is off
+            if (chkSkipIfRedirect.Checked && Tools.IsRedirect(page.Text))
             {
                 SkipPage("Page is a redirect");
                 return;
@@ -969,6 +973,8 @@ namespace AutoWikiBrowser
                 }
 
                 PageWatched = TheSession.Page.IsWatched;
+                
+                Variables.Profiler.Profile("ActionOnLoad");
 
                 txtReviewEditSummary.Text = MakeSummary();
 
@@ -1019,18 +1025,7 @@ namespace AutoWikiBrowser
                     else */if (scrollToUnbalancedBracketsToolStripMenuItem.Checked)
                     {
                         EditBoxTab.SelectedTab = tpEdit;
-
-                        if (_unbalancedBracket >= 0)
-                            HighlightUnbalancedBrackets();
-
-                        if (badCiteParameters.Count > 0)
-                            HighlightErrors(badCiteParameters);
-                        
-                        if(deadLinks.Count > 0)
-                            HighlightErrors(deadLinks);
-                        
-                        if(ambigCiteDates.Count > 0)
-                            HighlightErrors(ambigCiteDates);
+                        HighlightErrors();
                     }
                 }
                 
@@ -1043,6 +1038,24 @@ namespace AutoWikiBrowser
                 EnableButtons();
                 Abort = false;
             }
+        }
+        
+        private void HighlightErrors()
+        {
+            if (_unbalancedBracket >= 0)
+                HighlightUnbalancedBrackets();
+
+            if (badCiteParameters.Count > 0)
+                HighlightErrors(badCiteParameters);
+            
+            if(deadLinks.Count > 0)
+                HighlightErrors(deadLinks);
+            
+            if(ambigCiteDates.Count > 0)
+                HighlightErrors(ambigCiteDates);
+            
+            if(unclosedTags.Count > 0)
+                HighlightErrors(unclosedTags);
         }
 
         /// <summary>
@@ -1153,7 +1166,7 @@ namespace AutoWikiBrowser
             if (_dlgTalk.ShowDialog() == DialogResult.Yes)
                 Tools.OpenUserTalkInBrowser(TheSession.User.Name);
             else
-                Process.Start("iexplore", Variables.GetUserTalkURL(TheSession.User.Name));
+                Process.Start(Variables.GetUserTalkURL(TheSession.User.Name));
         }
 
         private void NoWriteApiRight()
@@ -2372,6 +2385,10 @@ window.scrollTo(0, diffTopY);
                 badCiteParameters = TheArticle.BadCiteParameters();
                 if (badCiteParameters.Count > 0)
                     warnings.AppendLine("Invalid citation parameter(s) found");
+                
+                unclosedTags = TheArticle.UnclosedTags();
+                if (unclosedTags.Count > 0)
+                    warnings.AppendLine("Unclosed tag(s) found");
 
                 lblWords.Text = Words + wordCount;
                 lblCats.Text = Cats + catCount;
@@ -3437,8 +3454,8 @@ window.scrollTo(0, diffTopY);
             if (TheArticle == null)
                 return;
 
-            ArticleEX a = new ArticleEX(TheArticle.Name, txtEdit.Text);
-            ArticleEX theArtricleOriginal = TheArticle;
+            Article a = new Article(TheArticle.Name, txtEdit.Text);
+            Article theArtricleOriginal = TheArticle;
             ErrorHandler.CurrentPage = TheArticle.Name;
             ProcessPage(a, false);
             ErrorHandler.CurrentPage = "";
@@ -3455,19 +3472,7 @@ window.scrollTo(0, diffTopY);
                 HighlightAllFind();
 
             if (scrollToUnbalancedBracketsToolStripMenuItem.Checked)
-            {
-                if (_unbalancedBracket >= 0)
-                    HighlightUnbalancedBrackets();
-
-                if (badCiteParameters.Count > 0)
-                    HighlightErrors(badCiteParameters);
-                
-                if(ambigCiteDates.Count > 0)
-                    HighlightErrors(ambigCiteDates);
-                
-                if(deadLinks.Count > 0)
-                    HighlightErrors(deadLinks);
-            }
+                HighlightErrors();
 
             if (syntaxHighlightEditBoxToolStripMenuItem.Checked)
             {
@@ -4943,18 +4948,6 @@ window.scrollTo(0, diffTopY);
             if (listMaker.Count > 0 && MessageBox.Show(this, "Do you want to clear the current list?", "Clear current list", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                 == DialogResult.Yes)
                 listMaker.Clear();
-        }
-
-        private void chkSkipWhenNoFAR_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkSkipWhenNoFAR.Checked && chkSkipOnlyMinorFaR.Checked)
-                chkSkipOnlyMinorFaR.Checked = false;
-        }
-
-        private void chkSkipOnlyMinorFaR_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkSkipOnlyMinorFaR.Checked && chkSkipWhenNoFAR.Checked)
-                chkSkipWhenNoFAR.Checked = false;
         }
 
         private void submitStatToolStripMenuItem_Click(object sender, EventArgs e)

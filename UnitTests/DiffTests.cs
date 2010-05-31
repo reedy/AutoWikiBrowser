@@ -70,6 +70,17 @@ namespace UnitTests
 
             lst = Word.SplitString("foo|bar");
             AssertWords(lst, "foo", "|", "bar");
+            
+            lst = Word.SplitString("foé bar");
+            AssertWords(lst, "foé ", "bar");
+            
+            // Chinese – each character is defined as a word
+            lst = Word.SplitString("汉语");
+            AssertWords(lst, "汉", "语");
+            
+            // Thai – each character is defined as a word
+            lst = Word.SplitString("ภา");
+            AssertWords(lst, "ภ", "า");
         }
     }
 }

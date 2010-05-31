@@ -404,6 +404,10 @@ bar"));
 
             matches = Regex.Matches("test", "[Tt]est");
             Assert.AreEqual("", Tools.RemoveMatches("test", matches));
+            
+            List<Match> MatchesList = new List<Match>();
+            
+            Assert.AreEqual("test", Tools.RemoveMatches("test", MatchesList));
         }
 
         [Test]
@@ -828,6 +832,20 @@ John", "*"));
             // handles incorect format
             string wrong = @"foo";
             Assert.AreEqual(wrong, Tools.ISOToENDate(wrong, Parsers.DateLocale.International));
+        }
+        
+        [Test]
+        public void ISOToDateEnOnly()
+        {
+            #if DEBUG         
+            string iso2 = @"1890-07-04";
+            
+            Variables.SetProjectLangCode("fr");
+            Assert.AreEqual(iso2, Tools.ISOToENDate(iso2, Parsers.DateLocale.International));
+            
+            Variables.SetProjectLangCode("en");
+            Assert.AreEqual(@"4 July 1890", Tools.ISOToENDate(iso2, Parsers.DateLocale.International));
+            #endif
         }
 
         [Test, SetCulture("ru-RU")]
@@ -1367,6 +1385,10 @@ title={{abc|fdkjdsfjk=fdaskjlfds
         public void  NestedTemplateRegexListSingle()
         {
             List<string> ListOfTemplates = new List<string>();
+            
+            Regex MultipleTemplatesN = Tools.NestedTemplateRegex(ListOfTemplates);
+            Assert.Null(MultipleTemplatesN, "null return if zero-entry list input");
+            
             ListOfTemplates.Add(@"Foo");
             
             Regex MultipleTemplates = Tools.NestedTemplateRegex(ListOfTemplates);
@@ -1449,6 +1471,9 @@ foo<!--comm-->|title=abc
             
             Assert.AreEqual(@"", Tools.GetMetaContentValue(@"<meta name  =""PubDate"" CONTENT="" 2009-03-02 "">", "PUBDATEXX"));
             Assert.AreEqual(@"", Tools.GetMetaContentValue(@"<meta name  =""PubDateX"" CONTENT="" 2009-03-02 "">", "PUBDATE"));
+            
+            Assert.AreEqual(@"", Tools.GetMetaContentValue(@"<meta name  =""PubDateX"" CONTENT="" 2009-03-02 "">", ""));
+            Assert.AreEqual(@"", Tools.GetMetaContentValue("", "PUBDATE"));
         }
         
         [Test]
@@ -1487,7 +1512,9 @@ Start date and age
         public void MakeHumanCatKeyWithRomanNumbers()
         {
             Assert.AreEqual("Doe, John, Iii", Tools.MakeHumanCatKey("John Doe III"));
+            Assert.AreEqual("John Iii", Tools.MakeHumanCatKey("John III"));
             Assert.AreEqual("Xvii", Tools.MakeHumanCatKey("XVII"));
+            Assert.AreEqual("Spain, John Doe King Of, Iii", Tools.MakeHumanCatKey("John Doe King of Spain III"));
         }
 
         [Test]

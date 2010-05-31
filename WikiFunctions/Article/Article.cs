@@ -38,6 +38,8 @@ namespace WikiFunctions
 
     public enum Exists { Yes, No, Unknown }
 
+    public delegate void AddListenerDelegate(string key, IMyTraceListener listener);
+
     /// <summary>
     /// A class which represents a wiki article
     /// </summary>
@@ -66,13 +68,14 @@ namespace WikiFunctions
 
         public Article(string name)
             : this(name, Namespace.Determine(name))
-        { }
+        {
+        }
 
         public Article(string name, int nameSpaceKey)
             : this()
         {
             Name = name.Contains("#") ? name.Substring(0, name.IndexOf('#')) : name;
-
+            InitialiseLogListener();
             NameSpaceKey = nameSpaceKey;
         }
 
@@ -90,22 +93,35 @@ namespace WikiFunctions
             Exists = page.Exists ? Exists.Yes : Exists.No;
         }
 
-        public virtual AWBLogListener InitialiseLogListener()
+        private static event AddListenerDelegate addListener;
+        private static TraceManager currentTraceManager;
+        private static string whatName;
+
+        public static void SetAddListener(AddListenerDelegate del, TraceManager trace, string what)
         {
-            InitLog();
-            return mAWBLogListener;
+            addListener += del;
+            currentTraceManager = trace;
+            whatName = what;
         }
 
-        public AWBLogListener InitialiseLogListener(string name, TraceManager traceManager)
+        public void InitialiseLogListener()
         {
+            if (mAWBLogListener != null)
+                return;
+
             // Initialise a Log Listener and add it to a TraceManager collection
-            InitLog();
-            traceManager.AddListener(name, mAWBLogListener);
-            return mAWBLogListener;
-        }
+            mAWBLogListener = new AWBLogListener(Name);
 
-        private void InitLog()
-        { mAWBLogListener = new AWBLogListener(Name); }
+            if (currentTraceManager != null)
+            {
+                currentTraceManager.AddListener(whatName, mAWBLogListener);
+            }
+
+            if (addListener != null)
+            {
+                addListener(whatName, mAWBLogListener);
+            }
+        }
         #endregion
 
         #region Serialisable properties
@@ -260,7 +276,7 @@ namespace WikiFunctions
         [XmlIgnore]
         public bool HasMorefootnotesAndManyReferences
         { get { return Parsers.HasMorefootnotesAndManyReferences(mArticleText); } }
-        
+
         /// <summary>
         /// Returns whether the article is a disambiguation page (en only)
         /// </summary>
@@ -274,7 +290,7 @@ namespace WikiFunctions
         [XmlIgnore]
         public bool IsDisambiguationPageWithRefs
         { get { return IsDisambiguationPage && WikiRegexes.Refs.IsMatch(mArticleText); } }
-        
+
         /// <summary>
         /// Returns true if the article contains a <ref>...</ref> reference after the {{reflist}} to show them
         /// </summary>
@@ -282,13 +298,13 @@ namespace WikiFunctions
         [XmlIgnore]
         public bool HasRefAfterReflist
         { get { return Parsers.HasRefAfterReflist(mArticleText); } }
-        
+
         /// <summary>
         /// Returns true if the article uses named references ([[WP:REFNAME]])
         /// </summary>
         [XmlIgnore]
         public bool HasNamedReferences
-        {get { return Parsers.HasNamedReferences(mArticleText); } }
+        { get { return Parsers.HasNamedReferences(mArticleText); } }
 
         /// <summary>
         /// Returns true if the article contains bare references (just the URL link on a line with no description/name)
@@ -303,7 +319,7 @@ namespace WikiFunctions
         [XmlIgnore]
         public bool HasAmbiguousCiteTemplateDates
         { get { return Parsers.AmbiguousCiteTemplateDates(mArticleText); } }
-        
+
         /// <summary>
         /// Returns true if the article should be skipped; check after each call to a worker member. See AWB main.cs.
         /// </summary>
@@ -319,7 +335,7 @@ namespace WikiFunctions
                 return (NameSpaceKey == Namespace.Article
                         || NameSpaceKey == Namespace.Category
                         || Name.Contains("Sandbox"))
-                        || Name.Contains("/doc");
+                    || Name.Contains("/doc");
             }
         }
 
@@ -338,13 +354,13 @@ namespace WikiFunctions
         [XmlIgnore]
         public bool IsMissingReferencesDisplay
         { get { return Parsers.IsMissingReferencesDisplay(mArticleText); } }
-        
+
         /// <summary>
         /// Returns the predominant date locale of the article (may be Undetermined)
         /// </summary>
         [XmlIgnore]
         public Parsers.DateLocale DateLocale
-        { get { return Parsers.DeterminePredominantDateLocale(mArticleText); }}
+        { get { return Parsers.DeterminePredominantDateLocale(mArticleText); } }
         #endregion
 
         #region AWB worker subroutines
@@ -467,9 +483,9 @@ namespace WikiFunctions
         {
             return Parsers.UnbalancedBrackets(ArticleText, ref bracketLength);
         }
-        
+
         /// <summary>
-        /// Returns the index and length of any invalid or unknown citation parameters within a citation template
+        /// Returns a dictionary of the index and length of any invalid or unknown citation parameters within a citation template
         /// </summary>
         /// <returns></returns>
         public Dictionary<int, int> BadCiteParameters()
@@ -478,6 +494,14 @@ namespace WikiFunctions
         }
         
         /// <summary>
+        /// Returns a dictionary of the index and length of any unclosed &lt;math&gt;, &lt;source&gt;, &lt;code&gt;, &lt;nowiki&gt; or &lt;pre&gt; tags
+        /// </summary>
+        public Dictionary<int, int> UnclosedTags()
+        { 
+            return Parsers.UnclosedTags(ArticleText); 
+        }
+
+        /// <summary>
         /// Returns a dictionary of the index and length of any {{dead link}}s found
         /// </summary>
         /// <returns></returns>
@@ -485,7 +509,11 @@ namespace WikiFunctions
         {
             return Parsers.DeadLinks(ArticleText);
         }
-        
+
+        /// <summary>
+        /// Returns a dictionary of ambiguously formatted dates within citation templates
+        /// </summary>
+        /// <returns></returns>
         public Dictionary<int, int> AmbiguousCiteTemplateDates()
         {
             return Parsers.AmbigCiteTemplateDates(ArticleText);
@@ -508,25 +536,25 @@ namespace WikiFunctions
 
             if (imageReplaceText.Length > 0)
                 switch (option)
-            {
-                case ImageReplaceOptions.NoAction:
-                    return;
+                {
+                    case ImageReplaceOptions.NoAction:
+                        return;
 
-                case ImageReplaceOptions.Replace:
-                    if (imageWithText.Length > 0) strTemp = Parsers.ReplaceImage(imageReplaceText, imageWithText, mArticleText, out noChange);
-                    break;
+                    case ImageReplaceOptions.Replace:
+                        if (imageWithText.Length > 0) strTemp = Parsers.ReplaceImage(imageReplaceText, imageWithText, mArticleText, out noChange);
+                        break;
 
-                case ImageReplaceOptions.Remove:
-                    strTemp = Parsers.RemoveImage(imageReplaceText, mArticleText, false, imageWithText, out noChange);
-                    break;
+                    case ImageReplaceOptions.Remove:
+                        strTemp = Parsers.RemoveImage(imageReplaceText, mArticleText, false, imageWithText, out noChange);
+                        break;
 
-                case ImageReplaceOptions.Comment:
-                    strTemp = Parsers.RemoveImage(imageReplaceText, mArticleText, true, imageWithText, out noChange);
-                    break;
+                    case ImageReplaceOptions.Comment:
+                        strTemp = Parsers.RemoveImage(imageReplaceText, mArticleText, true, imageWithText, out noChange);
+                        break;
 
-                default:
-                    throw new ArgumentOutOfRangeException("option");
-            }
+                    default:
+                        throw new ArgumentOutOfRangeException("option");
+                }
 
             if (noChange && skipIfNoChange)
                 Trace.AWBSkipped("No File Changed");
@@ -595,8 +623,8 @@ namespace WikiFunctions
                 return;
 
             string strTemp = Tools.ConvertFromLocalLineEndings(mArticleText),
-                   testText = strTemp,
-                   tmpEditSummary = "";
+            testText = strTemp,
+            tmpEditSummary = "";
 
             bool majorChangesMade;
             strTemp = findAndReplace.MultipleFindAndReplace(strTemp, Name, ref tmpEditSummary, out majorChangesMade);
@@ -679,12 +707,12 @@ namespace WikiFunctions
 
             if (langCode == "en")
             {
-            	string strTemp = mArticleText;
-            	
-            	// do not subst on Template documentation pages
-            	if(!(Namespace.Determine(Name).Equals(Namespace.Template) && Name.EndsWith(@"/doc")))
-            		strTemp = Parsers.Conversions(mArticleText);
-            	
+                string strTemp = mArticleText;
+
+                // do not subst on Template documentation pages
+                if (!(Namespace.Determine(Name).Equals(Namespace.Template) && Name.EndsWith(@"/doc")))
+                    strTemp = Parsers.Conversions(mArticleText);
+
                 strTemp = Parsers.FixLivingThingsRelatedDates(strTemp);
                 strTemp = Parsers.FixHeadings(strTemp, Name, out noChange);
 
@@ -1016,7 +1044,7 @@ namespace WikiFunctions
         public void PerformGeneralFixes(Parsers parsers, HideText removeText, ISkipOptions skip, bool replaceReferenceTags, bool restrictDefaultsortAddition, bool noMOSComplianceFixes)
         { //TODO: 2009-01-28 review which of the genfixes below should be labelled 'significant'
             BeforeGeneralFixesTextChanged();
-            
+
             // FixDates does its own hiding
             AWBChangeArticleText("Fix dates", parsers.FixDates(ArticleText), false);
             Variables.Profiler.Profile("FixDates");
@@ -1099,8 +1127,9 @@ namespace WikiFunctions
 
             CiteTemplateDates(parsers, skip.SkipNoCiteTemplateDatesFixed);
             Variables.Profiler.Profile("CiteTemplateDates");
-            
+
             AWBChangeArticleText("Redirect tagger", Parsers.RedirectTagger(ArticleText, Name), false);
+            Variables.Profiler.Profile("RedirectTagger");
 
             BulletExternalLinks(skip.SkipNoBulletedLink);
             Variables.Profiler.Profile("BulletExternalLinks");
@@ -1110,7 +1139,7 @@ namespace WikiFunctions
 
             if (!noMOSComplianceFixes)
             {
-                AWBChangeArticleText("Mdashes", parsers.Mdashes(ArticleText, Name, NameSpaceKey), true);
+                AWBChangeArticleText("Mdashes", parsers.Mdashes(ArticleText, Name), true);
                 Variables.Profiler.Profile("Mdashes");
 
                 AWBChangeArticleText("Fix Date Ordinals/Of", parsers.FixDateOrdinalsAndOf(ArticleText, Name), true, true);
@@ -1135,7 +1164,7 @@ namespace WikiFunctions
 
             FixLinks(skip.SkipNoBadLink);
             Variables.Profiler.Profile("FixLinks");
-            
+
             AWBChangeArticleText("Simplify links", Parsers.SimplifyLinks(ArticleText), true);
             Variables.Profiler.Profile("SimplifyLinks");
 
@@ -1147,7 +1176,7 @@ namespace WikiFunctions
 
             Variables.Profiler.Profile("End of general fixes");
         }
-        
+
         /// <summary>
         /// Calls the MetaDataSorter on the article if it is on mainspace
         /// </summary>
@@ -1214,7 +1243,7 @@ namespace WikiFunctions
         public void PerformTalkGeneralFixes()
         {
             BeforeGeneralFixesTextChanged();
-            
+
             string articleText = ArticleText, newSummary = "";
             TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
 
@@ -1223,7 +1252,7 @@ namespace WikiFunctions
                 AWBChangeArticleText("Talk Page general fixes", articleText, false);
                 AppendToSummary(newSummary);
             }
-            
+
             AfterGeneralFixesTextChanged();
         }
 
