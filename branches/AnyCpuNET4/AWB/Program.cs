@@ -53,6 +53,8 @@ namespace AutoWikiBrowser
                 AWB = awb;
                 awb.ParseCommandLine(args);
 
+                Article.SetAddListener(MyTrace.AddListener, MyTrace, "AWB");
+
                 Application.Run(awb);
             }
             catch (Exception ex)

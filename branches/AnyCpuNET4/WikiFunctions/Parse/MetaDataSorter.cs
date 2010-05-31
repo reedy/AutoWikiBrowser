@@ -353,26 +353,23 @@ en, sq, ru
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
-        /// <returns></returns>
+        /// <returns>The cleaned page categories in a single string</returns>
         public string RemoveCats(ref string articleText, string articleTitle)
         {
             List<string> categoryList = new List<string>();
             string originalArticleText = articleText;
 
             // allow comments between categories, and keep them in the same place, but don't grab any comment just after the last category
-            Regex r = new Regex(@"<!-- [^<>]*?\[\[" + Variables.NamespacesCaseInsensitive[Namespace.Category]
+            Regex r = new Regex(@"<!-- [^<>]*?\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category]
                                 + @".*?(\]\]|\|.*?\]\]).*?-->|\[\["
                                 + Variables.NamespacesCaseInsensitive[Namespace.Category]
-                                + @".*?(\]\]|\|.*?\]\])( {0,4}⌊⌊⌊⌊[0-9]{1,4}⌋⌋⌋⌋|\s*<!--.*?-->(?=\r\n\[\[))?", RegexOptions.Singleline);
-
-            //      Regex CatOnly = new Regex(@"\[\[" + Variables.NamespacesCaseInsensitive[Namespace.Category] + @".*?(\]\]|\|.*?\]\])", RegexOptions.Compiled);
+                                + @".*?(\]\]|\|.*?\]\])(\s*⌊⌊⌊⌊\d{1,4}⌋⌋⌋⌋|\s*<!--.*?-->(?=\r\n\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category]
+                                + @"))?", RegexOptions.Singleline);
             
             MatchCollection matches = r.Matches(articleText);
             foreach (Match m in matches)
             {
-                //string cat = WikiRegexes.Category.Match(m.Value).Value;
-                
-                if (!Regex.IsMatch(m.Value, "\\[\\[Category:(Pages|Categories|Articles) for deletion\\]\\]"))
+                if (!Regex.IsMatch(m.Value, @"\[\[Category:(Pages|Categories|Articles) for deletion\]\]"))
                     categoryList.Add(m.Value);
             }
 

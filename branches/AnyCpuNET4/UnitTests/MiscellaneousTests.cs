@@ -550,6 +550,9 @@ Image:quux[http://example.com]
             Assert.AreEqual("Image:", Namespace.Normalize("image:", 6));
             Assert.AreEqual("File:", Namespace.Normalize("file:", 6));
             Assert.AreEqual("Image talk:", Namespace.Normalize("image talk:", 7));
+            
+            Assert.AreEqual("user:", Namespace.Normalize("user :", 7), "only changes colon for incorrect namespace number");
+            Assert.AreEqual("user:", Namespace.Normalize("user:", 7), "only changes colon for incorrect namespace number");
         }
 
         [Test]
@@ -651,6 +654,61 @@ hello talk";
             
             Assert.AreEqual(@"{{Talk header|noarchive=no}}" + "\r\n" + talkrest+ "\r\n", articleText, "renamed to upper case with space");
             Assert.IsTrue(newSummary.Contains("{{Talk header}} given top billing"));
+        }
+        
+        [Test]
+        public void TalkHeaderDefaultsortChange()
+        {
+            string start = @"
+==Foo==
+bar", df = @"{{DEFAULTSORT:Bert}}", newSummary = "";
+            
+            string articleText = start + "\r\n" + df;
+            
+            TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.MoveToBottom);
+            Assert.AreEqual(start + "\r\n"+ "\r\n" + df, articleText);
+            
+            articleText = start + df;
+            
+            TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.MoveToTop);
+            Assert.AreEqual(df + "\r\n" + start, articleText);
+            
+            articleText = start + df;
+            
+            TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
+            Assert.AreEqual(start + df, articleText);
+            
+            string df2 = @"{{DEFAULTSORT:}}";
+            
+            articleText = start + df2;
+            newSummary = "";
+            
+            TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.MoveToBottom);
+            Assert.AreEqual(start, articleText, "defaultsort with no key removed");
+            Assert.IsTrue(newSummary.Contains("DEFAULTSORT has no key"));
+            
+            articleText = start + df2;
+            newSummary = "";
+            
+            TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.MoveToTop);
+            Assert.AreEqual(start, articleText, "defaultsort with no key removed");
+            Assert.IsTrue(newSummary.Contains("DEFAULTSORT has no key"));
+        }
+        
+        [Test]
+        public void SkipToTalk()
+        {
+            string articleText = @"{{Skiptotoc}}", newSummary = "", STT = @"{{Skip to talk}}";
+            
+            TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
+            Assert.AreEqual(STT + "\r\n", articleText);
+            Assert.IsTrue(newSummary.Contains("Skip to talk"));
+            
+            articleText = @"{{skiptotoctalk}}";
+            newSummary = "";
+            TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
+            Assert.AreEqual(STT + "\r\n", articleText);
+            Assert.IsTrue(newSummary.Contains("Skip to talk"));
         }
         
         [Test]

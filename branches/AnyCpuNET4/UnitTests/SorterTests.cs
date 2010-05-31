@@ -529,6 +529,22 @@ blah";
             // no change when already correct
             Assert.AreEqual(a + "\r\n" + b + "\r\n" + c + "\r\n" + d, MetaDataSorter.MoveSeeAlso(a + "\r\n" + b + "\r\n" + c + "\r\n" + d));
         }
+        
+        [Test]
+        public void CategoriesForDeletion()
+        {
+            const string a = @"[[Category:Railway companies established in 1851]]";
+            const string b1 = @"[[Category:Pages for deletion]]", b2 = @"[[Category:Categories for deletion]]", b3 = @"[[Category:Articles for deletion]]";
+
+            string k = a + "\r\n" + b1;
+            Assert.AreEqual(a + "\r\n", parser2.Sorter.RemoveCats(ref k, "test"), "Pages for deletion cat not kept");
+            
+            k = a + "\r\n" + b2;
+            Assert.AreEqual(a + "\r\n", parser2.Sorter.RemoveCats(ref k, "test"), "Categories for deletion cat not kept");
+            
+            k = a + "\r\n" + b3;
+            Assert.AreEqual(a + "\r\n", parser2.Sorter.RemoveCats(ref k, "test"), "Articles for deletion cat not kept");
+        }
 
         [Test]
         public void CategoryAndCommentTests()
@@ -631,6 +647,29 @@ foo";
 
             Assert.AreEqual("", parser2.Sorter.RemoveCats(ref nw, "test"));
             Assert.IsFalse(parser2.Sorter.RemoveCats(ref nw, "test").Contains(@"[[Category:LGBT people from the United States]]"));
+        
+            string iw1 = @"[[Category:Hampshire|  ]]
+[[Category:Articles including recorded pronunciations (UK English)]]
+[[Category:Non-metropolitan counties]]", iw2 = @"
+
+<!--interwiki-->
+[[af:Hampshire]]";
+            string iwall = iw1 + iw2;
+            
+            Assert.AreEqual(iw1 + "\r\n", parser2.Sorter.RemoveCats(ref iwall, "test"), "don't pull the interwiki comment");
+            Assert.IsTrue(iwall.Contains(@"<!--interwiki-->"), "don't pull the interwiki comment");
+        }
+        
+        [Test]
+        public void CategoryCommentTests()
+        {
+            const string cats = @"[[Category:Hampshire|  ]]
+[[Category:Articles including recorded pronunciations (UK English)]]
+[[Category:Non-metropolitan counties]]", comm = @"<!-- cat -->";
+            
+            string a = cats + "\r\n" + comm;
+            
+            Assert.AreEqual(comm + "\r\n" + cats + "\r\n", parser2.Sorter.RemoveCats(ref a, "test"));
         }
 
         [Test]
@@ -661,6 +700,12 @@ foo";
             
             // comment handling
             string comm = @"<!-- other languages -->";
+            a = @"[[de:Canadian National Railway]]
+[[es:Canadian National]]
+[[fr:Canadien National]]" + comm;
+            Assert.AreEqual(comm + "\r\n" + b + "\r\n", parser2.Sorter.Interwikis(ref a));
+            
+            comm = @"<!--Interwikis-->";
             a = @"[[de:Canadian National Railway]]
 [[es:Canadian National]]
 [[fr:Canadien National]]" + comm;

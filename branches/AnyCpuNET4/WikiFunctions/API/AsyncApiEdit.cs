@@ -225,7 +225,10 @@ namespace WikiFunctions.API
             else
             {
                 InCrossThreadCall = true;
-                ParentControl.Invoke(method, args);
+                if (!ParentControl.IsDisposed)
+                {
+                    ParentControl.Invoke(method, args);
+                }
                 InCrossThreadCall = false;
             }
         }

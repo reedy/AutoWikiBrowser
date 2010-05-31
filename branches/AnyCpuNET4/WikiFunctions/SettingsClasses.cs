@@ -158,7 +158,10 @@ namespace WikiFunctions.AWBSettings
                     xs.Serialize(fStream, prefs);
                 }
             }
-            catch (Exception ex) { ErrorHandler.Handle(ex); }
+            catch (Exception ex)
+            {
+                ErrorHandler.Handle(ex);
+            }
         }
 
         /// <summary>
