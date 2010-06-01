@@ -2316,13 +2316,13 @@ Message: {2}
             foreach (string templatename in templatenames)
             {
                 string templatename2 = Regex.Escape(templatename.Replace('_', ' ')).Replace(@"\ ", @"[_ ]");
-                theRegex.Append(templatename2 + "|");
+                theRegex.Append(Tools.CaseInsensitive(templatename2) + "|");
             }
 
             theRegex[theRegex.Length - 1] = ')';
             theRegex.Append(NestedTemplateRegexEnd);
 
-            return (new Regex(theRegex.ToString(), RegexOptions.Compiled));
+            return new Regex(theRegex.ToString(), RegexOptions.Compiled);
         }
 
         /// <summary>
