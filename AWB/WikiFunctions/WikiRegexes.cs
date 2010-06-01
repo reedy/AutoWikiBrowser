@@ -209,7 +209,6 @@ namespace WikiFunctions
             return sb.ToString();
         }
 
-
         /// <summary>
         /// Variables.NamespacesCaseInsensitive compiled into regexes
         /// </summary>
