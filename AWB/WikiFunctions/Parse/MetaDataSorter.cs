@@ -418,7 +418,7 @@ en, sq, ru
         /// <param name="originalArticleText">the first string to search</param>
         /// <param name="articleText">the second string to search</param>
         /// <returns>whether the unformatted text content is the same in the two strings</returns>
-        private bool UnformattedTextNotChanged(string originalArticleText, string articleText)
+        private static bool UnformattedTextNotChanged(string originalArticleText, string articleText)
         {
             if(WikiRegexes.UnformattedText.Matches(originalArticleText).Count != WikiRegexes.UnformattedText.Matches(articleText).Count)
                 return true;
@@ -548,6 +548,44 @@ en, sq, ru
 
             return(strDablinks + zerothSection + restOfArticle);
         }
+        
+        private static readonly Regex ExternalLinksSection = new Regex(@"(^== *[Ee]xternal +[Ll]inks? *==.*?)(?=^==+[^=][^\r\n]*?[^=]==+(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);
+        private static readonly Regex ExternalLinksToEnd = new Regex(@"(\s*(==+)\s*[Ee]xternal +links\s*\2 *).*", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+        /// <summary>
+        /// Moves sisterlinks such as {{wiktionary}} to the external links section
+        /// </summary>
+        /// <param name="articleText">The article text</param>
+        /// <returns>The updated article text</returns>
+        public static string MoveSisterlinks(string articleText)
+        {
+            string originalArticletext = articleText;
+            // need to have an 'external links' section to move the sisterlinks to
+            if (WikiRegexes.SisterLinks.Matches(articleText).Count >= 1 && WikiRegexes.ExternalLinksHeaderRegex.Matches(articleText).Count == 1)
+            {
+                foreach (Match m in WikiRegexes.SisterLinks.Matches(articleText))
+                {
+                    string sisterlinkFound = m.Value;
+                    string ExternalLinksSectionString = ExternalLinksSection.Match(articleText).Value;
+
+                    // if ExteralLinksSection didn't match then 'external links' must be last section
+                    if (ExternalLinksSectionString.Length == 0)
+                        ExternalLinksSectionString = ExternalLinksToEnd.Match(articleText).Value;
+
+                    // check sisterlink NOT currently in 'external links'
+                    if (!ExternalLinksSectionString.Contains(sisterlinkFound.Trim()))
+                    {
+                        articleText = Regex.Replace(articleText, Regex.Escape(sisterlinkFound) + @"\s*(?:\r\n)?", "");
+                        articleText = WikiRegexes.ExternalLinksHeaderRegex.Replace(articleText, "$0" + "\r\n" + sisterlinkFound);
+                    }
+                }
+            }
+            
+            if(UnformattedTextNotChanged(originalArticletext, articleText))
+                return articleText;
+
+            return originalArticletext;
+        }
 
         /// <summary>
         /// Moves maintenance tags to the top of the article text.
@@ -616,6 +654,7 @@ en, sq, ru
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Placement_of_portal_template
         public static string MovePortalTemplates(string articleText)
         {
+            string originalArticletext = articleText;
             // need to have a 'see also' section to move the portal template to
             if (WikiRegexes.PortalTemplate.Matches(articleText).Count >= 1 && SeeAlso.Matches(articleText).Count == 1)
             {
@@ -631,13 +670,16 @@ en, sq, ru
                     // check portal template NOT currently in 'see also'
                     if (!seeAlsoSectionString.Contains(portalTemplateFound.Trim()))
                     {
-                        articleText = Regex.Replace(articleText, Regex.Escape(portalTemplateFound) + @"\s*\r\n", "");
+                        articleText = Regex.Replace(articleText, Regex.Escape(portalTemplateFound) + @"\s*(?:\r\n)?", "");
                         articleText = SeeAlso.Replace(articleText, "$0" + "\r\n" + portalTemplateFound);
                     }
                 }
             }
 
-            return (articleText);
+            if(UnformattedTextNotChanged(originalArticletext, articleText))
+                return articleText;
+
+            return originalArticletext;
         }
 
         private static readonly Regex ReferencesSectionRegex = new Regex(@"^== *[Rr]eferences *==\s*", RegexOptions.Multiline);
@@ -710,7 +752,7 @@ en, sq, ru
             }
         }
 
-        private static readonly Regex ExternalLinksSection = new Regex(@"(^== *[Ee]xternal +[Ll]inks? *==.*?)(?=^==+[^=][^\r\n]*?[^=]==+(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);
+        
         private static readonly Regex ReferencesSection = new Regex(@"(^== *[Rr]eferences *==.*?)(?=^==[^=][^\r\n]*?[^=]==(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);
         private static readonly Regex ReferencesToEnd = new Regex(@"^== *[Rr]eferences *==\s*" + WikiRegexes.ReferencesTemplates + @"\s*(?={{DEFAULTSORT\:|\[\[Category\:)", RegexOptions.Multiline);
 
