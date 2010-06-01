@@ -303,6 +303,7 @@ en, sq, ru
                 if (Variables.LangCode == "en")
                 {
                     articleText = MovePortalTemplates(articleText);
+                    articleText = MoveSisterlinks(articleText);
                     articleText = MoveTemplateToReferencesSection(articleText, WikiRegexes.Ibid);
                     articleText = MoveExternalLinks(articleText);
                     articleText = MoveSeeAlso(articleText);
