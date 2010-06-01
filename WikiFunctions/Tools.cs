@@ -77,7 +77,7 @@ namespace WikiFunctions
         /// <summary>
         /// Tests article to see if it is a redirect
         /// </summary>
-        /// <param name="text">The title.</param>
+        /// <param name="articletext">The title.</param>
         public static bool IsRedirect(string articletext)
         {
             return (RedirectTarget(articletext).Length > 0);
@@ -513,6 +513,7 @@ namespace WikiFunctions
         {
             return (string.IsNullOrEmpty(input)) ? "" : (char.ToLower(input[0]) + input.Remove(0, 1));
         }
+        private static readonly CultureInfo EnglishCulture = new CultureInfo("en-GB");
 
         /// <summary>
         /// Returns the trimmed input string in Title Case if:
@@ -527,8 +528,7 @@ namespace WikiFunctions
             if (text.ToUpper().Equals(text))
                 text = text.ToLower();
 
-            CultureInfo English = new CultureInfo("en-GB");
-            TextInfo info = English.TextInfo;
+            TextInfo info = EnglishCulture.TextInfo;
 
             return (info.ToTitleCase(text.Trim()));
         }
@@ -621,9 +621,9 @@ namespace WikiFunctions
             if (pagesource.Length == 0 || metaname.Length == 0)
                 return "";
 
-            Regex MetaContent = new Regex(@"< *meta +name *= *""" + Regex.Escape(metaname) + @""" +content *= *""([^""<>]+?)"" */? *>", RegexOptions.IgnoreCase);
+            Regex metaContent = new Regex(@"< *meta +name *= *""" + Regex.Escape(metaname) + @""" +content *= *""([^""<>]+?)"" */? *>", RegexOptions.IgnoreCase);
 
-            return MetaContent.Match(pagesource).Groups[1].Value.Trim();
+            return metaContent.Match(pagesource).Groups[1].Value.Trim();
         }
 
         // Covered by ToolsTests.SplitToSections()
@@ -1992,11 +1992,12 @@ Message: {2}
                 return template;
 
             // determine whether to use newline: use if > 2 newlines and a newline per bar, allowing up to two without
-            string separator = " ", mask = @"@";
+            const string mask = "@";
+            string separator = " ";
             string templatecopy = template;
-            templatecopy = @"{{" + Tools.ReplaceWithSpaces(templatecopy.Substring(2), WikiRegexes.NestedTemplates);
-            templatecopy = Tools.ReplaceWithSpaces(templatecopy, WikiRegexes.SimpleWikiLink);
-            templatecopy = Tools.ReplaceWithSpaces(templatecopy, WikiRegexes.UnformattedText);
+            templatecopy = @"{{" + ReplaceWithSpaces(templatecopy.Substring(2), WikiRegexes.NestedTemplates);
+            templatecopy = ReplaceWithSpaces(templatecopy, WikiRegexes.SimpleWikiLink);
+            templatecopy = ReplaceWithSpaces(templatecopy, WikiRegexes.UnformattedText);
             templatecopy = templatecopy.Replace(mask, "");
 
             int bars = (templatecopy.Length - templatecopy.Replace(@"|", "").Length);
@@ -2074,7 +2075,6 @@ Message: {2}
         /// Returns the number of arguments to the input template call
         /// </summary>
         /// <param name="template">The template call</param>
-        /// <param name="argument">The argument to return</param>
         /// <returns>The argument count</returns>
         public static int GetTemplateArgumentCount(string template)
         {
@@ -2123,7 +2123,7 @@ Message: {2}
         /// <returns>The updated article text</returns>
         public static string RemoveTemplateParameter(string articletext, string templatename, string parameter)
         {
-            Regex oldtemplate = Tools.NestedTemplateRegex(templatename);
+            Regex oldtemplate = NestedTemplateRegex(templatename);
 
             foreach (Match m in oldtemplate.Matches(articletext))
             {
@@ -2190,21 +2190,21 @@ Message: {2}
         /// Removes pipes that are not the pipe indicating the end of the parameter's value
         /// </summary>
         /// <param name="template">The template call to clean</param>
+        /// <param name="commentsastilde"></param>
         /// <returns>The pipe cleaned template call</returns>
         public static string PipeCleanedTemplate(string template, bool commentsastilde)
         {
-            char rwith = '#';
+            const char rwith = '#';
             if (template.Length < 5)
                 return template;
 
             string restoftemplate = template.Substring(3);
             // clear out what may contain pipes that are not the pipe indicating the end of the parameter's value
-            restoftemplate = Tools.ReplaceWith(restoftemplate, WikiRegexes.NestedTemplates, rwith);
-            restoftemplate = Tools.ReplaceWith(restoftemplate, WikiRegexes.SimpleWikiLink, rwith);
-            if (commentsastilde)
-                restoftemplate = Tools.ReplaceWith(restoftemplate, WikiRegexes.UnformattedText, '~');
-            else
-                restoftemplate = Tools.ReplaceWithSpaces(restoftemplate, WikiRegexes.UnformattedText);
+            restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.NestedTemplates, rwith);
+            restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.SimpleWikiLink, rwith);
+            restoftemplate = commentsastilde
+                                 ? ReplaceWith(restoftemplate, WikiRegexes.UnformattedText, '~')
+                                 : ReplaceWithSpaces(restoftemplate, WikiRegexes.UnformattedText);
 
             return (template.Substring(0, 3) + restoftemplate);
         }
@@ -2279,8 +2279,8 @@ Message: {2}
             return NestedTemplateRegex(templatename).Replace(articletext, "$1" + newtemplatename + "$3", count);
         }
 
-        private static readonly string NestedTemplateRegexStart = @"({{\s*)(";
-        private static readonly string NestedTemplateRegexEnd = @"(\s*(?:<!--[^>]*?-->\s*|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋\s*)?(\|((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))))?\}\})";
+        private const string NestedTemplateRegexStart = @"({{\s*)(";
+        private const string NestedTemplateRegexEnd = @"(\s*(?:<!--[^>]*?-->\s*|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋\s*)?(\|((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))))?\}\})";
 
         /// <summary>
         /// Returns a regex to match the input template
