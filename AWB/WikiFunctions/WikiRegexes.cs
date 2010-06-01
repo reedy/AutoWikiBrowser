@@ -758,7 +758,7 @@ namespace WikiFunctions
         /// <summary>
         /// Finds article disamiguation links from http://en.wikipedia.org/wiki/Wikipedia:Template_messages/General#Disambiguation_and_redirection (en only)
         /// </summary>
-        public static readonly Regex Dablinks = Tools.NestedTemplateRegex(new List<string>(@"about,for,for2,for3,dablink,distinguish,distinguish2,otherpeople,otherpeople1,otherpeople2,otherpeople3,otherpeople4,other peoepl1,other peoepl2,other peoepl3, other persons,otherpersons,otherplaces,other places,otherplaces2,otherplaces3,other places2,other places3,otherships,other ships,otheruses-number,other uses,other uses2,other uses3,other uses4,other uses5,other uses,otheruses,otheruses2,otheruses3,otheruses4,otheruses5,otheruse,2otheruses,redirect-acronym,redirect,redirect2,redirect3,redirect4,this,ambiguous link,disambig-acronym".Split(',')));
+        public static readonly Regex Dablinks = Tools.NestedTemplateRegex(new List<string>(@"about,for,for2,for3,dablink,distinguish,distinguish2,otherpeople,otherpeople1,otherpeople2,otherpeople3,other peoepl1,other peoepl2,other peoepl3, other persons,otherpersons,otherplaces,other places,otherplaces2,otherplaces3,other places2,other places3,otherships,other ships,otheruses-number,other uses,other uses2,other uses3,other uses4,other uses5,other uses,otheruses,otheruses2,otheruses3,otheruses4,otheruses5,otheruse,2otheruses,redirect-acronym,redirect,redirect2,redirect3,redirect4,this,ambiguous link,disambig-acronym".Split(',')));
         
         /// <summary>
         /// Matches the sister links templates such as {{wiktionary}}
