@@ -761,6 +761,11 @@ namespace WikiFunctions
         public static readonly Regex Dablinks = new Regex(@"{{\s*(?:[Aa]bout|[Ff]or[2-3]?|[Dd]ablink|[Dd]istinguish2?|[Oo]therpeople[1-4]|[Oo]ther ?persons|[Oo]ther ?places[23]?|[Oo]ther ?ships|[Oo]theruses-number|[Oo]ther ?use(?:s[2-5]|s)?|2otheruses|[Rr]edirect-acronym|[Rr]edirect[2-4]?|[Tt]his|[Aa]mbiguous link|[Dd]isambig-acronym)\s*\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}}", RegexOptions.Compiled);
         
         /// <summary>
+        /// Matches the sister links templates such as {{wiktionary}}
+        /// </summary>
+        public static readonly Regex SisterLinks = Tools.NestedTemplateRegex(new List<string>(@"wiktionary,sisterlinks".Split(',')));
+        
+        /// <summary>
         /// Matches the maintenance tags (en-wiki only) such as orphan, cleanup
         /// </summary>
         public static readonly Regex MaintenanceTemplates = Tools.NestedTemplateRegex(new List<string>(@"orphan,BLPunsourced,cleanup".Split(',')));

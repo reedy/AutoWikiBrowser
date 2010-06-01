@@ -403,6 +403,46 @@ text here2
 {{Portal|Football}}
 some words"));
         }
+        
+        [Test]
+        public void MoveSisterLinksTest()
+        {
+            const string WiktInExtLinks = @"text here
+text here2
+== External links ==
+{{wiktionary}}
+* Fred";
+            
+            Assert.AreEqual(@"text here
+text here2
+== External links ==
+{{wiktionary}}
+* Fred
+== other ==
+x", MetaDataSorter.MoveSisterlinks(@"text here
+{{wiktionary}}
+text here2
+== External links ==
+* Fred
+== other ==
+x"), "another section at end");
+            
+            Assert.AreEqual(WiktInExtLinks, MetaDataSorter.MoveSisterlinks(@"text here
+{{wiktionary}}
+text here2
+== External links ==
+* Fred"), "ext links is last section");
+            
+            Assert.AreEqual(WiktInExtLinks, MetaDataSorter.MoveSisterlinks(WiktInExtLinks), "wikt already in ext links");
+            const string CommentedOut = @"text here
+<!--{{wiktionary}}-->
+text here2
+== External links ==
+* Fred
+== other ==
+x";
+            Assert.AreEqual(CommentedOut, MetaDataSorter.MoveSisterlinks(CommentedOut), "no change if commented out");
+        }
 
         [Test]
         public void MoveMoreNoFootnotesTests()
