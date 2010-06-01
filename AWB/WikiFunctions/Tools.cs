@@ -407,7 +407,8 @@ namespace WikiFunctions
         /// </summary>
         public static string CaseInsensitive(string input)
         {
-            if (!string.IsNullOrEmpty(input) && char.IsLetter(input[0]) && (char.ToUpper(input[0]) != char.ToLower(input[0])))
+            if (!string.IsNullOrEmpty(input) && char.IsLetter(input[0]) &&
+                (char.ToUpper(input[0]) != char.ToLower(input[0])))
             {
                 input = input.Trim();
                 // escaping breaks many places that already escape their data
@@ -2294,7 +2295,9 @@ Message: {2}
 
             templatename = Regex.Escape(templatename.Replace('_', ' ')).Replace(@"\ ", @"[_ ]");
 
-            return (new Regex(NestedTemplateRegexStart + Tools.CaseInsensitive(templatename) + @")" + NestedTemplateRegexEnd, RegexOptions.Compiled));
+            return
+                (new Regex(NestedTemplateRegexStart + CaseInsensitive(templatename) + @")" + NestedTemplateRegexEnd,
+                           RegexOptions.Compiled));
         }
 
         /// <summary>
@@ -2308,17 +2311,18 @@ Message: {2}
             if (templatenames.Count == 0)
                 return null;
 
-            string theRegex = NestedTemplateRegexStart;
+            StringBuilder theRegex = new StringBuilder(NestedTemplateRegexStart);
 
             foreach (string templatename in templatenames)
             {
                 string templatename2 = Regex.Escape(templatename.Replace('_', ' ')).Replace(@"\ ", @"[_ ]");
-                theRegex += Tools.CaseInsensitive(templatename2) + @"|";
+                theRegex.Append(templatename2 + "|");
             }
 
-            theRegex = Regex.Replace(theRegex, @"\|$", @")");
+            theRegex[theRegex.Length - 1] = ')';
+            theRegex.Append(NestedTemplateRegexEnd);
 
-            return (new Regex(theRegex + NestedTemplateRegexEnd, RegexOptions.Compiled));
+            return (new Regex(theRegex.ToString(), RegexOptions.Compiled));
         }
 
         /// <summary>
