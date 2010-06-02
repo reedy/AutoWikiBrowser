@@ -448,6 +448,18 @@ End of.";
 
             Assert.AreEqual(f, Parsers.DuplicateNamedReferences(f));
             Assert.AreEqual(g, Parsers.DuplicateNamedReferences(g)); // reference text casing
+            
+            // don't condense a ref in {{reflist}}
+            const string RefInReflist = @"Foo<ref name='first'>690nBTivR9o2mJ6vMYccwmjl5TO9BxvhF9deev2VSi17H</ref>here.
+            
+            ==Notes==
+            {{reflist|2|refs=
+            
+            <ref name='first'>690nBTivR9o2mJ6vMYccwmjl5TO9BxvhF9deev2VSi17H</ref>
+            
+            }}";
+            
+            Assert.AreEqual(RefInReflist, Parsers.DuplicateNamedReferences(RefInReflist));
         }
 
         [Test]
