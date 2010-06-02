@@ -1065,7 +1065,7 @@ John", "*"));
         [Test]
         public void RenameTemplateParameterList()
         {
-            List<string> Params = new List<string>(@"param1".Split(','));
+            List<string> Params = new List<string>(new [] { "param1" } );
             
             Assert.AreEqual(@"{{cite |paramx=bar|param2=great}}", Tools.RenameTemplateParameter(@"{{cite |param1=bar|param2=great}}", Params, "paramx"));
             
@@ -1423,7 +1423,7 @@ foo<!--comm-->|title=abc
         [Test]
         public void  NestedTemplateRegexListMultiple()
         {
-            List<string> ListOfTemplates = new List<string>(@"Foo,bar".Split(','));
+            List<string> ListOfTemplates = new List<string>(new [] { "Foo", "bar" } );
             
             Regex MultipleTemplates = Tools.NestedTemplateRegex(ListOfTemplates);
             
