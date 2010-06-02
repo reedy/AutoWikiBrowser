@@ -1003,6 +1003,43 @@ was"));
             Assert.AreEqual("'''John Doe''' (died [[21 February]] [[2008]])", Parsers.FixLivingThingsRelatedDates("'''John Doe''' (d. [[21 February]] [[2008]])"));
             Assert.AreEqual("'''Willa Klug Baum''' ([[October 4]], [[1926]] – May 18, 2006)", Parsers.FixLivingThingsRelatedDates("'''Willa Klug Baum''' (born [[October 4]], [[1926]], died May 18, 2006)"));
         }
+        
+        [Test]
+        public void UnlinkedFloruit()
+        {
+            const string LinkedFloruit = @"'''Foo''' ([[floruit|fl.]] 550) was a peasant.
+==Time==
+Foo was happy";
+
+            Assert.AreEqual(LinkedFloruit, Parsers.FixLivingThingsRelatedDates(@"'''Foo''' (fl. 550) was a peasant.
+==Time==
+Foo was happy"), "lowercase");
+            Assert.AreEqual(LinkedFloruit, Parsers.FixLivingThingsRelatedDates(@"'''Foo''' (fl 550) was a peasant.
+==Time==
+Foo was happy"), "no dot");
+            Assert.AreEqual(LinkedFloruit, Parsers.FixLivingThingsRelatedDates(@"'''Foo''' ( fl. 550) was a peasant.
+==Time==
+Foo was happy"), "extra whitespace");
+            Assert.AreEqual(LinkedFloruit, Parsers.FixLivingThingsRelatedDates(@"'''Foo''' (Fl. 550) was a peasant.
+==Time==
+Foo was happy"), "title case");
+
+            Assert.AreEqual(LinkedFloruit, Parsers.FixLivingThingsRelatedDates(LinkedFloruit), "no change if already linked");
+
+            Assert.AreEqual(@"'''Foo''' ([[floruit|fl.]] 550) was a peasant.
+Foo was happy
+Other (fl. 1645) was also", Parsers.FixLivingThingsRelatedDates(@"'''Foo''' (fl. 550) was a peasant.
+Foo was happy
+Other (fl. 1645) was also"), "only first floruit linked");
+
+            const string FloruitLaterSection = @"'''Foo''' was a peasant.
+==Other==
+Other (fl. 1645) was also", FloruitTwice = @"'''Foo''' (fl. 55) was a peasant, related to other (fl. 600)";
+
+            Assert.AreEqual(FloruitLaterSection, Parsers.FixLivingThingsRelatedDates(FloruitLaterSection), "not linked outside zeroth section");
+
+            Assert.AreEqual(@"'''Foo''' ([[floruit|fl.]] 55) was a peasant, related to other (fl. 600)", Parsers.FixLivingThingsRelatedDates(FloruitTwice), "only first occurrence linked");
+        }
 
         [Test]
         public void FixPeopleCategoriesTests()
