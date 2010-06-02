@@ -754,6 +754,8 @@ namespace WikiFunctions.Parse
                 @")?\]*,?\s*\[*[1-2]?\d{3}\]*)\s*(.|&.dash;)\s*(?:[Dd]ied|d\.)\s+(\[*(?:" + WikiRegexes.MonthsNoGroup +
                 @"\s+0?(?:[1-3]?\d)|0?(?:[1-3]?\d)\s*" + WikiRegexes.MonthsNoGroup + @")\]*,?\s*\[*[1-2]?\d{3}\]*\)\s*)",
                 RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        
+        private static readonly Regex UnlinkedFloruit = new Regex(@"\(\s*(?:[Ff]l)\.*\s*(\d\d)", RegexOptions.Compiled);
 
         //Covered by: LinkTests.FixLivingThingsRelatedDates()
         /// <summary>
@@ -763,6 +765,10 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixLivingThingsRelatedDates(string articleText)
         {
+            // replace first occurrence of unlinked floruit with linked version, zeroth section only
+            if(UnlinkedFloruit.IsMatch(WikiRegexes.ZerothSection.Match(articleText).Value))
+                articleText = UnlinkedFloruit.Replace(articleText, @"([[floruit|fl.]] $1", 1);
+            
             articleText = DiedDateRegex.Replace(articleText, "$1died$2"); //date of death
             articleText = DOBRegex.Replace(articleText, "$1born$2"); //date of birth
             return BornDeathRegex.Replace(articleText, "$1$2 – $4"); //birth and death
@@ -1338,7 +1344,7 @@ namespace WikiFunctions.Parse
             return newText;
         }
 
-        private static readonly Regex CiteWeb = Tools.NestedTemplateRegex(new List<string>("cite web,citeweb".Split(',')));
+        private static readonly Regex CiteWeb = Tools.NestedTemplateRegex(new List<string>(new [] { "cite web", "citeweb" } ));
         private static readonly Regex CitationPopulatedParameter = new Regex(@"\|\s*([a-z_0-9-]+)\s*=\s*([^\|}]{3,}?)\s*");
 
         /// <summary>
@@ -2314,7 +2320,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
         
-        private static List<string> DateFields = new List<string>(@"date,accessdate,archivedate,airdate".Split(','));
+        private static List<string> DateFields = new List<string>(new [] { "date" , "accessdate", "archivedate" ,"airdate" } );
         
         /// <summary>
         /// Updates dates in citation templates to use the strict predominant date format in the article (en wiki only)
@@ -2601,7 +2607,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex CiteWebOrNews = new Regex(@"[Cc]ite( ?web| news)", RegexOptions.Compiled);
         private static readonly Regex PressPublishers = new Regex(@"(Associated Press|United Press International)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        private static readonly List<string> WorkParameterAndAliases = new List<string>("work,newspaper,journal,periodical,magazine".Split(','));
+        private static readonly List<string> WorkParameterAndAliases = new List<string>(new [] { "work", "newspaper", "journal", "periodical", "magazine" } );
         
         /// <summary>
         /// Where the publisher field is used incorrectly instead of the work field in a {{cite web}} or {{cite news}} citation
@@ -4237,7 +4243,7 @@ namespace WikiFunctions.Parse
                 || CategoryCharacters.IsMatch(articleText))
                 return false;
             
-            if(Tools.GetTemplateParameterValue(Tools.NestedTemplateRegex(new List<string>(@"Infobox musical artist,Infobox musical artist 2,Infobox Musical Artist,Infobox singer,Infobox Musician,Infobox musician,Music artist,Infobox Musical Artist 2,Infobox Musicial Artist 2,Infobox Composer,Infobox composer,Infobox Musical artist,Infobox Band".Split(','))).Match(articleText).Value, "Background").Contains("group_or_band"))
+            if(Tools.GetTemplateParameterValue(Tools.NestedTemplateRegex(new List<string>(new [] { "Infobox musical artist", "Infobox musical artist 2", "Infobox Musical Artist", "Infobox singer", "Infobox Musician", "Infobox musician", "Music artist", "Infobox Musical Artist 2", "Infobox Musicial Artist 2", "Infobox Composer", "Infobox composer", "Infobox Musical artist", "Infobox Band" } )).Match(articleText).Value, "Background").Contains("group_or_band"))
                 return false;
 
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
