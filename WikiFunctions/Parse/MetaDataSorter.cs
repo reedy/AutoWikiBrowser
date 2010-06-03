@@ -822,10 +822,10 @@ en, sq, ru
                 case "ar" :
                     matches =WikiRegexes.LinkFGAsArabic.Matches(articleText);
                     break;
-               case "ca" :
+                case "ca" :
                     matches =WikiRegexes.LinkFGAsCatalan.Matches(articleText);
                     break;
-               case "es" :
+                case "es" :
                     matches =WikiRegexes.LinkFGAsSpanish.Matches(articleText);
                     break;
                 case "fr" :
@@ -835,7 +835,7 @@ en, sq, ru
                     matches =WikiRegexes.LinkFGAsItalian.Matches(articleText);
                     break;
                     default :
-                        matches =    WikiRegexes.LinkFGAs.Matches(articleText);
+                        matches = WikiRegexes.LinkFGAs.Matches(articleText);
                     break;
             }
 
