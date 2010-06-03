@@ -5053,17 +5053,26 @@ namespace WikiFunctions.Parse
             if(Variables.LangCode != "en")
                 return articleText;
             
-            int lastpos = -1, tagsadded = 0;
-            foreach (Match m in WikiRegexes.HeadingLevelTwo.Matches(articleText))
+            string originalarticleText = "";
+            int tagsadded = 0;
+            
+            while(originalarticleText != articleText)
             {
-                // empty setion if only whitespace between two level-2 headings
-                if(lastpos > -1 && articleText.Substring(lastpos, (m.Index-lastpos)).Trim().Length == 0)
-                {
-                    articleText = articleText.Insert(m.Index, @"{{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}" + "\r\n");
-                    tagsadded++;
-                }
+                originalarticleText = articleText;
                 
-                lastpos = m.Index+m.Length;
+                int lastpos = -1;
+                foreach (Match m in WikiRegexes.HeadingLevelTwo.Matches(articleText))
+                {
+                    // empty setion if only whitespace between two level-2 headings
+                    if(lastpos > -1 && articleText.Substring(lastpos, (m.Index-lastpos)).Trim().Length == 0)
+                    {
+                        articleText = articleText.Insert(m.Index, @"{{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}" + "\r\n");
+                        tagsadded++;
+                        break;
+                    }
+                    
+                    lastpos = m.Index+m.Length;
+                }
             }
             
             if(tagsadded > 0)
