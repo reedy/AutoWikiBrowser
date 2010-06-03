@@ -4871,7 +4871,6 @@ namespace WikiFunctions.Parse
                       || WikiRegexes.NewUnReviewedArticle.IsMatch(m.Value)
                       || m.Value.Contains("subst")))
                 {
-
                     summary = PrepareTaggerEditSummary();
 
                     return articleText;
@@ -4891,7 +4890,9 @@ namespace WikiFunctions.Parse
             else
                 #endif
             {
-                totalCategories = CategoryProv.MakeList(new[] { articleTitle }).Count;
+                // {{stub}} --> non-hidden Category:Stubs, don't count this cat
+                totalCategories = CategoryProv.MakeList(new[] { articleTitle }).Count 
+                    - Tools.NestedTemplateRegex("stub").Matches(commentsStripped).Count;
             }
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Archive_19#AWB_problems
@@ -4913,8 +4914,7 @@ namespace WikiFunctions.Parse
                     tagsAdded.Add("[[CAT:UNCAT|uncategorised]]");
                 }
             }
-            else if (totalCategories > 0
-                     && WikiRegexes.Uncat.IsMatch(articleText))
+            else if (totalCategories > 0 && WikiRegexes.Uncat.IsMatch(articleText))
             {
                 articleText = WikiRegexes.Uncat.Replace(articleText, "");
                 tagsRemoved.Add("uncategorised");
