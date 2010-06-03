@@ -151,12 +151,16 @@ namespace UnitTests
             Assert.AreEqual("Ыыыы", Tools.TurnFirstToUpper("ыыыы"));
         }
         
-        [Test, Ignore("Too slow")]
-        public void TurnFirstToUpper2()
+        [Test]
+        public void TurnFirstToUpperWiktionary()
         {
-            //Variables.SetProject("en", ProjectEnum.wiktionary); // TODO --cannot change project in this way in unit tests
+            #if DEBUG
+            Variables.SetProjectSimple("en", ProjectEnum.wiktionary);
             Assert.AreEqual("test", Tools.TurnFirstToUpper("test"));
             Assert.AreEqual("Test", Tools.TurnFirstToUpper("Test"));
+            Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
+            Assert.AreEqual("Test", Tools.TurnFirstToUpper("test"));
+            #endif
         }
 
         [Test]
