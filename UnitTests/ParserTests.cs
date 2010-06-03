@@ -6752,6 +6752,14 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 ==Foo2==
 "));
             
+            // tagging multiple sections
+            summary = "";
+            returned = parser.Tagger(twoTwos +"\r\n" + twoTwos, "test", false, ref summary);
+            Assert.IsTrue(returned.Contains(@"{{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
+==Foo2==
+"));
+            Assert.IsTrue(summary.Contains("Empty section (3)"));
+            
             // not empty
             twoTwos = @"==Foo1==
 x
