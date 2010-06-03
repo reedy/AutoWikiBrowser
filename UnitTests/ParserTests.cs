@@ -6741,7 +6741,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 {{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
 ==Foo2==
 "));
-            Assert.IsTrue(summary.Contains("Empty section"));
+            Assert.IsTrue(summary.Contains("Empty section (1)"));
             
             twoTwos = @"==Foo1==
 
