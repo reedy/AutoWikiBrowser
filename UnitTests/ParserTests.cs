@@ -5925,6 +5925,23 @@ asdfasdf}} was here", "foo"));
             Variables.SetProjectLangCode("en");
             #endif
         }
+        
+        [Test]
+        public void AddUncatStub()
+        {
+            Globals.UnitTestIntValue = 0;
+            Globals.UnitTestBoolValue = true;
+            
+            string text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
+            //Stub, no existing stub tag. Needs all tags
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
+
+            Assert.IsTrue(text.Contains(UncatStub));
+        }
 
         [Test]
         public void Add()
@@ -5936,11 +5953,11 @@ asdfasdf}} was here", "foo"));
             //Stub, no existing stub tag. Needs all tags
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));            
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
-
-            Assert.IsFalse(text.Contains(UncatStub));
+            
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+            Assert.IsTrue(text.Contains(UncatStub));
 
             text = parser.Tagger(ShortText + Stub + Uncat + Wikify + Orphan + Deadend, "Test", false, out noChange, ref summary);
             //Tagged article, dupe tags shouldn't be added
@@ -6074,7 +6091,8 @@ asdfasdf}} was here", "foo"));
 
 "));
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+            Assert.IsTrue(text.Contains(UncatStub));
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
             Variables.SetProjectLangCode("en");
             #endif
