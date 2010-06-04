@@ -4891,8 +4891,16 @@ namespace WikiFunctions.Parse
                 #endif
             {
                 // {{stub}} --> non-hidden Category:Stubs, don't count this cat
-                totalCategories = CategoryProv.MakeList(new[] { articleTitle }).Count 
+                totalCategories = CategoryProv.MakeList(new[] { articleTitle }).Count
                     - Tools.NestedTemplateRegex("stub").Matches(commentsStripped).Count;
+            }
+            
+            if (commentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped))
+            {
+                // add stub tag
+                articleText = articleText + "\r\n\r\n\r\n{{stub}}";
+                tagsAdded.Add("stub");
+                commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
             }
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Archive_19#AWB_problems
@@ -4918,13 +4926,6 @@ namespace WikiFunctions.Parse
             {
                 articleText = WikiRegexes.Uncat.Replace(articleText, "");
                 tagsRemoved.Add("uncategorised");
-            }
-
-            if (commentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped))
-            {
-                // add stub tag
-                articleText = articleText + "\r\n\r\n\r\n{{stub}}";
-                tagsAdded.Add("stub");
             }
 
             if (linkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(articleText) && Variables.LangCode != "sv"
