@@ -4904,7 +4904,7 @@ namespace WikiFunctions.Parse
                 {
                     // add uncategorized stub tag
                     articleText +=
-                        "\r\n\r\n{{Uncategorizedstub|" + WikiRegexes.DateYearMonthParameter + @"}}";
+                        "\r\n\r\n{{Uncategorized stub|" + WikiRegexes.DateYearMonthParameter + @"}}";
                     tagsAdded.Add("[[CAT:UNCATSTUBS|uncategorised]]");
                 }
                 else
