@@ -1443,6 +1443,9 @@ namespace AutoWikiBrowser
 
                 if (process)
                 {
+                    if(chkGeneralFixes.Checked)
+                        theArticle.PerformUniversalGeneralFixes();
+                    
                     if (theArticle.CanDoGeneralFixes)
                     {
                         // auto tag
