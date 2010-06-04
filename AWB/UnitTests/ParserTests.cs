@@ -5941,6 +5941,19 @@ asdfasdf}} was here", "foo"));
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
 
             Assert.IsTrue(text.Contains(UncatStub));
+            
+            // uncat when not a stub
+            Globals.UnitTestIntValue = 0;
+            Globals.UnitTestBoolValue = true;
+            
+            text = parser.Tagger(LongText, "Test", false, out noChange, ref summary);
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
+
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text));
+            Assert.IsFalse(text.Contains(UncatStub));
         }
 
         [Test]
