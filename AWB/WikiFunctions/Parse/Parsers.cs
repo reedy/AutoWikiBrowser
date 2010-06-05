@@ -3846,11 +3846,11 @@ namespace WikiFunctions.Parse
                 return oldText;
             }
 
-            string cat = "\r\n[[" + Variables.Namespaces[Namespace.Category] + newCategory + "]]";
+            string cat = Tools.Newline("[[" + Variables.Namespaces[Namespace.Category] + newCategory + "]]");
             cat = Tools.ApplyKeyWords(articleTitle, cat);
 
             if (Namespace.Determine(articleTitle) == Namespace.Template)
-                articleText += "<noinclude>" + cat + "\r\n</noinclude>";
+                articleText += "<noinclude>" + cat + Tools.Newline("</noinclude>");
             else
                 articleText += cat;
 
@@ -4116,7 +4116,7 @@ namespace WikiFunctions.Parse
                     // set the defaultsort to the existing unique category sort value
                     // don't add a defaultsort if cat sort was the same as article title
                     if (sort != articleTitle && Tools.FixupDefaultSort(sort) != articleTitle)
-                        articleText = articleText + "\r\n{{DEFAULTSORT:" + Tools.FixupDefaultSort(sort) + "}}";
+                        articleText = articleText + Tools.Newline("{{DEFAULTSORT:") + Tools.FixupDefaultSort(sort) + "}}";
                 }
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Add_defaultsort_to_pages_with_special_letters_and_no_defaultsort
@@ -4187,7 +4187,7 @@ namespace WikiFunctions.Parse
                     ? Tools.MakeHumanCatKey(articleTitle)
                     : Tools.FixupDefaultSort(articleTitle);
 
-                articleText = articleText + "\r\n{{DEFAULTSORT:" + sortkey + "}}";
+                articleText = articleText + Tools.Newline("{{DEFAULTSORT:") + sortkey + "}}";
 
                 return (ExplicitCategorySortkeys(articleText, sortkey));
             }
@@ -4515,7 +4515,7 @@ namespace WikiFunctions.Parse
                         if (UncertainWordings.IsMatch(birthpart) || alreadyUncertain)
                         {
                             if (!CategoryMatch(articleText, YearOfBirthMissingLivingPeople) && !CategoryMatch(articleText, YearOfBirthUncertain))
-                                articleText += "\r\n" + @"[[Category:" + YearOfBirthUncertain + CatEnd(sort);
+                                articleText += Tools.Newline(@"[[Category:") + YearOfBirthUncertain + CatEnd(sort);
                         }
                         else // after removing dashes, birthpart must still contain year
                             if (!birthpart.Contains(@"?") && Regex.IsMatch(birthpart, @"\d{3,4}"))
@@ -4527,7 +4527,7 @@ namespace WikiFunctions.Parse
                 if (!string.IsNullOrEmpty(yearstring) && yearstring.Length > 2
                     && (!Regex.IsMatch(yearstring, @"\d{4}") || Convert.ToInt32(yearstring) <= DateTime.Now.Year)
                     && !(articleText.Contains(@"[[Category:Living people") && Convert.ToInt32(yearstring) < (DateTime.Now.Year - 121)))
-                    articleText += "\r\n" + @"[[Category:" + yearstring + " births" + CatEnd(sort);
+                    articleText += Tools.Newline(@"[[Category:") + yearstring + " births" + CatEnd(sort);
             }
 
             // scrape any infobox
@@ -4563,7 +4563,7 @@ namespace WikiFunctions.Parse
                 // validate a YYYY date is not in the future
                 if (!string.IsNullOrEmpty(yearstring) && yearstring.Length > 2
                     && (!Regex.IsMatch(yearstring, @"^\d{4}$") || Convert.ToInt32(yearstring) <= DateTime.Now.Year))
-                    articleText += "\r\n" + @"[[Category:" + yearstring + " deaths" + CatEnd(sort);
+                    articleText += Tools.Newline(@"[[Category:") + yearstring + " deaths" + CatEnd(sort);
             }
 
             zerothSection = NotCircaTemplate.Replace(zerothSection, " ");
@@ -4588,15 +4588,15 @@ namespace WikiFunctions.Parse
                     if (!WikiRegexes.BirthsCategory.IsMatch(articleText))
                     {
                         if (!UncertainWordings.IsMatch(birthpart) && !ReignedRuledUnsure.IsMatch(m.Value) && !Regex.IsMatch(birthpart, @"(?:[Dd](?:ied|\.)|baptised)"))
-                            articleText += "\r\n" + @"[[Category:" + birthyear + @" births" + CatEnd(sort);
+                            articleText += Tools.Newline(@"[[Category:") + birthyear + @" births" + CatEnd(sort);
                         else
                             if (UncertainWordings.IsMatch(birthpart) && !CategoryMatch(articleText, YearOfBirthMissingLivingPeople) && !CategoryMatch(articleText, YearOfBirthUncertain))
-                                articleText += "\r\n" + @"[[Category:Year of birth uncertain" + CatEnd(sort);
+                                articleText += Tools.Newline(@"[[Category:Year of birth uncertain") + CatEnd(sort);
                     }
 
                     if (!UncertainWordings.IsMatch(deathpart) && !ReignedRuledUnsure.IsMatch(m.Value) && !Regex.IsMatch(deathpart, @"[Bb](?:orn|\.)") && !Regex.IsMatch(birthpart, @"[Dd](?:ied|\.)")
                         && (!WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) || CategoryMatch(articleText, YearofDeathMissing)))
-                        articleText += "\r\n" + @"[[Category:" + deathyear + @" deaths" + CatEnd(sort);
+                        articleText += Tools.Newline(@"[[Category:") + deathyear + @" deaths" + CatEnd(sort);
                 }
             }
 
@@ -4898,7 +4898,7 @@ namespace WikiFunctions.Parse
             if (commentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped))
             {
                 // add stub tag
-                articleText = articleText + "\r\n\r\n\r\n{{stub}}";
+                articleText = articleText + Tools.Newline("{{stub}}", 3);
                 tagsAdded.Add("stub");
                 commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
             }
@@ -4911,14 +4911,13 @@ namespace WikiFunctions.Parse
                 if (WikiRegexes.Stub.IsMatch(commentsStripped))
                 {
                     // add uncategorized stub tag
-                    articleText +=
-                        "\r\n\r\n{{Uncategorized stub|" + WikiRegexes.DateYearMonthParameter + @"}}";
+                    articleText += Tools.Newline("{{Uncategorized stub|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
                     tagsAdded.Add("[[CAT:UNCATSTUBS|uncategorised]]");
                 }
                 else
                 {
                     // add uncategorized tag
-                    articleText += "\r\n\r\n{{Uncategorized|" + WikiRegexes.DateYearMonthParameter + @"}}";
+                    articleText += Tools.Newline("{{Uncategorized|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
                     tagsAdded.Add("[[CAT:UNCAT|uncategorised]]");
                 }
             }
@@ -5141,19 +5140,19 @@ namespace WikiFunctions.Parse
             // difference is extra/removed/changed puntuation
             if (!Tools.NestedTemplateRegex(WikiRegexes.RFromModificationList).IsMatch(articleText)
                 && !CommonPunctuation.Replace(redirecttarget, "").Equals(redirecttarget) && CommonPunctuation.Replace(redirecttarget, "").Equals(CommonPunctuation.Replace(articleTitle, "")))
-                return (articleText + "\r\n" + WikiRegexes.RFromModificationString);
+                return (articleText + Tools.Newline(WikiRegexes.RFromModificationString));
 
             // {{R from title without diacritics}}
 
             // title and redirect target the same if dacritics removed from redirect target
             if (redirecttarget != Tools.RemoveDiacritics(redirecttarget) && Tools.RemoveDiacritics(redirecttarget) == articleTitle
                 && !Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(articleText))
-                return (articleText + "\r\n" + WikiRegexes.RFromTitleWithoutDiacriticsString);
+                return (articleText + Tools.Newline(WikiRegexes.RFromTitleWithoutDiacriticsString));
             
             // {{R from other capitalisation}}
             if(redirecttarget.ToLower().Equals(articleTitle.ToLower())
                && !Tools.NestedTemplateRegex(WikiRegexes.RFromOtherCapitaliastionList).IsMatch(articleText))
-                return (articleText + "\r\n" + WikiRegexes.RFromOtherCapitaliastionString);
+                return (articleText + Tools.Newline(WikiRegexes.RFromOtherCapitaliastionString));
 
             return articleText;
         }
