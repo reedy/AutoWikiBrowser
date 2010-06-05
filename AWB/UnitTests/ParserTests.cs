@@ -730,6 +730,44 @@ Jones 2005</ref>"));
             
             Assert.AreEqual(LDR, Parsers.AddMissingReflist(LDR));
         }
+        
+        [Test]
+        public void RefsAfterPunctuation()
+        {
+            string AllAfter = @"Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The next";
+            string R1 = @"Foo<ref>bar</ref>. The next";
+            
+            Assert.AreEqual(R1, Parsers.RefsAfterPunctuation(R1), "no change when majority format is refs before punct");
+            
+            Assert.AreEqual(AllAfter, Parsers.RefsAfterPunctuation(AllAfter.Replace(".<", "..<")), "duplicate punctuation removed");
+            
+            Assert.AreEqual(AllAfter + @"Foo.<ref>bar</ref> The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "ref moved after reflist when majority are after");
+            R1 = R1.Replace(".", ",");
+            Assert.AreEqual(AllAfter + @"Foo,<ref>bar</ref> The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "handles commas too");
+            Assert.AreEqual(AllAfter +AllAfter + @"Foo,<ref>bar</ref> The next" + @"Foo,<ref>bar</ref> The next", Parsers.RefsAfterPunctuation(AllAfter +AllAfter+ R1 +R1), "multiple conversions");
+            
+            R1 = R1.Replace(",", "–");
+            Assert.AreEqual(AllAfter + R1, Parsers.RefsAfterPunctuation(AllAfter + R1), "ref not moved when before dash");
+            
+            string TwoRefs = @"Now<ref name=a>bar</ref><ref name=b>bar</ref>. Then";
+            
+            Assert.AreEqual(AllAfter + @"Now.<ref name=a>bar</ref><ref name=b>bar</ref> Then", Parsers.RefsAfterPunctuation(AllAfter + TwoRefs), "punctuation moved through multiple refs");
+        }
+        
+        [Test]
+        public void RefsAfterPunctuationEnOnly()
+        {
+            #if DEBUG
+            string AllAfter = @"Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The next";
+            string R1 = @"Foo<ref>bar</ref>. The next";
+            
+            Variables.SetProjectLangCode("fr");
+            Assert.AreEqual(AllAfter + R1, Parsers.RefsAfterPunctuation(AllAfter + R1), "ref moved after reflist when majority are after");
+            
+            Variables.SetProjectLangCode("en");
+            Assert.AreEqual(AllAfter + @"Foo.<ref>bar</ref> The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "ref moved after reflist when majority are after");
+            #endif
+        }
     }
 
     [TestFixture]
