@@ -532,6 +532,35 @@ namespace WikiFunctions
 
             return (info.ToTitleCase(text.Trim()));
         }
+        
+        /// <summary>
+        /// Prepends a newline to the string
+        /// </summary>
+        /// <param name="s">The input string</param>
+        /// <returns>The input string with newline prepended</returns>
+        public static string Newline(string s)
+        {
+            return Newline(s, 1);
+        }
+
+        /// <summary>
+        /// Prepends the specified number of newlines to the string
+        /// </summary>
+        /// <param name="s">Input string</param>
+        /// <param name="n">Number of newlines to prepend</param>
+        /// <returns>(n x newlines) + Input string</returns>
+        public static string Newline(string s, int n)
+        {
+            if (s.Length == 0)
+                return s;
+
+            StringBuilder sb = new StringBuilder(s);
+            
+            for (int i = 0; i < n; i++)
+                sb.Insert(0,"\r\n");
+            
+            return sb.ToString();
+        }
 
         private static readonly Regex RegexWordCountTable = new Regex(@"\{\|.*?\|\}", RegexOptions.Compiled | RegexOptions.Singleline);
 

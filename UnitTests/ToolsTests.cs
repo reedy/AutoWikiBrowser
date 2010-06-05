@@ -467,6 +467,17 @@ bar"));
             Assert.AreEqual("12", Tools.FirstChars("12", 3));
             Assert.AreEqual("12", Tools.FirstChars("123", 2));
         }
+        
+        [Test]
+        public void Newline()
+        {
+            Assert.AreEqual("\r\n" + "foo", Tools.Newline("foo"));
+            Assert.AreEqual("\r\n" + "foo", Tools.Newline("foo", 1));
+            Assert.AreEqual("\r\n\r\n" + "foo", Tools.Newline("foo", 2));
+            
+            Assert.AreEqual("", Tools.Newline(""));
+            Assert.AreEqual("", Tools.Newline("", 2));
+        }
 
         [Test]
         public void IsRedirect()

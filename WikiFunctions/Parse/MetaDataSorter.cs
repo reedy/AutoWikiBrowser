@@ -226,56 +226,30 @@ en, sq, ru
         /// 
         /// </summary>
         /// <param name="input"></param>
-        /// <returns></returns>
+        /// <returns>The updated article text</returns>
         private static string RemExtra(string input)
         {
             return input.Replace("\r\n", "").Replace(">", "").Replace("\n", "");
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
-        private static string Newline(string s)
-        {
-            return Newline(s, 1);
-        }
-
-        /// <summary>
-        /// Adds the specified number of newlines to the string
-        /// </summary>
-        /// <param name="s">Input string</param>
-        /// <param name="n">Number of newlines to add</param>
-        /// <returns>Input string + (n x newlines)</returns>
-        private static string Newline(string s, int n)
-        {
-            if (s.Length == 0)
-                return s;
-
-            for (int i = 0; i < n; i++)
-                s = "\r\n" + s;
-            return s;
-        }
         
-         /// <summary>
-        /// 
+        /// <summary>
+        /// Sorts article meta data, including optional whitespace fixing
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
-        /// <returns></returns>
+        /// <returns>The updated article text</returns>
         internal string Sort(string articleText, string articleTitle)
         {
             return Sort(articleText, articleTitle, true);
         }
 
         /// <summary>
-        /// 
+        /// Sorts article meta data
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
         /// <param name="fixExcessWhitespace">Whether to request optional excess whitespace to be fixed</param>
-        /// <returns></returns>
+        /// <returns>The updated article text</returns>
         internal string Sort(string articleText, string articleTitle, bool fixOptionalWhitespace)
         {
             if (Namespace.Determine(articleTitle) == 10) //Dont really want to be fooling around with templates
@@ -286,10 +260,10 @@ en, sq, ru
             {
                 articleText = Regex.Replace(articleText, "<!-- ?\\[\\[en:.*?\\]\\] ?-->", "");
 
-                string personData = Newline(RemovePersonData(ref articleText));
-                string disambig = Newline(RemoveDisambig(ref articleText));
-                string categories = Newline(RemoveCats(ref articleText, articleTitle));
-                string interwikis = Newline(Interwikis(ref articleText));
+                string personData = Tools.Newline(RemovePersonData(ref articleText));
+                string disambig = Tools.Newline(RemoveDisambig(ref articleText));
+                string categories = Tools.Newline(RemoveCats(ref articleText, articleTitle));
+                string interwikis = Tools.Newline(Interwikis(ref articleText));
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Move_orphan_tags_on_the_top
                 // Dablinks above orphan tags per [[WP:LAYOUT]]
@@ -312,7 +286,7 @@ en, sq, ru
                 // two newlines here per http://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser&oldid=243224092#Blank_lines_before_stubs
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Two_empty_lines_before_stub-templates
                 // Russian wiki uses only one newline
-                string strStub = Newline(RemoveStubs(ref articleText), Variables.LangCode == "ru" ? 1 : 2);
+                string strStub = Tools.Newline(RemoveStubs(ref articleText), Variables.LangCode == "ru" ? 1 : 2);
 
                 //filter out excess white space and remove "----" from end of article
                     articleText = Parsers.RemoveWhiteSpace(articleText, fixOptionalWhitespace) + "\r\n";
