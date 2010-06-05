@@ -867,6 +867,41 @@ namespace WikiFunctions.Parse
 
             return articleText;
         }
+        
+        private const string RefsPunctuation = @"([,\.:;])";
+        private static readonly Regex RefsAfterPunctuationR = new Regex(RefsPunctuation + @" *" + WikiRegexes.Refs, RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex RefsBeforePunctuationR = new Regex(WikiRegexes.Refs + @" *" + RefsPunctuation, RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+       
+        private static readonly Regex RefsAfterDupePunctuation = new Regex(RefsPunctuation + @"\1 *" + WikiRegexes.Refs, RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        
+        /// <summary>
+        /// Puts &lt;ref&gt; references after punctuation per WP:REFPUNC when this is the majority style in the article
+        /// Applies to en-wiki only
+        /// </summary>
+        /// <param name="articleText">The article text</param>
+        /// <returns>The updated article text</returns>
+        public static string RefsAfterPunctuation(string articleText)
+        {
+            if(!Variables.LangCode.Equals("en"))
+                return articleText;
+            
+            // check whether refs before punctuation or refs after punctuation is the dominant format
+            int RAfter = RefsAfterPunctuationR.Matches(articleText).Count;
+            int RBefore = RefsBeforePunctuationR.Matches(articleText).Count;
+            
+            // require >= 75% refs after punctution to convert the rest
+            if(RAfter > RBefore && (RBefore == 0 || RAfter/RBefore > 3))
+            {
+                string articleTextlocal = "";
+                while (!articleTextlocal.Equals(articleText))
+                {
+                    articleTextlocal = articleText;
+                    articleText = RefsBeforePunctuationR.Replace(articleText, "$2$1");
+                }
+            }
+            
+            return RefsAfterDupePunctuation.Replace(articleText, "$1$2");
+        }
 
         /// <summary>
         /// reorders references within the article text based on the input regular expression providing matches for references that are out of numerical order
