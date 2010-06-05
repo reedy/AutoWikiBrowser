@@ -989,6 +989,11 @@ namespace WikiFunctions.Parse
         private const string RefName = @"(?si)<\s*ref\s+name\s*=\s*(?:""|')?";
         private static readonly Regex UnnamedRef = new Regex(@"<\s*ref\s*>\s*([^<>]+)\s*<\s*/\s*ref>", RegexOptions.Singleline | RegexOptions.Compiled);
 
+        /// <summary>
+        /// Checks for named references
+        /// </summary>
+        /// <param name="articleText">The article text</param>
+        /// <returns>Whether the text contains named references</returns>
         public static bool HasNamedReferences(string articleText)
         {
             return WikiRegexes.NamedReferences.IsMatch(WikiRegexes.Comments.Replace(articleText, ""));
@@ -1230,6 +1235,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex NameYearPage = new Regex(NameMask + YearMask + @"[^{}<>\n]*?" + PageMask + @"\s*", RegexOptions.Compiled);
         private static readonly Regex NamePage = new Regex(NameMask + PageMask + @"\s*", RegexOptions.Compiled);
         private static readonly Regex NameYear = new Regex(NameMask + YearMask + @"\s*", RegexOptions.Compiled);
+        
         /// <summary>
         /// Derives a name for a reference by searching for author names and dates, or website base URL etc.
         /// </summary>
@@ -1365,6 +1371,12 @@ namespace WikiFunctions.Parse
             return ReferenceNameValid(articleText, derivedReferenceName) ? derivedReferenceName : "";
         }
 
+        /// <summary>
+        /// Checks the validity of a new reference name
+        /// </summary>
+        /// <param name="articleText">The article text</param>
+        /// <param name="derivedReferenceName">The reference name</param>
+        /// <returns>Whether the article does not already have a reference of that name</returns>
         private static bool ReferenceNameValid(string articleText, string derivedReferenceName)
         {
             return !Regex.IsMatch(articleText, RefName + Regex.Escape(derivedReferenceName) + @"(?:""|')?\s*/?\s*>") && derivedReferenceName.Length >= 3;
@@ -1427,7 +1439,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Searches for {{dead link}}s
         /// </summary>
-        /// <param name="articleText"></param>
+        /// <param name="articleText">The article text</param>
         /// <returns>Dictionary of dead links found</returns>
         public static Dictionary<int, int> DeadLinks(string articleText)
         {
