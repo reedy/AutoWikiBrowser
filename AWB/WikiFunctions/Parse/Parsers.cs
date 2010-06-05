@@ -4116,7 +4116,7 @@ namespace WikiFunctions.Parse
                     // set the defaultsort to the existing unique category sort value
                     // don't add a defaultsort if cat sort was the same as article title
                     if (sort != articleTitle && Tools.FixupDefaultSort(sort) != articleTitle)
-                        articleText = articleText + Tools.Newline("{{DEFAULTSORT:") + Tools.FixupDefaultSort(sort) + "}}";
+                        articleText += Tools.Newline("{{DEFAULTSORT:") + Tools.FixupDefaultSort(sort) + "}}";
                 }
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Add_defaultsort_to_pages_with_special_letters_and_no_defaultsort
@@ -4187,7 +4187,7 @@ namespace WikiFunctions.Parse
                     ? Tools.MakeHumanCatKey(articleTitle)
                     : Tools.FixupDefaultSort(articleTitle);
 
-                articleText = articleText + Tools.Newline("{{DEFAULTSORT:") + sortkey + "}}";
+                articleText += Tools.Newline("{{DEFAULTSORT:") + sortkey + "}}";
 
                 return (ExplicitCategorySortkeys(articleText, sortkey));
             }
@@ -4898,7 +4898,7 @@ namespace WikiFunctions.Parse
             if (commentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped))
             {
                 // add stub tag
-                articleText = articleText + Tools.Newline("{{stub}}", 3);
+                articleText += Tools.Newline("{{stub}}", 3);
                 tagsAdded.Add("stub");
                 commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
             }
@@ -5044,7 +5044,7 @@ namespace WikiFunctions.Parse
         }
         
         /// <summary>
-        /// Tags empty level-2 sections with {{Empty section}}
+        /// Tags empty level-2 sections with {{Empty section}}, en-wiki mainspace only
         /// </summary>
         /// <param name="articleText">The article text</param>
         /// <returns>The updated article text</returns>
@@ -5056,7 +5056,7 @@ namespace WikiFunctions.Parse
             string originalarticleText = "";
             int tagsadded = 0;
             
-            while(originalarticleText != articleText)
+            while(!originalarticleText.Equals(articleText))
             {
                 originalarticleText = articleText;
                 
