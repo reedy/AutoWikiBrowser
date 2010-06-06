@@ -1876,6 +1876,10 @@ was [[foo|bar]] too"));
             Assert.AreEqual(2, bracketLength);
             Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {now", ref bracketLength));
             Assert.AreEqual(1, bracketLength);
+            Assert.AreEqual(0, Parsers.UnbalancedBrackets(@"{bye", ref bracketLength));
+            Assert.AreEqual(1, bracketLength);
+            Assert.AreEqual(0, Parsers.UnbalancedBrackets(@"<bye", ref bracketLength));
+            Assert.AreEqual(1, bracketLength);
 
             // only first reported
             Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now} or {{now} was", ref bracketLength));
