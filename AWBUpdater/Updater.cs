@@ -278,11 +278,17 @@ namespace AwbUpdater
         {
             string zip = Path.Combine(TempDirectory, AWBZipName);
             if (!string.IsNullOrEmpty(AWBZipName) && File.Exists(zip))
+            {
                 Extract(zip);
+                DeleteAbsoluteIfExists(zip);
+            }
 
             zip = Path.Combine(TempDirectory, UpdaterZipName);
             if (!string.IsNullOrEmpty(UpdaterZipName) && File.Exists(zip))
+            {
                 Extract(zip);
+                DeleteAbsoluteIfExists(zip);
+            }
 
             progressUpdate.Value = 70;
         }
@@ -328,6 +334,12 @@ namespace AwbUpdater
             progressUpdate.Value = 75;
         }
 
+        private static void DeleteAbsoluteIfExists(string path)
+        {
+            if (File.Exists(path))
+                File.Delete(path);
+        }
+
         private void DeleteIfExists(string name)
         {
         	string path = Path.Combine(AWBdirectory, name);
@@ -335,8 +347,7 @@ namespace AwbUpdater
         	{
         		try
         		{
-        			if (File.Exists(path))
-        				File.Delete(path);
+                    DeleteAbsoluteIfExists(path);
         		}
                 catch (UnauthorizedAccessException) //The exception that is thrown when the operating system denies access because of an I/O error or a specific type of security error.
                 {
