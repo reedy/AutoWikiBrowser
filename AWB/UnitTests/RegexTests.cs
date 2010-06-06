@@ -522,6 +522,28 @@ Start date and age
             // this is why the <DEPTH> business is needed in WikiRegexes.Refs
             RegexAssert.Matches(new Regex(WikiRegexes.Refs + @"\."), "Foo.<ref>bar</ref>. The next Foo.<ref>bar <br> other</ref> The next Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The nextFoo<ref>bar2</ref>. The next", "<ref>bar</ref>.", "<ref>bar2</ref>.");
         }
+        
+        [Test]
+        public void Small()
+        {
+            RegexAssert.Matches(WikiRegexes.Small, "<small>foo</small>", "<small>foo</small>");
+            RegexAssert.Matches(WikiRegexes.Small, "<small  >foo</small >", "<small  >foo</small >");
+            RegexAssert.Matches(WikiRegexes.Small, @"<small>
+foo
+</small>", @"<small>
+foo
+</small>");
+            
+            RegexAssert.Matches(WikiRegexes.Small, "<SMALL>foo</SMALL>", "<SMALL>foo</SMALL>");
+            RegexAssert.Matches(WikiRegexes.Small, "<small>a<small>foo</small>b</small>", "<small>a<small>foo</small>");
+        }
+        
+        [Test]
+        public void Nowiki()
+        {
+            RegexAssert.Matches(WikiRegexes.Nowiki, "<nowiki>foo</nowiki>", "<nowiki>foo</nowiki>");
+            RegexAssert.Matches(WikiRegexes.Nowiki, "<nowiki >foo</nowiki >", "<nowiki >foo</nowiki >");
+        }
 
         [Test]
         public void ExternalLink()

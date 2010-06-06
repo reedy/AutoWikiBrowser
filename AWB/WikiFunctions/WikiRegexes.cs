@@ -807,8 +807,18 @@ namespace WikiFunctions
         /// <summary>
         /// matches &lt;nowiki&gt; tags
         /// </summary>
-        public static readonly Regex Nowiki = new Regex("<nowiki>.*?</nowiki>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex Nowiki = new Regex(@"<nowiki\s*>.*?</nowiki\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
+        /// <summary>
+        /// matches &lt;small&gt; tags
+        /// </summary>
+        public static readonly Regex Small = new Regex(@"<small\s*>(.*?)</small\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        
+        /// <summary>
+        /// matches &lt;sup&gt; and &lt;sub&gt; tags
+        /// </summary>
+        public static readonly Regex SupSub = new Regex(@"<(?<key>su(?:p|b))>(.*?)</\k<key>>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        
         /// <summary>
         /// matches templates, including templates with the template namespace prefix
         /// </summary>
