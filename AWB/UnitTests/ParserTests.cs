@@ -3675,16 +3675,16 @@ Some news here.", "test"));
         public void TestFixHeadingsRemoveTwoLevels()
         {
             // single heading
-            Assert.AreEqual(@"===hello===
+            Assert.AreEqual(@"==hello==
 text", Parsers.FixHeadings(@"====hello====
 text", "a"));
 
             // multiple
-            Assert.AreEqual(@"===hello===
+            Assert.AreEqual(@"==hello==
 text
-=== hello2 ===
+== hello2 ==
 texty
-==== hello3 ====
+=== hello3 ===
 ", Parsers.FixHeadings(@"====hello====
 text
 ==== hello2 ====
@@ -3695,7 +3695,7 @@ texty
             // level 1 not altered
             Assert.AreEqual(@"=level1=
 text
-===hello===
+==hello==
 ", Parsers.FixHeadings(@"=level1=
 text
 ====hello====
@@ -3715,7 +3715,7 @@ text", "a"));
 
             // don't consider the "references", "see also", or "external links" level 2 headings when counting level two headings
             // single heading
-            Assert.AreEqual(@"===hello===
+            Assert.AreEqual(@"==hello==
 text
 ==References==
 foo", Parsers.FixHeadings(@"====hello====
@@ -3723,7 +3723,7 @@ text
 ==References==
 foo", "a"));
 
-            Assert.AreEqual(@"===hello===
+            Assert.AreEqual(@"==hello==
 text
 ==External links==
 foo", Parsers.FixHeadings(@"====hello====
@@ -3731,7 +3731,7 @@ text
 ==External links==
 foo", "a"));
 
-            Assert.AreEqual(@"===hello===
+            Assert.AreEqual(@"==hello==
 text
 ==See also==
 ==External links==

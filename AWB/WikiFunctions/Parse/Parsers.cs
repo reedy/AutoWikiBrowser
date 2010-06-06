@@ -620,17 +620,24 @@ namespace WikiFunctions.Parse
             articleTextLocal = ReferencesExternalLinksSeeAlso.Replace(articleTextLocal, "");
 
             // only apply if all level 3 headings and lower are before the fist of references/external links/see also
-            if (!WikiRegexes.HeadingLevelTwo.IsMatch(articleTextLocal) && Namespace.IsMainSpace(articleTitle))
+            string originalarticleText = "";
+            while(!originalarticleText.Equals(articleText))
             {
-                int upone = 0;
-                foreach (Match m in RegexHeadingUpOneLevel.Matches(articleText))
+                originalarticleText = articleText;
+                if (!WikiRegexes.HeadingLevelTwo.IsMatch(articleTextLocal) && Namespace.IsMainSpace(articleTitle))
                 {
-                    if (m.Index > upone)
-                        upone = m.Index;
-                }
+                    int upone = 0;
+                    foreach (Match m in RegexHeadingUpOneLevel.Matches(articleText))
+                    {
+                        if (m.Index > upone)
+                            upone = m.Index;
+                    }
 
-                if (!ReferencesExternalLinksSeeAlso.IsMatch(articleText) || (upone < ReferencesExternalLinksSeeAlso.Match(articleText).Index))
-                    articleText = RegexHeadingUpOneLevel.Replace(articleText, "$1$2");
+                    if (!ReferencesExternalLinksSeeAlso.IsMatch(articleText) || (upone < ReferencesExternalLinksSeeAlso.Match(articleText).Index))
+                        articleText = RegexHeadingUpOneLevel.Replace(articleText, "$1$2");
+                }
+                
+                articleTextLocal = ReferencesExternalLinksSeeAlso.Replace(articleText, "");
             }
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Bold_text_in_headers
