@@ -229,6 +229,6 @@ namespace WikiFunctions.API
         RedirectLoop = 1,
         MultipleRedirects = 2,
         Redirected = 4,
-        Normalised = 5,
+        Normalised = 8,
     }
 }
