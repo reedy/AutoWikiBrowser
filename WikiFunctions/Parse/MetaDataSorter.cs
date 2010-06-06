@@ -226,59 +226,33 @@ en, sq, ru
         /// 
         /// </summary>
         /// <param name="input"></param>
-        /// <returns></returns>
+        /// <returns>The updated article text</returns>
         private static string RemExtra(string input)
         {
             return input.Replace("\r\n", "").Replace(">", "").Replace("\n", "");
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
-        private static string Newline(string s)
-        {
-            return Newline(s, 1);
-        }
-
-        /// <summary>
-        /// Adds the specified number of newlines to the string
-        /// </summary>
-        /// <param name="s">Input string</param>
-        /// <param name="n">Number of newlines to add</param>
-        /// <returns>Input string + (n x newlines)</returns>
-        private static string Newline(string s, int n)
-        {
-            if (s.Length == 0)
-                return s;
-
-            for (int i = 0; i < n; i++)
-                s = "\r\n" + s;
-            return s;
-        }
         
-         /// <summary>
-        /// 
+        /// <summary>
+        /// Sorts article meta data, including optional whitespace fixing
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
-        /// <returns></returns>
+        /// <returns>The updated article text</returns>
         internal string Sort(string articleText, string articleTitle)
         {
             return Sort(articleText, articleTitle, true);
         }
 
         /// <summary>
-        /// 
+        /// Sorts article meta data
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
         /// <param name="fixExcessWhitespace">Whether to request optional excess whitespace to be fixed</param>
-        /// <returns></returns>
+        /// <returns>The updated article text</returns>
         internal string Sort(string articleText, string articleTitle, bool fixOptionalWhitespace)
         {
-            if (Namespace.Determine(articleTitle) == 10) //Dont really want to be fooling around with templates
+            if (Namespace.Determine(articleTitle) == Namespace.Template) // Don't really want to be fooling around with templates
                 return articleText;
 
             string strSave = articleText;
@@ -286,10 +260,10 @@ en, sq, ru
             {
                 articleText = Regex.Replace(articleText, "<!-- ?\\[\\[en:.*?\\]\\] ?-->", "");
 
-                string personData = Newline(RemovePersonData(ref articleText));
-                string disambig = Newline(RemoveDisambig(ref articleText));
-                string categories = Newline(RemoveCats(ref articleText, articleTitle));
-                string interwikis = Newline(Interwikis(ref articleText));
+                string personData = Tools.Newline(RemovePersonData(ref articleText));
+                string disambig = Tools.Newline(RemoveDisambig(ref articleText));
+                string categories = Tools.Newline(RemoveCats(ref articleText, articleTitle));
+                string interwikis = Tools.Newline(Interwikis(ref articleText));
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Move_orphan_tags_on_the_top
                 // Dablinks above orphan tags per [[WP:LAYOUT]]
@@ -303,6 +277,7 @@ en, sq, ru
                 if (Variables.LangCode == "en")
                 {
                     articleText = MovePortalTemplates(articleText);
+                    articleText = MoveSisterlinks(articleText);
                     articleText = MoveTemplateToReferencesSection(articleText, WikiRegexes.Ibid);
                     articleText = MoveExternalLinks(articleText);
                     articleText = MoveSeeAlso(articleText);
@@ -311,7 +286,7 @@ en, sq, ru
                 // two newlines here per http://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser&oldid=243224092#Blank_lines_before_stubs
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Two_empty_lines_before_stub-templates
                 // Russian wiki uses only one newline
-                string strStub = Newline(RemoveStubs(ref articleText), Variables.LangCode == "ru" ? 1 : 2);
+                string strStub = Tools.Newline(RemoveStubs(ref articleText), Variables.LangCode == "ru" ? 1 : 2);
 
                 //filter out excess white space and remove "----" from end of article
                     articleText = Parsers.RemoveWhiteSpace(articleText, fixOptionalWhitespace) + "\r\n";
@@ -418,7 +393,7 @@ en, sq, ru
         /// <param name="originalArticleText">the first string to search</param>
         /// <param name="articleText">the second string to search</param>
         /// <returns>whether the unformatted text content is the same in the two strings</returns>
-        private bool UnformattedTextNotChanged(string originalArticleText, string articleText)
+        private static bool UnformattedTextNotChanged(string originalArticleText, string articleText)
         {
             if(WikiRegexes.UnformattedText.Matches(originalArticleText).Count != WikiRegexes.UnformattedText.Matches(articleText).Count)
                 return true;
@@ -548,6 +523,44 @@ en, sq, ru
 
             return(strDablinks + zerothSection + restOfArticle);
         }
+        
+        private static readonly Regex ExternalLinksSection = new Regex(@"(^== *[Ee]xternal +[Ll]inks? *==.*?)(?=^==+[^=][^\r\n]*?[^=]==+(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);
+        private static readonly Regex ExternalLinksToEnd = new Regex(@"(\s*(==+)\s*[Ee]xternal +links\s*\2 *).*", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+        /// <summary>
+        /// Moves sisterlinks such as {{wiktionary}} to the external links section
+        /// </summary>
+        /// <param name="articleText">The article text</param>
+        /// <returns>The updated article text</returns>
+        public static string MoveSisterlinks(string articleText)
+        {
+            string originalArticletext = articleText;
+            // need to have an 'external links' section to move the sisterlinks to
+            if (WikiRegexes.SisterLinks.Matches(articleText).Count >= 1 && WikiRegexes.ExternalLinksHeaderRegex.Matches(articleText).Count == 1)
+            {
+                foreach (Match m in WikiRegexes.SisterLinks.Matches(articleText))
+                {
+                    string sisterlinkFound = m.Value;
+                    string ExternalLinksSectionString = ExternalLinksSection.Match(articleText).Value;
+
+                    // if ExteralLinksSection didn't match then 'external links' must be last section
+                    if (ExternalLinksSectionString.Length == 0)
+                        ExternalLinksSectionString = ExternalLinksToEnd.Match(articleText).Value;
+
+                    // check sisterlink NOT currently in 'external links'
+                    if (!ExternalLinksSectionString.Contains(sisterlinkFound.Trim()))
+                    {
+                        articleText = Regex.Replace(articleText, Regex.Escape(sisterlinkFound) + @"\s*(?:\r\n)?", "");
+                        articleText = WikiRegexes.ExternalLinksHeaderRegex.Replace(articleText, "$0" + "\r\n" + sisterlinkFound);
+                    }
+                }
+            }
+            
+            if(UnformattedTextNotChanged(originalArticletext, articleText))
+                return articleText;
+
+            return originalArticletext;
+        }
 
         /// <summary>
         /// Moves maintenance tags to the top of the article text.
@@ -604,12 +617,11 @@ en, sq, ru
             return strMaintTags.Length > 0 ? articleText.Replace(strMaintTags + "\r\n", strMaintTags) : articleText;
         }
 
-        private static readonly Regex SeeAlso = new Regex(@"(\s*(==+)\s*see\s+also\s*\2)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private static readonly Regex SeeAlsoSection = new Regex(@"(^== *[Ss]ee also *==.*?)(?=^==[^=][^\r\n]*?[^=]==(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);
         private static readonly Regex SeeAlsoToEnd = new Regex(@"(\s*(==+)\s*see\s+also\s*\2 *).*", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
-        /// Moves any {{XX portal}} templates to the 'see also' section, if present (en only)
+        /// Moves any {{XX portal}} templates to the 'see also' section, if present (en only), per Template:Portal
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>Article text with {{XX portal}} template correctly placed</returns>
@@ -617,27 +629,36 @@ en, sq, ru
         public static string MovePortalTemplates(string articleText)
         {
             // need to have a 'see also' section to move the portal template to
-            if (WikiRegexes.PortalTemplate.Matches(articleText).Count >= 1 && SeeAlso.Matches(articleText).Count == 1)
+            if(WikiRegexes.SeeAlso.Matches(articleText).Count != 1 || WikiRegexes.PortalTemplate.Matches(articleText).Count < 1)
+                return articleText;
+            
+            string originalArticletext = articleText;
+
+            foreach (Match m in WikiRegexes.PortalTemplate.Matches(articleText))
             {
-                foreach (Match m in WikiRegexes.PortalTemplate.Matches(articleText))
+                string portalTemplateFound = m.Value;
+                string seeAlsoSectionString = SeeAlsoSection.Match(articleText).Value;
+                int seeAlsoIndex = SeeAlsoSection.Match(articleText).Index;
+
+                // if SeeAlsoSection didn't match then 'see also' must be last section
+                if (seeAlsoSectionString.Length == 0)
                 {
-                    string portalTemplateFound = m.Value;
-                    string seeAlsoSectionString = SeeAlsoSection.Match(articleText).Value;
+                    seeAlsoSectionString = SeeAlsoToEnd.Match(articleText).Value;
+                    seeAlsoIndex = SeeAlsoToEnd.Match(articleText).Index;
+                }
 
-                    // if SeeAlsoSection didn't match then 'see also' must be last section
-                    if (seeAlsoSectionString.Length == 0)
-                        seeAlsoSectionString = SeeAlsoToEnd.Match(articleText).Value;
-
-                    // check portal template NOT currently in 'see also'
-                    if (!seeAlsoSectionString.Contains(portalTemplateFound.Trim()))
-                    {
-                        articleText = Regex.Replace(articleText, Regex.Escape(portalTemplateFound) + @"\s*\r\n", "");
-                        articleText = SeeAlso.Replace(articleText, "$0" + "\r\n" + portalTemplateFound);
-                    }
+                // only move portal templates NOT currently in 'see also'
+                if (m.Index < seeAlsoIndex || m.Index > (seeAlsoIndex + seeAlsoSectionString.Length))
+                {
+                    articleText = Regex.Replace(articleText, Regex.Escape(portalTemplateFound) + @"\s*(?:\r\n)?", "");
+                    articleText = WikiRegexes.SeeAlso.Replace(articleText, "$0" + Tools.Newline(portalTemplateFound));
                 }
             }
 
-            return (articleText);
+            if(UnformattedTextNotChanged(originalArticletext, articleText))
+                return articleText;
+
+            return originalArticletext;
         }
 
         private static readonly Regex ReferencesSectionRegex = new Regex(@"^== *[Rr]eferences *==\s*", RegexOptions.Multiline);
@@ -710,7 +731,7 @@ en, sq, ru
             }
         }
 
-        private static readonly Regex ExternalLinksSection = new Regex(@"(^== *[Ee]xternal +[Ll]inks? *==.*?)(?=^==+[^=][^\r\n]*?[^=]==+(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);
+        
         private static readonly Regex ReferencesSection = new Regex(@"(^== *[Rr]eferences *==.*?)(?=^==[^=][^\r\n]*?[^=]==(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);
         private static readonly Regex ReferencesToEnd = new Regex(@"^== *[Rr]eferences *==\s*" + WikiRegexes.ReferencesTemplates + @"\s*(?={{DEFAULTSORT\:|\[\[Category\:)", RegexOptions.Multiline);
 
@@ -779,10 +800,10 @@ en, sq, ru
                 case "ar" :
                     matches =WikiRegexes.LinkFGAsArabic.Matches(articleText);
                     break;
-               case "ca" :
+                case "ca" :
                     matches =WikiRegexes.LinkFGAsCatalan.Matches(articleText);
                     break;
-               case "es" :
+                case "es" :
                     matches =WikiRegexes.LinkFGAsSpanish.Matches(articleText);
                     break;
                 case "fr" :
@@ -792,7 +813,7 @@ en, sq, ru
                     matches =WikiRegexes.LinkFGAsItalian.Matches(articleText);
                     break;
                     default :
-                        matches =    WikiRegexes.LinkFGAs.Matches(articleText);
+                        matches = WikiRegexes.LinkFGAs.Matches(articleText);
                     break;
             }
 
@@ -806,7 +827,10 @@ en, sq, ru
                 articleText = articleText.Replace(FGAlink, "");
             }
 
-            linkFGAList.Reverse();
+            // when using an RTL language the order templates are fetched in is already in reverse
+            if (!Variables.RTL)
+                linkFGAList.Reverse();
+            
             return linkFGAList;
         }
 

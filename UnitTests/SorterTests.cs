@@ -1,4 +1,5 @@
-﻿using WikiFunctions.Parse;
+﻿using WikiFunctions;
+using WikiFunctions.Parse;
 using NUnit.Framework;
 
 namespace UnitTests
@@ -16,11 +17,6 @@ namespace UnitTests
     [TestFixture]
     public class SorterTests : RequiresParser2
     {
-        //public SorterTests()
-        //{
-        //Variables.SetToEnglish();
-        //}
-
         [Test]
         public void RemoveStubs()
         {
@@ -296,12 +292,12 @@ text here2
 == see also ==
 some words"));
             
-                        Assert.AreEqual(@"text here
+            Assert.AreEqual(@"text here
 text here2
 == see also ==
 {{Portal|Football}}
 some words", MetaDataSorter.MovePortalTemplates(@"text here
-{{Portal|Football}}       
+{{Portal|Football}}
 text here2
 == see also ==
 some words"), "whitespace at end of line after portal template");
@@ -309,8 +305,8 @@ some words"), "whitespace at end of line after portal template");
             Assert.AreEqual(@"text here
 text here2
 == see also ==
-{{Portal|Sport}}
 {{Portal|Football}}
+{{Portal|Sport}}
 some words", MetaDataSorter.MovePortalTemplates(@"text here
 {{Portal|Sport}}
 {{Portal|Football}}
@@ -402,6 +398,91 @@ text here2
 === portals ===
 {{Portal|Football}}
 some words"));
+        }
+        
+        [Test]
+        public void MovePortalTemplatesTestsDuplicates()
+        {
+            
+            // remove duplicate portals
+            Assert.AreEqual(@"text here
+text here2
+== see also ==
+{{Portal|Football}}
+some words", MetaDataSorter.MovePortalTemplates(@"text here
+{{Portal|Football}}
+{{Portal|Football}}
+text here2
+== see also ==
+some words"));
+            
+              Assert.AreEqual(@"text here
+text here2
+== see also ==
+{{Portal|Football}}
+some words
+==other==
+", MetaDataSorter.MovePortalTemplates(@"text here
+{{Portal|Football}}
+text here2
+== see also ==
+some words
+==other==
+{{Portal|Football}}"));
+            
+                          Assert.AreEqual(@"text here
+text here2
+== see also ==
+{{Portal|Football}}
+some words
+==other==
+", MetaDataSorter.MovePortalTemplates(@"text here
+text here2
+== see also ==
+{{Portal|Football}}
+some words
+==other==
+{{Portal|Football}}"));
+        }
+        
+        [Test]
+        public void MoveSisterLinksTest()
+        {
+            const string WiktInExtLinks = @"text here
+text here2
+== External links ==
+{{wiktionary}}
+* Fred";
+            
+            Assert.AreEqual(@"text here
+text here2
+== External links ==
+{{wiktionary}}
+* Fred
+== other ==
+x", MetaDataSorter.MoveSisterlinks(@"text here
+{{wiktionary}}
+text here2
+== External links ==
+* Fred
+== other ==
+x"), "another section at end");
+            
+            Assert.AreEqual(WiktInExtLinks, MetaDataSorter.MoveSisterlinks(@"text here
+{{wiktionary}}
+text here2
+== External links ==
+* Fred"), "ext links is last section");
+            
+            Assert.AreEqual(WiktInExtLinks, MetaDataSorter.MoveSisterlinks(WiktInExtLinks), "wikt already in ext links");
+            const string CommentedOut = @"text here
+<!--{{wiktionary}}-->
+text here2
+== External links ==
+* Fred
+== other ==
+x";
+            Assert.AreEqual(CommentedOut, MetaDataSorter.MoveSisterlinks(CommentedOut), "no change if commented out");
         }
 
         [Test]
@@ -749,7 +830,7 @@ The following links are here to prevent the interwiki bot from adding them to th
             string g = e1 + e2;
 
             Assert.AreEqual(f + "\r\n", parser2.Sorter.Interwikis(ref g));
-        } 
+        }        
 
         [Test]
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Substituted_templates
@@ -773,6 +854,41 @@ The following links are here to prevent the interwiki bot from adding them to th
             Assert.AreNotEqual(d + "\r\n" + e, parser2.SortMetaData(d + e, "foo"));
 
             Assert.AreEqual(f + d, parser2.SortMetaData(f + d, "foo"));
+        }
+        
+        [Test]
+        public void InterWikiTestsLinkFAOrder()
+        {
+            #if DEBUG
+            Variables.SetProjectLangCode("ar");
+            string a1 = @"{{DEFAULTSORT:Boleyn, Anne}}
+
+", a2 = @"{{وصلة مقالة مختارة|bs}}
+{{وصلة مقالة مختارة|no}}
+{{وصلة مقالة مختارة|sv}}
+[[bs:Anne Boleyn]]
+[[br:Anne Boleyn]]";
+
+            string b = a2;
+            string c = a1 + a2;
+
+            Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref c), "Ar Link FA order not changed");
+            
+            Variables.SetProjectLangCode("en");
+            string e1 = @"{{DEFAULTSORT:Boleyn, Anne}}
+
+", e2 = @"{{Link FA|bs}}
+{{Link FA|no}}
+{{Link FA|sv}}
+[[ar:آن بولين]]
+[[bs:Anne Boleyn]]
+[[br:Anne Boleyn]]";
+
+            string f = e2;
+            string g = e1 + e2;
+
+            Assert.AreEqual(f + "\r\n", parser2.Sorter.Interwikis(ref g), "En Link FA order not changed");
+            #endif
         }
     }
 }

@@ -394,9 +394,9 @@ namespace WikiFunctions
                 "traditio.",
                 "volgota.com",
                 "wikireality.ru"
-            };
+        };
 
-#if DEBUG
+        #if DEBUG
         /// <summary>
         /// Sets the language code of the current project
         /// </summary>
@@ -405,8 +405,22 @@ namespace WikiFunctions
         public static void SetProjectLangCode(string langCode)
         {
             LangCode = langCode;
+
+            RTL = langCode == "ar";
         }
-#endif
+
+        /// <summary>
+        /// Sets different language variables, such as namespaces. Default is english Wikipedia
+        /// </summary>
+        /// <param name="langCode">The language code, default is en</param>
+        /// <param name="projectName">The project name default is Wikipedia</param>
+        /// <remarks>Do not use this outside unit tests</remarks>
+        public static void SetProjectSimple(string langCode, ProjectEnum projectName)
+        {
+            Project = projectName;
+            SetProjectLangCode(langCode);
+        }
+        #endif
 
         /// <summary>
         /// Sets different language variables, such as namespaces. Default is english Wikipedia

@@ -499,13 +499,12 @@ Start date and age
         {
             RegexAssert.Matches(WikiRegexes.Refs, "<ref>foo</ref>", "<ref>foo</ref>");
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#Typo_fixes_being_applied_to_a_reference_name
             RegexAssert.Matches(WikiRegexes.Refs, "<REF NAME=\"foo\" >bar</ref >", "<REF NAME=\"foo\" >bar</ref >");
             RegexAssert.Matches(WikiRegexes.Refs, "<REF  NAME=foo>bar< /ref>", "<REF  NAME=foo>bar< /ref>");
-            //RegexAssert.Matches(WikiRegexes.Refs, "<ref/>", "<ref/>");
             RegexAssert.Matches(WikiRegexes.Refs, "<ReF Name=foo/>", "<ReF Name=foo/>");
             RegexAssert.Matches(WikiRegexes.Refs, "<ReF Name = 'foo'/>", "<ReF Name = 'foo'/>");
             RegexAssert.Matches(WikiRegexes.Refs, "<ReF Name = \"foo\"/>", "<ReF Name = \"foo\"/>");
+            RegexAssert.Matches(WikiRegexes.Refs, "< ref>foo</ ref>", "< ref>foo</ ref>");
 
             RegexAssert.NoMatch(WikiRegexes.Refs, "<refname=foo>bar</ref>");
             RegexAssert.NoMatch(WikiRegexes.Refs, "<refname=foo/>");
@@ -517,6 +516,33 @@ Start date and age
             RegexAssert.Matches(WikiRegexes.Refs, "<ref>foo<!-- bar --></ref>", "<ref>foo<!-- bar --></ref>");
             // shouldn't eat too much
             RegexAssert.Matches(WikiRegexes.Refs, "<ref>foo<!-- bar --></ref> <ref>foo</ref>", "<ref>foo<!-- bar --></ref>", "<ref>foo</ref>");
+        
+            TestMatches(WikiRegexes.Refs, @"Article<ref>A</ref> <ref>B</ref> <ref>C</ref> <ref>B</ref> <ref>E</ref>", 5);
+        
+            // this is why the <DEPTH> business is needed in WikiRegexes.Refs
+            RegexAssert.Matches(new Regex(WikiRegexes.Refs + @"\."), "Foo.<ref>bar</ref>. The next Foo.<ref>bar <br> other</ref> The next Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The nextFoo<ref>bar2</ref>. The next", "<ref>bar</ref>.", "<ref>bar2</ref>.");
+        }
+        
+        [Test]
+        public void Small()
+        {
+            RegexAssert.Matches(WikiRegexes.Small, "<small>foo</small>", "<small>foo</small>");
+            RegexAssert.Matches(WikiRegexes.Small, "<small  >foo</small >", "<small  >foo</small >");
+            RegexAssert.Matches(WikiRegexes.Small, @"<small>
+foo
+</small>", @"<small>
+foo
+</small>");
+            
+            RegexAssert.Matches(WikiRegexes.Small, "<SMALL>foo</SMALL>", "<SMALL>foo</SMALL>");
+            RegexAssert.Matches(WikiRegexes.Small, "<small>a<small>foo</small>b</small>", "<small>a<small>foo</small>");
+        }
+        
+        [Test]
+        public void Nowiki()
+        {
+            RegexAssert.Matches(WikiRegexes.Nowiki, "<nowiki>foo</nowiki>", "<nowiki>foo</nowiki>");
+            RegexAssert.Matches(WikiRegexes.Nowiki, "<nowiki >foo</nowiki >", "<nowiki >foo</nowiki >");
         }
 
         [Test]
@@ -814,6 +840,7 @@ cit"));
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{Otheruses|something}}"));
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{Otheruses2|something}}"));
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{otheruse|something}}"));
+            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{otheruses}}"));
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{otheruse
 |something}}"));
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{2otheruses|something}}"));
@@ -833,13 +860,13 @@ cit"));
             Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(@"{{No refs}}"));
             
             Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(@"{{unreferenced-stub}}"));
-        }
-        
+        }        
         
         [Test]
         public void PortalTemplateTests()
         {
             Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal}}"));
+            Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{port|Foo}}"));
             Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{ portal}}"));
             Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{Portal}}"));
             Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{Portalpar}}"));
@@ -850,7 +877,6 @@ cit"));
             Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{portalos}}"));
             Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{portalparity}}"));
             Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{Spanish portal|game}}"));
-            Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{portal|Bert|{{here}}}}"));
         }
 
         [Test]

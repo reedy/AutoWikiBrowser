@@ -209,7 +209,6 @@ namespace WikiFunctions
             return sb.ToString();
         }
 
-
         /// <summary>
         /// Variables.NamespacesCaseInsensitive compiled into regexes
         /// </summary>
@@ -382,14 +381,58 @@ namespace WikiFunctions
         /// </summary>
         public static Regex Redirect;
         
-        public const string RFromModificationString = @"{{R from modification}}";        
-        public static readonly List<string> RFromModificationList = new List<string>(@"R from alternative punctuation,R mod,R from modifcation,R from modification,R from alternate punctuation".Split(','));
+        public const string RFromModificationString = @"{{R from modification}}";
+
+        public static readonly string[] RFromModificationList = new[]
+                                                                    {
+                                                                        "R from alternative punctuation", "R mod",
+                                                                        "R from modifcation", "R from modification",
+                                                                        "R from alternate punctuation"
+                                                                    };
         
         public const string RFromTitleWithoutDiacriticsString = @"{{R from title without diacritics}}";
-        public static readonly List<string> RFromTitleWithoutDiacriticsList = new List<string>(@"R from name without diacritics,R from original name without diacritics,R from title without diacritics,R to accents,R to diacritics,R to title with diacritics,R to unicode,R to unicode name,R without diacritics,RDiacr,Redirects from title without diacritics".Split(','));
+
+        public static readonly string[] RFromTitleWithoutDiacriticsList = new[]
+                                                                              {
+                                                                                  "R from name without diacritics",
+                                                                                  "R from original name without diacritics",
+                                                                                  "R from title without diacritics",
+                                                                                  "R to accents", "R to diacritics",
+                                                                                  "R to title with diacritics",
+                                                                                  "R to unicode", "R to unicode name",
+                                                                                  "R without diacritics", "RDiacr",
+                                                                                  "Redirects from title without diacritics"
+                                                                              };
         
         public const string RFromOtherCapitaliastionString = @"{{R from other capitalisation}}";
-        public static readonly List<string> RFromOtherCapitaliastionList = new List<string>(@"R cap,R for alternate capitalisation,R for alternate capitalization,R for alternative capitalisation,R for alternative capitalization,R from Capitalisation,R from Capitalization,R from alt cap,R from alt case,R from alternate capitalisation,R from alternate capitalization,R from alternative capitalisation,R from alternative capitalization,R from another capitalisation,R from another capitalization,R from cap,R from capitalisation,R from capitalization,R from caps,R from different capitalization ,R from lowercase,R from miscapitalization,R from other Capitalization,R from other capitalisation,R from other capitalization,R from other caps,R to Capitalization,R to alternate capitalisation,Redirect from capitalisation".Split(','));
+
+        public static readonly string[] RFromOtherCapitaliastionList = new[]
+                                                                           {
+                                                                               "R cap", "R for alternate capitalisation",
+                                                                               "R for alternate capitalization",
+                                                                               "R for alternative capitalisation",
+                                                                               "R for alternative capitalization",
+                                                                               "R from Capitalisation",
+                                                                               "R from Capitalization", "R from alt cap",
+                                                                               "R from alt case",
+                                                                               "R from alternate capitalisation",
+                                                                               "R from alternate capitalization",
+                                                                               "R from alternative capitalisation",
+                                                                               "R from alternative capitalization",
+                                                                               "R from another capitalisation",
+                                                                               "R from another capitalization",
+                                                                               "R from cap", "R from capitalisation",
+                                                                               "R from capitalization", "R from caps",
+                                                                               "R from different capitalization ",
+                                                                               "R from lowercase",
+                                                                               "R from miscapitalization",
+                                                                               "R from other Capitalization",
+                                                                               "R from other capitalisation",
+                                                                               "R from other capitalization",
+                                                                               "R from other caps", "R to Capitalization",
+                                                                               "R to alternate capitalisation",
+                                                                               "Redirect from capitalisation"
+                                                                           };
                 
         /// <summary>
         /// Matches words
@@ -505,7 +548,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the {{use dmy dates}} family of templates and redirects
         /// </summary>
-        public static readonly Regex UseDatesTemplate = Tools.NestedTemplateRegex(new List<string>(@"DMY,dmy,use dmy dates,MDY,mdy,use mdy dates,ISO,use ymd dates".Split(',')));
+        public static readonly Regex UseDatesTemplate = Tools.NestedTemplateRegex(new [] { "DMY", "dmy", "use dmy dates", "MDY", "mdy", "use mdy dates", "ISO", "use ymd dates" } );
         
         /// <summary>
         /// Matches dates in American format – "Month dd, YYYY"
@@ -559,7 +602,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{no footnotes}} OR {{more footnotes}} templates
         /// </summary>
-        public static readonly Regex MoreNoFootnotes = Tools.NestedTemplateRegex(new List<string>(@"no footnotes,nofootnotes,more footnotes,morefootnotes".Split(',')));
+        public static readonly Regex MoreNoFootnotes = Tools.NestedTemplateRegex(new [] { "no footnotes", "nofootnotes", "more footnotes", "morefootnotes" } );
 
         /// <summary>
         /// Matches the various {{BLP unsourced}} templates
@@ -685,7 +728,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{dead link}} template and its redirects
         /// </summary>
-        public static readonly Regex DeadLink = Tools.NestedTemplateRegex(new List<string>("dead link,deadlink,broken link,brokenlink,link broken,linkbroken,404,dl,dl-s,cleanup-link".Split(',')));
+        public static readonly Regex DeadLink = Tools.NestedTemplateRegex(new [] { "dead link", "deadlink", "broken link", "brokenlink", "link broken", "linkbroken", "404", "dl", "dl-s", "cleanup-link" } );
 
         /// <summary>
         /// Matches {{expand}} tag and its redirects and also {{expand}} within {{multiple issues}}
@@ -705,7 +748,7 @@ namespace WikiFunctions
         /// <summary>
         /// matches {{Article issues}}/{{multiple issues}} template
         /// </summary>
-        public static readonly Regex ArticleIssues = Tools.NestedTemplateRegex(new List<string>(@"article issues,articleissues,multipleissues,multiple issues".Split(',')));
+        public static readonly Regex ArticleIssues = Tools.NestedTemplateRegex(new [] { @"article issues", "articleissues", "multipleissues", "multiple issues" } );
 
         /// <summary>
         /// matches {{New unreviewed article}} template
@@ -758,21 +801,27 @@ namespace WikiFunctions
         /// <summary>
         /// Finds article disamiguation links from http://en.wikipedia.org/wiki/Wikipedia:Template_messages/General#Disambiguation_and_redirection (en only)
         /// </summary>
-        public static readonly Regex Dablinks = new Regex(@"{{\s*(?:[Aa]bout|[Ff]or[2-3]?|[Dd]ablink|[Dd]istinguish2?|[Oo]therpeople[1-4]|[Oo]ther ?persons|[Oo]ther ?places[23]?|[Oo]ther ?ships|[Oo]theruses-number|[Oo]ther ?use(?:s[2-5]|s)?|2otheruses|[Rr]edirect-acronym|[Rr]edirect[2-4]?|[Tt]his|[Aa]mbiguous link|[Dd]isambig-acronym)\s*\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}}", RegexOptions.Compiled);
+        public static readonly Regex Dablinks = Tools.NestedTemplateRegex(new [] { "about", "for", "for2", "for3", "dablink", "distinguish", "distinguish2", "otherpeople", "otherpeople1", "otherpeople2", "otherpeople3", "other people1", "other people2", "other people3", " other persons", "otherpersons", "otherpersons2", "otherpersons3", "otherplaces", "other places", "otherplaces2", "otherplaces3", "other places2", "other places3", "otherships", "other ships", "otheruses-number", "other uses", "other uses2", "other uses3", "other uses4", "other uses5", "other uses", "otheruses", "otheruses2", "otheruses3", "otheruses4", "otheruses5", "otheruse", "2otheruses", "redirect-acronym", "redirect", "redirect2", "redirect3", "redirect4", "this", "ambiguous link", "disambig-acronym" } );
+
+        /// <summary>
+        /// Matches the sister links templates such as {{wiktionary}}
+        /// </summary>
+        public static readonly Regex SisterLinks = Tools.NestedTemplateRegex(new[] { "wiktionary", "sisterlinks", "sister project links" } );
         
         /// <summary>
         /// Matches the maintenance tags (en-wiki only) such as orphan, cleanup
         /// </summary>
-        public static readonly Regex MaintenanceTemplates = Tools.NestedTemplateRegex(new List<string>(@"orphan,BLPunsourced,cleanup".Split(',')));
+        public static readonly Regex MaintenanceTemplates = Tools.NestedTemplateRegex(new[] { "orphan", "BLPunsourced", "cleanup" } );
         
         /// <summary>
         /// Matches the {{Unreferenced}} template
         /// </summary>
         public static readonly Regex Unreferenced = new Regex(@"{{\s*([Uu]nreferenced( stub)?|[Uu]nsourced|[Uu]nverified|[Uu]nref|[Rr]eferences|[Uu]ncited-article|[Cc]itesources|[Nn][Rr]|[Nn]o references|[Uu]nrefarticle|[Nn]o ?refs?|[Nn]oreferences|[Cc]leanup-cite|[Rr]eferences needed)\s*(?:\|.*?)?}}", RegexOptions.Singleline);
+        
         /// <summary>
-        /// Matches {{XX Portal}} templates
+        /// Matches {{Portal}}/{{Portalpar}} templates
         /// </summary>
-        public static readonly Regex PortalTemplate = new Regex(@"{{\s*[Pp]ortal(?:par)?(?:\|[^{}]+)?}}", RegexOptions.RightToLeft);
+        public static readonly Regex PortalTemplate = Tools.NestedTemplateRegex(new [] { "port", "portal", "portalpar" });
         #endregion
 
         /// <summary>
@@ -793,7 +842,7 @@ namespace WikiFunctions
         /// <summary>
         /// matches &lt;ref&gt; tags, including named references
         /// </summary>
-        public static readonly Regex Refs = new Regex(@"(<ref\s+(?:name|group)\s*=\s*[^<>]*?/\s*>|<ref\b[^>/]*?>.*?<\s*/\s*ref\s*>)", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex Refs = new Regex(@"(<\s*ref\s+(?:name|group)\s*=\s*[^<>]*?/\s*>|<\s*ref\b[^>/]*?>(?>(?!<\s*ref\b[^>/]*?>|<\s*/\s*ref\s*>).|<\s*ref\b[^>/]*?>(?<DEPTH>)|<\s*/\s*ref\s*>(?<-DEPTH>))*(?(DEPTH)(?!))<\s*/\s*ref\s*>)", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
         /// matches &lt;cite&gt; tags
@@ -803,8 +852,18 @@ namespace WikiFunctions
         /// <summary>
         /// matches &lt;nowiki&gt; tags
         /// </summary>
-        public static readonly Regex Nowiki = new Regex("<nowiki>.*?</nowiki>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex Nowiki = new Regex(@"<nowiki\s*>.*?</nowiki\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
+        /// <summary>
+        /// matches &lt;small&gt; tags
+        /// </summary>
+        public static readonly Regex Small = new Regex(@"<small\s*>(.*?)</small\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        
+        /// <summary>
+        /// matches &lt;sup&gt; and &lt;sub&gt; tags
+        /// </summary>
+        public static readonly Regex SupSub = new Regex(@"<(?<key>su(?:p|b))>(.*?)</\k<key>>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        
         /// <summary>
         /// matches templates, including templates with the template namespace prefix
         /// </summary>
@@ -865,6 +924,11 @@ namespace WikiFunctions
         /// </summary>
         public static readonly Regex ExternalLinksHeaderRegex = new Regex(@"== *External +links? *==", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
 
+        /// <summary>
+        /// Matches the 'See also' level 2 heading
+        /// </summary>
+        public static readonly Regex SeeAlso = new Regex(@"(\s*(==+)\s*see\s+also\s*\2)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        
         /// <summary>
         /// Matches parameters within the {{article issues}} template using title case (invalid casing)
         /// </summary>

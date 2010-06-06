@@ -448,6 +448,18 @@ End of.";
 
             Assert.AreEqual(f, Parsers.DuplicateNamedReferences(f));
             Assert.AreEqual(g, Parsers.DuplicateNamedReferences(g)); // reference text casing
+            
+            // don't condense a ref in {{reflist}}
+            const string RefInReflist = @"Foo<ref name='first'>690nBTivR9o2mJ6vMYccwmjl5TO9BxvhF9deev2VSi17H</ref>here.
+            
+            ==Notes==
+            {{reflist|2|refs=
+            
+            <ref name='first'>690nBTivR9o2mJ6vMYccwmjl5TO9BxvhF9deev2VSi17H</ref>
+            
+            }}";
+            
+            Assert.AreEqual(RefInReflist, Parsers.DuplicateNamedReferences(RefInReflist));
         }
 
         [Test]
@@ -717,6 +729,46 @@ Jones 2005</ref>"));
 </references>";
             
             Assert.AreEqual(LDR, Parsers.AddMissingReflist(LDR));
+        }
+        
+        [Test]
+        public void RefsAfterPunctuation()
+        {
+            string AllAfter = @"Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The next";
+            string R1 = @"Foo<ref>bar</ref>. The next";
+            
+            Assert.AreEqual(R1, Parsers.RefsAfterPunctuation(R1), "no change when majority format is refs before punct");
+            
+            Assert.AreEqual(AllAfter, Parsers.RefsAfterPunctuation(AllAfter.Replace(".<", "..<")), "duplicate punctuation removed");
+            
+            Assert.AreEqual(AllAfter.Replace(".<", "...<"), Parsers.RefsAfterPunctuation(AllAfter.Replace(".<", "...<")), "ellipsis punctuation NOT changed");
+            
+            Assert.AreEqual(AllAfter + @"Foo.<ref>bar</ref> The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "ref moved after reflist when majority are after");
+            R1 = R1.Replace(".", ",");
+            Assert.AreEqual(AllAfter + @"Foo,<ref>bar</ref> The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "handles commas too");
+            Assert.AreEqual(AllAfter +AllAfter + @"Foo,<ref>bar</ref> The next" + @"Foo,<ref>bar</ref> The next", Parsers.RefsAfterPunctuation(AllAfter +AllAfter+ R1 +R1), "multiple conversions");
+            
+            R1 = R1.Replace(",", "–");
+            Assert.AreEqual(AllAfter + R1, Parsers.RefsAfterPunctuation(AllAfter + R1), "ref not moved when before dash");
+            
+            string TwoRefs = @"Now<ref name=a>bar</ref><ref name=b>bar</ref>. Then";
+            
+            Assert.AreEqual(AllAfter + @"Now.<ref name=a>bar</ref><ref name=b>bar</ref> Then", Parsers.RefsAfterPunctuation(AllAfter + TwoRefs), "punctuation moved through multiple refs");
+        }
+        
+        [Test]
+        public void RefsAfterPunctuationEnOnly()
+        {
+            #if DEBUG
+            string AllAfter = @"Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The next";
+            string R1 = @"Foo<ref>bar</ref>. The next";
+            
+            Variables.SetProjectLangCode("fr");
+            Assert.AreEqual(AllAfter + R1, Parsers.RefsAfterPunctuation(AllAfter + R1), "ref moved after reflist when majority are after");
+            
+            Variables.SetProjectLangCode("en");
+            Assert.AreEqual(AllAfter + @"Foo.<ref>bar</ref> The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "ref moved after reflist when majority are after");
+            #endif
         }
     }
 
@@ -1002,6 +1054,43 @@ was"));
             Assert.AreEqual("'''John Doe''' (born [[21 February]] [[2008]])", Parsers.FixLivingThingsRelatedDates("'''John Doe''' (b. [[21 February]] [[2008]])"));
             Assert.AreEqual("'''John Doe''' (died [[21 February]] [[2008]])", Parsers.FixLivingThingsRelatedDates("'''John Doe''' (d. [[21 February]] [[2008]])"));
             Assert.AreEqual("'''Willa Klug Baum''' ([[October 4]], [[1926]] – May 18, 2006)", Parsers.FixLivingThingsRelatedDates("'''Willa Klug Baum''' (born [[October 4]], [[1926]], died May 18, 2006)"));
+        }
+        
+        [Test]
+        public void UnlinkedFloruit()
+        {
+            const string LinkedFloruit = @"'''Foo''' ([[floruit|fl.]] 550) was a peasant.
+==Time==
+Foo was happy";
+
+            Assert.AreEqual(LinkedFloruit, Parsers.FixLivingThingsRelatedDates(@"'''Foo''' (fl. 550) was a peasant.
+==Time==
+Foo was happy"), "lowercase");
+            Assert.AreEqual(LinkedFloruit, Parsers.FixLivingThingsRelatedDates(@"'''Foo''' (fl 550) was a peasant.
+==Time==
+Foo was happy"), "no dot");
+            Assert.AreEqual(LinkedFloruit, Parsers.FixLivingThingsRelatedDates(@"'''Foo''' ( fl. 550) was a peasant.
+==Time==
+Foo was happy"), "extra whitespace");
+            Assert.AreEqual(LinkedFloruit, Parsers.FixLivingThingsRelatedDates(@"'''Foo''' (Fl. 550) was a peasant.
+==Time==
+Foo was happy"), "title case");
+
+            Assert.AreEqual(LinkedFloruit, Parsers.FixLivingThingsRelatedDates(LinkedFloruit), "no change if already linked");
+
+            Assert.AreEqual(@"'''Foo''' ([[floruit|fl.]] 550) was a peasant.
+Foo was happy
+Other (fl. 1645) was also", Parsers.FixLivingThingsRelatedDates(@"'''Foo''' (fl. 550) was a peasant.
+Foo was happy
+Other (fl. 1645) was also"), "only first floruit linked");
+
+            const string FloruitLaterSection = @"'''Foo''' was a peasant.
+==Other==
+Other (fl. 1645) was also", FloruitTwice = @"'''Foo''' (fl. 55) was a peasant, related to other (fl. 600)";
+
+            Assert.AreEqual(FloruitLaterSection, Parsers.FixLivingThingsRelatedDates(FloruitLaterSection), "not linked outside zeroth section");
+
+            Assert.AreEqual(@"'''Foo''' ([[floruit|fl.]] 55) was a peasant, related to other (fl. 600)", Parsers.FixLivingThingsRelatedDates(FloruitTwice), "only first occurrence linked");
         }
 
         [Test]
@@ -1786,6 +1875,10 @@ was [[foo|bar]] too"));
             Assert.AreEqual(33, Parsers.UnbalancedBrackets(@"[http://www.site.com a link [cool]]", ref bracketLength)); // FixSyntax replaces with &#93;
             Assert.AreEqual(2, bracketLength);
             Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {now", ref bracketLength));
+            Assert.AreEqual(1, bracketLength);
+            Assert.AreEqual(0, Parsers.UnbalancedBrackets(@"{bye", ref bracketLength));
+            Assert.AreEqual(1, bracketLength);
+            Assert.AreEqual(0, Parsers.UnbalancedBrackets(@"<bye", ref bracketLength));
             Assert.AreEqual(1, bracketLength);
 
             // only first reported
@@ -3588,16 +3681,16 @@ Some news here.", "test"));
         public void TestFixHeadingsRemoveTwoLevels()
         {
             // single heading
-            Assert.AreEqual(@"===hello===
+            Assert.AreEqual(@"==hello==
 text", Parsers.FixHeadings(@"====hello====
 text", "a"));
 
             // multiple
-            Assert.AreEqual(@"===hello===
+            Assert.AreEqual(@"==hello==
 text
-=== hello2 ===
+== hello2 ==
 texty
-==== hello3 ====
+=== hello3 ===
 ", Parsers.FixHeadings(@"====hello====
 text
 ==== hello2 ====
@@ -3608,7 +3701,7 @@ texty
             // level 1 not altered
             Assert.AreEqual(@"=level1=
 text
-===hello===
+==hello==
 ", Parsers.FixHeadings(@"=level1=
 text
 ====hello====
@@ -3628,7 +3721,7 @@ text", "a"));
 
             // don't consider the "references", "see also", or "external links" level 2 headings when counting level two headings
             // single heading
-            Assert.AreEqual(@"===hello===
+            Assert.AreEqual(@"==hello==
 text
 ==References==
 foo", Parsers.FixHeadings(@"====hello====
@@ -3636,7 +3729,7 @@ text
 ==References==
 foo", "a"));
 
-            Assert.AreEqual(@"===hello===
+            Assert.AreEqual(@"==hello==
 text
 ==External links==
 foo", Parsers.FixHeadings(@"====hello====
@@ -3644,7 +3737,7 @@ text
 ==External links==
 foo", "a"));
 
-            Assert.AreEqual(@"===hello===
+            Assert.AreEqual(@"==hello==
 text
 ==See also==
 ==External links==
@@ -3886,6 +3979,19 @@ was"));
             Assert.AreEqual("75°F today", Parsers.FixTemperatures(@"75°f today"));
 
             Assert.AreEqual("5ºCC", Parsers.FixTemperatures(@"5ºCC"));
+        }
+        
+        [Test]
+        public void FixSmallTags()
+        {
+            const string s1 = @"<small>foo</small>";
+            Assert.AreEqual(s1, Parsers.FixSyntax(s1));
+            
+            Assert.AreEqual(@"<ref>foo</ref>", Parsers.FixSyntax(@"<ref><small>foo</small></ref>"), "removes small from ref tags");
+            Assert.AreEqual(@"<REF>foo</REF>", Parsers.FixSyntax(@"<REF><small>foo</small></REF>"), "removes small from ref tags");
+            Assert.AreEqual(@"<sup>foo</sup>", Parsers.FixSyntax(@"<sup><small>foo</small></sup>"), "removes small from sup tags");
+            Assert.AreEqual(@"<sub>foo</sub>", Parsers.FixSyntax(@"<sub><small>foo</small></sub>"), "removes small from sub tags");
+            Assert.AreEqual(@"<small>a foo b</small>", Parsers.FixSyntax(@"<small>a <small>foo</small> b</small>"), "removes nested small from small tags");
         }
     }
 
@@ -4779,6 +4885,19 @@ foo
         }
         
         [Test]
+        public void DablinksNoZerothSection()
+        {
+            const string NoZerothSection1 = @"
+===fpfp===
+words";
+            Assert.AreEqual(NoZerothSection1, Parsers.Dablinks(NoZerothSection1));
+            
+            const string NoZerothSection2 = @"===fpfp===
+words";
+            Assert.AreEqual(NoZerothSection2, Parsers.Dablinks(NoZerothSection2));
+        }
+        
+        [Test]
         public void DablinksOtheruses4()
         {
             string OU = @"{{Otheruses4|foo|bar}}";
@@ -4817,6 +4936,10 @@ foo
             
             Assert.AreEqual(@"{{about||a|b|c|d|and|e}}", Parsers.Dablinks(for1 + For3));
             Assert.AreEqual(@"{{about||a|b|c|d|and|e}}", Parsers.Dablinks(For3 + for1));
+            
+            const string ForTwoCats = @"{{for|the city in California|Category:Lancaster, California}}{{for|the city in Pennsylvania|Category:Lancaster, Pennsylvania}}";
+            
+            Assert.AreEqual(@"{{about||the city in California|:Category:Lancaster, California|the city in Pennsylvania|:Category:Lancaster, Pennsylvania}}", Parsers.Dablinks(ForTwoCats));
         }
         
         [Test]
@@ -4877,6 +5000,64 @@ foo
             Assert.AreEqual(AB, Parsers.Dablinks(@"{{Distinguish|a}}{{Distinguish|b}}"), "merges when single argument");
             Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.Dablinks(@"{{Distinguish|a}}{{Distinguish|b|c}}"), "merges multiple arguments");
             Assert.AreEqual(AB, Parsers.Dablinks(AB), "no change if already merged");
+        }
+        
+        [Test]
+        public void MergePortals()
+        {
+            Assert.AreEqual("", Parsers.MergePortals(""), "no change when no portals");
+            Assert.AreEqual("==see also==", Parsers.MergePortals("==see also=="), "no change when no portals");
+            
+            const string singlePortal = @"Foo
+==See also==
+{{Portal|Bar}}";
+            Assert.AreEqual(singlePortal, Parsers.MergePortals(singlePortal), "no change when single portal");
+            
+            const string PortalBox1 = @"Foo
+==See also==
+{{Portal box|Bar|Foo2}}
+";
+            Assert.AreEqual(PortalBox1, Parsers.MergePortals(@"Foo
+==See also==
+{{Portal|Bar}}
+{{Port|Foo2 }}"), "merges multiple portals to new portal box");
+            
+            Assert.AreEqual(PortalBox1, Parsers.MergePortals(@"Foo
+==See also==
+{{Portal box|Bar}}
+{{Port|Foo2 }}"), "merges portals to existing portal box");
+            
+            const string NoSeeAlso = @"{{Portal|Bar}}
+{{Port|Foo2 }}";
+            
+            Assert.AreEqual(NoSeeAlso, Parsers.MergePortals(NoSeeAlso), "no merging if no portal box and no see also");
+            
+            const string MultipleArguments = @"Foo
+==See also==
+{{Portal|Bar}}
+{{Port|Foo2|other=here}}";
+            
+            Assert.AreEqual(MultipleArguments, Parsers.MergePortals(MultipleArguments), "no merging of portal with multiple arguments");
+        }
+        
+        [Test]
+        public void MergePortalsEnOnly()
+        {
+            #if DEBUG
+            const string PortalBox1 = @"Foo
+==See also==
+{{Portal box|Bar|Foo2}}
+", input = @"Foo
+==See also==
+{{Portal|Bar}}
+{{Port|Foo2 }}";
+            
+            Variables.SetProjectLangCode("fr");
+            Assert.AreEqual(input, Parsers.MergePortals(input));
+            
+            Variables.SetProjectLangCode("en");
+            Assert.AreEqual(PortalBox1, Parsers.MergePortals(input));
+            #endif
         }
     }
 
@@ -5859,7 +6040,7 @@ asdfasdf}} was here", "foo"));
         private string summary;
 
         private const string Uncat = "{{Uncategorized|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
-        UncatStub = "{{Uncategorizedstub|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
+        UncatStub = "{{Uncategorized stub|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
         Orphan = "{{orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
         Wikify = "{{Wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
         Deadend = "{{Deadend|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}",
@@ -5872,6 +6053,36 @@ asdfasdf}} was here", "foo"));
             Variables.SetProjectLangCode("en");
             #endif
         }
+        
+        [Test]
+        public void AddUncatStub()
+        {
+            Globals.UnitTestIntValue = 0;
+            Globals.UnitTestBoolValue = true;
+            
+            string text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
+            //Stub, no existing stub tag. Needs all tags
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
+
+            Assert.IsTrue(text.Contains(UncatStub));
+            
+            // uncat when not a stub
+            Globals.UnitTestIntValue = 0;
+            Globals.UnitTestBoolValue = true;
+            
+            text = parser.Tagger(LongText, "Test", false, out noChange, ref summary);
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
+
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text));
+            Assert.IsFalse(text.Contains(UncatStub));
+        }
 
         [Test]
         public void Add()
@@ -5883,11 +6094,11 @@ asdfasdf}} was here", "foo"));
             //Stub, no existing stub tag. Needs all tags
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));            
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
-
-            Assert.IsFalse(text.Contains(UncatStub));
+            
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+            Assert.IsTrue(text.Contains(UncatStub));
 
             text = parser.Tagger(ShortText + Stub + Uncat + Wikify + Orphan + Deadend, "Test", false, out noChange, ref summary);
             //Tagged article, dupe tags shouldn't be added
@@ -6021,7 +6232,8 @@ asdfasdf}} was here", "foo"));
 
 "));
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text));
-            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+            Assert.IsTrue(text.Contains(UncatStub));
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
             Variables.SetProjectLangCode("en");
             #endif
@@ -6688,7 +6900,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 {{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
 ==Foo2==
 "));
-            Assert.IsTrue(summary.Contains("Empty section"));
+            Assert.IsTrue(summary.Contains("Empty section (1)"));
             
             twoTwos = @"==Foo1==
 
@@ -6698,6 +6910,14 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.IsTrue(returned.Contains(@"{{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
 ==Foo2==
 "));
+            
+            // tagging multiple sections
+            summary = "";
+            returned = parser.Tagger(twoTwos +"\r\n" + twoTwos, "test", false, ref summary);
+            Assert.IsTrue(returned.Contains(@"{{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
+==Foo2==
+"));
+            Assert.IsTrue(summary.Contains("Empty section (3)"));
             
             // not empty
             twoTwos = @"==Foo1==
