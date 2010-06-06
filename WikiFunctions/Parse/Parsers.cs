@@ -138,6 +138,11 @@ namespace WikiFunctions.Parse
             RegexConversion.Add(new Regex(@"{{\s*(?:[Cc]n|[Ff]act|[Pp]roveit|[Cc]iteneeded|[Uu]ncited)(?=\s*[\|}])", RegexOptions.Compiled), @"{{Citation needed");
             
             RegexConversion.Add(new Regex(@"({{\s*[Cc]itation needed\s*\|)\s*(?:[Dd]ate:)?([A-Z][a-z]+ 20\d\d)\s*\|\s*(date\s*=\s*\2\s*}})", RegexOptions.Compiled | RegexOptions.IgnoreCase), @"$1$3");
+            
+            SmallTagRegexes.Add(WikiRegexes.SupSub);
+            SmallTagRegexes.Add(WikiRegexes.Images);
+            SmallTagRegexes.Add(WikiRegexes.Refs);
+            SmallTagRegexes.Add(WikiRegexes.Small);
         }
 
         private static readonly Dictionary<Regex, string> RegexUnicode = new Dictionary<Regex, string>();
@@ -2041,7 +2046,7 @@ namespace WikiFunctions.Parse
         {
             string newText = FixSyntax(articleText);
 
-            noChange = (newText == articleText);
+            noChange = (newText.Equals(articleText));
             return newText;
         }
 
@@ -2230,6 +2235,8 @@ namespace WikiFunctions.Parse
             // http://en.wikipedia.org/wiki/Wikipedia:WikiProject_Check_Wikipedia#Article_with_false_.3Cbr.2F.3E_.28AutoEd.29
             // fix incorrect <br> of <br.>, <\br> and <br\>
             articleText = IncorrectBr.Replace(articleText, "<br />");
+            
+            articleText = FixSmallTags(articleText);
 
             articleText = WordingIntoBareExternalLinks.Replace(articleText, @"[$2 $1]");
             
@@ -2244,6 +2251,41 @@ namespace WikiFunctions.Parse
             }
 
             return articleText.Trim();
+        }
+        
+        private static List<Regex> SmallTagRegexes = new List<Regex>();
+        
+        /// <summary>
+        /// remove <small> in small, ref, sup, sub tags and images
+        /// CHECKWIKI errors 55, 63, 66, 77
+        /// </summary>
+        /// <param name="articleText">The article text</param>
+        /// <returns>The updated article text</returns>
+        private static string FixSmallTags(string articleText)
+        {
+            if(!WikiRegexes.Small.IsMatch(articleText))
+                return articleText;
+            
+            foreach(Regex rx in SmallTagRegexes)
+            {
+                foreach (Match m in rx.Matches(articleText))
+                {
+                    Match s = WikiRegexes.Small.Match(m.Value);
+                    if(s.Success)
+                    {
+                        if(s.Index > 0)
+                            articleText = articleText.Replace(m.Value, WikiRegexes.Small.Replace(m.Value, "$1"));
+                        else
+                            // nested small
+                            articleText = articleText.Replace(m.Value, m.Value.Substring(0, 7) + WikiRegexes.Small.Replace(m.Value.Substring(7), "$1"));
+                    }
+                }
+                
+                if(!WikiRegexes.Small.IsMatch(articleText))
+                    return articleText;
+            }
+            
+            return articleText;
         }
 
         private static readonly Regex CurlyBraceInsteadOfPipeInWikiLink = new Regex(@"(?<=\[\[[^\[\]{}<>\r\n\|]{1,50})}(?=[^\[\]{}<>\r\n\|]{1,50}\]\])", RegexOptions.Compiled);

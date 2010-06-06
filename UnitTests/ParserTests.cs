@@ -3976,6 +3976,19 @@ was"));
 
             Assert.AreEqual("5ºCC", Parsers.FixTemperatures(@"5ºCC"));
         }
+        
+        [Test]
+        public void FixSmallTags()
+        {
+            const string s1 = @"<small>foo</small>";
+            Assert.AreEqual(s1, Parsers.FixSyntax(s1));
+            
+            Assert.AreEqual(@"<ref>foo</ref>", Parsers.FixSyntax(@"<ref><small>foo</small></ref>"), "removes small from ref tags");
+            Assert.AreEqual(@"<REF>foo</REF>", Parsers.FixSyntax(@"<REF><small>foo</small></REF>"), "removes small from ref tags");
+            Assert.AreEqual(@"<sup>foo</sup>", Parsers.FixSyntax(@"<sup><small>foo</small></sup>"), "removes small from sup tags");
+            Assert.AreEqual(@"<sub>foo</sub>", Parsers.FixSyntax(@"<sub><small>foo</small></sub>"), "removes small from sub tags");
+            Assert.AreEqual(@"<small>a foo b</small>", Parsers.FixSyntax(@"<small>a <small>foo</small> b</small>"), "removes nested small from small tags");
+        }
     }
 
     [TestFixture]
