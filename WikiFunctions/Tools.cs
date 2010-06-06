@@ -2322,11 +2322,7 @@ Message: {2}
             if (templatename.Length == 0)
                 return null;
 
-            templatename = Regex.Escape(templatename.Replace('_', ' ')).Replace(@"\ ", @"[_ ]");
-
-            return
-                (new Regex(NestedTemplateRegexStart + CaseInsensitive(templatename) + @")" + NestedTemplateRegexEnd,
-                           RegexOptions.Compiled));
+            return NestedTemplateRegex(new List<string>(new [] { templatename }));
         }
 
         /// <summary>
