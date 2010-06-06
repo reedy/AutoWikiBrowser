@@ -405,6 +405,11 @@ namespace WikiFunctions
         public static void SetProjectLangCode(string langCode)
         {
             LangCode = langCode;
+
+            if (langCode == "ar")
+            {
+                RTL = true;
+            }
         }
         
         /// <summary>
@@ -416,7 +421,7 @@ namespace WikiFunctions
         public static void SetProjectSimple(string langCode, ProjectEnum projectName)
         {
             Project = projectName;
-            LangCode = langCode;
+            SetProjectLangCode(langCode);
         }
         #endif
 
