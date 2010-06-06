@@ -402,6 +402,11 @@ text here2
 === portals ===
 {{Portal|Football}}
 some words"));
+        }
+        
+        [Test]
+        public void MovePortalTemplatesTestsDuplicates()
+        {
             
             // remove duplicate portals
             Assert.AreEqual(@"text here
@@ -414,6 +419,34 @@ some words", MetaDataSorter.MovePortalTemplates(@"text here
 text here2
 == see also ==
 some words"));
+            
+              Assert.AreEqual(@"text here
+text here2
+== see also ==
+{{Portal|Football}}
+some words
+==other==
+", MetaDataSorter.MovePortalTemplates(@"text here
+{{Portal|Football}}
+text here2
+== see also ==
+some words
+==other==
+{{Portal|Football}}"));
+            
+                          Assert.AreEqual(@"text here
+text here2
+== see also ==
+{{Portal|Football}}
+some words
+==other==
+", MetaDataSorter.MovePortalTemplates(@"text here
+text here2
+== see also ==
+{{Portal|Football}}
+some words
+==other==
+{{Portal|Football}}"));
         }
         
         [Test]
