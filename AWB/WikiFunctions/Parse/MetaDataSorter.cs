@@ -629,29 +629,30 @@ en, sq, ru
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Placement_of_portal_template
         public static string MovePortalTemplates(string articleText)
         {
-            string originalArticletext = articleText;
             // need to have a 'see also' section to move the portal template to
-            if (WikiRegexes.PortalTemplate.Matches(articleText).Count >= 1 && SeeAlso.Matches(articleText).Count == 1)
+            if(SeeAlso.Matches(articleText).Count != 1 || WikiRegexes.PortalTemplate.Matches(articleText).Count < 1)
+                return articleText;
+            
+            string originalArticletext = articleText;
+
+            foreach (Match m in WikiRegexes.PortalTemplate.Matches(articleText))
             {
-                foreach (Match m in WikiRegexes.PortalTemplate.Matches(articleText))
+                string portalTemplateFound = m.Value;
+                string seeAlsoSectionString = SeeAlsoSection.Match(articleText).Value;
+                int seeAlsoIndex = SeeAlsoSection.Match(articleText).Index;
+
+                // if SeeAlsoSection didn't match then 'see also' must be last section
+                if (seeAlsoSectionString.Length == 0)
                 {
-                    string portalTemplateFound = m.Value;
-                    string seeAlsoSectionString = SeeAlsoSection.Match(articleText).Value;
-                    int seeAlsoIndex = SeeAlsoSection.Match(articleText).Index;
+                    seeAlsoSectionString = SeeAlsoToEnd.Match(articleText).Value;
+                    seeAlsoIndex = SeeAlsoToEnd.Match(articleText).Index;
+                }
 
-                    // if SeeAlsoSection didn't match then 'see also' must be last section
-                    if (seeAlsoSectionString.Length == 0)
-                    {
-                        seeAlsoSectionString = SeeAlsoToEnd.Match(articleText).Value;
-                        seeAlsoIndex = SeeAlsoToEnd.Match(articleText).Index;
-                    }
-
-                    // only move portal templates NOT currently in 'see also'
-                    if (m.Index < seeAlsoIndex || m.Index > (seeAlsoIndex + seeAlsoSectionString.Length))
-                    {
-                        articleText = Regex.Replace(articleText, Regex.Escape(portalTemplateFound) + @"\s*(?:\r\n)?", "");
-                        articleText = SeeAlso.Replace(articleText, "$0" + Tools.Newline(portalTemplateFound));
-                    }
+                // only move portal templates NOT currently in 'see also'
+                if (m.Index < seeAlsoIndex || m.Index > (seeAlsoIndex + seeAlsoSectionString.Length))
+                {
+                    articleText = Regex.Replace(articleText, Regex.Escape(portalTemplateFound) + @"\s*(?:\r\n)?", "");
+                    articleText = SeeAlso.Replace(articleText, "$0" + Tools.Newline(portalTemplateFound));
                 }
             }
 
