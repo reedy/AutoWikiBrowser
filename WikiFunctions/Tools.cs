@@ -2330,7 +2330,7 @@ Message: {2}
         /// Supports nested templates and comments at end of template call
         /// </summary>
         /// <param name="templatenames">The list of template names</param>
-        /// <returns>A Regex matching calls to the template, match group 2 being the template name</returns>
+        /// <returns>A Regex matching calls to the template, match group 2 being the template name, group 3 being the template argument(s)</returns>
         public static Regex NestedTemplateRegex(List<string> templatenames)
         {
             if (templatenames.Count == 0)

@@ -617,7 +617,6 @@ en, sq, ru
             return strMaintTags.Length > 0 ? articleText.Replace(strMaintTags + "\r\n", strMaintTags) : articleText;
         }
 
-        private static readonly Regex SeeAlso = new Regex(@"(\s*(==+)\s*see\s+also\s*\2)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private static readonly Regex SeeAlsoSection = new Regex(@"(^== *[Ss]ee also *==.*?)(?=^==[^=][^\r\n]*?[^=]==(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);
         private static readonly Regex SeeAlsoToEnd = new Regex(@"(\s*(==+)\s*see\s+also\s*\2 *).*", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
@@ -630,7 +629,7 @@ en, sq, ru
         public static string MovePortalTemplates(string articleText)
         {
             // need to have a 'see also' section to move the portal template to
-            if(SeeAlso.Matches(articleText).Count != 1 || WikiRegexes.PortalTemplate.Matches(articleText).Count < 1)
+            if(WikiRegexes.SeeAlso.Matches(articleText).Count != 1 || WikiRegexes.PortalTemplate.Matches(articleText).Count < 1)
                 return articleText;
             
             string originalArticletext = articleText;
@@ -652,7 +651,7 @@ en, sq, ru
                 if (m.Index < seeAlsoIndex || m.Index > (seeAlsoIndex + seeAlsoSectionString.Length))
                 {
                     articleText = Regex.Replace(articleText, Regex.Escape(portalTemplateFound) + @"\s*(?:\r\n)?", "");
-                    articleText = SeeAlso.Replace(articleText, "$0" + Tools.Newline(portalTemplateFound));
+                    articleText = WikiRegexes.SeeAlso.Replace(articleText, "$0" + Tools.Newline(portalTemplateFound));
                 }
             }
 

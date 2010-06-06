@@ -390,10 +390,62 @@ namespace WikiFunctions.Parse
             // Parsers.Conversions will add any missing dates and correct ...|wikify date=May 2008|...
             return (zerothSection + restOfArticle);
         }
+        private static readonly Regex PortalBox = Tools.NestedTemplateRegex(new List<string>(new [] {"portal box", "portalbox" }));
+        
+        /// <summary>
+        /// Merges multiple {{portal}} templates into a {{portal box}}, removing any duplicates. En-wiki only.
+        /// Restricted to {{portal}} calls with one argument
+        /// Article must have existing {{portal box}} and/or a 'see also' section
+        /// </summary>
+        /// <param name="articleText">The article text</param>
+        /// <returns>The updated article text</returns>
+        public static string MergePortals(string articleText)
+        {
+            if(!Variables.LangCode.Equals("en"))
+                return articleText;
+            
+            string originalArticleText = articleText;
+            List<string> Portals = new List<string>();
+            
+            foreach (Match m in WikiRegexes.PortalTemplate.Matches(articleText))
+            {
+                string thePortalCall = m.Value, thePortalName = Tools.GetTemplateArgument(m.Value, 1);
+                
+                if(!Portals.Contains(thePortalName) && Tools.GetTemplateArgumentCount(thePortalCall) == 1)
+                {
+                    Portals.Add(thePortalName);
+                    articleText = Regex.Replace(articleText, Regex.Escape(thePortalCall) + @"\s*(?:\r\n)?", "");
+                }
+            }
+            
+            if(Portals.Count == 0)
+                return articleText;
+            
+            // generate portal box string
+            string PortalsToAdd = "";
+            foreach(string portal in Portals)
+                PortalsToAdd += ("|" + portal.Trim());
+            
+            Match pb = PortalBox.Match(articleText);
+            
+            if(pb.Success) // append portals to existing portal box
+                articleText = articleText.Replace(pb.Value, pb.Value.Substring(0, pb.Length-2) + PortalsToAdd + @"}}");
+            else
+            {
+                // merge in new portal box: if multiple portals
+                // need ==see also== to put new portal box in
+                if(Portals.Count < 2 || !WikiRegexes.SeeAlso.IsMatch(articleText))
+                    return originalArticleText;
+                
+                articleText = WikiRegexes.SeeAlso.Replace(articleText, "$0" + Tools.Newline(@"{{Portal box" + PortalsToAdd + @"}}"));
+            }
+            return articleText;
+        }
         
         /// <summary>
         /// Performs some cleanup operations on dablinks
         /// Merges some for & about dablinks
+        /// Merges multiple distinguish into one
         /// </summary>
         /// <param name="articleText">The article text</param>
         /// <returns>The updated article text</returns>
@@ -4861,6 +4913,7 @@ namespace WikiFunctions.Parse
             if (Variables.IsWikipediaEN && WikiRegexes.Unreferenced.IsMatch(articleText) && articleText.Contains(@"[[Category:Living people"))
                 articleText = Tools.RenameTemplate(articleText, WikiRegexes.Unreferenced.Match(articleText).Groups[1].Value, "BLP unsourced");
 
+            articleText = MergePortals(articleText);
             return Dablinks(articleText);
         }
 
