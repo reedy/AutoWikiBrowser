@@ -296,12 +296,12 @@ text here2
 == see also ==
 some words"));
             
-                        Assert.AreEqual(@"text here
+            Assert.AreEqual(@"text here
 text here2
 == see also ==
 {{Portal|Football}}
 some words", MetaDataSorter.MovePortalTemplates(@"text here
-{{Portal|Football}}       
+{{Portal|Football}}
 text here2
 == see also ==
 some words"), "whitespace at end of line after portal template");
@@ -401,6 +401,18 @@ text here2
 * Fred
 === portals ===
 {{Portal|Football}}
+some words"));
+            
+            // remove duplicate portals
+            Assert.AreEqual(@"text here
+text here2
+== see also ==
+{{Portal|Football}}
+some words", MetaDataSorter.MovePortalTemplates(@"text here
+{{Portal|Football}}
+{{Portal|Football}}
+text here2
+== see also ==
 some words"));
         }
         
