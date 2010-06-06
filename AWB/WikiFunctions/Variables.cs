@@ -149,6 +149,12 @@ namespace WikiFunctions
         { get; set; }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public static bool CapitalizeFirstLetter
+        { get; set; }
+
+        /// <summary>
         /// localized names of months
         /// </summary>
         public static string[] MonthNames;
@@ -675,6 +681,7 @@ namespace WikiFunctions
             LangCode = "en";
 
             RTL = false;
+            CapitalizeFirstLetter = true;
         }
         #endregion
 
