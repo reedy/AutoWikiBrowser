@@ -827,7 +827,10 @@ en, sq, ru
                 articleText = articleText.Replace(FGAlink, "");
             }
 
-            linkFGAList.Reverse();
+            // when using an RTL language the order templates are fetched in is already in reverse
+            if(!Variables.LangCode.Equals("ar"))
+                linkFGAList.Reverse();
+            
             return linkFGAList;
         }
 

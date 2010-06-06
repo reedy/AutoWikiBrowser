@@ -1,4 +1,5 @@
-﻿using WikiFunctions.Parse;
+﻿using WikiFunctions;
+using WikiFunctions.Parse;
 using NUnit.Framework;
 
 namespace UnitTests
@@ -16,11 +17,6 @@ namespace UnitTests
     [TestFixture]
     public class SorterTests : RequiresParser2
     {
-        //public SorterTests()
-        //{
-        //Variables.SetToEnglish();
-        //}
-
         [Test]
         public void RemoveStubs()
         {
@@ -834,7 +830,7 @@ The following links are here to prevent the interwiki bot from adding them to th
             string g = e1 + e2;
 
             Assert.AreEqual(f + "\r\n", parser2.Sorter.Interwikis(ref g));
-        } 
+        }        
 
         [Test]
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Substituted_templates
@@ -858,6 +854,41 @@ The following links are here to prevent the interwiki bot from adding them to th
             Assert.AreNotEqual(d + "\r\n" + e, parser2.SortMetaData(d + e, "foo"));
 
             Assert.AreEqual(f + d, parser2.SortMetaData(f + d, "foo"));
+        }
+        
+        [Test]
+        public void InterWikiTestsLinkFAOrder()
+        {
+            #if DEBUG
+            Variables.SetProjectLangCode("ar");
+            string a1 = @"{{DEFAULTSORT:Boleyn, Anne}}
+
+", a2 = @"{{وصلة مقالة مختارة|bs}}
+{{وصلة مقالة مختارة|no}}
+{{وصلة مقالة مختارة|sv}}
+[[bs:Anne Boleyn]]
+[[br:Anne Boleyn]]";
+
+            string b = a2;
+            string c = a1 + a2;
+
+            Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref c), "Ar Link FA order not changed");
+            
+            Variables.SetProjectLangCode("en");
+            string e1 = @"{{DEFAULTSORT:Boleyn, Anne}}
+
+", e2 = @"{{Link FA|bs}}
+{{Link FA|no}}
+{{Link FA|sv}}
+[[ar:آن بولين]]
+[[bs:Anne Boleyn]]
+[[br:Anne Boleyn]]";
+
+            string f = e2;
+            string g = e1 + e2;
+
+            Assert.AreEqual(f + "\r\n", parser2.Sorter.Interwikis(ref g), "En Link FA order not changed");
+            #endif
         }
     }
 }
