@@ -338,7 +338,7 @@ namespace WikiFunctions.Parse
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
 
             // get the rest of the article including first heading (may be null if entire article falls in zeroth section)
-            string restOfArticle = zerothSection.Length > 0 ? articleText.Replace(zerothSection, "") : "";
+            string restOfArticle = articleText.Remove(0, zerothSection.Length);
 
             int tagsToAdd = WikiRegexes.ArticleIssuesTemplates.Matches(zerothSection).Count;
 
@@ -400,7 +400,7 @@ namespace WikiFunctions.Parse
             string oldArticleText = "";
 
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
-            string restOfArticle = (zerothSection.Length > 0) ? articleText.Replace(zerothSection, "") : "";
+            string restOfArticle = articleText.Remove(0, zerothSection.Length);
             articleText = zerothSection;
             
             // conversions
@@ -3623,7 +3623,7 @@ namespace WikiFunctions.Parse
             string articleTextAtStart = articleText;
 
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
-            string restOfArticle = (zerothSection.Length > 0) ? articleText.Replace(zerothSection, "") : "";
+            string restOfArticle = articleText.Remove(0, zerothSection.Length);
 
             // There's a limitation here in that we can't hide image descriptions that may be above lead sentence without hiding the self links we are looking to correct
             string zerothSectionHidden = Hider2.HideMore(zerothSection, false, false);

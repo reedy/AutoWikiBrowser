@@ -4866,6 +4866,19 @@ foo
         }
         
         [Test]
+        public void DablinksNoZerothSection()
+        {
+            const string NoZerothSection1 = @"
+===fpfp===
+words";
+            Assert.AreEqual(NoZerothSection1, Parsers.Dablinks(NoZerothSection1));
+            
+            const string NoZerothSection2 = @"===fpfp===
+words";
+            Assert.AreEqual(NoZerothSection2, Parsers.Dablinks(NoZerothSection2));
+        }
+        
+        [Test]
         public void DablinksOtheruses4()
         {
             string OU = @"{{Otheruses4|foo|bar}}";
