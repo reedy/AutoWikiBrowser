@@ -2322,7 +2322,7 @@ Message: {2}
             if (templatename.Length == 0)
                 return null;
 
-            return NestedTemplateRegex(new List<string>(new [] { templatename }));
+            return NestedTemplateRegex(new [] { templatename });
         }
 
         /// <summary>
@@ -2331,7 +2331,7 @@ Message: {2}
         /// </summary>
         /// <param name="templatenames">The list of template names</param>
         /// <returns>A Regex matching calls to the template, match group 2 being the template name, group 3 being the template argument(s)</returns>
-        public static Regex NestedTemplateRegex(List<string> templatenames)
+        public static Regex NestedTemplateRegex(ICollection<string> templatenames)
         {
             if (templatenames.Count == 0)
                 return null;
@@ -2341,7 +2341,7 @@ Message: {2}
             foreach (string templatename in templatenames)
             {
                 string templatename2 = Regex.Escape(templatename.Replace('_', ' ')).Replace(@"\ ", @"[_ ]");
-                theRegex.Append(Tools.CaseInsensitive(templatename2) + "|");
+                theRegex.Append(CaseInsensitive(templatename2) + "|");
             }
 
             theRegex[theRegex.Length - 1] = ')';
