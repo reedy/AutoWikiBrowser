@@ -622,7 +622,7 @@ en, sq, ru
         private static readonly Regex SeeAlsoToEnd = new Regex(@"(\s*(==+)\s*see\s+also\s*\2 *).*", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
-        /// Moves any {{XX portal}} templates to the 'see also' section, if present (en only)
+        /// Moves any {{XX portal}} templates to the 'see also' section, if present (en only), per Template:Portal
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>Article text with {{XX portal}} template correctly placed</returns>
@@ -637,13 +637,17 @@ en, sq, ru
                 {
                     string portalTemplateFound = m.Value;
                     string seeAlsoSectionString = SeeAlsoSection.Match(articleText).Value;
+                    int seeAlsoIndex = SeeAlsoSection.Match(articleText).Index;
 
                     // if SeeAlsoSection didn't match then 'see also' must be last section
                     if (seeAlsoSectionString.Length == 0)
+                    {
                         seeAlsoSectionString = SeeAlsoToEnd.Match(articleText).Value;
+                        seeAlsoIndex = SeeAlsoToEnd.Match(articleText).Index;
+                    }
 
-                    // check portal template NOT currently in 'see also'
-                    if (!seeAlsoSectionString.Contains(portalTemplateFound.Trim()))
+                    // only move portal templates NOT currently in 'see also'
+                    if (m.Index < seeAlsoIndex || m.Index > (seeAlsoIndex + seeAlsoSectionString.Length))
                     {
                         articleText = Regex.Replace(articleText, Regex.Escape(portalTemplateFound) + @"\s*(?:\r\n)?", "");
                         articleText = SeeAlso.Replace(articleText, "$0" + Tools.Newline(portalTemplateFound));
