@@ -4997,6 +4997,64 @@ words";
             Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.Dablinks(@"{{Distinguish|a}}{{Distinguish|b|c}}"), "merges multiple arguments");
             Assert.AreEqual(AB, Parsers.Dablinks(AB), "no change if already merged");
         }
+        
+        [Test]
+        public void MergePortals()
+        {
+            Assert.AreEqual("", Parsers.MergePortals(""), "no change when no portals");
+            Assert.AreEqual("==see also==", Parsers.MergePortals("==see also=="), "no change when no portals");
+            
+            const string singlePortal = @"Foo
+==See also==
+{{Portal|Bar}}";
+            Assert.AreEqual(singlePortal, Parsers.MergePortals(singlePortal), "no change when single portal");
+            
+            const string PortalBox1 = @"Foo
+==See also==
+{{Portal box|Bar|Foo2}}
+";
+            Assert.AreEqual(PortalBox1, Parsers.MergePortals(@"Foo
+==See also==
+{{Portal|Bar}}
+{{Port|Foo2 }}"), "merges multiple portals to new portal box");
+            
+            Assert.AreEqual(PortalBox1, Parsers.MergePortals(@"Foo
+==See also==
+{{Portal box|Bar}}
+{{Port|Foo2 }}"), "merges portals to existing portal box");
+            
+            const string NoSeeAlso = @"{{Portal|Bar}}
+{{Port|Foo2 }}";
+            
+            Assert.AreEqual(NoSeeAlso, Parsers.MergePortals(NoSeeAlso), "no merging if no portal box and no see also");
+            
+            const string MultipleArguments = @"Foo
+==See also==
+{{Portal|Bar}}
+{{Port|Foo2|other=here}}";
+            
+            Assert.AreEqual(MultipleArguments, Parsers.MergePortals(MultipleArguments), "no merging of portal with multiple arguments");
+        }
+        
+        [Test]
+        public void MergePortalsEnOnly()
+        {
+            #if DEBUG
+            const string PortalBox1 = @"Foo
+==See also==
+{{Portal box|Bar|Foo2}}
+", input = @"Foo
+==See also==
+{{Portal|Bar}}
+{{Port|Foo2 }}";
+            
+            Variables.SetProjectLangCode("fr");
+            Assert.AreEqual(input, Parsers.MergePortals(input));
+            
+            Variables.SetProjectLangCode("en");
+            Assert.AreEqual(PortalBox1, Parsers.MergePortals(input));
+            #endif
+        }
     }
 
     [TestFixture]
