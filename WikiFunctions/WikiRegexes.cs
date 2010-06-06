@@ -773,10 +773,11 @@ namespace WikiFunctions
         /// Matches the {{Unreferenced}} template
         /// </summary>
         public static readonly Regex Unreferenced = new Regex(@"{{\s*([Uu]nreferenced( stub)?|[Uu]nsourced|[Uu]nverified|[Uu]nref|[Rr]eferences|[Uu]ncited-article|[Cc]itesources|[Nn][Rr]|[Nn]o references|[Uu]nrefarticle|[Nn]o ?refs?|[Nn]oreferences|[Cc]leanup-cite|[Rr]eferences needed)\s*(?:\|.*?)?}}", RegexOptions.Singleline);
+        
         /// <summary>
-        /// Matches {{XX Portal}} templates
+        /// Matches {{Portal}}/{{Portalpar}} templates
         /// </summary>
-        public static readonly Regex PortalTemplate = new Regex(@"{{\s*[Pp]ortal(?:par)?(?:\|[^{}]+)?}}", RegexOptions.RightToLeft);
+        public static readonly Regex PortalTemplate = Tools.NestedTemplateRegex(new List<string>(new [] { "port", "portal", "portalpar" }));
         #endregion
 
         /// <summary>

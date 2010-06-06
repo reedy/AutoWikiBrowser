@@ -860,13 +860,13 @@ cit"));
             Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(@"{{No refs}}"));
             
             Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(@"{{unreferenced-stub}}"));
-        }
-        
+        }        
         
         [Test]
         public void PortalTemplateTests()
         {
             Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal}}"));
+            Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{port|Foo}}"));
             Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{ portal}}"));
             Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{Portal}}"));
             Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{Portalpar}}"));
@@ -877,7 +877,6 @@ cit"));
             Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{portalos}}"));
             Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{portalparity}}"));
             Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{Spanish portal|game}}"));
-            Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{portal|Bert|{{here}}}}"));
         }
 
         [Test]
