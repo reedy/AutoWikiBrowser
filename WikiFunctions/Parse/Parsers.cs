@@ -879,7 +879,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex RefsAfterPunctuationR = new Regex(RefsPunctuation + @" *" + WikiRegexes.Refs, RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex RefsBeforePunctuationR = new Regex(WikiRegexes.Refs + @" *" + RefsPunctuation, RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
        
-        private static readonly Regex RefsAfterDupePunctuation = new Regex(RefsPunctuation + @"\1 *" + WikiRegexes.Refs, RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex RefsAfterDupePunctuation = new Regex(@"([^,\.:;])([,\.:;])\2 *" + WikiRegexes.Refs, RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
         
         /// <summary>
         /// Puts &lt;ref&gt; references after punctuation per WP:REFPUNC when this is the majority style in the article
@@ -907,7 +907,7 @@ namespace WikiFunctions.Parse
                 }
             }
             
-            return RefsAfterDupePunctuation.Replace(articleText, "$1$2");
+            return RefsAfterDupePunctuation.Replace(articleText, "$1$2$3");
         }
 
         /// <summary>
