@@ -406,12 +406,9 @@ namespace WikiFunctions
         {
             LangCode = langCode;
 
-            if (langCode == "ar")
-            {
-                RTL = true;
-            }
+            RTL = langCode == "ar";
         }
-        
+
         /// <summary>
         /// Sets different language variables, such as namespaces. Default is english Wikipedia
         /// </summary>
