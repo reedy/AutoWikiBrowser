@@ -646,7 +646,7 @@ en, sq, ru
                     if (!seeAlsoSectionString.Contains(portalTemplateFound.Trim()))
                     {
                         articleText = Regex.Replace(articleText, Regex.Escape(portalTemplateFound) + @"\s*(?:\r\n)?", "");
-                        articleText = SeeAlso.Replace(articleText, "$0" + "\r\n" + portalTemplateFound);
+                        articleText = SeeAlso.Replace(articleText, "$0" + Tools.Newline(portalTemplateFound));
                     }
                 }
             }
