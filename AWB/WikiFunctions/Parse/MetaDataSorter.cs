@@ -828,7 +828,7 @@ en, sq, ru
             }
 
             // when using an RTL language the order templates are fetched in is already in reverse
-            if(!Variables.LangCode.Equals("ar"))
+            if (!Variables.RTL)
                 linkFGAList.Reverse();
             
             return linkFGAList;
