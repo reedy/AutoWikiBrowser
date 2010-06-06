@@ -75,8 +75,11 @@ namespace WikiFunctions
         public static SiteInfo CreateOrLoad(IApiEdit editor)
         {
             SiteInfo si = (SiteInfo)ObjectCache.Global.Get<SiteInfo>(Key(editor.URL));
-            if (si != null 
-                && Namespace.VerifyNamespaces(si.Namespaces)) return si;
+            if (si != null
+                && Namespace.VerifyNamespaces(si.Namespaces))
+            {
+                return si;
+            }
 
             si = new SiteInfo(editor);
             ObjectCache.Global[Key(editor.URL)] = si;

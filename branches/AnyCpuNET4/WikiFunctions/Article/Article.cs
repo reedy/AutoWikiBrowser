@@ -172,7 +172,7 @@ namespace WikiFunctions
         /// </summary>
         [XmlIgnore]
         public string ArticleText
-        { get { return mArticleText.Trim(); } }
+        { get { return mArticleText; } }
 
         /// <summary>
         /// Article text before this program manipulated it
@@ -1175,6 +1175,14 @@ namespace WikiFunctions
             AfterGeneralFixesTextChanged();
 
             Variables.Profiler.Profile("End of general fixes");
+        }
+        
+        /// <summary>
+        /// Preforms general fixes suitable for all pages: trims whitespace
+        /// </summary>
+        public void PerformUniversalGeneralFixes()
+        {
+            mArticleText = mArticleText.Trim();
         }
 
         /// <summary>

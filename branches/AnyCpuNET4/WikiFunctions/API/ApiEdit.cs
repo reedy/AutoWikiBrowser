@@ -195,10 +195,10 @@ namespace WikiFunctions.API
         {
             string host = new Uri(URL).Host;
             var newCookies = new CookieContainer();
-            var urls = new[] { URL, "http://fnord." + host };
-            foreach (string u in urls)
+            var urls = new[] { new Uri(URL), new Uri("http://fnord." + host) };
+            foreach (var u in urls)
             {
-                foreach (Cookie c in Cookies.GetCookies(new Uri(u)))
+                foreach (Cookie c in Cookies.GetCookies(u))
                 {
                     c.Domain = host;
                     newCookies.Add(c);

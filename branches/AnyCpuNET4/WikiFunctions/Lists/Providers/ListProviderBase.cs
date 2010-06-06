@@ -1,5 +1,5 @@
 ﻿/*
-Copyright (C) 2008 Max Semenik, Same Reed
+Copyright (C) 2008 Max Semenik, Sam Reed
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

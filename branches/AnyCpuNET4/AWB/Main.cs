@@ -1443,6 +1443,9 @@ namespace AutoWikiBrowser
 
                 if (process)
                 {
+                    if(chkGeneralFixes.Checked)
+                        theArticle.PerformUniversalGeneralFixes();
+                    
                     if (theArticle.CanDoGeneralFixes)
                     {
                         // auto tag
@@ -2379,7 +2382,7 @@ window.scrollTo(0, diffTopY);
                     warnings.AppendLine("Ambiguous citation dates found");
 
                 _unbalancedBracket = TheArticle.UnbalancedBrackets(ref _bracketLength);
-                if (_unbalancedBracket > 0)
+                if (_unbalancedBracket > -1)
                     warnings.AppendLine("Unbalanced brackets found");
 
                 badCiteParameters = TheArticle.BadCiteParameters();

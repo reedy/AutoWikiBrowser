@@ -234,7 +234,7 @@ namespace WikiFunctions
                 else
                     url = Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage&action=raw";
 
-                string strText = Editor.SynchronousEditor.HttpGet(url);
+                string checkPageText = Editor.SynchronousEditor.HttpGet(url);
 
                 Variables.RTL = Site.IsRightToLeft;
 
@@ -243,7 +243,7 @@ namespace WikiFunctions
                     Variables.LangCode = Site.Language;
                 }
 
-                string typoPostfix = "";
+                string typoPostfix = "", localCheckPage = "";
                 if (Variables.IsWikia)
                 {
                     typoPostfix = "-" + Variables.LangCode;
@@ -254,17 +254,16 @@ namespace WikiFunctions
                         //it cannot be used to approve users, but it could be used to set some settings
                         //such as underscores and pages to ignore
 
-                        string s = Editor.SynchronousEditor.Open("Project:AutoWikiBrowser/CheckPage", true);
+                        localCheckPage = Editor.SynchronousEditor.Open("Project:AutoWikiBrowser/CheckPage", true);
 
                         // selectively add content of the local checkpage to the global one
-                        strText += Message.Match(s).Value
-                                   /*+ Underscores.Match(s).Value*/
-                                   + WikiRegexes.NoGeneralFixes.Match(s);
+                        checkPageText += Message.Match(localCheckPage).Value
+                                         /*+ Underscores.Match(s).Value*/
+                                         + WikiRegexes.NoGeneralFixes.Match(localCheckPage);
                     }
                     catch
                     {
                     }
-
                 }
 
                 Updater.WaitForCompletion();
@@ -275,7 +274,7 @@ namespace WikiFunctions
                 if (versionStatus == Updater.AWBEnabledStatus.Disabled)
                     return WikiStatusResult.OldVersion;
 
-                CheckPageText = strText;
+                CheckPageText = checkPageText;
 
                 if (!User.IsLoggedIn)
                     return WikiStatusResult.NotLoggedIn;
@@ -287,47 +286,59 @@ namespace WikiFunctions
                 Editor.Maxlag = /*User.IsBot ? 5 : 20*/ -1;
 
                 // check if username is globally blacklisted
-                foreach (Match m3 in BadName.Matches(Updater.GlobalVersionPage))
+                foreach (Match badName in BadName.Matches(Updater.GlobalVersionPage))
                 {
-                    if (!string.IsNullOrEmpty(m3.Groups[1].Value.Trim()) &&
+                    if (!string.IsNullOrEmpty(badName.Groups[1].Value.Trim()) &&
                         !string.IsNullOrEmpty(User.Name) &&
-                        Regex.IsMatch(User.Name, m3.Groups[1].Value.Trim(),
+                        Regex.IsMatch(User.Name, badName.Groups[1].Value.Trim(),
                                       RegexOptions.IgnoreCase | RegexOptions.Multiline))
                         return WikiStatusResult.NotRegistered;
                 }
 
                 //see if there is a message
-                Match m = Message.Match(strText);
-                if (m.Success && m.Groups[1].Value.Trim().Length > 0)
-                    MessageBox.Show(m.Groups[1].Value, "Automated message", MessageBoxButtons.OK,
+                Match messages = Message.Match(checkPageText);
+                if (messages.Success && messages.Groups[1].Value.Trim().Length > 0)
+                {
+                    MessageBox.Show(messages.Groups[1].Value, "Automated message", MessageBoxButtons.OK,
                                     MessageBoxIcon.Information);
+                }
 
                 //see if there is a version-specific message
-                m = VersionMessage.Match(strText);
-                if (m.Success && m.Groups[1].Value.Trim().Length > 0 && m.Groups[1].Value == AWBVersion)
-                    MessageBox.Show(m.Groups[2].Value, "Automated message", MessageBoxButtons.OK,
+                messages = VersionMessage.Match(checkPageText);
+                if (messages.Success && messages.Groups[1].Value.Trim().Length > 0 &&
+                    messages.Groups[1].Value == AWBVersion)
+                {
+                    MessageBox.Show(messages.Groups[2].Value, "Automated message", MessageBoxButtons.OK,
                                     MessageBoxIcon.Information);
+                }
 
-                m = Regex.Match(strText, "<!--[Tt]ypos" + typoPostfix + ":(.*?)-->");
-                if (m.Success && m.Groups[1].Value.Trim().Length > 0)
-                    Variables.RetfPath = m.Groups[1].Value.Trim();
+                bool foundTypoLink = false;
+                if (Variables.IsWikia && !string.IsNullOrEmpty(localCheckPage))
+                {
+                    foundTypoLink = HasTypoLink(localCheckPage, typoPostfix);
+                }
+
+                if (!foundTypoLink)
+                {
+                    HasTypoLink(checkPageText, typoPostfix);
+                }
 
                 List<string> us = new List<string>();
-                foreach (Match m1 in Underscores.Matches(strText))
+                foreach (Match underscore in Underscores.Matches(checkPageText))
                 {
-                    if (m1.Success && m1.Groups[1].Value.Trim().Length > 0)
-                        us.Add(m1.Groups[1].Value.Trim());
+                    if (underscore.Success && underscore.Groups[1].Value.Trim().Length > 0)
+                        us.Add(underscore.Groups[1].Value.Trim());
                 }
                 if (us.Count > 0) Variables.LoadUnderscores(us.ToArray());
 
                 //don't require approval if checkpage does not exist.
-                if (strText.Length < 1)
+                if (checkPageText.Length < 1)
                 {
                     IsBot = true;
                     return WikiStatusResult.Registered;
                 }
 
-                if (strText.Contains("<!--All users enabled-->"))
+                if (checkPageText.Contains("<!--All users enabled-->"))
                 {
                     //see if all users enabled
                     IsBot = true;
@@ -335,9 +346,10 @@ namespace WikiFunctions
                 }
 
                 //see if we are allowed to use this software
-                strText = Tools.StringBetween(strText, "<!--enabledusersbegins-->", "<!--enabledusersends-->");
+                checkPageText = Tools.StringBetween(checkPageText, "<!--enabledusersbegins-->",
+                                                    "<!--enabledusersends-->");
 
-                string strBotUsers = Tools.StringBetween(strText, "<!--enabledbots-->", "<!--enabledbotsends-->");
+                string strBotUsers = Tools.StringBetween(checkPageText, "<!--enabledbots-->", "<!--enabledbotsends-->");
                 Regex username = new Regex(@"^\*\s*" + Tools.CaseInsensitive(Regex.Escape(User.Name))
                                            + @"\s*$", RegexOptions.Multiline);
 
@@ -347,7 +359,7 @@ namespace WikiFunctions
                     return WikiStatusResult.Registered;
                 }
 
-                if (username.IsMatch(strText))
+                if (username.IsMatch(checkPageText))
                 {
                     //enable bot mode
                     IsBot = username.IsMatch(strBotUsers);
@@ -357,7 +369,8 @@ namespace WikiFunctions
 
                 if (Variables.Project != ProjectEnum.custom)
                 {
-                    string globalUsers = Tools.StringBetween(VersionCheckPage, "<!--globalusers-->", "<!--globalusersend-->");
+                    string globalUsers = Tools.StringBetween(VersionCheckPage, "<!--globalusers-->",
+                                                             "<!--globalusersend-->");
 
                     if (username.IsMatch(globalUsers))
                         return WikiStatusResult.Registered;
@@ -371,6 +384,18 @@ namespace WikiFunctions
                 IsBot = false;
                 return WikiStatusResult.Error;
             }
+        }
+
+        private static bool HasTypoLink(string text, string typoPostfix)
+        {
+            Match typoLink = Regex.Match(text, "<!--[Tt]ypos" + typoPostfix + ":(.*?)-->");
+            if (typoLink.Success && typoLink.Groups[1].Value.Trim().Length > 0)
+            {
+                Variables.RetfPath = typoLink.Groups[1].Value.Trim();
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
