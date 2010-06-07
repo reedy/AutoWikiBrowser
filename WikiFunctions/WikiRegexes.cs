@@ -918,6 +918,11 @@ namespace WikiFunctions
         /// Matches the References level 2 heading
         /// </summary>
         public static readonly Regex ReferencesRegex = new Regex(@"== *References *==", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
+        
+        /// <summary>
+        /// Matches the Notes level 2 heading
+        /// </summary>
+        public static readonly Regex NotesHeading = new Regex(@"== *[Nn]otes *==", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
 
         /// <summary>
         /// Matches the external links level 2 heading
