@@ -490,8 +490,7 @@ namespace WikiFunctions
         /// </summary>
         public static string TurnFirstToUpper(string input)
         {
-            // TODO use Variables.CapitalizeFirstLetter correctly
-            if (/*Variables.CapitalizeFirstLetter*/ Variables.Project == ProjectEnum.wiktionary || string.IsNullOrEmpty(input))
+            if (!Variables.CapitalizeFirstLetter|| string.IsNullOrEmpty(input))
                 return input;
 
             return TurnFirstToUpperNoProjectCheck(input);

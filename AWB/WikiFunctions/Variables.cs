@@ -68,6 +68,7 @@ namespace WikiFunctions
                 RegenerateRegexes();
             }
 
+            CapitalizeFirstLetter = true;
             PHP5 = false;
             TypoSummaryTag = "typos fixed: ";
             AWBDefaultSummaryTag();
