@@ -4381,7 +4381,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static bool IsArticleAboutAPerson(string articleText, string articleTitle, bool parseTalkPage)
         {
-#if DEBUG
+#if DEBUG || UNITTEST
             if (Globals.UnitTestMode)
                 parseTalkPage = false;
 #endif
@@ -5045,7 +5045,7 @@ namespace WikiFunctions.Parse
 
             int totalCategories;
 
-#if DEBUG
+#if DEBUG || UNITTEST
             if (Globals.UnitTestMode)
             {
                 totalCategories = Globals.UnitTestIntValue;
@@ -5141,7 +5141,7 @@ namespace WikiFunctions.Parse
             // check if not orphaned
             bool orphaned, orphaned2;
             int incomingLinks = 0;
-#if DEBUG
+#if DEBUG || UNITTEST
             if (Globals.UnitTestMode)
             {
                 orphaned = orphaned2 = Globals.UnitTestBoolValue;
