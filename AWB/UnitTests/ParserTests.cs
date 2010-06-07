@@ -3182,6 +3182,30 @@ now {{cite web | url=http://site.it | title=hello|date = 5-5-1998}} was";
         }
         
         [Test]
+        public void HasSeeAlsoAfterNotesReferencesOrExternalLinks()
+        {
+            const string start = @"start
+", seeAlso = @"Foo
+==See also==
+x
+", extlinks = @"==External links==
+x
+", notes = @"==Notes==
+x
+", references = @"== References==
+x
+";
+            Assert.IsFalse(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(""));
+            Assert.IsFalse(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + seeAlso));
+            Assert.IsFalse(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + seeAlso + extlinks));
+            
+            Assert.IsTrue(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + extlinks + seeAlso));
+            Assert.IsTrue(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + notes + seeAlso));
+            Assert.IsTrue(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + references + seeAlso));
+            Assert.IsTrue(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + references + seeAlso + notes));
+        }
+        
+        [Test]
         public void UnclosedTags()
         {
             Dictionary<int, int> uct = new Dictionary<int, int>();

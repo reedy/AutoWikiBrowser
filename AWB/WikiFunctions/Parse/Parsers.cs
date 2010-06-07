@@ -1654,6 +1654,32 @@ namespace WikiFunctions.Parse
         {
             return AmbigCiteTemplateDates(articleText).Count > 0;
         }
+        
+        /// <summary>
+        /// Checks position of See also section relative to Notes, references, external links sections
+        /// </summary>
+        /// <param name="articleText">The article text</param>
+        /// <returns>Whether 'see also' is after any of the sections</returns>
+        public static bool HasSeeAlsoAfterNotesReferencesOrExternalLinks(string articleText)
+        {
+            int seeAlso = WikiRegexes.SeeAlso.Match(articleText).Index;
+            if(seeAlso <= 0)
+                return false;
+            
+            int externalLinks = WikiRegexes.ExternalLinksHeaderRegex.Match(articleText).Index;
+            if(externalLinks > 0 && seeAlso > externalLinks)
+                return true;
+            
+            int references = WikiRegexes.ReferencesRegex.Match(articleText).Index;
+            if(references > 0 && seeAlso > references)
+                return true;
+            
+            int notes = WikiRegexes.NotesHeading.Match(articleText).Index;
+            if(notes > 0 && seeAlso > notes)
+                return true;
+            
+            return false;
+        }
 
         private static readonly Regex MathSourceCodeNowikiPreTagStart = new Regex(@"<\s*(?:math|source\b[^>]*|code|nowiki|pre|small)\s*>", RegexOptions.Compiled);
         /// <summary>

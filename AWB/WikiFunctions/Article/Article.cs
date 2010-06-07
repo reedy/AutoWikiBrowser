@@ -319,6 +319,13 @@ namespace WikiFunctions
         [XmlIgnore]
         public bool HasAmbiguousCiteTemplateDates
         { get { return Parsers.AmbiguousCiteTemplateDates(mArticleText); } }
+        
+        /// <summary>
+        /// Returns true if the article contains ambiguous dates within a citation template
+        /// </summary>
+        [XmlIgnore]
+        public bool HasSeeAlsoAfterNotesReferencesOrExternalLinks
+        { get { return (NameSpaceKey == Namespace.Article && Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(mArticleText)); } }
 
         /// <summary>
         /// Returns true if the article should be skipped; check after each call to a worker member. See AWB main.cs.
