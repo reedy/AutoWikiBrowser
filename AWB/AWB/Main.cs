@@ -2393,7 +2393,7 @@ window.scrollTo(0, diffTopY);
                 if (unclosedTags.Count > 0)
                     warnings.AppendLine("Unclosed tag(s) found");
                 
-                if(TheArticle.HasSeeAlsoAfterNotesReferencesOrExternalLinks())
+                if(TheArticle.HasSeeAlsoAfterNotesReferencesOrExternalLinks)
                     warnings.AppendLine("See also section out of place");
 
                 lblWords.Text = Words + wordCount;
