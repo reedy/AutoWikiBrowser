@@ -130,9 +130,8 @@ namespace WikiFunctions.Parse
             RegexConversion.Add(new Regex(@"(\{\{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues[^{}]*\|\s*)(\w+)(\s*=\s*[^\|}{]+(?:\|[^{}]+?)?)\|\s*\2\s*=\s*(\||\}\})", RegexOptions.Compiled), "$1$2$3$4"); // 'field=populated | field=null' drop field=null
             RegexConversion.Add(new Regex(@"(\{\{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues[^{}]*\|\s*)(\w+)\s*=\s*\|\s*((?:[^{}]+?\|)?\s*\2\s*=\s*[^\|}{\s])", RegexOptions.Compiled), "$1$3"); // 'field=null | field=populated' drop field=null
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#AWB_is_still_using_.7B.7BArticleissues.7D.7D_instead_of_.7B.7BArticle_issues.7D.7D
-            // replace any {{articleissues}} with {{article issues}}
-            RegexConversion.Add(new Regex(@"(?<={{\s*)(?:[Aa]rticle|[Mm]ultiple) ?(?=issues.*}})", RegexOptions.Compiled), "multiple ");
+            // replace any {{articleissues}} with {{Multiple issues}}
+            RegexConversion.Add(new Regex(@"(?<={{\s*)(?:[Aa]rticle) ?(?=issues.*}})", RegexOptions.Compiled), "multiple ");
 
             // http://en.wikipedia.org/wiki/Template_talk:Citation_needed#Requested_move
             RegexConversion.Add(new Regex(@"{{\s*(?:[Cc]n|[Ff]act|[Pp]roveit|[Cc]iteneeded|[Uu]ncited)(?=\s*[\|}])", RegexOptions.Compiled), @"{{Citation needed");
