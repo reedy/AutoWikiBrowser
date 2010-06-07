@@ -403,7 +403,7 @@ namespace WikiFunctions
                 "wikireality.ru"
         };
 
-        #if DEBUG
+        #if DEBUG || UNITTEST
         /// <summary>
         /// Sets the language code of the current project
         /// </summary>
