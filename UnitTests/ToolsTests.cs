@@ -152,15 +152,14 @@ namespace UnitTests
         }
         
         [Test]
-        public void TurnFirstToUpperWiktionary()
+        public void TurnFirstToUpperCapitalizeFirstLetter()
         {
-            #if DEBUG
-            Variables.SetProjectSimple("en", ProjectEnum.wiktionary);
+            Variables.CapitalizeFirstLetter = false;
             Assert.AreEqual("test", Tools.TurnFirstToUpper("test"));
             Assert.AreEqual("Test", Tools.TurnFirstToUpper("Test"));
-            Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
+
+            Variables.CapitalizeFirstLetter = true;
             Assert.AreEqual("Test", Tools.TurnFirstToUpper("test"));
-            #endif
         }
 
         [Test]
