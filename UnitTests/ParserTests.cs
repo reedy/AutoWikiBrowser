@@ -3198,6 +3198,10 @@ now {{cite web | url=http://site.it | title=hello|date = 5-5-1998}} was";
             Assert.AreEqual(uct.Count, 1);
             Assert.IsTrue(uct.ContainsKey(15));
             
+            uct = Parsers.UnclosedTags(@"<pre>bar</pre> <small> not ended");
+            Assert.AreEqual(uct.Count, 1);
+            Assert.IsTrue(uct.ContainsKey(15));
+            
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> < code> not ended");
             Assert.AreEqual(uct.Count, 1);
             Assert.IsTrue(uct.ContainsKey(15));
@@ -3992,6 +3996,9 @@ was"));
             Assert.AreEqual(@"<sup>foo</sup>", Parsers.FixSyntax(@"<sup><small>foo</small></sup>"), "removes small from sup tags");
             Assert.AreEqual(@"<sub>foo</sub>", Parsers.FixSyntax(@"<sub><small>foo</small></sub>"), "removes small from sub tags");
             Assert.AreEqual(@"<small>a foo b</small>", Parsers.FixSyntax(@"<small>a <small>foo</small> b</small>"), "removes nested small from small tags");
+            
+            const string unclosedTag = @"<ref><small>foo</small></ref> now <small>";
+            Assert.AreEqual(unclosedTag, Parsers.FixSyntax(unclosedTag));
         }
     }
 
