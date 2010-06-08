@@ -54,6 +54,8 @@ Is this SVN (1) or a release (2)? ");
                 awbDir = awbDir.Remove(awbDir.IndexOf("Extras"));
                 Directory.CreateDirectory(tmp);
 
+                string currFolder = awbDir + "AWB\\bin\\";
+
                 if (selection == 1)
                 {
                     using (StreamReader reader = new StreamReader(awbDir + "\\WikiFunctions\\SvnInfo.cs"))
@@ -63,11 +65,14 @@ Is this SVN (1) or a release (2)? ");
 
                         reader.Close();
                     }
+                    currFolder += "Debug\\";
+                }
+                else
+                {
+                    currFolder += "Release\\";
                 }
 
                 filename += ".zip";
-
-                string currFolder = awbDir + "AWB\\bin\\Release\\";
 
                 File.Copy(currFolder + "AutoWikiBrowser.exe", tmp + "AutoWikiBrowser.exe", true);
 
