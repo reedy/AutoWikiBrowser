@@ -1853,6 +1853,14 @@ was [[foo|bar]] too"));
             const string d2 = @"Fred [[Category:15th-century births]]";
             Assert.AreEqual(d2, Parsers.LivingPeople(d2));
         }
+        
+        [Test]
+        public void FixSmallSyntax()
+        {
+            const string corr = @"Foo<small>bar</small> was";
+            Assert.AreEqual(corr, Parsers.FixSyntax(@"Foo<small>bar<small/> was"));
+            Assert.AreEqual(corr, Parsers.FixSyntax(corr));
+        }
 
         [Test]
         public void UnbalancedBrackets()
