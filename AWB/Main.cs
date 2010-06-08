@@ -1690,6 +1690,21 @@ window.scrollTo(0, diffTopY);
                 StatusLabelText = "Editor busy";
                 return;
             }
+            
+            #if DEBUG
+            // further attempts to track down blank page saving issue
+            if(TheArticle.ArticleText.Length.Equals(0))
+            {
+                string extext = @"Attempted to save page with zero length ArticleText";
+                throw new Exception(extext);
+            }
+            
+            if(txtEdit.Text.Length.Equals(0))
+            {
+                string extext = @"Attempted to save page with zero length txtEditText";
+                throw new Exception(extext);
+            }
+            #endif
 
             DisableButtons();
             if (txtEdit.Text.Length > 0 ||
