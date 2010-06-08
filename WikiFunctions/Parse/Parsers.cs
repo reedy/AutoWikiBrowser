@@ -2216,7 +2216,9 @@ namespace WikiFunctions.Parse
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
         public static string FixSyntax(string articleText)
-        {
+        {            
+            articleText = articleText.Replace(@"<small/>", @"</small>");
+            
             //replace html with wiki syntax
             articleText = SyntaxRegexItalic.Replace(articleText, "''$1''");
 
