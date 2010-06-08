@@ -170,6 +170,12 @@ namespace WikiFunctions.Profiles
 
             if (chkSaveProfile.Checked)
             {
+                if (AWBProfiles.GetProfile(txtUsername.Text) != null)
+                {
+                    MessageBox.Show("Username \"" + txtUsername.Text + "\" already exists.", "Username exists");
+                    return;
+                }
+
                 var profile = new AWBProfile { Username = user };
                 if (chkSavePassword.Checked) profile.Password = password;
                 AWBProfiles.AddEditProfile(profile);

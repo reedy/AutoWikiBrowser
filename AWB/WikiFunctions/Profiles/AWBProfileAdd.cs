@@ -87,6 +87,12 @@ namespace WikiFunctions.Profiles
                 MessageBox.Show("The Username cannot be blank");
             else
             {
+                if (AWBProfiles.GetProfile(txtUsername.Text) != null)
+                {
+                    MessageBox.Show("Username \"" +txtUsername.Text + "\" already exists.", "Username exists");
+                    return;
+                }
+
                 AWBProfile profile = new AWBProfile {Username = txtUsername.Text};
 
                 if (chkSavePassword.Checked && !string.IsNullOrEmpty(txtPassword.Text))
