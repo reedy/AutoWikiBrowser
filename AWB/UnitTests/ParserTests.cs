@@ -6907,6 +6907,16 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(correct, Parsers.RedirectTagger(redirectCap, "foobar"));
             Assert.AreEqual(correct, Parsers.RedirectTagger(redirectCap, "FOObar"));
         }
+		
+		[Test]
+        public void RedirectTaggerOtherNamespace()
+		{
+		const string correct = @"#REDIRECT:[[Category:FooBar]]
+{{R to other namespace}}", redirectNam = @"#REDIRECT:[[Category:FooBar]]";
+
+		Assert.AreEqual(correct, Parsers.RedirectTagger(redirectNam, "FooBar"));
+		Assert.AreEqual(correct, Parsers.RedirectTagger(correct, "FooBar"));
+		}
         
         [Test]
         public void TagRefsIbid()
