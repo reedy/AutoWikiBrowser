@@ -489,8 +489,8 @@ namespace WikiFunctions
         /// Returns version of the string with first character in upper case but not on wiktionary
         /// </summary>
         public static string TurnFirstToUpper(string input)
-        {   //other projects don't always start with capital
-            if (Variables.Project == ProjectEnum.wiktionary || string.IsNullOrEmpty(input))
+        {
+            if (!Variables.CapitalizeFirstLetter|| string.IsNullOrEmpty(input))
                 return input;
 
             return TurnFirstToUpperNoProjectCheck(input);
@@ -513,7 +513,9 @@ namespace WikiFunctions
         {
             return (string.IsNullOrEmpty(input)) ? "" : (char.ToLower(input[0]) + input.Remove(0, 1));
         }
+
         private static readonly CultureInfo EnglishCulture = new CultureInfo("en-GB");
+        private static readonly TextInfo EnglishCultureTextInfo = EnglishCulture.TextInfo;
 
         /// <summary>
         /// Returns the trimmed input string in Title Case if:
@@ -528,9 +530,7 @@ namespace WikiFunctions
             if (text.ToUpper().Equals(text))
                 text = text.ToLower();
 
-            TextInfo info = EnglishCulture.TextInfo;
-
-            return (info.ToTitleCase(text.Trim()));
+            return (EnglishCultureTextInfo.ToTitleCase(text.Trim()));
         }
         
         /// <summary>

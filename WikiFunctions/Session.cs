@@ -237,6 +237,7 @@ namespace WikiFunctions
                 string checkPageText = Editor.SynchronousEditor.HttpGet(url);
 
                 Variables.RTL = Site.IsRightToLeft;
+                Variables.CapitalizeFirstLetter = Site.CapitalizeFirstLetter;
 
                 if (Variables.IsCustomProject || Variables.IsWikia)
                 {

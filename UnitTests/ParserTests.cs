@@ -1853,6 +1853,14 @@ was [[foo|bar]] too"));
             const string d2 = @"Fred [[Category:15th-century births]]";
             Assert.AreEqual(d2, Parsers.LivingPeople(d2));
         }
+        
+        [Test]
+        public void FixSmallSyntax()
+        {
+            const string corr = @"Foo<small>bar</small> was";
+            Assert.AreEqual(corr, Parsers.FixSyntax(@"Foo<small>bar<small/> was"));
+            Assert.AreEqual(corr, Parsers.FixSyntax(corr));
+        }
 
         [Test]
         public void UnbalancedBrackets()
@@ -3182,6 +3190,30 @@ now {{cite web | url=http://site.it | title=hello|date = 5-5-1998}} was";
         }
         
         [Test]
+        public void HasSeeAlsoAfterNotesReferencesOrExternalLinks()
+        {
+            const string start = @"start
+", seeAlso = @"Foo
+==See also==
+x
+", extlinks = @"==External links==
+x
+", notes = @"==Notes==
+x
+", references = @"== References==
+x
+";
+            Assert.IsFalse(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(""));
+            Assert.IsFalse(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + seeAlso));
+            Assert.IsFalse(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + seeAlso + extlinks));
+            
+            Assert.IsTrue(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + extlinks + seeAlso));
+            Assert.IsTrue(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + notes + seeAlso));
+            Assert.IsTrue(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + references + seeAlso));
+            Assert.IsTrue(Parsers.HasSeeAlsoAfterNotesReferencesOrExternalLinks(start + references + seeAlso + notes));
+        }
+        
+        [Test]
         public void UnclosedTags()
         {
             Dictionary<int, int> uct = new Dictionary<int, int>();
@@ -3195,6 +3227,10 @@ now {{cite web | url=http://site.it | title=hello|date = 5-5-1998}} was";
             Assert.IsTrue(uct.ContainsValue(6));
             
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <source lang=""bar""> not ended");
+            Assert.AreEqual(uct.Count, 1);
+            Assert.IsTrue(uct.ContainsKey(15));
+            
+            uct = Parsers.UnclosedTags(@"<pre>bar</pre> <small> not ended");
             Assert.AreEqual(uct.Count, 1);
             Assert.IsTrue(uct.ContainsKey(15));
             
@@ -3992,6 +4028,9 @@ was"));
             Assert.AreEqual(@"<sup>foo</sup>", Parsers.FixSyntax(@"<sup><small>foo</small></sup>"), "removes small from sup tags");
             Assert.AreEqual(@"<sub>foo</sub>", Parsers.FixSyntax(@"<sub><small>foo</small></sub>"), "removes small from sub tags");
             Assert.AreEqual(@"<small>a foo b</small>", Parsers.FixSyntax(@"<small>a <small>foo</small> b</small>"), "removes nested small from small tags");
+            
+            const string unclosedTag = @"<ref><small>foo</small></ref> now <small>";
+            Assert.AreEqual(unclosedTag, Parsers.FixSyntax(unclosedTag));
         }
     }
 
@@ -6868,6 +6907,16 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(correct, Parsers.RedirectTagger(redirectCap, "foobar"));
             Assert.AreEqual(correct, Parsers.RedirectTagger(redirectCap, "FOObar"));
         }
+		
+		[Test]
+        public void RedirectTaggerOtherNamespace()
+		{
+		const string correct = @"#REDIRECT:[[Category:FooBar]]
+{{R to other namespace}}", redirectNam = @"#REDIRECT:[[Category:FooBar]]";
+
+		Assert.AreEqual(correct, Parsers.RedirectTagger(redirectNam, "FooBar"));
+		Assert.AreEqual(correct, Parsers.RedirectTagger(correct, "FooBar"));
+		}
         
         [Test]
         public void TagRefsIbid()

@@ -130,9 +130,8 @@ namespace WikiFunctions.Parse
             RegexConversion.Add(new Regex(@"(\{\{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues[^{}]*\|\s*)(\w+)(\s*=\s*[^\|}{]+(?:\|[^{}]+?)?)\|\s*\2\s*=\s*(\||\}\})", RegexOptions.Compiled), "$1$2$3$4"); // 'field=populated | field=null' drop field=null
             RegexConversion.Add(new Regex(@"(\{\{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues[^{}]*\|\s*)(\w+)\s*=\s*\|\s*((?:[^{}]+?\|)?\s*\2\s*=\s*[^\|}{\s])", RegexOptions.Compiled), "$1$3"); // 'field=null | field=populated' drop field=null
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#AWB_is_still_using_.7B.7BArticleissues.7D.7D_instead_of_.7B.7BArticle_issues.7D.7D
-            // replace any {{articleissues}} with {{article issues}}
-            RegexConversion.Add(new Regex(@"(?<={{\s*)(?:[Aa]rticle|[Mm]ultiple) ?(?=issues.*}})", RegexOptions.Compiled), "multiple ");
+            // replace any {{articleissues}} with {{Multiple issues}}
+            RegexConversion.Add(new Regex(@"(?<={{\s*)(?:[Aa]rticle) ?(?=issues.*}})", RegexOptions.Compiled), "multiple ");
 
             // http://en.wikipedia.org/wiki/Template_talk:Citation_needed#Requested_move
             RegexConversion.Add(new Regex(@"{{\s*(?:[Cc]n|[Ff]act|[Pp]roveit|[Cc]iteneeded|[Uu]ncited)(?=\s*[\|}])", RegexOptions.Compiled), @"{{Citation needed");
@@ -1655,10 +1654,36 @@ namespace WikiFunctions.Parse
         {
             return AmbigCiteTemplateDates(articleText).Count > 0;
         }
-
-        private static readonly Regex MathSourceCodeNowikiPreTagStart = new Regex(@"<\s*(?:math|source\b[^>]*|code|nowiki|pre)\s*>", RegexOptions.Compiled);
+        
         /// <summary>
-        ///  Searches for any unclosed &lt;math&gt;, &lt;source&gt;, &lt;code&gt;, &lt;nowiki&gt; or &lt;pre&gt; tags
+        /// Checks position of See also section relative to Notes, references, external links sections
+        /// </summary>
+        /// <param name="articleText">The article text</param>
+        /// <returns>Whether 'see also' is after any of the sections</returns>
+        public static bool HasSeeAlsoAfterNotesReferencesOrExternalLinks(string articleText)
+        {
+            int seeAlso = WikiRegexes.SeeAlso.Match(articleText).Index;
+            if(seeAlso <= 0)
+                return false;
+            
+            int externalLinks = WikiRegexes.ExternalLinksHeaderRegex.Match(articleText).Index;
+            if(externalLinks > 0 && seeAlso > externalLinks)
+                return true;
+            
+            int references = WikiRegexes.ReferencesRegex.Match(articleText).Index;
+            if(references > 0 && seeAlso > references)
+                return true;
+            
+            int notes = WikiRegexes.NotesHeading.Match(articleText).Index;
+            if(notes > 0 && seeAlso > notes)
+                return true;
+            
+            return false;
+        }
+
+        private static readonly Regex MathSourceCodeNowikiPreTagStart = new Regex(@"<\s*(?:math|source\b[^>]*|code|nowiki|pre|small)\s*>", RegexOptions.Compiled);
+        /// <summary>
+        ///  Searches for any unclosed &lt;math&gt;, &lt;source&gt;, &lt;code&gt;, &lt;nowiki&gt;, &lt;small&gt; or &lt;pre&gt; tags
         /// </summary>
         /// <param name="articleText">The article text</param>
         /// <returns>dictionary of the index and length of any unclosed tags</returns>
@@ -1670,6 +1695,7 @@ namespace WikiFunctions.Parse
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.UnformattedText);
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Code);
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Source);
+            articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Small);
 
             foreach (Match m in MathSourceCodeNowikiPreTagStart.Matches(articleText))
             {
@@ -2190,7 +2216,9 @@ namespace WikiFunctions.Parse
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
         public static string FixSyntax(string articleText)
-        {
+        {            
+            articleText = articleText.Replace(@"<small/>", @"</small>");
+            
             //replace html with wiki syntax
             articleText = SyntaxRegexItalic.Replace(articleText, "''$1''");
 
@@ -2315,7 +2343,8 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text</returns>
         private static string FixSmallTags(string articleText)
         {
-            if (!WikiRegexes.Small.IsMatch(articleText))
+            // don't apply if there are uncosed tags
+            if (!WikiRegexes.Small.IsMatch(articleText) || UnclosedTags(articleText).Count > 0)
                 return articleText;
 
             foreach (Regex rx in SmallTagRegexes)
@@ -4380,7 +4409,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static bool IsArticleAboutAPerson(string articleText, string articleTitle, bool parseTalkPage)
         {
-#if DEBUG
+#if DEBUG || UNITTEST
             if (Globals.UnitTestMode)
                 parseTalkPage = false;
 #endif
@@ -5044,7 +5073,7 @@ namespace WikiFunctions.Parse
 
             int totalCategories;
 
-#if DEBUG
+#if DEBUG || UNITTEST
             if (Globals.UnitTestMode)
             {
                 totalCategories = Globals.UnitTestIntValue;
@@ -5140,7 +5169,7 @@ namespace WikiFunctions.Parse
             // check if not orphaned
             bool orphaned, orphaned2;
             int incomingLinks = 0;
-#if DEBUG
+#if DEBUG || UNITTEST
             if (Globals.UnitTestMode)
             {
                 orphaned = orphaned2 = Globals.UnitTestBoolValue;
@@ -5297,6 +5326,10 @@ namespace WikiFunctions.Parse
             // skip self redirects
             if (Tools.TurnFirstToUpperNoProjectCheck(redirecttarget).Equals(Tools.TurnFirstToUpperNoProjectCheck(articleTitle)))
                 return articleText;
+				
+			// {{R to other namespace}}
+			if(!Namespace.IsMainSpace(redirecttarget) && !Tools.NestedTemplateRegex(new[] { @"R to other namespace,R to other namespaces"}).IsMatch(articleText))
+				return (articleText + Tools.Newline(@"{{R to other namespace}}"));
 
             // {{R from modification}}
             // difference is extra/removed/changed puntuation
