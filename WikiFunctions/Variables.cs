@@ -85,6 +85,16 @@ namespace WikiFunctions
             }
         }
 
+        public static int RevisionNumber
+        {
+            get
+            {
+                return !m_Revision.Contains("$")
+                           ? int.Parse(m_Revision.Substring(0, m_Revision.IndexOf(' ')))
+                           : 0;
+            }
+        }
+
         public static string RetfPath;
 
         public static IAutoWikiBrowser MainForm
@@ -290,7 +300,11 @@ namespace WikiFunctions
         private static void AWBDefaultSummaryTag()
         {
             mSummaryTag = " using ";
+#if DEBUG
+            WPAWB = "[[Project:AWB|AWB]] (" + RevisionNumber + ")";
+#else
             WPAWB = "[[Project:AWB|AWB]]";
+#endif
         }
 
         #region Delayed load stuff
