@@ -68,6 +68,7 @@ namespace WikiFunctions
                 RegenerateRegexes();
             }
 
+            CapitalizeFirstLetter = true;
             PHP5 = false;
             TypoSummaryTag = "typos fixed: ";
             AWBDefaultSummaryTag();
@@ -81,6 +82,16 @@ namespace WikiFunctions
             get // see SvnInfo.template.cs for details
             {
                 return (!m_Revision.Contains("$")) ? m_Revision.Replace("/", "-") : "?"; //fallback in case of failed revision extraction
+            }
+        }
+
+        public static int RevisionNumber
+        {
+            get
+            {
+                return !m_Revision.Contains("$")
+                           ? int.Parse(m_Revision.Substring(0, m_Revision.IndexOf(' ')))
+                           : 0;
             }
         }
 
@@ -146,6 +157,12 @@ namespace WikiFunctions
         /// true if current wiki uses right-to-left writing system
         /// </summary>
         public static bool RTL
+        { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static bool CapitalizeFirstLetter
         { get; set; }
 
         /// <summary>
@@ -283,7 +300,11 @@ namespace WikiFunctions
         private static void AWBDefaultSummaryTag()
         {
             mSummaryTag = " using ";
+#if DEBUG
+            WPAWB = "[[Project:AWB|AWB]] (" + RevisionNumber + ")";
+#else
             WPAWB = "[[Project:AWB|AWB]]";
+#endif
         }
 
         #region Delayed load stuff
@@ -396,7 +417,7 @@ namespace WikiFunctions
                 "wikireality.ru"
         };
 
-        #if DEBUG
+        #if DEBUG || UNITTEST
         /// <summary>
         /// Sets the language code of the current project
         /// </summary>
@@ -675,6 +696,7 @@ namespace WikiFunctions
             LangCode = "en";
 
             RTL = false;
+            CapitalizeFirstLetter = true;
         }
         #endregion
 
