@@ -5326,6 +5326,10 @@ namespace WikiFunctions.Parse
             // skip self redirects
             if (Tools.TurnFirstToUpperNoProjectCheck(redirecttarget).Equals(Tools.TurnFirstToUpperNoProjectCheck(articleTitle)))
                 return articleText;
+				
+			// {{R to other namespace}}
+			if(!Namespace.IsMainSpace(redirecttarget) && !Tools.NestedTemplateRegex(new[] { @"R to other namespace,R to other namespaces"}).IsMatch(articleText))
+				return (articleText + Tools.Newline(@"{{R to other namespace}}"));
 
             // {{R from modification}}
             // difference is extra/removed/changed puntuation
