@@ -535,7 +535,8 @@ foo
 </small>");
             
             RegexAssert.Matches(WikiRegexes.Small, "<SMALL>foo</SMALL>", "<SMALL>foo</SMALL>");
-            RegexAssert.Matches(WikiRegexes.Small, "<small>a<small>foo</small>b</small>", "<small>a<small>foo</small>");
+            RegexAssert.Matches(WikiRegexes.Small, "<small>a<small>foo</small>b</small>", "<small>a<small>foo</small>b</small>");
+            RegexAssert.Matches(WikiRegexes.Small, @"<small>..<small>...</small>", @"<small>...</small>");
         }
         
         [Test]
