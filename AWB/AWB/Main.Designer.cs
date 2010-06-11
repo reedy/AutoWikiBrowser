@@ -277,9 +277,9 @@ namespace AutoWikiBrowser
             this.chkSkipOnlyMinorFaR = new System.Windows.Forms.CheckBox();
             this.chkSkipWhenNoFAR = new System.Windows.Forms.CheckBox();
             this.AlertGroup = new System.Windows.Forms.GroupBox();
+            this.lbAlerts = new System.Windows.Forms.ListBox();
             this.lbDuplicateWikilinks = new System.Windows.Forms.ListBox();
             this.lblDuplicateWikilinks = new System.Windows.Forms.Label();
-            this.lblWarn = new System.Windows.Forms.Label();
             this.SummaryGroup = new System.Windows.Forms.GroupBox();
             this.lblWords = new System.Windows.Forms.Label();
             this.lblInterLinks = new System.Windows.Forms.Label();
@@ -2640,10 +2640,10 @@ namespace AutoWikiBrowser
             // 
             // AlertGroup
             // 
+            this.AlertGroup.Controls.Add(this.lbAlerts);
             this.AlertGroup.Controls.Add(this.btnRemove);
             this.AlertGroup.Controls.Add(this.lbDuplicateWikilinks);
             this.AlertGroup.Controls.Add(this.lblDuplicateWikilinks);
-            this.AlertGroup.Controls.Add(this.lblWarn);
             this.AlertGroup.Location = new System.Drawing.Point(10, 163);
             this.AlertGroup.Name = "AlertGroup";
             this.AlertGroup.Size = new System.Drawing.Size(139, 185);
@@ -2652,6 +2652,14 @@ namespace AutoWikiBrowser
             this.AlertGroup.Text = "Alerts";
             this.ToolTip.SetToolTip(this.AlertGroup, "Displays alerts for the current page over problems in the page text that may requ" +
                     "ire manual correction");
+            // 
+            // lbAlerts
+            // 
+            this.lbAlerts.FormattingEnabled = true;
+            this.lbAlerts.Location = new System.Drawing.Point(7, 14);
+            this.lbAlerts.Name = "lbAlerts";
+            this.lbAlerts.Size = new System.Drawing.Size(127, 56);
+            this.lbAlerts.TabIndex = 4;
             // 
             // lbDuplicateWikilinks
             // 
@@ -2674,14 +2682,6 @@ namespace AutoWikiBrowser
             this.lblDuplicateWikilinks.TabIndex = 1;
             this.lblDuplicateWikilinks.Text = "Multiple wiki-links:";
             this.lblDuplicateWikilinks.Visible = false;
-            // 
-            // lblWarn
-            // 
-            this.lblWarn.ForeColor = System.Drawing.Color.Red;
-            this.lblWarn.Location = new System.Drawing.Point(6, 14);
-            this.lblWarn.Name = "lblWarn";
-            this.lblWarn.Size = new System.Drawing.Size(127, 59);
-            this.lblWarn.TabIndex = 0;
             // 
             // SummaryGroup
             // 
@@ -4533,7 +4533,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Button btnRemove;
         private System.Windows.Forms.ListBox lbDuplicateWikilinks;
         private System.Windows.Forms.Label lblDuplicateWikilinks;
-        private System.Windows.Forms.Label lblWarn;
         private System.Windows.Forms.Label SummaryLabel;
         private System.Windows.Forms.GroupBox SummaryGroup;
         private System.Windows.Forms.Label lblWords;
@@ -4708,5 +4707,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem submitStatToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator21;
         private System.Windows.Forms.Label lblSummary;
+        private System.Windows.Forms.ListBox lbAlerts;
     }
 }
