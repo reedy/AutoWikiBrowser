@@ -981,7 +981,7 @@ namespace AutoWikiBrowser
                 Variables.Profiler.Profile("Make Edit summary");
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Working_with_Alerts
-                if (chkSkipIfNoAlerts.Checked && lblWarn.Text.Length == 0)
+                if (chkSkipIfNoAlerts.Checked && lbAlerts.Items.Count == 0)
                 {
                     SkipPage("Page has no alerts");
                     return;
@@ -2346,7 +2346,7 @@ window.scrollTo(0, diffTopY);
                 lblImages.Text = Imgs;
                 lblLinks.Text = Links;
                 lblInterLinks.Text = IWLinks;
-                lblWarn.Text = "";
+                lbAlerts.Items.Clear();
                 lblDates.Text = Dates;
             }
             else
@@ -2356,60 +2356,58 @@ window.scrollTo(0, diffTopY);
                 int wordCount = Tools.WordCount(articleText);
                 int catCount = WikiRegexes.Category.Matches(articleText).Count;
 
-                StringBuilder warnings = new StringBuilder();
-
                 if (TheArticle.NameSpaceKey == Namespace.Article && WikiRegexes.Stub.IsMatch(articleText) &&
                     wordCount > 500)
-                    warnings.AppendLine("Long article with a stub tag.");
+                    lbAlerts.Items.Add("Long article with a stub tag.");
 
                 if (catCount == 0 && !Namespace.IsTalk(TheArticle.Name))
-                    warnings.AppendLine("No category (may be one in a template)");
+                    lbAlerts.Items.Add("No category (may be one in a template)");
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Replace_nofootnotes_with_morefootnote_if_references_exists
                 if (TheArticle.HasMorefootnotesAndManyReferences)
-                    warnings.AppendLine("Has 'No/More footnotes' template yet many references");
+                    lbAlerts.Items.Add("Has 'No/More footnotes' template yet many references");
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
                 if (TheArticle.HasRefAfterReflist)
-                    warnings.AppendLine(@"Has a <ref> after <references/>");
+                    lbAlerts.Items.Add(@"Has a <ref> after <references/>");
                 
                 if(TheArticle.IsDisambiguationPageWithRefs)
-                    warnings.AppendLine(@"DAB page with <ref>s");
+                    lbAlerts.Items.Add(@"DAB page with <ref>s");
 
                 if (articleText.StartsWith("=="))
-                    warnings.AppendLine("Starts with heading");
+                    lbAlerts.Items.Add("Starts with heading");
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Format_references
                 if (TheArticle.HasBareReferences)
-                    warnings.AppendLine("Unformatted references found");
+                    lbAlerts.Items.Add("Unformatted references found");
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Detect_multiple_DEFAULTSORT
                 if (WikiRegexes.Defaultsort.Matches(txtEdit.Text).Count > 1)
-                    warnings.AppendLine("Multiple DEFAULTSORTs found");
+                    lbAlerts.Items.Add("Multiple DEFAULTSORTs found");
 
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Some_additional_edits
                 deadLinks = TheArticle.DeadLinks();
                 if (deadLinks.Count > 0)
-                    warnings.AppendLine("Dead links found");
+                    lbAlerts.Items.Add("Dead links found");
 
                 ambigCiteDates = TheArticle.AmbiguousCiteTemplateDates();
                 if (ambigCiteDates.Count > 0)
-                    warnings.AppendLine("Ambiguous citation dates found");
+                    lbAlerts.Items.Add("Ambiguous citation dates found");
 
                 _unbalancedBracket = TheArticle.UnbalancedBrackets(ref _bracketLength);
                 if (_unbalancedBracket > -1)
-                    warnings.AppendLine("Unbalanced brackets found");
+                    lbAlerts.Items.Add("Unbalanced brackets found");
 
                 badCiteParameters = TheArticle.BadCiteParameters();
                 if (badCiteParameters.Count > 0)
-                    warnings.AppendLine("Invalid citation parameter(s) found");
+                    lbAlerts.Items.Add("Invalid citation parameter(s) found");
                 
                 unclosedTags = TheArticle.UnclosedTags();
                 if (unclosedTags.Count > 0)
-                    warnings.AppendLine("Unclosed tag(s) found");
+                    lbAlerts.Items.Add("Unclosed tag(s) found");
                 
                 if(TheArticle.HasSeeAlsoAfterNotesReferencesOrExternalLinks)
-                    warnings.AppendLine("See also section out of place");
+                    lbAlerts.Items.Add("See also section out of place");
 
                 lblWords.Text = Words + wordCount;
                 lblCats.Text = Cats + catCount;
@@ -2421,8 +2419,6 @@ window.scrollTo(0, diffTopY);
                 string articleTextNoImagesURLs = WikiRegexes.Images.Replace(WikiRegexes.ExternalLinks.Replace(articleText, ""), "");
                 lblDates.Text = Dates + WikiRegexes.ISODates.Matches(articleTextNoImagesURLs).Count + "/" + WikiRegexes.DayMonth.Matches(articleTextNoImagesURLs).Count
                     + "/" + WikiRegexes.MonthDay.Matches(articleTextNoImagesURLs).Count;
-                
-                lblWarn.Text = warnings.ToString();
 
                 // Find multiple links
                 ArrayList arrayLinks = new ArrayList();
