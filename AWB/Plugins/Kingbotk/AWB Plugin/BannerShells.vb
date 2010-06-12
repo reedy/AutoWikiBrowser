@@ -45,7 +45,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         Private Shared ReadOnly DoubleLineBreakRegex As New Regex("[\n\r]{2,}")
 
         ' Regex constant strings:
-        Private Const WikiProjectBannerShell As String = "WikiProject ?Banner ?Shell|WP?BS|WPBannerShell|Multiple WikiProjects" ' IGNORE CASE
+        Private Const WikiProjectBannerShell As String = "WikiProject ?Banner ?Shell|WP?BS|WPBannerShell" ' IGNORE CASE
         'Private Const BannerShell As String = "BannerShell" ' BannerShell is a subcontainer for {{WikiProjectBannerShell}}
         Private Const WikiProjectBanners As String = "WikiProject ?Banners|WPB|Shell" ' IGNORE CASE
 
