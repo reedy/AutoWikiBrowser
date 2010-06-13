@@ -2445,12 +2445,12 @@ window.scrollTo(0, diffTopY);
                     {
                         arrayLinks2.Add(z);
                         // include count of links in form Proton (3)
-                        lbDuplicateWikilinks.Items.Add(z + @" (" +
-                                                       (Regex.Matches(articleText,
-                                                                      @"\[\[" + Regex.Escape(z) + @"(\|.*?)?\]\]").Count +
-                                                        Regex.Matches(articleText,
-                                                                      @"\[\[" + Regex.Escape(Tools.TurnFirstToLower(z)) +
-                                                                      @"(\|.*?)?\]\]").Count) + @")");
+                        int linkcount = Regex.Matches(articleText, @"\[\[" + Regex.Escape(z) + @"(\|.*?)?\]\]").Count;
+                        
+                        if(!Tools.TurnFirstToLower(z).Equals(z))
+                            linkcount += Regex.Matches(articleText, @"\[\[" + Regex.Escape(Tools.TurnFirstToLower(z)) + @"(\|.*?)?\]\]").Count;
+                        
+                        lbDuplicateWikilinks.Items.Add(z + @" (" + linkcount + @")");
                     }
                 }
                 lbDuplicateWikilinks.EndUpdate();
