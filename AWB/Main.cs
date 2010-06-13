@@ -2337,6 +2337,7 @@ window.scrollTo(0, diffTopY);
         private void ArticleInfo(bool reset)
         {
             lbDuplicateWikilinks.Items.Clear();
+            lbAlerts.Items.Clear();
 
             if (reset)
             {
@@ -2346,7 +2347,6 @@ window.scrollTo(0, diffTopY);
                 lblImages.Text = Imgs;
                 lblLinks.Text = Links;
                 lblInterLinks.Text = IWLinks;
-                lbAlerts.Items.Clear();
                 lblDates.Text = Dates;
             }
             else
