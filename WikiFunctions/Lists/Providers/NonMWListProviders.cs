@@ -101,9 +101,10 @@ namespace WikiFunctions.Lists.Providers
             return !(entry.StartsWith("<pre>", StringComparison.OrdinalIgnoreCase) || entry.EndsWith("</pre>", StringComparison.OrdinalIgnoreCase));
         }
 
+        private static readonly Regex Apostrophe = new Regex(@"&#0?39;|&#146;|&amp;#0?39;|&amp;#146;|[`’]", RegexOptions.Compiled);
         protected override string ModifyArticleName(string title)
         {
-            title = Regex.Replace(title, @"&#0?39;|&#146;|&amp;#0?39;|&amp;#146;|[`’]", "'");
+            title = Apostrophe.Replace(title, "'");
 
             title = title.Replace(@"&amp;", "&");
             title = title.Replace(@"&quot;", @"""");
