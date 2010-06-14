@@ -1555,6 +1555,8 @@ Bert").Groups[2].Value, "foo bar\r");
         {
             Assert.IsTrue(WikiRegexes.LinkFGAsSpanish.IsMatch(@"foo {{link FA|ar}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAsSpanish.IsMatch(@"foo {{Destacado|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAsSpanish.IsMatch(@"foo {{Bueno|el}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAsSpanish.IsMatch(@"foo {{bueno|el}}"));
         }
         
         [Test]

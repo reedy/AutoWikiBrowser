@@ -701,9 +701,9 @@ namespace WikiFunctions
         public static readonly Regex LinkFGAsItalian = new Regex(@"{{\s*[Ll]ink (FA|AdQ)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
 
         /// <summary>
-        /// Matches {{{Destacado}} and {{Link FA}} in Spanish
+        /// Matches {{{Destacado}}, {{{Bueno}} and {{Link FA}} in Spanish
         /// </summary>
-        public static readonly Regex LinkFGAsSpanish = new Regex(@"{{\s*([Ll]ink FA|[Dd]estacado)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
+        public static readonly Regex LinkFGAsSpanish = new Regex(@"{{\s*([Ll]ink FA|[Dd]estacado|[Bb]ueno)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
 
         /// <summary>
         /// Matches {{{Enllaç AD}} and {{Link FA}} in Catalan
