@@ -3673,6 +3673,9 @@ namespace WikiFunctions.Parse
             return newText;
         }
 
+        private static readonly Regex NDash = new Regex("&#150;|&#8211;|&#x2013;", RegexOptions.Compiled);
+        private static readonly Regex MDash = new Regex("&#151;|&#8212;|&#x2014;", RegexOptions.Compiled);
+
         // Covered by: UnicodifyTests
         /// <summary>
         /// Converts HTML entities to unicode, with some deliberate exceptions
@@ -3684,8 +3687,8 @@ namespace WikiFunctions.Parse
             if (Regex.IsMatch(articleText, "<[Mm]ath>"))
                 return articleText;
 
-            articleText = Regex.Replace(articleText, "&#150;|&#8211;|&#x2013;", "&ndash;");
-            articleText = Regex.Replace(articleText, "&#151;|&#8212;|&#x2014;", "&mdash;");
+            articleText = NDash.Replace(articleText, "&ndash;");
+            articleText = MDash.Replace(articleText, "&mdash;");
             articleText = articleText.Replace(" &amp; ", " & ");
             articleText = articleText.Replace("&amp;", "&amp;amp;");
             articleText = articleText.Replace("&#153;", "™");
