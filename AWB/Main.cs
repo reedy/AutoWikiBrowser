@@ -94,8 +94,6 @@ namespace AutoWikiBrowser
 
         private List<TypoStat> TypoStats;
 
-        private readonly Help HelpForm = new Help();
-
         private readonly WikiDiff Diff = new WikiDiff();
         private readonly JsAdapter DiffScriptingAdapter;
 
@@ -3457,7 +3455,7 @@ window.scrollTo(0, diffTopY);
 
         private void helpToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            HelpForm.ShowDialog();
+            Tools.OpenENArticleInBrowser("Wikipedia:AutoWikiBrowser/User manual", false);
         }
 
         #region Edit Box Menu

@@ -17,6 +17,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 using System.Windows.Forms;
+using WikiFunctions;
 using WikiFunctions.Logging;
 using WikiFunctions.Plugin;
 
@@ -40,8 +41,8 @@ namespace AutoWikiBrowser
         void IAutoWikiBrowserCommands.AddLogItem(bool skipped, AWBLogListener logListener)
         { if (loggingEnabled) logControl.AddLog(skipped, logListener); }
         void IAutoWikiBrowserCommands.TurnOffLogging() { Program.MyTrace.TurnOffLogging(); }
-        void IAutoWikiBrowserCommands.ShowHelp(string url) { HelpForm.ShowHelp(url); }
-        void IAutoWikiBrowserCommands.ShowHelpEnWiki(string article) { HelpForm.ShowHelpEN(article); }
+        void IAutoWikiBrowserCommands.ShowHelp(string url) { Tools.OpenURLInBrowser(url); }
+        void IAutoWikiBrowserCommands.ShowHelpEnWiki(string article) { Tools.OpenENArticleInBrowser(article, false); }
 
         void IAutoWikiBrowserCommands.AddMainFormClosingEventHandler(FormClosingEventHandler handler) { FormClosing += handler; }
 
