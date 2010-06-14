@@ -104,6 +104,7 @@
       <DependentUpon>ArticleActionLogControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Parse\RegexReplacement.cs" />
+    <Compile Include="Profiles\AWBProfiles.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="Controls\Lists\ProtectionLevel.cs">
       <SubType>Form</SubType>
