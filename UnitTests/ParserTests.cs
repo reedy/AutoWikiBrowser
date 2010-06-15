@@ -4194,6 +4194,12 @@ was"));
 
             Assert.AreEqual("[[Image:foo.jpg|thumb|200px|Bar]]",
                             Parsers.FixImages("[[ image : foo.jpg|thumb|200px|Bar]]"));
+            
+            // apostrophe handling
+            Assert.AreEqual(@"[[Image:foo's.jpg|thumb|200px|Bar]]", Parsers.FixImages(@"[[Image:foo%27s.jpg|thumb|200px|Bar]]"));
+            
+            const string doubleApos = @"[[Image:foo%27%27s.jpg|thumb|200px|Bar]]";
+            Assert.AreEqual(doubleApos, Parsers.FixImages(doubleApos));
 
             //TODO: decide if such improvements really belong here
             //Assert.AreEqual("[[Media:foo]]",

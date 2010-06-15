@@ -3464,8 +3464,10 @@ namespace WikiFunctions.Parse
         {
             foreach (Match m in WikiRegexes.LooseImage.Matches(articleText))
             {
+                string imageName = m.Groups[2].Value;
                 // only apply underscore/URL encoding fixes to image name (group 2)
-                string x = "[[" + Namespace.Normalize(m.Groups[1].Value, 6) + CanonicalizeTitle(m.Groups[2].Value).Trim() + m.Groups[3].Value.Trim() + "]]";
+                // don't convert %27%27 -- https://bugzilla.wikimedia.org/show_bug.cgi?id=8932
+                string x = "[[" + Namespace.Normalize(m.Groups[1].Value, 6) + (imageName.Contains("%27%27") ? imageName : CanonicalizeTitle(imageName).Trim()) + m.Groups[3].Value.Trim() + "]]";
                 articleText = articleText.Replace(m.Value, x);
             }
 
