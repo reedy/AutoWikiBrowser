@@ -64,10 +64,9 @@ namespace WikiFunctions.Lists.Providers
             return (!entry.StartsWith(@"<h1>", StringComparison.OrdinalIgnoreCase));
         }
 
-        private static readonly Parse.Parsers p = new Parse.Parsers();
-
         protected virtual string ModifyArticleName(string title)
         {
+            Parse.Parsers p = new Parse.Parsers();
             title = p.Unicodify(title);
 
             title = title.Replace(@"&amp;", "&");
