@@ -148,12 +148,12 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             ReplaceATemplateWithAYesParameter(InfoboxRegex, "needs-infobox", _
                "{{[[Template:Sir|Single infobox request]]}}")
         End Sub
-        ' Protected Overrides Function TemplateFound() As Boolean
+         Protected Overrides Function TemplateFound() As Boolean
             ' Nothing to do here
-        ' End Function
-        ' Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
+         End Function
+         Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
             ' Only WPBio used to do something here (if {{musician}} add to musician-work-group)
-        ' End Sub
+         End Sub
         Protected Overrides Function WriteTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
             WriteTemplateHeader = "{{Songs" & WriteOutParameterToHeader("class")
         End Function
