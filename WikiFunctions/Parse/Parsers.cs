@@ -3170,10 +3170,15 @@ namespace WikiFunctions.Parse
             StringBuilder sb = new StringBuilder(articleText, (articleText.Length * 11) / 10);
 
             foreach (Match m in WikiRegexes.WikiLink.Matches(articleText))
-            {
-                if (m.Groups[1].Value.Length > 0)
+            { 
+                string theTarget = m.Groups[1].Value;
+                if (theTarget.Length > 0)
                 {
-                    string y = m.Value.Replace(m.Groups[1].Value, CanonicalizeTitle(m.Groups[1].Value));
+                    string y = m.Value;
+                    
+                    // don't convert %27%27 -- https://bugzilla.wikimedia.org/show_bug.cgi?id=8932
+                    if(!theTarget.Contains("%27%27"))
+                        y = m.Value.Replace(theTarget, CanonicalizeTitle(theTarget));
 
                     if (y != m.Value)
                         sb = sb.Replace(m.Value, y);
