@@ -2572,6 +2572,9 @@ Template:foo}}"));
             bool nochange;
             Assert.AreEqual(@"[[Foo bar]]", Parsers.FixLinks(@"[[Foo_bar]]", "a", out nochange));
             Assert.IsFalse(nochange);
+            
+            const string doubleApos = @"[[Image:foo%27%27s.jpg|thumb|200px|Bar]]";
+            Assert.AreEqual(doubleApos, Parsers.FixLinks(doubleApos, "a", out nochange));
         }
         
         [Test]
