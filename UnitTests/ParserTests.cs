@@ -5077,6 +5077,24 @@ words";
 {{Port|Foo2|other=here}}";
             
             Assert.AreEqual(MultipleArguments, Parsers.MergePortals(MultipleArguments), "no merging of portal with multiple arguments");
+            
+            // merging in same section
+            const string SameSection = @"Foo
+==Section==
+{{Portal|Bar}}
+{{Port|Foo}}
+==Other==";
+            Assert.AreEqual(@"Foo
+==Section==
+{{Portal box|Bar|Foo}}
+==Other==", Parsers.MergePortals(SameSection), "portals merged to first portal location when all in same section");
+            
+            const string differentSection = @"Foo
+==Section==
+{{Portal|Bar}}
+==Other==
+{{Port|Foo}}";
+            Assert.AreEqual(differentSection, Parsers.MergePortals(differentSection), "not merged when portals in ddifferent sections");
         }
         
         [Test]

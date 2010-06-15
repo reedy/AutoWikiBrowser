@@ -402,6 +402,8 @@ namespace WikiFunctions.Parse
         {
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
+            
+            int firstPortal = WikiRegexes.PortalTemplate.Match(articleText).Index;
 
             string originalArticleText = articleText;
             List<string> Portals = new List<string>();
@@ -428,17 +430,21 @@ namespace WikiFunctions.Parse
             Match pb = PortalBox.Match(articleText);
 
             if (pb.Success) // append portals to existing portal box
-                articleText = articleText.Replace(pb.Value, pb.Value.Substring(0, pb.Length - 2) + PortalsToAdd + @"}}");
-            else
-            {
-                // merge in new portal box: if multiple portals
-                // need ==see also== to put new portal box in
-                if (Portals.Count < 2 || !WikiRegexes.SeeAlso.IsMatch(articleText))
-                    return originalArticleText;
+                return articleText.Replace(pb.Value, pb.Value.Substring(0, pb.Length - 2) + PortalsToAdd + @"}}");
+            
+            // merge in new portal box if multiple portals
+            if (Portals.Count < 2)
+                return originalArticleText;
 
-                articleText = WikiRegexes.SeeAlso.Replace(articleText, "$0" + Tools.Newline(@"{{Portal box" + PortalsToAdd + @"}}"));
-            }
-            return articleText;
+            // first merge to see also section
+            if(WikiRegexes.SeeAlso.IsMatch(articleText))
+                return WikiRegexes.SeeAlso.Replace(articleText, "$0" + Tools.Newline(@"{{Portal box" + PortalsToAdd + @"}}"));
+        
+            // otherwise merge to original location if all portals in same section
+            if(Summary.ModifiedSection(originalArticleText, articleText).Length > 0)
+                return articleText.Insert(firstPortal, @"{{Portal box" + PortalsToAdd + @"}}" + "\r\n");
+
+            return originalArticleText;
         }
 
         /// <summary>
