@@ -510,7 +510,7 @@ namespace WikiFunctions
         public static Regex LooseCategory;
 
         /// <summary>
-        /// 
+        /// Matches wikilinks to files/images, group 1 being the namespace, group 2 the image name, group 3 the description/any extra arguments
         /// </summary>
         public static Regex LooseImage;
 
