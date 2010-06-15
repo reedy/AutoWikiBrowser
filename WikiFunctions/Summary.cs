@@ -47,6 +47,7 @@ namespace WikiFunctions
             return WikiRegexes.Headings.Match(sectionsAfter[sectionChangeNumber]).Groups[1].Value.Trim();
         }
 
+        private static readonly Regex SummaryTrim = new Regex(@"\s*\[\[[^\[\]\r\n]+?\]\]$", RegexOptions.Compiled);
 
         // Covered by ToolsTests.TrimEditSummary()
         /// <summary>
@@ -60,7 +61,7 @@ namespace WikiFunctions
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#Edit_summary_issue
             // replace last wikilink with dots as an attempt to prevent broken wikilinks in edit summary
             if (Encoding.UTF8.GetByteCount(summary) >= maxAvailableSummaryLength && summary.EndsWith(@"]]"))
-                summary = Regex.Replace(summary, @"\s*\[\[[^\[\]\r\n]+?\]\]$", "...");
+                summary = SummaryTrim.Replace(summary, "...");
 
             return (Encoding.UTF8.GetByteCount(summary) > maxAvailableSummaryLength)
                        ? LimitByteLength(summary, maxAvailableSummaryLength)
