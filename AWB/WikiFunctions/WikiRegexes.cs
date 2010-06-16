@@ -806,7 +806,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the sister links templates such as {{wiktionary}}
         /// </summary>
-        public static readonly Regex SisterLinks = Tools.NestedTemplateRegex(new[] { "wiktionary", "sisterlinks", "sister project links" } );
+        public static readonly Regex SisterLinks = Tools.NestedTemplateRegex(new[] { "wiktionary", "sisterlinks", "sister project links", "wikibooks" } );
         
         /// <summary>
         /// Matches the maintenance tags (en-wiki only) such as orphan, cleanup
