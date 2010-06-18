@@ -213,6 +213,15 @@ Fred has a dog.
             
             // don't pull dabs out of comments
             Assert.AreEqual(d + e, MetaDataSorter.MoveDablinks(d + e));
+            
+            const string f = @"{{for|the book by René Descartes|The World (Descartes)}}
+<!--
+Might eventually be relevant on a disambig page?  But these are a redirect and a not direct reference, so they're pretty irrelevant for now.
+{{For|the song by the [[Thievery Corporation]]|Le Monde (song)}}
+{{For|the drum & bass dj [[Lemon D]]| Lemon D}}
+-->";
+            
+            Assert.AreEqual(f, MetaDataSorter.MoveDablinks(f));
         }
         
         [Test]
