@@ -1687,9 +1687,9 @@ namespace WikiFunctions.Parse
             return false;
         }
 
-        private static readonly Regex MathSourceCodeNowikiPreTagStart = new Regex(@"<\s*(?:math|source\b[^>]*|code|nowiki|pre|small)\s*>", RegexOptions.Compiled);
+        private static readonly Regex MathSourceCodeNowikiPreTagStart = new Regex(@"<\s*(?:math|(?:source|ref)\b[^>]*|code|nowiki|pre|small)\s*>", RegexOptions.Compiled);
         /// <summary>
-        ///  Searches for any unclosed &lt;math&gt;, &lt;source&gt;, &lt;code&gt;, &lt;nowiki&gt;, &lt;small&gt; or &lt;pre&gt; tags
+        ///  Searches for any unclosed &lt;math&gt;, &lt;source&gt;, &lt;ref&gt;, &lt;code&gt;, &lt;nowiki&gt;, &lt;small&gt; or &lt;pre&gt; tags
         /// </summary>
         /// <param name="articleText">The article text</param>
         /// <returns>dictionary of the index and length of any unclosed tags</returns>
@@ -1702,6 +1702,7 @@ namespace WikiFunctions.Parse
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Code);
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Source);
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Small);
+            articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Refs);
 
             foreach (Match m in MathSourceCodeNowikiPreTagStart.Matches(articleText))
             {
