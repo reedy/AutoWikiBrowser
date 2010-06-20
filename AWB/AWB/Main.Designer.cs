@@ -2656,6 +2656,7 @@ namespace AutoWikiBrowser
             // lbAlerts
             // 
             this.lbAlerts.FormattingEnabled = true;
+            this.lbAlerts.HorizontalScrollbar = true;
             this.lbAlerts.Location = new System.Drawing.Point(7, 14);
             this.lbAlerts.Name = "lbAlerts";
             this.lbAlerts.Size = new System.Drawing.Size(127, 56);
