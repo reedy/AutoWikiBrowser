@@ -142,6 +142,23 @@ namespace UnitTests
         }
 
         [Test]
+        public void SkipTOCTemplateRegex()
+        {
+            TestMatches(WikiRegexes.SkipTOCTemplateRegex, @"{{Skip to talk}}", 1);
+            TestMatches(WikiRegexes.SkipTOCTemplateRegex, @"{{ skiptotoctalk}}", 1);
+            TestMatches(WikiRegexes.SkipTOCTemplateRegex, @"{{skiptotoc}}", 1);        	
+        }
+        
+        [Test]
+        public void WikiProjectBannerShellTemplate()
+        {
+            TestMatches(WikiRegexes.WikiProjectBannerShellTemplate, @"{{WPBS|1=foo}}", 1);
+            TestMatches(WikiRegexes.WikiProjectBannerShellTemplate, @"{{WikiProjectBannerShell}}", 1);
+            TestMatches(WikiRegexes.WikiProjectBannerShellTemplate, @"{{WikiProjectBanners|foo}}", 1);
+        }
+
+
+        	[Test]
         public void BLPUnsourced()
         {
             TestMatches(WikiRegexes.BLPSources, @"{{BLP unsourced|foo}}", 1);
