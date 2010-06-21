@@ -155,6 +155,11 @@ namespace UnitTests
             TestMatches(WikiRegexes.WikiProjectBannerShellTemplate, @"{{WPBS|1=foo}}", 1);
             TestMatches(WikiRegexes.WikiProjectBannerShellTemplate, @"{{WikiProjectBannerShell}}", 1);
             TestMatches(WikiRegexes.WikiProjectBannerShellTemplate, @"{{WikiProjectBanners|foo}}", 1);
+            TestMatches(WikiRegexes.WikiProjectBannerShellTemplate, @"{{WikiProjectBanners|1=foo|bar}}", 1);
+            TestMatches(WikiRegexes.WikiProjectBannerShellTemplate, @"{{WikiProjectBanners|blp=yes|activepol=yes|1=foo}}", 1);
+            //TestMatches(WikiRegexes.WikiProjectBannerShellTemplate, @"{{WikiProjectBanners|blp=yes|1=
+            //{{WPBiography|living=yes|class=}}
+            //}}", 1);
         }
 
 
@@ -342,17 +347,17 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             TestMatch(WikiRegexes.Blockquote, "< Blockquote >foo\r\nbar</ BLOCKQUOTE>", "< Blockquote >foo\r\nbar</ BLOCKQUOTE>");
         }
 
-        [Test]
-        public void Poem()
-        {
-            // one line
-            TestMatch(WikiRegexes.Poem, "<poem>foo bar< /poem>", "<poem>foo bar< /poem>");
-
-            // multiple lines
-            TestMatch(WikiRegexes.Poem, @"< Poem >foo
-bar</ POEM>", @"< Poem >foo
-bar</ POEM>");
-        }
+//        [Test]
+//        public void Poem()
+//        {
+//            // one line
+//            TestMatch(WikiRegexes.Poem, "<poem>foo bar< /poem>", "<poem>foo bar< /poem>");
+//
+//            // multiple lines
+//            TestMatch(WikiRegexes.Poem, @"< Poem >foo
+//bar</ POEM>", @"< Poem >foo
+//bar</ POEM>");
+//        }
         
         [Test]
         public void Persondata()
