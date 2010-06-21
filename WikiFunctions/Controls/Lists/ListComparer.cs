@@ -200,11 +200,12 @@ namespace WikiFunctions.Controls.Lists
 
         private static ListBoxArticle MenuItemOwner(object sender)
         {
-            try { return ((ListBoxArticle)((ContextMenuStrip)sender).SourceControl); }
-            catch
-            {
-                return (ListBoxArticle)(((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl);
-            }
+            ToolStripMenuItem t = (sender as ToolStripMenuItem);
+            Control c = (t != null)
+                            ? ((ContextMenuStrip) t.Owner).SourceControl
+                            : ((ContextMenuStrip) sender).SourceControl;
+
+            return (ListBoxArticle) c;
         }
 
         private void btnMoveOnly1_Click(object sender, EventArgs e)
