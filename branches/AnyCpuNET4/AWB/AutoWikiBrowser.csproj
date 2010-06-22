@@ -122,12 +122,6 @@
     <Compile Include="CategoryNameForm.Designer.cs">
       <DependentUpon>CategoryNameForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Help.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Help.Designer.cs">
-      <DependentUpon>Help.cs</DependentUpon>
-    </Compile>
     <Compile Include="IAutoWikiBrowser\IAutoWikiBrowser.cs">
       <SubType>Form</SubType>
     </Compile>

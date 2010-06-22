@@ -356,9 +356,9 @@ namespace WikiFunctions
         public static readonly Regex Blockquote = new Regex(@"<\s*blockquote\s*>(.*?)<\s*/\s*blockquote\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary> 
-        /// Matches &ltpoem> tags
+        /// Matches &ltpoem> tags. Unused because the template has been deleted
         /// </summary>
-        public static readonly Regex Poem = new Regex(@"<\s*poem\s*>(.*?)<\s*/\s*poem\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+        //public static readonly Regex Poem = new Regex(@"<\s*poem\s*>(.*?)<\s*/\s*poem\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
         /// Matches &lt;imagemap&gt; tags
@@ -510,7 +510,7 @@ namespace WikiFunctions
         public static Regex LooseCategory;
 
         /// <summary>
-        /// 
+        /// Matches wikilinks to files/images, group 1 being the namespace, group 2 the image name, group 3 the description/any extra arguments
         /// </summary>
         public static Regex LooseImage;
 
@@ -593,12 +593,17 @@ namespace WikiFunctions
            RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
-        /// 
+        /// Matches the {{skip to talk}} template and its redirects
         /// </summary>
         public static readonly Regex SkipTOCTemplateRegex = new Regex(
             @"\{\{\s*(template *:)?\s*(skiptotoctalk|Skiptotoc|Skip to talk)\s*\}\}\s*",
             RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
-
+        
+        /// <summary>
+        /// Matches the {{WikiProjectBannerShell}} templates and its redirects
+        /// </summary>
+        public static readonly Regex WikiProjectBannerShellTemplate = Tools.NestedTemplateRegex(new [] {"WikiProject Banners", "WikiProjectBanners", "WikiProjectBannerShell", "WPBS", "WPB", "Wpb", "Wpbs"});
+        
         /// <summary>
         /// Matches {{no footnotes}} OR {{more footnotes}} templates
         /// </summary>
@@ -701,9 +706,9 @@ namespace WikiFunctions
         public static readonly Regex LinkFGAsItalian = new Regex(@"{{\s*[Ll]ink (FA|AdQ)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
 
         /// <summary>
-        /// Matches {{{Destacado}} and {{Link FA}} in Spanish
+        /// Matches {{{Destacado}}, {{{Bueno}} and {{Link FA}} in Spanish
         /// </summary>
-        public static readonly Regex LinkFGAsSpanish = new Regex(@"{{\s*([Ll]ink FA|[Dd]estacado)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
+        public static readonly Regex LinkFGAsSpanish = new Regex(@"{{\s*([Ll]ink FA|[Dd]estacado|[Bb]ueno)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
 
         /// <summary>
         /// Matches {{{Enllaç AD}} and {{Link FA}} in Catalan
@@ -806,7 +811,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the sister links templates such as {{wiktionary}}
         /// </summary>
-        public static readonly Regex SisterLinks = Tools.NestedTemplateRegex(new[] { "wiktionary", "sisterlinks", "sister project links" } );
+        public static readonly Regex SisterLinks = Tools.NestedTemplateRegex(new[] { "wiktionary", "sisterlinks", "sister project links", "wikibooks" } );
         
         /// <summary>
         /// Matches the maintenance tags (en-wiki only) such as orphan, cleanup
@@ -857,7 +862,7 @@ namespace WikiFunctions
         /// <summary>
         /// matches &lt;small&gt; tags
         /// </summary>
-        public static readonly Regex Small = new Regex(@"<small\s*>(.*?)</small\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex Small = new Regex(@"<\s*small\s*>((?>(?!<\s*small\s*>|<\s*/\s*small\s*>).|<\s*small\s*>(?<DEPTH>)|<\s*/\s*small\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*small\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
         
         /// <summary>
         /// matches &lt;sup&gt; and &lt;sub&gt; tags

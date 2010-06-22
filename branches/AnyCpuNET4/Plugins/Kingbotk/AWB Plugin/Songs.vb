@@ -68,7 +68,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Sub
         Private Sub LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) _
         Handles LinkLabel1.LinkClicked
-            Tools.OpenENArticleInBrowser("Template:Songs", False)
+            Tools.OpenENArticleInBrowser("Template:WikiProject Songs", False)
         End Sub
         Private Sub AutoStubCheckBox_CheckedChanged(ByVal sender As System.Object, _
         ByVal e As System.EventArgs) Handles AutoStubCheckBox.CheckedChanged
@@ -150,12 +150,12 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             ReplaceATemplateWithAYesParameter(InfoboxRegex, "needs-infobox", _
                "{{[[Template:Sir|Single infobox request]]}}")
         End Sub
-        Protected Overrides Function TemplateFound() As Boolean
+         Protected Overrides Function TemplateFound() As Boolean
             ' Nothing to do here
-        End Function
-        Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
+         End Function
+         Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
             ' Only WPBio used to do something here (if {{musician}} add to musician-work-group)
-        End Sub
+         End Sub
         Protected Overrides Function WriteTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
             WriteTemplateHeader = "{{Songs" & WriteOutParameterToHeader("class")
         End Function

@@ -1442,6 +1442,8 @@ foo<!--comm-->|title=abc
             Regex multipleTemplates = Tools.NestedTemplateRegex(listOfTemplates);
             
             Assert.AreEqual(multipleTemplates.Match(@"{{foo}}").Groups[2].Value, @"foo");
+            Assert.AreEqual(multipleTemplates.Match(@"{{Template:foo}}").Groups[2].Value, @"foo");
+            Assert.AreEqual(multipleTemplates.Match(@"{{ template :foo}}").Groups[2].Value, @"foo");
             Assert.AreEqual(multipleTemplates.Match(@"{{ Foo}}").Groups[2].Value, @"Foo");
             Assert.AreEqual(multipleTemplates.Match(@"{{Bar |akjldasf=a}}").Groups[2].Value, @"Bar");
             Assert.AreEqual(multipleTemplates.Match(@"{{bar

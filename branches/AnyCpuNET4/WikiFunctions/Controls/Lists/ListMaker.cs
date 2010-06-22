@@ -645,6 +645,9 @@ namespace WikiFunctions.Controls.Lists
         /// <summary>
         /// Adds the given string to the list, first turning it into an Article
         /// </summary>
+        /// <remarks>
+        /// Don't use me in a loop. Make a list and pass to the Add(List&lt;Article>) overload
+        /// </remarks>
         public void Add(string s)
         {
             if (InvokeRequired)

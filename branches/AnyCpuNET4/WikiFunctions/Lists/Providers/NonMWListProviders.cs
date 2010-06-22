@@ -46,7 +46,7 @@ namespace WikiFunctions.Lists.Providers
                 foreach (
                     string entry in
                         Tools.StringBetween(Tools.GetHTML(urlBuilt), "<body>",
-                                            "</body>").Split(new[] {"\r\n", "\n"},
+                                            "</body>").Split(new[] { "\r\n", "\n" },
                                                              StringSplitOptions.RemoveEmptyEntries))
                 {
                     if (entry.Length > 0 && CheckExtra(entry))
@@ -58,18 +58,17 @@ namespace WikiFunctions.Lists.Providers
 
             return list;
         }
-        
+
         protected virtual bool CheckExtra(string entry)
         {
-            return (!entry.StartsWith(@"<h1>", StringComparison.OrdinalIgnoreCase) && !entry.StartsWith("<pre>", StringComparison.OrdinalIgnoreCase) && !entry.EndsWith("</pre>", StringComparison.OrdinalIgnoreCase));
+            return (!entry.StartsWith(@"<h1>", StringComparison.OrdinalIgnoreCase));
         }
 
         protected virtual string ModifyArticleName(string title)
         {
-            WikiFunctions.Parse.Parsers p = new WikiFunctions.Parse.Parsers();
-            
+            Parse.Parsers p = new Parse.Parsers();
             title = p.Unicodify(title);
-            
+
             title = title.Replace(@"&amp;", "&");
             title = title.Replace(@"&quot;", @"""");
             return title.Replace("<br />", "");
@@ -98,13 +97,14 @@ namespace WikiFunctions.Lists.Providers
     {
         protected override bool CheckExtra(string entry)
         {
-            return !entry.Contains("Error number");
+            return !(entry.StartsWith("<pre>", StringComparison.OrdinalIgnoreCase) || entry.EndsWith("</pre>", StringComparison.OrdinalIgnoreCase));
         }
 
+        private static readonly Regex Apostrophe = new Regex(@"&#0?39;|&#146;|&amp;#0?39;|&amp;#146;|[`’]", RegexOptions.Compiled);
         protected override string ModifyArticleName(string title)
         {
-            title = Regex.Replace(title, @"&#0?39;|&#146;|&amp;#0?39;|&amp;#146;|[`’]", "'");
-            
+            title = Apostrophe.Replace(title, "'");
+
             title = title.Replace(@"&amp;", "&");
             title = title.Replace(@"&quot;", @"""");
             return title.Replace("<br />", "");
