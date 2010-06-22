@@ -83,7 +83,7 @@ namespace WikiFunctions.TalkPages
             articleText = MoveTalkHeader(articleText, ref summary);
 
             if (pr.FoundSkipToTalk)
-                WriteHeaderTemplate("Skip to talk", ref articleText, ref summary);
+                WriteHeaderTemplate("Skip to talk", ref articleText);
 
             if (moveDefaultsort != DEFAULTSORT.NoChange)
             {
@@ -145,12 +145,9 @@ namespace WikiFunctions.TalkPages
         /// </summary>
         /// <param name="name">template name to write</param>
         /// <param name="articleText">article text to update</param>
-        /// <param name="summary">edit summary to update</param>
-        private static void WriteHeaderTemplate(string name, ref string articleText, ref string summary)
+        private static void WriteHeaderTemplate(string name, ref string articleText)
         {
             articleText = "{{" + name + "}}\r\n" + articleText;
-
-            AppendToSummary(ref summary, "{{" + name + "}} given top billing");
         }
         
         /// <summary>
@@ -166,11 +163,8 @@ namespace WikiFunctions.TalkPages
             if(m.Success && m.Index > 0)
             {
                 // remove existing talk header – handle case where not at beginning of line
-                if(articleText.Contains("\r\n" + m.Value))
-                    articleText = articleText.Replace(m.Value, "");
-                else
-                    articleText = articleText.Replace(m.Value, "\r\n");
-                
+                articleText = articleText.Replace(m.Value, articleText.Contains("\r\n" + m.Value) ? "" : "\r\n");
+
                 // write existing talk header to top
                 articleText = m.Value.TrimEnd() + "\r\n" + articleText.TrimStart();
                 
