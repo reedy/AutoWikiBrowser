@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 /* Some of this is currently only suitable for enwiki. */
 
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace WikiFunctions.TalkPages
 {
@@ -183,6 +184,22 @@ namespace WikiFunctions.TalkPages
             }
             
             return articleText;
+        }
+        
+        private static List<string> BannerShellRedirects = new List<string>(new [] { "WikiProject Banners", "WikiProjectBanners", "WPBS", "WPB", "Wpb", "Wpbs"});
+        
+        /// <summary>
+        /// Performs fixes to the WikiProjectBannerShells template
+        /// </summary>
+        /// <param name="articletext">The talk page text</param>
+        /// <returns>The updated talk page text</returns>
+        public static string WikiProjectBannerShell(string articletext)
+        {
+            // rename redirects
+            foreach(string redirect in BannerShellRedirects)
+                articletext = Tools.RenameTemplate(articletext, redirect, "WikiProjectBannerShell");
+            
+            return articletext;
         }
     }
 }
