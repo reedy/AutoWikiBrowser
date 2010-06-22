@@ -231,12 +231,11 @@ namespace WikiFunctions.Controls.Lists
 
         private void AddListToListMaker(ListMaker lm, IEnumerable<Article> lb)
         {
-            lm.BeginUpdate();
-
+            List<Article> articles = new List<Article>();
             foreach (Article a in lb)
-                lm.Add(a);
+                articles.Add(a);
 
-            lm.EndUpdate();
+            lm.Add(articles);
         }
     }
 }
