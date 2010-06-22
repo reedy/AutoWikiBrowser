@@ -855,6 +855,14 @@ __TOC__", articleTextIn);
             
             Assert.AreEqual(allAfterTemplate, articleTextIn);
         }
+        
+        [Test]
+        public void WikiProjectBannerShellRedirects()
+        {
+            string red1 = @"{{WPBS}}", WikiProjectBannerShell = @"{{WikiProjectBannerShell}}";
+            
+            Assert.AreEqual(WikiProjectBannerShell, TalkPageHeaders.WikiProjectBannerShell(red1));
+        }
     }
     
     [TestFixture]
