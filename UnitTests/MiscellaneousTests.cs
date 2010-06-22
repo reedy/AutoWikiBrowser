@@ -600,7 +600,6 @@ Image:quux[http://example.com]
     {
         const string articleTextHeader = @"{{talkheader|noarchive=no}}
 [[Category:Foo bar]]";
-        string newSummary = "";
         
         [Test]
         public void MoveTalkHeader()
@@ -609,10 +608,9 @@ Image:quux[http://example.com]
 hello talk";
             string articleText = talkrest + "\r\n" + talkheader;
             
-            TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
+            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(talkheader.Replace("{{talk", @"{{Talk") + "\r\n" + talkrest + "\r\n", articleText);
-            Assert.IsTrue(newSummary.Contains("{{Talk header}} given top billing"));
             
             // handles {{talk header}} on same line as other template
             string WPBS = @"{{WikiProjectBannerShell|blp=yes|1=
@@ -623,24 +621,21 @@ hello talk";
 In the article it says that above mentioned";
             articleText = WPBS + @"{{Talkheader}}" + rest;
             
-            TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
+            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(@"{{Talk header}}" + "\r\n" + WPBS + rest, articleText);
-            Assert.IsTrue(newSummary.Contains("{{Talk header}} given top billing"));
             
             // no change if already at top
             articleText = talkheader + "\r\n" + talkrest;
-            newSummary = "";
-            TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
+            
+            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(talkheader + "\r\n" + talkrest, articleText);
-            Assert.IsFalse(newSummary.Contains("{{Talk header}} given top billing"));
             
             // no change if no talk header
             articleText = talkrest;
-            newSummary = "";
-            TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
+            
+            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(talkrest, articleText);
-            Assert.IsFalse(newSummary.Contains("{{Talk header}} given top billing"));
         }
         
         [Test]
@@ -648,12 +643,11 @@ In the article it says that above mentioned";
         {
         	 string talkheader = @"{{talkheader|noarchive=no}}", talkrest = @"==hello==
 hello talk";
-            string articleText = talkrest + "\r\n" + talkheader, newSummary = "";
+            string articleText = talkrest + "\r\n" + talkheader;
             
-            TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
+            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(@"{{Talk header|noarchive=no}}" + "\r\n" + talkrest+ "\r\n", articleText, "renamed to upper case with space");
-            Assert.IsTrue(newSummary.Contains("{{Talk header}} given top billing"));
         }
         
         [Test]
@@ -661,38 +655,34 @@ hello talk";
         {
             string start = @"
 ==Foo==
-bar", df = @"{{DEFAULTSORT:Bert}}", newSummary = "";
+bar", df = @"{{DEFAULTSORT:Bert}}"; 
             
             string articleText = start + "\r\n" + df;
             
-            TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.MoveToBottom);
+            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.MoveToBottom);
             Assert.AreEqual(start + "\r\n"+ "\r\n" + df, articleText);
             
             articleText = start + df;
             
-            TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.MoveToTop);
+            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.MoveToTop);
             Assert.AreEqual(df + "\r\n" + start, articleText);
             
             articleText = start + df;
             
-            TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
+            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(start + df, articleText);
             
             string df2 = @"{{DEFAULTSORT:}}";
             
             articleText = start + df2;
-            newSummary = "";
             
-            TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.MoveToBottom);
+            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.MoveToBottom);
             Assert.AreEqual(start, articleText, "defaultsort with no key removed");
-            Assert.IsTrue(newSummary.Contains("DEFAULTSORT has no key"));
             
             articleText = start + df2;
-            newSummary = "";
             
-            TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.MoveToTop);
+            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.MoveToTop);
             Assert.AreEqual(start, articleText, "defaultsort with no key removed");
-            Assert.IsTrue(newSummary.Contains("DEFAULTSORT has no key"));
         }
         
         [Test]
@@ -700,13 +690,13 @@ bar", df = @"{{DEFAULTSORT:Bert}}", newSummary = "";
         {
             string articleText = @"{{Skiptotoc}}", newSummary = "", STT = @"{{Skip to talk}}";
             
-            TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
+            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(STT + "\r\n", articleText);
             Assert.IsTrue(newSummary.Contains("Skip to talk"));
             
             articleText = @"{{skiptotoctalk}}";
-            newSummary = "";
-            TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
+            
+            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(STT + "\r\n", articleText);
             Assert.IsTrue(newSummary.Contains("Skip to talk"));
         }
@@ -716,59 +706,53 @@ bar", df = @"{{DEFAULTSORT:Bert}}", newSummary = "";
         {
             const string comment = @"
 Hello world comment.";
-            string newSummary = "";
             string articleTextIn = articleTextHeader + comment;
             
             // plain comment
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(articleTextIn, articleTextHeader + "\r\n" + @"
 ==Untitled==
 Hello world comment.");
-            Assert.IsTrue(newSummary.Contains("Added missing comments section header"));
             
             // idented comment2
             articleTextIn = articleTextHeader + @"
 *Hello world comment2.";
-            newSummary = "";
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
+            
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(articleTextIn, articleTextHeader +"\r\n" + @"
 ==Untitled==
 *Hello world comment2.");
-            Assert.IsTrue(newSummary.Contains("Added missing comments section header"));
             
             // idented comment3
             articleTextIn = articleTextHeader + @"
 :Hello world comment3.";
-            newSummary = "";
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
+            
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(articleTextIn, articleTextHeader + "\r\n" + @"
 ==Untitled==
 :Hello world comment3.");
-            Assert.IsTrue(newSummary.Contains("Added missing comments section header"));
             
             // quoted comment
             articleTextIn = articleTextHeader + @"
 ""Hello world comment4"".";
-            newSummary = "";
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
+            
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(articleTextIn, articleTextHeader + "\r\n" + @"
 ==Untitled==
 ""Hello world comment4"".");
-            Assert.IsTrue(newSummary.Contains("Added missing comments section header"));
             
             // heading level 3 changed to level 2
             articleTextIn = articleTextHeader + "\r\n" + @"===Foo bar===
 *Hello world comment2.";
-            newSummary = "";
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
+            
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.IsTrue(articleTextIn.Contains(@"==Foo bar=="));
             Assert.IsFalse(articleTextIn.Contains(@"==Untitled=="));
-            Assert.IsTrue(newSummary.Contains("Corrected comments section header"));
         }
         
          [Test]
@@ -779,13 +763,12 @@ Hello world comment.");
 ==Question==
 :Hello world comment3.";
             
-            newSummary = "";
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
+            
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(articleTextIn, articleTextHeader + @"
 ==Question==
 :Hello world comment3.");
-            Assert.IsFalse(newSummary.Contains("Added missing comments section header"));
             
             // no change – already header at top
             articleTextIn = @"
@@ -793,14 +776,13 @@ Hello world comment.");
 ==Question==
 :Hello world comment3.";
             
-            newSummary = "";
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
+            
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(@"
 {{Some template}}
 ==Question==
 :Hello world comment3.", articleTextIn);
-            Assert.IsFalse(newSummary.Contains("Added missing comments section header"));
             
             // no change – already header at top 2
             articleTextIn = @"
@@ -808,27 +790,25 @@ Hello world comment.");
 {{Some template}}
 :Hello world comment3.";
             
-            newSummary = "";
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
+            
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(@"
 ==Question==
 {{Some template}}
 :Hello world comment3.", articleTextIn);
-            Assert.IsFalse(newSummary.Contains("Added missing comments section header"));
             
             // no change – no comments
                   articleTextIn = @"
 ==Question==
 {{Some template}}";
             
-            newSummary = "";
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
+            
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(@"
 ==Question==
 {{Some template}}", articleTextIn);
-            Assert.IsFalse(newSummary.Contains("Added missing comments section header"));
             
             // no change – only text in template
                   articleTextIn = @"
@@ -836,25 +816,22 @@ Hello world comment.");
 bar|
 end}}";
             
-            newSummary = "";
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
+            
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(@"
 {{foo|
 bar|
 end}}", articleTextIn);
-            Assert.IsFalse(newSummary.Contains("Added missing comments section header"));
             
             // no change – only TOC
             articleTextIn = @"
 __TOC__";
             
-            newSummary = "";
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(@"
 __TOC__", articleTextIn);
-            Assert.IsFalse(newSummary.Contains("Added missing comments section header"));
             
             // no change -- only in template
             const string allInTemplate = @"{{archive box|
@@ -863,11 +840,10 @@ __TOC__", articleTextIn);
 == Explanation of Wright's work in ''Certaine Errors'' ==";
             
             articleTextIn = allInTemplate;
-             newSummary = "";
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
+             
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(allInTemplate, articleTextIn);
-            Assert.IsFalse(newSummary.Contains("Added missing comments section header"));
             
             // no change -- only after template on same line
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Section_header_added_in_wrong_position
@@ -876,11 +852,10 @@ __TOC__", articleTextIn);
 {{another one}}";
             
             articleTextIn = allAfterTemplate;
-            newSummary = "";
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, ref newSummary, DEFAULTSORT.NoChange);
+            
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(allAfterTemplate, articleTextIn);
-            Assert.IsFalse(newSummary.Contains("Added missing comments section header"));
         }
     }
     
