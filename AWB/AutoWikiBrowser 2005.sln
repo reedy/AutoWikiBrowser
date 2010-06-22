@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoWikiBrowser", "AWB\AutoWikiBrowser.csproj", "{42769674-70BD-4F11-9718-C5DA36578228}"
 	ProjectSection(ProjectDependencies) = postProject
 		{C95998EA-A697-4A30-97A2-651980A75DD3} = {C95998EA-A697-4A30-97A2-651980A75DD3}
@@ -42,16 +42,6 @@ Global
 		Release|Win32 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{42769674-70BD-4F11-9718-C5DA36578228}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{42769674-70BD-4F11-9718-C5DA36578228}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{42769674-70BD-4F11-9718-C5DA36578228}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{42769674-70BD-4F11-9718-C5DA36578228}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{42769674-70BD-4F11-9718-C5DA36578228}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{42769674-70BD-4F11-9718-C5DA36578228}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{42769674-70BD-4F11-9718-C5DA36578228}.Release|Any CPU.Build.0 = Release|Any CPU
-		{42769674-70BD-4F11-9718-C5DA36578228}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{42769674-70BD-4F11-9718-C5DA36578228}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{42769674-70BD-4F11-9718-C5DA36578228}.Release|Win32.ActiveCfg = Release|Any CPU
 		{B5B0008C-A306-4B0D-B91E-5C03DA7014E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B5B0008C-A306-4B0D-B91E-5C03DA7014E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5B0008C-A306-4B0D-B91E-5C03DA7014E0}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -72,6 +62,16 @@ Global
 		{3443EC53-0B83-4356-A032-AD9693448F19}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{3443EC53-0B83-4356-A032-AD9693448F19}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{3443EC53-0B83-4356-A032-AD9693448F19}.Release|Win32.ActiveCfg = Release|Any CPU
+		{42769674-70BD-4F11-9718-C5DA36578228}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42769674-70BD-4F11-9718-C5DA36578228}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42769674-70BD-4F11-9718-C5DA36578228}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{42769674-70BD-4F11-9718-C5DA36578228}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{42769674-70BD-4F11-9718-C5DA36578228}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{42769674-70BD-4F11-9718-C5DA36578228}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42769674-70BD-4F11-9718-C5DA36578228}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42769674-70BD-4F11-9718-C5DA36578228}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{42769674-70BD-4F11-9718-C5DA36578228}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{42769674-70BD-4F11-9718-C5DA36578228}.Release|Win32.ActiveCfg = Release|Any CPU
 		{938C0EAD-3528-4F28-9069-3F90463033AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{938C0EAD-3528-4F28-9069-3F90463033AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{938C0EAD-3528-4F28-9069-3F90463033AC}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
