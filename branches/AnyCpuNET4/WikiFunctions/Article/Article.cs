@@ -1271,13 +1271,12 @@ namespace WikiFunctions
         {
             BeforeGeneralFixesTextChanged();
 
-            string articleText = ArticleText, newSummary = "";
-            TalkPageHeaders.ProcessTalkPage(ref articleText, ref newSummary, DEFAULTSORT.NoChange);
+            string articleText = ArticleText;
+            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
 
             if (articleText != ArticleText)
             {
                 AWBChangeArticleText("Talk Page general fixes", articleText, false);
-                AppendToSummary(newSummary);
             }
 
             AfterGeneralFixesTextChanged();
