@@ -53,8 +53,8 @@ namespace WikiFunctions.Controls
         public NoFlickerExtendedListView(bool sortColumnOnClick, bool resizeColumnsOnControlResize)
         {
             SortColumnsOnClick = sortColumnOnClick;
-            ResizeColumsOnControlResize = resizeColumnsOnControlResize;
-            sortColumnsOnClick = sortColumnOnClick;
+            ResizeColumnsOnControlResize = resizeColumnsOnControlResize;
+            _sortColumnsOnClick = sortColumnOnClick;
             DoubleBuffered = true;
             comparerFactory = this;
         }
@@ -64,23 +64,27 @@ namespace WikiFunctions.Controls
             ResizeColumns(true);
         }
 
-        private bool ResizeColumnsOnControlResize;
+        private bool _resizeColumnsOnControlResize;
+
+        /// <summary>
+        /// 
+        /// </summary>
         [DefaultValue(false)]
-        public bool ResizeColumsOnControlResize
+        public bool ResizeColumnsOnControlResize
         {
             set
             {
-                if (value && !ResizeColumnsOnControlResize)
+                if (value && !_resizeColumnsOnControlResize)
                     Resize += NoFlickerExtendedListView_Resize;
-                else if (!value && ResizeColumnsOnControlResize)
+                else if (!value && _resizeColumnsOnControlResize)
                     Resize -= NoFlickerExtendedListView_Resize;
 
-                ResizeColumnsOnControlResize = value;
+                _resizeColumnsOnControlResize = value;
             }
-            get { return ResizeColumnsOnControlResize; }
+            get { return _resizeColumnsOnControlResize; }
         }
 
-        private bool sortColumnsOnClick;
+        private bool _sortColumnsOnClick;
 
         /// <summary>
         /// Enables or disables sorting upon click on column header
@@ -90,14 +94,14 @@ namespace WikiFunctions.Controls
         {
             set
             {
-                if (value && !sortColumnsOnClick)
+                if (value && !_sortColumnsOnClick)
                     ColumnClick += ExtendedListView_ColumnClick;
-                else if (!value && sortColumnsOnClick)
+                else if (!value && _sortColumnsOnClick)
                     ColumnClick -= ExtendedListView_ColumnClick;
 
-                sortColumnsOnClick = value;
+                _sortColumnsOnClick = value;
             }
-            get { return sortColumnsOnClick; }
+            get { return _sortColumnsOnClick; }
         }
 
         private int sortColumn;
