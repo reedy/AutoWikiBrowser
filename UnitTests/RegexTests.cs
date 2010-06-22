@@ -146,7 +146,7 @@ namespace UnitTests
         {
             TestMatches(WikiRegexes.SkipTOCTemplateRegex, @"{{Skip to talk}}", 1);
             TestMatches(WikiRegexes.SkipTOCTemplateRegex, @"{{ skiptotoctalk}}", 1);
-            TestMatches(WikiRegexes.SkipTOCTemplateRegex, @"{{skiptotoc}}", 1);        	
+            TestMatches(WikiRegexes.SkipTOCTemplateRegex, @"{{skiptotoc}}", 1);
         }
         
         [Test]
@@ -157,13 +157,12 @@ namespace UnitTests
             TestMatches(WikiRegexes.WikiProjectBannerShellTemplate, @"{{WikiProjectBanners|foo}}", 1);
             TestMatches(WikiRegexes.WikiProjectBannerShellTemplate, @"{{WikiProjectBanners|1=foo|bar}}", 1);
             TestMatches(WikiRegexes.WikiProjectBannerShellTemplate, @"{{WikiProjectBanners|blp=yes|activepol=yes|1=foo}}", 1);
-            //TestMatches(WikiRegexes.WikiProjectBannerShellTemplate, @"{{WikiProjectBanners|blp=yes|1=
-            //{{WPBiography|living=yes|class=}}
-            //}}", 1);
+            TestMatches(WikiRegexes.WikiProjectBannerShellTemplate, @"{{WikiProjectBanners|blp=yes|1=
+            {{WPBiography|living=yes|class=}}
+            }}", 1);
         }
 
-
-        	[Test]
+        [Test]
         public void BLPUnsourced()
         {
             TestMatches(WikiRegexes.BLPSources, @"{{BLP unsourced|foo}}", 1);

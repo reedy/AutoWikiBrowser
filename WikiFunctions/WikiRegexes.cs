@@ -602,8 +602,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the {{WikiProjectBannerShell}} templates and its redirects
         /// </summary>
-        public static readonly Regex WikiProjectBannerShellTemplate = new Regex(@"\{\{\s*(?:template *:)?\s*(WikiProject ?Banners|WikiProjectBannerShell|WPBS|WPB|Wpb|Wpbs)\s*(?:\|[^{}]*)?\}\}\s*", 
-           RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public static readonly Regex WikiProjectBannerShellTemplate = Tools.NestedTemplateRegex(new [] {"WikiProject Banners", "WikiProjectBanners", "WikiProjectBannerShell", "WPBS", "WPB", "Wpb", "Wpbs"});
         
         /// <summary>
         /// Matches {{no footnotes}} OR {{more footnotes}} templates
