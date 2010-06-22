@@ -97,6 +97,12 @@ namespace WikiFunctions
         private static TraceManager currentTraceManager;
         private static string whatName;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="del"></param>
+        /// <param name="trace"></param>
+        /// <param name="what"></param>
         public static void SetAddListener(AddListenerDelegate del, TraceManager trace, string what)
         {
             addListener += del;
@@ -104,6 +110,9 @@ namespace WikiFunctions
             whatName = what;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void InitialiseLogListener()
         {
             if (mAWBLogListener != null)
@@ -130,6 +139,9 @@ namespace WikiFunctions
         /// </summary>
         public string Name { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         [XmlIgnore]
         public string NamespacelessName
         {
@@ -1272,7 +1284,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Returns true if the article is a redirect page
+        /// Returns <see langword="true"/> if the article is a redirect page
         /// </summary>
         [XmlIgnore]
         public bool IsRedirect
@@ -1282,6 +1294,13 @@ namespace WikiFunctions
 
 
         private static string _lastMove = "", _lastDelete = "", _lastProtect = "";
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="session"></param>
+        /// <param name="newTitle"></param>
+        /// <returns></returns>
         public bool Move(Session session, out string newTitle)
         {
             using (ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Move))
@@ -1306,6 +1325,11 @@ namespace WikiFunctions
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="session"></param>
+        /// <returns></returns>
         public bool Delete(Session session)
         {
             using (ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Delete))
@@ -1324,6 +1348,11 @@ namespace WikiFunctions
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="session"></param>
+        /// <returns></returns>
         public bool Protect(Session session)
         {
             using (ArticleActionDialog dlgArticleAction = new ArticleActionDialog(ArticleAction.Protect))
