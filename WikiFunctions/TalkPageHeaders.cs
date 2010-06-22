@@ -19,7 +19,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 /* Some of this is currently only suitable for enwiki. */
 
 using System.Text.RegularExpressions;
-using WikiFunctions.Logging;
 
 namespace WikiFunctions.TalkPages
 {
@@ -70,17 +69,16 @@ namespace WikiFunctions.TalkPages
         /// Processes talk pages: moves any talk page header template, moves any default, adds a section heading if missing
         /// </summary>
         /// <param name="articleText">The talk page text</param>
-        /// <param name="summary">The edit summary to update</param>
         /// <param name="moveDefaultsort">The action to take over any defaultsort on the page</param>
         /// <returns>The updated talk page text</returns>
-        public static bool ProcessTalkPage(ref string articleText, ref string summary, DEFAULTSORT moveDefaultsort)
+        public static bool ProcessTalkPage(ref string articleText, DEFAULTSORT moveDefaultsort)
         {
             Processor pr = new Processor();
 
             articleText = WikiRegexes.SkipTOCTemplateRegex.Replace(articleText, new MatchEvaluator(pr.SkipTOCMatchEvaluator), 1);
             
             // move talk page header to the top
-            articleText = MoveTalkHeader(articleText, ref summary);
+            articleText = MoveTalkHeader(articleText);
 
             if (pr.FoundSkipToTalk)
                 WriteHeaderTemplate("Skip to talk", ref articleText);
@@ -91,18 +89,14 @@ namespace WikiFunctions.TalkPages
                     new MatchEvaluator(pr.DefaultSortMatchEvaluator), 1);
                 if (pr.FoundDefaultSort)
                 {
-                    if (string.IsNullOrEmpty(pr.DefaultSortKey))
+                    if (!string.IsNullOrEmpty(pr.DefaultSortKey))
                     {
-                        AppendToSummary(ref summary, "DEFAULTSORT has no key; removed");
-                    }
-                    else
-                    {
-                        articleText = SetDefaultSort(pr.DefaultSortKey, moveDefaultsort, articleText, ref summary);
+                        articleText = SetDefaultSort(pr.DefaultSortKey, moveDefaultsort, articleText);
                     }
                 }
             }
             
-            articleText = AddMissingFirstCommentHeader(articleText, ref summary);
+            articleText = AddMissingFirstCommentHeader(articleText);
             
             return pr.FoundTalkHeader || pr.FoundSkipToTalk || pr.FoundDefaultSort;
         }
@@ -111,22 +105,9 @@ namespace WikiFunctions.TalkPages
         {
             return WikiRegexes.Defaultsort.Replace(articleText, "{{DEFAULTSORT:${key}}}");
         }
-
-        /// <summary>
-        /// Appends the input text to the input edit summary (comma separated clauses)
-        /// </summary>
-        /// <param name="summary">the edit summary to update</param>
-        /// <param name="newText">the text to append</param>
-        private static void AppendToSummary(ref string summary, string newText)
-        {
-            if (!string.IsNullOrEmpty(summary))
-                summary += ", ";
-
-            summary += newText;
-        }
         
         // Helper routines:
-        private static string SetDefaultSort(string key, DEFAULTSORT location, string articleText, ref string summary)
+        private static string SetDefaultSort(string key, DEFAULTSORT location, string articleText)
         {
             switch (location)
             {
@@ -154,9 +135,8 @@ namespace WikiFunctions.TalkPages
         /// Moves the {{talk header}} template to the top of the talk page
         /// </summary>
         /// <param name="articleText">the talk page text</param>
-        /// <param name="summary">the edit summary</param>
         /// <returns>the update talk page text</returns>
-        private static string MoveTalkHeader(string articleText, ref string summary)
+        private static string MoveTalkHeader(string articleText)
         {
             Match m = WikiRegexes.TalkHeaderTemplate.Match(articleText);
             
@@ -170,8 +150,6 @@ namespace WikiFunctions.TalkPages
                 
                 // ensure template is now named {{talk header}}
                 articleText = articleText.Replace(m.Groups[1].Value, "Talk header");
-                
-                AppendToSummary(ref summary, "{{Talk header}} given top billing");
             }
             
             return articleText;
@@ -183,9 +161,8 @@ namespace WikiFunctions.TalkPages
         /// Adds a section 2 heading before the first comment if the talk page does not have one
         /// </summary>
         /// <param name="articleText">The talk page text</param>
-        /// <param name="summary">the edit summary</param>
         /// <returns>The updated article text</returns>
-        private static string AddMissingFirstCommentHeader(string articleText, ref string summary)
+        private static string AddMissingFirstCommentHeader(string articleText)
         {
             // don't match on lines within templates
             string articleTextTemplatesSpaced = Tools.ReplaceWithSpaces(articleText, WikiRegexes.NestedTemplates.Matches(articleText));
@@ -197,20 +174,11 @@ namespace WikiFunctions.TalkPages
                 int firstLevelTwoHeading = WikiRegexes.HeadingLevelTwo.IsMatch(articleText) ? WikiRegexes.HeadingLevelTwo.Match(articleText).Index : 99999999;
                 
                 if (firstCommentIndex < firstLevelTwoHeading)
-                {                    
+                {
                     // is there a heading level 3? If yes, change to level 2
                     string articletexttofirstcomment = articleText.Substring(0, firstCommentIndex);
-                    
-                    if(WikiRegexes.HeadingLevelThree.IsMatch(articletexttofirstcomment))
-                    {
-                        AppendToSummary(ref summary, "Corrected comments section header");
-                        articleText = WikiRegexes.HeadingLevelThree.Replace(articleText, @"==$1==", 1);
-                    }
-                    else
-                    {
-                        AppendToSummary(ref summary, "Added missing comments section header");
-                        articleText = articleText.Insert(firstCommentIndex, "\r\n==Untitled==\r\n");
-                    }
+
+                    articleText = WikiRegexes.HeadingLevelThree.IsMatch(articletexttofirstcomment) ? WikiRegexes.HeadingLevelThree.Replace(articleText, @"==$1==", 1) : articleText.Insert(firstCommentIndex, "\r\n==Untitled==\r\n");
                 }
             }
             
