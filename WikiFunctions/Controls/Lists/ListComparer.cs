@@ -232,9 +232,7 @@ namespace WikiFunctions.Controls.Lists
         private void AddListToListMaker(ListMaker lm, IEnumerable<Article> lb)
         {
             List<Article> articles = new List<Article>();
-            foreach (Article a in lb)
-                articles.Add(a);
-
+            articles.AddRange(lb);
             lm.Add(articles);
         }
     }
