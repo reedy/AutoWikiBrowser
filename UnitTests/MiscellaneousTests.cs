@@ -688,17 +688,15 @@ bar", df = @"{{DEFAULTSORT:Bert}}";
         [Test]
         public void SkipToTalk()
         {
-            string articleText = @"{{Skiptotoc}}", newSummary = "", STT = @"{{Skip to talk}}";
+            string articleText = @"{{Skiptotoc}}", STT = @"{{Skip to talk}}";
             
             TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(STT + "\r\n", articleText);
-            Assert.IsTrue(newSummary.Contains("Skip to talk"));
             
             articleText = @"{{skiptotoctalk}}";
             
             TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(STT + "\r\n", articleText);
-            Assert.IsTrue(newSummary.Contains("Skip to talk"));
         }
         
         [Test]
