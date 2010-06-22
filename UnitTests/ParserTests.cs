@@ -2572,6 +2572,9 @@ Template:foo}}"));
             bool nochange;
             Assert.AreEqual(@"[[Foo bar]]", Parsers.FixLinks(@"[[Foo_bar]]", "a", out nochange));
             Assert.IsFalse(nochange);
+            
+            const string doubleApos = @"[[Image:foo%27%27s.jpg|thumb|200px|Bar]]";
+            Assert.AreEqual(doubleApos, Parsers.FixLinks(doubleApos, "a", out nochange));
         }
         
         [Test]
@@ -3225,6 +3228,16 @@ x
             Assert.AreEqual(uct.Count, 1);
             Assert.IsTrue(uct.ContainsKey(15));
             Assert.IsTrue(uct.ContainsValue(6));
+            
+            uct = Parsers.UnclosedTags(@"<pre>bar</pre> <ref> not ended");
+            Assert.AreEqual(uct.Count, 1);
+            Assert.IsTrue(uct.ContainsKey(15));
+            Assert.IsTrue(uct.ContainsValue(5));
+            
+            uct = Parsers.UnclosedTags(@"<pre>bar</pre> <ref name='foo'> not ended");
+            Assert.AreEqual(uct.Count, 1);
+            Assert.IsTrue(uct.ContainsKey(15));
+            Assert.IsTrue(uct.ContainsValue(16));
             
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <source lang=""bar""> not ended");
             Assert.AreEqual(uct.Count, 1);
@@ -4083,7 +4096,7 @@ was"));
             Assert.AreEqual(@"Now the 14th February was", parser.FixDateOrdinalsAndOf(@"Now the 14th February was", "test"));
             Assert.AreEqual(@"Now the February 14th was", parser.FixDateOrdinalsAndOf(@"Now the February 14th was", "test"));
             Assert.AreEqual(@"'''6th October City''' is", parser.FixDateOrdinalsAndOf(@"'''6th October City''' is", "6th October City"));
-            Assert.AreEqual(@"<poem>On March 14th, 2008 elections were</poem>", parser.FixDateOrdinalsAndOf(@"<poem>On March 14th, 2008 elections were</poem>", "test"));
+            //poem has been deleted: Assert.AreEqual(@"<poem>On March 14th, 2008 elections were</poem>", parser.FixDateOrdinalsAndOf(@"<poem>On March 14th, 2008 elections were</poem>", "test"));
         }
         
         [Test]
@@ -4194,6 +4207,12 @@ was"));
 
             Assert.AreEqual("[[Image:foo.jpg|thumb|200px|Bar]]",
                             Parsers.FixImages("[[ image : foo.jpg|thumb|200px|Bar]]"));
+            
+            // apostrophe handling
+            Assert.AreEqual(@"[[Image:foo's.jpg|thumb|200px|Bar]]", Parsers.FixImages(@"[[Image:foo%27s.jpg|thumb|200px|Bar]]"));
+            
+            const string doubleApos = @"[[Image:foo%27%27s.jpg|thumb|200px|Bar]]";
+            Assert.AreEqual(doubleApos, Parsers.FixImages(doubleApos));
 
             //TODO: decide if such improvements really belong here
             //Assert.AreEqual("[[Media:foo]]",
@@ -5077,6 +5096,24 @@ words";
 {{Port|Foo2|other=here}}";
             
             Assert.AreEqual(MultipleArguments, Parsers.MergePortals(MultipleArguments), "no merging of portal with multiple arguments");
+            
+            // merging in same section
+            const string SameSection = @"Foo
+==Section==
+{{Portal|Bar}}
+{{Port|Foo}}
+==Other==";
+            Assert.AreEqual(@"Foo
+==Section==
+{{Portal box|Bar|Foo}}
+==Other==", Parsers.MergePortals(SameSection), "portals merged to first portal location when all in same section");
+            
+            const string differentSection = @"Foo
+==Section==
+{{Portal|Bar}}
+==Other==
+{{Port|Foo}}";
+            Assert.AreEqual(differentSection, Parsers.MergePortals(differentSection), "not merged when portals in ddifferent sections");
         }
         
         [Test]

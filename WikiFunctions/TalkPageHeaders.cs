@@ -128,26 +128,16 @@ namespace WikiFunctions.TalkPages
         // Helper routines:
         private static string SetDefaultSort(string key, DEFAULTSORT location, string articleText, ref string summary)
         {
-            string movedTo;
             switch (location)
             {
                 case DEFAULTSORT.MoveToTop:
-                    articleText = "{{DEFAULTSORT:" + key + "}}\r\n" + articleText;
-                    movedTo = " given top billing";
-                    break;
+                    return "{{DEFAULTSORT:" + key + "}}\r\n" + articleText;
+
                 case DEFAULTSORT.MoveToBottom:
-                    articleText = articleText + "\r\n{{DEFAULTSORT:" + key + "}}";
-                    movedTo = " sent to the bottom";
-                    break;
-                default:
-                    movedTo = "";
-                    break;
+                    return articleText + "\r\n{{DEFAULTSORT:" + key + "}}";
             }
 
-            if (location != DEFAULTSORT.NoChange)
-                AppendToSummary(ref summary, "DEFAULTSORT" + movedTo);
-
-            return articleText;
+            return "";
         }
 
         /// <summary>

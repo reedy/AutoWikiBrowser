@@ -355,7 +355,7 @@ namespace WikiFunctions.AWBSettings
         public bool NoAutoChanges = false;
         public int OnLoadAction = 0;
         public bool DiffInBotMode = false;
-        public bool Minor = false;
+        public bool Minor = true;
         public int AddToWatchlist = 2; //No change
         public bool TimerEnabled = false;
         public bool SortListAlphabetically = false;

@@ -97,12 +97,12 @@ namespace WikiFunctions.Controls.Lists
                 Article a = list1[0];
                 if (list2.Contains(a))
                 {
-                    lb3.Items.Add(a.Name);
+                    lb3.Items.Add(a);
                     if (list2.IndexOf(a) > 0)
                     {
                     	foreach (Article a2 in list2.GetRange(0, list2.IndexOf(a) - 1))
                     	{
-                    	  lb2.Items.Add(a2.Name);
+                    	  lb2.Items.Add(a2);
                           list2.Remove(a2);
                     	}
                     }
@@ -110,14 +110,14 @@ namespace WikiFunctions.Controls.Lists
                     list2.Remove(a);
                 }
                 else
-                    lb1.Items.Add(a.Name);
+                    lb1.Items.Add(a);
 
                 list1.Remove(a);
             }
 
             foreach (Article article in list2)
             {
-                lb2.Items.Add(article.Name);
+                lb2.Items.Add(article);
             }
 
             lb1.EndUpdate();
@@ -166,7 +166,7 @@ namespace WikiFunctions.Controls.Lists
             SaveList(lbBoth);
         }
 
-        private static void SaveList(ListBox2<string> lb)
+        private static void SaveList(ListBoxArticle lb)
         {
             if (lb.Items.Count == 0)
             {
@@ -179,28 +179,18 @@ namespace WikiFunctions.Controls.Lists
 
         private void transferDuplicatesToList1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            listMaker1.BeginUpdate();
-
-            foreach (string str in MenuItemOwner(sender).Items)
-                listMaker1.Add(str);
-
-            listMaker1.EndUpdate();
+            AddListToListMaker(listMaker1, MenuItemOwner(sender));
         }
 
         private void transferToListMaker2ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            listMaker2.BeginUpdate();
-
-            foreach (string str in MenuItemOwner(sender).Items)
-                listMaker2.Add(str);
-
-            listMaker2.EndUpdate();
+            AddListToListMaker(listMaker2, MenuItemOwner(sender));
         }
 
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (string article in MenuItemOwner(sender).SelectedItems)
-                Tools.OpenArticleInBrowser(article);
+            foreach (Article a in MenuItemOwner(sender).SelectedItems)
+                Tools.OpenArticleInBrowser(a.Name);
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -208,49 +198,42 @@ namespace WikiFunctions.Controls.Lists
             Tools.Copy(MenuItemOwner(sender));
         }
 
-        private static ListBoxString MenuItemOwner(object sender)
+        private static ListBoxArticle MenuItemOwner(object sender)
         {
-            try { return ((ListBoxString)((ContextMenuStrip)sender).SourceControl); }
-            catch
-            {
-                return (ListBoxString)(((ContextMenuStrip)((ToolStripMenuItem)sender).Owner).SourceControl);
-            }
+            ToolStripMenuItem t = (sender as ToolStripMenuItem);
+            Control c = (t != null)
+                            ? ((ContextMenuStrip) t.Owner).SourceControl
+                            : ((ContextMenuStrip) sender).SourceControl;
+
+            return (ListBoxArticle) c;
         }
 
         private void btnMoveOnly1_Click(object sender, EventArgs e)
         {
-            _mainFormListMaker.BeginUpdate();
-
-            foreach (string a in lbNo1.Items)
-                _mainFormListMaker.Add(a);
-
-            _mainFormListMaker.EndUpdate();
+            AddListToListMaker(_mainFormListMaker, lbNo1);
         }
 
         private void btnMoveCommon_Click(object sender, EventArgs e)
         {
-            _mainFormListMaker.BeginUpdate();
-
-            foreach (string a in lbBoth.Items)
-                _mainFormListMaker.Add(a);
-
-            _mainFormListMaker.EndUpdate();
+            AddListToListMaker(_mainFormListMaker, lbBoth);
         }
 
         private void btnMoveOnly2_Click(object sender, EventArgs e)
         {
-            _mainFormListMaker.BeginUpdate();
-
-            foreach (string a in lbNo2.Items)
-                _mainFormListMaker.Add(a);
-
-            _mainFormListMaker.EndUpdate();
+            AddListToListMaker(_mainFormListMaker, lbNo2);
         }
 
         private void removeSelectedToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MenuItemOwner(sender).RemoveSelected();
             UpdateCounts();
+        }
+
+        private void AddListToListMaker(ListMaker lm, IEnumerable<Article> lb)
+        {
+            List<Article> articles = new List<Article>();
+            articles.AddRange(lb);
+            lm.Add(articles);
         }
     }
 }

@@ -402,6 +402,8 @@ namespace WikiFunctions.Parse
         {
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
+            
+            int firstPortal = WikiRegexes.PortalTemplate.Match(articleText).Index;
 
             string originalArticleText = articleText;
             List<string> Portals = new List<string>();
@@ -428,17 +430,21 @@ namespace WikiFunctions.Parse
             Match pb = PortalBox.Match(articleText);
 
             if (pb.Success) // append portals to existing portal box
-                articleText = articleText.Replace(pb.Value, pb.Value.Substring(0, pb.Length - 2) + PortalsToAdd + @"}}");
-            else
-            {
-                // merge in new portal box: if multiple portals
-                // need ==see also== to put new portal box in
-                if (Portals.Count < 2 || !WikiRegexes.SeeAlso.IsMatch(articleText))
-                    return originalArticleText;
+                return articleText.Replace(pb.Value, pb.Value.Substring(0, pb.Length - 2) + PortalsToAdd + @"}}");
+            
+            // merge in new portal box if multiple portals
+            if (Portals.Count < 2)
+                return originalArticleText;
 
-                articleText = WikiRegexes.SeeAlso.Replace(articleText, "$0" + Tools.Newline(@"{{Portal box" + PortalsToAdd + @"}}"));
-            }
-            return articleText;
+            // first merge to see also section
+            if(WikiRegexes.SeeAlso.IsMatch(articleText))
+                return WikiRegexes.SeeAlso.Replace(articleText, "$0" + Tools.Newline(@"{{Portal box" + PortalsToAdd + @"}}"));
+        
+            // otherwise merge to original location if all portals in same section
+            if(Summary.ModifiedSection(originalArticleText, articleText).Length > 0)
+                return articleText.Insert(firstPortal, @"{{Portal box" + PortalsToAdd + @"}}" + "\r\n");
+
+            return originalArticleText;
         }
 
         /// <summary>
@@ -1681,9 +1687,9 @@ namespace WikiFunctions.Parse
             return false;
         }
 
-        private static readonly Regex MathSourceCodeNowikiPreTagStart = new Regex(@"<\s*(?:math|source\b[^>]*|code|nowiki|pre|small)\s*>", RegexOptions.Compiled);
+        private static readonly Regex MathSourceCodeNowikiPreTagStart = new Regex(@"<\s*(?:math|(?:source|ref)\b[^>]*|code|nowiki|pre|small)\s*>", RegexOptions.Compiled);
         /// <summary>
-        ///  Searches for any unclosed &lt;math&gt;, &lt;source&gt;, &lt;code&gt;, &lt;nowiki&gt;, &lt;small&gt; or &lt;pre&gt; tags
+        ///  Searches for any unclosed &lt;math&gt;, &lt;source&gt;, &lt;ref&gt;, &lt;code&gt;, &lt;nowiki&gt;, &lt;small&gt; or &lt;pre&gt; tags
         /// </summary>
         /// <param name="articleText">The article text</param>
         /// <returns>dictionary of the index and length of any unclosed tags</returns>
@@ -1696,6 +1702,7 @@ namespace WikiFunctions.Parse
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Code);
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Source);
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Small);
+            articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Refs);
 
             foreach (Match m in MathSourceCodeNowikiPreTagStart.Matches(articleText))
             {
@@ -3164,10 +3171,15 @@ namespace WikiFunctions.Parse
             StringBuilder sb = new StringBuilder(articleText, (articleText.Length * 11) / 10);
 
             foreach (Match m in WikiRegexes.WikiLink.Matches(articleText))
-            {
-                if (m.Groups[1].Value.Length > 0)
+            { 
+                string theTarget = m.Groups[1].Value;
+                if (theTarget.Length > 0)
                 {
-                    string y = m.Value.Replace(m.Groups[1].Value, CanonicalizeTitle(m.Groups[1].Value));
+                    string y = m.Value;
+                    
+                    // don't convert %27%27 -- https://bugzilla.wikimedia.org/show_bug.cgi?id=8932
+                    if(!theTarget.Contains("%27%27"))
+                        y = m.Value.Replace(theTarget, CanonicalizeTitle(theTarget));
 
                     if (y != m.Value)
                         sb = sb.Replace(m.Value, y);
@@ -3458,8 +3470,10 @@ namespace WikiFunctions.Parse
         {
             foreach (Match m in WikiRegexes.LooseImage.Matches(articleText))
             {
+                string imageName = m.Groups[2].Value;
                 // only apply underscore/URL encoding fixes to image name (group 2)
-                string x = "[[" + Namespace.Normalize(m.Groups[1].Value, 6) + CanonicalizeTitle(m.Groups[2].Value).Trim() + m.Groups[3].Value.Trim() + "]]";
+                // don't convert %27%27 -- https://bugzilla.wikimedia.org/show_bug.cgi?id=8932
+                string x = "[[" + Namespace.Normalize(m.Groups[1].Value, 6) + (imageName.Contains("%27%27") ? imageName : CanonicalizeTitle(imageName).Trim()) + m.Groups[3].Value.Trim() + "]]";
                 articleText = articleText.Replace(m.Value, x);
             }
 
@@ -3673,6 +3687,9 @@ namespace WikiFunctions.Parse
             return newText;
         }
 
+        private static readonly Regex NDash = new Regex("&#150;|&#8211;|&#x2013;", RegexOptions.Compiled);
+        private static readonly Regex MDash = new Regex("&#151;|&#8212;|&#x2014;", RegexOptions.Compiled);
+
         // Covered by: UnicodifyTests
         /// <summary>
         /// Converts HTML entities to unicode, with some deliberate exceptions
@@ -3684,8 +3701,8 @@ namespace WikiFunctions.Parse
             if (Regex.IsMatch(articleText, "<[Mm]ath>"))
                 return articleText;
 
-            articleText = Regex.Replace(articleText, "&#150;|&#8211;|&#x2013;", "&ndash;");
-            articleText = Regex.Replace(articleText, "&#151;|&#8212;|&#x2014;", "&mdash;");
+            articleText = NDash.Replace(articleText, "&ndash;");
+            articleText = MDash.Replace(articleText, "&mdash;");
             articleText = articleText.Replace(" &amp; ", " & ");
             articleText = articleText.Replace("&amp;", "&amp;amp;");
             articleText = articleText.Replace("&#153;", "™");

@@ -500,6 +500,8 @@ en, sq, ru
         /// <returns>Article text with disambiguation links at top</returns>
         public static string MoveDablinks(string articleText)
         {
+            string originalArticletext = articleText;
+            
             // get the zeroth section (text upto first heading)
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
 
@@ -520,8 +522,14 @@ en, sq, ru
                     zerothSection = zerothSection.Replace(m.Value + "\r\n", "");
                 zerothSection = zerothSection.Replace(m.Value, "");
             }
-
-            return(strDablinks + zerothSection + restOfArticle);
+            
+            articleText = strDablinks + zerothSection + restOfArticle;
+            
+            // avoid moving commented out Dablinks, round 2
+            if(UnformattedTextNotChanged(originalArticletext, articleText))
+                return articleText;
+            
+            return originalArticletext;
         }
         
         private static readonly Regex ExternalLinksSection = new Regex(@"(^== *[Ee]xternal +[Ll]inks? *==.*?)(?=^==+[^=][^\r\n]*?[^=]==+(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);

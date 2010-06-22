@@ -111,7 +111,9 @@ namespace WikiFunctions.DBScanner
             }
             catch (Exception ex)
             {
+                StopButton(false);
                 ErrorHandler.Handle(ex);
+                UpdateControls(false);
             }
         }
 
@@ -596,8 +598,13 @@ namespace WikiFunctions.DBScanner
         private void btnPause_Click(object sender, EventArgs e)
         {
         }
-
+        
         private void StopButton()
+        {
+            StopButton(true);
+        }
+
+        private void StopButton(bool showMatchesMessage)
         {
             timerProgessUpdate.Enabled = false;
             if (Main != null)
@@ -605,9 +612,13 @@ namespace WikiFunctions.DBScanner
                 Main.Stop();
                 Main = null;
             }
-            TimeSpan endTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
-            endTime = endTime.Subtract(StartTime);
-            MessageBox.Show(lbArticles.Items.Count + " matches in " + endTime.ToString().TrimEnd('0'));
+            
+            if(showMatchesMessage)
+            {
+                TimeSpan endTime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
+                endTime = endTime.Subtract(StartTime);
+                MessageBox.Show(lbArticles.Items.Count + " matches in " + endTime.ToString().TrimEnd('0'));
+            }
         }
 
         private void DatabaseScanner_FormClosing(object sender, FormClosingEventArgs e)

@@ -2308,7 +2308,7 @@ Message: {2}
             return NestedTemplateRegex(templatename).Replace(articletext, "$1" + newtemplatename + "$3", count);
         }
 
-        private const string NestedTemplateRegexStart = @"({{\s*)(";
+        private const string NestedTemplateRegexStart = @"({{\s*)(?:";
         private const string NestedTemplateRegexEnd = @"(\s*(?:<!--[^>]*?-->\s*|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋\s*)?(\|((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))))?\}\})";
 
         /// <summary>
@@ -2336,7 +2336,7 @@ Message: {2}
             if (templatenames.Count == 0)
                 return null;
 
-            StringBuilder theRegex = new StringBuilder(NestedTemplateRegexStart);
+            StringBuilder theRegex = new StringBuilder(NestedTemplateRegexStart + Variables.NamespacesCaseInsensitive[Namespace.Template] + @"\s*)?(");
 
             foreach (string templatename in templatenames)
             {
