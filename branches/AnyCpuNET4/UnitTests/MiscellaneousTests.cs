@@ -688,17 +688,15 @@ bar", df = @"{{DEFAULTSORT:Bert}}";
         [Test]
         public void SkipToTalk()
         {
-            string articleText = @"{{Skiptotoc}}", newSummary = "", STT = @"{{Skip to talk}}";
+            string articleText = @"{{Skiptotoc}}", STT = @"{{Skip to talk}}";
             
             TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(STT + "\r\n", articleText);
-            Assert.IsTrue(newSummary.Contains("Skip to talk"));
             
             articleText = @"{{skiptotoctalk}}";
             
             TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(STT + "\r\n", articleText);
-            Assert.IsTrue(newSummary.Contains("Skip to talk"));
         }
         
         [Test]
@@ -856,6 +854,14 @@ __TOC__", articleTextIn);
             TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(allAfterTemplate, articleTextIn);
+        }
+        
+        [Test]
+        public void WikiProjectBannerShellRedirects()
+        {
+            string red1 = @"{{WPBS}}", WikiProjectBannerShell = @"{{WikiProjectBannerShell}}";
+            
+            Assert.AreEqual(WikiProjectBannerShell, TalkPageHeaders.WikiProjectBannerShell(red1));
         }
     }
     

@@ -185,7 +185,7 @@
             this.lvAccounts.FullRowSelect = true;
             this.lvAccounts.Location = new System.Drawing.Point(12, 12);
             this.lvAccounts.Name = "lvAccounts";
-            this.lvAccounts.ResizeColumsOnControlResize = true;
+            this.lvAccounts.ResizeColumnsOnControlResize = true;
             this.lvAccounts.Size = new System.Drawing.Size(494, 175);
             this.lvAccounts.SortColumnsOnClick = true;
             this.lvAccounts.TabIndex = 0;

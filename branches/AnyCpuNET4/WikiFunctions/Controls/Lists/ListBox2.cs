@@ -90,21 +90,24 @@ namespace WikiFunctions.Controls.Lists
             BeginUpdate();
             Sorted = false;
 
-            string[] currentArticles = new string[Items.Count];
+            Article[] currentArticles = new Article[Items.Count];
 
             for (int i = 0; i < Items.Count; i++)
-                currentArticles[i] = Items[i].ToString();
+                currentArticles[i] = (Article)Items[i];
 
             Array.Sort(currentArticles, new ReverseComparer());
 
             Items.Clear();
 
-            foreach (string str in currentArticles)
-                Items.Add(new Article(str));
+            foreach (Article a in currentArticles)
+                Items.Add(a);
 
             EndUpdate();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void RemoveSelected()
         {
             BeginUpdate();
@@ -127,6 +130,9 @@ namespace WikiFunctions.Controls.Lists
 
         static string _list = "";
 
+        /// <summary>
+        /// 
+        /// </summary>
         public enum OutputFormat
         {
             WikiText = 1,
