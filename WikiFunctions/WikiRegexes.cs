@@ -696,30 +696,35 @@ namespace WikiFunctions
         public static readonly Regex LinkFGAs = new Regex(@"{{\s*[Ll]ink (?:[FG]A|FL)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
 
         /// <summary>
+        /// Matches the {{Link FA|xxx}} template used on ar-wiki
+        /// </summary>
+        public static readonly Regex LinkFGAsArabic = new Regex(@"{{\s*وصلة مقالة مختارة\s*\|.*?}}", RegexOptions.Compiled | RegexOptions.Singleline);
+
+        /// <summary>
+        /// Matches {{{Enllaç AD}} and {{Link FA}} in Catalan
+        /// </summary>
+        public static readonly Regex LinkFGAsCatalan = new Regex(@"{{\s*([Ll]ink FA|[Ee]nllaç AD)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
+
+        /// <summary>
         /// Matches {{Lien BA}}, {{Lien AdQ}}, {{Lien PdQ}} in French
         /// </summary>
         public static readonly Regex LinkFGAsFrench = new Regex(@"{{\s*[Ll]ien (?:BA|[PA]dQ)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
-        
+
         /// <summary>
         /// Matches {{{Link AdQ}} and {{Link FA}} in Italian
         /// </summary>
         public static readonly Regex LinkFGAsItalian = new Regex(@"{{\s*[Ll]ink (FA|AdQ)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
 
         /// <summary>
+        /// Matches {{Link GA}}, {{Bom interwiki}}, {{Link FA}}, {{Interwiki destacado}}, {{Destaque}}, {{FA}} in Portuguese
+        /// </summary>
+        public static readonly Regex LinkFGAsPortuguese = new Regex(@"{{\s*[Ll]ink [GF]A|[Bb]om interwiki|[Ii]nterwiki destacado|[Dd]estaque|FA\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
+        
+        /// <summary>
         /// Matches {{{Destacado}}, {{{Bueno}} and {{Link FA}} in Spanish
         /// </summary>
         public static readonly Regex LinkFGAsSpanish = new Regex(@"{{\s*([Ll]ink FA|[Dd]estacado|[Bb]ueno)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
-
-        /// <summary>
-        /// Matches {{{Enllaç AD}} and {{Link FA}} in Catalan
-        /// </summary>
-        public static readonly Regex LinkFGAsCatalan = new Regex(@"{{\s*([Ll]ink FA|[Ee]nllaç AD)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
         
-        /// <summary>
-        /// Matches the {{Link FA|xxx}} template used on ar-wiki
-        /// </summary>
-        public static readonly Regex LinkFGAsArabic = new Regex(@"{{\s*وصلة مقالة مختارة\s*\|.*?}}", RegexOptions.Compiled | RegexOptions.Singleline);
-
         /// <summary>
         /// Matches {{Deadend|xxx}} (en only), including in {{multiple issues}}
         /// </summary>

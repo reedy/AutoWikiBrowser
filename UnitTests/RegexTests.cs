@@ -1561,6 +1561,23 @@ Bert").Groups[2].Value, "foo bar\r");
         }
         
         [Test]
+        public void LinkFGAsArabic()
+        {
+            Assert.IsTrue(WikiRegexes.LinkFGAsArabic.IsMatch(@"foo {{وصلة مقالة مختارة|he}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAsArabic.IsMatch(@"foo {{وصلة مقالة مختارة|
+he}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAsArabic.IsMatch(@"foo {{وصلة مقالة مختارة
+|he}}"));
+        }
+
+        [Test]
+        public void LinkFGAsCatalan()
+        {
+            Assert.IsTrue(WikiRegexes.LinkFGAsCatalan.IsMatch(@"foo {{link FA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAsCatalan.IsMatch(@"foo {{Enllaç AD|ar}}"));
+        }
+
+        [Test]
         public void LinkFGAsFrench()
         {
             Assert.IsTrue(WikiRegexes.LinkFGAsFrench.IsMatch(@"foo {{lien BA|ar}}"));
@@ -1576,6 +1593,17 @@ Bert").Groups[2].Value, "foo bar\r");
         }
         
         [Test]
+        public void LinkFGAsPortuguese()
+        {
+            Assert.IsTrue(WikiRegexes.LinkFGAsPortuguese.IsMatch(@"foo {{link GA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAsPortuguese.IsMatch(@"foo {{Bom interwiki|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAsPortuguese.IsMatch(@"foo {{Link FA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAsPortuguese.IsMatch(@"foo {{FA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAsPortuguese.IsMatch(@"foo {{Interwiki destacado|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAsPortuguese.IsMatch(@"foo {{Destaque|ar}}"));
+        }
+
+        [Test]
         public void LinkFGAsSpanish()
         {
             Assert.IsTrue(WikiRegexes.LinkFGAsSpanish.IsMatch(@"foo {{link FA|ar}}"));
@@ -1584,23 +1612,6 @@ Bert").Groups[2].Value, "foo bar\r");
             Assert.IsTrue(WikiRegexes.LinkFGAsSpanish.IsMatch(@"foo {{bueno|el}}"));
         }
         
-        [Test]
-        public void LinkFGAsCatalan()
-        {
-            Assert.IsTrue(WikiRegexes.LinkFGAsCatalan.IsMatch(@"foo {{link FA|ar}}"));
-            Assert.IsTrue(WikiRegexes.LinkFGAsCatalan.IsMatch(@"foo {{Enllaç AD|ar}}"));
-        }
-
-        [Test]
-        public void LinkFGAsArabic()
-        {
-            Assert.IsTrue(WikiRegexes.LinkFGAsArabic.IsMatch(@"foo {{وصلة مقالة مختارة|he}}"));
-            Assert.IsTrue(WikiRegexes.LinkFGAsArabic.IsMatch(@"foo {{وصلة مقالة مختارة|
-he}}"));
-            Assert.IsTrue(WikiRegexes.LinkFGAsArabic.IsMatch(@"foo {{وصلة مقالة مختارة
-|he}}"));
-        }
-
         [Test]
         public void CircaTemplate()
         {
