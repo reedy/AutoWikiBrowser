@@ -820,11 +820,11 @@ en, sq, ru
                 case "it" :
                     matches =WikiRegexes.LinkFGAsItalian.Matches(articleText);
                     break;
-                    default :
-                        matches = WikiRegexes.LinkFGAs.Matches(articleText);
-                    break;
                 case "pt" :
                     matches =WikiRegexes.LinkFGAsPortuguese.Matches(articleText);
+                    break;
+                    default :
+                        matches = WikiRegexes.LinkFGAs.Matches(articleText);
                     break;
             }
 
