@@ -823,6 +823,9 @@ en, sq, ru
                     default :
                         matches = WikiRegexes.LinkFGAs.Matches(articleText);
                     break;
+                case "pt" :
+                    matches =WikiRegexes.LinkFGAsPortuguese.Matches(articleText);
+                    break;
             }
 
             if (matches.Count == 0)
