@@ -135,7 +135,7 @@ namespace WikiFunctions
             EmptyTemplate = new Regex(@"{{(" + Variables.NamespacesCaseInsensitive[Namespace.Template] + @")?[|\s]*}}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
             
             // set orphan, wikify, uncat templates & dateparameter string
-            string orphantemplate = "", uncattemplate = "";
+            string orphantemplate, uncattemplate;
             switch(Variables.LangCode)
             {
                 case "sv":
@@ -157,8 +157,48 @@ namespace WikiFunctions
                     DateYearMonthParameter = @"date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
                     break;
             }
+
             Orphan = new Regex(@"{{\s*" + orphantemplate + @"(?:\s*\|\s*(" + DateYearMonthParameter + @"|.*?))?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
             Uncat = new Regex(@"{{\s*" + uncattemplate + @"((\s*\|[^{}]+)?\s*|\s*\|((?>[^\{\}]+|\{\{(?<DEPTH>)|\}\}(?<-DEPTH>))*(?(DEPTH)(?!))))\}\}", RegexOptions.Compiled);
+
+            switch (Variables.LangCode)
+            {
+                case "ar":
+                    WikiRegexes.LinkFGAs = new Regex(@"{{\s*وصلة مقالة مختارة\s*\|.*?}}",
+                                                     RegexOptions.Compiled | RegexOptions.Singleline);
+                    break;
+
+                case "ca":
+                    WikiRegexes.LinkFGAs = new Regex(@"{{\s*([Ll]ink FA|[Ee]nllaç AD)\|.*?}}",
+                                                     RegexOptions.Compiled | RegexOptions.RightToLeft);
+                    break;
+
+                case "fr":
+                    WikiRegexes.LinkFGAs = new Regex(@"{{\s*[Ll]ien (?:BA|[PA]dQ)\|.*?}}",
+                                                     RegexOptions.Compiled | RegexOptions.RightToLeft);
+                    break;
+
+                case "it":
+                    WikiRegexes.LinkFGAs = new Regex(@"{{\s*[Ll]ink (FA|AdQ)\|.*?}}",
+                                                     RegexOptions.Compiled | RegexOptions.RightToLeft);
+                    break;
+
+                case "pt":
+                    WikiRegexes.LinkFGAs =
+                        new Regex(@"{{\s*[Ll]ink [GF]A|[Bb]om interwiki|[Ii]nterwiki destacado|[Dd]estaque|FA\|.*?}}",
+                                  RegexOptions.Compiled | RegexOptions.RightToLeft);
+                    break;
+
+                case "es":
+                    WikiRegexes.LinkFGAs = new Regex(@"{{\s*([Ll]ink FA|[Dd]estacado|[Bb]ueno)\|.*?}}",
+                                                     RegexOptions.Compiled | RegexOptions.RightToLeft);
+                    break;
+
+                default:
+                    WikiRegexes.LinkFGAs = new Regex(@"{{\s*[Ll]ink (?:[FG]A|FL)\|.*?}}",
+                                                     RegexOptions.Compiled | RegexOptions.RightToLeft);
+                    break;
+            }
         }
 
         /// <summary>
@@ -693,38 +733,8 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{Link FA|xxx}}, {{Link GA|xxx}}, {{Link FL|xxx}}
         /// </summary>
-        public static readonly Regex LinkFGAs = new Regex(@"{{\s*[Ll]ink (?:[FG]A|FL)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
+        public static Regex LinkFGAs;
 
-        /// <summary>
-        /// Matches the {{Link FA|xxx}} template used on ar-wiki
-        /// </summary>
-        public static readonly Regex LinkFGAsArabic = new Regex(@"{{\s*وصلة مقالة مختارة\s*\|.*?}}", RegexOptions.Compiled | RegexOptions.Singleline);
-
-        /// <summary>
-        /// Matches {{{Enllaç AD}} and {{Link FA}} in Catalan
-        /// </summary>
-        public static readonly Regex LinkFGAsCatalan = new Regex(@"{{\s*([Ll]ink FA|[Ee]nllaç AD)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
-
-        /// <summary>
-        /// Matches {{Lien BA}}, {{Lien AdQ}}, {{Lien PdQ}} in French
-        /// </summary>
-        public static readonly Regex LinkFGAsFrench = new Regex(@"{{\s*[Ll]ien (?:BA|[PA]dQ)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
-
-        /// <summary>
-        /// Matches {{{Link AdQ}} and {{Link FA}} in Italian
-        /// </summary>
-        public static readonly Regex LinkFGAsItalian = new Regex(@"{{\s*[Ll]ink (FA|AdQ)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
-
-        /// <summary>
-        /// Matches {{Link GA}}, {{Bom interwiki}}, {{Link FA}}, {{Interwiki destacado}}, {{Destaque}}, {{FA}} in Portuguese
-        /// </summary>
-        public static readonly Regex LinkFGAsPortuguese = new Regex(@"{{\s*[Ll]ink [GF]A|[Bb]om interwiki|[Ii]nterwiki destacado|[Dd]estaque|FA\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
-        
-        /// <summary>
-        /// Matches {{{Destacado}}, {{{Bueno}} and {{Link FA}} in Spanish
-        /// </summary>
-        public static readonly Regex LinkFGAsSpanish = new Regex(@"{{\s*([Ll]ink FA|[Dd]estacado|[Bb]ueno)\|.*?}}", RegexOptions.Compiled | RegexOptions.RightToLeft);
-        
         /// <summary>
         /// Matches {{Deadend|xxx}} (en only), including in {{multiple issues}}
         /// </summary>

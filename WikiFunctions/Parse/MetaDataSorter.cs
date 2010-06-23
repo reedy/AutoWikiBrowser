@@ -768,9 +768,7 @@ en, sq, ru
             }
             
             // newlines are fixed by later logic; validate no <ref> in external links section
-            if(!Parsers.HasRefAfterReflist(articleText))
-                return articleText;
-            else return articleTextAtStart;
+            return !Parsers.HasRefAfterReflist(articleText) ? articleText : articleTextAtStart;
         }
 
         /// <summary>
@@ -802,31 +800,7 @@ en, sq, ru
         {
             List<string> linkFGAList = new List<string>();
 
-            MatchCollection matches;
-            switch(Variables.LangCode)
-            {
-                case "ar" :
-                    matches =WikiRegexes.LinkFGAsArabic.Matches(articleText);
-                    break;
-                case "ca" :
-                    matches =WikiRegexes.LinkFGAsCatalan.Matches(articleText);
-                    break;
-                case "es" :
-                    matches =WikiRegexes.LinkFGAsSpanish.Matches(articleText);
-                    break;
-                case "fr" :
-                    matches =WikiRegexes.LinkFGAsFrench.Matches(articleText);
-                    break;
-                case "it" :
-                    matches =WikiRegexes.LinkFGAsItalian.Matches(articleText);
-                    break;
-                case "pt" :
-                    matches =WikiRegexes.LinkFGAsPortuguese.Matches(articleText);
-                    break;
-                    default :
-                        matches = WikiRegexes.LinkFGAs.Matches(articleText);
-                    break;
-            }
+            MatchCollection matches = WikiRegexes.LinkFGAs.Matches(articleText);
 
             if (matches.Count == 0)
                 return linkFGAList;

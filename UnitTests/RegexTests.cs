@@ -116,7 +116,7 @@ namespace UnitTests
 
             TestMatches(WikiRegexes.Redirect, "[foo]]", 0);
         }
-        
+
         [Test]
         public void TalkpageHeader()
         {
@@ -132,9 +132,9 @@ namespace UnitTests
             TestMatches(WikiRegexes.TalkHeaderTemplate, @"{{Talkheader}}", 1);
             TestMatches(WikiRegexes.TalkHeaderTemplate, @"{{talk header|search=yes}}", 1);
             TestMatches(WikiRegexes.TalkHeaderTemplate, @"{{talk header|noarchive=yes}}", 1);
-            
+
             Assert.AreEqual(@"Talkpageheader", WikiRegexes.TalkHeaderTemplate.Match(@"{{ Talkpageheader  |foo}}").Groups[1].Value);
-            
+
             // no match
             TestMatches(WikiRegexes.TalkHeaderTemplate, @"{{talkarchivenav|noredlinks=yes}}", 0);
 
@@ -148,7 +148,7 @@ namespace UnitTests
             TestMatches(WikiRegexes.SkipTOCTemplateRegex, @"{{ skiptotoctalk}}", 1);
             TestMatches(WikiRegexes.SkipTOCTemplateRegex, @"{{skiptotoc}}", 1);
         }
-        
+
         [Test]
         public void WikiProjectBannerShellTemplate()
         {
@@ -164,7 +164,8 @@ namespace UnitTests
             {{WPBiography|living=yes|class=}}
             {{WikiProject Greece}}
             |activepol=yes
-            }}", 1);        }
+            }}", 1);
+        }
 
         [Test]
         public void BLPUnsourced()
@@ -188,7 +189,7 @@ namespace UnitTests
             TestMatches(WikiRegexes.BLPSources, @"{{ BLP Unreferenced | foo}}", 1);
             TestMatches(WikiRegexes.BLPSources, @"{{bLP Unreferenced}}", 1);
         }
-        
+
         [Test]
         public void NamedReferences()
         {
@@ -203,7 +204,7 @@ title = text |
 work = text
 }}</ref>"), "matches multiple line ref");
             Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"< REF NAME = ""foo"">text <br>more</ref>"), "case insensitive matching");
-            
+
             Assert.AreEqual(@"<ref name=""Shul726"">Shul, p. 726</ref>", WikiRegexes.NamedReferences.Match(@"<ref name=""vietnam.ttu.edu""/><ref name=""Shul726"">Shul, p. 726</ref>").Value, "match is not across consecutive references – first condensed");
             Assert.AreEqual(@"<ref name=""Shul726"">Shul, p. 726</ref>", WikiRegexes.NamedReferences.Match(@"<ref name=""Shul726"">Shul, p. 726</ref><ref name=""Foo"">foo text</ref>").Value, "match is not across consecutive references – first full");
             Assert.AreEqual(@"Shul726", WikiRegexes.NamedReferences.Match(@"<ref name=""vietnam.ttu.edu""/><ref name=""Shul726"">Shul, p. 726</ref>").Groups[2].Value, "ref name is group 2");
@@ -256,7 +257,7 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
 
             TestMatches(WikiRegexes.WikiLinksOnly, "[[foo[]]", 0);
             TestMatch(WikiRegexes.WikiLinksOnly, "[[foo [[bar]] here]", "[[bar]]");
-            
+
             // don't consider Categories, Images and IW to be "WikiLinks Only"
             TestMatches(WikiRegexes.WikiLinksOnly, "[[Category:Test]]", 0);
             TestMatches(WikiRegexes.WikiLinksOnly, "[[de:Test]]", 0);
@@ -350,18 +351,18 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             TestMatch(WikiRegexes.Blockquote, "< Blockquote >foo\r\nbar</ BLOCKQUOTE>", "< Blockquote >foo\r\nbar</ BLOCKQUOTE>");
         }
 
-//        [Test]
-//        public void Poem()
-//        {
-//            // one line
-//            TestMatch(WikiRegexes.Poem, "<poem>foo bar< /poem>", "<poem>foo bar< /poem>");
-//
-//            // multiple lines
-//            TestMatch(WikiRegexes.Poem, @"< Poem >foo
-//bar</ POEM>", @"< Poem >foo
-//bar</ POEM>");
-//        }
-        
+        //        [Test]
+        //        public void Poem()
+        //        {
+        //            // one line
+        //            TestMatch(WikiRegexes.Poem, "<poem>foo bar< /poem>", "<poem>foo bar< /poem>");
+        //
+        //            // multiple lines
+        //            TestMatch(WikiRegexes.Poem, @"< Poem >foo
+        //bar</ POEM>", @"< Poem >foo
+        //bar</ POEM>");
+        //        }
+
         [Test]
         public void Persondata()
         {
@@ -385,7 +386,7 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             TestMatch(WikiRegexes.Persondata, pd1, pd1);
             TestMatch(WikiRegexes.Persondata, pd2, pd2);
         }
-        
+
         [Test]
         public void UseDatesTemplateTests()
         {
@@ -397,10 +398,10 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             TestMatch(WikiRegexes.UseDatesTemplate, @"{{DMY}}", true);
             TestMatch(WikiRegexes.UseDatesTemplate, @"{{use ymd dates}}", true);
             TestMatch(WikiRegexes.UseDatesTemplate, @"{{ISO}}", true);
-            
-            Assert.AreEqual(WikiRegexes.UseDatesTemplate.Match( @"{{use mdy dates}}").Groups[2].Value, "use mdy dates");
+
+            Assert.AreEqual(WikiRegexes.UseDatesTemplate.Match(@"{{use mdy dates}}").Groups[2].Value, "use mdy dates");
         }
-        
+
         [Test]
         public void ISODates()
         {
@@ -409,7 +410,7 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             TestMatch(WikiRegexes.ISODates, @"on 2009-12-21 a", true);
             TestMatch(WikiRegexes.ISODates, @"on 2009-08-31 a", true);
             TestMatch(WikiRegexes.ISODates, @"BC]] |date=2003-10-19 }}", true);
-            
+
             TestMatch(WikiRegexes.ISODates, @"on 1009-12-11 a", false);
             TestMatch(WikiRegexes.ISODates, @"on 2209-12-11 a", false);
             TestMatch(WikiRegexes.ISODates, @"on 2009-14-11 a", false);
@@ -483,7 +484,7 @@ bar</ INCLUDEONLY>");
             RegexAssert.Matches("Should match distinct templates", WikiRegexes.NestedTemplates, "{{foo}}{{bar}}", "{{foo}}", "{{bar}}");
             RegexAssert.Matches("{{foo| {bar} }}", WikiRegexes.NestedTemplates, "{{foo| {bar} }}");
             RegexAssert.Matches("{{foo {{bar}} end}}", WikiRegexes.NestedTemplates, "{{foo {{bar}} end}}");
-            
+
             RegexAssert.Matches("{{ foo |bar}}", WikiRegexes.NestedTemplates, "{{ foo |bar}}");
             RegexAssert.Matches("{{foo<!--comm-->|bar}}", WikiRegexes.NestedTemplates, "{{foo<!--comm-->|bar}}");
             RegexAssert.Matches("", WikiRegexes.NestedTemplates, "{{foo");
@@ -493,17 +494,17 @@ bar</ INCLUDEONLY>");
         public void TemplateName()
         {
             Assert.IsTrue(WikiRegexes.TemplateName.Match(@"{{Start date and age|1833|7|11}}").Groups[1].Value == "Start date and age");
-            
+
             // whitespace handling
             Assert.IsTrue(WikiRegexes.TemplateName.Match(@"{{ Start date and age |1833|7|11}}").Groups[1].Value == "Start date and age");
             Assert.IsTrue(WikiRegexes.TemplateName.Match(@"{{
 Start date and age
 |1833|7|11}}").Groups[1].Value == "Start date and age");
-            
+
             // embedded comments
             Assert.IsTrue(WikiRegexes.TemplateName.Match(@"{{start date and age <!--comm--> |1833|7|11}}").Groups[1].Value == "start date and age");
             Assert.IsTrue(WikiRegexes.TemplateName.Match(@"{{start date and age <!--comm-->}}").Groups[1].Value == "start date and age");
-            
+
             // works on part templates
             Assert.IsTrue(WikiRegexes.TemplateName.Match(@"{{Start date and age|1833|7|").Groups[1].Value == "Start date and age");
         }
@@ -533,7 +534,7 @@ Start date and age
 
             RegexAssert.NoMatch(WikiRegexes.Refs, "<refname=foo>bar</ref>");
             RegexAssert.NoMatch(WikiRegexes.Refs, "<refname=foo/>");
-            
+
             RegexAssert.Matches(WikiRegexes.Refs, "<ref group=a name=foo/>", "<ref group=a name=foo/>");
             RegexAssert.Matches(WikiRegexes.Refs, "<ref name=foo group=a />", "<ref name=foo group=a />");
 
@@ -541,13 +542,13 @@ Start date and age
             RegexAssert.Matches(WikiRegexes.Refs, "<ref>foo<!-- bar --></ref>", "<ref>foo<!-- bar --></ref>");
             // shouldn't eat too much
             RegexAssert.Matches(WikiRegexes.Refs, "<ref>foo<!-- bar --></ref> <ref>foo</ref>", "<ref>foo<!-- bar --></ref>", "<ref>foo</ref>");
-        
+
             TestMatches(WikiRegexes.Refs, @"Article<ref>A</ref> <ref>B</ref> <ref>C</ref> <ref>B</ref> <ref>E</ref>", 5);
-        
+
             // this is why the <DEPTH> business is needed in WikiRegexes.Refs
             RegexAssert.Matches(new Regex(WikiRegexes.Refs + @"\."), "Foo.<ref>bar</ref>. The next Foo.<ref>bar <br> other</ref> The next Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The nextFoo<ref>bar2</ref>. The next", "<ref>bar</ref>.", "<ref>bar2</ref>.");
         }
-        
+
         [Test]
         public void Small()
         {
@@ -558,12 +559,12 @@ foo
 </small>", @"<small>
 foo
 </small>");
-            
+
             RegexAssert.Matches(WikiRegexes.Small, "<SMALL>foo</SMALL>", "<SMALL>foo</SMALL>");
             RegexAssert.Matches(WikiRegexes.Small, "<small>a<small>foo</small>b</small>", "<small>a<small>foo</small>b</small>");
             RegexAssert.Matches(WikiRegexes.Small, @"<small>..<small>...</small>", @"<small>...</small>");
         }
-        
+
         [Test]
         public void Nowiki()
         {
@@ -574,9 +575,9 @@ foo
         [Test]
         public void ExternalLink()
         {
-            RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://google.co.uk","http://google.co.uk");
-            RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://google-here.co.uk","http://google-here.co.uk");
-            RegexAssert.Matches(WikiRegexes.ExternalLinks, "https://google.co.uk","https://google.co.uk");
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://google.co.uk", "http://google.co.uk");
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://google-here.co.uk", "http://google-here.co.uk");
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, "https://google.co.uk", "https://google.co.uk");
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://foo.com/asdfasdf/asdf.htm", "http://foo.com/asdfasdf/asdf.htm");
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://www.google.co.uk", "http://www.google.co.uk");
 
@@ -591,20 +592,20 @@ foo
             //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_14#Regex_problem
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://www.google.co.uk google}}", "http://www.google.co.uk");
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://www.google.co.uk}}", "http://www.google.co.uk");
-            
-            RegexAssert.Matches(WikiRegexes.ExternalLinks,  @"date=April 2010|url=http://w/010111a.html}}", "http://w/010111a.html");
-            
+
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, @"date=April 2010|url=http://w/010111a.html}}", "http://w/010111a.html");
+
             // incorrect brackets
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "lol [http://www.google.co.uk lol", "http://www.google.co.uk");
 
             RegexAssert.NoMatch(WikiRegexes.ExternalLinks, "Google");
-            
+
             // protocol is group 1
             Assert.AreEqual("http", WikiRegexes.ExternalLinks.Match(@"http://google.co.uk").Groups[1].Value);
             Assert.AreEqual("svn", WikiRegexes.ExternalLinks.Match(@"svn://google.co.uk Google}}").Groups[1].Value);
             Assert.AreEqual("Http", WikiRegexes.ExternalLinks.Match(@"Http://google.co.uk").Groups[1].Value);
             Assert.AreEqual("HTTP", WikiRegexes.ExternalLinks.Match(@"HTTP://google.co.uk").Groups[1].Value);
-            
+
             // not when in external link brackets
             Assert.AreEqual("", WikiRegexes.ExternalLinks.Match(@"[http://google.co.uk Google]").Groups[1].Value);
         }
@@ -686,7 +687,7 @@ fast„ "));
             Assert.IsFalse(WikiRegexes.SicTag.IsMatch("now sickened by"));
             Assert.IsFalse(WikiRegexes.SicTag.IsMatch("now helo sic there"));
         }
-        
+
         [Test]
         public void RFromModification()
         {
@@ -697,7 +698,7 @@ fast„ "));
             Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromModificationList).IsMatch(@"{{R from alternate punctuation}}"));
             Assert.IsTrue(Tools.NestedTemplateRegex(WikiRegexes.RFromModificationList).IsMatch(@"{{R from alternative punctuation}}"));
         }
-        
+
         [Test]
         public void RFromTitleWithoutDiacritics()
         {
@@ -745,7 +746,7 @@ fast„ "));
             Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref> {{ listaref | 2}}"));
             Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"<references>
 <ref name =Fred>Fred</ref> </references>"));
-                Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"<  references >
+            Assert.IsTrue(WikiRegexes.ReferencesTemplate.IsMatch(@"<  references >
 <ref name =Fred>Fred</ref> </  references  >"));
 
             Assert.IsFalse(WikiRegexes.ReferencesTemplate.IsMatch(@"Hello<ref>Fred</ref>"));
@@ -756,7 +757,7 @@ fast„ "));
 <ref name=modern>{{cite news |first=William }}
         }}"));
         }
-        
+
         [Test]
         public void CiteTemplate()
         {
@@ -765,7 +766,7 @@ fast„ "));
             Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{ cite web|url=a|title=b}}"));
             Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{Citeweb|url=a|title=b}}"));
             Assert.IsTrue(WikiRegexes.CiteTemplate.IsMatch(@"{{Citeweb|url=a|title=b and {{foo}} there}}"));
-            
+
             // name derivation
             Assert.AreEqual(WikiRegexes.CiteTemplate.Match(@"{{cite web|url=a|title=b}}").Groups[1].Value, "cite web");
             Assert.AreEqual(WikiRegexes.CiteTemplate.Match(@"{{ cite web |url=a|title=b}}").Groups[1].Value, "cite web");
@@ -795,7 +796,7 @@ fast„ "));
 
             // this is correct syntax
             Assert.IsFalse(WikiRegexes.RefAfterReflist.IsMatch(@"blah <ref>a</ref> ==references== {{reflist}}"));
-            
+
             string bug1 = @"
 ==References==
 <references />
@@ -810,10 +811,10 @@ fast„ "));
 [[nl:Tatamy]]
 [[pt:Tatamy]]
 [[vo:Tatamy]]";
-            
+
             Assert.IsFalse(WikiRegexes.RefAfterReflist.IsMatch(bug1));
         }
-        
+
         [Test]
         public void IbidOpCitation()
         {
@@ -825,11 +826,11 @@ fast„ "));
             Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"Op. cit"));
             Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"Op
 cit"));
-            
+
             Assert.IsFalse(WikiRegexes.IbidOpCitation.IsMatch(@"Libid was"));
             Assert.IsFalse(WikiRegexes.IbidOpCitation.IsMatch(@"The op was later cit"));
         }
-        
+
         [Test]
         public void Ibid()
         {
@@ -840,7 +841,7 @@ cit"));
             Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{Ibid|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
             Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid|date=May 2009|foo=bar}}"));
             Assert.IsTrue(WikiRegexes.Ibid.IsMatch(@"{{ibid|}}"));
-            
+
             Assert.IsFalse(WikiRegexes.Ibid.IsMatch(@"Libid was"));
             Assert.IsFalse(WikiRegexes.Ibid.IsMatch(@"{{IBID}}"));
             Assert.IsFalse(WikiRegexes.Ibid.IsMatch(@"{{Ibidate}}"));
@@ -875,7 +876,7 @@ cit"));
             Assert.IsFalse(WikiRegexes.Dablinks.IsMatch(@"{{REDIRECT2|Fred the dancer|Fred Smith (dancer)}}"));
             Assert.IsFalse(WikiRegexes.Dablinks.IsMatch(@"{{Otheruse2|something}}")); //non-existent
         }
-        
+
         [Test]
         public void Unreferenced()
         {
@@ -884,10 +885,10 @@ cit"));
             Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(@"{{unreferenced  }}"));
             Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(@"{{unreferenced|date=May 2009}}"));
             Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(@"{{No refs}}"));
-            
+
             Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(@"{{unreferenced-stub}}"));
-        }        
-        
+        }
+
         [Test]
         public void PortalTemplateTests()
         {
@@ -898,7 +899,7 @@ cit"));
             Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{Portalpar}}"));
             Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal|Science}}"));
             Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal|Spaceflight|RocketSunIcon.svg|break=yes}}"));
-            
+
             Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{PORTAL}}"));
             Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{portalos}}"));
             Assert.IsFalse(WikiRegexes.PortalTemplate.IsMatch(@"{{portalparity}}"));
@@ -944,7 +945,7 @@ cit"));
             Assert.AreEqual(WikiRegexes.Expand.Replace(@"{{article issues|wikify=May 2009|COI=March 2009|expand=May 2008}}", ""), @"{{article issues|wikify=May 2009|COI=March 2009}}");
             Assert.AreEqual(WikiRegexes.Expand.Replace(@"{{article issues|wikify=May 2009| expand = May 2008|COI=March 2009}}", ""), @"{{article issues|wikify=May 2009|COI=March 2009}}");
         }
-        
+
         [Test]
         public void TemplateEndTests()
         {
@@ -1022,7 +1023,7 @@ heading=="));
 ====heading===
 words"));
         }
-        
+
         [Test]
         public void HeadingLevelThreeTests()
         {
@@ -1117,7 +1118,7 @@ words2"));
             Assert.IsTrue(WikiRegexes.ArticleIssues.IsMatch(@"{{Articleissues }}"));
             Assert.IsTrue(WikiRegexes.ArticleIssues.IsMatch(@"{{Multiple issues|wikify=May 2008|a=b|c=d}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssues.IsMatch(@"{{ multiple issues|wikify=May 2008|a=b|c=d}}"));
-            
+
             Assert.IsTrue(WikiRegexes.ArticleIssues.IsMatch(@"{{ multiple issues|wikify={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|orphan={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|c=d}}"));
 
             // no matches
@@ -1255,9 +1256,9 @@ words2"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{newsrelease}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{notable}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{onesource}}"));
-            
+
             Assert.IsFalse(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{OR}}"));
-            
+
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{orphan}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{peacock}}"));
             Assert.IsTrue(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{plot}}"));
@@ -1364,7 +1365,7 @@ words2"));
 
             Assert.IsFalse(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{Article issues|wikify=May 2008|a=b|c=d}}"));
             Assert.IsFalse(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{WIKIFY}}"));
-            
+
             // no support for handling templates with multiple parameters
             Assert.IsFalse(WikiRegexes.ArticleIssuesTemplates.IsMatch(@"{{notability|Biographies|date=December 2008}}"));
         }
@@ -1492,7 +1493,7 @@ words2"));
             Assert.IsFalse(WikiRegexes.BareExternalLink.IsMatch(@"<ref>http://www.site.com</ref>
 "));
         }
-        
+
         [Test]
         public void BareRefExternalLink()
         {
@@ -1502,25 +1503,25 @@ words2"));
 < / ref  >");
             TestMatch(WikiRegexes.BareRefExternalLink, @"<ref name=hello>[http://news.bbc.co.uk/hi/England/story4384.htm]</ref>");
             TestMatch(WikiRegexes.BareRefExternalLink, @"<ref>[   http://news.bbc.co.uk/hi/England/story4384.htm   ]   </ref>");
-            
+
             TestMatch(WikiRegexes.BareRefExternalLink, @"<ref>[http://news.bbc.co.uk/hi/England/story4384.htm title here]</ref>", false);
-            
+
             Assert.AreEqual(WikiRegexes.BareRefExternalLink.Match(@"<ref>[ http://news.bbc.co.uk/hi/England/story4384.htm ] </ref>").Groups[1].Value, @"http://news.bbc.co.uk/hi/England/story4384.htm");
             Assert.AreEqual(WikiRegexes.BareRefExternalLink.Match(@"<ref>[ http://news.bbc.co.uk/hi/England/story4384.htm] </ref>").Groups[1].Value, @"http://news.bbc.co.uk/hi/England/story4384.htm");
             Assert.AreEqual(WikiRegexes.BareRefExternalLink.Match(@"<ref>[ http://news.bbc.co.uk/hi/England/story4384.htm]. </ref>").Groups[1].Value, @"http://news.bbc.co.uk/hi/England/story4384.htm");
         }
-        
+
         [Test]
         public void BareRefExternalLinkBotGenTitle()
         {
-        	TestMatch(WikiRegexes.BareRefExternalLinkBotGenTitle, @"<ref>[http://news.bbc.co.uk/hi/England/story4384.htm]</ref>");
-        	TestMatch(WikiRegexes.BareRefExternalLinkBotGenTitle, @"<ref>[http://www.independent.co.uk/news/people/bo-johnson-30403.html Boris Johnson: People - The Independent<!-- Bot generated title -->]</ref>");
-        	
-        	TestMatch(WikiRegexes.BareRefExternalLinkBotGenTitle, @"<ref>Smith, Fred [http://www.independent.co.uk/news/people/bo-johnson-30403.html Boris Johnson: People - The Independent<!-- Bot generated title -->]</ref>", false);
-        	TestMatch(WikiRegexes.BareRefExternalLinkBotGenTitle, @"<ref>[http://www.independent.co.uk/news/people/bo-johnson-30403.html Boris Johnson: People - The Independent]</ref>", false);
-        	
-        	Assert.AreEqual(@"http://news.bbc.co.uk/hi/England/story4384.htm", WikiRegexes.BareRefExternalLinkBotGenTitle.Match(@"<ref>[http://news.bbc.co.uk/hi/England/story4384.htm]</ref>").Groups[1].Value);
-        	Assert.AreEqual(@"http://news.bbc.co.uk/hi/England/story4384.htm", WikiRegexes.BareRefExternalLinkBotGenTitle.Match(@"<ref> [ http://news.bbc.co.uk/hi/England/story4384.htm]. </ref>").Groups[1].Value);
+            TestMatch(WikiRegexes.BareRefExternalLinkBotGenTitle, @"<ref>[http://news.bbc.co.uk/hi/England/story4384.htm]</ref>");
+            TestMatch(WikiRegexes.BareRefExternalLinkBotGenTitle, @"<ref>[http://www.independent.co.uk/news/people/bo-johnson-30403.html Boris Johnson: People - The Independent<!-- Bot generated title -->]</ref>");
+
+            TestMatch(WikiRegexes.BareRefExternalLinkBotGenTitle, @"<ref>Smith, Fred [http://www.independent.co.uk/news/people/bo-johnson-30403.html Boris Johnson: People - The Independent<!-- Bot generated title -->]</ref>", false);
+            TestMatch(WikiRegexes.BareRefExternalLinkBotGenTitle, @"<ref>[http://www.independent.co.uk/news/people/bo-johnson-30403.html Boris Johnson: People - The Independent]</ref>", false);
+
+            Assert.AreEqual(@"http://news.bbc.co.uk/hi/England/story4384.htm", WikiRegexes.BareRefExternalLinkBotGenTitle.Match(@"<ref>[http://news.bbc.co.uk/hi/England/story4384.htm]</ref>").Groups[1].Value);
+            Assert.AreEqual(@"http://news.bbc.co.uk/hi/England/story4384.htm", WikiRegexes.BareRefExternalLinkBotGenTitle.Match(@"<ref> [ http://news.bbc.co.uk/hi/England/story4384.htm]. </ref>").Groups[1].Value);
         }
 
         [Test]
@@ -1559,59 +1560,87 @@ Bert").Groups[2].Value, "foo bar\r");
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link FA|ar}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Link FL|ar}}"));
         }
-        
+
         [Test]
         public void LinkFGAsArabic()
         {
-            Assert.IsTrue(WikiRegexes.LinkFGAsArabic.IsMatch(@"foo {{وصلة مقالة مختارة|he}}"));
-            Assert.IsTrue(WikiRegexes.LinkFGAsArabic.IsMatch(@"foo {{وصلة مقالة مختارة|
+#if DEBUG
+            Variables.SetProjectLangCode("ar");
+            WikiRegexes.MakeLangSpecificRegexes();
+#endif
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{وصلة مقالة مختارة|he}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{وصلة مقالة مختارة|
 he}}"));
-            Assert.IsTrue(WikiRegexes.LinkFGAsArabic.IsMatch(@"foo {{وصلة مقالة مختارة
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{وصلة مقالة مختارة
 |he}}"));
         }
 
         [Test]
         public void LinkFGAsCatalan()
         {
-            Assert.IsTrue(WikiRegexes.LinkFGAsCatalan.IsMatch(@"foo {{link FA|ar}}"));
-            Assert.IsTrue(WikiRegexes.LinkFGAsCatalan.IsMatch(@"foo {{Enllaç AD|ar}}"));
+#if DEBUG
+            Variables.SetProjectLangCode("ca");
+            WikiRegexes.MakeLangSpecificRegexes();
+#endif
+
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link FA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Enllaç AD|ar}}"));
         }
 
         [Test]
         public void LinkFGAsFrench()
         {
-            Assert.IsTrue(WikiRegexes.LinkFGAsFrench.IsMatch(@"foo {{lien BA|ar}}"));
-            Assert.IsTrue(WikiRegexes.LinkFGAsFrench.IsMatch(@"foo {{Lien AdQ|ar}}"));
-            Assert.IsTrue(WikiRegexes.LinkFGAsFrench.IsMatch(@"foo {{lien PdQ|ar}}"));
+#if DEBUG
+            Variables.SetProjectLangCode("fr");
+            WikiRegexes.MakeLangSpecificRegexes();
+#endif
+
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{lien BA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Lien AdQ|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{lien PdQ|ar}}"));
         }
-        
+
         [Test]
         public void LinkFGAsItalian()
         {
-            Assert.IsTrue(WikiRegexes.LinkFGAsItalian.IsMatch(@"foo {{link FA|ar}}"));
-            Assert.IsTrue(WikiRegexes.LinkFGAsItalian.IsMatch(@"foo {{Link AdQ|ar}}"));
+#if DEBUG
+            Variables.SetProjectLangCode("it");
+            WikiRegexes.MakeLangSpecificRegexes();
+#endif
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link FA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Link AdQ|ar}}"));
         }
-        
+
         [Test]
         public void LinkFGAsPortuguese()
         {
-            Assert.IsTrue(WikiRegexes.LinkFGAsPortuguese.IsMatch(@"foo {{link GA|ar}}"));
-            Assert.IsTrue(WikiRegexes.LinkFGAsPortuguese.IsMatch(@"foo {{Bom interwiki|ar}}"));
-            Assert.IsTrue(WikiRegexes.LinkFGAsPortuguese.IsMatch(@"foo {{Link FA|ar}}"));
-            Assert.IsTrue(WikiRegexes.LinkFGAsPortuguese.IsMatch(@"foo {{FA|ar}}"));
-            Assert.IsTrue(WikiRegexes.LinkFGAsPortuguese.IsMatch(@"foo {{Interwiki destacado|ar}}"));
-            Assert.IsTrue(WikiRegexes.LinkFGAsPortuguese.IsMatch(@"foo {{Destaque|ar}}"));
+#if DEBUG
+            Variables.SetProjectLangCode("pt");
+            WikiRegexes.MakeLangSpecificRegexes();
+#endif
+
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link GA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Bom interwiki|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Link FA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{FA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Interwiki destacado|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Destaque|ar}}"));
         }
 
         [Test]
         public void LinkFGAsSpanish()
         {
-            Assert.IsTrue(WikiRegexes.LinkFGAsSpanish.IsMatch(@"foo {{link FA|ar}}"));
-            Assert.IsTrue(WikiRegexes.LinkFGAsSpanish.IsMatch(@"foo {{Destacado|ar}}"));
-            Assert.IsTrue(WikiRegexes.LinkFGAsSpanish.IsMatch(@"foo {{Bueno|el}}"));
-            Assert.IsTrue(WikiRegexes.LinkFGAsSpanish.IsMatch(@"foo {{bueno|el}}"));
+#if DEBUG
+            Variables.SetProjectLangCode("es");
+            WikiRegexes.MakeLangSpecificRegexes();
+#endif
+
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link FA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Destacado|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Bueno|el}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{bueno|el}}"));
         }
-        
+
         [Test]
         public void CircaTemplate()
         {
