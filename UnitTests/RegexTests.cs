@@ -160,7 +160,11 @@ namespace UnitTests
             TestMatches(WikiRegexes.WikiProjectBannerShellTemplate, @"{{WikiProjectBanners|blp=yes|1=
             {{WPBiography|living=yes|class=}}
             }}", 1);
-        }
+            TestMatches(WikiRegexes.WikiProjectBannerShellTemplate, @"{{WikiProjectBanners|blp=yes|1=
+            {{WPBiography|living=yes|class=}}
+            {{WikiProject Greece}}
+            |activepol=yes
+            }}", 1);        }
 
         [Test]
         public void BLPUnsourced()
