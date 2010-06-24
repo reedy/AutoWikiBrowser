@@ -2142,8 +2142,8 @@ Message: {2}
 
             return template;
         }
-
-        /// <summary>
+        
+           /// <summary>
         /// Removes the input parameter from all instances of the input template in the article text
         /// </summary>
         /// <param name="articletext"></param>
@@ -2151,6 +2151,19 @@ Message: {2}
         /// <param name="parameter"></param>
         /// <returns>The updated article text</returns>
         public static string RemoveTemplateParameter(string articletext, string templatename, string parameter)
+        {
+            return RemoveTemplateParameter(articletext, templatename, parameter, false);
+        }
+
+        /// <summary>
+        /// Removes the input parameter from all instances of the input template in the article text
+        /// </summary>
+        /// <param name="articletext"></param>
+        /// <param name="templatename"></param>
+        /// <param name="parameter"></param>
+        /// <param name="removeLastMatch">Whether to remove the last match, rather than the first</param>
+        /// <returns>The updated article text</returns>
+        public static string RemoveTemplateParameter(string articletext, string templatename, string parameter, bool removeLastMatch)
         {
             Regex oldtemplate = NestedTemplateRegex(templatename);
 
@@ -2162,7 +2175,7 @@ Message: {2}
 
             return articletext;
         }
-
+        
         /// <summary>
         /// Removes the input parameter from the input template
         /// </summary>
@@ -2171,6 +2184,18 @@ Message: {2}
         /// <returns>The updated template</returns>
         public static string RemoveTemplateParameter(string template, string parameter)
         {
+            return RemoveTemplateParameter(template, parameter, false);
+        }
+
+        /// <summary>
+        /// Removes the input parameter from the input template
+        /// </summary>
+        /// <param name="template"></param>
+        /// <param name="parameter"></param>
+        /// <param name="removeLastMatch">Whether to remove the last match, rather than the first</param>
+        /// <returns>The updated template</returns>
+        public static string RemoveTemplateParameter(string template, string parameter, bool removeLastMatch)
+        {   
             Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=(.*?)(?=\||}}$)", RegexOptions.Singleline);
 
             string pipecleanedtemplate = PipeCleanedTemplate(template);
@@ -2179,10 +2204,14 @@ Message: {2}
 
             if (m.Success)
             {
+                if(removeLastMatch)
+                {
+                    foreach(Match y in param.Matches(pipecleanedtemplate))
+                        m = y;
+                }
+                
                 int start = m.Index;
-                int valuelength = param.Match(pipecleanedtemplate).Length;
-
-                return (template.Substring(0, start) + template.Substring(start + valuelength));
+                return (template.Substring(0, start) + template.Substring(start + m.Length));
             }
 
             return template;
