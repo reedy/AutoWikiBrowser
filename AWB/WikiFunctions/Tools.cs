@@ -2194,11 +2194,11 @@ Message: {2}
         /// <param name="parameter"></param>
         /// <param name="removeLastMatch">Whether to remove the last match, rather than the first</param>
         /// <returns>The updated template</returns>
-        public static string RemoveTemplateParameter(string template, string parameter, bool removeLastMatch)
+        public static string RemoveTemplateParameter(string templatecall, string parameter, bool removeLastMatch)
         {   
             Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=(.*?)(?=\||}}$)", RegexOptions.Singleline);
 
-            string pipecleanedtemplate = PipeCleanedTemplate(template);
+            string pipecleanedtemplate = PipeCleanedTemplate(templatecall);
 
             Match m = param.Match(pipecleanedtemplate);
 
@@ -2211,10 +2211,52 @@ Message: {2}
                 }
                 
                 int start = m.Index;
-                return (template.Substring(0, start) + template.Substring(start + m.Length));
+                return (templatecall.Substring(0, start) + templatecall.Substring(start + m.Length));
             }
 
-            return template;
+            return templatecall;
+        }
+        
+        /// <summary>
+        /// Removes duplicate (same or null) named parameters from template calls
+        /// </summary>
+        /// <param name="templatecall">The template call to clean up</param>
+        /// <returns>The updated template call</returns>
+        public static string RemoveDuplicateTemplateParameters(string templatecall)
+        {
+            Regex anyParam = new Regex(@"\|\s*([^{}\|<>\r\n]+?)\s*=\s*(.*?)\s*(?=\||}}$)", RegexOptions.Singleline);
+
+            string pipecleanedtemplate = "", originalTemplateCall = "";
+            
+            while(!originalTemplateCall.Equals(templatecall))
+            {
+                Dictionary<string, string> Params = new Dictionary<string, string>();
+                pipecleanedtemplate = PipeCleanedTemplate(templatecall);
+                originalTemplateCall = templatecall;
+                
+                foreach(Match m in anyParam.Matches(pipecleanedtemplate))
+                {
+                    string paramValue = templatecall.Substring(m.Groups[2].Index, m.Groups[2].Length),
+                    paramName = m.Groups[1].Value;
+                    
+                    if(!Params.ContainsKey(paramName))
+                        Params.Add(paramName, paramValue);
+                    else
+                    {
+                        string earlierParamValue;
+                        Params.TryGetValue(paramName, out earlierParamValue);
+                        
+                        // remove this param if equal value to earlier one, or either value blank
+                        if(paramValue.Equals(earlierParamValue) || paramValue.Length == 0 || earlierParamValue.Length == 0)
+                        {
+                            templatecall = RemoveTemplateParameter(templatecall, paramName, paramValue.Length == 0);
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            return templatecall;
         }
 
         /// <summary>
