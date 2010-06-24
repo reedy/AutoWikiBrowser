@@ -187,7 +187,7 @@ namespace WikiFunctions.TalkPages
         }
         
         private static List<string> BannerShellRedirects = new List<string>(new [] { "WikiProject Banners", "WikiProjectBanners", "WPBS", "WPB", "Wpb", "Wpbs"});
-        
+        private static List<string> Nos = new List<string>(new [] {"blp", "activepol", "collapsed"});
         /// <summary>
         /// Performs fixes to the WikiProjectBannerShells template
         /// </summary>
@@ -200,14 +200,24 @@ namespace WikiFunctions.TalkPages
             
             // rename redirects
             foreach(string redirect in BannerShellRedirects)
-                articletext = Tools.RenameTemplate(articletext, redirect, "WikiProjectBannerShell");
+                articletext = Tools.RenameTemplate(articletext, redirect, "WikiProjectBannerShell");            
             
             foreach (Match m in WikiRegexes.WikiProjectBannerShellTemplate.Matches(articletext))
             {
+                // remove duplicate parameters
                 string newValue = Tools.RemoveDuplicateTemplateParameters(m.Value);
                 
+                // clean blp=no, activepol=no, collapsed=no               
+                foreach(string theNo in Nos)
+                {
+                    if(Tools.GetTemplateParameterValue(newValue, theNo).Equals("no"))
+                        newValue = Tools.RemoveTemplateParameter(newValue, theNo);
+                }
+                
+                // merge changes to article text
                 if(!newValue.Equals(m.Value))
                     articletext = articletext.Replace(m.Value, newValue);
+                
             }
             
             return articletext;
