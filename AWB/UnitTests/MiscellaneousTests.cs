@@ -863,6 +863,12 @@ __TOC__", articleTextIn);
             
             Assert.AreEqual(WikiProjectBannerShell, TalkPageHeaders.WikiProjectBannerShell(red1));
         }
+        
+        [Test]
+        public void WikiProjectBannerShellDupeParameters()
+        {
+            Assert.AreEqual(@"{{WikiProjectBannerShell|blp=yes}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=yes|blp=yes}}"));
+        }
     }
     
     [TestFixture]

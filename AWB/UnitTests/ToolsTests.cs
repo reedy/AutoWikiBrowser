@@ -1268,6 +1268,8 @@ def
             Assert.AreEqual(noDupe2, Tools.RemoveDuplicateTemplateParameters(noDupe2), "case sensitive parameter name matching");
             
             Assert.AreEqual(@"{{foo|first=abc|second=def|second=defg}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=def|second=def|second=defg}}"), "non-duplicates not removed");
+        
+        Assert.AreEqual(@"{{foo|first=abc|second={{def|bar}}}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second={{def|bar}}|second={{def|bar}}}}"));
         }
         
         [Test]

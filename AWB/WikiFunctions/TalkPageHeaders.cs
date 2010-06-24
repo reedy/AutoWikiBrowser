@@ -195,9 +195,20 @@ namespace WikiFunctions.TalkPages
         /// <returns>The updated talk page text</returns>
         public static string WikiProjectBannerShell(string articletext)
         {
+            if(!WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articletext))
+                return articletext;
+            
             // rename redirects
             foreach(string redirect in BannerShellRedirects)
                 articletext = Tools.RenameTemplate(articletext, redirect, "WikiProjectBannerShell");
+            
+            foreach (Match m in WikiRegexes.WikiProjectBannerShellTemplate.Matches(articletext))
+            {
+                string newValue = Tools.RemoveDuplicateTemplateParameters(m.Value);
+                
+                if(!newValue.Equals(m.Value))
+                    articletext = articletext.Replace(m.Value, newValue);
+            }
             
             return articletext;
         }
