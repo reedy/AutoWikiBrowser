@@ -870,6 +870,7 @@ The following links are here to prevent the interwiki bot from adding them to th
         {
             #if DEBUG
             Variables.SetProjectLangCode("ar");
+            WikiRegexes.MakeLangSpecificRegexes();
             string a1 = @"{{DEFAULTSORT:Boleyn, Anne}}
 
 ", a2 = @"{{وصلة مقالة مختارة|bs}}
@@ -884,6 +885,7 @@ The following links are here to prevent the interwiki bot from adding them to th
             Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref c), "Ar Link FA order not changed");
             
             Variables.SetProjectLangCode("en");
+            WikiRegexes.MakeLangSpecificRegexes();
             string e1 = @"{{DEFAULTSORT:Boleyn, Anne}}
 
 ", e2 = @"{{Link FA|bs}}
