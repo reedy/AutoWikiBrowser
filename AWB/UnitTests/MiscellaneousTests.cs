@@ -869,6 +869,12 @@ __TOC__", articleTextIn);
         {
             Assert.AreEqual(@"{{WikiProjectBannerShell|blp=yes}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=yes|blp=yes}}"));
         }
+        
+        [Test]
+        public void WikiProjectBannerShellUnneededParams()
+        {
+            Assert.AreEqual(@"{{WikiProjectBannerShell}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=no|activepol=no|collapsed=no}}"));
+        }
     }
     
     [TestFixture]
