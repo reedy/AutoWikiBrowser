@@ -19,12 +19,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using WikiFunctions.TalkPages;
 
 namespace WikiFunctions.Parse
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public enum InterWikiOrderEnum
     {
         /// <summary>
@@ -50,11 +54,20 @@ namespace WikiFunctions.Parse
 
     public class MetaDataSorter
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public List<string> PossibleInterwikis;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool SortInterwikis
         { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool AddCatKey
         { get; set; }
 
@@ -179,6 +192,8 @@ namespace WikiFunctions.Parse
             return Loaded;
         }
 
+        private static readonly CultureInfo EnUsCulture = new CultureInfo("en-US", true);
+
         /// <summary>
         /// 
         /// </summary>
@@ -215,7 +230,7 @@ en, sq, ru
             }
 
             InterwikiAlpha = new List<string>(InterwikiLocalFirst);
-            InterwikiAlpha.Sort(StringComparer.Create(new System.Globalization.CultureInfo("en-US", true), true));
+            InterwikiAlpha.Sort(StringComparer.Create(EnUsCulture, true));
 
             InterwikiAlphaEnFirst = new List<string>(InterwikiAlpha);
             InterwikiAlphaEnFirst.Remove("en");
@@ -248,7 +263,7 @@ en, sq, ru
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
-        /// <param name="fixExcessWhitespace">Whether to request optional excess whitespace to be fixed</param>
+        /// <param name="fixOptionalWhitespace">Whether to request optional excess whitespace to be fixed</param>
         /// <returns>The updated article text</returns>
         internal string Sort(string articleText, string articleTitle, bool fixOptionalWhitespace)
         {
@@ -715,15 +730,15 @@ en, sq, ru
             return articleText;
         }
         
-        public static string MoveTemplateToReferencesSection(string articleText, Regex TemplateRegex)
+        public static string MoveTemplateToReferencesSection(string articleText, Regex templateRegex)
         {
-            return MoveTemplateToReferencesSection(articleText, TemplateRegex, false);
+            return MoveTemplateToReferencesSection(articleText, templateRegex, false);
         }
 
-        private static string MoveTemplateToSection(string articleText, Regex TemplateRegex, int section)
+        private static string MoveTemplateToSection(string articleText, Regex templateRegex, int section)
         {
             // extract the template
-            string extractedTemplate = TemplateRegex.Match(articleText).Value;
+            string extractedTemplate = templateRegex.Match(articleText).Value;
             articleText = articleText.Replace(extractedTemplate, "");
 
             switch (section)

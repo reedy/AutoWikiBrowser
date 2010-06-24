@@ -121,7 +121,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         End Sub
         Friend Function ProcessTalkPage(ByVal TheArticle As Article, ByVal PluginSettings As PluginSettingsControl, _
         ByVal Manager As PluginManager, ByRef ReqPhoto As Boolean) As Boolean
-            Dim WeAddedAReqPhotoParam As Boolean
+            Dim WeAddedAReqPhotoParam, returnVal As Boolean
 
             If Not State.NextArticleShouldBeTalk Then
                 IsThisABug("an article")
@@ -134,12 +134,12 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 
                 Dim frmDialog As New AssessmentForm
 
-                ProcessTalkPage = (frmDialog.ShowDialog(State.Classification, State.Importance, _
+                returnVal = (frmDialog.ShowDialog(State.Classification, State.Importance, _
                    State.NeedsInfobox, State.NeedsAttention, State.ShowComments, _
                    PluginSettings.AssessmentsAlwaysLeaveAComment, State.NeedsPhoto, _
                    State.NextTalkPageExpected) = DialogResult.OK)
 
-                If ProcessTalkPage Then
+                If returnVal Then
                     PluginManager.StatusText.Text = "Processing " & TheArticle.FullArticleTitle
 
                     If State.NeedsPhoto AndAlso ReqphotoAnyRegex.IsMatch(TheArticle.AlteredArticleText) Then
@@ -165,7 +165,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                 End If
             End If
 
-            If ProcessTalkPage Then
+            If returnVal Then
                 Select Case State.Classification
                     Case Classification.Code, Classification.Unassessed
                         TheArticle.EditSummary = "Assessed article using " & conWikiPlugin
@@ -178,6 +178,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             Else
                 ReqPhoto = False
             End If
+
+            Return returnVal
         End Function
 
         ' Private:
