@@ -27,8 +27,10 @@ using System.Windows.Forms;
 using System.Threading;
 using System.Text.RegularExpressions;
 using WikiFunctions.API;
+using WikiFunctions.DBScanner;
 using WikiFunctions.Lists;
 using WikiFunctions.Lists.Providers;
+using WikiFunctions.Plugin;
 
 namespace WikiFunctions.Controls.Lists
 {
@@ -646,7 +648,7 @@ namespace WikiFunctions.Controls.Lists
         /// Adds the given string to the list, first turning it into an Article
         /// </summary>
         /// <remarks>
-        /// Don't use me in a loop. Make a list and pass to the Add(List&lt;Article>) overload
+        /// Don't use me in a loop. Make a list and pass to the Add(List&lt;<see cref="Article"/>>) overload
         /// </remarks>
         public void Add(string s)
         {
@@ -776,7 +778,7 @@ namespace WikiFunctions.Controls.Lists
         /// <summary>
         /// Makes a list of pages
         /// </summary>
-        /// <param name="provider">The IListProvider to make the list</param>
+        /// <param name="provider">The <see cref="IListProvider"/> to make the list</param>
         /// <param name="sourceValues">An array of string values to create the list with, e.g. an array of categories. Use null if not appropriate</param>
         public void MakeList(IListProvider provider, string[] sourceValues)
         {
@@ -871,6 +873,9 @@ namespace WikiFunctions.Controls.Lists
                 "User logged out");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         private void RemoveSelectedArticle()
         {
             lbArticles.RemoveSelected();
@@ -903,7 +908,7 @@ namespace WikiFunctions.Controls.Lists
         }
 
         /// <summary>
-        /// Saves the list box of the current ListMaker to the specified text file.
+        /// Saves the list box of the current <see cref="ListMaker"/> to the specified text file.
         /// </summary>
         public void SaveList()
         {
@@ -1255,9 +1260,9 @@ namespace WikiFunctions.Controls.Lists
         }
 
         /// <summary>
-        /// Add a IListProvider or a IListMakerPlugin to all ListMakers
+        /// Add a <see cref="IListProvider"/> or a <see cref="IListMakerPlugin"/> to all ListMakers
         /// </summary>
-        /// <param name="provider">IListProvider/IListMakerPlugin to add</param>
+        /// <param name="provider"><see cref="IListProvider"/>/<see cref="IListMakerPlugin"/> to add</param>
         public static void AddProvider(IListProvider provider)
         {
             DefaultProviders.Add(provider);
@@ -1267,12 +1272,12 @@ namespace WikiFunctions.Controls.Lists
         }
 
         /// <summary>
-        /// Returns a new DatabaseScanner tied to an instance of the current Articles List Box
+        /// Returns a new <see cref="DatabaseScanner"/> tied to an instance of the current Articles List Box
         /// </summary>
         /// <returns></returns>
-        public DBScanner.DatabaseScanner DBScanner()
+        public DatabaseScanner DBScanner()
         {
-            return new DBScanner.DatabaseScanner(this);
+            return new DatabaseScanner(this);
         }
 
         /// <summary>
@@ -1300,11 +1305,17 @@ namespace WikiFunctions.Controls.Lists
             e.DrawFocusRectangle();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void BeginUpdate()
         {
             lbArticles.BeginUpdate();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void EndUpdate()
         {
             lbArticles.EndUpdate();

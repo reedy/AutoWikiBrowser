@@ -85,6 +85,9 @@ namespace WikiFunctions
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static int RevisionNumber
         {
             get
@@ -95,11 +98,20 @@ namespace WikiFunctions
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static string RetfPath;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static IAutoWikiBrowser MainForm
         { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static Profiler Profiler = new Profiler();
 
 
@@ -771,6 +783,9 @@ namespace WikiFunctions
         #endregion
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public enum WikiStatusResult
     {
         Error, 
