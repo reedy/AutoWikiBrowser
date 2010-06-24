@@ -426,7 +426,7 @@ namespace WikiFunctions
         public static readonly string[] RFromModificationList = new[]
                                                                     {
                                                                         "R from alternative punctuation", "R mod",
-                                                                        "R from modifcation", "R from modification",
+                                                                        "R from modification",
                                                                         "R from alternate punctuation"
                                                                     };
         
