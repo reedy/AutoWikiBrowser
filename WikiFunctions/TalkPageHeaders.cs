@@ -188,6 +188,7 @@ namespace WikiFunctions.TalkPages
         
         private static List<string> BannerShellRedirects = new List<string>(new [] { "WikiProject Banners", "WikiProjectBanners", "WPBS", "WPB", "Wpb", "Wpbs"});
         private static List<string> Nos = new List<string>(new [] {"blp", "activepol", "collapsed"});
+        
         /// <summary>
         /// Performs fixes to the WikiProjectBannerShells template
         /// </summary>

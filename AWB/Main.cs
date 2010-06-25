@@ -735,6 +735,7 @@ namespace AutoWikiBrowser
         private Dictionary<int, int> unclosedTags = new Dictionary<int, int>();
         private Dictionary<int, int> deadLinks = new Dictionary<int, int>();
         private Dictionary<int, int> ambigCiteDates = new Dictionary<int, int>();
+        private List<string> UnknownWikiProjectBannerShellParameters = new List<string>();
         
         private void SkipRedirect(string redirectTitle, string reason)
         {
@@ -2407,6 +2408,15 @@ window.scrollTo(0, diffTopY);
                 dupeBanerShellParameters = TheArticle.DuplicateWikiProjectBannerShellParameters();
                 if(dupeBanerShellParameters.Count > 0)
                     lbAlerts.Items.Add("Duplicate parameter(s) found in WPBannerShell");
+                
+                UnknownWikiProjectBannerShellParameters = TheArticle.UnknownWikiProjectBannerShellParameters();
+                if(UnknownWikiProjectBannerShellParameters.Count > 0)
+                {
+                    string warn = "Unknown parameters in WPBannerShell: ";
+                    foreach(string s in UnknownWikiProjectBannerShellParameters)
+                        warn += s + ", ";
+                    lbAlerts.Items.Add(warn);
+                }
                 
                 unclosedTags = TheArticle.UnclosedTags();
                 if (unclosedTags.Count > 0)

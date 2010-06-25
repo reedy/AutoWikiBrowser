@@ -527,6 +527,20 @@ namespace WikiFunctions
         }
         
         /// <summary>
+        /// Returns a list of any unknown parameters in any WikiProjectBannerShell template
+        /// </summary>
+        /// <returns></returns>
+        public List<string> UnknownWikiProjectBannerShellParameters()
+        {
+            List<string> Unknowns = new List<string>();
+            List<string> Knowns = new List<string>(new[] { "blp", "blp", "activepol", "collapsed", "1"});
+            
+            if(NameSpaceKey.Equals(Namespace.Talk))
+                Unknowns = Tools.UnknownTemplateParameters(WikiRegexes.WikiProjectBannerShellTemplate.Match(ArticleText).Value, Knowns);
+            return Unknowns;
+        }
+        
+        /// <summary>
         /// Returns a dictionary of the index and length of any unclosed &lt;math&gt;, &lt;source&gt;, &lt;code&gt;, &lt;nowiki&gt; or &lt;pre&gt; tags
         /// </summary>
         public Dictionary<int, int> UnclosedTags()

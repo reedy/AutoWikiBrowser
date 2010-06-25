@@ -2293,6 +2293,30 @@ Message: {2}
             }
             return Dupes;
         }
+        
+        /// <summary>
+        /// Checks template calls using named parameters for unknown parameters
+        /// </summary>
+        /// <param name="templatecall">The template call to check</param>
+        /// <param name="knownParameters">List of known template parameters</param>
+        /// <returns>List of any unknown parameters</returns>
+        public static List<string> UnknownTemplateParameters(string templatecall, List<string> knownParameters)
+        {
+            List<string> Unknowns = new List<string>();
+
+            string pipecleanedtemplate = "";
+            
+            pipecleanedtemplate = PipeCleanedTemplate(templatecall);
+            
+            foreach(Match m in anyParam.Matches(pipecleanedtemplate))
+            {
+                string paramName = m.Groups[1].Value;
+                
+                if(!knownParameters.Contains(paramName))
+                    Unknowns.Add(paramName);
+            }
+            return Unknowns;
+        }
 
         /// <summary>
         /// Sets the template parameter value to the new value input, only if the template already has the parameter (with or without a value)
