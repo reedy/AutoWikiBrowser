@@ -214,6 +214,39 @@ namespace WikiFunctions.TalkPages
                         newValue = Tools.RemoveTemplateParameter(newValue, theNo);
                 }
                 
+                int totalArgs = Tools.GetTemplateArgumentCount(newValue);
+                
+                // is there a WPBiography?
+                foreach(int arg = 1; arg < totalArgs; arg ++)
+                {
+                    string theArg = Tools.GetTemplateArgument(newValue, arg);
+                    
+                    Match m = Tools.NestedTemplateRegex("WPBiography").Match(theArg);
+                    
+                    if(m.Success)
+                    {
+                        string WPBiographyCall = m.Value;
+                        
+                        // check living, active, blpo flags
+                        string livingParam = Tools.GetTemplateParameterValue(WPBiographyCall, "living");
+                        if(livingParam.Equals("yes"))
+                            newValue = Tools.SetTemplateParameterValue(newValue, "blp", "yes");
+                        else if (livingParam.Equals("no"))
+                        {
+                            if(Tools.GetTemplateParameterValue(newValue, "blp").Equals("yes"))
+                                newValue = Tools.RemoveTemplateParameter(newValue, "blp");
+                        }
+                        
+                        if(Tools.GetTemplateParameterValue(WPBiographyCall, "active").Equals("yes"))
+                            newValue = Tools.SetTemplateParameterValue(newValue, "activepol", "yes");
+                        
+                        if(Tools.GetTemplateParameterValue(WPBiographyCall, "blpo").Equals("yes"))
+                            newValue = Tools.SetTemplateParameterValue(newValue, "blpo", "yes");
+                        
+                        break;
+                    }
+                }
+                
                 // merge changes to article text
                 if(!newValue.Equals(m.Value))
                     articletext = articletext.Replace(m.Value, newValue);
