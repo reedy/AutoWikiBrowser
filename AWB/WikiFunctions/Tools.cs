@@ -2217,22 +2217,25 @@ Message: {2}
             return templatecall;
         }
         
+        private static readonly Regex CiteUrl = new Regex(@"\|\s*url\s*=\s*([^\[\]<>""\s]+)", RegexOptions.Compiled);
+        
         /// <summary>
         /// Removes duplicate (same or null) named parameters from template calls
         /// </summary>
         /// <param name="templatecall">The template call to clean up</param>
         /// <returns>The updated template call</returns>
-        public static string RemoveDuplicateTemplateParameters(string templatecall)
+         public static string RemoveDuplicateTemplateParameters(string templatecall)
         {
+			string originalURL = CiteUrl.Match(templatecall).Value, originalTemplateCall = templatecall;
             Regex anyParam = new Regex(@"\|\s*([^{}\|<>\r\n]+?)\s*=\s*(.*?)\s*(?=\||}}$)", RegexOptions.Singleline);
 
-            string pipecleanedtemplate = "", originalTemplateCall = "";
+            string pipecleanedtemplate = "", updatedTemplateCall = "";
             
-            while(!originalTemplateCall.Equals(templatecall))
+            while(!updatedTemplateCall.Equals(templatecall))
             {
                 Dictionary<string, string> Params = new Dictionary<string, string>();
                 pipecleanedtemplate = PipeCleanedTemplate(templatecall);
-                originalTemplateCall = templatecall;
+                updatedTemplateCall = templatecall;
                 
                 foreach(Match m in anyParam.Matches(pipecleanedtemplate))
                 {
@@ -2255,6 +2258,10 @@ Message: {2}
                     }
                 }
             }
+			
+            // check for URL breakage due to unescaped pipes in URL
+            if(!CiteUrl.Match(templatecall).Value.Equals(originalURL))
+				return originalTemplateCall;
             
             return templatecall;
         }
