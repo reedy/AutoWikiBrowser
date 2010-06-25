@@ -1281,6 +1281,27 @@ def
         }
         
         [Test]
+        public void DuplicateTemplateParameters()
+        {
+            Dictionary<int,int> Dupes = new Dictionary<int, int>();
+            
+            Assert.AreEqual(Dupes, Tools.DuplicateTemplateParameters(@"{{cite web|url=here |title=there}}"));            
+            
+            Dupes.Add(32, 9);
+            Assert.AreEqual(Dupes, Tools.DuplicateTemplateParameters(@"{{cite web|url=here |title=there|url=here}}"), "dupes if the same");
+            Assert.AreEqual(Dupes, Tools.DuplicateTemplateParameters(@"{{cite web|url=here |title=there|url=her2}}"), "dupes if not the same");
+            
+            Dupes.Clear();
+            Dupes.Add(36, 5);
+            Assert.AreEqual(Dupes, Tools.DuplicateTemplateParameters(@"{{cite web|url=here |title=therehere|url=}}"), "dupes if the same");
+            
+            Dupes.Clear();
+            Dupes.Add(32, 9);
+            Dupes.Add(41, 12);
+            Assert.AreEqual(Dupes, Tools.DuplicateTemplateParameters(@"{{cite web|url=here |title=there|url=here|title=there}}"), "multiple dupes reported");
+        }
+        
+        [Test]
         public void UpdateTemplateParameterValue()
         {
             Assert.AreEqual(@"{{foo|param1=valueafter}}", Tools.UpdateTemplateParameterValue(@"{{foo|param1=before}}", "param1", "valueafter"));
