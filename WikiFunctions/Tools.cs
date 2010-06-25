@@ -2268,7 +2268,7 @@ Message: {2}
         private static readonly Regex anyParam = new Regex(@"\|\s*([^{}\|<>\r\n]+?)\s*=\s*(.*?)\s*(?=\||}}$)", RegexOptions.Singleline);
         
         /// <summary>
-        /// Returns duplicate parameters in a template call
+        /// Returns duplicate named parameters in a template call
         /// </summary>
         /// <param name="templatecall">The template call to check</param>
         /// <returns>Dictionary of any duplicate parameters: index and length</returns>

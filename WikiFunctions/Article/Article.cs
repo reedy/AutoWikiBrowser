@@ -513,6 +513,20 @@ namespace WikiFunctions
         }
         
         /// <summary>
+        /// Returns a dictionary of the index and length of any duplicated parameters in any WikiProjectBannerShell template
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<int, int> DuplicateWikiProjectBannerShellParameters()
+        {
+            Dictionary<int, int> Dupes = new Dictionary<int, int>();
+            
+            if(NameSpaceKey.Equals(Namespace.Talk))
+                Dupes = Tools.DuplicateTemplateParameters(WikiRegexes.WikiProjectBannerShellTemplate.Match(ArticleText).Value);
+            
+            return Dupes;
+        }
+        
+        /// <summary>
         /// Returns a dictionary of the index and length of any unclosed &lt;math&gt;, &lt;source&gt;, &lt;code&gt;, &lt;nowiki&gt; or &lt;pre&gt; tags
         /// </summary>
         public Dictionary<int, int> UnclosedTags()
