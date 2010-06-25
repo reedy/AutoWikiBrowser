@@ -885,6 +885,20 @@ __TOC__", articleTextIn);
             Assert.AreEqual(@"{{WikiProjectBannerShell|activepol=yes|1={{WPBiography|foo=bar|active=yes}}}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|activepol=abc|1={{WPBiography|foo=bar|active=yes}}}}"));
             Assert.AreEqual(@"{{WikiProjectBannerShell|blpo=yes|1={{WPBiography|foo=bar|blpo=yes}}}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blpo=|1={{WPBiography|foo=bar|blpo=yes}}}}"));
             Assert.AreEqual(@"{{WikiProjectBannerShell|blpo=|1={{WPBiography|foo=bar|blpo=no}}}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blpo=|1={{WPBiography|foo=bar|blpo=no}}}}"));
+            
+            Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar|living=no}}}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=yes|1={{WPBiography|foo=bar|living=no}}}}"));
+        }
+        
+        [Test]
+        public void WikiProjectBannerShellUnnamedParam()
+        {
+            Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|{{WPBiography|foo=bar}}}}"), "1= added when missing");
+            Assert.AreEqual(@"{{WikiProjectBannerShell|
+1={{WPBiography|foo=bar}}}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|
+{{WPBiography|foo=bar}}}}"));
+            
+            const string otherUnnamed = @"{{WikiProjectBannerShell|random}}";
+            Assert.AreEqual(otherUnnamed, TalkPageHeaders.WikiProjectBannerShell(otherUnnamed), "other unknown parameter not named 1=");
         }
     }
     
