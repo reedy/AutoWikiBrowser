@@ -217,15 +217,15 @@ namespace WikiFunctions.TalkPages
                 int totalArgs = Tools.GetTemplateArgumentCount(newValue);
                 
                 // is there a WPBiography?
-                foreach(int arg = 1; arg < totalArgs; arg ++)
+                for(int arg = 1; arg < totalArgs; arg ++)
                 {
                     string theArg = Tools.GetTemplateArgument(newValue, arg);
                     
-                    Match m = Tools.NestedTemplateRegex("WPBiography").Match(theArg);
+                    Match m2 = Tools.NestedTemplateRegex("WPBiography").Match(theArg);
                     
-                    if(m.Success)
+                    if(m2.Success)
                     {
-                        string WPBiographyCall = m.Value;
+                        string WPBiographyCall = m2.Value;
                         
                         // check living, active, blpo flags
                         string livingParam = Tools.GetTemplateParameterValue(WPBiographyCall, "living");
