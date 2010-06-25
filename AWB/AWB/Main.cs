@@ -731,6 +731,7 @@ namespace AutoWikiBrowser
         private int _unbalancedBracket, _bracketLength;
 
         private Dictionary<int, int> badCiteParameters = new Dictionary<int, int>();
+        private Dictionary<int, int> dupeBanerShellParameters = new Dictionary<int, int>();
         private Dictionary<int, int> unclosedTags = new Dictionary<int, int>();
         private Dictionary<int, int> deadLinks = new Dictionary<int, int>();
         private Dictionary<int, int> ambigCiteDates = new Dictionary<int, int>();
@@ -1045,6 +1046,9 @@ namespace AutoWikiBrowser
 
             if (badCiteParameters.Count > 0)
                 HighlightErrors(badCiteParameters);
+            
+            if (dupeBanerShellParameters.Count > 0)
+                HighlightErrors(dupeBanerShellParameters);
             
             if(deadLinks.Count > 0)
                 HighlightErrors(deadLinks);
@@ -2399,6 +2403,10 @@ window.scrollTo(0, diffTopY);
                 badCiteParameters = TheArticle.BadCiteParameters();
                 if (badCiteParameters.Count > 0)
                     lbAlerts.Items.Add("Invalid citation parameter(s) found");
+                
+                dupeBanerShellParameters = TheArticle.DuplicateWikiProjectBannerShellParameters();
+                if(dupeBanerShellParameters.Count > 0)
+                    lbAlerts.Items.Add("Duplicate parameter(s) found in WPBannerShell");
                 
                 unclosedTags = TheArticle.UnclosedTags();
                 if (unclosedTags.Count > 0)
