@@ -213,14 +213,16 @@ namespace WikiFunctions.TalkPages
                     if(Tools.GetTemplateParameterValue(newValue, theNo).Equals("no"))
                         newValue = Tools.RemoveTemplateParameter(newValue, theNo);
                 }
+                
+                string arg1 = Tools.GetTemplateParameterValue(newValue, "1");
              
-                Match m2 = Tools.NestedTemplateRegex("WPBiography").Match(Tools.GetTemplateParameterValue(newValue, "1"));
+                // check living, active, blpo flags against WPBiography
+                Match m2 = Tools.NestedTemplateRegex("WPBiography").Match(arg1);
                 
                 if(m2.Success)
                 {
-                    string WPBiographyCall = m2.Value;
+                    string WPBiographyCall = m2.Value;                    
                     
-                    // check living, active, blpo flags
                     string livingParam = Tools.GetTemplateParameterValue(WPBiographyCall, "living");
                     if(livingParam.Equals("yes"))
                         newValue = Tools.SetTemplateParameterValue(newValue, "blp", "yes");
@@ -235,6 +237,23 @@ namespace WikiFunctions.TalkPages
                     
                     if(Tools.GetTemplateParameterValue(WPBiographyCall, "blpo").Equals("yes"))
                         newValue = Tools.SetTemplateParameterValue(newValue, "blpo", "yes");
+                }
+                
+                // Add explicit call to first unnamed parameter 1= if missing
+                if(arg1.Length == 0)
+                {
+                    int argCount = Tools.GetTemplateArgumentCount(newValue);
+                    
+                    for(int arg = 1; arg <= argCount; arg++)
+                    {
+                        string argValue = Tools.GetTemplateArgument(newValue, arg);
+                        
+                        if(argValue.StartsWith(@"{{"))
+                        {
+                            newValue = newValue.Insert(newValue.IndexOf(argValue), "1=");
+                            break;
+                        }
+                    }
                 }
                 
                 // merge changes to article text
