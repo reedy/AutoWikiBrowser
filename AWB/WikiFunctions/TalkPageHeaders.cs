@@ -213,44 +213,33 @@ namespace WikiFunctions.TalkPages
                     if(Tools.GetTemplateParameterValue(newValue, theNo).Equals("no"))
                         newValue = Tools.RemoveTemplateParameter(newValue, theNo);
                 }
+             
+                Match m2 = Tools.NestedTemplateRegex("WPBiography").Match(Tools.GetTemplateParameterValue(newValue, "1"));
                 
-                int totalArgs = Tools.GetTemplateArgumentCount(newValue);
-                
-                // is there a WPBiography?
-                for(int arg = 1; arg < totalArgs; arg ++)
+                if(m2.Success)
                 {
-                    string theArg = Tools.GetTemplateArgument(newValue, arg);
+                    string WPBiographyCall = m2.Value;
                     
-                    Match m2 = Tools.NestedTemplateRegex("WPBiography").Match(theArg);
-                    
-                    if(m2.Success)
+                    // check living, active, blpo flags
+                    string livingParam = Tools.GetTemplateParameterValue(WPBiographyCall, "living");
+                    if(livingParam.Equals("yes"))
+                        newValue = Tools.SetTemplateParameterValue(newValue, "blp", "yes");
+                    else if (livingParam.Equals("no"))
                     {
-                        string WPBiographyCall = m2.Value;
-                        
-                        // check living, active, blpo flags
-                        string livingParam = Tools.GetTemplateParameterValue(WPBiographyCall, "living");
-                        if(livingParam.Equals("yes"))
-                            newValue = Tools.SetTemplateParameterValue(newValue, "blp", "yes");
-                        else if (livingParam.Equals("no"))
-                        {
-                            if(Tools.GetTemplateParameterValue(newValue, "blp").Equals("yes"))
-                                newValue = Tools.RemoveTemplateParameter(newValue, "blp");
-                        }
-                        
-                        if(Tools.GetTemplateParameterValue(WPBiographyCall, "active").Equals("yes"))
-                            newValue = Tools.SetTemplateParameterValue(newValue, "activepol", "yes");
-                        
-                        if(Tools.GetTemplateParameterValue(WPBiographyCall, "blpo").Equals("yes"))
-                            newValue = Tools.SetTemplateParameterValue(newValue, "blpo", "yes");
-                        
-                        break;
+                        if(Tools.GetTemplateParameterValue(newValue, "blp").Equals("yes"))
+                            newValue = Tools.RemoveTemplateParameter(newValue, "blp");
                     }
+                    
+                    if(Tools.GetTemplateParameterValue(WPBiographyCall, "active").Equals("yes"))
+                        newValue = Tools.SetTemplateParameterValue(newValue, "activepol", "yes");
+                    
+                    if(Tools.GetTemplateParameterValue(WPBiographyCall, "blpo").Equals("yes"))
+                        newValue = Tools.SetTemplateParameterValue(newValue, "blpo", "yes");
                 }
                 
                 // merge changes to article text
                 if(!newValue.Equals(m.Value))
-                    articletext = articletext.Replace(m.Value, newValue);
-                
+                    articletext = articletext.Replace(m.Value, newValue);                
             }
             
             return articletext;
