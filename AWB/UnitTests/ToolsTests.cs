@@ -1302,6 +1302,23 @@ def
         }
         
         [Test]
+        public void UnknownTemplateParameters()
+        {
+            List<string> Unknowns = new List<string>();
+            
+            List<string> Knowns = new List<string>(new [] { "title", "date", "url" } );
+            
+            Assert.AreEqual(Unknowns, Tools.UnknownTemplateParameters(@"{{cite web|title=a|date=2010}}", Knowns));
+            
+            Unknowns.Add("foo");
+            Assert.AreEqual(Unknowns, Tools.UnknownTemplateParameters(@"{{cite web|title=a|date=2010|foo=}}", Knowns), "reported even if blank");
+            Assert.AreEqual(Unknowns, Tools.UnknownTemplateParameters(@"{{cite web|title=a|date=2010|foo=b}}", Knowns), "unknown parameter reported");
+        
+            Unknowns.Add("bar");
+            Assert.AreEqual(Unknowns, Tools.UnknownTemplateParameters(@"{{cite web|title=a|date=2010|foo=b|bar=}}", Knowns), "multiple unknowns reported");
+        }
+        
+        [Test]
         public void UpdateTemplateParameterValue()
         {
             Assert.AreEqual(@"{{foo|param1=valueafter}}", Tools.UpdateTemplateParameterValue(@"{{foo|param1=before}}", "param1", "valueafter"));
