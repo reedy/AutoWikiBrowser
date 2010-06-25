@@ -2224,10 +2224,9 @@ Message: {2}
         /// </summary>
         /// <param name="templatecall">The template call to clean up</param>
         /// <returns>The updated template call</returns>
-         public static string RemoveDuplicateTemplateParameters(string templatecall)
+        public static string RemoveDuplicateTemplateParameters(string templatecall)
         {
-			string originalURL = CiteUrl.Match(templatecall).Value, originalTemplateCall = templatecall;
-            Regex anyParam = new Regex(@"\|\s*([^{}\|<>\r\n]+?)\s*=\s*(.*?)\s*(?=\||}}$)", RegexOptions.Singleline);
+            string originalURL = CiteUrl.Match(templatecall).Value, originalTemplateCall = templatecall;
 
             string pipecleanedtemplate = "", updatedTemplateCall = "";
             
@@ -2258,12 +2257,41 @@ Message: {2}
                     }
                 }
             }
-			
+            
             // check for URL breakage due to unescaped pipes in URL
             if(!CiteUrl.Match(templatecall).Value.Equals(originalURL))
-				return originalTemplateCall;
+                return originalTemplateCall;
             
             return templatecall;
+        }
+        
+        private static readonly Regex anyParam = new Regex(@"\|\s*([^{}\|<>\r\n]+?)\s*=\s*(.*?)\s*(?=\||}}$)", RegexOptions.Singleline);
+        
+        /// <summary>
+        /// Returns duplicate parameters in a template call
+        /// </summary>
+        /// <param name="templatecall">The template call to check</param>
+        /// <returns>Dictionary of any duplicate parameters: index and length</returns>
+        public static Dictionary<int, int> DuplicateTemplateParameters(string templatecall)
+        {
+            Dictionary<int, int> Dupes = new Dictionary<int, int>();
+
+            string pipecleanedtemplate = "";            
+            
+            Dictionary<string, string> Params = new Dictionary<string, string>();
+            pipecleanedtemplate = PipeCleanedTemplate(templatecall);
+            
+            foreach(Match m in anyParam.Matches(pipecleanedtemplate))
+            {
+                string paramValue = templatecall.Substring(m.Groups[2].Index, m.Groups[2].Length),
+                paramName = m.Groups[1].Value;
+                
+                if(!Params.ContainsKey(paramName))
+                    Params.Add(paramName, paramValue);
+                else
+                    Dupes.Add(m.Index, m.Length);
+            }
+            return Dupes;
         }
 
         /// <summary>
