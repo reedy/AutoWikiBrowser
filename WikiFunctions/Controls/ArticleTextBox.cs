@@ -266,13 +266,12 @@ namespace WikiFunctions.Controls
                 SelectionFont = boldFont;
             }
 
-            // images green background
-            //foreach (Match m in WikiRegexes.Images.Matches(txtEdit.RawText))
-            //{
-            //    txtEdit.SetEditBoxSelection(m.Index, m.Length);
-            //    txtEdit.SelectionBackColor = Color.Green;
-
-            //}
+            // Image/file links green background
+            foreach (Match m in WikiRegexes.FileNamespaceLink.Matches(RawText))
+            {
+                SetEditBoxSelection(m.Index, m.Length);
+                SelectionBackColor = Color.LightGreen;
+            }
 
             // italics
             foreach (Match m in WikiRegexes.Italics.Matches(RawText))
@@ -284,7 +283,7 @@ namespace WikiFunctions.Controls
             // bold  
             foreach (Match m in WikiRegexes.Bold.Matches(RawText))
             {
-                // reset anything incorrectly done by italics  earlier
+                // reset anything incorrectly done by italics earlier
                 SetEditBoxSelection(m.Index, m.Length);
                 SelectionFont = currentFont;
 
