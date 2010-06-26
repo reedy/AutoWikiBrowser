@@ -304,7 +304,7 @@ en, sq, ru
                 string strStub = Tools.Newline(RemoveStubs(ref articleText), Variables.LangCode == "ru" ? 1 : 2);
 
                 //filter out excess white space and remove "----" from end of article
-                    articleText = Parsers.RemoveWhiteSpace(articleText, fixOptionalWhitespace) + "\r\n";
+                articleText = Parsers.RemoveWhiteSpace(articleText, fixOptionalWhitespace) + "\r\n";
                 articleText += disambig;
 
                 switch (Variables.LangCode)
@@ -324,7 +324,14 @@ en, sq, ru
                     case "simple":
                         articleText += personData + strStub + categories;
                         break;
-
+                        
+                    case "it":
+                        if(Variables.Project == ProjectEnum.wikiquote)
+                            articleText += personData + strStub + categories;
+                        else
+                            articleText += personData + categories + strStub;
+                        break;
+                        
                     default:
                         articleText += personData + categories + strStub;
                         break;
