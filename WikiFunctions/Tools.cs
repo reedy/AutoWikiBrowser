@@ -2382,6 +2382,10 @@ Message: {2}
         /// <returns>The updated template call</returns>
         public static string SetTemplateParameterValue(string template, string parameter, string newvalue)
         {
+            
+            if(Tools.GetTemplateParameterValue(template, parameter).Equals(newvalue))
+                return template;
+            
             // first try to update existing field's value
             string updatedtemplate = UpdateTemplateParameterValue(template, parameter, newvalue);
 

@@ -1409,6 +1409,9 @@ def
 |accessdate=2008-08-08
 }}";
             Assert.AreEqual(input.Replace("|date=", "|date=April 4, 1922"), Tools.SetTemplateParameterValue(input, "date", "April 4, 1922"));
+        
+        // existing value = new one, no change
+        Assert.AreEqual(@"{{foo|param1=valueafter}}", Tools.SetTemplateParameterValue(@"{{foo|param1=valueafter}}", "param1", "valueafter"));
         }
         
         [Test]
