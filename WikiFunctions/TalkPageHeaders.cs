@@ -217,7 +217,7 @@ namespace WikiFunctions.TalkPages
                 
                 string arg1 = Tools.GetTemplateParameterValue(newValue, "1");
              
-                // check living, active, blpo flags against WPBiography
+                // check living, activepol, blpo flags against WPBiography
                 Match m2 = Tools.NestedTemplateRegex("WPBiography").Match(arg1);
                 
                 if(m2.Success)
@@ -233,7 +233,7 @@ namespace WikiFunctions.TalkPages
                             newValue = Tools.RemoveTemplateParameter(newValue, "blp");
                     }
                     
-                    if(Tools.GetTemplateParameterValue(WPBiographyCall, "active").Equals("yes"))
+                    if(Tools.GetTemplateParameterValue(WPBiographyCall, "activepol").Equals("yes"))
                         newValue = Tools.SetTemplateParameterValue(newValue, "activepol", "yes");
                     
                     if(Tools.GetTemplateParameterValue(WPBiographyCall, "blpo").Equals("yes"))
