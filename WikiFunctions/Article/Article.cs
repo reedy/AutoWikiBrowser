@@ -297,6 +297,13 @@ namespace WikiFunctions
         { get { return Variables.LangCode == "en" && NameSpaceKey == Namespace.Mainspace && WikiRegexes.Disambigs.IsMatch(mArticleText); } }
 
         /// <summary>
+        /// Returns whether the article is a SIA page (en only)
+        /// </summary>
+        [XmlIgnore]
+        public bool IsSIAPage
+        { get { return Variables.LangCode == "en" && NameSpaceKey == Namespace.Mainspace && WikiRegexes.SIAs.IsMatch(mArticleText); } }
+
+        /// <summary>
         /// Returns whether the article is a disambiguation page has references
         /// </summary>
         [XmlIgnore]
