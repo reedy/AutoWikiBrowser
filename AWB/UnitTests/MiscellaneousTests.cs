@@ -900,6 +900,16 @@ __TOC__", articleTextIn);
             const string otherUnnamed = @"{{WikiProjectBannerShell|random}}";
             Assert.AreEqual(otherUnnamed, TalkPageHeaders.WikiProjectBannerShell(otherUnnamed), "other unknown parameter not named 1=");
         }
+        
+        [Test]
+        public void WikiProjectBannerShellBLP()
+        {
+            const string a = @"{{WikiProjectBannerShell|blp=yes|1={{WPBiography|foo=bar|living=yes}}}}";
+            
+            Assert.AreEqual(a, TalkPageHeaders.WikiProjectBannerShell(a + "{{Blp}}"));
+            Assert.AreEqual(a, TalkPageHeaders.WikiProjectBannerShell(a.Replace("blp=yes", "blp=") + "{{Blp}}"));
+            Assert.AreEqual("{{Blp}}", TalkPageHeaders.WikiProjectBannerShell("{{Blp}}"));
+        }
     }
     
     [TestFixture]

@@ -188,6 +188,7 @@ namespace WikiFunctions.TalkPages
         
         private static List<string> BannerShellRedirects = new List<string>(new [] { "WikiProject Banners", "WikiProjectBanners", "WPBS", "WPB", "Wpb", "Wpbs"});
         private static List<string> Nos = new List<string>(new [] {"blp", "activepol", "collapsed"});
+        private static readonly Regex BLPRegex = Tools.NestedTemplateRegex(new [] { "blp", "BLP", "Blpinfo" });
         
         /// <summary>
         /// Performs fixes to the WikiProjectBannerShells template
@@ -215,8 +216,16 @@ namespace WikiFunctions.TalkPages
                         newValue = Tools.RemoveTemplateParameter(newValue, theNo);
                 }
                 
+                // If {{BLP}} then add blp=yes to WPBS and remove {{BLP}}
+                Match blpm = BLPRegex.Match(articletext);
+                if(blpm.Success)
+                {
+                    newValue = Tools.SetTemplateParameterValue(newValue, "blp", "yes");
+                    articletext = articletext.Replace(blpm.Value, "");
+                }
+                
                 string arg1 = Tools.GetTemplateParameterValue(newValue, "1");
-             
+                
                 // check living, activepol, blpo flags against WPBiography
                 Match m2 = Tools.NestedTemplateRegex("WPBiography").Match(arg1);
                 
