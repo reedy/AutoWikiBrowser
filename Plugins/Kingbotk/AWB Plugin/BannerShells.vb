@@ -34,10 +34,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
            ")\b(\s*\|\s*[0-9]+\s*=\s*(?<body>(\{\{\s*[^{]*}}[^{]*?)|\s*))*\s*}}", RegexOptions.Compiled _
            Or RegexOptions.IgnoreCase Or RegexOptions.Singleline Or RegexOptions.ExplicitCapture)
         ' last known reasonably good version: no catching of empty numbered params: ")\b(\s*\|\s*[0-9]+\s*=\s*(?<body>\{\{\s*[^{]*}}[^{]*?))*}}"
-        Private Shared ReadOnly BlpWikiProjectBannerShellRegex As New Regex("\s*\|\s*blp\s*=\s*[Yy]es", _
-           RegexOptions.Compiled Or RegexOptions.Singleline)
-        Private Shared ReadOnly ActivePolWikiProjectBannerShellRegex As New  _
-           Regex("\s*\|\s*activepol\s*=\s*[Yy]es", RegexOptions.Compiled Or RegexOptions.Singleline)
         Private Shared ReadOnly ShellRegex As New Regex(conRegexpLeft & WikiProjectBannerShell & "|" & _
            WikiProjectBanners & ")\b\s*\|", RegexOptions.Singleline Or RegexOptions.Compiled Or RegexOptions.IgnoreCase _
            Or RegexOptions.ExplicitCapture)
@@ -123,15 +119,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         ' Misc:
         Private Sub BannerShellParameterAdded(ByVal Parameter As String)
             ParameterAdded(Parameter, "yes (shell)", "WikiProjectBannerShell")
-        End Sub
-        Friend Sub CheckLivingAndActivePolInWikiProjectBannerShell()
-            ' We're writing our template to an existing shell, but we might be able to be good citizens and add blp or activepol
-            ' TODO: Unfortunately, if we've already decided we have no substantial changes and are skipping the article we'll never get here (e.g. WPBio is present and already has all required params including living=yes, but blp=yes is missing)
-            If (mLiving OrElse mActivePol) AndAlso WikiProjectBannerShellRegex.IsMatch(AlteredArticleText) Then
-                MatchEvaluatorString = ""
-                AlteredArticleText = WikiProjectBannerShellRegex.Replace(AlteredArticleText, _
-                   AddressOf Me.WPBSRegexMatchEvaluator, 1)
-            End If
         End Sub
         Friend Function PageContainsShellTemplate() As Boolean
             ' Currently only WPBio can possibly call this, so it's ok to just run the regex and not cache the results
