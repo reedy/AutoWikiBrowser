@@ -937,14 +937,14 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private const string RefsPunctuation = @"([,\.:;])";
+        private const string RefsPunctuation = @"([,\.;])";
         private static readonly Regex RefsAfterPunctuationR = new Regex(RefsPunctuation + @" *" + WikiRegexes.Refs, RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex RefsBeforePunctuationR = new Regex(WikiRegexes.Refs + @" *" + RefsPunctuation, RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex RefsBeforePunctuationR = new Regex(WikiRegexes.Refs + @" *" + RefsPunctuation + @"([^,\.:;])", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private static readonly Regex RefsAfterDupePunctuation = new Regex(@"([^,\.:;])([,\.:;])\2 *" + WikiRegexes.Refs, RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex RefsAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *" + WikiRegexes.Refs, RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
-        /// Puts &lt;ref&gt; references after punctuation per WP:REFPUNC when this is the majority style in the article
+        /// Puts &lt;ref&gt; references after punctuation (comma, full stop) per WP:REFPUNC when this is the majority style in the article
         /// Applies to en-wiki only
         /// </summary>
         /// <param name="articleText">The article text</param>
@@ -965,7 +965,7 @@ namespace WikiFunctions.Parse
                 while (!articleTextlocal.Equals(articleText))
                 {
                     articleTextlocal = articleText;
-                    articleText = RefsBeforePunctuationR.Replace(articleText, "$2$1");
+                    articleText = RefsBeforePunctuationR.Replace(articleText, "$2$1$3");
                 }
             }
 
