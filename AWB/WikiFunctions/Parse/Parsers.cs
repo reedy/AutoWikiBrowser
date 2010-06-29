@@ -5219,9 +5219,9 @@ namespace WikiFunctions.Parse
                     return articleText.Replace(rqText, rqText.Replace(@"}}", @"|linkless}}"));
             }
 
-            // add orphan tag if applicable, and no disambig
+            // add orphan tag if applicable, and no disambig nor SIA
             if (orphaned2 && !WikiRegexes.Orphan.IsMatch(articleText) && Tools.GetTemplateParameterValue(WikiRegexes.ArticleIssues.Match(articleText).Value, "orphan").Length == 0
-                && !WikiRegexes.Disambigs.IsMatch(articleText))
+                && !WikiRegexes.Disambigs.IsMatch(articleText) && !WikiRegexes.SIAs.IsMatch(articleText))
             {
                 articleText = "{{orphan|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                 tagsAdded.Add("[[CAT:O|orphan]]");
