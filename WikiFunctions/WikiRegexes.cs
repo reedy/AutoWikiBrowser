@@ -102,11 +102,14 @@ namespace WikiFunctions
                     s = "([Dd]isambiguation|[Dd]isambig|[Нн]еоднозначность|[Мm]ногозначность)";
                     break;
                 default:
-                    s = "([Dd]isamb(?:ig(?:uation)?)?|[Dd]ab|[Mm]athdab|[Ss]urname|(?:[Nn]umber|[Rr]oad?|[Hh]ospital|[Gg]eo|[Hh]n|[Ss]chool)dis|SIA|[Ll]etter-disambig|[Ss]hipindex|[Mm]ountainindex|[[Aa]irport disambig|[Cc]allsigndis|[Dd]isambig-cleanup|(Species|)LatinNameDisambig)";
+                    s = "([Dd]isamb(?:ig(?:uation)?)?|[Dd]ab|[Mm]athdab|(?:[Nn]umber|[Hh]ospital|[Gg]eo|[Hh]n|[Ss]chool)dis|SIA|[Ll]etter-disambig|[[Aa]irport disambig|[Cc]allsigndis|[Dd]isambig-cleanup|(Species|)LatinNameDisambig)";
                     break;
             }
             Disambigs = new Regex(TemplateStart + s + @"\s*(?:\|[^{}]*?)?}}", RegexOptions.Compiled);
 
+            s = "([Ss]urname|SIA|[Ss]hipindex|[Mm]ountainindex|[[Rr]oadindex)";
+            SIAs = new Regex(TemplateStart + s + @"\s*(?:\|[^{}]*?)?}}", RegexOptions.Compiled);
+            
             if (Variables.MagicWords.TryGetValue("defaultsort", out magic))
                 s = "(?i:" + string.Join("|", magic.ToArray()).Replace(":", "") + ")";
             else
