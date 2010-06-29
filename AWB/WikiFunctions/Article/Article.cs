@@ -1167,6 +1167,9 @@ namespace WikiFunctions
 
             AWBChangeArticleText("Fix empty references", Parsers.SimplifyReferenceTags(ArticleText), true);
             Variables.Profiler.Profile("FixEmptyReferences");
+            
+            AWBChangeArticleText("Refs after punctuation", Parsers.RefsAfterPunctuation(ArticleText), true);
+            Variables.Profiler.Profile("RefsAfterPunctuation");
 
             // does significant fixes
             AWBChangeArticleText("Add missing {{reflist}}", Parsers.AddMissingReflist(ArticleText), true, true);
