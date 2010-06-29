@@ -533,9 +533,14 @@ namespace WikiFunctions
         public static Regex FileNamespaceLink;
 
         /// <summary>
-        /// Matches disambig templates (en only)
+        /// Matches disambig templates (en and ru only)
         /// </summary>
         public static Regex Disambigs;
+
+        /// <summary>
+        /// Matches SIA templates (en only)
+        /// </summary>
+        public static Regex SIAs;
 
         /// <summary>
         /// Matches stubs
