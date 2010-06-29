@@ -188,7 +188,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                           "Shell template found; leaving " & PreferredTemplateName & " where we found it", PluginShortName, True)
                         TemplateHeader = Article.LineBreakRegex.Replace(TemplateHeader, "") & Template.ParametersToString("")
                         .RestoreTemplateToPlaceholderSpot(TemplateHeader)
-                        .CheckLivingAndActivePolInWikiProjectBannerShell()
                     ElseIf PutTemplateAtTop Then ' moving existing tl to top
                         TemplateHeader += Template.ParametersToString(ParameterBreak)
                         .AlteredArticleText = TemplateHeader + .AlteredArticleText.Replace(conTemplatePlaceholder, "")
