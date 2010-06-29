@@ -446,28 +446,30 @@ disambig|surname
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{disamb|foo}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{dab}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Disambig}}");
-            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{surname}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Numberdis}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{numberdis}}");
-            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Roaddis}}");
-            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Roadis}}");
-            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{roaddis}}");
-            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{roadis}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{hndis}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{  disambig}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Template:disambig}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{template:disambig}}");
-            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Shipindex}}");
-            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{mountainindex}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{LatinNameDisambig}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{SpeciesLatinNameDisambig}}");
             
             RegexAssert.NoMatch(WikiRegexes.Disambigs, @"{{now disambig}}");
             RegexAssert.NoMatch(WikiRegexes.Disambigs, @"{{dablink|foo}}");
-            RegexAssert.NoMatch(WikiRegexes.Disambigs, @"{{surname-stub}}");
         }
 
         [Test]
+        public void SIAsTests()
+        {
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{surname}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Shipindex}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{mountainindex}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Roadindex}}");
+            RegexAssert.NoMatch(WikiRegexes.SIAs, @"{{surname-stub}}");
+        }
+
+            [Test]
         public void ExtractTitleTests()
         {
             RegexAssert.IsMatch(WikiRegexes.ExtractTitle, @"http://en.wikipedia.org/wiki/Foo");
