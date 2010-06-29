@@ -56,24 +56,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
 
             ShellTemplateMatchEvaluatorsCommonTasks(templatename, match)
 
-            ' Do we need to add blp or activepol?
-            If mActivePol AndAlso Not SearchedForActivePolInShell Then
-                SearchedForActivePolInShell = True
-                If Not ActivePolWikiProjectBannerShellRegex.IsMatch(Ending) Then
-                    Ending += "|activepol=yes"
-                    ArticleHasAMajorChange()
-                    BannerShellParameterAdded("activepol")
-                End If
-            End If
-            If mLiving AndAlso Not SearchedForLivingInShell Then
-                SearchedForLivingInShell = True
-                If Not BlpWikiProjectBannerShellRegex.IsMatch(Ending) Then
-                    Ending += "|blp=yes"
-                    ArticleHasAMajorChange()
-                    BannerShellParameterAdded("blp")
-                End If
-            End If
-
             If Not Ending = "" Then Ending = Microsoft.VisualBasic.vbCrLf + Ending
 
             Return DoubleLineBreakRegex.Replace("{{" & templatename & "|1=" & Microsoft.VisualBasic.vbCrLf & LineBreakRegex.Replace(MatchEvaluatorString, "") & _
