@@ -97,7 +97,9 @@ namespace WikiFunctions
             {
                 foreach (Delegate d in AppendToEventHandler.GetInvocationList())
                 {
-                    errorMessage.AppendLine(d.DynamicInvoke().ToString());
+                    string retval = d.DynamicInvoke().ToString();
+                    if (!string.IsNullOrEmpty(retval))
+                        errorMessage.AppendLine(retval);
                 }
             }
             
