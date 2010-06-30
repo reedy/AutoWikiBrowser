@@ -958,7 +958,7 @@ namespace WikiFunctions.Parse
             int RAfter = RefsAfterPunctuationR.Matches(articleText).Count;
             int RBefore = RefsBeforePunctuationR.Matches(articleText).Count;
 
-            // require >= 75% refs after punctution to convert the rest
+            // require >= 75% refs after punctuation to convert the rest
             if (RAfter > RBefore && (RBefore == 0 || RAfter / RBefore > 3))
             {
                 string articleTextlocal = "";
