@@ -22,7 +22,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         Private WeFoundBannerShells As BannerShellsEnum
         Private MatchEvaluatorString As String
         Private mLiving As Boolean, mActivePol As Boolean
-        Private SearchedForLivingInShell As Boolean, SearchedForActivePolInShell As Boolean
 
         ' Regexes:
         ' These could probably be simplified significantly (and extra logic doing things like removing linebreaks) if I learnt more of the magic characters
