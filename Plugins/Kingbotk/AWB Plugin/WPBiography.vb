@@ -417,8 +417,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         ' Regular expressions:
         Private Shared ReadOnly BLPRegex As New Regex(TemplatePrefix & "blp\s*\}\}\s*", _
            RegexOptions.IgnoreCase Or RegexOptions.Compiled Or RegexOptions.ExplicitCapture)
-        'Private Shared ReadOnly BioCOTWRegex As New Regex("\{\{\s*(template\s*:\s*|)\s*BioCOTWs\s*\}\}[\s\n\r]*", _
-        '   RegexOptions.IgnoreCase Or RegexOptions.Compiled Or RegexOptions.ExplicitCapture)
         Private Shared ReadOnly ActivepolRegex As New Regex(TemplatePrefix & "(Activepolitician|Activepol)\s*\}\}\s*", _
            RegexOptions.IgnoreCase Or RegexOptions.Compiled Or RegexOptions.ExplicitCapture)
         Private Shared ReadOnly SkierBotRegex As New Regex( _
