@@ -42,7 +42,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
 
         ' Regex constant strings:
         Private Const WikiProjectBannerShell As String = "WikiProject ?Banner ?Shell|WP?BS|WPBannerShell" ' IGNORE CASE
-        'Private Const BannerShell As String = "BannerShell" ' BannerShell is a subcontainer for {{WikiProjectBannerShell}}
         Private Const WikiProjectBanners As String = "WikiProject ?Banners|WPB" ' IGNORE CASE
 
         ' Match evaluators:
