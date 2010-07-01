@@ -1446,9 +1446,12 @@ namespace AutoWikiBrowser
 
                 if (process)
                 {
-                    if(chkGeneralFixes.Checked)
+                    if (chkGeneralFixes.Checked)
+                    {
                         theArticle.PerformUniversalGeneralFixes();
-                    
+                        Variables.Profiler.Profile("Universal Genfixes");
+                    }
+
                     if (theArticle.CanDoGeneralFixes)
                     {
                         // auto tag
@@ -1467,6 +1470,7 @@ namespace AutoWikiBrowser
                                                            restrictDefaultsortChangesToolStripMenuItem.Checked,
                                                            noMOSComplianceFixesToolStripMenuItem.Checked);
                         }
+                        Variables.Profiler.Profile("Mainspace Genfixes");
                     }
                     else if (chkGeneralFixes.Checked)
                     {
@@ -1485,6 +1489,7 @@ namespace AutoWikiBrowser
                         {
                             theArticle.PerformTalkGeneralFixes();
                         }
+                        Variables.Profiler.Profile("Talk Genfixes");
                     }
                 }
 
