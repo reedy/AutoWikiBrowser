@@ -44,7 +44,10 @@ namespace WikiFunctions
                 log = new StreamWriter(filename, append, Encoding.Unicode);
             }
 
-            public Profiler() { }
+        /// <summary>
+        /// 
+        /// </summary>
+        public Profiler() { }
 
             /// <summary>
             /// Starts measuring time
