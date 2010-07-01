@@ -540,7 +540,7 @@ namespace WikiFunctions
         public List<string> UnknownWikiProjectBannerShellParameters()
         {
             List<string> Unknowns = new List<string>();
-            List<string> Knowns = new List<string>(new[] { "blp", "blp", "activepol", "collapsed", "1"});
+            List<string> Knowns = new List<string>(new[] { "blp", "blp", "activepol", "collapsed", "banner collapsed", "1"});
             
             if(NameSpaceKey.Equals(Namespace.Talk))
                 Unknowns = Tools.UnknownTemplateParameters(WikiRegexes.WikiProjectBannerShellTemplate.Match(ArticleText).Value, Knowns);
