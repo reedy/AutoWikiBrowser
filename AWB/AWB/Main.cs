@@ -1519,6 +1519,8 @@ namespace AutoWikiBrowser
                         theArticle.PerformMetaDataSort(Parser);
                 }
 
+                Variables.Profiler.Profile("Append Text");
+
                 // replace/remove/comment out images
                 if (cmboImages.SelectedIndex != 0)
                 {
@@ -1536,7 +1538,8 @@ namespace AutoWikiBrowser
                     if (theArticle.Disambiguate(TheSession, txtDabLink.Text.Trim(), txtDabVariants.Lines, BotMode,
                                                 (int)udContextChars.Value, chkSkipNoDab.Checked))
                     {
-                        if (theArticle.SkipArticle) return;
+                        if (theArticle.SkipArticle)
+                            return;
                     }
                     else
                     {
@@ -1545,6 +1548,7 @@ namespace AutoWikiBrowser
                         return;
                     }
                 }
+                Variables.Profiler.Profile("Disambiguate");
             }
             catch (Exception ex)
             {
