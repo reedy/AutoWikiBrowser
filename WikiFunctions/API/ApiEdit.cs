@@ -506,7 +506,7 @@ namespace WikiFunctions.API
         {
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
 
-            Reset();
+            //Reset();
             string result = HttpGet(new[,]
                 {
                     {"action", "watch"},
@@ -519,7 +519,7 @@ namespace WikiFunctions.API
         {
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
 
-            Reset();
+            //Reset();
             string result = HttpGet(new[,]
                                         {
                                             {"action", "watch"},
