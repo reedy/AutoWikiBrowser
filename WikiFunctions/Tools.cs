@@ -2085,7 +2085,7 @@ Message: {2}
         /// <summary>
         /// Returns the requested argument from the input template call
         /// </summary>
-        /// <param name="template">The template call</param>
+        /// <param name="templateCall">The template call</param>
         /// <param name="argument">The argument to return</param>
         /// <returns>The argument value (trimmed)</returns>
         public static string GetTemplateArgument(string templateCall, int argument)
@@ -2104,6 +2104,30 @@ Message: {2}
             }
 
             return "";
+        }
+        
+        /// <summary>
+        /// Returns the index of the given argumment from the input template call
+        /// </summary>
+        /// <param name="templateCall">The template call</param>
+        /// <param name="argument">The argument to find</param>
+        /// <returns>The index of the argument</returns>
+        public static int GetTemplateArgumentIndex(string templateCall, int argument)
+        {
+            Regex arg = new Regex(@"\|\s*(.*?)\s*(?=\||}}$)", RegexOptions.Singleline);
+
+            string pipecleanedtemplate = PipeCleanedTemplate(templateCall);
+            int count = 1;
+
+            foreach (Match m in arg.Matches(pipecleanedtemplate))
+            {
+                if (count.Equals(argument))
+                    return m.Index+1;
+
+                count++;
+            }
+
+            return -1;
         }
 
         /// <summary>

@@ -260,7 +260,7 @@ namespace WikiFunctions.TalkPages
                         
                         if(argValue.StartsWith(@"{{"))
                         {
-                            newValue = newValue.Insert(newValue.IndexOf(argValue), "1=");
+                            newValue = newValue.Insert(Tools.GetTemplateArgumentIndex(newValue, arg), "1=");
                             break;
                         }
                     }

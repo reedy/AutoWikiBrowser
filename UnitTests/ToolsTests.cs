@@ -1047,6 +1047,16 @@ John", "*"));
             Assert.AreEqual("bar [[piped|link]]", Tools.GetTemplateArgument(@"{{abc |  foo  |bar [[piped|link]] }}", 2));
         }
         
+           [Test]
+           public void GetTemplateArgumentIndex()
+           {
+               Assert.AreEqual(6, Tools.GetTemplateArgumentIndex("{{abc|foo=yes}}", 1));
+               Assert.AreEqual(6, Tools.GetTemplateArgumentIndex("{{abc|" +
+                                                                 "foo=yes}}", 1));
+               Assert.AreEqual(6, Tools.GetTemplateArgumentIndex("{{abc|  foo=yes|bar=no}}", 1));
+               Assert.AreEqual(-1, Tools.GetTemplateArgumentIndex("{{abc|foo=yes}}", 2));
+           }
+        
         [Test]
         public void GetTemplateArgumentCount()
         {
