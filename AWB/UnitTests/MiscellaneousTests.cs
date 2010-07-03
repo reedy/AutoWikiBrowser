@@ -893,8 +893,8 @@ __TOC__", articleTextIn);
         public void WikiProjectBannerShellUnnamedParam()
         {
             Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|{{WPBiography|foo=bar}}}}"), "1= added when missing");
-            Assert.AreEqual(@"{{WikiProjectBannerShell|
-1={{WPBiography|foo=bar}}}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|
+            Assert.AreEqual(@"{{WikiProjectBannerShell|1=
+{{WPBiography|foo=bar}}}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|
 {{WPBiography|foo=bar}}}}"));
             
             const string otherUnnamed = @"{{WikiProjectBannerShell|random}}";
