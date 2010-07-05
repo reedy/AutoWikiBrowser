@@ -2559,9 +2559,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex CiteFormatFieldTypo = new Regex(@"(\{\{\s*[Cc]it[^{}]*?\|\s*)(?i)(?:fprmat)(\s*=\s*)", RegexOptions.Compiled);
         private static readonly Regex WorkInItalics = new Regex(@"(\|\s*work\s*=\s*)''([^'{}\|]+)''(?=\s*(?:\||}}))", RegexOptions.Compiled);
 
-        private static readonly Regex CiteTemplateFormatHTML = new Regex(@"\|\s*format\s*=\s*(?:HTML?|\[\[HTML?\]\]|html?)\s*(?=\||}})", RegexOptions.Compiled);
         private static readonly Regex CiteTemplateFormatnull = new Regex(@"\|\s*format\s*=\s*(?=\||}})", RegexOptions.Compiled);
-        private static readonly Regex CiteTemplateLangEnglish = new Regex(@"\|\s*language\s*=\s*(?:[Ee]nglish)\s*(?=\||}})", RegexOptions.Compiled);
         private static readonly Regex CiteTemplatePagesPP = new Regex(@"(?<=\|\s*pages?\s*=\s*)p(?:p|gs?)?(?:\.|\b)(?:&nbsp;|\s*)(?=[^{}\|]+(?:\||}}))", RegexOptions.Compiled);
         private static readonly Regex CiteTemplateHTMLURL = new Regex(@"\|\s*url\s*=\s*[^<>{}\s\|]+?\.(?:HTML?|html?)\s*(?:\||}})", RegexOptions.Compiled);
         private static readonly Regex CiteTemplatesJournalVolume = new Regex(@"(?<=\|\s*volume\s*=\s*)vol(?:umes?|\.)?(?:&nbsp;|:)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -2628,11 +2626,12 @@ namespace WikiFunctions.Parse
 
                 // remove the unneeded 'format=HTML' field
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.22format.3DHTML.22_in_citation_templates
-                newValue = CiteTemplateFormatHTML.Replace(newValue, "");
+                if(Tools.GetTemplateParameterValue(newValue, "format").TrimStart("[]".ToCharArray()).ToUpper().StartsWith("HTM"))
+                    newValue = Tools.RemoveTemplateParameter(newValue, "format");
 
                 // remove language=English on en-wiki
-                if (Variables.LangCode == "en")
-                    newValue = CiteTemplateLangEnglish.Replace(newValue, "");
+                if(Variables.LangCode == "en" && Tools.GetTemplateParameterValue(newValue, "language").ToLower().Equals("english"))
+                    newValue = Tools.RemoveTemplateParameter(newValue, "language");
 
                 // remove format= field with null value when URL is HTML page
                 if (CiteTemplateHTMLURL.IsMatch(newValue))
