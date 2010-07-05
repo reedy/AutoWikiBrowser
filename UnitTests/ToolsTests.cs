@@ -1260,6 +1260,9 @@ dateformat=mdy}}", "cite web", "dateformat"));
         public void RemoveDuplicateTemplateParameters()
         {
             Assert.AreEqual(@"{{foo|first=abc|second=def}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=def|second=def}}"));
+            Assert.AreEqual(@"{{foo|first=abc|second=def}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=def|second=de}}"), "removed when one contains the other");
+            Assert.AreEqual(@"{{foo|first=abc|second=def|a=c}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=def|a=c|second=de}}"));
+            Assert.AreEqual(@"{{foo|first=abc|a=c|second=def}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=de|a=c|second=def}}"));
             Assert.AreEqual(@"{{foo|first=abc|second = def}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=def|second = def}}"), "first removed if both the same");
             Assert.AreEqual(@"{{foo|first=abc|second=def}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=def|second=}}"), "null dupe param removed");
             Assert.AreEqual(@"{{foo|first=abc|second=
@@ -1272,12 +1275,11 @@ def
             Assert.AreEqual(@"{{foo|first=abc|second=def}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=def|second=def|second=def}}"), "multiple duplicates removed");
             Assert.AreEqual(@"{{foo|first=abc|second=def}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|first=abc|second=def|second=def|second=def}}"), "multiple duplicates removed");
             
-            const string noDupe = @"{{foo|first=abc|second=def|second=deff}}", noDupe2 = @"{{foo|first=abc|second=def|Second=def}}";
+            const string noDupe2 = @"{{foo|first=abc|second=def|Second=def}}";
             
-            Assert.AreEqual(noDupe, Tools.RemoveDuplicateTemplateParameters(noDupe));
             Assert.AreEqual(noDupe2, Tools.RemoveDuplicateTemplateParameters(noDupe2), "case sensitive parameter name matching");
             
-            Assert.AreEqual(@"{{foo|first=abc|second=def|second=defg}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=def|second=def|second=defg}}"), "non-duplicates not removed");
+            Assert.AreEqual(@"{{foo|first=abc|second=dex|second=defg}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=dex|second=dex|second=defg}}"), "non-duplicates not removed");
             
             Assert.AreEqual(@"{{foo|first=abc|second={{def|bar}}}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second={{def|bar}}|second={{def|bar}}}}"));
         }
