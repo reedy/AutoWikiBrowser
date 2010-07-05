@@ -1563,5 +1563,13 @@ Bert").Groups[2].Value, "foo bar\r");
             Assert.IsTrue(WikiRegexes.CircaTemplate.IsMatch(@"{{Circa}}"));
             Assert.IsTrue(WikiRegexes.CircaTemplate.IsMatch(@"{{circa|foo=yes}}"));
         }
+        
+        [Test]
+        public void ReferenceList()
+        {
+            Assert.IsTrue(WikiRegexes.ReferenceList.IsMatch(@"{{reflist}}"));
+            Assert.IsTrue(WikiRegexes.ReferenceList.IsMatch(@"{{references-small}}"));
+            Assert.IsTrue(WikiRegexes.ReferenceList.IsMatch(@"{{references-2column}}"));
+        }
     }
 }
