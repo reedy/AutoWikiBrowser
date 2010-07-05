@@ -553,7 +553,7 @@ namespace WikiFunctions
         public static Regex PossiblyCommentedStub;
 
         /// <summary>
-        /// 
+        /// Matches Category links
         /// </summary>
         public static Regex LooseCategory;
 

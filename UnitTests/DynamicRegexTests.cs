@@ -17,9 +17,11 @@ namespace UnitTests
             RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:Test now]]");
             RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:Test|Key]]");
             RegexAssert.IsMatch(WikiRegexes.Category, "[[ Category : Test now| Key]]");
+            RegexAssert.IsMatch(WikiRegexes.Category, "[[CATEGORY :Test]]");
 
             RegexAssert.NoMatch(WikiRegexes.Category, "[[Test]]");
             RegexAssert.NoMatch(WikiRegexes.Category, "[[Image:Test.jpg]]");
+            RegexAssert.IsMatch(WikiRegexes.Category, "[[CATEGORY :Test]]");
         }
         
         [Test]
