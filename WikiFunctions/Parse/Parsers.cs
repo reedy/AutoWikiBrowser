@@ -2652,36 +2652,15 @@ namespace WikiFunctions.Parse
                 // year = ISO date --> date = ISO date
                 string TheYear = Tools.GetTemplateParameterValue(newValue, "year");
                 if (WikiRegexes.ISODates.IsMatch(TheYear) || WikiRegexes.InternationalDates.IsMatch(TheYear)
-                   || WikiRegexes.AmericanDates.IsMatch(TheYear))
+                    || WikiRegexes.AmericanDates.IsMatch(TheYear))
                     newValue = Tools.RenameTemplateParameter(newValue, "year", "date");
 
                 // remove duplicated fields, ensure the URL is not touched (may have pipes in)
                 if (DupeFields.IsMatch(newValue))
-                {
-                    string URL = CiteUrl.Match(newValue).Value;
-                    string newvaluetemp = newValue;
-                    Match m2 = DupeFields.Match(newValue);
-
-                    string val1 = m2.Groups[4].Value.Trim();
-                    string val2 = m2.Groups[5].Value.Trim();
-                    string firstfieldandvalue = m2.Groups[2].Value;
-
-                    // get rid of second one if second is zero length or contained in first, provided first one not in URL
-                    if (val2.Length == 0 || (val1.Length > 0 && val1.Contains(val2))
-                        && !URL.Contains(firstfieldandvalue))
-                        newvaluetemp = DupeFields.Replace(newValue, @"$1$6", 1);
-                    // get rid of first one if first is zero length or contains second, provided second one not in URL
-                    else if (val1.Length == 0 || (val2.Length > 0 && val2.Contains(val1))
-                             && !URL.Contains(firstfieldandvalue))
-                        newvaluetemp = newValue.Remove(m2.Groups[2].Index, m2.Groups[2].Length);
-
-                    // ensure URL not changed
-                    if (newvaluetemp != newValue && (URL.Length == 0 || newvaluetemp.Contains(URL)))
-                        newValue = newvaluetemp;
-                }
+                    newValue = Tools.RemoveDuplicateTemplateParameters(newValue);
 
                 // year=YYYY and date=...YYYY -> remove year; not for year=YYYYa
-               TheYear = Tools.GetTemplateParameterValue(newValue, "year");
+                TheYear = Tools.GetTemplateParameterValue(newValue, "year");
 
                 if (Regex.IsMatch(TheYear, @"^[12]\d{3}$") && Tools.GetTemplateParameterValue(newValue, "date").Contains(TheYear))
                     newValue = Tools.RemoveTemplateParameter(newValue, "year");
