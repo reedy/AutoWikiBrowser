@@ -2646,7 +2646,7 @@ namespace WikiFunctions.Parse
                     newValue = CiteTemplatePagesPP.Replace(newValue, "");
 
                 // date = YYYY --> year = YYYY; not for {{cite video}}
-                if (!Regex.IsMatch(newValue, @"{{\s*[Cc]ite (?:video|podcast)\b"))
+                if (!Regex.IsMatch(templatename, @"[Cc]ite (?:video|podcast)\b"))
                     newValue = YearInDate.Replace(newValue, "$1year$2");
 
                 // year = ISO date --> date = ISO date
@@ -2681,9 +2681,9 @@ namespace WikiFunctions.Parse
                 }
 
                 // year=YYYY and date=...YYYY -> remove year; not for year=YYYYa
-                string year = Tools.GetTemplateParameterValue(newValue, "year");
+               TheYear = Tools.GetTemplateParameterValue(newValue, "year");
 
-                if (Regex.IsMatch(year, @"^[12]\d{3}$") && Tools.GetTemplateParameterValue(newValue, "date").Contains(year))
+                if (Regex.IsMatch(TheYear, @"^[12]\d{3}$") && Tools.GetTemplateParameterValue(newValue, "date").Contains(TheYear))
                     newValue = Tools.RemoveTemplateParameter(newValue, "year");
 
                 // correct volume=vol 7... and issue=no. 8 for {{cite journal}} only
