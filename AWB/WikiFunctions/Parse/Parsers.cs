@@ -1490,17 +1490,15 @@ namespace WikiFunctions.Parse
 
             foreach (Match m in WikiRegexes.CiteTemplate.Matches(articleText))
             {
-                if (Regex.IsMatch(Tools.GetTemplateName(m.Value), @"[Cc]ite\s*(?:web|book|news|journal|paper|press release|hansard|encyclopedia)"))
+                string pipecleaned = Tools.PipeCleanedTemplate(m.Value, false);
+                if (Regex.Matches(pipecleaned, @"=").Count > 0)
                 {
-                    string pipecleaned = Tools.PipeCleanedTemplate(m.Value, false);
-                    if (Regex.Matches(pipecleaned, @"=").Count > 0)
-                    {
-                        int noequals = Regex.Match(pipecleaned, @"\|[^=]+?\|").Index;
+                    int noequals = Regex.Match(pipecleaned, @"\|[^=]+?\|").Index;
 
-                        if (noequals > 0)
-                            found.Add(m.Index + noequals, Regex.Match(pipecleaned, @"\|[^=]+?\|").Value.Length);
-                    }
+                    if (noequals > 0)
+                        found.Add(m.Index + noequals, Regex.Match(pipecleaned, @"\|[^=]+?\|").Value.Length);
                 }
+                
             }
             return found;
         }
