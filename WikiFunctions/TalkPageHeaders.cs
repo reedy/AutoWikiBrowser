@@ -97,7 +97,9 @@ namespace WikiFunctions.TalkPages
                 }
             }
             
-            articleText = AddMissingFirstCommentHeader(articleText);
+        articleText = WikiProjectBannerShell(articleText);
+
+        articleText = AddMissingFirstCommentHeader(articleText);
             
             return pr.FoundTalkHeader || pr.FoundSkipToTalk || pr.FoundDefaultSort;
         }
