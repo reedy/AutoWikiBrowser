@@ -806,9 +806,9 @@ namespace WikiFunctions
         public static readonly Regex ArticleIssuesTemplates = new Regex(@"{{" + ArticleIssuesTemplatesString + @"\s*(?:\|\s*([^{}\|]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}\|]*?)?))?\s*}}");
 
         /// <summary>
-        /// 
+        /// Matches the "reflist", "references-small", "references-2column" references display templates
         /// </summary>
-        public static readonly Regex ReferenceList = new Regex(@"{{\s*(reflist|references-small|references-2column)}}", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
+        public static readonly Regex ReferenceList = Tools.NestedTemplateRegex(new [] { "reflist", "references-small", "references-2column"});
 
         /// <summary>
         /// Matches infoboxes, group 1 being the template name of the infobox
