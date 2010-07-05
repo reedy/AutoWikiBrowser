@@ -24,6 +24,10 @@ namespace UnitTests
 
             RegexAssert.NoMatch(WikiRegexes.Category, "[[Test]]");
             RegexAssert.NoMatch(WikiRegexes.Category, "[[Image:Test.jpg]]");
+            RegexAssert.NoMatch(WikiRegexes.Category, @"[[Category:
+1910 births]]");
+            RegexAssert.NoMatch(WikiRegexes.Category, @"[[Category:1910 births
+]]");
         }
         
         [Test]
@@ -35,6 +39,8 @@ namespace UnitTests
             RegexAssert.IsMatch(WikiRegexes.LooseCategory, "[[ Category: Test]]");
             RegexAssert.IsMatch(WikiRegexes.LooseCategory, "[[_Category: Test]]");
             RegexAssert.IsMatch(WikiRegexes.LooseCategory, "[[ Category :Test|here]]");
+            RegexAssert.IsMatch(WikiRegexes.LooseCategory, @"[[Category:
+1910 births]]");
 
             RegexAssert.NoMatch(WikiRegexes.LooseCategory, "[[Test]]");
             RegexAssert.NoMatch(WikiRegexes.LooseCategory, "[[Category");
