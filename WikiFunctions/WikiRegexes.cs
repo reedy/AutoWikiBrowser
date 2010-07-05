@@ -37,8 +37,8 @@ namespace WikiFunctions
 
             TemplateStart = @"\{\{\s*(:?" + Variables.NamespacesCaseInsensitive[Namespace.Template] + ")?";
 
-            Category = new Regex(@"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category] +
-                                 @"\s*(.*?)\s*(?:|\|([^\|\]]*))\s*\]\]", RegexOptions.Compiled);
+            Category = new Regex(@"\[\[[\s_]*" + Variables.NamespacesCaseInsensitive[Namespace.Category] +
+                                 @"[\s_]*(.*?)\s*(?:\|([^\|\]]*))?[\s_]*\]\]", RegexOptions.Compiled);
 
             // Use allowed character list, then a file extension (these are mandatory on mediawiki), then optional closing ]]
             // this allows typo fixing and find&replace to operate on image descriptions
@@ -66,7 +66,7 @@ namespace WikiFunctions
 
             LooseCategory =
                 new Regex(@"\[\[[\s_]*" + Variables.NamespacesCaseInsensitive[Namespace.Category]
-                    + @"[\s_]*([^\|]*?)(|\|.*?)\]\]",
+                    + @"[\s_]*([^\|]*?)(\|.*?)?\]\]",
                     RegexOptions.Compiled);
 
             LooseImage = new Regex(@"\[\[\s*?(" + Variables.NamespacesCaseInsensitive[Namespace.File]
