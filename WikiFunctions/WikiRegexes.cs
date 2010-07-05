@@ -38,7 +38,7 @@ namespace WikiFunctions
             TemplateStart = @"\{\{\s*(:?" + Variables.NamespacesCaseInsensitive[Namespace.Template] + ")?";
 
             Category = new Regex(@"\[\[[\s_]*" + Variables.NamespacesCaseInsensitive[Namespace.Category] +
-                                 @"[\s_]*(.*?)\s*(?:\|([^\|\]]*))?[\s_]*\]\]", RegexOptions.Compiled);
+                                 @"[ _]*(.*?)[ _]*(?:\|([^\|\]]*))?[ _]*\]\]", RegexOptions.Compiled);
 
             // Use allowed character list, then a file extension (these are mandatory on mediawiki), then optional closing ]]
             // this allows typo fixing and find&replace to operate on image descriptions
