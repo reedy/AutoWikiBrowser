@@ -981,6 +981,16 @@ namespace WikiFunctions
         /// Matches a number between 1000 and 2999
         /// </summary>
         public static readonly Regex GregorianYear = new Regex(@"\b[12]\d{3}\b", RegexOptions.Compiled);
+        
+        /// <summary>
+        /// List of known infobox fields holding date of birth
+        /// </summary>
+        public static readonly List<string> InfoBoxDOBFields = new List<string>(new [] {"yearofbirth", "dateofbirth", "born", "birth date", "birthdate", "birth_date"});
+        
+        /// <summary>
+        /// List of known infobox fields holding date of death
+        /// </summary>
+        public static readonly List<string> InfoBoxDODFields = new List<string>(new [] {"yearofdeath", "dateofdeath", "born", "death date", "deathdate", "death_date"});
 
         #region Parsers.FixFootnotes **NOT READY FOR PRODUCTION**
         // removed superscripted punctuation between refs

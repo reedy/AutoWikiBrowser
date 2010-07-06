@@ -4656,7 +4656,7 @@ namespace WikiFunctions.Parse
             bool alreadyUncertain = false;
 
             // scrape any infobox for birth year
-            string fromInfoBox = GetInfoBoxFieldValue(zerothSection, @"(?:(?:[Yy]ear|[Dd]ate)[Oo]f[Bb]irth|[Bb]orn|birth_?date)");
+            string fromInfoBox = GetInfoBoxFieldValue(zerothSection, WikiRegexes.InfoBoxDOBFields);
 
             if (fromInfoBox.Length > 0 && !UncertainWordings.IsMatch(fromInfoBox))
                 yearFromInfoBox = YearPossiblyWithBC.Match(fromInfoBox).Value;
@@ -4714,7 +4714,7 @@ namespace WikiFunctions.Parse
 
             // scrape any infobox
             yearFromInfoBox = "";
-            fromInfoBox = GetInfoBoxFieldValue(articleText, @"(?:(?:[Yy]ear|[Dd]ate)[Oo]f[Dd]eath|[Dd]ied|death_?date)");
+            fromInfoBox = GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxDODFields);
 
             if (fromInfoBox.Length > 0 && !UncertainWordings.IsMatch(fromInfoBox))
                 yearFromInfoBox = YearPossiblyWithBC.Match(fromInfoBox).Value;
@@ -4833,41 +4833,24 @@ namespace WikiFunctions.Parse
         /// Returns a null string if the input article has no infobox, or the input field regex doesn't match on the infobox found
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
-        /// <param name="fieldRegex">Regular expression of field names, must not contain regex groups</param>
+        /// <param name="fields">List of infobox fields to search</param>
         /// <returns></returns>
-        public static string GetInfoBoxFieldValue(string articleText, string fieldRegex)
+        public static string GetInfoBoxFieldValue(string articleText, List<string> fields)
         {
             string infoBox = WikiRegexes.InfoBox.Match(articleText).Value;
-            string fieldValue;
 
             // clean out references and comments
             infoBox = WikiRegexes.Comments.Replace(infoBox, "");
             infoBox = WikiRegexes.Refs.Replace(infoBox, "");
-
-            try // in case of parse exception on fieldRegex
+            
+            List<string> FieldsBack = Tools.GetTemplateParametersValues(infoBox, fields, true);
+            
+            foreach(string f in FieldsBack)
             {
-                fieldValue = Regex.Match(infoBox, @"^\s*\|?\s*" + fieldRegex + @"\s*=\s*(.*)", RegexOptions.Multiline).Groups[1].Value.Trim();
+                if(f.Length > 0)
+                    return f;
             }
-
-            catch
-            {
-                return "";
-            }
-
-            if (fieldValue.Length > 0)
-            {
-                // handle multiple fields on same line
-                if (InfoboxValue.IsMatch(fieldValue))
-                {
-                    // string fieldValueLocal = WikiRegexes.NestedTemplates.Replace(fieldValue, "");
-
-                    // fieldValueLocal = InfoboxValue.Replace(fieldValueLocal, "");
-                    return "";
-                }
-
-                return fieldValue;
-            }
-
+            
             return "";
         }
 

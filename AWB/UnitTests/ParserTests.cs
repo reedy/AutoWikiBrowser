@@ -1624,35 +1624,32 @@ died 2002
         [Test]
         public void GetInfoBoxFieldValue()
         {
+            List<string> Year = new List<string>(new [] {"year"});
+            
             Assert.AreEqual(@"1990", Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
 |year=1990
-|other=great}} now", @"[Yy]ear"));
+|other=great}} now", Year));
 
             Assert.AreEqual(@"1990", Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
 |  year  =  1990
-|other=great}} now", @"[Yy]ear"));
+|other=great}} now", Year));
 
             Assert.AreEqual(@"1990", Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
 |  Year  =  1990
-|other=great}} now", @"[Yy]ear"));
+|other=great}} now", Year));
 
             // no infobox
-            Assert.AreEqual(@"", Parsers.GetInfoBoxFieldValue(@"hello now", @"[Yy]ear"));
+            Assert.AreEqual(@"", Parsers.GetInfoBoxFieldValue(@"hello now", Year));
             
             // field not found
             Assert.AreEqual(@"", Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
 |  Year  =  1990
-|other=great}} now", @"[Yy]early"));
+|other=great}} now", new List<string>(new [] {"yearly"})));
 
             // multiple fields on same line
-            Assert.AreEqual(@"", Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
+            Assert.AreEqual(@"1990", Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
 |  Year  =  1990  |some=where
-|other=great}} now", @"[Yy]ear"));
-            
-            // invalid regex caught
-            Assert.AreEqual(@"", Parsers.GetInfoBoxFieldValue(@"hello {{infobox foo
-|  Year  =  1990  |some=where
-|other=great}} now", @"(Yy]ear"));
+|other=great}} now", Year));
         }
 
         [Test]
