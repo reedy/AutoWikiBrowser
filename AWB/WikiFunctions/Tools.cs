@@ -2474,8 +2474,8 @@ Message: {2}
             return NestedTemplateRegex(templatename).Replace(articletext, "$1" + newtemplatename + "$3", count);
         }
 
-        private const string NestedTemplateRegexStart = @"({{\s*)(?:";
-        private const string NestedTemplateRegexEnd = @"(\s*(?:<!--[^>]*?-->\s*|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋\s*)?(\|((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))))?\}\})";
+        private const string NestedTemplateRegexStart = @"({{[\s_]*)(?:";
+        private const string NestedTemplateRegexEnd = @"([\s_]*(?:<!--[^>]*?-->\s*|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋\s*)?(\|((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))))?\}\})";
 
         /// <summary>
         /// Returns a regex to match the input template

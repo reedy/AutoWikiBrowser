@@ -1437,6 +1437,7 @@ def
             Assert.AreEqual(FooTemplate.Match(@"{{ Foo|title=abc}}").Groups[3].Value, @"|title=abc}}");
             
             Assert.IsTrue(FooTemplate.IsMatch(@"{{foo}}"));
+            Assert.IsTrue(FooTemplate.IsMatch(@"{{___foo___}}"));
             Assert.IsTrue(FooTemplate.IsMatch(@"{{Foo}}"));
             Assert.IsTrue(FooTemplate.IsMatch(@"{{ foo}}"));
             Assert.IsTrue(FooTemplate.IsMatch(@"{{ foo|}}"));
