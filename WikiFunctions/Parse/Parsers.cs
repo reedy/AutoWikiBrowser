@@ -2805,6 +2805,71 @@ namespace WikiFunctions.Parse
 
             return citation;
         }
+        
+        private const string PersonDataDefault = @"{{Persondata         <!-- Metadata: see [[Wikipedia:Persondata]] -->
+| NAME              =
+| ALTERNATIVE NAMES =
+| SHORT DESCRIPTION =
+| DATE OF BIRTH     =
+| PLACE OF BIRTH    =
+| DATE OF DEATH     =
+| PLACE OF DEATH    =
+}}";
+        
+        private static readonly Regex BirthDate = Tools.NestedTemplateRegex(new List<string>(new [] { "birth date", "dob", "bda", "birth date and age"}));
+        
+        /// <summary>
+        /// * Adds the default {{persondata}} template to en-wiki mainspace pages about a person that don't already have {{persondata}}
+        /// * Attempts to complete blank {{persondata}} fields based on infobox values
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitle">Title of the article</param>
+        /// <returns></returns>
+        public static string PersonData(string articleText, string articleTitle)
+        {
+            if(Variables.LangCode != "en")
+                return articleText;
+            
+            // add default persondata if missing
+            if(!Tools.NestedTemplateRegex("persondata").IsMatch(articleText))
+            {
+                if(IsArticleAboutAPerson(articleText, articleTitle, true))
+                    articleText = articleText + PersonDataDefault;
+                else
+                    return articleText;
+            }
+            
+            // attempt completion of some persondata fields
+            string theInfoBox = WikiRegexes.InfoBox.Match(articleText).Value;
+            
+            if(theInfoBox.Length > 0)
+            {
+                string originalPersonData = Tools.NestedTemplateRegex("persondata").Match(articleText).Value;
+                string newPersonData = originalPersonData;
+                
+                // date of birth
+                string dateOfBirth = GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxDOBFields);
+                
+                if(WikiRegexes.AmericanDates.IsMatch(dateOfBirth))
+                    newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF BIRTH", WikiRegexes.AmericanDates.Match(dateOfBirth).Value);
+                else if(WikiRegexes.InternationalDates.IsMatch(dateOfBirth))
+                    newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF BIRTH", WikiRegexes.InternationalDates.Match(dateOfBirth).Value);
+                else if(WikiRegexes.ISODates.IsMatch(dateOfBirth))
+                    newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF BIRTH", WikiRegexes.ISODates.Match(dateOfBirth).Value);
+                else if(BirthDate.IsMatch(dateOfBirth))
+                {
+                    string ISODOB = Tools.GetTemplateArgument(dateOfBirth, 1) + "-" + Tools.GetTemplateArgument(dateOfBirth, 2) + "-" + Tools.GetTemplateArgument(dateOfBirth, 3);
+                    newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF BIRTH", ISODOB);
+                }
+                
+                
+                // merge changes
+                if(!newPersonData.Equals(originalPersonData))
+                    articleText = articleText.Replace(originalPersonData, newPersonData);
+            }
+            
+            return articleText;
+        }
 
         /// <summary>
         /// The in-use date formats on Wikipedia
