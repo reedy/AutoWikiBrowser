@@ -4918,8 +4918,8 @@ window.scrollTo(0, diffTopY);
 
         private void RedSelection(int index, int length)
         {
-            // indexes in articleText and txtEdit.Edit are offset by the number of newlines before the index of the unbalanced brackets
-            // so allow for this when highlighting the unbalanced bracket
+            // indexes in articleText and txtEdit.Edit are offset by the number of newlines before the index of the text
+            // so allow for this when highlighting the text
             string a = txtEdit.Text.Substring(0, index);
             int b = WikiRegexes.Newline.Matches(a).Count;
             txtEdit.SetEditBoxSelection(index - b, length);
