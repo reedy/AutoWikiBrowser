@@ -2178,6 +2178,49 @@ complementary and alternative medicine: evidence is a better friend than power. 
         }
         
         [Test]
+        public void PersonDataAddition()
+        {
+            const string Fred = @"'''Fred''' (born 1960) is.
+[[Category:1960 births]]", FredPD = @"'''Fred''' (born 1960) is.
+[[Category:1960 births]]
+{{Persondata|dob=1960}}";
+
+            Assert.IsTrue(Tools.NestedTemplateRegex("persondata").IsMatch(Parsers.PersonData(Fred, "Fred")), "Adds persondata for BLP when missing");
+            Assert.IsFalse(Tools.NestedTemplateRegex("persondata").IsMatch(Parsers.PersonData("test", "Fred")), "PersonData not added when not BLP");
+            
+            Assert.AreEqual(FredPD, Parsers.PersonData(FredPD, "Fred"), "No change when persondata already present for BLP");
+        }
+        
+        [Test]
+        public void PersonDataAdditionEnOnly()
+        {
+            const string Fred = @"'''Fred''' (born 1960) is.
+[[Category:1960 births]]";
+            
+            #if DEBUG
+            Variables.SetProjectLangCode("fr");
+            Assert.IsFalse(Tools.NestedTemplateRegex("persondata").IsMatch(Parsers.PersonData(Fred, "Fred")), "Adds persondata for BLP when missing");
+            
+            Variables.SetProjectLangCode("en");
+            Assert.IsTrue(Tools.NestedTemplateRegex("persondata").IsMatch(Parsers.PersonData(Fred, "Fred")), "Adds persondata for BLP when missing");
+            #endif
+        }
+        
+        [Test]
+        public void PersonDataCompletion()
+        {
+            const string a = @"{{persondata
+            |DATE OF BIRTH=
+            |DATE OF DEATH= }}", a2 = @"{{persondata
+            |DATE OF BIRTH=27 June 1950
+            |DATE OF DEATH= }}", i1 = @"{{infobox foo| dateofbirth = 27 June 1950}}", i2 = @"{{infobox foo| dateofbirth = {{birth date|1950|06|27}}}}";
+            
+            Assert.AreEqual(i1 + a2, Parsers.PersonData(i1 + a, "test"));
+            Assert.AreEqual(i1.Replace("27 June", "June 27,") + a2.Replace("27 June", "June 27,"), Parsers.PersonData(i1.Replace("27 June", "June 27,") + a.Replace("27 June", "June 27,"), "test"));
+            Assert.AreEqual(i2 + a2.Replace("27 June 1950", "1950-06-27"), Parsers.PersonData(i2 + a, "test"));
+        }
+        
+        [Test]
         public void FixCitationTemplatesEnOnly()
         {
             #if DEBUG
