@@ -1474,6 +1474,9 @@ title={{abc|fdkjdsfjk=fdaskjlfds
             Assert.IsTrue(FooTemplate.IsMatch(@"{{foo}}"));
             Assert.IsTrue(FooTemplate.IsMatch(@"{{Foo}}"));
             Assert.IsTrue(FooTemplate.IsMatch(@"{{ foo}}"));
+            Assert.IsTrue(FooTemplate.IsMatch(@"{{Template:foo}}"));
+            Assert.IsTrue(FooTemplate.IsMatch(@"{{:Template:foo}}"));
+            Assert.IsTrue(FooTemplate.IsMatch(@"{{_:_Template_:_foo_}}"));
         }
         
         [Test]
