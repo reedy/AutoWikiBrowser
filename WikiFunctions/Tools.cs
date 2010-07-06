@@ -2502,7 +2502,7 @@ Message: {2}
             if (templatenames.Count == 0)
                 return null;
 
-            StringBuilder theRegex = new StringBuilder(NestedTemplateRegexStart + @"[Tt]emplate\s*:?" /* Variables.NamespacesCaseInsensitive[Namespace.Template] */ + @"\s*)?(");
+            StringBuilder theRegex = new StringBuilder(NestedTemplateRegexStart + @":?[\s_]*[Tt]emplate[\s_]*:?[\s_]*" /* Variables.NamespacesCaseInsensitive[Namespace.Template] */ + @"\s*)?(");
 
             foreach (string templatename in templatenames)
             {
