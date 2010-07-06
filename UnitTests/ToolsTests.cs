@@ -964,6 +964,9 @@ John", "*"));
             
             // returns first value
             Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite|param1=here|foo=bar|param1=there}}", "param1"));
+            
+            // case insensitive option
+            Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite|PARAM1=here}}", "param1", true));
         }
         
         [Test]

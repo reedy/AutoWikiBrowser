@@ -2045,10 +2045,16 @@ Message: {2}
         /// </summary>
         /// <param name="template">the input template call</param>
         /// <param name="parameter">the input parameter to find</param>
+        /// <param name="caseInsensitiveParameterName">Whether to match case insensitively on parameter name</param>
         /// <returns>The trimmed parameter value, or a null string if the parameter is not found</returns>
-        public static string GetTemplateParameterValue(string templateCall, string parameter)
+        public static string GetTemplateParameterValue(string templateCall, string parameter, bool caseInsensitiveParameterName)
         {
-            Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=(.*?)(?=\||}}$)", RegexOptions.Singleline);
+            RegexOptions ro = RegexOptions.Singleline;
+            
+            if(caseInsensitiveParameterName)
+                ro |= RegexOptions.IgnoreCase;
+            
+            Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=(.*?)(?=\||}}$)", ro);
 
             string pipecleanedtemplate = PipeCleanedTemplate(templateCall);
 
@@ -2063,7 +2069,37 @@ Message: {2}
 
             return "";
         }
+        
+         /// <summary>
+        /// Returns the value of the input parameter in the input template
+        /// </summary>
+        /// <param name="template">the input template call</param>
+        /// <param name="parameter">the input parameter to find</param>
+        /// <returns>The trimmed parameter value, or a null string if the parameter is not found</returns>
+        public static string GetTemplateParameterValue(string templateCall, string parameter)
+        {
+            return GetTemplateParameterValue(templateCall, parameter, false);
+        }
 
+        /// <summary>
+        /// Returns the values of given parameters for a template call
+        /// </summary>
+        /// <param name="templateCall">The template call</param>
+        /// <param name="parameters">List of parameters requested</param>
+        /// <param name="caseInsensitiveParameterNames">Whether to match case insensitively on parameter name</param>
+        /// <returns>List of parameter values</returns>
+        public static List<string> GetTemplateParametersValues(string templateCall, List<string> parameters, bool caseInsensitiveParameterNames)
+        {
+            List<string> returnedvalues = new List<string>();
+
+            foreach (string param in parameters)
+            {
+                returnedvalues.Add(GetTemplateParameterValue(templateCall, param, caseInsensitiveParameterNames));
+            }
+
+            return returnedvalues;
+        }
+        
         /// <summary>
         /// Returns the values of given parameters for a template call
         /// </summary>
@@ -2072,14 +2108,7 @@ Message: {2}
         /// <returns>List of parameter values</returns>
         public static List<string> GetTemplateParametersValues(string templateCall, List<string> parameters)
         {
-            List<string> returnedvalues = new List<string>();
-
-            foreach (string param in parameters)
-            {
-                returnedvalues.Add(GetTemplateParameterValue(templateCall, param));
-            }
-
-            return returnedvalues;
+            return GetTemplateParametersValues(templateCall, parameters, false);
         }
 
         /// <summary>
