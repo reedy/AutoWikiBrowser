@@ -473,6 +473,7 @@ disambig|surname
         public void SIAsTests()
         {
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{surname}}");
+               RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{given name}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Shipindex}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{mountainindex}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Roadindex}}");
