@@ -161,7 +161,7 @@ namespace AutoWikiBrowser
             this.noMOSComplianceFixesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.syntaxHighlightEditBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.highlightAllFindToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.scrollToUnbalancedBracketsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.scrollToAlertsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator6 = new System.Windows.Forms.ToolStripSeparator();
             this.markAllAsMinorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addToWatchList = new System.Windows.Forms.ToolStripComboBox();
@@ -1288,7 +1288,7 @@ namespace AutoWikiBrowser
             this.noMOSComplianceFixesToolStripMenuItem,
             this.syntaxHighlightEditBoxToolStripMenuItem,
             this.highlightAllFindToolStripMenuItem,
-            this.scrollToUnbalancedBracketsToolStripMenuItem,
+            this.scrollToAlertsToolStripMenuItem,
             this.toolStripSeparator6,
             this.markAllAsMinorToolStripMenuItem,
             this.addToWatchList,
@@ -1408,11 +1408,11 @@ namespace AutoWikiBrowser
             // 
             // scrollToUnbalancedBracketsToolStripMenuItem
             // 
-            this.scrollToUnbalancedBracketsToolStripMenuItem.CheckOnClick = true;
-            this.scrollToUnbalancedBracketsToolStripMenuItem.Name = "scrollToUnbalancedBracketsToolStripMenuItem";
-            this.scrollToUnbalancedBracketsToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
-            this.scrollToUnbalancedBracketsToolStripMenuItem.Text = "Highlight errors";
-            this.scrollToUnbalancedBracketsToolStripMenuItem.Click += new System.EventHandler(this.scrollToUnbalancedBracketsToolStripMenuItem_Click);
+            this.scrollToAlertsToolStripMenuItem.CheckOnClick = true;
+            this.scrollToAlertsToolStripMenuItem.Name = "scrollToUnbalancedBracketsToolStripMenuItem";
+            this.scrollToAlertsToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
+            this.scrollToAlertsToolStripMenuItem.Text = "Highlight errors";
+            this.scrollToAlertsToolStripMenuItem.Click += new System.EventHandler(this.scrollToUnbalancedBracketsToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 
@@ -4631,7 +4631,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem noMOSComplianceFixesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem syntaxHighlightEditBoxToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem highlightAllFindToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem scrollToUnbalancedBracketsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem scrollToAlertsToolStripMenuItem;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.GroupBox gbPageExisting;
         private System.Windows.Forms.RadioButton radSkipNone;

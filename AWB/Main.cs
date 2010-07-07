@@ -1016,7 +1016,7 @@ namespace AutoWikiBrowser
                 }
                 else
                 {
-                    if (scrollToUnbalancedBracketsToolStripMenuItem.Checked)
+                    if (scrollToAlertsToolStripMenuItem.Checked)
                     {
                         EditBoxTab.SelectedTab = tpEdit;
                         HighlightErrors();
@@ -3507,7 +3507,7 @@ window.scrollTo(0, diffTopY);
             if (highlightAllFindToolStripMenuItem.Checked)
                 HighlightAllFind();
 
-            if (scrollToUnbalancedBracketsToolStripMenuItem.Checked)
+            if (scrollToAlertsToolStripMenuItem.Checked)
                 HighlightErrors();
 
             if (syntaxHighlightEditBoxToolStripMenuItem.Checked)
@@ -4879,14 +4879,14 @@ window.scrollTo(0, diffTopY);
 
         private void scrollToUnbalancedBracketsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (scrollToUnbalancedBracketsToolStripMenuItem.Checked)
+            if (scrollToAlertsToolStripMenuItem.Checked)
                 focusAtEndOfEditTextBoxToolStripMenuItem.Checked = false;
         }
 
         private void focusAtEndOfEditTextBoxToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (focusAtEndOfEditTextBoxToolStripMenuItem.Checked)
-                scrollToUnbalancedBracketsToolStripMenuItem.Checked = false;
+                scrollToAlertsToolStripMenuItem.Checked = false;
         }
 
         private void BotImage_Click(object sender, EventArgs e)
