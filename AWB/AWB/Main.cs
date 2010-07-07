@@ -1036,23 +1036,46 @@ namespace AutoWikiBrowser
         
         private void HighlightErrors()
         {
-            if (unbalancedBracket.Count > 0)
-                HighlightErrors(unbalancedBracket);
-
-            if (badCiteParameters.Count > 0)
-                HighlightErrors(badCiteParameters);
+            Dictionary<int, int> Errors = new Dictionary<int, int>();
             
-            if (dupeBanerShellParameters.Count > 0)
-                HighlightErrors(dupeBanerShellParameters);
+            foreach(KeyValuePair<int, int> kvp in unbalancedBracket)
+            {
+                if(!Errors.ContainsKey(kvp.Key))
+                    Errors.Add(kvp.Key, kvp.Value);
+            }
             
-            if(deadLinks.Count > 0)
-                HighlightErrors(deadLinks);
+            foreach(KeyValuePair<int, int> kvp in badCiteParameters)
+            {
+                if(!Errors.ContainsKey(kvp.Key))
+                    Errors.Add(kvp.Key, kvp.Value);
+            }
             
-            if(ambigCiteDates.Count > 0)
-                HighlightErrors(ambigCiteDates);
+            foreach(KeyValuePair<int, int> kvp in dupeBanerShellParameters)
+            {
+                if(!Errors.ContainsKey(kvp.Key))
+                    Errors.Add(kvp.Key, kvp.Value);
+            }            
             
-            if(unclosedTags.Count > 0)
-                HighlightErrors(unclosedTags);
+            foreach(KeyValuePair<int, int> kvp in deadLinks)
+            {
+                if(!Errors.ContainsKey(kvp.Key))
+                    Errors.Add(kvp.Key, kvp.Value);
+            }            
+            
+            foreach(KeyValuePair<int, int> kvp in ambigCiteDates)
+            {
+                if(!Errors.ContainsKey(kvp.Key))
+                    Errors.Add(kvp.Key, kvp.Value);
+            }
+            
+            foreach(KeyValuePair<int, int> kvp in unclosedTags)
+            {
+                if(!Errors.ContainsKey(kvp.Key))
+                    Errors.Add(kvp.Key, kvp.Value);
+            }
+            
+            if(Errors.Count > 0)
+                HighlightErrors(Errors);
         }
 
         /// <summary>
