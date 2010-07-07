@@ -503,11 +503,17 @@ namespace WikiFunctions
         /// <summary>
         /// Checks the article text for unbalanced brackets, either square or curly
         /// </summary>
-        /// <param name="bracketLength">integer to hold length of unbalanced bracket found</param>
-        /// <returns>Index of any unbalanced brackets found</returns>
-        public int UnbalancedBrackets(ref int bracketLength)
+        /// <returns>Dictionary of any unbalanced brackets found</returns>
+        public Dictionary<int, int> UnbalancedBrackets()
         {
-            return Parsers.UnbalancedBrackets(ArticleText, ref bracketLength);
+			Dictionary<int, int> UnB = new Dictionary<int, int>();
+			int bracketLength = 0;
+			int bracketIndex = Parsers.UnbalancedBrackets(ArticleText, ref bracketLength);
+			
+			if(bracketIndex > -1)
+				UnB.Add(bracketIndex, bracketLength);
+			
+			return UnB;
         }
 
         /// <summary>

@@ -728,8 +728,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        private int _unbalancedBracket, _bracketLength;
-
+        private Dictionary<int, int> unbalancedBracket = new Dictionary<int, int>();
         private Dictionary<int, int> badCiteParameters = new Dictionary<int, int>();
         private Dictionary<int, int> dupeBanerShellParameters = new Dictionary<int, int>();
         private Dictionary<int, int> unclosedTags = new Dictionary<int, int>();
@@ -1017,12 +1016,7 @@ namespace AutoWikiBrowser
                 }
                 else
                 {
-                    /*   if (_unbalancedBracket < 0 && badCiteParameters.Count == 0 && deadLinks.Count == 0
-                        && ambigCiteDates.Count == 0)
-                    {
-                        btnSave.Select();
-                    }
-                    else */if (scrollToUnbalancedBracketsToolStripMenuItem.Checked)
+                    if (scrollToUnbalancedBracketsToolStripMenuItem.Checked)
                     {
                         EditBoxTab.SelectedTab = tpEdit;
                         HighlightErrors();
@@ -1042,8 +1036,8 @@ namespace AutoWikiBrowser
         
         private void HighlightErrors()
         {
-            if (_unbalancedBracket >= 0)
-                HighlightUnbalancedBrackets();
+            if (unbalancedBracket.Count > 0)
+                HighlightErrors(unbalancedBracket);
 
             if (badCiteParameters.Count > 0)
                 HighlightErrors(badCiteParameters);
@@ -2406,8 +2400,8 @@ window.scrollTo(0, diffTopY);
                 if (ambigCiteDates.Count > 0)
                     lbAlerts.Items.Add("Ambiguous citation dates found");
 
-                _unbalancedBracket = TheArticle.UnbalancedBrackets(ref _bracketLength);
-                if (_unbalancedBracket > -1)
+                unbalancedBracket = TheArticle.UnbalancedBrackets();
+                if (unbalancedBracket.Count > 0)
                     lbAlerts.Items.Add("Unbalanced brackets found");
 
                 badCiteParameters = TheArticle.BadCiteParameters();
@@ -4903,11 +4897,6 @@ window.scrollTo(0, diffTopY);
         private void displayfalsePositivesButtonToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AddIgnoredToLogFile = displayfalsePositivesButtonToolStripMenuItem.Checked;
-        }
-
-        private void HighlightUnbalancedBrackets()
-        {
-            RedSelection(_unbalancedBracket, _bracketLength);
         }
         
         private void HighlightErrors(Dictionary<int, int> errors)
