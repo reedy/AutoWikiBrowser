@@ -392,7 +392,7 @@ namespace AutoWikiBrowser
                         filterNonMainSpace = filterOutNonMainSpaceToolStripMenuItem.Checked,
                         AutoFilterDuplicates = removeDuplicatesToolStripMenuItem.Checked,
                         FocusAtEndOfEditBox = focusAtEndOfEditTextBoxToolStripMenuItem.Checked,
-                        scrollToUnbalancedBrackets = scrollToUnbalancedBracketsToolStripMenuItem.Checked,
+                        scrollToUnbalancedBrackets = scrollToAlertsToolStripMenuItem.Checked,
 
                         SortInterWikiOrder = alphaSortInterwikiLinksToolStripMenuItem.Checked,
                         ReplaceReferenceTags = replaceReferenceTagsToolStripMenuItem.Checked,
@@ -630,7 +630,7 @@ namespace AutoWikiBrowser
             alphaSortInterwikiLinksToolStripMenuItem.Checked = p.General.SortInterWikiOrder;
             replaceReferenceTagsToolStripMenuItem.Checked = p.General.ReplaceReferenceTags;
             focusAtEndOfEditTextBoxToolStripMenuItem.Checked = p.General.FocusAtEndOfEditBox;
-            scrollToUnbalancedBracketsToolStripMenuItem.Checked = p.General.scrollToUnbalancedBrackets;
+            scrollToAlertsToolStripMenuItem.Checked = p.General.scrollToUnbalancedBrackets;
 
             txtEdit.Font = new System.Drawing.Font(p.General.TextBoxFont, p.General.TextBoxSize);
 
