@@ -736,6 +736,8 @@ namespace AutoWikiBrowser
         private Dictionary<int, int> ambigCiteDates = new Dictionary<int, int>();
         private List<string> UnknownWikiProjectBannerShellParameters = new List<string>();
         
+        private SortedDictionary<int, int> Errors = new SortedDictionary<int, int>();
+        
         private void SkipRedirect(string redirectTitle, string reason)
         {
             listMaker.Remove(TheArticle); // or we get stuck in a loop
@@ -1036,7 +1038,7 @@ namespace AutoWikiBrowser
         
         private void HighlightErrors()
         {
-            Dictionary<int, int> Errors = new Dictionary<int, int>();
+            Errors.Clear();
             
             foreach(KeyValuePair<int, int> kvp in unbalancedBracket)
             {
@@ -2498,6 +2500,46 @@ window.scrollTo(0, diffTopY);
                 lbDuplicateWikilinks.EndUpdate();
             }
             lblDuplicateWikilinks.Visible = lbDuplicateWikilinks.Visible = btnRemove.Visible = (lbDuplicateWikilinks.Items.Count > 0);
+        }
+        
+        /// <summary>
+        /// Focuses the edit box on the next alert after the caret
+        /// </summary>
+        private void lbAlerts_Click(object sender, EventArgs e)
+        {
+            EditBoxTab.SelectedTab = tpEdit;
+            
+            string a = txtEdit.Text.Substring(0, txtEdit.SelectionStart);
+            int b = WikiRegexes.Newline.Matches(a).Count;
+            bool done = false;
+            
+            foreach(KeyValuePair<int, int> kvp in Errors)
+            {
+                int current = txtEdit.SelectionStart + b; // offset by number of newlines up to it
+                if(kvp.Key > current) 
+                {
+                    RedSelection(kvp.Key, kvp.Value); 
+                    txtEdit.ScrollToCaret();
+                    done = true;
+                    break;
+                }
+            }
+            
+            // if no more alerts after caret, start at beginning
+            if(!done)
+            {
+                txtEdit.SelectionStart = 0;
+                
+                foreach(KeyValuePair<int, int> kvp in Errors)
+                {
+                    if(kvp.Key > txtEdit.SelectionStart)
+                    {
+                        RedSelection(kvp.Key, kvp.Value);
+                        txtEdit.ScrollToCaret();                        
+                        break;
+                    }
+                }
+            }
         }
 
         private void lbDuplicateWikilinks_Click(object sender, EventArgs e)
@@ -4922,7 +4964,7 @@ window.scrollTo(0, diffTopY);
             AddIgnoredToLogFile = displayfalsePositivesButtonToolStripMenuItem.Checked;
         }
         
-        private void HighlightErrors(Dictionary<int, int> errors)
+        private void HighlightErrors(SortedDictionary<int, int> errors)
         {
             foreach (KeyValuePair<int, int> a in errors)
                 RedSelection(a.Key, a.Value);
