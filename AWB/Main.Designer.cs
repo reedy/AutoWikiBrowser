@@ -2661,6 +2661,7 @@ namespace AutoWikiBrowser
             this.lbAlerts.Name = "lbAlerts";
             this.lbAlerts.Size = new System.Drawing.Size(127, 56);
             this.lbAlerts.TabIndex = 4;
+            this.lbAlerts.Click += new System.EventHandler(this.lbAlerts_Click);
             // 
             // lbDuplicateWikilinks
             // 
