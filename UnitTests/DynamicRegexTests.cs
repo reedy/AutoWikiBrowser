@@ -553,6 +553,13 @@ disambig|surname
 now").Value);
             
             Assert.AreEqual(@"{{DEFAULTSORT:{{PAGENAME}}}}", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:{{PAGENAME}}}}").Value);
+            
+            Assert.AreEqual(@"{{DEFAULTSORT:foo]]" + "\r", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo]]
+pp").Value);
+             Assert.AreEqual(@"{{DEFAULTSORT:foo]]" + "\r", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo]]
+pp
+{{x}}
+").Value);
         }
         
         [Test]
