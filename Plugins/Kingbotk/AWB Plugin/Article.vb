@@ -145,18 +145,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             AlteredArticleText = RestoreTemplateToPlaceholderSpotRegex.Replace(AlteredArticleText, TemplateHeader, 1)
             AlteredArticleText = RestoreTemplateToPlaceholderSpotRegex.Replace(AlteredArticleText, "")
         End Sub
-        'Friend Function ReplaceReqphotoWithTemplateParams(ByVal PluginName As String) As Boolean
-        '    If ReqPhotoNoParamsRegex.IsMatch(AlteredArticleText) Then
-        '        AlteredArticleText = ReqPhotoNoParamsRegex.Replace(AlteredArticleText, "")
-        '        DoneReplacement("{{reqphoto}}", "template param(s)", True, PluginName)
-        '        ArticleHasAMajorChange()
-        '        Return True
-        '    End If
-        'End Function
-        Friend Sub AlteredArticleTextPrependLine(ByVal Text As String)
-            AlteredArticleText = Text + Microsoft.VisualBasic.vbCrLf + AlteredArticleText
-        End Sub
-
         Friend Sub EditInBrowser()
             Tools.EditArticleInBrowser(FullArticleTitle)
         End Sub

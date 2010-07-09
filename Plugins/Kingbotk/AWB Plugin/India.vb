@@ -110,6 +110,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Rajasthan = PluginManager.XMLReadBoolean(Reader, conRajasthanParm, Rajasthan)
             Sikkim = PluginManager.XMLReadBoolean(Reader, conSikkimParm, Sikkim)
             Tamilnadu = PluginManager.XMLReadBoolean(Reader, conTamilnaduParm, Tamilnadu)
+            Tripura = PluginManager.XMLReadBoolean(Reader, conTripuraParm, Tripura)
             Uttar = PluginManager.XMLReadBoolean(Reader, conUttarParm, Uttar)
             Uttarakand = PluginManager.XMLReadBoolean(Reader, conUttarakandParm, Uttarakand)
 
@@ -167,6 +168,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 .WriteAttributeString(conRajasthanParm, Rajasthan.ToString)
                 .WriteAttributeString(conSikkimParm, Sikkim.ToString)
                 .WriteAttributeString(conTamilnaduParm, Tamilnadu.ToString)
+                .WriteAttributeString(conTripuraParm, Tripura.ToString)
                 .WriteAttributeString(conUttarParm, Uttar.ToString)
                 .WriteAttributeString(conUttarakandParm, Uttarakand.ToString)
 
@@ -187,7 +189,10 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             StubClass = False
 
             For Each ctl As Control In Me.TabControl1.Controls
-                If TypeOf ctl Is CheckBox Then DirectCast(ctl, CheckBox).Checked = False
+                Dim chk As CheckBox = CType(ctl, CheckBox)
+                If chk IsNot Nothing Then
+                    chk.Checked = False
+                End If
             Next
         End Sub
 #End Region

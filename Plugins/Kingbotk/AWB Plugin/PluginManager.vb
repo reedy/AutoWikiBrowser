@@ -68,9 +68,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                 Return conAWBPluginName
             End Get
         End Property
-        Private Sub Initialise(ByVal MainForm As IAutoWikiBrowser) Implements IAWBPlugin.Initialise
+        Private Sub Initialise(ByVal sender As IAutoWikiBrowser) Implements IAWBPlugin.Initialise
             ' Store AWB object reference:
-            AWBForm = MainForm
+            AWBForm = sender
 
             ' Initialise our settings object:
             PluginSettings = New PluginSettingsControl()
@@ -143,19 +143,19 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             ' Reset statusbar text:
             DefaultStatusText()
         End Sub
-        Private Sub LoadSettings(ByVal Prefs() As Object) Implements IAWBPlugin.LoadSettings
-            If Prefs.Length > 0 Then
+        Private Sub LoadSettings(ByVal prefs() As Object) Implements IAWBPlugin.LoadSettings
+            If prefs.Length > 0 Then
                 ' Check if we're receiving an old type settings block (XMLTextReader) or new (a serialized string)
-                If Prefs(0).GetType Is GetType(XmlTextReader) Then
-                    ReadXML(DirectCast(Prefs(0), XmlTextReader))
-                ElseIf Prefs(0).GetType Is GetType(String) Then
-                    LoadSettingsNewWay(CType(Prefs(0), String))
+                If prefs(0).GetType Is GetType(XmlTextReader) Then
+                    ReadXML(DirectCast(prefs(0), XmlTextReader))
+                ElseIf prefs(0).GetType Is GetType(String) Then
+                    LoadSettingsNewWay(CType(prefs(0), String))
                 End If
             End If
         End Sub
         Private Function ProcessArticle(ByVal sender As IAutoWikiBrowser, _
-        ByVal ProcessArticleEventArgs As IProcessArticleEventArgs) As String Implements IAWBPlugin.ProcessArticle
-            With ProcessArticleEventArgs
+        ByVal eventargs As IProcessArticleEventArgs) As String Implements IAWBPlugin.ProcessArticle
+            With eventargs
                 If ActivePlugins.Count = 0 Then Return .ArticleText
 
                 Dim TheArticle As Article = Nothing, Namesp As Integer = .NameSpaceKey
@@ -173,11 +173,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                             StopAWB()
                             GoTo SkipOrStop
                         End If
-                    Catch ex As RedirectsException
+                    Catch
                         StopAWB()
                         GoTo SkipOrStop
-                    Catch
-                        Throw
                     End Try
                 Next
 
@@ -271,11 +269,11 @@ ExitMe:
             Exit Function
 
 SkipBadNamespace:
-            ProcessArticle = Skipping(ProcessArticleEventArgs.EditSummary, "", SkipReason.BadNamespace, ProcessArticleEventArgs.ArticleText, ProcessArticleEventArgs.Skip)
+            ProcessArticle = Skipping(eventargs.EditSummary, "", SkipReason.BadNamespace, eventargs.ArticleText, eventargs.Skip)
             GoTo ExitMe
 
 SkipOrStop:
-            ProcessArticle = ProcessArticleEventArgs.ArticleText
+            ProcessArticle = eventargs.ArticleText
             GoTo ExitMe
         End Function
         Private Sub Reset() Implements IAWBPlugin.Reset
@@ -612,26 +610,6 @@ SkipOrStop:
             If Not AssessmentsObject Is Nothing Then AssessmentsObject.Reset()
             PluginSettings.AWBProcessingAborted(Nothing)
         End Sub
-        Private Sub OurButtonsClickEventHander(ByVal sender As Object, ByVal e As EventArgs)
-            Dim btn As Button = DirectCast(sender, Button)
-
-            With AWBForm
-                Select Case btn.Name
-                    Case "btnStop"
-                        .Stop(conAWBPluginName)
-                    Case "btnStart"
-                        .Start(conAWBPluginName)
-                    Case "btnPreview"
-                        .GetPreview(conAWBPluginName)
-                    Case "btnSave"
-                        .Save(conAWBPluginName)
-                    Case "btnDiff"
-                        .GetDiff(conAWBPluginName)
-                    Case "btnIgnore"
-                        .SkipPage(conAWBPluginName, "user")
-                End Select
-            End With
-        End Sub
         Private Shared Sub MenuShowHide_Click(ByVal sender As Object, ByVal e As System.EventArgs) _
         Handles MenuShowSettingsTabs.Click
             ShowHideTabs = MenuShowSettingsTabs.Checked
@@ -754,21 +732,21 @@ SkipOrStop:
         End Sub
 
         ' AWB nudges:
-        Private Sub Nudge(ByRef Cancel As Boolean) Implements IAWBPlugin.Nudge
+        Private Sub Nudge(ByRef cancel As Boolean) Implements IAWBPlugin.Nudge
             For Each p As PluginBase In ActivePlugins
                 If Not p.IAmReady Then
                     PluginManager.AWBForm.TraceManager.WriteBulletedLine(conAWBPluginName & _
                        "Bot mode: Cancelling AWB nudge as a generic plugin isn't ready yet", True, True, True)
-                    Cancel = True
+                    cancel = True
                     Exit For
                 End If
             Next
 
-            If Not Cancel Then PluginManager.AWBForm.TraceManager.WriteBulletedLine(conAWBPluginName & _
+            If Not cancel Then PluginManager.AWBForm.TraceManager.WriteBulletedLine(conAWBPluginName & _
                "Bot mode: AWB is giving a nudge", True, False, True)
         End Sub
-        Private Sub Nudged(ByVal Nudges As Integer) Implements IAWBPlugin.Nudged
-            PluginSettings.lblAWBNudges.Text = "Nudges: " & Nudges.ToString
+        Private Sub Nudged(ByVal nudges As Integer) Implements IAWBPlugin.Nudged
+            PluginSettings.lblAWBNudges.Text = "Nudges: " & nudges.ToString
         End Sub
 
         Friend ReadOnly Property WikiName() As String Implements WikiFunctions.Plugin.IAWBPlugin.WikiName
@@ -776,5 +754,10 @@ SkipOrStop:
                 Return conWikiPlugin & " version " & AboutBox.Version
             End Get
         End Property
+
+        Private Function MainForm() As IAutoWikiBrowser
+            Throw New NotImplementedException
+        End Function
+
     End Class
 End Namespace

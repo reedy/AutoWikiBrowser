@@ -194,7 +194,10 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             ForceImportanceRemoval = False
 
             For Each ctl As Control In Me.TabControl1.Controls
-                If TypeOf ctl Is CheckBox Then DirectCast(ctl, CheckBox).Checked = False
+                Dim chk As CheckBox = CType(ctl, CheckBox)
+                If chk IsNot Nothing Then
+                    chk.Checked = False
+                End If
             Next
         End Sub
 #End Region
@@ -764,11 +767,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Private Sub USToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles USToolStripMenuItem.Click
             PluginManager.EditBoxInsertYesParam("US")
         End Sub
-
-        Private Sub ACWToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ACWToolStripMenuItem.Click
-            PluginManager.EditBoxInsertYesParam("ACW")
-        End Sub
-
         Private Sub AncientNearEasterToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
             PluginManager.EditBoxInsertYesParam("Ancient")
         End Sub

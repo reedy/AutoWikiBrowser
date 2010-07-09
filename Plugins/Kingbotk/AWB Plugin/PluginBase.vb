@@ -369,14 +369,4 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
         Sub XMLReset()
     End Interface
-
-    <Serializable()> _
-    Friend Class RedirectsException
-        Inherits ApplicationException
-        Friend Sub New()
-        End Sub
-        Friend Sub New(ByVal InnerException As Exception)
-            MyBase.New("", InnerException)
-        End Sub
-    End Class
 End Namespace

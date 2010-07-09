@@ -85,7 +85,11 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             Application.UseWaitCursor = True
 
             For Each ctl As Control In Me.Controls
-                If TypeOf ctl Is Button Then DirectCast(ctl, Button).Enabled = False
+                Dim btn As Button = CType(ctl, Button)
+                If btn IsNot Nothing Then
+                    btn.Enabled = False
+                End If
+
             Next
 
             editor.Save(articleText.Replace(Microsoft.VisualBasic.vbCrLf & conPlaceholder, ""), conWikiPluginBrackets & "Article assessment comments", _
