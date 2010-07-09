@@ -653,7 +653,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                     Living = .Parameters("living").Value = "yes"
 
                     If Living Then
-                        Article.LivingIsTrue()
                         PluginManager.AWBForm.TraceManager.WriteArticleActionLine1( _
        "Template contains living=yes, placing at top", PluginShortName, True)
                         PutTemplateAtTop = True ' otherwise, leave as False
@@ -661,8 +660,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
                     .Parameters.Remove("living") ' we've written this parameter; if we leave it in the collection PluginBase.TemplateWritingAndPlacement() will write it again
                 End If
-
-                If Template.HasYesParamLowerOrTitleCase(True, "activepol") Then Article.ActivePolIsTrue()
 
                 WriteTemplateHeader += WriteOutParameterToHeader("class") & _
                    WriteOutParameterToHeader("priority")
