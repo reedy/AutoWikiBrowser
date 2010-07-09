@@ -98,12 +98,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                     mSkipResults = SkipResults.SkipNoChange
             End Select
         End Sub
-        Friend Sub LivingIsTrue()
-            mLiving = True
-        End Sub
-        Friend Sub ActivePolIsTrue()
-            mActivePol = True
-        End Sub
 
         ' For calling by manager:
         Friend ReadOnly Property PluginManagerGetSkipResults() As SkipResults
@@ -113,9 +107,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         End Property
         Friend Sub FinaliseEditSummary()
             EditSummary = Regex.Replace(EditSummary, ", $", "")
-
-            'TODO:Reinstate/Fix
-            'PluginManager.AWBForm.WebControl.SetMinor(ChangesAreMinor)
         End Sub
         Friend Sub PluginManagerEditSummaryTaggingCategory(ByVal CategoryName As String)
             If Not CategoryName = "" Then EditSummary += "Tag [[Category:" + CategoryName + "]]. "
@@ -162,11 +153,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         '        Return True
         '    End If
         'End Function
-        Friend Sub AddReqPhoto(ByVal PluginName As String)
-            AlteredArticleTextPrependLine("{{reqphoto}}")
-            ArticleHasAMajorChange()
-            PluginManager.AWBForm.TraceManager.WriteArticleActionLine1("Added {{[[Template:Reqphoto|Reqphoto]]}}", PluginName, True)
-        End Sub
         Friend Sub AlteredArticleTextPrependLine(ByVal Text As String)
             AlteredArticleText = Text + Microsoft.VisualBasic.vbCrLf + AlteredArticleText
         End Sub
