@@ -114,9 +114,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         End Sub
 
         ' Misc:
-        Private Sub BannerShellParameterAdded(ByVal Parameter As String)
-            ParameterAdded(Parameter, "yes (shell)", "WikiProjectBannerShell")
-        End Sub
         Friend Function PageContainsShellTemplate() As Boolean
             ' Currently only WPBio can possibly call this, so it's ok to just run the regex and not cache the results
             ' Later on we want to have dynamic redirects and management of these templates (or it maybe should be in
