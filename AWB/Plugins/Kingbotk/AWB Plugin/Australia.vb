@@ -298,7 +298,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         ' Event handlers:
         Private Sub LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
-            Tools.OpenENArticleInBrowser("Template:WP_Australia", False)
+            Tools.OpenENArticleInBrowser("Template:WikiProject_Australia", False)
         End Sub
         Private Sub AutoStubCheckBox_CheckedChanged(ByVal sender As System.Object, _
         ByVal e As System.EventArgs) Handles AutoStubCheckBox.CheckedChanged
@@ -349,7 +349,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         Protected Overrides ReadOnly Property PreferredTemplateName() As String
             Get
-                Return "WP Australia"
+                Return "WikiProject Australia"
             End Get
         End Property
         'Protected Overrides ReadOnly Property PreferredTemplateNameRegexString() As String
@@ -412,7 +412,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
         End Sub
         Protected Overrides Function WriteTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
-            WriteTemplateHeader = "{{WP Australia" & _
+            WriteTemplateHeader = "{{WikiProject Australia" & _
                Microsoft.VisualBasic.vbCrLf & WriteOutParameterToHeader("class") & _
                WriteOutParameterToHeader("importance")
         End Function
