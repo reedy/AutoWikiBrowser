@@ -298,10 +298,10 @@ namespace WikiFunctions
         /// </summary>
         public static readonly Regex UnPipedWikiLink = new Regex(@"\[\[([^\|\n]*?)\]\]", RegexOptions.Compiled);
 
-        /// <summary>
-        /// Matches link targets with encoded anchors
-        /// </summary>
-        public static readonly Regex AnchorEncodedLink = new Regex(@"#.*(_|\.[0-9A-Z]{2}).*", RegexOptions.Compiled);
+        ///// <summary>
+        ///// Matches link targets with encoded anchors
+        ///// </summary>
+        //public static readonly Regex AnchorEncodedLink = new Regex(@"#.*(_|\.[0-9A-Z]{2}).*", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches {{DEFAULTSORT}}
@@ -477,10 +477,10 @@ namespace WikiFunctions
                                                                                "Redirect from capitalisation"
                                                                            };
                 
-        /// <summary>
-        /// Matches words
-        /// </summary>
-        public static readonly Regex RegexWord = new Regex(@"\w+", RegexOptions.Compiled);
+        ///// <summary>
+        ///// Matches words
+        ///// </summary>
+        //public static readonly Regex RegexWord = new Regex(@"\w+", RegexOptions.Compiled);
 
         /// <summary>
         /// 
@@ -646,16 +646,21 @@ namespace WikiFunctions
         public static readonly Regex SkipTOCTemplateRegex = new Regex(
             @"\{\{\s*(template *:)?\s*(skiptotoctalk|Skiptotoc|Skip to talk)\s*\}\}\s*",
             RegexOptions.Compiled | RegexOptions.ExplicitCapture | RegexOptions.IgnoreCase);
-        
+
         /// <summary>
         /// Matches the {{WikiProjectBannerShell}} templates and its redirects
         /// </summary>
-        public static readonly Regex WikiProjectBannerShellTemplate = Tools.NestedTemplateRegex(new [] {"WikiProject Banners", "WikiProjectBanners", "WikiProjectBannerShell", "WPBS", "WPB", "Wpb", "Wpbs"});
+        public static readonly Regex WikiProjectBannerShellTemplate =
+            Tools.NestedTemplateRegex(new[]
+                                          {
+                                              "WikiProject Banners", "WikiProjectBanners", "WikiProjectBannerShell", "WPBS"
+                                              , "WPB", "Wpb", "Wpbs"
+                                          });
         
         /// <summary>
         /// Matches {{no footnotes}} OR {{more footnotes}} templates
         /// </summary>
-        public static readonly Regex MoreNoFootnotes = Tools.NestedTemplateRegex(new [] { "no footnotes", "nofootnotes", "more footnotes", "morefootnotes" } );
+        public static readonly Regex MoreNoFootnotes = Tools.NestedTemplateRegex(new[] { "no footnotes", "nofootnotes", "more footnotes", "morefootnotes" });
 
         /// <summary>
         /// Matches the various {{BLP unsourced}} templates

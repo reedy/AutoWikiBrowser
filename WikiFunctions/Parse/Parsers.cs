@@ -240,7 +240,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">The article title.</param>
-        /// <param name="fixExcessWhitespace">Whether to request optional excess whitespace to be fixed</param>
+        /// <param name="fixOptionalWhitespace">Whether to request optional excess whitespace to be fixed</param>
         /// <returns>The re-organised text.</returns>
         public string SortMetaData(string articleText, string articleTitle, bool fixOptionalWhitespace)
         {
@@ -303,7 +303,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public string ArticleIssues(string articleText, string articleTitle)
+        public string ArticleIssues(string articleText)
         {
             if (Variables.LangCode != "en")
                 return articleText;
@@ -402,7 +402,7 @@ namespace WikiFunctions.Parse
         {
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
-            
+
             int firstPortal = WikiRegexes.PortalTemplate.Match(articleText).Index;
 
             string originalArticleText = articleText;
@@ -431,17 +431,17 @@ namespace WikiFunctions.Parse
 
             if (pb.Success) // append portals to existing portal box
                 return articleText.Replace(pb.Value, pb.Value.Substring(0, pb.Length - 2) + PortalsToAdd + @"}}");
-            
+
             // merge in new portal box if multiple portals
             if (Portals.Count < 2)
                 return originalArticleText;
 
             // first merge to see also section
-            if(WikiRegexes.SeeAlso.IsMatch(articleText))
+            if (WikiRegexes.SeeAlso.IsMatch(articleText))
                 return WikiRegexes.SeeAlso.Replace(articleText, "$0" + Tools.Newline(@"{{Portal box" + PortalsToAdd + @"}}"));
-        
+
             // otherwise merge to original location if all portals in same section
-            if(Summary.ModifiedSection(originalArticleText, articleText).Length > 0)
+            if (Summary.ModifiedSection(originalArticleText, articleText).Length > 0)
                 return articleText.Insert(firstPortal, @"{{Portal box" + PortalsToAdd + @"}}" + "\r\n");
 
             return originalArticleText;
@@ -552,7 +552,7 @@ namespace WikiFunctions.Parse
             {
                 foreach (Match m in Tools.NestedTemplateRegex("for").Matches(articleText))
                 {
-                    string About = Tools.NestedTemplateRegex("about").Match(articleText).Value;
+                    string about = Tools.NestedTemplateRegex("about").Match(articleText).Value;
                     string extra = "";
 
                     // where about has 2 arguments need extra pipe
@@ -562,9 +562,9 @@ namespace WikiFunctions.Parse
 
                     // append {{for}} value to the {{about}}
                     if (Tools.GetTemplateArgument(m.Value, 3).Length == 0)
-                        articleText = articleText.Replace(About, About.TrimEnd('}') + extra + m.Groups[3].Value);
+                        articleText = articleText.Replace(about, about.TrimEnd('}') + extra + m.Groups[3].Value);
                     else // where for has 3 arguments need extra and
-                        articleText = articleText.Replace(About, About.TrimEnd('}') + extra + m.Groups[3].Value.Insert(m.Groups[3].Value.LastIndexOf('|') + 1, "and|"));
+                        articleText = articleText.Replace(about, about.TrimEnd('}') + extra + m.Groups[3].Value.Insert(m.Groups[3].Value.LastIndexOf('|') + 1, "and|"));
 
                     // remove the old {{for}}
                     articleText = articleText.Replace(m.Value, "");
@@ -1498,7 +1498,7 @@ namespace WikiFunctions.Parse
                     if (noequals > 0)
                         found.Add(m.Index + noequals, Regex.Match(pipecleaned, @"\|[^=]+?\|").Value.Length);
                 }
-                
+
             }
             return found;
         }
@@ -1658,7 +1658,7 @@ namespace WikiFunctions.Parse
         {
             return AmbigCiteTemplateDates(articleText).Count > 0;
         }
-        
+
         /// <summary>
         /// Checks position of See also section relative to Notes, references, external links sections
         /// </summary>
@@ -1667,21 +1667,21 @@ namespace WikiFunctions.Parse
         public static bool HasSeeAlsoAfterNotesReferencesOrExternalLinks(string articleText)
         {
             int seeAlso = WikiRegexes.SeeAlso.Match(articleText).Index;
-            if(seeAlso <= 0)
+            if (seeAlso <= 0)
                 return false;
-            
+
             int externalLinks = WikiRegexes.ExternalLinksHeaderRegex.Match(articleText).Index;
-            if(externalLinks > 0 && seeAlso > externalLinks)
+            if (externalLinks > 0 && seeAlso > externalLinks)
                 return true;
-            
+
             int references = WikiRegexes.ReferencesRegex.Match(articleText).Index;
-            if(references > 0 && seeAlso > references)
+            if (references > 0 && seeAlso > references)
                 return true;
-            
+
             int notes = WikiRegexes.NotesHeading.Match(articleText).Index;
-            if(notes > 0 && seeAlso > notes)
+            if (notes > 0 && seeAlso > notes)
                 return true;
-            
+
             return false;
         }
 
@@ -1728,19 +1728,6 @@ namespace WikiFunctions.Parse
             return ambigDates;
         }
 
-        // Covered by: FormattingTests.TestMdashes()
-        /// <summary>
-        /// Replaces hyphens and em-dashes with en-dashes, per [[WP:DASH]]
-        /// </summary>
-        /// <param name="articleText">The wiki text of the article.</param>
-        /// <param name="articleTitle">The article's title</param>
-        /// <returns>The modified article text.</returns>
-        [Obsolete("namespace key no longer needed as input")]
-        public string Mdashes(string articleText, string articleTitle, int nameSpaceKey)
-        {
-            return Mdashes(articleText, articleTitle);
-        }
-
         private static readonly Regex PageRangeIncorrectMdash = new Regex(@"(pages\s*=\s*|pp\.?\s*)((?:&nbsp;)?\d+\s*)(?:-|—|&mdash;|&#8212;)(\s*\d+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         // avoid dimensions in format 55-66-77
@@ -1757,7 +1744,6 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">The article's title</param>
-        /// <param name="nameSpaceKey">The namespace of the article</param>
         /// <returns>The modified article text.</returns>
         public string Mdashes(string articleText, string articleTitle)
         {
@@ -2221,9 +2207,9 @@ namespace WikiFunctions.Parse
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
         public static string FixSyntax(string articleText)
-        {            
+        {
             articleText = articleText.Replace(@"<small/>", @"</small>");
-            
+
             //replace html with wiki syntax
             articleText = SyntaxRegexItalic.Replace(articleText, "''$1''");
 
@@ -2341,7 +2327,7 @@ namespace WikiFunctions.Parse
         private static List<Regex> SmallTagRegexes = new List<Regex>();
 
         /// <summary>
-        /// remove <small> in small, ref, sup, sub tags and images
+        /// remove &lt;small> in small, ref, sup, sub tags and images
         /// CHECKWIKI errors 55, 63, 66, 77
         /// </summary>
         /// <param name="articleText">The article text</param>
@@ -2554,12 +2540,12 @@ namespace WikiFunctions.Parse
         private static readonly Regex UppercaseCiteFields = new Regex(@"(\{\{(?:[Cc]ite\s*(?:web|book|news|journal|paper|press release|hansard|encyclopedia)|[Cc]itation)\b\s*[^{}]*\|\s*)(\w*?[A-Z]+\w*)(?<!(?:IS[BS]N|DOI|PMID))(\s*=\s*[^{}\|]{3,})", RegexOptions.Compiled);
 
         private static readonly Regex CiteUrl = new Regex(@"\|\s*url\s*=\s*([^\[\]<>""\s]+)", RegexOptions.Compiled);
-        private static readonly Regex CiteUrlDomain = new Regex(@"\|\s*url\s*=\s*(?:ht|f)tps?://(?:www\.)?([^\[\]<>""\s/:]+)", RegexOptions.Compiled);
+        //private static readonly Regex CiteUrlDomain = new Regex(@"\|\s*url\s*=\s*(?:ht|f)tps?://(?:www\.)?([^\[\]<>""\s/:]+)", RegexOptions.Compiled);
 
         private static readonly Regex CiteFormatFieldTypo = new Regex(@"(\{\{\s*[Cc]it[^{}]*?\|\s*)(?i)(?:fprmat)(\s*=\s*)", RegexOptions.Compiled);
         private static readonly Regex WorkInItalics = new Regex(@"(\|\s*work\s*=\s*)''([^'{}\|]+)''(?=\s*(?:\||}}))", RegexOptions.Compiled);
 
-        private static readonly Regex CiteTemplateFormatnull = new Regex(@"\|\s*format\s*=\s*(?=\||}})", RegexOptions.Compiled);
+        //private static readonly Regex CiteTemplateFormatnull = new Regex(@"\|\s*format\s*=\s*(?=\||}})", RegexOptions.Compiled);
         private static readonly Regex CiteTemplatePagesPP = new Regex(@"(?<=\|\s*pages?\s*=\s*)p(?:p|gs?)?(?:\.|\b)(?:&nbsp;|\s*)(?=[^{}\|]+(?:\||}}))", RegexOptions.Compiled);
         private static readonly Regex CiteTemplatesJournalVolume = new Regex(@"(?<=\|\s*volume\s*=\s*)vol(?:umes?|\.)?(?:&nbsp;|:)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex CiteTemplatesJournalVolumeAndIssue = new Regex(@"(?<=\|\s*volume\s*=\s*[0-9VXMILC]+?)(?:[;,]?\s*(?:no[\.:;]?|(?:numbers?|issue|iss)\s*[:;]?))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -2625,18 +2611,18 @@ namespace WikiFunctions.Parse
 
                 // remove the unneeded 'format=HTML' field
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.22format.3DHTML.22_in_citation_templates
-                if(Tools.GetTemplateParameterValue(newValue, "format").TrimStart("[]".ToCharArray()).ToUpper().StartsWith("HTM"))
+                if (Tools.GetTemplateParameterValue(newValue, "format").TrimStart("[]".ToCharArray()).ToUpper().StartsWith("HTM"))
                     newValue = Tools.RemoveTemplateParameter(newValue, "format");
 
                 // remove language=English on en-wiki
-                if(Variables.LangCode == "en" && Tools.GetTemplateParameterValue(newValue, "language").ToLower().Equals("english"))
+                if (Variables.LangCode == "en" && Tools.GetTemplateParameterValue(newValue, "language").ToLower().Equals("english"))
                     newValue = Tools.RemoveTemplateParameter(newValue, "language");
 
                 // remove format= field with null value when URL is HTML page
-                if(Tools.GetTemplateParameterValue(newValue, "format").Length == 0 &&
+                if (Tools.GetTemplateParameterValue(newValue, "format").Length == 0 &&
                    Tools.GetTemplateParameterValue(newValue, "url").ToUpper().TrimEnd('L').EndsWith("HTM"))
                     newValue = Tools.RemoveTemplateParameter(newValue, "format");
-                
+
                 // remove italics for works field -- auto italicised by template
                 newValue = WorkInItalics.Replace(newValue, "$1$2");
 
@@ -2805,7 +2791,7 @@ namespace WikiFunctions.Parse
 
             return citation;
         }
-        
+
         private const string PersonDataDefault = @"{{Persondata         <!-- Metadata: see [[Wikipedia:Persondata]] -->
 | NAME              =
 | ALTERNATIVE NAMES =
@@ -2815,9 +2801,9 @@ namespace WikiFunctions.Parse
 | DATE OF DEATH     =
 | PLACE OF DEATH    =
 }}";
-        
-        private static readonly Regex BirthDate = Tools.NestedTemplateRegex(new List<string>(new [] { "birth date", "dob", "bda", "birth date and age"}));
-        
+
+        private static readonly Regex BirthDate = Tools.NestedTemplateRegex(new List<string>(new[] { "birth date", "dob", "bda", "birth date and age" }));
+
         /// <summary>
         /// * Adds the default {{persondata}} template to en-wiki mainspace pages about a person that don't already have {{persondata}}
         /// * Attempts to complete blank {{persondata}} fields based on infobox values
@@ -2827,47 +2813,47 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string PersonData(string articleText, string articleTitle)
         {
-            if(Variables.LangCode != "en")
+            if (Variables.LangCode != "en")
                 return articleText;
-            
+
             // add default persondata if missing
-            if(!Tools.NestedTemplateRegex("persondata").IsMatch(articleText))
+            if (!Tools.NestedTemplateRegex("persondata").IsMatch(articleText))
             {
-                if(IsArticleAboutAPerson(articleText, articleTitle, true))
+                if (IsArticleAboutAPerson(articleText, articleTitle, true))
                     articleText = articleText + PersonDataDefault;
                 else
                     return articleText;
             }
-            
+
             // attempt completion of some persondata fields
             string theInfoBox = WikiRegexes.InfoBox.Match(articleText).Value;
-            
-            if(theInfoBox.Length > 0)
+
+            if (theInfoBox.Length > 0)
             {
                 string originalPersonData = Tools.NestedTemplateRegex("persondata").Match(articleText).Value;
                 string newPersonData = originalPersonData;
-                
+
                 // date of birth
                 string dateOfBirth = GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxDOBFields);
-                
-                if(WikiRegexes.AmericanDates.IsMatch(dateOfBirth))
+
+                if (WikiRegexes.AmericanDates.IsMatch(dateOfBirth))
                     newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF BIRTH", WikiRegexes.AmericanDates.Match(dateOfBirth).Value);
-                else if(WikiRegexes.InternationalDates.IsMatch(dateOfBirth))
+                else if (WikiRegexes.InternationalDates.IsMatch(dateOfBirth))
                     newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF BIRTH", WikiRegexes.InternationalDates.Match(dateOfBirth).Value);
-                else if(WikiRegexes.ISODates.IsMatch(dateOfBirth))
+                else if (WikiRegexes.ISODates.IsMatch(dateOfBirth))
                     newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF BIRTH", WikiRegexes.ISODates.Match(dateOfBirth).Value);
-                else if(BirthDate.IsMatch(dateOfBirth))
+                else if (BirthDate.IsMatch(dateOfBirth))
                 {
                     string ISODOB = Tools.GetTemplateArgument(dateOfBirth, 1) + "-" + Tools.GetTemplateArgument(dateOfBirth, 2) + "-" + Tools.GetTemplateArgument(dateOfBirth, 3);
                     newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF BIRTH", ISODOB);
                 }
-                
-                
+
+
                 // merge changes
-                if(!newPersonData.Equals(originalPersonData))
+                if (!newPersonData.Equals(originalPersonData))
                     articleText = articleText.Replace(originalPersonData, newPersonData);
             }
-            
+
             return articleText;
         }
 
@@ -3093,26 +3079,26 @@ namespace WikiFunctions.Parse
             return -1;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="b"></param>
-        /// <returns></returns>
-        private static bool IsHex(byte b)
-        {
-            return ((b >= '0' && b <= '9') || (b >= 'A' && b <= 'F'));
-        }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="b"></param>
+        ///// <returns></returns>
+        //private static bool IsHex(byte b)
+        //{
+        //    return ((b >= '0' && b <= '9') || (b >= 'A' && b <= 'F'));
+        //}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="a"></param>
-        /// <param name="b"></param>
-        /// <returns></returns>
-        private static byte DecodeHex(byte a, byte b)
-        {
-            return byte.Parse(new string(new[] { (char)a, (char)b }), System.Globalization.NumberStyles.HexNumber);
-        }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="a"></param>
+        ///// <param name="b"></param>
+        ///// <returns></returns>
+        //private static byte DecodeHex(byte a, byte b)
+        //{
+        //    return byte.Parse(new string(new[] { (char)a, (char)b }), System.Globalization.NumberStyles.HexNumber);
+        //}
 
         private static readonly Regex LinkWhitespace1 = new Regex(@" \[\[ ([^\]]{1,30})\]\]", RegexOptions.Compiled);
         private static readonly Regex LinkWhitespace2 = new Regex(@"(?<=\w)\[\[ ([^\]]{1,30})\]\]", RegexOptions.Compiled);
@@ -3164,17 +3150,6 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        /// <summary>
-        /// Fix leading, trailing and middle spaces in Wikilinks
-        /// </summary>
-        /// <param name="articleText">The wiki text of the article.</param>
-        /// <returns>The modified article text.</returns>
-        [Obsolete]
-        public static string FixLinkWhitespace(string articleText)
-        {
-            return FixLinkWhitespace(articleText, "");
-        }
-
         // Partially covered by FixMainArticleTests.SelfLinkRemoval()
         /// <summary>
         /// Fixes link syntax, including removal of self links
@@ -3212,14 +3187,14 @@ namespace WikiFunctions.Parse
             StringBuilder sb = new StringBuilder(articleText, (articleText.Length * 11) / 10);
 
             foreach (Match m in WikiRegexes.WikiLink.Matches(articleText))
-            { 
+            {
                 string theTarget = m.Groups[1].Value;
                 if (theTarget.Length > 0)
                 {
                     string y = m.Value;
-                    
+
                     // don't convert %27%27 -- https://bugzilla.wikimedia.org/show_bug.cgi?id=8932
-                    if(!theTarget.Contains("%27%27"))
+                    if (!theTarget.Contains("%27%27"))
                         y = m.Value.Replace(theTarget, CanonicalizeTitle(theTarget));
 
                     if (y != m.Value)
@@ -3477,18 +3452,6 @@ namespace WikiFunctions.Parse
             }
 
             return articleText;
-        }
-
-        /// <summary>
-        /// Fix common spacing/capitalisation errors in categories; remove diacritics and trailing whitespace from sortkeys (not leading whitespace)
-        /// </summary>
-        /// <param name="articleText">The wiki text of the article.</param>
-        /// <param name="isMainSpace"></param>
-        /// <returns>The modified article text.</returns>
-        [Obsolete]
-        public static string FixCategories(string articleText, bool isMainSpace)
-        {
-            return FixCategories(articleText);
         }
 
         /// <summary>
@@ -4440,17 +4403,6 @@ namespace WikiFunctions.Parse
         /// determines whether the article is about a person by looking for persondata/birth death categories, bio stub etc. for en wiki only
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
-        /// <returns></returns>
-        [Obsolete]
-        public static bool IsArticleAboutAPerson(string articleText)
-        {
-            return IsArticleAboutAPerson(articleText, "", false);
-        }
-
-        /// <summary>
-        /// determines whether the article is about a person by looking for persondata/birth death categories, bio stub etc. for en wiki only
-        /// </summary>
-        /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
         /// <returns></returns>
         public static bool IsArticleAboutAPerson(string articleText, string articleTitle)
@@ -4550,19 +4502,6 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// if title has diacritics, no defaultsort added yet, adds a defaultsort with cleaned up title as sort key
-        /// </summary>
-        /// <param name="articleText">The wiki text of the article.</param>
-        /// <param name="articleTitle">Title of the article</param>
-        /// <param name="matches">If there is no change (True if no Change)</param>
-        /// <returns>The article text possibly using defaultsort.</returns>
-        [Obsolete]
-        private static string DefaultsortTitlesWithDiacritics(string articleText, string articleTitle, int matches)
-        {
-            return DefaultsortTitlesWithDiacritics(articleText, articleTitle, matches, false);
-        }
-
-        /// <summary>
         /// Adds [[Category:Living people]] to articles with a [[Category:XXXX births]] and no living people/deaths category, taking sortkey from births category if present
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
@@ -4626,18 +4565,6 @@ namespace WikiFunctions.Parse
         /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
-        /// <param name="noChange"></param>
-        /// <returns></returns>
-        [Obsolete]
-        public string FixPeopleCategories(string articleText, out bool noChange)
-        {
-            return FixPeopleCategories(articleText, "", false, out noChange);
-        }
-
-        /// <summary>
-        /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
-        /// </summary>
-        /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
         /// <param name="noChange"></param>
         /// <returns></returns>
@@ -4673,12 +4600,6 @@ namespace WikiFunctions.Parse
         private static readonly Regex ThreeOrFourDigitNumber = new Regex(@"\d{3,4}", RegexOptions.Compiled);
         private static readonly Regex DiedOrBaptised = new Regex(@"(^.*?)((?:&[nm]dash;|—|–|;|[Dd](?:ied|\.)|baptised).*)", RegexOptions.Compiled);
         private static readonly Regex NotCircaTemplate = new Regex(@"{{(?![Cc]irca)[^{]*?}}", RegexOptions.Compiled);
-
-        [Obsolete]
-        public static string FixPeopleCategories(string articleText)
-        {
-            return FixPeopleCategories(articleText, "");
-        }
 
         /// <summary>
         /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
@@ -4907,15 +4828,15 @@ namespace WikiFunctions.Parse
             // clean out references and comments
             infoBox = WikiRegexes.Comments.Replace(infoBox, "");
             infoBox = WikiRegexes.Refs.Replace(infoBox, "");
-            
+
             List<string> FieldsBack = Tools.GetTemplateParametersValues(infoBox, fields, true);
-            
-            foreach(string f in FieldsBack)
+
+            foreach (string f in FieldsBack)
             {
-                if(f.Length > 0)
+                if (f.Length > 0)
                     return f;
             }
-            
+
             return "";
         }
 
@@ -5367,10 +5288,10 @@ namespace WikiFunctions.Parse
             // skip self redirects
             if (Tools.TurnFirstToUpperNoProjectCheck(redirecttarget).Equals(Tools.TurnFirstToUpperNoProjectCheck(articleTitle)))
                 return articleText;
-				
-			// {{R to other namespace}}
-			if(!Namespace.IsMainSpace(redirecttarget) && !Tools.NestedTemplateRegex(new[] { @"R to other namespace,R to other namespaces"}).IsMatch(articleText))
-				return (articleText + Tools.Newline(@"{{R to other namespace}}"));
+
+            // {{R to other namespace}}
+            if (!Namespace.IsMainSpace(redirecttarget) && !Tools.NestedTemplateRegex(new[] { @"R to other namespace,R to other namespaces" }).IsMatch(articleText))
+                return (articleText + Tools.Newline(@"{{R to other namespace}}"));
 
             // {{R from modification}}
             // difference is extra/removed/changed puntuation
