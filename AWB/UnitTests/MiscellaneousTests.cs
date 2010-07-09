@@ -786,8 +786,7 @@ Hello world comment.");
             articleTextIn = @"
 ==Question==
 {{Some template}}
-:Hello world comment3.";
-            
+:Hello world comment3.";            
             
             TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
@@ -799,8 +798,7 @@ Hello world comment.");
             // no change – no comments
                   articleTextIn = @"
 ==Question==
-{{Some template}}";
-            
+{{Some template}}";            
             
             TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
@@ -809,11 +807,10 @@ Hello world comment.");
 {{Some template}}", articleTextIn);
             
             // no change – only text in template
-                  articleTextIn = @"
+            articleTextIn = @"
 {{foo|
 bar|
 end}}";
-            
             
             TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
@@ -821,6 +818,19 @@ end}}";
 {{foo|
 bar|
 end}}", articleTextIn);
+            
+            // no change – only comments
+            articleTextIn = @"
+<!--
+foo
+-->";
+            
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
+            
+            Assert.AreEqual(@"
+<!--
+foo
+-->", articleTextIn);
             
             // no change – only TOC
             articleTextIn = @"
