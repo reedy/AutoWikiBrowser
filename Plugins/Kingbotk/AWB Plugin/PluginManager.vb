@@ -601,12 +601,12 @@ SkipOrStop:
             End If
         End Sub
         Private Shared Sub EditorAborted(ByVal sender As AsyncApiEdit)
-            PluginSettings.AWBProcessingAborted(sender)
+            PluginSettings.AWBProcessingAborted()
         End Sub
         Private Sub StopButtonClickEventHandler(ByVal sender As Object, ByVal e As EventArgs)
             DefaultStatusText()
             If Not AssessmentsObject Is Nothing Then AssessmentsObject.Reset()
-            PluginSettings.AWBProcessingAborted(Nothing)
+            PluginSettings.AWBProcessingAborted()
         End Sub
         Private Shared Sub MenuShowHide_Click(ByVal sender As Object, ByVal e As System.EventArgs) _
         Handles MenuShowSettingsTabs.Click
