@@ -8,6 +8,7 @@
 
 'You should have received a copy of the GNU General Public License Version 2 along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 Imports WikiFunctions.Lists.Providers
+Imports Microsoft.VisualBasic
 
 Namespace AutoWikiBrowser.Plugins.Kingbotk
     Partial Class PluginBase
@@ -147,11 +148,11 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                 Throw
             Catch ex As Exception
                 Select Case MessageBox.Show("We caught an error when attempting to get the incoming redirects for Template:" & _
-                PreferredTemplateName & "." & Microsoft.VisualBasic.vbCrLf & Microsoft.VisualBasic.vbCrLf & "* Press Abort to stop AWB" & _
-                Microsoft.VisualBasic.vbCrLf & "* Press Retry to try again" & Microsoft.VisualBasic.vbCrLf & _
+                PreferredTemplateName & "." & vbCrLf & vbCrLf & "* Press Abort to stop AWB" & _
+                vbCrLf & "* Press Retry to try again" & vbCrLf & _
                 "* Press Ignore to use the default redirects list. This may be dangerous if the list is out of date but is perfectly fine if you know or suspect it's up to date. The list is:" & _
-                Microsoft.VisualBasic.vbCrLf & mLastKnownGoodRedirects & Microsoft.VisualBasic.vbCrLf & Microsoft.VisualBasic.vbCrLf & _
-                "The error was:" & Microsoft.VisualBasic.vbCrLf & ex.Message, "Error", MessageBoxButtons.AbortRetryIgnore, _
+                vbCrLf & mLastKnownGoodRedirects & vbCrLf & vbCrLf & _
+                "The error was:" & vbCrLf & ex.Message, "Error", MessageBoxButtons.AbortRetryIgnore, _
                 MessageBoxIcon.Error, MessageBoxDefaultButton.Button3)
                     Case DialogResult.Abort
                         mGotRedirectsFromWikipedia = False

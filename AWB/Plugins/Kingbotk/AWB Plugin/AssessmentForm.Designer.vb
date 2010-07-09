@@ -20,18 +20,18 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         'Do not modify it using the code editor.
         <System.Diagnostics.DebuggerStepThrough()> _
         Private Sub InitializeComponent()
-            Me.components = New System.ComponentModel.Container
-            Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel
-            Me.OK_Button = New System.Windows.Forms.Button
-            Me.Cancel_Button = New System.Windows.Forms.Button
-            Me.PictureBox1 = New System.Windows.Forms.PictureBox
-            Me.ClassCheckedListBox = New System.Windows.Forms.CheckedListBox
-            Me.ImportanceCheckedListBox = New System.Windows.Forms.CheckedListBox
-            Me.Label1 = New System.Windows.Forms.Label
-            Me.Label2 = New System.Windows.Forms.Label
+            Me.components = New System.ComponentModel.Container()
+            Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
+            Me.OK_Button = New System.Windows.Forms.Button()
+            Me.Cancel_Button = New System.Windows.Forms.Button()
+            Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+            Me.ClassCheckedListBox = New System.Windows.Forms.CheckedListBox()
+            Me.ImportanceCheckedListBox = New System.Windows.Forms.CheckedListBox()
+            Me.Label1 = New System.Windows.Forms.Label()
+            Me.Label2 = New System.Windows.Forms.Label()
             Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-            Me.SettingsCheckedListBox = New System.Windows.Forms.CheckedListBox
-            Me.Label3 = New System.Windows.Forms.Label
+            Me.SettingsCheckedListBox = New System.Windows.Forms.CheckedListBox()
+            Me.Label3 = New System.Windows.Forms.Label()
             Me.TableLayoutPanel1.SuspendLayout()
             CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
             Me.SuspendLayout()
@@ -54,6 +54,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             'OK_Button
             '
             Me.OK_Button.Anchor = System.Windows.Forms.AnchorStyles.None
+            Me.OK_Button.DialogResult = System.Windows.Forms.DialogResult.OK
             Me.OK_Button.Location = New System.Drawing.Point(3, 3)
             Me.OK_Button.Name = "OK_Button"
             Me.OK_Button.Size = New System.Drawing.Size(67, 23)
