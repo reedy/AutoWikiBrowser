@@ -137,34 +137,9 @@ namespace AutoWikiBrowser
                 catch { }
             }
         }
-        internal void Reset()
-        {
-            Props newProps = new Props();
-
-            if (!ApplyButton.Enabled && !(Settings.Equals(newProps)))
-                WeHaveUnappliedChanges();
-
-            // Settings = NewProps ' No, that doesn't happen until the apply button is clicked
-            ApplySettingsToControls(newProps);
-        }
         #endregion
 
         #region Event handlers - supporting routines
-        private void ApplySettingsToControls(Props settingsObject)
-        {
-            FolderTextBox.Text = settingsObject.LogFolder;
-            VerboseCheckBox.Checked = settingsObject.LogVerbose;
-            WikiLogCheckBox.Checked = settingsObject.LogWiki;
-            XHTMLLogCheckBox.Checked = settingsObject.LogXHTML;
-            UploadCheckBox.Checked = settingsObject.UploadYN;
-            UploadWatchlistCheckBox.Checked = settingsObject.UploadAddToWatchlist;
-            UploadJobNameTextBox.Text = settingsObject.UploadJobName;
-            UploadLocationTextBox.Text = settingsObject.UploadLocation;
-            UploadMaxLinesControl.Value = Convert.ToDecimal(settingsObject.UploadMaxLines);
-            UploadOpenInBrowserCheckBox.Checked = settingsObject.UploadOpenInBrowser;
-            UploadWikiProjectCheckBox.Checked = settingsObject.UploadToWikiProjects;
-            DebugUploadingCheckBox.Checked = settingsObject.DebugUploading;
-        }
         private void GetSettingsFromControls()
         {
             DisableApplyButton();

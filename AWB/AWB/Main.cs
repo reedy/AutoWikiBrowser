@@ -151,7 +151,6 @@ namespace AutoWikiBrowser
                     ErrorHandler.Handle(ex);
                 }
 
-                actionOnLoad = 0;
                 addToWatchList.SelectedIndex = 3;
                 cmboCategorise.SelectedIndex = 0;
                 cmboImages.SelectedIndex = 0;
@@ -2221,7 +2220,7 @@ window.scrollTo(0, diffTopY);
             new AboutBox(webBrowserHistory.Version.ToString()).Show();
         }
 
-        public bool CheckStatus(bool fromLoginForm)
+        public bool CheckStatus(bool login)
         {
             StatusLabelText = "Loading page to check if we are logged in.";
 
@@ -2235,7 +2234,7 @@ window.scrollTo(0, diffTopY);
                     break;
 
                 case WikiStatusResult.NotLoggedIn:
-                    if (!fromLoginForm)
+                    if (!login)
                     {
                         MessageBox.Show("You are not logged in. The profile screen will now load, enter your name and password, click \"Log in\", wait for it to complete, then start the process again.", "Not logged in", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         Profiles.ShowDialog();
@@ -2983,8 +2982,7 @@ window.scrollTo(0, diffTopY);
             Ticker -= SaveInterval;
         }
 
-        public delegate void Tick(object sender, EventArgs e);
-        public event Tick Ticker;
+        public event EventHandler Ticker;
         private void Timer_Tick(object sender, EventArgs e)
         {
             if (Ticker != null)
