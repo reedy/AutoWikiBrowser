@@ -94,7 +94,10 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             StubClass = False
 
             For Each ctl As Control In Me.TopicsGroupBox.Controls
-                If TypeOf ctl Is CheckBox Then DirectCast(ctl, CheckBox).Checked = False
+                Dim chk As CheckBox = CType(ctl, CheckBox)
+                If chk IsNot Nothing Then
+                    chk.Checked = False
+                End If
             Next
         End Sub
 #End Region

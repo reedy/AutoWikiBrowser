@@ -249,9 +249,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Private Sub AustralianToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AustralianToolStripMenuItem.Click
             PluginManager.EditBoxInsertYesParam("australian-task-force")
         End Sub
-        Private Sub FantasyToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-            PluginManager.EditBoxInsertYesParam("peer-review")
-        End Sub
         Private Sub FantasyToolStripMenuItem_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles FantasyToolStripMenuItem.Click
             PluginManager.EditBoxInsertYesParam("fantasy-task-force")
         End Sub
