@@ -171,9 +171,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             AlteredArticleText = Text + Microsoft.VisualBasic.vbCrLf + AlteredArticleText
         End Sub
 
-        'Friend Sub OpenInBrowser()
-        '    Tools.OpenENArticleInBrowser(FullArticleTitle, False)
-        'End Sub
         Friend Sub EditInBrowser()
             Tools.EditArticleInBrowser(FullArticleTitle)
         End Sub
