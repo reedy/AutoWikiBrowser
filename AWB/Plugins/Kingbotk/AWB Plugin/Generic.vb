@@ -636,7 +636,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 OurSettingsControl.Goodbye()
                 OurSettingsControl.Dispose()
 
-
                 PluginManager.AWBForm.PluginsToolStripMenuItem.DropDownItems.Remove(OurMenuItem)
             End If
 
