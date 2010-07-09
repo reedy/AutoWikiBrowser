@@ -196,7 +196,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                         .RestoreTemplateToPlaceholderSpot(TemplateHeader)
                     End If
                 Else ' Our template wasn't found, write it into a shell or to the top of the page
-                    .PrependTemplateOrWriteIntoShell(Template, ParameterBreak, TemplateHeader, PluginShortName)
+                    .PrependTemplateOrWriteIntoShell(Template, ParameterBreak, TemplateHeader)
                 End If
             End With
         End Sub

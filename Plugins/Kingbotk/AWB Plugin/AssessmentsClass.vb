@@ -19,7 +19,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 
         ' Objects:
         Private AWBCleanupCheckboxes As New List(Of CheckBox)
-        Private Status As ToolStripStatusLabel
         Private PluginSettings As PluginSettingsControl
         Private State As New StateClass
 
@@ -63,7 +62,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 
             ' Perform cleanup that has to be executed in either case:
             AWBCleanupCheckboxes = Nothing
-            Status = Nothing
             PluginSettings = Nothing
             State = Nothing
 
@@ -120,7 +118,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             State.NextArticleShouldBeTalk = True
         End Sub
         Friend Function ProcessTalkPage(ByVal TheArticle As Article, ByVal PluginSettings As PluginSettingsControl, _
-        ByVal Manager As PluginManager, ByRef ReqPhoto As Boolean) As Boolean
+        ByRef ReqPhoto As Boolean) As Boolean
             Dim WeAddedAReqPhotoParam, returnVal As Boolean
 
             If Not State.NextArticleShouldBeTalk Then
@@ -254,7 +252,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 
         ' State:
         Private NotInheritable Class StateClass
-            Friend LastArticle As String
+            'Friend LastArticle As String
 
             Dim page As String
 
@@ -268,7 +266,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                 End Set
             End Property
 
-            Friend EditSummary As String
+            'Friend EditSummary As String
 
             Friend pageRegex As Regex
 

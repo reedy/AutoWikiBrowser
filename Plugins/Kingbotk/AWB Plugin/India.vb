@@ -91,6 +91,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Bengal = PluginManager.XMLReadBoolean(Reader, conBengalParm, Bengal)
             Bihar = PluginManager.XMLReadBoolean(Reader, conBiharParm, Bihar)
             Chandigarh = PluginManager.XMLReadBoolean(Reader, conChandigarhParm, Chandigarh)
+            Chhattisgarh = PluginManager.XMLReadBoolean(Reader, conChhattisgarhParm, Chhattisgarh)
             Goa = PluginManager.XMLReadBoolean(Reader, conGoaParm, Goa)
             Gujarat = PluginManager.XMLReadBoolean(Reader, conGujaratParm, Gujarat)
             Haryana = PluginManager.XMLReadBoolean(Reader, conHaryanaParm, Haryana)
@@ -113,7 +114,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Tripura = PluginManager.XMLReadBoolean(Reader, conTripuraParm, Tripura)
             Uttar = PluginManager.XMLReadBoolean(Reader, conUttarParm, Uttar)
             Uttarakand = PluginManager.XMLReadBoolean(Reader, conUttarakandParm, Uttarakand)
-
 
             'India 3
             Andaman = PluginManager.XMLReadBoolean(Reader, conAndamanParm, Andaman)
@@ -748,7 +748,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         'End Property
 
         ' Initialisation:
-        Friend Sub New(ByVal Manager As PluginManager)
+        Friend Sub New()
             MyBase.New("") ' Specify alternate names only
         End Sub
         Protected Friend Overrides Sub Initialise()

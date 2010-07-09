@@ -81,7 +81,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
 
         ' Where we (possibly) add our template to an existing shell:
         Friend Sub PrependTemplateOrWriteIntoShell(ByVal Template As Templating, ByVal ParameterBreak As String, _
-        ByVal Text As String, ByVal PluginName As String)
+        ByVal Text As String)
             If WeFoundBannerShells = BannerShellsEnum.NotChecked Then
                 If WikiProjectBannerShellRegex.IsMatch(AlteredArticleText) Then
                     WeFoundBannerShells = BannerShellsEnum.FoundWikiProjectBannerShell
@@ -108,8 +108,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                     MatchEvaluatorString = Nothing
                 Case BannerShellsEnum.NoneFound
                     AlteredArticleText = Text + AlteredArticleText
-                Case Else
-                    Throw New ArgumentException
             End Select
         End Sub
 

@@ -767,10 +767,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Private Sub USToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles USToolStripMenuItem.Click
             PluginManager.EditBoxInsertYesParam("US")
         End Sub
-        Private Sub AncientNearEasterToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-            PluginManager.EditBoxInsertYesParam("Ancient")
-        End Sub
-
         Private Sub ClassicalToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ClassicalToolStripMenuItem.Click
             PluginManager.EditBoxInsertYesParam("Classical")
         End Sub
@@ -862,7 +858,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         'End Property
 
         ' Initialisation:
-        Friend Sub New(ByVal Manager As PluginManager)
+        Friend Sub New()
             MyBase.New("WikiProject Military History") ' Specify alternate names only
         End Sub
         Protected Friend Overrides Sub Initialise()

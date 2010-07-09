@@ -572,7 +572,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 Try
                     OurSettingsControl.AlternateNames = ConvertRedirectsToString(GetRedirects(OurSettingsControl.TemplateName))
                     OurSettingsControl.HasAlternateNamesCheckBox.Checked = Not (OurSettingsControl.AlternateNames = "")
-                    mGotRedirectsFromWikipedia = True
                 Catch ex As Exception
                     MessageBox.Show("Whoops, we caught an error when trying to get the redirects from Wikipedia." & _
                        Microsoft.VisualBasic.vbCrLf & Microsoft.VisualBasic.vbCrLf & "The error was:" & ex.Message & _
@@ -631,13 +630,18 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 RemoveHandler OurSettingsControl.AlternateNamesTextBox.TextChanged, AddressOf Me.TemplateNamesChanged
                 RemoveHandler OurSettingsControl.PropertiesButton.Click, AddressOf Me.PropertiesButtonClick
                 ShowHideOurObjects(False)
+
+                OurTab.Dispose()
+
                 OurSettingsControl.Goodbye()
                 OurSettingsControl.Dispose()
+
 
                 PluginManager.AWBForm.PluginsToolStripMenuItem.DropDownItems.Remove(OurMenuItem)
             End If
 
             ' Perform cleanup that has to be executed in either case:
+            OurTab = Nothing
             OurMenuItem = Nothing
             Article = Nothing
             Template = Nothing

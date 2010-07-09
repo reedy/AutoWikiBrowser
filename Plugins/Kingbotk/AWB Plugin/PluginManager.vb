@@ -122,14 +122,14 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             AddItemToTextBoxInsertionContextMenu(PluginSettings.PriorityToolStripMenuItem)
 
             ' Create plugins:
-            Plugins.Add("Albums", New WPAlbums(Me))
-            Plugins.Add("Australia", New WPAustralia(Me))
-            'Plugins.Add("Film", New Film(Me))
-            Plugins.Add("India", New WPIndia(Me))
-            Plugins.Add("MilHist", New WPMilHist(Me))
-            Plugins.Add("Songs", New WPSongs(Me))
-            Plugins.Add("WPNovels", New WPNovels(Me))
-            Plugins.Add(Constants.Biography, New WPBiography(Me))
+            Plugins.Add("Albums", New WPAlbums())
+            Plugins.Add("Australia", New WPAustralia())
+            'Plugins.Add("Film", New Film())
+            Plugins.Add("India", New WPIndia())
+            Plugins.Add("MilHist", New WPMilHist())
+            Plugins.Add("Songs", New WPSongs())
+            Plugins.Add("WPNovels", New WPNovels())
+            Plugins.Add(Constants.Biography, New WPBiography())
             ' hopefully if add WPBio last it will ensure that the template gets added to the *top* of pages
 
             ' Initialise plugins:
@@ -216,7 +216,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                             Dim ReqPhoto As Boolean = ReqPhotoParamNeeded(TheArticle)
 
                             If PluginSettings.ManuallyAssess Then
-                                If Not AssessmentsObject.ProcessTalkPage(TheArticle, PluginSettings, Me, ReqPhoto) Then ' reqphoto byref
+                                If Not AssessmentsObject.ProcessTalkPage(TheArticle, PluginSettings, ReqPhoto) Then ' reqphoto byref
                                     .Skip = True
                                     GoTo SkipOrStop
                                 End If
@@ -371,13 +371,13 @@ SkipOrStop:
                     If ReqPhoto Then
                         .AlteredArticleText = ReqPhotoNoParamsRegex.Replace(.AlteredArticleText, "")
                         .DoneReplacement( _
-                           "{{[[template:reqphoto|reqphoto]]}}", "template param(s)", True, conMe)
+                           "{{[[template:reqphoto|reqphoto]]}}", "template param(s)", True, PluginName)
                         .ArticleHasAMajorChange()
                     End If
 
                     .FinaliseEditSummary()
                     PluginManager.AWBForm.TraceManager.WriteArticleActionLine1("Returning to AWB: Edit summary: " & _
-                       .EditSummary, conMe, True)
+                       .EditSummary, PluginName, True)
                     FinaliseArticleProcessing = .AlteredArticleText
                     Summary = .EditSummary
                 End With
@@ -394,34 +394,32 @@ SkipOrStop:
             Select Case SkipReason
                 Case PluginManager.SkipReason.BadNamespace
                     PluginSettings.PluginStats.SkippedNamespaceIncrement()
-                    PluginManager.AWBForm.TraceManager.SkippedArticle(conMe, "Incorrect namespace")
+                    PluginManager.AWBForm.TraceManager.SkippedArticle(PluginName, "Incorrect namespace")
                 Case PluginManager.SkipReason.ProcessingMainArticleDoesntExist
                     PluginSettings.PluginStats.SkippedRedLinkIncrement()
-                    PluginManager.AWBForm.TraceManager.SkippedArticle(conMe, "Article doesn't exist")
+                    PluginManager.AWBForm.TraceManager.SkippedArticle(PluginName, "Article doesn't exist")
                 Case PluginManager.SkipReason.ProcessingTalkPageArticleDoesntExist
                     PluginSettings.PluginStats.SkippedRedLinkIncrement()
-                    PluginManager.AWBForm.TraceManager.SkippedArticleRedlink(conMe, ArticleTitle, NS)
+                    PluginManager.AWBForm.TraceManager.SkippedArticleRedlink(PluginName, ArticleTitle, NS)
                 Case PluginManager.SkipReason.BadTag
-                    PluginManager.AWBForm.TraceManager.SkippedArticleBadTag(conMe, ArticleTitle, NS)
+                    PluginManager.AWBForm.TraceManager.SkippedArticleBadTag(PluginName, ArticleTitle, NS)
                 Case PluginManager.SkipReason.NoChange
-                    PluginManager.AWBForm.TraceManager.SkippedArticle(conMe, "No change")
+                    PluginManager.AWBForm.TraceManager.SkippedArticle(PluginName, "No change")
                 Case PluginManager.SkipReason.Regex
-                    PluginManager.AWBForm.TraceManager.SkippedArticle(conMe, _
+                    PluginManager.AWBForm.TraceManager.SkippedArticle(PluginName, _
                        "Article text matched a skip-if-found regular expression")
                 Case PluginManager.SkipReason.Other
-                    PluginManager.AWBForm.TraceManager.SkippedArticle(conMe, "")
+                    PluginManager.AWBForm.TraceManager.SkippedArticle(PluginName, "")
             End Select
 
             Skip = True
             Return ArticleText
         End Function
         Private Shared Sub CreateNewGenericPlugin(ByVal PluginName As String, ByVal Creator As String)
-            Dim plugin As GenericTemplatePlugin
-
             PluginManager.AWBForm.TraceManager.WriteBulletedLine(Creator & ": Creating generic template """ & _
                PluginName & """", True, True)
 
-            plugin = New GenericTemplatePlugin(PluginName)
+            Dim plugin As New GenericTemplatePlugin(PluginName)
             Plugins.Add(PluginName, plugin)
             plugin.Initialise()
             plugin.Enabled = True ' (adds it to activeplugins)
@@ -754,10 +752,5 @@ SkipOrStop:
                 Return conWikiPlugin & " version " & AboutBox.Version
             End Get
         End Property
-
-        Private Function MainForm() As IAutoWikiBrowser
-            Throw New NotImplementedException
-        End Function
-
     End Class
 End Namespace
