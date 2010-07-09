@@ -337,7 +337,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         'End Property
 
         ' Initialisation:
-        Friend Sub New(ByVal Manager As PluginManager)
+        Friend Sub New()
             MyBase.New("Novels|WPNovels") ' Specify alternate names only
         End Sub
         Protected Friend Overrides Sub Initialise()

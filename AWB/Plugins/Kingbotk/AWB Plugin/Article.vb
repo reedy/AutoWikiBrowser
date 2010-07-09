@@ -15,8 +15,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
     Partial Friend NotInheritable Class Article
         ' Properties:
         Private mArticleText As String, mFullArticleTitle As String
-        Private mArticleTitle As String, mNamespace As Integer
-        Private mEditSummary As String = conWikiPluginBrackets, mMajor As Boolean
+        Private mNamespace As Integer
+        Private mEditSummary As String = conWikiPluginBrackets
 
         ' Plugin-state:
         Private mSkipResults As SkipResults = SkipResults.NotSet
@@ -63,13 +63,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         End Sub
         Friend Sub ArticleHasAMajorChange()
             mProcessIt = True
-            mMajor = True
         End Sub
-        Friend ReadOnly Property ChangesAreMinor() As Boolean
-            Get
-                Return Not mMajor
-            End Get
-        End Property
         Friend ReadOnly Property ProcessIt() As Boolean
             Get
                 Return mProcessIt
