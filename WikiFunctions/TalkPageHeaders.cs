@@ -169,6 +169,7 @@ namespace WikiFunctions.TalkPages
         {
             // don't match on lines within templates
             string articleTextTemplatesSpaced = Tools.ReplaceWithSpaces(articleText, WikiRegexes.NestedTemplates.Matches(articleText));
+            articleTextTemplatesSpaced = Tools.ReplaceWithSpaces(articleTextTemplatesSpaced, WikiRegexes.UnformattedText.Matches(articleTextTemplatesSpaced));
             
             if(FirstComment.IsMatch(articleTextTemplatesSpaced))
             {
