@@ -2889,6 +2889,13 @@ now"));
         }
         
         [Test]
+        public void FixUnbalancedBracketsMathSetNotation()
+        {
+            const string MathSet1 = @"{[0], [1], [2]}", Foo = @"Foo { ...";
+            Assert.AreEqual(Foo + MathSet1, Parsers.FixSyntax(Foo + MathSet1));
+        }
+        
+        [Test]
         public void FixUnbalancedBracketsStrangeBrackets()
         {
             Assert.AreEqual(@"now (there) was", Parsers.FixSyntax(@"now （there) was"));
