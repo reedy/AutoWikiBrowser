@@ -215,6 +215,10 @@ namespace WikiFunctions.Controls
         /// <returns></returns>
         public void HighlightSyntax()
         {
+            // reset background colour to avoid issues on re-parse
+            SetEditBoxSelection(0, RawText.Length);
+            SelectionBackColor = Color.White;
+                        
             Font currentFont = SelectionFont;
             Font boldFont = new Font(currentFont.FontFamily, currentFont.Size, FontStyle.Bold);
             Font italicFont = new Font(currentFont.FontFamily, currentFont.Size, FontStyle.Italic);
