@@ -1960,6 +1960,15 @@ complementary and alternative medicine: evidence is a better friend than power. 
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(correct));
         }
         
+         [Test]
+         public void FixCitationURLNoHTTP()
+         {
+             string correct = @"now {{cite web|title=foo | url=http://www.foo.com | date = 1 June 2010 }}";
+             
+             Assert.AreEqual(correct, Parsers.FixCitationTemplates(correct.Replace("http://", "")), "Adds http:// when URL begins www.");
+             Assert.AreEqual(correct, Parsers.FixCitationTemplates(correct), "no change if already correct URL");
+         }
+        
         [Test]
         public void WorkInItalics()
         {
