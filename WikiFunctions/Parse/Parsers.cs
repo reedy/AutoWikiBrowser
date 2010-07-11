@@ -2608,6 +2608,7 @@ namespace WikiFunctions.Parse
             {
                 string newValue = m.Value;
                 string templatename = Tools.GetTemplateName(newValue);
+                string theURL = Tools.GetTemplateParameterValue(newValue, "url");
 
                 // remove the unneeded 'format=HTML' field
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.22format.3DHTML.22_in_citation_templates
@@ -2620,7 +2621,7 @@ namespace WikiFunctions.Parse
 
                 // remove format= field with null value when URL is HTML page
                 if (Tools.GetTemplateParameterValue(newValue, "format").Length == 0 &&
-                   Tools.GetTemplateParameterValue(newValue, "url").ToUpper().TrimEnd('L').EndsWith("HTM"))
+                   theURL.ToUpper().TrimEnd('L').EndsWith("HTM"))
                     newValue = Tools.RemoveTemplateParameter(newValue, "format");
 
                 // remove italics for works field -- auto italicised by template
@@ -2749,6 +2750,10 @@ namespace WikiFunctions.Parse
                     newValue = Tools.UpdateTemplateParameterValue(newValue, "date", OrdinalsInDatesAm.Replace(Tools.GetTemplateParameterValue(newValue, "date"), "$1 $2$3"));
                     newValue = Tools.UpdateTemplateParameterValue(newValue, "accessdate", OrdinalsInDatesAm.Replace(Tools.GetTemplateParameterValue(newValue, "accessdate"), "$1 $2$3"));
                 }
+                
+                // URL starting www. needs http://
+                if(theURL.StartsWith("www."))
+                    newValue = Tools.UpdateTemplateParameterValue(newValue, "url", "http://" + theURL);
 
                 // merge changes to article text
                 articleText = articleText.Replace(m.Value, newValue);
