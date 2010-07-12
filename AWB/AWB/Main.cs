@@ -4970,11 +4970,10 @@ window.scrollTo(0, diffTopY);
 
         private void RedSelection(int index, int length)
         {
-            // indexes in articleText and txtEdit.Edit are offset by the number of newlines before the index of the text
-            // so allow for this when highlighting the text
-            string a = txtEdit.Text.Substring(0, index);
-            int b = WikiRegexes.Newline.Matches(a).Count;
-            txtEdit.SetEditBoxSelection(index - b, length);
+            // numbers in articleText and txtEdit.Edit are offset by the number of newlines before the index of the text
+            int newlinesToIndex = WikiRegexes.Newline.Matches(txtEdit.Text.Substring(0, index)).Count;
+            int newlinesInSelection = WikiRegexes.Newline.Matches(txtEdit.Text.Substring(index, length)).Count;
+            txtEdit.SetEditBoxSelection(index - newlinesToIndex, length - newlinesInSelection);
             txtEdit.SelectionBackColor = Color.Tomato;
         }
 
