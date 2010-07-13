@@ -701,7 +701,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the various citation templates {{citation}}, {{cite web}} etc. on en-wiki
         /// </summary>
-        public static readonly Regex CiteTemplate = Tools.NestedTemplateRegex(new [] { "cite web", "citeweb", "cite news", "cite journal", "cite book", "citation", "cite press release", "cite paper", "cite hansard", "cite encyclopedia" });
+        public static readonly Regex CiteTemplate = Tools.NestedTemplateRegex(new [] { "cite web", "citeweb", "cite news", "cite journal", "cite book", "citebook", "citation", "cite press release", "cite paper", "cite hansard", "cite encyclopedia" });
         
         /// <summary>
         /// Matches persondata (en only)
