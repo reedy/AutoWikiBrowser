@@ -134,8 +134,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 
                 returnVal = (frmDialog.ShowDialog(State.Classification, State.Importance, _
                    State.NeedsInfobox, State.NeedsAttention, State.ShowComments, _
-                   PluginSettings.AssessmentsAlwaysLeaveAComment, State.NeedsPhoto, _
-                   State.NextTalkPageExpected) = DialogResult.OK)
+                   State.NeedsPhoto, State.NextTalkPageExpected) = DialogResult.OK)
 
                 If returnVal Then
                     PluginManager.StatusText.Text = "Processing " & TheArticle.FullArticleTitle

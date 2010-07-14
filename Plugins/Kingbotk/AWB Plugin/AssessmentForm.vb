@@ -26,7 +26,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         Friend Overloads Function ShowDialog(ByRef Clss As Classification, ByRef Imp As Importance, _
         ByRef Infobox As Boolean, ByRef Attention As Boolean, ByRef Comments As Boolean, _
         ByRef NeedsPhoto As Boolean, ByVal Title As String) As DialogResult
-            Const conComments As Integer = 3
+            'Const conComments As Integer = 3
 
             Me.Text += ": " & Title
 
