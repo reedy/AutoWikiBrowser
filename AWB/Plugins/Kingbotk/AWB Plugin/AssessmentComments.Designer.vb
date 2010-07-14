@@ -22,18 +22,15 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         Private Sub InitializeComponent()
         	Me.components = New System.ComponentModel.Container
         	Me.PictureBox1 = New System.Windows.Forms.PictureBox
-        	Me.ReferencesButton = New System.Windows.Forms.Button
-        	Me.CitationsButton = New System.Windows.Forms.Button
         	Me.PhotoButton = New System.Windows.Forms.Button
-        	Me.CopyeditButton = New System.Windows.Forms.Button
         	Me.btnSave = New System.Windows.Forms.Button
         	Me.Label1 = New System.Windows.Forms.Label
         	Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        	Me.LeadButton = New System.Windows.Forms.Button
-        	Me.SectionsButton = New System.Windows.Forms.Button
         	Me.SkipButton = New System.Windows.Forms.Button
         	Me.ToolStripStatusLabel1 = New System.Windows.Forms.ToolStripStatusLabel
         	Me.StatusStrip1 = New System.Windows.Forms.StatusStrip
+        	Me.LeadButton = New System.Windows.Forms.Button
+        	Me.SectionsButton = New System.Windows.Forms.Button
         	CType(Me.PictureBox1,System.ComponentModel.ISupportInitialize).BeginInit
         	Me.StatusStrip1.SuspendLayout
         	Me.SuspendLayout
@@ -47,26 +44,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         	Me.PictureBox1.TabIndex = 3
         	Me.PictureBox1.TabStop = false
         	'
-        	'ReferencesButton
-        	'
-        	Me.ReferencesButton.Location = New System.Drawing.Point(119, 12)
-        	Me.ReferencesButton.Name = "ReferencesButton"
-        	Me.ReferencesButton.Size = New System.Drawing.Size(75, 23)
-        	Me.ReferencesButton.TabIndex = 4
-        	Me.ReferencesButton.Text = "References"
-        	Me.ToolTip1.SetToolTip(Me.ReferencesButton, "Article needs references")
-        	Me.ReferencesButton.UseVisualStyleBackColor = true
-        	'
-        	'CitationsButton
-        	'
-        	Me.CitationsButton.Location = New System.Drawing.Point(119, 41)
-        	Me.CitationsButton.Name = "CitationsButton"
-        	Me.CitationsButton.Size = New System.Drawing.Size(75, 23)
-        	Me.CitationsButton.TabIndex = 6
-        	Me.CitationsButton.Text = "Citations"
-        	Me.ToolTip1.SetToolTip(Me.CitationsButton, "Article needs citations")
-        	Me.CitationsButton.UseVisualStyleBackColor = true
-        	'
         	'PhotoButton
         	'
         	Me.PhotoButton.Location = New System.Drawing.Point(119, 70)
@@ -76,16 +53,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         	Me.PhotoButton.Text = "Photo"
         	Me.ToolTip1.SetToolTip(Me.PhotoButton, "Article needs a photo")
         	Me.PhotoButton.UseVisualStyleBackColor = true
-        	'
-        	'CopyeditButton
-        	'
-        	Me.CopyeditButton.Location = New System.Drawing.Point(200, 70)
-        	Me.CopyeditButton.Name = "CopyeditButton"
-        	Me.CopyeditButton.Size = New System.Drawing.Size(75, 23)
-        	Me.CopyeditButton.TabIndex = 10
-        	Me.CopyeditButton.Text = "Copyedit"
-        	Me.ToolTip1.SetToolTip(Me.CopyeditButton, "Article needs copyediting")
-        	Me.CopyeditButton.UseVisualStyleBackColor = true
         	'
         	'btnSave
         	'
@@ -104,32 +71,12 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         	'Label1
         	'
         	Me.Label1.AutoSize = true
-        	Me.Label1.Location = New System.Drawing.Point(311, 22)
+        	Me.Label1.Location = New System.Drawing.Point(256, 22)
         	Me.Label1.Name = "Label1"
         	Me.Label1.Size = New System.Drawing.Size(174, 52)
         	Me.Label1.TabIndex = 32
         	Me.Label1.Text = "Need other boilerplate text items?"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"Need customised text items to save"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"in settin"& _ 
         	"gs?"&Global.Microsoft.VisualBasic.ChrW(13)&Global.Microsoft.VisualBasic.ChrW(10)&"Let me know."
-        	'
-        	'LeadButton
-        	'
-        	Me.LeadButton.Location = New System.Drawing.Point(200, 12)
-        	Me.LeadButton.Name = "LeadButton"
-        	Me.LeadButton.Size = New System.Drawing.Size(75, 23)
-        	Me.LeadButton.TabIndex = 35
-        	Me.LeadButton.Text = "Lead"
-        	Me.ToolTip1.SetToolTip(Me.LeadButton, "Lead needs work")
-        	Me.LeadButton.UseVisualStyleBackColor = true
-        	'
-        	'SectionsButton
-        	'
-        	Me.SectionsButton.Location = New System.Drawing.Point(200, 41)
-        	Me.SectionsButton.Name = "SectionsButton"
-        	Me.SectionsButton.Size = New System.Drawing.Size(75, 23)
-        	Me.SectionsButton.TabIndex = 36
-        	Me.SectionsButton.Text = "Sections"
-        	Me.ToolTip1.SetToolTip(Me.SectionsButton, "Article needs sections")
-        	Me.SectionsButton.UseVisualStyleBackColor = true
         	'
         	'SkipButton
         	'
@@ -154,6 +101,26 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         	Me.StatusStrip1.TabIndex = 5
         	Me.StatusStrip1.Text = "StatusStrip1"
         	'
+        	'LeadButton
+        	'
+        	Me.LeadButton.Location = New System.Drawing.Point(119, 12)
+        	Me.LeadButton.Name = "LeadButton"
+        	Me.LeadButton.Size = New System.Drawing.Size(75, 23)
+        	Me.LeadButton.TabIndex = 35
+        	Me.LeadButton.Text = "Lead"
+        	Me.ToolTip1.SetToolTip(Me.LeadButton, "Lead needs work")
+        	Me.LeadButton.UseVisualStyleBackColor = true
+        	'
+        	'SectionsButton
+        	'
+        	Me.SectionsButton.Location = New System.Drawing.Point(119, 41)
+        	Me.SectionsButton.Name = "SectionsButton"
+        	Me.SectionsButton.Size = New System.Drawing.Size(75, 23)
+        	Me.SectionsButton.TabIndex = 36
+        	Me.SectionsButton.Text = "Sections"
+        	Me.ToolTip1.SetToolTip(Me.SectionsButton, "Article needs sections")
+        	Me.SectionsButton.UseVisualStyleBackColor = true
+        	'
         	'AssessmentComments
         	'
         	Me.AutoScaleDimensions = New System.Drawing.SizeF(6!, 13!)
@@ -164,11 +131,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         	Me.Controls.Add(Me.SkipButton)
         	Me.Controls.Add(Me.Label1)
         	Me.Controls.Add(Me.btnSave)
-        	Me.Controls.Add(Me.CopyeditButton)
         	Me.Controls.Add(Me.PhotoButton)
-        	Me.Controls.Add(Me.CitationsButton)
         	Me.Controls.Add(Me.StatusStrip1)
-        	Me.Controls.Add(Me.ReferencesButton)
         	Me.Controls.Add(Me.PictureBox1)
         	Me.Name = "AssessmentComments"
         	Me.ShowIcon = false
@@ -181,10 +145,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         	Me.PerformLayout
         End Sub
         Private WithEvents PictureBox1 As System.Windows.Forms.PictureBox
-        Private WithEvents ReferencesButton As System.Windows.Forms.Button
-        Private WithEvents CitationsButton As System.Windows.Forms.Button
         Private WithEvents PhotoButton As System.Windows.Forms.Button
-        Private WithEvents CopyeditButton As System.Windows.Forms.Button
         Private WithEvents btnSave As System.Windows.Forms.Button
         Private WithEvents Label1 As System.Windows.Forms.Label
         Private WithEvents ToolTip1 As System.Windows.Forms.ToolTip

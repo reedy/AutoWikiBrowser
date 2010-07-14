@@ -105,33 +105,14 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         End Sub
 
         ' Text insertion buttons:
-        Private Sub ReferencesButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) _
-        Handles ReferencesButton.Click
-            AddLine("The article needs references")
-        End Sub
-        Private Sub CitationsButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CitationsButton.Click
-            AddLine("The article needs inline citations")
-        End Sub
         Private Sub PhotoButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PhotoButton.Click
             AddLine(conPhotoText)
-        End Sub
-        Private Sub CleanupButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CleanupButton.Click
-            AddLine("The article needs cleaning up")
-        End Sub
-        Private Sub ExpansionButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExpansionButton.Click
-            AddLine("The article is not comprehensive and needs expansion")
-        End Sub
-        Private Sub CopyeditButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CopyeditButton.Click
-            AddLine("The article would benefit from copyediting")
         End Sub
         Private Sub LeadButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LeadButton.Click
             AddLine("Expand the lead per [[WP:LEAD]]")
         End Sub
         Private Sub SectionsButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SectionsButton.Click
             AddLine("Add appropriate section headings per [[WP:MOS]]")
-        End Sub
-        Private Sub ToneButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ToneButton.Click
-            AddLine("The article needs to be written in an enyclopedic tone")
         End Sub
     End Class
 End Namespace
