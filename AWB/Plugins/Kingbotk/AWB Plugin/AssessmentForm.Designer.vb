@@ -134,7 +134,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         	Me.SettingsCheckedListBox.Size = New System.Drawing.Size(137, 79)
         	Me.SettingsCheckedListBox.TabIndex = 7
         	Me.ToolTip1.SetToolTip(Me.SettingsCheckedListBox, "Other settings")
-        	AddHandler Me.SettingsCheckedListBox.SelectedIndexChanged, AddressOf Me.SettingsCheckedListBoxSelectedIndexChanged
         	'
         	'Label3
         	'

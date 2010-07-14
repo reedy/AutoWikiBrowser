@@ -51,12 +51,6 @@ namespace WikiFunctions.TalkPages
             FoundSkipToTalk = true;
             return "";
         }
-
-        public string TalkHeaderMatchEvaluator(Match match)
-        {
-            FoundTalkHeader = true;
-            return "";
-        }
     }
 
     public static class TalkPageHeaders
