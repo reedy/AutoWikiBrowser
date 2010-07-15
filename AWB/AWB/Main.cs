@@ -2418,28 +2418,28 @@ window.scrollTo(0, diffTopY);
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Some_additional_edits
                 deadLinks = TheArticle.DeadLinks();
                 if (deadLinks.Count > 0)
-                    lbAlerts.Items.Add("Dead links found");
+                    lbAlerts.Items.Add("Dead links found" + " (" + deadLinks.Count + ")");
 
                 ambigCiteDates = TheArticle.AmbiguousCiteTemplateDates();
                 if (ambigCiteDates.Count > 0)
-                    lbAlerts.Items.Add("Ambiguous citation dates found");
+                    lbAlerts.Items.Add("Ambiguous citation dates found" + " (" + ambigCiteDates.Count + ")");
 
                 unbalancedBracket = TheArticle.UnbalancedBrackets();
                 if (unbalancedBracket.Count > 0)
-                    lbAlerts.Items.Add("Unbalanced brackets found");
+                    lbAlerts.Items.Add("Unbalanced brackets found" + " (" + unbalancedBracket.Count + ")");
 
                 badCiteParameters = TheArticle.BadCiteParameters();
                 if (badCiteParameters.Count > 0)
-                    lbAlerts.Items.Add("Invalid citation parameter(s) found");
+                    lbAlerts.Items.Add("Invalid citation parameter(s) found" + " (" + badCiteParameters.Count + ")");
                 
                 dupeBanerShellParameters = TheArticle.DuplicateWikiProjectBannerShellParameters();
                 if(dupeBanerShellParameters.Count > 0)
-                    lbAlerts.Items.Add("Duplicate parameter(s) found in WPBannerShell");
+                    lbAlerts.Items.Add("Duplicate parameter(s) found in WPBannerShell" + " (" + dupeBanerShellParameters.Count + ")");
                 
                 UnknownWikiProjectBannerShellParameters = TheArticle.UnknownWikiProjectBannerShellParameters();
                 if(UnknownWikiProjectBannerShellParameters.Count > 0)
                 {
-                    string warn = "Unknown parameters in WPBannerShell: ";
+                    string warn = "Unknown parameters in WPBannerShell: "  + " (" + UnknownWikiProjectBannerShellParameters.Count + ")";
                     foreach(string s in UnknownWikiProjectBannerShellParameters)
                         warn += s + ", ";
                     lbAlerts.Items.Add(warn);
@@ -2447,7 +2447,7 @@ window.scrollTo(0, diffTopY);
                 
                 unclosedTags = TheArticle.UnclosedTags();
                 if (unclosedTags.Count > 0)
-                    lbAlerts.Items.Add("Unclosed tag(s) found");
+                    lbAlerts.Items.Add("Unclosed tag(s) found" + " (" + unclosedTags.Count + ")");
                 
                 if(TheArticle.HasSeeAlsoAfterNotesReferencesOrExternalLinks)
                     lbAlerts.Items.Add("See also section out of place");
