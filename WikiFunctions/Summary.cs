@@ -81,9 +81,9 @@ namespace WikiFunctions
 
             return (Encoding.UTF8.GetByteCount(summary) > maxAvailableSummaryLength)
                        ? LimitByteLength(summary, maxAvailableSummaryLength)
-                       : summary;
+                : summary;
         }
-
+        
         /// <summary>
         /// returns true if given string has matching double square brackets and is within the maximum permitted length
         /// </summary>
@@ -94,18 +94,27 @@ namespace WikiFunctions
 
             bool res = true;
 
+            // check for unbalanced double brackets
             int pos = s.IndexOf("[[");
             while (pos >= 0)
             {
                 s = s.Remove(0, pos);
 
-                pos = res ? s.IndexOf("]]") : s.IndexOf("[[");
+                if(res)
+                {
+                    // if more double brackets opened before current one closed, summary is invalid
+                    if(s.Substring(2, s.IndexOf("]]") >0 ? s.IndexOf("]]") : 0).Contains("[["))
+                        return false;
+                    else
+                        pos = s.IndexOf("]]");
+                }
+                else
+                    pos = s.IndexOf("[[");
 
                 res = !res;
             }
             return res;
         }
-
 
         /// <summary>
         /// 

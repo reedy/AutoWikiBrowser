@@ -9,7 +9,7 @@ namespace UnitTests
     [TestFixture]
     public class SummaryTests : RequiresInitialization
     {
-        [Test, Ignore("Known Failing")]
+        [Test]
         public void IsCorrect()
         {
             // too long
@@ -29,17 +29,15 @@ namespace UnitTests
             // correctly (sort of..) terminated wikilinks
             Assert.IsTrue(Summary.IsCorrect("[[test]]"));
             Assert.IsTrue(Summary.IsCorrect("[[test]] [[foo]]"));
-            Assert.IsTrue(Summary.IsCorrect("[[foo[[]]]"));
 
             //broken wikilinks, should be found to be invalid
             Assert.IsFalse(Summary.IsCorrect("[["));
             Assert.IsFalse(Summary.IsCorrect("[[["));
             Assert.IsFalse(Summary.IsCorrect("[[test]"));
             Assert.IsFalse(Summary.IsCorrect("[[test]] [["));
-
             Assert.IsFalse(Summary.IsCorrect("[[123456789 123456789 123456789 1[[WP:AWB]]"));
+            Assert.IsFalse(Summary.IsCorrect("[[foo[[]]]"));
         }
-
 
         [Test]
         public void Trim()
