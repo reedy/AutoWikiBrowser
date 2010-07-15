@@ -24,7 +24,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             End If
         End Sub
         Friend Overloads Function ShowDialog(ByRef Clss As Classification, ByRef Imp As Importance, _
-        ByRef Infobox As Boolean, ByRef Attention As Boolean _
+        ByRef Infobox As Boolean, ByRef Attention As Boolean, _
         ByRef NeedsPhoto As Boolean, ByVal Title As String) As DialogResult
 
             Me.Text += ": " & Title
