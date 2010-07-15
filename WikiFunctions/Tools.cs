@@ -626,7 +626,9 @@ namespace WikiFunctions
         {
             if (string.IsNullOrEmpty(text))
                 return text;
-
+            
+            text = text.Trim();
+            
             if (text[0] == '#' || text[0] == '*')
                 text = text.Substring(1);
 
