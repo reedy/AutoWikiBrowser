@@ -5596,28 +5596,31 @@ foo {{persondata}}
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"foo [[Category:227 characters]] {{persondata}}", "foo"));
         }
 
-        [Test, Ignore("Unused"), Category("Incomplete")]
+        [Test]
         public void ExternalURLToInternalLink()
-        {
-            //TODO:MOAR
+        {    
             Assert.AreEqual("", Parsers.ExternalURLToInternalLink(""));
-            //Assert.AreEqual(" ", Parsers.ExternalURLToInternalLink("%20"));
 
             Assert.AreEqual("https://secure.wikimedia.org/otrs/index.pl?Action=AgentTicketQueue",
                             Parsers.ExternalURLToInternalLink(
                                 "https://secure.wikimedia.org/otrs/index.pl?Action=AgentTicketQueue"));
 
-            Assert.AreEqual("[[ru:Foo|Foo]]",
+            Assert.AreEqual("[[w:ru:Foo|Foo]]",
                             Parsers.ExternalURLToInternalLink("[http://ru.wikipedia.org/wiki/Foo Foo]"));
 
             Assert.AreEqual("[[m:Test|Test]]",
                             Parsers.ExternalURLToInternalLink("[http://meta.wikimedia.org/wiki/Test Test]"));
             Assert.AreEqual("[[commons:Test|Test]]",
                             Parsers.ExternalURLToInternalLink("[http://commons.wikimedia.org/wiki/Test Test]"));
-            Assert.AreEqual("[[w:Test|Test]]",
-                            Parsers.ExternalURLToInternalLink("[http://en.wikipedia.org/wiki/Test Test]"));
+        }
+        
+        [Test]
+        public void ExternalURLToInternalLinkEn()
+        {
             Assert.AreEqual("[[wikt:Test|Test]]",
                             Parsers.ExternalURLToInternalLink("[http://en.wiktionary.org/wiki/Test Test]"));
+            Assert.AreEqual("[[wikt:Test|Test]]",
+                            Parsers.ExternalURLToInternalLink("[http://en.wiktionary.org/w/Test Test]"));
             Assert.AreEqual("[[n:Test|Test]]",
                             Parsers.ExternalURLToInternalLink("[http://en.wikinews.org/wiki/Test Test]"));
             Assert.AreEqual("[[b:Test|Test]]",
@@ -5628,6 +5631,22 @@ foo {{persondata}}
                             Parsers.ExternalURLToInternalLink("[http://en.wikisource.org/wiki/Test Test]"));
             Assert.AreEqual("[[v:Test|Test]]",
                             Parsers.ExternalURLToInternalLink("[http://en.wikiversity.org/wiki/Test Test]"));
+            Assert.AreEqual("[[w:Test|Test]]",
+                            Parsers.ExternalURLToInternalLink("[http://en.wikipedia.org/wiki/Test Test]"));
+            
+            Assert.AreEqual("[[wikt:fr:Test|Test]]",
+                            Parsers.ExternalURLToInternalLink("[http://fr.wiktionary.org/wiki/Test Test]"));
+            Assert.AreEqual("[[w:fr:Test|Test]]",
+                            Parsers.ExternalURLToInternalLink("[http://fr.wikipedia.org/wiki/Test Test]"));
+            
+            #if DEBUG
+            Variables.SetProjectLangCode("fr");
+            Assert.AreEqual("[[w:en:Test|Test]]",
+                            Parsers.ExternalURLToInternalLink("[http://en.wikipedia.org/wiki/Test Test]"));
+            Variables.SetProjectLangCode("en");
+            Assert.AreEqual("[[w:Test|Test]]",
+                            Parsers.ExternalURLToInternalLink("[http://en.wikipedia.org/wiki/Test Test]"));
+            #endif
         }
 
         [Test]
