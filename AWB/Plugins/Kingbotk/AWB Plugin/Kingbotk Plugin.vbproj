@@ -77,12 +77,6 @@
     <Compile Include="Albums.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="AssessmentComments.Designer.vb">
-      <DependentUpon>AssessmentComments.vb</DependentUpon>
-    </Compile>
-    <Compile Include="AssessmentComments.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="AssessmentForm.Designer.vb">
       <DependentUpon>AssessmentForm.vb</DependentUpon>
     </Compile>
@@ -188,10 +182,6 @@
     <EmbeddedResource Include="Albums.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Albums.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AssessmentComments.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>AssessmentComments.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AssessmentForm.resx">
       <SubType>Designer</SubType>
