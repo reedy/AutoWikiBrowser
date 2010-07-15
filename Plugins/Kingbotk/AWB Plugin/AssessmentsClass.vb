@@ -133,7 +133,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                 Dim frmDialog As New AssessmentForm
 
                 returnVal = (frmDialog.ShowDialog(State.Classification, State.Importance, _
-                   State.NeedsInfobox, State.NeedsAttention, State.ShowComments, _
+                   State.NeedsInfobox, State.NeedsAttention, _
                    State.NeedsPhoto, State.NextTalkPageExpected) = DialogResult.OK)
 
                 If returnVal Then
@@ -202,14 +202,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         Private Sub LoadArticle()
             ToggleAWBCleanup(PluginSettings.Cleanup)
 
-            If State.ShowComments Then DoShowComments()
-        End Sub
-        Private Sub DoShowComments()
-            Dim frmComments As New AssessmentComments(PluginManager.AWBForm.TheSession.Editor)
-
-            State.ShowComments = False
-            frmComments.ShowDialog(State.Classification, State.NeedsInfobox, State.NeedsPhoto, _
-               State.NextTalkPageExpected, PluginSettings.TimerStats1)
         End Sub
 
         ' UI event handlers:
@@ -276,7 +268,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             Friend NextEventShouldBeMainSpace As Boolean, NextArticleShouldBeTalk As Boolean
 
             ' Assessment:
-            Friend Classification As Classification, Importance As Importance, ShowComments As Boolean
+            Friend Classification As Classification, Importance As Importance
             Friend NeedsInfobox As Boolean, NeedsAttention As Boolean, NeedsPhoto As Boolean
         End Class
     End Class
