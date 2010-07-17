@@ -720,6 +720,13 @@ Jones 2005</ref>"));
 ==References==
 <references>";
             Assert.AreEqual(missingSlash.Replace(@"s>", @"s/>"), Parsers.AddMissingReflist(missingSlash));
+            Assert.AreEqual(missingSlash.Replace(@"s>", @"s/>"), Parsers.AddMissingReflist(missingSlash.Replace("s>", "s  >")), "allows whitespace around <references>");
+            
+             // missing slash in <References>
+            const string missingSlash2 = @"Foo <ref>a</ref>
+==References==
+<References>";
+            Assert.AreEqual(missingSlash.Replace(@"s>", @"s/>"), Parsers.AddMissingReflist(missingSlash2));
             
             // list of references alreadypresent
             const string LDR = @"Foo <ref name='ab'/>

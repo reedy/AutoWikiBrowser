@@ -1838,7 +1838,7 @@ namespace WikiFunctions.Parse
         //private static readonly Regex AMR8 = new Regex(@"(?sim)(^==.*?)(^\{\{[^{}]+?\}\}.*?)(\r\n==+References==+\r\n{{Reflist}}<!--added to end of article by script-assisted edit-->)", RegexOptions.Compiled);
         private static readonly Regex ReflistByScript = new Regex(@"(\{\{Reflist\}\})<!--added[^<>]+by script-assisted edit-->", RegexOptions.Compiled);
 
-        private static readonly Regex ReferencesMissingSlash = new Regex(@"<references>", RegexOptions.Compiled);
+        private static readonly Regex ReferencesMissingSlash = new Regex(@"<\s*[Rr]eferences\s*>", RegexOptions.Compiled);
 
         /// <summary>
         /// First checks for a &lt;references&glt; missing '/' to correct, otherwise:
