@@ -4344,14 +4344,12 @@ window.scrollTo(0, diffTopY);
         }
 
         /// <summary>
-        /// 
+        /// Loads the list of user talk templates from [[WP:AWB/User talk templates]], generates UserTalkTemplatesRegex from them
         /// </summary>
         private void LoadUserTalkWarnings()
         {
             Regex userTalkTemplate = new Regex(@"# ?\[\["
                                                + Variables.NamespacesCaseInsensitive[Namespace.Template] + @"(.*?)\]\]");
-            StringBuilder builder = new StringBuilder();
-
             UserTalkTemplatesRegex = null;
             UserTalkWarningsLoaded = true; // or it will retry on each page load
             try
@@ -4359,16 +4357,18 @@ window.scrollTo(0, diffTopY);
                 string text;
                 try
                 {
-                    text = TheSession.Editor.SynchronousEditor.Clone().Open("Project:AutoWikiBrowser/User talk templates", true); //TheSession.Editor.SynchronousEditor.HttpGet() ??
+                    text = TheSession.Editor.SynchronousEditor.Clone().Open("Project:AutoWikiBrowser/User talk templates", true);
                 }
                 catch
                 {
                     return;
                 }
+                
+                List<string> UserTalkTemplates = new List<string>();
 
                 foreach (Match m in userTalkTemplate.Matches(text))
                 {
-                    builder.Append(Regex.Escape(m.Groups[1].Value) + "|");
+                    UserTalkTemplates.Add(m.Groups[1].Value);
                 }
             }
             catch (Exception ex)
@@ -4377,14 +4377,8 @@ window.scrollTo(0, diffTopY);
                 UserTalkWarningsLoaded = false;
             }
 
-            if (builder.Length > 1)
-            {
-                builder.Remove((builder.Length - 1), 1);
-                UserTalkTemplatesRegex =
-                    new Regex(
-                        @"\{\{ ?(" + Variables.NamespacesCaseInsensitive[Namespace.Template] + ")? ?((" + builder +
-                        @") ?(\|.*?)?) ?\}\}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            }
+            if(UserTalkTemplates.Count > 0)
+                UserTalkTemplatesRegex = Tools.NestedTemplateRegex(UserTalkTemplates);
         }
 
         private void undoAllChangesToolStripMenuItem_Click(object sender, EventArgs e)
