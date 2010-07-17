@@ -4925,15 +4925,15 @@ namespace WikiFunctions.Parse
             return Dablinks(articleText);
         }
 
-        private static readonly Regex TemplateParameter2 = new Regex(" \\{\\{\\{2\\|\\}\\}\\}", RegexOptions.Compiled);
-        // NOT covered
+        private static readonly Regex TemplateParameter2 = new Regex(@" \{\{\{2\|\}\}\}", RegexOptions.Compiled);
+
         /// <summary>
         /// Substitutes some user talk templates
         /// </summary>
         /// <param name="talkPageText">The wiki text of the talk page.</param>
-        /// <param name="talkPageTitle"></param>
-        /// <param name="userTalkTemplatesRegex"></param>
-        /// <returns>The new text.</returns>
+        /// <param name="talkPageTitle">The wiki talk page title</param>
+        /// <param name="userTalkTemplatesRegex">Dictoinary of regexes matching template calls to substitute</param>
+        /// <returns>The updated article text</returns>
         public static string SubstUserTemplates(string talkPageText, string talkPageTitle, Regex userTalkTemplatesRegex)
         {
             if (userTalkTemplatesRegex == null)
