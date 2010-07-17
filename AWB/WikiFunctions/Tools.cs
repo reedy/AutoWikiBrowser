@@ -1526,25 +1526,30 @@ Message: {2}
                     if(!m.Success)
                         continue;
                     
-                    string call = m.Value;
-
-                    string expandUri = Variables.URLApi + "?action=expandtemplates&format=xml&title=" + WikiEncode(articleTitle) + "&text=" + HttpUtility.UrlEncode(call);
-                    string result;
-
-                    try
+                    string call = m.Value, result;
+                    
+                    if(Globals.UnitTestMode)
+                        result = "Expanded template test return";
+                    else
                     {
-                        string respStr = GetHTML(expandUri);
-                        Match m1 = ExpandTemplatesRegex.Match(respStr);
-                        if (!m.Success) continue;
-                        result = HttpUtility.HtmlDecode(m1.Groups[1].Value);
-                    }
-                    catch
-                    {
-                        continue;
+                        string expandUri = Variables.URLApi + "?action=expandtemplates&format=xml&title=" + WikiEncode(articleTitle) + "&text=" + HttpUtility.UrlEncode(call);
+                    
+                        try
+                        {
+                            string respStr = GetHTML(expandUri);
+                            Match m1 = ExpandTemplatesRegex.Match(respStr);
+                            if (!m.Success) continue;
+                            result = HttpUtility.HtmlDecode(m1.Groups[1].Value);
+                        }
+                        catch
+                        {
+                            continue;
+                        }
                     }
 
                     bool skipArticle;
                     result = new Parsers().Unicodify(result, out skipArticle);
+                    
                     if (includeComment)
                         result = result + "<!-- " + call + " -->";
 

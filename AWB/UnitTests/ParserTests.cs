@@ -6049,6 +6049,27 @@ asdfasdf}} was here", "foo"));
             Assert.AreEqual("foo bar", parser.FixUnicode("foo\x2028bar"));
             Assert.AreEqual("foo bar", parser.FixUnicode("foo\x2029bar"));
         }
+        
+        [Test]
+        public void SubstUserTemplates()
+        {
+            Regex Hello = new Regex(@"{{hello.*?}}");
+            
+            Assert.AreEqual(@"Text Expanded template test return<!-- {{hello|2010}} -->", Parsers.SubstUserTemplates(@"Text {{hello|2010}}", "test", Hello), "performs single substitution");
+            Assert.AreEqual(@"Text Expanded template test return<!-- {{hello}} -->", Parsers.SubstUserTemplates(@"Text {{hello}}", "test", Hello), "performs single substitution");
+            Assert.AreEqual(@"Text Expanded template test return<!-- {{hello}} -->
+Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"Text {{hello}}
+{{hello2}}", "test", Hello), "performs multiple subsitutions");
+            
+            const string Bye = @"Text {{bye}}";
+            Assert.AreEqual(Bye, Parsers.SubstUserTemplates(Bye, "test", Hello), "no changes if no matching template");
+            
+            const string Subst = @"Now {{{subst:bar}}} text";
+            Assert.AreEqual(Subst, Parsers.SubstUserTemplates(Subst, "test", Hello), "doesn't change {{{subst");
+        
+        Regex None = null;
+        Assert.AreEqual(Bye, Parsers.SubstUserTemplates(Bye, "test", None), "no changes when user talk page regex is null");
+        }
     }
 
     [TestFixture]
