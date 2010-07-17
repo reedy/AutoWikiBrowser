@@ -147,6 +147,8 @@
             this.txtPassword.Size = new System.Drawing.Size(339, 20);
             this.txtPassword.TabIndex = 3;
             this.txtPassword.TextChanged += new System.EventHandler(this.UsernameOrPasswordChanged);
+            this.txtPassword.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtPassword_KeyUp);
+            
             // 
             // txtUsername
             // 
