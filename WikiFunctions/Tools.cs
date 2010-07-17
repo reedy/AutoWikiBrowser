@@ -2546,8 +2546,16 @@ Message: {2}
             if (templatenames.Count == 0)
                 return null;
             
-            string TemplateNamespace = Variables.NamespacesCaseInsensitive[Namespace.Template].Length > 0 ? 
-                Variables.NamespacesCaseInsensitive[Namespace.Template] : "[Tt]emplate:";
+            string TemplateNamespace = "";
+            
+            try
+            {
+                TemplateNamespace = Variables.NamespacesCaseInsensitive[Namespace.Template];
+            }
+            catch
+            {
+                TemplateNamespace = "[Tt]emplate:";
+            }
             
             // allow whitespace before semicolon
             TemplateNamespace = Regex.Replace(TemplateNamespace, @":$", @"[\s_]*:");
