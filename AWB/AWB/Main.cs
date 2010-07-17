@@ -4352,6 +4352,9 @@ window.scrollTo(0, diffTopY);
                                                + Variables.NamespacesCaseInsensitive[Namespace.Template] + @"(.*?)\]\]");
             UserTalkTemplatesRegex = null;
             UserTalkWarningsLoaded = true; // or it will retry on each page load
+            
+            List<string> UserTalkTemplates = new List<string>();
+            
             try
             {
                 string text;
@@ -4364,8 +4367,6 @@ window.scrollTo(0, diffTopY);
                     return;
                 }
                 
-                List<string> UserTalkTemplates = new List<string>();
-
                 foreach (Match m in userTalkTemplate.Matches(text))
                 {
                     UserTalkTemplates.Add(m.Groups[1].Value);
