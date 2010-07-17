@@ -2546,9 +2546,13 @@ Message: {2}
             if (templatenames.Count == 0)
                 return null;
             
-            /* Variables.NamespacesCaseInsensitive[Namespace.Template] */ 
-
-            StringBuilder theRegex = new StringBuilder(NestedTemplateRegexStart + @":?[\s_]*[Tt]emplate[\s_]*:[\s_]*" + @"\s*)?(");
+            string TemplateNamespace = Variables.NamespacesCaseInsensitive[Namespace.Template].Length > 0 ? 
+                Variables.NamespacesCaseInsensitive[Namespace.Template] : "[Tt]emplate:";
+            
+            // allow whitespace before semicolon
+            TemplateNamespace = Regex.Replace(TemplateNamespace, @":$", @"[\s_]*:");
+            
+            StringBuilder theRegex = new StringBuilder(NestedTemplateRegexStart + @":?[\s_]*" + TemplateNamespace + @"[\s_]*" + @"\s*)?(");
 
             foreach (string templatename in templatenames)
             {
