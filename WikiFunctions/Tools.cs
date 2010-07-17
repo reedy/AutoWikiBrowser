@@ -1505,19 +1505,27 @@ Message: {2}
         private static readonly Regex ExpandTemplatesRegex = new Regex(@"<expandtemplates[^\>]*>(.*?)</expandtemplates>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
-        /// 
+        /// Expands (substitutes) template calls
         /// </summary>
         /// <param name="articleText">The text of the article</param>
         /// <param name="articleTitle">The title of the artlce</param>
-        /// <param name="regexes"></param>
+        /// <param name="regexes">Dictionary of templates to substitute</param>
         /// <param name="includeComment"></param>
-        /// <returns></returns>
+        /// <returns>The updated article text</returns>
         public static string ExpandTemplate(string articleText, string articleTitle, Dictionary<Regex, string> regexes, bool includeComment)
         {
             foreach (KeyValuePair<Regex, string> p in regexes)
             {
-                foreach (Match m in p.Key.Matches(articleText))
+                string originalArticleText = "";
+                
+                while(!originalArticleText.Equals(articleText))
                 {
+                    originalArticleText = articleText;
+                    // avoid matching on previously commented out calls
+                    Match m = p.Key.Match(Tools.ReplaceWithSpaces(articleText, WikiRegexes.Comments));
+                    if(!m.Success)
+                        continue;
+                    
                     string call = m.Value;
 
                     string expandUri = Variables.URLApi + "?action=expandtemplates&format=xml&title=" + WikiEncode(articleTitle) + "&text=" + HttpUtility.UrlEncode(call);
