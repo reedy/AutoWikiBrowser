@@ -281,7 +281,7 @@ en, sq, ru
                 string interwikis = Tools.Newline(Interwikis(ref articleText));
 
                 // Dablinks above orphan tags per [[WP:LAYOUT]]
-                if(Variables.LangCode == "en")
+                if (Variables.LangCode.Equals("en"))
                     articleText = MoveMaintenanceTags(articleText);
 
                 articleText = MoveDablinks(articleText);
@@ -299,7 +299,7 @@ en, sq, ru
                 // two newlines here per http://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser&oldid=243224092#Blank_lines_before_stubs
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Two_empty_lines_before_stub-templates
                 // Russian wiki uses only one newline
-                string strStub = Tools.Newline(RemoveStubs(ref articleText), Variables.LangCode == "ru" ? 1 : 2);
+                string strStub = Tools.Newline(RemoveStubs(ref articleText), Variables.LangCode.Equals("ru") ? 1 : 2);
 
                 //filter out excess white space and remove "----" from end of article
                 articleText = Parsers.RemoveWhiteSpace(articleText, fixOptionalWhitespace) + "\r\n";
