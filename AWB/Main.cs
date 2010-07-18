@@ -1443,7 +1443,6 @@ namespace AutoWikiBrowser
                             OverallTypoStats.UpdateStats(TypoStats, true);
                             UpdateTypoCount();
                         }
-                        return;
                     }
                 }
 
