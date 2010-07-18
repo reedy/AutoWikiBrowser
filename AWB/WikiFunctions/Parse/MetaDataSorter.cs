@@ -651,22 +651,22 @@ en, sq, ru
         private static readonly Regex SeeAlsoToEnd = new Regex(@"(\s*(==+)\s*see\s+also\s*\2 *).*", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
-        /// Moves any {{XX portal}} templates to the 'see also' section, if present (en only), per Template:Portal
+        /// Moves template calls to the see also section of the article
         /// </summary>
-        /// <param name="articleText">The wiki text of the article.</param>
-        /// <returns>Article text with {{XX portal}} template correctly placed</returns>
-        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Placement_of_portal_template
-        public static string MovePortalTemplates(string articleText)
-        {
-            // need to have a 'see also' section to move the portal template to
-            if(WikiRegexes.SeeAlso.Matches(articleText).Count != 1 || WikiRegexes.PortalTemplate.Matches(articleText).Count < 1)
+        /// <param name="articleText">The article text</param>
+        /// <param name="TemplateToMove">The template calls to move</param>
+        /// <returns>The updated article text</returns>
+        public static string MoveTemplateToSeeAlso(string articleText, Regex TemplateToMove)
+        {            
+            // need to have a 'see also' section to move the template to
+            if(WikiRegexes.SeeAlso.Matches(articleText).Count != 1 || TemplateToMove.Matches(articleText).Count < 1)
                 return articleText;
             
             string originalArticletext = articleText;
 
-            foreach (Match m in WikiRegexes.PortalTemplate.Matches(articleText))
+            foreach (Match m in TemplateToMove.Matches(articleText))
             {
-                string portalTemplateFound = m.Value;
+                string TemplateFound = m.Value;
                 string seeAlsoSectionString = SeeAlsoSection.Match(articleText).Value;
                 int seeAlsoIndex = SeeAlsoSection.Match(articleText).Index;
 
@@ -677,18 +677,29 @@ en, sq, ru
                     seeAlsoIndex = SeeAlsoToEnd.Match(articleText).Index;
                 }
 
-                // only move portal templates NOT currently in 'see also'
+                // only move templates NOT currently in 'see also'
                 if (m.Index < seeAlsoIndex || m.Index > (seeAlsoIndex + seeAlsoSectionString.Length))
                 {
-                    articleText = Regex.Replace(articleText, Regex.Escape(portalTemplateFound) + @"\s*(?:\r\n)?", "");
-                    articleText = WikiRegexes.SeeAlso.Replace(articleText, "$0" + Tools.Newline(portalTemplateFound));
+                    articleText = Regex.Replace(articleText, Regex.Escape(TemplateFound) + @"\s*(?:\r\n)?", "");
+                    articleText = WikiRegexes.SeeAlso.Replace(articleText, "$0" + Tools.Newline(TemplateFound));
                 }
             }
 
             if(UnformattedTextNotChanged(originalArticletext, articleText))
                 return articleText;
 
-            return originalArticletext;
+            return originalArticletext;            
+        }
+        
+        /// <summary>
+        /// Moves any {{XX portal}} templates to the 'see also' section, if present (en only), per Template:Portal
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <returns>Article text with {{XX portal}} template correctly placed</returns>
+        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Placement_of_portal_template
+        public static string MovePortalTemplates(string articleText)
+        {
+            return MoveTemplateToSeeAlso(articleText, WikiRegexes.PortalTemplate);
         }
 
         private static readonly Regex ReferencesSectionRegex = new Regex(@"^== *[Rr]eferences *==\s*", RegexOptions.Multiline);
