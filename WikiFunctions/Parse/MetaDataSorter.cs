@@ -280,18 +280,16 @@ en, sq, ru
                 string categories = Tools.Newline(RemoveCats(ref articleText, articleTitle));
                 string interwikis = Tools.Newline(Interwikis(ref articleText));
 
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Move_orphan_tags_on_the_top
                 // Dablinks above orphan tags per [[WP:LAYOUT]]
                 if(Variables.LangCode == "en")
                     articleText = MoveMaintenanceTags(articleText);
 
                 articleText = MoveDablinks(articleText);
 
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Placement_of_portal_template
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests.html#Move_nofootnotes_to_the_references_section
-                if (Variables.LangCode == "en")
+                if (Variables.LangCode.Equals("en"))
                 {
                     articleText = MovePortalTemplates(articleText);
+                    articleText = MoveTemplateToSeeAlsoSection(articleText, Tools.NestedTemplateRegex("Wikipedia-Books"));
                     articleText = MoveSisterlinks(articleText);
                     articleText = MoveTemplateToReferencesSection(articleText, WikiRegexes.Ibid);
                     articleText = MoveExternalLinks(articleText);
@@ -656,7 +654,7 @@ en, sq, ru
         /// <param name="articleText">The article text</param>
         /// <param name="TemplateToMove">The template calls to move</param>
         /// <returns>The updated article text</returns>
-        public static string MoveTemplateToSeeAlso(string articleText, Regex TemplateToMove)
+        public static string MoveTemplateToSeeAlsoSection(string articleText, Regex TemplateToMove)
         {            
             // need to have a 'see also' section to move the template to
             if(WikiRegexes.SeeAlso.Matches(articleText).Count != 1 || TemplateToMove.Matches(articleText).Count < 1)
@@ -699,7 +697,7 @@ en, sq, ru
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Placement_of_portal_template
         public static string MovePortalTemplates(string articleText)
         {
-            return MoveTemplateToSeeAlso(articleText, WikiRegexes.PortalTemplate);
+            return MoveTemplateToSeeAlsoSection(articleText, WikiRegexes.PortalTemplate);
         }
 
         private static readonly Regex ReferencesSectionRegex = new Regex(@"^== *[Rr]eferences *==\s*", RegexOptions.Multiline);
