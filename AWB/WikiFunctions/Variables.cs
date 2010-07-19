@@ -514,7 +514,7 @@ namespace WikiFunctions
             else
             {
                 URL = "http://" + LangCode + "." + Project + ".org";
-                URLSecure = "http://secure.wikimedia.org/" + Project + "/" + LangCode; //https://secure.wikimedia.org/wikipedia/en
+                URLSecure = "https://secure.wikimedia.org/" + Project + "/" + LangCode; //https://secure.wikimedia.org/wikipedia/en
             }
 
             // HACK:
