@@ -247,16 +247,26 @@ namespace WikiFunctions
         #region Helpers
         public void OpenPageInBrowser(string title)
         {
+            if(!Variables.UsingSecure)
+            {
             string url = ArticleUrl.Replace("$1", Tools.WikiEncode(title));
 
             Tools.OpenURLInBrowser(url);
+            }
+            else
+                Tools.OpenArticleInBrowser(title);
         }
 
-        public void OpenPageInBrowserNoEncode(string title)
+        public void OpenPageHistoryInBrowser(string title)
         {
-            string url = ArticleUrl.Replace("$1", title);
+            if(!Variables.UsingSecure)
+            {
+                string url = ArticleUrl.Replace("$1", title);
 
-            Tools.OpenURLInBrowser(url);
+                Tools.OpenURLInBrowser(url + "?action=history");
+            }
+            else
+                Tools.OpenArticleHistoryInBrowser(title);
         }
         #endregion
 

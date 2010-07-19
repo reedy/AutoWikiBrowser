@@ -2672,7 +2672,7 @@ window.scrollTo(0, diffTopY);
         private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MyPreferences myPrefs = new MyPreferences(Variables.LangCode, Variables.Project,
-                                                      Variables.CustomProject, Variables.PHP5)
+                                                      Variables.CustomProject, Variables.PHP5, Variables.UsingSecure)
             {
                 TextBoxFont = txtEdit.Font,
                 LowThreadPriority = LowThreadPriority,
@@ -2735,10 +2735,10 @@ window.scrollTo(0, diffTopY);
                 loggingEnabled = myPrefs.EnableLogging;
 
                 if (myPrefs.Language != Variables.LangCode || myPrefs.Project != Variables.Project
-                    || (myPrefs.CustomProject != Variables.CustomProject))
+                    || (myPrefs.CustomProject != Variables.CustomProject) || myPrefs.PrefUsingSecure != Variables.UsingSecure)
                 {
                     Variables.PHP5 = myPrefs.PrefPHP5;
-                    SetProject(myPrefs.Language, myPrefs.Project, myPrefs.CustomProject);
+                    SetProject(myPrefs.Language, myPrefs.Project, myPrefs.CustomProject, myPrefs.PrefUsingSecure);
 
                     BotMode = false;
                     lblOnlyBots.Visible = true;
@@ -2764,13 +2764,13 @@ window.scrollTo(0, diffTopY);
                 LoadUserTalkWarnings();
         }
 
-        private void SetProject(string code, ProjectEnum project, string customProject)
+        private void SetProject(string code, ProjectEnum project, string customProject, bool usingSecure)
         {
             SplashScreen.SetProgress(81);
             try
             {
                 //set namespaces
-                Variables.SetProject(code, project, customProject);
+                Variables.SetProject(code, project, customProject, usingSecure);
 
                 //set interwikiorder
                 switch (Variables.LangCode)
@@ -3475,7 +3475,7 @@ window.scrollTo(0, diffTopY);
 
         private void openHistoryMenuItem_Click(object sender, EventArgs e)
         {
-            TheSession.Site.OpenPageInBrowserNoEncode(TheArticle.URLEncodedName + "?action=history");
+            TheSession.Site.OpenPageHistoryInBrowser(TheArticle.Name);
         }
 
         private void openSelectionInBrowserToolStripMenuItem_Click(object sender, EventArgs e)

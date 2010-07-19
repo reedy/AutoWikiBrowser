@@ -39,7 +39,7 @@ namespace AutoWikiBrowser
         /// <param name="proj"></param>
         /// <param name="customproj"></param>
         /// <param name="usePHP5"></param>
-        public MyPreferences(string lang, ProjectEnum proj, string customproj, bool usePHP5)
+        public MyPreferences(string lang, ProjectEnum proj, string customproj, bool usePHP5, bool usingSecure)
         {
             InitializeComponent();
 
@@ -60,6 +60,8 @@ namespace AutoWikiBrowser
             }
 
             cmboCustomProject.Text = customproj;
+            
+            PrefUsingSecure = usingSecure;
 
             PrefPHP5 = usePHP5;
 
@@ -95,6 +97,12 @@ namespace AutoWikiBrowser
                 return cmboCustomProject.Text;
             }
         }
+        
+        public bool PrefUsingSecure
+        {
+            get { return chkUsingSecure.Checked; }
+            set { chkUsingSecure.Checked = value; }
+        }        
 
         private void txtCustomProject_Leave(object sender, EventArgs e)
         {
@@ -178,6 +186,7 @@ namespace AutoWikiBrowser
                 cmboCustomProjectChanged(null, null);
 
                 chkSupressAWB.Enabled = true;
+                chkUsingSecure.Enabled = chkUsingSecure.Checked = false;
 
                 chkPHP5Ext.Enabled = (prj == ProjectEnum.custom);
 
@@ -190,6 +199,7 @@ namespace AutoWikiBrowser
             lblLang.Text = "Language:";
             btnOK.Enabled = true;
             chkSupressAWB.Enabled = false;
+            chkUsingSecure.Enabled = true;
         }
 
         private void cmboCustomProjectChanged(object sender, EventArgs e)

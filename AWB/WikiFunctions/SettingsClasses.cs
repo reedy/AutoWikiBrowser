@@ -65,6 +65,7 @@ namespace WikiFunctions.AWBSettings
             LanguageCode = Variables.LangCode;
             Project = Variables.Project;
             CustomProject = Variables.CustomProject;
+            UsingSecure = Variables.UsingSecure;
             PHP5 = Variables.PHP5;
 
             FindAndReplace = mFaRPrefs;
@@ -94,6 +95,7 @@ namespace WikiFunctions.AWBSettings
         public ProjectEnum Project = ProjectEnum.wikipedia;
         public string LanguageCode = "en";
         public string CustomProject = "";
+        public bool UsingSecure = false;
         public bool PHP5;
 
         public ListPrefs List;
