@@ -728,15 +728,15 @@ en, sq, ru
             int templatePosition = TemplateRegex.Match(articleText).Index;
 
             // the template must be in one of the 'References', 'Notes' or 'Footnotes' section
-            int referencesSectionPosition = ReferencesSectionRegex.Match(articleText).Index;
-
-            if (referencesSectionPosition > 0 && templatePosition < referencesSectionPosition)
-                return MoveTemplateToSection(articleText, TemplateRegex, 1);
-
             int notesSectionPosition = NotesSectionRegex.Match(articleText).Index;
 
             if (notesSectionPosition > 0 && templatePosition < notesSectionPosition)
                 return MoveTemplateToSection(articleText, TemplateRegex, 2);
+            
+            int referencesSectionPosition = ReferencesSectionRegex.Match(articleText).Index;
+
+            if (referencesSectionPosition > 0 && templatePosition < referencesSectionPosition)
+                return MoveTemplateToSection(articleText, TemplateRegex, 1);
 
             int footnotesSectionPosition = FootnotesSectionRegex.Match(articleText).Index;
 
