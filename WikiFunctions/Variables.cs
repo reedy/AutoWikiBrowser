@@ -157,7 +157,7 @@ namespace WikiFunctions
         /// Gets a Index URL of the site, e.g. "http://en.wikipedia.org/w/index.php"
         /// </summary>
         public static string URLIndex
-        { get { return URLLong + IndexPHP; } }
+        { get { return (UsingSecure ? URLSecure + URLEnd : URLLong) + IndexPHP; } }
 
         /// <summary>
         /// Gets a Index URL of the site, e.g. "http://en.wikipedia.org/w/api.php"
@@ -191,6 +191,7 @@ namespace WikiFunctions
         /// Gets a URL of the site, e.g. "http://en.wikipedia.org".
         /// </summary>
         public static string URL = "http://en.wikipedia.org";
+        public static string URLSecure = "https://secure.wikimedia.org/wikipedia/en/";
 
         public static string Host { get { return new Uri(URL).Host; } }
 
@@ -241,6 +242,12 @@ namespace WikiFunctions
         /// </summary>
         public static bool IsCustomProject
         { get { return Project == ProjectEnum.custom; } }
+        
+        /// <summary>
+        /// Returns true if the secure server is in use (for opening pages in browser)
+        /// </summary>
+        public static bool UsingSecure
+        { get; internal set; }        
 
         /// <summary>
         /// Returns true if we are currently editing a Wikia site
@@ -417,7 +424,7 @@ namespace WikiFunctions
         /// <param name="projectName">The project name default is Wikipedia</param>
         public static void SetProject(string langCode, ProjectEnum projectName)
         {
-            SetProject(langCode, projectName, "");
+            SetProject(langCode, projectName, "", false);
         }
 
         static readonly string[] AttackSites = new[]
@@ -461,7 +468,7 @@ namespace WikiFunctions
         /// <param name="langCode">The language code, default is en</param>
         /// <param name="projectName">The project name default is Wikipedia</param>
         /// <param name="customProject">Script path of a custom project or ""</param>
-        public static void SetProject(string langCode, ProjectEnum projectName, string customProject)
+        public static void SetProject(string langCode, ProjectEnum projectName, string customProject, bool usingSecure)
         {
             Namespaces.Clear();
             CancelBackgroundRequests();
@@ -477,6 +484,7 @@ namespace WikiFunctions
             Project = projectName;
             LangCode = langCode;
             CustomProject = customProject;
+            UsingSecure = usingSecure;
 
             RefreshProxy();
 
@@ -504,7 +512,10 @@ namespace WikiFunctions
                 URL = "http://" + CustomProject;
             }
             else
+            {
                 URL = "http://" + LangCode + "." + Project + ".org";
+                URLSecure = "http://secure.wikimedia.org/" + Project + "/" + LangCode; //https://secure.wikimedia.org/wikipedia/en
+            }
 
             // HACK:
             switch (projectName)
