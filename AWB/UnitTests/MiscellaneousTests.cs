@@ -920,6 +920,22 @@ __TOC__", articleTextIn);
             Assert.AreEqual(a, TalkPageHeaders.WikiProjectBannerShell(a.Replace("blp=yes", "blp=") + "{{Blp}}"));
             Assert.AreEqual("{{Blp}}", TalkPageHeaders.WikiProjectBannerShell("{{Blp}}"));
         }
+        
+        [Test]
+        public void WikiProjectBannerShellMisc()
+        {
+            const string a = @"{{wpbs|1=|banner collapsed=no|
+{{WPBiography|living=yes|class=Start|priority=|listas=Hill, A}}
+{{WikiProject Gender Studies}}
+{{WikiProject Oklahoma}}
+}}", b = @"{{WikiProjectBannerShell|banner collapsed=no|1=
+{{WPBiography|living=yes|class=Start|priority=|listas=Hill, A}}
+{{WikiProject Gender Studies}}
+{{WikiProject Oklahoma}}
+| blp=yes
+}}";
+            Assert.AreEqual(b, TalkPageHeaders.WikiProjectBannerShell(a));
+        }
     }
     
     [TestFixture]

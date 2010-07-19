@@ -202,10 +202,33 @@ namespace WikiFunctions.TalkPages
 
             foreach (Match m in WikiRegexes.WikiProjectBannerShellTemplate.Matches(articletext))
             {
-                // remove duplicate parameters
-                string newValue = Tools.RemoveDuplicateTemplateParameters(m.Value);
+                string newValue = m.Value;
+                string arg1 = Tools.GetTemplateParameterValue(newValue, "1");
+                
+                // Add explicit call to first unnamed parameter 1= if missing/has no value
+                if (arg1.Length == 0)
+                {
+                    int argCount = Tools.GetTemplateArgumentCount(newValue);
 
-                // clean blp=no, activepol=no, collapsed=no               
+                    for (int arg = 1; arg <= argCount; arg++)
+                    {
+                        string argValue = Tools.GetTemplateArgument(newValue, arg);
+
+                        if (argValue.StartsWith(@"{{"))
+                        {
+                            newValue = newValue.Insert(Tools.GetTemplateArgumentIndex(newValue, arg), "1=");
+                            break;
+                        }
+                    }
+                }
+                
+                // remove duplicate parameters
+                newValue = Tools.RemoveDuplicateTemplateParameters(newValue);
+                
+                // refresh after cleanup
+                arg1 = Tools.GetTemplateParameterValue(newValue, "1");
+
+                // clean blp=no, activepol=no, collapsed=no
                 foreach (string theNo in Nos)
                 {
                     if (Tools.GetTemplateParameterValue(newValue, theNo).Equals("no"))
@@ -219,8 +242,6 @@ namespace WikiFunctions.TalkPages
                     newValue = Tools.SetTemplateParameterValue(newValue, "blp", "yes");
                     articletext = articletext.Replace(blpm.Value, "");
                 }
-
-                string arg1 = Tools.GetTemplateParameterValue(newValue, "1");
 
                 // check living, activepol, blpo flags against WPBiography
                 Match m2 = Tools.NestedTemplateRegex("WPBiography").Match(arg1);
@@ -244,24 +265,7 @@ namespace WikiFunctions.TalkPages
                     if (Tools.GetTemplateParameterValue(WPBiographyCall, "blpo").Equals("yes"))
                         newValue = Tools.SetTemplateParameterValue(newValue, "blpo", "yes");
                 }
-
-                // Add explicit call to first unnamed parameter 1= if missing
-                if (arg1.Length == 0)
-                {
-                    int argCount = Tools.GetTemplateArgumentCount(newValue);
-
-                    for (int arg = 1; arg <= argCount; arg++)
-                    {
-                        string argValue = Tools.GetTemplateArgument(newValue, arg);
-
-                        if (argValue.StartsWith(@"{{"))
-                        {
-                            newValue = newValue.Insert(Tools.GetTemplateArgumentIndex(newValue, arg), "1=");
-                            break;
-                        }
-                    }
-                }
-
+                
                 // merge changes to article text
                 if (!newValue.Equals(m.Value))
                     articletext = articletext.Replace(m.Value, newValue);
