@@ -81,6 +81,8 @@ namespace WikiFunctions.Controls.Lists
                 return -article1.CompareTo(article2);
             }
         }
+
+        private static readonly ReverseComparer ArticleReverseComparer = new ReverseComparer();
         
         /// <summary>
         /// Sorts the article list in reverse alphabetical order
@@ -95,7 +97,7 @@ namespace WikiFunctions.Controls.Lists
             for (int i = 0; i < Items.Count; i++)
                 currentArticles[i] = (Article)Items[i];
 
-            Array.Sort(currentArticles, new ReverseComparer());
+            Array.Sort(currentArticles, ArticleReverseComparer);
 
             Items.Clear();
 
