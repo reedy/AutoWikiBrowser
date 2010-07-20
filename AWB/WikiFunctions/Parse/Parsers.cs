@@ -2754,6 +2754,15 @@ namespace WikiFunctions.Parse
                 // URL starting www. needs http://
                 if(theURL.StartsWith("www."))
                     newValue = Tools.UpdateTemplateParameterValue(newValue, "url", "http://" + theURL);
+                
+                // {{dead link}} should be placed outside citation, not in format field per [[Template:Dead link]]
+                string FormatField = Tools.GetTemplateParameterValue(newValue, "format");
+                if(WikiRegexes.DeadLink.IsMatch(FormatField))
+                {
+                    string deadLink = WikiRegexes.DeadLink.Match(FormatField).Value;
+                    
+                    newValue = Tools.UpdateTemplateParameterValue(newValue, "format", FormatField.Replace(deadLink, "")) + " " + deadLink;
+                }
 
                 // merge changes to article text
                 articleText = articleText.Replace(m.Value, newValue);
