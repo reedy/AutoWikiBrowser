@@ -191,12 +191,12 @@ namespace WikiFunctions.Controls.Lists
         }
     }
 
-    /// <summary>
-    /// Version of ListBox2 that is defined to take strings
-    /// </summary>
-    public class ListBoxString : ListBox2<string>
-    {
-    }
+    ///// <summary>
+    ///// Version of ListBox2 that is defined to take strings
+    ///// </summary>
+    //public class ListBoxString : ListBox2<string>
+    //{
+    //}
 
     /// <summary>
     /// Version of ListBox2 that is defined to take Articles
