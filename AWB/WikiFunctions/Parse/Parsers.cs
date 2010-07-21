@@ -5228,7 +5228,7 @@ namespace WikiFunctions.Parse
                 originalarticleText = articleText;
 
                 int lastpos = -1;
-                foreach (Match m in WikiRegexes.HeadingLevelTwo.Matches(articleText))
+                foreach (Match m in WikiRegexes.HeadingLevelTwo.Matches(Tools.ReplaceWithSpaces(articleText, WikiRegexes.UnformattedText)))
                 {
                     // empty setion if only whitespace between two level-2 headings
                     if (lastpos > -1 && articleText.Substring(lastpos, (m.Index - lastpos)).Trim().Length == 0)
