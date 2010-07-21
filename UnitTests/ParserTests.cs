@@ -7101,6 +7101,12 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             string summary = "";
             string twoTwos = @"==Foo1==
 ==Foo2==
+", commentedOutTwoTwos = @"
+<!--
+text
+==Foo1==
+==Foo2==
+text -->
 ";
             string returned = parser.Tagger(twoTwos, "test", false, ref summary);
             Assert.IsTrue(returned.Contains(@"==Foo1==
@@ -7140,6 +7146,10 @@ x
 ===Foo2===
 ";
             returned = parser.Tagger(twoTwos, "test", false, ref summary);
+            Assert.IsFalse(returned.Contains(@"{{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+            
+            // commented out sections - no change
+            returned = parser.Tagger(commentedOutTwoTwos, "test", false, ref summary);
             Assert.IsFalse(returned.Contains(@"{{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
         }
     }
