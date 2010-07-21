@@ -523,6 +523,9 @@ words.
             Assert.AreEqual(f + c + g, MetaDataSorter.MoveTemplateToReferencesSection(f + c + g, WikiFunctions.WikiRegexes.MoreNoFootnotes, true));
             Assert.AreEqual(f + d + g, MetaDataSorter.MoveTemplateToReferencesSection(f + d + g, WikiFunctions.WikiRegexes.MoreNoFootnotes, true));
             Assert.AreEqual(f + e + g, MetaDataSorter.MoveTemplateToReferencesSection(f + e + g, WikiFunctions.WikiRegexes.MoreNoFootnotes, true));
+            
+            // if duplicate sections, don't duplicate template
+            Assert.AreEqual(b + c + a + "\r\n" + c  + g, MetaDataSorter.MoveTemplateToReferencesSection(a + b + c +c + g, WikiFunctions.WikiRegexes.MoreNoFootnotes, true));
         }
         
         [Test]

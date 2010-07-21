@@ -760,11 +760,11 @@ en, sq, ru
             switch (section)
             {
                 case 1:
-                    return ReferencesSectionRegex.Replace(articleText, "$0" + extractedTemplate + "\r\n");
+                    return ReferencesSectionRegex.Replace(articleText, "$0" + extractedTemplate + "\r\n", 1);
                 case 2:
-                    return NotesSectionRegex.Replace(articleText, "$0" + extractedTemplate + "\r\n");
+                    return NotesSectionRegex.Replace(articleText, "$0" + extractedTemplate + "\r\n", 1);
                 case 3:
-                    return FootnotesSectionRegex.Replace(articleText, "$0" + extractedTemplate + "\r\n");
+                    return FootnotesSectionRegex.Replace(articleText, "$0" + extractedTemplate + "\r\n", 1);
                 default:
                     return articleText;
             }
