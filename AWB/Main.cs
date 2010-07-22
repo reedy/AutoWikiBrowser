@@ -1721,16 +1721,17 @@ window.scrollTo(0, diffTopY);
             }
             
             #if DEBUG
+            extext = @"Extra validation for debug builds (don't use a debug build if you want to save blank pages): ";
             // further attempts to track down blank page saving issue
             if(TheArticle.ArticleText.Length.Equals(0))
             {
-                string extext = @"Attempted to save page with zero length ArticleText";
+                extext += @"Attempted to save page with zero length ArticleText";
                 throw new Exception(extext);
             }
             
             if(txtEdit.Text.Length.Equals(0))
             {
-                string extext = @"Attempted to save page with zero length txtEditText";
+                extext += @"Attempted to save page with zero length txtEditText";
                 throw new Exception(extext);
             }
             #endif
