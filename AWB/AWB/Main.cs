@@ -1475,7 +1475,9 @@ namespace AutoWikiBrowser
                         if (chkAutoTagger.Checked)
                         {
                             theArticle.AutoTag(Parser, Skip.SkipNoTag, restrictOrphanTaggingToolStripMenuItem.Checked);
-                            if (theArticle.SkipArticle) return;
+                            
+                            if (mainProcess && theArticle.SkipArticle) 
+                                return;
                         }
 
                         Variables.Profiler.Profile("Auto-tagger");
@@ -1509,7 +1511,6 @@ namespace AutoWikiBrowser
                         Variables.Profiler.Profile("Talk Genfixes");
                     }
                 }
-
 
                 // find and replace after general fixes
                 if (chkFindandReplace.Checked && FindAndReplace.AfterOtherFixes)
