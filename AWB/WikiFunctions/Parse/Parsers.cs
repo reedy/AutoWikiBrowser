@@ -4959,7 +4959,7 @@ namespace WikiFunctions.Parse
 
         //Covered by TaggerTests
         /// <summary>
-        /// If necessary, adds/removes wikify or stub tag
+        /// If necessary, adds/removes various cleanup tags such as wikify, stub, ibid
         /// </summary>
         public string Tagger(string articleText, string articleTitle, bool restrictOrphanTagging, out bool noChange, ref string summary)
         {
@@ -5270,18 +5270,21 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// 
+        /// Sets the date (month & year) for undated cleanup tags that take a date
+        /// Avoids changing tags in unformatted text areas (wiki comments etc.)
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
-        /// <returns></returns>
+        /// <returns>The updated article text</returns>
         public static string TagUpdater(string articleText)
         {
-            // update by-date tags
+            HideText ht = new HideText();            
+            articleText = ht.HideUnformatted(articleText);
+            
             foreach (KeyValuePair<Regex, string> k in RegexTagger)
             {
                 articleText = k.Key.Replace(articleText, k.Value);
             }
-            return articleText;
+            return ht.AddBackUnformatted(articleText);
         }
 
         private static readonly Regex CommonPunctuation = new Regex(@"[""',\.;:`!\(\)\[\]\?\-–/]", RegexOptions.Compiled);
