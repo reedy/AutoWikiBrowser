@@ -1789,7 +1789,7 @@ namespace WikiFunctions.Parse
             if (DivStart.Matches(m.Value).Count != DivEnd.Matches(m.Value).Count)
                 return m.Value;
 
-            if (m.Value.Contains("references-2column"))
+            if (m.Value.Contains("references-2column") || m.Value.Contains("column-count:2"))
                 return "{{reflist|2}}";
 
             return "{{reflist}}";
@@ -1798,7 +1798,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Main regex for {{reflist}} converter
         /// </summary>
-        private static readonly Regex ReferenceListTags = new Regex(@"(<(span|div)( class=""(references-small|small|references-2column)|)?"">[\r\n\s]*){1,2}[\r\n\s]*<references[\s]?/>([\r\n\s]*</(span|div)>){1,2}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex ReferenceListTags = new Regex(@"(<(span|div)( class=""(references-small|small|references-2column)|)?""(?:\s*style\s*=\s*""[^<>""]+?""\s*)?>[\r\n\s]*){1,2}[\r\n\s]*<references[\s]?/>([\r\n\s]*</(span|div)>){1,2}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         private static readonly Regex DivStart = new Regex(@"<div\b.*?>", RegexOptions.Compiled);
         private static readonly Regex DivEnd = new Regex(@"< ?/ ?div\b.*?>", RegexOptions.Compiled);
