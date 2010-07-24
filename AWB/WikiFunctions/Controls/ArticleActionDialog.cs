@@ -62,8 +62,9 @@ namespace WikiFunctions.Controls
 
                 if (moveDeleteProtect == ArticleAction.Move)
                 {
-                    Size = new Size(Width, 120);
+                    Size = new Size(Width, 240);
                     chkNoRedirect.Visible = true;
+                    chkWatch.Visible = true;
 
                     messages = new string[2];
                     messages[0] = "Typo in page title";
