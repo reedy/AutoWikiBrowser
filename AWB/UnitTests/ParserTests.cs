@@ -92,7 +92,6 @@ namespace UnitTests
         }
 
         [Test]
-        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#References-2column_not_replaced_with_2_argument_to_reflist
         public void TestFixReferenceListTags()
         {
             Assert.AreEqual("<references/>", Parsers.FixReferenceListTags("<references/>"));
@@ -114,6 +113,11 @@ namespace UnitTests
 <references/></div>* some other ref</div>").Contains("{{reflist"));
             Assert.IsFalse(Parsers.FixReferenceListTags(@"<div class=""references-small""><div class=""references-2column"">
 <references/></div>").Contains("{{reflist"));
+            
+            Assert.AreEqual("{{reflist|2}}",
+                            Parsers.FixReferenceListTags(@"<div class=""references-small"" style=""-moz-column-count:2; column-count:2;"">
+<references/>
+</div>"), @"Converts to reflist|2 when column-count:2");
         }
 
         [Test]
