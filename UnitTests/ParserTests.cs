@@ -6611,6 +6611,11 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             const string correctcn =  @"{{citation needed|reason=something|date=May 2009}}";
             text = parser.Tagger(correctcn, "Test", false, out noChange, ref summary);
             Assert.AreEqual(text, correctcn);
+            
+            const string commentText = "<!--{{citation needed}}-->";
+            
+            text = parser.Tagger(commentText, "Test", false, out noChange, ref summary);
+            Assert.AreEqual(text, commentText, "tag not dated when commented out");
         }
         
         [Test]
