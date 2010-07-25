@@ -5238,7 +5238,9 @@ namespace WikiFunctions.Parse
                         break;
                     }
 
-                    lastpos = m.Index + m.Length;
+                    // don't tag single character headings: alpha list where empty section allowed
+                    if(m.Groups[1].Length > 1)
+                        lastpos = m.Index + m.Length;
                 }
             }
 

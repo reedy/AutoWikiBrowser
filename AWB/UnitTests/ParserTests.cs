@@ -7160,6 +7160,11 @@ x
             // commented out sections - no change
             returned = parser.Tagger(commentedOutTwoTwos, "test", false, ref summary);
             Assert.IsFalse(returned.Contains(@"{{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+            
+            // single letter heading – alpha list – empty section allowed – no change
+            returned = parser.Tagger(@"==F==
+==G==", "test", false, ref summary);
+            Assert.IsFalse(returned.Contains(@"{{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
         }
     }
 }
