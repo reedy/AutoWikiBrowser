@@ -4768,6 +4768,9 @@ window.scrollTo(0, diffTopY);
                 return;
             }
 
+            if (TheSession.Editor.IsActive)
+                return;
+
             btnWatch.Enabled = false;
 
             if (PageWatched)
