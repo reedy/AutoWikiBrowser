@@ -106,7 +106,12 @@ namespace WikiFunctions
             errorMessage.AppendLine("~~~~");
 
             errorMessage.AppendLine(" | OS          = " + Environment.OSVersion);
-            errorMessage.Append(" | version     = " + Assembly.GetExecutingAssembly().GetName().Version);
+
+            AssemblyName hostingApp = Assembly.GetExecutingAssembly().GetName();
+
+            errorMessage.Append(string.Format(" | version     = {0} ({1}), {2} ({3})", Application.ProductName,
+                                              Application.ProductVersion,
+                                              hostingApp.Name, hostingApp.Version));
 
             // suppress unhandled exception if Variables constructor says 'ouch'
             string revision;
