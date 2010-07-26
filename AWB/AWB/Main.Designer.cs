@@ -1406,10 +1406,10 @@ namespace AutoWikiBrowser
             this.highlightAllFindToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
             this.highlightAllFindToolStripMenuItem.Text = "Highlight Find matches";
             // 
-            // scrollToUnbalancedBracketsToolStripMenuItem
+            // scrollToAlertsToolStripMenuItem
             // 
             this.scrollToAlertsToolStripMenuItem.CheckOnClick = true;
-            this.scrollToAlertsToolStripMenuItem.Name = "scrollToUnbalancedBracketsToolStripMenuItem";
+            this.scrollToAlertsToolStripMenuItem.Name = "scrollToAlertsToolStripMenuItem";
             this.scrollToAlertsToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
             this.scrollToAlertsToolStripMenuItem.Text = "Highlight errors";
             this.scrollToAlertsToolStripMenuItem.Click += new System.EventHandler(this.scrollToUnbalancedBracketsToolStripMenuItem_Click);
@@ -3484,8 +3484,8 @@ namespace AutoWikiBrowser
             this.txtDabLink.Size = new System.Drawing.Size(167, 20);
             this.txtDabLink.TabIndex = 0;
             this.txtDabLink.TextChanged += new System.EventHandler(this.txtDabLink_TextChanged);
-            this.txtDabLink.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDabLink_KeyPress);
             this.txtDabLink.Enter += new System.EventHandler(this.txtDabLink_Enter);
+            this.txtDabLink.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDabLink_KeyPress);
             // 
             // chkEnableDab
             // 
@@ -3528,11 +3528,11 @@ namespace AutoWikiBrowser
             // 
             // groupBox8
             // 
-            this.groupBox8.Controls.Add(this.chkSkipIfRedirect);
             this.groupBox8.Controls.Add(this.chkSkipIfNoAlerts);
+            this.groupBox8.Controls.Add(this.chkSkipMinorGeneralFixes);
+            this.groupBox8.Controls.Add(this.chkSkipIfRedirect);
             this.groupBox8.Controls.Add(this.chkSkipCasing);
             this.groupBox8.Controls.Add(this.chkSkipGeneralFixes);
-            this.groupBox8.Controls.Add(this.chkSkipMinorGeneralFixes);
             this.groupBox8.Controls.Add(this.chkSkipNoPageLinks);
             this.groupBox8.Controls.Add(this.chkSkipWhitespace);
             this.groupBox8.Controls.Add(this.chkSkipIfInuse);
@@ -3766,8 +3766,8 @@ namespace AutoWikiBrowser
             this.cmboEditSummary.Size = new System.Drawing.Size(217, 21);
             this.cmboEditSummary.TabIndex = 1;
             this.cmboEditSummary.Text = "clean up";
-            this.cmboEditSummary.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmboEditSummary_MouseMove);
             this.cmboEditSummary.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmbEditSummary_KeyDown);
+            this.cmboEditSummary.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmboEditSummary_MouseMove);
             // 
             // findGroup
             // 
@@ -4238,10 +4238,10 @@ namespace AutoWikiBrowser
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AutoWikiBrowser";
-            this.Load += new System.EventHandler(this.MainForm_Load);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
-            this.Resize += new System.EventHandler(this.MainForm_Resize);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
+            this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.mnuTextBox.ResumeLayout(false);
             this.MnuMain.ResumeLayout(false);
             this.MnuMain.PerformLayout();
