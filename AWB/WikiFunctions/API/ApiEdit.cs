@@ -1033,6 +1033,8 @@ namespace WikiFunctions.API
                         throw new MaxlagException(this, maxlag, 10);
                     case "wrnotloggedin":
                         throw new LoggedOffException(this);
+                    case "spamdetected":
+                        throw new SpamlistException(this, errorMessage);
                     default:
                         if (errorCode.Contains("disabled"))
                             throw new FeatureDisabledException(this, errorCode, errorMessage);
@@ -1060,10 +1062,11 @@ namespace WikiFunctions.API
                 throw new AssertionFailedException(this, what);
             }
 
-            if (actionElement.HasAttribute("spamblacklist"))
-            {
-                throw new SpamlistException(this, actionElement.GetAttribute("spamblacklist"));
-            }
+			//Am I still needed?
+            //if (actionElement.HasAttribute("spamblacklist"))
+            //{
+            //    throw new SpamlistException(this, actionElement.GetAttribute("spamblacklist"));
+            //}
 
             if (actionElement.GetElementsByTagName("captcha").Count > 0)
             {
