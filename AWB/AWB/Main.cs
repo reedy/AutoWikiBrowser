@@ -1185,9 +1185,9 @@ namespace AutoWikiBrowser
 
             if (_dlgTalk.Visible) return; // we are already displaying it
             if (_dlgTalk.ShowDialog() == DialogResult.Yes)
+            {
                 Tools.OpenUserTalkInBrowser(TheSession.User.Name);
-            else
-                Process.Start(Variables.GetUserTalkURL(TheSession.User.Name));
+            }
         }
 
         private void NoWriteApiRight()
