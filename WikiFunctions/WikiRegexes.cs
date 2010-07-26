@@ -995,7 +995,7 @@ namespace WikiFunctions
         /// <summary>
         /// List of known infobox fields holding date of death
         /// </summary>
-        public static readonly List<string> InfoBoxDODFields = new List<string>(new [] {"yearofdeath", "dateofdeath", "born", "death date", "deathdate", "death_date"});
+        public static readonly List<string> InfoBoxDODFields = new List<string>(new [] {"yearofdeath", "dateofdeath", "died", "death date", "deathdate", "death_date"});
 
         #region Parsers.FixFootnotes **NOT READY FOR PRODUCTION**
         // removed superscripted punctuation between refs
