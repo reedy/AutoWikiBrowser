@@ -7165,6 +7165,13 @@ x
             returned = parser.Tagger(@"==F==
 ==G==", "test", false, ref summary);
             Assert.IsFalse(returned.Contains(@"{{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+        
+            // section with pre is not empty
+            returned = parser.Tagger(twoTwos.Replace(@"==Foo1==", @"==Foo1==
+<pre>
+foo
+</pre>"), "test", false, ref summary);
+            Assert.IsFalse(returned.Contains(@"{{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
         }
     }
 }
