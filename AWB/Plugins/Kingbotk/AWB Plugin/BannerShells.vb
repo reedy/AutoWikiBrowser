@@ -8,6 +8,8 @@
 
 'You should have received a copy of the GNU General Public License Version 2 along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+Imports Microsoft.VisualBasic
+
 Namespace AutoWikiBrowser.Plugins.Kingbotk
     Partial Class Article
         ' Enum:
@@ -41,18 +43,19 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
 
             ShellTemplateMatchEvaluatorsCommonTasks(templatename, match)
 
-            If Not Ending = "" Then Ending = Microsoft.VisualBasic.vbCrLf + Ending
+            If Not Ending = "" Then Ending = vbCrLf + Ending
 
-            Return DoubleLineBreakRegex.Replace("{{" & templatename & "|1=" & Microsoft.VisualBasic.vbCrLf & LineBreakRegex.Replace(MatchEvaluatorString, "") & _
-               Microsoft.VisualBasic.vbCrLf & match.Groups("body").Value & Ending & "}}", Microsoft.VisualBasic.vbCrLf)
+            Return DoubleLineBreakRegex.Replace("{{" & templatename & "|1=" & vbCrLf & LineBreakRegex.Replace(MatchEvaluatorString, "") & _
+               vbCrLf & match.Groups("body").Value & Ending & "}}", vbCrLf)
         End Function
 
         Private Sub ShellTemplateMatchEvaluatorsCommonTasks(ByVal templatename As String, ByVal match As Match)
             ' Does the shell contain template: ?
             PluginCheckTemplateCall(match.Groups("tl").Value, templatename)
             ' Does the template have it's primary name:
-            If Not match.Groups("tlname").Value = templatename Then RenamedATemplate(match.Groups("tlname").Value, _
-               templatename, templatename)
+            If Not match.Groups("tlname").Value = templatename Then
+                RenamedATemplate(match.Groups("tlname").Value, templatename, templatename)
+            End If
         End Sub
 
         ' Where we (possibly) add our template to an existing shell:
