@@ -19,6 +19,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             ' This call is required by the designer.
             InitializeComponent()
 
+            Dim ts As New Dictionary(Of String, ToolStripMenuItem)
+
             For Each prop As TemplateProperties In params
                 Dim lvi As New ListViewItem(prop.ParamName)
                 lvi.Tag = prop
@@ -27,13 +29,28 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
                     If Not ListView1.Groups.Contains(lvGroup) Then
                         ListView1.Groups.Add(lvGroup)
+
+                        Dim tsmi As New ToolStripMenuItem(prop.Group)
+                        ts.Add(prop.Group, tsmi)
+                        WPMilHistToolStripMenuItem1.DropDownItems.Add(tsmi)
                     End If
+
+                    Dim tsi As ToolStripMenuItem = ts(prop.Group)
+                    Dim tsiSub As ToolStripItem = tsi.DropDownItems.Add(prop.ParamName)
+                    'tsi.Tag = prop
+                    AddHandler tsiSub.Click, AddressOf ToolStripMenuItemClickEventHandler
 
                     lvi.Group = lvGroup
                 End If
 
                 ListView1.Items.Add(lvi)
             Next
+        End Sub
+
+        Private Sub ToolStripMenuItemClickEventHandler(ByVal sender As Object, ByVal e As EventArgs)
+            Dim tsi As ToolStripItem = DirectCast(sender, ToolStripItem)
+
+            PluginManager.EditBoxInsertYesParam(tsi.Text)
         End Sub
 
         Class TemplateProperties
