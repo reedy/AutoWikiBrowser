@@ -127,6 +127,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             'Plugins.Add("Film", New Film())
             Plugins.Add("India", New WPIndia())
             Plugins.Add("MilHist", New WPMilHist())
+            'Plugins.Add("MilHist", New WPMilHistSimple())
             Plugins.Add("Songs", New WPSongs())
             Plugins.Add("WPNovels", New WPNovels())
             Plugins.Add(Constants.Biography, New WPBiography())
