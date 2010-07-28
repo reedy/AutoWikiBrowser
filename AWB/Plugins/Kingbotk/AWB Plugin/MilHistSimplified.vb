@@ -17,29 +17,41 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             ' This call is required by the designer.
             InitializeComponent()
 
-            Dim ts As New Dictionary(Of String, ToolStripMenuItem)
+            Dim groupsAndMenus As New Dictionary(Of String, LvGrpTSMenu)
 
-            For Each prop As TemplateProperties In params
+            For Each prop As TemplateParameters In params
                 Dim lvi As New ListViewItem(prop.ParamName)
                 lvi.Tag = prop
-                If prop.Group <> "" Then
-                    Dim lvGroup As New ListViewGroup(prop.Group.Replace(" ", "")) With {.Header = prop.Group}
 
-                    If Not ListView1.Groups.Contains(lvGroup) Then
+                Dim tsmiToAddTo As ToolStripMenuItem
+
+                If prop.Group <> "" Then
+                    Dim group As String = prop.Group.Replace(" ", "")
+                    If Not groupsAndMenus.ContainsKey(group) Then
+
+                        Dim lvGroup As New ListViewGroup() With {.Header = prop.Group}
                         ListView1.Groups.Add(lvGroup)
 
                         Dim tsmi As New ToolStripMenuItem(prop.Group)
-                        ts.Add(prop.Group, tsmi)
                         WPMilHistToolStripMenuItem1.DropDownItems.Add(tsmi)
+
+                        groupsAndMenus.Add(group, New LvGrpTSMenu() With {.group = lvGroup, .menu = tsmi}) 'Cache group and menu item
+
+                        tsmiToAddTo = tsmi
+
+                        lvi.Group = lvGroup
+                    Else
+                        Dim mnu As LvGrpTSMenu = groupsAndMenus(group)
+                        tsmiToAddTo = mnu.menu
+                        lvi.Group = mnu.group
                     End If
-
-                    Dim tsi As ToolStripMenuItem = ts(prop.Group)
-                    Dim tsiSub As ToolStripItem = tsi.DropDownItems.Add(prop.ParamName)
-                    'tsi.Tag = prop
-                    AddHandler tsiSub.Click, AddressOf ToolStripMenuItemClickEventHandler
-
-                    lvi.Group = lvGroup
+                Else
+                    tsmiToAddTo = WPMilHistToolStripMenuItem1
                 End If
+
+                Dim tsiSub As ToolStripItem = tsmiToAddTo.DropDownItems.Add(prop.ParamName)
+                'tsi.Tag = prop
+                AddHandler tsiSub.Click, AddressOf ToolStripMenuItemClickEventHandler
 
                 ListView1.Items.Add(lvi)
             Next
@@ -58,65 +70,65 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Private Const conForceImportanceRemoval As String = "MilHistRmImportance"
         Private Const conStubClassParm As String = "MilHistStubClass"
 
-        Dim params() As TemplateProperties =
+        Dim params() As TemplateParameters =
         {
-           New TemplateProperties() With {.StorageKey = "MilHistACW", .Group = PeriodsAndConflictsGroup, .ParamName = "ACW"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistARW", .Group = PeriodsAndConflictsGroup, .ParamName = "ARW"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistClassic", .Group = PeriodsAndConflictsGroup, .ParamName = "Classical"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistCrusades", .Group = PeriodsAndConflictsGroup, .ParamName = "Crusades"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistEarlyModern", .Group = PeriodsAndConflictsGroup, .ParamName = "Early-Modern"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistMedieval", .Group = PeriodsAndConflictsGroup, .ParamName = "Medieval"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistMuslim", .Group = PeriodsAndConflictsGroup, .ParamName = "Muslim"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistNapol", .Group = PeriodsAndConflictsGroup, .ParamName = "Napoleonic"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistWWI", .Group = PeriodsAndConflictsGroup, .ParamName = "WWI"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistWWII", .Group = PeriodsAndConflictsGroup, .ParamName = "WWII"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistAir", .Group = GeneralGroup, .ParamName = "Aviation"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistBiography", .Group = GeneralGroup, .ParamName = "Biography"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistFilms", .Group = GeneralGroup, .ParamName = "Films"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistFortifications", .Group = GeneralGroup, .ParamName = "Fortifications"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistHistoriography", .Group = GeneralGroup, .ParamName = "Historiography"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistIntel", .Group = GeneralGroup, .ParamName = "Intel"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistLandVech", .Group = GeneralGroup, .ParamName = "Land Vehicles"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistMarit", .Group = GeneralGroup, .ParamName = "Martime"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistMemorial", .Group = GeneralGroup, .ParamName = "Memorials"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistNational", .Group = GeneralGroup, .ParamName = "Nationals"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistScience", .Group = GeneralGroup, .ParamName = "Science"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistTech", .Group = GeneralGroup, .ParamName = "Technology"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistWeapon", .Group = GeneralGroup, .ParamName = "Weaponry"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistNTF", .Group = NationsGroup, .ParamName = "No Task Force"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistAfrican", .Group = NationsGroup, .ParamName = "Africa"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistAus", .Group = NationsGroup, .ParamName = "Australia"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistBalkan", .Group = NationsGroup, .ParamName = "Balkan"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistBaltic", .Group = NationsGroup, .ParamName = "Baltic"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistBrit", .Group = NationsGroup, .ParamName = "British"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistCanuck", .Group = NationsGroup, .ParamName = "Canadian"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistChina", .Group = NationsGroup, .ParamName = "Chinese"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistDutch", .Group = NationsGroup, .ParamName = "Dutch"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistFrench", .Group = NationsGroup, .ParamName = "French"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistGerman", .Group = NationsGroup, .ParamName = "German"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistIndia", .Group = NationsGroup, .ParamName = "Indian"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistItaly", .Group = NationsGroup, .ParamName = "Italian"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistJapan", .Group = NationsGroup, .ParamName = "Japanese"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistKorean", .Group = NationsGroup, .ParamName = "Korean"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistLebanese", .Group = NationsGroup, .ParamName = "Lebanese"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistMidEast", .Group = NationsGroup, .ParamName = "Middle-Eastern"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistNZ", .Group = NationsGroup, .ParamName = "New Zealand"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistNordic", .Group = NationsGroup, .ParamName = "Nordic"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistOttoman", .Group = NationsGroup, .ParamName = "Ottoman"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistPoland", .Group = NationsGroup, .ParamName = "Polish"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistRomanian", .Group = NationsGroup, .ParamName = "Romanian"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistRussian", .Group = NationsGroup, .ParamName = "Russian"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistSpanish", .Group = NationsGroup, .ParamName = "Spanish"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistSAmerican", .Group = NationsGroup, .ParamName = "S American"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistSEAsian", .Group = NationsGroup, .ParamName = "SE Asian"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistTaiwanese", .Group = NationsGroup, .ParamName = "Taiwanese"}, _
-           New TemplateProperties() With {.StorageKey = "MilHistUS", .Group = NationsGroup, .ParamName = "US"}
+           New TemplateParameters() With {.StorageKey = "MilHistACW", .Group = PeriodsAndConflictsGroup, .ParamName = "ACW"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistARW", .Group = PeriodsAndConflictsGroup, .ParamName = "ARW"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistClassic", .Group = PeriodsAndConflictsGroup, .ParamName = "Classical"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistCrusades", .Group = PeriodsAndConflictsGroup, .ParamName = "Crusades"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistEarlyModern", .Group = PeriodsAndConflictsGroup, .ParamName = "Early-Modern"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistMedieval", .Group = PeriodsAndConflictsGroup, .ParamName = "Medieval"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistMuslim", .Group = PeriodsAndConflictsGroup, .ParamName = "Muslim"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistNapol", .Group = PeriodsAndConflictsGroup, .ParamName = "Napoleonic"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistWWI", .Group = PeriodsAndConflictsGroup, .ParamName = "WWI"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistWWII", .Group = PeriodsAndConflictsGroup, .ParamName = "WWII"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistAir", .Group = GeneralGroup, .ParamName = "Aviation"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistBiography", .Group = GeneralGroup, .ParamName = "Biography"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistFilms", .Group = GeneralGroup, .ParamName = "Films"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistFortifications", .Group = GeneralGroup, .ParamName = "Fortifications"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistHistoriography", .Group = GeneralGroup, .ParamName = "Historiography"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistIntel", .Group = GeneralGroup, .ParamName = "Intel"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistLandVech", .Group = GeneralGroup, .ParamName = "Land Vehicles"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistMarit", .Group = GeneralGroup, .ParamName = "Martime"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistMemorial", .Group = GeneralGroup, .ParamName = "Memorials"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistNational", .Group = GeneralGroup, .ParamName = "Nationals"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistScience", .Group = GeneralGroup, .ParamName = "Science"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistTech", .Group = GeneralGroup, .ParamName = "Technology"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistWeapon", .Group = GeneralGroup, .ParamName = "Weaponry"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistNTF", .Group = NationsGroup, .ParamName = "No Task Force"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistAfrican", .Group = NationsGroup, .ParamName = "Africa"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistAus", .Group = NationsGroup, .ParamName = "Australia"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistBalkan", .Group = NationsGroup, .ParamName = "Balkan"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistBaltic", .Group = NationsGroup, .ParamName = "Baltic"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistBrit", .Group = NationsGroup, .ParamName = "British"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistCanuck", .Group = NationsGroup, .ParamName = "Canadian"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistChina", .Group = NationsGroup, .ParamName = "Chinese"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistDutch", .Group = NationsGroup, .ParamName = "Dutch"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistFrench", .Group = NationsGroup, .ParamName = "French"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistGerman", .Group = NationsGroup, .ParamName = "German"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistIndia", .Group = NationsGroup, .ParamName = "Indian"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistItaly", .Group = NationsGroup, .ParamName = "Italian"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistJapan", .Group = NationsGroup, .ParamName = "Japanese"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistKorean", .Group = NationsGroup, .ParamName = "Korean"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistLebanese", .Group = NationsGroup, .ParamName = "Lebanese"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistMidEast", .Group = NationsGroup, .ParamName = "Middle-Eastern"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistNZ", .Group = NationsGroup, .ParamName = "New Zealand"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistNordic", .Group = NationsGroup, .ParamName = "Nordic"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistOttoman", .Group = NationsGroup, .ParamName = "Ottoman"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistPoland", .Group = NationsGroup, .ParamName = "Polish"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistRomanian", .Group = NationsGroup, .ParamName = "Romanian"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistRussian", .Group = NationsGroup, .ParamName = "Russian"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistSpanish", .Group = NationsGroup, .ParamName = "Spanish"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistSAmerican", .Group = NationsGroup, .ParamName = "S American"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistSEAsian", .Group = NationsGroup, .ParamName = "SE Asian"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistTaiwanese", .Group = NationsGroup, .ParamName = "Taiwanese"}, _
+           New TemplateParameters() With {.StorageKey = "MilHistUS", .Group = NationsGroup, .ParamName = "US"}
     }
 
 #Region "XML interface"
         Friend Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader) Implements IGenericSettings.ReadXML
             For Each lvi As ListViewItem In ListView1.Items
-                Dim tp As TemplateProperties = DirectCast(lvi.Tag, TemplateProperties)
+                Dim tp As TemplateParameters = DirectCast(lvi.Tag, TemplateParameters)
                 lvi.Checked = PluginManager.XMLReadBoolean(Reader, tp.StorageKey, lvi.Checked)
             Next
 
@@ -124,7 +136,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Friend Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter) Implements IGenericSettings.WriteXML
             With Writer
                 For Each lvi As ListViewItem In ListView1.Items
-                    Dim tp As TemplateProperties = DirectCast(lvi.Tag, TemplateProperties)
+                    Dim tp As TemplateParameters = DirectCast(lvi.Tag, TemplateParameters)
                     .WriteAttributeString(tp.StorageKey, lvi.Checked.ToString)
                 Next
             End With
@@ -276,7 +288,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             With OurSettingsControl
                 For Each lvi As ListViewItem In .ListView1.Items
                     If lvi.Checked Then
-                        Dim tp As TemplateProperties = DirectCast(lvi.Tag, TemplateProperties)
+                        Dim tp As TemplateParameters = DirectCast(lvi.Tag, TemplateParameters)
                         AddAndLogNewParamWithAYesValue(tp.Group) 'Probably needs some reformatting
                     End If
                 Next
