@@ -1,18 +1,20 @@
 ﻿Friend NotInheritable Class WPAlbums
     Inherits PluginBase
 
+    Private Const PluginName As String = "Album"
+
     Friend Sub New()
         MyBase.New("Albums") ' Specify alternate names only
 
         Dim params(-1) As TemplateParameters
 
-        OurSettingsControl = New GenericWithWorkgroups("WikiProject Albums", "Album", True, False, params)
+        OurSettingsControl = New GenericWithWorkgroups("WikiProject Albums", PluginName, True, False, params)
     End Sub
 
     ' Settings:
     Private OurTab As New TabPage("Albums")
     Private WithEvents OurSettingsControl As GenericWithWorkgroups
-    Private Const conEnabled As String = "AlbumEnabled"
+
     Protected Friend Overrides ReadOnly Property PluginShortName() As String
         Get
             Return "Albums"
@@ -20,7 +22,7 @@
     End Property
     Protected Overrides ReadOnly Property PreferredTemplateName() As String
         Get
-            Return "Album"
+            Return PluginName
         End Get
     End Property
 
@@ -81,7 +83,7 @@
 
     ' XML settings:
     Protected Friend Overrides Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader)
-        Dim blnNewVal As Boolean = PluginManager.XMLReadBoolean(Reader, conEnabled, Enabled)
+        Dim blnNewVal As Boolean = PluginManager.XMLReadBoolean(Reader, PluginName & "Enabled", Enabled)
         If Not blnNewVal = Enabled Then Enabled = blnNewVal ' Mustn't set if the same or we get extra tabs
         OurSettingsControl.ReadXML(Reader)
     End Sub
@@ -89,7 +91,7 @@
         OurSettingsControl.Reset()
     End Sub
     Protected Friend Overrides Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
-        Writer.WriteAttributeString(conEnabled, Enabled.ToString)
+        Writer.WriteAttributeString(PluginName & "Enabled", Enabled.ToString)
         OurSettingsControl.WriteXML(Writer)
     End Sub
 
