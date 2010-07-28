@@ -91,10 +91,10 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="BannerShells.vb" />
-    <Compile Include="MilHistSimplified.Designer.vb">
-      <DependentUpon>MilHistSimplified.vb</DependentUpon>
+    <Compile Include="MilitaryHistory.Designer.vb">
+      <DependentUpon>MilitaryHistory.vb</DependentUpon>
     </Compile>
-    <Compile Include="MilHistSimplified.vb">
+    <Compile Include="MilitaryHistory.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Redirects.vb">
@@ -192,8 +192,8 @@
       <SubType>Designer</SubType>
       <DependentUpon>Australia.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MilHistSimplified.resx">
-      <DependentUpon>MilHistSimplified.vb</DependentUpon>
+    <EmbeddedResource Include="MilitaryHistory.resx">
+      <DependentUpon>MilitaryHistory.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="WPNovels.resx">

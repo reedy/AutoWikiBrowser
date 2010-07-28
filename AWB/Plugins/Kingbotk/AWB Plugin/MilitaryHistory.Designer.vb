@@ -1,6 +1,6 @@
 Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
     <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-    Partial Class WPMilHistSimplfiedSettings
+    Partial Class WPMilitaryHistorySettings
         Inherits System.Windows.Forms.UserControl
 
         'UserControl overrides dispose to clean up the component list.
