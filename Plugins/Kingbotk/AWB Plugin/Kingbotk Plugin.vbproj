@@ -97,6 +97,7 @@
     <Compile Include="Templating.vb" />
     <Compile Include="WPAlbums.vb" />
     <Compile Include="WPAustralia.vb" />
+    <Compile Include="WPBiography.vb" />
     <Compile Include="WPIndia.vb" />
     <Compile Include="WPMilitaryHistory.vb" />
     <Compile Include="Novels.Designer.vb">
@@ -160,10 +161,10 @@
     <Compile Include="TimerStats.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="WPBiography.Designer.vb">
-      <DependentUpon>WPBiography.vb</DependentUpon>
+    <Compile Include="Biography.Designer.vb">
+      <DependentUpon>Biography.vb</DependentUpon>
     </Compile>
-    <Compile Include="WPBiography.vb">
+    <Compile Include="Biography.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="WPNovels.vb" />
@@ -220,9 +221,9 @@
       <SubType>Designer</SubType>
       <DependentUpon>TimerStats.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="WPBiography.resx">
+    <EmbeddedResource Include="Biography.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>WPBiography.vb</DependentUpon>
+      <DependentUpon>Biography.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
