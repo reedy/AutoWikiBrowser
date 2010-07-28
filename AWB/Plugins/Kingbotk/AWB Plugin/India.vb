@@ -969,17 +969,5 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Writer.WriteAttributeString(conEnabled, Enabled.ToString)
             OurSettingsControl.WriteXML(Writer)
         End Sub
-
-        ' Not implemented:
-        Friend Overrides ReadOnly Property HasSharedLogLocation() As Boolean
-            Get
-                Return False
-            End Get
-        End Property
-        Friend Overrides ReadOnly Property SharedLogLocation() As String
-            Get
-                Return ""
-            End Get
-        End Property
     End Class
 End Namespace

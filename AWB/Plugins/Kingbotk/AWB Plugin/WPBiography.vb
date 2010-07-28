@@ -469,16 +469,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 Return "Template"
             End Get
         End Property
-        Friend Overrides ReadOnly Property HasSharedLogLocation() As Boolean
-            Get
-                Return True
-            End Get
-        End Property
-        Friend Overrides ReadOnly Property SharedLogLocation() As String
-            Get
-                Return "Wikipedia:WikiProject Biography/Automation/Logs"
-            End Get
-        End Property
         Friend Overrides ReadOnly Property HasReqPhotoParam() As Boolean
             Get
                 Return True

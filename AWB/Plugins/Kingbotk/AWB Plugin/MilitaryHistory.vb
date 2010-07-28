@@ -239,16 +239,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 Return "NA"
             End Get
         End Property
-        Friend Overrides ReadOnly Property HasSharedLogLocation() As Boolean
-            Get
-                Return True
-            End Get
-        End Property
-        Friend Overrides ReadOnly Property SharedLogLocation() As String
-            Get
-                Return "Wikipedia:WikiProject Military history/Automation/Logs"
-            End Get
-        End Property
         Friend Overrides ReadOnly Property HasReqPhotoParam() As Boolean
             Get
                 Return False
