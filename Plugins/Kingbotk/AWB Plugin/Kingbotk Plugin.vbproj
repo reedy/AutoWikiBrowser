@@ -78,10 +78,10 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="AssessmentsClass.vb" />
-    <Compile Include="Australia.Designer.vb">
+    <Compile Include="ProjectSettings\Australia.Designer.vb">
       <DependentUpon>Australia.vb</DependentUpon>
     </Compile>
-    <Compile Include="Australia.vb">
+    <Compile Include="ProjectSettings\Australia.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="BannerShells.vb" />
@@ -95,21 +95,21 @@
     </Compile>
     <Compile Include="TemplateParameters.vb" />
     <Compile Include="Templating.vb" />
-    <Compile Include="WPAlbums.vb" />
-    <Compile Include="WPAustralia.vb" />
-    <Compile Include="WPBiography.vb" />
-    <Compile Include="WPIndia.vb" />
-    <Compile Include="WPMilitaryHistory.vb" />
-    <Compile Include="Novels.Designer.vb">
+    <Compile Include="WikiProjects\WPAlbums.vb" />
+    <Compile Include="WikiProjects\WPAustralia.vb" />
+    <Compile Include="WikiProjects\WPBiography.vb" />
+    <Compile Include="WikiProjects\WPIndia.vb" />
+    <Compile Include="WikiProjects\WPMilitaryHistory.vb" />
+    <Compile Include="ProjectSettings\Novels.Designer.vb">
       <DependentUpon>Novels.vb</DependentUpon>
     </Compile>
-    <Compile Include="Novels.vb">
+    <Compile Include="ProjectSettings\Novels.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="India.Designer.vb">
+    <Compile Include="ProjectSettings\India.Designer.vb">
       <DependentUpon>India.vb</DependentUpon>
     </Compile>
-    <Compile Include="India.vb">
+    <Compile Include="ProjectSettings\India.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Generic.Designer.vb">
@@ -161,14 +161,14 @@
     <Compile Include="TimerStats.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Biography.Designer.vb">
+    <Compile Include="ProjectSettings\Biography.Designer.vb">
       <DependentUpon>Biography.vb</DependentUpon>
     </Compile>
-    <Compile Include="Biography.vb">
+    <Compile Include="ProjectSettings\Biography.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="WPNovels.vb" />
-    <Compile Include="WPSongs.vb" />
+    <Compile Include="WikiProjects\WPNovels.vb" />
+    <Compile Include="WikiProjects\WPSongs.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AboutBox.resx">
@@ -179,7 +179,7 @@
       <SubType>Designer</SubType>
       <DependentUpon>AssessmentForm.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Australia.resx">
+    <EmbeddedResource Include="ProjectSettings\Australia.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Australia.vb</DependentUpon>
     </EmbeddedResource>
@@ -187,11 +187,11 @@
       <DependentUpon>GenericWithWorkgroups.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Novels.resx">
+    <EmbeddedResource Include="ProjectSettings\Novels.resx">
       <DependentUpon>Novels.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="India.resx">
+    <EmbeddedResource Include="ProjectSettings\India.resx">
       <DependentUpon>India.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -221,7 +221,7 @@
       <SubType>Designer</SubType>
       <DependentUpon>TimerStats.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Biography.resx">
+    <EmbeddedResource Include="ProjectSettings\Biography.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Biography.vb</DependentUpon>
     </EmbeddedResource>
