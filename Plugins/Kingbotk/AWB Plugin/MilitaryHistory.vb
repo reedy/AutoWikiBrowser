@@ -9,7 +9,7 @@
 'You should have received a copy of the GNU General Public License Version 2 along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
-    Friend NotInheritable Class WPMilHistSimplfiedSettings
+    Friend NotInheritable Class WPMilitaryHistorySettings
         Implements IGenericSettings
 
         Public Sub New()
@@ -197,12 +197,12 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Sub
     End Class
 
-    Friend NotInheritable Class WPMilHistSimple
+    Friend NotInheritable Class WPMilitaryHistory
         Inherits PluginBase
 
         ' Settings:
         Private OurTab As New TabPage("MilHist")
-        Private WithEvents OurSettingsControl As New WPMilHistSimplfiedSettings
+        Private WithEvents OurSettingsControl As New WPMilitaryHistorySettings
         Private Const conEnabled As String = "MilHistEnabled"
         Private Const conMedievalTaskForce As String = "Medieval-task-force"
 
