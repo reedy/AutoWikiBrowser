@@ -13,7 +13,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Implements IGenericSettings
 
         Public Sub New(ByVal template As String, ByVal prefix As String, ByVal autoStubEnabled As Boolean, _
-                       ByVal inspectUnsetEnabled As Boolean, ByRef params() As TemplateParameters)
+                       ByVal inspectUnsetEnabled As Boolean, ByVal ParamArray params() As TemplateParameters)
             ' This call is required by the designer.
             InitializeComponent()
 
@@ -185,6 +185,13 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         Private Sub InsertTemplateToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles InsertTemplateToolStripMenuItem.Click
             PluginManager.EditBoxInsert("{{" & Template & "}}")
+        End Sub
+
+        Private Sub AutoStubCheckBox_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AutoStubCheckBox.CheckedChanged
+            If AutoStubCheckBox.Checked Then StubClassCheckBox.Checked = False
+        End Sub
+        Private Sub StubClassCheckBox_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StubClassCheckBox.CheckedChanged
+            If StubClassCheckBox.Checked Then AutoStubCheckBox.Checked = False
         End Sub
     End Class
 End Namespace
