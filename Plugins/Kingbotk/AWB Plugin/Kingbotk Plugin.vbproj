@@ -99,7 +99,7 @@
     </Compile>
     <Compile Include="Redirects.vb">
     </Compile>
-    <Compile Include="TemplateProperties.vb" />
+    <Compile Include="TemplateParameters.vb" />
     <Compile Include="Templating.vb" />
     <Compile Include="WPNovels.Designer.vb">
       <DependentUpon>WPNovels.vb</DependentUpon>
