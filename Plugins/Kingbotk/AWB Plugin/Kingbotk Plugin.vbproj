@@ -157,12 +157,6 @@
     <Compile Include="PluginSettings.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Songs.Designer.vb">
-      <DependentUpon>Songs.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Songs.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="TimerStats.Designer.vb">
       <DependentUpon>TimerStats.vb</DependentUpon>
     </Compile>
@@ -227,10 +221,6 @@
     <EmbeddedResource Include="PluginSettings.resx">
       <SubType>Designer</SubType>
       <DependentUpon>PluginSettings.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Songs.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>Songs.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TimerStats.resx">
       <SubType>Designer</SubType>

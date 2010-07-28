@@ -1,13 +1,21 @@
 ﻿Friend NotInheritable Class WPSongs
     Inherits PluginBase
 
+    Friend Sub New()
+        MyBase.New("WikiProjectSongs") ' Specify alternate names only
+
+        Dim params(-1) As TemplateParameters
+
+        OurSettingsControl = New GenericWithWorkgroups("WikiProject Songs", "Songs", True, False, params)
+    End Sub
+
     ' Regular expressions:
     Private ReadOnly InfoboxRegex As New Regex(TemplatePrefix & "(sir|Single infobox request)\s*\}\}\s*", _
        RegexOptions.IgnoreCase Or RegexOptions.Compiled Or RegexOptions.ExplicitCapture)
 
     ' Settings:
     Private OurTab As New TabPage("Songs")
-    Private WithEvents OurSettingsControl As New WPSongsSettings
+    Private WithEvents OurSettingsControl As GenericWithWorkgroups
     Private Const conEnabled As String = "SongsEnabled"
     Protected Friend Overrides ReadOnly Property PluginShortName() As String
         Get
@@ -49,9 +57,7 @@
     'End Property
 
     ' Initialisation:
-    Friend Sub New()
-        MyBase.New("WikiProjectSongs") ' Specify alternate names only
-    End Sub
+
     Protected Friend Overrides Sub Initialise()
         OurMenuItem = New ToolStripMenuItem("Songs Plugin")
         MyBase.InitialiseBase() ' must set menu item object first
