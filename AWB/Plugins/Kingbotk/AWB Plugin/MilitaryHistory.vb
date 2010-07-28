@@ -279,7 +279,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 For Each lvi As ListViewItem In .ListView1.Items
                     If lvi.Checked Then
                         Dim tp As TemplateParameters = DirectCast(lvi.Tag, TemplateParameters)
-                        AddAndLogNewParamWithAYesValue(tp.Group.ToLower().Replace(" ", "-")) 'Probably needs some reformatting
+                        AddAndLogNewParamWithAYesValue(tp.ParamName.ToLower().Replace(" ", "-")) 'Probably needs some reformatting
                     End If
                 Next
             End With
