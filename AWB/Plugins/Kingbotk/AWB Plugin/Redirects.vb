@@ -8,7 +8,6 @@
 
 'You should have received a copy of the GNU General Public License Version 2 along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 Imports WikiFunctions.Lists.Providers
-Imports Microsoft.VisualBasic
 
 Namespace AutoWikiBrowser.Plugins.Kingbotk
     Partial Class PluginBase
@@ -16,7 +15,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         ' SPACES SHOULD BE WRITTEN TO XML AND IN THE GENERIC TL ALTERNATE NAME TEXT BOX AS SPACES ONLY
         ' WHEN READ FROM XML, FROM WIKIPEDIA OR FROM THE TEXT BOX AND FED INTO REGEXES CONVERT THEM TO [ _]
         Protected mLastKnownGoodRedirects As String = "" ' Should contain spaces not [ _]. We always try to use an up-to-date list from the server, but we can at user's choice fall back to a recent list (generally from XML settings) at user's bidding
-
 
         Friend Sub New(ByVal DefaultRegexpmiddle As String)
             GotNewAlternateNamesString(DefaultRegexpmiddle)

@@ -91,16 +91,17 @@
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="BannerShells.vb" />
-    <Compile Include="MilitaryHistory.Designer.vb">
-      <DependentUpon>MilitaryHistory.vb</DependentUpon>
+    <Compile Include="GenericWithWorkgroups.Designer.vb">
+      <DependentUpon>GenericWithWorkgroups.vb</DependentUpon>
     </Compile>
-    <Compile Include="MilitaryHistory.vb">
+    <Compile Include="GenericWithWorkgroups.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Redirects.vb">
     </Compile>
     <Compile Include="TemplateParameters.vb" />
     <Compile Include="Templating.vb" />
+    <Compile Include="WPMilitaryHistory.vb" />
     <Compile Include="WPNovels.Designer.vb">
       <DependentUpon>WPNovels.vb</DependentUpon>
     </Compile>
@@ -192,8 +193,8 @@
       <SubType>Designer</SubType>
       <DependentUpon>Australia.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MilitaryHistory.resx">
-      <DependentUpon>MilitaryHistory.vb</DependentUpon>
+    <EmbeddedResource Include="GenericWithWorkgroups.resx">
+      <DependentUpon>GenericWithWorkgroups.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="WPNovels.resx">
