@@ -21,8 +21,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         Protected Friend MustOverride ReadOnly Property GenericSettings() As IGenericSettings
         Protected MustOverride ReadOnly Property CategoryTalkClassParm() As String
         Protected MustOverride ReadOnly Property TemplateTalkClassParm() As String
-        Friend MustOverride ReadOnly Property HasSharedLogLocation() As Boolean
-        Friend MustOverride ReadOnly Property SharedLogLocation() As String
         Friend MustOverride ReadOnly Property HasReqPhotoParam() As Boolean
         Friend MustOverride Sub ReqPhoto()
 

@@ -440,16 +440,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Sub
 
         ' Not implemented:
-        Friend Overrides ReadOnly Property HasSharedLogLocation() As Boolean
-            Get
-                Return False
-            End Get
-        End Property
-        Friend Overrides ReadOnly Property SharedLogLocation() As String
-            Get
-                Return ""
-            End Get
-        End Property
         Friend Overrides ReadOnly Property HasReqPhotoParam() As Boolean
             Get
                 Return False

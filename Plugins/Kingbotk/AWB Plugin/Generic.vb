@@ -589,16 +589,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Property
         Protected Overrides Sub InspectUnsetParameter(ByVal Param As String)
         End Sub ' will never be called
-        Friend Overrides ReadOnly Property HasSharedLogLocation() As Boolean
-            Get
-                Return False
-            End Get
-        End Property
-        Friend Overrides ReadOnly Property SharedLogLocation() As String
-            Get
-                Return ""
-            End Get
-        End Property
         Friend Overrides ReadOnly Property HasReqPhotoParam() As Boolean
             Get
                 Return False

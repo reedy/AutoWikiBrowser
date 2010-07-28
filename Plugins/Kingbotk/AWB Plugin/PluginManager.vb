@@ -547,14 +547,6 @@ SkipOrStop:
         End Sub
 
         ' Event handlers - AWB:
-        Private Shared Sub GetLogUploadLocationsEventHandler(ByVal sender As IAutoWikiBrowser, _
-        ByVal LinksToLog As List(Of LogEntry)) Handles AWBForm.GetLogUploadLocations
-            For Each Plugin As PluginBase In PluginManager.ActivePlugins
-                If Plugin.HasSharedLogLocation Then
-                    LinksToLog.Add(New LogEntry(Plugin.SharedLogLocation, True))
-                End If
-            Next
-        End Sub
         Private Shared Sub AWBClosingEventHandler(ByVal sender As System.Object, ByVal e As FormClosingEventArgs)
             If e.Cancel Then
                 Return
