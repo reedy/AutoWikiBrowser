@@ -71,12 +71,6 @@
     <Compile Include="AboutBox.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Albums.Designer.vb">
-      <DependentUpon>Albums.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Albums.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="AssessmentForm.Designer.vb">
       <DependentUpon>AssessmentForm.vb</DependentUpon>
     </Compile>
@@ -101,6 +95,7 @@
     </Compile>
     <Compile Include="TemplateParameters.vb" />
     <Compile Include="Templating.vb" />
+    <Compile Include="WPAlbums.vb" />
     <Compile Include="WPAustralia.vb" />
     <Compile Include="WPIndia.vb" />
     <Compile Include="WPMilitaryHistory.vb" />
@@ -177,10 +172,6 @@
     <EmbeddedResource Include="AboutBox.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AboutBox.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Albums.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>Albums.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="AssessmentForm.resx">
       <SubType>Designer</SubType>
