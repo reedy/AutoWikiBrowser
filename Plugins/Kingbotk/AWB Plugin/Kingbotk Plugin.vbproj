@@ -175,6 +175,7 @@
     <Compile Include="WPBiography.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="WPSongs.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AboutBox.resx">
