@@ -633,12 +633,12 @@ SkipOrStop:
                 If Plugins.ContainsKey(str) Then
                     MessageBox.Show("A plugin of this name already exists", "Error", _
                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Return
                 ElseIf CBool(Microsoft.VisualBasic.InStr(str, " ")) Then
                     str = str.Replace(" ", "")
-                    CreateNewGenericPlugin(str, "User")
-                Else
-                    CreateNewGenericPlugin(str, "User")
                 End If
+
+                CreateNewGenericPlugin(str, "User")
             End If
         End Sub
 
