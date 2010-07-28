@@ -99,10 +99,10 @@
     <Compile Include="WPAustralia.vb" />
     <Compile Include="WPIndia.vb" />
     <Compile Include="WPMilitaryHistory.vb" />
-    <Compile Include="WPNovels.Designer.vb">
-      <DependentUpon>WPNovels.vb</DependentUpon>
+    <Compile Include="Novels.Designer.vb">
+      <DependentUpon>Novels.vb</DependentUpon>
     </Compile>
-    <Compile Include="WPNovels.vb">
+    <Compile Include="Novels.vb">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="India.Designer.vb">
@@ -166,6 +166,7 @@
     <Compile Include="WPBiography.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="WPNovels.vb" />
     <Compile Include="WPSongs.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -185,8 +186,8 @@
       <DependentUpon>GenericWithWorkgroups.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="WPNovels.resx">
-      <DependentUpon>WPNovels.vb</DependentUpon>
+    <EmbeddedResource Include="Novels.resx">
+      <DependentUpon>Novels.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="India.resx">
