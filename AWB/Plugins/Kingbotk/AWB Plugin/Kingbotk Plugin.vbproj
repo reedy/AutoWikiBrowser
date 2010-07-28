@@ -101,6 +101,7 @@
     </Compile>
     <Compile Include="TemplateParameters.vb" />
     <Compile Include="Templating.vb" />
+    <Compile Include="WPAustralia.vb" />
     <Compile Include="WPMilitaryHistory.vb" />
     <Compile Include="WPNovels.Designer.vb">
       <DependentUpon>WPNovels.vb</DependentUpon>
