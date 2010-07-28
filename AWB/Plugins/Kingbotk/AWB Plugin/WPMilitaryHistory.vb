@@ -16,8 +16,6 @@
     Private OurTab As New TabPage(PluginName)
     Private WithEvents OurSettingsControl As GenericWithWorkgroups
 
-    Private Const conEnabled As String = "MilHistEnabled"
-
     Protected Friend Overrides ReadOnly Property PluginShortName() As String
         Get
             Return "MilitaryHistory"
@@ -213,7 +211,7 @@
 
     ' XML settings:
     Protected Friend Overrides Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader)
-        Dim blnNewVal As Boolean = PluginManager.XMLReadBoolean(Reader, conEnabled, Enabled)
+        Dim blnNewVal As Boolean = PluginManager.XMLReadBoolean(Reader, PluginName & "Enabled", Enabled)
         If Not blnNewVal = Enabled Then
             Enabled = blnNewVal ' Mustn't set if the same or we get extra tabs
         End If
@@ -226,7 +224,7 @@
     End Sub
 
     Protected Friend Overrides Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
-        Writer.WriteAttributeString(conEnabled, Enabled.ToString)
+        Writer.WriteAttributeString(PluginName & "Enabled", Enabled.ToString)
         OurSettingsControl.WriteXML(Writer)
     End Sub
 End Class
