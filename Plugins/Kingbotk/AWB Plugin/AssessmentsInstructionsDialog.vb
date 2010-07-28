@@ -11,9 +11,11 @@
 Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
     Friend NotInheritable Class AssessmentsInstructionsDialog
         Private Sub OK_Button_Click(ByVal sender As Object, ByVal e As EventArgs) Handles OK_Button.Click
-            If CheckBox1.Checked _
-               Then Me.DialogResult = Windows.Forms.DialogResult.Yes _
-               Else Me.DialogResult = System.Windows.Forms.DialogResult.OK
+            If CheckBox1.Checked Then
+                Me.DialogResult = Windows.Forms.DialogResult.Yes
+            Else
+                Me.DialogResult = System.Windows.Forms.DialogResult.OK
+            End If
 
             Me.Close()
         End Sub
