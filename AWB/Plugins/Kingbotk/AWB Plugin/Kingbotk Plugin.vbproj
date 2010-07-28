@@ -133,12 +133,6 @@
     </Compile>
     <Compile Include="Article.vb" />
     <Compile Include="EnumsAndConstants.vb" />
-    <Compile Include="MilHist.Designer.vb">
-      <DependentUpon>MilHist.vb</DependentUpon>
-    </Compile>
-    <Compile Include="MilHist.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="PluginBase.vb" />
     <Compile Include="PluginManager.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -221,10 +215,6 @@
     <EmbeddedResource Include="AssessmentsInstructionsDialog.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AssessmentsInstructionsDialog.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="MilHist.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>MilHist.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
