@@ -418,11 +418,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 Return OurSettingsControl
             End Get
         End Property
-        Protected Overrides ReadOnly Property ParameterBreak() As String
-            Get
-                Return ""
-            End Get
-        End Property
 
         ' Article processing:
         Protected Overrides Function SkipIfContains() As Boolean

@@ -289,11 +289,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 Return "NovelsWikiProject"
             End Get
         End Property
-        Protected Overrides ReadOnly Property ParameterBreak() As String
-            Get
-                Return Microsoft.VisualBasic.vbCrLf
-            End Get
-        End Property
+
         Protected Overrides Sub ImportanceParameter(ByVal Importance As Importance)
             Template.NewOrReplaceTemplateParm("importance", Importance.ToString, Me.Article, False, False)
         End Sub

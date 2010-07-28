@@ -17,7 +17,13 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         Protected Friend MustOverride ReadOnly Property PluginShortName() As String
         Protected MustOverride ReadOnly Property InspectUnsetParameters() As Boolean
         Protected Const ForceAddition As Boolean = True ' we might want to parameterise this later
-        Protected MustOverride ReadOnly Property ParameterBreak() As String
+
+        Protected Overridable ReadOnly Property ParameterBreak() As String
+            Get
+                Return Microsoft.VisualBasic.vbCrLf
+            End Get
+        End Property
+
         Protected Friend MustOverride ReadOnly Property GenericSettings() As IGenericSettings
         Protected MustOverride ReadOnly Property CategoryTalkClassParm() As String
         Protected MustOverride ReadOnly Property TemplateTalkClassParm() As String
