@@ -12,13 +12,17 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
     Friend NotInheritable Class GenericWithWorkgroups
         Implements IGenericSettings
 
-        Public Sub New(ByVal template As String, ByVal prefix As String, ByRef params() As TemplateParameters)
+        Public Sub New(ByVal template As String, ByVal prefix As String, ByVal autoStubEnabled As Boolean, _
+                       ByVal inspectUnsetEnabled As Boolean, ByRef params() As TemplateParameters)
             ' This call is required by the designer.
             InitializeComponent()
 
             Me.Template = template
             Me.Prefix = prefix
             Me.params = params
+
+            AutoStubCheckBox.Enabled = autoStubEnabled
+            InspectUnsetCheckBox.Enabled = inspectUnsetEnabled
 
             LinkLabel1.Text = "{{" & template & "}}"
             InsertTemplateToolStripMenuItem.Text = "{{" & template & "}}"
@@ -78,6 +82,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         Private Const conForceImportanceRemoval As String = "RmImportance"
         Private Const conStubClassParm As String = "StubClass"
+        Private Const conAutoStubParm As String = "AutoStub"
 
 #Region "XML interface"
         Friend Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader) Implements IGenericSettings.ReadXML
@@ -85,8 +90,16 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 Dim tp As TemplateParameters = DirectCast(lvi.Tag, TemplateParameters)
                 lvi.Checked = PluginManager.XMLReadBoolean(Reader, Prefix & tp.StorageKey, lvi.Checked)
             Next
-            ForceImportanceRemoval = PluginManager.XMLReadBoolean(Reader, Prefix & conForceImportanceRemoval, ForceImportanceRemoval)
+
             StubClass = PluginManager.XMLReadBoolean(Reader, Prefix & conStubClassParm, StubClass)
+
+            If InspectUnsetCheckBox.Enabled Then
+                InspectUnsetParameters = PluginManager.XMLReadBoolean(Reader, Prefix & conForceImportanceRemoval, InspectUnsetParameters)
+            End If
+
+            If AutoStubCheckBox.Enabled Then
+                PluginManager.XMLReadBoolean(Reader, Prefix & conAutoStubParm, AutoStub)
+            End If
         End Sub
 
         Friend Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter) Implements IGenericSettings.WriteXML
@@ -96,15 +109,22 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                     .WriteAttributeString(Prefix & tp.StorageKey, lvi.Checked.ToString)
                 Next
 
-                .WriteAttributeString(Prefix & conForceImportanceRemoval, ForceImportanceRemoval.ToString)
                 .WriteAttributeString(Prefix & conStubClassParm, StubClass.ToString)
+
+                If InspectUnsetCheckBox.Enabled Then
+                    .WriteAttributeString(Prefix & conForceImportanceRemoval, InspectUnsetParameters.ToString)
+                End If
+
+                If AutoStubCheckBox.Enabled Then
+                    .WriteAttributeString(Prefix & conAutoStubParm, AutoStub.ToString)
+                End If
             End With
         End Sub
 
         Friend Sub Reset() Implements IGenericSettings.XMLReset
             StubClass = False
             AutoStub = False
-            ForceImportanceRemoval = False
+            InspectUnsetParameters = False
 
             For Each lvi As ListViewItem In ListView1.Items
                 lvi.Checked = False
@@ -129,18 +149,25 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         Friend Property AutoStub() As Boolean Implements IGenericSettings.AutoStub
             Get
-                Return False
+                Return AutoStubCheckBox.Enabled AndAlso AutoStubCheckBox.Checked
             End Get
             Set(ByVal value As Boolean)
+                AutoStubCheckBox.Checked = value
             End Set
         End Property
 
-        Friend Property ForceImportanceRemoval() As Boolean
+        Friend Property InspectUnsetParameters() As Boolean
             Get
-                Return RemoveImportanceCheckBox.Checked
+                Return InspectUnsetCheckBox.Enabled AndAlso InspectUnsetCheckBox.Checked
             End Get
             Set(ByVal value As Boolean)
-                RemoveImportanceCheckBox.Checked = value
+                InspectUnsetCheckBox.Checked = value
+            End Set
+        End Property
+
+        Friend WriteOnly Property InspectUnsetText() As String
+            Set(ByVal value As String)
+                InspectUnsetCheckBox.Text = value
             End Set
         End Property
 
