@@ -161,12 +161,6 @@
     <Compile Include="TimerStats.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ProjectSettings\Biography.Designer.vb">
-      <DependentUpon>Biography.vb</DependentUpon>
-    </Compile>
-    <Compile Include="ProjectSettings\Biography.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="WikiProjects\WPNovels.vb" />
     <Compile Include="WikiProjects\WPSongs.vb" />
   </ItemGroup>
@@ -208,10 +202,6 @@
     <EmbeddedResource Include="TimerStats.resx">
       <SubType>Designer</SubType>
       <DependentUpon>TimerStats.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ProjectSettings\Biography.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>Biography.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

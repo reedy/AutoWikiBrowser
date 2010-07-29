@@ -33,6 +33,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.colWG = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
             Me.ParametersGroup = New System.Windows.Forms.GroupBox()
             Me.InspectUnsetCheckBox = New System.Windows.Forms.CheckBox()
+            Me.ExtraCheckBox = New System.Windows.Forms.CheckBox()
             Me.TextInsertContextMenuStrip.SuspendLayout()
             Me.ParametersGroup.SuspendLayout()
             Me.SuspendLayout()
@@ -41,25 +42,25 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             '
             Me.TextInsertContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProjectToolStripMenuItem})
             Me.TextInsertContextMenuStrip.Name = "TextInsertContextMenuStrip"
-            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(153, 48)
+            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(131, 26)
             '
             'ProjectToolStripMenuItem
             '
             Me.ProjectToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InsertTemplateToolStripMenuItem, Me.ToolStripSeparator1})
             Me.ProjectToolStripMenuItem.Name = "ProjectToolStripMenuItem"
-            Me.ProjectToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.ProjectToolStripMenuItem.Size = New System.Drawing.Size(130, 22)
             Me.ProjectToolStripMenuItem.Text = "WPMilHist"
             '
             'InsertTemplateToolStripMenuItem
             '
             Me.InsertTemplateToolStripMenuItem.Name = "InsertTemplateToolStripMenuItem"
-            Me.InsertTemplateToolStripMenuItem.Size = New System.Drawing.Size(90, 22)
+            Me.InsertTemplateToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
             Me.InsertTemplateToolStripMenuItem.Text = "{{}}"
             '
             'ToolStripSeparator1
             '
             Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-            Me.ToolStripSeparator1.Size = New System.Drawing.Size(87, 6)
+            Me.ToolStripSeparator1.Size = New System.Drawing.Size(149, 6)
             '
             'AutoStubCheckBox
             '
@@ -111,6 +112,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             '
             'ParametersGroup
             '
+            Me.ParametersGroup.Controls.Add(Me.ExtraCheckBox)
             Me.ParametersGroup.Controls.Add(Me.InspectUnsetCheckBox)
             Me.ParametersGroup.Controls.Add(Me.AutoStubCheckBox)
             Me.ParametersGroup.Controls.Add(Me.StubClassCheckBox)
@@ -129,6 +131,16 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.InspectUnsetCheckBox.Size = New System.Drawing.Size(15, 14)
             Me.InspectUnsetCheckBox.TabIndex = 5
             Me.InspectUnsetCheckBox.UseVisualStyleBackColor = True
+            '
+            'ExtraCheckBox
+            '
+            Me.ExtraCheckBox.AutoSize = True
+            Me.ExtraCheckBox.Location = New System.Drawing.Point(88, 31)
+            Me.ExtraCheckBox.Name = "ExtraCheckBox"
+            Me.ExtraCheckBox.Size = New System.Drawing.Size(15, 14)
+            Me.ExtraCheckBox.TabIndex = 6
+            Me.ExtraCheckBox.UseVisualStyleBackColor = True
+            Me.ExtraCheckBox.Visible = False
             '
             'GenericWithWorkgroups
             '
@@ -160,6 +172,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Private WithEvents AutoStubCheckBox As System.Windows.Forms.CheckBox
         Private WithEvents StubClassCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents InspectUnsetCheckBox As System.Windows.Forms.CheckBox
+        Friend WithEvents ExtraCheckBox As System.Windows.Forms.CheckBox
 
     End Class
 End Namespace
