@@ -118,12 +118,6 @@
     <Compile Include="ProjectSettings\Novels.vb">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ProjectSettings\India.Designer.vb">
-      <DependentUpon>India.vb</DependentUpon>
-    </Compile>
-    <Compile Include="ProjectSettings\India.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Generic.Designer.vb">
       <DependentUpon>Generic.vb</DependentUpon>
     </Compile>
@@ -197,10 +191,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ProjectSettings\Novels.resx">
       <DependentUpon>Novels.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ProjectSettings\India.resx">
-      <DependentUpon>India.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Generic.resx">

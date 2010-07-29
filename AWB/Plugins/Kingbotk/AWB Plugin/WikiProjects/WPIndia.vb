@@ -3,8 +3,73 @@
 
     ' Settings:
     Private OurTab As New TabPage("India")
-    Private WithEvents OurSettingsControl As New WPIndiaSettings
-    Private Const conEnabled As String = "IndEnabled"
+    Private OurSettingsControl As GenericWithWorkgroups
+
+    Private Const Prefix As String = "Ind"
+    Const PluginName As String = "WikiProject India"
+
+    Const GeographyGroup As String = "Geography"
+    Const OthersGroup As String = "Others"
+
+    Dim params() As TemplateParameters =
+    {
+           New TemplateParameters() With {.StorageKey = "Geography", .Group = GeographyGroup, .ParamName = "Geography"}, _
+           New TemplateParameters() With {.StorageKey = "Maps", .Group = GeographyGroup, .ParamName = "Maps"}, _
+           New TemplateParameters() With {.StorageKey = "Cities", .Group = GeographyGroup, .ParamName = "Cities"}, _
+           New TemplateParameters() With {.StorageKey = "Chennai", .Group = GeographyGroup, .ParamName = "Chennai"}, _
+           New TemplateParameters() With {.StorageKey = "Mumbai", .Group = GeographyGroup, .ParamName = "Mumbai"}, _
+           New TemplateParameters() With {.StorageKey = "Hyderabad", .Group = GeographyGroup, .ParamName = "Hyderabad"}, _
+           New TemplateParameters() With {.StorageKey = "Districts", .Group = GeographyGroup, .ParamName = "Districts"}, _
+           New TemplateParameters() With {.StorageKey = "States", .Group = GeographyGroup, .ParamName = "States"}, _
+           New TemplateParameters() With {.StorageKey = "Andhra", .Group = GeographyGroup, .ParamName = "Andhra Pradesh"}, _
+           New TemplateParameters() With {.StorageKey = "Arunachal", .Group = GeographyGroup, .ParamName = "Arunachal Pradesh"}, _
+           New TemplateParameters() With {.StorageKey = "Assam", .Group = GeographyGroup, .ParamName = "Assam"}, _
+           New TemplateParameters() With {.StorageKey = "Bengal", .Group = GeographyGroup, .ParamName = "Bengal"}, _
+           New TemplateParameters() With {.StorageKey = "Bihar", .Group = GeographyGroup, .ParamName = "Bihar"}, _
+           New TemplateParameters() With {.StorageKey = "Chhattisgarh", .Group = GeographyGroup, .ParamName = "Chhattisgarh"}, _
+           New TemplateParameters() With {.StorageKey = "Goa", .Group = GeographyGroup, .ParamName = "Goa"}, _
+           New TemplateParameters() With {.StorageKey = "Gujarat", .Group = GeographyGroup, .ParamName = "Gujarat"}, _
+           New TemplateParameters() With {.StorageKey = "Haryana", .Group = GeographyGroup, .ParamName = "Haryana"}, _
+           New TemplateParameters() With {.StorageKey = "Himachal", .Group = GeographyGroup, .ParamName = "Himachal Pradesh"}, _
+           New TemplateParameters() With {.StorageKey = "JandK", .Group = GeographyGroup, .ParamName = "Jammu and Kashmir"}, _
+           New TemplateParameters() With {.StorageKey = "Jharkhand", .Group = GeographyGroup, .ParamName = "Jharkhand"}, _
+           New TemplateParameters() With {.StorageKey = "Karnataka", .Group = GeographyGroup, .ParamName = "Karnataka"}, _
+           New TemplateParameters() With {.StorageKey = "Kerala", .Group = GeographyGroup, .ParamName = "Kerala"}, _
+           New TemplateParameters() With {.StorageKey = "Madhya", .Group = GeographyGroup, .ParamName = "Madhya Pradesh"}, _
+           New TemplateParameters() With {.StorageKey = "Maharashtra", .Group = GeographyGroup, .ParamName = "Maharashtra"}, _
+           New TemplateParameters() With {.StorageKey = "Manipur", .Group = GeographyGroup, .ParamName = "Manipur"}, _
+           New TemplateParameters() With {.StorageKey = "Meghalaya", .Group = GeographyGroup, .ParamName = "Meghalaya"}, _
+           New TemplateParameters() With {.StorageKey = "Mizoram", .Group = GeographyGroup, .ParamName = "Mizoram"}, _
+           New TemplateParameters() With {.StorageKey = "Nagaland", .Group = GeographyGroup, .ParamName = "Nagaland"}, _
+           New TemplateParameters() With {.StorageKey = "Orissa", .Group = GeographyGroup, .ParamName = "Orissa"}, _
+           New TemplateParameters() With {.StorageKey = "Punjab", .Group = GeographyGroup, .ParamName = "Punjab"}, _
+           New TemplateParameters() With {.StorageKey = "Rajasthan", .Group = GeographyGroup, .ParamName = "Rajasthan"}, _
+           New TemplateParameters() With {.StorageKey = "Sikkim", .Group = GeographyGroup, .ParamName = "Sikkim"}, _
+           New TemplateParameters() With {.StorageKey = "Tamilnadu", .Group = GeographyGroup, .ParamName = "Tamil Nadu"}, _
+           New TemplateParameters() With {.StorageKey = "Tripura", .Group = GeographyGroup, .ParamName = "Tripura"}, _
+           New TemplateParameters() With {.StorageKey = "Uttar", .Group = GeographyGroup, .ParamName = "Uttar Pradesh"}, _
+           New TemplateParameters() With {.StorageKey = "Uttarakand", .Group = GeographyGroup, .ParamName = "Uttarakand"}, _
+           New TemplateParameters() With {.StorageKey = "Andaman", .Group = GeographyGroup, .ParamName = "Andaman and Nicobar Island"}, _
+           New TemplateParameters() With {.StorageKey = "Chandigarh", .Group = GeographyGroup, .ParamName = "Chandigarh"}, _
+           New TemplateParameters() With {.StorageKey = "Dadra", .Group = GeographyGroup, .ParamName = "Dadra and Nagar Haveli"}, _
+           New TemplateParameters() With {.StorageKey = "Daman", .Group = GeographyGroup, .ParamName = "Daman and Diu"}, _
+           New TemplateParameters() With {.StorageKey = "Delhi", .Group = GeographyGroup, .ParamName = "Delhi"}, _
+           New TemplateParameters() With {.StorageKey = "Lakshadweep", .Group = GeographyGroup, .ParamName = "Lakshadweep"}, _
+           New TemplateParameters() With {.StorageKey = "Puducherry", .Group = GeographyGroup, .ParamName = "Puducherry"}, _
+           New TemplateParameters() With {.StorageKey = "Cinema", .Group = OthersGroup, .ParamName = "Cinema"}, _
+           New TemplateParameters() With {.StorageKey = "History", .Group = OthersGroup, .ParamName = "History"}, _
+           New TemplateParameters() With {.StorageKey = "Literature", .Group = OthersGroup, .ParamName = "Literature"}, _
+           New TemplateParameters() With {.StorageKey = "Politics", .Group = OthersGroup, .ParamName = "Politics"}, _
+           New TemplateParameters() With {.StorageKey = "ProtectedAreas", .Group = OthersGroup, .ParamName = "Protected Areas"}, _
+           New TemplateParameters() With {.StorageKey = "Tamil", .Group = OthersGroup, .ParamName = "Tamil"}, _
+           New TemplateParameters() With {.StorageKey = "Tele", .Group = OthersGroup, .ParamName = "Television"}
+       }
+
+    Friend Sub New()
+        MyBase.New("") ' Specify alternate names only
+
+        OurSettingsControl = New GenericWithWorkgroups(PluginName, Prefix, True, False, params)
+    End Sub
 
     Protected Friend Overrides ReadOnly Property PluginShortName() As String
         Get
@@ -32,7 +97,7 @@
     End Property
     Protected Overrides ReadOnly Property PreferredTemplateName() As String
         Get
-            Return "WikiProject India"
+            Return PluginName
         End Get
     End Property
     Friend Overrides ReadOnly Property HasReqPhotoParam() As Boolean
@@ -50,9 +115,6 @@
     'End Property
 
     ' Initialisation:
-    Friend Sub New()
-        MyBase.New("") ' Specify alternate names only
-    End Sub
     Protected Friend Overrides Sub Initialise()
         OurMenuItem = New ToolStripMenuItem("India Plugin")
         MyBase.InitialiseBase() ' must set menu item object first
@@ -73,174 +135,16 @@
     End Function
     Protected Overrides Sub ProcessArticleFinish()
         StubClass()
+
         With OurSettingsControl
-            If .Geography Then
-                AddAndLogNewParamWithAYesValue("geography")
-                AddEmptyParam("geography-importance")
-            End If
-            If .States Then
-                AddAndLogNewParamWithAYesValue("states")
-                AddEmptyParam("states-importance")
-            End If
-            If .Districts Then
-                AddAndLogNewParamWithAYesValue("districts")
-                AddEmptyParam("districts-importance")
-            End If
-            If .Cities Then
-                AddAndLogNewParamWithAYesValue("cities")
-                AddEmptyParam("cities-importance")
-            End If
-            If .Maps Then
-                AddAndLogNewParamWithAYesValue("maps")
-            End If
-            If .Cinema Then
-                AddAndLogNewParamWithAYesValue("cinema")
-                AddEmptyParam("cinema-importance")
-            End If
-            If .History Then
-                AddAndLogNewParamWithAYesValue("history")
-                AddEmptyParam("history-importance")
-            End If
-            If .Literature Then
-                AddAndLogNewParamWithAYesValue("literature")
-                AddEmptyParam("literature-importance")
-            End If
-            If .Politics Then
-                AddAndLogNewParamWithAYesValue("politics")
-                AddEmptyParam("politics-importance")
-            End If
-            If .ProtectedAreas Then
-                AddAndLogNewParamWithAYesValue("protected-areas")
-                AddEmptyParam("protected-areas-importance")
-            End If
-            If .Tamil Then
-                AddAndLogNewParamWithAYesValue("tamil")
-                AddEmptyParam("tamil-importance")
-            End If
-            If .Television Then
-                AddAndLogNewParamWithAYesValue("television")
-                AddEmptyParam("television-importance")
-            End If
-            If .Andhra Then
-                AddAndLogNewParamWithAYesValue("andhra")
-                AddEmptyParam("andhra-importance")
-            End If
-            If .Arunachal Then
-                AddAndLogNewParamWithAYesValue("arunachal")
-                AddEmptyParam("arunachal-importance")
-            End If
-            If .Assam Then
-                AddAndLogNewParamWithAYesValue("assam")
-                AddEmptyParam("assam-importance")
-            End If
-            If .Bengal Then
-                AddAndLogNewParamWithAYesValue("bengal")
-                AddEmptyParam("bengal-importance")
-            End If
-            If .Bihar Then
-                AddAndLogNewParamWithAYesValue("bihar")
-                AddEmptyParam("bihar-importance")
-            End If
-            If .Chhattisgarh Then
-                AddAndLogNewParamWithAYesValue("chhattisgarh")
-                AddEmptyParam("chhattisgarh-importance")
-            End If
-            If .Goa Then
-                AddAndLogNewParamWithAYesValue("goa")
-                AddEmptyParam("goa-importance")
-            End If
-            If .Gujarat Then
-                AddAndLogNewParamWithAYesValue("gujarat")
-                AddEmptyParam("gujarat-importance")
-            End If
-            If .Haryana Then
-                AddAndLogNewParamWithAYesValue("haryana")
-                AddEmptyParam("haryana-importance")
-            End If
-            If .Himachal Then
-                AddAndLogNewParamWithAYesValue("himachal")
-                AddEmptyParam("himachal-importance")
-            End If
-            If .JandK Then
-                AddAndLogNewParamWithAYesValue("jandk")
-                AddEmptyParam("jandk-importance")
-            End If
-            If .Jharkhand Then
-                AddAndLogNewParamWithAYesValue("jharkhand")
-                AddEmptyParam("jharkhand-importance")
-            End If
-            If .Kerala Then
-                AddAndLogNewParamWithAYesValue("kerala")
-                AddEmptyParam("kerala-importance")
-            End If
-            If .Karnataka Then
-                AddAndLogNewParamWithAYesValue("karnataka")
-                AddEmptyParam("karnataka-importance")
-            End If
-            If .Madhya Then
-                AddAndLogNewParamWithAYesValue("madhya")
-                AddEmptyParam("madhya-importance")
-            End If
-            If .Maharashtra Then
-                AddAndLogNewParamWithAYesValue("maharashtra")
-                AddEmptyParam("maharashtra-importance")
-            End If
-            If .Manipur Then
-                AddAndLogNewParamWithAYesValue("manipur")
-                AddEmptyParam("manipur-importance")
-            End If
-            If .Meghalaya Then
-                AddAndLogNewParamWithAYesValue("meghalaya")
-                AddEmptyParam("meghalaya-importance")
-            End If
-            If .Mizoram Then
-                AddAndLogNewParamWithAYesValue("mizoram")
-                AddEmptyParam("mizoram-importance")
-            End If
-            If .Nagaland Then
-                AddAndLogNewParamWithAYesValue("nagaland")
-                AddEmptyParam("nagaland-importance")
-            End If
-            If .Orissa Then
-                AddAndLogNewParamWithAYesValue("orissa")
-                AddEmptyParam("orissa-importance")
-            End If
-            If .Punjab Then
-                AddAndLogNewParamWithAYesValue("punjab")
-                AddEmptyParam("punjab-importance")
-            End If
-            If .Rajasthan Then
-                AddAndLogNewParamWithAYesValue("rajasthan")
-                AddEmptyParam("rajasthan-importance")
-            End If
-            If .Sikkim Then
-                AddAndLogNewParamWithAYesValue("sikkim")
-                AddEmptyParam("sikkim-importance")
-            End If
-            If .Tamilnadu Then
-                AddAndLogNewParamWithAYesValue("tamilnadu")
-                AddEmptyParam("tamilnadu-importance")
-            End If
-            If .Tripura Then
-                AddAndLogNewParamWithAYesValue("tripura")
-                AddEmptyParam("tripura-importance")
-            End If
-            If .Uttar Then
-                AddAndLogNewParamWithAYesValue("uttar")
-                AddEmptyParam("uttar-importance")
-            End If
-            If .Uttarakand Then
-                AddAndLogNewParamWithAYesValue("uttarakand")
-                AddEmptyParam("uttarakand-importance")
-            End If
-            If .Chennai Then
-                AddAndLogNewParamWithAYesValue("chennai")
-                AddAndLogEmptyParam("chennai-importance")
-            End If
-            If .Mumbai Then
-                AddAndLogNewParamWithAYesValue("mumbai")
-                AddAndLogEmptyParam("mumbai-importance")
-            End If
+            For Each lvi As ListViewItem In .ListView1.Items
+                If lvi.Checked Then
+                    Dim tp As TemplateParameters = DirectCast(lvi.Tag, TemplateParameters)
+                    Dim param As String = tp.ParamName.ToLower().Replace(" ", "-")
+                    AddAndLogNewParamWithAYesValue(param)
+                    AddEmptyParam(param & "-importance")
+                End If
+            Next
         End With
     End Sub
     Protected Overrides Function TemplateFound() As Boolean
@@ -248,7 +152,7 @@
     Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
     End Sub
     Protected Overrides Function WriteTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
-        WriteTemplateHeader = "{{WikiProject India" & _
+        WriteTemplateHeader = "{{" & PluginName & _
            Microsoft.VisualBasic.vbCrLf & WriteOutParameterToHeader("class") & _
            WriteOutParameterToHeader("importance")
     End Function
@@ -260,7 +164,7 @@
 
     ' XML settings:
     Protected Friend Overrides Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader)
-        Dim blnNewVal As Boolean = PluginManager.XMLReadBoolean(Reader, conEnabled, Enabled)
+        Dim blnNewVal As Boolean = PluginManager.XMLReadBoolean(Reader, Prefix & "Enabled", Enabled)
         If Not blnNewVal = Enabled Then Enabled = blnNewVal ' Mustn't set if the same or we get extra tabs
         OurSettingsControl.ReadXML(Reader)
     End Sub
@@ -268,7 +172,7 @@
         OurSettingsControl.Reset()
     End Sub
     Protected Friend Overrides Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
-        Writer.WriteAttributeString(conEnabled, Enabled.ToString)
+        Writer.WriteAttributeString(Prefix & "Enabled", Enabled.ToString)
         OurSettingsControl.WriteXML(Writer)
     End Sub
 End Class
