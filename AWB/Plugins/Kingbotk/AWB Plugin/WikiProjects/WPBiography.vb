@@ -19,6 +19,35 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
     Friend NotInheritable Class WPBiography
         Inherits PluginBase
 
+        Friend Sub New()
+            MyBase.New("WikiProject Biography|Wpbiography|WPBIO|WP Biography|WPbiography|Wikiproject Biography|WP Bio|Bio") ' Specify alternate names only
+
+            OurSettingsControl = New GenericWithWorkgroups(PluginName, Prefix, True, False, params)
+            OurSettingsControl.InspectUnsetText = "importance= to priority="
+            OurSettingsControl.ExtraChecksText = "Force listas"
+        End Sub
+
+        Private Const PluginName As String = "WPBiography"
+        Private Const Prefix As String = "Bio"
+
+        Private Const WorkgroupsGroups As String = "Work Groups"
+        Private Const OthersGroup As String = "Others"
+
+        Dim params() As TemplateParameters =
+        {
+           New TemplateParameters() With {.StorageKey = "ActivePol", .Group = WorkgroupsGroups, .ParamName = "Politician"}, _
+           New TemplateParameters() With {.StorageKey = "ArtsEntsWG", .Group = WorkgroupsGroups, .ParamName = "A&E"}, _
+           New TemplateParameters() With {.StorageKey = "FilmWG", .Group = WorkgroupsGroups, .ParamName = "Film Bio"}, _
+           New TemplateParameters() With {.StorageKey = "MilitaryWG", .Group = WorkgroupsGroups, .ParamName = "Military"}, _
+           New TemplateParameters() With {.StorageKey = "PeerageWG", .Group = WorkgroupsGroups, .ParamName = "Peerage"}, _
+           New TemplateParameters() With {.StorageKey = "RoyaltyWG", .Group = WorkgroupsGroups, .ParamName = "Royalty"}, _
+           New TemplateParameters() With {.StorageKey = "MusiciansWG", .Group = WorkgroupsGroups, .ParamName = "Musician"}, _
+           New TemplateParameters() With {.StorageKey = "ScienceWG", .Group = WorkgroupsGroups, .ParamName = "S&A"}, _
+           New TemplateParameters() With {.StorageKey = "SportWG", .Group = WorkgroupsGroups, .ParamName = "Sports"}, _
+           New TemplateParameters() With {.StorageKey = "LivingPerson", .Group = OthersGroup, .ParamName = "Living"}, _
+           New TemplateParameters() With {.StorageKey = "NotLivingPerson", .Group = OthersGroup, .ParamName = "Not Living"}
+       }
+
         ' Regular expressions:
         Private Shared ReadOnly BLPRegex As New Regex(TemplatePrefix & "blp\s*\}\}\s*", _
            RegexOptions.IgnoreCase Or RegexOptions.Compiled Or RegexOptions.ExplicitCapture)
@@ -39,8 +68,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         ' Settings:
         Private OurTab As New TabPage(Constants.Biography)
-        Private WithEvents OurSettingsControl As New WPBiographySettings
-        Private Const conEnabled As String = "BioEnabled"
+        Private WithEvents OurSettingsControl As GenericWithWorkgroups
+
         Protected Friend Overrides ReadOnly Property PluginShortName() As String
             Get
                 Return Constants.Biography
@@ -48,7 +77,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Property
         Protected Overrides ReadOnly Property PreferredTemplateName() As String
             Get
-                Return "WPBiography"
+                Return PluginName
             End Get
         End Property
 
@@ -85,9 +114,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         'End Property
 
         ' Initialisation:
-        Friend Sub New()
-            MyBase.New("WikiProject Biography|Wpbiography|WPBIO|WP Biography|WPbiography|Wikiproject Biography|WP Bio|Bio") ' Specify alternate names only
-        End Sub
         Protected Friend Overrides Sub Initialise()
             OurMenuItem = New ToolStripMenuItem("Biography Plugin")
             MyBase.InitialiseBase() ' must set menu item object first
@@ -98,7 +124,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         ' Article processing:
         Protected Overrides ReadOnly Property InspectUnsetParameters() As Boolean
             Get
-                Return OurSettingsControl.ForcePriorityParm
+                Return OurSettingsControl.InspectUnsetParameters
             End Get
         End Property
         Protected Overrides Sub InspectUnsetParameter(ByVal Param As String)
@@ -114,7 +140,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Return False
         End Function
         Protected Overrides Sub ProcessArticleFinish()
-            Dim Living As Living = OurSettingsControl.DeadOrAlive, LivingAlreadyAddedToEditSummary As Boolean
+            Dim Living As Living = Living.Unknown, LivingAlreadyAddedToEditSummary As Boolean
             Const conContainsDefaultSortKeyword As String = "Page contains DEFAULTSORT keyword: "
 
             With Article
@@ -135,6 +161,29 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 End If
             End With
 
+            StubClass()
+
+            With OurSettingsControl
+                For Each lvi As ListViewItem In .ListView1.Items
+                    If lvi.Checked Then
+                        Dim tp As TemplateParameters = DirectCast(lvi.Tag, TemplateParameters)
+
+                        If tp.Group = WorkgroupsGroups Then
+                            Dim param As String = tp.ParamName.ToLower().Replace(" ", "-")
+                            AddAndLogNewParamWithAYesValue(param & "-work-group") 'Probably needs some reformatting
+                            AddEmptyParam(param & "-priority")
+                        Else
+                            Select Case tp.ParamName
+                                Case "Not Living"
+                                    Living = Plugins.Living.Dead
+                                Case "Living"
+                                    Living = Plugins.Living.Living
+                            End Select
+                        End If
+                    End If
+                Next
+            End With
+
             Select Case Living
                 Case Plugins.Living.Living
                     If Not Template.HasYesParamLowerOrTitleCase(True, "living") Then
@@ -151,33 +200,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                     End If
             End Select
 
-            StubClass()
-
-            With OurSettingsControl
-                If .ActivePol Then AddAndLogNewParamWithAYesValue("activepol")
-                If .NonBio Then AddAndLogNewParamWithAYesValue("non-bio")
-                If .ArtsEntsWG AndAlso Not Template.HasYesParam(conStringsMusicianWorkGroup) _
-                AndAlso Not Template.HasYesParam(conStringsFilmWorkGroup) Then _
-                   AddAndLogNewParamWithAYesValue(conStringsArtsWorkGroup)
-                If .MilitaryWG Then AddAndLogNewParamWithAYesValue("military-work-group")
-                If .RoyaltyWG AndAlso Not Template.HasYesParam(conStringsBritishRoyaltyWorkGroup) Then _
-                   AddAndLogNewParamWithAYesValue(conStringsRoyaltyWorkGroup)
-                If .ScientistWG Then AddAndLogNewParamWithAYesValue("s&a-work-group")
-                If .PoliticianWG Then AddAndLogNewParamWithAYesValue("politician-work-group")
-                If .SportsWG Then AddAndLogNewParamWithAYesValue("sports-work-group")
-                If .BaronetsWG Then AddAndLogNewParamWithAYesValue("baronets-work-group")
-                If .PeerageWG Then AddAndLogNewParamWithAYesValue("peerage-work-group")
-                Template.RemoveParentWorkgroup(conStringsBritishRoyaltyWorkGroup, conStringsRoyaltyWorkGroup, _
-                   .BritishRoyaltyWG, Article, PluginShortName)
-                Template.RemoveParentWorkgroup(conStringsMusicianWorkGroup, conStringsArtsWorkGroup, _
-                   .MusiciansWG, Article, PluginShortName)
-                Template.RemoveParentWorkgroup(conStringsFilmWorkGroup, conStringsArtsWorkGroup, _
-                   .FilmWG, Article, PluginShortName)
-            End With
-
             With Article
 
-                If .Namespace = [Namespace].Talk AndAlso (.ProcessIt OrElse OurSettingsControl.ForceListAsParm) Then
+                If .Namespace = [Namespace].Talk AndAlso (.ProcessIt OrElse OurSettingsControl.ExtraChecks) Then
                     If WikiFunctions.TalkPages.TalkPageHeaders.ContainsDefaultSortKeywordOrTemplate( _
                     .AlteredArticleText) Then
                         If Template.Parameters.ContainsKey("listas") Then
@@ -264,22 +289,27 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         ' XML settings:
         Protected Friend Overrides Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader)
-            Dim blnNewVal As Boolean = PluginManager.XMLReadBoolean(Reader, conEnabled, Enabled)
+            Dim blnNewVal As Boolean = PluginManager.XMLReadBoolean(Reader, Prefix & "Enabled", Enabled)
             If Not blnNewVal = Enabled Then Enabled = blnNewVal ' Mustn't set if the same or we get extra tabs
+
+            OurSettingsControl.ExtraChecks = PluginManager.XMLReadBoolean(Reader, Prefix & "ForceListasParm", OurSettingsControl.ExtraChecks)
             OurSettingsControl.ReadXML(Reader)
         End Sub
         Protected Friend Overrides Sub Reset()
             OurSettingsControl.Reset()
         End Sub
         Protected Friend Overrides Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
-            Writer.WriteAttributeString(conEnabled, Enabled.ToString)
+            Writer.WriteAttributeString(Prefix & "Enabled", Enabled.ToString)
+            Writer.WriteAttributeString(Prefix & "ForceListasParm", OurSettingsControl.ExtraChecks.ToString)
             OurSettingsControl.WriteXML(Writer)
         End Sub
 
         ' Other overrides:
         Protected Friend Overrides Sub BotModeChanged(ByVal BotMode As Boolean)
             MyBase.BotModeChanged(BotMode)
-            OurSettingsControl.BotMode = BotMode
+
+            OurSettingsControl.InspectUnsetParameters = Not BotMode
+            'If BotMode Then ForceListAsParm = False
         End Sub
     End Class
 End Namespace

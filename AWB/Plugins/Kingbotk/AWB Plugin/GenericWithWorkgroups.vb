@@ -9,7 +9,7 @@
 'You should have received a copy of the GNU General Public License Version 2 along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
-    Friend NotInheritable Class GenericWithWorkgroups
+    Friend Class GenericWithWorkgroups
         Implements IGenericSettings
 
         Public Sub New(ByVal template As String, ByVal prefix As String, ByVal autoStubEnabled As Boolean, _
@@ -168,6 +168,22 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Friend WriteOnly Property InspectUnsetText() As String
             Set(ByVal value As String)
                 InspectUnsetCheckBox.Text = value
+            End Set
+        End Property
+
+        Friend Property ExtraChecks() As Boolean
+            Get
+                Return ExtraCheckBox.Checked
+            End Get
+            Set(ByVal value As Boolean)
+                ExtraCheckBox.Checked = value
+            End Set
+        End Property
+
+        Friend WriteOnly Property ExtraChecksText() As String
+            Set(ByVal value As String)
+                ExtraCheckBox.Text = value
+                ExtraCheckBox.Visible = value <> ""
             End Set
         End Property
 
