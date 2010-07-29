@@ -59,11 +59,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Private Shared ReadOnly SkierBotPlaceholderRegex As New Regex(Regex.Escape(conSkierBotPlaceholder), RegexOptions.Compiled)
 
         ' Strings:
-        Private Const conStringsRoyaltyWorkGroup As String = "royalty-work-group"
-        Private Const conStringsBritishRoyaltyWorkGroup As String = "british-royalty"
-        Private Const conStringsMusicianWorkGroup As String = "musician-work-group"
-        Private Const conStringsArtsWorkGroup As String = "a&e-work-group"
-        Private Const conStringsFilmWorkGroup As String = "filmbio-work-group"
         Private Const conSkierBotPlaceholder As String = "<xxxSKIERBOTPLACEHOLDERxxx>"
 
         ' Settings:
@@ -309,7 +304,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             MyBase.BotModeChanged(BotMode)
 
             OurSettingsControl.InspectUnsetParameters = Not BotMode
-            'If BotMode Then ForceListAsParm = False
+            If BotMode Then OurSettingsControl.ExtraChecks = False
         End Sub
     End Class
 End Namespace
