@@ -248,7 +248,7 @@
     Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
     End Sub
     Protected Overrides Function WriteTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
-        WriteTemplateHeader = "{{WikiProject India India" & _
+        WriteTemplateHeader = "{{WikiProject India" & _
            Microsoft.VisualBasic.vbCrLf & WriteOutParameterToHeader("class") & _
            WriteOutParameterToHeader("importance")
     End Function
