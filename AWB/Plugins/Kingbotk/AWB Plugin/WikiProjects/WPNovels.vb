@@ -24,7 +24,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Property
         Protected Overrides ReadOnly Property PreferredTemplateName() As String
             Get
-                Return "NovelsWikiProject"
+                Return "WikiProject Novels"
             End Get
         End Property
 
@@ -138,7 +138,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             ' Currently only WPBio does anything here (if {{musician}} add to musician-work-group)
         End Sub
         Protected Overrides Function WriteTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
-            WriteTemplateHeader = "{{NovelsWikiProject" & Microsoft.VisualBasic.vbCrLf
+            WriteTemplateHeader = "{{WikiProject Novels" & Microsoft.VisualBasic.vbCrLf
 
             WriteTemplateHeader += WriteOutParameterToHeader("class") & _
                WriteOutParameterToHeader("importance")
