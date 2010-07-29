@@ -81,7 +81,6 @@
     <Import Include="WikiFunctions" />
     <Import Include="WikiFunctions.Logging.Uploader" />
     <Import Include="WikiFunctions.Plugin" />
-    <Content Include="Kingbotk Plugin.cd" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AboutBox.Designer.vb">
