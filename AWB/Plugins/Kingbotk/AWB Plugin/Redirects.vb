@@ -56,23 +56,11 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             MainRegex = New Regex(conRegexpLeft & RegexpMiddle & conRegexpRight, conRegexpOptions)
             SecondChanceRegex = New Regex(conRegexpLeft & RegexpMiddle & conRegexpRightNotStrict, conRegexpOptions)
 
-#If DEBUG Then
-            Debug.Print("LastKnownGoodRedirects: " & mLastKnownGoodRedirects)
-            Debug.Print("MainRegex: " & MainRegex.ToString)
-            Debug.Print("SecondChanceRegex: " & SecondChanceRegex.ToString)
-#End If
-
             If mHasAlternateNames Then
                 PreferredTemplateNameRegex = New Regex(PreferredTemplateNameRegexCreator.Replace(PreferredTemplateName, _
                    AddressOf Me.PreferredTemplateNameWikiMatchEvaluator), RegexOptions.Compiled)
-#If DEBUG Then
-                Debug.Print("PreferredTemplateNameRegex: " & PreferredTemplateNameRegex.ToString)
-#End If
             Else
                 PreferredTemplateNameRegex = Nothing
-#If DEBUG Then
-                Debug.Print("PreferredTemplateNameRegex: Null")
-#End If
             End If
         End Sub
         ''' <summary>
