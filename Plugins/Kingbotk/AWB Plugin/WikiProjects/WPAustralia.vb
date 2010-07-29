@@ -1,10 +1,44 @@
 ﻿Friend NotInheritable Class WPAustralia
     Inherits PluginBase
 
+    Friend Sub New()
+        MyBase.New("") ' Specify alternate names only
+
+        OurSettingsControl = New GenericWithWorkgroups(PluginName, Prefix, True, False, params)
+    End Sub
+
+    Const Prefix As String = "Aus"
+    Const PluginName As String = "WikiProject Australia"
+
+    Const PlacesGroup As String = "Places"
+    Const SportsGroup As String = "Sports"
+    Const OtherGroup As String = "Other topics"
+
+    Dim params() As TemplateParameters =
+    {
+       New TemplateParameters() With {.StorageKey = "Place", .Group = PlacesGroup, .ParamName = "place"}, _
+       New TemplateParameters() With {.StorageKey = "Adel", .Group = PlacesGroup, .ParamName = ""}, _
+       New TemplateParameters() With {.StorageKey = "Bris", .Group = PlacesGroup, .ParamName = ""}, _
+       New TemplateParameters() With {.StorageKey = "Canb", .Group = PlacesGroup, .ParamName = "Canberra"}, _
+       New TemplateParameters() With {.StorageKey = "Gee", .Group = PlacesGroup, .ParamName = "Geelong"}, _
+       New TemplateParameters() With {.StorageKey = "Melb", .Group = PlacesGroup, .ParamName = "Melbourne"}, _
+       New TemplateParameters() With {.StorageKey = "Perth", .Group = PlacesGroup, .ParamName = "Perth"}, _
+       New TemplateParameters() With {.StorageKey = "Sydney", .Group = PlacesGroup, .ParamName = "Sydney"}, _
+       New TemplateParameters() With {.StorageKey = "Sport", .Group = SportsGroup, .ParamName = "Sport"}, _
+       New TemplateParameters() With {.StorageKey = "AFL", .Group = SportsGroup, .ParamName = "AFL"}, _
+       New TemplateParameters() With {.StorageKey = "NBL", .Group = SportsGroup, .ParamName = "NBL"}, _
+       New TemplateParameters() With {.StorageKey = "NRL", .Group = SportsGroup, .ParamName = "NRL"}, _
+       New TemplateParameters() With {.StorageKey = "V8", .Group = SportsGroup, .ParamName = "V8"}, _
+       New TemplateParameters() With {.StorageKey = "Crime", .Group = OtherGroup, .ParamName = "Crime"}, _
+       New TemplateParameters() With {.StorageKey = "Law", .Group = OtherGroup, .ParamName = "Law"}, _
+       New TemplateParameters() With {.StorageKey = "Military", .Group = OtherGroup, .ParamName = "Military"}, _
+       New TemplateParameters() With {.StorageKey = "Music", .Group = OtherGroup, .ParamName = "Music"}, _
+       New TemplateParameters() With {.StorageKey = "Politics", .Group = OtherGroup, .ParamName = "Politics"}
+    }
+
     ' Settings:
     Private OurTab As New TabPage("Australia")
-    Private WithEvents OurSettingsControl As New WPAustraliaSettings
-    Private Const conEnabled As String = "AusEnabled"
+    Private OurSettingsControl As GenericWithWorkgroups
 
     Protected Friend Overrides ReadOnly Property PluginShortName() As String
         Get
@@ -33,7 +67,7 @@
 
     Protected Overrides ReadOnly Property PreferredTemplateName() As String
         Get
-            Return "WikiProject Australia"
+            Return PluginName
         End Get
     End Property
     'Protected Overrides ReadOnly Property PreferredTemplateNameRegexString() As String
@@ -43,9 +77,7 @@
     'End Property
 
     ' Initialisation:
-    Friend Sub New()
-        MyBase.New("") ' Specify alternate names only
-    End Sub
+
     Protected Friend Overrides Sub Initialise()
         OurMenuItem = New ToolStripMenuItem("Australia Plugin")
         MyBase.InitialiseBase() ' must set menu item object first
@@ -67,26 +99,12 @@
     Protected Overrides Sub ProcessArticleFinish()
         StubClass()
         With OurSettingsControl
-            If .Adelaide Then AddAndLogNewParamWithAYesValue("Adelaide")
-            If .Brisbane Then AddAndLogNewParamWithAYesValue("Brisbane")
-            If .Geelong Then AddAndLogNewParamWithAYesValue("Geelong")
-            If .Hobart Then AddAndLogNewParamWithAYesValue("Hobart")
-            If .LakeMacquarie Then AddAndLogNewParamWithAYesValue("Macquarie")
-            If .Melbourne Then AddAndLogNewParamWithAYesValue("Melbourne")
-            If .Perth Then AddAndLogNewParamWithAYesValue("Perth")
-            If .Sydney Then AddAndLogNewParamWithAYesValue("Sydney")
-            If .Sports Then AddAndLogNewParamWithAYesValue("sports")
-            If .AFL Then AddAndLogNewParamWithAYesValue("afl")
-            If .ALeague Then AddAndLogNewParamWithAYesValue("aleague")
-            If .NBL Then AddAndLogNewParamWithAYesValue("nbl", "NBL")
-            If .NRL Then AddAndLogNewParamWithAYesValue("nrl")
-            If .V8 Then AddAndLogNewParamWithAYesValue("V8", "v8")
-            If .Crime Then AddAndLogNewParamWithAYesValue("crime")
-            If .Law Then AddAndLogNewParamWithAYesValue("law")
-            If .Military Then AddAndLogNewParamWithAYesValue("military")
-            If .Place Then AddAndLogNewParamWithAYesValue("place")
-            If .Politics Then AddAndLogNewParamWithAYesValue("politics")
-            If .Music Then AddAndLogNewParamWithAYesValue("music")
+            For Each lvi As ListViewItem In .ListView1.Items
+                If lvi.Checked Then
+                    Dim tp As TemplateParameters = DirectCast(lvi.Tag, TemplateParameters)
+                    AddAndLogNewParamWithAYesValue(tp.ParamName.ToLower()) 'Probably needs some reformatting
+                End If
+            Next
         End With
     End Sub
     Protected Overrides Function TemplateFound() As Boolean
@@ -96,7 +114,7 @@
     Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
     End Sub
     Protected Overrides Function WriteTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
-        WriteTemplateHeader = "{{WikiProject Australia" & _
+        WriteTemplateHeader = "{{" & PluginName & _
            Microsoft.VisualBasic.vbCrLf & WriteOutParameterToHeader("class") & _
            WriteOutParameterToHeader("importance")
     End Function
@@ -108,7 +126,7 @@
 
     ' XML settings:
     Protected Friend Overrides Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader)
-        Dim blnNewVal As Boolean = PluginManager.XMLReadBoolean(Reader, conEnabled, Enabled)
+        Dim blnNewVal As Boolean = PluginManager.XMLReadBoolean(Reader, Prefix & "Enabled", Enabled)
         If Not blnNewVal = Enabled Then Enabled = blnNewVal ' Mustn't set if the same or we get extra tabs
         OurSettingsControl.ReadXML(Reader)
     End Sub
@@ -116,7 +134,7 @@
         OurSettingsControl.Reset()
     End Sub
     Protected Friend Overrides Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
-        Writer.WriteAttributeString(conEnabled, Enabled.ToString)
+        Writer.WriteAttributeString(Prefix & "Enabled", Enabled.ToString)
         OurSettingsControl.WriteXML(Writer)
     End Sub
 
