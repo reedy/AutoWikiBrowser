@@ -96,12 +96,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="AssessmentsClass.vb" />
-    <Compile Include="ProjectSettings\Australia.Designer.vb">
-      <DependentUpon>Australia.vb</DependentUpon>
-    </Compile>
-    <Compile Include="ProjectSettings\Australia.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="BannerShells.vb" />
     <Compile Include="GenericWithWorkgroups.Designer.vb">
       <DependentUpon>GenericWithWorkgroups.vb</DependentUpon>
@@ -196,10 +190,6 @@
     <EmbeddedResource Include="AssessmentForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>AssessmentForm.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ProjectSettings\Australia.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>Australia.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GenericWithWorkgroups.resx">
       <DependentUpon>GenericWithWorkgroups.vb</DependentUpon>
