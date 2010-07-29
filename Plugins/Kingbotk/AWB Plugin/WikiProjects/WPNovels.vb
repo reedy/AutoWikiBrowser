@@ -14,17 +14,42 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Inherits PluginBase
 
         ' Settings:
-        Private OurTab As New TabPage("Novels")
-        Private WithEvents OurSettingsControl As New WPNovelSettings
-        Private Const conEnabled As String = "NovEnabled"
+        Private OurTab As New TabPage(Prefix)
+        Private WithEvents OurSettingsControl As GenericWithWorkgroups
+
+        Private Const Prefix As String = "Novels"
+        Private Const PluginName As String = "WikiProject Novels"
+
+        Friend Sub New()
+            MyBase.New("Novels|WPNovels") ' Specify alternate names only
+
+            OurSettingsControl = New GenericWithWorkgroups(PluginName, Prefix, True, False, params)
+        End Sub
+
+        Dim params() As TemplateParameters =
+        {
+             New TemplateParameters() With {.StorageKey = "CrimeWG", .Group = "", .ParamName = "Crime"}, _
+             New TemplateParameters() With {.StorageKey = "ShortStoryWG", .Group = "", .ParamName = "Short Story"}, _
+             New TemplateParameters() With {.StorageKey = "SFWG", .Group = "", .ParamName = "SF"}, _
+             New TemplateParameters() With {.StorageKey = "AusWG", .Group = "", .ParamName = "Australian"}, _
+             New TemplateParameters() With {.StorageKey = "FantWG", .Group = "", .ParamName = "Fantasy"}, _
+             New TemplateParameters() With {.StorageKey = "19thWG", .Group = "", .ParamName = "19thC"}, _
+             New TemplateParameters() With {.StorageKey = "NarniaWG", .Group = "", .ParamName = "Narnia"}, _
+             New TemplateParameters() With {.StorageKey = "LemonyWG", .Group = "", .ParamName = "Lemony Snicket"}, _
+             New TemplateParameters() With {.StorageKey = "ShannaraWG", .Group = "", .ParamName = "Shannara"}, _
+             New TemplateParameters() With {.StorageKey = "SwordWG", .Group = "", .ParamName = "Sword of Truth"}, _
+             New TemplateParameters() With {.StorageKey = "TwilightWG", .Group = "", .ParamName = "Twilight"}, _
+             New TemplateParameters() With {.StorageKey = "OldPeerReview", .Group = "", .ParamName = "Old Peer Review"}
+        }
+
         Protected Friend Overrides ReadOnly Property PluginShortName() As String
             Get
-                Return "Novels"
+                Return Prefix
             End Get
         End Property
         Protected Overrides ReadOnly Property PreferredTemplateName() As String
             Get
-                Return "WikiProject Novels"
+                Return PluginName
             End Get
         End Property
 
@@ -61,9 +86,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         'End Property
 
         ' Initialisation:
-        Friend Sub New()
-            MyBase.New("Novels|WPNovels") ' Specify alternate names only
-        End Sub
         Protected Friend Overrides Sub Initialise()
             OurMenuItem = New ToolStripMenuItem("Novels Plugin")
             MyBase.InitialiseBase() ' must set menu item object first
@@ -86,50 +108,14 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
             StubClass()
             With OurSettingsControl
-                If .CrimeWG Then
-                    AddAndLogNewParamWithAYesValue("crime-task-force")
-                    AddEmptyParam("crime-importance")
-                End If
-                If .ShortStoryWG Then
-                    AddAndLogNewParamWithAYesValue("short-story-task-force")
-                    AddEmptyParam("short-story-importance")
-                End If
-                If .SFWG Then
-                    AddAndLogNewParamWithAYesValue("sf-task-force")
-                    AddEmptyParam("sf-importance")
-                End If
-                If .AusWG Then
-                    AddAndLogNewParamWithAYesValue("australian-task-force")
-                    AddEmptyParam("australian-importance")
-                End If
-                If .FantWG Then
-                    AddAndLogNewParamWithAYesValue("fantasy-task-force")
-                    AddEmptyParam("fantasy-importance")
-                End If
-                If .NineteenthCWG Then
-                    AddAndLogNewParamWithAYesValue("19thC-task-force")
-                    AddEmptyParam("19thC-importance")
-                End If
-                If .NarniaWG Then
-                    AddAndLogNewParamWithAYesValue("narnia-task-force")
-                    AddEmptyParam("narnia-importance")
-                End If
-                If .LemonyWG Then
-                    AddAndLogNewParamWithAYesValue("lemony-snicket-task-force")
-                    AddEmptyParam("lemony-snicket-importance")
-                End If
-                If .ShannaraWG Then
-                    AddAndLogNewParamWithAYesValue("shannara-task-force")
-                    AddEmptyParam("shannara-importance")
-                End If
-                If .SwordWG Then
-                    AddAndLogNewParamWithAYesValue("sword-of-truth-task-force")
-                    AddEmptyParam("sword-of-truth-importance")
-                End If
-                If .TwilightWG Then
-                    AddAndLogNewParamWithAYesValue("twilight-task-force")
-                    AddEmptyParam("twilight-importance")
-                End If
+                For Each lvi As ListViewItem In .ListView1.Items
+                    If lvi.Checked Then
+                        Dim tp As TemplateParameters = DirectCast(lvi.Tag, TemplateParameters)
+                        Dim param As String = tp.ParamName.ToLower().Replace(" ", "-")
+                        AddAndLogNewParamWithAYesValue(param & "-task-force") 'Probably needs some reformatting
+                        AddEmptyParam(param & "-importance")
+                    End If
+                Next
             End With
         End Sub
         Protected Overrides Function TemplateFound() As Boolean
@@ -138,7 +124,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             ' Currently only WPBio does anything here (if {{musician}} add to musician-work-group)
         End Sub
         Protected Overrides Function WriteTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
-            WriteTemplateHeader = "{{WikiProject Novels" & Microsoft.VisualBasic.vbCrLf
+            WriteTemplateHeader = "{{" & PluginName & Microsoft.VisualBasic.vbCrLf
 
             WriteTemplateHeader += WriteOutParameterToHeader("class") & _
                WriteOutParameterToHeader("importance")
@@ -151,7 +137,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         ' XML settings:
         Protected Friend Overrides Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader)
-            Dim blnNewVal As Boolean = PluginManager.XMLReadBoolean(Reader, conEnabled, Enabled)
+            Dim blnNewVal As Boolean = PluginManager.XMLReadBoolean(Reader, Prefix & "Enabled", Enabled)
             If Not blnNewVal = Enabled Then Enabled = blnNewVal ' Mustn't set if the same or we get extra tabs
             OurSettingsControl.ReadXML(Reader)
         End Sub
@@ -159,7 +145,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             OurSettingsControl.Reset()
         End Sub
         Protected Friend Overrides Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
-            Writer.WriteAttributeString(conEnabled, Enabled.ToString)
+            Writer.WriteAttributeString(Prefix & "Enabled", Enabled.ToString)
             OurSettingsControl.WriteXML(Writer)
         End Sub
     End Class

@@ -112,12 +112,6 @@
     <Compile Include="WikiProjects\WPBiography.vb" />
     <Compile Include="WikiProjects\WPIndia.vb" />
     <Compile Include="WikiProjects\WPMilitaryHistory.vb" />
-    <Compile Include="ProjectSettings\Novels.Designer.vb">
-      <DependentUpon>Novels.vb</DependentUpon>
-    </Compile>
-    <Compile Include="ProjectSettings\Novels.vb">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Generic.Designer.vb">
       <DependentUpon>Generic.vb</DependentUpon>
     </Compile>
@@ -187,10 +181,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GenericWithWorkgroups.resx">
       <DependentUpon>GenericWithWorkgroups.vb</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ProjectSettings\Novels.resx">
-      <DependentUpon>Novels.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Generic.resx">
