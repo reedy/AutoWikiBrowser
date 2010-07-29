@@ -32,7 +32,7 @@
     End Property
     Protected Overrides ReadOnly Property PreferredTemplateName() As String
         Get
-            Return "WP India"
+            Return "WikiProject India"
         End Get
     End Property
     Friend Overrides ReadOnly Property HasReqPhotoParam() As Boolean
@@ -248,7 +248,7 @@
     Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
     End Sub
     Protected Overrides Function WriteTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
-        WriteTemplateHeader = "{{WP India" & _
+        WriteTemplateHeader = "{{WikiProject India India" & _
            Microsoft.VisualBasic.vbCrLf & WriteOutParameterToHeader("class") & _
            WriteOutParameterToHeader("importance")
     End Function
