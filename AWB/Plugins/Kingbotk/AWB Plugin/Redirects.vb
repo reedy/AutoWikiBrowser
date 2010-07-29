@@ -91,16 +91,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             ' In compiled templates, this is where we check if we've got an up-to-date redirects list from Wikipedia
             ' In generic templates, we also check whether the generic template has enough configuration to start tagging
             Get
-#If DEBUG Then
                 Return True
-#Else
-                If Not mGotRedirectsFromWikipedia Then ' we've not checked redirects
-                    CheckRedirects() ' check them, and check the variable again
-                    If mGotRedirectsFromWikipedia Then Return True Else Throw New RedirectsException
-                Else
-                    Return True
-                End If
-#End If
             End Get
         End Property
 
