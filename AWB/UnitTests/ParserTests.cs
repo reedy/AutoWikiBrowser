@@ -4792,6 +4792,14 @@ While remaining upright may be the primary goal of beginning riders| [[2009 Indi
             Assert.AreEqual("test\r\n{{main|Foo}}\r\ntest", Parsers.FixMainArticle("test\r\nMain article: [[Foo]]\r\ntest"));
             Assert.AreEqual("test\r\n\r\n{{main|Foo}}\r\n\r\ntest", Parsers.FixMainArticle("test\r\n\r\nMain article: [[Foo]]\r\n\r\ntest"));
         }
+        
+        [Test]
+        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_3#Fixing_Main_Article_to_.7B.7Bmain.7D.7D
+        public void SeeAlso()
+        {
+            Assert.AreEqual("{{See also|Foo|l1=Bar}}", Parsers.FixMainArticle("See also: [[Foo|Bar]]"));
+            Assert.AreEqual("{{See also|Foo}}", Parsers.FixMainArticle("See also: [[Foo]]"));
+        }
 
         [Test]
         public void SelfLinkRemoval()

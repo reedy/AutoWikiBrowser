@@ -3353,6 +3353,7 @@ namespace WikiFunctions.Parse
         }
 
         private static readonly Regex RegexMainArticle = new Regex(@"^:?'{0,5}Main article:\s?'{0,5}\[\[([^\|\[\]]*?)(\|([^\[\]]*?))?\]\]\.?'{0,5}\.?\s*?(?=($|[\r\n]))", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex SeeAlsoLink = new Regex(@"^:?'{0,5}See [Aa]lso:\s?'{0,5}\[\[([^\|\[\]]*?)(\|([^\[\]]*?))?\]\]\.?'{0,5}\.?\s*?(?=($|[\r\n]))", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
 
         // Covered by: FixMainArticleTests
         /// <summary>
@@ -3362,6 +3363,11 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string FixMainArticle(string articleText)
         {
+            articleText = SeeAlsoLink.Replace(articleText,
+                                            m => m.Groups[2].Value.Length == 0
+                                            ? "{{See also|" + m.Groups[1].Value + "}}"
+                                            : "{{See also|" + m.Groups[1].Value + "|l1=" + m.Groups[3].Value + "}}");
+            
             return RegexMainArticle.Replace(articleText,
                                             m => m.Groups[2].Value.Length == 0
                                             ? "{{main|" + m.Groups[1].Value + "}}"
