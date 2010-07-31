@@ -93,6 +93,11 @@ namespace WikiFunctions.TalkPages
             articleText = WikiProjectBannerShell(articleText);
 
             articleText = AddMissingFirstCommentHeader(articleText);
+            
+            // remove redundant Template: in templates in zeroth section
+            string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;            
+            if(zerothSection.Length > 0)
+                articleText = articleText.Replace(zerothSection, Parse.Parsers.RemoveTemplateNamespace(zerothSection));
 
             return pr.FoundSkipToTalk || pr.FoundDefaultSort;
         }

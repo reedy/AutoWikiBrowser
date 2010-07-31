@@ -549,7 +549,7 @@ namespace WikiFunctions.Parse
 
             // for into existing about, when about has >=2 arguments
             if (Tools.NestedTemplateRegex("about").Matches(articleText).Count == 1 &&
-               Tools.GetTemplateArgument(Tools.NestedTemplateRegex("about").Match(articleText).Value, 2).Length > 0)
+                Tools.GetTemplateArgument(Tools.NestedTemplateRegex("about").Match(articleText).Value, 2).Length > 0)
             {
                 foreach (Match m in Tools.NestedTemplateRegex("for").Matches(articleText))
                 {
@@ -558,7 +558,7 @@ namespace WikiFunctions.Parse
 
                     // where about has 2 arguments need extra pipe
                     if (Tools.GetTemplateArgument(Tools.NestedTemplateRegex("about").Match(articleText).Value, 3).Length == 0
-                       && Tools.GetTemplateArgument(Tools.NestedTemplateRegex("about").Match(articleText).Value, 4).Length == 0)
+                        && Tools.GetTemplateArgument(Tools.NestedTemplateRegex("about").Match(articleText).Value, 4).Length == 0)
                         extra = @"|";
 
                     // append {{for}} value to the {{about}}
@@ -2225,7 +2225,7 @@ namespace WikiFunctions.Parse
             articleText = DoublePipeInWikiLink.Replace(articleText, "|");
 
             // remove unnecessary namespace
-            articleText = SyntaxRegexTemplate.Replace(articleText, "$1$2");
+            articleText = RemoveTemplateNamespace(articleText);
 
             // remove <br> from lists
             articleText = SyntaxRegexListRowBrTag.Replace(articleText, "$1\r\n");
@@ -2323,6 +2323,11 @@ namespace WikiFunctions.Parse
             }
 
             return articleText.Trim();
+        }
+
+        public static string RemoveTemplateNamespace(string articleText)
+        {
+            return (SyntaxRegexTemplate.Replace(articleText, "$1$2"));
         }
 
         private static List<Regex> SmallTagRegexes = new List<Regex>();
@@ -2622,7 +2627,7 @@ namespace WikiFunctions.Parse
 
                 // remove format= field with null value when URL is HTML page
                 if (Tools.GetTemplateParameterValue(newValue, "format").Length == 0 &&
-                   theURL.ToUpper().TrimEnd('L').EndsWith("HTM"))
+                    theURL.ToUpper().TrimEnd('L').EndsWith("HTM"))
                     newValue = Tools.RemoveTemplateParameter(newValue, "format");
 
                 // remove italics for works field -- auto italicised by template
@@ -2915,14 +2920,14 @@ namespace WikiFunctions.Parse
 
             if (Variables.LangCode == "en" && DatesT.Length > 0)
                 switch (DatesT)
-                {
-                    case "dmy":
-                        return DateLocale.International;
-                    case "mdy":
-                        return DateLocale.American;
-                    case "ymd":
-                        return DateLocale.ISO;
-                }
+            {
+                case "dmy":
+                    return DateLocale.International;
+                case "mdy":
+                    return DateLocale.American;
+                case "ymd":
+                    return DateLocale.ISO;
+            }
 
             if (explicitonly)
                 return DateLocale.Undetermined;
@@ -3388,9 +3393,9 @@ namespace WikiFunctions.Parse
         public static string FixMainArticle(string articleText)
         {
             articleText = SeeAlsoLink.Replace(articleText,
-                                            m => m.Groups[2].Value.Length == 0
-                                            ? "{{See also|" + m.Groups[1].Value + "}}"
-                                            : "{{See also|" + m.Groups[1].Value + "|l1=" + m.Groups[3].Value + "}}");
+                                              m => m.Groups[2].Value.Length == 0
+                                              ? "{{See also|" + m.Groups[1].Value + "}}"
+                                              : "{{See also|" + m.Groups[1].Value + "|l1=" + m.Groups[3].Value + "}}");
             
             return RegexMainArticle.Replace(articleText,
                                             m => m.Groups[2].Value.Length == 0
@@ -4463,10 +4468,10 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static bool IsArticleAboutAPerson(string articleText, string articleTitle, bool parseTalkPage)
         {
-#if DEBUG || UNITTEST
+            #if DEBUG || UNITTEST
             if (Globals.UnitTestMode)
                 parseTalkPage = false;
-#endif
+            #endif
 
             if (Variables.LangCode != "en"
                 || articleText.Contains(@"[[Category:Multiple people]]")
@@ -4483,13 +4488,13 @@ namespace WikiFunctions.Parse
             if (
                 Tools.GetTemplateParameterValue(
                     Tools.NestedTemplateRegex(new[]
-                                                  {
-                                                      "Infobox musical artist", "Infobox musical artist 2",
-                                                      "Infobox Musical Artist", "Infobox singer", "Infobox Musician",
-                                                      "Infobox musician", "Music artist", "Infobox Musical Artist 2",
-                                                      "Infobox Musicial Artist 2", "Infobox Composer", "Infobox composer",
-                                                      "Infobox Musical artist", "Infobox Band"
-                                                  }).Match(articleText).Value,
+                                              {
+                                                  "Infobox musical artist", "Infobox musical artist 2",
+                                                  "Infobox Musical Artist", "Infobox singer", "Infobox Musician",
+                                                  "Infobox musician", "Music artist", "Infobox Musical Artist 2",
+                                                  "Infobox Musicial Artist 2", "Infobox Composer", "Infobox composer",
+                                                  "Infobox Musical artist", "Infobox Band"
+                                              }).Match(articleText).Value,
                     "Background").Contains("group_or_band"))
             {
                 return false;
@@ -5079,13 +5084,13 @@ namespace WikiFunctions.Parse
 
             int totalCategories;
 
-#if DEBUG || UNITTEST
+            #if DEBUG || UNITTEST
             if (Globals.UnitTestMode)
             {
                 totalCategories = Globals.UnitTestIntValue;
             }
             else
-#endif
+                #endif
             {
                 // {{stub}} --> non-hidden Category:Stubs, don't count this cat
                 totalCategories = CategoryProv.MakeList(new[] { articleTitle }).Count
@@ -5175,13 +5180,13 @@ namespace WikiFunctions.Parse
             // check if not orphaned
             bool orphaned, orphaned2;
             int incomingLinks = 0;
-#if DEBUG || UNITTEST
+            #if DEBUG || UNITTEST
             if (Globals.UnitTestMode)
             {
                 orphaned = orphaned2 = Globals.UnitTestBoolValue;
             }
             else
-#endif
+                #endif
             {
                 try
                 {
@@ -5309,7 +5314,7 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text</returns>
         public static string TagUpdater(string articleText)
         {
-            HideText ht = new HideText();            
+            HideText ht = new HideText();
             articleText = ht.HideUnformatted(articleText);
             
             foreach (KeyValuePair<Regex, string> k in RegexTagger)
@@ -5357,7 +5362,7 @@ namespace WikiFunctions.Parse
 
             // {{R from other capitalisation}}
             if (redirecttarget.ToLower().Equals(articleTitle.ToLower())
-               && !Tools.NestedTemplateRegex(WikiRegexes.RFromOtherCapitaliastionList).IsMatch(articleText))
+                && !Tools.NestedTemplateRegex(WikiRegexes.RFromOtherCapitaliastionList).IsMatch(articleText))
                 return (articleText + Tools.Newline(WikiRegexes.RFromOtherCapitaliastionString));
 
             return articleText;
