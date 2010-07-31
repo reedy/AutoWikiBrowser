@@ -779,12 +779,12 @@ namespace WikiFunctions
         public static Regex Uncat;
 
         /// <summary>
-        /// matches {{Article issues}}/{{multiple issues}} template
+        /// matches the {{Article issues}}/{{Multiple issues}} template
         /// </summary>
-        public static readonly Regex ArticleIssues = Tools.NestedTemplateRegex(new [] { @"article issues", "articleissues", "multipleissues", "multiple issues" } );
+        public static readonly Regex MultipleIssues = Tools.NestedTemplateRegex(new [] { @"article issues", "articleissues", "multipleissues", "multiple issues" } );
 
         /// <summary>
-        /// matches {{New unreviewed article}} template
+        /// matches the {{New unreviewed article}} template
         /// </summary>
         public static readonly Regex NewUnReviewedArticle = Tools.NestedTemplateRegex("new unreviewed article");
 
