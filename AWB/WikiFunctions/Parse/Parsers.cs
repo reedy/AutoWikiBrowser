@@ -331,10 +331,10 @@ namespace WikiFunctions.Parse
                 articleText = articleText.Replace(m.Value, firstPart + parameterFirstChar + lastPart);
             }
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Date_parameter_getting_stripped_from_.7B.7BArticle_issues.7D.7D
-            // remove any date field within  {{Article issues}} if no 'expert' field using it
-            if (!WikiRegexes.ArticleIssuesRegexExpert.IsMatch(articleText))
-                articleText = WikiRegexes.ArticleIssuesRegexWithDate.Replace(articleText, "$1$2");
+            // remove any date field within  {{Multiple issues}} if no 'expert' field using it
+            string MICall = WikiRegexes.ArticleIssues.Match(articleText).Value;
+            if (MICall.Length > 10 && Tools.GetTemplateParameterValue(MICall, "expert").Length == 0)
+                articleText = articleText.Replace(MICall, Tools.RemoveTemplateParameter(MICall, "date"));
 
             string newTags = "";
 

@@ -973,16 +973,6 @@ namespace WikiFunctions
         public static readonly Regex ArticleIssuesInTitleCase = new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\|\s*(?:[^{}]+?\|\s*)?)([A-Z])([a-z]+[ a-zA-Z]*\s*=)", RegexOptions.Compiled);
 
         /// <summary>
-        /// Matches the {{article issues}} template using the 'expert' parameter
-        /// </summary>
-        public static readonly Regex ArticleIssuesRegexExpert = new Regex(@"{{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues[^{}]+?expert", RegexOptions.Compiled);
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public static readonly Regex ArticleIssuesRegexWithDate = new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*?)?)\|\s*date\s*=[^{}\|]{0,20}?(\||}})", RegexOptions.Compiled);
-
-        /// <summary>
         /// Matches a number between 1000 and 2999
         /// </summary>
         public static readonly Regex GregorianYear = new Regex(@"\b[12]\d{3}\b", RegexOptions.Compiled);
