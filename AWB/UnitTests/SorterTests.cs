@@ -784,7 +784,7 @@ foo";
         {
             parser2.SortInterwikis = false;
 
-            parser2.Sorter.PossibleInterwikis = new System.Collections.Generic.List<string> { "de", "es", "fr", "it", "sv", "ar", "bs", "br" };
+            parser2.Sorter.PossibleInterwikis = new System.Collections.Generic.List<string> { "de", "es", "fr", "it", "sv", "ar", "bs", "br", "en" };
 
             string a = @"[[de:Canadian National Railway]]
 [[es:Canadian National]]
@@ -844,7 +844,20 @@ The following links are here to prevent the interwiki bot from adding them to th
             string g = e1 + e2;
 
             Assert.AreEqual(f + "\r\n", parser2.Sorter.Interwikis(ref g));
-        }        
+            
+            string h = @"[[de:Canadian National Railway]]
+[[en:Canadian National]]
+[[fr:Canadien National]]";
+
+            Assert.AreEqual(@"[[de:Canadian National Railway]]
+[[fr:Canadien National]]" + "\r\n", parser2.Sorter.Interwikis(ref h), "interwikis to own wiki are removed");
+        }
+        
+        [Test]
+        public void SelfInterwikisEn()
+        {
+            Assert.AreEqual("", parser2.SortMetaData(@"<!-- [[en:Foo]]-->", "Test"), "Commented out en interwikis removed");
+        }
 
         [Test]
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Substituted_templates
