@@ -2639,6 +2639,18 @@ Template:foo}}"));
         }
         
         [Test]
+        public void FixSelfInterwikis()
+        {
+            bool nochange;
+            
+            Assert.AreEqual(@"[[Foo]]", Parsers.FixLinks(@"[[en:Foo]]", "Bar", out nochange));
+            Assert.AreEqual(@"[[Foo|Bar]]", Parsers.FixLinks(@"[[en:Foo|Bar]]", "T1", out nochange));
+            
+            const string FrIW = @"Now [[fr:Here]]";
+            Assert.AreEqual(FrIW, Parsers.FixLinks(FrIW, "Bar", out nochange));
+        }
+        
+        [Test]
         public void FixSyntaxFontTags()
         {
             Assert.AreEqual("hello", Parsers.FixSyntax(@"<font>hello</font>"));

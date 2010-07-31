@@ -1210,6 +1210,12 @@ namespace WikiFunctions
             }
 
             Variables.Profiler.Profile("Links");
+            
+            // must call EmboldenTitles before calling FixLinks
+            EmboldenTitles(parsers, skip.SkipNoBoldTitle);
+
+            FixLinks(skip.SkipNoBadLink);
+            Variables.Profiler.Profile("FixLinks");
 
             if (!Globals.UnitTestMode) // disable to avoid ssslow network requests
             {
@@ -1221,12 +1227,6 @@ namespace WikiFunctions
 
                 Variables.Profiler.Profile("Metadata");
             }
-
-            // must call EmboldenTitles before calling FixLinks
-            EmboldenTitles(parsers, skip.SkipNoBoldTitle);
-
-            FixLinks(skip.SkipNoBadLink);
-            Variables.Profiler.Profile("FixLinks");
 
             AWBChangeArticleText("Simplify links", Parsers.SimplifyLinks(ArticleText), true);
             Variables.Profiler.Profile("SimplifyLinks");
