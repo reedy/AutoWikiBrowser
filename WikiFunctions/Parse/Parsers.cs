@@ -3177,7 +3177,7 @@ namespace WikiFunctions.Parse
             string articleTextAtStart = articleText;
             string escTitle = Regex.Escape(articleTitle);
 
-            if (Regex.IsMatch(articleText, @"{{[Ii]nfobox (?:[Ss]ingle|[Aa]lbum)"))
+            if (Regex.IsMatch(articleText, @"{{\s*[Ii]nfobox (?:[Ss]ingle|[Aa]lbum)"))
                 articleText = FixLinksInfoBoxSingleAlbum(articleText, articleTitle);
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Your_code_creates_page_errors_inside_imagemap_tags.
@@ -3216,9 +3216,32 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            noChange = (sb.ToString() == articleTextAtStart);
-
-            return sb.ToString();
+            articleText = sb.ToString();
+            
+            // fix for self interwiki links
+            articleText = FixSelfInterwikis(articleText);
+            
+            noChange = (articleText.Equals(articleTextAtStart));
+            return articleText;
+        }
+        
+        /// <summary>
+        /// Reformats self interwikis to be standard links. Only applies to self interwikis before other interwikis (i.e. those in body of article)
+        /// </summary>
+        /// <param name="articleText">The article text</param>
+        /// <returns>The updated article text</returns>
+        private static string FixSelfInterwikis(string articleText)
+        {
+            foreach(Match m in WikiRegexes.PossibleInterwikis.Matches(articleText))
+            {
+                // interwiki should not be to own wiki – convert to standard wikilink
+                if(m.Groups[1].Value.Equals(Variables.LangCode))
+                    articleText = articleText.Replace(m.Value, @"[[" + m.Groups[2].Value + @"]]");
+                else
+                    break;
+            }
+            
+            return articleText;
         }
 
         /// <summary>
