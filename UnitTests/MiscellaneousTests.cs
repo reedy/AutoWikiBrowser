@@ -936,6 +936,22 @@ __TOC__", articleTextIn);
 }}";
             Assert.AreEqual(b, TalkPageHeaders.WikiProjectBannerShell(a));
         }
+        
+        [Test]
+        public void RemoveTemplateNamespace()
+        {
+            string T1 = @"{{Template:Foo}}", T2 = @"{{Template:Foo}}
+==Section==
+{{Template:Bar}}";
+            
+            Assert.IsFalse(TalkPageHeaders.ProcessTalkPage(ref T1, DEFAULTSORT.NoChange));
+            Assert.AreEqual("{{Foo}}", T1, "template namespace removed");
+            
+            Assert.IsFalse(TalkPageHeaders.ProcessTalkPage(ref T2, DEFAULTSORT.NoChange));
+            Assert.AreEqual(@"{{Foo}}
+==Section==
+{{Template:Bar}}", T2, "changes only made in zeroth section");
+        }
     }
     
     [TestFixture]
