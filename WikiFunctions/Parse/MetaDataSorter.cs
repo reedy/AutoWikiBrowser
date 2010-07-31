@@ -891,16 +891,23 @@ en, sq, ru
         {
             List<string> interWikiList = new List<string>();
             MatchCollection matches = WikiRegexes.PossibleInterwikis.Matches(articleText);
-            if (matches.Count == 0) return interWikiList;
+            if (matches.Count == 0) 
+                return interWikiList;
 
             List<Match> goodMatches = new List<Match>(matches.Count);
 
             foreach (Match m in matches)
             {
                 string site = m.Groups[1].Value.Trim().ToLower();
-                if (!PossibleInterwikis.Contains(site)) continue;
+                
+                if (!PossibleInterwikis.Contains(site))
+                    continue;
+                
                 goodMatches.Add(m);
-                interWikiList.Add("[[" + site + ":" + m.Groups[2].Value.Trim() + "]]");
+                
+                // drop interwikis to own wiki
+                if(!m.Groups[1].Value.Equals(Variables.LangCode))
+                    interWikiList.Add("[[" + site + ":" + m.Groups[2].Value.Trim() + "]]");
             }
 
             articleText = Tools.RemoveMatches(articleText, goodMatches);
