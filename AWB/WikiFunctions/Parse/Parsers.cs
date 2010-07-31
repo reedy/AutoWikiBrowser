@@ -308,9 +308,9 @@ namespace WikiFunctions.Parse
             if (Variables.LangCode != "en")
                 return articleText;
 
-            if (WikiRegexes.ArticleIssues.IsMatch(articleText))
+            if (WikiRegexes.MultipleIssues.IsMatch(articleText))
             {
-                string aiat = WikiRegexes.ArticleIssues.Match(articleText).Value;
+                string aiat = WikiRegexes.MultipleIssues.Match(articleText).Value;
 
                 // unref to BLPunref for living person bio articles
                 if (Tools.GetTemplateParameterValue(aiat, "unreferenced").Length > 0 && articleText.Contains(@"[[Category:Living people"))
@@ -332,7 +332,7 @@ namespace WikiFunctions.Parse
             }
 
             // remove any date field within  {{Multiple issues}} if no 'expert' field using it
-            string MICall = WikiRegexes.ArticleIssues.Match(articleText).Value;
+            string MICall = WikiRegexes.MultipleIssues.Match(articleText).Value;
             if (MICall.Length > 10 && Tools.GetTemplateParameterValue(MICall, "expert").Length == 0)
                 articleText = articleText.Replace(MICall, Tools.RemoveTemplateParameter(MICall, "date"));
 
@@ -347,11 +347,11 @@ namespace WikiFunctions.Parse
             int tagsToAdd = WikiRegexes.ArticleIssuesTemplates.Matches(zerothSection).Count;
 
             // if currently no {{Article issues}} and less than the min number of cleanup templates, do nothing
-            if (!WikiRegexes.ArticleIssues.IsMatch(zerothSection) && WikiRegexes.ArticleIssuesTemplates.Matches(zerothSection).Count < MinCleanupTagsToCombine)
+            if (!WikiRegexes.MultipleIssues.IsMatch(zerothSection) && WikiRegexes.ArticleIssuesTemplates.Matches(zerothSection).Count < MinCleanupTagsToCombine)
                 return (articleText);
 
             // only add tags to articleissues if new tags + existing >= MinCleanupTagsToCombine
-            if ((WikiRegexes.ArticleIssuesTemplateNameRegex.Matches(WikiRegexes.ArticleIssues.Match(zerothSection).Value).Count + tagsToAdd) < MinCleanupTagsToCombine || tagsToAdd == 0)
+            if ((WikiRegexes.ArticleIssuesTemplateNameRegex.Matches(WikiRegexes.MultipleIssues.Match(zerothSection).Value).Count + tagsToAdd) < MinCleanupTagsToCombine || tagsToAdd == 0)
                 return (articleText);
 
             foreach (Match m in WikiRegexes.ArticleIssuesTemplates.Matches(zerothSection))
@@ -379,7 +379,7 @@ namespace WikiFunctions.Parse
             }
 
             // if article currently has {{Article issues}}, add tags to it
-            string ai = WikiRegexes.ArticleIssues.Match(zerothSection).Value;
+            string ai = WikiRegexes.MultipleIssues.Match(zerothSection).Value;
             if (ai.Length > 0)
                 zerothSection = zerothSection.Replace(ai, ai.Substring(0, ai.Length - 2) + newTags + @"}}");
 
@@ -5124,7 +5124,7 @@ namespace WikiFunctions.Parse
             }
 
             if (linkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(articleText) && Variables.LangCode != "sv"
-                && !Regex.IsMatch(WikiRegexes.ArticleIssues.Match(articleText).Value.ToLower(), @"\bdead ?end\b"))
+                && !Regex.IsMatch(WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower(), @"\bdead ?end\b"))
             {
                 // add dead-end tag
                 articleText = "{{dead end|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
@@ -5139,7 +5139,7 @@ namespace WikiFunctions.Parse
             }
 
             if (linkCount < 3 && ((linkCount / length) < 0.0025) && !WikiRegexes.Wikify.IsMatch(articleText)
-                && !WikiRegexes.ArticleIssues.Match(articleText).Value.ToLower().Contains("wikify"))
+                && !WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower().Contains("wikify"))
             {
                 // add wikify tag
                 articleText = "{{Wikify|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
@@ -5208,7 +5208,7 @@ namespace WikiFunctions.Parse
             }
 
             // add orphan tag if applicable, and no disambig nor SIA
-            if (orphaned2 && !WikiRegexes.Orphan.IsMatch(articleText) && Tools.GetTemplateParameterValue(WikiRegexes.ArticleIssues.Match(articleText).Value, "orphan").Length == 0
+            if (orphaned2 && !WikiRegexes.Orphan.IsMatch(articleText) && Tools.GetTemplateParameterValue(WikiRegexes.MultipleIssues.Match(articleText).Value, "orphan").Length == 0
                 && !WikiRegexes.Disambigs.IsMatch(articleText) && !WikiRegexes.SIAs.IsMatch(articleText))
             {
                 articleText = "{{orphan|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
