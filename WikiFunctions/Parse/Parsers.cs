@@ -131,7 +131,7 @@ namespace WikiFunctions.Parse
             RegexConversion.Add(new Regex(@"(\{\{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues[^{}]*\|\s*)(\w+)\s*=\s*\|\s*((?:[^{}]+?\|)?\s*\2\s*=\s*[^\|}{\s])", RegexOptions.Compiled), "$1$3"); // 'field=null | field=populated' drop field=null
 
             // replace any {{articleissues}} with {{Multiple issues}}
-            RegexConversion.Add(new Regex(@"(?<={{\s*)(?:[Aa]rticle) ?(?=issues.*}})", RegexOptions.Compiled), "multiple ");
+            RegexConversion.Add(new Regex(@"(?<={{\s*)(?:[Aa]rticle) ?(?=issues.*}})", RegexOptions.Compiled), "Multiple ");
 
             // http://en.wikipedia.org/wiki/Template_talk:Citation_needed#Requested_move
             RegexConversion.Add(new Regex(@"{{\s*(?:[Cc]n|[Ff]act|[Pp]roveit|[Cc]iteneeded|[Uu]ncited)(?=\s*[\|}])", RegexOptions.Compiled), @"{{Citation needed");
@@ -378,17 +378,18 @@ namespace WikiFunctions.Parse
                 zerothSection = zerothSection.Replace(m.Value, "");
             }
 
-            // if article currently has {{Article issues}}, add tags to it
+            // if article currently has {{Multiple issues}}, add tags to it
             string ai = WikiRegexes.MultipleIssues.Match(zerothSection).Value;
             if (ai.Length > 0)
                 zerothSection = zerothSection.Replace(ai, ai.Substring(0, ai.Length - 2) + newTags + @"}}");
 
             else // add {{article issues}} to top of article, metaDataSorter will arrange correctly later
-                zerothSection = @"{{Article issues" + newTags + "}}\r\n" + zerothSection;
+                zerothSection = @"{{Multiple issues" + newTags + "}}\r\n" + zerothSection;
 
             // Parsers.Conversions will add any missing dates and correct ...|wikify date=May 2008|...
             return (zerothSection + restOfArticle);
         }
+        
         private static readonly Regex PortalBox = Tools.NestedTemplateRegex(new[] { "portal box", "portalbox" });
 
         /// <summary>
@@ -1842,7 +1843,7 @@ namespace WikiFunctions.Parse
 
         /// <summary>
         /// First checks for a &lt;references&glt; missing '/' to correct, otherwise:
-        /// if the article uses cite references but has no recognised template to display the references, add {{reflist}} in the appropriate place
+        /// if the article uses cite references but has no recognised template to display the references, add {{Reflist}} in the appropriate place
         /// </summary>
         /// <param name="articleText">The wiki text of the article</param>
         /// <returns></returns>
