@@ -2590,7 +2590,18 @@ window.scrollTo(0, diffTopY);
         private void txtEdit_TextChanged(object sender, EventArgs e)
         {
             txtEdit.ResetFind();
-
+            
+            // when highlight enabled reset back colour for newly inserted text
+            /* TODO: does not work fully in that: focus always scrolls to current line unnecessarily
+             * text inserted at very end of text box goes before last character
+            if(highlightAllFindToolStripMenuItem.Checked)
+            {
+                txtEdit.SetEditBoxSelection(txtEdit.SelectionStart-1, 1);
+                txtEdit.SelectionBackColor = Color.White;
+                txtEdit.SetEditBoxSelection(txtEdit.SelectionStart+1, 1);
+                txtEdit.DeselectAll();
+            }
+             */
             // After manual changes, automatic edit summary may be inaccurate, removing it altogether
             if (TheArticle != null && TheArticle.ArticleText != txtEdit.Text)
                 TheArticle.ResetEditSummary();
