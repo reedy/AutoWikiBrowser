@@ -4491,8 +4491,8 @@ namespace WikiFunctions.Parse
                                               {
                                                   "Infobox musical artist", "Infobox musical artist 2",
                                                   "Infobox Musical Artist", "Infobox singer", "Infobox Musician",
-                                                  "Infobox musician", "Music artist", "Infobox Musical Artist 2",
-                                                  "Infobox Musicial Artist 2", "Infobox Composer", "Infobox composer",
+                                                  "Infobox musician", "Music artist",
+                                                  "Infobox Composer", "Infobox composer",
                                                   "Infobox Musical artist", "Infobox Band"
                                               }).Match(articleText).Value,
                     "Background").Contains("group_or_band"))
