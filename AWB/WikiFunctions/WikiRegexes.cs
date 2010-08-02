@@ -167,38 +167,38 @@ namespace WikiFunctions
             switch (Variables.LangCode)
             {
                 case "ar":
-                    WikiRegexes.LinkFGAs = new Regex(@"{{\s*وصلة مقالة مختارة\s*\|.*?}}",
+                    LinkFGAs = new Regex(@"{{\s*وصلة مقالة مختارة\s*\|.*?}}",
                                                      RegexOptions.Compiled | RegexOptions.Singleline);
                     break;
 
                 case "ca":
-                    WikiRegexes.LinkFGAs = new Regex(@"{{\s*([Ll]ink FA|[Ee]nllaç AD)\|.*?}}",
+                    LinkFGAs = new Regex(@"{{\s*([Ll]ink FA|[Ee]nllaç AD)\|.*?}}",
                                                      RegexOptions.Compiled | RegexOptions.RightToLeft);
                     break;
 
                 case "fr":
-                    WikiRegexes.LinkFGAs = new Regex(@"{{\s*[Ll]ien (?:BA|[PA]dQ)\|.*?}}",
+                    LinkFGAs = new Regex(@"{{\s*[Ll]ien (?:BA|[PA]dQ)\|.*?}}",
                                                      RegexOptions.Compiled | RegexOptions.RightToLeft);
                     break;
 
                 case "it":
-                    WikiRegexes.LinkFGAs = new Regex(@"{{\s*[Ll]ink (FA|AdQ)\|.*?}}",
+                    LinkFGAs = new Regex(@"{{\s*[Ll]ink (FA|AdQ)\|.*?}}",
                                                      RegexOptions.Compiled | RegexOptions.RightToLeft);
                     break;
 
                 case "pt":
-                    WikiRegexes.LinkFGAs =
+                    LinkFGAs =
                         new Regex(@"{{\s*[Ll]ink [GF]A|[Bb]om interwiki|[Ii]nterwiki destacado|[Dd]estaque|FA\|.*?}}",
                                   RegexOptions.Compiled | RegexOptions.RightToLeft);
                     break;
 
                 case "es":
-                    WikiRegexes.LinkFGAs = new Regex(@"{{\s*([Ll]ink FA|[Dd]estacado|[Bb]ueno)\|.*?}}",
+                    LinkFGAs = new Regex(@"{{\s*([Ll]ink FA|[Dd]estacado|[Bb]ueno)\|.*?}}",
                                                      RegexOptions.Compiled | RegexOptions.RightToLeft);
                     break;
 
                 default:
-                    WikiRegexes.LinkFGAs = new Regex(@"{{\s*[Ll]ink (?:[FG]A|FL)\|.*?}}",
+                    LinkFGAs = new Regex(@"{{\s*[Ll]ink (?:[FG]A|FL)\|.*?}}",
                                                      RegexOptions.Compiled | RegexOptions.RightToLeft);
                     break;
             }
