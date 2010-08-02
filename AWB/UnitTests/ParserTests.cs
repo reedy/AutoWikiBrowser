@@ -6471,7 +6471,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             
             text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
-            Assert.IsTrue(text.Contains("{{orphan|" + WikiRegexes.DateYearMonthParameter + @"}}
+            Assert.IsTrue(text.Contains("{{Orphan|" + WikiRegexes.DateYearMonthParameter + @"}}
 
 "));
             
