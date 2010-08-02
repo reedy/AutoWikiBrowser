@@ -353,6 +353,9 @@ namespace WikiFunctions
         public bool SkipArticle
         { get { return mAWBLogListener.Skipped; } private set { mAWBLogListener.Skipped = value; } }
 
+        /// <summary>
+        /// Returns true of article general fixes can be applied to the page: article or category namespace, sandbox, template documnetation page or Anexo namespace on es-wiki
+        /// </summary>
         [XmlIgnore]
         public bool CanDoGeneralFixes
         {
@@ -360,8 +363,9 @@ namespace WikiFunctions
             {
                 return (NameSpaceKey == Namespace.Article
                         || NameSpaceKey == Namespace.Category
-                        || Name.Contains("Sandbox"))
-                    || Name.Contains("/doc");
+                        || Name.Contains("Sandbox")
+                        || Name.Contains("/doc")
+                        || (Variables.LangCode.Equals("es") && NameSpaceKey == 104 /* Anexo */));
             }
         }
 
