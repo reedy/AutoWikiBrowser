@@ -821,6 +821,22 @@ namespace WikiFunctions
         public static readonly Regex InfoBox = new Regex(@"{{\s*([Ii]nfobox[\s_][^{}\|]+?|[^{}\|]+?[Ii]nfobox)\s*\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}}");
         
         /// <summary>
+        /// Matches people infoxboxes from Category:People infobox templates
+        /// </summary>
+        public static readonly Regex PeopleInfoboxTemplates = Tools.NestedTemplateRegex(new [] { "Combinedfightingrecord", "Infobox American Indian chief", "Infobox Calvinist theologian", "Infobox Chinese-language singer and actor", 
+                                                                                            "Infobox Christian leader", "Infobox FBI Ten Most Wanted", "Infobox French parliamentarian", "Infobox Indian Athlete", "Infobox Jewish leader", 
+                                                                                            "Infobox Playboy Cyber Girl", "Infobox Playboy Playmate", "Infobox Polish politician", "Infobox actor", "Infobox adult female", "Infobox adult male", 
+                                                                                            "Infobox architect", "Infobox art group", "Infobox artist", "Infobox artist discography", "Infobox astronaut", "Infobox aviator", "Infobox bishopbiog", 
+                                                                                            "Infobox cardinal", "Infobox cardinalbiog", "Infobox chef", "Infobox chess player", "Infobox choir", "Infobox clergy", "Infobox comedian", 
+                                                                                            "Infobox comics creator", "Infobox criminal", "Infobox dancer", "Infobox economist", "Infobox engineer", "Infobox fashion designer", "Infobox go player", 
+                                                                                            "Infobox imam", "Infobox journalist", "Infobox linguist", "Infobox male model", "Infobox martyrs", "Infobox mass murderer", "Infobox medical person", 
+                                                                                            "Infobox member of the Knesset", "Infobox military person", "Infobox model", "Infobox musical artist", "Infobox officeholder", "Infobox paranormal person", 
+                                                                                            "Infobox performer", "Infobox person", "Infobox philosopher", "Infobox pirate", "Infobox poker player", "Infobox police officer", "Infobox pope",
+                                                                                            "Infobox presenter", "Infobox rebbe", "Infobox religious biography", "Infobox revolutionary", "Infobox saint", "Infobox scientist",
+                                                                                            "Infobox serial killer", "Infobox sports announcer", "Infobox spy", "Infobox television personality", "Infobox theologian",
+                                                                                            "Infobox university chancellor", "Infobox vandal", "Infobox vice-regal", "Infobox writer" });
+       
+        /// <summary>
         /// Matches the {{circa}} template
         /// </summary>
         public static readonly Regex CircaTemplate = Tools.NestedTemplateRegex(@"Circa");
