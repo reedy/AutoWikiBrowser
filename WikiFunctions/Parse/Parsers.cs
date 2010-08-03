@@ -1791,13 +1791,13 @@ namespace WikiFunctions.Parse
                 return m.Value;
 
             if (m.Value.Contains("references-2column") || m.Value.Contains("column-count:2"))
-                return "{{reflist|2}}";
+                return "{{Reflist|2}}";
 
-            return "{{reflist}}";
+            return "{{Reflist}}";
         }
 
         /// <summary>
-        /// Main regex for {{reflist}} converter
+        /// Main regex for {{Reflist}} converter
         /// </summary>
         private static readonly Regex ReferenceListTags = new Regex(@"(<(span|div)( class=""(references-small|small|references-2column)|)?""(?:\s*style\s*=\s*""[^<>""]+?""\s*)?>[\r\n\s]*){1,2}[\r\n\s]*<references[\s]?/>([\r\n\s]*</(span|div)>){1,2}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
@@ -1806,10 +1806,10 @@ namespace WikiFunctions.Parse
 
         // Covered by: FootnotesTests.TestFixReferenceListTags()
         /// <summary>
-        /// Replaces various old reference tag formats, with the new {{reflist}}
+        /// Replaces various old reference tag formats, with the new {{Reflist}}
         /// </summary>
         /// <param name="articleText">The wiki text of the article</param>
-        /// <returns></returns>
+        /// <returns>The updated article text</returns>
         public static string FixReferenceListTags(string articleText)
         {
             return ReferenceListTags.Replace(articleText, new MatchEvaluator(ReflistMatchEvaluator));
@@ -1819,11 +1819,11 @@ namespace WikiFunctions.Parse
 
         // Covered by: FootnotesTests.TestSimplifyReferenceTags()
         /// <summary>
-        /// Replaces reference tags in the form <ref name="blah"></ref> with <ref name="blah" />
+        /// Replaces reference tags in the form &lt;ref name="blah">&lt;/ref> with &lt;ref name="blah" />
         /// Removes some of the MW errors that occur from the prior
         /// </summary>
         /// <param name="articleText">The wiki text of the article</param>
-        /// <returns></returns>
+        /// <returns>The updated article text</returns>
         public static string SimplifyReferenceTags(string articleText)
         {
             return EmptyReferences.Replace(articleText, @"$1 />");
