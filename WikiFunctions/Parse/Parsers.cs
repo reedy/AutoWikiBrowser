@@ -4966,6 +4966,11 @@ namespace WikiFunctions.Parse
                 articleText = Tools.RenameTemplate(articleText, WikiRegexes.Unreferenced.Match(articleText).Groups[1].Value, "BLP unsourced");
 
             articleText = MergePortals(articleText);
+            
+            // clean up underscores in infobox names
+            string InfoBox =WikiRegexes.InfoBox.Match(articleText).Groups[1].Value;
+            articleText = Tools.RenameTemplate(articleText, InfoBox, CanonicalizeTitle(InfoBox));
+            
             return Dablinks(articleText);
         }
 
