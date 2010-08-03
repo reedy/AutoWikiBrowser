@@ -5594,12 +5594,6 @@ foo {{persondata}}
 [[Category:São Miguel Island]]", @"Água Retorta", out noChange));
             Assert.IsFalse(noChange);
         }
-        [Test]
-        public void TestIsArticleAboutAPersonInfoboxFraternity()
-        {
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{persondata|name=smith}} {{infobox fraternity|bar}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{persondata|name=smith}} {{infobox Fraternity|bar}}", "foo"));
-        }
 
         [Test]
         public void TestIsArticleAboutAPerson()
