@@ -1856,28 +1856,21 @@ namespace WikiFunctions.Parse
             // Rename ==Links== to ==External links==
             articleText = LinksHeading.Replace(articleText, "$1External links$2");
 
+            // add to any existing references section if present
             if (ReferencesHeadingLevel2.IsMatch(articleText))
                 articleText = ReferencesHeadingLevelLower.Replace(articleText, "$1\r\n{{Reflist}}");
             else
             {
-                //now try to move just above external links
+                articleText += "\r\n==References==\r\n{{Reflist}}";
+                
+                // try to move just above external links
                 if (ExternalLinksHeading.IsMatch(articleText))
-                {
-                    articleText += "\r\n==References==\r\n{{Reflist}}";
                     articleText = ExternalLinksToReferences.Replace(articleText, "$2\r\n$1");
-                }
-                else
-                { // now try to move just above categories
-                    if (Category.IsMatch(articleText))
-                    {
-                        articleText += "\r\n==References==\r\n{{Reflist}}";
-                        articleText = CategoryToReferences.Replace(articleText, "$3\r\n$1$2");
-                    }
-                    else
-                        articleText += "\r\n==References==\r\n{{Reflist}}";
-                }
+                else if (Category.IsMatch(articleText))
+                    // try to move just above categories
+                    articleText = CategoryToReferences.Replace(articleText, "$3\r\n$1$2");
             }
-            // remove reflist comment
+
             return articleText;
         }
 
