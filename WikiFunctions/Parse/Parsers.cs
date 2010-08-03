@@ -1833,11 +1833,9 @@ namespace WikiFunctions.Parse
         private static readonly Regex ReferencesHeadingLevel2 = new Regex(@"(?i)==\s*'*\s*References?\s*'*\s*==", RegexOptions.Compiled);
         private static readonly Regex ReferencesHeadingLevelLower = new Regex(@"(?i)(==+\s*'*\s*References?\s*'*\s*==+)", RegexOptions.Compiled);
         private static readonly Regex ExternalLinksHeading = new Regex(@"(?im)(^\s*=+\s*(?:External\s+link|Source|Web\s*link)s?\s*=)", RegexOptions.Compiled);
-        private static readonly Regex ExternalLinksToReferences = new Regex(@"(?sim)(^\s*=+\s*(?:External\s+link|Source|Web\s*link)s?\s*=+.*?)(\r\n==+References==+\r\n{{Reflist}}<!--added above External links/Sources by script-assisted edit-->)", RegexOptions.Compiled);
+        private static readonly Regex ExternalLinksToReferences = new Regex(@"(?sim)(^\s*=+\s*(?:External\s+link|Source|Web\s*link)s?\s*=+.*?)(\r\n==+References==+\r\n{{Reflist}})", RegexOptions.Compiled);
         private static readonly Regex Category = new Regex(@"(?im)(^\s*\[\[\s*Category\s*:)", RegexOptions.Compiled);
-        private static readonly Regex CategoryToReferences = new Regex(@"(?sim)((?:^\{\{(?![Tt]racklist\b)[^{}]+?\}\}\s*)*)(^\s*\[\[\s*Category\s*:.*?)(\r\n==+References==+\r\n{{Reflist}}<!--added above categories/infobox footers by script-assisted edit-->)", RegexOptions.Compiled);
-        //private static readonly Regex AMR8 = new Regex(@"(?sim)(^==.*?)(^\{\{[^{}]+?\}\}.*?)(\r\n==+References==+\r\n{{Reflist}}<!--added to end of article by script-assisted edit-->)", RegexOptions.Compiled);
-        private static readonly Regex ReflistByScript = new Regex(@"(\{\{Reflist\}\})<!--added[^<>]+by script-assisted edit-->", RegexOptions.Compiled);
+        private static readonly Regex CategoryToReferences = new Regex(@"(?sim)((?:^\{\{(?![Tt]racklist\b)[^{}]+?\}\}\s*)*)(^\s*\[\[\s*Category\s*:.*?)(\r\n==+References==+\r\n{{Reflist}})", RegexOptions.Compiled);
 
         private static readonly Regex ReferencesMissingSlash = new Regex(@"<\s*[Rr]eferences\s*>", RegexOptions.Compiled);
 
@@ -1846,7 +1844,7 @@ namespace WikiFunctions.Parse
         /// if the article uses cite references but has no recognised template to display the references, add {{Reflist}} in the appropriate place
         /// </summary>
         /// <param name="articleText">The wiki text of the article</param>
-        /// <returns></returns>
+        /// <returns>The updated article text</returns>
         public static string AddMissingReflist(string articleText)
         {
             if (!IsMissingReferencesDisplay(articleText))
@@ -1859,32 +1857,28 @@ namespace WikiFunctions.Parse
             articleText = LinksHeading.Replace(articleText, "$1External links$2");
 
             if (ReferencesHeadingLevel2.IsMatch(articleText))
-                articleText = ReferencesHeadingLevelLower.Replace(articleText, "$1\r\n{{Reflist}}<!--added under references heading by script-assisted edit-->");
+                articleText = ReferencesHeadingLevelLower.Replace(articleText, "$1\r\n{{Reflist}}");
             else
             {
                 //now try to move just above external links
                 if (ExternalLinksHeading.IsMatch(articleText))
                 {
-                    articleText += "\r\n==References==\r\n{{Reflist}}<!--added above External links/Sources by script-assisted edit-->";
+                    articleText += "\r\n==References==\r\n{{Reflist}}";
                     articleText = ExternalLinksToReferences.Replace(articleText, "$2\r\n$1");
                 }
                 else
                 { // now try to move just above categories
                     if (Category.IsMatch(articleText))
                     {
-                        articleText += "\r\n==References==\r\n{{Reflist}}<!--added above categories/infobox footers by script-assisted edit-->";
+                        articleText += "\r\n==References==\r\n{{Reflist}}";
                         articleText = CategoryToReferences.Replace(articleText, "$3\r\n$1$2");
                     }
-                    //else
-                    //{
-                    // TODO: relist is missing, but not sure where references should go – at end of article might not be correct
-                    //articleText += "\r\n==References==\r\n{{Reflist}}<!--added to end of article by script-assisted edit-->";
-                    //articleText = AMR8.Replace(articleText, "$1\r\n$3\r\n$2");
-                    //}
+                    else
+                        articleText += "\r\n==References==\r\n{{Reflist}}";
                 }
             }
             // remove reflist comment
-            return ReflistByScript.Replace(articleText, "$1");
+            return articleText;
         }
 
         private static readonly RegexReplacement[] RefWhitespace = new[] {
