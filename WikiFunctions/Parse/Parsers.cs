@@ -4444,7 +4444,6 @@ namespace WikiFunctions.Parse
         private static readonly Regex InUniverse = new Regex(@"{{[Ii]n-universe", RegexOptions.Compiled);
         private static readonly Regex CategoryCharacters = new Regex(@"\[\[Category:[^\[\]]*?[Cc]haracters", RegexOptions.Compiled);
         private static readonly Regex SeeAlsoOrMain = new Regex(@"{{(?:[Ss]ee\salso|[Mm]ain)\b", RegexOptions.Compiled);
-        private static readonly Regex InfoboxFraternity = new Regex(@"{{\s*[Ii]nfobox[\s_]+[Ff]raternity", RegexOptions.Compiled);
         private static readonly Regex BoldedLink = new Regex(@"'''.*?\[\[[^\[\]]+\]\].*?'''", RegexOptions.Compiled);
         private static readonly Regex RefImprove = new Regex(@"{{\s*[Rr]efimproveBLP\b", RegexOptions.Compiled);
 
@@ -4504,10 +4503,6 @@ namespace WikiFunctions.Parse
 
             // not about a person if it's not the principle article on the subject
             if (SeeAlsoOrMain.IsMatch(zerothSection))
-                return false;
-
-            // TODO a workaround for abuse of {{birth date and age}} template by many fraternity articles e.g. [[Zeta Phi Beta]]
-            if (InfoboxFraternity.IsMatch(articleText))
                 return false;
 
             int dateBirthAndAgeCount = WikiRegexes.DateBirthAndAge.Matches(articleText).Count;
