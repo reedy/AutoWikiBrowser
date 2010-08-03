@@ -2491,6 +2491,9 @@ Message: {2}
         /// <returns>The updated article text</returns>
         public static string RenameTemplate(string articletext, string templatename, string newtemplatename)
         {
+            if(templatename.Equals(newtemplatename))
+                return articletext;
+            
             return NestedTemplateRegex(templatename).Replace(articletext, "$1" + newtemplatename + "$3");
         }
 
