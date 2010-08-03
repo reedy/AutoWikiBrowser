@@ -99,22 +99,22 @@ namespace UnitTests
 
             Assert.AreEqual("<references>foo</references>", Parsers.FixReferenceListTags("<references>foo</references>"));
 
-            Assert.AreEqual("{{reflist}}", Parsers.FixReferenceListTags("<div class=\"references-small\"><references/>\r\n</div>"));
-            Assert.AreEqual("{{reflist|2}}", Parsers.FixReferenceListTags("<div class=\"references-2column\"><references/></div>"));
-            Assert.AreEqual("{{reflist|2}}",
+            Assert.AreEqual("{{Reflist}}", Parsers.FixReferenceListTags("<div class=\"references-small\"><references/>\r\n</div>"));
+            Assert.AreEqual("{{Reflist|2}}", Parsers.FixReferenceListTags("<div class=\"references-2column\"><references/></div>"));
+            Assert.AreEqual("{{Reflist|2}}",
                             Parsers.FixReferenceListTags(@"<div class=""references-2column""><div class=""references-small"">
 <references/></div></div>"));
-            Assert.AreEqual("{{reflist|2}}",
+            Assert.AreEqual("{{Reflist|2}}",
                             Parsers.FixReferenceListTags(@"<div class=""references-small""><div class=""references-2column""> <references/>
 </div></div>"));
 
             // evil don't do's
             Assert.IsFalse(Parsers.FixReferenceListTags(@"<div class=""references-small""><div class=""references-2column"">
-<references/></div>* some other ref</div>").Contains("{{reflist"));
+<references/></div>* some other ref</div>").Contains("{{Reflist"));
             Assert.IsFalse(Parsers.FixReferenceListTags(@"<div class=""references-small""><div class=""references-2column"">
-<references/></div>").Contains("{{reflist"));
+<references/></div>").Contains("{{Reflist"));
             
-            Assert.AreEqual("{{reflist|2}}",
+            Assert.AreEqual("{{Reflist|2}}",
                             Parsers.FixReferenceListTags(@"<div class=""references-small"" style=""-moz-column-count:2; column-count:2;"">
 <references/>
 </div>"), @"Converts to reflist|2 when column-count:2");
