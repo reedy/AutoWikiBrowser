@@ -249,9 +249,9 @@ namespace WikiFunctions
         {
             if(!Variables.UsingSecure)
             {
-            string url = ArticleUrl.Replace("$1", Tools.WikiEncode(title));
+                string url = ArticleUrl.Replace("$1", Tools.WikiEncode(title));
 
-            Tools.OpenURLInBrowser(url);
+                Tools.OpenURLInBrowser(url);
             }
             else
                 Tools.OpenArticleInBrowser(title);
