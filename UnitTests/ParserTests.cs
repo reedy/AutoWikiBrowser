@@ -2231,7 +2231,7 @@ complementary and alternative medicine: evidence is a better friend than power. 
         }
         
         [Test]
-        public void PersonDataCompletion()
+        public void PersonDataCompletionDOB()
         {
             const string a = @"{{persondata
             |DATE OF BIRTH=
@@ -2242,6 +2242,24 @@ complementary and alternative medicine: evidence is a better friend than power. 
             Assert.AreEqual(i1 + a2, Parsers.PersonData(i1 + a, "test"));
             Assert.AreEqual(i1.Replace("27 June", "June 27,") + a2.Replace("27 June", "June 27,"), Parsers.PersonData(i1.Replace("27 June", "June 27,") + a.Replace("27 June", "June 27,"), "test"));
             Assert.AreEqual(i2 + a2.Replace("27 June 1950", "1950-06-27"), Parsers.PersonData(i2 + a, "test"));
+            Assert.AreEqual(i2.Replace("27}}", "27}} in London") + a2.Replace("27 June 1950", "1950-06-27"),
+                            Parsers.PersonData(i2.Replace("27}}", "27}} in London") + a, "test"), "Completes persondata from {{birth date}} when extra data in infobox field");
+        }
+        
+         [Test]
+        public void PersonDataCompletionDOD()
+        {
+            const string a = @"{{persondata
+            |DATE OF BIRTH=
+            |DATE OF DEATH= }}", a2 = @"{{persondata
+            |DATE OF BIRTH=
+            |DATE OF DEATH= 27 June 1950}}", i1 = @"{{infobox foo| dateofdeath = 27 June 1950}}", i2 = @"{{infobox foo| dateofdeath = {{death date|1950|06|27}}}}";
+            
+            Assert.AreEqual(i1 + a2, Parsers.PersonData(i1 + a, "test"));
+            Assert.AreEqual(i1.Replace("27 June", "June 27,") + a2.Replace("27 June", "June 27,"), Parsers.PersonData(i1.Replace("27 June", "June 27,") + a.Replace("27 June", "June 27,"), "test"));
+            Assert.AreEqual(i2 + a2.Replace("27 June 1950", "1950-06-27"), Parsers.PersonData(i2 + a, "test"));
+            Assert.AreEqual(i2.Replace("27}}", "27}} in London") + a2.Replace("27 June 1950", "1950-06-27"),
+                            Parsers.PersonData(i2.Replace("27}}", "27}} in London") + a, "test"), "Completes persondata from {{death date}} when extra data in infobox field");
         }
         
         [Test]
