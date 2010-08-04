@@ -906,7 +906,8 @@ namespace WikiFunctions.API
                 new[,]
                 {
                     { "title", title },
-                    { "text", text }
+                    { "text", text },
+                    { "disablepp", null }
                 });
 
             CheckForErrors(result, "parse");
