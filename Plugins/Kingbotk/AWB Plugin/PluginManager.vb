@@ -563,7 +563,6 @@ SkipOrStop:
 
             If BotMode Then
                 Line += "enabled"
-                AWBForm.SkipNoChanges = False
             Else
                 Line += "disabled"
             End If
