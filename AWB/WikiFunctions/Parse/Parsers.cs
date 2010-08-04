@@ -2810,6 +2810,7 @@ namespace WikiFunctions.Parse
 }}";
 
         private static readonly Regex BirthDate = Tools.NestedTemplateRegex(new List<string>(new[] { "birth date", "dob", "bda", "birth date and age" }));
+        private static readonly Regex DeathDate = Tools.NestedTemplateRegex(new List<string>(new[] { "death date", "dda", "death date and age" }));
 
         /// <summary>
         /// * Adds the default {{persondata}} template to en-wiki mainspace pages about a person that don't already have {{persondata}}
@@ -2824,7 +2825,7 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             // add default persondata if missing
-            if (!Tools.NestedTemplateRegex("persondata").IsMatch(articleText))
+            if (!WikiRegexes.Persondata.IsMatch(articleText))
             {
                 if (IsArticleAboutAPerson(articleText, articleTitle, true))
                     articleText = articleText + PersonDataDefault;
@@ -2833,39 +2834,55 @@ namespace WikiFunctions.Parse
             }
 
             // attempt completion of some persondata fields
-            string theInfoBox = WikiRegexes.InfoBox.Match(articleText).Value;
+            string originalPersonData = WikiRegexes.Persondata.Match(articleText).Value;
+            string newPersonData = originalPersonData;
 
-            if (theInfoBox.Length > 0)
-            {
-                string originalPersonData = Tools.NestedTemplateRegex("persondata").Match(articleText).Value;
-                string newPersonData = originalPersonData;
+            // date of birth
+            newPersonData = SetPersonDataDate(newPersonData, "DATE OF BIRTH", GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxDOBFields));
+            
+            // date of death
+            newPersonData = SetPersonDataDate(newPersonData, "DATE OF DEATH", GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxDODFields));
 
-                // date of birth
-                string dateOfBirth = GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxDOBFields);
-
-                if (WikiRegexes.AmericanDates.IsMatch(dateOfBirth))
-                    newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF BIRTH", WikiRegexes.AmericanDates.Match(dateOfBirth).Value);
-                else if (WikiRegexes.InternationalDates.IsMatch(dateOfBirth))
-                    newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF BIRTH", WikiRegexes.InternationalDates.Match(dateOfBirth).Value);
-                else if (WikiRegexes.ISODates.IsMatch(dateOfBirth))
-                    newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF BIRTH", WikiRegexes.ISODates.Match(dateOfBirth).Value);
-                else if (BirthDate.IsMatch(dateOfBirth))
-                {
-                    string ISODOB = Tools.GetTemplateArgument(dateOfBirth, 1) + "-" + Tools.GetTemplateArgument(dateOfBirth, 2) + "-" + Tools.GetTemplateArgument(dateOfBirth, 3);
-                    newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF BIRTH", ISODOB);
-                }
-
-
-                // merge changes
-                if (!newPersonData.Equals(originalPersonData))
-                    articleText = articleText.Replace(originalPersonData, newPersonData);
-            }
+            // merge changes
+            if (!newPersonData.Equals(originalPersonData))
+                articleText = articleText.Replace(originalPersonData, newPersonData);
 
             return articleText;
         }
+        
+        /// <summary>
+        /// Completes a persondata call with a date of birth/death.
+        /// </summary>
+        /// <param name="personData"></param>
+        /// <param name="field"></param>
+        /// <param name="sourceValue"></param>
+        /// <returns>The updated persondata call</returns>
+        private static string SetPersonDataDate(string personData, string field, string sourceValue)
+        {
+            if (WikiRegexes.AmericanDates.IsMatch(sourceValue))
+                return Tools.SetTemplateParameterValue(personData, field, WikiRegexes.AmericanDates.Match(sourceValue).Value);
+            else if (WikiRegexes.InternationalDates.IsMatch(sourceValue))
+                return Tools.SetTemplateParameterValue(personData, field, WikiRegexes.InternationalDates.Match(sourceValue).Value);
+            else if (WikiRegexes.ISODates.IsMatch(sourceValue))
+                return Tools.SetTemplateParameterValue(personData, field, WikiRegexes.ISODates.Match(sourceValue).Value);
+            else if (field.Equals("DATE OF BIRTH") && BirthDate.IsMatch(sourceValue))
+            {
+                sourceValue = BirthDate.Match(sourceValue).Value;
+                string ISODOB = Tools.GetTemplateArgument(sourceValue, 1) + "-" + Tools.GetTemplateArgument(sourceValue, 2) + "-" + Tools.GetTemplateArgument(sourceValue, 3);
+                return Tools.SetTemplateParameterValue(personData, field, ISODOB);
+            }
+            else if (field.Equals("DATE OF DEATH") && DeathDate.IsMatch(sourceValue))
+            {
+                sourceValue = DeathDate.Match(sourceValue).Value;
+                string ISODOD = Tools.GetTemplateArgument(sourceValue, 1) + "-" + Tools.GetTemplateArgument(sourceValue, 2) + "-" + Tools.GetTemplateArgument(sourceValue, 3);
+                return Tools.SetTemplateParameterValue(personData, field, ISODOD);
+            }
+            
+            return personData;
+        }
 
         /// <summary>
-        /// The in-use date formats on Wikipedia
+        /// The in-use date formats on the English Wikipedia
         /// </summary>
         public enum DateLocale { International, American, ISO, Undetermined };
 
