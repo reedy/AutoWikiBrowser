@@ -477,9 +477,11 @@ namespace WikiFunctions.ReplaceSpecial
                 RulesTreeView.Nodes.Add(n);
             }
 
-            if (r.Children != null && r.Children.Count > 0) 
-                foreach (IRule rnew in r.Children) 
+            if (r.Children != null && r.Children.Count > 0)
+            {
+                foreach (IRule rnew in r.Children)
                     AddNewRule(rnew, n);
+            }
             else
             {
                 RulesTreeView.SelectedNode = n;
@@ -496,9 +498,11 @@ namespace WikiFunctions.ReplaceSpecial
 
             tn.Nodes.Add(n);
 
-            if (r.Children != null && r.Children.Count > 0) 
-                foreach (IRule rnew in r.Children) 
+            if (r.Children != null && r.Children.Count > 0)
+            {
+                foreach (IRule rnew in r.Children)
                     AddNewRule(rnew, n);
+            }
             else
             {
                 RulesTreeView.SelectedNode = n;

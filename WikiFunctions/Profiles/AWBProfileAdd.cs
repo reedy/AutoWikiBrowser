@@ -87,7 +87,7 @@ namespace WikiFunctions.Profiles
                 MessageBox.Show("The Username cannot be blank");
             else
             {
-                if (AWBProfiles.GetProfile(txtUsername.Text) != null)
+                if (Editid == -1 && AWBProfiles.GetProfile(txtUsername.Text) != null)
                 {
                     MessageBox.Show("Username \"" +txtUsername.Text + "\" already exists.", "Username exists");
                     return;
