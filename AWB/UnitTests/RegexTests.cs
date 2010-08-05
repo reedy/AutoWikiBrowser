@@ -1378,6 +1378,7 @@ words2"));
         {
             Assert.IsTrue(WikiRegexes.RegexWordApostrophes.IsMatch(@"Rachel"));
             Assert.IsTrue(WikiRegexes.RegexWordApostrophes.IsMatch(@"Rachel's"));
+            Assert.IsTrue(WikiRegexes.RegexWordApostrophes.IsMatch(@"Rachel’s"), "curly apostrophe");
             Assert.IsTrue(WikiRegexes.RegexWordApostrophes.IsMatch(@"Kwakwaka'wakw"));
 
             Assert.AreEqual("", WikiRegexes.RegexWordApostrophes.Replace(@"Kwakwaka'wakw", ""));
