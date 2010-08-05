@@ -490,7 +490,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches words, and allows words with apostrophes to be treated as one whole word
         /// </summary>
-        public static readonly Regex RegexWordApostrophes = new Regex(@"\w+(?:'\w+)?", RegexOptions.Compiled);
+        public static readonly Regex RegexWordApostrophes = new Regex(@"\w+(?:['’]\w+)?", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches &lt;source&gt;&lt;/source&gt; tags
