@@ -1191,7 +1191,7 @@ namespace WikiFunctions
                 s = s.Insert(m.Index, TurnFirstToUpper(m.Value.ToLower()));
             }
 
-            return s;
+            return s.Trim();
         }
 
         /// <summary>

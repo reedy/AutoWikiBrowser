@@ -1733,6 +1733,7 @@ Start date and age
         public void FixUpDefaultSortTests()
         {
             Assert.AreEqual("Hello", Tools.FixupDefaultSort("hellõ"));
+            Assert.AreEqual("Hello", Tools.FixupDefaultSort("hellõ   "));
             Assert.AreEqual(@"Fred Smith", Tools.FixupDefaultSort(@"FRED SMITH"));
             Assert.AreEqual(@"Fred Smith", Tools.FixupDefaultSort(@"fred smith"));
             Assert.AreEqual(@"Fred Smithson", Tools.FixupDefaultSort(@"fred smithson"));
