@@ -294,6 +294,14 @@ namespace WikiFunctions.ReplaceSpecial
 
             TreeNode nt = st.NextNode;
 
+            TreeNode parent = st.Parent;
+
+            if (parent != null)
+            {
+                IRule rule = (IRule)parent.Tag;
+                rule.Children.Remove((IRule)st.Tag);
+            }
+
             RulesTreeView.Nodes.Remove(st);
 
             RulesTreeView.SelectedNode = nt;
