@@ -321,7 +321,7 @@ namespace WikiFunctions.Parse
                 articleText = MetaDataSorter.MoveMaintenanceTags(articleText);
             }
 
-            // convert title case parameters within {{Article issues}} to lower case
+            // convert title case parameters within {{Multiple issues}} to lower case
             foreach (Match m in WikiRegexes.ArticleIssuesInTitleCase.Matches(articleText))
             {
                 string firstPart = m.Groups[1].Value;
@@ -4970,6 +4970,13 @@ namespace WikiFunctions.Parse
             // clean up underscores in infobox names
             string InfoBox =WikiRegexes.InfoBox.Match(articleText).Groups[1].Value;
             articleText = Tools.RenameTemplate(articleText, InfoBox, CanonicalizeTitle(InfoBox));
+            
+            // {{Expand|section|...}} --> {{Expand section|...}}
+            foreach(Match m in Tools.NestedTemplateRegex("expand").Matches(articleText))
+            {
+                if(Tools.GetTemplateArgument(m.Value, 1).Equals("section"))
+                    articleText = articleText.Replace(m.Value, Tools.RenameTemplate(Regex.Replace(m.Value, @"\|\s*section\s*\|", "|"), "Expand section"));
+            }
             
             return Dablinks(articleText);
         }
