@@ -1043,10 +1043,16 @@ namespace WikiFunctions.API
                         throw new ApiErrorException(this, errorCode, errorMessage);
                 }
             }
+
             if (string.IsNullOrEmpty(action)) return doc; // no action to check
 
             var api = doc["api"];
             if (api == null) return doc;
+
+            //FIXME: Awful code is awful
+            var page = api.GetElementsByTagName("page");
+            if (page.Count > 0 && page[0].Attributes["invalid"] != null && page[0].Attributes["invalid"].Value == "")
+                throw new InvalidTitleException(this, page[0].Attributes["title"].Value);
 
             if (api.GetElementsByTagName("interwiki").Count > 0)
                 throw new InterwikiException(this);
