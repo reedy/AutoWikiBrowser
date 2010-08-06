@@ -796,7 +796,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the cleanup templates that can be moved into the {{article issues}} template
         /// </summary>
-        public static readonly Regex ArticleIssuesTemplateNameRegex = new Regex(ArticleIssuesTemplatesString, RegexOptions.Compiled);
+        public static readonly Regex MultipleIssuesTemplateNameRegex = new Regex(ArticleIssuesTemplatesString, RegexOptions.Compiled);
 
         /// <summary>
         /// Matches COI|OR|POV|BLP
@@ -808,7 +808,7 @@ namespace WikiFunctions
         /// <summary>
         /// matches the cleanup templates that can be moved into the {{article issues}} template, notably does not match templates with multiple parameters
         /// </summary>
-        public static readonly Regex ArticleIssuesTemplates = new Regex(@"{{" + ArticleIssuesTemplatesString + @"\s*(?:\|\s*([^{}\|]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}\|]*?)?))?\s*}}");
+        public static readonly Regex MultipleIssuesTemplates = new Regex(@"{{" + ArticleIssuesTemplatesString + @"\s*(?:\|\s*([^{}\|]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}\|]*?)?))?\s*}}");
 
         /// <summary>
         /// Matches the "reflist", "references-small", "references-2column" references display templates
