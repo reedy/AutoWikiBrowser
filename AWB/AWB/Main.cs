@@ -584,6 +584,10 @@ namespace AutoWikiBrowser
                 MessageBox.Show("Captcha required, is the user account autoconfirmed etc?", "Captcha Required");
                 Stop();
             }
+            else if (ex is InvalidTitleException)
+            {
+                SkipPage("Invalid title");
+            }
             else if (ex is System.Net.WebException)
             {
                 // some 404 error or similar
@@ -1314,6 +1318,7 @@ namespace AutoWikiBrowser
 
         private void SkipPage(string reason)
         {
+
             if (TheArticle == null)
             {
                 DisableButtons();

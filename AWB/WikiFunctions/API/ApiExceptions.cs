@@ -318,4 +318,19 @@ namespace WikiFunctions.API
         {
         }
     }
+
+    /// <summary>
+    /// Thrown when the API returns a title is invalid
+    /// </summary>
+    public class InvalidTitleException : ApiException
+    {
+        public string InvalidTitle
+        { get; private set; }
+
+        public InvalidTitleException(ApiEdit editor, string title)
+            :base(editor, "Invalid title: \"" + title + "\"")
+        {
+            InvalidTitle = title;
+        }
+    }
 }
