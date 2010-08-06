@@ -728,7 +728,8 @@ namespace WikiFunctions.Parse
         // July 13 - July 28 2009 -> July 13–28, 2009
         private static readonly Regex LongFormatInternationalDateRange = new Regex(@"\b([1-3]?\d) +" + WikiRegexes.Months + @" *(?:-|–|&nbsp;) *([1-3]?\d) +\2,? *([12]\d{3})\b", RegexOptions.Compiled);
         private static readonly Regex LongFormatAmericanDateRange = new Regex(WikiRegexes.Months + @" +([1-3]?\d) +" + @" *(?:-|–|&nbsp;) *\1 +([1-3]?\d) *,? *([12]\d{3})\b", RegexOptions.Compiled);
-
+        private static readonly Regex EnMonthRange = new Regex(@"\b(January|February|March|April|May|June|July|August|September|October|November|December)-(January|February|March|April|May|June|July|August|September|October|November|December)\b", RegexOptions.Compiled);
+        
         private static readonly Regex FullYearRange = new Regex(@"(?:[\(,=;\|]|\b(?:from|between|and|reigned|f?or)) *([12]\d{3}) *- *([12]\d{3}) *(?=\)|[,;\|]|and\b|\s*$)", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SpacedFullYearRange = new Regex(@"([12]\d{3})(?: +– *| *– +)([12]\d{3})", RegexOptions.Compiled);
         private static readonly Regex YearRangeShortenedCentury = new Regex(@"(?:[\(,=;]|\b(?:from|between|and|reigned)) *([12]\d{3}) *- *(\d{2}) *(?=\)|[,;]|and\b|\s*$)", RegexOptions.Compiled | RegexOptions.Multiline);
@@ -768,6 +769,9 @@ namespace WikiFunctions.Parse
             articleText = NoSpaceAmericanDates.Replace(articleText, @"$1 $2, $3");
 
             articleText = SpacedFullYearRange.Replace(articleText, @"$1–$2");
+            
+            // month range
+            articleText = EnMonthRange.Replace(articleText, @"$1–$2");
 
             articleText = AddBackTextImages(articleText);
 
