@@ -305,7 +305,7 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string ArticleIssues(string articleText)
         {
-            if (Variables.LangCode != "en")
+            if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
             if (WikiRegexes.MultipleIssues.IsMatch(articleText))
@@ -456,7 +456,7 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text</returns>
         public static string Dablinks(string articleText)
         {
-            if (Variables.LangCode != "en")
+            if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
             string oldArticleText = "";
@@ -741,7 +741,7 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string FixDates(string articleText)
         {
-            if (Variables.LangCode != "en")
+            if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
             articleText = HideTextImages(articleText);
@@ -1985,7 +1985,7 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string FixDateOrdinalsAndOf(string articleText, string articleTitle)
         {
-            if (Variables.LangCode != "en")
+            if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
             // hide items in quotes etc., though this may also hide items within infoboxes etc.
@@ -2500,7 +2500,7 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text</returns>
         public static string PredominantDates(string articleText)
         {
-            if (Variables.LangCode != "en")
+            if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
             DateLocale predominantLocale = DeterminePredominantDateLocale(articleText, true, true);
@@ -2564,7 +2564,7 @@ namespace WikiFunctions.Parse
         /// <returns>The updated wiki text</returns>
         public static string FixCitationTemplates(string articleText)
         {
-            if (Variables.LangCode != "en")
+            if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
             articleText = AccessdateTypo.Replace(articleText, "$1accessdate$2");
@@ -2825,7 +2825,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string PersonData(string articleText, string articleTitle)
         {
-            if (Variables.LangCode != "en")
+            if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
             // add default persondata if missing
@@ -4480,7 +4480,7 @@ namespace WikiFunctions.Parse
                 parseTalkPage = false;
             #endif
 
-            if (Variables.LangCode != "en"
+            if (!Variables.LangCode.Equals("en")
                 || articleText.Contains(@"[[Category:Multiple people]]")
                 || articleText.Contains(@"[[Category:Married couples")
                 || articleText.Contains(@"[[Category:Fictional")
@@ -4843,7 +4843,7 @@ namespace WikiFunctions.Parse
 
         private static string YearOfBirthMissingCategory(string articleText)
         {
-            if (Variables.LangCode != "en")
+            if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
             // if there is a 'year of birth missing' and a year of birth, remove the 'missing' category
@@ -5268,7 +5268,7 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text</returns>
         private string TagEmptySection(string articleText)
         {
-            if (Variables.LangCode != "en")
+            if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
             string originalarticleText = "";
@@ -5477,13 +5477,10 @@ namespace WikiFunctions.Parse
         /// </summary>
         public static bool HasInfobox(string articleText)
         {
-            if (Variables.LangCode != "en")
+            if (!Variables.LangCode.Equals("en"))
                 return false;
 
-            articleText = WikiRegexes.Nowiki.Replace(articleText, "");
-            articleText = WikiRegexes.Comments.Replace(articleText, "");
-
-            return WikiRegexes.InfoBox.IsMatch(articleText);
+            return WikiRegexes.InfoBox.IsMatch(WikiRegexes.UnformattedText.Replace(articleText, ""));
         }
 
         /// <summary>
@@ -5491,7 +5488,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         public static bool IsInUse(string articleText)
         {
-            return (Variables.LangCode != "en")
+            return (!Variables.LangCode.Equals("en"))
                 ? false
                 : WikiRegexes.InUse.IsMatch(WikiRegexes.UnformattedText.Replace(articleText, ""));
         }
@@ -5511,9 +5508,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static bool HasDeadLinks(string articleText)
         {
-            articleText = WikiRegexes.Comments.Replace(articleText, "");
-
-            return WikiRegexes.DeadLink.IsMatch(articleText);
+            return WikiRegexes.DeadLink.IsMatch(WikiRegexes.Comments.Replace(articleText, ""));
         }
 
         /// <summary>
@@ -5530,7 +5525,7 @@ namespace WikiFunctions.Parse
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
         public static bool IsMissingReferencesDisplay(string articleText)
         {
-            if (Variables.LangCode != "en")
+            if (!Variables.LangCode.Equals("en"))
                 return false;
 
             return !WikiRegexes.ReferencesTemplate.IsMatch(articleText) && Regex.IsMatch(articleText, WikiRegexes.ReferenceEndGR);
