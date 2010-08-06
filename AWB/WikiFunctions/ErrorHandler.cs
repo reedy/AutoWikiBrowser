@@ -46,6 +46,11 @@ namespace WikiFunctions
                 MessageBox.Show(ex.Message, "Invalid regular expression",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            //Unsupported Culture, possibly bn-BD
+            else if (ex is ArgumentException && Thrower(ex) == "CultureTableRecord.GetCultureTableRecord")
+            {
+                MessageBox.Show("Microsoft unfortunately don't support your locale culture. Please try a more common one", "Unsupported culture");
+            }
             // network access error
             else if (ex is System.Net.WebException || ex.InnerException is System.Net.WebException)
             {
