@@ -344,17 +344,17 @@ namespace WikiFunctions.Parse
             // get the rest of the article including first heading (may be null if entire article falls in zeroth section)
             string restOfArticle = articleText.Remove(0, zerothSection.Length);
 
-            int tagsToAdd = WikiRegexes.ArticleIssuesTemplates.Matches(zerothSection).Count;
+            int tagsToAdd = WikiRegexes.MultipleIssuesTemplates.Matches(zerothSection).Count;
 
             // if currently no {{Article issues}} and less than the min number of cleanup templates, do nothing
-            if (!WikiRegexes.MultipleIssues.IsMatch(zerothSection) && WikiRegexes.ArticleIssuesTemplates.Matches(zerothSection).Count < MinCleanupTagsToCombine)
+            if (!WikiRegexes.MultipleIssues.IsMatch(zerothSection) && WikiRegexes.MultipleIssuesTemplates.Matches(zerothSection).Count < MinCleanupTagsToCombine)
                 return (articleText);
 
             // only add tags to articleissues if new tags + existing >= MinCleanupTagsToCombine
-            if ((WikiRegexes.ArticleIssuesTemplateNameRegex.Matches(WikiRegexes.MultipleIssues.Match(zerothSection).Value).Count + tagsToAdd) < MinCleanupTagsToCombine || tagsToAdd == 0)
+            if ((WikiRegexes.MultipleIssuesTemplateNameRegex.Matches(WikiRegexes.MultipleIssues.Match(zerothSection).Value).Count + tagsToAdd) < MinCleanupTagsToCombine || tagsToAdd == 0)
                 return (articleText);
 
-            foreach (Match m in WikiRegexes.ArticleIssuesTemplates.Matches(zerothSection))
+            foreach (Match m in WikiRegexes.MultipleIssuesTemplates.Matches(zerothSection))
             {
                 // all fields except COI, OR, POV and ones with BLP should be lower case
                 string singleTag = m.Groups[1].Value;
@@ -363,7 +363,6 @@ namespace WikiFunctions.Parse
                     singleTag = singleTag.ToLower();
 
                 // expert must have a parameter
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#Article_Issues
                 if (singleTag == "expert" && tagValue.Trim().Length == 0)
                     continue;
 
