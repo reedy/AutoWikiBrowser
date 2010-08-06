@@ -2046,7 +2046,8 @@ namespace WikiFunctions.Parse
             //Remove <br /> if followed by double newline
             articleText = BrTwoNewlines.Replace(articleText.Trim(), "\r\n\r\n");
 
-            articleText = ThreeOrMoreNewlines.Replace(articleText, "\r\n\r\n");
+            if(!WikiRegexes.Stub.IsMatch(articleText))
+                articleText = ThreeOrMoreNewlines.Replace(articleText, "\r\n\r\n");
 
             if (fixOptionalWhitespace)
                 articleText = TwoNewlinesInBlankSection.Replace(articleText, "==\r\n==");
