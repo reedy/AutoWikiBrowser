@@ -1988,15 +1988,18 @@ complementary and alternative medicine: evidence is a better friend than power. 
              Assert.AreEqual(correct, Parsers.FixCitationTemplates(correct.Replace("http://", "")), "Adds http:// when URL begins www.");
              Assert.AreEqual(correct, Parsers.FixCitationTemplates(correct), "no change if already correct URL");
          }
-        
-        [Test]
-        public void WorkInItalics()
-        {
-            string correct = @"now {{cite web| url=http://site.net/1.pdf|format=PDF|work=Foo}}";
-            
-            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web| url=http://site.net/1.pdf|format=PDF|work=''Foo''}}"));
-            Assert.AreEqual(correct, Parsers.FixCitationTemplates(correct));
-        }
+         
+         [Test]
+         public void WorkInItalics()
+         {
+             string correct = @"now {{cite web| url=http://site.net/1.pdf|format=PDF|work=Foo}}";
+             
+             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web| url=http://site.net/1.pdf|format=PDF|work=''Foo''}}"));
+             Assert.AreEqual(correct, Parsers.FixCitationTemplates(correct));
+             
+             const string website =  @"now {{cite web| url=http://site.net/1.pdf|format=PDF|work=''site.net''}}";
+             Assert.AreEqual(website, Parsers.FixCitationTemplates(website), "italics not removed for work=website");
+         }
         
         [Test]
         public void FixCitationYear()
