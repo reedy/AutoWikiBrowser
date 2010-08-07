@@ -2764,7 +2764,8 @@ namespace WikiFunctions.Parse
                 }
 
                 // merge changes to article text
-                articleText = articleText.Replace(m.Value, newValue);
+                if(!m.Value.Equals(newValue))
+                    articleText = articleText.Replace(m.Value, newValue);
             }
 
             return articleText;
