@@ -2622,8 +2622,9 @@ namespace WikiFunctions.Parse
                     theURL.ToUpper().TrimEnd('L').EndsWith("HTM"))
                     newValue = Tools.RemoveTemplateParameter(newValue, "format");
 
-                // remove italics for works field -- auto italicised by template
-                newValue = WorkInItalics.Replace(newValue, "$1$2");
+                // remove italics for work field for book/periodical, but not website -- auto italicised by template
+                if(!Tools.GetTemplateParameterValue(newValue, "work").Contains("."))
+                    newValue = WorkInItalics.Replace(newValue, "$1$2");
 
                 // page= and pages= fields don't need p. or pp. in them when nopp not set
                 if (Tools.GetTemplateParameterValue(newValue, "nopp").Length == 0 &&
