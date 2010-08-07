@@ -960,17 +960,21 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             // check whether refs before punctuation or refs after punctuation is the dominant format
-            int RAfter = RefsAfterPunctuationR.Matches(articleText).Count;
             int RBefore = RefsBeforePunctuationR.Matches(articleText).Count;
-
-            // require >= 75% refs after punctuation to convert the rest
-            if (RAfter > RBefore && (RBefore == 0 || RAfter / RBefore > 3))
+            
+            if(RBefore > 0)
             {
-                string articleTextlocal = "";
-                while (!articleTextlocal.Equals(articleText))
+                int RAfter = RefsAfterPunctuationR.Matches(articleText).Count;
+
+                // require >= 75% refs after punctuation to convert the rest
+                if ((RAfter / RBefore) > 3)
                 {
-                    articleTextlocal = articleText;
-                    articleText = RefsBeforePunctuationR.Replace(articleText, "$2$1$3");
+                    string articleTextlocal = "";
+                    while (!articleTextlocal.Equals(articleText))
+                    {
+                        articleTextlocal = articleText;
+                        articleText = RefsBeforePunctuationR.Replace(articleText, "$2$1$3");
+                    }
                 }
             }
 
