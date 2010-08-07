@@ -944,8 +944,8 @@ namespace WikiFunctions.Parse
 
         private const string RefsPunctuation = @"([,\.;])";
         private static readonly Regex RefsAfterPunctuationR = new Regex(RefsPunctuation + @" *" + WikiRegexes.Refs, RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex RefsBeforePunctuationR = new Regex(@" *" + WikiRegexes.Refs + @" *" + RefsPunctuation + @"([^,\.:;])", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
+        private static readonly Regex RefsBeforePunctuationR = new Regex(@"\s*" + WikiRegexes.Refs + @"\s*" + RefsPunctuation + @"([^,\.:;])", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex RefsBeforePunctuationQuick = new Regex(@">\s*" + RefsPunctuation, RegexOptions.Compiled);
         private static readonly Regex RefsAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *" + WikiRegexes.Refs, RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
@@ -959,21 +959,27 @@ namespace WikiFunctions.Parse
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
-            // check whether refs before punctuation or refs after punctuation is the dominant format
-            int RBefore = RefsBeforePunctuationR.Matches(articleText).Count;
-            
-            if(RBefore > 0)
+            // quick check of ">" followed by punctuation in article, for performance saving
+            if(RefsBeforePunctuationQuick.IsMatch(articleText))
             {
-                int RAfter = RefsAfterPunctuationR.Matches(articleText).Count;
-
-                // require >= 75% refs after punctuation to convert the rest
-                if ((RAfter / RBefore) > 3)
+                // check whether refs before punctuation or refs after punctuation is the dominant format
+                int RBefore = RefsBeforePunctuationR.Matches(articleText).Count;
+                int ab = WikiRegexes.Refs.Matches(articleText).Count;
+                ab++;
+                
+                if(RBefore > 0)
                 {
-                    string articleTextlocal = "";
-                    while (!articleTextlocal.Equals(articleText))
+                    int RAfter = RefsAfterPunctuationR.Matches(articleText).Count;
+
+                    // require >= 75% refs after punctuation to convert the rest
+                    if ((RAfter / RBefore) > 3)
                     {
-                        articleTextlocal = articleText;
-                        articleText = RefsBeforePunctuationR.Replace(articleText, "$2$1$3");
+                        string articleTextlocal = "";
+                        while (!articleTextlocal.Equals(articleText))
+                        {
+                            articleTextlocal = articleText;
+                            articleText = RefsBeforePunctuationR.Replace(articleText, "$2$1$3");
+                        }
                     }
                 }
             }
