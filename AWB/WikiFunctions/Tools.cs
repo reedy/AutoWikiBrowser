@@ -2478,8 +2478,24 @@ Message: {2}
         /// <param name="templateCall">the template call</param>
         /// <returns>the template name</returns>
         public static string GetTemplateName(string templateCall)
-        {
-            return WikiRegexes.TemplateName.Match(templateCall).Groups[1].Value;
+        {            
+            string TemplateNamespace = "";
+            
+            try
+            {
+                TemplateNamespace = Variables.NamespacesCaseInsensitive[Namespace.Template];
+            }
+            catch
+            {
+                TemplateNamespace = "[Tt]emplate:";
+            }
+            
+            // allow whitespace before semicolon
+            TemplateNamespace = Regex.Replace(TemplateNamespace, @":$", @"[\s_]*:");
+
+            StringBuilder theRegex = new StringBuilder(@"{{\s*(?::?[\s_]*" + TemplateNamespace + @"[\s_]*)?([^\|{}]+?)(?:\s*<!--.*?-->\s*)?\s*(?:\||}})");
+            
+            return Regex.Match(templateCall, theRegex.ToString()).Groups[1].Value;
         }
 
         /// <summary>

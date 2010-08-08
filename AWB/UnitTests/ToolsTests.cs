@@ -1614,12 +1614,12 @@ foo<!--comm-->|title=abc
 Start date and age
 |1833|7|11}}"),"Start date and age");
             
-            // embedded comments
-            Assert.AreEqual(Tools.GetTemplateName(@"{{start date and age <!--comm--> |1833|7|11}}"),"start date and age");
-            Assert.AreEqual(Tools.GetTemplateName(@"{{start date and age <!--comm-->}}"),"start date and age");
+            Assert.AreEqual(Tools.GetTemplateName(@"{{start date and age <!--comm--> |1833|7|11}}"),"start date and age", "handles embedded comments");
+            Assert.AreEqual(Tools.GetTemplateName(@"{{start date and age <!--comm-->}}"),"start date and age", "handles embedded comments");
             
-            // works on part templates
-            Assert.AreEqual(Tools.GetTemplateName(@"{{Start date and age|1833|7|"),"Start date and age");
+            Assert.AreEqual(Tools.GetTemplateName(@"{{Start date and age|1833|7|"),"Start date and age", "works on part templates");
+            
+            Assert.AreEqual(Tools.GetTemplateName(@"{{Template:Foo|1=yes}}"), "Foo", "Template namespace removed");
         }
     }
 
