@@ -3687,27 +3687,6 @@ namespace WikiFunctions.Parse
             return templateMatches;
         }
 
-        // covered by GetTemplateNameTests
-        /// <summary>
-        /// If fromSetting is true, get template name from a setting, i.e. strip formatting/template: call *if any*. If false, passes through to GetTemplateName(string call)
-        /// </summary>
-        /// <param name="setting"></param>
-        /// <param name="fromSetting"></param>
-        public static string GetTemplateName(string setting, bool fromSetting)
-        {
-            if (fromSetting)
-            {
-                setting = setting.Trim();
-                if (string.IsNullOrEmpty(setting))
-                    return "";
-
-                string gtn = Tools.GetTemplateName(setting).Trim();
-                return string.IsNullOrEmpty(gtn) ? setting : gtn;
-            }
-
-            return Tools.GetTemplateName(setting);
-        }
-
         // Covered by: UtilityFunctionTests.RemoveEmptyComments()
         /// <summary>
         /// Removes comments with nothing/only whitespace between tags

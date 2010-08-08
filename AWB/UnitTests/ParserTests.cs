@@ -1745,25 +1745,6 @@ died 2002
         }
         
         [Test]
-        public void GetTemplateNameTests()
-        {
-            WikiRegexes.TemplateCall = new Regex(@"{{Template:\s*([^\]\|]*)\s*(.*)}}", RegexOptions.Singleline);
-
-            Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"{{Template:foo|bar}}", false));
-            Assert.AreEqual(@"Foo", Parsers.GetTemplateName(@"{{Template:Foo|bar}}", false));
-            Assert.AreEqual(@"Foo", Parsers.GetTemplateName(@"{{Template:Foo|bar}}", true));
-            Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"{{Template:    foo|bar}}", false));
-            Assert.AreEqual(@"foo here", Parsers.GetTemplateName(@"{{Template:    foo here|bar}}", false));
-            Assert.AreEqual(@"foo-bar", Parsers.GetTemplateName(@"{{Template:    foo-bar}}", false));
-            
-            Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"{{Template:foo|bar=yes}}", true));
-            Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"{{Template: foo |bar=yes}}", true));
-            Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"{{Template:foo|bar=yes}}", true));
-            Assert.AreEqual(@"", Parsers.GetTemplateName(@"", true));
-            Assert.AreEqual(@"", Parsers.GetTemplateName(@" ", true));
-        }
-
-        [Test]
         public void RemoveDuplicateWikiLinks()
         {
             // removes duplicate piped wikilinks on same line
