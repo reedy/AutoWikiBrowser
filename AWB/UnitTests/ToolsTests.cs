@@ -1620,6 +1620,10 @@ Start date and age
             Assert.AreEqual(Tools.GetTemplateName(@"{{Start date and age|1833|7|"),"Start date and age", "works on part templates");
             
             Assert.AreEqual(Tools.GetTemplateName(@"{{Template:Foo|1=yes}}"), "Foo", "Template namespace removed");
+            Assert.AreEqual(Tools.GetTemplateName(@"{{ Template : Foo |1=yes}}"), "Foo", "Template namespace removed");
+            Assert.AreEqual(Tools.GetTemplateName(@"{{template:Foo|1=yes}}"), "Foo", "Template namespace removed");
+            
+            Assert.AreEqual(Tools.GetTemplateName(@""), "");
         }
     }
 
