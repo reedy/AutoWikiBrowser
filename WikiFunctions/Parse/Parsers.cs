@@ -3689,16 +3689,6 @@ namespace WikiFunctions.Parse
 
         // covered by GetTemplateNameTests
         /// <summary>
-        /// get template name from template call, e.g. "{{template:foobar|123}}"
-        ///  to "foobar"
-        /// </summary>
-        public static string GetTemplateName(string call)
-        {
-            return WikiRegexes.TemplateCall.Match(call).Groups[1].Value;
-        }
-
-        // NOT covered
-        /// <summary>
         /// If fromSetting is true, get template name from a setting, i.e. strip formatting/template: call *if any*. If false, passes through to GetTemplateName(string call)
         /// </summary>
         /// <param name="setting"></param>
@@ -3711,14 +3701,14 @@ namespace WikiFunctions.Parse
                 if (string.IsNullOrEmpty(setting))
                     return "";
 
-                string gtn = GetTemplateName(setting).Trim();
+                string gtn = Tools.GetTemplateName(setting).Trim();
                 return string.IsNullOrEmpty(gtn) ? setting : gtn;
             }
 
-            return GetTemplateName(setting);
+            return Tools.GetTemplateName(setting);
         }
 
-        //Covered by: UtilityFunctionTests.RemoveEmptyComments()
+        // Covered by: UtilityFunctionTests.RemoveEmptyComments()
         /// <summary>
         /// Removes comments with nothing/only whitespace between tags
         /// </summary>

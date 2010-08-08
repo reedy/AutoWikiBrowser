@@ -1743,23 +1743,9 @@ died 2002
 
             Assert.IsFalse(Parsers.CategoryMatch(@"foo [[Category:1990 births]]", @"1990"));
         }
-
-        [Test]
-        public void GetTemplateNameTests()
-        {
-            WikiRegexes.TemplateCall = new Regex(@"{{Template:\s*([^\]\|]*)\s*(.*)}}", RegexOptions.Singleline);
-
-            Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"{{Template:foo|bar}}"));
-            Assert.AreEqual(@"Foo", Parsers.GetTemplateName(@"{{Template:Foo|bar}}"));
-            Assert.AreEqual(@"foo", Parsers.GetTemplateName(@"{{Template:    foo|bar}}"));
-            Assert.AreEqual(@"foo here", Parsers.GetTemplateName(@"{{Template:    foo here|bar}}"));
-            Assert.AreEqual(@"foo-bar", Parsers.GetTemplateName(@"{{Template:    foo-bar}}"));
-            Assert.AreEqual(@"", Parsers.GetTemplateName(@"Bert"));
-            Assert.AreEqual(@"", Parsers.GetTemplateName(@""));
-        }
         
         [Test]
-        public void GetTemplateNameTests2()
+        public void GetTemplateNameTests()
         {
             WikiRegexes.TemplateCall = new Regex(@"{{Template:\s*([^\]\|]*)\s*(.*)}}", RegexOptions.Singleline);
 
