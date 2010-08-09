@@ -728,7 +728,7 @@ namespace WikiFunctions.Parse
         // July 13 - July 28 2009 -> July 13–28, 2009
         private static readonly Regex LongFormatInternationalDateRange = new Regex(@"\b([1-3]?\d) +" + WikiRegexes.Months + @" *(?:-|–|&nbsp;) *([1-3]?\d) +\2,? *([12]\d{3})\b", RegexOptions.Compiled);
         private static readonly Regex LongFormatAmericanDateRange = new Regex(WikiRegexes.Months + @" +([1-3]?\d) +" + @" *(?:-|–|&nbsp;) *\1 +([1-3]?\d) *,? *([12]\d{3})\b", RegexOptions.Compiled);
-        private static readonly Regex EnMonthRange = new Regex(@"\b(January|February|March|April|May|June|July|August|September|October|November|December)-(January|February|March|April|May|June|July|August|September|October|November|December)\b", RegexOptions.Compiled);
+        private static readonly Regex EnMonthRange = new Regex(@"\b" + WikiRegexes.Months + @"-" + WikiRegexes.Months + @"\b", RegexOptions.Compiled);
         
         private static readonly Regex FullYearRange = new Regex(@"(?:[\(,=;\|]|\b(?:from|between|and|reigned|f?or)) *([12]\d{3}) *- *([12]\d{3}) *(?=\)|[,;\|]|and\b|\s*$)", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SpacedFullYearRange = new Regex(@"([12]\d{3})(?: +– *| *– +)([12]\d{3})", RegexOptions.Compiled);
@@ -3120,35 +3120,14 @@ namespace WikiFunctions.Parse
             return -1;
         }
 
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="b"></param>
-        ///// <returns></returns>
-        //private static bool IsHex(byte b)
-        //{
-        //    return ((b >= '0' && b <= '9') || (b >= 'A' && b <= 'F'));
-        //}
-
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        ///// <param name="a"></param>
-        ///// <param name="b"></param>
-        ///// <returns></returns>
-        //private static byte DecodeHex(byte a, byte b)
-        //{
-        //    return byte.Parse(new string(new[] { (char)a, (char)b }), System.Globalization.NumberStyles.HexNumber);
-        //}
-
         private static readonly Regex LinkWhitespace1 = new Regex(@" \[\[ ([^\]]{1,30})\]\]", RegexOptions.Compiled);
         private static readonly Regex LinkWhitespace2 = new Regex(@"(?<=\w)\[\[ ([^\]]{1,30})\]\]", RegexOptions.Compiled);
         private static readonly Regex LinkWhitespace3 = new Regex(@"\[\[([^\]]{1,30}?) {2,10}([^\]]{1,30})\]\]", RegexOptions.Compiled);
         private static readonly Regex LinkWhitespace4 = new Regex(@"\[\[([^\]\|]{1,30}) \]\] ", RegexOptions.Compiled);
         private static readonly Regex LinkWhitespace5 = new Regex(@"\[\[([^\]]{1,30}) \]\](?=\w)", RegexOptions.Compiled);
 
-        private static readonly Regex DateLinkWhitespace1 = new Regex(@"\b(\[\[\d\d? (?:January|February|March|April|May|June|July|August|September|October|November|December)\]\]),? {0,2}(\[\[\d{1,4}\]\])\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex DateLinkWhitespace2 = new Regex(@"\b(\[\[(?:January|February|March|April|May|June|July|August|September|October|November|December) \d\d?\]\]),? {0,2}(\[\[\d{1,4}\]\])\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex DateLinkWhitespace1 = new Regex(@"\b(\[\[\d\d? " + WikiRegexes.MonthsNoGroup + @"\]\]),? {0,2}(\[\[\d{1,4}\]\])\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex DateLinkWhitespace2 = new Regex(@"\b(\[\[" + WikiRegexes.MonthsNoGroup + @" \d\d?\]\]),? {0,2}(\[\[\d{1,4}\]\])\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         // Covered by LinkTests.TestFixLinkWhitespace()
         /// <summary>
