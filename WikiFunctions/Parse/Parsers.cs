@@ -820,6 +820,11 @@ namespace WikiFunctions.Parse
             new Regex(
                 @"('''[^']+'''\s*\()b\.(\s+\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
                 WikiRegexes.MonthsNoGroup + @")?\]*\s*\[*[1-2]?\d{3}\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        
+         private static readonly Regex DOBRegexDash =
+            new Regex(
+                @"('''[^']+'''\s*\()(\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
+                WikiRegexes.MonthsNoGroup + @")?\]*\s*\[*[1-2]?\d{3}\]*)\s*(?:\-|–|&ndash;)\s*\)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private static readonly Regex BornDeathRegex =
             new Regex(
@@ -833,7 +838,7 @@ namespace WikiFunctions.Parse
 
         //Covered by: LinkTests.FixLivingThingsRelatedDates()
         /// <summary>
-        /// Replace b. and d. for born/died
+        /// Replace b. and d. for born/died, or date– for born
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
@@ -843,9 +848,10 @@ namespace WikiFunctions.Parse
             if (UnlinkedFloruit.IsMatch(WikiRegexes.ZerothSection.Match(articleText).Value))
                 articleText = UnlinkedFloruit.Replace(articleText, @"([[floruit|fl.]] $1", 1);
 
-            articleText = DiedDateRegex.Replace(articleText, "$1died$2"); //date of death
-            articleText = DOBRegex.Replace(articleText, "$1born$2"); //date of birth
-            return BornDeathRegex.Replace(articleText, "$1$2 – $4"); //birth and death
+            articleText = DiedDateRegex.Replace(articleText, "$1died$2"); // date of death
+            articleText = DOBRegex.Replace(articleText, "$1born$2"); // date of birth
+            articleText = DOBRegexDash.Replace(articleText, "$1born $2)"); // date of birth – dash
+            return BornDeathRegex.Replace(articleText, "$1$2 – $4"); // birth and death
         }
 
         // Covered by: LinkTests.FixDates()
