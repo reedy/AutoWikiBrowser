@@ -309,14 +309,9 @@ namespace WikiFunctions
         public static Regex Defaultsort;
 
         /// <summary>
-        /// Matches all headings
+        /// Matches headings of all levels, group 1 being the heading name
         /// </summary>
-        public static readonly Regex Heading = new Regex(@"^(=+)(.*?)(=+)", RegexOptions.Compiled | RegexOptions.Multiline);
-
-        /// <summary>
-        /// Matches headings of all levels
-        /// </summary>
-        public static readonly Regex Headings = new Regex(@"^={1,6}(.*?)={1,6}\s*$", RegexOptions.Multiline | RegexOptions.Compiled);
+        public static readonly Regex Headings = new Regex(@"^={1,6} *(.*?) *={1,6}\s*$", RegexOptions.Multiline | RegexOptions.Compiled);
         
         /// <summary>
         /// Matches level 2 headings

@@ -672,7 +672,7 @@ namespace WikiFunctions
 
             foreach (string s in lines)
             {
-                if (WikiRegexes.Heading.IsMatch(s))
+                if (WikiRegexes.Headings.IsMatch(s))
                 {
                     if (section.Length > 0)
                     {
