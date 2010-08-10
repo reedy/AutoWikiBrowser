@@ -86,7 +86,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 #Region "Properties"
         Friend Property TemplateName() As String
             Get
-                Return WikiFunctions.Parse.Parsers.GetTemplateName(TemplateNameTextBox.Text, True)
+                Return WikiFunctions.Tools.GetTemplateName(TemplateNameTextBox.Text)
             End Get
             Set(ByVal value As String)
                 TemplateNameTextBox.Text = value
