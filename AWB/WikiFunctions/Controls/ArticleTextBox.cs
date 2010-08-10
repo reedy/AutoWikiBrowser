@@ -225,9 +225,9 @@ namespace WikiFunctions.Controls
             Font boldItalicFont = new Font(currentFont.FontFamily, currentFont.Size, FontStyle.Bold | FontStyle.Italic);
 
             // headings text in bold
-            foreach (Match m in WikiRegexes.Heading.Matches(RawText))
+            foreach (Match m in WikiRegexes.Headings.Matches(RawText))
             {
-                SetEditBoxSelection(m.Groups[2].Index, m.Groups[2].Length);
+                SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
                 SelectionFont = boldFont;
             }
 

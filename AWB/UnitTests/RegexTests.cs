@@ -507,6 +507,19 @@ Start date and age
             RegexAssert.Matches(WikiRegexes.BulletedText, "#foo\r\ntest\r\n*:bar", "#foo\r", "*:bar");
             RegexAssert.Matches(WikiRegexes.BulletedText, " foo\r\nfoo bar", " foo\r");
         }
+        
+        [Test]
+        public void Headings()
+        {
+               RegexAssert.NoMatch(WikiRegexes.Headings, "");
+               RegexAssert.IsMatch(WikiRegexes.Headings, "=Foo=");
+               RegexAssert.IsMatch(WikiRegexes.Headings, "==Foo==");
+               RegexAssert.IsMatch(WikiRegexes.Headings, "======Foo======");
+               Assert.AreEqual(WikiRegexes.Headings.Match("======Foo======").Groups[1].Value, "Foo");
+               Assert.AreEqual(WikiRegexes.Headings.Match("== Foo == ").Groups[1].Value, "Foo");
+               
+               RegexAssert.IsMatch(WikiRegexes.Headings, "==Foo=", "matches unbalanced headings");
+        }
 
         [Test]
         public void Refs()
