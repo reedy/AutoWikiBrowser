@@ -992,40 +992,7 @@ namespace WikiFunctions
         /// List of known infobox fields holding date of death
         /// </summary>
         public static readonly List<string> InfoBoxDODFields = new List<string>(new [] {"yearofdeath", "dateofdeath", "died", "death date", "deathdate", "death_date", "death"});
-
-        #region Parsers.FixFootnotes **NOT READY FOR PRODUCTION**
-        // removed superscripted punctuation between refs
-        public static readonly Regex SuperscriptedPunctuationBetweenRefs = new Regex("(</ref>|<ref[^>]*?/>)<sup>[ ]*[,;-]?[ ]*</sup><ref", RegexOptions.Compiled);
-
-        private const string FactTag = "{{[ ]*(fact|fact[ ]*[\\|][^}]*|facts|citequote|citation needed|cn|verification needed|verify source|verify credibility|who|failed verification|nonspecific|dubious|or|lopsided|GR[ ]*[\\|][ ]*[^ ]+|[c]?r[e]?f[ ]*[\\|][^}]*|ref[ _]label[ ]*[\\|][^}]*|ref[ _]num[ ]*[\\|][^}]*)[ ]*}}";
-        public static readonly Regex WhiteSpaceFactTag = new Regex("[\\n\\r\\f\\t ]+?" + FactTag, RegexOptions.Compiled);
-
-        private const string LacksPunctuation = "([^\\.,;:!\\?\"'’])";
-        private const string QuestionOrExclam = "([!\\?])";
-        //private const string MinorPunctuation = "([\\.,;:])";
-        private const string AnyPunctuation = "([\\.,;:!\\?])";
-        private const string MajorPunctuation = "([,;:!\\?])";
-        private const string Period = "([\\.])";
-        private const string Quote = "([\"'’]*)";
-        private const string Space = "[ ]*";
-
-        private const string RefTag =
-            "(<ref>([^<]|<[^/]|</[^r]|</r[^e]|</re[^f]|</ref[^>])*?</ref>" +
-            "|<ref[^>]*?[^/]>([^<]|<[^/]|</[^r]|</r[^e]|</re[^f]" + "|</ref[^>])*?</ref>|<ref[^>]*?/>)";
-
-        public static readonly Regex Match0A = new Regex(LacksPunctuation + Quote + FactTag + Space + AnyPunctuation, RegexOptions.Compiled);
-        public static readonly Regex Match0B = new Regex(QuestionOrExclam + Quote + FactTag + Space + MajorPunctuation, RegexOptions.Compiled);
-        //public static readonly Regex match0C = new Regex(MinorPunctuation + Quote + FactTag + space + AnyPunctuation, RegexOptions.Compiled);
-        public static readonly Regex Match0D = new Regex(QuestionOrExclam + Quote + FactTag + Space + Period, RegexOptions.Compiled);
-
-        public static readonly Regex Match1A = new Regex(LacksPunctuation + Quote + RefTag + Space + AnyPunctuation, RegexOptions.Compiled);
-        public static readonly Regex Match1B = new Regex(QuestionOrExclam + Quote + RefTag + Space + MajorPunctuation, RegexOptions.Compiled);
-        //public static readonly Regex match1C = new Regex(MinorPunctuation + Quote + RefTag + space + AnyPunctuation, RegexOptions.Compiled);
-        public static readonly Regex Match1D = new Regex(QuestionOrExclam + Quote + RefTag + Space + Period, RegexOptions.Compiled);
-
-        //public static readonly Regex RefAfterEquals = new Regex("(==*)<ref", RegexOptions.Compiled);
-        #endregion
-
+        
         /// <summary>
         /// matches "ibid" and "op cit"
         /// </summary>
