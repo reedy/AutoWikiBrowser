@@ -4192,7 +4192,7 @@ was"));
             Assert.AreEqual(@"Now the 14th February was", parser.FixDateOrdinalsAndOf(@"Now the 14th February was", "test"));
             Assert.AreEqual(@"Now the February 14th was", parser.FixDateOrdinalsAndOf(@"Now the February 14th was", "test"));
             Assert.AreEqual(@"'''6th October City''' is", parser.FixDateOrdinalsAndOf(@"'''6th October City''' is", "6th October City"));
-            //poem has been deleted: Assert.AreEqual(@"<poem>On March 14th, 2008 elections were</poem>", parser.FixDateOrdinalsAndOf(@"<poem>On March 14th, 2008 elections were</poem>", "test"));
+            Assert.AreEqual(@"<blockquote>On March 14th, 2008 elections were</blockquote>", parser.FixDateOrdinalsAndOf(@"<blockquote>On March 14th, 2008 elections were</blockquote>", "test"));
         }
         
         [Test]

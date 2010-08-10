@@ -351,18 +351,6 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             TestMatch(WikiRegexes.Blockquote, "< Blockquote >foo\r\nbar</ BLOCKQUOTE>", "< Blockquote >foo\r\nbar</ BLOCKQUOTE>");
         }
 
-        //        [Test]
-        //        public void Poem()
-        //        {
-        //            // one line
-        //            TestMatch(WikiRegexes.Poem, "<poem>foo bar< /poem>", "<poem>foo bar< /poem>");
-        //
-        //            // multiple lines
-        //            TestMatch(WikiRegexes.Poem, @"< Poem >foo
-        //bar</ POEM>", @"< Poem >foo
-        //bar</ POEM>");
-        //        }
-
         [Test]
         public void Persondata()
         {

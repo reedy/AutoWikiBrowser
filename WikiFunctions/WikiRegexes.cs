@@ -398,11 +398,6 @@ namespace WikiFunctions
         /// </summary>
         public static readonly Regex Blockquote = new Regex(@"<\s*blockquote\s*>(.*?)<\s*/\s*blockquote\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
-        /// <summary> 
-        /// Matches &ltpoem> tags. Unused because the template has been deleted
-        /// </summary>
-        //public static readonly Regex Poem = new Regex(@"<\s*poem\s*>(.*?)<\s*/\s*poem\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
-
         /// <summary>
         /// Matches &lt;imagemap&gt; tags
         /// </summary>
