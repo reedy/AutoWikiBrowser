@@ -799,7 +799,7 @@ namespace AutoWikiBrowser
                 if (filterOutNonMainSpaceToolStripMenuItem.Checked
                     && (Namespace.Determine(page.Title) != Namespace.Article))
                 {
-                    SkipRedirect(page.Title, "Page is not in mainspace");
+                    SkipRedirect(page.OriginalTitle, "Page redirects to non-mainspace");
                     return;
                 }
 
