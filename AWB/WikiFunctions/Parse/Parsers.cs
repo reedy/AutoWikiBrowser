@@ -294,6 +294,101 @@ namespace WikiFunctions.Parse
 
             return newText.Trim();
         }
+        
+         // Covered by: FormattingTests.TestFixHeadings(), incomplete
+        /// <summary>
+        /// Fix ==See also== and similar section common errors. Removes unecessary introductory headings and cleans excess whitespace.
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitle">the title of the article</param>
+        /// <returns>The modified article text.</returns>
+        public static string FixHeadings(string articleText, string articleTitle)
+        {
+            articleText = Regex.Replace(articleText, "^={1,4} ?" + Regex.Escape(articleTitle) + " ?={1,4}", "", RegexOptions.IgnoreCase);
+            articleText = RegexBadHeader.Replace(articleText, "");
+
+            // only apply if < 6 matches, otherwise (badly done) articles with 'list of...' and lots of links in headings will be further messed up
+            if (RegexRemoveLinksInHeadings.Matches(articleText).Count < 6
+                && !(Regex.IsMatch(articleTitle, WikiRegexes.Months) || articleTitle.StartsWith(@"List of") || WikiRegexes.GregorianYear.IsMatch(articleTitle)))
+            {
+                // loop through in case a heading has mulitple wikilinks in it
+                while (RegexRemoveLinksInHeadings.IsMatch(articleText))
+                {
+                    articleText = RegexRemoveLinksInHeadings.Replace(articleText, "$1$3$4");
+                }
+            }
+
+            if (!Regex.IsMatch(articleText, "= ?See also ?="))
+                articleText = RegexHeadings0.Replace(articleText, "$1See also$3");
+
+            articleText = RegexHeadings1.Replace(articleText, "$1External links$3");
+            //articleText = regexHeadings2.Replace(articleText, "$1External link$3");
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#ReferenceS
+            Match refsHeader = RegexHeadings3.Match(articleText);
+            string refsheader1 = refsHeader.Groups[1].Value;
+            string refsheader2 = refsHeader.Groups[2].Value;
+            string refsheader3 = refsHeader.Groups[3].Value;
+            if (refsheader2.Length > 0)
+                articleText = articleText.Replace(refsheader1 + refsheader2 + refsheader3,
+                                                  refsheader1 + "Reference" + refsheader3.ToLower());
+
+            Match sourcesHeader = RegexHeadings4.Match(articleText);
+            string sourcesheader1 = sourcesHeader.Groups[1].Value;
+            string sourcesheader2 = sourcesHeader.Groups[2].Value;
+            string sourcesheader3 = sourcesHeader.Groups[3].Value;
+            if (sourcesheader2.Length > 0)
+                articleText = articleText.Replace(sourcesheader1 + sourcesheader2 + sourcesheader3,
+                                                  sourcesheader1 + "Source" + sourcesheader3.ToLower());
+
+            articleText = RegexHeadings5.Replace(articleText, "$1Further reading$3");
+            articleText = RegexHeadings6.Replace(articleText, "$1$2 life$3");
+            articleText = RegexHeadings7.Replace(articleText, "$1$2 members$3");
+            articleText = RegexHeadings8.Replace(articleText, "$1$2$3$4");
+            articleText = RegexHeadings9.Replace(articleText, "$1Track listing$2");
+            articleText = RegexHeadings10.Replace(articleText, "$1Life and career$2");
+            articleText = RegexHeadingsCareer.Replace(articleText, "$1$2 career$3");
+
+            articleText = RegexHeadingWhitespaceBefore.Replace(articleText, "$1$2$1$3");
+            articleText = RegexHeadingWhitespaceAfter.Replace(articleText, "$1$2$1$3");
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Headlines_end_with_colon_.28WikiProject_Check_Wikipedia_.2357.29
+            articleText = RegexHeadingColonAtEnd.Replace(articleText, "$1$2$3");
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Section_header_level_.28WikiProject_Check_Wikipedia_.237.29
+            // if no level 2 heading in article, remove a level from all headings (i.e. '===blah===' to '==blah==' etc.)
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Standard_level_2_headers
+            // don't consider the "references", "see also", or "external links" level 2 headings when counting level two headings
+            string articleTextLocal = articleText;
+            articleTextLocal = ReferencesExternalLinksSeeAlso.Replace(articleTextLocal, "");
+
+            // only apply if all level 3 headings and lower are before the fist of references/external links/see also
+            string originalarticleText = "";
+            while (!originalarticleText.Equals(articleText))
+            {
+                originalarticleText = articleText;
+                if (!WikiRegexes.HeadingLevelTwo.IsMatch(articleTextLocal) && Namespace.IsMainSpace(articleTitle))
+                {
+                    int upone = 0;
+                    foreach (Match m in RegexHeadingUpOneLevel.Matches(articleText))
+                    {
+                        if (m.Index > upone)
+                            upone = m.Index;
+                    }
+
+                    if (!ReferencesExternalLinksSeeAlso.IsMatch(articleText) || (upone < ReferencesExternalLinksSeeAlso.Match(articleText).Index))
+                        articleText = RegexHeadingUpOneLevel.Replace(articleText, "$1$2");
+                }
+
+                articleTextLocal = ReferencesExternalLinksSeeAlso.Replace(articleText, "");
+            }
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Bold_text_in_headers
+            // remove bold from level 3 headers and below, as it makes no visible difference
+            articleText = RegexHeadingWithBold.Replace(articleText, "$1");
+
+            return articleText;
+        }
 
         private const int MinCleanupTagsToCombine = 3; // article must have at least this many tags to combine to {{Article issues}}
 
@@ -613,101 +708,6 @@ namespace WikiFunctions.Parse
             }
 
             return (articleText + restOfArticle);
-        }
-
-        // Covered by: FormattingTests.TestFixHeadings(), incomplete
-        /// <summary>
-        /// Fix ==See also== and similar section common errors. Removes unecessary introductory headings and cleans excess whitespace.
-        /// </summary>
-        /// <param name="articleText">The wiki text of the article.</param>
-        /// <param name="articleTitle">the title of the article</param>
-        /// <returns>The modified article text.</returns>
-        public static string FixHeadings(string articleText, string articleTitle)
-        {
-            articleText = Regex.Replace(articleText, "^={1,4} ?" + Regex.Escape(articleTitle) + " ?={1,4}", "", RegexOptions.IgnoreCase);
-            articleText = RegexBadHeader.Replace(articleText, "");
-
-            // only apply if < 6 matches, otherwise (badly done) articles with 'list of...' and lots of links in headings will be further messed up
-            if (RegexRemoveLinksInHeadings.Matches(articleText).Count < 6
-                && !(Regex.IsMatch(articleTitle, WikiRegexes.Months) || articleTitle.StartsWith(@"List of") || WikiRegexes.GregorianYear.IsMatch(articleTitle)))
-            {
-                // loop through in case a heading has mulitple wikilinks in it
-                while (RegexRemoveLinksInHeadings.IsMatch(articleText))
-                {
-                    articleText = RegexRemoveLinksInHeadings.Replace(articleText, "$1$3$4");
-                }
-            }
-
-            if (!Regex.IsMatch(articleText, "= ?See also ?="))
-                articleText = RegexHeadings0.Replace(articleText, "$1See also$3");
-
-            articleText = RegexHeadings1.Replace(articleText, "$1External links$3");
-            //articleText = regexHeadings2.Replace(articleText, "$1External link$3");
-
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#ReferenceS
-            Match refsHeader = RegexHeadings3.Match(articleText);
-            string refsheader1 = refsHeader.Groups[1].Value;
-            string refsheader2 = refsHeader.Groups[2].Value;
-            string refsheader3 = refsHeader.Groups[3].Value;
-            if (refsheader2.Length > 0)
-                articleText = articleText.Replace(refsheader1 + refsheader2 + refsheader3,
-                                                  refsheader1 + "Reference" + refsheader3.ToLower());
-
-            Match sourcesHeader = RegexHeadings4.Match(articleText);
-            string sourcesheader1 = sourcesHeader.Groups[1].Value;
-            string sourcesheader2 = sourcesHeader.Groups[2].Value;
-            string sourcesheader3 = sourcesHeader.Groups[3].Value;
-            if (sourcesheader2.Length > 0)
-                articleText = articleText.Replace(sourcesheader1 + sourcesheader2 + sourcesheader3,
-                                                  sourcesheader1 + "Source" + sourcesheader3.ToLower());
-
-            articleText = RegexHeadings5.Replace(articleText, "$1Further reading$3");
-            articleText = RegexHeadings6.Replace(articleText, "$1$2 life$3");
-            articleText = RegexHeadings7.Replace(articleText, "$1$2 members$3");
-            articleText = RegexHeadings8.Replace(articleText, "$1$2$3$4");
-            articleText = RegexHeadings9.Replace(articleText, "$1Track listing$2");
-            articleText = RegexHeadings10.Replace(articleText, "$1Life and career$2");
-            articleText = RegexHeadingsCareer.Replace(articleText, "$1$2 career$3");
-
-            articleText = RegexHeadingWhitespaceBefore.Replace(articleText, "$1$2$1$3");
-            articleText = RegexHeadingWhitespaceAfter.Replace(articleText, "$1$2$1$3");
-
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Headlines_end_with_colon_.28WikiProject_Check_Wikipedia_.2357.29
-            articleText = RegexHeadingColonAtEnd.Replace(articleText, "$1$2$3");
-
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Section_header_level_.28WikiProject_Check_Wikipedia_.237.29
-            // if no level 2 heading in article, remove a level from all headings (i.e. '===blah===' to '==blah==' etc.)
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Standard_level_2_headers
-            // don't consider the "references", "see also", or "external links" level 2 headings when counting level two headings
-            string articleTextLocal = articleText;
-            articleTextLocal = ReferencesExternalLinksSeeAlso.Replace(articleTextLocal, "");
-
-            // only apply if all level 3 headings and lower are before the fist of references/external links/see also
-            string originalarticleText = "";
-            while (!originalarticleText.Equals(articleText))
-            {
-                originalarticleText = articleText;
-                if (!WikiRegexes.HeadingLevelTwo.IsMatch(articleTextLocal) && Namespace.IsMainSpace(articleTitle))
-                {
-                    int upone = 0;
-                    foreach (Match m in RegexHeadingUpOneLevel.Matches(articleText))
-                    {
-                        if (m.Index > upone)
-                            upone = m.Index;
-                    }
-
-                    if (!ReferencesExternalLinksSeeAlso.IsMatch(articleText) || (upone < ReferencesExternalLinksSeeAlso.Match(articleText).Index))
-                        articleText = RegexHeadingUpOneLevel.Replace(articleText, "$1$2");
-                }
-
-                articleTextLocal = ReferencesExternalLinksSeeAlso.Replace(articleText, "");
-            }
-
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Bold_text_in_headers
-            // remove bold from level 3 headers and below, as it makes no visible difference
-            articleText = RegexHeadingWithBold.Replace(articleText, "$1");
-
-            return articleText;
         }
 
         // fixes extra comma in American format dates
