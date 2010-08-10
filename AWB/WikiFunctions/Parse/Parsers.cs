@@ -866,40 +866,6 @@ namespace WikiFunctions.Parse
             return ApostropheInDecades.Replace(articleText, "s");
         }
 
-        // NOT covered, unused
-        /// <summary>
-        /// NOT READY FOR PRODUCTION. Footnote formatting errors per [[WP:FN]].
-        /// currently too buggy to be included into production builds
-        /// </summary>
-        /// <param name="articleText">The wiki text of the article.</param>
-        /// <returns>The modified article text.</returns>
-        public static string FixFootnotes(string articleText)
-        {
-            // removed superscripted punctuation between refs
-            articleText = WikiRegexes.SuperscriptedPunctuationBetweenRefs.Replace(articleText, "$1<ref");
-
-            articleText = WikiRegexes.WhiteSpaceFactTag.Replace(articleText, "{{$1}}");
-
-            string oldArticleText = "";
-
-            while (oldArticleText != articleText)
-            { // repeat for multiple refs together
-                oldArticleText = articleText;
-                articleText = WikiRegexes.Match0A.Replace(articleText, "$1$2$4$3");
-                articleText = WikiRegexes.Match0B.Replace(articleText, "$1$2$4$3");
-                //articleText = WikiRegexes.match0C.Replace(articleText, "$2$4$3");
-                articleText = WikiRegexes.Match0D.Replace(articleText, "$1$2$3");
-
-                articleText = WikiRegexes.Match1A.Replace(articleText, "$1$2$6$3");
-                articleText = WikiRegexes.Match1B.Replace(articleText, "$1$2$6$3");
-                //articleText = WikiRegexes.match1C.Replace(articleText, "$2$6$3");
-                articleText = WikiRegexes.Match1D.Replace(articleText, "$1$2$3");
-            }
-
-            //articleText = WikiRegexes.RefAfterEquals.Replace(articleText, "$1\r\n<ref");
-            return articleText;
-        }
-
         private const string OutofOrderRefs = @"(<ref\s+name\s*=\s*(?:""|')?([^<>""=]+?)(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>)(\s*{{\s*rp\|[^{}]+}})?(\s*)(<ref\s+name\s*=\s*(?:""|')?([^<>""=]+?)(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>)(\s*{{\s*rp\|[^{}]+}})?";
         private static readonly Regex OutofOrderRefs1 = new Regex(@"(<ref>[^<>]+</ref>)(\s*)(<ref\s+name\s*=\s*(?:""|')?([^<>""=]+?)(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>)(\s*{{\s*[Rr]p\|[^{}]+}})?", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private static readonly Regex OutofOrderRefs2 = new Regex(OutofOrderRefs, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);

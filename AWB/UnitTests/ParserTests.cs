@@ -63,12 +63,6 @@ namespace UnitTests
     public class FootnotesTests : RequiresInitialization
     {
         [Test]
-        public void PrecededByEqualSign()
-        {
-            Assert.IsFalse(Parsers.FixFootnotes("a=<ref>b</ref>").Contains("\n"));
-        }
-
-        [Test]
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#Unexpected_modification
         public void TestTagBoundaries()
         {
