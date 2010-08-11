@@ -2445,7 +2445,7 @@ window.scrollTo(0, diffTopY);
                 UnknownWikiProjectBannerShellParameters = TheArticle.UnknownWikiProjectBannerShellParameters();
                 if(UnknownWikiProjectBannerShellParameters.Count > 0)
                 {
-                    string warn = "Unknown parameters in WPBannerShell: "  + " (" + UnknownWikiProjectBannerShellParameters.Count + ")";
+                    string warn = "Unknown parameters in WPBannerShell: "  + " (" + UnknownWikiProjectBannerShellParameters.Count + ") ";
                     foreach(string s in UnknownWikiProjectBannerShellParameters)
                         warn += s + ", ";
                     lbAlerts.Items.Add(warn);
