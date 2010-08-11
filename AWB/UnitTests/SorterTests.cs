@@ -858,6 +858,16 @@ The following links are here to prevent the interwiki bot from adding them to th
         {
             Assert.AreEqual("", parser2.SortMetaData(@"<!-- [[en:Foo]]-->", "Test"), "Commented out en interwikis removed");
         }
+        
+        [Test]
+        public void SorterNamespaceTests()
+        {
+            const string cat = @"[[Category:Foo]]";
+            
+            Assert.AreEqual(cat, parser2.SortMetaData(cat, "Category:Bar"), "no sorting on category namespace");
+            Assert.AreEqual(cat, parser2.SortMetaData(cat, "Template:Bar"), "no sorting on template namespace");
+            Assert.AreEqual("\r\n\r\n" + cat, parser2.SortMetaData(cat, "Bar"), "sorting applied on mainspace");
+        }
 
         [Test]
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Substituted_templates

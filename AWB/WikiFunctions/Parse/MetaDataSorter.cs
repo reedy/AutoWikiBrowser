@@ -267,7 +267,7 @@ en, sq, ru
         /// <returns>The updated article text</returns>
         internal string Sort(string articleText, string articleTitle, bool fixOptionalWhitespace)
         {
-            if (Namespace.Determine(articleTitle) == Namespace.Template) // Don't really want to be fooling around with templates
+            if (Namespace.Determine(articleTitle) == Namespace.Template || Namespace.Determine(articleTitle) == Namespace.Category) // Don't sort on templates/cats
                 return articleText;
 
             string strSave = articleText;
