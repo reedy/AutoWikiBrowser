@@ -3968,6 +3968,42 @@ Bar", "Test"), "fixes excess blank lines");
             Assert.AreEqual(correct, Parsers.FixHeadings(@"Foo
 ==1920s==
 Bar", "Test"), "inserts blank line if one missing");
+            
+            Assert.AreEqual(@"====4====
+
+==2==
+text", Parsers.FixHeadings(@"====4====
+==2==
+text", "Test"), "fixes excess blank lines");
+            
+            Assert.AreEqual(@"==2==
+
+====4====
+text", Parsers.FixHeadings(@"==2==
+====4====
+text", "Test"), "fixes excess blank lines");
+            
+            Assert.AreEqual(@"x
+
+====Major championships====
+
+==Wins==
+x", Parsers.FixHeadings(@"x
+
+====Major championships====
+==Wins==
+x", "test"));
+            
+            Assert.AreEqual(@"x
+
+==Major championships==
+
+====Wins====
+x", Parsers.FixHeadings(@"x
+
+==Major championships==
+====Wins====
+x", "test"));
         }
         
         [Test]
