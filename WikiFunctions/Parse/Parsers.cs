@@ -295,6 +295,8 @@ namespace WikiFunctions.Parse
             return newText.Trim();
         }
         
+        private static readonly Regex HeadingsWhitespaceBefore = new Regex(@"\s+(" + WikiRegexes.Headings + @")", RegexOptions.Compiled | RegexOptions.Multiline);
+        
          // Covered by: FormattingTests.TestFixHeadings(), incomplete
         /// <summary>
         /// Fix ==See also== and similar section common errors. Removes unecessary introductory headings and cleans excess whitespace.
@@ -386,6 +388,10 @@ namespace WikiFunctions.Parse
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Bold_text_in_headers
             // remove bold from level 3 headers and below, as it makes no visible difference
             articleText = RegexHeadingWithBold.Replace(articleText, "$1");
+            
+            // one blank line before each heading per MOS:HEAD
+            if(Variables.IsWikipediaEN)
+                articleText = HeadingsWhitespaceBefore.Replace(articleText, "\r\n\r\n$1");
 
             return articleText;
         }

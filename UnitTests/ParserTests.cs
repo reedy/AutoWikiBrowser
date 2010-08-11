@@ -3699,27 +3699,31 @@ http://example.com }}");
             Assert.AreEqual("==foo==", Parsers.FixHeadings("=='''foo'''==", "test"));
             Assert.AreEqual("== foo ==", Parsers.FixHeadings("== '''foo''' ==", "test"));
             StringAssert.StartsWith("==foo==", Parsers.FixHeadings("=='''foo'''==\r\n", "test"));
-            Assert.AreEqual("quux\r\n==foo==\r\nbar", Parsers.FixHeadings("quux\r\n=='''foo'''==\r\nbar", "test"));
-            Assert.AreEqual("quux\r\n==foo==\r\n\r\nbar", Parsers.FixHeadings("quux\r\n=='''foo'''==\r\n\r\nbar", "test"));
+            Assert.AreEqual("quux\r\n\r\n==foo==\r\nbar", Parsers.FixHeadings("quux\r\n=='''foo'''==\r\nbar", "test"));
+            Assert.AreEqual("quux\r\n\r\n==foo==\r\n\r\nbar", Parsers.FixHeadings("quux\r\n=='''foo'''==\r\n\r\nbar", "test"));
 
             Assert.AreEqual("==foo==", Parsers.FixHeadings("==foo==", "test"));
 
             Assert.AreEqual(@"hi.
+
 ==News==
 Some news here.", Parsers.FixHeadings(@"hi.
  ==News==
 Some news here.", "test"));
             Assert.AreEqual(@"hi.
+
 ==News place==
 Some news here.", Parsers.FixHeadings(@"hi.
  ==News place==
 Some news here.", "test"));
             Assert.AreEqual(@"hi.
+
 ==News place==
 Some news here.", Parsers.FixHeadings(@"hi.
     ==News place==
 Some news here.", "test"));
             Assert.AreEqual(@"hi.
+
 ==News place==
 Some news here.", Parsers.FixHeadings(@"hi.
 ==News place==
@@ -3736,6 +3740,7 @@ Some news here.", "test"));
 ", Parsers.FixHeadings(@"=== hello world: ===
 ", "a"));
             Assert.AreEqual(@"== hello world ==
+
 == hello world2 ==
 ", Parsers.FixHeadings(@"== hello world: ==
 == hello world2: ==
@@ -3776,6 +3781,7 @@ Some news here.", "test"));
             Assert.AreEqual("==world==", Parsers.FixHeadings("==[[hello now|world]]==", "a"));
             Assert.AreEqual("==world now==", Parsers.FixHeadings("==[[hello|world now]]==", "a"));
             Assert.AreEqual(@"
+
 ==now world==
 ", Parsers.FixHeadings(@"
 ==now [[hello|world]]==
@@ -3789,13 +3795,13 @@ Some news here.", "test"));
             Assert.AreEqual("====hello world ====", Parsers.FixHeadings("====hello [[world]] ====", "a"));
             Assert.AreEqual("====hello world ====", Parsers.FixHeadings("====hello [[world]] ====", "7899"));
             Assert.AreEqual("====United States Marine Corps====", Parsers.FixHeadings("====[[United States Marine Corps]]====", "a"));
-            Assert.AreEqual(@"
-==foo==
+            Assert.AreEqual(@"==foo==
+
 ====United States Marine Corps====
-*[[V-22 Osprey]] - tilt-rotor, [[VTOL]] tactical transport", Parsers.FixHeadings(@"
-==foo==
+*[[V-22 Osprey]]", Parsers.FixHeadings(@"==foo==
+
 ====[[United States Marine Corps]]====
-*[[V-22 Osprey]] - tilt-rotor, [[VTOL]] tactical transport", "a"));
+*[[V-22 Osprey]]", "a"));
 
             // no match
             Assert.AreEqual("===hello [[world]] ==", Parsers.FixHeadings("===hello [[world]] ==", "a"));
@@ -3825,8 +3831,10 @@ text", "a"));
             // multiple
             Assert.AreEqual(@"==hello==
 text
+
 == hello2 ==
 texty
+
 === hello3 ===
 ", Parsers.FixHeadings(@"====hello====
 text
@@ -3838,6 +3846,7 @@ texty
             // level 1 not altered
             Assert.AreEqual(@"=level1=
 text
+
 ==hello==
 ", Parsers.FixHeadings(@"=level1=
 text
@@ -3846,8 +3855,10 @@ text
 
             // no changes if already a level two
             Assert.AreEqual(@"==hi==
+
 ====hello====
 ", Parsers.FixHeadings(@"==hi==
+
 ====hello====
 ", "a"));
 
@@ -3860,6 +3871,7 @@ text", "a"));
             // single heading
             Assert.AreEqual(@"==hello==
 text
+
 ==References==
 foo", Parsers.FixHeadings(@"====hello====
 text
@@ -3868,43 +3880,51 @@ foo", "a"));
 
             Assert.AreEqual(@"==hello==
 text
+
 ==External links==
 foo", Parsers.FixHeadings(@"====hello====
 text
 ==External links==
 foo", "a"));
 
-            Assert.AreEqual(@"==hello==
+            Assert.IsTrue(Parsers.FixHeadings(@"====hello====
 text
+
 ==See also==
+
 ==External links==
-foo", Parsers.FixHeadings(@"====hello====
+foo", "a").StartsWith(@"==hello==
 text
-==See also==
-==External links==
-foo", "a"));
+
+==See also=="));
 
             // no change
             Assert.AreEqual(@"==hello==
 text
+
 ==References==
 foo", Parsers.FixHeadings(@"==hello==
 text
+
 ==References==
 foo", "a"));
 
             // don't apply where level 3 headings after references/external links/see also
             const string a = @"====hello====
 text
+
 ==External links==
 foo
+
 ===bar===
 foo2";
             Assert.AreEqual(a, Parsers.FixHeadings(a, "a"));
 
             const string a2 = @"text
+
 ==External links==
 foo
+
 ===bar===
 foo2";
             Assert.AreEqual(a2, Parsers.FixHeadings(a2, "a"));
@@ -3927,6 +3947,50 @@ text", "Talk:foo"));
             // not at level 1 or 2
             Assert.AreEqual(@"== '''Caernarvon''' 1536-1832 ==", Parsers.FixHeadings(@"== '''Caernarvon''' 1536-1832 ==", "a"));
             Assert.AreEqual(@"= '''Caernarvon''' 1536-1832 =", Parsers.FixHeadings(@"= '''Caernarvon''' 1536-1832 =", "a"));
+        }
+        
+        [Test]
+        public void TestFixHeadingsBlankLineBefore()
+        {
+            const string correct = @"Foo
+
+==1920s==
+Bar";
+            Assert.AreEqual(correct, Parsers.FixHeadings(@"Foo
+
+==1920s==
+Bar", "Test"), "no change when already one blank line");
+            Assert.AreEqual(correct, Parsers.FixHeadings(@"Foo
+
+
+==1920s==
+Bar", "Test"), "fixes excess blank lines");
+            Assert.AreEqual(correct, Parsers.FixHeadings(@"Foo
+==1920s==
+Bar", "Test"), "inserts blank line if one missing");
+        }
+        
+        [Test]
+        public void TestFixHeadingsBlankLineBeforeEnOnly()
+        {
+            #if DEBUG
+            const string correct = @"Foo
+
+==1920s==
+Bar";
+
+            Variables.SetProjectLangCode("fr");
+            Assert.AreEqual(@"Foo
+==1920s==
+Bar", Parsers.FixHeadings(@"Foo
+==1920s==
+Bar", "Test"), "No change – not en wiki");
+            
+            Variables.SetProjectLangCode("en");
+            Assert.AreEqual(correct, Parsers.FixHeadings(@"Foo
+==1920s==
+Bar", "Test"), "inserts blank line if one missing");
+            #endif
         }
 
         [Test, Category("Incomplete")]
