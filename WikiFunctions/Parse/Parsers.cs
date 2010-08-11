@@ -295,7 +295,7 @@ namespace WikiFunctions.Parse
             return newText.Trim();
         }
         
-        private static readonly Regex HeadingsWhitespaceBefore = new Regex(@"\s+(" + WikiRegexes.Headings + @")", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex HeadingsWhitespaceBefore = new Regex(@"\s+(^={1,6} *(.*?) *={1,6} *(?=\r\n)+)", RegexOptions.Compiled | RegexOptions.Multiline);
         
          // Covered by: FormattingTests.TestFixHeadings(), incomplete
         /// <summary>
