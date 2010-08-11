@@ -267,7 +267,7 @@ en, sq, ru
         /// <returns>The updated article text</returns>
         internal string Sort(string articleText, string articleTitle, bool fixOptionalWhitespace)
         {
-            if (Namespace.Determine(articleTitle) == Namespace.Template || Namespace.Determine(articleTitle) == Namespace.Category) // Don't sort on templates/cats
+            if (Namespace.Determine(articleTitle) == Namespace.Template) // Don't sort on templates
                 return articleText;
 
             string strSave = articleText;
@@ -334,7 +334,11 @@ en, sq, ru
                         articleText += personData + categories + strStub;
                         break;
                 }
-                return (articleText + interwikis).TrimEnd();
+                articleText = (articleText + interwikis);
+                
+                if(Namespace.Determine(articleTitle) == Namespace.Category)
+                    return articleText.Trim();
+                        else return articleText.TrimEnd();
             }
             catch (Exception ex)
             {
