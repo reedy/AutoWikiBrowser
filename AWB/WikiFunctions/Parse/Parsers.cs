@@ -2124,7 +2124,7 @@ namespace WikiFunctions.Parse
         // make double spaces within wikilinks just single spaces
         private static readonly Regex SyntaxRegexMultipleSpacesInWikilink = new Regex(@"(\[\[[^\[\]]+?) {2,}([^\[\]]+\]\])", RegexOptions.Compiled);
 
-        private static readonly Regex SyntaxRegexItalic = new Regex("< *i *>(.*?)< */ *i *>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexItalic = new Regex(@"< *(i|em) *>(.*?)< */ *\1 *>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexBold = new Regex("< *b *>(.*?)< */ *b *>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         // Matches <p> tags only if current line does not start from ! or | (indicator of table cells)
@@ -2192,7 +2192,7 @@ namespace WikiFunctions.Parse
             articleText = articleText.Replace(@"<small/>", @"</small>");
 
             //replace html with wiki syntax
-            articleText = SyntaxRegexItalic.Replace(articleText, "''$1''");
+            articleText = SyntaxRegexItalic.Replace(articleText, "''$2''");
 
             articleText = SyntaxRegexBold.Replace(articleText, "'''$1'''");
 
