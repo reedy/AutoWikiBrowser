@@ -660,6 +660,25 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Sub
 #End Region
 
+        ''' <summary>
+        ''' This is called when the contents of TemplateNameTextBox or AlternateNamesTextBox changes, or when HasAlternateNamesCheckBox is (un)checked
+        ''' </summary>
+        Private Sub TemplateNamesChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+            With OurSettingsControl
+                If .TemplateName = "" Then
+                    MainRegex = Nothing
+                    PreferredTemplateNameRegex = Nothing
+                    SecondChanceRegex = Nothing
+                Else
+                    If .HasAlternateNames Then
+                        GotNewAlternateNamesString(.AlternateNames)
+                    Else
+                        GotNewAlternateNamesString("")
+                    End If
+                End If
+            End With
+        End Sub
+
     End Class
 End Namespace
 
