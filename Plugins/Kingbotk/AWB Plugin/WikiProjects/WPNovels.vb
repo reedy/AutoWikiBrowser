@@ -124,10 +124,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             ' Currently only WPBio does anything here (if {{musician}} add to musician-work-group)
         End Sub
         Protected Overrides Function WriteTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
-            WriteTemplateHeader = "{{" & PluginName & Microsoft.VisualBasic.vbCrLf
-
-            WriteTemplateHeader += WriteOutParameterToHeader("class") & _
-               WriteOutParameterToHeader("importance")
+            Return "{{" & PluginName & Microsoft.VisualBasic.vbCrLf & _
+                WriteOutParameterToHeader("class") & _
+                WriteOutParameterToHeader("importance")
         End Function
 
         'User interface:

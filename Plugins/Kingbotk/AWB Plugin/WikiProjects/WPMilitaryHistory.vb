@@ -200,7 +200,7 @@
     End Sub
 
     Protected Overrides Function WriteTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
-        WriteTemplateHeader = "{{WPMILHIST" & _
+        Return "{{WPMILHIST" & _
            Microsoft.VisualBasic.vbCrLf & WriteOutParameterToHeader("class")
     End Function
 
