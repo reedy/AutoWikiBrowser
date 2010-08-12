@@ -38,7 +38,10 @@ namespace WikiFunctions.Logging
         /// <param name="listener"></param>
 		public virtual void AddListener(string key, IMyTraceListener listener)
 		{
-			Listeners.Add(key, listener);
+            if (!Listeners.ContainsKey(key))
+            {
+                Listeners.Add(key, listener);
+            }
 		}
 
         /// <summary>

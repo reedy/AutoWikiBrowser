@@ -15,9 +15,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         ' Redirects:
         ' SPACES SHOULD BE WRITTEN TO XML AND IN THE GENERIC TL ALTERNATE NAME TEXT BOX AS SPACES ONLY
         ' WHEN READ FROM XML, FROM WIKIPEDIA OR FROM THE TEXT BOX AND FED INTO REGEXES CONVERT THEM TO [ _]
-        Protected mGotRedirectsFromWikipedia As Boolean
         Protected mLastKnownGoodRedirects As String = "" ' Should contain spaces not [ _]. We always try to use an up-to-date list from the server, but we can at user's choice fall back to a recent list (generally from XML settings) at user's bidding
-
 
         Friend Sub New(ByVal DefaultRegexpmiddle As String)
             GotNewAlternateNamesString(DefaultRegexpmiddle)
@@ -59,23 +57,11 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             MainRegex = New Regex(conRegexpLeft & RegexpMiddle & conRegexpRight, conRegexpOptions)
             SecondChanceRegex = New Regex(conRegexpLeft & RegexpMiddle & conRegexpRightNotStrict, conRegexpOptions)
 
-#If DEBUG Then
-            Debug.Print("LastKnownGoodRedirects: " & mLastKnownGoodRedirects)
-            Debug.Print("MainRegex: " & MainRegex.ToString)
-            Debug.Print("SecondChanceRegex: " & SecondChanceRegex.ToString)
-#End If
-
             If mHasAlternateNames Then
                 PreferredTemplateNameRegex = New Regex(PreferredTemplateNameRegexCreator.Replace(PreferredTemplateName, _
                    AddressOf Me.PreferredTemplateNameWikiMatchEvaluator), RegexOptions.Compiled)
-#If DEBUG Then
-                Debug.Print("PreferredTemplateNameRegex: " & PreferredTemplateNameRegex.ToString)
-#End If
             Else
                 PreferredTemplateNameRegex = Nothing
-#If DEBUG Then
-                Debug.Print("PreferredTemplateNameRegex: Null")
-#End If
             End If
         End Sub
         ''' <summary>
@@ -94,16 +80,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             ' In compiled templates, this is where we check if we've got an up-to-date redirects list from Wikipedia
             ' In generic templates, we also check whether the generic template has enough configuration to start tagging
             Get
-#If DEBUG Then
                 Return True
-#Else
-                If Not mGotRedirectsFromWikipedia Then ' we've not checked redirects
-                    CheckRedirects() ' check them, and check the variable again
-                    If mGotRedirectsFromWikipedia Then Return True Else Throw New RedirectsException
-                Else
-                    Return True
-                End If
-#End If
             End Get
         End Property
 
@@ -129,41 +106,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                 PluginManager.DefaultStatusText()
             End Try
         End Function
-        Private Sub CheckRedirects()
-            Dim Redirects As List(Of WikiFunctions.Article)
-            Dim gotredirects As Boolean
-
-            Try
-                Redirects = GetRedirects(PreferredTemplateName)
-                gotredirects = True
-
-                If Redirects.Count = 0 Then
-                    GotNewAlternateNamesString("")
-                Else
-                    GotNewAlternateNamesString(ConvertRedirectsToString(Redirects))
-                End If
-
-                mGotRedirectsFromWikipedia = True
-            Catch When gotredirects
-                Throw
-            Catch ex As Exception
-                Select Case MessageBox.Show("We caught an error when attempting to get the incoming redirects for Template:" & _
-                PreferredTemplateName & "." & Microsoft.VisualBasic.vbCrLf & Microsoft.VisualBasic.vbCrLf & "* Press Abort to stop AWB" & _
-                Microsoft.VisualBasic.vbCrLf & "* Press Retry to try again" & Microsoft.VisualBasic.vbCrLf & _
-                "* Press Ignore to use the default redirects list. This may be dangerous if the list is out of date but is perfectly fine if you know or suspect it's up to date. The list is:" & _
-                Microsoft.VisualBasic.vbCrLf & mLastKnownGoodRedirects & Microsoft.VisualBasic.vbCrLf & Microsoft.VisualBasic.vbCrLf & _
-                "The error was:" & Microsoft.VisualBasic.vbCrLf & ex.Message, "Error", MessageBoxButtons.AbortRetryIgnore, _
-                MessageBoxIcon.Error, MessageBoxDefaultButton.Button3)
-                    Case DialogResult.Abort
-                        mGotRedirectsFromWikipedia = False
-                    Case DialogResult.Retry
-                        CheckRedirects()
-                    Case DialogResult.Ignore
-                        GotNewAlternateNamesString(mLastKnownGoodRedirects) ' This may be different to default if we loaded from settings
-                        mGotRedirectsFromWikipedia = True
-                End Select
-            End Try
-        End Sub
         Protected Shared Function ConvertRedirectsToString(ByRef Redirects As List(Of WikiFunctions.Article)) As String
             Dim tmp As New List(Of WikiFunctions.Article)
             ConvertRedirectsToString = ""

@@ -626,7 +626,9 @@ namespace WikiFunctions
         {
             if (string.IsNullOrEmpty(text))
                 return text;
-
+            
+            text = text.Trim();
+            
             if (text[0] == '#' || text[0] == '*')
                 text = text.Substring(1);
 
@@ -670,7 +672,7 @@ namespace WikiFunctions
 
             foreach (string s in lines)
             {
-                if (WikiRegexes.Heading.IsMatch(s))
+                if (WikiRegexes.Headings.IsMatch(s))
                 {
                     if (section.Length > 0)
                     {
@@ -1189,7 +1191,7 @@ namespace WikiFunctions
                 s = s.Insert(m.Index, TurnFirstToUpper(m.Value.ToLower()));
             }
 
-            return s;
+            return s.Trim();
         }
 
         /// <summary>
@@ -1503,38 +1505,51 @@ Message: {2}
         private static readonly Regex ExpandTemplatesRegex = new Regex(@"<expandtemplates[^\>]*>(.*?)</expandtemplates>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
-        /// 
+        /// Expands (substitutes) template calls
         /// </summary>
         /// <param name="articleText">The text of the article</param>
         /// <param name="articleTitle">The title of the artlce</param>
-        /// <param name="regexes"></param>
+        /// <param name="regexes">Dictionary of templates to substitute</param>
         /// <param name="includeComment"></param>
-        /// <returns></returns>
+        /// <returns>The updated article text</returns>
         public static string ExpandTemplate(string articleText, string articleTitle, Dictionary<Regex, string> regexes, bool includeComment)
         {
             foreach (KeyValuePair<Regex, string> p in regexes)
             {
-                foreach (Match m in p.Key.Matches(articleText))
+                string originalArticleText = "";
+                
+                while(!originalArticleText.Equals(articleText))
                 {
-                    string call = m.Value;
-
-                    string expandUri = Variables.URLApi + "?action=expandtemplates&format=xml&title=" + WikiEncode(articleTitle) + "&text=" + HttpUtility.UrlEncode(call);
-                    string result;
-
-                    try
-                    {
-                        string respStr = GetHTML(expandUri);
-                        Match m1 = ExpandTemplatesRegex.Match(respStr);
-                        if (!m.Success) continue;
-                        result = HttpUtility.HtmlDecode(m1.Groups[1].Value);
-                    }
-                    catch
-                    {
+                    originalArticleText = articleText;
+                    // avoid matching on previously commented out calls
+                    Match m = p.Key.Match(Tools.ReplaceWithSpaces(articleText, WikiRegexes.Comments));
+                    if(!m.Success)
                         continue;
+                    
+                    string call = m.Value, result;
+                    
+                    if(Globals.UnitTestMode)
+                        result = "Expanded template test return";
+                    else
+                    {
+                        string expandUri = Variables.URLApi + "?action=expandtemplates&format=xml&title=" + WikiEncode(articleTitle) + "&text=" + HttpUtility.UrlEncode(call);
+                    
+                        try
+                        {
+                            string respStr = GetHTML(expandUri);
+                            Match m1 = ExpandTemplatesRegex.Match(respStr);
+                            if (!m.Success) continue;
+                            result = HttpUtility.HtmlDecode(m1.Groups[1].Value);
+                        }
+                        catch
+                        {
+                            continue;
+                        }
                     }
 
                     bool skipArticle;
                     result = new Parsers().Unicodify(result, out skipArticle);
+                    
                     if (includeComment)
                         result = result + "<!-- " + call + " -->";
 
@@ -2011,19 +2026,19 @@ Message: {2}
         /// <summary>
         /// Appends the input parameter and value to the input template
         /// </summary>
-        /// <param name="template">The input template</param>
+        /// <param name="templateCall">The input template call</param>
         /// <param name="parameter">The input parameter name</param>
         /// <param name="value">The input parameter value</param>
-        /// <returns>The updated template string</returns>
-        public static string AppendParameterToTemplate(string template, string parameter, string value)
+        /// <returns>The updated template call</returns>
+        public static string AppendParameterToTemplate(string templateCall, string parameter, string value)
         {
-            if (!template.StartsWith(@"{{"))
-                return template;
+            if (!templateCall.StartsWith(@"{{"))
+                return templateCall;
 
             // determine whether to use newline: use if > 2 newlines and a newline per bar, allowing up to two without
             const string mask = "@";
             string separator = " ";
-            string templatecopy = template;
+            string templatecopy = templateCall;
             templatecopy = @"{{" + ReplaceWithSpaces(templatecopy.Substring(2), WikiRegexes.NestedTemplates);
             templatecopy = ReplaceWithSpaces(templatecopy, WikiRegexes.SimpleWikiLink);
             templatecopy = ReplaceWithSpaces(templatecopy, WikiRegexes.UnformattedText);
@@ -2037,20 +2052,26 @@ Message: {2}
             if (newlines > 2 && newlines >= (bars - 2))
                 separator = "\r\n";
 
-            return WikiRegexes.TemplateEnd.Replace(template, separator + @"| " + parameter + "=" + value + @"$1}}");
+            return WikiRegexes.TemplateEnd.Replace(templateCall, separator + @"| " + parameter + "=" + value + @"$1}}");
         }
 
         /// <summary>
         /// Returns the value of the input parameter in the input template
         /// </summary>
-        /// <param name="template">the input template</param>
+        /// <param name="template">the input template call</param>
         /// <param name="parameter">the input parameter to find</param>
+        /// <param name="caseInsensitiveParameterName">Whether to match case insensitively on parameter name</param>
         /// <returns>The trimmed parameter value, or a null string if the parameter is not found</returns>
-        public static string GetTemplateParameterValue(string template, string parameter)
+        public static string GetTemplateParameterValue(string templateCall, string parameter, bool caseInsensitiveParameterName)
         {
-            Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=(.*?)(?=\||}}$)", RegexOptions.Singleline);
+            RegexOptions ro = RegexOptions.Singleline;
+            
+            if(caseInsensitiveParameterName)
+                ro |= RegexOptions.IgnoreCase;
+            
+            Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=(.*?)(?=\||}}$)", ro);
 
-            string pipecleanedtemplate = PipeCleanedTemplate(template);
+            string pipecleanedtemplate = PipeCleanedTemplate(templateCall);
 
             Match m = param.Match(pipecleanedtemplate);
 
@@ -2058,46 +2079,99 @@ Message: {2}
             {
                 Group paramValue = param.Match(pipecleanedtemplate).Groups[1];
 
-                return template.Substring(paramValue.Index, paramValue.Length).Trim();
+                return templateCall.Substring(paramValue.Index, paramValue.Length).Trim();
             }
 
             return "";
         }
+        
+         /// <summary>
+        /// Returns the value of the input parameter in the input template
+        /// </summary>
+        /// <param name="template">the input template call</param>
+        /// <param name="parameter">the input parameter to find</param>
+        /// <returns>The trimmed parameter value, or a null string if the parameter is not found</returns>
+        public static string GetTemplateParameterValue(string templateCall, string parameter)
+        {
+            return GetTemplateParameterValue(templateCall, parameter, false);
+        }
 
-        public static List<string> GetTemplateParametersValues(string template, List<string> parameters)
+        /// <summary>
+        /// Returns the values of given parameters for a template call
+        /// </summary>
+        /// <param name="templateCall">The template call</param>
+        /// <param name="parameters">List of parameters requested</param>
+        /// <param name="caseInsensitiveParameterNames">Whether to match case insensitively on parameter name</param>
+        /// <returns>List of parameter values</returns>
+        public static List<string> GetTemplateParametersValues(string templateCall, List<string> parameters, bool caseInsensitiveParameterNames)
         {
             List<string> returnedvalues = new List<string>();
 
             foreach (string param in parameters)
             {
-                returnedvalues.Add(GetTemplateParameterValue(template, param));
+                returnedvalues.Add(GetTemplateParameterValue(templateCall, param, caseInsensitiveParameterNames));
             }
 
             return returnedvalues;
+        }
+        
+        /// <summary>
+        /// Returns the values of given parameters for a template call
+        /// </summary>
+        /// <param name="templateCall">The template call</param>
+        /// <param name="parameters">List of parameters requested</param>
+        /// <returns>List of parameter values</returns>
+        public static List<string> GetTemplateParametersValues(string templateCall, List<string> parameters)
+        {
+            return GetTemplateParametersValues(templateCall, parameters, false);
         }
 
         /// <summary>
         /// Returns the requested argument from the input template call
         /// </summary>
-        /// <param name="template">The template call</param>
+        /// <param name="templateCall">The template call</param>
         /// <param name="argument">The argument to return</param>
         /// <returns>The argument value (trimmed)</returns>
-        public static string GetTemplateArgument(string template, int argument)
+        public static string GetTemplateArgument(string templateCall, int argument)
         {
             Regex arg = new Regex(@"\|\s*(.*?)\s*(?=\||}}$)", RegexOptions.Singleline);
 
-            string pipecleanedtemplate = PipeCleanedTemplate(template);
+            string pipecleanedtemplate = PipeCleanedTemplate(templateCall);
             int count = 1;
 
             foreach (Match m in arg.Matches(pipecleanedtemplate))
             {
                 if (count.Equals(argument))
-                    return template.Substring(m.Groups[1].Index, m.Groups[1].Length);
+                    return templateCall.Substring(m.Groups[1].Index, m.Groups[1].Length);
 
                 count++;
             }
 
             return "";
+        }
+        
+        /// <summary>
+        /// Returns the index of the given argumment from the input template call
+        /// </summary>
+        /// <param name="templateCall">The template call</param>
+        /// <param name="argument">The argument to find</param>
+        /// <returns>The index of the argument</returns>
+        public static int GetTemplateArgumentIndex(string templateCall, int argument)
+        {
+            Regex arg = new Regex(@"\|\s*(.*?)\s*(?=\||}}$)", RegexOptions.Singleline);
+
+            string pipecleanedtemplate = PipeCleanedTemplate(templateCall);
+            int count = 1;
+
+            foreach (Match m in arg.Matches(pipecleanedtemplate))
+            {
+                if (count.Equals(argument))
+                    return m.Index+1;
+
+                count++;
+            }
+
+            return -1;
         }
 
         /// <summary>
@@ -2117,30 +2191,42 @@ Message: {2}
         /// <summary>
         /// Renames the given template named parameter in the input template call
         /// </summary>
-        /// <param name="template">The template call to update</param>
+        /// <param name="templateCall">The template call to update</param>
         /// <param name="oldparameter">Existing parameter name</param>
         /// <param name="newparameter">New parameter name</param>
         /// <returns>The updated template</returns>
-        public static string RenameTemplateParameter(string template, string oldparameter, string newparameter)
+        public static string RenameTemplateParameter(string templateCall, string oldparameter, string newparameter)
         {
             Regex param = new Regex(@"(\|\s*(?:<!--.*?-->)?)" + Regex.Escape(oldparameter) + @"(\s*(?:<!--.*?-->\s*)?=)", RegexOptions.Compiled);
 
-            return (param.Replace(template, "$1" + newparameter + "$2"));
+            return (param.Replace(templateCall, "$1" + newparameter + "$2"));
         }
 
         /// <summary>
         /// Renames the given template named parameters in the input template
         /// </summary>
-        /// <param name="template">The template to update</param>
+        /// <param name="templateCall">The template to update</param>
         /// <param name="oldparameters">List of existing template names</param>
         /// <param name="newparameter">New parameter name</param>
         /// <returns>The updated template</returns>
-        public static string RenameTemplateParameter(string template, List<string> oldparameters, string newparameter)
+        public static string RenameTemplateParameter(string templateCall, List<string> oldparameters, string newparameter)
         {
             foreach (string oldparameter in oldparameters)
-                template = RenameTemplateParameter(template, oldparameter, newparameter);
+                templateCall = RenameTemplateParameter(templateCall, oldparameter, newparameter);
 
-            return template;
+            return templateCall;
+        }
+        
+           /// <summary>
+        /// Removes the input parameter from all instances of the input template in the article text
+        /// </summary>
+        /// <param name="articletext"></param>
+        /// <param name="templatename"></param>
+        /// <param name="parameter"></param>
+        /// <returns>The updated article text</returns>
+        public static string RemoveTemplateParameter(string articletext, string templatename, string parameter)
+        {
+            return RemoveTemplateParameter(articletext, templatename, parameter, false);
         }
 
         /// <summary>
@@ -2149,8 +2235,9 @@ Message: {2}
         /// <param name="articletext"></param>
         /// <param name="templatename"></param>
         /// <param name="parameter"></param>
+        /// <param name="removeLastMatch">Whether to remove the last match, rather than the first</param>
         /// <returns>The updated article text</returns>
-        public static string RemoveTemplateParameter(string articletext, string templatename, string parameter)
+        public static string RemoveTemplateParameter(string articletext, string templatename, string parameter, bool removeLastMatch)
         {
             Regex oldtemplate = NestedTemplateRegex(templatename);
 
@@ -2162,46 +2249,165 @@ Message: {2}
 
             return articletext;
         }
+        
+        /// <summary>
+        /// Removes the input parameter from the input template
+        /// </summary>
+        /// <param name="templateCall">The template call to update</param>
+        /// <param name="parameter">The parameter to remove</param>
+        /// <returns>The updated template call</returns>
+        public static string RemoveTemplateParameter(string templateCall, string parameter)
+        {
+            return RemoveTemplateParameter(templateCall, parameter, false);
+        }
 
         /// <summary>
         /// Removes the input parameter from the input template
         /// </summary>
         /// <param name="template"></param>
         /// <param name="parameter"></param>
+        /// <param name="removeLastMatch">Whether to remove the last match, rather than the first</param>
         /// <returns>The updated template</returns>
-        public static string RemoveTemplateParameter(string template, string parameter)
-        {
+        public static string RemoveTemplateParameter(string templatecall, string parameter, bool removeLastMatch)
+        {   
             Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=(.*?)(?=\||}}$)", RegexOptions.Singleline);
 
-            string pipecleanedtemplate = PipeCleanedTemplate(template);
+            string pipecleanedtemplate = PipeCleanedTemplate(templatecall);
 
             Match m = param.Match(pipecleanedtemplate);
 
             if (m.Success)
             {
+                if(removeLastMatch)
+                {
+                    foreach(Match y in param.Matches(pipecleanedtemplate))
+                        m = y;
+                }
+                
                 int start = m.Index;
-                int valuelength = param.Match(pipecleanedtemplate).Length;
-
-                return (template.Substring(0, start) + template.Substring(start + valuelength));
+                return (templatecall.Substring(0, start) + templatecall.Substring(start + m.Length));
             }
 
-            return template;
+            return templatecall;
+        }
+        
+        private static readonly Regex CiteUrl = new Regex(@"\|\s*url\s*=\s*([^\[\]<>""\s]+)", RegexOptions.Compiled);
+        
+        /// <summary>
+        /// Removes duplicate (same or null) named parameters from template calls
+        /// </summary>
+        /// <param name="templatecall">The template call to clean up</param>
+        /// <returns>The updated template call</returns>
+        public static string RemoveDuplicateTemplateParameters(string templatecall)
+        {
+            string originalURL = CiteUrl.Match(templatecall).Value, originalTemplateCall = templatecall;
+
+            string pipecleanedtemplate = "", updatedTemplateCall = "";
+            
+            while(!updatedTemplateCall.Equals(templatecall))
+            {
+                Dictionary<string, string> Params = new Dictionary<string, string>();
+                pipecleanedtemplate = PipeCleanedTemplate(templatecall);
+                updatedTemplateCall = templatecall;
+                
+                foreach(Match m in anyParam.Matches(pipecleanedtemplate))
+                {
+                    string paramValue = templatecall.Substring(m.Groups[2].Index, m.Groups[2].Length),
+                    paramName = m.Groups[1].Value;
+                    
+                    if(!Params.ContainsKey(paramName))
+                        Params.Add(paramName, paramValue);
+                    else
+                    {
+                        string earlierParamValue;
+                        Params.TryGetValue(paramName, out earlierParamValue);
+                        
+                        // remove this param if equal value to earlier one, or either value blank, or earlier one contains this one
+                        if(paramValue.Equals(earlierParamValue) || paramValue.Length == 0 || earlierParamValue.Length == 0
+                          || earlierParamValue.Contains(paramValue) || paramValue.Contains(earlierParamValue))
+                        {
+                            bool removeLastmatch = (paramValue.Length == 0 || (!paramValue.Equals(earlierParamValue) && earlierParamValue.Contains(paramValue)));
+                            templatecall = RemoveTemplateParameter(templatecall, paramName, removeLastmatch);
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            // check for URL breakage due to unescaped pipes in URL
+            if(!CiteUrl.Match(templatecall).Value.Equals(originalURL))
+                return originalTemplateCall;
+            
+            return templatecall;
+        }
+        
+        private static readonly Regex anyParam = new Regex(@"\|\s*([^{}\|<>\r\n]+?)\s*=\s*(.*?)\s*(?=\||}}$)", RegexOptions.Singleline);
+        
+        /// <summary>
+        /// Returns duplicate named parameters in a template call
+        /// </summary>
+        /// <param name="templatecall">The template call to check</param>
+        /// <returns>Dictionary of any duplicate parameters: index and length</returns>
+        public static Dictionary<int, int> DuplicateTemplateParameters(string templatecall)
+        {
+            Dictionary<int, int> Dupes = new Dictionary<int, int>();
+
+            string pipecleanedtemplate = "";            
+            
+            Dictionary<string, string> Params = new Dictionary<string, string>();
+            pipecleanedtemplate = PipeCleanedTemplate(templatecall);
+            
+            foreach(Match m in anyParam.Matches(pipecleanedtemplate))
+            {
+                string paramValue = templatecall.Substring(m.Groups[2].Index, m.Groups[2].Length),
+                paramName = m.Groups[1].Value;
+                
+                if(!Params.ContainsKey(paramName))
+                    Params.Add(paramName, paramValue);
+                else
+                    Dupes.Add(m.Index, m.Length);
+            }
+            return Dupes;
+        }
+        
+        /// <summary>
+        /// Checks template calls using named parameters for unknown parameters
+        /// </summary>
+        /// <param name="templatecall">The template call to check</param>
+        /// <param name="knownParameters">List of known template parameters</param>
+        /// <returns>List of any unknown parameters</returns>
+        public static List<string> UnknownTemplateParameters(string templatecall, List<string> knownParameters)
+        {
+            List<string> Unknowns = new List<string>();
+
+            string pipecleanedtemplate = "";
+            
+            pipecleanedtemplate = PipeCleanedTemplate(templatecall);
+            
+            foreach(Match m in anyParam.Matches(pipecleanedtemplate))
+            {
+                string paramName = m.Groups[1].Value;
+                
+                if(!knownParameters.Contains(paramName))
+                    Unknowns.Add(paramName);
+            }
+            return Unknowns;
         }
 
         /// <summary>
         /// Sets the template parameter value to the new value input, only if the template already has the parameter (with or without a value)
         /// </summary>
-        /// <param name="template">The template call to update</param>
+        /// <param name="templateCall">The template call to update</param>
         /// <param name="parameter">The template parameter</param>
         /// <param name="newvalue">The new value for the parameter</param>
         /// <returns>The updated template call</returns>
-        public static string UpdateTemplateParameterValue(string template, string parameter, string newvalue)
+        public static string UpdateTemplateParameterValue(string templateCall, string parameter, string newvalue)
         {
             // HACK we are allowing matching on tilde character around parameter name to represent cleaned HTML comment, so may falsely match
             // on stray templates with stray tildes. Will that ever happen?
             Regex param = new Regex(@"\|[\s~]*" + Regex.Escape(parameter) + @"[\s~]*= *\s*?(.*?)\s*(?=(?:\||}}$))", RegexOptions.Singleline);
 
-            string pipecleanedtemplate = PipeCleanedTemplate(template, true);
+            string pipecleanedtemplate = PipeCleanedTemplate(templateCall, true);
 
             Match m = param.Match(pipecleanedtemplate);
 
@@ -2209,25 +2415,25 @@ Message: {2}
             {
                 int start = m.Groups[1].Index, valuelength = m.Groups[1].Length;
 
-                return (template.Substring(0, start) + newvalue + template.Substring(start + valuelength));
+                return (templateCall.Substring(0, start) + newvalue + templateCall.Substring(start + valuelength));
             }
 
-            return template;
+            return templateCall;
         }
 
         /// <summary>
         /// Removes pipes that are not the pipe indicating the end of the parameter's value
         /// </summary>
-        /// <param name="template">The template call to clean</param>
+        /// <param name="templateCall">The template call to clean</param>
         /// <param name="commentsastilde"></param>
         /// <returns>The pipe cleaned template call</returns>
-        public static string PipeCleanedTemplate(string template, bool commentsastilde)
+        public static string PipeCleanedTemplate(string templateCall, bool commentsastilde)
         {
             const char rwith = '#';
-            if (template.Length < 5)
-                return template;
+            if (templateCall.Length < 5)
+                return templateCall;
 
-            string restoftemplate = template.Substring(3);
+            string restoftemplate = templateCall.Substring(3);
             // clear out what may contain pipes that are not the pipe indicating the end of the parameter's value
             restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.NestedTemplates, rwith);
             restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.SimpleWikiLink, rwith);
@@ -2235,7 +2441,7 @@ Message: {2}
                                  ? ReplaceWith(restoftemplate, WikiRegexes.UnformattedText, '~')
                                  : ReplaceWithSpaces(restoftemplate, WikiRegexes.UnformattedText);
 
-            return (template.Substring(0, 3) + restoftemplate);
+            return (templateCall.Substring(0, 3) + restoftemplate);
         }
 
         private static string PipeCleanedTemplate(string template)
@@ -2246,18 +2452,22 @@ Message: {2}
         /// <summary>
         /// Sets the template parameter value to the new value input: if the template already has the parameter then its value is updated, otherwise the new value is appended
         /// </summary>
-        /// <param name="template">The template call to update</param>
+        /// <param name="templateCall">The template call to update</param>
         /// <param name="parameter">The template parameter</param>
         /// <param name="newvalue">The new value for the parameter</param>
         /// <returns>The updated template call</returns>
-        public static string SetTemplateParameterValue(string template, string parameter, string newvalue)
+        public static string SetTemplateParameterValue(string templateCall, string parameter, string newvalue)
         {
+            
+            if(Tools.GetTemplateParameterValue(templateCall, parameter).Equals(newvalue))
+                return templateCall;
+            
             // first try to update existing field's value
-            string updatedtemplate = UpdateTemplateParameterValue(template, parameter, newvalue);
+            string updatedtemplate = UpdateTemplateParameterValue(templateCall, parameter, newvalue);
 
             // if no update then append value in new field
-            if (updatedtemplate.Equals(template))
-                updatedtemplate = AppendParameterToTemplate(template, parameter, newvalue);
+            if (updatedtemplate.Equals(templateCall))
+                updatedtemplate = AppendParameterToTemplate(templateCall, parameter, newvalue);
 
             return updatedtemplate;
         }
@@ -2265,11 +2475,27 @@ Message: {2}
         /// <summary>
         /// Returns the name of the input template. Not for templates including the template namespace prefix
         /// </summary>
-        /// <param name="template">the template call</param>
+        /// <param name="templateCall">the template call</param>
         /// <returns>the template name</returns>
-        public static string GetTemplateName(string template)
-        {
-            return WikiRegexes.TemplateName.Match(template).Groups[1].Value;
+        public static string GetTemplateName(string templateCall)
+        {            
+            string TemplateNamespace = "";
+            
+            try
+            {
+                TemplateNamespace = Variables.NamespacesCaseInsensitive[Namespace.Template];
+            }
+            catch
+            {
+                TemplateNamespace = "[Tt]emplate:";
+            }
+            
+            // allow whitespace before semicolon
+            TemplateNamespace = Regex.Replace(TemplateNamespace, @":$", @"[\s_]*:");
+
+            StringBuilder theRegex = new StringBuilder(@"{{\s*(?::?[\s_]*" + TemplateNamespace + @"[\s_]*)?([^\|{}]+?)(?:\s*<!--.*?-->\s*)?\s*(?:\||}})");
+            
+            return Regex.Match(templateCall, theRegex.ToString()).Groups[1].Value;
         }
 
         /// <summary>
@@ -2281,18 +2507,21 @@ Message: {2}
         /// <returns>The updated article text</returns>
         public static string RenameTemplate(string articletext, string templatename, string newtemplatename)
         {
+            if(templatename.Equals(newtemplatename))
+                return articletext;
+            
             return NestedTemplateRegex(templatename).Replace(articletext, "$1" + newtemplatename + "$3");
         }
 
         /// <summary>
         /// Renames the input template to the new name given
         /// </summary>
-        /// <param name="template">the template call</param>
+        /// <param name="templateCall">the template call</param>
         /// <param name="newtemplatename">the new template name</param>
         /// <returns></returns>
-        public static string RenameTemplate(string template, string newtemplatename)
+        public static string RenameTemplate(string templateCall, string newtemplatename)
         {
-            return NestedTemplateRegex(GetTemplateName(template)).Replace(template, "$1" + newtemplatename + "$3");
+            return NestedTemplateRegex(GetTemplateName(templateCall)).Replace(templateCall, "$1" + newtemplatename + "$3");
         }
 
         /// <summary>
@@ -2308,8 +2537,8 @@ Message: {2}
             return NestedTemplateRegex(templatename).Replace(articletext, "$1" + newtemplatename + "$3", count);
         }
 
-        private const string NestedTemplateRegexStart = @"({{\s*)(?:";
-        private const string NestedTemplateRegexEnd = @"(\s*(?:<!--[^>]*?-->\s*|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋\s*)?(\|((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))))?\}\})";
+        private const string NestedTemplateRegexStart = @"({{[\s_]*)(?:";
+        private const string NestedTemplateRegexEnd = @"([\s_]*(?:<!--[^>]*?-->\s*|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋\s*)?(\|((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))))?\}\})";
 
         /// <summary>
         /// Returns a regex to match the input template
@@ -2335,8 +2564,22 @@ Message: {2}
         {
             if (templatenames.Count == 0)
                 return null;
-
-            StringBuilder theRegex = new StringBuilder(NestedTemplateRegexStart + @"[Tt]emplate\s*:?" /* Variables.NamespacesCaseInsensitive[Namespace.Template] */ + @"\s*)?(");
+            
+            string TemplateNamespace = "";
+            
+            try
+            {
+                TemplateNamespace = Variables.NamespacesCaseInsensitive[Namespace.Template];
+            }
+            catch
+            {
+                TemplateNamespace = "[Tt]emplate:";
+            }
+            
+            // allow whitespace before semicolon
+            TemplateNamespace = Regex.Replace(TemplateNamespace, @":$", @"[\s_]*:");
+            
+            StringBuilder theRegex = new StringBuilder(NestedTemplateRegexStart + @":?[\s_]*" + TemplateNamespace + @"[\s_]*" + @"\s*)?(");
 
             foreach (string templatename in templatenames)
             {

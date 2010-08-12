@@ -297,6 +297,13 @@ namespace WikiFunctions
         { get { return Variables.LangCode == "en" && NameSpaceKey == Namespace.Mainspace && WikiRegexes.Disambigs.IsMatch(mArticleText); } }
 
         /// <summary>
+        /// Returns whether the article is a SIA page (en only)
+        /// </summary>
+        [XmlIgnore]
+        public bool IsSIAPage
+        { get { return Variables.LangCode == "en" && NameSpaceKey == Namespace.Mainspace && WikiRegexes.SIAs.IsMatch(mArticleText); } }
+
+        /// <summary>
         /// Returns whether the article is a disambiguation page has references
         /// </summary>
         [XmlIgnore]
@@ -346,6 +353,9 @@ namespace WikiFunctions
         public bool SkipArticle
         { get { return mAWBLogListener.Skipped; } private set { mAWBLogListener.Skipped = value; } }
 
+        /// <summary>
+        /// Returns true of article general fixes can be applied to the page: article or category namespace, sandbox, template documnetation page or Anexo namespace on es-wiki
+        /// </summary>
         [XmlIgnore]
         public bool CanDoGeneralFixes
         {
@@ -353,8 +363,9 @@ namespace WikiFunctions
             {
                 return (NameSpaceKey == Namespace.Article
                         || NameSpaceKey == Namespace.Category
-                        || Name.Contains("Sandbox"))
-                    || Name.Contains("/doc");
+                        || Name.Contains("Sandbox")
+                        || Name.Contains("/doc")
+                        || (Variables.LangCode.Equals("es") && NameSpaceKey == 104 /* Anexo */));
             }
         }
 
@@ -496,11 +507,17 @@ namespace WikiFunctions
         /// <summary>
         /// Checks the article text for unbalanced brackets, either square or curly
         /// </summary>
-        /// <param name="bracketLength">integer to hold length of unbalanced bracket found</param>
-        /// <returns>Index of any unbalanced brackets found</returns>
-        public int UnbalancedBrackets(ref int bracketLength)
+        /// <returns>Dictionary of any unbalanced brackets found</returns>
+        public Dictionary<int, int> UnbalancedBrackets()
         {
-            return Parsers.UnbalancedBrackets(ArticleText, ref bracketLength);
+			Dictionary<int, int> UnB = new Dictionary<int, int>();
+			int bracketLength = 0;
+			int bracketIndex = Parsers.UnbalancedBrackets(ArticleText, ref bracketLength);
+			
+			if(bracketIndex > -1)
+				UnB.Add(bracketIndex, bracketLength);
+			
+			return UnB;
         }
 
         /// <summary>
@@ -510,6 +527,34 @@ namespace WikiFunctions
         public Dictionary<int, int> BadCiteParameters()
         {
             return Parsers.BadCiteParameters(ArticleText);
+        }
+        
+        /// <summary>
+        /// Returns a dictionary of the index and length of any duplicated parameters in any WikiProjectBannerShell template
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<int, int> DuplicateWikiProjectBannerShellParameters()
+        {
+            Dictionary<int, int> Dupes = new Dictionary<int, int>();
+            
+            if(NameSpaceKey.Equals(Namespace.Talk))
+                Dupes = Tools.DuplicateTemplateParameters(WikiRegexes.WikiProjectBannerShellTemplate.Match(ArticleText).Value);
+            
+            return Dupes;
+        }
+        
+        /// <summary>
+        /// Returns a list of any unknown parameters in any WikiProjectBannerShell template
+        /// </summary>
+        /// <returns></returns>
+        public List<string> UnknownWikiProjectBannerShellParameters()
+        {
+            List<string> Unknowns = new List<string>();
+            List<string> Knowns = new List<string>(new[] { "blp", "blp", "activepol", "collapsed", "banner collapsed", "1"});
+            
+            if(NameSpaceKey.Equals(Namespace.Talk))
+                Unknowns = Tools.UnknownTemplateParameters(WikiRegexes.WikiProjectBannerShellTemplate.Match(ArticleText).Value, Knowns);
+            return Unknowns;
         }
         
         /// <summary>
@@ -1073,7 +1118,7 @@ namespace WikiFunctions
             Variables.Profiler.Profile("HideText");
 
             // call this before MinorFixes so that Parsers.Conversions cleans up from ArticleIssues
-            AWBChangeArticleText("Fixes for {{article issues}}", parsers.ArticleIssues(ArticleText, Name), true);
+            AWBChangeArticleText("Fixes for {{multiple issues}}", parsers.ArticleIssues(ArticleText), true);
             Variables.Profiler.Profile("ArticleIssues");
 
             MinorFixes(Variables.LangCode, skip.SkipNoHeaderError);
@@ -1139,6 +1184,9 @@ namespace WikiFunctions
 
             AWBChangeArticleText("Fix empty references", Parsers.SimplifyReferenceTags(ArticleText), true);
             Variables.Profiler.Profile("FixEmptyReferences");
+            
+            AWBChangeArticleText("Refs after punctuation", Parsers.RefsAfterPunctuation(ArticleText), true);
+            Variables.Profiler.Profile("RefsAfterPunctuation");
 
             // does significant fixes
             AWBChangeArticleText("Add missing {{reflist}}", Parsers.AddMissingReflist(ArticleText), true, true);
@@ -1166,6 +1214,12 @@ namespace WikiFunctions
             }
 
             Variables.Profiler.Profile("Links");
+            
+            // must call EmboldenTitles before calling FixLinks
+            EmboldenTitles(parsers, skip.SkipNoBoldTitle);
+
+            FixLinks(skip.SkipNoBadLink);
+            Variables.Profiler.Profile("FixLinks");
 
             if (!Globals.UnitTestMode) // disable to avoid ssslow network requests
             {
@@ -1177,12 +1231,6 @@ namespace WikiFunctions
 
                 Variables.Profiler.Profile("Metadata");
             }
-
-            // must call EmboldenTitles before calling FixLinks
-            EmboldenTitles(parsers, skip.SkipNoBoldTitle);
-
-            FixLinks(skip.SkipNoBadLink);
-            Variables.Profiler.Profile("FixLinks");
 
             AWBChangeArticleText("Simplify links", Parsers.SimplifyLinks(ArticleText), true);
             Variables.Profiler.Profile("SimplifyLinks");

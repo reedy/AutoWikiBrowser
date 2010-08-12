@@ -538,7 +538,7 @@ namespace WikiFunctions.DBScanner
 
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Tools.OpenURLInBrowser(lnkBase.Text.Substring(0, lnkBase.Text.LastIndexOf('/') + 1) + lbArticles.SelectedItem);
+            Tools.OpenArticleInBrowser(lbArticles.SelectedItem.ToString());
         }
 
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)

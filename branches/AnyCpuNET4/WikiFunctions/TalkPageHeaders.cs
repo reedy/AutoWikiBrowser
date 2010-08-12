@@ -33,9 +33,7 @@ namespace WikiFunctions.TalkPages
     internal class Processor
     {
         public string DefaultSortKey;
-        public bool FoundDefaultSort;
-        public bool FoundSkipToTalk;
-        public bool FoundTalkHeader;
+        public bool FoundDefaultSort, FoundSkipToTalk;
 
         // Match evaluators:
         public string DefaultSortMatchEvaluator(Match match)
@@ -49,12 +47,6 @@ namespace WikiFunctions.TalkPages
         public string SkipTOCMatchEvaluator(Match match)
         {
             FoundSkipToTalk = true;
-            return "";
-        }
-
-        public string TalkHeaderMatchEvaluator(Match match)
-        {
-            FoundTalkHeader = true;
             return "";
         }
     }
@@ -76,8 +68,9 @@ namespace WikiFunctions.TalkPages
         {
             Processor pr = new Processor();
 
-            articleText = WikiRegexes.SkipTOCTemplateRegex.Replace(articleText, new MatchEvaluator(pr.SkipTOCMatchEvaluator), 1);
-            
+            articleText = WikiRegexes.SkipTOCTemplateRegex.Replace(articleText,
+                                                                   new MatchEvaluator(pr.SkipTOCMatchEvaluator), 1);
+
             // move talk page header to the top
             articleText = MoveTalkHeader(articleText);
 
@@ -86,8 +79,8 @@ namespace WikiFunctions.TalkPages
 
             if (moveDefaultsort != DEFAULTSORT.NoChange)
             {
-                articleText = WikiRegexes.Defaultsort.Replace(articleText, 
-                    new MatchEvaluator(pr.DefaultSortMatchEvaluator), 1);
+                articleText = WikiRegexes.Defaultsort.Replace(articleText,
+                                                              new MatchEvaluator(pr.DefaultSortMatchEvaluator), 1);
                 if (pr.FoundDefaultSort)
                 {
                     if (!string.IsNullOrEmpty(pr.DefaultSortKey))
@@ -96,17 +89,24 @@ namespace WikiFunctions.TalkPages
                     }
                 }
             }
-            
+
+            articleText = WikiProjectBannerShell(articleText);
+
             articleText = AddMissingFirstCommentHeader(articleText);
             
-            return pr.FoundTalkHeader || pr.FoundSkipToTalk || pr.FoundDefaultSort;
+            // remove redundant Template: in templates in zeroth section
+            string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;            
+            if(zerothSection.Length > 0)
+                articleText = articleText.Replace(zerothSection, Parse.Parsers.RemoveTemplateNamespace(zerothSection));
+
+            return pr.FoundSkipToTalk || pr.FoundDefaultSort;
         }
 
         public static string FormatDefaultSort(string articleText)
         {
             return WikiRegexes.Defaultsort.Replace(articleText, "{{DEFAULTSORT:${key}}}");
         }
-        
+
         // Helper routines:
         private static string SetDefaultSort(string key, DEFAULTSORT location, string articleText)
         {
@@ -131,7 +131,7 @@ namespace WikiFunctions.TalkPages
         {
             articleText = "{{" + name + "}}\r\n" + articleText;
         }
-        
+
         /// <summary>
         /// Moves the {{talk header}} template to the top of the talk page
         /// </summary>
@@ -140,24 +140,24 @@ namespace WikiFunctions.TalkPages
         private static string MoveTalkHeader(string articleText)
         {
             Match m = WikiRegexes.TalkHeaderTemplate.Match(articleText);
-            
-            if(m.Success && m.Index > 0)
+
+            if (m.Success && m.Index > 0)
             {
                 // remove existing talk header – handle case where not at beginning of line
                 articleText = articleText.Replace(m.Value, articleText.Contains("\r\n" + m.Value) ? "" : "\r\n");
 
                 // write existing talk header to top
                 articleText = m.Value.TrimEnd() + "\r\n" + articleText.TrimStart();
-                
+
                 // ensure template is now named {{talk header}}
                 articleText = articleText.Replace(m.Groups[1].Value, "Talk header");
             }
-            
+
             return articleText;
         }
-        
+
         private static readonly Regex FirstComment = new Regex(@"^ {0,4}[:\*\w'""](?<!_)", RegexOptions.Compiled | RegexOptions.Multiline);
-        
+
         /// <summary>
         /// Adds a section 2 heading before the first comment if the talk page does not have one
         /// </summary>
@@ -167,13 +167,14 @@ namespace WikiFunctions.TalkPages
         {
             // don't match on lines within templates
             string articleTextTemplatesSpaced = Tools.ReplaceWithSpaces(articleText, WikiRegexes.NestedTemplates.Matches(articleText));
-            
-            if(FirstComment.IsMatch(articleTextTemplatesSpaced))
+            articleTextTemplatesSpaced = Tools.ReplaceWithSpaces(articleTextTemplatesSpaced, WikiRegexes.UnformattedText.Matches(articleTextTemplatesSpaced));
+
+            if (FirstComment.IsMatch(articleTextTemplatesSpaced))
             {
                 int firstCommentIndex = FirstComment.Match(articleTextTemplatesSpaced).Index;
-                
+
                 int firstLevelTwoHeading = WikiRegexes.HeadingLevelTwo.IsMatch(articleText) ? WikiRegexes.HeadingLevelTwo.Match(articleText).Index : 99999999;
-                
+
                 if (firstCommentIndex < firstLevelTwoHeading)
                 {
                     // is there a heading level 3? If yes, change to level 2
@@ -182,12 +183,14 @@ namespace WikiFunctions.TalkPages
                     articleText = WikiRegexes.HeadingLevelThree.IsMatch(articletexttofirstcomment) ? WikiRegexes.HeadingLevelThree.Replace(articleText, @"==$1==", 1) : articleText.Insert(firstCommentIndex, "\r\n==Untitled==\r\n");
                 }
             }
-            
+
             return articleText;
         }
-        
-        private static List<string> BannerShellRedirects = new List<string>(new [] { "WikiProject Banners", "WikiProjectBanners", "WPBS", "WPB", "Wpb", "Wpbs"});
-        
+
+        private static List<string> BannerShellRedirects = new List<string>(new[] { "WikiProject Banners", "WikiProjectBanners", "WPBS", "WPB", "Wpb", "Wpbs" });
+        private static List<string> Nos = new List<string>(new[] { "blp", "activepol", "collapsed" });
+        private static readonly Regex BLPRegex = Tools.NestedTemplateRegex(new[] { "blp", "BLP", "Blpinfo" });
+
         /// <summary>
         /// Performs fixes to the WikiProjectBannerShells template
         /// </summary>
@@ -195,12 +198,85 @@ namespace WikiFunctions.TalkPages
         /// <returns>The updated talk page text</returns>
         public static string WikiProjectBannerShell(string articletext)
         {
+            if (!WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articletext))
+                return articletext;
+
             // rename redirects
-            foreach(string redirect in BannerShellRedirects)
+            foreach (string redirect in BannerShellRedirects)
                 articletext = Tools.RenameTemplate(articletext, redirect, "WikiProjectBannerShell");
-            
+
+            foreach (Match m in WikiRegexes.WikiProjectBannerShellTemplate.Matches(articletext))
+            {
+                string newValue = m.Value;
+                string arg1 = Tools.GetTemplateParameterValue(newValue, "1");
+                
+                // Add explicit call to first unnamed parameter 1= if missing/has no value
+                if (arg1.Length == 0)
+                {
+                    int argCount = Tools.GetTemplateArgumentCount(newValue);
+
+                    for (int arg = 1; arg <= argCount; arg++)
+                    {
+                        string argValue = Tools.GetTemplateArgument(newValue, arg);
+
+                        if (argValue.StartsWith(@"{{"))
+                        {
+                            newValue = newValue.Insert(Tools.GetTemplateArgumentIndex(newValue, arg), "1=");
+                            break;
+                        }
+                    }
+                }
+                
+                // remove duplicate parameters
+                newValue = Tools.RemoveDuplicateTemplateParameters(newValue);
+                
+                // refresh after cleanup
+                arg1 = Tools.GetTemplateParameterValue(newValue, "1");
+
+                // clean blp=no, activepol=no, collapsed=no
+                foreach (string theNo in Nos)
+                {
+                    if (Tools.GetTemplateParameterValue(newValue, theNo).Equals("no"))
+                        newValue = Tools.RemoveTemplateParameter(newValue, theNo);
+                }
+
+                // If {{BLP}} then add blp=yes to WPBS and remove {{BLP}}
+                Match blpm = BLPRegex.Match(articletext);
+                if (blpm.Success)
+                {
+                    newValue = Tools.SetTemplateParameterValue(newValue, "blp", "yes");
+                    articletext = articletext.Replace(blpm.Value, "");
+                }
+
+                // check living, activepol, blpo flags against WPBiography
+                Match m2 = Tools.NestedTemplateRegex("WPBiography").Match(arg1);
+
+                if (m2.Success)
+                {
+                    string WPBiographyCall = m2.Value;
+
+                    string livingParam = Tools.GetTemplateParameterValue(WPBiographyCall, "living");
+                    if (livingParam.Equals("yes"))
+                        newValue = Tools.SetTemplateParameterValue(newValue, "blp", "yes");
+                    else if (livingParam.Equals("no"))
+                    {
+                        if (Tools.GetTemplateParameterValue(newValue, "blp").Equals("yes"))
+                            newValue = Tools.RemoveTemplateParameter(newValue, "blp");
+                    }
+
+                    if (Tools.GetTemplateParameterValue(WPBiographyCall, "activepol").Equals("yes"))
+                        newValue = Tools.SetTemplateParameterValue(newValue, "activepol", "yes");
+
+                    if (Tools.GetTemplateParameterValue(WPBiographyCall, "blpo").Equals("yes"))
+                        newValue = Tools.SetTemplateParameterValue(newValue, "blpo", "yes");
+                }
+                
+                // merge changes to article text
+                if (!newValue.Equals(m.Value))
+                    articletext = articletext.Replace(m.Value, newValue);
+            }
+
             return articletext;
         }
     }
 }
-

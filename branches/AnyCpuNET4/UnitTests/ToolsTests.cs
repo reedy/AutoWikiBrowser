@@ -786,6 +786,8 @@ John", "*"));
             Assert.AreEqual(@"http://site.com words", Tools.RemoveSyntax(@"* [http://site.com words]"));
             Assert.AreEqual(@"foo ""bar"" here", Tools.RemoveSyntax(@"foo &quot;bar&quot; here"));
             Assert.AreEqual(@"foobar", Tools.RemoveSyntax(@"foo�bar"));
+            
+            Assert.AreEqual(@"foo", Tools.RemoveSyntax(@"  * foo"));
         }
 
         [Test]
@@ -964,6 +966,9 @@ John", "*"));
             
             // returns first value
             Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite|param1=here|foo=bar|param1=there}}", "param1"));
+            
+            // case insensitive option
+            Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite|PARAM1=here}}", "param1", true));
         }
         
         [Test]
@@ -1045,6 +1050,16 @@ John", "*"));
             Assert.AreEqual("bar", Tools.GetTemplateArgument(@"{{abc |  foo  |bar }}", 2));
             Assert.AreEqual("", Tools.GetTemplateArgument(@"{{abc ||  foo  |bar }}", 1));
             Assert.AreEqual("bar [[piped|link]]", Tools.GetTemplateArgument(@"{{abc |  foo  |bar [[piped|link]] }}", 2));
+        }
+        
+        [Test]
+        public void GetTemplateArgumentIndex()
+        {
+            Assert.AreEqual(6, Tools.GetTemplateArgumentIndex("{{abc|foo=yes}}", 1));
+            Assert.AreEqual(6, Tools.GetTemplateArgumentIndex("{{abc|" +
+                                                              "foo=yes}}", 1));
+            Assert.AreEqual(6, Tools.GetTemplateArgumentIndex("{{abc|  foo=yes|bar=no}}", 1));
+            Assert.AreEqual(-1, Tools.GetTemplateArgumentIndex("{{abc|foo=yes}}", 2));
         }
         
         [Test]
@@ -1197,6 +1212,9 @@ John", "*"));
             Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here |year=2008 | dateformat =   mdy}}", "dateformat"));
             Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here | dateformat=mdy|year=2008 }}", "dateformat"));
             
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here | dateformat=mdy|year=2008 }}", "dateformat", false));
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here | dateformat=mdy|year=2008 }}", "dateformat", true));
+            
             // first letter case insensitive
             Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here |year=2008 |dateformat=mdy}}", "dateformat"));
             
@@ -1209,6 +1227,16 @@ John", "*"));
             // parameter name case sensitive
             string nochange = @"{{cite web|url=http://www.site.com |title=here |year=2008 |dateformat=mdy}}";
             Assert.AreEqual(nochange, Tools.RemoveTemplateParameter(nochange, "Dateformat"));
+            
+            // duplicate parameters
+            Assert.AreEqual(@"{{cite web|url=http://www.site.com |title=here | dateformat=mdy|year=2008 }}", 
+                            Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here | dateformat=mdy|year=2008 |dateformat=foo}}", "dateformat", true));
+            
+            Assert.AreEqual(@"{{cite web|url=http://www.site.com |title=here |year=2008 |dateformat=foo}}",
+                            Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here | dateformat=mdy|year=2008 |dateformat=foo}}", "dateformat", false));
+            
+            Assert.AreEqual(@"{{foo|first=abc|second=def}}",
+                            Tools.RemoveTemplateParameter(@"{{foo|first=abc|second=def|second=def}}", "second", false));
         }
         
         [Test]
@@ -1231,6 +1259,80 @@ dateformat=mdy}}", "cite web", "dateformat"));
             Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here |dateformat= [[File:foo.JPG|bar|here]] bar|year=2008 }}", "cite web", "dateformat"));
             Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |dateformat= <!--now|--> bar|title=here |year=2008 }}", "cite web", "dateformat"));
             Assert.AreEqual(correct, Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |dateformat= {{some template|foo={{a}}|bar=b}} bar|title=here |year=2008 }}", "cite web", "dateformat"));
+        }
+        
+        [Test]
+        public void RemoveDuplicateTemplateParameters()
+        {
+            Assert.AreEqual(@"{{foo|first=abc|second=def}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=def|second=def}}"));
+            Assert.AreEqual(@"{{foo|first=abc|second=def}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=def|second=de}}"), "removed when one contains the other");
+            Assert.AreEqual(@"{{foo|first=abc|second=def|a=c}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=def|a=c|second=de}}"));
+            Assert.AreEqual(@"{{foo|first=abc|a=c|second=def}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=de|a=c|second=def}}"));
+            Assert.AreEqual(@"{{foo|first=abc|second = def}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=def|second = def}}"), "first removed if both the same");
+            Assert.AreEqual(@"{{foo|first=abc|second=def}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=def|second=}}"), "null dupe param removed");
+            Assert.AreEqual(@"{{foo|first=abc|second=
+def
+}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=def|second=
+def
+}}"), "dupe param removed ignoring leading/trailing whitespace");
+            Assert.AreEqual(@"{{foo|first=abc|second=def}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=|second=def}}"), "null dupe param removed");
+            
+            Assert.AreEqual(@"{{foo|first=abc|second=def}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=def|second=def|second=def}}"), "multiple duplicates removed");
+            Assert.AreEqual(@"{{foo|first=abc|second=def}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|first=abc|second=def|second=def|second=def}}"), "multiple duplicates removed");
+            
+            const string noDupe2 = @"{{foo|first=abc|second=def|Second=def}}";
+            
+            Assert.AreEqual(noDupe2, Tools.RemoveDuplicateTemplateParameters(noDupe2), "case sensitive parameter name matching");
+            
+            Assert.AreEqual(@"{{foo|first=abc|second=dex|second=defg}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=dex|second=dex|second=defg}}"), "non-duplicates not removed");
+            
+            Assert.AreEqual(@"{{foo|first=abc|second={{def|bar}}}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second={{def|bar}}|second={{def|bar}}}}"));
+        }
+        
+        [Test]
+        public void RemoveDuplicateTemplateParametersURLs()
+        {
+            const string withUnescapedPipes = @"{{cite web|foo=bar|url=http://site.com/news/foo|bar=yes|bar=yes|other.stm | date=2010}}";
+            
+            Assert.AreEqual(withUnescapedPipes, Tools.RemoveDuplicateTemplateParameters(withUnescapedPipes), "no change when URL could be borken");
+        }
+        
+        [Test]
+        public void DuplicateTemplateParameters()
+        {
+            Dictionary<int,int> Dupes = new Dictionary<int, int>();
+            
+            Assert.AreEqual(Dupes, Tools.DuplicateTemplateParameters(@"{{cite web|url=here |title=there}}"));            
+            
+            Dupes.Add(32, 9);
+            Assert.AreEqual(Dupes, Tools.DuplicateTemplateParameters(@"{{cite web|url=here |title=there|url=here}}"), "dupes if the same");
+            Assert.AreEqual(Dupes, Tools.DuplicateTemplateParameters(@"{{cite web|url=here |title=there|url=her2}}"), "dupes if not the same");
+            
+            Dupes.Clear();
+            Dupes.Add(36, 5);
+            Assert.AreEqual(Dupes, Tools.DuplicateTemplateParameters(@"{{cite web|url=here |title=therehere|url=}}"), "dupes if the same");
+            
+            Dupes.Clear();
+            Dupes.Add(32, 9);
+            Dupes.Add(41, 12);
+            Assert.AreEqual(Dupes, Tools.DuplicateTemplateParameters(@"{{cite web|url=here |title=there|url=here|title=there}}"), "multiple dupes reported");
+        }
+        
+        [Test]
+        public void UnknownTemplateParameters()
+        {
+            List<string> Unknowns = new List<string>();
+            
+            List<string> Knowns = new List<string>(new [] { "title", "date", "url" } );
+            
+            Assert.AreEqual(Unknowns, Tools.UnknownTemplateParameters(@"{{cite web|title=a|date=2010}}", Knowns));
+            
+            Unknowns.Add("foo");
+            Assert.AreEqual(Unknowns, Tools.UnknownTemplateParameters(@"{{cite web|title=a|date=2010|foo=}}", Knowns), "reported even if blank");
+            Assert.AreEqual(Unknowns, Tools.UnknownTemplateParameters(@"{{cite web|title=a|date=2010|foo=b}}", Knowns), "unknown parameter reported");
+        
+            Unknowns.Add("bar");
+            Assert.AreEqual(Unknowns, Tools.UnknownTemplateParameters(@"{{cite web|title=a|date=2010|foo=b|bar=}}", Knowns), "multiple unknowns reported");
         }
         
         [Test]
@@ -1324,6 +1426,9 @@ dateformat=mdy}}", "cite web", "dateformat"));
 |accessdate=2008-08-08
 }}";
             Assert.AreEqual(input.Replace("|date=", "|date=April 4, 1922"), Tools.SetTemplateParameterValue(input, "date", "April 4, 1922"));
+        
+        // existing value = new one, no change
+        Assert.AreEqual(@"{{foo|param1=valueafter}}", Tools.SetTemplateParameterValue(@"{{foo|param1=valueafter}}", "param1", "valueafter"));
         }
         
         [Test]
@@ -1337,6 +1442,7 @@ dateformat=mdy}}", "cite web", "dateformat"));
             Assert.AreEqual(FooTemplate.Match(@"{{ Foo|title=abc}}").Groups[3].Value, @"|title=abc}}");
             
             Assert.IsTrue(FooTemplate.IsMatch(@"{{foo}}"));
+            Assert.IsTrue(FooTemplate.IsMatch(@"{{___foo___}}"));
             Assert.IsTrue(FooTemplate.IsMatch(@"{{Foo}}"));
             Assert.IsTrue(FooTemplate.IsMatch(@"{{ foo}}"));
             Assert.IsTrue(FooTemplate.IsMatch(@"{{ foo|}}"));
@@ -1373,6 +1479,11 @@ title={{abc|fdkjdsfjk=fdaskjlfds
             Assert.IsTrue(FooTemplate.IsMatch(@"{{foo}}"));
             Assert.IsTrue(FooTemplate.IsMatch(@"{{Foo}}"));
             Assert.IsTrue(FooTemplate.IsMatch(@"{{ foo}}"));
+            Assert.IsTrue(FooTemplate.IsMatch(@"{{Template:foo}}"));
+            Assert.IsTrue(FooTemplate.IsMatch(@"{{:Template:foo}}"));
+            Assert.IsTrue(FooTemplate.IsMatch(@"{{_:_Template_:_foo_}}"));
+            
+            Assert.IsFalse(FooTemplate.IsMatch(@"{{Template foo}}"));
         }
         
         [Test]
@@ -1503,12 +1614,16 @@ foo<!--comm-->|title=abc
 Start date and age
 |1833|7|11}}"),"Start date and age");
             
-            // embedded comments
-            Assert.AreEqual(Tools.GetTemplateName(@"{{start date and age <!--comm--> |1833|7|11}}"),"start date and age");
-            Assert.AreEqual(Tools.GetTemplateName(@"{{start date and age <!--comm-->}}"),"start date and age");
+            Assert.AreEqual(Tools.GetTemplateName(@"{{start date and age <!--comm--> |1833|7|11}}"),"start date and age", "handles embedded comments");
+            Assert.AreEqual(Tools.GetTemplateName(@"{{start date and age <!--comm-->}}"),"start date and age", "handles embedded comments");
             
-            // works on part templates
-            Assert.AreEqual(Tools.GetTemplateName(@"{{Start date and age|1833|7|"),"Start date and age");
+            Assert.AreEqual(Tools.GetTemplateName(@"{{Start date and age|1833|7|"),"Start date and age", "works on part templates");
+            
+            Assert.AreEqual(Tools.GetTemplateName(@"{{Template:Foo|1=yes}}"), "Foo", "Template namespace removed");
+            Assert.AreEqual(Tools.GetTemplateName(@"{{ Template : Foo |1=yes}}"), "Foo", "Template namespace removed");
+            Assert.AreEqual(Tools.GetTemplateName(@"{{template:Foo|1=yes}}"), "Foo", "Template namespace removed");
+            
+            Assert.AreEqual(Tools.GetTemplateName(@""), "");
         }
     }
 
@@ -1622,6 +1737,7 @@ Start date and age
         public void FixUpDefaultSortTests()
         {
             Assert.AreEqual("Hello", Tools.FixupDefaultSort("hellõ"));
+            Assert.AreEqual("Hello", Tools.FixupDefaultSort("hellõ   "));
             Assert.AreEqual(@"Fred Smith", Tools.FixupDefaultSort(@"FRED SMITH"));
             Assert.AreEqual(@"Fred Smith", Tools.FixupDefaultSort(@"fred smith"));
             Assert.AreEqual(@"Fred Smithson", Tools.FixupDefaultSort(@"fred smithson"));

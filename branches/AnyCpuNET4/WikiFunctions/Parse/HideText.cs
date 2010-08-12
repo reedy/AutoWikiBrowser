@@ -237,9 +237,6 @@ namespace WikiFunctions.Parse
 
             ReplaceMore(WikiRegexes.Blockquote.Matches(articleText), ref articleText);
 
-            //{{Poem}} deleted
-            //ReplaceMore(WikiRegexes.Poem.Matches(articleText), ref articleText);
-
             ReplaceMore(WikiRegexes.Source.Matches(articleText), ref articleText);
 
             ReplaceMore(WikiRegexes.Code.Matches(articleText), ref articleText);

@@ -20,7 +20,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 
         ' Objects:
         Private AWBCleanupCheckboxes As New List(Of CheckBox)
-        Private Status As ToolStripStatusLabel
         Private PluginSettings As PluginSettingsControl
         Private State As New StateClass
 
@@ -64,7 +63,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 
             ' Perform cleanup that has to be executed in either case:
             AWBCleanupCheckboxes = Nothing
-            Status = Nothing
             PluginSettings = Nothing
             State = Nothing
 
@@ -121,8 +119,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             State.NextArticleShouldBeTalk = True
         End Sub
         Friend Function ProcessTalkPage(ByVal TheArticle As Article, ByVal PluginSettings As PluginSettingsControl, _
-        ByVal Manager As PluginManager, ByRef ReqPhoto As Boolean) As Boolean
-            Dim WeAddedAReqPhotoParam As Boolean
+        ByRef ReqPhoto As Boolean) As Boolean
+            Dim WeAddedAReqPhotoParam, returnVal As Boolean
 
             If Not State.NextArticleShouldBeTalk Then
                 IsThisABug("an article")
@@ -135,12 +133,11 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 
                 Dim frmDialog As New AssessmentForm
 
-                ProcessTalkPage = (frmDialog.ShowDialog(State.Classification, State.Importance, _
-                   State.NeedsInfobox, State.NeedsAttention, State.ShowComments, _
-                   PluginSettings.AssessmentsAlwaysLeaveAComment, State.NeedsPhoto, _
-                   State.NextTalkPageExpected) = DialogResult.OK)
+                returnVal = (frmDialog.ShowDialog(State.Classification, State.Importance, _
+                   State.NeedsInfobox, State.NeedsAttention, _
+                   State.NeedsPhoto, State.NextTalkPageExpected) = DialogResult.OK)
 
-                If ProcessTalkPage Then
+                If returnVal Then
                     PluginManager.StatusText.Text = "Processing " & TheArticle.FullArticleTitle
 
                     If State.NeedsPhoto AndAlso ReqphotoAnyRegex.IsMatch(TheArticle.AlteredArticleText) Then
@@ -166,7 +163,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                 End If
             End If
 
-            If ProcessTalkPage Then
+            If returnVal Then
                 Select Case State.Classification
                     Case Classification.Code, Classification.Unassessed
                         TheArticle.EditSummary = "Assessed article using " & conWikiPlugin
@@ -179,6 +176,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             Else
                 ReqPhoto = False
             End If
+
+            Return returnVal
         End Function
 
         ' Private:
@@ -204,14 +203,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         Private Sub LoadArticle()
             ToggleAWBCleanup(PluginSettings.Cleanup)
 
-            If State.ShowComments Then DoShowComments()
-        End Sub
-        Private Sub DoShowComments()
-            Dim frmComments As New AssessmentComments(PluginManager.AWBForm.TheSession.Editor)
-
-            State.ShowComments = False
-            frmComments.ShowDialog(State.Classification, State.NeedsInfobox, State.NeedsPhoto, _
-               State.NextTalkPageExpected, PluginSettings.TimerStats1)
         End Sub
 
         ' UI event handlers:
@@ -253,7 +244,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 
         ' State:
         Private NotInheritable Class StateClass
-            Friend LastArticle As String
+            'Friend LastArticle As String
 
             Dim page As String
 
@@ -267,7 +258,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                 End Set
             End Property
 
-            Friend EditSummary As String
+            'Friend EditSummary As String
 
             Friend pageRegex As Regex
 
@@ -278,7 +269,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             Friend NextEventShouldBeMainSpace As Boolean, NextArticleShouldBeTalk As Boolean
 
             ' Assessment:
-            Friend Classification As Classification, Importance As Importance, ShowComments As Boolean
+            Friend Classification As Classification, Importance As Importance
             Friend NeedsInfobox As Boolean, NeedsAttention As Boolean, NeedsPhoto As Boolean
         End Class
     End Class

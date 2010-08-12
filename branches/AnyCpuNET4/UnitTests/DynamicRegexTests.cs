@@ -17,9 +17,17 @@ namespace UnitTests
             RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:Test now]]");
             RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:Test|Key]]");
             RegexAssert.IsMatch(WikiRegexes.Category, "[[ Category : Test now| Key]]");
+            RegexAssert.IsMatch(WikiRegexes.Category, "[[CATEGORY :Test]]");
+            RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:_Test]]");
+            RegexAssert.IsMatch(WikiRegexes.Category, "[[_Category:Test]]");
+            RegexAssert.IsMatch(WikiRegexes.Category, "[[_Category:Test_]]");
 
             RegexAssert.NoMatch(WikiRegexes.Category, "[[Test]]");
             RegexAssert.NoMatch(WikiRegexes.Category, "[[Image:Test.jpg]]");
+            RegexAssert.NoMatch(WikiRegexes.Category, @"[[Category:
+1910 births]]");
+            RegexAssert.NoMatch(WikiRegexes.Category, @"[[Category:1910 births
+]]");
         }
         
         [Test]
@@ -31,6 +39,8 @@ namespace UnitTests
             RegexAssert.IsMatch(WikiRegexes.LooseCategory, "[[ Category: Test]]");
             RegexAssert.IsMatch(WikiRegexes.LooseCategory, "[[_Category: Test]]");
             RegexAssert.IsMatch(WikiRegexes.LooseCategory, "[[ Category :Test|here]]");
+            RegexAssert.IsMatch(WikiRegexes.LooseCategory, @"[[Category:
+1910 births]]");
 
             RegexAssert.NoMatch(WikiRegexes.LooseCategory, "[[Test]]");
             RegexAssert.NoMatch(WikiRegexes.LooseCategory, "[[Category");
@@ -446,28 +456,33 @@ disambig|surname
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{disamb|foo}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{dab}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Disambig}}");
-            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{surname}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Numberdis}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{numberdis}}");
-            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Roaddis}}");
-            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Roadis}}");
-            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{roaddis}}");
-            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{roadis}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{hndis}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{  disambig}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Template:disambig}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{template:disambig}}");
-            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Shipindex}}");
-            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{mountainindex}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{LatinNameDisambig}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{SpeciesLatinNameDisambig}}");
             
             RegexAssert.NoMatch(WikiRegexes.Disambigs, @"{{now disambig}}");
             RegexAssert.NoMatch(WikiRegexes.Disambigs, @"{{dablink|foo}}");
-            RegexAssert.NoMatch(WikiRegexes.Disambigs, @"{{surname-stub}}");
         }
 
         [Test]
+        public void SIAsTests()
+        {
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{surname}}");
+               RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{given name}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Shipindex}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{mountainindex}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Roadindex}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{SIA}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{sportindex}}");
+            RegexAssert.NoMatch(WikiRegexes.SIAs, @"{{surname-stub}}");
+        }
+
+            [Test]
         public void ExtractTitleTests()
         {
             RegexAssert.IsMatch(WikiRegexes.ExtractTitle, @"http://en.wikipedia.org/wiki/Foo");
@@ -538,6 +553,13 @@ disambig|surname
 now").Value);
             
             Assert.AreEqual(@"{{DEFAULTSORT:{{PAGENAME}}}}", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:{{PAGENAME}}}}").Value);
+            
+            Assert.AreEqual(@"{{DEFAULTSORT:foo]]" + "\r", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo]]
+pp").Value);
+             Assert.AreEqual(@"{{DEFAULTSORT:foo]]" + "\r", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo]]
+pp
+{{x}}
+").Value);
         }
         
         [Test]
@@ -618,6 +640,113 @@ now").Value);
             RegexAssert.NoMatch(WikiRegexes.DayMonthRangeSpan, @"On July 11–12 a");
         }
         
-        
+          [Test]
+        public void LinkFGAs()
+        {
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Link FA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Link GA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link FA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Link FL|ar}}"));
+        }
+
+        [Test]
+        public void LinkFGAsArabic()
+        {
+            #if DEBUG
+            Variables.SetProjectLangCode("ar");
+            WikiRegexes.MakeLangSpecificRegexes();
+            
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{وصلة مقالة مختارة|he}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{وصلة مقالة مختارة|
+he}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{وصلة مقالة مختارة
+|he}}"));
+            
+            Variables.SetProjectLangCode("en");
+            WikiRegexes.MakeLangSpecificRegexes();
+            #endif
+        }
+
+        [Test]
+        public void LinkFGAsCatalan()
+        {
+            #if DEBUG
+            Variables.SetProjectLangCode("ca");
+            WikiRegexes.MakeLangSpecificRegexes();
+
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link FA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Enllaç AD|ar}}"));
+            
+            Variables.SetProjectLangCode("en");
+            WikiRegexes.MakeLangSpecificRegexes();
+            #endif
+        }
+
+        [Test]
+        public void LinkFGAsFrench()
+        {
+            #if DEBUG
+            Variables.SetProjectLangCode("fr");
+            WikiRegexes.MakeLangSpecificRegexes();
+
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{lien BA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Lien AdQ|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{lien PdQ|ar}}"));
+            
+            Variables.SetProjectLangCode("en");
+            WikiRegexes.MakeLangSpecificRegexes();
+            #endif
+        }
+
+        [Test]
+        public void LinkFGAsItalian()
+        {
+            #if DEBUG
+            Variables.SetProjectLangCode("it");
+            WikiRegexes.MakeLangSpecificRegexes();
+
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link FA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Link AdQ|ar}}"));
+            
+            Variables.SetProjectLangCode("en");
+            WikiRegexes.MakeLangSpecificRegexes();
+            #endif
+        }
+
+        [Test]
+        public void LinkFGAsPortuguese()
+        {
+            #if DEBUG
+            Variables.SetProjectLangCode("pt");
+            WikiRegexes.MakeLangSpecificRegexes();
+
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link GA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Bom interwiki|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Link FA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{FA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Interwiki destacado|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Destaque|ar}}"));
+            
+            Variables.SetProjectLangCode("en");
+            WikiRegexes.MakeLangSpecificRegexes();
+            #endif
+        }
+
+        [Test]
+        public void LinkFGAsSpanish()
+        {
+            #if DEBUG
+            Variables.SetProjectLangCode("es");
+            WikiRegexes.MakeLangSpecificRegexes();
+
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link FA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Destacado|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Bueno|el}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{bueno|el}}"));
+            
+            Variables.SetProjectLangCode("en");
+            WikiRegexes.MakeLangSpecificRegexes();
+            #endif
+        }
     }
 }

@@ -47,6 +47,7 @@ namespace AutoWikiBrowser
             this.chkAddUsingAWBToActionSummaries = new System.Windows.Forms.CheckBox();
             this.chkAlwaysConfirmExit = new System.Windows.Forms.CheckBox();
             this.chkSupressAWB = new System.Windows.Forms.CheckBox();
+            this.chkUsingSecure = new System.Windows.Forms.CheckBox();
             this.chkSaveArticleList = new System.Windows.Forms.CheckBox();
             this.chkMinimize = new System.Windows.Forms.CheckBox();
             this.chkLowPriority = new System.Windows.Forms.CheckBox();
@@ -198,6 +199,20 @@ namespace AutoWikiBrowser
             this.cmboCustomProject.SelectedIndexChanged += new System.EventHandler(this.cmboCustomProjectChanged);
             this.cmboCustomProject.Leave += new System.EventHandler(this.txtCustomProject_Leave);
             this.cmboCustomProject.TextChanged += new System.EventHandler(this.cmboCustomProjectChanged);
+            // 
+            // chkUsingSecure
+            // 
+            this.chkUsingSecure.AutoSize = true;
+            this.chkUsingSecure.Checked = false;
+            this.chkUsingSecure.Enabled = false;
+            this.chkUsingSecure.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkUsingSecure.Location = new System.Drawing.Point(214, 9);
+            this.chkUsingSecure.Name = "chkUsingSecure";
+            this.chkUsingSecure.Size = new System.Drawing.Size(86, 17);
+            this.chkUsingSecure.TabIndex = 6;
+            this.chkUsingSecure.Text = "Use secure server";
+            this.chkUsingSecure.UseVisualStyleBackColor = true;
+            this.ToolTip.SetToolTip(this.chkUsingSecure, "Use secure.wikimedia.org for opening pages in browser");
             // 
             // chkAddUsingAWBToActionSummaries
             // 
@@ -504,6 +519,7 @@ namespace AutoWikiBrowser
             this.tabSite.Controls.Add(this.lblProject);
             this.tabSite.Controls.Add(this.cmboCustomProject);
             this.tabSite.Controls.Add(this.lblNonEnNotice);
+            this.tabSite.Controls.Add(this.chkUsingSecure);
             this.tabSite.Location = new System.Drawing.Point(4, 22);
             this.tabSite.Name = "tabSite";
             this.tabSite.Padding = new System.Windows.Forms.Padding(3);
@@ -734,6 +750,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.TextBox txtAutosave;
         private System.Windows.Forms.Label lblAutosaveFile;
         private System.Windows.Forms.ComboBox cmboCustomProject;
+        private System.Windows.Forms.CheckBox chkUsingSecure;
         private System.Windows.Forms.Button btnSetFile;
         private System.Windows.Forms.SaveFileDialog saveFile;
         private System.Windows.Forms.Label lblPostfix;

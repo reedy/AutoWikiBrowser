@@ -786,8 +786,7 @@ Hello world comment.");
             articleTextIn = @"
 ==Question==
 {{Some template}}
-:Hello world comment3.";
-            
+:Hello world comment3.";            
             
             TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
@@ -799,8 +798,7 @@ Hello world comment.");
             // no change – no comments
                   articleTextIn = @"
 ==Question==
-{{Some template}}";
-            
+{{Some template}}";            
             
             TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
@@ -809,11 +807,10 @@ Hello world comment.");
 {{Some template}}", articleTextIn);
             
             // no change – only text in template
-                  articleTextIn = @"
+            articleTextIn = @"
 {{foo|
 bar|
 end}}";
-            
             
             TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
@@ -821,6 +818,19 @@ end}}";
 {{foo|
 bar|
 end}}", articleTextIn);
+            
+            // no change – only comments
+            articleTextIn = @"
+<!--
+foo
+-->";
+            
+            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
+            
+            Assert.AreEqual(@"
+<!--
+foo
+-->", articleTextIn);
             
             // no change – only TOC
             articleTextIn = @"
@@ -862,6 +872,85 @@ __TOC__", articleTextIn);
             string red1 = @"{{WPBS}}", WikiProjectBannerShell = @"{{WikiProjectBannerShell}}";
             
             Assert.AreEqual(WikiProjectBannerShell, TalkPageHeaders.WikiProjectBannerShell(red1));
+        }
+        
+        [Test]
+        public void WikiProjectBannerShellDupeParameters()
+        {
+            Assert.AreEqual(@"{{WikiProjectBannerShell|blp=yes}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=yes|blp=yes}}"));
+        }
+        
+        [Test]
+        public void WikiProjectBannerShellUnneededParams()
+        {
+            Assert.AreEqual(@"{{WikiProjectBannerShell}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=no|activepol=no|collapsed=no}}"));
+        }
+        
+        [Test]
+        public void WikiProjectBannerShellWPBiography()
+        {
+            Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}"));
+            
+            Assert.AreEqual(@"{{WikiProjectBannerShell|blp=yes|1={{WPBiography|foo=bar|living=yes}}}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=|1={{WPBiography|foo=bar|living=yes}}}}"));
+            Assert.AreEqual(@"{{WikiProjectBannerShell|activepol=yes|1={{WPBiography|foo=bar|activepol=yes}}}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|activepol=abc|1={{WPBiography|foo=bar|activepol=yes}}}}"));
+            Assert.AreEqual(@"{{WikiProjectBannerShell|blpo=yes|1={{WPBiography|foo=bar|blpo=yes}}}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blpo=|1={{WPBiography|foo=bar|blpo=yes}}}}"));
+            Assert.AreEqual(@"{{WikiProjectBannerShell|blpo=|1={{WPBiography|foo=bar|blpo=no}}}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blpo=|1={{WPBiography|foo=bar|blpo=no}}}}"));
+            
+            Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar|living=no}}}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=yes|1={{WPBiography|foo=bar|living=no}}}}"));
+        }
+        
+        [Test]
+        public void WikiProjectBannerShellUnnamedParam()
+        {
+            Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|{{WPBiography|foo=bar}}}}"), "1= added when missing");
+            Assert.AreEqual(@"{{WikiProjectBannerShell|1=
+{{WPBiography|foo=bar}}}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|
+{{WPBiography|foo=bar}}}}"));
+            
+            const string otherUnnamed = @"{{WikiProjectBannerShell|random}}";
+            Assert.AreEqual(otherUnnamed, TalkPageHeaders.WikiProjectBannerShell(otherUnnamed), "other unknown parameter not named 1=");
+        }
+        
+        [Test]
+        public void WikiProjectBannerShellBLP()
+        {
+            const string a = @"{{WikiProjectBannerShell|blp=yes|1={{WPBiography|foo=bar|living=yes}}}}";
+            
+            Assert.AreEqual(a, TalkPageHeaders.WikiProjectBannerShell(a + "{{Blp}}"));
+            Assert.AreEqual(a, TalkPageHeaders.WikiProjectBannerShell(a.Replace("blp=yes", "blp=") + "{{Blp}}"));
+            Assert.AreEqual("{{Blp}}", TalkPageHeaders.WikiProjectBannerShell("{{Blp}}"));
+        }
+        
+        [Test]
+        public void WikiProjectBannerShellMisc()
+        {
+            const string a = @"{{wpbs|1=|banner collapsed=no|
+{{WPBiography|living=yes|class=Start|priority=|listas=Hill, A}}
+{{WikiProject Gender Studies}}
+{{WikiProject Oklahoma}}
+}}", b = @"{{WikiProjectBannerShell|banner collapsed=no|1=
+{{WPBiography|living=yes|class=Start|priority=|listas=Hill, A}}
+{{WikiProject Gender Studies}}
+{{WikiProject Oklahoma}}
+| blp=yes
+}}";
+            Assert.AreEqual(b, TalkPageHeaders.WikiProjectBannerShell(a));
+        }
+        
+        [Test]
+        public void RemoveTemplateNamespace()
+        {
+            string T1 = @"{{Template:Foo}}", T2 = @"{{Template:Foo}}
+==Section==
+{{Template:Bar}}";
+            
+            Assert.IsFalse(TalkPageHeaders.ProcessTalkPage(ref T1, DEFAULTSORT.NoChange));
+            Assert.AreEqual("{{Foo}}", T1, "template namespace removed");
+            
+            Assert.IsFalse(TalkPageHeaders.ProcessTalkPage(ref T2, DEFAULTSORT.NoChange));
+            Assert.AreEqual(@"{{Foo}}
+==Section==
+{{Template:Bar}}", T2, "changes only made in zeroth section");
         }
     }
     

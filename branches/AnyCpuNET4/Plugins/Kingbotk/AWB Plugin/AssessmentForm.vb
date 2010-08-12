@@ -24,14 +24,10 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             End If
         End Sub
         Friend Overloads Function ShowDialog(ByRef Clss As Classification, ByRef Imp As Importance, _
-        ByRef Infobox As Boolean, ByRef Attention As Boolean, ByRef Comments As Boolean, _
-        ByRef AlwaysComments As Boolean, ByRef NeedsPhoto As Boolean, ByVal Title As String) As DialogResult
-            Const conComments As Integer = 3
+        ByRef Infobox As Boolean, ByRef Attention As Boolean, _
+        ByRef NeedsPhoto As Boolean, ByVal Title As String) As DialogResult
 
             Me.Text += ": " & Title
-
-            SettingsCheckedListBox.SetItemChecked(conComments, AlwaysComments)
-            SettingsCheckedListBox.SetItemChecked(conComments + 1, AlwaysComments)
 
             ShowDialog = Me.ShowDialog()
             If ClassCheckedListBox.SelectedIndices.Count = 0 Then
@@ -47,21 +43,18 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             Infobox = (SettingsCheckedListBox.GetItemCheckState(0) = CheckState.Checked)
             Attention = (SettingsCheckedListBox.GetItemCheckState(1) = CheckState.Checked)
             NeedsPhoto = (SettingsCheckedListBox.GetItemCheckState(2) = CheckState.Checked)
-            Comments = (SettingsCheckedListBox.GetItemCheckState(conComments) = CheckState.Checked)
-            AlwaysComments = (SettingsCheckedListBox.GetItemCheckState(conComments + 1) = CheckState.Checked)
         End Function
 
         ' Button event handlers:
         Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) _
         Handles OK_Button.Click
-            Me.DialogResult = System.Windows.Forms.DialogResult.OK
             Me.Close()
         End Sub
 
         Private Sub Cancel_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) _
         Handles Cancel_Button.Click
-            Me.DialogResult = System.Windows.Forms.DialogResult.Cancel
             Me.Close()
         End Sub
+        
     End Class
 End Namespace
