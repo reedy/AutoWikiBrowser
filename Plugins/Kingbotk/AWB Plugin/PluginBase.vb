@@ -32,7 +32,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
 
         ' Objects:
         Protected WithEvents OurMenuItem As ToolStripMenuItem
-        Protected Article As Article
+        Protected article As Article
         Protected Template As Templating
 
         ' Regular expressions:
