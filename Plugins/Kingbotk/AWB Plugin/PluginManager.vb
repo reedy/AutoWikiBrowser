@@ -302,11 +302,18 @@ SkipOrStop:
         ' Private routines:
         Private Shared Function ProcessTalkPageAndCheckWeAddedReqPhotoParam(ByVal TheArticle As Article, _
         ByVal ReqPhoto As Boolean) As Boolean
+            Dim res As Boolean = False
             For Each p As PluginBase In ActivePlugins
-                If p.ProcessTalkPage(TheArticle, ReqPhoto) AndAlso ReqPhoto AndAlso p.HasReqPhotoParam Then _
-                   ProcessTalkPageAndCheckWeAddedReqPhotoParam = True
-                If TheArticle.PluginManagerGetSkipResults = SkipResults.SkipBadTag Then Return False
+                If p.ProcessTalkPage(TheArticle, ReqPhoto) AndAlso ReqPhoto AndAlso p.HasReqPhotoParam Then
+                    res = True
+                End If
+
+                If TheArticle.PluginManagerGetSkipResults = SkipResults.SkipBadTag Then
+                    Return False
+                End If
             Next
+
+            Return res
         End Function
         Private Shared Function ReqPhotoParamNeeded(ByVal TheArticle As Article) As Boolean
             For Each p As PluginBase In ActivePlugins
@@ -378,8 +385,8 @@ SkipOrStop:
                     .FinaliseEditSummary()
                     PluginManager.AWBForm.TraceManager.WriteArticleActionLine1("Returning to AWB: Edit summary: " & _
                        .EditSummary, PluginName, True)
-                    FinaliseArticleProcessing = .AlteredArticleText
                     Summary = .EditSummary
+                    Return .AlteredArticleText
                 End With
             End If
         End Function

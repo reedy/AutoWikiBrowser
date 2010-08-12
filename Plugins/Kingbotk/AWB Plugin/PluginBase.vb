@@ -77,6 +77,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         ByVal ProcessTalkPageMode As ProcessTalkPageMode, ByVal AddReqPhotoParm As Boolean) As Boolean
 
             Dim BadTemplate As Boolean
+            Dim res As Boolean = False
 
             Me.Article = A
 
@@ -105,7 +106,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                 End If
 
                 ' OK, we're in business:
-                ProcessTalkPage = True
+                res = True
                 If Me.HasReqPhotoParam AndAlso AddReqPhotoParm Then Me.ReqPhoto()
 
                 ProcessArticleFinish()
@@ -127,7 +128,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             End If
 
             Article = Nothing
-            Exit Function
+            Return res
         End Function
 
         ' Article processing:
