@@ -107,18 +107,18 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         End Function
         Protected Shared Function ConvertRedirectsToString(ByRef Redirects As List(Of WikiFunctions.Article)) As String
             Dim tmp As New List(Of WikiFunctions.Article)
-            ConvertRedirectsToString = ""
+            Dim res As String = ""
 
             For Each redirect As WikiFunctions.Article In Redirects
                 If redirect.NameSpaceKey = [Namespace].Template Then
-                    ConvertRedirectsToString += redirect.Name.Remove(0, 9) & "|"
+                    res += redirect.Name.Remove(0, 9) & "|"
                     tmp.Add(redirect)
                 End If
             Next
 
             Redirects = tmp
 
-            Return ConvertRedirectsToString.Trim(New Char() {CChar("|")}) ' would .Remove be quicker? or declaring this as static?
+            Return res.Trim(New Char() {CChar("|")}) ' would .Remove be quicker? or declaring this as static?
         End Function
 
         ' XML:
