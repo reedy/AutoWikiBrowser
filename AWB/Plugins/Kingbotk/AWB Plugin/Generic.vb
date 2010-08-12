@@ -438,14 +438,16 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
         End Sub
         Protected Overrides Function WriteTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
-            WriteTemplateHeader = "{{" & PreferredTemplateName & WriteOutParameterToHeader("class")
+            Dim res As String = "{{" & PreferredTemplateName & WriteOutParameterToHeader("class")
 
             Select Case OurSettingsControl.ImportanceSetting
                 Case GenericTemplateSettings.ImportanceSettingEnum.Imp
-                    WriteTemplateHeader += WriteOutParameterToHeader("importance")
+                    res += WriteOutParameterToHeader("importance")
                 Case GenericTemplateSettings.ImportanceSettingEnum.Pri
-                    WriteTemplateHeader += WriteOutParameterToHeader("priority")
+                    res += WriteOutParameterToHeader("priority")
             End Select
+
+            Return res
         End Function
         Protected Overrides Sub ProcessArticleFinish()
             StubClass()
@@ -594,51 +596,53 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
 #Region "IDisposable"
         Private disposed As Boolean ' To detect redundant calls
-
         ' This procedure is where the actual cleanup occurs
         Private Sub Dispose(ByVal disposing As Boolean)
-            On Error Resume Next
+            Try
+                ' Exit now if the object has already been disposed
+                If disposed Then Exit Sub
 
-            ' Exit now if the object has already been disposed
-            If disposed Then Exit Sub
+                If disposing Then
+                    ' The object is being disposed, not finalized.
+                    ' It is safe to access other objects (other than the mybase object)
+                    ' only from inside this block
+                    PluginManager.AWBForm.TraceManager.WriteBulletedLine("Generic template """ & OurName & _
+                       """ finalized.", True, True, True)
+                    RemoveHandler OurSettingsControl.SkipRegexCheckBox.CheckedChanged, AddressOf Me.SkipRegexChanged
+                    RemoveHandler OurSettingsControl.SkipRegexTextBox.TextChanged, AddressOf Me.SkipRegexChanged
+                    RemoveHandler OurSettingsControl.TemplateNameTextBox.TextChanged, AddressOf Me.TemplateNamesChanged
+                    RemoveHandler OurSettingsControl.HasAlternateNamesCheckBox.CheckedChanged, AddressOf Me.TemplateNamesChanged
+                    RemoveHandler OurSettingsControl.AlternateNamesTextBox.TextChanged, AddressOf Me.TemplateNamesChanged
+                    RemoveHandler OurSettingsControl.PropertiesButton.Click, AddressOf Me.PropertiesButtonClick
+                    ShowHideOurObjects(False)
 
-            If disposing Then
-                ' The object is being disposed, not finalized.
-                ' It is safe to access other objects (other than the mybase object)
-                ' only from inside this block
-                PluginManager.AWBForm.TraceManager.WriteBulletedLine("Generic template """ & OurName & _
-                   """ finalized.", True, True, True)
-                RemoveHandler OurSettingsControl.SkipRegexCheckBox.CheckedChanged, AddressOf Me.SkipRegexChanged
-                RemoveHandler OurSettingsControl.SkipRegexTextBox.TextChanged, AddressOf Me.SkipRegexChanged
-                RemoveHandler OurSettingsControl.TemplateNameTextBox.TextChanged, AddressOf Me.TemplateNamesChanged
-                RemoveHandler OurSettingsControl.HasAlternateNamesCheckBox.CheckedChanged, AddressOf Me.TemplateNamesChanged
-                RemoveHandler OurSettingsControl.AlternateNamesTextBox.TextChanged, AddressOf Me.TemplateNamesChanged
-                RemoveHandler OurSettingsControl.PropertiesButton.Click, AddressOf Me.PropertiesButtonClick
-                ShowHideOurObjects(False)
+                    OurTab.Dispose()
 
-                OurTab.Dispose()
+                    OurSettingsControl.Goodbye()
+                    OurSettingsControl.Dispose()
 
-                OurSettingsControl.Goodbye()
-                OurSettingsControl.Dispose()
+                    PluginManager.AWBForm.PluginsToolStripMenuItem.DropDownItems.Remove(OurMenuItem)
+                End If
+            Catch ex As Exception
 
-                PluginManager.AWBForm.PluginsToolStripMenuItem.DropDownItems.Remove(OurMenuItem)
-            End If
+            Finally
 
-            ' Perform cleanup that has to be executed in either case:
-            OurTab = Nothing
-            OurMenuItem = Nothing
-            Article = Nothing
-            Template = Nothing
-            MainRegex = Nothing
-            SecondChanceRegex = Nothing
-            PreferredTemplateNameRegex = Nothing
-            OurTab = Nothing
-            OurSettingsControl = Nothing
-            DeleteMeMenuItem = Nothing
-            SkipRegex = Nothing
+                ' Perform cleanup that has to be executed in either case:
+                OurTab = Nothing
+                OurMenuItem = Nothing
+                Article = Nothing
+                Template = Nothing
+                MainRegex = Nothing
+                SecondChanceRegex = Nothing
+                PreferredTemplateNameRegex = Nothing
+                OurTab = Nothing
+                OurSettingsControl = Nothing
+                DeleteMeMenuItem = Nothing
+                SkipRegex = Nothing
 
-            ' Remember that this object has been disposed of:
-            Me.disposed = True
+                ' Remember that this object has been disposed of:
+                Me.disposed = True
+            End Try
         End Sub
         Friend Sub Dispose() Implements IDisposable.Dispose, IGenericTemplatePlugin.Goodbye
             Debug.WriteLine("Disposing of generic plugin " & OurName)
