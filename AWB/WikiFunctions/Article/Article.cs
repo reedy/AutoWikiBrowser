@@ -899,7 +899,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// 
+        /// Invokes the Custom Module code
         /// </summary>
         /// <param name="module"></param>
         public void SendPageToCustomModule(IModule module)
@@ -911,11 +911,13 @@ namespace WikiFunctions
             string strTemp = module.ProcessArticle(processArticleEventArgs.ArticleText,
                                                    processArticleEventArgs.ArticleTitle, NameSpaceKey, out strEditSummary, out skipArticle);
 
+            // take updated article text even if skip true, so that in re-parse mode updates are taken
+            AWBChangeArticleText("Custom module", strTemp, true);
+            
             if (!skipArticle)
             {
                 processArticleEventArgs.EditSummary = strEditSummary;
                 processArticleEventArgs.Skip = false;
-                AWBChangeArticleText("Custom module", strTemp, true);
                 AppendPluginEditSummary();
             }
             else
