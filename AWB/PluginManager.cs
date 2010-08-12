@@ -203,6 +203,9 @@ namespace AutoWikiBrowser
 
             static string ErrorHandler_AppendToEventHandler()
             {
+                if (AWBPlugins.Count == 0 && AWBBasePlugins.Count == 0 && ListMakerPlugins.Count == 0)
+                    return "";
+
                 StringBuilder builder = new StringBuilder();
 
                 builder.AppendLine("<table>");

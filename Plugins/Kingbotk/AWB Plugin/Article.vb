@@ -17,8 +17,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
     Partial Friend NotInheritable Class Article
         ' Properties:
         Private mArticleText As String, mFullArticleTitle As String
-        Private mArticleTitle As String, mNamespace As Integer
-        Private mEditSummary As String = conWikiPluginBrackets, mMajor As Boolean
+        Private mNamespace As Integer
+        Private mEditSummary As String = conWikiPluginBrackets
 
         ' Plugin-state:
         Private mSkipResults As SkipResults = SkipResults.NotSet
@@ -65,13 +65,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         End Sub
         Friend Sub ArticleHasAMajorChange()
             mProcessIt = True
-            mMajor = True
         End Sub
-        Friend ReadOnly Property ChangesAreMinor() As Boolean
-            Get
-                Return Not mMajor
-            End Get
-        End Property
         Friend ReadOnly Property ProcessIt() As Boolean
             Get
                 Return mProcessIt
@@ -100,12 +94,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                     mSkipResults = SkipResults.SkipNoChange
             End Select
         End Sub
-        Friend Sub LivingIsTrue()
-            mLiving = True
-        End Sub
-        Friend Sub ActivePolIsTrue()
-            mActivePol = True
-        End Sub
 
         ' For calling by manager:
         Friend ReadOnly Property PluginManagerGetSkipResults() As SkipResults
@@ -115,9 +103,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         End Property
         Friend Sub FinaliseEditSummary()
             EditSummary = Regex.Replace(EditSummary, ", $", "")
-
-            'TODO:Reinstate/Fix
-            'PluginManager.AWBForm.WebControl.SetMinor(ChangesAreMinor)
         End Sub
         Friend Sub PluginManagerEditSummaryTaggingCategory(ByVal CategoryName As String)
             If Not CategoryName = "" Then EditSummary += "Tag [[Category:" + CategoryName + "]]. "
@@ -156,26 +141,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             AlteredArticleText = RestoreTemplateToPlaceholderSpotRegex.Replace(AlteredArticleText, TemplateHeader, 1)
             AlteredArticleText = RestoreTemplateToPlaceholderSpotRegex.Replace(AlteredArticleText, "")
         End Sub
-        'Friend Function ReplaceReqphotoWithTemplateParams(ByVal PluginName As String) As Boolean
-        '    If ReqPhotoNoParamsRegex.IsMatch(AlteredArticleText) Then
-        '        AlteredArticleText = ReqPhotoNoParamsRegex.Replace(AlteredArticleText, "")
-        '        DoneReplacement("{{reqphoto}}", "template param(s)", True, PluginName)
-        '        ArticleHasAMajorChange()
-        '        Return True
-        '    End If
-        'End Function
-        Friend Sub AddReqPhoto(ByVal PluginName As String)
-            AlteredArticleTextPrependLine("{{reqphoto}}")
-            ArticleHasAMajorChange()
-            PluginManager.AWBForm.TraceManager.WriteArticleActionLine1("Added {{[[Template:Reqphoto|Reqphoto]]}}", PluginName, True)
-        End Sub
-        Friend Sub AlteredArticleTextPrependLine(ByVal Text As String)
-            AlteredArticleText = Text + Microsoft.VisualBasic.vbCrLf + AlteredArticleText
-        End Sub
-
-        'Friend Sub OpenInBrowser()
-        '    Tools.OpenENArticleInBrowser(FullArticleTitle, False)
-        'End Sub
         Friend Sub EditInBrowser()
             Tools.EditArticleInBrowser(FullArticleTitle)
         End Sub

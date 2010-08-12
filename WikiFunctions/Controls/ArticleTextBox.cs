@@ -215,15 +215,19 @@ namespace WikiFunctions.Controls
         /// <returns></returns>
         public void HighlightSyntax()
         {
+            // reset background colour to avoid issues on re-parse
+            SetEditBoxSelection(0, RawText.Length);
+            SelectionBackColor = Color.White;
+                        
             Font currentFont = SelectionFont;
             Font boldFont = new Font(currentFont.FontFamily, currentFont.Size, FontStyle.Bold);
             Font italicFont = new Font(currentFont.FontFamily, currentFont.Size, FontStyle.Italic);
             Font boldItalicFont = new Font(currentFont.FontFamily, currentFont.Size, FontStyle.Bold | FontStyle.Italic);
 
             // headings text in bold
-            foreach (Match m in WikiRegexes.Heading.Matches(RawText))
+            foreach (Match m in WikiRegexes.Headings.Matches(RawText))
             {
-                SetEditBoxSelection(m.Groups[2].Index, m.Groups[2].Length);
+                SetEditBoxSelection(m.Groups[1].Index, m.Groups[1].Length);
                 SelectionFont = boldFont;
             }
 
@@ -266,13 +270,12 @@ namespace WikiFunctions.Controls
                 SelectionFont = boldFont;
             }
 
-            // images green background
-            //foreach (Match m in WikiRegexes.Images.Matches(txtEdit.RawText))
-            //{
-            //    txtEdit.SetEditBoxSelection(m.Index, m.Length);
-            //    txtEdit.SelectionBackColor = Color.Green;
-
-            //}
+            // Image/file links green background
+            foreach (Match m in WikiRegexes.FileNamespaceLink.Matches(RawText))
+            {
+                SetEditBoxSelection(m.Index, m.Length);
+                SelectionBackColor = Color.LightGreen;
+            }
 
             // italics
             foreach (Match m in WikiRegexes.Italics.Matches(RawText))
@@ -284,7 +287,7 @@ namespace WikiFunctions.Controls
             // bold  
             foreach (Match m in WikiRegexes.Bold.Matches(RawText))
             {
-                // reset anything incorrectly done by italics  earlier
+                // reset anything incorrectly done by italics earlier
                 SetEditBoxSelection(m.Index, m.Length);
                 SelectionFont = currentFont;
 

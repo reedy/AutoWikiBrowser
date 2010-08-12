@@ -115,15 +115,12 @@ Is this SVN (1) or a release (2)? ");
                 File.Copy(currFolder + "Fronds.dll", tmp + "Plugins\\Fronds\\Fronds.dll", true);
 
                 Directory.CreateDirectory(tmp + "Plugins\\Kingbotk\\");
-                currFolder = awbDir + "Plugins\\Kingbotk\\";
+				File.Copy(currFolder + "Kingbotk AWB Plugin.dll", tmp + "Plugins\\Kingbotk\\Kingbotk AWB Plugin.dll", true);
 
+				currFolder = awbDir + "Plugins\\Kingbotk\\";
                 File.Copy(currFolder + "Physics generic template.xml", tmp + "Plugins\\Kingbotk\\Physics generic template.xml", true);
                 File.Copy(currFolder + "Film generic template.xml", tmp + "Plugins\\Kingbotk\\Film generic template.xml", true);
-                File.Copy(currFolder + "COPYING", tmp + "Plugins\\Kingbotk\\COPYING", true);
-
-                currFolder += "AWB Plugin\\bin\\Release\\";
-
-                File.Copy(currFolder + "Kingbotk AWB Plugin.dll", tmp + "Plugins\\Kingbotk\\Kingbotk AWB Plugin.dll", true);
+                File.Copy(currFolder + "COPYING", tmp + "Plugins\\Kingbotk\\COPYING", true);                
 
                 Console.WriteLine("Files copied to temporary directory");
 

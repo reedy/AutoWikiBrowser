@@ -88,7 +88,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 #Region "Properties"
         Friend Property TemplateName() As String
             Get
-                Return WikiFunctions.Parse.Parsers.GetTemplateName(TemplateNameTextBox.Text, True)
+                Return WikiFunctions.Tools.GetTemplateName(TemplateNameTextBox.Text)
             End Get
             Set(ByVal value As String)
                 TemplateNameTextBox.Text = value
@@ -420,11 +420,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 Return OurSettingsControl
             End Get
         End Property
-        Protected Overrides ReadOnly Property ParameterBreak() As String
-            Get
-                Return ""
-            End Get
-        End Property
 
         ' Article processing:
         Protected Overrides Function SkipIfContains() As Boolean
@@ -574,7 +569,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 Try
                     OurSettingsControl.AlternateNames = ConvertRedirectsToString(GetRedirects(OurSettingsControl.TemplateName))
                     OurSettingsControl.HasAlternateNamesCheckBox.Checked = Not (OurSettingsControl.AlternateNames = "")
-                    mGotRedirectsFromWikipedia = True
                 Catch ex As Exception
                     MessageBox.Show("Whoops, we caught an error when trying to get the redirects from Wikipedia." & _
                        Microsoft.VisualBasic.vbCrLf & Microsoft.VisualBasic.vbCrLf & "The error was:" & ex.Message & _
@@ -592,16 +586,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Property
         Protected Overrides Sub InspectUnsetParameter(ByVal Param As String)
         End Sub ' will never be called
-        Friend Overrides ReadOnly Property HasSharedLogLocation() As Boolean
-            Get
-                Return False
-            End Get
-        End Property
-        Friend Overrides ReadOnly Property SharedLogLocation() As String
-            Get
-                Return ""
-            End Get
-        End Property
         Friend Overrides ReadOnly Property HasReqPhotoParam() As Boolean
             Get
                 Return False
@@ -633,6 +617,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 RemoveHandler OurSettingsControl.AlternateNamesTextBox.TextChanged, AddressOf Me.TemplateNamesChanged
                 RemoveHandler OurSettingsControl.PropertiesButton.Click, AddressOf Me.PropertiesButtonClick
                 ShowHideOurObjects(False)
+
+                OurTab.Dispose()
+
                 OurSettingsControl.Goodbye()
                 OurSettingsControl.Dispose()
 
@@ -640,6 +627,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             End If
 
             ' Perform cleanup that has to be executed in either case:
+            OurTab = Nothing
             OurMenuItem = Nothing
             Article = Nothing
             Template = Nothing

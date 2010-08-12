@@ -162,6 +162,12 @@ namespace WikiFunctions.Profiles
         {
             btnQuickLogin.Enabled = txtPassword.Text.Length > 0 && txtUsername.Text.Length > 0;
         }
+        
+        private void txtPassword_KeyUp(object sender, KeyEventArgs e)
+        {
+            if ((e.KeyCode == Keys.Return || e.KeyCode == Keys.Enter) && btnQuickLogin.Enabled)
+                btnQuickLogin.PerformClick();
+        }
 
         private void btnQuickLogin_Click(object sender, EventArgs e)
         {

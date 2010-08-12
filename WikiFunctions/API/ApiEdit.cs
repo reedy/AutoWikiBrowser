@@ -506,7 +506,7 @@ namespace WikiFunctions.API
         {
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
 
-            Reset();
+            //Reset();
             string result = HttpGet(new[,]
                 {
                     {"action", "watch"},
@@ -519,7 +519,7 @@ namespace WikiFunctions.API
         {
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
 
-            Reset();
+            //Reset();
             string result = HttpGet(new[,]
                                         {
                                             {"action", "watch"},
@@ -906,7 +906,8 @@ namespace WikiFunctions.API
                 new[,]
                 {
                     { "title", title },
-                    { "text", text }
+                    { "text", text },
+                    { "disablepp", null }
                 });
 
             CheckForErrors(result, "parse");
@@ -1033,6 +1034,8 @@ namespace WikiFunctions.API
                         throw new MaxlagException(this, maxlag, 10);
                     case "wrnotloggedin":
                         throw new LoggedOffException(this);
+                    case "spamdetected":
+                        throw new SpamlistException(this, errorMessage);
                     default:
                         if (errorCode.Contains("disabled"))
                             throw new FeatureDisabledException(this, errorCode, errorMessage);
@@ -1040,10 +1043,16 @@ namespace WikiFunctions.API
                         throw new ApiErrorException(this, errorCode, errorMessage);
                 }
             }
+
             if (string.IsNullOrEmpty(action)) return doc; // no action to check
 
             var api = doc["api"];
             if (api == null) return doc;
+
+            //FIXME: Awful code is awful
+            var page = api.GetElementsByTagName("page");
+            if (page.Count > 0 && page[0].Attributes["invalid"] != null && page[0].Attributes["invalid"].Value == "")
+                throw new InvalidTitleException(this, page[0].Attributes["title"].Value);
 
             if (api.GetElementsByTagName("interwiki").Count > 0)
                 throw new InterwikiException(this);
@@ -1060,10 +1069,11 @@ namespace WikiFunctions.API
                 throw new AssertionFailedException(this, what);
             }
 
-            if (actionElement.HasAttribute("spamblacklist"))
-            {
-                throw new SpamlistException(this, actionElement.GetAttribute("spamblacklist"));
-            }
+			//Am I still needed?
+            //if (actionElement.HasAttribute("spamblacklist"))
+            //{
+            //    throw new SpamlistException(this, actionElement.GetAttribute("spamblacklist"));
+            //}
 
             if (actionElement.GetElementsByTagName("captcha").Count > 0)
             {

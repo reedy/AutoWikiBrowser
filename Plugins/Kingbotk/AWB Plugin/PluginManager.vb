@@ -71,9 +71,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                 Return conAWBPluginName
             End Get
         End Property
-        Private Sub Initialise(ByVal MainForm As IAutoWikiBrowser) Implements IAWBPlugin.Initialise
+        Private Sub Initialise(ByVal sender As IAutoWikiBrowser) Implements IAWBPlugin.Initialise
             ' Store AWB object reference:
-            AWBForm = MainForm
+            AWBForm = sender
 
             ' Initialise our settings object:
             PluginSettings = New PluginSettingsControl()
@@ -125,14 +125,14 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             AddItemToTextBoxInsertionContextMenu(PluginSettings.PriorityToolStripMenuItem)
 
             ' Create plugins:
-            Plugins.Add("Albums", New WPAlbums(Me))
-            Plugins.Add("Australia", New WPAustralia(Me))
-            'Plugins.Add("Film", New Film(Me))
-            Plugins.Add("India", New WPIndia(Me))
-            Plugins.Add("MilHist", New WPMilHist(Me))
-            Plugins.Add("Songs", New WPSongs(Me))
-            Plugins.Add("WPNovels", New WPNovels(Me))
-            Plugins.Add(Constants.Biography, New WPBiography(Me))
+            Plugins.Add("Albums", New WPAlbums())
+            Plugins.Add("Australia", New WPAustralia())
+            'Plugins.Add("Film", New Film())
+            Plugins.Add("India", New WPIndia())
+            Plugins.Add("MilHist", New WPMilitaryHistory())
+            Plugins.Add("Songs", New WPSongs())
+            Plugins.Add("WPNovels", New WPNovels())
+            Plugins.Add(Constants.Biography, New WPBiography())
             ' hopefully if add WPBio last it will ensure that the template gets added to the *top* of pages
 
             ' Initialise plugins:
@@ -146,19 +146,19 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             ' Reset statusbar text:
             DefaultStatusText()
         End Sub
-        Private Sub LoadSettings(ByVal Prefs() As Object) Implements IAWBPlugin.LoadSettings
-            If Prefs.Length > 0 Then
+        Private Sub LoadSettings(ByVal prefs() As Object) Implements IAWBPlugin.LoadSettings
+            If prefs.Length > 0 Then
                 ' Check if we're receiving an old type settings block (XMLTextReader) or new (a serialized string)
-                If Prefs(0).GetType Is GetType(XmlTextReader) Then
-                    ReadXML(DirectCast(Prefs(0), XmlTextReader))
-                ElseIf Prefs(0).GetType Is GetType(String) Then
-                    LoadSettingsNewWay(CType(Prefs(0), String))
+                If prefs(0).GetType Is GetType(XmlTextReader) Then
+                    ReadXML(DirectCast(prefs(0), XmlTextReader))
+                ElseIf prefs(0).GetType Is GetType(String) Then
+                    LoadSettingsNewWay(CType(prefs(0), String))
                 End If
             End If
         End Sub
         Private Function ProcessArticle(ByVal sender As IAutoWikiBrowser, _
-        ByVal ProcessArticleEventArgs As IProcessArticleEventArgs) As String Implements IAWBPlugin.ProcessArticle
-            With ProcessArticleEventArgs
+        ByVal eventargs As IProcessArticleEventArgs) As String Implements IAWBPlugin.ProcessArticle
+            With eventargs
                 If ActivePlugins.Count = 0 Then Return .ArticleText
 
                 Dim TheArticle As Article = Nothing, Namesp As Integer = .NameSpaceKey
@@ -176,11 +176,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                             StopAWB()
                             GoTo SkipOrStop
                         End If
-                    Catch ex As RedirectsException
+                    Catch
                         StopAWB()
                         GoTo SkipOrStop
-                    Catch
-                        Throw
                     End Try
                 Next
 
@@ -221,7 +219,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                             Dim ReqPhoto As Boolean = ReqPhotoParamNeeded(TheArticle)
 
                             If PluginSettings.ManuallyAssess Then
-                                If Not AssessmentsObject.ProcessTalkPage(TheArticle, PluginSettings, Me, ReqPhoto) Then ' reqphoto byref
+                                If Not AssessmentsObject.ProcessTalkPage(TheArticle, PluginSettings, ReqPhoto) Then ' reqphoto byref
                                     .Skip = True
                                     GoTo SkipOrStop
                                 End If
@@ -274,11 +272,11 @@ ExitMe:
             Exit Function
 
 SkipBadNamespace:
-            ProcessArticle = Skipping(ProcessArticleEventArgs.EditSummary, "", SkipReason.BadNamespace, ProcessArticleEventArgs.ArticleText, ProcessArticleEventArgs.Skip)
+            ProcessArticle = Skipping(eventargs.EditSummary, "", SkipReason.BadNamespace, eventargs.ArticleText, eventargs.Skip)
             GoTo ExitMe
 
 SkipOrStop:
-            ProcessArticle = ProcessArticleEventArgs.ArticleText
+            ProcessArticle = eventargs.ArticleText
             GoTo ExitMe
         End Function
         Private Sub Reset() Implements IAWBPlugin.Reset
@@ -376,13 +374,13 @@ SkipOrStop:
                     If ReqPhoto Then
                         .AlteredArticleText = ReqPhotoNoParamsRegex.Replace(.AlteredArticleText, "")
                         .DoneReplacement( _
-                           "{{[[template:reqphoto|reqphoto]]}}", "template param(s)", True, conMe)
+                           "{{[[template:reqphoto|reqphoto]]}}", "template param(s)", True, PluginName)
                         .ArticleHasAMajorChange()
                     End If
 
                     .FinaliseEditSummary()
                     PluginManager.AWBForm.TraceManager.WriteArticleActionLine1("Returning to AWB: Edit summary: " & _
-                       .EditSummary, conMe, True)
+                       .EditSummary, PluginName, True)
                     FinaliseArticleProcessing = .AlteredArticleText
                     Summary = .EditSummary
                 End With
@@ -399,34 +397,32 @@ SkipOrStop:
             Select Case SkipReason
                 Case PluginManager.SkipReason.BadNamespace
                     PluginSettings.PluginStats.SkippedNamespaceIncrement()
-                    PluginManager.AWBForm.TraceManager.SkippedArticle(conMe, "Incorrect namespace")
+                    PluginManager.AWBForm.TraceManager.SkippedArticle(PluginName, "Incorrect namespace")
                 Case PluginManager.SkipReason.ProcessingMainArticleDoesntExist
                     PluginSettings.PluginStats.SkippedRedLinkIncrement()
-                    PluginManager.AWBForm.TraceManager.SkippedArticle(conMe, "Article doesn't exist")
+                    PluginManager.AWBForm.TraceManager.SkippedArticle(PluginName, "Article doesn't exist")
                 Case PluginManager.SkipReason.ProcessingTalkPageArticleDoesntExist
                     PluginSettings.PluginStats.SkippedRedLinkIncrement()
-                    PluginManager.AWBForm.TraceManager.SkippedArticleRedlink(conMe, ArticleTitle, NS)
+                    PluginManager.AWBForm.TraceManager.SkippedArticleRedlink(PluginName, ArticleTitle, NS)
                 Case PluginManager.SkipReason.BadTag
-                    PluginManager.AWBForm.TraceManager.SkippedArticleBadTag(conMe, ArticleTitle, NS)
+                    PluginManager.AWBForm.TraceManager.SkippedArticleBadTag(PluginName, ArticleTitle, NS)
                 Case PluginManager.SkipReason.NoChange
-                    PluginManager.AWBForm.TraceManager.SkippedArticle(conMe, "No change")
+                    PluginManager.AWBForm.TraceManager.SkippedArticle(PluginName, "No change")
                 Case PluginManager.SkipReason.Regex
-                    PluginManager.AWBForm.TraceManager.SkippedArticle(conMe, _
+                    PluginManager.AWBForm.TraceManager.SkippedArticle(PluginName, _
                        "Article text matched a skip-if-found regular expression")
                 Case PluginManager.SkipReason.Other
-                    PluginManager.AWBForm.TraceManager.SkippedArticle(conMe, "")
+                    PluginManager.AWBForm.TraceManager.SkippedArticle(PluginName, "")
             End Select
 
             Skip = True
             Return ArticleText
         End Function
         Private Shared Sub CreateNewGenericPlugin(ByVal PluginName As String, ByVal Creator As String)
-            Dim plugin As GenericTemplatePlugin
-
             PluginManager.AWBForm.TraceManager.WriteBulletedLine(Creator & ": Creating generic template """ & _
                PluginName & """", True, True)
 
-            plugin = New GenericTemplatePlugin(PluginName)
+            Dim plugin As New GenericTemplatePlugin(PluginName)
             Plugins.Add(PluginName, plugin)
             plugin.Initialise()
             plugin.Enabled = True ' (adds it to activeplugins)
@@ -554,14 +550,6 @@ SkipOrStop:
         End Sub
 
         ' Event handlers - AWB:
-        Private Shared Sub GetLogUploadLocationsEventHandler(ByVal sender As IAutoWikiBrowser, _
-        ByVal LinksToLog As List(Of LogEntry)) Handles AWBForm.GetLogUploadLocations
-            For Each Plugin As PluginBase In PluginManager.ActivePlugins
-                If Plugin.HasSharedLogLocation Then
-                    LinksToLog.Add(New LogEntry(Plugin.SharedLogLocation, True))
-                End If
-            Next
-        End Sub
         Private Shared Sub AWBClosingEventHandler(ByVal sender As System.Object, ByVal e As FormClosingEventArgs)
             If e.Cancel Then
                 Return
@@ -578,7 +566,6 @@ SkipOrStop:
 
             If BotMode Then
                 Line += "enabled"
-                AWBForm.SkipNoChanges = False
             Else
                 Line += "disabled"
             End If
@@ -608,32 +595,12 @@ SkipOrStop:
             End If
         End Sub
         Private Shared Sub EditorAborted(ByVal sender As AsyncApiEdit)
-            PluginSettings.AWBProcessingAborted(sender)
+            PluginSettings.AWBProcessingAborted()
         End Sub
         Private Sub StopButtonClickEventHandler(ByVal sender As Object, ByVal e As EventArgs)
             DefaultStatusText()
             If Not AssessmentsObject Is Nothing Then AssessmentsObject.Reset()
-            PluginSettings.AWBProcessingAborted(Nothing)
-        End Sub
-        Private Sub OurButtonsClickEventHander(ByVal sender As Object, ByVal e As EventArgs)
-            Dim btn As Button = DirectCast(sender, Button)
-
-            With AWBForm
-                Select Case btn.Name
-                    Case "btnStop"
-                        .Stop(conAWBPluginName)
-                    Case "btnStart"
-                        .Start(conAWBPluginName)
-                    Case "btnPreview"
-                        .GetPreview(conAWBPluginName)
-                    Case "btnSave"
-                        .Save(conAWBPluginName)
-                    Case "btnDiff"
-                        .GetDiff(conAWBPluginName)
-                    Case "btnIgnore"
-                        .SkipPage(conAWBPluginName, "user")
-                End Select
-            End With
+            PluginSettings.AWBProcessingAborted()
         End Sub
         Private Shared Sub MenuShowHide_Click(ByVal sender As Object, ByVal e As System.EventArgs) _
         Handles MenuShowSettingsTabs.Click
@@ -668,12 +635,12 @@ SkipOrStop:
                 If Plugins.ContainsKey(str) Then
                     MessageBox.Show("A plugin of this name already exists", "Error", _
                        MessageBoxButtons.OK, MessageBoxIcon.Exclamation)
+                    Return
                 ElseIf CBool(Microsoft.VisualBasic.InStr(str, " ")) Then
                     str = str.Replace(" ", "")
-                    CreateNewGenericPlugin(str, "User")
-                Else
-                    CreateNewGenericPlugin(str, "User")
                 End If
+
+                CreateNewGenericPlugin(str, "User")
             End If
         End Sub
 
@@ -757,21 +724,21 @@ SkipOrStop:
         End Sub
 
         ' AWB nudges:
-        Private Sub Nudge(ByRef Cancel As Boolean) Implements IAWBPlugin.Nudge
+        Private Sub Nudge(ByRef cancel As Boolean) Implements IAWBPlugin.Nudge
             For Each p As PluginBase In ActivePlugins
                 If Not p.IAmReady Then
                     PluginManager.AWBForm.TraceManager.WriteBulletedLine(conAWBPluginName & _
                        "Bot mode: Cancelling AWB nudge as a generic plugin isn't ready yet", True, True, True)
-                    Cancel = True
+                    cancel = True
                     Exit For
                 End If
             Next
 
-            If Not Cancel Then PluginManager.AWBForm.TraceManager.WriteBulletedLine(conAWBPluginName & _
+            If Not cancel Then PluginManager.AWBForm.TraceManager.WriteBulletedLine(conAWBPluginName & _
                "Bot mode: AWB is giving a nudge", True, False, True)
         End Sub
-        Private Sub Nudged(ByVal Nudges As Integer) Implements IAWBPlugin.Nudged
-            PluginSettings.lblAWBNudges.Text = "Nudges: " & Nudges.ToString
+        Private Sub Nudged(ByVal nudges As Integer) Implements IAWBPlugin.Nudged
+            PluginSettings.lblAWBNudges.Text = "Nudges: " & nudges.ToString
         End Sub
 
         Friend ReadOnly Property WikiName() As String Implements WikiFunctions.Plugin.IAWBPlugin.WikiName

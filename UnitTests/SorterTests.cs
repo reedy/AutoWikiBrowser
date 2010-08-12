@@ -523,6 +523,9 @@ words.
             Assert.AreEqual(f + c + g, MetaDataSorter.MoveTemplateToReferencesSection(f + c + g, WikiFunctions.WikiRegexes.MoreNoFootnotes, true));
             Assert.AreEqual(f + d + g, MetaDataSorter.MoveTemplateToReferencesSection(f + d + g, WikiFunctions.WikiRegexes.MoreNoFootnotes, true));
             Assert.AreEqual(f + e + g, MetaDataSorter.MoveTemplateToReferencesSection(f + e + g, WikiFunctions.WikiRegexes.MoreNoFootnotes, true));
+            
+            // if duplicate sections, don't duplicate template
+            Assert.AreEqual(b + c + a + "\r\n" + c  + g, MetaDataSorter.MoveTemplateToReferencesSection(a + b + c +c + g, WikiFunctions.WikiRegexes.MoreNoFootnotes, true));
         }
         
         [Test]
@@ -551,6 +554,8 @@ words.
             Assert.AreEqual(b + d + a + "\r\n" + g, MetaDataSorter.MoveTemplateToReferencesSection(a + b + d + g, WikiFunctions.WikiRegexes.Ibid, false));
             Assert.AreEqual(b + e + a + "\r\n" + g, MetaDataSorter.MoveTemplateToReferencesSection(a + b + e + g, WikiFunctions.WikiRegexes.Ibid));
             Assert.AreEqual(b + e + a + "\r\n", MetaDataSorter.MoveTemplateToReferencesSection(a + b + e, WikiFunctions.WikiRegexes.Ibid));
+            
+            Assert.AreEqual(b + c + d + a + "\r\n" + g, MetaDataSorter.MoveTemplateToReferencesSection(a + b + c + d + g, WikiFunctions.WikiRegexes.Ibid, false), "move to Notes ahead of References");
             
             // outside zeroth section – okay
             Assert.AreEqual(@"'''Article''' words.
@@ -779,7 +784,7 @@ foo";
         {
             parser2.SortInterwikis = false;
 
-            parser2.Sorter.PossibleInterwikis = new System.Collections.Generic.List<string> { "de", "es", "fr", "it", "sv", "ar", "bs", "br" };
+            parser2.Sorter.PossibleInterwikis = new System.Collections.Generic.List<string> { "de", "es", "fr", "it", "sv", "ar", "bs", "br", "en" };
 
             string a = @"[[de:Canadian National Railway]]
 [[es:Canadian National]]
@@ -839,7 +844,30 @@ The following links are here to prevent the interwiki bot from adding them to th
             string g = e1 + e2;
 
             Assert.AreEqual(f + "\r\n", parser2.Sorter.Interwikis(ref g));
-        }        
+            
+            string h = @"[[de:Canadian National Railway]]
+[[en:Canadian National]]
+[[fr:Canadien National]]";
+
+            Assert.AreEqual(@"[[de:Canadian National Railway]]
+[[fr:Canadien National]]" + "\r\n", parser2.Sorter.Interwikis(ref h), "interwikis to own wiki are removed");
+        }
+        
+        [Test]
+        public void SelfInterwikisEn()
+        {
+            Assert.AreEqual("", parser2.SortMetaData(@"<!-- [[en:Foo]]-->", "Test"), "Commented out en interwikis removed");
+        }
+        
+        [Test]
+        public void SorterNamespaceTests()
+        {
+            const string cat = @"[[Category:Foo]]";
+            
+            Assert.AreEqual(cat, parser2.SortMetaData(cat, "Category:Bar"), "no sorting on category namespace");
+            Assert.AreEqual(cat, parser2.SortMetaData(cat, "Template:Bar"), "no sorting on template namespace");
+            Assert.AreEqual("\r\n\r\n" + cat, parser2.SortMetaData(cat, "Bar"), "sorting applied on mainspace");
+        }
 
         [Test]
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Substituted_templates
@@ -870,6 +898,7 @@ The following links are here to prevent the interwiki bot from adding them to th
         {
             #if DEBUG
             Variables.SetProjectLangCode("ar");
+            WikiRegexes.MakeLangSpecificRegexes();
             string a1 = @"{{DEFAULTSORT:Boleyn, Anne}}
 
 ", a2 = @"{{وصلة مقالة مختارة|bs}}
@@ -884,6 +913,7 @@ The following links are here to prevent the interwiki bot from adding them to th
             Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref c), "Ar Link FA order not changed");
             
             Variables.SetProjectLangCode("en");
+            WikiRegexes.MakeLangSpecificRegexes();
             string e1 = @"{{DEFAULTSORT:Boleyn, Anne}}
 
 ", e2 = @"{{Link FA|bs}}

@@ -19,12 +19,16 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         Protected Friend MustOverride ReadOnly Property PluginShortName() As String
         Protected MustOverride ReadOnly Property InspectUnsetParameters() As Boolean
         Protected Const ForceAddition As Boolean = True ' we might want to parameterise this later
-        Protected MustOverride ReadOnly Property ParameterBreak() As String
+
+        Protected Overridable ReadOnly Property ParameterBreak() As String
+            Get
+                Return Microsoft.VisualBasic.vbCrLf
+            End Get
+        End Property
+
         Protected Friend MustOverride ReadOnly Property GenericSettings() As IGenericSettings
         Protected MustOverride ReadOnly Property CategoryTalkClassParm() As String
         Protected MustOverride ReadOnly Property TemplateTalkClassParm() As String
-        Friend MustOverride ReadOnly Property HasSharedLogLocation() As Boolean
-        Friend MustOverride ReadOnly Property SharedLogLocation() As String
         Friend MustOverride ReadOnly Property HasReqPhotoParam() As Boolean
         Friend MustOverride Sub ReqPhoto()
 
@@ -190,7 +194,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                           "Shell template found; leaving " & PreferredTemplateName & " where we found it", PluginShortName, True)
                         TemplateHeader = Article.LineBreakRegex.Replace(TemplateHeader, "") & Template.ParametersToString("")
                         .RestoreTemplateToPlaceholderSpot(TemplateHeader)
-                        .CheckLivingAndActivePolInWikiProjectBannerShell()
                     ElseIf PutTemplateAtTop Then ' moving existing tl to top
                         TemplateHeader += Template.ParametersToString(ParameterBreak)
                         .AlteredArticleText = TemplateHeader + .AlteredArticleText.Replace(conTemplatePlaceholder, "")
@@ -199,7 +202,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                         .RestoreTemplateToPlaceholderSpot(TemplateHeader)
                     End If
                 Else ' Our template wasn't found, write it into a shell or to the top of the page
-                    .PrependTemplateOrWriteIntoShell(Template, ParameterBreak, TemplateHeader, PluginShortName)
+                    .PrependTemplateOrWriteIntoShell(Template, ParameterBreak, TemplateHeader)
                 End If
             End With
         End Sub
@@ -372,14 +375,4 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
         Sub XMLReset()
     End Interface
-
-    <Serializable()> _
-    Friend Class RedirectsException
-        Inherits ApplicationException
-        Friend Sub New()
-        End Sub
-        Friend Sub New(ByVal InnerException As Exception)
-            MyBase.New("", InnerException)
-        End Sub
-    End Class
 End Namespace

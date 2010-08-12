@@ -73,14 +73,16 @@ namespace WikiFunctions.Controls.Lists
             Sorted = false;
             EndUpdate();
         }
-        
-        private class ReverseComparer: IComparer
+
+        private class ReverseComparer : IComparer<Article>
         {
-            public int Compare (Object object1, Object object2)
+            public int Compare(Article article1, Article article2)
             {
-                return -((IComparable)  object1).CompareTo (object2);
+                return -article1.CompareTo(article2);
             }
         }
+
+        private static readonly ReverseComparer ArticleReverseComparer = new ReverseComparer();
         
         /// <summary>
         /// Sorts the article list in reverse alphabetical order
@@ -95,7 +97,7 @@ namespace WikiFunctions.Controls.Lists
             for (int i = 0; i < Items.Count; i++)
                 currentArticles[i] = (Article)Items[i];
 
-            Array.Sort(currentArticles, new ReverseComparer());
+            Array.Sort(currentArticles, ArticleReverseComparer);
 
             Items.Clear();
 
@@ -189,12 +191,12 @@ namespace WikiFunctions.Controls.Lists
         }
     }
 
-    /// <summary>
-    /// Version of ListBox2 that is defined to take strings
-    /// </summary>
-    public class ListBoxString : ListBox2<string>
-    {
-    }
+    ///// <summary>
+    ///// Version of ListBox2 that is defined to take strings
+    ///// </summary>
+    //public class ListBoxString : ListBox2<string>
+    //{
+    //}
 
     /// <summary>
     /// Version of ListBox2 that is defined to take Articles

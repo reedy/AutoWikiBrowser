@@ -70,7 +70,7 @@ namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
         }
 
         public override string DisplayText
-        { get { return base.DisplayText + " (UD, Admin & Bot)"; } }
+        { get { return base.DisplayText + " (NL, Admin & Bot)"; } }
 
         public string Name
         {
