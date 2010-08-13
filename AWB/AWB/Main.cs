@@ -615,7 +615,8 @@ namespace AutoWikiBrowser
         /// </summary>
         private void Start()
         {
-            if (TheSession.Status != WikiStatusResult.Registered || TheSession.IsBusy) return;
+            if (TheSession.Status != WikiStatusResult.Registered || TheSession.IsBusy) 
+                return;
             if (_inStart)
             {
                 _startAgain = true;
@@ -4331,6 +4332,7 @@ window.scrollTo(0, diffTopY);
                 {
                     SameArticleNudges++;
                     Stop();
+                     _stopProcessing = false;
                     Start();
                 }
 
