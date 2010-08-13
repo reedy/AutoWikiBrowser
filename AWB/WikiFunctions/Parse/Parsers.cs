@@ -3520,9 +3520,7 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixTemperatures(string articleText)
         {
-            foreach (Match m in Temperature.Matches(articleText))
-                articleText = articleText.Replace(m.ToString(), "°" + m.Groups[1].Value.ToUpper());
-            return articleText;
+            return Temperature.Replace(articleText, m => "°" + m.Groups[1].Value.ToUpper());
         }
 
         /// <summary>
