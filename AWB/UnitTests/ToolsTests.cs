@@ -1512,7 +1512,7 @@ title={{abc|fdkjdsfjk=fdaskjlfds
             List<string> ListOfTemplates = new List<string>();
             
             Regex MultipleTemplatesN = Tools.NestedTemplateRegex(ListOfTemplates);
-            Assert.Null(MultipleTemplatesN, "null return if zero-entry list input");
+            Assert.IsNull(MultipleTemplatesN, "null return if zero-entry list input");
             
             ListOfTemplates.Add(@"Foo");
             
