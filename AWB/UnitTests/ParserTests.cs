@@ -765,6 +765,11 @@ Jones 2005</ref>"));
             string TwoRefs = @"Now<ref name=a>bar</ref><ref name=b>bar</ref>. Then";
             
             Assert.AreEqual(AllAfter + @"Now.<ref name=a>bar</ref><ref name=b>bar</ref> Then", Parsers.RefsAfterPunctuation(AllAfter + TwoRefs), "punctuation moved through multiple refs");
+            
+            R1 = @"Foo<ref>bar</ref>.
+The next";
+            Assert.AreEqual(AllAfter + @"Foo.<ref>bar</ref>
+The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines after ref punctuation");
         }
         
         [Test]
