@@ -836,7 +836,7 @@ John", "*"));
         }
 
         [Test]
-        public void ISOToDate()
+        public void ConvertDate()
         {
             string iso = @"2009-06-11", iso2 = @"1890-07-04";
             Assert.AreEqual(@"11 June 2009", Tools.ISOToENDate(iso, Parsers.DateLocale.International));
@@ -848,6 +848,10 @@ John", "*"));
             // handles incorect format
             string wrong = @"foo";
             Assert.AreEqual(wrong, Tools.ISOToENDate(wrong, Parsers.DateLocale.International));
+            
+            // supports other valid date formats
+            Assert.AreEqual(@"11 June 2009", Tools.ISOToENDate("11 June 2009", Parsers.DateLocale.International));
+            Assert.AreEqual(@"11 June 2009", Tools.ISOToENDate("June 11, 2009", Parsers.DateLocale.International));
         }
         
         [Test]

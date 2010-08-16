@@ -1991,25 +1991,25 @@ Message: {2}
         private static readonly System.Globalization.CultureInfo English = new System.Globalization.CultureInfo("en-GB");
 
         /// <summary>
-        /// Returns the input ISO date in the requested format (American or International). If another Locale is pasased in the input date is returned. For en-wiki only.
+        /// Returns the input date in the requested format (American or International). If another Locale is pasased in the input date is returned. For en-wiki only.
         /// </summary>
-        /// <param name="ISODate">string representing ISO date</param>
+        /// <param name="inputDate">string representing a date, any format that C# can parse</param>
         /// <param name="locale">Locale of output date required (American or International)</param>
         /// <returns>The English-language (American or International) date</returns>
-        public static string ISOToENDate(string ISODate, Parsers.DateLocale locale)
+        public static string ISOToENDate(string inputDate, Parsers.DateLocale locale)
         {
             if (Variables.LangCode != "en")
-                return ISODate;
+                return inputDate;
 
             DateTime dt;
 
             try
             {
-                dt = Convert.ToDateTime(ISODate);
+                dt = Convert.ToDateTime(inputDate);
             }
             catch
             {
-                return ISODate;
+                return inputDate;
             }
 
             switch (locale)
@@ -2019,7 +2019,7 @@ Message: {2}
                 case Parsers.DateLocale.International:
                     return dt.ToString("d MMMM yyyy", English);
                 default:
-                    return ISODate;
+                    return inputDate;
             }
         }
 
