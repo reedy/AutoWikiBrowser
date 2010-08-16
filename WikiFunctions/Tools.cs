@@ -1994,7 +1994,7 @@ Message: {2}
         /// Returns the input date in the requested format (American or International). If another Locale is pasased in the input date is returned. For en-wiki only.
         /// </summary>
         /// <param name="inputDate">string representing a date, any format that C# can parse</param>
-        /// <param name="locale">Locale of output date required (American or International)</param>
+        /// <param name="locale">Locale of output date required (American/International/ISO)</param>
         /// <returns>The English-language (American or International) date</returns>
         public static string ConvertDate(string inputDate, Parsers.DateLocale locale)
         {
@@ -2018,6 +2018,8 @@ Message: {2}
                     return dt.ToString("MMMM d, yyyy", English);
                 case Parsers.DateLocale.International:
                     return dt.ToString("d MMMM yyyy", English);
+                case  Parsers.DateLocale.ISO:
+                     return dt.ToString("yyyy-MM-dd", English);
                 default:
                     return inputDate;
             }
