@@ -848,6 +848,7 @@ John", "*"));
             // handles incorect format
             string wrong = @"foo";
             Assert.AreEqual(wrong, Tools.ConvertDate(wrong, Parsers.DateLocale.International));
+            Assert.AreEqual(@"2009-10", Tools.ConvertDate(@"2009-10", Parsers.DateLocale.International), "day not added to yeaer month combo");
             
             // supports other valid date formats
             Assert.AreEqual(@"11 June 2009", Tools.ConvertDate("11 June 2009", Parsers.DateLocale.International));

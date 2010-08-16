@@ -1990,6 +1990,7 @@ Message: {2}
         // ensure dates returned are English.
         private static readonly System.Globalization.CultureInfo English = new System.Globalization.CultureInfo("en-GB");
 
+        private static readonly Regex YearMon = new Regex(@"^\d{4}\-[0-3]\d$", RegexOptions.Compiled);
         /// <summary>
         /// Returns the input date in the requested format (American or International). If another Locale is pasased in the input date is returned. For en-wiki only.
         /// </summary>
@@ -1998,7 +1999,7 @@ Message: {2}
         /// <returns>The English-language (American or International) date</returns>
         public static string ConvertDate(string inputDate, Parsers.DateLocale locale)
         {
-            if (Variables.LangCode != "en")
+            if (Variables.LangCode != "en" || YearMon.IsMatch(inputDate))
                 return inputDate;
 
             DateTime dt;
