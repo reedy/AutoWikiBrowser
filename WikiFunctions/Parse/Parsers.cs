@@ -2506,7 +2506,7 @@ namespace WikiFunctions.Parse
                     string fvalue = Tools.GetTemplateParameterValue(newValue, field);
 
                     if (WikiRegexes.ISODates.IsMatch(fvalue) || WikiRegexes.AmericanDates.IsMatch(fvalue) || WikiRegexes.InternationalDates.IsMatch(fvalue))
-                        newValue = Tools.UpdateTemplateParameterValue(newValue, field, Tools.ISOToENDate(fvalue, predominantLocale));
+                        newValue = Tools.UpdateTemplateParameterValue(newValue, field, Tools.ConvertDate(fvalue, predominantLocale));
                 }
 
                 // merge changes to article text
