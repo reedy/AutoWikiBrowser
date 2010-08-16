@@ -874,8 +874,7 @@ John", "*"));
             // if user's computer has non-en culture, ISOToENDate should still work
             string iso = @"2009-06-11";
             Assert.AreEqual(@"11 June 2009", Tools.ConvertDate(iso, Parsers.DateLocale.International));
-        }
-        
+        }        
         
         [Test]
         public void AppendParameterToTemplate()
