@@ -839,41 +839,41 @@ John", "*"));
         public void ConvertDate()
         {
             string iso = @"2009-06-11", iso2 = @"1890-07-04";
-            Assert.AreEqual(@"11 June 2009", Tools.ISOToENDate(iso, Parsers.DateLocale.International));
-            Assert.AreEqual(@"June 11, 2009", Tools.ISOToENDate(iso, Parsers.DateLocale.American));
-            Assert.AreEqual(iso, Tools.ISOToENDate(iso, Parsers.DateLocale.ISO));
-            Assert.AreEqual(iso, Tools.ISOToENDate(iso, Parsers.DateLocale.Undetermined));
-            Assert.AreEqual(@"4 July 1890", Tools.ISOToENDate(iso2, Parsers.DateLocale.International));
+            Assert.AreEqual(@"11 June 2009", Tools.ConvertDate(iso, Parsers.DateLocale.International));
+            Assert.AreEqual(@"June 11, 2009", Tools.ConvertDate(iso, Parsers.DateLocale.American));
+            Assert.AreEqual(iso, Tools.ConvertDate(iso, Parsers.DateLocale.ISO));
+            Assert.AreEqual(iso, Tools.ConvertDate(iso, Parsers.DateLocale.Undetermined));
+            Assert.AreEqual(@"4 July 1890", Tools.ConvertDate(iso2, Parsers.DateLocale.International));
 
             // handles incorect format
             string wrong = @"foo";
-            Assert.AreEqual(wrong, Tools.ISOToENDate(wrong, Parsers.DateLocale.International));
+            Assert.AreEqual(wrong, Tools.ConvertDate(wrong, Parsers.DateLocale.International));
             
             // supports other valid date formats
-            Assert.AreEqual(@"11 June 2009", Tools.ISOToENDate("11 June 2009", Parsers.DateLocale.International));
-            Assert.AreEqual(@"11 June 2009", Tools.ISOToENDate("June 11, 2009", Parsers.DateLocale.International));
+            Assert.AreEqual(@"11 June 2009", Tools.ConvertDate("11 June 2009", Parsers.DateLocale.International));
+            Assert.AreEqual(@"11 June 2009", Tools.ConvertDate("June 11, 2009", Parsers.DateLocale.International));
         }
         
         [Test]
-        public void ISOToDateEnOnly()
+        public void ConvertDateEnOnly()
         {
             #if DEBUG         
             string iso2 = @"1890-07-04";
             
             Variables.SetProjectLangCode("fr");
-            Assert.AreEqual(iso2, Tools.ISOToENDate(iso2, Parsers.DateLocale.International));
+            Assert.AreEqual(iso2, Tools.ConvertDate(iso2, Parsers.DateLocale.International));
             
             Variables.SetProjectLangCode("en");
-            Assert.AreEqual(@"4 July 1890", Tools.ISOToENDate(iso2, Parsers.DateLocale.International));
+            Assert.AreEqual(@"4 July 1890", Tools.ConvertDate(iso2, Parsers.DateLocale.International));
             #endif
         }
 
         [Test, SetCulture("ru-RU")]
-        public void ISOToDateOtherCulture()
+        public void ConvertDateOtherCulture()
         {
             // if user's computer has non-en culture, ISOToENDate should still work
             string iso = @"2009-06-11";
-            Assert.AreEqual(@"11 June 2009", Tools.ISOToENDate(iso, Parsers.DateLocale.International));
+            Assert.AreEqual(@"11 June 2009", Tools.ConvertDate(iso, Parsers.DateLocale.International));
         }
         
         

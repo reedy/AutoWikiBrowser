@@ -1996,7 +1996,7 @@ Message: {2}
         /// <param name="inputDate">string representing a date, any format that C# can parse</param>
         /// <param name="locale">Locale of output date required (American or International)</param>
         /// <returns>The English-language (American or International) date</returns>
-        public static string ISOToENDate(string inputDate, Parsers.DateLocale locale)
+        public static string ConvertDate(string inputDate, Parsers.DateLocale locale)
         {
             if (Variables.LangCode != "en")
                 return inputDate;
