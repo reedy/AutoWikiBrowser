@@ -685,6 +685,8 @@ namespace AutoWikiBrowser
 
                 if (!Tools.IsValidTitle(title))
                 {
+                    // create TheArticle else skip won't work
+                    TheArticle = new Article(title, "");
                     SkipPage("Invalid page title");
                     return;
                 }
