@@ -1988,9 +1988,11 @@ Message: {2}
         }
 
         // ensure dates returned are English.
-        private static readonly System.Globalization.CultureInfo English = new System.Globalization.CultureInfo("en-GB");
+        private static readonly System.Globalization.CultureInfo BritishEnglish = new System.Globalization.CultureInfo("en-GB");
+        private static readonly System.Globalization.CultureInfo AmericanEnglish = new System.Globalization.CultureInfo("en-US");
 
         private static readonly Regex YearMon = new Regex(@"^\d{4}\-[0-3]\d$", RegexOptions.Compiled);
+        
         /// <summary>
         /// Returns the input date in the requested format (American or International). If another Locale is pasased in the input date is returned. For en-wiki only.
         /// </summary>
@@ -1999,6 +2001,18 @@ Message: {2}
         /// <returns>The English-language (American or International) date</returns>
         public static string ConvertDate(string inputDate, Parsers.DateLocale locale)
         {
+            return ConvertDate(inputDate, locale, false);
+        }
+        
+          /// <summary>
+        /// Returns the input date in the requested format (American or International). If another Locale is pasased in the input date is returned. For en-wiki only.
+        /// </summary>
+        /// <param name="inputDate">string representing a date, any format that C# can parse</param>
+        /// <param name="locale">Locale of output date required (American/International/ISO)</param>
+        /// <param name="AmericanInputDate">Whether the input date is in American MM/DD/YYYY format</param>
+        /// <returns>The English-language (American or International) date</returns>
+        public static string ConvertDate(string inputDate, Parsers.DateLocale locale, bool AmericanInputDate)
+        {
             if (Variables.LangCode != "en" || YearMon.IsMatch(inputDate))
                 return inputDate;
 
@@ -2006,7 +2020,7 @@ Message: {2}
 
             try
             {
-                dt = Convert.ToDateTime(inputDate);
+                dt = Convert.ToDateTime(inputDate, AmericanInputDate ? AmericanEnglish : BritishEnglish);
             }
             catch
             {
@@ -2016,11 +2030,11 @@ Message: {2}
             switch (locale)
             {
                 case Parsers.DateLocale.American:
-                    return dt.ToString("MMMM d, yyyy", English);
+                    return dt.ToString("MMMM d, yyyy", BritishEnglish);
                 case Parsers.DateLocale.International:
-                    return dt.ToString("d MMMM yyyy", English);
+                    return dt.ToString("d MMMM yyyy", BritishEnglish);
                 case  Parsers.DateLocale.ISO:
-                     return dt.ToString("yyyy-MM-dd", English);
+                     return dt.ToString("yyyy-MM-dd", BritishEnglish);
                 default:
                     return inputDate;
             }
