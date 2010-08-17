@@ -3223,6 +3223,9 @@ now {{cite web | url=http://site.it | title=hello|date = 5-5-1998}} was";
             // no change on YYYY-MM format
             string Y4M2 = @"now {{cite web | url=http://site.it | title=hello|date = 2010-03 }} was";
             Assert.AreEqual(Y4M2, Parsers.CiteTemplateDates(Y4M2));
+            
+            Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|date = 2008-02-15 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 2/15/2008 }} was"));
+            Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|date = 2008-02-15 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 02/15/2008 }} was"));
         }
         
         [Test]
