@@ -840,6 +840,9 @@ John", "*"));
         {
             string iso = @"2009-06-11", iso2 = @"1890-07-04";
             Assert.AreEqual(@"11 June 2009", Tools.ConvertDate(iso, Parsers.DateLocale.International));
+            Assert.AreEqual(@"11 June 2009", Tools.ConvertDate(iso, Parsers.DateLocale.International, false));
+            Assert.AreEqual(@"11 June 2009", Tools.ConvertDate(iso, Parsers.DateLocale.International, true));
+            
             Assert.AreEqual(@"June 11, 2009", Tools.ConvertDate(iso, Parsers.DateLocale.American));
             Assert.AreEqual(iso, Tools.ConvertDate(iso, Parsers.DateLocale.ISO));
             Assert.AreEqual(iso, Tools.ConvertDate(iso, Parsers.DateLocale.Undetermined));
@@ -853,6 +856,13 @@ John", "*"));
             // supports other valid date formats
             Assert.AreEqual(@"11 June 2009", Tools.ConvertDate("11 June 2009", Parsers.DateLocale.International));
             Assert.AreEqual(@"11 June 2009", Tools.ConvertDate("June 11, 2009", Parsers.DateLocale.International));
+            Assert.AreEqual(@"11 June 2009", Tools.ConvertDate("June 11, 2009", Parsers.DateLocale.International, true));
+            
+            const string AmericanDate = @"06/11/2009", UKDate = @"11/06/2009";
+            
+            Assert.AreEqual(iso, Tools.ConvertDate(AmericanDate, Parsers.DateLocale.ISO, true), "Converts MM/DD/YYYY format dates when flagged");
+            Assert.AreEqual(iso, Tools.ConvertDate(UKDate, Parsers.DateLocale.ISO, false), "Converts DD/MM/YYYY format dates when flagged");
+            Assert.AreEqual(iso, Tools.ConvertDate(UKDate, Parsers.DateLocale.ISO), "Assumes DD/MM/YYYY format dates when NOT flagged");
         }
         
         [Test]
