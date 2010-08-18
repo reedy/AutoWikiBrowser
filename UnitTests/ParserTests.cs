@@ -3026,6 +3026,7 @@ now"));
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|accessate = 2008-04-23 }} was"));
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|accessedon = 2008-04-23 }} was"));
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|access-date = 2008-04-23 }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|accessdatee = 2008-04-23 }} was"));
 
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|accessdate = 2008-04-23|work=BBC }} was", Parsers.FixCitationTemplates(@"now {{cite web | url=http://site.it | title=hello|acccessdate = 2008-04-23|work=BBC }} was"));
             Assert.AreEqual(@"now {{Cite web | url=http://site.it | title=hello|accessdate = 2008-04-23  |work=BBC }} was", Parsers.FixCitationTemplates(@"now {{Cite web | url=http://site.it | title=hello|acccessdate = 2008-04-23  |work=BBC }} was"));

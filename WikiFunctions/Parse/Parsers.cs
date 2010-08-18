@@ -2517,7 +2517,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly Regex AccessdateTypo = new Regex(@"(\{\{\s*cit[^{}]*?\|\s*)ac(?:(?:ess?s?|cc?es|cess[es]|ccess)date|cessda[ry]e|c?essdat|cess(?:daste|ate)|cdessdate|cess?data|cesdsate|cessdaet|cessdatge|cesseddate|cessedon|cess-date)(\s*=\s*)", RegexOptions.IgnoreCase);
+        private static readonly Regex AccessdateTypo = new Regex(@"(\{\{\s*cit[^{}]*?\|\s*)ac(?:(?:ess?s?|cc?es|cess[es]|ccess)date|cessda[ry]e|c?essdat|cess(?:daste|ate)|cdessdate|cess?data|cesdsate|cessda(?:et|tee)|cessdatge|cesseddate|cessedon|cess-date)(\s*=\s*)", RegexOptions.IgnoreCase);
 
         private static readonly Regex PublisherTypo = new Regex(@"(?<={{\s*[Cc]it[ae][^{}\|]*?\|(?:[^{}]+\|)?\s*)(?:p(?:u[ns]|oub)lisher|publihser|pub(?:lication)?|pubslisher|puablisher|publicher|ublisher|publsiher|pusliher|pblisher|pubi?lsher|publishet|puiblisher|puplisher|publiisher|publiser|pulisher|publishser|pulbisher|publisber|publoisher|publishier|pubhlisher|publiaher|publicser|publicsher|publidsherr|publiher|publihsher|publilsher|publiosher|publisaher|publischer|publiseher|publisehr|publiserh|publisger|publishe?|publishey|publlisher|publusher|pubsliher)(\s*=)", RegexOptions.Compiled);
 
