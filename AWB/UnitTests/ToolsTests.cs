@@ -1510,6 +1510,8 @@ title={{abc|fdkjdsfjk=fdaskjlfds
             Assert.IsTrue(FooTemplate2.IsMatch(@"{{Foo bar}}"));
             
             Assert.IsFalse(FooTemplate2.IsMatch(@"{{foo}}"));
+            Assert.IsFalse(FooTemplate2.IsMatch(@"{{foo
+bar|text}}"));
         }
         
         [Test]
