@@ -1767,6 +1767,18 @@ Start date and age
             Assert.AreEqual("Kwakwaka'wakw Mythology", Tools.FixupDefaultSort("Kwakwaka'wakw mythology"));
             Assert.AreEqual(@"Peewee's Playhouse", Tools.FixupDefaultSort(@"Peewee's Playhouse"));
         }
+        
+        [Test]
+        public void FixUpDefaultSortTestsRu()
+        {
+            #if debug
+            Variables.SetProjectLangCode("ru");
+            Assert.AreEqual("Hellõ", Tools.FixupDefaultSort("hellõ"), "no diacritic removal for defaultsort key on ru-wiki");
+            
+            Variables.SetProjectLangCode("en");
+            Assert.AreEqual("Hello", Tools.FixupDefaultSort("hellõ"));
+            #endif
+        }
 
         [Test]
         public void RemoveNamespace()

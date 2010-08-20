@@ -3528,7 +3528,20 @@ http://example.com }}");
 
             // diacritics removed from sortkeys
             Assert.AreEqual(@"[[Category:World Scout Committee members|Laine, Juan]]", Parsers.FixCategories(@"[[Category:World Scout Committee members|Lainé, Juan]]"));
+        }        
+        
+        [Test]
+        public void TestFixCategoriesRu()
+        {
+            #if debug
+            Variables.SetProjectLangCode("ru");
+            Assert.AreEqual(@"[[Category:World Scout Committee members|Laine, Juan]]", Parsers.FixCategories(@"[[Category:World Scout Committee members|Lainé, Juan]]"), "no diacritic removal for sort key on ru-wiki");
+            
+            Variables.SetProjectLangCode("en");
+            Assert.AreEqual(@"[[Category:World Scout Committee members|Laine, Juan]]", Parsers.FixCategories(@"[[Category:World Scout Committee members|Lainé, Juan]]"));
+            #endif
         }
+        
         [Test]
         public void TestFixCategoriesBrackets()
         {
