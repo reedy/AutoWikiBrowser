@@ -1154,7 +1154,7 @@ namespace WikiFunctions
         /// substitutes characters with diacritics with their Latin equivalents
         /// </summary>
         public static string RemoveDiacritics(string s)
-        {
+        {               
             foreach (KeyValuePair<string, string> p in Diacritics)
             {
                 s = s.Replace(p.Key, p.Value);
@@ -1179,7 +1179,11 @@ namespace WikiFunctions
         /// </summary>
         public static string FixupDefaultSort(string s)
         {
-            s = BadDsChars.Replace(RemoveDiacritics(s), "");
+            // no diacritic removal in sortkeys on ru-wiki
+            if(!Variables.LangCode.Equals("ru"))
+                s = RemoveDiacritics(s);
+            
+            s = BadDsChars.Replace(s, "");
 
             // convert each word to Proper Case
             // http://en.wikipedia.org/wiki/Wikipedia:Categorization#Using_sort_keys

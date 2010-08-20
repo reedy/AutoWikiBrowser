@@ -3472,8 +3472,15 @@ namespace WikiFunctions.Parse
             {
                 if (!Tools.IsValidTitle(m.Groups[1].Value))
                     continue;
+                
+                string sortkey = m.Groups[2].Value;
+                
+                // no diacritic removal in sortkeys on ru-wiki
+                if(!Variables.LangCode.Equals("ru"))
+                    sortkey = Tools.RemoveDiacritics(sortkey);
+                
                 string x = cat + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[1].Value, false).Trim()) +
-                    WordWhitespaceEndofline.Replace(Tools.RemoveDiacritics(m.Groups[2].Value), "$1") + "]]";
+                    WordWhitespaceEndofline.Replace(sortkey, "$1") + "]]";
                 if (x != m.Value)
                     articleText = articleText.Replace(m.Value, x);
             }
