@@ -1472,6 +1472,8 @@ namespace WikiFunctions.Parse
             Regex citeWebParameters = new Regex(@"\b(first\d?|last\d?|author|authorlink\d?|coauthors|title|url|archiveurl|work|publisher|location|pages?|language|trans_title|format|doi|date|month|year|archivedate|accessdate|quote|ref|separator|postscript|at)\b");
 
             Dictionary<int, int> found = new Dictionary<int, int>();
+            
+            // unknown parameters in cite web
             foreach (Match m in CiteWeb.Matches(articleText))
             {
                 foreach (Match m2 in CitationPopulatedParameter.Matches(m.Value))
@@ -1480,10 +1482,12 @@ namespace WikiFunctions.Parse
                         found.Add(m.Index + m2.Groups[1].Index, m2.Groups[1].Length);
                 }
             }
-
+            
             foreach (Match m in WikiRegexes.CiteTemplate.Matches(articleText))
             {
                 string pipecleaned = Tools.PipeCleanedTemplate(m.Value, false);
+                
+                // no equals between two separator pipes
                 if (Regex.Matches(pipecleaned, @"=").Count > 0)
                 {
                     int noequals = Regex.Match(pipecleaned, @"\|[^=]+?\|").Index;
@@ -1491,8 +1495,13 @@ namespace WikiFunctions.Parse
                     if (noequals > 0)
                         found.Add(m.Index + noequals, Regex.Match(pipecleaned, @"\|[^=]+?\|").Value.Length);
                 }
-
+                
+                // URL has space in it
+                string URL = Tools.GetTemplateParameterValue(m.Value, "url");
+                if(WikiRegexes.UnformattedText.Replace(URL, "").Trim().Contains(" "))
+                    found.Add(m.Index + m.Value.IndexOf(URL), URL.Length);
             }
+            
             return found;
         }
 
