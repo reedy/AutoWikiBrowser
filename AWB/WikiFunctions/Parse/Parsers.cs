@@ -4491,6 +4491,7 @@ namespace WikiFunctions.Parse
 
         /// <summary>
         /// determines whether the article is about a person by looking for persondata/birth death categories, bio stub etc. for en wiki only
+        /// Should only return true if the article is the principle article about the individual (not early life/career/discography etc.)
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
@@ -4512,7 +4513,8 @@ namespace WikiFunctions.Parse
                 || InUniverse.IsMatch(articleText)
                 || articleText.Contains(@"[[Category:Presidencies")
                 || articleText.Contains(@"[[Category:Military careers")
-                || CategoryCharacters.IsMatch(articleText))
+                || CategoryCharacters.IsMatch(articleText)
+                || Tools.NestedTemplateRegex("Infobox cricketer tour biography").IsMatch(articleText))
                 return false;
 
             if (
