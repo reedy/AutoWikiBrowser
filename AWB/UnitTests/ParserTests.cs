@@ -2268,9 +2268,16 @@ complementary and alternative medicine: evidence is a better friend than power. 
 | PLACE OF BIRTH    =[[Guelph/Eramosa, Ontario|Eramosa Township]], [[Ontario]], [[Canada]]
 | DATE OF DEATH     =May 29, 1916
 | PLACE OF DEATH    =[[St. Paul, Minnesota|Saint Paul]], [[Minnesota]]
-}}";
+}}", AT = @"{{birthdate|1838|9|16}}
+{{dda|1916|5|29|1838|9|16}}
+{{Infobox foo
+|birth_place=[[Guelph/Eramosa, Ontario|Eramosa Township]], [[Ontario]], [[Canada]]
+|death_place=[[St. Paul, Minnesota|Saint Paul]], [[Minnesota]]
+|children= 10}}
+{{DEFAULTSORT:Hill, James J.}}";
             
             Assert.AreEqual(PD, WikiRegexes.Persondata.Match(Parsers.PersonData(IB + "May 2, 2010 and May 2, 2010", "test")).Value);
+            Assert.AreEqual(PD, WikiRegexes.Persondata.Match(Parsers.PersonData(AT + "May 2, 2010 and May 2, 2010", "test")).Value, "Values taken from birth/death templates even if outside infobox");
         }
         
         [Test]
