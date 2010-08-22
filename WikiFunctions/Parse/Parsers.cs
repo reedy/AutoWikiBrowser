@@ -2862,8 +2862,7 @@ namespace WikiFunctions.Parse
             // place of birth
             if(Tools.GetTemplateParameterValue(newPersonData, "PLACE OF BIRTH").Length == 0)
                 newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF BIRTH", GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxPOBFields));
-            
-            
+                        
             // place of death
             if(Tools.GetTemplateParameterValue(newPersonData, "PLACE OF DEATH").Length == 0)
                 newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF DEATH", GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxPODFields));
@@ -2886,38 +2885,31 @@ namespace WikiFunctions.Parse
         /// <returns>The updated persondata call</returns>
         private static string SetPersonDataDate(string personData, string field, string sourceValue, string articletext)
         {
-            if (WikiRegexes.AmericanDates.IsMatch(sourceValue))
-                return Tools.SetTemplateParameterValue(personData, field, WikiRegexes.AmericanDates.Match(sourceValue).Value);
-            else if (WikiRegexes.InternationalDates.IsMatch(sourceValue))
-                return Tools.SetTemplateParameterValue(personData, field, WikiRegexes.InternationalDates.Match(sourceValue).Value);
-            else if (WikiRegexes.ISODates.IsMatch(sourceValue))
-                return Tools.SetTemplateParameterValue(personData, field, WikiRegexes.ISODates.Match(sourceValue).Value);
-            else if (field.Equals("DATE OF BIRTH") && BirthDate.IsMatch(sourceValue))
-            {                
-                sourceValue = DfYes.Replace( BirthDate.Match(sourceValue).Value, "");
-                
-                string ISODOB = Tools.GetTemplateArgument(sourceValue, 1) + "-" + Tools.GetTemplateArgument(sourceValue, 2) + "-" + Tools.GetTemplateArgument(sourceValue, 3);
-                
-                // call parser function for futher date fixes
-                ISODOB = WikiRegexes.Comments.Replace(CiteTemplateDates(@"{{cite web|date=" + ISODOB + @"}}").Replace(@"{{cite web|date=", "").Trim('}'), "");
-                
-                ISODOB = Tools.ConvertDate(ISODOB, DeterminePredominantDateLocale(articletext, true));
-                
-                return Tools.SetTemplateParameterValue(personData, field, ISODOB);
-            }
-            else if (field.Equals("DATE OF DEATH") && DeathDate.IsMatch(sourceValue))
-            {
-                sourceValue = DfYes.Replace(DeathDate.Match(sourceValue).Value, "");
-                
-                string ISODOD = Tools.GetTemplateArgument(sourceValue, 1) + "-" + Tools.GetTemplateArgument(sourceValue, 2) + "-" + Tools.GetTemplateArgument(sourceValue, 3);
-                ISODOD = WikiRegexes.Comments.Replace(CiteTemplateDates(@"{{cite web|date=" + ISODOD + @"}}").Replace(@"{{cite web|date=", "").Trim('}'), "");
-                
-                ISODOD = Tools.ConvertDate(ISODOD, DeterminePredominantDateLocale(articletext, true));
-                
-                return Tools.SetTemplateParameterValue(personData, field, ISODOD);
-            }
+            string dateFound = "";
             
-            return personData;
+            if (field.Equals("DATE OF BIRTH") && BirthDate.IsMatch(articletext))
+            {
+                sourceValue = DfYes.Replace(BirthDate.Match(articletext).Value, "");
+                dateFound = Tools.GetTemplateArgument(sourceValue, 1) + "-" + Tools.GetTemplateArgument(sourceValue, 2) + "-" + Tools.GetTemplateArgument(sourceValue, 3);
+            }
+            else if (field.Equals("DATE OF DEATH") && DeathDate.IsMatch(articletext))
+            {
+                sourceValue = DfYes.Replace(DeathDate.Match(articletext).Value, "");
+                dateFound = Tools.GetTemplateArgument(sourceValue, 1) + "-" + Tools.GetTemplateArgument(sourceValue, 2) + "-" + Tools.GetTemplateArgument(sourceValue, 3);
+            }
+            else if (WikiRegexes.AmericanDates.IsMatch(sourceValue))
+                dateFound = WikiRegexes.AmericanDates.Match(sourceValue).Value;
+            else if (WikiRegexes.InternationalDates.IsMatch(sourceValue))
+                dateFound= WikiRegexes.InternationalDates.Match(sourceValue).Value;
+            else if (WikiRegexes.ISODates.IsMatch(sourceValue))
+                dateFound = WikiRegexes.ISODates.Match(sourceValue).Value;            
+            
+            // call parser function for futher date fixes
+            dateFound = WikiRegexes.Comments.Replace(CiteTemplateDates(@"{{cite web|date=" + dateFound + @"}}").Replace(@"{{cite web|date=", "").Trim('}'), "");
+            
+            dateFound = Tools.ConvertDate(dateFound, DeterminePredominantDateLocale(articletext, true));
+            
+            return Tools.SetTemplateParameterValue(personData, field, dateFound);
         }
 
         /// <summary>
@@ -4502,9 +4494,10 @@ namespace WikiFunctions.Parse
                 return false;
 
             int dateBirthAndAgeCount = WikiRegexes.DateBirthAndAge.Matches(articleText).Count;
-            int dateDeathAndAgeCount = WikiRegexes.DeathDate.Matches(articleText).Count;
+            int dateDeathCount = WikiRegexes.DeathDate.Matches(articleText).Count;
+            int dateDeathAndAgeCount = WikiRegexes.DeathDateAndAge.Matches(articleText).Count;
 
-            if (dateBirthAndAgeCount > 1 || dateDeathAndAgeCount > 1)
+            if (dateBirthAndAgeCount > 1 || dateDeathCount > 1 || dateDeathAndAgeCount > 1)
                 return false;
 
             if (WikiRegexes.Persondata.Matches(articleText).Count == 1
@@ -4518,7 +4511,7 @@ namespace WikiFunctions.Parse
             if (BoldedLink.IsMatch(WikiRegexes.Template.Replace(zerothSection, "")))
                 return false;
 
-            if (dateBirthAndAgeCount == 1 || dateDeathAndAgeCount == 1)
+            if (dateBirthAndAgeCount == 1 || dateDeathCount == 1 || dateDeathAndAgeCount == 1)
                 return true;
 
             return WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText)

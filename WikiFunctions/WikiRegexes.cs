@@ -987,16 +987,16 @@ namespace WikiFunctions
         /// <summary>
         /// List of known infobox fields holding date of birth
         /// </summary>
-        public static readonly List<string> InfoBoxDOBFields = new List<string>(new [] {"yearofbirth", "dateofbirth", "born", "birth date", "birthdate", "birth_date", "birth"});
+        public static readonly List<string> InfoBoxDOBFields = new List<string>(new [] {"yearofbirth", "dateofbirth", "datebirth", "born", "birth date", "birthdate", "birth_date", "birth"});
         
         /// <summary>
         /// List of known infobox fields holding date of death
         /// </summary>
-        public static readonly List<string> InfoBoxDODFields = new List<string>(new [] {"yearofdeath", "dateofdeath", "died", "death date", "deathdate", "death_date", "death"});
+        public static readonly List<string> InfoBoxDODFields = new List<string>(new [] {"yearofdeath", "datedeath", "dateofdeath", "died", "death date", "deathdate", "death_date", "death"});
         
-        public static readonly List<string> InfoBoxPOBFields = new List<string>(new [] {"birthplace", "birth_place", "placeofbirth"});
+        public static readonly List<string> InfoBoxPOBFields = new List<string>(new [] {"birthplace", "birth_place", "placeofbirth", "place of birth", "placebirth"});
         
-        public static readonly List<string> InfoBoxPODFields = new List<string>(new [] {"deathplace", "death_place", "placeofdeath"});
+        public static readonly List<string> InfoBoxPODFields = new List<string>(new [] {"deathplace", "death_place", "placeofdeath", "place of death", "placedeath", "place_death"});
         
         /// <summary>
         /// matches "ibid" and "op cit"
