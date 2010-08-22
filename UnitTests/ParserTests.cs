@@ -2220,13 +2220,16 @@ complementary and alternative medicine: evidence is a better friend than power. 
             |DATE OF BIRTH=
             |DATE OF DEATH= }}", a2 = @"{{persondata
             |DATE OF BIRTH=27 June 1950
-            |DATE OF DEATH= }}", i1 = @"{{infobox foo| dateofbirth = 27 June 1950}}", i2 = @"{{infobox foo| dateofbirth = {{birth date|1950|06|27}}}}";
+            |DATE OF DEATH= }}", i1 = @"{{infobox foo| dateofbirth = 27 June 1950}}", i2 = @"{{infobox foo| dateofbirth = {{birth date|1950|06|27}}}}"
+                , i2b = @"{{infobox foo| dateofbirth = {{birth date|df=y|1950|06|27}}}}";
             
             Assert.AreEqual(i1 + a2, Parsers.PersonData(i1 + a, "test"));
             Assert.AreEqual(i1.Replace("27 June", "June 27,") + a2.Replace("27 June", "June 27,"), Parsers.PersonData(i1.Replace("27 June", "June 27,") + a.Replace("27 June", "June 27,"), "test"));
             Assert.AreEqual(i2 + a2.Replace("27 June 1950", "1950-06-27"), Parsers.PersonData(i2 + a, "test"));
             Assert.AreEqual(i2.Replace("27}}", "27}} in London") + a2.Replace("27 June 1950", "1950-06-27"),
                             Parsers.PersonData(i2.Replace("27}}", "27}} in London") + a, "test"), "Completes persondata from {{birth date}} when extra data in infobox field");
+            Assert.AreEqual(i2b.Replace("27}}", "27}} in London") + a2.Replace("27 June 1950", "1950-06-27"),
+                            Parsers.PersonData(i2b.Replace("27}}", "27}} in London") + a, "test"), "Completes persondata from {{birth date}} when extra data in infobox field");
         }
         
          [Test]
@@ -2243,6 +2246,31 @@ complementary and alternative medicine: evidence is a better friend than power. 
             Assert.AreEqual(i2 + a2.Replace("27 June 1950", "1950-06-27"), Parsers.PersonData(i2 + a, "test"));
             Assert.AreEqual(i2.Replace("27}}", "27}} in London") + a2.Replace("27 June 1950", "1950-06-27"),
                             Parsers.PersonData(i2.Replace("27}}", "27}} in London") + a, "test"), "Completes persondata from {{death date}} when extra data in infobox field");
+        }
+        
+        [Test]
+        public void PersonDataAll()
+        {
+            const string IB = @"{{Infobox person
+|name=James Jerome Hill
+|birth_date={{birthdate|1838|9|16}}
+|birth_place=[[Guelph/Eramosa, Ontario|Eramosa Township]], [[Ontario]], [[Canada]]
+|death_date = {{dda|1916|5|29|1838|9|16}}
+|death_place=[[St. Paul, Minnesota|Saint Paul]], [[Minnesota]]
+|occupation=Railroad tycoon
+|children= 10
+}}
+{{DEFAULTSORT:Hill, James J.}}", PD = @"{{Persondata         <!-- Metadata: see [[Wikipedia:Persondata]] -->
+| NAME              =Hill, James J.
+| ALTERNATIVE NAMES =
+| SHORT DESCRIPTION =
+| DATE OF BIRTH     =September 16, 1838
+| PLACE OF BIRTH    =[[Guelph/Eramosa, Ontario|Eramosa Township]], [[Ontario]], [[Canada]]
+| DATE OF DEATH     =May 29, 1916
+| PLACE OF DEATH    =[[St. Paul, Minnesota|Saint Paul]], [[Minnesota]]
+}}";
+            
+            Assert.AreEqual(PD, WikiRegexes.Persondata.Match(Parsers.PersonData(IB + "May 2, 2010 and May 2, 2010", "test")).Value);
         }
         
         [Test]

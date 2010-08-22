@@ -1573,12 +1573,12 @@ namespace WikiFunctions.Parse
             new RegexReplacement(CitDate + @")0?([1-9])[/_\-\.]0?\2[/_\-\.]([01]\d)(?=\s*(?:\||}}))", "${1}20$3-0$2-0$2"), // n-n-04 to ISO format (both n the same)
             new RegexReplacement(CitDate + @")(1[0-2])[/_\-\.]\2[/_\-\.]?(20\d\d|19[7-9]\d)(?=\s*(?:\||}}))", "$1$3-$2-$2"), // nn-nn-2004 and nn-nn-1980 to ISO format (both nn the same)
             new RegexReplacement(CitDate + @")(1[0-2])[/_\-\.]\2[/_\-\.]([01]\d)(?=\s*(?:\||}}))", "${1}20$3-$2-$2"), // nn-nn-04 to ISO format (both nn the same)
-            new RegexReplacement(CitDate + @")((?:\[\[)?20\d\d|19[7-9]\d)[/_\-\.]([1-9])[/_\-\.]0?([1-9](?:\]\])?\s*(?:\||}}))", "$1$2-0$3-0$4"),
-            new RegexReplacement(CitDate + @")((?:\[\[)?20\d\d|19[7-9]\d)[/_\-\.]0?([1-9])[/_\-\.]([1-9](?:\]\])?\s*(?:\||}}))", "$1$2-0$3-0$4"),
-            new RegexReplacement(CitDate + @")((?:\[\[)?20\d\d|19[7-9]\d)[/_\-\.]?([0-1]\d)[/_\-\.]?([1-9](?:\]\])?\s*(?:\||}}))", "$1$2-$3-0$4"),
-            new RegexReplacement(CitDate + @")((?:\[\[)?20\d\d|19[7-9]\d)[/_\-\.]?([1-9])[/_\-\.]?([0-3]\d(?:\]\])?\s*(?:\||}}))", "$1$2-0$3-$4"),
-            new RegexReplacement(CitDate + @")((?:\[\[)?20\d\d|19[7-9]\d)([0-1]\d)[/_\-\.]([0-3]\d(?:\]\])?\s*(?:\||}}))", "$1$2-$3-$4"),
-            new RegexReplacement(CitDate + @")((?:\[\[)?20\d\d|19[7-9]\d)[/_\-\.]([0-1]\d)0?([0-3]\d(?:\]\])?\s*(?:\||}}))", "$1$2-$3-$4"),
+            new RegexReplacement(CitDate + @")((?:\[\[)?20\d\d|1[5-9]\d{2})[/_\-\.]([1-9])[/_\-\.]0?([1-9](?:\]\])?\s*(?:\||}}))", "$1$2-0$3-0$4"),
+            new RegexReplacement(CitDate + @")((?:\[\[)?20\d\d|1[5-9]\d{2})[/_\-\.]0?([1-9])[/_\-\.]([1-9](?:\]\])?\s*(?:\||}}))", "$1$2-0$3-0$4"),
+            new RegexReplacement(CitDate + @")((?:\[\[)?20\d\d|1[5-9]\d{2})[/_\-\.]?([0-1]\d)[/_\-\.]?([1-9](?:\]\])?\s*(?:\||}}))", "$1$2-$3-0$4"),
+            new RegexReplacement(CitDate + @")((?:\[\[)?20\d\d|1[5-9]\d{2})[/_\-\.]?([1-9])[/_\-\.]?([0-3]\d(?:\]\])?\s*(?:\||}}))", "$1$2-0$3-$4"),
+            new RegexReplacement(CitDate + @")((?:\[\[)?20\d\d|1[5-9]\d{2})([0-1]\d)[/_\-\.]([0-3]\d(?:\]\])?\s*(?:\||}}))", "$1$2-$3-$4"),
+            new RegexReplacement(CitDate + @")((?:\[\[)?20\d\d|1[5-9]\d{2})[/_\-\.]([0-1]\d)0?([0-3]\d(?:\]\])?\s*(?:\||}}))", "$1$2-$3-$4"),
         };
 
         private static readonly RegexReplacement[] CiteTemplateAbbreviatedMonths = new[] {
@@ -2813,8 +2813,8 @@ namespace WikiFunctions.Parse
 | PLACE OF DEATH    =
 }}";
 
-        private static readonly Regex BirthDate = Tools.NestedTemplateRegex(new List<string>(new[] { "birth date", "dob", "bda", "birth date and age" }));
-        private static readonly Regex DeathDate = Tools.NestedTemplateRegex(new List<string>(new[] { "death date", "dda", "death date and age" }));
+        private static readonly Regex BirthDate = Tools.NestedTemplateRegex(new List<string>(new[] { "birth date", "dob", "bda", "birth date and age", "birthdate" }));
+        private static readonly Regex DeathDate = Tools.NestedTemplateRegex(new List<string>(new[] { "death date", "dda", "death date and age", "deathdate" }));
 
         /// <summary>
         /// * Adds the default {{persondata}} template to en-wiki mainspace pages about a person that don't already have {{persondata}}
@@ -2840,19 +2840,42 @@ namespace WikiFunctions.Parse
             // attempt completion of some persondata fields
             string originalPersonData = WikiRegexes.Persondata.Match(articleText).Value;
             string newPersonData = originalPersonData;
+            
+            // name
+            if(Tools.GetTemplateParameterValue(newPersonData, "NAME").Length == 0)
+            {
+                string name = WikiRegexes.Defaultsort.Match(articleText).Groups["key"].Value;
+                if(name.Contains(" ("))
+                    name = name.Substring(0, name.IndexOf(" ("));
+                
+                newPersonData = Tools.SetTemplateParameterValue(newPersonData, "NAME", name);
+            }
 
             // date of birth
-            newPersonData = SetPersonDataDate(newPersonData, "DATE OF BIRTH", GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxDOBFields));
+            if(Tools.GetTemplateParameterValue(newPersonData, "DATE OF BIRTH").Length == 0)
+                newPersonData = SetPersonDataDate(newPersonData, "DATE OF BIRTH", GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxDOBFields), articleText);
             
             // date of death
-            newPersonData = SetPersonDataDate(newPersonData, "DATE OF DEATH", GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxDODFields));
+            if(Tools.GetTemplateParameterValue(newPersonData, "DATE OF DEATH").Length == 0)
+                newPersonData = SetPersonDataDate(newPersonData, "DATE OF DEATH", GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxDODFields), articleText);
 
+            // place of birth
+            if(Tools.GetTemplateParameterValue(newPersonData, "PLACE OF BIRTH").Length == 0)
+                newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF BIRTH", GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxPOBFields));
+            
+            
+            // place of death
+            if(Tools.GetTemplateParameterValue(newPersonData, "PLACE OF DEATH").Length == 0)
+                newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF DEATH", GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxPODFields));
+            
             // merge changes
             if (!newPersonData.Equals(originalPersonData))
                 articleText = articleText.Replace(originalPersonData, newPersonData);
 
             return articleText;
         }
+        
+        private static readonly Regex DfYes = new Regex(@"\|\s*[dm]f\s*=\s*y(?:es)?\s*(?=(?:\||}}))", RegexOptions.Compiled);
         
         /// <summary>
         /// Completes a persondata call with a date of birth/death.
@@ -2861,7 +2884,7 @@ namespace WikiFunctions.Parse
         /// <param name="field"></param>
         /// <param name="sourceValue"></param>
         /// <returns>The updated persondata call</returns>
-        private static string SetPersonDataDate(string personData, string field, string sourceValue)
+        private static string SetPersonDataDate(string personData, string field, string sourceValue, string articletext)
         {
             if (WikiRegexes.AmericanDates.IsMatch(sourceValue))
                 return Tools.SetTemplateParameterValue(personData, field, WikiRegexes.AmericanDates.Match(sourceValue).Value);
@@ -2870,15 +2893,27 @@ namespace WikiFunctions.Parse
             else if (WikiRegexes.ISODates.IsMatch(sourceValue))
                 return Tools.SetTemplateParameterValue(personData, field, WikiRegexes.ISODates.Match(sourceValue).Value);
             else if (field.Equals("DATE OF BIRTH") && BirthDate.IsMatch(sourceValue))
-            {
-                sourceValue = BirthDate.Match(sourceValue).Value;
+            {                
+                sourceValue = DfYes.Replace( BirthDate.Match(sourceValue).Value, "");
+                
                 string ISODOB = Tools.GetTemplateArgument(sourceValue, 1) + "-" + Tools.GetTemplateArgument(sourceValue, 2) + "-" + Tools.GetTemplateArgument(sourceValue, 3);
+                
+                // call parser function for futher date fixes
+                ISODOB = WikiRegexes.Comments.Replace(CiteTemplateDates(@"{{cite web|date=" + ISODOB + @"}}").Replace(@"{{cite web|date=", "").Trim('}'), "");
+                
+                ISODOB = Tools.ConvertDate(ISODOB, DeterminePredominantDateLocale(articletext, true));
+                
                 return Tools.SetTemplateParameterValue(personData, field, ISODOB);
             }
             else if (field.Equals("DATE OF DEATH") && DeathDate.IsMatch(sourceValue))
             {
-                sourceValue = DeathDate.Match(sourceValue).Value;
+                sourceValue = DfYes.Replace(DeathDate.Match(sourceValue).Value, "");
+                
                 string ISODOD = Tools.GetTemplateArgument(sourceValue, 1) + "-" + Tools.GetTemplateArgument(sourceValue, 2) + "-" + Tools.GetTemplateArgument(sourceValue, 3);
+                ISODOD = WikiRegexes.Comments.Replace(CiteTemplateDates(@"{{cite web|date=" + ISODOD + @"}}").Replace(@"{{cite web|date=", "").Trim('}'), "");
+                
+                ISODOD = Tools.ConvertDate(ISODOD, DeterminePredominantDateLocale(articletext, true));
+                
                 return Tools.SetTemplateParameterValue(personData, field, ISODOD);
             }
             
