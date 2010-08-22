@@ -2816,6 +2816,8 @@ namespace WikiFunctions.Parse
         private static readonly Regex BirthDate = Tools.NestedTemplateRegex(new List<string>(new[] { "birth date", "dob", "bda", "birth date and age", "birthdate" }));
         private static readonly Regex DeathDate = Tools.NestedTemplateRegex(new List<string>(new[] { "death date", "dda", "death date and age", "deathdate" }));
 
+        private static readonly Regex CityState = Tools.NestedTemplateRegex(new List<string>(new [] { "Ci", "State", "City-State", "Citystate", "City-state"}));
+        
         /// <summary>
         /// * Adds the default {{persondata}} template to en-wiki mainspace pages about a person that don't already have {{persondata}}
         /// * Attempts to complete blank {{persondata}} fields based on infobox values
@@ -2861,11 +2863,31 @@ namespace WikiFunctions.Parse
 
             // place of birth
             if(Tools.GetTemplateParameterValue(newPersonData, "PLACE OF BIRTH").Length == 0)
-                newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF BIRTH", GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxPOBFields));
-                        
+            {
+                string POB = GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxPOBFields);
+                POB = WikiRegexes.FileNamespaceLink.Replace(POB, "");
+                
+                if(CityState.IsMatch(POB))
+                    POB = CityState.Replace(POB, m => m.Groups[3].Value.Trim("|{}".ToCharArray()).Replace("|", ", "));
+                
+                POB = WikiRegexes.NestedTemplates.Replace(POB, "");
+                
+                newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF BIRTH", POB);
+            }
+            
             // place of death
             if(Tools.GetTemplateParameterValue(newPersonData, "PLACE OF DEATH").Length == 0)
-                newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF DEATH", GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxPODFields));
+            {
+                string POD = GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxPODFields);
+                POD = WikiRegexes.FileNamespaceLink.Replace(POD, "");
+                
+                if(CityState.IsMatch(POD))
+                    POD = CityState.Replace(POD, m => m.Groups[3].Value.Trim("|{}".ToCharArray()).Replace("|", ", "));
+                
+                POD = WikiRegexes.NestedTemplates.Replace(POD, "");
+                
+                newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF DEATH", POD);
+            }
             
             // merge changes
             if (!newPersonData.Equals(originalPersonData))
@@ -2902,7 +2924,28 @@ namespace WikiFunctions.Parse
             else if (WikiRegexes.InternationalDates.IsMatch(sourceValue))
                 dateFound= WikiRegexes.InternationalDates.Match(sourceValue).Value;
             else if (WikiRegexes.ISODates.IsMatch(sourceValue))
-                dateFound = WikiRegexes.ISODates.Match(sourceValue).Value;            
+                dateFound = WikiRegexes.ISODates.Match(sourceValue).Value;
+            
+            // if date not found yet, fall back to year/month/day of brith fields or birth date in {{dda}}
+            if(dateFound.Length == 0)
+            {
+                if(field.Equals("DATE OF BIRTH"))
+                {
+                    if(GetInfoBoxFieldValue(articletext, "yearofbirth").Length > 0)
+                            dateFound = (GetInfoBoxFieldValue(articletext, "yearofbirth")  + "-" + GetInfoBoxFieldValue(articletext, "monthofbirth") + "-" + GetInfoBoxFieldValue(articletext, "dayofbirth")).Trim('-');
+                    else if (WikiRegexes.DeathDateAndAge.IsMatch(articletext))
+                    {
+                        string dda = DfYes.Replace(WikiRegexes.DeathDateAndAge.Match(articletext).Value, "");
+                        dateFound = (Tools.GetTemplateArgument(dda, 4)  + "-" + Tools.GetTemplateArgument(dda, 5)  + "-" + Tools.GetTemplateArgument(dda, 6)).Trim('-');
+                    }
+                }
+                else if(field.Equals("DATE OF DEATH"))
+                {
+                    if(GetInfoBoxFieldValue(articletext, "yearofdeath").Length > 0)
+                        dateFound = (GetInfoBoxFieldValue(articletext, "yearofdeath")  + "-" + GetInfoBoxFieldValue(articletext, "monthofdeath") + "-" + GetInfoBoxFieldValue(articletext, "dayofdeath")).Trim('-');
+                    
+                }
+            }
             
             // call parser function for futher date fixes
             dateFound = WikiRegexes.Comments.Replace(CiteTemplateDates(@"{{cite web|date=" + dateFound + @"}}").Replace(@"{{cite web|date=", "").Trim('}'), "");
@@ -4848,13 +4891,14 @@ namespace WikiFunctions.Parse
         }
 
         private static readonly Regex InfoboxValue = new Regex(@"\s*\|[^{}\|=]+?\s*=\s*.*", RegexOptions.Compiled);
+        
         /// <summary>
-        /// Returns the value of the given field from the page's infobox, where available
+        /// Returns the value of the given fields from the page's infobox, where available
         /// Returns a null string if the input article has no infobox, or the input field regex doesn't match on the infobox found
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="fields">List of infobox fields to search</param>
-        /// <returns></returns>
+        /// <returns>Field value</returns>
         public static string GetInfoBoxFieldValue(string articleText, List<string> fields)
         {
             string infoBox = WikiRegexes.InfoBox.Match(articleText).Value;
@@ -4872,6 +4916,18 @@ namespace WikiFunctions.Parse
             }
 
             return "";
+        }
+        
+        /// <summary>
+        /// Returns the value of the given field from the page's infobox, where available
+        /// Returns a null string if the input article has no infobox, or the input field regex doesn't match on the infobox found
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="fields">infobox field to search</param>
+        /// <returns>Field value</returns>
+        public static string GetInfoBoxFieldValue(string articleText, string field)
+        {
+            return GetInfoBoxFieldValue(articleText, new List<string>(new [] { field }));
         }
 
         /// <summary>

@@ -732,7 +732,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the {{death date and age}} template, group 1 being the year of death, group 2 being the year of birth
         /// </summary>
-        public static readonly Regex DeathDateAndAge = new Regex(@"{{\s*[Dd](?:eath[ -]date and age|da)\s*\|(?:[^{}]*?\|)?\s*([12]\d{3})\s*\|[^{}]+?\|\s*([12]\d{3})\s*\|");
+        public static readonly Regex DeathDateAndAge = new Regex(@"{{\s*[Dd](?:eath[ -]date and age|da)\s*\|(?:[^{}]*?\|)?\s*([12]\d{3})\s*\|[^{}]+?\|\s*([12]\d{3})\s*\|.*}}");
 
         /// <summary>
         /// Matches {{Link FA|xxx}}, {{Link GA|xxx}}, {{Link FL|xxx}}
@@ -994,9 +994,9 @@ namespace WikiFunctions
         /// </summary>
         public static readonly List<string> InfoBoxDODFields = new List<string>(new [] {"yearofdeath", "datedeath", "dateofdeath", "died", "death date", "deathdate", "death_date", "death"});
         
-        public static readonly List<string> InfoBoxPOBFields = new List<string>(new [] {"birthplace", "birth_place", "placeofbirth", "place of birth", "placebirth"});
+        public static readonly List<string> InfoBoxPOBFields = new List<string>(new [] {"birthplace", "birth_place", "placeofbirth", "place of birth", "place_of_birth", "placebirth"});
         
-        public static readonly List<string> InfoBoxPODFields = new List<string>(new [] {"deathplace", "death_place", "placeofdeath", "place of death", "placedeath", "place_death"});
+        public static readonly List<string> InfoBoxPODFields = new List<string>(new [] {"deathplace", "death_place", "placeofdeath", "place of death", "place_of_death", "placedeath", "place_death"});
         
         /// <summary>
         /// matches "ibid" and "op cit"

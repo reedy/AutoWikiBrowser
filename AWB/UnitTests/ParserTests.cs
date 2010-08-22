@@ -2278,6 +2278,23 @@ complementary and alternative medicine: evidence is a better friend than power. 
             
             Assert.AreEqual(PD, WikiRegexes.Persondata.Match(Parsers.PersonData(IB + "May 2, 2010 and May 2, 2010", "test")).Value);
             Assert.AreEqual(PD, WikiRegexes.Persondata.Match(Parsers.PersonData(AT + "May 2, 2010 and May 2, 2010", "test")).Value, "Values taken from birth/death templates even if outside infobox");
+            
+            const string IB2 = @"{{Infobox person
+|name=James Jerome Hill
+|yearofbirth=1838
+|monthofbirth=9
+|dayofbirth=16
+|birth_place=[[Guelph/Eramosa, Ontario|Eramosa Township]], [[Ontario]], [[Canada]]
+|yearofdeath=1916
+|monthofdeath=5
+|dayofdeath=29
+|death_place=[[St. Paul, Minnesota|Saint Paul]], [[Minnesota]]
+|occupation=Railroad tycoon
+|children= 10
+}}
+{{DEFAULTSORT:Hill, James J.}}";
+            
+            Assert.AreEqual(PD, WikiRegexes.Persondata.Match(Parsers.PersonData(IB2 + "May 2, 2010 and May 2, 2010", "test")).Value, "pulls dates from year/month/day infobox fields");
         }
         
         [Test]
