@@ -994,6 +994,10 @@ namespace WikiFunctions
         /// </summary>
         public static readonly List<string> InfoBoxDODFields = new List<string>(new [] {"yearofdeath", "dateofdeath", "died", "death date", "deathdate", "death_date", "death"});
         
+        public static readonly List<string> InfoBoxPOBFields = new List<string>(new [] {"birthplace", "birth_place", "placeofbirth"});
+        
+        public static readonly List<string> InfoBoxPODFields = new List<string>(new [] {"deathplace", "death_place", "placeofdeath"});
+        
         /// <summary>
         /// matches "ibid" and "op cit"
         /// </summary>
