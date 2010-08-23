@@ -2844,7 +2844,7 @@ namespace WikiFunctions.Parse
             if (!WikiRegexes.Persondata.IsMatch(articleText))
             {
                 if (IsArticleAboutAPerson(articleText, articleTitle, true))
-                    articleText = articleText + PersonDataDefault;
+                    articleText = articleText + Tools.Newline(PersonDataDefault);
                 else
                     return articleText;
             }
@@ -2938,12 +2938,18 @@ namespace WikiFunctions.Parse
             if (field.Equals("DATE OF BIRTH") && BirthDate.IsMatch(articletext))
             {
                 sourceValue = DfYes.Replace(BirthDate.Match(articletext).Value, "");
-                dateFound = Tools.GetTemplateArgument(sourceValue, 1) + "-" + Tools.GetTemplateArgument(sourceValue, 2) + "-" + Tools.GetTemplateArgument(sourceValue, 3);
+                dateFound = Tools.GetTemplateArgument(sourceValue, 1);
+                
+                // first argument is a year, or a full date
+                if(dateFound.Length < 5) 
+                    dateFound += ("-" + Tools.GetTemplateArgument(sourceValue, 2) + "-" + Tools.GetTemplateArgument(sourceValue, 3));
             }
             else if (field.Equals("DATE OF DEATH") && DeathDate.IsMatch(articletext))
             {
                 sourceValue = DfYes.Replace(DeathDate.Match(articletext).Value, "");
-                dateFound = Tools.GetTemplateArgument(sourceValue, 1) + "-" + Tools.GetTemplateArgument(sourceValue, 2) + "-" + Tools.GetTemplateArgument(sourceValue, 3);
+                dateFound = Tools.GetTemplateArgument(sourceValue, 1);
+                if(dateFound.Length < 5)
+                    dateFound += ("-" + Tools.GetTemplateArgument(sourceValue, 2) + "-" + Tools.GetTemplateArgument(sourceValue, 3));
             }
             else if (WikiRegexes.AmericanDates.IsMatch(sourceValue))
                 dateFound = WikiRegexes.AmericanDates.Match(sourceValue).Value;
@@ -2976,7 +2982,7 @@ namespace WikiFunctions.Parse
             // call parser function for futher date fixes
             dateFound = WikiRegexes.Comments.Replace(CiteTemplateDates(@"{{cite web|date=" + dateFound + @"}}").Replace(@"{{cite web|date=", "").Trim('}'), "");
             
-            dateFound = Tools.ConvertDate(dateFound, DeterminePredominantDateLocale(articletext, true));
+            dateFound = Tools.ConvertDate(dateFound, DeterminePredominantDateLocale(articletext, true)).Trim('-');
             
             return Tools.SetTemplateParameterValue(personData, field, dateFound);
         }
