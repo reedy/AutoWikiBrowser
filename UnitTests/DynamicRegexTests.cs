@@ -568,6 +568,7 @@ pp
             RegexAssert.IsMatch(WikiRegexes.InternationalDates, @"On 11 July 2009");
             RegexAssert.IsMatch(WikiRegexes.InternationalDates, @"On 11 July  2009");
             RegexAssert.IsMatch(WikiRegexes.InternationalDates, @"On 1 July 1809");
+            RegexAssert.IsMatch(WikiRegexes.InternationalDates, @"On 11&nbsp;July 2009");
             
             RegexAssert.NoMatch(WikiRegexes.InternationalDates, @"On 11 July 44");
             RegexAssert.NoMatch(WikiRegexes.InternationalDates, @"On July 11, 2009 a");
@@ -579,6 +580,7 @@ pp
             RegexAssert.IsMatch(WikiRegexes.AmericanDates, @"On July 11, 2009 a");
             RegexAssert.IsMatch(WikiRegexes.AmericanDates, @"On July 11 2009 a");
             RegexAssert.IsMatch(WikiRegexes.AmericanDates, @"On July 11,  1809 a");
+            RegexAssert.IsMatch(WikiRegexes.AmericanDates, @"On July&nbsp;11, 2009 a");
             
             RegexAssert.NoMatch(WikiRegexes.AmericanDates, @"On July 11, 29 a");
             RegexAssert.NoMatch(WikiRegexes.AmericanDates, @"On 11 July 2009");

@@ -79,8 +79,8 @@ namespace WikiFunctions
             Dates = new Regex("^(0?[1-9]|[12][0-9]|3[01]) " + Months + "$", RegexOptions.Compiled);
             Dates2 = new Regex("^" + Months + " (0?[1-9]|[12][0-9]|3[01])$", RegexOptions.Compiled);
             
-            InternationalDates = new Regex(@"\b([1-9]|[12][0-9]|3[01]) +" + Months + @" +([12]\d{3})\b", RegexOptions.Compiled);
-            AmericanDates = new Regex(Months + @" +([1-9]|[12][0-9]|3[01]),? +([12]\d{3})\b", RegexOptions.Compiled);
+            InternationalDates = new Regex(@"\b([1-9]|[12][0-9]|3[01])(?: +|&nbsp;)" + Months + @" +([12]\d{3})\b", RegexOptions.Compiled);
+            AmericanDates = new Regex(Months + @"(?: +|&nbsp;)([1-9]|[12][0-9]|3[01]),? +([12]\d{3})\b", RegexOptions.Compiled);
 
             DayMonth = new Regex(@"\b([1-9]|[12][0-9]|3[01]) +" + Months + @"\b", RegexOptions.Compiled);
             MonthDay = new Regex(Months + @" +([1-9]|[12][0-9]|3[01])\b", RegexOptions.Compiled);
