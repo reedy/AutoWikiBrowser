@@ -2813,9 +2813,19 @@ namespace WikiFunctions.Parse
 | PLACE OF DEATH    =
 }}";
 
+        /// <summary>
+        /// Matches the {{birth date}} family of templates
+        /// </summary>
         private static readonly Regex BirthDate = Tools.NestedTemplateRegex(new List<string>(new[] { "birth date", "dob", "bda", "birth date and age", "birthdate" }));
+        
+        /// <summary>
+        /// Matches the {{death  date}} family of templates
+        /// </summary>
         private static readonly Regex DeathDate = Tools.NestedTemplateRegex(new List<string>(new[] { "death date", "dda", "death date and age", "deathdate" }));
-
+        
+        /// <summary>
+        /// Matches the {{city-state}} template
+        /// </summary>
         private static readonly Regex CityState = Tools.NestedTemplateRegex(new List<string>(new [] { "Ci", "State", "City-State", "Citystate", "City-state"}));
         
         /// <summary>
@@ -3022,13 +3032,22 @@ namespace WikiFunctions.Parse
                     return DateLocale.ISO;
             }
 
-            if (Americans == Internationals)
-                return DateLocale.Undetermined;
-            if (Americans == 0 && Internationals > 0 || (Internationals / Americans >= 2 && Internationals > 4))
+            if (Americans != Internationals)
+            {
+                if (Americans == 0 && Internationals > 0 || (Internationals / Americans >= 2 && Internationals > 4))
+                    return DateLocale.International;
+                if (Internationals == 0 && Americans > 0 || (Americans / Internationals >= 2 && Americans > 4))
+                    return DateLocale.American;
+            }
+            
+            // check for explicit df or mf in brith/death templates
+            if(Tools.GetTemplateParameterValue(BirthDate.Match(articleText).Value, "df").StartsWith("y")
+               || Tools.GetTemplateParameterValue(DeathDate.Match(articleText).Value, "df").StartsWith("y"))
                 return DateLocale.International;
-            if (Internationals == 0 && Americans > 0 || (Americans / Internationals >= 2 && Americans > 4))
+            else if(Tools.GetTemplateParameterValue(BirthDate.Match(articleText).Value, "mf").StartsWith("y")
+                    || Tools.GetTemplateParameterValue(DeathDate.Match(articleText).Value, "mf").StartsWith("y"))
                 return DateLocale.American;
-
+            
             return DateLocale.Undetermined;
         }
 
