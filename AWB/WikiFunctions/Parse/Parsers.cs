@@ -2816,12 +2816,12 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Matches the {{birth date}} family of templates
         /// </summary>
-        private static readonly Regex BirthDate = Tools.NestedTemplateRegex(new List<string>(new[] { "birth date", "dob", "bda", "birth date and age", "birthdate" }));
+        private static readonly Regex BirthDate = Tools.NestedTemplateRegex(new List<string>(new[] { "birth date", "birth-date", "dob", "bda", "birth date and age", "birthdate" }));
         
         /// <summary>
         /// Matches the {{death  date}} family of templates
         /// </summary>
-        private static readonly Regex DeathDate = Tools.NestedTemplateRegex(new List<string>(new[] { "death date", "dda", "death date and age", "deathdate" }));
+        private static readonly Regex DeathDate = Tools.NestedTemplateRegex(new List<string>(new[] { "death date", "death-date", "dda", "death date and age", "deathdate" }));
         
         /// <summary>
         /// Matches the {{city-state}} template
@@ -4557,11 +4557,10 @@ namespace WikiFunctions.Parse
             if (SeeAlsoOrMain.IsMatch(zerothSection))
                 return false;
 
-            int dateBirthAndAgeCount = WikiRegexes.DateBirthAndAge.Matches(articleText).Count;
-            int dateDeathCount = WikiRegexes.DeathDate.Matches(articleText).Count;
-            int dateDeathAndAgeCount = WikiRegexes.DeathDateAndAge.Matches(articleText).Count;
+            int dateBirthAndAgeCount =BirthDate.Matches(articleText).Count;
+            int dateDeathCount = DeathDate.Matches(articleText).Count;
 
-            if (dateBirthAndAgeCount > 1 || dateDeathCount > 1 || dateDeathAndAgeCount > 1)
+            if (dateBirthAndAgeCount > 1 || dateDeathCount > 1)
                 return false;
 
             if (WikiRegexes.Persondata.Matches(articleText).Count == 1
@@ -4575,7 +4574,7 @@ namespace WikiFunctions.Parse
             if (BoldedLink.IsMatch(WikiRegexes.Template.Replace(zerothSection, "")))
                 return false;
 
-            if (dateBirthAndAgeCount == 1 || dateDeathCount == 1 || dateDeathAndAgeCount == 1)
+            if (dateBirthAndAgeCount == 1 || dateDeathCount == 1)
                 return true;
 
             return WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText)
@@ -4583,7 +4582,7 @@ namespace WikiFunctions.Parse
                 || WikiRegexes.BirthsCategory.IsMatch(articleText)
                 || WikiRegexes.BLPSources.IsMatch(articleText)
                 || RefImprove.IsMatch(articleText)
-                || (!string.IsNullOrEmpty(articleTitle) && parseTalkPage &&
+                || (!string.IsNullOrEmpty(articleTitle) && articleText.Length < 10000 && parseTalkPage &&
                     TryGetArticleText(Variables.Namespaces[Namespace.Talk] + articleTitle).Contains(@"{{WPBiography"));
         }
 
