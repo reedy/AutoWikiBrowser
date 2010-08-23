@@ -772,7 +772,7 @@ namespace WikiFunctions
         /// <summary>
         /// matches the {{Article issues}}/{{Multiple issues}} template
         /// </summary>
-        public static readonly Regex MultipleIssues = Tools.NestedTemplateRegex(new [] { @"article issues", "articleissues", "multipleissues", "multiple issues" } );
+        public static readonly Regex MultipleIssues = Tools.NestedTemplateRegex(new [] { "article issues", "articleissues", "multipleissues", "multiple issues" } );
 
         /// <summary>
         /// matches the {{New unreviewed article}} template
