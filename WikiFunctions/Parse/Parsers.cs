@@ -2875,7 +2875,15 @@ namespace WikiFunctions.Parse
             if(Tools.GetTemplateParameterValue(newPersonData, "PLACE OF BIRTH").Length == 0)
             {
                 string POB = GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxPOBFields);
-                POB = WikiRegexes.FileNamespaceLink.Replace(POB, "");
+                
+                // as fallback look up cityofbirth/countryofbirth
+                if(POB.Length == 0)
+                {
+                    string ib = WikiRegexes.InfoBox.Match(articleText).Value;
+                    POB = Tools.GetTemplateParameterValue(ib, "cityofbirth") + " " + Tools.GetTemplateParameterValue(ib, "countryofbirth");
+                }
+                
+                POB = WikiRegexes.FileNamespaceLink.Replace(POB, "").Trim();
                 
                 if(CityState.IsMatch(POB))
                     POB = CityState.Replace(POB, m => m.Groups[3].Value.Trim("|{}".ToCharArray()).Replace("|", ", "));
@@ -2889,7 +2897,15 @@ namespace WikiFunctions.Parse
             if(Tools.GetTemplateParameterValue(newPersonData, "PLACE OF DEATH").Length == 0)
             {
                 string POD = GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxPODFields);
-                POD = WikiRegexes.FileNamespaceLink.Replace(POD, "");
+                
+                // as fallback look up cityofbirth/countryofbirth
+                if(POD.Length == 0)
+                {
+                    string ib = WikiRegexes.InfoBox.Match(articleText).Value;
+                    POD = Tools.GetTemplateParameterValue(ib, "cityofdeath") + " " + Tools.GetTemplateParameterValue(ib, "countryofdeath");
+                }
+                
+                POD = WikiRegexes.FileNamespaceLink.Replace(POD, "").Trim();
                 
                 if(CityState.IsMatch(POD))
                     POD = CityState.Replace(POD, m => m.Groups[3].Value.Trim("|{}".ToCharArray()).Replace("|", ", "));
