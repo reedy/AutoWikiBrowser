@@ -3404,7 +3404,7 @@ window.scrollTo(0, diffTopY);
 
         private void metadataTemplateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = "{{Persondata\r\n|NAME=\r\n|ALTERNATIVE NAMES=\r\n|SHORT DESCRIPTION=\r\n|DATE OF BIRTH=\r\n|PLACE OF BIRTH=\r\n|DATE OF DEATH=\r\n|PLACE OF DEATH=\r\n}}";
+            txtEdit.SelectedText = WikiRegexes.PersonDataDefault;
         }
 
         private void humanNameCategoryKeyToolStripMenuItem_Click(object sender, EventArgs e)

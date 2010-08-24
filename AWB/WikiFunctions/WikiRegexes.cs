@@ -697,7 +697,20 @@ namespace WikiFunctions
         /// <summary>
         /// Matches persondata (en only)
         /// </summary>
-        public static readonly Regex Persondata = Tools.NestedTemplateRegex(@"Persondata");
+        public static readonly Regex Persondata = Tools.NestedTemplateRegex(@"Persondata");        
+        
+        /// <summary>
+        /// The default blank Persondata template for en-wiki
+        /// </summary>
+        public const string PersonDataDefault = @"{{Persondata         <!-- Metadata: see [[Wikipedia:Persondata]] -->
+| NAME              =
+| ALTERNATIVE NAMES =
+| SHORT DESCRIPTION =
+| DATE OF BIRTH     =
+| PLACE OF BIRTH    =
+| DATE OF DEATH     =
+| PLACE OF DEATH    =
+}}";
 
         /// <summary>
         /// Comment often put on the line before the Persondata template on the en-wiki
