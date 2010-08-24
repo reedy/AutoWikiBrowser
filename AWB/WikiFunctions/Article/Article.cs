@@ -1215,7 +1215,8 @@ namespace WikiFunctions
                 Variables.Profiler.Profile("FixDateOrdinalsAndOf");
             }
 
-            Variables.Profiler.Profile("Links");
+            AWBChangeArticleText("PersonData", Parsers.PersonData(ArticleText, Name), false);
+            Variables.Profiler.Profile("PersonData");
             
             // must call EmboldenTitles before calling FixLinks
             EmboldenTitles(parsers, skip.SkipNoBoldTitle);
