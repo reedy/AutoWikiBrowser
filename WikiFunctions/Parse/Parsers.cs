@@ -2880,7 +2880,7 @@ namespace WikiFunctions.Parse
                 if(POB.Length == 0)
                 {
                     string ib = WikiRegexes.InfoBox.Match(articleText).Value;
-                    POB = Tools.GetTemplateParameterValue(ib, "cityofbirth") + " " + Tools.GetTemplateParameterValue(ib, "countryofbirth");
+                    POB = (Tools.GetTemplateParameterValue(ib, "cityofbirth") + ", " + Tools.GetTemplateParameterValue(ib, "countryofbirth")).Trim(',');
                 }
                 
                 POB = WikiRegexes.FileNamespaceLink.Replace(POB, "").Trim();
@@ -2902,7 +2902,7 @@ namespace WikiFunctions.Parse
                 if(POD.Length == 0)
                 {
                     string ib = WikiRegexes.InfoBox.Match(articleText).Value;
-                    POD = Tools.GetTemplateParameterValue(ib, "cityofdeath") + " " + Tools.GetTemplateParameterValue(ib, "countryofdeath");
+                    POD = (Tools.GetTemplateParameterValue(ib, "cityofdeath") + ", " + Tools.GetTemplateParameterValue(ib, "countryofdeath")).Trim(',');
                 }
                 
                 POD = WikiRegexes.FileNamespaceLink.Replace(POD, "").Trim();
@@ -2970,12 +2970,15 @@ namespace WikiFunctions.Parse
                         string dda = DfYes.Replace(WikiRegexes.DeathDateAndAge.Match(articletext).Value, "");
                         dateFound = (Tools.GetTemplateArgument(dda, 4)  + "-" + Tools.GetTemplateArgument(dda, 5)  + "-" + Tools.GetTemplateArgument(dda, 6)).Trim('-');
                     }
+                    else if(GetInfoBoxFieldValue(articletext, "birthyear").Length > 0)
+                            dateFound = (GetInfoBoxFieldValue(articletext, "birthyear")  + "-" + GetInfoBoxFieldValue(articletext, "birthmonth") + "-" + GetInfoBoxFieldValue(articletext, "birthday")).Trim('-');
                 }
                 else if(field.Equals("DATE OF DEATH"))
                 {
                     if(GetInfoBoxFieldValue(articletext, "yearofdeath").Length > 0)
                         dateFound = (GetInfoBoxFieldValue(articletext, "yearofdeath")  + "-" + GetInfoBoxFieldValue(articletext, "monthofdeath") + "-" + GetInfoBoxFieldValue(articletext, "dayofdeath")).Trim('-');
-                    
+                    else if(GetInfoBoxFieldValue(articletext, "deathyear").Length > 0)
+                            dateFound = (GetInfoBoxFieldValue(articletext, "deathyear")  + "-" + GetInfoBoxFieldValue(articletext, "deathmonth") + "-" + GetInfoBoxFieldValue(articletext, "deathday")).Trim('-');    
                 }
             }
             
