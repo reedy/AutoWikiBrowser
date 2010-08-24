@@ -2230,9 +2230,12 @@ complementary and alternative medicine: evidence is a better friend than power. 
                             Parsers.PersonData(i2.Replace("27}}", "27}} in London") + a, "test"), "Completes persondata from {{birth date}} when extra data in infobox field");
             Assert.AreEqual(i2b.Replace("27}}", "27}} in London") + a2,
                             Parsers.PersonData(i2b.Replace("27}}", "27}} in London") + a, "test"), "Completes persondata from {{birth date}} when extra data in infobox field");
+            
+            string i3 = i1.Replace("27 June 1950", @"{{dda|2005|07|20|1950|06|27|df=yes}}");
+            Assert.AreEqual(i3 + a2.Replace("DEATH= ", "DEATH= 20 July 2005"), Parsers.PersonData(i3 + a, "test"), "takes dates from {{dda}}");
         }
         
-         [Test]
+        [Test]
         public void PersonDataCompletionDOD()
         {
             const string a = @"{{persondata
