@@ -2802,17 +2802,7 @@ namespace WikiFunctions.Parse
 
             return citation;
         }
-
-        private const string PersonDataDefault = @"{{Persondata         <!-- Metadata: see [[Wikipedia:Persondata]] -->
-| NAME              =
-| ALTERNATIVE NAMES =
-| SHORT DESCRIPTION =
-| DATE OF BIRTH     =
-| PLACE OF BIRTH    =
-| DATE OF DEATH     =
-| PLACE OF DEATH    =
-}}";
-
+        
         /// <summary>
         /// Matches the {{birth date}} family of templates
         /// </summary>
@@ -2844,7 +2834,7 @@ namespace WikiFunctions.Parse
             if (!WikiRegexes.Persondata.IsMatch(articleText))
             {
                 if (IsArticleAboutAPerson(articleText, articleTitle, true))
-                    articleText = articleText + Tools.Newline(PersonDataDefault);
+                    articleText = articleText + Tools.Newline(WikiRegexes.PersonDataDefault);
                 else
                     return articleText;
             }
