@@ -4561,7 +4561,9 @@ namespace WikiFunctions.Parse
                                                   "Infobox Composer", "Infobox composer",
                                                   "Infobox Musical artist", "Infobox Band"
                                               }).Match(articleText).Value,
-                    "Background").Contains("group_or_band"))
+                    "Background").Contains("group_or_band")
+               ||
+               Tools.GetTemplateParameterValue(Tools.NestedTemplateRegex(@"Infobox Chinese-language singer and actor").Match(articleText).Value, "currentmembers").Length > 0)
             {
                 return false;
             }
