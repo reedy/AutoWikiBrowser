@@ -2226,6 +2226,8 @@ complementary and alternative medicine: evidence is a better friend than power. 
             Assert.AreEqual(i1 + a2, Parsers.PersonData(i1 + a, "test"));
             Assert.AreEqual(i1.Replace("27 June", "June 27,") + a2.Replace("27 June", "June 27,"), Parsers.PersonData(i1.Replace("27 June", "June 27,") + a.Replace("27 June", "June 27,"), "test"));
             Assert.AreEqual(i2 + a2.Replace("27 June 1950", "1950-06-27"), Parsers.PersonData(i2 + a, "test"));
+            Assert.AreEqual(i2.Replace(@"{{birth date|1950|06|27}}", @"{{birth-date|27 June 1950|27 June 1950}}") + a2, 
+                            Parsers.PersonData(i2.Replace(@"{{birth date|1950|06|27}}", @"{{birth-date|27 June 1950|27 June 1950}}") + a, "test"));
             Assert.AreEqual(i2.Replace("27}}", "27}} in London") + a2.Replace("27 June 1950", "1950-06-27"),
                             Parsers.PersonData(i2.Replace("27}}", "27}} in London") + a, "test"), "Completes persondata from {{birth date}} when extra data in infobox field");
             Assert.AreEqual(i2b.Replace("27}}", "27}} in London") + a2,
@@ -2233,6 +2235,14 @@ complementary and alternative medicine: evidence is a better friend than power. 
             
             string i3 = i1.Replace("27 June 1950", @"{{dda|2005|07|20|1950|06|27|df=yes}}");
             Assert.AreEqual(i3 + a2.Replace("DEATH= ", "DEATH= 20 July 2005"), Parsers.PersonData(i3 + a, "test"), "takes dates from {{dda}}");
+            
+            string i4= @"{{infobox foo| birthyear = 1950 | birthmonth=06 | birthday=27}}";
+            Assert.AreEqual(i4 + a2 + @"{{use dmy dates}}", Parsers.PersonData(i4 + a + @"{{use dmy dates}}", "test"), "takes dates from birthyear etc. fields");
+            
+            string i4d= @"{{infobox foo| deathyear = 1950 | deathmonth=06 | deathday=27}}";
+            Assert.AreEqual(i4d + a2.Replace(@"DATE OF BIRTH=27 June 1950
+            |DATE OF DEATH= ", @"DATE OF BIRTH=
+            |DATE OF DEATH= 27 June 1950") + @"{{use dmy dates}}", Parsers.PersonData(i4d + a + @"{{use dmy dates}}", "test"), "takes dates from deathyear etc. fields");
         }
         
         [Test]
