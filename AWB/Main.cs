@@ -3431,6 +3431,12 @@ window.scrollTo(0, diffTopY);
                         articleTextLocal = articleTextLocal.Replace(m2.Value, "");
                 }
                 
+                foreach(Match m2 in WikiRegexes.TemplateMultiline.Matches(articleTextLocal))
+                {
+                    if(Tools.GetTemplateParameterValue(m2.Value, "date").Length > 0)
+                        articleTextLocal = articleTextLocal.Replace(m2.Value, "");
+                }                
+                
                 MatchCollection m = RegexDates.Matches(articleTextLocal);
 
                 //find first dates
