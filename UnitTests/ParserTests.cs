@@ -2295,11 +2295,17 @@ complementary and alternative medicine: evidence is a better friend than power. 
 {{DEFAULTSORT:Hill, James J.}}";
             
             Assert.AreEqual(PD, WikiRegexes.Persondata.Match(Parsers.PersonData(IB2 + "May 2, 2010 and May 2, 2010", "test")).Value, "pulls dates from year/month/day infobox fields");
-        
+            
             Assert.AreEqual(PD, WikiRegexes.Persondata.Match(Parsers.PersonData(IB.Replace(@":Hill, James J.}}", @":Hill, James J. (writer)}}") + "May 2, 2010 and May 2, 2010", "test")).Value, "Occupation cleaned from defaultsort");
-        
-            Assert.AreEqual(PD.Replace(@"[[Guelph/Eramosa, Ontario|Eramosa Township]], [[Ontario]], [[Canada]]", "Ontario, Canada"), 
+            
+            Assert.AreEqual(PD.Replace(@"[[Guelph/Eramosa, Ontario|Eramosa Township]], [[Ontario]], [[Canada]]", "Ontario, Canada"),
                             WikiRegexes.Persondata.Match(Parsers.PersonData(IB.Replace(@"[[Guelph/Eramosa, Ontario|Eramosa Township]], [[Ontario]], [[Canada]]", "{{city-state|Ontario|Canada}}") + "May 2, 2010 and May 2, 2010", "test")).Value, "city state template converted");
+            Assert.AreEqual(PD.Replace(@"[[St. Paul, Minnesota|Saint Paul]], [[Minnesota]]", "Saint Paul, Minnesota"),
+                            WikiRegexes.Persondata.Match(Parsers.PersonData(IB.Replace(@"[[St. Paul, Minnesota|Saint Paul]], [[Minnesota]]", "{{city-state|Saint Paul|Minnesota}}") + "May 2, 2010 and May 2, 2010", "test")).Value, "city state template converted (death place)");
+            
+            Assert.AreEqual(PD, WikiRegexes.Persondata.Match(Parsers.PersonData(IB.Replace(@"[[Canada]]", @"[[Canada]] [[File:Foo.svg|country flag]]") + "May 2, 2010 and May 2, 2010", "test")).Value, "removes country flag from place name");
+            
+            Assert.AreEqual(PD, WikiRegexes.Persondata.Match(Parsers.PersonData(IB.Replace(@"{{birthdate|1838|9|16}}", @"1838-09-16") + @"{{use mdy dates}}", "test")).Value, "ISO dates supported");
         }
         
         [Test]
