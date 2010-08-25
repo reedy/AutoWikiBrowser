@@ -555,6 +555,29 @@ namespace WikiFunctions
             if(NameSpaceKey.Equals(Namespace.Talk))
                 Unknowns = Tools.UnknownTemplateParameters(WikiRegexes.WikiProjectBannerShellTemplate.Match(ArticleText).Value, Knowns);
             return Unknowns;
+        }        
+        
+		/// <summary>
+        /// Returns a list of any unknown parameters in any Multiple issues template
+        /// </summary>
+        /// <returns>List of unknown parameters</returns>
+        public List<string> UnknownMultipleIssuesParameters()
+        {
+            List<string> Unknowns = new List<string>();
+            List<string> Knowns = new List<string>(new[] { "advert", "autobiography", "biased", "blpdispute", "citations missing", "citation style", 
+			"citecheck", "cleanup", "COI", "coi", "colloquial", "confusing", "context", "contradict", 
+			"copyedit", "criticisms", "crystal", "deadend", "disputed", "essay", "examplefarm", "expert", "external links", 
+			"fancruft", "fansite", "fiction", "globalize", "grammar", "histinfo", "hoax", "howto", "inappropriate person", "incomplete", 
+			"lead missing", "lead rewrite", "lead too long", "lead too short", "in-universe", "jargon", "laundrylists", "laundry", "likeresume", 
+			"long", "newsrelease", "notable", "notability", "onesource", "OR", "or", "original research", "orphan", "out of date", "peacock", 
+			"plot", "POV", "NPOV", "pov", "npov", "pov-check", "primarysources", "prose", "proseline", "quotefarm", "recentism", "refimprove", 
+			"refimprove BLP", "restructure", "reorganisation", "organize", "review", "rewrite", "sections", "self-published", 
+			"spam", "story", "synthesis", "inappropriate tone", "tone", "travelguide", "trivia", "unbalanced", "unencyclopedic", "unreferenced", 
+			"unreferencedBLP", "update", "weasel", "wikify"});
+            
+            if(NameSpaceKey.Equals(Namespace.Mainspace))
+                Unknowns = Tools.UnknownTemplateParameters(WikiRegexes.MultipleIssues.Match(ArticleText).Value, Knowns);
+            return Unknowns;
         }
         
         /// <summary>
