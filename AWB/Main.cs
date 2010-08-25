@@ -741,6 +741,7 @@ namespace AutoWikiBrowser
         private Dictionary<int, int> deadLinks = new Dictionary<int, int>();
         private Dictionary<int, int> ambigCiteDates = new Dictionary<int, int>();
         private List<string> UnknownWikiProjectBannerShellParameters = new List<string>();
+        private List<string> UnknownMultipleIssuesParameters = new List<string>();
         
         private SortedDictionary<int, int> Errors = new SortedDictionary<int, int>();
         
@@ -2450,6 +2451,15 @@ window.scrollTo(0, diffTopY);
                 {
                     string warn = "Unknown parameters in WPBannerShell: "  + " (" + UnknownWikiProjectBannerShellParameters.Count + ") ";
                     foreach(string s in UnknownWikiProjectBannerShellParameters)
+                        warn += s + ", ";
+                    lbAlerts.Items.Add(warn);
+                }
+                
+                UnknownMultipleIssuesParameters = TheArticle.UnknownMultipleIssuesParameters();
+                if(UnknownMultipleIssuesParameters.Count > 0)
+                {
+                    string warn = "Unknown parameters in Multiple issues: "  + " (" + UnknownMultipleIssuesParameters.Count + ") ";
+                    foreach(string s in UnknownMultipleIssuesParameters)
                         warn += s + ", ";
                     lbAlerts.Items.Add(warn);
                 }
