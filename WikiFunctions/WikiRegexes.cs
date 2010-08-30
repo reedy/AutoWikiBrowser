@@ -950,17 +950,17 @@ namespace WikiFunctions
         /// <summary>
         /// Matches bold italic text, group 1 being the text in bold italics
         /// </summary>
-        public static readonly Regex BoldItalics = new Regex(@"'''''(.+?)'''''");
+        public static readonly Regex BoldItalics = new Regex(@"(?<!')'{5}([^'](?:.*?[^'])?)'{5}(?!')");
 
         /// <summary>
         /// Matches italic text, group 1 being the text in italics
         /// </summary>
-        public static readonly Regex Italics = new Regex(@"''(.+?)''");
+        public static readonly Regex Italics = new Regex(@"(?<!')'{2}([^'](?:.*?[^'])?)'{2}(?!')");
 
         /// <summary>
         /// Matches bold text, group 1 being the text in bold
         /// </summary>
-        public static readonly Regex Bold = new Regex(@"'''(.+?)'''");
+        public static readonly Regex Bold = new Regex(@"(?<!')'{3}([^'](?:.*?[^'])?)'{3}(?!')");
 
         /// <summary>
         /// Matches a row beginning with an asterisk, allowing for spaces before

@@ -209,17 +209,31 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Hides images, external links, templates, headings
         /// </summary>
+        /// <param name="articleText">the text of the article</param>
         public string HideMore(string articleText)
         {
-            return HideMore(articleText, false, true);
+            return HideMore(articleText, false, true, true);
         }
 
         /// <summary>
         /// Hides images, external links, templates, headings
         /// </summary>
+        /// <param name="articleText">the text of the article</param>
+        /// <param name="hideOnlyTargetOfWikilink">whether to hide only the target of a wikilink (so that fixes such as typo corrections may be applied to the piped part of the link)</param>
         public string HideMore(string articleText, bool hideOnlyTargetOfWikilink)
         {
-            return HideMore(articleText, hideOnlyTargetOfWikilink, true);
+            return HideMore(articleText, hideOnlyTargetOfWikilink, true, true);
+        }
+        
+        /// <summary>
+        /// Hides images, external links, templates, headings and italics
+        /// </summary>
+        /// <param name="articleText">the text of the article</param>
+        /// <param name="hideOnlyTargetOfWikilink">whether to hide only the target of a wikilink (so that fixes such as typo corrections may be applied to the piped part of the link)</param>
+        /// <param name="hideWikiLinks">whether to hide all wikilinks including those with words attached outside the link</param>
+        public string HideMore(string articleText, bool hideOnlyTargetOfWikilink, bool hideWikiLinks)
+        {
+            return HideMore(articleText, hideOnlyTargetOfWikilink, hideWikiLinks, true);
         }
 
         /// <summary>
@@ -228,8 +242,9 @@ namespace WikiFunctions.Parse
         /// <param name="articleText">the text of the article</param>
         /// <param name="hideOnlyTargetOfWikilink">whether to hide only the target of a wikilink (so that fixes such as typo corrections may be applied to the piped part of the link)</param>
         /// <param name="hideWikiLinks">whether to hide all wikilinks including those with words attached outside the link</param>
+        /// <param name="hideItalics">whether to hide italics</param>
         /// <returns>the modified article text</returns>
-        public string HideMore(string articleText, bool hideOnlyTargetOfWikilink, bool hideWikiLinks)
+        public string HideMore(string articleText, bool hideOnlyTargetOfWikilink, bool hideWikiLinks, bool hideItalics)
         {
             MoreHide.Clear();
 
@@ -245,7 +260,8 @@ namespace WikiFunctions.Parse
 
             ReplaceMore(WikiRegexes.Includeonly.Matches(articleText), ref articleText);
 
-            if (HideExternalLinks) ReplaceMore(WikiRegexes.ExternalLinks.Matches(articleText), ref articleText);
+            if (HideExternalLinks)
+                ReplaceMore(WikiRegexes.ExternalLinks.Matches(articleText), ref articleText);
 
             ReplaceMore(WikiRegexes.Headings.Matches(articleText), ref articleText);
 
@@ -253,7 +269,7 @@ namespace WikiFunctions.Parse
 
             ReplaceMore(WikiRegexes.IndentedText.Matches(articleText), ref articleText);
 
-            // This hides internal wikilinks (with or without pipe) with extra word character(s) e.g. [[link]]age, which need hiding even if hiding for typo fixing 
+            // This hides internal wikilinks (with or without pipe) with extra word character(s) e.g. [[link]]age, which need hiding even if hiding for typo fixing
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Improve_HideText.HideMore.28.29
             // place this as first wikilink rule as otherwise WikiLinksOnly will grab link without extra word character(s)
             if(hideWikiLinks)
@@ -280,6 +296,9 @@ namespace WikiFunctions.Parse
 
             // hide untemplated quotes between some form of quotation marks (most particularly for typo fixing)
             ReplaceMore(WikiRegexes.UntemplatedQuotes.Matches(articleText), ref articleText);
+            
+            if(hideItalics)
+                ReplaceMore(WikiRegexes.Italics.Matches(articleText), ref articleText);
 
             ReplaceMore(WikiRegexes.Pstyles.Matches(articleText), ref articleText);
 
