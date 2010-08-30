@@ -1341,17 +1341,20 @@ namespace WikiFunctions
         /// <summary>
         /// Executes general fixes specific to article talk pages
         /// </summary>
-        public void PerformTalkGeneralFixes()
+        public void PerformTalkGeneralFixes(HideText removeText)
         {
             BeforeGeneralFixesTextChanged();
 
+            HideText(removeText);
             string articleText = ArticleText;
-            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);            
 
             if (articleText != ArticleText)
             {
                 AWBChangeArticleText("Talk Page general fixes", articleText, false);
             }
+            
+            UnHideText(removeText);
 
             AfterGeneralFixesTextChanged();
         }

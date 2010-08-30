@@ -198,6 +198,11 @@ namespace WikiFunctions.TalkPages
         /// <returns>The updated talk page text</returns>
         public static string WikiProjectBannerShell(string articletext)
         {
+            if(!Variables.LangCode.Equals("en"))
+                return articletext;
+            
+            articletext = AddWikiProjectBannerShell(articletext);
+            
             if (!WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articletext))
                 return articletext;
 
@@ -276,6 +281,40 @@ namespace WikiFunctions.TalkPages
                     articletext = articletext.Replace(m.Value, newValue);
             }
 
+            return articletext;
+        }
+        
+        private const int WikiProjectsWPBS = 3;
+        
+        /// <summary>
+        /// Adds WikiProjectBannerShell when needed (> 3 WikiProject templates and no WikiProjectBannerShell)
+        /// </summary>
+        /// <param name="articletext">The talk page text</param>
+        /// <returns>The updated talk page text</returns>
+        private static string AddWikiProjectBannerShell(string articletext)
+        {
+            int wikiProjectTemplates = 0;
+            string WPBS1 = "", articletextLocal = articletext;
+            
+            if(!WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articletextLocal))
+            {
+                foreach(Match m in WikiRegexes.NestedTemplates.Matches(articletextLocal))
+                {
+                    if(Tools.GetTemplateName(m.Value).StartsWith("WikiProject "))
+                        wikiProjectTemplates++;
+                    
+                    WPBS1 += Tools.Newline(m.Value);
+                    articletextLocal = articletextLocal.Replace(m.Value, "");
+                }
+                
+                if(wikiProjectTemplates > WikiProjectsWPBS)
+                {
+                    // add a WikiProjectBannerShell
+                    articletext = @"{{WikiProjectBannerShell" + Tools.Newline(@"|1=") + WPBS1 + Tools.Newline(@"}}")
+                        + articletextLocal;
+                }
+            }
+            
             return articletext;
         }
     }

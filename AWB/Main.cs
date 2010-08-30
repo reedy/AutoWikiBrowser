@@ -1515,7 +1515,7 @@ namespace AutoWikiBrowser
                         }
                         else if (theArticle.CanDoTalkGeneralFixes)
                         {
-                            theArticle.PerformTalkGeneralFixes();
+                            theArticle.PerformTalkGeneralFixes(RemoveText);
                         }
                         Variables.Profiler.Profile("Talk Genfixes");
                     }

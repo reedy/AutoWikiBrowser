@@ -944,6 +944,17 @@ __TOC__", articleTextIn);
         }
         
         [Test]
+        public void AddWikiProjectBannerShell()
+        {
+            const string a = @"{{WikiProject a|text}}", b = @"{{WikiProject b|text}}", c = @"{{WikiProject c|text}}", d = @"{{WikiProject d|text}}";
+            Assert.AreEqual(a, TalkPageHeaders.WikiProjectBannerShell(a));
+            Assert.AreEqual(a + b, TalkPageHeaders.WikiProjectBannerShell(a + b));
+            Assert.AreEqual(a + b + c, TalkPageHeaders.WikiProjectBannerShell(a + b + c));
+            Assert.AreEqual(@"{{WikiProjectBannerShell
+|1=" + "\r\n" + a + "\r\n" + b + "\r\n" + c + "\r\n" + d + "\r\n" + @"}}", TalkPageHeaders.WikiProjectBannerShell(a + b + c + d));
+        }
+        
+        [Test]
         public void RemoveTemplateNamespace()
         {
             string T1 = @"{{Template:Foo}}", T2 = @"{{Template:Foo}}
