@@ -151,7 +151,7 @@ namespace AutoWikiBrowser
             this.autoSaveSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.preParseModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
-            this.bypassRedirectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.followRedirectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.automaticallyDoAnythingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator31 = new System.Windows.Forms.ToolStripSeparator();
             this.focusAtEndOfEditTextBoxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1278,7 +1278,7 @@ namespace AutoWikiBrowser
             this.autoSaveSettingsToolStripMenuItem,
             this.preParseModeToolStripMenuItem,
             this.toolStripSeparator14,
-            this.bypassRedirectsToolStripMenuItem,
+            this.followRedirectsToolStripMenuItem,
             this.automaticallyDoAnythingToolStripMenuItem,
             this.toolStripSeparator31,
             this.focusAtEndOfEditTextBoxToolStripMenuItem,
@@ -1333,14 +1333,14 @@ namespace AutoWikiBrowser
             this.toolStripSeparator14.Name = "toolStripSeparator14";
             this.toolStripSeparator14.Size = new System.Drawing.Size(307, 6);
             // 
-            // bypassRedirectsToolStripMenuItem
+            // followRedirectsToolStripMenuItem
             // 
-            this.bypassRedirectsToolStripMenuItem.Checked = true;
-            this.bypassRedirectsToolStripMenuItem.CheckOnClick = true;
-            this.bypassRedirectsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.bypassRedirectsToolStripMenuItem.Name = "bypassRedirectsToolStripMenuItem";
-            this.bypassRedirectsToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
-            this.bypassRedirectsToolStripMenuItem.Text = "Follow r&edirects";
+            this.followRedirectsToolStripMenuItem.Checked = true;
+            this.followRedirectsToolStripMenuItem.CheckOnClick = true;
+            this.followRedirectsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.followRedirectsToolStripMenuItem.Name = "followRedirectsToolStripMenuItem";
+            this.followRedirectsToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
+            this.followRedirectsToolStripMenuItem.Text = "Follow r&edirects";
             // 
             // automaticallyDoAnythingToolStripMenuItem
             // 
@@ -4369,7 +4369,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveListDialog;
         private System.Windows.Forms.ToolStripMenuItem generalToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem bypassRedirectsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem followRedirectsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem autoSaveSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem preParseModeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveListToTextFileToolStripMenuItem;
