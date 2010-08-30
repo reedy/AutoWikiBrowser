@@ -22,6 +22,11 @@ namespace UnitTests
         {
             GenFixes(true);
         }
+        
+        public void TalkGenFixes()
+        {
+            A.PerformTalkGeneralFixes(H);
+        }
 
         public GenfixesTestsBase()
         {
@@ -158,6 +163,23 @@ a");
             // Makes sure that Parsers.FixImages() is not readded to fixes unless it's fixed
             AssertNotChanged("[[Image:foo]]");
             AssertNotChanged("[[File:foo]]");
+        }
+    }
+    
+      [TestFixture]
+    public class TalkGenfixesTests : GenfixesTestsBase
+    {
+        [Test]
+        public void AddWikiProjectBannerShell()
+        {
+            const string AllCommented = @"<!-- {{WikiProject a|text}}
+{{WikiProject b|text}}
+{{WikiProject c|text}
+{{WikiProject d|text}} -->";
+            
+            ArticleText = AllCommented;
+            TalkGenFixes();
+            Assert.AreEqual(AllCommented, ArticleText, "no WikiProjectBannerShell addition when templates all commented out");
         }
     }
 }
