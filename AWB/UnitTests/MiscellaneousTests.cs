@@ -127,6 +127,12 @@ namespace UnitTests
         {
             StringAssert.Contains("bar", HideMore("[[foo|bar]]", true));
         }
+        
+        [Test]
+        public void HideItalics()
+        {
+            StringAssert.DoesNotContain("text", HideMore("Now ''text'' was"));
+        }
 
         [Test]
         public void HideTemplates()

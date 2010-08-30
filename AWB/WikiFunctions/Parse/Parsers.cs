@@ -3891,7 +3891,7 @@ namespace WikiFunctions.Parse
             string restOfArticle = articleText.Remove(0, zerothSection.Length);
 
             // There's a limitation here in that we can't hide image descriptions that may be above lead sentence without hiding the self links we are looking to correct
-            string zerothSectionHidden = Hider2.HideMore(zerothSection, false, false);
+            string zerothSectionHidden = Hider2.HideMore(zerothSection, false, false, false);
             string zerothSectionHiddenOriginal = zerothSectionHidden;
 
             // first check for any self links and no bold title, if found just convert first link to bold and return
