@@ -605,7 +605,7 @@ namespace AutoWikiBrowser
         private void OpenPage(string title)
         {
             StatusLabelText = "Loading...";
-            TheSession.Editor.Open(title, bypassRedirectsToolStripMenuItem.Checked);
+            TheSession.Editor.Open(title, followRedirectsToolStripMenuItem.Checked);
         }
 
         private bool _stopProcessing, _inStart, _startAgain;
@@ -790,7 +790,7 @@ namespace AutoWikiBrowser
             }
 
             //check for redirect
-            if (bypassRedirectsToolStripMenuItem.Checked && articleIsRedirect && !PageReload)
+            if (followRedirectsToolStripMenuItem.Checked && articleIsRedirect && !PageReload)
             {
                 if ((page.TitleChangedStatus & PageTitleStatus.RedirectLoop) == PageTitleStatus.RedirectLoop)
                 {

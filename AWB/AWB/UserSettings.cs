@@ -356,7 +356,7 @@ namespace AutoWikiBrowser
                         FindCaseSensitive = chkFindCaseSensitive.Checked,
                         WordWrap = wordWrapToolStripMenuItem1.Checked,
                         ToolBarEnabled = EnableToolBar,
-                        BypassRedirect = bypassRedirectsToolStripMenuItem.Checked,
+                        BypassRedirect = followRedirectsToolStripMenuItem.Checked,
                         AutoSaveSettings = autoSaveSettingsToolStripMenuItem.Checked,
                         PreParseMode = preParseModeToolStripMenuItem.Checked,
                         noSectionEditSummary = noSectionEditSummaryToolStripMenuItem.Checked,
@@ -598,7 +598,7 @@ namespace AutoWikiBrowser
 
             wordWrapToolStripMenuItem1.Checked = p.General.WordWrap;
             EnableToolBar = p.General.ToolBarEnabled;
-            bypassRedirectsToolStripMenuItem.Checked = p.General.BypassRedirect;
+            followRedirectsToolStripMenuItem.Checked = p.General.BypassRedirect;
             autoSaveSettingsToolStripMenuItem.Checked = p.General.AutoSaveSettings;
             preParseModeToolStripMenuItem.Checked = p.General.PreParseMode;
             noSectionEditSummaryToolStripMenuItem.Checked = p.General.noSectionEditSummary;
