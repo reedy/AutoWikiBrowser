@@ -2622,6 +2622,12 @@ namespace WikiFunctions.Parse
                 // remove italics for work field for book/periodical, but not website -- auto italicised by template
                 if(!Tools.GetTemplateParameterValue(newValue, "work").Contains("."))
                     newValue = WorkInItalics.Replace(newValue, "$1$2");
+                
+                // remove quotes around title field: are automatically added by template markup
+                string theTitle = Tools.GetTemplateParameterValue(newValue, "title");
+                
+                if(theTitle.Contains(@"""") && !theTitle.Trim('"').Contains(@""""))
+                    newValue = newValue.Replace(theTitle, theTitle.Trim('"'));
 
                 // page= and pages= fields don't need p. or pp. in them when nopp not set
                 if (Tools.GetTemplateParameterValue(newValue, "nopp").Length == 0 &&
