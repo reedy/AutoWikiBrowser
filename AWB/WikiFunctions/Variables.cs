@@ -224,6 +224,12 @@ namespace WikiFunctions
         /// </summary>
         public static bool IsWikipediaEN
         { get { return (Project == ProjectEnum.wikipedia && LangCode == "en"); } }
+        
+        /// <summary>
+        /// Returns true if we are currently editing Commons
+        /// </summary>
+        public static bool IsCommons
+        { get { return (Project == ProjectEnum.commons); } }
 
         /// <summary>
         /// Returns true if we are currently a monolingual Wikimedia project
