@@ -5007,7 +5007,6 @@ namespace WikiFunctions.Parse
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="noChange">Value that indicated whether no change was made.</param>
         /// <returns>The new article text.</returns>
-        /// 
         public static string Conversions(string articleText, out bool noChange)
         {
             string newText = Conversions(articleText);
