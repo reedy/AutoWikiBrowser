@@ -564,7 +564,7 @@ namespace WikiFunctions
         public List<string> UnknownMultipleIssuesParameters()
         {
             List<string> Unknowns = new List<string>();
-            List<string> Knowns = new List<string>(new[] { "advert", "autobiography", "biased", "blpdispute", "citations missing", "citation style", 
+            List<string> Knowns = new List<string>(new[] { "advert", "autobiography", "biased", "blpdispute", "citations missing", "citationstyle", "citation style", 
 			"citecheck", "cleanup", "COI", "coi", "colloquial", "confusing", "context", "contradict", 
 			"copyedit", "criticisms", "crystal", "date", "deadend", "disputed", "essay", "examplefarm", "expert", "external links", 
 			"fancruft", "fansite", "fiction", "gameguide", "globalize", "grammar", "histinfo", "hoax", "howto", "inappropriate person", "incomplete", 
