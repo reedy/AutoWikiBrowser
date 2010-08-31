@@ -792,15 +792,11 @@ namespace WikiFunctions
         {
             AWBChangeArticleText("Fixed interwikis", Parsers.InterwikiConversions(mArticleText, out noChange), true);
 
-            if (langCode.Equals("en"))
+            if (langCode == "en")
             {
                 string strTemp = mArticleText;
-                int articleNamespace = Namespace.Determine(Name);
 
-                // do not subst on File namespace or Template documentation pages
-                if (!(articleNamespace == Namespace.Template && Name.EndsWith(@"/doc")) &&
-                    !(articleNamespace == Namespace.File))
-                    strTemp = Parsers.Conversions(mArticleText);
+                strTemp = Parsers.Conversions(mArticleText);
 
                 strTemp = Parsers.FixLivingThingsRelatedDates(strTemp);
                 strTemp = Parsers.FixHeadings(strTemp, Name, out noChange);
