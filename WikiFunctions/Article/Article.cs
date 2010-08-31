@@ -796,8 +796,9 @@ namespace WikiFunctions
             {
                 string strTemp = mArticleText;
 
-                // do not subst on Template documentation pages
-                if (!(Namespace.Determine(Name).Equals(Namespace.Template) && Name.EndsWith(@"/doc")))
+                // do not subst on Template documentation pages, or commons category pages
+                if (!(Namespace.Determine(Name).Equals(Namespace.Template) && Name.EndsWith(@"/doc"))
+                   && !(Variables.IsCommons && Namespace.Determine(Name).Equals(Namespace.Category))
                     strTemp = Parsers.Conversions(mArticleText);
 
                 strTemp = Parsers.FixLivingThingsRelatedDates(strTemp);
