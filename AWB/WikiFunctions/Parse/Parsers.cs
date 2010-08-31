@@ -4580,12 +4580,25 @@ namespace WikiFunctions.Parse
             if (SeeAlsoOrMain.IsMatch(zerothSection))
                 return false;
 
-            int dateBirthAndAgeCount =BirthDate.Matches(articleText).Count;
-            int dateDeathCount = DeathDate.Matches(articleText).Count;
-
-            if (dateBirthAndAgeCount > 1 || dateDeathCount > 1)
-                return false;
-
+            // not about one person if multiple different birth or death date templates
+            List<string> BD = new List<string>();
+            foreach(Match m in BirthDate.Matches(articleText))
+            {
+                if(BD.Count > 0 && !BD.Contains(m.Value))
+                    return false;
+                
+                BD.Add(m.Value);
+            }
+            
+               List<string> DD = new List<string>();
+            foreach(Match m in DeathDate.Matches(articleText))
+            {
+                if(DD.Count > 0 && !DD.Contains(m.Value))
+                    return false;
+                
+                DD.Add(m.Value);
+            }
+   
             if (WikiRegexes.Persondata.Matches(articleText).Count == 1
                 || articleText.Contains(@"-bio-stub}}")
                 || articleText.Contains(@"[[Category:Living people")
@@ -4596,6 +4609,9 @@ namespace WikiFunctions.Parse
             // e.g. '''military career of [[Napoleon Bonaparte]]'''
             if (BoldedLink.IsMatch(WikiRegexes.Template.Replace(zerothSection, "")))
                 return false;
+
+            int dateBirthAndAgeCount =BirthDate.Matches(articleText).Count;
+            int dateDeathCount = DeathDate.Matches(articleText).Count;
 
             if (dateBirthAndAgeCount == 1 || dateDeathCount == 1)
                 return true;
