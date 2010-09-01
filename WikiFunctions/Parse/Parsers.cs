@@ -2787,7 +2787,12 @@ namespace WikiFunctions.Parse
                 {
                     string deadLink = WikiRegexes.DeadLink.Match(FormatField).Value;
                     
-                    newValue = Tools.UpdateTemplateParameterValue(newValue, "format", FormatField.Replace(deadLink, "")) + " " + deadLink;
+                    if(theURL.ToUpper().TrimEnd('L').EndsWith("HTM") && FormatField.Equals(deadLink))
+                        newValue = Tools.RemoveTemplateParameter(newValue, "format");
+                    else
+                        newValue = Tools.UpdateTemplateParameterValue(newValue, "format", FormatField.Replace(deadLink, ""));
+                    
+                    newValue += (" " + deadLink);
                 }
 
                 // merge changes to article text

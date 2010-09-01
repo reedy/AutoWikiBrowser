@@ -3184,14 +3184,14 @@ now"));
         [Test]
         public void FixCitationTemplatesDeadLinkInFormat()
         {
-            const string correct = @"{{cite web | url=http://www.site.com/article100 | title=Foo | format= }} {{dead link|date=May 2010}}";
-            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite web | url=http://www.site.com/article100 | title=Foo | format= {{dead link|date=May 2010}}}}"), "{{dead link}} taken out of format field");
+            const string correct = @"{{cite web | url=http://www.site.com/article100.html | title=Foo }} {{dead link|date=May 2010}}";
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite web | url=http://www.site.com/article100.html | title=Foo | format= {{dead link|date=May 2010}}}}"), "{{dead link}} taken out of format field");
             
-            Assert.AreEqual(correct.Replace("format=", "format= PDF"), Parsers.FixCitationTemplates(@"{{cite web | url=http://www.site.com/article100 | title=Foo | format= PDF {{dead link|date=May 2010}}}}"), "Only {{dead link}} taken out of format field");
+            Assert.AreEqual(correct.Replace("Foo", "Foo | format= PDF"), Parsers.FixCitationTemplates(@"{{cite web | url=http://www.site.com/article100.html | title=Foo | format= PDF {{dead link|date=May 2010}}}}"), "Only {{dead link}} taken out of format field");
             
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(correct), "no change when already correct");
             
-            const string NodDead = @"{{cite web | url=http://www.site.com/article100 | title=Foo | format= PDF}}";
+            const string NodDead = @"{{cite web | url=http://www.site.com/article100.html | title=Foo | format= PDF}}";
             Assert.AreEqual(NodDead, Parsers.FixCitationTemplates(NodDead), "no change when no dead link in format field");
         }
 
