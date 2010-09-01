@@ -2569,6 +2569,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex YearInDate = new Regex(@"(\|\s*)date(\s*=\s*[12]\d{3}\s*)(?=\||}})", RegexOptions.Compiled);
 
         private static readonly Regex DupeFields = new Regex(@"((\|\s*([a-z\d]+)\s*=\s*([^\{\}\|]*?))\s*(?:\|.*?)?)\|\s*\3\s*=\s*([^\{\}\|]*?)\s*(\||}})", RegexOptions.Singleline | RegexOptions.Compiled);
+        private static readonly Regex UnspacedCommaPageRange = new Regex(@"(\d),(\d)", RegexOptions.Compiled);
 
         /// <summary>
         /// Applies various formatting fixes to citation templates
@@ -2702,6 +2703,10 @@ namespace WikiFunctions.Parse
 
                 // catch after any other fixes
                 newValue = NoCommaAmericanDates.Replace(newValue, @"$1, $2");
+                
+                // fix unspaced comma ranges
+				newValue = Tools.UpdateTemplateParameterValue(newValue, "pages", 
+                                                              UnspacedCommaPageRange.Replace(Tools.GetTemplateParameterValue(newValue, "pages"), "$1, $2"));
 
                 // page range should have unspaced en-dash; validate that page is range not section link
                 string page = Tools.GetTemplateParameterValue(newValue, "page");
