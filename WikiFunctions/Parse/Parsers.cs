@@ -2569,7 +2569,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex YearInDate = new Regex(@"(\|\s*)date(\s*=\s*[12]\d{3}\s*)(?=\||}})", RegexOptions.Compiled);
 
         private static readonly Regex DupeFields = new Regex(@"((\|\s*([a-z\d]+)\s*=\s*([^\{\}\|]*?))\s*(?:\|.*?)?)\|\s*\3\s*=\s*([^\{\}\|]*?)\s*(\||}})", RegexOptions.Singleline | RegexOptions.Compiled);
-        private static readonly Regex UnspacedCommaPageRange = new Regex(@"((?:[ ,]|^)\d+),(\d+(?:[ ,]|$))", RegexOptions.Compiled);
+        private static readonly Regex UnspacedCommaPageRange = new Regex(@"((?:[ ,–]|^)\d+),(\d+(?:[ ,–]|$))", RegexOptions.Compiled);
 
         /// <summary>
         /// Applies various formatting fixes to citation templates
@@ -2705,11 +2705,11 @@ namespace WikiFunctions.Parse
                 newValue = NoCommaAmericanDates.Replace(newValue, @"$1, $2");
                 
                 // fix unspaced comma ranges, avoid pages=12,345 as could be valid page number
-                if(Regex.Matches(Tools.GetTemplateParameterValue(newValue, "pages"), @"\b\d{1,2},\d{3}\b").Count != 1)
+                if(Regex.Matches(Tools.GetTemplateParameterValue(newValue, "pages"), @"\b\d{1,2},\d{3}\b").Count == 0)
                 {
-                while(UnspacedCommaPageRange.IsMatch(Tools.GetTemplateParameterValue(newValue, "pages")))
-                    newValue = Tools.UpdateTemplateParameterValue(newValue, "pages",
-                                                                  UnspacedCommaPageRange.Replace(Tools.GetTemplateParameterValue(newValue, "pages"), "$1, $2"));
+                    while(UnspacedCommaPageRange.IsMatch(Tools.GetTemplateParameterValue(newValue, "pages")))
+                        newValue = Tools.UpdateTemplateParameterValue(newValue, "pages",
+                                                                      UnspacedCommaPageRange.Replace(Tools.GetTemplateParameterValue(newValue, "pages"), "$1, $2"));
                 }
                 
                 // page range should have unspaced en-dash; validate that page is range not section link
