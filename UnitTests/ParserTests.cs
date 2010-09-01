@@ -1897,6 +1897,12 @@ there]"), "multiple newlines removed");
             // only first reported
             Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now} or {{now} was", ref bracketLength));
             Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now} or [[now] was", ref bracketLength));
+            
+            Assert.AreEqual(115, Parsers.UnbalancedBrackets(        @"==External links==
+*[http://www.transfermarkt.de/profil.html]&section=p&teamid=458 Profile] at Transfermarkt.de
+*[http://www.vi.nl/Spelers
+", ref bracketLength));
+            Assert.AreEqual(1, bracketLength);
         }
         
         [Test]

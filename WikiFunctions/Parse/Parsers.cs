@@ -3226,7 +3226,7 @@ namespace WikiFunctions.Parse
             if (open == 0 && closed >= 1)
                 return articleText.IndexOf(closingBrackets);
 
-            if (open >= 1 && closed == 0)
+            if (open >= 1)
                 return articleText.IndexOf(openingBrackets);
 
             return -1;
