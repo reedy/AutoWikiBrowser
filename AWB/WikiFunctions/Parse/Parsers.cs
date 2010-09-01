@@ -447,11 +447,11 @@ namespace WikiFunctions.Parse
 
             int tagsToAdd = WikiRegexes.MultipleIssuesTemplates.Matches(zerothSection).Count;
 
-            // if currently no {{Article issues}} and less than the min number of cleanup templates, do nothing
+            // if currently no {{Multiple issues}} and less than the min number of cleanup templates, do nothing
             if (!WikiRegexes.MultipleIssues.IsMatch(zerothSection) && WikiRegexes.MultipleIssuesTemplates.Matches(zerothSection).Count < MinCleanupTagsToCombine)
                 return (articleText);
 
-            // only add tags to articleissues if new tags + existing >= MinCleanupTagsToCombine
+            // only add tags to mulitipleissues if new tags + existing >= MinCleanupTagsToCombine
             if ((WikiRegexes.MultipleIssuesTemplateNameRegex.Matches(WikiRegexes.MultipleIssues.Match(zerothSection).Value).Count + tagsToAdd) < MinCleanupTagsToCombine || tagsToAdd == 0)
                 return (articleText);
 
@@ -483,7 +483,7 @@ namespace WikiFunctions.Parse
             if (ai.Length > 0)
                 zerothSection = zerothSection.Replace(ai, ai.Substring(0, ai.Length - 2) + newTags + @"}}");
 
-            else // add {{article issues}} to top of article, metaDataSorter will arrange correctly later
+            else // add {{Multiple issues}} to top of article, metaDataSorter will arrange correctly later
                 zerothSection = @"{{Multiple issues" + newTags + "}}\r\n" + zerothSection;
 
             // Parsers.Conversions will add any missing dates and correct ...|wikify date=May 2008|...
