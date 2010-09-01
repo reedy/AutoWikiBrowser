@@ -3313,8 +3313,8 @@ now"));
             Assert.AreEqual(CitePodcast, Parsers.CiteTemplateDates(CitePodcast));
 
             // more than one date in a citation
-            Assert.AreEqual("{{cite foo|date=2008-12-11|accessdate=2008-08-07}}", Parsers.CiteTemplateDates("{{cite foo|date=2008-December-11|accessdate=2008-Aug.-07}}"));
-            Assert.AreEqual("{{cite foo|date=2008-12-11|accessdate=2008-08-07}}", Parsers.CiteTemplateDates("{{cite foo|date=2008-Dec.-11|accessdate=2008-Aug.-07}}"));
+            Assert.AreEqual("{{cite web|date=2008-12-11|accessdate=2008-08-07}}", Parsers.CiteTemplateDates("{{cite web|date=2008-December-11|accessdate=2008-Aug.-07}}"));
+            Assert.AreEqual("{{cite web|date=2008-12-11|accessdate=2008-08-07}}", Parsers.CiteTemplateDates("{{cite web|date=2008-Dec.-11|accessdate=2008-Aug.-07}}"));
 
             // don't apply fixes when ambiguous dates present
             string ambig = @"now {{cite web | url=http://site.it | title=hello|date = 5-4-1998}} was
