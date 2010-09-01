@@ -2246,8 +2246,9 @@ namespace WikiFunctions.Parse
             //repair bad external links
             articleText = SyntaxRegexExternalLinkToImageURL.Replace(articleText, "[$1]");
             
-            // fix newline in external link description
-            articleText = ExternalLinksNewline.Replace(articleText, "$1 $2");
+            // fix newline(s) in external link description
+            while(ExternalLinksNewline.IsMatch(articleText))
+                articleText = ExternalLinksNewline.Replace(articleText, "$1 $2");
 
             //repair bad internal links
             articleText = SyntaxRegexSimpleWikilinkStartsWithSpaces.Replace(articleText, "[[$1]]");
