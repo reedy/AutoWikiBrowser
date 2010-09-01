@@ -2561,7 +2561,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex CiteTemplatesJournalVolumeAndIssue = new Regex(@"(?<=\|\s*volume\s*=\s*[0-9VXMILC]+?)(?:[;,]?\s*(?:no[\.:;]?|(?:numbers?|issue|iss)\s*[:;]?))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex CiteTemplatesJournalIssue = new Regex(@"(?<=\|\s*issue\s*=\s*)(?:issues?|(?:nos?|iss)(?:[\.,;:]|\b)|numbers?[\.,;:]?)(?:&nbsp;)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex CiteTemplatesPageRange = new Regex(@"(?<=\|\s*pages?\s*=[^\|{}=/\\]*?)\b(\d+)\s*[-—]\s*(\d+)", RegexOptions.Compiled);
-        private static readonly Regex CiteTemplatesPageRangeName = new Regex(@"(\|\s*)page(\s*=\s*\d+\s*–\s*\d)", RegexOptions.Compiled);
+        private static readonly Regex CiteTemplatesPageRangeName = new Regex(@"(\|\s*)page(\s*=\s*\d+\s*[–,]\s*\d)", RegexOptions.Compiled);
 
         private static readonly Regex AccessDateYear = new Regex(@"(?<=\|\s*accessdate\s*=\s*(?:[1-3]?\d\s+" + WikiRegexes.MonthsNoGroup + @"|\s*" + WikiRegexes.MonthsNoGroup + @"\s+[1-3]?\d))(\s*)\|\s*accessyear\s*=\s*(20[01]\d)\s*(\||}})", RegexOptions.Compiled);
         private static readonly Regex AccessDayMonthDay = new Regex(@"\|\s*access(?:daymonth|month(?:day)?|year)\s*=\s*(?=\||}})", RegexOptions.Compiled);
@@ -2757,7 +2757,7 @@ namespace WikiFunctions.Parse
                         newValue = CiteTemplatesPageRange.Replace(newValue, @"$1–$2");
                 }
 
-                // page range should use 'pages' parameter not 'page'
+                // page range or list should use 'pages' parameter not 'page'
                 newValue = CiteTemplatesPageRangeName.Replace(newValue, @"$1pages$2");
 
                 // remove ordinals from dates
