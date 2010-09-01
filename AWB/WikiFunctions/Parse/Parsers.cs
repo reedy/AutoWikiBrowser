@@ -1523,7 +1523,7 @@ namespace WikiFunctions.Parse
             return found;
         }
 
-        private const string SiCitStart = @"(?si)(\{\{\s*cit[^{}]*\|\s*";
+        private const string SiCitStart = @"(?si)(\|\s*";
         private const string CitAccessdate = SiCitStart + @"(?:access|archive)date\s*=\s*";
         private const string CitDate = SiCitStart + @"(?:archive|air)?date2?\s*=\s*";
         private const string CitYMonthD = SiCitStart + @"(?:archive|air|access)?date2?\s*=\s*\d{4})[-/\s]";
@@ -1614,40 +1614,50 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             // note some incorrect date formats such as 3-2-2009 are ambiguous as could be 3-FEB-2009 or MAR-2-2009
-            // these fixes don't address such errors
+            // these fixes don't address such errors   
             string articleTextlocal = "";
-
+            
             // loop in case a single citation has multiple dates to be fixed
             while (articleTextlocal != articleText)
             {
                 articleTextlocal = articleText;
-
-                // convert invalid date formats like DD-MM-YYYY, MM-DD-YYYY, YYYY-D-M, YYYY-DD-MM, YYYY_MM_DD etc. to iso format of YYYY-MM-DD
-                // for accessdate= and archivedate=
-                // provided no ambiguous ones
-                if (AccessOrArchiveDate.IsMatch(articleText) && !AmbiguousCiteTemplateDates(articleText))
-                    foreach (RegexReplacement rr in CiteTemplateIncorrectISOAccessdates)
-                        articleText = rr.Regex.Replace(articleText, rr.Replacement);
-
-                // date=, archivedate=, airdate=, date2=
-                if (CiteTemplateArchiveAirDate.IsMatch(articleText) && !AmbiguousCiteTemplateDates(articleText))
+                
+                if(!AmbiguousCiteTemplateDates(articleText))
                 {
-                    foreach (RegexReplacement rr in CiteTemplateIncorrectISODates)
-                        articleText = rr.Regex.Replace(articleText, rr.Replacement);
+                    // loop in case a single citation has multiple dates to be fixed
+                    foreach (Match m in WikiRegexes.CiteTemplate.Matches(articleText))
+                    {
+                        string at  =m.Value;
 
-                    // date = YYYY-Month-DD fix
-                    foreach (RegexReplacement rr in CiteTemplateAbbreviatedMonths)
-                        articleText = rr.Regex.Replace(articleText, rr.Replacement);
+                        // convert invalid date formats like DD-MM-YYYY, MM-DD-YYYY, YYYY-D-M, YYYY-DD-MM, YYYY_MM_DD etc. to iso format of YYYY-MM-DD
+                        // for accessdate= and archivedate=
+                        // provided no ambiguous ones
+                        if (AccessOrArchiveDate.IsMatch(at))
+                            foreach (RegexReplacement rr in CiteTemplateIncorrectISOAccessdates)
+                                at = rr.Regex.Replace(at, rr.Replacement);
+
+                        // date=, archivedate=, airdate=, date2=
+                        if (CiteTemplateArchiveAirDate.IsMatch(at))
+                        {
+                            foreach (RegexReplacement rr in CiteTemplateIncorrectISODates)
+                                at = rr.Regex.Replace(at, rr.Replacement);
+
+                            // date = YYYY-Month-DD fix
+                            foreach (RegexReplacement rr in CiteTemplateAbbreviatedMonths)
+                                at = rr.Regex.Replace(at, rr.Replacement);
+                        }
+                        
+                        if(!at.Equals(m.Value))
+                            articleText = articleText.Replace(m.Value, at);
+                    }
                 }
 
                 // all citation dates
                 articleText = CiteTemplateDateYYYYDDMMFormat.Replace(articleText, "$1-$3-$2$4"); // YYYY-DD-MM to YYYY-MM-DD
                 articleText = CiteTemplateTimeInDateParameter.Replace(articleText, "$1<!--$2-->"); // Removes time from date fields
             }
-
             return articleText;
         }
-
 
         private static readonly Regex PossibleAmbiguousCiteDate = new Regex(@"(?<={{\s*[Cc]it[ae][^{}]+?\|\s*(?:access|archive|air)?date2?\s*=\s*)(0?[1-9]|1[0-2])[/_\-\.](0?[1-9]|1[0-2])[/_\-\.](20\d\d|19[7-9]\d|[01]\d)\b");
 
