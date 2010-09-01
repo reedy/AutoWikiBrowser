@@ -904,6 +904,7 @@ namespace AutoWikiBrowser
             this.reparseToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
             this.reparseToolStripMenuItem.Text = "&Re-parse";
             this.reparseToolStripMenuItem.Click += new System.EventHandler(this.reparseToolStripMenuItem_Click);
+            this.reparseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.F5)));
             // 
             // commentSelectedToolStripMenuItem
             // 
