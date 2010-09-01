@@ -2569,7 +2569,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex YearInDate = new Regex(@"(\|\s*)date(\s*=\s*[12]\d{3}\s*)(?=\||}})", RegexOptions.Compiled);
 
         private static readonly Regex DupeFields = new Regex(@"((\|\s*([a-z\d]+)\s*=\s*([^\{\}\|]*?))\s*(?:\|.*?)?)\|\s*\3\s*=\s*([^\{\}\|]*?)\s*(\||}})", RegexOptions.Singleline | RegexOptions.Compiled);
-        private static readonly Regex UnspacedCommaPageRange = new Regex(@"(\d),(\d)", RegexOptions.Compiled);
+        private static readonly Regex UnspacedCommaPageRange = new Regex(@"((?:[ ,]|^)\d+),(\d+(?:[ ,]|$))", RegexOptions.Compiled);
 
         /// <summary>
         /// Applies various formatting fixes to citation templates
