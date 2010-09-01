@@ -1855,6 +1855,14 @@ was [[foo|bar]] too"));
             Assert.AreEqual(corr, Parsers.FixSyntax(@"Foo<small>bar<small/> was"));
             Assert.AreEqual(corr, Parsers.FixSyntax(corr));
         }
+        
+        [Test]
+        public void ExternalLinksNewline()
+        {
+            Assert.AreEqual(@"here [http://www.site.com text here]", Parsers.FixSyntax(@"here [http://www.site.com text
+here]"), "newline removed");
+            Assert.AreEqual(@"here [http://www.site.com text here]", Parsers.FixSyntax(@"here [http://www.site.com text here]"), "no change if no new line");
+        }
 
         [Test]
         public void UnbalancedBrackets()
@@ -3480,9 +3488,6 @@ x
             // no delinking needed
             Assert.AreEqual(@"[http://www.site.com some great stuff]", Parsers.FixSyntax(@"[http://www.site.com some great stuff]"));
             Assert.AreEqual(@"now [http://www.site.com some great stuff] here", Parsers.FixSyntax(@"now [http://www.site.com some great stuff] here"));
-            Assert.AreEqual(@"<ref>[http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=32159 Message to
-complementary and alternative medicine: evidence is a better friend than power. Andrew J Vickers]</ref>", Parsers.FixSyntax(@"<ref>[http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=32159 Message to
-complementary and alternative medicine: evidence is a better friend than power. Andrew J Vickers]</ref>"));
             Assert.AreEqual(@"[http://www.site.com some [[great]] stuff]", Parsers.FixSyntax(@"[http://www.site.com some [[great]] stuff]"));
             Assert.AreEqual(@"[http://www.site.com some great [[stuff]]]", Parsers.FixSyntax(@"[http://www.site.com some great [[stuff]]]"));
             Assert.AreEqual(@"[http://www.site.com [[some great stuff|loads of stuff]]]", Parsers.FixSyntax(@"[http://www.site.com [[some great stuff|loads of stuff]]]"));
