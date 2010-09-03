@@ -366,12 +366,12 @@ namespace WikiFunctions
         /// <summary>
         /// Matches single and multiline templates, AND those with nested templates
         /// </summary>
-        public static readonly Regex NestedTemplates = new Regex(@"{{(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}}");
+        public static readonly Regex NestedTemplates = new Regex(@"{{(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}}", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches templates: group 1 matches the names of templates. Not for templates including the template namespace prefix
         /// </summary>
-        public static readonly Regex TemplateName = new Regex(@"{{\s*([^\|{}]+?)(?:\s*<!--.*?-->\s*)?\s*(?:\||}})");
+        public static readonly Regex TemplateName = new Regex(@"{{\s*([^\|{}]+?)(?:\s*<!--.*?-->\s*)?\s*(?:\||}})", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches external links
@@ -895,7 +895,7 @@ namespace WikiFunctions
         /// <summary>
         /// matches &lt;ref&gt; tags, including named references
         /// </summary>
-        public static readonly Regex Refs = new Regex(@"(<\s*ref\s+(?:name|group)\s*=\s*[^<>]*?/\s*>|<\s*ref\b[^<>]*?>(?>(?!<\s*ref\b[^>/]*?>|<\s*/\s*ref\s*>).|<\s*ref\b[^>/]*?>(?<DEPTH>)|<\s*/\s*ref\s*>(?<-DEPTH>))*(?(DEPTH)(?!))<\s*/\s*ref\s*>)", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex Refs = new Regex(@"(<\s*ref\s+(?:name|group)\s*=\s*[^<>]*?/\s*>|<\s*ref\b[^<>]*?>(?>(?!<\s*ref\b[^>/]*?>|<\s*/\s*ref\s*>).|<\s*ref\b[^>/]*?>(?<DEPTH>)|<\s*/\s*ref\s*>(?<-DEPTH>))*(?(DEPTH)(?!))<\s*/\s*ref\s*>)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
         /// matches &lt;cite&gt; tags

@@ -921,10 +921,10 @@ namespace WikiFunctions.Parse
         }
 
         private const string RefsPunctuation = @"([,\.;])";
-        private static readonly Regex RefsAfterPunctuationR = new Regex(RefsPunctuation + @" *" + WikiRegexes.Refs, RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex RefsBeforePunctuationR = new Regex(@" *" + WikiRegexes.Refs + @" *" + RefsPunctuation + @"([^,\.:;])", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex RefsAfterPunctuationR = new Regex(RefsPunctuation + @" *" + WikiRegexes.Refs, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex RefsBeforePunctuationR = new Regex(@" *" + WikiRegexes.Refs + @" *" + RefsPunctuation + @"([^,\.:;])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex RefsBeforePunctuationQuick = new Regex(@">\s*" + RefsPunctuation, RegexOptions.Compiled);
-        private static readonly Regex RefsAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *" + WikiRegexes.Refs, RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex RefsAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *" + WikiRegexes.Refs, RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
         /// Puts &lt;ref&gt; references after punctuation (comma, full stop) per WP:REFPUNC when this is the majority style in the article
@@ -942,8 +942,6 @@ namespace WikiFunctions.Parse
             {
                 // check whether refs before punctuation or refs after punctuation is the dominant format
                 int RBefore = RefsBeforePunctuationR.Matches(articleText).Count;
-                int ab = WikiRegexes.Refs.Matches(articleText).Count;
-                ab++;
                 
                 if(RBefore > 0)
                 {
@@ -953,6 +951,7 @@ namespace WikiFunctions.Parse
                     if ((RAfter / RBefore) > 3)
                     {
                         string articleTextlocal = "";
+                        
                         while (!articleTextlocal.Equals(articleText))
                         {
                             articleTextlocal = articleText;
