@@ -2327,14 +2327,14 @@ complementary and alternative medicine: evidence is a better friend than power. 
 |occupation=Railroad tycoon
 |children= 10
 }}
-{{DEFAULTSORT:Hill, James J.}}", PD = @"{{Persondata         <!-- Metadata: see [[Wikipedia:Persondata]] -->
-| NAME              =Hill, James J.
-| ALTERNATIVE NAMES =
-| SHORT DESCRIPTION =
-| DATE OF BIRTH     =September 16, 1838
-| PLACE OF BIRTH    =[[Guelph/Eramosa, Ontario|Eramosa Township]], [[Ontario]], [[Canada]]
-| DATE OF DEATH     =May 29, 1916
-| PLACE OF DEATH    =[[St. Paul, Minnesota|Saint Paul]], [[Minnesota]]
+{{DEFAULTSORT:Hill, James J.}}", PD = @"{{Persondata <!-- Metadata: see [[Wikipedia:Persondata]]. -->
+| NAME              = Hill, James J.
+| ALTERNATIVE NAMES = 
+| SHORT DESCRIPTION = 
+| DATE OF BIRTH     = September 16, 1838
+| PLACE OF BIRTH    = [[Guelph/Eramosa, Ontario|Eramosa Township]], [[Ontario]], [[Canada]]
+| DATE OF DEATH     = May 29, 1916
+| PLACE OF DEATH    = [[St. Paul, Minnesota|Saint Paul]], [[Minnesota]]
 }}", AT = @"{{birthdate|1838|9|16}}
 {{dda|1916|5|29|1838|9|16}}
 {{Infobox foo
