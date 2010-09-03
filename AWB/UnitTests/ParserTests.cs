@@ -1861,6 +1861,8 @@ was [[foo|bar]] too"));
         {
             Assert.AreEqual(@"here [http://www.site.com text here]", Parsers.FixSyntax(@"here [http://www.site.com text
 here]"), "newline removed");
+            Assert.AreEqual(@"here [http://www.site.com text here ]", Parsers.FixSyntax(@"here [http://www.site.com text here
+]"), "newline removed");
             Assert.AreEqual(@"here [http://www.site.com text here there]", Parsers.FixSyntax(@"here [http://www.site.com text
 here
 there]"), "multiple newlines removed");
