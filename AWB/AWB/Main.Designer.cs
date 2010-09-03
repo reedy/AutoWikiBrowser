@@ -1509,8 +1509,7 @@ namespace AutoWikiBrowser
             // testRegexToolStripMenuItem
             // 
             this.testRegexToolStripMenuItem.Name = "testRegexToolStripMenuItem";
-            this.testRegexToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+T";
-            this.testRegexToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
+            this.testRegexToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control |System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.T)));
             this.testRegexToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.testRegexToolStripMenuItem.Text = "Regex &tester";
             this.testRegexToolStripMenuItem.Click += new System.EventHandler(this.launchRegexTester);
