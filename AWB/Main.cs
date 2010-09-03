@@ -4943,8 +4943,26 @@ window.scrollTo(0, diffTopY);
             if (string.IsNullOrEmpty(_catName.CategoryName) || !dires.Equals(DialogResult.OK))
                 return;
 
-            txtEdit.Text += "\r\n\r\n[[" + _catName.CategoryName + "]]";
-            ReparseEditBox();
+            string catPage = "";
+            
+            // attempt validation of the category's existence, warn user if it doesn't exist
+            try
+            {
+                catPage = Variables.MainForm.TheSession.Editor.SynchronousEditor.Clone().Open(_catName.CategoryName, false);
+            }
+            catch
+            {
+                catPage = "okay";
+            }
+            
+            if(catPage.Length > 0 ||
+               MessageBox.Show(_catName.CategoryName + " does not exist. Add it to the page anyway?",
+                   "Non-existent category",  MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+               == DialogResult.Yes)
+            {
+                txtEdit.Text += "\r\n\r\n[[" + _catName.CategoryName + "]]";
+                ReparseEditBox();
+            }
         }
 
         private void UsageStatsMenuItem_Click(object sender, EventArgs e)
