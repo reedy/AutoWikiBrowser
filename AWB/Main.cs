@@ -4938,9 +4938,10 @@ window.scrollTo(0, diffTopY);
 
         private void categoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _catName.ShowDialog();
+            DialogResult dires =  _catName.ShowDialog();
 
-            if (string.IsNullOrEmpty(_catName.CategoryName)) return;
+            if (string.IsNullOrEmpty(_catName.CategoryName) || !dires.Equals(DialogResult.OK))
+                return;
 
             txtEdit.Text += "\r\n\r\n[[" + _catName.CategoryName + "]]";
             ReparseEditBox();

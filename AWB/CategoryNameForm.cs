@@ -50,6 +50,7 @@ namespace AutoWikiBrowser
 
         private void btnOk_Click(object sender, EventArgs e)
         {
+            btnOk.DialogResult = DialogResult.OK;
             Close();
         }
     }
