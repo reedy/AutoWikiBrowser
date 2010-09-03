@@ -472,6 +472,7 @@ bar</ INCLUDEONLY>");
             RegexAssert.Matches("Should match distinct templates", WikiRegexes.NestedTemplates, "{{foo}}{{bar}}", "{{foo}}", "{{bar}}");
             RegexAssert.Matches("{{foo| {bar} }}", WikiRegexes.NestedTemplates, "{{foo| {bar} }}");
             RegexAssert.Matches("{{foo {{bar}} end}}", WikiRegexes.NestedTemplates, "{{foo {{bar}} end}}");
+            RegexAssert.Matches("{{foo {bar} end}}", WikiRegexes.NestedTemplates, "{{foo {bar} end}}");
 
             RegexAssert.Matches("{{ foo |bar}}", WikiRegexes.NestedTemplates, "{{ foo |bar}}");
             RegexAssert.Matches("{{foo<!--comm-->|bar}}", WikiRegexes.NestedTemplates, "{{foo<!--comm-->|bar}}");
@@ -525,7 +526,11 @@ Start date and age
         public void Refs()
         {
             RegexAssert.Matches(WikiRegexes.Refs, "<ref>foo</ref>", "<ref>foo</ref>");
+            RegexAssert.Matches(WikiRegexes.Refs, "<ref>foo<br></ref>", "<ref>foo<br></ref>");
             RegexAssert.Matches(WikiRegexes.Refs, "<ref>foo<br>bar</ref>", "<ref>foo<br>bar</ref>");
+            
+            RegexAssert.IsMatch(WikiRegexes.Refs, @"<ref>{{cite web 
+|url=http://www.h.com/.php?tmi=5177|title=Season-by-season record |accessdate = 2008-12-01}}</ref>");
 
             RegexAssert.Matches(WikiRegexes.Refs, "<REF NAME=\"foo\" >bar</ref >", "<REF NAME=\"foo\" >bar</ref >");
             RegexAssert.Matches(WikiRegexes.Refs, "<REF  NAME=foo>bar< /ref>", "<REF  NAME=foo>bar< /ref>");
