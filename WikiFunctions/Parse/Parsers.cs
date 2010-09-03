@@ -2841,12 +2841,13 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Matches the {{birth date}} family of templates
         /// </summary>
-        private static readonly Regex BirthDate = Tools.NestedTemplateRegex(new List<string>(new[] { "birth date", "birth-date", "dob", "bda", "birth date and age", "birthdate and age", "birthdate" }));
+        private static readonly Regex BirthDate = Tools.NestedTemplateRegex(new List<string>(new[] { "birth date", "birth-date", "dob", "bda", "birth date and age", "birthdate and age", "Date of birth and age", "BDA", "Birthdateandage", 
+                                                                                                 "Birth Date and age", "BDa", "BdA", "Euro birth date and age", "birthdate" }));
         
         /// <summary>
         /// Matches the {{death  date}} family of templates
         /// </summary>
-        private static readonly Regex DeathDate = Tools.NestedTemplateRegex(new List<string>(new[] { "death date", "death-date", "dda", "death date and age", "deathdate" }));
+        private static readonly Regex DeathDate = Tools.NestedTemplateRegex(new List<string>(new[] { "death date", "death-date", "dda", "death date and age", "deathdateandage", "deathdate" }));
         
         /// <summary>
         /// Matches the {{city-state}} template
