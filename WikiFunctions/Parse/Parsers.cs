@@ -2842,7 +2842,7 @@ namespace WikiFunctions.Parse
         /// Matches the {{birth date}} family of templates
         /// </summary>
         private static readonly Regex BirthDate = Tools.NestedTemplateRegex(new List<string>(new[] { "birth date", "birth-date", "dob", "bda", "birth date and age", "birthdate and age", "Date of birth and age", "BDA", "Birthdateandage", 
-                                                                                                 "Birth Date and age", "BDa", "BdA", "Euro birth date and age", "birthdate" }));
+                                                                                                 "Birth Date and age", "birthdate" }));
         
         /// <summary>
         /// Matches the {{death  date}} family of templates
