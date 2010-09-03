@@ -735,7 +735,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the various {{birth date and age}} templates, group 1 being the year of birth
         /// </summary>
-        public static readonly Regex DateBirthAndAge = new Regex(@"{{\s*[Bb](?:(?:da|irth date(?: and age)?)\s*(?:\|\s*[md]f\s*=\s*y(?:es)?\s*)?\|\s*|irth-date\s*\|[^{}\|]*?)(?:year *= *)?\b([12]\d{3})\s*(?:\||}})");
+        public static readonly Regex DateBirthAndAge = new Regex(@"{{\s*[Bb](?:(?:da|irth ?date(?: and age)?)\s*(?:\|\s*[md]f\s*=\s*y(?:es)?\s*)?\|\s*|irth-date\s*\|[^{}\|]*?)(?:year *= *)?\b([12]\d{3})\s*(?:\||}})");
 
         /// <summary>
         /// Matches the various {{death date}} templates, group 1 being the year of death
