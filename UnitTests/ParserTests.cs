@@ -3058,6 +3058,7 @@ now"));
         public void FixUnbalancedBracketsRef()
         {
             Assert.AreEqual(@"now <ref>foo</ref>", Parsers.FixSyntax(@"now <ref>>foo</ref>"));
+            Assert.AreEqual(@"now <ref>[http://foo.com/bar/ text here]</ref>", Parsers.FixSyntax(@"now <ref>[http://foo.com/bar/ text here[</ref>"));
         }
         
         [Test]

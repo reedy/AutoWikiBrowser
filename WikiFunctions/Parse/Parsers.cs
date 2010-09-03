@@ -2382,6 +2382,8 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex QuadrupleCurlyBrackets = new Regex(@"(?<=^{{[^{}\r\n]+}})}}(\s)$", RegexOptions.Multiline | RegexOptions.Compiled);
 
+        private static readonly Regex RefClosingOpeningBracket = new Regex(@"\[(\s*</ref>)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        
         /// <summary>
         /// Applies some fixes for unbalanced brackets, applied if there are unbalanced brackets
         /// </summary>
@@ -2446,6 +2448,9 @@ namespace WikiFunctions.Parse
                         case '[':
                             // external link missing closing ]
                             articleTextTemp = ExternalLinkMissingClosing.Replace(articleTextTemp, "]$1");
+                            
+                            // ref with closing [ in error
+                            articleTextTemp = RefClosingOpeningBracket.Replace(articleTextTemp, "]$1");
                             break;
 
                         case ']':
