@@ -525,6 +525,7 @@ Start date and age
         public void Refs()
         {
             RegexAssert.Matches(WikiRegexes.Refs, "<ref>foo</ref>", "<ref>foo</ref>");
+            RegexAssert.Matches(WikiRegexes.Refs, "<ref>foo<br>bar</ref>", "<ref>foo<br>bar</ref>");
 
             RegexAssert.Matches(WikiRegexes.Refs, "<REF NAME=\"foo\" >bar</ref >", "<REF NAME=\"foo\" >bar</ref >");
             RegexAssert.Matches(WikiRegexes.Refs, "<REF  NAME=foo>bar< /ref>", "<REF  NAME=foo>bar< /ref>");
