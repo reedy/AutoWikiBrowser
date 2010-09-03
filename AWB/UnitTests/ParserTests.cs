@@ -2285,10 +2285,8 @@ complementary and alternative medicine: evidence is a better friend than power. 
             string i4= @"{{infobox foo| birthyear = 1950 | birthmonth=06 | birthday=27}}";
             Assert.AreEqual(i4 + a2 + @"{{use dmy dates}}", Parsers.PersonData(i4 + a + @"{{use dmy dates}}", "test"), "takes dates from birthyear etc. fields");
             
-            string i4d= @"{{infobox foo| deathyear = 1950 | deathmonth=06 | deathday=27}}";
-            Assert.AreEqual(i4d + a2.Replace(@"DATE OF BIRTH=27 June 1950
-            |DATE OF DEATH= ", @"DATE OF BIRTH=
-            |DATE OF DEATH= 27 June 1950") + @"{{use dmy dates}}", Parsers.PersonData(i4d + a + @"{{use dmy dates}}", "test"), "takes dates from deathyear etc. fields");
+            string i5= @"{{infobox foo| yob = 1950 | mob=06 | dob=27}}";
+            Assert.AreEqual(i5 + a2 + @"{{use dmy dates}}", Parsers.PersonData(i5 + a + @"{{use dmy dates}}", "test"), "takes dates from birthyear etc. fields");
         }
         
         [Test]
@@ -2305,6 +2303,16 @@ complementary and alternative medicine: evidence is a better friend than power. 
             Assert.AreEqual(i2 + a2.Replace("27 June 1950", "1950-06-27"), Parsers.PersonData(i2 + a, "test"));
             Assert.AreEqual(i2.Replace("27}}", "27}} in London") + a2.Replace("27 June 1950", "1950-06-27"),
                             Parsers.PersonData(i2.Replace("27}}", "27}} in London") + a, "test"), "Completes persondata from {{death date}} when extra data in infobox field");
+        
+            string i4d= @"{{infobox foo| deathyear = 1950 | deathmonth=06 | deathday=27}}";
+            Assert.AreEqual(i4d + a2.Replace(@"DATE OF BIRTH=27 June 1950
+            |DATE OF DEATH= ", @"DATE OF BIRTH=
+            |DATE OF DEATH= 27 June 1950") + @"{{use dmy dates}}", Parsers.PersonData(i4d + a + @"{{use dmy dates}}", "test"), "takes dates from deathyear etc. fields");
+            
+            string i5= @"{{infobox foo| yod = 1950 | mod=06 | dod=27}}";
+            Assert.AreEqual(i5 + a2.Replace(@"DATE OF BIRTH=27 June 1950
+            |DATE OF DEATH= ", @"DATE OF BIRTH=
+            |DATE OF DEATH= 27 June 1950") + @"{{use dmy dates}}", Parsers.PersonData(i5 + a + @"{{use dmy dates}}", "test"), "takes dates from deathyear etc. fields");        
         }
         
         [Test]
