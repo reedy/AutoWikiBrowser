@@ -3415,6 +3415,7 @@ window.scrollTo(0, diffTopY);
         private void metadataTemplateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             txtEdit.SelectedText = WikiRegexes.PersonDataDefault;
+            txtEdit.Text = WikiFunctions.Parse.Parsers.PersonData(txtEdit.Text, TheArticle.Name);
         }
 
         private void humanNameCategoryKeyToolStripMenuItem_Click(object sender, EventArgs e)
