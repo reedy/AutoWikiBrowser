@@ -700,7 +700,7 @@ namespace WikiFunctions
         public static readonly Regex Persondata = Tools.NestedTemplateRegex(@"Persondata");        
         
         /// <summary>
-        /// The default blank Persondata template for en-wiki
+        /// The default blank Persondata template for en-wiki, from [[Template:Persondata#Usage]]
         /// </summary>
         public const string PersonDataDefault = @"{{Persondata <!-- Metadata: see [[Wikipedia:Persondata]]. -->
 | NAME              = 
