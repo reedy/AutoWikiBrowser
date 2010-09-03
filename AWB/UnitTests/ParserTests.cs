@@ -757,8 +757,12 @@ Jones 2005</ref>"));
             Assert.AreEqual(ellipsis + AllAfter, Parsers.RefsAfterPunctuation(ellipsis + AllAfter));
             
             Assert.AreEqual(AllAfter + @"Foo.<ref>bar</ref> The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "ref moved after punctuation when majority are after");
-           
-             R1 = R1.Replace("Foo", "Foo ");
+            
+            Assert.AreEqual(AllAfter + @"Foo.<ref>ba
+r</ref> The next", Parsers.RefsAfterPunctuation(AllAfter + @"Foo<ref>ba
+r</ref>. The next"), "ref moved after punctuation when majority are after");
+            
+            R1 = R1.Replace("Foo", "Foo ");
             Assert.AreEqual(AllAfter + @"Foo.<ref>bar</ref> The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "Whtisepace before ref cleaned when punctuation moved");
             
             R1 = R1.Replace(".", ",");
