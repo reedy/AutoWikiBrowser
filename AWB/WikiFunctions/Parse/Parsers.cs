@@ -2575,6 +2575,8 @@ namespace WikiFunctions.Parse
         private static readonly Regex DupeFields = new Regex(@"((\|\s*([a-z\d]+)\s*=\s*([^\{\}\|]*?))\s*(?:\|.*?)?)\|\s*\3\s*=\s*([^\{\}\|]*?)\s*(\||}})", RegexOptions.Singleline | RegexOptions.Compiled);
         private static readonly Regex UnspacedCommaPageRange = new Regex(@"((?:[ ,–]|^)\d+),(\d+(?:[ ,–]|$))", RegexOptions.Compiled);
 
+        private static readonly List<string> ParametersToDequote = new List<string>(new [] {"title", "trans_title"});
+        
         /// <summary>
         /// Applies various formatting fixes to citation templates
         /// </summary>
@@ -2644,11 +2646,14 @@ namespace WikiFunctions.Parse
                     newValue = WorkInItalics.Replace(newValue, "$1$2");
                 
                 // remove quotes around title field: are automatically added by template markup
-                string theTitle = Tools.GetTemplateParameterValue(newValue, "title");
+                foreach(string dequoteParam in ParametersToDequote)
+                {
+                    string theTitle = Tools.GetTemplateParameterValue(newValue, dequoteParam);
+                    
+                    if(theTitle.Contains(@"""") && !theTitle.Trim('"').Contains(@""""))
+                        newValue = newValue.Replace(theTitle, theTitle.Trim('"'));
+                }
                 
-                if(theTitle.Contains(@"""") && !theTitle.Trim('"').Contains(@""""))
-                    newValue = newValue.Replace(theTitle, theTitle.Trim('"'));
-
                 // page= and pages= fields don't need p. or pp. in them when nopp not set
                 if (Tools.GetTemplateParameterValue(newValue, "nopp").Length == 0 &&
                     !templatename.Equals("cite journal", StringComparison.OrdinalIgnoreCase))
