@@ -2878,7 +2878,7 @@ namespace WikiFunctions.Parse
             // add default persondata if missing
             if (!WikiRegexes.Persondata.IsMatch(articleText))
             {
-                if (IsArticleAboutAPerson(articleText, articleTitle, false))
+                if (IsArticleAboutAPerson(articleText, articleTitle, true))
                     articleText = articleText + Tools.Newline(WikiRegexes.PersonDataDefault);
                 else
                     return articleText;
@@ -4597,7 +4597,8 @@ namespace WikiFunctions.Parse
                 || articleText.Contains(@"[[Category:Presidencies")
                 || articleText.Contains(@"[[Category:Military careers")
                 || CategoryCharacters.IsMatch(articleText)
-                || Tools.NestedTemplateRegex("Infobox cricketer tour biography").IsMatch(articleText))
+                || Tools.NestedTemplateRegex("Infobox cricketer tour biography").IsMatch(articleText)
+                || articleTitle.StartsWith(@"List of "))
                 return false;
 
             if (

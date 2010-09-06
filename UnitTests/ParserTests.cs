@@ -5872,6 +5872,8 @@ foo {{persondata}}
             Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Some words {{death date and age|1960|01|9}}", "foo"));
             Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{RefimproveBLP}}", "foo"));
             Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "foo"));
+            
+            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{BLP sources|foo=bar}}", "List of foo"));
 
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo", "foo"));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"", "foo"));
