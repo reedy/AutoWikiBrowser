@@ -4641,6 +4641,9 @@ namespace WikiFunctions.Parse
                 
                 DD.Add(m.Value);
             }
+            
+            if(WikiRegexes.PeopleInfoboxTemplates.Matches(articleText).Count > 1)
+                return false;
    
             if (WikiRegexes.Persondata.Matches(articleText).Count == 1
                 || articleText.Contains(@"-bio-stub}}")
