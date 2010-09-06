@@ -4600,8 +4600,8 @@ namespace WikiFunctions.Parse
                 || Tools.NestedTemplateRegex("Infobox cricketer tour biography").IsMatch(articleText)
                 || articleTitle.StartsWith(@"List of "))
                 return false;
-
-            if (
+            
+            string MABackground = 
                 Tools.GetTemplateParameterValue(
                     Tools.NestedTemplateRegex(new[]
                                               {
@@ -4611,13 +4611,14 @@ namespace WikiFunctions.Parse
                                                   "Infobox Composer", "Infobox composer",
                                                   "Infobox Musical artist", "Infobox Band"
                                               }).Match(articleText).Value,
-                    "Background").Contains("group_or_band")
-               ||
-               Tools.GetTemplateParameterValue(Tools.NestedTemplateRegex(@"Infobox Chinese-language singer and actor").Match(articleText).Value, "currentmembers").Length > 0)
-            {
-                return false;
-            }
+                    "Background");
 
+            if(MABackground.Contains("group_or_band") || MABackground.Contains("classical_ensemble"))
+                return false;
+
+            if (Tools.GetTemplateParameterValue(Tools.NestedTemplateRegex(@"Infobox Chinese-language singer and actor").Match(articleText).Value, "currentmembers").Length > 0)
+                return false;
+            
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
 
             // not about a person if it's not the principle article on the subject
