@@ -1164,6 +1164,9 @@ namespace WikiFunctions
 
             AWBChangeArticleText("Fix whitespace in links", Parsers.FixLinkWhitespace(ArticleText, Name), true);
             Variables.Profiler.Profile("FixLinkWhitespace");
+            
+            BulletExternalLinks(skip.SkipNoBulletedLink);
+            Variables.Profiler.Profile("BulletExternalLinks");
 
             // does significant fixes
             AWBChangeArticleText("Fix syntax", Parsers.FixSyntax(ArticleText), true, true);
@@ -1223,9 +1226,6 @@ namespace WikiFunctions
 
             AWBChangeArticleText("Redirect tagger", Parsers.RedirectTagger(ArticleText, Name), false);
             Variables.Profiler.Profile("RedirectTagger");
-
-            BulletExternalLinks(skip.SkipNoBulletedLink);
-            Variables.Profiler.Profile("BulletExternalLinks");
 
             AWBChangeArticleText("Remove empty comments", Parsers.RemoveEmptyComments(ArticleText), false);
             Variables.Profiler.Profile("RemoveEmptyComments");
