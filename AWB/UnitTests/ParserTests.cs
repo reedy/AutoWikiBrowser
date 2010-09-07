@@ -7033,6 +7033,9 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 
             text = parser.Tagger("{{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+            
+            text = parser.Tagger("{{uncategorised|date=January 2009}} {{foo}}", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text), "Uncat removed even if other template present");
         }
         
         [Test]
