@@ -4964,8 +4964,7 @@ window.scrollTo(0, diffTopY);
                 txtEdit.Text += "\r\n\r\n[[" + _catName.CategoryName + "]]";
                 
                 // remove any {{uncategorised}} tag now – tagger still counts categories based on saved page revision
-                if(Variables.LangCode.Equals("en"))
-                    txtEdit.Text = WikiRegexes.Uncat.Replace(txtEdit.Text, "");
+                txtEdit.Text = WikiRegexes.Uncat.Replace(txtEdit.Text, "");
                 
                 ReparseEditBox();
             }
