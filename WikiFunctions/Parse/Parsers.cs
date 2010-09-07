@@ -5218,9 +5218,39 @@ namespace WikiFunctions.Parse
             articleText = TagRefsIbid(articleText);
 
             articleText = TagEmptySection(articleText);
+            
+            int totalCategories;
+            double linkCount = Tools.LinkCount(commentsStripped);
+
+            #if DEBUG || UNITTEST
+            if (Globals.UnitTestMode)
+            {
+                totalCategories = Globals.UnitTestIntValue;
+            }
+            else
+            #endif
+            {
+                // {{stub}} --> non-hidden Category:Stubs, don't count this cat
+                totalCategories = CategoryProv.MakeList(new[] { articleTitle }).Count
+                    - Tools.NestedTemplateRegex("stub").Matches(commentsStripped).Count;
+            }
+            
+            if (totalCategories > 0 && WikiRegexes.Uncat.IsMatch(articleText))
+            {
+                articleText = WikiRegexes.Uncat.Replace(articleText, "");
+                tagsRemoved.Add("uncategorised");
+            }
+            
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#.7B.7BDeadend.7D.7D_gets_removed_from_categorized_pages
+            // don't include categories as 'links'
+            if ((linkCount - totalCategories) > 0 && WikiRegexes.DeadEnd.IsMatch(articleText))
+            {
+                articleText = WikiRegexes.DeadEnd.Replace(articleText, "");
+                tagsRemoved.Add("deadend");
+            }
 
             // skip article if contains any template except for stub templates
-            // because templates may provide categories/references
+            // because templates may provide categories/references, so not safe to add tags
             foreach (Match m in WikiRegexes.Template.Matches(articleText))
             {
                 if (!(WikiRegexes.Stub.IsMatch(m.Value)
@@ -5238,23 +5268,7 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            double length = articleText.Length + 1,
-            linkCount = Tools.LinkCount(commentsStripped);
-
-            int totalCategories;
-
-            #if DEBUG || UNITTEST
-            if (Globals.UnitTestMode)
-            {
-                totalCategories = Globals.UnitTestIntValue;
-            }
-            else
-                #endif
-            {
-                // {{stub}} --> non-hidden Category:Stubs, don't count this cat
-                totalCategories = CategoryProv.MakeList(new[] { articleTitle }).Count
-                    - Tools.NestedTemplateRegex("stub").Matches(commentsStripped).Count;
-            }
+            double length = articleText.Length + 1;
 
             if (commentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped))
             {
@@ -5282,11 +5296,6 @@ namespace WikiFunctions.Parse
                     tagsAdded.Add("[[CAT:UNCAT|uncategorised]]");
                 }
             }
-            else if (totalCategories > 0 && WikiRegexes.Uncat.IsMatch(articleText))
-            {
-                articleText = WikiRegexes.Uncat.Replace(articleText, "");
-                tagsRemoved.Add("uncategorised");
-            }
 
             if (linkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(articleText) && Variables.LangCode != "sv"
                 && !Regex.IsMatch(WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower(), @"\bdead ?end\b"))
@@ -5294,13 +5303,6 @@ namespace WikiFunctions.Parse
                 // add dead-end tag
                 articleText = "{{dead end|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                 tagsAdded.Add("[[:Category:Dead-end pages|deadend]]");
-            }
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#.7B.7BDeadend.7D.7D_gets_removed_from_categorized_pages
-            // don't include categories as 'links'
-            else if ((linkCount - totalCategories) > 0 && WikiRegexes.DeadEnd.IsMatch(articleText))
-            {
-                articleText = WikiRegexes.DeadEnd.Replace(articleText, "");
-                tagsRemoved.Add("deadend");
             }
 
             if (linkCount < 3 && ((linkCount / length) < 0.0025) && !WikiRegexes.Wikify.IsMatch(articleText)
