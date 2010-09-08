@@ -423,6 +423,9 @@ now stubborn}}");
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{needs cats}}"));
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{cats needed}}"));
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{cat needed}}"));
+            
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorizedstub}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorized stub}}"));
 
             // no match
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized other template}}"));

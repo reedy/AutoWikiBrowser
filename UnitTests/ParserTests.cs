@@ -6770,7 +6770,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
-            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+            Assert.IsTrue(Tools.NestedTemplateRegex("Uncategorized stub").IsMatch(text));
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
 
             Assert.IsTrue(text.Contains(UncatStub));
@@ -6802,7 +6802,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));            
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
             
-            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+            Assert.IsTrue(Tools.NestedTemplateRegex("Uncategorized stub").IsMatch(text));
             Assert.IsTrue(text.Contains(UncatStub));
 
             text = parser.Tagger(ShortText + Stub + Uncat + Wikify + Orphan + Deadend, "Test", false, out noChange, ref summary);
@@ -6937,7 +6937,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 
 "));
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text));
-            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+            Assert.IsTrue(Tools.NestedTemplateRegex("Uncategorized stub").IsMatch(text));
             Assert.IsTrue(text.Contains(UncatStub));
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
             Variables.SetProjectLangCode("en");
