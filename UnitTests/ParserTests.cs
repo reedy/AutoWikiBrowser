@@ -2684,6 +2684,18 @@ Template:foo}}"));
         }
         
         [Test]
+        public void FixSyntaxCategory()
+        {
+            const string correct = @"Now [[Category:2005 albums]] there";
+            
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"Now {{Category:2005 albums]] there"));
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"Now {{Category:2005 albums}} there"));
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"Now {{ Category:2005 albums]] there"));
+            
+            Assert.AreEqual(correct, Parsers.FixSyntax(correct));
+        }
+        
+        [Test]
         public void FixSyntaxHTTPFormat()
         {
             Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http//www.site.com</ref>"));
