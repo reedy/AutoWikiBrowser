@@ -3543,8 +3543,8 @@ namespace WikiFunctions.Parse
             
             return RegexMainArticle.Replace(articleText,
                                             m => m.Groups[2].Value.Length == 0
-                                            ? "{{main|" + m.Groups[1].Value + "}}"
-                                            : "{{main|" + m.Groups[1].Value + "|l1=" + m.Groups[3].Value + "}}");
+                                            ? "{{Main|" + m.Groups[1].Value + "}}"
+                                            : "{{Main|" + m.Groups[1].Value + "|l1=" + m.Groups[3].Value + "}}");
         }
 
         // Covered by LinkTests.TestFixEmptyLinksAndTemplates()

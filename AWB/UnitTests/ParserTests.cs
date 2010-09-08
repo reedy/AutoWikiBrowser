@@ -5020,8 +5020,8 @@ While remaining upright may be the primary goal of beginning riders| [[2009 Indi
         [Test]
         public void BasicBehaviour()
         {
-            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle("Main article: [[Foo]]"));
-            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle("Main article: [[Foo]]."));
+            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle("Main article: [[Foo]]"));
+            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle("Main article: [[Foo]]."));
             Assert.AreEqual("Main article:\r\n [[Foo]]", Parsers.FixMainArticle("Main article:\r\n [[Foo]]"));
         }
 
@@ -5029,39 +5029,39 @@ While remaining upright may be the primary goal of beginning riders| [[2009 Indi
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_3#Fixing_Main_Article_to_.7B.7Bmain.7D.7D
         public void PipedLinks()
         {
-            Assert.AreEqual("{{main|Foo|l1=Bar}}", Parsers.FixMainArticle("Main article: [[Foo|Bar]]"));
+            Assert.AreEqual("{{Main|Foo|l1=Bar}}", Parsers.FixMainArticle("Main article: [[Foo|Bar]]"));
         }
 
         [Test]
         public void SupportIndenting()
         {
-            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle(":Main article: [[Foo]]"));
-            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle(":Main article: [[Foo]]."));
-            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle(":''Main article: [[Foo]]''"));
+            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle(":Main article: [[Foo]]"));
+            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle(":Main article: [[Foo]]."));
+            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle(":''Main article: [[Foo]]''"));
             Assert.AreEqual("'':Main article: [[Foo]]''", Parsers.FixMainArticle("'':Main article: [[Foo]]''"));
         }
 
         [Test]
         public void SupportBoldAndItalic()
         {
-            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle("Main article: '[[Foo]]'"));
-            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle("Main article: ''[[Foo]]''"));
-            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle("Main article: '''[[Foo]]'''"));
-            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle("Main article: '''''[[Foo]]'''''"));
+            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle("Main article: '[[Foo]]'"));
+            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle("Main article: ''[[Foo]]''"));
+            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle("Main article: '''[[Foo]]'''"));
+            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle("Main article: '''''[[Foo]]'''''"));
 
-            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle("'Main article: [[Foo]]'"));
-            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle("''Main article: [[Foo]]''"));
-            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle("'''Main article: [[Foo]]'''"));
-            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle("'''''Main article: [[Foo]]'''''"));
+            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle("'Main article: [[Foo]]'"));
+            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle("''Main article: [[Foo]]''"));
+            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle("'''Main article: [[Foo]]'''"));
+            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle("'''''Main article: [[Foo]]'''''"));
 
-            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle("''Main article: '''[[Foo]]'''''"));
-            Assert.AreEqual("{{main|Foo}}", Parsers.FixMainArticle("'''Main article: ''[[Foo]]'''''"));
+            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle("''Main article: '''[[Foo]]'''''"));
+            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle("'''Main article: ''[[Foo]]'''''"));
         }
 
         [Test]
         public void CaseInsensitivity()
         {
-            Assert.AreEqual("{{main|foo}}", Parsers.FixMainArticle("main Article: [[foo]]"));
+            Assert.AreEqual("{{Main|foo}}", Parsers.FixMainArticle("main Article: [[foo]]"));
         }
 
         [Test]
@@ -5085,8 +5085,8 @@ While remaining upright may be the primary goal of beginning riders| [[2009 Indi
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Problem_with_.22Main_article.22_fixup
         public void Newlines()
         {
-            Assert.AreEqual("test\r\n{{main|Foo}}\r\ntest", Parsers.FixMainArticle("test\r\nMain article: [[Foo]]\r\ntest"));
-            Assert.AreEqual("test\r\n\r\n{{main|Foo}}\r\n\r\ntest", Parsers.FixMainArticle("test\r\n\r\nMain article: [[Foo]]\r\n\r\ntest"));
+            Assert.AreEqual("test\r\n{{Main|Foo}}\r\ntest", Parsers.FixMainArticle("test\r\nMain article: [[Foo]]\r\ntest"));
+            Assert.AreEqual("test\r\n\r\n{{Main|Foo}}\r\n\r\ntest", Parsers.FixMainArticle("test\r\n\r\nMain article: [[Foo]]\r\n\r\ntest"));
         }
         
         [Test]
