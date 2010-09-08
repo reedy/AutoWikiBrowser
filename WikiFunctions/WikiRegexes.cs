@@ -703,13 +703,13 @@ namespace WikiFunctions
         /// The default blank Persondata template for en-wiki, from [[Template:Persondata#Usage]]
         /// </summary>
         public const string PersonDataDefault = @"{{Persondata <!-- Metadata: see [[Wikipedia:Persondata]]. -->
-| NAME              = 
-| ALTERNATIVE NAMES = 
-| SHORT DESCRIPTION = 
-| DATE OF BIRTH     = 
-| PLACE OF BIRTH    = 
-| DATE OF DEATH     = 
-| PLACE OF DEATH    = 
+| NAME              =
+| ALTERNATIVE NAMES =
+| SHORT DESCRIPTION =
+| DATE OF BIRTH     =
+| PLACE OF BIRTH    =
+| DATE OF DEATH     =
+| PLACE OF DEATH    =
 }}";
 
         /// <summary>
