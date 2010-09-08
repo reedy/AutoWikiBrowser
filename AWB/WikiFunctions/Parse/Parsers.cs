@@ -2139,6 +2139,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex SyntaxRegexTemplate = new Regex(@"(\{\{\s*)[Tt]emplate\s*:(.*?\}\})", RegexOptions.Singleline | RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexListRowBrTag = new Regex(@"^([#\*:;]+.*?) *<[/\\]?br ?[/\\]?> *\r\n", RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexListRowBrTagStart = new Regex(@"<[/\\]?br ?[/\\]?> *(\r\n[#\*:;]+.*?)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         // make double spaces within wikilinks just single spaces
         private static readonly Regex SyntaxRegexMultipleSpacesInWikilink = new Regex(@"(\[\[[^\[\]]+?) {2,}([^\[\]]+\]\])", RegexOptions.Compiled);
@@ -2226,8 +2227,9 @@ namespace WikiFunctions.Parse
             // remove unnecessary namespace
             articleText = RemoveTemplateNamespace(articleText);
 
-            // remove <br> from lists
+            // remove <br> from lists (end of list line)
             articleText = SyntaxRegexListRowBrTag.Replace(articleText, "$1\r\n");
+            articleText = SyntaxRegexListRowBrTagStart.Replace(articleText, "$1");
 
             //fix uneven bracketing on links
             articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "$1");
