@@ -3869,6 +3869,10 @@ http://example.com }}");
 
             Assert.AreEqual("&*a<br>\r\nb", Parsers.FixSyntax("&*a<br>\r\nb"));
             Assert.AreEqual("*a\r\n<br>\r\nb", Parsers.FixSyntax("*a\r\n<br>\r\nb"));
+            
+            Assert.AreEqual("x\r\n*abc", Parsers.FixSyntax("x<br>\r\n*abc"));
+            Assert.AreEqual("x\r\n*abc", Parsers.FixSyntax("x<br> \r\n*abc"));
+            Assert.AreEqual("x\r\n*abc", Parsers.FixSyntax("x<br/> \r\n*abc"));
         }
 
         [Test]
