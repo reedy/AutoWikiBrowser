@@ -2266,6 +2266,9 @@ namespace WikiFunctions.Parse
             articleText = CellpaddingTypo.Replace(articleText, "$1cellpadding");
 
             articleText = RemoveNoPropertyFontTags.Replace(articleText, "$1");
+            
+            // {{Category:foo]] or {{Category:foo}}
+            articleText = CategoryCurlyBrackets.Replace(articleText, @"[[$1]]");
 
             // fixes for missing/unbalanced brackets
             articleText = RefTemplateIncorrectBracesAtEnd.Replace(articleText, @"$1}}");
@@ -2383,6 +2386,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex QuadrupleCurlyBrackets = new Regex(@"(?<=^{{[^{}\r\n]+}})}}(\s)$", RegexOptions.Multiline | RegexOptions.Compiled);
 
         private static readonly Regex RefClosingOpeningBracket = new Regex(@"\[(\s*</ref>)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex CategoryCurlyBrackets = new Regex(@"{{ *(" + Variables.Namespaces[Namespace.Category] + @"[^{}\[\]]+?)(?:}}|\]\])", RegexOptions.Compiled);
         
         /// <summary>
         /// Applies some fixes for unbalanced brackets, applied if there are unbalanced brackets
@@ -2488,9 +2492,7 @@ namespace WikiFunctions.Parse
                     {
                         articleTextTemp = articleTextTemp.Remove(unbalancedBracket, 2);
                     }
-
-                    // {{Category: ?
-                    articleTextTemp = articleTextTemp.Replace("{{" + Variables.Namespaces[Namespace.Category], "[[" + Variables.Namespaces[Namespace.Category]);
+                    
                     articleTextTemp = QuadrupleCurlyBrackets.Replace(articleTextTemp, "$1");
 
                     // defaultsort missing }} at end
