@@ -783,6 +783,13 @@ namespace WikiFunctions
         /// matches uncategorised templates: {{Uncat}}, {{Uncaegorised}}, {{Uncategorised stub}} allowing for nested subst: {{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
         /// </summary>
         public static Regex Uncat;
+        
+        /// <summary>
+        /// Matches teh {{Cat improve}} template and its redirects
+        /// </summary>
+        public static readonly Regex CatImprove = Tools.NestedTemplateRegex(new [] { "CI", "Cleanup-cat", "Cleanup cat", "Few categories", "Few cats", "Fewcategories", "Fewcats", "Improve-categories", "Improve-cats", "Improve categories", "Improve cats", 
+                                                                                "Improvecategories", "Improvecats", "More categories", "More category", "Morecat", "Morecategories", "Morecats", "Cat-improve", "Category-improve", 
+                                                                                "Categories-improve", "Category improve", "Categories improve", "Catimprove", "More cats" } );
 
         /// <summary>
         /// matches the {{Article issues}}/{{Multiple issues}} template
