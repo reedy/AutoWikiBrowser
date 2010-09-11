@@ -2928,6 +2928,7 @@ namespace WikiFunctions.Parse
                     POB = CityState.Replace(POB, m => m.Groups[3].Value.Trim("|{}".ToCharArray()).Replace("|", ", "));
                 
                 POB = WikiRegexes.NestedTemplates.Replace(POB, "");
+                POB = WikiRegexes.Refs.Replace(POB, "");
                 
                 newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF BIRTH", POB);
             }
@@ -2950,6 +2951,7 @@ namespace WikiFunctions.Parse
                     POD = CityState.Replace(POD, m => m.Groups[3].Value.Trim("|{}".ToCharArray()).Replace("|", ", "));
                 
                 POD = WikiRegexes.NestedTemplates.Replace(POD, "");
+                POD = WikiRegexes.Refs.Replace(POD, "");
                 
                 newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF DEATH", POD);
             }
