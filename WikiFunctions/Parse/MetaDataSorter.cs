@@ -917,7 +917,11 @@ en, sq, ru
             articleText = Tools.RemoveMatches(articleText, goodMatches);
 
             if (SortInterwikis)
+            {
+                // sort twice to result in no reordering of two interwikis to same language project
                 interWikiList.Sort(Comparer);
+                interWikiList.Sort(Comparer);
+            }
 
             return interWikiList;
         }

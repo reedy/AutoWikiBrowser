@@ -854,6 +854,26 @@ The following links are here to prevent the interwiki bot from adding them to th
         }
         
         [Test]
+        public void InterWikiTestsMultiple()
+        {
+            parser2.SortInterwikis = false;            
+            parser2.Sorter.PossibleInterwikis = new System.Collections.Generic.List<string> { "de", "es", "fr", "it", "sv", "ar", "bs", "br", "en" };
+
+            string a = @"[[de:Canadian National Railway]]
+[[fr:Canadian National (foo)]]
+[[fr:Canadien National]]";
+            string b = a;
+
+            Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
+            
+            a = @"[[fr:Sénatus-consultes sous Napoléon III]]
+[[fr:Sénatus-consulte]]";
+            b = a;
+
+            Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
+        }
+        
+        [Test]
         public void SelfInterwikisEn()
         {
             Assert.AreEqual("", parser2.SortMetaData(@"<!-- [[en:Foo]]-->", "Test"), "Commented out en interwikis removed");
