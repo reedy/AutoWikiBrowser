@@ -829,6 +829,7 @@ namespace WikiFunctions.Parse
             //and I don't want to call this slow function yet another time --MaxSem
             articleText = SyntaxRemoveBr.Replace(articleText, "\r\n");
             articleText = SyntaxRemoveParagraphs.Replace(articleText, "\r\n\r\n");
+            articleText = SyntaxRegexListRowBrTagStart.Replace(articleText, "$1");
 
             return AddBackMoreText(articleText);
         }
@@ -2245,7 +2246,6 @@ namespace WikiFunctions.Parse
 
             // remove <br> from lists (end of list line)
             articleText = SyntaxRegexListRowBrTag.Replace(articleText, "$1\r\n");
-            articleText = SyntaxRegexListRowBrTagStart.Replace(articleText, "$1");
 
             //fix uneven bracketing on links
             articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "$1");
