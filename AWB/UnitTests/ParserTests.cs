@@ -2005,14 +2005,14 @@ complementary and alternative medicine: evidence is a better friend than power. 
         [Test]
         public void FixCitationGoogleBooks()
         {
-            string correct = @"now {{cite book|title=a |url=http://books.google.com/foo | year=2009}}";
+            string correct = @"now {{Cite book|title=a |url=http://books.google.com/foo | year=2009}}";
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web|title=a |url=http://books.google.com/foo | year=2009}}"));
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{Cite web|title=a |url=http://books.google.com/foo | year=2009}}"));
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{citeweb|title=a |url=http://books.google.com/foo | year=2009}}"));
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{Cite web|title=a |url=http://books.google.com/foo | year=2009}}"));
             
             // whitespace not changed
-            Assert.AreEqual(@"now {{ cite book |title=a |url=http://books.google.com/foo | year=2009}}", Parsers.FixCitationTemplates(@"now {{ Cite web |title=a |url=http://books.google.com/foo | year=2009}}"));
+            Assert.AreEqual(@"now {{ Cite book |title=a |url=http://books.google.com/foo | year=2009}}", Parsers.FixCitationTemplates(@"now {{ Cite web |title=a |url=http://books.google.com/foo | year=2009}}"));
             
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(correct));
         }

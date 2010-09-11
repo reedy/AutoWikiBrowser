@@ -2709,9 +2709,9 @@ namespace WikiFunctions.Parse
                         newValue = CiteTemplatesJournalVolumeAndIssue.Replace(newValue, @"| issue = ");
                 }
 
-                // {{cite web}} for Google books -> {{cite book}}
+                // {{cite web}} for Google books -> {{Cite book}}
                 if (Regex.IsMatch(templatename, @"[Cc]ite ?web") && newValue.Contains("http://books.google."))
-                    newValue = Tools.RenameTemplate(newValue, templatename, "cite book");
+                    newValue = Tools.RenameTemplate(newValue, templatename, "Cite book");
 
                 // remove leading zero in day of month
                 newValue = DateLeadingZero.Replace(newValue, @"$1$2$3$4$5");
