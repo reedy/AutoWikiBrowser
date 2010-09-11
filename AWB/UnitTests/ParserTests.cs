@@ -3870,10 +3870,21 @@ http://example.com }}");
 
             Assert.AreEqual("&*a<br>\r\nb", Parsers.FixSyntax("&*a<br>\r\nb"));
             Assert.AreEqual("*a\r\n<br>\r\nb", Parsers.FixSyntax("*a\r\n<br>\r\nb"));
+        }
+        
+        [Test]
+        public void SyntaxRegexListRowBrTagStart()
+        {
+            Assert.AreEqual("x\r\n*abc", parser.FixDates("x<br>\r\n*abc"));
+            Assert.AreEqual("x\r\n*abc", parser.FixDates("x<br> \r\n*abc"));
+            Assert.AreEqual("x\r\n*abc", parser.FixDates("x<br/> \r\n*abc"));
             
-            Assert.AreEqual("x\r\n*abc", Parsers.FixSyntax("x<br>\r\n*abc"));
-            Assert.AreEqual("x\r\n*abc", Parsers.FixSyntax("x<br> \r\n*abc"));
-            Assert.AreEqual("x\r\n*abc", Parsers.FixSyntax("x<br/> \r\n*abc"));
+            const string BrInTemplateList = @"{{{Foo|
+param=<br>
+**text
+**text1 }}";
+            
+            Assert.AreEqual(BrInTemplateList, parser.FixDates(BrInTemplateList), "lists within template not changed");
         }
 
         [Test]
