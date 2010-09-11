@@ -909,8 +909,8 @@ en, sq, ru
                 
                 goodMatches.Add(m);
                 
-                // drop interwikis to own wiki
-                if(!m.Groups[1].Value.Equals(Variables.LangCode))
+                // drop interwikis to own wiki, but not on commons where language = en and en interwikis go to wikipedia
+                if(!(m.Groups[1].Value.Equals(Variables.LangCode) && !Variables.IsCommons))
                     interWikiList.Add("[[" + site + ":" + m.Groups[2].Value.Trim() + "]]");
             }
 

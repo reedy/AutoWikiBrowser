@@ -857,6 +857,15 @@ The following links are here to prevent the interwiki bot from adding them to th
         public void SelfInterwikisEn()
         {
             Assert.AreEqual("", parser2.SortMetaData(@"<!-- [[en:Foo]]-->", "Test"), "Commented out en interwikis removed");
+            
+            #if DEBUG
+            Variables.SetProjectSimple("en", ProjectEnum.commons);
+            const string EnInterwiki = @"[[en:Foo]]";
+            Assert.AreEqual(EnInterwiki, parser2.SortMetaData(EnInterwiki, "Test"), "en interwiki not removed on commons");
+            
+            Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
+            Assert.AreEqual("", parser2.SortMetaData(EnInterwiki, "Test"), "en interwiki removed on en-wiki");
+            #endif
         }
         
         [Test]
