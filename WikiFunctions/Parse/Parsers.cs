@@ -4828,11 +4828,12 @@ namespace WikiFunctions.Parse
         public static string FixPeopleCategories(string articleText, string articleTitle, bool parseTalkPage)
         {
             // over 20 references or long and not DOB/DOD categorised at all yet: implausible
-            if (WikiRegexes.Refs.Matches(articleText).Count > 20 || (articleText.Length > 15000 && !WikiRegexes.BirthsCategory.IsMatch(articleText)
+            if (!Variables.LangCode.Equals("en") || WikiRegexes.Refs.Matches(articleText).Count > 20 || (articleText.Length > 15000 && !WikiRegexes.BirthsCategory.IsMatch(articleText)
                                                                      && !WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText)))
                 return YearOfBirthMissingCategory(articleText);
 
             string articleTextBefore = articleText;
+            int catCount = WikiRegexes.Category.Matches(articleText).Count;
 
             // get the zeroth section (text upto first heading)
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
@@ -4978,6 +4979,11 @@ namespace WikiFunctions.Parse
             if (articleText != articleTextBefore && !IsArticleAboutAPerson(articleTextBefore, articleTitle, parseTalkPage))
                 return YearOfBirthMissingCategory(articleTextBefore);
 
+            // {{uncat}} --> {{Cat improve}} if we've added cats
+            if(WikiRegexes.Category.Matches(articleText).Count > catCount && WikiRegexes.Uncat.IsMatch(articleText)
+               && !WikiRegexes.CatImprove.IsMatch(articleText))
+                articleText = Tools.RenameTemplate(articleText, WikiRegexes.Uncat.Match(articleText).Groups[1].Value, "Cat improve");
+            
             return YearOfBirthMissingCategory(articleText);
         }
 

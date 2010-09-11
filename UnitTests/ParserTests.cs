@@ -1175,6 +1175,17 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
         }
         
         [Test]
+        public void FixPeopleCategoriesUncat()
+        {
+            const string a1 = @"'''Fred Smith''' (born 1960) is a bloke. {{Persondata}} {{Uncat|date=May 2010}}";
+            const string b2 = @"[[Category:1960 births]]";
+            Assert.AreEqual(a1.Replace("Uncat", "Cat improve") + "\r\n" + b2, Parsers.FixPeopleCategories(a1, "foo"), "renames uncat to cat improve when cats added");
+            
+            Assert.AreEqual(a1 + b2, Parsers.FixPeopleCategories(a1 + b2, "foo"), "no uncat renaming when cats not added");
+            Assert.AreEqual(a1.Replace(@" {{Uncat|date=May 2010}}", "") + "{{Cat improve}}" + "\r\n" + b2, Parsers.FixPeopleCategories(a1.Replace(@" {{Uncat|date=May 2010}}", "") + "{{Cat improve}}", "foo"), "no Cat improve change when cat improve already there");
+        }
+        
+        [Test]
         public void FixPeopleCategoriesDeath()
         {
             const string b2 = @"[[Category:1960 births]]";
