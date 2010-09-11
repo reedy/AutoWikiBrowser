@@ -7183,13 +7183,13 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 
             // adding new {{article issues}}
             Assert.IsTrue(parser.ArticleIssues(a1 + a2 + a3).Contains(@"{{Multiple issues|wikify|expand|COI}}"));
-            Assert.IsTrue(parser.ArticleIssues(a1 + a4 + a3).Contains(@"{{Multiple issues|wikify|expand|COI date=May 2008}}"));
-            Assert.IsTrue(parser.ArticleIssues(a1 + a4B + a3).Contains(@"{{Multiple issues|wikify|expand|COI date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+            Assert.IsTrue(parser.ArticleIssues(a1 + a4 + a3).Contains(@"{{Multiple issues|wikify|expand|COI =May 2008}}"));
+            Assert.IsTrue(parser.ArticleIssues(a1 + a4B + a3).Contains(@"{{Multiple issues|wikify|expand|COI ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
 
             // amend existing {{article issues}}
             Assert.IsTrue(parser.ArticleIssues(a5 + a1 + a2 + a3).Contains(@"{{Article issues|POV|prose|spam|wikify|expand|COI"));
-            Assert.IsTrue(parser.ArticleIssues(a5 + a1 + a4 + a3).Contains(@"{{Article issues|POV|prose|spam|wikify|expand|COI date=May 2008}}"));
-            Assert.IsTrue(parser.ArticleIssues(a5 + a1 + a4A + a3).Contains(@"{{Article issues|POV|prose|spam|wikify|expand|COI Date=May 2008}}"));
+            Assert.IsTrue(parser.ArticleIssues(a5 + a1 + a4 + a3).Contains(@"{{Article issues|POV|prose|spam|wikify|expand|COI =May 2008}}"));
+            Assert.IsTrue(parser.ArticleIssues(a5 + a1 + a4A + a3).Contains(@"{{Article issues|POV|prose|spam|wikify|expand|COI =May 2008}}"));
 
             // insufficient tags
             Assert.IsFalse(Parsers.Conversions(a1 + a3).Contains(@"{{Multiple issues"));
@@ -7222,7 +7222,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(@"{{article issues|POV=May 2008|article=y}} {{wikify|date=May 2007}}", parser.ArticleIssues(@"{{article issues|POV=May 2008|article=y}} {{wikify|date=May 2007}}"));
 
             // add tags if total would reach 3
-            Assert.AreEqual(@"{{article issues|POV=May 2008|wikify date=May 2007|cleanup date=June 2008}}  ", parser.ArticleIssues(@"{{article issues|POV=May 2008}} {{wikify|date=May 2007}} {{cleanup|date=June 2008}}"));
+            Assert.AreEqual(@"{{article issues|POV=May 2008|wikify =May 2007|cleanup =June 2008}}  ", parser.ArticleIssues(@"{{article issues|POV=May 2008}} {{wikify|date=May 2007}} {{cleanup|date=June 2008}}"));
         }
         
         [Test]
@@ -7321,13 +7321,15 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         public void MultipleIssuesUnref()
         {
             string at = @"Foo
-[[Category:Living people]]", ai = @"{{multiple issues|wikify=May 2008 | expand=June 2007 | COI=March 2010  | unref=June 2009}}";
+[[Category:Living people]]", ai = @"{{Multiple issues|wikify=May 2008 | expand=June 2007 | COI=March 2010  | unref=June 2009}}";
             
             Assert.AreEqual(ai.Replace("unref", "BLPunreferenced") + at, parser.ArticleIssues(ai + at), "unref changed if article about a person");
             Assert.AreEqual(ai.Replace("unref", "BLPunreferenced") + at, parser.ArticleIssues(ai.Replace("unref", "unreferenced") + at), "unreferenced changed if article about a person");
             
             Assert.AreEqual(ai + "foo", parser.ArticleIssues(ai + "foo"), "unref not changed if article not about a person");
             Assert.AreEqual(ai + "foo {{persondata|here=there}}", parser.ArticleIssues(ai + "foo {{persondata|here=there}}"), "unref not changed if article not about a living person");
+            
+            Assert.IsTrue(parser.ArticleIssues(@"{{wikify|date=May 2008}} {{expand|date=June 2007}} {{COI|date=March 2008}} {{unref|date=June 2009}} " + at).Contains("BLPunreferenced"), "unref changed if article about a person when adding {{Multiple issues}}");
         }
         
         [Test]

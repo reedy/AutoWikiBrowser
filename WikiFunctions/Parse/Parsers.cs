@@ -409,19 +409,6 @@ namespace WikiFunctions.Parse
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
-            if (WikiRegexes.MultipleIssues.IsMatch(articleText))
-            {
-                string aiat = WikiRegexes.MultipleIssues.Match(articleText).Value;
-
-                // unref to BLPunref for living person bio articles
-                if (Tools.GetTemplateParameterValue(aiat, "unreferenced").Length > 0 && articleText.Contains(@"[[Category:Living people"))
-                    articleText = articleText.Replace(aiat, Tools.RenameTemplateParameter(aiat, "unreferenced", "BLPunreferenced"));
-                else if (Tools.GetTemplateParameterValue(aiat, "unref").Length > 0 && articleText.Contains(@"[[Category:Living people"))
-                    articleText = articleText.Replace(aiat, Tools.RenameTemplateParameter(aiat, "unref", "BLPunreferenced"));
-
-                articleText = MetaDataSorter.MoveMaintenanceTags(articleText);
-            }
-
             // convert title case parameters within {{Multiple issues}} to lower case
             foreach (Match m in WikiRegexes.ArticleIssuesInTitleCase.Matches(articleText))
             {
@@ -449,11 +436,11 @@ namespace WikiFunctions.Parse
 
             // if currently no {{Multiple issues}} and less than the min number of cleanup templates, do nothing
             if (!WikiRegexes.MultipleIssues.IsMatch(zerothSection) && WikiRegexes.MultipleIssuesTemplates.Matches(zerothSection).Count < MinCleanupTagsToCombine)
-                return (articleText);
+                return MultipleIssuesBLPUnreferenced(articleText);
 
             // only add tags to mulitipleissues if new tags + existing >= MinCleanupTagsToCombine
             if ((WikiRegexes.MultipleIssuesTemplateNameRegex.Matches(WikiRegexes.MultipleIssues.Match(zerothSection).Value).Count + tagsToAdd) < MinCleanupTagsToCombine || tagsToAdd == 0)
-                return (articleText);
+                return MultipleIssuesBLPUnreferenced(articleText);
 
             foreach (Match m in WikiRegexes.MultipleIssuesTemplates.Matches(zerothSection))
             {
@@ -486,8 +473,37 @@ namespace WikiFunctions.Parse
             else // add {{Multiple issues}} to top of article, metaDataSorter will arrange correctly later
                 zerothSection = @"{{Multiple issues" + newTags + "}}\r\n" + zerothSection;
 
+            articleText = zerothSection + restOfArticle;
+            
             // Parsers.Conversions will add any missing dates and correct ...|wikify date=May 2008|...
-            return (zerothSection + restOfArticle);
+            return MultipleIssuesBLPUnreferenced(articleText);
+        }
+        
+        private static readonly Regex MultipleIssuesDate =new Regex(@"(?<={{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*?)?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?){0,4}\|[^{}\|]{3,}?)\b(?i)date(?<!.*out of.*)", RegexOptions.Compiled);
+        
+        /// <summary>
+        /// In the {{Multiple issues}} template renames unref to BLPunref for living person bio articles
+        /// </summary>
+        /// <param name="articleText">The page text</param>
+        /// <returns>The updated page text</returns>
+        private string MultipleIssuesBLPUnreferenced(string articleText)
+        {
+            articleText = MultipleIssuesDate.Replace(articleText, "");
+            
+            if (WikiRegexes.MultipleIssues.IsMatch(articleText))
+            {
+                string aiat = WikiRegexes.MultipleIssues.Match(articleText).Value;
+
+                // unref to BLPunref for living person bio articles
+                if (Tools.GetTemplateParameterValue(aiat, "unreferenced").Length > 0 && articleText.Contains(@"[[Category:Living people"))
+                    articleText = articleText.Replace(aiat, Tools.RenameTemplateParameter(aiat, "unreferenced", "BLPunreferenced"));
+                else if (Tools.GetTemplateParameterValue(aiat, "unref").Length > 0 && articleText.Contains(@"[[Category:Living people"))
+                    articleText = articleText.Replace(aiat, Tools.RenameTemplateParameter(aiat, "unref", "BLPunreferenced"));
+
+                articleText = MetaDataSorter.MoveMaintenanceTags(articleText);
+            }
+            
+            return articleText;
         }
         
         private static readonly Regex PortalBox = Tools.NestedTemplateRegex(new[] { "portal box", "portalbox" });
