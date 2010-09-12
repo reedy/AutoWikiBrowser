@@ -6793,9 +6793,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
-            Assert.IsTrue(Tools.NestedTemplateRegex("Uncategorized stub").IsMatch(text));
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
-
             Assert.IsTrue(text.Contains(UncatStub));
             
             // uncat when not a stub
@@ -6810,6 +6808,25 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text));
             Assert.IsFalse(text.Contains(UncatStub));
+        }
+        
+        [Test]
+        public void RenameUncategorised()
+        {
+            Globals.UnitTestIntValue = 0;
+            Globals.UnitTestBoolValue = true;
+            
+            string text = parser.Tagger(ShortText + @"{{stub}} {{Uncategorised|date=May 2010}}", "Test", false, out noChange, ref summary);
+            Assert.IsTrue(Tools.NestedTemplateRegex("Uncategorized stub").IsMatch(text), "Uncategorised renamed to uncat stub");
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
+            
+            text = parser.Tagger(ShortText + @"{{stub}} {{Uncategorisedstub|date=May 2010}}", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(Tools.NestedTemplateRegex("Uncategorized stub").IsMatch(text), "uncatstub not renamed when already present");
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
+            
+            Globals.UnitTestBoolValue = false;
+            text = parser.Tagger(ShortText + @"{{Uncategorised|date=May 2010}}", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(Tools.NestedTemplateRegex("Uncategorized stub").IsMatch(text), "uncategorized not renamed when not stub");
         }
 
         [Test]
@@ -6831,7 +6848,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             text = parser.Tagger(ShortText + Stub + Uncat + Wikify + Orphan + Deadend, "Test", false, out noChange, ref summary);
             //Tagged article, dupe tags shouldn't be added
             Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(Stub), text));
-            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(Uncat), text));
+            Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(UncatStub), text));
             Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(Wikify), text));
             Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(Orphan), text));
             Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(Deadend), text));

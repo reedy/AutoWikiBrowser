@@ -5258,15 +5258,33 @@ namespace WikiFunctions.Parse
             else
             #endif
             {
-                // {{stub}} --> non-hidden Category:Stubs, don't count this cat
-                totalCategories = CategoryProv.MakeList(new[] { articleTitle }).Count
-                    - Tools.NestedTemplateRegex("stub").Matches(commentsStripped).Count;
+                // stubs add non-hidden stub categories, don't count these in categories count
+                List<Article> Cats = CategoryProv.MakeList(new[] { articleTitle });
+                List<Article> CatsNotStubs = new List<Article>();
+                
+                foreach(Article a in Cats)
+                {
+                    if(!a.Name.EndsWith(" stubs"))
+                        CatsNotStubs.Add(a);
+                }
+                totalCategories = CatsNotStubs.Count;
             }
             
-            if (totalCategories > 0 && WikiRegexes.Uncat.IsMatch(articleText))
+            // remove {{Uncategorized}} if > 0 real categories (stub categories not counted)
+            // rename {{Uncategorized}} to {{Uncategorized stub}} if stub with zero categories (stub categories not counted)
+            if(WikiRegexes.Uncat.IsMatch(articleText))
             {
-                articleText = WikiRegexes.Uncat.Replace(articleText, "");
-                tagsRemoved.Add("uncategorised");
+                if (totalCategories > 0)
+                {
+                    articleText = WikiRegexes.Uncat.Replace(articleText, "");
+                    tagsRemoved.Add("uncategorised");
+                }
+                else if(totalCategories == 0 && WikiRegexes.Stub.IsMatch(commentsStripped))
+                {
+                    string uncatname = WikiRegexes.Uncat.Match(articleText).Groups[1].Value;
+                    if(!uncatname.Contains("stub"))
+                        articleText = Tools.RenameTemplate(articleText, uncatname, "Uncategorized stub");
+                }
             }
             
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#.7B.7BDeadend.7D.7D_gets_removed_from_categorized_pages
