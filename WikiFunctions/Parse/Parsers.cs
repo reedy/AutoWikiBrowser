@@ -394,7 +394,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public string ArticleIssues(string articleText)
+        public string MultipleIssues(string articleText)
         {
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
