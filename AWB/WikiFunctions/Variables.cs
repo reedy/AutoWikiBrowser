@@ -456,7 +456,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Sets different language variables, such as namespaces. Default is english Wikipedia
+        /// Sets different language variables, such as namespaces. Default is English Wikipedia
         /// </summary>
         /// <param name="langCode">The language code, default is en</param>
         /// <param name="projectName">The project name default is Wikipedia</param>
