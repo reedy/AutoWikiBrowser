@@ -99,16 +99,6 @@ namespace WikiFunctions.Parse
             // clean "Copyedit for=grammar|date=April 2009"to "Copyedit=April 2009"
             RegexConversion.Add(new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*|\|)\s*[Cc]opyedit\s*)for\s*=\s*[^{}\|]+\|\s*date(\s*=[^{}\|]+)(?=\||}})", RegexOptions.Compiled), "$1$2");
 
-            // could be multiple to date per template so loop
-            for (int a = 0; a < 5; a++)
-            {
-                // add date to any undated tags within {{Article issues}}
-                RegexConversion.Add(new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*|\|)\s*)(?![Ee]xpert)" + WikiRegexes.ArticleIssuesTemplatesString + @"\s*(\||}})", RegexOptions.Compiled), "$1$2={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}$3");
-
-                // clean any 'date' word within {{Article issues}} (but not 'update' or 'out of date' fields), place after the date adding rule above
-                RegexConversion.Add(new Regex(@"(?<={{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*?)?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?){0,4}\|[^{}\|]{3,}?)\b(?i)date(?<!.*out of.*)", RegexOptions.Compiled), "");
-            }
-
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.7B.7Bcommons.7CCategory:XXX.7D.7D_.3E_.7B.7Bcommonscat.7CXXX.7D.7D
             RegexConversion.Add(new Regex(@"\{\{[Cc]ommons\|\s*[Cc]ategory:\s*([^{}]+?)\s*\}\}", RegexOptions.Compiled), @"{{Commons category|$1}}");
 
@@ -5113,6 +5103,9 @@ namespace WikiFunctions.Parse
 
             return newText;
         }
+        
+        private static readonly Regex MultipleIssuesUndatedTags = new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*|\|)\s*)(?![Ee]xpert)" + WikiRegexes.ArticleIssuesTemplatesString + @"\s*(\||}})", RegexOptions.Compiled);
+        private static readonly Regex MultipleIssuesDateRemoval = new Regex(@"(?<={{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*?)?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?){0,4}\|[^{}\|]{3,}?)\b(?i)date(?<!.*out of.*)", RegexOptions.Compiled);
 
         /// <summary>
         /// Converts/subst'd some deprecated templates
@@ -5152,6 +5145,14 @@ namespace WikiFunctions.Parse
                 if(Tools.GetTemplateArgument(m.Value, 1).Equals("section"))
                     articleText = articleText.Replace(m.Value, Tools.RenameTemplate(Regex.Replace(m.Value, @"\|\s*section\s*\|", "|"), "Expand section"));
             }
+
+            // add date to any undated tags within {{Article issues}} (loop due to lookbehind in regex)
+            while(MultipleIssuesUndatedTags.IsMatch(articleText))
+                articleText = MultipleIssuesUndatedTags.Replace(articleText, "$1$2={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}$3");
+
+            // clean any 'date' word within {{Article issues}} (but not 'update' or 'out of date' fields), place after the date adding rule above (loop due to lookbehind in regex)
+            while(MultipleIssuesDateRemoval.IsMatch(articleText))
+                articleText = MultipleIssuesDateRemoval.Replace(articleText, "");
             
             return Dablinks(articleText);
         }
