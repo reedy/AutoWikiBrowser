@@ -1144,7 +1144,7 @@ namespace WikiFunctions
             Variables.Profiler.Profile("HideText");
 
             // call this before MinorFixes so that Parsers.Conversions cleans up from ArticleIssues
-            AWBChangeArticleText("Fixes for {{multiple issues}}", parsers.ArticleIssues(ArticleText), true);
+            AWBChangeArticleText("Fixes for {{multiple issues}}", parsers.MultipleIssues(ArticleText), true);
             Variables.Profiler.Profile("ArticleIssues");
 
             MinorFixes(Variables.LangCode, skip.SkipNoHeaderError);
