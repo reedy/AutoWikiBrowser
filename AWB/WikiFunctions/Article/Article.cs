@@ -566,7 +566,7 @@ namespace WikiFunctions
             List<string> Unknowns = new List<string>();
             List<string> Knowns = new List<string>(new[] { "advert", "autobiography", "biased", "blpdispute", "citations missing", "citationstyle", "citation style", 
 			"citecheck", "cleanup", "COI", "coi", "colloquial", "confusing", "context", "contradict", 
-			"copyedit", "criticisms", "crystal", "date", "deadend", "disputed", "essay", "examplefarm", "expert", "external links", 
+			"copyedit", "criticisms", "crystal", "date", "deadend", "disputed", "essay", "examplefarm", "expert", "external links", "expand", 
 			"fancruft", "fansite", "fiction", "gameguide", "globalize", "grammar", "histinfo", "hoax", "howto", "inappropriate person", "incomplete", 
 			"introrewrite", "lead missing", "lead rewrite", "lead too long", "lead too short", "in-universe", "jargon", "laundrylists", "laundry", "likeresume", 
 			"long", "newsrelease", "notable", "notability", "one source", "onesource", "OR", "or", "original research", "orphan", "out of date", "peacock", 
