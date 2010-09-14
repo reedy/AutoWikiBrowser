@@ -564,15 +564,15 @@ namespace WikiFunctions
         public List<string> UnknownMultipleIssuesParameters()
         {
             List<string> Unknowns = new List<string>();
-            List<string> Knowns = new List<string>(new[] { "advert", "autobiography", "biased", "blpdispute", "citations missing", "citationstyle", "citation style", 
+            List<string> Knowns = new List<string>(new[] { "advert", "autobiography", "biased", "blpdispute", "BLPunsourced", "citations missing", "citationstyle", "citation style", 
 			"citecheck", "cleanup", "COI", "coi", "colloquial", "confusing", "context", "contradict", 
-			"copyedit", "criticisms", "crystal", "date", "deadend", "disputed", "essay", "examplefarm", "expert", "external links", "expand", 
-			"fancruft", "fansite", "fiction", "gameguide", "globalize", "grammar", "histinfo", "hoax", "howto", "inappropriate person", "incomplete", 
+			"copyedit", "criticisms", "crystal", "date", "deadend", "disputed", "essay", "essay-like", "examplefarm", "expert", "external links", "expand", 
+			"fancruft", "fansite", "fiction", "gameguide", "globalize", "grammar", "histinfo", "hoax", "howto", "inappropriate person", "incomplete", "intromissing", 
 			"introrewrite", "lead missing", "lead rewrite", "lead too long", "lead too short", "in-universe", "jargon", "laundrylists", "laundry", "likeresume", 
 			"long", "newsrelease", "notable", "notability", "one source", "onesource", "OR", "or", "original research", "orphan", "out of date", "peacock", 
 			"plot", "POV", "NPOV", "pov", "npov", "pov-check", "primarysources", "prose", "proseline", "quotefarm", "recentism", "refimprove", 
-			"refimprove BLP", "restructure", "reorganisation", "organize", "review", "rewrite", "sections", "self-published", 
-			"spam", "story", "synthesis", "inappropriate tone", "tone", "travelguide", "trivia", "unbalanced", "unencyclopedic", "unreferenced", 
+			"refimproveBLP", "refimprove BLP", "restructure", "reorganisation", "organize", "review", "rewrite", "section", "sections", "self-published", 
+			"spam", "story", "synthesis", "inappropriate tone", "tone", "travelguide", "tooshort", "trivia", "unbalanced", "unencyclopedic", "unreferenced", 
 			"unreferencedBLP", "update", "verylong", "weasel", "wikify"});
             
             if(NameSpaceKey.Equals(Namespace.Mainspace))
