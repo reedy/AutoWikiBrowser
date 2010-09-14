@@ -3081,6 +3081,26 @@ now"));
 |1857", Parsers.FixSyntax(@"|[[Belmont (Durham) railway station|Belmont]] {[[Durham]])
 |[[North Eastern Railway (UK)|NER]]
 |1857"));
+            
+            const string Choisir = @"{{Thoroughbred
+| horsename = Choisir
+| image = 
+| caption = 
+| sire = [[Danehill Dancer]]
+| grandsire = [[Danehill (horse)|Danehill]]
+| dam = [[Great Selection]]
+| damsire =
+| sex = 
+| foaled = 
+| country = [[Australia|Australian]]}
+| colour = 
+| breeder = 
+| owner = T
+| trainer = [[Paul Perry]]
+}}
+'''Choisir'''";
+            
+            Assert.AreEqual(Choisir, Parsers.FixSyntax(Choisir));
         }
         
         [Test]
