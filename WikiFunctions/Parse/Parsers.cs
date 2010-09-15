@@ -4676,8 +4676,8 @@ namespace WikiFunctions.Parse
             if (BoldedLink.IsMatch(WikiRegexes.Template.Replace(zerothSection, "")))
                 return false;
 
-            int dateBirthAndAgeCount =BirthDate.Matches(articleText).Count;
-            int dateDeathCount = DeathDate.Matches(articleText).Count;
+            int dateBirthAndAgeCount =BirthDate.Matches(zerothSection).Count;
+            int dateDeathCount = DeathDate.Matches(zerothSection).Count;
 
             if (dateBirthAndAgeCount == 1 || dateDeathCount == 1)
                 return true;
