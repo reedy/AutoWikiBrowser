@@ -4625,11 +4625,17 @@ namespace WikiFunctions.Parse
                                               }).Match(articleText).Value,
                     "Background");
 
-            if(MABackground.Contains("group_or_band") || MABackground.Contains("classical_ensemble"))
+            if(MABackground.Contains("group_or_band") || MABackground.Contains("classical_ensemble")
+               || MABackground.Contains("cover_band") || MABackground.Contains("temporary"))
                 return false;
-
-            if (Tools.GetTemplateParameterValue(Tools.NestedTemplateRegex(@"Infobox Chinese-language singer and actor").Match(articleText).Value, "currentmembers").Length > 0)
-                return false;
+            
+            string CLSA = Tools.NestedTemplateRegex(@"Infobox Chinese-language singer and actor").Match(articleText).Value;
+            if(CLSA.Length > 0)
+            {
+                if (Tools.GetTemplateParameterValue(CLSA, "currentmembers").Length > 0
+                    || Tools.GetTemplateParameterValue(CLSA, "pastmembers").Length > 0)
+                    return false;
+            }
             
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
 
