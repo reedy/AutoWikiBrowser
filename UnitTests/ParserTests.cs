@@ -6603,7 +6603,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
         }
 
         [Test]
-        public void ConversionsTestsArticleIssues()
+        public void ConversionsTestsMultipleIssues()
         {
             Assert.AreEqual(@"{{cleanup|date=January 2008}} Article text here", Parsers.Conversions(@"{{articleissues|cleanup=January 2008}} Article text here"));
             Assert.AreEqual(@"{{cleanup|date=January 2008}} Article text here", Parsers.Conversions(@"{{article issues|cleanup=January 2008}} Article text here"));
@@ -6615,6 +6615,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.AreEqual(@"{{trivia|date= January 2008}} Article text here", Parsers.Conversions(@"{{articleissues|trivia = January 2008}} Article text here"));
             Assert.AreEqual(@"{{trivia|date= May 2010}} Article text here", Parsers.Conversions(@"{{articleissues|trivia = May 2010}} Article text here"));
             Assert.AreEqual(@"{{cleanup|date=January 2008}} Article text here", Parsers.Conversions(@"{{articleissues|cleanup=January 2008|}} Article text here"));
+            Assert.AreEqual(@"{{OR|date=January 2008}} Article text here", Parsers.Conversions(@"{{articleissues|OR=January 2008}} Article text here"));
 
             // no changes
             string a = @"{{multiple issues|trivia=January 2008|cleanup=January 2008}} Article text here";

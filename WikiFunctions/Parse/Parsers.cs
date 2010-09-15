@@ -112,10 +112,10 @@ namespace WikiFunctions.Parse
             // articleissues with no issues -> remove tag            
             RegexConversion.Add(new Regex(@"\{\{(?:[Aa]rticle|[Mm]ultiple) ?issues(?:\s*\|\s*(?:section|article)\s*=\s*[Yy])?\s*\}\}", RegexOptions.Compiled), "");
             
-            // articleissues with one issue -> single issue tag (e.g. {{articleissues|cleanup=January 2008}} to {{cleanup|date=January 2008}} etc.)
-            RegexConversion.Add(new Regex(@"\{\{(?:[Aa]rticle|[Mm]ultiple) ?issues\s*\|\s*([^\|{}=]{3,}?)\s*(=\s*\w{3,10}\s+20\d\d)\s*\}\}", RegexOptions.Compiled), "{{$1|date$2}}");           
+            // articleissues with one issue -> single issue tag (e.g. {{multiple issues|cleanup=January 2008}} to {{cleanup|date=January 2008}} etc.)
+            RegexConversion.Add(new Regex(@"\{\{(?:[Aa]rticle|[Mm]ultiple) ?issues\s*\|\s*([^\|{}=]{2,}?)\s*(=\s*\w{3,10}\s+20\d\d)\s*\}\}", RegexOptions.Compiled), "{{$1|date$2}}");           
             
-            // remove duplicate / populated and null fields in cite/article issues templates
+            // remove duplicate / populated and null fields in cite/multiple issues templates
             RegexConversion.Add(new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues[^{}]*\|\s*)(\w+)\s*=\s*([^\|}{]+?)\s*\|((?:[^{}]*?\|)?\s*)\2(\s*=\s*)\3(\s*(\||\}\}))", RegexOptions.Compiled), "$1$4$2$5$3$6"); // duplicate field remover for cite templates
             RegexConversion.Add(new Regex(@"(\{\{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues[^{}]*\|\s*)(\w+)(\s*=\s*[^\|}{]+(?:\|[^{}]+?)?)\|\s*\2\s*=\s*(\||\}\})", RegexOptions.Compiled), "$1$2$3$4"); // 'field=populated | field=null' drop field=null
             RegexConversion.Add(new Regex(@"(\{\{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues[^{}]*\|\s*)(\w+)\s*=\s*\|\s*((?:[^{}]+?\|)?\s*\2\s*=\s*[^\|}{\s])", RegexOptions.Compiled), "$1$3"); // 'field=null | field=populated' drop field=null
@@ -5146,7 +5146,7 @@ namespace WikiFunctions.Parse
                     articleText = articleText.Replace(m.Value, Tools.RenameTemplate(Regex.Replace(m.Value, @"\|\s*section\s*\|", "|"), "Expand section"));
             }
 
-            // add date to any undated tags within {{Article issues}} (loop due to lookbehind in regex)
+            // add date to any undated tags within {{Multiple issues}} (loop due to lookbehind in regex)
             while(MultipleIssuesUndatedTags.IsMatch(articleText))
                 articleText = MultipleIssuesUndatedTags.Replace(articleText, "$1$2={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}$3");
 
