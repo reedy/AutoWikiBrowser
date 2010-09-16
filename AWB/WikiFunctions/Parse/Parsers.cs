@@ -4611,7 +4611,9 @@ namespace WikiFunctions.Parse
                 || articleText.Contains(@"[[Category:Military careers")
                 || CategoryCharacters.IsMatch(articleText)
                 || Tools.NestedTemplateRegex("Infobox cricketer tour biography").IsMatch(articleText)
-                || articleTitle.StartsWith(@"List of "))
+                || articleTitle.StartsWith(@"List of ")
+                || WikiRegexes.Disambigs.IsMatch(articleText)
+               )
                 return false;
             
             string MABackground = 
