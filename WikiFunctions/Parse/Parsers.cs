@@ -788,6 +788,7 @@ namespace WikiFunctions.Parse
             articleText = AddBackTextImages(articleText);
 
             // fixes bellow need full HideMore
+            string articleTextRaw = articleText;
             articleText = HideMoreText(articleText);
 
             articleText = YearRangeToPresent.Replace(articleText, @"$1–$2");
@@ -820,6 +821,10 @@ namespace WikiFunctions.Parse
             articleText = SyntaxRemoveBr.Replace(articleText, "\r\n");
             articleText = SyntaxRemoveParagraphs.Replace(articleText, "\r\n\r\n");
             articleText = SyntaxRegexListRowBrTagStart.Replace(articleText, "$1");
+            
+            // replace first occurrence of unlinked floruit with linked version, zeroth section only
+            if (UnlinkedFloruit.IsMatch(WikiRegexes.ZerothSection.Match(articleTextRaw).Value))
+                articleText = UnlinkedFloruit.Replace(articleText, @"([[floruit|fl.]] $1", 1);
 
             return AddBackMoreText(articleText);
         }
@@ -857,10 +862,6 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixLivingThingsRelatedDates(string articleText)
         {
-            // replace first occurrence of unlinked floruit with linked version, zeroth section only
-            if (UnlinkedFloruit.IsMatch(WikiRegexes.ZerothSection.Match(articleText).Value))
-                articleText = UnlinkedFloruit.Replace(articleText, @"([[floruit|fl.]] $1", 1);
-
             articleText = DiedDateRegex.Replace(articleText, "$1died$2"); // date of death
             articleText = DOBRegex.Replace(articleText, "$1born$2"); // date of birth
             articleText = DOBRegexDash.Replace(articleText, "$1born $2)"); // date of birth – dash

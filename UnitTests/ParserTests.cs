@@ -1097,24 +1097,24 @@ was"));
 ==Time==
 Foo was happy";
 
-            Assert.AreEqual(LinkedFloruit, Parsers.FixLivingThingsRelatedDates(@"'''Foo''' (fl. 550) was a peasant.
+            Assert.AreEqual(LinkedFloruit, parser.FixDates(@"'''Foo''' (fl. 550) was a peasant.
 ==Time==
 Foo was happy"), "lowercase");
-            Assert.AreEqual(LinkedFloruit, Parsers.FixLivingThingsRelatedDates(@"'''Foo''' (fl 550) was a peasant.
+            Assert.AreEqual(LinkedFloruit, parser.FixDates(@"'''Foo''' (fl 550) was a peasant.
 ==Time==
 Foo was happy"), "no dot");
-            Assert.AreEqual(LinkedFloruit, Parsers.FixLivingThingsRelatedDates(@"'''Foo''' ( fl. 550) was a peasant.
+            Assert.AreEqual(LinkedFloruit, parser.FixDates(@"'''Foo''' ( fl. 550) was a peasant.
 ==Time==
 Foo was happy"), "extra whitespace");
-            Assert.AreEqual(LinkedFloruit, Parsers.FixLivingThingsRelatedDates(@"'''Foo''' (Fl. 550) was a peasant.
+            Assert.AreEqual(LinkedFloruit, parser.FixDates(@"'''Foo''' (Fl. 550) was a peasant.
 ==Time==
 Foo was happy"), "title case");
 
-            Assert.AreEqual(LinkedFloruit, Parsers.FixLivingThingsRelatedDates(LinkedFloruit), "no change if already linked");
+            Assert.AreEqual(LinkedFloruit, parser.FixDates(LinkedFloruit), "no change if already linked");
 
             Assert.AreEqual(@"'''Foo''' ([[floruit|fl.]] 550) was a peasant.
 Foo was happy
-Other (fl. 1645) was also", Parsers.FixLivingThingsRelatedDates(@"'''Foo''' (fl. 550) was a peasant.
+Other (fl. 1645) was also", parser.FixDates(@"'''Foo''' (fl. 550) was a peasant.
 Foo was happy
 Other (fl. 1645) was also"), "only first floruit linked");
 
@@ -1122,9 +1122,9 @@ Other (fl. 1645) was also"), "only first floruit linked");
 ==Other==
 Other (fl. 1645) was also", FloruitTwice = @"'''Foo''' (fl. 55) was a peasant, related to other (fl. 600)";
 
-            Assert.AreEqual(FloruitLaterSection, Parsers.FixLivingThingsRelatedDates(FloruitLaterSection), "not linked outside zeroth section");
+            Assert.AreEqual(FloruitLaterSection, parser.FixDates(FloruitLaterSection), "not linked outside zeroth section");
 
-            Assert.AreEqual(@"'''Foo''' ([[floruit|fl.]] 55) was a peasant, related to other (fl. 600)", Parsers.FixLivingThingsRelatedDates(FloruitTwice), "only first occurrence linked");
+            Assert.AreEqual(@"'''Foo''' ([[floruit|fl.]] 55) was a peasant, related to other (fl. 600)", parser.FixDates(FloruitTwice), "only first occurrence linked");
         }
 
         [Test]
