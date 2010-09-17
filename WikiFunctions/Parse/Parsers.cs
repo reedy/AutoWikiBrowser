@@ -1105,11 +1105,13 @@ namespace WikiFunctions.Parse
         {
             /* On en-wiki AWB is asked not to add named references to an article if there are none currently, as some users feel
              * this is a change of citation style, so is against the [[WP:CITE]] "don't change established style" guidelines */
-            if (Variables.LangCode == "en" && !HasNamedReferences(articleText))
+            if (Variables.LangCode.Equals("en") && !HasNamedReferences(articleText))
                 return articleText;
 
             Dictionary<int, List<Ref>> refs = new Dictionary<int, List<Ref>>();
             bool haveRefsToFix = false;
+            
+            // loop through all unnamed refs, add any duplicates to dictionary
             foreach (Match m in UnnamedRef.Matches(articleText))
             {
                 string fullReference = m.Value;
@@ -1128,7 +1130,7 @@ namespace WikiFunctions.Parse
                 else
                 {
                     list = new List<Ref>();
-                    refs[hash] = list;
+                    refs.Add(hash, list);
                 }
 
                 list.Add(new Ref { Text = fullReference, InnerText = refContent });
@@ -1139,9 +1141,11 @@ namespace WikiFunctions.Parse
 
             StringBuilder result = new StringBuilder(articleText);
 
-            foreach (var list in refs.Values)
+            // process each duplicate reference in dictionary
+            foreach (List<Ref> list in refs.Values)
             {
-                if (list.Count < 2) continue; // nothing to consolidate
+                if (list.Count < 2) 
+                    continue; // nothing to consolidate
 
                 // get the reference name to use
                 string friendlyName = DeriveReferenceName(articleText, list[0].InnerText);
