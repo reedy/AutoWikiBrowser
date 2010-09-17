@@ -129,7 +129,7 @@ namespace WikiFunctions.Parse
             RegexConversion.Add(new Regex(@"({{\s*[Cc]itation needed\s*\|)\s*(?:[Dd]ate:)?([A-Z][a-z]+ 20\d\d)\s*\|\s*(date\s*=\s*\2\s*}})", RegexOptions.Compiled | RegexOptions.IgnoreCase), @"$1$3");
 
             SmallTagRegexes.Add(WikiRegexes.SupSub);
-            SmallTagRegexes.Add(WikiRegexes.Images);
+            SmallTagRegexes.Add(WikiRegexes.FileNamespaceLink);
             SmallTagRegexes.Add(WikiRegexes.Refs);
             SmallTagRegexes.Add(WikiRegexes.Small);
         }
