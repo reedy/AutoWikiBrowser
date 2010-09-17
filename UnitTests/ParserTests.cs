@@ -3819,6 +3819,9 @@ http://example.com }}");
             Assert.AreEqual(@"a 50&nbsp;grammes rod", parser.FixNonBreakingSpaces(@"a 50grammes rod"));
             Assert.AreEqual(@"a 50&nbsp;grams rod", parser.FixNonBreakingSpaces(@"a 50grams rod"));
             
+            Assert.AreEqual(@"a 50&nbsp;Hz rod", parser.FixNonBreakingSpaces(@"a 50Hz rod"));
+            Assert.AreEqual(@"a 50&nbsp;kHz rod", parser.FixNonBreakingSpaces(@"a 50kHz rod"));
+            
             Assert.AreEqual(@"a 50&nbsp;cm road", parser.FixNonBreakingSpaces(@"a 50 cm road"));
             Assert.AreEqual(@"a 50&nbsp;cm road", parser.FixNonBreakingSpaces(@"a 50cm road"));
             Assert.AreEqual(@"a 50.247&nbsp;cm road", parser.FixNonBreakingSpaces(@"a 50.247cm road"));
