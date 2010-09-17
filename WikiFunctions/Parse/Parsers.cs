@@ -1074,6 +1074,10 @@ namespace WikiFunctions.Parse
         }
 
         private const string RefName = @"(?si)<\s*ref\s+name\s*=\s*(?:""|')?";
+        
+        /// <summary>
+        /// Matches unnamed references i.e. &lt;ref>...&lt;/ref>, group 1 being the ref value
+        /// </summary>
         private static readonly Regex UnnamedRef = new Regex(@"<\s*ref\s*>\s*([^<>]+)\s*<\s*/\s*ref>", RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
@@ -1104,17 +1108,18 @@ namespace WikiFunctions.Parse
             if (Variables.LangCode == "en" && !HasNamedReferences(articleText))
                 return articleText;
 
-            var refs = new Dictionary<int, List<Ref>>();
+            Dictionary<int, List<Ref>> refs = new Dictionary<int, List<Ref>>();
             bool haveRefsToFix = false;
             foreach (Match m in UnnamedRef.Matches(articleText))
             {
-                var str = m.Value;
+                string fullReference = m.Value;
 
                 // ref contains ibid/op cit, don't combine it, could refer to any ref on page
-                if (WikiRegexes.IbidOpCitation.IsMatch(str)) continue;
+                if (WikiRegexes.IbidOpCitation.IsMatch(fullReference)) 
+                    continue;
 
-                string inner = m.Groups[1].Value.Trim();
-                int hash = inner.GetHashCode();
+                string refContent = m.Groups[1].Value.Trim();
+                int hash = refContent.GetHashCode();
                 List<Ref> list;
                 if (refs.TryGetValue(hash, out list))
                 {
@@ -1126,7 +1131,7 @@ namespace WikiFunctions.Parse
                     refs[hash] = list;
                 }
 
-                list.Add(new Ref { Text = str, InnerText = inner });
+                list.Add(new Ref { Text = fullReference, InnerText = refContent });
             }
 
             if (!haveRefsToFix)
