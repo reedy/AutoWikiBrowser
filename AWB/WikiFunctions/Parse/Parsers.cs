@@ -1117,7 +1117,7 @@ namespace WikiFunctions.Parse
                 string fullReference = m.Value;
 
                 // ref contains ibid/op cit, don't combine it, could refer to any ref on page
-                if (WikiRegexes.IbidOpCitation.IsMatch(fullReference)) 
+                if (WikiRegexes.IbidOpCitation.IsMatch(fullReference))
                     continue;
 
                 string refContent = m.Groups[1].Value.Trim();
@@ -1125,15 +1125,16 @@ namespace WikiFunctions.Parse
                 List<Ref> list;
                 if (refs.TryGetValue(hash, out list))
                 {
+                    list.Add(new Ref { Text = fullReference, InnerText = refContent });
+                    refs[hash] = list;
                     haveRefsToFix = true;
                 }
                 else
                 {
                     list = new List<Ref>();
+                    list.Add(new Ref { Text = fullReference, InnerText = refContent });
                     refs.Add(hash, list);
                 }
-
-                list.Add(new Ref { Text = fullReference, InnerText = refContent });
             }
 
             if (!haveRefsToFix)
@@ -1142,9 +1143,10 @@ namespace WikiFunctions.Parse
             StringBuilder result = new StringBuilder(articleText);
 
             // process each duplicate reference in dictionary
-            foreach (List<Ref> list in refs.Values)
+            foreach (KeyValuePair<int, List<Ref>> kvp in refs)
             {
-                if (list.Count < 2) 
+                List<Ref> list = kvp.Value;
+                if (list.Count < 2)
                     continue; // nothing to consolidate
 
                 // get the reference name to use
@@ -1176,9 +1178,11 @@ namespace WikiFunctions.Parse
                         result.Replace(list[i].Text, newValue.ToString());
                     }
                 }
+                
+                articleText = result.ToString();
             }
 
-            return result.ToString();
+            return articleText;
         }
 
         private static readonly Regex PageRef = new Regex(@"\s*(?:(?:[Pp]ages?|[Pp][pg]?[:\.]?)|^)\s*[XVI\d]", RegexOptions.Compiled);
