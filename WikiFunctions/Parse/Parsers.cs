@@ -1481,6 +1481,53 @@ namespace WikiFunctions.Parse
         {
             return !Regex.IsMatch(articleText, RefName + Regex.Escape(derivedReferenceName) + @"(?:""|')?\s*/?\s*>") && derivedReferenceName.Length >= 3;
         }
+        
+        private static readonly Regex TlOrTlx = Tools.NestedTemplateRegex(new List<string>(new [] {"tl", "tlx"}));
+        private static readonly Regex TemplateRedirectsR = new Regex(@"({{ *[Tt]lx? *\|.*}}) *\-\-> *({{ *[Tt]lx? *\| *(.*?) *}})\s*", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Processes the text of [[WP:AWB/Template redirects]] into a dictionary of regexes and new template names
+        /// Format: {{tl|template 1}}, {{tl|template 2}} --> {{tl|actual template}}
+        /// </summary>
+        public static Dictionary<Regex, string> LoadTemplateRedirects(string text)
+        {
+            text = WikiRegexes.UnformattedText.Replace(text, "");
+            Dictionary<Regex, string> TRs = new Dictionary<Regex, string>();
+
+            foreach (Match m in TemplateRedirectsR.Matches(text))
+            {
+                string redirects = m.Groups[1].Value, templateName = m.Groups[2].Value;
+                templateName = TlOrTlx.Match(templateName).Groups[3].Value.Trim('|').TrimEnd('}').Trim();
+
+                // get all redirects into a list
+                List<string> redirectsList = new List<string>();
+
+                foreach(Match r in TlOrTlx.Matches(redirects))
+                {
+                    redirectsList.Add(r.Groups[3].Value.Trim('|').TrimEnd('}').Trim());
+                }
+                
+                TRs.Add(Tools.NestedTemplateRegex(redirectsList), templateName);
+            }
+
+            return TRs;
+        }
+
+        /// <summary>
+        /// Renames templates to bypass template redirects from [[WP:AWB/Template redirects]]
+        /// </summary>
+        /// <param name="articletext">the page text</param>
+        /// <param name="TemplateRedirects">Dictionary of redirects and templates</param>
+        /// <returns>The updated article text</returns>
+        public static string TemplateRedirects(string articleText, Dictionary<Regex, string> TemplateRedirects)
+        {
+            foreach(KeyValuePair<Regex, string> kvp in TemplateRedirects)
+            {
+                articleText = kvp.Key.Replace(articleText, "$1" + kvp.Value + "$3");
+            }
+
+            return articleText;
+        }
 
         /// <summary>
         /// Corrects common formatting errors in dates in external reference citation templates (doesn't link/delink dates)

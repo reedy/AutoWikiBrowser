@@ -258,6 +258,11 @@ namespace WikiFunctions
         /// Variables.NamespacesCaseInsensitive compiled into regexes
         /// </summary>
         public static Dictionary<int, Regex> NamespacesCaseInsensitive;
+        
+        /// <summary>
+        /// Dictionary of template redirects (as a nested template regex) and the actual template name
+        /// </summary>
+        public static Dictionary<Regex, string> TemplateRedirects = new Dictionary<Regex, string>();
 
         /// <summary>
         /// Piece of template call, including curly brace and possible namespace

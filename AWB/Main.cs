@@ -82,6 +82,7 @@ namespace AutoWikiBrowser
         private readonly ExternalProgram ExtProgram = new ExternalProgram();
         private RegexTester RegexTester;
         private bool UserTalkWarningsLoaded;
+        private bool TemplateRedirectsLoaded;
         private Regex UserTalkTemplatesRegex;
         private bool Skippable = true;
         private FormWindowState LastState = FormWindowState.Normal; // doesn't look like we can use RestoreBounds for this - any other built in way?
@@ -1492,7 +1493,13 @@ namespace AutoWikiBrowser
                         Variables.Profiler.Profile("Auto-tagger");
 
                         if (chkGeneralFixes.Checked)
-                        {
+                        {                            
+                            if(!TemplateRedirectsLoaded)
+                            {
+                                LoadTemplateRedirects();
+                                Variables.Profiler.Profile("LoadTemplateRedirects");
+                            }
+                            
                             theArticle.PerformGeneralFixes(Parser, RemoveText, Skip,
                                                            replaceReferenceTagsToolStripMenuItem.Checked,
                                                            restrictDefaultsortChangesToolStripMenuItem.Checked,
@@ -4418,6 +4425,26 @@ window.scrollTo(0, diffTopY);
 
             if(UserTalkTemplates.Count > 0)
                 UserTalkTemplatesRegex = Tools.NestedTemplateRegex(UserTalkTemplates);
+        }
+        
+        /// <summary>
+        /// Loads the list of template redirects to bypass from [[WP:AWB/Template redirects]]
+        /// </summary>
+        private void LoadTemplateRedirects()
+        {
+            string text;
+            TemplateRedirectsLoaded = true;
+            try
+            {
+                text = TheSession.Editor.SynchronousEditor.Clone().Open("Project:AutoWikiBrowser/Template redirects", true);
+            }
+            catch
+            {
+                text = "";
+            }
+
+            if(text.Length > 0)
+                WikiRegexes.TemplateRedirects = Parsers.LoadTemplateRedirects(text);
         }
 
         private void undoAllChangesToolStripMenuItem_Click(object sender, EventArgs e)
