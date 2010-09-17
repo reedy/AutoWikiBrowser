@@ -4472,6 +4472,13 @@ was"));
             const string unclosedTag = @"<ref><small>foo</small></ref> now <small>";
             Assert.AreEqual(unclosedTag, Parsers.FixSyntax(unclosedTag));
         }
+        
+        [Test]
+        public void FixSmallTagsImageDescriptions()
+        {
+            Assert.AreEqual(@"[[File:foo.jpg|bar]]", Parsers.FixSyntax(@"[[File:foo.jpg|<small>bar</small>]]"), "removes small from image descriptions");
+            Assert.AreEqual(@"[[File:foo.jpg|thumb|bar]]", Parsers.FixSyntax(@"[[File:foo.jpg|thumb|<small>bar</small>]]"), "removes small from image descriptions when other parameters too");
+        }
     }
 
     [TestFixture]
