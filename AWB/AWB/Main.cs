@@ -2800,6 +2800,9 @@ window.scrollTo(0, diffTopY);
             //refresh talk warnings list
             if (UserTalkWarningsLoaded)
                 LoadUserTalkWarnings();
+            
+            if(TemplateRedirectsLoaded)
+                LoadTemplateRedirects();
         }
 
         private void SetProject(string code, ProjectEnum project, string customProject, bool usingSecure)
