@@ -1142,6 +1142,9 @@ namespace WikiFunctions
             HideText(removeText);
 
             Variables.Profiler.Profile("HideText");
+            
+            AWBChangeArticleText("Template redirects", Parsers.TemplateRedirects(ArticleText, WikiRegexes.TemplateRedirects), false);
+            Variables.Profiler.Profile("TemplateRedirects");
 
             // call this before MinorFixes so that Parsers.Conversions cleans up from ArticleIssues
             AWBChangeArticleText("Fixes for {{Multiple issues}}", parsers.MultipleIssues(ArticleText), true);

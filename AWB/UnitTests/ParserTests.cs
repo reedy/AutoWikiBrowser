@@ -4488,6 +4488,36 @@ was"));
             Assert.AreEqual(@"[[File:foo.jpg|bar]]", Parsers.FixSyntax(@"[[File:foo.jpg|<small>bar</small>]]"), "removes small from image descriptions");
             Assert.AreEqual(@"[[File:foo.jpg|thumb|bar]]", Parsers.FixSyntax(@"[[File:foo.jpg|thumb|<small>bar</small>]]"), "removes small from image descriptions when other parameters too");
         }
+        
+        [Test]
+        public void LoadTemplateRedirects()
+        {
+            Dictionary<Regex, string> TemplateRedirects = new Dictionary<Regex, string>();
+
+            Assert.AreEqual(TemplateRedirects, Parsers.LoadTemplateRedirects(""), "returns empty dictionary when no rules present");
+
+            TemplateRedirects.Add(Tools.NestedTemplateRegex("Cn"), "Citation needed");
+
+            Assert.AreEqual(TemplateRedirects.Values, Parsers.LoadTemplateRedirects("{{tl|Cn}} --> {{tl|Citation needed}}").Values, "loads single redirect rules");
+
+            TemplateRedirects.Clear();
+            TemplateRedirects.Add(Tools.NestedTemplateRegex(new List<string>(new [] {"Cn", "fact"})), "Citation needed");
+
+            Assert.AreEqual(TemplateRedirects.Values, Parsers.LoadTemplateRedirects("{{tl|Cn}}, {{tl|fact}} --> {{tl|Citation needed}}").Values, "loads multiple redirect rules");
+        }
+
+        [Test]
+        public void TemplateRedirects()
+        {
+            Dictionary<Regex, string> TemplateRedirects = Parsers.LoadTemplateRedirects("{{tl|Cn}}, {{tl|fact}} --> {{tl|Citation needed}}");
+
+            Assert.AreEqual("now {{Citation needed}} was", Parsers.TemplateRedirects("now {{cn}} was", TemplateRedirects));
+            Assert.AreEqual("now {{Citation needed}} was{{Citation needed}} or", Parsers.TemplateRedirects("now {{cn}} was{{fact}} or", TemplateRedirects), "renames multiple different redirects");
+            Assert.AreEqual("now {{Citation needed}} was{{Citation needed}} or", Parsers.TemplateRedirects("now {{cn}} was{{cn}} or", TemplateRedirects), "renames multiple redirects");
+            
+            TemplateRedirects = Parsers.LoadTemplateRedirects("{{tl|Cn}}, {{tl|fact}} --> {{tl|citation needed}}");
+            Assert.AreEqual("now {{citation needed}} was", Parsers.TemplateRedirects("now {{cn}} was", TemplateRedirects), "follows case of new template name");
+        }
     }
 
     [TestFixture]
