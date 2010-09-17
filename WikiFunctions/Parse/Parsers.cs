@@ -2261,10 +2261,6 @@ namespace WikiFunctions.Parse
             articleText = DoubleBracketAtEndOfExternalLink.Replace(articleText, "$1");
             articleText = DoubleBracketAtEndOfExternalLinkWithinImage.Replace(articleText, "$1");
 
-            // (part) wikilinked/external linked URL in cite template, uses MediaWiki regex of [^\[\]<>""\s] for URL bit after http://
-            articleText = BracketsAtBeginCiteTemplateURL.Replace(articleText, "$1$2$3");
-            articleText = BracketsAtEndCiteTemplateURL.Replace(articleText, "$1$2$3");
-
             articleText = MultipleHttpInLink.Replace(articleText, "$1$2");
             
             // fix newline(s) in external link description
@@ -2298,6 +2294,7 @@ namespace WikiFunctions.Parse
             articleText = CategoryCurlyBrackets.Replace(articleText, @"[[$1]]");
 
             // fixes for missing/unbalanced brackets
+            articleText = RefCitationMissingOpeningBraces.Replace(articleText, @"{{");
             articleText = RefTemplateIncorrectBracesAtEnd.Replace(articleText, @"$1}}");
             articleText = RefExternalLinkUsingBraces.Replace(articleText, @"[$1$2]$3");
             articleText = TemplateIncorrectBracesAtStart.Replace(articleText, @"{{$1");
@@ -2307,8 +2304,11 @@ namespace WikiFunctions.Parse
             articleText = CitationTemplateIncorrectBracesAtEnd.Replace(articleText, @"$1}}");
             articleText = RefExternalLinkMissingStartBracket.Replace(articleText, @"[$1");
             articleText = RefExternalLinkMissingEndBracket.Replace(articleText, @"]$1");
-            articleText = RefCitationMissingOpeningBraces.Replace(articleText, @"{{");
             articleText = BracesWithinDefaultsort.Replace(articleText, @"}}");
+            
+            // (part) wikilinked/external linked URL in cite template, uses MediaWiki regex of [^\[\]<>""\s] for URL bit after http://
+            articleText = BracketsAtBeginCiteTemplateURL.Replace(articleText, "$1$2$3");
+            articleText = BracketsAtEndCiteTemplateURL.Replace(articleText, "$1$2$3");
 
             // fixes for square brackets used within external links
             foreach (Match m in SquareBracketsInExternalLinks.Matches(articleText))
