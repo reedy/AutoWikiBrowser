@@ -1012,44 +1012,62 @@ namespace WikiFunctions.Parse
         public static string DuplicateNamedReferences(string articleText)
         {
             Dictionary<string, string> NamedRefs = new Dictionary<string, string>();
+            bool reparse = false;
 
-            foreach (Match m in WikiRegexes.NamedReferences.Matches(articleText))
+            for(;;)
             {
-                string refName = m.Groups[2].Value;
-                string namedRefValue = m.Groups[3].Value;
-                string name2 = "";
-
-                if (!NamedRefs.ContainsKey(namedRefValue))
-                    NamedRefs.Add(namedRefValue, refName);
-                else
+                reparse = false;
+                NamedRefs.Clear();
+                
+                foreach (Match m in WikiRegexes.NamedReferences.Matches(articleText))
                 {
-                    // we've already seen this reference, can condense later ones
-                    NamedRefs.TryGetValue(namedRefValue, out name2);
+                    string refName = m.Groups[2].Value;
+                    string namedRefValue = m.Groups[3].Value;
+                    string name2 = "";
 
-                    if (name2.Equals(refName) && namedRefValue.Length >= 25)
+                    if (!NamedRefs.ContainsKey(namedRefValue))
+                        NamedRefs.Add(namedRefValue, refName);
+                    else
                     {
-                        int reflistIndex = WikiRegexes.ReferencesTemplate.Match(articleText).Index;
+                        // we've already seen this reference, can condense later ones
+                        NamedRefs.TryGetValue(namedRefValue, out name2);
 
-                        // don't condense refs in {{reflist...}}
-                        if (reflistIndex > 0 && m.Index > reflistIndex)
-                            continue;
+                        if (name2.Equals(refName) && namedRefValue.Length >= 25)
+                        {
+                            int reflistIndex = WikiRegexes.ReferencesTemplate.Match(articleText).Index;
 
-                        if (m.Index > articleText.Length)
-                            continue;
+                            // don't condense refs in {{reflist...}}
+                            if (reflistIndex > 0 && m.Index > reflistIndex)
+                                continue;
 
-                        // duplicate citation fixer (both named): <ref name="Fred">(...)</ref>....<ref name="Fred">\2</ref> --> ..<ref name="Fred"/>, minimum 25 characters to avoid short refs
-                        string texttomatch = articleText.Substring(0, m.Index);
-                        string textaftermatch = articleText.Substring(m.Index);
+                            if (m.Index > articleText.Length)
+                            {
+                                reparse = true;
+                                break;
+                            }
 
-                        articleText = texttomatch + textaftermatch.Replace(m.Value, @"<ref name=""" + refName + @"""/>");
+                            // duplicate citation fixer (both named): <ref name="Fred">(...)</ref>....<ref name="Fred">\2</ref> --> ..<ref name="Fred"/>, minimum 25 characters to avoid short refs
+                            string texttomatch = articleText.Substring(0, m.Index);
+                            string textaftermatch = articleText.Substring(m.Index);
+
+                            if(textaftermatch.Contains(m.Value))
+                                articleText = texttomatch + textaftermatch.Replace(m.Value, @"<ref name=""" + refName + @"""/>");
+                            else
+                            {
+                                reparse = true;
+                                break;
+                            }
+                        }
                     }
+
+                    // duplicate citation fixer (first named): <ref name="Fred">(...)</ref>....<ref>\2</ref> --> ..<ref name="Fred"/>
+                    // duplicate citation fixer (second named): <ref>(...)</ref>....<ref name="Fred">\2</ref> --> ..<ref name="Fred"/>
+                    foreach (Match m3 in Regex.Matches(articleText, @"<\s*ref\s*>\s*" + Regex.Escape(namedRefValue) + @"\s*<\s*/\s*ref>"))
+                        articleText = articleText.Replace(m3.Value, @"<ref name=""" + refName + @"""/>");
                 }
-
-                // duplicate citation fixer (first named): <ref name="Fred">(...)</ref>....<ref>\2</ref> --> ..<ref name="Fred"/>
-                // duplicate citation fixer (second named): <ref>(...)</ref>....<ref name="Fred">\2</ref> --> ..<ref name="Fred"/>
-                foreach (Match m3 in Regex.Matches(articleText, @"<\s*ref\s*>\s*" + Regex.Escape(namedRefValue) + @"\s*<\s*/\s*ref>"))
-                    articleText = articleText.Replace(m3.Value, @"<ref name=""" + refName + @"""/>");
-
+                
+                if(!reparse)
+                    break;
             }
 
             return articleText;
