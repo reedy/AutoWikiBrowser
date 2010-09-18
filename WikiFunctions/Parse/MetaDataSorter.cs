@@ -601,7 +601,8 @@ en, sq, ru
         /// <param name="articleText">the article text</param>
         /// <returns>the modified article text</returns>
         public static string MoveMaintenanceTags(string articleText)
-        {            
+        {
+            string originalArticleText = articleText;
             bool doMove = false;
             int lastIndex = -1;
             // if all templates removed from articletext before last MaintenanceTemplates match are not infoboxes then do not change anything
@@ -645,6 +646,9 @@ en, sq, ru
             }
 
             articleText = strMaintTags + articleText;
+            
+            if(!UnformattedTextNotChanged(originalArticleText, articleText))
+                return originalArticleText;
 
             return strMaintTags.Length > 0 ? articleText.Replace(strMaintTags + "\r\n", strMaintTags) : articleText;
         }

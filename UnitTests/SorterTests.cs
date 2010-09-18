@@ -286,6 +286,9 @@ Fred has a dog.
             e = @"{{orphan|date=May 2008}}";
             // move when tags not all at top
             Assert.AreEqual(e + "\r\n" + i1 + "\r\nfoo\r\n", MetaDataSorter.MoveMaintenanceTags(e + "\r\nfoo\r\n" + i1));
+            
+            const string CommentedOut = @"<!---sufficient-?---{{Cleanup|date=January 2010}}--{{Wikify|date=January 2010}}---?--->";
+            Assert.AreEqual(CommentedOut, MetaDataSorter.MoveMaintenanceTags(CommentedOut), "no change to commented out tags");
         }
 
         [Test]
