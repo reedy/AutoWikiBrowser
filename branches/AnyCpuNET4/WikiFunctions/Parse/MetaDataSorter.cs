@@ -601,7 +601,8 @@ en, sq, ru
         /// <param name="articleText">the article text</param>
         /// <returns>the modified article text</returns>
         public static string MoveMaintenanceTags(string articleText)
-        {            
+        {
+            string originalArticleText = articleText;
             bool doMove = false;
             int lastIndex = -1;
             // if all templates removed from articletext before last MaintenanceTemplates match are not infoboxes then do not change anything
@@ -645,6 +646,9 @@ en, sq, ru
             }
 
             articleText = strMaintTags + articleText;
+            
+            if(!UnformattedTextNotChanged(originalArticleText, articleText))
+                return originalArticleText;
 
             return strMaintTags.Length > 0 ? articleText.Replace(strMaintTags + "\r\n", strMaintTags) : articleText;
         }
@@ -909,15 +913,19 @@ en, sq, ru
                 
                 goodMatches.Add(m);
                 
-                // drop interwikis to own wiki
-                if(!m.Groups[1].Value.Equals(Variables.LangCode))
+                // drop interwikis to own wiki, but not on commons where language = en and en interwikis go to wikipedia
+                if(!(m.Groups[1].Value.Equals(Variables.LangCode) && !Variables.IsCommons))
                     interWikiList.Add("[[" + site + ":" + m.Groups[2].Value.Trim() + "]]");
             }
 
             articleText = Tools.RemoveMatches(articleText, goodMatches);
 
             if (SortInterwikis)
+            {
+                // sort twice to result in no reordering of two interwikis to same language project
                 interWikiList.Sort(Comparer);
+                interWikiList.Sort(Comparer);
+            }
 
             return interWikiList;
         }

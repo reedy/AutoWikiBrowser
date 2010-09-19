@@ -82,6 +82,7 @@ namespace AutoWikiBrowser
         private readonly ExternalProgram ExtProgram = new ExternalProgram();
         private RegexTester RegexTester;
         private bool UserTalkWarningsLoaded;
+        private bool TemplateRedirectsLoaded;
         private Regex UserTalkTemplatesRegex;
         private bool Skippable = true;
         private FormWindowState LastState = FormWindowState.Normal; // doesn't look like we can use RestoreBounds for this - any other built in way?
@@ -605,7 +606,7 @@ namespace AutoWikiBrowser
         private void OpenPage(string title)
         {
             StatusLabelText = "Loading...";
-            TheSession.Editor.Open(title, bypassRedirectsToolStripMenuItem.Checked);
+            TheSession.Editor.Open(title, followRedirectsToolStripMenuItem.Checked);
         }
 
         private bool _stopProcessing, _inStart, _startAgain;
@@ -615,7 +616,8 @@ namespace AutoWikiBrowser
         /// </summary>
         private void Start()
         {
-            if (TheSession.Status != WikiStatusResult.Registered || TheSession.IsBusy) return;
+            if (TheSession.Status != WikiStatusResult.Registered || TheSession.IsBusy) 
+                return;
             if (_inStart)
             {
                 _startAgain = true;
@@ -684,6 +686,8 @@ namespace AutoWikiBrowser
 
                 if (!Tools.IsValidTitle(title))
                 {
+                    // create TheArticle else skip won't work
+                    TheArticle = new Article(title, "");
                     SkipPage("Invalid page title");
                     return;
                 }
@@ -738,6 +742,7 @@ namespace AutoWikiBrowser
         private Dictionary<int, int> deadLinks = new Dictionary<int, int>();
         private Dictionary<int, int> ambigCiteDates = new Dictionary<int, int>();
         private List<string> UnknownWikiProjectBannerShellParameters = new List<string>();
+        private List<string> UnknownMultipleIssuesParameters = new List<string>();
         
         private SortedDictionary<int, int> Errors = new SortedDictionary<int, int>();
         
@@ -786,7 +791,7 @@ namespace AutoWikiBrowser
             }
 
             //check for redirect
-            if (bypassRedirectsToolStripMenuItem.Checked && articleIsRedirect && !PageReload)
+            if (followRedirectsToolStripMenuItem.Checked && articleIsRedirect && !PageReload)
             {
                 if ((page.TitleChangedStatus & PageTitleStatus.RedirectLoop) == PageTitleStatus.RedirectLoop)
                 {
@@ -1488,7 +1493,13 @@ namespace AutoWikiBrowser
                         Variables.Profiler.Profile("Auto-tagger");
 
                         if (chkGeneralFixes.Checked)
-                        {
+                        {                            
+                            if(!TemplateRedirectsLoaded)
+                            {
+                                LoadTemplateRedirects();
+                                Variables.Profiler.Profile("LoadTemplateRedirects");
+                            }
+                            
                             theArticle.PerformGeneralFixes(Parser, RemoveText, Skip,
                                                            replaceReferenceTagsToolStripMenuItem.Checked,
                                                            restrictDefaultsortChangesToolStripMenuItem.Checked,
@@ -1511,7 +1522,7 @@ namespace AutoWikiBrowser
                         }
                         else if (theArticle.CanDoTalkGeneralFixes)
                         {
-                            theArticle.PerformTalkGeneralFixes();
+                            theArticle.PerformTalkGeneralFixes(RemoveText);
                         }
                         Variables.Profiler.Profile("Talk Genfixes");
                     }
@@ -2451,6 +2462,15 @@ window.scrollTo(0, diffTopY);
                     lbAlerts.Items.Add(warn);
                 }
                 
+                UnknownMultipleIssuesParameters = TheArticle.UnknownMultipleIssuesParameters();
+                if(UnknownMultipleIssuesParameters.Count > 0)
+                {
+                    string warn = "Unknown parameters in Multiple issues: "  + " (" + UnknownMultipleIssuesParameters.Count + ") ";
+                    foreach(string s in UnknownMultipleIssuesParameters)
+                        warn += s + ", ";
+                    lbAlerts.Items.Add(warn);
+                }
+                
                 unclosedTags = TheArticle.UnclosedTags();
                 if (unclosedTags.Count > 0)
                     lbAlerts.Items.Add("Unclosed tag(s) found" + " (" + unclosedTags.Count + ")");
@@ -2780,6 +2800,9 @@ window.scrollTo(0, diffTopY);
             //refresh talk warnings list
             if (UserTalkWarningsLoaded)
                 LoadUserTalkWarnings();
+            
+            if(TemplateRedirectsLoaded)
+                LoadTemplateRedirects();
         }
 
         private void SetProject(string code, ProjectEnum project, string customProject, bool usingSecure)
@@ -3401,7 +3424,8 @@ window.scrollTo(0, diffTopY);
 
         private void metadataTemplateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            txtEdit.SelectedText = "{{Persondata\r\n|NAME=\r\n|ALTERNATIVE NAMES=\r\n|SHORT DESCRIPTION=\r\n|DATE OF BIRTH=\r\n|PLACE OF BIRTH=\r\n|DATE OF DEATH=\r\n|PLACE OF DEATH=\r\n}}";
+            txtEdit.SelectedText = WikiRegexes.PersonDataDefault;
+            txtEdit.Text = WikiFunctions.Parse.Parsers.PersonData(txtEdit.Text, TheArticle.Name);
         }
 
         private void humanNameCategoryKeyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3427,6 +3451,12 @@ window.scrollTo(0, diffTopY);
                     if(Tools.GetTemplateParameterValue(m2.Value, "date").Length > 0)
                         articleTextLocal = articleTextLocal.Replace(m2.Value, "");
                 }
+                
+                foreach(Match m2 in WikiRegexes.TemplateMultiline.Matches(articleTextLocal))
+                {
+                    if(Tools.GetTemplateParameterValue(m2.Value, "date").Length > 0)
+                        articleTextLocal = articleTextLocal.Replace(m2.Value, "");
+                }                
                 
                 MatchCollection m = RegexDates.Matches(articleTextLocal);
 
@@ -4331,6 +4361,7 @@ window.scrollTo(0, diffTopY);
                 {
                     SameArticleNudges++;
                     Stop();
+                     _stopProcessing = false;
                     Start();
                 }
 
@@ -4397,6 +4428,26 @@ window.scrollTo(0, diffTopY);
 
             if(UserTalkTemplates.Count > 0)
                 UserTalkTemplatesRegex = Tools.NestedTemplateRegex(UserTalkTemplates);
+        }
+        
+        /// <summary>
+        /// Loads the list of template redirects to bypass from [[WP:AWB/Template redirects]]
+        /// </summary>
+        private void LoadTemplateRedirects()
+        {
+            string text;
+            TemplateRedirectsLoaded = true;
+            try
+            {
+                text = TheSession.Editor.SynchronousEditor.Clone().Open("Project:AutoWikiBrowser/Template redirects", true);
+            }
+            catch
+            {
+                text = "";
+            }
+
+            if(text.Length > 0)
+                WikiRegexes.TemplateRedirects = Parsers.LoadTemplateRedirects(text);
         }
 
         private void undoAllChangesToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4918,12 +4969,35 @@ window.scrollTo(0, diffTopY);
 
         private void categoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _catName.ShowDialog();
+            DialogResult dires =  _catName.ShowDialog();
 
-            if (string.IsNullOrEmpty(_catName.CategoryName)) return;
+            if (string.IsNullOrEmpty(_catName.CategoryName) || !dires.Equals(DialogResult.OK))
+                return;
 
-            txtEdit.Text += "\r\n\r\n[[" + _catName.CategoryName + "]]";
-            ReparseEditBox();
+            string catPage = "";
+            
+            // attempt validation of the category's existence, warn user if it doesn't exist
+            try
+            {
+                catPage = Variables.MainForm.TheSession.Editor.SynchronousEditor.Clone().Open(_catName.CategoryName, false);
+            }
+            catch
+            {
+                catPage = "okay";
+            }
+            
+            if(catPage.Length > 0 ||
+               MessageBox.Show(_catName.CategoryName + " does not exist. Add it to the page anyway?",
+                   "Non-existent category",  MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+               == DialogResult.Yes)
+            {
+                txtEdit.Text += "\r\n\r\n[[" + _catName.CategoryName + "]]";
+                
+                // remove any {{uncategorised}} tag now – tagger still counts categories based on saved page revision
+                txtEdit.Text = WikiRegexes.Uncat.Replace(txtEdit.Text, "");
+                
+                ReparseEditBox();
+            }
         }
 
         private void UsageStatsMenuItem_Click(object sender, EventArgs e)

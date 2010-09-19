@@ -381,6 +381,8 @@ now stubborn}}");
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorisedstub|date=May 2008}}"));
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorisedstub|date = May 2008}}"));
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+            
+            Assert.IsTrue(WikiRegexes.Uncat.Match(@"{{Uncat}}").Groups[1].Value.Equals("Uncat"));
 
             // all the other redirects
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Classify}}"));
@@ -423,6 +425,9 @@ now stubborn}}");
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{needs cats}}"));
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{cats needed}}"));
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{cat needed}}"));
+            
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorizedstub}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorized stub}}"));
 
             // no match
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized other template}}"));
@@ -568,6 +573,7 @@ pp
             RegexAssert.IsMatch(WikiRegexes.InternationalDates, @"On 11 July 2009");
             RegexAssert.IsMatch(WikiRegexes.InternationalDates, @"On 11 July  2009");
             RegexAssert.IsMatch(WikiRegexes.InternationalDates, @"On 1 July 1809");
+            RegexAssert.IsMatch(WikiRegexes.InternationalDates, @"On 11&nbsp;July 2009");
             
             RegexAssert.NoMatch(WikiRegexes.InternationalDates, @"On 11 July 44");
             RegexAssert.NoMatch(WikiRegexes.InternationalDates, @"On July 11, 2009 a");
@@ -579,6 +585,7 @@ pp
             RegexAssert.IsMatch(WikiRegexes.AmericanDates, @"On July 11, 2009 a");
             RegexAssert.IsMatch(WikiRegexes.AmericanDates, @"On July 11 2009 a");
             RegexAssert.IsMatch(WikiRegexes.AmericanDates, @"On July 11,  1809 a");
+            RegexAssert.IsMatch(WikiRegexes.AmericanDates, @"On July&nbsp;11, 2009 a");
             
             RegexAssert.NoMatch(WikiRegexes.AmericanDates, @"On July 11, 29 a");
             RegexAssert.NoMatch(WikiRegexes.AmericanDates, @"On 11 July 2009");

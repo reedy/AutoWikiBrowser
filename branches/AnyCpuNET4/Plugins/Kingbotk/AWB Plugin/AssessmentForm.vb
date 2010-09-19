@@ -29,7 +29,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 
             Me.Text += ": " & Title
 
-            ShowDialog = Me.ShowDialog()
+            Dim res As DialogResult = Me.ShowDialog()
             If ClassCheckedListBox.SelectedIndices.Count = 0 Then
                 Clss = Classification.Unassessed
             Else

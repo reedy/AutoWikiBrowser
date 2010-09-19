@@ -56,12 +56,13 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         ByVal ParamHasAlternativeName As Boolean, Optional ByVal DontChangeIfSet As Boolean = False, _
         Optional ByVal ParamAlternativeName As String = "", Optional ByVal PluginName As String = "", _
         Optional ByVal MinorEditOnlyIfAdding As Boolean = False) As Boolean
+            Dim res As Boolean
 
             If Parameters.ContainsKey(ParameterName) Then
-                NewOrReplaceTemplateParm = ReplaceTemplateParm(ParameterName, ParameterValue, TheArticle, _
+                res = ReplaceTemplateParm(ParameterName, ParameterValue, TheArticle, _
                    LogItAndUpdateEditSummary, DontChangeIfSet, PluginName)
             ElseIf ParamHasAlternativeName AndAlso Parameters.ContainsKey(ParamAlternativeName) Then
-                NewOrReplaceTemplateParm = ReplaceTemplateParm(ParamAlternativeName, ParameterValue, TheArticle, _
+                res = ReplaceTemplateParm(ParamAlternativeName, ParameterValue, TheArticle, _
                    LogItAndUpdateEditSummary, DontChangeIfSet, PluginName)
             Else ' Doesn't contain parameter
                 NewTemplateParm(ParameterName, ParameterValue, LogItAndUpdateEditSummary, TheArticle, PluginName, _
@@ -72,7 +73,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                 Return True
             End If
 
-            If NewOrReplaceTemplateParm Then TheArticle.ArticleHasAMajorChange()
+            If res Then TheArticle.ArticleHasAMajorChange()
+            Return res
         End Function
         Private Function ReplaceTemplateParm(ByVal ParameterName As String, ByVal ParameterValue As String, _
         ByVal TheArticle As Article, ByVal LogItAndUpdateEditSummary As Boolean, ByVal DontChangeIfSet As Boolean, _
@@ -94,13 +96,15 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                                True, PluginName)
                         End If
                     End If
-                    ReplaceTemplateParm = True
+                    Return True
                 Else ' Contains param with a different value, and we don't want to change it
                     PluginManager.AWBForm.TraceManager.WriteArticleActionLine( _
                        String.Format("{0} not changed, has existing value of {1}", _
                        ParameterName, ParameterValue), PluginName)
+                    Return False
                 End If
             End If ' Else: Already contains parameter and correct value; no need to change
+            Return False
         End Function
         Friend Sub RemoveParentWorkgroup(ByVal ChildWorkGroupParm As String, ByVal ParentWorkGroupParm As String, _
         ByVal AddChildWorkGroupParm As Boolean, ByVal Article As Article, ByVal PluginName As String)
@@ -119,14 +123,15 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             End If
         End Sub
         Friend Function ParametersToString(ByVal ParameterBreak As String) As String
-            ParametersToString = ""
+            Dim res As String = ""
             For Each o As KeyValuePair(Of String, TemplateParametersObject) In Parameters
                 With o
-                    ParametersToString += "|" + .Key + "=" + .Value.Value + ParameterBreak
+                    res += "|" + .Key + "=" + .Value.Value + ParameterBreak
                 End With
             Next
 
-            ParametersToString += "}}" + Microsoft.VisualBasic.vbCrLf
+            res += "}}" + Microsoft.VisualBasic.vbCrLf
+            Return res
         End Function
         Friend Function HasYesParam(ByVal ParamName As String) As Boolean
             Return (Parameters.ContainsKey(ParamName) AndAlso Parameters(ParamName).Value = "yes")

@@ -78,7 +78,7 @@
         ' Only WPBio used to do something here (if {{musician}} add to musician-work-group)
     End Sub
     Protected Overrides Function WriteTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
-        WriteTemplateHeader = "{{Songs" & WriteOutParameterToHeader("class")
+        Return "{{WikiProject Songs" & WriteOutParameterToHeader("class")
     End Function
 
     'User interface:

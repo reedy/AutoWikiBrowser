@@ -551,15 +551,29 @@ namespace WikiFunctions.API
 
         #region Page modification
 
+        /// <summary>
+        /// Opens the wiki page for editing
+        /// </summary>
+        /// <param name="title">The wiki page title</param>
+        /// <returns>The current content of the wiki page</returns>
         public string Open(string title)
         {
             return Open(title, false);
         }
 
+        /// <summary>
+        /// Opens the wiki page for editing
+        /// </summary>
+        /// <param name="title">The wiki page title</param>
+        /// <param name="resolveRedirects"></param>
+        /// <returns>The current content of the wiki page</returns>
         public string Open(string title, bool resolveRedirects)
         {
-            if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
-            if (!User.IsLoggedIn) throw new LoggedOffException(this);
+            if (string.IsNullOrEmpty(title)) 
+                throw new ArgumentException("Page name required", "title");
+            
+            if (!User.IsLoggedIn) 
+                throw new LoggedOffException(this);
 
             Reset();
 

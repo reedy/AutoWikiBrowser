@@ -224,6 +224,12 @@ namespace WikiFunctions
         /// </summary>
         public static bool IsWikipediaEN
         { get { return (Project == ProjectEnum.wikipedia && LangCode == "en"); } }
+        
+        /// <summary>
+        /// Returns true if we are currently editing Commons
+        /// </summary>
+        public static bool IsCommons
+        { get { return (Project == ProjectEnum.commons); } }
 
         /// <summary>
         /// Returns true if we are currently a monolingual Wikimedia project
@@ -450,7 +456,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Sets different language variables, such as namespaces. Default is english Wikipedia
+        /// Sets different language variables, such as namespaces. Default is English Wikipedia
         /// </summary>
         /// <param name="langCode">The language code, default is en</param>
         /// <param name="projectName">The project name default is Wikipedia</param>

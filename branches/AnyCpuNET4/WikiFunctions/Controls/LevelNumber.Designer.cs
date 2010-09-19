@@ -103,7 +103,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "LevelNumber";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Number of Levels";
+            this.Text = "Number";
             ((System.ComponentModel.ISupportInitialize)(this.numLevels)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

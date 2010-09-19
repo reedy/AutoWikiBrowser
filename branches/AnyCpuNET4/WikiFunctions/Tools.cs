@@ -1154,7 +1154,7 @@ namespace WikiFunctions
         /// substitutes characters with diacritics with their Latin equivalents
         /// </summary>
         public static string RemoveDiacritics(string s)
-        {
+        {               
             foreach (KeyValuePair<string, string> p in Diacritics)
             {
                 s = s.Replace(p.Key, p.Value);
@@ -1179,7 +1179,11 @@ namespace WikiFunctions
         /// </summary>
         public static string FixupDefaultSort(string s)
         {
-            s = BadDsChars.Replace(RemoveDiacritics(s), "");
+            // no diacritic removal in sortkeys on ru-wiki
+            if(!Variables.LangCode.Equals("ru"))
+                s = RemoveDiacritics(s);
+            
+            s = BadDsChars.Replace(s, "");
 
             // convert each word to Proper Case
             // http://en.wikipedia.org/wiki/Wikipedia:Categorization#Using_sort_keys
@@ -1988,38 +1992,55 @@ Message: {2}
         }
 
         // ensure dates returned are English.
-        private static readonly System.Globalization.CultureInfo English = new System.Globalization.CultureInfo("en-GB");
+        private static readonly System.Globalization.CultureInfo BritishEnglish = new System.Globalization.CultureInfo("en-GB");
+        private static readonly System.Globalization.CultureInfo AmericanEnglish = new System.Globalization.CultureInfo("en-US");
 
+        private static readonly Regex YearMon = new Regex(@"^\d{4}\-[0-3]\d$", RegexOptions.Compiled);
+        
         /// <summary>
-        /// Returns the input ISO date in the requested format (American or International). If another Locale is pasased in the input date is returned. For en-wiki only.
+        /// Returns the input date in the requested format (American or International). If another Locale is pasased in the input date is returned. For en-wiki only.
         /// </summary>
-        /// <param name="ISODate">string representing ISO date</param>
-        /// <param name="locale">Locale of output date required (American or International)</param>
+        /// <param name="inputDate">string representing a date, any format that C# can parse</param>
+        /// <param name="locale">Locale of output date required (American/International/ISO)</param>
         /// <returns>The English-language (American or International) date</returns>
-        public static string ISOToENDate(string ISODate, Parsers.DateLocale locale)
+        public static string ConvertDate(string inputDate, Parsers.DateLocale locale)
         {
-            if (Variables.LangCode != "en")
-                return ISODate;
+            return ConvertDate(inputDate, locale, false);
+        }
+        
+          /// <summary>
+        /// Returns the input date in the requested format (American or International). If another Locale is pasased in the input date is returned. For en-wiki only.
+        /// </summary>
+        /// <param name="inputDate">string representing a date, any format that C# can parse</param>
+        /// <param name="locale">Locale of output date required (American/International/ISO)</param>
+        /// <param name="AmericanInputDate">Whether the input date is in American MM/DD/YYYY format</param>
+        /// <returns>The English-language (American or International) date</returns>
+        public static string ConvertDate(string inputDate, Parsers.DateLocale locale, bool AmericanInputDate)
+        {
+            if (Variables.LangCode != "en" || YearMon.IsMatch(inputDate))
+                return inputDate;
 
             DateTime dt;
 
             try
             {
-                dt = Convert.ToDateTime(ISODate);
+                dt = Convert.ToDateTime(inputDate, AmericanInputDate ? AmericanEnglish : BritishEnglish);
             }
             catch
             {
-                return ISODate;
+                return inputDate;
             }
 
             switch (locale)
             {
                 case Parsers.DateLocale.American:
-                    return dt.ToString("MMMM d, yyyy", English);
+                    return dt.ToString("MMMM d, yyyy", BritishEnglish);
                 case Parsers.DateLocale.International:
-                    return dt.ToString("d MMMM yyyy", English);
+                    return dt.ToString("d MMMM yyyy", BritishEnglish);
+                case  Parsers.DateLocale.ISO:
+                     return dt.ToString("yyyy-MM-dd", BritishEnglish);
                 default:
-                    return ISODate;
+                    return inputDate;
             }
         }
 
