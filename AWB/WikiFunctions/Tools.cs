@@ -2586,13 +2586,9 @@ Message: {2}
             if (templatenames.Count == 0)
                 return null;
             
-            string TemplateNamespace = "";
+            string TemplateNamespace;
             
-            try
-            {
-                TemplateNamespace = Variables.NamespacesCaseInsensitive[Namespace.Template];
-            }
-            catch
+            if (!Variables.NamespacesCaseInsensitive.TryGetValue(Namespace.Template, out TemplateNamespace))
             {
                 TemplateNamespace = "[Tt]emplate:";
             }
