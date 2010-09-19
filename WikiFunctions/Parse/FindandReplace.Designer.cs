@@ -392,7 +392,7 @@ namespace WikiFunctions.Parse
             this.chkIgnoreMore.Size = new System.Drawing.Size(254, 17);
             this.chkIgnoreMore.TabIndex = 18;
             this.chkIgnoreMore.Text = "Ignore &templates, refs, link targets, and headings";
-            this.toolTip1.SetToolTip(this.chkIgnoreMore, "Find and replacements will not be made in templates, <source>, <cite> and heading" +
+            this.toolTip1.SetToolTip(this.chkIgnoreMore, "Find and replacements will not be made in templates, <source>, <cite>, quotes and heading" +
                     "s");
             this.chkIgnoreMore.UseVisualStyleBackColor = true;
             this.chkIgnoreMore.CheckedChanged += new System.EventHandler(this.chkIgnoreMore_CheckedChanged);

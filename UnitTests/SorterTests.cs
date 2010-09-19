@@ -286,6 +286,9 @@ Fred has a dog.
             e = @"{{orphan|date=May 2008}}";
             // move when tags not all at top
             Assert.AreEqual(e + "\r\n" + i1 + "\r\nfoo\r\n", MetaDataSorter.MoveMaintenanceTags(e + "\r\nfoo\r\n" + i1));
+            
+            const string CommentedOut = @"<!---sufficient-?---{{Cleanup|date=January 2010}}--{{Wikify|date=January 2010}}---?--->";
+            Assert.AreEqual(CommentedOut, MetaDataSorter.MoveMaintenanceTags(CommentedOut), "no change to commented out tags");
         }
 
         [Test]
@@ -854,9 +857,38 @@ The following links are here to prevent the interwiki bot from adding them to th
         }
         
         [Test]
+        public void InterWikiTestsMultiple()
+        {
+            parser2.SortInterwikis = false;            
+            parser2.Sorter.PossibleInterwikis = new System.Collections.Generic.List<string> { "de", "es", "fr", "it", "sv", "ar", "bs", "br", "en" };
+
+            string a = @"[[de:Canadian National Railway]]
+[[fr:Canadian National (foo)]]
+[[fr:Canadien National]]";
+            string b = a;
+
+            Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
+            
+            a = @"[[fr:Sénatus-consultes sous Napoléon III]]
+[[fr:Sénatus-consulte]]";
+            b = a;
+
+            Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
+        }
+        
+        [Test]
         public void SelfInterwikisEn()
         {
             Assert.AreEqual("", parser2.SortMetaData(@"<!-- [[en:Foo]]-->", "Test"), "Commented out en interwikis removed");
+            
+            #if DEBUG
+            Variables.SetProjectSimple("en", ProjectEnum.commons);
+            const string EnInterwiki = @"[[en:Foo]]";
+            Assert.AreEqual(EnInterwiki, parser2.SortMetaData(EnInterwiki, "Test"), "en interwiki not removed on commons");
+            
+            Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
+            Assert.AreEqual("", parser2.SortMetaData(EnInterwiki, "Test"), "en interwiki removed on en-wiki");
+            #endif
         }
         
         [Test]

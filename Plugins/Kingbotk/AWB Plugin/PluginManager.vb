@@ -158,6 +158,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         End Sub
         Private Function ProcessArticle(ByVal sender As IAutoWikiBrowser, _
         ByVal eventargs As IProcessArticleEventArgs) As String Implements IAWBPlugin.ProcessArticle
+            Dim res As String = eventargs.ArticleText
+
             With eventargs
                 If ActivePlugins.Count = 0 Then Return .ArticleText
 
@@ -192,7 +194,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                                 .EditSummary = "Clean up"
                                 GoTo SkipOrStop
                             Else
-                                ProcessArticle = Skipping(.EditSummary, "", _
+                                res = Skipping(.EditSummary, "", _
                                    SkipReason.ProcessingMainArticleDoesntExist, .ArticleText, .Skip)
                                 GoTo ExitMe
                             End If
@@ -208,7 +210,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                         editor.Wait()
 
                         If Not editor.Page.Exists Then
-                            ProcessArticle = Skipping(.EditSummary, "", SkipReason.ProcessingTalkPageArticleDoesntExist, _
+                            res = Skipping(.EditSummary, "", SkipReason.ProcessingTalkPageArticleDoesntExist, _
                                .ArticleText, .Skip, .ArticleTitle, [Namespace].Talk)
                         Else
                             TheArticle = New Article(.ArticleText, .ArticleTitle, Namesp)
@@ -228,7 +230,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                                    ReqPhoto) ' We successfully added a reqphoto param
                             End If
 
-                            ProcessArticle = FinaliseArticleProcessing(TheArticle, .Skip, .EditSummary, .ArticleText, _
+                            res = FinaliseArticleProcessing(TheArticle, .Skip, .EditSummary, .ArticleText, _
                                ReqPhoto)
                         End If
 
@@ -251,7 +253,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                                    Exit For
                             Next
 
-                            ProcessArticle = FinaliseArticleProcessing(TheArticle, .Skip, .EditSummary, .ArticleText, False)
+                            res = FinaliseArticleProcessing(TheArticle, .Skip, .EditSummary, .ArticleText, False)
                         End If
 
                     Case Else
@@ -269,14 +271,14 @@ ExitMe:
             PluginManager.AWBForm.TraceManager.Flush()
 
             PluginSettings.Led1.Colour = WikiFunctions.Controls.Colour.Red
-            Exit Function
+            Return res
 
 SkipBadNamespace:
-            ProcessArticle = Skipping(eventargs.EditSummary, "", SkipReason.BadNamespace, eventargs.ArticleText, eventargs.Skip)
+            res = Skipping(eventargs.EditSummary, "", SkipReason.BadNamespace, eventargs.ArticleText, eventargs.Skip)
             GoTo ExitMe
 
 SkipOrStop:
-            ProcessArticle = eventargs.ArticleText
+            res = eventargs.ArticleText
             GoTo ExitMe
         End Function
         Private Sub Reset() Implements IAWBPlugin.Reset
@@ -305,11 +307,18 @@ SkipOrStop:
         ' Private routines:
         Private Shared Function ProcessTalkPageAndCheckWeAddedReqPhotoParam(ByVal TheArticle As Article, _
         ByVal ReqPhoto As Boolean) As Boolean
+            Dim res As Boolean = False
             For Each p As PluginBase In ActivePlugins
-                If p.ProcessTalkPage(TheArticle, ReqPhoto) AndAlso ReqPhoto AndAlso p.HasReqPhotoParam Then _
-                   ProcessTalkPageAndCheckWeAddedReqPhotoParam = True
-                If TheArticle.PluginManagerGetSkipResults = SkipResults.SkipBadTag Then Return False
+                If p.ProcessTalkPage(TheArticle, ReqPhoto) AndAlso ReqPhoto AndAlso p.HasReqPhotoParam Then
+                    res = True
+                End If
+
+                If TheArticle.PluginManagerGetSkipResults = SkipResults.SkipBadTag Then
+                    Return False
+                End If
             Next
+
+            Return res
         End Function
         Private Shared Function ReqPhotoParamNeeded(ByVal TheArticle As Article) As Boolean
             For Each p As PluginBase In ActivePlugins
@@ -381,8 +390,8 @@ SkipOrStop:
                     .FinaliseEditSummary()
                     PluginManager.AWBForm.TraceManager.WriteArticleActionLine1("Returning to AWB: Edit summary: " & _
                        .EditSummary, PluginName, True)
-                    FinaliseArticleProcessing = .AlteredArticleText
                     Summary = .EditSummary
+                    Return .AlteredArticleText
                 End With
             End If
         End Function

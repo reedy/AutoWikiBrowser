@@ -216,12 +216,18 @@ namespace WikiFunctions.Logging
 
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (AWBLogListener item in MenuItemOwner(sender).SelectedItems) { item.OpenInBrowser(); }
+            foreach (AWBLogListener item in MenuItemOwner(sender).SelectedItems)
+            {
+                item.OpenInBrowser();
+            }
         }
 
         private void openHistoryInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SelectedItem(sender).OpenHistoryInBrowser();
+            foreach (AWBLogListener item in MenuItemOwner(sender).SelectedItems)
+            {
+                item.OpenHistoryInBrowser();
+            }
         }
 
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)

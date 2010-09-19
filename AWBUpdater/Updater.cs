@@ -146,7 +146,7 @@ namespace AwbUpdater
         /// </summary>
         private void ExitEarly()
         {
-            UpdateUI("Nothing to update", true);
+            UpdateUI("No update available", true);
             StartAwb();
             ReadyToExit();
         }

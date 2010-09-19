@@ -533,12 +533,24 @@ namespace WikiFunctions.DBScanner
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Clipboard.SetDataObject(lbArticles.SelectedItem.ToString(), true);
+            Tools.Copy(lbArticles);
         }
 
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Tools.OpenArticleInBrowser(lbArticles.SelectedItem.ToString());
+            if ((lbArticles.SelectedItems.Count < 10) || (MessageBox.Show("Opening " + lbArticles.SelectedItems.Count + " articles in your browser at once could cause your system to run slowly, and even stop responding.\r\nAre you sure you want to continue?", "Continue?", MessageBoxButtons.YesNo) == DialogResult.Yes))
+                LoadArticlesInBrowser();
+        }
+
+        private void LoadArticlesInBrowser()
+        {
+            Article[] articles = new Article[lbArticles.SelectedItems.Count];
+            lbArticles.SelectedItems.CopyTo(articles, 0);
+
+            foreach (Article item in articles)
+            {
+                Variables.MainForm.TheSession.Site.OpenPageInBrowser(item.Name);
+            }
         }
 
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)

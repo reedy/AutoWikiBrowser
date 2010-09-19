@@ -555,6 +555,29 @@ namespace WikiFunctions
             if(NameSpaceKey.Equals(Namespace.Talk))
                 Unknowns = Tools.UnknownTemplateParameters(WikiRegexes.WikiProjectBannerShellTemplate.Match(ArticleText).Value, Knowns);
             return Unknowns;
+        }        
+        
+		/// <summary>
+        /// Returns a list of any unknown parameters in any Multiple issues template
+        /// </summary>
+        /// <returns>List of unknown parameters</returns>
+        public List<string> UnknownMultipleIssuesParameters()
+        {
+            List<string> Unknowns = new List<string>();
+            List<string> Knowns = new List<string>(new[] { "advert", "autobiography", "biased", "blpdispute", "BLPrefimprove", "BLP sources", "BLPunsourced", "citations missing", "citationstyle", "citation style", 
+			"citecheck", "cleanup", "COI", "coi", "colloquial", "confusing", "context", "contradict", 
+			"copyedit", "criticisms", "crystal", "date", "deadend", "disputed", "essay", "essay-like", "examplefarm", "expert", "external links", "expand", 
+			"fancruft", "fansite", "fiction", "gameguide", "globalize", "grammar", "histinfo", "hoax", "howto", "inappropriate person", "incomplete", "intromissing", 
+			"introrewrite", "lead missing", "lead rewrite", "lead too long", "lead too short", "in-universe", "jargon", "laundrylists", "laundry", "likeresume", 
+			"long", "newsrelease", "notable", "notability", "one source", "onesource", "OR", "or", "original research", "orphan", "out of date", "peacock", 
+			"plot", "POV", "NPOV", "pov", "npov", "pov-check", "primarysources", "prose", "proseline", "quotefarm", "recentism", "refimprove", 
+			"refimproveBLP", "refimprove BLP", "restructure", "reorganisation", "organize", "review", "rewrite", "section", "sections", "self-published", 
+			"spam", "story", "synthesis", "inappropriate tone", "tone", "travelguide", "tooshort", "trivia", "unbalanced", "unencyclopedic", "unref", "unreferenced", 
+			"unreferencedBLP", "update", "verylong", "weasel", "wikify"});
+            
+            if(NameSpaceKey.Equals(Namespace.Mainspace))
+                Unknowns = Tools.UnknownTemplateParameters(WikiRegexes.MultipleIssues.Match(ArticleText).Value, Knowns);
+            return Unknowns;
         }
         
         /// <summary>
@@ -773,8 +796,9 @@ namespace WikiFunctions
             {
                 string strTemp = mArticleText;
 
-                // do not subst on Template documentation pages
-                if (!(Namespace.Determine(Name).Equals(Namespace.Template) && Name.EndsWith(@"/doc")))
+                // do not subst on Template documentation pages, or commons category pages
+                if (!(Namespace.Determine(Name).Equals(Namespace.Template) && Name.EndsWith(@"/doc"))
+                    && !(Variables.IsCommons && Namespace.Determine(Name).Equals(Namespace.Category)))
                     strTemp = Parsers.Conversions(mArticleText);
 
                 strTemp = Parsers.FixLivingThingsRelatedDates(strTemp);
@@ -899,7 +923,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// 
+        /// Invokes the Custom Module code
         /// </summary>
         /// <param name="module"></param>
         public void SendPageToCustomModule(IModule module)
@@ -911,11 +935,13 @@ namespace WikiFunctions
             string strTemp = module.ProcessArticle(processArticleEventArgs.ArticleText,
                                                    processArticleEventArgs.ArticleTitle, NameSpaceKey, out strEditSummary, out skipArticle);
 
+            // take updated article text even if skip true, so that in re-parse mode updates are taken
+            AWBChangeArticleText("Custom module", strTemp, true);
+            
             if (!skipArticle)
             {
                 processArticleEventArgs.EditSummary = strEditSummary;
                 processArticleEventArgs.Skip = false;
-                AWBChangeArticleText("Custom module", strTemp, true);
                 AppendPluginEditSummary();
             }
             else
@@ -1116,10 +1142,13 @@ namespace WikiFunctions
             HideText(removeText);
 
             Variables.Profiler.Profile("HideText");
+            
+            AWBChangeArticleText("Template redirects", Parsers.TemplateRedirects(ArticleText, WikiRegexes.TemplateRedirects), false);
+            Variables.Profiler.Profile("TemplateRedirects");
 
             // call this before MinorFixes so that Parsers.Conversions cleans up from ArticleIssues
-            AWBChangeArticleText("Fixes for {{multiple issues}}", parsers.ArticleIssues(ArticleText), true);
-            Variables.Profiler.Profile("ArticleIssues");
+            AWBChangeArticleText("Fixes for {{Multiple issues}}", parsers.MultipleIssues(ArticleText), true);
+            Variables.Profiler.Profile("MultipleIssues");
 
             MinorFixes(Variables.LangCode, skip.SkipNoHeaderError);
             Variables.Profiler.Profile("MinorFixes");
@@ -1138,6 +1167,9 @@ namespace WikiFunctions
 
             AWBChangeArticleText("Fix whitespace in links", Parsers.FixLinkWhitespace(ArticleText, Name), true);
             Variables.Profiler.Profile("FixLinkWhitespace");
+            
+            BulletExternalLinks(skip.SkipNoBulletedLink);
+            Variables.Profiler.Profile("BulletExternalLinks");
 
             // does significant fixes
             AWBChangeArticleText("Fix syntax", Parsers.FixSyntax(ArticleText), true, true);
@@ -1198,9 +1230,6 @@ namespace WikiFunctions
             AWBChangeArticleText("Redirect tagger", Parsers.RedirectTagger(ArticleText, Name), false);
             Variables.Profiler.Profile("RedirectTagger");
 
-            BulletExternalLinks(skip.SkipNoBulletedLink);
-            Variables.Profiler.Profile("BulletExternalLinks");
-
             AWBChangeArticleText("Remove empty comments", Parsers.RemoveEmptyComments(ArticleText), false);
             Variables.Profiler.Profile("RemoveEmptyComments");
 
@@ -1213,7 +1242,8 @@ namespace WikiFunctions
                 Variables.Profiler.Profile("FixDateOrdinalsAndOf");
             }
 
-            Variables.Profiler.Profile("Links");
+            AWBChangeArticleText("PersonData", Parsers.PersonData(ArticleText, Name), false);
+            Variables.Profiler.Profile("PersonData");
             
             // must call EmboldenTitles before calling FixLinks
             EmboldenTitles(parsers, skip.SkipNoBoldTitle);
@@ -1315,17 +1345,20 @@ namespace WikiFunctions
         /// <summary>
         /// Executes general fixes specific to article talk pages
         /// </summary>
-        public void PerformTalkGeneralFixes()
+        public void PerformTalkGeneralFixes(HideText removeText)
         {
             BeforeGeneralFixesTextChanged();
 
+            HideText(removeText);
             string articleText = ArticleText;
-            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);            
 
             if (articleText != ArticleText)
             {
                 AWBChangeArticleText("Talk Page general fixes", articleText, false);
             }
+            
+            UnHideText(removeText);
 
             AfterGeneralFixesTextChanged();
         }

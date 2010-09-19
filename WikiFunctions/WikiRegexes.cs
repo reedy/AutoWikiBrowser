@@ -48,7 +48,7 @@ namespace WikiFunctions
             Images =
                 new Regex(
                     @"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.File] +
-                    @"[ \%\!""$&'\(\)\*,\-.\/0-9:;=\?@A-Z\\\^_`a-z~\x80-\xFF\+]+\.[a-zA-Z]{3,4}\b(?:\s*(?:\]\]|\|))?|<[Gg]allery\b([^>]*?)>[\s\S]*?</ ?[Gg]allery>|{{\s*[Gg]allery\s*(?:\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))?}}|(?<=\|\s*[a-zA-Z\d_ ]+\s*=)[^\|{}]+?\.[a-zA-Z]{3,4}(?=\s*(?:\||}}))",
+                    @"[ \%\!""$&'\(\)\*,\-.\/0-9:;=\?@A-Z\\\^_`a-z~\x80-\xFF\+]+\.[a-zA-Z]{3,4}\b(?:\s*(?:\]\]|\|))?|<[Gg]allery\b([^>]*?)>[\s\S]*?</ ?[Gg]allery>|{{\s*[Gg]allery\s*(?:\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))?}}|(?<=\|\s*[a-zA-Z\d_ ]+\s*=)[^\|{}]+?\.[a-zA-Z]{3,4}(?=\s*(?:<!--[^>]*?-->\s*|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋\s*)?(?:\||}}))",
                     RegexOptions.Compiled | RegexOptions.Singleline);
             
             FileNamespaceLink = new Regex(@"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.File] +
@@ -79,8 +79,8 @@ namespace WikiFunctions
             Dates = new Regex("^(0?[1-9]|[12][0-9]|3[01]) " + Months + "$", RegexOptions.Compiled);
             Dates2 = new Regex("^" + Months + " (0?[1-9]|[12][0-9]|3[01])$", RegexOptions.Compiled);
             
-            InternationalDates = new Regex(@"\b([1-9]|[12][0-9]|3[01]) +" + Months + @" +([12]\d{3})\b", RegexOptions.Compiled);
-            AmericanDates = new Regex(Months + @" +([1-9]|[12][0-9]|3[01]),? +([12]\d{3})\b", RegexOptions.Compiled);
+            InternationalDates = new Regex(@"\b([1-9]|[12][0-9]|3[01])(?: +|&nbsp;)" + Months + @" +([12]\d{3})\b", RegexOptions.Compiled);
+            AmericanDates = new Regex(Months + @"(?: +|&nbsp;)([1-9]|[12][0-9]|3[01]),? +([12]\d{3})\b", RegexOptions.Compiled);
 
             DayMonth = new Regex(@"\b([1-9]|[12][0-9]|3[01]) +" + Months + @"\b", RegexOptions.Compiled);
             MonthDay = new Regex(Months + @" +([1-9]|[12][0-9]|3[01])\b", RegexOptions.Compiled);
@@ -102,7 +102,7 @@ namespace WikiFunctions
                     s = "([Dd]isambiguation|[Dd]isambig|[Нн]еоднозначность|[Мm]ногозначность)";
                     break;
                 default:
-                    s = "([Dd]isamb(?:ig(?:uation)?)?|[Dd]ab|[Mm]athdab|(?:[Nn]umber|[Hh]ospital|[Gg]eo|[Hh]n|[Ss]chool)dis|[Ll]etter-disambig|[[Aa]irport disambig|[Cc]allsigndis|[Dd]isambig-cleanup|(Species|)LatinNameDisambig)";
+                    s = "([Dd]isamb(?:ig(?:uation)?)?|[Dd]ab|[Mm]athdab|(?:[Nn]umber|[Hh]ospital|[Gg]eo|[Hh]n|[Ss]chool)dis|[Ll]etter-disambig|[[Aa]irport disambig|[Cc]allsigndis|[Dd]isambig-cleanup|[Mm]olFormDisambig|(Species|)LatinNameDisambig|Species Latin name disambiguation|[Ll]etter-NumberCombDisambig|[Hh]ndis)";
                     break;
             }
             Disambigs = new Regex(TemplateStart + s + @"\s*(?:\|[^{}]*?)?}}", RegexOptions.Compiled);
@@ -149,13 +149,13 @@ namespace WikiFunctions
                     break;
                 case "ru":
                     orphantemplate = @"изолированная статья";
-                    uncattemplate = @"([Uu]ncat|[Cc]lassify|[Cc]at[Nn]eeded|[Uu]ncategori[sz]ed|[Cc]ategori[sz]e|[Cc]ategories needed|[Cc]ategory ?needed|[Cc]ategory requested|[Cc]ategories requested|[Nn]ocats?|[Uu]ncat-date|[Uu]ncategorized-date|[Nn]eeds cats?|[Cc]ats? needed|[Uu]ncategori[sz]edstub)";
+                    uncattemplate = UncatTemplatesEN;
                     Wikify = new Regex(@"({{\s*Wikify(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|(?<={{\s*(?:Article|Multiple)\s*issues\b[^{}]*?)\|\s*wikify\s*=[^{}\|]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                     DateYearMonthParameter = @"date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
                     break;
                 default:
                     orphantemplate = "Orphan";
-                    uncattemplate = @"([Uu]ncat|[Cc]lassify|[Cc]at[Nn]eeded|[Uu]ncategori[sz]ed|[Cc]ategori[sz]e|[Cc]ategories needed|[Cc]ategory ?needed|[Cc]ategory requested|[Cc]ategories requested|[Nn]ocats?|[Uu]ncat-date|[Uu]ncategorized-date|[Nn]eeds cats?|[Cc]ats? needed|[Uu]ncategori[sz]edstub)";
+                    uncattemplate = UncatTemplatesEN;
                     Wikify = new Regex(@"({{\s*Wikify(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|(?<={{\s*(?:Article|Multiple)\s*issues\b[^{}]*?)\|\s*wikify\s*=[^{}\|]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                     DateYearMonthParameter = @"date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
                     break;
@@ -203,6 +203,8 @@ namespace WikiFunctions
                     break;
             }
         }
+        
+        private const string UncatTemplatesEN = @"([Uu]ncat|[Cc]lassify|[Cc]at[Nn]eeded|[Uu]ncategori[sz]ed|[Cc]ategori[sz]e|[Cc]ategories needed|[Cc]ategory ?needed|[Cc]ategory requested|[Cc]ategories requested|[Nn]ocats?|[Uu]ncat-date|[Uu]ncategorized-date|[Nn]eeds cats?|[Cc]ats? needed|[Uu]ncategori[sz]ed ?stub)";
 
         /// <summary>
         /// Matches the month names and provides a capturing group when used in a regular expression
@@ -256,6 +258,11 @@ namespace WikiFunctions
         /// Variables.NamespacesCaseInsensitive compiled into regexes
         /// </summary>
         public static Dictionary<int, Regex> NamespacesCaseInsensitive;
+        
+        /// <summary>
+        /// Dictionary of template redirects (as a nested template regex) and the actual template name
+        /// </summary>
+        public static Dictionary<Regex, string> TemplateRedirects = new Dictionary<Regex, string>();
 
         /// <summary>
         /// Piece of template call, including curly brace and possible namespace
@@ -366,12 +373,12 @@ namespace WikiFunctions
         /// <summary>
         /// Matches single and multiline templates, AND those with nested templates
         /// </summary>
-        public static readonly Regex NestedTemplates = new Regex(@"{{(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}}");
+        public static readonly Regex NestedTemplates = new Regex(@"{{(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}}", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches templates: group 1 matches the names of templates. Not for templates including the template namespace prefix
         /// </summary>
-        public static readonly Regex TemplateName = new Regex(@"{{\s*([^\|{}]+?)(?:\s*<!--.*?-->\s*)?\s*(?:\||}})");
+        public static readonly Regex TemplateName = new Regex(@"{{\s*([^\|{}]+?)(?:\s*<!--.*?-->\s*)?\s*(?:\||}})", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches external links
@@ -557,14 +564,14 @@ namespace WikiFunctions
         /// </summary>
         /// see http://en.wikipedia.org/wiki/Quotation_mark_glyphs
         /// http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Ignoring_spelling_errors_within_quotation_marks.3F
-        public static readonly Regex UntemplatedQuotes = new Regex(@"(?<=[^\w])[""«»‘’“”‛‟‹›“”„‘’`’“‘”].{1,500}?[""«»‘’“”‛‟‹›“”„‘’`’“‘”](?=[^\w])", RegexOptions.Compiled | RegexOptions.Singleline);
+        public static readonly Regex UntemplatedQuotes = new Regex(@"(?<=[^\w])[""«»‘’“”‛‟‹›“”„‘’`’“‘”].{1,2000}?[""«»‘’“”‛‟‹›“”„‘’`’“‘”](?=[^\w])", RegexOptions.Compiled | RegexOptions.Singleline);
 
         // covered by TestFixNonBreakingSpaces
         /// <summary>
         /// Matches abbreviated SI units without a non-breaking space, notably does not correct millimetres without a space due to firearms articles using this convention
         /// </summary>
         /// http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Non_breaking_spaces
-        public static readonly Regex UnitsWithoutNonBreakingSpaces = new Regex(@"\b(\d?\.?\d+)\s*((?:[cmknuµ])(?:[mgWN])|m?mol|cd|mi|lb[fs]?|b?hp|mph|inch(?:es)?|ft|[kGM]Hz|gram(?:me)?s?)\b(?<!(\d?\.?\d+)mm)", RegexOptions.Compiled);
+        public static readonly Regex UnitsWithoutNonBreakingSpaces = new Regex(@"\b(\d?\.?\d+)\s*((?:[cmknuµ])(?:[mgWN])|m?mol|cd|mi|lb[fs]?|b?hp|mph|inch(?:es)?|ft|[kGM]?Hz|gram(?:me)?s?|m/s)\b(?<!(\d?\.?\d+)mm)", RegexOptions.Compiled);
 
         // covered by TestFixNonBreakingSpaces
         /// <summary>
@@ -697,7 +704,20 @@ namespace WikiFunctions
         /// <summary>
         /// Matches persondata (en only)
         /// </summary>
-        public static readonly Regex Persondata = Tools.NestedTemplateRegex(@"Persondata");
+        public static readonly Regex Persondata = Tools.NestedTemplateRegex(@"Persondata");        
+        
+        /// <summary>
+        /// The default blank Persondata template for en-wiki, from [[Template:Persondata#Usage]]
+        /// </summary>
+        public const string PersonDataDefault = @"{{Persondata <!-- Metadata: see [[Wikipedia:Persondata]]. -->
+| NAME              =
+| ALTERNATIVE NAMES =
+| SHORT DESCRIPTION =
+| DATE OF BIRTH     =
+| PLACE OF BIRTH    =
+| DATE OF DEATH     =
+| PLACE OF DEATH    =
+}}";
 
         /// <summary>
         /// Comment often put on the line before the Persondata template on the en-wiki
@@ -707,7 +727,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the various categories for dead people on en wiki, and the living people category
         /// </summary>
-        public static readonly Regex DeathsOrLivingCategory = new Regex(@"\[\[\s*Category *:[ _]?(\d{1,2}\w{0,2}[- _]century(?: BC)?[ _]deaths|[0-9s]{3,5}(?: BC)?[ _]deaths|Disappeared[ _]people|Living[ _]people|(?:Date|Year)[ _]of[ _]death[ _](?:missing|unknown)|Possibly[ _]living[ _]people)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex DeathsOrLivingCategory = new Regex(@"\[\[\s*Category *:[ _]?(\d{1,2}\w{0,2}[- _]century(?: BC)?[ _]deaths|[0-9s]{3,5}(?: BC)?[ _]deaths|Missing[ _]people|Living[ _]people|(?:Date|Year)[ _]of[ _]death[ _](?:missing|unknown)|Possibly[ _]living[ _]people)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         
         /// <summary>
         /// Matches the {{recentlydeceased}} templates and its redirects
@@ -722,7 +742,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the various {{birth date and age}} templates, group 1 being the year of birth
         /// </summary>
-        public static readonly Regex DateBirthAndAge = new Regex(@"{{\s*[Bb](?:(?:da|irth date(?: and age)?)\s*(?:\|\s*[md]f\s*=\s*y(?:es)?\s*)?\|\s*|irth-date\s*\|[^{}\|]*?)(?:year *= *)?\b([12]\d{3})\s*(?:\||}})");
+        public static readonly Regex DateBirthAndAge = new Regex(@"{{\s*[Bb](?:(?:da|irth ?date(?: and age)?)\s*(?:\|\s*[md]f\s*=\s*y(?:es)?\s*)?\|\s*|irth-date\s*\|[^{}\|]*?)(?:year *= *)?\b([12]\d{3})\s*(?:\||}})");
 
         /// <summary>
         /// Matches the various {{death date}} templates, group 1 being the year of death
@@ -732,7 +752,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the {{death date and age}} template, group 1 being the year of death, group 2 being the year of birth
         /// </summary>
-        public static readonly Regex DeathDateAndAge = new Regex(@"{{\s*[Dd](?:eath[ -]date and age|da)\s*\|(?:[^{}]*?\|)?\s*([12]\d{3})\s*\|[^{}]+?\|\s*([12]\d{3})\s*\|");
+        public static readonly Regex DeathDateAndAge = new Regex(@"{{\s*[Dd](?:eath[ -]date and age|da)\s*\|(?:[^{}]*?\|)?\s*([12]\d{3})\s*\|[^{}]+?\|\s*([12]\d{3})\s*\|.*}}");
 
         /// <summary>
         /// Matches {{Link FA|xxx}}, {{Link GA|xxx}}, {{Link FL|xxx}}
@@ -768,11 +788,18 @@ namespace WikiFunctions
         /// matches uncategorised templates: {{Uncat}}, {{Uncaegorised}}, {{Uncategorised stub}} allowing for nested subst: {{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
         /// </summary>
         public static Regex Uncat;
+        
+        /// <summary>
+        /// Matches teh {{Cat improve}} template and its redirects
+        /// </summary>
+        public static readonly Regex CatImprove = Tools.NestedTemplateRegex(new [] { "CI", "Cleanup-cat", "Cleanup cat", "Few categories", "Few cats", "Fewcategories", "Fewcats", "Improve-categories", "Improve-cats", "Improve categories", "Improve cats", 
+                                                                                "Improvecategories", "Improvecats", "More categories", "More category", "Morecat", "Morecategories", "Morecats", "Cat-improve", "Category-improve", 
+                                                                                "Categories-improve", "Category improve", "Categories improve", "Catimprove", "More cats" } );
 
         /// <summary>
         /// matches the {{Article issues}}/{{Multiple issues}} template
         /// </summary>
-        public static readonly Regex MultipleIssues = Tools.NestedTemplateRegex(new [] { @"article issues", "articleissues", "multipleissues", "multiple issues" } );
+        public static readonly Regex MultipleIssues = Tools.NestedTemplateRegex(new [] { "article issues", "articleissues", "multipleissues", "multiple issues" } );
 
         /// <summary>
         /// matches the {{New unreviewed article}} template
@@ -814,18 +841,35 @@ namespace WikiFunctions
         /// <summary>
         /// Matches people infoxboxes from Category:People infobox templates
         /// </summary>
-        public static readonly Regex PeopleInfoboxTemplates = Tools.NestedTemplateRegex(new [] { "Combinedfightingrecord", "Infobox American Indian chief", "Infobox Calvinist theologian", "Infobox Chinese-language singer and actor", 
-                                                                                            "Infobox Christian leader", "Infobox FBI Ten Most Wanted", "Infobox French parliamentarian", "Infobox Indian Athlete", "Infobox Jewish leader", 
-                                                                                            "Infobox Playboy Cyber Girl", "Infobox Playboy Playmate", "Infobox Polish politician", "Infobox actor", "Infobox adult female", "Infobox adult male", 
-                                                                                            "Infobox architect", "Infobox art group", "Infobox artist", "Infobox artist discography", "Infobox astronaut", "Infobox aviator", "Infobox bishopbiog", 
-                                                                                            "Infobox cardinal", "Infobox cardinalbiog", "Infobox chef", "Infobox chess player", "Infobox choir", "Infobox clergy", "Infobox comedian", 
+        public static readonly Regex PeopleInfoboxTemplates = Tools.NestedTemplateRegex(new [] { "Infobox combined fighting record", "Infobox American Indian chief", "Infobox Calvinist theologian", "Infobox Chinese-language singer and actor", 
+                                                                                            "Infobox Christian leader", "Infobox FBI Ten Most Wanted", "Infobox French parliamentarian", "Infobox Indian athlete", "Infobox Jewish leader", 
+                                                                                            "Infobox Playboy Cyber Girl", "Infobox Playboy Playmate", "Infobox Polish politician", "Infobox actor", "Infobox adult biography", "Infobox adult female", "Infobox adult male", 
+                                                                                            "Infobox architect", "Infobox artist", "Infobox astronaut", "Infobox aviator", "Infobox bishop", 
+                                                                                            "Infobox cardinal", "Infobox cardinal", "Infobox chef", "Infobox chess player", "Infobox clergy", "Infobox comedian", 
                                                                                             "Infobox comics creator", "Infobox criminal", "Infobox dancer", "Infobox economist", "Infobox engineer", "Infobox fashion designer", "Infobox go player", 
                                                                                             "Infobox imam", "Infobox journalist", "Infobox linguist", "Infobox male model", "Infobox martyrs", "Infobox mass murderer", "Infobox medical person", 
                                                                                             "Infobox member of the Knesset", "Infobox military person", "Infobox model", "Infobox musical artist", "Infobox officeholder", "Infobox paranormal person", 
                                                                                             "Infobox performer", "Infobox person", "Infobox philosopher", "Infobox pirate", "Infobox poker player", "Infobox police officer", "Infobox pope",
                                                                                             "Infobox presenter", "Infobox rebbe", "Infobox religious biography", "Infobox revolutionary", "Infobox saint", "Infobox scientist",
                                                                                             "Infobox serial killer", "Infobox sports announcer", "Infobox spy", "Infobox television personality", "Infobox theologian",
-                                                                                            "Infobox university chancellor", "Infobox vandal", "Infobox vice-regal", "Infobox writer" });
+                                                                                            "Infobox university chancellor", "Infobox vandal", "Infobox vice-regal", "Infobox writer", "Infobox Governor",
+                                                                                            "Infobox senator", "Infobox Mayor", "Infobox Politician", "Infobox Chancellor", "Infobox US Chief Justice", "Infobox Vice President", "Infobox US Associate Justice",
+                                                                                            "Infobox Indian politician", "Infobox Congressman", "Infobox Governor General", "Infobox US Cabinet official", "Infobox Prime Minister",
+                                                                                            "Infobox US Territorial Governor", "Infobox Congressional Candidate", "Infobox CanadianMP", "Infobox Lt Governor", "Infobox Eritrea Cabinet official", "Infobox PM",
+                                                                                            "Infobox President", "Infobox CanadianSenator", "Infobox Governor-General", "Infobox SCC Puisne Justice", "Infobox SCC Chief Justice", "Infobox Representative Elect",
+                                                                                            "Infobox Senator-Elect", "Infobox Governor-Elect", "Infobox State SC Justice", "Infobox State SC Associate Justice", "Infobox Politician (general)", "Infobox US Ambassador",
+                                                                                            "Infobox MP", "Infobox State Representative", "Infobox State Senator", "Infobox Judge", "Infobox Premier", "Infobox Secretary-General", "Infobox Ambassador", "Infobox President-elect",
+                                                                                            "Infobox Prime Minister-elect", "Infobox AM", "Infobox Speaker", "Infobox First Minister", "Infobox Minister", "Infobox Deputy Prime Minister", "Infobox Deputy First Minister",
+                                                                                            "Infobox Representative-elect", "Infobox Senator-elect", "Infobox Governor-elect", "Infobox QuebecMNA", "Infobox MEP", "Infobox MLA", "Infobox Congresswoman", "Infobox Senator",
+                                                                                            "Infobox Defense Minister", "Infobox OntarioMPP", "Infobox Uruguayan politician", "Infobox New York State Senator", "Infobox First Lady", "Infobox Chief Justice", "Infobox Indian government official",
+                                                                                            "Infobox Doge", "Infobox MSP", "Infobox candidate", "Infobox Officeholder", "Infobox politician", "Infobox judge", "Infobox Member of Parliament", "Infobox president", "Infobox civil servant",
+                                                                                            "Infobox Welsh Assembly member", "Infobox General Secretary", "Infobox Chief Executive", "Infobox ambassador", "Infobox prime minister", "Infobox Canadian MP", "Infobox Canadian senator", "Infobox chancellor",
+                                                                                            "Infobox congressional candidate", "Infobox congressman", "Infobox defense minister", "Infobox deputy first minister", "Infobox deputy prime minister", "Infobox doge", "Infobox first lady",
+                                                                                            "Infobox first minister", "Infobox governor", "Infobox governor-elect", "Infobox governor general", "Infobox governor-general", "Infobox lt governor", "Infobox mayor", "Infobox minister",
+                                                                                            "Infobox politician (general)", "Infobox premier", "Infobox president-elect", "Infobox prime minister-elect", "Infobox representative-elect", "Infobox SCC chief justice", "Infobox SCC puisne justice",
+                                                                                            "Infobox secretary-general", "Infobox senator-elect", "Infobox speaker", "Infobox state representative", "Infobox state SC associate justice", "Infobox state SC justice", "Infobox state senator",
+                                                                                            "Infobox US associate justice", "Infobox US cabinet official", "Infobox US chief justice", "Infobox US territorial governor", "Infobox vice president", "Infobox US ambassador", "Infobox Eritrea cabinet official" });
+
        
         /// <summary>
         /// Matches the {{circa}} template
@@ -882,7 +926,7 @@ namespace WikiFunctions
         /// <summary>
         /// matches &lt;ref&gt; tags, including named references
         /// </summary>
-        public static readonly Regex Refs = new Regex(@"(<\s*ref\s+(?:name|group)\s*=\s*[^<>]*?/\s*>|<\s*ref\b[^<>]*?>(?>(?!<\s*ref\b[^>/]*?>|<\s*/\s*ref\s*>).|<\s*ref\b[^>/]*?>(?<DEPTH>)|<\s*/\s*ref\s*>(?<-DEPTH>))*(?(DEPTH)(?!))<\s*/\s*ref\s*>)", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex Refs = new Regex(@"(<\s*ref\s+(?:name|group)\s*=\s*[^<>]*?/\s*>|<\s*ref\b[^<>]*?>(?>.(?<!<\s*ref\b[^>/]*?>|<\s*/\s*ref\s*>)|<\s*ref\b[^>/]*?>(?<DEPTH>)|<\s*/\s*ref\s*>(?<-DEPTH>))*(?(DEPTH)(?!))<\s*/\s*ref\s*>)", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
         /// matches &lt;cite&gt; tags
@@ -937,17 +981,17 @@ namespace WikiFunctions
         /// <summary>
         /// Matches bold italic text, group 1 being the text in bold italics
         /// </summary>
-        public static readonly Regex BoldItalics = new Regex(@"'''''(.+?)'''''");
+        public static readonly Regex BoldItalics = new Regex(@"(?<!')'{5}([^'](?:.*?[^'])?)'{5}(?!')");
 
         /// <summary>
         /// Matches italic text, group 1 being the text in italics
         /// </summary>
-        public static readonly Regex Italics = new Regex(@"''(.+?)''");
+        public static readonly Regex Italics = new Regex(@"(?<!')'{2}([^'](?:.*?[^'])?)'{2}(?!')");
 
         /// <summary>
         /// Matches bold text, group 1 being the text in bold
         /// </summary>
-        public static readonly Regex Bold = new Regex(@"'''(.+?)'''");
+        public static readonly Regex Bold = new Regex(@"(?<!')'{3}([^'](?:.*?[^'])?)'{3}(?!')");
 
         /// <summary>
         /// Matches a row beginning with an asterisk, allowing for spaces before
@@ -987,12 +1031,16 @@ namespace WikiFunctions
         /// <summary>
         /// List of known infobox fields holding date of birth
         /// </summary>
-        public static readonly List<string> InfoBoxDOBFields = new List<string>(new [] {"yearofbirth", "dateofbirth", "born", "birth date", "birthdate", "birth_date", "birth"});
+        public static readonly List<string> InfoBoxDOBFields = new List<string>(new [] {"yearofbirth", "dateofbirth", "datebirth", "born", "birth date", "birthdate", "birth_date", "birth"});
         
         /// <summary>
         /// List of known infobox fields holding date of death
         /// </summary>
-        public static readonly List<string> InfoBoxDODFields = new List<string>(new [] {"yearofdeath", "dateofdeath", "died", "death date", "deathdate", "death_date", "death"});
+        public static readonly List<string> InfoBoxDODFields = new List<string>(new [] {"yearofdeath", "datedeath", "dateofdeath", "died", "death date", "deathdate", "death_date", "death"});
+        
+        public static readonly List<string> InfoBoxPOBFields = new List<string>(new [] {"birthplace", "birth_place", "placeofbirth", "place of birth", "place_of_birth", "placebirth"});
+        
+        public static readonly List<string> InfoBoxPODFields = new List<string>(new [] {"deathplace", "death_place", "placeofdeath", "place of death", "place_of_death", "placedeath", "place_death"});
         
         /// <summary>
         /// matches "ibid" and "op cit"

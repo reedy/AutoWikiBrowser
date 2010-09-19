@@ -836,42 +836,56 @@ John", "*"));
         }
 
         [Test]
-        public void ISOToDate()
+        public void ConvertDate()
         {
             string iso = @"2009-06-11", iso2 = @"1890-07-04";
-            Assert.AreEqual(@"11 June 2009", Tools.ISOToENDate(iso, Parsers.DateLocale.International));
-            Assert.AreEqual(@"June 11, 2009", Tools.ISOToENDate(iso, Parsers.DateLocale.American));
-            Assert.AreEqual(iso, Tools.ISOToENDate(iso, Parsers.DateLocale.ISO));
-            Assert.AreEqual(iso, Tools.ISOToENDate(iso, Parsers.DateLocale.Undetermined));
-            Assert.AreEqual(@"4 July 1890", Tools.ISOToENDate(iso2, Parsers.DateLocale.International));
+            Assert.AreEqual(@"11 June 2009", Tools.ConvertDate(iso, Parsers.DateLocale.International));
+            Assert.AreEqual(@"11 June 2009", Tools.ConvertDate(iso, Parsers.DateLocale.International, false));
+            Assert.AreEqual(@"11 June 2009", Tools.ConvertDate(iso, Parsers.DateLocale.International, true));
+            
+            Assert.AreEqual(@"June 11, 2009", Tools.ConvertDate(iso, Parsers.DateLocale.American));
+            Assert.AreEqual(iso, Tools.ConvertDate(iso, Parsers.DateLocale.ISO));
+            Assert.AreEqual(iso, Tools.ConvertDate(iso, Parsers.DateLocale.Undetermined));
+            Assert.AreEqual(@"4 July 1890", Tools.ConvertDate(iso2, Parsers.DateLocale.International));
 
             // handles incorect format
             string wrong = @"foo";
-            Assert.AreEqual(wrong, Tools.ISOToENDate(wrong, Parsers.DateLocale.International));
+            Assert.AreEqual(wrong, Tools.ConvertDate(wrong, Parsers.DateLocale.International));
+            Assert.AreEqual(@"2009-10", Tools.ConvertDate(@"2009-10", Parsers.DateLocale.International), "day not added to yeaer month combo");
+            
+            // supports other valid date formats
+            Assert.AreEqual(@"11 June 2009", Tools.ConvertDate("11 June 2009", Parsers.DateLocale.International));
+            Assert.AreEqual(@"11 June 2009", Tools.ConvertDate("June 11, 2009", Parsers.DateLocale.International));
+            Assert.AreEqual(@"11 June 2009", Tools.ConvertDate("June 11, 2009", Parsers.DateLocale.International, true));
+            
+            const string AmericanDate = @"06/11/2009", UKDate = @"11/06/2009";
+            
+            Assert.AreEqual(iso, Tools.ConvertDate(AmericanDate, Parsers.DateLocale.ISO, true), "Converts MM/DD/YYYY format dates when flagged");
+            Assert.AreEqual(iso, Tools.ConvertDate(UKDate, Parsers.DateLocale.ISO, false), "Converts DD/MM/YYYY format dates when flagged");
+            Assert.AreEqual(iso, Tools.ConvertDate(UKDate, Parsers.DateLocale.ISO), "Assumes DD/MM/YYYY format dates when NOT flagged");
         }
         
         [Test]
-        public void ISOToDateEnOnly()
+        public void ConvertDateEnOnly()
         {
             #if DEBUG         
             string iso2 = @"1890-07-04";
             
             Variables.SetProjectLangCode("fr");
-            Assert.AreEqual(iso2, Tools.ISOToENDate(iso2, Parsers.DateLocale.International));
+            Assert.AreEqual(iso2, Tools.ConvertDate(iso2, Parsers.DateLocale.International));
             
             Variables.SetProjectLangCode("en");
-            Assert.AreEqual(@"4 July 1890", Tools.ISOToENDate(iso2, Parsers.DateLocale.International));
+            Assert.AreEqual(@"4 July 1890", Tools.ConvertDate(iso2, Parsers.DateLocale.International));
             #endif
         }
 
         [Test, SetCulture("ru-RU")]
-        public void ISOToDateOtherCulture()
+        public void ConvertDateOtherCulture()
         {
             // if user's computer has non-en culture, ISOToENDate should still work
             string iso = @"2009-06-11";
-            Assert.AreEqual(@"11 June 2009", Tools.ISOToENDate(iso, Parsers.DateLocale.International));
-        }
-        
+            Assert.AreEqual(@"11 June 2009", Tools.ConvertDate(iso, Parsers.DateLocale.International));
+        }        
         
         [Test]
         public void AppendParameterToTemplate()
@@ -1496,6 +1510,8 @@ title={{abc|fdkjdsfjk=fdaskjlfds
             Assert.IsTrue(FooTemplate2.IsMatch(@"{{Foo bar}}"));
             
             Assert.IsFalse(FooTemplate2.IsMatch(@"{{foo}}"));
+            Assert.IsFalse(FooTemplate2.IsMatch(@"{{foo
+bar|text}}"));
         }
         
         [Test]
@@ -1512,7 +1528,7 @@ title={{abc|fdkjdsfjk=fdaskjlfds
             List<string> ListOfTemplates = new List<string>();
             
             Regex MultipleTemplatesN = Tools.NestedTemplateRegex(ListOfTemplates);
-            Assert.Null(MultipleTemplatesN, "null return if zero-entry list input");
+            Assert.IsNull(MultipleTemplatesN, "null return if zero-entry list input");
             
             ListOfTemplates.Add(@"Foo");
             
@@ -1750,6 +1766,18 @@ Start date and age
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#DEFAULTSORT_capitalization_after_apostrophes
             Assert.AreEqual("Kwakwaka'wakw Mythology", Tools.FixupDefaultSort("Kwakwaka'wakw mythology"));
             Assert.AreEqual(@"Peewee's Playhouse", Tools.FixupDefaultSort(@"Peewee's Playhouse"));
+        }
+        
+        [Test]
+        public void FixUpDefaultSortTestsRu()
+        {
+            #if debug
+            Variables.SetProjectLangCode("ru");
+            Assert.AreEqual("Hellõ", Tools.FixupDefaultSort("hellõ"), "no diacritic removal for defaultsort key on ru-wiki");
+            
+            Variables.SetProjectLangCode("en");
+            Assert.AreEqual("Hello", Tools.FixupDefaultSort("hellõ"));
+            #endif
         }
 
         [Test]

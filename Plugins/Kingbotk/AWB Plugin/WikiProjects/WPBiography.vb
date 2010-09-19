@@ -254,12 +254,12 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Sub
         Protected Overrides Function WriteTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
             Dim Living As Boolean
-            WriteTemplateHeader = "{{WPBiography" & Microsoft.VisualBasic.vbCrLf
+            Dim res As String = "{{WPBiography" & Microsoft.VisualBasic.vbCrLf
 
             With Template
                 If .Parameters.ContainsKey("living") Then
                     .Parameters("living").Value = .Parameters("living").Value.ToLower
-                    WriteTemplateHeader += "|living=" + .Parameters("living").Value + ParameterBreak
+                    res += "|living=" + .Parameters("living").Value + ParameterBreak
 
                     Living = .Parameters("living").Value = "yes"
 
@@ -272,9 +272,11 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                     .Parameters.Remove("living") ' we've written this parameter; if we leave it in the collection PluginBase.TemplateWritingAndPlacement() will write it again
                 End If
 
-                WriteTemplateHeader += WriteOutParameterToHeader("class") & _
+                res += WriteOutParameterToHeader("class") & _
                    WriteOutParameterToHeader("priority")
             End With
+
+            Return res
         End Function
 
         'User interface:

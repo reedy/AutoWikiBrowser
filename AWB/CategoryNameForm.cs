@@ -43,6 +43,7 @@ namespace AutoWikiBrowser
         private void frmCategoryName_Load(object sender, EventArgs e)
         {
             lblCategory.Text = Variables.Namespaces[Namespace.Category];
+            btnOk.DialogResult = DialogResult.OK;
 
             if (!string.IsNullOrEmpty(txtCategory.Text))
                 txtCategory.SelectAll();

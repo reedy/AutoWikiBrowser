@@ -9,6 +9,7 @@
 'but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
 'You should have received a copy of the GNU General Public License Version 2 along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+Imports WikiFunctions.Lists.Providers
 
 Namespace AutoWikiBrowser.Plugins.Kingbotk
     ''' <summary>
@@ -34,7 +35,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
 
         ' Objects:
         Protected WithEvents OurMenuItem As ToolStripMenuItem
-        Protected Article As Article
+        Protected article As Article
         Protected Template As Templating
 
         ' Regular expressions:
@@ -79,8 +80,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         ByVal ProcessTalkPageMode As ProcessTalkPageMode, ByVal AddReqPhotoParm As Boolean) As Boolean
 
             Dim BadTemplate As Boolean
+            Dim res As Boolean = False
 
-            Me.Article = A
+            Me.article = A
 
             If SkipIfContains() Then
                 A.PluginIHaveFinished(SkipResults.SkipRegex, PluginShortName)
@@ -107,7 +109,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                 End If
 
                 ' OK, we're in business:
-                ProcessTalkPage = True
+                res = True
                 If Me.HasReqPhotoParam AndAlso AddReqPhotoParm Then Me.ReqPhoto()
 
                 ProcessArticleFinish()
@@ -116,7 +118,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                        ForceNeedsAttention, RemoveAutoStub, ProcessTalkPageMode)
                 End If
 
-                If Article.ProcessIt Then
+                If article.ProcessIt Then
                     TemplateWritingAndPlacement()
                 Else
                     A.AlteredArticleText = OriginalArticleText
@@ -128,8 +130,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                 A.PluginIHaveFinished(SkipResults.SkipBadTag, PluginShortName) ' TODO: We could get the template placeholder here
             End If
 
-            Article = Nothing
-            Exit Function
+            article = Nothing
+            Return res
         End Function
 
         ' Article processing:
@@ -148,7 +150,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                 Template.BadTemplate = True
             Else
                 Template.FoundTemplate = True
-                Article.PluginCheckTemplateCall(match.Groups("tl").Value, PluginShortName)
+                article.PluginCheckTemplateCall(match.Groups("tl").Value, PluginShortName)
 
                 If HasAlternateNames Then PluginCheckTemplateName(match.Groups("tlname").Value) '.Trim)
 
@@ -172,27 +174,27 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         Protected Sub PluginCheckTemplateName(ByVal TemplateName As String)
             If HasAlternateNames Then
                 If Not PreferredTemplateNameRegex.Match(TemplateName).Success Then
-                    Article.RenamedATemplate(TemplateName, PreferredTemplateName, PluginShortName)
+                    article.RenamedATemplate(TemplateName, PreferredTemplateName, PluginShortName)
                     GotTemplateNotPreferredName(TemplateName)
                 End If
             End If
         End Sub
         Protected MustOverride Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
         Protected Overridable Sub TemplateNotFound()
-            Article.ArticleHasAMajorChange()
+            article.ArticleHasAMajorChange()
             Template.NewTemplateParm("class", "")
-            Article.TemplateAdded(PreferredTemplateName, PluginShortName)
+            article.TemplateAdded(PreferredTemplateName, PluginShortName)
         End Sub
         Private Sub TemplateWritingAndPlacement()
             Dim PutTemplateAtTop As Boolean
             Dim TemplateHeader As String = WriteTemplateHeader(PutTemplateAtTop)
 
-            With Me.Article
+            With Me.article
                 If Template.FoundTemplate Then
-                    If Article.PageContainsShellTemplate() Then ' We're putting an existing template back into the shell where we found it
+                    If article.PageContainsShellTemplate() Then ' We're putting an existing template back into the shell where we found it
                         PluginManager.AWBForm.TraceManager.WriteArticleActionLine1( _
                           "Shell template found; leaving " & PreferredTemplateName & " where we found it", PluginShortName, True)
-                        TemplateHeader = Article.LineBreakRegex.Replace(TemplateHeader, "") & Template.ParametersToString("")
+                        TemplateHeader = article.LineBreakRegex.Replace(TemplateHeader, "") & Template.ParametersToString("")
                         .RestoreTemplateToPlaceholderSpot(TemplateHeader)
                     ElseIf PutTemplateAtTop Then ' moving existing tl to top
                         TemplateHeader += Template.ParametersToString(ParameterBreak)
@@ -207,22 +209,22 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             End With
         End Sub
         Protected Sub AddAndLogNewParamWithAYesValue(ByVal ParamName As String)
-            Template.NewOrReplaceTemplateParm(ParamName, "yes", Article, True, False, PluginName:=PluginShortName)
+            Template.NewOrReplaceTemplateParm(ParamName, "yes", article, True, False, PluginName:=PluginShortName)
         End Sub
         Protected Sub AddNewParamWithAYesValue(ByVal ParamName As String)
-            Template.NewOrReplaceTemplateParm(ParamName, "yes", Article, False, False, PluginName:=PluginShortName)
+            Template.NewOrReplaceTemplateParm(ParamName, "yes", article, False, False, PluginName:=PluginShortName)
         End Sub
         Protected Sub AddAndLogNewParamWithAYesValue(ByVal ParamName As String, ByVal ParamAlternativeName As String)
-            Template.NewOrReplaceTemplateParm(ParamName, "yes", Article, True, True, _
+            Template.NewOrReplaceTemplateParm(ParamName, "yes", article, True, True, _
                ParamAlternativeName:=ParamAlternativeName, PluginName:=PluginShortName)
         End Sub
         Protected Sub AddAndLogEmptyParam(ByVal ParamName As String)
             If Not Template.Parameters.ContainsKey(ParamName) Then Template.NewTemplateParm(ParamName, "", True, _
-            Article, PluginShortName)
+            article, PluginShortName)
         End Sub
         Protected Sub AddEmptyParam(ByVal ParamName As String)
             If Not Template.Parameters.ContainsKey(ParamName) Then Template.NewTemplateParm(ParamName, "", _
-               False, Article, PluginShortName)
+               False, article, PluginShortName)
         End Sub
         Protected Sub ProcessArticleFinishNonStandardMode(ByVal Classification As Classification, _
         ByVal Importance As Importance, ByVal ForceNeedsInfobox As Boolean, _
@@ -231,23 +233,23 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             Select Case Classification
                 Case Kingbotk.Classification.Code
                     If ProcessTalkPageMode = ProcessTalkPageMode.NonStandardTalk Then
-                        Select Case Me.Article.Namespace
+                        Select Case Me.article.Namespace
                             Case [Namespace].CategoryTalk
                                 Template.NewOrReplaceTemplateParm( _
-                                   "class", CategoryTalkClassParm, Me.Article, True, False, _
+                                   "class", CategoryTalkClassParm, Me.article, True, False, _
                                    PluginName:=PluginShortName)
                             Case [Namespace].TemplateTalk
                                 Template.NewOrReplaceTemplateParm( _
-                                   "class", TemplateTalkClassParm, Me.Article, True, False, _
+                                   "class", TemplateTalkClassParm, Me.article, True, False, _
                                    PluginName:=PluginShortName)
                             Case [Namespace].ImageTalk, 101, [Namespace].ProjectTalk '101 is Portal Talk
                                 Template.NewOrReplaceTemplateParm( _
-                                   "class", "NA", Me.Article, True, False, PluginName:=PluginShortName)
+                                   "class", "NA", Me.article, True, False, PluginName:=PluginShortName)
                         End Select
                     End If
                 Case Kingbotk.Classification.Unassessed
                 Case Else
-                    Template.NewOrReplaceTemplateParm("class", Classification.ToString, Me.Article, False, False)
+                    Template.NewOrReplaceTemplateParm("class", Classification.ToString, Me.article, False, False)
             End Select
 
             Select Case Importance
@@ -261,7 +263,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             If ForceNeedsAttention Then AddAndLogNewParamWithAYesValue("attention")
 
             If RemoveAutoStub Then
-                With Me.Article
+                With Me.article
                     If Template.Parameters.ContainsKey("auto") Then
                         Template.Parameters.Remove("auto")
                         .ArticleHasAMajorChange()
@@ -276,22 +278,24 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         End Sub
         Protected Function WriteOutParameterToHeader(ByVal ParamName As String) As String
             With Template
-                WriteOutParameterToHeader = "|" & ParamName & "="
+                Dim res As String = "|" & ParamName & "="
                 If .Parameters.ContainsKey(ParamName) Then
-                    WriteOutParameterToHeader += .Parameters(ParamName).Value + ParameterBreak
+                    res += .Parameters(ParamName).Value + ParameterBreak
                     .Parameters.Remove(ParamName)
                 Else
-                    WriteOutParameterToHeader += ParameterBreak
+                    res += ParameterBreak
                 End If
+
+                Return res
             End With
         End Function
         Protected Sub StubClass()
-            If Me.Article.Namespace = [Namespace].Talk Then
-                If GenericSettings.StubClass Then Template.NewOrReplaceTemplateParm("class", "Stub", Article, _
+            If Me.article.Namespace = [Namespace].Talk Then
+                If GenericSettings.StubClass Then Template.NewOrReplaceTemplateParm("class", "Stub", article, _
                    True, False, PluginName:=PluginShortName, DontChangeIfSet:=True)
 
                 If GenericSettings.AutoStub _
-                AndAlso Template.NewOrReplaceTemplateParm("class", "Stub", Article, True, False, _
+                AndAlso Template.NewOrReplaceTemplateParm("class", "Stub", article, True, False, _
                     PluginName:=PluginShortName, DontChangeIfSet:=True) _
                        Then AddAndLogNewParamWithAYesValue("auto")
                 ' If add class=Stub (we don't change if set) add auto
@@ -302,11 +306,11 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         End Sub
         Protected Sub ReplaceATemplateWithAYesParameter(ByVal R As Regex, ByVal ParamName As String, _
         ByVal TemplateCall As String, Optional ByVal Replace As Boolean = True)
-            With Article
+            With article
                 If (R.Matches(.AlteredArticleText).Count > 0) Then
                     If Replace Then .AlteredArticleText = R.Replace(.AlteredArticleText, "")
                     .DoneReplacement(TemplateCall, ParamName & "=yes", True, PluginShortName)
-                    Template.NewOrReplaceTemplateParm(ParamName, "yes", Article, False, False)
+                    Template.NewOrReplaceTemplateParm(ParamName, "yes", article, False, False)
                     .ArticleHasAMinorChange()
                 End If
             End With
@@ -320,7 +324,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                 If .ContainsKey(Name1) AndAlso .ContainsKey(Name2) Then
                     If .Item(Name1).Value = .Item(Name2).Value Then
                         .Remove(Name2)
-                        Article.DoneReplacement(Name2, "", True, PluginShortName)
+                        article.DoneReplacement(Name2, "", True, PluginShortName)
                     Else
                         Return True
                     End If
@@ -364,6 +368,133 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         Friend Sub New(ByVal IAmAGenericTemplate As Boolean)
             If Not IAmAGenericTemplate Then Throw New NotSupportedException
         End Sub
+
+        ' Redirects:
+        ' SPACES SHOULD BE WRITTEN TO XML AND IN THE GENERIC TL ALTERNATE NAME TEXT BOX AS SPACES ONLY
+        ' WHEN READ FROM XML, FROM WIKIPEDIA OR FROM THE TEXT BOX AND FED INTO REGEXES CONVERT THEM TO [ _]
+        Protected mLastKnownGoodRedirects As String = "" ' Should contain spaces not [ _]. We always try to use an up-to-date list from the server, but we can at user's choice fall back to a recent list (generally from XML settings) at user's bidding
+
+        Friend Sub New(ByVal DefaultRegexpmiddle As String)
+            GotNewAlternateNamesString(DefaultRegexpmiddle)
+        End Sub
+
+        ' Properties and regex construction:
+
+        ''' <summary>
+        ''' Called when we have a new Redirects list (at startup, from Wikipedia, or from the user in the case of generic templates)
+        ''' </summary>
+        ''' <param name="AlternateNames"></param>
+        ''' <param name="SenderIsGenericTemplateForm"></param>
+        ''' <remarks></remarks>
+        Protected Sub GotNewAlternateNamesString(ByVal AlternateNames As String, _
+        Optional ByVal SenderIsGenericTemplateForm As Boolean = False)
+            Dim RegexpMiddle As String ' Less efficient to transfer to a new string but makes code easier to understand
+            Dim mHasAlternateNames As Boolean
+
+            ' Argument should NOT contain the default name at this stage; should contain spaces not [ _] or _
+            If SenderIsGenericTemplateForm Then
+                AlternateNames = AlternateNames.Replace("_", " ")
+            End If
+
+            AlternateNames = AlternateNames.Trim
+
+            PluginManager.AWBForm.TraceManager.WriteBulletedLine("Template:" & PreferredTemplateName & " redirects: " & _
+               AlternateNames, False, True, False)
+
+            If AlternateNames = "" Then
+                mHasAlternateNames = False
+                RegexpMiddle = PreferredTemplateName
+            Else
+                mHasAlternateNames = True
+                mLastKnownGoodRedirects = AlternateNames
+                RegexpMiddle = PreferredTemplateName & "|" & AlternateNames
+            End If
+            RegexpMiddle = RegexpMiddle.Replace(" ", "[ _]")
+
+            MainRegex = New Regex(conRegexpLeft & RegexpMiddle & conRegexpRight, conRegexpOptions)
+            SecondChanceRegex = New Regex(conRegexpLeft & RegexpMiddle & conRegexpRightNotStrict, conRegexpOptions)
+
+            If mHasAlternateNames Then
+                PreferredTemplateNameRegex = New Regex(PreferredTemplateNameRegexCreator.Replace(PreferredTemplateName, _
+                   AddressOf Me.PreferredTemplateNameWikiMatchEvaluator), RegexOptions.Compiled)
+            Else
+                PreferredTemplateNameRegex = Nothing
+            End If
+        End Sub
+        ''' <summary>
+        ''' Do any redirects point to the template?
+        ''' </summary>
+        ''' <returns>True if the template has alternate names</returns>
+        Protected ReadOnly Property HasAlternateNames() As Boolean
+            Get
+                Return (Not PreferredTemplateNameRegex Is Nothing)
+            End Get
+        End Property
+        ''' <summary>
+        ''' Returns true if the templating plugin is ready to start processing
+        ''' </summary>
+        Protected Friend Overridable ReadOnly Property IAmReady() As Boolean
+            ' In compiled templates, this is where we check if we've got an up-to-date redirects list from Wikipedia
+            ' In generic templates, we also check whether the generic template has enough configuration to start tagging
+            Get
+                Return True
+            End Get
+        End Property
+
+        Private Shared ReadOnly rlp As New RedirectsListProvider()
+
+        ' Get the redirects from Wikipedia:
+        ''' <summary>
+        ''' Load the redirects for a template from Wikipedia
+        ''' </summary>
+        ''' <param name="Target">Template name</param>
+        Protected Shared Function GetRedirects(ByVal Target As String) As List(Of WikiFunctions.Article)
+            Dim message As String = "Loading redirects for Template:" & Target
+
+            PluginManager.StatusText.Text = message
+            PluginManager.AWBForm.TraceManager.WriteBulletedLine(conAWBPluginName & ":" & message, False, False, True)
+            System.Windows.Forms.Application.DoEvents() ' the statusbar text wasn't updating without this; if happens elsewhere may need to write a small subroutine
+
+            Try
+                Return rlp.MakeList([Namespace].Template, New String() {Variables.Namespaces([Namespace].Template) & Target})
+            Catch
+                Throw
+            Finally
+                PluginManager.DefaultStatusText()
+            End Try
+        End Function
+        Protected Shared Function ConvertRedirectsToString(ByRef Redirects As List(Of WikiFunctions.Article)) As String
+            Dim tmp As New List(Of WikiFunctions.Article)
+            Dim res As String = ""
+
+            For Each redirect As WikiFunctions.Article In Redirects
+                If redirect.NameSpaceKey = [Namespace].Template Then
+                    res += redirect.Name.Remove(0, 9) & "|"
+                    tmp.Add(redirect)
+                End If
+            Next
+
+            Redirects = tmp
+
+            Return res.Trim(New Char() {CChar("|")}) ' would .Remove be quicker? or declaring this as static?
+        End Function
+
+        ' XML:
+        Friend Overridable Sub ReadXMLRedirects(ByVal Reader As System.Xml.XmlTextReader)
+            ' For compiled template plugins, a Redirect string read in from XML is for backup use only if getting from WP fails
+            ' Generic templates already support AlternateNames property so will override this
+            Dim Redirs As String = PluginManager.XMLReadString(Reader, RedirectsParm, mLastKnownGoodRedirects)
+
+            If Not Redirs = "" Then mLastKnownGoodRedirects = Redirs
+        End Sub
+        Friend Overridable Sub WriteXMLRedirects(ByVal Writer As System.Xml.XmlTextWriter)
+            If Not mLastKnownGoodRedirects = "" Then Writer.WriteAttributeString(RedirectsParm, mLastKnownGoodRedirects)
+        End Sub
+        Protected ReadOnly Property RedirectsParm() As String
+            Get
+                Return PreferredTemplateName.Replace(" ", "") & "RedirN"
+            End Get
+        End Property
     End Class
 
     Friend Interface IGenericSettings
