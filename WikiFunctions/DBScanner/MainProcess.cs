@@ -83,7 +83,7 @@ namespace WikiFunctions.DBScanner
 
             try
             {
-                stream = new FileStream(FileName, FileMode.Open);
+                stream = new FileStream(FileName, FileMode.Open, FileAccess.Read);
             }
             catch (Exception ex)
             {
