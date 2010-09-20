@@ -1266,7 +1266,7 @@ namespace WikiFunctions.DBScanner
             // 
             // pageNamespaces
             // 
-            this.pageNamespaces.Location = new System.Drawing.Point(6, 3);
+            this.pageNamespaces.Location = new System.Drawing.Point(6, 6);
             this.pageNamespaces.Name = "pageNamespaces";
             this.pageNamespaces.Size = new System.Drawing.Size(297, 162);
             this.pageNamespaces.TabIndex = 0;
@@ -1459,7 +1459,7 @@ namespace WikiFunctions.DBScanner
             this.gbProperties.Controls.Add(this.lblLength);
             this.gbProperties.Controls.Add(this.cmboLength);
             this.gbProperties.Controls.Add(this.nudLength);
-            this.gbProperties.Location = new System.Drawing.Point(289, 6);
+            this.gbProperties.Location = new System.Drawing.Point(288, 3);
             this.gbProperties.Name = "gbProperties";
             this.gbProperties.Size = new System.Drawing.Size(218, 141);
             this.gbProperties.TabIndex = 18;
