@@ -5465,12 +5465,14 @@ namespace WikiFunctions.Parse
         private static readonly Regex Rq = Tools.NestedTemplateRegex("Rq");
 
         /// <summary>
-        /// 
+        /// Tags pages with insufficient incoming page links with the orphan template (localised for ru-wiki).
+        /// Removes orphan tag from pages with sufficient incoming page links.
+        /// Disambig and SIA pages are never tagged as orphan.
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
-        /// <param name="restrictOrphanTagging"></param>
-        /// <returns></returns>
+        /// <param name="restrictOrphanTagging">Whether to restrict the addition of the orphan tag to pages with zero incoming links only.</param>
+        /// <returns>The updated article text</returns>
         private string TagOrphans(string articleText, string articleTitle, bool restrictOrphanTagging)
         {
             // check if not orphaned
