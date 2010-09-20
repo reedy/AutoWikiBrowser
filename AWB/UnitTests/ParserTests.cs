@@ -2350,7 +2350,7 @@ complementary and alternative medicine: evidence is a better friend than power. 
             const string IB = @"{{Infobox person
 |name=James Jerome Hill
 |birth_date={{birthdate|1838|9|16}}
-|birth_place=[[Guelph/Eramosa, Ontario|Eramosa Township]], [[Ontario]], [[Canada]]
+|birth_place=[[Guelph/Eramosa, Ontario|Eramosa Township]],<br>[[Ontario]], [[Canada]]
 |death_date = {{dda|1916|5|29|1838|9|16}}
 |death_place=[[St. Paul, Minnesota|Saint Paul]], [[Minnesota]]
 |occupation=Railroad tycoon
@@ -2380,7 +2380,7 @@ complementary and alternative medicine: evidence is a better friend than power. 
 |yearofbirth=1838
 |monthofbirth=9
 |dayofbirth=16
-|birth_place=[[Guelph/Eramosa, Ontario|Eramosa Township]], [[Ontario]], [[Canada]]
+|birth_place=<small>[[Guelph/Eramosa, Ontario|Eramosa Township]], [[Ontario]], [[Canada]]</small>
 |yearofdeath=1916
 |monthofdeath=5
 |dayofdeath=29
@@ -2394,7 +2394,7 @@ complementary and alternative medicine: evidence is a better friend than power. 
             
             Assert.AreEqual(PD, WikiRegexes.Persondata.Match(Parsers.PersonData(IB.Replace(@":Hill, James J.}}", @":Hill, James J. (writer)}}") + "May 2, 2010 and May 2, 2010", "test")).Value, "Occupation cleaned from defaultsort");
             
-            Assert.AreEqual(PD.Replace(@"[[Guelph/Eramosa, Ontario|Eramosa Township]], [[Ontario]], [[Canada]]", "Ontario, Canada"),
+            Assert.AreEqual(PD.Replace(@"[[Guelph/Eramosa, Ontario|Eramosa Township]],<br>[[Ontario]], [[Canada]]", "Ontario, Canada"),
                             WikiRegexes.Persondata.Match(Parsers.PersonData(IB.Replace(@"[[Guelph/Eramosa, Ontario|Eramosa Township]], [[Ontario]], [[Canada]]", "{{city-state|Ontario|Canada}}") + "May 2, 2010 and May 2, 2010", "test")).Value, "city state template converted");
             Assert.AreEqual(PD.Replace(@"[[St. Paul, Minnesota|Saint Paul]], [[Minnesota]]", "Saint Paul, Minnesota"),
                             WikiRegexes.Persondata.Match(Parsers.PersonData(IB.Replace(@"[[St. Paul, Minnesota|Saint Paul]], [[Minnesota]]", "{{city-state|Saint Paul|Minnesota}}") + "May 2, 2010 and May 2, 2010", "test")).Value, "city state template converted (death place)");
