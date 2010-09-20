@@ -2103,7 +2103,7 @@ namespace WikiFunctions.Parse
             return AddBackMoreText(articleText);
         }
 
-        private static readonly Regex BrTwoNewlines = new Regex("<br ?/?>\r\n\r\n", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex BrTwoNewlines = new Regex("<br */?>\r\n\r\n", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex ThreeOrMoreNewlines = new Regex("\r\n(\r\n)+", RegexOptions.Compiled);
         private static readonly Regex TwoNewlinesInBlankSection = new Regex("== ? ?\r\n\r\n==", RegexOptions.Compiled);
         private static readonly Regex NewlinesBelowExternalLinks = new Regex(@"==External links==[\r\n\s]*\*", RegexOptions.Compiled);
@@ -2953,6 +2953,11 @@ namespace WikiFunctions.Parse
         private static readonly Regex CityState = Tools.NestedTemplateRegex(new List<string>(new [] { "Ci", "State", "City-State", "Citystate", "City-state"}));
         
         /// <summary>
+        /// Matches the &lt;br/&gt; tag and valid variants
+        /// </summary>
+        private static readonly Regex Br = new Regex("<br */?>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        
+        /// <summary>
         /// * Adds the default {{persondata}} template to en-wiki mainspace pages about a person that don't already have {{persondata}}
         /// * Attempts to complete blank {{persondata}} fields based on infobox values
         /// </summary>
@@ -3012,8 +3017,8 @@ namespace WikiFunctions.Parse
                 if(CityState.IsMatch(POB))
                     POB = CityState.Replace(POB, m => m.Groups[3].Value.Trim("|{}".ToCharArray()).Replace("|", ", "));
                 
-                POB = WikiRegexes.NestedTemplates.Replace(POB, "");
-                POB = WikiRegexes.Refs.Replace(POB, "");
+                POB = WikiRegexes.NestedTemplates.Replace(Br.Replace(POB, " "), "");
+                POB = WikiRegexes.Small.Replace(WikiRegexes.Refs.Replace(POB, ""), "$1");
                 
                 newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF BIRTH", POB);
             }
@@ -3035,8 +3040,8 @@ namespace WikiFunctions.Parse
                 if(CityState.IsMatch(POD))
                     POD = CityState.Replace(POD, m => m.Groups[3].Value.Trim("|{}".ToCharArray()).Replace("|", ", "));
                 
-                POD = WikiRegexes.NestedTemplates.Replace(POD, "");
-                POD = WikiRegexes.Refs.Replace(POD, "");
+                POD = WikiRegexes.NestedTemplates.Replace(Br.Replace(POD, " "), "");
+                POD = WikiRegexes.Small.Replace(WikiRegexes.Refs.Replace(POD, ""), "$1");
                 
                 newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF DEATH", POD);
             }
