@@ -1516,7 +1516,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Renames templates to bypass template redirects from [[WP:AWB/Template redirects]]
         /// </summary>
-        /// <param name="articletext">the page text</param>
+        /// <param name="articleText">the page text</param>
         /// <param name="TemplateRedirects">Dictionary of redirects and templates</param>
         /// <returns>The updated article text</returns>
         public static string TemplateRedirects(string articleText, Dictionary<Regex, string> TemplateRedirects)
@@ -3049,13 +3049,14 @@ namespace WikiFunctions.Parse
         }
         
         private static readonly Regex DfYes = new Regex(@"\|\s*[dm]f\s*=\s*y(?:es)?\s*(?=(?:\||}}))", RegexOptions.Compiled);
-        
+
         /// <summary>
         /// Completes a persondata call with a date of birth/death.
         /// </summary>
         /// <param name="personData"></param>
         /// <param name="field"></param>
         /// <param name="sourceValue"></param>
+        /// <param name="articletext"></param>
         /// <returns>The updated persondata call</returns>
         private static string SetPersonDataDate(string personData, string field, string sourceValue, string articletext)
         {
@@ -5102,7 +5103,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly Regex InfoboxValue = new Regex(@"\s*\|[^{}\|=]+?\s*=\s*.*", RegexOptions.Compiled);
+        //private static readonly Regex InfoboxValue = new Regex(@"\s*\|[^{}\|=]+?\s*=\s*.*", RegexOptions.Compiled);
         
         /// <summary>
         /// Returns the value of the given fields from the page's infobox, where available
@@ -5135,7 +5136,7 @@ namespace WikiFunctions.Parse
         /// Returns a null string if the input article has no infobox, or the input field regex doesn't match on the infobox found
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
-        /// <param name="fields">infobox field to search</param>
+        /// <param name="field">infobox field to search</param>
         /// <returns>Field value</returns>
         public static string GetInfoBoxFieldValue(string articleText, string field)
         {

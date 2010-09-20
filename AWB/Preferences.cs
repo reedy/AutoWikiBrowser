@@ -39,6 +39,7 @@ namespace AutoWikiBrowser
         /// <param name="proj"></param>
         /// <param name="customproj"></param>
         /// <param name="usePHP5"></param>
+        /// <param name="usingSecure"></param>
         public MyPreferences(string lang, ProjectEnum proj, string customproj, bool usePHP5, bool usingSecure)
         {
             InitializeComponent();

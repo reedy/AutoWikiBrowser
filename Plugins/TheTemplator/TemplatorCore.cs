@@ -218,7 +218,7 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
             {
                 string matchSegment = match.Value;
 
-                /// Cannot handle wikitables used within templates
+                // Cannot handle wikitables used within templates
                 if (matchSegment.Contains("{|"))
                 {
                     MessageBox.Show("Infobox contains a wikitable:\r\n\r\n" + text, eventargs.ArticleTitle);

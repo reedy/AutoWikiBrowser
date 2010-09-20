@@ -2079,7 +2079,7 @@ Message: {2}
         /// <summary>
         /// Returns the value of the input parameter in the input template
         /// </summary>
-        /// <param name="template">the input template call</param>
+        /// <param name="templateCall">the input template call</param>
         /// <param name="parameter">the input parameter to find</param>
         /// <param name="caseInsensitiveParameterName">Whether to match case insensitively on parameter name</param>
         /// <returns>The trimmed parameter value, or a null string if the parameter is not found</returns>
@@ -2109,7 +2109,7 @@ Message: {2}
          /// <summary>
         /// Returns the value of the input parameter in the input template
         /// </summary>
-        /// <param name="template">the input template call</param>
+        /// <param name="templateCall">the input template call</param>
         /// <param name="parameter">the input parameter to find</param>
         /// <returns>The trimmed parameter value, or a null string if the parameter is not found</returns>
         public static string GetTemplateParameterValue(string templateCall, string parameter)
@@ -2285,7 +2285,7 @@ Message: {2}
         /// <summary>
         /// Removes the input parameter from the input template
         /// </summary>
-        /// <param name="template"></param>
+        /// <param name="templateCall"></param>
         /// <param name="parameter"></param>
         /// <param name="removeLastMatch">Whether to remove the last match, rather than the first</param>
         /// <returns>The updated template</returns>

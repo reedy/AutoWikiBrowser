@@ -474,6 +474,7 @@ namespace WikiFunctions
         /// <param name="langCode">The language code, default is en</param>
         /// <param name="projectName">The project name default is Wikipedia</param>
         /// <param name="customProject">Script path of a custom project or ""</param>
+        /// <param name="usingSecure"></param>
         public static void SetProject(string langCode, ProjectEnum projectName, string customProject, bool usingSecure)
         {
             Namespaces.Clear();
