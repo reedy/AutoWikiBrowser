@@ -4499,6 +4499,7 @@ was"));
             TemplateRedirects.Add(Tools.NestedTemplateRegex("Cn"), "Citation needed");
 
             Assert.AreEqual(TemplateRedirects.Values, Parsers.LoadTemplateRedirects("{{tl|Cn}} → {{tl|Citation needed}}").Values, "loads single redirect rules");
+            Assert.AreEqual(TemplateRedirects.Values, Parsers.LoadTemplateRedirects("{{tl|Cn}} → '''{{tl|Citation needed}}'''").Values, "loads single redirect rules");
 
             TemplateRedirects.Clear();
             TemplateRedirects.Add(Tools.NestedTemplateRegex(new List<string>(new [] {"Cn", "fact"})), "Citation needed");

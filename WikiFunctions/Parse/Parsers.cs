@@ -1483,7 +1483,7 @@ namespace WikiFunctions.Parse
         }
         
         private static readonly Regex TlOrTlx = Tools.NestedTemplateRegex(new List<string>(new [] {"tl", "tlx"}));
-        private static readonly Regex TemplateRedirectsR = new Regex(@"({{ *[Tt]lx? *\|.*}}) *→ *({{ *[Tt]lx? *\| *(.*?) *}})\s*", RegexOptions.Compiled);
+        private static readonly Regex TemplateRedirectsR = new Regex(@"({{ *[Tt]lx? *\|.*}}) *→[ ']*({{ *[Tt]lx? *\| *(.*?) *}})", RegexOptions.Compiled);
 
         /// <summary>
         /// Processes the text of [[WP:AWB/Template redirects]] into a dictionary of regexes and new template names
