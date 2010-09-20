@@ -2276,16 +2276,16 @@ complementary and alternative medicine: evidence is a better friend than power. 
         [Test]
         public void PersonDataAdditionEnOnly()
         {
+#if DEBUG
             const string Fred = @"'''Fred''' (born 1960) is.
 [[Category:1960 births]]";
             
-            #if DEBUG
             Variables.SetProjectLangCode("fr");
             Assert.IsFalse(Tools.NestedTemplateRegex("persondata").IsMatch(Parsers.PersonData(Fred, "Fred")), "Adds persondata for BLP when missing");
             
             Variables.SetProjectLangCode("en");
             Assert.IsTrue(Tools.NestedTemplateRegex("persondata").IsMatch(Parsers.PersonData(Fred, "Fred")), "Adds persondata for BLP when missing");
-            #endif
+#endif
         }
         
         [Test]
