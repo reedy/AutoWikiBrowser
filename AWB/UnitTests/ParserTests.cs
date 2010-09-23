@@ -7217,8 +7217,10 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         {
             Globals.UnitTestIntValue = 0;
             
-            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(parser.Tagger(@"foo {{deadend}} [[a]] and [[b]] and [[b]]", "Test", false, out noChange, ref summary)));
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(parser.Tagger(@"foo {{deadend|date=May 2010}} [[a]] and [[b]] and [[b]]", "Test", false, out noChange, ref summary)));
             Assert.IsTrue(summary.Contains("removed deadend tag"));
+            
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(parser.Tagger(@"foo {{Multiple issues|COI = May 2010 |POV = June 2010 | dead end=May 2010}} [[a]] and [[b]] and [[b]]", "Test", false, out noChange, ref summary)));
         }
 
         [Test]
