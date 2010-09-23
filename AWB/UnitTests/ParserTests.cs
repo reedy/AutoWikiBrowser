@@ -7074,6 +7074,12 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             //Stub, no existing stub tag. Needs all tags
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
             
+            text = parser.Tagger(ShortText + @"{{Widirect}}", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text), "pages using {{wi}} not tagged as orphan");
+            
+            text = parser.Tagger(ShortText + @"{{Wi}}", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text), "pages using {{wi}} not tagged as orphan");
+            
             text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
             Assert.IsTrue(text.Contains("{{Orphan|" + WikiRegexes.DateYearMonthParameter + @"}}
