@@ -2676,12 +2676,6 @@ namespace WikiFunctions.Parse
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
-            articleText = AccessdateTypo.Replace(articleText, "$1accessdate$2");
-
-            articleText = PublisherTypo.Replace(articleText, @"publisher$1");
-
-            articleText = AccessdateSynonyms.Replace(articleText, "accessdate");
-
             // {{cite web}} needs lower case field names; two loops in case a single template has multiple uppercase fields
             // restrict to en-wiki
             // exceptionally, 'ISBN' is allowed
@@ -2715,6 +2709,12 @@ namespace WikiFunctions.Parse
                 string newValue = m.Value;
                 string templatename = Tools.GetTemplateName(newValue);
                 string theURL = Tools.GetTemplateParameterValue(newValue, "url");
+                
+                newValue = AccessdateTypo.Replace(newValue, "$1accessdate$2");
+
+                newValue = PublisherTypo.Replace(newValue, @"publisher$1");
+
+                newValue = AccessdateSynonyms.Replace(newValue, "accessdate");
 
                 // remove the unneeded 'format=HTML' field
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.22format.3DHTML.22_in_citation_templates
