@@ -5394,7 +5394,7 @@ namespace WikiFunctions.Parse
             // don't include categories as 'links'
             if ((linkCount - totalCategories) > 0 && WikiRegexes.DeadEnd.IsMatch(articleText))
             {
-                articleText = WikiRegexes.DeadEnd.Replace(articleText, "");
+                articleText = WikiRegexes.DeadEnd.Replace(articleText, "$1");
                 tagsRemoved.Add("deadend");
             }
 
