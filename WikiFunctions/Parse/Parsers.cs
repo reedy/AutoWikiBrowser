@@ -2721,6 +2721,15 @@ namespace WikiFunctions.Parse
                 if (Tools.GetTemplateParameterValue(newValue, "format").TrimStart("[]".ToCharArray()).ToUpper().StartsWith("HTM"))
                     newValue = Tools.RemoveTemplateParameter(newValue, "format");
 
+                // newlines to spaces in title field if URL used, otherwise display broken
+                if(theURL.Length > 0)
+                {
+                    string theTitle = Tools.GetTemplateParameterValue(newValue, "title");
+                    
+                    if(theTitle.Contains("\r\n"))
+                        newValue = Tools.UpdateTemplateParameterValue(newValue, "title", theTitle.Replace("\r\n", " "));
+                }
+                
                 // remove language=English on en-wiki
                 if (Variables.LangCode == "en" && Tools.GetTemplateParameterValue(newValue, "language").ToLower().Equals("english"))
                     newValue = Tools.RemoveTemplateParameter(newValue, "language");

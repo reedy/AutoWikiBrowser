@@ -1970,6 +1970,17 @@ complementary and alternative medicine: evidence is a better friend than power. 
             // not unbalanced
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now was < 50 cm long", ref bracketLength));
         }
+        
+        [Test]
+        public void FixCitationTemplatesNewlineInTitle()
+        {
+            Assert.AreEqual(@"now {{cite web| url=a.com|title=hello world|format=PDF}} was", Parsers.FixCitationTemplates(@"now {{cite web| url=a.com|title=hello
+world|format=PDF}} was"), "newline converted to space");
+            const string NoURL = @"now {{cite news|title=hello
+world|format=PDF}} was";
+
+            Assert.AreEqual(NoURL, Parsers.FixCitationTemplates(NoURL), "title newline not changed when no URL");
+        }
 
         [Test]
         public void TestCiteFormatFieldTypo()
