@@ -5472,7 +5472,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Tags pages with insufficient incoming page links with the orphan template (localised for ru-wiki).
         /// Removes orphan tag from pages with sufficient incoming page links.
-        /// Disambig and SIA pages are never tagged as orphan.
+        /// Disambig, SIA pages and soft redirects to Wictionary are never tagged as orphan.
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
@@ -5518,7 +5518,7 @@ namespace WikiFunctions.Parse
 
             // add orphan tag if applicable, and no disambig nor SIA
             if (orphaned2 && !WikiRegexes.Orphan.IsMatch(articleText) && Tools.GetTemplateParameterValue(WikiRegexes.MultipleIssues.Match(articleText).Value, "orphan").Length == 0
-                && !WikiRegexes.Disambigs.IsMatch(articleText) && !WikiRegexes.SIAs.IsMatch(articleText))
+                && !WikiRegexes.Disambigs.IsMatch(articleText) && !WikiRegexes.SIAs.IsMatch(articleText) && !WikiRegexes.Wi.IsMatch(articleText))
             {
                 articleText = "{{Orphan|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                 tagsAdded.Add("[[CAT:O|orphan]]");

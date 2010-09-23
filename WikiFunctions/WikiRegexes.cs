@@ -110,6 +110,8 @@ namespace WikiFunctions
             s = "([Ss]urname|SIA|[Ss]hipindex|[Mm]ountainindex|[[Rr]oadindex|[Ss]portindex|[Gg]iven name)";
             SIAs = new Regex(TemplateStart + s + @"\s*(?:\|[^{}]*?)?}}", RegexOptions.Compiled);
             
+            Wi = new Regex(@"{{[ _]*(?:[Ww]i|[Ww]idirect|[Ww]iktionaryExport|Moved to Wiktionary|RedirecttoWiktionary|Seewiktionary)[ _]*[\|\n\}]", RegexOptions.Compiled);
+            
             if (Variables.MagicWords.TryGetValue("defaultsort", out magic))
                 s = "(?i:" + string.Join("|", magic.ToArray()).Replace(":", "") + ")";
             else
@@ -538,6 +540,11 @@ namespace WikiFunctions
         /// Matches SIA templates (en only)
         /// </summary>
         public static Regex SIAs;
+
+        /// <summary>
+        /// Matches Wi templates (en only)
+        /// </summary>
+        public static Regex Wi;
 
         /// <summary>
         /// Matches stubs
