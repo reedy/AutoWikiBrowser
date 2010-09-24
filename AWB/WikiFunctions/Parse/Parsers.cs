@@ -251,7 +251,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex RegexHeadings5 = new Regex("(== ?)(further readings?:?)( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex RegexHeadings6 = new Regex("(== ?)(Early|Personal|Adult|Later) Life( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex RegexHeadings7 = new Regex("(== ?)(Current|Past|Prior) Members( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex RegexHeadings8 = new Regex(@"^(=+ ?)'''(.*?)'''( ?=+)\s*?(\r)?$", RegexOptions.Multiline | RegexOptions.Compiled);
+        private static readonly Regex RegexHeadingsBold = new Regex(@"^(=+ ?)(?:'''|<b>)(.*?)(?:'''|</b>)( ?=+)\s*?(\r)?$", RegexOptions.Multiline | RegexOptions.Compiled);
         private static readonly Regex RegexHeadings9 = new Regex("(== ?)track listing( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex RegexHeadings10 = new Regex("(== ?)Life and Career( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex RegexHeadingsCareer = new Regex("(== ?)([a-zA-Z]+) Career( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -267,7 +267,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex ReferencesExternalLinksSeeAlso = new Regex(@"== *([Rr]eferences|[Ee]xternal +[Ll]inks?|[Ss]ee +[Aa]lso) *==\s", RegexOptions.Compiled);
 
         private static readonly Regex RegexHeadingColonAtEnd = new Regex(@"^(=+)(.+?)\:(\s*\1(?:\r\n?|\n))$", RegexOptions.Multiline | RegexOptions.Compiled);
-        private static readonly Regex RegexHeadingWithBold = new Regex(@"(?<====+.*?)'''(.*?)'''(?=.*?===+)", RegexOptions.Compiled);
+        private static readonly Regex RegexHeadingWithBold = new Regex(@"(?<====+.*?)(?:'''|<b>)(.*?)(?:'''|</b>)(?=.*?===+)", RegexOptions.Compiled);
 
         /// <summary>
         /// Fix ==See also== and similar section common errors.
@@ -336,7 +336,7 @@ namespace WikiFunctions.Parse
             articleText = RegexHeadings5.Replace(articleText, "$1Further reading$3");
             articleText = RegexHeadings6.Replace(articleText, "$1$2 life$3");
             articleText = RegexHeadings7.Replace(articleText, "$1$2 members$3");
-            articleText = RegexHeadings8.Replace(articleText, "$1$2$3$4");
+            articleText = RegexHeadingsBold.Replace(articleText, "$1$2$3$4");
             articleText = RegexHeadings9.Replace(articleText, "$1Track listing$2");
             articleText = RegexHeadings10.Replace(articleText, "$1Life and career$2");
             articleText = RegexHeadingsCareer.Replace(articleText, "$1$2 career$3");
