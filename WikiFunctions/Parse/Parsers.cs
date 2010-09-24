@@ -285,7 +285,7 @@ namespace WikiFunctions.Parse
             return newText.Trim();
         }
         
-        private static readonly Regex HeadingsWhitespaceBefore = new Regex(@"\s+(?:< *[Bb][Rr] *\/? *>\s*)?(^={1,6} *(.*?) *={1,6} *(?=\r\n))", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex HeadingsWhitespaceBefore = new Regex(@"\s+(?:< *[Bb][Rr] *\/? *>\s*)*(^={1,6} *(.*?) *={1,6} *(?=\r\n))", RegexOptions.Compiled | RegexOptions.Multiline);
         
          // Covered by: FormattingTests.TestFixHeadings(), incomplete
         /// <summary>
@@ -382,7 +382,7 @@ namespace WikiFunctions.Parse
             // one blank line before each heading per MOS:HEAD
             if(Variables.IsWikipediaEN)
                 articleText = HeadingsWhitespaceBefore.Replace(articleText, "\r\n\r\n$1");
-
+            
             return articleText;
         }
 
