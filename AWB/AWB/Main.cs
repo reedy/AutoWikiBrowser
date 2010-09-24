@@ -2696,7 +2696,7 @@ window.scrollTo(0, diffTopY);
                 Variables.Profiler = new Profiler(Path.Combine(Application.StartupPath, "profiling.txt"), true);
             }
             catch{
-                Variables.Profiler = new Profiler(Path.Combine(AwbDirs.DefaultSettings, "profiling.txt"), true);
+                Variables.Profiler = new Profiler(Path.Combine(AwbDirs.UserData, "profiling.txt"), true);
             }
             #endif
         }
