@@ -5233,9 +5233,6 @@ namespace WikiFunctions.Parse
                 articleText = k.Key.Replace(articleText, k.Value);
             }
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Add_.7B.7Botheruse.7D.7D_and_.7B.7B2otheruses.7D.7D_in_the_supported_DABlinks
-            articleText = Tools.RenameTemplate(articleText, @"2otheruses", "Two other uses");
-
             // {{nofootnotes}} --> {{morefootnotes}}, if some <ref>...</ref> references in article, uses regex from WikiRegexes.Refs
             if (WikiRegexes.Refs.IsMatch(articleText))
                 articleText = Tools.RenameTemplate(articleText, @"nofootnotes", "morefootnotes");

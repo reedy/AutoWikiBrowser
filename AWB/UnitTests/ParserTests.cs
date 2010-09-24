@@ -6737,17 +6737,6 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.AreEqual(@"{{Multiple issues|cleanup=March 2008|expert=Anime and manga|refimprove=May 2008|date=February 2009}}", Parsers.Conversions(@"{{Article issues|cleanup=March 2008|expert=Anime and manga|refimprove=May 2008|date=February 2009}}"));
         }
         
-        [Test]
-        public void ConversionTestsGeneral()
-        {
-            // {{2otheriuses}} --> {{Two other uses}}
-            Assert.AreEqual(@"{{Two other uses}}", Parsers.Conversions(@"{{2otheruses}}"));
-            Assert.AreEqual(@"{{Two other uses|a|b}}", Parsers.Conversions(@"{{2otheruses|a|b}}"));
-            Assert.AreEqual(@"{{Two other uses
-|a|b}}", Parsers.Conversions(@"{{2otheruses
-|a|b}}"));
-            Assert.AreEqual(@"{{Two other uses|aasd}}", Parsers.Conversions(@"{{2otheruses|aasd}}"));
-
             // {{articleissues}} with {{multiple issues}}
             Assert.AreEqual(@"{{Multiple issues|sections=May 2008|POV=March 2008|COI=May 2009}}", Parsers.Conversions(@"{{Articleissues|sections=May 2008|POV=March 2008|COI=May 2009}}"));
             Assert.AreEqual(@"{{Multiple issues|sections=May 2008|POV=March 2008|COI=May 2009}}", Parsers.Conversions(@"{{articleissues|sections=May 2008|POV=March 2008|COI=May 2009}}"));
