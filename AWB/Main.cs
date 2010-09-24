@@ -2692,7 +2692,12 @@ window.scrollTo(0, diffTopY);
             invalidateCacheToolStripMenuItem.Visible = true;
 
             #if DEBUG
-            Variables.Profiler = new Profiler(Path.Combine(Application.StartupPath, "profiling.txt"), true);
+            try{
+                Variables.Profiler = new Profiler(Path.Combine(Application.StartupPath, "profiling.txt"), true);
+            }
+            catch{
+                Variables.Profiler = new Profiler(Path.Combine(AwbDirs.DefaultSettings, "profiling.txt"), true);
+            }
             #endif
         }
 
