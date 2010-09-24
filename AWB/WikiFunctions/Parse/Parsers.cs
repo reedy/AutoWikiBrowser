@@ -296,6 +296,16 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixHeadings(string articleText, string articleTitle)
         {
+            // remove any <br> from headings
+            foreach(Match m in WikiRegexes.Headings.Matches(articleText))
+            {
+                string hBefore = m.Value;
+                string hAfter = Br.Replace(hBefore, "");
+                
+                if(!hBefore.Equals(hAfter))
+                    articleText = articleText.Replace(hBefore, hAfter);
+            }
+            
             articleText = Regex.Replace(articleText, "^={1,4} ?" + Regex.Escape(articleTitle) + " ?={1,4}", "", RegexOptions.IgnoreCase);
             articleText = RegexBadHeader.Replace(articleText, "");
 
@@ -2962,7 +2972,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Matches the &lt;br/&gt; tag and valid variants
         /// </summary>
-        private static readonly Regex Br = new Regex("<br */?>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex Br = new Regex("< *br */?>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         
         /// <summary>
         /// * Adds the default {{persondata}} template to en-wiki mainspace pages about a person that don't already have {{persondata}}
