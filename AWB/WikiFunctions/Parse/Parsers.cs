@@ -1125,14 +1125,12 @@ namespace WikiFunctions.Parse
                 List<Ref> list;
                 if (refs.TryGetValue(hash, out list))
                 {
-                    list.Add(new Ref { Text = fullReference, InnerText = refContent });
-                    refs[hash] = list;
+                    list.Add(new Ref {Text = fullReference, InnerText = refContent});
                     haveRefsToFix = true;
                 }
                 else
                 {
-                    list = new List<Ref>();
-                    list.Add(new Ref { Text = fullReference, InnerText = refContent });
+                    list = new List<Ref> {new Ref {Text = fullReference, InnerText = refContent}};
                     refs.Add(hash, list);
                 }
             }
