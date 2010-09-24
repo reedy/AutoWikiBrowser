@@ -2164,7 +2164,7 @@ namespace WikiFunctions.Parse
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
         public static string RemoveAllWhiteSpace(string articleText)
-        {//removes all whitespace
+        {
             articleText = articleText.Replace("\t", " ");
             articleText = RemoveWhiteSpace(articleText);
 
