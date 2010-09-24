@@ -2975,7 +2975,8 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string PersonData(string articleText, string articleTitle)
         {
-            if (!Variables.LangCode.Equals("en"))
+            if (!Variables.LangCode.Equals("en")
+                || WikiRegexes.Persondata.Matches(articleText).Count > 1)
                 return articleText;
 
             // add default persondata if missing
