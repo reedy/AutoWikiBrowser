@@ -4974,19 +4974,24 @@ window.scrollTo(0, diffTopY);
             if (string.IsNullOrEmpty(_catName.CategoryName) || !dires.Equals(DialogResult.OK))
                 return;
 
-            string catPage = "";
+            bool pageExists;
             
             // attempt validation of the category's existence, warn user if it doesn't exist
             try
             {
-                catPage = Variables.MainForm.TheSession.Editor.SynchronousEditor.Clone().Open(_catName.CategoryName, false);
+                //TODO:ApiEdit PageExists/similar function (wrapper for this, we don't need/care about page text)
+                IApiEdit editor = TheSession.Editor.SynchronousEditor.Clone();
+                editor.Open(_catName.CategoryName, false);
+
+                pageExists = editor.Page.Exists;
             }
             catch
             {
-                catPage = "okay";
+                MessageBox.Show("Unable to check category existence");
+                return;
             }
             
-            if(catPage.Length > 0 ||
+            if(pageExists ||
                MessageBox.Show(_catName.CategoryName + " does not exist. Add it to the page anyway?",
                    "Non-existent category",  MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                == DialogResult.Yes)
