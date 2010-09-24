@@ -3996,11 +3996,21 @@ Some news here.", Parsers.FixHeadings(@"hi.
 ==News place==
 Some news here.", "test"), "space trimmed from end of paragraph");
             
-             Assert.AreEqual(@"hi.
+            Assert.AreEqual(@"hi.
 
 ==News place==
-Some news here.", Parsers.FixHeadings(@"hi.   
+Some news here.", Parsers.FixHeadings(@"hi.
 <br>
+==News place==
+Some news here.", "test"), "space trimmed from end of paragraph when br replaces newline");
+            
+            Assert.AreEqual(@"hi.
+
+==News place==
+Some news here.", Parsers.FixHeadings(@"hi.
+<br>
+<BR>
+<BR>
 ==News place==
 Some news here.", "test"), "space trimmed from end of paragraph when br replaces newline");
 
