@@ -433,15 +433,6 @@ namespace WikiFunctions
             SetProject(langCode, projectName, "", false);
         }
 
-        static readonly string[] AttackSites = new[]
-            {
-                "encyclopediadramatica",
-                "conservapedia.com",
-                "traditio.",
-                "volgota.com",
-                "wikireality.ru"
-        };
-
         #if DEBUG || UNITTEST
         /// <summary>
         /// Sets the language code of the current project
@@ -480,13 +471,6 @@ namespace WikiFunctions
             Namespaces.Clear();
             CancelBackgroundRequests();
             UnderscoredTitles.Clear();
-
-            foreach(var s in AttackSites)
-                if (customProject.Contains(s))
-                {
-                    MessageBox.Show("This software does not work on attack sites.");
-                    Application.ExitThread();
-                }
 
             Project = projectName;
             LangCode = langCode;
