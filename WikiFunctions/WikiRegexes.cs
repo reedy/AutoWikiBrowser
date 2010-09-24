@@ -790,7 +790,7 @@ namespace WikiFunctions
         public static Regex Orphan;
 
         /// <summary>
-        /// matches uncategorised templates: {{Uncat}}, {{Uncaegorised}}, {{Uncategorised stub}} allowing for nested subst: {{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
+        /// matches uncategorised templates: {{Uncat}}, {{Uncategorised}}, {{Uncategorised stub}} allowing for nested subst: {{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
         /// </summary>
         public static Regex Uncat;
         

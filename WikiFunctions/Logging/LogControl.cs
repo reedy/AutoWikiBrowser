@@ -205,13 +205,17 @@ namespace WikiFunctions.Logging
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem item in MenuItemOwner(sender).Items)
-            { item.Selected = true; }
+            {
+                item.Selected = true;
+            }
         }
 
         private void selectNoneToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem item in MenuItemOwner(sender).Items)
-            { item.Selected = false; }
+            {
+                item.Selected = false;
+            }
         }
 
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
