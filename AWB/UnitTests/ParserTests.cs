@@ -2328,6 +2328,8 @@ world|format=PDF}} was";
             
             string i5= @"{{infobox foo| yob = 1950 | mob=06 | dob=27}}";
             Assert.AreEqual(i5 + a2 + @"{{use dmy dates}}", Parsers.PersonData(i5 + a + @"{{use dmy dates}}", "test"), "takes dates from birthyear etc. fields");
+        
+            Assert.AreEqual(i1 + a + a, Parsers.PersonData(i1 + a + a, "test"), "no change when multiple personData templates");
         }
         
         [Test]
