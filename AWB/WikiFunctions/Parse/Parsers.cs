@@ -2224,7 +2224,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegexSectionLinkUnnecessaryUnderscore = new Regex("\\[\\[(.*)?_#(.*)\\]\\]", RegexOptions.Compiled);
 
         private static readonly Regex SyntaxRegexTemplate = new Regex(@"(\{\{\s*)[Tt]emplate\s*:(.*?\}\})", RegexOptions.Singleline | RegexOptions.Compiled);
-        private static readonly Regex SyntaxRegexListRowBrTag = new Regex(@"^([#\*:;]+.*?) *<[/\\]?br ?[/\\]?> *\r\n", RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexListRowBrTag = new Regex(@"^([#\*:;]+.*?) *(?:<[/\\]?br ?[/\\]?>)* *\r\n", RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexListRowBrTagStart = new Regex(@"<[/\\]?br ?[/\\]?> *(\r\n[#\*:;]+.*?)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         // make double spaces within wikilinks just single spaces
