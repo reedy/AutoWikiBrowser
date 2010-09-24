@@ -3913,6 +3913,7 @@ http://example.com }}");
         public void TestBrConverter()
         {
             Assert.AreEqual("*a\r\nb", Parsers.FixSyntax("*a<br>\r\nb"));
+            Assert.AreEqual("*a\r\nb", Parsers.FixSyntax("*a<br><br>\r\nb"));
             Assert.AreEqual("*a\r\nb", Parsers.FixSyntax("\r\n*a<br>\r\nb"));
             Assert.AreEqual("foo\r\n*a\r\nb", Parsers.FixSyntax("foo\r\n*a<br>\r\nb"));
 
