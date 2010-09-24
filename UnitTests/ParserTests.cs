@@ -3988,6 +3988,21 @@ Some news here.", "test"));
 Some news here.", Parsers.FixHeadings(@"hi.
 ==News place==
 Some news here.", "test"));
+              Assert.AreEqual(@"hi.
+
+==News place==
+Some news here.", Parsers.FixHeadings(@"hi.   
+
+==News place==
+Some news here.", "test"), "space trimmed from end of paragraph");
+            
+             Assert.AreEqual(@"hi.
+
+==News place==
+Some news here.", Parsers.FixHeadings(@"hi.   
+<br>
+==News place==
+Some news here.", "test"), "space trimmed from end of paragraph when br replaces newline");
 
             // remove colon from end of heading text
             Assert.AreEqual(@"== hello world ==
