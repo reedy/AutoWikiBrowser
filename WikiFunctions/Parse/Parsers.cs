@@ -109,11 +109,11 @@ namespace WikiFunctions.Parse
             RegexConversion.Add(new Regex(@"(?!{{[Cc]ite ?(?:wikisource|ngall|uscgll))(\{\{\s*(?:[Cc]it[ae]|[Aa]rticle ?issues)[^{}]*)\|\s*(\}\}|\|)", RegexOptions.Compiled), "$1$2");
             
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_empty_.7B.7BArticle_issues.7D.7D
-            // articleissues with no issues -> remove tag            
+            // articleissues with no issues -> remove tag
             RegexConversion.Add(new Regex(@"\{\{(?:[Aa]rticle|[Mm]ultiple) ?issues(?:\s*\|\s*(?:section|article)\s*=\s*[Yy])?\s*\}\}", RegexOptions.Compiled), "");
             
             // articleissues with one issue -> single issue tag (e.g. {{multiple issues|cleanup=January 2008}} to {{cleanup|date=January 2008}} etc.)
-            RegexConversion.Add(new Regex(@"\{\{(?:[Aa]rticle|[Mm]ultiple) ?issues\s*\|\s*([^\|{}=]{2,}?)\s*(=\s*\w{3,10}\s+20\d\d)\s*\}\}", RegexOptions.Compiled), "{{$1|date$2}}");           
+            RegexConversion.Add(new Regex(@"\{\{(?:[Aa]rticle|[Mm]ultiple) ?issues\s*\|\s*([^\|{}=]{2,}?)\s*(=\s*\w{3,10}\s+20\d\d)\s*\}\}", RegexOptions.Compiled), "{{$1|date$2}}");
             
             // remove duplicate / populated and null fields in cite/multiple issues templates
             RegexConversion.Add(new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues[^{}]*\|\s*)(\w+)\s*=\s*([^\|}{]+?)\s*\|((?:[^{}]*?\|)?\s*)\2(\s*=\s*)\3(\s*(\||\}\}))", RegexOptions.Compiled), "$1$4$2$5$3$6"); // duplicate field remover for cite templates
@@ -287,7 +287,7 @@ namespace WikiFunctions.Parse
         
         private static readonly Regex HeadingsWhitespaceBefore = new Regex(@"\s+(?:< *[Bb][Rr] *\/? *>\s*)*(^={1,6} *(.*?) *={1,6} *(?=\r\n))", RegexOptions.Compiled | RegexOptions.Multiline);
         
-         // Covered by: FormattingTests.TestFixHeadings(), incomplete
+        // Covered by: FormattingTests.TestFixHeadings(), incomplete
         /// <summary>
         /// Fix ==See also== and similar section common errors. Removes unecessary introductory headings and cleans excess whitespace.
         /// </summary>
@@ -849,7 +849,7 @@ namespace WikiFunctions.Parse
                 @"('''[^']+'''\s*\()b\.(\s+\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
                 WikiRegexes.MonthsNoGroup + @")?\]*\s*\[*[1-2]?\d{3}\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         
-         private static readonly Regex DOBRegexDash =
+        private static readonly Regex DOBRegexDash =
             new Regex(
                 @"('''[^']+'''\s*\()(\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
                 WikiRegexes.MonthsNoGroup + @")?\]*\s*\[*[1-2]?\d{3}\]*)\s*(?:\-|–|&ndash;)\s*\)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -1319,6 +1319,9 @@ namespace WikiFunctions.Parse
             derivedName = SequenceOfQuotesInDerivedName.Replace(derivedName, ""); // remove chars
             derivedName = WhitespaceInDerivedName.Replace(derivedName, " "); // spacing fixes
             derivedName = derivedName.Replace(@"&ndash;", "–");
+            
+            Parsers p = new Parsers();
+            derivedName = p.FixDates(derivedName);
 
             return DateRetrievedOrAccessed.IsMatch(derivedName) ? "" : derivedName;
         }
@@ -1707,7 +1710,7 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             // note some incorrect date formats such as 3-2-2009 are ambiguous as could be 3-FEB-2009 or MAR-2-2009
-            // these fixes don't address such errors   
+            // these fixes don't address such errors
             string articleTextlocal = "";
             
             // loop in case a single citation has multiple dates to be fixed
@@ -2956,7 +2959,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Matches the {{birth date}} family of templates
         /// </summary>
-        private static readonly Regex BirthDate = Tools.NestedTemplateRegex(new List<string>(new[] { "birth date", "birth-date", "dob", "bda", "birth date and age", "birthdate and age", "Date of birth and age", "BDA", "Birthdateandage", 
+        private static readonly Regex BirthDate = Tools.NestedTemplateRegex(new List<string>(new[] { "birth date", "birth-date", "dob", "bda", "birth date and age", "birthdate and age", "Date of birth and age", "BDA", "Birthdateandage",
                                                                                                  "Birth Date and age", "birthdate" }));
         
         /// <summary>
@@ -3091,7 +3094,7 @@ namespace WikiFunctions.Parse
                 dateFound = Tools.GetTemplateArgument(sourceValue, 1);
                 
                 // first argument is a year, or a full date
-                if(dateFound.Length < 5) 
+                if(dateFound.Length < 5)
                     dateFound += ("-" + Tools.GetTemplateArgument(sourceValue, 2) + "-" + Tools.GetTemplateArgument(sourceValue, 3));
             }
             else if (field.Equals("DATE OF DEATH") && DeathDate.IsMatch(articletext))
@@ -4718,7 +4721,7 @@ namespace WikiFunctions.Parse
                )
                 return false;
             
-            string MABackground = 
+            string MABackground =
                 Tools.GetTemplateParameterValue(
                     Tools.NestedTemplateRegex(new[]
                                               {
@@ -4758,7 +4761,7 @@ namespace WikiFunctions.Parse
                 BD.Add(m.Value);
             }
             
-               List<string> DD = new List<string>();
+            List<string> DD = new List<string>();
             foreach(Match m in DeathDate.Matches(articleText))
             {
                 if(DD.Count > 0 && !DD.Contains(m.Value))
@@ -4769,7 +4772,7 @@ namespace WikiFunctions.Parse
             
             if(WikiRegexes.PeopleInfoboxTemplates.Matches(articleText).Count > 1)
                 return false;
-   
+            
             if (WikiRegexes.Persondata.Matches(articleText).Count == 1
                 || articleText.Contains(@"-bio-stub}}")
                 || articleText.Contains(@"[[Category:Living people")
@@ -4930,7 +4933,7 @@ namespace WikiFunctions.Parse
         {
             // over 20 references or long and not DOB/DOD categorised at all yet: implausible
             if (!Variables.LangCode.Equals("en") || WikiRegexes.Refs.Matches(articleText).Count > 20 || (articleText.Length > 15000 && !WikiRegexes.BirthsCategory.IsMatch(articleText)
-                                                                     && !WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText)))
+                                                                                                         && !WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText)))
                 return YearOfBirthMissingCategory(articleText);
 
             string articleTextBefore = articleText;
@@ -5365,7 +5368,7 @@ namespace WikiFunctions.Parse
                 totalCategories = Globals.UnitTestIntValue;
             }
             else
-            #endif
+                #endif
             {
                 // stubs add non-hidden stub categories, don't count these in categories count
                 List<Article> Cats = CategoryProv.MakeList(new[] { articleTitle });
