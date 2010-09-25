@@ -5265,6 +5265,8 @@ While remaining upright may be the primary goal of beginning riders| [[2009 Indi
             Assert.IsFalse(noChangeBack);
             Assert.AreEqual(@"'''Foo bar''' is great. Foo bar is cool", Parsers.FixLinks(@"'''Foo bar''' is great. [[Foo bar]] is cool", "Foo bar", out noChangeBack));
             Assert.IsFalse(noChangeBack);
+             Assert.AreEqual(@"'''Foo bar''' is great. Foo bar is cool", Parsers.FixLinks(@"'''Foo bar''' is great. [[Foo_bar]] is cool", "Foo bar", out noChangeBack));
+            Assert.IsFalse(noChangeBack);
             Assert.AreEqual(@"'''Foo''' is great. Foo is cool.{{cite web|url=a|title=b|publisher=Foo}}", Parsers.FixLinks(@"'''Foo''' is great. Foo is cool.{{cite web|url=a|title=b|publisher=[[Foo]]}}", "Foo", out noChangeBack));
             Assert.IsFalse(noChangeBack);
 
