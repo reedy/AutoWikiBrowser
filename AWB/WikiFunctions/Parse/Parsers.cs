@@ -3443,25 +3443,8 @@ namespace WikiFunctions.Parse
 
             if (Regex.IsMatch(articleText, @"{{\s*[Ii]nfobox (?:[Ss]ingle|[Aa]lbum)"))
                 articleText = FixLinksInfoBoxSingleAlbum(articleText, articleTitle);
-
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Your_code_creates_page_errors_inside_imagemap_tags.
-            // don't apply if there's an imagemap on the page or some noinclude transclusion business
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Includes_and_selflinks
-            // TODO, better to not apply to text within imagemaps
-            if (!WikiRegexes.ImageMap.IsMatch(articleText)
-                && !WikiRegexes.Noinclude.IsMatch(articleText)
-                && !WikiRegexes.Includeonly.IsMatch(articleText))
-            {
-                // remove any self-links, but not other links with different capitaliastion e.g. [[Foo]] vs [[FOO]]
-                articleText = Regex.Replace(articleText, @"\[\[\s*(" + Tools.CaseInsensitive(escTitle)
-                                            + @")\s*\]\]", "$1");
-
-                // remove piped self links by leaving target
-                articleText = Regex.Replace(articleText, @"\[\[\s*" + Tools.CaseInsensitive(escTitle)
-                                            + @"\s*\|\s*([^\]]+)\s*\]\]", "$1");
-            }
-
-            // clean up wikilinks: replace underscores, percentages and URL encoded accents etc.
+            
+                        // clean up wikilinks: replace underscores, percentages and URL encoded accents etc.
             StringBuilder sb = new StringBuilder(articleText, (articleText.Length * 11) / 10);
 
             foreach (Match m in WikiRegexes.WikiLink.Matches(articleText))
@@ -3481,6 +3464,23 @@ namespace WikiFunctions.Parse
             }
 
             articleText = sb.ToString();
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Your_code_creates_page_errors_inside_imagemap_tags.
+            // don't apply if there's an imagemap on the page or some noinclude transclusion business
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Includes_and_selflinks
+            // TODO, better to not apply to text within imagemaps
+            if (!WikiRegexes.ImageMap.IsMatch(articleText)
+                && !WikiRegexes.Noinclude.IsMatch(articleText)
+                && !WikiRegexes.Includeonly.IsMatch(articleText))
+            {
+                // remove any self-links, but not other links with different capitaliastion e.g. [[Foo]] vs [[FOO]]
+                articleText = Regex.Replace(articleText, @"\[\[\s*(" + Tools.CaseInsensitive(escTitle)
+                                            + @")\s*\]\]", "$1");
+
+                // remove piped self links by leaving target
+                articleText = Regex.Replace(articleText, @"\[\[\s*" + Tools.CaseInsensitive(escTitle)
+                                            + @"\s*\|\s*([^\]]+)\s*\]\]", "$1");
+            }
             
             // fix for self interwiki links
             articleText = FixSelfInterwikis(articleText);
