@@ -2669,6 +2669,8 @@ Template:foo}}"));
 
             Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://test.com]"));
             Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://http://test.com]"));
+            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http:http://test.com]"));
+            Assert.AreEqual("{{cite web | url = http://test.com |title=a }}", Parsers.FixSyntax("{{cite web | url = http:http://test.com |title=a }}"));
             Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://http://http://test.com]"));
             
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#second_pair_of_brackets_added_to_https_links
