@@ -157,7 +157,7 @@ namespace AwbUpdater
         private void ReadyToExit()
         {
             btnCancel.Text = "Close";
-            lblStatus.Text = "Press close to exit";
+            lblStatus.Text = "";
             progressUpdate.Visible = false;
             btnCancel.Enabled = true;
         }
