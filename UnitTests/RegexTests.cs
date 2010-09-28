@@ -632,10 +632,13 @@ foo
 
             Assert.AreEqual("en", WikiRegexes.PossibleInterwikis.Match("[[ en :bar]]").Groups[1].Value);
             Assert.AreEqual("bar", WikiRegexes.PossibleInterwikis.Match("[[en: bar ]]").Groups[2].Value);
+            Assert.AreEqual(" <!--comm-->", WikiRegexes.PossibleInterwikis.Match("[[en: bar ]] <!--comm-->").Groups[3].Value);
 
             // length outside range
             RegexAssert.NoMatch(WikiRegexes.PossibleInterwikis, "[[e:foo]]");
             RegexAssert.NoMatch(WikiRegexes.PossibleInterwikis, "[[abcdefghijlkmnop:foo]]");
+            
+            RegexAssert.Matches(WikiRegexes.PossibleInterwikis, "foo[[en:bar]] <!--comm-->", "[[en:bar]] <!--comm-->");
         }
 
         [Test]

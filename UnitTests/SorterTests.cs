@@ -825,6 +825,9 @@ The following links are here to prevent the interwiki bot from adding them to th
 -->";
             // no interwikis here
             Assert.AreEqual("", parser2.Sorter.Interwikis(ref c));
+            
+            string c2 = c + @"[[sv:CN]]";
+            Assert.AreEqual(@"[[sv:CN]]" + "\r\n", parser2.Sorter.Interwikis(ref c2), "interwiki returned even if the same one exists commented out elsewhere");
 
             // deduplication
             string d = @"[[de:Canadian National Railway]]
@@ -874,6 +877,21 @@ The following links are here to prevent the interwiki bot from adding them to th
             b = a;
 
             Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
+        }
+        
+        [Test]
+        public void InterWikiTestsInlineComments()
+        {
+            parser2.SortInterwikis = false;
+
+            parser2.Sorter.PossibleInterwikis = new System.Collections.Generic.List<string> { "de", "es", "fr", "it", "sv", "ar", "bs", "br", "en" };
+
+            string a = @"[[de:Canadian National Railway]]
+[[es:Canadian National]] <!--comm-->
+[[fr:Canadien National]] <!--comm2 -->";
+            string b = a;
+
+            Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a), "inline comment kept with interwiki");
         }
         
         [Test]
