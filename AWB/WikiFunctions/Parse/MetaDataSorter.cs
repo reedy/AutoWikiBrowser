@@ -839,7 +839,7 @@ en, sq, ru
         {
             List<string> linkFGAList = new List<string>();
 
-            MatchCollection matches = WikiRegexes.LinkFGAs.Matches(articleText);
+            MatchCollection matches = WikiRegexes.LinkFGAs.Matches(Tools.ReplaceWithSpaces(articleText, WikiRegexes.UnformattedText.Matches(articleText)));
 
             if (matches.Count == 0)
                 return linkFGAList;
@@ -872,11 +872,6 @@ en, sq, ru
                 interWikiComment = InterLangRegex.Match(articleText).Value;
                 articleText = articleText.Replace(interWikiComment, "");
             }
-            
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#Interwiki_links_moved_out_of_comment
-            HideText hider = new HideText(false, true, false);
-
-            articleText = hider.Hide(articleText);
 
             string interWikis = ListToString(RemoveLinkFGAs(ref articleText));
             
@@ -884,14 +879,12 @@ en, sq, ru
                 interWikis += interWikiComment + "\r\n";
             
             interWikis += ListToString(RemoveInterWikis(ref articleText));
-
-            articleText = hider.AddBack(articleText);
             
             return interWikis;
         }
 
         /// <summary>
-        /// Extracts all of the interwiki links from the article text
+        /// Extracts all of the interwiki links from the article text, handles comments beside interwiki links
         /// </summary>
         /// <param name="articleText">Article text with interwikis removed</param>
         /// <returns>List of interwikis</returns>
@@ -899,10 +892,18 @@ en, sq, ru
         {
             List<string> interWikiList = new List<string>();
             MatchCollection matches = WikiRegexes.PossibleInterwikis.Matches(articleText);
-            if (matches.Count == 0) 
+            if (matches.Count == 0)
                 return interWikiList;
+            
+            // get all unformatted text in article to avoid taking interwikis from comments etc.
+            string unformattedText = "";
+            StringBuilder ut = new StringBuilder();
+            foreach(Match u in WikiRegexes.UnformattedText.Matches(articleText))
+                ut.Append(u.Value);
+            
+            unformattedText = ut.ToString();
 
-            List<Match> goodMatches = new List<Match>(matches.Count);
+            List<Match> goodMatches = new List<Match>();
 
             foreach (Match m in matches)
             {
@@ -911,11 +912,17 @@ en, sq, ru
                 if (!PossibleInterwikis.Contains(site))
                     continue;
                 
+                if(unformattedText.Contains(m.Value))
+                {
+                    unformattedText = unformattedText.Replace(m.Value, "");
+                    continue;
+                }
+                
                 goodMatches.Add(m);
                 
                 // drop interwikis to own wiki, but not on commons where language = en and en interwikis go to wikipedia
                 if(!(m.Groups[1].Value.Equals(Variables.LangCode) && !Variables.IsWikimediaMonolingualProject))
-                    interWikiList.Add("[[" + site + ":" + m.Groups[2].Value.Trim() + "]]");
+                    interWikiList.Add("[[" + site + ":" + m.Groups[2].Value.Trim() + "]]" + m.Groups[3].Value);
             }
 
             articleText = Tools.RemoveMatches(articleText, goodMatches);
