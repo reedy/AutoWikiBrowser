@@ -35,9 +35,6 @@ namespace WikiFunctions.API
         {
             XmlReader xr = XmlReader.Create(new StringReader(xml));
 
-            if (!xr.ReadToFollowing("page"))
-                throw new Exception("Cannot find <page> element");
-
             string normalisedFrom = null, redirectFrom = null;
 
             XmlDocument doc = new XmlDocument();
@@ -47,24 +44,30 @@ namespace WikiFunctions.API
 
             if (redirects.Count >= 1) //We have redirects
             {
-                if (redirects.Count > 1 &&
-                    redirects[0].Attributes["from"].Value == redirects[redirects.Count - 1].Attributes["to"].Value)
+                if (redirects[0].Attributes["from"].Value == redirects[redirects.Count - 1].Attributes["to"].Value)
                 {
                     //Redirect loop
                     TitleChangedStatus = PageTitleStatus.RedirectLoop;
+                    OriginalTitle = Title = redirects[0].Attributes["from"].Value;
+                    Exists = true;
+                    Text = "";
+                    return; //We're not going to have any page text
                 }
-                else
-                {
-                    //Valid redirects
-                    TitleChangedStatus = redirects.Count == 1
-                                             ? PageTitleStatus.Redirected
-                                             : PageTitleStatus.MultipleRedirects;
-                }
+
+                //Valid redirects
+                TitleChangedStatus = redirects.Count == 1
+                                         ? PageTitleStatus.Redirected
+                                         : PageTitleStatus.MultipleRedirects;
                 redirectFrom = redirects[0].Attributes["from"].Value;
             }
             else
             {
                 TitleChangedStatus = PageTitleStatus.NoChange;
+            }
+
+            if (!xr.ReadToFollowing("page"))
+            {
+                throw new Exception("Cannot find <page> element");
             }
 
             //Normalised before redirect, so would be root. Could still be multiple redirects, or looped
