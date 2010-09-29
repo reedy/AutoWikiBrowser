@@ -859,11 +859,11 @@ en, sq, ru
         }
 
         /// <summary>
-        /// Extracts all of the interwiki and interwiki featured article links from the article text
+        /// Extracts all of the interwiki featured article and interwiki links from the article text
         /// Ignores interwikis in comments/nowiki tags
         /// </summary>
         /// <param name="articleText">Article text with interwiki and interwiki featured article links removed</param>
-        /// <returns>string of interwiki and interwiki featured article links</returns>
+        /// <returns>string of interwiki featured article and interwiki links</returns>
         public string Interwikis(ref string articleText)
         {
             string interWikiComment = "";
