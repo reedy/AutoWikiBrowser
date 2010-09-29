@@ -77,7 +77,8 @@ namespace WikiFunctions.Parse
 
             RegexTagger.Add(new Regex(@"\{\{(template:)?(Unreferenced(sect)?|add references|cite[ -]sources?|cleanup-sources?|needs? references|no sources|no references?|not referenced|references|unref|unsourced)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Unreferenced|" + WikiRegexes.DateYearMonthParameter + @"}}");
             RegexTagger.Add(new Regex(@"\{\{(template:)?(Trivia|Too ?much ?trivia|Trivia section|Cleanup-trivia)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Trivia|" + WikiRegexes.DateYearMonthParameter + @"}}");
-            RegexTagger.Add(new Regex(@"\{\{(template:)?(deadend|DEP)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Deadend|" + WikiRegexes.DateYearMonthParameter + @"}}");
+            RegexTagger.Add(new Regex(@"\{\{(template:)?(dead?link|dl|404|broken?link|link?broken|badlink)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Dead link|" + WikiRegexes.DateYearMonthParameter + @"}}");
+            RegexTagger.Add(new Regex(@"\{\{(template:)?(dead?end|DEP)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Dead end|" + WikiRegexes.DateYearMonthParameter + @"}}");
             RegexTagger.Add(new Regex(@"\{\{(template:)?(copyedit|g(rammar )?check|copy-edit|cleanup-copyedit|cleanup-english)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Copyedit|" + WikiRegexes.DateYearMonthParameter + @"}}");
             RegexTagger.Add(new Regex(@"\{\{(template:)?(sources|refimprove|not verified)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Refimprove|" + WikiRegexes.DateYearMonthParameter + @"}}");
             RegexTagger.Add(new Regex(@"\{\{(template:)?(Uncategori[zs]ed ?stub|uncatstub)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Uncategorized stub|" + WikiRegexes.DateYearMonthParameter + @"}}");
@@ -91,7 +92,7 @@ namespace WikiFunctions.Parse
             RegexConversion.Add(new Regex(@"\{\{(?:Template:)?(Bio-dab|Hndisambig)", RegexOptions.IgnoreCase | RegexOptions.Compiled), "{{Hndis");
 
 
-            RegexConversion.Add(new Regex(@"\{\{(?:[Tt]emplate:)?((?:BASE)?PAGENAMEE?\}\}|[Ll]ived\||[Bb]io-cats\|)", RegexOptions.Compiled), "{{subst:$1");
+            RegexConversion.Add(new Regex(@"\{\{(?:[Tt]emplate:)?((?:BASE)?PAGENAMEE?\}\})", RegexOptions.Compiled), "{{subst:$1");
 
             // clean 'do-attempt =July 2006|att=April 2008' to 'do attempt = April 2008'
             RegexConversion.Add(new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*|\|)\s*[Dd]o-attempt\s*=\s*)[^{}\|]+\|\s*att\s*=\s*([^{}\|]+)(?=\||}})", RegexOptions.Compiled), "$1$2");
