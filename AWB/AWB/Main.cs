@@ -744,13 +744,12 @@ namespace AutoWikiBrowser
         private List<string> UnknownWikiProjectBannerShellParameters = new List<string>();
         private List<string> UnknownMultipleIssuesParameters = new List<string>();
         
-        private SortedDictionary<int, int> Errors = new SortedDictionary<int, int>();
+        private readonly SortedDictionary<int, int> Errors = new SortedDictionary<int, int>();
         
-        private void SkipRedirect(string redirectTitle, string reason)
+        private void SkipRedirect(string reason)
         {
-            listMaker.Remove(TheArticle); // or we get stuck in a loop
-            TheArticle = new Article(redirectTitle, "");
-            // if we didn't do this, we were writing the SkipPage info to the AWBLogListener belonging to the object redirect and resident in the MyTrace collection, but then attempting to add TheArticle's log listener to the logging tab
+            // if we didn't do this, we were writing the SkipPage info to the AWBLogListener belonging to the object redirect
+            // and resident in the MyTrace collection, but then attempting to add TheArticle's log listener to the logging tab
             SkipPage(reason);
         }
 
@@ -769,6 +768,7 @@ namespace AutoWikiBrowser
 
             if (_stopProcessing)
                 return;
+            
             TheArticle = new Article(page);
 
             if (!preParseModeToolStripMenuItem.Checked && !CheckLoginStatus())
@@ -796,7 +796,7 @@ namespace AutoWikiBrowser
                 if ((page.TitleChangedStatus & PageTitleStatus.RedirectLoop) == PageTitleStatus.RedirectLoop)
                 {
                     //ignore recursive redirects
-                    SkipRedirect(page.OriginalTitle, "Recursive redirect");
+                    SkipRedirect("Recursive redirect");
                     return;
                 }
                 //No double redirects, API should've resolved it
@@ -804,7 +804,7 @@ namespace AutoWikiBrowser
                 if (filterOutNonMainSpaceToolStripMenuItem.Checked
                     && (Namespace.Determine(page.Title) != Namespace.Article))
                 {
-                    SkipRedirect(page.OriginalTitle, "Page redirects to non-mainspace");
+                    SkipRedirect("Page redirects to non-mainspace");
                     return;
                 }
 
@@ -1565,7 +1565,8 @@ namespace AutoWikiBrowser
                 {
                     theArticle.UpdateImages((WikiFunctions.Options.ImageReplaceOptions)cmboImages.SelectedIndex,
                                             txtImageReplace.Text, txtImageWith.Text, chkSkipNoImgChange.Checked);
-                    if (theArticle.SkipArticle) return;
+                    if (theArticle.SkipArticle)
+                        return;
                 }
 
                 Variables.Profiler.Profile("Images");
