@@ -348,7 +348,7 @@ en, sq, ru
         }
 
         /// <summary>
-        /// Extracts categories from the article text; removes duplicate categories, cleans whitespace and underscores
+        /// Extracts DEFAULTSORT + categories from the article text; removes duplicate categories, cleans whitespace and underscores
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
