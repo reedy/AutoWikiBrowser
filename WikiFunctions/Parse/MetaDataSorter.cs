@@ -346,6 +346,8 @@ en, sq, ru
                 return strSave;
             }
         }
+        
+        private static readonly Regex LifeTime = Tools.NestedTemplateRegex("Lifetime");
 
         /// <summary>
         /// Extracts DEFAULTSORT + categories from the article text; removes duplicate categories, cleans whitespace and underscores
@@ -395,17 +397,24 @@ en, sq, ru
             if (mc.Count > 1) throw new ArgumentException("Page contains multiple {{DEFAULTSORTS}} tags. Metadata sorting cancelled");
 
             string defaultSort = "";
-            // ignore commented out DEFAULTSORT – http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Moving_DEFAULTSORT_in_HTML_comments
-            if (mc.Count > 0 && WikiRegexes.Defaultsort.Matches(WikiRegexes.Comments.Replace(articleText, "")).Count == mc.Count)
-                defaultSort = mc[0].Value;
+            
+            if(Variables.LangCode.Equals("sl") && LifeTime.IsMatch(articleText))
+            {
+                defaultSort = LifeTime.Match(articleText).Value;
+            }
+            else
+            {
+                // ignore commented out DEFAULTSORT – http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Moving_DEFAULTSORT_in_HTML_comments
+                if (mc.Count > 0 && WikiRegexes.Defaultsort.Matches(WikiRegexes.Comments.Replace(articleText, "")).Count == mc.Count)
+                    defaultSort = mc[0].Value;
+            }
 
             if (!string.IsNullOrEmpty(defaultSort))
                 articleText = articleText.Replace(defaultSort, "");
 
-            if (!string.IsNullOrEmpty(defaultSort) && defaultSort.ToUpper().Contains("DEFAULTSORT"))
-            {
-                defaultSort = TalkPageHeaders.FormatDefaultSort(defaultSort);
-            }
+            if (!string.IsNullOrEmpty(defaultSort) && defaultSort.ToUpper().Contains("DEFAULTSORT"))            
+                defaultSort = TalkPageHeaders.FormatDefaultSort(defaultSort);                        
+            
             if (!string.IsNullOrEmpty(defaultSort)) defaultSort += "\r\n";
 
             return defaultSort + ListToString(categoryList);

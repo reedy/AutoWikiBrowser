@@ -769,6 +769,25 @@ foo";
             
             Assert.AreEqual(comm + "\r\n" + cats + "\r\n", parser2.Sorter.RemoveCats(ref a, "test"));
         }
+        
+        [Test]
+        public void RemoveCatsSlWikiLifetime()
+        {
+            #if DEBUG
+            Variables.SetProjectLangCode("sl");
+            
+            string c = @"[[Category:Hampshire]]", l = @"{{Lifetime|1899|LIVING|Surname, Name}}", waffle = @"waffle here
+";
+            string articleText = waffle + c + "\r\n" + l;
+            
+            // http://sl.wikipedia.org/wiki/Predloga:Lifetime
+            Assert.AreEqual(l + "\r\n" + c + "\r\n", parser2.Sorter.RemoveCats(ref articleText, "test"), "lifetime treated like DEFAULTSORT on sl-wiki");
+            
+            Variables.SetProjectLangCode("en");
+            articleText = waffle + c + "\r\n" + l;
+            Assert.AreEqual(c + "\r\n", parser2.Sorter.RemoveCats(ref articleText, "test"), "lifetime is just another template on en-wiki");
+            #endif
+        }
 
         [Test]
         public void DefaultSortAndCommentTests()
