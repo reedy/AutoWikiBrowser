@@ -3762,7 +3762,7 @@ http://example.com }}");
         {
             #if debug
             Variables.SetProjectLangCode("ru");
-            Assert.AreEqual(@"[[Category:World Scout Committee members|Laine, Juan]]", Parsers.FixCategories(@"[[Category:World Scout Committee members|Lainé, Juan]]"), "no diacritic removal for sort key on ru-wiki");
+            Assert.AreEqual(@"[[Category:World Scout Committee members|Lainé, Juan]]", Parsers.FixCategories(@"[[Category:World Scout Committee members|Lainé, Juan]]"), "no diacritic removal for sort key on ru-wiki");
             
             Variables.SetProjectLangCode("en");
             Assert.AreEqual(@"[[Category:World Scout Committee members|Laine, Juan]]", Parsers.FixCategories(@"[[Category:World Scout Committee members|Lainé, Juan]]"));
