@@ -4791,9 +4791,9 @@ namespace WikiFunctions.Parse
                 || WikiRegexes.LivingPeopleRegex2.IsMatch(articleText)
                 || WikiRegexes.BirthsCategory.IsMatch(articleText)
                 || WikiRegexes.BLPSources.IsMatch(articleText)
-                || RefImprove.IsMatch(articleText)
-                || (!string.IsNullOrEmpty(articleTitle) && articleText.Length < 10000 && parseTalkPage &&
-                    TryGetArticleText(Variables.Namespaces[Namespace.Talk] + articleTitle).Contains(@"{{WPBiography"));
+                || RefImprove.IsMatch(articleText);
+            /*    || (!string.IsNullOrEmpty(articleTitle) && articleText.Length < 10000 && parseTalkPage &&
+                    TryGetArticleText(Variables.Namespaces[Namespace.Talk] + articleTitle).Contains(@"{{WPBiography"))*/
         }
 
         private static string TryGetArticleText(string title)
