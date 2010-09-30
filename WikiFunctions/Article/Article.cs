@@ -945,7 +945,7 @@ namespace WikiFunctions
                 AppendPluginEditSummary();
             }
             else
-                Trace.AWBSkipped("Skipped by custom module");
+                Trace.AWBSkipped("Skipped by custom module (" + strEditSummary + ")");
         }
         #endregion
 
