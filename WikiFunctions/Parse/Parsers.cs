@@ -2723,6 +2723,8 @@ namespace WikiFunctions.Parse
                 newValue = PublisherTypo.Replace(newValue, @"publisher$1");
 
                 newValue = AccessdateSynonyms.Replace(newValue, "accessdate");
+                
+                newValue = Tools.RenameTemplateParameter(newValue, "pg", "page");
 
                 // remove the unneeded 'format=HTML' field
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.22format.3DHTML.22_in_citation_templates
