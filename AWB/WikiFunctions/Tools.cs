@@ -2051,7 +2051,7 @@ Message: {2}
         /// <param name="parameter">The input parameter name</param>
         /// <param name="value">The input parameter value</param>
         /// <returns>The updated template call</returns>
-        public static string AppendParameterToTemplate(string templateCall, string parameter, string value)
+        public static string AppendParameterToTemplate(string templateCall, string parameter, string newValue)
         {
             if (!templateCall.StartsWith(@"{{"))
                 return templateCall;
@@ -2073,7 +2073,7 @@ Message: {2}
             if (newlines > 2 && newlines >= (bars - 2))
                 separator = "\r\n";
 
-            return WikiRegexes.TemplateEnd.Replace(templateCall, separator + @"| " + parameter + "=" + value + @"$1}}");
+            return WikiRegexes.TemplateEnd.Replace(templateCall, separator + @"| " + parameter + "=" + newValue + @"$1}}");
         }
 
         /// <summary>
@@ -2476,12 +2476,15 @@ Message: {2}
         /// <param name="templateCall">The template call to update</param>
         /// <param name="parameter">The template parameter</param>
         /// <param name="newvalue">The new value for the parameter</param>
+        /// <param name="prependSpace">Whether to include a space before the new value</param>
         /// <returns>The updated template call</returns>
-        public static string SetTemplateParameterValue(string templateCall, string parameter, string newvalue)
-        {
-            
+        public static string SetTemplateParameterValue(string templateCall, string parameter, string newvalue, bool prependSpace)
+        {            
             if(Tools.GetTemplateParameterValue(templateCall, parameter).Equals(newvalue))
                 return templateCall;
+            
+            if(prependSpace)
+                newvalue = " " + newvalue;
             
             // first try to update existing field's value
             string updatedtemplate = UpdateTemplateParameterValue(templateCall, parameter, newvalue);
@@ -2491,6 +2494,18 @@ Message: {2}
                 updatedtemplate = AppendParameterToTemplate(templateCall, parameter, newvalue);
 
             return updatedtemplate;
+        }
+        
+         /// <summary>
+        /// Sets the template parameter value to the new value input: if the template already has the parameter then its value is updated, otherwise the new value is appended
+        /// </summary>
+        /// <param name="templateCall">The template call to update</param>
+        /// <param name="parameter">The template parameter</param>
+        /// <param name="newvalue">The new value for the parameter</param>
+        /// <returns>The updated template call</returns>
+        public static string SetTemplateParameterValue(string templateCall, string parameter, string newvalue)
+        {    
+            return SetTemplateParameterValue(templateCall, parameter, newvalue, false);
         }
 
         /// <summary>

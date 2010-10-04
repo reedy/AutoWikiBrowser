@@ -3009,7 +3009,7 @@ namespace WikiFunctions.Parse
                 if(name.Contains(" ("))
                     name = name.Substring(0, name.IndexOf(" ("));
                 
-                newPersonData = Tools.SetTemplateParameterValue(newPersonData, "NAME", name);
+                newPersonData = Tools.SetTemplateParameterValue(newPersonData, "NAME", name, true);
             }
 
             // date of birth
@@ -3040,7 +3040,7 @@ namespace WikiFunctions.Parse
                 POB = WikiRegexes.NestedTemplates.Replace(Br.Replace(POB, " "), "");
                 POB = WikiRegexes.Small.Replace(WikiRegexes.Refs.Replace(POB, ""), "$1");
                 
-                newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF BIRTH", POB);
+                newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF BIRTH", POB, true);
             }
             
             // place of death
@@ -3063,7 +3063,7 @@ namespace WikiFunctions.Parse
                 POD = WikiRegexes.NestedTemplates.Replace(Br.Replace(POD, " "), "");
                 POD = WikiRegexes.Small.Replace(WikiRegexes.Refs.Replace(POD, ""), "$1");
                 
-                newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF DEATH", POD);
+                newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF DEATH", POD, true);
             }
             
             // merge changes
@@ -3143,7 +3143,7 @@ namespace WikiFunctions.Parse
             
             dateFound = Tools.ConvertDate(dateFound, DeterminePredominantDateLocale(articletext, true)).Trim('-');
             
-            return Tools.SetTemplateParameterValue(personData, field, dateFound);
+            return Tools.SetTemplateParameterValue(personData, field, dateFound, true);
         }
 
         /// <summary>
