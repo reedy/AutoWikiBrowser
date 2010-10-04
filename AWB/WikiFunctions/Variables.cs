@@ -570,6 +570,10 @@ namespace WikiFunctions
                             mSummaryTag = " ";
                             WPAWB = "[[Wîkîpediya:AutoWikiBrowser|AWB]]";
                             break;
+                            
+                        case "ms":
+                            mSummaryTag = "menggunakan";
+                            break;
 
                         case "nl":
                             mSummaryTag = " met ";
