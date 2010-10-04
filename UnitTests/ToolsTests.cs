@@ -1412,6 +1412,9 @@ def
             Assert.AreEqual(@"{{foo|param1=valueafter}}", Tools.SetTemplateParameterValue(@"{{foo|param1=before}}", "param1", "valueafter"));
             Assert.AreEqual(@"{{foo|param1= valueafter }}", Tools.SetTemplateParameterValue(@"{{foo|param1= before }}", "param1", "valueafter"));
             
+            Assert.AreEqual(@"{{foo|param1= valueafter}}", Tools.SetTemplateParameterValue(@"{{foo|param1=before}}", "param1", "valueafter", true));
+            Assert.AreEqual(@"{{foo|param1=valueafter}}", Tools.SetTemplateParameterValue(@"{{foo|param1=before}}", "param1", "valueafter", false));
+            
             Assert.AreEqual(@"{{foo|param1=valueafter|param2=before}}", Tools.SetTemplateParameterValue(@"{{foo|param1=before|param2=before}}", "param1", "valueafter"));
             
             // parameter not used – set

@@ -2316,9 +2316,9 @@ world|format=PDF}} was";
         {
             const string a = @"{{persondata
             |DATE OF BIRTH=
-            |DATE OF DEATH= }}", a2 = @"{{persondata
-            |DATE OF BIRTH=27 June 1950
-            |DATE OF DEATH= }}", i1 = @"{{infobox foo| dateofbirth = 27 June 1950}}", i2 = @"{{infobox foo| dateofbirth = {{birth date|1950|06|27}}}}"
+            |DATE OF DEATH=}}", a2 = @"{{persondata
+            |DATE OF BIRTH= 27 June 1950
+            |DATE OF DEATH=}}", i1 = @"{{infobox foo| dateofbirth = 27 June 1950}}", i2 = @"{{infobox foo| dateofbirth = {{birth date|1950|06|27}}}}"
                 , i2b = @"{{infobox foo| dateofbirth = {{birth date|df=y|1950|06|27}}}}";
             
             Assert.AreEqual(i1 + a2, Parsers.PersonData(i1 + a, "test"));
@@ -2332,7 +2332,7 @@ world|format=PDF}} was";
                             Parsers.PersonData(i2b.Replace("27}}", "27}} in London") + a, "test"), "Completes persondata from {{birth date}} when extra data in infobox field");
             
             string i3 = i1.Replace("27 June 1950", @"{{dda|2005|07|20|1950|06|27|df=yes}}");
-            Assert.AreEqual(i3 + a2.Replace("DEATH= ", "DEATH= 20 July 2005"), Parsers.PersonData(i3 + a, "test"), "takes dates from {{dda}}");
+            Assert.AreEqual(i3 + a2.Replace("DEATH=", "DEATH= 20 July 2005"), Parsers.PersonData(i3 + a, "test"), "takes dates from {{dda}}");
             
             string i4= @"{{infobox foo| birthyear = 1950 | birthmonth=06 | birthday=27}}";
             Assert.AreEqual(i4 + a2 + @"{{use dmy dates}}", Parsers.PersonData(i4 + a + @"{{use dmy dates}}", "test"), "takes dates from birthyear etc. fields");
@@ -2348,7 +2348,7 @@ world|format=PDF}} was";
         {
             const string a = @"{{persondata
             |DATE OF BIRTH=
-            |DATE OF DEATH= }}", a2 = @"{{persondata
+            |DATE OF DEATH=}}", a2 = @"{{persondata
             |DATE OF BIRTH=
             |DATE OF DEATH= 27 June 1950}}", i1 = @"{{infobox foo| dateofdeath = 27 June 1950}}", i2 = @"{{infobox foo| dateofdeath = {{death date|1950|06|27}}}}";
             
@@ -2382,13 +2382,13 @@ world|format=PDF}} was";
 |children= 10
 }}
 {{DEFAULTSORT:Hill, James J.}}", PD = @"{{Persondata <!-- Metadata: see [[Wikipedia:Persondata]]. -->
-| NAME              =Hill, James J.
+| NAME              = Hill, James J.
 | ALTERNATIVE NAMES =
 | SHORT DESCRIPTION =
-| DATE OF BIRTH     =September 16, 1838
-| PLACE OF BIRTH    =[[Guelph/Eramosa, Ontario|Eramosa Township]], [[Ontario]], [[Canada]]
-| DATE OF DEATH     =May 29, 1916
-| PLACE OF DEATH    =[[St. Paul, Minnesota|Saint Paul]], [[Minnesota]]
+| DATE OF BIRTH     = September 16, 1838
+| PLACE OF BIRTH    = [[Guelph/Eramosa, Ontario|Eramosa Township]], [[Ontario]], [[Canada]]
+| DATE OF DEATH     = May 29, 1916
+| PLACE OF DEATH    = [[St. Paul, Minnesota|Saint Paul]], [[Minnesota]]
 }}", AT = @"{{birthdate|1838|9|16}}
 {{dda|1916|5|29|1838|9|16}}
 {{Infobox foo
