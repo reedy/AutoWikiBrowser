@@ -1985,6 +1985,13 @@ world|format=PDF}} was";
 
             Assert.AreEqual(NoURL, Parsers.FixCitationTemplates(NoURL), "title newline not changed when no URL");
         }
+        
+        [Test]
+        public void FixCitationTemplatesPg()
+        {
+            Assert.AreEqual(@"{{cite book| title=foo | year=2009 | page=55}}", Parsers.FixCitationTemplates(@"{{cite book| title=foo | year=2009 | pg=55}}"), "renames pg to page");
+            Assert.AreEqual(@"{{cite book| title=foo | year=2009 | pages=55–58}}", Parsers.FixCitationTemplates(@"{{cite book| title=foo | year=2009 | pg=55–58}}"), "renames pg to pages for page range");
+        }
 
         [Test]
         public void TestCiteFormatFieldTypo()
