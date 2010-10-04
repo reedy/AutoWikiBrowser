@@ -4715,6 +4715,7 @@ namespace WikiFunctions.Parse
                 || Tools.NestedTemplateRegex("Infobox cricketer tour biography").IsMatch(articleText)
                 || articleTitle.StartsWith(@"List of ")
                 || WikiRegexes.Disambigs.IsMatch(articleText)
+                || WikiRegexes.DeathsOrLivingCategory.Matches(articleText).Count > 1
                )
                 return false;
             
