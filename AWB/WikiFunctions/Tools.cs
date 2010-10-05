@@ -2043,8 +2043,8 @@ Message: {2}
                     return inputDate;
             }
         }
-
-        /// <summary>
+        
+         /// <summary>
         /// Appends the input parameter and value to the input template
         /// </summary>
         /// <param name="templateCall">The input template call</param>
@@ -2053,27 +2053,46 @@ Message: {2}
         /// <returns>The updated template call</returns>
         public static string AppendParameterToTemplate(string templateCall, string parameter, string newValue)
         {
+            return AppendParameterToTemplate(templateCall, parameter, newValue, false);
+        }
+
+        /// <summary>
+        /// Appends the input parameter and value to the input template
+        /// </summary>
+        /// <param name="templateCall">The input template call</param>
+        /// <param name="parameter">The input parameter name</param>
+        /// <param name="value">The input parameter value</param>
+        /// <returns>The updated template call</returns>
+        public static string AppendParameterToTemplate(string templateCall, string parameter, string newValue, bool unspaced)
+        {
             if (!templateCall.StartsWith(@"{{"))
                 return templateCall;
 
             // determine whether to use newline: use if > 2 newlines and a newline per bar, allowing up to two without
             const string mask = "@";
-            string separator = " ";
-            string templatecopy = templateCall;
-            templatecopy = @"{{" + ReplaceWithSpaces(templatecopy.Substring(2), WikiRegexes.NestedTemplates);
-            templatecopy = ReplaceWithSpaces(templatecopy, WikiRegexes.SimpleWikiLink);
-            templatecopy = ReplaceWithSpaces(templatecopy, WikiRegexes.UnformattedText);
-            templatecopy = templatecopy.Replace(mask, "");
+            string separator = "";
+            string separatorAfter = "";
+            
+            if(!unspaced)
+            {
+                separator = separatorAfter = " ";
+                
+                string templatecopy = templateCall;
+                templatecopy = @"{{" + ReplaceWithSpaces(templatecopy.Substring(2), WikiRegexes.NestedTemplates);
+                templatecopy = ReplaceWithSpaces(templatecopy, WikiRegexes.SimpleWikiLink);
+                templatecopy = ReplaceWithSpaces(templatecopy, WikiRegexes.UnformattedText);
+                templatecopy = templatecopy.Replace(mask, "");
 
-            int bars = (templatecopy.Length - templatecopy.Replace(@"|", "").Length);
+                int bars = (templatecopy.Length - templatecopy.Replace(@"|", "").Length);
 
-            templatecopy = templatecopy.Replace("\r\n", mask);
-            int newlines = (templatecopy.Length - templatecopy.Replace(mask, "").Length);
+                templatecopy = templatecopy.Replace("\r\n", mask);
+                int newlines = (templatecopy.Length - templatecopy.Replace(mask, "").Length);
 
-            if (newlines > 2 && newlines >= (bars - 2))
-                separator = "\r\n";
+                if (newlines > 2 && newlines >= (bars - 2))
+                    separator = "\r\n";
+            }
 
-            return WikiRegexes.TemplateEnd.Replace(templateCall, separator + @"| " + parameter + "=" + newValue + @"$1}}");
+            return WikiRegexes.TemplateEnd.Replace(templateCall, separator + @"|" + separatorAfter + parameter + "=" + newValue + @"$1}}");
         }
 
         /// <summary>
