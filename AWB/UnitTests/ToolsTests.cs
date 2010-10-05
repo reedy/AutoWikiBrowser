@@ -858,6 +858,9 @@ John", "*"));
             Assert.AreEqual(@"11 June 2009", Tools.ConvertDate("June 11, 2009", Parsers.DateLocale.International));
             Assert.AreEqual(@"11 June 2009", Tools.ConvertDate("June 11, 2009", Parsers.DateLocale.International, true));
             
+            Assert.AreEqual(@"15 January 2008", Tools.ConvertDate("Jan 15 2008", Parsers.DateLocale.International));
+            Assert.AreEqual(@"15 January 2008", Tools.ConvertDate("Jan 15 2008", Parsers.DateLocale.International, false));
+            
             const string AmericanDate = @"06/11/2009", UKDate = @"11/06/2009";
             
             Assert.AreEqual(iso, Tools.ConvertDate(AmericanDate, Parsers.DateLocale.ISO, true), "Converts MM/DD/YYYY format dates when flagged");
