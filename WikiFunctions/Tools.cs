@@ -2062,6 +2062,7 @@ Message: {2}
         /// <param name="templateCall">The input template call</param>
         /// <param name="parameter">The input parameter name</param>
         /// <param name="value">The input parameter value</param>
+        /// <param name="unspaced">Whether to add the parameter value without any excess whitespace</param>
         /// <returns>The updated template call</returns>
         public static string AppendParameterToTemplate(string templateCall, string parameter, string newValue, bool unspaced)
         {
