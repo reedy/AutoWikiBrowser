@@ -1516,12 +1516,15 @@ words2"));
         {
             TestMatch(WikiRegexes.BareRefExternalLink, @"<ref>[http://news.bbc.co.uk/hi/England/story4384.htm]</ref>");
             TestMatch(WikiRegexes.BareRefExternalLink, @"<ref>[http://news.bbc.co.uk/hi/England/story4384.htm]]</ref>");
+            TestMatch(WikiRegexes.BareRefExternalLink, @"<ref>http://news.bbc.co.uk/hi/England/story4384.htm</ref>");
             TestMatch(WikiRegexes.BareRefExternalLink, @"< REF > [   http://news.bbc.co.uk/hi/England/story4384.htm]
 < / ref  >");
             TestMatch(WikiRegexes.BareRefExternalLink, @"<ref name=hello>[http://news.bbc.co.uk/hi/England/story4384.htm]</ref>");
             TestMatch(WikiRegexes.BareRefExternalLink, @"<ref>[   http://news.bbc.co.uk/hi/England/story4384.htm   ]   </ref>");
 
             TestMatch(WikiRegexes.BareRefExternalLink, @"<ref>[http://news.bbc.co.uk/hi/England/story4384.htm title here]</ref>", false);
+            
+            TestMatches(WikiRegexes.BareRefExternalLink, @"<ref>[http://news.bbc.co.uk/hi/England/story4384.htm</ref>", 0); // no matches for unbalanced braces
 
             Assert.AreEqual(WikiRegexes.BareRefExternalLink.Match(@"<ref>[ http://news.bbc.co.uk/hi/England/story4384.htm ] </ref>").Groups[1].Value, @"http://news.bbc.co.uk/hi/England/story4384.htm");
             Assert.AreEqual(WikiRegexes.BareRefExternalLink.Match(@"<ref>[ http://news.bbc.co.uk/hi/England/story4384.htm] </ref>").Groups[1].Value, @"http://news.bbc.co.uk/hi/England/story4384.htm");
@@ -1532,6 +1535,7 @@ words2"));
         public void BareRefExternalLinkBotGenTitle()
         {
             TestMatch(WikiRegexes.BareRefExternalLinkBotGenTitle, @"<ref>[http://news.bbc.co.uk/hi/England/story4384.htm]</ref>");
+            TestMatch(WikiRegexes.BareRefExternalLinkBotGenTitle, @"<ref>http://news.bbc.co.uk/hi/England/story4384.htm</ref>");
             TestMatch(WikiRegexes.BareRefExternalLinkBotGenTitle, @"<ref>[http://www.independent.co.uk/news/people/bo-johnson-30403.html Boris Johnson: People - The Independent<!-- Bot generated title -->]</ref>");
 
             TestMatch(WikiRegexes.BareRefExternalLinkBotGenTitle, @"<ref>Smith, Fred [http://www.independent.co.uk/news/people/bo-johnson-30403.html Boris Johnson: People - The Independent<!-- Bot generated title -->]</ref>", false);
