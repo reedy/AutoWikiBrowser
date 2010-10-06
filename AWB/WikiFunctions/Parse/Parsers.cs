@@ -5640,7 +5640,9 @@ namespace WikiFunctions.Parse
             
             foreach (KeyValuePair<Regex, string> k in RegexTagger)
             {
-                articleText = k.Key.Replace(articleText, k.Value);
+                articleText = k.Key.Replace(articleText, 
+                                            m => (Tools.GetTemplateParameterValue(m.Value, "Date").Length > 0 ? 
+                                                  Tools.RenameTemplateParameter(m.Value, "Date", "date") : k.Value.Replace("$1", m.Groups[1].Value)));
             }
             return ht.AddBackUnformatted(articleText);
         }
