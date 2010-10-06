@@ -305,6 +305,7 @@ namespace WikiFunctions.Parse
             
             articleText = Regex.Replace(articleText, "^={1,4} ?" + Regex.Escape(articleTitle) + " ?={1,4}", "", RegexOptions.IgnoreCase);
             articleText = RegexBadHeader.Replace(articleText, "");
+            articleText = RegexHeadingsBold.Replace(articleText, "$1$2$3$4");
 
             // only apply if < 6 matches, otherwise (badly done) articles with 'list of...' and lots of links in headings will be further messed up
             if (RegexRemoveLinksInHeadings.Matches(articleText).Count < 6
@@ -343,7 +344,6 @@ namespace WikiFunctions.Parse
             articleText = RegexHeadings5.Replace(articleText, "$1Further reading$3");
             articleText = RegexHeadings6.Replace(articleText, "$1$2 life$3");
             articleText = RegexHeadings7.Replace(articleText, "$1$2 members$3");
-            articleText = RegexHeadingsBold.Replace(articleText, "$1$2$3$4");
             articleText = RegexHeadings9.Replace(articleText, "$1Track listing$2");
             articleText = RegexHeadings10.Replace(articleText, "$1Life and career$2");
             articleText = RegexHeadingsCareer.Replace(articleText, "$1$2 career$3");
