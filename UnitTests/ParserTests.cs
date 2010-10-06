@@ -7310,6 +7310,9 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             
             text = parser.Tagger(commentText, "Test", false, out noChange, ref summary);
             Assert.AreEqual(text, commentText, "tag not dated when commented out");
+            
+            text = parser.Tagger(@"{{Citation needed|Date=May 2009}}", "Test", false, out noChange, ref summary);
+            Assert.AreEqual(text, @"{{Citation needed|date=May 2009}}", "Date -> date");
         }
         
         [Test]
