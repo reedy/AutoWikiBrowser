@@ -4264,6 +4264,8 @@ text", "Talk:foo"));
             // not at level 1 or 2
             Assert.AreEqual(@"== '''Caernarvon''' 1536-1832 ==", Parsers.FixHeadings(@"== '''Caernarvon''' 1536-1832 ==", "a"));
             Assert.AreEqual(@"= '''Caernarvon''' 1536-1832 =", Parsers.FixHeadings(@"= '''Caernarvon''' 1536-1832 =", "a"));
+            
+            Assert.AreEqual("==See also==", Parsers.FixHeadings("=='''See Also'''==", "test"));
         }
         
         [Test]
