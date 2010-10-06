@@ -5649,6 +5649,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Sets the date (month & year) for undated cleanup tags that take a date
         /// Avoids changing tags in unformatted text areas (wiki comments etc.)
+        /// Note: bugzilla 2700 means {{ssubst}} within ref tags doesn't work, AWB doesn't do anything about it
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The updated article text</returns>
