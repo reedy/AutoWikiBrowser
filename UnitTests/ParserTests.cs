@@ -1952,6 +1952,7 @@ here]"), "newline removed");
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"<ref>[http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=32159 Message to
 complementary and alternative medicine: evidence is a better friend than power. Andrew J Vickers]</ref>", ref bracketLength));
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"[http://www.site.com a link [cool&#93;]", ref bracketLength)); // displays as valid syntax
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"[http://www.site.com a link &#91;cool&#93; here]", ref bracketLength)); // displays as valid syntax
 
             // don't consider stuff in <math> or <pre> tags etc.
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <pre>{now}}</pre>", ref bracketLength));
@@ -3616,10 +3617,13 @@ x
         [Test]
         public void SquareBracketsInExternalLinksTests()
         {
-            Assert.AreEqual(@"[http://www.site.com some stuff [great&#93;]", Parsers.FixSyntax(@"[http://www.site.com some stuff [great]]"));
-            Assert.AreEqual(@"[http://www.site.com some stuff [great&#93; free]", Parsers.FixSyntax(@"[http://www.site.com some stuff [great] free]"));
-            Assert.AreEqual(@"[http://www.site.com some stuff [great&#93; free [here&#93;]", Parsers.FixSyntax(@"[http://www.site.com some stuff [great] free [here]]"));
-            Assert.AreEqual(@"[http://www.site.com some stuff [great&#93; free [[now]]]", Parsers.FixSyntax(@"[http://www.site.com some stuff [great] free [[now]]]"));
+            Assert.AreEqual(@"[http://www.site.com some stuff &#91;great&#93;]", Parsers.FixSyntax(@"[http://www.site.com some stuff [great]]"));
+            Assert.AreEqual(@"[http://www.site.com some stuff &#91;great&#93; free]", Parsers.FixSyntax(@"[http://www.site.com some stuff [great] free]"));
+            Assert.AreEqual(@"[http://www.site.com some stuff &#91;great&#93; free &#91;here&#93;]", Parsers.FixSyntax(@"[http://www.site.com some stuff [great] free [here]]"));
+            Assert.AreEqual(@"[http://www.site.com some stuff &#91;great&#93; free [[now]]]", Parsers.FixSyntax(@"[http://www.site.com some stuff [great] free [[now]]]"));
+            
+            Assert.AreEqual(@"*This: [http://www.privacyinternational.org/article.shtml?cmd&#91;347&#93;=x-347-359656&als&#91;theme&#93;=AT+Law+and+Policy Terrorism Profile - Uganda] Privacy International",
+                            Parsers.FixSyntax(@"*This: [http://www.privacyinternational.org/article.shtml?cmd[347]=x-347-359656&als[theme]=AT+Law+and+Policy Terrorism Profile - Uganda] Privacy International"));
 
             // no delinking needed
             Assert.AreEqual(@"[http://www.site.com some great stuff]", Parsers.FixSyntax(@"[http://www.site.com some great stuff]"));

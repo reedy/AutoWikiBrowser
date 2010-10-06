@@ -2291,6 +2291,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegexISBN = new Regex("ISBN: ?([0-9])", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexExternalLinkOnWholeLine = new Regex(@"^\[(\s*http.*?)\]$", RegexOptions.Compiled | RegexOptions.Singleline);
         private static readonly Regex SyntaxRegexClosingBracket = new Regex(@"([^]])\]([^]]|$)", RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexOpeningBracket = new Regex(@"([^[]|^)\[([^[])", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexImageWithHTTP = new Regex("\\[\\[[Ii]mage:[^]]*http", RegexOptions.Compiled);
 
         private static readonly Regex DoublePipeInWikiLink = new Regex(@"(?<=\[\[[^\[\[\r\n\|{}]+)\|\|(?=[^\[\[\r\n\|{}]+\]\])", RegexOptions.Compiled);
@@ -2386,10 +2387,14 @@ namespace WikiFunctions.Parse
 
                 // if there are some brackets left then they need fixing; the mediawiki parser finishes the external link
                 // at the first ] found
-                if (externalLink.Contains("]"))
+                if (externalLink.Contains("]") || externalLink.Contains("["))
                 {
                     // replace single ] with &#93; when used for brackets in the link description
+                    if (externalLink.Contains("]"))
                     externalLink = SyntaxRegexClosingBracket.Replace(externalLink, @"$1&#93;$2");
+                    
+                    if(externalLink.Contains("["))
+                         externalLink = SyntaxRegexOpeningBracket.Replace(externalLink, @"$1&#91;$2");
 
                     articleText = articleText.Replace(m.Value, @"[" + externalLink + @"]");
                 }
