@@ -1523,6 +1523,7 @@ namespace WikiFunctions.Parse
 
         /// <summary>
         /// Renames templates to bypass template redirects from [[WP:AWB/Template redirects]]
+        /// The first letter casing of the existing redirect is kept in the new template name
         /// </summary>
         /// <param name="articleText">the page text</param>
         /// <param name="TemplateRedirects">Dictionary of redirects and templates</param>
@@ -1531,10 +1532,23 @@ namespace WikiFunctions.Parse
         {
             foreach(KeyValuePair<Regex, string> kvp in TemplateRedirects)
             {
-                articleText = kvp.Key.Replace(articleText, "$1" + kvp.Value + "$3");
+                // "$1" + kvp.Value + "$3"
+                articleText = kvp.Key.Replace(articleText, m => TemplateRedirectsME(m, kvp.Value));
             }
 
             return articleText;
+        }
+        
+        private static string TemplateRedirectsME(Match m, string newTemplateName)
+        {
+            string originalTemplateName = m.Groups[2].Value;
+            
+            if(Tools.TurnFirstToUpper(originalTemplateName).Equals(originalTemplateName))
+                newTemplateName = Tools.TurnFirstToUpper(newTemplateName);
+            else
+                newTemplateName = Tools.TurnFirstToLower(newTemplateName);
+            
+            return (m.Groups[1].Value + newTemplateName + m.Groups[3].Value);
         }
 
         /// <summary>
