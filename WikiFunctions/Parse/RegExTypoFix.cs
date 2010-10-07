@@ -407,7 +407,7 @@ namespace WikiFunctions.Parse
                 Groups.Clear();
                 TypoCount = 0;
 
-                Groups.Add(new TypoGroup(20, @"^\\b(.*)\\b$", @"[^\\]\\\d", @"\b", @"\b")); // 
+                Groups.Add(new TypoGroup(20, @"^\\b(.*)\\b$", @"[^\\]\\\d", @"\b", @"\b"));
                 Groups.Add(new TypoGroup(5, null, @"[^\\]\\\d", "", ""));
                 Groups.Add(new TypoGroup(1, null, null, "", ""));
 

@@ -92,7 +92,7 @@ namespace WikiFunctions.Encryption
                                                             hashAlgorithm,
                                                             passwordIterations);
 
-            // Use the password to generate pseudo-random bytes for the encryption
+           // Use the password to generate pseudo-random bytes for the encryption
             // key. Specify the size of the key in bytes (instead of bits).
             byte[] keyBytes = password.GetBytes(keySize / 8);
 

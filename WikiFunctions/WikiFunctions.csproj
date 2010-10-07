@@ -260,12 +260,6 @@
       <DependentUpon>UploadingPleaseWaitForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Parse\MetaDataSorter.cs" />
-    <Compile Include="Controls\LoginDlg.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Controls\LoginDlg.Designer.cs">
-      <DependentUpon>LoginDlg.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\NoFlickerListView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -452,10 +446,6 @@
     <EmbeddedResource Include="Controls\Lists\ListMaker.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ListMaker.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\LoginDlg.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>LoginDlg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Logging\LogControl.resx">
       <SubType>Designer</SubType>

@@ -750,26 +750,6 @@ namespace WikiFunctions
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="title"></param>
-        /// <returns></returns>
-        public static string GetAddToWatchlistURL(string title)
-        {
-            return (NonPrettifiedURL(title) + "&action=watch");
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="title"></param>
-        /// <returns></returns>
-        public static string GetRemoveFromWatchlistURL(string title)
-        {
-            return (NonPrettifiedURL(title) + "&action=unwatch");
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
         public static string GetUserTalkURL(string username)

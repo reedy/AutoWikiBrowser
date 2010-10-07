@@ -187,34 +187,6 @@ namespace WikiFunctions.Background
         /// 
         /// </summary>
         /// <param name="url"></param>
-        public void GetHTML(string url)
-        {
-            StrParam = url;
-
-            InitThread(GetHTMLFunc);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        private void GetHTMLFunc()
-        {
-            try
-            {
-                Result = Tools.GetHTML(StrParam);
-                InvokeOnComplete();
-            }
-            catch (Exception e)
-            {
-                ErrorException = e;
-                InvokeOnError();
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="url"></param>
         /// <param name="postvars"></param>
         public void PostData(string url, NameValueCollection postvars)
         {
