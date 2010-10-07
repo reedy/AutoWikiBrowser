@@ -97,9 +97,6 @@ namespace AutoWikiBrowser
 
                 System.Diagnostics.Process p = System.Diagnostics.Process.Start(psi);
 
-                if (p == null)
-                    return origText;
-
                 p.WaitForExit();
 
                 if (File.Exists(ioFile))

@@ -2242,19 +2242,6 @@ Message: {2}
         /// <returns>The updated article text</returns>
         public static string RemoveTemplateParameter(string articletext, string templatename, string parameter)
         {
-            return RemoveTemplateParameter(articletext, templatename, parameter, false);
-        }
-
-        /// <summary>
-        /// Removes the input parameter from all instances of the input template in the article text
-        /// </summary>
-        /// <param name="articletext"></param>
-        /// <param name="templatename"></param>
-        /// <param name="parameter"></param>
-        /// <param name="removeLastMatch">Whether to remove the last match, rather than the first</param>
-        /// <returns>The updated article text</returns>
-        public static string RemoveTemplateParameter(string articletext, string templatename, string parameter, bool removeLastMatch)
-        {
             Regex oldtemplate = NestedTemplateRegex(templatename);
 
             foreach (Match m in oldtemplate.Matches(articletext))
