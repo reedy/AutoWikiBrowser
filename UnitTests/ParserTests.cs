@@ -1040,6 +1040,10 @@ was"));
 * [[Chad Sexton]] - [[Drum]]s, Programming, Percussion (1989 - present)";
             
             Assert.AreEqual(present2.Replace(@" - p", @"–p"), parser.FixDates(present2));
+            
+            const string NoChange = @"* 2000 - presented";
+            
+            Assert.AreEqual(NoChange, parser.FixDates(NoChange));
         }
         
         [Test]
