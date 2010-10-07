@@ -488,17 +488,6 @@ namespace WikiFunctions.Controls.Lists
         { get { return lbArticles; } }
 
         /// <summary>
-        /// Sets whether the buttons are enabled or not
-        /// </summary>
-        public bool ButtonsEnabled
-        {
-            set
-            {
-                btnFilter.Enabled = btnRemove.Enabled = saveListToFileToolStripMenuItem.Enabled = value;
-            }
-        }
-
-        /// <summary>
         /// Gets or sets the selected provider type
         /// </summary>
         public string SelectedProvider

@@ -569,7 +569,7 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
         internal static readonly Regex paramEqualsRegex = new Regex(@"(?<=\w)\s*=\s*", RegexOptions.Compiled);
 
         // 10. To ignore whitespace
-        internal static readonly Regex leadingWhiteSpaceRegex = new Regex(@"^\s*", RegexOptions.Compiled);
+        //internal static readonly Regex leadingWhiteSpaceRegex = new Regex(@"^\s*", RegexOptions.Compiled);
 
         // 11. To extract the whitespace pattern which follows the value
         internal static readonly Regex trailingWhiteSpaceRegex = new Regex(@"(?<=\S)\s*$", RegexOptions.Compiled | RegexOptions.Singleline);

@@ -23,7 +23,7 @@ using System.Windows.Forms;
 
 namespace WikiFunctions.Controls
 {
-    public enum Developers { Bluemoose, Kingboyk, Ligulem, Reedy, Rjwilmsi, MaxSem }
+    public enum Developers { Bluemoose, Ligulem, Reedy, Rjwilmsi, MaxSem }
     public class DeveloperLinkLabel : LinkLabel
     {
         public DeveloperLinkLabel()

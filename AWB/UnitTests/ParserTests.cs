@@ -38,14 +38,10 @@ namespace UnitTests
     /// </summary>
     public class RequiresInitialization
     {
-        int __dummy = Init();
-
-        static int Init()
+        static RequiresInitialization()
         {
             Globals.UnitTestMode = true;
             if (WikiRegexes.Category == null) WikiRegexes.MakeLangSpecificRegexes();
-
-            return 0;
         }
     }
 

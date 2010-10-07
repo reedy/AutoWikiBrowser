@@ -1429,12 +1429,6 @@ Message: {2}
                 OpenURLInBrowser("http://en.wikipedia.org/wiki/" + WikiEncode(title));
         }
 
-        public static string GetENLinkWithSimpleSkinAndLocalLanguage(string article)
-        {
-            return "http://en.wikipedia.org/w/index.php?title=" + WikiEncode(article) + "&useskin=simple&uselang=" +
-                Variables.LangCode;
-        }
-
         /// <summary>
         /// Opens the specified articles history in the browser
         /// </summary>
@@ -1673,25 +1667,6 @@ Message: {2}
             }
 
             return res.ToArray();
-        }
-
-        //Not covered
-        /// <summary>
-        /// Returns a string containing textual representation of all given values
-        /// </summary>
-        /// <param name="separator">Separator between values</param>
-        /// <param name="list">List of values to be converted to string and joined</param>
-        public static string Join(string separator, params object[] list)
-        {
-            StringBuilder sb = new StringBuilder();
-
-            foreach (object o in list)
-            {
-                if (sb.Length > 0) sb.Append(separator);
-                sb.Append(o.ToString());
-            }
-
-            return sb.ToString();
         }
 
         // Covered by ToolsTests.FindDifference()
@@ -2049,7 +2024,7 @@ Message: {2}
         /// </summary>
         /// <param name="templateCall">The input template call</param>
         /// <param name="parameter">The input parameter name</param>
-        /// <param name="value">The input parameter value</param>
+        /// <param name="newValue">The input parameter value</param>
         /// <returns>The updated template call</returns>
         public static string AppendParameterToTemplate(string templateCall, string parameter, string newValue)
         {
@@ -2061,7 +2036,7 @@ Message: {2}
         /// </summary>
         /// <param name="templateCall">The input template call</param>
         /// <param name="parameter">The input parameter name</param>
-        /// <param name="value">The input parameter value</param>
+        /// <param name="newValue">The input parameter value</param>
         /// <param name="unspaced">Whether to add the parameter value without any excess whitespace</param>
         /// <returns>The updated template call</returns>
         public static string AppendParameterToTemplate(string templateCall, string parameter, string newValue, bool unspaced)
@@ -2309,11 +2284,11 @@ Message: {2}
         /// <param name="parameter"></param>
         /// <param name="removeLastMatch">Whether to remove the last match, rather than the first</param>
         /// <returns>The updated template</returns>
-        public static string RemoveTemplateParameter(string templatecall, string parameter, bool removeLastMatch)
+        public static string RemoveTemplateParameter(string templateCall, string parameter, bool removeLastMatch)
         {   
             Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=(.*?)(?=\||}}$)", RegexOptions.Singleline);
 
-            string pipecleanedtemplate = PipeCleanedTemplate(templatecall);
+            string pipecleanedtemplate = PipeCleanedTemplate(templateCall);
 
             Match m = param.Match(pipecleanedtemplate);
 
@@ -2326,10 +2301,10 @@ Message: {2}
                 }
                 
                 int start = m.Index;
-                return (templatecall.Substring(0, start) + templatecall.Substring(start + m.Length));
+                return (templateCall.Substring(0, start) + templateCall.Substring(start + m.Length));
             }
 
-            return templatecall;
+            return templateCall;
         }
         
         private static readonly Regex CiteUrl = new Regex(@"\|\s*url\s*=\s*([^\[\]<>""\s]+)", RegexOptions.Compiled);
