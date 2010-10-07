@@ -49,6 +49,6 @@ namespace AutoWikiBrowser
         void IAutoWikiBrowserCommands.StartProgressBar() { StartProgressBar(); }
         void IAutoWikiBrowserCommands.StopProgressBar() { StopProgressBar(); }
 
-        void IAutoWikiBrowserCommands.AddArticleRedirectedEventHandler(WikiFunctions.ArticleRedirected handler) { ArticleWasRedirected += handler; }
+        void IAutoWikiBrowserCommands.AddArticleRedirectedEventHandler(ArticleRedirected handler) { ArticleWasRedirected += handler; }
     }
 }

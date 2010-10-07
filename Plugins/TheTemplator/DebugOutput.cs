@@ -71,7 +71,7 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
         }
 
         readonly Font body = new Font("Lucida Console", 10);
-        int HeaderFont = 0;
+        int HeaderFont;
         Font[] HeaderFonts;
         const int indent = 20;
 

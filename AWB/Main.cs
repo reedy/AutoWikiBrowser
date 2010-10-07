@@ -3004,7 +3004,7 @@ window.scrollTo(0, diffTopY);
             if(botEditsStop.Value > 0 && NumberOfEdits >= botEditsStop.Value)
             {
                 Stop();
-                StatusLabelText = "Stopped: " + botEditsStop.Value.ToString() + " edits reached";
+                StatusLabelText = "Stopped: " + botEditsStop.Value + " edits reached";
             }
         }
 
@@ -3431,7 +3431,7 @@ window.scrollTo(0, diffTopY);
         private void metadataTemplateToolStripMenuItem_Click(object sender, EventArgs e)
         {
             txtEdit.SelectedText = WikiRegexes.PersonDataDefault;
-            txtEdit.Text = WikiFunctions.Parse.Parsers.PersonData(txtEdit.Text, TheArticle.Name);
+            txtEdit.Text = Parsers.PersonData(txtEdit.Text, TheArticle.Name);
         }
 
         private void humanNameCategoryKeyToolStripMenuItem_Click(object sender, EventArgs e)
