@@ -2231,6 +2231,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex DoubleBracketAtStartOfExternalLink = new Regex(@"\[(\[https?:/(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex DoubleBracketAtEndOfExternalLink = new Regex(@"(\[https?:/(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])\](?!\])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex DoubleBracketAtEndOfExternalLinkWithinImage = new Regex(@"(\[https?:/(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!)))\](?=\]{3})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex ListExternalLinkEndsCurlyBrace = new Regex(@"^(\* *\[https?://[^<>\[\]]+?)\)\s*$", RegexOptions.Multiline | RegexOptions.Compiled);
 
         private const string TemEnd = @"(\s*(?:\||\}\}))";
         private const string CitUrl = @"(\{\{\s*cit[ae][^{}]*?\|\s*url\s*=\s*)";
@@ -2344,6 +2345,7 @@ namespace WikiFunctions.Parse
             articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "$1");
             articleText = DoubleBracketAtEndOfExternalLink.Replace(articleText, "$1");
             articleText = DoubleBracketAtEndOfExternalLinkWithinImage.Replace(articleText, "$1");
+            articleText = ListExternalLinkEndsCurlyBrace.Replace(articleText, "$1]");
 
             articleText = MultipleHttpInLink.Replace(articleText, "$1$2");
             

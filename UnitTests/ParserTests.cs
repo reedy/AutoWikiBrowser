@@ -2693,6 +2693,13 @@ Template:foo}}"));
             Assert.AreEqual("[https://example.com] site", Parsers.FixSyntax("[[https://example.com] site"));
             
             Assert.AreEqual("<ref>[http://test.com]</ref>", Parsers.FixSyntax("<ref>[http://test.com}</ref>"));
+            
+            Assert.AreEqual(@"* [http://www.site.com text]", Parsers.FixSyntax(@"* [http://www.site.com text)"));
+            Assert.AreEqual(@"* [http://www.site.com text]", Parsers.FixSyntax(@"* [http://www.site.com text) "));
+            
+            const string Correct = @"* [http://www.site.com text (here) there]";
+            Assert.AreEqual(Correct, Parsers.FixSyntax(Correct));
+            
         }
         
         [Test]
