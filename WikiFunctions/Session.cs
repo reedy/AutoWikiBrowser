@@ -235,11 +235,7 @@ namespace WikiFunctions
                     Updater.CheckForUpdates();
 
                 //load check page
-                string url;
-                if (Variables.IsWikia)
-                    url = "http://community.wikia.com/index.php?title=Wikia:AutoWikiBrowser/CheckPage&action=raw";
-                else
-                    url = Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage&action=raw";
+                string url = Variables.URLIndex + "?title=Project:AutoWikiBrowser/CheckPage&action=raw";
 
                 string checkPageText = Editor.SynchronousEditor.HttpGet(url);
 
@@ -249,29 +245,6 @@ namespace WikiFunctions
                 if (Variables.IsCustomProject || Variables.IsWikia)
                 {
                     Variables.LangCode = Site.Language;
-                }
-
-                string typoPostfix = "", localCheckPage = "";
-                if (Variables.IsWikia)
-                {
-                    typoPostfix = "-" + Variables.LangCode;
-
-                    try
-                    {
-                        //load a local checkpage on Wikia
-                        //it cannot be used to approve users, but it could be used to set some settings
-                        //such as underscores and pages to ignore
-
-                        localCheckPage = Editor.SynchronousEditor.Open("Project:AutoWikiBrowser/CheckPage", true);
-
-                        // selectively add content of the local checkpage to the global one
-                        checkPageText += Message.Match(localCheckPage).Value
-                                         /*+ Underscores.Match(s).Value*/
-                                         + WikiRegexes.NoGeneralFixes.Match(localCheckPage);
-                    }
-                    catch
-                    {
-                    }
                 }
 
                 Updater.WaitForCompletion();
@@ -320,16 +293,7 @@ namespace WikiFunctions
                                     MessageBoxIcon.Information);
                 }
 
-                bool foundTypoLink = false;
-                if (Variables.IsWikia && !string.IsNullOrEmpty(localCheckPage))
-                {
-                    foundTypoLink = HasTypoLink(localCheckPage, typoPostfix);
-                }
-
-                if (!foundTypoLink)
-                {
-                    HasTypoLink(checkPageText, typoPostfix);
-                }
+                HasTypoLink(checkPageText);
 
                 List<string> us = new List<string>();
                 foreach (Match underscore in Underscores.Matches(checkPageText))
@@ -394,16 +358,13 @@ namespace WikiFunctions
             }
         }
 
-        private static bool HasTypoLink(string text, string typoPostfix)
+        private static void HasTypoLink(string text)
         {
-            Match typoLink = Regex.Match(text, "<!--[Tt]ypos" + typoPostfix + ":(.*?)-->");
+            Match typoLink = Regex.Match(text, "<!--[Tt]ypos:(.*?)-->");
             if (typoLink.Success && typoLink.Groups[1].Value.Trim().Length > 0)
             {
                 Variables.RetfPath = typoLink.Groups[1].Value.Trim();
-                return true;
             }
-
-            return false;
         }
 
         /// <summary>
