@@ -29,5 +29,14 @@ namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
         {
             return new object[0];
         }
+
+        public static bool CanUsePlugin()
+        {
+            if (AWB.TheSession.User.IsBot || AWB.TheSession.User.IsSysop || AWB.TheSession.User.HasApiHighLimit)
+                return true;
+
+            Tools.MessageBox("Action only allowed for Admins and Bot accounts, or those with the \"apihighlimits\" right");
+            return false;
+        }
     }
 }

@@ -34,11 +34,7 @@ namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
 
         public override List<Article> MakeList(params string[] searchCriteria)
         {
-            if (Base.AWB.TheSession.User.IsBot || Base.AWB.TheSession.User.IsSysop)
-                return base.MakeList(searchCriteria);
-
-            Tools.MessageBox("Action only allowed for Admins and Bot accounts");
-            return null;
+            return Base.CanUsePlugin() ? base.MakeList(searchCriteria) : null;
         }
 
         public override string DisplayText
@@ -60,11 +56,7 @@ namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
 
         public override List<Article> MakeList(params string[] searchCriteria)
         {
-            if (Base.AWB.TheSession.User.IsBot || Base.AWB.TheSession.User.IsSysop)
-                return base.MakeList(searchCriteria);
-
-            Tools.MessageBox("Action only allowed for Admins and Bot accounts");
-            return null;
+            return Base.CanUsePlugin() ? base.MakeList(searchCriteria) : null;
         }
 
         public override string DisplayText
