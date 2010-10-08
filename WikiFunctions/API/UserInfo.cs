@@ -57,6 +57,12 @@ namespace WikiFunctions.API
         { get { return IsInGroup("bot") || HasRight("bot"); } }
 
         /// <summary>
+        /// Whether the user has the apihighlimits right
+        /// </summary>
+        public bool HasApiHighLimit
+        { get { return HasRight("apihighlimits"); } }
+
+            /// <summary>
         /// Whether the current user is blocked from editing
         /// </summary>
         public bool IsBlocked
