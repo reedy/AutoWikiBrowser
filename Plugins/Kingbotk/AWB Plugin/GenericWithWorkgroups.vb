@@ -27,7 +27,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             LinkLabel1.Text = "{{" & template & "}}"
             InsertTemplateToolStripMenuItem.Text = "{{" & template & "}}"
 
-            ProjectToolStripMenuItem.Text = ""
+            ProjectToolStripMenuItem.Text = template
 
             Dim groupsAndMenus As New Dictionary(Of String, LvGrpTSMenu)
 
