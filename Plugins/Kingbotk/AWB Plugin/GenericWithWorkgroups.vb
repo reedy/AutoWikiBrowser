@@ -70,7 +70,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
                 ListView1.Items.Add(lvi)
             Next
-
             ListView1.EndUpdate()
         End Sub
 

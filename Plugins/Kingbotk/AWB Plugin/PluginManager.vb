@@ -124,7 +124,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             ' Create plugins:
             Plugins.Add("Albums", New WPAlbums())
             Plugins.Add("Australia", New WPAustralia())
-            'Plugins.Add("Film", New Film())
             Plugins.Add("India", New WPIndia())
             Plugins.Add("MilHist", New WPMilitaryHistory())
             Plugins.Add("Songs", New WPSongs())
