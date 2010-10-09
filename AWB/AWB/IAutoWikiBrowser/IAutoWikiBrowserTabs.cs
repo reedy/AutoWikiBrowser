@@ -42,7 +42,9 @@ namespace AutoWikiBrowser
         }
 
         void IAutoWikiBrowserTabs.AddTabPage(TabPage tabp)
-        { AddTabPage(tabp); }
+        {
+            AddTabPage(tabp);
+        }
 
         void IAutoWikiBrowserTabs.RemoveTabPage(TabPage tabp)
         {
