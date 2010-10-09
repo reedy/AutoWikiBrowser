@@ -382,21 +382,6 @@ namespace WikiFunctions.DBScanner
     }
 
     /// <summary>
-    /// Returns whether AWB would make changes to an article, adding [[Category:Living people]] to with a [[Category:XXXX births]] and no living people/deaths category
-    /// </summary>
-    public class LivingPerson : Scan
-    {
-        private bool Skip = true;
-
-        public override bool Check(ArticleInfo article)
-        {
-            Parsers.LivingPeople(article.Text, out Skip);
-
-            return !Skip;
-        }
-    }
-
-    /// <summary>
     /// Returns whether the article is missing a default sort (ie criteria match so that default sort would be added)
     /// </summary>
     public class MissingDefaultsort : Scan
@@ -421,26 +406,6 @@ namespace WikiFunctions.DBScanner
         public override bool Check(ArticleInfo article)
         {
             return Retf.DetectTypo(article.Text, article.Title);
-        }
-    }
-
-    /// <summary>
-    /// Returns whether the article is uncategorised
-    /// </summary>
-    public class UnCategorised : Scan
-    {
-        public override bool Check(ArticleInfo article)
-        {
-            if (WikiRegexes.Category.IsMatch(article.Text))
-                return false;
-
-            foreach (Match m in WikiRegexes.Template.Matches(article.Text))
-            {
-                if (!m.Value.Contains("stub"))
-                    return false;
-            }
-
-            return true;
         }
     }
 

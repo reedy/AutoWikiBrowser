@@ -477,7 +477,7 @@ namespace WikiFunctions.Parse
             return MultipleIssuesBLPUnreferenced(articleText);
         }
         
-        private static readonly Regex MultipleIssuesDate =new Regex(@"(?<={{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*?)?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?){0,4}\|[^{}\|]{3,}?)\b(?i)date(?<!.*out of.*)", RegexOptions.Compiled);
+        private static readonly Regex MultipleIssuesDate = new Regex(@"(?<={{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*?)?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?){0,4}\|[^{}\|]{3,}?)\b(?i)date(?<!.*out of.*)", RegexOptions.Compiled);
         
         /// <summary>
         /// In the {{Multiple issues}} template renames unref to BLPunref for living person bio articles
