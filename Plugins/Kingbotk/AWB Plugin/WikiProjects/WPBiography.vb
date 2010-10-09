@@ -23,7 +23,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             MyBase.New("WikiProject Biography|Wpbiography|WPBIO|WP Biography|WPbiography|Wikiproject Biography|WP Bio|Bio") ' Specify alternate names only
 
             OurSettingsControl = New GenericWithWorkgroups(PluginName, Prefix, True, False, params)
-            OurSettingsControl.InspectUnsetText = "importance= to priority="
             OurSettingsControl.ExtraChecksText = "Force listas"
         End Sub
 
@@ -119,7 +118,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         ' Article processing:
         Protected Overrides ReadOnly Property InspectUnsetParameters() As Boolean
             Get
-                Return OurSettingsControl.InspectUnsetParameters
+                Return False
             End Get
         End Property
         Protected Overrides Sub InspectUnsetParameter(ByVal Param As String)
