@@ -22,7 +22,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Friend Sub New()
             MyBase.New("WikiProject Biography|Wpbiography|WPBIO|WP Biography|WPbiography|Wikiproject Biography|WP Bio|Bio") ' Specify alternate names only
 
-            OurSettingsControl = New GenericWithWorkgroups(PluginName, Prefix, True, False, params)
+            OurSettingsControl = New BioWithWorkgroups(PluginName, Prefix, True, False, params)
             OurSettingsControl.ExtraChecksText = "Force listas"
         End Sub
 
@@ -76,7 +76,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Property
 
         Protected Overrides Sub ImportanceParameter(ByVal Importance As Importance)
-            Template.NewOrReplaceTemplateParm("priority", Importance.ToString, Me.Article, False, False)
+            Template.NewOrReplaceTemplateParm("priority", Importance.ToString, Me.article, False, False)
         End Sub
         Protected Friend Overrides ReadOnly Property GenericSettings() As IGenericSettings
             Get
@@ -101,11 +101,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Friend Overrides Sub ReqPhoto()
             AddNewParamWithAYesValue("needs-photo")
         End Sub
-        'Protected Overrides ReadOnly Property PreferredTemplateNameRegexString() As String
-        '    Get
-        '        Return "^[Ww]PBiography$"
-        '    End Get
-        'End Property
 
         ' Initialisation:
         Protected Friend Overrides Sub Initialise()
@@ -125,19 +120,19 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             ' We only get called if InspectUnsetParameters is True
             If String.Equals(Param, "importance", StringComparison.CurrentCultureIgnoreCase) Then
                 Template.AddTemplateParmFromExistingTemplate("priority", "") ' NewTemplateParm could throw an error when importance= existed and was changed to priority and then we find another and do the same
-                Article.DoneReplacement("importance", "priority", True, PluginShortName)
+                article.DoneReplacement("importance", "priority", True, PluginShortName)
             End If
         End Sub
         Protected Overrides Function SkipIfContains() As Boolean
             ' We'll also do SkierBot tidying here, as this is the first chance we get to process the article outside Pluginbase
-            Article.AlteredArticleText = SkierBotRegex.Replace(Article.AlteredArticleText, conSkierBotPlaceholder)
+            article.AlteredArticleText = SkierBotRegex.Replace(article.AlteredArticleText, conSkierBotPlaceholder)
             Return False
         End Function
         Protected Overrides Sub ProcessArticleFinish()
             Dim Living As Living = Living.Unknown, LivingAlreadyAddedToEditSummary As Boolean
             Const conContainsDefaultSortKeyword As String = "Page contains DEFAULTSORT keyword: "
 
-            With Article
+            With article
                 If BLPRegex.Matches(.AlteredArticleText).Count > 0 Then
                     .AlteredArticleText = BLPRegex.Replace(.AlteredArticleText, "")
                     .DoneReplacement("{{[[Template:Blp|Blp]]}}", "living=yes", True, PluginShortName)
@@ -189,12 +184,12 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                     End If
                 Case Plugins.Living.Dead
                     If Not Template.HasYesParamLowerOrTitleCase(False, "living") Then
-                        Template.NewOrReplaceTemplateParm("living", "no", Article, True, False, False, _
+                        Template.NewOrReplaceTemplateParm("living", "no", article, True, False, False, _
                         "", PluginShortName, True)
                     End If
             End Select
 
-            With Article
+            With article
 
                 If .Namespace = [Namespace].Talk AndAlso (.ProcessIt OrElse OurSettingsControl.ExtraChecks) Then
                     If WikiFunctions.TalkPages.TalkPageHeaders.ContainsDefaultSortKeywordOrTemplate( _
@@ -212,7 +207,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                         ' Since we're dealing with talk pages, we want a listas= even if it's the same as the
                         ' article title without namespace (otherwise it sorts to namespace)
                         Template.NewOrReplaceTemplateParm("listas", _
-                        WikiFunctions.Tools.MakeHumanCatKey(Article.FullArticleTitle), Article, _
+                        WikiFunctions.Tools.MakeHumanCatKey(article.FullArticleTitle), article, _
                         True, False, True, "", PluginShortName)
                     End If
                 End If
@@ -234,7 +229,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                             ' if they're not equal and both are not empty we have a bad tag
                             Return True
                         Else
-                            Article.EditSummary += "rm importance param, has priority=, "
+                            article.EditSummary += "rm importance param, has priority=, "
                             PluginManager.AWBForm.TraceManager.WriteArticleActionLine( _
                                "importance parameter removed, has priority=", PluginShortName)
                         End If
@@ -242,10 +237,10 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                         .Parameters.Add("priority", _
                            New Templating.TemplateParametersObject("priority", _
                            .Parameters("importance").Value))
-                        Article.DoneReplacement("importance", "priority", True, PluginShortName)
+                        article.DoneReplacement("importance", "priority", True, PluginShortName)
                     End If
                     .Parameters.Remove("importance")
-                    Article.ArticleHasAMinorChange()
+                    article.ArticleHasAMinorChange()
                 End If
             End With
         End Function

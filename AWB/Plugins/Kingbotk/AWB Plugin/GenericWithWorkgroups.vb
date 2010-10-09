@@ -31,8 +31,11 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
             Dim groupsAndMenus As New Dictionary(Of String, LvGrpTSMenu)
 
+            ListView1.BeginUpdate()
+
             For Each prop As TemplateParameters In params
                 Dim lvi As New ListViewItem(prop.ParamName)
+                lvi.Name = prop.StorageKey
                 lvi.Tag = prop
 
                 Dim tsmiToAddTo As ToolStripMenuItem
@@ -67,6 +70,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
                 ListView1.Items.Add(lvi)
             Next
+
+            ListView1.EndUpdate()
         End Sub
 
         Private Sub ToolStripMenuItemClickEventHandler(ByVal sender As Object, ByVal e As EventArgs)
