@@ -4740,6 +4740,7 @@ namespace WikiFunctions.Parse
                 || articleTitle.StartsWith(@"List of ")
                 || WikiRegexes.Disambigs.IsMatch(articleText)
                 || WikiRegexes.DeathsOrLivingCategory.Matches(articleText).Count > 1
+                || WikiRegexes.InfoBox.Match(articleText).Groups[1].Value.ToLower().Contains("organization")
                )
                 return false;
             
