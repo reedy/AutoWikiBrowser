@@ -872,7 +872,8 @@ namespace WikiFunctions.Parse
         {
             articleText = DiedDateRegex.Replace(articleText, "$1died$2"); // date of death
             articleText = DOBRegex.Replace(articleText, "$1born$2"); // date of birth
-            articleText = DOBRegexDash.Replace(articleText, "$1born $2)"); // date of birth – dash
+            if(!DOBRegexDash.IsMatch(WikiRegexes.InfoBox.Match(articleText).Value))
+                articleText = DOBRegexDash.Replace(articleText, "$1born $2)"); // date of birth – dash
             return BornDeathRegex.Replace(articleText, "$1$2 – $4"); // birth and death
         }
 
