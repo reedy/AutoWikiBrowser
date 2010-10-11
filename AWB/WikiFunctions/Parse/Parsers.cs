@@ -104,7 +104,7 @@ namespace WikiFunctions.Parse
             RegexConversion.Add(new Regex(@"(?<={{[Cc]ommons cat(?:egory)?\|\s*)([^{}\|]+?)\s*\|\s*\1\s*}}", RegexOptions.Compiled), @"$1}}");
 
             // tidy up || or |}} (maybe with whitespace between) within templates that don't use null parameters
-            RegexConversion.Add(new Regex(@"(?!{{[Cc]ite ?(?:wikisource|ngall|uscgll))(\{\{\s*(?:[Cc]it[ae]|[Aa]rticle ?issues)[^{}]*)\|\s*(\}\}|\|)", RegexOptions.Compiled), "$1$2");
+            RegexConversion.Add(new Regex(@"(?!{{[Cc]ite ?(?:wikisource|ngall|uscgll))(\{\{\s*(?:[Cc]it[ae]|(?:[Aa]rticle|[Mm]ultiple) ?issues)[^{}]*)\|\s*(\}\}|\|)", RegexOptions.Compiled), "$1$2");
             
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_empty_.7B.7BArticle_issues.7D.7D
             // articleissues with no issues -> remove tag
