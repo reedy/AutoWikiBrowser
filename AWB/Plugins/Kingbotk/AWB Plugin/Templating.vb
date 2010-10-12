@@ -151,6 +151,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                     End Select
                 End If
             End If
+
+            Return False
         End Function
 
         ''' <summary>

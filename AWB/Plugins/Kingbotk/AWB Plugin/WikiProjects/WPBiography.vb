@@ -187,6 +187,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                         Template.NewOrReplaceTemplateParm("living", "no", article, True, False, False, _
                         "", PluginShortName, True)
                     End If
+                Case Plugins.Living.Unknown
+                    Template.NewOrReplaceTemplateParm("living", "", article, False, False, True, _
+                        "", PluginShortName, True)
             End Select
 
             With article
