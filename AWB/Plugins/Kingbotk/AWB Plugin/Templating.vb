@@ -139,16 +139,10 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         Friend Function HasYesParamLowerOrTitleCase(ByVal Yes As Boolean, ByVal ParamName As String) As Boolean
             ' A little hack to ensure we don't change no to No or yes to Yes as our only edit, and also for checking "yes" values
             If Parameters.ContainsKey(ParamName) Then
-                If Yes Then
-                    Select Case Parameters(ParamName).Value
-                        Case "yes", "Yes"
-                            Return True
-                    End Select
-                Else
-                    Select Case Parameters(ParamName).Value
-                        Case "no", "No"
-                            Return True
-                    End Select
+                If Yes AndAlso Parameters(ParamName).Value.ToLower = "yes" Then
+                    Return True
+                ElseIf Not Yes AndAlso Parameters(ParamName).Value.ToLower = "No" Then
+                    Return True
                 End If
             End If
 
