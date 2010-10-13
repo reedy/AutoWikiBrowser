@@ -31,7 +31,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("WikiProject templating plugin for AutoWikiBrowser")> 
 <Assembly: AssemblyCompany("SDK Software")> 
 <Assembly: AssemblyProduct("Kingbotk AWB Plugin")> 
-<Assembly: AssemblyCopyright("Copyright © Stephen Kennedy, Sam Reed 2009")> 
+<Assembly: AssemblyCopyright("Copyright © Stephen Kennedy, Sam Reed 2010")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)> 
@@ -50,7 +50,7 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("2.3.0.0")> 
-<Assembly: AssemblyFileVersion("2.3.0.0")> 
+<Assembly: AssemblyVersion("2.3.1.0")> 
+<Assembly: AssemblyFileVersion("2.3.1.0")> 
 
 <Assembly: NeutralResourcesLanguageAttribute("")> 
