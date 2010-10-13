@@ -1,4 +1,6 @@
-﻿'Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
+﻿Imports AutoWikiBrowser.Plugins.Kingbotk.Templating
+
+'Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 'Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
 
 'This program is free software; you can redistribute it and/or modify it under the terms of Version 2 of the GNU General Public License as published by the Free Software Foundation.
@@ -76,7 +78,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Property
 
         Protected Overrides Sub ImportanceParameter(ByVal Importance As Importance)
-            Template.NewOrReplaceTemplateParm("priority", Importance.ToString, Me.article, False, False)
         End Sub
         Protected Friend Overrides ReadOnly Property GenericSettings() As IGenericSettings
             Get
@@ -117,11 +118,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             End Get
         End Property
         Protected Overrides Sub InspectUnsetParameter(ByVal Param As String)
-            ' We only get called if InspectUnsetParameters is True
-            If String.Equals(Param, "importance", StringComparison.CurrentCultureIgnoreCase) Then
-                Template.AddTemplateParmFromExistingTemplate("priority", "") ' NewTemplateParm could throw an error when importance= existed and was changed to priority and then we find another and do the same
-                article.DoneReplacement("importance", "priority", True, PluginShortName)
-            End If
         End Sub
         Protected Overrides Function SkipIfContains() As Boolean
             ' We'll also do SkierBot tidying here, as this is the first chance we get to process the article outside Pluginbase
@@ -226,26 +222,24 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Protected Overrides Function TemplateFound() As Boolean
             With Template
                 If .Parameters.ContainsKey("importance") Then
-                    If .Parameters.ContainsKey("priority") Then
-                        If Not .Parameters("importance").Value = .Parameters("priority").Value AndAlso _
-                        Not .Parameters("importance").Value = "" AndAlso Not .Parameters("priority").Value = "" Then
-                            ' if they're not equal and both are not empty we have a bad tag
-                            Return True
-                        Else
-                            article.EditSummary += "rm importance param, has priority=, "
-                            PluginManager.AWBForm.TraceManager.WriteArticleActionLine( _
-                               "importance parameter removed, has priority=", PluginShortName)
-                        End If
-                    Else
-                        .Parameters.Add("priority", _
-                           New Templating.TemplateParametersObject("priority", _
-                           .Parameters("importance").Value))
-                        article.DoneReplacement("importance", "priority", True, PluginShortName)
-                    End If
                     .Parameters.Remove("importance")
                     article.ArticleHasAMinorChange()
                 End If
+                If .Parameters.ContainsKey("priority") Then
+                    Dim priorityValue As String = .Parameters("priority").Value
+
+                    For Each kvp As KeyValuePair(Of String, TemplateParametersObject) In .Parameters
+                        If kvp.Key.Contains("-priority") AndAlso kvp.Value.Value <> "" Then
+                            kvp.Value.Value = priorityValue
+                        End If
+                    Next
+
+                    .Parameters.Remove("priority")
+                    article.ArticleHasAMinorChange()
+                End If
             End With
+
+            Return False
         End Function
         Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
         End Sub
@@ -269,8 +263,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                     .Parameters.Remove("living") ' we've written this parameter; if we leave it in the collection PluginBase.TemplateWritingAndPlacement() will write it again
                 End If
 
-                res += WriteOutParameterToHeader("class") & _
-                   WriteOutParameterToHeader("priority")
+                res += WriteOutParameterToHeader("class")
             End With
 
             Return res
