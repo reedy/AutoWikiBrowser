@@ -20,31 +20,31 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         'Do not modify it using the code editor.
         <System.Diagnostics.DebuggerStepThrough()> _
         Private Sub InitializeComponent()
-            Me.components = New System.ComponentModel.Container
+            Me.components = New System.ComponentModel.Container()
             Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-            Me.StubClassCheckBox = New System.Windows.Forms.CheckBox
-            Me.AutoStubCheckBox = New System.Windows.Forms.CheckBox
-            Me.TemplateNameTextBox = New System.Windows.Forms.TextBox
-            Me.AlternateNamesTextBox = New System.Windows.Forms.TextBox
-            Me.CatsCheckedListBox = New System.Windows.Forms.CheckedListBox
-            Me.Label3 = New System.Windows.Forms.Label
-            Me.TemplatesCheckedListBox = New System.Windows.Forms.CheckedListBox
-            Me.AutoStubSupportYNCheckBox = New System.Windows.Forms.CheckBox
-            Me.SkipRegexTextBox = New System.Windows.Forms.TextBox
-            Me.SkipRegexCheckBox = New System.Windows.Forms.CheckBox
-            Me.GroupBox1 = New System.Windows.Forms.GroupBox
-            Me.GetRedirectsButton = New System.Windows.Forms.Button
-            Me.HasAlternateNamesCheckBox = New System.Windows.Forms.CheckBox
-            Me.Label2 = New System.Windows.Forms.Label
-            Me.Label1 = New System.Windows.Forms.Label
-            Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
-            Me.GroupBox2 = New System.Windows.Forms.GroupBox
-            Me.TipLabel = New System.Windows.Forms.Label
-            Me.GroupBox3 = New System.Windows.Forms.GroupBox
-            Me.Label5 = New System.Windows.Forms.Label
-            Me.Label4 = New System.Windows.Forms.Label
-            Me.ImportanceCheckedListBox = New System.Windows.Forms.CheckedListBox
-            Me.PropertiesButton = New System.Windows.Forms.Button
+            Me.StubClassCheckBox = New System.Windows.Forms.CheckBox()
+            Me.AutoStubCheckBox = New System.Windows.Forms.CheckBox()
+            Me.TemplateNameTextBox = New System.Windows.Forms.TextBox()
+            Me.AlternateNamesTextBox = New System.Windows.Forms.TextBox()
+            Me.CatsCheckedListBox = New System.Windows.Forms.CheckedListBox()
+            Me.Label3 = New System.Windows.Forms.Label()
+            Me.TemplatesCheckedListBox = New System.Windows.Forms.CheckedListBox()
+            Me.AutoStubSupportYNCheckBox = New System.Windows.Forms.CheckBox()
+            Me.SkipRegexTextBox = New System.Windows.Forms.TextBox()
+            Me.SkipRegexCheckBox = New System.Windows.Forms.CheckBox()
+            Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+            Me.GetRedirectsButton = New System.Windows.Forms.Button()
+            Me.HasAlternateNamesCheckBox = New System.Windows.Forms.CheckBox()
+            Me.Label2 = New System.Windows.Forms.Label()
+            Me.Label1 = New System.Windows.Forms.Label()
+            Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
+            Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+            Me.TipLabel = New System.Windows.Forms.Label()
+            Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+            Me.Label5 = New System.Windows.Forms.Label()
+            Me.Label4 = New System.Windows.Forms.Label()
+            Me.ImportanceCheckedListBox = New System.Windows.Forms.CheckedListBox()
+            Me.PropertiesButton = New System.Windows.Forms.Button()
             Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
             Me.GroupBox1.SuspendLayout()
             Me.GroupBox2.SuspendLayout()

@@ -182,8 +182,8 @@ namespace WikiFunctions.TalkPages
             return articleText;
         }
 
-        private static List<string> BannerShellRedirects = new List<string>(new[] { "WikiProject Banners", "WikiProjectBanners", "WPBS", "WPB", "Wpb", "Wpbs" });
-        private static List<string> Nos = new List<string>(new[] { "blp", "activepol", "collapsed" });
+        private static readonly List<string> BannerShellRedirects = new List<string>(new[] { "WikiProject Banners", "WikiProjectBanners", "WPBS", "WPB", "Wpb", "Wpbs" });
+        private static readonly List<string> Nos = new List<string>(new[] { "blp", "activepol", "collapsed" });
         private static readonly Regex BLPRegex = Tools.NestedTemplateRegex(new[] { "blp", "BLP", "Blpinfo" });
 
         /// <summary>
