@@ -269,10 +269,5 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             OurSettingsControl.InspectUnsetParameters = Not BotMode
             If BotMode Then OurSettingsControl.ExtraChecks = False
         End Sub
-
-        Private Function conSkierBotPlaceholder() As Object
-            Throw New NotImplementedException
-        End Function
-
     End Class
 End Namespace
