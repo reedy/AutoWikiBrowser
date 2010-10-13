@@ -54,13 +54,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
            RegexOptions.IgnoreCase Or RegexOptions.Compiled Or RegexOptions.ExplicitCapture)
         Private Shared ReadOnly ActivepolRegex As New Regex(TemplatePrefix & "(Activepolitician|Activepol)\s*\}\}\s*", _
            RegexOptions.IgnoreCase Or RegexOptions.Compiled Or RegexOptions.ExplicitCapture)
-        Private Shared ReadOnly SkierBotRegex As New Regex( _
-           "<!-- begin Bot added message -->\s*This article has been automatically assessed as.*Biography.*?<!-- end Bot added message -->", _
-           RegexOptions.Compiled Or RegexOptions.Singleline) ' Bizarrely, Singleline causes a "." to match linebreaks, Multiline doesn't! :) http://www.thescripts.com/forum/thread223868.html
-        Private Shared ReadOnly SkierBotPlaceholderRegex As New Regex(Regex.Escape(conSkierBotPlaceholder), RegexOptions.Compiled)
-
-        ' Strings:
-        Private Const conSkierBotPlaceholder As String = "<xxxSKIERBOTPLACEHOLDERxxx>"
 
         ' Settings:
         Private OurTab As New TabPage(Constants.Biography)
@@ -120,8 +113,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Protected Overrides Sub InspectUnsetParameter(ByVal Param As String)
         End Sub
         Protected Overrides Function SkipIfContains() As Boolean
-            ' We'll also do SkierBot tidying here, as this is the first chance we get to process the article outside Pluginbase
-            article.AlteredArticleText = SkierBotRegex.Replace(article.AlteredArticleText, conSkierBotPlaceholder)
             Return False
         End Function
         Protected Overrides Sub ProcessArticleFinish()
@@ -211,9 +202,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                     End If
                 End If
             End With
-
-            ReplaceATemplateWithAYesParameter(SkierBotPlaceholderRegex, "auto", "boilerplate text")
-
         End Sub
         ''' <summary>
         ''' Send the template to the plugin for preinspection
@@ -298,5 +286,10 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             OurSettingsControl.InspectUnsetParameters = Not BotMode
             If BotMode Then OurSettingsControl.ExtraChecks = False
         End Sub
+
+        Private Function conSkierBotPlaceholder() As Object
+            Throw New NotImplementedException
+        End Function
+
     End Class
 End Namespace
