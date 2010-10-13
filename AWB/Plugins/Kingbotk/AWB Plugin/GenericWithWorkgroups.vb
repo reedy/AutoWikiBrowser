@@ -22,6 +22,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.params = params
 
             AutoStubCheckBox.Enabled = autoStubEnabled
+            InspectUnsetCheckBox.Visible = inspectUnsetEnabled
             InspectUnsetCheckBox.Enabled = inspectUnsetEnabled
 
             LinkLabel1.Text = "{{" & template & "}}"

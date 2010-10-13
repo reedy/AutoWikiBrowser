@@ -25,7 +25,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             MyBase.New("WikiProject Biography|Wpbiography|WPBIO|WP Biography|WPbiography|Wikiproject Biography|WP Bio|Bio") ' Specify alternate names only
 
             OurSettingsControl = New BioWithWorkgroups(PluginName, Prefix, True, False, params)
-            OurSettingsControl.ExtraChecksText = "Force listas"
         End Sub
 
         Private Const PluginName As String = "WPBiography"
@@ -179,7 +178,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             End Select
 
             With article
-                If .Namespace = [Namespace].Talk AndAlso (.ProcessIt OrElse OurSettingsControl.ExtraChecks) AndAlso Not PluginManager.BotMode Then
+                If .Namespace = [Namespace].Talk AndAlso .ProcessIt AndAlso Not PluginManager.BotMode Then
                     ' Since we're dealing with talk pages, we want a listas= even if it's the same as the
                     ' article title without namespace (otherwise it sorts to namespace)
                     Template.NewOrReplaceTemplateParm("listas", _
@@ -260,7 +259,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Sub
         Protected Friend Overrides Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
             Writer.WriteAttributeString(Prefix & "Enabled", Enabled.ToString)
-            Writer.WriteAttributeString(Prefix & "ForceListasParm", OurSettingsControl.ExtraChecks.ToString)
             OurSettingsControl.WriteXML(Writer)
         End Sub
 
