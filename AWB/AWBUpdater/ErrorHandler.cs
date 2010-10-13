@@ -48,7 +48,13 @@ namespace AwbUpdater
                 FormatException(ex, errorMessage, ExceptionKind.TopLevel);
                 errorMessage.AppendLine("</table>\r\n~~~~");
                 errorMessage.AppendLine(" | OS          = " + Environment.OSVersion);
-                errorMessage.AppendLine(" | version     = " + Assembly.GetExecutingAssembly().GetName().Version);
+
+                AssemblyName hostingApp = Assembly.GetExecutingAssembly().GetName();
+
+                errorMessage.Append(string.Format(" | version     = {0} ({1}), {2} ({3})", Application.ProductName,
+                                                  Application.ProductVersion,
+                                                  hostingApp.Name, hostingApp.Version));
+
                 errorMessage.AppendLine(" | net = " + Environment.Version);
                 errorMessage.AppendLine(" | workaround     = <!-- Any workaround for the problem -->");
                 errorMessage.AppendLine(" | fix_version    = <!-- Version of AWB the fix will be included in; AWB developer will complete when it's fixed -->");
