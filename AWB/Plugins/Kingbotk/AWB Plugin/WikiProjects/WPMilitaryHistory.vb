@@ -8,8 +8,7 @@
     Friend Sub New()
         MyBase.New("WikiProject Military History") ' Specify alternate names only
 
-        OurSettingsControl = New GenericWithWorkgroups(TemplateName, PluginName, False, True, params)
-        OurSettingsControl.InspectUnsetText = "Remove importance"
+        OurSettingsControl = New GenericWithWorkgroups(TemplateName, PluginName, False, False, params)
     End Sub
 
     ' Settings:
@@ -126,15 +125,6 @@
     End Sub
 
     ' Article processing:
-    Protected Overrides ReadOnly Property InspectUnsetParameters() As Boolean
-        Get
-            Return OurSettingsControl.InspectUnsetParameters
-        End Get
-    End Property
-
-    Protected Overrides Sub InspectUnsetParameter(ByVal Param As String)
-    End Sub
-
     Protected Overrides Function SkipIfContains() As Boolean
     End Function
 

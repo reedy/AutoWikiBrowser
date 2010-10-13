@@ -104,13 +104,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Sub
 
         ' Article processing:
-        Protected Overrides ReadOnly Property InspectUnsetParameters() As Boolean
-            Get
-                Return False
-            End Get
-        End Property
-        Protected Overrides Sub InspectUnsetParameter(ByVal Param As String)
-        End Sub
         Protected Overrides Function SkipIfContains() As Boolean
             Return False
         End Function

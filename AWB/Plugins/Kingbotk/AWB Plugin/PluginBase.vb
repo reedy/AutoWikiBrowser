@@ -16,7 +16,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
     Friend MustInherit Class PluginBase
         ' Settings:
         Protected Friend MustOverride ReadOnly Property PluginShortName() As String
-        Protected MustOverride ReadOnly Property InspectUnsetParameters() As Boolean
         Protected Const ForceAddition As Boolean = True ' we might want to parameterise this later
 
         Protected Overridable ReadOnly Property ParameterBreak() As String
@@ -135,7 +134,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         End Function
 
         ' Article processing:
-        Protected MustOverride Sub InspectUnsetParameter(ByVal Param As String)
         Protected MustOverride Function SkipIfContains() As Boolean
         ''' <summary>
         ''' Send the template to the plugin for preinspection
@@ -160,13 +158,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                         Dim value As String = match.Groups("val").Captures(i).Value
                         Dim parm As String = match.Groups("parm").Captures(i).Value
 
-                        If value = "" Then
-                            If InspectUnsetParameters Then
-                                InspectUnsetParameter(parm)
-                            End If
-                        Else
-                            Template.AddTemplateParmFromExistingTemplate(parm, value)
-                        End If
+                        Template.AddTemplateParmFromExistingTemplate(parm, value)
                     Next
                 End If
             End If
