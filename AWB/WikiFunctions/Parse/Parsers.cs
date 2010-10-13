@@ -1115,8 +1115,8 @@ namespace WikiFunctions.Parse
         {
             /* On en-wiki AWB is asked not to add named references to an article if there are none currently, as some users feel
              * this is a change of citation style, so is against the [[WP:CITE]] "don't change established style" guidelines */
-            //if (Variables.LangCode.Equals("en") && !HasNamedReferences(articleText))
-            //    return articleText;
+            if (Variables.LangCode.Equals("en") && !HasNamedReferences(articleText))
+                return articleText;
 
             Dictionary<int, List<Ref>> refs = new Dictionary<int, List<Ref>>();
             bool haveRefsToFix = false;
