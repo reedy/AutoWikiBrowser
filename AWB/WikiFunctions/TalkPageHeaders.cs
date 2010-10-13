@@ -53,11 +53,6 @@ namespace WikiFunctions.TalkPages
 
     public static class TalkPageHeaders
     {
-        public static bool ContainsDefaultSortKeywordOrTemplate(string articleText)
-        {
-            return WikiRegexes.Defaultsort.IsMatch(articleText);
-        }
-
         /// <summary>
         /// Processes talk pages: moves any talk page header template, moves any default, adds a section heading if missing
         /// </summary>

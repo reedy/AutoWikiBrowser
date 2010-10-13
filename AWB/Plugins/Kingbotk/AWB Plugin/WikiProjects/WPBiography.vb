@@ -117,7 +117,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Function
         Protected Overrides Sub ProcessArticleFinish()
             Dim Living As Living = Living.Unknown, LivingAlreadyAddedToEditSummary As Boolean
-            Const conContainsDefaultSortKeyword As String = "Page contains DEFAULTSORT keyword: "
 
             With article
                 If BLPRegex.Matches(.AlteredArticleText).Count > 0 Then
@@ -180,26 +179,12 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             End Select
 
             With article
-
-                If .Namespace = [Namespace].Talk AndAlso (.ProcessIt OrElse OurSettingsControl.ExtraChecks) Then
-                    If WikiFunctions.TalkPages.TalkPageHeaders.ContainsDefaultSortKeywordOrTemplate( _
-                    .AlteredArticleText) Then
-                        If Template.Parameters.ContainsKey("listas") Then
-                            Template.Parameters.Remove("listas")
-                            PluginManager.AWBForm.TraceManager.WriteArticleActionLine(conContainsDefaultSortKeyword & _
-                               "removing listas parameter", PluginShortName)
-                            .ArticleHasAMajorChange()
-                        ElseIf Not PluginManager.BotMode Then
-                            PluginManager.AWBForm.TraceManager.WriteArticleActionLine1(conContainsDefaultSortKeyword & _
-                               "not adding listas parameter", PluginShortName, True)
-                        End If
-                    ElseIf Not PluginManager.BotMode Then
-                        ' Since we're dealing with talk pages, we want a listas= even if it's the same as the
-                        ' article title without namespace (otherwise it sorts to namespace)
-                        Template.NewOrReplaceTemplateParm("listas", _
-                        WikiFunctions.Tools.MakeHumanCatKey(article.FullArticleTitle), article, _
-                        True, False, True, "", PluginShortName)
-                    End If
+                If .Namespace = [Namespace].Talk AndAlso (.ProcessIt OrElse OurSettingsControl.ExtraChecks) AndAlso Not PluginManager.BotMode Then
+                    ' Since we're dealing with talk pages, we want a listas= even if it's the same as the
+                    ' article title without namespace (otherwise it sorts to namespace)
+                    Template.NewOrReplaceTemplateParm("listas", _
+                    WikiFunctions.Tools.MakeHumanCatKey(article.FullArticleTitle), article, _
+                    True, False, True, "", PluginShortName)
                 End If
             End With
         End Sub
