@@ -161,7 +161,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                         Dim parm As String = match.Groups("parm").Captures(i).Value
 
                         If value = "" Then
-                            If InspectUnsetParameters Then InspectUnsetParameter(parm)
+                            If InspectUnsetParameters Then
+                                InspectUnsetParameter(parm)
+                            End If
                         Else
                             Template.AddTemplateParmFromExistingTemplate(parm, value)
                         End If

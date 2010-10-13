@@ -133,10 +133,6 @@
     End Property
 
     Protected Overrides Sub InspectUnsetParameter(ByVal Param As String)
-        ' We only get called if InspectUnsetParameters is True
-        If String.Equals(Param, "importance", StringComparison.CurrentCultureIgnoreCase) Then
-            Article.DoneReplacement("importance=", "", True, PluginShortName)
-        End If
     End Sub
 
     Protected Overrides Function SkipIfContains() As Boolean
