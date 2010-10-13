@@ -13,7 +13,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Implements IGenericSettings
 
         Public Sub New(ByVal template As String, ByVal prefix As String, ByVal autoStubEnabled As Boolean, _
-                       ByVal inspectUnsetEnabled As Boolean, ByVal ParamArray params() As TemplateParameters)
+                       ByVal ParamArray params() As TemplateParameters)
             ' This call is required by the designer.
             InitializeComponent()
 
@@ -22,8 +22,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.params = params
 
             AutoStubCheckBox.Enabled = autoStubEnabled
-            InspectUnsetCheckBox.Visible = inspectUnsetEnabled
-            InspectUnsetCheckBox.Enabled = inspectUnsetEnabled
 
             LinkLabel1.Text = "{{" & template & "}}"
             InsertTemplateToolStripMenuItem.Text = "{{" & template & "}}"
@@ -98,10 +96,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
             StubClass = PluginManager.XMLReadBoolean(Reader, Prefix & conStubClassParm, StubClass)
 
-            If InspectUnsetCheckBox.Enabled Then
-                InspectUnsetParameters = PluginManager.XMLReadBoolean(Reader, Prefix & conForceImportanceRemoval, InspectUnsetParameters)
-            End If
-
             If AutoStubCheckBox.Enabled Then
                 PluginManager.XMLReadBoolean(Reader, Prefix & conAutoStubParm, AutoStub)
             End If
@@ -116,10 +110,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
                 .WriteAttributeString(Prefix & conStubClassParm, StubClass.ToString)
 
-                If InspectUnsetCheckBox.Enabled Then
-                    .WriteAttributeString(Prefix & conForceImportanceRemoval, InspectUnsetParameters.ToString)
-                End If
-
                 If AutoStubCheckBox.Enabled Then
                     .WriteAttributeString(Prefix & conAutoStubParm, AutoStub.ToString)
                 End If
@@ -129,7 +119,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Friend Sub Reset() Implements IGenericSettings.XMLReset
             StubClass = False
             AutoStub = False
-            InspectUnsetParameters = False
+            ExtraChecks = False
 
             For Each lvi As ListViewItem In ListView1.Items
                 lvi.Checked = False
@@ -158,21 +148,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             End Get
             Set(ByVal value As Boolean)
                 AutoStubCheckBox.Checked = value
-            End Set
-        End Property
-
-        Friend Property InspectUnsetParameters() As Boolean
-            Get
-                Return InspectUnsetCheckBox.Enabled AndAlso InspectUnsetCheckBox.Checked
-            End Get
-            Set(ByVal value As Boolean)
-                InspectUnsetCheckBox.Checked = value
-            End Set
-        End Property
-
-        Friend WriteOnly Property InspectUnsetText() As String
-            Set(ByVal value As String)
-                InspectUnsetCheckBox.Text = value
             End Set
         End Property
 

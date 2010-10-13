@@ -2,8 +2,8 @@
     Inherits GenericWithWorkgroups
 
     Public Sub New(ByVal template As String, ByVal prefix As String, ByVal autoStubEnabled As Boolean, _
-                   ByVal inspectUnsetEnabled As Boolean, ByVal ParamArray params() As TemplateParameters)
-        MyBase.New(template, prefix, autoStubEnabled, inspectUnsetEnabled, params)
+                   ByVal ParamArray params() As TemplateParameters)
+        MyBase.New(template, prefix, autoStubEnabled, params)
     End Sub
 
     Private Sub ListView1_ItemChecked(ByVal sender As Object, ByVal e As ItemCheckedEventArgs) _

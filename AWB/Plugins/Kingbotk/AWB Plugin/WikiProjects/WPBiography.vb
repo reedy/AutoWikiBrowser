@@ -24,7 +24,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Friend Sub New()
             MyBase.New("WikiProject Biography|Wpbiography|WPBIO|WP Biography|WPbiography|Wikiproject Biography|WP Bio|Bio") ' Specify alternate names only
 
-            OurSettingsControl = New BioWithWorkgroups(PluginName, Prefix, True, False, params)
+            OurSettingsControl = New BioWithWorkgroups(PluginName, Prefix, True, params)
         End Sub
 
         Private Const PluginName As String = "WPBiography"
@@ -259,8 +259,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Protected Friend Overrides Sub BotModeChanged(ByVal BotMode As Boolean)
             MyBase.BotModeChanged(BotMode)
 
-            OurSettingsControl.InspectUnsetParameters = Not BotMode
-            If BotMode Then OurSettingsControl.ExtraChecks = False
+            If BotMode Then
+                OurSettingsControl.ExtraChecks = False
+            End If
         End Sub
     End Class
 End Namespace

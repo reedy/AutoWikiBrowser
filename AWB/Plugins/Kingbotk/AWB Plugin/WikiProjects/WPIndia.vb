@@ -68,7 +68,7 @@
     Friend Sub New()
         MyBase.New("") ' Specify alternate names only
 
-        OurSettingsControl = New GenericWithWorkgroups(PluginName, Prefix, True, False, params)
+        OurSettingsControl = New GenericWithWorkgroups(PluginName, Prefix, True, params)
     End Sub
 
     Protected Friend Overrides ReadOnly Property PluginShortName() As String

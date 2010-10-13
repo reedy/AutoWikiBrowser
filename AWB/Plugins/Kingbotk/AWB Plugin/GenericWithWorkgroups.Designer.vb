@@ -32,7 +32,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.ListView1 = New System.Windows.Forms.ListView()
             Me.colWG = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
             Me.ParametersGroup = New System.Windows.Forms.GroupBox()
-            Me.InspectUnsetCheckBox = New System.Windows.Forms.CheckBox()
             Me.ExtraCheckBox = New System.Windows.Forms.CheckBox()
             Me.TextInsertContextMenuStrip.SuspendLayout()
             Me.ParametersGroup.SuspendLayout()
@@ -54,13 +53,13 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'InsertTemplateToolStripMenuItem
             '
             Me.InsertTemplateToolStripMenuItem.Name = "InsertTemplateToolStripMenuItem"
-            Me.InsertTemplateToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+            Me.InsertTemplateToolStripMenuItem.Size = New System.Drawing.Size(90, 22)
             Me.InsertTemplateToolStripMenuItem.Text = "{{}}"
             '
             'ToolStripSeparator1
             '
             Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-            Me.ToolStripSeparator1.Size = New System.Drawing.Size(149, 6)
+            Me.ToolStripSeparator1.Size = New System.Drawing.Size(87, 6)
             '
             'AutoStubCheckBox
             '
@@ -113,7 +112,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'ParametersGroup
             '
             Me.ParametersGroup.Controls.Add(Me.ExtraCheckBox)
-            Me.ParametersGroup.Controls.Add(Me.InspectUnsetCheckBox)
             Me.ParametersGroup.Controls.Add(Me.AutoStubCheckBox)
             Me.ParametersGroup.Controls.Add(Me.StubClassCheckBox)
             Me.ParametersGroup.Location = New System.Drawing.Point(3, 293)
@@ -123,19 +121,10 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.ParametersGroup.TabStop = False
             Me.ParametersGroup.Text = "Template Parameters"
             '
-            'InspectUnsetCheckBox
-            '
-            Me.InspectUnsetCheckBox.AutoSize = True
-            Me.InspectUnsetCheckBox.Location = New System.Drawing.Point(6, 31)
-            Me.InspectUnsetCheckBox.Name = "InspectUnsetCheckBox"
-            Me.InspectUnsetCheckBox.Size = New System.Drawing.Size(15, 14)
-            Me.InspectUnsetCheckBox.TabIndex = 5
-            Me.InspectUnsetCheckBox.UseVisualStyleBackColor = True
-            '
             'ExtraCheckBox
             '
             Me.ExtraCheckBox.AutoSize = True
-            Me.ExtraCheckBox.Location = New System.Drawing.Point(88, 31)
+            Me.ExtraCheckBox.Location = New System.Drawing.Point(6, 33)
             Me.ExtraCheckBox.Name = "ExtraCheckBox"
             Me.ExtraCheckBox.Size = New System.Drawing.Size(15, 14)
             Me.ExtraCheckBox.TabIndex = 6
@@ -171,7 +160,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Private WithEvents ParametersGroup As System.Windows.Forms.GroupBox
         Private WithEvents AutoStubCheckBox As System.Windows.Forms.CheckBox
         Private WithEvents StubClassCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents InspectUnsetCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents ExtraCheckBox As System.Windows.Forms.CheckBox
 
     End Class

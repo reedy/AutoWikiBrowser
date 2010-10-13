@@ -8,7 +8,7 @@
 
         Dim params(-1) As TemplateParameters
 
-        OurSettingsControl = New GenericWithWorkgroups("WikiProject Albums", PluginName, True, False, params)
+        OurSettingsControl = New GenericWithWorkgroups("WikiProject Albums", PluginName, True, params)
     End Sub
 
     ' Settings:
