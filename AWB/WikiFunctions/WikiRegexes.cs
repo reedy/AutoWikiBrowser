@@ -263,6 +263,11 @@ namespace WikiFunctions
         /// Dictionary of template redirects (as a nested template regex) and the actual template name
         /// </summary>
         public static Dictionary<Regex, string> TemplateRedirects = new Dictionary<Regex, string>();
+        
+        /// <summary>
+        /// List of templates that should be dated (with date=Month YYYY on en-wiki)
+        /// </summary>
+        public static List<Regex> DatedTemplates = new List<Regex>();
 
         /// <summary>
         /// Piece of template call, including curly brace and possible namespace
@@ -699,7 +704,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches an external link (URL only, no title) within a &lt;ref&gt; tag with a bot generated title or no title, group 1 being the URL, group 2 being the title, if any
         /// </summary>
-        public static readonly Regex BareRefExternalLinkBotGenTitle = new Regex(@"<\s*ref\b[^<>]*>\s*(?<brace>\[+)?\s*((?:https?|ftp|mailto)://[^\ \n\r<>]+?)\s*(?:\s+([^<>{}]+?)\s*<!--\s*Bot generated title\s*-->)?(?(brace)\]+|)[\.,:;\s]*<\s*/\s*ref\s*>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex BareRefExternalLinkBotGenTitle = new Regex(@"<\s*ref\b[^<>]*>\s*\[*\s*((?:https?|ftp|mailto)://[^\ \n\r<>]+?)\s*(?:\s+([^<>{}]+?)\s*<!--\s*Bot generated title\s*-->)?\]*[\.,:;\s]*<\s*/\s*ref\s*>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         
         /// <summary>
         /// Matches the various citation templates {{citation}}, {{cite web}} etc. on en-wiki
@@ -895,7 +900,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the sister links templates such as {{wiktionary}}
         /// </summary>
-        public static readonly Regex SisterLinks = Tools.NestedTemplateRegex(new[] { "wiktionary", "sisterlinks", "sister project links", "wikibooks" } );
+        public static readonly Regex SisterLinks = Tools.NestedTemplateRegex(new[] { "wiktionary", "sisterlinks", "sister links", "sister project links", "wikibooks", "sisterlinks2", "wikimedia" } );
         
         /// <summary>
         /// Matches the maintenance tags (en-wiki only) such as orphan, cleanup
