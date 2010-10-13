@@ -8,6 +8,8 @@
 
 'You should have received a copy of the GNU General Public License Version 2 along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
+Imports Microsoft.VisualBasic
+
 Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
     Friend NotInheritable Class GenericTemplateSettings
         Implements IGenericSettings
@@ -571,8 +573,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                     OurSettingsControl.HasAlternateNamesCheckBox.Checked = Not (OurSettingsControl.AlternateNames = "")
                 Catch ex As Exception
                     MessageBox.Show("Whoops, we caught an error when trying to get the redirects from Wikipedia." & _
-                       Microsoft.VisualBasic.vbCrLf & Microsoft.VisualBasic.vbCrLf & "The error was:" & ex.Message & _
-                       Microsoft.VisualBasic.vbCrLf & Microsoft.VisualBasic.vbCrLf & "Depending on the error you might want to " & _
+                       vbCrLf & vbCrLf & "The error was:" & ex.Message & _
+                       vbCrLf & vbCrLf & "Depending on the error you might want to " & _
                        "try again by repressing Get. If this shouldn't have happened please report it to the authors.")
                 End Try
             End If

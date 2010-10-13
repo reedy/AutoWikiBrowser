@@ -2497,7 +2497,7 @@ Message: {2}
         /// <returns>the template name</returns>
         public static string GetTemplateName(string templateCall)
         {            
-            string TemplateNamespace = "";
+            string TemplateNamespace;
             
             try
             {
