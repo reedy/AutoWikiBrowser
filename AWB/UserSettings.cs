@@ -153,7 +153,7 @@ namespace AutoWikiBrowser
             catch { return; }
             finally
             {
-                SplashScreen.SetProgress(66);
+                SplashScreen.SetProgress(70);
             }
         }
 

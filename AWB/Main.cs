@@ -117,6 +117,8 @@ namespace AutoWikiBrowser
         {
             DiffScriptingAdapter = new JsAdapter(this);
 
+            Updater.UpdateUpdaterFile();
+
             SplashScreen.Show(this);
             RightToLeft = System.Globalization.CultureInfo.CurrentCulture.TextInfo.IsRightToLeft
                 ? RightToLeft.Yes : RightToLeft.No;
@@ -281,8 +283,6 @@ namespace AutoWikiBrowser
                 UpdateButtons(null, null);
                 SplashScreen.SetProgress(62);
                 LoadRecentSettingsList(); // progress 63-66 in LoadRecentSettingsList()
-
-                Updater.UpdateUpdaterFile(SplashScreen.SetProgress); // progress 67-70 in UpdateUpdaterFile()
 
                 Updater.WaitForCompletion();
 
