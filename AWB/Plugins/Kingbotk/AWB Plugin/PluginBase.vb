@@ -108,7 +108,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
 
                 ' OK, we're in business:
                 res = True
-                If Me.HasReqPhotoParam AndAlso AddReqPhotoParm Then Me.ReqPhoto()
+                If Me.HasReqPhotoParam AndAlso AddReqPhotoParm Then
+                    Me.ReqPhoto()
+                End If
 
                 ProcessArticleFinish()
                 If Not ProcessTalkPageMode = ProcessTalkPageMode.Normal Then
@@ -256,9 +258,13 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                     ImportanceParameter(Importance)
             End Select
 
-            If ForceNeedsInfobox Then AddAndLogNewParamWithAYesValue("needs-infobox")
+            If ForceNeedsInfobox Then
+                AddAndLogNewParamWithAYesValue("needs-infobox")
+            End If
 
-            If ForceNeedsAttention Then AddAndLogNewParamWithAYesValue("attention")
+            If ForceNeedsAttention Then
+                AddAndLogNewParamWithAYesValue("attention")
+            End If
 
             If RemoveAutoStub Then
                 With Me.article
