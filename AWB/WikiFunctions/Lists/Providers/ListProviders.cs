@@ -1368,12 +1368,16 @@ namespace WikiFunctions.Lists.Providers
     /// <summary>
     /// Returns a list of new pages, by default in the 0 namespace
     /// </summary>
-    /// <remarks>Slow query!</remarks>
+    /// <remarks>
+    /// Slow(ish) query! Api has:
+    /// ApiBase::PARAM_MAX => ApiBase::LIMIT_BIG1
+    /// ApiBase::PARAM_MAX2 => ApiBase::LIMIT_BIG2
+    /// </remarks>
     public class NewPagesListProvider : ApiListProviderBase, ISpecialPageProvider
     {
         public NewPagesListProvider()
         {
-            Limit = 100; // slow query
+            Limit = 500;
         }
 
         #region Tags: <recentchanges>/<rc>
@@ -1400,7 +1404,7 @@ namespace WikiFunctions.Lists.Providers
             List<Article> list = new List<Article>();
 
             string url = "list=recentchanges"
-                         + "&rclimit=100&rctype=new&rcshow=!redirect&rcnamespace=" + Namespace;
+                         + "&rclimit=500&rctype=new&rcshow=!redirect&rcnamespace=" + Namespace;
 
             list.AddRange(ApiMakeList(url, list.Count));
 
