@@ -80,7 +80,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.TemplateNameTextBox.Name = "TemplateNameTextBox"
             Me.TemplateNameTextBox.Size = New System.Drawing.Size(90, 20)
             Me.TemplateNameTextBox.TabIndex = 0
-            Me.ToolTip1.SetToolTip(Me.TemplateNameTextBox, "The usual (preferred) name of the template. Don't include Template:")
+            Me.ToolTip1.SetToolTip(Me.TemplateNameTextBox, "The usual (preferred) name of the template. e.g. {{Target}}")
             '
             'AlternateNamesTextBox
             '
