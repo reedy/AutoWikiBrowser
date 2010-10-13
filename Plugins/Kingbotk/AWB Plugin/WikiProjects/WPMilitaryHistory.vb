@@ -8,7 +8,7 @@
     Friend Sub New()
         MyBase.New("WikiProject Military History") ' Specify alternate names only
 
-        OurSettingsControl = New GenericWithWorkgroups(TemplateName, PluginName, False, False, params)
+        OurSettingsControl = New GenericWithWorkgroups(TemplateName, PluginName, False, params)
     End Sub
 
     ' Settings:

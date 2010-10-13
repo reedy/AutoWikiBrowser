@@ -8,7 +8,7 @@
 
         Dim params(-1) As TemplateParameters
 
-        OurSettingsControl = New GenericWithWorkgroups("WikiProject Songs", PluginName, True, False, params)
+        OurSettingsControl = New GenericWithWorkgroups("WikiProject Songs", PluginName, True, params)
     End Sub
 
     ' Regular expressions:

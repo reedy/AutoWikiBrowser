@@ -23,7 +23,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Friend Sub New()
             MyBase.New("Novels|WPNovels") ' Specify alternate names only
 
-            OurSettingsControl = New GenericWithWorkgroups(PluginName, Prefix, True, False, params)
+            OurSettingsControl = New GenericWithWorkgroups(PluginName, Prefix, True, params)
         End Sub
 
         Dim params() As TemplateParameters =
