@@ -146,15 +146,13 @@ namespace WikiFunctions
         /// <summary>
         /// Checks to see if AWBUpdater.exe.new exists, if it does, replace it.
         /// </summary>
-        public static void UpdateUpdaterFile(Tools.SetProgress setProgress)
+        public static void UpdateUpdaterFile()
         {
-            setProgress(67);
             if (File.Exists(AWBDirectory + "AWBUpdater.exe.new"))
             {
                 File.Copy(AWBDirectory + "AWBUpdater.exe.new", AWBDirectory + "AWBUpdater.exe", true);
                 File.Delete(AWBDirectory + "AWBUpdater.exe.new");
             }
-            setProgress(70);
         }
 
         /// <summary>
