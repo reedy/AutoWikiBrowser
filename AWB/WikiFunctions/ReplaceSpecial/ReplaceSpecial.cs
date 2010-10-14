@@ -299,7 +299,10 @@ namespace WikiFunctions.ReplaceSpecial
             if (parent != null)
             {
                 IRule rule = (IRule)parent.Tag;
-                rule.Children.Remove((IRule)st.Tag);
+                if (rule.Children != null)
+                {
+                    rule.Children.Remove((IRule) st.Tag);
+                }
             }
 
             RulesTreeView.Nodes.Remove(st);
