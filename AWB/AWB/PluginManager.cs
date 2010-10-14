@@ -210,7 +210,7 @@ namespace AutoWikiBrowser
 
                 builder.AppendLine("<table>");
                 builder.AppendLine("<tr>");
-                builder.AppendLine("<th>AWBBasePlugins</th>");
+                builder.AppendLine("<th>AWBPlugins</th>");
                 builder.AppendLine("<th>AWBBasePlugins</th>");
                 builder.AppendLine("<th>ListMakerPlugins</th>");
                 builder.AppendLine("</tr>");

@@ -234,8 +234,6 @@ namespace AutoWikiBrowser
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            //Updater.CheckForUpdates(); // start background checks
-
             EditBoxTab.TabPages.Remove(tpTypos);
 
             StatusLabelText = "Initialising...";
@@ -277,7 +275,6 @@ namespace AutoWikiBrowser
                 Release();
 
                 Plugin.LoadPluginsStartup(this, SplashScreen); // progress 25-50 in LoadPlugins()
-
                 LoadPrefs(); // progress 50-59 in LoadPrefs()
 
                 SplashScreen.SetProgress(60);
