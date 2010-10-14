@@ -2710,7 +2710,20 @@ Template:foo}}"));
             
             const string Correct = @"* [http://www.site.com text (here) there]";
             Assert.AreEqual(Correct, Parsers.FixSyntax(Correct));
-            
+        }
+        
+        [Test]
+        public void TestFixSyntaxRemoveEmptyGallery()
+        {
+            Assert.AreEqual("", Parsers.FixSyntax(@"<gallery></gallery>"));
+            Assert.AreEqual("", Parsers.FixSyntax(@"<gallery>
+</gallery>"));
+            Assert.AreEqual("", Parsers.FixSyntax(@"<gallery>   </gallery>"));
+            Assert.AreEqual("", Parsers.FixSyntax(@"< Gallery >   </gallery>"));
+
+            const string Gallery = @"<gallery>Image1.jpeg</gallery>";
+
+            Assert.AreEqual(Gallery, Parsers.FixSyntax(Gallery));
         }
         
         [Test]

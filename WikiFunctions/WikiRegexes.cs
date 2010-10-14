@@ -422,7 +422,7 @@ namespace WikiFunctions
 
         /// <summary>
         /// Matches redirects
-        /// Don't use directly, use Tools.IsRedirect() and Tools.RedirectTargetInstead
+        /// Don't use directly, use Tools.IsRedirect() and Tools.RedirectTarget instead
         /// </summary>
         public static Regex Redirect;
         
