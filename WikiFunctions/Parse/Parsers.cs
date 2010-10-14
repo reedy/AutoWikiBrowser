@@ -5655,17 +5655,11 @@ namespace WikiFunctions.Parse
             HideText ht = new HideText();
             articleText = ht.HideUnformatted(articleText);
             
-            /*       foreach (KeyValuePair<Regex, string> k in RegexTagger)
-            {
-                articleText = k.Key.Replace(articleText,
-                                            m => (Tools.GetTemplateParameterValue(m.Value, "Date").Length > 0 ?
-                                                  Tools.RenameTemplateParameter(m.Value, "Date", "date") : k.Value.Replace("$1", m.Groups[1].Value)));
-            } */
-            
             foreach(Regex r in WikiRegexes.DatedTemplates)
             {
                 articleText = r.Replace(articleText, new MatchEvaluator(TagUpdaterME));
             }
+            
             return ht.AddBackUnformatted(articleText);
         }
         
