@@ -4830,10 +4830,6 @@ was"));
             Assert.AreEqual("[[Image:foo|thumb]] # [http://a_b c] [[link]]",
                             Parsers.FixImages("[[Image:foo|thumb]] # [http://a_b c] [[link]]"));
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Removing_underscore_in_URL_in_Ref_in_Description_in_Image....
-            //Assert.AreEqual("[[Image:foo_bar|[http://some_link]]]",
-            //    Parsers.FixImages("[[image:foo_bar|http://some_link]]"));
-
             // no changes should be made to this one
             const string Diamminesilver = @"[[Image:Diamminesilver(I)-3D-balls.png|thumb|right|200px|Ball-and-stick model of the diamminesilver(I) cation, [Ag(NH<sub>3</sub>)<sub>2</sub>]<sup>+</sup>]]";
             Assert.AreEqual(Diamminesilver, Parsers.FixImages(Diamminesilver));
@@ -4875,7 +4871,7 @@ When DST ends in central Europe, clocks retreat from 03:00 CEST to 02:00 CET. Ot
                             Parsers.RemoveImage("foo", "{{infobox|image=foo}}", false, "", out noChange));
             Assert.IsFalse(noChange);
             
-                   Assert.AreEqual("{{infobox|image=|other=bar}}",
+            Assert.AreEqual("{{infobox|image=|other=bar}}",
                             Parsers.RemoveImage("foo", "{{infobox|image=foo|other=bar}}", false, "", out noChange));
             Assert.IsFalse(noChange);
             
