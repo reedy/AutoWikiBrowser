@@ -2820,7 +2820,8 @@ namespace WikiFunctions.Parse
                     newValue = Tools.RemoveTemplateParameter(newValue, "year");
                 
                 // month=Month and date=...Month...
-                if(TheDate.Contains(Tools.GetTemplateParameterValue(newValue, "month")))
+                string TheMonth = Tools.GetTemplateParameterValue(newValue, "month");
+                if(TheMonth.Length > 2 && TheDate.Contains(TheMonth))
                     newValue = Tools.RemoveTemplateParameter(newValue, "month");
 
                 // correct volume=vol 7... and issue=no. 8 for {{cite journal}} only
