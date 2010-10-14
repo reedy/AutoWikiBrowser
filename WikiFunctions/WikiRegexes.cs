@@ -1002,7 +1002,12 @@ namespace WikiFunctions
         /// Matches bold text, group 1 being the text in bold
         /// </summary>
         public static readonly Regex Bold = new Regex(@"(?<!')'{3}([^'](?:.*?[^'])?)'{3}(?!')");
-
+        
+        /// <summary>
+        /// Matches the &lt;br/&gt; tag and valid variants
+        /// </summary>
+        public static readonly Regex Br = new Regex("< *br */?>", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        
         /// <summary>
         /// Matches a row beginning with an asterisk, allowing for spaces before
         /// </summary>
