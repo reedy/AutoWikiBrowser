@@ -5375,6 +5375,9 @@ namespace WikiFunctions.Parse
                 articleText = WikiRegexes.Expand.Replace(articleText, "");
                 tagsRemoved.Add("expand");
             }
+            
+            // refresh
+            commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
 
             // do orphan tagging before template analysis for categorisation tags
             articleText = TagOrphans(articleText, articleTitle, restrictOrphanTagging);
