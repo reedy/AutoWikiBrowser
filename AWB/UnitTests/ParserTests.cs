@@ -2132,6 +2132,11 @@ world|format=PDF}} was";
             
             Assert.AreEqual(nochange1, Parsers.FixCitationTemplates(nochange1), "Harvard anchors using YYYYa are not removed");
             Assert.AreEqual(nochange2, Parsers.FixCitationTemplates(nochange2), "Year not removed if different to year in date");
+            string correct3 = @"now {{cite book|title=a |url=http://books.google.com/foo | date=17 May 2009}}",
+            nochange3 = @"now {{cite book|title=a |url=http://books.google.com/foo | date=17 May 2009 | month=March}}";
+            
+            Assert.AreEqual(correct3, Parsers.FixCitationTemplates(correct3.Replace(@"}}", @"|month=May}}")), "month removed when within date");
+            Assert.AreEqual(nochange3, Parsers.FixCitationTemplates(nochange3), "month not removed if different to month in date");
         }
         
         [Test]
