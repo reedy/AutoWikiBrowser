@@ -265,7 +265,7 @@ namespace WikiFunctions
         public static Dictionary<Regex, string> TemplateRedirects = new Dictionary<Regex, string>();
         
         /// <summary>
-        /// List of templates that should be dated (with date=Month YYYY on en-wiki)
+        /// List of templates that should be dated (with 'date=Month YYYY' on en-wiki)
         /// </summary>
         public static List<Regex> DatedTemplates = new List<Regex>();
 

@@ -4592,6 +4592,23 @@ was"));
 
             Assert.AreEqual(TemplateRedirects.Values, Parsers.LoadTemplateRedirects("{{tl|Cn}}, {{tl|fact}} → {{tl|Citation needed}}").Values, "loads multiple redirect rules");
         }
+        
+        [Test]
+        public void LoadDatedTemplates()
+        {
+            List<Regex> DatedTemplates = new List<Regex>();
+            
+            Assert.AreEqual(DatedTemplates, Parsers.LoadDatedTemplates(""), "returns empty list when no rules present");
+            
+            Assert.AreEqual(DatedTemplates, Parsers.LoadDatedTemplates("<!--{{tl|wikif-->"), "ignores commented out rules");
+            
+            DatedTemplates.Add(Tools.NestedTemplateRegex("Wikify"));
+            Assert.AreEqual(DatedTemplates.ToString(), Parsers.LoadDatedTemplates(@"{{tl|wikify}}").ToString(), "loads single rule");
+            
+            DatedTemplates.Add(Tools.NestedTemplateRegex("Citation needed"));
+            Assert.AreEqual(DatedTemplates.ToString(), Parsers.LoadDatedTemplates(@"{{tl|wikify}}
+{{tl|citation needed}}").ToString(), "loads multiple rules");
+        }
 
         [Test]
         public void TemplateRedirects()
@@ -7299,6 +7316,9 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         [Test]
         public void UpdateFactTag()
         {
+            WikiRegexes.DatedTemplates.Clear();
+            WikiRegexes.DatedTemplates.Add(Tools.NestedTemplateRegex("fact"));
+            
             //Test of updating some of the non dated tags
             string text = parser.Tagger("{{fact}}", "Test", false, out noChange, ref summary);
 
@@ -7315,6 +7335,8 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         public void UpdateCitationNeededTag()
         {
             Globals.UnitTestBoolValue = false;
+            WikiRegexes.DatedTemplates.Clear();
+            WikiRegexes.DatedTemplates.Add(Tools.NestedTemplateRegex("citation needed"));
             string text = parser.Tagger("{{citation needed}}", "Test", false, out noChange, ref summary);
             Assert.AreEqual(text, @"{{citation needed|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
 
@@ -7339,21 +7361,59 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             
             text = parser.Tagger(@"{{Citation needed|Date=May 2009}}", "Test", false, out noChange, ref summary);
             Assert.AreEqual(text, @"{{Citation needed|date=May 2009}}", "Date -> date");
+            
+            text = parser.Tagger(@"{{Citation needed|date=May 2009}}", "Test", false, out noChange, ref summary);
+            Assert.AreEqual(text, @"{{Citation needed|date=May 2009}}", "if tag already dated, no change");
+            Assert.IsTrue(noChange);
         }
         
         [Test]
         public void UpdateWikifyTag()
         {
-            string correct =  @"{{Wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
+            WikiRegexes.DatedTemplates.Clear();
+            WikiRegexes.DatedTemplates.Add(Tools.NestedTemplateRegex("wikify"));
+            string correct =  @"{{wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
             string text = parser.Tagger("{{wikify}}", "Test", false, out noChange, ref summary);
             Assert.IsTrue(text.Contains(correct));
             Assert.IsFalse(text.Contains("{{wikify}}"));
 
             text = parser.Tagger("{{template:wikify  }}", "Test", false, out noChange, ref summary);
-            Assert.IsTrue(text.Contains(correct));
+            Assert.IsTrue(text.Contains(@"|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
             
             text = parser.Tagger("{{wikify|section}}", "Test", false, out noChange, ref summary);
+            Assert.IsTrue(text.Contains(@"{{wikify|section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+            
+            text = parser.Tagger("{{Wikify|section}}", "Test", false, out noChange, ref summary);
             Assert.IsTrue(text.Contains(@"{{Wikify|section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+        }
+        
+        [Test]
+        public void TagUpdater()
+        {
+            WikiRegexes.DatedTemplates.Clear();
+            WikiRegexes.DatedTemplates.Add(Tools.NestedTemplateRegex("wikify"));
+            
+            string correct = @"{{wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
+            
+            Assert.AreEqual(correct, Parsers.TagUpdater(@"{{wikify}}"), "tags undated tag");
+            Assert.AreEqual(correct, Parsers.TagUpdater(@"{{Template:wikify}}"), "tags undated tag, removes template namespace");
+            Assert.AreEqual(correct, Parsers.TagUpdater(@"{{template:wikify}}"),  "tags undated tag, removes template namespace");
+            Assert.AreEqual(correct.Replace("wik", "Wik"), Parsers.TagUpdater(@"{{Wikify}}"), "tags undated tag, keeping existing template case");
+            
+            Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|Date=May 2010}}"), "corrects Date --> date");
+            Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|May 2010}}"), "corrects unnamed date parameter");
+            Assert.AreEqual(@"{{wikify|date=May 2010 }}", Parsers.TagUpdater(@"{{wikify|May 2010 }}"), "corrects unnamed date parameter");
+            
+            Assert.AreEqual(@"{{wikify|section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", Parsers.TagUpdater(@"{{wikify|section}}"), "supports templates with additional arguments");
+            Assert.AreEqual(@"{{wikify|section|other={{foo}} bar|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", Parsers.TagUpdater(@"{{wikify|section|other={{foo}} bar}}"), "supports templates with additional arguments");
+            Assert.AreEqual(@"{{wikify|section|other={{foo}}|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", Parsers.TagUpdater(@"{{wikify|section|other={{foo}}}}"), "supports templates with additional arguments");
+            
+            WikiRegexes.DatedTemplates.Clear();
+            WikiRegexes.DatedTemplates.Add(Tools.NestedTemplateRegex("Wikify"));
+            Assert.AreEqual(correct, Parsers.TagUpdater(@"{{wikify}}"), "first letter casing of template rule does not matter");
+            
+            const string commentedOut = @"<!-- {{wikify}} -->";
+            Assert.AreEqual(commentedOut, Parsers.TagUpdater(commentedOut), "ignores commented out tags");
         }
 
         [Test]

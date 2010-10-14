@@ -83,6 +83,7 @@ namespace AutoWikiBrowser
         private RegexTester RegexTester;
         private bool UserTalkWarningsLoaded;
         private bool TemplateRedirectsLoaded;
+        private bool DatedTemplatesLoaded;
         private Regex UserTalkTemplatesRegex;
         private bool Skippable = true;
         private FormWindowState LastState = FormWindowState.Normal; // doesn't look like we can use RestoreBounds for this - any other built in way?
@@ -1481,17 +1482,6 @@ namespace AutoWikiBrowser
 
                     if (theArticle.CanDoGeneralFixes)
                     {
-                        // auto tag
-                        if (chkAutoTagger.Checked)
-                        {
-                            theArticle.AutoTag(Parser, Skip.SkipNoTag, restrictOrphanTaggingToolStripMenuItem.Checked);
-                            
-                            if (mainProcess && theArticle.SkipArticle) 
-                                return;
-                        }
-
-                        Variables.Profiler.Profile("Auto-tagger");
-
                         if (chkGeneralFixes.Checked)
                         {                            
                             if(!TemplateRedirectsLoaded)
@@ -1500,12 +1490,29 @@ namespace AutoWikiBrowser
                                 Variables.Profiler.Profile("LoadTemplateRedirects");
                             }
                             
+                            if(!DatedTemplatesLoaded)
+                            {
+                                LoadDatedTemplates();
+                                Variables.Profiler.Profile("LoadDatedTemplates");
+                            }
+                            
                             theArticle.PerformGeneralFixes(Parser, RemoveText, Skip,
                                                            replaceReferenceTagsToolStripMenuItem.Checked,
                                                            restrictDefaultsortChangesToolStripMenuItem.Checked,
                                                            noMOSComplianceFixesToolStripMenuItem.Checked);
                         }
                         Variables.Profiler.Profile("Mainspace Genfixes");
+                        
+                        // auto tag
+                        if (chkAutoTagger.Checked)
+                        {
+                            theArticle.AutoTag(Parser, Skip.SkipNoTag, restrictOrphanTaggingToolStripMenuItem.Checked);
+                            
+                            if (mainProcess && theArticle.SkipArticle)
+                                return;
+                        }
+
+                        Variables.Profiler.Profile("Auto-tagger");
                     }
                     else if (chkGeneralFixes.Checked)
                     {
@@ -2809,6 +2816,9 @@ window.scrollTo(0, diffTopY);
             
             if(TemplateRedirectsLoaded)
                 LoadTemplateRedirects();
+            
+            if(DatedTemplatesLoaded)
+                LoadDatedTemplates();
         }
 
         private void SetProject(string code, ProjectEnum project, string customProject, bool usingSecure)
@@ -4454,6 +4464,23 @@ window.scrollTo(0, diffTopY);
 
             if(text.Length > 0)
                 WikiRegexes.TemplateRedirects = Parsers.LoadTemplateRedirects(text);
+        }
+        
+        private void LoadDatedTemplates()
+        {
+                    string text;
+            DatedTemplatesLoaded = true;
+            try
+            {
+                text = TheSession.Editor.SynchronousEditor.Clone().Open("Project:AutoWikiBrowser/Dated templates", true);
+            }
+            catch
+            {
+                text = "";
+            }
+
+            if(text.Length > 0)
+                WikiRegexes.DatedTemplates = Parsers.LoadDatedTemplates(text);
         }
 
         private void undoAllChangesToolStripMenuItem_Click(object sender, EventArgs e)
