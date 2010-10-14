@@ -2806,9 +2806,14 @@ namespace WikiFunctions.Parse
 
                 // year=YYYY and date=...YYYY -> remove year; not for year=YYYYa
                 TheYear = Tools.GetTemplateParameterValue(newValue, "year");
+                string TheDate = Tools.GetTemplateParameterValue(newValue, "date");
 
-                if (Regex.IsMatch(TheYear, @"^[12]\d{3}$") && Tools.GetTemplateParameterValue(newValue, "date").Contains(TheYear))
+                if (Regex.IsMatch(TheYear, @"^[12]\d{3}$") && TheDate.Contains(TheYear))
                     newValue = Tools.RemoveTemplateParameter(newValue, "year");
+                
+                // month=Month and date=...Month...
+                if(TheDate.Contains(Tools.GetTemplateParameterValue(newValue, "month")))
+                    newValue = Tools.RemoveTemplateParameter(newValue, "month");
 
                 // correct volume=vol 7... and issue=no. 8 for {{cite journal}} only
                 if (templatename.Equals("cite journal", StringComparison.OrdinalIgnoreCase))
