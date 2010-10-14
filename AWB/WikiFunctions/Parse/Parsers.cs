@@ -4238,69 +4238,26 @@ namespace WikiFunctions.Parse
             //remove image prefix
             image = Tools.WikiDecode(Regex.Replace(image, "^"
                                                    + Variables.NamespacesCaseInsensitive[Namespace.File], "", RegexOptions.IgnoreCase));
+            
+            // make image name first-letter case insensitive
             image = Tools.CaseInsensitive(HttpUtility.UrlDecode(Regex.Escape(image).Replace("\\ ", "[ _]")));
 
             articleText = FixImages(articleText);
 
+            // look for standard [[Image:blah...]] links
             Regex r = new Regex(@"\[\[\s*:?\s*(?i:"
-                                + WikiRegexes.GenerateNamespaceRegex(Namespace.File, Namespace.Media)
-                                + @")\s*:\s*" + image + @".*\]\]", RegexOptions.Singleline);
+                                +  WikiRegexes.GenerateNamespaceRegex(Namespace.File, Namespace.Media)
+                                + @")\s*:\s*" + image + @"((?>[^\[\]]+|\[\[(?<DEPTH>)|\]\](?<-DEPTH>))*(?(DEPTH)(?!)))\]\]", RegexOptions.Singleline);
 
-            MatchCollection n = r.Matches(articleText);
-            if (n.Count > 0)
-            {
-                foreach (Match m in n)
-                {
-                    string match = m.Value;
-
-                    int i = 0;
-                    int j = 0;
-
-                    foreach (char c in match)
-                    {
-                        if (c == '[')
-                            j++;
-                        else if (c == ']')
-                            j--;
-
-                        i++;
-
-                        if (j == 0)
-                        {
-                            if (match.Length > i)
-                                match = match.Remove(i);
-
-                            Regex t = new Regex(Regex.Escape(match));
-
-                            articleText = commentOut
-                                ? t.Replace(articleText, "<!-- " + comment + " " + match + " -->", 1, m.Index)
-                                : t.Replace(articleText, "", 1);
-
-                            break;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                r = new Regex("(" + Variables.NamespacesCaseInsensitive[Namespace.File] + ")?" + image);
-                n = r.Matches(articleText);
-
-                foreach (Match m in n)
-                {
-                    Regex t = new Regex(Regex.Escape(m.Value));
-
-                    articleText = commentOut
-                        ? t.Replace(articleText, "<!-- " + comment + " $0 -->", 1, m.Index)
-                        : t.Replace(articleText, "", 1, m.Index);
-                }
-            }
-
-            return articleText;
+            // fall back to Image:blah... syntax used in galleries etc., or just image name (infoboxes etc.)
+            if (r.Matches(articleText).Count == 0)
+                r = new Regex("(" + Variables.NamespacesCaseInsensitive[Namespace.File] + ")?" + image + @"(?: *\|[^\r\n=]+(?=\s*$))?", RegexOptions.Multiline);            
+            
+            return r.Replace(articleText, m => (commentOut ? "<!-- " + comment + " " + m.Value + " -->" : ""));
         }
 
         /// <summary>
-        /// Removes an iamge in the article.
+        /// Removes an image in the article.
         /// </summary>
         /// <param name="image">The image to remove.</param>
         /// <param name="articleText">The wiki text of the article.</param>
