@@ -4877,6 +4877,12 @@ When DST ends in central Europe, clocks retreat from 03:00 CEST to 02:00 CET. Ot
             
             Assert.AreEqual("", Parsers.RemoveImage("Foo, bar", "[[File:foo%2C_bar|quux [[here]] there]]", false, "", out noChange));
             Assert.IsFalse(noChange);
+            
+            Assert.AreEqual(@"<gallery>
+Image:foo.jpg
+</gallery>", Parsers.RemoveImage(@"Image:Bar.jpg", @"<gallery>
+Image:foo.jpg
+Image:Bar.jpg</gallery>", false, "", out noChange));
         }
         
         [Test]
