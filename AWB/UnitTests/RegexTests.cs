@@ -1495,6 +1495,8 @@ words2"));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Dead end|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Multiple issues|dead end={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|a=b}}"));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Multiple issues|orphan=May 2010 | dead end={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|a=b}}"));
+            
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Multiple issues|wikify ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|dead end ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|orphan ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
         }
 
         [Test]
