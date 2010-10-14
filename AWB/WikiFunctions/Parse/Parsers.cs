@@ -2312,6 +2312,11 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegexImageWithHTTP = new Regex("\\[\\[[Ii]mage:[^]]*http", RegexOptions.Compiled);
 
         private static readonly Regex DoublePipeInWikiLink = new Regex(@"(?<=\[\[[^\[\[\r\n\|{}]+)\|\|(?=[^\[\[\r\n\|{}]+\]\])", RegexOptions.Compiled);
+        
+        /// <summary>
+        /// Matches empty gallery tags (zero or more whitespace)
+        /// </summary>
+        private static readonly Regex EmptyGallery = new Regex(@"<\s*[Gg]allery\s*>\s*<\s*/\s*[Gg]allery\s*>", RegexOptions.Compiled);
 
         // Covered by: LinkTests.TestFixSyntax(), incomplete
         /// <summary>
@@ -2322,6 +2327,9 @@ namespace WikiFunctions.Parse
         public static string FixSyntax(string articleText)
         {
             articleText = articleText.Replace(@"<small/>", @"</small>");
+            
+            // remove empty <gallery> tags
+            articleText = EmptyGallery.Replace(articleText, "");
 
             //replace html with wiki syntax
             articleText = SyntaxRegexItalic.Replace(articleText, "''$2''");

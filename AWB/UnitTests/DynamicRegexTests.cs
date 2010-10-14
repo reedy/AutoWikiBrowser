@@ -274,6 +274,7 @@ now stubborn}}");
         {
             RegexAssert.IsMatch(WikiRegexes.Redirect, @"#REDIRECT:[[Foo]]");
             RegexAssert.IsMatch(WikiRegexes.Redirect, @"#redirect:[[Foo]]");
+            RegexAssert.IsMatch(WikiRegexes.Redirect, @"#redirect [[Foo]]");
             RegexAssert.IsMatch(WikiRegexes.Redirect, @"#REDIRECT [[Foo]]");
             RegexAssert.IsMatch(WikiRegexes.Redirect, @"#REDIRECT   :   [[Foo]]");
             RegexAssert.IsMatch(WikiRegexes.Redirect, @"#REDIRECT:[[Foo bar]]");
