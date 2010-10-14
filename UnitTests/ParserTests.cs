@@ -7009,6 +7009,10 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Globals.UnitTestBoolValue = false;
             text = parser.Tagger(ShortText + @"{{Uncategorised|date=May 2010}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(Tools.NestedTemplateRegex("Uncategorized stub").IsMatch(text), "uncategorized not renamed when not stub");
+            
+            text = parser.Tagger(LongText + @"{{stub}} {{Uncategorised|date=May 2010}}", "Test", false, out noChange, ref summary);
+            Assert.IsTrue(Tools.NestedTemplateRegex("Uncategorised").IsMatch(text), "Uncategorised not renamed when stub removed");
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
         }
 
         [Test]
