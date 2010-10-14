@@ -153,6 +153,12 @@ Foo.JPEG
 |Image:LAMU Riyadha Mosque.jpg|Riyadha Mosque
 |Image:04 Donkey Hospital (June 30 2001).jpg|Donkey Sanctuary
 }}");
+            
+            Assert.AreEqual(WikiRegexes.Images.Match(@"<gallery>
+Test.JPG
+</gallery>").Value, @"<gallery>
+Test.JPG
+</gallery>");
         }
         
         [Test]

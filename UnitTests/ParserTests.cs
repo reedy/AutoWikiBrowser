@@ -4875,6 +4875,10 @@ When DST ends in central Europe, clocks retreat from 03:00 CEST to 02:00 CET. Ot
                             Parsers.RemoveImage("foo", "{{infobox|image=foo}}", false, "", out noChange));
             Assert.IsFalse(noChange);
             
+                   Assert.AreEqual("{{infobox|image=|other=bar}}",
+                            Parsers.RemoveImage("foo", "{{infobox|image=foo|other=bar}}", false, "", out noChange));
+            Assert.IsFalse(noChange);
+            
             Assert.AreEqual("", Parsers.RemoveImage("Foo, bar", "[[File:foo%2C_bar|quux [[here]] there]]", false, "", out noChange));
             Assert.IsFalse(noChange);
             
@@ -4883,6 +4887,25 @@ Image:foo.jpg
 </gallery>", Parsers.RemoveImage(@"Image:Bar.jpg", @"<gallery>
 Image:foo.jpg
 Image:Bar.jpg</gallery>", false, "", out noChange));
+            
+            Assert.AreEqual(@"<gallery>
+Image:foo.jpg
+
+</gallery>", Parsers.RemoveImage(@"Image:Bar.jpg", @"<gallery>
+Image:foo.jpg
+Image:Bar.jpg|Some text description
+</gallery>", false, "", out noChange));
+            
+            Assert.AreEqual(@"<gallery>
+Image:foo.jpg
+<!-- x Image:Bar.jpg|Some text description -->
+</gallery>", Parsers.RemoveImage(@"Image:Bar.jpg", @"<gallery>
+Image:foo.jpg
+Image:Bar.jpg|Some text description
+</gallery>", true, "x", out noChange));
+            
+            Assert.AreEqual("[[Media:foo.jpg]]", Parsers.RemoveImage("FOO.jpg", "[[Media:foo.jpg]]", false, "", out noChange), "image name is case sensitive");
+            Assert.IsTrue(noChange);
         }
         
         [Test]
