@@ -7338,33 +7338,32 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             WikiRegexes.DatedTemplates.Clear();
             WikiRegexes.DatedTemplates.Add(Tools.NestedTemplateRegex("citation needed"));
             string text = parser.Tagger("{{citation needed}}", "Test", false, out noChange, ref summary);
-            Assert.AreEqual(text, @"{{citation needed|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+            Assert.IsTrue(text.Contains(@"{{citation needed|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
 
             text = parser.Tagger("{{template:citation needed  }}", "Test", false, out noChange, ref summary);
-            Assert.AreEqual(text, @"{{citation needed  |date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+            Assert.IsTrue(text.Contains(@"{{citation needed  |date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
             
             text = parser.Tagger("{{ citation needed}}", "Test", false, out noChange, ref summary);
-            Assert.AreEqual(text, @"{{ citation needed|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+            Assert.IsTrue(text.Contains(@"{{ citation needed|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
             
             text = parser.Tagger("{{citation needed|reason=something}}", "Test", false, out noChange, ref summary);
-            Assert.AreEqual(text, @"{{citation needed|reason=something|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+            Assert.IsTrue(text.Contains(@"{{citation needed|reason=something|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
             
             // no change if already dated
             const string correctcn =  @"{{citation needed|reason=something|date=May 2009}}";
             text = parser.Tagger(correctcn, "Test", false, out noChange, ref summary);
-            Assert.AreEqual(text, correctcn);
+            Assert.IsTrue(text.Contains(correctcn));
             
             const string commentText = "<!--{{citation needed}}-->";
             
             text = parser.Tagger(commentText, "Test", false, out noChange, ref summary);
-            Assert.AreEqual(text, commentText, "tag not dated when commented out");
+            Assert.IsTrue(text.Contains(commentText), "tag not dated when commented out");
             
             text = parser.Tagger(@"{{Citation needed|Date=May 2009}}", "Test", false, out noChange, ref summary);
-            Assert.AreEqual(text, @"{{Citation needed|date=May 2009}}", "Date -> date");
+            Assert.IsTrue(text.Contains(@"{{Citation needed|date=May 2009}}"), "Date -> date");
             
             text = parser.Tagger(@"{{Citation needed|date=May 2009}}", "Test", false, out noChange, ref summary);
-            Assert.AreEqual(text, @"{{Citation needed|date=May 2009}}", "if tag already dated, no change");
-            Assert.IsTrue(noChange);
+            Assert.IsTrue(text.Contains(@"{{Citation needed|date=May 2009}}"), "if tag already dated, no change");
         }
         
         [Test]
@@ -7426,16 +7425,19 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(ShortText, parser.Tagger(ShortText, "Talk:Test", false, out noChange, ref summary));
             Assert.IsTrue(noChange);
 
-            //No change as no add/remove
-            Assert.AreEqual("{{Test Template}}", parser.Tagger("{{Test Template}}", "Test", false, out noChange, ref summary));
-            Assert.IsTrue(noChange);
+            string text = parser.Tagger("{{Test Template}}", "Test", false, out noChange, ref summary);
+            
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
+            Assert.IsFalse(noChange);
 
             // {{Pt}} is now {{Pt icon}}
-            Assert.AreEqual("hello {{pt}} hello", parser.Tagger("hello {{pt}} hello", "Test", false, out noChange, ref summary));
-            Assert.IsTrue(noChange);
+            text = parser.Tagger("hello {{pt}} hello", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(noChange);
 
-            Assert.AreEqual("hello {{Pt}} hello", parser.Tagger("hello {{Pt}} hello", "Test", false, out noChange, ref summary));
-            Assert.IsTrue(noChange);
+            text = parser.Tagger("hello {{Pt}} hello", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(noChange);
         }
         
         [Test]
