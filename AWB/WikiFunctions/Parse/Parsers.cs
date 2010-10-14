@@ -5431,25 +5431,6 @@ namespace WikiFunctions.Parse
                 tagsRemoved.Add("deadend");
             }
 
-            // skip article if contains any template except for stub templates
-            // because templates may provide categories/references, so not safe to add tags
-            foreach (Match m in WikiRegexes.Template.Matches(articleText))
-            {
-                if (!(WikiRegexes.Stub.IsMatch(m.Value)
-                      || WikiRegexes.Uncat.IsMatch(m.Value)
-                      || WikiRegexes.DeadEnd.IsMatch(m.Value)
-                      || WikiRegexes.Wikify.IsMatch(m.Value)
-                      || WikiRegexes.Orphan.IsMatch(m.Value)
-                      || WikiRegexes.ReferenceList.IsMatch(m.Value)
-                      || WikiRegexes.NewUnReviewedArticle.IsMatch(m.Value)
-                      || m.Value.Contains("subst")))
-                {
-                    summary = PrepareTaggerEditSummary();
-
-                    return articleText;
-                }
-            }
-
             double length = articleText.Length + 1;
 
             if (commentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped))

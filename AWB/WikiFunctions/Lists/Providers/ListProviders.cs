@@ -193,7 +193,7 @@ namespace WikiFunctions.Lists.Providers
     }
 
     /// <summary>
-    /// Gets a List of Categories on a page, excluding hidden categories
+    /// Gets a List of Categories on a page, excluding hidden categories, includes categories provided to page by a template
     /// </summary>
     public class CategoriesOnPageNoHiddenListProvider : CategoriesOnPageListProvider
     {
