@@ -1261,6 +1261,24 @@ John", "*"));
         }
         
         [Test]
+        public void RemoveTemplateParametersSingleTemplate()
+        {
+            List<string> Params = new List<string>();
+            Params.Add("dateformat");
+            
+            string correct = @"{{cite web|url=http://www.site.com |title=here |year=2008 }}";
+            
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameters(@"{{cite web|url=http://www.site.com |title=here |year=2008 |dateformat=mdy}}", Params));
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameters(@"{{cite web|url=http://www.site.com |title=here |year=2008 |dateformat=mdy }}", Params));
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameters(@"{{cite web|url=http://www.site.com |title=here |year=2008 |dateformat=}}", Params));
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameters(@"{{cite web|url=http://www.site.com |title=here |year=2008 | dateformat =   mdy}}", Params));
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameters(@"{{cite web|url=http://www.site.com |title=here | dateformat=mdy|year=2008 }}", Params));
+            Params.Add("format");
+            
+            Assert.AreEqual(correct, Tools.RemoveTemplateParameters(@"{{cite web|url=http://www.site.com |title=here | dateformat=mdy|year=2008 |format=DOC}}", Params));
+        }
+        
+        [Test]
         public void RemoveTemplateParameterAdvancedCases()
         {
             string correct = @"{{cite web|url=http://www.site.com |title=here |year=2008 }}";

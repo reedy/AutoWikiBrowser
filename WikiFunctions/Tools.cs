@@ -2263,6 +2263,20 @@ Message: {2}
         {
             return RemoveTemplateParameter(templateCall, parameter, false);
         }
+        
+        /// <summary>
+        /// Removes the input parameters from the input template
+        /// </summary>
+        /// <param name="templateCall">The template call to update</param>
+        /// <param name="parameters">The parameters to remove</param>
+        /// <returns>The updated template call</returns>
+        public static string RemoveTemplateParameters(string templateCall, List<string> parameters)
+        {
+            foreach(string parameter in parameters)
+                templateCall = RemoveTemplateParameter(templateCall, parameter, false);
+            
+            return templateCall;
+        }
 
         /// <summary>
         /// Removes the input parameter from the input template
