@@ -4518,6 +4518,7 @@ namespace WikiFunctions.Parse
         // Covered by: UtilityFunctionTests.ChangeToDefaultSort()
         /// <summary>
         /// Changes an article to use defaultsort when all categories use the same sort field / cleans diacritics from defaultsort/categories
+        /// Skips pages using &lt;noinclude&gt;, &lt;includeonly&gt; etc.
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
@@ -4528,6 +4529,9 @@ namespace WikiFunctions.Parse
         {
             string testText = articleText;
             noChange = true;
+            
+            if(NoIncludeIncludeOnlyProgrammingElement(articleText))
+                return articleText;
 
             // count categories
             int matches;
