@@ -1311,13 +1311,8 @@ namespace WikiFunctions.Parse
         private const string PageMask = @"('*(?:p+g?|pages?)'*\.?'*(?:&nbsp;)?\s*(?:\d{1,3}|(?-i)[XVICM]+(?i))\.?(?:\s*[-/&\.,]\s*(?:\d{1,3}|(?-i)[XVICM]+(?i)))?\b)";
 
         private static readonly Regex CitationCiteBook = new Regex(@"{{[Cc]it[ae]((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})", RegexOptions.Compiled);
-        private static readonly Regex CiteTemplateLastParameter = new Regex(@"(?<=\s*last\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
-        private static readonly Regex CiteTemplateAuthorParameter = new Regex(@"(?<=\s*author(?:link)?\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
-        private static readonly Regex CiteTemplateYearParameter = new Regex(@"(?<=\s*year\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
         private static readonly Regex CiteTemplatePagesParameter = new Regex(@"(?<=\s*pages?\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
-        private static readonly Regex CiteTemplateDateParameter = new Regex(@"(?<=\s*date\s*=\s*)(\d{4})(?=\s*(?:\||}}))", RegexOptions.Compiled);
-        private static readonly Regex CiteTemplateTitleParameter = new Regex(@"(?<=\s*title\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
-        private static readonly Regex CiteTemplatePublisherParameter = new Regex(@"(?<=\s*publisher\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
+        private static readonly Regex Year = new Regex(@"^\d{4}$", RegexOptions.Compiled);
         private static readonly Regex UrlShortDescription = new Regex(@"\s*[^{}<>\n]*?\s*\[*(?:http://www\.|http://|www\.)[^\[\]<>""\s]+?\s+([^{}<>\[\]]{4,35}?)\s*(?:\]|<!--|\u230A\u230A\u230A\u230A)", RegexOptions.Compiled);
         private static readonly Regex UrlDomain = new Regex(@"\s*\w*?[^{}<>]{0,4}?\s*(?:\[?|\{\{\s*cit[^{}<>]*\|\s*url\s*=\s*)\s*(?:http://www\.|http://|www\.)([^\[\]<>""\s\/:]+)", RegexOptions.Compiled);
         private static readonly Regex HarvnbTemplate = new Regex(@"\s*{{ *(?:[Hh]arv(?:(?:col)?(?:nb|txt)|ard citation no brackets)?|[Ss]fn)\s*\|\s*([^{}\|]+?)\s*\|(?:[^{}]*?\|)?\s*(\d{4})\s*(?:\|\s*(?:pp?\s*=\s*)?([^{}\|]+?)\s*)?}}\s*", RegexOptions.Compiled);
@@ -1342,17 +1337,17 @@ namespace WikiFunctions.Parse
 
             if (citationTemplate.Length > 10)
             {
-                string last = CiteTemplateLastParameter.Match(reference).Value.Trim();
+                string last = Tools.GetTemplateParameterValue(reference, "last");
 
                 if (last.Length < 1)
                 {
-                    last = CiteTemplateAuthorParameter.Match(reference).Value.Trim();
+                    last = Tools.GetTemplateParameterValue(reference, "author");
                 }
 
                 if (last.Length > 1)
                 {
                     derivedReferenceName = last;
-                    string year = CiteTemplateYearParameter.Match(reference).Value.Trim();
+                    string year = Tools.GetTemplateParameterValue(reference, "year");
 
                     string pages = CiteTemplatePagesParameter.Match(reference).Value.Trim();
 
@@ -1360,7 +1355,7 @@ namespace WikiFunctions.Parse
                         derivedReferenceName += " " + year;
                     else
                     {
-                        string date = CiteTemplateDateParameter.Match(reference).Value.Trim();
+                        string date = Year.Match(Tools.GetTemplateParameterValue(reference, "date")).Value;
 
                         if (date.Length > 3)
                             derivedReferenceName += " " + date;
@@ -1374,7 +1369,7 @@ namespace WikiFunctions.Parse
                 // otherwise try title
                 else
                 {
-                    string title = CiteTemplateTitleParameter.Match(reference).Value.Trim();
+                    string title = Tools.GetTemplateParameterValue(reference, "title");
 
                     if (title.Length > 3 && title.Length < 35)
                         derivedReferenceName = title;
@@ -1383,7 +1378,7 @@ namespace WikiFunctions.Parse
                     // try publisher
                     if (derivedReferenceName.Length < 4)
                     {
-                        title = CiteTemplatePublisherParameter.Match(reference).Value.Trim();
+                        title = Tools.GetTemplateParameterValue(reference, "publisher");
 
                         if (title.Length > 3 && title.Length < 35)
                             derivedReferenceName = title;
