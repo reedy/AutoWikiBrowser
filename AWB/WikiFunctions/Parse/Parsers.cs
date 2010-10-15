@@ -2786,7 +2786,7 @@ namespace WikiFunctions.Parse
                     string theTitle = Tools.GetTemplateParameterValue(newValue, dequoteParam);
                     
                     if(theTitle.Contains(@"""") && !theTitle.Trim('"').Contains(@""""))
-                        newValue = newValue.Replace(theTitle, theTitle.Trim('"'));
+                        newValue = Tools.SetTemplateParameterValue(newValue, dequoteParam, theTitle.Trim('"'));
                 }
                 
                 // page= and pages= fields don't need p. or pp. in them when nopp not set
