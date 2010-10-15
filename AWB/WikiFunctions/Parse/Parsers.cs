@@ -2954,7 +2954,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly Regex CiteWebOrNews = new Regex(@"[Cc]ite( ?web| news)", RegexOptions.Compiled);
+        private static readonly Regex CiteWebOrNews = Tools.NestedTemplateRegex(new [] {"cite web", "citeweb", "cite news", "citenews" });
         private static readonly Regex PressPublishers = new Regex(@"(Associated Press|United Press International)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly List<string> WorkParameterAndAliases = new List<string>(new[] { "work", "newspaper", "journal", "periodical", "magazine" });
 
@@ -2969,7 +2969,7 @@ namespace WikiFunctions.Parse
         public static string CitationPublisherToWork(string citation)
         {
             // only for {{cite web}} or {{cite news}}
-            if (!CiteWebOrNews.IsMatch(Tools.GetTemplateName(citation)))
+            if (!CiteWebOrNews.IsMatch(citation))
                 return citation;
 
             string publisher = Tools.GetTemplateParameterValue(citation, "publisher");
@@ -3103,6 +3103,7 @@ namespace WikiFunctions.Parse
         }
         
         private static readonly Regex DfYes = new Regex(@"\|\s*[dm]f\s*=\s*y(?:es)?\s*(?=(?:\||}}))", RegexOptions.Compiled);
+        private static List<string> DfMf = new List<string>(new [] {"df", "mf" });
 
         /// <summary>
         /// Completes a persondata call with a date of birth/death.
@@ -3118,7 +3119,7 @@ namespace WikiFunctions.Parse
             
             if (field.Equals("DATE OF BIRTH") && BirthDate.IsMatch(articletext))
             {
-                sourceValue = DfYes.Replace(BirthDate.Match(articletext).Value, "");
+                sourceValue = Tools.RemoveTemplateParameters(BirthDate.Match(articletext).Value, DfMf);
                 dateFound = Tools.GetTemplateArgument(sourceValue, 1);
                 
                 // first argument is a year, or a full date
@@ -3127,7 +3128,7 @@ namespace WikiFunctions.Parse
             }
             else if (field.Equals("DATE OF DEATH") && DeathDate.IsMatch(articletext))
             {
-                sourceValue = DfYes.Replace(DeathDate.Match(articletext).Value, "");
+                sourceValue = Tools.RemoveTemplateParameters(DeathDate.Match(articletext).Value, DfMf);
                 dateFound = Tools.GetTemplateArgument(sourceValue, 1);
                 if(dateFound.Length < 5)
                     dateFound += ("-" + Tools.GetTemplateArgument(sourceValue, 2) + "-" + Tools.GetTemplateArgument(sourceValue, 3));
@@ -3150,7 +3151,7 @@ namespace WikiFunctions.Parse
                         dateFound = (GetInfoBoxFieldValue(articletext, "yob")  + "-" + GetInfoBoxFieldValue(articletext, "mob") + "-" + GetInfoBoxFieldValue(articletext, "dob")).Trim('-');
                     else if (WikiRegexes.DeathDateAndAge.IsMatch(articletext))
                     {
-                        string dda = DfYes.Replace(WikiRegexes.DeathDateAndAge.Match(articletext).Value, "");
+                        string dda = Tools.RemoveTemplateParameters(WikiRegexes.DeathDateAndAge.Match(articletext).Value, DfMf);
                         dateFound = (Tools.GetTemplateArgument(dda, 4)  + "-" + Tools.GetTemplateArgument(dda, 5)  + "-" + Tools.GetTemplateArgument(dda, 6)).Trim('-');
                     }
                     else if(GetInfoBoxFieldValue(articletext, "birthyear").Length > 0)
