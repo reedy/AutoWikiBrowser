@@ -954,6 +954,11 @@ namespace WikiFunctions
         public static readonly Regex Small = new Regex(@"<\s*small\s*>((?>(?!<\s*small\s*>|<\s*/\s*small\s*>).|<\s*small\s*>(?<DEPTH>)|<\s*/\s*small\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*small\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
         
         /// <summary>
+        /// matches &lt;big&gt; tags
+        /// </summary>
+        public static readonly Regex Big = new Regex(@"<\s*big\s*>((?>(?!<\s*big\s*>|<\s*/\s*big\s*>).|<\s*big\s*>(?<DEPTH>)|<\s*/\s*big\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*big\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        
+        /// <summary>
         /// matches &lt;sup&gt; and &lt;sub&gt; tags
         /// </summary>
         public static readonly Regex SupSub = new Regex(@"<(?<key>su(?:p|b))>(.*?)</\k<key>>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
