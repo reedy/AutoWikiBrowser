@@ -279,6 +279,7 @@ namespace WikiFunctions.Parse
             {
                 string hBefore = m.Value;
                 string hAfter = WikiRegexes.Br.Replace(hBefore, "");
+                hAfter = WikiRegexes.Big.Replace(hAfter, "$1");
                 
                 if(!hBefore.Equals(hAfter))
                     articleText = articleText.Replace(hBefore, hAfter);

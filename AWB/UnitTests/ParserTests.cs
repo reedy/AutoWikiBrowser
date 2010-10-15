@@ -4114,6 +4114,12 @@ Some news here.", "test"), "space trimmed from end of paragraph when br replaces
             Assert.AreEqual(@"==Foo==", Parsers.FixHeadings(@"==Foo<br />==", "a"));
             Assert.AreEqual(@"==Foo==", Parsers.FixHeadings(@"==Foo< BR >==", "a"));
         }
+        
+        public void TestFixHeadingsBigRemoval()
+        {
+            Assert.AreEqual(@"==Foo==", Parsers.FixHeadings(@"==<big>Foo</big>==", "a"));
+            Assert.AreEqual(@"==Foo==", Parsers.FixHeadings(@"==<Big>Foo</big>==", "a"));
+        }
 
         [Test]
         public void TestFixHeadingsDelinking()

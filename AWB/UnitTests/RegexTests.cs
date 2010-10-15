@@ -573,6 +573,22 @@ foo
             RegexAssert.Matches(WikiRegexes.Small, "<small>a<small>foo</small>b</small>", "<small>a<small>foo</small>b</small>");
             RegexAssert.Matches(WikiRegexes.Small, @"<small>..<small>...</small>", @"<small>...</small>");
         }
+        
+       [Test]
+        public void Big()
+        {
+            RegexAssert.Matches(WikiRegexes.Big, "<big>foo</big>", "<big>foo</big>");
+            RegexAssert.Matches(WikiRegexes.Big, "<big  >foo</big >", "<big  >foo</big >");
+            RegexAssert.Matches(WikiRegexes.Big, @"<big>
+foo
+</big>", @"<big>
+foo
+</big>");
+
+            RegexAssert.Matches(WikiRegexes.Big, "<big>foo</big>", "<big>foo</big>");
+            RegexAssert.Matches(WikiRegexes.Big, "<big>a<big>foo</big>b</big>", "<big>a<big>foo</big>b</big>");
+            RegexAssert.Matches(WikiRegexes.Big, @"<big>..<big>...</big>", @"<big>...</big>");
+        }
 
         [Test]
         public void Nowiki()
