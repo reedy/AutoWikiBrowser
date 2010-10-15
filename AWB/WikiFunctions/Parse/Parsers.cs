@@ -4663,11 +4663,11 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly Regex InUniverse = new Regex(@"{{[Ii]n-universe", RegexOptions.Compiled);
+        private static readonly Regex InUniverse = Tools.NestedTemplateRegex(@"In-universe");
         private static readonly Regex CategoryCharacters = new Regex(@"\[\[Category:[^\[\]]*?[Cc]haracters", RegexOptions.Compiled);
-        private static readonly Regex SeeAlsoOrMain = new Regex(@"{{(?:[Ss]ee\salso|[Mm]ain)\b", RegexOptions.Compiled);
+        private static readonly Regex SeeAlsoOrMain = Tools.NestedTemplateRegex(new [] {"See also", "Sealso", "Main"});
         private static readonly Regex BoldedLink = new Regex(@"'''.*?\[\[[^\[\]]+\]\].*?'''", RegexOptions.Compiled);
-        private static readonly Regex RefImprove = new Regex(@"{{\s*[Rr]efimproveBLP\b", RegexOptions.Compiled);
+        private static readonly Regex RefImproveBLP = Tools.NestedTemplateRegex("RefimproveBLP");
 
         /// <summary>
         /// determines whether the article is about a person by looking for persondata/birth death categories, bio stub etc. for en wiki only
@@ -4786,7 +4786,7 @@ namespace WikiFunctions.Parse
                 || WikiRegexes.LivingPeopleRegex2.IsMatch(articleText)
                 || WikiRegexes.BirthsCategory.IsMatch(articleText)
                 || WikiRegexes.BLPSources.IsMatch(articleText)
-                || RefImprove.IsMatch(articleText);
+                || RefImproveBLP.IsMatch(articleText);
             /*    || (!string.IsNullOrEmpty(articleTitle) && articleText.Length < 10000 && parseTalkPage &&
                     TryGetArticleText(Variables.Namespaces[Namespace.Talk] + articleTitle).Contains(@"{{WPBiography"))*/
         }
