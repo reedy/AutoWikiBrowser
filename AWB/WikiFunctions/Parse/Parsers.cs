@@ -2835,7 +2835,8 @@ namespace WikiFunctions.Parse
                 }
 
                 // {{cite web}} for Google books -> {{Cite book}}
-                if (Regex.IsMatch(templatename, @"[Cc]ite ?web") && newValue.Contains("http://books.google."))
+                if (Regex.IsMatch(templatename, @"[Cc]ite ?web") && newValue.Contains("http://books.google.")
+                   && Tools.GetTemplateParameterValue(newValue, "work").Length == 0)
                     newValue = Tools.RenameTemplate(newValue, templatename, "Cite book");
 
                 // remove leading zero in day of month
