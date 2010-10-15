@@ -6042,6 +6042,13 @@ foo {{persondata}}
 [[Category:All foos]]
 {{DEFAULTSORT:Special Foos}}", Parsers.ChangeToDefaultSort(@"foo
 [[Category:All foos]]", "Category:Special foos", out noChange, false));
+            
+            // skip when nonclude on page
+            const string NoInclude = @"[[Category:Test1|Foooo]][[Category:Test2|Foooo]] <noinclude>foo</noinclude>";
+            Assert.AreEqual(NoInclude,
+                            Parsers.ChangeToDefaultSort(NoInclude, "Bar",
+                                                        out noChange));
+            Assert.IsTrue(noChange);
         }
         
         [Test]
