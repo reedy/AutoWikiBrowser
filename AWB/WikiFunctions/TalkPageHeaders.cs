@@ -203,7 +203,7 @@ namespace WikiFunctions.TalkPages
 
             // rename redirects
             foreach (string redirect in BannerShellRedirects)
-                articletext = Tools.RenameTemplate(articletext, redirect, "WikiProjectBannerShell");
+                articletext = Tools.RenameTemplate(articletext, redirect, "WikiProjectBannerShell", false);
 
             foreach (Match m in WikiRegexes.WikiProjectBannerShellTemplate.Matches(articletext))
             {

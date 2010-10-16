@@ -1530,7 +1530,6 @@ namespace WikiFunctions.Parse
         {
             foreach(KeyValuePair<Regex, string> kvp in TemplateRedirects)
             {
-                // "$1" + kvp.Value + "$3"
                 articleText = kvp.Key.Replace(articleText, m => TemplateRedirectsME(m, kvp.Value));
             }
 
@@ -5234,7 +5233,7 @@ namespace WikiFunctions.Parse
 
             // {{unreferenced}} --> {{BLP unsourced}} if article has [[Category:Living people]]
             if (Variables.IsWikipediaEN && WikiRegexes.Unreferenced.IsMatch(articleText) && articleText.Contains(@"[[Category:Living people"))
-                articleText = Tools.RenameTemplate(articleText, WikiRegexes.Unreferenced.Match(articleText).Groups[1].Value, "BLP unsourced");
+                articleText = Tools.RenameTemplate(articleText, WikiRegexes.Unreferenced.Match(articleText).Groups[1].Value, "BLP unsourced", false);
 
             articleText = MergePortals(articleText);
             

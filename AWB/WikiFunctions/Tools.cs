@@ -2539,10 +2539,23 @@ Message: {2}
         /// <returns>The updated article text</returns>
         public static string RenameTemplate(string articletext, string templatename, string newtemplatename)
         {
+            return RenameTemplate(articletext, templatename, newtemplatename, true);
+        }
+        
+         /// <summary>
+        /// Renames all matches of the given template name in the input text to the new name given
+        /// </summary>
+        /// <param name="articletext">the page text</param>
+        /// <param name="templatename">the old template name</param>
+        /// <param name="newtemplatename">the new template name</param>
+        /// <param name="keepFirstLetterCase">Whether to keep the first letter casing of the existing template</param>
+        /// <returns>The updated article text</returns>
+        public static string RenameTemplate(string articletext, string templatename, string newtemplatename, bool keepFirstLetterCase)
+        {
             if(templatename.Equals(newtemplatename))
                 return articletext;
             
-            return NestedTemplateRegex(templatename).Replace(articletext, "$1" + newtemplatename + "$3");
+            return NestedTemplateRegex(templatename).Replace(articletext, m => RenameTemplateME(m, newtemplatename, keepFirstLetterCase));
         }
 
         /// <summary>
@@ -2553,7 +2566,34 @@ Message: {2}
         /// <returns></returns>
         public static string RenameTemplate(string templateCall, string newtemplatename)
         {
-            return NestedTemplateRegex(GetTemplateName(templateCall)).Replace(templateCall, "$1" + newtemplatename + "$3");
+            return RenameTemplate(templateCall, newtemplatename, true);
+        }
+        
+        /// <summary>
+        /// Renames the input template to the new name given
+        /// </summary>
+        /// <param name="templateCall">the template call</param>
+        /// <param name="newtemplatename">the new template name</param>
+        /// <param name="keepFirstLetterCase">Whether to keep the first letter casing of the existing template</param>
+        /// <returns></returns>
+        public static string RenameTemplate(string templateCall, string newtemplatename, bool keepFirstLetterCase)
+        {
+            return NestedTemplateRegex(GetTemplateName(templateCall)).Replace(templateCall, m => RenameTemplateME(m, newtemplatename, keepFirstLetterCase));
+        }
+        
+        private static string RenameTemplateME(Match m, string newTemplateName, bool keepFirstLetterCase)
+        {
+            string originalTemplateName = m.Groups[2].Value;
+            
+            if(keepFirstLetterCase)
+            {
+                if(Tools.TurnFirstToUpper(originalTemplateName).Equals(originalTemplateName))
+                    newTemplateName = Tools.TurnFirstToUpper(newTemplateName);
+                else
+                    newTemplateName = Tools.TurnFirstToLower(newTemplateName);
+            }
+            
+            return (m.Groups[1].Value + newTemplateName + m.Groups[3].Value);
         }
 
         /// <summary>
