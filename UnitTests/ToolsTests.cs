@@ -1136,7 +1136,7 @@ John", "*"));
 |other}} there", correct3= @"Now {{bar man}} was {{bar man|here}} there",
             correct4= @"Now {{bar man<!--comm-->}} was {{bar man<!--comm-->|here}} there";
             Assert.AreEqual(correct, Tools.RenameTemplate(@"Now {{foo}} was {{foo|here}} there", "foo", "bar"));
-            Assert.AreEqual(correct, Tools.RenameTemplate(@"Now {{Foo}} was {{foo|here}} there", "Foo", "bar"));
+            Assert.AreEqual(correct, Tools.RenameTemplate(@"Now {{foo}} was {{foo|here}} there", "Foo", "bar"));
             
             Assert.AreEqual(@"Now {{bar}} was {{ bar |here}} there", Tools.RenameTemplate(@"Now {{foo}} was {{ foo |here}} there", "foo", "bar"));
             
@@ -1170,12 +1170,15 @@ John", "*"));
             Assert.AreEqual(@"{{ bar }}", Tools.RenameTemplate(@"{{ foo }}", "bar"));
             
             // casing
-            Assert.AreEqual(@"{{bar}}", Tools.RenameTemplate(@"{{Foo}}", "bar"));
+            Assert.AreEqual(@"{{bar}}", Tools.RenameTemplate(@"{{Foo}}", "bar", false));
+            Assert.AreEqual(@"{{Bar}}", Tools.RenameTemplate(@"{{Foo}}", "bar", true));
             Assert.AreEqual(@"{{Bar}}", Tools.RenameTemplate(@"{{Foo}}", "Bar"));
+            Assert.AreEqual(@"{{Bar}}", Tools.RenameTemplate(@"{{Foo}}", "Bar", true));
             
             // with params
-            Assert.AreEqual(@"{{bar|parameters=adsfjk}}", Tools.RenameTemplate(@"{{Foo|parameters=adsfjk}}", "bar"));
-            Assert.AreEqual(@"{{bar |parameters=adsfjk}}", Tools.RenameTemplate(@"{{Foo |parameters=adsfjk}}", "bar"));
+            Assert.AreEqual(@"{{bar|parameters=adsfjk}}", Tools.RenameTemplate(@"{{Foo|parameters=adsfjk}}", "bar", false));
+            Assert.AreEqual(@"{{bar |parameters=adsfjk}}", Tools.RenameTemplate(@"{{Foo |parameters=adsfjk}}", "bar", false));
+            Assert.AreEqual(@"{{bar |parameters=adsfjk}}", Tools.RenameTemplate(@"{{foo |parameters=adsfjk}}", "Bar", true));
             
             // comment handling
             Assert.AreEqual(@"{{bar man<!--comm-->|here}}", Tools.RenameTemplate(@"{{foo man<!--comm-->|here}}", "bar man"));

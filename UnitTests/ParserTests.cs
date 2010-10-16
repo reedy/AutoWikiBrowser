@@ -2045,11 +2045,11 @@ world|format=PDF}} was";
         [Test]
         public void FixCitationGoogleBooks()
         {
-            string correct = @"now {{Cite book|title=a |url=http://books.google.com/foo | year=2009}}";
+            string correct = @"now {{cite book|title=a |url=http://books.google.com/foo | year=2009}}";
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web|title=a |url=http://books.google.com/foo | year=2009}}"));
-            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{Cite web|title=a |url=http://books.google.com/foo | year=2009}}"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web|title=a |url=http://books.google.com/foo | year=2009}}"));
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{citeweb|title=a |url=http://books.google.com/foo | year=2009}}"));
-            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{Cite web|title=a |url=http://books.google.com/foo | year=2009}}"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web|title=a |url=http://books.google.com/foo | year=2009}}"));
             
             // whitespace not changed
             Assert.AreEqual(@"now {{ Cite book |title=a |url=http://books.google.com/foo | year=2009}}", Parsers.FixCitationTemplates(@"now {{ Cite web |title=a |url=http://books.google.com/foo | year=2009}}"));
@@ -5606,7 +5606,7 @@ words";
         {
             string OU = @"{{Otheruses4|foo|bar}}";
             
-            Assert.AreEqual(@"{{about|foo|bar}}", Parsers.Dablinks(OU));
+            Assert.AreEqual(@"{{About|foo|bar}}", Parsers.Dablinks(OU));
         }
         
         [Test]
@@ -6903,7 +6903,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 
             Assert.AreEqual(@"Article <ref>A</ref>
             ==References==
-            {{morefootnotes}}
+            {{Morefootnotes}}
             {{reflist}}", Parsers.Conversions(@"Article <ref>A</ref>
             ==References==
             {{Nofootnotes}}
