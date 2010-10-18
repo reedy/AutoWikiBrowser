@@ -2903,9 +2903,14 @@ namespace WikiFunctions.Parse
                     articleText = articleText.Replace(m.Value, newValue);
             }
             
+            // Harvard template fixes: page range dashes and use of pp for page ranges
             foreach (Match h in WikiRegexes.HarvTemplate.Matches(articleText))
             {
                 string newValue = FixPageRanges(h.Value);
+                
+                if(Regex.IsMatch(Tools.GetTemplateParameterValue(newValue, "p"), @"\d+\s*(?:–|, )\s*\d")
+                   && Tools.GetTemplateParameterValue(newValue, "pp").Length == 0)
+                    newValue = Tools.RenameTemplateParameter(newValue, "p", "pp");
                 
                 // merge changes to article text
                 if(!h.Value.Equals(newValue))
