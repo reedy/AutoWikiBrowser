@@ -2687,7 +2687,6 @@ namespace WikiFunctions.Parse
         private static readonly Regex CiteTemplatesJournalVolume = new Regex(@"(?<=\|\s*volume\s*=\s*)vol(?:umes?|\.)?(?:&nbsp;|:)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex CiteTemplatesJournalVolumeAndIssue = new Regex(@"(?<=\|\s*volume\s*=\s*[0-9VXMILC]+?)(?:[;,]?\s*(?:no[\.:;]?|(?:numbers?|issue|iss)\s*[:;]?))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex CiteTemplatesJournalIssue = new Regex(@"(?<=\|\s*issue\s*=\s*)(?:issues?|(?:nos?|iss)(?:[\.,;:]|\b)|numbers?[\.,;:]?)(?:&nbsp;)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        private static readonly Regex CiteTemplatesPageRange = new Regex(@"(?<=\|\s*pages?\s*=[^\|{}=/\\]*?)\b(\d+)\s*[-—]+\s*(\d+)", RegexOptions.Compiled);
         private static readonly Regex CiteTemplatesPageRangeName = new Regex(@"(\|\s*)page(\s*=\s*\d+\s*(?:–|, )\s*\d)", RegexOptions.Compiled);
 
         private static readonly Regex AccessDateYear = new Regex(@"(?<=\|\s*accessdate\s*=\s*(?:[1-3]?\d\s+" + WikiRegexes.MonthsNoGroup + @"|\s*" + WikiRegexes.MonthsNoGroup + @"\s+[1-3]?\d))(\s*)\|\s*accessyear\s*=\s*(20[01]\d)\s*(\||}})", RegexOptions.Compiled);
@@ -2863,53 +2862,7 @@ namespace WikiFunctions.Parse
                 }
                 
                 // page range should have unspaced en-dash; validate that page is range not section link
-                string page = Tools.GetTemplateParameterValue(newValue, "page");
-
-                if (page.Length == 0)
-                    page = Tools.GetTemplateParameterValue(newValue, "pages");
-
-                bool pagerangesokay = true;
-                Dictionary<int, int> PageRanges = new Dictionary<int, int>();
-
-                if (page.Length > 2 && !page.Contains(" to "))
-                {
-                    foreach (Match pagerange in CiteTemplatesPageRange.Matches(newValue))
-                    {
-                        string page1 = pagerange.Groups[1].Value;
-                        string page2 = pagerange.Groups[2].Value;
-
-                        // convert 350-2 into 350-352 etc.
-                        if (page1.Length > page2.Length)
-                            page2 = page1.Substring(0, page1.Length - page2.Length) + page2;
-
-                        // check a valid range with difference < 999
-                        if (Convert.ToInt32(page1) < Convert.ToInt32(page2) &&
-                            Convert.ToInt32(page2) - Convert.ToInt32(page1) < 999)
-                            pagerangesokay = true;
-                        else
-                            pagerangesokay = false;
-
-                        // check range doesn't overlap with another range found
-                        foreach (KeyValuePair<int, int> kvp in PageRanges)
-                        {
-                            // check if page 1 or page 2 within existing range
-                            if ((Convert.ToInt32(page1) >= kvp.Key && Convert.ToInt32(page1) <= kvp.Value) || (Convert.ToInt32(page2) >= kvp.Key && Convert.ToInt32(page2) <= kvp.Value))
-                            {
-                                pagerangesokay = false;
-                                break;
-                            }
-                        }
-
-                        if (!pagerangesokay)
-                            break;
-
-                        // add to dictionary of ranges found
-                        PageRanges.Add(Convert.ToInt32(page1), Convert.ToInt32(page2));
-                    }
-
-                    if (pagerangesokay)
-                        newValue = CiteTemplatesPageRange.Replace(newValue, @"$1–$2");
-                }
+                newValue = FixPageRanges(newValue);             
 
                 // page range or list should use 'pages' parameter not 'page'
                 newValue = CiteTemplatesPageRangeName.Replace(newValue, @"$1pages$2");
@@ -2949,14 +2902,84 @@ namespace WikiFunctions.Parse
                 if(!m.Value.Equals(newValue))
                     articleText = articleText.Replace(m.Value, newValue);
             }
+            
+            foreach (Match h in WikiRegexes.HarvTemplate.Matches(articleText))
+            {
+                string newValue = FixPageRanges(h.Value);
+                
+                // merge changes to article text
+                if(!h.Value.Equals(newValue))
+                    articleText = articleText.Replace(h.Value, newValue);
+            }
 
             return articleText;
+        }
+        
+        private static List<string> PageFields = new List<string>(new [] {"page", "pages", "p", "pp" });
+        private static readonly Regex PageRange = new Regex(@"\b(\d+)\s*[-—]+\s*(\d+)", RegexOptions.Compiled);
+        
+        /// <summary>
+        /// Converts hyphens in page ranges in citation template fields to endashes
+        /// </summary>
+        /// <param name="templateCall">The template call</param>
+        /// <returns>The updated template call</returns>
+        private static string FixPageRanges(string templateCall)
+        {
+            foreach(string pageField in PageFields)
+            {
+                string pageRange = Tools.GetTemplateParameterValue(templateCall, pageField);
+
+                if (pageRange.Length > 2 && !pageRange.Contains(" to "))
+                {
+                    bool pagerangesokay = true;
+                    Dictionary<int, int> PageRanges = new Dictionary<int, int>();
+                    
+                    foreach (Match pagerange in PageRange.Matches(pageRange))
+                    {
+                        string page1 = pagerange.Groups[1].Value;
+                        string page2 = pagerange.Groups[2].Value;
+
+                        // convert 350-2 into 350-352 etc.
+                        if (page1.Length > page2.Length)
+                            page2 = page1.Substring(0, page1.Length - page2.Length) + page2;
+
+                        // check a valid range with difference < 999
+                        if (Convert.ToInt32(page1) < Convert.ToInt32(page2) &&
+                            Convert.ToInt32(page2) - Convert.ToInt32(page1) < 999)
+                            pagerangesokay = true;
+                        else
+                            pagerangesokay = false;
+
+                        // check range doesn't overlap with another range found
+                        foreach (KeyValuePair<int, int> kvp in PageRanges)
+                        {
+                            // check if page 1 or page 2 within existing range
+                            if ((Convert.ToInt32(page1) >= kvp.Key && Convert.ToInt32(page1) <= kvp.Value) || (Convert.ToInt32(page2) >= kvp.Key && Convert.ToInt32(page2) <= kvp.Value))
+                            {
+                                pagerangesokay = false;
+                                break;
+                            }
+                        }
+
+                        if (!pagerangesokay)
+                            break;
+
+                        // add to dictionary of ranges found
+                        PageRanges.Add(Convert.ToInt32(page1), Convert.ToInt32(page2));
+                    }
+
+                    if (pagerangesokay)
+                        templateCall = Tools.UpdateTemplateParameterValue(templateCall, pageField, PageRange.Replace(pageRange, @"$1–$2"));
+                }
+            }
+            
+            return templateCall;
         }
 
         private static readonly Regex CiteWebOrNews = Tools.NestedTemplateRegex(new [] {"cite web", "citeweb", "cite news", "citenews" });
         private static readonly Regex PressPublishers = new Regex(@"(Associated Press|United Press International)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly List<string> WorkParameterAndAliases = new List<string>(new[] { "work", "newspaper", "journal", "periodical", "magazine" });
-
+        
         /// <summary>
         /// Where the publisher field is used incorrectly instead of the work field in a {{cite web}} or {{cite news}} citation
         /// convert the parameter to be 'work'

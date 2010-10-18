@@ -2582,11 +2582,6 @@ journal=Crypt of Cthulhu |volume= 3|issue= 3| ";
             // mulitple ranges
             Assert.AreEqual(journalstart + @"pages = 140–148, 150, 152–157}}", Parsers.FixCitationTemplates(journalstart + @"pages = 140-148, 150, 152-157}}")); // hyphen
             
-            // don't go beyond =,\,/
-            Assert.AreEqual(journalstart + @"pages = 140–148, 150, 152–157 isbn= 1-15-0908-99}}", Parsers.FixCitationTemplates(journalstart + @"pages = 140-148, 150, 152-157 isbn= 1-15-0908-99}}")); // hyphen
-            Assert.AreEqual(journalstart + @"pages = 140–148, 150, 152–157 isbn\ 1-15-0908-99}}", Parsers.FixCitationTemplates(journalstart + @"pages = 140-148, 150, 152-157 isbn\ 1-15-0908-99}}")); // hyphen
-            Assert.AreEqual(journalstart + @"pages = 140–148, 150, 152–157 isbn/ 1-15-0908-99}}", Parsers.FixCitationTemplates(journalstart + @"pages = 140-148, 150, 152-157 isbn/ 1-15-0908-99}}")); // hyphen
-            
             const string nochange1 = @"{{cite conference
   | first = Owen
   | title = System Lifecycle Cost
@@ -2596,6 +2591,15 @@ journal=Crypt of Cthulhu |volume= 3|issue= 3| ";
   | accessdate = }}";
             
             Assert.AreEqual(nochange1, Parsers.FixCitationTemplates(nochange1)); // range over 999 pages
+        }
+        
+         [Test]
+        public void HarvTemplatesPageRange()
+        {
+            Assert.AreEqual(@"{{harv|Smith|2005|pp=55–59}}", Parsers.FixCitationTemplates(@"{{harv|Smith|2005|pp=55–59}}"));
+            Assert.AreEqual(@"{{harvnb|Smith|2005|pp=55–59}}", Parsers.FixCitationTemplates(@"{{harvnb|Smith|2005|pp=55–59}}"));
+            Assert.AreEqual(@"{{harv|Smith|2005|pp=55 – 59}}", Parsers.FixCitationTemplates(@"{{harv|Smith|2005|pp=55 – 59}}"));
+            Assert.AreEqual(@"{{harv|Smith|2005|pp=55–59, 77–81}}", Parsers.FixCitationTemplates(@"{{harv|Smith|2005|pp=55–59, 77-81}}"));
         }
         
         [Test]
