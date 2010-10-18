@@ -6192,6 +6192,9 @@ foo {{persondata}}
 
             // 'characters' category means fictional person
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"foo [[Category:227 characters]] {{persondata}}", "foo"));
+            
+            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"'''Margaret Sidney''' was the [[pseudonym]] of American author '''Harriett Mulford Stone''' (June 22, 1844–August 2, 1924).
+[[Category:1844 births]]", "foo"));
         }
 
         [Test]

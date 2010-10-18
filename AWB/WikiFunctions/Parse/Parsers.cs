@@ -4772,8 +4772,13 @@ namespace WikiFunctions.Parse
 
             // articles with bold linking to another article may be linking to the main article on the person the article is about
             // e.g. '''military career of [[Napoleon Bonaparte]]'''
-            if (BoldedLink.IsMatch(WikiRegexes.Template.Replace(zerothSection, "")))
-                return false;
+            string zerothSectionNoTemplates = WikiRegexes.Template.Replace(zerothSection, "");
+            foreach(Match m in WikiRegexes.Bold.Matches(zerothSectionNoTemplates))
+            {
+                if(WikiRegexes.WikiLink.IsMatch(m.Value))
+                    return false;
+            }
+                
 
             int dateBirthAndAgeCount =BirthDate.Matches(zerothSection).Count;
             int dateDeathCount = DeathDate.Matches(zerothSection).Count;
