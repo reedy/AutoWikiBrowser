@@ -4665,7 +4665,6 @@ namespace WikiFunctions.Parse
         private static readonly Regex InUniverse = Tools.NestedTemplateRegex(@"In-universe");
         private static readonly Regex CategoryCharacters = new Regex(@"\[\[Category:[^\[\]]*?[Cc]haracters", RegexOptions.Compiled);
         private static readonly Regex SeeAlsoOrMain = Tools.NestedTemplateRegex(new [] {"See also", "Sealso", "Main"});
-        private static readonly Regex BoldedLink = new Regex(@"'''.*?\[\[[^\[\]]+\]\].*?'''", RegexOptions.Compiled);
         private static readonly Regex RefImproveBLP = Tools.NestedTemplateRegex("RefimproveBLP");
 
         /// <summary>
