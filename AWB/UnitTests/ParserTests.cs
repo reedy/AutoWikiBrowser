@@ -4911,6 +4911,9 @@ Image:Bar.jpg|Some text description
             
             Assert.AreEqual("[[Media:foo.jpg]]", Parsers.RemoveImage("FOO.jpg", "[[Media:foo.jpg]]", false, "", out noChange), "image name is case sensitive");
             Assert.IsTrue(noChange);
+            
+            Assert.AreEqual("[[Media:foo.jpg]]", Parsers.RemoveImage("", "[[Media:foo.jpg]]", false, "", out noChange), "no change when blank image name input");
+            Assert.IsTrue(noChange);
         }
         
         [Test]

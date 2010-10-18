@@ -4233,6 +4233,9 @@ namespace WikiFunctions.Parse
         /// <returns>The new article text.</returns>
         public static string RemoveImage(string image, string articleText, bool commentOut, string comment)
         {
+            if(image.Length == 0)
+                return articleText;
+            
             //remove image prefix
             image = Tools.WikiDecode(Regex.Replace(image, "^"
                                                    + Variables.NamespacesCaseInsensitive[Namespace.File], "", RegexOptions.IgnoreCase));
