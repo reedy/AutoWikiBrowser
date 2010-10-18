@@ -7395,6 +7395,11 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 
             Assert.IsTrue(text.Contains("{{fact|date={{subst:CURRENTMONTHNAME}}"));
             Assert.IsFalse(text.Contains("{{fact}}"));
+            
+            text = parser.Tagger("{{fact|}}", "Test", false, out noChange, ref summary);
+
+            Assert.IsTrue(text.Contains("{{fact|date={{subst:CURRENTMONTHNAME}}"));
+            Assert.IsFalse(text.Contains("{{fact}}"));
         }
         
         [Test]

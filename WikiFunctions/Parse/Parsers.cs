@@ -5626,7 +5626,7 @@ namespace WikiFunctions.Parse
             return ht.AddBackUnformatted(articleText);
         }
         
-        private static readonly Regex CurlyBraceEnd = new Regex(@"}}$", RegexOptions.Compiled);
+        private static readonly Regex CurlyBraceEnd = new Regex(@"(?:\| *)?}}$", RegexOptions.Compiled);
         private static readonly Regex MonthYear = new Regex(@"^\s*" + WikiRegexes.MonthsNoGroup + @" +20\d\d\s*$", RegexOptions.Compiled);
         
         /// <summary>
