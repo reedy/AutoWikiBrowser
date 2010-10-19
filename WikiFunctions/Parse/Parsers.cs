@@ -5448,7 +5448,8 @@ namespace WikiFunctions.Parse
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Archive_19#AWB_problems
             // nl wiki doesn't use {{Uncategorized}} template
             if (words > 6 && totalCategories == 0
-                && !WikiRegexes.Uncat.IsMatch(articleText) && Variables.LangCode != "nl")
+                && !WikiRegexes.Uncat.IsMatch(articleText) && Variables.LangCode != "nl"
+                && !Tools.NestedTemplateRegex("cat improve").IsMatch(articleText))
             {
                 if (WikiRegexes.Stub.IsMatch(commentsStripped))
                 {
