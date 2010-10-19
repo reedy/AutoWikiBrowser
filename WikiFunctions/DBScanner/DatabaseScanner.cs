@@ -889,7 +889,7 @@ namespace WikiFunctions.DBScanner
                     {
                         if (new Uri(lnkBase.Text).Host != Variables.Host)
                             MessageBox.Show(
-                                "The project of the loaded dump doesn't match the project AWB is currently setup for.\r\nIt is reccomended you change the current project to that of the database dump.\r\nThis will ensure the namespaces are correct.",
+                                "The project of the loaded dump doesn't match the project AWB is currently setup for.\r\nIt is recommended you change the current project to that of the database dump.\r\nThis will ensure the namespaces are correct.",
                                 "Project mismatch", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     catch (UriFormatException)
