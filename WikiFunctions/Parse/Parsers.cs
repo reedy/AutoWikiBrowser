@@ -4736,6 +4736,7 @@ namespace WikiFunctions.Parse
                 || CategoryCharacters.IsMatch(articleText)
                 || Tools.NestedTemplateRegex("Infobox cricketer tour biography").IsMatch(articleText)
                 || articleTitle.StartsWith(@"List of ")
+                || articleTitle.EndsWith("discography")
                 || WikiRegexes.Disambigs.IsMatch(articleText)
                 || WikiRegexes.DeathsOrLivingCategory.Matches(articleText).Count > 1
                 || WikiRegexes.InfoBox.Match(articleText).Groups[1].Value.ToLower().Contains("organization")
