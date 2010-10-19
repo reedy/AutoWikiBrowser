@@ -7228,6 +7228,11 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             // disambigs are not stubs
             text = parser.Tagger(ShortText + @" {{hndis|Bar, Foo}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
+            
+            // don't mark as uncat if has {{cat improve}}
+            Globals.UnitTestIntValue = 0;
+            text = parser.Tagger(@"{{cat improve}}\r\n" + ShortText, "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
         }
         
         [Test]
