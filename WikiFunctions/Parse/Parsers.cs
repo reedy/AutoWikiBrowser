@@ -4754,8 +4754,7 @@ namespace WikiFunctions.Parse
                                               }).Match(articleText).Value,
                     "Background");
 
-            if(MABackground.Contains("group_or_band") || MABackground.Contains("classical_ensemble")
-               || MABackground.Contains("cover_band") || MABackground.Contains("temporary"))
+            if(MABackground.Contains("band") || MABackground.Contains("classical_ensemble") || MABackground.Contains("temporary"))
                 return false;
             
             string CLSA = Tools.NestedTemplateRegex(@"Infobox Chinese-language singer and actor").Match(articleText).Value;
