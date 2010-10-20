@@ -2449,6 +2449,23 @@ world|format=PDF}} was";
         }
         
         [Test]
+        public void PersonDataUpdates()
+        {
+            const string PD = @"{{Persondata <!-- Metadata: see [[Wikipedia:Persondata]]. -->
+| NAME              = Hill, James J.
+| ALTERNATIVE NAMES =
+| SHORT DESCRIPTION =
+| DATE OF BIRTH     = September 16, 1838
+| PLACE OF BIRTH    = Ontario, Canada
+| DATE OF DEATH     = May 29, 1916
+| PLACE OF DEATH    = [[St. Paul, Minnesota|Saint Paul]], [[Minnesota]]
+}}";
+
+            Assert.AreEqual(PD, Parsers.PersonData(PD.Replace(@"Ontario, Canada", @"{{city-state|Ontario|Canada}}"), "test"));
+            
+        }
+        
+        [Test]
         public void FixCitationTemplatesEnOnly()
         {
             #if DEBUG
