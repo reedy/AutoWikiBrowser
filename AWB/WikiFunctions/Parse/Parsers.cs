@@ -3077,7 +3077,8 @@ namespace WikiFunctions.Parse
                 newPersonData = SetPersonDataDate(newPersonData, "DATE OF DEATH", GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxDODFields), articleText);
 
             // place of birth
-            if(Tools.GetTemplateParameterValue(newPersonData, "PLACE OF BIRTH").Length == 0)
+            string ExistingPOB = Tools.GetTemplateParameterValue(newPersonData, "PLACE OF BIRTH");
+            if(ExistingPOB.Length == 0)
             {
                 string POB = GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxPOBFields);
                 
@@ -3098,9 +3099,12 @@ namespace WikiFunctions.Parse
                 
                 newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF BIRTH", POB, true);
             }
+            else            
+                newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF BIRTH", CityState.Replace(ExistingPOB, m => m.Groups[3].Value.Trim("|{}".ToCharArray()).Replace("|", ", ")));
             
             // place of death
-            if(Tools.GetTemplateParameterValue(newPersonData, "PLACE OF DEATH").Length == 0)
+            string ExistingPOD = Tools.GetTemplateParameterValue(newPersonData, "PLACE OF DEATH");
+            if(ExistingPOD.Length == 0)
             {
                 string POD = GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxPODFields);
                 
@@ -3121,6 +3125,9 @@ namespace WikiFunctions.Parse
                 
                 newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF DEATH", POD, true);
             }
+             else            
+                 newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF DEATH", CityState.Replace(ExistingPOD, m => m.Groups[3].Value.Trim("|{}".ToCharArray()).Replace("|", ", ")));
+           
             
             // merge changes
             if (!newPersonData.Equals(originalPersonData))
