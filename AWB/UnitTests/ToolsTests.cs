@@ -1685,6 +1685,15 @@ Start date and age
             Assert.AreEqual("Onewordname", Tools.MakeHumanCatKey("Onewordname"));
             Assert.AreEqual("Onewordname", Tools.MakeHumanCatKey("onewordname"));
         }
+        
+        [Test]
+        public void MakeHumanCatKeyPersonOfPlace()
+        {
+            Assert.AreEqual("Foo Of London", Tools.MakeHumanCatKey("Foo of London"));
+            Assert.AreEqual("Foe Of London", Tools.MakeHumanCatKey("Foé of London"));
+            Assert.AreEqual("Foo 02 Of London", Tools.MakeHumanCatKey("Foo II of London"));
+            Assert.AreEqual("Foo 11 Of London", Tools.MakeHumanCatKey("Foo XI of London"));
+        }
 
         [Test]
         public void MakeHumanCatKeyWithRomanNumbers()
@@ -1837,6 +1846,25 @@ Start date and age
                 Assert.IsFalse(name.StartsWith(" "), "Sorting key shouldn't start with spaces");
                 Assert.IsFalse(name.EndsWith(" "), "Sorting key shouldn't end with spaces");
             }
+        }
+        
+        [Test]
+        public void RomanToInt()
+        {
+            Assert.AreEqual("01", Tools.RomanToInt("I"));
+            Assert.AreEqual("02", Tools.RomanToInt("II"));
+            Assert.AreEqual("03", Tools.RomanToInt("III"));
+            Assert.AreEqual("04", Tools.RomanToInt("IV"));
+            Assert.AreEqual("05", Tools.RomanToInt("V"));
+            Assert.AreEqual("06", Tools.RomanToInt("VI"));
+            Assert.AreEqual("07", Tools.RomanToInt("VII"));
+            Assert.AreEqual("08", Tools.RomanToInt("VIII"));
+            Assert.AreEqual("09", Tools.RomanToInt("IX"));
+            Assert.AreEqual("10", Tools.RomanToInt("X"));
+            Assert.AreEqual("11", Tools.RomanToInt("XI"));
+            Assert.AreEqual("14", Tools.RomanToInt("XIV"));
+            Assert.AreEqual("16", Tools.RomanToInt("XVI"));
+            Assert.AreEqual("26", Tools.RomanToInt("XXVI"));
         }
     }
 
