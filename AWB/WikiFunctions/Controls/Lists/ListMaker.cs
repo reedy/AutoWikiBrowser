@@ -646,8 +646,13 @@ namespace WikiFunctions.Controls.Lists
                 Invoke(new AddToListDel(Add), s);
                 return;
             }
+            
+            s = Tools.RemoveSyntax(s);
+            
+            if(Variables.CapitalizeFirstLetter)
+                s = Tools.TurnFirstToUpper(s);
 
-            lbArticles.Items.Add(new Article(Tools.TurnFirstToUpper(Tools.RemoveSyntax(s))));
+            lbArticles.Items.Add(new Article(s));
 
             UpdateNumberOfArticles();
 
