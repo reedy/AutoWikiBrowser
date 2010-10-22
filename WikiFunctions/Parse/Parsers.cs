@@ -2312,6 +2312,8 @@ namespace WikiFunctions.Parse
         /// Matches empty gallery tags (zero or more whitespace)
         /// </summary>
         private static readonly Regex EmptyGallery = new Regex(@"<\s*[Gg]allery\s*>\s*<\s*/\s*[Gg]allery\s*>", RegexOptions.Compiled);
+        
+        private static readonly System.Globalization.CultureInfo BritishEnglish = new System.Globalization.CultureInfo("en-GB");
 
         // Covered by: LinkTests.TestFixSyntax(), incomplete
         /// <summary>
@@ -2447,6 +2449,16 @@ namespace WikiFunctions.Parse
             {
                 if (WikilinkEndsBr.IsMatch(m.Value))
                     articleText = articleText.Replace(m.Value, WikilinkEndsBr.Replace(m.Value, @"]]"));
+            }
+            
+            // workaround for bugzilla 2700: {[subst:}} doesn't work within ref tags
+            if(Variables.LangCode.Equals("en") && articleText.Contains(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}"))
+            {
+                foreach(Match m in WikiRegexes.Refs.Matches(articleText))
+                {
+                    if(m.Value.Contains(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}"))
+                        articleText = articleText.Replace(m.Value, m.Value.Replace(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}", System.DateTime.UtcNow.ToString("MMMM yyyy", BritishEnglish)));                    
+                }
             }
 
             return articleText.Trim();
