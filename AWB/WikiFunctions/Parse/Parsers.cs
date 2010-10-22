@@ -5375,6 +5375,9 @@ namespace WikiFunctions.Parse
                 articleText = WikiRegexes.Stub.Replace(articleText, StubChecker).Trim();
                 tagsRemoved.Add("stub");
             }
+            
+            // refresh
+            commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
 
             // on en wiki, remove expand template when a stub template exists
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Remove_.7B.7Bexpand.7D.7D_when_a_stub_template_exists
