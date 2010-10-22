@@ -3084,10 +3084,36 @@ namespace WikiFunctions.Parse
             if(Tools.GetTemplateParameterValue(newPersonData, "DATE OF BIRTH").Length == 0)
                 newPersonData = SetPersonDataDate(newPersonData, "DATE OF BIRTH", GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxDOBFields), articleText);
             
+            // as fallback use year from category
+            if(Tools.GetTemplateParameterValue(newPersonData, "DATE OF BIRTH").Length == 0)
+            {
+                Match m = WikiRegexes.BirthsCategory.Match(articleText);
+                
+                if(m.Success)
+                {
+                    string year = m.Value.Replace(@"[[Category:", "").TrimEnd(']');
+                    if(Regex.IsMatch(year, @"^\d{3,4} births$"))
+                        newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF BIRTH", year.Replace(" births", ""), true);
+                }
+            }
+            
             // date of death
             if(Tools.GetTemplateParameterValue(newPersonData, "DATE OF DEATH").Length == 0)
                 newPersonData = SetPersonDataDate(newPersonData, "DATE OF DEATH", GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxDODFields), articleText);
 
+            // as fallback use year from category
+            if(Tools.GetTemplateParameterValue(newPersonData, "DATE OF DEATH").Length == 0)
+            {
+                Match m = WikiRegexes.DeathsOrLivingCategory.Match(articleText);
+                
+                if(m.Success)
+                {
+                    string year = m.Value.Replace(@"[[Category:", "").TrimEnd(']');
+                    if(Regex.IsMatch(year, @"^\d{3,4} deaths$"))
+                        newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF DEATH", year.Replace(" deaths", ""), true);
+                }
+            }
+            
             // place of birth
             string ExistingPOB = Tools.GetTemplateParameterValue(newPersonData, "PLACE OF BIRTH");
             if(ExistingPOB.Length == 0)

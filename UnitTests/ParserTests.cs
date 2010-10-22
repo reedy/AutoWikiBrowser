@@ -2303,7 +2303,7 @@ world|format=PDF}} was";
             const string Fred = @"'''Fred''' (born 1960) is.
 [[Category:1960 births]]", FredPD = @"'''Fred''' (born 1960) is.
 [[Category:1960 births]]
-{{Persondata|dob=1960}}";
+{{Persondata|DATE OF BIRTH=1960}}";
 
             Assert.IsTrue(Tools.NestedTemplateRegex("persondata").IsMatch(Parsers.PersonData(Fred, "Fred")), "Adds persondata for BLP when missing");
             Assert.IsFalse(Tools.NestedTemplateRegex("persondata").IsMatch(Parsers.PersonData("test", "Fred")), "PersonData not added when not BLP");
@@ -2356,6 +2356,14 @@ world|format=PDF}} was";
             Assert.AreEqual(i5 + a2 + @"{{use dmy dates}}", Parsers.PersonData(i5 + a + @"{{use dmy dates}}", "test"), "takes dates from birthyear etc. fields");
             
             Assert.AreEqual(i1 + a + a, Parsers.PersonData(i1 + a + a, "test"), "no change when multiple personData templates");
+        }        
+         
+        [Test]
+        public void PersonDataCompletionDOBFromCategory()
+        {
+            string Text = Parsers.PersonData(@"Foo [[Category:Living people]] [[Category:1980 births]]", "test");
+            
+            Assert.IsTrue(Tools.GetTemplateParameterValue(WikiRegexes.Persondata.Match(Text).Value, "DATE OF BIRTH").Equals("1980"));
         }
         
         [Test]
@@ -2382,6 +2390,15 @@ world|format=PDF}} was";
             Assert.AreEqual(i5 + a2.Replace(@"DATE OF BIRTH=27 June 1950
             |DATE OF DEATH= ", @"DATE OF BIRTH=
             |DATE OF DEATH= 27 June 1950") + @"{{use dmy dates}}", Parsers.PersonData(i5 + a + @"{{use dmy dates}}", "test"), "takes dates from deathyear etc. fields");
+        }
+        
+         [Test]
+        public void PersonDataCompletionDODFromCategory()
+        {
+            string Text = Parsers.PersonData(@"Foo [[Category:2005 deaths]] [[Category:1930 births]]", "test");
+            
+            Assert.IsTrue(Tools.GetTemplateParameterValue(WikiRegexes.Persondata.Match(Text).Value, "DATE OF BIRTH").Equals("1930"));
+            Assert.IsTrue(Tools.GetTemplateParameterValue(WikiRegexes.Persondata.Match(Text).Value, "DATE OF DEATH").Equals("2005"));
         }
         
         [Test]
