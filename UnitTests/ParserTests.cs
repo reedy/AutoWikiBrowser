@@ -7410,6 +7410,10 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         public void RemoveExpand()
         {
             Assert.IsFalse(WikiRegexes.Expand.IsMatch(parser.Tagger(@"foo {{expand}} {{bio-stub}}", "Test", false, out noChange, ref summary)));
+            
+            string Text = parser.Tagger(LongText + @"foo {{expand}}" + "\r\n" + @" {{bio-stub}}", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(Text));
+            Assert.IsTrue(WikiRegexes.Expand.IsMatch(Text), "Expand not removed when stub tag removed");            
         }
         
         [Test]
