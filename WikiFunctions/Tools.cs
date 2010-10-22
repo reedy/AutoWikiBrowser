@@ -1330,19 +1330,22 @@ namespace WikiFunctions
         {
             if (!WriteDebugEnabled)
                 return;
-
-            try
+            
+            for(int a = 0;a < 100;a++)
             {
-                WriteTextFile(string.Format(
-                    @"object: {0}
+                try
+                {
+                    WriteTextFile(string.Format(
+                        @"object: {0}
 Time: {1}
 Message: {2}
 
 ", @object, DateTime.Now.ToLongTimeString(), text), "Log.txt", true);
-            }
-            catch (Exception ex)
-            {
-                ErrorHandler.Handle(ex);
+                }
+                catch
+                {
+                    System.Threading.Thread.Sleep(50); // prevents errors over log file being 'in use by other application'
+                }
             }
         }
 
