@@ -7417,6 +7417,15 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         }
         
         [Test]
+        public void MultipleIssuesNewTags()
+        {
+            string Text = LongText + @"{{Multiple issues | COI=May 2010 | POV=May 2010 }}";
+            
+            Text = parser.Tagger(Text, "Test", false, out noChange, ref summary);
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(Text).Value.Contains("wikify"), "added tags go in existing multipleIssues");
+        }
+        
+        [Test]
         public void RemoveDeadEnd()
         {
             Globals.UnitTestIntValue = 0;

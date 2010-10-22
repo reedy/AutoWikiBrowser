@@ -5497,6 +5497,16 @@ namespace WikiFunctions.Parse
                 articleText = WikiRegexes.Wikify.Replace(articleText, "");
                 tagsRemoved.Add("wikify");
             }
+            
+            if(tagsAdded.Count > 0 && WikiRegexes.MultipleIssues.IsMatch(articleText))
+            {
+                HideText ht = new HideText();
+                Parsers p = new Parsers();
+                articleText = ht.HideUnformatted(articleText);
+                
+                articleText = p.MultipleIssues(articleText);
+                return ht.AddBackUnformatted(articleText);
+            }
 
             summary = PrepareTaggerEditSummary();
 
