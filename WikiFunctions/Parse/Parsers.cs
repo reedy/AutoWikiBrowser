@@ -5695,6 +5695,8 @@ namespace WikiFunctions.Parse
 
             return summary;
         }
+        
+        private static readonly HideText ht = new HideText();
 
         /// <summary>
         /// Sets the date (month & year) for undated cleanup tags that take a date
@@ -5704,16 +5706,15 @@ namespace WikiFunctions.Parse
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The updated article text</returns>
         public static string TagUpdater(string articleText)
-        {
-            HideText ht = new HideText();
-            articleText = ht.HideUnformatted(articleText);
+        {            
+            articleText = ht.Hide(articleText);
             
             foreach(Regex r in WikiRegexes.DatedTemplates)
             {
                 articleText = r.Replace(articleText, new MatchEvaluator(TagUpdaterME));
             }
             
-            return ht.AddBackUnformatted(articleText);
+            return ht.AddBack(articleText);
         }
         
         private static readonly Regex CurlyBraceEnd = new Regex(@"(?:\| *)?}}$", RegexOptions.Compiled);
