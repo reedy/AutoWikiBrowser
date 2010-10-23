@@ -42,6 +42,16 @@ namespace WikiFunctions.Parse
         /// <param name="matches"></param>
         /// <param name="articleText">The wiki text of the article.</param>
         private void Replace(IEnumerable matches, ref string articleText)
+        {            
+            Replace(matches, ref articleText, HiddenTokens);
+        }
+        
+         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="matches"></param>
+        /// <param name="articleText">The wiki text of the article.</param>
+        private void Replace(IEnumerable matches, ref string articleText, List<HideObject> Tokens)
         {
             StringBuilder sb = new StringBuilder((int)(articleText.Length * 1.1));
             int pos = 0;
@@ -49,10 +59,10 @@ namespace WikiFunctions.Parse
             foreach (Match m in matches)
             {
                 sb.Append(articleText, pos, m.Index - pos);
-                string s = "⌊⌊⌊⌊" + HiddenTokens.Count + "⌋⌋⌋⌋";
+                string s = "⌊⌊⌊⌊" + Tokens.Count + "⌋⌋⌋⌋";
                 sb.Append(s);
                 pos = m.Index + m.Value.Length;
-                HiddenTokens.Add(new HideObject(s, m.Value));
+                Tokens.Add(new HideObject(s, m.Value));
             }
 
             sb.Append(articleText, pos, articleText.Length - pos);
@@ -112,6 +122,16 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public string AddBack(string articleText)
         {
+            return AddBack(articleText, HiddenTokens);
+        }
+        
+        /// <summary>
+        /// Adds stuff removed by Hide back
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <returns></returns>
+        private string AddBack(string articleText, List<HideObject> Tokens)
+        {
             MatchCollection mc;
 
             while ((mc = HiddenRegex.Matches(articleText)).Count > 0)
@@ -122,7 +142,7 @@ namespace WikiFunctions.Parse
                 foreach (Match m in mc)
                 {
                     sb.Append(articleText, pos, m.Index - pos);
-                    sb.Append(HiddenTokens[int.Parse(m.Groups[1].Value)].Text);
+                    sb.Append(Tokens[int.Parse(m.Groups[1].Value)].Text);
                     pos = m.Index + m.Value.Length;
                 }
 
@@ -131,7 +151,7 @@ namespace WikiFunctions.Parse
                 articleText = sb.ToString();
             }
 
-            HiddenTokens.Clear();
+            Tokens.Clear();
             return articleText;
         }
         #endregion
@@ -147,16 +167,8 @@ namespace WikiFunctions.Parse
         public string HideUnformatted(string articleText)
         {
             HiddenUnformattedText.Clear();
-
-            int i = 0;
-            foreach (Match m in WikiRegexes.UnformattedText.Matches(articleText))
-            {
-                string s = "⌊⌊⌊⌊" + i + "⌋⌋⌋⌋";
-
-                articleText = articleText.Replace(m.Value, s);
-                HiddenUnformattedText.Add(new HideObject(s, m.Value));
-                i++;
-            }
+            
+            Replace(WikiRegexes.UnformattedText.Matches(articleText), ref articleText, HiddenUnformattedText);
 
             return articleText;
         }
@@ -168,13 +180,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public string AddBackUnformatted(string articleText)
         {
-            HiddenUnformattedText.Reverse();
-
-            foreach (HideObject k in HiddenUnformattedText)
-                articleText = articleText.Replace(k.Code, k.Text);
-
-            HiddenUnformattedText.Clear();
-            return articleText;
+            return AddBack(articleText, HiddenUnformattedText);
         }
         #endregion
 
