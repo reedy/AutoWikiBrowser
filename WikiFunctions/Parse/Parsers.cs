@@ -5532,7 +5532,7 @@ namespace WikiFunctions.Parse
             else if (linkCount > 3 && ((linkCount / length) > 0.0025) &&
                      WikiRegexes.Wikify.IsMatch(articleText))
             {
-                articleText = WikiRegexes.Wikify.Replace(articleText, "");
+                articleText = WikiRegexes.Wikify.Replace(articleText, "$1");
                 tagsRemoved.Add("wikify");
             }
             
