@@ -54,11 +54,11 @@ namespace WikiFunctions
             FileNamespaceLink = new Regex(@"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.File] +
                                           @"((?>[^\[\]]+|\[\[(?<DEPTH>)|\]\](?<-DEPTH>))*(?(DEPTH)(?!)))\]\]", RegexOptions.Compiled);
 
-            Stub = new Regex(@"{{.*?" + Variables.Stub + @"}}", RegexOptions.Compiled);
+            Stub = new Regex(@"{{" + Variables.Stub + @"}}", RegexOptions.Compiled);
 
             PossiblyCommentedStub =
                 new Regex(
-                    @"(<!-- ?\{\{[^}]*?" + Variables.Stub + @"\b\}\}.*?-->|\{\{[^}]*?" + Variables.Stub + @"\}\})",
+                    @"(<!-- ?\{\{" + Variables.Stub + @"\b\}\}.*?-->|\{\{" + Variables.Stub + @"\}\})",
                     RegexOptions.Compiled);
 
             TemplateCall = new Regex(TemplateStart + @"\s*([^\]\|]*)\s*(.*)}}",

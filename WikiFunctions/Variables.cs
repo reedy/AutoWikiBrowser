@@ -481,7 +481,7 @@ namespace WikiFunctions
             URLEnd = "/w/";
 
             AWBDefaultSummaryTag();
-            Stub = "[Ss]tub";
+            Stub = ".*?[Ss]tub";
 
             MonthNames = ENLangMonthNames;
 
@@ -589,7 +589,7 @@ namespace WikiFunctions
 
                         case "ru":
                             mSummaryTag = " с помощью ";
-                            Stub = "(?:[Ss]tub|[Зз]аготовка)";
+                            Stub = "[^{}]*?(?:[Ss]tub|[Зз]аготовка)";
                             break;
 
                         case "sk":
@@ -600,11 +600,11 @@ namespace WikiFunctions
                         case "sl":
                             mSummaryTag = " ";
                             WPAWB = "[[Wikipedija:AutoWikiBrowser|AWB]]";
-                            Stub = "(?:[Ss]tub|[Šš]krbina)";
+                            Stub = "(?:[^{}]*?[Ss]tub|[Šš]krbina[^{}]*?)";
                             break;
 
                         case "uk":
-                            Stub = "(?:[Ss]tub|[Дд]оробити)";
+                            Stub = ".*?(?:[Ss]tub|[Дд]оробити)";
                             mSummaryTag = " за допомогою ";
                             WPAWB = "[[Вікіпедія:AutoWikiBrowser|AWB]]";
                             break;
@@ -708,7 +708,7 @@ namespace WikiFunctions
             MonthNames = ENLangMonthNames;
             SectStub = @"\{\{[Ss]ect";
             SectStubRegex = new Regex(SectStub, RegexOptions.Compiled);
-            Stub = "[Ss]tub";
+            Stub = "[^{}]*?[Ss]tub";
 
             LangCode = "en";
 
