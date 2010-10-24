@@ -3837,11 +3837,6 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixCategories(string articleText)
         {
-            //Fix for http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#KeyNotFoundException
-            //Seems a bit hacky? Cause it shouldn't occur...
-            //if (!Variables.Namespaces.ContainsKey(Namespace.Category))
-            //    return articleText;
-
             string cat = "[[" + Variables.Namespaces[Namespace.Category];
 
             // fix extra brackets: three or more at end
@@ -3856,8 +3851,8 @@ namespace WikiFunctions.Parse
                 
                 string sortkey = m.Groups[2].Value;
                 
-                // no diacritic removal in sortkeys on ru-wiki, sl-wiki
-                if(!Variables.LangCode.Equals("ru") && !Variables.LangCode.Equals("sl"))
+                // diacritic removal in sortkeys on en-wiki only
+                if(Variables.LangCode.Equals("en"))
                     sortkey = Tools.RemoveDiacritics(sortkey);
                 
                 string x = cat + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[1].Value, false).Trim()) +
