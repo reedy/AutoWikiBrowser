@@ -5486,7 +5486,7 @@ namespace WikiFunctions.Parse
 
             double length = articleText.Length + 1;
 
-            if (commentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped) && !WikiRegexes.Disambigs.IsMatch(commentsStripped))
+            if (commentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped) && !WikiRegexes.Disambigs.IsMatch(commentsStripped) && !WikiRegexes.SIAs.IsMatch(commentsStripped))
             {
                 // add stub tag
                 articleText += Tools.Newline("{{stub}}", 3);
