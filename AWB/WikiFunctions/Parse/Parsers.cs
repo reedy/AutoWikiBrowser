@@ -2452,16 +2452,28 @@ namespace WikiFunctions.Parse
             }
             
             // workaround for bugzilla 2700: {[subst:}} doesn't work within ref tags
+            articleText = FixSyntaxSubstRefTags(articleText);
+
+            return articleText.Trim();
+        }
+        
+        /// <summary>
+        /// workaround for bugzilla 2700: {[subst:}} doesn't work within ref tags
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <returns></returns>
+        public static string FixSyntaxSubstRefTags(string articleText)
+        {
             if(Variables.LangCode.Equals("en") && articleText.Contains(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}"))
             {
                 foreach(Match m in WikiRegexes.Refs.Matches(articleText))
                 {
                     if(m.Value.Contains(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}"))
-                        articleText = articleText.Replace(m.Value, m.Value.Replace(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}", System.DateTime.UtcNow.ToString("MMMM yyyy", BritishEnglish)));                    
+                        articleText = articleText.Replace(m.Value, m.Value.Replace(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}", System.DateTime.UtcNow.ToString("MMMM yyyy", BritishEnglish)));
                 }
             }
-
-            return articleText.Trim();
+            
+            return articleText;
         }
 
         public static string RemoveTemplateNamespace(string articleText)
@@ -5708,6 +5720,8 @@ namespace WikiFunctions.Parse
             {
                 articleText = r.Replace(articleText, new MatchEvaluator(TagUpdaterME));
             }
+            
+            articleText = FixSyntaxSubstRefTags(articleText);
             
             return ht.AddBack(articleText);
         }
