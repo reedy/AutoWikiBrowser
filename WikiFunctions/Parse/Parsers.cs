@@ -5754,6 +5754,9 @@ namespace WikiFunctions.Parse
             // date tag needed?
             if(Tools.GetTemplateParameterValue(templatecall, dateparam).Length == 0)
             {
+                // remove empty 'date='
+                templatecall = Tools.RemoveTemplateParameter(templatecall, dateparam);
+                
                 // find any dates without date= parameter given, add it
                 if(Variables.LangCode.Equals("en") && (Tools.GetTemplateArgumentCount(templatecall) == 1))
                 {
