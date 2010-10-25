@@ -5764,6 +5764,11 @@ namespace WikiFunctions.Parse
                     
                     if(MonthYear.IsMatch(firstArg))
                         templatecall = templatecall.Insert(templatecall.IndexOf(firstArg), "date=");
+                    else if (firstArg.Equals(dateparam))
+                    {
+                        templatecall = templatecall.Insert(templatecall.IndexOf(firstArg)+firstArg.Length, "=");
+                        templatecall = Tools.RemoveTemplateParameter(templatecall, dateparam);
+                    }
                 }
                 
                 if(Tools.GetTemplateParameterValue(templatecall, dateparam).Length == 0)
