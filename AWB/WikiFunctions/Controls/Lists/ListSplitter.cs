@@ -95,9 +95,10 @@ namespace WikiFunctions.Controls.Lists
 
         private void Save(string path, bool xml)
         {
+            listMaker1.AlphaSortList();
+            listMaker1.BeginUpdate();
             try
             {
-                listMaker1.AlphaSortList();
                 int noA = listMaker1.Count;
 
                 int roundlimit = Convert.ToInt32(numSplitAmount.Value / 2);
@@ -150,6 +151,8 @@ namespace WikiFunctions.Controls.Lists
             {
                 ErrorHandler.Handle(ex);
             }
+
+            listMaker1.EndUpdate();
         }
     }
 }
