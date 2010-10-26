@@ -61,15 +61,15 @@ namespace WikiFunctions.Controls.Lists
         private readonly Regex _characterBlacklist = new Regex(@"[""/:*?<>|.]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private void btnSave_Click(object sender, EventArgs e)
         {
-            Save(saveTXT, false);
+            SaveDialog(saveTXT, false);
         }
 
         private void btnXMLSave_Click(object sender, EventArgs e)
         {
-            Save(saveXML, true);
+            SaveDialog(saveXML, true);
         }
 
-        private void Save(SaveFileDialog sfd, bool xml)
+        private void SaveDialog(SaveFileDialog sfd, bool xml)
         {
             if (listMaker1.Count == 0)
             {
