@@ -1043,6 +1043,15 @@ was"));
         }
         
         [Test]
+        public void TestDateToPresentRanges()
+        {
+            Assert.AreEqual(@"from May 2002 – present was", parser.FixDates(@"from May 2002 - present was"));
+            Assert.AreEqual(@"from May 2002 – present was", parser.FixDates(@"from May 2002-present was"));
+            Assert.AreEqual(@"from May 11, 2002 – present was", parser.FixDates(@"from May 11, 2002-present was"));
+            Assert.AreEqual(@"from May 11, 2002 – present was", parser.FixDates(@"from May 11, 2002 - present was"));
+        }
+        
+        [Test]
         public void TestShortenedYearRanges()
         {
             const string correct = @"from (1900–33) there";
