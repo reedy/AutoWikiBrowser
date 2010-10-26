@@ -111,37 +111,39 @@ namespace WikiFunctions.Controls.Lists
 
                 if (xml)
                 {
+                    string pathPrefix = path.Replace(".xml", " {0}.xml");
                     for (int i = 0; i < noGroups; i++)
                     {
                         List<Article> listart = new List<Article>();
                         for (int j = 0; j < numSplitAmount.Value && listMaker1.Count != 0; j++)
                         {
-                            listart.Add(listMaker1.SelectedArticle());
-                            listMaker1.Remove(listMaker1.SelectedArticle());
+                            listart.Add(listMaker1[j]);
                         }
 
                         _p.List.ArticleList = listart;
 
-                        UserPrefs.SavePrefs(_p, path.Replace(".xml", " " + (i + 1) + ".xml"));
+                        UserPrefs.SavePrefs(_p, string.Format(pathPrefix, i + 1));
                     }
                     MessageBox.Show("Lists Saved to AWB Settings Files");
                 }
                 else
                 {
+                    string pathPrefix = path.Replace(".txt", " {0}.txt");
                     for (int i = 0; i < noGroups; i++)
                     {
                         StringBuilder strList = new StringBuilder();
 
                         for (int j = 0; j < numSplitAmount.Value && listMaker1.Count != 0; j++)
                         {
-                            strList.AppendLine(listMaker1.SelectedArticle().ToString());
-                            listMaker1.Remove(listMaker1.SelectedArticle());
+                            strList.AppendLine(listMaker1[j].ToString());
                         }
-                        Tools.WriteTextFileAbsolutePath(strList.ToString(), path.Replace(".txt", " " + (i + 1) + ".txt"),
+                        Tools.WriteTextFileAbsolutePath(strList.ToString(), string.Format(pathPrefix, i + 1),
                                                         false);
                     }
                     MessageBox.Show("Lists saved to text files");
                 }
+
+                listMaker1.Clear();
             }
             catch (IOException ex)
             {
@@ -151,6 +153,7 @@ namespace WikiFunctions.Controls.Lists
             {
                 ErrorHandler.Handle(ex);
             }
+
 
             listMaker1.EndUpdate();
         }
