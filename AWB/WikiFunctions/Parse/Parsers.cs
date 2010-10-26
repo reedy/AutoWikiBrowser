@@ -2825,6 +2825,10 @@ namespace WikiFunctions.Parse
                 if (WikiRegexes.ISODates.IsMatch(TheYear) || WikiRegexes.InternationalDates.IsMatch(TheYear)
                     || WikiRegexes.AmericanDates.IsMatch(TheYear))
                     newValue = Tools.RenameTemplateParameter(newValue, "year", "date");
+                
+                // coauthor is typo of coauthors
+                if(templatename.ToLower().Equals("cite web"))
+                    newValue = Tools.RenameTemplateParameter(newValue, "coauthor", "coauthors");
 
                 // remove duplicated fields, ensure the URL is not touched (may have pipes in)
                 if (DupeFields.IsMatch(newValue))
@@ -5739,7 +5743,10 @@ namespace WikiFunctions.Parse
             
             // rename incorrect template parameter names
             if(Variables.LangCode.Equals("en"))
+            {
                 templatecall = Tools.RenameTemplateParameter(templatecall, "Date", "date");
+                templatecall = Tools.RenameTemplateParameter(templatecall, "dates", "date");
+            }
             
             // remove template namespace in template name
             string TemplateNamespace;            

@@ -1999,6 +1999,13 @@ world|format=PDF}} was";
             Assert.AreEqual(@"{{cite book| title=foo | year=2009 | page=55}}", Parsers.FixCitationTemplates(@"{{cite book| title=foo | year=2009 | pg=55}}"), "renames pg to page");
             Assert.AreEqual(@"{{cite book| title=foo | year=2009 | pages=55–58}}", Parsers.FixCitationTemplates(@"{{cite book| title=foo | year=2009 | pg=55–58}}"), "renames pg to pages for page range");
         }
+        
+        [Test]
+        public void FixCitationTemplatesCoauthor()
+        {
+            Assert.AreEqual(@"{{cite web| title=foo | year=2009 | author=Smith, Fred | coauthors=Jones, B}}", Parsers.FixCitationTemplates(@"{{cite web| title=foo | year=2009 | author=Smith, Fred | coauthor=Jones, B}}"));
+            Assert.AreEqual(@"{{Cite web| title=foo | year=2009 | author=Smith, Fred | coauthors=Jones, B}}", Parsers.FixCitationTemplates(@"{{Cite web| title=foo | year=2009 | author=Smith, Fred | coauthor=Jones, B}}"));
+        }
 
         [Test]
         public void TestCiteFormatFieldTypo()
@@ -7564,6 +7571,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             
             Assert.AreEqual(correct, Parsers.TagUpdater(@"{{wikify}}"), "tags undated tag");
             Assert.AreEqual(correct, Parsers.TagUpdater(@"{{wikify|date=}}"), "tags undated tag");
+            Assert.AreEqual(correct, Parsers.TagUpdater(@"{{wikify|dates=}}"), "tags undated tag");
             Assert.AreEqual(correct, Parsers.TagUpdater(@"{{wikify|date}}"), "tags undated tag");
             Assert.AreEqual(correct, Parsers.TagUpdater(@"{{wikify|Date=}}"), "tags undated tag");
             Assert.AreEqual(correct, Parsers.TagUpdater(@"{{Template:wikify}}"), "tags undated tag, removes template namespace");
