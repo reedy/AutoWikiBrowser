@@ -21,7 +21,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Xml.Serialization;
 using System.Windows.Forms;
 using System.IO;
 
@@ -62,19 +61,15 @@ namespace WikiFunctions.Controls.Lists
         private readonly Regex _characterBlacklist = new Regex(@"[""/:*?<>|.]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (listMaker1.Count == 0)
-            {
-                MessageBox.Show("Nothing to save", "No items in List Maker");
-                return;
-            }
-
-            saveTXT.FileName = RemoveBadChars();
-
-            if (saveTXT.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(saveTXT.FileName))
-                Save(saveTXT.FileName, false);
+            Save(saveTXT, false);
         }
 
         private void btnXMLSave_Click(object sender, EventArgs e)
+        {
+            Save(saveXML, true);
+        }
+
+        private void Save(SaveFileDialog sfd, bool xml)
         {
             if (listMaker1.Count == 0)
             {
@@ -82,10 +77,10 @@ namespace WikiFunctions.Controls.Lists
                 return;
             }
 
-            saveTXT.FileName = RemoveBadChars();
+            sfd.FileName = RemoveBadChars();
 
-            if (saveXML.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(saveXML.FileName))
-                Save(saveXML.FileName, true);
+            if (sfd.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(sfd.FileName))
+                Save(sfd.FileName, xml);
         }
 
         private string RemoveBadChars()
