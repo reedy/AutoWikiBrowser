@@ -5554,6 +5554,11 @@ namespace WikiFunctions.Parse
                 tagsRemoved.Add("wikify");
             }
             
+            // unref --> refimprove if has existing refs
+            if(WikiRegexes.Unreferenced.IsMatch(commentsStripped)
+               && WikiRegexes.Refs.Matches(commentsStripped).Count > 0)
+                articleText = Tools.RenameTemplate(articleText, "unreferenced", "refimprove", true);                
+            
             if(tagsAdded.Count > 0 && WikiRegexes.MultipleIssues.IsMatch(articleText))
             {
                 HideText ht = new HideText();

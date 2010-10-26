@@ -7161,6 +7161,23 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsTrue(Tools.NestedTemplateRegex("Uncategorised").IsMatch(text), "Uncategorised not renamed when stub removed");
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
         }
+        
+        [Test]
+        public void RenameUnreferenced()
+        {
+            Globals.UnitTestIntValue = 0;
+            Globals.UnitTestBoolValue = false;
+            
+            string text = parser.Tagger(ShortText + @"{{unreferenced|date=May 2010}}", "Test", false, out noChange, ref summary);
+            Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(text), "Unref when no refs");
+            
+            text = parser.Tagger(ShortText + @"{{unreferenced|date=May 2010}} <!--<ref>foo</ref>-->", "Test", false, out noChange, ref summary);
+            Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(text), "Unref when no refs");
+            
+            text = parser.Tagger(ShortText + @"{{unreferenced|date=May 2010}} <ref>foo</ref>", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(text), "Unref to refimprove when no refs");
+            Assert.IsTrue(Tools.NestedTemplateRegex("refimprove").IsMatch(text), "Unref when no refs");
+        }
 
         [Test]
         public void Add()
