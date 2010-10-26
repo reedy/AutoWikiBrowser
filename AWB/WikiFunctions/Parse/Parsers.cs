@@ -734,7 +734,9 @@ namespace WikiFunctions.Parse
         private static readonly Regex FullYearRange = new Regex(@"(?:[\(,=;\|]|\b(?:from|between|and|reigned|f?or)) *([12]\d{3}) *- *([12]\d{3}) *(?=\)|[,;\|]|and\b|\s*$)", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SpacedFullYearRange = new Regex(@"([12]\d{3})(?: +– *| *– +)([12]\d{3})", RegexOptions.Compiled);
         private static readonly Regex YearRangeShortenedCentury = new Regex(@"(?:[\(,=;]|\b(?:from|between|and|reigned)) *([12]\d{3}) *- *(\d{2}) *(?=\)|[,;]|and\b|\s*$)", RegexOptions.Compiled | RegexOptions.Multiline);
-        private static readonly Regex YearRangeToPresent = new Regex(@"([12]\d{3}) *- *([Pp]resent\b)", RegexOptions.Compiled);
+        private static readonly Regex DateRangeToPresent = new Regex(@"\b(" + WikiRegexes.MonthsNoGroup + @"|[0-3]?\d,?) +" + @"([12]\d{3}) *- *([Pp]resent\b)", RegexOptions.Compiled);
+        private static readonly Regex YearRangeToPresent = new Regex(@"\b([12]\d{3}) *- *([Pp]resent\b)", RegexOptions.Compiled);
+        
         // Covered by: LinkTests.FixDates()
         /// <summary>
         /// Fix date and decade formatting errors, and replace &lt;br&gt; and &lt;p&gt; HTML tags
@@ -780,6 +782,7 @@ namespace WikiFunctions.Parse
             string articleTextRaw = articleText;
             articleText = HideMoreText(articleText);
 
+            articleText = DateRangeToPresent.Replace(articleText, @"$1 $2 – $3");
             articleText = YearRangeToPresent.Replace(articleText, @"$1–$2");
 
             // 1965–1968 fixes: only appy year range fix if two years are in order
