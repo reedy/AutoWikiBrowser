@@ -3061,7 +3061,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Matches the {{city-state}} template
         /// </summary>
-        private static readonly Regex CityState = Tools.NestedTemplateRegex(new List<string>(new [] { "Ci", "State", "City-State", "Citystate", "City-state"}));
+        private static readonly Regex CityState = Tools.NestedTemplateRegex(new List<string>(new [] { "Ci", "State", "City-State", "Citystate", "City-state", "city-region"}));
         
         /// <summary>
         /// * Adds the default {{persondata}} template to en-wiki mainspace pages about a person that don't already have {{persondata}}

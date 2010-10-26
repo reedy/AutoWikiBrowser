@@ -2014,6 +2014,7 @@ Message: {2}
         private static readonly System.Globalization.CultureInfo AmericanEnglish = new System.Globalization.CultureInfo("en-US");
 
         private static readonly Regex YearMon = new Regex(@"^\d{4}\-[0-3]\d$", RegexOptions.Compiled);
+        private static readonly Regex MonthYear = new Regex(@"^\w+ \d{4}$", RegexOptions.Compiled);
         
         /// <summary>
         /// Returns the input date in the requested format (American or International). If another Locale is pasased in the input date is returned. For en-wiki only.
@@ -2035,7 +2036,7 @@ Message: {2}
         /// <returns>The English-language (American or International) date</returns>
         public static string ConvertDate(string inputDate, Parsers.DateLocale locale, bool AmericanInputDate)
         {
-            if (Variables.LangCode != "en" || YearMon.IsMatch(inputDate))
+            if (Variables.LangCode != "en" || YearMon.IsMatch(inputDate) || MonthYear.IsMatch(inputDate))
                 return inputDate;
 
             DateTime dt;
