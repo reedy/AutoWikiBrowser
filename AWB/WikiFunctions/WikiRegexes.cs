@@ -889,7 +889,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the {{circa}} template
         /// </summary>
-        public static readonly Regex CircaTemplate = Tools.NestedTemplateRegex(@"Circa");
+        public static readonly Regex CircaTemplate = Tools.NestedTemplateRegex(new List<string>(new [] {"Circa", "c."}));
         
         /// <summary>
         /// matches named references in format &lt;ref name="foo"&gt;text&lt/ref&gt;

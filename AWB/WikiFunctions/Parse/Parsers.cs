@@ -3185,7 +3185,9 @@ namespace WikiFunctions.Parse
              else            
                  newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF DEATH", CityState.Replace(ExistingPOD, m => m.Groups[3].Value.Trim("|{}".ToCharArray()).Replace("|", ", ")));
            
-            
+             // look for full dates matching birth/death categories
+             newPersonData = CompletePersonDataDate(newPersonData, articleText);
+             
             // merge changes
             if (!newPersonData.Equals(originalPersonData))
                 articleText = articleText.Replace(originalPersonData, newPersonData);
@@ -3265,6 +3267,85 @@ namespace WikiFunctions.Parse
             dateFound = Tools.ConvertDate(dateFound, DeterminePredominantDateLocale(articletext, true)).Trim('-');
             
             return Tools.SetTemplateParameterValue(personData, field, dateFound, true);
+        }
+        
+        private static readonly Regex BracketedBirthDeathDate = new Regex(@"\(([^()]+)\)", RegexOptions.Compiled);
+        private static readonly Regex FreeFormatDied = new Regex(@"(?:(?:&nbsp;| )(?:-|–|&ndash;)(?:&nbsp;| )|\b[Dd](?:ied|\.)\b)", RegexOptions.Compiled);
+        
+        /// <summary>
+        /// Sets persondata date of birth/death fields based on unformatted info in zeroth section of article, provided dates match existing birth/death categories
+        /// </summary>
+        /// <param name="personData">Persondata template call</param>
+        /// <param name="articletext">The article text</param>
+        /// <returns>The updated persondata template call</returns>
+        private static string CompletePersonDataDate(string personData, string articletext)
+        {
+            // get the existing values
+            string existingBirthYear = Tools.GetTemplateParameterValue(personData, "DATE OF BIRTH");
+            string existingDeathYear = Tools.GetTemplateParameterValue(personData, "DATE OF DEATH");
+            
+            if(existingBirthYear.Length == 4 || existingDeathYear.Length == 4)
+            {
+                string birthDateFound  = "", deathDateFound = "";
+                string zerothSection = WikiRegexes.ZerothSection.Match(articletext).Value;
+
+                // remove references, wikilinks, templates
+                zerothSection = WikiRegexes.Refs.Replace(zerothSection, " ");
+                zerothSection = WikiRegexes.SimpleWikiLink.Replace(zerothSection, " ");
+                
+                if(WikiRegexes.CircaTemplate.IsMatch(zerothSection))
+                    zerothSection = zerothSection.Substring(0, WikiRegexes.CircaTemplate.Match(zerothSection).Index);
+                zerothSection = WikiRegexes.NestedTemplates.Replace(zerothSection, " ");
+                
+                // look for date in bracketed text, check date matches existing value (from categories)
+                foreach(Match m in BracketedBirthDeathDate.Matches(zerothSection))
+                {
+                    string bValue = m.Value;
+                    
+                    if(!UncertainWordings.IsMatch(bValue) && !ReignedRuledUnsure.IsMatch(bValue))
+                    {
+                        
+                        string bBorn = "", bDied = "";
+                        // split on died/spaced dash
+                        if(FreeFormatDied.IsMatch(bValue))
+                        {
+                            bBorn = bValue.Substring(0, FreeFormatDied.Match(bValue).Index);
+                            bDied = bValue.Substring(FreeFormatDied.Match(bValue).Index);
+                        }
+                        else
+                            bBorn = bValue;
+                        
+                        // born
+                        if(existingBirthYear.Length == 4)
+                        {
+                            if(WikiRegexes.AmericanDates.Matches(bBorn).Count == 1 && WikiRegexes.AmericanDates.Match(bBorn).Value.Contains(existingBirthYear))
+                                birthDateFound = WikiRegexes.AmericanDates.Match(bBorn).Value;
+                            else if(WikiRegexes.InternationalDates.Matches(bBorn).Count == 1 && WikiRegexes.InternationalDates.Match(bBorn).Value.Contains(existingBirthYear))
+                                birthDateFound = WikiRegexes.InternationalDates.Match(bBorn).Value;
+                        }
+                        
+                        // died
+                        if(existingDeathYear.Length == 4)
+                        {
+                            if(WikiRegexes.AmericanDates.Matches(bDied).Count == 1 && WikiRegexes.AmericanDates.Match(bDied).Value.Contains(existingDeathYear))
+                                deathDateFound = WikiRegexes.AmericanDates.Match(bDied).Value;
+                            else if(WikiRegexes.InternationalDates.Matches(bDied).Count == 1 && WikiRegexes.InternationalDates.Match(bDied).Value.Contains(existingDeathYear))
+                                deathDateFound = WikiRegexes.InternationalDates.Match(bDied).Value;
+                        }
+                        
+                        if(birthDateFound.Length > 0 || deathDateFound.Length > 0)
+                            break;
+                    }
+                }
+                
+                if(birthDateFound.Length > 4)
+                    personData = Tools.SetTemplateParameterValue(personData, "DATE OF BIRTH", Tools.ConvertDate(birthDateFound, DeterminePredominantDateLocale(articletext, true)), false);
+                
+                if(deathDateFound.Length > 4)
+                    personData = Tools.SetTemplateParameterValue(personData, "DATE OF DEATH", Tools.ConvertDate(deathDateFound, DeterminePredominantDateLocale(articletext, true)), false);
+            }
+            
+            return personData;
         }
 
         /// <summary>
