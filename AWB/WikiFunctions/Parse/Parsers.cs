@@ -5410,10 +5410,24 @@ namespace WikiFunctions.Parse
             // {{nofootnotes}} --> {{morefootnotes}}, if some <ref>...</ref> references in article, uses regex from WikiRegexes.Refs
             if (WikiRegexes.Refs.IsMatch(articleText))
                 articleText = Tools.RenameTemplate(articleText, @"nofootnotes", "morefootnotes");
+            
+            // {{Unreferenced|section}} --> {{Unreferenced section}}
+            foreach(Match m in Tools.NestedTemplateRegex("unreferenced").Matches(articleText))
+            {
+                if(Tools.GetTemplateArgument(m.Value, 1).Equals("section"))
+                    articleText = articleText.Replace(m.Value, Tools.RenameTemplate(Regex.Replace(m.Value, @"\|\s*section\s*\|", "|"), "Unreferenced section"));
+            }
 
-            // {{unreferenced}} --> {{BLP unsourced}} if article has [[Category:Living people]]
-            if (Variables.IsWikipediaEN && WikiRegexes.Unreferenced.IsMatch(articleText) && articleText.Contains(@"[[Category:Living people"))
+            // {{unreferenced}} --> {{BLP unsourced}} if article has [[Category:Living people]], and no free-text first argument to {{unref}}
+            string unref = WikiRegexes.Unreferenced.Match(articleText).Value;
+            if (Variables.IsWikipediaEN && unref.Length > 0 && WikiRegexes.Unreferenced.Matches(articleText).Count == 1 && articleText.Contains(@"[[Category:Living people")
+                && (Tools.GetTemplateArgument(unref, 1).StartsWith("date")
+                    || Tools.GetTemplateArgumentCount(unref) == 0))
                 articleText = Tools.RenameTemplate(articleText, WikiRegexes.Unreferenced.Match(articleText).Groups[1].Value, "BLP unsourced", false);
+            
+            // {{unreferenced section}} --> {{BLP unsourced section}} if article has [[Category:Living people]]
+            if (Variables.IsWikipediaEN && Tools.NestedTemplateRegex("unreferenced section").IsMatch(articleText) && articleText.Contains(@"[[Category:Living people"))
+                articleText = Tools.RenameTemplate(articleText, "unreferenced section", "BLP unsourced section", false);
 
             articleText = MergePortals(articleText);
             

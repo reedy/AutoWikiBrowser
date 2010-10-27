@@ -6972,6 +6972,16 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.AreEqual(correct, Parsers.Conversions(@"{{Expand|  section |date=May 2010}}"));
             Assert.AreEqual(correct, Parsers.Conversions(correct));
         }
+        
+        [Test]
+        public void ConvversionsTestsUnreferenced()
+        {
+            string correct = @"{{Unreferenced section|date=May 2010}}";
+            Assert.AreEqual(correct, Parsers.Conversions(@"{{Unreferenced|section|date=May 2010}}"));
+            Assert.AreEqual(correct, Parsers.Conversions(@"{{Unreferenced|  section |date=May 2010}}"));
+            Assert.AreEqual(correct, Parsers.Conversions(correct));
+            Assert.AreEqual(correct.Replace("U", "u"), Parsers.Conversions(@"{{unreferenced|section|date=May 2010}}"));
+        }
 
         [Test]
         public void ConversionsTestsMultipleIssues()
@@ -7076,6 +7086,32 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.AreEqual(correct, Parsers.Conversions(nochange + "\r\n" + @"[[Category:Living people]]"));
             Assert.AreEqual(correct, Parsers.Conversions(@"Foo
 {{no refs}}" + "\r\n" + @"[[Category:Living people]]"));
+            
+            Assert.AreEqual(correct, Parsers.Conversions(correct));
+            
+            Assert.AreEqual(nochange, Parsers.Conversions(nochange));
+            
+            nochange = @"Foo {{unreferenced|blah}}" + @"[[Category:Living people]]";
+            Assert.AreEqual(nochange, Parsers.Conversions(nochange), "no change when free-format text in unreferenced first argument");
+            
+            Assert.AreEqual(@"Foo
+{{BLP unsourced|date=May 2010}}
+[[Category:Living people]]", Parsers.Conversions(@"Foo
+{{unref|date=May 2010}}
+[[Category:Living people]]"));
+        }
+        
+        [Test]
+        public void ConversionTestsBLPUnsourcedSection()
+        {
+            string correct = @"Foo
+{{BLP unsourced section}}
+[[Category:Living people]]", nochange = @"Foo
+{{unreferenced section}}";
+            
+            Assert.AreEqual(correct, Parsers.Conversions(nochange + "\r\n" + @"[[Category:Living people]]"));
+            Assert.AreEqual(correct, Parsers.Conversions(@"Foo
+{{unreferenced section}}" + "\r\n" + @"[[Category:Living people]]"));
             
             Assert.AreEqual(correct, Parsers.Conversions(correct));
             
