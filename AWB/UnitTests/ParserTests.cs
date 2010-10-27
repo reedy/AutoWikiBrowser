@@ -2451,6 +2451,22 @@ world|format=PDF}} was";
 |DATE OF BIRTH=
 |DATE OF DEATH=
 }}" + u1, "test"), "birth and death added from unformatted values");
+             u1 = @"Fred (born 11 May 1920 {{ndash}} 4 June 2004) was great. [[Category:1920 births]] [[Category:2004 deaths]]";
+            Assert.AreEqual(@"{{Persondata
+|DATE OF BIRTH= 11 May 1920
+|DATE OF DEATH= 4 June 2004
+}}" + u1, Parsers.PersonData(@"{{Persondata
+|DATE OF BIRTH=
+|DATE OF DEATH=
+}}" + u1, "test"), "birth and death added from unformatted values");
+               u1 = @"Fred (born 11 May 1920{{ndash}} 4 June 2004) was great. [[Category:1920 births]] [[Category:2004 deaths]]";
+            Assert.AreEqual(@"{{Persondata
+|DATE OF BIRTH= 11 May 1920
+|DATE OF DEATH= 4 June 2004
+}}" + u1, Parsers.PersonData(@"{{Persondata
+|DATE OF BIRTH=
+|DATE OF DEATH=
+}}" + u1, "test"), "birth and death added from unformatted values");
             
             u1 = @"Fred (11 May 1920 – 4 June 1000) was great. [[Category:1920 births]] [[Category:2004 deaths]]";
             Assert.AreEqual(@"{{Persondata
