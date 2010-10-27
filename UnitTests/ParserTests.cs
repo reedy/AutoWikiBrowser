@@ -2458,9 +2458,9 @@ world|format=PDF}} was";
 |DATE OF DEATH=
 }}" + u1, "test"), "unformatted death value not added if doesn't match category");
             
-             u1 = @"Fred (11 May 1920 – {{circa}} 4 June 2004) was great. [[Category:1920 births]] [[Category:2004 deaths]]";
+            u1 = @"Fred (11 May 1920 – {{circa}} 4 June 2004) was great. [[Category:1920 births]] [[Category:2004 deaths]]";
             Assert.AreEqual(@"{{Persondata
-|DATE OF BIRTH= 11 May 1920
+|DATE OF BIRTH= 1920
 |DATE OF DEATH= 2004
 }}" + u1, Parsers.PersonData(@"{{Persondata
 |DATE OF BIRTH=
