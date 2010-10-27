@@ -4841,6 +4841,15 @@ namespace WikiFunctions.Parse
         private static readonly Regex CategoryCharacters = new Regex(@"\[\[Category:[^\[\]]*?[Cc]haracters", RegexOptions.Compiled);
         private static readonly Regex SeeAlsoOrMain = Tools.NestedTemplateRegex(new [] {"See also", "Sealso", "Main"});
         private static readonly Regex RefImproveBLP = Tools.NestedTemplateRegex("RefimproveBLP");
+        
+        private static readonly Regex IMA = Tools.NestedTemplateRegex(new[]
+                                              {
+                                                  "Infobox musical artist", "Infobox musical artist 2",
+                                                  "Infobox Musical Artist", "Infobox singer", "Infobox Musician",
+                                                  "Infobox musician", "Music artist",
+                                                  "Infobox Composer", "Infobox composer",
+                                                  "Infobox Musical artist", "Infobox Band"
+                                              });
 
         /// <summary>
         /// determines whether the article is about a person by looking for persondata/birth death categories, bio stub etc. for en wiki only
@@ -4888,15 +4897,7 @@ namespace WikiFunctions.Parse
                 return false;
             
             string MABackground =
-                Tools.GetTemplateParameterValue(
-                    Tools.NestedTemplateRegex(new[]
-                                              {
-                                                  "Infobox musical artist", "Infobox musical artist 2",
-                                                  "Infobox Musical Artist", "Infobox singer", "Infobox Musician",
-                                                  "Infobox musician", "Music artist",
-                                                  "Infobox Composer", "Infobox composer",
-                                                  "Infobox Musical artist", "Infobox Band"
-                                              }).Match(articleText).Value,
+                Tools.GetTemplateParameterValue(IMA.Match(articleText).Value,
                     "Background");
 
             if(MABackground.Contains("band") || MABackground.Contains("classical_ensemble") || MABackground.Contains("temporary"))
