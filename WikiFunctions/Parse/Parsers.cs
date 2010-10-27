@@ -3295,6 +3295,8 @@ namespace WikiFunctions.Parse
                 
                 if(WikiRegexes.CircaTemplate.IsMatch(zerothSection))
                     zerothSection = zerothSection.Substring(0, WikiRegexes.CircaTemplate.Match(zerothSection).Index);
+                
+                zerothSection = Tools.NestedTemplateRegex("ndash").Replace(zerothSection, " &ndash;");
                 zerothSection = WikiRegexes.NestedTemplates.Replace(zerothSection, " ");
                 
                 // look for date in bracketed text, check date matches existing value (from categories)
