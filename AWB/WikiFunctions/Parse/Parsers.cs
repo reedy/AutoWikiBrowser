@@ -3111,8 +3111,8 @@ namespace WikiFunctions.Parse
                 if(m.Success)
                 {
                     string year = m.Value.Replace(@"[[Category:", "").TrimEnd(']');
-                    if(Regex.IsMatch(year, @"^\d{3,4} births$"))
-                        newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF BIRTH", year.Replace(" births", ""), true);
+                    if(Regex.IsMatch(year, @"^\d{3,4} births(\|.*)?$"))
+                        newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF BIRTH", year.Substring(0, year.IndexOf(" births")), true);
                 }
             }
             
@@ -3128,8 +3128,8 @@ namespace WikiFunctions.Parse
                 if(m.Success)
                 {
                     string year = m.Value.Replace(@"[[Category:", "").TrimEnd(']');
-                    if(Regex.IsMatch(year, @"^\d{3,4} deaths$"))
-                        newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF DEATH", year.Replace(" deaths", ""), true);
+                    if(Regex.IsMatch(year, @"^\d{3,4} deaths(\|.*)?$"))
+                        newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF DEATH", year.Substring(0, year.IndexOf(" deaths")), true);
                 }
             }
             
@@ -3270,7 +3270,7 @@ namespace WikiFunctions.Parse
         }
         
         private static readonly Regex BracketedBirthDeathDate = new Regex(@"\(([^()]+)\)", RegexOptions.Compiled);
-        private static readonly Regex FreeFormatDied = new Regex(@"(?:(?:&nbsp;| )(?:-|–|&ndash;)(?:&nbsp;| )|\b[Dd](?:ied|\.)\b)", RegexOptions.Compiled);
+        private static readonly Regex FreeFormatDied = new Regex(@"(?:(?:&nbsp;| )(?:-|–|&ndash;)(?:&nbsp;| )|\b[Dd](?:ied\b|\.))", RegexOptions.Compiled);
         
         /// <summary>
         /// Sets persondata date of birth/death fields based on unformatted info in zeroth section of article, provided dates match existing birth/death categories

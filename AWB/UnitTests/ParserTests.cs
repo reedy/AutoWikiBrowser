@@ -2395,6 +2395,9 @@ world|format=PDF}} was";
             string Text = Parsers.PersonData(@"Foo [[Category:Living people]] [[Category:1980 births]]", "test");
             
             Assert.IsTrue(Tools.GetTemplateParameterValue(WikiRegexes.Persondata.Match(Text).Value, "DATE OF BIRTH").Equals("1980"));
+            
+            Text = Parsers.PersonData(@"Foo [[Category:Living people]] [[Category:1980 births|Foo]]", "test");
+            Assert.IsTrue(Tools.GetTemplateParameterValue(WikiRegexes.Persondata.Match(Text).Value, "DATE OF BIRTH").Equals("1980"));
         }
         
         [Test]
