@@ -4888,7 +4888,7 @@ namespace WikiFunctions.Parse
                 || InUniverse.IsMatch(articleText)
                 || articleText.Contains(@"[[Category:Presidencies")
                 || articleText.Contains(@"[[Category:Military careers")
-                || articleText.Contains(@"[[Category:Noble families")
+                || Regex.IsMatch(articleText, @"[[Category:[^\[\]\|]*[nN]oble families")
                 || CategoryCharacters.IsMatch(articleText)
                 || Tools.NestedTemplateRegex("Infobox cricketer tour biography").IsMatch(articleText)
                 || articleTitle.StartsWith(@"List of ")
