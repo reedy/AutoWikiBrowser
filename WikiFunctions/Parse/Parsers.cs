@@ -1569,6 +1569,8 @@ namespace WikiFunctions.Parse
         private static readonly Regex CiteWeb = Tools.NestedTemplateRegex(new[] { "cite web", "citeweb" });
         private static readonly Regex CitationPopulatedParameter = new Regex(@"\|\s*([a-z_0-9-]+)\s*=\s*([^\|}]{3,}?)\s*");
 
+        private static readonly Regex citeWebParameters = new Regex(@"\b(first\d?|last\d?|author|authorlink\d?|coauthors?|title|url|archiveurl|work|publisher|location|pages?|language|trans_title|format|doi|date|month|year|archivedate|accessdate|quote|ref|separator|postscript|at)\b", RegexOptions.Compiled);
+        
         /// <summary>
         /// Searches for unknown/invalid parameters within citation templates
         /// </summary>
@@ -1576,8 +1578,6 @@ namespace WikiFunctions.Parse
         /// <returns>Dictionary of parameter index in wiki text, and parameter length</returns>
         public static Dictionary<int, int> BadCiteParameters(string articleText)
         {
-            Regex citeWebParameters = new Regex(@"\b(first\d?|last\d?|author|authorlink\d?|coauthors|title|url|archiveurl|work|publisher|location|pages?|language|trans_title|format|doi|date|month|year|archivedate|accessdate|quote|ref|separator|postscript|at)\b");
-
             Dictionary<int, int> found = new Dictionary<int, int>();
             
             // unknown parameters in cite web
