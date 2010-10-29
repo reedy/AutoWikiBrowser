@@ -80,21 +80,24 @@
             this.groupBox2.Controls.Add(this.txtBacklog);
             this.groupBox2.Location = new System.Drawing.Point(6, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(538, 145);
+            this.groupBox2.Size = new System.Drawing.Size(538, 144);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "&Backlog text";
             // 
             // txtBacklog
             // 
+            this.txtBacklog.AcceptsReturn = true;
+            this.txtBacklog.AllowDrop = true;
             this.txtBacklog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.txtBacklog.Location = new System.Drawing.Point(6, 19);
+            this.txtBacklog.MaxLength = 2147483647;
             this.txtBacklog.Multiline = true;
             this.txtBacklog.Name = "txtBacklog";
             this.txtBacklog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtBacklog.Size = new System.Drawing.Size(526, 120);
+            this.txtBacklog.Size = new System.Drawing.Size(526, 119);
             this.txtBacklog.TabIndex = 0;
             this.txtBacklog.TextChanged += new System.EventHandler(this.txtBacklog_TextChanged);
             // 
@@ -106,7 +109,7 @@
             this.groupBox3.Controls.Add(this.Grid);
             this.groupBox3.Location = new System.Drawing.Point(6, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(538, 163);
+            this.groupBox3.Size = new System.Drawing.Size(538, 164);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "&Categories";
@@ -124,7 +127,7 @@
             this.Grid.Location = new System.Drawing.Point(6, 19);
             this.Grid.Name = "Grid";
             this.Grid.ReadOnly = true;
-            this.Grid.Size = new System.Drawing.Size(526, 138);
+            this.Grid.Size = new System.Drawing.Size(526, 139);
             this.Grid.TabIndex = 0;
             // 
             // From
@@ -183,7 +186,7 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox3);
             this.splitContainer1.Size = new System.Drawing.Size(547, 322);
-            this.splitContainer1.SplitterDistance = 149;
+            this.splitContainer1.SplitterDistance = 148;
             this.splitContainer1.TabIndex = 5;
             // 
             // CfdOptions
