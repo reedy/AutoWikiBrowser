@@ -42,6 +42,7 @@
             this.btnOk = new System.Windows.Forms.Button();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.btnClearBacklog = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -59,7 +60,7 @@
             this.groupBox1.Controls.Add(this.chkSkip);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(547, 69);
+            this.groupBox1.Size = new System.Drawing.Size(446, 69);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Options";
@@ -201,6 +202,16 @@
             this.splitContainer1.SplitterDistance = 133;
             this.splitContainer1.TabIndex = 1;
             // 
+            // btnClearBacklog
+            // 
+            this.btnClearBacklog.Location = new System.Drawing.Point(464, 58);
+            this.btnClearBacklog.Name = "btnClearBacklog";
+            this.btnClearBacklog.Size = new System.Drawing.Size(95, 23);
+            this.btnClearBacklog.TabIndex = 7;
+            this.btnClearBacklog.Text = "Clear Backlog";
+            this.btnClearBacklog.UseVisualStyleBackColor = true;
+            this.btnClearBacklog.Click += new System.EventHandler(this.btnClearBacklog_Click);
+            // 
             // IfdOptions
             // 
             this.AcceptButton = this.btnOk;
@@ -208,6 +219,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(571, 430);
+            this.Controls.Add(this.btnClearBacklog);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.btnCancel);
@@ -246,5 +258,6 @@
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.CheckBox chkComment;
         private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.Button btnClearBacklog;
     }
 }

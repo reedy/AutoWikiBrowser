@@ -132,6 +132,11 @@ namespace AutoWikiBrowser.Plugins.IFD
             timer.Enabled = false;
             RefreshImgs();
         }
+
+        private void btnClearBacklog_Click(object sender, EventArgs e)
+        {
+            txtBacklog.Text = "";
+        }
     }
 
     [Serializable]
