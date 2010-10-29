@@ -132,5 +132,10 @@ namespace AutoWikiBrowser.Plugins.CFD
             timer.Enabled = false;
             RefreshCats();
         }
+
+        private void btnClearBacklog_Click(object sender, EventArgs e)
+        {
+            txtBacklog.Text = "";
+        }
     }
 }
