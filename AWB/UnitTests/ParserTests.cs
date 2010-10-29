@@ -7620,6 +7620,17 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         }
         
         [Test]
+        public void MultipleIssuesRemovedTags()
+        {
+            string Text = Regex.Replace(LongText, @"(\w+)", "[[$1]]") + @"{{Multiple issues | wikify=May 2010 | POV=May 2010 }}";
+            
+            Text = parser.Tagger(Text, "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.MultipleIssues.IsMatch(Text));
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(Text));
+            Assert.IsTrue(Tools.NestedTemplateRegex("POV").IsMatch(Text));
+        }
+        
+        [Test]
         public void RemoveDeadEnd()
         {
             Globals.UnitTestIntValue = 0;
