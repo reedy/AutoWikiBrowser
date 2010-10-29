@@ -59,7 +59,7 @@
             this.groupBox1.Controls.Add(this.chkSkip);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(560, 69);
+            this.groupBox1.Size = new System.Drawing.Size(547, 69);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Options";
@@ -92,21 +92,24 @@
             this.groupBox2.Controls.Add(this.txtBacklog);
             this.groupBox2.Location = new System.Drawing.Point(6, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(551, 133);
+            this.groupBox2.Size = new System.Drawing.Size(538, 127);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "&Backlog text";
             // 
             // txtBacklog
             // 
+            this.txtBacklog.AcceptsReturn = true;
+            this.txtBacklog.AllowDrop = true;
             this.txtBacklog.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.txtBacklog.Location = new System.Drawing.Point(6, 19);
+            this.txtBacklog.MaxLength = 2147483647;
             this.txtBacklog.Multiline = true;
             this.txtBacklog.Name = "txtBacklog";
             this.txtBacklog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtBacklog.Size = new System.Drawing.Size(539, 108);
+            this.txtBacklog.Size = new System.Drawing.Size(526, 102);
             this.txtBacklog.TabIndex = 0;
             this.txtBacklog.TextChanged += new System.EventHandler(this.txtBacklog_TextChanged);
             // 
@@ -118,7 +121,7 @@
             this.groupBox3.Controls.Add(this.Grid);
             this.groupBox3.Location = new System.Drawing.Point(6, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(551, 165);
+            this.groupBox3.Size = new System.Drawing.Size(538, 159);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "&Images";
@@ -136,7 +139,7 @@
             this.Grid.Location = new System.Drawing.Point(6, 19);
             this.Grid.Name = "Grid";
             this.Grid.ReadOnly = true;
-            this.Grid.Size = new System.Drawing.Size(539, 140);
+            this.Grid.Size = new System.Drawing.Size(526, 134);
             this.Grid.TabIndex = 0;
             // 
             // From
@@ -155,7 +158,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(497, 407);
+            this.btnCancel.Location = new System.Drawing.Point(484, 395);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 3;
@@ -165,7 +168,7 @@
             // btnOk
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOk.Location = new System.Drawing.Point(416, 407);
+            this.btnOk.Location = new System.Drawing.Point(403, 395);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 2;
@@ -194,8 +197,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.groupBox3);
-            this.splitContainer1.Size = new System.Drawing.Size(560, 314);
-            this.splitContainer1.SplitterDistance = 139;
+            this.splitContainer1.Size = new System.Drawing.Size(547, 302);
+            this.splitContainer1.SplitterDistance = 133;
             this.splitContainer1.TabIndex = 1;
             // 
             // IfdOptions
@@ -204,7 +207,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(584, 442);
+            this.ClientSize = new System.Drawing.Size(571, 430);
             this.Controls.Add(this.splitContainer1);
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.btnCancel);
