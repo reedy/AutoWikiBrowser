@@ -88,10 +88,10 @@ namespace WikiFunctions.Parse
             RegexConversion.Add(new Regex(@"(?!{{[Cc]ite ?(?:wikisource|ngall|uscgll))(\{\{\s*(?:[Cc]it[ae]|(?:[Aa]rticle|[Mm]ultiple) ?issues)[^{}]*)\|\s*(\}\}|\|)", RegexOptions.Compiled), "$1$2");
             
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_empty_.7B.7BArticle_issues.7D.7D
-            // articleissues with no issues -> remove tag
+            // article issues with no issues -> remove tag
             RegexConversion.Add(new Regex(@"\{\{(?:[Aa]rticle|[Mm]ultiple) ?issues(?:\s*\|\s*(?:section|article)\s*=\s*[Yy])?\s*\}\}", RegexOptions.Compiled), "");
             
-            // articleissues with one issue -> single issue tag (e.g. {{multiple issues|cleanup=January 2008}} to {{cleanup|date=January 2008}} etc.)
+            // article issues with one issue -> single issue tag (e.g. {{multiple issues|cleanup=January 2008}} to {{cleanup|date=January 2008}} etc.)
             RegexConversion.Add(new Regex(@"\{\{(?:[Aa]rticle|[Mm]ultiple) ?issues\s*\|\s*([^\|{}=]{2,}?)\s*(=\s*\w{3,10}\s+20\d\d)\s*\}\}", RegexOptions.Compiled), "{{$1|date$2}}");
             
             // remove duplicate / populated and null fields in cite/multiple issues templates
@@ -5658,13 +5658,14 @@ namespace WikiFunctions.Parse
                && WikiRegexes.Refs.Matches(commentsStripped).Count > 0)
                 articleText = Tools.RenameTemplate(articleText, "unreferenced", "refimprove", true);                
             
-            if(tagsAdded.Count > 0 && WikiRegexes.MultipleIssues.IsMatch(articleText))
+            if((tagsAdded.Count > 0 || tagsRemoved.Count > 0) && WikiRegexes.MultipleIssues.IsMatch(articleText))
             {
                 HideText ht = new HideText();
                 Parsers p = new Parsers();
                 articleText = ht.HideUnformatted(articleText);
                 
                 articleText = p.MultipleIssues(articleText);
+                articleText = Conversions(articleText);
                 return ht.AddBackUnformatted(articleText);
             }
 
