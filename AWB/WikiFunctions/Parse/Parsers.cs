@@ -5656,17 +5656,24 @@ namespace WikiFunctions.Parse
             // unref --> refimprove if has existing refs
             if(WikiRegexes.Unreferenced.IsMatch(commentsStripped)
                && WikiRegexes.Refs.Matches(commentsStripped).Count > 0)
-                articleText = Tools.RenameTemplate(articleText, "unreferenced", "refimprove", true);                
+                articleText = Tools.RenameTemplate(articleText, "unreferenced", "refimprove", true);
             
-            if((tagsAdded.Count > 0 || tagsRemoved.Count > 0) && WikiRegexes.MultipleIssues.IsMatch(articleText))
+            if(tagsAdded.Count > 0 || tagsRemoved.Count > 0)
             {
-                HideText ht = new HideText();
                 Parsers p = new Parsers();
-                articleText = ht.HideUnformatted(articleText);
+                if(WikiRegexes.MultipleIssues.IsMatch(articleText))
+                {
+                    HideText ht = new HideText();
+                    
+                    articleText = ht.HideUnformatted(articleText);
+                    
+                    articleText = p.MultipleIssues(articleText);
+                    articleText = Conversions(articleText);
+                    articleText = ht.AddBackUnformatted(articleText);
+                }
                 
-                articleText = p.MultipleIssues(articleText);
-                articleText = Conversions(articleText);
-                return ht.AddBackUnformatted(articleText);
+                // sort again in case tag removal requires whitespace cleanup
+                articleText = p.Sorter.Sort(articleText, articleTitle);
             }
 
             summary = PrepareTaggerEditSummary();
