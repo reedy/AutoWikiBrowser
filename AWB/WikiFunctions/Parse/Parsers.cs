@@ -3264,7 +3264,7 @@ namespace WikiFunctions.Parse
             // call parser function for futher date fixes
             dateFound = WikiRegexes.Comments.Replace(CiteTemplateDates(@"{{cite web|date=" + dateFound + @"}}").Replace(@"{{cite web|date=", "").Trim('}'), "");
             
-            dateFound = Tools.ConvertDate(dateFound, DeterminePredominantDateLocale(articletext, true)).Trim('-');
+            dateFound = Tools.ConvertDate(dateFound, DeterminePredominantDateLocale(articletext, false)).Trim('-');
             
             return Tools.SetTemplateParameterValue(personData, field, dateFound, true);
         }
