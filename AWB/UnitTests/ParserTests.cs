@@ -1687,6 +1687,18 @@ died 2002
         }
         
         [Test]
+        public void FixPeopleCategoriesRefs()
+        {
+            string refs = @"<ref>foo</ref> and <ref>foo</ref> and <ref>foo</ref> and <ref>foo</ref> and <ref>foo</ref> and <ref>foo</ref> ";
+            
+            string Over20Refs = refs + refs + refs + refs + @"'''Fred Smith''' (born 1980) is a bloke. {{Persondata}}";
+            
+            Assert.AreEqual(Over20Refs, Parsers.FixPeopleCategories(Over20Refs, "test"), "no change when over 20 refs and no exiting birth/death/living cat");
+            
+            Assert.IsTrue(Parsers.FixPeopleCategories(Over20Refs + @" [[Category:Living people]]", "test").Contains(@"[[Category:1980 births]]"), "can add cat when over 20 refs and living people cat already");
+        }
+        
+        [Test]
         public void FixPeopleCategoriesFutureTest()
         {
             // birth
