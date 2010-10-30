@@ -5106,8 +5106,11 @@ namespace WikiFunctions.Parse
         public static string FixPeopleCategories(string articleText, string articleTitle, bool parseTalkPage)
         {
             // over 20 references or long and not DOB/DOD categorised at all yet: implausible
-            if (!Variables.LangCode.Equals("en") || WikiRegexes.Refs.Matches(articleText).Count > 20 || (articleText.Length > 15000 && !WikiRegexes.BirthsCategory.IsMatch(articleText)
+            if (!Variables.LangCode.Equals("en") || (articleText.Length > 15000 && !WikiRegexes.BirthsCategory.IsMatch(articleText)
                                                                                                          && !WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText)))
+                return YearOfBirthMissingCategory(articleText);
+            
+            if(!WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) && WikiRegexes.Refs.Matches(articleText).Count > 20)
                 return YearOfBirthMissingCategory(articleText);
 
             string articleTextBefore = articleText;
