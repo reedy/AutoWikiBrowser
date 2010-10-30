@@ -354,7 +354,7 @@ namespace WikiFunctions
         { get { return mAWBLogListener.Skipped; } private set { mAWBLogListener.Skipped = value; } }
 
         /// <summary>
-        /// Returns true of article general fixes can be applied to the page: article or category namespace, sandbox, template documnetation page or Anexo namespace on es-wiki
+        /// Returns true of article general fixes can be applied to the page: article or category namespace, sandbox, template documnetation page or Anexo namespace on es-wiki and pt-wiki
         /// </summary>
         [XmlIgnore]
         public bool CanDoGeneralFixes
@@ -365,7 +365,8 @@ namespace WikiFunctions
                         || NameSpaceKey == Namespace.Category
                         || Name.Contains("Sandbox")
                         || Name.Contains("/doc")
-                        || (Variables.LangCode.Equals("es") && NameSpaceKey == 104 /* Anexo */));
+                        || (Variables.LangCode.Equals("es") && NameSpaceKey == 104 /* Anexo */)
+    	             	|| (Variables.LangCode.Equals("pt") && NameSpaceKey == 102 /* Anexo */));
             }
         }
 
