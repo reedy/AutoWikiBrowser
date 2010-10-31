@@ -1202,6 +1202,9 @@ namespace WikiFunctions
 
             AWBChangeArticleText("FixReferenceTags", Parsers.FixReferenceTags(ArticleText), true);
             Variables.Profiler.Profile("FixReferenceTags");
+            
+            AWBChangeArticleText("Fix empty references", Parsers.SimplifyReferenceTags(ArticleText), true);
+            Variables.Profiler.Profile("FixEmptyReferences");
 
             AWBChangeArticleText("DuplicateUnnamedReferences", Parsers.DuplicateUnnamedReferences(ArticleText), true);
             Variables.Profiler.Profile("DuplicateUnnamedReferences");
@@ -1214,9 +1217,6 @@ namespace WikiFunctions
 
             AWBChangeArticleText("ReorderReferences", Parsers.ReorderReferences(ArticleText), true);
             Variables.Profiler.Profile("ReorderReferences");
-
-            AWBChangeArticleText("Fix empty references", Parsers.SimplifyReferenceTags(ArticleText), true);
-            Variables.Profiler.Profile("FixEmptyReferences");
             
             AWBChangeArticleText("Refs after punctuation", Parsers.RefsAfterPunctuation(ArticleText), true);
             Variables.Profiler.Profile("RefsAfterPunctuation");
