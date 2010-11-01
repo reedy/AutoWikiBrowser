@@ -897,6 +897,7 @@ cit"));
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{Otheruses2|something}}"));
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{otheruse|something}}"));
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{otheruses}}"));
+            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{other persons}}"));
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{otheruse
 |something}}"));
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{2otheruses|something}}"));
