@@ -1524,7 +1524,8 @@ namespace WikiFunctions.Parse
 
         /// <summary>
         /// Renames templates to bypass template redirects from [[WP:AWB/Template redirects]]
-        /// The first letter casing of the existing redirect is kept in the new template name
+        /// The first letter casing of the existing redirect is kept in the new template name,
+        ///  except for acronym templates where first letter uppercase is enforced
         /// </summary>
         /// <param name="articleText">the page text</param>
         /// <param name="TemplateRedirects">Dictionary of redirects and templates</param>
@@ -1539,14 +1540,19 @@ namespace WikiFunctions.Parse
             return articleText;
         }
         
+        private static readonly Regex AcronymTemplate = new Regex(@"^[A-Z]{3}", RegexOptions.Compiled);
+        
         private static string TemplateRedirectsME(Match m, string newTemplateName)
         {
             string originalTemplateName = m.Groups[2].Value;
             
-            if(Tools.TurnFirstToUpper(originalTemplateName).Equals(originalTemplateName))
-                newTemplateName = Tools.TurnFirstToUpper(newTemplateName);
-            else
-                newTemplateName = Tools.TurnFirstToLower(newTemplateName);
+            if(!AcronymTemplate.IsMatch(newTemplateName))
+            {
+                if(Tools.TurnFirstToUpper(originalTemplateName).Equals(originalTemplateName))
+                    newTemplateName = Tools.TurnFirstToUpper(newTemplateName);
+                else
+                    newTemplateName = Tools.TurnFirstToLower(newTemplateName);
+            }
             
             return (m.Groups[1].Value + newTemplateName + m.Groups[3].Value);
         }
