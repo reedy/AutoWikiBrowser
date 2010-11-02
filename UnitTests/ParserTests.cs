@@ -3050,6 +3050,11 @@ Template:foo}}"));
             
             const string doubleApos = @"[[Image:foo%27%27s.jpg|thumb|200px|Bar]]";
             Assert.AreEqual(doubleApos, Parsers.FixLinks(doubleApos, "a", out nochange));
+            
+            Assert.AreEqual(@"[[size_t]]", Parsers.FixLinks(@"[[size_t]]", "a", out nochange));
+            Assert.IsTrue(nochange);
+            Assert.AreEqual(@"[[mod_perl]]", Parsers.FixLinks(@"[[mod_perl]]", "a", out nochange));
+            Assert.IsTrue(nochange);
         }
         
         [Test]

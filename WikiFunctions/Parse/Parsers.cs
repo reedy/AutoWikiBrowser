@@ -3634,6 +3634,8 @@ namespace WikiFunctions.Parse
 
             return articleText;
         }
+        
+        private static readonly Regex UnderscoreTitles = new Regex(@"[Ss]ize_t|[Mm]od_perl", RegexOptions.Compiled);
 
         // Partially covered by FixMainArticleTests.SelfLinkRemoval()
         /// <summary>
@@ -3651,7 +3653,7 @@ namespace WikiFunctions.Parse
             if (Regex.IsMatch(articleText, @"{{\s*[Ii]nfobox (?:[Ss]ingle|[Aa]lbum)"))
                 articleText = FixLinksInfoBoxSingleAlbum(articleText, articleTitle);
             
-                        // clean up wikilinks: replace underscores, percentages and URL encoded accents etc.
+            // clean up wikilinks: replace underscores, percentages and URL encoded accents etc.
             StringBuilder sb = new StringBuilder(articleText, (articleText.Length * 11) / 10);
 
             foreach (Match m in WikiRegexes.WikiLink.Matches(articleText))
@@ -3662,7 +3664,7 @@ namespace WikiFunctions.Parse
                     string y = m.Value;
 
                     // don't convert %27%27 -- https://bugzilla.wikimedia.org/show_bug.cgi?id=8932
-                    if (!theTarget.Contains("%27%27"))
+                    if (!theTarget.Contains("%27%27") && !UnderscoreTitles.IsMatch(theTarget))
                         y = m.Value.Replace(theTarget, CanonicalizeTitle(theTarget));
 
                     if (y != m.Value)
