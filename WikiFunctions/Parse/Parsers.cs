@@ -3654,25 +3654,7 @@ namespace WikiFunctions.Parse
                 articleText = FixLinksInfoBoxSingleAlbum(articleText, articleTitle);
             
             // clean up wikilinks: replace underscores, percentages and URL encoded accents etc.
-            StringBuilder sb = new StringBuilder(articleText, (articleText.Length * 11) / 10);
-
-            foreach (Match m in WikiRegexes.WikiLink.Matches(articleText))
-            {
-                string theTarget = m.Groups[1].Value;
-                if (theTarget.Length > 0)
-                {
-                    string y = m.Value;
-
-                    // don't convert %27%27 -- https://bugzilla.wikimedia.org/show_bug.cgi?id=8932
-                    if (!theTarget.Contains("%27%27") && !UnderscoreTitles.IsMatch(theTarget))
-                        y = m.Value.Replace(theTarget, CanonicalizeTitle(theTarget));
-
-                    if (y != m.Value)
-                        sb = sb.Replace(m.Value, y);
-                }
-            }
-
-            articleText = sb.ToString();
+            articleText = WikiRegexes.WikiLink.Replace(articleText, new MatchEvaluator(FixLinksWikilinkME));
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Your_code_creates_page_errors_inside_imagemap_tags.
             // don't apply if there's an imagemap on the page or some noinclude transclusion business
@@ -3694,8 +3676,18 @@ namespace WikiFunctions.Parse
             // fix for self interwiki links
             articleText = FixSelfInterwikis(articleText);
             
-            noChange = (articleText.Equals(articleTextAtStart));
+            noChange = articleText.Equals(articleTextAtStart);
             return articleText;
+        }
+        
+        private static string FixLinksWikilinkME(Match m)
+        {
+            string theTarget = m.Groups[1].Value, y = m.Value;
+            // don't convert %27%27 -- https://bugzilla.wikimedia.org/show_bug.cgi?id=8932
+            if (theTarget.Length > 0 && !theTarget.Contains("%27%27") && !UnderscoreTitles.IsMatch(theTarget))
+                y = y.Replace(theTarget, CanonicalizeTitle(theTarget));
+
+            return y;
         }
         
         /// <summary>
