@@ -102,9 +102,6 @@ namespace WikiFunctions.Parse
             // replace any {{articleissues}} with {{Multiple issues}}
             RegexConversion.Add(new Regex(@"(?<={{\s*)(?:[Aa]rticle) ?(?=issues.*}})", RegexOptions.Compiled), "Multiple ");
 
-            // http://en.wikipedia.org/wiki/Template_talk:Citation_needed#Requested_move
-            RegexConversion.Add(new Regex(@"{{\s*(?:[Cc]n|[Ff]act|[Pp]roveit|[Cc]iteneeded|[Uu]ncited)(?=\s*[\|}])", RegexOptions.Compiled), @"{{Citation needed");
-
             RegexConversion.Add(new Regex(@"({{\s*[Cc]itation needed\s*\|)\s*(?:[Dd]ate:)?([A-Z][a-z]+ 20\d\d)\s*\|\s*(date\s*=\s*\2\s*}})", RegexOptions.Compiled | RegexOptions.IgnoreCase), @"$1$3");
 
             SmallTagRegexes.Add(WikiRegexes.SupSub);
@@ -5664,16 +5661,13 @@ namespace WikiFunctions.Parse
             if(tagsAdded.Count > 0 || tagsRemoved.Count > 0)
             {
                 Parsers p = new Parsers();
-                if(WikiRegexes.MultipleIssues.IsMatch(articleText))
-                {
-                    HideText ht = new HideText();
-                    
-                    articleText = ht.HideUnformatted(articleText);
-                    
-                    articleText = p.MultipleIssues(articleText);
-                    articleText = Conversions(articleText);
-                    articleText = ht.AddBackUnformatted(articleText);
-                }
+                HideText ht = new HideText();
+                
+                articleText = ht.HideUnformatted(articleText);
+                
+                articleText = p.MultipleIssues(articleText);
+                articleText = Conversions(articleText);
+                articleText = ht.AddBackUnformatted(articleText);
                 
                 // sort again in case tag removal requires whitespace cleanup
                 articleText = p.Sorter.Sort(articleText, articleTitle);
