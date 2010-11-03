@@ -4877,6 +4877,8 @@ namespace WikiFunctions.Parse
             #endif
 
             if (!Variables.LangCode.Equals("en")
+                || articleTitle.StartsWith(@"List of ")
+                || articleTitle.EndsWith("discography")
                 || articleText.Contains(@"[[Category:Multiple people]]")
                 || articleText.Contains(@"[[Category:Married couples")
                 || articleText.Contains(@"[[Category:Fictional")
@@ -4888,8 +4890,6 @@ namespace WikiFunctions.Parse
                 || Regex.IsMatch(articleText, @"[[Category:[^\[\]\|]*[nN]oble families")
                 || CategoryCharacters.IsMatch(articleText)
                 || Tools.NestedTemplateRegex("Infobox cricketer tour biography").IsMatch(articleText)
-                || articleTitle.StartsWith(@"List of ")
-                || articleTitle.EndsWith("discography")
                 || WikiRegexes.Disambigs.IsMatch(articleText)
                 || WikiRegexes.DeathsOrLivingCategory.Matches(articleText).Count > 1
                 || WikiRegexes.InfoBox.Match(articleText).Groups[1].Value.ToLower().Contains("organization")
