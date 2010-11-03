@@ -3638,7 +3638,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
         
-        private static readonly Regex UnderscoreTitles = new Regex(@"[Ss]ize_t|[Mm]od_perl", RegexOptions.Compiled);
+        private static readonly Regex UnderscoreTitles = new Regex(@"[Ss]ize_t|[Mm]od_", RegexOptions.Compiled);
 
         // Partially covered by FixMainArticleTests.SelfLinkRemoval()
         /// <summary>

@@ -3055,6 +3055,7 @@ Template:foo}}"));
             Assert.IsTrue(nochange);
             Assert.AreEqual(@"[[mod_perl]]", Parsers.FixLinks(@"[[mod_perl]]", "a", out nochange));
             Assert.IsTrue(nochange);
+            Assert.AreEqual(@"[[mod_mono]]", Parsers.FixLinks(@"[[mod_mono]]", "a", out nochange));
         }
         
         [Test]
