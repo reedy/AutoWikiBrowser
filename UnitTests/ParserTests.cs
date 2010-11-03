@@ -2399,8 +2399,8 @@ world|format=PDF}} was";
             
             UnformatedDOB = @"'''Fred''' (reigned 27 June 1950 – 11 May 1990) was great [[Category:1950 births]]";
             Assert.AreEqual(UnformatedDOB + a2.Replace("27 June 1950", "1950"), Parsers.PersonData(UnformatedDOB + a, "test"), "only year set when circa date");
-        }        
-         
+        }
+        
         [Test]
         public void PersonDataCompletionDOBFromCategory()
         {
@@ -2463,7 +2463,7 @@ world|format=PDF}} was";
 |DATE OF BIRTH=
 |DATE OF DEATH=
 }}" + u1, "test"), "birth and death added from unformatted values");
-             u1 = @"Fred (born 11 May 1920 {{ndash}} 4 June 2004) was great. [[Category:1920 births]] [[Category:2004 deaths]]";
+            u1 = @"Fred (born 11 May 1920 {{ndash}} 4 June 2004) was great. [[Category:1920 births]] [[Category:2004 deaths]]";
             Assert.AreEqual(@"{{Persondata
 |DATE OF BIRTH= 11 May 1920
 |DATE OF DEATH= 4 June 2004
@@ -2471,7 +2471,7 @@ world|format=PDF}} was";
 |DATE OF BIRTH=
 |DATE OF DEATH=
 }}" + u1, "test"), "birth and death added from unformatted values");
-               u1 = @"Fred (born 11 May 1920{{ndash}} 4 June 2004) was great. [[Category:1920 births]] [[Category:2004 deaths]]";
+            u1 = @"Fred (born 11 May 1920{{ndash}} 4 June 2004) was great. [[Category:1920 births]] [[Category:2004 deaths]]";
             Assert.AreEqual(@"{{Persondata
 |DATE OF BIRTH= 11 May 1920
 |DATE OF DEATH= 4 June 2004
@@ -2499,7 +2499,7 @@ world|format=PDF}} was";
 }}" + u1, "test"), "unformatted death value not added if doesn't match category");
         }
         
-         [Test]
+        [Test]
         public void PersonDataCompletionDODFromCategory()
         {
             string Text = Parsers.PersonData(@"Foo [[Category:2005 deaths]] [[Category:1930 births]]", "test");
@@ -2741,8 +2741,8 @@ journal=Crypt of Cthulhu |volume= 3|issue= 3| ";
             Assert.AreEqual(@"{{harvnb|Smith|2005|pp=55–59}}", Parsers.FixCitationTemplates(@"{{harvnb|Smith|2005|pp=55–59}}"));
             Assert.AreEqual(@"{{harv|Smith|2005|pp=55 – 59}}", Parsers.FixCitationTemplates(@"{{harv|Smith|2005|pp=55 – 59}}"));
             Assert.AreEqual(@"{{harv|Smith|2005|pp=55–59, 77–81}}", Parsers.FixCitationTemplates(@"{{harv|Smith|2005|pp=55–59, 77-81}}"));
-        }        
-           
+        }
+        
         [Test]
         public void HarvTemplatesPP()
         {
@@ -2750,7 +2750,7 @@ journal=Crypt of Cthulhu |volume= 3|issue= 3| ";
             Assert.AreEqual(@"{{harvnb|Smith|2005|pp=55–59}}", Parsers.FixCitationTemplates(@"{{harvnb|Smith|2005|p=55–59}}"));
             Assert.AreEqual(@"{{harv|Smith|2005|pp=55 – 59}}", Parsers.FixCitationTemplates(@"{{harv|Smith|2005|p=55 – 59}}"));
             Assert.AreEqual(@"{{harv|Smith|2005|pp=55–59, 77–81}}", Parsers.FixCitationTemplates(@"{{harv|Smith|2005|p=55–59, 77-81}}"));
-        }        
+        }
         
         [Test]
         public void CiteTemplatesPageSections()
@@ -7225,21 +7225,6 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             
             Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|POV=May 2008|Expand=June 2008|Expand=June 2009}}", Parsers.Conversions(@"{{Article issues|wikify=May 2008|POV=May 2008|Expand=June 2008|Expand=June 2009}}"));
         }
-
-        [Test]
-        public void CitationNeededRedirectTests()
-        {
-            Assert.AreEqual(@"{{citation needed}}", Parsers.Conversions(@"{{citation needed}}"));
-            Assert.AreEqual(@"{{Citation needed}}", Parsers.Conversions(@"{{fact}}"));
-            Assert.AreEqual(@"{{Citation needed}}", Parsers.Conversions(@"{{ Fact}}"));
-            Assert.AreEqual(@"{{Citation needed}}", Parsers.Conversions(@"{{Cn}}"));
-            Assert.AreEqual(@"{{Citation needed}}", Parsers.Conversions(@"{{proveit}}"));
-            Assert.AreEqual(@"{{Citation needed}}", Parsers.Conversions(@"{{citeneeded}}"));
-            Assert.AreEqual(@"{{Citation needed|date=May 2009}}", Parsers.Conversions(@"{{fact|date=May 2009}}"));
-            Assert.AreEqual(@"{{Citation needed
-|date=May 2009}}", Parsers.Conversions(@"{{fact
-|date=May 2009}}"));
-        }
     }
 
     [TestFixture]
@@ -7271,8 +7256,8 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             
             string text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
             //Stub, no existing stub tag. Needs all tags
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("orphan"));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("wikify"));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
             Assert.IsTrue(text.Contains(UncatStub));
@@ -7282,8 +7267,8 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Globals.UnitTestBoolValue = true;
             
             text = parser.Tagger(LongText, "Test", false, out noChange, ref summary);
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("orphan"));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("wikify"));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
 
@@ -7321,14 +7306,15 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Globals.UnitTestBoolValue = false;
             
             string text = parser.Tagger(ShortText + @"{{unreferenced|date=May 2010}}", "Test", false, out noChange, ref summary);
-            Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(text), "Unref when no refs");
+            
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("unreferenced"), "Unref when no refs");
             
             text = parser.Tagger(ShortText + @"{{unreferenced|date=May 2010}} <!--<ref>foo</ref>-->", "Test", false, out noChange, ref summary);
-            Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(text), "Unref when no refs");
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("unreferenced"), "Unref when no refs");
             
             text = parser.Tagger(ShortText + @"{{unreferenced|date=May 2010}} <ref>foo</ref>", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(text), "Unref to refimprove when no refs");
-            Assert.IsTrue(Tools.NestedTemplateRegex("refimprove").IsMatch(text), "Unref when no refs");
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("refimprove"), "Unref when no refs");
         }
 
         [Test]
@@ -7339,8 +7325,8 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 
             string text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
             //Stub, no existing stub tag. Needs all tags
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("orphan"));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("wikify"));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
             
@@ -7357,8 +7343,8 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 
             text = parser.Tagger(ShortText + Stub, "Test", false, out noChange, ref summary);
             //Stub, existing stub tag
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("orphan"));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("wikify"));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsTrue(text.Contains(UncatStub));
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
@@ -7369,8 +7355,8 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 
             text = parser.Tagger(ShortText + ShortText, "Test", false, out noChange, ref summary);
             //Not a stub
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("orphan"));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("wikify"));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text));
 
@@ -7380,18 +7366,18 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             // with categories and no links, Deadend not removed
             Globals.UnitTestIntValue = 3;
             text = parser.Tagger(Deadend + ShortText, "Test", false, out noChange, ref summary);
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("orphan"));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("wikify"));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("deadend"));
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
 
             Globals.UnitTestIntValue = 5;
 
             text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
             //Categorised Stub
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("orphan"));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("wikify"));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("dead end"));
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
 
             Assert.IsFalse(text.Contains(UncatStub));
@@ -7399,9 +7385,9 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 
             text = parser.Tagger(ShortText + ShortText, "Test", false, out noChange, ref summary);
             //Categorised Page
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("orphan"));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("wikify"));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("dead end"));
 
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
             Assert.IsFalse(text.Contains(UncatStub));
@@ -7423,10 +7409,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             //Non orphan categorised page
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
-            Assert.IsTrue(text.Contains("{{dead end|" + WikiRegexes.DateYearMonthParameter + @"}}
-
-"));
-
+            
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
             Assert.IsFalse(text.Contains(UncatStub));
@@ -7515,13 +7498,10 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text), "pages using {{wi}} not tagged as orphan");
             
             text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
-            Assert.IsTrue(text.Contains("{{Orphan|" + WikiRegexes.DateYearMonthParameter + @"}}
-
-"));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("orphan"));
             
             text = parser.Tagger(@"{{Infobox foo bar|great=yes}}" + ShortText, "Test", false, out noChange, ref summary);
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("orphan"));
             
             text = parser.Tagger(@"{{multiple issues|foo={{subst:CURRENTMONTH}} |orphan={{subst:FOOBAR}} }}" + ShortText, "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
@@ -7564,7 +7544,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             
             // non-ru operation
             text = parser.Tagger(textIn, "Test", false, out noChange, ref summary);
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("orphan"));
             Assert.IsFalse(text.Contains(@"{{rq|wikify|style|linkless}}"));
             #endif
         }
@@ -7601,7 +7581,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             //wikify tag removed
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
             
-              text = parser.Tagger("{{multiple issues|COI=May 2010 | POV = May 2010 |wikify=June 2010}}" + Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
+            text = parser.Tagger("{{multiple issues|COI=May 2010 | POV = May 2010 |wikify=June 2010}}" + Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
             //wikify tag removed
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
 
@@ -7630,7 +7610,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Globals.UnitTestBoolValue = true;
 
             text = parser.Tagger("{{orphan}}", "Test", false, out noChange, ref summary);
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("orphan"));
         }
         
         [Test]
@@ -7640,7 +7620,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             
             string Text = parser.Tagger(LongText + @"foo {{expand}}" + "\r\n" + @" {{bio-stub}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(Text));
-            Assert.IsTrue(WikiRegexes.Expand.IsMatch(Text), "Expand not removed when stub tag removed");            
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(Text).Value.Contains("expand"), "Expand not removed when stub tag removed");
         }
         
         [Test]
