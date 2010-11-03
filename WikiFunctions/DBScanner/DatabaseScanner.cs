@@ -362,20 +362,21 @@ namespace WikiFunctions.DBScanner
 
             if (chkHeading.Checked)
             {
-                int intSection = 0, intSectionNumber = 0;
+                int intSection = 0, intSectionNumber = 0, i = 0;
 
                 strbList.AppendLine("==0==");
                 intSectionNumber++;
 
                 foreach (Article a in lbArticles.Items)
                 {
+                    i++;
                     s = a.ToString().Replace("&amp;", "&");
                     if (a.NameSpaceKey == Namespace.File) s = ":" + s; //images should be inlined
 
                     strbList.AppendLine(strBullet + " [[" + s + "]]");
 
                     intSection++;
-                    if (intSection == intHeadingSpace)
+                    if (intSection == intHeadingSpace && i != lbArticles.Items.Count)
                     {
                         strbList.AppendLine("\r\n==" + intSectionNumber + "==");
                         intSectionNumber++;
