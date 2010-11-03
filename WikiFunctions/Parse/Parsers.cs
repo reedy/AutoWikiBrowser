@@ -3638,7 +3638,8 @@ namespace WikiFunctions.Parse
             return articleText;
         }
         
-        private static readonly Regex UnderscoreTitles = new Regex(@"[Ss]ize_t|[Mm]od_", RegexOptions.Compiled);
+        private static readonly Regex UnderscoreTitles = new Regex(@"[Ss]ize_t|[Mm]od_", RegexOptions.Compiled);        
+        private static readonly Regex InfoBoxSingleAlbum = Tools.NestedTemplateRegex(new [] {"Infobox Single", "Infobox single", "Infobox album", "Infobox Album"});
 
         // Partially covered by FixMainArticleTests.SelfLinkRemoval()
         /// <summary>
@@ -3653,7 +3654,7 @@ namespace WikiFunctions.Parse
             string articleTextAtStart = articleText;
             string escTitle = Regex.Escape(articleTitle);
 
-            if (Regex.IsMatch(articleText, @"{{\s*[Ii]nfobox (?:[Ss]ingle|[Aa]lbum)"))
+            if (InfoBoxSingleAlbum.IsMatch(articleText))
                 articleText = FixLinksInfoBoxSingleAlbum(articleText, articleTitle);
             
             // clean up wikilinks: replace underscores, percentages and URL encoded accents etc.
