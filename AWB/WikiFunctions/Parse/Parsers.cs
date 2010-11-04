@@ -5559,7 +5559,7 @@ namespace WikiFunctions.Parse
                 
                 foreach(Article a in Cats)
                 {
-                    if(!a.Name.EndsWith(" stubs"))
+                    if(!a.Name.EndsWith(" stubs") && !a.Name.EndsWith(":Stubs"))
                         CatsNotStubs.Add(a);
                 }
                 totalCategories = CatsNotStubs.Count;
