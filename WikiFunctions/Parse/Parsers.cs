@@ -3060,12 +3060,7 @@ namespace WikiFunctions.Parse
         /// Matches the {{death  date}} family of templates
         /// </summary>
         private static readonly Regex DeathDate = Tools.NestedTemplateRegex(new List<string>(new[] { "death date", "death-date", "dda", "death date and age", "deathdateandage", "deathdate" }));
-        
-        /// <summary>
-        /// Matches the {{city-state}} template
-        /// </summary>
-        private static readonly Regex CityState = Tools.NestedTemplateRegex(new List<string>(new [] { "Ci", "State", "City-State", "Citystate", "City-state", "city-region"}));
-        
+                
         /// <summary>
         /// * Adds the default {{persondata}} template to en-wiki mainspace pages about a person that don't already have {{persondata}}
         /// * Attempts to complete blank {{persondata}} fields based on infobox values
@@ -3150,17 +3145,14 @@ namespace WikiFunctions.Parse
                 }
                 
                 POB = WikiRegexes.FileNamespaceLink.Replace(POB, "").Trim();
-                
-                if(CityState.IsMatch(POB))
-                    POB = CityState.Replace(POB, m => m.Groups[3].Value.Trim("|{}".ToCharArray()).Replace("|", ", "));
-                
+
                 POB = WikiRegexes.NestedTemplates.Replace(WikiRegexes.Br.Replace(POB, " "), "");
                 POB = WikiRegexes.Small.Replace(WikiRegexes.Refs.Replace(POB, ""), "$1").TrimEnd(',');
                 
                 newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF BIRTH", POB, true);
             }
             else            
-                newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF BIRTH", CityState.Replace(ExistingPOB, m => m.Groups[3].Value.Trim("|{}".ToCharArray()).Replace("|", ", ")));
+                newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF BIRTH", ExistingPOB);
             
             // place of death
             string ExistingPOD = Tools.GetTemplateParameterValue(newPersonData, "PLACE OF DEATH");
@@ -3176,17 +3168,13 @@ namespace WikiFunctions.Parse
                 }
                 
                 POD = WikiRegexes.FileNamespaceLink.Replace(POD, "").Trim();
-                
-                if(CityState.IsMatch(POD))
-                    POD = CityState.Replace(POD, m => m.Groups[3].Value.Trim("|{}".ToCharArray()).Replace("|", ", "));
-                
                 POD = WikiRegexes.NestedTemplates.Replace(WikiRegexes.Br.Replace(POD, " "), "");
                 POD = WikiRegexes.Small.Replace(WikiRegexes.Refs.Replace(POD, ""), "$1").TrimEnd(',');
                 
                 newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF DEATH", POD, true);
             }
              else            
-                 newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF DEATH", CityState.Replace(ExistingPOD, m => m.Groups[3].Value.Trim("|{}".ToCharArray()).Replace("|", ", ")));
+                 newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF DEATH", ExistingPOD);
            
              // look for full dates matching birth/death categories
              newPersonData = CompletePersonDataDate(newPersonData, articleText);
