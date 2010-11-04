@@ -2561,7 +2561,7 @@ world|format=PDF}} was";
             Assert.AreEqual(PD.Replace(@"[[Guelph/Eramosa, Ontario|Eramosa Township]],<br>[[Ontario]], [[Canada]]", "Ontario, Canada"),
                             WikiRegexes.Persondata.Match(Parsers.PersonData(IB.Replace(@"[[Guelph/Eramosa, Ontario|Eramosa Township]], [[Ontario]], [[Canada]]", "{{city-state|Ontario|Canada}}") + "May 2, 2010 and May 2, 2010", "test")).Value, "city state template converted");
             Assert.AreEqual(PD.Replace(@"[[St. Paul, Minnesota|Saint Paul]], [[Minnesota]]", "Saint Paul, Minnesota"),
-                            WikiRegexes.Persondata.Match(Parsers.PersonData(IB.Replace(@"[[St. Paul, Minnesota|Saint Paul]], [[Minnesota]]", "{{city-state|Saint Paul|Minnesota}}") + "May 2, 2010 and May 2, 2010", "test")).Value, "city state template converted (death place)");
+                            WikiRegexes.Persondata.Match(Parsers.PersonData(IB.Replace(@"[[St. Paul, Minnesota|Saint Paul]], [[Minnesota]]", "Saint Paul, Minnesota}}") + "May 2, 2010 and May 2, 2010", "test")).Value, "city state template converted (death place)");
             
             Assert.AreEqual(PD, WikiRegexes.Persondata.Match(Parsers.PersonData(IB.Replace(@"[[Canada]]", @"[[Canada]] [[File:Foo.svg|country flag]]") + "May 2, 2010 and May 2, 2010", "test")).Value, "removes country flag from place name");
             Assert.AreEqual(PD, WikiRegexes.Persondata.Match(Parsers.PersonData(IB.Replace(@"[[Canada]]", @"[[Canada]] <ref>abc</ref>") + "May 2, 2010 and May 2, 2010", "test")).Value, "removes ref from place name");
@@ -2583,10 +2583,7 @@ world|format=PDF}} was";
 | PLACE OF BIRTH    = Ontario, Canada
 | DATE OF DEATH     = May 29, 1916
 | PLACE OF DEATH    = [[St. Paul, Minnesota|Saint Paul]], [[Minnesota]]
-}}";
-
-            Assert.AreEqual(PD, Parsers.PersonData(PD.Replace(@"Ontario, Canada", @"{{city-state|Ontario|Canada}}"), "test"));
-            
+}}";            
         }
         
         [Test]
