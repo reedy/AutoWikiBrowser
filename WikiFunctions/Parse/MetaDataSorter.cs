@@ -317,7 +317,7 @@ en, sq, ru
 
                         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser#Removal_of_blank_lines
                         // on de wiki a blank line is desired between persondata and interwikis
-                        if (Variables.LangCode == "de" && personData.Length > 0 && interwikis.Length > 0)
+                        if (Variables.LangCode.Equals("de") && personData.Length > 0 && interwikis.Length > 0)
                             articleText += "\r\n";
                         break;
 
