@@ -3088,7 +3088,7 @@ namespace WikiFunctions.Parse
             string newPersonData = originalPersonData;
             
             // name
-            if(Tools.GetTemplateParameterValue(newPersonData, "NAME").Length == 0)
+            if(Tools.GetTemplateParameterValue(newPersonData, "NAME", true).Length == 0)
             {
                 string name = WikiRegexes.Defaultsort.Match(articleText).Groups["key"].Value;
                 if(name.Contains(" ("))
@@ -3098,11 +3098,11 @@ namespace WikiFunctions.Parse
             }
 
             // date of birth
-            if(Tools.GetTemplateParameterValue(newPersonData, "DATE OF BIRTH").Length == 0)
+            if(Tools.GetTemplateParameterValue(newPersonData, "DATE OF BIRTH", true).Length == 0)
                 newPersonData = SetPersonDataDate(newPersonData, "DATE OF BIRTH", GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxDOBFields), articleText);
             
             // as fallback use year from category
-            if(Tools.GetTemplateParameterValue(newPersonData, "DATE OF BIRTH").Length == 0)
+            if(Tools.GetTemplateParameterValue(newPersonData, "DATE OF BIRTH", true).Length == 0)
             {
                 Match m = WikiRegexes.BirthsCategory.Match(articleText);
                 
@@ -3115,11 +3115,11 @@ namespace WikiFunctions.Parse
             }
             
             // date of death
-            if(Tools.GetTemplateParameterValue(newPersonData, "DATE OF DEATH").Length == 0)
+            if(Tools.GetTemplateParameterValue(newPersonData, "DATE OF DEATH", true).Length == 0)
                 newPersonData = SetPersonDataDate(newPersonData, "DATE OF DEATH", GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxDODFields), articleText);
 
             // as fallback use year from category
-            if(Tools.GetTemplateParameterValue(newPersonData, "DATE OF DEATH").Length == 0)
+            if(Tools.GetTemplateParameterValue(newPersonData, "DATE OF DEATH", true).Length == 0)
             {
                 Match m = WikiRegexes.DeathsOrLivingCategory.Match(articleText);
                 
@@ -3132,7 +3132,7 @@ namespace WikiFunctions.Parse
             }
             
             // place of birth
-            string ExistingPOB = Tools.GetTemplateParameterValue(newPersonData, "PLACE OF BIRTH");
+            string ExistingPOB = Tools.GetTemplateParameterValue(newPersonData, "PLACE OF BIRTH", true);
             if(ExistingPOB.Length == 0)
             {
                 string POB = GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxPOBFields);
@@ -3155,7 +3155,7 @@ namespace WikiFunctions.Parse
                 newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF BIRTH", ExistingPOB);
             
             // place of death
-            string ExistingPOD = Tools.GetTemplateParameterValue(newPersonData, "PLACE OF DEATH");
+            string ExistingPOD = Tools.GetTemplateParameterValue(newPersonData, "PLACE OF DEATH", true);
             if(ExistingPOD.Length == 0)
             {
                 string POD = GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxPODFields);
@@ -3272,8 +3272,8 @@ namespace WikiFunctions.Parse
         private static string CompletePersonDataDate(string personData, string articletext)
         {
             // get the existing values
-            string existingBirthYear = Tools.GetTemplateParameterValue(personData, "DATE OF BIRTH");
-            string existingDeathYear = Tools.GetTemplateParameterValue(personData, "DATE OF DEATH");
+            string existingBirthYear = Tools.GetTemplateParameterValue(personData, "DATE OF BIRTH", true);
+            string existingDeathYear = Tools.GetTemplateParameterValue(personData, "DATE OF DEATH", true);
             
             if(existingBirthYear.Length == 4 || existingDeathYear.Length == 4)
             {

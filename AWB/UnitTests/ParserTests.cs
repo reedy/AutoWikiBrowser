@@ -2500,6 +2500,17 @@ world|format=PDF}} was";
         }
         
         [Test]
+        public void PersonDataParameterCasing()
+        {
+            const string LowerCase = @"Foo (born 1980) {{Persondata
+|date of birth=1980
+}}
+[[Cateogory:1980 births]]";
+            
+            Assert.AreEqual(LowerCase, Parsers.PersonData(LowerCase, "foo"), "no update when lowercase parameter holds the data already");
+        }
+        
+        [Test]
         public void PersonDataCompletionDODFromCategory()
         {
             string Text = Parsers.PersonData(@"Foo [[Category:2005 deaths]] [[Category:1930 births]]", "test");
@@ -2570,20 +2581,6 @@ world|format=PDF}} was";
             
             Assert.AreEqual(PD.Replace(@"[[Guelph/Eramosa, Ontario|Eramosa Township]],<br>[[Ontario]], [[Canada]]", "[[Guelph/Eramosa, Ontario|Eramosa Township]]"),
                             WikiRegexes.Persondata.Match(Parsers.PersonData(IB.Replace(@"[[Guelph/Eramosa, Ontario|Eramosa Township]], [[Ontario]], [[Canada]]", @"[[Guelph/Eramosa, Ontario|Eramosa Township]],<br>") + "May 2, 2010 and May 2, 2010", "test")).Value, "city state template converted");
-        }
-        
-        [Test]
-        public void PersonDataUpdates()
-        {
-            const string PD = @"{{Persondata <!-- Metadata: see [[Wikipedia:Persondata]]. -->
-| NAME              = Hill, James J.
-| ALTERNATIVE NAMES =
-| SHORT DESCRIPTION =
-| DATE OF BIRTH     = September 16, 1838
-| PLACE OF BIRTH    = Ontario, Canada
-| DATE OF DEATH     = May 29, 1916
-| PLACE OF DEATH    = [[St. Paul, Minnesota|Saint Paul]], [[Minnesota]]
-}}";            
         }
         
         [Test]
