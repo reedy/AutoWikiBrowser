@@ -4866,6 +4866,7 @@ namespace WikiFunctions.Parse
             #endif
 
             if (!Variables.LangCode.Equals("en")
+                || Namespace.Determine(articleTitle).Equals(Namespace.Category)
                 || articleTitle.StartsWith(@"List of ")
                 || articleTitle.EndsWith("discography")
                 || articleText.Contains(@"[[Category:Multiple people]]")
