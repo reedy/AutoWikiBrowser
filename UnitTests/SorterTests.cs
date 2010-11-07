@@ -935,9 +935,14 @@ The following links are here to prevent the interwiki bot from adding them to th
         {
             const string cat = @"[[Category:Foo]]";
             
-            Assert.AreEqual(cat, parser2.SortMetaData(cat, "Category:Bar"), "no sorting on category namespace");
+            Assert.AreEqual(cat, parser2.SortMetaData(cat, "Category:Bar"), "Full trim on category namespace");
             Assert.AreEqual(cat, parser2.SortMetaData(cat, "Template:Bar"), "no sorting on template namespace");
             Assert.AreEqual("\r\n\r\n" + cat, parser2.SortMetaData(cat, "Bar"), "sorting applied on mainspace");
+            
+            const string CatPopStub = @"Text
+{{popstub}}
+Text";
+            Assert.AreEqual(CatPopStub, parser2.SortMetaData(CatPopStub, "Category:Foo"), "no stub sorting on Category namespace");
         }
 
         [Test]
