@@ -299,7 +299,11 @@ en, sq, ru
                 // two newlines here per http://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser&oldid=243224092#Blank_lines_before_stubs
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Two_empty_lines_before_stub-templates
                 // Russian wiki uses only one newline
-                string strStub = Tools.Newline(RemoveStubs(ref articleText), Variables.LangCode.Equals("ru") ? 1 : 2);
+                string strStub = "";
+                
+                // Category: can use {{Verylargestub}}/{{popstub}} which is not a stub template, don't do stub sorting
+                if(!Namespace.Determine(articleTitle).Equals(Namespace.Category))
+                    strStub = Tools.Newline(RemoveStubs(ref articleText), Variables.LangCode.Equals("ru") ? 1 : 2);
 
                 //filter out excess white space and remove "----" from end of article
                 articleText = Parsers.RemoveWhiteSpace(articleText, fixOptionalWhitespace) + "\r\n";
@@ -479,7 +483,9 @@ en, sq, ru
         {
             // Per http://ru.wikipedia.org/wiki/Википедия:Опросы/Использование_служебных_разделов/Этап_2#.D0.A1.D0.BB.D1.83.D0.B6.D0.B5.D0.B1.D0.BD.D1.8B.D0.B5_.D1.88.D0.B0.D0.B1.D0.BB.D0.BE.D0.BD.D1.8B
             // Russian Wikipedia places stubs before navboxes
-            if (Variables.LangCode == "ru") return "";
+            // Category: can use {{Verylargestub}}/{{popstub}} which is not a stub template
+            if (Variables.LangCode.Equals("ru") )
+                return "";
 
             List<string> stubList = new List<string>();
             MatchCollection matches = WikiRegexes.PossiblyCommentedStub.Matches(articleText);
