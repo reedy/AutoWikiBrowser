@@ -2076,10 +2076,12 @@ Message: {2}
         }
         
         private static readonly Regex Bars = new Regex(@"\|", RegexOptions.Compiled);
+        private static readonly Regex SpacedBars = new Regex(@"\| ", RegexOptions.Compiled);
         private static readonly Regex Newlines = new Regex("\r\n", RegexOptions.Compiled);
 
         /// <summary>
         /// Appends the input parameter and value to the input template
+        /// Determines whether to put parameter on newline, and whether to put space after pipe based on existing template paremeters' formatting
         /// </summary>
         /// <param name="templateCall">The input template call</param>
         /// <param name="parameter">The input parameter name</param>
@@ -2091,28 +2093,35 @@ Message: {2}
             if (!templateCall.StartsWith(@"{{"))
                 return templateCall;
 
-            // determine whether to use newline: use if > 2 newlines and a newline per bar, allowing up to two without
-            const string mask = "@";
-            string separator = "";
-            string separatorAfter = "";
+            string separatorBefore = "", separatorAfter = "";
             
             if(!unspaced)
             {
-                separator = separatorAfter = " ";
-                
                 string templatecopy = templateCall;
                 templatecopy = @"{{" + ReplaceWithSpaces(templatecopy.Substring(2), WikiRegexes.NestedTemplates);
                 templatecopy = ReplaceWithSpaces(templatecopy, WikiRegexes.SimpleWikiLink);
                 templatecopy = ReplaceWithSpaces(templatecopy, WikiRegexes.UnformattedText);
-                templatecopy = templatecopy.Replace(mask, "");
 
                 int bars = Bars.Matches(templatecopy).Count, newlines = Newlines.Matches(templatecopy).Count;
 
+                // determine whether to use newline: use if > 2 newlines and a newline per bar, allowing up to two without
                 if (newlines > 2 && newlines >= (bars - 2))
-                    separator = "\r\n";
+                    separatorBefore = "\r\n";
+                else
+                {
+                    // are spaces after bar used?
+                    int spacedBars = SpacedBars.Matches(templatecopy).Count;
+                    
+                    if(bars > 3 && spacedBars <= 2)
+                        separatorBefore = "";
+                    else
+                        separatorBefore = " ";
+                }
+                
+                separatorAfter = " ";
             }
 
-            return WikiRegexes.TemplateEnd.Replace(templateCall, separator + @"|" + separatorAfter + parameter + "=" + newValue + @"$1}}");
+            return WikiRegexes.TemplateEnd.Replace(templateCall, separatorBefore + @"|" + separatorAfter + parameter + "=" + newValue + @"$1}}");
         }
 
         /// <summary>

@@ -902,7 +902,7 @@ John", "*"));
             Assert.AreEqual(@"{{cite|title=abc | location=London}}", Tools.AppendParameterToTemplate(@"{{cite|title=abc}}", "location", "London"));
             Assert.AreEqual(@"{{cite|title=abc | location=}}", Tools.AppendParameterToTemplate(@"{{cite|title=abc}}", "location", ""));
             Assert.AreEqual(@"{{cite|title=abc | location=London}}", Tools.AppendParameterToTemplate(@"{{cite|title=abc }}", "location", "London"));
-            Assert.AreEqual(@"{{cite|title=abc|last=a|first=b|date=2009-12-12 | location=London}}", Tools.AppendParameterToTemplate(@"{{cite|title=abc|last=a|first=b|date=2009-12-12 }}", "location", "London"), "no newlines in template");
+            Assert.AreEqual(@"{{cite|title=abc|last=a|first=b|date=2009-12-12| location=London}}", Tools.AppendParameterToTemplate(@"{{cite|title=abc|last=a|first=b|date=2009-12-12 }}", "location", "London"), "no newlines in template");
             
             Assert.AreEqual(@"{{cite|title=abc | location=London}}", Tools.AppendParameterToTemplate(@"{{cite|title=abc}}", "location", "London", false));
             Assert.AreEqual(@"{{cite|title=abc|location=London}}", Tools.AppendParameterToTemplate(@"{{cite|title=abc}}", "location", "London", true));
