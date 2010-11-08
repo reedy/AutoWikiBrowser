@@ -2076,7 +2076,8 @@ Message: {2}
         }
         
         private static readonly Regex Bars = new Regex(@"\|", RegexOptions.Compiled);
-        private static readonly Regex SpacedBars = new Regex(@"\| ", RegexOptions.Compiled);
+        private static readonly Regex AfterSpacedBars = new Regex(@"\| ", RegexOptions.Compiled);
+        private static readonly Regex BeforeSpacedBars = new Regex(@" \|", RegexOptions.Compiled);
         private static readonly Regex Newlines = new Regex("\r\n", RegexOptions.Compiled);
 
         /// <summary>
@@ -2109,16 +2110,22 @@ Message: {2}
                     separatorBefore = "\r\n";
                 else
                 {
-                    // are spaces after bar used?
-                    int spacedBars = SpacedBars.Matches(templatecopy).Count;
+                    // are spaces before bar used?
+                    int beforeSpacedBars = BeforeSpacedBars.Matches(templatecopy).Count;
                     
-                    if(bars > 3 && spacedBars <= 2)
+                    if(bars > 3 && beforeSpacedBars <= 2)
                         separatorBefore = "";
                     else
                         separatorBefore = " ";
                 }
+
+                // are spaces after bar used?
+                int afterSpacedBars = AfterSpacedBars.Matches(templatecopy).Count;
                 
-                separatorAfter = " ";
+                if(bars > 3 && afterSpacedBars <= 2)
+                    separatorAfter = "";
+                else
+                    separatorAfter = " ";
             }
 
             return WikiRegexes.TemplateEnd.Replace(templateCall, separatorBefore + @"|" + separatorAfter + parameter + "=" + newValue + @"$1}}");
