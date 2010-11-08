@@ -3146,7 +3146,7 @@ namespace WikiFunctions.Parse
                 
                 POB = WikiRegexes.FileNamespaceLink.Replace(POB, "").Trim();
 
-                POB = WikiRegexes.NestedTemplates.Replace(WikiRegexes.Br.Replace(POB, " "), "");
+                POB = WikiRegexes.NestedTemplates.Replace(WikiRegexes.Br.Replace(POB, " "), "").Trim();
                 POB = WikiRegexes.Small.Replace(WikiRegexes.Refs.Replace(POB, ""), "$1").TrimEnd(',');
                 
                 newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF BIRTH", POB, true);
@@ -3168,7 +3168,7 @@ namespace WikiFunctions.Parse
                 }
                 
                 POD = WikiRegexes.FileNamespaceLink.Replace(POD, "").Trim();
-                POD = WikiRegexes.NestedTemplates.Replace(WikiRegexes.Br.Replace(POD, " "), "");
+                POD = WikiRegexes.NestedTemplates.Replace(WikiRegexes.Br.Replace(POD, " "), "").Trim();
                 POD = WikiRegexes.Small.Replace(WikiRegexes.Refs.Replace(POD, ""), "$1").TrimEnd(',');
                 
                 newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF DEATH", POD, true);

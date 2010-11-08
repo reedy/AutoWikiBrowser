@@ -2548,6 +2548,7 @@ world|format=PDF}} was";
 {{DEFAULTSORT:Hill, James J.}}";
             
             Assert.AreEqual(PD, WikiRegexes.Persondata.Match(Parsers.PersonData(IB + "May 2, 2010 and May 2, 2010", "test")).Value);
+            Assert.AreEqual(PD, WikiRegexes.Persondata.Match(Parsers.PersonData(IB.Replace(@"[[Canada]]", @"[[Canada]], {{CAN}}") + "May 2, 2010 and May 2, 2010", "test")).Value, "trims trailing comma template combo");
             Assert.AreEqual(PD, WikiRegexes.Persondata.Match(Parsers.PersonData(AT + "May 2, 2010 and May 2, 2010", "test")).Value, "Values taken from birth/death templates even if outside infobox");
             
             const string IB2 = @"{{Infobox person
