@@ -2074,6 +2074,9 @@ Message: {2}
         {
             return AppendParameterToTemplate(templateCall, parameter, newValue, false);
         }
+        
+        private static readonly Regex Bars = new Regex(@"\|", RegexOptions.Compiled);
+        private static readonly Regex Newlines = new Regex("\r\n", RegexOptions.Compiled);
 
         /// <summary>
         /// Appends the input parameter and value to the input template
@@ -2103,10 +2106,7 @@ Message: {2}
                 templatecopy = ReplaceWithSpaces(templatecopy, WikiRegexes.UnformattedText);
                 templatecopy = templatecopy.Replace(mask, "");
 
-                int bars = (templatecopy.Length - templatecopy.Replace(@"|", "").Length);
-
-                templatecopy = templatecopy.Replace("\r\n", mask);
-                int newlines = (templatecopy.Length - templatecopy.Replace(mask, "").Length);
+                int bars = Bars.Matches(templatecopy).Count, newlines = Newlines.Matches(templatecopy).Count;
 
                 if (newlines > 2 && newlines >= (bars - 2))
                     separator = "\r\n";
