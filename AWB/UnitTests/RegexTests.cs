@@ -194,6 +194,7 @@ namespace UnitTests
         public void NamedReferences()
         {
             Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name = ""foo"">text</ref>"));
+            Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name = ""foo""></ref>"));
             Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name =foo>text</ref>"));
             Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name=foo>text< / ref >"));
             Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name = 'foo'>text</ref>"));
