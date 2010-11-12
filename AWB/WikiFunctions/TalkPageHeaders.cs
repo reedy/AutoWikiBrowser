@@ -89,6 +89,8 @@ namespace WikiFunctions.TalkPages
 
             articleText = AddMissingFirstCommentHeader(articleText);
             
+            articleText = WPBiography(articleText);
+            
             // remove redundant Template: in templates in zeroth section
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;            
             if(zerothSection.Length > 0)
@@ -185,6 +187,7 @@ namespace WikiFunctions.TalkPages
         private static readonly List<string> BannerShellRedirects = new List<string>(new[] { "WikiProject Banners", "WikiProjectBanners", "WPBS", "WPB", "Wpb", "Wpbs" });
         private static readonly List<string> Nos = new List<string>(new[] { "blp", "activepol", "collapsed" });
         private static readonly Regex BLPRegex = Tools.NestedTemplateRegex(new[] { "blp", "BLP", "Blpinfo" });
+        private static readonly Regex WPBiographyR = Tools.NestedTemplateRegex("WPBiography");
 
         /// <summary>
         /// Performs fixes to the WikiProjectBannerShells template
@@ -249,7 +252,7 @@ namespace WikiFunctions.TalkPages
                 }
 
                 // check living, activepol, blpo flags against WPBiography
-                Match m2 = Tools.NestedTemplateRegex("WPBiography").Match(arg1);
+                Match m2 = WPBiographyR.Match(arg1);
 
                 if (m2.Success)
                 {
@@ -276,6 +279,34 @@ namespace WikiFunctions.TalkPages
                     articletext = articletext.Replace(m.Value, newValue);
             }
 
+            return articletext;
+        }
+        
+        /// <summary>
+        /// Moves WPBiography above any WikiProject templates per Wikipedia:TPL#Talk_page_layout, en-wiki only
+        /// </summary>
+        /// <param name="articletext">The talk page text</param>
+        /// <returns>The updated talk page text</returns>
+        public static string WPBiography(string articletext)
+        {
+            if(!Variables.LangCode.Equals("en"))
+                return articletext;
+            
+            Match m = WPBiographyR.Match(articletext);
+            
+            if(!m.Success || WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articletext))
+                return articletext;
+            
+            foreach(Match n in WikiRegexes.NestedTemplates.Matches(articletext))
+            {
+                if(n.Index < m.Index && Tools.GetTemplateName(n.Value).StartsWith("WikiProject "))
+                {
+                    articletext = articletext.Replace(m.Value, "");
+                    articletext = articletext.Insert(n.Index, m.Value + "\r\n");
+                    break;
+                }
+            }
+            
             return articletext;
         }
         
