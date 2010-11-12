@@ -974,18 +974,20 @@ __TOC__", articleTextIn);
         [Test]
         public void WPBiography()
         {
-            string a = @"{{WPBiography|foo=yes}}
+            string a = @"{{WPBiography|foo=yes|living=yes}}
 {{WikiProject London}}
 ",  b = @"{{WikiProjectBannerShell|banner collapsed=no|1=
 {{WPBiography|living=yes|class=Start|priority=|listas=Hill, A}}
 {{WikiProject Gender Studies}}
 {{WikiProject Oklahoma}}
 | blp=yes
-}}";
+}}", c = @"{{WPBiography|foo=yes|living=no}}
+{{WikiProject London}}";
             Assert.AreEqual(a, TalkPageHeaders.WPBiography(@"{{WikiProject London}}
-{{WPBiography|foo=yes}}"), "WPBiography moved above WikiProjects");
+{{WPBiography|foo=yes|living=yes}}"), "WPBiography moved above WikiProjects");
             Assert.AreEqual(a, TalkPageHeaders.WPBiography(a), "no change when WPBiography ahead of WikiProjects");
             Assert.AreEqual(b, TalkPageHeaders.WPBiography(b), "no change when WPBS present");
+            Assert.AreEqual(c, TalkPageHeaders.WPBiography(c), "no change when not living");
         }
     }
     
