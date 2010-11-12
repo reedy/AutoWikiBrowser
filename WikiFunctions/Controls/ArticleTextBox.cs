@@ -97,7 +97,17 @@ namespace WikiFunctions.Controls
 
             base.OnEnter(e);
         }
-
+        
+        /// <summary>
+        /// Forces pasted text to be in same font as edit box, without trailing newline
+        /// </summary>
+        public void PasteUnformatted()
+        {
+            int ss = SelectionStart, sl = SelectionLength;
+            base.Text = base.Text.Insert(SelectionStart, Clipboard.GetText().TrimEnd());
+            Select(ss, sl);
+            ScrollToCaret();
+        }
 
         private Regex RegexObj;
         private Match MatchObj;
