@@ -283,7 +283,7 @@ namespace WikiFunctions.TalkPages
         }
         
         /// <summary>
-        /// Moves WPBiography above any WikiProject templates per Wikipedia:TPL#Talk_page_layout, en-wiki only
+        /// Moves WPBiography with living=yes above any WikiProject templates per Wikipedia:TPL#Talk_page_layout, en-wiki only
         /// </summary>
         /// <param name="articletext">The talk page text</param>
         /// <returns>The updated talk page text</returns>
@@ -294,7 +294,7 @@ namespace WikiFunctions.TalkPages
             
             Match m = WPBiographyR.Match(articletext);
             
-            if(!m.Success || WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articletext))
+            if(!m.Success || WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articletext) || !Tools.GetTemplateParameterValue(m.Value, "living").ToLower().StartsWith("y"))
                 return articletext;
             
             foreach(Match n in WikiRegexes.NestedTemplates.Matches(articletext))
