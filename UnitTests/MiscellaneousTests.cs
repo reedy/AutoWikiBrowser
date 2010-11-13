@@ -951,8 +951,7 @@ __TOC__", articleTextIn);
             Assert.AreEqual(a, TalkPageHeaders.WikiProjectBannerShell(a));
             Assert.AreEqual(a + b, TalkPageHeaders.WikiProjectBannerShell(a + b));
             Assert.AreEqual(a + b + c, TalkPageHeaders.WikiProjectBannerShell(a + b + c));
-            Assert.AreEqual(@"{{WikiProjectBannerShell
-|1=" + "\r\n" + a + "\r\n" + b + "\r\n" + c + "\r\n" + d + "\r\n" + @"}}", TalkPageHeaders.WikiProjectBannerShell(a + b + c + d));
+            Assert.AreEqual(@"{{WikiProjectBannerShell|1=" + "\r\n" + a + "\r\n" + b + "\r\n" + c + "\r\n" + d + "\r\n" + @"}}", TalkPageHeaders.WikiProjectBannerShell(a + b + c + d));
         }
         
         [Test]
