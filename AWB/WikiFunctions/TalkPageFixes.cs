@@ -51,7 +51,7 @@ namespace WikiFunctions.TalkPages
         }
     }
 
-    public static class TalkPageHeaders
+    public static class TalkPageFixes
     {
         /// <summary>
         /// Processes talk pages: moves any talk page header template, moves any default, adds a section heading if missing
