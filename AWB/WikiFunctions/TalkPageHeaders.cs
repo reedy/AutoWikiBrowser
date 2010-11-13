@@ -336,7 +336,7 @@ namespace WikiFunctions.TalkPages
                 if(wikiProjectTemplates > WikiProjectsWPBS)
                 {
                     // add a WikiProjectBannerShell
-                    articletext = @"{{WikiProjectBannerShell" + Tools.Newline(@"|1=") + WPBS1 + Tools.Newline(@"}}")
+                    articletext = @"{{WikiProjectBannerShell|1=" + WPBS1 + Tools.Newline(@"}}")
                         + articletextLocal;
                 }
             }
