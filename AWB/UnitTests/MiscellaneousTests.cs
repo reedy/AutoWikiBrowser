@@ -906,6 +906,22 @@ __TOC__", articleTextIn);
             Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar|living=no}}}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=yes|1={{WPBiography|foo=bar|living=no}}}}"));
         }
         
+         [Test]
+         public void WikiProjectBannerShellAddingWikiProjects()
+         {
+              Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}
+{{WikiProject foo}}}}
+", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}
+{{WikiProject foo}}"), "WikiProjects pulled into WPBS");
+               Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}
+{{WikiProject foo}}
+{{WikiProject bar}}}}
+
+", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}
+{{WikiProject foo}}
+{{WikiProject bar}}"), "WikiProjects pulled into WPBS");
+         }
+        
         [Test]
         public void WikiProjectBannerShellUnnamedParam()
         {
