@@ -190,7 +190,10 @@ namespace WikiFunctions.TalkPages
         private static readonly Regex WPBiographyR = Tools.NestedTemplateRegex("WPBiography");
 
         /// <summary>
-        /// Performs fixes to the WikiProjectBannerShells template
+        /// Performs fixes to the WikiProjectBannerShells template:
+        /// Add explicit call to first unnamed parameter 1= if missing/has no value
+        /// Remove duplicate parameters
+        /// Move any other WikiProjects into WPBS
         /// </summary>
         /// <param name="articletext">The talk page text</param>
         /// <returns>The updated talk page text</returns>
@@ -277,6 +280,23 @@ namespace WikiFunctions.TalkPages
                 // merge changes to article text
                 if (!newValue.Equals(m.Value))
                     articletext = articletext.Replace(m.Value, newValue);
+            }
+            
+            // Move any other WikiProjects into WPBS
+            if(WikiRegexes.WikiProjectBannerShellTemplate.Matches(articletext).Count == 1)
+            {
+                string WPBS = WikiRegexes.WikiProjectBannerShellTemplate.Match(articletext).Value, newParams = "";
+                
+                foreach(Match m in WikiRegexes.NestedTemplates.Matches(articletext))
+                {
+                    if(Tools.GetTemplateName(m.Value).StartsWith("WikiProject ") && !WPBS.Contains(m.Value))
+                    {
+                        articletext = articletext.Replace(m.Value, "");
+                        newParams += Tools.Newline(m.Value);
+                    }
+                }
+                if(newParams.Length > 0)
+                    articletext = articletext.Replace(WPBS, Tools.SetTemplateParameterValue(WPBS, "1", Tools.GetTemplateParameterValue(WPBS, "1") + newParams));
             }
 
             return articletext;
