@@ -615,7 +615,7 @@ Image:quux[http://example.com]
 hello talk";
             string articleText = talkrest + "\r\n" + talkheader;
             
-            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(talkheader.Replace("{{talk", @"{{Talk") + "\r\n" + talkrest + "\r\n", articleText);
             
@@ -628,20 +628,20 @@ hello talk";
 In the article it says that above mentioned";
             articleText = WPBS + @"{{Talkheader}}" + rest;
             
-            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(@"{{Talk header}}" + "\r\n" + WPBS + rest, articleText);
             
             // no change if already at top
             articleText = talkheader + "\r\n" + talkrest;
             
-            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(talkheader + "\r\n" + talkrest, articleText);
             
             // no change if no talk header
             articleText = talkrest;
             
-            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(talkrest, articleText);
         }
         
@@ -652,7 +652,7 @@ In the article it says that above mentioned";
 hello talk";
             string articleText = talkrest + "\r\n" + talkheader;
             
-            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(@"{{Talk header|noarchive=no}}" + "\r\n" + talkrest+ "\r\n", articleText, "renamed to upper case with space");
         }
@@ -666,29 +666,29 @@ bar", df = @"{{DEFAULTSORT:Bert}}";
             
             string articleText = start + "\r\n" + df;
             
-            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.MoveToBottom);
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.MoveToBottom);
             Assert.AreEqual(start + "\r\n"+ "\r\n" + df, articleText);
             
             articleText = start + df;
             
-            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.MoveToTop);
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.MoveToTop);
             Assert.AreEqual(df + "\r\n" + start, articleText);
             
             articleText = start + df;
             
-            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(start + df, articleText);
             
             string df2 = @"{{DEFAULTSORT:}}";
             
             articleText = start + df2;
             
-            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.MoveToBottom);
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.MoveToBottom);
             Assert.AreEqual(start, articleText, "defaultsort with no key removed");
             
             articleText = start + df2;
             
-            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.MoveToTop);
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.MoveToTop);
             Assert.AreEqual(start, articleText, "defaultsort with no key removed");
         }
         
@@ -697,12 +697,12 @@ bar", df = @"{{DEFAULTSORT:Bert}}";
         {
             string articleText = @"{{Skiptotoc}}", STT = @"{{Skip to talk}}";
             
-            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(STT + "\r\n", articleText);
             
             articleText = @"{{skiptotoctalk}}";
             
-            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(STT + "\r\n", articleText);
         }
         
@@ -714,7 +714,7 @@ Hello world comment.";
             string articleTextIn = articleTextHeader + comment;
             
             // plain comment
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
+            TalkPageFixes.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(articleTextIn, articleTextHeader + "\r\n" + @"
 ==Untitled==
@@ -724,7 +724,7 @@ Hello world comment.");
             articleTextIn = articleTextHeader + @"
 *Hello world comment2.";
             
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
+            TalkPageFixes.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(articleTextIn, articleTextHeader +"\r\n" + @"
 ==Untitled==
@@ -734,7 +734,7 @@ Hello world comment.");
             articleTextIn = articleTextHeader + @"
 :Hello world comment3.";
             
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
+            TalkPageFixes.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(articleTextIn, articleTextHeader + "\r\n" + @"
 ==Untitled==
@@ -744,7 +744,7 @@ Hello world comment.");
             articleTextIn = articleTextHeader + @"
 ""Hello world comment4"".";
             
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
+            TalkPageFixes.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(articleTextIn, articleTextHeader + "\r\n" + @"
 ==Untitled==
@@ -754,7 +754,7 @@ Hello world comment.");
             articleTextIn = articleTextHeader + "\r\n" + @"===Foo bar===
 *Hello world comment2.";
             
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
+            TalkPageFixes.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.IsTrue(articleTextIn.Contains(@"==Foo bar=="));
             Assert.IsFalse(articleTextIn.Contains(@"==Untitled=="));
@@ -769,7 +769,7 @@ Hello world comment.");
 :Hello world comment3.";
             
             
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
+            TalkPageFixes.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(articleTextIn, articleTextHeader + @"
 ==Question==
@@ -782,7 +782,7 @@ Hello world comment.");
 :Hello world comment3.";
             
             
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
+            TalkPageFixes.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(@"
 {{Some template}}
@@ -795,7 +795,7 @@ Hello world comment.");
 {{Some template}}
 :Hello world comment3.";            
             
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
+            TalkPageFixes.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(@"
 ==Question==
@@ -807,7 +807,7 @@ Hello world comment.");
 ==Question==
 {{Some template}}";            
             
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
+            TalkPageFixes.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(@"
 ==Question==
@@ -819,7 +819,7 @@ Hello world comment.");
 bar|
 end}}";
             
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
+            TalkPageFixes.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(@"
 {{foo|
@@ -832,7 +832,7 @@ end}}", articleTextIn);
 foo
 -->";
             
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
+            TalkPageFixes.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(@"
 <!--
@@ -843,7 +843,7 @@ foo
             articleTextIn = @"
 __TOC__";
             
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
+            TalkPageFixes.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(@"
 __TOC__", articleTextIn);
@@ -856,7 +856,7 @@ __TOC__", articleTextIn);
             
             articleTextIn = allInTemplate;
              
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
+            TalkPageFixes.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(allInTemplate, articleTextIn);
             
@@ -868,7 +868,7 @@ __TOC__", articleTextIn);
             
             articleTextIn = allAfterTemplate;
             
-            TalkPageHeaders.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
+            TalkPageFixes.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(allAfterTemplate, articleTextIn);
         }
@@ -878,32 +878,32 @@ __TOC__", articleTextIn);
         {
             string red1 = @"{{WPBS}}", WikiProjectBannerShell = @"{{WikiProjectBannerShell}}";
             
-            Assert.AreEqual(WikiProjectBannerShell, TalkPageHeaders.WikiProjectBannerShell(red1));
+            Assert.AreEqual(WikiProjectBannerShell, TalkPageFixes.WikiProjectBannerShell(red1));
         }
         
         [Test]
         public void WikiProjectBannerShellDupeParameters()
         {
-            Assert.AreEqual(@"{{WikiProjectBannerShell|blp=yes}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=yes|blp=yes}}"));
+            Assert.AreEqual(@"{{WikiProjectBannerShell|blp=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=yes|blp=yes}}"));
         }
         
         [Test]
         public void WikiProjectBannerShellUnneededParams()
         {
-            Assert.AreEqual(@"{{WikiProjectBannerShell}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=no|activepol=no|collapsed=no}}"));
+            Assert.AreEqual(@"{{WikiProjectBannerShell}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=no|activepol=no|collapsed=no}}"));
         }
         
         [Test]
         public void WikiProjectBannerShellWPBiography()
         {
-            Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}"));
+            Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}"));
             
-            Assert.AreEqual(@"{{WikiProjectBannerShell|blp=yes|1={{WPBiography|foo=bar|living=yes}}}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=|1={{WPBiography|foo=bar|living=yes}}}}"));
-            Assert.AreEqual(@"{{WikiProjectBannerShell|activepol=yes|1={{WPBiography|foo=bar|activepol=yes}}}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|activepol=abc|1={{WPBiography|foo=bar|activepol=yes}}}}"));
-            Assert.AreEqual(@"{{WikiProjectBannerShell|blpo=yes|1={{WPBiography|foo=bar|blpo=yes}}}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blpo=|1={{WPBiography|foo=bar|blpo=yes}}}}"));
-            Assert.AreEqual(@"{{WikiProjectBannerShell|blpo=|1={{WPBiography|foo=bar|blpo=no}}}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blpo=|1={{WPBiography|foo=bar|blpo=no}}}}"));
+            Assert.AreEqual(@"{{WikiProjectBannerShell|blp=yes|1={{WPBiography|foo=bar|living=yes}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=|1={{WPBiography|foo=bar|living=yes}}}}"));
+            Assert.AreEqual(@"{{WikiProjectBannerShell|activepol=yes|1={{WPBiography|foo=bar|activepol=yes}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|activepol=abc|1={{WPBiography|foo=bar|activepol=yes}}}}"));
+            Assert.AreEqual(@"{{WikiProjectBannerShell|blpo=yes|1={{WPBiography|foo=bar|blpo=yes}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blpo=|1={{WPBiography|foo=bar|blpo=yes}}}}"));
+            Assert.AreEqual(@"{{WikiProjectBannerShell|blpo=|1={{WPBiography|foo=bar|blpo=no}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blpo=|1={{WPBiography|foo=bar|blpo=no}}}}"));
             
-            Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar|living=no}}}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=yes|1={{WPBiography|foo=bar|living=no}}}}"));
+            Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar|living=no}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=yes|1={{WPBiography|foo=bar|living=no}}}}"));
         }
         
          [Test]
@@ -911,13 +911,13 @@ __TOC__", articleTextIn);
          {
               Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}
 {{WikiProject foo}}}}
-", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}
+", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}
 {{WikiProject foo}}"), "WikiProjects pulled into WPBS");
                Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}
 {{WikiProject foo}}
 {{WikiProject bar}}}}
 
-", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}
+", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}
 {{WikiProject foo}}
 {{WikiProject bar}}"), "WikiProjects pulled into WPBS");
          }
@@ -925,13 +925,13 @@ __TOC__", articleTextIn);
         [Test]
         public void WikiProjectBannerShellUnnamedParam()
         {
-            Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|{{WPBiography|foo=bar}}}}"), "1= added when missing");
+            Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|{{WPBiography|foo=bar}}}}"), "1= added when missing");
             Assert.AreEqual(@"{{WikiProjectBannerShell|1=
-{{WPBiography|foo=bar}}}}", TalkPageHeaders.WikiProjectBannerShell(@"{{WikiProjectBannerShell|
+{{WPBiography|foo=bar}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|
 {{WPBiography|foo=bar}}}}"));
             
             const string otherUnnamed = @"{{WikiProjectBannerShell|random}}";
-            Assert.AreEqual(otherUnnamed, TalkPageHeaders.WikiProjectBannerShell(otherUnnamed), "other unknown parameter not named 1=");
+            Assert.AreEqual(otherUnnamed, TalkPageFixes.WikiProjectBannerShell(otherUnnamed), "other unknown parameter not named 1=");
         }
         
         [Test]
@@ -939,9 +939,9 @@ __TOC__", articleTextIn);
         {
             const string a = @"{{WikiProjectBannerShell|blp=yes|1={{WPBiography|foo=bar|living=yes}}}}";
             
-            Assert.AreEqual(a, TalkPageHeaders.WikiProjectBannerShell(a + "{{Blp}}"));
-            Assert.AreEqual(a, TalkPageHeaders.WikiProjectBannerShell(a.Replace("blp=yes", "blp=") + "{{Blp}}"));
-            Assert.AreEqual("{{Blp}}", TalkPageHeaders.WikiProjectBannerShell("{{Blp}}"));
+            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a + "{{Blp}}"));
+            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a.Replace("blp=yes", "blp=") + "{{Blp}}"));
+            Assert.AreEqual("{{Blp}}", TalkPageFixes.WikiProjectBannerShell("{{Blp}}"));
         }
         
         [Test]
@@ -957,17 +957,17 @@ __TOC__", articleTextIn);
 {{WikiProject Oklahoma}}
 | blp=yes
 }}";
-            Assert.AreEqual(b, TalkPageHeaders.WikiProjectBannerShell(a));
+            Assert.AreEqual(b, TalkPageFixes.WikiProjectBannerShell(a));
         }
         
         [Test]
         public void AddWikiProjectBannerShell()
         {
             const string a = @"{{WikiProject a|text}}", b = @"{{WikiProject b|text}}", c = @"{{WikiProject c|text}}", d = @"{{WikiProject d|text}}";
-            Assert.AreEqual(a, TalkPageHeaders.WikiProjectBannerShell(a));
-            Assert.AreEqual(a + b, TalkPageHeaders.WikiProjectBannerShell(a + b));
-            Assert.AreEqual(a + b + c, TalkPageHeaders.WikiProjectBannerShell(a + b + c));
-            Assert.AreEqual(@"{{WikiProjectBannerShell|1=" + "\r\n" + a + "\r\n" + b + "\r\n" + c + "\r\n" + d + "\r\n" + @"}}", TalkPageHeaders.WikiProjectBannerShell(a + b + c + d));
+            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a));
+            Assert.AreEqual(a + b, TalkPageFixes.WikiProjectBannerShell(a + b));
+            Assert.AreEqual(a + b + c, TalkPageFixes.WikiProjectBannerShell(a + b + c));
+            Assert.AreEqual(@"{{WikiProjectBannerShell|1=" + "\r\n" + a + "\r\n" + b + "\r\n" + c + "\r\n" + d + "\r\n" + @"}}", TalkPageFixes.WikiProjectBannerShell(a + b + c + d));
         }
         
         [Test]
@@ -977,10 +977,10 @@ __TOC__", articleTextIn);
 ==Section==
 {{Template:Bar}}";
             
-            Assert.IsFalse(TalkPageHeaders.ProcessTalkPage(ref T1, DEFAULTSORT.NoChange));
+            Assert.IsFalse(TalkPageFixes.ProcessTalkPage(ref T1, DEFAULTSORT.NoChange));
             Assert.AreEqual("{{Foo}}", T1, "template namespace removed");
             
-            Assert.IsFalse(TalkPageHeaders.ProcessTalkPage(ref T2, DEFAULTSORT.NoChange));
+            Assert.IsFalse(TalkPageFixes.ProcessTalkPage(ref T2, DEFAULTSORT.NoChange));
             Assert.AreEqual(@"{{Foo}}
 ==Section==
 {{Template:Bar}}", T2, "changes only made in zeroth section");
@@ -998,11 +998,11 @@ __TOC__", articleTextIn);
 | blp=yes
 }}", c = @"{{WPBiography|foo=yes|living=no}}
 {{WikiProject London}}";
-            Assert.AreEqual(a, TalkPageHeaders.WPBiography(@"{{WikiProject London}}
+            Assert.AreEqual(a, TalkPageFixes.WPBiography(@"{{WikiProject London}}
 {{WPBiography|foo=yes|living=yes}}"), "WPBiography moved above WikiProjects");
-            Assert.AreEqual(a, TalkPageHeaders.WPBiography(a), "no change when WPBiography ahead of WikiProjects");
-            Assert.AreEqual(b, TalkPageHeaders.WPBiography(b), "no change when WPBS present");
-            Assert.AreEqual(c, TalkPageHeaders.WPBiography(c), "no change when not living");
+            Assert.AreEqual(a, TalkPageFixes.WPBiography(a), "no change when WPBiography ahead of WikiProjects");
+            Assert.AreEqual(b, TalkPageFixes.WPBiography(b), "no change when WPBS present");
+            Assert.AreEqual(c, TalkPageFixes.WPBiography(c), "no change when not living");
         }
     }
     

@@ -1352,7 +1352,7 @@ namespace WikiFunctions
 
             HideText(removeText);
             string articleText = ArticleText;
-            TalkPageHeaders.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);            
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);            
 
             if (articleText != ArticleText)
             {

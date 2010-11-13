@@ -417,7 +417,7 @@ en, sq, ru
                 articleText = articleText.Replace(defaultSort, "");
 
             if (!string.IsNullOrEmpty(defaultSort) && defaultSort.ToUpper().Contains("DEFAULTSORT"))            
-                defaultSort = TalkPageHeaders.FormatDefaultSort(defaultSort);                        
+                defaultSort = TalkPageFixes.FormatDefaultSort(defaultSort);                        
             
             if (!string.IsNullOrEmpty(defaultSort)) defaultSort += "\r\n";
 
