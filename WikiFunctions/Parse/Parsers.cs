@@ -4723,7 +4723,7 @@ namespace WikiFunctions.Parse
                     return articleText;
             }
 
-            articleText = TalkPages.TalkPageHeaders.FormatDefaultSort(articleText);
+            articleText = TalkPages.TalkPageFixes.FormatDefaultSort(articleText);
 
             // match again, after normalisation
             ds = WikiRegexes.Defaultsort.Matches(articleText);

@@ -337,7 +337,7 @@
     <None Include="SvnInfo.template.cs" />
     <Compile Include="Summary.cs" />
     <Compile Include="SvnInfo.cs" />
-    <Compile Include="TalkPageHeaders.cs" />
+    <Compile Include="TalkPageFixes.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="Updater.cs" />
     <Compile Include="Logging\LogControl.cs">
