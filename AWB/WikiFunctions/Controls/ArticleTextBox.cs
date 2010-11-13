@@ -104,8 +104,17 @@ namespace WikiFunctions.Controls
         public void PasteUnformatted()
         {
             int ss = SelectionStart, sl = SelectionLength;
-            base.Text = base.Text.Insert(SelectionStart, Clipboard.GetText().TrimEnd());
-            Select(ss, sl);
+            string newText = Clipboard.GetText().TrimEnd();
+            // where text already selected
+            if(sl > 0)
+            {
+                base.Text = base.Text.Remove(ss, sl);
+                Select(ss, sl);
+            }
+            
+            // paste unformatted, newline trimmed text at current cursor position
+            base.Text = base.Text.Insert(SelectionStart, newText);
+            Select(ss + newText.Length, 0);
             ScrollToCaret();
         }
 
