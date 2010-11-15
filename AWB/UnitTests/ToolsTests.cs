@@ -499,6 +499,7 @@ bar"));
         public void RedirectTarget()
         {
             Assert.AreEqual("Foo", Tools.RedirectTarget("#redirect [[Foo]]"));
+            Assert.AreEqual("Foo", Tools.RedirectTarget("#redirect [[Foo]] {{R from something}}"));
             Assert.AreEqual("Foo", Tools.RedirectTarget("#REDIRECT[[Foo]]"));
             Assert.AreEqual("Foo bar", Tools.RedirectTarget("#redirect[[:Foo bar ]]"));
             Assert.AreEqual("Foo bar", Tools.RedirectTarget("#redirect[[ :  Foo bar ]]"));
