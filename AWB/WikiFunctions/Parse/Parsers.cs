@@ -3257,6 +3257,10 @@ namespace WikiFunctions.Parse
             
             dateFound = Tools.ConvertDate(dateFound, DeterminePredominantDateLocale(articletext, false)).Trim('-');
             
+            // check ISO dates valid (in case dda used zeros for month/day)
+            if(dateFound.Contains("-") && !WikiRegexes.ISODates.IsMatch(dateFound))
+                return personData;
+            
             return Tools.SetTemplateParameterValue(personData, field, dateFound, true);
         }
         
