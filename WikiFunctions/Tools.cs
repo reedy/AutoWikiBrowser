@@ -1186,6 +1186,14 @@ namespace WikiFunctions
             new KeyValuePair<string, string>("ủ", "u"),
             new KeyValuePair<string, string>("ữ", "u"),
             new KeyValuePair<string, string>("ỳ", "y"),
+            new KeyValuePair<string, string>("Ḏ", "D"),
+            new KeyValuePair<string, string>("Ḫ", "H"),
+            new KeyValuePair<string, string>("Ṯ", "T"),
+            new KeyValuePair<string, string>("Ẁ", "W"),
+            new KeyValuePair<string, string>("Ẓ", "Z"),
+            new KeyValuePair<string, string>("Ẕ", "Z"),
+            new KeyValuePair<string, string>("Ả", "A"),
+            new KeyValuePair<string, string>("Ọ", "O"),
         };
         #endregion
 
