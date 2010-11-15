@@ -2385,6 +2385,9 @@ world|format=PDF}} was";
             
             Assert.AreEqual(i1 + a + a, Parsers.PersonData(i1 + a + a, "test"), "no change when multiple personData templates");
             
+            string i6 = i1.Replace("27 June 1950", @"{{dda|2005|07|00|1950|06|00|df=yes}}");
+            Assert.AreEqual(i6 + a, Parsers.PersonData(i6 + a, "test"), "ignores incomplete/zerod dates from {{dda}}");
+            
             string UnformatedDOB = @"'''Fred''' (born 27 June 1950) was great [[Category:1950 births]]";
             Assert.AreEqual(UnformatedDOB + a2, Parsers.PersonData(UnformatedDOB + a, "test"), "sets full birth date when matches category");
             
