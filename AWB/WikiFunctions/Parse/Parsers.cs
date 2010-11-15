@@ -4945,8 +4945,7 @@ namespace WikiFunctions.Parse
             {
                 if(WikiRegexes.WikiLink.IsMatch(m.Value))
                     return false;
-            }
-                
+            }                
 
             int dateBirthAndAgeCount =BirthDate.Matches(zerothSection).Count;
             int dateDeathCount = DeathDate.Matches(zerothSection).Count;
@@ -5435,7 +5434,7 @@ namespace WikiFunctions.Parse
             foreach(Match m in Tools.NestedTemplateRegex("expand").Matches(articleText))
             {
                 if(Tools.GetTemplateArgument(m.Value, 1).Equals("section"))
-                    articleText = articleText.Replace(m.Value, Tools.RenameTemplate(Regex.Replace(m.Value, @"\|\s*section\s*\|", "|"), "Expand section"));
+                    articleText = articleText.Replace(m.Value, Tools.RenameTemplate(Regex.Replace(m.Value, @"\|\s*section\s*(\||}})", "$1"), "Expand section"));
             }
 
             // add date to any undated tags within {{Multiple issues}} (loop due to lookbehind in regex)

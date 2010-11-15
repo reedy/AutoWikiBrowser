@@ -7024,6 +7024,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.AreEqual(correct, Parsers.Conversions(@"{{Expand|section|date=May 2010}}"));
             Assert.AreEqual(correct, Parsers.Conversions(@"{{Expand|  section |date=May 2010}}"));
             Assert.AreEqual(correct, Parsers.Conversions(correct));
+            Assert.AreEqual(@"{{Expand section}}", Parsers.Conversions(@"{{Expand|section}}"));
         }
         
         [Test]
