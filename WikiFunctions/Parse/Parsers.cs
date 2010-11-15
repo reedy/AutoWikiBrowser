@@ -4221,6 +4221,8 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex BracketedAtEndOfLine = new Regex(@" \(.*?\)$", RegexOptions.Compiled);
         private static readonly Regex BoldTitleAlready3 = new Regex(@"^\s*({{[^\{\}]+}}\s*)*'''('')?\s*\w", RegexOptions.Compiled);
+        private static readonly Regex NihongoTitle = Tools.NestedTemplateRegex("nihongo title");
+        
         // Covered by: BoldTitleTests
         /// <summary>
         /// '''Emboldens''' the first occurrence of the article title, if not already bold
@@ -4268,8 +4270,9 @@ namespace WikiFunctions.Parse
                 return (zerothSection + restOfArticle);
             }
 
-            // ignore date articles (date in American or international format)
-            if (WikiRegexes.Dates2.IsMatch(articleTitle) || WikiRegexes.Dates.IsMatch(articleTitle))
+            // ignore date articles (date in American or international format), nihongo title
+            if (WikiRegexes.Dates2.IsMatch(articleTitle) || WikiRegexes.Dates.IsMatch(articleTitle)
+                || NihongoTitle.IsMatch(articleText))
                 return articleTextAtStart;
 
             Regex boldTitleAlready1 = new Regex(@"'''\s*(" + escTitle + "|" + Tools.TurnFirstToLower(escTitle) + @")\s*'''");
