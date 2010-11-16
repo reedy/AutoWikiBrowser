@@ -141,7 +141,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         ''' <returns>False if OK, TRUE IF BAD TAG</returns>
         Protected MustOverride Function TemplateFound() As Boolean
         Protected MustOverride Sub ProcessArticleFinish()
-        Protected MustOverride Function WriteTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
+        Protected MustOverride Function WriteTemplateHeader() As String
         Protected MustOverride Sub ImportanceParameter(ByVal Importance As Importance)
         Protected Function MatchEvaluator(ByVal match As Match) As String
             If Not match.Groups("parm").Captures.Count = match.Groups("val").Captures.Count Then
@@ -180,8 +180,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             article.TemplateAdded(PreferredTemplateName, PluginShortName)
         End Sub
         Private Sub TemplateWritingAndPlacement()
-            Dim PutTemplateAtTop As Boolean
-            Dim TemplateHeader As String = WriteTemplateHeader(PutTemplateAtTop)
+            Dim TemplateHeader As String = WriteTemplateHeader()
 
             With Me.article
                 If Template.FoundTemplate Then
@@ -190,9 +189,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                           "Shell template found; leaving " & PreferredTemplateName & " where we found it", PluginShortName, True)
                         TemplateHeader = article.LineBreakRegex.Replace(TemplateHeader, "") & Template.ParametersToString("")
                         .RestoreTemplateToPlaceholderSpot(TemplateHeader)
-                    ElseIf PutTemplateAtTop Then ' moving existing tl to top
-                        TemplateHeader += Template.ParametersToString(ParameterBreak)
-                        .AlteredArticleText = TemplateHeader + .AlteredArticleText.Replace(conTemplatePlaceholder, "")
                     Else ' writing it back where it was
                         TemplateHeader += Template.ParametersToString(ParameterBreak)
                         .RestoreTemplateToPlaceholderSpot(TemplateHeader)

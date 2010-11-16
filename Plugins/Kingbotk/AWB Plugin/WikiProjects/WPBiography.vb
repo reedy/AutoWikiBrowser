@@ -208,7 +208,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Function
         Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
         End Sub
-        Protected Overrides Function WriteTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
+        Protected Overrides Function WriteTemplateHeader() As String
             Dim Living As Boolean
             Dim res As String = "{{WPBiography" & Microsoft.VisualBasic.vbCrLf
 
@@ -218,12 +218,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                     res += "|living=" + .Parameters("living").Value + ParameterBreak
 
                     Living = .Parameters("living").Value = "yes"
-
-                    If Living Then
-                        PluginManager.AWBForm.TraceManager.WriteArticleActionLine1( _
-       "Template contains living=yes, placing at top", PluginShortName, True)
-                        PutTemplateAtTop = True ' otherwise, leave as False
-                    End If
 
                     .Parameters.Remove("living") ' we've written this parameter; if we leave it in the collection PluginBase.TemplateWritingAndPlacement() will write it again
                 End If

@@ -439,7 +439,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Function
         Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
         End Sub
-        Protected Overrides Function WriteTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
+        Protected Overrides Function WriteTemplateHeader() As String
             Dim res As String = "{{" & PreferredTemplateName & WriteOutParameterToHeader("class")
 
             Select Case OurSettingsControl.ImportanceSetting

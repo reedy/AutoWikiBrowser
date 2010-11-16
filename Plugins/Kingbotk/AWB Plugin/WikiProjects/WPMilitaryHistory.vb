@@ -185,7 +185,7 @@
         ' Currently only WPBio does anything here (if {{musician}} add to musician-work-group)
     End Sub
 
-    Protected Overrides Function WriteTemplateHeader(ByRef PutTemplateAtTop As Boolean) As String
+    Protected Overrides Function WriteTemplateHeader() As String
         Return "{{WPMILHIST" & _
            Microsoft.VisualBasic.vbCrLf & WriteOutParameterToHeader("class")
     End Function
