@@ -370,12 +370,17 @@ namespace WikiFunctions
             }
         }
 
+        /// <summary>
+        /// Returns whether talk page genfixes are enabled for the namespace
+        /// </summary>
         [XmlIgnore]
         public bool CanDoTalkGeneralFixes
         {
             get
             {
-                return (NameSpaceKey == Namespace.Talk);
+                return (NameSpaceKey == Namespace.Talk
+                        || NameSpaceKey == Namespace.BookTalk
+                        || NameSpaceKey == Namespace.CategoryTalk);
             }
         }
 
