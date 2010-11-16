@@ -401,6 +401,7 @@ namespace AutoWikiBrowser
                         }
                         catch
                         {
+							continue;
                         }
 
                         if (asm == null)
