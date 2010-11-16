@@ -50,77 +50,65 @@ Is this SVN (1) or a release (2)? ");
                 }
 
                 string awbDir = Directory.GetCurrentDirectory();
-                string tmp = awbDir + "\\temp\\";
+                string tmp = Path.Combine(awbDir, "temp");
                 awbDir = awbDir.Remove(awbDir.IndexOf("Extras"));
                 Directory.CreateDirectory(tmp);
 
-                string currFolder = awbDir + "AWB\\bin\\";
+                string currFolder = Path.Combine(Path.Combine(awbDir, "AWB"), "bin");;
 
                 if (selection == 1)
                 {
-                    using (StreamReader reader = new StreamReader(awbDir + "\\WikiFunctions\\SvnInfo.cs"))
+
+                    using (StreamReader reader = new StreamReader(Path.Combine(Path.Combine(awbDir, "WikiFunctions"), "SvnInfo.cs")))
                     {
                         string text = reader.ReadToEnd();
                         filename += "_rev" + SvnVersion.Match(text).Groups[1].Value;
 
                         reader.Close();
                     }
-                    currFolder += "Debug\\";
+                    currFolder = Path.Combine(currFolder, "Debug");
                 }
                 else
                 {
-                    currFolder += "Release\\";
+                    currFolder = Path.Combine(currFolder, "Release");
                 }
 
                 filename += ".zip";
 
-                File.Copy(currFolder + "AutoWikiBrowser.exe", tmp + "AutoWikiBrowser.exe", true);
+                Copy(currFolder, tmp, "AutoWikiBrowser.exe");
 
                 filename = string.Format(filename,
                                          StringToVersion(
-                                             FileVersionInfo.GetVersionInfo(currFolder + "AutoWikiBrowser.exe").
+                                             FileVersionInfo.GetVersionInfo(Path.Combine(currFolder, "AutoWikiBrowser.exe")).
                                                  FileVersion));
 
-                File.Copy(currFolder + "AutoWikiBrowser.exe.config", tmp + "AutoWikiBrowser.exe.config", true);
-                File.Copy(currFolder + "WikiFunctions.dll", tmp + "WikiFunctions.dll", true);
-                File.Copy(currFolder + "AWBUpdater.exe", tmp + "AWBUpdater.exe", true);
+                Copy(currFolder, tmp, "AutoWikiBrowser.exe.config");
+                Copy(currFolder, tmp, "WikiFunctions.dll");
+                Copy(currFolder, tmp, "AWBUpdater.exe");
 
                 CreateTextFile(tmp + "Diff.dll", "This file is not used anymore, but is preserved for compatibility "
                     + "with older versions of AWBUpdater.");
 
-                Directory.CreateDirectory(tmp + "Plugins\\");
+                string tmpPlugins = Path.Combine(tmp, "Plugins");
 
-                Directory.CreateDirectory(tmp + "Plugins\\CFD\\");
-                File.Copy(currFolder + "CFD.dll", tmp + "Plugins\\CFD\\CFD.dll", true);
+                Directory.CreateDirectory(tmp);
 
-                Directory.CreateDirectory(tmp + "Plugins\\IFD\\");
-                File.Copy(currFolder + "IFD.dll", tmp + "Plugins\\IFD\\IFD.dll", true);
+                CopyAndCreateDirectory(currFolder, Path.Combine(tmpPlugins, "CFD"), "CFD.dll");
+                CopyAndCreateDirectory(currFolder, Path.Combine(tmpPlugins, "IFD"), "IFD.dll");
+                CopyAndCreateDirectory(currFolder, Path.Combine(tmpPlugins, "NoLimitsPlugin"), "NoLimitsPlugin.dll");
+                CopyAndCreateDirectory(currFolder, Path.Combine(tmpPlugins, "Yahoo Search Plugin"), "YahooSearchPlugin.dll");
+                CopyAndCreateDirectory(currFolder, Path.Combine(tmpPlugins, "Bing Search Plugin"), "BingSearchPlugin.dll");
+                CopyAndCreateDirectory(currFolder, Path.Combine(tmpPlugins, "TypoScan Plugin"), "TypoScan.dll");
+                CopyAndCreateDirectory(currFolder, Path.Combine(tmpPlugins, "Delinker"), "DelinkerPlugin.dll");
+                CopyAndCreateDirectory(currFolder, Path.Combine(tmpPlugins, "Fronds"), "Fronds.dll");
 
-                Directory.CreateDirectory(tmp + "Plugins\\NoLimitsPlugin\\");
-                File.Copy(currFolder + "NoLimitsPlugin.dll", tmp + "Plugins\\NoLimitsPlugin\\NoLimitsPlugin.dll", true);
+                string kingPath = Path.Combine(tmpPlugins, "Kingbotk");
+                CopyAndCreateDirectory(currFolder, kingPath, "Kingbotk AWB Plugin.dll");
 
-                Directory.CreateDirectory(tmp + "Plugins\\Yahoo Search Plugin\\");
-                File.Copy(currFolder + "YahooSearchPlugin.dll", tmp + "Plugins\\Yahoo Search Plugin\\YahooSearchPlugin.dll", true);
-
-                Directory.CreateDirectory(tmp + "Plugins\\Bing Search Plugin\\");
-                File.Copy(currFolder + "BingSearchPlugin.dll", tmp + "Plugins\\Bing Search Plugin\\BingSearchPlugin.dll", true);
-
-                Directory.CreateDirectory(tmp + "Plugins\\TypoScan Plugin\\");
-                File.Copy(currFolder + "TypoScan.dll", tmp + "Plugins\\TypoScan Plugin\\TypoScan.dll", true);
-
-                Directory.CreateDirectory(tmp + "Plugins\\Delinker\\");
-                File.Copy(currFolder + "DelinkerPlugin.dll", tmp + "Plugins\\Delinker\\DelinkerPlugin.dll", true);
-
-                Directory.CreateDirectory(tmp + "Plugins\\Fronds\\");
-                File.Copy(currFolder + "Fronds.dll", tmp + "Plugins\\Fronds\\Fronds.dll", true);
-
-                Directory.CreateDirectory(tmp + "Plugins\\Kingbotk\\");
-				File.Copy(currFolder + "Kingbotk AWB Plugin.dll", tmp + "Plugins\\Kingbotk\\Kingbotk AWB Plugin.dll", true);
-
-				currFolder = awbDir + "Plugins\\Kingbotk\\";
-                File.Copy(currFolder + "Physics generic template.xml", tmp + "Plugins\\Kingbotk\\Physics generic template.xml", true);
-                File.Copy(currFolder + "Film generic template.xml", tmp + "Plugins\\Kingbotk\\Film generic template.xml", true);
-                File.Copy(currFolder + "COPYING", tmp + "Plugins\\Kingbotk\\COPYING", true);                
+				currFolder = Path.Combine(Path.Combine(awbDir, "Plugins"), "Kingbotk");
+                Copy(currFolder, kingPath, "Physics generic template.xml");
+                Copy(currFolder, kingPath, "Film generic template.xml");
+                Copy(currFolder, kingPath, "COPYING"); 
 
                 Console.WriteLine("Files copied to temporary directory");
 
@@ -142,6 +130,17 @@ Is this SVN (1) or a release (2)? ");
                 Console.WriteLine(ex.Message);
                 Console.ReadLine();
             }
+        }
+
+        static void Copy(string fromPath, string toPath, string filename)
+        {
+            File.Copy(Path.Combine(fromPath, filename), Path.Combine(toPath, filename), true);
+        }
+
+        static void CopyAndCreateDirectory(string fromPath, string toPath, string filename)
+        {
+            Directory.CreateDirectory(toPath);
+            Copy(fromPath, toPath, filename);
         }
 
         static int StringToVersion(string version)
