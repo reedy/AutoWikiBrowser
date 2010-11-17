@@ -1003,6 +1003,9 @@ __TOC__", articleTextIn);
             Assert.AreEqual(a, TalkPageFixes.WPBiography(a), "no change when WPBiography ahead of WikiProjects");
             Assert.AreEqual(b, TalkPageFixes.WPBiography(b), "no change when WPBS present");
             Assert.AreEqual(c, TalkPageFixes.WPBiography(c), "no change when not living");
+            Assert.AreEqual(c + @"{{blp}}", TalkPageFixes.WPBiography(c + @"{{blp}}"), "no change when not living");
+            
+            Assert.AreEqual(a, TalkPageFixes.WPBiography(a + @"{{blp}}"), "blp template removed when living=y");
         }
     }
     

@@ -193,7 +193,7 @@ namespace WikiFunctions.TalkPages
         /// Performs fixes to the WikiProjectBannerShells template:
         /// Add explicit call to first unnamed parameter 1= if missing/has no value
         /// Remove duplicate parameters
-        /// Move any other WikiProjects into WPBS
+        /// Moves any other WikiProjects into WPBS
         /// </summary>
         /// <param name="articletext">The talk page text</param>
         /// <returns>The updated talk page text</returns>
@@ -314,16 +314,22 @@ namespace WikiFunctions.TalkPages
             
             Match m = WPBiographyR.Match(articletext);
             
-            if(!m.Success || WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articletext) || !Tools.GetTemplateParameterValue(m.Value, "living").ToLower().StartsWith("y"))
+            if(!m.Success || !Tools.GetTemplateParameterValue(m.Value, "living").ToLower().StartsWith("y"))
                 return articletext;
             
-            foreach(Match n in WikiRegexes.NestedTemplates.Matches(articletext))
+            // remove {{blp}} if {{WPBiography|living=yes}}
+            articletext = BLPRegex.Replace(articletext, "");
+            
+            if(!WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articletext))
             {
-                if(n.Index < m.Index && Tools.GetTemplateName(n.Value).StartsWith("WikiProject "))
+                foreach(Match n in WikiRegexes.NestedTemplates.Matches(articletext))
                 {
-                    articletext = articletext.Replace(m.Value, "");
-                    articletext = articletext.Insert(n.Index, m.Value + "\r\n");
-                    break;
+                    if(n.Index < m.Index && Tools.GetTemplateName(n.Value).StartsWith("WikiProject "))
+                    {
+                        articletext = articletext.Replace(m.Value, "");
+                        articletext = articletext.Insert(n.Index, m.Value + "\r\n");
+                        break;
+                    }
                 }
             }
             
