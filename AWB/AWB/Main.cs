@@ -861,47 +861,50 @@ namespace AutoWikiBrowser
                         return;
                     }
 
-                    if (Skippable && (chkSkipNoChanges.Checked || BotMode) && TheArticle.NoArticleTextChanged)
+                    if(Skippable)
                     {
-                        SkipPage("No change");
-                        return;
-                    }
+                        if ((chkSkipNoChanges.Checked || BotMode) && TheArticle.NoArticleTextChanged)
+                        {
+                            SkipPage("No change");
+                            return;
+                        }
 
-                    if (chkSkipWhitespace.Checked && chkSkipCasing.Checked && TheArticle.OnlyWhiteSpaceAndCasingChanged)
-                    {
-                        SkipPage("Only whitespace/casing changed");
-                        return;
-                    }
+                        if (chkSkipWhitespace.Checked && chkSkipCasing.Checked && TheArticle.OnlyWhiteSpaceAndCasingChanged)
+                        {
+                            SkipPage("Only whitespace/casing changed");
+                            return;
+                        }
 
-                    if (chkSkipWhitespace.Checked && TheArticle.OnlyWhiteSpaceChanged)
-                    {
-                        SkipPage("Only whitespace changed");
-                        return;
-                    }
+                        if (chkSkipWhitespace.Checked && TheArticle.OnlyWhiteSpaceChanged)
+                        {
+                            SkipPage("Only whitespace changed");
+                            return;
+                        }
 
-                    if (chkSkipCasing.Checked && TheArticle.OnlyCasingChanged)
-                    {
-                        SkipPage("Only casing changed");
-                        return;
-                    }
+                        if (chkSkipCasing.Checked && TheArticle.OnlyCasingChanged)
+                        {
+                            SkipPage("Only casing changed");
+                            return;
+                        }
 
-                    if (chkSkipMinorGeneralFixes.Checked && chkGeneralFixes.Checked && TheArticle.OnlyMinorGeneralFixesChanged)
-                    {
-                        SkipPage("Only minor general fix changes");
-                        return;
-                    }
+                        if (chkSkipMinorGeneralFixes.Checked && chkGeneralFixes.Checked && TheArticle.OnlyMinorGeneralFixesChanged)
+                        {
+                            SkipPage("Only minor general fix changes");
+                            return;
+                        }
 
-                    if (chkSkipGeneralFixes.Checked && chkGeneralFixes.Checked && TheArticle.OnlyGeneralFixesChanged)
-                    {
-                        SkipPage("Only general fix changes");
-                        return;
-                    }
+                        if (chkSkipGeneralFixes.Checked && chkGeneralFixes.Checked && TheArticle.OnlyGeneralFixesChanged)
+                        {
+                            SkipPage("Only general fix changes");
+                            return;
+                        }
 
-                    if (chkSkipNoPageLinks.Checked
-                        && (WikiRegexes.WikiLinksOnly.Matches(TheArticle.ArticleText).Count == 0))
-                    {
-                        SkipPage("Page contains no links");
-                        return;
+                        if (chkSkipNoPageLinks.Checked
+                            && (WikiRegexes.WikiLinksOnly.Matches(TheArticle.ArticleText).Count == 0))
+                        {
+                            SkipPage("Page contains no links");
+                            return;
+                        }
                     }
 
                     // post-processing
@@ -1597,7 +1600,12 @@ namespace AutoWikiBrowser
             catch (Exception ex)
             {
                 ErrorHandler.Handle(ex);
-                theArticle.Trace.AWBSkipped("Exception:" + ex.Message);
+                
+                // don't remove page over regex error – page itself is not at fault
+                if (!ex.StackTrace.Contains("System.Text.RegularExpressions"))
+                    theArticle.Trace.AWBSkipped("Exception:" + ex.Message);
+                else 
+                    Skippable = false;
                 Stop();
             }
             finally
@@ -1707,11 +1715,15 @@ window.scrollTo(0, diffTopY);
         /// </summary>
         private void GuiUpdateAfterProcessing()
         {
-            Bleepflash();
-            Focus();
-            EnableButtons();
-            //    btnSave.BringToFront();
-            btnSave.Select();
+            if(_stopProcessing)
+                Stop();
+            else
+            {
+                Bleepflash();
+                Focus();
+                EnableButtons();
+                btnSave.Select();
+            }
         }
 
         /// <summary>
