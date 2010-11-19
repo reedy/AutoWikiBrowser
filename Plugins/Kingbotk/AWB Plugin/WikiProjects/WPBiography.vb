@@ -22,12 +22,12 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Inherits PluginBase
 
         Friend Sub New()
-            MyBase.New("WikiProject Biography|Wpbiography|WPBIO|WP Biography|WPbiography|Wikiproject Biography|WP Bio|Bio") ' Specify alternate names only
+            MyBase.New("WPBiography|Wpbiography|WPBIO|WP Biography|WPbiography|Wikiproject Biography|WP Bio|Bio") ' Specify alternate names only
 
             OurSettingsControl = New BioWithWorkgroups(PluginName, Prefix, True, params)
         End Sub
 
-        Private Const PluginName As String = "WPBiography"
+        Private Const PluginName As String = "WikiProject Biography"
         Private Const Prefix As String = "Bio"
 
         Private Const WorkgroupsGroups As String = "Work Groups"
