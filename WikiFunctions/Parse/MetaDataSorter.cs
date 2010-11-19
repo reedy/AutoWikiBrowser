@@ -557,7 +557,10 @@ en, sq, ru
             {
                 strDablinks += m.Value + "\r\n";
                 
-                if(zerothSection.Contains(m.Value + "\r\n"))
+                // remove colons before dablink, remove any newline after
+                if(zerothSection.Contains(":" + m.Value + "\r\n"))
+                    zerothSection = zerothSection.Replace(":" + m.Value + "\r\n", "");
+                else if(zerothSection.Contains(m.Value + "\r\n"))
                     zerothSection = zerothSection.Replace(m.Value + "\r\n", "");
 
                 zerothSection = zerothSection.Replace(m.Value, "");

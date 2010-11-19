@@ -174,6 +174,10 @@ Fred has a dog.
             e = @"{{redirect2|Fred the {{dancer}}|Fred Smith (dancer)}}";
             Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveDablinks(d + e));
             
+            e = @"{{redirect2|Fred the {{dancer}}|Fred Smith (dancer)}}
+";
+            Assert.AreEqual(e + d, MetaDataSorter.MoveDablinks(d + ":" + e), "colons before dablinks removed");
+            
             // don't move dablinks in a section
             const string f = @"Article words
 == heading ==
@@ -188,6 +192,7 @@ words";
             const string h = @"==heading==
 more words
 [[Category:Foo]]";
+            e = @"{{redirect2|Fred the {{dancer}}|Fred Smith (dancer)}}";
 
             Assert.AreEqual(e + "\r\n" + g + "\r\n" + h, MetaDataSorter.MoveDablinks(g + "\r\n" + e + "\r\n" + h));
             
