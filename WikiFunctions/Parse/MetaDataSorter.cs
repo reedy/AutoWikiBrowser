@@ -555,10 +555,11 @@ en, sq, ru
 
             foreach (Match m in WikiRegexes.Dablinks.Matches(zerothSection))
             {
-                strDablinks = strDablinks + m.Value + "\r\n";
+                strDablinks += m.Value + "\r\n";
                 
                 if(zerothSection.Contains(m.Value + "\r\n"))
                     zerothSection = zerothSection.Replace(m.Value + "\r\n", "");
+
                 zerothSection = zerothSection.Replace(m.Value, "");
             }
             
