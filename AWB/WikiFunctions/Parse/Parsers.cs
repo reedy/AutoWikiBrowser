@@ -2832,9 +2832,12 @@ namespace WikiFunctions.Parse
                     || WikiRegexes.AmericanDates.IsMatch(TheYear))
                     newValue = Tools.RenameTemplateParameter(newValue, "year", "date");
                 
-                // coauthor is typo of coauthors
+                // author field typos
                 if(templatename.ToLower().Equals("cite web"))
+                {
+                    newValue = Tools.RenameTemplateParameter(newValue, "authors", "author");
                     newValue = Tools.RenameTemplateParameter(newValue, "coauthor", "coauthors");
+                }
 
                 // remove duplicated fields, ensure the URL is not touched (may have pipes in)
                 if (DupeFields.IsMatch(newValue))
