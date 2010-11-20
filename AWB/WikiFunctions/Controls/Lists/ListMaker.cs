@@ -608,28 +608,23 @@ namespace WikiFunctions.Controls.Lists
         }
 
         /// <summary>
-        /// Removes URL and such if applicable
+        /// Extracts wiki page title from wiki page URL
         /// </summary>
         public string NormalizeTitle(string s)
         {
-            //// Convert from the escaped UTF-8 byte code into Unicode
-            //s = System.Web.HttpUtility.UrlDecode(s);
-            //// Convert secure URLs into non-secure equivalents (note the secure system is considered a 'hack')
-            //s = Parse.Parsers.ExtToInt1.Replace(s, "http://$2.$1.org/");
-            //// Convert http://lang.domain.org/wiki/ into interwiki format
-            //s = Parse.Parsers.ExtToInt2.Replace(s, "$2:$1:$3");
-            //// Scripts paths (/w/index.php?...) into interwiki format
-            //s = Parse.Parsers.ExtToInt3.Replace(s, "$2:$1:$3");
-            //// Remove [[brackets]] from link
-            //s = Parse.Parsers.ExtToInt4.Replace(s, "$1");
-            //// '_' -> ' ' and hard coded home wiki
-            //s = Parse.Parsers.ExtToInt5.Replace(s, "$3");
-            //// Use short prefix form (wiktionary:en:Wiktionary:Main Page -> wikt:en:Wiktionary:Main Page)
-            //return Parse.Parsers.ExtToInt6.Replace(s, "$1$2$3$4$5$6$7$8$9");
-
+            // http://en.wikipedia.org/w/index.php?title=...&action=history
+            // http://en.wikipedia.org/w/index.php?title=...&diff=
+            Regex HistoryDiff = new Regex(Regex.Escape(Variables.URL) + @"/w(?:iki)?/index\.php\?title=(.*?)&(?:action|diff)=.*");
+            s = HistoryDiff.Replace(s, "$1");
+            
             // Assumsuption flaw: that all wikis use /wiki/ as the default path
             string url = Variables.URL + "/wiki/";
-            return Regex.Match(s, url).Success ? s.Replace(url, "") : s;
+            s = s.Replace(url, "");
+            
+            url = Variables.URLSecure + "/wiki/";
+            s = s.Replace(url, "");
+            
+            return s;
         }
 
         private delegate void AddToListDel(string s);
