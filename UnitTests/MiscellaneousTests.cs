@@ -5,6 +5,7 @@ using WikiFunctions.ReplaceSpecial;
 using NUnit.Framework;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using WikiFunctions.Controls.Lists;
 
 namespace UnitTests
 {
@@ -1057,6 +1058,19 @@ __TOC__", articleTextIn);
             Assert.IsFalse(InTemplateRule.TemplateUsedInText("Bert Li", @"BertLi}} was great"));
             
             Assert.IsFalse(InTemplateRule.TemplateUsedInText("Bert", @"<!--Bert}}--> was great"));
+        }
+    }
+    
+    [TestFixture]
+    public class ListMakerTests : RequiresInitialization
+    {
+        private readonly ListMaker LMaker = new ListMaker();
+        
+        [Test]
+        public void NormalizeTitle()
+        {            
+            Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"http://en.wikipedia.org/w/index.php?title=Foo&diff=3&oldid=4"));
+            Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"http://en.wikipedia.org/w/index.php?title=Foo&action=history"));
         }
     }
 }
