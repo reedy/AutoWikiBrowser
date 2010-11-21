@@ -988,7 +988,7 @@ __TOC__", articleTextIn);
         }
         
         [Test]
-        public void WPBiography()
+        public void WPBiographyTopBilling()
         {
             string a = @"{{WPBiography|foo=yes|living=yes}}
 {{WikiProject London}}
@@ -1007,6 +1007,15 @@ __TOC__", articleTextIn);
             Assert.AreEqual(c + @"{{blp}}", TalkPageFixes.WPBiography(c + @"{{blp}}"), "no change when not living");
             
             Assert.AreEqual(a, TalkPageFixes.WPBiography(a + @"{{blp}}"), "blp template removed when living=y");
+        }
+        
+        [Test]
+        public void WPBiography()
+        {
+            string a = @"{{WPBiography|foo=yes|living=yes|listas=Foé}}";
+            
+            Assert.AreEqual(a.Replace(@"é","e"), TalkPageFixes.WPBiography(a), "diacritics removed from WPBiography listas");            
+            Assert.AreEqual(a.Replace(@"é","e"), TalkPageFixes.WPBiography(a.Replace(@"é","e")), "no change when no diacritics in WPBiography listas");
         }
     }
     

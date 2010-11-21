@@ -187,7 +187,7 @@ namespace WikiFunctions.TalkPages
         private static readonly List<string> BannerShellRedirects = new List<string>(new[] { "WikiProject Banners", "WikiProjectBanners", "WPBS", "WPB", "Wpb", "Wpbs" });
         private static readonly List<string> Nos = new List<string>(new[] { "blp", "activepol", "collapsed" });
         private static readonly Regex BLPRegex = Tools.NestedTemplateRegex(new[] { "blp", "BLP", "Blpinfo" });
-        private static readonly Regex WPBiographyR = Tools.NestedTemplateRegex("WPBiography");
+        private static readonly Regex WPBiographyR = Tools.NestedTemplateRegex(new[] { "WPBiography", "Wikiproject Biography", "WikiProject Biography" });
 
         /// <summary>
         /// Performs fixes to the WikiProjectBannerShells template:
@@ -313,6 +313,20 @@ namespace WikiFunctions.TalkPages
                 return articletext;
             
             Match m = WPBiographyR.Match(articletext);
+            
+            // remove diacritics from listas
+            if(m.Success)
+            {
+                string listas = Tools.GetTemplateParameterValue(m.Value, "listas");
+                
+                string wpb = Tools.SetTemplateParameterValue(m.Value, "listas", Tools.RemoveDiacritics(listas));
+                
+                if(!wpb.Equals(m.Value))
+                    articletext = articletext.Replace(m.Value, wpb);
+            }
+            
+            // refresh
+            m = WPBiographyR.Match(articletext);
             
             if(!m.Success || !Tools.GetTemplateParameterValue(m.Value, "living").ToLower().StartsWith("y"))
                 return articletext;
