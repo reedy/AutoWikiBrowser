@@ -1805,6 +1805,7 @@ Start date and age
             Assert.AreEqual(@"Fred Smith", Tools.FixupDefaultSort(@"fred smitH"));
             Assert.AreEqual(@"Fred Smith", Tools.FixupDefaultSort(@"Fred Smith"));
             Assert.AreEqual(@"Smith, Fred", Tools.FixupDefaultSort(@"Smith, FRed"));
+            Assert.AreEqual(@"De Merino, Fernando Arturo", Tools.FixupDefaultSort(@"De Meriño, Fernando Arturo"));
             Assert.AreEqual(@"Oneworditem", Tools.FixupDefaultSort(@"OneWordItem"));
             Assert.AreEqual(@"2007 Fifa Women World Cup Squads", Tools.FixupDefaultSort(@"2007 Fifa women world cup squads"));
 
