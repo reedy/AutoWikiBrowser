@@ -187,7 +187,7 @@ namespace WikiFunctions.TalkPages
         private static readonly List<string> BannerShellRedirects = new List<string>(new[] { "WikiProject Banners", "WikiProjectBanners", "WPBS", "WPB", "Wpb", "Wpbs" });
         private static readonly List<string> Nos = new List<string>(new[] { "blp", "activepol", "collapsed" });
         private static readonly Regex BLPRegex = Tools.NestedTemplateRegex(new[] { "blp", "BLP", "Blpinfo" });
-        private static readonly Regex WPBiographyR = Tools.NestedTemplateRegex(new[] { "WPBiography", "Wikiproject Biography", "WikiProject Biography" });
+        private static readonly Regex WPBiographyR = Tools.NestedTemplateRegex(new[] { "WPBiography", "Wikiproject Biography", "WikiProject Biography", "WPBIO", "Bio" });
 
         /// <summary>
         /// Performs fixes to the WikiProjectBannerShells template:
