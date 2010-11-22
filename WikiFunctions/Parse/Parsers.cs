@@ -2124,6 +2124,8 @@ namespace WikiFunctions.Parse
 
             // catch after any other fixes
             articleText = NoCommaAmericanDates.Replace(articleText, @"$1, $2");
+            
+            articleText = IncorrectCommaInternationalDates.Replace(articleText, @"$1 $2");
 
             return AddBackMoreText(articleText);
         }
