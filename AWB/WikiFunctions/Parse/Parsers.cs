@@ -5900,6 +5900,13 @@ namespace WikiFunctions.Parse
                 if(Tools.GetTemplateParameterValue(templatecall, dateparam).Length == 0)
                     return (CurlyBraceEnd.Replace(templatecall, "|" + WikiRegexes.DateYearMonthParameter + "}}"));
             }
+            else
+            {
+                string dateFieldValue = Tools.GetTemplateParameterValue(templatecall, dateparam);
+                // date field starts lower case?
+                if(dateFieldValue.Equals(Tools.TurnFirstToLower(dateFieldValue)))
+                    templatecall = Tools.SetTemplateParameterValue(templatecall, dateparam, Tools.TurnFirstToUpper(dateFieldValue));
+            }
             
             return templatecall;
         }
