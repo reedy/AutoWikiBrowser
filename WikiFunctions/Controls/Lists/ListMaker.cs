@@ -614,7 +614,8 @@ namespace WikiFunctions.Controls.Lists
         {
             // http://en.wikipedia.org/w/index.php?title=...&action=history
             // http://en.wikipedia.org/w/index.php?title=...&diff=
-            Regex HistoryDiff = new Regex(Regex.Escape(Variables.URL) + @"/w(?:iki)?/index\.php\?title=(.*?)&(?:action|diff)=.*");
+            string originals = s;
+            Regex HistoryDiff = new Regex(Regex.Escape(Variables.URL) + @"/w(?:iki)?/index\.php\?title=(.*?)&(?:action|diff|oldid)=.*");
             s = HistoryDiff.Replace(s, "$1");
             
             // Assumsuption flaw: that all wikis use /wiki/ as the default path
@@ -623,6 +624,9 @@ namespace WikiFunctions.Controls.Lists
             
             url = Variables.URLSecure + "/wiki/";
             s = s.Replace(url, "");
+            
+            if(!originals.Equals(s))
+                s = Tools.WikiDecode(s);
             
             return s;
         }
