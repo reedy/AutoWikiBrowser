@@ -2535,6 +2535,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex TemplateMissingOpeningBrace = new Regex(@"(?<=[^{}<>\|]){(?=[^{}<>]{1,400}}})", RegexOptions.Compiled);
 
         private static readonly Regex QuadrupleCurlyBrackets = new Regex(@"(?<=^{{[^{}\r\n]+}})}}(\s)$", RegexOptions.Multiline | RegexOptions.Compiled);
+        private static readonly Regex WikiLinkOpeningClosing = new Regex(@"\[\]([^\[\]\r\n]+\]\])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         private static readonly Regex RefClosingOpeningBracket = new Regex(@"\[(\s*</ref>)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex CategoryCurlyBrackets = new Regex(@"{{ *(" + Variables.Namespaces[Namespace.Category] + @"[^{}\[\]]+?)(?:}}|\]\])", RegexOptions.Compiled);
@@ -2643,6 +2644,9 @@ namespace WikiFunctions.Parse
                     {
                         articleTextTemp = articleTextTemp.Remove(unbalancedBracket, 2);
                     }
+                    
+                    // wikilink like []foo]]
+                    articleTextTemp = WikiLinkOpeningClosing.Replace(articleTextTemp, @"[[$1");
                     
                     articleTextTemp = QuadrupleCurlyBrackets.Replace(articleTextTemp, "$1");
 
