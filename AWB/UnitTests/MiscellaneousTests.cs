@@ -1078,9 +1078,11 @@ __TOC__", articleTextIn);
         
         [Test]
         public void NormalizeTitle()
-        {            
+        {
             Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"http://en.wikipedia.org/w/index.php?title=Foo&diff=3&oldid=4"));
             Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"http://en.wikipedia.org/w/index.php?title=Foo&action=history"));
+            Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"http://en.wikipedia.org/w/index.php?title=Foo&oldid=5"));
+            Assert.AreEqual("Science (journal)", LMaker.NormalizeTitle(@"http://en.wikipedia.org/w/index.php?title=Science%20%28journal%29&action=history"));
         }
     }
 }
