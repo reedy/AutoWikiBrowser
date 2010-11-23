@@ -7784,6 +7784,8 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             
             Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=may 2010}}"), "corrects lower case month name");
             Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=11 May 2010}}"), "removes day in International date");
+            Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=11 may 2010}}"), "ensures last two tests are both done and in the correct order");
+
         }
 
         [Test]
