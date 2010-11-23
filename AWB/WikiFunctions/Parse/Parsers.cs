@@ -5905,13 +5905,17 @@ namespace WikiFunctions.Parse
             else
             {
                 string dateFieldValue = Tools.GetTemplateParameterValue(templatecall, dateparam);
+                
+                // full International date?
+                if(WikiRegexes.InternationalDates.IsMatch(Regex.Replace(dateFieldValue, @"( [a-z])", u => u.Groups[1].Value.ToUpper())))
+                {
+                    templatecall = Tools.SetTemplateParameterValue(templatecall, dateparam, dateFieldValue.Substring(dateFieldValue.IndexOf(" ")).Trim());
+                    dateFieldValue = Tools.GetTemplateParameterValue(templatecall, dateparam);
+                }
+                
                 // date field starts lower case?
                 if(dateFieldValue.Equals(Tools.TurnFirstToLower(dateFieldValue)))
                     templatecall = Tools.SetTemplateParameterValue(templatecall, dateparam, Tools.TurnFirstToUpper(dateFieldValue));
-                
-                // full International date?
-                if(WikiRegexes.InternationalDates.IsMatch(dateFieldValue))
-                    templatecall = Tools.SetTemplateParameterValue(templatecall, dateparam, dateFieldValue.Substring(dateFieldValue.IndexOf(" ")).Trim());
             }
             
             return templatecall;
