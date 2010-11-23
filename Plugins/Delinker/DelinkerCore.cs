@@ -135,21 +135,24 @@ namespace AutoWikiBrowser.Plugins.Delinker
 
         public string ProcessArticle(IAutoWikiBrowser sender, IProcessArticleEventArgs eventargs)
         {
-            if (!Enabled) return eventargs.ArticleText;
+            if (!Enabled || string.IsNullOrEmpty(Link)) return eventargs.ArticleText;
 
             string articleText = eventargs.ArticleText;
             RefNames.Clear();
 
             articleText = r4.Replace(articleText, R4Evaluator);
+            
             articleText = r1.Replace(articleText, "");
             articleText = r2.Replace(articleText, "");
             articleText = r3.Replace(articleText, "");
 
             if (RefNames.Count > 0)
+            {
                 foreach (string name in RefNames)
                 {
                     articleText = Regex.Replace(articleText, @"< ?ref\b[^>]*?name ?= ?""?" + name + "[\" ]? ?/ ?>", "");
                 }
+            }
 
             if (articleText == eventargs.ArticleText)
             {
