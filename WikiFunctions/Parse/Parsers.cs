@@ -3169,9 +3169,7 @@ namespace WikiFunctions.Parse
                 
                 newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF BIRTH", POB, true);
             }
-            else            
-                newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF BIRTH", ExistingPOB);
-            
+                
             // place of death
             string ExistingPOD = Tools.GetTemplateParameterValue(newPersonData, "PLACE OF DEATH", true);
             if(ExistingPOD.Length == 0)
@@ -3191,9 +3189,7 @@ namespace WikiFunctions.Parse
                 
                 newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF DEATH", POD, true);
             }
-             else            
-                 newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF DEATH", ExistingPOD);
-           
+               
              // look for full dates matching birth/death categories
              newPersonData = CompletePersonDataDate(newPersonData, articleText);
              
@@ -4893,6 +4889,7 @@ namespace WikiFunctions.Parse
             if (!Variables.LangCode.Equals("en")
                 || Namespace.Determine(articleTitle).Equals(Namespace.Category)
                 || articleTitle.StartsWith(@"List of ")
+                || articleTitle.StartsWith(@"Murder of ")
                 || articleTitle.EndsWith("discography")
                 || articleText.Contains(@"[[Category:Multiple people]]")
                 || articleText.Contains(@"[[Category:Married couples")
