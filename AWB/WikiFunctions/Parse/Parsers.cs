@@ -5587,23 +5587,6 @@ namespace WikiFunctions.Parse
                 totalCategories = CatsNotStubs.Count;
             }
             
-            // remove {{Uncategorized}} if > 0 real categories (stub categories not counted)
-            // rename {{Uncategorized}} to {{Uncategorized stub}} if stub with zero categories (stub categories not counted)
-            if(WikiRegexes.Uncat.IsMatch(articleText))
-            {
-                if (totalCategories > 0)
-                {
-                    articleText = WikiRegexes.Uncat.Replace(articleText, "");
-                    tagsRemoved.Add("uncategorised");
-                }
-                else if(totalCategories == 0 && WikiRegexes.Stub.IsMatch(commentsStripped))
-                {
-                    string uncatname = WikiRegexes.Uncat.Match(articleText).Groups[1].Value;
-                    if(!uncatname.Contains("stub"))
-                        articleText = Tools.RenameTemplate(articleText, uncatname, "Uncategorized stub");
-                }
-            }
-            
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#.7B.7BDeadend.7D.7D_gets_removed_from_categorized_pages
             // don't include categories as 'links'
             if ((linkCount - totalCategories) > 0 && WikiRegexes.DeadEnd.IsMatch(articleText))
@@ -5639,6 +5622,23 @@ namespace WikiFunctions.Parse
                     // add uncategorized tag
                     articleText += Tools.Newline("{{Uncategorized|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
                     tagsAdded.Add("[[CAT:UNCAT|uncategorised]]");
+                }
+            }
+            
+            // remove {{Uncategorized}} if > 0 real categories (stub categories not counted)
+            // rename {{Uncategorized}} to {{Uncategorized stub}} if stub with zero categories (stub categories not counted)
+            if(WikiRegexes.Uncat.IsMatch(articleText))
+            {
+                if (totalCategories > 0)
+                {
+                    articleText = WikiRegexes.Uncat.Replace(articleText, "");
+                    tagsRemoved.Add("uncategorised");
+                }
+                else if(totalCategories == 0 && WikiRegexes.Stub.IsMatch(commentsStripped))
+                {
+                    string uncatname = WikiRegexes.Uncat.Match(articleText).Groups[1].Value;
+                    if(!uncatname.Contains("stub"))
+                        articleText = Tools.RenameTemplate(articleText, uncatname, "Uncategorized stub");
                 }
             }
 

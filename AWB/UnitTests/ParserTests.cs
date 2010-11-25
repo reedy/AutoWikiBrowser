@@ -7290,13 +7290,22 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text));
             Assert.IsFalse(text.Contains(UncatStub));
+            
+            // stub already marked uncat
+            text = parser.Tagger(ShortText + @"{{uncat}}", "Test", false, out noChange, ref summary);
+            //Stub, no existing stub tag. Needs all tags
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("orphan"));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("wikify"));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
+            Assert.IsFalse(Tools.NestedTemplateRegex("uncat").IsMatch(text));
+            Assert.IsTrue(Tools.NestedTemplateRegex("uncategorized stub").IsMatch(text));
         }
         
         [Test]
         public void RenameUncategorised()
         {
             Globals.UnitTestIntValue = 0;
-            Globals.UnitTestBoolValue = true;
             
             string text = parser.Tagger(ShortText + @"{{stub}} {{Uncategorised|date=May 2010}}", "Test", false, out noChange, ref summary);
             Assert.IsTrue(Tools.NestedTemplateRegex("Uncategorized stub").IsMatch(text), "Uncategorised renamed to uncat stub");
@@ -7306,9 +7315,9 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsFalse(Tools.NestedTemplateRegex("Uncategorized stub").IsMatch(text), "uncatstub not renamed when already present");
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
             
-            Globals.UnitTestBoolValue = false;
-            text = parser.Tagger(ShortText + @"{{Uncategorised|date=May 2010}}", "Test", false, out noChange, ref summary);
+            text = parser.Tagger(LongText + @"{{Uncategorised|date=May 2010}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(Tools.NestedTemplateRegex("Uncategorized stub").IsMatch(text), "uncategorized not renamed when not stub");
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
             
             text = parser.Tagger(LongText + @"{{stub}} {{Uncategorised|date=May 2010}}", "Test", false, out noChange, ref summary);
             Assert.IsTrue(Tools.NestedTemplateRegex("Uncategorised").IsMatch(text), "Uncategorised not renamed when stub removed");
