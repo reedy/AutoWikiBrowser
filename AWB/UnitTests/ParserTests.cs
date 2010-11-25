@@ -2592,6 +2592,9 @@ world|format=PDF}} was";
             
             Assert.AreEqual(PD.Replace(@"[[Guelph/Eramosa, Ontario|Eramosa Township]],<br>[[Ontario]], [[Canada]]", "[[Guelph/Eramosa, Ontario|Eramosa Township]]"),
                             WikiRegexes.Persondata.Match(Parsers.PersonData(IB.Replace(@"[[Guelph/Eramosa, Ontario|Eramosa Township]], [[Ontario]], [[Canada]]", @"[[Guelph/Eramosa, Ontario|Eramosa Township]],<br>") + "May 2, 2010 and May 2, 2010", "test")).Value, "city state template converted");
+        
+        
+            Assert.AreEqual(PD.Replace("PLACE OF BIRTH", "place of birth"), WikiRegexes.Persondata.Match(Parsers.PersonData(IB + PD.Replace("PLACE OF BIRTH", "place of birth") + "May 2, 2010 and May 2, 2010", "test")).Value);
         }
         
         [Test]
