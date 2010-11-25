@@ -426,6 +426,9 @@ namespace WikiFunctions.Parse
                 if (!WikiRegexes.CoiOrPovBlp.IsMatch(singleTag))
                     singleTag = singleTag.ToLower();
 
+                if(singleTag.ToLower().Equals("cleanup-rewrite"))
+                    singleTag = "rewrite";
+                
                 // expert must have a parameter
                 if (singleTag == "expert" && tagValue.Trim().Length == 0)
                     continue;
