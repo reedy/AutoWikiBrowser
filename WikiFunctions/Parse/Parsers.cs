@@ -432,6 +432,9 @@ namespace WikiFunctions.Parse
                 if(singleTag.ToLower().Equals("primary sources"))
                     singleTag = "primarysources";
                 
+                if(singleTag.ToLower().Equals("very long"))
+                    singleTag = "verylong";
+                
                 // expert must have a parameter
                 if (singleTag == "expert" && tagValue.Trim().Length == 0)
                     continue;
