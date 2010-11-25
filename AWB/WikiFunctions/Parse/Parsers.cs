@@ -429,6 +429,9 @@ namespace WikiFunctions.Parse
                 if(singleTag.ToLower().Equals("cleanup-rewrite"))
                     singleTag = "rewrite";
                 
+                if(singleTag.ToLower().Equals("primary sources"))
+                    singleTag = "primarysources";
+                
                 // expert must have a parameter
                 if (singleTag == "expert" && tagValue.Trim().Length == 0)
                     continue;

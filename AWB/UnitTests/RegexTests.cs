@@ -1374,6 +1374,7 @@ words2"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Peacock}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Plot}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Primarysources}}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Primary sources}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Prose}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Proseline}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Quotefarm}}"));
