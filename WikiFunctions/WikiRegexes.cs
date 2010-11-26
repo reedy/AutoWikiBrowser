@@ -1080,7 +1080,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the {{Inuse}} template
         /// </summary>
-        public static readonly Regex InUse = Tools.NestedTemplateRegex(@"Inuse");
+        public static readonly Regex InUse = Tools.NestedTemplateRegex(new List<string>("Inuse,In use".Split(',')));
 
         /// <summary>
         /// Matches consecutive whitespace
