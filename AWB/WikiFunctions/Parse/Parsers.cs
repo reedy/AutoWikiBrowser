@@ -5918,6 +5918,15 @@ namespace WikiFunctions.Parse
                     templatecall = Tools.SetTemplateParameterValue(templatecall, dateparam, dateFieldValue.Substring(dateFieldValue.IndexOf(" ")).Trim());
                     dateFieldValue = Tools.GetTemplateParameterValue(templatecall, dateparam);
                 }
+                else
+                    // ISO date?
+                    if(WikiRegexes.ISODates.IsMatch(dateFieldValue))
+                {
+                    DateTime dt = Convert.ToDateTime(dateFieldValue, BritishEnglish);                    
+                    dateFieldValue = dt.ToString("MMMM yyyy", BritishEnglish);
+                    
+                    templatecall = Tools.SetTemplateParameterValue(templatecall, dateparam, dateFieldValue);
+                }
                 
                 // date field starts lower case?
                 if(dateFieldValue.Equals(Tools.TurnFirstToLower(dateFieldValue)))

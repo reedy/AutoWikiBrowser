@@ -7765,7 +7765,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         private static readonly System.Globalization.CultureInfo BritishEnglish = new System.Globalization.CultureInfo("en-GB");
         
         [Test]
-        public void TagUpdater()
+        public void TagUpdaterAddDate()
         {
             WikiRegexes.DatedTemplates.Clear();
             WikiRegexes.DatedTemplates.Add(Tools.NestedTemplateRegex("wikify"));
@@ -7795,13 +7795,18 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             
             const string commentedOut = @"<!-- {{wikify}} -->";
             Assert.AreEqual(commentedOut, Parsers.TagUpdater(commentedOut), "ignores commented out tags");
-            
+        }
+        
+          [Test]
+        public void TagUpdaterFormatDate()
+        {
             WikiRegexes.DatedTemplates.Add(Tools.NestedTemplateRegex("dead link"));
             Assert.AreEqual(@"<ref>{{cite web | title=foo| url=http://www.site.com }} {{dead link|date=" + System.DateTime.UtcNow.ToString("MMMM yyyy", BritishEnglish) + @"}}</ref>", Parsers.TagUpdater(@"<ref>{{cite web | title=foo| url=http://www.site.com }} {{dead link}}</ref>"));
             
             Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=may 2010}}"), "corrects lower case month name");
             Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=11 May 2010}}"), "removes day in International date");
-            Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=11 may 2010}}"), "ensures last two tests are both done and in the correct order");
+            Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=11 may 2010}}"), "corrects lower case month name, removes day in International date");
+            Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=2010-05-13}}"), "corrects lower case month name");
 
         }
 
