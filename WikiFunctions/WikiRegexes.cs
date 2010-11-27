@@ -1078,9 +1078,9 @@ namespace WikiFunctions
         public static readonly Regex Ibid = Tools.NestedTemplateRegex(@"Ibid");
         
         /// <summary>
-        /// Matches the {{Inuse}} template
+        /// Matches the {{In use}} template
         /// </summary>
-        public static readonly Regex InUse = Tools.NestedTemplateRegex(new List<string>("Inuse,In use".Split(',')));
+        public static readonly Regex InUse = Tools.NestedTemplateRegex(new[] { "Inuse", "In use" });
 
         /// <summary>
         /// Matches consecutive whitespace
