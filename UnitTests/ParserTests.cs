@@ -7861,6 +7861,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.IsTrue(parser.MultipleIssues(a1 + @"{{Cleanup-rewrite}}" + a3).Contains(@"{{Multiple issues|wikify|expand|rewrite}}"));
             Assert.IsTrue(parser.MultipleIssues(a1 + @"{{primary sources}}" + a3).Contains(@"{{Multiple issues|wikify|expand|primarysources}}"));
             Assert.IsTrue(parser.MultipleIssues(a1 + @"{{very long}}" + a3).Contains(@"{{Multiple issues|wikify|expand|verylong}}"));
+            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{cleanup-jargon}}" + a3).Contains(@"{{Multiple issues|wikify|expand|jargon}}"), "takes cleanup-jargon, adds as jargon");
 
             // amend existing {{article issues}}
             Assert.IsTrue(parser.MultipleIssues(a5 + a1 + a2 + a3).Contains(@"{{Article issues|POV|prose|spam|wikify|expand|COI"));

@@ -429,6 +429,9 @@ namespace WikiFunctions.Parse
                 if(singleTag.ToLower().Equals("cleanup-rewrite"))
                     singleTag = "rewrite";
                 
+                       if(singleTag.ToLower().Equals("cleanup-jargon"))
+                    singleTag = "jargon";
+                
                 if(singleTag.ToLower().Equals("primary sources"))
                     singleTag = "primarysources";
                 
