@@ -334,6 +334,7 @@ namespace WikiFunctions.TalkPages
             // remove {{blp}} if {{WPBiography|living=yes}}
             articletext = BLPRegex.Replace(articletext, "");
             
+            // move above any other WikiProject
             if(!WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articletext))
             {
                 foreach(Match n in WikiRegexes.NestedTemplates.Matches(articletext))

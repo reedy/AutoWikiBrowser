@@ -210,7 +210,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Sub
         Protected Overrides Function WriteTemplateHeader() As String
             Dim Living As Boolean
-            Dim res As String = "{{WPBiography" & Microsoft.VisualBasic.vbCrLf
+            Dim res As String = "{{WikiProject Biography" & Microsoft.VisualBasic.vbCrLf
 
             With Template
                 If .Parameters.ContainsKey("living") Then
