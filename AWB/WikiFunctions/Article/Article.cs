@@ -578,7 +578,7 @@ namespace WikiFunctions
 			"long", "newsrelease", "notable", "notability", "one source", "onesource", "OR", "or", "original research", "orphan", "out of date", "peacock", 
 			"plot", "POV", "NPOV", "pov", "npov", "pov-check", "primarysources", "prose", "proseline", "quotefarm", "recentism", "refimprove", 
 			"refimproveBLP", "refimprove BLP", "restructure", "reorganisation", "organize", "review", "rewrite", "section", "sections", "self-published", 
-			"spam", "story", "synthesis", "inappropriate tone", "tone", "travelguide", "tooshort", "trivia", "unbalanced", "unencyclopedic", "unref", "unreferenced", 
+			"spam", "story", "synthesis", "inappropriate tone", "technical", "tone", "travelguide", "tooshort", "trivia", "unbalanced", "unencyclopedic", "unref", "unreferenced", 
 			"unreferencedBLP", "update", "verylong", "weasel", "wikify"});
             
             if(NameSpaceKey.Equals(Namespace.Mainspace))
