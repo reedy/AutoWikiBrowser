@@ -425,18 +425,32 @@ namespace WikiFunctions.Parse
                 string tagValue = m.Groups[2].Value;
                 if (!WikiRegexes.CoiOrPovBlp.IsMatch(singleTag))
                     singleTag = singleTag.ToLower();
-
+                
+                // tag renaming
                 if(singleTag.ToLower().Equals("cleanup-rewrite"))
                     singleTag = "rewrite";
-                
-                       if(singleTag.ToLower().Equals("cleanup-jargon"))
+                else if(singleTag.ToLower().Equals("cleanup-laundry"))
+                    singleTag = "laundrylists";
+                else if(singleTag.ToLower().Equals("cleanup-jargon"))
                     singleTag = "jargon";
-                
-                if(singleTag.ToLower().Equals("primary sources"))
+                else if(singleTag.ToLower().Equals("primary sources"))
                     singleTag = "primarysources";
-                
-                if(singleTag.ToLower().Equals("very long"))
+                else if(singleTag.ToLower().Equals("news release"))
+                    singleTag = "newsrelease";
+                else if(singleTag.ToLower().Equals("game guide"))
+                    singleTag = "gameguide";
+                else if(singleTag.ToLower().Equals("travel guide"))
+                    singleTag = "travelguide";
+                else if(singleTag.ToLower().Equals("very long"))
                     singleTag = "verylong";
+                else if(singleTag.ToLower().Equals("cleanup-reorganise"))
+                    singleTag = "restructure";
+                else if(singleTag.ToLower().Equals("cleanup-spam"))
+                    singleTag = "spam";
+                else if(singleTag.ToLower().Equals("criticism section"))
+                    singleTag = "criticisms";
+                else if(singleTag.ToLower().Equals("pov-check"))
+                    singleTag = "pov-check";
                 
                 // expert must have a parameter
                 if (singleTag == "expert" && tagValue.Trim().Length == 0)
