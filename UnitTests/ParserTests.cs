@@ -7866,8 +7866,8 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.IsTrue(parser.MultipleIssues(a1 + @"{{cleanup-reorganise}}" + a3).Contains(@"{{Multiple issues|wikify|expand|restructure}}"), "takes cleanup-reorgnise, adds as restructure");
             Assert.IsTrue(parser.MultipleIssues(a1 + @"{{cleanup-spam}}" + a3).Contains(@"{{Multiple issues|wikify|expand|spam}}"), "takes cleanup-spam, adds as spam");
             Assert.IsTrue(parser.MultipleIssues(a1 + @"{{criticism section}}" + a3).Contains(@"{{Multiple issues|wikify|expand|criticisms}}"), "takes criticism section, adds as criticisms");
-            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{game guide}}" + a3).Contains(@"{{Multiple issues|wikify|expand|gameguide}}"), "takes gameguide, adds as gameguide");
-            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{travel guide}}" + a3).Contains(@"{{Multiple issues|wikify|expand|travelguide}}"), "takes gameguide, adds as travelguide");
+            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{game guide}}" + a3).Contains(@"{{Multiple issues|wikify|expand|gameguide}}"), "takes game guide, adds as gameguide");
+            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{travel guide}}" + a3).Contains(@"{{Multiple issues|wikify|expand|travelguide}}"), "takes travel guide, adds as travelguide");
             Assert.IsTrue(parser.MultipleIssues(a1 + @"{{news release}}" + a3).Contains(@"{{Multiple issues|wikify|expand|newsrelease}}"), "takes news release, adds as newsrelease");
             Assert.IsTrue(parser.MultipleIssues(a1 + @"{{POV-check}}" + a3).Contains(@"{{Multiple issues|wikify|expand|pov-check}}"), "takes POV-check, adds as pov-check");
 
