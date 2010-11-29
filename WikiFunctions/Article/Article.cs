@@ -574,7 +574,7 @@ namespace WikiFunctions
 			"citecheck", "cleanup", "COI", "coi", "colloquial", "confusing", "context", "contradict", 
 			"copyedit", "copy edit", "criticisms", "crystal", "date", "deadend", "dead end", "disputed", "essay", "essay-like", "examplefarm", "expert", "external links", "expand", 
 			"fancruft", "fansite", "fiction", "gameguide", "globalize", "grammar", "histinfo", "hoax", "howto", "inappropriate person", "incomplete", "intromissing", 
-			"introrewrite", "lead missing", "lead rewrite", "lead too long", "lead too short", "in-universe", "jargon", "laundrylists", "laundry", "likeresume", 
+			"introrewrite", "laundrylists", "lead missing", "lead rewrite", "lead too long", "lead too short", "in-universe", "jargon", "laundrylists", "laundry", "likeresume", 
 			"long", "newsrelease", "notable", "notability", "one source", "onesource", "OR", "or", "original research", "orphan", "out of date", "peacock", 
 			"plot", "POV", "NPOV", "pov", "npov", "pov-check", "primarysources", "prose", "proseline", "quotefarm", "recentism", "refimprove", 
 			"refimproveBLP", "refimprove BLP", "restructure", "reorganisation", "organize", "review", "rewrite", "section", "sections", "self-published", 
