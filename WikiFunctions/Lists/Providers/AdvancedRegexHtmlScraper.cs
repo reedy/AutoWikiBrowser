@@ -79,7 +79,7 @@ namespace WikiFunctions.Lists.Providers
 
         public string UserInputTextBoxText
         {
-            get { return "Url:"; }
+            get { return "URL:"; }
         }
 
         public bool UserInputTextBoxEnabled
