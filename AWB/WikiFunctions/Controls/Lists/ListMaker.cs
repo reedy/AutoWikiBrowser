@@ -783,10 +783,9 @@ namespace WikiFunctions.Controls.Lists
             {
                 for(int i = 0; i < sourceValues.Length; i++)
                 {
-                    
+                    sourceValues[i] = NormalizeTitle(sourceValues[i]);
                 }
             }
-
 
             _source = sourceValues;
 
