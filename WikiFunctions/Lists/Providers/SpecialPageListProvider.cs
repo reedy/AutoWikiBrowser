@@ -109,6 +109,9 @@ namespace WikiFunctions.Lists.Providers
         public bool RunOnSeparateThread
         { get { return true; } }
 
+        public virtual bool StripUrl
+        { get { return false; } }
+
         private void SpecialPageListProvider_Load(object sender, EventArgs e)
         {
             int currentSelected = cboNamespace.SelectedIndex;

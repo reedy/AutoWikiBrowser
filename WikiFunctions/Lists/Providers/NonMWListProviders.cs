@@ -88,6 +88,9 @@ namespace WikiFunctions.Lists.Providers
 
         public bool RunOnSeparateThread
         { get { return true; } }
+
+        public virtual bool StripUrl
+        { get { return false; } }
     }
 
     /// <summary>
@@ -171,6 +174,9 @@ namespace WikiFunctions.Lists.Providers
 
         public bool RunOnSeparateThread
         { get { return true; } }
+
+        public virtual bool StripUrl
+        { get { return false; } }
         #endregion
     }
 
@@ -270,6 +276,9 @@ namespace WikiFunctions.Lists.Providers
         public void Selected() { }
 
         public bool RunOnSeparateThread
+        { get { return false; } }
+
+        public virtual bool StripUrl
         { get { return false; } }
         #endregion
     }

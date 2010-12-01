@@ -37,6 +37,7 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
     public class YahooSearchListMakerPlugin : IListMakerPlugin
     {
         private const string AppId = "3mG9u3PV34GC4rnRXJlID0_3aUb0.XVxGZYrbFcYClzQYUqtlkn0u6iXVwYVv9sW1Q--";
+
         #region IListMakerPlugin Members
 
         private const string BaseUrl =
@@ -107,6 +108,9 @@ namespace WikiFunctions.Plugins.ListMaker.YahooSearch
 
         public bool RunOnSeparateThread
         { get { return true; } }
+
+        public virtual bool StripUrl
+        { get { return false; } }
         #endregion
     }
 }

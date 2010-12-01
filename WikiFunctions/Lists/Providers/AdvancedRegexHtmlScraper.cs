@@ -96,6 +96,11 @@ namespace WikiFunctions.Lists.Providers
             get { return true; }
         }
 
+        public virtual bool StripUrl
+        {
+            get { return false; }
+        }
+
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RegexTextBox.Cut();
