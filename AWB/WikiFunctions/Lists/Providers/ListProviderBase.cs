@@ -130,6 +130,11 @@ namespace WikiFunctions.Lists.Providers
             return true;
         }
 
+        public virtual bool StripUrl
+        {
+            get { return false; }
+        }
+
         #region To be overridden
 
         public abstract List<Article> MakeList(params string[] searchCriteria);
@@ -247,6 +252,10 @@ namespace WikiFunctions.Lists.Providers
             return cats;
         }
 
+        public override bool StripUrl
+        {
+            get { return true; }
+        }
     }
 
     [Serializable]

@@ -91,6 +91,9 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
 
         public bool RunOnSeparateThread
         { get { return true; } }
+
+        public virtual bool StripUrl
+        { get { return false; } }
     }
 
     /// <summary>

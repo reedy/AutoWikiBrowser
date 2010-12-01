@@ -778,6 +778,16 @@ namespace WikiFunctions.Controls.Lists
             btnStop.Visible = true;
 
             _providerToRun = provider;
+
+            if (_providerToRun.StripUrl)
+            {
+                for(int i = 0; i < sourceValues.Length; i++)
+                {
+                    
+                }
+            }
+
+
             _source = sourceValues;
 
             if (_providerToRun.RunOnSeparateThread)

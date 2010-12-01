@@ -1038,6 +1038,9 @@ namespace WikiFunctions.Lists.Providers
             return null;
         }
 
+        public virtual bool StripUrl
+        { get { return false; } }
+
         #region ListMaker properties
         public string DisplayText
         { get { return "Database dump"; } }

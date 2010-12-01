@@ -56,6 +56,11 @@ namespace WikiFunctions.Lists.Providers
         /// True if the object expects to be started on a separate thread
         /// </summary>
         bool RunOnSeparateThread { get; }
+
+        /// <summary>
+        /// Whether to strip the URL of the current site from the input
+        /// </summary>
+        bool StripUrl { get; }
     }
 
     /// <summary>

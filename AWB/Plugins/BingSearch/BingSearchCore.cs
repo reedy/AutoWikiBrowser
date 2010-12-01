@@ -108,5 +108,8 @@ namespace WikiFunctions.Plugins.ListMaker.BingSearch
         {
             get { return "Bing Search Plugin"; }
         }
+
+        public virtual bool StripUrl
+        { get { return false; } }
     }
 }
