@@ -7490,6 +7490,37 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
         }
         
         [Test]
+        public void AddWikify()
+        {
+            Globals.UnitTestIntValue = 0;
+            Globals.UnitTestBoolValue = true;
+            string t1 = @"'''Ae0bgz2CNta0Qib4dK3''' VcnyafUE0bqIUdr5e 9zggyDHmIye [[PoPUJrqLG 3a8vnqpgy]].<ref>EdOkQE5gA 7u9P9ZZtd dFw0g9Fsf 99924876231</ref>
+
+==References==
+{{Reflist}}
+
+{{Persondata <!-- Metadata: see [[Wikipedia:Persondata]]. -->
+| NAME              = 0mqgyd9wZ ow3yEcrk6
+| ALTERNATIVE NAMES =
+| SHORT DESCRIPTION =
+| DATE OF BIRTH     =
+| PLACE OF BIRTH    =
+| DATE OF DEATH     =
+| PLACE OF DEATH    =
+}}
+{{DEFAULTSORT:bJqnzFm7e, opFhLKq7z}}
+[[Category:Albanian people]]
+[[Category:Albanian Declaration of Independence]]
+
+
+{{Albania-bio-stub}}";
+
+            string text = parser.Tagger(t1, "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
+        }
+        
+        [Test]
         public void AddSv()
         {
             Globals.UnitTestIntValue = 0;
