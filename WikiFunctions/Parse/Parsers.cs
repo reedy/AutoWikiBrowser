@@ -5933,6 +5933,20 @@ namespace WikiFunctions.Parse
             {
                 string dateFieldValue = Tools.GetTemplateParameterValue(templatecall, dateparam);
                 
+                // May, 2010 --> May 2010
+                if(dateFieldValue.Contains(","))
+                {
+                    templatecall = Tools.SetTemplateParameterValue(templatecall, dateparam, dateFieldValue.Replace(",", ""));
+                    dateFieldValue = Tools.GetTemplateParameterValue(templatecall, dateparam);
+                }
+                
+                // leading zero removed
+                if(dateFieldValue.StartsWith("0"))
+                {
+                    templatecall = Tools.SetTemplateParameterValue(templatecall, dateparam, dateFieldValue.TrimStart('0'));
+                    dateFieldValue = Tools.GetTemplateParameterValue(templatecall, dateparam);
+                }
+                
                 // full International date?
                 if(WikiRegexes.InternationalDates.IsMatch(Regex.Replace(dateFieldValue, @"( [a-z])", u => u.Groups[1].Value.ToUpper())))
                 {
