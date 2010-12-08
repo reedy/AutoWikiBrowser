@@ -1349,6 +1349,7 @@ Time: {1}
 Message: {2}
 
 ", @object, DateTime.Now.ToLongTimeString(), text), "Log.txt", true);
+                    break;
                 }
                 catch
                 {
