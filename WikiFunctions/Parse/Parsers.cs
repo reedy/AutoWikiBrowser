@@ -1612,7 +1612,10 @@ namespace WikiFunctions.Parse
             // unknown parameters in cite web
             foreach (Match m in CiteWeb.Matches(articleText))
             {
-                foreach (Match m2 in CitationPopulatedParameter.Matches(m.Value))
+                // ignore parameters in templates within cite
+                string cite = @"{{" + WikiRegexes.NestedTemplates.Replace(m.Value.Substring(2), "");
+                
+                foreach (Match m2 in CitationPopulatedParameter.Matches(cite))
                 {
                     if (!citeWebParameters.IsMatch(m2.Groups[1].Value) && m2.Groups[2].Value.Trim().Length > 2)
                         found.Add(m.Index + m2.Groups[1].Index, m2.Groups[1].Length);
