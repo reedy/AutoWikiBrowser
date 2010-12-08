@@ -225,7 +225,7 @@ namespace AutoWikiBrowser
                     _settingsFileDisplay += " - " + Path.GetFileName(value);
                 Text = _settingsFileDisplay;
 
-                ntfyTray.Text = (_settingsFileDisplay.Length >= 64) ? _settingsFileDisplay.Substring(0, 63) : _settingsFileDisplay;
+                ntfyTray.Text = (_settingsFileDisplay.Length >= 64) ? _settingsFileDisplay.Substring(0, 62) : _settingsFileDisplay;
             }
             get { return mSettingsFile; }
         }

@@ -425,31 +425,33 @@ namespace WikiFunctions.Parse
                 string tagValue = m.Groups[2].Value;
                 if (!WikiRegexes.CoiOrPovBlp.IsMatch(singleTag))
                     singleTag = singleTag.ToLower();
-                
+
+                string singleTagLower = singleTag.ToLower();
+
                 // tag renaming
-                if(singleTag.ToLower().Equals("cleanup-rewrite"))
+                if (singleTagLower.Equals("cleanup-rewrite"))
                     singleTag = "rewrite";
-                else if(singleTag.ToLower().Equals("cleanup-laundry"))
+                else if(singleTagLower.Equals("cleanup-laundry"))
                     singleTag = "laundrylists";
-                else if(singleTag.ToLower().Equals("cleanup-jargon"))
+                else if(singleTagLower.Equals("cleanup-jargon"))
                     singleTag = "jargon";
-                else if(singleTag.ToLower().Equals("primary sources"))
+                else if(singleTagLower.Equals("primary sources"))
                     singleTag = "primarysources";
-                else if(singleTag.ToLower().Equals("news release"))
+                else if(singleTagLower.Equals("news release"))
                     singleTag = "newsrelease";
-                else if(singleTag.ToLower().Equals("game guide"))
+                else if(singleTagLower.Equals("game guide"))
                     singleTag = "gameguide";
-                else if(singleTag.ToLower().Equals("travel guide"))
+                else if(singleTagLower.Equals("travel guide"))
                     singleTag = "travelguide";
-                else if(singleTag.ToLower().Equals("very long"))
+                else if(singleTagLower.Equals("very long"))
                     singleTag = "verylong";
-                else if(singleTag.ToLower().Equals("cleanup-reorganise"))
+                else if(singleTagLower.Equals("cleanup-reorganise"))
                     singleTag = "restructure";
-                else if(singleTag.ToLower().Equals("cleanup-spam"))
+                else if(singleTagLower.Equals("cleanup-spam"))
                     singleTag = "spam";
-                else if(singleTag.ToLower().Equals("criticism section"))
+                else if(singleTagLower.Equals("criticism section"))
                     singleTag = "criticisms";
-                else if(singleTag.ToLower().Equals("pov-check"))
+                else if(singleTagLower.Equals("pov-check"))
                     singleTag = "pov-check";
                 
                 // expert must have a parameter
