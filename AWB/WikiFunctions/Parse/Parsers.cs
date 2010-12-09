@@ -1615,7 +1615,7 @@ namespace WikiFunctions.Parse
             foreach (Match m in CiteWeb.Matches(articleText))
             {
                 // ignore parameters in templates within cite
-                string cite = @"{{" + WikiRegexes.NestedTemplates.Replace(m.Value.Substring(2), "");
+                string cite = @"{{" + Tools.ReplaceWithSpaces(m.Value.Substring(2), WikiRegexes.NestedTemplates.Matches(m.Value.Substring(2)));
                 
                 foreach (Match m2 in CitationPopulatedParameter.Matches(cite))
                 {

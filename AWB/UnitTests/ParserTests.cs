@@ -686,6 +686,10 @@ Jones 2005</ref>"));
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|title=bar|bee |url=foo}}"));
             
             Found.Clear();
+            Found.Add(29, 6);
+            Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|title=bar{{a}}|bee |url=foo}}"));
+            
+            Found.Clear();
             Found.Add(30, 28);
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|title=bar |url=http://www.foo.com/bar text/}}"), "Reports URLs with spaces");
             
