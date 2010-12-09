@@ -2833,7 +2833,7 @@ namespace WikiFunctions.Parse
                 }
                 
                 // remove language=English on en-wiki
-                if (Variables.LangCode == "en" && Tools.GetTemplateParameterValue(newValue, "language").ToLower().Equals("english"))
+                if (Tools.GetTemplateParameterValue(newValue, "language").ToLower().Equals("english"))
                     newValue = Tools.RemoveTemplateParameter(newValue, "language");
 
                 // remove format= field with null value when URL is HTML page
