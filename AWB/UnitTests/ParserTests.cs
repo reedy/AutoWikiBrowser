@@ -7891,34 +7891,34 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             const string a4A = @" {{COI|Date=May 2008}}", a4B= @"{{COI|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
 
             // adding new {{multiple issues}}
-            Assert.IsTrue(parser.MultipleIssues(a1 + a2 + a3).Contains(@"{{Multiple issues|wikify|expand|COI}}"));
-            Assert.IsTrue(parser.MultipleIssues(a1 + a4 + a3).Contains(@"{{Multiple issues|wikify|expand|COI =May 2008}}"));
-            Assert.IsTrue(parser.MultipleIssues(a1 + a4B + a3).Contains(@"{{Multiple issues|wikify|expand|COI ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
-            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{cleanup-rewrite}}" + a3).Contains(@"{{Multiple issues|wikify|expand|rewrite}}"), "takes cleanup-rewrite, adds as rewrite");
-            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{Cleanup-rewrite}}" + a3).Contains(@"{{Multiple issues|wikify|expand|rewrite}}"));
-            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{primary sources}}" + a3).Contains(@"{{Multiple issues|wikify|expand|primarysources}}"));
-            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{very long}}" + a3).Contains(@"{{Multiple issues|wikify|expand|verylong}}"));
-            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{cleanup-jargon}}" + a3).Contains(@"{{Multiple issues|wikify|expand|jargon}}"), "takes cleanup-jargon, adds as jargon");
-            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{cleanup-laundry}}" + a3).Contains(@"{{Multiple issues|wikify|expand|laundrylists}}"), "takes cleanup-laundry, adds as laundrylists");
-            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{cleanup-reorganise}}" + a3).Contains(@"{{Multiple issues|wikify|expand|restructure}}"), "takes cleanup-reorgnise, adds as restructure");
-            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{cleanup-spam}}" + a3).Contains(@"{{Multiple issues|wikify|expand|spam}}"), "takes cleanup-spam, adds as spam");
-            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{criticism section}}" + a3).Contains(@"{{Multiple issues|wikify|expand|criticisms}}"), "takes criticism section, adds as criticisms");
-            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{game guide}}" + a3).Contains(@"{{Multiple issues|wikify|expand|gameguide}}"), "takes game guide, adds as gameguide");
-            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{travel guide}}" + a3).Contains(@"{{Multiple issues|wikify|expand|travelguide}}"), "takes travel guide, adds as travelguide");
-            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{news release}}" + a3).Contains(@"{{Multiple issues|wikify|expand|newsrelease}}"), "takes news release, adds as newsrelease");
-            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{POV-check}}" + a3).Contains(@"{{Multiple issues|wikify|expand|pov-check}}"), "takes POV-check, adds as pov-check");
+            Assert.IsTrue(parser.MultipleIssues(a1 + a2 + a3).Contains(@"{{Multiple issues|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+            Assert.IsTrue(parser.MultipleIssues(a1 + a4 + a3).Contains(@"{{Multiple issues|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI = May 2008}}"));
+            Assert.IsTrue(parser.MultipleIssues(a1 + a4B + a3).Contains(@"{{Multiple issues|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{cleanup-rewrite}}" + a3).Contains(@"{{Multiple issues|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|rewrite = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"), "takes cleanup-rewrite, adds as rewrite");
+            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{Cleanup-rewrite}}" + a3).Contains(@"{{Multiple issues|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|rewrite = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{primary sources}}" + a3).Contains(@"{{Multiple issues|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|primarysources = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{very long}}" + a3).Contains(@"{{Multiple issues|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|verylong = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{cleanup-jargon}}" + a3).Contains(@"{{Multiple issues|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|jargon = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"), "takes cleanup-jargon, adds as jargon");
+            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{cleanup-laundry}}" + a3).Contains(@"{{Multiple issues|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|laundrylists = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"), "takes cleanup-laundry, adds as laundrylists");
+            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{cleanup-reorganise}}" + a3).Contains(@"{{Multiple issues|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|restructure = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"), "takes cleanup-reorgnise, adds as restructure");
+            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{cleanup-spam}}" + a3).Contains(@"{{Multiple issues|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|spam = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"), "takes cleanup-spam, adds as spam");
+            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{criticism section}}" + a3).Contains(@"{{Multiple issues|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|criticisms = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"), "takes criticism section, adds as criticisms");
+            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{game guide}}" + a3).Contains(@"{{Multiple issues|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|gameguide = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"), "takes game guide, adds as gameguide");
+            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{travel guide}}" + a3).Contains(@"{{Multiple issues|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|travelguide = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"), "takes travel guide, adds as travelguide");
+            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{news release}}" + a3).Contains(@"{{Multiple issues|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|newsrelease = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"), "takes news release, adds as newsrelease");
+            Assert.IsTrue(parser.MultipleIssues(a1 + @"{{POV-check}}" + a3).Contains(@"{{Multiple issues|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|pov-check = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"), "takes POV-check, adds as pov-check");
 
             // amend existing {{multiple issues}}
-            Assert.IsTrue(parser.MultipleIssues(a5 + a1 + a2 + a3).Contains(@"{{Article issues|POV|prose|spam|wikify|expand|COI"));
-            Assert.IsTrue(parser.MultipleIssues(a5 + a1 + a4 + a3).Contains(@"{{Article issues|POV|prose|spam|wikify|expand|COI =May 2008}}"));
-            Assert.IsTrue(parser.MultipleIssues(a5 + a1 + a4A + a3).Contains(@"{{Article issues|POV|prose|spam|wikify|expand|COI =May 2008}}"));
+            Assert.IsTrue(parser.MultipleIssues(a5 + a1 + a2 + a3).Contains(@"{{Article issues|POV|prose|spam|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}"));
+            Assert.IsTrue(parser.MultipleIssues(a5 + a1 + a4 + a3).Contains(@"{{Article issues|POV|prose|spam|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI = May 2008}}"));
+            Assert.IsTrue(parser.MultipleIssues(a5 + a1 + a4A + a3).Contains(@"{{Article issues|POV|prose|spam|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI = May 2008}}"));
 
             // insufficient tags
             Assert.IsFalse(Parsers.Conversions(a1 + a3).Contains(@"{{Multiple issues"));
 
             // before first heading tag can be used
             const string a7 = @"{{trivia}} ==heading==";
-            Assert.IsTrue(parser.MultipleIssues(a5 + a3 + a7).Contains(@"{{Article issues|POV|prose|spam|trivia}}"));
+            Assert.IsTrue(parser.MultipleIssues(a5 + a3 + a7).Contains(@"{{Article issues|POV|prose|spam|trivia = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
 
             // don't grab tags in later sections of article
             const string a6 = @"==head== {{essay}}";
@@ -7944,7 +7944,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(@"{{article issues|POV=May 2008|article=y}} {{wikify|date=May 2007}}", parser.MultipleIssues(@"{{article issues|POV=May 2008|article=y}} {{wikify|date=May 2007}}"));
 
             // add tags if total would reach 3
-            Assert.AreEqual(@"{{article issues|POV=May 2008|wikify =May 2007|cleanup =June 2008}}  ", parser.MultipleIssues(@"{{article issues|POV=May 2008}} {{wikify|date=May 2007}} {{cleanup|date=June 2008}}"));
+            Assert.AreEqual(@"{{article issues|POV=May 2008|wikify = May 2007|cleanup = June 2008}}  ", parser.MultipleIssues(@"{{article issues|POV=May 2008}} {{wikify|date=May 2007}} {{cleanup|date=June 2008}}"));
         }
         
         [Test]
@@ -8035,11 +8035,11 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             const string a1 = @"{{Wikify}} {{expand}}", a2 = @" {{COI}}", a3 = @" the article";
 
             // adding new {{article issues}}
-            Assert.IsFalse(parser.MultipleIssues(a1 + a2 + a3).Contains(@"{{Multiple issues|wikify|expand|COI}}"));
+            Assert.IsFalse(parser.MultipleIssues(a1 + a2 + a3).Contains(@"{{Multiple issues|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI}}"));
             
             Variables.SetProjectLangCode("en");
             
-            Assert.IsTrue(parser.MultipleIssues(a1 + a2 + a3).Contains(@"{{Multiple issues|wikify|expand|COI}}"));
+            Assert.IsTrue(parser.MultipleIssues(a1 + a2 + a3).Contains(@"{{Multiple issues|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
             #endif
         }
         
