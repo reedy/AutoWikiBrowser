@@ -460,7 +460,15 @@ namespace WikiFunctions.Parse
 
                 // for tags with a parameter, that parameter must be the date
                 if ((tagValue.Contains("=") && Regex.IsMatch(tagValue, @"(?i)date")) || tagValue.Length == 0)
+                {
+                    tagValue = Regex.Replace(tagValue, @"^[Dd]ate\s*=\s*", "= ");
+                    
+                    // every tag except expert needs a date
+                    if(!singleTag.Equals("expert") && tagValue.Length == 0)
+                        tagValue = @"= {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
+                    
                     newTags += @"|" + singleTag + @" " + tagValue;
+                }
                 else
                     continue;
                 newTags = newTags.Trim();
