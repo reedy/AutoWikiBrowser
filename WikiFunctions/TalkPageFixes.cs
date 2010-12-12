@@ -14,7 +14,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ */
 
 /* Some of this is currently only suitable for enwiki. */
 
@@ -92,7 +92,7 @@ namespace WikiFunctions.TalkPages
             articleText = WPBiography(articleText);
             
             // remove redundant Template: in templates in zeroth section
-            string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;            
+            string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
             if(zerothSection.Length > 0)
                 articleText = articleText.Replace(zerothSection, Parse.Parsers.RemoveTemplateNamespace(zerothSection));
 
@@ -367,9 +367,10 @@ namespace WikiFunctions.TalkPages
             {
                 foreach(Match m in WikiRegexes.NestedTemplates.Matches(articletextLocal))
                 {
-                    if(Tools.GetTemplateName(m.Value).StartsWith("WikiProject "))
-                        wikiProjectTemplates++;
+                    if(!Tools.GetTemplateName(m.Value).StartsWith("WikiProject "))
+                        continue;
                     
+                    wikiProjectTemplates++;                    
                     WPBS1 += Tools.Newline(m.Value);
                     articletextLocal = articletextLocal.Replace(m.Value, "");
                 }
