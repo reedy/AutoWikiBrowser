@@ -25,14 +25,14 @@ namespace WikiFunctions.Plugin
     public interface IModule
     {
         /// <summary>
-        /// 
+        /// Runs custom module code against the current page
         /// </summary>
-        /// <param name="articleText">The wiki text of the article.</param>
-        /// <param name="articleTitle">Title of the article</param>
-        /// <param name="namespace"></param>
-        /// <param name="summary"></param>
-        /// <param name="skip"></param>
-        /// <returns></returns>
+        /// <param name="articleText">The wiki text of the page</param>
+        /// <param name="articleTitle">Title of the page</param>
+        /// <param name="namespace">Namespace key of page</param>
+        /// <param name="summary">Edit summary to use</param>
+        /// <param name="skip">Whether to skip the page</param>
+        /// <returns>The updated page text</returns>
         string ProcessArticle(string articleText, string articleTitle, int @namespace, out string summary,
             out bool skip);
     }
