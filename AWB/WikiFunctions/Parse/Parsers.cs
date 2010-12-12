@@ -5974,8 +5974,8 @@ namespace WikiFunctions.Parse
                 }
                 
                 // date field starts lower case?
-                if(dateFieldValue.Equals(Tools.TurnFirstToLower(dateFieldValue)))
-                    templatecall = Tools.SetTemplateParameterValue(templatecall, dateparam, Tools.TurnFirstToUpper(dateFieldValue));
+                if(!dateFieldValue.Equals(Tools.TurnFirstToUpper(dateFieldValue.ToLower())))
+                    templatecall = Tools.SetTemplateParameterValue(templatecall, dateparam, Tools.TurnFirstToUpper(dateFieldValue.ToLower()));
             }
             
             return templatecall;
