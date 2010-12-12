@@ -7853,6 +7853,9 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=2010-05-13}}"), "corrects lower case month name");
             Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=MAY 2010}}"), "corrects upper case month name");
             Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=MAy 2010}}"), "corrects mixed case month name");
+            
+            const string subst = @"{{wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
+            Assert.AreEqual(subst, Parsers.TagUpdater(subst), "no change when value is subst month/year");
         }
 
         [Test]
