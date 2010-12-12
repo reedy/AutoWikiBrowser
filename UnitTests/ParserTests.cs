@@ -666,7 +666,7 @@ Jones 2005</ref>"));
             
             // no errors here
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009}} was"));
-               Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|url={{Allmusic|class=foo}}|date=2009}} was"));
+            Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|url={{Allmusic|class=foo}}|date=2009}} was"));
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009|at=here}} was"));
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009|first1=Foo|last1=Great |first2=Bar|title=here}} was"));
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009|authorlink1=Smith}} was"));
@@ -2033,7 +2033,7 @@ world|format=PDF}} was";
             Assert.AreEqual(@"{{Cite web| title=foo | year=2009 | author=Smith, Fred | coauthors=Jones, B}}", Parsers.FixCitationTemplates(@"{{Cite web| title=foo | year=2009 | author=Smith, Fred | coauthor=Jones, B}}"));
         }
         
-          [Test]
+        [Test]
         public void FixCitationTemplatesAuthor()
         {
             Assert.AreEqual(@"{{cite web| title=foo | year=2009 | author=Smith, Fred}}", Parsers.FixCitationTemplates(@"{{cite web| title=foo | year=2009 | authors=Smith, Fred}}"));
@@ -2597,8 +2597,8 @@ world|format=PDF}} was";
             
             Assert.AreEqual(PD.Replace(@"[[Guelph/Eramosa, Ontario|Eramosa Township]],<br>[[Ontario]], [[Canada]]", "[[Guelph/Eramosa, Ontario|Eramosa Township]]"),
                             WikiRegexes.Persondata.Match(Parsers.PersonData(IB.Replace(@"[[Guelph/Eramosa, Ontario|Eramosa Township]], [[Ontario]], [[Canada]]", @"[[Guelph/Eramosa, Ontario|Eramosa Township]],<br>") + "May 2, 2010 and May 2, 2010", "test")).Value, "city state template converted");
-        
-        
+            
+            
             Assert.AreEqual(PD.Replace("PLACE OF BIRTH", "place of birth"), WikiRegexes.Persondata.Match(Parsers.PersonData(IB + PD.Replace("PLACE OF BIRTH", "place of birth") + "May 2, 2010 and May 2, 2010", "test")).Value);
         }
         
@@ -2849,6 +2849,12 @@ publisher=The BBC|date=3rd June 2009|accessdate=15th January 2010}}"));
             Assert.IsFalse(Parsers.FixSyntax(@"<ref>{{cite web | title=foo| url=http://www.site.com }} {{dead link|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}</ref>").Contains(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}"), "subst converted within ref tags");
             Assert.AreEqual(@"<ref>{{cite web | title=foo| url=http://www.site.com }} {{dead link|date=" + System.DateTime.UtcNow.ToString("MMMM yyyy", BritishEnglish) + @"}}</ref>", Parsers.FixSyntax(@"<ref>{{cite web | title=foo| url=http://www.site.com }} {{dead link|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}</ref>"));
             Assert.IsTrue(Parsers.FixSyntax(@"* {{cite web | title=foo| url=http://www.site.com }} {{dead link|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}").Contains(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}"), "subst not converted when outside ref tags");
+            
+            Assert.AreEqual(@"<gallery>
+ Foo.JPG |Foo great{{citation needed|date=" + System.DateTime.UtcNow.ToString("MMMM yyyy", BritishEnglish) + @"}}
+</gallery>", Parsers.FixSyntax(@"<gallery>
+ Foo.JPG |Foo great{{citation needed|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
+</gallery>"), "subst converted within gallery tags");
         }
         
         [Test]
@@ -7833,7 +7839,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(commentedOut, Parsers.TagUpdater(commentedOut), "ignores commented out tags");
         }
         
-          [Test]
+        [Test]
         public void TagUpdaterFormatDate()
         {
             WikiRegexes.DatedTemplates.Add(Tools.NestedTemplateRegex("dead link"));

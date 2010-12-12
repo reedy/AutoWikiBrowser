@@ -2461,10 +2461,10 @@ namespace WikiFunctions.Parse
                 {
                     // replace single ] with &#93; when used for brackets in the link description
                     if (externalLink.Contains("]"))
-                    externalLink = SyntaxRegexClosingBracket.Replace(externalLink, @"$1&#93;$2");
+                        externalLink = SyntaxRegexClosingBracket.Replace(externalLink, @"$1&#93;$2");
                     
                     if(externalLink.Contains("["))
-                         externalLink = SyntaxRegexOpeningBracket.Replace(externalLink, @"$1&#91;$2");
+                        externalLink = SyntaxRegexOpeningBracket.Replace(externalLink, @"$1&#91;$2");
 
                     articleText = articleText.Replace(m.Value, @"[" + externalLink + @"]");
                 }
@@ -2514,6 +2514,12 @@ namespace WikiFunctions.Parse
             if(Variables.LangCode.Equals("en") && articleText.Contains(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}"))
             {
                 foreach(Match m in WikiRegexes.Refs.Matches(articleText))
+                {
+                    if(m.Value.Contains(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}"))
+                        articleText = articleText.Replace(m.Value, m.Value.Replace(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}", System.DateTime.UtcNow.ToString("MMMM yyyy", BritishEnglish)));
+                }
+                
+                foreach(Match m in WikiRegexes.Images.Matches(articleText))
                 {
                     if(m.Value.Contains(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}"))
                         articleText = articleText.Replace(m.Value, m.Value.Replace(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}", System.DateTime.UtcNow.ToString("MMMM yyyy", BritishEnglish)));
@@ -2912,7 +2918,7 @@ namespace WikiFunctions.Parse
 
                 // {{cite web}} for Google books -> {{Cite book}}
                 if (Regex.IsMatch(templatename, @"[Cc]ite ?web") && newValue.Contains("http://books.google.")
-                   && Tools.GetTemplateParameterValue(newValue, "work").Length == 0)
+                    && Tools.GetTemplateParameterValue(newValue, "work").Length == 0)
                     newValue = Tools.RenameTemplate(newValue, templatename, "Cite book");
 
                 // remove leading zero in day of month
@@ -2944,7 +2950,7 @@ namespace WikiFunctions.Parse
                 }
                 
                 // page range should have unspaced en-dash; validate that page is range not section link
-                newValue = FixPageRanges(newValue);             
+                newValue = FixPageRanges(newValue);
 
                 // page range or list should use 'pages' parameter not 'page'
                 newValue = CiteTemplatesPageRangeName.Replace(newValue, @"$1pages$2");
@@ -3108,7 +3114,7 @@ namespace WikiFunctions.Parse
         /// Matches the {{death  date}} family of templates
         /// </summary>
         private static readonly Regex DeathDate = Tools.NestedTemplateRegex(new List<string>(new[] { "death date", "death-date", "dda", "death date and age", "deathdateandage", "deathdate" }));
-                
+        
         /// <summary>
         /// * Adds the default {{persondata}} template to en-wiki mainspace pages about a person that don't already have {{persondata}}
         /// * Attempts to complete blank {{persondata}} fields based on infobox values
@@ -3199,7 +3205,7 @@ namespace WikiFunctions.Parse
                 
                 newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF BIRTH", POB, true);
             }
-                
+            
             // place of death
             string ExistingPOD = Tools.GetTemplateParameterValue(newPersonData, "PLACE OF DEATH", true);
             if(ExistingPOD.Length == 0)
@@ -3219,10 +3225,10 @@ namespace WikiFunctions.Parse
                 
                 newPersonData = Tools.SetTemplateParameterValue(newPersonData, "PLACE OF DEATH", POD, true);
             }
-               
-             // look for full dates matching birth/death categories
-             newPersonData = CompletePersonDataDate(newPersonData, articleText);
-             
+            
+            // look for full dates matching birth/death categories
+            newPersonData = CompletePersonDataDate(newPersonData, articleText);
+            
             // merge changes
             if (!newPersonData.Equals(originalPersonData))
                 articleText = articleText.Replace(originalPersonData, newPersonData);
@@ -3674,7 +3680,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
         
-        private static readonly Regex UnderscoreTitles = new Regex(@"[Ss]ize_t|[Mm]od_", RegexOptions.Compiled);        
+        private static readonly Regex UnderscoreTitles = new Regex(@"[Ss]ize_t|[Mm]od_", RegexOptions.Compiled);
         private static readonly Regex InfoBoxSingleAlbum = Tools.NestedTemplateRegex(new [] {"Infobox Single", "Infobox single", "Infobox album", "Infobox Album"});
 
         // Partially covered by FixMainArticleTests.SelfLinkRemoval()
@@ -4463,7 +4469,7 @@ namespace WikiFunctions.Parse
 
             // fall back to Image:blah... syntax used in galleries etc., or just image name (infoboxes etc.)
             if (r.Matches(articleText).Count == 0)
-                r = new Regex("(" + Variables.NamespacesCaseInsensitive[Namespace.File] + ")?" + image + @"(?: *\|[^\r\n=]+(?=\s*$))?", RegexOptions.Multiline);            
+                r = new Regex("(" + Variables.NamespacesCaseInsensitive[Namespace.File] + ")?" + image + @"(?: *\|[^\r\n=]+(?=\s*$))?", RegexOptions.Multiline);
             
             return r.Replace(articleText, m => (commentOut ? "<!-- " + comment + " " + m.Value + " -->" : ""));
         }
@@ -4882,13 +4888,13 @@ namespace WikiFunctions.Parse
         private static readonly Regex RefImproveBLP = Tools.NestedTemplateRegex("RefimproveBLP");
         
         private static readonly Regex IMA = Tools.NestedTemplateRegex(new[]
-                                              {
-                                                  "Infobox musical artist", "Infobox musical artist 2",
-                                                  "Infobox Musical Artist", "Infobox singer", "Infobox Musician",
-                                                  "Infobox musician", "Music artist",
-                                                  "Infobox Composer", "Infobox composer",
-                                                  "Infobox Musical artist", "Infobox Band"
-                                              });
+                                                                      {
+                                                                          "Infobox musical artist", "Infobox musical artist 2",
+                                                                          "Infobox Musical Artist", "Infobox singer", "Infobox Musician",
+                                                                          "Infobox musician", "Music artist",
+                                                                          "Infobox Composer", "Infobox composer",
+                                                                          "Infobox Musical artist", "Infobox Band"
+                                                                      });
 
         /// <summary>
         /// determines whether the article is about a person by looking for persondata/birth death categories, bio stub etc. for en wiki only
@@ -4940,7 +4946,7 @@ namespace WikiFunctions.Parse
             
             string MABackground =
                 Tools.GetTemplateParameterValue(IMA.Match(articleText).Value,
-                    "Background");
+                                                "Background");
 
             if(MABackground.Contains("band") || MABackground.Contains("classical_ensemble") || MABackground.Contains("temporary"))
                 return false;
@@ -4994,7 +5000,7 @@ namespace WikiFunctions.Parse
             {
                 if(WikiRegexes.WikiLink.IsMatch(m.Value))
                     return false;
-            }                
+            }
 
             int dateBirthAndAgeCount =BirthDate.Matches(zerothSection).Count;
             int dateDeathCount = DeathDate.Matches(zerothSection).Count;
@@ -5145,7 +5151,7 @@ namespace WikiFunctions.Parse
         {
             // over 20 references or long and not DOB/DOD categorised at all yet: implausible
             if (!Variables.LangCode.Equals("en") || (articleText.Length > 15000 && !WikiRegexes.BirthsCategory.IsMatch(articleText)
-                                                                                                         && !WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText)))
+                                                     && !WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText)))
                 return YearOfBirthMissingCategory(articleText);
             
             if(!WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) && WikiRegexes.Refs.Matches(articleText).Count > 20)
@@ -5875,7 +5881,7 @@ namespace WikiFunctions.Parse
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The updated article text</returns>
         public static string TagUpdater(string articleText)
-        {            
+        {
             articleText = ht.Hide(articleText);
             
             foreach(Regex r in WikiRegexes.DatedTemplates)
@@ -5907,14 +5913,14 @@ namespace WikiFunctions.Parse
             }
             
             // remove template namespace in template name
-            string TemplateNamespace;            
+            string TemplateNamespace;
             if (Variables.NamespacesCaseInsensitive.TryGetValue(Namespace.Template, out TemplateNamespace))
             {
                 templatecall = Regex.Replace(templatecall, TemplateNamespace, "");
             }
             
             // check if template already dated (date field, localised for sv-wiki)
-            string dateparam = WikiRegexes.DateYearMonthParameter.Substring(0, WikiRegexes.DateYearMonthParameter.IndexOf("="));            
+            string dateparam = WikiRegexes.DateYearMonthParameter.Substring(0, WikiRegexes.DateYearMonthParameter.IndexOf("="));
             
             // date tag needed?
             if(Tools.GetTemplateParameterValue(templatecall, dateparam).Length == 0)
@@ -5967,7 +5973,7 @@ namespace WikiFunctions.Parse
                     // ISO date?
                     if(WikiRegexes.ISODates.IsMatch(dateFieldValue))
                 {
-                    DateTime dt = Convert.ToDateTime(dateFieldValue, BritishEnglish);                    
+                    DateTime dt = Convert.ToDateTime(dateFieldValue, BritishEnglish);
                     dateFieldValue = dt.ToString("MMMM yyyy", BritishEnglish);
                     
                     templatecall = Tools.SetTemplateParameterValue(templatecall, dateparam, dateFieldValue);
