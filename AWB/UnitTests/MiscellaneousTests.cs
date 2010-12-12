@@ -14,7 +14,7 @@ namespace UnitTests
     {
         #region Helpers
         const string Hidden = @"⌊⌊⌊⌊M?\d+⌋⌋⌋⌋",
-            AllHidden = @"^(⌊⌊⌊⌊M?\d+⌋⌋⌋⌋)*$";
+        AllHidden = @"^(⌊⌊⌊⌊M?\d+⌋⌋⌋⌋)*$";
         HideText Hider;
 
         private string HideMore(string text, bool hideExternalLinks, bool leaveMetaHeadings, bool hideImages)
@@ -163,13 +163,13 @@ abc={{bar}}
         }
 
         const string Caption1 = @"|image_caption=London is a European Parliament constituency. It has water. |",
-            Caption2 = @"|image_caption= some load of text here. Some more there.}}",
-            Caption3 = @"|image_caption=some load of text here. Some more there.   }}",
-            Caption4 = @"|image_caption= some load of text here. Some more there.|",
-            Caption5 = @"|image_caption
+        Caption2 = @"|image_caption= some load of text here. Some more there.}}",
+        Caption3 = @"|image_caption=some load of text here. Some more there.   }}",
+        Caption4 = @"|image_caption= some load of text here. Some more there.|",
+        Caption5 = @"|image_caption
             = some load of text here. Some more there.
             |",
-              Field1 = @"field = value |";
+        Field1 = @"field = value |";
 
         [Test]
         public void HideImages()
@@ -210,8 +210,8 @@ abc={{bar}}
             Assert.IsTrue(Regex.IsMatch(Hide(@"|image = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
             Assert.IsTrue(Regex.IsMatch(Hide(@"|
 image = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
-            Assert.IsTrue(Regex.IsMatch(Hide(@"|Img = BBC_logo1.jpg 
-|"), Hidden + @" 
+            Assert.IsTrue(Regex.IsMatch(Hide(@"|Img = BBC_logo1.jpg
+|"), Hidden + @"
 \|"));
             Assert.IsTrue(Regex.IsMatch(Hide(@"| image name = Fred Astaire.jpg |"), Hidden + @" \|"));
             Assert.IsTrue(Regex.IsMatch(Hide(@"|image2 = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
@@ -294,8 +294,8 @@ image = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
             Assert.IsTrue(Regex.IsMatch(HideMore(@"|image = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
             Assert.IsTrue(Regex.IsMatch(HideMore(@"|
 image = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"|Img = BBC_logo1.jpg 
-|"), Hidden + @" 
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"|Img = BBC_logo1.jpg
+|"), Hidden + @"
 \|"));
             Assert.IsTrue(Regex.IsMatch(HideMore(@"| image name = Fred Astaire.jpg |"), Hidden + @" \|"));
             Assert.IsTrue(Regex.IsMatch(HideMore(@"|image2 = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
@@ -362,7 +362,7 @@ Image:quux[http://example.com]
             AssertAllHiddenMore("https://www.foo.com/asdfasdf/asdf.htm", true);
             Assert.IsFalse(HideMore(@"http://foo.com/asdfasdf/asdf.htm", true, false, false).Contains("asdf"));
             Assert.IsTrue(HideMore(@"http://foo.com/asdfasdf/asdf.htm", false, false, false).Contains("asdf"));
-        }        
+        }
 
         [Test]
         public void HideWikiLinksOnlyPlusWord()
@@ -649,7 +649,7 @@ In the article it says that above mentioned";
         [Test]
         public void RenameTalkHeader()
         {
-        	 string talkheader = @"{{talkheader|noarchive=no}}", talkrest = @"==hello==
+            string talkheader = @"{{talkheader|noarchive=no}}", talkrest = @"==hello==
 hello talk";
             string articleText = talkrest + "\r\n" + talkheader;
             
@@ -663,7 +663,7 @@ hello talk";
         {
             string start = @"
 ==Foo==
-bar", df = @"{{DEFAULTSORT:Bert}}"; 
+bar", df = @"{{DEFAULTSORT:Bert}}";
             
             string articleText = start + "\r\n" + df;
             
@@ -761,7 +761,7 @@ Hello world comment.");
             Assert.IsFalse(articleTextIn.Contains(@"==Untitled=="));
         }
         
-         [Test]
+        [Test]
         public void AddMissingFirstCommentHeaderNoChanges()
         {
             // no change – header already
@@ -794,7 +794,7 @@ Hello world comment.");
             articleTextIn = @"
 ==Question==
 {{Some template}}
-:Hello world comment3.";            
+:Hello world comment3.";
             
             TalkPageFixes.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
@@ -804,9 +804,9 @@ Hello world comment.");
 :Hello world comment3.", articleTextIn);
             
             // no change – no comments
-                  articleTextIn = @"
+            articleTextIn = @"
 ==Question==
-{{Some template}}";            
+{{Some template}}";
             
             TalkPageFixes.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
@@ -856,7 +856,7 @@ __TOC__", articleTextIn);
 == Explanation of Wright's work in ''Certaine Errors'' ==";
             
             articleTextIn = allInTemplate;
-             
+            
             TalkPageFixes.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(allInTemplate, articleTextIn);
@@ -908,21 +908,21 @@ __TOC__", articleTextIn);
             Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar|living=no}}}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=yes|1={{WPBiography|foo=bar|living=no}}}}"));
         }
         
-         [Test]
-         public void WikiProjectBannerShellAddingWikiProjects()
-         {
-              Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}
+        [Test]
+        public void WikiProjectBannerShellAddingWikiProjects()
+        {
+            Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}
 {{WikiProject foo}}}}
 ", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}
 {{WikiProject foo}}"), "WikiProjects pulled into WPBS");
-               Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}
+            Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}
 {{WikiProject foo}}
 {{WikiProject bar}}}}
 
 ", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}
 {{WikiProject foo}}
 {{WikiProject bar}}"), "WikiProjects pulled into WPBS");
-         }
+        }
         
         [Test]
         public void WikiProjectBannerShellUnnamedParam()
@@ -970,6 +970,24 @@ __TOC__", articleTextIn);
             Assert.AreEqual(a + b, TalkPageFixes.WikiProjectBannerShell(a + b));
             Assert.AreEqual(a + b + c, TalkPageFixes.WikiProjectBannerShell(a + b + c));
             Assert.AreEqual(@"{{WikiProjectBannerShell|1=" + "\r\n" + a + "\r\n" + b + "\r\n" + c + "\r\n" + d + "\r\n" + @"}}", TalkPageFixes.WikiProjectBannerShell(a + b + c + d));
+            
+            const string e = @"{{talk header}}
+{{WikiProject Biography|listas=Bar, F|living=yes|class=Start|priority=mid|sports-work-group=yes}}
+{{WikiProject F|class=Start|importance=mid|italy=y}}
+{{WikiProject X|class=Start|importance=Mid}}
+{{WikiProject D|class=Start|importance=Low}}", f = @"{{WikiProjectBannerShell|1=
+{{WikiProject Biography|listas=Bar, F|living=yes|class=Start|priority=mid|sports-work-group=yes}}
+{{WikiProject F|class=Start|importance=mid|italy=y}}
+{{WikiProject X|class=Start|importance=Mid}}
+{{WikiProject D|class=Start|importance=Low}}
+| blp=yes
+}}{{talk header}}
+
+
+
+";
+            
+            Assert.AreEqual(f, TalkPageFixes.WikiProjectBannerShell(e), "adds WPBS, ignores non-wikiproject templates");
         }
         
         [Test]
@@ -1015,7 +1033,7 @@ __TOC__", articleTextIn);
         {
             string a = @"{{WPBiography|foo=yes|living=yes|listas=Foé}}";
             
-            Assert.AreEqual(a.Replace(@"é","e"), TalkPageFixes.WPBiography(a), "diacritics removed from WPBiography listas");            
+            Assert.AreEqual(a.Replace(@"é","e"), TalkPageFixes.WPBiography(a), "diacritics removed from WPBiography listas");
             Assert.AreEqual(a.Replace(@"é","e"), TalkPageFixes.WPBiography(a.Replace(@"é","e")), "no change when no diacritics in WPBiography listas");
         }
     }
