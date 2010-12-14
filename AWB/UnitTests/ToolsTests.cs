@@ -777,6 +777,7 @@ John", "*"));
         public void RemoveSyntax()
         {
             Assert.AreEqual(@"", Tools.RemoveSyntax(@""));
+            Assert.AreEqual(@"", Tools.RemoveSyntax(@" "));
             Assert.AreEqual(@"foo", Tools.RemoveSyntax(@"* foo"));
             Assert.AreEqual(@"foo", Tools.RemoveSyntax(@"# foo"));
             Assert.AreEqual(@"foo", Tools.RemoveSyntax(@":foo"));
