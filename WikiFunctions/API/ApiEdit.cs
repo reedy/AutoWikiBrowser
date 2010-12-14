@@ -1083,11 +1083,10 @@ namespace WikiFunctions.API
                 throw new AssertionFailedException(this, what);
             }
 
-			//Am I still needed?
-            //if (actionElement.HasAttribute("spamblacklist"))
-            //{
-            //    throw new SpamlistException(this, actionElement.GetAttribute("spamblacklist"));
-            //}
+            if (actionElement.HasAttribute("spamblacklist"))
+            {
+                throw new SpamlistException(this, actionElement.GetAttribute("spamblacklist"));
+            }
 
             if (actionElement.GetElementsByTagName("captcha").Count > 0)
             {
