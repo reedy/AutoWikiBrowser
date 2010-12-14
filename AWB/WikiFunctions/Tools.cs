@@ -1954,9 +1954,11 @@ Message: {2}
         }
 
         /// <summary>
-        /// 
+        /// Shows the user an input box to select a number
         /// </summary>
-        /// <returns></returns>
+        /// <param name="edits">Is the thing being counted, user edits?</param>
+        /// <param name="max">The maximum value the user can choose</param>
+        /// <returns>-1 if cancel clicked, else the number they chose</returns>
         public static int GetNumberFromUser(bool edits, int max)
         {
             using (Controls.LevelNumber num = new Controls.LevelNumber(edits, max))
