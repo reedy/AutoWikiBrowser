@@ -844,8 +844,7 @@ namespace WikiFunctions.Lists.Providers
         public override List<Article> MakeList(params string[] searchCriteria)
         {
             Limit = Tools.GetNumberFromUser(true, UpperLimit);
-            if (Limit < 500)
-                uclimit = Limit.ToString();
+            uclimit = Limit.ToString();
 
             return base.MakeList(searchCriteria);
         }
