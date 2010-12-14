@@ -120,14 +120,15 @@ namespace WikiFunctions.API
     /// </summary>
     public class OperationFailedException : ApiException
     {
-        public OperationFailedException(ApiEdit editor, string action, string result)
-            : base(editor, "Operation '" + action + "' ended with result '" + result + "'.")
+        public OperationFailedException(ApiEdit editor, string action, string result, string xml)
+            : base(editor, "Operation '" + action + "' ended with result '" + result + "'.\r\nXml: '" + xml + "'")
         {
             Action = action;
             Result = result;
+            Xml = xml;
         }
 
-        public readonly string Action, Result;
+        public readonly string Action, Result, Xml;
     }
 
     /// <summary>

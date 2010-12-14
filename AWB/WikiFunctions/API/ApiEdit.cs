@@ -1095,7 +1095,9 @@ namespace WikiFunctions.API
 
             string result = actionElement.GetAttribute("result");
             if (!string.IsNullOrEmpty(result) && result != "Success")
-                throw new OperationFailedException(this, action, result);
+            {
+                throw new OperationFailedException(this, action, result, xml);
+            }
 
             return doc;
         }
