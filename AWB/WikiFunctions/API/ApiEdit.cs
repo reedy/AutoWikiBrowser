@@ -771,6 +771,71 @@ namespace WikiFunctions.API
             Reset();
         }
 
+        //Todo: Remove duplication against void Move(string title, string newTitle, string reason, bool moveTalk, bool noRedirect, bool watch)
+        public void Move(int titleid, string newTitle, string reason, bool moveTalk, bool noRedirect, bool watch)
+        {
+            if (string.IsNullOrEmpty(newTitle)) throw new ArgumentException("Target page title required", "newTitle");
+            if (string.IsNullOrEmpty(reason)) throw new ArgumentException("Page rename reason required", "reason");
+
+
+            Reset();
+            Action = "move";
+
+            string result = HttpGet(
+                new[,]
+                    {
+                        { "action", "query" },
+                        { "prop", "info" },
+                        { "intoken", "move" },
+                        { "titles", newTitle },
+                    },
+                    ActionOptions.All);
+
+            CheckForErrors(result);
+
+            bool invalid;
+            try
+            {
+                XmlReader xr = XmlReader.Create(new StringReader(result));
+                if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
+
+                invalid = xr.MoveToAttribute("invalid");
+
+                Page.EditToken = xr.GetAttribute("movetoken");
+            }
+            catch (Exception ex)
+            {
+                throw new BrokenXmlException(this, ex);
+            }
+
+            if (Aborting) throw new AbortedException(this);
+
+            if (invalid) throw new ApiException(this, "invalidnewtitle", new ArgumentException("Target page invalid", "newTitle"));
+
+            result = HttpPost(
+                new[,]
+                    {
+                        { "action", "move" }
+                    },
+                new[,]
+                    {
+                        { "fromid", titleid.ToString() },
+                        { "to", newTitle },
+                        { "token", Page.EditToken },
+                        { "reason", reason },
+                        { "protections", "" },
+                        { moveTalk ? "movetalk" : null, null },
+                        { noRedirect ? "noredirect" : null, null },
+                        { User.IsBot ? "bot" : null, null },
+                        { watch ? "watch" : null, null }
+                    },
+                ActionOptions.All);
+
+            CheckForErrors(result);
+
+            Reset();
+        }
+
         public void Move(string title, string newTitle, string reason)
         {
             Move(title, newTitle, reason, true, false, false);
@@ -1050,6 +1115,8 @@ namespace WikiFunctions.API
                         throw new LoggedOffException(this);
                     case "spamdetected":
                         throw new SpamlistException(this, errorMessage);
+                    //case "confirmemail":
+                    //
                     default:
                         if (errorCode.Contains("disabled"))
                             throw new FeatureDisabledException(this, errorCode, errorMessage);
