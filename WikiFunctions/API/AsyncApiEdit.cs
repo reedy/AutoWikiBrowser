@@ -434,6 +434,11 @@ namespace WikiFunctions.API
             Move(title, newTitle, reason, true, false, false);
         }
 
+        public void Move(int titleid, string newTitle, string reason, bool moveTalk, bool noRedirect, bool watch)
+        {
+            InvokeFunction("Move", titleid, newTitle, reason, moveTalk, noRedirect, watch);
+        }
+
         public void Move(string title, string newTitle, string reason, bool moveTalk, bool noRedirect)
         {
             Move(title, newTitle, reason, moveTalk, noRedirect, false);

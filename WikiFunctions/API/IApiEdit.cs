@@ -211,6 +211,17 @@ namespace WikiFunctions.API
         /// <summary>
         /// Moves the page
         /// </summary>
+        /// <param name="titleid">Page id to move</param>
+        /// <param name="newTitle">Title of the target page</param>
+        /// <param name="reason">Reason for move. Must not be empty.</param>
+        /// <param name="moveTalk">Whether to also move the talk page</param>
+        /// <param name="noRedirect">Whether a redirect shoudn't be created</param>
+        /// <param name="watch">Whether to add the page to your watchlist</param>
+        void Move(int titleid, string newTitle, string reason, bool moveTalk, bool noRedirect, bool watch);
+
+        /// <summary>
+        /// Moves the page
+        /// </summary>
         /// <param name="title">Title of the page to move</param>
         /// <param name="newTitle">Title of the target page</param>
         /// <param name="reason">Reason for move. Must not be empty.</param>
