@@ -447,25 +447,31 @@ namespace WikiFunctions.Parse
                     singleTag = "verylong";
                 else if(singleTagLower.Equals("cleanup-reorganise"))
                     singleTag = "restructure";
+                 else if(singleTagLower.Equals("cleanup-reorganize"))
+                    singleTag = "restructure";
                 else if(singleTagLower.Equals("cleanup-spam"))
                     singleTag = "spam";
                 else if(singleTagLower.Equals("criticism section"))
                     singleTag = "criticisms";
                 else if(singleTagLower.Equals("pov-check"))
                     singleTag = "pov-check";
+                  else if(singleTagLower.Equals("expert-subject"))
+                    singleTag = "expert";                
                 
                 // expert must have a parameter
                 if (singleTag == "expert" && tagValue.Trim().Length == 0)
                     continue;
 
                 // for tags with a parameter, that parameter must be the date
-                if ((tagValue.Contains("=") && Regex.IsMatch(tagValue, @"(?i)date")) || tagValue.Length == 0)
+                if ((tagValue.Contains("=") && Regex.IsMatch(tagValue, @"(?i)date")) || tagValue.Length == 0 || singleTag == "expert")
                 {
                     tagValue = Regex.Replace(tagValue, @"^[Dd]ate\s*=\s*", "= ");
                     
                     // every tag except expert needs a date
                     if(!singleTag.Equals("expert") && tagValue.Length == 0)
                         tagValue = @"= {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
+                    else if(!tagValue.Contains(@"="))
+                        tagValue = @"= " + tagValue;
                     
                     newTags += @"|" + singleTag + @" " + tagValue;
                 }
