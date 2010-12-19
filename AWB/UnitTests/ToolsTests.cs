@@ -821,6 +821,7 @@ John", "*"));
 
             Assert.AreEqual(0, Tools.InterwikiCount(@"now [[foo]] was great"));
             Assert.AreEqual(0, Tools.LinkCount(@"now [[lol:foo]] was great"));
+            Assert.AreEqual(0, Tools.LinkCount(@"now [[Category:foo]] was great"));
 
             Assert.AreEqual(1, Tools.InterwikiCount(@"now [[de:foo]] was great"));
             Assert.AreEqual(1, Tools.InterwikiCount(@"now [[de:foo]] was great [[aa:now]] here"));
