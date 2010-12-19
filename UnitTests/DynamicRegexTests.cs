@@ -335,6 +335,10 @@ now stubborn}}");
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{article issues|wikify=May 2008|a=b|c=d}}"));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{multiple issues|wikify=May 2008|a=b|c=d}}"));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{multiple issues|wikify={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|a=b|c=d}}"));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{multiple issues|a=b|c=d| wikify={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|a=b|c=d}}"));
+            Assert.AreEqual(WikiRegexes.Wikify.Replace(@"{{multiple issues|a=b|c=d|wikify={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|a=b|c=d}}", "$1"), @"{{multiple issues|a=b|c=d|a=b|c=d}}");
+            Assert.AreEqual(WikiRegexes.Wikify.Replace(@"{{multiple issues|a=b|c=d|wikify={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", "$1"), @"{{multiple issues|a=b|c=d}}");
+            Assert.AreEqual(WikiRegexes.Wikify.Replace(@"{{multiple issues|a=b|c=d|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", "$1"), @"{{multiple issues|a=b|c=d}}");
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Article issues|a=b|c=d| wikify = May 2008|a=b|c=d}}"));
 
             // don't remove the whole of an {{article issues}} template if removing wikify tag
