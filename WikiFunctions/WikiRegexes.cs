@@ -157,7 +157,7 @@ namespace WikiFunctions
                     orphantemplate = "Orphan";
                     uncattemplate = UncatTemplatesEN;
                     DateYearMonthParameter = @"date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
-                    Wikify = new Regex(@"(?:{{\s*Wikify(?:\s*\|\s*(?:date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|({{\s*(?:Article|Multiple)\s*issues\b[^{}]*?)\|\s*wikify\s*=\s*(?:" + DateYearMonthParameter + @"|[^{}\|]+))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                    Wikify = new Regex(@"(?:{{\s*Wikify(?:\s*\|\s*(?:date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|({{\s*(?:Article|Multiple)\s*issues\b[^{}]*?)\|\s*wikify\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                     break;
             }
 
@@ -777,7 +777,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{Deadend|xxx}} (en only), including in {{Multiple issues}}, group 1 is the {{Multiple issues}} template call up to the dead end tag
         /// </summary>
-        public static readonly Regex DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end|[Ii]nternal ?links|[Nn]uevointernallinks|[Dd]ep)(?:\|(?:[^{}]+|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}))?}}|({{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)\|\s*dead ?end\s*=\s*(?:[^{}\|]+|{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}))", RegexOptions.Compiled);
+        public static readonly Regex DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end|[Ii]nternal ?links|[Nn]uevointernallinks|[Dd]ep)(?:\|(?:[^{}]+|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}))?}}|({{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)\|\s*dead ?end\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches {{wikify}} tag (including within {{multiple issues}} for en-wiki)

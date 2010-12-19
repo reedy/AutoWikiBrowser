@@ -7694,6 +7694,10 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(parser.Tagger(@"foo {{deadend|date=May 2010}} [[a]] and [[b]] and [[b]]", "Test", false, out noChange, ref summary)));
             Assert.IsTrue(summary.Contains("removed deadend tag"));
             
+            Globals.UnitTestIntValue = 4;
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(parser.Tagger(@"foo {{deadend|date=May 2010}} [[a]] and [[b]] and [[b]]", "Test", false, out noChange, ref summary)));
+            Assert.IsTrue(summary.Contains("removed deadend tag"));
+            
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(parser.Tagger(@"foo {{Multiple issues|COI = May 2010 |POV = June 2010 | dead end=May 2010}} [[a]] and [[b]] and [[b]]", "Test", false, out noChange, ref summary)));
         }
 
@@ -7920,7 +7924,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(@"{{article issues|POV=May 2008|cleanup=May 2008|unreferencedBLP=June 2007}}", parser.MultipleIssues(@"{{article issues|POV=May 2008|cleanup=May 2008|UnreferencedBLP=June 2007}}"));
         }
         
-         [Test]
+        [Test]
         public void MultipleIssuesSingleTag()
         {
             Assert.AreEqual(@"{{cleanup|date=January 2008}} Article text here", parser.MultipleIssues(@"{{articleissues|cleanup=January 2008}} Article text here"));

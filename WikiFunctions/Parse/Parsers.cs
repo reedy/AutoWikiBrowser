@@ -5669,9 +5669,7 @@ namespace WikiFunctions.Parse
                 totalCategories = CatsNotStubs.Count;
             }
             
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#.7B.7BDeadend.7D.7D_gets_removed_from_categorized_pages
-            // don't include categories as 'links'
-            if ((linkCount - totalCategories) > 0 && WikiRegexes.DeadEnd.IsMatch(articleText))
+            if (linkCount > 0 && WikiRegexes.DeadEnd.IsMatch(articleText))
             {
                 articleText = WikiRegexes.DeadEnd.Replace(articleText, "$1");
                 tagsRemoved.Add("deadend");
