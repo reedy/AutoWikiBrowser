@@ -205,6 +205,7 @@ Test.JPG
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{stub}}");
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{ stub}}");
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{Stub}}");
+            RegexAssert.IsMatch(WikiRegexes.Stub, @"{{-stub}}");
             
             RegexAssert.NoMatch(WikiRegexes.Stub, @"{{now stubborn}}");
             RegexAssert.NoMatch(WikiRegexes.Stub, @"{{stubby}}");
