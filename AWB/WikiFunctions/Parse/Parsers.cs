@@ -3157,19 +3157,35 @@ namespace WikiFunctions.Parse
             if (!Variables.LangCode.Equals("en")
                 || WikiRegexes.Persondata.Matches(articleText).Count > 1)
                 return articleText;
+            
+            string originalPersonData = "", newPersonData = "";
 
             // add default persondata if missing
             if (!WikiRegexes.Persondata.IsMatch(articleText))
             {
                 if (IsArticleAboutAPerson(articleText, articleTitle, true))
+                {
                     articleText = articleText + Tools.Newline(WikiRegexes.PersonDataDefault);
+                    newPersonData = originalPersonData = WikiRegexes.PersonDataDefault;
+                }
                 else
                     return articleText;
             }
+            else
+            {
+                originalPersonData = WikiRegexes.Persondata.Match(articleText).Value;
+                newPersonData = originalPersonData;
+                // use uppercase parameters if making changes
+                newPersonData = Tools.RenameTemplateParameter(newPersonData, "name", "NAME");
+                newPersonData = Tools.RenameTemplateParameter(newPersonData, "alternative names", "ALTERNATIVE NAMES");
+                newPersonData = Tools.RenameTemplateParameter(newPersonData, "short description", "SHORT DESCRIPTION");
+                newPersonData = Tools.RenameTemplateParameter(newPersonData, "date of birth", "DATE OF BIRTH");
+                newPersonData = Tools.RenameTemplateParameter(newPersonData, "place of birth", "PLACE OF BIRTH");
+                newPersonData = Tools.RenameTemplateParameter(newPersonData, "date of death", "DATE OF DEATH");
+                newPersonData = Tools.RenameTemplateParameter(newPersonData, "place of death", "PLACE OF DEATH");
+            }
 
             // attempt completion of some persondata fields
-            string originalPersonData = WikiRegexes.Persondata.Match(articleText).Value;
-            string newPersonData = originalPersonData;
             
             // name
             if(Tools.GetTemplateParameterValue(newPersonData, "NAME", true).Length == 0)
@@ -3260,7 +3276,7 @@ namespace WikiFunctions.Parse
             newPersonData = CompletePersonDataDate(newPersonData, articleText);
             
             // merge changes
-            if (!newPersonData.Equals(originalPersonData))
+            if (!newPersonData.Equals(originalPersonData) && newPersonData.Length > originalPersonData.Length)
                 articleText = articleText.Replace(originalPersonData, newPersonData);
 
             return articleText;
