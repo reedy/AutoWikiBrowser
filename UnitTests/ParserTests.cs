@@ -2377,6 +2377,9 @@ world|format=PDF}} was";
                 , i2b = @"{{infobox foo| dateofbirth = {{birth date|df=y|1950|06|27}}}}";
             
             Assert.AreEqual(i1 + a2, Parsers.PersonData(i1 + a, "test"));
+            Assert.AreEqual(i1 + a2, Parsers.PersonData(i1 + @"{{persondata
+            |date of birth=
+            |date of death=}}", "test"));
             Assert.AreEqual(i1.Replace("27 June", "June 27,") + a2.Replace("27 June", "June 27,"), Parsers.PersonData(i1.Replace("27 June", "June 27,") + a.Replace("27 June", "June 27,"), "test"));
             Assert.AreEqual(i2 + a2.Replace("27 June 1950", "1950-06-27"), Parsers.PersonData(i2 + a, "test"));
             Assert.AreEqual(i2.Replace(@"{{birth date|1950|06|27}}", @"{{birth-date|27 June 1950|27 June 1950}}") + a2,
