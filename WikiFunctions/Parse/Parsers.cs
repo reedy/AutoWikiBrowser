@@ -91,9 +91,6 @@ namespace WikiFunctions.Parse
             // article issues with no issues -> remove tag
             RegexConversion.Add(new Regex(@"\{\{(?:[Aa]rticle|[Mm]ultiple) ?issues(?:\s*\|\s*(?:section|article)\s*=\s*[Yy])?\s*\}\}", RegexOptions.Compiled), "");
             
-            // article issues with one issue -> single issue tag (e.g. {{multiple issues|cleanup=January 2008}} to {{cleanup|date=January 2008}} etc.)
-            RegexConversion.Add(new Regex(@"\{\{(?:[Aa]rticle|[Mm]ultiple) ?issues\s*\|\s*([^\|{}=]{2,}?)\s*(=\s*\w{3,10}\s+20\d\d)\s*\}\}", RegexOptions.Compiled), "{{$1|date$2}}");
-            
             // remove duplicate / populated and null fields in cite/multiple issues templates
             RegexConversion.Add(new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues[^{}]*\|\s*)(\w+)\s*=\s*([^\|}{]+?)\s*\|((?:[^{}]*?\|)?\s*)\2(\s*=\s*)\3(\s*(\||\}\}))", RegexOptions.Compiled), "$1$4$2$5$3$6"); // duplicate field remover for cite templates
             RegexConversion.Add(new Regex(@"(\{\{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues[^{}]*\|\s*)(\w+)(\s*=\s*[^\|}{]+(?:\|[^{}]+?)?)\|\s*\2\s*=\s*(\||\}\})", RegexOptions.Compiled), "$1$2$3$4"); // 'field=populated | field=null' drop field=null
@@ -412,11 +409,21 @@ namespace WikiFunctions.Parse
 
             // if currently no {{Multiple issues}} and less than the min number of cleanup templates, do nothing
             if (!WikiRegexes.MultipleIssues.IsMatch(zerothSection) && WikiRegexes.MultipleIssuesTemplates.Matches(zerothSection).Count < MinCleanupTagsToCombine)
+            {
+                // article issues with one issue -> single issue tag (e.g. {{multiple issues|cleanup=January 2008}} to {{cleanup|date=January 2008}} etc.)
+                articleText = WikiRegexes.MultipleIssues.Replace(articleText, new MatchEvaluator(MultipleIssuesSingleTagME));
+                
                 return MultipleIssuesBLPUnreferenced(articleText);
+            }
 
             // only add tags to mulitipleissues if new tags + existing >= MinCleanupTagsToCombine
             if ((WikiRegexes.MultipleIssuesTemplateNameRegex.Matches(WikiRegexes.MultipleIssues.Match(zerothSection).Value).Count + tagsToAdd) < MinCleanupTagsToCombine || tagsToAdd == 0)
+            {
+                // article issues with one issue -> single issue tag (e.g. {{multiple issues|cleanup=January 2008}} to {{cleanup|date=January 2008}} etc.)
+                articleText = WikiRegexes.MultipleIssues.Replace(articleText, new MatchEvaluator(MultipleIssuesSingleTagME));
+                
                 return MultipleIssuesBLPUnreferenced(articleText);
+            }
 
             foreach (Match m in WikiRegexes.MultipleIssuesTemplates.Matches(zerothSection))
             {
@@ -447,7 +454,7 @@ namespace WikiFunctions.Parse
                     singleTag = "verylong";
                 else if(singleTagLower.Equals("cleanup-reorganise"))
                     singleTag = "restructure";
-                 else if(singleTagLower.Equals("cleanup-reorganize"))
+                else if(singleTagLower.Equals("cleanup-reorganize"))
                     singleTag = "restructure";
                 else if(singleTagLower.Equals("cleanup-spam"))
                     singleTag = "spam";
@@ -455,8 +462,8 @@ namespace WikiFunctions.Parse
                     singleTag = "criticisms";
                 else if(singleTagLower.Equals("pov-check"))
                     singleTag = "pov-check";
-                  else if(singleTagLower.Equals("expert-subject"))
-                    singleTag = "expert";                
+                else if(singleTagLower.Equals("expert-subject"))
+                    singleTag = "expert";
                 
                 // expert must have a parameter
                 if (singleTag == "expert" && tagValue.Trim().Length == 0)
@@ -495,8 +502,23 @@ namespace WikiFunctions.Parse
 
             articleText = zerothSection + restOfArticle;
             
-            // Parsers.Conversions will add any missing dates and correct ...|wikify date=May 2008|...
+            // Conversions() will add any missing dates and correct ...|wikify date=May 2008|...
             return MultipleIssuesBLPUnreferenced(articleText);
+        }
+        
+        private string MultipleIssuesSingleTagME(Match m)
+        {
+            string newValue = Parsers.Conversions(Tools.RemoveTemplateParameter(m.Value, "section"));
+            
+            if(Tools.GetTemplateArgumentCount(newValue) == 1)
+            {
+                string single = Tools.GetTemplateArgument(newValue, 1);
+                
+                newValue = @"{{" + single.Substring(0, single.IndexOf("=")).Trim() + @"|date=" + single.Substring(single.IndexOf("=")+1).Trim() + @"}}";
+            }
+            else return m.Value;
+            
+            return newValue;
         }
         
         private static readonly Regex MultipleIssuesDate = new Regex(@"(?<={{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*?)?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?){0,4}\|[^{}\|]{3,}?)\b(?i)date(?<!.*out of.*)", RegexOptions.Compiled);
