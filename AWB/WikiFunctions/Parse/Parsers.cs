@@ -473,7 +473,9 @@ namespace WikiFunctions.Parse
                     else if(!tagValue.Contains(@"="))
                         tagValue = @"= " + tagValue;
                     
-                    newTags += @"|" + singleTag + @" " + tagValue;
+                    // don't add duplicate tags
+                    if(MICall.Length == 0 || Tools.GetTemplateParameterValue(MICall, singleTag).Length == 0)
+                        newTags += @"|" + singleTag + @" " + tagValue;
                 }
                 else
                     continue;

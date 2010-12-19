@@ -7997,6 +7997,14 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 
             Assert.AreEqual(bug2, Parsers.Conversions(bug2));
         }
+        
+        [Test]
+        public void MultipleIssuesDupeParameters()
+        {
+            Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|COI=May 2008|expand =March 2009|POV=May 2008}}", parser.MultipleIssues(@"{{Multiple issues|wikify=May 2008|COI=May 2008|expand =March 2009|POV=May 2008}}{{POV}}"), "duplicate undated tag removed");
+            Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|COI=May 2008|expand =March 2009|POV=May 2008}}", parser.MultipleIssues(@"{{Multiple issues|wikify=May 2008|COI=May 2008|expand =March 2009|POV=May 2008}}{{POV|date=June 2010}}"), "duplicate dated tag removed");
+            Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|COI=May 2008|expand =March 2009|POV=May 2008}}", parser.MultipleIssues(@"{{Multiple issues|wikify=May 2008|COI=May 2008|expand =March 2009|POV=May 2008}}{{Expand}}{{POV}}"), "duplicate undated tags removed");
+        }
 
         [Test]
         public void ArticleIssuesDates()
