@@ -416,8 +416,10 @@ namespace WikiFunctions.Parse
                 return MultipleIssuesBLPUnreferenced(articleText);
             }
 
-            // only add tags to mulitipleissues if new tags + existing >= MinCleanupTagsToCombine
-            if ((WikiRegexes.MultipleIssuesTemplateNameRegex.Matches(WikiRegexes.MultipleIssues.Match(zerothSection).Value).Count + tagsToAdd) < MinCleanupTagsToCombine || tagsToAdd == 0)
+            // only add tags to multiple issues if new tags + existing >= MinCleanupTagsToCombine
+            MICall = Tools.RenameTemplateParameter(WikiRegexes.MultipleIssues.Match(zerothSection).Value, "OR", "original research");
+            
+            if ((WikiRegexes.MultipleIssuesTemplateNameRegex.Matches(MICall).Count + tagsToAdd) < MinCleanupTagsToCombine || tagsToAdd == 0)
             {
                 // article issues with one issue -> single issue tag (e.g. {{multiple issues|cleanup=January 2008}} to {{cleanup|date=January 2008}} etc.)
                 articleText = WikiRegexes.MultipleIssues.Replace(articleText, new MatchEvaluator(MultipleIssuesSingleTagME));
