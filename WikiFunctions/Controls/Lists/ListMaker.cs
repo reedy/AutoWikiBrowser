@@ -57,6 +57,7 @@ namespace WikiFunctions.Controls.Lists
                                               HtmlScraperLProvider = new HTMLPageScraperListProvider(),
                                               AdvHtmlScraperLProvider = new AdvancedRegexHtmlScraper(),
                                               CheckWikiLProvider = new CheckWikiListProvider(),
+                                              CheckWikiWithNumberLProvider = new CheckWikiWithNumberListProvider(),
                                               UserContribLProvider = new UserContribsListProvider();
         #endregion
 
@@ -143,6 +144,7 @@ namespace WikiFunctions.Controls.Lists
                                      //Add these list providers later, we dont really need/want them on the Right click "Add to list from.." menu
                                      HtmlScraperLProvider,
                                      CheckWikiLProvider,
+                                     CheckWikiWithNumberLProvider,
                                      AdvHtmlScraperLProvider
                                  };
 
