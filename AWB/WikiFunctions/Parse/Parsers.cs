@@ -2829,7 +2829,7 @@ namespace WikiFunctions.Parse
             int urlMatches;
             do
             {
-                var matches = UppercaseCiteFields.Matches(articleText);
+                MatchCollection matches = UppercaseCiteFields.Matches(articleText);
                 matchCount = matches.Count;
                 urlMatches = 0;
 
