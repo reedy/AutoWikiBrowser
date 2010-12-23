@@ -5695,7 +5695,10 @@ namespace WikiFunctions.Parse
             // nl wiki doesn't use {{Uncategorized}} template
             if (words > 6 && totalCategories == 0
                 && !WikiRegexes.Uncat.IsMatch(articleText) && Variables.LangCode != "nl"
-                && !Tools.NestedTemplateRegex("cat improve").IsMatch(articleText))
+                && !Tools.NestedTemplateRegex("cat improve").IsMatch(articleText)
+                // category count is from API; don't add uncat tag if genfixes added person categories
+                && !WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText)
+                && !WikiRegexes.BirthsCategory.IsMatch(articleText))
             {
                 if (WikiRegexes.Stub.IsMatch(commentsStripped))
                 {
