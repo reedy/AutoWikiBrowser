@@ -104,7 +104,7 @@ namespace WikiFunctions.Controls
         public void PasteUnformatted()
         {
             int ss = SelectionStart, sl = SelectionLength;
-            string newText = Clipboard.GetText().TrimEnd();
+            string newText = Regex.Replace(Clipboard.GetText(), @"(?m)\r?\n$", "");
             // where text already selected
             if(sl > 0)
             {
