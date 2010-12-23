@@ -1044,9 +1044,9 @@ namespace WikiFunctions
         public static readonly Regex SeeAlso = new Regex(@"(\s*(==+)\s*see\s+also\s*\2)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
         
         /// <summary>
-        /// Matches parameters within the {{article issues}} template using title case (invalid casing)
+        /// Matches parameters within the {{multiple issues}} template using title case (invalid casing)
         /// </summary>
-        public static readonly Regex ArticleIssuesInTitleCase = new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\|\s*(?:[^{}]+?\|\s*)?)([A-Z])([a-z]+[ a-zA-Z]*\s*=)", RegexOptions.Compiled);
+        public static readonly Regex MultipleIssuesInTitleCase = new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\|\s*(?:[^{}]+?\|\s*)?)([A-Z])([a-z]+[ a-zA-Z]*\s*=)", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches a number between 1000 and 2999

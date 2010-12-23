@@ -383,7 +383,7 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             // convert title case parameters within {{Multiple issues}} to lower case
-            foreach (Match m in WikiRegexes.ArticleIssuesInTitleCase.Matches(articleText))
+            foreach (Match m in WikiRegexes.MultipleIssuesInTitleCase.Matches(articleText))
             {
                 string firstPart = m.Groups[1].Value;
                 string parameterFirstChar = m.Groups[2].Value.ToLower();
