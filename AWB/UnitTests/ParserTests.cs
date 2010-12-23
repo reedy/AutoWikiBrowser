@@ -6084,6 +6084,7 @@ words";
             Assert.AreEqual("[[Category:Test1]][[Category:Test2]]",
                             Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]][[Category:Test2]]", "Foooo", out noChange));
             Assert.IsFalse(noChange);
+            
             // swap
             Assert.AreEqual("[[Category:Test1]][[Category:Test2]]",
                             Parsers.ChangeToDefaultSort("[[Category:Test1]][[Category:Test2|Foooo]]", "Foooo", out noChange));
@@ -6274,6 +6275,20 @@ foo {{persondata}}
                             Parsers.ChangeToDefaultSort(NoInclude, "Bar",
                                                         out noChange));
             Assert.IsTrue(noChange);
+        }
+        
+        [Test]
+        public void ChangeToDefaultSortPAGENAME()
+        {
+            bool noChange;
+            
+            Assert.AreEqual("[[Category:Test1]][[Category:Test2]]",
+                            Parsers.ChangeToDefaultSort("[[Category:Test1|{{PAGENAME}}]][[Category:Test2]]", "Foooo", out noChange));
+            Assert.IsFalse(noChange);
+            
+            Assert.AreEqual("[[Category:Test1]][[Category:Test2]]",
+                            Parsers.ChangeToDefaultSort("[[Category:Test1|{{subst:PAGENAME}}]][[Category:Test2]]", "Foooo", out noChange));
+            Assert.IsFalse(noChange);
         }
         
         [Test]

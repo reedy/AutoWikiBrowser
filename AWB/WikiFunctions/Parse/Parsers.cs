@@ -4756,6 +4756,9 @@ namespace WikiFunctions.Parse
             string sort = "";
             bool allsame = true;
             matches = 0;
+            
+            articleText = articleText.Replace(@"{{PAGENAME}}", articleTitle);
+            articleText = articleText.Replace(@"{{subst:PAGENAME}}", articleTitle);
 
             foreach (Match m in WikiRegexes.Category.Matches(articleText))
             {
@@ -4893,7 +4896,7 @@ namespace WikiFunctions.Parse
                     continue;
 
                 if (string.Compare(explicitKey, defaultsortKey, StringComparison.OrdinalIgnoreCase) == 0
-                    || defaultsortKey.StartsWith(explicitKey))
+                    || defaultsortKey.StartsWith(explicitKey) || Tools.NestedTemplateRegex("PAGENAME").IsMatch(explicitKey))
                 {
                     articleText = articleText.Replace(m.Value,
                                                       "[[" + Variables.Namespaces[Namespace.Category] + m.Groups[1].Value + "]]");

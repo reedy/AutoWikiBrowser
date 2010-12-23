@@ -520,7 +520,7 @@ namespace WikiFunctions
         public static Regex Dates2;
 
         /// <summary>
-        /// Matches categories
+        /// Matches categories, group 1 being the category name
         /// </summary>
         public static Regex Category;
 
