@@ -14,6 +14,8 @@ namespace UnitTests
         public void CategoryTests()
         {
             RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:Test]]");
+            RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:Test|{{PAGENAME}}]]");
+            RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:Test|{{subst:PAGENAME}}]]");
             RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:Test now]]");
             RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:Test|Key]]");
             RegexAssert.IsMatch(WikiRegexes.Category, "[[ Category : Test now| Key]]");
