@@ -5882,7 +5882,7 @@ namespace WikiFunctions.Parse
                     // empty setion if only whitespace between two level-2 headings
                     if (lastpos > -1 && articleText.Substring(lastpos, (m.Index - lastpos)).Trim().Length == 0)
                     {
-                        articleText = articleText.Insert(m.Index, @"{{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}" + "\r\n");
+                        articleText = articleText.Insert(m.Index, @"{{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}" + "\r\n\r\n");
                         tagsadded++;
                         break;
                     }
