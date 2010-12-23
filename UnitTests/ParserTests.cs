@@ -3181,6 +3181,8 @@ url=a|title=b}}</ref>"));
             Assert.AreEqual(@"{{hello}}", Parsers.FixSyntax(@"[{hello}}"));
 
             Assert.AreEqual(@"<ref>[http://site.com]</ref>", Parsers.FixSyntax(@"<ref>http://site.com]</ref>"));
+            Assert.AreEqual(@"<ref>[http://site.com]</ref>", Parsers.FixSyntax(@"<ref>[http://site.com</ref>"));
+            Assert.AreEqual(@"<REF>[http://site.com]</ref>", Parsers.FixSyntax(@"<REF>[http://site.com</ref>"));
             Assert.AreEqual(@"<ref>[http://site.com Smith, 2004]</ref>", Parsers.FixSyntax(@"<ref>Smith, 2004 http://site.com]</ref>"));
             Assert.AreEqual(@"<ref> [http://site.com] </ref>", Parsers.FixSyntax(@"<ref> http://site.com] </ref>"));
             Assert.AreEqual(@"<ref name=Fred>[http://site.com cool]</ref>", Parsers.FixSyntax(@"<ref name=Fred>http://site.com cool]</ref>"));
