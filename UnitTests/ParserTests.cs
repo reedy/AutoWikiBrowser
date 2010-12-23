@@ -8227,6 +8227,7 @@ text -->
             string returned = parser.Tagger(twoTwos, "test", false, ref summary);
             Assert.IsTrue(returned.Contains(@"==Foo1==
 {{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
+
 ==Foo2==
 "));
             Assert.IsTrue(summary.Contains("Empty section (1)"));
@@ -8237,6 +8238,7 @@ text -->
 ";
             returned = parser.Tagger(twoTwos, "test", false, ref summary);
             Assert.IsTrue(returned.Contains(@"{{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
+
 ==Foo2==
 "));
             
@@ -8244,6 +8246,7 @@ text -->
             summary = "";
             returned = parser.Tagger(twoTwos +"\r\n" + twoTwos, "test", false, ref summary);
             Assert.IsTrue(returned.Contains(@"{{Empty section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
+
 ==Foo2==
 "));
             Assert.IsTrue(summary.Contains("Empty section (3)"));
