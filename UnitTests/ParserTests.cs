@@ -4613,6 +4613,9 @@ Bar", "Test"), "inserts blank line if one missing");
 
             Assert.AreEqual("{|\r\n| foo\r\n|\r\nbar\r\n|}", Parsers.RemoveWhiteSpace("{|\r\n| foo\r\n\r\n|\r\n\r\nbar\r\n|}"));
 
+            Assert.AreEqual("a\r\n\r\nx", Parsers.RemoveWhiteSpace("a<br/>\r\n\r\nx"));
+            Assert.AreEqual("a\r\n\r\nx", Parsers.RemoveWhiteSpace("a<br/><br/>\r\n\r\nx"));
+            
             // eh? should we fix such tables too?
             //Assert.AreEqual("{|\r\n! foo\r\n!\r\nbar\r\n|}", Parsers.RemoveWhiteSpace("{|\r\n! foo\r\n\r\n!\r\n\r\nbar\r\n|}"));
         }
