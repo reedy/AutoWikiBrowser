@@ -188,7 +188,7 @@ namespace WikiFunctions
 
                 case "pt":
                     LinkFGAs =
-                        new Regex(@"{{\s*[Ll]ink [GF]A|[Bb]om interwiki|[Ii]nterwiki destacado|[Dd]estaque|FA\|.*?}}",
+                        new Regex(@"{{\s*[Ll]ink [GF]A|[Bb]om interwiki|[Ii]nterwiki destacado|FA\|.*?}}",
                                   RegexOptions.Compiled | RegexOptions.RightToLeft);
                     break;
 
