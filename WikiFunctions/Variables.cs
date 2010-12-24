@@ -470,6 +470,7 @@ namespace WikiFunctions
             Namespaces.Clear();
             CancelBackgroundRequests();
             UnderscoredTitles.Clear();
+            WikiRegexes.TemplateRedirects.Clear();
 
             Project = projectName;
             LangCode = langCode;
