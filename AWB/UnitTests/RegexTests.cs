@@ -513,14 +513,14 @@ Start date and age
         [Test]
         public void Headings()
         {
-               RegexAssert.NoMatch(WikiRegexes.Headings, "");
-               RegexAssert.IsMatch(WikiRegexes.Headings, "=Foo=");
-               RegexAssert.IsMatch(WikiRegexes.Headings, "==Foo==");
-               RegexAssert.IsMatch(WikiRegexes.Headings, "======Foo======");
-               Assert.AreEqual(WikiRegexes.Headings.Match("======Foo======").Groups[1].Value, "Foo");
-               Assert.AreEqual(WikiRegexes.Headings.Match("== Foo == ").Groups[1].Value, "Foo");
-               
-               RegexAssert.IsMatch(WikiRegexes.Headings, "==Foo=", "matches unbalanced headings");
+            RegexAssert.NoMatch(WikiRegexes.Headings, "");
+            RegexAssert.IsMatch(WikiRegexes.Headings, "=Foo=");
+            RegexAssert.IsMatch(WikiRegexes.Headings, "==Foo==");
+            RegexAssert.IsMatch(WikiRegexes.Headings, "======Foo======");
+            Assert.AreEqual(WikiRegexes.Headings.Match("======Foo======").Groups[1].Value, "Foo");
+            Assert.AreEqual(WikiRegexes.Headings.Match("== Foo == ").Groups[1].Value, "Foo");
+            
+            RegexAssert.IsMatch(WikiRegexes.Headings, "==Foo=", "matches unbalanced headings");
         }
 
         [Test]
@@ -530,7 +530,7 @@ Start date and age
             RegexAssert.Matches(WikiRegexes.Refs, "<ref>foo<br></ref>", "<ref>foo<br></ref>");
             RegexAssert.Matches(WikiRegexes.Refs, "<ref>foo<br>bar</ref>", "<ref>foo<br>bar</ref>");
             
-            RegexAssert.IsMatch(WikiRegexes.Refs, @"<ref>{{cite web 
+            RegexAssert.IsMatch(WikiRegexes.Refs, @"<ref>{{cite web
 |url=http://www.h.com/.php?tmi=5177|title=Season-by-season record |accessdate = 2008-12-01}}</ref>");
 
             RegexAssert.Matches(WikiRegexes.Refs, "<REF NAME=\"foo\" >bar</ref >", "<REF NAME=\"foo\" >bar</ref >");
@@ -575,7 +575,7 @@ foo
             RegexAssert.Matches(WikiRegexes.Small, @"<small>..<small>...</small>", @"<small>...</small>");
         }
         
-       [Test]
+        [Test]
         public void Big()
         {
             RegexAssert.Matches(WikiRegexes.Big, "<big>foo</big>", "<big>foo</big>");
@@ -968,6 +968,11 @@ cit"));
             Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{Expansion|date=subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}} here"));
             Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{Develop}} here"));
             Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{develop}} here"));
+            
+            Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{Article issues
+ | orphan = December 2010
+ | expand = December 2010
+}} here"));
 
             Assert.IsFalse(WikiRegexes.Expand.IsMatch(@"now {{developers}} here"));
 
@@ -1161,7 +1166,7 @@ words2"));
         public void ArticleIssuesTemplatesTests()
         {
             //dated
-        	Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{advert|date =  April 2009}}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{advert|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{advert|date =  {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{autobiography|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{biased|date =  April 2009}}"));
@@ -1245,7 +1250,6 @@ words2"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{review|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{rewrite|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Cleanup-rewrite|date =  April 2009}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{roughtranslation|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{sections|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{self-published|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{spam|date =  April 2009}}"));
@@ -1261,7 +1265,7 @@ words2"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{unreferenced|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{update|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{weasel|date =  April 2009}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{wikify|date =  April 2009}}")); 
+            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{wikify|date =  April 2009}}"));
             
             //undated
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{advert}}"));
@@ -1339,7 +1343,6 @@ words2"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{restructure}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{review}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{rewrite}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{roughtranslation}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{sections}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{self-published}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{spam}}"));
@@ -1419,7 +1422,6 @@ words2"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Restructure}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Review}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Rewrite}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Roughtranslation}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Sections}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Self-published}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Spam}}"));
@@ -1443,6 +1445,7 @@ words2"));
             Assert.IsFalse(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Article issues|wikify=May 2008|a=b|c=d}}"));
             Assert.IsFalse(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Multiple issues|wikify=May 2008|a=b|c=d}}"));
             Assert.IsFalse(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{WIKIFY}}"));
+            Assert.IsFalse(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{roughtranslation|date =  April 2009}}"));
 
             // no support for handling templates with multiple parameters
             Assert.IsFalse(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{notability|Biographies|date=December 2008}}"));
