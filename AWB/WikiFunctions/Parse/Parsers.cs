@@ -4977,6 +4977,7 @@ namespace WikiFunctions.Parse
                 || Namespace.Determine(articleTitle).Equals(Namespace.Category)
                 || articleTitle.StartsWith(@"List of ")
                 || articleTitle.StartsWith(@"Murder of ")
+                || articleTitle.StartsWith(@"Deaths ")
                 || articleTitle.EndsWith("discography")
                 || articleText.Contains(@"[[Category:Multiple people]]")
                 || articleText.Contains(@"[[Category:Married couples")
