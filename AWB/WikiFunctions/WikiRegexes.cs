@@ -186,15 +186,21 @@ namespace WikiFunctions
                                          RegexOptions.Compiled | RegexOptions.RightToLeft);
                     break;
 
+                case "es":
+                    LinkFGAs = new Regex(@"{{\s*([Ll]ink FA|[Dd]estacado|[Bb]ueno)\|.*?}}",
+                                         RegexOptions.Compiled | RegexOptions.RightToLeft);
+                    break;
+
                 case "pt":
                     LinkFGAs =
                         new Regex(@"{{\s*[Ll]ink [GF]A|[Bb]om interwiki|[Ii]nterwiki destacado|FA\|.*?}}",
                                   RegexOptions.Compiled | RegexOptions.RightToLeft);
                     break;
 
-                case "es":
-                    LinkFGAs = new Regex(@"{{\s*([Ll]ink FA|[Dd]estacado|[Bb]ueno)\|.*?}}",
-                                         RegexOptions.Compiled | RegexOptions.RightToLeft);
+                case "sv":
+                    LinkFGAs =
+                        new Regex(@"{{\s*[Ll]ink [GF]A|[Ll]änk UA|[Ll]ank UA|[UG]A\|.*?}}",
+                                  RegexOptions.Compiled | RegexOptions.RightToLeft);
                     break;
 
                 default:
