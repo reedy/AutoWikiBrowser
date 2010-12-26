@@ -3393,6 +3393,21 @@ now"));
         }
         
         [Test]
+        public void FixUnbalancedBracketsGeneral()
+        {
+            const string CorrectCat = @"[[Category:Foo]]
+[[Category:Foo2]]";
+            
+            Assert.AreEqual(CorrectCat, Parsers.FixSyntax(@"[[Category:Foo
+[[Category:Foo2]]"), "closes unclosed cats");
+            Assert.AreEqual(CorrectCat, Parsers.FixSyntax(CorrectCat));
+            
+            Assert.AreEqual(@"[[es:Foo]]
+[[fr:Foo2]]", Parsers.FixSyntax(@"[[es:Foo
+[[fr:Foo2]]"), "closes unclosed interwikis");
+        }
+        
+        [Test]
         public void FixUnbalancedBracketsMathSetNotation()
         {
             const string MathSet1 = @"{[0], [1], [2]}", Foo = @"Foo { ...";

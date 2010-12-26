@@ -2615,7 +2615,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex QuadrupleCurlyBrackets = new Regex(@"(?<=^{{[^{}\r\n]+}})}}(\s)$", RegexOptions.Multiline | RegexOptions.Compiled);
         private static readonly Regex WikiLinkOpeningClosing = new Regex(@"\[\]([^\[\]\r\n]+\]\])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
+        private static readonly Regex UnclosedCatInterwiki = new Regex(@"^(\[\[[^\[\]\r\n]+\:[^\[\]\r\n]+)(\s*)$", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex RefClosingOpeningBracket = new Regex(@"\[(\s*</ref>)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex CategoryCurlyBrackets = new Regex(@"{{ *(" + Variables.Namespaces[Namespace.Category] + @"[^{}\[\]]+?)(?:}}|\]\])", RegexOptions.Compiled);
         
@@ -2733,6 +2733,9 @@ namespace WikiFunctions.Parse
                     string defaultsort = WikiRegexes.Defaultsort.Match(articleTextTemp).Value;
                     if (!string.IsNullOrEmpty(defaultsort) && !defaultsort.Contains("}}"))
                         articleTextTemp = articleTextTemp.Replace(defaultsort.TrimEnd(), defaultsort.TrimEnd() + "}}");
+                
+                // unclosed cat/interwiki
+                articleTextTemp = UnclosedCatInterwiki.Replace(articleTextTemp, @"$1]]$2");
                 }
 
                 unbalancedBracket = UnbalancedBrackets(articleTextTemp, ref bracketLength);
