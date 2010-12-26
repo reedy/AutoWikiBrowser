@@ -3405,6 +3405,11 @@ now"));
             Assert.AreEqual(@"[[es:Foo]]
 [[fr:Foo2]]", Parsers.FixSyntax(@"[[es:Foo
 [[fr:Foo2]]"), "closes unclosed interwikis");
+            
+            const string CorrectFileLink = @"[[File:foo.jpeg|eflkjfdslkj]]";
+            
+            Assert.AreEqual(CorrectFileLink, Parsers.FixSyntax(@"{{File:foo.jpeg|eflkjfdslkj]]"));
+            Assert.AreEqual(CorrectFileLink, Parsers.FixSyntax(CorrectFileLink));
         }
         
         [Test]
