@@ -2618,6 +2618,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex UnclosedCatInterwiki = new Regex(@"^(\[\[[^\[\]\r\n]+\:[^\[\]\r\n]+)(\s*)$", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex RefClosingOpeningBracket = new Regex(@"\[(\s*</ref>)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex CategoryCurlyBrackets = new Regex(@"{{ *(" + Variables.Namespaces[Namespace.Category] + @"[^{}\[\]]+?)(?:}}|\]\])", RegexOptions.Compiled);
+        private static readonly Regex FileImageCurlyBrackets = new Regex(@"{{\s*((?:[Ff]ile|[Ii]mage)\s*:)", RegexOptions.Compiled);
         
         /// <summary>
         /// Applies some fixes for unbalanced brackets, applied if there are unbalanced brackets
@@ -2733,9 +2734,12 @@ namespace WikiFunctions.Parse
                     string defaultsort = WikiRegexes.Defaultsort.Match(articleTextTemp).Value;
                     if (!string.IsNullOrEmpty(defaultsort) && !defaultsort.Contains("}}"))
                         articleTextTemp = articleTextTemp.Replace(defaultsort.TrimEnd(), defaultsort.TrimEnd() + "}}");
-                
-                // unclosed cat/interwiki
-                articleTextTemp = UnclosedCatInterwiki.Replace(articleTextTemp, @"$1]]$2");
+                    
+                    // unclosed cat/interwiki
+                    articleTextTemp = UnclosedCatInterwiki.Replace(articleTextTemp, @"$1]]$2");
+                    
+                    // {{File: --> [[File:
+                    articleTextTemp = FileImageCurlyBrackets.Replace(articleTextTemp, @"[[$1");
                 }
 
                 unbalancedBracket = UnbalancedBrackets(articleTextTemp, ref bracketLength);
