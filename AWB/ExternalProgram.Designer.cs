@@ -123,6 +123,7 @@
             this.radFile.TabStop = true;
             this.radFile.Text = "Pass article text as &file";
             this.radFile.UseVisualStyleBackColor = true;
+            this.radFile.CheckedChanged += new System.EventHandler(this.RadioButtonCheckedChanged);
             // 
             // radParameter
             // 
@@ -133,6 +134,7 @@
             this.radParameter.TabIndex = 10;
             this.radParameter.Text = "Pass article &text as parameter";
             this.radParameter.UseVisualStyleBackColor = true;
+            this.radParameter.CheckedChanged += new System.EventHandler(this.RadioButtonCheckedChanged);
             // 
             // label3
             // 
@@ -215,8 +217,8 @@
             this.Name = "ExternalProgram";
             this.ShowIcon = false;
             this.Text = "External Program Processing";
-            this.Load += new System.EventHandler(this.ExternalProgram_Load);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ExternalProgram_FormClosing);
+            this.Load += new System.EventHandler(this.ExternalProgram_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
