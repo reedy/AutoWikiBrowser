@@ -5628,7 +5628,7 @@ namespace WikiFunctions.Parse
             // bulleted or indented text should weigh less than simple text.
             // for example, actor stubs may contain large filmographies
             string crapStripped = WikiRegexes.BulletedText.Replace(commentsStripped, "");
-            int words = (Tools.WordCount(commentsStripped) + Tools.WordCount(crapStripped)) / 2;
+            int words = (Tools.WordCount(commentsStripped) + Tools.WordCount(crapStripped))/2;
 
             // remove stub tags from long articles
             if ((words > StubMaxWordCount) && WikiRegexes.Stub.IsMatch(commentsStripped))
@@ -5636,7 +5636,7 @@ namespace WikiFunctions.Parse
                 articleText = WikiRegexes.Stub.Replace(articleText, StubChecker).Trim();
                 tagsRemoved.Add("stub");
             }
-            
+
             // refresh
             commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
 
@@ -5648,7 +5648,7 @@ namespace WikiFunctions.Parse
                 articleText = WikiRegexes.Expand.Replace(articleText, "");
                 tagsRemoved.Add("expand");
             }
-            
+
             // refresh
             commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
 
@@ -5658,30 +5658,30 @@ namespace WikiFunctions.Parse
             articleText = TagRefsIbid(articleText);
 
             articleText = TagEmptySection(articleText);
-            
+
             int totalCategories;
             double linkCount = Tools.LinkCount(commentsStripped);
 
-            #if DEBUG || UNITTEST
+#if DEBUG || UNITTEST
             if (Globals.UnitTestMode)
             {
                 totalCategories = Globals.UnitTestIntValue;
             }
             else
-                #endif
+#endif
             {
                 // stubs add non-hidden stub categories, don't count these in categories count
-                List<Article> Cats = CategoryProv.MakeList(new[] { articleTitle });
+                List<Article> Cats = CategoryProv.MakeList(new[] {articleTitle});
                 List<Article> CatsNotStubs = new List<Article>();
-                
-                foreach(Article a in Cats)
+
+                foreach (Article a in Cats)
                 {
-                    if(!a.Name.EndsWith(" stubs") && !a.Name.EndsWith(":Stubs"))
+                    if (!a.Name.EndsWith(" stubs") && !a.Name.EndsWith(":Stubs"))
                         CatsNotStubs.Add(a);
                 }
                 totalCategories = CatsNotStubs.Count;
             }
-            
+
             if (linkCount > 0 && WikiRegexes.DeadEnd.IsMatch(articleText))
             {
                 articleText = WikiRegexes.DeadEnd.Replace(articleText, "$1");
@@ -5689,9 +5689,10 @@ namespace WikiFunctions.Parse
             }
 
             // discount persondata from wikify evaluation
-            double length = WikiRegexes.Persondata.Replace(articleText, "").Length + 1;
+            int length = WikiRegexes.Persondata.Replace(articleText, "").Length + 1;
 
-            if (commentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped) && !WikiRegexes.Disambigs.IsMatch(commentsStripped) && !WikiRegexes.SIAs.IsMatch(commentsStripped))
+            if (commentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped) &&
+                !WikiRegexes.Disambigs.IsMatch(commentsStripped) && !WikiRegexes.SIAs.IsMatch(commentsStripped))
             {
                 // add stub tag
                 articleText += Tools.Newline("{{stub}}", 3);
@@ -5711,7 +5712,8 @@ namespace WikiFunctions.Parse
                 if (WikiRegexes.Stub.IsMatch(commentsStripped))
                 {
                     // add uncategorized stub tag
-                    articleText += Tools.Newline("{{Uncategorized stub|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                    articleText += Tools.Newline("{{Uncategorized stub|", 2) + WikiRegexes.DateYearMonthParameter +
+                                   @"}}";
                     tagsAdded.Add("[[CAT:UNCATSTUBS|uncategorised]]");
                 }
                 else
@@ -5721,20 +5723,20 @@ namespace WikiFunctions.Parse
                     tagsAdded.Add("[[CAT:UNCAT|uncategorised]]");
                 }
             }
-            
+
             // remove {{Uncategorized}} if > 0 real categories (stub categories not counted)
             // rename {{Uncategorized}} to {{Uncategorized stub}} if stub with zero categories (stub categories not counted)
-            if(WikiRegexes.Uncat.IsMatch(articleText))
+            if (WikiRegexes.Uncat.IsMatch(articleText))
             {
                 if (totalCategories > 0)
                 {
                     articleText = WikiRegexes.Uncat.Replace(articleText, "");
                     tagsRemoved.Add("uncategorised");
                 }
-                else if(totalCategories == 0 && WikiRegexes.Stub.IsMatch(commentsStripped))
+                else if (totalCategories == 0 && WikiRegexes.Stub.IsMatch(commentsStripped))
                 {
                     string uncatname = WikiRegexes.Uncat.Match(articleText).Groups[1].Value;
-                    if(!uncatname.Contains("stub"))
+                    if (!uncatname.Contains("stub"))
                         articleText = Tools.RenameTemplate(articleText, uncatname, "Uncategorized stub");
                 }
             }
@@ -5747,36 +5749,36 @@ namespace WikiFunctions.Parse
                 tagsAdded.Add("[[:Category:Dead-end pages|deadend]]");
             }
 
-            if (linkCount < 3 && ((linkCount / length) < 0.0025) && !WikiRegexes.Wikify.IsMatch(articleText)
+            if (linkCount < 3 && ((linkCount/length) < 0.0025) && !WikiRegexes.Wikify.IsMatch(articleText)
                 && !WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower().Contains("wikify"))
             {
                 // add wikify tag
                 articleText = "{{Wikify|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                 tagsAdded.Add("[[WP:WFY|wikify]]");
             }
-            else if (linkCount > 3 && ((linkCount / length) > 0.0025) &&
+            else if (linkCount > 3 && ((linkCount/length) > 0.0025) &&
                      WikiRegexes.Wikify.IsMatch(articleText))
             {
                 articleText = WikiRegexes.Wikify.Replace(articleText, "$1");
                 tagsRemoved.Add("wikify");
             }
-            
+
             // unref --> refimprove if has existing refs
-            if(WikiRegexes.Unreferenced.IsMatch(commentsStripped)
-               && WikiRegexes.Refs.Matches(commentsStripped).Count > 0)
+            if (WikiRegexes.Unreferenced.IsMatch(commentsStripped)
+                && WikiRegexes.Refs.Matches(commentsStripped).Count > 0)
                 articleText = Tools.RenameTemplate(articleText, "unreferenced", "refimprove", true);
-            
-            if(tagsAdded.Count > 0 || tagsRemoved.Count > 0)
+
+            if (tagsAdded.Count > 0 || tagsRemoved.Count > 0)
             {
                 Parsers p = new Parsers();
                 HideText ht = new HideText();
-                
+
                 articleText = ht.HideUnformatted(articleText);
-                
+
                 articleText = p.MultipleIssues(articleText);
                 articleText = Conversions(articleText);
                 articleText = ht.AddBackUnformatted(articleText);
-                
+
                 // sort again in case tag removal requires whitespace cleanup
                 articleText = p.Sorter.Sort(articleText, articleTitle);
             }
