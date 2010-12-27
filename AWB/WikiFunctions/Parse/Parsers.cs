@@ -1014,7 +1014,7 @@ namespace WikiFunctions.Parse
                     int RAfter = RefsAfterPunctuationR.Matches(articleText).Count;
 
                     // require >= 75% refs after punctuation to convert the rest
-                    if ((RAfter / RBefore) > 0)
+                    if ((RAfter / RBefore) > 3)
                     {
                         string articleTextlocal = "";
                         
@@ -5688,20 +5688,11 @@ namespace WikiFunctions.Parse
                 tagsRemoved.Add("deadend");
             }
 
-<<<<<<< .mine
             // discount persondata from wikify and stub evaluation
             int length = WikiRegexes.Persondata.Replace(commentsStripped, "").Length + 1;
-=======
-            // discount persondata from wikify evaluation
-            int length = WikiRegexes.Persondata.Replace(articleText, "").Length + 1;
->>>>>>> .r7512
 
-<<<<<<< .mine
-            if (length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped) && !WikiRegexes.Disambigs.IsMatch(commentsStripped) && !WikiRegexes.SIAs.IsMatch(commentsStripped))
-=======
-            if (commentsStripped.Length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped) &&
+            if (length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped) &&
                 !WikiRegexes.Disambigs.IsMatch(commentsStripped) && !WikiRegexes.SIAs.IsMatch(commentsStripped))
->>>>>>> .r7512
             {
                 // add stub tag
                 articleText += Tools.Newline("{{stub}}", 3);
