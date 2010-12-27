@@ -173,5 +173,10 @@ namespace AutoWikiBrowser
                 txtFile.Text = openIO.FileName;
             }
         }
+
+        private void RadioButtonCheckedChanged(object sender, EventArgs e)
+        {
+            btnSelectIO.Enabled = txtFile.Enabled = radFile.Checked;
+        }
     }
 }
