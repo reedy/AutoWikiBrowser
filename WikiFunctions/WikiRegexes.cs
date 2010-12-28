@@ -167,45 +167,35 @@ namespace WikiFunctions
             switch (Variables.LangCode)
             {
                 case "ar":
-                    LinkFGAs = new Regex(@"{{\s*وصلة مقالة مختارة\s*\|.*?}}",
-                                         RegexOptions.Compiled | RegexOptions.Singleline);
+                    LinkFGAs = Tools.NestedTemplateRegex(@"وصلة مقالة مختارة");
                     break;
 
                 case "ca":
-                    LinkFGAs = new Regex(@"{{\s*([Ll]ink FA|[Ee]nllaç AD)\|.*?}}",
-                                         RegexOptions.Compiled | RegexOptions.RightToLeft);
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "enllaç AD" });
                     break;
 
                 case "fr":
-                    LinkFGAs = new Regex(@"{{\s*[Ll]ien (?:BA|[PA]dQ)\|.*?}}",
-                                         RegexOptions.Compiled | RegexOptions.RightToLeft);
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"lien BA", "lien AdQ", "lien PdQ" });
                     break;
 
                 case "it":
-                    LinkFGAs = new Regex(@"{{\s*[Ll]ink (FA|AdQ)\|.*?}}",
-                                         RegexOptions.Compiled | RegexOptions.RightToLeft);
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link AdQ" });
                     break;
 
                 case "es":
-                    LinkFGAs = new Regex(@"{{\s*([Ll]ink FA|[Dd]estacado|[Bb]ueno)\|.*?}}",
-                                         RegexOptions.Compiled | RegexOptions.RightToLeft);
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "destacado", "bueno"});
                     break;
 
                 case "pt":
-                    LinkFGAs =
-                        new Regex(@"{{\s*[Ll]ink [GF]A|[Bb]om interwiki|[Ii]nterwiki destacado|FA\|.*?}}",
-                                  RegexOptions.Compiled | RegexOptions.RightToLeft);
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link GA", "bom interwiki", "interwiki destacado", "FA"});
                     break;
 
                 case "sv":
-                    LinkFGAs =
-                        new Regex(@"{{\s*[Ll]ink [GF]A|[Ll]änk UA|[Ll]ank UA|[UG]A\|.*?}}",
-                                  RegexOptions.Compiled | RegexOptions.RightToLeft);
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link GA", "länk UA", "lank UA", "UA", "GA" });
                     break;
 
                 default:
-                    LinkFGAs = new Regex(@"{{\s*[Ll]ink (?:[FG]A|FL)\|.*?}}",
-                                         RegexOptions.Compiled | RegexOptions.RightToLeft);
+                    LinkFGAs =  Tools.NestedTemplateRegex(new [] {"link FA", "link GA", "link FL"});
                     break;
             }
         }

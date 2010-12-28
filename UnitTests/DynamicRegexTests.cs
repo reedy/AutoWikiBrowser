@@ -750,6 +750,8 @@ he}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{FA|ar}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Interwiki destacado|ar}}"));
             
+            Assert.IsFalse(WikiRegexes.LinkFGAs.IsMatch(@"foo {{foo |pub=FA|text=a}}"));
+            
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
             #endif
