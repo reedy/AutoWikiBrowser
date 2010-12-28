@@ -573,7 +573,7 @@ namespace WikiFunctions
             List<string> Knowns = new List<string>(new[] { "advert", "autobiography", "biased", "blpdispute", "BLPrefimprove", "BLP sources", "BLPsources", "BLPunreferenced", "BLPunref", "BLPunsourced", "BLP unsourced", "citations missing", "citationstyle", "citation style",  "citation-style",
 			"citecheck", "cleanup", "COI", "coi", "colloquial", "confusing", "context", "contradict", 
 			"copyedit", "copy edit", "criticisms", "crystal", "date", "deadend", "dead end", "disputed", "do-attempt", "essay", "essay-like", "examplefarm", "expert", "external links", "expand", 
-			"fancruft", "fansite", "fiction", "gameguide", "globalize", "grammar", "histinfo", "hoax", "howto", "inappropriate person", "incomplete", "intro length", "intromissing", 
+			"fancruft", "fanpov", "fansite", "fiction", "gameguide", "globalize", "grammar", "histinfo", "hoax", "howto", "inappropriate person", "incomplete", "intro length", "intromissing", 
 			"introrewrite", "intro-toolong","intro-tooshort", "laundrylists", "lead missing", "lead rewrite", "lead too long", "lead too short", "in-universe", "jargon", "laundrylists", "laundry", "lead missing", "lead too long", "likeresume", "like resume", 
 			"long", "moreref", "morerefs", "morereferences","newsrelease", "notable", "notability", "one source", "onesource", "OR", "or", "organize", "original research", "orphan", "out of date", "peacock", 
 			"plot", "POV", "NPOV", "pov", "npov", "pov-check", "primarysources", "prose", "proseline", "quotefarm", "recentism", "refimprove", 
