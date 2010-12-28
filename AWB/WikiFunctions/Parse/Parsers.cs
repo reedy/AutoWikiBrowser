@@ -4964,6 +4964,8 @@ namespace WikiFunctions.Parse
         {
             return IsArticleAboutAPerson(articleText, articleTitle, false);
         }
+        
+        private static readonly Regex BLPUnsourcedSection = Tools.NestedTemplateRegex("BLP unsourced section");
 
         /// <summary>
         /// determines whether the article is about a person by looking for persondata/birth death categories, bio stub etc. for en wiki only
@@ -5070,7 +5072,7 @@ namespace WikiFunctions.Parse
             return WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText)
                 || WikiRegexes.LivingPeopleRegex2.IsMatch(articleText)
                 || WikiRegexes.BirthsCategory.IsMatch(articleText)
-                || WikiRegexes.BLPSources.IsMatch(articleText)
+                || WikiRegexes.BLPSources.IsMatch(BLPUnsourcedSection.Replace(articleText, ""))
                 || RefImproveBLP.IsMatch(articleText);
             /*    || (!string.IsNullOrEmpty(articleTitle) && articleText.Length < 10000 && parseTalkPage &&
                     TryGetArticleText(Variables.Namespaces[Namespace.Talk] + articleTitle).Contains(@"{{WPBiography"))*/
