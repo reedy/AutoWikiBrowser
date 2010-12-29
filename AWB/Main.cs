@@ -3507,6 +3507,12 @@ window.scrollTo(0, diffTopY);
 
                 bool noChange;
                 txtEdit.Text = Parsers.ChangeToDefaultSort(txtEdit.Text, TheArticle.Name, out noChange, restrictDefaultsortChangesToolStripMenuItem.Checked);
+                
+                // sort if DEFAULTSORT added to ensure correct placement
+                if(!noChange)
+                {
+                    txtEdit.Text = Parser.SortMetaData(txtEdit.Text, TheArticle.Name);
+                }
             }
             catch (Exception ex)
             {
