@@ -42,6 +42,7 @@
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.btnClearBacklog = new System.Windows.Forms.Button();
+            this.chkAddToSummary = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -55,6 +56,7 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.chkAddToSummary);
             this.groupBox1.Controls.Add(this.chkSkip);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
@@ -200,6 +202,19 @@
             this.btnClearBacklog.UseVisualStyleBackColor = true;
             this.btnClearBacklog.Click += new System.EventHandler(this.btnClearBacklog_Click);
             // 
+            // chkAddToSummary
+            // 
+            this.chkAddToSummary.AutoSize = true;
+            this.chkAddToSummary.Checked = true;
+            this.chkAddToSummary.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkAddToSummary.Location = new System.Drawing.Point(210, 17);
+            this.chkAddToSummary.MinimumSize = new System.Drawing.Size(190, 20);
+            this.chkAddToSummary.Name = "chkAddToSummary";
+            this.chkAddToSummary.Size = new System.Drawing.Size(190, 20);
+            this.chkAddToSummary.TabIndex = 18;
+            this.chkAddToSummary.Text = "Add &replacements to edit summary";
+            this.chkAddToSummary.UseVisualStyleBackColor = true;
+            // 
             // CfdOptions
             // 
             this.AcceptButton = this.btnOk;
@@ -246,5 +261,6 @@
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.Button btnClearBacklog;
+        public System.Windows.Forms.CheckBox chkAddToSummary;
     }
 }

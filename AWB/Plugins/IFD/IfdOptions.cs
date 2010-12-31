@@ -41,6 +41,7 @@ namespace AutoWikiBrowser.Plugins.IFD
         {
             chkSkip.Checked = IfdAWBPlugin.Settings.Skip;
             chkComment.Checked = IfdAWBPlugin.Settings.Comment;
+            chkAddToSummary.Checked = IfdAWBPlugin.Settings.AppendToEditSummary;
 
             Grid.Rows.Clear();
             foreach (KeyValuePair<string, string> p in IfdAWBPlugin.Settings.Images)
@@ -54,6 +55,7 @@ namespace AutoWikiBrowser.Plugins.IFD
 
             IfdAWBPlugin.Settings.Skip = chkSkip.Checked;
             IfdAWBPlugin.Settings.Comment = chkComment.Checked;
+            IfdAWBPlugin.Settings.AppendToEditSummary = chkAddToSummary.Checked;
 
             IfdAWBPlugin.Settings.Images = ToDo;
 
@@ -146,5 +148,6 @@ namespace AutoWikiBrowser.Plugins.IFD
         public Dictionary<string, string> Images = new Dictionary<string, string>();
         public bool Comment = true;
         public bool Skip = true;
+        public bool AppendToEditSummary = true;
     }
 }

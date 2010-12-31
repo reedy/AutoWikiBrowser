@@ -76,8 +76,9 @@ namespace AutoWikiBrowser.Plugins.IFD
                 return eventargs.ArticleText;
             }
 
-            eventargs.EditSummary = "";
             string text = eventargs.ArticleText;
+
+            string removed = "", replaced = "";
 
             foreach (KeyValuePair<string, string> p in Settings.Images)
             {
@@ -86,17 +87,51 @@ namespace AutoWikiBrowser.Plugins.IFD
                 if (p.Value.Length == 0)
                 {
                     text = Parsers.RemoveImage(p.Key, text, Settings.Comment, "", out noChange);
-                    if (!noChange) eventargs.EditSummary += ", removed " + Variables.Namespaces[Namespace.File] + p.Key;
+                    if (!noChange)
+                    {
+                        if (!string.IsNullOrEmpty(removed))
+                        {
+                            removed += ", ";
+                        }
+
+                        removed += Variables.Namespaces[Namespace.File] + p.Key;
+                    }
                 }
                 else
                 {
                     text = Parsers.ReplaceImage(p.Key, p.Value, text, out noChange);
-                    if (!noChange) eventargs.EditSummary += ", replaced: " + Variables.Namespaces[Namespace.File]
+                    if (!noChange)
+                    {
+                        if (!string.IsNullOrEmpty(replaced))
+                        {
+                            replaced += ", ";
+                        }
+
+                        replaced += Variables.Namespaces[Namespace.File]
                          + p.Key + FindandReplace.Arrow + Variables.Namespaces[Namespace.File] + p.Value;
+                    }
                 }
-                if (!noChange) text = Regex.Replace(text, "<includeonly>[\\s\\r\\n]*\\</includeonly>", "");
+                if (!noChange)
+                {
+                    text = Regex.Replace(text, "<includeonly>[\\s\\r\\n]*\\</includeonly>", "");
+                }
             }
 
+            string editSummary = "";
+            if (Settings.AppendToEditSummary)
+            {
+                if (!string.IsNullOrEmpty(replaced))
+                    editSummary = "replaced: " + replaced.Trim();
+
+                if (!string.IsNullOrEmpty(removed))
+                {
+                    if (!string.IsNullOrEmpty(editSummary))
+                        editSummary += ", ";
+
+                    editSummary += "removed: " + removed.Trim();
+                }
+            }
+            eventargs.EditSummary = editSummary;
             eventargs.Skip = (text == eventargs.ArticleText) && Settings.Skip;
 
             return text;
@@ -122,6 +157,9 @@ namespace AutoWikiBrowser.Plugins.IFD
                     case "skip":
                         Settings.Skip = (bool)p.Setting;
                         break;
+                    case "appendtoeditsummary":
+                        Settings.AppendToEditSummary = (bool)p.Setting;
+                        break;
                 }
             }
             //Settings.Images = (Dictionary<string, string>)pkp.Setting;
@@ -135,7 +173,8 @@ namespace AutoWikiBrowser.Plugins.IFD
             prefs[0] = new PrefsKeyPair("Enabled", Settings.Enabled);
             prefs[1] = new PrefsKeyPair("Comment", Settings.Comment);
             prefs[2] = new PrefsKeyPair("Skip", Settings.Skip);
-            //prefs[3] = new PrefsKeyPair("images", Settings.Images);
+            prefs[3] = new PrefsKeyPair("AppendToEditSummary", Settings.AppendToEditSummary);
+            //prefs[4] = new PrefsKeyPair("images", Settings.Images);
 
             return prefs;
         }
