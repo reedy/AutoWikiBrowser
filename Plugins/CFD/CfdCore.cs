@@ -61,8 +61,13 @@ namespace AutoWikiBrowser.Plugins.CFD
         { get { return "CFD-Plugin"; } }
 
         public string WikiName
-        { get { return "[[WP:CFD|CFD]] Plugin version " + 
-            System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; } }
+        {
+            get
+            {
+                return "[[WP:CFD|CFD]] Plugin version " +
+                    System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            }
+        }
 
         public string ProcessArticle(IAutoWikiBrowser sender, IProcessArticleEventArgs eventargs)
         {
@@ -73,8 +78,8 @@ namespace AutoWikiBrowser.Plugins.CFD
                 return eventargs.ArticleText;
             }
 
-            eventargs.EditSummary = "";
             string text = eventargs.ArticleText;
+            string removed = "", replaced = "";
 
             foreach (KeyValuePair<string, string> p in Settings.Categories)
             {
@@ -83,16 +88,51 @@ namespace AutoWikiBrowser.Plugins.CFD
                 if (p.Value.Length == 0)
                 {
                     text = Parsers.RemoveCategory(p.Key, text, out noChange);
-                    if (!noChange) eventargs.EditSummary += ", removed " + Variables.Namespaces[Namespace.Category] + p.Key;
+                    if (!noChange)
+                    {
+                        if (!string.IsNullOrEmpty(removed))
+                        {
+                            removed += ", ";
+                        }
+
+                        removed += Variables.Namespaces[Namespace.Category] + p.Key;
+                    }
                 }
                 else
                 {
                     text = Parsers.ReCategoriser(p.Key, p.Value, text, out noChange);
-                    if (!noChange) eventargs.EditSummary += ", replaced: " + Variables.Namespaces[Namespace.Category]
+                    if (!noChange)
+                    {
+                        if (!string.IsNullOrEmpty(replaced))
+                        {
+                            replaced += ", ";
+                        }
+
+                        replaced += Variables.Namespaces[Namespace.Category]
                          + p.Key + FindandReplace.Arrow + Variables.Namespaces[Namespace.Category] + p.Value;
+                    }
                 }
-                if (!noChange) text = Regex.Replace(text, "<includeonly>[\\s\\r\\n]*\\</includeonly>", "");
+                if (!noChange)
+                {
+                    text = Regex.Replace(text, "<includeonly>[\\s\\r\\n]*\\</includeonly>", "");
+                }
             }
+
+            string editSummary = "";
+            if (Settings.AppendToEditSummary)
+            {
+                if (!string.IsNullOrEmpty(replaced))
+                    editSummary = "replaced: " + replaced.Trim();
+
+                if (!string.IsNullOrEmpty(removed))
+                {
+                    if (!string.IsNullOrEmpty(editSummary))
+                        editSummary += ", ";
+
+                    editSummary += "removed: " + removed.Trim();
+                }
+            }
+            eventargs.EditSummary = editSummary;
 
             eventargs.Skip = (text == eventargs.ArticleText) && Settings.Skip;
 
@@ -116,6 +156,9 @@ namespace AutoWikiBrowser.Plugins.CFD
                     case "skip":
                         Settings.Skip = (bool)p.Setting;
                         break;
+                    case "appendtoeditsummary":
+                        Settings.AppendToEditSummary = (bool)p.Setting;
+                        break;
                 }
                 //Settings.Categories = (Dictionary<string, string>)pkp.Setting;
             }
@@ -128,6 +171,7 @@ namespace AutoWikiBrowser.Plugins.CFD
             PrefsKeyPair[] prefs = new PrefsKeyPair[2];
             prefs[0] = new PrefsKeyPair("Enabled", Settings.Enabled);
             prefs[1] = new PrefsKeyPair("Skip", Settings.Skip);
+            prefs[3] = new PrefsKeyPair("AppendToEditSummary", Settings.AppendToEditSummary);
             //prefs[3] = new PrefsKeyPair("categories", Settings.Images);
 
             return prefs;
@@ -146,8 +190,11 @@ namespace AutoWikiBrowser.Plugins.CFD
         private static void ShowSettings(object sender, EventArgs e)
         { new CfdOptions().Show(); }
 
-        private bool PluginEnabled { get { return pluginenabledMenuItem.Checked; } 
-            set { pluginenabledMenuItem.Checked = value; }  }
+        private bool PluginEnabled
+        {
+            get { return pluginenabledMenuItem.Checked; }
+            set { pluginenabledMenuItem.Checked = value; }
+        }
 
         private void PluginEnabledCheckedChange(object sender, EventArgs e)
         {
@@ -170,7 +217,8 @@ namespace AutoWikiBrowser.Plugins.CFD
         public bool Enabled;
         public Dictionary<string, string> Categories = new Dictionary<string, string>();
         public bool Skip = true;
+        public bool AppendToEditSummary = true;
     }
-
 }
+
 

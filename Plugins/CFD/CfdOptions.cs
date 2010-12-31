@@ -42,6 +42,7 @@ namespace AutoWikiBrowser.Plugins.CFD
         public new void Show()
         {
             chkSkip.Checked = CfdAWBPlugin.Settings.Skip;
+            chkAddToSummary.Checked = CfdAWBPlugin.Settings.AppendToEditSummary;
 
             Grid.Rows.Clear();
             foreach (KeyValuePair<string, string> p in CfdAWBPlugin.Settings.Categories)
@@ -54,6 +55,7 @@ namespace AutoWikiBrowser.Plugins.CFD
             if (ShowDialog() != DialogResult.OK) return;
 
             CfdAWBPlugin.Settings.Skip = chkSkip.Checked;
+            CfdAWBPlugin.Settings.AppendToEditSummary = chkAddToSummary.Checked;
 
             CfdAWBPlugin.Settings.Categories = ToDo;
 
