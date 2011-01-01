@@ -167,14 +167,11 @@ namespace AutoWikiBrowser.Plugins.CFD
         public object[] SaveSettings()
         {
             Settings.Enabled = PluginEnabled;
-
-            PrefsKeyPair[] prefs = new PrefsKeyPair[2];
-            prefs[0] = new PrefsKeyPair("Enabled", Settings.Enabled);
-            prefs[1] = new PrefsKeyPair("Skip", Settings.Skip);
-            prefs[3] = new PrefsKeyPair("AppendToEditSummary", Settings.AppendToEditSummary);
-            //prefs[3] = new PrefsKeyPair("categories", Settings.Images);
-
-            return prefs;
+            
+            return new PrefsKeyPair[] {
+            new PrefsKeyPair("Enabled", Settings.Enabled),
+            new PrefsKeyPair("Skip", Settings.Skip),
+            new PrefsKeyPair("AppendToEditSummary", Settings.AppendToEditSummary) };
         }
 
         public void Reset()
