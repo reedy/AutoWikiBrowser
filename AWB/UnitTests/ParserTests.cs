@@ -776,7 +776,7 @@ r</ref> The next", Parsers.RefsAfterPunctuation(AllAfter + @"Foo<ref>ba
 r</ref>. The next"), "ref moved after punctuation when majority are after");
             
             R1 = R1.Replace("Foo", "Foo ");
-            Assert.AreEqual(AllAfter + @"Foo.<ref>bar</ref> The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "Whtisepace before ref cleaned when punctuation moved");
+            Assert.AreEqual(AllAfter + @"Foo.<ref>bar</ref> The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "Whitespace before ref cleaned when punctuation moved");
             
             R1 = R1.Replace(".", ",");
             Assert.AreEqual(AllAfter + @"Foo,<ref>bar</ref> The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "handles commas too");
