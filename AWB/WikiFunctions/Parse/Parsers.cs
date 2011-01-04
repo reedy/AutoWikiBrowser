@@ -2829,9 +2829,9 @@ namespace WikiFunctions.Parse
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
-            // {{cite web}} needs lower case field names; two loops in case a single template has multiple uppercase fields
+            // {{cite web}}/{{cite book}} etc. need lower case field names; two loops in case a single template has multiple uppercase fields
             // restrict to en-wiki
-            // exceptionally, 'ISBN' is allowed
+            // exceptionally, 'ISBN' is allowed in upper case
             int matchCount;
             int urlMatches;
             do
