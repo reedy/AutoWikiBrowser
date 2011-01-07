@@ -505,12 +505,17 @@ namespace WikiFunctions
             else
             {
                 URL = "http://" + LangCode + "." + Project + ".org";
-                URLSecure = "https://secure.wikimedia.org/" + Project;
-                  if (!Variables.IsWikimediaMonolingualProject)
+                URLSecure = "https://secure.wikimedia.org/";
+                  if (Variables.IsWikimediaMonolingualProject)
                   {
-                      URLSecure += LangCode; //https://secure.wikimedia.org/wikipedia/en
+                      URLSecure += "wikipedia/" + Project;
                   }
-            }
+                  else
+                  {
+                  	                      	
+                      	URLSecure += Project + "/" + LangCode; //https://secure.wikimedia.org/wikipedia/en
+                  }
+             }
 
             // HACK:
             switch (projectName)
