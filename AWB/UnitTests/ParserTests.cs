@@ -1168,6 +1168,12 @@ Other (fl. 1645) was also", FloruitTwice = @"'''Foo''' (fl. 55) was a peasant, r
             // must be about a person
             const string a0 = @"'''Fred Smith''' (born 1960) is a bloke.";
             Assert.AreEqual(a0, Parsers.FixPeopleCategories(a0, "foo"));
+            
+            const string bug1 = @"{{BLP unsourced|date=March 2010}}
+
+'''Z''' (born 2 January{{Year needed|date=January 2010|reason=Fix this date immediately or remove it; it look}} in .";
+            
+            Assert.AreEqual(bug1, Parsers.FixPeopleCategories(bug1, "Foo"));
         }
         
         [Test]
