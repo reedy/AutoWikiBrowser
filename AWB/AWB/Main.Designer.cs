@@ -1921,7 +1921,7 @@ namespace AutoWikiBrowser
             this.chkAutoTagger.TabIndex = 0;
             this.chkAutoTagger.Text = "Auto tag";
             this.ToolTip.SetToolTip(this.chkAutoTagger, "Automatically add {{orphan}}, {{deadend}}, {{wikify}}, {{ibid} and {{stub}} tags " +
-                    "whenappropriate");
+                    "when appropriate");
             // 
             // chkUnicodifyWhole
             // 
