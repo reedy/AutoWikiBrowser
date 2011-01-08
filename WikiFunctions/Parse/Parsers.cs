@@ -5227,6 +5227,19 @@ namespace WikiFunctions.Parse
             // remove references and long wikilinks (but allow an ISO date) that may contain false positives of birth/death date
             zerothSection = WikiRegexes.Refs.Replace(zerothSection, " ");
             zerothSection = LongWikilink.Replace(zerothSection, " ");
+            
+            // ignore dates from dated maintenance tags etc.
+            foreach(Match m2 in WikiRegexes.NestedTemplates.Matches(zerothSection))
+            {
+                if(Tools.GetTemplateParameterValue(m2.Value, "date").Length > 0)
+                    zerothSection = zerothSection.Replace(m2.Value, "");
+            }
+            
+            foreach(Match m2 in WikiRegexes.TemplateMultiline.Matches(zerothSection))
+            {
+                if(Tools.GetTemplateParameterValue(m2.Value, "date").Length > 0)
+                    zerothSection = zerothSection.Replace(m2.Value, "");
+            }
 
             string yearstring, yearFromInfoBox = "";
 
@@ -5664,13 +5677,13 @@ namespace WikiFunctions.Parse
             int totalCategories;
             double linkCount = Tools.LinkCount(commentsStripped);
 
-#if DEBUG || UNITTEST
+            #if DEBUG || UNITTEST
             if (Globals.UnitTestMode)
             {
                 totalCategories = Globals.UnitTestIntValue;
             }
             else
-#endif
+                #endif
             {
                 // stubs add non-hidden stub categories, don't count these in categories count
                 List<Article> Cats = CategoryProv.MakeList(new[] {articleTitle});
@@ -5715,7 +5728,7 @@ namespace WikiFunctions.Parse
                 {
                     // add uncategorized stub tag
                     articleText += Tools.Newline("{{Uncategorized stub|", 2) + WikiRegexes.DateYearMonthParameter +
-                                   @"}}";
+                        @"}}";
                     tagsAdded.Add("[[CAT:UNCATSTUBS|uncategorised]]");
                 }
                 else
