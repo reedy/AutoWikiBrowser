@@ -102,7 +102,7 @@ namespace WikiFunctions
                     s = "([Dd]isambiguation|[Dd]isambig|[Нн]еоднозначность|[Мm]ногозначность)";
                     break;
                 default:
-                    s = "([Dd]isamb(?:ig(?:uation)?)?|[Dd]ab|[Mm]athdab|(?:[Nn]umber|[Hh]ospital|[Gg]eo|[Hh]n|[Ss]chool)dis|[Ll]etter-disambig|[[Aa]irport disambig|[Cc]allsigndis|[Dd]isambig-cleanup|[Mm]olFormDisambig|(Species|)LatinNameDisambig|Species Latin name disambiguation|[Ll]etter-NumberComb[Dd]isambig|[Hh]ndis|[Gg]enus disambiguation|[Tt]axonomy disambiguation)";
+                    s = "([Dd]isamb(?:ig(?:uation)?)?|[Dd]ab|[Mm]athdab|(?:[Nn]umber|[Hh]ospital|[Gg]eo|[Hh]n|[Ss]chool)dis|[Ll]etter-disambig|[[Aa]irport disambig|[Cc]allsigndis|[Dd]isambig-cleanup|[Mm]olFormDisambig|(Species|)LatinNameDisambig|Species Latin name disambiguation|[Ll]etter-NumberComb[Dd]isambig|[Hh]ndis|[Gg]enus disambiguation|[Tt]axonomy disambiguation|[Hh]urricane season disambiguation)";
                     break;
             }
             Disambigs = new Regex(TemplateStart + s + @"\s*(?:\|[^{}]*?)?}}", RegexOptions.Compiled);
