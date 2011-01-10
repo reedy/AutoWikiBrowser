@@ -5958,10 +5958,21 @@ words";
         {
             const string AB = @"{{Distinguish|a|b}}";
             Assert.AreEqual(AB, Parsers.Dablinks(@"{{Distinguish|a}}{{Distinguish|b}}"), "merges when single argument");
+            Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.Dablinks(@"{{Distinguish|a|b}}{{Distinguish|c}}"), "merges multiple arguments");
             Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.Dablinks(@"{{Distinguish|a}}{{Distinguish|b|c}}"), "merges multiple arguments");
             Assert.AreEqual(AB, Parsers.Dablinks(AB), "no change if already merged");
         }
         
+        [Test]
+        public void MergingSeeAlso()
+        {
+            const string AB = @"{{See also|a|b}}";
+            Assert.AreEqual(AB, Parsers.MergeSeeAlso(@"{{See also|a}}{{See also|b}}"), "merges when single argument");
+            Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeSeeAlso(@"{{See also|a|b}}{{See also|c}}"), "merges multiple arguments");
+            Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeSeeAlso(@"{{See also|a}}{{See also|b|c}}"), "merges multiple arguments");
+            Assert.AreEqual(AB, Parsers.MergeSeeAlso(AB), "no change if already merged");
+        }
+
         [Test]
         public void MergePortals()
         {
