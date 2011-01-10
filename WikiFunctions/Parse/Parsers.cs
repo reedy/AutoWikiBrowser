@@ -5632,6 +5632,13 @@ namespace WikiFunctions.Parse
                     articleText = articleText.Replace(m.Value, Tools.RenameTemplate(Regex.Replace(m.Value, @"\|\s*section\s*(\||}})", "$1"), "Expand section"));
             }
 
+            // {{BLP unsourced|section|...}} --> {{BLP unsourced section|...}}
+            foreach(Match m in Tools.NestedTemplateRegex("BLP unsourced").Matches(articleText))
+            {
+                if(Tools.GetTemplateArgument(m.Value, 1).Equals("section"))
+                    articleText = articleText.Replace(m.Value, Tools.RenameTemplate(Regex.Replace(m.Value, @"\|\s*section\s*(\||}})", "$1"), "BLP unsourced section"));
+            }
+
             // add date to any undated tags within {{Multiple issues}} (loop due to lookbehind in regex)
             while(MultipleIssuesUndatedTags.IsMatch(articleText))
                 articleText = MultipleIssuesUndatedTags.Replace(articleText, "$1$2={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}$3");

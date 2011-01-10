@@ -7131,17 +7131,27 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
         }
         
         [Test]
-        public void ConvversionsTestsExpand()
+        public void ConversionsTestsExpand()
         {
             string correct = @"{{Expand section|date=May 2010}}";
             Assert.AreEqual(correct, Parsers.Conversions(@"{{Expand|section|date=May 2010}}"));
-            Assert.AreEqual(correct, Parsers.Conversions(@"{{Expand|  section |date=May 2010}}"));
-            Assert.AreEqual(correct, Parsers.Conversions(correct));
-            Assert.AreEqual(@"{{Expand section}}", Parsers.Conversions(@"{{Expand|section}}"));
+            Assert.AreEqual(correct, Parsers.Conversions(@"{{Expand|  section |date=May 2010}}"),"whitespaces in parameter 1");
+            Assert.AreEqual(correct, Parsers.Conversions(correct),"no changes");
+            Assert.AreEqual(@"{{Expand section}}", Parsers.Conversions(@"{{Expand|section}}"),"no date");
         }
         
         [Test]
-        public void ConvversionsTestsUnreferenced()
+        public void ConversionsTestsBLPUnsourced()
+        {
+            string correct = @"{{BLP unsourced section|date=May 2010}}";
+            Assert.AreEqual(correct, Parsers.Conversions(@"{{BLP unsourced|section|date=May 2010}}"));
+            Assert.AreEqual(correct, Parsers.Conversions(@"{{BLP unsourced|  section |date=May 2010}}"),"whitespaces in parameter 1");
+            Assert.AreEqual(correct, Parsers.Conversions(correct),"no changes");
+            Assert.AreEqual(@"{{BLP unsourced section}}", Parsers.Conversions(@"{{BLP unsourced|section}}"),"no date");
+        }
+        
+        [Test]
+        public void ConversionsTestsUnreferenced()
         {
             string correct = @"{{Unreferenced section|date=May 2010}}";
             Assert.AreEqual(correct, Parsers.Conversions(@"{{Unreferenced|section|date=May 2010}}"));
