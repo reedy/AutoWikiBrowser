@@ -2194,6 +2194,9 @@ namespace WikiFunctions.Parse
             
             // <ref NAME= --> <ref name=
             new RegexReplacement(new Regex(@"<\s*ref\s+NAME(\s*=)", RegexOptions.Compiled), "<ref name$1"),
+            
+            // empty ref name: <ref name=>
+			new RegexReplacement(new Regex(@"<\s*ref\s+name\s*=\s*>", RegexOptions.Compiled), "<ref>"),
         };
         // Covered by TestFixReferenceTags
         /// <summary>
