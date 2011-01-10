@@ -2196,7 +2196,7 @@ namespace WikiFunctions.Parse
             new RegexReplacement(new Regex(@"<\s*ref\s+NAME(\s*=)", RegexOptions.Compiled), "<ref name$1"),
             
             // empty ref name: <ref name=>
-			new RegexReplacement(new Regex(@"<\s*ref\s+name\s*=\s*>", RegexOptions.Compiled), "<ref>"),
+            new RegexReplacement(new Regex(@"<\s*ref\s+name\s*=\s*>", RegexOptions.Compiled), "<ref>"),
         };
         // Covered by TestFixReferenceTags
         /// <summary>
@@ -5592,10 +5592,18 @@ namespace WikiFunctions.Parse
                 articleText = Tools.RenameTemplate(articleText, @"nofootnotes", "morefootnotes");
             
             // {{Unreferenced|section}} --> {{Unreferenced section}}
+            // auto=yes is deprecated parameter per [[Template:Unreferenced_stub#How_to_use]]
             foreach(Match m in Tools.NestedTemplateRegex("unreferenced").Matches(articleText))
             {
-                if(Tools.GetTemplateArgument(m.Value, 1).Equals("section"))
-                    articleText = articleText.Replace(m.Value, Tools.RenameTemplate(Regex.Replace(m.Value, @"\|\s*section\s*\|", "|"), "Unreferenced section"));
+                string newValue = m.Value;
+                if(Tools.GetTemplateArgument(newValue, 1).Equals("section"))
+                    newValue = Tools.RenameTemplate(Regex.Replace(newValue, @"\|\s*section\s*\|", "|"), "Unreferenced section");
+                
+                if(Tools.GetTemplateParameterValue(newValue, "auto").ToLower().Equals("yes"))
+                    newValue = Tools.RemoveTemplateParameter(newValue, "auto");
+                
+                if(!newValue.Equals(m.Value))
+                    articleText = articleText.Replace(m.Value, newValue);
             }
 
             // {{unreferenced}} --> {{BLP unsourced}} if article has [[Category:Living people]], and no free-text first argument to {{unref}}
