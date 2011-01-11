@@ -383,6 +383,15 @@ bar"));
                                           "= boz =\r\n",
                                           "==quux==\r\n"
                                       }, sections);
+            
+            sections = Tools.SplitToSections("\r\n==bar=\r\nboo\r\n\r\n=== boz ===\r\n==quux==");
+            CollectionAssert.AreEqual(new[]
+                                      {
+                                          "\r\n",
+                                          "==bar=\r\nboo\r\n\r\n",
+                                          "=== boz ===\r\n",
+                                          "==quux==\r\n"
+                                      }, sections);
 
             sections = Tools.SplitToSections("");
             CollectionAssert.AreEqual(new[] { "\r\n" }, sections);
@@ -841,7 +850,7 @@ John", "*"));
         [Test]
         public void ConvertDate()
         {
-          
+            
             string iso = @"2009-06-11", iso2 = @"1890-07-04";
             Assert.AreEqual(@"11 June 2009", Tools.ConvertDate(iso, Parsers.DateLocale.International));
             Assert.AreEqual(@"11 June 2009", Tools.ConvertDate(iso, Parsers.DateLocale.International, false));
@@ -878,7 +887,7 @@ John", "*"));
         [Test]
         public void ConvertDateEnOnly()
         {
-            #if DEBUG         
+            #if DEBUG
             string iso2 = @"1890-07-04";
             
             Variables.SetProjectLangCode("fr");
@@ -895,7 +904,7 @@ John", "*"));
             // if user's computer has non-en culture, ISOToENDate should still work
             string iso = @"2009-06-11";
             Assert.AreEqual(@"11 June 2009", Tools.ConvertDate(iso, Parsers.DateLocale.International));
-        }        
+        }
         
         [Test]
         public void AppendParameterToTemplate()
@@ -1072,7 +1081,7 @@ John", "*"));
         {
             Assert.AreEqual("foo", Tools.GetTemplateArgument(@"{{abc|foo}}", 1));
             Assert.AreEqual("foo", Tools.GetTemplateArgument(@"{{abc| foo}}", 1));
-            Assert.AreEqual("foo", Tools.GetTemplateArgument(@"{{abc |  foo  }}", 1));            
+            Assert.AreEqual("foo", Tools.GetTemplateArgument(@"{{abc |  foo  }}", 1));
             Assert.AreEqual("foo", Tools.GetTemplateArgument(@"{{abc |  foo  |bar}}", 1));
             
             Assert.AreEqual("bar", Tools.GetTemplateArgument(@"{{abc |  foo  |bar }}", 2));
@@ -1260,7 +1269,7 @@ John", "*"));
             Assert.AreEqual(nochange, Tools.RemoveTemplateParameter(nochange, "Dateformat"));
             
             // duplicate parameters
-            Assert.AreEqual(@"{{cite web|url=http://www.site.com |title=here | dateformat=mdy|year=2008 }}", 
+            Assert.AreEqual(@"{{cite web|url=http://www.site.com |title=here | dateformat=mdy|year=2008 }}",
                             Tools.RemoveTemplateParameter(@"{{cite web|url=http://www.site.com |title=here | dateformat=mdy|year=2008 |dateformat=foo}}", "dateformat", true));
             
             Assert.AreEqual(@"{{cite web|url=http://www.site.com |title=here |year=2008 |dateformat=foo}}",
@@ -1351,7 +1360,7 @@ def
         {
             Dictionary<int,int> Dupes = new Dictionary<int, int>();
             
-            Assert.AreEqual(Dupes, Tools.DuplicateTemplateParameters(@"{{cite web|url=here |title=there}}"));            
+            Assert.AreEqual(Dupes, Tools.DuplicateTemplateParameters(@"{{cite web|url=here |title=there}}"));
             
             Dupes.Add(32, 9);
             Assert.AreEqual(Dupes, Tools.DuplicateTemplateParameters(@"{{cite web|url=here |title=there|url=here}}"), "dupes if the same");
@@ -1379,7 +1388,7 @@ def
             Unknowns.Add("foo");
             Assert.AreEqual(Unknowns, Tools.UnknownTemplateParameters(@"{{cite web|title=a|date=2010|foo=}}", Knowns), "reported even if blank");
             Assert.AreEqual(Unknowns, Tools.UnknownTemplateParameters(@"{{cite web|title=a|date=2010|foo=b}}", Knowns), "unknown parameter reported");
-        
+            
             Unknowns.Add("bar");
             Assert.AreEqual(Unknowns, Tools.UnknownTemplateParameters(@"{{cite web|title=a|date=2010|foo=b|bar=}}", Knowns), "multiple unknowns reported");
         }
@@ -1397,9 +1406,9 @@ def
 |param2=okay}}", "param1", "valueafter"), "existing newline kept");
             
             Assert.AreEqual(@"{{foo
-|param1= valueafter 
+|param1= valueafter
 |param2=okay}}", Tools.UpdateTemplateParameterValue(@"{{foo
-|param1= before 
+|param1= before
 |param2=okay}}", "param1", "valueafter"), "existing newline & whitespace kept");
             
             Assert.AreEqual(@"{{foo|param1<!--comm-->= valueafter }}", Tools.UpdateTemplateParameterValue(@"{{foo|param1<!--comm-->= before }}", "param1", "valueafter"));
@@ -1478,9 +1487,9 @@ def
 |accessdate=2008-08-08
 }}";
             Assert.AreEqual(input.Replace("|date=", "|date=April 4, 1922"), Tools.SetTemplateParameterValue(input, "date", "April 4, 1922"));
-        
-        // existing value = new one, no change
-        Assert.AreEqual(@"{{foo|param1=valueafter}}", Tools.SetTemplateParameterValue(@"{{foo|param1=valueafter}}", "param1", "valueafter"));
+            
+            // existing value = new one, no change
+            Assert.AreEqual(@"{{foo|param1=valueafter}}", Tools.SetTemplateParameterValue(@"{{foo|param1=valueafter}}", "param1", "valueafter"));
         }
         
         [Test]
