@@ -775,8 +775,6 @@ namespace WikiFunctions.Parse
 
             return (articleText + restOfArticle);
         }
-
-
         
         
         /// <summary>
@@ -790,11 +788,6 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             string oldArticleText = "";
-
-            string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
-            string restOfArticle = articleText.Remove(0, zerothSection.Length);
-
-            articleText = zerothSection;
 
             while (oldArticleText != articleText)
             {
@@ -819,16 +812,49 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            return (articleText + restOfArticle);
+            return (articleText);
         }
         
+                
         
-        
-        
-        
-        
-        
-        
+        /// <summary>
+        /// Merges {{see also2}}
+        /// </summary>
+        /// <param name="articleText">The article text</param>
+        /// <returns>The updated article text</returns>
+        public static string MergeSeeAlso2(string articleText)
+        {
+            if (!Variables.LangCode.Equals("en"))
+                return articleText;
+
+            string oldArticleText = "";
+
+            while (oldArticleText != articleText)
+            {
+                oldArticleText = articleText;
+                bool doneSeeAlsoMerge = false;
+                foreach (Match m in Tools.NestedTemplateRegex("see also2").Matches(articleText))
+                {
+                    foreach (Match m2 in Tools.NestedTemplateRegex("see also2").Matches(articleText))
+                    {
+                        if (m2.Value.Equals(m.Value))
+                            continue;
+
+                        articleText = articleText.Replace(m.Value, m.Value.TrimEnd('}') + m2.Groups[3].Value);
+
+                        doneSeeAlsoMerge = true;
+                        articleText = articleText.Replace(m2.Value, "");
+                        break;
+                    }
+
+                    if (doneSeeAlsoMerge)
+                        break;
+                }
+            }
+
+            return (articleText);
+        }
+
         // fixes extra comma in American format dates
         private static readonly Regex CommaDates = new Regex(WikiRegexes.Months + @" ?, *([1-3]?\d) ?, ?((?:200|19\d)\d)\b");
 
@@ -5620,6 +5646,8 @@ namespace WikiFunctions.Parse
             articleText = MergePortals(articleText);
             
             articleText = MergeSeeAlso(articleText);
+            
+            articleText = MergeSeeAlso2(articleText);
             
             // clean up underscores in infobox names
             string InfoBox =WikiRegexes.InfoBox.Match(articleText).Groups[1].Value;

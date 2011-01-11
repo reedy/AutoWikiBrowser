@@ -5984,7 +5984,20 @@ words";
             Assert.AreEqual(AB, Parsers.MergeSeeAlso(@"{{See also|a}}{{See also|b}}"), "merges when single argument");
             Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeSeeAlso(@"{{See also|a|b}}{{See also|c}}"), "merges multiple arguments");
             Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeSeeAlso(@"{{See also|a}}{{See also|b|c}}"), "merges multiple arguments");
+            Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeSeeAlso(@"{{See also|a}}{{see also|b|c}}"), "different capitalition");
             Assert.AreEqual(AB, Parsers.MergeSeeAlso(AB), "no change if already merged");
+        }
+
+        [Test]
+        public void MergingSeeAlso2()
+        {
+            const string AB = @"{{See also2|a|b}}";
+            Assert.AreEqual(AB, Parsers.MergeSeeAlso2(@"{{See also2|a}}{{See also2|b}}"), "merges when single argument");
+            Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeSeeAlso2(@"{{See also2|a|b}}{{See also2|c}}"), "merges multiple arguments");
+            Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeSeeAlso2(@"{{See also2|a}}{{See also2|b|c}}"), "merges multiple arguments");
+            Assert.AreEqual(AB.Replace("}}", "|[[c]]}}"), Parsers.MergeSeeAlso2(@"{{See also2|a}}{{See also2|b|[[c]]}}"), "merges multiple arguments, one with link");
+            Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeSeeAlso2(@"{{See also2|a}}{{see also2|b|c}}"), "different capitalition");
+            Assert.AreEqual(AB, Parsers.MergeSeeAlso2(AB), "no change if already merged");
         }
 
         [Test]
