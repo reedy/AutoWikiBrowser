@@ -5986,6 +5986,14 @@ words";
             Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeSeeAlso(@"{{See also|a}}{{See also|b|c}}"), "merges multiple arguments");
             Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeSeeAlso(@"{{See also|a}}{{see also|b|c}}"), "different capitalition");
             Assert.AreEqual(AB, Parsers.MergeSeeAlso(AB), "no change if already merged");
+            
+            const string SeparateSections = @"
+==One==
+{{see also|A}}
+==Two==
+{{see also|B}}
+";
+            Assert.AreEqual(SeparateSections, Parsers.MergeSeeAlso(SeparateSections));
         }
 
         [Test]
