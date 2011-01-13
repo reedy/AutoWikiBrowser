@@ -5990,34 +5990,29 @@ words";
         }
         
         [Test]
-        public void MergingSeeAlso()
+        public void MergeTemplatesBySection()
         {
-            const string AB = @"{{See also|a|b}}";
-            Assert.AreEqual(AB, Parsers.MergeSeeAlso(@"{{See also|a}}{{See also|b}}"), "merges when single argument");
-            Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeSeeAlso(@"{{See also|a|b}}{{See also|c}}"), "merges multiple arguments");
-            Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeSeeAlso(@"{{See also|a}}{{See also|b|c}}"), "merges multiple arguments");
-            Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeSeeAlso(@"{{See also|a}}{{see also|b|c}}"), "different capitalition");
-            Assert.AreEqual(AB, Parsers.MergeSeeAlso(AB), "no change if already merged");
+            string AB = @"{{See also|a|b}}";
+            Assert.AreEqual(AB, Parsers.MergeTemplatesBySection(@"{{See also|a}}{{See also|b}}"), "merges when single argument");
+            Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeTemplatesBySection(@"{{See also|a|b}}{{See also|c}}"), "merges multiple arguments");
+            Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeTemplatesBySection(@"{{See also|a}}{{See also|b|c}}"), "merges multiple arguments");
+            Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeTemplatesBySection(@"{{See also|a}}{{see also|b|c}}"), "different capitalition");
+            Assert.AreEqual(AB, Parsers.MergeTemplatesBySection(AB), "no change if already merged");
+            
+            AB = @"{{See also2|a|b}}";
+            Assert.AreEqual(AB, Parsers.MergeTemplatesBySection(@"{{See also2|a}}{{See also2|b}}"), "merges when single argument");
+            Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeTemplatesBySection(@"{{See also2|a|b}}{{See also2|c}}"), "merges multiple arguments");
+            Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeTemplatesBySection(@"{{See also2|a}}{{See also2|b|c}}"), "merges multiple arguments");
+            Assert.AreEqual(AB.Replace("}}", "|[[c]]}}"), Parsers.MergeTemplatesBySection(@"{{See also2|a}}{{See also2|b|[[c]]}}"), "merges multiple arguments, one with link");
+            Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeTemplatesBySection(@"{{See also2|a}}{{see also2|b|c}}"), "different capitalition");
+            Assert.AreEqual(AB, Parsers.MergeTemplatesBySection(AB), "no change if already merged");
             
             const string SeparateSections = @"
 ==One==
 {{see also|A}}
 ==Two==
-{{see also|B}}
-";
-            Assert.AreEqual(SeparateSections, Parsers.MergeSeeAlso(SeparateSections));
-        }
-
-        [Test]
-        public void MergingSeeAlso2()
-        {
-            const string AB = @"{{See also2|a|b}}";
-            Assert.AreEqual(AB, Parsers.MergeSeeAlso2(@"{{See also2|a}}{{See also2|b}}"), "merges when single argument");
-            Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeSeeAlso2(@"{{See also2|a|b}}{{See also2|c}}"), "merges multiple arguments");
-            Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeSeeAlso2(@"{{See also2|a}}{{See also2|b|c}}"), "merges multiple arguments");
-            Assert.AreEqual(AB.Replace("}}", "|[[c]]}}"), Parsers.MergeSeeAlso2(@"{{See also2|a}}{{See also2|b|[[c]]}}"), "merges multiple arguments, one with link");
-            Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeSeeAlso2(@"{{See also2|a}}{{see also2|b|c}}"), "different capitalition");
-            Assert.AreEqual(AB, Parsers.MergeSeeAlso2(AB), "no change if already merged");
+{{see also|B}}";
+            Assert.AreEqual(SeparateSections, Parsers.MergeTemplatesBySection(SeparateSections), "does not merge templates in different sections");
         }
 
         [Test]
@@ -7194,7 +7189,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             
             Assert.AreEqual(@"{{Unreferenced|date=May 2010}}", Parsers.Conversions(@"{{Unreferenced|date=May 2010|auto=yes}}"));
             Assert.AreEqual(@"{{Unreferenced|date=May 2010}}", Parsers.Conversions(@"{{Unreferenced|date=May 2010|auto=YES}}"));
-        }        
+        }
         
         [Test]
         public void ConversionsTestsSectionTemplates()
