@@ -319,17 +319,17 @@ namespace WikiFunctions
         /// <summary>
         /// Matches headings of all levels, group 1 being the heading name
         /// </summary>
-        public static readonly Regex Headings = new Regex(@"^={1,6} *(.*?) *={1,6}\s*$", RegexOptions.Multiline | RegexOptions.Compiled);
+        public static readonly Regex Headings = new Regex(@"^={1,6} *(.*?) *={1,6}(?: *⌊⌊⌊⌊\d{1,4}⌋⌋⌋⌋| *<!--.*?-->)?\s*$", RegexOptions.Multiline | RegexOptions.Compiled);
         
         /// <summary>
         /// Matches level 2 headings
         /// </summary>
-        public static readonly Regex HeadingLevelTwo = new Regex(@"^==([^=](?:.*?[^=])?)==\s*$", RegexOptions.Multiline);
+        public static readonly Regex HeadingLevelTwo = new Regex(@"^==([^=](?:.*?[^=])?)==(?: *⌊⌊⌊⌊\d{1,4}⌋⌋⌋⌋| *<!--.*?-->)?\s*$", RegexOptions.Multiline);
         
         /// <summary>
         /// Matches level 3 headings
         /// </summary>
-        public static readonly Regex HeadingLevelThree = new Regex(@"^===([^=](?:.*?[^=])?)===\s*$", RegexOptions.Multiline);
+        public static readonly Regex HeadingLevelThree = new Regex(@"^===([^=](?:.*?[^=])?)===(?: *⌊⌊⌊⌊\d{1,4}⌋⌋⌋⌋| *<!--.*?-->)?\s*$", RegexOptions.Multiline);
         
         /// <summary>
         /// Matches the whole of a level 2 section including heading and any subsections up to but not including the next level 2 section
@@ -344,7 +344,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches article text up to but not including first level 2 heading
         /// </summary>
-        public static readonly Regex ArticleToFirstLevelTwoHeading = new Regex(@"^.*?(?=[^=]==[^=][^\r\n]*?[^=]==(\r\n?|\n))", RegexOptions.Singleline);
+        public static readonly Regex ArticleToFirstLevelTwoHeading = new Regex(@"^.*?(?=[^=]==[^=][^\r\n]*?[^=]==(?: *⌊⌊⌊⌊\d{1,4}⌋⌋⌋⌋| *<!--.*?-->)?(\r\n?|\n))", RegexOptions.Singleline);
         
         /// <summary>
         /// Matches text indented with a :
