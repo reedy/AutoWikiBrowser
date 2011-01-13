@@ -795,9 +795,6 @@ namespace WikiFunctions.Parse
             {
                 string sectionText = articleTextInSections[a].ToString();
                 
-                if(sectionText.Length == 0)
-                    return newArticleText.ToString();
-                
                 foreach(string t in SectionMergedTemplates)
                 {
                     sectionText = MergeTemplates(sectionText, t);
