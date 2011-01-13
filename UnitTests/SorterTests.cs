@@ -42,23 +42,23 @@ namespace UnitTests
         [Test]
         public void RemoveDupelicateStubs()
         {
-        	string stub = @"{{foo stub}}", articleTextBack = "";
-        	string articletext = stub + " " + stub;
-        	articleTextBack = parser2.SortMetaData(articletext, "test");
-        	
-        	Assert.IsTrue(WikiFunctions.WikiRegexes.Stub.Matches(articleTextBack).Count == 1);
-        	
-        	// don't remove if different capitalisation
-        	articletext = stub + " " + @"{{fOO stub}}";
-        	articleTextBack = parser2.SortMetaData(articletext, "test");
-        	
-        	Assert.IsTrue(WikiFunctions.WikiRegexes.Stub.Matches(articleTextBack).Count == 2);
-        	
-        	// ignore stubs in comments
-        	articletext = stub + " " + @"<!--{{foo stub}}-->";
-        	articleTextBack = parser2.SortMetaData(articletext, "test");
-        	
-        	Assert.IsTrue(WikiFunctions.WikiRegexes.Stub.Matches(articleTextBack).Count == 2);
+            string stub = @"{{foo stub}}", articleTextBack = "";
+            string articletext = stub + " " + stub;
+            articleTextBack = parser2.SortMetaData(articletext, "test");
+            
+            Assert.IsTrue(WikiFunctions.WikiRegexes.Stub.Matches(articleTextBack).Count == 1);
+            
+            // don't remove if different capitalisation
+            articletext = stub + " " + @"{{fOO stub}}";
+            articleTextBack = parser2.SortMetaData(articletext, "test");
+            
+            Assert.IsTrue(WikiFunctions.WikiRegexes.Stub.Matches(articleTextBack).Count == 2);
+            
+            // ignore stubs in comments
+            articletext = stub + " " + @"<!--{{foo stub}}-->";
+            articleTextBack = parser2.SortMetaData(articletext, "test");
+            
+            Assert.IsTrue(WikiFunctions.WikiRegexes.Stub.Matches(articleTextBack).Count == 2);
         }
         
         [Test]
@@ -433,7 +433,7 @@ text here2
 == see also ==
 some words"));
             
-              Assert.AreEqual(@"text here
+            Assert.AreEqual(@"text here
 text here2
 == see also ==
 {{Portal|Football}}
@@ -447,7 +447,7 @@ some words
 ==other==
 {{Portal|Football}}"));
             
-                          Assert.AreEqual(@"text here
+            Assert.AreEqual(@"text here
 text here2
 == see also ==
 {{Portal|Football}}
@@ -713,6 +713,14 @@ blah";
 [[Category:Defunct Illinois railroads]]";
             string s = q + r;
             Assert.AreEqual(r + "\r\n", parser2.Sorter.RemoveCats(ref s, "test"));
+            
+            string r2 = @"{{DEFAULTSORT:Joliet Chicago  Railroad}}
+[[Category:Predecessors of the Alton Railroad]]
+[[Category:Railway companies established in 1855]]
+[[Category:Railway companies disestablished in 1950]]
+[[Category:Defunct Illinois railroads]]  <!--comm-->";
+            s = q + r2;
+            Assert.AreEqual(r2 + "\r\n", parser2.Sorter.RemoveCats(ref s, "test"), "comment after last cat on same line not moved");
 
             string bug1a = @"[[Category:Emory University]]
 [[Category:Law schools in Georgia (U.S. state)]]
@@ -736,7 +744,7 @@ text
             Assert.AreEqual(bug1a + "\r\n", parser2.Sorter.RemoveCats(ref t, "test"));
             
             string bug2 = @"{{The Surreal Life}}
-<!--The 1951 birth date has been upheld in court, please do not add this category.[[Category:1941 births]]--> 
+<!--The 1951 birth date has been upheld in court, please do not add this category.[[Category:1941 births]]-->
 
 [[Category:Living People]]
 foo";
@@ -752,7 +760,7 @@ foo";
 
             Assert.AreEqual("", parser2.Sorter.RemoveCats(ref nw, "test"));
             Assert.IsFalse(parser2.Sorter.RemoveCats(ref nw, "test").Contains(@"[[Category:LGBT people from the United States]]"));
-        
+            
             string iw1 = @"[[Category:Hampshire|  ]]
 [[Category:Articles including recorded pronunciations (UK English)]]
 [[Category:Non-metropolitan counties]]", iw2 = @"
@@ -799,8 +807,8 @@ foo";
         [Test]
         public void DefaultSortAndCommentTests()
         {
-            string a = @"Foo", b = @"[[Category:Predecessors of the Alton Railroad]]", 
-                c = @"{{DEFAULTSORT:Joliet Chicago  Railroad}}", e = @"<!--{{DEFAULTSORT:Joliet Chicago  Railroad}}-->";
+            string a = @"Foo", b = @"[[Category:Predecessors of the Alton Railroad]]",
+            c = @"{{DEFAULTSORT:Joliet Chicago  Railroad}}", e = @"<!--{{DEFAULTSORT:Joliet Chicago  Railroad}}-->";
             string d = a + "\r\n" + b + "\r\n" + c;
             string f = a + "\r\n" + b + "\r\n" + e;
 
@@ -844,7 +852,7 @@ foo";
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#Interwiki_links_moved_out_of_comment
             string c = @"{{Canadianmetros}}
 
-<!-- 
+<!--
 The following links are here to prevent the interwiki bot from adding them to the list above.  The links below point to disambiguation pages and not to a translated article about Canadian National Railway.
 [[it:CN]]
 [[sv:CN]]
@@ -888,7 +896,7 @@ The following links are here to prevent the interwiki bot from adding them to th
         [Test]
         public void InterWikiTestsMultiple()
         {
-            parser2.SortInterwikis = false;            
+            parser2.SortInterwikis = false;
             parser2.Sorter.PossibleInterwikis = new System.Collections.Generic.List<string> { "de", "es", "fr", "it", "sv", "ar", "bs", "br", "en" };
 
             string a = @"[[de:Canadian National Railway]]

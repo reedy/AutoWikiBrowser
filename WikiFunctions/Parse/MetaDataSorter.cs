@@ -364,11 +364,11 @@ en, sq, ru
             List<string> categoryList = new List<string>();
             string originalArticleText = articleText;
 
-            // allow comments between categories, and keep them in the same place, but don't grab any comment just after the last category
+            // allow comments between categories, and keep them in the same place, only grab any comment after the last category if on same line
             Regex r = new Regex(@"<!-- [^<>]*?\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category]
                                 + @".*?(\]\]|\|.*?\]\]).*?-->|\[\["
                                 + Variables.NamespacesCaseInsensitive[Namespace.Category]
-                                + @".*?(\]\]|\|.*?\]\])(\s*⌊⌊⌊⌊\d{1,4}⌋⌋⌋⌋|\s*<!--.*?-->(?=\r\n\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category]
+                                + @".*?(\]\]|\|.*?\]\])(\s*⌊⌊⌊⌊\d{1,4}⌋⌋⌋⌋| *<!--.*?-->|\s*<!--.*?-->(?=\r\n\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category]
                                 + @"))?", RegexOptions.Singleline);
             
             MatchCollection matches = r.Matches(articleText);
