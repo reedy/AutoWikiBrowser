@@ -516,6 +516,7 @@ Start date and age
         {
             RegexAssert.NoMatch(WikiRegexes.Headings, "");
             RegexAssert.IsMatch(WikiRegexes.Headings, "=Foo=");
+            RegexAssert.IsMatch(WikiRegexes.Headings, "=Foo=<!--comm-->");
             RegexAssert.IsMatch(WikiRegexes.Headings, "==Foo==");
             RegexAssert.IsMatch(WikiRegexes.Headings, "======Foo======");
             Assert.AreEqual(WikiRegexes.Headings.Match("======Foo======").Groups[1].Value, "Foo");
