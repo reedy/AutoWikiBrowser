@@ -1930,7 +1930,7 @@ was [[foo|bar]] too"));
             
             Assert.AreEqual(@"{{ISBN-10|1245781549}}", Parsers.FixSyntax(@"{{ISBN-10|1245781549}}"), "no change if already correct – ISBN-10 template");
             Assert.AreEqual(@"{{ISBN-13|9781245781549}}", Parsers.FixSyntax(@"{{ISBN-13|9781245781549}}"), "no change if already correct – ISBN-10 template");
-            }
+        }
         
         [Test]
         public void FixSmallSyntax()
@@ -7194,6 +7194,16 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             
             Assert.AreEqual(@"{{Unreferenced|date=May 2010}}", Parsers.Conversions(@"{{Unreferenced|date=May 2010|auto=yes}}"));
             Assert.AreEqual(@"{{Unreferenced|date=May 2010}}", Parsers.Conversions(@"{{Unreferenced|date=May 2010|auto=YES}}"));
+        }        
+        
+        [Test]
+        public void ConversionsTestsSectionTemplates()
+        {
+            string correct = @"{{Unreferenced section|date=May 2010}}";
+            Assert.AreEqual(correct, Parsers.Conversions(@"{{Unreferenced|section|date=May 2010}}"));
+            
+            correct = @"{{wikify section|date=May 2010}}";
+            Assert.AreEqual(correct, Parsers.Conversions(@"{{wikify|section|date=May 2010}}"));
         }
         
         [Test]
@@ -7848,6 +7858,9 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.IsTrue(summary.Contains("removed deadend tag"));
             
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(parser.Tagger(@"foo {{Multiple issues|COI = May 2010 |POV = June 2010 | dead end=May 2010}} [[a]] and [[b]] and [[b]]", "Test", false, out noChange, ref summary)));
+            
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(parser.Tagger(@"foo==x== {{deadend|section|date=May 2010}} [[a]] and [[b]] and [[b]]", "Test", false, out noChange, ref summary)), "does not remove section tags");
+            Assert.IsFalse(summary.Contains("removed deadend tag"));
         }
 
         [Test]
@@ -7913,6 +7926,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         {
             WikiRegexes.DatedTemplates.Clear();
             WikiRegexes.DatedTemplates.Add(Tools.NestedTemplateRegex("wikify"));
+            WikiRegexes.DatedTemplates.Add(Tools.NestedTemplateRegex("wikify section"));
             string correct =  @"{{wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
             string text = parser.Tagger("{{wikify}}", "Test", false, out noChange, ref summary);
             Assert.IsTrue(text.Contains(correct));
@@ -7921,11 +7935,11 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             text = parser.Tagger("{{template:wikify  }}", "Test", false, out noChange, ref summary);
             Assert.IsTrue(text.Contains(@"|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
             
-            text = parser.Tagger("{{wikify|section}}", "Test", false, out noChange, ref summary);
-            Assert.IsTrue(text.Contains(@"{{wikify|section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+            text = parser.Tagger("{{wikify section}}", "Test", false, out noChange, ref summary);
+            Assert.IsTrue(text.Contains(@"{{wikify section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
             
-            text = parser.Tagger("{{Wikify|section}}", "Test", false, out noChange, ref summary);
-            Assert.IsTrue(text.Contains(@"{{Wikify|section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
+            text = parser.Tagger("{{Wikify section}}", "Test", false, out noChange, ref summary);
+            Assert.IsTrue(text.Contains(@"{{Wikify section|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
         }
         
         private static readonly System.Globalization.CultureInfo BritishEnglish = new System.Globalization.CultureInfo("en-GB");

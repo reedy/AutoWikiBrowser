@@ -5619,20 +5619,8 @@ namespace WikiFunctions.Parse
             if (WikiRegexes.Refs.IsMatch(articleText))
                 articleText = Tools.RenameTemplate(articleText, @"nofootnotes", "morefootnotes");
             
-            // {{Unreferenced|section}} --> {{Unreferenced section}}
-            // auto=yes is deprecated parameter per [[Template:Unreferenced_stub#How_to_use]]
-            foreach(Match m in Tools.NestedTemplateRegex("unreferenced").Matches(articleText))
-            {
-                string newValue = m.Value;
-                if(Tools.GetTemplateArgument(newValue, 1).Equals("section"))
-                    newValue = Tools.RenameTemplate(Regex.Replace(newValue, @"\|\s*section\s*\|", "|"), "Unreferenced section");
-                
-                if(Tools.GetTemplateParameterValue(newValue, "auto").ToLower().Equals("yes"))
-                    newValue = Tools.RemoveTemplateParameter(newValue, "auto");
-                
-                if(!newValue.Equals(m.Value))
-                    articleText = articleText.Replace(m.Value, newValue);
-            }
+            // {{foo|section|...}} --> {{foo section|...}} for unreferenced, wikify
+            articleText = SectionTemplates.Replace(articleText, new MatchEvaluator(SectionTemplateConversionsME));
 
             // {{unreferenced}} --> {{BLP unsourced}} if article has [[Category:Living people]], and no free-text first argument to {{unref}}
             string unref = WikiRegexes.Unreferenced.Match(articleText).Value;
@@ -5678,6 +5666,26 @@ namespace WikiFunctions.Parse
                 articleText = MultipleIssuesDateRemoval.Replace(articleText, "");
             
             return Dablinks(articleText);
+        }
+        
+        private static readonly Regex SectionTemplates = Tools.NestedTemplateRegex(new [] {"unreferenced", "wikify" });
+        
+        /// <summary>
+        /// Converts templates such as {{foo|section|...}} to {{foo section|...}}
+        /// </summary>
+        /// <param name="m">Template call</param>
+        /// <returns>The updated emplate call</returns>
+        private static string SectionTemplateConversionsME(Match m)
+        {
+            string newValue = m.Value, existingName = Tools.GetTemplateName(newValue);
+            if(Tools.GetTemplateArgument(newValue, 1).Equals("section"))
+                newValue = Tools.RenameTemplate(Regex.Replace(newValue, @"\|\s*section\s*\|", "|"), existingName + " section");            
+            
+            // for {{Unreferenced}} auto=yes is deprecated parameter per [[Template:Unreferenced_stub#How_to_use]]
+            if(existingName.ToLower().Equals("unreferenced") && Tools.GetTemplateParameterValue(newValue, "auto").ToLower().Equals("yes"))
+                newValue = Tools.RemoveTemplateParameter(newValue, "auto");
+            
+            return newValue;
         }
 
         private static readonly Regex TemplateParameter2 = new Regex(@" \{\{\{2\|\}\}\}", RegexOptions.Compiled);
@@ -5802,8 +5810,10 @@ namespace WikiFunctions.Parse
 
             if (linkCount > 0 && WikiRegexes.DeadEnd.IsMatch(articleText))
             {
-                articleText = WikiRegexes.DeadEnd.Replace(articleText, "$1");
-                tagsRemoved.Add("deadend");
+                articleText = WikiRegexes.DeadEnd.Replace(articleText, new MatchEvaluator(SectionTagME));
+                
+                if(!WikiRegexes.DeadEnd.IsMatch(articleText))
+                    tagsRemoved.Add("deadend");
             }
 
             // discount persondata from wikify and stub evaluation
@@ -5877,8 +5887,10 @@ namespace WikiFunctions.Parse
             else if (linkCount > 3 && ((linkCount/length) > 0.0025) &&
                      WikiRegexes.Wikify.IsMatch(articleText))
             {
-                articleText = WikiRegexes.Wikify.Replace(articleText, "$1");
-                tagsRemoved.Add("wikify");
+                articleText = WikiRegexes.Wikify.Replace(articleText, new MatchEvaluator(SectionTagME));
+                
+                if(!WikiRegexes.Wikify.IsMatch(articleText))
+                    tagsRemoved.Add("wikify");
             }
 
             // unref --> refimprove if has existing refs
@@ -5904,6 +5916,16 @@ namespace WikiFunctions.Parse
             summary = PrepareTaggerEditSummary();
 
             return articleText;
+        }
+        
+        private static string SectionTagME(Match m)
+        {
+            string templateCall = m.Value;
+            
+            if(WikiRegexes.NestedTemplates.IsMatch(templateCall) && Tools.GetTemplateArgument(templateCall, 1).Equals("section"))
+                return m.Value;
+            
+            return m.Groups[1].Value;
         }
 
         private static readonly WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider WlhProv = new WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider(MinIncomingLinksToBeConsideredAnOrphan);
