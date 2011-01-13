@@ -776,34 +776,66 @@ namespace WikiFunctions.Parse
             return (articleText + restOfArticle);
         }
         
+        private static readonly List<string> SectionMergedTemplates = new List<string>(new [] {"see also", "see also2"});
         
         /// <summary>
-        /// Merges {{see also}}
+        /// Merges multiple instances of the same template in the same section
         /// </summary>
         /// <param name="articleText">The article text</param>
         /// <returns>The updated article text</returns>
-        public static string MergeSeeAlso(string articleText)
+        public static string MergeTemplatesBySection(string articleText)
+        {
+            if(Tools.NestedTemplateRegex(SectionMergedTemplates).Matches(articleText).Count < 2)
+                return articleText;
+            
+            string[] articleTextInSections = Tools.SplitToSections(articleText);
+            StringBuilder newArticleText = new StringBuilder();
+            
+            for(int a = 0; a < articleTextInSections.Length; a++)
+            {
+                string sectionText = articleTextInSections[a].ToString();
+                
+                if(sectionText.Length == 0)
+                    return newArticleText.ToString();
+                
+                foreach(string t in SectionMergedTemplates)
+                {
+                    sectionText = MergeTemplates(sectionText, t);
+                }
+                newArticleText.Append(sectionText);
+            }
+            
+            return newArticleText.ToString().TrimEnd();
+        }
+        
+        /// <summary>
+        /// Merges all instances of the given template in the given section of the article
+        /// </summary>
+        /// <param name="sectionText">The article section text</param>
+        /// <param name="templateName">The template to merge</param>
+        /// <returns>The updated article section text</returns>
+        private static string MergeTemplates(string sectionText, string templateName)
         {
             if (!Variables.LangCode.Equals("en"))
-                return articleText;
+                return sectionText;
 
             string oldArticleText = "";
 
-            while (oldArticleText != articleText)
+            while (oldArticleText != sectionText)
             {
-                oldArticleText = articleText;
+                oldArticleText = sectionText;
                 bool doneSeeAlsoMerge = false;
-                foreach (Match m in Tools.NestedTemplateRegex("see also").Matches(articleText))
+                foreach (Match m in Tools.NestedTemplateRegex(templateName).Matches(sectionText))
                 {
-                    foreach (Match m2 in Tools.NestedTemplateRegex("see also").Matches(articleText))
+                    foreach (Match m2 in Tools.NestedTemplateRegex(templateName).Matches(sectionText))
                     {
                         if (m2.Value.Equals(m.Value))
                             continue;
 
-                        articleText = articleText.Replace(m.Value, m.Value.TrimEnd('}') + m2.Groups[3].Value);
+                        sectionText = sectionText.Replace(m.Value, m.Value.TrimEnd('}') + m2.Groups[3].Value);
 
                         doneSeeAlsoMerge = true;
-                        articleText = articleText.Replace(m2.Value, "");
+                        sectionText = sectionText.Replace(m2.Value, "");
                         break;
                     }
 
@@ -812,49 +844,9 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            return (articleText);
+            return sectionText;
         }
         
-        
-        
-        /// <summary>
-        /// Merges {{see also2}}
-        /// </summary>
-        /// <param name="articleText">The article text</param>
-        /// <returns>The updated article text</returns>
-        public static string MergeSeeAlso2(string articleText)
-        {
-            if (!Variables.LangCode.Equals("en"))
-                return articleText;
-
-            string oldArticleText = "";
-
-            while (oldArticleText != articleText)
-            {
-                oldArticleText = articleText;
-                bool doneSeeAlsoMerge = false;
-                foreach (Match m in Tools.NestedTemplateRegex("see also2").Matches(articleText))
-                {
-                    foreach (Match m2 in Tools.NestedTemplateRegex("see also2").Matches(articleText))
-                    {
-                        if (m2.Value.Equals(m.Value))
-                            continue;
-
-                        articleText = articleText.Replace(m.Value, m.Value.TrimEnd('}') + m2.Groups[3].Value);
-
-                        doneSeeAlsoMerge = true;
-                        articleText = articleText.Replace(m2.Value, "");
-                        break;
-                    }
-
-                    if (doneSeeAlsoMerge)
-                        break;
-                }
-            }
-
-            return (articleText);
-        }
-
         // fixes extra comma in American format dates
         private static readonly Regex CommaDates = new Regex(WikiRegexes.Months + @" ?, *([1-3]?\d) ?, ?((?:200|19\d)\d)\b");
 
@@ -5635,9 +5627,7 @@ namespace WikiFunctions.Parse
 
             articleText = MergePortals(articleText);
             
-            articleText = MergeSeeAlso(articleText);
-            
-            articleText = MergeSeeAlso2(articleText);
+            articleText = MergeTemplatesBySection(articleText);
             
             // clean up underscores in infobox names
             string InfoBox =WikiRegexes.InfoBox.Match(articleText).Groups[1].Value;
@@ -5679,7 +5669,7 @@ namespace WikiFunctions.Parse
         {
             string newValue = m.Value, existingName = Tools.GetTemplateName(newValue);
             if(Tools.GetTemplateArgument(newValue, 1).Equals("section"))
-                newValue = Tools.RenameTemplate(Regex.Replace(newValue, @"\|\s*section\s*\|", "|"), existingName + " section");            
+                newValue = Tools.RenameTemplate(Regex.Replace(newValue, @"\|\s*section\s*\|", "|"), existingName + " section");
             
             // for {{Unreferenced}} auto=yes is deprecated parameter per [[Template:Unreferenced_stub#How_to_use]]
             if(existingName.ToLower().Equals("unreferenced") && Tools.GetTemplateParameterValue(newValue, "auto").ToLower().Equals("yes"))
