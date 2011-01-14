@@ -5880,10 +5880,20 @@ namespace WikiFunctions.Parse
                     tagsRemoved.Add("wikify");
             }
 
-            // unref --> refimprove if has existing refs
+            // rename unreferenced --> refimprove if has existing refs
             if (WikiRegexes.Unreferenced.IsMatch(commentsStripped)
                 && WikiRegexes.Refs.Matches(commentsStripped).Count > 0)
+            {
                 articleText = Tools.RenameTemplate(articleText, "unreferenced", "refimprove", true);
+                
+                Match m = WikiRegexes.MultipleIssues.Match(articleText);
+                if(m.Success)
+                { 
+                    string newValue = Tools.RenameTemplateParameter(m.Value,  "unreferenced", "refimprove");
+                    if(!newValue.Equals(m.Value))
+                        articleText = articleText.Replace(m.Value, newValue);
+                }
+            }
 
             if (tagsAdded.Count > 0 || tagsRemoved.Count > 0)
             {
