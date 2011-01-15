@@ -108,7 +108,7 @@ namespace WikiFunctions.Controls
             // where text already selected
             if(sl > 0)
             {
-                base.Text = base.Text.Remove(ss, sl);
+                base.Text = base.Text.Remove(ss, Math.Min(sl, base.Text.Length));
                 Select(ss, sl);
             }
             
