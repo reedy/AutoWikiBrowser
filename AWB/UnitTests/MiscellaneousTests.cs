@@ -941,9 +941,19 @@ __TOC__", articleTextIn);
         {
             const string a = @"{{WikiProjectBannerShell|blp=yes|1={{WPBiography|foo=bar|living=yes}}}}";
             
-            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a + "{{Blp}}"));
-            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a.Replace("blp=yes", "blp=") + "{{Blp}}"));
+            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a + "{{Blp}}"),"removes redundant banner");
+            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a.Replace("blp=yes", "blp=") + "{{Blp}}"),"empty parameter in WPBS");
             Assert.AreEqual("{{Blp}}", TalkPageFixes.WikiProjectBannerShell("{{Blp}}"));
+        }
+        
+        [Test]
+        public void WikiProjectBannerShellActivepol()
+        {
+            const string a = @"{{WikiProjectBannerShell|activepol=yes|1={{WPBiography|foo=bar|activepol=yes}}}}";
+            
+            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a + "{{Activepol}}"),"removes redundant banner");
+            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a.Replace("activepol=yes|", "activepol=|") + "{{activepol}}"),"empty parameter in WPBS");
+            Assert.AreEqual("{{activepol}}", TalkPageFixes.WikiProjectBannerShell("{{activepol}}"));
         }
         
         [Test]

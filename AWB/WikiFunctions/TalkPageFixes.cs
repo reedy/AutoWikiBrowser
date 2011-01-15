@@ -187,6 +187,7 @@ namespace WikiFunctions.TalkPages
         private static readonly List<string> BannerShellRedirects = new List<string>(new[] { "WikiProject Banners", "WikiProjectBanners", "WPBS", "WPB", "Wpb", "Wpbs" });
         private static readonly List<string> Nos = new List<string>(new[] { "blp", "activepol", "collapsed" });
         private static readonly Regex BLPRegex = Tools.NestedTemplateRegex(new[] { "blp", "BLP", "Blpinfo" });
+        private static readonly Regex ActivepolRegex = Tools.NestedTemplateRegex(new[] { "activepol", "active politician", "activepolitician" });
         private static readonly Regex WPBiographyR = Tools.NestedTemplateRegex(new[] { "WPBiography", "Wikiproject Biography", "WikiProject Biography", "WPBIO", "Bio" });
 
         /// <summary>
@@ -254,6 +255,14 @@ namespace WikiFunctions.TalkPages
                     articletext = articletext.Replace(blpm.Value, "");
                 }
 
+               // If {{activepol}} then add activepol=yes to WPBS and remove {{activepol}}
+                Match activepolm = ActivepolRegex.Match(articletext);
+                if (activepolm.Success)
+                {
+                    newValue = Tools.SetTemplateParameterValue(newValue, "activepol", "yes");
+                    articletext = articletext.Replace(activepolm.Value, "");
+                }
+                
                 // check living, activepol, blpo flags against WPBiography
                 Match m2 = WPBiographyR.Match(arg1);
 
@@ -270,8 +279,14 @@ namespace WikiFunctions.TalkPages
                             newValue = Tools.RemoveTemplateParameter(newValue, "blp");
                     }
 
-                    if (Tools.GetTemplateParameterValue(WPBiographyCall, "activepol").Equals("yes"))
+                    string activepolParam = Tools.GetTemplateParameterValue(WPBiographyCall, "activepol");
+                    if (activepolParam.Equals("yes"))
                         newValue = Tools.SetTemplateParameterValue(newValue, "activepol", "yes");
+                    else if (activepolParam.Equals("no"))
+                    {
+                        if (Tools.GetTemplateParameterValue(newValue, "activepol").Equals("yes"))
+                            newValue = Tools.RemoveTemplateParameter(newValue, "activepol");
+                    }
 
                     if (Tools.GetTemplateParameterValue(WPBiographyCall, "blpo").Equals("yes"))
                         newValue = Tools.SetTemplateParameterValue(newValue, "blpo", "yes");
@@ -333,6 +348,9 @@ namespace WikiFunctions.TalkPages
             
             // remove {{blp}} if {{WPBiography|living=yes}}
             articletext = BLPRegex.Replace(articletext, "");
+            
+            // remove {{activepol}} if {{WPBiography|activepol=yes}}
+            articletext = ActivepolRegex.Replace(articletext, "");
             
             // move above any other WikiProject
             if(!WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articletext))
