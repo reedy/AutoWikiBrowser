@@ -289,7 +289,7 @@ namespace WikiFunctions.Lists.Providers
 
         #region ListMaker properties
         public string DisplayText
-        { get { return "Text file"; } }
+        { get { return "Text file (UTF-8)"; } }
 
         public string UserInputTextBoxText
         { get { return ""; } }
