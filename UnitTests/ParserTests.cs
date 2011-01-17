@@ -2322,6 +2322,9 @@ world|format=PDF}} was";
         {
             string a = @"{{cite web|url=a |title=b |year=2008 | accessdate=1 May 2008}}";
             Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=01 May 2008}}"));
+
+			string a0 = @"{{cite web|url=a |title=b | accessdate=1 May 2008 | date=May 1, 2008}}";
+            Assert.AreEqual(a0, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b | accessdate=01 May 2008 | date=May 01, 2008}}"));
             
             string a2 = @"{{cite web|url=a |title=b |year=2008 | accessdate=1 May 1998}}";
             Assert.AreEqual(a2, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=01 May 1998}}"));
