@@ -206,7 +206,7 @@ namespace WikiFunctions.Parse
         {
             if (rep == null) throw new ArgumentNullException("rep");
 
-            string findThis = Tools.ApplyKeyWords(articleTitle, rep.Find);
+            string findThis = Tools.ApplyKeyWords(articleTitle, rep.Find, true);
             string replaceWith = Tools.ApplyKeyWords(articleTitle, PrepareReplacePart(rep.Replace));
 
             Regex findRegex = new Regex(findThis, rep.RegularExpressionOptions);

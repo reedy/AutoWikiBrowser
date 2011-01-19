@@ -626,6 +626,9 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
             Assert.AreEqual("", Tools.ApplyKeyWords("", ""));
             Assert.AreEqual("", Tools.ApplyKeyWords(@"%%foo%%", ""));
             Assert.AreEqual(@"%%foo%%", Tools.ApplyKeyWords("", @"%%foo%%"));
+            
+            Assert.AreEqual(@"foo\(bar\) was", Tools.ApplyKeyWords(@"foo(bar)", "%%title%% was", true), "%%title%% escaped if requested");
+            Assert.AreEqual(@"foo(bar) was", Tools.ApplyKeyWords(@"foo(bar)", "%%title%% was", false), "%%title%% not escaped if not requested");
         }
 
         [Test]
