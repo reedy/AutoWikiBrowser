@@ -2861,9 +2861,8 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly Regex AccessdateTypo = new Regex(@"(\{\{\s*cit[^{}]*?\|\s*)ac(?:(?:ess?s?|cc?es|cess[es]|ccess)date|cessda[ry]e|c?essdat|cess(?:daste|ate)|cdessdate|cess?data|cesdsate|cessda(?:et|tee)|cessdatge|cesseddate|cessedon|cess-date)(\s*=\s*)", RegexOptions.IgnoreCase);
-
-        private static readonly Regex PublisherTypo = new Regex(@"(?<={{\s*[Cc]it[ae][^{}\|]*?\|(?:[^{}]+\|)?\s*)(?:p(?:u[ns]|oub)lisher|publihser|pub(?:lication)?|pubslisher|puablisher|publicher|ublisher|publsiher|pusliher|pblisher|pubi?lsher|publishet|puiblisher|puplisher|publiisher|publiser|pulisher|publishser|pulbisher|publisber|publoisher|publishier|pubhlisher|publiaher|publicser|publicsher|publidsherr|publiher|publihsher|publilsher|publiosher|publisaher|publischer|publiseher|publisehr|publiserh|publisger|publishe?|publishey|publlisher|publusher|pubsliher)(\s*=)", RegexOptions.Compiled);
+        private static readonly List<string> AccessdateTypos = new List<string>(new [] {"acesdate", "accesdate", "accesssdate", "acessdate", "accessdat", "acccesssdate", "acccessdate", "acccesdate", "accessedate", "accessdare", "accessdaye", "accessate", "accessdaste", "accdessdate", "accessdata", "accesdsate", "accessdaet", "accessdatee", "accessdatge", "accesseddate", "accessedon", "access-date"});
+        private static readonly List<string> PublisherTypos = new List<string>(new [] {"punlisher", "puslisher", "poublisher", "publihser", "pub(?:lication)?", "pubslisher", "puablisher", "publicher", "ublisher", "publsiher", "pusliher", "pblisher", "pubi?lsher", "publishet", "puiblisher", "puplisher", "publiisher", "publiser", "pulisher", "publishser", "pulbisher", "publisber", "publoisher", "publishier", "pubhlisher", "publiaher", "publicser", "publicsher", "publidsherr", "publiher", "publihsher", "publilsher", "publiosher", "publisaher", "publischer", "publiseher", "publisehr", "publiserh", "publisger", "publishe?", "publishey", "publlisher", "publusher", "pubsliher"});
 
         private static readonly Regex AccessdateSynonyms = new Regex(@"(?<={{\s*[Cc]it[ae][^{}]*?\|\s*)(?:\s*date\s*)?(?:retrieved(?:\s+on)?|(?:last|date) *ac+essed|access\s+date)(?=\s*=\s*)", RegexOptions.Compiled);
 
@@ -2935,9 +2934,9 @@ namespace WikiFunctions.Parse
                 
                 newValue = Tools.RenameTemplateParameter(newValue, "fprmat", "format");
                 
-                newValue = AccessdateTypo.Replace(newValue, "$1accessdate$2");
+                newValue = Tools.RenameTemplateParameter(newValue, AccessdateTypos, "accessdate");
 
-                newValue = PublisherTypo.Replace(newValue, @"publisher$1");
+                newValue = Tools.RenameTemplateParameter(newValue, PublisherTypos, "publisher");
 
                 newValue = AccessdateSynonyms.Replace(newValue, "accessdate");
                 
