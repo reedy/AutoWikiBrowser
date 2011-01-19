@@ -500,7 +500,7 @@ namespace WikiFunctions
                 
                 text = text.Replace("%%title%%", escape ? Regex.Escape(title) : title);
                 text = text.Replace("%%titlee%%", titleEncoded);
-                text = text.Replace("%%fullpagename%%", title);
+                text = text.Replace("%%fullpagename%%", escape ? Regex.Escape(title) : title);
                 text = text.Replace("%%fullpagenamee%%", titleEncoded);
                 text = text.Replace("%%key%%", MakeHumanCatKey(title));
 
