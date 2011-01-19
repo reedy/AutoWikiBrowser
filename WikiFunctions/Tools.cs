@@ -477,18 +477,28 @@ namespace WikiFunctions
             }
             return builder.ToString();
         }
+        
+                /// <summary>
+        /// Applies the key words "%%title%%" etc.
+        /// </summary>
+        /// http://meta.wikimedia.org/wiki/Help:Magic_words
+        public static string ApplyKeyWords(string title, string text)
+        {
+            return ApplyKeyWords(title, text, false);
+        }
 
         // Covered by ToolsTests.ApplyKeyWords()
         /// <summary>
         /// Applies the key words "%%title%%" etc.
         /// </summary>
         /// http://meta.wikimedia.org/wiki/Help:Magic_words
-        public static string ApplyKeyWords(string title, string text)
+        public static string ApplyKeyWords(string title, string text, bool escape)
         {
             if (!string.IsNullOrEmpty(text) && !string.IsNullOrEmpty(title) && text.Contains("%%"))
             {
                 string titleEncoded = WikiEncode(title);
-                text = text.Replace("%%title%%", title);
+                
+                text = text.Replace("%%title%%", escape ? Regex.Escape(title) : title);
                 text = text.Replace("%%titlee%%", titleEncoded);
                 text = text.Replace("%%fullpagename%%", title);
                 text = text.Replace("%%fullpagenamee%%", titleEncoded);

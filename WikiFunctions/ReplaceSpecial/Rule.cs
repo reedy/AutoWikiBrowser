@@ -193,7 +193,7 @@ namespace WikiFunctions.ReplaceSpecial
 
             if (!string.IsNullOrEmpty(r.replace_))
             {
-                string replace = Tools.ApplyKeyWords(title, r.replace_);
+                string replace = Tools.ApplyKeyWords(title, r.replace_, true);
 
                 string with = Tools.ApplyKeyWords(title, r.with_);
 
