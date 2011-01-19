@@ -412,7 +412,7 @@ namespace WikiFunctions
             return text;
         }
 
-#if !MONO
+        #if !MONO
         [DllImport("user32.dll")]
         private static extern void FlashWindow(IntPtr hwnd, bool bInvert);
 
@@ -427,7 +427,7 @@ namespace WikiFunctions
             }
             catch { }
         }
-#endif
+        #endif
 
         // Covered by ToolsTests.CaseInsensitiveStringCompare()
         /// <summary>
@@ -669,7 +669,7 @@ namespace WikiFunctions
             
             text = text.Trim();
             
-             if (string.IsNullOrEmpty(text))
+            if (string.IsNullOrEmpty(text))
                 return text;
             
             if (text[0] == '#' || text[0] == '*')
@@ -1174,7 +1174,7 @@ namespace WikiFunctions
             new KeyValuePair<string, string>("ả", "a"),
             new KeyValuePair<string, string>("ằ", "a"),
             new KeyValuePair<string, string>("ẩ", "a"),
-            new KeyValuePair<string, string>("ậ", "a"), 
+            new KeyValuePair<string, string>("ậ", "a"),
             new KeyValuePair<string, string>("ế", "e"),
             new KeyValuePair<string, string>("ễ", "e"),
             new KeyValuePair<string, string>("ệ", "e"),
@@ -1205,7 +1205,7 @@ namespace WikiFunctions
         /// substitutes characters with diacritics with their Latin equivalents
         /// </summary>
         public static string RemoveDiacritics(string s)
-        {               
+        {
             foreach (KeyValuePair<string, string> p in Diacritics)
             {
                 s = s.Replace(p.Key, p.Value);
@@ -1586,7 +1586,7 @@ Message: {2}
                     else
                     {
                         string expandUri = Variables.URLApi + "?action=expandtemplates&format=xml&title=" + WikiEncode(articleTitle) + "&text=" + HttpUtility.UrlEncode(call);
-                    
+                        
                         try
                         {
                             string respStr = GetHTML(expandUri);
@@ -2041,7 +2041,7 @@ Message: {2}
             return ConvertDate(inputDate, locale, false);
         }
         
-          /// <summary>
+        /// <summary>
         /// Returns the input date in the requested format (American or International). If another Locale is pasased in the input date is returned. For en-wiki only.
         /// </summary>
         /// <param name="inputDate">string representing a date, any format that C# can parse</param>
@@ -2071,13 +2071,13 @@ Message: {2}
                 case Parsers.DateLocale.International:
                     return dt.ToString("d MMMM yyyy", BritishEnglish);
                 case  Parsers.DateLocale.ISO:
-                     return dt.ToString("yyyy-MM-dd", BritishEnglish);
+                    return dt.ToString("yyyy-MM-dd", BritishEnglish);
                 default:
                     return inputDate;
             }
         }
         
-         /// <summary>
+        /// <summary>
         /// Appends the input parameter and value to the input template
         /// </summary>
         /// <param name="templateCall">The input template call</param>
@@ -2175,7 +2175,7 @@ Message: {2}
             return "";
         }
         
-         /// <summary>
+        /// <summary>
         /// Returns the value of the input parameter in the input template
         /// </summary>
         /// <param name="templateCall">the input template call</param>
@@ -2301,13 +2301,17 @@ Message: {2}
         /// <returns>The updated template</returns>
         public static string RenameTemplateParameter(string templateCall, List<string> oldparameters, string newparameter)
         {
+            string oldparam = "(?:";
             foreach (string oldparameter in oldparameters)
-                templateCall = RenameTemplateParameter(templateCall, oldparameter, newparameter);
+                oldparam += Regex.Escape(oldparameter) + @"|";
 
-            return templateCall;
+            oldparam = oldparam.TrimEnd('|') + @")";
+            Regex param = new Regex(@"(\|\s*(?:<!--.*?-->)?)" + oldparam + @"(\s*(?:<!--.*?-->\s*)?=)");
+
+            return (param.Replace(templateCall, "$1" + newparameter + "$2"));
         }
         
-           /// <summary>
+        /// <summary>
         /// Removes the input parameter from all instances of the input template in the article text
         /// </summary>
         /// <param name="articletext"></param>
@@ -2360,7 +2364,7 @@ Message: {2}
         /// <param name="removeLastMatch">Whether to remove the last match, rather than the first</param>
         /// <returns>The updated template</returns>
         public static string RemoveTemplateParameter(string templateCall, string parameter, bool removeLastMatch)
-        {   
+        {
             Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=(.*?)(?=\||}}$)", RegexOptions.Singleline);
 
             string pipecleanedtemplate = PipeCleanedTemplate(templateCall);
@@ -2415,7 +2419,7 @@ Message: {2}
                         
                         // remove this param if equal value to earlier one, or either value blank, or earlier one contains this one
                         if(paramValue.Equals(earlierParamValue) || paramValue.Length == 0 || earlierParamValue.Length == 0
-                          || earlierParamValue.Contains(paramValue) || paramValue.Contains(earlierParamValue))
+                           || earlierParamValue.Contains(paramValue) || paramValue.Contains(earlierParamValue))
                         {
                             bool removeLastmatch = (paramValue.Length == 0 || (!paramValue.Equals(earlierParamValue) && earlierParamValue.Contains(paramValue)));
                             templatecall = RemoveTemplateParameter(templatecall, paramName, removeLastmatch);
@@ -2443,7 +2447,7 @@ Message: {2}
         {
             Dictionary<int, int> Dupes = new Dictionary<int, int>();
 
-            string pipecleanedtemplate = "";            
+            string pipecleanedtemplate = "";
             
             Dictionary<string, string> Params = new Dictionary<string, string>();
             pipecleanedtemplate = PipeCleanedTemplate(templatecall);
@@ -2529,8 +2533,8 @@ Message: {2}
             restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.NestedTemplates, rwith);
             restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.SimpleWikiLink, rwith);
             restoftemplate = commentsastilde
-                                 ? ReplaceWith(restoftemplate, WikiRegexes.UnformattedText, '~')
-                                 : ReplaceWithSpaces(restoftemplate, WikiRegexes.UnformattedText);
+                ? ReplaceWith(restoftemplate, WikiRegexes.UnformattedText, '~')
+                : ReplaceWithSpaces(restoftemplate, WikiRegexes.UnformattedText);
 
             return (templateCall.Substring(0, 3) + restoftemplate);
         }
@@ -2549,7 +2553,7 @@ Message: {2}
         /// <param name="prependSpace">Whether to include a space before the new value</param>
         /// <returns>The updated template call</returns>
         public static string SetTemplateParameterValue(string templateCall, string parameter, string newvalue, bool prependSpace)
-        {            
+        {
             if(Tools.GetTemplateParameterValue(templateCall, parameter).Equals(newvalue))
                 return templateCall;
             
@@ -2566,7 +2570,7 @@ Message: {2}
             return updatedtemplate;
         }
         
-         /// <summary>
+        /// <summary>
         /// Sets the template parameter value to the new value input: if the template already has the parameter then its value is updated, otherwise the new value is appended
         /// </summary>
         /// <param name="templateCall">The template call to update</param>
@@ -2574,7 +2578,7 @@ Message: {2}
         /// <param name="newvalue">The new value for the parameter</param>
         /// <returns>The updated template call</returns>
         public static string SetTemplateParameterValue(string templateCall, string parameter, string newvalue)
-        {    
+        {
             return SetTemplateParameterValue(templateCall, parameter, newvalue, false);
         }
 
@@ -2584,7 +2588,7 @@ Message: {2}
         /// <param name="templateCall">the template call</param>
         /// <returns>the template name</returns>
         public static string GetTemplateName(string templateCall)
-        {            
+        {
             string TemplateNamespace;
             
             try
@@ -2616,7 +2620,7 @@ Message: {2}
             return RenameTemplate(articletext, templatename, newtemplatename, true);
         }
         
-         /// <summary>
+        /// <summary>
         /// Renames all matches of the given template name in the input text to the new name given
         /// </summary>
         /// <param name="articletext">the page text</param>
