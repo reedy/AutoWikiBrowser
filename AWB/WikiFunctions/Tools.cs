@@ -2287,7 +2287,7 @@ Message: {2}
         /// <returns>The updated template</returns>
         public static string RenameTemplateParameter(string templateCall, string oldparameter, string newparameter)
         {
-            Regex param = new Regex(@"(\|\s*(?:<!--.*?-->)?)" + Regex.Escape(oldparameter) + @"(\s*(?:<!--.*?-->\s*)?=)", RegexOptions.Compiled);
+            Regex param = new Regex(@"(\|\s*(?:<!--.*?-->)?)" + Regex.Escape(oldparameter) + @"(\s*(?:<!--.*?-->\s*)?=)");
 
             return (param.Replace(templateCall, "$1" + newparameter + "$2"));
         }
