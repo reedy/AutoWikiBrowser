@@ -2067,7 +2067,7 @@ world|format=PDF}} was";
         {
             Assert.AreEqual(@"now {{cite web| url=a.com|title=hello|format=PDF}} was", Parsers.FixCitationTemplates(@"now {{cite web| url=a.com|title=hello|fprmat=PDF}} was"));
             Assert.AreEqual(@"now {{cite web| url=a.com|title=hello| format=PDF}} was", Parsers.FixCitationTemplates(@"now {{cite web| url=a.com|title=hello| fprmat=PDF}} was"));
-            Assert.AreEqual(@"now {{cite web| url=a.com|title=hello|format = PDF}} was", Parsers.FixCitationTemplates(@"now {{cite web| url=a.com|title=hello|Fprmat = PDF}} was"));
+            Assert.AreEqual(@"now {{cite web| url=a.com|title=hello |format = PDF}} was", Parsers.FixCitationTemplates(@"now {{cite web| url=a.com|title=hello |Fprmat = PDF}} was"));
             Assert.AreEqual(@"now {{Cite web| url=a.com|title=hello|format=DOC}} was", Parsers.FixCitationTemplates(@"now {{Cite web| url=a.com|title=hello|fprmat=DOC}} was"));
             Assert.AreEqual(@"now {{Cite web| url=a.com|title=hello|
           format=DOC|work=BBC}} was", Parsers.FixCitationTemplates(@"now {{Cite web| url=a.com|title=hello|

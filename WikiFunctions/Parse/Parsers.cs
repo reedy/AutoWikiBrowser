@@ -2867,12 +2867,11 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex AccessdateSynonyms = new Regex(@"(?<={{\s*[Cc]it[ae][^{}]*?\|\s*)(?:\s*date\s*)?(?:retrieved(?:\s+on)?|(?:last|date) *ac+essed|access\s+date)(?=\s*=\s*)", RegexOptions.Compiled);
 
-        private static readonly Regex UppercaseCiteFields = new Regex(@"(\{\{(?:[Cc]ite\s*(?:web|book|news|journal|paper|press release|hansard|encyclopedia)|[Cc]itation)\b\s*[^{}]*\|\s*)(\w*?[A-Z]+\w*)(?<!(?:IS[BS]N|DOI|PMID))(\s*=\s*[^{}\|]{3,})", RegexOptions.Compiled);
+        private static readonly Regex UppercaseCiteFields = new Regex(@"(\{\{\s*(?:[Cc]ite\s*(?:web|book|news|journal|paper|press release|hansard|encyclopedia)|[Cc]itation)\b\s*[^{}]*\|\s*)(\w*?[A-Z]+\w*)(?<!(?:IS[BS]N|DOI|PMID))(\s*=\s*[^{}\|]{3,})", RegexOptions.Compiled);
 
         private static readonly Regex CiteUrl = new Regex(@"\|\s*url\s*=\s*([^\[\]<>""\s]+)", RegexOptions.Compiled);
         //private static readonly Regex CiteUrlDomain = new Regex(@"\|\s*url\s*=\s*(?:ht|f)tps?://(?:www\.)?([^\[\]<>""\s/:]+)", RegexOptions.Compiled);
 
-        private static readonly Regex CiteFormatFieldTypo = new Regex(@"(\{\{\s*[Cc]it[^{}]*?\|\s*)(?i)(?:fprmat)(\s*=\s*)", RegexOptions.Compiled);
         private static readonly Regex WorkInItalics = new Regex(@"(\|\s*work\s*=\s*)''([^'{}\|]+)''(?=\s*(?:\||}}))", RegexOptions.Compiled);
 
         //private static readonly Regex CiteTemplateFormatnull = new Regex(@"\|\s*format\s*=\s*(?=\||}})", RegexOptions.Compiled);
@@ -2928,13 +2927,13 @@ namespace WikiFunctions.Parse
 
             } while (matchCount > 0 && matchCount != urlMatches);
 
-            articleText = CiteFormatFieldTypo.Replace(articleText, "$1format$2");
-
             foreach (Match m in WikiRegexes.CiteTemplate.Matches(articleText))
             {
                 string newValue = m.Value;
                 string templatename = Tools.GetTemplateName(newValue);
                 string theURL = Tools.GetTemplateParameterValue(newValue, "url");
+                
+                newValue = Tools.RenameTemplateParameter(newValue, "fprmat", "format");
                 
                 newValue = AccessdateTypo.Replace(newValue, "$1accessdate$2");
 
@@ -5889,7 +5888,7 @@ namespace WikiFunctions.Parse
                 
                 Match m = WikiRegexes.MultipleIssues.Match(articleText);
                 if(m.Success)
-                { 
+                {
                     string newValue = Tools.RenameTemplateParameter(m.Value,  "unreferenced", "refimprove");
                     if(!newValue.Equals(m.Value))
                         articleText = articleText.Replace(m.Value, newValue);
