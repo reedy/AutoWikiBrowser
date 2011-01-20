@@ -2944,7 +2944,11 @@ namespace WikiFunctions.Parse
 
                 // remove the unneeded 'format=HTML' field
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.22format.3DHTML.22_in_citation_templates
-                if (Tools.GetTemplateParameterValue(newValue, "format").TrimStart("[]".ToCharArray()).ToUpper().StartsWith("HTM"))
+                // remove format= field with null value when URL is HTML page
+                if (Tools.GetTemplateParameterValue(newValue, "format").TrimStart("[]".ToCharArray()).ToUpper().StartsWith("HTM")
+                   ||
+                  (Tools.GetTemplateParameterValue(newValue, "format").Length == 0 &&
+                    theURL.ToUpper().TrimEnd('L').EndsWith("HTM")))
                     newValue = Tools.RemoveTemplateParameter(newValue, "format");
 
                 // newlines to spaces in title field if URL used, otherwise display broken
@@ -2959,11 +2963,6 @@ namespace WikiFunctions.Parse
                 // remove language=English on en-wiki
                 if (Tools.GetTemplateParameterValue(newValue, "language").ToLower().Equals("english"))
                     newValue = Tools.RemoveTemplateParameter(newValue, "language");
-
-                // remove format= field with null value when URL is HTML page
-                if (Tools.GetTemplateParameterValue(newValue, "format").Length == 0 &&
-                    theURL.ToUpper().TrimEnd('L').EndsWith("HTM"))
-                    newValue = Tools.RemoveTemplateParameter(newValue, "format");
 
                 // remove italics for work field for book/periodical, but not website -- auto italicised by template
                 if(!Tools.GetTemplateParameterValue(newValue, "work").Contains("."))
@@ -2987,14 +2986,14 @@ namespace WikiFunctions.Parse
                 if (!Regex.IsMatch(templatename, @"[Cc]ite (?:video|podcast)\b"))
                     newValue = YearInDate.Replace(newValue, "$1year$2");
 
-                // year = ISO date --> date = ISO date
+                // year = full date --> date = full date
                 string TheYear = Tools.GetTemplateParameterValue(newValue, "year");
                 if (WikiRegexes.ISODates.IsMatch(TheYear) || WikiRegexes.InternationalDates.IsMatch(TheYear)
                     || WikiRegexes.AmericanDates.IsMatch(TheYear))
                     newValue = Tools.RenameTemplateParameter(newValue, "year", "date");
                 
                 // author field typos
-                if(templatename.ToLower().Equals("cite web"))
+                if(templatename.Equals("cite web", StringComparison.OrdinalIgnoreCase))
                 {
                     newValue = Tools.RenameTemplateParameter(newValue, "authors", "author");
                     newValue = Tools.RenameTemplateParameter(newValue, "coauthor", "coauthors");
