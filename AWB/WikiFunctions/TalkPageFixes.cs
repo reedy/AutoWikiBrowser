@@ -343,7 +343,7 @@ namespace WikiFunctions.TalkPages
                 
 				// If {{BLP}} then add living=yes to WPBiography and remove {{BLP}}
        	 		Match blpm = BLPRegex.Match(articletext);
-       	     	if (blpm.Success)
+       	     	if (blpm.Success & !Tools.GetTemplateParameterValue(m.Value, "living").ToLower().StartsWith("n"))
 				{
 					string blpValue = Tools.SetTemplateParameterValue(m.Value, "living", "yes");
 					articletext = articletext.Replace(m.Value, blpValue);
