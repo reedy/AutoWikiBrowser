@@ -255,7 +255,7 @@ namespace WikiFunctions.TalkPages
                     articletext = articletext.Replace(blpm.Value, "");
                 }
 
-               // If {{activepol}} then add activepol=yes to WPBS and remove {{activepol}}
+                // If {{activepol}} then add activepol=yes to WPBS and remove {{activepol}}
                 Match activepolm = ActivepolRegex.Match(articletext);
                 if (activepolm.Success)
                 {
@@ -334,46 +334,47 @@ namespace WikiFunctions.TalkPages
             // remove diacritics from listas
             if(m.Success)
             {
+                string newvalue = m.Value;
                 string listas = Tools.GetTemplateParameterValue(m.Value, "listas");
                 
-                string wpb = Tools.SetTemplateParameterValue(m.Value, "listas", Tools.RemoveDiacritics(listas));
+                newvalue = Tools.SetTemplateParameterValue(newvalue, "listas", Tools.RemoveDiacritics(listas));
                 
-                if(!wpb.Equals(m.Value))
-                    articletext = articletext.Replace(m.Value, wpb);
                 
-				// If {{activepol}} then add living=yes, activepol=yes, politician-work-group=yes to WPBiography and remove {{activepol}}
-				Match activepolm = ActivepolRegex.Match(articletext);
-				if (activepolm.Success)
-				{
-					string blpValue = Tools.SetTemplateParameterValue(m.Value, "living", "yes");
-					string apValue = Tools.SetTemplateParameterValue(blpValue, "activepol", "yes");
-					string politicianValue = Tools.SetTemplateParameterValue(apValue, "politician-work-group", "yes");
-					articletext = articletext.Replace(m.Value, politicianValue);
-					articletext = ActivepolRegex.Replace(articletext, "");
-				}
-            
-				// If {{BLP}} then add living=yes to WPBiography and remove {{BLP}}
-       	 		Match blpm = BLPRegex.Match(articletext);
-       	     	if (blpm.Success & !Tools.GetTemplateParameterValue(m.Value, "living").ToLower().StartsWith("n"))
-				{
-					string blpValue = Tools.SetTemplateParameterValue(m.Value, "living", "yes");
-					articletext = articletext.Replace(m.Value, blpValue);
-					articletext = BLPRegex.Replace(articletext, "");
-				}
-
+                
+                // If {{activepol}} then add living=yes, activepol=yes, politician-work-group=yes to WPBiography and remove {{activepol}}
+                Match activepolm = ActivepolRegex.Match(articletext);
+                if (activepolm.Success)
+                {
+                    newvalue = Tools.SetTemplateParameterValue(newvalue, "living", "yes");
+                    newvalue = Tools.SetTemplateParameterValue(newvalue, "activepol", "yes");
+                    newvalue = Tools.SetTemplateParameterValue(newvalue, "politician-work-group", "yes");
+                    
+                    articletext = ActivepolRegex.Replace(articletext, "");
+                }
+                
+                // If {{BLP}} then add living=yes to WPBiography and remove {{BLP}}
+                Match blpm = BLPRegex.Match(articletext);
+                if (blpm.Success & !Tools.GetTemplateParameterValue(newvalue, "living").ToLower().StartsWith("n"))
+                {
+                    newvalue = Tools.SetTemplateParameterValue(newvalue, "living", "yes");
+                    articletext = BLPRegex.Replace(articletext, "");
+                }
+                
+                if(newvalue.Length > 0 && !m.Value.Equals(newvalue))
+                    articletext = articletext.Replace(m.Value, newvalue);
             }
 
             // refresh
             m = WPBiographyR.Match(articletext);
             
-			if(!m.Success || !Tools.GetTemplateParameterValue(m.Value, "living").ToLower().StartsWith("y"))
+            if(!m.Success || !Tools.GetTemplateParameterValue(m.Value, "living").ToLower().StartsWith("y"))
                 return articletext;
             
             // remove {{blp}} if {{WPBiography|living=yes}}
             articletext = BLPRegex.Replace(articletext, "");
             
             // remove {{activepol}} if {{WPBiography|activepol=yes}}
-			articletext = ActivepolRegex.Replace(articletext, "");
+            articletext = ActivepolRegex.Replace(articletext, "");
             
             // move above any other WikiProject
             if(!WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articletext))
@@ -411,7 +412,7 @@ namespace WikiFunctions.TalkPages
                     if(!Tools.GetTemplateName(m.Value).StartsWith("WikiProject "))
                         continue;
                     
-                    wikiProjectTemplates++;                    
+                    wikiProjectTemplates++;
                     WPBS1 += Tools.Newline(m.Value);
                     articletextLocal = articletextLocal.Replace(m.Value, "");
                 }
