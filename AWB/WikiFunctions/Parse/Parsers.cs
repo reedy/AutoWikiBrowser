@@ -2926,180 +2926,7 @@ namespace WikiFunctions.Parse
 
             } while (matchCount > 0 && matchCount != urlMatches);
 
-            foreach (Match m in WikiRegexes.CiteTemplate.Matches(articleText))
-            {
-                string newValue = m.Value;
-                string templatename = Tools.GetTemplateName(newValue);
-                string theURL = Tools.GetTemplateParameterValue(newValue, "url");
-                
-                newValue = Tools.RenameTemplateParameter(newValue, "fprmat", "format");
-                
-                newValue = Tools.RenameTemplateParameter(newValue, AccessdateTypos, "accessdate");
-
-                newValue = Tools.RenameTemplateParameter(newValue, PublisherTypos, "publisher");
-
-                newValue = AccessdateSynonyms.Replace(newValue, "accessdate");
-                
-                newValue = Tools.RenameTemplateParameter(newValue, "pg", "page");
-
-                // remove the unneeded 'format=HTML' field
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.22format.3DHTML.22_in_citation_templates
-                // remove format= field with null value when URL is HTML page
-                if (Tools.GetTemplateParameterValue(newValue, "format").TrimStart("[]".ToCharArray()).ToUpper().StartsWith("HTM")
-                   ||
-                  (Tools.GetTemplateParameterValue(newValue, "format").Length == 0 &&
-                    theURL.ToUpper().TrimEnd('L').EndsWith("HTM")))
-                    newValue = Tools.RemoveTemplateParameter(newValue, "format");
-
-                // newlines to spaces in title field if URL used, otherwise display broken
-                if(theURL.Length > 0)
-                {
-                    string theTitle = Tools.GetTemplateParameterValue(newValue, "title");
-                    
-                    if(theTitle.Contains("\r\n"))
-                        newValue = Tools.UpdateTemplateParameterValue(newValue, "title", theTitle.Replace("\r\n", " "));
-                }
-                
-                // remove language=English on en-wiki
-                if (Tools.GetTemplateParameterValue(newValue, "language").ToLower().Equals("english"))
-                    newValue = Tools.RemoveTemplateParameter(newValue, "language");
-
-                // remove italics for work field for book/periodical, but not website -- auto italicised by template
-                if(!Tools.GetTemplateParameterValue(newValue, "work").Contains("."))
-                    newValue = WorkInItalics.Replace(newValue, "$1$2");
-                
-                // remove quotes around title field: are automatically added by template markup
-                foreach(string dequoteParam in ParametersToDequote)
-                {
-                    string theTitle = Tools.GetTemplateParameterValue(newValue, dequoteParam);
-                    
-                    if(theTitle.Contains(@"""") && !theTitle.Trim('"').Contains(@""""))
-                        newValue = Tools.SetTemplateParameterValue(newValue, dequoteParam, theTitle.Trim('"'));
-                }
-                
-                // page= and pages= fields don't need p. or pp. in them when nopp not set
-                if (Tools.GetTemplateParameterValue(newValue, "nopp").Length == 0 &&
-                    !templatename.Equals("cite journal", StringComparison.OrdinalIgnoreCase))
-                    newValue = CiteTemplatePagesPP.Replace(newValue, "");
-
-                // date = YYYY --> year = YYYY; not for {{cite video}}
-                if (!Regex.IsMatch(templatename, @"[Cc]ite (?:video|podcast)\b"))
-                    newValue = YearInDate.Replace(newValue, "$1year$2");
-
-                // year = full date --> date = full date
-                string TheYear = Tools.GetTemplateParameterValue(newValue, "year");
-                if (WikiRegexes.ISODates.IsMatch(TheYear) || WikiRegexes.InternationalDates.IsMatch(TheYear)
-                    || WikiRegexes.AmericanDates.IsMatch(TheYear))
-                    newValue = Tools.RenameTemplateParameter(newValue, "year", "date");
-                
-                // author field typos
-                if(templatename.Equals("cite web", StringComparison.OrdinalIgnoreCase))
-                {
-                    newValue = Tools.RenameTemplateParameter(newValue, "authors", "author");
-                    newValue = Tools.RenameTemplateParameter(newValue, "coauthor", "coauthors");
-                }
-
-                // remove duplicated fields, ensure the URL is not touched (may have pipes in)
-                if (DupeFields.IsMatch(newValue))
-                    newValue = Tools.RemoveDuplicateTemplateParameters(newValue);
-
-                // year=YYYY and date=...YYYY -> remove year; not for year=YYYYa
-                TheYear = Tools.GetTemplateParameterValue(newValue, "year");
-                string TheDate = Tools.GetTemplateParameterValue(newValue, "date");
-
-                if (Regex.IsMatch(TheYear, @"^[12]\d{3}$") && TheDate.Contains(TheYear))
-                    newValue = Tools.RemoveTemplateParameter(newValue, "year");
-                
-                // month=Month and date=...Month...
-                string TheMonth = Tools.GetTemplateParameterValue(newValue, "month");
-                if(TheMonth.Length > 2 && TheDate.Contains(TheMonth))
-                    newValue = Tools.RemoveTemplateParameter(newValue, "month");
-
-                // correct volume=vol 7... and issue=no. 8 for {{cite journal}} only
-                if (templatename.Equals("cite journal", StringComparison.OrdinalIgnoreCase))
-                {
-                    newValue = CiteTemplatesJournalVolume.Replace(newValue, "");
-                    newValue = CiteTemplatesJournalIssue.Replace(newValue, "");
-
-                    if (Tools.GetTemplateParameterValue(newValue, "issue").Length == 0)
-                        newValue = CiteTemplatesJournalVolumeAndIssue.Replace(newValue, @"| issue = ");
-                }
-
-                // {{cite web}} for Google books -> {{Cite book}}
-                if (Regex.IsMatch(templatename, @"[Cc]ite ?web") && newValue.Contains("http://books.google.")
-                    && Tools.GetTemplateParameterValue(newValue, "work").Length == 0)
-                    newValue = Tools.RenameTemplate(newValue, templatename, "Cite book");
-
-                // remove leading zero in day of month
-                newValue = DateLeadingZero.Replace(newValue, @"$1$2$3$4$5");
-                newValue = DateLeadingZero.Replace(newValue, @"$1$2$3$4$5");
-
-                if (Regex.IsMatch(templatename, @"[Cc]ite(?: ?web| book| news)"))
-                {
-                    // remove any empty accessdaymonth, accessmonthday, accessmonth and accessyear
-                    newValue = AccessDayMonthDay.Replace(newValue, "");
-
-                    // merge accessdate of 'D Month' or 'Month D' and accessyear of 'YYYY' in cite web
-                    newValue = AccessDateYear.Replace(newValue, @" $2$1$3");
-                }
-
-                // remove accessyear where accessdate is present and contains said year
-                string accessyear = Tools.GetTemplateParameterValue(newValue, "accessyear");
-                if (accessyear.Length > 0 && Tools.GetTemplateParameterValue(newValue, "accessdate").Contains(accessyear))
-                    newValue = Tools.RemoveTemplateParameter(newValue, "accessyear");
-
-                // catch after any other fixes
-                newValue = NoCommaAmericanDates.Replace(newValue, @"$1, $2");
-                
-                // fix unspaced comma ranges, avoid pages=12,345 as could be valid page number
-                if(Regex.Matches(Tools.GetTemplateParameterValue(newValue, "pages"), @"\b\d{1,2},\d{3}\b").Count == 0)
-                {
-                    while(UnspacedCommaPageRange.IsMatch(Tools.GetTemplateParameterValue(newValue, "pages")))
-                        newValue = Tools.UpdateTemplateParameterValue(newValue, "pages",
-                                                                      UnspacedCommaPageRange.Replace(Tools.GetTemplateParameterValue(newValue, "pages"), "$1, $2"));
-                }
-                
-                // page range should have unspaced en-dash; validate that page is range not section link
-                newValue = FixPageRanges(newValue);
-
-                // page range or list should use 'pages' parameter not 'page'
-                newValue = CiteTemplatesPageRangeName.Replace(newValue, @"$1pages$2");
-
-                // remove ordinals from dates
-                if (OrdinalsInDatesInt.IsMatch(newValue))
-                {
-                    newValue = Tools.UpdateTemplateParameterValue(newValue, "date", OrdinalsInDatesInt.Replace(Tools.GetTemplateParameterValue(newValue, "date"), "$1$2$3 $4"));
-                    newValue = Tools.UpdateTemplateParameterValue(newValue, "accessdate", OrdinalsInDatesInt.Replace(Tools.GetTemplateParameterValue(newValue, "accessdate"), "$1$2$3 $4"));
-                }
-
-                if (OrdinalsInDatesAm.IsMatch(newValue))
-                {
-                    newValue = Tools.UpdateTemplateParameterValue(newValue, "date", OrdinalsInDatesAm.Replace(Tools.GetTemplateParameterValue(newValue, "date"), "$1 $2$3"));
-                    newValue = Tools.UpdateTemplateParameterValue(newValue, "accessdate", OrdinalsInDatesAm.Replace(Tools.GetTemplateParameterValue(newValue, "accessdate"), "$1 $2$3"));
-                }
-                
-                // URL starting www. needs http://
-                if(theURL.StartsWith("www."))
-                    newValue = Tools.UpdateTemplateParameterValue(newValue, "url", "http://" + theURL);
-                
-                // {{dead link}} should be placed outside citation, not in format field per [[Template:Dead link]]
-                string FormatField = Tools.GetTemplateParameterValue(newValue, "format");
-                if(WikiRegexes.DeadLink.IsMatch(FormatField))
-                {
-                    string deadLink = WikiRegexes.DeadLink.Match(FormatField).Value;
-                    
-                    if(theURL.ToUpper().TrimEnd('L').EndsWith("HTM") && FormatField.Equals(deadLink))
-                        newValue = Tools.RemoveTemplateParameter(newValue, "format");
-                    else
-                        newValue = Tools.UpdateTemplateParameterValue(newValue, "format", FormatField.Replace(deadLink, ""));
-                    
-                    newValue += (" " + deadLink);
-                }
-
-                // merge changes to article text
-                if(!m.Value.Equals(newValue))
-                    articleText = articleText.Replace(m.Value, newValue);
-            }
+            articleText = WikiRegexes.CiteTemplate.Replace(articleText, FixCitationTemplatesME);
             
             // Harvard template fixes: page range dashes and use of pp for page ranges
             foreach (Match h in WikiRegexes.HarvTemplate.Matches(articleText))
@@ -3116,6 +2943,179 @@ namespace WikiFunctions.Parse
             }
 
             return articleText;
+        }
+        
+        private static string FixCitationTemplatesME(Match m)
+        {
+            string newValue = m.Value;
+            string templatename = Tools.GetTemplateName(newValue);
+            string theURL = Tools.GetTemplateParameterValue(newValue, "url");
+            
+            newValue = Tools.RenameTemplateParameter(newValue, "fprmat", "format");
+            
+            newValue = Tools.RenameTemplateParameter(newValue, AccessdateTypos, "accessdate");
+
+            newValue = Tools.RenameTemplateParameter(newValue, PublisherTypos, "publisher");
+
+            newValue = AccessdateSynonyms.Replace(newValue, "accessdate");
+            
+            newValue = Tools.RenameTemplateParameter(newValue, "pg", "page");
+
+            // remove the unneeded 'format=HTML' field
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.22format.3DHTML.22_in_citation_templates
+            // remove format= field with null value when URL is HTML page
+            if (Tools.GetTemplateParameterValue(newValue, "format").TrimStart("[]".ToCharArray()).ToUpper().StartsWith("HTM")
+                ||
+                (Tools.GetTemplateParameterValue(newValue, "format").Length == 0 &&
+                 theURL.ToUpper().TrimEnd('L').EndsWith("HTM")))
+                newValue = Tools.RemoveTemplateParameter(newValue, "format");
+
+            // newlines to spaces in title field if URL used, otherwise display broken
+            if(theURL.Length > 0)
+            {
+                string theTitle = Tools.GetTemplateParameterValue(newValue, "title");
+                
+                if(theTitle.Contains("\r\n"))
+                    newValue = Tools.UpdateTemplateParameterValue(newValue, "title", theTitle.Replace("\r\n", " "));
+            }
+            
+            // remove language=English on en-wiki
+            if (Tools.GetTemplateParameterValue(newValue, "language").ToLower().Equals("english"))
+                newValue = Tools.RemoveTemplateParameter(newValue, "language");
+
+            // remove italics for work field for book/periodical, but not website -- auto italicised by template
+            if(!Tools.GetTemplateParameterValue(newValue, "work").Contains("."))
+                newValue = WorkInItalics.Replace(newValue, "$1$2");
+            
+            // remove quotes around title field: are automatically added by template markup
+            foreach(string dequoteParam in ParametersToDequote)
+            {
+                string theTitle = Tools.GetTemplateParameterValue(newValue, dequoteParam);
+                
+                if(theTitle.Contains(@"""") && !theTitle.Trim('"').Contains(@""""))
+                    newValue = Tools.SetTemplateParameterValue(newValue, dequoteParam, theTitle.Trim('"'));
+            }
+            
+            // page= and pages= fields don't need p. or pp. in them when nopp not set
+            if (Tools.GetTemplateParameterValue(newValue, "nopp").Length == 0 &&
+                !templatename.Equals("cite journal", StringComparison.OrdinalIgnoreCase))
+                newValue = CiteTemplatePagesPP.Replace(newValue, "");
+
+            // date = YYYY --> year = YYYY; not for {{cite video}}
+            if (!Regex.IsMatch(templatename, @"[Cc]ite (?:video|podcast)\b"))
+                newValue = YearInDate.Replace(newValue, "$1year$2");
+
+            // year = full date --> date = full date
+            string TheYear = Tools.GetTemplateParameterValue(newValue, "year");
+            if (WikiRegexes.ISODates.IsMatch(TheYear) || WikiRegexes.InternationalDates.IsMatch(TheYear)
+                || WikiRegexes.AmericanDates.IsMatch(TheYear))
+                newValue = Tools.RenameTemplateParameter(newValue, "year", "date");
+            
+            // author field typos
+            if(templatename.Equals("cite web", StringComparison.OrdinalIgnoreCase))
+            {
+                newValue = Tools.RenameTemplateParameter(newValue, "authors", "author");
+                newValue = Tools.RenameTemplateParameter(newValue, "coauthor", "coauthors");
+            }
+
+            // remove duplicated fields, ensure the URL is not touched (may have pipes in)
+            if (DupeFields.IsMatch(newValue))
+                newValue = Tools.RemoveDuplicateTemplateParameters(newValue);
+
+            // year=YYYY and date=...YYYY -> remove year; not for year=YYYYa
+            TheYear = Tools.GetTemplateParameterValue(newValue, "year");
+            string TheDate = Tools.GetTemplateParameterValue(newValue, "date");
+
+            if (Regex.IsMatch(TheYear, @"^[12]\d{3}$") && TheDate.Contains(TheYear))
+                newValue = Tools.RemoveTemplateParameter(newValue, "year");
+            
+            // month=Month and date=...Month...
+            string TheMonth = Tools.GetTemplateParameterValue(newValue, "month");
+            if(TheMonth.Length > 2 && TheDate.Contains(TheMonth))
+                newValue = Tools.RemoveTemplateParameter(newValue, "month");
+
+            // correct volume=vol 7... and issue=no. 8 for {{cite journal}} only
+            if (templatename.Equals("cite journal", StringComparison.OrdinalIgnoreCase))
+            {
+                newValue = CiteTemplatesJournalVolume.Replace(newValue, "");
+                newValue = CiteTemplatesJournalIssue.Replace(newValue, "");
+
+                if (Tools.GetTemplateParameterValue(newValue, "issue").Length == 0)
+                    newValue = CiteTemplatesJournalVolumeAndIssue.Replace(newValue, @"| issue = ");
+            }
+
+            // {{cite web}} for Google books -> {{Cite book}}
+            if (Regex.IsMatch(templatename, @"[Cc]ite ?web") && newValue.Contains("http://books.google.")
+                && Tools.GetTemplateParameterValue(newValue, "work").Length == 0)
+                newValue = Tools.RenameTemplate(newValue, templatename, "Cite book");
+
+            // remove leading zero in day of month
+            newValue = DateLeadingZero.Replace(newValue, @"$1$2$3$4$5");
+            newValue = DateLeadingZero.Replace(newValue, @"$1$2$3$4$5");
+
+            if (Regex.IsMatch(templatename, @"[Cc]ite(?: ?web| book| news)"))
+            {
+                // remove any empty accessdaymonth, accessmonthday, accessmonth and accessyear
+                newValue = AccessDayMonthDay.Replace(newValue, "");
+
+                // merge accessdate of 'D Month' or 'Month D' and accessyear of 'YYYY' in cite web
+                newValue = AccessDateYear.Replace(newValue, @" $2$1$3");
+            }
+
+            // remove accessyear where accessdate is present and contains said year
+            string accessyear = Tools.GetTemplateParameterValue(newValue, "accessyear");
+            if (accessyear.Length > 0 && Tools.GetTemplateParameterValue(newValue, "accessdate").Contains(accessyear))
+                newValue = Tools.RemoveTemplateParameter(newValue, "accessyear");
+
+            // catch after any other fixes
+            newValue = NoCommaAmericanDates.Replace(newValue, @"$1, $2");
+            
+            // fix unspaced comma ranges, avoid pages=12,345 as could be valid page number
+            if(Regex.Matches(Tools.GetTemplateParameterValue(newValue, "pages"), @"\b\d{1,2},\d{3}\b").Count == 0)
+            {
+                while(UnspacedCommaPageRange.IsMatch(Tools.GetTemplateParameterValue(newValue, "pages")))
+                    newValue = Tools.UpdateTemplateParameterValue(newValue, "pages",
+                                                                  UnspacedCommaPageRange.Replace(Tools.GetTemplateParameterValue(newValue, "pages"), "$1, $2"));
+            }
+            
+            // page range should have unspaced en-dash; validate that page is range not section link
+            newValue = FixPageRanges(newValue);
+
+            // page range or list should use 'pages' parameter not 'page'
+            newValue = CiteTemplatesPageRangeName.Replace(newValue, @"$1pages$2");
+
+            // remove ordinals from dates
+            if (OrdinalsInDatesInt.IsMatch(newValue))
+            {
+                newValue = Tools.UpdateTemplateParameterValue(newValue, "date", OrdinalsInDatesInt.Replace(Tools.GetTemplateParameterValue(newValue, "date"), "$1$2$3 $4"));
+                newValue = Tools.UpdateTemplateParameterValue(newValue, "accessdate", OrdinalsInDatesInt.Replace(Tools.GetTemplateParameterValue(newValue, "accessdate"), "$1$2$3 $4"));
+            }
+
+            if (OrdinalsInDatesAm.IsMatch(newValue))
+            {
+                newValue = Tools.UpdateTemplateParameterValue(newValue, "date", OrdinalsInDatesAm.Replace(Tools.GetTemplateParameterValue(newValue, "date"), "$1 $2$3"));
+                newValue = Tools.UpdateTemplateParameterValue(newValue, "accessdate", OrdinalsInDatesAm.Replace(Tools.GetTemplateParameterValue(newValue, "accessdate"), "$1 $2$3"));
+            }
+            
+            // URL starting www. needs http://
+            if(theURL.StartsWith("www."))
+                newValue = Tools.UpdateTemplateParameterValue(newValue, "url", "http://" + theURL);
+            
+            // {{dead link}} should be placed outside citation, not in format field per [[Template:Dead link]]
+            string FormatField = Tools.GetTemplateParameterValue(newValue, "format");
+            if(WikiRegexes.DeadLink.IsMatch(FormatField))
+            {
+                string deadLink = WikiRegexes.DeadLink.Match(FormatField).Value;
+                
+                if(theURL.ToUpper().TrimEnd('L').EndsWith("HTM") && FormatField.Equals(deadLink))
+                    newValue = Tools.RemoveTemplateParameter(newValue, "format");
+                else
+                    newValue = Tools.UpdateTemplateParameterValue(newValue, "format", FormatField.Replace(deadLink, ""));
+                
+                newValue += (" " + deadLink);
+            }
+            
+            return newValue;
         }
         
         private static List<string> PageFields = new List<string>(new [] {"page", "pages", "p", "pp" });
