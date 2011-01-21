@@ -1057,6 +1057,8 @@ __TOC__", articleTextIn);
             Assert.AreEqual(a.Replace(@"}}","|living=no}}" + @"{{blp}}"), TalkPageFixes.WPBiography(a.Replace(@"}}","|living=no}}") + @"{{blp}}"), "No change if blp=yes and living=no");
             Assert.AreEqual(a.Replace(@"}}"," | activepol=yes}}"), TalkPageFixes.WPBiography(a + @"{{activepol}}"), "Add activepol to WPBiography");
             Assert.AreEqual(a.Replace(@"}}"," | activepol=yes}}"), TalkPageFixes.WPBiography(a + @"{{active politician}}"), "Add activepol via redirect to WPBiography");
+            Assert.AreEqual(a.Replace(@"}}"," |activepol=yes}}"), TalkPageFixes.WPBiography(a.Replace(@"}}"," |activepol=}}") + @"{{activepol}}"), "Add value to empty parameter");
+            Assert.AreEqual(a.Replace(@"}}"," |activepol=yes}}"), TalkPageFixes.WPBiography(a.Replace(@"}}"," |activepol=no}}") + @"{{activepol}}"), "Change value to activepol no nonsense parameter");
             Assert.AreEqual(a.Replace(@"}}"," | living=yes | activepol=yes}}"), TalkPageFixes.WPBiography(a + @"{{blp}}{{activepol}}"), "Add activepol and blp to WPBiography");
         }
 
