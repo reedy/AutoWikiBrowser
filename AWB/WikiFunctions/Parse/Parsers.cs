@@ -2869,11 +2869,9 @@ namespace WikiFunctions.Parse
         private static readonly Regex UppercaseCiteFields = new Regex(@"(\{\{\s*(?:[Cc]ite\s*(?:web|book|news|journal|paper|press release|hansard|encyclopedia)|[Cc]itation)\b\s*[^{}]*\|\s*)(\w*?[A-Z]+\w*)(?<!(?:IS[BS]N|DOI|PMID))(\s*=\s*[^{}\|]{3,})", RegexOptions.Compiled);
 
         private static readonly Regex CiteUrl = new Regex(@"\|\s*url\s*=\s*([^\[\]<>""\s]+)", RegexOptions.Compiled);
-        //private static readonly Regex CiteUrlDomain = new Regex(@"\|\s*url\s*=\s*(?:ht|f)tps?://(?:www\.)?([^\[\]<>""\s/:]+)", RegexOptions.Compiled);
-
+        
         private static readonly Regex WorkInItalics = new Regex(@"(\|\s*work\s*=\s*)''([^'{}\|]+)''(?=\s*(?:\||}}))", RegexOptions.Compiled);
 
-        //private static readonly Regex CiteTemplateFormatnull = new Regex(@"\|\s*format\s*=\s*(?=\||}})", RegexOptions.Compiled);
         private static readonly Regex CiteTemplatePagesPP = new Regex(@"(?<=\|\s*pages?\s*=\s*)p(?:p|gs?)?(?:\.|\b)(?:&nbsp;|\s*)(?=[^{}\|]+(?:\||}}))", RegexOptions.Compiled);
         private static readonly Regex CiteTemplatesJournalVolume = new Regex(@"(?<=\|\s*volume\s*=\s*)vol(?:umes?|\.)?(?:&nbsp;|:)?", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex CiteTemplatesJournalVolumeAndIssue = new Regex(@"(?<=\|\s*volume\s*=\s*[0-9VXMILC]+?)(?:[;,]?\s*(?:no[\.:;]?|(?:numbers?|issue|iss)\s*[:;]?))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -2903,29 +2901,15 @@ namespace WikiFunctions.Parse
             // {{cite web}}/{{cite book}} etc. need lower case field names; two loops in case a single template has multiple uppercase fields
             // restrict to en-wiki
             // exceptionally, 'ISBN' is allowed in upper case
-            int matchCount;
-            int urlMatches;
-            do
+            for(;;)
             {
-                MatchCollection matches = UppercaseCiteFields.Matches(articleText);
-                matchCount = matches.Count;
-                urlMatches = 0;
-
-                foreach (Match m in matches)
-                {
-                    bool urlmatch = CiteUrl.Match(m.Value).Value.Contains(m.Groups[2].Value);
-
-                    // check not within URL
-                    if (!urlmatch)
-                        articleText = articleText.Replace(m.Value,
-                                                          m.Groups[1].Value + m.Groups[2].Value.ToLower() +
-                                                          m.Groups[3].Value);
-                    else
-                        urlMatches++;
-                }
-
-            } while (matchCount > 0 && matchCount != urlMatches);
-
+                string articleText2 = UppercaseCiteFields.Replace(articleText, UppercaseCiteFieldsME);
+                
+                if(articleText2.Equals(articleText))
+                    break;
+                articleText = articleText2;
+            }
+            
             articleText = WikiRegexes.CiteTemplate.Replace(articleText, FixCitationTemplatesME);
             
             // Harvard template fixes: page range dashes and use of pp for page ranges
@@ -2943,6 +2927,19 @@ namespace WikiFunctions.Parse
             }
 
             return articleText;
+        }
+        
+        private static string UppercaseCiteFieldsME(Match m)
+        {
+            bool urlmatch = CiteUrl.Match(m.Value).Value.Contains(m.Groups[2].Value);
+
+            // check not within URL
+            if (!urlmatch)
+                return(
+                    m.Groups[1].Value + m.Groups[2].Value.ToLower() +
+                    m.Groups[3].Value);
+            
+            return m.Value;
         }
         
         private static string FixCitationTemplatesME(Match m)
