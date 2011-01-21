@@ -341,15 +341,6 @@ namespace WikiFunctions.TalkPages
                 if(!wpb.Equals(m.Value))
                     articletext = articletext.Replace(m.Value, wpb);
                 
-				// If {{BLP}} then add living=yes to WPBiography and remove {{BLP}}
-       	 		Match blpm = BLPRegex.Match(articletext);
-       	     	if (blpm.Success & !Tools.GetTemplateParameterValue(m.Value, "living").ToLower().StartsWith("n"))
-				{
-					string blpValue = Tools.SetTemplateParameterValue(m.Value, "living", "yes");
-					articletext = articletext.Replace(m.Value, blpValue);
-					articletext = BLPRegex.Replace(articletext, "");
-				}
-
 				// If {{activepol}} then add living=yes, activepol=yes, politician-work-group=yes to WPBiography and remove {{activepol}}
 				Match activepolm = ActivepolRegex.Match(articletext);
 				if (activepolm.Success)
@@ -361,6 +352,15 @@ namespace WikiFunctions.TalkPages
 					articletext = ActivepolRegex.Replace(articletext, "");
 				}
             
+				// If {{BLP}} then add living=yes to WPBiography and remove {{BLP}}
+       	 		Match blpm = BLPRegex.Match(articletext);
+       	     	if (blpm.Success & !Tools.GetTemplateParameterValue(m.Value, "living").ToLower().StartsWith("n"))
+				{
+					string blpValue = Tools.SetTemplateParameterValue(m.Value, "living", "yes");
+					articletext = articletext.Replace(m.Value, blpValue);
+					articletext = BLPRegex.Replace(articletext, "");
+				}
+
             }
 
             // refresh
