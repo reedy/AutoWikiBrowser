@@ -110,24 +110,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Protected Overrides Sub ProcessArticleFinish()
             Dim Living As Living = Living.Unknown, LivingAlreadyAddedToEditSummary As Boolean
 
-            With article
-                If BLPRegex.Matches(.AlteredArticleText).Count > 0 Then
-                    .AlteredArticleText = BLPRegex.Replace(.AlteredArticleText, "")
-                    .DoneReplacement("{{[[Template:Blp|Blp]]}}", "living=yes", True, PluginShortName)
-                    Living = Plugins.Living.Living
-                    LivingAlreadyAddedToEditSummary = True
-                    .ArticleHasAMinorChange()
-                End If
-
-                If ActivepolRegex.Matches(.AlteredArticleText).Count > 0 Then
-                    .AlteredArticleText = ActivepolRegex.Replace(.AlteredArticleText, "")
-                    .DoneReplacement("{{[[Template:Active politician|Activepolitician]]}}", "activepol=yes", _
-                       True, PluginShortName)
-                    AddNewParamWithAYesValue("activepol")
-                    .ArticleHasAMinorChange()
-                End If
-            End With
-
             StubClass()
 
             With OurSettingsControl

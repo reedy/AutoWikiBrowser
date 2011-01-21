@@ -1046,6 +1046,20 @@ __TOC__", articleTextIn);
             Assert.AreEqual(a.Replace(@"é","e"), TalkPageFixes.WPBiography(a), "diacritics removed from WPBiography listas");
             Assert.AreEqual(a.Replace(@"é","e"), TalkPageFixes.WPBiography(a.Replace(@"é","e")), "no change when no diacritics in WPBiography listas");
         }
+        
+        [Test]
+        public void WPBiographyBLPActivepol()
+        {
+            string a = @"{{WPBiography}}";
+            
+            Assert.AreEqual(a.Replace(@"}}"," | living=yes}}"), TalkPageFixes.WPBiography(a + @"{{blp}}"), "Add blp to WPBiography");
+            Assert.AreEqual(a.Replace(@"}}"," |living=yes}}"), TalkPageFixes.WPBiography(a.Replace(@"}}"," |living=}}") + @"{{blp}}"), "Add value to empty parameter");
+            Assert.AreEqual(a.Replace(@"}}","|living=yes}}"), TalkPageFixes.WPBiography(a.Replace(@"}}","|living=no}}") + @"{{blp}}"), "Change value in WPBiography if blp=yes");
+            Assert.AreEqual(a.Replace(@"}}"," | activepol=yes}}"), TalkPageFixes.WPBiography(a + @"{{activepol}}"), "Add activepol to WPBiography");
+            Assert.AreEqual(a.Replace(@"}}"," | activepol=yes}}"), TalkPageFixes.WPBiography(a + @"{{active politician}}"), "Add activepol via redirect to WPBiography");
+            Assert.AreEqual(a.Replace(@"}}"," | living=yes | activepol=yes}}"), TalkPageFixes.WPBiography(a + @"{{blp}}{{activepol}}"), "Add activepol and blp to WPBiography");
+        }
+
     }
     
     [TestFixture]
