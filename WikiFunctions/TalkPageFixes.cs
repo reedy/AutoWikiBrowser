@@ -318,7 +318,9 @@ namespace WikiFunctions.TalkPages
         }
         
         /// <summary>
-        /// Moves WPBiography with living=yes above any WikiProject templates per Wikipedia:TPL#Talk_page_layout, en-wiki only
+        /// Moves WPBiography with living=yes above any WikiProject templates per Wikipedia:TPL#Talk_page_layout
+        /// Does various fixes to WPBiography
+        /// en-wiki only
         /// </summary>
         /// <param name="articletext">The talk page text</param>
         /// <returns>The updated talk page text</returns>
@@ -338,19 +340,38 @@ namespace WikiFunctions.TalkPages
                 
                 if(!wpb.Equals(m.Value))
                     articletext = articletext.Replace(m.Value, wpb);
-            }
+                
+				// If {{BLP}} then add living=yes to WPBiography and remove {{BLP}}
+       	 		Match blpm = BLPRegex.Match(articletext);
+       	     	if (blpm.Success)
+				{
+					string blpValue = Tools.SetTemplateParameterValue(m.Value, "living", "yes");
+					articletext = articletext.Replace(m.Value, blpValue);
+					articletext = BLPRegex.Replace(articletext, "");
+				}
+
+				// If {{activepol}} then add activepol=yes to WPBiography and remove {{activepol}}
+				Match activepolm = ActivepolRegex.Match(articletext);
+				if (activepolm.Success)
+				{
+					string apValue = Tools.SetTemplateParameterValue(m.Value, "activepol", "yes");
+					articletext = articletext.Replace(m.Value, apValue);
+					articletext = ActivepolRegex.Replace(articletext, "");
+				}
             
+            }
+
             // refresh
             m = WPBiographyR.Match(articletext);
             
-            if(!m.Success || !Tools.GetTemplateParameterValue(m.Value, "living").ToLower().StartsWith("y"))
+			if(!m.Success || !Tools.GetTemplateParameterValue(m.Value, "living").ToLower().StartsWith("y"))
                 return articletext;
             
             // remove {{blp}} if {{WPBiography|living=yes}}
             articletext = BLPRegex.Replace(articletext, "");
             
             // remove {{activepol}} if {{WPBiography|activepol=yes}}
-            articletext = ActivepolRegex.Replace(articletext, "");
+			articletext = ActivepolRegex.Replace(articletext, "");
             
             // move above any other WikiProject
             if(!WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articletext))
