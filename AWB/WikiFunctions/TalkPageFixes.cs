@@ -350,12 +350,14 @@ namespace WikiFunctions.TalkPages
 					articletext = BLPRegex.Replace(articletext, "");
 				}
 
-				// If {{activepol}} then add activepol=yes to WPBiography and remove {{activepol}}
+				// If {{activepol}} then add living=yes, activepol=yes, politician-work-group=yes to WPBiography and remove {{activepol}}
 				Match activepolm = ActivepolRegex.Match(articletext);
 				if (activepolm.Success)
 				{
-					string apValue = Tools.SetTemplateParameterValue(m.Value, "activepol", "yes");
-					articletext = articletext.Replace(m.Value, apValue);
+					string blpValue = Tools.SetTemplateParameterValue(m.Value, "living", "yes");
+					string apValue = Tools.SetTemplateParameterValue(blpValue, "activepol", "yes");
+					string politicianValue = Tools.SetTemplateParameterValue(apValue, "politician-work-group", "yes");
+					articletext = articletext.Replace(m.Value, politicianValue);
 					articletext = ActivepolRegex.Replace(articletext, "");
 				}
             
