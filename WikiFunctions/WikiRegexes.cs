@@ -138,30 +138,29 @@ namespace WikiFunctions
             EmptyTemplate = new Regex(@"{{(" + Variables.NamespacesCaseInsensitive[Namespace.Template] + @")?[|\s]*}}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
             
             // set orphan, wikify, uncat templates & dateparameter string
-            string orphantemplate, uncattemplate;
+            string uncattemplate;
             switch(Variables.LangCode)
             {
                 case "sv":
-                    orphantemplate = @"Föräldralös";
+                    Orphan = Tools.NestedTemplateRegex(@"Föräldralös");
                     uncattemplate = "[Oo]kategoriserad";
                     DateYearMonthParameter = @"datum={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}";
                     Wikify = new Regex(@"{{\s*Ickewiki(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                     break;
                 case "ru":
-                    orphantemplate = @"изолированная статья";
+                    Orphan = Tools.NestedTemplateRegex(@"изолированная статья");
                     uncattemplate = UncatTemplatesEN;
                     DateYearMonthParameter = @"date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
                     Wikify = new Regex(@"({{\s*Wikify(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|(?<={{\s*(?:Article|Multiple)\s*issues\b[^{}]*?)\|\s*wikify\s*=[^{}\|]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                     break;
                 default:
-                    orphantemplate = "Orphan";
+                    Orphan = new Regex(@"(?:{{\s*[Oo]rphan(?:\|(?:[^{}]+|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}))?}}|({{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*orphan\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))", RegexOptions.Compiled);
                     uncattemplate = UncatTemplatesEN;
                     DateYearMonthParameter = @"date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
                     Wikify = new Regex(@"(?:{{\s*Wikify(?:\s*\|\s*(?:date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|({{\s*(?:Article|Multiple)\s*issues\b[^{}]*?)\|\s*wikify\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                     break;
             }
 
-            Orphan = new Regex(@"{{\s*" + orphantemplate + @"(?:\s*\|\s*(" + DateYearMonthParameter + @"|.*?))?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
             Uncat = new Regex(@"{{\s*" + uncattemplate + @"((\s*\|[^{}]+)?\s*|\s*\|((?>[^\{\}]+|\{\{(?<DEPTH>)|\}\}(?<-DEPTH>))*(?(DEPTH)(?!))))\}\}", RegexOptions.Compiled);
 
             switch (Variables.LangCode)
@@ -791,7 +790,7 @@ namespace WikiFunctions
         public static readonly Regex Expand = new Regex(@"({{\s*(?:Expand-?article|Expand|Develop|Elaborate|Expansion)(?:\s*\|\s*(?:date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|(?<={{(?:Article|Multiple)\s*issues\b[^{}]*?)\|\s*expand\s*=[^{}\|]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
-        /// Matches {{orphan}} tag
+        /// Matches {{orphan}} tag, including in {{Multiple issues}}, group 1 is the {{Multiple issues}} template call up to the orphan tag
         /// </summary>
         public static Regex Orphan;
 

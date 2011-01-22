@@ -5981,7 +5981,7 @@ namespace WikiFunctions.Parse
             }
             else if (!orphaned && WikiRegexes.Orphan.IsMatch(articleText))
             {
-                articleText = WikiRegexes.Orphan.Replace(articleText, "");
+                articleText = WikiRegexes.Orphan.Replace(articleText, "$1");
                 tagsRemoved.Add("orphan");
             }
             return articleText;
