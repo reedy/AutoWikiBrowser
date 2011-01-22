@@ -5731,12 +5731,13 @@ namespace WikiFunctions.Parse
             tagsAdded.Clear();
 
             string commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
+            string commentsCategoriesStripped = WikiRegexes.Category.Replace(commentsStripped, "");
             Sorter.Interwikis(ref commentsStripped);
 
             // bulleted or indented text should weigh less than simple text.
             // for example, actor stubs may contain large filmographies
-            string crapStripped = WikiRegexes.BulletedText.Replace(commentsStripped, "");
-            int words = (Tools.WordCount(commentsStripped) + Tools.WordCount(crapStripped))/2;
+            string crapStripped = WikiRegexes.BulletedText.Replace(commentsCategoriesStripped, "");
+            int words = (Tools.WordCount(commentsCategoriesStripped) + Tools.WordCount(crapStripped))/2;
 
             // remove stub tags from long articles
             if ((words > StubMaxWordCount) && WikiRegexes.Stub.IsMatch(commentsStripped))
@@ -5747,11 +5748,12 @@ namespace WikiFunctions.Parse
 
             // refresh
             commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
+            commentsCategoriesStripped = WikiRegexes.Category.Replace(commentsStripped, "");
 
             // on en wiki, remove expand template when a stub template exists
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Remove_.7B.7Bexpand.7D.7D_when_a_stub_template_exists
-            if (Variables.LangCode == "en" && WikiRegexes.Stub.IsMatch(commentsStripped) &&
-                WikiRegexes.Expand.IsMatch(commentsStripped))
+            if (Variables.LangCode == "en" && WikiRegexes.Stub.IsMatch(commentsCategoriesStripped) &&
+                WikiRegexes.Expand.IsMatch(commentsCategoriesStripped))
             {
                 articleText = WikiRegexes.Expand.Replace(articleText, "");
                 tagsRemoved.Add("expand");
@@ -5759,7 +5761,8 @@ namespace WikiFunctions.Parse
 
             // refresh
             commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
-
+            commentsCategoriesStripped = WikiRegexes.Category.Replace(commentsStripped, "");
+            
             // do orphan tagging before template analysis for categorisation tags
             articleText = TagOrphans(articleText, articleTitle, restrictOrphanTagging);
 
@@ -5798,11 +5801,11 @@ namespace WikiFunctions.Parse
                     tagsRemoved.Add("deadend");
             }
 
-            // discount persondata from wikify and stub evaluation
-            int length = WikiRegexes.Persondata.Replace(commentsStripped, "").Length + 1;
+            // discount persondata along with comments and categories from wikify and stub evaluation
+            int length = WikiRegexes.Persondata.Replace(commentsCategoriesStripped, "").Length + 1;
 
-            if (length <= 300 && !WikiRegexes.Stub.IsMatch(commentsStripped) &&
-                !WikiRegexes.Disambigs.IsMatch(commentsStripped) && !WikiRegexes.SIAs.IsMatch(commentsStripped))
+            if (length <= 300 && !WikiRegexes.Stub.IsMatch(commentsCategoriesStripped) &&
+                !WikiRegexes.Disambigs.IsMatch(commentsCategoriesStripped) && !WikiRegexes.SIAs.IsMatch(commentsCategoriesStripped))
             {
                 // add stub tag
                 articleText += Tools.Newline("{{stub}}", 3);
@@ -5876,8 +5879,8 @@ namespace WikiFunctions.Parse
             }
 
             // rename unreferenced --> refimprove if has existing refs
-            if (WikiRegexes.Unreferenced.IsMatch(commentsStripped)
-                && WikiRegexes.Refs.Matches(commentsStripped).Count > 0)
+            if (WikiRegexes.Unreferenced.IsMatch(commentsCategoriesStripped)
+                && WikiRegexes.Refs.Matches(commentsCategoriesStripped).Count > 0)
             {
                 articleText = Tools.RenameTemplate(articleText, "unreferenced", "refimprove", true);
                 
