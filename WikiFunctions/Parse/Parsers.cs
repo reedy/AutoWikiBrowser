@@ -2536,7 +2536,7 @@ namespace WikiFunctions.Parse
             
             // {{Category:foo]] or {{Category:foo}}
             articleText = CategoryCurlyBrackets.Replace(articleText, @"[[$1]]");
-
+            
             // fixes for missing/unbalanced brackets
             articleText = RefCitationMissingOpeningBraces.Replace(articleText, @"{{");
             articleText = RefTemplateIncorrectBracesAtEnd.Replace(articleText, @"$1}}");
@@ -2899,7 +2899,6 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             // {{cite web}}/{{cite book}} etc. need lower case field names; two loops in case a single template has multiple uppercase fields
-            // restrict to en-wiki
             // exceptionally, 'ISBN' is allowed in upper case
             for(;;)
             {
@@ -2935,9 +2934,7 @@ namespace WikiFunctions.Parse
 
             // check not within URL
             if (!urlmatch)
-                return(
-                    m.Groups[1].Value + m.Groups[2].Value.ToLower() +
-                    m.Groups[3].Value);
+                return(m.Groups[1].Value + m.Groups[2].Value.ToLower() + m.Groups[3].Value);
             
             return m.Value;
         }
@@ -5364,10 +5361,11 @@ namespace WikiFunctions.Parse
                                 yearstring = m.Groups[1].Value;
                     }
                 }
+                
                 // per [[:Category:Living people]], don't apply birth category if born > 121 years ago
                 // validate a YYYY date is not in the future
                 if (!string.IsNullOrEmpty(yearstring) && yearstring.Length > 2
-                    && (!Regex.IsMatch(yearstring, @"\d{4}") || Convert.ToInt32(yearstring) <= DateTime.Now.Year)
+                    && (!Regex.IsMatch(yearstring, @"^\d{4}$") || Convert.ToInt32(yearstring) <= DateTime.Now.Year)
                     && !(articleText.Contains(@"[[Category:Living people") && Convert.ToInt32(yearstring) < (DateTime.Now.Year - 121)))
                     articleText += Tools.Newline(@"[[Category:") + yearstring + " births" + CatEnd(sort);
             }
