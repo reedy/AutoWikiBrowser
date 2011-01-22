@@ -2323,7 +2323,7 @@ world|format=PDF}} was";
             string a = @"{{cite web|url=a |title=b |year=2008 | accessdate=1 May 2008}}";
             Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=01 May 2008}}"));
 
-			string a0 = @"{{cite web|url=a |title=b | accessdate=1 May 2008 | date=May 1, 2008}}";
+            string a0 = @"{{cite web|url=a |title=b | accessdate=1 May 2008 | date=May 1, 2008}}";
             Assert.AreEqual(a0, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b | accessdate=01 May 2008 | date=May 01, 2008}}"));
             
             string a2 = @"{{cite web|url=a |title=b |year=2008 | accessdate=1 May 1998}}";
@@ -7458,7 +7458,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(text), "Unref to refimprove when no refs");
             Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("refimprove"), "Unref when no refs");
             
-            text = parser.Tagger(@"{{Multiple issues|orphan = February 2009|wikify = April 2009|unreferenced = April 2007}} <ref>foo</ref>", "Test", false, out noChange, ref summary);
+            text = parser.Tagger(@"{{Multiple issues|COI = February 2009|wikify = April 2009|unreferenced = April 2007}} <ref>foo</ref>", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(text), "Unref to refimprove when no refs");
             Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("refimprove"), "Renames unreferenced to refimprove in MI parameter when existing refs");
         }
@@ -7590,14 +7590,14 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#Autotagging_and_Articleissues
             // do not add orphan where article already has orphan tag within {{Article issues}}
-
+            Globals.UnitTestBoolValue = true;
             text = parser.Tagger(@"{{Article issues|orphan=May 2008|cleanup=May 2008|story=May 2008}}\r\n" + ShortText, "Test", false, out noChange, ref summary);
-            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
-            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("orphan"));
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
             
             text = parser.Tagger(@"{{Article issues|orphan={{subst:CURRENTMONTH}} {{subst:CURRENTYEAR}}|deadend={{subst:CURRENTMONTH}} {{subst:CURRENTYEAR}}|wikify=May 2008}}\r\n" + ShortText, "Test", false, out noChange, ref summary);
-            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
             Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("orphan"));
+            
+            Globals.UnitTestBoolValue = false;
             
             // disambigs are not stubs
             text = parser.Tagger(ShortText + @" {{hndis|Bar, Foo}}", "Test", false, out noChange, ref summary);
