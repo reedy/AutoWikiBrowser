@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Windows.Forms;
 using System.IO;
+using WikiFunctions;
 
 namespace AutoWikiBrowser
 {
@@ -82,7 +83,7 @@ namespace AutoWikiBrowser
                                                               {
                                                                   WorkingDirectory = Path.GetDirectoryName(txtProgram.Text),
                                                                   FileName = Path.GetFileName(txtProgram.Text),
-                                                                  Arguments = txtParameters.Text.Replace("%%file%%", txtFile.Text)
+                                                                  Arguments = Tools.ApplyKeyWords(articleTitle, txtParameters.Text.Replace("%%file%%", txtFile.Text))
                                                               };
 
                 if (radFile.Checked)
