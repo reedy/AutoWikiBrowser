@@ -218,7 +218,8 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Applies a given typo fix to the article provided the typo does not also match the article title
+        /// Applies a given typo fix to the article, provided the typo does not also match the article title
+        /// Updates edit summary based on the first match (value & replacement) of the typo and the total number of replacements
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="summary"></param>
