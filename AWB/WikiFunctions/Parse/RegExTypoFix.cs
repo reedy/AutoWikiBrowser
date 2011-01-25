@@ -243,7 +243,7 @@ namespace WikiFunctions.Parse
 
                 foreach (Match m in matches)
                 {
-                    string res = typo.Key.Replace(m.Value, typo.Value);
+                    string res = m.Result(typo.Value);
                     if (res != m.Value)
                     {
                         count++;
