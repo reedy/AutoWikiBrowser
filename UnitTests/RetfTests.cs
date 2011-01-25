@@ -117,7 +117,7 @@ namespace UnitTests
             AssertFix("quux", "boz");
             AssertFix("quux", "Boz");
             AssertNoFix("BOZ");
-            AssertFix("furbag", "FuBaRbag");            
+            AssertFix("furbag", "FuBaRbag");
         }
         
         [Test]
@@ -126,8 +126,8 @@ namespace UnitTests
             Typos["foo"] = "bar";
             AssertNoFix("http://foo.com/asdfasdf/asdf.htm");
             AssertNoFix(@"[http://foo.com/asdfasdf/asdf.htm Foo's best]");
-            AssertNoFix("http://foo.com/asdfasdf/foo.htm");            
-        }        
+            AssertNoFix("http://foo.com/asdfasdf/foo.htm");
+        }
 
         [Test]
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#Rules_in_Finnish_Regex_TypoFix_list_not_always_applied
@@ -149,10 +149,15 @@ namespace UnitTests
         public void SummaryTests()
         {
             Typos["f[oO0]{2}"] = "foo";
+            Typos[@"(?<=ten )bar"] = "BAR";
 
             AssertFix("foo foo", "foo fO0");
-            Assert.That(!Summary.Contains("foo → foo"));
-            Assert.That(!Summary.Contains("2"));
+            Assert.IsFalse(Summary.Contains("foo → foo"));
+            Assert.IsFalse(Summary.Contains("2"));            
+            
+            AssertFix("ten BAR", "ten bar");
+            Assert.IsTrue(Summary.Contains(@"bar → BAR"), "regex with lookbehind such that regex does not match its own match value still generates edit summary based on match value");
+            Assert.IsFalse(Summary.Contains("ten"), "for regex with lookbehind, edit summary based on match value without groups outside match value");
         }
 
         [Test]
