@@ -702,7 +702,7 @@ namespace AutoWikiBrowser
 
                 TheArticle = new Article(title, "");
 
-                //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#.27Find.27_sometimes_fails_to_use_the_search_key
+                //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#.27Find.27_sometimes_fails_to_use_the_search_key
                 txtEdit.ResetFind();
 
                 NewHistory(title);
@@ -2427,11 +2427,11 @@ window.scrollTo(0, diffTopY);
                 if (catCount == 0 && !Namespace.IsTalk(TheArticle.Name))
                     lbAlerts.Items.Add("No category (may be one in a template)");
 
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Replace_nofootnotes_with_morefootnote_if_references_exists
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Replace_nofootnotes_with_morefootnote_if_references_exists
                 if (TheArticle.HasMorefootnotesAndManyReferences)
                     lbAlerts.Items.Add("Has 'No/More footnotes' template yet many references");
 
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#.28Yet.29_more_reference_related_changes.
                 if (TheArticle.HasRefAfterReflist)
                     lbAlerts.Items.Add(@"Has a <ref> after <references/>");
                 
@@ -2441,15 +2441,15 @@ window.scrollTo(0, diffTopY);
                 if (articleText.StartsWith("=="))
                     lbAlerts.Items.Add("Starts with heading");
 
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Format_references
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Format_references
                 if (TheArticle.HasBareReferences)
                     lbAlerts.Items.Add("Unformatted references found");
 
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Detect_multiple_DEFAULTSORT
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Detect_multiple_DEFAULTSORT
                 if (WikiRegexes.Defaultsort.Matches(txtEdit.Text).Count > 1)
                     lbAlerts.Items.Add("Multiple DEFAULTSORTs found");
 
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Some_additional_edits
+                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Some_additional_edits
                 deadLinks = TheArticle.DeadLinks();
                 if (deadLinks.Count > 0)
                     lbAlerts.Items.Add("Dead links found" + " (" + deadLinks.Count + ")");
