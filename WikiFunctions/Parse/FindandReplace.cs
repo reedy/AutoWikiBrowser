@@ -71,7 +71,8 @@ namespace WikiFunctions.Parse
                                   {
                                       Enabled = ((bool)dataGridRow.Cells["enabled"].FormattedValue),
                                       Minor = ((bool)dataGridRow.Cells["minor"].FormattedValue),
-                                      IsRegex = ((bool)dataGridRow.Cells["regex"].FormattedValue)
+                                      IsRegex = ((bool)dataGridRow.Cells["regex"].FormattedValue),
+                                      BeforeOrAfter = ((bool)dataGridRow.Cells["BeforeOrAfter"].FormattedValue)
                                   };
 
             if (dataGridRow.Cells["replace"].Value == null)
@@ -141,9 +142,10 @@ namespace WikiFunctions.Parse
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="editSummary"></param>
         /// <param name="strTitle"></param>
+        /// <param name="beforeOrAfter">False if "before", true if "after"</param>
         /// <param name="majorChangesMade"></param>
         /// <returns>The modified article text.</returns>
-        public string MultipleFindAndReplace(string articleText, string strTitle, ref string editSummary, out bool majorChangesMade)
+        public string MultipleFindAndReplace(string articleText, string strTitle, bool beforeOrAfter, ref string editSummary, out bool majorChangesMade)
         {
             majorChangesMade = false;
 
@@ -160,7 +162,7 @@ namespace WikiFunctions.Parse
 
             foreach (Replacement rep in _replacementList)
             {
-                if (!rep.Enabled)
+                if (!rep.Enabled || rep.BeforeOrAfter != beforeOrAfter)
                     continue;
 
                 bool changeMade;
@@ -271,7 +273,9 @@ namespace WikiFunctions.Parse
         {
             if (MessageBox.Show("Do you really want to clear the whole table?", "Really clear?", MessageBoxButtons.YesNo,
                                 MessageBoxIcon.Question) == DialogResult.Yes)
+            {
                 Clear();
+            }
         }
 
         /// <summary>
@@ -324,7 +328,7 @@ namespace WikiFunctions.Parse
             bool singleLine = (r.RegularExpressionOptions & RegexOptions.Singleline) == RegexOptions.Singleline;
 
             dataGridView1.Rows.Add(r.IsRegex ? Decode(r.Find) : Regex.Unescape(Decode(r.Find)), Decode(r.Replace),
-                                   caseSens, r.IsRegex, multiline, singleLine, r.Minor, r.Enabled, r.Comment);
+                                   caseSens, r.IsRegex, multiline, singleLine, r.Minor, r.BeforeOrAfter, r.Enabled, r.Comment);
 
             _replacementList.Add(r);
         }
@@ -657,13 +661,14 @@ namespace WikiFunctions.Parse
             RegularExpressionOptions = RegexOptions.None;
         }
 
-        public Replacement(string find, string replace, bool isRegex, bool enabled, bool minor, RegexOptions regularExpressionOptions, string comment)
+        public Replacement(string find, string replace, bool isRegex, bool enabled, bool minor, bool beforeOrAfter, RegexOptions regularExpressionOptions, string comment)
         {
             Find = find;
             Replace = replace;
             IsRegex = isRegex;
             Enabled = enabled;
             Minor = minor;
+            BeforeOrAfter = beforeOrAfter;
             RegularExpressionOptions = regularExpressionOptions;
             Comment = comment;
         }
@@ -672,7 +677,7 @@ namespace WikiFunctions.Parse
             Replace, Comment;
 
         public bool IsRegex,
-            Enabled, Minor;
+            Enabled, Minor, BeforeOrAfter;
 
         public RegexOptions RegularExpressionOptions;
     }

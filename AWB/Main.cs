@@ -1427,7 +1427,7 @@ namespace AutoWikiBrowser
                 if (chkFindandReplace.Checked)
                 {
                     theArticle.PerformFindAndReplace(FindAndReplace, SubstTemplates, RplcSpecial,
-                                                     chkSkipWhenNoFAR.Checked, chkSkipOnlyMinorFaR.Checked);
+                                                     chkSkipWhenNoFAR.Checked, chkSkipOnlyMinorFaR.Checked, false);
 
                     Variables.Profiler.Profile("F&R");
 
@@ -1539,7 +1539,7 @@ namespace AutoWikiBrowser
                 if (chkFindandReplace.Checked)
                 {
                     theArticle.PerformFindAndReplace(FindAndReplace, SubstTemplates, RplcSpecial,
-                                                     chkSkipWhenNoFAR.Checked, chkSkipOnlyMinorFaR.Checked);
+                                                     chkSkipWhenNoFAR.Checked, chkSkipOnlyMinorFaR.Checked, true);
 
                     Variables.Profiler.Profile("F&R (2nd)");
 

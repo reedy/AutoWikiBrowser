@@ -709,8 +709,9 @@ namespace WikiFunctions
         /// <param name="replaceSpecial">An MWB ReplaceSpecial object</param>
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
         /// <param name="skipIfOnlyMinorChange"></param>
+        /// <param name="beforeOrAfter">False if "before", true if "after"</param>
         public void PerformFindAndReplace(FindandReplace findAndReplace, SubstTemplates substTemplates,
-                                          ReplaceSpecial.ReplaceSpecial replaceSpecial, bool skipIfNoChange, bool skipIfOnlyMinorChange)
+                                          ReplaceSpecial.ReplaceSpecial replaceSpecial, bool skipIfNoChange, bool skipIfOnlyMinorChange, bool beforeOrAfter)
         {
             if (!findAndReplace.HasReplacements && !replaceSpecial.HasRules && !substTemplates.HasSubstitutions)
                 return;
@@ -720,7 +721,7 @@ namespace WikiFunctions
             tmpEditSummary = "";
 
             bool majorChangesMade;
-            strTemp = findAndReplace.MultipleFindAndReplace(strTemp, Name, ref tmpEditSummary, out majorChangesMade);
+            strTemp = findAndReplace.MultipleFindAndReplace(strTemp, Name, beforeOrAfter, ref tmpEditSummary, out majorChangesMade);
 
             bool farMadeMajorChanges = (testText != strTemp && majorChangesMade);
 
