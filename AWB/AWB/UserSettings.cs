@@ -491,7 +491,6 @@ namespace AutoWikiBrowser
             FindAndReplace.IgnoreLinks = p.FindAndReplace.IgnoreSomeText;
             FindAndReplace.IgnoreMore = p.FindAndReplace.IgnoreMoreText;
             FindAndReplace.AppendToSummary = p.FindAndReplace.AppendSummary;
-            FindAndReplace.AfterOtherFixes = p.FindAndReplace.AfterOtherFixes;
             FindAndReplace.AddNew(p.FindAndReplace.Replacements);
 
             RplcSpecial.Clear();

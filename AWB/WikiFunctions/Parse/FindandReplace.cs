@@ -376,15 +376,6 @@ namespace WikiFunctions.Parse
             set { chkAddToSummary.Checked = value; }
         }
 
-        /// <summary>
-        /// Gets or sets whether the replacements are made after or before the general fixes
-        /// </summary>
-        public bool AfterOtherFixes
-        {
-            get { return chkAfterOtherFixes.Checked; }
-            set { chkAfterOtherFixes.Checked = value; }
-        }
-
         #endregion
 
         #region Events

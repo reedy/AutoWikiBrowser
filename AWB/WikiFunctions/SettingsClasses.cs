@@ -206,8 +206,6 @@ namespace WikiFunctions.AWBSettings
         {
             IgnoreSomeText = findAndReplace.IgnoreLinks;
             IgnoreMoreText = findAndReplace.IgnoreMore;
-            AppendSummary = findAndReplace.AppendToSummary;
-            AfterOtherFixes = findAndReplace.AfterOtherFixes;
             Replacements = findAndReplace.GetList();
             AdvancedReps = replaceSpecial.GetRules();
 
@@ -221,7 +219,6 @@ namespace WikiFunctions.AWBSettings
         public bool IgnoreSomeText = false;
         public bool IgnoreMoreText = false;
         public bool AppendSummary = true;
-        public bool AfterOtherFixes = false;
         public List<Parse.Replacement> Replacements = new List<Parse.Replacement>();
 
         public List<ReplaceSpecial.IRule> AdvancedReps = new List<ReplaceSpecial.IRule>();
