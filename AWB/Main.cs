@@ -1424,7 +1424,7 @@ namespace AutoWikiBrowser
                 }
 
                 // find and replace before general fixes
-                if (chkFindandReplace.Checked && !FindAndReplace.AfterOtherFixes)
+                if (chkFindandReplace.Checked)
                 {
                     theArticle.PerformFindAndReplace(FindAndReplace, SubstTemplates, RplcSpecial,
                                                      chkSkipWhenNoFAR.Checked, chkSkipOnlyMinorFaR.Checked);
@@ -1536,7 +1536,7 @@ namespace AutoWikiBrowser
                 }
 
                 // find and replace after general fixes
-                if (chkFindandReplace.Checked && FindAndReplace.AfterOtherFixes)
+                if (chkFindandReplace.Checked)
                 {
                     theArticle.PerformFindAndReplace(FindAndReplace, SubstTemplates, RplcSpecial,
                                                      chkSkipWhenNoFAR.Checked, chkSkipOnlyMinorFaR.Checked);
