@@ -198,7 +198,7 @@ a");
 {{WikiProject c|text}}";
             
             TalkGenFixes();
-            Assert.AreEqual(a, ArticleText, "lalaa");  
+            Assert.AreEqual(a, ArticleText, "Adds WikiProjectBannerShell below talk header");  
         
         }
     }
