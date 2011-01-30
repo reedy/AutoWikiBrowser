@@ -66,6 +66,8 @@ namespace WikiFunctions.TalkPages
             articleText = WikiRegexes.SkipTOCTemplateRegex.Replace(articleText,
                                                                    new MatchEvaluator(pr.SkipTOCMatchEvaluator), 1);
 
+            articleText = WikiProjectBannerShell(articleText);
+
             // move talk page header to the top
             articleText = MoveTalkHeader(articleText);
 
@@ -84,8 +86,6 @@ namespace WikiFunctions.TalkPages
                     }
                 }
             }
-
-            articleText = WikiProjectBannerShell(articleText);
 
             articleText = AddMissingFirstCommentHeader(articleText);
             
