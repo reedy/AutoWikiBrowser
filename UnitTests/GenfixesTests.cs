@@ -180,6 +180,26 @@ a");
             ArticleText = AllCommented;
             TalkGenFixes();
             Assert.AreEqual(AllCommented, ArticleText, "no WikiProjectBannerShell addition when templates all commented out");
+
+                    const string a = @"{{Talk header}}
+{{WikiProjectBannerShell|1=
+{{WikiProject a |text}}
+{{WikiProject b|text}}
+{{WikiProject Biography|living=yes}}
+{{WikiProject c|text}}
+| blp=yes
+}}
+";
+            
+            ArticleText = @"{{Talk header}}
+{{WikiProject a |text}}
+{{WikiProject b|text}}
+{{WikiProject Biography|living=yes}}
+{{WikiProject c|text}}";
+            
+            TalkGenFixes();
+            Assert.AreEqual(a, ArticleText, "lalaa");  
+        
         }
     }
 }
