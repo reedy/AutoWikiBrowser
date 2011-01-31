@@ -68,6 +68,7 @@ namespace WikiFunctions.Parse
             this.checkAllMultlineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkAllRegularExpressionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.checkAllSinglelineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.checkAllBeforeOrAfterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.enableAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.uncheckAllCaseSensitiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -75,6 +76,7 @@ namespace WikiFunctions.Parse
             this.uncheckAllMultilineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uncheckAllRegularExpressionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uncheckAllSinglelineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.uncheckAllBeforeOrAfterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.disableAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnDone = new System.Windows.Forms.Button();
             this.lnkWpRE = new System.Windows.Forms.LinkLabel();
@@ -149,6 +151,7 @@ namespace WikiFunctions.Parse
             this.checkAllMultlineToolStripMenuItem,
             this.checkAllRegularExpressionsToolStripMenuItem,
             this.checkAllSinglelineToolStripMenuItem,
+            this.checkAllBeforeOrAfterToolStripMenuItem,
             this.enableAllToolStripMenuItem,
             this.toolStripSeparator2,
             this.uncheckAllCaseSensitiveToolStripMenuItem,
@@ -156,6 +159,7 @@ namespace WikiFunctions.Parse
             this.uncheckAllMultilineToolStripMenuItem,
             this.uncheckAllRegularExpressionsToolStripMenuItem,
             this.uncheckAllSinglelineToolStripMenuItem,
+            this.uncheckAllBeforeOrAfterToolStripMenuItem,
             this.disableAllToolStripMenuItem});
             this.FindAndReplaceContextMenu.Name = "FindAndReplaceContextMenu";
             this.FindAndReplaceContextMenu.Size = new System.Drawing.Size(239, 468);
@@ -268,6 +272,13 @@ namespace WikiFunctions.Parse
             this.checkAllSinglelineToolStripMenuItem.Text = "Check all singleline";
             this.checkAllSinglelineToolStripMenuItem.Click += new System.EventHandler(this.checkAllSinglelineToolStripMenuItem_Click);
             // 
+            // uncheckAllBeforeOrAfterToolStripMenuItem
+            // 
+            this.checkAllBeforeOrAfterToolStripMenuItem.Name = "checkAllBeforeOrAfterToolStripMenuItem";
+            this.checkAllBeforeOrAfterToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.checkAllBeforeOrAfterToolStripMenuItem.Text = "Check all after fixes";
+            this.checkAllBeforeOrAfterToolStripMenuItem.Click += new System.EventHandler(this.checkAllBeforeOrAfterToolStripMenuItem_Click);
+            // 
             // enableAllToolStripMenuItem
             // 
             this.enableAllToolStripMenuItem.Name = "enableAllToolStripMenuItem";
@@ -314,6 +325,13 @@ namespace WikiFunctions.Parse
             this.uncheckAllSinglelineToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
             this.uncheckAllSinglelineToolStripMenuItem.Text = "Uncheck all singleline";
             this.uncheckAllSinglelineToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllSinglelineToolStripMenuItem_Click);
+            // 
+            // uncheckAllBeforeOrAfterToolStripMenuItem
+            // 
+            this.uncheckAllBeforeOrAfterToolStripMenuItem.Name = "uncheckAllBeforeOrAfterToolStripMenuItem";
+            this.uncheckAllBeforeOrAfterToolStripMenuItem.Size = new System.Drawing.Size(238, 22);
+            this.uncheckAllBeforeOrAfterToolStripMenuItem.Text = "Uncheck all after fixes";
+            this.uncheckAllBeforeOrAfterToolStripMenuItem.Click += new System.EventHandler(this.uncheckAllBeforeOrAfterToolStripMenuItem_Click);
             // 
             // disableAllToolStripMenuItem
             // 
@@ -616,10 +634,13 @@ namespace WikiFunctions.Parse
         private System.Windows.Forms.ToolStripMenuItem uncheckAllRegularExpressionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem checkAllMultlineToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem uncheckAllMultilineToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem enableAllToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem disableAllToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem checkAllSinglelineToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem uncheckAllSinglelineToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem checkAllBeforeOrAfterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem uncheckAllBeforeOrAfterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem enableAllToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem disableAllToolStripMenuItem;
+
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.CheckBox chkIgnoreMore;
         private System.Windows.Forms.TextBox txtSearch;
