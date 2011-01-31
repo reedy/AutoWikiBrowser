@@ -470,6 +470,16 @@ namespace WikiFunctions.Parse
             ChangeChecked("single", false);
         }
 
+        private void checkAllBeforeOrAfterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeChecked("beforeorafter", true);
+        }
+
+        private void uncheckAllBeforeOrAfterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangeChecked("beforeorafter", false);
+        }
+
         private void deleteRowToolStripMenuItem_Click(object sender, EventArgs e)
         {
             while (dataGridView1.SelectedRows.Count > 0)
