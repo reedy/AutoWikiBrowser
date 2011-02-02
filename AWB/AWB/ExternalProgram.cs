@@ -130,7 +130,7 @@ namespace AutoWikiBrowser
             groupBox1.Enabled = chkSkip.Enabled = chkEnabled.Checked;
             ToolTip tip = new ToolTip();
 
-            string tooltip = "If you need a paramter of the actual article text, please use \"%%articletext%%\". If you want to use the value of the Input/Output file, please use \"%%file%%\"";
+            string tooltip = "If you need a parameter of the actual article text, please use \"%%articletext%%\". If you want to use the value of the Input/Output file, please use \"%%file%%\"";
             tip.SetToolTip(txtParameters, tooltip);
             tip.SetToolTip(radParameter, tooltip);
 
