@@ -556,14 +556,14 @@ namespace WikiFunctions.Parse
             // BeforeOrAfter
             // 
             this.BeforeOrAfter.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.BeforeOrAfter.FalseValue = "False";
+            this.BeforeOrAfter.FalseValue = false;
             this.BeforeOrAfter.Frozen = true;
             this.BeforeOrAfter.HeaderText = "After fixes";
             this.BeforeOrAfter.Name = "BeforeOrAfter";
             this.BeforeOrAfter.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.BeforeOrAfter.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.BeforeOrAfter.ToolTipText = "Run this Find & Replace before (unchecked) or after (checked) general and typo fixes";
-            this.BeforeOrAfter.TrueValue = "True";
+            this.BeforeOrAfter.TrueValue = true;
             // 
             // enabled
             // 
