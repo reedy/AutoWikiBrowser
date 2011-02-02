@@ -5801,12 +5801,7 @@ namespace WikiFunctions.Parse
 
             // discount persondata along with comments and categories from wikify and stub evaluation
             int length = WikiRegexes.Persondata.Replace(commentsCategoriesStripped, "").Length + 1;
-            bool underlinked = false;
-            
-            if (linkCount < 0.0025*length)
-            {
-           	underlinked = true;
-            }
+            bool underlinked = (linkCount < 0.0025*length);
 
             if (length <= 300 && !WikiRegexes.Stub.IsMatch(commentsCategoriesStripped) &&
                 !WikiRegexes.Disambigs.IsMatch(commentsCategoriesStripped) && !WikiRegexes.SIAs.IsMatch(commentsCategoriesStripped))
