@@ -5801,6 +5801,12 @@ namespace WikiFunctions.Parse
 
             // discount persondata along with comments and categories from wikify and stub evaluation
             int length = WikiRegexes.Persondata.Replace(commentsCategoriesStripped, "").Length + 1;
+            bool underlinked = false;
+            
+            if (linkCount < 0.0025*length)
+            {
+           	underlinked = true;
+            }
 
             if (length <= 300 && !WikiRegexes.Stub.IsMatch(commentsCategoriesStripped) &&
                 !WikiRegexes.Disambigs.IsMatch(commentsCategoriesStripped) && !WikiRegexes.SIAs.IsMatch(commentsCategoriesStripped))
@@ -5860,14 +5866,14 @@ namespace WikiFunctions.Parse
                 tagsAdded.Add("[[:Category:Dead-end pages|deadend]]");
             }
 
-            if (linkCount < 3 && ((linkCount/length) < 0.0025) && !WikiRegexes.Wikify.IsMatch(articleText)
+            if (linkCount < 3 && underlinked && !WikiRegexes.Wikify.IsMatch(articleText)
                 && !WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower().Contains("wikify"))
             {
                 // add wikify tag
                 articleText = "{{Wikify|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                 tagsAdded.Add("[[WP:WFY|wikify]]");
             }
-            else if (linkCount > 3 && ((linkCount/length) > 0.0025) &&
+            else if (linkCount > 3 && !underlinked &&
                      WikiRegexes.Wikify.IsMatch(articleText))
             {
                 articleText = WikiRegexes.Wikify.Replace(articleText, new MatchEvaluator(SectionTagME));
