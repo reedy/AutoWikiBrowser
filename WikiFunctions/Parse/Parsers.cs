@@ -5769,7 +5769,7 @@ namespace WikiFunctions.Parse
             articleText = TagEmptySection(articleText);
 
             int totalCategories;
-            double linkCount = Tools.LinkCount(commentsStripped);
+            int linkCount = Tools.LinkCount(commentsStripped);
 
             #if DEBUG || UNITTEST
             if (Globals.UnitTestMode)
