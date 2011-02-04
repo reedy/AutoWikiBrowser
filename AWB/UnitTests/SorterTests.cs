@@ -786,6 +786,16 @@ foo";
         }
         
         [Test]
+        public void CategoryRedirects()
+        {
+            const string redirect=@"#REDIRECT [[Category:Foo]]";
+            string a = redirect;
+            
+            Assert.AreEqual("", parser2.Sorter.RemoveCats(ref a, "test"));
+            Assert.AreEqual(a, redirect, "cats not pulled from redirect target");
+        }
+        
+        [Test]
         public void RemoveCatsSlWikiLifetime()
         {
             #if DEBUG

@@ -361,6 +361,10 @@ en, sq, ru
         /// <returns>The cleaned page categories in a single string</returns>
         public string RemoveCats(ref string articleText, string articleTitle)
         {
+            // don't pull cat form redirect to a category
+            if(WikiRegexes.Category.IsMatch(@"[[" + Tools.RedirectTarget(articleText) + @"]]"))
+                return "";
+            
             List<string> categoryList = new List<string>();
             string originalArticleText = articleText;
 
