@@ -2294,7 +2294,7 @@ Message: {2}
         /// <param name="templateCall">The template call to update</param>
         /// <param name="oldparameter">Existing parameter name</param>
         /// <param name="newparameter">New parameter name</param>
-        /// <returns>The updated template</returns>
+        /// <returns>The updated template call</returns>
         public static string RenameTemplateParameter(string templateCall, string oldparameter, string newparameter)
         {
             Regex param = new Regex(@"(\|\s*(?:<!--.*?-->)?)" + Regex.Escape(oldparameter) + @"(\s*(?:<!--.*?-->\s*)?=)");
@@ -2308,7 +2308,7 @@ Message: {2}
         /// <param name="templateCall">The template to update</param>
         /// <param name="oldparameters">List of existing template names</param>
         /// <param name="newparameter">New parameter name</param>
-        /// <returns>The updated template</returns>
+        /// <returns>The updated template call</returns>
         public static string RenameTemplateParameter(string templateCall, List<string> oldparameters, string newparameter)
         {
             string oldparam = "(?:";
@@ -2319,6 +2319,22 @@ Message: {2}
             Regex param = new Regex(@"(\|\s*(?:<!--.*?-->)?)" + oldparam + @"(\s*(?:<!--.*?-->\s*)?=)");
 
             return (param.Replace(templateCall, "$1" + newparameter + "$2"));
+        }
+        
+        /// <summary>
+        /// Renames the given template named parameters in the input template
+        /// </summary>
+        /// <param name="templateCall">The template to update</param>
+        /// <param name="Params">Dictionary of old names, new names to apply</param>
+        /// <returns>The updated template call</returns>
+        public static string RenameTemplateParameter(string templateCall, Dictionary<string, string> Params)
+        {
+            foreach(KeyValuePair<string, string> kvp in Params)
+            {
+                templateCall = RenameTemplateParameter(templateCall, kvp.Key, kvp.Value);
+            }
+            
+            return templateCall;
         }
         
         /// <summary>
