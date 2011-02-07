@@ -1148,6 +1148,18 @@ John", "*"));
         }
         
         [Test]
+        public void RenameTemplateParameterDictionary()
+        {
+            Dictionary<string, string> Params = new Dictionary<string, string>();
+            
+            Params.Add("accesdate", "accessdate");
+            Params.Add("acessdate", "accessdate");
+            
+            Assert.AreEqual(@"{{cite | accessdate=2011-01-24 | title=yes }}", Tools.RenameTemplateParameter(@"{{cite | accesdate=2011-01-24 | title=yes }}", Params));
+            Assert.AreEqual(@"{{cite | accessdate=2011-01-24 | title=yes }}", Tools.RenameTemplateParameter(@"{{cite | acessdate=2011-01-24 | title=yes }}", Params));
+        }
+        
+        [Test]
         public void RenameTemplateArticleText()
         {
             string correct = @"Now {{bar}} was {{bar|here}} there", correct2 = @"Now {{bar}} was {{bar
