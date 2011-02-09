@@ -56,6 +56,8 @@ namespace WikiFunctions.Lists.Providers
         /// </summary>
         public int Limit  { get; set; }
 
+        protected string WantedAttribute = "page";
+
         /// <summary>
         /// Main function that retrieves the list from API, including paging
         /// </summary>
@@ -103,7 +105,7 @@ namespace WikiFunctions.Lists.Providers
 
                         int ns;
                         int.TryParse(xml.GetAttribute("ns"), out ns);
-                        string name = xml.GetAttribute("title");
+                        string name = xml.GetAttribute(WantedAttribute);
 
                         if (string.IsNullOrEmpty(name))
                         {

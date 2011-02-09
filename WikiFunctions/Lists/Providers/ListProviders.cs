@@ -1368,6 +1368,62 @@ namespace WikiFunctions.Lists.Providers
     }
 
     /// <summary>
+    /// Returns a list of recent changes, by default in the 0 namespace
+    /// </summary>
+    public class AllUsersSpecialPageProvider : ApiListProviderBase, ISpecialPageProvider
+    {
+        public AllUsersSpecialPageProvider()
+        {
+            WantedAttribute = "name";
+        }
+
+        #region Tags: <allusers>/<u>
+        static readonly List<string> pe = new List<string>(new[] { "u" });
+        protected override ICollection<string> PageElements
+        {
+            get { return pe; }
+        }
+
+        static readonly List<string> ac = new List<string>(new[] { "allusers" });
+        protected override ICollection<string> Actions
+        {
+            get { return ac; }
+        }
+        #endregion
+
+        #region ISpecialPageProvider Members
+        public override List<Article> MakeList(params string[] searchCriteria)
+        {
+            return MakeList(Namespace.Article, searchCriteria);
+        }
+
+        public List<Article> MakeList(int Namespace, params string[] searchCriteria)
+        {
+            List<Article> list = new List<Article>();
+            list.AddRange(ApiMakeList("list=allusers&aulimit=max", list.Count));
+            return list;
+        }
+
+        public override string DisplayText
+        { get { return "All Users"; } }
+
+        public bool PagesNeeded
+        { get { return false; } }
+        #endregion
+
+        public override string UserInputTextBoxText
+        { get { return ""; } }
+
+        public override bool UserInputTextBoxEnabled
+        { get { return false; } }
+
+        public override void Selected() { }
+
+        public bool NamespacesEnabled
+        { get { return false; } }
+    }
+
+    /// <summary>
     /// Returns a list of new pages, by default in the 0 namespace
     /// </summary>
     /// <remarks>
