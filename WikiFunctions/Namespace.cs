@@ -66,11 +66,13 @@ namespace WikiFunctions
         
         static Namespace()
         {
-            var ns = new List<int>();
-            ns.Add(Media);
-            ns.Add(Special);
+            var ns = new List<int> {Media, Special};
             for (int i = Talk; i <= CategoryTalk; i++)
                 ns.Add(i);
+
+            ns.Remove(Help);
+            ns.Remove(HelpTalk);
+
             StandardNamespaces = new ReadOnlyCollection<int>(ns);
         }
 
@@ -241,10 +243,16 @@ namespace WikiFunctions
         {
             foreach (var ns in StandardNamespaces)
             {
-                if (!namespaces.ContainsKey(ns)) return false;
+                if (!namespaces.ContainsKey(ns))
+                {
+                    return false;
+                }
             }
 
-            if (namespaces.ContainsKey(Mainspace)) return false;
+            if (namespaces.ContainsKey(Mainspace))
+            {
+                return false;
+            }
 
             foreach (var s in namespaces.Values)
             {
