@@ -5722,7 +5722,7 @@ namespace WikiFunctions.Parse
         public string Tagger(string articleText, string articleTitle, bool restrictOrphanTagging, ref string summary)
         {
             // don't tag redirects/outside article namespace/no tagging changes
-            if (!Namespace.IsMainSpace(articleTitle) || Tools.IsRedirect(articleText))
+            if (!Namespace.IsMainSpace(articleTitle) || Tools.IsRedirect(articleText) || WikiRegexes.Wi.IsMatch(articleText))
                 return articleText;
 
             tagsRemoved.Clear();
@@ -5804,7 +5804,7 @@ namespace WikiFunctions.Parse
             bool underlinked = (linkCount < 0.0025*length);
 
             if (length <= 300 && !WikiRegexes.Stub.IsMatch(commentsCategoriesStripped) &&
-                !WikiRegexes.Disambigs.IsMatch(commentsCategoriesStripped) && !WikiRegexes.SIAs.IsMatch(commentsCategoriesStripped) && !WikiRegexes.Wi.IsMatch(articleText))
+                !WikiRegexes.Disambigs.IsMatch(commentsCategoriesStripped) && !WikiRegexes.SIAs.IsMatch(commentsCategoriesStripped))
             {
                 // add stub tag
                 articleText += Tools.Newline("{{stub}}", 3);
@@ -5816,7 +5816,6 @@ namespace WikiFunctions.Parse
             // nl wiki doesn't use {{Uncategorized}} template
             // prevent wictionary redirects from being tagged as uncategorised
             if (words > 6 && totalCategories == 0
-                && !WikiRegexes.Wi.IsMatch(articleText)
                 && !WikiRegexes.Uncat.IsMatch(articleText)
                 && Variables.LangCode != "nl"
                 && !Tools.NestedTemplateRegex("cat improve").IsMatch(articleText)
