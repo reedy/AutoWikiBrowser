@@ -507,6 +507,18 @@ disambig|surname
             RegexAssert.NoMatch(WikiRegexes.SIAs, @"{{surname-stub}}");
         }
 
+        [Test]
+        public void WiTests()
+        {
+            RegexAssert.IsMatch(WikiRegexes.Wi, @"{{Wiktionary redirect}}");
+            RegexAssert.IsMatch(WikiRegexes.Wi, @"{{wiktionary redirect}}");
+            RegexAssert.IsMatch(WikiRegexes.Wi, @"{{wi}}");
+            RegexAssert.IsMatch(WikiRegexes.Wi, @"{{Wi}}");
+            RegexAssert.IsMatch(WikiRegexes.Wi, @"{{Moved to Wiktionary}}");
+            RegexAssert.IsMatch(WikiRegexes.Wi, @"{{RedirecttoWiktionary}}");
+            RegexAssert.IsMatch(WikiRegexes.Wi, @"{{Seewiktionary}}");
+        }
+
             [Test]
         public void ExtractTitleTests()
         {

@@ -542,7 +542,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches Wi templates (en only)
         /// </summary>
-        public static readonly Regex Wi = Tools.NestedTemplateRegex(new [] { "Wi", "Widirect", "WiktionaryExport", "Moved to Wiktionary", "RedirecttoWiktionary", "Seewiktionary"});
+        public static readonly Regex Wi = Tools.NestedTemplateRegex(new [] { "Wiktionary redirect", "Wi", "Widirect", "Moved to Wiktionary", "RedirecttoWiktionary", "Seewiktionary"});
 
         /// <summary>
         /// Matches stubs
