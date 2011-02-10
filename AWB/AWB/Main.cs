@@ -1431,7 +1431,7 @@ namespace AutoWikiBrowser
 
                     Variables.Profiler.Profile("F&R");
 
-                    if (theArticle.SkipArticle) return;
+                    //if (theArticle.SkipArticle) return;
                 }
 
                 // RegexTypoFix
@@ -1464,7 +1464,8 @@ namespace AutoWikiBrowser
                                               cmboCategorise.SelectedIndex, Parser, chkSkipNoCatChange.Checked,
                                               txtNewCategory.Text.Trim(),
                                               txtNewCategory2.Text.Trim(), chkRemoveSortKey.Checked);
-                    if (theArticle.SkipArticle) return;
+                    if (theArticle.SkipArticle)
+                        return;
                     else if (!chkGeneralFixes.Checked)
                         theArticle.AWBChangeArticleText("Fix categories",
                                                         Parsers.FixCategories(theArticle.ArticleText), true);
@@ -1540,6 +1541,8 @@ namespace AutoWikiBrowser
                 {
                     theArticle.PerformFindAndReplace(FindAndReplace, SubstTemplates, RplcSpecial,
                                                      chkSkipWhenNoFAR.Checked, chkSkipOnlyMinorFaR.Checked, true);
+
+                    theArticle.DoFaRSkips();
 
                     Variables.Profiler.Profile("F&R (2nd)");
 
