@@ -711,7 +711,7 @@ namespace WikiFunctions
             {
                 Trace.AWBSkipped("Only minor Find And Replace Changes");
             }
-            else
+            else if (_before == FaRChange.NoChange && _after == FaRChange.NoChange)
             {
                 Trace.AWBSkipped("No Find And Replace Changes"); 
             }
@@ -719,12 +719,13 @@ namespace WikiFunctions
 
         enum FaRChange
         {
+            NotRun,
             NoChange,
             MinorChange,
             MajorChange
         }
 
-        private FaRChange _before = FaRChange.NoChange, _after = FaRChange.NoChange;
+        private FaRChange _before = FaRChange.NotRun, _after = FaRChange.NotRun;
 
         private void SetFaRChange(bool beforeOrAfter, FaRChange value)
         {
