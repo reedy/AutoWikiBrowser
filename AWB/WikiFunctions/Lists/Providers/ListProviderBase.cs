@@ -56,7 +56,7 @@ namespace WikiFunctions.Lists.Providers
         /// </summary>
         public int Limit  { get; set; }
 
-        protected string WantedAttribute = "page";
+        protected string WantedAttribute = "title";
 
         /// <summary>
         /// Main function that retrieves the list from API, including paging
