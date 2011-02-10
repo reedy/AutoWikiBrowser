@@ -1368,7 +1368,7 @@ namespace WikiFunctions.Lists.Providers
     }
 
     /// <summary>
-    /// Returns a list of recent changes, by default in the 0 namespace
+    /// Returns a list of all users (their user pages) on the wiki
     /// </summary>
     public class AllUsersSpecialPageProvider : ApiListProviderBase, ISpecialPageProvider
     {
