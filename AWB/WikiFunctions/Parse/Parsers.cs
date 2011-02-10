@@ -5804,7 +5804,7 @@ namespace WikiFunctions.Parse
             bool underlinked = (linkCount < 0.0025*length);
 
             if (length <= 300 && !WikiRegexes.Stub.IsMatch(commentsCategoriesStripped) &&
-                !WikiRegexes.Disambigs.IsMatch(commentsCategoriesStripped) && !WikiRegexes.SIAs.IsMatch(commentsCategoriesStripped))
+                !WikiRegexes.Disambigs.IsMatch(commentsCategoriesStripped) && !WikiRegexes.SIAs.IsMatch(commentsCategoriesStripped) && !WikiRegexes.Wi.IsMatch(articleText))
             {
                 // add stub tag
                 articleText += Tools.Newline("{{stub}}", 3);
