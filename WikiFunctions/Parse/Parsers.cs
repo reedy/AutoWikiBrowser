@@ -5814,8 +5814,11 @@ namespace WikiFunctions.Parse
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Archive_19#AWB_problems
             // nl wiki doesn't use {{Uncategorized}} template
+            // prevent wictionary redirects from being tagged as uncategorised
             if (words > 6 && totalCategories == 0
-                && !WikiRegexes.Uncat.IsMatch(articleText) && Variables.LangCode != "nl"
+                && !WikiRegexes.Wi.IsMatch(articleText)
+                && !WikiRegexes.Uncat.IsMatch(articleText)
+                && Variables.LangCode != "nl"
                 && !Tools.NestedTemplateRegex("cat improve").IsMatch(articleText)
                 // category count is from API; don't add uncat tag if genfixes added person categories
                 && !WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText)
