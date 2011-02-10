@@ -701,6 +701,43 @@ namespace WikiFunctions
                 AWBChangeArticleText(action, strTemp, false);
         }
 
+        public void DoFaRSkips()
+        {
+            if (_before == FaRChange.MajorChange || _after == FaRChange.MajorChange)
+            {
+                return;
+            }
+            if (_before == FaRChange.MinorChange || _after == FaRChange.MinorChange)
+            {
+                Trace.AWBSkipped("Only minor Find And Replace Changes");
+            }
+            else
+            {
+                Trace.AWBSkipped("No Find And Replace Changes"); 
+            }
+        }
+
+        enum FaRChange
+        {
+            NoChange,
+            MinorChange,
+            MajorChange
+        }
+
+        private FaRChange _before = FaRChange.NoChange, _after = FaRChange.NoChange;
+
+        private void SetFaRChange(bool beforeOrAfter, FaRChange value)
+        {
+            if (beforeOrAfter)
+            {
+                _after = value;
+            }
+            else
+            {
+                _before = value;
+            }
+        }
+
         /// <summary>
         /// Process a "find and replace"
         /// </summary>
@@ -730,21 +767,23 @@ namespace WikiFunctions
             strTemp2 = substTemplates.SubstituteTemplates(strTemp2, Name);
 
             if (!farMadeMajorChanges && strTemp2 != strTemp) //override minor changes if other replcements did something
-                farMadeMajorChanges = true;
+                SetFaRChange(beforeOrAfter, FaRChange.MajorChange);
 
             if (testText == strTemp2)
             {
                 if (skipIfNoChange)
-                    Trace.AWBSkipped("No Find And Replace Changes");
+                    SetFaRChange(beforeOrAfter, FaRChange.NoChange);
                 else
                     return; //No changes, so nothing to change in article text (but we're not skipping either)
             }
             else if (!farMadeMajorChanges && skipIfOnlyMinorChange)
             {
-                Trace.AWBSkipped("Only minor Find And Replace Changes");
+                SetFaRChange(beforeOrAfter, FaRChange.MinorChange);
             }
             else
             {
+                SetFaRChange(beforeOrAfter, FaRChange.MajorChange);
+
                 AWBChangeArticleText("Find and replace applied" + tmpEditSummary,
                                      Tools.ConvertToLocalLineEndings(strTemp2), true);
                 AppendToSummary(tmpEditSummary);
