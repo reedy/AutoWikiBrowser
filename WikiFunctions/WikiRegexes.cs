@@ -851,7 +851,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches people infoxboxes from Category:People infobox templates
         /// </summary>
-        public static readonly Regex PeopleInfoboxTemplates = Tools.NestedTemplateRegex(new [] { "Infobox combined fighting record", "Infobox American Indian chief", "Infobox Calvinist theologian", "Infobox Chinese-language singer and actor",
+        public static readonly Regex PeopleInfoboxTemplates = Tools.NestedTemplateRegex(new [] { "Infobox college coach", "Infobox combined fighting record", "Infobox American Indian chief", "Infobox Calvinist theologian", "Infobox Chinese-language singer and actor",
                                                                                             "Infobox Christian leader", "Infobox FBI Ten Most Wanted", "Infobox French parliamentarian", "Infobox Indian athlete", "Infobox Jewish leader",
                                                                                             "Infobox Playboy Cyber Girl", "Infobox Playboy Playmate", "Infobox Polish politician", "Infobox actor", "Infobox adult biography", "Infobox adult female", "Infobox adult male",
                                                                                             "Infobox architect", "Infobox artist", "Infobox astronaut", "Infobox aviator", "Infobox bishop",
