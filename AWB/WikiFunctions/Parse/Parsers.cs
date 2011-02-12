@@ -2478,6 +2478,10 @@ namespace WikiFunctions.Parse
             
             // remove empty <gallery> tags
             articleText = EmptyGallery.Replace(articleText, "");
+            
+            // fix italic html tags
+            // <b /> may refer to </b> or <br />
+            articleText = articleText.Replace("<i />", "</i>");
 
             //replace html with wiki syntax
             articleText = SyntaxRegexItalic.Replace(articleText, "''$2''");
@@ -5591,8 +5595,8 @@ namespace WikiFunctions.Parse
         {
             if (articleText.Contains("{{msg:"))
                 articleText = articleText.Replace("{{msg:", "{{");
-
-            foreach (KeyValuePair<Regex, string> k in RegexConversion)
+    		
+    		foreach (KeyValuePair<Regex, string> k in RegexConversion)
             {
                 articleText = k.Key.Replace(articleText, k.Value);
             }
