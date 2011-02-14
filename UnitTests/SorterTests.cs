@@ -167,6 +167,8 @@ Fred has a dog.
 
             e = @"{{For|Fred the dancer|Fred Smith (dancer)}}";
             Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveDablinks(d + e));
+            
+            Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveDablinks(e + " " + d));
 
             e = @"{{redirect2|Fred the dancer|Fred Smith (dancer)}}";
             Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveDablinks(d + e));

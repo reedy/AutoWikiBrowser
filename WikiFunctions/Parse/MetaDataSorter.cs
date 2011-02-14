@@ -342,7 +342,7 @@ en, sq, ru
                 
                 if(Namespace.Determine(articleTitle) == Namespace.Category)
                     return articleText.Trim();
-                        else return articleText.TrimEnd();
+                else return articleText.TrimEnd();
             }
             catch (Exception ex)
             {
@@ -420,8 +420,8 @@ en, sq, ru
             if (!string.IsNullOrEmpty(defaultSort))
                 articleText = articleText.Replace(defaultSort, "");
 
-            if (!string.IsNullOrEmpty(defaultSort) && defaultSort.ToUpper().Contains("DEFAULTSORT"))            
-                defaultSort = TalkPageFixes.FormatDefaultSort(defaultSort);                        
+            if (!string.IsNullOrEmpty(defaultSort) && defaultSort.ToUpper().Contains("DEFAULTSORT"))
+                defaultSort = TalkPageFixes.FormatDefaultSort(defaultSort);
             
             if (!string.IsNullOrEmpty(defaultSort)) defaultSort += "\r\n";
 
@@ -443,7 +443,7 @@ en, sq, ru
             foreach(Match m in WikiRegexes.UnformattedText.Matches(originalArticleText))
             {
                 before += m.Value;
-            }            
+            }
             
             foreach(Match m in WikiRegexes.UnformattedText.Matches(articleText))
             {
@@ -561,13 +561,11 @@ en, sq, ru
             {
                 strDablinks += m.Value + "\r\n";
                 
-                // remove colons before dablink, remove any newline after
-                if(zerothSection.Contains(":" + m.Value + "\r\n"))
-                    zerothSection = zerothSection.Replace(":" + m.Value + "\r\n", "");
-                else if(zerothSection.Contains(m.Value + "\r\n"))
-                    zerothSection = zerothSection.Replace(m.Value + "\r\n", "");
-
-                zerothSection = zerothSection.Replace(m.Value, "");
+                // remove colons before dablink
+                zerothSection = zerothSection.Replace(":" + m.Value + "\r\n", "");
+                
+                // additionally, remove whitespace after dablink
+                zerothSection = Regex.Replace(zerothSection, Regex.Escape(m.Value) + @" *(?:\r\n)?", "");
             }
             
             articleText = strDablinks + zerothSection + restOfArticle;
@@ -686,7 +684,7 @@ en, sq, ru
         /// <param name="TemplateToMove">The template calls to move</param>
         /// <returns>The updated article text</returns>
         public static string MoveTemplateToSeeAlsoSection(string articleText, Regex TemplateToMove)
-        {            
+        {
             // need to have a 'see also' section to move the template to
             if(WikiRegexes.SeeAlso.Matches(articleText).Count != 1 || TemplateToMove.Matches(articleText).Count < 1)
                 return articleText;
@@ -717,7 +715,7 @@ en, sq, ru
             if(UnformattedTextNotChanged(originalArticletext, articleText))
                 return articleText;
 
-            return originalArticletext;            
+            return originalArticletext;
         }
         
         /// <summary>
