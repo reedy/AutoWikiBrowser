@@ -583,6 +583,9 @@ End of.";
             Assert.AreEqual(@"books.Google.com", Parsers.DeriveReferenceName(@"a <ref name='Smither Bee 2008'>a</ref> was", @"{{Cite book|title=hello|year=2008|last=Smither Bee|foo=bar|url = http://books.Google.com/special}}"));
             
             Assert.AreEqual(@"Baeza, March 2, 1476. p.396", Parsers.DeriveReferenceName("a", @"<ref>The city of Baeza, March 2, 1476. ''Colección de documentos España'', t. XI, p.396</ref>"), "correct date format used");
+            
+            Assert.AreEqual(@"pmid123456", Parsers.DeriveReferenceName("a", @"{{cite pmid|123456}}"));
+            Assert.AreEqual(@"doi10.1112/123456", Parsers.DeriveReferenceName("a", @"{{cite doi|10.1112/123456}}"));
         }
 
         [Test]

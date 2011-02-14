@@ -1457,6 +1457,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex NameYearPage = new Regex(NameMask + YearMask + @"[^{}<>\n]*?" + PageMask + @"\s*", RegexOptions.Compiled);
         private static readonly Regex NamePage = new Regex(NameMask + PageMask + @"\s*", RegexOptions.Compiled);
         private static readonly Regex NameYear = new Regex(NameMask + YearMask + @"\s*", RegexOptions.Compiled);
+        private static readonly Regex CiteDOIPMID = Tools.NestedTemplateRegex(new [] {"cite doi", "cite pmid"});
 
         /// <summary>
         /// Derives a name for a reference by searching for author names and dates, or website base URL etc.
@@ -1540,6 +1541,12 @@ namespace WikiFunctions.Parse
 
             // Harvnb template {{Harvnb|Young|1852|p=50}}
             derivedReferenceName = ExtractReferenceNameComponents(reference, HarvnbTemplate, 3);
+
+            if (ReferenceNameValid(articleText, derivedReferenceName))
+                return derivedReferenceName;
+            
+            // cite pmid / cite doi
+            derivedReferenceName = Regex.Replace(ExtractReferenceNameComponents(reference, CiteDOIPMID, 3), @"[Cc]ite (pmid|doi)\s*\|\s*", "$1");
 
             if (ReferenceNameValid(articleText, derivedReferenceName))
                 return derivedReferenceName;
