@@ -7208,7 +7208,10 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             
             correct = @"{{wikify section|date=May 2010}}";
             Assert.AreEqual(correct, Parsers.Conversions(@"{{wikify|section|date=May 2010}}"));
-        }
+
+            correct = @"{{refimprove section|date=May 2010}}";
+            Assert.AreEqual(correct, Parsers.Conversions(@"{{refimprove|section|date=May 2010}}"));
+}
         
         [Test]
         public void ConversionTestsGeneral()

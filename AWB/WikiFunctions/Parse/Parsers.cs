@@ -5613,7 +5613,7 @@ namespace WikiFunctions.Parse
             if (WikiRegexes.Refs.IsMatch(articleText))
                 articleText = Tools.RenameTemplate(articleText, @"nofootnotes", "morefootnotes");
             
-            // {{foo|section|...}} --> {{foo section|...}} for unreferenced, wikify
+            // {{foo|section|...}} --> {{foo section|...}} for unreferenced, wikify, refimprove
             articleText = SectionTemplates.Replace(articleText, new MatchEvaluator(SectionTemplateConversionsME));
 
             // {{unreferenced}} --> {{BLP unsourced}} if article has [[Category:Living people]], and no free-text first argument to {{unref}}
@@ -5660,7 +5660,7 @@ namespace WikiFunctions.Parse
             return Dablinks(articleText);
         }
         
-        private static readonly Regex SectionTemplates = Tools.NestedTemplateRegex(new [] {"unreferenced", "wikify" });
+        private static readonly Regex SectionTemplates = Tools.NestedTemplateRegex(new [] {"unreferenced", "wikify", "refimprove" });
         
         /// <summary>
         /// Converts templates such as {{foo|section|...}} to {{foo section|...}}
