@@ -257,7 +257,6 @@ namespace WikiFunctions.TalkPages
                 }
 
                 // If {{BLP}} then add blp=yes to WPBS and remove {{BLP}}
-                // Remove {{BLPO}} when {{BLP}} exists
                 Match blpm = BLPRegex.Match(articletext);
                 if (blpm.Success)
                 {
