@@ -185,8 +185,9 @@ namespace WikiFunctions.TalkPages
         }
 
         private static readonly List<string> BannerShellRedirects = new List<string>(new[] { "WikiProject Banners", "WikiProjectBanners", "WPBS", "WPB", "Wpb", "Wpbs" });
-        private static readonly List<string> Nos = new List<string>(new[] { "blp", "activepol", "collapsed" });
+        private static readonly List<string> Nos = new List<string>(new[] { "blp", "blpo", "activepol", "collapsed" });
         private static readonly Regex BLPRegex = Tools.NestedTemplateRegex(new[] { "blp", "BLP", "Blpinfo" });
+        private static readonly Regex BLPORegex = Tools.NestedTemplateRegex(new[] { "blpo", "BLPO", "BLP others" });
         private static readonly Regex ActivepolRegex = Tools.NestedTemplateRegex(new[] { "activepol", "active politician", "activepolitician" });
         private static readonly Regex WPBiographyR = Tools.NestedTemplateRegex(new[] { "WPBiography", "Wikiproject Biography", "WikiProject Biography", "WPBIO", "Bio" });
 
@@ -240,14 +241,23 @@ namespace WikiFunctions.TalkPages
                 // refresh after cleanup
                 arg1 = Tools.GetTemplateParameterValue(newValue, "1");
 
-                // clean blp=no, activepol=no, collapsed=no
+                // clean blp=no, blpo=no, activepol=no, collapsed=no
                 foreach (string theNo in Nos)
                 {
                     if (Tools.GetTemplateParameterValue(newValue, theNo).Equals("no"))
                         newValue = Tools.RemoveTemplateParameter(newValue, theNo);
                 }
 
+                // If {{blpo}} then add blpo=yes to WPBS and remove {{blpo}}
+                Match blpom = BLPORegex.Match(articletext);
+                if (blpom.Success)
+                {
+                    newValue = Tools.SetTemplateParameterValue(newValue, "blpo", "yes");
+                    articletext = articletext.Replace(blpom.Value, "");
+                }
+
                 // If {{BLP}} then add blp=yes to WPBS and remove {{BLP}}
+                // Remove {{BLPO}} when {{BLP}} exists
                 Match blpm = BLPRegex.Match(articletext);
                 if (blpm.Success)
                 {

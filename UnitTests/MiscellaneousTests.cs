@@ -886,12 +886,13 @@ __TOC__", articleTextIn);
         public void WikiProjectBannerShellDupeParameters()
         {
             Assert.AreEqual(@"{{WikiProjectBannerShell|blp=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=yes|blp=yes}}"));
+            Assert.AreEqual(@"{{WikiProjectBannerShell|collapsed=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|collapsed=yes|collapsed=yes|collapsed=yes}}"));
         }
         
         [Test]
         public void WikiProjectBannerShellUnneededParams()
         {
-            Assert.AreEqual(@"{{WikiProjectBannerShell}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=no|activepol=no|collapsed=no}}"));
+            Assert.AreEqual(@"{{WikiProjectBannerShell}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=no|activepol=no|collapsed=no|blpo=no}}"));
         }
         
         [Test]
@@ -944,6 +945,18 @@ __TOC__", articleTextIn);
             Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a + "{{Blp}}"),"removes redundant banner");
             Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a.Replace("blp=yes", "blp=") + "{{Blp}}"),"empty parameter in WPBS");
             Assert.AreEqual("{{Blp}}", TalkPageFixes.WikiProjectBannerShell("{{Blp}}"));
+        }
+        
+        [Test]
+        public void WikiProjectBannerShellBLPO()
+        {
+            const string a = @"{{WikiProjectBannerShell|blpo=yes|1={{WPBiography|foo=bar}}}}";
+            
+            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a + "{{Blpo}}"),"removes redundant banner");
+            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a + "{{BLPO}}"),"removes redundant banner");
+            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a + "{{BLP others}}"),"removes redundant banner");
+            Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a.Replace("blpo=yes", "blpo=") + "{{Blpo}}"),"empty parameter in WPBS");
+            Assert.AreEqual("{{Blpo}}", TalkPageFixes.WikiProjectBannerShell("{{Blpo}}"));
         }
         
         [Test]
