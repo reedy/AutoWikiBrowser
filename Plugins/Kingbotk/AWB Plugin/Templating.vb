@@ -106,22 +106,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             End If ' Else: Already contains parameter and correct value; no need to change
             Return False
         End Function
-        Friend Sub RemoveParentWorkgroup(ByVal ChildWorkGroupParm As String, ByVal ParentWorkGroupParm As String, _
-        ByVal AddChildWorkGroupParm As Boolean, ByVal Article As Article, ByVal PluginName As String)
-            Dim AddedParm As Boolean
 
-            If AddChildWorkGroupParm AndAlso Not Parameters.ContainsKey(ChildWorkGroupParm) Then
-                NewTemplateParm(ChildWorkGroupParm, "yes")
-                AddedParm = True
-            End If
-
-            If (AddedParm OrElse HasYesParam(ChildWorkGroupParm)) AndAlso Parameters.ContainsKey(ParentWorkGroupParm) Then
-                Parameters.Remove(ParentWorkGroupParm)
-                Article.DoneReplacement(ParentWorkGroupParm, ChildWorkGroupParm, True, PluginName)
-            ElseIf AddedParm Then
-                Article.ParameterAdded(ChildWorkGroupParm, "yes", PluginName)
-            End If
-        End Sub
         Friend Function ParametersToString(ByVal ParameterBreak As String) As String
             Dim res As String = ""
             For Each o As KeyValuePair(Of String, TemplateParametersObject) In Parameters
