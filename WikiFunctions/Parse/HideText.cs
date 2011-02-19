@@ -108,6 +108,7 @@ namespace WikiFunctions.Parse
             if (HideImages)
             {
                 Replace(WikiRegexes.Images.Matches(articleText), ref articleText);
+                Replace(WikiRegexes.ImageMap.Matches(articleText), ref articleText);
             }
 
             return articleText;
@@ -299,6 +300,7 @@ namespace WikiFunctions.Parse
                 ReplaceMore(WikiRegexes.WikiLink.Matches(articleText), ref articleText);
 
             ReplaceMore(WikiRegexes.Images.Matches(articleText), ref articleText);
+            ReplaceMore(WikiRegexes.ImageMap.Matches(articleText), ref articleText);
 
             // hide untemplated quotes between some form of quotation marks (most particularly for typo fixing)
             ReplaceMore(WikiRegexes.UntemplatedQuotes.Matches(articleText), ref articleText);
