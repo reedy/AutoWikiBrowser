@@ -1610,6 +1610,7 @@ namespace AutoWikiBrowser
                 else 
                     Skippable = false;
                 Stop();
+                StopDelayedAutoSaveTimer();
             }
             finally
             {
