@@ -118,9 +118,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             res += "}}" + Microsoft.VisualBasic.vbCrLf
             Return res
         End Function
-        Friend Function HasYesParam(ByVal ParamName As String) As Boolean
-            Return (Parameters.ContainsKey(ParamName) AndAlso Parameters(ParamName).Value = "yes")
-        End Function
         Friend Function HasYesParamLowerOrTitleCase(ByVal Yes As Boolean, ByVal ParamName As String) As Boolean
             ' A little hack to ensure we don't change no to No or yes to Yes as our only edit, and also for checking "yes" values
             If Parameters.ContainsKey(ParamName) Then
