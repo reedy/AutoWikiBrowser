@@ -196,6 +196,11 @@ abc={{bar}}
             AssertAllHidden(@"[[Image:foo_here.png|");
             AssertAllHidden(@"[[Image:foo with SPACE() and 0004.png|");
             AssertAllHidden(@"[[Image:westminster.tube.station.jubilee.arp.jpg|");
+            
+            AssertAllHidden(@"<imagemap>
+File:Blogs001.jpeg|Description
+File:Blogs002.jpeg|Description
+</imagemap>");
         }
         
         [Test]
@@ -329,6 +334,11 @@ image = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
    | image=Chlorothiazide.svg
    | image2=Chlorothiazide-from-xtal-3D-balls.png
    | CAS_number=58-94-6").Contains("=Chlorothiazide"));
+            
+            AssertAllHiddenMore(@"<imagemap>
+File:Blogs001.jpeg|Description
+File:Blogs002.jpeg|Description
+</imagemap>");
         }
 
         [Test]
