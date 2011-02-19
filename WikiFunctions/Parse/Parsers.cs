@@ -2530,7 +2530,9 @@ namespace WikiFunctions.Parse
             articleText = SyntaxRegexSimpleWikilinkStartsWithSpaces.Replace(articleText, "[[$1]]");
             articleText = SyntaxRegexSimpleWikilinkEndsWithSpaces.Replace(articleText, "[[$1]]");
             articleText = SyntaxRegexSectionLinkUnnecessaryUnderscore.Replace(articleText, "[[$1#$2]]");
-            articleText = SyntaxRegexMultipleSpacesInWikilink.Replace(articleText, @"$1 $2");
+            
+            while(SyntaxRegexMultipleSpacesInWikilink.IsMatch(articleText))
+                articleText = SyntaxRegexMultipleSpacesInWikilink.Replace(articleText, @"$1 $2");
 
             if (!SyntaxRegexHTTPNumber.IsMatch(articleText))
             {
@@ -2614,7 +2616,7 @@ namespace WikiFunctions.Parse
                     articleText = articleText.Replace(m.Value, WikilinkEndsBr.Replace(m.Value, @"]]"));
             }
             
-            // workaround for bugzilla 2700: {[subst:}} doesn't work within ref tags
+            // workaround for bugzilla 2700: {{subst:}} doesn't work within ref tags
             articleText = FixSyntaxSubstRefTags(articleText);
 
             return articleText.Trim();
@@ -5603,8 +5605,8 @@ namespace WikiFunctions.Parse
         {
             if (articleText.Contains("{{msg:"))
                 articleText = articleText.Replace("{{msg:", "{{");
-    		
-    		foreach (KeyValuePair<Regex, string> k in RegexConversion)
+            
+            foreach (KeyValuePair<Regex, string> k in RegexConversion)
             {
                 articleText = k.Key.Replace(articleText, k.Value);
             }

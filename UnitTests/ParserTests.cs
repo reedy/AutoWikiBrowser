@@ -2976,6 +2976,7 @@ Template:foo}}"));
             Assert.AreEqual("[[Foo]]", Parsers.FixSyntax("[[Foo]]"));
             Assert.AreEqual("[[Foo Bar]]", Parsers.FixSyntax("[[Foo Bar]]"));
             Assert.AreEqual("[[Foo Bar]]", Parsers.FixSyntax("[[Foo  Bar]]"));
+            Assert.AreEqual("[[Foo Bar was]]", Parsers.FixSyntax("[[Foo  Bar  was]]"), "fixes multiple double spaces in single link");
             Assert.AreEqual("[[Foo Bar|Bar]]", Parsers.FixSyntax("[[Foo  Bar|Bar]]"));
         }
         
