@@ -208,6 +208,7 @@ namespace WikiFunctions.AWBSettings
             IgnoreMoreText = findAndReplace.IgnoreMore;
             Replacements = findAndReplace.GetList();
             AdvancedReps = replaceSpecial.GetRules();
+            AppendSummary = findAndReplace.AppendToSummary;
 
             SubstTemplates = substTemplates.TemplateList;
             IncludeComments = substTemplates.IncludeComments;
