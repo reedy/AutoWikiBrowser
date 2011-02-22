@@ -1092,7 +1092,17 @@ __TOC__", articleTextIn);
 
             Assert.AreEqual(a.Replace(@"}}"," | needs-infobox=yes}}"), TalkPageFixes.WPSongs(a + @"{{sir}}"), "Add sir to WPSongs");
             Assert.AreEqual(a.Replace(@"}}"," | needs-infobox=yes}}"), TalkPageFixes.WPSongs(a.Replace(@"}}"," | needs-infobox=}}" + @"{{sir}}")), "Add sir to WPSongs with empty parameter");
+            Assert.AreEqual(a.Replace(@"}}"," | needs-infobox=yes}}"), TalkPageFixes.WPSongs(a.Replace(@"}}"," | needs-infobox=}}" + @"{{Single infobox request}}")), "Add Single infobox request to WPSongs with empty parameter");
+            Assert.AreEqual(a.Replace(@"}}"," | needs-infobox=yes}}"), TalkPageFixes.WPSongs(a.Replace(@"}}"," | needs-infobox=yes}}") + @"{{sir}}"), "Remove sir when WPSongs with needs-infobox=yes exists");
             Assert.AreEqual(a, TalkPageFixes.WPSongs(a), "Do nothing");
+
+            string b = @"{{WikiProject Songs}}";
+
+            Assert.AreEqual(b.Replace(@"}}"," | needs-infobox=yes}}"), TalkPageFixes.WPSongs(b + @"{{sir}}"), "Add sir to WPSongs");
+            Assert.AreEqual(b.Replace(@"}}"," | needs-infobox=yes}}"), TalkPageFixes.WPSongs(b.Replace(@"}}"," | needs-infobox=}}" + @"{{sir}}")), "Add sir to WPSongs with empty parameter");
+            Assert.AreEqual(b.Replace(@"}}"," | needs-infobox=yes}}"), TalkPageFixes.WPSongs(b.Replace(@"}}"," | needs-infobox=}}" + @"{{Single infobox request}}")), "Add Single infobox request to WPSongs with empty parameter");
+            Assert.AreEqual(b.Replace(@"}}"," | needs-infobox=yes}}"), TalkPageFixes.WPSongs(b.Replace(@"}}"," | needs-infobox=yes}}") + @"{{sir}}"), "Remove sir when WPSongs with needs-infobox=yes exists");
+            Assert.AreEqual(b, TalkPageFixes.WPSongs(b), "Do nothing");
         }
 
     }
