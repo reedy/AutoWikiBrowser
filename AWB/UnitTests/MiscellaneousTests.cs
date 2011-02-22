@@ -1085,9 +1085,19 @@ __TOC__", articleTextIn);
             Assert.AreEqual(a.Replace(@"}}"," | living=yes | activepol=yes | politician-work-group=yes}}"), TalkPageFixes.WPBiography(a + @"{{blp}}{{activepol}}"), "Add activepol and blp to WPBiography");
         }
 
+        [Test]
+        public void WPSongsSir()
+        {
+            string a = @"{{WPSongs}}";
+
+            Assert.AreEqual(a.Replace(@"}}"," | needs-infobox=yes}}"), TalkPageFixes.WPSongs(a + @"{{sir}}"), "Add sir to WPSongs");
+            Assert.AreEqual(a.Replace(@"}}"," | needs-infobox=yes}}"), TalkPageFixes.WPSongs(a.Replace(@"}}"," | needs-infobox=}}" + @"{{sir}}")), "Add sir to WPSongs with empty parameter");
+            Assert.AreEqual(a, TalkPageFixes.WPSongs(a), "Do nothing");
+        }
+
     }
     
-    [TestFixture]
+            [TestFixture]
     public class InTemplateRuleTests
     {
         [Test]
