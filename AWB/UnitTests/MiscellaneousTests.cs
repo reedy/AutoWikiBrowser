@@ -1086,7 +1086,7 @@ __TOC__", articleTextIn);
         }
 
         [Test]
-        public void WPSongsSir()
+        public void WPSongs()
         {
             string a = @"{{WPSongs}}";
 
@@ -1095,6 +1095,9 @@ __TOC__", articleTextIn);
             Assert.AreEqual(a.Replace(@"}}"," | needs-infobox=yes}}"), TalkPageFixes.WPSongs(a.Replace(@"}}"," | needs-infobox=}}" + @"{{Single infobox request}}")), "Add Single infobox request to WPSongs with empty parameter");
             Assert.AreEqual(a.Replace(@"}}"," | needs-infobox=yes}}"), TalkPageFixes.WPSongs(a.Replace(@"}}"," | needs-infobox=yes}}") + @"{{sir}}"), "Remove sir when WPSongs with needs-infobox=yes exists");
             Assert.AreEqual(a, TalkPageFixes.WPSongs(a), "Do nothing");
+            Assert.AreEqual(a, TalkPageFixes.WPSongs(a.Replace(@"}}","|importance=yes}}")), "Remove importance");
+            Assert.AreEqual(a, TalkPageFixes.WPSongs(a.Replace(@"}}","|needs-infobox=no}}")), "Remove needs-infobox=no");
+            Assert.AreEqual(a, TalkPageFixes.WPSongs(a.Replace(@"}}","|importance=yes|needs-infobox=no}}")), "Remove importance and needs-infobox=no");
 
             string b = @"{{WikiProject Songs}}";
 
