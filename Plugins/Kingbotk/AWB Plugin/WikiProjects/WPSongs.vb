@@ -62,7 +62,10 @@
     Protected Overrides Function SkipIfContains() As Boolean
         Return False
     End Function
-    Protected Overrides Function TemplateFound() As Boolean
+     Protected Overrides Sub ProcessArticleFinish() 	 
+	    StubClass()
+     End Sub        
+	    Protected Overrides Function TemplateFound() As Boolean
         ' Nothing to do here
     End Function
     Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)

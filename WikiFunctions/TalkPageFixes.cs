@@ -90,7 +90,9 @@ namespace WikiFunctions.TalkPages
             articleText = AddMissingFirstCommentHeader(articleText);
             
             articleText = WPBiography(articleText);
-            
+
+            articleText = WPSongs(articleText);
+
             // remove redundant Template: in templates in zeroth section
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
             if(zerothSection.Length > 0)
@@ -422,6 +424,14 @@ namespace WikiFunctions.TalkPages
             {
                 string newvalue = m.Value;
                    
+                // Remove needs-infobox=no
+                    if (Tools.GetTemplateParameterValue(newvalue, "needs-infobox").Equals("no"))
+                        newvalue = Tools.RemoveTemplateParameter(newvalue, "needs-infobox");
+                // Remove importance. WPSongs doesn't do importance
+                newvalue = Tools.RemoveTemplateParameter(newvalue, "importance");
+
+                articletext = articletext.Replace(m.Value, newvalue);
+
                 // If {{sir}} then add needs-infobox=yes to WPsongs and remove {{sir}}
                 Match sirm = SirRegex.Match(articletext);
                 if (sirm.Success)
