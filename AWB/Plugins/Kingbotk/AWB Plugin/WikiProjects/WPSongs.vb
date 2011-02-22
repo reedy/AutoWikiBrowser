@@ -11,10 +11,6 @@
         OurSettingsControl = New GenericWithWorkgroups("WikiProject Songs", PluginName, True, params)
     End Sub
 
-    ' Regular expressions:
-    Private ReadOnly InfoboxRegex As New Regex(TemplatePrefix & "(sir|Single infobox request)\s*\}\}\s*", _
-       RegexOptions.IgnoreCase Or RegexOptions.Compiled Or RegexOptions.ExplicitCapture)
-
     ' Settings:
     Private OurTab As New TabPage(PluginName)
     Private WithEvents OurSettingsControl As GenericWithWorkgroups
@@ -66,11 +62,6 @@
     Protected Overrides Function SkipIfContains() As Boolean
         Return False
     End Function
-    Protected Overrides Sub ProcessArticleFinish()
-        StubClass()
-        ReplaceATemplateWithAYesParameter(InfoboxRegex, "needs-infobox", _
-           "{{[[Template:Sir|Single infobox request]]}}")
-    End Sub
     Protected Overrides Function TemplateFound() As Boolean
         ' Nothing to do here
     End Function
