@@ -190,7 +190,9 @@ namespace WikiFunctions.TalkPages
         private static readonly Regex BLPORegex = Tools.NestedTemplateRegex(new[] { "blpo", "BLPO", "BLP others" });
         private static readonly Regex ActivepolRegex = Tools.NestedTemplateRegex(new[] { "activepol", "active politician", "activepolitician" });
         private static readonly Regex WPBiographyR = Tools.NestedTemplateRegex(new[] { "WPBiography", "Wikiproject Biography", "WikiProject Biography", "WPBIO", "Bio" });
-
+        private static readonly Regex WPSongsR = Tools.NestedTemplateRegex(new[] { "WikiProject Songs", "WikiProjectSongs", "WP Songs", "Song", "WPSongs", "Songs", "WikiProject Song" });
+        private static readonly Regex SirRegex = Tools.NestedTemplateRegex(new[] { "sir", "Single infobox request" });
+        
         /// <summary>
         /// Performs fixes to the WikiProjectBannerShells template:
         /// Add explicit call to first unnamed parameter 1= if missing/has no value
@@ -347,8 +349,8 @@ namespace WikiFunctions.TalkPages
                 string listas = Tools.GetTemplateParameterValue(m.Value, "listas");
                 
                 newvalue = Tools.SetTemplateParameterValue(newvalue, "listas", Tools.RemoveDiacritics(listas));
-                
-                
+
+
                 
                 // If {{activepol}} then add living=yes, activepol=yes, politician-work-group=yes to WPBiography and remove {{activepol}}
                 Match activepolm = ActivepolRegex.Match(articletext);
@@ -401,6 +403,39 @@ namespace WikiFunctions.TalkPages
             
             return articletext;
         }
+        
+        
+         /// <summary>
+        /// Does various fixes to WPSongs
+        /// en-wiki only
+        /// </summary>
+        /// <param name="articletext">The talk page text</param>
+        /// <returns>The updated talk page text</returns>
+        public static string WPSongs(string articletext)
+        {
+            if(!Variables.LangCode.Equals("en"))
+                return articletext;
+            
+            Match m = WPSongsR.Match(articletext);
+            
+            if(m.Success)
+            {
+                string newvalue = m.Value;
+                   
+                // If {{sir}} then add needs-infobox=yes to WPsongs and remove {{sir}}
+                Match sirm = SirRegex.Match(articletext);
+                if (sirm.Success)
+                {
+                    newvalue = Tools.SetTemplateParameterValue(newvalue, "needs-infobox", "yes");
+                    articletext = articletext.Replace(m.Value, newvalue);
+                    articletext = SirRegex.Replace(articletext, "");
+                }
+                
+            }
+
+            return articletext;
+        }
+
         
         private const int WikiProjectsWPBS = 3;
         
