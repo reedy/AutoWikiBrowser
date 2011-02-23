@@ -1650,6 +1650,19 @@ words2"));
             Assert.AreEqual(WikiRegexes.BoldItalics.Match(@"''''' foo'''''").Groups[1].Value, @" foo");
             Assert.AreEqual(WikiRegexes.BoldItalics.Match(@"'''''foo bar'''''").Groups[1].Value, @"foo bar");
             Assert.AreEqual(WikiRegexes.BoldItalics.Match(@"'''''foo's bar'''''").Groups[1].Value, @"foo's bar");
+            Assert.AreEqual(WikiRegexes.Italics.Match(@"''f''").Groups[1].Value, @"f");
+            Assert.AreEqual(WikiRegexes.Italics.Match(@"''f'' nar ''abc''").Groups[1].Value, @"f");
+            Assert.AreEqual(WikiRegexes.Bold.Match(@"'''f''' nar '''abc'''").Groups[1].Value, @"f");
+            
+            Assert.IsFalse(WikiRegexes.Italics.IsMatch(@"'''foo'''"));
+            Assert.IsFalse(WikiRegexes.Italics.IsMatch(@"'''''foo'''''"));
+            Assert.IsFalse(WikiRegexes.Bold.IsMatch(@"''foo'''"));
+            Assert.IsFalse(WikiRegexes.Bold.IsMatch(@"''foo''"));
+            Assert.IsFalse(WikiRegexes.BoldItalics.IsMatch(@"''foo''"));
+            Assert.IsFalse(WikiRegexes.BoldItalics.IsMatch(@"'''foo'''"));
+            Assert.IsFalse(WikiRegexes.BoldItalics.IsMatch(@"'''''foo''"));
+            
+            Assert.IsTrue(WikiRegexes.Italics.IsMatch(@"'''foo''"), "unbalanced apostrophes, renders as italics");
         }
 
         [Test]
