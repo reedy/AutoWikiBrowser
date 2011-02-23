@@ -168,8 +168,9 @@ namespace WikiFunctions.Controls
         {
             get
             {
-                return string.Format("{0:F1}",
-                                     ((TotalTypos - SelfMatches - FalsePositives)/Saves));
+                double fixes = TotalTypos - SelfMatches - FalsePositives;
+                // fixed 2 decimal places http://www.csharp-examples.net/string-format-double/
+                return string.Format("{0:0.00}", fixes/Saves);
             }   
         }
 
