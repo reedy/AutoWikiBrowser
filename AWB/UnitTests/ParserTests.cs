@@ -8264,8 +8264,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         [Test]
         public void RedirectTaggerModDashes()
         {
-            const string correct = @"#REDIRECT:[[Foo–bar]]
-{{R from modification}}", redirectendash = @"#REDIRECT:[[Foo–bar]]";
+            const string correct = @"#REDIRECT:[[Foo–bar]] {{R from modification}}", redirectendash = @"#REDIRECT:[[Foo–bar]]";
             Assert.AreEqual(correct, Parsers.RedirectTagger(redirectendash, "Foo-bar"));
             
             // already tagged
@@ -8278,8 +8277,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         [Test]
         public void RedirectTaggerModPunct()
         {
-            const string correct = @"#REDIRECT:[[Foo .bar]]
-{{R from modification}}", redirectpunct = @"#REDIRECT:[[Foo .bar]]";
+            const string correct = @"#REDIRECT:[[Foo .bar]] {{R from modification}}", redirectpunct = @"#REDIRECT:[[Foo .bar]]";
             
             // removed punct
             Assert.AreEqual(correct, Parsers.RedirectTagger(redirectpunct, "Foo bar"));
@@ -8297,8 +8295,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         [Test]
         public void RedirectTaggerDiacr()
         {
-            const string correct = @"#REDIRECT:[[Fiancée]]
-{{R from title without diacritics}}", redirectaccent = @"#REDIRECT:[[Fiancée]]";
+            const string correct = @"#REDIRECT:[[Fiancée]] {{R from title without diacritics}}", redirectaccent = @"#REDIRECT:[[Fiancée]]";
             Assert.AreEqual(correct, Parsers.RedirectTagger(redirectaccent, "Fiancee"));
             
             // already tagged
@@ -8332,8 +8329,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         [Test]
         public void RedirectTaggerCapitalisation()
         {
-            const string correct = @"#REDIRECT:[[FooBar]]
-{{R from other capitalisation}}", redirectCap = @"#REDIRECT:[[FooBar]]";
+            const string correct = @"#REDIRECT:[[FooBar]] {{R from other capitalisation}}", redirectCap = @"#REDIRECT:[[FooBar]]";
             Assert.AreEqual(correct, Parsers.RedirectTagger(redirectCap, "Foobar"));
             Assert.AreEqual(correct, Parsers.RedirectTagger(redirectCap, "foobar"));
             Assert.AreEqual(correct, Parsers.RedirectTagger(redirectCap, "FOObar"));
@@ -8342,8 +8338,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         [Test]
         public void RedirectTaggerOtherNamespace()
         {
-            const string correct = @"#REDIRECT:[[Category:FooBar]]
-{{R to other namespace}}", redirectNam = @"#REDIRECT:[[Category:FooBar]]";
+            const string correct = @"#REDIRECT:[[Category:FooBar]] {{R to other namespace}}", redirectNam = @"#REDIRECT:[[Category:FooBar]]";
 
             Assert.AreEqual(correct, Parsers.RedirectTagger(redirectNam, "FooBar"));
             Assert.AreEqual(correct, Parsers.RedirectTagger(correct, "FooBar"));
