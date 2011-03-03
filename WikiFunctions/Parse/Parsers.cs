@@ -6202,6 +6202,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex CommonPunctuation = new Regex(@"[""',\.;:`!\(\)\[\]\?\-–/]", RegexOptions.Compiled);
         /// <summary>
         /// For en-wiki tags redirect pages with one or more of the templates from [[Wikipedia:Template messages/Redirect pages]]
+        /// following [[WP:REDCAT]]
         /// </summary>
         /// <param name="articleText">the article text</param>
         /// <param name="articleTitle">the article title</param>
@@ -6220,25 +6221,25 @@ namespace WikiFunctions.Parse
 
             // {{R to other namespace}}
             if (!Namespace.IsMainSpace(redirecttarget) && !Tools.NestedTemplateRegex(new[] { "R to other namespace", "R to other namespaces" }).IsMatch(articleText))
-                return (articleText + Tools.Newline("{{R to other namespace}}"));
+                return (articleText + " {{R to other namespace}}");
 
             // {{R from modification}}
             // difference is extra/removed/changed puntuation
             if (!Tools.NestedTemplateRegex(WikiRegexes.RFromModificationList).IsMatch(articleText)
                 && !CommonPunctuation.Replace(redirecttarget, "").Equals(redirecttarget) && CommonPunctuation.Replace(redirecttarget, "").Equals(CommonPunctuation.Replace(articleTitle, "")))
-                return (articleText + Tools.Newline(WikiRegexes.RFromModificationString));
+                return (articleText + " " + WikiRegexes.RFromModificationString);
 
             // {{R from title without diacritics}}
 
             // title and redirect target the same if dacritics removed from redirect target
             if (redirecttarget != Tools.RemoveDiacritics(redirecttarget) && Tools.RemoveDiacritics(redirecttarget) == articleTitle
                 && !Tools.NestedTemplateRegex(WikiRegexes.RFromTitleWithoutDiacriticsList).IsMatch(articleText))
-                return (articleText + Tools.Newline(WikiRegexes.RFromTitleWithoutDiacriticsString));
+                return (articleText + " " + WikiRegexes.RFromTitleWithoutDiacriticsString);
 
             // {{R from other capitalisation}}
             if (redirecttarget.ToLower().Equals(articleTitle.ToLower())
                 && !Tools.NestedTemplateRegex(WikiRegexes.RFromOtherCapitaliastionList).IsMatch(articleText))
-                return (articleText + Tools.Newline(WikiRegexes.RFromOtherCapitaliastionString));
+                return (articleText + " " + WikiRegexes.RFromOtherCapitaliastionString);
 
             return articleText;
         }
