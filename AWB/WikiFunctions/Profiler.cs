@@ -82,19 +82,22 @@ namespace WikiFunctions
         /// <param name="s"></param>
         public void AddLog(string s)
         {
-            for(int a = 0;a < 100;a++)
+            if (log != null)
             {
-                try
+                for(int a = 0;a < 100;a++)
                 {
-                    log = new StreamWriter(FileName, Append, Encoding.Unicode);
-                    log.WriteLine(s);
-                    log.Close();
-                    break;
-                }
-                
-                catch
-                {
-                    System.Threading.Thread.Sleep(50); // prevents errors over log file being 'in use by other application'
+                    try
+                    {
+                        log = new StreamWriter(FileName, Append, Encoding.Unicode);
+                        log.WriteLine(s);
+                        log.Close();
+                        break;
+                    }
+                    
+                    catch
+                    {
+                        System.Threading.Thread.Sleep(50); // prevents errors over log file being 'in use by other application'
+                    }
                 }
             }
         }
