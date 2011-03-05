@@ -17,8 +17,8 @@
     Dim params() As TemplateParameters =
     {
        New TemplateParameters() With {.StorageKey = "Place", .Group = PlacesGroup, .ParamName = "place"}, _
-       New TemplateParameters() With {.StorageKey = "Adel", .Group = PlacesGroup, .ParamName = ""}, _
-       New TemplateParameters() With {.StorageKey = "Bris", .Group = PlacesGroup, .ParamName = ""}, _
+       New TemplateParameters() With {.StorageKey = "Adel", .Group = PlacesGroup, .ParamName = "Adelaide"}, _
+       New TemplateParameters() With {.StorageKey = "Bris", .Group = PlacesGroup, .ParamName = "Brisbane"}, _
        New TemplateParameters() With {.StorageKey = "Canb", .Group = PlacesGroup, .ParamName = "Canberra"}, _
        New TemplateParameters() With {.StorageKey = "Gee", .Group = PlacesGroup, .ParamName = "Geelong"}, _
        New TemplateParameters() With {.StorageKey = "Melb", .Group = PlacesGroup, .ParamName = "Melbourne"}, _
