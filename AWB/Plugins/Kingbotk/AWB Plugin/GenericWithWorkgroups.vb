@@ -24,11 +24,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             AutoStubCheckBox.Enabled = autoStubEnabled
 
             LinkLabel1.Text = "{{" & template & "}}"
-            InsertTemplateToolStripMenuItem.Text = "{{" & template & "}}"
 
-            ProjectToolStripMenuItem.Text = template
-
-            Dim groupsAndMenus As New Dictionary(Of String, LvGrpTSMenu)
+            Dim groupsAndMenus As New Dictionary(Of String, ListViewGroup)
 
             ListView1.BeginUpdate()
 
@@ -37,8 +34,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 lvi.Name = prop.StorageKey
                 lvi.Tag = prop
 
-                Dim tsmiToAddTo As ToolStripMenuItem
-
                 If prop.Group <> "" Then
                     Dim group As String = prop.Group.Replace(" ", "")
                     If Not groupsAndMenus.ContainsKey(group) Then
@@ -46,36 +41,17 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                         Dim lvGroup As New ListViewGroup() With {.Header = prop.Group}
                         ListView1.Groups.Add(lvGroup)
 
-                        Dim tsmi As New ToolStripMenuItem(prop.Group)
-                        ProjectToolStripMenuItem.DropDownItems.Add(tsmi)
-
-                        groupsAndMenus.Add(group, New LvGrpTSMenu() With {.group = lvGroup, .menu = tsmi}) 'Cache group and menu item
-
-                        tsmiToAddTo = tsmi
+                        groupsAndMenus.Add(group, lvGroup) 'Cache group and menu item
 
                         lvi.Group = lvGroup
                     Else
-                        Dim mnu As LvGrpTSMenu = groupsAndMenus(group)
-                        tsmiToAddTo = mnu.menu
-                        lvi.Group = mnu.group
+                        lvi.Group = groupsAndMenus(group)
                     End If
-                Else
-                    tsmiToAddTo = ProjectToolStripMenuItem
                 End If
-
-                Dim tsiSub As ToolStripItem = tsmiToAddTo.DropDownItems.Add(prop.ParamName)
-                'tsi.Tag = prop
-                AddHandler tsiSub.Click, AddressOf ToolStripMenuItemClickEventHandler
 
                 ListView1.Items.Add(lvi)
             Next
             ListView1.EndUpdate()
-        End Sub
-
-        Private Sub ToolStripMenuItemClickEventHandler(ByVal sender As Object, ByVal e As EventArgs)
-            Dim tsi As ToolStripItem = DirectCast(sender, ToolStripItem)
-
-            PluginManager.EditBoxInsertYesParam(tsi.Text)
         End Sub
 
         Protected Prefix As String
@@ -167,19 +143,12 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             End Set
         End Property
 
-        Friend ReadOnly Property TextInsertContextMenuStripItems() As ToolStripItemCollection _
-        Implements IGenericSettings.TextInsertContextMenuStripItems
-            Get
-                Return TextInsertContextMenuStrip.Items
-            End Get
-        End Property
-
         ' Event handlers:
         Private Sub LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
             Tools.OpenENArticleInBrowser(WikiFunctions.Variables.Namespaces(WikiFunctions.Namespace.Template) & Template, False)
         End Sub
 
-        Private Sub InsertTemplateToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles InsertTemplateToolStripMenuItem.Click
+        Private Sub InsertTemplateToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
             PluginManager.EditBoxInsert("{{" & Template & "}}")
         End Sub
 

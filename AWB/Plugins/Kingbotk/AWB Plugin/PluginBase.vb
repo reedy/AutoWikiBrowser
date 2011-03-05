@@ -492,7 +492,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         Property AutoStub() As Boolean
         Property StubClass() As Boolean
         WriteOnly Property StubClassModeAllowed() As Boolean
-        ReadOnly Property TextInsertContextMenuStripItems() As ToolStripItemCollection
         Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader)
         Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
         Sub XMLReset()

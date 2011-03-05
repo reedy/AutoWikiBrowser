@@ -21,10 +21,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         <System.Diagnostics.DebuggerStepThrough()> _
         Private Sub InitializeComponent()
             Me.components = New System.ComponentModel.Container()
-            Me.TextInsertContextMenuStrip = New System.Windows.Forms.ContextMenuStrip(Me.components)
-            Me.ProjectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-            Me.InsertTemplateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-            Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
             Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
             Me.AutoStubCheckBox = New System.Windows.Forms.CheckBox()
             Me.StubClassCheckBox = New System.Windows.Forms.CheckBox()
@@ -33,33 +29,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.colWG = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
             Me.ParametersGroup = New System.Windows.Forms.GroupBox()
             Me.ExtraCheckBox = New System.Windows.Forms.CheckBox()
-            Me.TextInsertContextMenuStrip.SuspendLayout()
             Me.ParametersGroup.SuspendLayout()
             Me.SuspendLayout()
-            '
-            'TextInsertContextMenuStrip
-            '
-            Me.TextInsertContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ProjectToolStripMenuItem})
-            Me.TextInsertContextMenuStrip.Name = "TextInsertContextMenuStrip"
-            Me.TextInsertContextMenuStrip.Size = New System.Drawing.Size(131, 26)
-            '
-            'ProjectToolStripMenuItem
-            '
-            Me.ProjectToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.InsertTemplateToolStripMenuItem, Me.ToolStripSeparator1})
-            Me.ProjectToolStripMenuItem.Name = "ProjectToolStripMenuItem"
-            Me.ProjectToolStripMenuItem.Size = New System.Drawing.Size(130, 22)
-            Me.ProjectToolStripMenuItem.Text = "WPMilHist"
-            '
-            'InsertTemplateToolStripMenuItem
-            '
-            Me.InsertTemplateToolStripMenuItem.Name = "InsertTemplateToolStripMenuItem"
-            Me.InsertTemplateToolStripMenuItem.Size = New System.Drawing.Size(90, 22)
-            Me.InsertTemplateToolStripMenuItem.Text = "{{}}"
-            '
-            'ToolStripSeparator1
-            '
-            Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-            Me.ToolStripSeparator1.Size = New System.Drawing.Size(87, 6)
             '
             'AutoStubCheckBox
             '
@@ -142,19 +113,14 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.MinimumSize = New System.Drawing.Size(276, 349)
             Me.Name = "GenericWithWorkgroups"
             Me.Size = New System.Drawing.Size(276, 349)
-            Me.TextInsertContextMenuStrip.ResumeLayout(False)
             Me.ParametersGroup.ResumeLayout(False)
             Me.ParametersGroup.PerformLayout()
             Me.ResumeLayout(False)
             Me.PerformLayout()
 
         End Sub
-        Private WithEvents TextInsertContextMenuStrip As System.Windows.Forms.ContextMenuStrip
         Private WithEvents ToolTip1 As System.Windows.Forms.ToolTip
         Private WithEvents LinkLabel1 As System.Windows.Forms.LinkLabel
-        Friend WithEvents ProjectToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents InsertTemplateToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
         Friend WithEvents ListView1 As System.Windows.Forms.ListView
         Friend WithEvents colWG As System.Windows.Forms.ColumnHeader
         Private WithEvents ParametersGroup As System.Windows.Forms.GroupBox
