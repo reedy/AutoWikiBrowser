@@ -4,7 +4,7 @@
     Private Const PluginName As String = "Songs"
 
     Friend Sub New()
-        MyBase.New("WikiProjectSongs") ' Specify alternate names only
+        MyBase.New("WikiProject Songs|WikiProjectSongs|WP Songs|Song|Songs|WPSongs|WikiProject Song") ' Specify alternate names only
 
         Dim params(-1) As TemplateParameters
 
