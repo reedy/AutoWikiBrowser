@@ -1,10 +1,10 @@
 ﻿Friend NotInheritable Class WPSongs
     Inherits PluginBase
 
-    Private Const PluginName As String = "Songs"
+    Private Const PluginName As String = "WikiProject Songs"
 
     Friend Sub New()
-        MyBase.New("WikiProject Songs|WikiProjectSongs|WP Songs|Song|Songs|WPSongs|WikiProject Song") ' Specify alternate names only
+        MyBase.New("WikiProjectSongs|WP Songs|Song|Songs|WPSongs|WikiProject Song") ' Specify alternate names only
 
         Dim params(-1) As TemplateParameters
 
@@ -26,7 +26,7 @@
         End Get
     End Property
     Protected Overrides Sub ImportanceParameter(ByVal Importance As Importance)
-        ' {{Songs}} doesn't do importance
+        ' {{WikiProject Songs}} doesn't do importance
     End Sub
     Protected Friend Overrides ReadOnly Property GenericSettings() As IGenericSettings
         Get
