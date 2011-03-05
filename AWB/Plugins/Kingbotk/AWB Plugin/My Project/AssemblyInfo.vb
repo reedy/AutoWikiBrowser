@@ -17,7 +17,6 @@
 
 Imports System.Resources
 
-Imports System
 Imports System.Reflection
 Imports System.Runtime.InteropServices
 
@@ -31,7 +30,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("WikiProject templating plugin for AutoWikiBrowser")> 
 <Assembly: AssemblyCompany("SDK Software")> 
 <Assembly: AssemblyProduct("Kingbotk AWB Plugin")> 
-<Assembly: AssemblyCopyright("Copyright © Stephen Kennedy, Sam Reed 2010")> 
+<Assembly: AssemblyCopyright("Copyright © Stephen Kennedy, Sam Reed 2011")> 
 <Assembly: AssemblyTrademark("")> 
 
 <Assembly: ComVisible(False)> 
@@ -50,7 +49,7 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("2.3.1.2")> 
-<Assembly: AssemblyFileVersion("2.3.1.2")> 
+<Assembly: AssemblyVersion("2.3.1.3")> 
+<Assembly: AssemblyFileVersion("2.3.1.3")> 
 
 <Assembly: NeutralResourcesLanguageAttribute("")> 
