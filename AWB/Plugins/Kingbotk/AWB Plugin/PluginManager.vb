@@ -115,12 +115,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             ' Add-Generic-Template menu:
             AWBForm.PluginsToolStripMenuItem.DropDownItems.Add(AddGenericTemplateMenuItem)
 
-            ' Universal context menus:
-            'AddItemToTextBoxInsertionContextMenu(PluginSettings.TextInsertContextMenuStrip.Items) ' wasn't working (nor was iteration)
-            AddItemToTextBoxInsertionContextMenu(PluginSettings.ClassToolStripMenuItem)
-            AddItemToTextBoxInsertionContextMenu(PluginSettings.ImportanceToolStripMenuItem)
-            AddItemToTextBoxInsertionContextMenu(PluginSettings.PriorityToolStripMenuItem)
-
             ' Create plugins:
             Plugins.Add("Albums", New WPAlbums())
             Plugins.Add("Australia", New WPAustralia())
@@ -524,15 +518,6 @@ SkipOrStop:
                     StatusText.Text = ActivePlugins.Count.ToString("0 Kingbotk plugins ready")
             End Select
             If PluginSettings.ManuallyAssess Then StatusText.Text += " (manual assessments plugin active)"
-        End Sub
-        Friend Shared Function GetTextBoxDropDownItems() As ToolStripItemCollection
-            Return AWBForm.InsertTagToolStripMenuItem.DropDownItems
-        End Function
-        Friend Shared Sub AddItemToTextBoxInsertionContextMenu(ByVal ToolStripItems As ToolStripItemCollection)
-            GetTextBoxDropDownItems.AddRange(ToolStripItems)
-        End Sub
-        Friend Shared Sub AddItemToTextBoxInsertionContextMenu(ByVal ToolStripItem As ToolStripItem)
-            GetTextBoxDropDownItems.Add(ToolStripItem)
         End Sub
         Friend Shared Sub TestSkipNonExistingPages()
             Static WeCheckedSkipNonExistingPages As Boolean = False

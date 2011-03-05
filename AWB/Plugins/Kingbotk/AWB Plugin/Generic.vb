@@ -17,9 +17,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         ' Our name:
         Private mName As String
 
-        ' UI:
-        Private WithEvents InsertTemplateCallMenuItem As ToolStripMenuItem
-
         ' Enums:
         Friend Enum ImportanceSettingEnum
             Imp
@@ -213,14 +210,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
             ' Add any initialization after the InitializeComponent() call.
             mName = OurPluginName
-            InsertTemplateCallMenuItem = New ToolStripMenuItem(mName & _
-               " (you haven't entered a template name yet)")
-            PluginManager.AddItemToTextBoxInsertionContextMenu(InsertTemplateCallMenuItem)
         End Sub
         Friend Sub Goodbye()
-            PluginManager.GetTextBoxDropDownItems.Remove(InsertTemplateCallMenuItem)
-            InsertTemplateCallMenuItem.Dispose()
-            InsertTemplateCallMenuItem = Nothing
         End Sub
 
 #Region "XML interface"
@@ -307,11 +298,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Sub
         Private Sub TemplateNameTextBox_TextChanged(ByVal sender As Object, ByVal e As EventArgs) _
         Handles TemplateNameTextBox.TextChanged
-            InsertTemplateCallMenuItem.Text = "{{" & TemplateName & "}}"
             GetRedirectsButton.Enabled = Not (TemplateName = "")
-        End Sub
-        Private Sub InsertTemplateCallMenuItem_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles InsertTemplateCallMenuItem.Click
-            PluginManager.EditBoxInsert("{{" & TemplateName & "}}")
         End Sub
 #End Region
     End Class

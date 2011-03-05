@@ -221,67 +221,67 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         End Sub
 #Region "TextInsertHandlers"
         ' Event handlers: Insert-text context menu:
-        Private Sub StubClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles StubClassMenuItem.Click
+        Private Sub StubClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
             PluginManager.EditBoxInsert("|class=Stub")
         End Sub
-        Private Sub StartClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles StartClassMenuItem.Click
+        Private Sub StartClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
             PluginManager.EditBoxInsert("|class=Start")
         End Sub
-        Private Sub BClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles BClassMenuItem.Click
+        Private Sub BClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
             PluginManager.EditBoxInsert("|class=B")
         End Sub
-        Private Sub GAClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles GAClassMenuItem.Click
+        Private Sub GAClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
             PluginManager.EditBoxInsert("|class=GA")
         End Sub
-        Private Sub AClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles AClassMenuItem.Click
+        Private Sub AClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
             PluginManager.EditBoxInsert("|class=A")
         End Sub
-        Private Sub FAClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles FAClassMenuItem.Click
+        Private Sub FAClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
             PluginManager.EditBoxInsert("|class=FA")
         End Sub
-        Private Sub NeededClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles NeededClassMenuItem.Click
+        Private Sub NeededClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
             PluginManager.EditBoxInsert("|class=Needed")
         End Sub
-        Private Sub CatClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles CatClassMenuItem.Click
+        Private Sub CatClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
             PluginManager.EditBoxInsert("|class=Cat")
         End Sub
-        Private Sub DabClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles DabClassMenuItem.Click
+        Private Sub DabClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
             PluginManager.EditBoxInsert("|class=Dab")
         End Sub
-        Private Sub TemplateClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles TemplateClassMenuItem.Click
+        Private Sub TemplateClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
             PluginManager.EditBoxInsert("|class=Template")
         End Sub
-        Private Sub NAClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles NAClassMenuItem.Click
+        Private Sub NAClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
             PluginManager.EditBoxInsert("|class=NA")
         End Sub
-        Private Sub LowImportanceMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles LowImportanceMenuItem.Click
+        Private Sub LowImportanceMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
             PluginManager.EditBoxInsert("|importance=Low")
         End Sub
-        Private Sub MidImportanceMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles MidImportanceMenuItem.Click
+        Private Sub MidImportanceMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
             PluginManager.EditBoxInsert("|importance=Mid")
         End Sub
-        Private Sub HighImportanceMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles HighImportanceMenuItem.Click
+        Private Sub HighImportanceMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
             PluginManager.EditBoxInsert("|importance=High")
         End Sub
-        Private Sub TopImportanceMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles TopImportanceMenuItem.Click
+        Private Sub TopImportanceMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
             PluginManager.EditBoxInsert("|importance=Top")
         End Sub
-        Private Sub NAImportanceMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles NAImportanceMenuItem.Click
+        Private Sub NAImportanceMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
             PluginManager.EditBoxInsert("|importance=NA")
         End Sub
-        Private Sub LowPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles LowPriorityMenuItem.Click
+        Private Sub LowPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
             PluginManager.EditBoxInsert("|priority=Low")
         End Sub
-        Private Sub MidPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles MidPriorityMenuItem.Click
+        Private Sub MidPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
             PluginManager.EditBoxInsert("|priority=Mid")
         End Sub
-        Private Sub HighPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles HighPriorityMenuItem.Click
+        Private Sub HighPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
             PluginManager.EditBoxInsert("|priority=High")
         End Sub
-        Private Sub TopPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles TopPriorityMenuItem.Click
+        Private Sub TopPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
             PluginManager.EditBoxInsert("|priority=Top")
         End Sub
-        Private Sub NAPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles NAPriorityMenuItem.Click
+        Private Sub NAPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
             PluginManager.EditBoxInsert("|priority=NA")
         End Sub
 #End Region
