@@ -901,10 +901,10 @@ namespace AutoWikiBrowser
             // reparseToolStripMenuItem
             // 
             this.reparseToolStripMenuItem.Name = "reparseToolStripMenuItem";
+            this.reparseToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
             this.reparseToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
             this.reparseToolStripMenuItem.Text = "&Re-parse";
             this.reparseToolStripMenuItem.Click += new System.EventHandler(this.reparseToolStripMenuItem_Click);
-            this.reparseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.F5)));
             // 
             // commentSelectedToolStripMenuItem
             // 
@@ -1509,7 +1509,8 @@ namespace AutoWikiBrowser
             // testRegexToolStripMenuItem
             // 
             this.testRegexToolStripMenuItem.Name = "testRegexToolStripMenuItem";
-            this.testRegexToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control |System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.T)));
+            this.testRegexToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.T)));
             this.testRegexToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.testRegexToolStripMenuItem.Text = "Regex &tester";
             this.testRegexToolStripMenuItem.Click += new System.EventHandler(this.launchRegexTester);
@@ -1726,7 +1727,7 @@ namespace AutoWikiBrowser
             this.btnIgnore.Name = "btnIgnore";
             this.btnIgnore.Size = new System.Drawing.Size(117, 36);
             this.btnIgnore.TabIndex = 15;
-            this.btnIgnore.Text = "S&kip";
+            this.btnIgnore.Text = "Sk&ip";
             this.ToolTip.SetToolTip(this.btnIgnore, "Skip this page without saving and continue on the next (Ctrl + I)");
             this.btnIgnore.Click += new System.EventHandler(this.btnIgnore_Click);
             // 
@@ -1738,7 +1739,7 @@ namespace AutoWikiBrowser
             this.btnDiff.Name = "btnDiff";
             this.btnDiff.Size = new System.Drawing.Size(53, 23);
             this.btnDiff.TabIndex = 10;
-            this.btnDiff.Text = "Dif&f";
+            this.btnDiff.Text = "&Diff";
             this.ToolTip.SetToolTip(this.btnDiff, "Show which changes you made to the text (Ctrl + D)");
             this.btnDiff.Click += new System.EventHandler(this.btnDiff_Click);
             // 
@@ -1764,7 +1765,7 @@ namespace AutoWikiBrowser
             this.btnPreview.Name = "btnPreview";
             this.btnPreview.Size = new System.Drawing.Size(58, 23);
             this.btnPreview.TabIndex = 9;
-            this.btnPreview.Text = "Pre&view";
+            this.btnPreview.Text = "Pr&eview";
             this.ToolTip.SetToolTip(this.btnPreview, "Preview your changes");
             this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
             // 
@@ -1976,7 +1977,7 @@ namespace AutoWikiBrowser
             this.chkMinor.Name = "chkMinor";
             this.chkMinor.Size = new System.Drawing.Size(72, 17);
             this.chkMinor.TabIndex = 3;
-            this.chkMinor.Text = "M&inor edit";
+            this.chkMinor.Text = "Minor edit";
             this.ToolTip.SetToolTip(this.chkMinor, "Mark edit as a minor edit");
             this.chkMinor.CheckedChanged += new System.EventHandler(this.chkMinor_CheckedChanged);
             // 
