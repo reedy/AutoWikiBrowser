@@ -188,12 +188,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 End If
             End Set
         End Property
-        Friend ReadOnly Property TextInsertContextMenuStripItems() As ToolStripItemCollection _
-        Implements IGenericSettings.TextInsertContextMenuStripItems
-            Get
-                Return Nothing ' not used by generic template objects
-            End Get
-        End Property
         Friend WriteOnly Property StubClassModeAllowed() As Boolean _
         Implements IGenericSettings.StubClassModeAllowed
             Set(ByVal value As Boolean)
