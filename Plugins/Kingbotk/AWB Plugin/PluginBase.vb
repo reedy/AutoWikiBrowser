@@ -59,9 +59,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                 .ToolTipText = "Enable/disable the " & PluginShortName & " plugin"
             End With
             PluginManager.AWBForm.PluginsToolStripMenuItem.DropDownItems.Add(OurMenuItem)
-
-            If Not Me.IAmGeneric Then _
-               PluginManager.AddItemToTextBoxInsertionContextMenu(GenericSettings.TextInsertContextMenuStripItems)
         End Sub
         Protected Friend MustOverride Sub Initialise()
         Protected Friend MustOverride Sub ReadXML(ByVal Reader As XmlTextReader)
