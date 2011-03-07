@@ -926,6 +926,7 @@ __TOC__", articleTextIn);
 {{WikiProject foo}}}}
 ", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}
 {{WikiProject foo}}"), "WikiProjects pulled into WPBS");
+
             Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}
 {{WikiProject foo}}
 {{WikiProject bar}}}}
@@ -933,6 +934,22 @@ __TOC__", articleTextIn);
 ", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}
 {{WikiProject foo}}
 {{WikiProject bar}}"), "WikiProjects pulled into WPBS");
+
+        	Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WikiProject foo}}
+{{WikiProject bar}}
+{{WikiProject Biography|living=yes|foo=bar}} | blp=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject Biography|living=yes|foo=bar}}{{WikiProjectBannerShell|1={{WikiProject foo}}
+{{WikiProject bar}}}}"), "WikiProjects pulled into WPBS, WPBIO contains living=yes");
+
+        	Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WikiProject foo}}
+{{WikiProject bar}}
+{{WikiProject Biography|activepol=yes|foo=bar}} | activepol=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject Biography|activepol=yes|foo=bar}}{{WikiProjectBannerShell|1={{WikiProject foo}}
+{{WikiProject bar}}}}"), "WikiProjects pulled into WPBS, WPBIO contains activepol=yes");
+
+        	Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WikiProject foo}}
+{{WikiProject bar}}
+{{WikiProject Biography|living=yes|activepol=yes|foo=bar}} | blp=yes | activepol=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject Biography|living=yes|activepol=yes|foo=bar}}{{WikiProjectBannerShell|1={{WikiProject foo}}
+{{WikiProject bar}}}}"), "WikiProjects pulled into WPBS, WPBIO contains living, activepol=yes");
+
         }
         
         [Test]

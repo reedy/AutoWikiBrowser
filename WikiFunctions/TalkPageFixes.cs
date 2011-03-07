@@ -275,8 +275,35 @@ namespace WikiFunctions.TalkPages
                     newValue = Tools.SetTemplateParameterValue(newValue, "activepol", "yes");
                     articletext = articletext.Replace(activepolm.Value, "");
                 }
+                                
+                // merge changes to article text
+                if (!newValue.Equals(m.Value))
+                    articletext = articletext.Replace(m.Value, newValue);
+            }
+            
+            // Move WikiProjects into WPBS
+            if(WikiRegexes.WikiProjectBannerShellTemplate.Matches(articletext).Count == 1)
+            {
+                string WPBS = WikiRegexes.WikiProjectBannerShellTemplate.Match(articletext).Value, newParams = "";
                 
-                // check living, activepol, blpo flags against WPBiography
+                foreach(Match m in WikiRegexes.NestedTemplates.Matches(articletext))
+                {
+                    if(Tools.GetTemplateName(m.Value).StartsWith("WikiProject ") && !WPBS.Contains(m.Value))
+                    {
+                        articletext = articletext.Replace(m.Value, "");
+                        newParams += Tools.Newline(m.Value);
+                    }
+                }
+                if(newParams.Length > 0)
+                    articletext = articletext.Replace(WPBS, Tools.SetTemplateParameterValue(WPBS, "1", Tools.GetTemplateParameterValue(WPBS, "1") + newParams));
+            }
+            
+            // check living, activepol, blpo flags against WPBiography
+            foreach (Match m in WikiRegexes.WikiProjectBannerShellTemplate.Matches(articletext))
+            {
+                string newValue = m.Value;
+                string arg1 = Tools.GetTemplateParameterValue(newValue, "1");
+                
                 Match m2 = WPBiographyR.Match(arg1);
 
                 if (m2.Success)
@@ -304,27 +331,10 @@ namespace WikiFunctions.TalkPages
                     if (Tools.GetTemplateParameterValue(WPBiographyCall, "blpo").Equals("yes"))
                         newValue = Tools.SetTemplateParameterValue(newValue, "blpo", "yes");
                 }
-                
+                                
                 // merge changes to article text
                 if (!newValue.Equals(m.Value))
                     articletext = articletext.Replace(m.Value, newValue);
-            }
-            
-            // Move any other WikiProjects into WPBS
-            if(WikiRegexes.WikiProjectBannerShellTemplate.Matches(articletext).Count == 1)
-            {
-                string WPBS = WikiRegexes.WikiProjectBannerShellTemplate.Match(articletext).Value, newParams = "";
-                
-                foreach(Match m in WikiRegexes.NestedTemplates.Matches(articletext))
-                {
-                    if(Tools.GetTemplateName(m.Value).StartsWith("WikiProject ") && !WPBS.Contains(m.Value))
-                    {
-                        articletext = articletext.Replace(m.Value, "");
-                        newParams += Tools.Newline(m.Value);
-                    }
-                }
-                if(newParams.Length > 0)
-                    articletext = articletext.Replace(WPBS, Tools.SetTemplateParameterValue(WPBS, "1", Tools.GetTemplateParameterValue(WPBS, "1") + newParams));
             }
 
             return articletext;
