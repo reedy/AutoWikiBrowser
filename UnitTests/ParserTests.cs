@@ -7212,6 +7212,9 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 
             correct = @"{{refimprove section|date=May 2010}}";
             Assert.AreEqual(correct, Parsers.Conversions(@"{{refimprove|section|date=May 2010}}"));
+
+            correct = @"{{BLP sources section|date=May 2010}}";
+            Assert.AreEqual(correct, Parsers.Conversions(@"{{BLP sources|section|date=May 2010}}"));
 }
         
         [Test]

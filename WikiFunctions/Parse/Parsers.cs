@@ -5614,8 +5614,8 @@ namespace WikiFunctions.Parse
             // {{nofootnotes}} --> {{morefootnotes}}, if some <ref>...</ref> references in article, uses regex from WikiRegexes.Refs
             if (WikiRegexes.Refs.IsMatch(articleText))
                 articleText = Tools.RenameTemplate(articleText, @"nofootnotes", "morefootnotes");
-            
-            // {{foo|section|...}} --> {{foo section|...}} for unreferenced, wikify, refimprove
+
+            // {{foo|section|...}} --> {{foo section|...}} for unreferenced, wikify, refimprove, BLPsources, expand
             articleText = SectionTemplates.Replace(articleText, new MatchEvaluator(SectionTemplateConversionsME));
 
             // {{unreferenced}} --> {{BLP unsourced}} if article has [[Category:Living people]], and no free-text first argument to {{unref}}
@@ -5624,19 +5624,19 @@ namespace WikiFunctions.Parse
                 && (Tools.GetTemplateArgument(unref, 1).StartsWith("date")
                     || Tools.GetTemplateArgumentCount(unref) == 0))
                 articleText = Tools.RenameTemplate(articleText, WikiRegexes.Unreferenced.Match(articleText).Groups[1].Value, "BLP unsourced", false);
-            
+
             // {{unreferenced section}} --> {{BLP unsourced section}} if article has [[Category:Living people]]
             if (Variables.IsWikipediaEN && Tools.NestedTemplateRegex("unreferenced section").IsMatch(articleText) && articleText.Contains(@"[[Category:Living people"))
                 articleText = Tools.RenameTemplate(articleText, "unreferenced section", "BLP unsourced section", false);
 
             articleText = MergePortals(articleText);
-            
+
             articleText = MergeTemplatesBySection(articleText);
-            
+
             // clean up underscores in infobox names
             string InfoBox =WikiRegexes.InfoBox.Match(articleText).Groups[1].Value;
             articleText = Tools.RenameTemplate(articleText, InfoBox, CanonicalizeTitle(InfoBox));
-            
+
             // {{Expand|section|...}} --> {{Expand section|...}}
             foreach(Match m in Tools.NestedTemplateRegex("expand").Matches(articleText))
             {
@@ -5662,7 +5662,7 @@ namespace WikiFunctions.Parse
             return Dablinks(articleText);
         }
         
-        private static readonly Regex SectionTemplates = Tools.NestedTemplateRegex(new [] {"unreferenced", "wikify", "refimprove" });
+        private static readonly Regex SectionTemplates = Tools.NestedTemplateRegex(new [] {"unreferenced", "wikify", "refimprove", "BLP sources" });
         
         /// <summary>
         /// Converts templates such as {{foo|section|...}} to {{foo section|...}}
