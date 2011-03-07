@@ -198,6 +198,7 @@ Test.JPG
             RegexAssert.NoMatch(WikiRegexes.FileNamespaceLink, "[[File Test.JPG]]");
         }
 
+        [Test]
         public void StubTests()
         {
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{footballer-bio-stub}}");
@@ -211,6 +212,8 @@ Test.JPG
             
             RegexAssert.NoMatch(WikiRegexes.Stub, @"{{now stubborn}}");
             RegexAssert.NoMatch(WikiRegexes.Stub, @"{{stubby}}");
+            RegexAssert.NoMatch(WikiRegexes.Stub, @"{{foo|stub}}");
+            RegexAssert.NoMatch(WikiRegexes.Stub, @":{{main|stub (electronics)#Short circuited stub|l1=stub}}");
         }
 
         [Test]
@@ -326,7 +329,7 @@ now stubborn}}");
             #endif
         }
         
-            [Test]
+        [Test]
         public void WikifyTests()
         {
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{wikify}}"));
@@ -349,7 +352,7 @@ now stubborn}}");
             // don't remove the whole of an {{article issues}} template if removing wikify tag
             Assert.IsTrue(WikiRegexes.Wikify.Replace(@"{{Article issues|a=b|c=d| wikify = May 2008|a=b|c=d}}", "$1").Contains(@"{{Article issues|a=b|c=d|"));
 
-            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(@"{{wikifyworldblah}}"));            
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(@"{{wikifyworldblah}}"));
             
             #if DEBUG
             Variables.SetProjectLangCode("sv");
@@ -498,7 +501,7 @@ disambig|surname
         public void SIAsTests()
         {
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{surname}}");
-               RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{given name}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{given name}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Shipindex}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{mountainindex}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Roadindex}}");
@@ -519,7 +522,7 @@ disambig|surname
             RegexAssert.IsMatch(WikiRegexes.Wi, @"{{Seewiktionary}}");
         }
 
-            [Test]
+        [Test]
         public void ExtractTitleTests()
         {
             RegexAssert.IsMatch(WikiRegexes.ExtractTitle, @"http://en.wikipedia.org/wiki/Foo");
@@ -593,7 +596,7 @@ now").Value);
             
             Assert.AreEqual(@"{{DEFAULTSORT:foo]]" + "\r", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo]]
 pp").Value);
-             Assert.AreEqual(@"{{DEFAULTSORT:foo]]" + "\r", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo]]
+            Assert.AreEqual(@"{{DEFAULTSORT:foo]]" + "\r", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo]]
 pp
 {{x}}
 ").Value);
@@ -679,7 +682,7 @@ pp
             RegexAssert.NoMatch(WikiRegexes.DayMonthRangeSpan, @"On July 11–12 a");
         }
         
-          [Test]
+        [Test]
         public void LinkFGAs()
         {
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Link FA|ar}}"));
@@ -788,9 +791,9 @@ he}}"));
             WikiRegexes.MakeLangSpecificRegexes();
             #endif
         }
-		
-		[Test]
-		public void LinkFGAsSwedish()
+        
+        [Test]
+        public void LinkFGAsSwedish()
         {
             #if DEBUG
             Variables.SetProjectLangCode("sv");
