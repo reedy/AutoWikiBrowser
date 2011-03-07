@@ -482,7 +482,7 @@ namespace WikiFunctions
             URLEnd = "/w/";
 
             AWBDefaultSummaryTag();
-            Stub = ".*?[Ss]tub";
+            Stub = "[^{}|]*?[Ss]tub";
 
             MonthNames = ENLangMonthNames;
 
@@ -721,7 +721,7 @@ namespace WikiFunctions
             MonthNames = ENLangMonthNames;
             SectStub = @"\{\{[Ss]ect";
             SectStubRegex = new Regex(SectStub, RegexOptions.Compiled);
-            Stub = "[^{}]*?[Ss]tub";
+            Stub = "[^{}|]*?[Ss]tub";
 
             LangCode = "en";
 
