@@ -5615,7 +5615,7 @@ namespace WikiFunctions.Parse
             if (WikiRegexes.Refs.IsMatch(articleText))
                 articleText = Tools.RenameTemplate(articleText, @"nofootnotes", "morefootnotes");
 
-            // {{foo|section|...}} --> {{foo section|...}} for unreferenced, wikify, refimprove, BLPsources, expand
+            // {{foo|section|...}} --> {{foo section|...}} for unreferenced, wikify, refimprove, BLPsources, expand, BLP unsourced
             articleText = SectionTemplates.Replace(articleText, new MatchEvaluator(SectionTemplateConversionsME));
 
             // {{unreferenced}} --> {{BLP unsourced}} if article has [[Category:Living people]], and no free-text first argument to {{unref}}
@@ -5637,20 +5637,6 @@ namespace WikiFunctions.Parse
             string InfoBox =WikiRegexes.InfoBox.Match(articleText).Groups[1].Value;
             articleText = Tools.RenameTemplate(articleText, InfoBox, CanonicalizeTitle(InfoBox));
 
-            // {{Expand|section|...}} --> {{Expand section|...}}
-            foreach(Match m in Tools.NestedTemplateRegex("expand").Matches(articleText))
-            {
-                if(Tools.GetTemplateArgument(m.Value, 1).Equals("section"))
-                    articleText = articleText.Replace(m.Value, Tools.RenameTemplate(Regex.Replace(m.Value, @"\|\s*section\s*(\||}})", "$1"), "Expand section"));
-            }
-
-            // {{BLP unsourced|section|...}} --> {{BLP unsourced section|...}}
-            foreach(Match m in Tools.NestedTemplateRegex("BLP unsourced").Matches(articleText))
-            {
-                if(Tools.GetTemplateArgument(m.Value, 1).Equals("section"))
-                    articleText = articleText.Replace(m.Value, Tools.RenameTemplate(Regex.Replace(m.Value, @"\|\s*section\s*(\||}})", "$1"), "BLP unsourced section"));
-            }
-
             // add date to any undated tags within {{Multiple issues}} (loop due to lookbehind in regex)
             while(MultipleIssuesUndatedTags.IsMatch(articleText))
                 articleText = MultipleIssuesUndatedTags.Replace(articleText, "$1$2={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}$3");
@@ -5662,7 +5648,7 @@ namespace WikiFunctions.Parse
             return Dablinks(articleText);
         }
         
-        private static readonly Regex SectionTemplates = Tools.NestedTemplateRegex(new [] {"unreferenced", "wikify", "refimprove", "BLP sources" });
+        private static readonly Regex SectionTemplates = Tools.NestedTemplateRegex(new [] {"unreferenced", "wikify", "refimprove", "BLP sources", "expand", "BLP unsourced"});
         
         /// <summary>
         /// Converts templates such as {{foo|section|...}} to {{foo section|...}}

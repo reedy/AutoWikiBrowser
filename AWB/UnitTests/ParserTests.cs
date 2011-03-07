@@ -7168,25 +7168,6 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.AreEqual(correct, Parsers.Conversions(correct));
         }
         
-        [Test]
-        public void ConversionsTestsExpand()
-        {
-            string correct = @"{{Expand section|date=May 2010}}";
-            Assert.AreEqual(correct, Parsers.Conversions(@"{{Expand|section|date=May 2010}}"));
-            Assert.AreEqual(correct, Parsers.Conversions(@"{{Expand|  section |date=May 2010}}"),"whitespaces in parameter 1");
-            Assert.AreEqual(correct, Parsers.Conversions(correct),"no changes");
-            Assert.AreEqual(@"{{Expand section}}", Parsers.Conversions(@"{{Expand|section}}"),"no date");
-        }
-        
-        [Test]
-        public void ConversionsTestsBLPUnsourced()
-        {
-            string correct = @"{{BLP unsourced section|date=May 2010}}";
-            Assert.AreEqual(correct, Parsers.Conversions(@"{{BLP unsourced|section|date=May 2010}}"));
-            Assert.AreEqual(correct, Parsers.Conversions(@"{{BLP unsourced|  section |date=May 2010}}"),"whitespaces in parameter 1");
-            Assert.AreEqual(correct, Parsers.Conversions(correct),"no changes");
-            Assert.AreEqual(@"{{BLP unsourced section}}", Parsers.Conversions(@"{{BLP unsourced|section}}"),"no date");
-        }
         
         [Test]
         public void ConversionsTestsUnreferenced()
@@ -7215,6 +7196,12 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 
             correct = @"{{BLP sources section|date=May 2010}}";
             Assert.AreEqual(correct, Parsers.Conversions(@"{{BLP sources|section|date=May 2010}}"));
+
+            correct = @"{{expand section|date=May 2010}}";
+            Assert.AreEqual(correct, Parsers.Conversions(@"{{expand|section|date=May 2010}}"));
+
+            correct = @"{{BLP unsourced section|date=May 2010}}";
+            Assert.AreEqual(correct, Parsers.Conversions(@"{{BLP unsourced|section|date=May 2010}}"));
 }
         
         [Test]
