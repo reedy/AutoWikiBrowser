@@ -466,6 +466,7 @@ namespace WikiFunctions.API
 
             if (xr.GetAttribute("result").Equals("NeedToken", StringComparison.InvariantCultureIgnoreCase))
             {
+                AdjustCookies();
                 string token = xr.GetAttribute("token");
 
                 result = HttpPost(new[,] { { "action", "login" } },
