@@ -1574,9 +1574,10 @@ title={{abc|fdkjdsfjk=fdaskjlfds
             Assert.IsTrue(FooTemplate2.IsMatch(@"{{Foo      bar}}"));
             
             Assert.IsFalse(FooTemplate2.IsMatch(@"{{foo}}"));
-             Assert.IsFalse(FooTemplate2.IsMatch(@"{{foo b_ar}}"));
+            Assert.IsFalse(FooTemplate2.IsMatch(@"{{foo b_ar}}"));
             Assert.IsFalse(FooTemplate2.IsMatch(@"{{foo
 bar|text}}"));
+            Assert.IsFalse(Tools.NestedTemplateRegex("birth date").IsMatch(@"{{birth-date|May 11, 1980}}"));
         }
         
         [Test]
