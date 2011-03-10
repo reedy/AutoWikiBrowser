@@ -2151,7 +2151,7 @@ namespace WikiFunctions.Parse
             // ensure a space between a reference and text (reference within a paragraph) -- WP:REFPUNC
             new RegexReplacement(new Regex(@"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>)(\w)", RegexOptions.Compiled), "$1 $2"),
             // remove spaces between punctuation and references -- WP:REFPUNC
-            new RegexReplacement(new Regex(@"([,\.:;]) +(?=<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)", RegexOptions.Compiled), "$1"),
+            new RegexReplacement(new Regex(@"([,\.:;]) +(?=<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)", RegexOptions.Compiled | RegexOptions.IgnoreCase), "$1"),
 
             // <ref name="Fred" /ref> --> <ref name="Fred"/>
             new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?"")\s*/\s*(?:ref|/)\s*>", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase), "$1/>"),
