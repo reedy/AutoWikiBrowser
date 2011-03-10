@@ -290,8 +290,8 @@ namespace AutoWikiBrowser
 
                 bool optUpdate = ((Updater.Result & Updater.AWBEnabledStatus.OptionalUpdate) ==
                                   Updater.AWBEnabledStatus.OptionalUpdate),
-                     updaterUpdate = ((Updater.Result & Updater.AWBEnabledStatus.UpdaterUpdate) ==
-                                      Updater.AWBEnabledStatus.UpdaterUpdate);
+                updaterUpdate = ((Updater.Result & Updater.AWBEnabledStatus.UpdaterUpdate) ==
+                                 Updater.AWBEnabledStatus.UpdaterUpdate);
 
                 if (optUpdate || updaterUpdate)
                 {
@@ -349,9 +349,9 @@ namespace AutoWikiBrowser
             SplashScreen.SetProgress(100);
             SplashScreen.Close();
 
-#if DEBUG && INSTASTATS
+            #if DEBUG && INSTASTATS
             UsageStats.Do(false);
-#endif
+            #endif
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
@@ -614,7 +614,7 @@ namespace AutoWikiBrowser
         /// </summary>
         private void Start()
         {
-            if (TheSession.Status != WikiStatusResult.Registered || TheSession.IsBusy) 
+            if (TheSession.Status != WikiStatusResult.Registered || TheSession.IsBusy)
                 return;
             if (_inStart)
             {
@@ -750,9 +750,11 @@ namespace AutoWikiBrowser
             // and resident in the MyTrace collection, but then attempting to add TheArticle's log listener to the logging tab
             SkipPage(reason);
         }
+        
+        private static readonly Regex UnicodePUA = new Regex(@"\p{IsPrivateUseArea}", RegexOptions.Compiled);
 
         /// <summary>
-        /// 
+        /// Invoked on successful page load, performs skip checks and calls main page processing
         /// </summary>
         /// <param name="page"></param>
         private void PageLoaded(PageInfo page)
@@ -770,7 +772,7 @@ namespace AutoWikiBrowser
             TheArticle = new Article(page);
 
             if (!preParseModeToolStripMenuItem.Checked && !CheckLoginStatus())
-				return;
+                return;
 
             if (Program.MyTrace.HaveOpenFile)
                 Program.MyTrace.WriteBulletedLine("AWB started processing", true, true, true);
@@ -780,7 +782,7 @@ namespace AutoWikiBrowser
             Text = _settingsFileDisplay + " - " + page.Title;
 
             bool articleIsRedirect = PageInfo.WasRedirected(page);
-         
+            
             // check for redirects when 'follow redirects' is off
             if (chkSkipIfRedirect.Checked && Tools.IsRedirect(page.Text))
             {
@@ -836,6 +838,16 @@ namespace AutoWikiBrowser
                 {
                     MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
                 }
+            }
+            
+            
+            /* skip pages containing any Unicode character in Private Use Area as RichTextBox seems to break these 
+             * not exactly wrong as PUA characters won't be found in standard text, but not exactly right to break them either
+             * Reference: [[Unicode#Character General Category]] PUA is U+E000 to U+F8FF */
+            if(UnicodePUA.IsMatch(page.Text))
+            {
+                SkipPage("Page has character in Unicode Private Use Area");
+                return;
             }
 
             if (automaticallyDoAnythingToolStripMenuItem.Checked)
@@ -1065,13 +1077,13 @@ namespace AutoWikiBrowser
             {
                 if(!Errors.ContainsKey(kvp.Key))
                     Errors.Add(kvp.Key, kvp.Value);
-            }            
+            }
             
             foreach(KeyValuePair<int, int> kvp in deadLinks)
             {
                 if(!Errors.ContainsKey(kvp.Key))
                     Errors.Add(kvp.Key, kvp.Value);
-            }            
+            }
             
             foreach(KeyValuePair<int, int> kvp in ambigCiteDates)
             {
@@ -1484,7 +1496,7 @@ namespace AutoWikiBrowser
                     if (theArticle.CanDoGeneralFixes)
                     {
                         if (chkGeneralFixes.Checked)
-                        {                            
+                        {
                             if(!TemplateRedirectsLoaded)
                             {
                                 LoadTemplateRedirects();
@@ -1563,7 +1575,7 @@ namespace AutoWikiBrowser
                     else
                         theArticle.AWBChangeArticleText("Prepended your message",
                                                         Tools.ApplyKeyWords(theArticle.Name, txtAppendMessage.Text) + newlines + theArticle.ArticleText, false);
-                
+                    
                     if(chkAppendMetaDataSort.Checked)
                         theArticle.PerformMetaDataSort(Parser);
                 }
@@ -1607,7 +1619,7 @@ namespace AutoWikiBrowser
                 // don't remove page over regex error – page itself is not at fault
                 if (!ex.StackTrace.Contains("System.Text.RegularExpressions"))
                     theArticle.Trace.AWBSkipped("Exception:" + ex.Message);
-                else 
+                else
                     Skippable = false;
                 Stop();
                 StopDelayedAutoSaveTimer();
@@ -2562,9 +2574,9 @@ window.scrollTo(0, diffTopY);
             foreach(KeyValuePair<int, int> kvp in Errors)
             {
                 int current = txtEdit.SelectionStart + b; // offset by number of newlines up to it
-                if(kvp.Key > current) 
+                if(kvp.Key > current)
                 {
-                    RedSelection(kvp.Key, kvp.Value); 
+                    RedSelection(kvp.Key, kvp.Value);
                     txtEdit.ScrollToCaret();
                     done = true;
                     break;
@@ -2581,7 +2593,7 @@ window.scrollTo(0, diffTopY);
                     if(kvp.Key > txtEdit.SelectionStart)
                     {
                         RedSelection(kvp.Key, kvp.Value);
-                        txtEdit.ScrollToCaret();                        
+                        txtEdit.ScrollToCaret();
                         break;
                     }
                 }
@@ -3485,7 +3497,7 @@ window.scrollTo(0, diffTopY);
                 {
                     if(Tools.GetTemplateParameterValue(m2.Value, "date").Length > 0)
                         articleTextLocal = articleTextLocal.Replace(m2.Value, "");
-                }                
+                }
                 
                 MatchCollection m = RegexDates.Matches(articleTextLocal);
 
@@ -4396,7 +4408,7 @@ window.scrollTo(0, diffTopY);
                 {
                     SameArticleNudges++;
                     Stop();
-                     _stopProcessing = false;
+                    _stopProcessing = false;
                     Start();
                 }
 
@@ -4487,7 +4499,7 @@ window.scrollTo(0, diffTopY);
         
         private void LoadDatedTemplates()
         {
-                    string text;
+            string text;
             DatedTemplatesLoaded = true;
             try
             {
@@ -5045,7 +5057,7 @@ window.scrollTo(0, diffTopY);
             
             if(pageExists ||
                MessageBox.Show(_catName.CategoryName + " does not exist. Add it to the page anyway?",
-                   "Non-existent category",  MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                               "Non-existent category",  MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                == DialogResult.Yes)
             {
                 txtEdit.Text += "\r\n\r\n[[" + _catName.CategoryName + "]]";
