@@ -1355,6 +1355,11 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
 [[Category:Year of birth missing (living people)]]";
 
             Assert.AreEqual(n4, Parsers.FixPeopleCategories(n4, "foo"));
+            
+            const string n4a = @"'''John Hulme''' (born c.1970) is [[Category:Living people]]
+[[Category:Year of birth missing (living people)]]";
+
+            Assert.AreEqual(n4a, Parsers.FixPeopleCategories(n4a, "foo"));
         }
         
         [Test]
