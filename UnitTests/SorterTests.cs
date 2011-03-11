@@ -543,7 +543,7 @@ words.
         [Test]
         public void MoveIbidTests()
         {
-            const string a = @"{{Ibid|date=May 2009}}", b = @"
+            string a = @"{{Ibid|date=May 2009}}", b = @"
 '''Article''' words<ref>ibid</ref>.
 == section ==
 words.
@@ -575,6 +575,10 @@ words.
 
 words.
 " + c + a + "\r\n" + g, MetaDataSorter.MoveTemplateToReferencesSection(f + c + g, WikiFunctions.WikiRegexes.Ibid, false));
+
+            e = @"== Sources ==
+";
+            Assert.AreEqual(b + e + a + "\r\n", MetaDataSorter.MoveTemplateToReferencesSection(a + b + e, WikiFunctions.WikiRegexes.Ibid));
         }
 
         [Test]
