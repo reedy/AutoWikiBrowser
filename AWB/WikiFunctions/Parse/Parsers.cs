@@ -5086,7 +5086,7 @@ namespace WikiFunctions.Parse
             
             string MABackground =
                 Tools.GetTemplateParameterValue(IMA.Match(articleText).Value,
-                                                "Background");
+                                                "Background", true);
 
             if(MABackground.Contains("band") || MABackground.Contains("classical_ensemble") || MABackground.Contains("temporary"))
                 return false;
