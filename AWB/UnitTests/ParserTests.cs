@@ -7186,6 +7186,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
         {
             string correct = @"{{Unreferenced section|date=May 2010}}";
             Assert.AreEqual(correct, Parsers.Conversions(@"{{Unreferenced|section|date=May 2010}}"));
+            Assert.AreEqual(correct, Parsers.Conversions(@"{{Unreferenced|Section|date=May 2010}}"));
             Assert.AreEqual(correct, Parsers.Conversions(@"{{Unreferenced|  section |date=May 2010}}"));
             Assert.AreEqual(correct, Parsers.Conversions(correct));
             Assert.AreEqual(correct.Replace("U", "u"), Parsers.Conversions(@"{{unreferenced|section|date=May 2010}}"));

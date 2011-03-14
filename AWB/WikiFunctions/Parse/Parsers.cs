@@ -5658,8 +5658,8 @@ namespace WikiFunctions.Parse
         private static string SectionTemplateConversionsME(Match m)
         {
             string newValue = m.Value, existingName = Tools.GetTemplateName(newValue);
-            if(Tools.GetTemplateArgument(newValue, 1).Equals("section"))
-                newValue = Tools.RenameTemplate(Regex.Replace(newValue, @"\|\s*section\s*\|", "|"), existingName + " section");
+            if(Tools.GetTemplateArgument(newValue, 1).Equals("section") || Tools.GetTemplateArgument(newValue, 1).Equals("Section"))
+                newValue = Tools.RenameTemplate(Regex.Replace(newValue, @"\|\s*[Ss]ection\s*\|", "|"), existingName + " section");
             
             // for {{Unreferenced}} auto=yes is deprecated parameter per [[Template:Unreferenced_stub#How_to_use]]
             if(existingName.ToLower().Equals("unreferenced") && Tools.GetTemplateParameterValue(newValue, "auto").ToLower().Equals("yes"))
