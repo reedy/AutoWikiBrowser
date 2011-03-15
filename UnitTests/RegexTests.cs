@@ -950,6 +950,7 @@ cit"));
             TestMatch(WikiRegexes.InfoBox, @" {{hello Infobox| bye {{a}} was}} ", @"{{hello Infobox| bye {{a}} was}}", @"hello Infobox");
             TestMatch(WikiRegexes.InfoBox, @" {{hello_Infobox| bye {{a}} was}} ", @"{{hello_Infobox| bye {{a}} was}}", @"hello_Infobox");
             Assert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{infobox hello| bye}} "));
+            Assert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{Template:infobox hello| bye}} "));
             Assert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{infobox hello
 | bye}} "));
             Assert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{Infobox_play| bye}} "));

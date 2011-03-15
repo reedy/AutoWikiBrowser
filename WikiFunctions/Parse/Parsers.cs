@@ -2647,6 +2647,11 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
+        /// <summary>
+        /// Removes Template: from start of template calls, canonicalizes template names
+        /// </summary>
+        /// <param name="articleText">The wiki article text</param>
+        /// <returns>The updated article text</returns>
         public static string RemoveTemplateNamespace(string articleText)
         {
             return (SyntaxRegexTemplate.Replace(articleText, m => m.Groups[1].Value + CanonicalizeTitle(m.Groups[2].Value) + "}}"));
@@ -5635,8 +5640,8 @@ namespace WikiFunctions.Parse
 
             articleText = MergeTemplatesBySection(articleText);
 
-            // clean up underscores in infobox names
-            string InfoBox =WikiRegexes.InfoBox.Match(articleText).Groups[1].Value;
+            // clean up Template:/underscores in infobox names
+            string InfoBox = WikiRegexes.InfoBox.Match(articleText).Groups[1].Value;
             articleText = Tools.RenameTemplate(articleText, InfoBox, CanonicalizeTitle(InfoBox));
 
             // add date to any undated tags within {{Multiple issues}} (loop due to lookbehind in regex)
