@@ -1765,7 +1765,7 @@ namespace AutoWikiBrowser
             this.btnPreview.Name = "btnPreview";
             this.btnPreview.Size = new System.Drawing.Size(58, 23);
             this.btnPreview.TabIndex = 9;
-            this.btnPreview.Text = "Pr&eview";
+            this.btnPreview.Text = "Preview";
             this.ToolTip.SetToolTip(this.btnPreview, "Preview your changes");
             this.btnPreview.Click += new System.EventHandler(this.btnPreview_Click);
             // 
@@ -1933,7 +1933,7 @@ namespace AutoWikiBrowser
             this.chkUnicodifyWhole.Name = "chkUnicodifyWhole";
             this.chkUnicodifyWhole.Size = new System.Drawing.Size(128, 17);
             this.chkUnicodifyWhole.TabIndex = 2;
-            this.chkUnicodifyWhole.Text = "&Unicodify whole page";
+            this.chkUnicodifyWhole.Text = "Unicodify whole page";
             this.ToolTip.SetToolTip(this.chkUnicodifyWhole, "Converts all (with some exceptions) HTML and URL encoded characters to unicode");
             // 
             // chkFindandReplace
@@ -1966,7 +1966,7 @@ namespace AutoWikiBrowser
             this.chkLock.Name = "chkLock";
             this.chkLock.Size = new System.Drawing.Size(50, 17);
             this.chkLock.TabIndex = 2;
-            this.chkLock.Text = "&Lock";
+            this.chkLock.Text = "Lock";
             this.ToolTip.SetToolTip(this.chkLock, "Lock the Edit Summary\r\nPrevents the Edit Summary from being changed");
             this.chkLock.CheckedChanged += new System.EventHandler(this.chkLock_CheckedChanged);
             // 
@@ -2023,7 +2023,7 @@ namespace AutoWikiBrowser
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(53, 23);
             this.btnDelete.TabIndex = 14;
-            this.btnDelete.Text = "&Delete";
+            this.btnDelete.Text = "Delete";
             this.ToolTip.SetToolTip(this.btnDelete, "Delete this page");
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
@@ -2205,7 +2205,7 @@ namespace AutoWikiBrowser
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(125, 22);
             this.btnRemove.TabIndex = 3;
-            this.btnRemove.Text = "D&elink selection";
+            this.btnRemove.Text = "Delink selection";
             this.ToolTip.SetToolTip(this.btnRemove, "Remove the second occurrence of the selected wiki-link");
             this.btnRemove.Visible = false;
             this.btnRemove.Click += new System.EventHandler(this.btnRemove_Click);
@@ -2567,7 +2567,7 @@ namespace AutoWikiBrowser
             this.chkFindCaseSensitive.Name = "chkFindCaseSensitive";
             this.chkFindCaseSensitive.Size = new System.Drawing.Size(94, 17);
             this.chkFindCaseSensitive.TabIndex = 3;
-            this.chkFindCaseSensitive.Text = "&Case sensitive";
+            this.chkFindCaseSensitive.Text = "Case sensitive";
             this.ToolTip.SetToolTip(this.chkFindCaseSensitive, "Makes the text search case-sensitive");
             this.chkFindCaseSensitive.CheckedChanged += new System.EventHandler(this.ResetFind);
             // 
@@ -2578,7 +2578,7 @@ namespace AutoWikiBrowser
             this.chkFindRegex.Name = "chkFindRegex";
             this.chkFindRegex.Size = new System.Drawing.Size(57, 17);
             this.chkFindRegex.TabIndex = 1;
-            this.chkFindRegex.Text = "&Regex";
+            this.chkFindRegex.Text = "Regex";
             this.ToolTip.SetToolTip(this.chkFindRegex, "Causes the string entered in the Find box as a Regular Expression");
             this.chkFindRegex.CheckedChanged += new System.EventHandler(this.ResetFind);
             // 
@@ -3166,7 +3166,7 @@ namespace AutoWikiBrowser
             this.groupBox1.Size = new System.Drawing.Size(266, 152);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "&Find and replace";
+            this.groupBox1.Text = "Find and replace";
             // 
             // label9
             // 
@@ -3738,7 +3738,7 @@ namespace AutoWikiBrowser
             this.SummaryLabel.Name = "SummaryLabel";
             this.SummaryLabel.Size = new System.Drawing.Size(56, 18);
             this.SummaryLabel.TabIndex = 0;
-            this.SummaryLabel.Text = "S&ummary:";
+            this.SummaryLabel.Text = "Summary:";
             // 
             // lblSummary
             // 
@@ -3782,7 +3782,7 @@ namespace AutoWikiBrowser
             this.findGroup.Size = new System.Drawing.Size(110, 85);
             this.findGroup.TabIndex = 17;
             this.findGroup.TabStop = false;
-            this.findGroup.Text = "Fi&nd";
+            this.findGroup.Text = "Find";
             // 
             // EditBoxTab
             // 
