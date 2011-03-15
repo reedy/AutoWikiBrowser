@@ -4029,6 +4029,7 @@ http://example.com }}");
             Assert.AreEqual("foo (bar)", Parsers.CanonicalizeTitle("foo_%28bar%29"));
             Assert.AreEqual(@"foo+bar", Parsers.CanonicalizeTitle(@"foo%2Bbar"));
             Assert.AreEqual("foo (bar)", Parsers.CanonicalizeTitle("foo_(bar)"));
+            Assert.AreEqual("Template:foo bar", Parsers.CanonicalizeTitle("Template:foo_bar"));
             
             Assert.AreEqual("foo_bar}}", Parsers.CanonicalizeTitle("foo_bar}}"), "no change to invalid title");
 
@@ -5335,8 +5336,8 @@ there]]", false, "", out noChange));
             Assert.AreEqual("''Foo'' is this one", parser.BoldTitle("''Foo'' is this one", "Foo", out noChangeBack));
             Assert.IsTrue(noChangeBack);
 
-            Assert.AreEqual(@"{{Infobox_martial_art| website      = }}
-{{Nihongo|'''Aikido'''|???|aikido}} is a. Aikido was", parser.BoldTitle(@"{{Infobox_martial_art| website      = }}
+            Assert.AreEqual(@"{{Infobox martial art| website      = }}
+{{Nihongo|'''Aikido'''|???|aikido}} is a. Aikido was", parser.BoldTitle(@"{{Infobox martial art| website      = }}
 {{Nihongo|'''Aikido'''|???|aikido}} is a. Aikido was", "Aikido", out noChangeBack));
             Assert.IsTrue(noChangeBack);
         }
@@ -7190,6 +7191,9 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
              correct = @"{{infobox
 |date=May 2010}}";
             Assert.AreEqual(correct, Parsers.Conversions(correct));
+            
+            correct = @"{{infobox foo|date=May 2010}}";
+            Assert.AreEqual(correct, Parsers.Conversions(@"{{Template:infobox_foo|date=May 2010}}"));
         }
         
         [Test]
