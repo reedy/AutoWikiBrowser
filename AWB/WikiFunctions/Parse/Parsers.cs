@@ -3033,7 +3033,9 @@ namespace WikiFunctions.Parse
             TheYear = Tools.GetTemplateParameterValue(newValue, "year");
             string TheDate = Tools.GetTemplateParameterValue(newValue, "date");
 
-            if (Regex.IsMatch(TheYear, @"^[12]\d{3}$") && TheDate.Contains(TheYear))
+            if (Regex.IsMatch(TheYear, @"^[12]\d{3}$") && TheDate.Contains(TheYear) && (WikiRegexes.InternationalDates.IsMatch(TheDate)
+                                                                                        || WikiRegexes.AmericanDates.IsMatch(TheDate)
+                                                                                        || WikiRegexes.ISODates.IsMatch(TheDate)))
                 newValue = Tools.RemoveTemplateParameter(newValue, "year");
             
             // month=Month and date=...Month...
