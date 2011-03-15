@@ -955,6 +955,9 @@ cit"));
             Assert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{Infobox_play| bye}} "));
             Assert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{some infobox| hello| bye}} "));
             Assert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{Some Infobox| hello| bye}} "));
+            
+            Assert.AreEqual(WikiRegexes.InfoBox.Match(@" {{Infobox
+| hello| bye}} ").Groups[1].Value, "Infobox");
         }
 
         [Test]
