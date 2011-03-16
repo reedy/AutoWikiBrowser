@@ -151,6 +151,12 @@ namespace UnitTests
 
             Assert.AreEqual(d1, f);
             Assert.AreEqual(e, d2 + d3);
+            
+            e = d2 + d1 + d1.Replace("[[December 2]]", "") + d3;
+
+            f = MetaDataSorter.RemovePersonData(ref e);
+
+            Assert.AreEqual(d1 + "\r\n" + d1.Replace("[[December 2]]", ""), f, "duplicate persondata: order not changed");
         }
 
         [Test]
