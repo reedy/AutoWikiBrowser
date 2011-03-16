@@ -465,7 +465,21 @@ en, sq, ru
                 : Parsers.GetTemplate(articleText, "[Pp]ersondata");
 
             if (!string.IsNullOrEmpty(strPersonData))
+            {
                 articleText = articleText.Replace(strPersonData, "");
+                
+                // detection of duplicate persondata template
+                if(Variables.LangCode == "en")
+                {
+                    string PersonData2 = Parsers.GetTemplate(articleText, "[Pp]ersondata");
+                    
+                    if (!string.IsNullOrEmpty(PersonData2))
+                    {
+                        articleText = articleText.Replace(PersonData2, "");
+                        strPersonData += Tools.Newline(PersonData2);
+                    }
+                }
+            }
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Persondata_comments
             // catch the persondata comment the line before it so that the comment and template aren't separated
