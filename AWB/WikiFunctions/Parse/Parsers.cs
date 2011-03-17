@@ -5073,7 +5073,7 @@ namespace WikiFunctions.Parse
                 || articleTitle.StartsWith(@"List of ")
                 || articleTitle.StartsWith(@"Murder of ")
                 || articleTitle.StartsWith(@"Deaths ")
-                || articleTitle.EndsWith("discography")
+                || articleTitle.EndsWith("discography") || articleTitle.EndsWith(" murders")
                 || articleText.Contains(@"[[Category:Multiple people]]")
                 || articleText.Contains(@"[[Category:Married couples")
                 || articleText.Contains(@"[[Category:Fictional")
