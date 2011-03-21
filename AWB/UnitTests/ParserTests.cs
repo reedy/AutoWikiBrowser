@@ -217,7 +217,7 @@ namespace UnitTests
             Assert.AreEqual(@"Now clearly.<ref name=Smith/> 2 were", Parsers.FixReferenceTags(@"Now clearly.   <ref name=Smith/> 2 were"));
             Assert.AreEqual(@"Now clearly.<ref name=Smith/> 2 were", Parsers.FixReferenceTags(@"Now clearly. <ref name=Smith/> 2 were"));
             Assert.AreEqual(@"Now clearly.<ref name=Smith/> 2 were", Parsers.FixReferenceTags(@"Now clearly. <Ref name=Smith/> 2 were"));
-                        
+            
             // trailing spaces in reference
             Assert.AreEqual(@"<ref>foo</ref>", Parsers.FixReferenceTags(@"<ref>foo </ref>"));
             Assert.AreEqual(@"<ref>foo</ref>", Parsers.FixReferenceTags(@"<ref>foo    </ref>"));
@@ -1361,7 +1361,7 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
 
             Assert.AreEqual(n4a, Parsers.FixPeopleCategories(n4a, "foo"));
             
-                const string n4b = @"'''John Hulme''' (born C.1970) is [[Category:Living people]]
+            const string n4b = @"'''John Hulme''' (born C.1970) is [[Category:Living people]]
 [[Category:Year of birth missing (living people)]]";
 
             Assert.AreEqual(n4b, Parsers.FixPeopleCategories(n4b, "foo"));
@@ -1469,6 +1469,12 @@ died 2002
             Assert.AreEqual(bd9 + @"
 [[Category:Year of birth uncertain]]
 [[Category:1835 deaths]]", Parsers.FixPeopleCategories(bd9, "foo"));
+            
+            const string bd9b = @"'''Mannalargenna''' (c 1770-1835), a [[Tasmanian Aborigine]], was the chief of the Ben Lomond tribe (Plangermaireener). {{persondata}}";
+
+            Assert.AreEqual(bd9b + @"
+[[Category:Year of birth uncertain]]
+[[Category:1835 deaths]]", Parsers.FixPeopleCategories(bd9b, "foo"));
 
             const string bd10 = @"'''King Godfred''' (ruled 804 - 810) {{persondata}}";
             Assert.AreEqual(bd10, Parsers.FixPeopleCategories(bd10, "foo"));
@@ -7186,10 +7192,10 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.AreEqual(correct, Parsers.Conversions(correct));
             
             correct = @"{{infobox foo
-|date=May 2010}}";            
+|date=May 2010}}";
             Assert.AreEqual(correct, Parsers.Conversions(correct));
             
-             correct = @"{{infobox
+            correct = @"{{infobox
 |date=May 2010}}";
             Assert.AreEqual(correct, Parsers.Conversions(correct));
             
