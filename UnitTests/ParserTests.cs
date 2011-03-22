@@ -3784,6 +3784,10 @@ now {{cite web | url=http://site.it | title=hello|date = 5-5-1998}} was";
             
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|date = 2008-02-15 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 2/15/2008 }} was"));
             Assert.AreEqual(@"now {{cite web | url=http://site.it | title=hello|date = 2008-02-15 }} was", Parsers.CiteTemplateDates(@"now {{cite web | url=http://site.it | title=hello|date = 02/15/2008 }} was"));
+            
+            // no change on year range
+            string YearRange = @"{{cite web | url=http://site.it | title=hello|date = 1910-1911 }}";
+            Assert.AreEqual(YearRange, Parsers.CiteTemplateDates(YearRange));
         }
         
         [Test]
