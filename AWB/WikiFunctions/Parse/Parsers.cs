@@ -1854,9 +1854,11 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex CiteTemplateDateYYYYDDMMFormat = new Regex(SiCitStart + @"(?:archive|air|access)?date2?\s*=\s*(?:\[\[)?20\d\d)-([2-3]\d|1[3-9])-(0[1-9]|1[0-2])(\]\])?", RegexOptions.Compiled);
         private static readonly Regex CiteTemplateTimeInDateParameter = new Regex(@"(\{\{\s*cite[^\{\}]*\|\s*(?:archive|air|access)?date2?\s*=\s*(?:(?:20\d\d|19[7-9]\d)-[01]?\d-[0-3]?\d|[0-3]?\d\s*\w+,?\s*(?:20\d\d|19[7-9]\d)|\w+\s*[0-3]?\d,?\s*(?:20\d\d|19[7-9]\d)))(\s*[,-:]?\s+[0-2]?\d[:\.]?[0-5]\d(?:\:?[0-5]\d)?\s*[^\|\}]*)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
-
+        private static readonly Regex CitePodcast = Tools.NestedTemplateRegex("cite podcast");
+        
         /// <summary>
         /// Corrects common formatting errors in dates in external reference citation templates (doesn't link/delink dates)
+        /// note some incorrect date formats such as 3-2-2009 are ambiguous as could be 3-FEB-2009 or MAR-2-2009, these fixes don't address such errors
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
@@ -1865,47 +1867,42 @@ namespace WikiFunctions.Parse
             if (!Variables.IsWikipediaEN)
                 return articleText;
 
-            // cite podcast is non-compliant to citation core standards
-            if (Tools.NestedTemplateRegex("cite podcast").IsMatch(articleText))
+            // cite podcast is non-compliant to citation core standards; don't apply fixes when ambiguous dates present
+            if (CitePodcast.IsMatch(articleText) || AmbiguousCiteTemplateDates(articleText))
                 return articleText;
 
-            // note some incorrect date formats such as 3-2-2009 are ambiguous as could be 3-FEB-2009 or MAR-2-2009
-            // these fixes don't address such errors
             string articleTextlocal = "";
             
             // loop in case a single citation has multiple dates to be fixed
-            while (articleTextlocal != articleText)
+            while (!articleTextlocal.Equals(articleText))
             {
                 articleTextlocal = articleText;
                 
-                if(!AmbiguousCiteTemplateDates(articleText))
+                // loop in case a single citation has multiple dates to be fixed
+                foreach (Match m in WikiRegexes.CiteTemplate.Matches(articleText))
                 {
-                    // loop in case a single citation has multiple dates to be fixed
-                    foreach (Match m in WikiRegexes.CiteTemplate.Matches(articleText))
+                    string at = m.Value;
+
+                    // convert invalid date formats like DD-MM-YYYY, MM-DD-YYYY, YYYY-D-M, YYYY-DD-MM, YYYY_MM_DD etc. to iso format of YYYY-MM-DD
+                    // for accessdate= and archivedate=
+                    // provided no ambiguous ones
+                    if (AccessOrArchiveDate.IsMatch(at))
+                        foreach (RegexReplacement rr in CiteTemplateIncorrectISOAccessdates)
+                            at = rr.Regex.Replace(at, rr.Replacement);
+
+                    // date=, archivedate=, airdate=, date2=
+                    if (CiteTemplateArchiveAirDate.IsMatch(at))
                     {
-                        string at  =m.Value;
+                        foreach (RegexReplacement rr in CiteTemplateIncorrectISODates)
+                            at = rr.Regex.Replace(at, rr.Replacement);
 
-                        // convert invalid date formats like DD-MM-YYYY, MM-DD-YYYY, YYYY-D-M, YYYY-DD-MM, YYYY_MM_DD etc. to iso format of YYYY-MM-DD
-                        // for accessdate= and archivedate=
-                        // provided no ambiguous ones
-                        if (AccessOrArchiveDate.IsMatch(at))
-                            foreach (RegexReplacement rr in CiteTemplateIncorrectISOAccessdates)
-                                at = rr.Regex.Replace(at, rr.Replacement);
-
-                        // date=, archivedate=, airdate=, date2=
-                        if (CiteTemplateArchiveAirDate.IsMatch(at))
-                        {
-                            foreach (RegexReplacement rr in CiteTemplateIncorrectISODates)
-                                at = rr.Regex.Replace(at, rr.Replacement);
-
-                            // date = YYYY-Month-DD fix
-                            foreach (RegexReplacement rr in CiteTemplateAbbreviatedMonths)
-                                at = rr.Regex.Replace(at, rr.Replacement);
-                        }
-                        
-                        if(!at.Equals(m.Value))
-                            articleText = articleText.Replace(m.Value, at);
+                        // date = YYYY-Month-DD fix
+                        foreach (RegexReplacement rr in CiteTemplateAbbreviatedMonths)
+                            at = rr.Regex.Replace(at, rr.Replacement);
                     }
+                    
+                    if(!at.Equals(m.Value))
+                        articleText = articleText.Replace(m.Value, at);
                 }
 
                 // all citation dates
