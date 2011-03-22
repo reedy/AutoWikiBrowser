@@ -935,17 +935,17 @@ __TOC__", articleTextIn);
 {{WikiProject foo}}
 {{WikiProject bar}}"), "WikiProjects pulled into WPBS");
 
-        	Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WikiProject foo}}
+            Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WikiProject foo}}
 {{WikiProject bar}}
 {{WikiProject Biography|living=yes|foo=bar}} | blp=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject Biography|living=yes|foo=bar}}{{WikiProjectBannerShell|1={{WikiProject foo}}
 {{WikiProject bar}}}}"), "WikiProjects pulled into WPBS, WPBIO contains living=yes");
 
-        	Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WikiProject foo}}
+            Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WikiProject foo}}
 {{WikiProject bar}}
 {{WikiProject Biography|activepol=yes|foo=bar}} | activepol=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject Biography|activepol=yes|foo=bar}}{{WikiProjectBannerShell|1={{WikiProject foo}}
 {{WikiProject bar}}}}"), "WikiProjects pulled into WPBS, WPBIO contains activepol=yes");
 
-        	Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WikiProject foo}}
+            Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WikiProject foo}}
 {{WikiProject bar}}
 {{WikiProject Biography|living=yes|activepol=yes|foo=bar}} | blp=yes | activepol=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject Biography|living=yes|activepol=yes|foo=bar}}{{WikiProjectBannerShell|1={{WikiProject foo}}
 {{WikiProject bar}}}}"), "WikiProjects pulled into WPBS, WPBIO contains living, activepol=yes");
@@ -1127,7 +1127,7 @@ __TOC__", articleTextIn);
 
     }
     
-            [TestFixture]
+    [TestFixture]
     public class InTemplateRuleTests
     {
         [Test]
@@ -1191,6 +1191,13 @@ __TOC__", articleTextIn);
             Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"http://en.wikipedia.org/w/index.php?title=Foo&action=history"));
             Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"http://en.wikipedia.org/w/index.php?title=Foo&oldid=5"));
             Assert.AreEqual("Science (journal)", LMaker.NormalizeTitle(@"http://en.wikipedia.org/w/index.php?title=Science%20%28journal%29&action=history"));
+        }
+        
+        [Test]
+        public void NormalizeTitleSecure()
+        {
+            Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"https://secure.wikimedia.org/wikipedia/en/wiki/Foo"));
+            Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"https://secure.wikimedia.org/wikipedia/en/w/index.php?title=Foo&oldid=41"));
         }
     }
 }

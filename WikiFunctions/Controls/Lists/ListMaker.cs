@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ */
 
 using System;
 using System.Collections.Generic;
@@ -49,20 +49,20 @@ namespace WikiFunctions.Controls.Lists
         #region ListProviders
 
         private static readonly IListProvider RedirectLProvider = new RedirectsListProvider(),
-                                              WhatLinksHereLProvider = new WhatLinksHereListProvider(),
-                                              WhatTranscludesLProvider = new WhatTranscludesPageListProvider(),
-                                              CategoriesOnPageLProvider = new CategoriesOnPageListProvider(),
-                                              NewPagesLProvider = new NewPagesListProvider(),
-                                              RandomPagesLProvider = new RandomPagesSpecialPageProvider(),
-                                              HtmlScraperLProvider = new HTMLPageScraperListProvider(),
-                                              AdvHtmlScraperLProvider = new AdvancedRegexHtmlScraper(),
-                                              CheckWikiLProvider = new CheckWikiListProvider(),
-                                              CheckWikiWithNumberLProvider = new CheckWikiWithNumberListProvider(),
-                                              UserContribLProvider = new UserContribsListProvider();
+        WhatLinksHereLProvider = new WhatLinksHereListProvider(),
+        WhatTranscludesLProvider = new WhatTranscludesPageListProvider(),
+        CategoriesOnPageLProvider = new CategoriesOnPageListProvider(),
+        NewPagesLProvider = new NewPagesListProvider(),
+        RandomPagesLProvider = new RandomPagesSpecialPageProvider(),
+        HtmlScraperLProvider = new HTMLPageScraperListProvider(),
+        AdvHtmlScraperLProvider = new AdvancedRegexHtmlScraper(),
+        CheckWikiLProvider = new CheckWikiListProvider(),
+        CheckWikiWithNumberLProvider = new CheckWikiWithNumberListProvider(),
+        UserContribLProvider = new UserContribsListProvider();
         #endregion
 
         public event ListMakerEventHandler StatusTextChanged,
-            BusyStateChanged, NoOfArticlesChanged;
+        BusyStateChanged, NoOfArticlesChanged;
 
         public bool FilterNonMainAuto, AutoAlpha, FilterDuplicates;
         /// <summary>
@@ -105,9 +105,9 @@ namespace WikiFunctions.Controls.Lists
                 DefaultProviders.Add(UserContribLProvider);
                 DefaultProviders.Add(new UserContribUserDefinedNumberListProvider());
                 DefaultProviders.Add(new SpecialPageListProvider(WhatLinksHereLProvider, NewPagesLProvider,
-                                                          CategoriesOnPageLProvider, RandomPagesLProvider,
-                                                          WhatTranscludesLProvider, RedirectLProvider,
-                                                          UserContribLProvider));
+                                                                 CategoriesOnPageLProvider, RandomPagesLProvider,
+                                                                 WhatTranscludesLProvider, RedirectLProvider,
+                                                                 UserContribLProvider));
                 DefaultProviders.Add(new ImageFileLinksListProvider());
                 DefaultProviders.Add(new MyWatchlistListProvider());
                 DefaultProviders.Add(new WikiSearchListProvider());
@@ -139,15 +139,15 @@ namespace WikiFunctions.Controls.Lists
             }
 
             _listProviders = new BindingList<IListProvider>
-                                 {
-                                     new DatabaseScannerListProvider(this),
+            {
+                new DatabaseScannerListProvider(this),
 
-                                     //Add these list providers later, we dont really need/want them on the Right click "Add to list from.." menu
-                                     HtmlScraperLProvider,
-                                     CheckWikiLProvider,
-                                     CheckWikiWithNumberLProvider,
-                                     AdvHtmlScraperLProvider
-                                 };
+                //Add these list providers later, we dont really need/want them on the Right click "Add to list from.." menu
+                HtmlScraperLProvider,
+                CheckWikiLProvider,
+                CheckWikiWithNumberLProvider,
+                AdvHtmlScraperLProvider
+            };
 
             foreach (IListProvider lvi in DefaultProviders)
             {
@@ -267,7 +267,7 @@ namespace WikiFunctions.Controls.Lists
         public bool Remove(Article item)
         {
             if (lbArticles.Items.Contains(item))
-            {               
+            {
                 txtPage.Text = item.Name;
 
                 int intPosition;
@@ -552,7 +552,7 @@ namespace WikiFunctions.Controls.Lists
         string _status = "";
         /// <summary>
         /// The status of the process
-        /// </summary>        
+        /// </summary>
         public string Status
         {
             get { return _status; }
@@ -621,13 +621,16 @@ namespace WikiFunctions.Controls.Lists
             Regex HistoryDiff = new Regex(Regex.Escape(Variables.URL) + @"/w(?:iki)?/index\.php\?title=(.*?)&(?:action|diff|oldid)=.*");
             s = HistoryDiff.Replace(s, "$1");
             
+            HistoryDiff = new Regex(Regex.Escape(Variables.URLSecure) + @"/w(?:iki)?/index\.php\?title=(.*?)&(?:action|diff|oldid)=.*");
+            s = HistoryDiff.Replace(s, "$1");
+            
             // Assumsuption flaw: that all wikis use /wiki/ as the default path
             string url = Variables.URL + "/wiki/";
             s = s.Replace(url, "");
             
             url = Variables.URLSecure + "/wiki/";
             s = s.Replace(url, "");
-            
+
             if(!originals.Equals(s))
                 s = Tools.WikiDecode(s);
             
@@ -795,9 +798,9 @@ namespace WikiFunctions.Controls.Lists
             if (_providerToRun.RunOnSeparateThread)
             {
                 _listerThread = new Thread(MakeTheListThreaded)
-                                    {
-                                        IsBackground = true
-                                    };
+                {
+                    IsBackground = true
+                };
                 _listerThread.SetApartmentState(ApartmentState.STA);
                 _listerThread.Start();
             }
@@ -811,7 +814,7 @@ namespace WikiFunctions.Controls.Lists
         private void MakeTheListThreaded()
         {
             Thread.CurrentThread.Name = "ListMaker (" + _providerToRun.GetType().Name + ": "
-                                        + UserInputTextBox.Text + ")";
+                + UserInputTextBox.Text + ")";
             MakeTheList();
         }
 
@@ -1162,8 +1165,8 @@ namespace WikiFunctions.Controls.Lists
         private void clearToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             if (lbArticles.Items.Count <= 100 || (MessageBox.Show(
-            "Are you sure you want to clear the large list?", "Clear?", MessageBoxButtons.YesNo)
-            == DialogResult.Yes))
+                "Are you sure you want to clear the large list?", "Clear?", MessageBoxButtons.YesNo)
+                                                  == DialogResult.Yes))
                 Clear();
         }
 
