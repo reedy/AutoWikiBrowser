@@ -3001,8 +3001,13 @@ namespace WikiFunctions.Parse
             {
                 string theTitle = Tools.GetTemplateParameterValue(newValue, dequoteParam);
                 
+                // convert curly quotes to straight quotes per [[MOS:PUNCT]]
+                theTitle = WikiRegexes.CurlyDoubleQuotes.Replace(theTitle, @"""");
+                
                 if(theTitle.Contains(@"""") && !theTitle.Trim('"').Contains(@""""))
-                    newValue = Tools.SetTemplateParameterValue(newValue, dequoteParam, theTitle.Trim('"'));
+                    theTitle = theTitle.Trim('"');
+                
+                newValue = Tools.SetTemplateParameterValue(newValue, dequoteParam, theTitle);
             }
             
             // page= and pages= fields don't need p. or pp. in them when nopp not set

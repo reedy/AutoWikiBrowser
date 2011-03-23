@@ -703,6 +703,14 @@ fast„ "));
             // don't match apostrophes when used within words
             Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@"Now it’s a shame as it’s a", "").Contains(@"Now it’s a shame as it’s a"));
         }
+        
+        [Test]
+        public void CurlyDoubleQuotes()
+        {
+            Assert.IsTrue(WikiRegexes.CurlyDoubleQuotes.IsMatch(@" “ very fast ”"));
+            Assert.IsTrue(WikiRegexes.CurlyDoubleQuotes.IsMatch(@"very fast «"));
+            Assert.IsTrue(WikiRegexes.CurlyDoubleQuotes.IsMatch(@"very fast»"));
+        }
 
         [Test]
         public void SicTagTests()

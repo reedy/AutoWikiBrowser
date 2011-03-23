@@ -570,6 +570,11 @@ namespace WikiFunctions
         /// see http://en.wikipedia.org/wiki/Quotation_mark_glyphs
         /// http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Ignoring_spelling_errors_within_quotation_marks.3F
         public static readonly Regex UntemplatedQuotes = new Regex(@"(?<=[^\w])[""«»‘’“”‛‟‹›“”„‘’`’“‘”].{1,2000}?[""«»‘’“”‛‟‹›“”„‘’`’“‘”](?=[^\w])", RegexOptions.Compiled | RegexOptions.Singleline);
+        
+        /// <summary>
+        /// Matches common curly double quotes, see [[MOS:PUNCT]]
+        /// </summary>
+        public static readonly Regex CurlyDoubleQuotes = new Regex(@"[«»“”‟‹›“”„“”]", RegexOptions.Compiled);
 
         // covered by TestFixNonBreakingSpaces
         /// <summary>
