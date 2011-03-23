@@ -1006,7 +1006,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches italic text, group 1 being the text in italics
         /// </summary>
-        public static readonly Regex Italics = new Regex(@"(?<!')'{2}((?:[^']+|.*?[^'])?)'{2}(?!')", RegexOptions.Compiled);
+        public static readonly Regex Italics = new Regex(@"(?<!')'{2}((?:[^']+|[^'].*?[^'])?)'{2}(?!')", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches bold text, group 1 being the text in bold
