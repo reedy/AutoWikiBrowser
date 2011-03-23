@@ -1659,6 +1659,7 @@ words2"));
             Assert.AreEqual(WikiRegexes.Italics.Match(@"''foo's bar''").Groups[1].Value, @"foo's bar");
             Assert.AreEqual(WikiRegexes.Italics.Match(@"'''foo's bar'''").Groups[1].Value, "", "no match on bold");
             Assert.AreEqual(WikiRegexes.Italics.Match(@"'''''foo's bar'''''").Groups[1].Value, "", "no match on bold italics");
+            Assert.AreEqual(WikiRegexes.Italics.Match(@"'''Tyrone Station''' is an by Amtrak's ''[[foo]]'', which").Groups[1].Value, "[[foo]]");
 
             Assert.AreEqual(WikiRegexes.BoldItalics.Match(@"''''' foo'''''").Groups[1].Value, @" foo");
             Assert.AreEqual(WikiRegexes.BoldItalics.Match(@"'''''foo bar'''''").Groups[1].Value, @"foo bar");
@@ -1674,10 +1675,8 @@ words2"));
             Assert.IsFalse(WikiRegexes.BoldItalics.IsMatch(@"''foo''"));
             Assert.IsFalse(WikiRegexes.BoldItalics.IsMatch(@"'''foo'''"));
             Assert.IsFalse(WikiRegexes.BoldItalics.IsMatch(@"'''''foo''"));
-            
-            Assert.IsTrue(WikiRegexes.Italics.IsMatch(@"'''foo''"), "unbalanced apostrophes, renders as italics");
         }
-
+        
         [Test]
         public void StarRowsTests()
         {
