@@ -1284,6 +1284,8 @@ words2"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{weasel|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{wikify|date =  April 2009}}"));
             
+            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{copy edit|for=grammar|date =  April 2009}}"));
+            
             //undated
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{advert}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{autobiography}}"));
