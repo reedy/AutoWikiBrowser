@@ -841,7 +841,7 @@ namespace WikiFunctions
         /// <summary>
         /// matches the cleanup templates that can be moved into the {{multiple issues}} template, notably does not match templates with multiple parameters
         /// </summary>
-        public static readonly Regex MultipleIssuesTemplates = new Regex(@"{{" + MultipleIssuesTemplatesString + @"\s*(?:\|\s*([^{}\|]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}\|]*?)?))?\s*}}");
+        public static readonly Regex MultipleIssuesTemplates = new Regex(@"{{" + MultipleIssuesTemplatesString + @"\s*(?:(?:\|\s*for\s*=\s*grammar\s*)?\|\s*([^{}\|]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}\|]*?)?))?\s*}}");
 
         /// <summary>
         /// Matches the "reflist", "references-small", "references-2column" references display templates

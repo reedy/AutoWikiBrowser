@@ -467,6 +467,13 @@ namespace WikiFunctions.Parse
                 else if(singleTagLower.Equals("expert-subject"))
                     singleTag = "expert";
                 
+                // copy edit|for=grammar --> grammar
+                if(singleTag.Replace(" ", "").Equals("copyedit") && Tools.GetTemplateParameterValue(m.Value, "for").Equals("grammar"))
+                {
+                    singleTag = "grammar";
+                    tagValue = Regex.Replace(tagValue, @"for\s*=\s*grammar\s*\|?", "");
+                }
+                
                 // expert must have a parameter
                 if (singleTag == "expert" && tagValue.Trim().Length == 0)
                     continue;
