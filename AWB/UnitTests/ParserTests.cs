@@ -3813,6 +3813,9 @@ now {{cite web | url=http://site.it | title=hello|date = 5-5-1998}} was";
             Assert.AreEqual(correctpart + @"<!--" +datestamp + @"-->}} was", Parsers.CiteTemplateDates(correctpart +datestamp + @"}} was"));
             Assert.AreEqual(correctpart.Replace("2018-03-25", "25 March 2018") + @"<!--" +datestamp + @"-->}} was", Parsers.CiteTemplateDates(correctpart.Replace("2018-03-25", "25 March 2018") +datestamp + @"}} was"));
             Assert.AreEqual(correctpart.Replace("2018-03-25", "March 25, 2018") + @"<!--" +datestamp + @"-->}} was", Parsers.CiteTemplateDates(correctpart.Replace("2018-03-25", "March 25, 2018") +datestamp + @"}} was"));
+            
+            const string YearList = @"{{cite web | url=http://www.site.com | title=a | date=2004, 2006, 2009 }}";
+            Assert.AreEqual(YearList, Parsers.CiteTemplateDates(YearList));
         }
         
         [Test]
