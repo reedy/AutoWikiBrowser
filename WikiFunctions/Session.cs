@@ -414,7 +414,7 @@ namespace WikiFunctions
                         "\r\nError description: " + message,
                         "Error connecting to wiki", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                //throw;
+                throw;
             }
         }
     }
