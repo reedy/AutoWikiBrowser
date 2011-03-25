@@ -770,9 +770,7 @@ Jones 2005</ref>"));
             string AllAfter = @"Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The next";
             string R1 = @"Foo<ref>bar</ref>. The next";
             string ellipsis = @"Foo now<ref>abc</ref> ... was this.";
-            
-            Assert.AreEqual(R1, Parsers.RefsAfterPunctuation(R1), "no change when majority format is refs before punct");
-            
+			
             Assert.AreEqual(AllAfter, Parsers.RefsAfterPunctuation(AllAfter.Replace(".<", "..<")), "duplicate punctuation removed");
             
             Assert.AreEqual(AllAfter.Replace(".<", "...<"), Parsers.RefsAfterPunctuation(AllAfter.Replace(".<", "...<")), "ellipsis punctuation NOT changed");
