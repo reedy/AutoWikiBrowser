@@ -72,8 +72,7 @@ namespace WikiFunctions
         public Session(Control parent)
         {
             parentControl = parent;
-            UpdateProject();
-            Update();
+            UpdateProject(true);
         }
 
         private AsyncApiEdit CreateEditor(string url, bool php5)
@@ -171,7 +170,7 @@ namespace WikiFunctions
             }
         }
 
-        public bool UpdateProject()
+        public bool UpdateProject(bool delayLoading = false)
         {
             // recreate only if project changed, to prevent losing login information
             if (Editor == null || Editor.URL != Variables.URLLong || Editor.PHP5 != Variables.PHP5)
@@ -179,6 +178,10 @@ namespace WikiFunctions
                 Editor = CreateEditor(Variables.URLLong, Variables.PHP5);
             }
 
+            if (delayLoading)
+            {
+                return true;
+            }
             try
             {
                 LoadProjectOptions();
@@ -378,7 +381,10 @@ namespace WikiFunctions
             {
                 Site = new SiteInfo(Editor.SynchronousEditor);
 
-                for (int i = 0; i < months.Length; i++) months[i] += "-gen";
+                for (int i = 0; i < months.Length; i++)
+                {
+                    months[i] += "-gen";
+                }
                 Dictionary<string, string> messages = Site.GetMessages(months);
 
                 if (messages.Count == 12)
@@ -408,7 +414,7 @@ namespace WikiFunctions
                         "\r\nError description: " + message,
                         "Error connecting to wiki", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-                throw;
+                //throw;
             }
         }
     }
