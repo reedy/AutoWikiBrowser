@@ -1062,7 +1062,6 @@ namespace WikiFunctions.Parse
         }
 
         private const string RefsPunctuation = @"([,\.;])";
-        private static readonly Regex RefsAfterPunctuationR = new Regex(RefsPunctuation + @" *" + WikiRegexes.Refs, RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
         private static readonly Regex RefsBeforePunctuationR = new Regex(@" *" + WikiRegexes.Refs + @" *" + RefsPunctuation + @"([^,\.:;])", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
         private static readonly Regex RefsBeforePunctuationQuick = new Regex(@">\s*" + RefsPunctuation, RegexOptions.Compiled);
         private static readonly Regex RefsAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *" + WikiRegexes.Refs, RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
@@ -1080,26 +1079,15 @@ namespace WikiFunctions.Parse
 
             // quick check of ">" followed by punctuation in article, for performance saving
             if(RefsBeforePunctuationQuick.IsMatch(articleText))
-            {
-                // check whether refs before punctuation or refs after punctuation is the dominant format
-                int RBefore = RefsBeforePunctuationR.Matches(articleText).Count;
-                
-                if(RBefore > 0)
-                {
-                    int RAfter = RefsAfterPunctuationR.Matches(articleText).Count;
+            {                
 
-                    // require >= 50% refs after punctuation to convert the rest
-                    if (RAfter > 2 * RBefore)
-                    {
                         string articleTextlocal = "";
                         
                         while (!articleTextlocal.Equals(articleText))
                         {
                             articleTextlocal = articleText;
                             articleText = RefsBeforePunctuationR.Replace(articleText, "$2$1$3");
-                        }
-                    }
-                }
+                    	}
             }
 
             return RefsAfterDupePunctuation.Replace(articleText, "$1$2$3");
