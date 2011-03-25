@@ -170,7 +170,7 @@ namespace WikiFunctions
             }
         }
 
-        public bool UpdateProject(bool delayLoading = false)
+        public bool UpdateProject(bool delayLoading)
         {
             // recreate only if project changed, to prevent losing login information
             if (Editor == null || Editor.URL != Variables.URLLong || Editor.PHP5 != Variables.PHP5)
