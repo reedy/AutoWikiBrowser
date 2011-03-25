@@ -659,7 +659,7 @@ namespace WikiFunctions
             //HACK:HACK:HACK:HACK:HACK:
             if (MainForm != null && MainForm.TheSession != null)
             {
-                if (!MainForm.TheSession.UpdateProject())
+                if (!MainForm.TheSession.UpdateProject(false))
                 {
                     LangCode = "en";
                     Project = ProjectEnum.wikipedia;
