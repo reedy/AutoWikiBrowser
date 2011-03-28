@@ -3400,6 +3400,16 @@ Some artists represented by Zach Feuer Gallery are [[Phoebe Washburn]], [[Jules 
             // convert [[link]]]] to [[link]] IFF that balances it all out
             Assert.AreEqual(@"hello [[link]] there", Parsers.FixSyntax(@"hello [[link]]]] there"));
             Assert.AreEqual(@"[[hello [[link]]]] there", Parsers.FixSyntax(@"[[hello [[link]]]] there"));
+            
+            //Unbalanced bracket and double pipe [[foo||bar] inside a table
+            Assert.AreEqual(@"{|
+			|-
+			| [[foo|bar]]
+			|}",Parsers.FixSyntax(@"{|
+			|-
+			| [[foo||bar]
+			|}"));
+
 
             // external links missing brackets
             Assert.AreEqual(@"blah

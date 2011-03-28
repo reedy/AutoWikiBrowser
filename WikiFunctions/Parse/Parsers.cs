@@ -2492,9 +2492,6 @@ namespace WikiFunctions.Parse
             //remove appearance of double line break
             articleText = SyntaxRegexHeadingWithHorizontalRule.Replace(articleText, "$1");
 
-            // double piped links e.g. [[foo||bar]]
-            articleText = DoublePipeInWikiLink.Replace(articleText, "|");
-
             // remove unnecessary namespace
             articleText = RemoveTemplateNamespace(articleText);
 
@@ -2590,6 +2587,9 @@ namespace WikiFunctions.Parse
             // if there are some unbalanced brackets, see whether we can fix them
             articleText = FixUnbalancedBrackets(articleText);
 
+            // double piped links e.g. [[foo||bar]]
+            articleText = DoublePipeInWikiLink.Replace(articleText, "|");
+
             // http://en.wikipedia.org/wiki/Wikipedia:WikiProject_Check_Wikipedia#Article_with_false_.3Cbr.2F.3E_.28AutoEd.29
             // fix incorrect <br> of <br.>, <\br> and <br\>
             articleText = IncorrectBr.Replace(articleText, "<br />");
@@ -2601,7 +2601,7 @@ namespace WikiFunctions.Parse
             articleText = ExternalLinkWordSpacingBefore.Replace(articleText, "$1 ");
             articleText = ExternalLinkWordSpacingAfter.Replace(articleText, " $1");
 
-            // WP:CHECKWIKI 065 – http://toolserver.org/~sk/cgi-bin/checkwiki/checkwiki.cgi?project=enwiki&view=only&id=65
+            // WP:CHECKWIKI 065: Image description ends with break – http://toolserver.org/~sk/cgi-bin/checkwiki/checkwiki.cgi?project=enwiki&view=only&id=65
             foreach (Match m in WikiRegexes.FileNamespaceLink.Matches(articleText))
             {
                 if (WikilinkEndsBr.IsMatch(m.Value))
