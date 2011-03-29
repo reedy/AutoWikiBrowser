@@ -1079,15 +1079,15 @@ namespace WikiFunctions.Parse
 
             // quick check of ">" followed by punctuation in article, for performance saving
             if(RefsBeforePunctuationQuick.IsMatch(articleText))
-            {                
+            {
 
-                        string articleTextlocal = "";
-                        
-                        while (!articleTextlocal.Equals(articleText))
-                        {
-                            articleTextlocal = articleText;
-                            articleText = RefsBeforePunctuationR.Replace(articleText, "$2$1$3");
-                    	}
+                string articleTextlocal = "";
+                
+                while (!articleTextlocal.Equals(articleText))
+                {
+                    articleTextlocal = articleText;
+                    articleText = RefsBeforePunctuationR.Replace(articleText, "$2$1$3");
+                }
             }
 
             return RefsAfterDupePunctuation.Replace(articleText, "$1$2$3");
@@ -1832,20 +1832,7 @@ namespace WikiFunctions.Parse
             new RegexReplacement(CitDate + @")((?:\[\[)?20\d\d|1[5-9]\d{2})[/_\-\.](0[1-9]|1[0-2])0?([0-3]\d(?:\]\])?\s*(?:\||}}))", "$1$2-$3-$4"),
         };
 
-        private static readonly RegexReplacement[] CiteTemplateAbbreviatedMonths = new[] {
-            new RegexReplacement(CitYMonthD + @"Jan(?:uary|\.)" + dTemEnd, "$1-01-$2"),
-            new RegexReplacement(CitYMonthD + @"Feb(?:r?uary|\.)" + dTemEnd, "$1-02-$2"),
-            new RegexReplacement(CitYMonthD + @"Mar(?:ch|\.)" + dTemEnd, "$1-03-$2"),
-            new RegexReplacement(CitYMonthD + @"Apr(?:il|\.)" + dTemEnd, "$1-04-$2"),
-            new RegexReplacement(CitYMonthD + @"May\." + dTemEnd, "$1-05-$2"),
-            new RegexReplacement(CitYMonthD + @"Jun(?:e|\.)" + dTemEnd, "$1-06-$2"),
-            new RegexReplacement(CitYMonthD + @"Jul(?:y|\.)" + dTemEnd, "$1-07-$2"),
-            new RegexReplacement(CitYMonthD + @"Aug(?:ust|\.)" + dTemEnd, "$1-08-$2"),
-            new RegexReplacement(CitYMonthD + @"Sep(?:tember|\.)" + dTemEnd, "$1-09-$2"),
-            new RegexReplacement(CitYMonthD + @"Oct(?:ober|\.)" + dTemEnd, "$1-10-$2"),
-            new RegexReplacement(CitYMonthD + @"Nov(?:ember|\.)" + dTemEnd, "$1-11-$2"),
-            new RegexReplacement(CitYMonthD + @"Dec(?:ember|\.)" + dTemEnd, "$1-12-$2"),
-        };
+        private static readonly Regex CiteTemplateAbbreviatedMonthISO = new Regex(@"(?si)(\|\s*(?:archive|air|access)?date2?\s*=\s*)(\d{4}[-/\s][A-Z][a-z]+\.?[-/\s][0-3]?\d)(\s*(?:\||}}))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         private static readonly Regex CiteTemplateDateYYYYDDMMFormat = new Regex(SiCitStart + @"(?:archive|air|access)?date2?\s*=\s*(?:\[\[)?20\d\d)-([2-3]\d|1[3-9])-(0[1-9]|1[0-2])(\]\])?", RegexOptions.Compiled);
         private static readonly Regex CiteTemplateTimeInDateParameter = new Regex(@"(\{\{\s*cite[^\{\}]*\|\s*(?:archive|air|access)?date2?\s*=\s*(?:(?:20\d\d|19[7-9]\d)-[01]?\d-[0-3]?\d|[0-3]?\d\s*\w+,?\s*(?:20\d\d|19[7-9]\d)|\w+\s*[0-3]?\d,?\s*(?:20\d\d|19[7-9]\d)))(\s*[,-:]?\s+[0-2]?\d[:\.]?[0-5]\d(?:\:?[0-5]\d)?\s*[^\|\}]*)(?<!.*(?:20|1[7-9])\d+\s*)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
@@ -1892,8 +1879,7 @@ namespace WikiFunctions.Parse
                             at = rr.Regex.Replace(at, rr.Replacement);
 
                         // date = YYYY-Month-DD fix
-                        foreach (RegexReplacement rr in CiteTemplateAbbreviatedMonths)
-                            at = rr.Regex.Replace(at, rr.Replacement);
+                        at = CiteTemplateAbbreviatedMonthISO.Replace(at, m2 => m2.Groups[1].Value + Tools.ConvertDate(m2.Groups[2].Value.Replace(".", ""), DateLocale.ISO) + m2.Groups[3].Value);
                     }
                     
                     if(!at.Equals(m.Value))
