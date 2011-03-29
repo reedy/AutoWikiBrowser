@@ -2299,7 +2299,7 @@ Message: {2}
         {
             Regex param = new Regex(@"(\|\s*(?:<!--.*?-->)?)" + Regex.Escape(oldparameter) + @"(\s*(?:<!--.*?-->\s*)?=)");
 
-            return (param.Replace(templateCall, "$1" + newparameter + "$2"));
+            return (param.Replace(templateCall, m => RenameTemplateParameterME(m, templateCall, newparameter)));
         }
 
         /// <summary>
@@ -2318,7 +2318,7 @@ Message: {2}
             oldparam = oldparam.TrimEnd('|') + @")";
             Regex param = new Regex(@"(\|\s*(?:<!--.*?-->)?)" + oldparam + @"(\s*(?:<!--.*?-->\s*)?=)");
 
-            return (param.Replace(templateCall, "$1" + newparameter + "$2"));
+            return (param.Replace(templateCall, m => RenameTemplateParameterME(m, templateCall, newparameter)));
         }
         
         /// <summary>
@@ -2336,6 +2336,17 @@ Message: {2}
             
             return templateCall;
         }
+        
+         private static string RenameTemplateParameterME(Match m, string templateCall, string newparameter)
+         {
+             foreach(Match n in WikiRegexes.TemplateMultiline.Matches(templateCall))
+             {
+                 if(n.Index > 0 && m.Index >= n.Index && m.Index <= (n.Index+n.Length))
+                     return m.Value;
+             }
+             
+             return (m.Groups[1].Value + newparameter + m.Groups[2].Value);
+         }
         
         /// <summary>
         /// Removes the input parameter from all instances of the input template in the article text
