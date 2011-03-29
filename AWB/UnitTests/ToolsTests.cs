@@ -853,7 +853,6 @@ John", "*"));
         [Test]
         public void ConvertDate()
         {
-            
             string iso = @"2009-06-11", iso2 = @"1890-07-04";
             Assert.AreEqual(@"11 June 2009", Tools.ConvertDate(iso, Parsers.DateLocale.International));
             Assert.AreEqual(@"11 June 2009", Tools.ConvertDate(iso, Parsers.DateLocale.International, false));
@@ -885,6 +884,11 @@ John", "*"));
             Assert.AreEqual(iso, Tools.ConvertDate(UKDate, Parsers.DateLocale.ISO), "Assumes DD/MM/YYYY format dates when NOT flagged");
             
             Assert.AreEqual(@"May 2009", Tools.ConvertDate(@"May 2009", Parsers.DateLocale.International), "day not added to month year combo");
+            
+            Assert.AreEqual(@"15 January 2008", Tools.ConvertDate("2008-Jan-15", Parsers.DateLocale.International));
+            Assert.AreEqual(@"15 January 2008", Tools.ConvertDate("2008 Jan 15", Parsers.DateLocale.International));
+            Assert.AreEqual(@"15 January 2008", Tools.ConvertDate("2008 Jan. 15", Parsers.DateLocale.International));
+            Assert.AreEqual(@"15 January 2008", Tools.ConvertDate("2008 January 15", Parsers.DateLocale.International));
         }
         
         [Test]
