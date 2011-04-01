@@ -792,7 +792,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{expand}} tag and its redirects and also {{expand}} within {{multiple issues}}
         /// </summary>
-        public static readonly Regex Expand = new Regex(@"({{\s*(?:Expand-?article|Expand|Develop|Elaborate|Expansion)(?:\s*\|\s*(?:date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|(?<={{(?:Article|Multiple)\s*issues\b[^{}]*?)\|\s*expand\s*=[^{}\|]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public static readonly Regex Expand = new Regex(@"({{\s*(?:Expand-article|Expand)(?:\s*\|\s*(?:date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|(?<={{(?:Article|Multiple)\s*issues\b[^{}]*?)\|\s*expand\s*=[^{}\|]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Matches {{orphan}} tag, including in {{Multiple issues}}, group 1 is the {{Multiple issues}} template call up to the orphan tag
