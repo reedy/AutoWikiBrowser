@@ -3177,6 +3177,7 @@ world</font>"));
             Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br\>"));
             Assert.AreEqual("<br />", Parsers.FixSyntax(@"<BR\>"));
             Assert.AreEqual("<br />", Parsers.FixSyntax(@"<\br>"));
+            Assert.AreEqual("<br />", Parsers.FixSyntax(@"<br./>"));
 
             // these are already correct
             Assert.AreEqual("<br/>", Parsers.FixSyntax(@"<br/>"));
