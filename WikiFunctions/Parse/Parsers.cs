@@ -84,9 +84,6 @@ namespace WikiFunctions.Parse
             //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Commons_category
             RegexConversion.Add(new Regex(@"(?<={{[Cc]ommons cat(?:egory)?\|\s*)([^{}\|]+?)\s*\|\s*\1\s*}}", RegexOptions.Compiled), @"$1}}");
 
-            // tidy up || or |}} (maybe with whitespace between) within templates that don't use null parameters
-            RegexConversion.Add(new Regex(@"(?!{{[Cc]ite ?(?:wikisource|ngall|uscgll))(\{\{\s*(?:[Cc]it[ae]|(?:[Aa]rticle|[Mm]ultiple) ?issues)[^{}]*)\|\s*(\}\}|\|)", RegexOptions.Compiled), "$1$2");
-            
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_empty_.7B.7BArticle_issues.7D.7D
             // article issues with no issues -> remove tag
             RegexConversion.Add(new Regex(@"\{\{(?:[Aa]rticle|[Mm]ultiple) ?issues(?:\s*\|\s*(?:section|article)\s*=\s*[Yy])?\s*\}\}", RegexOptions.Compiled), "");
@@ -5585,6 +5582,7 @@ namespace WikiFunctions.Parse
         
         private static readonly Regex MultipleIssuesUndatedTags = new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*)?|\|)\s*)(?![Ee]xpert)" + WikiRegexes.MultipleIssuesTemplatesString + @"\s*(\||}})", RegexOptions.Compiled);
         private static readonly Regex MultipleIssuesDateRemoval = new Regex(@"(?<={{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*?)?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?){0,4}\|[^{}\|]{3,}?)\b(?i)date(?<!.*out of date)", RegexOptions.Compiled);
+        private static readonly Regex CiteTemplateDuplicateBars = new Regex(@"(?!{{[Cc]ite ?(?:wikisource|ngall|uscgll))(\{\{\s*(?:[Cc]it[ae]|(?:[Aa]rticle|[Mm]ultiple) ?issues)[^{}]*)\|\s*(\}\}|\|)", RegexOptions.Compiled);
 
         /// <summary>
         /// Converts/subst'd some deprecated templates
@@ -5622,6 +5620,10 @@ namespace WikiFunctions.Parse
             articleText = MergePortals(articleText);
 
             articleText = MergeTemplatesBySection(articleText);
+            
+            // tidy up || or |}} (maybe with whitespace between) within templates that don't use null parameters
+            while(CiteTemplateDuplicateBars.IsMatch(articleText))
+                articleText = CiteTemplateDuplicateBars.Replace(articleText, "$1$2");
 
             // clean up Template:/underscores in infobox names
             string InfoBox = WikiRegexes.InfoBox.Match(articleText).Groups[1].Value;
