@@ -2940,6 +2940,8 @@ namespace WikiFunctions.Parse
             
             newValue = Tools.RenameTemplateParameter(newValue, "fprmat", "format");
             
+            newValue = Tools.RenameTemplateParameter(newValue, "languge", "language");
+            
             newValue = Tools.RenameTemplateParameter(newValue, AccessdateTypos, "accessdate");
 
             newValue = Tools.RenameTemplateParameter(newValue, PublisherTypos, "publisher");
