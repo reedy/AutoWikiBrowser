@@ -2969,7 +2969,8 @@ namespace WikiFunctions.Parse
             }
             
             // remove language=English on en-wiki
-            if (Tools.GetTemplateParameterValue(newValue, "language").ToLower().Equals("english"))
+            string lang = Tools.GetTemplateParameterValue(newValue, "language").ToLower();
+            if (lang.Equals("english") || lang.Equals("en"))
                 newValue = Tools.RemoveTemplateParameter(newValue, "language");
 
             // remove italics for work field for book/periodical, but not website -- auto italicised by template
