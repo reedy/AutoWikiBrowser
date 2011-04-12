@@ -348,6 +348,8 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
         {
             // one line
             TestMatch(WikiRegexes.Blockquote, "<blockquote>foo bar< /blockquote>", "<blockquote>foo bar< /blockquote>");
+            
+            TestMatch(WikiRegexes.Blockquote, "<blockquote style=x>foo bar< /blockquote>", "<blockquote style=x>foo bar< /blockquote>");
 
             // multiple lines
             TestMatch(WikiRegexes.Blockquote, "< Blockquote >foo\r\nbar</ BLOCKQUOTE>", "< Blockquote >foo\r\nbar</ BLOCKQUOTE>");
