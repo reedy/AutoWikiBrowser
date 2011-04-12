@@ -398,7 +398,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches &lt;blockquote> tags
         /// </summary>
-        public static readonly Regex Blockquote = new Regex(@"<\s*blockquote\s*>(.*?)<\s*/\s*blockquote\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+        public static readonly Regex Blockquote = new Regex(@"<\s*blockquote[^<>]*>(.*?)<\s*/\s*blockquote\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
         /// Matches &lt;imagemap&gt; tags
