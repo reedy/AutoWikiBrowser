@@ -478,7 +478,7 @@ namespace WikiFunctions
             return builder.ToString();
         }
         
-                /// <summary>
+        /// <summary>
         /// Applies the key words "%%title%%" etc.
         /// </summary>
         /// http://meta.wikimedia.org/wiki/Help:Magic_words
@@ -2101,7 +2101,7 @@ Message: {2}
         
         private static readonly Regex Bars = new Regex(@"\|", RegexOptions.Compiled);
         private static readonly Regex AfterSpacedBars = new Regex(@"\| ", RegexOptions.Compiled);
-        private static readonly Regex BeforeSpacedBars = new Regex(@" \|", RegexOptions.Compiled);
+        private static readonly Regex BeforeSpacedBars = new Regex(@" +\|", RegexOptions.Compiled);
         private static readonly Regex Newlines = new Regex("\r\n", RegexOptions.Compiled);
 
         /// <summary>
@@ -2131,7 +2131,15 @@ Message: {2}
 
                 // determine whether to use newline: use if > 2 newlines and a newline per bar, allowing up to two without
                 if (newlines > 2 && newlines >= (bars - 2))
+                {
                     separatorBefore = "\r\n";
+                    
+                    // copy number of spaces used prior to bar
+                    int spacesBeforeBar = BeforeSpacedBars.Match(templatecopy).Value.Length-1;
+                    
+                    if(spacesBeforeBar > 1)
+                        separatorBefore += BeforeSpacedBars.Match(templatecopy).Value.TrimEnd('|');
+                }
                 else
                 {
                     // are spaces before bar used?
@@ -2337,16 +2345,16 @@ Message: {2}
             return templateCall;
         }
         
-         private static string RenameTemplateParameterME(Match m, string templateCall, string newparameter)
-         {
-             foreach(Match n in WikiRegexes.TemplateMultiline.Matches(templateCall))
-             {
-                 if(n.Index > 0 && m.Index >= n.Index && m.Index <= (n.Index+n.Length))
-                     return m.Value;
-             }
-             
-             return (m.Groups[1].Value + newparameter + m.Groups[2].Value);
-         }
+        private static string RenameTemplateParameterME(Match m, string templateCall, string newparameter)
+        {
+            foreach(Match n in WikiRegexes.TemplateMultiline.Matches(templateCall))
+            {
+                if(n.Index > 0 && m.Index >= n.Index && m.Index <= (n.Index+n.Length))
+                    return m.Value;
+            }
+            
+            return (m.Groups[1].Value + newparameter + m.Groups[2].Value);
+        }
         
         /// <summary>
         /// Removes the input parameter from all instances of the input template in the article text

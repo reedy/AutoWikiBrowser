@@ -971,6 +971,19 @@ John", "*"));
 |first=b
 |date=2009-12-12
 }}", "location", "London"), "template end on blank line");
+            
+            Assert.AreEqual(@"{{cite
+  |title=abc
+  |last=a
+  |first=b
+  |date=2009-12-12
+  |location=London
+}}", Tools.AppendParameterToTemplate(@"{{cite
+  |title=abc
+  |last=a
+  |first=b
+  |date=2009-12-12
+}}", "location", "London"), "template with multiple spaces prior to bar");
         }
         
         [Test]
