@@ -983,7 +983,35 @@ John", "*"));
   |last=a
   |first=b
   |date=2009-12-12
-}}", "location", "London"), "template with multiple spaces prior to bar");
+}}", "location", "London"), "template with multiple spaces prior to bar, all params on newline");
+            
+            Assert.AreEqual(@"{{cite
+ |title=abc
+ |last=a
+ |first=b
+ |date=2009-12-12
+ |location=London
+}}", Tools.AppendParameterToTemplate(@"{{cite
+ |title=abc
+ |last=a
+ |first=b
+ |date=2009-12-12
+}}", "location", "London"), "template with single prior to bar, all params on newline");
+            
+            Assert.AreEqual(@"{{cite journal
+ | quotes =
+ | doi = 10.2307/904183
+ | id =
+ | url = http://links.jstor.org/sici?sici=0027-4666(19060101)47%3A755%3C27%3AMSIC(J%3E2.0.CO%3B2-N
+ | publisher = The Musical Times, Vol. 47, No. 755
+ | jstor=904183
+ }}", Tools.AppendParameterToTemplate(@"{{cite journal
+ | quotes =
+ | doi = 10.2307/904183
+ | id =
+ | url = http://links.jstor.org/sici?sici=0027-4666(19060101)47%3A755%3C27%3AMSIC(J%3E2.0.CO%3B2-N
+ | publisher = The Musical Times, Vol. 47, No. 755
+ }}", "jstor", "904183"));
         }
         
         [Test]

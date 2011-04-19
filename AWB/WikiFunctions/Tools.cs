@@ -2137,7 +2137,7 @@ Message: {2}
                     // copy number of spaces used prior to bar
                     int spacesBeforeBar = BeforeSpacedBars.Match(templatecopy).Value.Length-1;
                     
-                    if(spacesBeforeBar > 1)
+                    if(spacesBeforeBar >= 1)
                         separatorBefore += BeforeSpacedBars.Match(templatecopy).Value.TrimEnd('|');
                 }
                 else
