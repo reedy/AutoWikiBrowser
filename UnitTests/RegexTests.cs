@@ -1003,6 +1003,8 @@ cit"));
 }}");
             Assert.AreEqual(WikiRegexes.TemplateEnd.Match(@"{{foo
 }}").Groups[1].Value, "\r\n");
+             Assert.AreEqual(WikiRegexes.TemplateEnd.Match(@"{{foo
+ }}").Value, "\r\n }}");
         }
 
         [Test]
