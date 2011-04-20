@@ -876,6 +876,7 @@ John", "*"));
             Assert.AreEqual(@"15 January 2008", Tools.ConvertDate("Jan 15 2008", Parsers.DateLocale.International));
             Assert.AreEqual(@"15 January 2008", Tools.ConvertDate("Jan 15 2008", Parsers.DateLocale.International, true));
             Assert.AreEqual(@"15 January 2008", Tools.ConvertDate("Jan 15 2008", Parsers.DateLocale.International, false));
+            Assert.AreEqual(@"15 January 998", Tools.ConvertDate("Jan 15 998", Parsers.DateLocale.International));
             
             const string AmericanDate = @"06/11/2009", UKDate = @"11/06/2009";
             
