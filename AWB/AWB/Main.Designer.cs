@@ -1869,7 +1869,7 @@ namespace AutoWikiBrowser
             this.chkAppend.Name = "chkAppend";
             this.chkAppend.Size = new System.Drawing.Size(65, 17);
             this.chkAppend.TabIndex = 0;
-            this.chkAppend.Text = "&Enabled";
+            this.chkAppend.Text = "Enabled";
             this.ToolTip.SetToolTip(this.chkAppend, "For appending a message to a user talk page for example");
             this.chkAppend.UseVisualStyleBackColor = true;
             this.chkAppend.CheckedChanged += new System.EventHandler(this.chkAppend_CheckedChanged);
@@ -1884,7 +1884,7 @@ namespace AutoWikiBrowser
             this.rdoAppend.Size = new System.Drawing.Size(62, 17);
             this.rdoAppend.TabIndex = 1;
             this.rdoAppend.TabStop = true;
-            this.rdoAppend.Text = "&Append";
+            this.rdoAppend.Text = "Append";
             this.ToolTip.SetToolTip(this.rdoAppend, "Add text to end of page");
             // 
             // rdoPrepend
@@ -1895,7 +1895,7 @@ namespace AutoWikiBrowser
             this.rdoPrepend.Name = "rdoPrepend";
             this.rdoPrepend.Size = new System.Drawing.Size(65, 17);
             this.rdoPrepend.TabIndex = 2;
-            this.rdoPrepend.Text = "&Prepend";
+            this.rdoPrepend.Text = "Prepend";
             this.ToolTip.SetToolTip(this.rdoPrepend, "Add text to beginning of page");
             // 
             // chkGeneralFixes
@@ -1955,7 +1955,7 @@ namespace AutoWikiBrowser
             this.chkNudge.Name = "chkNudge";
             this.chkNudge.Size = new System.Drawing.Size(152, 17);
             this.chkNudge.TabIndex = 0;
-            this.chkNudge.Text = "Resave (\"&nudge\")  if stuck";
+            this.chkNudge.Text = "Resave (\"nudge\")  if stuck";
             this.ToolTip.SetToolTip(this.chkNudge, "If checked, AWB will get a nudge if it is stuck: first after 2 minutes, then in d" +
                     "ecreasing intervals");
             // 
@@ -1989,7 +1989,7 @@ namespace AutoWikiBrowser
             this.chkShutdown.Name = "chkShutdown";
             this.chkShutdown.Size = new System.Drawing.Size(97, 17);
             this.chkShutdown.TabIndex = 0;
-            this.chkShutdown.Text = "Au&to shutdown";
+            this.chkShutdown.Text = "Auto shutdown";
             this.ToolTip.SetToolTip(this.chkShutdown, "Automatically shutdown the computer upon job completion");
             this.chkShutdown.CheckedChanged += new System.EventHandler(this.chkShutdown_CheckedChanged);
             // 
@@ -2034,7 +2034,7 @@ namespace AutoWikiBrowser
             this.btnSubst.Name = "btnSubst";
             this.btnSubst.Size = new System.Drawing.Size(118, 23);
             this.btnSubst.TabIndex = 3;
-            this.btnSubst.Text = "Template &substitution";
+            this.btnSubst.Text = "Template substitution";
             this.ToolTip.SetToolTip(this.btnSubst, "Specify which templates to use substitute with its wikicode on a page");
             this.btnSubst.Click += new System.EventHandler(this.btnSubst_Click);
             // 
@@ -2195,7 +2195,7 @@ namespace AutoWikiBrowser
             this.btnLoadLinks.Name = "btnLoadLinks";
             this.btnLoadLinks.Size = new System.Drawing.Size(75, 23);
             this.btnLoadLinks.TabIndex = 1;
-            this.btnLoadLinks.Text = "&Load links";
+            this.btnLoadLinks.Text = "Load links";
             this.ToolTip.SetToolTip(this.btnLoadLinks, "Populate the variances list with links from page");
             this.btnLoadLinks.Click += new System.EventHandler(this.btnLoadLinks_Click);
             // 
@@ -2217,7 +2217,7 @@ namespace AutoWikiBrowser
             this.btnFindAndReplaceAdvanced.Name = "btnFindAndReplaceAdvanced";
             this.btnFindAndReplaceAdvanced.Size = new System.Drawing.Size(118, 23);
             this.btnFindAndReplaceAdvanced.TabIndex = 2;
-            this.btnFindAndReplaceAdvanced.Text = "Ad&vanced settings";
+            this.btnFindAndReplaceAdvanced.Text = "Advanced settings";
             this.ToolTip.SetToolTip(this.btnFindAndReplaceAdvanced, "Find and replace with support for conditions, ordering, and template work");
             this.btnFindAndReplaceAdvanced.Click += new System.EventHandler(this.btnFindAndReplaceAdvanced_Click);
             // 
@@ -2228,7 +2228,7 @@ namespace AutoWikiBrowser
             this.btnMoreFindAndReplce.Name = "btnMoreFindAndReplce";
             this.btnMoreFindAndReplce.Size = new System.Drawing.Size(118, 23);
             this.btnMoreFindAndReplce.TabIndex = 1;
-            this.btnMoreFindAndReplce.Text = "&Normal settings";
+            this.btnMoreFindAndReplce.Text = "Normal settings";
             this.ToolTip.SetToolTip(this.btnMoreFindAndReplce, "Simple find and replace with regular expression support in a table style layout");
             this.btnMoreFindAndReplce.Click += new System.EventHandler(this.btnMoreFindAndReplce_Click);
             // 
@@ -2283,7 +2283,7 @@ namespace AutoWikiBrowser
             this.chkSkipIfNotContains.Name = "chkSkipIfNotContains";
             this.chkSkipIfNotContains.Size = new System.Drawing.Size(103, 18);
             this.chkSkipIfNotContains.TabIndex = 2;
-            this.chkSkipIfNotContains.Text = "Does&n\'t contain:";
+            this.chkSkipIfNotContains.Text = "Doesn\'t contain:";
             this.ToolTip.SetToolTip(this.chkSkipIfNotContains, "Skip pages that do not contain this text");
             this.chkSkipIfNotContains.UseVisualStyleBackColor = true;
             this.chkSkipIfNotContains.CheckedChanged += new System.EventHandler(this.chkOnlyIfContains_CheckedChanged);
@@ -2307,7 +2307,7 @@ namespace AutoWikiBrowser
             this.chkSkipAfterProcessing.Name = "chkSkipAfterProcessing";
             this.chkSkipAfterProcessing.Size = new System.Drawing.Size(82, 17);
             this.chkSkipAfterProcessing.TabIndex = 6;
-            this.chkSkipAfterProcessing.Text = "Check &After";
+            this.chkSkipAfterProcessing.Text = "Check After";
             this.ToolTip.SetToolTip(this.chkSkipAfterProcessing, "Apply the \"Skip if contains\" check after processing the page");
             this.chkSkipAfterProcessing.UseVisualStyleBackColor = true;
             // 
@@ -2318,7 +2318,7 @@ namespace AutoWikiBrowser
             this.chkSkipNoChanges.Name = "chkSkipNoChanges";
             this.chkSkipNoChanges.Size = new System.Drawing.Size(131, 17);
             this.chkSkipNoChanges.TabIndex = 3;
-            this.chkSkipNoChanges.Text = "No c&hanges are made";
+            this.chkSkipNoChanges.Text = "No changes are made";
             this.ToolTip.SetToolTip(this.chkSkipNoChanges, "Automatically skips pages when no changes were automatically made");
             this.chkSkipNoChanges.UseVisualStyleBackColor = true;
             // 
@@ -2329,7 +2329,7 @@ namespace AutoWikiBrowser
             this.chkSkipSpamFilter.Name = "chkSkipSpamFilter";
             this.chkSkipSpamFilter.Size = new System.Drawing.Size(149, 17);
             this.chkSkipSpamFilter.TabIndex = 1;
-            this.chkSkipSpamFilter.Text = "Edit &blocked by spam filter";
+            this.chkSkipSpamFilter.Text = "Edit blocked by spam filter";
             this.ToolTip.SetToolTip(this.chkSkipSpamFilter, "Skip if the spam filter is preventing saving");
             this.chkSkipSpamFilter.UseVisualStyleBackColor = true;
             // 
@@ -2351,7 +2351,7 @@ namespace AutoWikiBrowser
             this.chkSkipWhitespace.Name = "chkSkipWhitespace";
             this.chkSkipWhitespace.Size = new System.Drawing.Size(159, 17);
             this.chkSkipWhitespace.TabIndex = 4;
-            this.chkSkipWhitespace.Text = "Only &whitespace is changed";
+            this.chkSkipWhitespace.Text = "Only whitespace is changed";
             this.ToolTip.SetToolTip(this.chkSkipWhitespace, "Automatically skips pages when only whitespace changes were automatically made");
             this.chkSkipWhitespace.UseVisualStyleBackColor = true;
             // 
@@ -2387,7 +2387,7 @@ namespace AutoWikiBrowser
             this.chkSkipCasing.Name = "chkSkipCasing";
             this.chkSkipCasing.Size = new System.Drawing.Size(136, 17);
             this.chkSkipCasing.TabIndex = 5;
-            this.chkSkipCasing.Text = "Only &casing is changed";
+            this.chkSkipCasing.Text = "Only casing is changed";
             this.ToolTip.SetToolTip(this.chkSkipCasing, "Automatically skips pages when only case changes were automatically made");
             this.chkSkipCasing.UseVisualStyleBackColor = true;
             // 
@@ -2457,7 +2457,7 @@ namespace AutoWikiBrowser
             this.radSkipExistent.Name = "radSkipExistent";
             this.radSkipExistent.Size = new System.Drawing.Size(52, 17);
             this.radSkipExistent.TabIndex = 0;
-            this.radSkipExistent.Text = "&Exists";
+            this.radSkipExistent.Text = "Exists";
             this.ToolTip.SetToolTip(this.radSkipExistent, "Skip processing if the page exists");
             this.radSkipExistent.UseVisualStyleBackColor = true;
             // 
@@ -2470,7 +2470,7 @@ namespace AutoWikiBrowser
             this.radSkipNonExistent.Size = new System.Drawing.Size(85, 17);
             this.radSkipNonExistent.TabIndex = 1;
             this.radSkipNonExistent.TabStop = true;
-            this.radSkipNonExistent.Text = "Doesn\'t e&xist";
+            this.radSkipNonExistent.Text = "Doesn\'t exist";
             this.ToolTip.SetToolTip(this.radSkipNonExistent, "Skip processing if the page does not exist");
             this.radSkipNonExistent.UseVisualStyleBackColor = true;
             // 
@@ -2524,7 +2524,7 @@ namespace AutoWikiBrowser
             this.chkSuppressTag.Name = "chkSuppressTag";
             this.chkSuppressTag.Size = new System.Drawing.Size(211, 17);
             this.chkSuppressTag.TabIndex = 4;
-            this.chkSuppressTag.Text = "Su&ppress \"using AWB\" in edit summary";
+            this.chkSuppressTag.Text = "Suppress \"using AWB\" in edit summary";
             this.ToolTip.SetToolTip(this.chkSuppressTag, "Removes the automatic addition of the AWB suffix to edit summaries");
             // 
             // chkAutoMode
@@ -2601,7 +2601,7 @@ namespace AutoWikiBrowser
             this.chkSkipNoCatChange.Name = "chkSkipNoCatChange";
             this.chkSkipNoCatChange.Size = new System.Drawing.Size(133, 17);
             this.chkSkipNoCatChange.TabIndex = 4;
-            this.chkSkipNoCatChange.Text = "Skip if &no cat changed";
+            this.chkSkipNoCatChange.Text = "Skip if no cat changed";
             this.ToolTip.SetToolTip(this.chkSkipNoCatChange, "Automatically skips page if no category changed");
             this.chkSkipNoCatChange.UseVisualStyleBackColor = true;
             // 
@@ -2613,7 +2613,7 @@ namespace AutoWikiBrowser
             this.chkRemoveSortKey.Name = "chkRemoveSortKey";
             this.chkRemoveSortKey.Size = new System.Drawing.Size(103, 17);
             this.chkRemoveSortKey.TabIndex = 5;
-            this.chkRemoveSortKey.Text = "&Remove sortkey";
+            this.chkRemoveSortKey.Text = "Remove sortkey";
             this.ToolTip.SetToolTip(this.chkRemoveSortKey, "Remove sortkey from category");
             this.chkRemoveSortKey.UseVisualStyleBackColor = true;
             // 
@@ -2776,7 +2776,7 @@ namespace AutoWikiBrowser
             this.chkSkipNoImgChange.Name = "chkSkipNoImgChange";
             this.chkSkipNoImgChange.Size = new System.Drawing.Size(179, 17);
             this.chkSkipNoImgChange.TabIndex = 4;
-            this.chkSkipNoImgChange.Text = "&Skip page when no file changed";
+            this.chkSkipNoImgChange.Text = "Skip page when no file changed";
             this.ToolTip.SetToolTip(this.chkSkipNoImgChange, "Automatically skips page if no file changed");
             this.chkSkipNoImgChange.UseVisualStyleBackColor = true;
             // 
@@ -3476,7 +3476,7 @@ namespace AutoWikiBrowser
             this.groupBox11.Size = new System.Drawing.Size(260, 41);
             this.groupBox11.TabIndex = 0;
             this.groupBox11.TabStop = false;
-            this.groupBox11.Text = "&Link to disambiguate";
+            this.groupBox11.Text = "Link to disambiguate";
             // 
             // txtDabLink
             // 
@@ -3606,7 +3606,7 @@ namespace AutoWikiBrowser
             this.radStandby.Size = new System.Drawing.Size(64, 17);
             this.radStandby.TabIndex = 2;
             this.radStandby.TabStop = true;
-            this.radStandby.Text = "&Standby";
+            this.radStandby.Text = "Standby";
             // 
             // radHibernate
             // 
@@ -3617,7 +3617,7 @@ namespace AutoWikiBrowser
             this.radHibernate.Size = new System.Drawing.Size(71, 17);
             this.radHibernate.TabIndex = 4;
             this.radHibernate.TabStop = true;
-            this.radHibernate.Text = "&Hibernate";
+            this.radHibernate.Text = "Hibernate";
             // 
             // radRestart
             // 
@@ -3628,7 +3628,7 @@ namespace AutoWikiBrowser
             this.radRestart.Size = new System.Drawing.Size(59, 17);
             this.radRestart.TabIndex = 3;
             this.radRestart.TabStop = true;
-            this.radRestart.Text = "&Restart";
+            this.radRestart.Text = "Restart";
             // 
             // radShutdown
             // 
@@ -3639,7 +3639,7 @@ namespace AutoWikiBrowser
             this.radShutdown.Size = new System.Drawing.Size(73, 17);
             this.radShutdown.TabIndex = 1;
             this.radShutdown.TabStop = true;
-            this.radShutdown.Text = "Sh&utdown";
+            this.radShutdown.Text = "Shutdown";
             // 
             // groupBox14
             // 
