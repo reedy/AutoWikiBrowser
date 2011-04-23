@@ -28,7 +28,8 @@ namespace WikiFunctions.Controls
 {
     public sealed partial class RegexTester : Form
     {
-        private readonly Regex NewLineRegex = new Regex("\n");
+        private readonly Regex NewLineRegex = new Regex("\n", RegexOptions.Compiled);
+        private readonly Regex CRNewLineRegex = new Regex("\r\n", RegexOptions.Compiled);
 
         RegexRunner Runner;
 
@@ -207,12 +208,12 @@ namespace WikiFunctions.Controls
                 Captures.Nodes.Clear();
                 ResultText.Text = "";
                 Status.Text = "";
-                txtInput.Text = txtInput.Text.Replace("\r\n", "\n");
+                txtInput.Text = CRNewLineRegex.Replace(txtInput.Text, "\n");
                 Busy = true;
 
                 Regex r = new Regex(txtFind.Text, Options);
 
-                Runner = new RegexRunner(this, txtInput.Text, NewLineRegex.Replace(txtReplace.Text, "\r\n"), r);
+                Runner = new RegexRunner(this, txtInput.Text, CRNewLineRegex.Replace(txtReplace.Text, "\n"), r);
             }
             catch (Exception ex)
             {
