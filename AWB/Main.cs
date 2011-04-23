@@ -2854,6 +2854,13 @@ window.scrollTo(0, diffTopY);
                 //set namespaces
                 Variables.SetProject(code, project, customProject, usingSecure);
 
+                if (Variables.TryLoadingAgainAfterLogin)
+                {
+                    MessageBox.Show(
+                        "You seem to be accessing a private wiki. Project loading will be attempted again after login",
+                        "Restricted Wiki");
+                }
+
                 //set interwikiorder
                 switch (Variables.LangCode)
                 {
@@ -2901,7 +2908,8 @@ window.scrollTo(0, diffTopY);
 
                 if (!Variables.IsCustomProject && !Variables.IsWikia && !Variables.IsWikimediaMonolingualProject)
                     lblProject.Text = Variables.LangCode + "." + Variables.Project;
-                else lblProject.Text = Variables.IsWikimediaMonolingualProject ? Variables.Project.ToString() : Variables.URL;
+                else
+                    lblProject.Text = Variables.IsWikimediaMonolingualProject ? Variables.Project.ToString() : Variables.URL;
 
                 ResetTypoStats();
             }
@@ -4642,7 +4650,13 @@ window.scrollTo(0, diffTopY);
         private void ProfileLoggedIn(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(Profiles.SettingsToLoad))
+            {
                 LoadPrefs(Profiles.SettingsToLoad);
+            }
+            else if (Variables.TryLoadingAgainAfterLogin)
+            {
+                SetProject(Variables.ReloadProjectSettings.langCode, Variables.ReloadProjectSettings.projectName, Variables.ReloadProjectSettings.customProject, Variables.ReloadProjectSettings.usingSecure);
+            }
 
             if (TheSession.IsBusy)
                 TheSession.Editor.Abort();

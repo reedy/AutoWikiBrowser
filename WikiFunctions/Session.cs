@@ -186,14 +186,17 @@ namespace WikiFunctions
             {
                 LoadProjectOptions();
                 RequireUpdate();
+                return true;
+            }
+            catch (ReadApiDeniedException)
+            {
+                throw;
             }
             catch
             {
                 Editor = CreateEditor("http://en.wikipedia.org/w/", false);
-                return false; // Error reporting delayed until UpdateWikiStatus()
+                return false;
             }
-
-            return true;
         }
 
         /// <summary>
@@ -400,11 +403,15 @@ namespace WikiFunctions
                 Variables.NamespaceAliases = Site.NamespaceAliases;
                 Variables.MagicWords = Site.MagicWords;
             }
+            catch (ReadApiDeniedException)
+            {
+                throw;
+            }
             catch (Exception ex)
             {
                 //TODO:Better error handling
 
-                string message = ex is WikiUrlException && ex.InnerException != null 
+                string message = ex is WikiUrlException && ex.InnerException != null
                     ? ex.InnerException.Message
                     : ex.Message;
 
