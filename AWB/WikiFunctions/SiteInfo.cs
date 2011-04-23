@@ -38,6 +38,8 @@ namespace WikiFunctions
         //private Dictionary<string, string> messageCache = new Dictionary<string, string>();
         private readonly Dictionary<string, List<string>> magicWords = new Dictionary<string, List<string>>();
 
+        private string siteinfoOutput;
+
         internal SiteInfo()
         { }
 
@@ -52,9 +54,20 @@ namespace WikiFunctions
             try
             {
                 if (!LoadSiteInfo())
-                    throw new WikiUrlException();
+                {
+                    var ret = ParseErrorFromSiteInfoOutput();
+                    if (ret is bool && !(bool)ret)
+                    {
+                        throw new WikiUrlException();
+                    }
+                    if ( ret is Exception )
+                    {
+                        Exception ex = (Exception) ret;
+                        throw ex;
+                    }
+                }
             }
-            catch (WikiUrlException)
+            catch (WikiException)
             {
                 throw;
             }
@@ -103,10 +116,10 @@ namespace WikiFunctions
         /// <returns></returns>
         public bool LoadSiteInfo()
         {
-            string output = Editor.HttpGet(ApiPath + "?action=query&meta=siteinfo&siprop=general|namespaces|namespacealiases|statistics|magicwords&format=xml");
+            siteinfoOutput = Editor.HttpGet(ApiPath + "?action=query&meta=siteinfo&siprop=general|namespaces|namespacealiases|statistics|magicwords&format=xml");
 
             XmlDocument xd = new XmlDocument();
-            xd.LoadXml(output);
+            xd.LoadXml(siteinfoOutput);
 
             var api = xd["api"];
             if (api == null) return false;
@@ -159,6 +172,34 @@ namespace WikiFunctions
                 magicWords.Add(xn.Attributes["name"].Value, alias);
             }
 
+            return true;
+        }
+
+        public object ParseErrorFromSiteInfoOutput()
+        {
+            if (string.IsNullOrEmpty(siteinfoOutput))
+                return false;
+
+            XmlDocument xd = new XmlDocument();
+            xd.LoadXml(siteinfoOutput);
+
+            var api = xd["api"];
+            if (api == null) return false;
+
+            var error = api["error"];
+            if (error == null) return false;
+
+            var errorCode = error.GetAttribute("code");
+            if (!string.IsNullOrEmpty(errorCode))
+            {
+                switch(errorCode)
+                {
+                    case "readapidenied":
+                        return new ReadApiDeniedException();
+                    default:
+                        return false;
+                }
+            }
             return true;
         }
 
@@ -235,7 +276,8 @@ namespace WikiFunctions
 
             foreach (XmlNode xn in xd.GetElementsByTagName("message"))
             {
-                result[xn.Attributes["name"].Value] = xn.InnerText;
+                if (xn.Attributes != null)
+                    result[xn.Attributes["name"].Value] = xn.InnerText;
             }
 
             return result;
@@ -308,7 +350,18 @@ namespace WikiFunctions
         #endregion
     }
 
-    public class WikiUrlException : Exception
+    public abstract class WikiException : Exception
+    {
+        protected WikiException(string text)
+            : base(text)
+        { }
+
+        protected WikiException(string text, Exception innerException)
+            : base(text, innerException)
+        { }
+    }
+
+    public class WikiUrlException : WikiException
     {
         public WikiUrlException()
             : base("Can't connect to given wiki site.")
@@ -316,6 +369,17 @@ namespace WikiFunctions
 
         public WikiUrlException(Exception innerException)
             : base("Can't connect to given wiki site.", innerException)
+        { }
+    }
+
+    public class ReadApiDeniedException : WikiException
+    {
+        public ReadApiDeniedException()
+            : base("You need read permission to use this module")
+        { }
+
+        public ReadApiDeniedException(Exception innerException)
+            : base("You need read permission to use this module", innerException)
         { }
     }
 }

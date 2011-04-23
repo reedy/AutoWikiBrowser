@@ -458,6 +458,17 @@ namespace WikiFunctions
         }
         #endif
 
+        public static bool TryLoadingAgainAfterLogin { get; private set; }
+        public static ProjectHoldArea ReloadProjectSettings;
+
+        public class ProjectHoldArea
+        {
+            public ProjectEnum projectName;
+            public string langCode;
+            public string customProject;
+            public bool usingSecure;
+        }
+
         /// <summary>
         /// Sets different language variables, such as namespaces. Default is english Wikipedia
         /// </summary>
@@ -467,6 +478,7 @@ namespace WikiFunctions
         /// <param name="usingSecure"></param>
         public static void SetProject(string langCode, ProjectEnum projectName, string customProject, bool usingSecure)
         {
+            TryLoadingAgainAfterLogin = false;
             Namespaces.Clear();
             CancelBackgroundRequests();
             UnderscoredTitles.Clear();
@@ -497,7 +509,7 @@ namespace WikiFunctions
                 if (x > 0)
                 {
                     URLEnd = customProject.Substring(x, customProject.Length - x);
-                    customProject = customProject.Substring(0, x);
+                    CustomProject = customProject.Substring(0, x);
                 }
 
                 URL = "http://" + CustomProject;
@@ -506,15 +518,14 @@ namespace WikiFunctions
             {
                 URL = "http://" + LangCode + "." + Project + ".org";
                 URLSecure = "https://secure.wikimedia.org/";
-                  if (Variables.IsWikimediaMonolingualProject)
-                  {
-                      URLSecure += "wikipedia/" + Project;
-                  }
-                  else
-                  {
-                  	                      	
-                      	URLSecure += Project + "/" + LangCode; //https://secure.wikimedia.org/wikipedia/en
-                  }
+                if (IsWikimediaMonolingualProject)
+                {
+                    URLSecure += "wikipedia/" + Project;
+                }
+                else
+                {                   	
+                    URLSecure += Project + "/" + LangCode; //https://secure.wikimedia.org/wikipedia/en
+                }
              }
 
             // HACK:
@@ -649,7 +660,7 @@ namespace WikiFunctions
                     URLEnd = "/";
                     break;
                 case ProjectEnum.custom:
-                    URLEnd = "";
+                    //URLEnd = "";
                     break;
             }
 
@@ -659,11 +670,26 @@ namespace WikiFunctions
             //HACK:HACK:HACK:HACK:HACK:
             if (MainForm != null && MainForm.TheSession != null)
             {
-                if (!MainForm.TheSession.UpdateProject(false))
+                try
                 {
-                    LangCode = "en";
-                    Project = ProjectEnum.wikipedia;
-                    SetToEnglish();
+                    if (!MainForm.TheSession.UpdateProject(false))
+                    {
+                        LangCode = "en";
+                        Project = ProjectEnum.wikipedia;
+                        SetToEnglish();
+                    }
+                }
+                catch (ReadApiDeniedException)
+                {
+                    TryLoadingAgainAfterLogin = true;
+                    ReloadProjectSettings = new ProjectHoldArea
+                                                {
+                                                    projectName = projectName,
+                                                    customProject = customProject,
+                                                    langCode = langCode,
+                                                    usingSecure = usingSecure
+                                                };
+                    return;
                 }
             }
 
