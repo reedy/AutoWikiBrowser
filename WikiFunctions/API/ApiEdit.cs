@@ -321,7 +321,11 @@ namespace WikiFunctions.API
             HttpWebRequest res = (HttpWebRequest)WebRequest.Create(url);
             res.ServicePoint.Expect100Continue = false;
             res.Expect = "";
-            if (ProxySettings != null) res.Proxy = ProxySettings;
+            if (ProxySettings != null)
+            {
+                res.Proxy = ProxySettings;
+                res.UseDefaultCredentials = true;
+            }
             res.UserAgent = UserAgent;
             res.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
 

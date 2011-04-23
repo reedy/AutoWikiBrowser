@@ -395,6 +395,7 @@ namespace WikiFunctions
             r.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
 
             r.Proxy.Credentials = CredentialCache.DefaultCredentials;
+            r.UseDefaultCredentials = true;
 
             return r;
         }
