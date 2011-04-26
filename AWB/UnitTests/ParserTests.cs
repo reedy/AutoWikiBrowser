@@ -2950,6 +2950,7 @@ Template:foo}}"));
             Assert.AreEqual("[http://example.com] site", Parsers.FixSyntax("[[http://example.com] site"));
             Assert.AreEqual("[http://example.com] site", Parsers.FixSyntax("[http://example.com]] site"));
             Assert.AreEqual("[http://example.com] site", Parsers.FixSyntax("[[http://example.com]] site"));
+            Assert.AreEqual("[http://example.com] site", Parsers.FixSyntax("[[ http://example.com]] site"));
 
             Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://test.com]"));
             Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://http://test.com]"));
