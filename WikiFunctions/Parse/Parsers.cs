@@ -2356,8 +2356,8 @@ namespace WikiFunctions.Parse
         }
 
         // regexes for external link match on balanced bracket
-        private static readonly Regex DoubleBracketAtStartOfExternalLink = new Regex(@"\[(\[https?:/(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex DoubleBracketAtEndOfExternalLink = new Regex(@"(\[https?:/(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])\](?!\])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex DoubleBracketAtStartOfExternalLink = new Regex(@"\[\[ *(https?:/(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex DoubleBracketAtEndOfExternalLink = new Regex(@"(\[ *https?:/(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])\](?!\])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex DoubleBracketAtEndOfExternalLinkWithinImage = new Regex(@"(\[https?:/(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!)))\](?=\]{3})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex ListExternalLinkEndsCurlyBrace = new Regex(@"^(\* *\[https?://[^<>\[\]]+?)\)\s*$", RegexOptions.Multiline | RegexOptions.Compiled);
 
@@ -2482,7 +2482,7 @@ namespace WikiFunctions.Parse
             articleText = SyntaxRegexListRowBrTag.Replace(articleText, "$1\r\n");
 
             //fix uneven bracketing on links
-            articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "$1");
+            articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "[$1");
             articleText = DoubleBracketAtEndOfExternalLink.Replace(articleText, "$1");
             articleText = DoubleBracketAtEndOfExternalLinkWithinImage.Replace(articleText, "$1");
             articleText = ListExternalLinkEndsCurlyBrace.Replace(articleText, "$1]");
