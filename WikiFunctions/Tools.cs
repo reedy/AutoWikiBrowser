@@ -705,7 +705,7 @@ namespace WikiFunctions
             if (pagesource.Length == 0 || metaname.Length == 0)
                 return "";
 
-            Regex metaContent = new Regex(@"< *meta +name *= *""" + Regex.Escape(metaname) + @""" +content *= *""([^""<>]+?)"" */? *>", RegexOptions.IgnoreCase);
+            Regex metaContent = new Regex(@"< *meta +name *= *""" + Regex.Escape(metaname) + @"""[^<>/]+content *= *""([^""<>]+?)"" */? *>", RegexOptions.IgnoreCase);
 
             return metaContent.Match(pagesource).Groups[1].Value.Trim();
         }

@@ -1728,6 +1728,7 @@ foo<!--comm-->|title=abc
             Assert.AreEqual(@"2009-03-02", Tools.GetMetaContentValue(@"<meta name=""PubDate""  content=""2009-03-02"">", "PubDate"));
             Assert.AreEqual(@"2009-03-02", Tools.GetMetaContentValue(@"< META NAME = ""PubDate""  content = ""2009-03-02""  />", "PubDate"));
             Assert.AreEqual(@"2009-03-02", Tools.GetMetaContentValue(@"<meta name  =""PubDate"" CONTENT="" 2009-03-02 "">", "PUBDATE"));
+            Assert.AreEqual(@"2009-03-02", Tools.GetMetaContentValue(@"<meta name  =""PubDate"" scheme=""URI"" CONTENT="" 2009-03-02 "">", "PUBDATE"));
             
             Assert.AreEqual(@"", Tools.GetMetaContentValue(@"<meta name  =""PubDate"" CONTENT="" 2009-03-02 "">", "PUBDATEXX"));
             Assert.AreEqual(@"", Tools.GetMetaContentValue(@"<meta name  =""PubDateX"" CONTENT="" 2009-03-02 "">", "PUBDATE"));
