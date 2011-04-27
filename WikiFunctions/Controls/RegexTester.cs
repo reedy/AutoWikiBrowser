@@ -15,7 +15,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ */
 
 using System;
 using System.ComponentModel;
@@ -44,8 +44,8 @@ namespace WikiFunctions.Controls
             AskToApply = ask;
         }
 
-        public static void Test(Form parent, TextBox find, TextBox replace, 
-            CheckBox multiline, CheckBox singleline, CheckBox caseSensitive)
+        public static void Test(Form parent, TextBox find, TextBox replace,
+                                CheckBox multiline, CheckBox singleline, CheckBox caseSensitive)
         {
             using (RegexTester t = new RegexTester(true))
             {
@@ -193,7 +193,7 @@ namespace WikiFunctions.Controls
             {
                 RegexOptions res = RegexOptions.None;
                 if (chkMultiline.Checked) res |= RegexOptions.Multiline;
-                if (chkSingleline.Checked) res |= RegexOptions.Singleline; 
+                if (chkSingleline.Checked) res |= RegexOptions.Singleline;
                 if (chkIgnoreCase.Checked) res |= RegexOptions.IgnoreCase;
                 if (chkExplicitCapture.Checked) res |= RegexOptions.ExplicitCapture;
 
@@ -282,7 +282,7 @@ namespace WikiFunctions.Controls
             if(e.CloseReason != CloseReason.UserClosing || !AskToApply) return;
 
             switch (MessageBox.Show(this, "Do you want to apply your changes?", Text, MessageBoxButtons.YesNoCancel,
-                MessageBoxIcon.Question))
+                                    MessageBoxIcon.Question))
             {
                 case DialogResult.Yes:
                     DialogResult = DialogResult.OK;
@@ -409,10 +409,10 @@ namespace WikiFunctions.Controls
             _Regex = regex;
 
             Thr = new Thread(ThreadFunc)
-                      {
-                          Priority = ThreadPriority.BelowNormal, 
-                          Name = "RegexRunner"
-                      };
+            {
+                Priority = ThreadPriority.BelowNormal,
+                Name = "RegexRunner"
+            };
             Thr.Start();
         }
 
@@ -430,8 +430,12 @@ namespace WikiFunctions.Controls
 
                 Matches = _Regex.Matches(Input);
 
+                System.Collections.Generic.List<Match> UnneededList = new System.Collections.Generic.List<Match>();
+                // force matches to actually run
                 foreach (Match m in Matches)
-                { }// force matches to actually run
+                {
+                    UnneededList.Add(m);
+                }
 
                 if (!string.IsNullOrEmpty(Replace))
                     Result = _Regex.Replace(Input, Replace);
@@ -478,4 +482,4 @@ namespace WikiFunctions.Controls
 {{WPBiography|living=no|class=Start|priority=|sports-work-group=yes|listas=Magadan, Dave|nested=yes|activepol=yes|non-bio=yes|politician-work-group=yes}}
 {{WikiProject Texas |class=Start |importance=Low |nested=yes}}
 }}
-*/
+ */
