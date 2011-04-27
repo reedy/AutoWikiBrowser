@@ -3360,7 +3360,6 @@ namespace WikiFunctions.Parse
             return articleText;
         }
         
-        private static readonly Regex DfYes = new Regex(@"\|\s*[dm]f\s*=\s*y(?:es)?\s*(?=(?:\||}}))", RegexOptions.Compiled);
         private static List<string> DfMf = new List<string>(new [] {"df", "mf" });
 
         /// <summary>
