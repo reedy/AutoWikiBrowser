@@ -879,12 +879,22 @@ The following links are here to prevent the interwiki bot from adding them to th
 [[it:CN]]
 [[sv:CN]]
 -->";
-            // no interwikis here
-            Assert.AreEqual("", parser2.Sorter.Interwikis(ref c));
+
+            Assert.AreEqual("", parser2.Sorter.Interwikis(ref c), "interwikis not taken out of wiki comments");
             
             string c2 = c + @"[[sv:CN]]";
             Assert.AreEqual(@"[[sv:CN]]" + "\r\n", parser2.Sorter.Interwikis(ref c2), "interwiki returned even if the same one exists commented out elsewhere");
 
+            c = @"{{Canadianmetros}}
+
+<!--
+The following links are here to prevent the interwiki bot from adding them to the list above.  The links below point to disambiguation pages and not to a translated article about Canadian National Railway.
+[[it:CN]]
+[[sv:CN]]
+-->
+second comment <!-- [[it:CN]] -->";
+              Assert.AreEqual("", parser2.Sorter.Interwikis(ref c), "interwikis not taken out of wiki comments");
+            
             // deduplication
             string d = @"[[de:Canadian National Railway]]
 [[es:Canadian National]]
