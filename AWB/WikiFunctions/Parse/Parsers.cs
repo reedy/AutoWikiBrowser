@@ -3063,9 +3063,6 @@ namespace WikiFunctions.Parse
             string accessyear = Tools.GetTemplateParameterValue(newValue, "accessyear");
             if (accessyear.Length > 0 && Tools.GetTemplateParameterValue(newValue, "accessdate").Contains(accessyear))
                 newValue = Tools.RemoveTemplateParameter(newValue, "accessyear");
-
-            // catch after any other fixes
-            newValue = NoCommaAmericanDates.Replace(newValue, @"$1, $2");
             
             // fix unspaced comma ranges, avoid pages=12,345 as could be valid page number
             if(Regex.Matches(Tools.GetTemplateParameterValue(newValue, "pages"), @"\b\d{1,2},\d{3}\b").Count == 0)
@@ -3093,6 +3090,9 @@ namespace WikiFunctions.Parse
                 newValue = Tools.UpdateTemplateParameterValue(newValue, "date", OrdinalsInDatesAm.Replace(Tools.GetTemplateParameterValue(newValue, "date"), "$1 $2$3"));
                 newValue = Tools.UpdateTemplateParameterValue(newValue, "accessdate", OrdinalsInDatesAm.Replace(Tools.GetTemplateParameterValue(newValue, "accessdate"), "$1 $2$3"));
             }
+            
+            // catch after any other fixes
+            newValue = NoCommaAmericanDates.Replace(newValue, @"$1, $2");
             
             // URL starting www. needs http://
             if(theURL.StartsWith("www."))
