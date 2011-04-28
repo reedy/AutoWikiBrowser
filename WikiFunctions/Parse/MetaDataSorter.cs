@@ -945,7 +945,8 @@ en, sq, ru
                 
                 if(unformattedText.Contains(m.Value))
                 {
-                    unformattedText = unformattedText.Replace(m.Value, "");
+                    //unformattedText = unformattedText.Replace(m.Value, "");
+                    Tools.ReplaceOnce(ref unformattedText, m.Value, "");
                     continue;
                 }
                 
