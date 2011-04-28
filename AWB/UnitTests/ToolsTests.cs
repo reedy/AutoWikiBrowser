@@ -1723,6 +1723,17 @@ foo<!--comm-->|title=abc
         }
         
         [Test]
+        public void MergeTemplateParametersTemplateName()
+        {
+            string correct = @"{{Foo | e=b d }}";
+            List<string> ToMerge = new List<string>(new [] { "a", "c" } );
+
+            Assert.AreEqual(correct, Tools.MergeTemplateParametersValues(@"{{Foo|a= b|c= d}}", ToMerge, "e", true),"single spaces");
+            Assert.AreEqual(correct, Tools.MergeTemplateParametersValues(@"{{Foo|a=b|c=d}}", ToMerge, "e", true),"no spaces");
+            Assert.AreEqual(correct, Tools.MergeTemplateParametersValues(@"{{Foo|a=   b|c=d}}", ToMerge, "e", true),"big spaces");
+        }
+
+            [Test]
         public void GetMetaContentValue()
         {
             Assert.AreEqual(@"2009-03-02", Tools.GetMetaContentValue(@"<meta name=""PubDate""  content=""2009-03-02"">", "PubDate"));

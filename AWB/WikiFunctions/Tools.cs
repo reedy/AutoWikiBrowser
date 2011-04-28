@@ -2562,6 +2562,31 @@ Message: {2}
         }
 
         /// <summary>
+        /// Merges the values of given parameters to a new one for a template call
+        /// </summary>
+        /// <param name="templateCall">The template call</param>
+        /// <param name="parameters">List of parameters requested</param>
+        /// <param name="newparameter">The new value for the parameter</param>
+        /// <param name="caseInsensitiveParameterNames">Whether to match case insensitively on parameter name</param>
+        /// <returns>List of parameter values</returns>
+        public static string MergeTemplateParametersValues(string templateCall, List<string> parameters,  string newparameter, bool caseInsensitiveParameterNames)
+        {
+            List<string> returnedvalues = new List<string>();
+            
+            string combined = "";
+
+            foreach (string param in parameters)
+            {
+            	combined +=(GetTemplateParameterValue(templateCall, param) + " ");
+                templateCall = RemoveTemplateParameter(templateCall, param, false);
+
+            }
+
+            templateCall = AppendParameterToTemplate(templateCall, newparameter, combined, false);
+            return templateCall;
+        }
+
+        /// <summary>
         /// Removes pipes that are not the pipe indicating the end of the parameter's value
         /// </summary>
         /// <param name="templateCall">The template call to clean</param>
