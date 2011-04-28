@@ -1428,6 +1428,13 @@ Message: {2}
             return true;
         }
 
+        /// <summary>
+        /// Replaces first occurence of a given text within a string
+        /// </summary>
+        /// <param name="text">Text to be processed</param>
+        /// <param name="oldValue">Text to be replaced</param>
+        /// <param name="newValue">Replacement text</param>
+        /// <returns>Whether the replacement has been made</returns>
         public static bool ReplaceOnce(ref string text, string oldValue, string newValue)
         {
             int index = text.IndexOf(oldValue);
