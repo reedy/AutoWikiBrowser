@@ -2908,9 +2908,13 @@ namespace WikiFunctions.Parse
             foreach (Match h in WikiRegexes.HarvTemplate.Matches(articleText))
             {
                 string newValue = FixPageRanges(h.Value);
+                string page = Tools.GetTemplateParameterValue(newValue, "p");
                 
-                if(Regex.IsMatch(Tools.GetTemplateParameterValue(newValue, "p"), @"\d+\s*(?:–|, )\s*\d")
-                   && Tools.GetTemplateParameterValue(newValue, "pp").Length == 0)
+                // ignore brackets
+                if(page.Contains(@"("))
+                    page = page.Substring(0, page.IndexOf(@"("));
+                
+                if(Regex.IsMatch(page, @"\d+\s*(?:–|&ndash;|, )\s*\d") && Tools.GetTemplateParameterValue(newValue, "pp").Length == 0)
                     newValue = Tools.RenameTemplateParameter(newValue, "p", "pp");
                 
                 // merge changes to article text
@@ -2984,7 +2988,7 @@ namespace WikiFunctions.Parse
                 
                 // convert curly quotes to straight quotes per [[MOS:PUNCT]], except when » is section delimeter
                 if(!(theTitle.Contains(@"»") && !theTitle.Contains(@"«")))
-                theTitle = WikiRegexes.CurlyDoubleQuotes.Replace(theTitle, @"""");
+                    theTitle = WikiRegexes.CurlyDoubleQuotes.Replace(theTitle, @"""");
                 
                 if(theTitle.Contains(@"""") && !theTitle.Trim('"').Contains(@""""))
                     theTitle = theTitle.Trim('"');

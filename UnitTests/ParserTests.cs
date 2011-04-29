@@ -2827,8 +2827,12 @@ journal=Crypt of Cthulhu |volume= 3|issue= 3| ";
         {
             Assert.AreEqual(@"{{harv|Smith|2005|pp=55–59}}", Parsers.FixCitationTemplates(@"{{harv|Smith|2005|p=55–59}}"), "renames p to pp for page range");
             Assert.AreEqual(@"{{harvnb|Smith|2005|pp=55–59}}", Parsers.FixCitationTemplates(@"{{harvnb|Smith|2005|p=55–59}}"));
+            Assert.AreEqual(@"{{harvnb|Smith|2005|pp=55&ndash;59}}", Parsers.FixCitationTemplates(@"{{harvnb|Smith|2005|p=55&ndash;59}}"));
             Assert.AreEqual(@"{{harv|Smith|2005|pp=55–59}}", Parsers.FixCitationTemplates(@"{{harv|Smith|2005|p=55 – 59}}"));
             Assert.AreEqual(@"{{harv|Smith|2005|pp=55–59, 77–81}}", Parsers.FixCitationTemplates(@"{{harv|Smith|2005|p=55–59, 77-81}}"));
+            
+            const string nochange = @"{{Harvnb|Shapiro|2010|p=271 (238–9)}}";
+            Assert.AreEqual(nochange, Parsers.FixCitationTemplates(nochange));
         }
         
         [Test]
