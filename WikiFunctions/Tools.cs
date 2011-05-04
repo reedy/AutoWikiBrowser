@@ -385,6 +385,17 @@ namespace WikiFunctions
         {
             return GetHTML(url, Encoding.UTF8);
         }
+        
+            /// <summary>
+        /// Gets the HTML from the given web address.
+        /// </summary>
+        /// <param name="url">The URL of the webpage.</param>
+        /// <param name="responseURL">The resolved URL of the webpage</param>
+        /// <returns>The HTML.</returns>
+        public static string GetHTML(string url, out string responseURL)
+        {
+            return GetHTML(url, Encoding.UTF8, out responseURL);
+        }
 
         /// <summary>
         /// Gets the HTML from the given web address.
@@ -394,11 +405,26 @@ namespace WikiFunctions
         /// <returns>The HTML.</returns>
         public static string GetHTML(string url, Encoding enc)
         {
+            string x = "";
+            return GetHTML(url, enc, out x);
+        }
+        
+                /// <summary>
+        /// Gets the HTML from the given web address.
+        /// </summary>
+        /// <param name="url">The URL of the webpage.</param>
+        /// <param name="enc">The encoding to use.</param>
+        /// <param name="responseURL">The resolved URL of the webpage</param>
+        /// <returns>The HTML.</returns>
+        public static string GetHTML(string url, Encoding enc, out string responseURL)
+        {
             if (Globals.UnitTestMode) throw new Exception("You shouldn't access Wikipedia from unit tests");
 
             HttpWebRequest rq = Variables.PrepareWebRequest(url); // Uses WikiFunctions' default UserAgent string
 
             HttpWebResponse response = (HttpWebResponse)rq.GetResponse();
+            
+            responseURL = response.ResponseUri.ToString();
 
             Stream stream = response.GetResponseStream();
             StreamReader sr = new StreamReader(stream, enc);
@@ -705,7 +731,7 @@ namespace WikiFunctions
             if (pagesource.Length == 0 || metaname.Length == 0)
                 return "";
 
-            Regex metaContent = new Regex(@"< *meta +name *= *""" + Regex.Escape(metaname) + @"""[^<>/]+content *= *""([^""<>]+?)"" */? *>", RegexOptions.IgnoreCase);
+            Regex metaContent = new Regex(@"< *meta +(?:xmlns=""http://www\.w3\.org/1999/xhtml"" +)?name *= *""" + Regex.Escape(metaname) + @"""[^<>/]+content *= *""([^""<>]+?)"" */? *>", RegexOptions.IgnoreCase);
 
             return metaContent.Match(pagesource).Groups[1].Value.Trim();
         }
@@ -2584,7 +2610,7 @@ Message: {2}
 
             foreach (string param in parameters)
             {
-            	combined +=(GetTemplateParameterValue(templateCall, param) + " ");
+                combined +=(GetTemplateParameterValue(templateCall, param) + " ");
                 templateCall = RemoveTemplateParameter(templateCall, param, false);
 
             }
