@@ -213,10 +213,17 @@ namespace WikiFunctions.Lists.Providers
         private readonly static Regex LoadWikiLink = new Regex(@"\[\[:?(.*?)(?:\]\]|\|)", RegexOptions.Compiled);
         private readonly static OpenFileDialog OpenListDialog = new OpenFileDialog();
 
+        protected Encoding TargetEncoding;
+
         static TextFileListProviderUFT8()
         {
             OpenListDialog.Filter = "Text files|*.txt|Text files (no validation)|*.txt|All files|*.*";
             OpenListDialog.Multiselect = true;
+        }
+
+        public TextFileListProviderUFT8()
+        {
+            TargetEncoding = Encoding.UTF8;
         }
 
         public List<Article> MakeList(string searchCriteria)
@@ -241,7 +248,7 @@ namespace WikiFunctions.Lists.Providers
                 {
                     string pageText, title;
 
-                    using (StreamReader sr = new StreamReader(fileName, Encoding.UTF8))
+                    using (StreamReader sr = new StreamReader(fileName, TargetEncoding))
                     {
                         pageText = sr.ReadToEnd();
                         sr.Close();
@@ -288,7 +295,7 @@ namespace WikiFunctions.Lists.Providers
         }
 
         #region ListMaker properties
-        public string DisplayText
+        public virtual string DisplayText
         { get { return "Text file (UTF-8)"; } }
 
         public string UserInputTextBoxText
@@ -310,103 +317,16 @@ namespace WikiFunctions.Lists.Providers
      /// <summary>
     /// Gets a list of pages from a Windows 1252 (ANSI) encoded text file
     /// </summary>
-    public class TextFileListProviderWindows1252 : IListProvider
+    public class TextFileListProviderWindows1252 : TextFileListProviderUFT8
     {
-        private readonly static Regex RegexFromFile = new Regex("(^[a-z]{2,3}:)|(simple:)", RegexOptions.Compiled);
-        private readonly static Regex LoadWikiLink = new Regex(@"\[\[:?(.*?)(?:\]\]|\|)", RegexOptions.Compiled);
-        private readonly static OpenFileDialog OpenListDialog = new OpenFileDialog();
-
-        static TextFileListProviderWindows1252()
+        public TextFileListProviderWindows1252()
         {
-            OpenListDialog.Filter = "Text files|*.txt|Text files (no validation)|*.txt|All files|*.*";
-            OpenListDialog.Multiselect = true;
-        }
-
-        public List<Article> MakeList(string searchCriteria)
-        {
-            return MakeList(searchCriteria.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
-        }
-
-        public List<Article> MakeList()
-        {
-            return MakeList(new string[0]);
-        }
-
-        public List<Article> MakeList(params string[] searchCriteria)
-        {
-            List<Article> list = new List<Article>();
-            try
-            {
-                if (searchCriteria.Length == 0 && OpenListDialog.ShowDialog() == DialogResult.OK)
-                    searchCriteria = OpenListDialog.FileNames;
-
-                foreach (string fileName in searchCriteria)
-                {
-                    string pageText, title;
-
-                    using (StreamReader sr = new StreamReader(fileName, Encoding.GetEncoding("windows-1252")))
-                    {
-                        pageText = sr.ReadToEnd();
-                        sr.Close();
-                    }
-
-                    switch (OpenListDialog.FilterIndex)
-                    {
-                        case 2:
-                            foreach (string s in pageText.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
-                            {
-                                list.Add(new Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s.Trim()))));
-                            }
-                            break;
-                        default:
-                            if (LoadWikiLink.IsMatch(pageText))
-                            {
-                                foreach (Match m in LoadWikiLink.Matches(pageText))
-                                {
-                                    title = m.Groups[1].Value;
-                                    if (!RegexFromFile.IsMatch(title) && (!(title.StartsWith("#"))))
-                                    {
-                                        list.Add(new Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(title))));
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                foreach (string s in pageText.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
-                                {
-                                    if (s.Trim().Length == 0 || !Tools.IsValidTitle(s)) continue;
-                                    list.Add(new Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s.Trim()))));
-                                }
-                            }
-                            break;
-                    }
-                }
-                return list;
-            }
-            catch (Exception ex)
-            {
-                ErrorHandler.Handle(ex);
-                return list;
-            }
+            TargetEncoding = Encoding.GetEncoding("windows-1252");
         }
 
         #region ListMaker properties
-        public string DisplayText
+        public override string DisplayText
         { get { return "Text file (Windows 1252 / ANSI)"; } }
-
-        public string UserInputTextBoxText
-        { get { return ""; } }
-
-        public bool UserInputTextBoxEnabled
-        { get { return false; } }
-
-        public void Selected() { }
-
-        public bool RunOnSeparateThread
-        { get { return false; } }
-
-        public virtual bool StripUrl
-        { get { return false; } }
         #endregion
     }
 }
