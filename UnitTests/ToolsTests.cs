@@ -1746,6 +1746,8 @@ foo<!--comm-->|title=abc
             
             Assert.AreEqual(@"", Tools.GetMetaContentValue(@"<meta name  =""PubDateX"" CONTENT="" 2009-03-02 "">", ""));
             Assert.AreEqual(@"", Tools.GetMetaContentValue("", "PUBDATE"));
+            
+            Assert.AreEqual(@"10.1111/j.1096-0031.2009.00267.x", Tools.GetMetaContentValue(@"<meta xmlns=""http://www.w3.org/1999/xhtml"" name=""citation_doi"" content=""10.1111/j.1096-0031.2009.00267.x"" />", "citation_doi"));
         }
         
         [Test]
