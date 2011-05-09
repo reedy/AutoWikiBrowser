@@ -1220,6 +1220,13 @@ Other (fl. 1645) was also", FloruitTwice = @"'''Foo''' (fl. 55) was a peasant, r
             const string b11 = @"'''Kid 'n Play''' was a [[hip-hop music|hip-hop]] and [[comedy]] duo from [[New York City]] that was popular in the late 1980s and early 1990s. The duo comprised '''[[Christopher Kid Reid]]''' (born [[April 5]] [[1964]] in [[The Bronx|The Bronx, New York City]])
 and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[July 10]] [[1962]] in [[Queens, New York City]]). Besides their successful musical careers, Kid 'n Play are also notable for branching out into acting. [[Category:Living people]]";
             Assert.AreEqual(b11, Parsers.FixPeopleCategories(b11, "foo"));
+            
+            const string b12 = @"{{Infobox actor
+| name            = Gianni Capaldi
+| birthdate       = <!-- {{Birth date and age|YYYY|MM|DD}} --> age 34 (as of 12 January 2010)<ref>*  Matheson, Shelley.</ref>
+| birthplace      = [[Motherwell]], [[Scotland]]<br>{{Citation needed|date=September 2010}}
+}}";
+            Assert.AreEqual(b12, Parsers.FixPeopleCategories(b12, "foo"));
         }
         
         [Test]
