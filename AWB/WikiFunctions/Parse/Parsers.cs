@@ -5262,6 +5262,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex ThreeOrFourDigitNumber = new Regex(@"\d{3,4}", RegexOptions.Compiled);
         private static readonly Regex DiedOrBaptised = new Regex(@"(^.*?)((?:&[nm]dash;|—|–|;|[Dd](?:ied|\.)|baptised).*)", RegexOptions.Compiled);
         private static readonly Regex NotCircaTemplate = new Regex(@"{{(?![Cc]irca)[^{]*?}}", RegexOptions.Compiled);
+        private static readonly Regex AsOfText = new Regex(@"\bas of\b", RegexOptions.Compiled);
 
         /// <summary>
         /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
@@ -5322,6 +5323,10 @@ namespace WikiFunctions.Parse
 
             // scrape any infobox for birth year
             string fromInfoBox = GetInfoBoxFieldValue(zerothSection, WikiRegexes.InfoBoxDOBFields);
+
+            // ignore as of dates
+            if(AsOfText.IsMatch(fromInfoBox))
+                fromInfoBox = fromInfoBox.Substring(0, AsOfText.Match(fromInfoBox).Index);
 
             if (fromInfoBox.Length > 0 && !UncertainWordings.IsMatch(fromInfoBox))
                 yearFromInfoBox = YearPossiblyWithBC.Match(fromInfoBox).Value;
