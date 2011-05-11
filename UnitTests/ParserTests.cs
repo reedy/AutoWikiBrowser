@@ -993,6 +993,8 @@ The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines af
             const string correct3 = @"May–June 2010";
             Assert.AreEqual(correct3, parser.FixDates(@"May-June 2010"), "endash set for month range");
             Assert.AreEqual(correct3, parser.FixDates(correct3));
+            
+            Assert.AreEqual("from 1904 – 11 May 1956 there", parser.FixDates("from 1904 – 11 May 1956 there"));
         }
         
         [Test]
@@ -4848,7 +4850,8 @@ Bar", "Test"), "inserts blank line if one missing");
             Assert.AreEqual("m<sup>2</sup>", parser.Mdashes("m<sup>2</sup>", "test"));
 
             // false positive
-            Assert.AreEqual("beaten 55 - 57 in 2004", parser.Mdashes("beaten 55 - 57 in 2004", "test"));
+            Assert.AreEqual("beaten 55 - 57 in 2004", parser.Mdashes("beaten 55 - 57 in 2004", "test"));            
+            Assert.AreEqual("from 1904 – 11 May 1956 there", parser.Mdashes("from 1904 – 11 May 1956 there", "test"));
         }
 
         [Test]
