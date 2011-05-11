@@ -2399,6 +2399,19 @@ world|format=PDF}} was";
             Assert.AreEqual(@"{{cite web|title=foo|url=http://site.net/a.htm|year=2009}}", Parsers.FixCitationTemplates(@"{{cite web|title=foo|url=http://site.net/a.htm|year=2009|format=}}"));
             Assert.AreEqual(@"{{cite web|title=foo|url=http://site.net/a.html|year=2009}}", Parsers.FixCitationTemplates(@"{{cite web|title=foo|url=http://site.net/a.html|year=2009|format=}}"));
             Assert.AreEqual(@"{{cite web|title=foo|url=http://site.net/a.HTML|year=2009}}", Parsers.FixCitationTemplates(@"{{cite web|title=foo|url=http://site.net/a.HTML|year=2009|format=}}"));
+            
+            // id=ISBN... fix
+            Assert.AreEqual(@"{{cite book|title=foo|year=2009 | isbn=123456789X}}", Parsers.FixCitationTemplates(@"{{cite book|title=foo|id=ISBN 123456789X|year=2009}}"));
+            Assert.AreEqual(@"{{cite book|title=foo|year=2009 | isbn=123456789X}}", Parsers.FixCitationTemplates(@"{{cite book|title=foo|id=ISBN 123456789X |year=2009}}"));
+            Assert.AreEqual(@"{{cite book|title=foo|year=2009 | isbn=123-45678-9-X}}", Parsers.FixCitationTemplates(@"{{cite book|title=foo|id=ISBN: 123-45678-9-X|year=2009}}"));
+            
+            string doubleISBN = @"{{cite book|title=foo|id=ISBN 012345678X, 978012345678X|year=2009}}";
+            Assert.AreEqual(doubleISBN, Parsers.FixCitationTemplates(doubleISBN), "no changes when two isbns present");
+            doubleISBN = @"{{cite book|title=foo|id=ISBN 012345678X ISBN 978012345678X|year=2009}}";
+            Assert.AreEqual(doubleISBN, Parsers.FixCitationTemplates(doubleISBN), "no changes when two isbns present");
+            
+            string existingISBN =  @"{{cite book|title=foo|id=ISBN 012345678X |isbn= 978012345678X|year=2009}}";
+            Assert.AreEqual(existingISBN, Parsers.FixCitationTemplates(existingISBN), "no changes when isbn param already has value");
         }
         
         [Test]
@@ -4850,7 +4863,7 @@ Bar", "Test"), "inserts blank line if one missing");
             Assert.AreEqual("m<sup>2</sup>", parser.Mdashes("m<sup>2</sup>", "test"));
 
             // false positive
-            Assert.AreEqual("beaten 55 - 57 in 2004", parser.Mdashes("beaten 55 - 57 in 2004", "test"));            
+            Assert.AreEqual("beaten 55 - 57 in 2004", parser.Mdashes("beaten 55 - 57 in 2004", "test"));
             Assert.AreEqual("from 1904 – 11 May 1956 there", parser.Mdashes("from 1904 – 11 May 1956 there", "test"));
         }
 
