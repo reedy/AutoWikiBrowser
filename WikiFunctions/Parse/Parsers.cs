@@ -2936,11 +2936,14 @@ namespace WikiFunctions.Parse
             return m.Value;
         }
         
+        private static readonly Regex IdISBN = new Regex(@"^ISBN:?\s*([\d \-]+X?)$", RegexOptions.Compiled);
+        
         private static string FixCitationTemplatesME(Match m)
         {
             string newValue = m.Value;
             string templatename = Tools.GetTemplateName(newValue);
             string theURL = Tools.GetTemplateParameterValue(newValue, "url");
+            string id = Tools.GetTemplateParameterValue(newValue, "id");
             
             newValue = Tools.RenameTemplateParameter(newValue, "fprmat", "format");
             
@@ -3115,6 +3118,13 @@ namespace WikiFunctions.Parse
                     newValue = Tools.UpdateTemplateParameterValue(newValue, "format", FormatField.Replace(deadLink, ""));
                 
                 newValue += (" " + deadLink);
+            }
+            
+            //id=ISBN fix
+            if(IdISBN.IsMatch(id) && Tools.GetTemplateParameterValue(newValue, "isbn").Length == 0)
+            {
+                newValue = Tools.SetTemplateParameterValue(newValue, "isbn", IdISBN.Match(id).Groups[1].Value.Trim());
+                newValue = Tools.RemoveTemplateParameter(newValue, "id");
             }
             
             return newValue;
