@@ -1383,6 +1383,10 @@ dateformat=mdy}}", "cite web", "dateformat"));
 
             Assert.AreEqual(Correct, Tools.RenameTemplateParameter(@"{{Fred | first=Bar | lower={{Bert|lower=yes}} }}", "lower", "upper"), @"Parameter within nested template not renamed");
             Assert.AreEqual(Correct, Tools.RenameTemplateParameter(@"{{Fred | last=Bar | upper={{Bert|lower=yes}} }}", "last", "first"), @"Template parameters can be rename when nested templates present");
+            
+            const string Correct2 = @"{{Fred | first=Bar | upper={{Bert|lower=yes|2={{great}} }} }}";
+
+            Assert.AreEqual(Correct2, Tools.RenameTemplateParameter(@"{{Fred | first=Bar | lower={{Bert|lower=yes|2={{great}} }} }}", "lower", "upper"), @"Parameter within nested nested template not renamed");          
         }
         
         [Test]

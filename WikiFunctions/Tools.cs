@@ -2380,7 +2380,8 @@ Message: {2}
         
         private static string RenameTemplateParameterME(Match m, string templateCall, string newparameter)
         {
-            foreach(Match n in WikiRegexes.TemplateMultiline.Matches(templateCall))
+            // check for nested templates within the main template to avoid changing their parameter ames
+            foreach(Match n in WikiRegexes.NestedTemplates.Matches("  " + templateCall.Substring(2)))
             {
                 if(n.Index > 0 && m.Index >= n.Index && m.Index <= (n.Index+n.Length))
                     return m.Value;
