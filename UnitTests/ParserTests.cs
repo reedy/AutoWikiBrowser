@@ -2415,6 +2415,19 @@ world|format=PDF}} was";
         }
         
         [Test]
+        public void FixCitationTemplatesOrigYear()
+        {
+            Assert.AreEqual(@"{{cite book | title=ABC | publisher=Pan  | year=1950 }}", Parsers.FixCitationTemplates(@"{{cite book | title=ABC | publisher=Pan  | origyear=1950 }}"), "origyear to year when no year/date");
+            
+            const string nochange1 = @"{{cite book | title=ABC | publisher=Pan | year=2004 | origyear=1950 }}", nochange2 = @"{{cite book | title=ABC | publisher=Pan | date=May 2004 | origyear=1950 }}"
+                , nochange3 = @"{{cite book | title=ABC | publisher=Pan | origyear=11 May 1950 }}";
+            
+            Assert.AreEqual(nochange1, Parsers.FixCitationTemplates(nochange1), "origyear valid when year present");
+            Assert.AreEqual(nochange2, Parsers.FixCitationTemplates(nochange2), "origyear valid when date present");
+            Assert.AreEqual(nochange3, Parsers.FixCitationTemplates(nochange3), "origyear not renamed when more than just a year");
+        }
+        
+        [Test]
         public void PersonDataAddition()
         {
             const string Fred = @"'''Fred''' (born 1960) is.
