@@ -1680,6 +1680,11 @@ foo<!--comm-->|title=abc
             
             Assert.IsFalse(multipleTemplates.IsMatch(@"{{a}}"));
             Assert.IsFalse(multipleTemplates.IsMatch(@""));
+            
+            ListOfTemplates.Clear();
+            ListOfTemplates.Add(@"Foo ");
+            multipleTemplates = Tools.NestedTemplateRegex(ListOfTemplates);
+            Assert.AreEqual(multipleTemplates.Match(@"{{foo}}").Groups[2].Value, @"foo", "matches correctly from input template name with trailing whitespace");
         }
         
         [Test]
@@ -1737,7 +1742,7 @@ foo<!--comm-->|title=abc
             Assert.AreEqual(correct, Tools.MergeTemplateParametersValues(@"{{Foo|a=   b|c=d}}", ToMerge, "e", true),"big spaces");
         }
 
-            [Test]
+        [Test]
         public void GetMetaContentValue()
         {
             Assert.AreEqual(@"2009-03-02", Tools.GetMetaContentValue(@"<meta name=""PubDate""  content=""2009-03-02"">", "PubDate"));

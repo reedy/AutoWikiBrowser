@@ -2833,7 +2833,7 @@ Message: {2}
 
             foreach (string templatename in templatenames)
             {
-                string templatename2 = Regex.Escape(templatename.Replace('_', ' ')).Replace(@"\ ", @"[_ ]+");
+                string templatename2 = Regex.Escape(templatename.Trim().Replace('_', ' ')).Replace(@"\ ", @"[_ ]+");
                 theRegex.Append(CaseInsensitive(templatename2) + "|");
             }
 
