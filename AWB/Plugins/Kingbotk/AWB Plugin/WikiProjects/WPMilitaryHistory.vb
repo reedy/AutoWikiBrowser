@@ -145,13 +145,6 @@
                PluginShortName)
         End If
 
-        If Template.Parameters.ContainsKey("AncientNE") Then
-            Template.Parameters.Remove("AncientNE")
-            Article.ArticleHasAMajorChange()
-            PluginManager.AWBForm.TraceManager.WriteArticleActionLine("Removed AncientNE parameter", _
-               PluginShortName)
-        End If
-
         If Template.Parameters.ContainsKey("auto") Then
             Template.Parameters.Remove("auto")
             Article.ArticleHasAMajorChange()
