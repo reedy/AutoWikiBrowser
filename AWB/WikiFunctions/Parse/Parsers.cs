@@ -3149,6 +3149,13 @@ namespace WikiFunctions.Parse
             {
                 string pageRange = Tools.GetTemplateParameterValue(templateCall, pageField);
 
+                // fix spaced page ranges e.g. 15 – 20 --> 15–20
+                if(SpacedPageRange.IsMatch(pageRange))
+                {
+                    pageRange = SpacedPageRange.Replace(pageRange, "$1$2$3");
+                    return Tools.SetTemplateParameterValue(templateCall, pageField, pageRange);
+                }                    
+
                 if (pageRange.Length > 2 && !pageRange.Contains(" to "))
                 {
                     bool pagerangesokay = true;
@@ -3193,7 +3200,7 @@ namespace WikiFunctions.Parse
                 }
             }
             
-            return SpacedPageRange.Replace(templateCall, "$1$2$3");
+            return templateCall;
         }
 
         private static readonly Regex CiteWebOrNews = Tools.NestedTemplateRegex(new [] {"cite web", "citeweb", "cite news", "citenews" });
