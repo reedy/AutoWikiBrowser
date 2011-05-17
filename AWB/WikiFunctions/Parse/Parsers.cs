@@ -3136,7 +3136,7 @@ namespace WikiFunctions.Parse
         
         private static List<string> PageFields = new List<string>(new [] {"page", "pages", "p", "pp" });
         private static readonly Regex PageRange = new Regex(@"\b(\d+)\s*[-—]+\s*(\d+)", RegexOptions.Compiled);
-        private static readonly Regex SpacedPageRange = new Regex(@"(\d+) – (\d)", RegexOptions.Compiled);
+        private static readonly Regex SpacedPageRange = new Regex(@"(\d+) +(–|&ndash;) +(\d)", RegexOptions.Compiled);
         
         /// <summary>
         /// Converts hyphens in page ranges in citation template fields to endashes
@@ -3193,7 +3193,7 @@ namespace WikiFunctions.Parse
                 }
             }
             
-            return SpacedPageRange.Replace(templateCall, "$1–$2");
+            return SpacedPageRange.Replace(templateCall, "$1$2$3");
         }
 
         private static readonly Regex CiteWebOrNews = Tools.NestedTemplateRegex(new [] {"cite web", "citeweb", "cite news", "citenews" });
