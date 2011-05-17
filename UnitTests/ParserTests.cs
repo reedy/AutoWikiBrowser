@@ -2741,7 +2741,7 @@ world|format=PDF}} was";
         [Test]
         public void FixCitationTemplatesPageRangeName()
         {
-            const string correct = @"{{cite book|author=Smith|title=Great|pages=57–59}}";
+            string correct = @"{{cite book|author=Smith|title=Great|pages=57–59}}";
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|pages=pp. 57–59}}"));
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|page=pp. 57–59}}"));
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|pages=57–59}}"));
@@ -2751,6 +2751,9 @@ world|format=PDF}} was";
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|page=57–59}}"));
             
             Assert.AreEqual(correct.Replace("–", ", "), Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|page=57, 59}}"), "page -> pages for comma list of page numbers");
+            
+             correct = @"{{cite book|author=Smith|title=Great|pages=57&ndash;59}}";
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|pages=57 &ndash; 59}}"));
             
             const string nochange = @"{{cite book|author=Smith|title=Great|pages=12,255}}";
             Assert.AreEqual(nochange, Parsers.FixCitationTemplates(nochange));
