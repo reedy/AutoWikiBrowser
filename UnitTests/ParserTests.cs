@@ -2413,7 +2413,7 @@ world|format=PDF}} was";
             string existingISBN =  @"{{cite book|title=foo|id=ISBN 012345678X |isbn= 978012345678X|year=2009}}";
             Assert.AreEqual(existingISBN, Parsers.FixCitationTemplates(existingISBN), "no changes when isbn param already has value");
             
-                        
+            
             const string NoChangeSpacedEndashInTitle = @"{{cite web | author=IGN staff | year=2008 | title=IGN Top 100 Games 2008 – 2 Chrono Trigger | url=http://top100.ign.com/2008/ign_top_game_2.html | publisher=IGN | accessdate=March 13, 2009}}";
             
             Assert.AreEqual(NoChangeSpacedEndashInTitle, Parsers.FixCitationTemplates(NoChangeSpacedEndashInTitle));
@@ -2757,7 +2757,7 @@ world|format=PDF}} was";
             
             Assert.AreEqual(correct.Replace("–", ", "), Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|page=57, 59}}"), "page -> pages for comma list of page numbers");
             
-             correct = @"{{cite book|author=Smith|title=Great|pages=57&ndash;59}}";
+            correct = @"{{cite book|author=Smith|title=Great|pages=57&ndash;59}}";
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|pages=57 &ndash; 59}}"));
             
             const string nochange = @"{{cite book|author=Smith|title=Great|pages=12,255}}";
@@ -6231,6 +6231,10 @@ words";
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#zero-width_space
             Assert.AreEqual(@" hello &#8203; bye", parser.Unicodify(@" hello &#8203; bye"));
+            
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Greedy regex for unicode characters
+            Assert.AreEqual(@" hello &#x20000; bye", parser.Unicodify(@" hello &#x20000; bye"));
+            Assert.AreEqual(@" hello &#x2000f; bye", parser.Unicodify(@" hello &#x2000f; bye"));
         }
 
         [Test]
