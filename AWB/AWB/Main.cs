@@ -675,7 +675,7 @@ namespace AutoWikiBrowser
                     StopSaveInterval();
                     lblTimer.Text = "";
                     StatusLabelText = "No articles in list, you need to use the Make list";
-                    Text = Program.Name;
+                    Text = _settingsFileDisplay;
                     listMaker.MakeListEnabled = true;
                     return;
                 }
