@@ -512,11 +512,14 @@ namespace WikiFunctions.API
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
 
             //Reset();
-            string result = HttpGet(new[,]
-                {
-                    {"action", "watch"},
-                    {"title", title}
-                });
+            string result = HttpPost(new[,]
+                                         {
+                                             {"action", "watch"},
+                                         },
+                                     new[,]
+                                         {
+                                             {"title", title}
+                                         });
             CheckForErrors(result, "watch");
         }
 
@@ -525,12 +528,15 @@ namespace WikiFunctions.API
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
 
             //Reset();
-            string result = HttpGet(new[,]
-                                        {
-                                            {"action", "watch"},
-                                            {"title", title},
-                                            {"unwatch", null}
-                                        });
+            string result = HttpPost(new[,]
+                                         {
+                                             {"action", "watch"},
+                                         },
+                                     new[,]
+                                         {
+                                             {"title", title},
+                                             {"unwatch", null}
+                                         });
             CheckForErrors(result, "watch");
         }
 
