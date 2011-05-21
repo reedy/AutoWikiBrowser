@@ -5219,6 +5219,24 @@ window.scrollTo(0, diffTopY);
         {
             UsageStats.Do(false);
         }
+
+        private void logOutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (TheSession.IsBusy)
+                TheSession.Editor.Abort();
+
+            TheArticle = null;
+            txtEdit.Text = "";
+
+            TheSession.Editor.Logout();
+
+            CheckStatus(true);
+
+            UpdateStatusUI();
+
+            StopProgressBar();
+            DisableButtons();
+        }
     }
     #endregion
 }
