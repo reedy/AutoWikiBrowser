@@ -138,10 +138,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         End Sub
         Private Sub LoadSettings(ByVal prefs() As Object) Implements IAWBPlugin.LoadSettings
             If prefs.Length > 0 Then
-                ' Check if we're receiving an old type settings block (XMLTextReader) or new (a serialized string)
-                If prefs(0).GetType Is GetType(XmlTextReader) Then
-                    ReadXML(DirectCast(prefs(0), XmlTextReader))
-                ElseIf prefs(0).GetType Is GetType(String) Then
+                ' Check if we're receiving an new type settings block (a serialized string)
+                If prefs(0).GetType Is GetType(String) Then
                     LoadSettingsNewWay(CType(prefs(0), String))
                 End If
             End If
