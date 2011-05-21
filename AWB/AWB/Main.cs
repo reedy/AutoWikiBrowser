@@ -4919,9 +4919,9 @@ window.scrollTo(0, diffTopY);
             btnWatch.Enabled = false;
 
             if (PageWatched)
-                TheSession.Editor.Watch(TheArticle.Name);
-            else
                 TheSession.Editor.Unwatch(TheArticle.Name);
+            else
+                TheSession.Editor.Watch(TheArticle.Name);
 
             PageWatched = !PageWatched;
             btnWatch.Enabled = true;
@@ -4932,7 +4932,7 @@ window.scrollTo(0, diffTopY);
         /// </summary>
         private bool PageWatched
         {
-            get { return btnWatch.Text == "Watch"; }
+            get { return btnWatch.Text != "Watch"; }
             set { btnWatch.Text = value ? "Unwatch" : "Watch"; }
         }
 
