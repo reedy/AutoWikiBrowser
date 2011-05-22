@@ -44,11 +44,6 @@
             Return "NA"
         End Get
     End Property
-    'Protected Overrides ReadOnly Property PreferredTemplateNameRegexString() As String
-    '    Get
-    '        Return "^[Aa]lbum$"
-    '    End Get
-    'End Property
 
     ' Initialisation:
     Protected Friend Overrides Sub Initialise()

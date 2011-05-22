@@ -44,11 +44,6 @@
             Return "Template"
         End Get
     End Property
-    'Protected Overrides ReadOnly Property PreferredTemplateNameRegexString() As String
-    '    Get
-    '        Return "^[Ss]ongs$"
-    '    End Get
-    'End Property
 
     ' Initialisation:
 
