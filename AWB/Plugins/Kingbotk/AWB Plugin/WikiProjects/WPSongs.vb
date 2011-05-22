@@ -1,6 +1,7 @@
 ﻿Friend NotInheritable Class WPSongs
     Inherits PluginBase
 
+    Private Const Prefix As String = "Songs"
     Private Const PluginName As String = "WikiProject Songs"
 
     Friend Sub New()
@@ -8,7 +9,7 @@
 
         Dim params(-1) As TemplateParameters
 
-        OurSettingsControl = New GenericWithWorkgroups("WikiProject Songs", PluginName, True, params)
+        OurSettingsControl = New GenericWithWorkgroups(PluginName, PluginName, True, params)
     End Sub
 
     ' Settings:
@@ -17,7 +18,7 @@
 
     Protected Friend Overrides ReadOnly Property PluginShortName() As String
         Get
-            Return PluginName
+            Return Prefix
         End Get
     End Property
     Protected Overrides ReadOnly Property PreferredTemplateName() As String
@@ -90,7 +91,7 @@
         OurSettingsControl.Reset()
     End Sub
     Protected Friend Overrides Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
-        Writer.WriteAttributeString(PluginName & "Enabled", Enabled.ToString)
+        Writer.WriteAttributeString(Prefix & "Enabled", Enabled.ToString)
         OurSettingsControl.WriteXML(Writer)
     End Sub
 
