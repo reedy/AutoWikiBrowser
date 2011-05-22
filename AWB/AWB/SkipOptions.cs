@@ -113,8 +113,6 @@ namespace AutoWikiBrowser
             }
             set
             {
-                if (value.Count <= 0) return;
-
                 CheckAll.Checked = false;
                 CheckNone.Checked = false;
                 SetCheckboxes(false);
