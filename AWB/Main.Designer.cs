@@ -120,6 +120,7 @@ namespace AutoWikiBrowser
             this.saveAsDefaultToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.profilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.logOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -419,7 +420,6 @@ namespace AutoWikiBrowser
             this.toolStripSeparatorMakeFromTextBox = new System.Windows.Forms.ToolStripSeparator();
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
-            this.logOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTextBox.SuspendLayout();
             this.MnuMain.SuspendLayout();
             this.StatusMain.SuspendLayout();
@@ -1071,6 +1071,13 @@ namespace AutoWikiBrowser
             this.profilesToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
             this.profilesToolStripMenuItem.Text = "Log &In/&Profiles...";
             this.profilesToolStripMenuItem.Click += new System.EventHandler(this.profilesToolStripMenuItem_Click);
+            // 
+            // logOutToolStripMenuItem
+            // 
+            this.logOutToolStripMenuItem.Name = "logOutToolStripMenuItem";
+            this.logOutToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.logOutToolStripMenuItem.Text = "Log out";
+            this.logOutToolStripMenuItem.Click += new System.EventHandler(this.logOutToolStripMenuItem_Click);
             // 
             // reloadToolStripMenuItem
             // 
@@ -3592,7 +3599,7 @@ namespace AutoWikiBrowser
             this.groupBox16.Controls.Add(this.radRestart);
             this.groupBox16.Controls.Add(this.radShutdown);
             this.groupBox16.Controls.Add(this.chkShutdown);
-            this.groupBox16.Location = new System.Drawing.Point(9, 215);
+            this.groupBox16.Location = new System.Drawing.Point(6, 215);
             this.groupBox16.Name = "groupBox16";
             this.groupBox16.Size = new System.Drawing.Size(121, 130);
             this.groupBox16.TabIndex = 3;
@@ -3649,9 +3656,9 @@ namespace AutoWikiBrowser
             this.groupBox14.Controls.Add(this.btnResetNudges);
             this.groupBox14.Controls.Add(this.lblNudges);
             this.groupBox14.Controls.Add(this.chkNudge);
-            this.groupBox14.Location = new System.Drawing.Point(9, 112);
+            this.groupBox14.Location = new System.Drawing.Point(6, 112);
             this.groupBox14.Name = "groupBox14";
-            this.groupBox14.Size = new System.Drawing.Size(263, 97);
+            this.groupBox14.Size = new System.Drawing.Size(266, 100);
             this.groupBox14.TabIndex = 2;
             this.groupBox14.TabStop = false;
             this.groupBox14.Text = "Nudge timer";
@@ -3665,9 +3672,9 @@ namespace AutoWikiBrowser
             this.groupBox7.Controls.Add(this.botEditsStop);
             this.groupBox7.Controls.Add(this.lblbotEditsStop);
             this.groupBox7.Controls.Add(this.lblAutoDelay);
-            this.groupBox7.Location = new System.Drawing.Point(9, 6);
+            this.groupBox7.Location = new System.Drawing.Point(6, 6);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(263, 100);
+            this.groupBox7.Size = new System.Drawing.Size(266, 100);
             this.groupBox7.TabIndex = 1;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Auto save";
@@ -4222,13 +4229,6 @@ namespace AutoWikiBrowser
             // 
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
-            // 
-            // logOutToolStripMenuItem
-            // 
-            this.logOutToolStripMenuItem.Name = "logOutToolStripMenuItem";
-            this.logOutToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
-            this.logOutToolStripMenuItem.Text = "Log out";
-            this.logOutToolStripMenuItem.Click += new System.EventHandler(this.logOutToolStripMenuItem_Click);
             // 
             // MainForm
             // 
