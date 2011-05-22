@@ -2911,6 +2911,7 @@ window.scrollTo(0, diffTopY);
                 else
                     lblProject.Text = Variables.IsWikimediaMonolingualProject ? Variables.Project.ToString() : Variables.URL;
 
+                TemplateRedirectsLoaded = false;
                 ResetTypoStats();
             }
             catch (ArgumentNullException)
@@ -4663,6 +4664,7 @@ window.scrollTo(0, diffTopY);
 
             TheArticle = null;
             txtEdit.Text = "";
+            TemplateRedirectsLoaded = false;
 
             CheckStatus(true);
 
