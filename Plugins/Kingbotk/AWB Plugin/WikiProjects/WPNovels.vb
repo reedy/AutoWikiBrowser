@@ -79,11 +79,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Friend Overrides Sub ReqPhoto()
             AddNewParamWithAYesValue("needs-infobox-cover")
         End Sub
-        'Protected Overrides ReadOnly Property PreferredTemplateNameRegexString() As String
-        '    Get
-        '        Return "^[Nn]ovelsWikiProject$"
-        '    End Get
-        'End Property
 
         ' Initialisation:
         Protected Friend Overrides Sub Initialise()

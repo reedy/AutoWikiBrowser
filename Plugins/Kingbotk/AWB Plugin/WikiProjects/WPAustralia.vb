@@ -70,11 +70,6 @@
             Return PluginName
         End Get
     End Property
-    'Protected Overrides ReadOnly Property PreferredTemplateNameRegexString() As String
-    '    Get
-    '        Return "^[Ww]P Australia$"
-    '    End Get
-    'End Property
 
     ' Initialisation:
 

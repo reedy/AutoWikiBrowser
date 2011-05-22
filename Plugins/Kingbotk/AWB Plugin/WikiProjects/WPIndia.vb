@@ -108,11 +108,6 @@
     Friend Overrides Sub ReqPhoto()
         AddNewParamWithAYesValue("image-needed")
     End Sub
-    'Protected Overrides ReadOnly Property PreferredTemplateNameRegexString() As String
-    '    Get
-    '        Return "^[Ww]P India$"
-    '    End Get
-    'End Property
 
     ' Initialisation:
     Protected Friend Overrides Sub Initialise()
