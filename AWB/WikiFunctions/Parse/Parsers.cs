@@ -3127,8 +3127,8 @@ namespace WikiFunctions.Parse
             //id=ISBN fix
             if(IdISBN.IsMatch(id) && Tools.GetTemplateParameterValue(newValue, "isbn").Length == 0)
             {
+				newValue = Tools.RenameTemplateParameter(newValue, "id", "isbn");
                 newValue = Tools.SetTemplateParameterValue(newValue, "isbn", IdISBN.Match(id).Groups[1].Value.Trim());
-                newValue = Tools.RemoveTemplateParameter(newValue, "id");
             }
             
             // origyear --> year when no year/date
