@@ -3189,6 +3189,15 @@ Template:foo}}"));
         }
         
         [Test]
+        public void FixSyntaxDEFAULTSORT()
+        {
+            Assert.AreEqual(@"{{DEFAULTSORT:Foo}}", Parsers.FixSyntax(@"{{DEFAULTSORT:
+Foo}}"));
+            
+            Assert.AreEqual(@"{{DEFAULTSORT:Foo}}", Parsers.FixSyntax(@"{{DEFAULTSORT: Foo }}"));
+        }
+        
+        [Test]
         public void FixLink()
         {
             bool nochange;

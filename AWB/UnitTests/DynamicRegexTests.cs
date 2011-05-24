@@ -586,7 +586,18 @@ disambig|surname
 ");
             RegexAssert.NoMatch(WikiRegexes.Defaultsort, @"{{DEFAULTSORT:foo");
             
+            RegexAssert.IsMatch(WikiRegexes.Defaultsort, @"{{DEFAULTSORT:
+Wangchuck, Tshering Pem}}");
+            
+            RegexAssert.IsMatch(WikiRegexes.Defaultsort, @"{{DEFAULTSORT:
+Wangchuck, Tshering Pem
+}}");
+            
             Assert.AreEqual("foo", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo}}").Groups["key"].Value);
+            
+            Assert.AreEqual("foo", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:
+foo}}").Groups["key"].Value);
+            
             Assert.AreEqual(@"{{PAGENAME}}", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:{{PAGENAME}}}}").Groups["key"].Value);
 
             Assert.AreEqual("{{DEFAULTSORT:foo}}", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo}}").Value);
