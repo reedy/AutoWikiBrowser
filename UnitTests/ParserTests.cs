@@ -2401,9 +2401,9 @@ world|format=PDF}} was";
             Assert.AreEqual(@"{{cite web|title=foo|url=http://site.net/a.HTML|year=2009}}", Parsers.FixCitationTemplates(@"{{cite web|title=foo|url=http://site.net/a.HTML|year=2009|format=}}"));
             
             // id=ISBN... fix
-            Assert.AreEqual(@"{{cite book|title=foo|year=2009 | isbn=123456789X}}", Parsers.FixCitationTemplates(@"{{cite book|title=foo|id=ISBN 123456789X|year=2009}}"));
-            Assert.AreEqual(@"{{cite book|title=foo|year=2009 | isbn=123456789X}}", Parsers.FixCitationTemplates(@"{{cite book|title=foo|id=ISBN 123456789X |year=2009}}"));
-            Assert.AreEqual(@"{{cite book|title=foo|year=2009 | isbn=123-45678-9-X}}", Parsers.FixCitationTemplates(@"{{cite book|title=foo|id=ISBN: 123-45678-9-X|year=2009}}"));
+            Assert.AreEqual(@"{{cite book|title=foo|isbn=123456789X|year=2009}}", Parsers.FixCitationTemplates(@"{{cite book|title=foo|id=ISBN 123456789X|year=2009}}"));
+            Assert.AreEqual(@"{{cite book|title=foo|isbn=123456789X |year=2009}}", Parsers.FixCitationTemplates(@"{{cite book|title=foo|id=ISBN 123456789X |year=2009}}"));
+            Assert.AreEqual(@"{{cite book|title=foo|isbn=123-45678-9-X|year=2009}}", Parsers.FixCitationTemplates(@"{{cite book|title=foo|id=ISBN: 123-45678-9-X|year=2009}}"));
             
             string doubleISBN = @"{{cite book|title=foo|id=ISBN 012345678X, 978012345678X|year=2009}}";
             Assert.AreEqual(doubleISBN, Parsers.FixCitationTemplates(doubleISBN), "no changes when two isbns present");
