@@ -117,7 +117,7 @@ namespace WikiFunctions
                     ? "(?:(?i:defaultsort(key|CATEGORYSORT)?))"
                     : "(?i:defaultsort)";
 
-            Defaultsort = new Regex(TemplateStart + s + @"\s*[:\|](?<key>(?>[^\{\}\r\n]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))|[^\}\r\n]*?)(?:}}|\r|\n)",
+            Defaultsort = new Regex(TemplateStart + s + @"\s*[:\|]\s*(?<key>(?>[^\{\}\r\n]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))|[^\}\r\n]*?)(?<end>}}|\r|\n)",
                                     RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 
             //if (Variables.URL == Variables.URLLong)
@@ -311,7 +311,7 @@ namespace WikiFunctions
         //public static readonly Regex AnchorEncodedLink = new Regex(@"#.*(_|\.[0-9A-Z]{2}).*", RegexOptions.Compiled);
 
         /// <summary>
-        /// Matches {{DEFAULTSORT}}
+        /// Matches {{DEFAULTSORT}}, "key" group being the sortkey
         /// </summary>
         public static Regex Defaultsort;
 

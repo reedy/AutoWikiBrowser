@@ -2460,6 +2460,10 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixSyntax(string articleText)
         {
+            // DEFAULTSORT whitespace fix
+            if(Variables.LangCode.Equals("en"))
+                articleText = WikiRegexes.Defaultsort.Replace(articleText, DefaultsortME);
+            
             articleText = articleText.Replace(@"<small/>", @"</small>");
             
             // remove empty <gallery> tags
@@ -2597,8 +2601,32 @@ namespace WikiFunctions.Parse
             
             // workaround for bugzilla 2700: {{subst:}} doesn't work within ref tags
             articleText = FixSyntaxSubstRefTags(articleText);
-
+            
             return articleText.Trim();
+        }
+        
+        /// <summary>
+        /// Trims whitespace around DEFAULTSORT value, ensures 'whitepace only' DEFAULTSORT left unchanged
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        private static string DefaultsortME(Match m)
+        {
+            string returned = @"{{DEFAULTSORT:", key = m.Groups["key"].Value;
+            
+            // avoid changing a defaultsort key value that is only whitespace: wrong before, would still be wrong after
+            if(key.Trim().Length == 0)
+                return m.Value;
+            
+            returned += (key.Trim() + @"}}");
+            
+            // handle case where defaultsort ended by newline, preserve newline at end of defaultort returned
+            string end = m.Groups["end"].Value;
+            
+            if(!end.Equals(@"}}"))
+                returned += end;
+            
+            return returned;
         }
         
         /// <summary>
@@ -3127,7 +3155,7 @@ namespace WikiFunctions.Parse
             //id=ISBN fix
             if(IdISBN.IsMatch(id) && Tools.GetTemplateParameterValue(newValue, "isbn").Length == 0)
             {
-				newValue = Tools.RenameTemplateParameter(newValue, "id", "isbn");
+                newValue = Tools.RenameTemplateParameter(newValue, "id", "isbn");
                 newValue = Tools.SetTemplateParameterValue(newValue, "isbn", IdISBN.Match(id).Groups[1].Value.Trim());
             }
             
@@ -3158,7 +3186,7 @@ namespace WikiFunctions.Parse
                 {
                     pageRange = SpacedPageRange.Replace(pageRange, "$1$2$3");
                     return Tools.SetTemplateParameterValue(templateCall, pageField, pageRange);
-                }                    
+                }
 
                 if (pageRange.Length > 2 && !pageRange.Contains(" to "))
                 {
@@ -4936,7 +4964,8 @@ namespace WikiFunctions.Parse
                     return articleText;
             }
 
-            articleText = TalkPages.TalkPageFixes.FormatDefaultSort(articleText);
+            if(Variables.LangCode.Equals("en"))
+                articleText = WikiRegexes.Defaultsort.Replace(articleText, DefaultsortME);
 
             // match again, after normalisation
             ds = WikiRegexes.Defaultsort.Matches(articleText);
