@@ -51,7 +51,7 @@
 
     Protected Overrides ReadOnly Property TemplateTalkFileParm() As String
         Get
-            Return ""
+            Return "File"
         End Get
     End Property
 

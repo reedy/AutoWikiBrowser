@@ -88,7 +88,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Property
         Protected Overrides ReadOnly Property TemplateTalkFileParm() As String
             Get
-                Return ""
+                Return "NA"
             End Get
         End Property
 
