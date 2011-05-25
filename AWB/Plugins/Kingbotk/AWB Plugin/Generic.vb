@@ -144,6 +144,19 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                    Else TemplatesCheckedListBox.SetItemChecked(1, True)
             End Set
         End Property
+        Friend Property HasFileClass() As Boolean
+            Get
+                If FileCheckedListBox.CheckedIndices.Count = 0 Then
+                    Return False
+                Else
+                    Return (FileCheckedListBox.CheckedIndices(0) = 0)
+                End If
+            End Get
+            Set(ByVal value As Boolean)
+                If value Then FileCheckedListBox.SetItemChecked(0, True) _
+                   Else FileCheckedListBox.SetItemChecked(1, True)
+            End Set
+        End Property
         Friend Property SkipRegex() As String
             Get
                 Return SkipRegexTextBox.Text.Trim
@@ -222,6 +235,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                ImportanceSettingEnum)
             HasCategoryClass = PluginManager.XMLReadBoolean(Reader, conTemplateCatsParm, HasCategoryClass)
             HasTemplateClass = PluginManager.XMLReadBoolean(Reader, conTemplateTemplatesParm, HasTemplateClass)
+            HasFileClass = PluginManager.XMLReadBoolean(Reader, conTemplateFilesParm, HasFileClass)
             AutoStubYN = PluginManager.XMLReadBoolean(Reader, conTemplateAutoStubYNParm, AutoStubYN)
             SkipRegexYN = PluginManager.XMLReadBoolean(Reader, conSkipRegexYN, SkipRegexYN)
             SkipRegex = PluginManager.XMLReadString(Reader, conSkipRegex, SkipRegex)
@@ -396,6 +410,15 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 End If
             End Get
         End Property
+        Protected Overrides ReadOnly Property TemplateTalkFileParm() As String
+            Get
+                If OurSettingsControl.HasFileClass Then
+                    Return "File"
+                Else
+                    Return "NA"
+                End If
+            End Get
+        End Property
         Protected Friend Overrides ReadOnly Property GenericSettings() As IGenericSettings
             Get
                 Return OurSettingsControl
@@ -533,6 +556,11 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                     frm.CatsLabel.Text += "Cat"
                 Else
                     frm.CatsLabel.Text += "NA"
+                End If
+                If .HasFileClass Then
+                    frm.FileLabel.Text += "File"
+                Else
+                    frm.FileLabel.Text += "NA"
                 End If
             End With
 
