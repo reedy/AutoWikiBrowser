@@ -49,6 +49,12 @@
         End Get
     End Property
 
+    Protected Overrides ReadOnly Property TemplateTalkFileParm() As String
+        Get
+            Return ""
+        End Get
+    End Property
+
     Friend Overrides ReadOnly Property HasReqPhotoParam() As Boolean
         Get
             Return False

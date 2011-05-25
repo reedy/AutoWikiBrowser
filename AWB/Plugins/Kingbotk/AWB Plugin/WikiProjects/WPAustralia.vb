@@ -64,6 +64,11 @@
             Return "NA"
         End Get
     End Property
+    Protected Overrides ReadOnly Property TemplateTalkFileParm() As String
+        Get
+            Return ""
+        End Get
+    End Property
 
     Protected Overrides ReadOnly Property PreferredTemplateName() As String
         Get
