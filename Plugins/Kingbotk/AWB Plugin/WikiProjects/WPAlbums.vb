@@ -1,10 +1,10 @@
 ﻿Friend NotInheritable Class WPAlbums
     Inherits PluginBase
 
-    Private Const PluginName As String = "Album"
+    Private Const PluginName As String = "WikiProject Albums"
 
     Friend Sub New()
-        MyBase.New("Albums") ' Specify alternate names only
+        MyBase.New("Album|Albums|WP Albums|WPAlbums") ' Specify alternate names only
 
         Dim params(-1) As TemplateParameters
 
