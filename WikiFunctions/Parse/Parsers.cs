@@ -2717,6 +2717,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex RefClosingOpeningBracket = new Regex(@"\[(\s*</ref>)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex CategoryCurlyBrackets = new Regex(@"{{ *(" + Variables.Namespaces[Namespace.Category] + @"[^{}\[\]]+?)(?:}}|\]\])", RegexOptions.Compiled);
         private static readonly Regex FileImageCurlyBrackets = new Regex(@"{{\s*((?:[Ff]ile|[Ii]mage)\s*:)", RegexOptions.Compiled);
+        private static readonly Regex CiteRefEndsTripleClosingBrace = new Regex(@"\}(\}\}\s*</ref>)", RegexOptions.Compiled);
         
         /// <summary>
         /// Applies some fixes for unbalanced brackets, applied if there are unbalanced brackets
@@ -2759,6 +2760,10 @@ namespace WikiFunctions.Parse
 
                             // if it's [blah} then see if setting the } to a ] makes it all balance
                             articleTextTemp = CurlyBraceInsteadOfSquareBracket.Replace(articleTextTemp, "]");
+							
+							// if it's }}}</ref>
+							articleTextTemp = CiteRefEndsTripleClosingBrace.Replace(articleTextTemp, "$1");
+							
                             break;
 
                         case '{':

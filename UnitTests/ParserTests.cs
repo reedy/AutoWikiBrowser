@@ -3302,6 +3302,17 @@ url=a|title=b}}</ref>"));
             Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>((cite web|url=a|title=b}}</ref>"));
             
             Assert.AreEqual(@"<ref>{{cite web|url=http://en.wikipedia.org/wiki/List_of_English_Football_League_managers_by_date_of_appointment}}</ref>", Parsers.FixSyntax(@"<ref>((cite web|url=http://en.wikipedia.org/wiki/List_of_English_Football_League_managers_by_date_of_appointment]}}</ref>"));
+			
+			Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>{{cite web|url=a|title=b}}}</ref>"), "fixes cite ending in three closing braces");
+			Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}
+			</ref>", Parsers.FixSyntax(@"<ref>{{cite web|url=a|title=b}}}
+			</ref>"), "fixes cite ending in three closing braces, newline before ref end");
+			
+			string CiteDeadLink = @"<ref>{{cite web|url=a|title=b}} {{dead link|date=May 2011}}</ref>";
+			Assert.AreEqual(CiteDeadLink, Parsers.FixSyntax(CiteDeadLink));
+			
+			CiteDeadLink = @"<ref>{{cite web|url=a|title=b {{dead link|date=May 2011}}}}</ref>";
+			Assert.AreEqual(CiteDeadLink, Parsers.FixSyntax(CiteDeadLink));
         }
 
         [Test]
