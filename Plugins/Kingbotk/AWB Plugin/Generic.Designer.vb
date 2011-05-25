@@ -40,13 +40,13 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.GroupBox2 = New System.Windows.Forms.GroupBox()
             Me.TipLabel = New System.Windows.Forms.Label()
             Me.GroupBox3 = New System.Windows.Forms.GroupBox()
+            Me.Label6 = New System.Windows.Forms.Label()
             Me.Label5 = New System.Windows.Forms.Label()
             Me.Label4 = New System.Windows.Forms.Label()
             Me.ImportanceCheckedListBox = New System.Windows.Forms.CheckedListBox()
             Me.PropertiesButton = New System.Windows.Forms.Button()
             Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-            Me.FileCheckedListBox = New System.Windows.Forms.CheckedListBox()
-            Me.Label6 = New System.Windows.Forms.Label()
+            Me.FileCheckedListbox = New System.Windows.Forms.CheckedListBox()
             Me.GroupBox2.SuspendLayout()
             Me.GroupBox3.SuspendLayout()
             Me.SuspendLayout()
@@ -230,8 +230,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             '
             'GroupBox3
             '
+            Me.GroupBox3.Controls.Add(Me.FileCheckedListbox)
             Me.GroupBox3.Controls.Add(Me.Label6)
-            Me.GroupBox3.Controls.Add(Me.FileCheckedListBox)
             Me.GroupBox3.Controls.Add(Me.SkipRegexCheckBox)
             Me.GroupBox3.Controls.Add(Me.SkipRegexTextBox)
             Me.GroupBox3.Controls.Add(Me.AutoStubSupportYNCheckBox)
@@ -247,6 +247,15 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.GroupBox3.TabIndex = 8
             Me.GroupBox3.TabStop = False
             Me.GroupBox3.Text = "Template Properties"
+            '
+            'Label6
+            '
+            Me.Label6.AutoSize = True
+            Me.Label6.Location = New System.Drawing.Point(6, 80)
+            Me.Label6.Name = "Label6"
+            Me.Label6.Size = New System.Drawing.Size(28, 13)
+            Me.Label6.TabIndex = 18
+            Me.Label6.Text = "Files"
             '
             'Label5
             '
@@ -285,23 +294,16 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.PropertiesButton.Text = "Properties"
             Me.PropertiesButton.UseVisualStyleBackColor = True
             '
-            'FileCheckedListBox
+            'FileCheckedListbox
             '
-            Me.FileCheckedListBox.FormattingEnabled = True
-            Me.FileCheckedListBox.Items.AddRange(New Object() {"File", "NA"})
-            Me.FileCheckedListBox.Location = New System.Drawing.Point(6, 96)
-            Me.FileCheckedListBox.Name = "FileCheckedListBox"
-            Me.FileCheckedListBox.Size = New System.Drawing.Size(74, 34)
-            Me.FileCheckedListBox.TabIndex = 17
-            '
-            'Label6
-            '
-            Me.Label6.AutoSize = True
-            Me.Label6.Location = New System.Drawing.Point(6, 80)
-            Me.Label6.Name = "Label6"
-            Me.Label6.Size = New System.Drawing.Size(28, 13)
-            Me.Label6.TabIndex = 18
-            Me.Label6.Text = "Files"
+            Me.FileCheckedListbox.CheckOnClick = True
+            Me.FileCheckedListbox.FormattingEnabled = True
+            Me.FileCheckedListbox.Items.AddRange(New Object() {"File", "NA"})
+            Me.FileCheckedListbox.Location = New System.Drawing.Point(9, 96)
+            Me.FileCheckedListbox.Name = "FileCheckedListbox"
+            Me.FileCheckedListbox.Size = New System.Drawing.Size(74, 34)
+            Me.FileCheckedListbox.TabIndex = 19
+            Me.ToolTip1.SetToolTip(Me.FileCheckedListbox, "Do you label files with class=Cat or class=NA?")
             '
             'GenericTemplateSettings
             '
@@ -354,8 +356,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Friend WithEvents PropertiesButton As System.Windows.Forms.Button
         Friend WithEvents Timer1 As System.Windows.Forms.Timer
         Friend WithEvents GetRedirectsButton As System.Windows.Forms.Button
-        Friend WithEvents FileCheckedListBox As System.Windows.Forms.CheckedListBox
         Friend WithEvents Label6 As System.Windows.Forms.Label
+        Friend WithEvents FileCheckedListbox As System.Windows.Forms.CheckedListBox
 
     End Class
 End Namespace
