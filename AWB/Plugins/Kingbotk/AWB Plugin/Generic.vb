@@ -55,6 +55,11 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 Return mName & "GenericTemplateTempl"
             End Get
         End Property
+        Private ReadOnly Property conTemplateFilesParm() As String
+            Get
+                Return mName & "GenericTemplateFiles"
+            End Get
+        End Property
         Private ReadOnly Property conTemplateAutoStubYNParm() As String
             Get
                 Return mName & "GenericTemplateAutoStubYN"
@@ -250,6 +255,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 .WriteAttributeString(conTemplateImportanceParm, ImportanceSetting.ToString)
                 .WriteAttributeString(conTemplateCatsParm, HasCategoryClass.ToString)
                 .WriteAttributeString(conTemplateTemplatesParm, HasTemplateClass.ToString)
+                .WriteAttributeString(conTemplateFilesParm, HasFileClass.ToString)
                 .WriteAttributeString(conTemplateAutoStubYNParm, AutoStubYN.ToString)
                 .WriteAttributeString(conSkipRegexYN, SkipRegexYN.ToString)
                 .WriteAttributeString(conSkipRegex, SkipRegex)
@@ -410,15 +416,15 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 End If
             End Get
         End Property
-        Protected Overrides ReadOnly Property TemplateTalkFileParm() As String
-            Get
-                If OurSettingsControl.HasFileClass Then
-                    Return "File"
-                Else
-                    Return "NA"
-                End If
-            End Get
-        End Property
+        'Protected Overrides ReadOnly Property TemplateTalkFileParm() As String
+        '    Get
+        '        If OurSettingsControl.HasFileClass Then
+        '            Return "File"
+        '        Else
+        '            Return "NA"
+        '        End If
+        '    End Get
+        'End Property
         Protected Friend Overrides ReadOnly Property GenericSettings() As IGenericSettings
             Get
                 Return OurSettingsControl
@@ -558,9 +564,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                     frm.CatsLabel.Text += "NA"
                 End If
                 If .HasFileClass Then
-                    frm.FileLabel.Text += "File"
+                    frm.FilesLabel.Text += "File"
                 Else
-                    frm.FileLabel.Text += "NA"
+                    frm.FilesLabel.Text += "NA"
                 End If
             End With
 
@@ -634,7 +640,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 ' Perform cleanup that has to be executed in either case:
                 OurTab = Nothing
                 OurMenuItem = Nothing
-                Article = Nothing
+                article = Nothing
                 Template = Nothing
                 MainRegex = Nothing
                 SecondChanceRegex = Nothing
