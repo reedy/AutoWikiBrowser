@@ -416,7 +416,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 End If
             End Get
         End Property
-        Protected Overrides ReadOnly Property TemplateTalkFileParm() As String
+        Protected Overrides ReadOnly Property FileTalkClassParm() As String
             Get
                 If OurSettingsControl.HasFileClass Then
                     Return "File"
