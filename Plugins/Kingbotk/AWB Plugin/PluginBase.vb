@@ -27,6 +27,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         Protected Friend MustOverride ReadOnly Property GenericSettings() As IGenericSettings
         Protected MustOverride ReadOnly Property CategoryTalkClassParm() As String
         Protected MustOverride ReadOnly Property TemplateTalkClassParm() As String
+        Protected MustOverride ReadOnly Property TemplateTalkFileParm() As String
         Friend MustOverride ReadOnly Property HasReqPhotoParam() As Boolean
         Friend MustOverride Sub ReqPhoto()
 
@@ -225,13 +226,24 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                                 Template.NewOrReplaceTemplateParm( _
                                    "class", CategoryTalkClassParm, Me.article, True, False, _
                                    PluginName:=PluginShortName)
+                                Exit Select
+
                             Case [Namespace].TemplateTalk
                                 Template.NewOrReplaceTemplateParm( _
                                    "class", TemplateTalkClassParm, Me.article, True, False, _
                                    PluginName:=PluginShortName)
+                                Exit Select
+
                             Case [Namespace].ImageTalk, 101, [Namespace].ProjectTalk '101 is Portal Talk
                                 Template.NewOrReplaceTemplateParm( _
                                    "class", "NA", Me.article, True, False, PluginName:=PluginShortName)
+                                Exit Select
+
+                            Case [Namespace].FileTalk
+                                Template.NewOrReplaceTemplateParm( _
+                                            "class", TemplateTalkFileParm, Me.article, True, False, _
+                                            PluginName:=PluginShortName)
+                                Exit Select
                         End Select
                     End If
                 Case Kingbotk.Classification.Unassessed

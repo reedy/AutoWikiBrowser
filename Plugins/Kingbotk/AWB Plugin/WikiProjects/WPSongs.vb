@@ -45,6 +45,12 @@
         End Get
     End Property
 
+    Protected Overrides ReadOnly Property TemplateTalkFileParm() As String
+        Get
+            Return ""
+        End Get
+    End Property
+
     ' Initialisation:
 
     Protected Friend Overrides Sub Initialise()

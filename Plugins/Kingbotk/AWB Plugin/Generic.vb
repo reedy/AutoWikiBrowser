@@ -416,15 +416,15 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 End If
             End Get
         End Property
-        'Protected Overrides ReadOnly Property TemplateTalkFileParm() As String
-        '    Get
-        '        If OurSettingsControl.HasFileClass Then
-        '            Return "File"
-        '        Else
-        '            Return "NA"
-        '        End If
-        '    End Get
-        'End Property
+        Protected Overrides ReadOnly Property TemplateTalkFileParm() As String
+            Get
+                If OurSettingsControl.HasFileClass Then
+                    Return "File"
+                Else
+                    Return "NA"
+                End If
+            End Get
+        End Property
         Protected Friend Overrides ReadOnly Property GenericSettings() As IGenericSettings
             Get
                 Return OurSettingsControl
