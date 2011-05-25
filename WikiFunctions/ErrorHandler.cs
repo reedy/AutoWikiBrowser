@@ -72,9 +72,11 @@ namespace WikiFunctions
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
-                return false;
+            {
+                return false; // We didn't handle the exception
+            }
 
-            return true;
+            return true; // We handled the exception
         }
 
         /// <summary>
