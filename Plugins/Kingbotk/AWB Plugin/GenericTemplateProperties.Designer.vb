@@ -20,30 +20,31 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         'Do not modify it using the code editor.
         <System.Diagnostics.DebuggerStepThrough()> _
         Private Sub InitializeComponent()
-            Me.components = New System.ComponentModel.Container
-            Me.OK_Button = New System.Windows.Forms.Button
-            Me.NameLabel = New System.Windows.Forms.Label
-            Me.Label1 = New System.Windows.Forms.Label
-            Me.MainRegexTextBox = New System.Windows.Forms.TextBox
-            Me.AmIReadyLabel = New System.Windows.Forms.Label
-            Me.HasAltNamesLabel = New System.Windows.Forms.Label
-            Me.Label2 = New System.Windows.Forms.Label
-            Me.PreferredTemplateNameRegexTextBox = New System.Windows.Forms.TextBox
-            Me.Label3 = New System.Windows.Forms.Label
+            Me.components = New System.ComponentModel.Container()
+            Me.OK_Button = New System.Windows.Forms.Button()
+            Me.NameLabel = New System.Windows.Forms.Label()
+            Me.Label1 = New System.Windows.Forms.Label()
+            Me.MainRegexTextBox = New System.Windows.Forms.TextBox()
+            Me.AmIReadyLabel = New System.Windows.Forms.Label()
+            Me.HasAltNamesLabel = New System.Windows.Forms.Label()
+            Me.Label2 = New System.Windows.Forms.Label()
+            Me.PreferredTemplateNameRegexTextBox = New System.Windows.Forms.TextBox()
+            Me.Label3 = New System.Windows.Forms.Label()
             Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-            Me.SecondChanceRegexTextBox = New System.Windows.Forms.TextBox
-            Me.SkipRegexTextBox = New System.Windows.Forms.TextBox
-            Me.SkipLabel = New System.Windows.Forms.Label
-            Me.ImportanceLabel = New System.Windows.Forms.Label
-            Me.AutoStubLabel = New System.Windows.Forms.Label
-            Me.CatsLabel = New System.Windows.Forms.Label
-            Me.TemplatesLabel = New System.Windows.Forms.Label
+            Me.SecondChanceRegexTextBox = New System.Windows.Forms.TextBox()
+            Me.SkipRegexTextBox = New System.Windows.Forms.TextBox()
+            Me.SkipLabel = New System.Windows.Forms.Label()
+            Me.ImportanceLabel = New System.Windows.Forms.Label()
+            Me.AutoStubLabel = New System.Windows.Forms.Label()
+            Me.CatsLabel = New System.Windows.Forms.Label()
+            Me.TemplatesLabel = New System.Windows.Forms.Label()
+            Me.FilesLabel = New System.Windows.Forms.Label()
             Me.SuspendLayout()
             '
             'OK_Button
             '
             Me.OK_Button.Anchor = System.Windows.Forms.AnchorStyles.None
-            Me.OK_Button.Location = New System.Drawing.Point(359, 284)
+            Me.OK_Button.Location = New System.Drawing.Point(362, 305)
             Me.OK_Button.Name = "OK_Button"
             Me.OK_Button.Size = New System.Drawing.Size(67, 23)
             Me.OK_Button.TabIndex = 0
@@ -81,7 +82,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             '
             Me.AmIReadyLabel.AutoSize = True
             Me.AmIReadyLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-            Me.AmIReadyLabel.Location = New System.Drawing.Point(12, 294)
+            Me.AmIReadyLabel.Location = New System.Drawing.Point(12, 310)
             Me.AmIReadyLabel.Name = "AmIReadyLabel"
             Me.AmIReadyLabel.Size = New System.Drawing.Size(95, 13)
             Me.AmIReadyLabel.TabIndex = 4
@@ -188,11 +189,21 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.TemplatesLabel.TabIndex = 15
             Me.TemplatesLabel.Text = "Templates parameter: class="
             '
+            'FilesLabel
+            '
+            Me.FilesLabel.AutoSize = True
+            Me.FilesLabel.Location = New System.Drawing.Point(12, 287)
+            Me.FilesLabel.Name = "FilesLabel"
+            Me.FilesLabel.Size = New System.Drawing.Size(114, 13)
+            Me.FilesLabel.TabIndex = 16
+            Me.FilesLabel.Text = "Files parameter: class="
+            '
             'GenericTemplatePropertiesForm
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-            Me.ClientSize = New System.Drawing.Size(441, 322)
+            Me.ClientSize = New System.Drawing.Size(441, 340)
+            Me.Controls.Add(Me.FilesLabel)
             Me.Controls.Add(Me.TemplatesLabel)
             Me.Controls.Add(Me.CatsLabel)
             Me.Controls.Add(Me.AutoStubLabel)
@@ -237,6 +248,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Friend WithEvents AutoStubLabel As System.Windows.Forms.Label
         Friend WithEvents CatsLabel As System.Windows.Forms.Label
         Friend WithEvents TemplatesLabel As System.Windows.Forms.Label
+        Friend WithEvents FilesLabel As System.Windows.Forms.Label
 
     End Class
 End Namespace
