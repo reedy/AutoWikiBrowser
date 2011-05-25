@@ -44,7 +44,7 @@
             Return "NA"
         End Get
     End Property
-    Protected Overrides ReadOnly Property TemplateTalkFileParm() As String
+    Protected Overrides ReadOnly Property FileTalkClassParm() As String
         Get
             Return "File"
         End Get
