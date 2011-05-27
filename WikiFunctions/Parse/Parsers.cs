@@ -2760,10 +2760,10 @@ namespace WikiFunctions.Parse
 
                             // if it's [blah} then see if setting the } to a ] makes it all balance
                             articleTextTemp = CurlyBraceInsteadOfSquareBracket.Replace(articleTextTemp, "]");
-							
-							// if it's }}}</ref>
-							articleTextTemp = CiteRefEndsTripleClosingBrace.Replace(articleTextTemp, "$1");
-							
+                            
+                            // if it's }}}</ref>
+                            articleTextTemp = CiteRefEndsTripleClosingBrace.Replace(articleTextTemp, "$1");
+                            
                             break;
 
                         case '{':
@@ -5113,6 +5113,12 @@ namespace WikiFunctions.Parse
             if (Globals.UnitTestMode)
                 parseTalkPage = false;
             #endif
+            
+            // fix for duplicate living people categories being miscounted as article about multiple people
+            MetaDataSorter MDS = new MetaDataSorter();
+            string cats = MDS.RemoveCats(ref articleText, articleTitle);
+
+            articleText += cats;
 
             if (!Variables.LangCode.Equals("en")
                 || Namespace.Determine(articleTitle).Equals(Namespace.Category)

@@ -3302,17 +3302,17 @@ url=a|title=b}}</ref>"));
             Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>((cite web|url=a|title=b}}</ref>"));
             
             Assert.AreEqual(@"<ref>{{cite web|url=http://en.wikipedia.org/wiki/List_of_English_Football_League_managers_by_date_of_appointment}}</ref>", Parsers.FixSyntax(@"<ref>((cite web|url=http://en.wikipedia.org/wiki/List_of_English_Football_League_managers_by_date_of_appointment]}}</ref>"));
-			
-			Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>{{cite web|url=a|title=b}}}</ref>"), "fixes cite ending in three closing braces");
-			Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}
+            
+            Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>{{cite web|url=a|title=b}}}</ref>"), "fixes cite ending in three closing braces");
+            Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}
 			</ref>", Parsers.FixSyntax(@"<ref>{{cite web|url=a|title=b}}}
 			</ref>"), "fixes cite ending in three closing braces, newline before ref end");
-			
-			string CiteDeadLink = @"<ref>{{cite web|url=a|title=b}} {{dead link|date=May 2011}}</ref>";
-			Assert.AreEqual(CiteDeadLink, Parsers.FixSyntax(CiteDeadLink));
-			
-			CiteDeadLink = @"<ref>{{cite web|url=a|title=b {{dead link|date=May 2011}}}}</ref>";
-			Assert.AreEqual(CiteDeadLink, Parsers.FixSyntax(CiteDeadLink));
+            
+            string CiteDeadLink = @"<ref>{{cite web|url=a|title=b}} {{dead link|date=May 2011}}</ref>";
+            Assert.AreEqual(CiteDeadLink, Parsers.FixSyntax(CiteDeadLink));
+            
+            CiteDeadLink = @"<ref>{{cite web|url=a|title=b {{dead link|date=May 2011}}}}</ref>";
+            Assert.AreEqual(CiteDeadLink, Parsers.FixSyntax(CiteDeadLink));
         }
 
         [Test]
@@ -6614,6 +6614,9 @@ foo {{persondata}}
             Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:1900 births]]", "foo"));
             Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Living people]]", "foo"));
             Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Living people|Smith]]", "foo"));
+            
+            Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Living people]] [[Category:Living people]]", "foo"), "duplicate categories removed, so okay");
+            
             Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{England-bio-stub}}", "foo"));
             Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"Some words {{death date and age|1960|01|9}}", "foo"));
             Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"'''Foo''' {{RefimproveBLP}}", "foo"));
