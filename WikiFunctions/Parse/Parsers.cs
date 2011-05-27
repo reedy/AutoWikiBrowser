@@ -2497,10 +2497,6 @@ namespace WikiFunctions.Parse
 
             articleText = MultipleHttpInLink.Replace(articleText, "$1$2");
             
-            // fix newline(s) in external link description
-            while(ExternalLinksNewline.IsMatch(articleText))
-                articleText = ExternalLinksNewline.Replace(articleText, "$1 $2");
-
             articleText = PipedExternalLink.Replace(articleText, "$1 $2");
 
             //repair bad external links
@@ -2577,6 +2573,10 @@ namespace WikiFunctions.Parse
 
             // if there are some unbalanced brackets, see whether we can fix them
             articleText = FixUnbalancedBrackets(articleText);
+            
+            // fix newline(s) in external link description
+            while(ExternalLinksNewline.IsMatch(articleText))
+                articleText = ExternalLinksNewline.Replace(articleText, "$1 $2");
 
             // double piped links e.g. [[foo||bar]]
             articleText = DoublePipeInWikiLink.Replace(articleText, "|");
