@@ -5358,10 +5358,10 @@ namespace WikiFunctions.Parse
             // over 20 references or long and not DOB/DOD categorised at all yet: implausible
             if (!Variables.LangCode.Equals("en") || (articleText.Length > 15000 && !WikiRegexes.BirthsCategory.IsMatch(articleText)
                                                      && !WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText)))
-                return YearOfBirthMissingCategory(articleText);
+                return YearOfBirthDeathMissingCategory(articleText);
             
             if(!WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) && WikiRegexes.Refs.Matches(articleText).Count > 20)
-                return YearOfBirthMissingCategory(articleText);
+                return YearOfBirthDeathMissingCategory(articleText);
 
             string articleTextBefore = articleText;
             int catCount = WikiRegexes.Category.Matches(articleText).Count;
@@ -5526,14 +5526,14 @@ namespace WikiFunctions.Parse
 
             // do this check last as IsArticleAboutAPerson can be relatively slow
             if (articleText != articleTextBefore && !IsArticleAboutAPerson(articleTextBefore, articleTitle, parseTalkPage))
-                return YearOfBirthMissingCategory(articleTextBefore);
+                return YearOfBirthDeathMissingCategory(articleTextBefore);
 
             // {{uncat}} --> {{Cat improve}} if we've added cats
             if(WikiRegexes.Category.Matches(articleText).Count > catCount && WikiRegexes.Uncat.IsMatch(articleText)
                && !WikiRegexes.CatImprove.IsMatch(articleText))
                 articleText = Tools.RenameTemplate(articleText, WikiRegexes.Uncat.Match(articleText).Groups[1].Value, "Cat improve");
             
-            return YearOfBirthMissingCategory(articleText);
+            return YearOfBirthDeathMissingCategory(articleText);
         }
 
         private static string CatEnd(string sort)
@@ -5549,7 +5549,12 @@ namespace WikiFunctions.Parse
         private static readonly Regex Cat4YearBirths = new Regex(@"\[\[Category:\d{4} births(?:\s*\|[^\[\]]+)? *\]\]", RegexOptions.Compiled);
         private static readonly Regex Cat4YearDeaths = new Regex(@"\[\[Category:\d{4} deaths(?:\s*\|[^\[\]]+)? *\]\]", RegexOptions.Compiled);
 
-        private static string YearOfBirthMissingCategory(string articleText)
+        /// <summary>
+        /// Removes birth/death missing categories when xxx births/deaths category also present
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <returns>The updated article text</returns>
+        private static string YearOfBirthDeathMissingCategory(string articleText)
         {
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
