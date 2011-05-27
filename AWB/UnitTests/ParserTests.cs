@@ -1272,6 +1272,9 @@ and '''[[Christopher Martin (entertainer)|Christopher Play Martin]]''' (born [[J
             // no matches if not identified as born
             const string b1 = @"'''Fred Smith''' is a bloke.";
             Assert.AreEqual(b1, Parsers.FixPeopleCategories(b1, "foo"));
+            
+            const string d5 = @"Some words {{death date and age|1960|01|9}}";
+            Assert.AreEqual(d5 + @"[[Category:1960 deaths]]", Parsers.FixPeopleCategories(d4 + @"[[Category:Year of death missing]]", "foo"));
         }
         
         [Test]
@@ -3019,7 +3022,7 @@ Template:foo}}"));
             Assert.AreEqual("<ref>[http://test.com]</ref>", Parsers.FixSyntax("<ref>[http://test.com</ref>"));
             
             Assert.AreEqual("<ref>[http://test.com foo bar]</ref>", Parsers.FixSyntax("<ref>[http://test.com foo" + "\r\n" +
-                                                                                  @"bar</ref>"));
+                                                                                      @"bar</ref>"));
             
             Assert.AreEqual(@"* [http://www.site.com text]", Parsers.FixSyntax(@"* [http://www.site.com text)"));
             Assert.AreEqual(@"* [http://www.site.com text]", Parsers.FixSyntax(@"* [http://www.site.com text) "));
