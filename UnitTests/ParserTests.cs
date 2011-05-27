@@ -3546,6 +3546,10 @@ now"));
         {
             Assert.AreEqual(@"now <ref>foo</ref>", Parsers.FixSyntax(@"now <ref>>foo</ref>"));
             Assert.AreEqual(@"now <ref>[http://foo.com/bar/ text here]</ref>", Parsers.FixSyntax(@"now <ref>[http://foo.com/bar/ text here[</ref>"));
+            
+            Assert.AreEqual(@"<ref>[http://www.foo.com bar]</ref>", Parsers.FixSyntax(@"<ref>]http://www.foo.com bar]</ref>"));
+            Assert.AreEqual(@"<ref name=A>[http://www.foo.com bar]</ref>", Parsers.FixSyntax(@"<ref name=A>]http://www.foo.com bar]</ref>"));
+            Assert.AreEqual(@"<ref>[http://www.foo.com bar] this one</ref>", Parsers.FixSyntax(@"<ref>]http://www.foo.com bar] this one</ref>"));
         }
         
         [Test]
