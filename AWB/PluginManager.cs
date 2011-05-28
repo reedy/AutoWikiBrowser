@@ -399,8 +399,11 @@ namespace AutoWikiBrowser
                         {
                             asm = Assembly.LoadFile(plugin);
                         }
-                        catch
+                        catch (Exception ex)
                         {
+#if DEBUG
+                            Tools.WriteDebug(plugin, ex.ToString());
+#endif
 							continue;
                         }
 
