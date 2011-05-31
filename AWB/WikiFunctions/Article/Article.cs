@@ -701,7 +701,7 @@ namespace WikiFunctions
                 AWBChangeArticleText(action, strTemp, false);
         }
 
-        public void DoFaRSkips()
+        public void DoFaRSkips(FindandReplace findAndReplace)
         {
             if (_before == FaRChange.MajorChange || _after == FaRChange.MajorChange)
             {
@@ -711,9 +711,9 @@ namespace WikiFunctions
             {
                 Trace.AWBSkipped("Only minor Find And Replace Changes");
             }
-            else if (_before == FaRChange.NoChange && _after == FaRChange.NoChange)
+            else if (_before == FaRChange.NoChange && (_after == FaRChange.NoChange || !findAndReplace.HasAfterProcessingReplacements))
             {
-                Trace.AWBSkipped("No Find And Replace Changes"); 
+                Trace.AWBSkipped("No Find And Replace Changes");
             }
         }
 

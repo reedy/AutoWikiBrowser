@@ -137,6 +137,22 @@ namespace WikiFunctions.Parse
         public bool HasReplacements { get { return NoOfReplacements != 0; } }
 
         /// <summary>
+        /// Returns whether any of the enabled find & replace entreis are specified to be run 'after processing'
+        /// </summary>
+        public bool HasAfterProcessingReplacements
+        {
+            get
+            {
+                foreach (Replacement rep in _replacementList)
+                {
+                    if (rep.Enabled && rep.BeforeOrAfter)
+                        return true;
+                }
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Applies a series of defined find and replacements to the supplied article text.
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
