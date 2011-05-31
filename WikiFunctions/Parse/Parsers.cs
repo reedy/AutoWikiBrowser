@@ -3032,8 +3032,8 @@ namespace WikiFunctions.Parse
             {
                 string theTitle = Tools.GetTemplateParameterValue(newValue, dequoteParam);
                 
-                // convert curly quotes to straight quotes per [[MOS:PUNCT]], except when » is section delimeter
-                if(!(theTitle.Contains(@"»") && !theTitle.Contains(@"«")))
+                // convert curly quotes to straight quotes per [[MOS:PUNCT]], except when »/« is section delimeter
+                if((theTitle.Contains(@"»") && theTitle.Contains(@"«")) || (!theTitle.Contains(@"»") && !theTitle.Contains(@"«")))
                     theTitle = WikiRegexes.CurlyDoubleQuotes.Replace(theTitle, @"""");
                 
                 if(theTitle.Contains(@"""") && !theTitle.Trim('"').Contains(@""""))
