@@ -1443,7 +1443,9 @@ namespace AutoWikiBrowser
 
                     Variables.Profiler.Profile("F&R");
 
-                    //if (theArticle.SkipArticle) return;
+                    theArticle.DoFaRSkips(FindAndReplace);
+                    if (theArticle.SkipArticle)
+                        return;
                 }
 
                 // RegexTypoFix
@@ -1554,7 +1556,7 @@ namespace AutoWikiBrowser
                     theArticle.PerformFindAndReplace(FindAndReplace, SubstTemplates, RplcSpecial,
                                                      chkSkipWhenNoFAR.Checked, chkSkipOnlyMinorFaR.Checked, true);
 
-                    theArticle.DoFaRSkips();
+                    theArticle.DoFaRSkips(FindAndReplace);
 
                     Variables.Profiler.Profile("F&R (2nd)");
 
