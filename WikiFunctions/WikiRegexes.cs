@@ -178,7 +178,7 @@ namespace WikiFunctions
                     break;
 
                 case "it":
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link AdQ" });
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link AdQ",  "link VdQ", "link GA" });
                     break;
 
                 case "es":

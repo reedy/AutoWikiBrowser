@@ -761,6 +761,8 @@ he}}"));
 
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link FA|ar}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Link AdQ|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link GA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Link VdQ|ar}}"));
             
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
