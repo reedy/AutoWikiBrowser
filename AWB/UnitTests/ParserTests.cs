@@ -989,6 +989,9 @@ The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines af
             const string nochange1 = @"May 17 - 13,009 dogs";
             Assert.AreEqual(nochange1, parser.FixDates(nochange1));
             
+            const string nochange2 = @"May 2-4-0";
+            Assert.AreEqual(nochange2, parser.FixDates(nochange2));
+            
             // month ranges
             const string correct3 = @"May–June 2010";
             Assert.AreEqual(correct3, parser.FixDates(@"May-June 2010"), "endash set for month range");

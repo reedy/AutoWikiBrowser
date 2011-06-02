@@ -864,7 +864,7 @@ namespace WikiFunctions.Parse
 
         // date ranges use an en-dash per [[WP:MOSDATE]]
         private static readonly Regex SameMonthInternationalDateRange = new Regex(@"\b([1-3]?\d) *- *([1-3]?\d +" + WikiRegexes.MonthsNoGroup + @")\b", RegexOptions.Compiled);
-        private static readonly Regex SameMonthAmericanDateRange = new Regex(@"(" + WikiRegexes.MonthsNoGroup + @" *)([1-3]?\d) *- *([1-3]?\d)\b", RegexOptions.Compiled);
+        private static readonly Regex SameMonthAmericanDateRange = new Regex(@"(" + WikiRegexes.MonthsNoGroup + @" *)([1-3]?\d) *- *([1-3]?\d)\b(?!\-)", RegexOptions.Compiled);
 
         // 13 July -28 July 2009 -> 13–28 July 2009
         // July 13 - July 28 2009 -> July 13–28, 2009
