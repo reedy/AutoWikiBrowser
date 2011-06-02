@@ -2718,7 +2718,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex CategoryCurlyBrackets = new Regex(@"{{ *(" + Variables.Namespaces[Namespace.Category] + @"[^{}\[\]]+?)(?:}}|\]\])", RegexOptions.Compiled);
         private static readonly Regex FileImageCurlyBrackets = new Regex(@"{{\s*((?:[Ff]ile|[Ii]mage)\s*:)", RegexOptions.Compiled);
         private static readonly Regex CiteRefEndsTripleClosingBrace = new Regex(@"\}(\}\}\s*</ref>)", RegexOptions.Compiled);
-        private static readonly Regex RefExternalLinkWrongBracket = new Regex(@"(<ref[^<>]*>)\]", RegexOptions.Compiled);
+        private static readonly Regex RefExternalLinkWrongBracket = new Regex(@"(<ref[^<>/]*>)\]", RegexOptions.Compiled);
         
         /// <summary>
         /// Applies some fixes for unbalanced brackets, applied if there are unbalanced brackets
