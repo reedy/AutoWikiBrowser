@@ -189,6 +189,10 @@ namespace WikiFunctions
                     LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link GA", "bom interwiki", "interwiki destacado", "FA"});
                     break;
 
+                case "ro":
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link AF", "legătură AC", "legătură AF"});
+                    break;
+
                 case "sv":
                     LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link GA", "länk UA", "lank UA", "UA", "GA" });
                     break;

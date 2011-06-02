@@ -790,6 +790,23 @@ he}}"));
         }
 
         [Test]
+        public void LinkFGAsRomanian()
+        {
+            #if DEBUG
+            Variables.SetProjectLangCode("ro");
+            WikiRegexes.MakeLangSpecificRegexes();
+
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link FA|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Link AF|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{legătură AC|ar}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{legătură AF|ar}}"));
+            
+            Variables.SetProjectLangCode("en");
+            WikiRegexes.MakeLangSpecificRegexes();
+            #endif
+        }
+
+        [Test]
         public void LinkFGAsSpanish()
         {
             #if DEBUG
