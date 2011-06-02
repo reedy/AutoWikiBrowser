@@ -197,6 +197,10 @@ namespace WikiFunctions
                     LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link GA", "länk UA", "lank UA", "UA", "GA" });
                     break;
 
+                case "vi":
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "Liên kết chọn lọc", "LKCL", "FA link"});
+                    break;
+
                 default:
                     LinkFGAs =  Tools.NestedTemplateRegex(new [] {"link FA", "link GA", "link FL"});
                     break;
