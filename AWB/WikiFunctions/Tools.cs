@@ -386,7 +386,7 @@ namespace WikiFunctions
             return GetHTML(url, Encoding.UTF8);
         }
         
-            /// <summary>
+        /// <summary>
         /// Gets the HTML from the given web address.
         /// </summary>
         /// <param name="url">The URL of the webpage.</param>
@@ -409,7 +409,7 @@ namespace WikiFunctions
             return GetHTML(url, enc, out x);
         }
         
-                /// <summary>
+        /// <summary>
         /// Gets the HTML from the given web address.
         /// </summary>
         /// <param name="url">The URL of the webpage.</param>
@@ -436,6 +436,36 @@ namespace WikiFunctions
             response.Close();
 
             return text;
+        }
+        
+        private static readonly Regex HTTPWWW = new Regex(@"^https?:?/+(?:www\d*\.)?", RegexOptions.Compiled);
+        private static readonly Regex SubDomain = new Regex(@"^[a-z0-9\-]{4,}\.", RegexOptions.Compiled);
+        private static readonly Regex DomainEndings = new Regex(@"\.[a-z]{2,3}(?:\.[a-z]{2,3})?$", RegexOptions.Compiled);
+
+        /// <summary>
+        /// Returns the domain name from a URL e.g. bbc.co.uk from http://www.bbc.co.uk/1212
+        /// </summary>
+        /// <param name="url">The source URL</param>
+        /// <returns>The domain name for the URL, or a null string if no domain name can be determined</returns>
+        public static string GetDomain(string url)
+        {
+            url=url.ToLower().Trim();
+
+            if(!HTTPWWW.IsMatch(url))
+                return "";
+
+            url=HTTPWWW.Replace(url.ToLower().Trim(), "");
+
+            if(url.Contains("/"))
+                url=url.Substring(0, url.IndexOf("/"));
+
+            if(DomainEndings.IsMatch(SubDomain.Replace(url, "")) && !SubDomain.Replace(url, "").StartsWith("com."))
+                url = SubDomain.Replace(url, "");
+
+            if(DomainEndings.IsMatch(SubDomain.Replace(url, "")) && !SubDomain.Replace(url, "").StartsWith("com."))
+                url = SubDomain.Replace(url, "");
+
+            return url;
         }
 
         #if !MONO
