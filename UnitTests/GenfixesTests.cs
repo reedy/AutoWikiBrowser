@@ -23,6 +23,12 @@ namespace UnitTests
             GenFixes(true);
         }
         
+        public void GenFixes(string articleTitle)
+        {
+            A = new Article(articleTitle, ArticleText);
+            GenFixes(true);
+        }
+        
         public void TalkGenFixes()
         {
             A.PerformTalkGeneralFixes(H);
@@ -78,6 +84,14 @@ namespace UnitTests
         {
             const string a1 = @"{{about||a|b}}", a2 = @"{{about||c|d}}";
             AssertNotChanged(@"<!--" + a1 + a2 + @"-->"); // no change to commented out tags
+        }
+        
+        [Test]
+        public void OnlyRedirectTaggerOnRedirects()
+        {
+            ArticleText = @"#REDIRECT [[Action of 12-17 January 1640]]";
+            GenFixes("Action of 12–17 January 1640");
+            Assert.AreEqual(ArticleText, @"#REDIRECT [[Action of 12-17 January 1640]] {{R from modification}}");
         }
 
         [Test]
@@ -166,7 +180,7 @@ a");
         }
     }
     
-      [TestFixture]
+    [TestFixture]
     public class TalkGenfixesTests : GenfixesTestsBase
     {
         [Test]
@@ -181,7 +195,7 @@ a");
             TalkGenFixes();
             Assert.AreEqual(AllCommented, ArticleText, "no WikiProjectBannerShell addition when templates all commented out");
 
-                    const string a = @"{{Talk header}}
+            const string a = @"{{Talk header}}
 {{WikiProjectBannerShell|1=
 {{WikiProject a |text}}
 {{WikiProject b|text}}
@@ -198,8 +212,8 @@ a");
 {{WikiProject c|text}}";
             
             TalkGenFixes();
-            Assert.AreEqual(a, ArticleText, "Adds WikiProjectBannerShell below talk header");  
-        
+            Assert.AreEqual(a, ArticleText, "Adds WikiProjectBannerShell below talk header");
+            
         }
     }
 }
