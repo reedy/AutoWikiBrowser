@@ -682,6 +682,12 @@ namespace WikiFunctions.Controls.Lists
                 Invoke(new AddDel(Add), l);
                 return;
             }
+            
+            if (FilterDuplicates)
+                RemoveListDuplicates();
+            
+            if (FilterNonMainAuto)
+                FilterNonMainArticles();            
 
             if (AutoAlpha)
                 l.Sort();
@@ -1106,12 +1112,16 @@ namespace WikiFunctions.Controls.Lists
 
                 string textTba = ((IDataObject)obj).GetData(DataFormats.UnicodeText).ToString();
 
+                List<Article>  NewArticles = new List<Article>();
                 BeginUpdate();
                 foreach (string entry in textTba.Split(new[] { "\r\n", "\n", "|" }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     if (!string.IsNullOrEmpty(entry.Trim()))
-                        Add(NormalizeTitle(entry));
+                        NewArticles.Add(new Article(NormalizeTitle(entry)));
                 }
+                
+                Add(NewArticles);
+                
                 EndUpdate();
             }
             catch
