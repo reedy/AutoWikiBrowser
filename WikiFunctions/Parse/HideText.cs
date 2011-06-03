@@ -17,11 +17,11 @@ namespace WikiFunctions.Parse
         public HideText() { }
 
         /// <summary>
-        /// 
+        /// Hides Unformatted text (nowiki, pre, math, html comments, timelines), source tags
         /// </summary>
-        /// <param name="hideExternalLinks"></param>
-        /// <param name="leaveMetaHeadings"></param>
-        /// <param name="hideImages"></param>
+        /// <param name="hideExternalLinks">Whether external links should be hidden too</param>
+        /// <param name="leaveMetaHeadings">Whether to not hide section headings</param>
+        /// <param name="hideImages">Whether images should be hidden too</param>
         public HideText(bool hideExternalLinks, bool leaveMetaHeadings, bool hideImages)
         {
             HideExternalLinks = hideExternalLinks;
@@ -37,17 +37,17 @@ namespace WikiFunctions.Parse
         private readonly List<HideObject> HiddenTokens = new List<HideObject>();
 
         /// <summary>
-        /// 
+        /// Puts back hidden text
         /// </summary>
         /// <param name="matches"></param>
         /// <param name="articleText">The wiki text of the article.</param>
         private void Replace(IEnumerable matches, ref string articleText)
-        {            
+        {
             Replace(matches, ref articleText, HiddenTokens);
         }
         
-         /// <summary>
-        /// 
+        /// <summary>
+        /// Puts back hidden text
         /// </summary>
         /// <param name="matches"></param>
         /// <param name="articleText">The wiki text of the article.</param>
