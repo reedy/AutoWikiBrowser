@@ -366,7 +366,7 @@ namespace WikiFunctions
                         || Name.Contains("Sandbox")
                         || Name.Contains("/doc")
                         || (Variables.LangCode.Equals("es") && NameSpaceKey == 104 /* Anexo */)
-    	             	|| (Variables.LangCode.Equals("pt") && NameSpaceKey == 102 /* Anexo */));
+                        || (Variables.LangCode.Equals("pt") && NameSpaceKey == 102 /* Anexo */));
             }
         }
 
@@ -516,14 +516,14 @@ namespace WikiFunctions
         /// <returns>Dictionary of any unbalanced brackets found</returns>
         public Dictionary<int, int> UnbalancedBrackets()
         {
-			Dictionary<int, int> UnB = new Dictionary<int, int>();
-			int bracketLength = 0;
-			int bracketIndex = Parsers.UnbalancedBrackets(ArticleText, ref bracketLength);
-			
-			if(bracketIndex > -1)
-				UnB.Add(bracketIndex, bracketLength);
-			
-			return UnB;
+            Dictionary<int, int> UnB = new Dictionary<int, int>();
+            int bracketLength = 0;
+            int bracketIndex = Parsers.UnbalancedBrackets(ArticleText, ref bracketLength);
+            
+            if(bracketIndex > -1)
+                UnB.Add(bracketIndex, bracketLength);
+            
+            return UnB;
         }
 
         /// <summary>
@@ -561,9 +561,9 @@ namespace WikiFunctions
             if(NameSpaceKey.Equals(Namespace.Talk))
                 Unknowns = Tools.UnknownTemplateParameters(WikiRegexes.WikiProjectBannerShellTemplate.Match(ArticleText).Value, Knowns);
             return Unknowns;
-        }        
+        }
         
-		/// <summary>
+        /// <summary>
         /// Returns a list of any unknown parameters in any Multiple issues template
         /// </summary>
         /// <returns>List of unknown parameters</returns>
@@ -571,15 +571,15 @@ namespace WikiFunctions
         {
             List<string> Unknowns = new List<string>();
             List<string> Knowns = new List<string>(new[] { "advert", "autobiography", "biased", "blpdispute", "BLPrefimprove", "BLP sources", "BLPsources", "BLPunreferenced", "BLPunref", "BLPunsourced", "BLP unsourced", "citations missing", "citationstyle", "citation style",  "citation-style",
-			"citecheck", "cleanup", "COI", "coi", "colloquial", "confusing", "context", "contradict", 
-			"copyedit", "copy edit", "criticisms", "crystal", "date", "deadend", "dead end", "disputed", "do-attempt", "essay", "essay-like", "examplefarm", "expert", "external links", "expand", 
-			"fancruft", "fanpov", "fansite", "fiction", "gameguide", "globalize", "grammar", "histinfo", "hoax", "howto", "inappropriate person", "incomplete", "intro length", "intromissing", 
-			"introrewrite", "intro-toolong","intro-tooshort", "laundrylists", "lead missing", "lead rewrite", "lead too long", "lead too short", "in-universe", "jargon", "laundrylists", "laundry", "lead missing", "lead too long", "likeresume", "like resume", 
-			"long", "moreref", "morerefs", "morereferences","newsrelease", "notable", "notability", "one source", "onesource", "OR", "or", "organize", "original research", "orphan", "out of date", "peacock", 
-			"plot", "POV", "NPOV", "pov", "npov", "pov-check", "primarysources", "prose", "proseline", "quotefarm", "recentism", "refimprove", 
-			"refimproveBLP", "refimprove BLP", "restructure", "reorganisation", "review", "rewrite", "section", "sections", "self-published", 
-			"spam", "story", "synthesis", "inappropriate tone", "technical", "tone", "travelguide", "tooshort", "toolong", "trivia", "unbalanced", "unencyclopedic", "unref", "unreferenced", 
-			"unrefBLP", "unreferencedBLP", "update", "verylong", "weasel", "wikify"});
+                                                       "citecheck", "cleanup", "COI", "coi", "colloquial", "confusing", "context", "contradict",
+                                                       "copyedit", "copy edit", "criticisms", "crystal", "date", "deadend", "dead end", "disputed", "do-attempt", "essay", "essay-like", "examplefarm", "expert", "external links", "expand",
+                                                       "fancruft", "fanpov", "fansite", "fiction", "gameguide", "globalize", "grammar", "histinfo", "hoax", "howto", "inappropriate person", "incomplete", "intro length", "intromissing",
+                                                       "introrewrite", "intro-toolong","intro-tooshort", "laundrylists", "lead missing", "lead rewrite", "lead too long", "lead too short", "in-universe", "jargon", "laundrylists", "laundry", "lead missing", "lead too long", "likeresume", "like resume",
+                                                       "long", "moreref", "morerefs", "morereferences","newsrelease", "notable", "notability", "one source", "onesource", "OR", "or", "organize", "original research", "orphan", "out of date", "peacock",
+                                                       "plot", "POV", "NPOV", "pov", "npov", "pov-check", "primarysources", "prose", "proseline", "quotefarm", "recentism", "refimprove",
+                                                       "refimproveBLP", "refimprove BLP", "restructure", "reorganisation", "review", "rewrite", "section", "sections", "self-published",
+                                                       "spam", "story", "synthesis", "inappropriate tone", "technical", "tone", "travelguide", "tooshort", "toolong", "trivia", "unbalanced", "unencyclopedic", "unref", "unreferenced",
+                                                       "unrefBLP", "unreferencedBLP", "update", "verylong", "weasel", "wikify"});
             
             if(NameSpaceKey.Equals(Namespace.Mainspace))
                 Unknowns = Tools.UnknownTemplateParameters(WikiRegexes.MultipleIssues.Match(ArticleText).Value, Knowns);
@@ -590,8 +590,8 @@ namespace WikiFunctions
         /// Returns a dictionary of the index and length of any unclosed &lt;math&gt;, &lt;source&gt;, &lt;code&gt;, &lt;nowiki&gt; or &lt;pre&gt; tags
         /// </summary>
         public Dictionary<int, int> UnclosedTags()
-        { 
-            return Parsers.UnclosedTags(ArticleText); 
+        {
+            return Parsers.UnclosedTags(ArticleText);
         }
 
         /// <summary>
@@ -629,25 +629,25 @@ namespace WikiFunctions
 
             if (imageReplaceText.Length > 0)
                 switch (option)
-                {
-                    case ImageReplaceOptions.NoAction:
-                        return;
+            {
+                case ImageReplaceOptions.NoAction:
+                    return;
 
-                    case ImageReplaceOptions.Replace:
-                        if (imageWithText.Length > 0) strTemp = Parsers.ReplaceImage(imageReplaceText, imageWithText, mArticleText, out noChange);
-                        break;
+                case ImageReplaceOptions.Replace:
+                    if (imageWithText.Length > 0) strTemp = Parsers.ReplaceImage(imageReplaceText, imageWithText, mArticleText, out noChange);
+                    break;
 
-                    case ImageReplaceOptions.Remove:
-                        strTemp = Parsers.RemoveImage(imageReplaceText, mArticleText, false, imageWithText, out noChange);
-                        break;
+                case ImageReplaceOptions.Remove:
+                    strTemp = Parsers.RemoveImage(imageReplaceText, mArticleText, false, imageWithText, out noChange);
+                    break;
 
-                    case ImageReplaceOptions.Comment:
-                        strTemp = Parsers.RemoveImage(imageReplaceText, mArticleText, true, imageWithText, out noChange);
-                        break;
+                case ImageReplaceOptions.Comment:
+                    strTemp = Parsers.RemoveImage(imageReplaceText, mArticleText, true, imageWithText, out noChange);
+                    break;
 
-                    default:
-                        throw new ArgumentOutOfRangeException("option");
-                }
+                default:
+                    throw new ArgumentOutOfRangeException("option");
+            }
 
             if (noChange && skipIfNoChange)
                 Trace.AWBSkipped("No File Changed");
@@ -1182,137 +1182,143 @@ namespace WikiFunctions
         { //TODO: 2009-01-28 review which of the genfixes below should be labelled 'significant'
             BeforeGeneralFixesTextChanged();
 
-            // FixDates does its own hiding
-            AWBChangeArticleText("Fix dates", parsers.FixDates(ArticleText), false);
-            Variables.Profiler.Profile("FixDates");
+            if(!Tools.IsRedirect(ArticleText))
+            {
+                // FixDates does its own hiding
+                AWBChangeArticleText("Fix dates", parsers.FixDates(ArticleText), false);
+                Variables.Profiler.Profile("FixDates");
+            }
 
             HideText(removeText);
 
             Variables.Profiler.Profile("HideText");
             
-            AWBChangeArticleText("Template redirects", Parsers.TemplateRedirects(ArticleText, WikiRegexes.TemplateRedirects), false);
-            Variables.Profiler.Profile("TemplateRedirects");
-
-            // call this before MinorFixes so that Parsers.Conversions cleans up from ArticleIssues
-            AWBChangeArticleText("Fixes for {{Multiple issues}}", parsers.MultipleIssues(ArticleText), true);
-            Variables.Profiler.Profile("MultipleIssues");
-
-            MinorFixes(Variables.LangCode, skip.SkipNoHeaderError);
-            Variables.Profiler.Profile("MinorFixes");
-
-            FixPeopleCategories(parsers, skip.SkipNoPeopleCategoriesFixed);
-            Variables.Profiler.Profile("FixPeopleCategories");
-
-            SetDefaultSort(Variables.LangCode, skip.SkipNoDefaultSortAdded, restrictDefaultsortAddition);
-            Variables.Profiler.Profile("SetDefaultSort");
-
-            AWBChangeArticleText("Fix categories", Parsers.FixCategories(ArticleText), true);
-            Variables.Profiler.Profile("FixCategories");
-
-            AWBChangeArticleText("Fix images", Parsers.FixImages(ArticleText), true);
-            Variables.Profiler.Profile("FixImages");
-
-            AWBChangeArticleText("Fix whitespace in links", Parsers.FixLinkWhitespace(ArticleText, Name), true);
-            Variables.Profiler.Profile("FixLinkWhitespace");
-            
-            BulletExternalLinks(skip.SkipNoBulletedLink);
-            Variables.Profiler.Profile("BulletExternalLinks");
-
-            // does significant fixes
-            AWBChangeArticleText("Fix syntax", Parsers.FixSyntax(ArticleText), true, true);
-            Variables.Profiler.Profile("FixSyntax");
-
-            AWBChangeArticleText("Fix citation templates", Parsers.FixCitationTemplates(ArticleText), true, true);
-            Variables.Profiler.Profile("FixCitationTemplates");
-
-            AWBChangeArticleText("Fix temperatures", Parsers.FixTemperatures(ArticleText), true);
-            Variables.Profiler.Profile("FixTemperatures");
-
-            if (!noMOSComplianceFixes)
+            if(Tools.IsRedirect(ArticleText))
             {
-                AWBChangeArticleText("Fix non-breaking spaces", parsers.FixNonBreakingSpaces(ArticleText), true);
-                Variables.Profiler.Profile("FixNonBreakingSpaces");
+                AWBChangeArticleText("Redirect tagger", Parsers.RedirectTagger(ArticleText, Name), false);
+                Variables.Profiler.Profile("RedirectTagger");
             }
-
-            AWBChangeArticleText("Fix main article", Parsers.FixMainArticle(ArticleText), true);
-            Variables.Profiler.Profile("FixMainArticle");
-
-            if (replaceReferenceTags)
+            else
             {
-                AWBChangeArticleText("Fix reference tags", Parsers.FixReferenceListTags(ArticleText), true);
-                Variables.Profiler.Profile("FixReferenceListTags");
+                AWBChangeArticleText("Template redirects", Parsers.TemplateRedirects(ArticleText, WikiRegexes.TemplateRedirects), false);
+                Variables.Profiler.Profile("TemplateRedirects");
+
+                // call this before MinorFixes so that Parsers.Conversions cleans up from ArticleIssues
+                AWBChangeArticleText("Fixes for {{Multiple issues}}", parsers.MultipleIssues(ArticleText), true);
+                Variables.Profiler.Profile("MultipleIssues");
+
+                MinorFixes(Variables.LangCode, skip.SkipNoHeaderError);
+                Variables.Profiler.Profile("MinorFixes");
+
+                FixPeopleCategories(parsers, skip.SkipNoPeopleCategoriesFixed);
+                Variables.Profiler.Profile("FixPeopleCategories");
+
+                SetDefaultSort(Variables.LangCode, skip.SkipNoDefaultSortAdded, restrictDefaultsortAddition);
+                Variables.Profiler.Profile("SetDefaultSort");
+
+                AWBChangeArticleText("Fix categories", Parsers.FixCategories(ArticleText), true);
+                Variables.Profiler.Profile("FixCategories");
+
+                AWBChangeArticleText("Fix images", Parsers.FixImages(ArticleText), true);
+                Variables.Profiler.Profile("FixImages");
+
+                AWBChangeArticleText("Fix whitespace in links", Parsers.FixLinkWhitespace(ArticleText, Name), true);
+                Variables.Profiler.Profile("FixLinkWhitespace");
+                
+                BulletExternalLinks(skip.SkipNoBulletedLink);
+                Variables.Profiler.Profile("BulletExternalLinks");
+
+                // does significant fixes
+                AWBChangeArticleText("Fix syntax", Parsers.FixSyntax(ArticleText), true, true);
+                Variables.Profiler.Profile("FixSyntax");
+
+                AWBChangeArticleText("Fix citation templates", Parsers.FixCitationTemplates(ArticleText), true, true);
+                Variables.Profiler.Profile("FixCitationTemplates");
+
+                AWBChangeArticleText("Fix temperatures", Parsers.FixTemperatures(ArticleText), true);
+                Variables.Profiler.Profile("FixTemperatures");
+
+                if (!noMOSComplianceFixes)
+                {
+                    AWBChangeArticleText("Fix non-breaking spaces", parsers.FixNonBreakingSpaces(ArticleText), true);
+                    Variables.Profiler.Profile("FixNonBreakingSpaces");
+                }
+
+                AWBChangeArticleText("Fix main article", Parsers.FixMainArticle(ArticleText), true);
+                Variables.Profiler.Profile("FixMainArticle");
+
+                if (replaceReferenceTags)
+                {
+                    AWBChangeArticleText("Fix reference tags", Parsers.FixReferenceListTags(ArticleText), true);
+                    Variables.Profiler.Profile("FixReferenceListTags");
+                }
+
+                AWBChangeArticleText("Fix empty links and templates", Parsers.FixEmptyLinksAndTemplates(ArticleText), true);
+                Variables.Profiler.Profile("FixEmptyLinksAndTemplates");
+
+                AWBChangeArticleText("FixReferenceTags", Parsers.FixReferenceTags(ArticleText), true);
+                Variables.Profiler.Profile("FixReferenceTags");
+                
+                AWBChangeArticleText("Fix empty references", Parsers.SimplifyReferenceTags(ArticleText), true);
+                Variables.Profiler.Profile("FixEmptyReferences");
+
+                AWBChangeArticleText("DuplicateUnnamedReferences", Parsers.DuplicateUnnamedReferences(ArticleText), true);
+                Variables.Profiler.Profile("DuplicateUnnamedReferences");
+
+                AWBChangeArticleText("DuplicateNamedReferences", Parsers.DuplicateNamedReferences(ArticleText), true);
+                Variables.Profiler.Profile("DuplicateNamedReferences");
+
+                AWBChangeArticleText("SameRefDifferentName", Parsers.SameRefDifferentName(ArticleText), true);
+                Variables.Profiler.Profile("SameRefDifferentName");
+
+                AWBChangeArticleText("ReorderReferences", Parsers.ReorderReferences(ArticleText), true);
+                Variables.Profiler.Profile("ReorderReferences");
+                
+                AWBChangeArticleText("Refs after punctuation", Parsers.RefsAfterPunctuation(ArticleText), true);
+                Variables.Profiler.Profile("RefsAfterPunctuation");
+
+                // does significant fixes
+                AWBChangeArticleText("Add missing {{reflist}}", Parsers.AddMissingReflist(ArticleText), true, true);
+                Variables.Profiler.Profile("AddMissingReflist");
+
+                CiteTemplateDates(parsers, skip.SkipNoCiteTemplateDatesFixed);
+                Variables.Profiler.Profile("CiteTemplateDates");
+
+                AWBChangeArticleText("Remove empty comments", Parsers.RemoveEmptyComments(ArticleText), false);
+                Variables.Profiler.Profile("RemoveEmptyComments");
+
+                if (!noMOSComplianceFixes)
+                {
+                    AWBChangeArticleText("Mdashes", parsers.Mdashes(ArticleText, Name), true);
+                    Variables.Profiler.Profile("Mdashes");
+
+                    AWBChangeArticleText("Fix Date Ordinals/Of", parsers.FixDateOrdinalsAndOf(ArticleText, Name), true, true);
+                    Variables.Profiler.Profile("FixDateOrdinalsAndOf");
+                }
+
+                AWBChangeArticleText("PersonData", Parsers.PersonData(ArticleText, Name), false);
+                Variables.Profiler.Profile("PersonData");
+                
+                // must call EmboldenTitles before calling FixLinks
+                EmboldenTitles(parsers, skip.SkipNoBoldTitle);
+
+                FixLinks(skip.SkipNoBadLink);
+                Variables.Profiler.Profile("FixLinks");
+
+                if (!Globals.UnitTestMode) // disable to avoid ssslow network requests
+                {
+                    // pass unhidden text to MetaDataSorter so that it can allow for comments around persondata, categories etc.
+                    UnHideText(removeText);
+                    AWBChangeArticleText("Sort meta data",
+                                         parsers.SortMetaData(ArticleText, Name), true);
+                    HideText(removeText);
+
+                    Variables.Profiler.Profile("Metadata");
+                }
+
+                AWBChangeArticleText("Simplify links", Parsers.SimplifyLinks(ArticleText), true);
+                Variables.Profiler.Profile("SimplifyLinks");
             }
-
-            AWBChangeArticleText("Fix empty links and templates", Parsers.FixEmptyLinksAndTemplates(ArticleText), true);
-            Variables.Profiler.Profile("FixEmptyLinksAndTemplates");
-
-            AWBChangeArticleText("FixReferenceTags", Parsers.FixReferenceTags(ArticleText), true);
-            Variables.Profiler.Profile("FixReferenceTags");
-            
-            AWBChangeArticleText("Fix empty references", Parsers.SimplifyReferenceTags(ArticleText), true);
-            Variables.Profiler.Profile("FixEmptyReferences");
-
-            AWBChangeArticleText("DuplicateUnnamedReferences", Parsers.DuplicateUnnamedReferences(ArticleText), true);
-            Variables.Profiler.Profile("DuplicateUnnamedReferences");
-
-            AWBChangeArticleText("DuplicateNamedReferences", Parsers.DuplicateNamedReferences(ArticleText), true);
-            Variables.Profiler.Profile("DuplicateNamedReferences");
-
-            AWBChangeArticleText("SameRefDifferentName", Parsers.SameRefDifferentName(ArticleText), true);
-            Variables.Profiler.Profile("SameRefDifferentName");
-
-            AWBChangeArticleText("ReorderReferences", Parsers.ReorderReferences(ArticleText), true);
-            Variables.Profiler.Profile("ReorderReferences");
-            
-            AWBChangeArticleText("Refs after punctuation", Parsers.RefsAfterPunctuation(ArticleText), true);
-            Variables.Profiler.Profile("RefsAfterPunctuation");
-
-            // does significant fixes
-            AWBChangeArticleText("Add missing {{reflist}}", Parsers.AddMissingReflist(ArticleText), true, true);
-            Variables.Profiler.Profile("AddMissingReflist");
-
-            CiteTemplateDates(parsers, skip.SkipNoCiteTemplateDatesFixed);
-            Variables.Profiler.Profile("CiteTemplateDates");
-
-            AWBChangeArticleText("Redirect tagger", Parsers.RedirectTagger(ArticleText, Name), false);
-            Variables.Profiler.Profile("RedirectTagger");
-
-            AWBChangeArticleText("Remove empty comments", Parsers.RemoveEmptyComments(ArticleText), false);
-            Variables.Profiler.Profile("RemoveEmptyComments");
-
-            if (!noMOSComplianceFixes)
-            {
-                AWBChangeArticleText("Mdashes", parsers.Mdashes(ArticleText, Name), true);
-                Variables.Profiler.Profile("Mdashes");
-
-                AWBChangeArticleText("Fix Date Ordinals/Of", parsers.FixDateOrdinalsAndOf(ArticleText, Name), true, true);
-                Variables.Profiler.Profile("FixDateOrdinalsAndOf");
-            }
-
-            AWBChangeArticleText("PersonData", Parsers.PersonData(ArticleText, Name), false);
-            Variables.Profiler.Profile("PersonData");
-            
-            // must call EmboldenTitles before calling FixLinks
-            EmboldenTitles(parsers, skip.SkipNoBoldTitle);
-
-            FixLinks(skip.SkipNoBadLink);
-            Variables.Profiler.Profile("FixLinks");
-
-            if (!Globals.UnitTestMode) // disable to avoid ssslow network requests
-            {
-                // pass unhidden text to MetaDataSorter so that it can allow for comments around persondata, categories etc.
-                UnHideText(removeText);
-                AWBChangeArticleText("Sort meta data",
-                                     parsers.SortMetaData(ArticleText, Name), true);
-                HideText(removeText);
-
-                Variables.Profiler.Profile("Metadata");
-            }
-
-            AWBChangeArticleText("Simplify links", Parsers.SimplifyLinks(ArticleText), true);
-            Variables.Profiler.Profile("SimplifyLinks");
-
-            //AWBChangeArticleText("Remove duplicate wikilink", parsers.RemoveDuplicateWikiLinks(articleText), true);
 
             UnHideText(removeText);
 
@@ -1398,7 +1404,7 @@ namespace WikiFunctions
 
             HideText(removeText);
             string articleText = ArticleText;
-            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);            
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
 
             if (articleText != ArticleText)
             {
