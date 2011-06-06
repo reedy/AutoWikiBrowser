@@ -752,7 +752,9 @@ namespace WikiFunctions
                                           ReplaceSpecial.ReplaceSpecial replaceSpecial, bool skipIfNoChange, bool skipIfOnlyMinorChange, bool beforeOrAfter)
         {
             if (!findAndReplace.HasReplacements && !replaceSpecial.HasRules && !substTemplates.HasSubstitutions)
+            {
                 return;
+            }
 
             string strTemp = Tools.ConvertFromLocalLineEndings(mArticleText),
             testText = strTemp,
@@ -763,12 +765,19 @@ namespace WikiFunctions
 
             bool farMadeMajorChanges = (testText != strTemp && majorChangesMade);
 
-            string strTemp2 = replaceSpecial.ApplyRules(strTemp, Name);
+            string strTemp2 = "";
+            if (!beforeOrAfter) // Only run "before"
+            {
+                strTemp2 = replaceSpecial.ApplyRules(strTemp, Name);
 
-            strTemp2 = substTemplates.SubstituteTemplates(strTemp2, Name);
+                strTemp2 = substTemplates.SubstituteTemplates(strTemp2, Name);
 
-            if (!farMadeMajorChanges && strTemp2 != strTemp) //override minor changes if other replcements did something
-                SetFaRChange(beforeOrAfter, FaRChange.MajorChange);
+                if (!farMadeMajorChanges && strTemp2 != strTemp)
+                {
+                    //override minor changes if other replcements did something
+                    SetFaRChange(false, FaRChange.MajorChange);
+                }
+            }
 
             if (testText == strTemp2)
             {
