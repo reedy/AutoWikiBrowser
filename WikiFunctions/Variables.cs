@@ -582,6 +582,10 @@ namespace WikiFunctions
                             WPAWB = "[[Vikipedio:AutoWikiBrowser|AWB]]";
                             break;
 
+                        case "he":
+                            mSummaryTag = " באמצעות ";
+                            break;
+
                         case "hu":
                             mSummaryTag = " ";
                             WPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
