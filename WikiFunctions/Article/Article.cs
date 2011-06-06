@@ -756,30 +756,30 @@ namespace WikiFunctions
                 return;
             }
 
-            string strTemp = Tools.ConvertFromLocalLineEndings(mArticleText),
-            testText = strTemp,
-            tmpEditSummary = "";
+            string changedText = Tools.ConvertFromLocalLineEndings(mArticleText);
+            string originalText = changedText;
+            string editSummary = "";
 
             bool majorChangesMade;
-            strTemp = findAndReplace.MultipleFindAndReplace(strTemp, Name, beforeOrAfter, ref tmpEditSummary, out majorChangesMade);
+            changedText = findAndReplace.MultipleFindAndReplace(changedText, Name, beforeOrAfter, ref editSummary, out majorChangesMade);
 
-            bool farMadeMajorChanges = (testText != strTemp && majorChangesMade);
+            bool farMadeMajorChanges = (originalText != changedText && majorChangesMade);
 
-            string strTemp2 = "";
+            string changedTextByAdvFar = "";
             if (!beforeOrAfter) // Only run "before"
             {
-                strTemp2 = replaceSpecial.ApplyRules(strTemp, Name);
+                changedTextByAdvFar = replaceSpecial.ApplyRules(changedText, Name);
 
-                strTemp2 = substTemplates.SubstituteTemplates(strTemp2, Name);
+                changedTextByAdvFar = substTemplates.SubstituteTemplates(changedTextByAdvFar, Name);
 
-                if (!farMadeMajorChanges && strTemp2 != strTemp)
+                if (!farMadeMajorChanges && changedTextByAdvFar != changedText)
                 {
                     //override minor changes if other replcements did something
                     SetFaRChange(false, FaRChange.MajorChange);
                 }
             }
 
-            if (testText == strTemp2)
+            if (originalText == changedTextByAdvFar)
             {
                 if (skipIfNoChange)
                     SetFaRChange(beforeOrAfter, FaRChange.NoChange);
@@ -794,9 +794,9 @@ namespace WikiFunctions
             {
                 SetFaRChange(beforeOrAfter, FaRChange.MajorChange);
 
-                AWBChangeArticleText("Find and replace applied" + tmpEditSummary,
-                                     Tools.ConvertToLocalLineEndings(strTemp2), true);
-                AppendToSummary(tmpEditSummary);
+                AWBChangeArticleText("Find and replace applied" + editSummary,
+                                     Tools.ConvertToLocalLineEndings(changedTextByAdvFar), true);
+                AppendToSummary(editSummary);
             }
         }
 
