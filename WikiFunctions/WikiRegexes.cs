@@ -165,12 +165,32 @@ namespace WikiFunctions
 
             switch (Variables.LangCode)
             {
+                case "an":
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "Destacato", "Destacau" });
+                    break;
+
                 case "ar":
                     LinkFGAs = Tools.NestedTemplateRegex(@"وصلة مقالة مختارة");
                     break;
 
+                case "br":
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "liamm PuB", "lien AdQ", "lien BA" });
+                    break;
+
                 case "ca":
                     LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "enllaç AD" });
+                    break;
+
+                case "eo":
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "ligoElstara" });
+                    break;
+
+                case "es":
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "destacado", "bueno"});
+                    break;
+
+                case "eu":
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "FA link", "NA lotura"});
                     break;
 
                 case "fr":
@@ -179,10 +199,6 @@ namespace WikiFunctions
 
                 case "it":
                     LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link AdQ",  "link VdQ", "link GA" });
-                    break;
-
-                case "es":
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "destacado", "bueno"});
                     break;
 
                 case "pt":
