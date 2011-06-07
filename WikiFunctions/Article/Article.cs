@@ -765,7 +765,7 @@ namespace WikiFunctions
 
             bool farMadeMajorChanges = (originalText != changedText && majorChangesMade);
 
-            string changedTextByAdvFar = "";
+            string changedTextByAdvFar = changedText;
             if (!beforeOrAfter) // Only run "before"
             {
                 changedTextByAdvFar = replaceSpecial.ApplyRules(changedText, Name);
