@@ -289,6 +289,10 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Handles CatsCheckedListBox.ItemCheck
             AssessmentForm.AllowOnlyOneCheckedItem(sender, e)
         End Sub
+        Private Sub FileCheckedListbox_ItemCheck(ByVal sender As Object, ByVal e As ItemCheckEventArgs) _
+        Handles FileCheckedListbox.ItemCheck
+            AssessmentForm.AllowOnlyOneCheckedItem(sender, e)
+        End Sub
         Private Sub TemplatesCheckedListBox_ItemCheck(ByVal sender As Object, ByVal e As ItemCheckEventArgs) _
         Handles TemplatesCheckedListBox.ItemCheck
             AssessmentForm.AllowOnlyOneCheckedItem(sender, e)
