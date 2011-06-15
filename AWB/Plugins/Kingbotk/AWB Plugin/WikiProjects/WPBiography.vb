@@ -33,7 +33,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Private Const WorkgroupsGroups As String = "Work Groups"
         Private Const OthersGroup As String = "Others"
 
-        Dim params() As TemplateParameters =
+        ReadOnly params() As TemplateParameters =
         {
            New TemplateParameters() With {.StorageKey = "ActivePol", .Group = WorkgroupsGroups, .ParamName = "Politician"}, _
            New TemplateParameters() With {.StorageKey = "ArtsEntsWG", .Group = WorkgroupsGroups, .ParamName = "A&E"}, _
@@ -48,14 +48,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
            New TemplateParameters() With {.StorageKey = "NotLivingPerson", .Group = OthersGroup, .ParamName = "Not Living"}
        }
 
-        ' Regular expressions:
-        Private Shared ReadOnly BLPRegex As New Regex(TemplatePrefix & "blp\s*\}\}\s*", _
-           RegexOptions.IgnoreCase Or RegexOptions.Compiled Or RegexOptions.ExplicitCapture)
-        Private Shared ReadOnly ActivepolRegex As New Regex(TemplatePrefix & "(Activepolitician|Activepol)\s*\}\}\s*", _
-           RegexOptions.IgnoreCase Or RegexOptions.Compiled Or RegexOptions.ExplicitCapture)
-
         ' Settings:
-        Private OurTab As New TabPage(Constants.Biography)
+        Private ReadOnly OurTab As New TabPage(Biography)
         Private WithEvents OurSettingsControl As GenericWithWorkgroups
 
         Protected Friend Overrides ReadOnly Property PluginShortName() As String

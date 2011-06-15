@@ -2,8 +2,8 @@
     Inherits PluginBase
 
     ' Settings:
-    Private OurTab As New TabPage("India")
-    Private OurSettingsControl As GenericWithWorkgroups
+    Private ReadOnly OurTab As New TabPage("India")
+    Private ReadOnly OurSettingsControl As GenericWithWorkgroups
 
     Private Const Prefix As String = "Ind"
     Const PluginName As String = "WikiProject India"
@@ -11,7 +11,7 @@
     Const GeographyGroup As String = "Geography"
     Const OthersGroup As String = "Others"
 
-    Dim params() As TemplateParameters =
+    ReadOnly params() As TemplateParameters =
     {
            New TemplateParameters() With {.StorageKey = "Geography", .Group = GeographyGroup, .ParamName = "Geography"}, _
            New TemplateParameters() With {.StorageKey = "Maps", .Group = GeographyGroup, .ParamName = "Maps"}, _

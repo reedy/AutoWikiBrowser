@@ -27,7 +27,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
 
         ' Plugins:
         Friend Shared ActivePlugins As New List(Of PluginBase)
-        Private Shared Plugins As New Dictionary(Of String, PluginBase)
+        Private Shared ReadOnly Plugins As New Dictionary(Of String, PluginBase)
         Private WithEvents AssessmentsObject As Assessments
 
         'AWB objects:
@@ -39,7 +39,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         Private Shared WithEvents MenuShowSettingsTabs As New ToolStripMenuItem("Show settings tabs")
 
         ' Library state and shared objects:
-        Private Shared KingbotkPluginTab As New TabPage("Plugin")
+        Private Shared ReadOnly KingbotkPluginTab As New TabPage("Plugin")
         Private Shared PluginSettings As PluginSettingsControl
 
         ' User settings:

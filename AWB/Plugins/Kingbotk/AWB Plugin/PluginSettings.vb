@@ -24,8 +24,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Private Const conOpenBadInBrowser As String = "OpenBadInBrowser"
 
         ' Statistics:
-        Friend WithEvents PluginStats As AutoWikiBrowser.Plugins.Kingbotk.Components.PluginSettingsControl.Stats = New Stats
-        Private StatLabels As New List(Of Label)
+        Friend WithEvents PluginStats As Stats = New Stats
+        Private ReadOnly StatLabels As New List(Of Label)
 
         Friend Sub New()
             ' This call is required by the Windows Form Designer and must come first:

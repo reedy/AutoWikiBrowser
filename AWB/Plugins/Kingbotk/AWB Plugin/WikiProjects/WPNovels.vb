@@ -14,7 +14,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Inherits PluginBase
 
         ' Settings:
-        Private OurTab As New TabPage(Prefix)
+        Private ReadOnly OurTab As New TabPage(Prefix)
         Private WithEvents OurSettingsControl As GenericWithWorkgroups
 
         Private Const Prefix As String = "Novels"
@@ -26,7 +26,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             OurSettingsControl = New GenericWithWorkgroups(PluginName, Prefix, True, params)
         End Sub
 
-        Dim params() As TemplateParameters =
+        ReadOnly params() As TemplateParameters =
         {
              New TemplateParameters() With {.StorageKey = "CrimeWG", .Group = "", .ParamName = "Crime"}, _
              New TemplateParameters() With {.StorageKey = "ShortStoryWG", .Group = "", .ParamName = "Short Story"}, _
