@@ -14,7 +14,7 @@
     Const SportsGroup As String = "Sports"
     Const OtherGroup As String = "Other topics"
 
-    Dim params() As TemplateParameters =
+    ReadOnly params() As TemplateParameters =
     {
        New TemplateParameters() With {.StorageKey = "Place", .Group = PlacesGroup, .ParamName = "place"}, _
        New TemplateParameters() With {.StorageKey = "Adel", .Group = PlacesGroup, .ParamName = "Adelaide"}, _
@@ -37,8 +37,8 @@
     }
 
     ' Settings:
-    Private OurTab As New TabPage("Australia")
-    Private OurSettingsControl As GenericWithWorkgroups
+    Private ReadOnly OurTab As New TabPage("Australia")
+    Private ReadOnly OurSettingsControl As GenericWithWorkgroups
 
     Protected Friend Overrides ReadOnly Property PluginShortName() As String
         Get

@@ -15,7 +15,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Implements IGenericSettings
 
         ' Our name:
-        Private mName As String
+        Private ReadOnly mName As String
 
         ' Enums:
         Friend Enum ImportanceSettingEnum
@@ -331,7 +331,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Private WithEvents DeleteMeMenuItem As New ToolStripMenuItem("Delete")
 
         ' Settings:
-        Private OurName As String
+        Private ReadOnly OurName As String
         Private ReadOnly Property conEnabled() As String
             Get
                 Return OurName & "GenericEnabled"

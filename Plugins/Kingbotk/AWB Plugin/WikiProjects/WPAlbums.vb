@@ -12,7 +12,7 @@
     End Sub
 
     ' Settings:
-    Private OurTab As New TabPage("Albums")
+    Private ReadOnly OurTab As New TabPage("Albums")
     Private WithEvents OurSettingsControl As GenericWithWorkgroups
 
     Protected Friend Overrides ReadOnly Property PluginShortName() As String

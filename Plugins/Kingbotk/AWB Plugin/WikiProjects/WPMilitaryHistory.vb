@@ -12,7 +12,7 @@
     End Sub
 
     ' Settings:
-    Private OurTab As New TabPage(PluginName)
+    Private ReadOnly OurTab As New TabPage(PluginName)
     Private WithEvents OurSettingsControl As GenericWithWorkgroups
 
     Protected Friend Overrides ReadOnly Property PluginShortName() As String
@@ -68,7 +68,7 @@
     Const GeneralGroup As String = "General Task Forces"
     Const NationsGroup As String = "Nations and Regions"
 
-    Dim params() As TemplateParameters =
+    ReadOnly params() As TemplateParameters =
     {
        New TemplateParameters() With {.StorageKey = "ACW", .Group = PeriodsAndConflictsGroup, .ParamName = "ACW"}, _
        New TemplateParameters() With {.StorageKey = "ARW", .Group = PeriodsAndConflictsGroup, .ParamName = "ARW"}, _

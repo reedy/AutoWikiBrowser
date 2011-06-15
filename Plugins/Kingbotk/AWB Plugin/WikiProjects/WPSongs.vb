@@ -13,7 +13,7 @@
     End Sub
 
     ' Settings:
-    Private OurTab As New TabPage(PluginName)
+    Private ReadOnly OurTab As New TabPage(PluginName)
     Private WithEvents OurSettingsControl As GenericWithWorkgroups
 
     Protected Friend Overrides ReadOnly Property PluginShortName() As String

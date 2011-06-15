@@ -14,8 +14,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
     ''' </summary>
     Friend NotInheritable Class Article
         ' Properties:
-        Private mArticleText As String, mFullArticleTitle As String
-        Private mNamespace As Integer
+        Private mArticleText As String
+        Private ReadOnly mFullArticleTitle As String
+        Private ReadOnly mNamespace As Integer
         Private mEditSummary As String = conWikiPluginBrackets
 
         ' Plugin-state:
