@@ -105,8 +105,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
 
                 ' OK, we're in business:
                 res = True
-                If Me.HasReqPhotoParam AndAlso AddReqPhotoParm Then
-                    Me.ReqPhoto()
+                If HasReqPhotoParam AndAlso AddReqPhotoParm Then
+                    ReqPhoto()
                 End If
 
                 ProcessArticleFinish()
