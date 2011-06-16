@@ -259,7 +259,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 
             'Friend EditSummary As String
 
-            Friend pageRegex As Regex
+            Private pageRegex As Regex
 
             Friend Function IsNextPage(ByVal title As String) As Boolean
                 Return pageRegex.IsMatch(title)
