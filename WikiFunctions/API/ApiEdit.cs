@@ -1096,7 +1096,15 @@ namespace WikiFunctions.API
             if (string.IsNullOrEmpty(xml)) throw new ApiBlankException(this);
 
             var doc = new XmlDocument();
-            doc.Load(new StringReader(xml));
+            try
+            {
+                doc.Load(new StringReader(xml));
+            }
+            catch (XmlException)
+            {
+                Tools.WriteDebug("ApiEdit::CheckForErrors", xml);
+                throw;
+            }
 
             //TODO: can't figure out the best time for this check
             bool prevMessages = User.HasMessages;
