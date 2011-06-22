@@ -343,36 +343,49 @@ namespace WikiFunctions.API
     }
 
     /// <summary>
-    /// 
+    /// Used by ApiEdit.CheckErrors() when we have XML related errors
+    /// (Wrapper for XmlException)
     /// </summary>
     public class ApiXmlException : ApiException
     {
-        public ApiXmlException(ApiEdit editor, XmlException innerException, string get, string post)
+        public ApiXmlException(ApiEdit editor, XmlException innerException, string get, string post, string content)
             : base(editor, "XmlException in ApiEdit.CheckForErrors", innerException)
         {
             GetUrl = get;
             PostQuery = post;
+            Content = content;
         }
 
         /// <summary>
-        /// 
+        /// GET query string
         /// </summary>
         public string GetUrl { get; private set; }
 
         /// <summary>
-        /// 
+        /// POST query string
         /// </summary>
         public string PostQuery { get; private set; }
+
+        /// <summary>
+        /// The XML Content that made this exception be thrown
+        /// </summary>
+        public string Content { get; private set; }
 
         public override string GetExtraSpecificInformation()
         {
             StringBuilder builder = new StringBuilder();
             builder.Append("<table>");
             builder.AppendFormat("<tr><td>Get</td><td>{0}</td></tr>", GetUrl);
-            if ( !string.IsNullOrEmpty(PostQuery))
+            if (!string.IsNullOrEmpty(PostQuery))
             {
                 builder.AppendFormat("<tr><td>Post</td><td>{0}</td></tr>", PostQuery);
             }
+#if DEBUG
+            if (!string.IsNullOrEmpty(Content))
+            {
+                builder.AppendFormat("<tr><td>Content</td><td>{0}</td></tr>", Content);
+            }
+#endif
             builder.AppendLine("</table>");
             return builder.ToString();
         }

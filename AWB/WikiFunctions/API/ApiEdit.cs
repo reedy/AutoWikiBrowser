@@ -1133,7 +1133,7 @@ namespace WikiFunctions.API
                     }
                     postParams = BuildQuery(lastPostParameters);
                 }
-                throw new ApiXmlException(this, xe, lastGetUrl, postParams);
+                throw new ApiXmlException(this, xe, lastGetUrl, postParams, xml);
                 //throw;
             }
 
