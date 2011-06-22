@@ -223,7 +223,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                         End If
 
                     Case [Namespace].CategoryTalk, [Namespace].ImageTalk, 101, _
-                       [Namespace].ProjectTalk, [Namespace].TemplateTalk '101 is Portal Talk 
+                       [Namespace].ProjectTalk, [Namespace].TemplateTalk, [Namespace].FileTalk '101 is Portal Talk 
                         If PluginSettings.ManuallyAssess Then
                             MessageBox.Show("The plugin has received a non-standard namespace talk page in " & _
                                "manual assessment mode. Please remove this item from the list and start again.", _
