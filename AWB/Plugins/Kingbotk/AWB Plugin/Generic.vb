@@ -269,6 +269,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             AlternateNames = ""
             ImportanceSetting = ImportanceSettingEnum.None
             HasCategoryClass = False
+            HasFileClass = False
             HasTemplateClass = False
             AutoStubYN = False
             SkipRegexYN = False
