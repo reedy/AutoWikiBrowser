@@ -1113,7 +1113,6 @@ namespace WikiFunctions.API
             try
             {
                 doc.Load(new StringReader(xml));
-                throw new XmlException();
             }
             catch (XmlException xe)
             {
@@ -1134,7 +1133,6 @@ namespace WikiFunctions.API
                     postParams = BuildQuery(lastPostParameters);
                 }
                 throw new ApiXmlException(this, xe, lastGetUrl, postParams, xml);
-                //throw;
             }
 
             //TODO: can't figure out the best time for this check
