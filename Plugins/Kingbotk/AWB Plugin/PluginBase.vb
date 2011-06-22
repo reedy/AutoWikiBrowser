@@ -41,9 +41,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         Protected SecondChanceRegex As Regex
         Protected PreferredTemplateNameRegex As Regex
         Protected MustOverride ReadOnly Property PreferredTemplateName() As String
-        Private Shared ReadOnly StubClassTemplateRegex As New Regex(conRegexpLeft & "Stubclass" & _
-           ")\s*((\s*\|\s*(?<parm>[^}{|\s=]*)\s*)+(=\s*" & _
-           "(?<val>[^|\n\r]*)\s*)?)*\}\}\s*", conRegexpOptions) ' value might contain {{!}} and spaces
         Protected Shared ReadOnly PreferredTemplateNameRegexCreator As _
            New Regex("^(?<first>[a-zA-Z0-9]{1})(?<second>.*)", RegexOptions.Compiled)
 
@@ -272,10 +269,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                         .ArticleHasAMajorChange()
                     End If
 
-                    If StubClassTemplateRegex.IsMatch(.AlteredArticleText) Then
-                        .AlteredArticleText = StubClassTemplateRegex.Replace(.AlteredArticleText, "")
-                        .ArticleHasAMajorChange()
-                    End If
                 End With
             End If
         End Sub
