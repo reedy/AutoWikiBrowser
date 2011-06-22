@@ -100,6 +100,17 @@ namespace WikiFunctions
             FormatException(ex, errorMessage, ExceptionKind.TopLevel);
             errorMessage.AppendLine("</table>");
 
+            if (ex is ApiException)
+            {
+                string extra = ((ApiException)ex).GetExtraSpecificInformation();
+                if(!string.IsNullOrEmpty(extra))
+                {
+                    errorMessage.AppendLine(extra);
+                }
+            }
+
+            errorMessage.AppendLine(ex.ToString());
+
             if (AppendToEventHandler != null)
             {
                 foreach (Delegate d in AppendToEventHandler.GetInvocationList())
