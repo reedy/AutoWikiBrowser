@@ -177,7 +177,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         Private Sub TemplateWritingAndPlacement()
             Dim TemplateHeader As String = WriteTemplateHeader()
 
-            With Me.article
+            With article
                 If Template.FoundTemplate Then
                     If article.PageContainsShellTemplate() Then ' We're putting an existing template back into the shell where we found it
                         PluginManager.AWBForm.TraceManager.WriteArticleActionLine1( _
@@ -218,22 +218,22 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             Select Case Classification
                 Case Kingbotk.Classification.Code
                     If ProcessTalkPageMode = ProcessTalkPageMode.NonStandardTalk Then
-                        Select Case Me.article.Namespace
+                        Select Case article.Namespace
                             Case [Namespace].CategoryTalk
                                 Template.NewOrReplaceTemplateParm( _
-                                   "class", CategoryTalkClassParm, Me.article, True, False, _
+                                   "class", CategoryTalkClassParm, article, True, False, _
                                    PluginName:=PluginShortName)
                                 Exit Select
 
                             Case [Namespace].TemplateTalk
                                 Template.NewOrReplaceTemplateParm( _
-                                   "class", TemplateTalkClassParm, Me.article, True, False, _
+                                   "class", TemplateTalkClassParm, article, True, False, _
                                    PluginName:=PluginShortName)
                                 Exit Select
 
                             Case [Namespace].ImageTalk, 101, [Namespace].ProjectTalk '101 is Portal Talk
                                 Template.NewOrReplaceTemplateParm( _
-                                   "class", "NA", Me.article, True, False, PluginName:=PluginShortName)
+                                   "class", "NA", article, True, False, PluginName:=PluginShortName)
                                 Exit Select
 
                             Case [Namespace].FileTalk
@@ -263,7 +263,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             End If
 
             If RemoveAutoStub Then
-                With Me.article
+                With article
                     If Template.Parameters.ContainsKey("auto") Then
                         Template.Parameters.Remove("auto")
                         .ArticleHasAMajorChange()
