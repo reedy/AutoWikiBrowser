@@ -206,7 +206,7 @@ namespace WikiFunctions.Controls.Lists
             this.openInBrowserToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
                         | System.Windows.Forms.Keys.P)));
             this.openInBrowserToolStripMenuItem.Size = new System.Drawing.Size(275, 22);
-            this.openInBrowserToolStripMenuItem.Text = "&Open page in browser";
+            this.openInBrowserToolStripMenuItem.Text = "&Open in browser";
             this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
             // 
             // openHistoryInBrowserToolStripMenuItem
