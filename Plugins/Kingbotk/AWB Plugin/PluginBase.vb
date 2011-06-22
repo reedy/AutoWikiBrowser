@@ -238,7 +238,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
 
                             Case [Namespace].FileTalk
                                 Template.NewOrReplaceTemplateParm( _
-                                            "class", FileTalkClassParm, Me.article, True, False, _
+                                            "class", FileTalkClassParm, article, True, False, _
                                             PluginName:=PluginShortName)
                                 Exit Select
                         End Select
