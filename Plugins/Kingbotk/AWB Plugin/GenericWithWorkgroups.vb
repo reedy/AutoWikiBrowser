@@ -59,7 +59,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         Dim params() As TemplateParameters
 
-        Private Const conForceImportanceRemoval As String = "RmImportance"
         Private Const conStubClassParm As String = "StubClass"
         Private Const conAutoStubParm As String = "AutoStub"
 
