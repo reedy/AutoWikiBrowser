@@ -369,14 +369,22 @@ namespace WikiFunctions.API
 
                 // just reclassifying
                 if (ex.Status == WebExceptionStatus.RequestCanceled)
+                {
                     throw new AbortedException(this);
-                else throw;
+                }
+                else
+                {
+                    throw;
+                }
             }
             finally
             {
                 Request = null;
             }
         }
+
+        private string[,] lastPostParameters;
+        private string lastGetUrl;
 
         /// <summary>
         /// 
@@ -388,6 +396,9 @@ namespace WikiFunctions.API
         protected string HttpPost(string[,] get, string[,] post, ActionOptions options)
         {
             string url = BuildUrl(get, options);
+
+            lastGetUrl = url;
+            lastPostParameters = post;
 
             string query = BuildQuery(post);
             byte[] postData = Encoding.UTF8.GetBytes(query);
@@ -423,6 +434,7 @@ namespace WikiFunctions.API
         protected string HttpGet(string[,] request, ActionOptions options)
         {
             string url = BuildUrl(request, options);
+            lastGetUrl = url;
 
             return HttpGet(url);
         }
@@ -519,7 +531,8 @@ namespace WikiFunctions.API
                                      new[,]
                                          {
                                              {"title", title}
-                                         });
+                                         },
+                                         ActionOptions.None);
             CheckForErrors(result, "watch");
         }
 
@@ -968,7 +981,8 @@ namespace WikiFunctions.API
                     {
                         {"action", "parse"},
                         {"prop", "headhtml"}
-                    }
+                    },
+                    ActionOptions.None
                 );
 
             result = Tools.StringBetween(Tools.UnescapeXML(result), "<head>", "</head>");
@@ -1099,11 +1113,28 @@ namespace WikiFunctions.API
             try
             {
                 doc.Load(new StringReader(xml));
+                throw new XmlException();
             }
-            catch (XmlException)
+            catch (XmlException xe)
             {
                 Tools.WriteDebug("ApiEdit::CheckForErrors", xml);
-                throw;
+
+                string postParams = "";
+                if (lastPostParameters != null )
+                {
+                    int length = lastPostParameters.GetUpperBound(0);
+                    for (int i = 0; i <= length; i++)
+                    {
+                        if (lastPostParameters[i, 0].Contains("password") || lastPostParameters[i, 0].Contains("token"))
+                        {
+                            lastPostParameters[i, 1] = "<removed>";
+                        }
+
+                    }
+                    postParams = BuildQuery(lastPostParameters);
+                }
+                throw new ApiXmlException(this, xe, lastGetUrl, postParams);
+                //throw;
             }
 
             //TODO: can't figure out the best time for this check
@@ -1134,11 +1165,13 @@ namespace WikiFunctions.API
                         throw new LoggedOffException(this);
                     case "spamdetected":
                         throw new SpamlistException(this, errorMessage);
-                    //case "confirmemail":
-                    //
+                        //case "confirmemail":
+                        //
                     default:
                         if (errorCode.Contains("disabled"))
-                            throw new FeatureDisabledException(this, errorCode, errorMessage);
+                        {
+                            new FeatureDisabledException(this, errorCode, errorMessage);
+                        }
 
                         throw new ApiErrorException(this, errorCode, errorMessage);
                 }
@@ -1151,7 +1184,7 @@ namespace WikiFunctions.API
 
             //FIXME: Awful code is awful
             var page = api.GetElementsByTagName("page");
-            if (page.Count > 0 && page[0].Attributes["invalid"] != null && page[0].Attributes["invalid"].Value == "")
+            if (page.Count > 0 && page[0].Attributes != null && page[0].Attributes["invalid"] != null && page[0].Attributes["invalid"].Value == "")
                 throw new InvalidTitleException(this, page[0].Attributes["title"].Value);
 
             if (api.GetElementsByTagName("interwiki").Count > 0)
@@ -1221,7 +1254,7 @@ namespace WikiFunctions.API
         /// <summary>
         /// For private use, static to avoid unneeded reinitialisation
         /// </summary>
-        private static readonly System.Security.Cryptography.MD5 MD5Summer = System.Security.Cryptography.MD5.Create();
+        private static readonly System.Security.Cryptography.MD5 Md5Summer = System.Security.Cryptography.MD5.Create();
 
         /// <summary>
         /// 
@@ -1240,7 +1273,7 @@ namespace WikiFunctions.API
         /// <returns></returns>
         protected static string MD5(byte[] input)
         {
-            byte[] hash = MD5Summer.ComputeHash(input);
+            byte[] hash = Md5Summer.ComputeHash(input);
 
             StringBuilder sb = new StringBuilder(20);
             for (int i = 0; i < hash.Length; i++)

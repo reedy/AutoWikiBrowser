@@ -16,8 +16,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 using System;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Xml;
 
 namespace WikiFunctions.API
 {
@@ -50,6 +52,11 @@ namespace WikiFunctions.API
         {
             Editor = editor;
             ThrowingThread = Thread.CurrentThread;
+        }
+
+        public virtual string GetExtraSpecificInformation()
+        {
+            return "";
         }
     }
 
@@ -332,6 +339,42 @@ namespace WikiFunctions.API
             :base(editor, "Invalid title: \"" + title + "\"")
         {
             InvalidTitle = title;
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ApiXmlException : ApiException
+    {
+        public ApiXmlException(ApiEdit editor, XmlException innerException, string get, string post)
+            : base(editor, "XmlException in ApiEdit.CheckForErrors", innerException)
+        {
+            GetUrl = get;
+            PostQuery = post;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string GetUrl { get; private set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string PostQuery { get; private set; }
+
+        public override string GetExtraSpecificInformation()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append("<table>");
+            builder.AppendFormat("<tr><td>Get</td><td>{0}</td></tr>", GetUrl);
+            if ( !string.IsNullOrEmpty(PostQuery))
+            {
+                builder.AppendFormat("<tr><td>Post</td><td>{0}</td></tr>", PostQuery);
+            }
+            builder.AppendLine("</table>");
+            return builder.ToString();
         }
     }
 }
