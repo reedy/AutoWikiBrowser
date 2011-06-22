@@ -78,24 +78,24 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             With AWBForm
                 ' Set up our UI objects:
                 With .BotModeCheckbox
-                    AddHandler .EnabledChanged, AddressOf PluginManager.AWBBotModeCheckboxEnabledChangedHandler
-                    AddHandler .CheckedChanged, AddressOf PluginManager.AWBBotModeCheckboxCheckedChangeHandler
+                    AddHandler .EnabledChanged, AddressOf AWBBotModeCheckboxEnabledChangedHandler
+                    AddHandler .CheckedChanged, AddressOf AWBBotModeCheckboxCheckedChangeHandler
                 End With
                 .StatusStrip.Items.Insert(2, StatusText)
                 StatusText.Margin = New Padding(50, 0, 50, 0)
                 StatusText.BorderSides = ToolStripStatusLabelBorderSides.Left Or ToolStripStatusLabelBorderSides.Right
                 StatusText.BorderStyle = Border3DStyle.Etched
-                .HelpToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() _
+                .HelpToolStripMenuItem.DropDownItems.AddRange(New Windows.Forms.ToolStripItem() _
                    {New ToolStripSeparator, PluginSettings.MenuHelp, PluginSettings.MenuAbout})
             End With
 
             ' UI - addhandlers for Start/Stop/Diff/Preview/Save/Ignore buttons/form closing:
-            AddHandler AWBForm.Form.FormClosing, AddressOf PluginManager.AWBClosingEventHandler
+            AddHandler AWBForm.Form.FormClosing, AddressOf AWBClosingEventHandler
 
             ' Handle over events from AWB:
             AddHandler AWBForm.StopButton.Click, AddressOf Me.StopButtonClickEventHandler
-            AddHandler AWBForm.TheSession.StateChanged, AddressOf PluginManager.EditorStatusChanged
-            AddHandler AWBForm.TheSession.Aborted, AddressOf PluginManager.EditorAborted
+            AddHandler AWBForm.TheSession.StateChanged, AddressOf EditorStatusChanged
+            AddHandler AWBForm.TheSession.Aborted, AddressOf EditorAborted
 
             ' Track Manual Assessment checkbox:
             AddHandler PluginSettings.ManuallyAssessCheckBox.CheckedChanged, _
@@ -122,7 +122,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             Plugins.Add("MilHist", New WPMilitaryHistory())
             Plugins.Add("Songs", New WPSongs())
             Plugins.Add("WPNovels", New WPNovels())
-            Plugins.Add(Constants.Biography, New WPBiography())
+            Plugins.Add(Biography, New WPBiography())
             ' hopefully if add WPBio last it will ensure that the template gets added to the *top* of pages
 
             ' Initialise plugins:
@@ -151,11 +151,11 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             With eventargs
                 If ActivePlugins.Count = 0 Then Return .ArticleText
 
-                Dim TheArticle As Article = Nothing, Namesp As Integer = .NameSpaceKey
+                Dim TheArticle As Article, Namesp As Integer = .NameSpaceKey
 
                 PluginSettings.Led1.Colour = WikiFunctions.Controls.Colour.Green
                 StatusText.Text = "Processing " & .ArticleTitle
-                PluginManager.AWBForm.TraceManager.ProcessingArticle(.ArticleTitle, Namesp)
+                AWBForm.TraceManager.ProcessingArticle(.ArticleTitle, Namesp)
 
                 For Each p As PluginBase In ActivePlugins
                     Try
@@ -191,7 +191,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                         End If
 
                     Case [Namespace].Talk
-                        Dim editor As AsyncApiEdit = PluginManager.AWBForm.TheSession.Editor.Clone()
+                        Dim editor As AsyncApiEdit = AWBForm.TheSession.Editor.Clone()
 
                         editor.Open(Tools.ConvertFromTalk(.ArticleTitle), False)
 
@@ -256,9 +256,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
 
 ExitMe:
             If Not PluginSettings.ManuallyAssess Then DefaultStatusText()
-            PluginManager.AWBForm.TraceManager.Flush()
+            AWBForm.TraceManager.Flush()
 
-            PluginSettings.Led1.Colour = WikiFunctions.Controls.Colour.Red
+            PluginSettings.Led1.Colour = Controls.Colour.Red
             Return res
 
 SkipBadNamespace:
@@ -442,7 +442,7 @@ SkipOrStop:
         Friend Shared Sub PluginEnabledStateChanged(ByVal Plugin As PluginBase, ByVal IsEnabled As Boolean)
             If IsEnabled Then
                 If Not ActivePlugins.Contains(Plugin) Then
-                    If Plugin.PluginShortName = Constants.Biography Then ' WPBio must be last in list
+                    If Plugin.PluginShortName = Biography Then ' WPBio must be last in list
                         ActivePlugins.Add(Plugin)
                     Else
                         ActivePlugins.Insert(0, Plugin)
@@ -543,7 +543,7 @@ SkipOrStop:
                 Return
             End If
 
-            With PluginManager.AWBForm.TraceManager()
+            With AWBForm.TraceManager()
                 .WriteBulletedLine(conAWBPluginName & "Application closing.", True, False, True)
                 .Flush()
                 .Close()
@@ -558,7 +558,7 @@ SkipOrStop:
                 Line += "disabled"
             End If
 
-            PluginManager.AWBForm.TraceManager.WriteBulletedLine(Line, True, True, True)
+            AWBForm.TraceManager.WriteBulletedLine(Line, True, True, True)
 
             For Each p As PluginBase In ActivePlugins
                 p.BotModeChanged(BotMode)
@@ -575,10 +575,10 @@ SkipOrStop:
                 If ActivePlugins.Count > 0 Then PluginSettings.AWBProcessingStart(sender)
             Else
                 DefaultStatusText()
-                PluginManager.AWBForm.TraceManager.WriteBulletedLine(conAWBPluginName & "AWB stopped processing", True, True, True)
+                AWBForm.TraceManager.WriteBulletedLine(conAWBPluginName & "AWB stopped processing", True, True, True)
                 ' If AWB has stopped and the list is empty we assume the job is finished, so close the log and upload:
                 If AWBForm.ListMaker.Count = 0 Then
-                    PluginManager.AWBForm.TraceManager.Close()
+                    AWBForm.TraceManager.Close()
                 End If
             End If
         End Sub
@@ -590,11 +590,11 @@ SkipOrStop:
             If Not AssessmentsObject Is Nothing Then AssessmentsObject.Reset()
             PluginSettings.AWBProcessingAborted()
         End Sub
-        Private Shared Sub MenuShowHide_Click(ByVal sender As Object, ByVal e As System.EventArgs) _
+        Private Shared Sub MenuShowHide_Click(ByVal sender As Object, ByVal e As EventArgs) _
         Handles MenuShowSettingsTabs.Click
             ShowHideTabs = MenuShowSettingsTabs.Checked
         End Sub
-        Private Sub ManuallyAssessCheckBox_CheckChanged(ByVal sender As Object, ByVal e As System.EventArgs)
+        Private Sub ManuallyAssessCheckBox_CheckChanged(ByVal sender As Object, ByVal e As EventArgs)
             If DirectCast(sender, CheckBox).Checked Then
                 StatusText.Text = "Initialising assessments plugin"
 
@@ -633,22 +633,22 @@ SkipOrStop:
         End Sub
 
         ' XML:
-        Friend Shared Function XMLReadBoolean(ByVal reader As System.Xml.XmlTextReader, ByVal param As String, _
+        Friend Shared Function XMLReadBoolean(ByVal reader As XmlTextReader, ByVal param As String, _
         ByVal ExistingValue As Boolean) As Boolean
             If reader.MoveToAttribute(param) Then Return Boolean.Parse(reader.Value) Else Return ExistingValue
         End Function
-        Friend Shared Function XMLReadString(ByVal reader As System.Xml.XmlTextReader, ByVal param As String, _
+        Friend Shared Function XMLReadString(ByVal reader As XmlTextReader, ByVal param As String, _
         ByVal ExistingValue As String) As String
             If reader.MoveToAttribute(param) Then Return reader.Value.Trim Else Return ExistingValue
         End Function
-        Friend Shared Function XMLReadInteger(ByVal reader As System.Xml.XmlTextReader, ByVal param As String, _
+        Friend Shared Function XMLReadInteger(ByVal reader As XmlTextReader, ByVal param As String, _
         ByVal ExistingValue As Integer) As Integer
             If reader.MoveToAttribute(param) Then Return Integer.Parse(reader.Value) Else Return ExistingValue
         End Function
         Private Shared Sub ReadXML(ByVal Reader As XmlTextReader)
-            PluginManager.AWBForm.TraceManager.WriteBulletedLine(conAWBPluginName & "Reading settings from XML", False, True, True)
+            AWBForm.TraceManager.WriteBulletedLine(conAWBPluginName & "Reading settings from XML", False, True, True)
 
-            blnShowManualAssessmentsInstructions = PluginManager.XMLReadBoolean(Reader, _
+            blnShowManualAssessmentsInstructions = XMLReadBoolean(Reader, _
                conShowManualAssessmentsInstructions, _
                blnShowManualAssessmentsInstructions) ' must happen BEFORE get ManualAssessment yes/no
 
@@ -663,14 +663,14 @@ SkipOrStop:
                 plugin.Value.ReadXMLRedirects(Reader)
             Next
 
-            Dim blnNewVal As Boolean = PluginManager.XMLReadBoolean(Reader, conShowHideTabsParm, ShowHideTabs)
+            Dim blnNewVal As Boolean = XMLReadBoolean(Reader, conShowHideTabsParm, ShowHideTabs)
             If Not blnNewVal = ShowHideTabs Then _
                ShowHideTabs = blnNewVal ' Mustn't set if the same or we get extra tabs; must happen AFTER plugins
 
             TestSkipNonExistingPages()
         End Sub
         Private Shared Sub WriteXML(ByVal Writer As XmlTextWriter)
-            Dim strGenericTemplates As New System.Collections.Specialized.StringCollection, i As Integer
+            Dim strGenericTemplates As New Specialized.StringCollection, i As Integer
 
             Writer.WriteAttributeString(conShowHideTabsParm, ShowHideTabs.ToString)
             Writer.WriteAttributeString(conShowManualAssessmentsInstructions, _
@@ -706,7 +706,7 @@ SkipOrStop:
             Dim PluginName As String
 
             For i As Integer = 0 To Count - 1
-                PluginName = PluginManager.XMLReadString(Reader, conGenericTemplate & i.ToString, "").Trim
+                PluginName = XMLReadString(Reader, conGenericTemplate & i.ToString, "").Trim
                 If Not Plugins.ContainsKey(PluginName) Then CreateNewGenericPlugin(PluginName, "ReadXML()")
             Next
         End Sub
@@ -715,21 +715,21 @@ SkipOrStop:
         Private Sub Nudge(ByRef cancel As Boolean) Implements IAWBPlugin.Nudge
             For Each p As PluginBase In ActivePlugins
                 If Not p.IAmReady Then
-                    PluginManager.AWBForm.TraceManager.WriteBulletedLine(conAWBPluginName & _
+                    AWBForm.TraceManager.WriteBulletedLine(conAWBPluginName & _
                        "Bot mode: Cancelling AWB nudge as a generic plugin isn't ready yet", True, True, True)
                     cancel = True
                     Exit For
                 End If
             Next
 
-            If Not cancel Then PluginManager.AWBForm.TraceManager.WriteBulletedLine(conAWBPluginName & _
+            If Not cancel Then AWBForm.TraceManager.WriteBulletedLine(conAWBPluginName & _
                "Bot mode: AWB is giving a nudge", True, False, True)
         End Sub
         Private Sub Nudged(ByVal nudges As Integer) Implements IAWBPlugin.Nudged
             PluginSettings.lblAWBNudges.Text = "Nudges: " & nudges.ToString
         End Sub
 
-        Friend ReadOnly Property WikiName() As String Implements WikiFunctions.Plugin.IAWBPlugin.WikiName
+        Friend ReadOnly Property WikiName() As String Implements IAWBPlugin.WikiName
             Get
                 Return conWikiPlugin & " version " & AboutBox.Version
             End Get
