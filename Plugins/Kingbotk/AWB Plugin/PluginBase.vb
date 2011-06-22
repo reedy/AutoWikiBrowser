@@ -231,16 +231,16 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                                    PluginName:=PluginShortName)
                                 Exit Select
 
-                            Case [Namespace].ImageTalk, 101, [Namespace].ProjectTalk '101 is Portal Talk
-                                Template.NewOrReplaceTemplateParm( _
-                                   "class", "NA", article, True, False, PluginName:=PluginShortName)
-                                Exit Select
-
                             Case [Namespace].FileTalk
                                 Template.NewOrReplaceTemplateParm( _
                                             "class", FileTalkClassParm, article, True, False, _
                                             PluginName:=PluginShortName)
                                 Exit Select
+                            Case 101, [Namespace].ProjectTalk '101 is Portal Talk
+                                Template.NewOrReplaceTemplateParm( _
+                                   "class", "NA", article, True, False, PluginName:=PluginShortName)
+                                Exit Select
+
                         End Select
                     End If
                 Case Kingbotk.Classification.Unassessed
