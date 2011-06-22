@@ -222,7 +222,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                                ReqPhoto)
                         End If
 
-                    Case [Namespace].CategoryTalk, [Namespace].ImageTalk, 101, _
+                    Case [Namespace].CategoryTalk, 101, _
                        [Namespace].ProjectTalk, [Namespace].TemplateTalk, [Namespace].FileTalk '101 is Portal Talk 
                         If PluginSettings.ManuallyAssess Then
                             MessageBox.Show("The plugin has received a non-standard namespace talk page in " & _
