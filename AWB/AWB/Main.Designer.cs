@@ -2304,7 +2304,7 @@ namespace AutoWikiBrowser
             this.chkSkipIsRegex.Name = "chkSkipIsRegex";
             this.chkSkipIsRegex.Size = new System.Drawing.Size(68, 17);
             this.chkSkipIsRegex.TabIndex = 4;
-            this.chkSkipIsRegex.Text = "&Regexes";
+            this.chkSkipIsRegex.Text = "&Regex";
             this.ToolTip.SetToolTip(this.chkSkipIsRegex, "Enables regular expressions for the \"Skip if contains\"");
             this.chkSkipIsRegex.UseVisualStyleBackColor = true;
             this.chkSkipIsRegex.CheckedChanged += new System.EventHandler(this.chkSkipIsRegex_CheckedChanged);
@@ -3534,7 +3534,7 @@ namespace AutoWikiBrowser
             this.gbRegexSkip.Size = new System.Drawing.Size(266, 89);
             this.gbRegexSkip.TabIndex = 0;
             this.gbRegexSkip.TabStop = false;
-            this.gbRegexSkip.Text = "Match";
+            this.gbRegexSkip.Text = "Text";
             // 
             // groupBox8
             // 
