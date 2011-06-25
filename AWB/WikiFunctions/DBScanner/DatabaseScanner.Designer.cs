@@ -1512,7 +1512,7 @@ namespace WikiFunctions.DBScanner
             this.chkProtection.Name = "chkProtection";
             this.chkProtection.Size = new System.Drawing.Size(110, 17);
             this.chkProtection.TabIndex = 1;
-            this.chkProtection.Text = "Check Restriction";
+            this.chkProtection.Text = "Check restriction";
             this.chkProtection.UseVisualStyleBackColor = true;
             this.chkProtection.CheckedChanged += new System.EventHandler(this.chkProtection_CheckedChanged);
             // 
