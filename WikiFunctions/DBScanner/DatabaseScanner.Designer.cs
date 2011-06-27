@@ -223,7 +223,7 @@ namespace WikiFunctions.DBScanner
             this.gbText.Size = new System.Drawing.Size(277, 141);
             this.gbText.TabIndex = 1;
             this.gbText.TabStop = false;
-            this.gbText.Text = "Te&xt Searching";
+            this.gbText.Text = "Te&xt";
             // 
             // tableLayoutPanel3
             // 
@@ -1464,7 +1464,7 @@ namespace WikiFunctions.DBScanner
             this.gbProperties.Size = new System.Drawing.Size(218, 141);
             this.gbProperties.TabIndex = 18;
             this.gbProperties.TabStop = false;
-            this.gbProperties.Text = "Page Text Properties";
+            this.gbProperties.Text = "Page properties";
             // 
             // chkIgnoreRedirects
             // 
