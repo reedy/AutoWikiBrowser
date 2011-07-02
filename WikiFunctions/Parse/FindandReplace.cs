@@ -606,7 +606,9 @@ namespace WikiFunctions.Parse
                     int index = row.Index;
                     DataGridViewRow tmp = row;
                     dataGridView1.Rows.Remove(row);
+                    ApplyDefaultFormatting = false;
                     dataGridView1.Rows.Insert(index - 1, tmp);
+                    ApplyDefaultFormatting = true;
                 }
             }
         }
@@ -620,7 +622,9 @@ namespace WikiFunctions.Parse
                     int index = row.Index;
                     DataGridViewRow tmp = row;
                     dataGridView1.Rows.Remove(row);
+                    ApplyDefaultFormatting = false;
                     dataGridView1.Rows.Insert(index + 1, tmp);
+                    ApplyDefaultFormatting = true;
                 }
             }
         }
@@ -633,7 +637,9 @@ namespace WikiFunctions.Parse
                 {
                     DataGridViewRow tmp = row;
                     dataGridView1.Rows.Remove(row);
+                    ApplyDefaultFormatting = false;
                     dataGridView1.Rows.Insert(0, tmp);
+                    ApplyDefaultFormatting = true;
                 }
             }
         }
@@ -646,7 +652,9 @@ namespace WikiFunctions.Parse
                 {
                     DataGridViewRow tmp = row;
                     dataGridView1.Rows.Remove(row);
+                    ApplyDefaultFormatting = false;
                     dataGridView1.Rows.Add(tmp);
+                    ApplyDefaultFormatting = true;
                 }
             }
         }
