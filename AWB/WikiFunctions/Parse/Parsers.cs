@@ -3874,6 +3874,7 @@ namespace WikiFunctions.Parse
         
         private static readonly Regex UnderscoreTitles = new Regex(@"[Ss]ize_t|[Mm]od_", RegexOptions.Compiled);
         private static readonly Regex InfoBoxSingleAlbum = Tools.NestedTemplateRegex(new [] {"Infobox Single", "Infobox single", "Infobox album", "Infobox Album"});
+        private static readonly Regex TaxoboxColour = Tools.NestedTemplateRegex(new [] {"taxobox colour", "taxobox color"});
 
         // Partially covered by FixMainArticleTests.SelfLinkRemoval()
         /// <summary>
@@ -3900,7 +3901,8 @@ namespace WikiFunctions.Parse
             // TODO, better to not apply to text within imagemaps
             if (!WikiRegexes.ImageMap.IsMatch(articleText)
                 && !WikiRegexes.Noinclude.IsMatch(articleText)
-                && !WikiRegexes.Includeonly.IsMatch(articleText))
+                && !WikiRegexes.Includeonly.IsMatch(articleText)
+                && !TaxoboxColour.IsMatch(articleText))
             {
                 // remove any self-links, but not other links with different capitaliastion e.g. [[Foo]] vs [[FOO]]
                 articleText = Regex.Replace(articleText, @"\[\[\s*(" + Tools.CaseInsensitive(escTitle)
