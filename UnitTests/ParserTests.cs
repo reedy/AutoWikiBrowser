@@ -5819,6 +5819,10 @@ While remaining upright may be the primary goal of beginning riders| [[2009 Indi
             // don't apply within imagemaps
             Assert.AreEqual(@"<imagemap> [[foo]] </imagemap>", Parsers.FixLinks(@"<imagemap> [[foo]] </imagemap>", "foo", out noChangeBack));
             Assert.IsTrue(noChangeBack);
+                        
+            // don't apply within {{taxobox color}}
+            Assert.AreEqual(@"{{taxobox color| [[foo]] }}", Parsers.FixLinks(@"{{taxobox color| [[foo]] }}", "foo", out noChangeBack));
+            Assert.IsTrue(noChangeBack);
 
             // don't apply if has a noinclude etc.
             Assert.AreEqual(@"<noinclude> [[foo]] </noinclude>", Parsers.FixLinks(@"<noinclude> [[foo]] </noinclude>", "foo", out noChangeBack));
