@@ -629,7 +629,7 @@ namespace WikiFunctions.Controls.Lists
             s = s.Replace(url, "");
             
             url = Variables.URLSecure + "/wiki/";
-            s = s.Replace(url, "");
+            s = s.Replace(url, "").Trim();
 
             if(!originals.Equals(s))
                 s = Tools.WikiDecode(s);
