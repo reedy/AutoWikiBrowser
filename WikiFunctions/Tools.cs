@@ -1241,6 +1241,7 @@ namespace WikiFunctions
             new KeyValuePair<string, string>("ằ", "a"),
             new KeyValuePair<string, string>("ẩ", "a"),
             new KeyValuePair<string, string>("ậ", "a"),
+            new KeyValuePair<string, string>("ặ", "a"),
             new KeyValuePair<string, string>("ế", "e"),
             new KeyValuePair<string, string>("ễ", "e"),
             new KeyValuePair<string, string>("ệ", "e"),
