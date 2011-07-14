@@ -5001,7 +5001,7 @@ namespace WikiFunctions.Parse
 
                     // set the defaultsort to the existing unique category sort value
                     // don't add a defaultsort if cat sort was the same as article title
-                    if (sort != articleTitle && Tools.FixupDefaultSort(sort) != articleTitle)
+                    if (sort != articleTitle && Tools.FixupDefaultSort(sort).ToLower() != articleTitle.ToLower())
                         articleText += Tools.Newline("{{DEFAULTSORT:") + Tools.FixupDefaultSort(sort) + "}}";
                 }
 
