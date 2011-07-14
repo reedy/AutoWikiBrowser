@@ -6521,6 +6521,22 @@ foo {{persondata}}
         }
         
         [Test]
+        public void ChangeToDefaultsortCaseInsensitive()
+        {
+            bool noChange;
+            const string CInsensitive = @"x";
+            
+            Assert.AreEqual(CInsensitive, Parsers.ChangeToDefaultSort(CInsensitive, "BAR", out noChange), "no change when defaultsort only differs to article title by case");
+            Assert.IsTrue(noChange);
+
+            Assert.AreEqual(CInsensitive, Parsers.ChangeToDefaultSort(CInsensitive, "Bar", out noChange), "no change when defaultsort only differs to article title by case");
+            Assert.IsTrue(noChange);
+
+            Assert.AreEqual(CInsensitive, Parsers.ChangeToDefaultSort(CInsensitive, "Bar foo", out noChange), "no change when defaultsort only differs to article title by case");
+            Assert.IsTrue(noChange);
+        }
+        
+        [Test]
         public void ChangeToDefaultSortPAGENAME()
         {
             bool noChange;
