@@ -529,6 +529,37 @@ bar"));
             Assert.AreEqual("Foo#bar", Tools.RedirectTarget("#REDIRECT [[Foo#bar]]"));
 
             Assert.AreEqual("", Tools.RedirectTarget("<nowiki>#REDIRECT  [[Foo]]</nowiki>"));
+            
+            Assert.AreEqual("", Tools.RedirectTarget(@"{{Refimprove|date=October 2008}}
+{{Infobox Military Conflict
+|conflict=1383–1385 Crisis
+|image=
+|caption=
+|partof=
+|date=April 1383 - October 1385
+|place=[[Portugal]] and [[Crown of Castile|Castille]]
+|result=Victory for John I of Portugal
+|combatant1=[[File:PortugueseFlag1385.svg|22px]] [[Kingdom of Portugal]]&lt;br&gt;''Supported by:''&lt;br&gt;[[Image:England Arms 1405.svg|22px]] [[Kingdom of England]]
+|combatant2=[[Image:Escudo Corona de Castilla.png|22px]] [[Crown of Castile]]&lt;br&gt;''Supported by:''&lt;br&gt;[[Image:France Ancient.svg|22px]] [[Kingdom of France]]
+|commander1=[[John I of Portugal]]&lt;br&gt;[[Nuno Álvares Pereira]]
+|commander2=[[John I of Castile]]&lt;br&gt;[[Fernando Sanchez de Tovar]]&lt;br&gt;[[Pedro Álvares Pereira]]
+|strength1=
+|strength2=
+|casualties1=
+|casualties2=
+|
+}}
+{{Campaignbox Portuguese Crisis 1383}}
+
+
+{{History of Portugal|
+image=[[Image:AljubarrotaBattle.jpg|250px]]|
+caption=Battle of Aljubarrota}}
+The '''1383–1385 Crisis''' was a period of [[civil war]] in [[History of Portugal|Portuguese history]] that began with the [[death]] of [[King of Portugal|King]] [[Ferdinand I of Portugal]], who left no male [[heir]]s, and ended with the accession to the [[throne]] of King [[John I of Portugal|John I]] in 1385, in the wake of the [[Battle of Aljubarrota]].
+
+In Portugal, this period is also known as the &quot;Portuguese [[Interregnum]]&quot;, since it is a period when no crowned [[monarch|king]] reigned. The period is interpreted in Portuguese popular history as a Portuguese national &quot;resistance movement&quot; countering Castilian intervention, as the &quot;great revealer of national consciousness&quot;, as Robert Durand expressed it.&lt;ref&gt;Robert Durand, in ''Encyclopedia of the Middle Ages'' (Routledge, 2000), ''s.v.'' &quot;Portugal&quot;, p 1173; see also Armíndo de Sousa, &quot;Portugal&quot; in ''The New Cambridge Medieval History'' 2004, vol. II p. 629.&lt;/ref&gt; The role of the burgesses and nobles that established the Aviz dynasty securely on an independent throne can be contrasted with the centrifugal pull of aristocratic factions against a centralised monarchy in the English [[War of the Roses]] and with national and political aspects of the [[Hundred Years' War]] being waged in France.
+
+==Prelude=="));
         }
 
         [Test]
@@ -628,6 +659,8 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
             Assert.AreEqual(@"%%foo%%", Tools.ApplyKeyWords("", @"%%foo%%"));
             
             Assert.AreEqual(@"foo\(bar\) was", Tools.ApplyKeyWords(@"foo(bar)", "%%title%% was", true), "%%title%% escaped if requested");
+            Assert.AreEqual(@"foo\(bar\) was", Tools.ApplyKeyWords(@"foo(bar)", "%%pagename%% was", true), "%%pagename%% escaped if requested");
+            Assert.AreEqual(@"foo\(bar\) was", Tools.ApplyKeyWords(@"foo(bar)", "%%basepagename%% was", true), "%%basepagename%% escaped if requested");
             Assert.AreEqual(@"foo(bar) was", Tools.ApplyKeyWords(@"foo(bar)", "%%title%% was", false), "%%title%% not escaped if not requested");
         }
 

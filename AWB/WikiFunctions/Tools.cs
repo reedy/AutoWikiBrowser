@@ -565,10 +565,10 @@ namespace WikiFunctions
                 string subPageName = SubPageName(title);
                 string theNamespace = GetNamespaceString(title);
 
-                text = text.Replace("%%pagename%%", titleNoNamespace);
+                text = text.Replace("%%pagename%%", escape ? Regex.Escape(titleNoNamespace) : titleNoNamespace);
                 text = text.Replace("%%pagenamee%%", WikiEncode(titleNoNamespace));
 
-                text = text.Replace("%%basepagename%%", basePageName);
+                text = text.Replace("%%basepagename%%", escape ? Regex.Escape(basePageName) : basePageName);
                 text = text.Replace("%%basepagenamee%%", WikiEncode(basePageName));
 
                 text = text.Replace("%%namespace%%", theNamespace);
