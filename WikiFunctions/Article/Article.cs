@@ -576,10 +576,10 @@ namespace WikiFunctions
                                                        "fancruft", "fanpov", "fansite", "fiction", "gameguide", "globalize", "grammar", "histinfo", "hoax", "howto", "inappropriate person", "incomplete", "intro length", "intromissing",
                                                        "introrewrite", "intro-toolong","intro-tooshort", "laundrylists", "lead missing", "lead rewrite", "lead too long", "lead too short", "in-universe", "jargon", "laundrylists", "laundry", "lead missing", "lead too long", "likeresume", "like resume",
                                                        "long", "moreref", "morerefs", "morereferences","newsrelease", "notable", "notability", "one source", "onesource", "OR", "or", "organize", "original research", "orphan", "out of date", "peacock",
-                                                       "plot", "POV", "NPOV", "pov", "npov", "pov-check", "primarysources", "prose", "proseline", "quotefarm", "recentism", "refimprove",
+                                                       "plot", "POV", "NPOV", "pov", "npov", "pov-check", "primarysources", "primary sources", "prose", "proseline", "quotefarm", "recentism", "refimprove",
                                                        "refimproveBLP", "refimprove BLP", "restructure", "reorganisation", "review", "rewrite", "section", "sections", "self-published",
                                                        "spam", "story", "synthesis", "inappropriate tone", "technical", "tone", "travelguide", "tooshort", "toolong", "trivia", "unbalanced", "unencyclopedic", "unref", "unreferenced",
-                                                       "unrefBLP", "unreferencedBLP", "update", "verylong", "weasel", "wikify"});
+                                                       "unrefBLP", "unreferencedBLP", "update", "verylong", "weasel", "wikify", "cleanup-laundry", "over detailed", "cleanup-spam", "cleanup-reorganize", "POV-check", "criticism section", "very long", "example farm", "cleanup-rewrite", "cite check", "quote farm", "news release", "unreliable sources"});
             
             if(NameSpaceKey.Equals(Namespace.Mainspace))
                 Unknowns = Tools.UnknownTemplateParameters(WikiRegexes.MultipleIssues.Match(ArticleText).Value, Knowns);
