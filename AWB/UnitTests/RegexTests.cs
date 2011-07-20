@@ -978,8 +978,6 @@ cit"));
             Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{expand}} here"),"with small first letter");
             Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{Expand}} here"),"with capital first letter");
             Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{Expand|date=May 2009}} here"),"with date");
-            Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{expand-article}} here"));
-            Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{Expand-article}} here"));
             
             Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{Article issues
  | orphan = December 2010
@@ -989,7 +987,6 @@ cit"));
             Assert.IsFalse(WikiRegexes.Expand.IsMatch(@"now {{developers}} here"));
 
             Assert.AreEqual(WikiRegexes.Expand.Replace(@"now {{expand}} here", ""), @"now  here");
-            Assert.AreEqual(WikiRegexes.Expand.Replace(@"now {{expand-article}} here", ""), @"now  here");
             Assert.AreEqual(WikiRegexes.Expand.Replace(@"{{article issues|wikify=May 2009|COI=March 2009|expand=May 2008}}", ""), @"{{article issues|wikify=May 2009|COI=March 2009}}");
             Assert.AreEqual(WikiRegexes.Expand.Replace(@"{{article issues|wikify=May 2009| expand = May 2008|COI=March 2009}}", ""), @"{{article issues|wikify=May 2009|COI=March 2009}}");
         }
