@@ -5000,7 +5000,7 @@ namespace WikiFunctions.Parse
                                                                + Variables.Namespaces[Namespace.Category] + "$1]]");
 
                     // set the defaultsort to the existing unique category sort value
-                    // don't add a defaultsort if cat sort was the same as article title
+                    // don't add a defaultsort if cat sort was the same as article title, now not case sensitive
                     if (sort != articleTitle && Tools.FixupDefaultSort(sort).ToLower() != articleTitle.ToLower())
                         articleText += Tools.Newline("{{DEFAULTSORT:") + Tools.FixupDefaultSort(sort) + "}}";
                 }
@@ -5073,7 +5073,9 @@ namespace WikiFunctions.Parse
                     ? Tools.MakeHumanCatKey(articleTitle)
                     : Tools.FixupDefaultSort(articleTitle);
 
-                articleText += Tools.Newline("{{DEFAULTSORT:") + sortkey + "}}";
+                // sorkteys now not case sensitive
+                if(!sortkey.ToLower().Equals(articleTitle.ToLower()))
+                    articleText += Tools.Newline("{{DEFAULTSORT:") + sortkey + "}}";
 
                 return (ExplicitCategorySortkeys(articleText, sortkey));
             }
@@ -5464,7 +5466,7 @@ namespace WikiFunctions.Parse
                 yearFromInfoBox = YearPossiblyWithBC.Match(fromInfoBox).Value;
 
             if (!WikiRegexes.DeathsOrLivingCategory.IsMatch(RemoveCategory(YearofDeathMissing, articleText)) && (PersonYearOfDeath.IsMatch(zerothSection) || WikiRegexes.DeathDate.IsMatch(zerothSection)
-                                                                             || ThreeOrFourDigitNumber.IsMatch(yearFromInfoBox)))
+                                                                                                                 || ThreeOrFourDigitNumber.IsMatch(yearFromInfoBox)))
             {
                 // look for '{{death date...' template first
                 yearstring = WikiRegexes.DeathDate.Match(articleText).Groups[1].Value;

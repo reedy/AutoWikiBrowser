@@ -6510,7 +6510,7 @@ foo {{persondata}}
             Assert.AreEqual(@"foo
 [[Category:All foos]]
 {{DEFAULTSORT:Special Foos}}", Parsers.ChangeToDefaultSort(@"foo
-[[Category:All foos]]", "Category:Special foos", out noChange, false));
+[[Category:All foos]]", "Category:Special foŏs", out noChange, false));
             
             // skip when nonclude on page
             const string NoInclude = @"[[Category:Test1|Foooo]][[Category:Test2|Foooo]] <noinclude>foo</noinclude>";
@@ -6524,7 +6524,7 @@ foo {{persondata}}
         public void ChangeToDefaultsortCaseInsensitive()
         {
             bool noChange;
-            const string CInsensitive = @"x";
+            const string CInsensitive = @"x [[Category:Foo]]";
             
             Assert.AreEqual(CInsensitive, Parsers.ChangeToDefaultSort(CInsensitive, "BAR", out noChange), "no change when defaultsort only differs to article title by case");
             Assert.IsTrue(noChange);
