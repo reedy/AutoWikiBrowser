@@ -1973,7 +1973,8 @@ Start date and age
             Assert.AreEqual(@"De Merino, Fernando Arturo", Tools.FixupDefaultSort(@"De Meriño, Fernando Arturo"));
             Assert.AreEqual(@"Oneworditem", Tools.FixupDefaultSort(@"OneWordItem"));
             Assert.AreEqual(@"2007 Fifa Women World Cup Squads", Tools.FixupDefaultSort(@"2007 Fifa women world cup squads"));
-
+            Assert.AreEqual(@"Foo (Bar)", Tools.FixupDefaultSort(@"Foo (bar)"));
+            
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#DEFAULTSORT_capitalization_after_apostrophes
             Assert.AreEqual("Kwakwaka'wakw Mythology", Tools.FixupDefaultSort("Kwakwaka'wakw mythology"));
             Assert.AreEqual(@"Peewee's Playhouse", Tools.FixupDefaultSort(@"Peewee's Playhouse"));
