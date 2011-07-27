@@ -1944,7 +1944,8 @@ Start date and age
             }
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Leaving_foreign_characters_in_DEFAULTSORT
-            Assert.AreEqual(@"aaaaa eee ii oooo uuu y", Tools.RemoveDiacritics(@"ắạảằẩ ếễệ ịỉ ỏøờồ ụủữ ỳ"));
+            Assert.AreEqual(@"aaaaaa c eee ii oooooooo uuu y", Tools.RemoveDiacritics(@"ầắạảằẩ ḉ ếễệ ịỉ ỏøờồȱȯȭȫ ụủữ ỳ"));
+            Assert.AreEqual(@"2", Tools.RemoveDiacritics(@"²"));
         }
         
         [Test]
