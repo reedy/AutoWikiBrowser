@@ -3172,7 +3172,10 @@ namespace WikiFunctions.Parse
             
             // origyear --> year when no year/date
             if(TheYear.Length == 0 && TheDate.Length == 0 && Tools.GetTemplateParameterValue(newValue, "origyear").Length == 4)
+            {
                 newValue = Tools.RenameTemplateParameter(newValue, "origyear", "year");
+                newValue = Tools.RemoveDuplicateTemplateParameters(newValue);
+            }
             
             return newValue;
         }
