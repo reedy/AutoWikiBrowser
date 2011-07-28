@@ -2431,6 +2431,7 @@ world|format=PDF}} was";
         public void FixCitationTemplatesOrigYear()
         {
             Assert.AreEqual(@"{{cite book | title=ABC | publisher=Pan  | year=1950 }}", Parsers.FixCitationTemplates(@"{{cite book | title=ABC | publisher=Pan  | origyear=1950 }}"), "origyear to year when no year/date");
+            Assert.AreEqual(@"{{cite book | title=ABC | publisher=Pan  | year=1950 }}", Parsers.FixCitationTemplates(@"{{cite book | title=ABC | publisher=Pan  | origyear=1950 | year =}}"), "origyear to year when blank year");
             
             const string nochange1 = @"{{cite book | title=ABC | publisher=Pan | year=2004 | origyear=1950 }}", nochange2 = @"{{cite book | title=ABC | publisher=Pan | date=May 2004 | origyear=1950 }}"
                 , nochange3 = @"{{cite book | title=ABC | publisher=Pan | origyear=11 May 1950 }}";
