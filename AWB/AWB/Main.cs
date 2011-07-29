@@ -1380,7 +1380,7 @@ namespace AutoWikiBrowser
             try
             {
                 // Must be performed regardless of general fixes, otherwise there may be breakage
-                theArticle.AWBChangeArticleText("Fixes for Unicode comaptibility",
+                theArticle.AWBChangeArticleText("Fixes for Unicode compatibility",
                                                 Parser.FixUnicode(theArticle.ArticleText),
                                                 true);
 
