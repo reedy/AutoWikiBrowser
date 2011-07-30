@@ -2763,6 +2763,7 @@ world|format=PDF}} was";
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|pages=57 – 59}}"));
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|pages=57--59}}"));
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|page=57–59}}"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|page=57—59}}"));
             
             Assert.AreEqual(correct.Replace("–", ", "), Parsers.FixCitationTemplates(@"{{cite book|author=Smith|title=Great|page=57, 59}}"), "page -> pages for comma list of page numbers");
             
@@ -4832,6 +4833,7 @@ Bar", "Test"), "inserts blank line if one missing");
         public void TestMdashesPageRanges()
         {
             Assert.AreEqual("pp. 55–57", parser.Mdashes("pp. 55-57", "test"));
+            Assert.AreEqual("pp. 55–57", parser.Mdashes("pp. 55--57", "test"));
             Assert.AreEqual("pp.&nbsp;55–57", parser.Mdashes("pp.&nbsp;55-57", "test"));
             Assert.AreEqual("pp. 55 – 57", parser.Mdashes("pp. 55 - 57", "test"));
             Assert.AreEqual("pp. 55 – 57", parser.Mdashes("Pp. 55 - 57", "test"));
@@ -4923,6 +4925,9 @@ Bar", "Test"), "inserts blank line if one missing");
             // false positive
             Assert.AreEqual("beaten 55 - 57 in 2004", parser.Mdashes("beaten 55 - 57 in 2004", "test"));
             Assert.AreEqual("from 1904 – 11 May 1956 there", parser.Mdashes("from 1904 – 11 May 1956 there", "test"));
+            
+            // two dashes to endash for numeric ranges
+            Assert.AreEqual("55–77", parser.Mdashes("55--77", "test"));
         }
 
         [Test]
