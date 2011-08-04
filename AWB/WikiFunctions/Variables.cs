@@ -643,6 +643,11 @@ namespace WikiFunctions
                             WPAWB = "[[维基百科:自动维基浏览器|自动维基浏览器]]协助";
                             break;
 
+                        case "zh-classical":
+                            mSummaryTag = "藉";
+                            WPAWB = "[[维基百科:自动维基浏览器|自動維基瀏覽器]]之助";
+                            break;
+
                         case "zh-yue":
                             mSummaryTag = "由";
                             WPAWB = "[[维基百科:自动维基浏览器|自動維基瀏覽器]]協助";
