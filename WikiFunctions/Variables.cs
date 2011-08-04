@@ -539,6 +539,9 @@ namespace WikiFunctions
                 case ProjectEnum.wikiquote:
                 case ProjectEnum.wiktionary:
                 case ProjectEnum.wikiversity:
+            	//If not set the following will be used:
+            	//mSummaryTag="using";
+            	//WPAWB = "[[Project:Wikipedia:AutoWikiBrowser|AWB]]";
                     switch (langCode)
                     {
                         case "en":
