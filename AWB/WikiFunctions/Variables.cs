@@ -608,6 +608,7 @@ namespace WikiFunctions
                             break;
 
                         case "pl":
+                            mSummaryTag = " przy użyciu ";
                             SectStub = @"\{\{[Ss]ek";
                             SectStubRegex = new Regex(SectStub, RegexOptions.Compiled);
                             break;
