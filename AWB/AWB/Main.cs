@@ -841,7 +841,7 @@ namespace AutoWikiBrowser
             }
             
             
-            /* skip pages containing any Unicode character in Private Use Area as RichTextBox seems to break these 
+            /* skip pages containing any Unicode character in Private Use Area as RichTextBox seems to break these
              * not exactly wrong as PUA characters won't be found in standard text, but not exactly right to break them either
              * Reference: [[Unicode#Character General Category]] PUA is U+E000 to U+F8FF */
             if(UnicodePUA.IsMatch(page.Text))
@@ -2870,6 +2870,7 @@ window.scrollTo(0, diffTopY);
                     case "lb":
                     case "pl":
                     case "no":
+                    case "sv":
                     case "simple":
                         Parser.InterWikiOrder = InterWikiOrderEnum.LocalLanguageAlpha;
                         break;
