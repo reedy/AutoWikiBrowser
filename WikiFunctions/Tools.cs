@@ -961,7 +961,7 @@ namespace WikiFunctions
             new KeyValuePair<string, string>("Ľ", "L"),
             new KeyValuePair<string, string>("ľ", "l"),
             new KeyValuePair<string, string>("Ň", "N"),
-            new KeyValuePair<string, string>("ň", "N"),
+            new KeyValuePair<string, string>("ň", "n"),
             new KeyValuePair<string, string>("Ǒ", "O"),
             new KeyValuePair<string, string>("ǒ", "o"),
             new KeyValuePair<string, string>("Ř", "R"),
