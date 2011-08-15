@@ -876,6 +876,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SpacedFullYearRange = new Regex(@"([12]\d{3})(?: +– *| *– +)([12]\d{3})", RegexOptions.Compiled);
         private static readonly Regex YearRangeShortenedCentury = new Regex(@"(?:[\(,=;]|\b(?:from|between|and|reigned)) *([12]\d{3}) *- *(\d{2}) *(?=\)|[,;]|and\b|\s*$)", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex DateRangeToPresent = new Regex(@"\b(" + WikiRegexes.MonthsNoGroup + @"|[0-3]?\d,?) +" + @"([12]\d{3}) *- *([Pp]resent\b)", RegexOptions.Compiled);
+        private static readonly Regex DateRangeToYear = new Regex(@"\b(" + WikiRegexes.MonthsNoGroup + @"|(?:&nbsp;|\s+)[0-3]?\d,?) +" + @"([12]\d{3})–([12]\d{3})\b", RegexOptions.Compiled);
         private static readonly Regex YearRangeToPresent = new Regex(@"\b([12]\d{3}) *- *([Pp]resent\b)", RegexOptions.Compiled);
         
         // Covered by: LinkTests.FixDates()
@@ -945,6 +946,9 @@ namespace WikiFunctions.Parse
                 if (year2 > year1 && year2 - year1 <= 99)
                     articleText = articleText.Replace(m.Value, Regex.Replace(m.Value, @" *- *", @"–"));
             }
+            
+            // date–year --> date – year
+            articleText = DateRangeToYear.Replace(articleText, @"$1 $2 – $3");
 
             articleText = FixDatesRaw(articleText);
 

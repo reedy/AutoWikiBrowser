@@ -999,6 +999,9 @@ The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines af
             Assert.AreEqual(correct3, parser.FixDates(correct3));
             
             Assert.AreEqual("from 1904 – 11 May 1956 there", parser.FixDates("from 1904 – 11 May 1956 there"));
+            
+            const string DateToYear = @"'''Nowell''' (May 16, 1872 - 1940), was ";
+            Assert.AreEqual(DateToYear.Replace("-", "–"), parser.FixDates(DateToYear));
         }
         
         [Test]
