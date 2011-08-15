@@ -683,18 +683,18 @@ namespace WikiFunctions.Controls.Lists
                 return;
             }
             
+            lbArticles.BeginUpdate();
+            lbArticles.Items.AddRange(l.ToArray());
+            lbArticles.EndUpdate();
+            
             if (FilterDuplicates)
                 RemoveListDuplicates();
             
             if (FilterNonMainAuto)
-                FilterNonMainArticles();            
+                FilterNonMainArticles();
 
             if (AutoAlpha)
                 l.Sort();
-
-            lbArticles.BeginUpdate();
-            lbArticles.Items.AddRange(l.ToArray());
-            lbArticles.EndUpdate();
 
             UpdateNumberOfArticles();
         }
