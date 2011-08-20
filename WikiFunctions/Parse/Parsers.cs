@@ -1697,10 +1697,25 @@ namespace WikiFunctions.Parse
             return (m.Groups[1].Value + newTemplateName + m.Groups[3].Value);
         }
         
+        private static Regex RenameTemplateParametersTemplates;
+        
         
         public static string RenameTemplateParameters(string articleText, List<WikiRegexes.TemplateParameters> RenamedTemplateParameters)
         {
-            return WikiRegexes.NestedTemplates.Replace(articleText, m => RenameTemplateParametersME(m, RenamedTemplateParameters));
+            
+            if(RenameTemplateParametersTemplates == null)
+            {
+                List<string> Templates = new List<string>();
+                
+                foreach(WikiRegexes.TemplateParameters Params in RenamedTemplateParameters)
+                {
+                    if(!Templates.Contains(Params.TemplateName))
+                        Templates.Add(Params.TemplateName);
+                }
+                
+                RenameTemplateParametersTemplates = Tools.NestedTemplateRegex(Templates);
+            }
+            return RenameTemplateParametersTemplates.Replace(articleText, m => RenameTemplateParametersME(m, RenamedTemplateParameters));
         }
         
         private static string RenameTemplateParametersME(Match m, List<WikiRegexes.TemplateParameters> RenamedTemplateParameters)
@@ -1710,7 +1725,7 @@ namespace WikiFunctions.Parse
             
             foreach(WikiRegexes.TemplateParameters Params in RenamedTemplateParameters)
             {
-                if(Params.TemplateName.Equals(templatename))
+                if(Params.TemplateName.Equals(templatename) && newvalue.Contains(Params.OldParameter))
                     newvalue = Tools.RenameTemplateParameter(newvalue, Params.OldParameter, Params.NewParameter);
             }
             return newvalue;
@@ -1721,7 +1736,7 @@ namespace WikiFunctions.Parse
             text = WikiRegexes.UnformattedText.Replace(text, "");
             List<WikiRegexes.TemplateParameters> TPs = new List<WikiRegexes.TemplateParameters>();
 
-            foreach (Match m in Tools.NestedTemplateRegex("Rename template parameter").Matches(text))
+            foreach (Match m in Tools.NestedTemplateRegex("AWB rename template parameter").Matches(text))
             {
                 string templatename = Tools.TurnFirstToLower(Tools.GetTemplateArgument(m.Value, 1)), oldparam = Tools.GetTemplateArgument(m.Value, 2),
                 newparam = Tools.GetTemplateArgument(m.Value, 3);
@@ -3209,7 +3224,7 @@ namespace WikiFunctions.Parse
             }
             
             //id=ISBN fix
-            if(IdISBN.IsMatch(id) && Tools.GetTemplateParameterValue(newValue, "isbn").Length == 0)
+            if(IdISBN.IsMatch(id) && Tools.GetTemplateParameterValue(newValue, "isbn").Length == 0 && Tools.GetTemplateParameterValue(newValue, "ISBN").Length == 0)
             {
                 newValue = Tools.RenameTemplateParameter(newValue, "id", "isbn");
                 newValue = Tools.SetTemplateParameterValue(newValue, "isbn", IdISBN.Match(id).Groups[1].Value.Trim());

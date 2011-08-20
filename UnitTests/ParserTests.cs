@@ -2424,6 +2424,8 @@ world|format=PDF}} was";
             string existingISBN =  @"{{cite book|title=foo|id=ISBN 012345678X |isbn= 978012345678X|year=2009}}";
             Assert.AreEqual(existingISBN, Parsers.FixCitationTemplates(existingISBN), "no changes when isbn param already has value");
             
+            existingISBN =  @"{{cite book|title=foo|id=ISBN 012345678X |ISBN= 978012345678X|year=2009}}";
+            Assert.AreEqual(existingISBN, Parsers.FixCitationTemplates(existingISBN), "no changes when isbn param already has value");            
             
             const string NoChangeSpacedEndashInTitle = @"{{cite web | author=IGN staff | year=2008 | title=IGN Top 100 Games 2008 – 2 Chrono Trigger | url=http://top100.ign.com/2008/ign_top_game_2.html | publisher=IGN | accessdate=March 13, 2009}}";
             
@@ -5093,7 +5095,7 @@ was"));
         [Test]
         public void RenameTemplateParameters()
         {
-            List<WikiRegexes.TemplateParameters> RenamedTemplateParameters = Parsers.LoadRenamedTemplateParameters(@"{{Rename template parameter|cite web|acccessdate|accessdate}}");
+            List<WikiRegexes.TemplateParameters> RenamedTemplateParameters = Parsers.LoadRenamedTemplateParameters(@"{{AWB rename template parameter|cite web|acccessdate|accessdate}}");
             
             const string correct = @"{{cite web | url=http://www.site.com | title = Testing | accessdate = 20 May 2009 }}";
             Assert.AreEqual(correct, Parsers.RenameTemplateParameters(correct.Replace("accessdate", "acccessdate"), RenamedTemplateParameters), "renames parameter in simple template call");
@@ -5105,7 +5107,7 @@ was"));
         [Test]
         public void LoadRenamedTemplateParameters()
         {
-            List<WikiRegexes.TemplateParameters> RenamedTemplateParameters = Parsers.LoadRenamedTemplateParameters(@"{{Rename template parameter|cite web|acccessdate|accessdate}}");
+            List<WikiRegexes.TemplateParameters> RenamedTemplateParameters = Parsers.LoadRenamedTemplateParameters(@"{{AWB rename template parameter|cite web|acccessdate|accessdate}}");
             
             Assert.AreEqual(1, RenamedTemplateParameters.Count);
             
@@ -5117,8 +5119,8 @@ was"));
             }
             
             RenamedTemplateParameters = Parsers.LoadRenamedTemplateParameters(@"
-{{Rename template parameter|cite web|acccessdate|accessdate}}
-{{Rename template parameter|cite web|acessdate|accessdate}}");
+{{AWB rename template parameter|cite web|acccessdate|accessdate}}
+{{AWB rename template parameter|cite web|acessdate|accessdate}}");
             
             Assert.AreEqual(2, RenamedTemplateParameters.Count);
         }
