@@ -2247,7 +2247,8 @@ window.scrollTo(0, diffTopY);
                 chkNudge.Checked = true;
                 chkNudgeSkip.Checked = false;
 
-                if (chkRegExTypo.Checked)
+                // typo fixing not permitted on Wikimedia projects per [[WP:SPELLBOT]]
+                if (chkRegExTypo.Checked && !Variables.IsCustomProject)
                 {
                     MessageBox.Show("Sorry, bot mode cannot be used with RegExTypoFix.\r\nRegExTypoFix will now be turned off", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     chkRegExTypo.Checked = false;
