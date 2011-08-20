@@ -1211,6 +1211,9 @@ namespace WikiFunctions
             {
                 AWBChangeArticleText("Template redirects", Parsers.TemplateRedirects(ArticleText, WikiRegexes.TemplateRedirects), false);
                 Variables.Profiler.Profile("TemplateRedirects");
+                
+                AWBChangeArticleText("Rename Template Parameters", Parsers.RenameTemplateParameters(ArticleText, WikiRegexes.RenamedTemplateParameters), false);
+                Variables.Profiler.Profile("RenameTemplateParameters");
 
                 // call this before MinorFixes so that Parsers.Conversions cleans up from ArticleIssues
                 AWBChangeArticleText("Fixes for {{Multiple issues}}", parsers.MultipleIssues(ArticleText), true);

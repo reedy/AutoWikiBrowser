@@ -288,6 +288,9 @@ namespace WikiFunctions
         /// </summary>
         public static List<Regex> DatedTemplates = new List<Regex>();
         
+        /// <summary>
+        /// Structure of template name, old parameter, new parameter for parameter renaming
+        /// </summary>
         public struct TemplateParameters
         {
             public string TemplateName;
@@ -295,6 +298,9 @@ namespace WikiFunctions
             public string NewParameter;
         }
         
+        /// <summary>
+        /// List of templates with old parameter and new for parameter renaming
+        /// </summary>
         public static List<WikiRegexes.TemplateParameters> RenamedTemplateParameters = new List<WikiRegexes.TemplateParameters>();
 
         /// <summary>
