@@ -1696,6 +1696,46 @@ namespace WikiFunctions.Parse
             
             return (m.Groups[1].Value + newTemplateName + m.Groups[3].Value);
         }
+        
+        
+        public static string RenameTemplateParameters(string articleText, List<WikiRegexes.TemplateParameters> RenamedTemplateParameters)
+        {
+            return WikiRegexes.NestedTemplates.Replace(articleText, m => RenameTemplateParametersME(m, RenamedTemplateParameters));
+        }
+        
+        private static string RenameTemplateParametersME(Match m, List<WikiRegexes.TemplateParameters> RenamedTemplateParameters)
+        {
+            string templatename = Tools.TurnFirstToLower(Tools.GetTemplateName(m.Value));
+            string newvalue = m.Value;
+            
+            foreach(WikiRegexes.TemplateParameters Params in RenamedTemplateParameters)
+            {
+                if(Params.TemplateName.Equals(templatename))
+                    newvalue = Tools.RenameTemplateParameter(newvalue, Params.OldParameter, Params.NewParameter);
+            }
+            return newvalue;
+        }
+        
+        public static List<WikiRegexes.TemplateParameters> LoadRenamedTemplateParameters(string text)
+        {
+            text = WikiRegexes.UnformattedText.Replace(text, "");
+            List<WikiRegexes.TemplateParameters> TPs = new List<WikiRegexes.TemplateParameters>();
+
+            foreach (Match m in Tools.NestedTemplateRegex("Rename template parameter").Matches(text))
+            {
+                string templatename = Tools.TurnFirstToLower(Tools.GetTemplateArgument(m.Value, 1)), oldparam = Tools.GetTemplateArgument(m.Value, 2),
+                newparam = Tools.GetTemplateArgument(m.Value, 3);
+                
+                WikiRegexes.TemplateParameters Params;
+                Params.TemplateName = templatename;
+                Params.OldParameter = oldparam;
+                Params.NewParameter = newparam;
+                
+                TPs.Add(Params);
+            }
+
+            return TPs;
+        }
 
         /// <summary>
         /// Corrects common formatting errors in dates in external reference citation templates (doesn't link/delink dates)
