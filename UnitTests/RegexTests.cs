@@ -1500,13 +1500,13 @@ words2"));
             // no matches
             Assert.IsFalse(WikiRegexes.DeathsOrLivingCategory.IsMatch(@""));
             Assert.IsFalse(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:strange deaths]]"));
+            Assert.IsFalse(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Missing people organizations]]"));
             Assert.IsFalse(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"1990 deaths"));
         }
 
         [Test]
         public void BirthsCategoryTests()
         {
-
             Assert.IsTrue(WikiRegexes.BirthsCategory.IsMatch(@"[[Category:12th-century births]]"));
             Assert.IsTrue(WikiRegexes.BirthsCategory.IsMatch(@"[[Category:1299 births]]"));
             Assert.IsTrue(WikiRegexes.BirthsCategory.IsMatch(@"[[Category:110 BC births]]"));
