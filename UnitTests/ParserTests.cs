@@ -5089,6 +5089,39 @@ was"));
             Assert.AreEqual("now {{fOO bar}} was", Parsers.TemplateRedirects("now {{fb}} was", TemplateRedirects), "first letter case respected for non-acronym template");
             Assert.AreEqual("now {{FOO bar}} was", Parsers.TemplateRedirects("now {{Fb}} was", TemplateRedirects));
         }
+        
+        [Test]
+        public void RenameTemplateParameters()
+        {
+            List<WikiRegexes.TemplateParameters> RenamedTemplateParameters = Parsers.LoadRenamedTemplateParameters(@"{{Rename template parameter|cite web|acccessdate|accessdate}}");
+            
+            const string correct = @"{{cite web | url=http://www.site.com | title = Testing | accessdate = 20 May 2009 }}";
+            Assert.AreEqual(correct, Parsers.RenameTemplateParameters(correct.Replace("accessdate", "acccessdate"), RenamedTemplateParameters), "renames parameter in simple template call");
+            
+            const string correct2 = @"<ref>{{cite web | url=http://www.site.com | title = Testing | accessdate = 20 May 2009 }}</ref><ref>{{cite web | url=http://www.site2.com | title = Testing2 | accessdate = 2 May 2009 }}</ref>";
+            Assert.AreEqual(correct2, Parsers.RenameTemplateParameters(correct2.Replace("accessdate", "acccessdate"), RenamedTemplateParameters), "renames parameter in simple template call");
+        }
+        
+        [Test]
+        public void LoadRenamedTemplateParameters()
+        {
+            List<WikiRegexes.TemplateParameters> RenamedTemplateParameters = Parsers.LoadRenamedTemplateParameters(@"{{Rename template parameter|cite web|acccessdate|accessdate}}");
+            
+            Assert.AreEqual(1, RenamedTemplateParameters.Count);
+            
+            foreach(WikiRegexes.TemplateParameters TP in RenamedTemplateParameters)
+            {
+                Assert.AreEqual("cite web", TP.TemplateName);
+                Assert.AreEqual("acccessdate", TP.OldParameter);
+                Assert.AreEqual("accessdate", TP.NewParameter);
+            }
+            
+            RenamedTemplateParameters = Parsers.LoadRenamedTemplateParameters(@"
+{{Rename template parameter|cite web|acccessdate|accessdate}}
+{{Rename template parameter|cite web|acessdate|accessdate}}");
+            
+            Assert.AreEqual(2, RenamedTemplateParameters.Count);
+        }
     }
 
     [TestFixture]
@@ -5828,7 +5861,7 @@ While remaining upright may be the primary goal of beginning riders| [[2009 Indi
             // don't apply within imagemaps
             Assert.AreEqual(@"<imagemap> [[foo]] </imagemap>", Parsers.FixLinks(@"<imagemap> [[foo]] </imagemap>", "foo", out noChangeBack));
             Assert.IsTrue(noChangeBack);
-                        
+            
             // don't apply within {{taxobox color}}
             Assert.AreEqual(@"{{taxobox color| [[foo]] }}", Parsers.FixLinks(@"{{taxobox color| [[foo]] }}", "foo", out noChangeBack));
             Assert.IsTrue(noChangeBack);

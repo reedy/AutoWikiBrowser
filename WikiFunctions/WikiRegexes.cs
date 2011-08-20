@@ -287,6 +287,15 @@ namespace WikiFunctions
         /// List of templates that should be dated (with 'date=Month YYYY' on en-wiki)
         /// </summary>
         public static List<Regex> DatedTemplates = new List<Regex>();
+        
+        public struct TemplateParameters
+        {
+            public string TemplateName;
+            public string OldParameter;
+            public string NewParameter;
+        }
+        
+        public static List<WikiRegexes.TemplateParameters> RenamedTemplateParameters = new List<WikiRegexes.TemplateParameters>();
 
         /// <summary>
         /// Piece of template call, including curly brace and possible namespace
