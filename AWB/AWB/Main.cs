@@ -84,6 +84,7 @@ namespace AutoWikiBrowser
         private bool UserTalkWarningsLoaded;
         private bool TemplateRedirectsLoaded;
         private bool DatedTemplatesLoaded;
+        private bool RenamedTemplateParametersLoaded;
         private Regex UserTalkTemplatesRegex;
         private bool Skippable = true;
         private FormWindowState LastState = FormWindowState.Normal; // doesn't look like we can use RestoreBounds for this - any other built in way?
@@ -1511,6 +1512,12 @@ namespace AutoWikiBrowser
                                 Variables.Profiler.Profile("LoadDatedTemplates");
                             }
                             
+                            if(!RenamedTemplateParametersLoaded)
+                            {
+                                LoadRenameTemplateParameters();
+                                Variables.Profiler.Profile("LoadRenameTemplateParameters");
+                            }
+                            
                             theArticle.PerformGeneralFixes(Parser, RemoveText, Skip,
                                                            replaceReferenceTagsToolStripMenuItem.Checked,
                                                            restrictDefaultsortChangesToolStripMenuItem.Checked,
@@ -2847,6 +2854,9 @@ window.scrollTo(0, diffTopY);
             
             if(DatedTemplatesLoaded)
                 LoadDatedTemplates();
+            
+            if(RenamedTemplateParametersLoaded)
+                LoadRenameTemplateParameters();
         }
 
         private void SetProject(string code, ProjectEnum project, string customProject, bool usingSecure)
@@ -4525,6 +4535,23 @@ window.scrollTo(0, diffTopY);
 
             if(text.Length > 0)
                 WikiRegexes.DatedTemplates = Parsers.LoadDatedTemplates(text);
+        }
+        
+        private void LoadRenameTemplateParameters()
+        {
+            string text;
+            RenamedTemplateParametersLoaded = true;
+            try
+            {
+                text = TheSession.Editor.SynchronousEditor.Clone().Open("Project:AutoWikiBrowser/Rename template parameters", true);
+            }
+            catch
+            {
+                text = "";
+            }
+
+            if(text.Length > 0)
+                WikiRegexes.RenamedTemplateParameters = Parsers.LoadRenamedTemplateParameters(text);
         }
 
         private void undoAllChangesToolStripMenuItem_Click(object sender, EventArgs e)
