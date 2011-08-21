@@ -1697,12 +1697,16 @@ namespace WikiFunctions.Parse
             return (m.Groups[1].Value + newTemplateName + m.Groups[3].Value);
         }
         
-        private static Regex RenameTemplateParametersTemplates;
+        private static Regex RenameTemplateParametersTemplates;        
         
-        
+        /// <summary>
+        /// Renames parameters in template calls
+        /// </summary>
+        /// <param name="articleText">The wiki text</param>
+        /// <param name="RenamedTemplateParameters">List of templates, old parameter, new parameter</param>
+        /// <returns>The updated wiki text</returns>
         public static string RenameTemplateParameters(string articleText, List<WikiRegexes.TemplateParameters> RenamedTemplateParameters)
-        {
-            
+        {            
             if(RenameTemplateParametersTemplates == null)
             {
                 List<string> Templates = new List<string>();
@@ -1731,6 +1735,11 @@ namespace WikiFunctions.Parse
             return newvalue;
         }
         
+        /// <summary>
+        /// Loads List of templates, old parameter, new parameter from within {{AWB rename template parameter}}
+        /// </summary>
+        /// <param name="text">Source page of {{AWB rename template parameter}} rules</param>
+        /// <returns>List of templates, old parameter, new parameter</returns>
         public static List<WikiRegexes.TemplateParameters> LoadRenamedTemplateParameters(string text)
         {
             text = WikiRegexes.UnformattedText.Replace(text, "");
@@ -3483,7 +3492,7 @@ namespace WikiFunctions.Parse
             }
             
             // look for full dates matching birth/death categories
-            newPersonData = CompletePersonDataDate(newPersonData, articleText);
+            newPersonData = Tools.RemoveDuplicateTemplateParameters(CompletePersonDataDate(newPersonData, articleText));
             
             // merge changes
             if (!newPersonData.Equals(originalPersonData) && newPersonData.Length > originalPersonData.Length)
