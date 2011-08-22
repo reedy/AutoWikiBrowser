@@ -2635,6 +2635,18 @@ world|format=PDF}} was";
 [[Cateogory:1980 births]]";
             
             Assert.AreEqual(LowerCase, Parsers.PersonData(LowerCase, "foo"), "no update when lowercase parameter holds the data already");
+            
+            const string LowerCase2 = @"{{Persondata
+|date of birth=1980
+|DATE OF BIRTH=1980
+}}
+[[Category:2005 deaths]]";
+            
+            Assert.AreEqual(@"{{Persondata
+|DATE OF BIRTH=1980
+| DATE OF DEATH= 2005
+}}
+[[Category:2005 deaths]]", Parsers.PersonData(LowerCase2, "foo"), "duplicate fields removed");
         }
         
         [Test]
