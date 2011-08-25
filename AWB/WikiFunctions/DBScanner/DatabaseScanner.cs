@@ -953,5 +953,10 @@ namespace WikiFunctions.DBScanner
         {
             txtTitleNotContains.Enabled = chkTitleDoesNotContain.Checked;
         }
+
+        private void gbAWBSpecific_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 }
