@@ -594,7 +594,7 @@ namespace WikiFunctions.DBScanner
             // chkCiteTemplateDates
             // 
             this.chkCiteTemplateDates.AutoSize = true;
-            this.chkCiteTemplateDates.Location = new System.Drawing.Point(167, 72);
+            this.chkCiteTemplateDates.Location = new System.Drawing.Point(167, 95);
             this.chkCiteTemplateDates.Name = "chkCiteTemplateDates";
             this.chkCiteTemplateDates.Size = new System.Drawing.Size(148, 17);
             this.chkCiteTemplateDates.TabIndex = 7;
@@ -604,7 +604,7 @@ namespace WikiFunctions.DBScanner
             // chkReorderReferences
             // 
             this.chkReorderReferences.AutoSize = true;
-            this.chkReorderReferences.Location = new System.Drawing.Point(167, 118);
+            this.chkReorderReferences.Location = new System.Drawing.Point(321, 26);
             this.chkReorderReferences.Name = "chkReorderReferences";
             this.chkReorderReferences.Size = new System.Drawing.Size(129, 17);
             this.chkReorderReferences.TabIndex = 7;
@@ -614,7 +614,7 @@ namespace WikiFunctions.DBScanner
             // chkPeopleCategories
             // 
             this.chkPeopleCategories.AutoSize = true;
-            this.chkPeopleCategories.Location = new System.Drawing.Point(3, 118);
+            this.chkPeopleCategories.Location = new System.Drawing.Point(167, 3);
             this.chkPeopleCategories.Name = "chkPeopleCategories";
             this.chkPeopleCategories.Size = new System.Drawing.Size(138, 17);
             this.chkPeopleCategories.TabIndex = 10;
@@ -624,7 +624,7 @@ namespace WikiFunctions.DBScanner
             // chkUnbalancedBrackets
             // 
             this.chkUnbalancedBrackets.AutoSize = true;
-            this.chkUnbalancedBrackets.Location = new System.Drawing.Point(167, 95);
+            this.chkUnbalancedBrackets.Location = new System.Drawing.Point(321, 3);
             this.chkUnbalancedBrackets.Name = "chkUnbalancedBrackets";
             this.chkUnbalancedBrackets.Size = new System.Drawing.Size(128, 17);
             this.chkUnbalancedBrackets.TabIndex = 9;
@@ -654,7 +654,7 @@ namespace WikiFunctions.DBScanner
             // chkHeaderError
             // 
             this.chkHeaderError.AutoSize = true;
-            this.chkHeaderError.Location = new System.Drawing.Point(167, 49);
+            this.chkHeaderError.Location = new System.Drawing.Point(167, 72);
             this.chkHeaderError.Name = "chkHeaderError";
             this.chkHeaderError.Size = new System.Drawing.Size(86, 17);
             this.chkHeaderError.TabIndex = 5;
@@ -686,7 +686,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.txtStartFrom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtStartFrom.Location = new System.Drawing.Point(342, 48);
+            this.txtStartFrom.Location = new System.Drawing.Point(94, 140);
             this.txtStartFrom.Name = "txtStartFrom";
             this.txtStartFrom.Size = new System.Drawing.Size(172, 20);
             this.txtStartFrom.TabIndex = 3;
@@ -799,7 +799,7 @@ namespace WikiFunctions.DBScanner
             // lblStartFrom
             // 
             this.lblStartFrom.AutoSize = true;
-            this.lblStartFrom.Location = new System.Drawing.Point(339, 29);
+            this.lblStartFrom.Location = new System.Drawing.Point(6, 143);
             this.lblStartFrom.Name = "lblStartFrom";
             this.lblStartFrom.Size = new System.Drawing.Size(82, 13);
             this.lblStartFrom.TabIndex = 2;
@@ -809,7 +809,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.lblLimitResutls.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblLimitResutls.AutoSize = true;
-            this.lblLimitResutls.Location = new System.Drawing.Point(339, 75);
+            this.lblLimitResutls.Location = new System.Drawing.Point(331, 142);
             this.lblLimitResutls.Name = "lblLimitResutls";
             this.lblLimitResutls.Size = new System.Drawing.Size(76, 13);
             this.lblLimitResutls.TabIndex = 2;
@@ -823,7 +823,7 @@ namespace WikiFunctions.DBScanner
             0,
             0,
             0});
-            this.nudLimitResults.Location = new System.Drawing.Point(421, 71);
+            this.nudLimitResults.Location = new System.Drawing.Point(413, 140);
             this.nudLimitResults.Maximum = new decimal(new int[] {
             10000000,
             0,
@@ -1002,10 +1002,11 @@ namespace WikiFunctions.DBScanner
             this.gbAWBSpecific.Location = new System.Drawing.Point(3, 3);
             this.gbAWBSpecific.Name = "gbAWBSpecific";
             this.gbAWBSpecific.Padding = new System.Windows.Forms.Padding(2);
-            this.gbAWBSpecific.Size = new System.Drawing.Size(327, 159);
+            this.gbAWBSpecific.Size = new System.Drawing.Size(503, 131);
             this.gbAWBSpecific.TabIndex = 3;
             this.gbAWBSpecific.TabStop = false;
             this.gbAWBSpecific.Text = "A&WB specific";
+            this.gbAWBSpecific.Enter += new System.EventHandler(this.gbAWBSpecific_Enter);
             // 
             // flwAWB
             // 
@@ -1024,13 +1025,13 @@ namespace WikiFunctions.DBScanner
             this.flwAWB.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flwAWB.Location = new System.Drawing.Point(3, 13);
             this.flwAWB.Name = "flwAWB";
-            this.flwAWB.Size = new System.Drawing.Size(321, 140);
+            this.flwAWB.Size = new System.Drawing.Size(500, 118);
             this.flwAWB.TabIndex = 5;
             // 
             // chkTypo
             // 
             this.chkTypo.AutoSize = true;
-            this.chkTypo.Location = new System.Drawing.Point(167, 3);
+            this.chkTypo.Location = new System.Drawing.Point(167, 26);
             this.chkTypo.Name = "chkTypo";
             this.chkTypo.Size = new System.Drawing.Size(50, 17);
             this.chkTypo.TabIndex = 1;
@@ -1039,7 +1040,7 @@ namespace WikiFunctions.DBScanner
             // chkDefaultSort
             // 
             this.chkDefaultSort.AutoSize = true;
-            this.chkDefaultSort.Location = new System.Drawing.Point(167, 26);
+            this.chkDefaultSort.Location = new System.Drawing.Point(167, 49);
             this.chkDefaultSort.Name = "chkDefaultSort";
             this.chkDefaultSort.Size = new System.Drawing.Size(129, 17);
             this.chkDefaultSort.TabIndex = 3;
@@ -1510,7 +1511,7 @@ namespace WikiFunctions.DBScanner
             this.chkProtection.AutoSize = true;
             this.chkProtection.Location = new System.Drawing.Point(6, 6);
             this.chkProtection.Name = "chkProtection";
-            this.chkProtection.Size = new System.Drawing.Size(110, 17);
+            this.chkProtection.Size = new System.Drawing.Size(105, 17);
             this.chkProtection.TabIndex = 1;
             this.chkProtection.Text = "Check restriction";
             this.chkProtection.UseVisualStyleBackColor = true;
