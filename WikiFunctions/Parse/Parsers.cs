@@ -3613,7 +3613,7 @@ namespace WikiFunctions.Parse
                 {
                     string bValue = m.Value;
                     
-                    if(!UncertainWordings.IsMatch(bValue) && !ReignedRuledUnsure.IsMatch(bValue))
+                    if(!UncertainWordings.IsMatch(bValue) && !ReignedRuledUnsure.IsMatch(bValue) && !Tools.NestedTemplateRegex("fl").IsMatch(bValue))
                     {
                         
                         string bBorn = "", bDied = "";
@@ -5408,7 +5408,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex YearPossiblyWithBC = new Regex(@"\d{3,4}(?![\ds])(?: BC)?", RegexOptions.Compiled);
         private static readonly Regex ThreeOrFourDigitNumber = new Regex(@"\d{3,4}", RegexOptions.Compiled);
         private static readonly Regex DiedOrBaptised = new Regex(@"(^.*?)((?:&[nm]dash;|—|–|;|[Dd](?:ied|\.)|baptised).*)", RegexOptions.Compiled);
-        private static readonly Regex NotCircaTemplate = new Regex(@"{{(?![Cc]irca)[^{]*?}}", RegexOptions.Compiled);
+        private static readonly Regex NotCircaTemplate = new Regex(@"{{(?!(?:[Cc]irca|fl))[^{]*?}}", RegexOptions.Compiled);
         private static readonly Regex AsOfText = new Regex(@"\bas of\b", RegexOptions.Compiled);
 
         /// <summary>
@@ -5511,7 +5511,7 @@ namespace WikiFunctions.Parse
                     if (!(m.Index > PersonYearOfDeath.Match(zerothSection).Index) || !PersonYearOfDeath.IsMatch(zerothSection))
                     {
                         // when there's only an approximate birth year, add the appropriate cat rather than the xxxx birth one
-                        if (UncertainWordings.IsMatch(birthpart) || alreadyUncertain)
+                        if (UncertainWordings.IsMatch(birthpart) || alreadyUncertain || Tools.NestedTemplateRegex("fl").IsMatch(birthpart))
                         {
                             if (!CategoryMatch(articleText, YearOfBirthMissingLivingPeople) && !CategoryMatch(articleText, YearOfBirthUncertain))
                                 articleText += Tools.Newline(@"[[Category:") + YearOfBirthUncertain + CatEnd(sort);
@@ -5587,7 +5587,8 @@ namespace WikiFunctions.Parse
 
                     if (!WikiRegexes.BirthsCategory.IsMatch(articleText))
                     {
-                        if (!UncertainWordings.IsMatch(birthpart) && !ReignedRuledUnsure.IsMatch(m.Value) && !Regex.IsMatch(birthpart, @"(?:[Dd](?:ied|\.)|baptised)"))
+                        if (!UncertainWordings.IsMatch(birthpart) && !ReignedRuledUnsure.IsMatch(m.Value) && !Regex.IsMatch(birthpart, @"(?:[Dd](?:ied|\.)|baptised)")
+                           && !Tools.NestedTemplateRegex("fl").IsMatch(birthpart))
                             articleText += Tools.Newline(@"[[Category:") + birthyear + @" births" + CatEnd(sort);
                         else
                             if (UncertainWordings.IsMatch(birthpart) && !CategoryMatch(articleText, YearOfBirthMissingLivingPeople) && !CategoryMatch(articleText, YearOfBirthUncertain))
