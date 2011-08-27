@@ -365,6 +365,11 @@ en, sq, ru
             if(WikiRegexes.Category.IsMatch(@"[[" + Tools.RedirectTarget(articleText) + @"]]"))
                 return "";
             
+            // don't operate on pages with (incorrectly) multiple defaultsorts
+            MatchCollection mc = WikiRegexes.Defaultsort.Matches(articleText);
+            if (mc.Count > 1)
+                return "";
+            
             List<string> categoryList = new List<string>();
             string originalArticleText = articleText;
 
@@ -400,9 +405,6 @@ en, sq, ru
                 articleText = articleText.Replace(catComment, "");
                 categoryList.Insert(0, catComment);
             }
-
-            MatchCollection mc = WikiRegexes.Defaultsort.Matches(articleText);
-            if (mc.Count > 1) throw new ArgumentException("Page contains multiple {{DEFAULTSORTS}} tags. Metadata sorting cancelled");
 
             string defaultSort = "";
             

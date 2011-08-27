@@ -836,6 +836,9 @@ foo";
 
             Assert.AreEqual(c + "\r\n" + b + "\r\n", parser2.Sorter.RemoveCats(ref d, "test"));
             Assert.AreEqual(b + "\r\n", parser2.Sorter.RemoveCats(ref f, "test"));
+            
+            string g = c + "\r\n" + c;
+            Assert.AreEqual("", parser2.Sorter.RemoveCats(ref g, "test"), "does not modify page with multiple defaultsorts");
         }
 
         [Test]
