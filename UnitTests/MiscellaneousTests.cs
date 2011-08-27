@@ -455,6 +455,8 @@ Image:quux[http://example.com]
 
             Assert.AreEqual(Namespace.Project, Namespace.Determine("Wikipedia:Foo"));
             Assert.AreEqual(Namespace.Project, Namespace.Determine("Project:Foo"));
+            
+            Assert.AreEqual(Namespace.Talk, Namespace.Determine(@"Talk:ʿAyn"), "handles pages with spacing modifier Unicode characters at start of name");
         }
 
         [Test]
@@ -464,6 +466,18 @@ Image:quux[http://example.com]
             Assert.AreEqual(Namespace.User, Namespace.Determine("user:foo"));
             Assert.AreEqual(Namespace.UserTalk, Namespace.Determine("user_talk:foo"));
             Assert.AreEqual(Namespace.UserTalk, Namespace.Determine("user%20talk:foo"));
+        }
+        
+        [Test]
+        public void OtherLanguages()
+        {
+            #if DEBUG
+            Variables.SetProjectLangCode("fr");
+            Variables.Namespaces[1] = "Discussion:";
+            Assert.AreEqual(Namespace.Talk, Namespace.Determine(@"Discussion:foo"));
+            Variables.SetProjectLangCode("en");
+            Variables.Namespaces[1] = "Talk:";
+            #endif
         }
 
         [Test]
