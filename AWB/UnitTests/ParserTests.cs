@@ -1450,7 +1450,7 @@ died 2002
             const string bd2 = @"''Foo''' (8 May 1920 – 11 June 2004) was {{persondata}}";
             Assert.AreEqual(bd2 + bd1a + bd1b, Parsers.FixPeopleCategories(bd2, "foo"));
 
-            const string bd3 = @"'''Foo''' (8 May 1920 somewhere or other&ndash;11 June 2004) was {{persondata}}";
+            const string bd3 = @"'''Foo''' (8 May 1920 somewhere &ndash;11 June 2004) was {{persondata}}";
             Assert.AreEqual(bd3 + bd1a + bd1b, Parsers.FixPeopleCategories(bd3, "foo"));
 
             // approximate date check still applied
@@ -6737,7 +6737,7 @@ foo {{persondata}}
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:2002 animal births]] {{persondata|name=smith}}", "foo"));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{In-universe}} {{persondata|name=smith}}", "foo"));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo {{in-universe}} {{persondata|name=smith}}", "foo"));
-            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Multiple people]] {{persondata|name=smith}}", "foo"));
+            Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Articles about multiple people]] {{persondata|name=smith}}", "foo"));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[Category:Fictional blah]] {{persondata|name=smith}}", "foo"));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[fictional character]] {{persondata|name=smith}}", "foo"));
             Assert.IsFalse(Parsers.IsArticleAboutAPerson(@"Foo [[fictional character|character]] {{persondata|name=smith}}", "foo"));

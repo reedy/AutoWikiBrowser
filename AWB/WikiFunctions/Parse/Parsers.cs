@@ -5179,7 +5179,8 @@ namespace WikiFunctions.Parse
             return IsArticleAboutAPerson(articleText, articleTitle, false);
         }
         
-        private static readonly Regex BLPUnsourcedSection = Tools.NestedTemplateRegex("BLP unsourced section");
+        private static readonly Regex BLPUnsourcedSection = Tools.NestedTemplateRegex(new List<string>("BLP unsourced section,BLP sources section".Split(',')));
+        private static readonly Regex NotPersonArticles = new Regex(@"(^(((?:First )?(?:Premiership|Presidency)|List|Murder|Disappearance) of|Deaths)|(discography|filmography| deaths| murders)$)", RegexOptions.Compiled);
 
         /// <summary>
         /// determines whether the article is about a person by looking for persondata/birth death categories, bio stub etc. for en wiki only
@@ -5204,11 +5205,8 @@ namespace WikiFunctions.Parse
 
             if (!Variables.LangCode.Equals("en")
                 || Namespace.Determine(articleTitle).Equals(Namespace.Category)
-                || articleTitle.StartsWith(@"List of ")
-                || articleTitle.StartsWith(@"Murder of ")
-                || articleTitle.StartsWith(@"Deaths ")
-                || articleTitle.EndsWith("discography") || articleTitle.EndsWith(" murders")
-                || articleText.Contains(@"[[Category:Multiple people]]")
+                || NotPersonArticles.IsMatch(articleTitle)
+                || articleText.Contains(@"[[Category:Articles about multiple people]]")                
                 || articleText.Contains(@"[[Category:Married couples")
                 || articleText.Contains(@"[[Category:Fictional")
                 || Regex.IsMatch(articleText, @"\[\[Category:\d{4} animal")
@@ -5367,7 +5365,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex PersonYearOfDeath = new Regex(@"(?<='''.{0,100}?)\([^\(\)]*?[Dd]ied[^\)\.;]+?([12]?\d{3}(?: BC)?)\b", RegexOptions.Compiled);
         private static readonly Regex PersonYearOfBirthAndDeath = new Regex(@"^.{0,100}?'''\s*\([^\)\r\n]*?(?<![Dd]ied)\b([12]?\d{3})\b[^\)\r\n]*?(-|–|—|&[nm]dash;)[^\)\r\n]*?([12]?\d{3})\b[^\)]{0,200}", RegexOptions.Singleline | RegexOptions.Compiled);
 
-        private static readonly Regex UncertainWordings = new Regex(@"(?:\b(about|approx\.?|before|by|later|after|near|either|prior to|around|''fl''|late|[Cc]irca|between|be?tw\.?|[Bb]irth based on age as of date|\d{3,4}(?:\]\])?/(?:\[\[)?\d{1,4}|or +(?:\[\[)?\d{3,})\b|\d{3} *\?|\bca?(?:'')?\.|\b[Cc]a?\b|\b(bef|abt|est)\.|~)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex UncertainWordings = new Regex(@"(?:\b(about|approx\.?|before|by|or \d+|later|after|near|either|probably|prior to|around|late|[Cc]irca|between|be?tw\.?|[Bb]irth based on age as of date|\d{3,4}(?:\]\])?/(?:\[\[)?\d{1,4}|or +(?:\[\[)?\d{3,})\b|\d{3} *\?|\bca?(?:'')?\.|\b[Cc]a?\b|\b(bef|abt|est)\.|~|/|''fl''\.?)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex ReignedRuledUnsure = new Regex(@"(?:\?|[Rr](?:uled|eign(?:ed)?\b)|\br\.|(chr|fl(?:\]\])?)\.|\b(?:[Ff]lo(?:urished|ruit)|active)\b)", RegexOptions.Compiled);
 
         /// <summary>
@@ -5408,7 +5406,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex YearPossiblyWithBC = new Regex(@"\d{3,4}(?![\ds])(?: BC)?", RegexOptions.Compiled);
         private static readonly Regex ThreeOrFourDigitNumber = new Regex(@"\d{3,4}", RegexOptions.Compiled);
         private static readonly Regex DiedOrBaptised = new Regex(@"(^.*?)((?:&[nm]dash;|—|–|;|[Dd](?:ied|\.)|baptised).*)", RegexOptions.Compiled);
-        private static readonly Regex NotCircaTemplate = new Regex(@"{{(?!(?:[Cc]irca|fl))[^{]*?}}", RegexOptions.Compiled);
+        private static readonly Regex NotCircaTemplate = new Regex(@"{{(?!(?:[Cc]irca|[Ff]l\.?))[^{]*?}}", RegexOptions.Compiled);
         private static readonly Regex AsOfText = new Regex(@"\bas of\b", RegexOptions.Compiled);
         private static readonly Regex FloruitTemplate = Tools.NestedTemplateRegex(new List<string>("fl,fl.".Split(',')));
 
