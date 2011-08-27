@@ -3613,7 +3613,7 @@ namespace WikiFunctions.Parse
                 {
                     string bValue = m.Value;
                     
-                    if(!UncertainWordings.IsMatch(bValue) && !ReignedRuledUnsure.IsMatch(bValue) && !Tools.NestedTemplateRegex("fl").IsMatch(bValue))
+                    if(!UncertainWordings.IsMatch(bValue) && !ReignedRuledUnsure.IsMatch(bValue) && !FloruitTemplate.IsMatch(bValue))
                     {
                         
                         string bBorn = "", bDied = "";
@@ -5367,7 +5367,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex PersonYearOfDeath = new Regex(@"(?<='''.{0,100}?)\([^\(\)]*?[Dd]ied[^\)\.;]+?([12]?\d{3}(?: BC)?)\b", RegexOptions.Compiled);
         private static readonly Regex PersonYearOfBirthAndDeath = new Regex(@"^.{0,100}?'''\s*\([^\)\r\n]*?(?<![Dd]ied)\b([12]?\d{3})\b[^\)\r\n]*?(-|–|—|&[nm]dash;)[^\)\r\n]*?([12]?\d{3})\b[^\)]{0,200}", RegexOptions.Singleline | RegexOptions.Compiled);
 
-        private static readonly Regex UncertainWordings = new Regex(@"(?:\b(about|before|after|either|prior to|around|late|[Cc]irca|between|[Bb]irth based on age as of date|\d{3,4}(?:\]\])?/(?:\[\[)?\d{1,4}|or +(?:\[\[)?\d{3,})\b|\d{3} *\?|\bca?(?:'')?\.|\b[Cc]a?\b|\b(bef|abt)\.|~)", RegexOptions.Compiled);
+        private static readonly Regex UncertainWordings = new Regex(@"(?:\b(about|approx\.?|before|by|later|after|near|either|prior to|around|''fl''|late|[Cc]irca|between|be?tw\.?|[Bb]irth based on age as of date|\d{3,4}(?:\]\])?/(?:\[\[)?\d{1,4}|or +(?:\[\[)?\d{3,})\b|\d{3} *\?|\bca?(?:'')?\.|\b[Cc]a?\b|\b(bef|abt|est)\.|~)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex ReignedRuledUnsure = new Regex(@"(?:\?|[Rr](?:uled|eign(?:ed)?\b)|\br\.|(chr|fl(?:\]\])?)\.|\b(?:[Ff]lo(?:urished|ruit)|active)\b)", RegexOptions.Compiled);
 
         /// <summary>
@@ -5410,6 +5410,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex DiedOrBaptised = new Regex(@"(^.*?)((?:&[nm]dash;|—|–|;|[Dd](?:ied|\.)|baptised).*)", RegexOptions.Compiled);
         private static readonly Regex NotCircaTemplate = new Regex(@"{{(?!(?:[Cc]irca|fl))[^{]*?}}", RegexOptions.Compiled);
         private static readonly Regex AsOfText = new Regex(@"\bas of\b", RegexOptions.Compiled);
+        private static readonly Regex FloruitTemplate = Tools.NestedTemplateRegex(new List<string>("fl,fl.".Split(',')));
 
         /// <summary>
         /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
@@ -5511,7 +5512,7 @@ namespace WikiFunctions.Parse
                     if (!(m.Index > PersonYearOfDeath.Match(zerothSection).Index) || !PersonYearOfDeath.IsMatch(zerothSection))
                     {
                         // when there's only an approximate birth year, add the appropriate cat rather than the xxxx birth one
-                        if (UncertainWordings.IsMatch(birthpart) || alreadyUncertain || Tools.NestedTemplateRegex("fl").IsMatch(birthpart))
+                        if (UncertainWordings.IsMatch(birthpart) || alreadyUncertain || FloruitTemplate.IsMatch(birthpart))
                         {
                             if (!CategoryMatch(articleText, YearOfBirthMissingLivingPeople) && !CategoryMatch(articleText, YearOfBirthUncertain))
                                 articleText += Tools.Newline(@"[[Category:") + YearOfBirthUncertain + CatEnd(sort);
@@ -5588,7 +5589,7 @@ namespace WikiFunctions.Parse
                     if (!WikiRegexes.BirthsCategory.IsMatch(articleText))
                     {
                         if (!UncertainWordings.IsMatch(birthpart) && !ReignedRuledUnsure.IsMatch(m.Value) && !Regex.IsMatch(birthpart, @"(?:[Dd](?:ied|\.)|baptised)")
-                           && !Tools.NestedTemplateRegex("fl").IsMatch(birthpart))
+                           && !FloruitTemplate.IsMatch(birthpart))
                             articleText += Tools.Newline(@"[[Category:") + birthyear + @" births" + CatEnd(sort);
                         else
                             if (UncertainWordings.IsMatch(birthpart) && !CategoryMatch(articleText, YearOfBirthMissingLivingPeople) && !CategoryMatch(articleText, YearOfBirthUncertain))
