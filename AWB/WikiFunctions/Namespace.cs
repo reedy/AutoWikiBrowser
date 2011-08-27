@@ -13,7 +13,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ */
 
 using System;
 using System.Text.RegularExpressions;
@@ -47,7 +47,7 @@ namespace WikiFunctions
         public const int CategoryTalk = 15;
 
         public const int FirstCustom = 100;
-        public const int FirstCustomTalk = 101;        
+        public const int FirstCustomTalk = 101;
         public const int Book = 108;
         public const int BookTalk = 109;
 
@@ -76,6 +76,9 @@ namespace WikiFunctions
             StandardNamespaces = new ReadOnlyCollection<int>(ns);
         }
 
+        
+        private static readonly Regex SpacingModifierLetters = new Regex(@"\p{IsSpacingModifierLetters}", RegexOptions.Compiled);
+        
         // Covered by: NamespaceTests.Determine
         /// <summary>
         /// Deduces the namespace number from the input article title.
@@ -84,7 +87,9 @@ namespace WikiFunctions
         {
             articleTitle = Tools.TurnFirstToUpper(Regex.Replace(articleTitle, @"\s*:\s*", ":"));
             
-            articleTitle = Tools.WikiDecode(articleTitle);
+            /* if there is a spacing modifying character at the start of the articletitle it will mean the article full name will never contain "Namespace:"
+             * as the colon and modifier will combine to some other Unicode character, so remove any such modifier characters to allow correct derivation */
+            articleTitle = SpacingModifierLetters.Replace(Tools.WikiDecode(articleTitle), @"'");            
             
             if (!articleTitle.Contains(":"))
                 return 0;
@@ -148,7 +153,7 @@ namespace WikiFunctions
         public static bool IsImportant(int key)
         {
             return (key == Article || key == File
-                || key == Template || key == Category);
+                    || key == Template || key == Category);
         }
 
         // Covered by NamespaceTests.IsTalk()
@@ -234,7 +239,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// Checks if given namespaces are sufficient for AWB to function properly and 
+        /// Checks if given namespaces are sufficient for AWB to function properly and
         /// that their format is expected.
         /// </summary>
         /// <param name="namespaces">namespaces to verify</param>
