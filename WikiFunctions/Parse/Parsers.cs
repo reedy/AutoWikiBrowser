@@ -1697,7 +1697,7 @@ namespace WikiFunctions.Parse
             return (m.Groups[1].Value + newTemplateName + m.Groups[3].Value);
         }
         
-        private static Regex RenameTemplateParametersTemplates;        
+        private static Regex RenameTemplateParametersTemplates;
         
         /// <summary>
         /// Renames parameters in template calls
@@ -1706,22 +1706,28 @@ namespace WikiFunctions.Parse
         /// <param name="RenamedTemplateParameters">List of templates, old parameter, new parameter</param>
         /// <returns>The updated wiki text</returns>
         public static string RenameTemplateParameters(string articleText, List<WikiRegexes.TemplateParameters> RenamedTemplateParameters)
-        {            
-            if(RenameTemplateParametersTemplates == null)
+        {
+            if (RenamedTemplateParameters.Count == 0)
+            {
+                return articleText;
+            }
+            if (RenameTemplateParametersTemplates == null)
             {
                 List<string> Templates = new List<string>();
-                
-                foreach(WikiRegexes.TemplateParameters Params in RenamedTemplateParameters)
+
+                foreach (WikiRegexes.TemplateParameters Params in RenamedTemplateParameters)
                 {
-                    if(!Templates.Contains(Params.TemplateName))
+                    if (!Templates.Contains(Params.TemplateName))
                         Templates.Add(Params.TemplateName);
                 }
-                
+
                 RenameTemplateParametersTemplates = Tools.NestedTemplateRegex(Templates);
             }
-            return RenameTemplateParametersTemplates.Replace(articleText, m => RenameTemplateParametersME(m, RenamedTemplateParameters));
+            return RenameTemplateParametersTemplates.Replace(articleText,
+                                                             m =>
+                                                             RenameTemplateParametersME(m, RenamedTemplateParameters));
         }
-        
+
         private static string RenameTemplateParametersME(Match m, List<WikiRegexes.TemplateParameters> RenamedTemplateParameters)
         {
             string templatename = Tools.TurnFirstToLower(Tools.GetTemplateName(m.Value));
