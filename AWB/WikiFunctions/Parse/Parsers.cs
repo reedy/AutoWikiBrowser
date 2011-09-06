@@ -1824,7 +1824,7 @@ namespace WikiFunctions.Parse
                 
                 // URL has space in it
                 string URL = Tools.GetTemplateParameterValue(m.Value, "url");
-                if(WikiRegexes.UnformattedText.Replace(URL, "").Trim().Contains(" "))
+                if(WikiRegexes.UnformattedText.Replace(WikiRegexes.NestedTemplates.Replace(URL, ""), "").Trim().Contains(" "))
                     found.Add(m.Index + m.Value.IndexOf(URL), URL.Length);
             }
             
