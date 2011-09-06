@@ -4819,6 +4819,13 @@ Bar", "Test"), "No change – not en wiki");
 Bar", "Test"), "inserts blank line if one missing");
             #endif
         }
+        
+        [Test]
+        public void TestFixHeadingsBadHeaders()
+        {
+            Assert.IsFalse(Parsers.FixHeadings(@"==Introduction==
+'''Foo''' great.", "Foo").Contains(@"==Introduction=="));
+        }
 
         [Test, Category("Incomplete")]
         //TODO: cover everything
