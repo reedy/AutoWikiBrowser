@@ -571,7 +571,7 @@ namespace WikiFunctions
         {
             List<string> Unknowns = new List<string>();
             List<string> Knowns = new List<string>(new[] { "advert", "autobiography", "biased", "blpdispute", "BLP IMDB-only refimprove", "BLP IMDb-only refimprove", "BLPrefimprove", "BLP sources", "BLPsources", "BLPunreferenced", "BLPunref", "BLPunsourced", "BLP unsourced", "citations missing", "citationstyle", "citation style",  "citation-style",
-                                                       "citecheck", "cleanup", "COI", "coi", "colloquial", "confusing", "context", "contradict",
+                                                       "citecheck", "cleanup", "cleanup-link rot", "COI", "coi", "colloquial", "confusing", "context", "contradict",
                                                        "copyedit", "copy edit", "criticisms", "crystal", "date", "deadend", "dead end", "disputed", "do-attempt", "essay", "essay-like", "examplefarm", "expert", "external links", "expand",
                                                        "fancruft", "fanpov", "fansite", "fiction", "gameguide", "globalize", "grammar", "histinfo", "hoax", "howto", "inappropriate person", "incomplete", "intro length", "intromissing",
                                                        "introrewrite", "intro-toolong","intro-tooshort", "laundrylists", "lead missing", "lead rewrite", "lead too long", "lead too short", "in-universe", "jargon", "laundrylists", "laundry", "lead missing", "lead too long", "likeresume", "like resume",
