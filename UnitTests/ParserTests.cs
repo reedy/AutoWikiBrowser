@@ -4841,6 +4841,19 @@ Bar", "Test"), "inserts blank line if one missing");
 '''Foo''' great.", "Foo").Contains(@"==Introduction:=="));
             Assert.IsFalse(Parsers.FixHeadings(@"=='''Introduction:'''==
 '''Foo''' great.", "Foo").Contains(@"==Introduction=="));
+
+            Assert.IsFalse(Parsers.FixHeadings(@"==About==
+'''Foo''' great.", "Foo").Contains(@"==About=="));
+            Assert.IsFalse(Parsers.FixHeadings(@"==Description==
+'''Foo''' great.", "Foo").Contains(@"==Description=="));
+            Assert.IsFalse(Parsers.FixHeadings(@"==Overview==
+'''Foo''' great.", "Foo").Contains(@"==Overview=="));
+            Assert.IsFalse(Parsers.FixHeadings(@"==Definition==
+'''Foo''' great.", "Foo").Contains(@"==Definition=="));
+            Assert.IsFalse(Parsers.FixHeadings(@"==Profile==
+'''Foo''' great.", "Foo").Contains(@"==Profile=="));
+            Assert.IsFalse(Parsers.FixHeadings(@"==General information==
+'''Foo''' great.", "Foo").Contains(@"==General information=="));
         }
 
         [Test, Category("Incomplete")]
