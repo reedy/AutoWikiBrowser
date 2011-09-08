@@ -693,10 +693,8 @@ namespace WikiFunctions.Controls.Lists
             if (FilterNonMainAuto)
                 FilterNonMainArticles();
 
-            if (AutoAlpha)
-                l.Sort();
-
-            UpdateNumberOfArticles();
+            if(!FilterNonMainAuto)
+                UpdateNumberOfArticles();
         }
 
         /// <summary>
