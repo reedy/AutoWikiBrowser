@@ -1982,6 +1982,13 @@ Start date and age
         }
         
         [Test]
+        public void FixUpDefaultSortBadChars()
+        {
+            Assert.AreEqual(@"Fred Smith", Tools.FixupDefaultSort(@"fred smitHº"));
+            Assert.AreEqual(@"Fred Smith", Tools.FixupDefaultSort(@"fred ""smitH"""));
+        }
+        
+        [Test]
         public void FixUpDefaultSortTestsRu()
         {
             #if debug

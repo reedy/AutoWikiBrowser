@@ -1313,7 +1313,7 @@ namespace WikiFunctions
             return s != RemoveDiacritics(s);
         }
 
-        private static readonly Regex BadDsChars = new Regex("[\"]");
+        private static readonly Regex BadDsChars = new Regex(@"[\""º]");
 
         //Covered by HumanCatKeyTests.FixUpDefaultSortTests()
         /// <summary>
