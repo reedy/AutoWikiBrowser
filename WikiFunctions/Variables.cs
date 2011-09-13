@@ -633,6 +633,12 @@ namespace WikiFunctions
                             Stub = "(?:[^{}]*?[Ss]tub|[Šš]krbina[^{}]*?)";
                             break;
 
+                        case "tr":
+                            mSummaryTag = " ";
+                            WPAWB = "[[Vikipedi:AWB|AWB]] ile ";
+                            TypoSummaryTag = " yazış şekli:";
+                            break;
+                            
                         case "uk":
                             Stub = ".*?(?:[Ss]tub|[Дд]оробити)";
                             mSummaryTag = " за допомогою ";
