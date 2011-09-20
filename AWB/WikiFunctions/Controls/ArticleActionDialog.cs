@@ -81,7 +81,7 @@ namespace WikiFunctions.Controls
 
                     messages = new string[23];
 
-                    messages[0] = "tagged for [[WP:PROD|proposed deletion]] for 5 days";
+                    messages[0] = "tagged for [[WP:PROD|proposed deletion]] for 7 days";
                     messages[1] = "[[WP:CSD#G1|Patent nonsense]]";
                     messages[2] = "[[WP:CSD#G2|Test page]]";
                     messages[3] = "[[WP:CSD#G3|Pure vandalism]]";
