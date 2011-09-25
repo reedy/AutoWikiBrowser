@@ -239,7 +239,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex RegexHeadingUpOneLevel = new Regex(@"^=(==+[^=].*?[^=]==+)=(\r\n?|\n)$", RegexOptions.Multiline | RegexOptions.Compiled);
         private static readonly Regex ReferencesExternalLinksSeeAlso = new Regex(@"== *([Rr]eferences|[Ee]xternal +[Ll]inks?|[Ss]ee +[Aa]lso) *==\s", RegexOptions.Compiled);
 
-        private static readonly Regex RegexHeadingColonAtEnd = new Regex(@"^(=+)(.+?)\:(\s*\1(?:\r\n?|\n))$", RegexOptions.Multiline | RegexOptions.Compiled);
+        private static readonly Regex RegexHeadingColonAtEnd = new Regex(@"^(=+)(\s*[^=\s].*?)\:(\s*\1(?:\r\n?|\n))$", RegexOptions.Multiline | RegexOptions.Compiled);
         private static readonly Regex RegexHeadingWithBold = new Regex(@"(?<====+.*?)(?:'''|<b>)(.*?)(?:'''|</b>)(?=.*?===+)", RegexOptions.Compiled);
 
         /// <summary>
@@ -5187,7 +5187,11 @@ namespace WikiFunctions.Parse
         
         private static readonly Regex BLPUnsourcedSection = Tools.NestedTemplateRegex(new List<string>("BLP unsourced section,BLP sources section".Split(',')));
         private static readonly Regex NotPersonArticles = new Regex(@"(^(((?:First )?(?:Premiership|Presidency)|List|Murder|Disappearance) of|Deaths)|(discography|filmography| deaths| murders)$)", RegexOptions.Compiled);
-
+        private static MetaDataSorter MDS = new MetaDataSorter();
+        private static readonly Regex NobleFamilies = new Regex(@"[[Category:[^\[\]\|]*[nN]oble families", RegexOptions.Compiled);
+        private static readonly Regex AnimalCategories = new Regex(@"\[\[Category:\d{4} animal", RegexOptions.Compiled);
+        private static readonly Regex CLSAR = Tools.NestedTemplateRegex(@"Infobox Chinese-language singer and actor");
+        
         /// <summary>
         /// determines whether the article is about a person by looking for persondata/birth death categories, bio stub etc. for en wiki only
         /// Should only return true if the article is the principle article about the individual (not early life/career/discography etc.)
@@ -5202,41 +5206,39 @@ namespace WikiFunctions.Parse
             if (Globals.UnitTestMode)
                 parseTalkPage = false;
             #endif
-            
-            // fix for duplicate living people categories being miscounted as article about multiple people
-            MetaDataSorter MDS = new MetaDataSorter();
-            string cats = MDS.RemoveCats(ref articleText, articleTitle);
-
-            articleText += cats;
 
             if (!Variables.LangCode.Equals("en")
                 || Namespace.Determine(articleTitle).Equals(Namespace.Category)
                 || NotPersonArticles.IsMatch(articleTitle)
-                || articleText.Contains(@"[[Category:Articles about multiple people]]")                
+                || articleText.Contains(@"[[Category:Articles about multiple people]]")
                 || articleText.Contains(@"[[Category:Married couples")
                 || articleText.Contains(@"[[Category:Fictional")
-                || Regex.IsMatch(articleText, @"\[\[Category:\d{4} animal")
-                || articleText.Contains(@"[[fictional character")
-                || InUniverse.IsMatch(articleText)
                 || articleText.Contains(@"[[Category:Presidencies")
                 || articleText.Contains(@"[[Category:Military careers")
-                || Regex.IsMatch(articleText, @"[[Category:[^\[\]\|]*[nN]oble families")
-                || CategoryCharacters.IsMatch(articleText)
-                || Tools.NestedTemplateRegex("Infobox cricketer tour biography").IsMatch(articleText)
+                || articleText.Contains(@"[[fictional character")
                 || WikiRegexes.Disambigs.IsMatch(articleText)
-                || WikiRegexes.DeathsOrLivingCategory.Matches(articleText).Count > 1
+                || InUniverse.IsMatch(articleText)
+                || AnimalCategories.IsMatch(articleText)
+                || NobleFamilies.IsMatch(articleText)
+                || CategoryCharacters.IsMatch(articleText)
                 || WikiRegexes.InfoBox.Match(articleText).Groups[1].Value.ToLower().Contains("organization")
+                || Tools.NestedTemplateRegex("Infobox cricketer tour biography").IsMatch(articleText)
                )
                 return false;
             
-            string MABackground =
-                Tools.GetTemplateParameterValue(IMA.Match(articleText).Value,
-                                                "Background", true);
-
-            if(MABackground.Contains("band") || MABackground.Contains("classical_ensemble") || MABackground.Contains("temporary"))
-                return false;
+            Match m2 = IMA.Match(articleText);
             
-            string CLSA = Tools.NestedTemplateRegex(@"Infobox Chinese-language singer and actor").Match(articleText).Value;
+            if(m2.Success)
+            {
+                string MABackground =
+                    Tools.GetTemplateParameterValue(m2.Value,
+                                                    "Background", true);
+
+                if(MABackground.Contains("band") || MABackground.Contains("classical_ensemble") || MABackground.Contains("temporary"))
+                    return false;
+            }
+            
+            string CLSA = CLSAR.Match(articleText).Value;
             if(CLSA.Length > 0)
             {
                 if (Tools.GetTemplateParameterValue(CLSA, "currentmembers").Length > 0
@@ -5270,6 +5272,13 @@ namespace WikiFunctions.Parse
             }
             
             if(WikiRegexes.PeopleInfoboxTemplates.Matches(articleText).Count > 1)
+                return false;
+            
+            // fix for duplicate living people categories being miscounted as article about multiple people
+            string cats = MDS.RemoveCats(ref articleText, articleTitle);
+            articleText += cats;
+            
+            if(WikiRegexes.DeathsOrLivingCategory.Matches(articleText).Count > 1)
                 return false;
             
             if (WikiRegexes.Persondata.Matches(articleText).Count == 1
@@ -5593,7 +5602,7 @@ namespace WikiFunctions.Parse
                     if (!WikiRegexes.BirthsCategory.IsMatch(articleText))
                     {
                         if (!UncertainWordings.IsMatch(birthpart) && !ReignedRuledUnsure.IsMatch(m.Value) && !Regex.IsMatch(birthpart, @"(?:[Dd](?:ied|\.)|baptised)")
-                           && !FloruitTemplate.IsMatch(birthpart))
+                            && !FloruitTemplate.IsMatch(birthpart))
                             articleText += Tools.Newline(@"[[Category:") + birthyear + @" births" + CatEnd(sort);
                         else
                             if (UncertainWordings.IsMatch(birthpart) && !CategoryMatch(articleText, YearOfBirthMissingLivingPeople) && !CategoryMatch(articleText, YearOfBirthUncertain))
