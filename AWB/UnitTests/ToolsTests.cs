@@ -1982,6 +1982,13 @@ Start date and age
         }
         
         [Test]
+        public void FixUpDefaultSortHumanName()
+        {
+            Assert.AreEqual(@"Oconnor, Fred", Tools.FixupDefaultSort(@"O'connor, Fred", true), "aphostrophe removed for bio sortkey per [[WP:MCSTJR]]");
+            Assert.AreEqual(@"O'connor Trading", Tools.FixupDefaultSort(@"O'connor Trading", false), "apostrophes not removed on non-bio sortkey");
+        }
+        
+        [Test]
         public void FixUpDefaultSortBadChars()
         {
             Assert.AreEqual(@"Fred Smith", Tools.FixupDefaultSort(@"fred smitHº"));

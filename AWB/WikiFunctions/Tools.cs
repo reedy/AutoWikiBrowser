@@ -1234,7 +1234,7 @@ namespace WikiFunctions
             new KeyValuePair<string, string>("ȃ", "a"),
             new KeyValuePair<string, string>("ǟ", "a"),
             new KeyValuePair<string, string>("ǡ", "a"),
- 
+            
             new KeyValuePair<string, string>("ḃ", "b"),
             new KeyValuePair<string, string>("ḅ", "b"),
             new KeyValuePair<string, string>("ḇ", "b"),
@@ -1312,6 +1312,14 @@ namespace WikiFunctions
         {
             return s != RemoveDiacritics(s);
         }
+        
+        /// <summary>
+        /// Removes recognised diacritics and double quotes, converts to Proper Case per [[WP:CAT]]
+        /// </summary>
+        public static string FixupDefaultSort(string s)
+        {
+            return FixupDefaultSort(s, false);
+        }
 
         private static readonly Regex BadDsChars = new Regex(@"[\""º]");
 
@@ -1319,7 +1327,7 @@ namespace WikiFunctions
         /// <summary>
         /// Removes recognised diacritics and double quotes, converts to Proper Case per [[WP:CAT]]
         /// </summary>
-        public static string FixupDefaultSort(string s)
+        public static string FixupDefaultSort(string s, bool isArticleAboutAPerson)
         {
             // no diacritic removal in sortkeys on ru-wiki
             if(!Variables.LangCode.Equals("ru"))
@@ -1335,6 +1343,11 @@ namespace WikiFunctions
                 s = s.Remove(m.Index, m.Length);
 
                 s = s.Insert(m.Index, TurnFirstToUpper(m.Value.ToLower()));
+            }
+            
+            if(isArticleAboutAPerson)
+            {
+                s = s.Replace("'", "");
             }
 
             return s.Trim();
