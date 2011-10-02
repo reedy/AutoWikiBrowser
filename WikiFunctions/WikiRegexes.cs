@@ -1119,7 +1119,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the {{In use}} template
         /// </summary>
-        public static readonly Regex InUse = Tools.NestedTemplateRegex(new[] { "Inuse", "In use", "GOCEinuse" });
+        public static readonly Regex InUse = Tools.NestedTemplateRegex(new[] { "Inuse", "In use", "GOCEinuse", "goceinuse" });
 
         /// <summary>
         /// Matches consecutive whitespace
