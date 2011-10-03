@@ -1835,14 +1835,14 @@ namespace AutoWikiBrowser
             this.nudBotSpeed.Enabled = false;
             this.nudBotSpeed.Location = new System.Drawing.Point(46, 45);
             this.nudBotSpeed.Maximum = new decimal(new int[] {
-            5000,
+            99,
             0,
             0,
             0});
             this.nudBotSpeed.Name = "nudBotSpeed";
             this.nudBotSpeed.Size = new System.Drawing.Size(51, 20);
             this.nudBotSpeed.TabIndex = 2;
-            this.ToolTip.SetToolTip(this.nudBotSpeed, "Time in seconds between saves");
+            this.ToolTip.SetToolTip(this.nudBotSpeed, "Time in seconds between saves (maximum 99)");
             this.nudBotSpeed.Value = new decimal(new int[] {
             10,
             0,
