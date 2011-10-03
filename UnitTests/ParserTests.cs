@@ -672,6 +672,14 @@ Jones 2005</ref>"));
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|foodoo=bar|date=2009}} was"));
             
             Found.Remove(15);
+            Found.Add(15, 3);
+            Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|day=11|date=2009}} was"));
+            
+            Found.Remove(15);
+            Found.Add(15, 3);
+            Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|day=1|date=2009}} was"));
+            
+            Found.Remove(15);
             
             // no errors here
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009}} was"));
@@ -4543,7 +4551,7 @@ Some news here.", "test"), "space trimmed from end of paragraph when br replaces
 ", Parsers.FixHeadings(@"== hello:world ==
 ", "a"));
             
-              Assert.AreEqual(@"== : ==
+            Assert.AreEqual(@"== : ==
 ", Parsers.FixHeadings(@"== : ==
 ", "a"));
         }
