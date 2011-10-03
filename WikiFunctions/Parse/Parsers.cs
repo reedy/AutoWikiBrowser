@@ -5219,6 +5219,7 @@ namespace WikiFunctions.Parse
                 || articleText.Contains(@"[[Category:Presidencies")
                 || articleText.Contains(@"[[Category:Military careers")
                 || articleText.Contains(@"[[fictional character")
+                || articleText.Contains(@"[[Category:Parables of")
                 || WikiRegexes.Disambigs.IsMatch(articleText)
                 || InUniverse.IsMatch(articleText)
                 || AnimalDuoCategories.IsMatch(articleText)
