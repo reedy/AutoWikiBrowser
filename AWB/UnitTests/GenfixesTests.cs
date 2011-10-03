@@ -195,7 +195,7 @@ a");
             TalkGenFixes();
             Assert.AreEqual(AllCommented, ArticleText, "no WikiProjectBannerShell addition when templates all commented out");
 
-            const string a = @"{{Talk header}}
+            string a = @"{{Talk header}}
 {{WikiProjectBannerShell|1=
 {{WikiProject a |text}}
 {{WikiProject b|text}}
@@ -213,6 +213,22 @@ a");
             
             TalkGenFixes();
             Assert.AreEqual(a, ArticleText, "Adds WikiProjectBannerShell below talk header");
+            
+            a = @"{{Talk header}}
+{{WikiProjectBannerShell|1=
+{{WikiProject a |text}}
+{{WikiProject b|text}}
+{{WikiProject c|text}}
+}}
+";
+            
+            ArticleText = @"{{Talk header}}
+{{WikiProject a |text}}
+{{WikiProject b|text}}
+{{WikiProject c|text}}";
+            
+            TalkGenFixes();
+            Assert.AreEqual(a, ArticleText, "Adds WikiProjectBannerShell when 3 wikiproject links");
             
         }
     }

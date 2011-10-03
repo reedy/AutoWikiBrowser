@@ -1033,7 +1033,7 @@ __TOC__", articleTextIn);
             const string a = @"{{WikiProject a|text}}", b = @"{{WikiProject b|text}}", c = @"{{WikiProject c|text}}", d = @"{{WikiProject d|text}}";
             Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a));
             Assert.AreEqual(a + b, TalkPageFixes.WikiProjectBannerShell(a + b));
-            Assert.AreEqual(a + b + c, TalkPageFixes.WikiProjectBannerShell(a + b + c));
+Assert.AreEqual(@"{{WikiProjectBannerShell|1=" + "\r\n" + a + "\r\n" + b + "\r\n" + c + "\r\n" + @"}}", TalkPageFixes.WikiProjectBannerShell(a + b + c), "banner shell added for 3 or more wikiproject links");
             Assert.AreEqual(@"{{WikiProjectBannerShell|1=" + "\r\n" + a + "\r\n" + b + "\r\n" + c + "\r\n" + d + "\r\n" + @"}}", TalkPageFixes.WikiProjectBannerShell(a + b + c + d));
             
             const string e = @"{{talk header}}
