@@ -455,12 +455,11 @@ namespace WikiFunctions.TalkPages
 
             return articletext;
         }
-
         
-        private const int WikiProjectsWPBS = 3;
+        private const int WikiProjectsWPBS = 2;
         
         /// <summary>
-        /// Adds WikiProjectBannerShell when needed (> 3 WikiProject templates and no WikiProjectBannerShell)
+        /// Adds WikiProjectBannerShell when needed (>= 3 WikiProject templates and no WikiProjectBannerShell)
         /// </summary>
         /// <param name="articletext">The talk page text</param>
         /// <returns>The updated talk page text</returns>
