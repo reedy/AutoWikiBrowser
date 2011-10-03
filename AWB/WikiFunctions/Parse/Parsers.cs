@@ -1783,7 +1783,7 @@ namespace WikiFunctions.Parse
         }
 
         private static readonly Regex CiteWeb = Tools.NestedTemplateRegex(new[] { "cite web", "citeweb" });
-        private static readonly Regex CitationPopulatedParameter = new Regex(@"\|\s*([a-z_0-9-]+)\s*=\s*([^\|}]{3,}?)\s*");
+        private static readonly Regex CitationPopulatedParameter = new Regex(@"\|\s*([a-z_0-9-]+)\s*=\s*([^\|}]+)");
 
         private static readonly Regex citeWebParameters = new Regex(@"\b(first\d?|last\d?|author\d?|authorlink\d?|coauthors?|title|url|archiveurl|work|publisher|location|pages?|language|trans_title|format|doi|date|month|year|archivedate|accessdate|quote|ref|separator|postscript|at|deadurl|asin)\b", RegexOptions.Compiled);
         
@@ -1804,7 +1804,7 @@ namespace WikiFunctions.Parse
                 
                 foreach (Match m2 in CitationPopulatedParameter.Matches(cite))
                 {
-                    if (!citeWebParameters.IsMatch(m2.Groups[1].Value) && m2.Groups[2].Value.Trim().Length > 2)
+                    if (!citeWebParameters.IsMatch(m2.Groups[1].Value) && Tools.GetTemplateParameterValue(cite, m2.Groups[1].Value).Length > 0)
                         found.Add(m.Index + m2.Groups[1].Index, m2.Groups[1].Length);
                 }
             }
