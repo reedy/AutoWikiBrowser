@@ -610,6 +610,7 @@ namespace WikiFunctions.Controls.Lists
             return true;
         }
 
+        private const string DiffEditURL = @"/w(?:iki)?/index\.php\?title=(.*?)&(?:action|diff|oldid)=.*";
         /// <summary>
         /// Extracts wiki page title from wiki page URL
         /// </summary>
@@ -618,10 +619,10 @@ namespace WikiFunctions.Controls.Lists
             // http://en.wikipedia.org/w/index.php?title=...&action=history
             // http://en.wikipedia.org/w/index.php?title=...&diff=
             string originals = s;
-            Regex HistoryDiff = new Regex(Regex.Escape(Variables.URL) + @"/w(?:iki)?/index\.php\?title=(.*?)&(?:action|diff|oldid)=.*");
+            Regex HistoryDiff = new Regex(Regex.Escape(Variables.URL).Replace(@"http://", @"(?:http://)?") + DiffEditURL);
             s = HistoryDiff.Replace(s, "$1");
             
-            HistoryDiff = new Regex(Regex.Escape(Variables.URLSecure) + @"/w(?:iki)?/index\.php\?title=(.*?)&(?:action|diff|oldid)=.*");
+            HistoryDiff = new Regex(Regex.Escape(Variables.URLSecure).Replace(@"https://", @"(?:https://)?") + DiffEditURL);
             s = HistoryDiff.Replace(s, "$1");
             
             // Assumsuption flaw: that all wikis use /wiki/ as the default path
@@ -693,7 +694,7 @@ namespace WikiFunctions.Controls.Lists
             if (FilterNonMainAuto)
                 FilterNonMainArticles();
 
-            if(!FilterNonMainAuto)
+            if(!FilterNonMainAuto && !FilterDuplicates)
                 UpdateNumberOfArticles();
         }
 

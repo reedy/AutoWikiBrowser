@@ -1207,6 +1207,8 @@ Assert.AreEqual(@"{{WikiProjectBannerShell|1=" + "\r\n" + a + "\r\n" + b + "\r\n
             Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"http://en.wikipedia.org/w/index.php?title=Foo&action=edit"));
             Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"http://en.wikipedia.org/w/index.php?title=Foo&oldid=5"));
             Assert.AreEqual("Science (journal)", LMaker.NormalizeTitle(@"http://en.wikipedia.org/w/index.php?title=Science%20%28journal%29&action=history"));
+            Assert.AreEqual(@"Wikipedia:AutoWikiBrowser/Sandbox", LMaker.NormalizeTitle(@"http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/Sandbox&action=edit"));
+            Assert.AreEqual(@"Wikipedia:AutoWikiBrowser/Sandbox", LMaker.NormalizeTitle(@"en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/Sandbox&action=edit"));
             
             Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"   Foo"), "cleans spacing from Firefox Category paste");
         }
