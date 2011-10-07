@@ -5884,6 +5884,7 @@ namespace WikiFunctions.Parse
 
         private readonly List<string> tagsRemoved = new List<string>();
         private readonly List<string> tagsAdded = new List<string>();
+        private static readonly Regex ImproveCategories = Tools.NestedTemplateRegex("improve categories");
 
         //TODO:Needs re-write
         /// <summary>
@@ -6007,8 +6008,11 @@ namespace WikiFunctions.Parse
                 }
                 else
                 {
-                    // add uncategorized tag
-                    articleText += Tools.Newline("{{Uncategorized|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                    // rename existing {{improve categories}} else add uncategorized tag
+                    if(ImproveCategories.IsMatch(articleText))
+                        articleText = Tools.RenameTemplate(articleText, "improve categories", "Uncategorized");
+                    else
+                        articleText += Tools.Newline("{{Uncategorized|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
                     tagsAdded.Add("[[CAT:UNCAT|uncategorised]]");
                 }
             }

@@ -7816,6 +7816,11 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 
             Assert.IsFalse(text.Contains(UncatStub));
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
+            
+            // rename {{improve categories}} if uncategorized
+            text = parser.Tagger(ShortText + ShortText + @"{{improve categories}}", "Test", false, out noChange, ref summary);
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text));
+            Assert.IsFalse(Tools.NestedTemplateRegex("improve categories").IsMatch(text));
 
             // with categories and no links, Deadend not removed
             Globals.UnitTestIntValue = 3;
