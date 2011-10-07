@@ -115,6 +115,12 @@ namespace UnitTests
             AssertChange("[[a ]]b", "[[a]] b");
             AssertChange("a[[ b]]", "a [[b]]");
         }
+        
+        [Test]
+        public void DateRange()
+        {
+            AssertChange(@"over July 09-11, 2009", @"over July 9–11, 2009");
+        }
 
         [Test]
         // this transformation is currently at Parsers.FixDates()
