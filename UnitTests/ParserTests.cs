@@ -6650,6 +6650,11 @@ foo {{persondata}}
 
             Assert.AreEqual(CInsensitive, Parsers.ChangeToDefaultSort(CInsensitive, "Bar (foo)", out noChange), "no change when defaultsort only differs to article title by case");
             Assert.IsTrue(noChange);
+            
+            string CInsensitive2 = @"{{DEFAULTSORT:Bar}} [[Category:Foo]]";
+            
+            Assert.AreEqual(CInsensitive2, Parsers.ChangeToDefaultSort(CInsensitive2, "BAR", out noChange), "no change when existing defaultsort only differs to article title by case");
+            Assert.IsTrue(noChange);
         }
         
         [Test]
