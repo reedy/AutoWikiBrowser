@@ -1215,9 +1215,8 @@ Assert.AreEqual(@"{{WikiProjectBannerShell|1=" + "\r\n" + a + "\r\n" + b + "\r\n
         
         [Test]
         public void NormalizeTitleSecure()
-        {
-            Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"https://secure.wikimedia.org/wikipedia/en/wiki/Foo"));
-            Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"https://secure.wikimedia.org/wikipedia/en/w/index.php?title=Foo&oldid=41"));
+        {            
+            Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/index.php?title=Foo&diff=3&oldid=4"));
         }
     }
 }

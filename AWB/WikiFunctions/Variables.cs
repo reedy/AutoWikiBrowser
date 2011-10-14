@@ -190,7 +190,7 @@ namespace WikiFunctions
         /// Gets a URL of the site, e.g. "http://en.wikipedia.org".
         /// </summary>
         public static string URL = "http://en.wikipedia.org";
-        public static string URLSecure = "https://secure.wikimedia.org/wikipedia/en/";
+        public static string URLSecure = "https://en.wikipedia.org";
 
         public static string Host { get { return new Uri(URL).Host; } }
 
@@ -518,15 +518,7 @@ namespace WikiFunctions
             else
             {
                 URL = "http://" + LangCode + "." + Project + ".org";
-                URLSecure = "https://secure.wikimedia.org/";
-                if (IsWikimediaMonolingualProject)
-                {
-                    URLSecure += "wikipedia/" + Project;
-                }
-                else
-                {                   	
-                    URLSecure += Project + "/" + LangCode; //https://secure.wikimedia.org/wikipedia/en
-                }
+                URLSecure = "https://" + LangCode + "." + Project + ".org";
              }
 
             // HACK:
