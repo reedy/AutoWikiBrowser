@@ -24,7 +24,9 @@ using WikiFunctions.Controls;
 namespace WikiFunctions.Lists.Providers
 {
     /// <summary>
-    /// 
+    /// List provider to extract page titles from HTML based on a user-provided regex. 
+    /// User specifies regex options and which group to take as the value of the page name. 
+    /// All matches of regex are extracted to a list of pages.
     /// </summary>
     public partial class AdvancedRegexHtmlScraper : Form, IListProvider
     {
