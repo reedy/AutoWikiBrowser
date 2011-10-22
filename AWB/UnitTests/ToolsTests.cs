@@ -816,7 +816,7 @@ John", "*"));
 Tim
  
 John", "*"));
-        }        
+        }
         
         [Test]
         public void GetDomain()
@@ -1818,7 +1818,8 @@ foo<!--comm-->|title=abc
             Assert.AreEqual(@"", Tools.GetMetaContentValue("", "PUBDATE"));
             
             Assert.AreEqual(@"10.1111/j.1096-0031.2009.00267.x", Tools.GetMetaContentValue(@"<meta xmlns=""http://www.w3.org/1999/xhtml"" name=""citation_doi"" content=""10.1111/j.1096-0031.2009.00267.x"" />", "citation_doi"));
-            Assert.AreEqual(@"", Tools.GetMetaContentValue(@"<meta content=""10.1093/nar/27.19.3821"" name=""DC.Identifier"" />", "DC.Identifier"));
+            Assert.AreEqual(@"10.1093/nar/27.19.3821", Tools.GetMetaContentValue(@"<meta content=""10.1093/nar/27.19.3821"" name=""DC.Identifier"" />", "DC.Identifier"));
+            Assert.AreEqual(@"10.1101/gr.7.4.359", Tools.GetMetaContentValue(@"<meta content=""10.1101/gr.7.4.359"" name=""DC.Identifier"" />", "DC.Identifier"));
         }
         
         [Test]
