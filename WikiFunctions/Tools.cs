@@ -762,8 +762,12 @@ namespace WikiFunctions
                 return "";
 
             Regex metaContent = new Regex(@"< *meta +(?:xmlns=""http://www\.w3\.org/1999/xhtml"" +)?name *= *""" + Regex.Escape(metaname) + @"""[^<>/]+content *= *""([^""<>]+?)"" */? *>", RegexOptions.IgnoreCase);
+            Regex metaContent2 = new Regex(@"< *meta +(?:xmlns=""http://www\.w3\.org/1999/xhtml"" +)?[^<>/]*content *= *""([^""<>]+?)"" *name *= *""" + Regex.Escape(metaname) + @""" */? *>", RegexOptions.IgnoreCase);
 
-            return metaContent.Match(pagesource).Groups[1].Value.Trim();
+            if(metaContent.IsMatch(pagesource))
+                return metaContent.Match(pagesource).Groups[1].Value.Trim();
+            else
+                return metaContent2.Match(pagesource).Groups[1].Value.Trim();
         }
 
         // Covered by ToolsTests.SplitToSections()
