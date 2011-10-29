@@ -5792,7 +5792,7 @@ namespace WikiFunctions.Parse
 
             // {{unreferenced}} --> {{BLP unsourced}} if article has [[Category:Living people]], and no free-text first argument to {{unref}}
             string unref = WikiRegexes.Unreferenced.Match(articleText).Value;
-            if (Variables.IsWikipediaEN && unref.Length > 0 && WikiRegexes.Unreferenced.Matches(articleText).Count == 1 && articleText.Contains(@"[[Category:Living people")
+            if (Variables.IsWikipediaEN && WikiRegexes.Unreferenced.Match(articleText).Groups[1].Value.Length > 0 && WikiRegexes.Unreferenced.Matches(articleText).Count == 1 && articleText.Contains(@"[[Category:Living people")
                 && (Tools.GetTemplateArgument(unref, 1).StartsWith("date")
                     || Tools.GetTemplateArgumentCount(unref) == 0))
                 articleText = Tools.RenameTemplate(articleText, WikiRegexes.Unreferenced.Match(articleText).Groups[1].Value, "BLP unsourced", false);
