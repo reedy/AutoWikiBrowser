@@ -7494,6 +7494,14 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             
             Assert.AreEqual(@"{{Unreferenced|date=May 2010}}", Parsers.Conversions(@"{{Unreferenced|date=May 2010|auto=yes}}"));
             Assert.AreEqual(@"{{Unreferenced|date=May 2010}}", Parsers.Conversions(@"{{Unreferenced|date=May 2010|auto=YES}}"));
+            
+            Assert.IsTrue(Parsers.Conversions(@"{{unreferenced|date=October 2011}}
+'''Gretchen F''' known as is a Filipina model.
+
+==Reference==
+*http://www.pep.ph/p
+{{DEFAULTSORT:Gretchen F}}
+[[Category:1980 births]]").Contains(@"unreferenced"), "no template renaming when within multiple issues");
         }
         
         [Test]
