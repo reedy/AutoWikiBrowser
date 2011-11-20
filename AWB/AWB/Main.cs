@@ -926,10 +926,6 @@ namespace AutoWikiBrowser
                 }
             }
 
-            // check for {{sic}} tags etc. when doing typo fixes and not in pre-parse mode
-            if (chkRegExTypo.Checked && !preParseModeToolStripMenuItem.Checked && TheArticle.HasSicTag)
-                MessageBox.Show(@"This page contains a 'sic' tag or template, please take extra care when correcting typos.", "'sic' tag in page", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
             if (preParseModeToolStripMenuItem.Checked)
             {
                 // if we reach here the article has valid changes, so move on to next article
@@ -2520,6 +2516,10 @@ window.scrollTo(0, diffTopY);
                 
                 if(TheArticle.HasSeeAlsoAfterNotesReferencesOrExternalLinks)
                     lbAlerts.Items.Add("See also section out of place");
+                
+                // check for {{sic}} tags etc. when doing typo fixes
+                if (chkRegExTypo.Checked && TheArticle.HasSicTag)
+                    lbAlerts.Items.Add(@"Page contains 'sic' tag/template");
 
                 lblWords.Text = Words + wordCount;
                 lblCats.Text = Cats + catCount;
