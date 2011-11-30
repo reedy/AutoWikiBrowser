@@ -1983,6 +1983,16 @@ was [[foo|bar]] too"));
             Assert.AreEqual(@"{{ISBN-13|9781245781549}}", Parsers.FixSyntax(@"{{ISBN-13|9781245781549}}"), "no change if already correct – ISBN-10 template");
         }
         
+        
+        [Test]
+        public void FixPMIDFormat()
+        {
+            Assert.AreEqual(@"PMID 1245781549", Parsers.FixSyntax(@"PMID: 1245781549"), "removes colon after PMID");
+            Assert.AreEqual(@"PMID 1245781549", Parsers.FixSyntax(@"PMID:1245781549"), "removes colon after PMID");
+            Assert.AreEqual(@"PMID 1245781549", Parsers.FixSyntax(@"PMID:    1245781549"), "removes colon after PMID");
+            Assert.AreEqual(@"PMID 1245781549", Parsers.FixSyntax(@"PMID 1245781549"), "No change if alrady correct");
+        }
+        
         [Test]
         public void FixSmallSyntax()
         {
