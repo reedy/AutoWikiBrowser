@@ -598,7 +598,6 @@ namespace AutoWikiBrowser
             {
                 Stop();
                 ErrorHandler.Handle(ex);
-                //StartDelayedRestartTimer();
             }
         }
 
