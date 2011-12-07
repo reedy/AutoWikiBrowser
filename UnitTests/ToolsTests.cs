@@ -1929,7 +1929,7 @@ Start date and age
         [Test]
         public void MakeHumanCatKeyMcName()
         {
-            Assert.AreEqual(@"Macsmith, John", Tools.MakeHumanCatKey(@"John McSmith"));
+            Assert.AreEqual(@"Mcsmith, John", Tools.MakeHumanCatKey(@"John McSmith"));
             Assert.AreEqual(@"Macsmith, John", Tools.MakeHumanCatKey(@"John MacSmith"));
             
             Assert.AreEqual(@"Mcsmith, John", Tools.MakeHumanCatKey(@"John Mcsmith"));
