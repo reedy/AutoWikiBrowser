@@ -186,7 +186,6 @@ namespace WikiFunctions
             return regex.Matches(input).Count;
         }
 
-        private static readonly Regex McName = new Regex(@"^Mc([A-Z])", RegexOptions.Compiled);
         private static readonly Regex PersonOfPlace = new Regex(@"^(?<person>\w+)(?<ordinal> [IXV]+)? of (?<place>\w+)$", RegexOptions.Compiled);
 
         // Covered by HumanCatKeyTests
@@ -248,9 +247,6 @@ namespace WikiFunctions
                     return FixupDefaultSort(origName);
                 }
             }
-
-            // per Wikipedia:MCSTJR names like George McFarland should have {{DEFAULTSORT:Macfarland, George}}.
-            lastName = McName.Replace(lastName, "Mac$1");
 
             lastName = TurnFirstToUpper(lastName.ToLower());
 
