@@ -3158,6 +3158,21 @@ namespace WikiFunctions.Parse
             string TheMonth = Tools.GetTemplateParameterValue(newValue, "month");
             if(TheMonth.Length > 2 && TheDate.Contains(TheMonth))
                 newValue = Tools.RemoveTemplateParameter(newValue, "month");
+            
+            // date = Month DD and year = YYYY --> date = Month DD, YYYY
+            if(!Regex.IsMatch(TheDate, @"^[12]\d{3}$") && Regex.IsMatch(TheYear, @"^[12]\d{3}$"))
+            {
+                if(WikiRegexes.AmericanDates.IsMatch(TheDate + ", " + TheYear))
+                {
+                    newValue = Tools.SetTemplateParameterValue(newValue, "date", TheDate + ", " + TheYear);
+                    newValue = Tools.RemoveTemplateParameter(newValue, "year");
+                }
+                else if (WikiRegexes.InternationalDates.IsMatch(TheDate + " " + TheYear))
+                {
+                    newValue = Tools.SetTemplateParameterValue(newValue, "date", TheDate + " " + TheYear);
+                    newValue = Tools.RemoveTemplateParameter(newValue, "year");
+                }
+            }
 
             // correct volume=vol 7... and issue=no. 8 for {{cite journal}} only
             if (templatename.Equals("cite journal", StringComparison.OrdinalIgnoreCase))
