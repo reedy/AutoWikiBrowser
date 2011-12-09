@@ -579,7 +579,8 @@ namespace WikiFunctions
                                                        "plot", "POV", "NPOV", "pov", "npov", "pov-check", "primarysources", "primary sources", "prose", "proseline", "quotefarm", "recentism", "refimprove",
                                                        "refimproveBLP", "refimprove BLP", "restructure", "reorganisation", "review", "rewrite", "section", "sections", "self-published",
                                                        "spam", "story", "synthesis", "inappropriate tone", "technical", "tone", "travelguide", "tooshort", "toolong", "trivia", "unbalanced", "unencyclopedic", "unref", "unreferenced",
-                                                       "unrefBLP", "unreferencedBLP", "update", "verylong", "weasel", "wikify", "cleanup-laundry", "over detailed", "cleanup-spam", "cleanup-reorganize", "POV-check", "criticism section", "very long", "example farm", "cleanup-rewrite", "cite check", "quote farm", "news release", "unreliable sources"});
+                                                       "unrefBLP", "unreferencedBLP", "update", "verylong", "weasel", "wikify", "cleanup-laundry", "over detailed", "cleanup-spam", "cleanup-reorganize", "POV-check", "criticism section", "very long", "example farm", "cleanup-rewrite", "cite check", "quote farm", "news release", "unreliable sources",
+                                                   "linkrot", "no footnotes"});
             
             if(NameSpaceKey.Equals(Namespace.Mainspace))
                 Unknowns = Tools.UnknownTemplateParameters(WikiRegexes.MultipleIssues.Match(ArticleText).Value, Knowns);
