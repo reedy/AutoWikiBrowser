@@ -259,6 +259,7 @@ namespace WikiFunctions.Parse
         }
         
         private static readonly Regex HeadingsWhitespaceBefore = new Regex(@"\s+(?:< *[Bb][Rr] *\/? *>\s*)*(^={1,6} *(.*?) *={1,6} *(?=\r\n))", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex LevelOneSeeAlso = new Regex("= ?See also ?=", RegexOptions.Compiled);
         
         // Covered by: FormattingTests.TestFixHeadings(), incomplete
         /// <summary>
@@ -298,11 +299,10 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            if (!Regex.IsMatch(articleText, "= ?See also ?="))
+            if (!LevelOneSeeAlso.IsMatch(articleText))
                 articleText = RegexHeadings0.Replace(articleText, "$1See also$3");
 
             articleText = RegexHeadings1.Replace(articleText, "$1External links$3");
-            //articleText = regexHeadings2.Replace(articleText, "$1External link$3");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#ReferenceS
             Match refsHeader = RegexHeadings3.Match(articleText);
@@ -3152,8 +3152,8 @@ namespace WikiFunctions.Parse
             string TheDate = Tools.GetTemplateParameterValue(newValue, "date");
 
             if (YearOnly.IsMatch(TheYear) && TheDate.Contains(TheYear) && (WikiRegexes.InternationalDates.IsMatch(TheDate)
-                                                                                        || WikiRegexes.AmericanDates.IsMatch(TheDate)
-                                                                                        || WikiRegexes.ISODates.IsMatch(TheDate)))
+                                                                           || WikiRegexes.AmericanDates.IsMatch(TheDate)
+                                                                           || WikiRegexes.ISODates.IsMatch(TheDate)))
                 newValue = Tools.RemoveTemplateParameter(newValue, "year");
             
             // month=Month and date=...Month...
@@ -4507,7 +4507,8 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex NDash = new Regex("&#150;|&#8211;|&#x2013;", RegexOptions.Compiled);
         private static readonly Regex MDash = new Regex("&#151;|&#8212;|&#x2014;", RegexOptions.Compiled);
-
+        private static readonly Regex MathTagStart = new Regex("<[Mm]ath>", RegexOptions.Compiled);
+        
         // Covered by: UnicodifyTests
         /// <summary>
         /// Converts HTML entities to unicode, with some deliberate exceptions
@@ -4516,7 +4517,7 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string Unicodify(string articleText)
         {
-            if (Regex.IsMatch(articleText, "<[Mm]ath>"))
+            if (MathTagStart.IsMatch(articleText))
                 return articleText;
 
             articleText = NDash.Replace(articleText, "&ndash;");
