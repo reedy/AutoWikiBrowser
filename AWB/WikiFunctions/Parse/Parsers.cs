@@ -3057,6 +3057,8 @@ namespace WikiFunctions.Parse
         }
         
         private static readonly Regex IdISBN = new Regex(@"^ISBN:?\s*([\d \-]+X?)$", RegexOptions.Compiled);
+        private static readonly Regex CiteVideoPodcast = new Regex (@"[Cc]ite (?:video|podcast)\b", RegexOptions.Compiled);
+        private static readonly Regex YearOnly = new Regex(@"^[12]\d{3}$", RegexOptions.Compiled);
         
         private static string FixCitationTemplatesME(Match m)
         {
@@ -3125,7 +3127,7 @@ namespace WikiFunctions.Parse
                 newValue = CiteTemplatePagesPP.Replace(newValue, "");
 
             // date = YYYY --> year = YYYY; not for {{cite video}}
-            if (!Regex.IsMatch(templatename, @"[Cc]ite (?:video|podcast)\b"))
+            if (!CiteVideoPodcast.IsMatch(templatename))
                 newValue = YearInDate.Replace(newValue, "$1year$2");
 
             // year = full date --> date = full date
@@ -3149,7 +3151,7 @@ namespace WikiFunctions.Parse
             TheYear = Tools.GetTemplateParameterValue(newValue, "year");
             string TheDate = Tools.GetTemplateParameterValue(newValue, "date");
 
-            if (Regex.IsMatch(TheYear, @"^[12]\d{3}$") && TheDate.Contains(TheYear) && (WikiRegexes.InternationalDates.IsMatch(TheDate)
+            if (YearOnly.IsMatch(TheYear) && TheDate.Contains(TheYear) && (WikiRegexes.InternationalDates.IsMatch(TheDate)
                                                                                         || WikiRegexes.AmericanDates.IsMatch(TheDate)
                                                                                         || WikiRegexes.ISODates.IsMatch(TheDate)))
                 newValue = Tools.RemoveTemplateParameter(newValue, "year");
@@ -3160,7 +3162,7 @@ namespace WikiFunctions.Parse
                 newValue = Tools.RemoveTemplateParameter(newValue, "month");
             
             // date = Month DD and year = YYYY --> date = Month DD, YYYY
-            if(!Regex.IsMatch(TheDate, @"^[12]\d{3}$") && Regex.IsMatch(TheYear, @"^[12]\d{3}$"))
+            if(!YearOnly.IsMatch(TheDate) && YearOnly.IsMatch(TheYear))
             {
                 if(WikiRegexes.AmericanDates.IsMatch(TheDate + ", " + TheYear))
                 {
