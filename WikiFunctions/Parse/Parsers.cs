@@ -3066,7 +3066,7 @@ namespace WikiFunctions.Parse
             string templatename = Tools.GetTemplateName(newValue);
             string theURL = Tools.GetTemplateParameterValue(newValue, "url");
             string id = Tools.GetTemplateParameterValue(newValue, "id");
-                        
+            
             newValue = Tools.RenameTemplateParameter(newValue, AccessdateTypos, "accessdate");
 
             newValue = Tools.RenameTemplateParameter(newValue, PublisherTypos, "publisher");
@@ -3434,7 +3434,11 @@ namespace WikiFunctions.Parse
                 if(name.Contains(" ("))
                     name = name.Substring(0, name.IndexOf(" ("));
                 
-                newPersonData = Tools.SetTemplateParameterValue(newPersonData, "NAME", name, true);
+                if(name.Length == 0 && Tools.WordCount(articleTitle) == 1)
+                    name = articleTitle;
+                
+                if(name.Length > 0)
+                    newPersonData = Tools.SetTemplateParameterValue(newPersonData, "NAME", name, true);
             }
 
             // date of birth
