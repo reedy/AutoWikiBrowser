@@ -2122,23 +2122,6 @@ world|format=PDF}} was";
             Assert.AreEqual(@"{{cite web| title=foo | year=2009 | author=Smith, Fred}}", Parsers.FixCitationTemplates(@"{{cite web| title=foo | year=2009 | authors=Smith, Fred}}"));
             Assert.AreEqual(@"{{Cite web| title=foo | year=2009 | author=Smith, Fred}}", Parsers.FixCitationTemplates(@"{{Cite web| title=foo | year=2009 | author=Smith, Fred}}"));
         }
-
-        [Test]
-        public void TestCiteFormatFieldTypo()
-        {
-            Assert.AreEqual(@"now {{cite web| url=a.com|title=hello|format=PDF}} was", Parsers.FixCitationTemplates(@"now {{cite web| url=a.com|title=hello|fprmat=PDF}} was"));
-            Assert.AreEqual(@"now {{cite web| url=a.com|title=hello| format=PDF}} was", Parsers.FixCitationTemplates(@"now {{cite web| url=a.com|title=hello| fprmat=PDF}} was"));
-            Assert.AreEqual(@"now {{cite web| url=a.com|title=hello |format = PDF}} was", Parsers.FixCitationTemplates(@"now {{cite web| url=a.com|title=hello |Fprmat = PDF}} was"));
-            Assert.AreEqual(@"now {{Cite web| url=a.com|title=hello|format=DOC}} was", Parsers.FixCitationTemplates(@"now {{Cite web| url=a.com|title=hello|fprmat=DOC}} was"));
-            Assert.AreEqual(@"now {{Cite web| url=a.com|title=hello|
-          format=DOC|work=BBC}} was", Parsers.FixCitationTemplates(@"now {{Cite web| url=a.com|title=hello|
-          fprmat=DOC|work=BBC}} was"));
-
-            // no Matches
-            Assert.AreEqual(@"now {{cite web| url=http://site.net|title=okay}} fprmat of PDF", Parsers.FixCitationTemplates(@"now {{cite web| url=http://site.net|title=okay}} fprmat of PDF"));
-            Assert.AreEqual(@"now {{cite web| url=http://site.net/1.pdf|format=PDF}} was", Parsers.FixCitationTemplates(@"now {{cite web| url=http://site.net/1.pdf|format=PDF}} was"));
-            Assert.AreEqual(@"now {{cite web|\r\nurl=http://site.net/1.pdf|format=PDF|title=okay}} was", Parsers.FixCitationTemplates(@"now {{cite web|\r\nurl=http://site.net/1.pdf|format=PDF|title=okay}} was"));
-        }
         
         [Test]
         public void UnspacedCommaPageRange()
@@ -2151,7 +2134,6 @@ world|format=PDF}} was";
             Assert.AreEqual(@"{{cite book|url=http://www.stie.com | pages=12,354 }}", Parsers.FixCitationTemplates(@"{{cite book|url=http://www.stie.com | pages=12,354 }}"), "no change when already correct");
             
             Assert.AreEqual(@"{{cite book|url=http://www.stie.com | pages=483, 491, 492 }}", Parsers.FixCitationTemplates(@"{{cite book|url=http://www.stie.com | pages=483,491,492 }}"));
-            
         }
         
         [Test]
