@@ -3150,7 +3150,10 @@ namespace WikiFunctions.Parse
             if (YearOnly.IsMatch(TheYear) && TheDate.Contains(TheYear) && (WikiRegexes.InternationalDates.IsMatch(TheDate)
                                                                            || WikiRegexes.AmericanDates.IsMatch(TheDate)
                                                                            || WikiRegexes.ISODates.IsMatch(TheDate)))
+            {
+                TheYear = "";
                 newValue = Tools.RemoveTemplateParameter(newValue, "year");
+            }
             
             // month=Month and date=...Month...
             string TheMonth = Tools.GetTemplateParameterValue(newValue, "month");
