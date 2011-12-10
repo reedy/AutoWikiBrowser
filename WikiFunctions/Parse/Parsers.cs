@@ -5216,8 +5216,9 @@ namespace WikiFunctions.Parse
         private static readonly Regex NotPersonArticles = new Regex(@"(^(((?:First )?(?:Premiership|Presidency)|List|Murder|Disappearance) of|Deaths|[12]\d{3}\b)|(discography|filmography| deaths| murders)$)", RegexOptions.Compiled);
         private static MetaDataSorter MDS = new MetaDataSorter();
         private static readonly Regex NobleFamilies = new Regex(@"[[Category:[^\[\]\|]*[nN]oble families", RegexOptions.Compiled);
-        private static readonly Regex AnimalDuoCategories = new Regex(@"\[\[Category:(\d{4} animal|Comedy duos)", RegexOptions.Compiled);
+        private static readonly Regex NotAboutAPersonCategories = new Regex(@"\[\[Category:(\d{4} animal|Comedy duos|Articles about multiple people|Married couples|Fictional|Presidencies|Military careers|Parables of)", RegexOptions.Compiled);
         private static readonly Regex CLSAR = Tools.NestedTemplateRegex(@"Infobox Chinese-language singer and actor");
+        private static readonly Regex ICTB = Tools.NestedTemplateRegex("Infobox cricketer tour biography");
         
         /// <summary>
         /// determines whether the article is about a person by looking for persondata/birth death categories, bio stub etc. for en wiki only
@@ -5229,28 +5230,17 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static bool IsArticleAboutAPerson(string articleText, string articleTitle, bool parseTalkPage)
         {
-            #if DEBUG || UNITTEST
-            if (Globals.UnitTestMode)
-                parseTalkPage = false;
-            #endif
-
             if (!Variables.LangCode.Equals("en")
                 || Namespace.Determine(articleTitle).Equals(Namespace.Category)
                 || NotPersonArticles.IsMatch(articleTitle)
-                || articleText.Contains(@"[[Category:Articles about multiple people]]")
-                || articleText.Contains(@"[[Category:Married couples")
-                || articleText.Contains(@"[[Category:Fictional")
-                || articleText.Contains(@"[[Category:Presidencies")
-                || articleText.Contains(@"[[Category:Military careers")
                 || articleText.Contains(@"[[fictional character")
-                || articleText.Contains(@"[[Category:Parables of")
                 || WikiRegexes.Disambigs.IsMatch(articleText)
                 || InUniverse.IsMatch(articleText)
-                || AnimalDuoCategories.IsMatch(articleText)
+                || NotAboutAPersonCategories.IsMatch(articleText)
                 || NobleFamilies.IsMatch(articleText)
                 || CategoryCharacters.IsMatch(articleText)
                 || WikiRegexes.InfoBox.Match(articleText).Groups[1].Value.ToLower().Contains("organization")
-                || Tools.NestedTemplateRegex("Infobox cricketer tour biography").IsMatch(articleText)
+                || ICTB.IsMatch(articleText)
                )
                 return false;
             
@@ -5335,8 +5325,6 @@ namespace WikiFunctions.Parse
                 || WikiRegexes.BirthsCategory.IsMatch(articleText)
                 || WikiRegexes.BLPSources.IsMatch(BLPUnsourcedSection.Replace(articleText, ""))
                 || RefImproveBLP.IsMatch(articleText);
-            /*    || (!string.IsNullOrEmpty(articleTitle) && articleText.Length < 10000 && parseTalkPage &&
-                    TryGetArticleText(Variables.Namespaces[Namespace.Talk] + articleTitle).Contains(@"{{WPBiography"))*/
         }
 
         private static string TryGetArticleText(string title)
