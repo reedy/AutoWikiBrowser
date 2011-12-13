@@ -1785,7 +1785,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex CiteWeb = Tools.NestedTemplateRegex(new[] { "cite web", "citeweb" });
         private static readonly Regex CitationPopulatedParameter = new Regex(@"\|\s*([a-z_0-9-]+)\s*=\s*([^\|}]+)");
 
-        private static readonly Regex citeWebParameters = new Regex(@"\b(first\d?|last\d?|author\d?|authorlink\d?|coauthors?|title|url|archiveurl|work|publisher|location|pages?|language|trans_title|format|doi|date|month|year|archivedate|accessdate|quote|ref|separator|postscript|at|deadurl|asin|id)\b", RegexOptions.Compiled);
+        private static readonly Regex citeWebParameters = new Regex(@"\b(first\d?|last\d?|author\d?|authorlink\d?|coauthors?|title|url|archiveurl|work|publisher|location|pages?|language|trans_title|format|doi|date|month|year|archivedate|accessdate|quote|ref|separator|postscript|at|deadurl|asin|id|editor)\b", RegexOptions.Compiled);
         
         /// <summary>
         /// Searches for unknown/invalid parameters within citation templates
