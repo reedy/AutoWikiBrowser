@@ -580,7 +580,7 @@ namespace WikiFunctions
                                                        "refimproveBLP", "refimprove BLP", "restructure", "reorganisation", "review", "rewrite", "section", "sections", "self-published",
                                                        "spam", "story", "synthesis", "inappropriate tone", "technical", "tone", "travelguide", "tooshort", "toolong", "trivia", "unbalanced", "unencyclopedic", "unref", "unreferenced",
                                                        "unrefBLP", "unreferencedBLP", "update", "verylong", "weasel", "wikify", "cleanup-laundry", "over detailed", "cleanup-spam", "cleanup-reorganize", "POV-check", "criticism section", "very long", "example farm", "cleanup-rewrite", "cite check", "quote farm", "news release", "unreliable sources",
-                                                   "linkrot", "no footnotes"});
+                                                   "linkrot", "no footnotes", "abbreviations", "overly detailed", "NOT"});
             
             if(NameSpaceKey.Equals(Namespace.Mainspace))
                 Unknowns = Tools.UnknownTemplateParameters(WikiRegexes.MultipleIssues.Match(ArticleText).Value, Knowns);
