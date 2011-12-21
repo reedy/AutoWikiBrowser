@@ -1448,7 +1448,6 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex CitationCiteBook = new Regex(@"{{[Cc]it[ae]((?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}})", RegexOptions.Compiled);
         private static readonly Regex CiteTemplatePagesParameter = new Regex(@"(?<=\s*pages?\s*=\s*)([^{}\|<>]+?)(?=\s*(?:\||}}))", RegexOptions.Compiled);
-        private static readonly Regex Year = new Regex(@"^\d{4}$", RegexOptions.Compiled);
         private static readonly Regex UrlShortDescription = new Regex(@"\s*[^{}<>\n]*?\s*\[*(?:http://www\.|http://|www\.)[^\[\]<>""\s]+?\s+([^{}<>\[\]]{4,35}?)\s*(?:\]|<!--|\u230A\u230A\u230A\u230A)", RegexOptions.Compiled);
         private static readonly Regex UrlDomain = new Regex(@"\s*\w*?[^{}<>]{0,4}?\s*(?:\[?|\{\{\s*cit[^{}<>]*\|\s*url\s*=\s*)\s*(?:http://www\.|http://|www\.)([^\[\]<>""\s\/:]+)", RegexOptions.Compiled);
         private static readonly Regex HarvnbTemplate = new Regex(@"\s*{{ *(?:[Hh]arv(?:(?:col)?(?:nb|txt)|ard citation no brackets)?|[Ss]fn)\s*\|\s*([^{}\|]+?)\s*\|(?:[^{}]*?\|)?\s*(\d{4})\s*(?:\|\s*(?:pp?\s*=\s*)?([^{}\|]+?)\s*)?}}\s*", RegexOptions.Compiled);
@@ -1492,7 +1491,7 @@ namespace WikiFunctions.Parse
                         derivedReferenceName += " " + year;
                     else
                     {
-                        string date = Year.Match(Tools.GetTemplateParameterValue(reference, "date")).Value;
+                        string date = YearOnly.Match(Tools.GetTemplateParameterValue(reference, "date")).Value;
 
                         if (date.Length > 3)
                             derivedReferenceName += " " + date;
@@ -5555,7 +5554,7 @@ namespace WikiFunctions.Parse
                 // per [[:Category:Living people]], don't apply birth category if born > 121 years ago
                 // validate a YYYY date is not in the future
                 if (!string.IsNullOrEmpty(yearstring) && yearstring.Length > 2
-                    && (!Year.IsMatch(yearstring) || Convert.ToInt32(yearstring) <= DateTime.Now.Year)
+                    && (!YearOnly.IsMatch(yearstring) || Convert.ToInt32(yearstring) <= DateTime.Now.Year)
                     && !(articleText.Contains(@"[[Category:Living people") && Convert.ToInt32(yearstring) < (DateTime.Now.Year - 121)))
                     articleText += Tools.Newline(@"[[Category:") + yearstring + " births" + CatEnd(sort);
             }
@@ -5592,7 +5591,7 @@ namespace WikiFunctions.Parse
 
                 // validate a YYYY date is not in the future
                 if (!string.IsNullOrEmpty(yearstring) && yearstring.Length > 2
-                    && (!Year.IsMatch(yearstring) || Convert.ToInt32(yearstring) <= DateTime.Now.Year))
+                    && (!YearOnly.IsMatch(yearstring) || Convert.ToInt32(yearstring) <= DateTime.Now.Year))
                     articleText += Tools.Newline(@"[[Category:") + yearstring + " deaths" + CatEnd(sort);
             }
 
