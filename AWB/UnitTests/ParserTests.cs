@@ -3286,6 +3286,8 @@ Foo}}"));
             Assert.AreEqual(@"[[mod_perl]]", Parsers.FixLinks(@"[[mod_perl]]", "a", out nochange));
             Assert.IsTrue(nochange);
             Assert.AreEqual(@"[[mod_mono]]", Parsers.FixLinks(@"[[mod_mono]]", "a", out nochange));
+            
+            Assert.AreEqual(@"[[List of The Amazing Spider-Man issues#The Amazing Spider-Man #648–current x|List of issues]]", Parsers.FixLinks(@"[[List of The Amazing Spider-Man issues#The Amazing Spider-Man #648–current x|List of issues]]", "a", out nochange), "Does not break section links with hash and space");
         }
         
         [Test]
@@ -4205,6 +4207,8 @@ http://example.com }}");
             Assert.AreEqual("[[foo#bar]]", Parsers.FixLinkWhitespace("[[foo# bar]]", "foot"));
             Assert.AreEqual("[[foo#bar]]te", Parsers.FixLinkWhitespace("[[foo #bar]]te", "foot"));
             Assert.AreEqual("[[foo#bar|te]]", Parsers.FixLinkWhitespace("[[foo  #bar|te]]", "foot"));
+            
+            Assert.AreEqual(@"[[List of The Amazing Spider-Man issues#The Amazing Spider-Man #648–current x|List of issues]]", Parsers.FixLinkWhitespace(@"[[List of The Amazing Spider-Man issues#The Amazing Spider-Man #648–current x|List of issues]]", "x"), "Does not break section links with hash and space");
         }
 
         [Test]

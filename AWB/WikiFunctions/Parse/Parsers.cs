@@ -3930,6 +3930,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex DateLinkWhitespace1 = new Regex(@"\b(\[\[\d\d? " + WikiRegexes.MonthsNoGroup + @"\]\]),? {0,2}(\[\[\d{1,4}\]\])\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex DateLinkWhitespace2 = new Regex(@"\b(\[\[" + WikiRegexes.MonthsNoGroup + @" \d\d?\]\]),? {0,2}(\[\[\d{1,4}\]\])\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex SectionLinkWhitespace = new Regex(@"(\[\[[^\[\]\|]+)(?: +# *| *# +)([^\[\]]+\]\])", RegexOptions.Compiled);
+        private static readonly Regex Hash = new Regex(@"#", RegexOptions.Compiled);
 
         // Covered by LinkTests.TestFixLinkWhitespace()
         /// <summary>
@@ -3961,8 +3962,8 @@ namespace WikiFunctions.Parse
             //remove undesirable double space between links in date (day second)
             articleText = DateLinkWhitespace2.Replace(articleText, "$1 $2");
             
-            // [[link #section]] or [[link# section]] --> [[link#section]]
-            articleText = SectionLinkWhitespace.Replace(articleText, m => m.Groups[1].Value.TrimEnd() + "#" + m.Groups[2].Value.TrimStart());
+            // [[link #section]] or [[link# section]] --> [[link#section]], don't change if hash in part of text of section link
+            articleText = SectionLinkWhitespace.Replace(articleText, m => (Hash.Matches(m.Value).Count == 1) ? m.Groups[1].Value.TrimEnd() + "#" + m.Groups[2].Value.TrimStart() : m.Value);
 
             // correct [[page# section]] to [[page#section]]
             if (articleTitle.Length > 0)
