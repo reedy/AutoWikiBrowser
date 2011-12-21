@@ -3219,8 +3219,12 @@ namespace WikiFunctions.Parse
             newValue = FixPageRanges(newValue);
 
             // page range or list should use 'pages' parameter not 'page'
-            newValue = CiteTemplatesPageRangeName.Replace(newValue, @"$1pages$2");
-
+            if(CiteTemplatesPageRangeName.IsMatch(newValue))
+            {
+                newValue = CiteTemplatesPageRangeName.Replace(newValue, @"$1pages$2");
+                newValue = Tools.RemoveDuplicateTemplateParameters(newValue);
+            }
+            
             // remove ordinals from dates
             if (OrdinalsInDatesInt.IsMatch(newValue))
             {

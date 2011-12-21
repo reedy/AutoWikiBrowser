@@ -2824,6 +2824,10 @@ world|format=PDF}} was";
             
             const string nochange = @"{{cite book|author=Smith|title=Great|pages=12,255}}";
             Assert.AreEqual(nochange, Parsers.FixCitationTemplates(nochange));
+            
+            const string correct2 = @"{{cite book |title=Evaluation of x |last=Office |year=2001 |pages=1–2 |accessdate=39 June 2011 }}";
+            
+            Assert.AreEqual(correct2, Parsers.FixCitationTemplates(@"{{cite book |title=Evaluation of x |last=Office |year=2001 |page=1-2 |pages= |accessdate=39 June 2011 }}"));
         }
 
         [Test]
