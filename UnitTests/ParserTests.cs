@@ -943,6 +943,10 @@ The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines af
 
             Assert.AreEqual(@"* {{Polish2|Krzepice (województwo dolnośląskie)|[[24 November]] [[2007]]}}
 ", parser.FixDates(@"* {{Polish2|Krzepice (województwo dolnośląskie)|[[24 November]] [[2007]]}}<br><br>  "));
+            
+            const string nochange = @"{{cite web | title = Hello April 14 2009 there | date=2011-11-13 }}";
+            
+            Assert.AreEqual(nochange, parser.FixDates(nochange));
         }
 
         [Test]

@@ -224,6 +224,15 @@ image = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
         }
         
         [Test]
+        public void HideCiteTitles()
+        {
+            Assert.IsFalse(Hide(@"{{cite web| title = foo | date = May 2011").Contains(@"foo"));
+            Assert.IsTrue(Tools.GetTemplateParameterValue(Hide(@"{{cite web| title = foo | date = May 2011"), "title").Length > 0);
+            
+            Assert.IsFalse(Hide(@"{{cite web| trans_title = foo | date = May 2011").Contains(@"foo"));
+        }
+        
+        [Test]
         public void HideImagesPartial()
         {
             // in tests below no text is hidden
@@ -1033,7 +1042,7 @@ __TOC__", articleTextIn);
             const string a = @"{{WikiProject a|text}}", b = @"{{WikiProject b|text}}", c = @"{{WikiProject c|text}}", d = @"{{WikiProject d|text}}";
             Assert.AreEqual(a, TalkPageFixes.WikiProjectBannerShell(a));
             Assert.AreEqual(a + b, TalkPageFixes.WikiProjectBannerShell(a + b));
-Assert.AreEqual(@"{{WikiProjectBannerShell|1=" + "\r\n" + a + "\r\n" + b + "\r\n" + c + "\r\n" + @"}}", TalkPageFixes.WikiProjectBannerShell(a + b + c), "banner shell added for 3 or more wikiproject links");
+            Assert.AreEqual(@"{{WikiProjectBannerShell|1=" + "\r\n" + a + "\r\n" + b + "\r\n" + c + "\r\n" + @"}}", TalkPageFixes.WikiProjectBannerShell(a + b + c), "banner shell added for 3 or more wikiproject links");
             Assert.AreEqual(@"{{WikiProjectBannerShell|1=" + "\r\n" + a + "\r\n" + b + "\r\n" + c + "\r\n" + d + "\r\n" + @"}}", TalkPageFixes.WikiProjectBannerShell(a + b + c + d));
             
             const string e = @"{{talk header}}
@@ -1215,7 +1224,7 @@ Assert.AreEqual(@"{{WikiProjectBannerShell|1=" + "\r\n" + a + "\r\n" + b + "\r\n
         
         [Test]
         public void NormalizeTitleSecure()
-        {            
+        {
             Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/index.php?title=Foo&diff=3&oldid=4"));
         }
     }

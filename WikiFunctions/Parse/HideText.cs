@@ -69,6 +69,8 @@ namespace WikiFunctions.Parse
 
             articleText = sb.ToString();
         }
+        
+        private static readonly Regex CiteTitle = new Regex(@"(?<=\|\s*(?:trans_)?title\s*=\s*)[^\|{}<>]+", RegexOptions.Compiled);
 
         /// <summary>
         /// Hides Unformatted text (nowiki, pre, math, html comments, timelines), source tags
@@ -109,6 +111,7 @@ namespace WikiFunctions.Parse
             {
                 Replace(WikiRegexes.Images.Matches(articleText), ref articleText);
                 Replace(WikiRegexes.ImageMap.Matches(articleText), ref articleText);
+                Replace(CiteTitle.Matches(articleText), ref articleText);
             }
 
             return articleText;
