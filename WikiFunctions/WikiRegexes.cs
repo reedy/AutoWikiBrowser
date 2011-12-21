@@ -763,7 +763,7 @@ namespace WikiFunctions
         /// <summary>
         /// The default blank Persondata template for en-wiki, from [[Template:Persondata#Usage]]
         /// </summary>
-        public const string PersonDataDefault = @"{{Persondata <!-- Metadata: see [[Wikipedia:Persondata]]. -->
+        public const string PersonDataDefault = @"{{Persondata
 | NAME              =
 | ALTERNATIVE NAMES =
 | SHORT DESCRIPTION =

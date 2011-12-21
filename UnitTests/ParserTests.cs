@@ -2705,7 +2705,7 @@ world|format=PDF}} was";
 |occupation=Railroad tycoon
 |children= 10
 }}
-{{DEFAULTSORT:Hill, James J.}}", PD = @"{{Persondata <!-- Metadata: see [[Wikipedia:Persondata]]. -->
+{{DEFAULTSORT:Hill, James J.}}", PD = @"{{Persondata
 | NAME              = Hill, James J.
 | ALTERNATIVE NAMES =
 | SHORT DESCRIPTION =
