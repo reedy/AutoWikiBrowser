@@ -1952,8 +1952,9 @@ namespace WikiFunctions.Parse
                         foreach (RegexReplacement rr in CiteTemplateIncorrectISODates)
                             at = rr.Regex.Replace(at, rr.Replacement);
 
-                        // date = YYYY-Month-DD fix
-                        at = CiteTemplateAbbreviatedMonthISO.Replace(at, m2 => m2.Groups[1].Value + Tools.ConvertDate(m2.Groups[2].Value.Replace(".", ""), DateLocale.ISO) + m2.Groups[3].Value);
+                        // date = YYYY-Month-DD fix, not for cite journal PubMed date format
+                        if(Tools.GetTemplateParameterValue(m.Value, "journal").Length == 0)
+                            at = CiteTemplateAbbreviatedMonthISO.Replace(at, m2 => m2.Groups[1].Value + Tools.ConvertDate(m2.Groups[2].Value.Replace(".", ""), DateLocale.ISO) + m2.Groups[3].Value);
                     }
                     
                     if(!at.Equals(m.Value))
