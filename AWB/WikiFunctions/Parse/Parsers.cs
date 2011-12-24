@@ -4369,7 +4369,7 @@ namespace WikiFunctions.Parse
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Pagination
             // add non-breaking space after pp. abbreviation for pages.
-            articleText = Regex.Replace(articleText, @"(\b[Pp]?p\.) *(?=[\dIVXCL])", @"$1&nbsp;");
+            articleText = Regex.Replace(articleText, @"(\b[Pp]?p\.) *(?=[\dIVXCL][^S])", @"$1&nbsp;");
 
             return AddBackMoreText(articleText);
         }
