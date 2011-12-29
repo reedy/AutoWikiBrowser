@@ -493,6 +493,8 @@ disambig|surname
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{LatinNameDisambig}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{SpeciesLatinNameDisambig}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Hurricane season disambiguation}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{airport disambiguation}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{airport disambig}}");
             
             RegexAssert.NoMatch(WikiRegexes.Disambigs, @"{{now disambig}}");
             RegexAssert.NoMatch(WikiRegexes.Disambigs, @"{{dablink|foo}}");
