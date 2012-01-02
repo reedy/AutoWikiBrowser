@@ -112,6 +112,9 @@ namespace UnitTests
             TestMatch(WikiRegexes.Redirect, "#redirect [[Foo|bar]]", "#redirect [[Foo|bar]]", @"Foo");
             TestMatch(WikiRegexes.Redirect, "#Redirect : [[Foo#bar]]", "#Redirect : [[Foo#bar]]", @"Foo#bar");
             TestMatch(WikiRegexes.Redirect, "#REDIRECT[[Foo]]", "#REDIRECT[[Foo]]", @"Foo");
+            TestMatch(WikiRegexes.Redirect, @"#REDIRECT
+[[Foo]]", @"#REDIRECT
+[[Foo]]", @"Foo");
             TestMatch(WikiRegexes.Redirect, "#redirect[[:Foo bar ]]", "#redirect[[:Foo bar ]]", @"Foo bar");
 
             TestMatches(WikiRegexes.Redirect, "[foo]]", 0);
