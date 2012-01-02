@@ -2014,6 +2014,13 @@ was [[foo|bar]] too"));
         }
         
         [Test]
+        public void FixSyntaxRedirects()
+        {
+            Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT
+[[Foo]]"));
+        }
+        
+        [Test]
         public void ExternalLinksNewline()
         {
             Assert.AreEqual(@"here [http://www.site.com text here]", Parsers.FixSyntax(@"here [http://www.site.com text

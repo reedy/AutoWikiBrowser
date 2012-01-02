@@ -2540,6 +2540,8 @@ namespace WikiFunctions.Parse
             if(Variables.LangCode.Equals("en"))
                 articleText = WikiRegexes.Defaultsort.Replace(articleText, DefaultsortME);
             
+            articleText = FixSyntaxRedirects(articleText);
+            
             articleText = articleText.Replace(@"<small/>", @"</small>");
             
             // remove empty <gallery> tags
@@ -2704,6 +2706,22 @@ namespace WikiFunctions.Parse
                 returned += end;
             
             return returned;
+        }
+        
+        /// <summary>
+        /// Performs fixes to redirect pages: 
+        /// * removes newline between #REDIRECT and link
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <returns></returns>
+        public static string FixSyntaxRedirects(string articleText)
+        {
+            Match m = WikiRegexes.Redirect.Match(articleText);
+            
+            if(m.Success)
+                articleText = articleText.Replace(m.Value, m.Value.Replace("\r\n", " "));
+            
+            return articleText;                
         }
         
         /// <summary>
