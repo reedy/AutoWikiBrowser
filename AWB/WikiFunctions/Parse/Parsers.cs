@@ -2540,8 +2540,6 @@ namespace WikiFunctions.Parse
             if(Variables.LangCode.Equals("en"))
                 articleText = WikiRegexes.Defaultsort.Replace(articleText, DefaultsortME);
             
-            articleText = FixSyntaxRedirects(articleText);
-            
             articleText = articleText.Replace(@"<small/>", @"</small>");
             
             // remove empty <gallery> tags

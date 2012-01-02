@@ -1207,6 +1207,9 @@ namespace WikiFunctions
             {
                 AWBChangeArticleText("Redirect tagger", Parsers.RedirectTagger(ArticleText, Name), false);
                 Variables.Profiler.Profile("RedirectTagger");
+                
+                AWBChangeArticleText("Fix syntax redirects", Parsers.FixSyntaxRedirects(ArticleText), false);
+                Variables.Profiler.Profile("FixSyntaxRedirects");
             }
             else
             {
