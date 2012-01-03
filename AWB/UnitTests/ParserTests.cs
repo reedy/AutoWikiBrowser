@@ -2092,7 +2092,6 @@ complementary and alternative medicine: evidence is a better friend than power. 
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <pre>{now}}</pre>", ref bracketLength));
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <math>{a{b}}</math>", ref bracketLength));
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <code>{now}}</code>", ref bracketLength));
-
         }
         
         [Test]
@@ -3659,6 +3658,19 @@ now"));
             
             Assert.AreEqual(CorrectFileLink, Parsers.FixSyntax(@"{{File:foo.jpeg|eflkjfdslkj]]"));
             Assert.AreEqual(CorrectFileLink, Parsers.FixSyntax(CorrectFileLink));
+            
+            const string NoFix1 = @"==Charact==
+[[Image:X.jpg|thumb
+|alt=
+|xx.]]
+
+Japanese classification systemJapanese classification systemJapanese classification systemJapanese classification systemJapanese classification systemJapanese classification systemJapanese classification system
+
+<gallery>
+Image:X.JPG|Japanese classification systemJapanese classification systemJapanese classification system]]
+</gallery>";
+            
+            Assert.AreEqual(NoFix1, Parsers.FixSyntax(NoFix1));
         }
         
         [Test]
