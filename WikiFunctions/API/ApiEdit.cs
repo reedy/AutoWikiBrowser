@@ -225,9 +225,9 @@ namespace WikiFunctions.API
                 sb.Append(s);
 
                 s = request[i, 1];
+                sb.Append('=');
                 if (s != null) // empty string is a valid parameter value!
                 {
-                    sb.Append('=');
                     sb.Append(HttpUtility.UrlEncode(s));
                 }
             }
@@ -800,7 +800,6 @@ namespace WikiFunctions.API
         {
             if (string.IsNullOrEmpty(newTitle)) throw new ArgumentException("Target page title required", "newTitle");
             if (string.IsNullOrEmpty(reason)) throw new ArgumentException("Page rename reason required", "reason");
-
 
             Reset();
             Action = "move";
