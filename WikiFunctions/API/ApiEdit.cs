@@ -261,6 +261,12 @@ namespace WikiFunctions.API
             return "";
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="options"></param>
+        /// <returns></returns>
         protected string AppendOptions(string url, ActionOptions options)
         {
             if ((options & ActionOptions.CheckMaxlag) > 0 && Maxlag > 0)
