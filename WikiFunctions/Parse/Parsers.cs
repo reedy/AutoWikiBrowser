@@ -968,22 +968,22 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex DiedDateRegex =
             new Regex(
-                @"('''[^']+'''\s*\()d\.(\s+\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?[0-9])|0?([1-3]?[0-9])\s*" +
+                @"('''(?:[^']+|.*?[^'])'''\s*\()d\.(\s+\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?[0-9])|0?([1-3]?[0-9])\s*" +
                 WikiRegexes.MonthsNoGroup + @")?\]*\s*\[*[1-2]?\d{3}\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private static readonly Regex DOBRegex =
             new Regex(
-                @"('''[^']+'''\s*\()b\.(\s+\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
+                @"('''(?:[^']+|.*?[^'])'''\s*\()b\.(\s+\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
                 WikiRegexes.MonthsNoGroup + @")?\]*\s*\[*[1-2]?\d{3}\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         
         private static readonly Regex DOBRegexDash =
             new Regex(
-                @"(?<!\*)('''[^']+'''\s*\()(\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
+                @"(?<!\*)('''(?:[^']+|.*?[^'])'''\s*\()(\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
                 WikiRegexes.MonthsNoGroup + @")?\]*\s*\[*[1-2]?\d{3}\]*)\s*(?:\-|–|&ndash;)\s*\)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private static readonly Regex BornDeathRegex =
             new Regex(
-                @"('''[^']+'''\s*\()(?:[Bb]orn|b\.)\s+(\[*(?:" + WikiRegexes.MonthsNoGroup +
+                @"('''(?:[^']+|.*?[^'])'''\s*\()(?:[Bb]orn|b\.)\s+(\[*(?:" + WikiRegexes.MonthsNoGroup +
                 @"\s+0?(?:[1-3]?\d)|0?(?:[1-3]?\d)\s*" + WikiRegexes.MonthsNoGroup +
                 @")?\]*,?\s*\[*[1-2]?\d{3}\]*)\s*(.|&.dash;)\s*(?:[Dd]ied|d\.)\s+(\[*(?:" + WikiRegexes.MonthsNoGroup +
                 @"\s+0?(?:[1-3]?\d)|0?(?:[1-3]?\d)\s*" + WikiRegexes.MonthsNoGroup + @")\]*,?\s*\[*[1-2]?\d{3}\]*\)\s*)",
