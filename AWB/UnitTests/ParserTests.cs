@@ -308,7 +308,7 @@ End of.", Parsers.ReorderReferences(@"'''Article''' is great.<ref name = 'Fred9'
 Article started off pretty good, <ref name = 'Tim1'/>{{rp|11}}<ref name = 'John3' >So says John</ref> <ref name = ""Fred9"" /> and finished well.
 End of."));
             
-             Assert.AreEqual(@"'''Article''' is great.<ref name = 'Fred9'>So says Fred</ref><ref name = 'John3' /><ref name = 'Tim1'>ABC</ref>
+            Assert.AreEqual(@"'''Article''' is great.<ref name = 'Fred9'>So says Fred</ref><ref name = 'John3' /><ref name = 'Tim1'>ABC</ref>
 Article started off pretty good, <ref name = ""Fred9"" /><ref name = 'John3' >So says John</ref> <ref name = 'Tim1'/>{{rp |11}} and finished well.
 End of.", Parsers.ReorderReferences(@"'''Article''' is great.<ref name = 'Fred9'>So says Fred</ref><ref name = 'John3' /><ref name = 'Tim1'>ABC</ref>
 Article started off pretty good, <ref name = 'Tim1'/>{{rp |11}}<ref name = 'John3' >So says John</ref> <ref name = ""Fred9"" /> and finished well.
@@ -1158,6 +1158,10 @@ was"));
   foo=bar }}";
             
             Assert.AreEqual(Nochange, Parsers.FixLivingThingsRelatedDates(Nochange));
+            
+            const string Nochange2 = @"*'''[[Luís Godinho Lopes|Luís Filipe Fernandes David Godinho Lopes]]''' (2011–)";
+            
+            Assert.AreEqual(Nochange2, Parsers.FixLivingThingsRelatedDates(Nochange2));
         }
         
         [Test]
@@ -4455,8 +4459,8 @@ http://example.com }}");
             Assert.AreEqual(@"Smith 2004, pp.&nbsp;40-44", parser.FixNonBreakingSpaces(@"Smith 2004, pp. 40-44"));
             Assert.AreEqual(@"Smith 2004, Pp.&nbsp;40-44", parser.FixNonBreakingSpaces(@"Smith 2004, Pp. 40-44"));
             Assert.AreEqual(@"Smith 2004, p.&nbsp;40", parser.FixNonBreakingSpaces(@"Smith 2004, p.&nbsp;40"));
-        
-        Assert.AreEqual(@"Smith 200 pp. ISBN 12345678X", parser.FixNonBreakingSpaces(@"Smith 200 pp. ISBN 12345678X"), "No change for number of pages in book");
+            
+            Assert.AreEqual(@"Smith 200 pp. ISBN 12345678X", parser.FixNonBreakingSpaces(@"Smith 200 pp. ISBN 12345678X"), "No change for number of pages in book");
         }
     }
 

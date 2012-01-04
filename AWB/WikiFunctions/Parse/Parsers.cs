@@ -978,7 +978,7 @@ namespace WikiFunctions.Parse
         
         private static readonly Regex DOBRegexDash =
             new Regex(
-                @"('''[^']+'''\s*\()(\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
+                @"(?<!\*)('''[^']+'''\s*\()(\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
                 WikiRegexes.MonthsNoGroup + @")?\]*\s*\[*[1-2]?\d{3}\]*)\s*(?:\-|–|&ndash;)\s*\)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private static readonly Regex BornDeathRegex =
