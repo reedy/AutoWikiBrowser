@@ -225,7 +225,7 @@ namespace WikiFunctions.API
                 sb.Append(s);
 
                 s = request[i, 1];
-                sb.Append('=');
+                sb.Append('='); // Always send a =, so we don't break boolean parameters passed in the POST part of the query
                 if (s != null) // empty string is a valid parameter value!
                 {
                     sb.Append(HttpUtility.UrlEncode(s));
@@ -649,7 +649,8 @@ namespace WikiFunctions.API
                     { User.IsBot ? "bot" : null, null }
                 },
                 new[,]
-                {// order matters here - https://bugzilla.wikimedia.org/show_bug.cgi?id=14210#c4
+                {
+                    // order matters here - https://bugzilla.wikimedia.org/show_bug.cgi?id=14210#c4
                     { "md5", MD5(pageText) },
                     { "summary", summary },
                     { "basetimestamp", Page.Timestamp },
@@ -684,8 +685,6 @@ namespace WikiFunctions.API
                         { "prop", "info" },
                         { "intoken", "delete" },
                         { "titles", title },
-                        //{ User.IsBot ? "bot" : null, null },
-                        { watch ? "watch" : null, null }
 
                     },
                     ActionOptions.All);
@@ -714,7 +713,9 @@ namespace WikiFunctions.API
                 {
                     { "title", title },
                     { "token", Page.EditToken },
-                    { "reason", reason }
+                    { "reason", reason },
+                    //{ User.IsBot ? "bot" : null, null },
+                    { watch ? "watch" : null, null }
                 },
                 ActionOptions.All);
 
