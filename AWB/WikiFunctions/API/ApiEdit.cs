@@ -223,7 +223,10 @@ namespace WikiFunctions.API
                 if (string.IsNullOrEmpty(s)) continue;
                 sb.Append('&');
                 sb.Append(s);
-
+                if (s.Contains("="))
+                {
+                    Tools.WriteDebug(s, "Api key parameter includes =");
+                }
                 sb.Append('='); // Always send a =, so we don't break boolean parameters passed in the POST part of the query
                 s = request[i, 1];
                 if (s != null) // empty string is a valid parameter value!
