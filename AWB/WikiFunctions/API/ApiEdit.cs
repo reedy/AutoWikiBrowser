@@ -224,8 +224,8 @@ namespace WikiFunctions.API
                 sb.Append('&');
                 sb.Append(s);
 
-                s = request[i, 1];
                 sb.Append('='); // Always send a =, so we don't break boolean parameters passed in the POST part of the query
+                s = request[i, 1];
                 if (s != null) // empty string is a valid parameter value!
                 {
                     sb.Append(HttpUtility.UrlEncode(s));
@@ -651,7 +651,7 @@ namespace WikiFunctions.API
                     { "action", "edit" },
                     { "title", Page.Title },
                     { minor ? "minor" : null, null },
-                    { WatchOptionsToParam(watch), null },
+                    { "watchlist", WatchOptionsToParam(watch) },
                     { User.IsBot ? "bot" : null, null }
                 },
                 new[,]
@@ -1245,13 +1245,13 @@ namespace WikiFunctions.API
             switch (watch)
             {
                 case WatchOptions.UsePreferences:
-                    return "watchlist=preferences";
+                    return "preferences";
                 case WatchOptions.Watch:
-                    return "watchlist=watch&watch";
+                    return "watch&watch";
                 case WatchOptions.Unwatch:
-                    return "watchlist=unwatch&unwatch";
+                    return "unwatch&unwatch";
                 default:
-                    return "watchlist=nochange";
+                    return "nochange";
             }
         }
 
