@@ -978,7 +978,7 @@ namespace WikiFunctions.Parse
         
         private static readonly Regex DOBRegexDash =
             new Regex(
-                @"(?<!\*)('''(?:[^']+|.*?[^'])'''\s*\()(\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
+                @"(?<!\*.*)('''(?:[^']+|.*?[^'])'''\s*\()(\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
                 WikiRegexes.MonthsNoGroup + @")?\]*\s*\[*[1-2]?\d{3}\]*)\s*(?:\-|–|&ndash;)\s*\)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private static readonly Regex BornDeathRegex =
@@ -2707,7 +2707,7 @@ namespace WikiFunctions.Parse
         }
         
         /// <summary>
-        /// Performs fixes to redirect pages: 
+        /// Performs fixes to redirect pages:
         /// * removes newline between #REDIRECT and link
         /// </summary>
         /// <param name="articleText"></param>
@@ -2719,7 +2719,7 @@ namespace WikiFunctions.Parse
             if(m.Success)
                 articleText = articleText.Replace(m.Value, m.Value.Replace("\r\n", " "));
             
-            return articleText;                
+            return articleText;
         }
         
         /// <summary>
