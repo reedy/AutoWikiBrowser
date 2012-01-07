@@ -184,6 +184,13 @@ a");
             AssertNotChanged("[[Image:foo]]");
             AssertNotChanged("[[File:foo]]");
         }
+        
+        [Test]
+        public void CiteTwoDateFixes()
+        {
+            AssertChange(@"{{cite web | url = http://www.census.gov/popest/geographic/boundary_changes/index.html | year=2010 |title = Boundary Changes | date = 2010-1-1 }}", 
+                         @"{{cite web | url = http://www.census.gov/popest/geographic/boundary_changes/index.html |title = Boundary Changes | date = 2010-01-01 }}");
+        }
     }
     
     [TestFixture]
