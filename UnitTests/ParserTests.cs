@@ -1165,6 +1165,10 @@ was"));
             const string Nochange2 = @"*'''[[Luís Godinho Lopes|Luís Filipe Fernandes David Godinho Lopes]]''' (2011–)";
             
             Assert.AreEqual(Nochange2, Parsers.FixLivingThingsRelatedDates(Nochange2));
+            
+            const string Nochange3 = @"** '''1st''' Andy Brown '''52''' (2008-)";
+            
+            Assert.AreEqual(Nochange3, Parsers.FixLivingThingsRelatedDates(Nochange3));
         }
         
         [Test]
