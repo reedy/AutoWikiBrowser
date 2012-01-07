@@ -580,7 +580,7 @@ namespace WikiFunctions
                                                        "refimproveBLP", "refimprove BLP", "restructure", "reorganisation", "review", "rewrite", "section", "sections", "self-published",
                                                        "spam", "story", "synthesis", "inappropriate tone", "technical", "tone", "travelguide", "tooshort", "toolong", "trivia", "unbalanced", "unencyclopedic", "unref", "unreferenced",
                                                        "unrefBLP", "unreferencedBLP", "update", "verylong", "weasel", "wikify", "cleanup-laundry", "over detailed", "cleanup-spam", "cleanup-reorganize", "POV-check", "criticism section", "very long", "example farm", "cleanup-rewrite", "cite check", "quote farm", "news release", "unreliable sources",
-                                                   "linkrot", "no footnotes", "abbreviations", "overly detailed", "NOT"});
+                                                       "linkrot", "no footnotes", "abbreviations", "overly detailed", "NOT"});
             
             if(NameSpaceKey.Equals(Namespace.Mainspace))
                 Unknowns = Tools.UnknownTemplateParameters(WikiRegexes.MultipleIssues.Match(ArticleText).Value, Knowns);
@@ -1247,6 +1247,9 @@ namespace WikiFunctions
                 // does significant fixes
                 AWBChangeArticleText("Fix syntax", Parsers.FixSyntax(ArticleText), true, true);
                 Variables.Profiler.Profile("FixSyntax");
+                
+                CiteTemplateDates(parsers, skip.SkipNoCiteTemplateDatesFixed);
+                Variables.Profiler.Profile("CiteTemplateDates");
 
                 AWBChangeArticleText("Fix citation templates", Parsers.FixCitationTemplates(ArticleText), true, true);
                 Variables.Profiler.Profile("FixCitationTemplates");
@@ -1296,9 +1299,6 @@ namespace WikiFunctions
                 // does significant fixes
                 AWBChangeArticleText("Add missing {{reflist}}", Parsers.AddMissingReflist(ArticleText), true, true);
                 Variables.Profiler.Profile("AddMissingReflist");
-
-                CiteTemplateDates(parsers, skip.SkipNoCiteTemplateDatesFixed);
-                Variables.Profiler.Profile("CiteTemplateDates");
 
                 AWBChangeArticleText("Remove empty comments", Parsers.RemoveEmptyComments(ArticleText), false);
                 Variables.Profiler.Profile("RemoveEmptyComments");
