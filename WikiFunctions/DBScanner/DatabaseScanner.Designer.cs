@@ -1324,7 +1324,7 @@ namespace WikiFunctions.DBScanner
             this.chkTitleContains.Name = "chkTitleContains";
             this.chkTitleContains.Size = new System.Drawing.Size(92, 17);
             this.chkTitleContains.TabIndex = 0;
-            this.chkTitleContains.Text = "Title &contains:";
+            this.chkTitleContains.Text = "&Contains:";
             this.chkTitleContains.CheckedChanged += new System.EventHandler(this.chkTitleContains_CheckedChanged);
             // 
             // chkTitleRegex
