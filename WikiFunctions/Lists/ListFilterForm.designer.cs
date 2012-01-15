@@ -171,7 +171,7 @@
             this.gbSearch.Size = new System.Drawing.Size(192, 141);
             this.gbSearch.TabIndex = 1;
             this.gbSearch.TabStop = false;
-            this.gbSearch.Text = "Matches";
+            this.gbSearch.Text = "Title";
             // 
             // gbSets
             // 

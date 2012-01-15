@@ -2787,8 +2787,8 @@ namespace AutoWikiBrowser
             this.chkSkipNoImgChange.Name = "chkSkipNoImgChange";
             this.chkSkipNoImgChange.Size = new System.Drawing.Size(179, 17);
             this.chkSkipNoImgChange.TabIndex = 4;
-            this.chkSkipNoImgChange.Text = "Skip page when no file changed";
-            this.ToolTip.SetToolTip(this.chkSkipNoImgChange, "Automatically skips page if no file changed");
+            this.chkSkipNoImgChange.Text = "Skip page if no file changed";
+            this.ToolTip.SetToolTip(this.chkSkipNoImgChange, "Automatically skips page when no file changed");
             this.chkSkipNoImgChange.UseVisualStyleBackColor = true;
             // 
             // chkAppendMetaDataSort
