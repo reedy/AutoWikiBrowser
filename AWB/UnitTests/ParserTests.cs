@@ -7187,22 +7187,8 @@ fish | name = Bert }} ''Bert'' is a good fish."));
 
             Assert.IsFalse(Parsers.HasStubTemplate(@"foo {{foo tubs}}"));
         }
-
+        
         [Test]
-        public void HasStubTemplateEl()
-        {
-            #if DEBUG
-            Variables.SetProjectLangCode("el");
-            Assert.IsTrue(Parsers.HasStubTemplate(@"foo {{foo stub}}"));
-            Assert.IsTrue(Parsers.HasStubTemplate(@"foo {{foo-stub}}"));
-            Assert.IsTrue(Parsers.HasStubTemplate(@"foo {{βιογραφία-επέκταση}}"));
-            Assert.IsTrue(Parsers.HasStubTemplate(@"foo {{επέκταση}}"));
-            Assert.IsTrue(Parsers.HasStubTemplate(@"foo {{Επέκταση}}"));
-           
-            Assert.IsFalse(Parsers.HasStubTemplate(@"foo {{μικρή έκταση}}"));
-            #endif
-        }
-		[Test]
         public void IsStub()
         {
             Assert.IsTrue(Parsers.IsStub(@"foo {{foo stub}}"));
