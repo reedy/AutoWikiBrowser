@@ -570,6 +570,7 @@ namespace WikiFunctions
 						case "el":
 							mSummaryTag = " με τη χρήση ";
                             WPAWB = "[[Βικιπαίδεια:AutoWikiBrowser|AWB]]";
+                            Stub = @"[^{}|]*?([Ss]tub|[Εε]πέκταση)";
 							break;
 
                         case "eo":
