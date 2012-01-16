@@ -7199,7 +7199,7 @@ fish | name = Bert }} ''Bert'' is a good fish."));
             Assert.IsTrue(Parsers.HasStubTemplate(@"foo {{επέκταση}}"));
             Assert.IsTrue(Parsers.HasStubTemplate(@"foo {{Επέκταση}}"));
            
-            Assert.IsFalse(Parsers.HasStubTemplate(@"foo {{συν επέκταση}}"));
+            Assert.IsFalse(Parsers.HasStubTemplate(@"foo {{μικρή έκταση}}"));
             #endif
         }
 		[Test]
