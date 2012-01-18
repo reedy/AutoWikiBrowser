@@ -483,7 +483,7 @@ namespace WikiFunctions
             "Redirects from title without diacritics"
         };
         
-        public const string RFromOtherCapitaliastionString = @"{{R from other capitalisation}}";
+        public const string RFromOtherCapitalisationString = @"{{R from other capitalisation}}";
 
         public static readonly string[] RFromOtherCapitaliastionList = new[]
         {
