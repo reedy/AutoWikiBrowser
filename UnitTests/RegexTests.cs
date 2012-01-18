@@ -277,6 +277,7 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
         {
             TestMatch(WikiRegexes.WikiLinksOnlyPossiblePipe, "[[foo]]", "[[foo]]");
             TestMatch(WikiRegexes.WikiLinksOnlyPossiblePipe, "[[:foo]]", "[[:foo]]");
+            TestMatch(WikiRegexes.WikiLinksOnlyPossiblePipe, "[[foo#bar]]", "[[foo#bar]]");
             TestMatch(WikiRegexes.WikiLinksOnlyPossiblePipe, "[[a:foo]]", "[[a:foo]]");
             TestMatch(WikiRegexes.WikiLinksOnlyPossiblePipe, "[[FOO:BAR]]", "[[FOO:BAR]]");
             TestMatch(WikiRegexes.WikiLinksOnlyPossiblePipe, "[[foo bar:world series]]", "[[foo bar:world series]]");
