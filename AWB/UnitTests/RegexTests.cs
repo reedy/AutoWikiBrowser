@@ -245,6 +245,7 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
         public void WikiLinksOnly()
         {
             TestMatch(WikiRegexes.WikiLinksOnly, "[[foo]]", "[[foo]]");
+            TestMatch(WikiRegexes.WikiLinksOnly, "[[foo#bar]]", "[[foo#bar]]");
             TestMatch(WikiRegexes.WikiLinksOnly, "[[:foo]]", "[[:foo]]");
             TestMatch(WikiRegexes.WikiLinksOnly, "[[a:foo]]", "[[a:foo]]");
             TestMatch(WikiRegexes.WikiLinksOnly, "[[FOO:BAR]]", "[[FOO:BAR]]");
