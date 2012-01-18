@@ -6437,7 +6437,7 @@ namespace WikiFunctions.Parse
             // {{R from other capitalisation}}
             if (redirecttarget.ToLower().Equals(articleTitle.ToLower())
                 && !Tools.NestedTemplateRegex(WikiRegexes.RFromOtherCapitaliastionList).IsMatch(articleText))
-                return (articleText + " " + WikiRegexes.RFromOtherCapitaliastionString);
+                return (articleText + " " + WikiRegexes.RFromOtherCapitalisationString);
 
             return articleText;
         }
