@@ -1484,6 +1484,10 @@ def
             const string withUnescapedPipes = @"{{cite web|foo=bar|url=http://site.com/news/foo|bar=yes|bar=yes|other.stm | date=2010}}";
             
             Assert.AreEqual(withUnescapedPipes, Tools.RemoveDuplicateTemplateParameters(withUnescapedPipes), "no change when URL could be borken");
+            
+            Assert.AreEqual(@"{{foo|first=abc| url=http://site.com/news }}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|url= | url=http://site.com/news }}"));
+            
+            Assert.AreEqual(@"{{cite web|url=a |title=b | accessdate=11 May 2008|year=2008}}", Tools.RemoveDuplicateTemplateParameters(@"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008|year=2008}}"));
         }
         
         [Test]
