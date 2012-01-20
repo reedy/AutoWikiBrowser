@@ -1069,7 +1069,7 @@ namespace AutoWikiBrowser
             // 
             this.profilesToolStripMenuItem.Name = "profilesToolStripMenuItem";
             this.profilesToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
-            this.profilesToolStripMenuItem.Text = "Log &In/&Profiles...";
+            this.profilesToolStripMenuItem.Text = "Log &in/&Profiles...";
             this.profilesToolStripMenuItem.Click += new System.EventHandler(this.profilesToolStripMenuItem_Click);
             // 
             // logOutToolStripMenuItem
