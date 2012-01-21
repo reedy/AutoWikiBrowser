@@ -1078,13 +1078,16 @@ was"));
             Assert.AreEqual(@"[[circa|c.]] 1950 - 1960,", parser.FixDates(@"[[circa|c.]] 1950 - 1960,"));
             Assert.AreEqual(@"[[circa|c]]. 1950 - 1960,", parser.FixDates(@"[[circa|c]]. 1950 - 1960,"));
             Assert.AreEqual(@"{{circa}} 1950 - 1960,", parser.FixDates(@"{{circa}} 1950 - 1960,"));
-            Assert.AreEqual(@"{{Circa}} 1950 - 1960,", parser.FixDates(@"{{Circa}} 1950 - 1960,"));            
+            Assert.AreEqual(@"{{Circa}} 1950 - 1960,", parser.FixDates(@"{{Circa}} 1950 - 1960,"));
             
             const string NoChange = @"circle 1950 - 1960,";
             Assert.AreEqual(NoChange, parser.FixDates(NoChange));
             
-             const string NoChange2 = @"[[Foo (1950-1960)|Foo]]";
+            const string NoChange2 = @"[[Foo (1950-1960)|Foo]]";
             Assert.AreEqual(NoChange2, parser.FixDates(NoChange2));
+            
+            const string NoChange3 = @"[[Foo (1950 - 1960)|Foo]]";
+            Assert.AreEqual(NoChange3, parser.FixDates(NoChange3));
         }
         
         [Test]

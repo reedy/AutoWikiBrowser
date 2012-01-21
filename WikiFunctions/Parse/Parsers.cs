@@ -916,8 +916,6 @@ namespace WikiFunctions.Parse
             articleText = NoCommaAmericanDates.Replace(articleText, @"$1, $2");
             articleText = NoSpaceAmericanDates.Replace(articleText, @"$1 $2, $3");
 
-            if(!CircaLink)
-                articleText = SpacedFullYearRange.Replace(articleText, @"$1–$2");
             
             // month range
             articleText = EnMonthRange.Replace(articleText, @"$1–$2");
@@ -941,6 +939,15 @@ namespace WikiFunctions.Parse
                     
                     if (year2 > year1 && year2 - year1 <= 300)
                         articleText = articleText.Replace(m.Value, Regex.Replace(m.Value, @" *- *", m.Value.ToLower().Contains("c") ? @" – " : @"–"));
+                }
+                
+                foreach (Match m in SpacedFullYearRange.Matches(articleText))
+                {
+                    int year1 = Convert.ToInt32(m.Groups[1].Value);
+                    int year2 = Convert.ToInt32(m.Groups[2].Value);
+                    
+                    if (year2 > year1 && year2 - year1 <= 300)
+                        articleText = articleText.Replace(m.Value, Regex.Replace(m.Value, @" *[–-] *", @"–"));
                 }
             }
 
