@@ -1062,6 +1062,25 @@ was"));
         }
         
         [Test]
+        public void CircaYearRanges()
+        {
+            Assert.AreEqual(@"c. 1950 – 1960,", parser.FixDates(@"c. 1950 - 1960,"));
+            Assert.AreEqual(@"ca. 1950 – 1960,", parser.FixDates(@"ca. 1950 - 1960,"));
+            Assert.AreEqual(@"circa 1950 – 1960,", parser.FixDates(@"circa 1950 - 1960,"));
+            Assert.AreEqual(@"[[c.]] 1950 – 1960,", parser.FixDates(@"[[c.]] 1950 - 1960,"));
+            Assert.AreEqual(@"[[c]]. 1950 – 1960,", parser.FixDates(@"[[c]]. 1950 - 1960,"));
+            Assert.AreEqual(@"[[c]] 1950 – 1960,", parser.FixDates(@"[[c]] 1950 - 1960,"));
+            Assert.AreEqual(@"[[circa]] 1950 – 1960,", parser.FixDates(@"[[circa]] 1950 - 1960,"));
+            Assert.AreEqual(@"[[circa|c.]] 1950 – 1960,", parser.FixDates(@"[[circa|c.]] 1950 - 1960,"));
+            Assert.AreEqual(@"[[circa|c]]. 1950 – 1960,", parser.FixDates(@"[[circa|c]]. 1950 - 1960,"));
+            Assert.AreEqual(@"{{circa}} 1950 – 1960,", parser.FixDates(@"{{circa}} 1950 - 1960,"));
+            Assert.AreEqual(@"{{Circa}} 1950 – 1960,", parser.FixDates(@"{{Circa}} 1950 - 1960,"));
+            
+            const string NoChange = @"circle 1950 - 1960,";
+            Assert.AreEqual(NoChange, parser.FixDates(NoChange));
+        }
+        
+        [Test]
         public void TestYearToPresentRanges()
         {
             const string present = @"from 2002–present was";
