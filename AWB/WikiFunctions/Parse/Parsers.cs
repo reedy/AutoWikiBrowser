@@ -872,12 +872,13 @@ namespace WikiFunctions.Parse
         private static readonly Regex LongFormatAmericanDateRange = new Regex(WikiRegexes.Months + @" +([1-3]?\d) +" + @" *(?:-|–|&nbsp;) *\1 +([1-3]?\d) *,? *([12]\d{3})\b", RegexOptions.Compiled);
         private static readonly Regex EnMonthRange = new Regex(@"\b" + WikiRegexes.Months + @"-" + WikiRegexes.Months + @"\b", RegexOptions.Compiled);
         
-        private static readonly Regex FullYearRange = new Regex(@"(?:[\(,=;\|]|\b(?:from|between|and|reigned|f?or|ca?\]*\.?\]*|circa)|{{[Cc]irca}}|\[\[[Cc]irca *(?:\|[Cc]a?\.?)?\]\]|\[\[[Cc]a?\.?\]*\.?) *([12]\d{3}) *- *([12]\d{3}) *(?=\)|[,;\|]|and\b|\s*$)", RegexOptions.Compiled | RegexOptions.Multiline);
-        private static readonly Regex SpacedFullYearRange = new Regex(@"([12]\d{3})(?: +– *| *– +)([12]\d{3})", RegexOptions.Compiled);
+        private static readonly Regex FullYearRange = new Regex(@"(?:[\(,=;\|]|\b(?:from|between|and|reigned|f?or|ca?\.?\]*|circa)) *([12]\d{3}) *- *([12]\d{3}) *(?=\)|[,;\|]|and\b|\s*$)", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex SpacedFullYearRange = new Regex(@"(?<!\b(?:ca?\.?\]*|circa) *)([12]\d{3})(?: +– *| *– +)([12]\d{3})", RegexOptions.Compiled);
         private static readonly Regex YearRangeShortenedCentury = new Regex(@"(?:[\(,=;]|\b(?:from|between|and|reigned)) *([12]\d{3}) *- *(\d{2}) *(?=\)|[,;]|and\b|\s*$)", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex DateRangeToPresent = new Regex(@"\b(" + WikiRegexes.MonthsNoGroup + @"|[0-3]?\d,?) +" + @"([12]\d{3}) *- *([Pp]resent\b)", RegexOptions.Compiled);
         private static readonly Regex DateRangeToYear = new Regex(@"\b(" + WikiRegexes.MonthsNoGroup + @"|(?:&nbsp;|\s+)[0-3]?\d,?) +" + @"([12]\d{3})–([12]\d{3})\b", RegexOptions.Compiled);
         private static readonly Regex YearRangeToPresent = new Regex(@"\b([12]\d{3}) *- *([Pp]resent\b)", RegexOptions.Compiled);
+        private static readonly Regex CircaLinkTemplate = new Regex(@"({{[Cc]irca}}|\[\[[Cc]irca *(?:\|[Cc]a?\.?)?\]\]|\[\[[Cc]a?\.?\]*\.?)", RegexOptions.Compiled);
         
         // Covered by: LinkTests.FixDates()
         /// <summary>
@@ -889,6 +890,8 @@ namespace WikiFunctions.Parse
         {
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
+            
+            bool CircaLink = CircaLinkTemplate.IsMatch(articleText);
 
             articleText = HideTextImages(articleText);
 
@@ -913,20 +916,11 @@ namespace WikiFunctions.Parse
             articleText = NoCommaAmericanDates.Replace(articleText, @"$1, $2");
             articleText = NoSpaceAmericanDates.Replace(articleText, @"$1 $2, $3");
 
-            articleText = SpacedFullYearRange.Replace(articleText, @"$1–$2");
+            if(!CircaLink)
+                articleText = SpacedFullYearRange.Replace(articleText, @"$1–$2");
             
             // month range
             articleText = EnMonthRange.Replace(articleText, @"$1–$2");
-            
-            // 1965–1968 fixes: only appy year range fix if two years are in order
-            foreach (Match m in FullYearRange.Matches(articleText))
-            {
-                int year1 = Convert.ToInt32(m.Groups[1].Value);
-                int year2 = Convert.ToInt32(m.Groups[2].Value);
-                
-                if (year2 > year1 && year2 - year1 <= 300)
-                    articleText = articleText.Replace(m.Value, Regex.Replace(m.Value, @" *- *", m.Value.ToLower().Contains("c") ? @" – " : @"–"));
-            }
 
             articleText = AddBackTextImages(articleText);
 
@@ -937,7 +931,18 @@ namespace WikiFunctions.Parse
             articleText = DateRangeToPresent.Replace(articleText, @"$1 $2 – $3");
             articleText = YearRangeToPresent.Replace(articleText, @"$1–$2");
 
-            
+            // 1965–1968 fixes: only appy year range fix if two years are in order
+            if(!CircaLink)
+            {
+                foreach (Match m in FullYearRange.Matches(articleText))
+                {
+                    int year1 = Convert.ToInt32(m.Groups[1].Value);
+                    int year2 = Convert.ToInt32(m.Groups[2].Value);
+                    
+                    if (year2 > year1 && year2 - year1 <= 300)
+                        articleText = articleText.Replace(m.Value, Regex.Replace(m.Value, @" *- *", m.Value.ToLower().Contains("c") ? @" – " : @"–"));
+                }
+            }
 
             // 1965–68 fixes
             foreach (Match m in YearRangeShortenedCentury.Matches(articleText))
