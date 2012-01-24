@@ -1849,6 +1849,22 @@ Start date and age
             
             Assert.AreEqual(Tools.GetTemplateName(@""), "");
         }
+        
+        [Test]
+        public void ReAddDiacritics()
+        {
+            Assert.AreEqual(@"Floué, John", Tools.ReAddDiacritics(@"Floué, John", @"Floue, John"), "diacritics reapplied");
+            Assert.AreEqual(@"Floué, John", Tools.ReAddDiacritics(@" Floué, John ", @"Floue, John"), "diacritics reapplied");
+            Assert.AreEqual(@" Floué, John ", Tools.ReAddDiacritics(@" Floué, John ", @" Floue, John "), "diacritics reapplied");
+
+            Assert.AreEqual(@"Floué, John", Tools.ReAddDiacritics(@"John Floué", @"Floue, John"), "diacritics reapplied, word order irrelevant");
+            Assert.AreEqual(@"Floué, John", Tools.ReAddDiacritics(@"John von Floué", @"Floue, John"), "diacritics reapplied, word order irrelevant");
+
+            Assert.AreEqual(@"Greatère, Véry", Tools.ReAddDiacritics(@"Greatère, Véry", @"Greatere, Very"), "multiple words changed");
+            Assert.AreEqual(@"Greatère, Véry", Tools.ReAddDiacritics(@"Véry Greatère", @"Greatere, Very"), "multiple words changed");
+            Assert.AreEqual(@"Greatère, Very der Very", Tools.ReAddDiacritics(@"Véry Greatère", @"Greatere, Very der Very"), "when multiple matches for same word without, that word not changed");
+            Assert.AreEqual(@"Greatère, Very der Very", Tools.ReAddDiacritics(@"Véry de Vèry Greatère", @"Greatere, Very der Very"), "when multiple matches for same word without, that word not changed");
+        }
     }
 
     [TestFixture]

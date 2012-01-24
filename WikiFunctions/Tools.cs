@@ -2948,5 +2948,19 @@ Message: {2}
 
             return returnString;
         }
+        
+        public static string ReAddDiacritics(string WithDiacritics, string WithoutDiacritics)
+        {
+            foreach(Match m in WikiRegexes.RegexWordApostrophes.Matches(WithDiacritics))
+            {
+                string withoutWord = RemoveDiacritics(m.Value);
+
+                // don't replace if multiple matches, cannot be sure which word translates
+                if(Regex.Matches(WithoutDiacritics, @"\b" + Regex.Escape(withoutWord) + @"\b").Count == 1)
+                    WithoutDiacritics = Regex.Replace(WithoutDiacritics, @"\b" + Regex.Escape(withoutWord) + @"\b", m.Value);
+            }
+
+            return WithoutDiacritics;
+        }
     }
 }
