@@ -6040,6 +6040,10 @@ namespace WikiFunctions.Parse
                 tagsAdded.Add("stub");
                 commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
             }
+            
+            // rename existing {{improve categories}} else add uncategorized tag
+            if(totalCategories == 0 && ImproveCategories.IsMatch(articleText))
+                articleText = Tools.RenameTemplate(articleText, "improve categories", "Uncategorized");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Archive_19#AWB_problems
             // nl wiki doesn't use {{Uncategorized}} template
@@ -6047,7 +6051,6 @@ namespace WikiFunctions.Parse
             if (words > 6 && totalCategories == 0
                 && !WikiRegexes.Uncat.IsMatch(articleText)
                 && Variables.LangCode != "nl"
-                && !Tools.NestedTemplateRegex("cat improve").IsMatch(articleText)
                 // category count is from API; don't add uncat tag if genfixes added person categories
                 && !WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText)
                 && !WikiRegexes.BirthsCategory.IsMatch(articleText))
@@ -6061,11 +6064,7 @@ namespace WikiFunctions.Parse
                 }
                 else
                 {
-                    // rename existing {{improve categories}} else add uncategorized tag
-                    if(ImproveCategories.IsMatch(articleText))
-                        articleText = Tools.RenameTemplate(articleText, "improve categories", "Uncategorized");
-                    else
-                        articleText += Tools.Newline("{{Uncategorized|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                    articleText += Tools.Newline("{{Uncategorized|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
                     tagsAdded.Add("[[CAT:UNCAT|uncategorised]]");
                 }
             }

@@ -8075,10 +8075,16 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             text = parser.Tagger(ShortText + @" {{surname|Smith, John}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
             
-            // don't mark as uncat if has {{cat improve}}
+            // {{improve categories}} --> {{uncat}} if no cats
             Globals.UnitTestIntValue = 0;
-            text = parser.Tagger(@"{{cat improve}}\r\n" + ShortText, "Test", false, out noChange, ref summary);
-            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+            text = parser.Tagger(@"{{improve categories}}\r\n" + ShortText, "Test", false, out noChange, ref summary);
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text));
+            
+            // {{improve categories}} --> {{uncat stub}} if no cats and stub
+            Globals.UnitTestIntValue = 0;
+            text = parser.Tagger(@"{{improve categories}}  {{foo-stub}}\r\n" + ShortText, "Test", false, out noChange, ref summary);
+            Assert.IsTrue(text.Contains(@"{{uncategorized stub"));
+            Assert.IsFalse(text.Contains(@"{{improve categories"));
             
             // when no cats from existing page by API call but genfixes adds people categories, don't tag uncat
             text = parser.Tagger(ShortText + ShortText + @"[[Category:Living people]]", "Test", false, out noChange, ref summary);
