@@ -5005,13 +5005,36 @@ Bar", "Test"), "inserts blank line if one missing");
             Assert.AreEqual("== foo ==\r\n==bar", Parsers.RemoveWhiteSpace("== foo ==\r\n\r\n==bar"));
             Assert.AreEqual("== foo ==\r\n==bar", Parsers.RemoveWhiteSpace("== foo ==\r\n\r\n\r\n==bar"));
 
-            Assert.AreEqual("{|\r\n| foo\r\n|\r\nbar\r\n|}", Parsers.RemoveWhiteSpace("{|\r\n| foo\r\n\r\n|\r\n\r\nbar\r\n|}"));
-
             Assert.AreEqual("a\r\n\r\nx", Parsers.RemoveWhiteSpace("a<br/>\r\n\r\nx"));
             Assert.AreEqual("a\r\n\r\nx", Parsers.RemoveWhiteSpace("a<br/><br/>\r\n\r\nx"));
             
             // eh? should we fix such tables too?
             //Assert.AreEqual("{|\r\n! foo\r\n!\r\nbar\r\n|}", Parsers.RemoveWhiteSpace("{|\r\n! foo\r\n\r\n!\r\n\r\nbar\r\n|}"));
+            
+            const string TrackList = @"{{Track listing
+| collapsed       =
+| headline        =
+| extra_column    =
+| total_length    =
+
+| all_writing     =
+| all_lyrics      =
+| all_music       =
+
+| writing_credits =
+| lyrics_credits  =
+| music_credits   =
+
+| title1          =
+| note1           =
+| writer1         =
+| lyrics1         =
+| music1          =
+| extra1          =
+| length1         =
+}}";
+            
+            Assert.AreEqual(TrackList, Parsers.RemoveWhiteSpace(TrackList));
         }
         
         [Test]

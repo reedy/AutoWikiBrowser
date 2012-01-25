@@ -985,7 +985,7 @@ namespace WikiFunctions.Parse
             if (year2 > year1 && year2 - year1 <= 99)
                 return m.Groups[1].Value + m.Groups[2].Value + @"–" + m.Groups[3].Value;
             
-            return m.Value;            
+            return m.Value;
         }
 
         private static readonly Regex DiedDateRegex =
@@ -2403,9 +2403,7 @@ namespace WikiFunctions.Parse
 
             if (articleText.Contains("\r\n|\r\n\r\n"))
                 articleText = articleText.Replace("\r\n|\r\n\r\n", "\r\n|\r\n");
-            if (articleText.Contains("\r\n\r\n|"))
-                articleText = articleText.Replace("\r\n\r\n|", "\r\n|");
-
+            
             return articleText.Trim();
         }
 
