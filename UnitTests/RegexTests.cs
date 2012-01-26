@@ -567,6 +567,67 @@ Start date and age
             // this is why the <DEPTH> business is needed in WikiRegexes.Refs
             RegexAssert.Matches(new Regex(WikiRegexes.Refs + @"\."), "Foo.<ref>bar</ref>. The next Foo.<ref>bar <br> other</ref> The next Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The nextFoo<ref>bar2</ref>. The next", "<ref>bar</ref>.", "<ref>bar2</ref>.");
         }
+        
+        [Test]
+        public void RefsGrouped()
+        {
+            RegexAssert.Matches(WikiRegexes.RefsGrouped, "<ref group=X>foo</ref>", "<ref group=X>foo</ref>");
+            RegexAssert.Matches(WikiRegexes.RefsGrouped, "<ref group=X>foo<br></ref>", "<ref group=X>foo<br></ref>");
+            RegexAssert.Matches(WikiRegexes.RefsGrouped, "<ref group=X>foo<br>bar</ref>", "<ref group=X>foo<br>bar</ref>");
+            const string M1 = @"<ref group=X>{{cite web
+|url=http://www.h.com/.php?tmi=5177|title=Season-by-season record |accessdate = 2008-12-01}}</ref>";
+            RegexAssert.Matches(WikiRegexes.RefsGrouped,  M1, M1);
+
+            RegexAssert.Matches(WikiRegexes.RefsGrouped, "<REF group=\"foo\" >bar</ref >", "<REF group=\"foo\" >bar</ref >");
+            RegexAssert.Matches(WikiRegexes.RefsGrouped, "<REF  group=foo>bar< /ref>", "<REF  group=foo>bar< /ref>");
+            RegexAssert.Matches(WikiRegexes.RefsGrouped, "<ReF Group=foo/>", "<ReF Group=foo/>");
+            RegexAssert.Matches(WikiRegexes.RefsGrouped, "<ReF Group = 'foo'/>", "<ReF Group = 'foo'/>");
+            RegexAssert.Matches(WikiRegexes.RefsGrouped, "<ReF Group = \"foo\"/>", "<ReF Group = \"foo\"/>");
+            RegexAssert.Matches(WikiRegexes.RefsGrouped, "< ref group=X>foo</ ref>", "< ref group=X>foo</ ref>");
+            RegexAssert.Matches(WikiRegexes.RefsGrouped, @"<ref group= ""foo/bar""/>", @"<ref group= ""foo/bar""/>");
+            RegexAssert.Matches(WikiRegexes.RefsGrouped, @"<ref group= ""foo/bar"">a</ref>", @"<ref group= ""foo/bar"">a</ref>");
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#.3Cp.3E_deletion_in_references_and_notes
+            RegexAssert.Matches(WikiRegexes.RefsGrouped, "<ref group=X>foo<!-- bar --></ref>", "<ref group=X>foo<!-- bar --></ref>");
+            // shouldn't eat too much
+            RegexAssert.Matches(WikiRegexes.RefsGrouped, "<ref group=X>foo<!-- bar --></ref> <ref group=Y>foo</ref>", "<ref group=X>foo<!-- bar --></ref>", "<ref group=Y>foo</ref>");
+
+            // this is why the <DEPTH> business is needed in WikiRegexes.Refs
+            RegexAssert.Matches(new Regex(WikiRegexes.Refs + @"\."), "Foo.<ref group=X>bar</ref>. The next Foo.<ref>bar <br> other</ref> The next Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The nextFoo<ref group=Y>bar2</ref>. The next", "<ref group=X>bar</ref>.", "<ref group=Y>bar2</ref>.");
+            
+            RegexAssert.NoMatch(WikiRegexes.RefsGrouped, "<ref>foo</ref>", "<ref>foo</ref>");
+            RegexAssert.NoMatch(WikiRegexes.RefsGrouped, "<ref>foo<br></ref>", "<ref>foo<br></ref>");
+            RegexAssert.NoMatch(WikiRegexes.RefsGrouped, "<ref>foo<br>bar</ref>", "<ref>foo<br>bar</ref>");
+            
+            RegexAssert.NoMatch(WikiRegexes.RefsGrouped, @"<ref>{{cite web
+|url=http://www.h.com/.php?tmi=5177|title=Season-by-season record |accessdate = 2008-12-01}}</ref>");
+
+            RegexAssert.NoMatch(WikiRegexes.RefsGrouped, "<REF NAME=\"foo\" >bar</ref >", "<REF NAME=\"foo\" >bar</ref >");
+            RegexAssert.NoMatch(WikiRegexes.RefsGrouped, "<REF  NAME=foo>bar< /ref>", "<REF  NAME=foo>bar< /ref>");
+            RegexAssert.NoMatch(WikiRegexes.RefsGrouped, "<ReF Name=foo/>", "<ReF Name=foo/>");
+            RegexAssert.NoMatch(WikiRegexes.RefsGrouped, "<ReF Name = 'foo'/>", "<ReF Name = 'foo'/>");
+            RegexAssert.NoMatch(WikiRegexes.RefsGrouped, "<ReF Name = \"foo\"/>", "<ReF Name = \"foo\"/>");
+            RegexAssert.NoMatch(WikiRegexes.RefsGrouped, "< ref>foo</ ref>", "< ref>foo</ ref>");
+            RegexAssert.NoMatch(WikiRegexes.RefsGrouped, @"<ref name= ""foo/bar""/>", @"<ref name= ""foo/bar""/>");
+            RegexAssert.NoMatch(WikiRegexes.RefsGrouped, @"<ref name= ""foo/bar"">a</ref>", @"<ref name= ""foo/bar"">a</ref>");
+
+            RegexAssert.NoMatch(WikiRegexes.RefsGrouped, "<refname=foo>bar</ref>");
+            RegexAssert.NoMatch(WikiRegexes.RefsGrouped, "<refname=foo/>");
+
+            RegexAssert.Matches(WikiRegexes.RefsGrouped, "<ref group=a name=foo/>", "<ref group=a name=foo/>");
+            RegexAssert.NoMatch(WikiRegexes.RefsGrouped, "<ref name=foo group=a />", "<ref name=foo group=a />");
+
+            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#.3Cp.3E_deletion_in_references_and_notes
+            RegexAssert.NoMatch(WikiRegexes.RefsGrouped, "<ref>foo<!-- bar --></ref>", "<ref>foo<!-- bar --></ref>");
+            // shouldn't eat too much
+            RegexAssert.NoMatch(WikiRegexes.RefsGrouped, "<ref>foo<!-- bar --></ref> <ref>foo</ref>");
+
+            // this is why the <DEPTH> business is needed in WikiRegexes.Refs
+            RegexAssert.Matches(new Regex(WikiRegexes.RefsGrouped + @"\."), "Foo.<ref group=X>bar</ref>. The next Foo.<ref group=X>bar <br> other</ref> The next Foo.<ref group=X>bar</ref> The next Foo.<ref group=X>bar</ref> The nextFoo<ref group=X>bar2</ref>. The next",
+                                @"<ref group=X>bar</ref>.", @"<ref group=X>bar2</ref>.");
+            
+            RegexAssert.NoMatch(WikiRegexes.RefsGrouped, "<ref name=foo group=a />", "<ref name=foo group=a />");            
+        }
 
         [Test]
         public void Small()
@@ -1006,7 +1067,7 @@ cit"));
 }}");
             Assert.AreEqual(WikiRegexes.TemplateEnd.Match(@"{{foo
 }}").Groups[1].Value, "\r\n");
-             Assert.AreEqual(WikiRegexes.TemplateEnd.Match(@"{{foo
+            Assert.AreEqual(WikiRegexes.TemplateEnd.Match(@"{{foo
  }}").Value, "\r\n }}");
         }
 
