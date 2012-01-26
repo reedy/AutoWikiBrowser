@@ -5800,6 +5800,16 @@ namespace WikiFunctions.Parse
                 articleText = articleText.Replace("[[dk:", "[[da:");
             return articleText;
         }
+        
+        /// <summary>
+        /// Returns the number of &lt;ref&gt; references in the input text, excluding grouped refs
+        /// </summary>
+        /// <param name="arcticleText"></param>
+        /// <returns></returns>
+        private static int TotalRefsNotGrouped(string arcticleText)
+        {
+            return WikiRegexes.Refs.Matches(arcticleText).Count-WikiRegexes.RefsGrouped.Matches(arcticleText).Count;
+        }
 
         /// <summary>
         /// Converts/subst'd some deprecated templates
@@ -5836,7 +5846,7 @@ namespace WikiFunctions.Parse
             }
 
             // {{nofootnotes}} --> {{morefootnotes}}, if some <ref>...</ref> references in article, uses regex from WikiRegexes.Refs
-            if (WikiRegexes.Refs.IsMatch(articleText))
+            if (TotalRefsNotGrouped(articleText) > 0)
                 articleText = Tools.RenameTemplate(articleText, @"nofootnotes", "morefootnotes");
 
             // {{foo|section|...}} --> {{foo section|...}} for unreferenced, wikify, refimprove, BLPsources, expand, BLP unsourced
@@ -6112,7 +6122,7 @@ namespace WikiFunctions.Parse
 
             // rename unreferenced --> refimprove if has existing refs
             if (WikiRegexes.Unreferenced.IsMatch(commentsCategoriesStripped)
-                && WikiRegexes.Refs.Matches(commentsCategoriesStripped).Count > 0)
+                && TotalRefsNotGrouped(commentsCategoriesStripped) > 0)
             {
                 articleText = Tools.RenameTemplate(articleText, "unreferenced", "refimprove", true);
                 
@@ -6595,6 +6605,8 @@ namespace WikiFunctions.Parse
         {
             return (WikiRegexes.MoreNoFootnotes.IsMatch(WikiRegexes.Comments.Replace(articleText, "")) && WikiRegexes.Refs.Matches(articleText).Count > 4);
         }
+        
+        private static readonly Regex GRTemplateDecimal = new Regex(@"{{GR\|\d}}", RegexOptions.Compiled);
 
         /// <summary>
         /// Check if the article uses cite references but has no recognised template to display the references; only for en-wiki
@@ -6605,7 +6617,7 @@ namespace WikiFunctions.Parse
             if (!Variables.LangCode.Equals("en"))
                 return false;
 
-            return !WikiRegexes.ReferencesTemplate.IsMatch(articleText) && Regex.IsMatch(articleText, WikiRegexes.ReferenceEndGR);
+            return !WikiRegexes.ReferencesTemplate.IsMatch(articleText) && (TotalRefsNotGrouped(articleText) > 0 | GRTemplateDecimal.IsMatch(articleText));
         }
 
         /// <summary>
