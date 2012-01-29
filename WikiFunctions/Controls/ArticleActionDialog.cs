@@ -91,19 +91,25 @@ namespace WikiFunctions.Controls
                     messages[7] = "[[WP:CSD#G7|Author requests deletion]]";
                     messages[8] = "[[WP:CSD#G8|Talk page of page that does not exist]]";
                     messages[9] = "[[WP:CSD#G10|Attack page]]";
-                    messages[10] = "[[WP:CSD#G11|Blatant advertising]]";
-                    messages[11] = "[[WP:CSD#G12|Blatant copyright infringement]]";
-                    messages[12] = "[[WP:CSD#A1|Little or no context]]";
+                    messages[10] = "[[WP:CSD#G11|Unambiguous advertising or promotion]]";
+                    messages[11] = "[[WP:CSD#G12|Unambiguous copyright infringement]]";
+                    messages[12] = "[[WP:CSD#A1|No context]]";
                     messages[13] = "[[WP:CSD#A2|Foreign language article]]";
                     messages[14] = "[[WP:CSD#A3|No content whatsoever]]";
-                    messages[15] = "[[WP:CSD#A7|Non-notable person, group, company, or web content]]";
-                    messages[16] = "[[WP:CSD#R1|Redirect to non-existent page]]";
-                    messages[17] = "[[WP:CSD#R2|Redirect to the User: or User talk: space]]";
-                    messages[18] = "[[WP:CSD#R3|Redirect as a result of an implausible typo]]";
-                    messages[19] = "[[WP:CSD#C1|Empty category]]";
-                    messages[20] = "[[WP:CSD#C2|Speedy renaming]]";
-                    messages[21] = "[[WP:CSD#U1|User request]]";
-                    messages[22] = "[[WP:CSD#U2|Nonexistent user]]";
+                    messages[15] = "[[WP:CSD#A5|Transwikied articles]]";
+                    messages[16] = "[[WP:CSD#A7|No indication of importance (individuals, animals, organizations, web content)]]";
+                    messages[17] = "[[WP:CSD#A9|No indication of importance (musical recordings)]]";
+                    messages[18] = "[[WP:CSD#A10|Recently created article that duplicates an existing topic]]";
+                    messages[19] = "[[WP:CSD#R1|Redirect to non-existent page]]";
+                    messages[20] = "[[WP:CSD#R2|Redirect to the User: or User talk: space]]";
+                    messages[21] = "[[WP:CSD#R3|Redirect as a result of an implausible typo]]";
+                    messages[22] = "[[WP:CSD#C1|Empty category]]";
+                    messages[23] = "[[WP:CSD#C2|Speedy renaming]]";
+                    messages[24] = "[[WP:CSD#U1|User request]]";
+                    messages[25] = "[[WP:CSD#U2|Nonexistent user]]";
+                    messages[26] = "[[WP:CSD#U3|Non-free galleries]]";
+                    messages[27] = "[[WP:CSD#T2|Misrepresentation of policy]]";
+                    messages[28] = "[[WP:CSD#T3|Duplication and hardcoded instances]]";
                 }
             }
             cmboSummary.Items.AddRange(messages);
