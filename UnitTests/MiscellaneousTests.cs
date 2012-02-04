@@ -1103,7 +1103,7 @@ __TOC__", articleTextIn);
         }
         
         [Test]
-        public void WPBiography()
+        public void WPBiographyListasDiacritics()
         {
             string a = @"{{WPBiography|foo=yes|living=yes|listas=Foé}}";
             
