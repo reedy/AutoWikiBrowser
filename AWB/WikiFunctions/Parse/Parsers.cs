@@ -5948,6 +5948,7 @@ namespace WikiFunctions.Parse
         private readonly List<string> tagsRemoved = new List<string>();
         private readonly List<string> tagsAdded = new List<string>();
         private static readonly Regex ImproveCategories = Tools.NestedTemplateRegex("improve categories");
+        private static readonly Regex ProposedDeletionDated = Tools.NestedTemplateRegex("Proposed deletion/dated");
 
         //TODO:Needs re-write
         /// <summary>
@@ -6008,7 +6009,8 @@ namespace WikiFunctions.Parse
             articleText = TagEmptySection(articleText);
 
             int totalCategories;
-            int linkCount = Tools.LinkCount(commentsStripped);
+            // ignore commented out wikilinks, and any in {{Proposed deletion/dated}}
+            int linkCount = Tools.LinkCount(ProposedDeletionDated.Replace(commentsStripped, ""));
 
             #if DEBUG || UNITTEST
             if (Globals.UnitTestMode)
