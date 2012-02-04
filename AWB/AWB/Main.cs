@@ -2857,6 +2857,15 @@ window.scrollTo(0, diffTopY);
             if(RenamedTemplateParametersLoaded)
                 LoadRenameTemplateParameters();
         }
+        
+        private void resetEditSkippedCountToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NumberOfEdits = 0;
+            NumberOfIgnoredEdits = 0;
+            NumberOfEditsPerMinute = 0;
+            NumberOfNewPages = 0;
+            NumberOfPagesPerMinute = 0;
+        }
 
         private void SetProject(string code, ProjectEnum project, string customProject, bool usingSecure)
         {

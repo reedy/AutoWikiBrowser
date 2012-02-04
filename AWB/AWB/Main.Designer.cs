@@ -122,6 +122,7 @@ namespace AutoWikiBrowser
             this.profilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logOutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.reloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetEditSkippedCountToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator17 = new System.Windows.Forms.ToolStripSeparator();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -1008,6 +1009,7 @@ namespace AutoWikiBrowser
             this.profilesToolStripMenuItem,
             this.logOutToolStripMenuItem,
             this.reloadToolStripMenuItem,
+            this.resetEditSkippedCountToolStripMenuItem,
             this.toolStripSeparator17,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -1087,6 +1089,13 @@ namespace AutoWikiBrowser
             this.reloadToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
             this.reloadToolStripMenuItem.Text = "Re&fresh status/typos";
             this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
+            //
+            // resetEditSkippedCountToolStripMenuItem
+            //
+            this.resetEditSkippedCountToolStripMenuItem.Name = "resetEditSkippedCountToolStripMenuItem";
+            this.resetEditSkippedCountToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.resetEditSkippedCountToolStripMenuItem.Text = "Reset saved/skipped counts";
+            this.resetEditSkippedCountToolStripMenuItem.Click += new System.EventHandler(this.resetEditSkippedCountToolStripMenuItem_Click);
             // 
             // toolStripSeparator17
             // 
@@ -4630,6 +4639,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
         private System.Windows.Forms.ToolStripMenuItem runUpdaterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reloadToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem resetEditSkippedCountToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem categoryToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator24;
         private System.Windows.Forms.TabPage tpSkip;
