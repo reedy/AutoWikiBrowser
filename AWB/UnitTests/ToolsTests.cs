@@ -1213,8 +1213,13 @@ John", "*"));
         public void GetTemplateArgumentCount()
         {
             Assert.AreEqual(0, Tools.GetTemplateArgumentCount(@"{{foo}}"));
+            Assert.AreEqual(0, Tools.GetTemplateArgumentCount(@"{{foo}}", true));
             Assert.AreEqual(1, Tools.GetTemplateArgumentCount(@"{{foo|bar}}"), "counts unnamed parameters");
+            Assert.AreEqual(0, Tools.GetTemplateArgumentCount(@"{{foo|bar}}", true), "counts populated named parameters only when requested");
+            Assert.AreEqual(0, Tools.GetTemplateArgumentCount(@"{{foo|bar=}}", true), "counts populated named parameters only when requested");
             Assert.AreEqual(1, Tools.GetTemplateArgumentCount(@"{{foo|bar=yes}}"), "counts named parameters");
+            Assert.AreEqual(1, Tools.GetTemplateArgumentCount(@"{{foo|bar=yes}}", true), "counts named parameters");
+            Assert.AreEqual(3, Tools.GetTemplateArgumentCount(@"{{foo|bar=yes|asdf=iiuu|asdfsadf=|eaa=ef}}", true), "counts named parameters");
             
             Assert.AreEqual(3, Tools.GetTemplateArgumentCount(@"{{foo|bar|here|yte}}"), "counts multiple parameters");
             
