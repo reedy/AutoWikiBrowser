@@ -352,17 +352,15 @@ namespace WikiFunctions.TalkPages
             if(!Variables.LangCode.Equals("en"))
                 return articletext;
             
-            Match m = WPBiographyR.Match(articletext);
+            Match m = WPBiographyR.Match(articletext);            
             
-            // remove diacritics from listas
             if(m.Success)
             {
                 string newvalue = m.Value;
-                string listas = Tools.GetTemplateParameterValue(m.Value, "listas");
                 
+                // remove diacritics from listas
+                string listas = Tools.GetTemplateParameterValue(newvalue, "listas");                
                 newvalue = Tools.SetTemplateParameterValue(newvalue, "listas", Tools.RemoveDiacritics(listas));
-
-
                 
                 // If {{activepol}} then add living=yes, activepol=yes, politician-work-group=yes to WPBiography and remove {{activepol}}
                 Match activepolm = ActivepolRegex.Match(articletext);
