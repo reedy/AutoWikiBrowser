@@ -2385,18 +2385,32 @@ Message: {2}
             return -1;
         }
 
+        private static readonly Regex TemplateArgument = new Regex(@"\|\s*(.*?)\s*(?=\||}}$)", RegexOptions.Singleline);
         /// <summary>
         /// Returns the number of arguments to the input template call
         /// </summary>
         /// <param name="template">The template call</param>
         /// <returns>The argument count</returns>
-        public static int GetTemplateArgumentCount(string template)
+        public static int GetTemplateArgumentCount(string template, bool populatedparametersonly)
         {
-            Regex arg = new Regex(@"\|\s*(.*?)\s*(?=\||}}$)", RegexOptions.Singleline);
-
             string pipecleanedtemplate = PipeCleanedTemplate(template);
 
-            return arg.Matches(pipecleanedtemplate).Count;
+            int i=0;
+            
+            foreach (Match m in (TemplateArgument.Matches(pipecleanedtemplate)))
+            {
+                if(!populatedparametersonly)
+                    i++;
+                else if(m.Groups[1].Value.Contains("=") && !m.Groups[1].Value.EndsWith("="))
+                    i++;
+            }
+            
+            return i;
+        }
+        
+        public static int GetTemplateArgumentCount(string template)
+        {
+            return GetTemplateArgumentCount(template, false);
         }
 
         /// <summary>
