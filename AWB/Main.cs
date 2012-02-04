@@ -2860,6 +2860,9 @@ window.scrollTo(0, diffTopY);
         
         private void resetEditSkippedCountToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if(NumberOfEdits > 0)
+                UsageStats.Do(false);
+            
             NumberOfEdits = 0;
             NumberOfIgnoredEdits = 0;
             NumberOfEditsPerMinute = 0;
