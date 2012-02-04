@@ -1070,6 +1070,8 @@ namespace AutoWikiBrowser
             // profilesToolStripMenuItem
             // 
             this.profilesToolStripMenuItem.Name = "profilesToolStripMenuItem";
+            this.profilesToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+L";
+            this.profilesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
             this.profilesToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
             this.profilesToolStripMenuItem.Text = "Log &in/&Profiles...";
             this.profilesToolStripMenuItem.Click += new System.EventHandler(this.profilesToolStripMenuItem_Click);
