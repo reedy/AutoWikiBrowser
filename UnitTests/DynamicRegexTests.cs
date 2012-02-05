@@ -196,6 +196,8 @@ Test.JPG
             
             RegexAssert.NoMatch(WikiRegexes.FileNamespaceLink, "[[File:Test.JPG");
             RegexAssert.NoMatch(WikiRegexes.FileNamespaceLink, "[[File Test.JPG]]");
+            
+            Assert.AreEqual(WikiRegexes.FileNamespaceLink.Match(@"[[ File :Test.JPG]]").Groups[1].Value, "Test.JPG");
         }
 
         [Test]
@@ -888,7 +890,7 @@ he}}"));
             #endif
         }
 
-       
+        
         [Test]
         public void LinkFGAsSwedish()
         {
