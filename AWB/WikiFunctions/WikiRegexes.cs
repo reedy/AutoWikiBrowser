@@ -564,7 +564,7 @@ namespace WikiFunctions
         public static Regex Images;
         
         /// <summary>
-        /// Matches links to the file namespace (images etc.)
+        /// Matches links to the file namespace (images etc.), group 1 is the filename
         /// </summary>
         public static Regex FileNamespaceLink;
 
