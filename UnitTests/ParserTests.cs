@@ -7458,6 +7458,40 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             const string T2 = @"Test {{{2|}}}";
             Assert.AreEqual("Test", Parsers.SubstUserTemplates(T2, "test", Hello), "cleans up the {{{2|}}} template");
         }
+        
+        [Test]
+        public void FormatToBDA()
+        {
+            const string Correct = @"{{birth date and age|1990|05|11}}", CorrectAmerican = @"{{birth date and age|mf=y|1990|05|11}}";
+
+            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"11 May 1990 (age 21)"));
+            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"11 May 1990 (Age 21)"));
+            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"11 May 1990, (Age 21)"));
+            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"11 May 1990; (Age 21)"));
+            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"11 May 1990 (aged 21)"));
+            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"11 May [[1990]] (aged 21)"));
+            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"[[11 May]] [[1990]] (aged 21)"));
+            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"[[11 May]] 1990 (aged 21)"));
+            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"11th May 1990 (aged 21)"));
+            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"11 May 1990 ( aged 21 )"));
+            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"11 May 1990    ( aged 21 )"));
+            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"11 May, 1990    ( aged 21 )"));
+
+            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"1990-05-11 (age 21)"));
+            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"1990-5-11 (age 21)"));
+            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"1990-5-11 <br/>(age 21)"));
+            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"1990-5-11 <br>(age 21)"));
+            Assert.AreEqual(Correct, Parsers.FormatToBDA(@"1990-5-11 <br>Age 21"));
+
+            Assert.AreEqual(CorrectAmerican, Parsers.FormatToBDA(@"May 11, 1990 (age 21)"));
+            Assert.AreEqual(CorrectAmerican, Parsers.FormatToBDA(@"May 11 1990 (age 21)"));
+            Assert.AreEqual(CorrectAmerican, Parsers.FormatToBDA(@"May 11th 1990 (age 21)"));
+
+            Assert.AreEqual("", Parsers.FormatToBDA(""));
+            Assert.AreEqual("Test", Parsers.FormatToBDA("Test"));
+            Assert.AreEqual("May 11, 1990", Parsers.FormatToBDA("May 11, 1990"));
+            Assert.AreEqual("May 11, 1990 (Age 21) and some other text", Parsers.FormatToBDA("May 11, 1990 (Age 21) and some other text"));
+        }
     }
 
     [TestFixture]
@@ -8337,7 +8371,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(parser.Tagger(@"foo==x== {{deadend|section|date=May 2010}} [[a]] and [[b]] and [[b]]", "Test", false, out noChange, ref summary)), "does not remove section tags");
             Assert.IsFalse(summary.Contains("removed deadend tag"));
             
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(parser.Tagger(@"foo==x== {{deadend|date=May 2010}} {{Proposed deletion/dated|[[a]] and [[b]] and [[b]]}}", "Test", false, out noChange, ref summary)), 
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(parser.Tagger(@"foo==x== {{deadend|date=May 2010}} {{Proposed deletion/dated|[[a]] and [[b]] and [[b]]}}", "Test", false, out noChange, ref summary)),
                           @"does not remove {{dead end}} when links are within prod template");
             Assert.IsFalse(summary.Contains("removed deadend tag"));
         }
