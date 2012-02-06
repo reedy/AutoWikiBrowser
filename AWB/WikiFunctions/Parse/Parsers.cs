@@ -5766,6 +5766,40 @@ namespace WikiFunctions.Parse
         {
             return GetInfoBoxFieldValue(articleText, new List<string>(new [] { field }));
         }
+        
+        private static readonly Regex AgeBrackets = new Regex(@"(?:< *[Bb][Rr] */? *> *)?\s*[,;]?\s*\(? *[Aa]ged? +\d{1,3}(?: +or +\d{1,3})? *\)?$", RegexOptions.Compiled);
+        
+        /// <summary>
+        /// takes input string of date and age e.g. "11 May 1990 (age 21)" and converts to {{birth date and age|1990|5|11}}
+        /// </summary>
+        /// <param name="dateandage"></param>
+        /// <returns></returns>
+        public static string FormatToBDA(string dateandage)
+        {
+            Parsers p = new Parsers();
+            string original = dateandage;
+            // clean up date format if possible
+            dateandage = p.FixDateOrdinalsAndOf(" " + dateandage, "test");
+
+            // remove date wikilinks
+            dateandage = WikiRegexes.WikiLinksOnlyPossiblePipe.Replace(dateandage, "$1");
+
+            // string must end with (age xx)
+            if(!AgeBrackets.IsMatch(dateandage))
+                return original;
+
+            dateandage = AgeBrackets.Replace(dateandage, "");
+
+            bool AmericanDate = WikiRegexes.AmericanDates.IsMatch(dateandage);
+
+            string ISODate = Tools.ConvertDate(dateandage, DateLocale.ISO);
+
+            if(ISODate.Equals(dateandage))
+                return original;
+
+            // we have ISO date, convert with {{birth date and age}}, American date, set mf=y
+            return @"{{birth date and age|" + (AmericanDate ? "mf=y|" : "") + ISODate.Replace("-", "|") + @"}}";
+        }
 
         /// <summary>
         /// Replaces legacy/deprecated language codes in interwikis with correct ones
