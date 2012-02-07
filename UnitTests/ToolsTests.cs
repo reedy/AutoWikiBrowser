@@ -946,6 +946,7 @@ John", "*"));
             Assert.AreEqual(iso, Tools.ConvertDate(UKDate, Parsers.DateLocale.ISO), "Assumes DD/MM/YYYY format dates when NOT flagged");
             
             Assert.AreEqual(@"May 2009", Tools.ConvertDate(@"May 2009", Parsers.DateLocale.International), "day not added to month year combo");
+            Assert.AreEqual(@"May 2009", Tools.ConvertDate(@" May 2009", Parsers.DateLocale.International), "day not added to month year combo");
             
             Assert.AreEqual(@"15 January 2008", Tools.ConvertDate("2008-Jan-15", Parsers.DateLocale.International));
             Assert.AreEqual(@"15 January 2008", Tools.ConvertDate("2008 Jan 15", Parsers.DateLocale.International));

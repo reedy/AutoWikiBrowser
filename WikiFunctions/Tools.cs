@@ -2163,6 +2163,7 @@ Message: {2}
         /// <returns>The English-language (American or International) date</returns>
         public static string ConvertDate(string inputDate, Parsers.DateLocale locale, bool AmericanInputDate)
         {
+            inputDate = inputDate.Trim();
             if (Variables.LangCode != "en" || YearMon.IsMatch(inputDate) || MonthYear.IsMatch(inputDate))
                 return inputDate;
 
