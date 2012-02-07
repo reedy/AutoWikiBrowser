@@ -7462,7 +7462,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
         [Test]
         public void FormatToBDA()
         {
-            const string Correct = @"{{birth date and age|1990|05|11}}", CorrectAmerican = @"{{birth date and age|mf=y|1990|05|11}}";
+            const string Correct = @"{{birth date and age|df=y|1990|05|11}}", CorrectAmerican = @"{{birth date and age|mf=y|1990|05|11}}";
 
             Assert.AreEqual(Correct, Parsers.FormatToBDA(@"11 May 1990 (age 21)"));
             Assert.AreEqual(Correct, Parsers.FormatToBDA(@"11 May 1990 (Age 21)"));
@@ -7490,6 +7490,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.AreEqual("", Parsers.FormatToBDA(""));
             Assert.AreEqual("Test", Parsers.FormatToBDA("Test"));
             Assert.AreEqual("May 11, 1990", Parsers.FormatToBDA("May 11, 1990"));
+            Assert.AreEqual("May 1990 (age 21)", Parsers.FormatToBDA("May 1990 (age 21)"));
             Assert.AreEqual("May 11, 1990 (Age 21) and some other text", Parsers.FormatToBDA("May 11, 1990 (Age 21) and some other text"));
         }
     }

@@ -5782,7 +5782,7 @@ namespace WikiFunctions.Parse
             dateandage = p.FixDateOrdinalsAndOf(" " + dateandage, "test");
 
             // remove date wikilinks
-            dateandage = WikiRegexes.WikiLinksOnlyPossiblePipe.Replace(dateandage, "$1");
+            dateandage = WikiRegexes.WikiLinksOnlyPossiblePipe.Replace(dateandage, "$1").Trim();
 
             // string must end with (age xx)
             if(!AgeBrackets.IsMatch(dateandage))
@@ -5794,11 +5794,11 @@ namespace WikiFunctions.Parse
 
             string ISODate = Tools.ConvertDate(dateandage, DateLocale.ISO);
 
-            if(ISODate.Equals(dateandage))
+            if(ISODate.Equals(dateandage) && !WikiRegexes.ISODates.IsMatch(dateandage))
                 return original;
 
             // we have ISO date, convert with {{birth date and age}}, American date, set mf=y
-            return @"{{birth date and age|" + (AmericanDate ? "mf=y|" : "") + ISODate.Replace("-", "|") + @"}}";
+            return @"{{birth date and age|" + (AmericanDate ? "mf=y|" : "df=y|") + ISODate.Replace("-", "|") + @"}}";
         }
 
         /// <summary>
