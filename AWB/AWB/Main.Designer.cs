@@ -1009,7 +1009,6 @@ namespace AutoWikiBrowser
             this.profilesToolStripMenuItem,
             this.logOutToolStripMenuItem,
             this.reloadToolStripMenuItem,
-            this.resetEditSkippedCountToolStripMenuItem,
             this.toolStripSeparator17,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -1488,6 +1487,7 @@ namespace AutoWikiBrowser
             this.launchListComparerToolStripMenuItem,
             this.launchListSplitterToolStripMenuItem,
             this.toolStripSeparator21,
+            this.resetEditSkippedCountToolStripMenuItem,
             this.submitStatToolStripMenuItem,
             this.toolStripSeparator29,
             this.profileTyposToolStripMenuItem,
@@ -1559,7 +1559,7 @@ namespace AutoWikiBrowser
             // resetEditSkippedCountToolStripMenuItem
             //
             this.resetEditSkippedCountToolStripMenuItem.Name = "resetEditSkippedCountToolStripMenuItem";
-            this.resetEditSkippedCountToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.resetEditSkippedCountToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
             this.resetEditSkippedCountToolStripMenuItem.Text = "Reset saved/skipped counts";
             this.resetEditSkippedCountToolStripMenuItem.Click += new System.EventHandler(this.resetEditSkippedCountToolStripMenuItem_Click);
             // 
