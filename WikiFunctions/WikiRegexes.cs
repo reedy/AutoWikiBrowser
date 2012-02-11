@@ -844,7 +844,7 @@ namespace WikiFunctions
         public static Regex Uncat;
         
         /// <summary>
-        /// Matches teh {{Cat improve}} template and its redirects
+        /// Matches the {{Cat improve}} template and its redirects
         /// </summary>
         public static readonly Regex CatImprove = Tools.NestedTemplateRegex(new [] { "CI", "Cleanup-cat", "Cleanup cat", "Few categories", "Few cats", "Fewcategories", "Fewcats", "Improve-categories", "Improve-cats", "Improve categories", "Improve cats",
                                                                                 "Improvecategories", "Improvecats", "More categories", "More category", "Morecat", "Morecategories", "Morecats", "Cat-improve", "Category-improve",
@@ -878,7 +878,7 @@ namespace WikiFunctions
         public static string DateYearMonthParameter;
         
         /// <summary>
-        /// matches the cleanup templates that can be moved into the {{multiple issues}} template, notably does not match templates with multiple parameters
+        /// Matches the cleanup templates that can be moved into the {{multiple issues}} template, notably does not match templates with multiple parameters
         /// </summary>
         public static readonly Regex MultipleIssuesTemplates = new Regex(@"{{" + MultipleIssuesTemplatesString + @"\s*(?:(?:\|\s*for\s*=\s*grammar\s*)?\|\s*([^{}\|]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}\|]*?)?))?\s*}}");
 
