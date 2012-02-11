@@ -5170,7 +5170,7 @@ window.scrollTo(0, diffTopY);
 
         private void BotImage_Click(object sender, EventArgs e)
         {
-            Tools.OpenURLInBrowser("http://commons.wikimedia.org/wiki/Image:Crystal_Clear_action_run.png");
+            Tools.OpenURLInBrowser("http://commons.wikimedia.org/wiki/File:Crystal_Clear_action_run.png");
         }
 
         private void displayfalsePositivesButtonToolStripMenuItem_Click(object sender, EventArgs e)
