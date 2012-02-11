@@ -1243,6 +1243,7 @@ words2"));
         public void ArticleIssuesTemplatesTests()
         {
             //dated
+
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{advert|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{advert|date =  {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{autobiography|date =  April 2009}}"));
@@ -1307,6 +1308,7 @@ words2"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{likeresume|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{like resume|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{long|date =  April 2009}}"));
+
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{news release|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{newsrelease|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{no footnotes|date =  April 2009}}"));
@@ -1316,6 +1318,8 @@ words2"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{one source|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Original research|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{orphan|date =  April 2009}}"));
+
+
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{peacock|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{plot|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{POV|date =  April 2009}}"));
