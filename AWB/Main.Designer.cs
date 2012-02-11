@@ -1091,13 +1091,6 @@ namespace AutoWikiBrowser
             this.reloadToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
             this.reloadToolStripMenuItem.Text = "Re&fresh status/typos";
             this.reloadToolStripMenuItem.Click += new System.EventHandler(this.reloadToolStripMenuItem_Click);
-            //
-            // resetEditSkippedCountToolStripMenuItem
-            //
-            this.resetEditSkippedCountToolStripMenuItem.Name = "resetEditSkippedCountToolStripMenuItem";
-            this.resetEditSkippedCountToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
-            this.resetEditSkippedCountToolStripMenuItem.Text = "Reset saved/skipped counts";
-            this.resetEditSkippedCountToolStripMenuItem.Click += new System.EventHandler(this.resetEditSkippedCountToolStripMenuItem_Click);
             // 
             // toolStripSeparator17
             // 
@@ -1562,6 +1555,13 @@ namespace AutoWikiBrowser
             // 
             this.toolStripSeparator21.Name = "toolStripSeparator21";
             this.toolStripSeparator21.Size = new System.Drawing.Size(212, 6);
+            //
+            // resetEditSkippedCountToolStripMenuItem
+            //
+            this.resetEditSkippedCountToolStripMenuItem.Name = "resetEditSkippedCountToolStripMenuItem";
+            this.resetEditSkippedCountToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
+            this.resetEditSkippedCountToolStripMenuItem.Text = "Reset saved/skipped counts";
+            this.resetEditSkippedCountToolStripMenuItem.Click += new System.EventHandler(this.resetEditSkippedCountToolStripMenuItem_Click);
             // 
             // submitStatToolStripMenuItem
             // 
