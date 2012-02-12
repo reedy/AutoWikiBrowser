@@ -839,7 +839,7 @@ namespace WikiFunctions
         public static Regex Orphan;
 
         /// <summary>
-        /// matches uncategorised templates: {{Uncat}}, {{Uncategorised}}, {{Uncategorised stub}} allowing for nested subst: {{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
+        /// Matches uncategorised templates: {{Uncat}}, {{Uncategorised}}, {{Uncategorised stub}} allowing for nested subst: {{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
         /// </summary>
         public static Regex Uncat;
         
@@ -851,12 +851,12 @@ namespace WikiFunctions
                                                                                 "Categories-improve", "Category improve", "Categories improve", "Catimprove", "More cats" } );
 
         /// <summary>
-        /// matches the {{Article issues}}/{{Multiple issues}} template
+        /// Matches the {{Article issues}}/{{Multiple issues}} template
         /// </summary>
         public static readonly Regex MultipleIssues = Tools.NestedTemplateRegex(new [] { "article issues", "articleissues", "multipleissues", "multiple issues" } );
 
         /// <summary>
-        /// matches the {{New unreviewed article}} template
+        /// Matches the {{New unreviewed article}} template
         /// </summary>
         public static readonly Regex NewUnReviewedArticle = Tools.NestedTemplateRegex("new unreviewed article");
 
@@ -931,7 +931,7 @@ namespace WikiFunctions
         public static readonly Regex CircaTemplate = Tools.NestedTemplateRegex(new List<string>(new [] {"Circa", "c."}));
         
         /// <summary>
-        /// matches named references in format &lt;ref name="foo"&gt;text&lt/ref&gt;
+        /// Matches named references in format &lt;ref name="foo"&gt;text&lt/ref&gt;
         /// </summary>
         public static readonly Regex NamedReferences = new Regex(@"(<\s*ref\s+name\s*=\s*(?:""|')?([^<>=\r\n/]+?)(?:""|')?\s*>\s*(.*?)\s*<\s*/\s*ref\s*>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
 
@@ -963,12 +963,12 @@ namespace WikiFunctions
         #endregion
 
         /// <summary>
-        /// matches &lt;!-- comments --&gt;
+        /// Matches &lt;!-- comments --&gt;
         /// </summary>
         public static readonly Regex Comments = new Regex(@"<!--.*?-->", RegexOptions.Compiled | RegexOptions.Singleline);
 
         /// <summary>
-        /// matches text within &lt;p style...&gt;...&lt;/p&gt; HTML tags
+        /// Matches text within &lt;p style...&gt;...&lt;/p&gt; HTML tags
         /// </summary>
         public static readonly Regex Pstyles = new Regex(@"<p style\s*=\s*[^<>]+>.*?<\s*/p>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
@@ -978,42 +978,42 @@ namespace WikiFunctions
         public static readonly Regex EmptyComments = new Regex(@"<!--[^\S\r\n]*-->", RegexOptions.Compiled);
 
         /// <summary>
-        /// matches &lt;ref&gt; tags, including named references
+        /// Matches &lt;ref&gt; tags, including named references
         /// </summary>
         public static readonly Regex Refs = new Regex(@"(<\s*ref\s+(?:name|group)\s*=\s*[^<>]*?/\s*>|<\s*ref\b[^<>]*?>(?>.(?<!<\s*ref\b[^>/]*?>|<\s*/\s*ref\s*>)|<\s*ref\b[^>/]*?>(?<DEPTH>)|<\s*/\s*ref\s*>(?<-DEPTH>))*(?(DEPTH)(?!))<\s*/\s*ref\s*>)", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
         
         /// <summary>
-        /// matches &lt;ref&gt; tags with group parameter, not named references
+        /// Matches &lt;ref&gt; tags with group parameter, not named references
         /// </summary>
         public static readonly Regex RefsGrouped = new Regex(@"(<\s*ref\s+group\s*=\s*[^<>]*?/\s*>|<\s*ref\s+group\s*=\s*[^<>]*?>(?>.(?<!<\s*ref\s+group\b[^>/]*?>|<\s*/\s*ref\s*>)|<\s*ref\s+group\b[^>/]*?>(?<DEPTH>)|<\s*/\s*ref\s*>(?<-DEPTH>))*(?(DEPTH)(?!))<\s*/\s*ref\s*>)", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
         
         /// <summary>
-        /// matches &lt;cite&gt; tags
+        /// Matches &lt;cite&gt; tags
         /// </summary>
         public static readonly Regex Cites = new Regex(@"<cite[^>]*?>[^<]*<\s*/cite\s*>", RegexOptions.Compiled | RegexOptions.Singleline);
 
         /// <summary>
-        /// matches &lt;nowiki&gt; tags
+        /// Matches &lt;nowiki&gt; tags
         /// </summary>
         public static readonly Regex Nowiki = new Regex(@"<nowiki\s*>.*?</nowiki\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
-        /// matches &lt;small&gt; tags
+        /// Matches &lt;small&gt; tags
         /// </summary>
         public static readonly Regex Small = new Regex(@"<\s*small\s*>((?>(?!<\s*small\s*>|<\s*/\s*small\s*>).|<\s*small\s*>(?<DEPTH>)|<\s*/\s*small\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*small\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
         
         /// <summary>
-        /// matches &lt;big&gt; tags
+        /// Matches &lt;big&gt; tags
         /// </summary>
         public static readonly Regex Big = new Regex(@"<\s*big\s*>((?>(?!<\s*big\s*>|<\s*/\s*big\s*>).|<\s*big\s*>(?<DEPTH>)|<\s*/\s*big\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*big\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
         
         /// <summary>
-        /// matches &lt;sup&gt; and &lt;sub&gt; tags
+        /// Matches &lt;sup&gt; and &lt;sub&gt; tags
         /// </summary>
         public static readonly Regex SupSub = new Regex(@"<(?<key>su(?:p|b))>(.*?)</\k<key>>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
         
         /// <summary>
-        /// matches templates, including templates with the template namespace prefix
+        /// Matches templates, including templates with the template namespace prefix
         /// </summary>
         public static Regex TemplateCall;
 
@@ -1112,7 +1112,7 @@ namespace WikiFunctions
         public static readonly List<string> InfoBoxPODFields = new List<string>(new [] {"deathplace", "Deathplace", "death_place", "placeofdeath", "place of death", "place_of_death", "placedeath", "place_death"});
         
         /// <summary>
-        /// matches "ibid" and "op cit"
+        /// Matches "ibid" and "op cit"
         /// </summary>
         public static readonly Regex IbidOpCitation = new Regex(@"\b(ibid|op.{1,4}cit)\b", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
