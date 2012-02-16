@@ -1310,18 +1310,19 @@ words2"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{like resume|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{long|date =  April 2009}}"));
 
+            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{more footnotes|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{news release|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{newsrelease|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{no footnotes|date =  April 2009}}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{NOT|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{notable|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{notability|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{onesource|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{one source|date =  April 2009}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Original research|date =  April 2009}}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{original research|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{orphan|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{overly detailed|date =  April 2009}}"));
-
-
+            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{over-quotation|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{peacock|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{plot|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{POV|date =  April 2009}}"));
@@ -1419,15 +1420,19 @@ words2"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{likeresume}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{like resume}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{long}}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{more footnotes}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{newsrelease}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{news release}}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{NOT}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{notable}}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{notability}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{onesource}}"));
             
             Assert.IsFalse(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{OR}}"));
 
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{orphan}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{overly detailed}}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{over-quotation}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{peacock}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{plot}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{POV}}"));
@@ -1508,11 +1513,13 @@ words2"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Verylong}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{very long}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{No footnotes}}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{More footnotes}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Newsrelease}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Notable}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Onesource}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Orphan}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Overly detailed}}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Over-quotation}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Peacock}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Plot}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Primarysources}}"));
