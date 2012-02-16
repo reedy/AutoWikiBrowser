@@ -1243,7 +1243,7 @@ words2"));
         public void ArticleIssuesTemplatesTests()
         {
             //dated
-
+            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{abbreviations|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{advert|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{advert|date =  {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{autobiography|date =  April 2009}}"));
@@ -1253,6 +1253,7 @@ words2"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{citationstyle|date =  May 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{citation style|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{citecheck|date=April 2009}}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{cite check|date=April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{cleanup|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{cleanup-laundry|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{cleanup-link rot|date =  April 2009}}"));
@@ -1348,6 +1349,7 @@ words2"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{unbalanced|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{unencyclopedic|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{unreferenced|date =  April 2009}}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{unreliable sources|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{update|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{weasel|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{wikify|date =  April 2009}}"));
@@ -1355,6 +1357,7 @@ words2"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{copy edit|for=grammar|date =  April 2009}}"));
             
             //undated
+            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{abbreviations}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{advert}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{autobiography}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{biased}}"));
@@ -1366,6 +1369,7 @@ words2"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{citationstyle}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{citation style}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{citecheck}}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{cite check}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{cleanup}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{cleanup-laundry}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{cleanup-reorganize}}"));
@@ -1447,11 +1451,13 @@ words2"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{unbalanced}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{unencyclopedic}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{unreferenced}}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{unreliable sources}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{update}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{weasel}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{wikify}}"));
 
             //undated, first letter capital
+            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Abbreviations}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Advert}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Autobiography}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Biased}}"));
@@ -1528,6 +1534,7 @@ words2"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Unbalanced}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Unencyclopedic}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Unreferenced}}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{unreliable sources}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Update}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Weasel}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Wikify}}"));
