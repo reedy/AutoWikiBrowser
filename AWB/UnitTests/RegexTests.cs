@@ -1319,6 +1319,7 @@ words2"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{one source|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Original research|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{orphan|date =  April 2009}}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{overly detailed|date =  April 2009}}"));
 
 
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{peacock|date =  April 2009}}"));
@@ -1426,6 +1427,7 @@ words2"));
             Assert.IsFalse(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{OR}}"));
 
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{orphan}}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{overly detailed}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{peacock}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{plot}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{POV}}"));
@@ -1510,6 +1512,7 @@ words2"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Notable}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Onesource}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Orphan}}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Overly detailed}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Peacock}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Plot}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Primarysources}}"));
@@ -1534,7 +1537,7 @@ words2"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Unbalanced}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Unencyclopedic}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Unreferenced}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{unreliable sources}}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Unreliable sources}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Update}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Weasel}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Wikify}}"));
