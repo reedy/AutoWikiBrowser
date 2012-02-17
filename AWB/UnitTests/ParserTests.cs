@@ -8757,13 +8757,13 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             string at = @"Foo
 [[Category:Living people]]", ai = @"{{Multiple issues|wikify=May 2008 | expand=June 2007 | COI=March 2010  | unref=June 2009}}";
             
-            Assert.AreEqual(ai.Replace("unref", "BLPunreferenced") + at, parser.MultipleIssues(ai + at), "unref changed if article about a person");
-            Assert.AreEqual(ai.Replace("unref", "BLPunreferenced") + at, parser.MultipleIssues(ai.Replace("unref", "unreferenced") + at), "unreferenced changed if article about a person");
+            Assert.AreEqual(ai.Replace("unref", "BLP unsourced") + at, parser.MultipleIssues(ai + at), "unref changed if article about a person");
+            Assert.AreEqual(ai.Replace("unref", "BLP unsourced") + at, parser.MultipleIssues(ai.Replace("unref", "unreferenced") + at), "unreferenced changed if article about a person");
             
             Assert.AreEqual(ai + "foo", parser.MultipleIssues(ai + "foo"), "unref not changed if article not about a person");
             Assert.AreEqual(ai + "foo {{persondata|here=there}}", parser.MultipleIssues(ai + "foo {{persondata|here=there}}"), "unref not changed if article not about a living person");
             
-            Assert.IsTrue(parser.MultipleIssues(@"{{wikify|date=May 2008}} {{expand|date=June 2007}} {{COI|date=March 2008}} {{unref|date=June 2009}} " + at).Contains("BLPunreferenced"), "unref changed if article about a person when adding {{Multiple issues}}");
+            Assert.IsTrue(parser.MultipleIssues(@"{{wikify|date=May 2008}} {{expand|date=June 2007}} {{COI|date=March 2008}} {{unref|date=June 2009}} " + at).Contains("BLP unsourced"), "unref changed if article about a person when adding {{Multiple issues}}");
         }
         
         [Test]
