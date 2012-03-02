@@ -899,6 +899,7 @@ namespace WikiFunctions
             new KeyValuePair<string, string>("ŝ", "s"),
             new KeyValuePair<string, string>("Û", "U"),
             new KeyValuePair<string, string>("û", "u"),
+            new KeyValuePair<string, string>("Ɯ", "W"),
             new KeyValuePair<string, string>("Ŵ", "W"),
             new KeyValuePair<string, string>("ŵ", "w"),
             new KeyValuePair<string, string>("Ŷ", "Y"),
@@ -1062,11 +1063,11 @@ namespace WikiFunctions
             new KeyValuePair<string, string>("þ", "th"),
             new KeyValuePair<string, string>("Œ", "O"),
             new KeyValuePair<string, string>("œ", "o"),
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#.22.C3.86.22_.E2.86.92_.22ae.22_not_.22e.22
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#.22.C3.86.22_.E2.86.92_.22ae.22_not_.22e.22
             new KeyValuePair<string, string>("Æ", "AE"),
             new KeyValuePair<string, string>("æ", "ae"),
-            new KeyValuePair<string, string>("Ø", "O"),
-            new KeyValuePair<string, string>("ø", "o"),
+            new KeyValuePair<string, string>("Ǣ", "AE"),
+            new KeyValuePair<string, string>("æ", "ǣe"),
             new KeyValuePair<string, string>("Å", "A"),
             new KeyValuePair<string, string>("å", "a"),
             new KeyValuePair<string, string>("Ə", "E"),
