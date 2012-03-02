@@ -6091,7 +6091,7 @@ namespace WikiFunctions.Parse
             if(totalCategories == 0 && ImproveCategories.IsMatch(articleText))
                 articleText = Tools.RenameTemplate(articleText, "improve categories", "Uncategorized");
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Archive_19#AWB_problems
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Archive_19#AWB_problems
             // nl wiki doesn't use {{Uncategorized}} template
             // prevent wictionary redirects from being tagged as uncategorised
             if (words > 6 && totalCategories == 0
@@ -6647,7 +6647,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Check if the article uses cite references but has no recognised template to display the references; only for en-wiki
         /// </summary>
-        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
+        // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
         public static bool IsMissingReferencesDisplay(string articleText)
         {
             if (!Variables.LangCode.Equals("en"))
@@ -6659,7 +6659,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Check if the article contains a &lt;ref>...&lt;/ref> reference after the {{reflist}} to show them
         /// </summary>
-        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
+        // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
         public static bool HasRefAfterReflist(string articleText)
         {
             articleText = WikiRegexes.Comments.Replace(articleText, "");
@@ -6672,7 +6672,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns></returns>
-        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Format_references
+        // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Format_references
         public static bool HasBareReferences(string articleText)
         {
             int referencesIndex = WikiRegexes.ReferencesRegex.Match(articleText).Index;
