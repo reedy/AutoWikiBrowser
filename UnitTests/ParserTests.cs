@@ -1221,12 +1221,17 @@ Foo was happy"), "extra whitespace");
 Foo was happy"), "title case");
 
             Assert.AreEqual(LinkedFloruit, parser.FixDates(LinkedFloruit), "no change if already linked");
-
-            Assert.AreEqual(@"'''Foo''' ([[floruit|fl.]] 550) was a peasant.
+            
+            
+            const string Floruit550 = @"'''Foo''' ([[floruit|fl.]] 550) was a peasant.
 Foo was happy
-Other (fl. 1645) was also", parser.FixDates(@"'''Foo''' (fl. 550) was a peasant.
+Other (fl. 1645) was also";
+
+            Assert.AreEqual(Floruit550, parser.FixDates(@"'''Foo''' (fl. 550) was a peasant.
 Foo was happy
 Other (fl. 1645) was also"), "only first floruit linked");
+            
+             Assert.AreEqual(Floruit550, parser.FixDates(Floruit550), "No change when first floruit already linked");
 
             const string FloruitLaterSection = @"'''Foo''' was a peasant.
 ==Other==
