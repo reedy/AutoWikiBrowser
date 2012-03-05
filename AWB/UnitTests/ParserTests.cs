@@ -7744,29 +7744,29 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
         [Test]
         public void ConversionTestsMoreFootnotes()
         {
-            // nofootnotes --> morefootnotes
+            // no footnotes --> more footnotes
             Assert.AreEqual(@"Article <ref>A</ref>
             ==References==
-            {{morefootnotes}}
+            {{more footnotes}}
             {{reflist}}", Parsers.Conversions(@"Article <ref>A</ref>
             ==References==
-            {{nofootnotes}}
+            {{no footnotes}}
             {{reflist}}"));
 
             Assert.AreEqual(@"Article <ref>A</ref>
             ==References==
-            {{Morefootnotes}}
+            {{more footnotes}}
             {{reflist}}", Parsers.Conversions(@"Article <ref>A</ref>
             ==References==
-            {{Nofootnotes}}
+            {{no footnotes}}
             {{reflist}}"));
 
             // no change
             Assert.AreEqual(@"Article
             ==References==
-            {{nofootnotes}}", Parsers.Conversions(@"Article
+            {{no footnotes}}", Parsers.Conversions(@"Article
             ==References==
-            {{nofootnotes}}"));
+            {{no footnotes}}"));
         }
         
         [Test]
