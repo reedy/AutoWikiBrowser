@@ -191,6 +191,25 @@ a");
             AssertChange(@"{{cite web | url = http://www.census.gov/popest/geographic/boundary_changes/index.html | year=2010 |title = Boundary Changes | date = 2010-1-1 }}", 
                          @"{{cite web | url = http://www.census.gov/popest/geographic/boundary_changes/index.html |title = Boundary Changes | date = 2010-01-01 }}");
         }
+        
+        [Test]
+        public void CiteMissingClosingCurlyBracePairTable()
+        {
+        	const string MissingClosingCurlyBracePair = @"'''Foo''' is great.
+
+{|
+||
+||Foo<ref>{{cite web | title = foo2 | year=2010 | url=http://www.site.com </ref>
+||
+||x
+||y
+|}
+
+==Refs==
+{{reflist}}";
+        	
+        	AssertChange(MissingClosingCurlyBracePair, MissingClosingCurlyBracePair.Replace(@" </ref>", @"}}</ref>")); // mising braces fixed before cleaning double pipes within unclosed cite template
+        }
     }
     
     [TestFixture]
