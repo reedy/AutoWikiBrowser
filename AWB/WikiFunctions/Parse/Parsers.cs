@@ -951,7 +951,8 @@ namespace WikiFunctions.Parse
             articleText = SyntaxRegexListRowBrTagStart.Replace(articleText, "$1");
             
             // replace first occurrence of unlinked floruit with linked version, zeroth section only
-            if (UnlinkedFloruit.IsMatch(WikiRegexes.ZerothSection.Match(articleTextRaw).Value))
+            string zeroth = WikiRegexes.ZerothSection.Match(articleTextRaw).Value;
+            if (!zeroth.Contains(@"[[floruit|fl.]]") && UnlinkedFloruit.IsMatch(zeroth))
                 articleText = UnlinkedFloruit.Replace(articleText, @"([[floruit|fl.]] $1", 1);
 
             return AddBackMoreText(articleText);
