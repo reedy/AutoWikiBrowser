@@ -7723,6 +7723,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             
             Assert.AreEqual(@"{{cite uscgll|bar||foo}}", Parsers.Conversions(@"{{cite uscgll|bar||foo}}"));
             Assert.AreEqual(@"{{cite ngall|bar||foo}}", Parsers.Conversions(@"{{cite ngall|bar||foo}}"));
+            Assert.AreEqual(@"{{Cite Legislation AU|bar||foo}}", Parsers.Conversions(@"{{Cite Legislation AU|bar||foo}}"));
         }
         
         [Test]

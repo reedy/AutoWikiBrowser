@@ -5862,7 +5862,7 @@ namespace WikiFunctions.Parse
         
         private static readonly Regex MultipleIssuesUndatedTags = new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*)?|\|)\s*)(?![Ee]xpert)" + WikiRegexes.MultipleIssuesTemplatesString + @"\s*(\||}})", RegexOptions.Compiled);
         private static readonly Regex MultipleIssuesDateRemoval = new Regex(@"(?<={{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*?)?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?){0,4}\|[^{}\|]{3,}?)\b(?i)date(?<!.*out of date)", RegexOptions.Compiled);
-        private static readonly Regex CiteTemplateDuplicateBars = new Regex(@"(?!{{[Cc]ite ?(?:wikisource|ngall|uscgll))(\{\{\s*(?:[Cc]it[ae]|(?:[Aa]rticle|[Mm]ultiple) ?issues)[^{}]*)\|\s*(\}\}|\|)", RegexOptions.Compiled);
+        private static readonly Regex CiteTemplateDuplicateBars = new Regex(@"(?!{{[Cc]ite ?(?:wikisource|ngall|uscgll|[lL]egislation AU))(\{\{\s*(?:[Cc]it[ae]|(?:[Aa]rticle|[Mm]ultiple) ?issues)[^{}]*)\|\s*(\}\}|\|)", RegexOptions.Compiled);
 
         /// <summary>
         /// Converts/subst'd some deprecated templates
