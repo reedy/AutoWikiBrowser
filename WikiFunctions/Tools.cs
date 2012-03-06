@@ -1066,8 +1066,6 @@ namespace WikiFunctions
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#.22.C3.86.22_.E2.86.92_.22ae.22_not_.22e.22
             new KeyValuePair<string, string>("Æ", "AE"),
             new KeyValuePair<string, string>("æ", "ae"),
-            new KeyValuePair<string, string>("Ǣ", "AE"),
-            new KeyValuePair<string, string>("æ", "ǣe"),
             new KeyValuePair<string, string>("Å", "A"),
             new KeyValuePair<string, string>("å", "a"),
             new KeyValuePair<string, string>("Ə", "E"),
