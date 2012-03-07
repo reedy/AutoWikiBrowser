@@ -2930,7 +2930,8 @@ namespace WikiFunctions.Parse
                     }
 
                     // if it's {[link]] or {[[link]] or [[[link]] then see if setting to [[ makes it all balance
-                    articleTextTemp = ExtraBracketOnWikilinkOpening.Replace(articleTextTemp, "[[");
+                    if(!bracket.Equals('>'))
+                    	articleTextTemp = ExtraBracketOnWikilinkOpening.Replace(articleTextTemp, "[[");
                 }
 
                 if (bracketLength == 2)
