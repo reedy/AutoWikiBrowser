@@ -44,6 +44,7 @@ using System.Security.Permissions;
 using WikiFunctions.Controls.Lists;
 using AutoWikiBrowser.Plugins;
 using System.Web;
+using System.Net;
 
 namespace AutoWikiBrowser
 {
@@ -2876,7 +2877,32 @@ window.scrollTo(0, diffTopY);
             try
             {
                 //set namespaces
-                Variables.SetProject(code, project, customProject);
+                try
+                {
+                    //set namespaces
+                    Variables.SetProject(code, project, customProject);
+                }
+                catch (WebException ex)
+                {
+                    // Check for HTTP 401 error.
+                    var resp = (HttpWebResponse)ex.Response;
+                    if (resp == null) throw;
+                    switch (resp.StatusCode)
+                    {
+                        case HttpStatusCode.Unauthorized /*401*/:
+                            ShowLogin();
+
+                            // Reload project.
+                            Variables.SetProject(code, project, customProject);
+
+                            break;
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+
 
                 if (Variables.TryLoadingAgainAfterLogin)
                 {
@@ -4726,6 +4752,12 @@ window.scrollTo(0, diffTopY);
         private void markAllAsMinorToolStripMenuItem_Click(object sender, EventArgs e)
         {
             chkMinor.Checked = markAllAsMinorToolStripMenuItem.Checked;
+        }
+
+        private void ShowLogin()
+        {
+            Login login = new Login();
+            login.ShowDialog(this);
         }
 
         #region Shutdown

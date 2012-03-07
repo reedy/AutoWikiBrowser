@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Serialization;
+using System.Net;
 using WikiFunctions.API;
 
 namespace WikiFunctions
@@ -68,6 +69,10 @@ namespace WikiFunctions
                 }
             }
             catch (WikiException)
+            {
+                throw;
+            }
+            catch (WebException)
             {
                 throw;
             }
@@ -289,7 +294,7 @@ namespace WikiFunctions
         #region Helpers
         public void OpenPageInBrowser(string title)
         {
-            if (ArticleUrl.Contains("$1"))
+            if (Variables.IsCustomProject && ArticleUrl.Contains("$1"))
             {
                 string url = ArticleUrl.Replace("$1", Tools.WikiEncode(title));
 

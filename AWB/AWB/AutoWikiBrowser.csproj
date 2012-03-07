@@ -100,6 +100,12 @@
     <Compile Include="ExitQuestion.Designer.cs">
       <DependentUpon>ExitQuestion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Login.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login.Designer.cs">
+      <DependentUpon>Login.cs</DependentUpon>
+    </Compile>
     <Compile Include="TalkMessage.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -183,6 +189,10 @@
     <EmbeddedResource Include="CustomModule.resx">
       <SubType>Designer</SubType>
       <DependentUpon>CustomModule.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login.resx">
+      <DependentUpon>Login.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="TalkMessage.resx">
       <SubType>Designer</SubType>
