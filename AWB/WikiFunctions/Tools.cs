@@ -1603,9 +1603,9 @@ Message: {2}
         public static void OpenENArticleInBrowser(string title, bool userspace)
         {
             if (userspace)
-                OpenURLInBrowser("http://en.wikipedia.org/wiki/User:" + WikiEncode(title));
+                OpenURLInBrowser("https://en.wikipedia.org/wiki/User:" + WikiEncode(title));
             else
-                OpenURLInBrowser("http://en.wikipedia.org/wiki/" + WikiEncode(title));
+                OpenURLInBrowser("https://en.wikipedia.org/wiki/" + WikiEncode(title));
         }
 
         /// <summary>

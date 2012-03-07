@@ -2758,7 +2758,8 @@ window.scrollTo(0, diffTopY);
         private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MyPreferences myPrefs = new MyPreferences(Variables.LangCode, Variables.Project,
-                                                      Variables.CustomProject, Variables.PHP5)
+                                                      Variables.CustomProject, Variables.PHP5,
+                                                      Variables.Protocol)
             {
                 TextBoxFont = txtEdit.Font,
                 LowThreadPriority = LowThreadPriority,
@@ -2821,10 +2822,10 @@ window.scrollTo(0, diffTopY);
                 loggingEnabled = myPrefs.EnableLogging;
 
                 if (myPrefs.Language != Variables.LangCode || myPrefs.Project != Variables.Project
-                    || (myPrefs.CustomProject != Variables.CustomProject))
+                    || (myPrefs.CustomProject != Variables.CustomProject) || (myPrefs.Protocol != Variables.Protocol))
                 {
                     Variables.PHP5 = myPrefs.PrefPHP5;
-                    SetProject(myPrefs.Language, myPrefs.Project, myPrefs.CustomProject);
+                    SetProject(myPrefs.Language, myPrefs.Project, myPrefs.CustomProject, myPrefs.Protocol);
 
                     BotMode = false;
                     lblOnlyBots.Visible = true;
@@ -2871,7 +2872,14 @@ window.scrollTo(0, diffTopY);
             NumberOfPagesPerMinute = 0;
         }
 
-        private void SetProject(string code, ProjectEnum project, string customProject)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="project"></param>
+        /// <param name="customProject"></param>
+        /// <param name="protocol"></param>
+        private void SetProject(string code, ProjectEnum project, string customProject, string protocol)
         {
             SplashScreen.SetProgress(81);
             try
@@ -2880,7 +2888,7 @@ window.scrollTo(0, diffTopY);
                 try
                 {
                     //set namespaces
-                    Variables.SetProject(code, project, customProject);
+                    Variables.SetProject(code, project, customProject, protocol);
                 }
                 catch (WebException ex)
                 {
@@ -2893,16 +2901,11 @@ window.scrollTo(0, diffTopY);
                             ShowLogin();
 
                             // Reload project.
-                            Variables.SetProject(code, project, customProject);
+                            Variables.SetProject(code, project, customProject, protocol);
 
                             break;
                     }
                 }
-                catch (Exception)
-                {
-                    throw;
-                }
-
 
                 if (Variables.TryLoadingAgainAfterLogin)
                 {
@@ -4724,7 +4727,8 @@ window.scrollTo(0, diffTopY);
             }
             else if (Variables.TryLoadingAgainAfterLogin)
             {
-                SetProject(Variables.ReloadProjectSettings.langCode, Variables.ReloadProjectSettings.projectName, Variables.ReloadProjectSettings.customProject);
+                SetProject(Variables.ReloadProjectSettings.langCode, Variables.ReloadProjectSettings.projectName,
+                    Variables.ReloadProjectSettings.customProject, Variables.ReloadProjectSettings.protocol);
             }
 
             if (TheSession.IsBusy)

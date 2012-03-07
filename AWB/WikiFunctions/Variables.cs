@@ -71,6 +71,7 @@ namespace WikiFunctions
             PHP5 = false;
             TypoSummaryTag = "typos fixed: ";
             AWBDefaultSummaryTag();
+            Protocol = "http://";
         }
 
         /// <summary>
@@ -264,6 +265,12 @@ namespace WikiFunctions
         { get; private set; }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public static string Protocol
+        { get; private set; }
+
+        /// <summary>
         /// index.php appended with "5" if appropriate for the wiki
         /// </summary>
         public static string IndexPHP { get; private set; }
@@ -427,7 +434,7 @@ namespace WikiFunctions
         /// <param name="projectName">The project name default is Wikipedia</param>
         public static void SetProject(string langCode, ProjectEnum projectName)
         {
-            SetProject(langCode, projectName, "");
+            SetProject(langCode, projectName, "", "http://");
         }
 
         #if DEBUG || UNITTEST
@@ -464,6 +471,7 @@ namespace WikiFunctions
             public ProjectEnum projectName;
             public string langCode;
             public string customProject;
+            public string protocol;
         }
 
         /// <summary>
@@ -472,8 +480,8 @@ namespace WikiFunctions
         /// <param name="langCode">The language code, default is en</param>
         /// <param name="projectName">The project name default is Wikipedia</param>
         /// <param name="customProject">Script path of a custom project or ""</param>
-        /// <param name="usingSecure"></param>
-        public static void SetProject(string langCode, ProjectEnum projectName, string customProject)
+        /// <param name="protocol"></param>
+        public static void SetProject(string langCode, ProjectEnum projectName, string customProject, string protocol)
         {
             TryLoadingAgainAfterLogin = false;
             Namespaces.Clear();
@@ -484,6 +492,7 @@ namespace WikiFunctions
             Project = projectName;
             LangCode = langCode;
             CustomProject = customProject;
+            Protocol = protocol;
 
             RefreshProxy();
 
@@ -500,7 +509,7 @@ namespace WikiFunctions
             if (IsCustomProject)
             {
                 LangCode = "en";
-				URLEnd = "";
+                URLEnd = "";
                 int x = customProject.IndexOf('/');
 
                 if (x > 0)
@@ -509,13 +518,13 @@ namespace WikiFunctions
                     CustomProject = customProject.Substring(0, x);
                 }
 
-				URL = "http://" + CustomProject;
+                URL = protocol + CustomProject;
 
             }
             else
             {
                 URL = "https://" + LangCode + "." + Project + ".org";
-             }
+            }
 
             // HACK:
             switch (projectName)
@@ -527,9 +536,9 @@ namespace WikiFunctions
                 case ProjectEnum.wikiquote:
                 case ProjectEnum.wiktionary:
                 case ProjectEnum.wikiversity:
-            	//If not set the following will be used:
-            	//mSummaryTag="using";
-            	//WPAWB = "[[Project:Wikipedia:AutoWikiBrowser|AWB]]";
+                    //If not set the following will be used:
+                    //mSummaryTag="using";
+                    //WPAWB = "[[Project:Wikipedia:AutoWikiBrowser|AWB]]";
                     switch (langCode)
                     {
                         case "en":
@@ -562,12 +571,12 @@ namespace WikiFunctions
                             mSummaryTag = " mit ";
                             TypoSummaryTag = ", Schreibweise:";
                             break;
-						
-						case "el":
-							mSummaryTag = " με τη χρήση ";
+
+                        case "el":
+                            mSummaryTag = " με τη χρήση ";
                             WPAWB = "[[Βικιπαίδεια:AutoWikiBrowser|AWB]]";
                             Stub = @"[^{}|]*?([Ss]tub|[Εε]πέκταση)";
-							break;
+                            break;
 
                         case "eo":
                             mSummaryTag = " ";
@@ -587,7 +596,7 @@ namespace WikiFunctions
                             mSummaryTag = " ";
                             WPAWB = "[[Wîkîpediya:AutoWikiBrowser|AWB]]";
                             break;
-                            
+
                         case "ms":
                             mSummaryTag = "menggunakan";
                             break;
@@ -627,7 +636,7 @@ namespace WikiFunctions
                             WPAWB = "[[Vikipedi:AWB|AWB]] ile ";
                             TypoSummaryTag = " yazış şekli:";
                             break;
-                            
+
                         case "uk":
                             Stub = ".*?(?:[Ss]tub|[Дд]оробити)";
                             mSummaryTag = " за допомогою ";
@@ -648,11 +657,11 @@ namespace WikiFunctions
                             mSummaryTag = "由";
                             WPAWB = "[[维基百科:自动维基浏览器|自動維基瀏覽器]]協助";
                             break;
-                            
-                        // case "xx:
-                        // strsummarytag = " ";
-                        // strWPAWB = "";
-                        // break;
+
+                            // case "xx:
+                            // strsummarytag = " ";
+                            // strWPAWB = "";
+                            // break;
 
                         default:
                             break;
@@ -679,10 +688,11 @@ namespace WikiFunctions
                     URLEnd = "/";
                     break;
                 case ProjectEnum.custom:
-					// Make sure URL ends with / so ApiURL won't become www.customwiki.comapi.php.
-					if (!URL.EndsWith("/")) {
-						URLEnd = "/";
-					}
+                    // Make sure URL ends with / so ApiURL won't become www.customwiki.comapi.php.
+                    if (!URL.EndsWith("/"))
+                    {
+                        URLEnd = "/";
+                    }
                     break;
             }
 
@@ -725,9 +735,9 @@ namespace WikiFunctions
             }
             System.Diagnostics.Trace.Assert(!Namespaces.ContainsKey(0), "Internal error: key exists for namespace 0.",
                                             "Please contact a developer.");
-            
-            if(projectName.Equals(ProjectEnum.wiktionary))
-              CapitalizeFirstLetter = false;
+
+            if (projectName.Equals(ProjectEnum.wiktionary))
+                CapitalizeFirstLetter = false;
         }
 
         /// <summary>
