@@ -147,32 +147,26 @@ namespace WikiFunctions
         public static Dictionary<string, List<string>> MagicWords = new Dictionary<string, List<string>>();
 
         /// <summary>
-        /// Gets a URL of the site, e.g. "http://en.wikipedia.org/w/"
+        /// Gets a URL of the site, e.g. "https://en.wikipedia.org/w/"
         /// </summary>
         public static string URLLong
         { get { return URL + URLEnd; } }
 
         /// <summary>
-        /// Gets a Index URL of the site, e.g. "http://en.wikipedia.org/w/index.php"
+        /// Gets a Index URL of the site, e.g. "https://en.wikipedia.org/w/index.php"
         /// </summary>
         public static string URLIndex
         { get { return URLLong + IndexPHP; } }
 
         /// <summary>
-        /// Gets a Index URL of the site, e.g. "http://en.wikipedia.org/w/api.php"
+        /// Gets a Index URL of the site, e.g. "https://en.wikipedia.org/w/api.php"
         /// </summary>
         public static string URLApi
         { get { return URLLong + ApiPHP; } }
 
-		public static string HttpAuthUsername {
-			get;
-			set;
-		}
+        public static string HttpAuthUsername { get; set; }
 
-		public static string HttpAuthPassword {
-			get;
-			set;
-		}
+        public static string HttpAuthPassword { get; set; }
 		
         /// <summary>
         /// true if current wiki uses right-to-left writing system
@@ -197,9 +191,9 @@ namespace WikiFunctions
         private static string URLEnd = "/w/";
 
         /// <summary>
-        /// Gets a URL of the site, e.g. "http://en.wikipedia.org".
+        /// Gets a URL of the site, e.g. "https://en.wikipedia.org".
         /// </summary>
-        public static string URL = "http://en.wikipedia.org";
+        public static string URL = "https://en.wikipedia.org";
 
         public static string Host { get { return new Uri(URL).Host; } }
 
@@ -520,7 +514,7 @@ namespace WikiFunctions
             }
             else
             {
-                URL = "http://" + LangCode + "." + Project + ".org";
+                URL = "https://" + LangCode + "." + Project + ".org";
              }
 
             // HACK:
@@ -655,7 +649,7 @@ namespace WikiFunctions
                             WPAWB = "[[维基百科:自动维基浏览器|自動維基瀏覽器]]協助";
                             break;
                             
-                         // case "xx:
+                        // case "xx:
                         // strsummarytag = " ";
                         // strWPAWB = "";
                         // break;
@@ -665,19 +659,19 @@ namespace WikiFunctions
                     }
                     break;
                 case ProjectEnum.commons:
-                    URL = "http://commons.wikimedia.org";
+                    URL = "https://commons.wikimedia.org";
                     LangCode = "en";
                     break;
                 case ProjectEnum.meta:
-                    URL = "http://meta.wikimedia.org";
+                    URL = "https://meta.wikimedia.org";
                     LangCode = "en";
                     break;
                 case ProjectEnum.mediawiki:
-                    URL = "http://www.mediawiki.org";
+                    URL = "https://www.mediawiki.org";
                     LangCode = "en";
                     break;
                 case ProjectEnum.species:
-                    URL = "http://species.wikimedia.org";
+                    URL = "https://species.wikimedia.org";
                     LangCode = "en";
                     break;
                 case ProjectEnum.wikia:
