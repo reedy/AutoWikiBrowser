@@ -532,16 +532,16 @@ disambig|surname
         [Test]
         public void ExtractTitleTests()
         {
-            RegexAssert.IsMatch(WikiRegexes.ExtractTitle, @"http://en.wikipedia.org/wiki/Foo");
-            RegexAssert.IsMatch(WikiRegexes.ExtractTitle, @"http://en.wikipedia.org/wiki/Foo_bar");
+            RegexAssert.IsMatch(WikiRegexes.ExtractTitle, @"https://en.wikipedia.org/wiki/Foo");
+            RegexAssert.IsMatch(WikiRegexes.ExtractTitle, @"https://en.wikipedia.org/wiki/Foo_bar");
             
-            Assert.AreEqual(WikiRegexes.ExtractTitle.Match(@"http://en.wikipedia.org/wiki/Foo").Groups[1].Value, "Foo");
-            Assert.AreEqual(WikiRegexes.ExtractTitle.Match(@"http://en.wikipedia.org/w/index.php?title=Foo").Groups[1].Value, "Foo");
-            Assert.AreEqual(WikiRegexes.ExtractTitle.Match(@"http://en.wikipedia.org/w/index.php/Foo").Groups[1].Value, "Foo");
-            Assert.AreEqual(WikiRegexes.ExtractTitle.Match(@"http://en.wikipedia.org/w/index.php/Foo bar here").Groups[1].Value, "Foo bar here");
+            Assert.AreEqual(WikiRegexes.ExtractTitle.Match(@"https://en.wikipedia.org/wiki/Foo").Groups[1].Value, "Foo");
+            Assert.AreEqual(WikiRegexes.ExtractTitle.Match(@"https://en.wikipedia.org/w/index.php?title=Foo").Groups[1].Value, "Foo");
+            Assert.AreEqual(WikiRegexes.ExtractTitle.Match(@"https://en.wikipedia.org/w/index.php/Foo").Groups[1].Value, "Foo");
+            Assert.AreEqual(WikiRegexes.ExtractTitle.Match(@"https://en.wikipedia.org/w/index.php/Foo bar here").Groups[1].Value, "Foo bar here");
             
-            RegexAssert.NoMatch(WikiRegexes.ExtractTitle, @"http://random.org/wiki/Foo");
-            RegexAssert.NoMatch(WikiRegexes.ExtractTitle, @"http://en.wikipedia.org/wikirandom/Foo");
+            RegexAssert.NoMatch(WikiRegexes.ExtractTitle, @"https://random.org/wiki/Foo");
+            RegexAssert.NoMatch(WikiRegexes.ExtractTitle, @"https://en.wikipedia.org/wikirandom/Foo");
         }
 
         [Test]
