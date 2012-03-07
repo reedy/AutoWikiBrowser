@@ -47,7 +47,6 @@ namespace AutoWikiBrowser
             this.chkAddUsingAWBToActionSummaries = new System.Windows.Forms.CheckBox();
             this.chkAlwaysConfirmExit = new System.Windows.Forms.CheckBox();
             this.chkSupressAWB = new System.Windows.Forms.CheckBox();
-            this.chkUsingSecure = new System.Windows.Forms.CheckBox();
             this.chkSaveArticleList = new System.Windows.Forms.CheckBox();
             this.chkMinimize = new System.Windows.Forms.CheckBox();
             this.chkLowPriority = new System.Windows.Forms.CheckBox();
@@ -151,8 +150,8 @@ namespace AutoWikiBrowser
             // 
             // lblNonEnNotice
             // 
-            this.lblNonEnNotice.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblNonEnNotice.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblNonEnNotice.Location = new System.Drawing.Point(6, 80);
             this.lblNonEnNotice.Name = "lblNonEnNotice";
             this.lblNonEnNotice.Size = new System.Drawing.Size(370, 19);
@@ -197,22 +196,8 @@ namespace AutoWikiBrowser
             this.cmboCustomProject.Size = new System.Drawing.Size(121, 21);
             this.cmboCustomProject.TabIndex = 5;
             this.cmboCustomProject.SelectedIndexChanged += new System.EventHandler(this.cmboCustomProjectChanged);
-            this.cmboCustomProject.Leave += new System.EventHandler(this.txtCustomProject_Leave);
             this.cmboCustomProject.TextChanged += new System.EventHandler(this.cmboCustomProjectChanged);
-            // 
-            // chkUsingSecure
-            // 
-            this.chkUsingSecure.AutoSize = true;
-            this.chkUsingSecure.Checked = false;
-            this.chkUsingSecure.Enabled = false;
-            this.chkUsingSecure.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkUsingSecure.Location = new System.Drawing.Point(214, 9);
-            this.chkUsingSecure.Name = "chkUsingSecure";
-            this.chkUsingSecure.Size = new System.Drawing.Size(86, 17);
-            this.chkUsingSecure.TabIndex = 6;
-            this.chkUsingSecure.Text = "Use secure server";
-            this.chkUsingSecure.UseVisualStyleBackColor = true;
-            this.ToolTip.SetToolTip(this.chkUsingSecure, "Use secure.wikimedia.org for opening pages in browser");
+            this.cmboCustomProject.Leave += new System.EventHandler(this.txtCustomProject_Leave);
             // 
             // chkAddUsingAWBToActionSummaries
             // 
@@ -417,9 +402,9 @@ namespace AutoWikiBrowser
             // 
             // lblPrivacy
             // 
-            this.lblPrivacy.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblPrivacy.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lblPrivacy.Location = new System.Drawing.Point(6, 26);
             this.lblPrivacy.Name = "lblPrivacy";
             this.lblPrivacy.Size = new System.Drawing.Size(370, 129);
@@ -428,9 +413,9 @@ namespace AutoWikiBrowser
             // 
             // tbPrefs
             // 
-            this.tbPrefs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbPrefs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tbPrefs.Controls.Add(this.tabGeneral);
             this.tbPrefs.Controls.Add(this.tabSite);
             this.tbPrefs.Controls.Add(this.tabEditing);
@@ -519,7 +504,6 @@ namespace AutoWikiBrowser
             this.tabSite.Controls.Add(this.lblProject);
             this.tabSite.Controls.Add(this.cmboCustomProject);
             this.tabSite.Controls.Add(this.lblNonEnNotice);
-            this.tabSite.Controls.Add(this.chkUsingSecure);
             this.tabSite.Location = new System.Drawing.Point(4, 22);
             this.tabSite.Name = "tabSite";
             this.tabSite.Padding = new System.Windows.Forms.Padding(3);
@@ -559,7 +543,7 @@ namespace AutoWikiBrowser
             this.chkIgnoreNoBots.TabIndex = 10;
             this.chkIgnoreNoBots.Text = "&Ignore {{bots}} and {{nobots}}";
             this.ToolTip.SetToolTip(this.chkIgnoreNoBots, "Checking this box will cause you to edit pages with the {{bots}} and {{nobots}} t" +
-                    "ags on them. By default these pages are skipped.");
+        "ags on them. By default these pages are skipped.");
             this.chkIgnoreNoBots.UseVisualStyleBackColor = true;
             // 
             // tabEditing
@@ -750,7 +734,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.TextBox txtAutosave;
         private System.Windows.Forms.Label lblAutosaveFile;
         private System.Windows.Forms.ComboBox cmboCustomProject;
-        private System.Windows.Forms.CheckBox chkUsingSecure;
         private System.Windows.Forms.Button btnSetFile;
         private System.Windows.Forms.SaveFileDialog saveFile;
         private System.Windows.Forms.Label lblPostfix;
