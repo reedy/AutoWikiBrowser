@@ -565,23 +565,23 @@ In Portugal, this period is also known as the &quot;Portuguese [[Interregnum]]&q
         [Test]
         public void GetTitleFromURL()
         {
-            Assert.AreEqual("foo bar", Tools.GetTitleFromURL("http://en.wikipedia.org/wiki/foo_bar"));
-            Assert.AreEqual("Хуй", Tools.GetTitleFromURL("http://en.wikipedia.org/wiki/%D0%A5%D1%83%D0%B9"));
-            Assert.AreEqual("foo", Tools.GetTitleFromURL("http://en.wikipedia.org/w/index.php?title=foo"));
-            Assert.AreEqual("foo", Tools.GetTitleFromURL("http://en.wikipedia.org/w/index.php/foo"));
+            Assert.AreEqual("foo bar", Tools.GetTitleFromURL("https://en.wikipedia.org/wiki/foo_bar"));
+            Assert.AreEqual("Хуй", Tools.GetTitleFromURL("https://en.wikipedia.org/wiki/%D0%A5%D1%83%D0%B9"));
+            Assert.AreEqual("foo", Tools.GetTitleFromURL("https://en.wikipedia.org/w/index.php?title=foo"));
+            Assert.AreEqual("foo", Tools.GetTitleFromURL("https://en.wikipedia.org/w/index.php/foo"));
 
             // return null if there is something wrong
             Assert.IsNull(Tools.GetTitleFromURL(""));
             Assert.IsNull(Tools.GetTitleFromURL("foo"));
-            Assert.IsNull(Tools.GetTitleFromURL("http://en.wikipedia.org"));
-            Assert.IsNull(Tools.GetTitleFromURL("http://en.wikipedia.org/wiki/"));
-            Assert.IsNull(Tools.GetTitleFromURL("http://en.wikipedia.org/w/index.php?title=foo&action=delete"));
+            Assert.IsNull(Tools.GetTitleFromURL("https://en.wikipedia.org"));
+            Assert.IsNull(Tools.GetTitleFromURL("https://en.wikipedia.org/wiki/"));
+            Assert.IsNull(Tools.GetTitleFromURL("https://en.wikipedia.org/w/index.php?title=foo&action=delete"));
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#list_entries_like:_Index.html.3Fcurid.3D16235168
-            Assert.IsNull(Tools.GetTitleFromURL("http://en.wikipedia.org/wiki/index.html?curid=666"));
-            Assert.IsNull(Tools.GetTitleFromURL("http://en.wikipedia.org/wiki/foo?action=delete"));
-            Assert.IsNull(Tools.GetTitleFromURL("http://en.wikipedia.org/w/index.php?title=foo&action=delete"));
-            Assert.IsNull(Tools.GetTitleFromURL("http://en.wikipedia.org/w/index.php/foo?action=bar"));
+            Assert.IsNull(Tools.GetTitleFromURL("https://en.wikipedia.org/wiki/index.html?curid=666"));
+            Assert.IsNull(Tools.GetTitleFromURL("https://en.wikipedia.org/wiki/foo?action=delete"));
+            Assert.IsNull(Tools.GetTitleFromURL("https://en.wikipedia.org/w/index.php?title=foo&action=delete"));
+            Assert.IsNull(Tools.GetTitleFromURL("https://en.wikipedia.org/w/index.php/foo?action=bar"));
         }
 
         [Test]
@@ -646,7 +646,7 @@ Wikipedia talk",
             //{{CURRENTYEAR}}"));
 
             //Server Stuff
-            Assert.AreEqual(@"http://en.wikipedia.org
+            Assert.AreEqual(@"https://en.wikipedia.org
 /w
 en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
 %%scriptpath%%

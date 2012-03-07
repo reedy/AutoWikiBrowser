@@ -1210,13 +1210,13 @@ __TOC__", articleTextIn);
         [Test]
         public void NormalizeTitle()
         {
-            Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"http://en.wikipedia.org/w/index.php?title=Foo&diff=3&oldid=4"));
-            Assert.AreEqual("Health effects of chocolate", LMaker.NormalizeTitle(@"http://en.wikipedia.org/w/index.php?title=Health_effects_of_chocolate&diff=4018&oldid=40182"));
-            Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"http://en.wikipedia.org/w/index.php?title=Foo&action=history"));
-            Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"http://en.wikipedia.org/w/index.php?title=Foo&action=edit"));
-            Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"http://en.wikipedia.org/w/index.php?title=Foo&oldid=5"));
-            Assert.AreEqual("Science (journal)", LMaker.NormalizeTitle(@"http://en.wikipedia.org/w/index.php?title=Science%20%28journal%29&action=history"));
-            Assert.AreEqual(@"Wikipedia:AutoWikiBrowser/Sandbox", LMaker.NormalizeTitle(@"http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/Sandbox&action=edit"));
+            Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/index.php?title=Foo&diff=3&oldid=4"));
+            Assert.AreEqual("Health effects of chocolate", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/index.php?title=Health_effects_of_chocolate&diff=4018&oldid=40182"));
+            Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/index.php?title=Foo&action=history"));
+            Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/index.php?title=Foo&action=edit"));
+            Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/index.php?title=Foo&oldid=5"));
+            Assert.AreEqual("Science (journal)", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/index.php?title=Science%20%28journal%29&action=history"));
+            Assert.AreEqual(@"Wikipedia:AutoWikiBrowser/Sandbox", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/Sandbox&action=edit"));
             Assert.AreEqual(@"Wikipedia:AutoWikiBrowser/Sandbox", LMaker.NormalizeTitle(@"en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/Sandbox&action=edit"));
             
             Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"   Foo"), "cleans spacing from Firefox Category paste");
