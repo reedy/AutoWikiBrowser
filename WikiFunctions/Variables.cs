@@ -156,7 +156,7 @@ namespace WikiFunctions
         /// Gets a Index URL of the site, e.g. "http://en.wikipedia.org/w/index.php"
         /// </summary>
         public static string URLIndex
-        { get { return (UsingSecure ? URLSecure + URLEnd : URLLong) + IndexPHP; } }
+        { get { return URLLong + IndexPHP; } }
 
         /// <summary>
         /// Gets a Index URL of the site, e.g. "http://en.wikipedia.org/w/api.php"
@@ -190,7 +190,6 @@ namespace WikiFunctions
         /// Gets a URL of the site, e.g. "http://en.wikipedia.org".
         /// </summary>
         public static string URL = "http://en.wikipedia.org";
-        public static string URLSecure = "https://en.wikipedia.org";
 
         public static string Host { get { return new Uri(URL).Host; } }
 
@@ -247,12 +246,6 @@ namespace WikiFunctions
         /// </summary>
         public static bool IsCustomProject
         { get { return Project == ProjectEnum.custom; } }
-        
-        /// <summary>
-        /// Returns true if the secure server is in use (for opening pages in browser)
-        /// </summary>
-        public static bool UsingSecure
-        { get; internal set; }        
 
         /// <summary>
         /// Returns true if we are currently editing a Wikia site
@@ -430,7 +423,7 @@ namespace WikiFunctions
         /// <param name="projectName">The project name default is Wikipedia</param>
         public static void SetProject(string langCode, ProjectEnum projectName)
         {
-            SetProject(langCode, projectName, "", false);
+            SetProject(langCode, projectName, "");
         }
 
         #if DEBUG || UNITTEST
@@ -467,7 +460,6 @@ namespace WikiFunctions
             public ProjectEnum projectName;
             public string langCode;
             public string customProject;
-            public bool usingSecure;
         }
 
         /// <summary>
@@ -477,7 +469,7 @@ namespace WikiFunctions
         /// <param name="projectName">The project name default is Wikipedia</param>
         /// <param name="customProject">Script path of a custom project or ""</param>
         /// <param name="usingSecure"></param>
-        public static void SetProject(string langCode, ProjectEnum projectName, string customProject, bool usingSecure)
+        public static void SetProject(string langCode, ProjectEnum projectName, string customProject)
         {
             TryLoadingAgainAfterLogin = false;
             Namespaces.Clear();
@@ -488,7 +480,6 @@ namespace WikiFunctions
             Project = projectName;
             LangCode = langCode;
             CustomProject = customProject;
-            UsingSecure = usingSecure;
 
             RefreshProxy();
 
@@ -518,7 +509,6 @@ namespace WikiFunctions
             else
             {
                 URL = "http://" + LangCode + "." + Project + ".org";
-                URLSecure = "https://" + LangCode + "." + Project + ".org";
              }
 
             // HACK:
@@ -710,7 +700,6 @@ namespace WikiFunctions
                                                     projectName = projectName,
                                                     customProject = customProject,
                                                     langCode = langCode,
-                                                    usingSecure = usingSecure
                                                 };
                     return;
                 }

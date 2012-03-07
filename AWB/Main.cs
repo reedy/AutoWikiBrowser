@@ -2757,7 +2757,7 @@ window.scrollTo(0, diffTopY);
         private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MyPreferences myPrefs = new MyPreferences(Variables.LangCode, Variables.Project,
-                                                      Variables.CustomProject, Variables.PHP5, Variables.UsingSecure)
+                                                      Variables.CustomProject, Variables.PHP5)
             {
                 TextBoxFont = txtEdit.Font,
                 LowThreadPriority = LowThreadPriority,
@@ -2820,10 +2820,10 @@ window.scrollTo(0, diffTopY);
                 loggingEnabled = myPrefs.EnableLogging;
 
                 if (myPrefs.Language != Variables.LangCode || myPrefs.Project != Variables.Project
-                    || (myPrefs.CustomProject != Variables.CustomProject) || myPrefs.PrefUsingSecure != Variables.UsingSecure)
+                    || (myPrefs.CustomProject != Variables.CustomProject))
                 {
                     Variables.PHP5 = myPrefs.PrefPHP5;
-                    SetProject(myPrefs.Language, myPrefs.Project, myPrefs.CustomProject, myPrefs.PrefUsingSecure);
+                    SetProject(myPrefs.Language, myPrefs.Project, myPrefs.CustomProject);
 
                     BotMode = false;
                     lblOnlyBots.Visible = true;
@@ -2870,13 +2870,13 @@ window.scrollTo(0, diffTopY);
             NumberOfPagesPerMinute = 0;
         }
 
-        private void SetProject(string code, ProjectEnum project, string customProject, bool usingSecure)
+        private void SetProject(string code, ProjectEnum project, string customProject)
         {
             SplashScreen.SetProgress(81);
             try
             {
                 //set namespaces
-                Variables.SetProject(code, project, customProject, usingSecure);
+                Variables.SetProject(code, project, customProject);
 
                 if (Variables.TryLoadingAgainAfterLogin)
                 {
@@ -4698,7 +4698,7 @@ window.scrollTo(0, diffTopY);
             }
             else if (Variables.TryLoadingAgainAfterLogin)
             {
-                SetProject(Variables.ReloadProjectSettings.langCode, Variables.ReloadProjectSettings.projectName, Variables.ReloadProjectSettings.customProject, Variables.ReloadProjectSettings.usingSecure);
+                SetProject(Variables.ReloadProjectSettings.langCode, Variables.ReloadProjectSettings.projectName, Variables.ReloadProjectSettings.customProject);
             }
 
             if (TheSession.IsBusy)

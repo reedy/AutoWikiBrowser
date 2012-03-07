@@ -289,7 +289,7 @@ namespace WikiFunctions
         #region Helpers
         public void OpenPageInBrowser(string title)
         {
-            if (!Variables.UsingSecure && ArticleUrl.Contains("$1"))
+            if (ArticleUrl.Contains("$1"))
             {
                 string url = ArticleUrl.Replace("$1", Tools.WikiEncode(title));
 
@@ -303,7 +303,7 @@ namespace WikiFunctions
 
         public void OpenPageHistoryInBrowser(string title)
         {
-            if (!Variables.UsingSecure && ArticleUrl.Contains("$1"))
+            if (ArticleUrl.Contains("$1"))
             {
                 string url = ArticleUrl.Replace("$1", title);
 

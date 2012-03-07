@@ -624,9 +624,6 @@ namespace WikiFunctions.Controls.Lists
             
             // Assumsuption flaw: that all wikis use /wiki/ as the default path
             string url = Variables.URL + "/wiki/";
-            s = s.Replace(url, "");
-            
-            url = Variables.URLSecure + "/wiki/";
             s = s.Replace(url, "").Trim();
 
             if(!originals.Equals(s))
