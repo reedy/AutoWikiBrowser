@@ -3676,6 +3676,10 @@ now"));
 '''Choisir'''";
             
             Assert.AreEqual(Choisir, Parsers.FixSyntax(Choisir));
+            
+            const string Nochange = @"** >> {[[Sei Young Animation Co., Ltd.|Animação Retrô]]}";
+            
+            Assert.AreEqual(Nochange, Parsers.FixSyntax(Nochange));
         }
         
         [Test]
