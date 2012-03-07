@@ -1699,7 +1699,7 @@ Message: {2}
                 {
                     originalArticleText = articleText;
                     // avoid matching on previously commented out calls
-                    Match m = p.Key.Match(Tools.ReplaceWithSpaces(articleText, WikiRegexes.Comments));
+                    Match m = p.Key.Match(ReplaceWithSpaces(articleText, WikiRegexes.Comments));
                     if(!m.Success)
                         continue;
                     
@@ -2148,8 +2148,8 @@ Message: {2}
         }
 
         // ensure dates returned are English.
-        private static readonly System.Globalization.CultureInfo BritishEnglish = new System.Globalization.CultureInfo("en-GB");
-        private static readonly System.Globalization.CultureInfo AmericanEnglish = new System.Globalization.CultureInfo("en-US");
+        private static readonly CultureInfo BritishEnglish = new CultureInfo("en-GB");
+        private static readonly CultureInfo AmericanEnglish = new CultureInfo("en-US");
 
         private static readonly Regex YearMon = new Regex(@"^\d{4}\-[0-3]\d$", RegexOptions.Compiled);
         private static readonly Regex MonthYear = new Regex(@"^\w+ \d{4}$", RegexOptions.Compiled);
@@ -2572,12 +2572,12 @@ Message: {2}
         {
             string originalURL = CiteUrl.Match(templatecall).Groups[1].Value.TrimEnd("|".ToCharArray()), originalTemplateCall = templatecall;
 
-            string pipecleanedtemplate = "", updatedTemplateCall = "";
-            
+            string updatedTemplateCall = "";
+
             while(!updatedTemplateCall.Equals(templatecall))
             {
                 Dictionary<string, string> Params = new Dictionary<string, string>();
-                pipecleanedtemplate = PipeCleanedTemplate(templatecall);
+                string pipecleanedtemplate = PipeCleanedTemplate(templatecall);
                 updatedTemplateCall = templatecall;
                 
                 foreach(Match m in anyParam.Matches(pipecleanedtemplate))
@@ -2621,11 +2621,9 @@ Message: {2}
         public static Dictionary<int, int> DuplicateTemplateParameters(string templatecall)
         {
             Dictionary<int, int> Dupes = new Dictionary<int, int>();
-
-            string pipecleanedtemplate = "";
-            
+           
             Dictionary<string, string> Params = new Dictionary<string, string>();
-            pipecleanedtemplate = PipeCleanedTemplate(templatecall);
+            string pipecleanedtemplate = PipeCleanedTemplate(templatecall);
             
             foreach(Match m in anyParam.Matches(pipecleanedtemplate))
             {
@@ -2700,16 +2698,13 @@ Message: {2}
         /// <param name="caseInsensitiveParameterNames">Whether to match case insensitively on parameter name</param>
         /// <returns>List of parameter values</returns>
         public static string MergeTemplateParametersValues(string templateCall, List<string> parameters,  string newparameter, bool caseInsensitiveParameterNames)
-        {
-            List<string> returnedvalues = new List<string>();
-            
+        {          
             string combined = "";
 
             foreach (string param in parameters)
             {
                 combined +=(GetTemplateParameterValue(templateCall, param) + " ");
                 templateCall = RemoveTemplateParameter(templateCall, param, false);
-
             }
 
             templateCall = AppendParameterToTemplate(templateCall, newparameter, combined, false);
@@ -2754,7 +2749,7 @@ Message: {2}
         /// <returns>The updated template call</returns>
         public static string SetTemplateParameterValue(string templateCall, string parameter, string newvalue, bool prependSpace)
         {
-            if(Tools.GetTemplateParameterValue(templateCall, parameter).Equals(newvalue))
+            if(GetTemplateParameterValue(templateCall, parameter).Equals(newvalue))
                 return templateCall;
             
             if(prependSpace)
@@ -2865,10 +2860,10 @@ Message: {2}
             
             if(keepFirstLetterCase)
             {
-                if(Tools.TurnFirstToUpper(originalTemplateName).Equals(originalTemplateName))
-                    newTemplateName = Tools.TurnFirstToUpper(newTemplateName);
+                if(TurnFirstToUpper(originalTemplateName).Equals(originalTemplateName))
+                    newTemplateName = TurnFirstToUpper(newTemplateName);
                 else
-                    newTemplateName = Tools.TurnFirstToLower(newTemplateName);
+                    newTemplateName = TurnFirstToLower(newTemplateName);
             }
             
             return (m.Groups[1].Value + newTemplateName + m.Groups[3].Value);
@@ -2959,7 +2954,6 @@ Message: {2}
         {
             return string.Join(", ", items.ToArray());
         }
-
 
         public static string UnescapeXML(string s)
         {
