@@ -482,7 +482,7 @@ namespace AutoWikiBrowser
         /// </summary>
         private void LoadPrefs(UserPrefs p)
         {
-            SetProject(p.LanguageCode, p.Project, p.CustomProject);
+            SetProject(p.LanguageCode, p.Project, p.CustomProject, p.Protocol);
 
             Variables.PHP5 = p.PHP5;
 

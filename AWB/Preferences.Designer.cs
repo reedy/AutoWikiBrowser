@@ -71,6 +71,7 @@ namespace AutoWikiBrowser
             this.cmboOnLoad = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.tabSite = new System.Windows.Forms.TabPage();
+            this.cmboProtocol = new System.Windows.Forms.ComboBox();
             this.chkEmptyOnProjectChange = new System.Windows.Forms.CheckBox();
             this.chkPHP5Ext = new System.Windows.Forms.CheckBox();
             this.chkIgnoreNoBots = new System.Windows.Forms.CheckBox();
@@ -493,6 +494,7 @@ namespace AutoWikiBrowser
             // 
             // tabSite
             // 
+            this.tabSite.Controls.Add(this.cmboProtocol);
             this.tabSite.Controls.Add(this.chkEmptyOnProjectChange);
             this.tabSite.Controls.Add(this.chkPHP5Ext);
             this.tabSite.Controls.Add(this.chkSupressAWB);
@@ -511,6 +513,19 @@ namespace AutoWikiBrowser
             this.tabSite.TabIndex = 0;
             this.tabSite.Text = "Site";
             this.tabSite.UseVisualStyleBackColor = true;
+            // 
+            // cmboProtocol
+            // 
+            this.cmboProtocol.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmboProtocol.FormattingEnabled = true;
+            this.cmboProtocol.Items.AddRange(new object[] {
+            "http://",
+            "https://"});
+            this.cmboProtocol.Location = new System.Drawing.Point(6, 33);
+            this.cmboProtocol.Name = "cmboProtocol";
+            this.cmboProtocol.Size = new System.Drawing.Size(60, 21);
+            this.cmboProtocol.TabIndex = 13;
+            this.cmboProtocol.Visible = false;
             // 
             // chkEmptyOnProjectChange
             // 
@@ -764,5 +779,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkDiffInBotMode;
         private System.Windows.Forms.CheckBox chkEmptyOnProjectChange;
         private System.Windows.Forms.CheckBox chkEnableLogging;
+        private System.Windows.Forms.ComboBox cmboProtocol;
     }
 }

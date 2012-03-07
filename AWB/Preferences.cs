@@ -39,13 +39,15 @@ namespace AutoWikiBrowser
         /// <param name="proj"></param>
         /// <param name="customproj"></param>
         /// <param name="usePHP5"></param>
-        /// <param name="usingSecure"></param>
-        public MyPreferences(string lang, ProjectEnum proj, string customproj, bool usePHP5)
+        /// <param name="protocol"></param>
+        public MyPreferences(string lang, ProjectEnum proj, string customproj, bool usePHP5, string protocol)
         {
             InitializeComponent();
 
             foreach (ProjectEnum l in Enum.GetValues(typeof(ProjectEnum)))
+            {
                 cmboProject.Items.Add(l);
+            }
 
             cmboProject.SelectedItem = proj;
 
@@ -57,13 +59,12 @@ namespace AutoWikiBrowser
             foreach (string s in Properties.Settings.Default.CustomWikis.Split('|'))
             {
                 if (!cmboCustomProject.Items.Contains(s))
+                {
                     cmboCustomProject.Items.Add(s);
+                }
             }
 
             cmboCustomProject.Text = customproj;
-
-            // TODO:FIXME
-            //chkUsingSecure.Enabled = (cmboProject.Text != "wikia" ? true : false);
 
             PrefPHP5 = usePHP5;
 
@@ -77,6 +78,7 @@ namespace AutoWikiBrowser
                 chkFlash.Enabled = false;
                 chkFlash.Checked = false;
             }
+            cmboProtocol.SelectedIndex = (protocol == "http://") ? 0 : 1;
         }
 
         #region Language and project
@@ -98,7 +100,16 @@ namespace AutoWikiBrowser
                 FixCustomProject();
                 return cmboCustomProject.Text;
             }
-        }   
+        }
+
+        /// <summary>
+        /// Protocol for custom projects
+        /// WMF defaults to HTTPS, Wikia defaults to HTTP
+        /// </summary>
+        public string Protocol
+        {
+            get { return cmboProtocol.Text; }
+        }
 
         private void txtCustomProject_Leave(object sender, EventArgs e)
         {
@@ -172,32 +183,29 @@ namespace AutoWikiBrowser
             {
                 cmboLang.SelectedIndex = cmboLang.Items.IndexOf(temp);
             }
-
+            
             if (prj == ProjectEnum.custom || prj == ProjectEnum.wikia)
             {
+                cmboProtocol.Visible = true;
+                cmboProtocol.Enabled = chkPHP5Ext.Enabled = (prj == ProjectEnum.custom);
                 cmboCustomProject.Visible = true;
                 cmboLang.Visible = false;
-                lblLang.Text = "http://";
+                if (prj == ProjectEnum.wikia)
+                {
+                    cmboProtocol.SelectedIndex = 0;
+                }
                 lblPostfix.Text = prj == ProjectEnum.wikia ? ".wikia.com" : "";
                 cmboCustomProjectChanged(null, null);
 
                 chkSupressAWB.Enabled = true;
 
-                // Custom server can be SSL enabled.
-                if (prj == ProjectEnum.wikia)
-                {
-                    // NO SSL
-                }
-
-                chkPHP5Ext.Enabled = (prj == ProjectEnum.custom);
-
                 return;
             }
 
+            cmboProtocol.Visible = false;
             lblPostfix.Text = "";
             cmboCustomProject.Visible = false;
             cmboLang.Visible = true;
-            lblLang.Text = "Language:";
             btnOK.Enabled = true;
             chkSupressAWB.Enabled = false;
         }
