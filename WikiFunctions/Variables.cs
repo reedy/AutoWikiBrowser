@@ -164,6 +164,16 @@ namespace WikiFunctions
         public static string URLApi
         { get { return URLLong + ApiPHP; } }
 
+		public static string HttpAuthUsername {
+			get;
+			set;
+		}
+
+		public static string HttpAuthPassword {
+			get;
+			set;
+		}
+		
         /// <summary>
         /// true if current wiki uses right-to-left writing system
         /// </summary>
@@ -496,6 +506,7 @@ namespace WikiFunctions
             if (IsCustomProject)
             {
                 LangCode = "en";
+				URLEnd = "";
                 int x = customProject.IndexOf('/');
 
                 if (x > 0)
@@ -504,7 +515,8 @@ namespace WikiFunctions
                     CustomProject = customProject.Substring(0, x);
                 }
 
-                URL = "http://" + CustomProject;
+				URL = "http://" + CustomProject;
+
             }
             else
             {
@@ -673,7 +685,10 @@ namespace WikiFunctions
                     URLEnd = "/";
                     break;
                 case ProjectEnum.custom:
-                    //URLEnd = "";
+					// Make sure URL ends with / so ApiURL won't become www.customwiki.comapi.php.
+					if (!URL.EndsWith("/")) {
+						URLEnd = "/";
+					}
                     break;
             }
 

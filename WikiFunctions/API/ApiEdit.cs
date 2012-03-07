@@ -25,6 +25,7 @@ using System.IO;
 using System.Xml;
 using System.Threading;
 using System.Text.RegularExpressions;
+using System.Security.Cryptography.X509Certificates;
 
 namespace WikiFunctions.API
 {
@@ -70,7 +71,7 @@ namespace WikiFunctions.API
             : this()
         {
             if (string.IsNullOrEmpty(url)) throw new ArgumentException("Invalid URL specified", "url");
-            if (!url.StartsWith("http://")) throw new NotSupportedException("Only editing via HTTP is currently supported");
+            //if (!url.StartsWith("http://")) throw new NotSupportedException("Only editing via HTTP is currently supported");
 
             URL = url;
             PHP5 = usePHP5;
@@ -317,6 +318,14 @@ namespace WikiFunctions.API
                                                                  Environment.OSVersion.VersionString,
                                                                  Environment.Version);
 
+
+        private static bool customXertificateValidation(object sender, X509Certificate cert, X509Chain chain, System.Net.Security.SslPolicyErrors error)
+        {
+            // TODO: Implement better validation. JOE 20110722
+			return true;
+        }
+
+        
         /// <summary>
         /// 
         /// </summary>
@@ -327,6 +336,7 @@ namespace WikiFunctions.API
             if (Globals.UnitTestMode) throw new Exception("You shouldn't access Wikipedia from unit tests");
 
             ServicePointManager.Expect100Continue = false;
+            ServicePointManager.ServerCertificateValidationCallback += new System.Net.Security.RemoteCertificateValidationCallback(customXertificateValidation);
             HttpWebRequest res = (HttpWebRequest)WebRequest.Create(url);
             res.ServicePoint.Expect100Continue = false;
             res.Expect = "";
@@ -356,6 +366,17 @@ namespace WikiFunctions.API
         {
             Request = req;
 
+            NetworkCredential login = new NetworkCredential();
+			login.UserName = Variables.HttpAuthUsername;
+			login.Password = Variables.HttpAuthPassword;
+            //login.Domain = "";
+			
+			CredentialCache myCache = new CredentialCache();
+			myCache.Add(new Uri(URL), "Basic", login);
+			req.Credentials = myCache;
+
+			req = (HttpWebRequest)SetBasicAuthHeader(req, login.UserName, login.Password);
+
             try
             {
                 using (WebResponse resp = req.GetResponse())
@@ -372,7 +393,10 @@ namespace WikiFunctions.API
                 if (resp == null) throw;
                 switch (resp.StatusCode)
                 {
-                    case HttpStatusCode.NotFound /*404*/:
+					case HttpStatusCode.Unauthorized: // 401						
+						break;
+
+					case HttpStatusCode.NotFound: // 404
                         return ""; // emulate the behaviour of Tools.HttpGet()
                 }
 
@@ -394,6 +418,14 @@ namespace WikiFunctions.API
 
         private string[,] lastPostParameters;
         private string lastGetUrl;
+
+		// Source: http://blog.kowalczyk.info/article/Forcing-basic-http-authentication-for-HttpWebReq.html
+		protected WebRequest SetBasicAuthHeader(WebRequest req, String userName, String userPassword) {
+			string authInfo = userName + ":" + userPassword;
+			authInfo = Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
+			req.Headers["Authorization"] = "Basic " + authInfo;
+			return req;
+		}
 
         /// <summary>
         /// 

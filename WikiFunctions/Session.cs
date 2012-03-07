@@ -22,6 +22,8 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using WikiFunctions.API;
+using System.Net;
+using System.Security.Authentication;
 
 namespace WikiFunctions
 {
@@ -192,8 +194,20 @@ namespace WikiFunctions
             {
                 throw;
             }
-            catch
+            catch (WebException ex)
             {
+                // Check for HTTP 401 error.                
+                var resp = (HttpWebResponse)ex.Response;
+                if (resp == null) throw;
+                switch (resp.StatusCode)
+                {
+                    case HttpStatusCode.Unauthorized /*401*/:
+                        throw;
+                }
+                return false;
+            }
+            catch (Exception)
+            {                
                 Editor = CreateEditor("http://en.wikipedia.org/w/", false);
                 return false;
             }
@@ -407,13 +421,70 @@ namespace WikiFunctions
             {
                 throw;
             }
+            catch (WebException ex)
+            {
+                string message = "";
+                
+                if (ex.InnerException != null)
+                {
+                    if (ex.InnerException is AuthenticationException)
+                    {
+
+                        if (message.Equals(""))
+                        {
+                            message = ex.Message;
+                        }
+                        else
+                        {
+                            message += " " + ex.Message;
+                        }
+                    }
+
+                    if (message.Equals(""))
+                    {
+                        message = ex.InnerException.Message;
+                    }
+                    else
+                    {
+                        message += " " + ex.InnerException.Message;
+                    }
+                }
+                else
+                {
+                    var resp = (HttpWebResponse)ex.Response;
+                    if (resp == null) throw;
+
+                    // Check for HTTP 401 error.
+                    switch (resp.StatusCode)
+                    {
+                        case HttpStatusCode.Unauthorized: // 401
+                            throw;
+                    }
+                    
+                    message = ex.Message;
+                }
+
+                MessageBox.Show(message, "Error connecting to wiki", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                
+                throw ex;
+            }
             catch (Exception ex)
             {
                 //TODO:Better error handling
 
-                string message = ex is WikiUrlException && ex.InnerException != null
-                    ? ex.InnerException.Message
-                    : ex.Message;
+                string message = "";
+
+                if (ex is WikiUrlException)
+                {
+                    if (ex.InnerException != null)
+                    {
+                        message = ex.InnerException.Message;
+                    }
+                }
+                else
+                {
+                    message = ex.Message;
+                }
 
                 MessageBox.Show("An error occured while connecting to the server or loading project information from it. " +
                         "Please make sure that your internet connection works and such combination of project/language exist." +

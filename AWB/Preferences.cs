@@ -62,6 +62,9 @@ namespace AutoWikiBrowser
 
             cmboCustomProject.Text = customproj;
 
+            // TODO:FIXME
+            //chkUsingSecure.Enabled = (cmboProject.Text != "wikia" ? true : false);
+
             PrefPHP5 = usePHP5;
 
             chkSupressAWB.Enabled = (cmboProject.Text == "custom" || cmboProject.Text == "wikia");
@@ -179,6 +182,12 @@ namespace AutoWikiBrowser
                 cmboCustomProjectChanged(null, null);
 
                 chkSupressAWB.Enabled = true;
+
+                // Custom server can be SSL enabled.
+                if (prj == ProjectEnum.wikia)
+                {
+                    // NO SSL
+                }
 
                 chkPHP5Ext.Enabled = (prj == ProjectEnum.custom);
 
