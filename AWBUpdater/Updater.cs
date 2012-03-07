@@ -102,6 +102,7 @@ namespace AwbUpdater
                     UpdateUI("Cleaning up from update", true);
                     KillTempDir();
 
+                    UpdateUI("Update finished. You may close this window (AWB Updater) now.", true);
                     UpdateSucessful = true;
                     ReadyToExit();
                 }
