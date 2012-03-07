@@ -1349,8 +1349,8 @@ namespace WikiFunctions
             s = BadDsChars.Replace(s, "");
 
             // convert each word to Proper Case
-            // http://en.wikipedia.org/wiki/Wikipedia:Categorization#Using_sort_keys
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#DEFAULTSORT_capitalization_after_apostrophes
+            // https://en.wikipedia.org/wiki/Wikipedia:Categorization#Using_sort_keys
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#DEFAULTSORT_capitalization_after_apostrophes
             foreach (Match m in WikiRegexes.RegexWordApostrophes.Matches(s))
             {
                 s = s.Remove(m.Index, m.Length);

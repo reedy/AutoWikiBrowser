@@ -1973,8 +1973,12 @@ Start date and age
                 Assert.AreEqual(kvp.Value, Tools.RemoveDiacritics(kvp.Key));
             }
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Leaving_foreign_characters_in_DEFAULTSORT
-            Assert.AreEqual(@"aaaaaa c eee iiiii ooooooooo uuu y", Tools.RemoveDiacritics(@"ầắạảằẩ ḉ ếễệ ịỉíįí ỏøờồȱȯȭȫŏ ụủữ ỳ"));
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Leaving_foreign_characters_in_DEFAULTSORT
+            Assert.AreEqual(@"aaaaaa", Tools.RemoveDiacritics(@"ầắạảằẩ"));
+            Assert.AreEqual(@"c", Tools.RemoveDiacritics(@"ḉ"));
+            Assert.AreEqual(@"iiiii", Tools.RemoveDiacritics(@"ịỉíįí"));
+            Assert.AreEqual(@"ooooooooo", Tools.RemoveDiacritics(@"ỏøờồȱȯȭȫo"));
+            Assert.AreEqual(@"uuu y", Tools.RemoveDiacritics(@"ụủữ ỳ"));
             Assert.AreEqual(@"d p S", Tools.RemoveDiacritics(@"ḏ p̄ Ś̄"));
             Assert.AreEqual(@"2", Tools.RemoveDiacritics(@"²"));
             Assert.AreEqual(@"E", Tools.RemoveDiacritics(@"Ǣ"));
