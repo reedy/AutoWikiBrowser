@@ -294,31 +294,14 @@ namespace WikiFunctions
         #region Helpers
         public void OpenPageInBrowser(string title)
         {
-            if (Variables.IsCustomProject && ArticleUrl.Contains("$1"))
-            {
-                string url = ArticleUrl.Replace("$1", Tools.WikiEncode(title));
-
-                Tools.OpenURLInBrowser(url);
-            }
-            else
-            {
-                Tools.OpenArticleInBrowser(title);
-            }
+            Tools.OpenArticleInBrowser(title);
         }
 
         public void OpenPageHistoryInBrowser(string title)
         {
-            if (ArticleUrl.Contains("$1"))
-            {
-                string url = ArticleUrl.Replace("$1", title);
-
-                Tools.OpenURLInBrowser(url + "?action=history");
-            }
-            else
-            {
-                Tools.OpenArticleHistoryInBrowser(title);
-            }
+            Tools.OpenArticleHistoryInBrowser(title);
         }
+
         #endregion
 
         #region IXmlSerializable Members
