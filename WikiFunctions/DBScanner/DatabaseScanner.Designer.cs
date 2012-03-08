@@ -725,7 +725,7 @@ namespace WikiFunctions.DBScanner
             this.openRevisionInBowserToolStripMenuItem.Enabled = false;
             this.openRevisionInBowserToolStripMenuItem.Name = "openRevisionInBowserToolStripMenuItem";
             this.openRevisionInBowserToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
-            this.openRevisionInBowserToolStripMenuItem.Text = "Open revision in bowser";
+            this.openRevisionInBowserToolStripMenuItem.Text = "Open revision in browser";
             this.openRevisionInBowserToolStripMenuItem.Visible = false;
             // 
             // toolStripSeparator1
