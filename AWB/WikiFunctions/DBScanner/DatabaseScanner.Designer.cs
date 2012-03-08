@@ -76,7 +76,7 @@ namespace WikiFunctions.DBScanner
             this.chkSimpleLinks = new System.Windows.Forms.CheckBox();
             this.ArticlesListBoxContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openRevisionInBowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openRevisionInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -705,7 +705,7 @@ namespace WikiFunctions.DBScanner
             // 
             this.ArticlesListBoxContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openInBrowserToolStripMenuItem,
-            this.openRevisionInBowserToolStripMenuItem,
+            this.openRevisionInBrowserToolStripMenuItem,
             this.toolStripSeparator1,
             this.copyToolStripMenuItem,
             this.removeToolStripMenuItem});
@@ -720,13 +720,13 @@ namespace WikiFunctions.DBScanner
             this.openInBrowserToolStripMenuItem.Text = "&Open in browser";
             this.openInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openInBrowserToolStripMenuItem_Click);
             // 
-            // openRevisionInBowserToolStripMenuItem
+            // openRevisionInBrowserToolStripMenuItem
             // 
-            this.openRevisionInBowserToolStripMenuItem.Enabled = false;
-            this.openRevisionInBowserToolStripMenuItem.Name = "openRevisionInBowserToolStripMenuItem";
-            this.openRevisionInBowserToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
-            this.openRevisionInBowserToolStripMenuItem.Text = "Open revision in browser";
-            this.openRevisionInBowserToolStripMenuItem.Visible = false;
+            this.openRevisionInBrowserToolStripMenuItem.Enabled = false;
+            this.openRevisionInBrowserToolStripMenuItem.Name = "openRevisionInBrowserToolStripMenuItem";
+            this.openRevisionInBrowserToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.openRevisionInBrowserToolStripMenuItem.Text = "Open revision in browser";
+            this.openRevisionInBrowserToolStripMenuItem.Visible = false;
             // 
             // toolStripSeparator1
             // 
@@ -1768,7 +1768,7 @@ namespace WikiFunctions.DBScanner
         private CheckBox chkIgnoreComments;
         private CheckBox chkIgnoreRedirects;
         private LinkLabel lnkBase;
-        private ToolStripMenuItem openRevisionInBowserToolStripMenuItem;
+        private ToolStripMenuItem openRevisionInBrowserToolStripMenuItem;
         private ToolStripMenuItem highestToolStripMenuItem;
         private ToolStripMenuItem aboveNormalToolStripMenuItem;
         private ToolStripMenuItem normalToolStripMenuItem;
