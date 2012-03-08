@@ -27,7 +27,22 @@ using System.Threading;
 
 namespace WikiFunctions
 {
-    public enum ProjectEnum { wikipedia, wiktionary, wikisource, wikiquote, wikiversity, wikibooks, wikinews, species, commons, meta, mediawiki, wikia, custom }
+    public enum ProjectEnum
+    {
+        wikipedia,
+        wiktionary,
+        wikisource,
+        wikiquote,
+        wikiversity,
+        wikibooks,
+        wikinews,
+        species,
+        commons,
+        meta,
+        mediawiki,
+        wikia,
+        custom
+    }
 
     /// <summary>
     /// Holds static variables, to allow functionality on different wikis.
@@ -71,6 +86,7 @@ namespace WikiFunctions
             PHP5 = false;
             TypoSummaryTag = "typos fixed: ";
             AWBDefaultSummaryTag();
+            mSummaryTag = " using ";
             Protocol = "http://";
         }
 
@@ -81,7 +97,8 @@ namespace WikiFunctions
         {
             get // see SvnInfo.template.cs for details
             {
-                return (!m_Revision.Contains("$")) ? m_Revision.Replace("/", "-") : "?"; //fallback in case of failed revision extraction
+                return (!m_Revision.Contains("$")) ? m_Revision.Replace("/", "-") : "?";
+                //fallback in case of failed revision extraction
             }
         }
 
@@ -106,8 +123,7 @@ namespace WikiFunctions
         /// <summary>
         /// 
         /// </summary>
-        public static IAutoWikiBrowser MainForm
-        { get; set; }
+        public static IAutoWikiBrowser MainForm { get; set; }
 
         /// <summary>
         /// 
@@ -151,43 +167,52 @@ namespace WikiFunctions
         /// Gets a URL of the site, e.g. "https://en.wikipedia.org/w/"
         /// </summary>
         public static string URLLong
-        { get { return URL + URLEnd; } }
+        {
+            get { return URL + URLEnd; }
+        }
 
         /// <summary>
         /// Gets a Index URL of the site, e.g. "https://en.wikipedia.org/w/index.php"
         /// </summary>
         public static string URLIndex
-        { get { return URLLong + IndexPHP; } }
+        {
+            get { return URLLong + IndexPHP; }
+        }
 
         /// <summary>
         /// Gets a Index URL of the site, e.g. "https://en.wikipedia.org/w/api.php"
         /// </summary>
         public static string URLApi
-        { get { return URLLong + ApiPHP; } }
+        {
+            get { return URLLong + ApiPHP; }
+        }
 
         public static string HttpAuthUsername { get; set; }
 
         public static string HttpAuthPassword { get; set; }
-		
+
         /// <summary>
         /// true if current wiki uses right-to-left writing system
         /// </summary>
-        public static bool RTL
-        { get; set; }
+        public static bool RTL { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public static bool CapitalizeFirstLetter
-        { get; set; }
+        public static bool CapitalizeFirstLetter { get; set; }
 
         /// <summary>
         /// localized names of months
         /// </summary>
         public static string[] MonthNames;
 
-        public static readonly string[] ENLangMonthNames = new[]{"January", "February", "March", "April", "May", "June",
-                "July", "August", "September", "October", "November", "December"};
+        public static readonly string[] ENLangMonthNames = new[]
+                                                               {
+                                                                   "January", "February", "March", "April", "May",
+                                                                   "June",
+                                                                   "July", "August", "September", "October", "November",
+                                                                   "December"
+                                                               };
 
         private static string URLEnd = "/w/";
 
@@ -196,7 +221,10 @@ namespace WikiFunctions
         /// </summary>
         public static string URL = "https://en.wikipedia.org";
 
-        public static string Host { get { return new Uri(URL).Host; } }
+        public static string Host
+        {
+            get { return new Uri(URL).Host; }
+        }
 
         /// <summary>
         /// Returns the script path of the site, e.g. /w
@@ -220,19 +248,25 @@ namespace WikiFunctions
         /// Returns true if we are currently editing a WMF wiki
         /// </summary>
         public static bool IsWikimediaProject
-        { get { return Project <= ProjectEnum.species; } }
+        {
+            get { return Project <= ProjectEnum.species; }
+        }
 
         /// <summary>
         /// Returns true if we are currently editing the English Wikipedia
         /// </summary>
         public static bool IsWikipediaEN
-        { get { return (Project == ProjectEnum.wikipedia && LangCode == "en"); } }
-        
+        {
+            get { return (Project == ProjectEnum.wikipedia && LangCode == "en"); }
+        }
+
         /// <summary>
         /// Returns true if we are currently editing Commons
         /// </summary>
         public static bool IsCommons
-        { get { return (Project == ProjectEnum.commons); } }
+        {
+            get { return (Project == ProjectEnum.commons); }
+        }
 
         /// <summary>
         /// Returns true if we are currently a monolingual Wikimedia project
@@ -242,7 +276,7 @@ namespace WikiFunctions
             get
             {
                 return (Project == ProjectEnum.commons || Project == ProjectEnum.meta
-                  || Project == ProjectEnum.species || Project == ProjectEnum.mediawiki);
+                        || Project == ProjectEnum.species || Project == ProjectEnum.mediawiki);
             }
         }
 
@@ -250,25 +284,27 @@ namespace WikiFunctions
         /// Returns true if we are currently editing a "custom" wiki
         /// </summary>
         public static bool IsCustomProject
-        { get { return Project == ProjectEnum.custom; } }
+        {
+            get { return Project == ProjectEnum.custom; }
+        }
 
         /// <summary>
         /// Returns true if we are currently editing a Wikia site
         /// </summary>
         public static bool IsWikia
-        { get { return Project == ProjectEnum.wikia; } }
+        {
+            get { return Project == ProjectEnum.wikia; }
+        }
 
         /// <summary>
         /// Gets script path of a custom project or empty string if standard project
         /// </summary>
-        public static string CustomProject
-        { get; private set; }
+        public static string CustomProject { get; private set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public static string Protocol
-        { get; private set; }
+        public static string Protocol { get; private set; }
 
         /// <summary>
         /// index.php appended with "5" if appropriate for the wiki
@@ -281,6 +317,7 @@ namespace WikiFunctions
         public static string ApiPHP { get; private set; }
 
         private static bool usePHP5;
+
         /// <summary>
         /// Whether the current wiki uses the .php5 extension
         /// </summary>
@@ -298,19 +335,26 @@ namespace WikiFunctions
         /// <summary>
         /// 
         /// </summary>
-        public static string TypoSummaryTag
-        { get; private set; }
+        public static string TypoSummaryTag { get; private set; }
 
-        private static string mSummaryTag = " using ";
+        private static string mSummaryTag;
 
         /// <summary>
         /// Gets the tag to add to the edit summary, e.g. " using [[Project:AWB]]".
         /// </summary>
         public static string SummaryTag
-        { get { return mSummaryTag + WPAWB; } }
+        {
+            get
+            {
+                string text = mSummaryTag + WPAWB;
+#if DEBUG
+                text += " (" + RevisionNumber + ")";
+#endif
+                return text;
+            }
+        }
 
-        public static string WPAWB
-        { get; private set; }
+        public static string WPAWB { get; private set; }
 
         internal static Dictionary<int, List<string>> PrepareAliases(Dictionary<int, string> namespaces)
         {
@@ -328,18 +372,15 @@ namespace WikiFunctions
         private static void AWBDefaultSummaryTag()
         {
             mSummaryTag = " using ";
-#if DEBUG
-            WPAWB = "[[Project:AWB|AWB]] (" + RevisionNumber + ")";
-#else
             WPAWB = "[[Project:AWB|AWB]]";
-#endif
         }
 
         #region Delayed load stuff
+
         public static readonly List<string> UnderscoredTitles = new List<string>();
         private static readonly List<BackgroundRequest> DelayedRequests = new List<BackgroundRequest>();
 
-        static void CancelBackgroundRequests()
+        private static void CancelBackgroundRequests()
         {
             lock (DelayedRequests)
             {
@@ -355,7 +396,7 @@ namespace WikiFunctions
         {
             do
             {
-                lock(DelayedRequests)
+                lock (DelayedRequests)
                 {
                     if (DelayedRequests.Count == 0) return;
                 }
@@ -376,7 +417,7 @@ namespace WikiFunctions
             {
                 DelayedRequests.Remove(req);
                 UnderscoredTitles.Clear();
-                foreach (Article a in (List<Article>)req.Result)
+                foreach (Article a in (List<Article>) req.Result)
                 {
                     UnderscoredTitles.Add(a.Name);
                 }
@@ -386,11 +427,12 @@ namespace WikiFunctions
         #endregion
 
         #region Proxy support
-        static IWebProxy SystemProxy;
+
+        private static IWebProxy SystemProxy;
 
         public static HttpWebRequest PrepareWebRequest(string url, string userAgent)
         {
-            HttpWebRequest r = (HttpWebRequest)WebRequest.Create(url);
+            HttpWebRequest r = (HttpWebRequest) WebRequest.Create(url);
 
             if (SystemProxy != null) r.Proxy = SystemProxy;
 
@@ -405,7 +447,9 @@ namespace WikiFunctions
         }
 
         public static HttpWebRequest PrepareWebRequest(string url)
-        { return PrepareWebRequest(url, ""); }
+        {
+            return PrepareWebRequest(url, "");
+        }
 
         public static void RefreshProxy()
         {
@@ -415,6 +459,7 @@ namespace WikiFunctions
                 SystemProxy = null;
             }
         }
+
         #endregion
 
         // for logging, these will probably need internationalising
@@ -437,7 +482,7 @@ namespace WikiFunctions
             SetProject(langCode, projectName, "", "http://");
         }
 
-        #if DEBUG || UNITTEST
+#if DEBUG || UNITTEST
         /// <summary>
         /// Sets the language code of the current project
         /// </summary>
@@ -461,7 +506,7 @@ namespace WikiFunctions
             Project = projectName;
             SetProjectLangCode(langCode);
         }
-        #endif
+#endif
 
         public static bool TryLoadingAgainAfterLogin { get; private set; }
         public static ProjectHoldArea ReloadProjectSettings;
@@ -498,13 +543,16 @@ namespace WikiFunctions
 
             URLEnd = "/w/";
 
-            AWBDefaultSummaryTag();
             Stub = "[^{}|]*?[Ss]tub";
 
             MonthNames = ENLangMonthNames;
 
             SectStub = @"\{\{[Ss]ect";
             SectStubRegex = new Regex(SectStub, RegexOptions.Compiled);
+
+            TypoSummaryTag = "typos fixed: ";
+            AWBDefaultSummaryTag();
+            mSummaryTag = " using ";
 
             if (IsCustomProject)
             {
@@ -750,7 +798,7 @@ namespace WikiFunctions
             foreach (int ns in Namespaces.Keys)
             {
                 NamespacesCaseInsensitive.Add(ns, "(?i:"
-                    + WikiRegexes.GenerateNamespaceRegex(ns) + @")\s*:");
+                                                  + WikiRegexes.GenerateNamespaceRegex(ns) + @")\s*:");
             }
 
             WikiRegexes.MakeLangSpecificRegexes();
@@ -785,9 +833,11 @@ namespace WikiFunctions
             RTL = false;
             CapitalizeFirstLetter = true;
         }
+
         #endregion
 
         #region URL Builders
+
         /// <summary>
         /// returns URL to the given page, depends on project settings
         /// </summary>
@@ -835,6 +885,7 @@ namespace WikiFunctions
         {
             return NonPrettifiedURL(title) + "&action=raw";
         }
+
         #endregion
     }
 
@@ -843,7 +894,7 @@ namespace WikiFunctions
     /// </summary>
     public enum WikiStatusResult
     {
-        Error, 
+        Error,
         NotLoggedIn,
         NotRegistered,
         OldVersion,
