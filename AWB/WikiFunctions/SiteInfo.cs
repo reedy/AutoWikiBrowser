@@ -41,6 +41,7 @@ namespace WikiFunctions
 
         private string siteinfoOutput;
 
+        private readonly Uri uri;
         internal SiteInfo()
         { }
 
@@ -51,6 +52,7 @@ namespace WikiFunctions
         {
             Editor = editor;
             ScriptPath = editor.URL;
+            uri = new Uri(ScriptPath);
 
             try
             {
@@ -61,9 +63,9 @@ namespace WikiFunctions
                     {
                         throw new WikiUrlException();
                     }
-                    if ( ret is Exception )
+                    var ex = ret as Exception;
+                    if (ex != null)
                     {
-                        Exception ex = (Exception) ret;
                         throw ex;
                     }
                 }
@@ -222,7 +224,7 @@ namespace WikiFunctions
         {
             get
             {
-                return "http://" + Tools.ServerName(ScriptPath);
+                return uri.Scheme  + "://" + uri.Host;
             }
         }
 
