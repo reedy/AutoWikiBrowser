@@ -224,7 +224,7 @@ namespace WikiFunctions
         {
             get
             {
-                return uri.Scheme  + "://" + uri.Host;
+                return uri.Scheme + Uri.SchemeDelimiter + uri.Host;
             }
         }
 
