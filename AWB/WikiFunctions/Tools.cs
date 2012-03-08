@@ -1264,6 +1264,7 @@ namespace WikiFunctions
             new KeyValuePair<string, string>("ơ", "o"),
             new KeyValuePair<string, string>("ǒ", "o"),
             new KeyValuePair<string, string>("ỏ", "o"),
+            new KeyValuePair<string, string>("Ø", "O"),
             new KeyValuePair<string, string>("ø", "o"),
             new KeyValuePair<string, string>("ờ", "o"),
             new KeyValuePair<string, string>("ồ", "o"),

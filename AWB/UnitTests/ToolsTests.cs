@@ -1978,6 +1978,7 @@ Start date and age
             Assert.AreEqual(@"c", Tools.RemoveDiacritics(@"ḉ"));
             Assert.AreEqual(@"iiiii", Tools.RemoveDiacritics(@"ịỉíįí"));
             Assert.AreEqual(@"ooooooooo", Tools.RemoveDiacritics(@"ỏøờồȱȯȭȫo"));
+            Assert.AreEqual(@"O", Tools.RemoveDiacritics(@"Ø"));
             Assert.AreEqual(@"uuu y", Tools.RemoveDiacritics(@"ụủữ ỳ"));
             Assert.AreEqual(@"d p S", Tools.RemoveDiacritics(@"ḏ p̄ Ś̄"));
             Assert.AreEqual(@"2", Tools.RemoveDiacritics(@"²"));
