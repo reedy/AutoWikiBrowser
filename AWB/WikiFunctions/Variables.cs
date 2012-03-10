@@ -624,6 +624,8 @@ namespace WikiFunctions
                             mSummaryTag = " με τη χρήση ";
                             WPAWB = "[[Βικιπαίδεια:AutoWikiBrowser|AWB]]";
                             Stub = @"[^{}|]*?([Ss]tub|[Εε]πέκταση)";
+                            SectStub = @"\{\{θέματος";
+                            SectStubRegex = new Regex(SectStub, RegexOptions.Compiled);
                             break;
 
                         case "eo":
