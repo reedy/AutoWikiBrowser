@@ -370,20 +370,23 @@ namespace WikiFunctions.API
         {
             Request = req;
 
-            NetworkCredential login = new NetworkCredential
-                                          {
-                                              UserName = Variables.HttpAuthUsername,
-                                              Password = Variables.HttpAuthPassword,
-                                              // Domain = "",
-                                          };
+            if (!string.IsNullOrEmpty(Variables.HttpAuthUsername) && !string.IsNullOrEmpty(Variables.HttpAuthPassword))
+            {
+                NetworkCredential login = new NetworkCredential
+                                              {
+                                                  UserName = Variables.HttpAuthUsername,
+                                                  Password = Variables.HttpAuthPassword,
+                                                  // Domain = "",
+                                              };
 
-            CredentialCache myCache = new CredentialCache
-                                          {
-                                              {new Uri(URL), "Basic", login}
-                                          };
-            req.Credentials = myCache;
+                CredentialCache myCache = new CredentialCache
+                                              {
+                                                  {new Uri(URL), "Basic", login}
+                                              };
+                req.Credentials = myCache;
 
-            req = (HttpWebRequest) SetBasicAuthHeader(req, login.UserName, login.Password);
+                req = (HttpWebRequest) SetBasicAuthHeader(req, login.UserName, login.Password);
+            }
 
             try
             {
@@ -428,7 +431,7 @@ namespace WikiFunctions.API
         private string lastGetUrl;
 
 		// Source: http://blog.kowalczyk.info/article/Forcing-basic-http-authentication-for-HttpWebReq.html
-		protected WebRequest SetBasicAuthHeader(WebRequest req, String userName, String userPassword) {
+		protected WebRequest SetBasicAuthHeader(WebRequest req, string userName, string userPassword) {
 			string authInfo = userName + ":" + userPassword;
 			authInfo = Convert.ToBase64String(Encoding.Default.GetBytes(authInfo));
 			req.Headers["Authorization"] = "Basic " + authInfo;
