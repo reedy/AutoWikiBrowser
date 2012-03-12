@@ -325,6 +325,7 @@ namespace WikiFunctions.API
 			return true;
         }
 
+        protected HttpWebRequest res = null;
         
         /// <summary>
         /// 
@@ -335,9 +336,13 @@ namespace WikiFunctions.API
         {
             if (Globals.UnitTestMode) throw new Exception("You shouldn't access Wikipedia from unit tests");
 
+            if (res != null)
+            {
+                return res;
+            }
             ServicePointManager.Expect100Continue = false;
-            ServicePointManager.ServerCertificateValidationCallback += new System.Net.Security.RemoteCertificateValidationCallback(customXertificateValidation);
-            HttpWebRequest res = (HttpWebRequest)WebRequest.Create(url);
+            ServicePointManager.ServerCertificateValidationCallback += customXertificateValidation;
+            res = (HttpWebRequest) WebRequest.Create(url);
             res.ServicePoint.Expect100Continue = false;
             res.Expect = "";
             if (ProxySettings != null)
