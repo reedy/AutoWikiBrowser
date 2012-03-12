@@ -347,7 +347,7 @@ namespace WikiFunctions.API
             }
             else
             {
-                res.Proxy = WebRequest.DefaultWebProxy;
+                res.Proxy = null;
             }
             res.UserAgent = UserAgent;
             res.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
