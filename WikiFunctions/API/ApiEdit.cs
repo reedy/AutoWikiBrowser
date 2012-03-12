@@ -318,14 +318,11 @@ namespace WikiFunctions.API
                                                                  Environment.OSVersion.VersionString,
                                                                  Environment.Version);
 
-
         private static bool customXertificateValidation(object sender, X509Certificate cert, X509Chain chain, System.Net.Security.SslPolicyErrors error)
         {
             // TODO: Implement better validation. JOE 20110722
 			return true;
         }
-
-        protected HttpWebRequest res = null;
         
         /// <summary>
         /// 
@@ -336,13 +333,10 @@ namespace WikiFunctions.API
         {
             if (Globals.UnitTestMode) throw new Exception("You shouldn't access Wikipedia from unit tests");
 
-            if (res != null)
-            {
-                return res;
-            }
             ServicePointManager.Expect100Continue = false;
             ServicePointManager.ServerCertificateValidationCallback += customXertificateValidation;
-            res = (HttpWebRequest) WebRequest.Create(url);
+            HttpWebRequest res = (HttpWebRequest) WebRequest.Create(url);
+            res.KeepAlive = true;
             res.ServicePoint.Expect100Continue = false;
             res.Expect = "";
             if (ProxySettings != null)
