@@ -339,10 +339,15 @@ namespace WikiFunctions.API
             res.KeepAlive = true;
             res.ServicePoint.Expect100Continue = false;
             res.Expect = "";
+
             if (ProxySettings != null)
             {
                 res.Proxy = ProxySettings;
                 res.UseDefaultCredentials = true;
+            }
+            else
+            {
+                res.Proxy = null;
             }
             res.UserAgent = UserAgent;
             res.AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip;
@@ -365,16 +370,20 @@ namespace WikiFunctions.API
         {
             Request = req;
 
-            NetworkCredential login = new NetworkCredential();
-			login.UserName = Variables.HttpAuthUsername;
-			login.Password = Variables.HttpAuthPassword;
-            //login.Domain = "";
-			
-			CredentialCache myCache = new CredentialCache();
-			myCache.Add(new Uri(URL), "Basic", login);
-			req.Credentials = myCache;
+            NetworkCredential login = new NetworkCredential
+                                          {
+                                              UserName = Variables.HttpAuthUsername,
+                                              Password = Variables.HttpAuthPassword,
+                                              // Domain = "",
+                                          };
 
-			req = (HttpWebRequest)SetBasicAuthHeader(req, login.UserName, login.Password);
+            CredentialCache myCache = new CredentialCache
+                                          {
+                                              {new Uri(URL), "Basic", login}
+                                          };
+            req.Credentials = myCache;
+
+            req = (HttpWebRequest) SetBasicAuthHeader(req, login.UserName, login.Password);
 
             try
             {
@@ -388,14 +397,14 @@ namespace WikiFunctions.API
             }
             catch (WebException ex)
             {
-                var resp = (HttpWebResponse)ex.Response;
+                var resp = (HttpWebResponse) ex.Response;
                 if (resp == null) throw;
                 switch (resp.StatusCode)
                 {
-					case HttpStatusCode.Unauthorized: // 401						
-						break;
+                    case HttpStatusCode.Unauthorized: // 401						
+                        break;
 
-					case HttpStatusCode.NotFound: // 404
+                    case HttpStatusCode.NotFound: // 404
                         return ""; // emulate the behaviour of Tools.HttpGet()
                 }
 
