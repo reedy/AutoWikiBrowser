@@ -5256,7 +5256,7 @@ namespace WikiFunctions.Parse
         }
         
         private static readonly Regex BLPUnsourcedSection = Tools.NestedTemplateRegex(new List<string>("BLP unsourced section,BLP sources section".Split(',')));
-        private static readonly Regex NotPersonArticles = new Regex(@"(^(((?:First )?(?:Premiership|Presidency)|List|Murder|Disappearance|Suicide|Adoption) of|Deaths|[12]\d{3}\b|\d{2,} )|Assembly of|(discography|(?:film|bibli)ography| deaths| murders)$)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex NotPersonArticles = new Regex(@"(^(((?:First )?(?:Premiership|Presidency|Governor)|List|Murder|Disappearance|Suicide|Adoption) of|Deaths|[12]\d{3}\b|\d{2,} )|Assembly of|(discography|(?:film|bibli)ography| deaths| murders)$)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static MetaDataSorter MDS = new MetaDataSorter();
         private static readonly Regex NobleFamilies = new Regex(@"[[Category:[^\[\]\|]*[nN]oble families", RegexOptions.Compiled);
         private static readonly Regex NotAboutAPersonCategories = new Regex(@"\[\[Category:(\d{4} animal|Comedy duos|Articles about multiple people|Married couples|Fictional|Presidencies|Military careers|Parables of|[^\[\]\|\r\n]*musical groups)", RegexOptions.Compiled);
@@ -6013,7 +6013,7 @@ namespace WikiFunctions.Parse
             string crapStripped = WikiRegexes.BulletedText.Replace(commentsCategoriesStripped, "");
             int words = (Tools.WordCount(commentsCategoriesStripped) + Tools.WordCount(crapStripped))/2;
 
-            // remove stub tags from long articles
+            // remove stub tags from long articles, don't move section stubs
             if ((words > StubMaxWordCount) && WikiRegexes.Stub.IsMatch(commentsStripped))
             {
                 articleText = WikiRegexes.Stub.Replace(articleText, StubChecker).Trim();
@@ -6511,7 +6511,7 @@ namespace WikiFunctions.Parse
 
         private static string StubChecker(Match m)
         {
-            // Replace each Regex cc match with the number of the occurrence.
+            // if stub tag is a section stub tag, don't remove from section in article
             return Variables.SectStubRegex.IsMatch(m.Value) ? m.Value : "";
         }
 
