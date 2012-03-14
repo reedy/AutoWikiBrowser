@@ -2624,8 +2624,11 @@ world|format=PDF}} was";
             UnformatedDOB = @"'''Fred''' (born circa 27 June 1950) was great [[Category:1950 births]]";
             Assert.AreEqual(UnformatedDOB + a2.Replace("27 June 1950", "1950"), Parsers.PersonData(UnformatedDOB + a, "test x"), "only year set when circa date");
             
-            UnformatedDOB = @"'''Fred''' (reigned 27 June 1950 – 11 May 1990) was great [[Category:1950 births]]";
-            Assert.AreEqual(UnformatedDOB + a2.Replace("27 June 1950", "1950"), Parsers.PersonData(UnformatedDOB + a, "test x"), "only year set when circa date");
+            UnformatedDOB = @"'''Fred''' (reigned 27 June 1950 – 11 May 1990) was great";
+            Assert.AreEqual(UnformatedDOB + a2.Replace(" 27 June 1950", ""), Parsers.PersonData(UnformatedDOB + a, "test x"), "No dates set when reigned");
+            
+            UnformatedDOB = @"'''Fred''' (baptized 27 June 1950 – 11 May 1990) was great";
+            Assert.AreEqual(UnformatedDOB + a2.Replace(" 27 June 1950", ""), Parsers.PersonData(UnformatedDOB + a, "test x"), "No dates set when baptized");
         }
         
         [Test]
