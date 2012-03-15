@@ -398,6 +398,8 @@ namespace WikiFunctions.Parse
             if (MICall.Length > 10 && Tools.GetTemplateParameterValue(MICall, "expert").Length == 0)
                 articleText = articleText.Replace(MICall, Tools.RemoveTemplateParameter(MICall, "date"));
 
+            articleText = SectionTemplates.Replace(articleText, new MatchEvaluator(SectionTemplateConversionsME));
+            
             string newTags = "";
 
             // get the zeroth section (text upto first heading)
@@ -405,7 +407,7 @@ namespace WikiFunctions.Parse
 
             // get the rest of the article including first heading (may be null if entire article falls in zeroth section)
             string restOfArticle = articleText.Remove(0, zerothSection.Length);
-
+            
             int tagsToAdd = WikiRegexes.MultipleIssuesTemplates.Matches(zerothSection).Count;
 
             // if currently no {{Multiple issues}} and less than the min number of cleanup templates, do nothing
