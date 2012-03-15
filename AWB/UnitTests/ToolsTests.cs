@@ -1880,89 +1880,96 @@ Start date and age
         [Test]
         public void MakeHumanCatKeyOneWordNames()
         {
-            Assert.AreEqual("Onewordname", Tools.MakeHumanCatKey("OneWordName"));
-            Assert.AreEqual("Onewordname", Tools.MakeHumanCatKey("ONEWORDNAME"));
-            Assert.AreEqual("Onewordname", Tools.MakeHumanCatKey("Onewordname"));
-            Assert.AreEqual("Onewordname", Tools.MakeHumanCatKey("onewordname"));
+            Assert.AreEqual("Onewordname", Tools.MakeHumanCatKey("OneWordName", ""));
+            Assert.AreEqual("Onewordname", Tools.MakeHumanCatKey("ONEWORDNAME", ""));
+            Assert.AreEqual("Onewordname", Tools.MakeHumanCatKey("Onewordname", ""));
+            Assert.AreEqual("Onewordname", Tools.MakeHumanCatKey("onewordname", ""));
         }
         
         [Test]
         public void MakeHumanCatKeyPersonOfPlace()
         {
-            Assert.AreEqual("Foo Of London", Tools.MakeHumanCatKey("Foo of London"));
-            Assert.AreEqual("Foe Of London", Tools.MakeHumanCatKey("Foé of London"));
-            Assert.AreEqual("Foo 02 Of London", Tools.MakeHumanCatKey("Foo II of London"));
-            Assert.AreEqual("Foo 11 Of London", Tools.MakeHumanCatKey("Foo XI of London"));
+            Assert.AreEqual("Foo Of London", Tools.MakeHumanCatKey("Foo of London", ""));
+            Assert.AreEqual("Foe Of London", Tools.MakeHumanCatKey("Foé of London", ""));
+            Assert.AreEqual("Foo 02 Of London", Tools.MakeHumanCatKey("Foo II of London", ""));
+            Assert.AreEqual("Foo 11 Of London", Tools.MakeHumanCatKey("Foo XI of London", ""));
         }
 
         [Test]
         public void MakeHumanCatKeyWithRomanNumbers()
         {
-            Assert.AreEqual("Doe, John, Iii", Tools.MakeHumanCatKey("John Doe III"));
-            Assert.AreEqual("John Iii", Tools.MakeHumanCatKey("John III"));
-            Assert.AreEqual("Xvii", Tools.MakeHumanCatKey("XVII"));
-            Assert.AreEqual("Spain, John Doe King Of, Iii", Tools.MakeHumanCatKey("John Doe King of Spain III"));
+            Assert.AreEqual("Doe, John, Iii", Tools.MakeHumanCatKey("John Doe III", ""));
+            Assert.AreEqual("John Iii", Tools.MakeHumanCatKey("John III", ""));
+            Assert.AreEqual("Xvii", Tools.MakeHumanCatKey("XVII", ""));
+            Assert.AreEqual("Spain, John Doe King Of, Iii", Tools.MakeHumanCatKey("John Doe King of Spain III", ""));
         }
 
         [Test]
         public void MakeHumanCatKeyWithJrSr()
         {
-            Assert.AreEqual("Doe, John, Jr.", Tools.MakeHumanCatKey("John Doe, Jr."));
-            Assert.AreEqual("Doe, John, Sr.", Tools.MakeHumanCatKey("John Doe, Sr."));
-            Assert.AreEqual("Doe, John, Jnr.", Tools.MakeHumanCatKey("John Doe, Jnr."));
-            Assert.AreEqual("Doe, John, Snr.", Tools.MakeHumanCatKey("John Doe, Snr."));
+            Assert.AreEqual("Doe, John, Jr.", Tools.MakeHumanCatKey("John Doe, Jr.", ""));
+            Assert.AreEqual("Doe, John, Sr.", Tools.MakeHumanCatKey("John Doe, Sr.", ""));
+            Assert.AreEqual("Doe, John, Jnr.", Tools.MakeHumanCatKey("John Doe, Jnr.", ""));
+            Assert.AreEqual("Doe, John, Snr.", Tools.MakeHumanCatKey("John Doe, Snr.", ""));
             
-            Assert.AreEqual("Doe, John, Snr.", Tools.MakeHumanCatKey("John Doe Snr."));
-            Assert.AreEqual("Hickham, Steven A., Jr.", Tools.MakeHumanCatKey("Steven A. Hickham Jr."));
-            Assert.AreEqual("Hickham, Steven A., Jnr.", Tools.MakeHumanCatKey("Steven A. Hickham Jnr."));
-            Assert.AreEqual("Hickham, Steven, Jr.", Tools.MakeHumanCatKey("Steven Hickham Jr."));
+            Assert.AreEqual("Doe, John, Snr.", Tools.MakeHumanCatKey("John Doe Snr.", ""));
+            Assert.AreEqual("Hickham, Steven A., Jr.", Tools.MakeHumanCatKey("Steven A. Hickham Jr.", ""));
+            Assert.AreEqual("Hickham, Steven A., Jnr.", Tools.MakeHumanCatKey("Steven A. Hickham Jnr.", ""));
+            Assert.AreEqual("Hickham, Steven, Jr.", Tools.MakeHumanCatKey("Steven Hickham Jr.", ""));
         }
 
         [Test]
         public void MakeHumanCatKeyWithApostrophes()
         {
-            Assert.AreEqual("Ddoe, John", Tools.MakeHumanCatKey("J'ohn D'Doe"));
-            Assert.AreEqual("Test", Tools.MakeHumanCatKey("'Test"));
+            Assert.AreEqual("Ddoe, John", Tools.MakeHumanCatKey("J'ohn D'Doe", ""));
+            Assert.AreEqual("Test", Tools.MakeHumanCatKey("'Test", ""));
         }
 
         [Test]
         public void MakeHumanCatKeyWithPrefixes()
         {
-            Assert.AreEqual("Doe, John De", Tools.MakeHumanCatKey("John de Doe"));
+            Assert.AreEqual("Doe, John De", Tools.MakeHumanCatKey("John de Doe", ""));
         }
 
         [Test]
         public void MakeHumanCatKeyDiacritics()
         {
-            Assert.AreEqual("Doe", Tools.MakeHumanCatKey("Ďöê"));
-            Assert.AreEqual("Doe, John", Tools.MakeHumanCatKey("Ĵǒħń Ďöê"));
+            Assert.AreEqual("Doe", Tools.MakeHumanCatKey("Ďöê", ""));
+            Assert.AreEqual("Doe, John", Tools.MakeHumanCatKey("Ĵǒħń Ďöê", ""));
 
-            Assert.AreEqual(@"Gu, Prince Imperial Hoeun", Tools.MakeHumanCatKey("Gu, Prince Imperial Hoeun"));
+            Assert.AreEqual(@"Gu, Prince Imperial Hoeun", Tools.MakeHumanCatKey("Gu, Prince Imperial Hoeun", ""));
 
             // Ё should be changed, but not Й
-            Assert.AreEqual("Епрстий", Tools.MakeHumanCatKey("Ёпрстий"));
+            Assert.AreEqual("Епрстий", Tools.MakeHumanCatKey("Ёпрстий", ""));
         }
 
         [Test]
         public void MakeHumanCatKeyArabicNames()
         {
-            Assert.AreEqual(@"Ahmed Mohammed Mukit", Tools.MakeHumanCatKey(@"Ahmed Mohammed Mukit"));
-            Assert.AreEqual(@"Ahmed Mohammed Mukit", Tools.MakeHumanCatKey(@"AHMED Mohammed MUKIT"));
-            Assert.AreEqual(@"Ahmed Mohammed Mukit", Tools.MakeHumanCatKey(@"ahmed Mohammed mukit"));
+            Assert.AreEqual(@"Ahmed Mohammed Mukit", Tools.MakeHumanCatKey(@"Ahmed Mohammed Mukit", ""));
+            Assert.AreEqual(@"Ahmed Mohammed Mukit", Tools.MakeHumanCatKey(@"AHMED Mohammed MUKIT", ""));
+            Assert.AreEqual(@"Ahmed Mohammed Mukit", Tools.MakeHumanCatKey(@"ahmed Mohammed mukit", ""));
             
-            Assert.AreEqual(@"Smith, John", Tools.MakeHumanCatKey(@"John Smith"));
+            Assert.AreEqual(@"Smith, John", Tools.MakeHumanCatKey(@"John Smith", ""));
         }
         
         [Test]
         public void MakeHumanCatKeyMcName()
         {
-            Assert.AreEqual(@"Mcsmith, John", Tools.MakeHumanCatKey(@"John McSmith"));
-            Assert.AreEqual(@"Macsmith, John", Tools.MakeHumanCatKey(@"John MacSmith"));
+            Assert.AreEqual(@"Mcsmith, John", Tools.MakeHumanCatKey(@"John McSmith", ""));
+            Assert.AreEqual(@"Macsmith, John", Tools.MakeHumanCatKey(@"John MacSmith", ""));
             
-            Assert.AreEqual(@"Mcsmith, John", Tools.MakeHumanCatKey(@"John Mcsmith"));
+            Assert.AreEqual(@"Mcsmith, John", Tools.MakeHumanCatKey(@"John Mcsmith", ""));
             
-            Assert.AreEqual(@"Smith, John", Tools.MakeHumanCatKey(@"John Smith"));
-            Assert.AreEqual(@"Macintosh, John", Tools.MakeHumanCatKey(@"John Macintosh"));
+            Assert.AreEqual(@"Smith, John", Tools.MakeHumanCatKey(@"John Smith", ""));
+            Assert.AreEqual(@"Macintosh, John", Tools.MakeHumanCatKey(@"John Macintosh", ""));
+        }
+        
+        [Test]
+        public void MakeHumanCatKeyFamilyName()
+        {
+        	Assert.AreEqual(@"Kong Qingdong", Tools.MakeHumanCatKey(@"Kong Qingdong", "{{Chinese name}}"));
+        	Assert.AreEqual(@"Qingdong, Kong", Tools.MakeHumanCatKey(@"Kong Qingdong", "{{foo}"));
         }
 
         [Test]
@@ -2048,7 +2055,7 @@ Start date and age
         [Test]
         public void RemoveNamespace()
         {
-            Assert.AreEqual("Doe, John", Tools.MakeHumanCatKey("Wikipedia:John Doe"));
+            Assert.AreEqual("Doe, John", Tools.MakeHumanCatKey("Wikipedia:John Doe", ""));
         }
 
         [Test]
@@ -2065,7 +2072,7 @@ Start date and age
                 for (int j = 0; j < rnd.Next(45); j++) name += allowedChars[rnd.Next(allowedChars.Length)];
                 name = Regex.Replace(name, @"\s{2,}", " ").Trim(new[] { ' ', ',' });
 
-                name = Tools.MakeHumanCatKey(name);
+                name = Tools.MakeHumanCatKey(name, "");
 
                 Assert.IsFalse(name.Contains("  "), "Sorting key shouldn't contain consecutive spaces - it breaks the sorting ({0})", name);
                 Assert.IsFalse(name.StartsWith(" "), "Sorting key shouldn't start with spaces");

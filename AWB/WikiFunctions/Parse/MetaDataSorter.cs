@@ -1024,7 +1024,7 @@ en, sq, ru
 		/// <returns></returns>
 		private static List<string> CatKeyer(IEnumerable<string> list, string name)
 		{
-			name = Tools.MakeHumanCatKey(name); // make key
+			name = Tools.MakeHumanCatKey(name, ""); // make key
 
 			//add key to cats that need it
 			List<string> newCats = new List<string>();

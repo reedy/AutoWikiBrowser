@@ -5212,13 +5212,13 @@ namespace WikiFunctions.Parse
         {
             // need some categories and no defaultsort, and a sortkey not the same as the article title
             if (((Tools.FixupDefaultSort(articleTitle) != articleTitle && !articleAboutAPerson) ||
-                 (Tools.MakeHumanCatKey(articleTitle) != articleTitle && articleAboutAPerson))
+                 (Tools.MakeHumanCatKey(articleTitle, articleText) != articleTitle && articleAboutAPerson))
                 && matches > 0 && !WikiRegexes.Defaultsort.IsMatch(articleText))
             {
                 // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Human_DEFAULTSORT
                 // if article is about a person, attempt to add a surname, forenames sort key rather than the tidied article title
                 string sortkey = articleAboutAPerson
-                    ? Tools.MakeHumanCatKey(articleTitle)
+                    ? Tools.MakeHumanCatKey(articleTitle, articleText)
                     : Tools.FixupDefaultSort(articleTitle);
 
                 // sorkteys now not case sensitive
