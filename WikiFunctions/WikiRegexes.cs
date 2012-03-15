@@ -1143,5 +1143,10 @@ namespace WikiFunctions
             new Regex(
                 @"^(http|https|ftp)\://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\-\._\?\,\'/\\\+&amp;%\$#\=~])*[^\.\,\)\(\s]$",
                 RegexOptions.Compiled);
+        
+        /// <summary>
+        /// Matches templates from Category:Surname_clarification_templates
+        /// </summary>
+        public static readonly Regex SurnameClarificationTemplates = new Regex(Tools.NestedTemplateRegex("foo").ToString().Replace(@"[Ff]oo", @"[^{}\|]*[\-_ ]name"), RegexOptions.Compiled);
     }
 }
