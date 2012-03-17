@@ -1104,7 +1104,7 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text</returns>
         public static string RefsAfterPunctuation(string articleText)
         {
-            if (!Variables.LangCode.Equals("en"))
+            if (!Variables.LangCode.Equals("en") && !Variables.LangCode.Equals("el"))
                 return articleText;
 
             // quick check of ">" followed by punctuation in article, for performance saving
