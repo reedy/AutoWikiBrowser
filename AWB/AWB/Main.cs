@@ -3465,7 +3465,7 @@ window.scrollTo(0, diffTopY);
         private void humanNameDisambigTagToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (TheArticle != null)
-                txtEdit.SelectedText = "{{Hndis|name=" + Tools.MakeHumanCatKey(TheArticle.Name) + "}}";
+                txtEdit.SelectedText = "{{Hndis|name=" + Tools.MakeHumanCatKey(TheArticle.Name, TheArticle.ArticleText) + "}}";
         }
 
         private void wikifyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3535,7 +3535,7 @@ window.scrollTo(0, diffTopY);
         private void humanNameCategoryKeyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (TheArticle != null)
-                txtEdit.SelectedText = "{{DEFAULTSORT:" + Tools.MakeHumanCatKey(TheArticle.Name) + "}}";
+                txtEdit.SelectedText = "{{DEFAULTSORT:" + Tools.MakeHumanCatKey(TheArticle.Name, TheArticle.ArticleText) + "}}";
         }
 
         private readonly Regex RegexDates = new Regex("[1-2][0-9]{3}", RegexOptions.Compiled);
@@ -3573,7 +3573,7 @@ window.scrollTo(0, diffTopY);
                     deaths = m[1].Value;
 
                 //make name, surname, firstname
-                string name = Tools.MakeHumanCatKey(TheArticle.Name);
+                string name = Tools.MakeHumanCatKey(TheArticle.Name, TheArticle.ArticleText);
 
                 string categories;
 
