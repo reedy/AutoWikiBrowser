@@ -514,7 +514,13 @@ namespace WikiFunctions.API
         #endregion
 
         #region Login / user props
+
         public void Login(string username, string password)
+        {
+            Login(username, password, "");
+        }
+
+        public void Login(string username, string password, string domain)
         {
             if (string.IsNullOrEmpty(username)) throw new ArgumentException("Username required", "username");
             //if (string.IsNullOrEmpty(password)) throw new ArgumentException("Password required", "password");
@@ -522,13 +528,15 @@ namespace WikiFunctions.API
             Reset();
             User = new UserInfo(); // we don't know for sure what will be our status in case of exception
 
-            string result = HttpPost(new[,] { { "action", "login" } },
-                                     new[,] 
-                                     { 
-                                        { "lgname", username }, 
-                                        { "lgpassword", password }
-                                     }
-                                );
+            bool domainSet = !string.IsNullOrEmpty(domain);
+            string result = HttpPost(new[,] {{"action", "login"}},
+                                     new[,]
+                                         {
+                                             {"lgname", username},
+                                             {"lgpassword", password},
+                                             {domainSet ? "lgdomain" : null, domainSet ? domain : null}
+                                         }
+                );
 
             XmlReader xr = XmlReader.Create(new StringReader(result));
             xr.ReadToFollowing("login");
@@ -538,11 +546,12 @@ namespace WikiFunctions.API
                 AdjustCookies();
                 string token = xr.GetAttribute("token");
 
-                result = HttpPost(new[,] { { "action", "login" } },
+                result = HttpPost(new[,] {{"action", "login"}},
                                   new[,]
                                       {
                                           {"lgname", username},
                                           {"lgpassword", password},
+                                          {domainSet ? "lgdomain" : null, domainSet ? domain : null},
                                           {"lgtoken", token}
                                       }
                     );

@@ -103,6 +103,14 @@ namespace WikiFunctions.API
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <param name="domain"></param>
+        void Login(string username, string password, string domain);
+
+        /// <summary>
+        /// 
+        /// </summary>
         void Logout();
 
         /// <summary>
