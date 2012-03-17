@@ -415,8 +415,8 @@ namespace WikiFunctions.Controls.Lists
             // 
             this.sortReverseAlphaMenuItem.Name = "sortReverseAlphaMenuItem";
             this.sortReverseAlphaMenuItem.Size = new System.Drawing.Size(275, 22);
-            this.sortReverseAlphaMenuItem.Text = "Sort reverse alphabetically";
-            this.sortReverseAlphaMenuItem.ToolTipText = "Sorts the list alphabetically";
+            this.sortReverseAlphaMenuItem.Text = "Sort &reverse alphabetically";
+            this.sortReverseAlphaMenuItem.ToolTipText = "Sorts the list reverse alphabetically";
             this.sortReverseAlphaMenuItem.Click += new System.EventHandler(this.sortReverseAlphebeticallyMenuItem_Click);
             // 
             // btnStop
