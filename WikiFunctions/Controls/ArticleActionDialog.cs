@@ -65,12 +65,13 @@ namespace WikiFunctions.Controls
                     Size = new Size(Width, 240);
                     chkNoRedirect.Visible = true;
                     chkWatch.Visible = true;
+                    chkDealWithAssoc.Visible = true;
 
                     messages = new string[2];
                     messages[0] = "Typo in page title";
                     messages[1] = "Reverting vandalism page move";
                 }
-                else
+                else // if (moveDeleteProtect == ArticleAction.Delete)
                 {
                     Size = new Size(Width, 100);
                     lblSummary.Location = new Point(8, 15);
@@ -97,7 +98,8 @@ namespace WikiFunctions.Controls
                     messages[13] = "[[WP:CSD#A2|Foreign language article]]";
                     messages[14] = "[[WP:CSD#A3|No content whatsoever]]";
                     messages[15] = "[[WP:CSD#A5|Transwikied articles]]";
-                    messages[16] = "[[WP:CSD#A7|No indication of importance (individuals, animals, organizations, web content)]]";
+                    messages[16] =
+                        "[[WP:CSD#A7|No indication of importance (individuals, animals, organizations, web content)]]";
                     messages[17] = "[[WP:CSD#A9|No indication of importance (musical recordings)]]";
                     messages[18] = "[[WP:CSD#A10|Recently created article that duplicates an existing topic]]";
                     messages[19] = "[[WP:CSD#R1|Redirect to non-existent page]]";
@@ -121,7 +123,9 @@ namespace WikiFunctions.Controls
         }
 
         public bool AutoProtectAll
-        { get { return chkAutoProtect.Checked; } }
+        {
+            get { return chkAutoProtect.Checked; }
+        }
 
         public string NewTitle
         {
@@ -137,39 +141,40 @@ namespace WikiFunctions.Controls
 
         public string EditProtectionLevel
         {
-            get
-            {
-                return CurrentAction == ArticleAction.Protect ? MoveDelete.EditProtectionLevel : "";
-            }
-            set
-            {
-                MoveDelete.EditProtectionLevel = value;
-            }
+            get { return CurrentAction == ArticleAction.Protect ? MoveDelete.EditProtectionLevel : ""; }
+            set { MoveDelete.EditProtectionLevel = value; }
         }
 
         public string MoveProtectionLevel
         {
-            get
-            {
-                return CurrentAction == ArticleAction.Protect ? MoveDelete.MoveProtectionLevel : "";
-            }
-            set
-            {
-                MoveDelete.MoveProtectionLevel = value;
-            }
+            get { return CurrentAction == ArticleAction.Protect ? MoveDelete.MoveProtectionLevel : ""; }
+            set { MoveDelete.MoveProtectionLevel = value; }
         }
 
         public string ProtectExpiry
-        { get { return txtExpiry.Text; } }
+        {
+            get { return txtExpiry.Text; }
+        }
 
         public bool CascadingProtection
-        { get { return chkCascadingProtection.Checked; } }
+        {
+            get { return chkCascadingProtection.Checked; }
+        }
 
         public bool NoRedirect
-        { get { return chkNoRedirect.Checked; } }
+        {
+            get { return chkNoRedirect.Checked; }
+        }
 
         public bool Watch
-        { get { return chkWatch.Checked; } }
+        {
+            get { return chkWatch.Checked; }
+        }
+
+        public bool DealWithAssocTalkPage
+        {
+            get { return chkDealWithAssoc.Checked; }
+        }
 
         private void ArticleActionDialog_Load(object sender, EventArgs e)
         {
