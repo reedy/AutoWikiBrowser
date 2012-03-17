@@ -1462,7 +1462,7 @@ namespace WikiFunctions
 				{
 					_lastMove = dlgArticleAction.Summary;
 					session.Editor.SynchronousEditor.Move(Name, dlgArticleAction.NewTitle,
-					                                      ArticleActionSummary(dlgArticleAction), true /* movetalk - probably wants dealing with on dialog*/,
+					                                      ArticleActionSummary(dlgArticleAction), dlgArticleAction.DealWithAssocTalkPage,
 					                                      dlgArticleAction.NoRedirect, dlgArticleAction.Watch);
 
 					newTitle = dlgArticleAction.NewTitle;

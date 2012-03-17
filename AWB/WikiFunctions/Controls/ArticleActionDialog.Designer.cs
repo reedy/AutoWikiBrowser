@@ -43,12 +43,13 @@
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.chkWatch = new System.Windows.Forms.CheckBox();
             this.MoveDelete = new WikiFunctions.Controls.EditProtectControl();
+            this.chkDealWithAssoc = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // txtNewTitle
             // 
-            this.txtNewTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtNewTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtNewTitle.Location = new System.Drawing.Point(62, 12);
             this.txtNewTitle.Name = "txtNewTitle";
             this.txtNewTitle.Size = new System.Drawing.Size(349, 20);
@@ -114,8 +115,8 @@
             // 
             // txtExpiry
             // 
-            this.txtExpiry.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtExpiry.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtExpiry.Location = new System.Drawing.Point(62, 38);
             this.txtExpiry.Name = "txtExpiry";
             this.txtExpiry.Size = new System.Drawing.Size(349, 20);
@@ -176,6 +177,17 @@
             this.MoveDelete.TabIndex = 6;
             this.MoveDelete.TextBoxIndexChanged += new System.EventHandler(this.MoveDelete_TextBoxIndexChanged);
             // 
+            // chkDealWithAssoc
+            // 
+            this.chkDealWithAssoc.AutoSize = true;
+            this.chkDealWithAssoc.Location = new System.Drawing.Point(93, 162);
+            this.chkDealWithAssoc.Name = "chkDealWithAssoc";
+            this.chkDealWithAssoc.Size = new System.Drawing.Size(154, 17);
+            this.chkDealWithAssoc.TabIndex = 13;
+            this.chkDealWithAssoc.Text = "Move associated talk page";
+            this.chkDealWithAssoc.UseVisualStyleBackColor = true;
+            this.chkDealWithAssoc.Visible = false;
+            // 
             // ArticleActionDialog
             // 
             this.AcceptButton = this.btnOk;
@@ -183,6 +195,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(423, 219);
+            this.Controls.Add(this.chkDealWithAssoc);
             this.Controls.Add(this.chkWatch);
             this.Controls.Add(this.chkNoRedirect);
             this.Controls.Add(this.chkAutoProtect);
@@ -202,8 +215,8 @@
             this.Name = "ArticleActionDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Enter details";
-            this.Load += new System.EventHandler(this.ArticleActionDialog_Load);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ArticleActionDialog_FormClosing);
+            this.Load += new System.EventHandler(this.ArticleActionDialog_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -225,5 +238,6 @@
         private System.Windows.Forms.CheckBox chkNoRedirect;
         private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.CheckBox chkWatch;
+        private System.Windows.Forms.CheckBox chkDealWithAssoc;
     }
 }
