@@ -194,9 +194,10 @@ namespace WikiFunctions.API
         /// </summary>
         private void AdjustCookies()
         {
-            string host = new Uri(URL).Host;
-            var newCookies = new CookieContainer();
-            var urls = new[] { new Uri(URL), new Uri("http://fnord." + host) };
+            Uri uri = new Uri(URL);
+            string host = uri.Host;
+            var newCookies = new CookieContainer(); 
+            var urls = new[] { uri, new Uri(uri.Scheme + Uri.SchemeDelimiter + "fnord." + host) };
             foreach (var u in urls)
             {
                 foreach (Cookie c in Cookies.GetCookies(u))
