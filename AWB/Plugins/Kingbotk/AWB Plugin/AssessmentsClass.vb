@@ -150,7 +150,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                            ReqPhoto OrElse State.NeedsPhoto) AndAlso (ReqPhoto OrElse State.NeedsPhoto) AndAlso _
                            p.HasReqPhotoParam Then WeAddedAReqPhotoParam = True
                         If TheArticle.PluginManagerGetSkipResults = SkipResults.SkipBadTag Then
-                            MessageBox.Show("Bad tag(s), please fix manually.", "Bad tag", MessageBoxButtons.OK, _
+                            MessageBox.Show("Bad tag(s). Fix manually.", "Bad tag", MessageBoxButtons.OK, _
                                MessageBoxIcon.Exclamation)
                             Exit For
                         End If
