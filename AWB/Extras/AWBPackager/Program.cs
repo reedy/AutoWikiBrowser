@@ -96,7 +96,6 @@ Is this SVN (1) or a release (2)? ");
                 CopyAndCreateDirectory(currFolder, Path.Combine(tmpPlugins, "CFD"), "CFD.dll");
                 CopyAndCreateDirectory(currFolder, Path.Combine(tmpPlugins, "IFD"), "IFD.dll");
                 CopyAndCreateDirectory(currFolder, Path.Combine(tmpPlugins, "NoLimitsPlugin"), "NoLimitsPlugin.dll");
-                CopyAndCreateDirectory(currFolder, Path.Combine(tmpPlugins, "Yahoo Search Plugin"), "YahooSearchPlugin.dll");
                 CopyAndCreateDirectory(currFolder, Path.Combine(tmpPlugins, "Bing Search Plugin"), "BingSearchPlugin.dll");
                 CopyAndCreateDirectory(currFolder, Path.Combine(tmpPlugins, "TypoScan Plugin"), "TypoScan.dll");
                 CopyAndCreateDirectory(currFolder, Path.Combine(tmpPlugins, "Delinker"), "DelinkerPlugin.dll");
