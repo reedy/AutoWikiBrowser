@@ -157,7 +157,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                     ' Since we're dealing with talk pages, we want a listas= even if it's the same as the
                     ' article title without namespace (otherwise it sorts to namespace)
                     Template.NewOrReplaceTemplateParm("listas", _
-                    WikiFunctions.Tools.MakeHumanCatKey(article.FullArticleTitle), article, _
+                    WikiFunctions.Tools.MakeHumanCatKey(article.FullArticleTitle, article.AlteredArticleText), article, _
                     True, False, True, "", PluginShortName)
                 End If
             End With
