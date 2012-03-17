@@ -4403,7 +4403,7 @@ window.scrollTo(0, diffTopY);
                 txtEdit.ResetFind();
             }
             else
-                MessageBox.Show("Please select a link to remove either manually or by clicking a link in the list above.");
+                MessageBox.Show("Select a link to remove either manually or by clicking a link in the list above.");
         }
 
         private void runUpdaterToolStripMenuItem_Click(object sender, EventArgs e)
