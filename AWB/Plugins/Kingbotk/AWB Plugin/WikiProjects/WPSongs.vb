@@ -9,7 +9,7 @@
 
         Dim params(-1) As TemplateParameters
 
-        OurSettingsControl = New GenericWithWorkgroups(PluginName, PluginName, True, params)
+        OurSettingsControl = New GenericWithWorkgroups(PluginName, Prefix, True, params)
     End Sub
 
     ' Settings:
@@ -83,15 +83,15 @@
     End Sub
 
     ' XML settings:
-    Protected Friend Overrides Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader)
-        Dim blnNewVal As Boolean = PluginManager.XMLReadBoolean(Reader, PluginName & "Enabled", Enabled)
+    Protected Friend Overrides Sub ReadXML(ByVal Reader As XmlTextReader)
+        Dim blnNewVal As Boolean = PluginManager.XMLReadBoolean(Reader, Prefix & "Enabled", Enabled)
         If Not blnNewVal = Enabled Then Enabled = blnNewVal ' Mustn't set if the same or we get extra tabs
         OurSettingsControl.ReadXML(Reader)
     End Sub
     Protected Friend Overrides Sub Reset()
         OurSettingsControl.Reset()
     End Sub
-    Protected Friend Overrides Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
+    Protected Friend Overrides Sub WriteXML(ByVal Writer As XmlTextWriter)
         Writer.WriteAttributeString(Prefix & "Enabled", Enabled.ToString)
         OurSettingsControl.WriteXML(Writer)
     End Sub
