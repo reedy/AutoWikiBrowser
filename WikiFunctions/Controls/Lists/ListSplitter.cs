@@ -58,7 +58,9 @@ namespace WikiFunctions.Controls.Lists
             listMaker1.MakeListEnabled = true;
         }
 
-        private readonly Regex _characterBlacklist = new Regex(@"[""/:*?<>|.]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private readonly Regex _characterBlacklist = new Regex(@"[""/:*?<>|.]",
+                                                               RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
         private void btnSave_Click(object sender, EventArgs e)
         {
             SaveDialog(saveTXT, false);
@@ -101,44 +103,42 @@ namespace WikiFunctions.Controls.Lists
             {
                 int noA = listMaker1.Count;
 
-                int roundlimit = Convert.ToInt32(numSplitAmount.Value / 2);
+                int roundlimit = Convert.ToInt32(numSplitAmount.Value/2);
 
-                if ((noA % numSplitAmount.Value) <= roundlimit)
+                if ((noA%numSplitAmount.Value) <= roundlimit)
                     noA += roundlimit;
 
                 int noGroups =
-                	Convert.ToInt32(Math.Round(noA / numSplitAmount.Value));
+                    Convert.ToInt32(Math.Round(noA/numSplitAmount.Value));
 
+                int baseIndex = 0;
+                int splitValue = (int) numSplitAmount.Value;
+                var articles = listMaker1.GetArticleList();
                 if (xml)
                 {
                     string pathPrefix = path.Replace(".xml", " {0}.xml");
-                    for (int i = 0; i < noGroups; i++)
+
+                    for (int i = 1; i <= noGroups; i++)
                     {
-                        List<Article> listart = new List<Article>();
-                        for (int j = 0; j < numSplitAmount.Value && listMaker1.Count != 0; j++)
-                        {
-                            listart.Add(listMaker1[j]);
-                        }
-
-                        _p.List.ArticleList = listart;
-
-                        UserPrefs.SavePrefs(_p, string.Format(pathPrefix, i + 1));
+                        _p.List.ArticleList = articles.GetRange(baseIndex, Math.Min(splitValue, articles.Count));
+                        baseIndex += splitValue;
+                        UserPrefs.SavePrefs(_p, string.Format(pathPrefix, i));
                     }
                     MessageBox.Show("Lists Saved to AWB Settings Files");
                 }
                 else
                 {
                     string pathPrefix = path.Replace(".txt", " {0}.txt");
-                    for (int i = 0; i < noGroups; i++)
+                    for (int i = 1; i <= noGroups; i++)
                     {
                         StringBuilder strList = new StringBuilder();
-
-                        for (int j = 0; j < numSplitAmount.Value && listMaker1.Count != 0; j++)
+                        foreach (Article a in articles.GetRange(baseIndex, Math.Min(splitValue, articles.Count)))
                         {
-                            strList.AppendLine(listMaker1[j].ToString());
+                            strList.AppendLine(a.ToString());
                         }
-                        Tools.WriteTextFileAbsolutePath(strList.ToString(), string.Format(pathPrefix, i + 1),
+                        Tools.WriteTextFileAbsolutePath(strList.ToString().TrimEnd(), string.Format(pathPrefix, i),
                                                         false);
+                        baseIndex += splitValue;
                     }
                     MessageBox.Show("Lists saved to text files");
                 }
