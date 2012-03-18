@@ -36,10 +36,10 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             Next
             ToggleAWBCleanup(PluginSettings.Cleanup)
 
-            AddHandler PluginSettings.CleanupCheckBox.CheckedChanged, AddressOf Me.CleanupCheckBox_CheckedChanged
-            AddHandler PluginManager.AWBForm.TheSession.StateChanged, AddressOf Me.EditorStatusChanged
-            AddHandler PluginManager.AWBForm.SaveButton.Click, AddressOf Me.Save_Click
-            AddHandler PluginManager.AWBForm.SkipButton.Click, AddressOf Me.Skip_Click
+            AddHandler PluginSettings.CleanupCheckBox.CheckedChanged, AddressOf CleanupCheckBox_CheckedChanged
+            AddHandler PluginManager.AWBForm.TheSession.StateChanged, AddressOf EditorStatusChanged
+            AddHandler PluginManager.AWBForm.SaveButton.Click, AddressOf Save_Click
+            AddHandler PluginManager.AWBForm.SkipButton.Click, AddressOf Skip_Click
         End Sub
 
 #Region "IDisposable"
@@ -54,10 +54,10 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                 ' The object is being disposed, not finalized.
                 ' It is safe to access other objects (other than the mybase object)
                 ' only from inside this block
-                RemoveHandler PluginSettings.CleanupCheckBox.CheckedChanged, AddressOf Me.CleanupCheckBox_CheckedChanged
-                RemoveHandler PluginManager.AWBForm.TheSession.StateChanged, AddressOf Me.EditorStatusChanged
-                RemoveHandler PluginManager.AWBForm.SaveButton.Click, AddressOf Me.Save_Click
-                RemoveHandler PluginManager.AWBForm.SkipButton.Click, AddressOf Me.Skip_Click
+                RemoveHandler PluginSettings.CleanupCheckBox.CheckedChanged, AddressOf CleanupCheckBox_CheckedChanged
+                RemoveHandler PluginManager.AWBForm.TheSession.StateChanged, AddressOf EditorStatusChanged
+                RemoveHandler PluginManager.AWBForm.SaveButton.Click, AddressOf Save_Click
+                RemoveHandler PluginManager.AWBForm.SkipButton.Click, AddressOf Skip_Click
             End If
 
             ' Perform cleanup that has to be executed in either case:
@@ -66,7 +66,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             State = Nothing
 
             ' Remember that this object has been disposed of:
-            Me.disposed = True
+            disposed = True
         End Sub
 
         Friend Sub Dispose() Implements IDisposable.Dispose
@@ -222,14 +222,14 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                     LoadTalkPage()
                 Else
                     LoadArticle()
-                    PluginManager.AWBForm.TraceManager.SkippedArticle("User", WikiFunctions.Logging.AWBLogListener.StringUserSkipped)
+                    PluginManager.AWBForm.TraceManager.SkippedArticle("User", Logging.AWBLogListener.StringUserSkipped)
                     PluginSettings.PluginStats.SkippedMiscellaneousIncrement(True)
                 End If
 
                 State.NextEventShouldBeMainSpace = Not State.NextEventShouldBeMainSpace
             End If
         End Sub
-        Private Sub CleanupCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs)
+        Private Sub CleanupCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs)
             If Not disposed AndAlso PluginSettings.Cleanup Then _
                ToggleAWBCleanup(True)
         End Sub

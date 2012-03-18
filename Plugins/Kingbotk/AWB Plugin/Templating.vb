@@ -80,7 +80,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         ByVal TheArticle As Article, ByVal LogItAndUpdateEditSummary As Boolean, ByVal DontChangeIfSet As Boolean, _
         ByVal PluginName As String) As Boolean
             Dim ExistingValue As String = _
-               WikiFunctions.WikiRegexes.Comments.Replace(Parameters(ParameterName).Value, "").Trim ' trim still needed because altho main regex shouldn't give us spaces at the end of vals any more, the .Replace here might
+               WikiRegexes.Comments.Replace(Parameters(ParameterName).Value, "").Trim ' trim still needed because altho main regex shouldn't give us spaces at the end of vals any more, the .Replace here might
 
             If Not ExistingValue = ParameterValue Then ' Contains parameter with a different value
                 If ExistingValue = "" OrElse Not DontChangeIfSet _

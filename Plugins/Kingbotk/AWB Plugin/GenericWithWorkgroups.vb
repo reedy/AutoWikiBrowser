@@ -63,7 +63,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Private Const conAutoStubParm As String = "AutoStub"
 
 #Region "XML interface"
-        Friend Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader) Implements IGenericSettings.ReadXML
+        Friend Sub ReadXML(ByVal Reader As XmlTextReader) Implements IGenericSettings.ReadXML
             For Each lvi As ListViewItem In ListView1.Items
                 Dim tp As TemplateParameters = DirectCast(lvi.Tag, TemplateParameters)
                 lvi.Checked = PluginManager.XMLReadBoolean(Reader, Prefix & tp.StorageKey, lvi.Checked)
@@ -76,7 +76,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             End If
         End Sub
 
-        Friend Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter) Implements IGenericSettings.WriteXML
+        Friend Sub WriteXML(ByVal Writer As XmlTextWriter) Implements IGenericSettings.WriteXML
             With Writer
                 For Each lvi As ListViewItem In ListView1.Items
                     Dim tp As TemplateParameters = DirectCast(lvi.Tag, TemplateParameters)
@@ -144,17 +144,13 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         ' Event handlers:
         Private Sub LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
-            Tools.OpenENArticleInBrowser(WikiFunctions.Variables.Namespaces(WikiFunctions.Namespace.Template) & Template, False)
+            Tools.OpenENArticleInBrowser(Variables.Namespaces(WikiFunctions.Namespace.Template) & Template, False)
         End Sub
 
-        Private Sub InsertTemplateToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-            PluginManager.EditBoxInsert("{{" & Template & "}}")
-        End Sub
-
-        Private Sub AutoStubCheckBox_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles AutoStubCheckBox.CheckedChanged
+        Private Sub AutoStubCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles AutoStubCheckBox.CheckedChanged
             If AutoStubCheckBox.Checked Then StubClassCheckBox.Checked = False
         End Sub
-        Private Sub StubClassCheckBox_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles StubClassCheckBox.CheckedChanged
+        Private Sub StubClassCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles StubClassCheckBox.CheckedChanged
             If StubClassCheckBox.Checked Then AutoStubCheckBox.Checked = False
         End Sub
     End Class

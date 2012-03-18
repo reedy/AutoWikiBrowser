@@ -27,9 +27,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         ByRef Infobox As Boolean, ByRef Attention As Boolean, _
         ByRef NeedsPhoto As Boolean, ByVal Title As String) As DialogResult
 
-            Me.Text += ": " & Title
+            Text += ": " & Title
 
-            Dim res As DialogResult = Me.ShowDialog()
+            ShowDialog()
             If ClassCheckedListBox.SelectedIndices.Count = 0 Then
                 Clss = Classification.Unassessed
             Else
@@ -46,14 +46,14 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         End Function
 
         ' Button event handlers:
-        Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) _
+        Private Sub OK_Button_Click(ByVal sender As System.Object, ByVal e As EventArgs) _
         Handles OK_Button.Click
-            Me.Close()
+            Close()
         End Sub
 
-        Private Sub Cancel_Button_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) _
+        Private Sub Cancel_Button_Click(ByVal sender As Object, ByVal e As EventArgs) _
         Handles Cancel_Button.Click
-            Me.Close()
+            Close()
         End Sub
         
     End Class

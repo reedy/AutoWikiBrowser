@@ -54,7 +54,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         Protected Friend Overrides ReadOnly Property PluginShortName() As String
             Get
-                Return Constants.Biography
+                Return Biography
             End Get
         End Property
         Protected Overrides ReadOnly Property PreferredTemplateName() As String
@@ -98,7 +98,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         ' Initialisation:
         Protected Friend Overrides Sub Initialise()
             OurMenuItem = New ToolStripMenuItem("Biography Plugin")
-            MyBase.InitialiseBase() ' must set menu item object first
+            InitialiseBase() ' must set menu item object first
             OurTab.UseVisualStyleBackColor = True
             OurTab.Controls.Add(OurSettingsControl)
         End Sub
@@ -124,9 +124,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                         Else
                             Select Case tp.ParamName
                                 Case "Not Living"
-                                    Living = Plugins.Living.Dead
+                                    Living = Living.Dead
                                 Case "Living"
-                                    Living = Plugins.Living.Living
+                                    Living = Living.Living
                             End Select
                         End If
                     End If
@@ -134,7 +134,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             End With
 
             Select Case Living
-                Case Plugins.Living.Living
+                Case Living.Living
                     If Not Template.HasYesParamLowerOrTitleCase(True, "living") Then
                         If LivingAlreadyAddedToEditSummary Then
                             AddNewParamWithAYesValue("living")
@@ -142,12 +142,12 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                             AddAndLogNewParamWithAYesValue("living")
                         End If
                     End If
-                Case Plugins.Living.Dead
+                Case Living.Dead
                     If Not Template.HasYesParamLowerOrTitleCase(False, "living") Then
                         Template.NewOrReplaceTemplateParm("living", "no", article, True, False, False, _
                         "", PluginShortName, True)
                     End If
-                Case Plugins.Living.Unknown
+                Case Living.Unknown
                     Template.NewOrReplaceTemplateParm("living", "", article, False, False, True, _
                         "", PluginShortName, True)
             End Select
@@ -157,7 +157,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                     ' Since we're dealing with talk pages, we want a listas= even if it's the same as the
                     ' article title without namespace (otherwise it sorts to namespace)
                     Template.NewOrReplaceTemplateParm("listas", _
-                    WikiFunctions.Tools.MakeHumanCatKey(article.FullArticleTitle, article.AlteredArticleText), article, _
+                    Tools.MakeHumanCatKey(article.FullArticleTitle, article.AlteredArticleText), article, _
                     True, False, True, "", PluginShortName)
                 End If
             End With
@@ -191,15 +191,12 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
         End Sub
         Protected Overrides Function WriteTemplateHeader() As String
-            Dim Living As Boolean
             Dim res As String = "{{WikiProject Biography" & Microsoft.VisualBasic.vbCrLf
 
             With Template
                 If .Parameters.ContainsKey("living") Then
                     .Parameters("living").Value = .Parameters("living").Value.ToLower
                     res += "|living=" + .Parameters("living").Value + ParameterBreak
-
-                    Living = .Parameters("living").Value = "yes"
 
                     .Parameters.Remove("living") ' we've written this parameter; if we leave it in the collection PluginBase.TemplateWritingAndPlacement() will write it again
                 End If
@@ -216,7 +213,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Sub
 
         ' XML settings:
-        Protected Friend Overrides Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader)
+        Protected Friend Overrides Sub ReadXML(ByVal Reader As XmlTextReader)
             Dim blnNewVal As Boolean = PluginManager.XMLReadBoolean(Reader, Prefix & "Enabled", Enabled)
             If Not blnNewVal = Enabled Then Enabled = blnNewVal ' Mustn't set if the same or we get extra tabs
 
@@ -226,7 +223,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Protected Friend Overrides Sub Reset()
             OurSettingsControl.Reset()
         End Sub
-        Protected Friend Overrides Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
+        Protected Friend Overrides Sub WriteXML(ByVal Writer As XmlTextWriter)
             Writer.WriteAttributeString(Prefix & "Enabled", Enabled.ToString)
             OurSettingsControl.WriteXML(Writer)
         End Sub

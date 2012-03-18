@@ -15,7 +15,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Private WithEvents LivingPeopleToolStripMenuItem As New ToolStripMenuItem("Living people")
 
         ' XML parm-name constants:
-        Private Const conCategoryNameParm As String = "CategoryName"
         Private Const conManuallyAssessParm As String = "ManuallyAssess"
         Private Const conCleanupParm As String = "Cleanup"
         Private Const conSkipBadTagsParm As String = "SkipBadTags"
@@ -30,13 +29,13 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Friend Sub New()
             ' This call is required by the Windows Form Designer and must come first:
             InitializeComponent()
-            AddHandler LivingPeopleToolStripMenuItem.Click, AddressOf Me.LivingPeopleToolStripMenuItemClick
+            AddHandler LivingPeopleToolStripMenuItem.Click, AddressOf LivingPeopleToolStripMenuItemClick
 
             With PluginManager.AWBForm
                 .CategoryTextBox.ContextMenuStrip.Items.Insert(0, LivingPeopleToolStripMenuItem)
                 .CategoryTextBox.ContextMenuStrip.Items.Insert(1, New ToolStripSeparator())
 
-                AddHandler .SkipNoChangesCheckBox.CheckedChanged, AddressOf Me.SkipNoChangesCheckBoxCheckedChanged
+                AddHandler .SkipNoChangesCheckBox.CheckedChanged, AddressOf SkipNoChangesCheckBoxCheckedChanged
             End With
 
             StatLabels.AddRange(New Label() {lblTagged, lblSkipped, lblNoChange, lblBadTag, lblNamespace, lblRedlink})
@@ -119,7 +118,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         End Property
 
         ' XML interface:
-        Friend Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader)
+        Friend Sub ReadXML(ByVal Reader As XmlTextReader)
             ManuallyAssess = PluginManager.XMLReadBoolean(Reader, conManuallyAssessParm, ManuallyAssess)
             Cleanup = PluginManager.XMLReadBoolean(Reader, conCleanupParm, Cleanup)
             SkipBadTags = PluginManager.XMLReadBoolean(Reader, conSkipBadTagsParm, SkipBadTags)
@@ -137,7 +136,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             AssessmentsAlwaysLeaveAComment = False
             OpenBadInBrowser = False
         End Sub
-        Friend Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
+        Friend Sub WriteXML(ByVal Writer As XmlTextWriter)
             Writer.WriteAttributeString(conManuallyAssessParm, ManuallyAssess.ToString)
             Writer.WriteAttributeString(conCleanupParm, Cleanup.ToString)
             Writer.WriteAttributeString(conSkipBadTagsParm, SkipBadTags.ToString)
@@ -160,11 +159,11 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Private Sub LivingPeopleToolStripMenuItemClick(ByVal sender As Object, ByVal e As EventArgs)
             CategoryName = "Living people"
         End Sub
-        Private Sub MenuAbout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuAbout.Click
+        Private Sub MenuAbout_Click(ByVal sender As Object, ByVal e As EventArgs) Handles MenuAbout.Click
             Dim about As New AboutBox()
             about.Show()
         End Sub
-        Private Sub MenuHelp_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles MenuHelp.Click
+        Private Sub MenuHelp_Click(ByVal sender As Object, ByVal e As EventArgs) Handles MenuHelp.Click
             PluginManager.AWBForm.ShowHelpEnWiki("User:Kingbotk/Plugin/User guide")
         End Sub
         ' Event handlers - our controls:
@@ -191,8 +190,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Private Sub ResetTimerButton_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ResetTimerButton.Click
             TimerStats1.Reset()
         End Sub
-        Private Sub SkipBadTagsCheckBox_CheckedChanged(ByVal sender As System.Object, _
-        ByVal e As System.EventArgs) Handles SkipBadTagsCheckBox.CheckedChanged
+        Private Sub SkipBadTagsCheckBox_CheckedChanged(ByVal sender As Object, _
+        ByVal e As EventArgs) Handles SkipBadTagsCheckBox.CheckedChanged
             OpenBadInBrowserCheckBox.Visible = SkipBadTagsCheckBox.Checked
         End Sub
         Private Sub SkipNoChangesCheckBoxCheckedChanged(ByVal sender As Object, ByVal e As EventArgs)
@@ -219,72 +218,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Private Sub PluginStats_RedLink(ByVal val As Integer) Handles PluginStats.RedLink
             lblRedlink.Text = val.ToString
         End Sub
-#Region "TextInsertHandlers"
-        ' Event handlers: Insert-text context menu:
-        Private Sub StubClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
-            PluginManager.EditBoxInsert("|class=Stub")
-        End Sub
-        Private Sub StartClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
-            PluginManager.EditBoxInsert("|class=Start")
-        End Sub
-        Private Sub BClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
-            PluginManager.EditBoxInsert("|class=B")
-        End Sub
-        Private Sub GAClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
-            PluginManager.EditBoxInsert("|class=GA")
-        End Sub
-        Private Sub AClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
-            PluginManager.EditBoxInsert("|class=A")
-        End Sub
-        Private Sub FAClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
-            PluginManager.EditBoxInsert("|class=FA")
-        End Sub
-        Private Sub NeededClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
-            PluginManager.EditBoxInsert("|class=Needed")
-        End Sub
-        Private Sub CatClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
-            PluginManager.EditBoxInsert("|class=Cat")
-        End Sub
-        Private Sub DabClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
-            PluginManager.EditBoxInsert("|class=Dab")
-        End Sub
-        Private Sub TemplateClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
-            PluginManager.EditBoxInsert("|class=Template")
-        End Sub
-        Private Sub NAClassMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
-            PluginManager.EditBoxInsert("|class=NA")
-        End Sub
-        Private Sub LowImportanceMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
-            PluginManager.EditBoxInsert("|importance=Low")
-        End Sub
-        Private Sub MidImportanceMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
-            PluginManager.EditBoxInsert("|importance=Mid")
-        End Sub
-        Private Sub HighImportanceMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
-            PluginManager.EditBoxInsert("|importance=High")
-        End Sub
-        Private Sub TopImportanceMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
-            PluginManager.EditBoxInsert("|importance=Top")
-        End Sub
-        Private Sub NAImportanceMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
-            PluginManager.EditBoxInsert("|importance=NA")
-        End Sub
-        Private Sub LowPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
-            PluginManager.EditBoxInsert("|priority=Low")
-        End Sub
-        Private Sub MidPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
-            PluginManager.EditBoxInsert("|priority=Mid")
-        End Sub
-        Private Sub HighPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
-            PluginManager.EditBoxInsert("|priority=High")
-        End Sub
-        Private Sub TopPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
-            PluginManager.EditBoxInsert("|priority=Top")
-        End Sub
-        Private Sub NAPriorityMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
-            PluginManager.EditBoxInsert("|priority=NA")
-        End Sub
-#End Region
 
         ' Statistics:
         Friend NotInheritable Class Stats
@@ -386,7 +319,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             End Sub
         End Class
 
-        Private Sub SkipNoChangesCheckBox_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SkipNoChangesCheckBox.CheckedChanged
+        Private Sub SkipNoChangesCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) Handles SkipNoChangesCheckBox.CheckedChanged
             If (PluginManager.AWBForm.SkipNoChanges <> SkipNoChangesCheckBox.Checked) Then
                 PluginManager.AWBForm.SkipNoChanges = SkipNoChangesCheckBox.Checked
             End If

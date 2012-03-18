@@ -55,7 +55,7 @@
 
     Protected Friend Overrides Sub Initialise()
         OurMenuItem = New ToolStripMenuItem("Songs Plugin")
-        MyBase.InitialiseBase() ' must set menu item object first
+        InitialiseBase() ' must set menu item object first
         OurTab.UseVisualStyleBackColor = True
         OurTab.Controls.Add(OurSettingsControl)
     End Sub

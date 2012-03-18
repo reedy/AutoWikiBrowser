@@ -74,7 +74,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             Dim BadTemplate As Boolean
             Dim res As Boolean = False
 
-            Me.article = A
+            article = A
 
             If SkipIfContains() Then
                 A.PluginIHaveFinished(SkipResults.SkipRegex, PluginShortName)
@@ -83,7 +83,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                 Dim OriginalArticleText As String = A.AlteredArticleText
 
                 Template = New Templating
-                A.AlteredArticleText = MainRegex.Replace(A.AlteredArticleText, AddressOf Me.MatchEvaluator)
+                A.AlteredArticleText = MainRegex.Replace(A.AlteredArticleText, AddressOf MatchEvaluator)
 
                 If Template.BadTemplate Then
                     BadTemplate = True
@@ -216,7 +216,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         ByVal ForceNeedsAttention As Boolean, ByVal RemoveAutoStub As Boolean, _
         ByVal ProcessTalkPageMode As ProcessTalkPageMode)
             Select Case Classification
-                Case Kingbotk.Classification.Code
+                Case Classification.Code
                     If ProcessTalkPageMode = ProcessTalkPageMode.NonStandardTalk Then
                         Select Case article.Namespace
                             Case [Namespace].CategoryTalk
@@ -243,13 +243,13 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
 
                         End Select
                     End If
-                Case Kingbotk.Classification.Unassessed
+                Case Classification.Unassessed
                 Case Else
-                    Template.NewOrReplaceTemplateParm("class", Classification.ToString, Me.article, False, False)
+                    Template.NewOrReplaceTemplateParm("class", Classification.ToString, article, False, False)
             End Select
 
             Select Case Importance
-                Case Kingbotk.Importance.Code, Kingbotk.Importance.Unassessed
+                Case Importance.Code, Importance.Unassessed
                 Case Else
                     ImportanceParameter(Importance)
             End Select
@@ -286,7 +286,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             End With
         End Function
         Protected Sub StubClass()
-            If Me.article.Namespace = [Namespace].Talk Then
+            If article.Namespace = [Namespace].Talk Then
                 If GenericSettings.StubClass Then Template.NewOrReplaceTemplateParm("class", "Stub", article, _
                    True, False, PluginName:=PluginShortName, DontChangeIfSet:=True)
 
@@ -356,7 +356,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         Protected MustOverride Sub ShowHideOurObjects(ByVal Visible As Boolean)
 
         ' Event handlers:
-        Private Sub ourmenuitem_CheckedChanged(ByVal sender As Object, ByVal e As System.EventArgs) _
+        Private Sub ourmenuitem_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
         Handles OurMenuItem.CheckedChanged
             Enabled = OurMenuItem.Checked
         End Sub
@@ -412,7 +412,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
 
             If mHasAlternateNames Then
                 PreferredTemplateNameRegex = New Regex(PreferredTemplateNameRegexCreator.Replace(PreferredTemplateName, _
-                   AddressOf Me.PreferredTemplateNameWikiMatchEvaluator), RegexOptions.Compiled)
+                   AddressOf PreferredTemplateNameWikiMatchEvaluator), RegexOptions.Compiled)
             Else
                 PreferredTemplateNameRegex = Nothing
             End If
@@ -449,7 +449,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
 
             PluginManager.StatusText.Text = message
             PluginManager.AWBForm.TraceManager.WriteBulletedLine(conAWBPluginName & ":" & message, False, False, True)
-            System.Windows.Forms.Application.DoEvents() ' the statusbar text wasn't updating without this; if happens elsewhere may need to write a small subroutine
+            Windows.Forms.Application.DoEvents() ' the statusbar text wasn't updating without this; if happens elsewhere may need to write a small subroutine
 
             Try
                 Return rlp.MakeList([Namespace].Template, New String() {Variables.Namespaces([Namespace].Template) & Target})
@@ -476,14 +476,14 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         End Function
 
         ' XML:
-        Friend Overridable Sub ReadXMLRedirects(ByVal Reader As System.Xml.XmlTextReader)
+        Friend Overridable Sub ReadXMLRedirects(ByVal Reader As XmlTextReader)
             ' For compiled template plugins, a Redirect string read in from XML is for backup use only if getting from WP fails
             ' Generic templates already support AlternateNames property so will override this
             Dim Redirs As String = PluginManager.XMLReadString(Reader, RedirectsParm, mLastKnownGoodRedirects)
 
             If Not Redirs = "" Then mLastKnownGoodRedirects = Redirs
         End Sub
-        Friend Overridable Sub WriteXMLRedirects(ByVal Writer As System.Xml.XmlTextWriter)
+        Friend Overridable Sub WriteXMLRedirects(ByVal Writer As XmlTextWriter)
             If Not mLastKnownGoodRedirects = "" Then Writer.WriteAttributeString(RedirectsParm, mLastKnownGoodRedirects)
         End Sub
         Protected ReadOnly Property RedirectsParm() As String
@@ -497,8 +497,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         Property AutoStub() As Boolean
         Property StubClass() As Boolean
         WriteOnly Property StubClassModeAllowed() As Boolean
-        Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader)
-        Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
+        Sub ReadXML(ByVal Reader As XmlTextReader)
+        Sub WriteXML(ByVal Writer As XmlTextWriter)
         Sub XMLReset()
     End Interface
 End Namespace

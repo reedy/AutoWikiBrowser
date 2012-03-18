@@ -143,7 +143,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.lblNamespace.Size = New System.Drawing.Size(0, 13)
             Me.lblNamespace.TabIndex = 41
             Me.ToolTip1.SetToolTip(Me.lblNamespace, "Number of articles skipped because they were in an incorrect namespace (e.g. we w" & _
-                    "on't tag articles with talk page templates)")
+            "on't tag articles with talk page templates)")
             '
             'Label5
             '
@@ -154,7 +154,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.Label5.TabIndex = 4
             Me.Label5.Text = "Namespace:"
             Me.ToolTip1.SetToolTip(Me.Label5, "Number of articles skipped because they were in an incorrect namespace (e.g. we w" & _
-                    "on't tag articles with talk page templates)")
+            "on't tag articles with talk page templates)")
             '
             'Label4
             '
@@ -207,7 +207,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.ManuallyAssessCheckBox.TabIndex = 38
             Me.ManuallyAssessCheckBox.Text = "Assess"
             Me.ToolTip1.SetToolTip(Me.ManuallyAssessCheckBox, "Assess articles by loading an article list and having the plugin load the talk pa" & _
-                    "ge after the article has been reviewed")
+            "ge after the article has been reviewed")
             Me.ManuallyAssessCheckBox.UseVisualStyleBackColor = True
             '
             'CleanupCheckBox
@@ -220,7 +220,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.CleanupCheckBox.TabIndex = 39
             Me.CleanupCheckBox.Text = "Clean Up"
             Me.ToolTip1.SetToolTip(Me.CleanupCheckBox, "Clean-up articles during the assessment process (Unicodify, auto-tag and general " & _
-                    "fixes)")
+            "fixes)")
             Me.CleanupCheckBox.UseVisualStyleBackColor = True
             '
             'Label7
@@ -242,7 +242,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.SkipNoChangesCheckBox.TabIndex = 46
             Me.SkipNoChangesCheckBox.Text = "N/C"
             Me.ToolTip1.SetToolTip(Me.SkipNoChangesCheckBox, "Skip the talk page if the plugin doesn't make a change (suggest YES for bots, NO " & _
-                    "for manual editing)")
+            "for manual editing)")
             Me.SkipNoChangesCheckBox.UseVisualStyleBackColor = True
             '
             'SkipBadTagsCheckBox
@@ -254,7 +254,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.SkipBadTagsCheckBox.TabIndex = 47
             Me.SkipBadTagsCheckBox.Text = "Bad"
             Me.ToolTip1.SetToolTip(Me.SkipBadTagsCheckBox, "Skip the talk page if the existing template instance is bad  (suggest YES for bot" & _
-                    "s, NO for manual editing)")
+            "s, NO for manual editing)")
             Me.SkipBadTagsCheckBox.UseVisualStyleBackColor = True
             '
             'lblAWBNudges
@@ -327,7 +327,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.PluginMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PluginToolStripMenuItem, Me.MenuAbout, Me.MenuHelp})
             Me.PluginMenuStrip.Location = New System.Drawing.Point(0, 0)
             Me.PluginMenuStrip.Name = "PluginMenuStrip"
-            Me.PluginMenuStrip.Size = New System.Drawing.Size(442, 24)
+            Me.PluginMenuStrip.Size = New System.Drawing.Size(534, 24)
             Me.PluginMenuStrip.TabIndex = 42
             Me.PluginMenuStrip.Text = "MenuStrip1"
             Me.PluginMenuStrip.Visible = False
@@ -342,7 +342,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             'SetAWBToolStripMenuItem
             '
             Me.SetAWBToolStripMenuItem.Name = "SetAWBToolStripMenuItem"
-            Me.SetAWBToolStripMenuItem.Size = New System.Drawing.Size(119, 22)
+            Me.SetAWBToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
             Me.SetAWBToolStripMenuItem.Text = "Set AWB"
             Me.SetAWBToolStripMenuItem.ToolTipText = "Reset AWB to default values suitable for use with the plugin"
             '
