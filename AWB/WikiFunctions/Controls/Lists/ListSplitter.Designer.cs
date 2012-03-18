@@ -53,7 +53,7 @@
             0,
             0});
             this.numSplitAmount.Minimum = new decimal(new int[] {
-            100,
+            1,
             0,
             0,
             0});
@@ -61,7 +61,7 @@
             this.numSplitAmount.Size = new System.Drawing.Size(55, 20);
             this.numSplitAmount.TabIndex = 2;
             this.numSplitAmount.Value = new decimal(new int[] {
-            100,
+            1,
             0,
             0,
             0});
