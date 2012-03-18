@@ -18,7 +18,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Private ReadOnly mName As String
 
         ' Enums:
-        Friend Enum ImportanceSettingEnum
+        Friend Enum ImportanceSettingEnum As Integer
             Imp
             Pri
             None

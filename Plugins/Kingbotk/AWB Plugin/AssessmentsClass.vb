@@ -117,7 +117,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             State.NextEventShouldBeMainSpace = True
             State.NextArticleShouldBeTalk = True
         End Sub
-        Friend Function ProcessTalkPage(ByVal TheArticle As Article, ByVal PluginSettings As PluginSettingsControl, _
+        Friend Function ProcessTalkPage(ByVal TheArticle As Article, ByVal pluginSettings As PluginSettingsControl, _
         ByRef ReqPhoto As Boolean) As Boolean
             Dim WeAddedAReqPhotoParam, returnVal As Boolean
 
@@ -156,7 +156,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                         End If
                     Next
                 Else
-                    PluginSettings.PluginStats.SkippedMiscellaneousIncrement(False)
+                    pluginSettings.PluginStats.SkippedMiscellaneousIncrement(False)
                     PluginManager.StatusText.Text = "Skipping this talk page"
                     LoadArticle()
                 End If
