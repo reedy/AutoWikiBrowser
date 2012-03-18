@@ -705,11 +705,11 @@ SkipOrStop:
             End While
         End Sub
         Private Shared Sub ReadGenericTemplatesFromXML(ByVal Count As Integer, ByVal Reader As XmlTextReader)
-            Dim PluginName As String
+            Dim plugin As String
 
             For i As Integer = 0 To Count - 1
-                PluginName = XMLReadString(Reader, conGenericTemplate & i.ToString, "").Trim
-                If Not Plugins.ContainsKey(PluginName) Then CreateNewGenericPlugin(PluginName, "ReadXML()")
+                plugin = XMLReadString(Reader, conGenericTemplate & i.ToString, "").Trim
+                If Not Plugins.ContainsKey(plugin) Then CreateNewGenericPlugin(plugin, "ReadXML()")
             Next
         End Sub
 
