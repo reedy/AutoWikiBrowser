@@ -4,7 +4,7 @@
     Friend Sub New()
         MyBase.New("") ' Specify alternate names only
 
-        OurSettingsControl = New GenericWithWorkgroups(PluginName, Prefix, True, params)
+        OurSettingsControl = New GenericWithWorkgroups(PluginName, Prefix, True)
     End Sub
 
     Const Prefix As String = "Aus"

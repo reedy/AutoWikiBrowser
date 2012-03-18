@@ -180,7 +180,7 @@
         End With
     End Function
 
-    Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
+    Protected Overrides Sub GotTemplateNotPreferredName(ByVal templateName As String)
         ' Currently only WPBio does anything here (if {{musician}} add to musician-work-group)
     End Sub
 

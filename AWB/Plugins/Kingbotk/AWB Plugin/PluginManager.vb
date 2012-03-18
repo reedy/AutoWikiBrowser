@@ -415,12 +415,12 @@ SkipOrStop:
             Skip = True
             Return ArticleText
         End Function
-        Private Shared Sub CreateNewGenericPlugin(ByVal PluginName As String, ByVal Creator As String)
+        Private Shared Sub CreateNewGenericPlugin(ByVal pluginName As String, ByVal Creator As String)
             AWBForm.TraceManager.WriteBulletedLine(Creator & ": Creating generic template """ & _
-               PluginName & """", True, True)
+               pluginName & """", True, True)
 
-            Dim plugin As New GenericTemplatePlugin(PluginName)
-            Plugins.Add(PluginName, plugin)
+            Dim plugin As New GenericTemplatePlugin(pluginName)
+            Plugins.Add(pluginName, plugin)
             plugin.Initialise()
             plugin.Enabled = True ' (adds it to activeplugins)
         End Sub

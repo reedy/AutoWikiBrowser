@@ -19,7 +19,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
             Me.Template = template
             Me.Prefix = prefix
-            Me.params = params
 
             AutoStubCheckBox.Enabled = autoStubEnabled
 
@@ -56,8 +55,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         Protected Prefix As String
         Protected Template As String
-
-        Dim params() As TemplateParameters
 
         Private Const conStubClassParm As String = "StubClass"
         Private Const conAutoStubParm As String = "AutoStub"
