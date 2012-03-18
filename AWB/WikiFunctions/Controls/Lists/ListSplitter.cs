@@ -107,7 +107,7 @@ namespace WikiFunctions.Controls.Lists
                     noA += roundlimit;
 
                 int noGroups =
-                    Convert.ToInt32((Math.Round(noA / numSplitAmount.Value) * numSplitAmount.Value) / numSplitAmount.Value);
+                	Convert.ToInt32(Math.Round(noA / numSplitAmount.Value));
 
                 if (xml)
                 {
