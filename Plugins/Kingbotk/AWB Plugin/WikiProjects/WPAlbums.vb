@@ -2,13 +2,14 @@
     Inherits PluginBase
 
     Private Const PluginName As String = "WikiProject Albums"
+    Const Prefix As String = "Albums"
 
     Friend Sub New()
         MyBase.New("Album|Albums|WP Albums|WPAlbums") ' Specify alternate names only
 
         Dim params(-1) As TemplateParameters
 
-        OurSettingsControl = New GenericWithWorkgroups("WikiProject Albums", PluginName, True, params)
+        OurSettingsControl = New GenericWithWorkgroups("WikiProject Albums", Prefix, True, params)
     End Sub
 
     ' Settings:
@@ -83,7 +84,7 @@
 
     ' XML settings:
     Protected Friend Overrides Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader)
-        Dim blnNewVal As Boolean = PluginManager.XMLReadBoolean(Reader, PluginName & "Enabled", Enabled)
+        Dim blnNewVal As Boolean = PluginManager.XMLReadBoolean(Reader, Prefix & "Enabled", Enabled)
         If Not blnNewVal = Enabled Then Enabled = blnNewVal ' Mustn't set if the same or we get extra tabs
         OurSettingsControl.ReadXML(Reader)
     End Sub
@@ -91,7 +92,7 @@
         OurSettingsControl.Reset()
     End Sub
     Protected Friend Overrides Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
-        Writer.WriteAttributeString(PluginName & "Enabled", Enabled.ToString)
+        Writer.WriteAttributeString(Prefix & "Enabled", Enabled.ToString)
         OurSettingsControl.WriteXML(Writer)
     End Sub
 

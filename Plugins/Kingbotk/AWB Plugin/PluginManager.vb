@@ -692,6 +692,8 @@ SkipOrStop:
             Next
         End Sub
         Private Shared Sub LoadSettingsNewWay(ByVal XMLString As String)
+            XMLString = XMLString.Replace("WikiProject Songs", "Songs")
+            XMLString = XMLString.Replace("WikiProject Albums", "Albums")
             Dim st As New IO.StringReader(XMLString)
             Dim Reader As XmlTextReader = New XmlTextReader(st)
 
