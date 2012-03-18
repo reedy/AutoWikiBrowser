@@ -93,13 +93,13 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             AddHandler AWBForm.Form.FormClosing, AddressOf AWBClosingEventHandler
 
             ' Handle over events from AWB:
-            AddHandler AWBForm.StopButton.Click, AddressOf Me.StopButtonClickEventHandler
+            AddHandler AWBForm.StopButton.Click, AddressOf StopButtonClickEventHandler
             AddHandler AWBForm.TheSession.StateChanged, AddressOf EditorStatusChanged
             AddHandler AWBForm.TheSession.Aborted, AddressOf EditorAborted
 
             ' Track Manual Assessment checkbox:
             AddHandler PluginSettings.ManuallyAssessCheckBox.CheckedChanged, _
-               AddressOf Me.ManuallyAssessCheckBox_CheckChanged
+               AddressOf ManuallyAssessCheckBox_CheckChanged
 
             ' Tabs:
             KingbotkPluginTab.UseVisualStyleBackColor = True
@@ -146,14 +146,14 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         End Sub
         Private Function ProcessArticle(ByVal sender As IAutoWikiBrowser, _
         ByVal eventargs As IProcessArticleEventArgs) As String Implements IAWBPlugin.ProcessArticle
-            Dim res As String = eventargs.ArticleText
+            Dim res As String
 
             With eventargs
                 If ActivePlugins.Count = 0 Then Return .ArticleText
 
                 Dim TheArticle As Article, Namesp As Integer = .NameSpaceKey
 
-                PluginSettings.Led1.Colour = WikiFunctions.Controls.Colour.Green
+                PluginSettings.Led1.Colour = Controls.Colour.Green
                 StatusText.Text = "Processing " & .ArticleTitle
                 AWBForm.TraceManager.ProcessingArticle(.ArticleTitle, Namesp)
 
@@ -282,7 +282,7 @@ SkipOrStop:
         End Sub
         Private Function SaveSettings() As Object() Implements IAWBPlugin.SaveSettings
             Dim st As New IO.StringWriter
-            Dim Writer As New System.Xml.XmlTextWriter(st)
+            Dim Writer As New XmlTextWriter(st)
 
             Writer.WriteStartElement("root")
             WriteXML(Writer)
@@ -318,7 +318,7 @@ SkipOrStop:
         Private Shared Function FinaliseArticleProcessing(ByVal TheArticle As Article, ByRef Skip As Boolean, _
         ByRef Summary As String, ByVal ArticleText As String, ByVal ReqPhoto As Boolean) As String
 
-            Dim SkipReason As SkipReason = PluginManager.SkipReason.Other
+            Dim SkipReason As SkipReason = SkipReason.Other
 
             If TheArticle.PluginManagerGetSkipResults = SkipResults.NotSet Then
                 PluginSettings.PluginStats.Tagged += 1
@@ -330,7 +330,7 @@ SkipOrStop:
                                 .SkippedBadTagIncrement()
                                 If PluginSettings.OpenBadInBrowser Then TheArticle.EditInBrowser()
                                 Skip = True ' always skip
-                                SkipReason = PluginManager.SkipReason.BadTag
+                                SkipReason = SkipReason.BadTag
                             Else
                                 ' the plugin manager stops processing when it gets a bad tag. We know however
                                 ' that one plugin found a bad template and possibly replaced it with
@@ -348,11 +348,11 @@ SkipOrStop:
                                 If TheArticle.PluginManagerGetSkipResults = SkipResults.SkipRegex Then
                                     .SkippedMiscellaneousIncrement()
                                     Skip = True
-                                    SkipReason = PluginManager.SkipReason.Regex
+                                    SkipReason = SkipReason.Regex
                                 Else ' No change:
                                     If PluginSettings.SkipWhenNoChange Then
                                         .SkippedNoChangeIncrement()
-                                        SkipReason = PluginManager.SkipReason.NoChange
+                                        SkipReason = SkipReason.NoChange
                                         Skip = True
                                     Else
                                         PluginSettings.PluginStats.Tagged += 1
@@ -376,7 +376,7 @@ SkipOrStop:
                     End If
 
                     .FinaliseEditSummary()
-                    PluginManager.AWBForm.TraceManager.WriteArticleActionLine1("Returning to AWB: Edit summary: " & _
+                    AWBForm.TraceManager.WriteArticleActionLine1("Returning to AWB: Edit summary: " & _
                        .EditSummary, PluginName, True)
                     Summary = .EditSummary
                     Return .AlteredArticleText
@@ -392,31 +392,31 @@ SkipOrStop:
                Else EditSummary = DefaultEditSummary
 
             Select Case SkipReason
-                Case PluginManager.SkipReason.BadNamespace
+                Case SkipReason.BadNamespace
                     PluginSettings.PluginStats.SkippedNamespaceIncrement()
-                    PluginManager.AWBForm.TraceManager.SkippedArticle(PluginName, "Incorrect namespace")
-                Case PluginManager.SkipReason.ProcessingMainArticleDoesntExist
+                    AWBForm.TraceManager.SkippedArticle(PluginName, "Incorrect namespace")
+                Case SkipReason.ProcessingMainArticleDoesntExist
                     PluginSettings.PluginStats.SkippedRedLinkIncrement()
-                    PluginManager.AWBForm.TraceManager.SkippedArticle(PluginName, "Article doesn't exist")
-                Case PluginManager.SkipReason.ProcessingTalkPageArticleDoesntExist
+                    AWBForm.TraceManager.SkippedArticle(PluginName, "Article doesn't exist")
+                Case SkipReason.ProcessingTalkPageArticleDoesntExist
                     PluginSettings.PluginStats.SkippedRedLinkIncrement()
-                    PluginManager.AWBForm.TraceManager.SkippedArticleRedlink(PluginName, ArticleTitle, NS)
-                Case PluginManager.SkipReason.BadTag
-                    PluginManager.AWBForm.TraceManager.SkippedArticleBadTag(PluginName, ArticleTitle, NS)
-                Case PluginManager.SkipReason.NoChange
-                    PluginManager.AWBForm.TraceManager.SkippedArticle(PluginName, "No change")
-                Case PluginManager.SkipReason.Regex
-                    PluginManager.AWBForm.TraceManager.SkippedArticle(PluginName, _
+                    AWBForm.TraceManager.SkippedArticleRedlink(PluginName, ArticleTitle, NS)
+                Case SkipReason.BadTag
+                    AWBForm.TraceManager.SkippedArticleBadTag(PluginName, ArticleTitle, NS)
+                Case SkipReason.NoChange
+                    AWBForm.TraceManager.SkippedArticle(PluginName, "No change")
+                Case SkipReason.Regex
+                    AWBForm.TraceManager.SkippedArticle(PluginName, _
                        "Article text matched a skip-if-found regular expression")
-                Case PluginManager.SkipReason.Other
-                    PluginManager.AWBForm.TraceManager.SkippedArticle(PluginName, "")
+                Case SkipReason.Other
+                    AWBForm.TraceManager.SkippedArticle(PluginName, "")
             End Select
 
             Skip = True
             Return ArticleText
         End Function
         Private Shared Sub CreateNewGenericPlugin(ByVal PluginName As String, ByVal Creator As String)
-            PluginManager.AWBForm.TraceManager.WriteBulletedLine(Creator & ": Creating generic template """ & _
+            AWBForm.TraceManager.WriteBulletedLine(Creator & ": Creating generic template """ & _
                PluginName & """", True, True)
 
             Dim plugin As New GenericTemplatePlugin(PluginName)
@@ -538,7 +538,7 @@ SkipOrStop:
         End Sub
 
         ' Event handlers - AWB:
-        Private Shared Sub AWBClosingEventHandler(ByVal sender As System.Object, ByVal e As FormClosingEventArgs)
+        Private Shared Sub AWBClosingEventHandler(ByVal sender As Object, ByVal e As FormClosingEventArgs)
             If e.Cancel Then
                 Return
             End If
@@ -549,7 +549,7 @@ SkipOrStop:
                 .Close()
             End With
         End Sub
-        Private Shared Sub AWBBotModeCheckboxCheckedChangeHandler(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Private Shared Sub AWBBotModeCheckboxCheckedChangeHandler(ByVal sender As Object, ByVal e As EventArgs)
             Dim Line As String = conAWBPluginName & "Bot-mode "
 
             If BotMode Then

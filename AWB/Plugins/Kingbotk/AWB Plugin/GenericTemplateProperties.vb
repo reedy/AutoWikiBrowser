@@ -16,7 +16,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
     Friend NotInheritable Class GenericTemplatePropertiesForm
 
         Private Sub OK_Button_Click(ByVal sender As Object, ByVal e As EventArgs) Handles OK_Button.Click
-            Me.Close()
+            Close()
         End Sub
 
         Friend Shared Sub DoRegexTextBox(ByVal txt As TextBox, ByVal regx As Regex)

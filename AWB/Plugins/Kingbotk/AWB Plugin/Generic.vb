@@ -90,7 +90,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 #Region "Properties"
         Friend Property TemplateName() As String
             Get
-                Return WikiFunctions.Tools.GetTemplateName(TemplateNameTextBox.Text)
+                Return Tools.GetTemplateName(TemplateNameTextBox.Text)
             End Get
             Set(ByVal value As String)
                 TemplateNameTextBox.Text = value
@@ -227,7 +227,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Sub
 
 #Region "XML interface"
-        Friend Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader) Implements IGenericSettings.ReadXML
+        Friend Sub ReadXML(ByVal Reader As XmlTextReader) Implements IGenericSettings.ReadXML
             AutoStub = PluginManager.XMLReadBoolean(Reader, conAutoStubParm, AutoStub)
             StubClass = PluginManager.XMLReadBoolean(Reader, conStubClassParm, StubClass)
             TemplateName = PluginManager.XMLReadString(Reader, conTemplateNameParm, TemplateName)
@@ -245,7 +245,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             SkipRegexYN = PluginManager.XMLReadBoolean(Reader, conSkipRegexYN, SkipRegexYN)
             SkipRegex = PluginManager.XMLReadString(Reader, conSkipRegex, SkipRegex)
         End Sub
-        Friend Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter) Implements IGenericSettings.WriteXML
+        Friend Sub WriteXML(ByVal Writer As XmlTextWriter) Implements IGenericSettings.WriteXML
             With Writer
                 .WriteAttributeString(conTemplateNameParm, TemplateName)
                 .WriteAttributeString(conAutoStubParm, AutoStub.ToString)
@@ -350,18 +350,18 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             OurName = MyName
 
             ' Keep track of changing configuration by suscribing to various events:
-            AddHandler OurSettingsControl.SkipRegexCheckBox.CheckedChanged, AddressOf Me.SkipRegexChanged
-            AddHandler OurSettingsControl.SkipRegexTextBox.TextChanged, AddressOf Me.SkipRegexChanged
-            AddHandler OurSettingsControl.TemplateNameTextBox.TextChanged, AddressOf Me.TemplateNamesChanged
-            AddHandler OurSettingsControl.HasAlternateNamesCheckBox.CheckedChanged, AddressOf Me.TemplateNamesChanged
-            AddHandler OurSettingsControl.AlternateNamesTextBox.TextChanged, AddressOf Me.TemplateNamesChanged
-            'AddHandler OurSettingsControl.AlternateNamesTextBox.EnabledChanged, AddressOf Me.TemplateNamesChanged ' CheckedChanged should covert this
-            AddHandler OurSettingsControl.PropertiesButton.Click, AddressOf Me.PropertiesButtonClick
-            AddHandler OurSettingsControl.GetRedirectsButton.Click, AddressOf Me.GetRedirectsButtonClick
+            AddHandler OurSettingsControl.SkipRegexCheckBox.CheckedChanged, AddressOf SkipRegexChanged
+            AddHandler OurSettingsControl.SkipRegexTextBox.TextChanged, AddressOf SkipRegexChanged
+            AddHandler OurSettingsControl.TemplateNameTextBox.TextChanged, AddressOf TemplateNamesChanged
+            AddHandler OurSettingsControl.HasAlternateNamesCheckBox.CheckedChanged, AddressOf TemplateNamesChanged
+            AddHandler OurSettingsControl.AlternateNamesTextBox.TextChanged, AddressOf TemplateNamesChanged
+            'AddHandler OurSettingsControl.AlternateNamesTextBox.EnabledChanged, AddressOf TemplateNamesChanged ' CheckedChanged should covert this
+            AddHandler OurSettingsControl.PropertiesButton.Click, AddressOf PropertiesButtonClick
+            AddHandler OurSettingsControl.GetRedirectsButton.Click, AddressOf GetRedirectsButtonClick
         End Sub
         Protected Friend Overrides Sub Initialise()
             OurMenuItem = New ToolStripMenuItem(PluginShortName)
-            MyBase.InitialiseBase() ' must set menu item object first
+            InitialiseBase() ' must set menu item object first
             OurTab.UseVisualStyleBackColor = True
             OurSettingsControl.Reset()
             OurTab.Controls.Add(OurSettingsControl)
@@ -397,9 +397,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Protected Overrides Sub ImportanceParameter(ByVal Importance As Importance)
             Select Case OurSettingsControl.ImportanceSetting
                 Case GenericTemplateSettings.ImportanceSettingEnum.Imp
-                    Template.NewOrReplaceTemplateParm("importance", Importance.ToString, Me.Article, False, False)
+                    Template.NewOrReplaceTemplateParm("importance", Importance.ToString, article, False, False)
                 Case GenericTemplateSettings.ImportanceSettingEnum.Pri
-                    Template.NewOrReplaceTemplateParm("priority", Importance.ToString, Me.Article, False, False)
+                    Template.NewOrReplaceTemplateParm("priority", Importance.ToString, article, False, False)
                     ' Case GenericTemplateSettings.ImportanceSettingEnum.None ' do nothing
             End Select
         End Sub
@@ -476,7 +476,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Sub
 
         ' XML settings:
-        Protected Friend Overrides Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader)
+        Protected Friend Overrides Sub ReadXML(ByVal Reader As XmlTextReader)
             Dim blnNewVal As Boolean = PluginManager.XMLReadBoolean(Reader, conEnabled, Enabled)
             If Not blnNewVal = Enabled Then Enabled = blnNewVal ' Mustn't set if the same or we get extra tabs
             OurSettingsControl.ReadXML(Reader)
@@ -484,14 +484,14 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Protected Friend Overrides Sub Reset()
             OurSettingsControl.Reset()
         End Sub
-        Protected Friend Overrides Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
+        Protected Friend Overrides Sub WriteXML(ByVal Writer As XmlTextWriter)
             Writer.WriteAttributeString(conEnabled, Enabled.ToString)
             OurSettingsControl.WriteXML(Writer)
         End Sub
         '' These do nothing because generic templates already have a AlternateNames XML property
-        Friend Overrides Sub ReadXMLRedirects(ByVal Reader As System.Xml.XmlTextReader)
+        Friend Overrides Sub ReadXMLRedirects(ByVal Reader As XmlTextReader)
         End Sub
-        Friend Overrides Sub WriteXMLRedirects(ByVal Writer As System.Xml.XmlTextWriter)
+        Friend Overrides Sub WriteXMLRedirects(ByVal Writer As XmlTextWriter)
         End Sub
 
         ' Our interface:
@@ -503,7 +503,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Property
 
         ' Settings control event handlers:
-        Private Sub SkipRegexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Private Sub SkipRegexChanged(ByVal sender As Object, ByVal e As EventArgs)
             With OurSettingsControl
                 If .SkipRegexYN = False OrElse .SkipRegex = "" Then
                     SkipRegex = Nothing
@@ -576,7 +576,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             End With
 
             frm.ShowDialog()
-            frm = Nothing
         End Sub
         Private Sub DeleteMeMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) _
         Handles DeleteMeMenuItem.Click
@@ -585,7 +584,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 PluginManager.DeleteGenericPlugin(Me, Me)
             End If
         End Sub
-        Private Sub GetRedirectsButtonClick(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Private Sub GetRedirectsButtonClick(ByVal sender As Object, ByVal e As EventArgs)
             If MessageBox.Show("Get the redirects from Wikipedia? Note: This may take a while.", "Get from Wikipedia?", _
                MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) = DialogResult.Yes Then
                 Try
@@ -623,12 +622,12 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                     ' only from inside this block
                     PluginManager.AWBForm.TraceManager.WriteBulletedLine("Generic template """ & OurName & _
                        """ finalized.", True, True, True)
-                    RemoveHandler OurSettingsControl.SkipRegexCheckBox.CheckedChanged, AddressOf Me.SkipRegexChanged
-                    RemoveHandler OurSettingsControl.SkipRegexTextBox.TextChanged, AddressOf Me.SkipRegexChanged
-                    RemoveHandler OurSettingsControl.TemplateNameTextBox.TextChanged, AddressOf Me.TemplateNamesChanged
-                    RemoveHandler OurSettingsControl.HasAlternateNamesCheckBox.CheckedChanged, AddressOf Me.TemplateNamesChanged
-                    RemoveHandler OurSettingsControl.AlternateNamesTextBox.TextChanged, AddressOf Me.TemplateNamesChanged
-                    RemoveHandler OurSettingsControl.PropertiesButton.Click, AddressOf Me.PropertiesButtonClick
+                    RemoveHandler OurSettingsControl.SkipRegexCheckBox.CheckedChanged, AddressOf SkipRegexChanged
+                    RemoveHandler OurSettingsControl.SkipRegexTextBox.TextChanged, AddressOf SkipRegexChanged
+                    RemoveHandler OurSettingsControl.TemplateNameTextBox.TextChanged, AddressOf TemplateNamesChanged
+                    RemoveHandler OurSettingsControl.HasAlternateNamesCheckBox.CheckedChanged, AddressOf TemplateNamesChanged
+                    RemoveHandler OurSettingsControl.AlternateNamesTextBox.TextChanged, AddressOf TemplateNamesChanged
+                    RemoveHandler OurSettingsControl.PropertiesButton.Click, AddressOf PropertiesButtonClick
                     ShowHideOurObjects(False)
 
                     OurTab.Dispose()
@@ -656,7 +655,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 SkipRegex = Nothing
 
                 ' Remember that this object has been disposed of:
-                Me.disposed = True
+                disposed = True
             End Try
         End Sub
         Friend Sub Dispose() Implements IDisposable.Dispose, IGenericTemplatePlugin.Goodbye
@@ -678,7 +677,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         ''' <summary>
         ''' This is called when the contents of TemplateNameTextBox or AlternateNamesTextBox changes, or when HasAlternateNamesCheckBox is (un)checked
         ''' </summary>
-        Private Sub TemplateNamesChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Private Sub TemplateNamesChanged(ByVal sender As Object, ByVal e As EventArgs)
             With OurSettingsControl
                 If .TemplateName = "" Then
                     MainRegex = Nothing

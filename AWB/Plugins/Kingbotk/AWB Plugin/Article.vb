@@ -208,7 +208,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                     MatchEvaluatorString = Text
 
                     AlteredArticleText = WikiProjectBannerShellRegex.Replace(AlteredArticleText, _
-                       AddressOf Me.WPBSRegexMatchEvaluator, 1)
+                       AddressOf WPBSRegexMatchEvaluator, 1)
                     MatchEvaluatorString = Nothing
                 Case BannerShellsEnum.NoneFound
                     AlteredArticleText = Text + AlteredArticleText

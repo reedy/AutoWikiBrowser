@@ -10,8 +10,8 @@
 
 Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
     Friend NotInheritable Class AboutBox
-        Private Sub AboutBox_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-            Me.TextBoxDescription.Text = _
+        Private Sub AboutBox_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
+            TextBoxDescription.Text = _
                "An AWB plugin for adding and updating WikiProject templates on Wikipedia talk pages. " & _
                Microsoft.VisualBasic.vbCrLf & Microsoft.VisualBasic.vbCrLf & "AWB Version: " & _
                Application.ProductVersion.ToString & Microsoft.VisualBasic.vbCrLf & Microsoft.VisualBasic.vbCrLf & _
@@ -19,13 +19,13 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
                & "check your edits and use sensibly!"
         End Sub
 
-        Private Sub OKButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles OKButton.Click
-            Me.Close()
+        Private Sub OKButton_Click(ByVal sender As Object, ByVal e As EventArgs) Handles OKButton.Click
+            Close()
         End Sub
 
         Friend Shared ReadOnly Property Version() As String
             Get
-                Return System.Reflection.Assembly.GetExecutingAssembly.GetName.Version.ToString
+                Return Reflection.Assembly.GetExecutingAssembly.GetName.Version.ToString
             End Get
         End Property
 
@@ -34,34 +34,34 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             InitializeComponent()
 
             ' Add any initialization after the InitializeComponent() call.
-            Me.LabelVersion.Text = String.Format("Version {0}", Version)
+            LabelVersion.Text = String.Format("Version {0}", Version)
         End Sub
-        Private Sub linkKingboy_LinkClicked(ByVal sender As System.Object, _
-        ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles linkKingboy.LinkClicked
+        Private Sub linkKingboy_LinkClicked(ByVal sender As Object, _
+        ByVal e As Windows.Forms.LinkLabelLinkClickedEventArgs) Handles linkKingboy.LinkClicked
             linkKingboy.LinkVisited = True
             Tools.OpenENArticleInBrowser("Kingboyk", True)
         End Sub
-        Private Sub linkReedy_LinkClicked(ByVal sender As System.Object, _
-        ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles linkReedy.LinkClicked
+        Private Sub linkReedy_LinkClicked(ByVal sender As Object, _
+        ByVal e As Windows.Forms.LinkLabelLinkClickedEventArgs) Handles linkReedy.LinkClicked
             linkReedy.LinkVisited = True
             Tools.OpenENArticleInBrowser("Reedy", True)
         End Sub
 
-        Private Sub LicencingButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles LicencingButton.Click
+        Private Sub LicencingButton_Click(ByVal sender As Object, ByVal e As EventArgs) Handles LicencingButton.Click
             Dim GPL As New GPLAboutBox
             GPL.ShowDialog(PluginManager.AWBForm.Form)
         End Sub
 
         Private Class GPLAboutBox
-            Inherits WikiFunctions.Controls.AboutBox
+            Inherits Controls.AboutBox
 
             Protected Overrides Sub Initialise()
                 Text = conAWBPluginName
                 linkLabel1.Visible = False
                 lblMadeBy.Text = "Made by Stephen Kennedy with Sam Reed"
-                lblVersion.Text = "Version " & AboutBox.Version
+                lblVersion.Text = "Version " & Version
                 textBoxDescription.Text = _
-                   AssemblyDescription(System.Reflection.Assembly.GetExecutingAssembly) & _
+                   AssemblyDescription(Reflection.Assembly.GetExecutingAssembly) & _
                    Environment.NewLine & Environment.NewLine & My.Resources.GPL
             End Sub
         End Class

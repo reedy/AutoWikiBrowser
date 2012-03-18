@@ -78,7 +78,7 @@
     End Property
 
     Protected Overrides Sub ImportanceParameter(ByVal Importance As Importance)
-        Template.NewOrReplaceTemplateParm("importance", Importance.ToString, Me.Article, False, False)
+        Template.NewOrReplaceTemplateParm("importance", Importance.ToString, article, False, False)
     End Sub
     Protected Friend Overrides ReadOnly Property GenericSettings() As IGenericSettings
         Get
@@ -118,7 +118,7 @@
     ' Initialisation:
     Protected Friend Overrides Sub Initialise()
         OurMenuItem = New ToolStripMenuItem("India Plugin")
-        MyBase.InitialiseBase() ' must set menu item object first
+        InitialiseBase() ' must set menu item object first
         OurTab.UseVisualStyleBackColor = True
         OurTab.Controls.Add(OurSettingsControl)
     End Sub
@@ -157,7 +157,7 @@
     End Sub
 
     ' XML settings:
-    Protected Friend Overrides Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader)
+    Protected Friend Overrides Sub ReadXML(ByVal Reader As XmlTextReader)
         Dim blnNewVal As Boolean = PluginManager.XMLReadBoolean(Reader, Prefix & "Enabled", Enabled)
         If Not blnNewVal = Enabled Then Enabled = blnNewVal ' Mustn't set if the same or we get extra tabs
         OurSettingsControl.ReadXML(Reader)
@@ -165,7 +165,7 @@
     Protected Friend Overrides Sub Reset()
         OurSettingsControl.Reset()
     End Sub
-    Protected Friend Overrides Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
+    Protected Friend Overrides Sub WriteXML(ByVal Writer As XmlTextWriter)
         Writer.WriteAttributeString(Prefix & "Enabled", Enabled.ToString)
         OurSettingsControl.WriteXML(Writer)
     End Sub

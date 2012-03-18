@@ -125,7 +125,7 @@
 
     Protected Friend Overrides Sub Initialise()
         OurMenuItem = New ToolStripMenuItem("Military History Plugin")
-        MyBase.InitialiseBase() ' must set menu item object first
+        InitialiseBase() ' must set menu item object first
         OurTab.UseVisualStyleBackColor = True
         OurTab.Controls.Add(OurSettingsControl)
     End Sub
@@ -195,7 +195,7 @@
     End Sub
 
     ' XML settings:
-    Protected Friend Overrides Sub ReadXML(ByVal Reader As System.Xml.XmlTextReader)
+    Protected Friend Overrides Sub ReadXML(ByVal Reader As XmlTextReader)
         Dim blnNewVal As Boolean = PluginManager.XMLReadBoolean(Reader, PluginName & "Enabled", Enabled)
         If Not blnNewVal = Enabled Then
             Enabled = blnNewVal ' Mustn't set if the same or we get extra tabs
@@ -208,7 +208,7 @@
         OurSettingsControl.Reset()
     End Sub
 
-    Protected Friend Overrides Sub WriteXML(ByVal Writer As System.Xml.XmlTextWriter)
+    Protected Friend Overrides Sub WriteXML(ByVal Writer As XmlTextWriter)
         Writer.WriteAttributeString(PluginName & "Enabled", Enabled.ToString)
         OurSettingsControl.WriteXML(Writer)
     End Sub
