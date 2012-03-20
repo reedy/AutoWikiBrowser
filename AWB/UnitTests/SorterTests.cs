@@ -654,6 +654,9 @@ blah";
 
 			// no change when already correct
 			Assert.AreEqual(a + "\r\n" + b + "\r\n" + c + "\r\n" + d, MetaDataSorter.MoveSeeAlso(a + "\r\n" + b + "\r\n" + c + "\r\n" + d));
+			
+			const string TwoReferencesSection = a + "\r\n" + c + "\r\n" + b + "\r\n" + c + "\r\n" + d;
+			Assert.AreEqual(TwoReferencesSection, MetaDataSorter.MoveSeeAlso(TwoReferencesSection), "no change when two references sections");
 		}
 		
 		[Test]

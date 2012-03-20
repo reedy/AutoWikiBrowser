@@ -852,7 +852,8 @@ en, sq, ru
 		}
 
 		/// <summary>
-		/// Moves the 'see also' section to be above the 'references' section, subject to the limitation that the 'see also' section can't be the last level-2 section
+		/// Moves the 'see also' section to be above the 'references' section, subject to the limitation that the 'see also' section can't be the last level-2 section.
+		/// Does not move section when two or more references sections in the same article
 		/// </summary>
 		/// <param name="articleText">The wiki text of the article.</param>
 		/// <returns></returns>
@@ -862,7 +863,7 @@ en, sq, ru
 			string references = ReferencesSection.Match(articleText).Groups[1].Value;
 			string seealso = SeeAlsoSection.Match(articleText).Groups[1].Value;
 
-			if (articleText.IndexOf(seealso) > articleText.IndexOf(references) && references.Length > 0 && seealso.Length > 0)
+			if (articleText.IndexOf(seealso) > articleText.IndexOf(references) && ReferencesSection.Matches(articleText).Count == 1 && seealso.Length > 0)
 			{
 				articleText = articleText.Replace(seealso, "");
 				articleText = articleText.Replace(references, seealso + references);
