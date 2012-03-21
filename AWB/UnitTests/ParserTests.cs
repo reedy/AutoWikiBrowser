@@ -4935,6 +4935,40 @@ x", Parsers.FixHeadings(@"x
 ==Major championships==
 ====Wins====
 x", "test"));
+            
+            Assert.AreEqual(@"x
+
+==Major championships==
+
+====Wins====
+x", Parsers.FixHeadings(@"x
+==Major championships==
+====Wins====
+x", "test"));
+            
+            Assert.AreEqual(@"==Foo 1==
+x
+
+===Major championships===
+
+====Wins====
+x", Parsers.FixHeadings(@"==Foo 1==
+x
+===Major championships===
+====Wins====
+x", "test"));
+            
+            Assert.AreEqual(@"== Events ==
+x
+
+=== By place ===
+
+==== Roman Empire ====
+x", Parsers.FixHeadings(@"== Events ==
+x
+=== By place ===
+==== Roman Empire ====
+x", "test"));
         }
         
         [Test]
@@ -5014,8 +5048,8 @@ Bar", "Test"), "inserts blank line if one missing");
             Assert.AreEqual("a\r\n\r\n\r\n{{foo stub}}", Parsers.RemoveWhiteSpace("a\r\n\r\n\r\n{{foo stub}}"), "two newlines before stub are kept");
 
             Assert.AreEqual("== foo ==\r\n==bar", Parsers.RemoveWhiteSpace("== foo ==\r\n==bar"));
-            Assert.AreEqual("== foo ==\r\n==bar", Parsers.RemoveWhiteSpace("== foo ==\r\n\r\n==bar"));
-            Assert.AreEqual("== foo ==\r\n==bar", Parsers.RemoveWhiteSpace("== foo ==\r\n\r\n\r\n==bar"));
+            Assert.AreEqual("== foo ==\r\n\r\n==bar", Parsers.RemoveWhiteSpace("== foo ==\r\n\r\n==bar"));
+            Assert.AreEqual("== foo ==\r\n\r\n==bar", Parsers.RemoveWhiteSpace("== foo ==\r\n\r\n\r\n==bar"));
 
             Assert.AreEqual("a\r\n\r\nx", Parsers.RemoveWhiteSpace("a<br/>\r\n\r\nx"));
             Assert.AreEqual("a\r\n\r\nx", Parsers.RemoveWhiteSpace("a<br/><br/>\r\n\r\nx"));
