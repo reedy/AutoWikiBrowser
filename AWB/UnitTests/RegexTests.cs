@@ -957,6 +957,14 @@ cit"));
         }
 
         [Test]
+        public void WikipediaBooks()
+        {
+            Assert.IsTrue(WikiRegexes.WikipediaBooks.IsMatch(@"{{Wikipedia-Books}}"));
+            Assert.IsTrue(WikiRegexes.WikipediaBooks.IsMatch(@"{{ Wikipedia books }}"));
+            Assert.IsTrue(WikiRegexes.WikipediaBooks.IsMatch(@"{{Wikipedia books|1=Academy Awards|3=Academy Awards for Best Picture}}"));
+        }
+
+        [Test]
         public void DablinksTests()
         {
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{For|Fred the dancer|Fred (dancer)}}"));

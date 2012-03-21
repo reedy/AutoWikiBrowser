@@ -289,7 +289,7 @@ en, sq, ru
 				if (Variables.LangCode.Equals("en"))
 				{
 					articleText = MovePortalTemplates(articleText);
-					articleText = MoveTemplateToSeeAlsoSection(articleText, Tools.NestedTemplateRegex("Wikipedia-Books"));
+					articleText = MoveTemplateToSeeAlsoSection(articleText, WikiRegexes.WikipediaBooks);
 					articleText = MoveSisterlinks(articleText);
 					articleText = MoveTemplateToReferencesSection(articleText, WikiRegexes.Ibid);
 					articleText = MoveExternalLinks(articleText);
@@ -297,7 +297,7 @@ en, sq, ru
 				}
 
 				// two newlines here per http://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser&oldid=243224092#Blank_lines_before_stubs
-				// http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Two_empty_lines_before_stub-templates
+				// https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Two_empty_lines_before_stub-templates
 				// ru, sl wikis use only one newline
 				string strStub = "";
 				
@@ -315,7 +315,7 @@ en, sq, ru
 					case "sl":
 						articleText += strStub + categories + personData;
 
-						// http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser#Removal_of_blank_lines
+						// https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser#Removal_of_blank_lines
 						// on de wiki a blank line is desired between persondata and interwikis
 						if (Variables.LangCode.Equals("de") && personData.Length > 0 && interwikis.Length > 0)
 							articleText += "\r\n";
