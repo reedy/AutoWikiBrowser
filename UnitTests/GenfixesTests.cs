@@ -236,6 +236,28 @@ a");
 {{Norway-band-stub}}";
         	AssertChange(before, after);
         }
+        
+        [Test]
+        public void HeadingWhitespace()
+        {
+        	string foo = @"x
+
+== Events ==
+<onlyinclude>
+=== By place ===
+==== Roman Empire ====
+* Emperor ", foo2 = @"x
+
+== Events ==
+<onlyinclude>
+
+=== By place ===
+
+==== Roman Empire ====
+* Emperor";
+        	
+        	AssertChange(foo, foo2);        	
+        }
         	
     }
     

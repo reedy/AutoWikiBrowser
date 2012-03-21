@@ -2396,9 +2396,6 @@ namespace WikiFunctions.Parse
             if(!WikiRegexes.Stub.IsMatch(articleText))
                 articleText = ThreeOrMoreNewlines.Replace(articleText, "\r\n\r\n");
 
-            if (fixOptionalWhitespace)
-                articleText = TwoNewlinesInBlankSection.Replace(articleText, "==\r\n==");
-
             articleText = NewlinesBelowExternalLinks.Replace(articleText, "==External links==\r\n*");
             articleText = NewlinesBeforeUrl.Replace(articleText, "\r\n$1");
 
