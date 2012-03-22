@@ -999,7 +999,7 @@ namespace AutoWikiBrowser
 
                 Variables.Profiler.Profile("Make Edit summary");
 
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Working_with_Alerts
+                // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Working_with_Alerts
                 if (chkSkipIfNoAlerts.Checked && lbAlerts.Items.Count == 0)
                 {
                     SkipPage("Page has no alerts");
@@ -2449,11 +2449,11 @@ window.scrollTo(0, diffTopY);
                 if (catCount == 0 && !Namespace.IsTalk(TheArticle.Name))
                     lbAlerts.Items.Add("No category (may be one in a template)");
 
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Replace_nofootnotes_with_morefootnote_if_references_exists
+                // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Replace_nofootnotes_with_morefootnote_if_references_exists
                 if (TheArticle.HasMorefootnotesAndManyReferences)
                     lbAlerts.Items.Add("Has 'No/More footnotes' template yet many references");
 
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#.28Yet.29_more_reference_related_changes.
+                // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#.28Yet.29_more_reference_related_changes.
                 if (TheArticle.HasRefAfterReflist)
                     lbAlerts.Items.Add(@"Has a <ref> after <references/>");
                 
@@ -2463,15 +2463,15 @@ window.scrollTo(0, diffTopY);
                 if (articleText.StartsWith("=="))
                     lbAlerts.Items.Add("Starts with heading");
 
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Format_references
+                // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Format_references
                 if (TheArticle.HasBareReferences)
                     lbAlerts.Items.Add("Unformatted references found");
 
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Detect_multiple_DEFAULTSORT
+                // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Detect_multiple_DEFAULTSORT
                 if (WikiRegexes.Defaultsort.Matches(txtEdit.Text).Count > 1)
                     lbAlerts.Items.Add("Multiple DEFAULTSORTs found");
 
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Some_additional_edits
+                // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Some_additional_edits
                 deadLinks = TheArticle.DeadLinks();
                 if (deadLinks.Count > 0)
                     lbAlerts.Items.Add("Dead links found" + " (" + deadLinks.Count + ")");
@@ -2541,7 +2541,7 @@ window.scrollTo(0, diffTopY);
                 {
                     string x = m.Groups[1].Value;
                     if (!WikiRegexes.Dates.IsMatch(x) && !WikiRegexes.Dates2.IsMatch(x))
-                        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Multiple_links
+                        // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Multiple_links
                         // make first character uppercase so that [[proton]] and [[Proton]] are marked as duplicate
                         x = Tools.TurnFirstToUpper(x);
                     arrayLinks.Add(x);
