@@ -282,5 +282,12 @@ namespace WikiFunctions.API
         /// <param name="queryParameters"></param>
         /// <returns></returns>
         string QueryApi(string queryParameters);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="queryParameters"></param>
+        /// <returns></returns>
+        string ParseApi(string queryParameters);
     }
 }

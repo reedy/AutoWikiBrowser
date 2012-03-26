@@ -407,6 +407,31 @@ namespace WikiFunctions
 		public void AWBSkip(string reason)
 		{ Trace.AWBSkipped(reason); }
 
+        /// <summary>
+        /// Returns whether any changes between current article text and parsed article text have an effect on rendering
+        /// </summary>
+        [XmlIgnore]
+        public bool OnlyCosmeticChanged
+        {
+            get
+            {
+                ApiEdit parser = Variables.MainForm.TheSession.Editor.SynchronousEditor;
+                char[] delimiters = { '<' };
+                string[] beforecatslangs = parser.ParseApi("prop=langlinks|categories&pst&disablepp&text=" + OriginalArticleText).Split(delimiters);
+                string[] aftercatslangs = parser.ParseApi("prop=langlinks|categories&pst&disablepp&text=" + mArticleText).Split(delimiters);
+                Array.Sort(beforecatslangs);
+                Array.Sort(aftercatslangs);
+
+                if (beforecatslangs.Length != aftercatslangs.Length
+                    || string.Compare(string.Join("", beforecatslangs), string.Join("", aftercatslangs)) != 0) return false;
+
+                string beforetext = parser.ParseApi("prop=text|displaytitle&pst&disablepp&text=" + OriginalArticleText);
+                string aftertext = parser.ParseApi("prop=text|displaytitle&pst&disablepp&text=" + mArticleText);
+                return
+                    (string.Compare(beforetext, aftertext) == 0);
+            }
+        }
+
 		/// <summary>
 		/// Returns whether the only change between the current article text and the original article text is whitespace changes
 		/// </summary>
