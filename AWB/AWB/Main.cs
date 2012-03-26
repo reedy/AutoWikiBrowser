@@ -918,6 +918,14 @@ namespace AutoWikiBrowser
                             SkipPage("Page contains no links");
                             return;
                         }
+
+                        if (chkSkipCosmetic.Checked
+                            && TheArticle.OnlyCosmeticChanged)
+                        {
+                            SkipPage("Only cosmetic changes made");
+                            return;
+                        }
+
                     }
 
                     // post-processing

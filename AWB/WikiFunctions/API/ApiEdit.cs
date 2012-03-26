@@ -1015,6 +1015,20 @@ namespace WikiFunctions.API
 
         #endregion
 
+        #region Parse Api
+        public string ParseApi(string queryParamters)
+        {
+            if (string.IsNullOrEmpty(queryParamters)) throw new ArgumentException("queryParamters cannot be null/empty", "queryParamters");
+
+            string result = HttpGet(ApiURL + "?action=parse&format=xml&" + queryParamters); //Should we be checking for maxlag?
+
+            CheckForErrors(result, "parse");
+
+            return result;
+        }
+
+        #endregion
+
         #region Wikitext operations
 
         private string ExpandRelativeUrls(string html)

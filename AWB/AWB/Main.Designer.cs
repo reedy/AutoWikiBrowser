@@ -394,7 +394,6 @@ namespace AutoWikiBrowser
             this.tpArticleActionLogs = new System.Windows.Forms.TabPage();
             this.articleActionLogControl1 = new WikiFunctions.Logging.ArticleActionLogControl();
             this.tpLoggingOptions = new System.Windows.Forms.TabPage();
-            this.loggingSettings1 = new AutoWikiBrowser.LoggingSettings();
             this.tpTypos = new System.Windows.Forms.TabPage();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
@@ -420,7 +419,9 @@ namespace AutoWikiBrowser
             this.menuitemMakeFromTextBoxPaste = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparatorMakeFromTextBox = new System.Windows.Forms.ToolStripSeparator();
             this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
+            this.loggingSettings1 = new AutoWikiBrowser.LoggingSettings();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
+            this.chkSkipCosmetic = new System.Windows.Forms.CheckBox();
             this.mnuTextBox.SuspendLayout();
             this.MnuMain.SuspendLayout();
             this.StatusMain.SuspendLayout();
@@ -926,8 +927,8 @@ namespace AutoWikiBrowser
             // 
             this.openPageInBrowserToolStripMenuItem.Name = "openPageInBrowserToolStripMenuItem";
             this.openPageInBrowserToolStripMenuItem.ShortcutKeyDisplayString = "Ctrl+Alt+P";
-            this.openPageInBrowserToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.P)));
+            this.openPageInBrowserToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt)
+                        | System.Windows.Forms.Keys.P)));
             this.openPageInBrowserToolStripMenuItem.Size = new System.Drawing.Size(295, 22);
             this.openPageInBrowserToolStripMenuItem.Text = "&Open page in browser";
             this.openPageInBrowserToolStripMenuItem.Click += new System.EventHandler(this.openPageInBrowserToolStripMenuItem_Click);
@@ -943,8 +944,8 @@ namespace AutoWikiBrowser
             // 
             this.openHistoryMenuItem.Name = "openHistoryMenuItem";
             this.openHistoryMenuItem.ShortcutKeyDisplayString = "Ctrl+Alt+H";
-            this.openHistoryMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt) 
-            | System.Windows.Forms.Keys.H)));
+            this.openHistoryMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Alt)
+                        | System.Windows.Forms.Keys.H)));
             this.openHistoryMenuItem.Size = new System.Drawing.Size(295, 22);
             this.openHistoryMenuItem.Text = "Open page &history in browser";
             this.openHistoryMenuItem.Click += new System.EventHandler(this.openHistoryMenuItem_Click);
@@ -1522,8 +1523,8 @@ namespace AutoWikiBrowser
             // testRegexToolStripMenuItem
             // 
             this.testRegexToolStripMenuItem.Name = "testRegexToolStripMenuItem";
-            this.testRegexToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.T)));
+            this.testRegexToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.T)));
             this.testRegexToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
             this.testRegexToolStripMenuItem.Text = "Regex &tester";
             this.testRegexToolStripMenuItem.Click += new System.EventHandler(this.launchRegexTester);
@@ -1531,8 +1532,8 @@ namespace AutoWikiBrowser
             // launchDumpSearcherToolStripMenuItem
             // 
             this.launchDumpSearcherToolStripMenuItem.Name = "launchDumpSearcherToolStripMenuItem";
-            this.launchDumpSearcherToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
-            | System.Windows.Forms.Keys.D)));
+            this.launchDumpSearcherToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift)
+                        | System.Windows.Forms.Keys.D)));
             this.launchDumpSearcherToolStripMenuItem.Size = new System.Drawing.Size(240, 22);
             this.launchDumpSearcherToolStripMenuItem.Text = "&Database scanner";
             this.launchDumpSearcherToolStripMenuItem.Click += new System.EventHandler(this.launchDumpSearcherToolStripMenuItem_Click);
@@ -1944,7 +1945,7 @@ namespace AutoWikiBrowser
             this.chkAutoTagger.TabIndex = 0;
             this.chkAutoTagger.Text = "Auto tag";
             this.ToolTip.SetToolTip(this.chkAutoTagger, "Automatically add {{orphan}}, {{deadend}}, {{wikify}}, {{ibid} and {{stub}} tags " +
-        "when appropriate");
+                    "when appropriate");
             // 
             // chkUnicodifyWhole
             // 
@@ -1979,7 +1980,7 @@ namespace AutoWikiBrowser
             this.chkNudge.TabIndex = 0;
             this.chkNudge.Text = "Resave (\"nudge\")  if stuck";
             this.ToolTip.SetToolTip(this.chkNudge, "If checked, AWB will get a nudge if it is stuck: first after 2 minutes, then in d" +
-        "ecreasing intervals");
+                    "ecreasing intervals");
             // 
             // chkLock
             // 
@@ -2387,7 +2388,7 @@ namespace AutoWikiBrowser
             this.chkSkipGeneralFixes.TabIndex = 6;
             this.chkSkipGeneralFixes.Text = "Only genfixes";
             this.ToolTip.SetToolTip(this.chkSkipGeneralFixes, "Automatically skips pages when only general fixes changes were automatically made" +
-        "");
+                    "");
             this.chkSkipGeneralFixes.UseVisualStyleBackColor = true;
             this.chkSkipGeneralFixes.CheckedChanged += new System.EventHandler(this.chkSkipGeneralFixes_CheckedChanged);
             // 
@@ -2400,7 +2401,7 @@ namespace AutoWikiBrowser
             this.chkSkipMinorGeneralFixes.TabIndex = 7;
             this.chkSkipMinorGeneralFixes.Text = "Only minor genfixes";
             this.ToolTip.SetToolTip(this.chkSkipMinorGeneralFixes, "Automatically skips pages when only minor general fixes changes were automaticall" +
-        "y made (applies to mainspace genfixes only)");
+                    "y made (applies to mainspace genfixes only)");
             this.chkSkipMinorGeneralFixes.UseVisualStyleBackColor = true;
             // 
             // chkSkipCasing
@@ -2431,7 +2432,7 @@ namespace AutoWikiBrowser
             // chkSkipIfRedirect
             // 
             this.chkSkipIfRedirect.AutoSize = true;
-            this.chkSkipIfRedirect.Location = new System.Drawing.Point(6, 157);
+            this.chkSkipIfRedirect.Location = new System.Drawing.Point(6, 179);
             this.chkSkipIfRedirect.Name = "chkSkipIfRedirect";
             this.chkSkipIfRedirect.Size = new System.Drawing.Size(99, 17);
             this.chkSkipIfRedirect.TabIndex = 8;
@@ -2442,7 +2443,7 @@ namespace AutoWikiBrowser
             // chkSkipIfNoAlerts
             // 
             this.chkSkipIfNoAlerts.AutoSize = true;
-            this.chkSkipIfNoAlerts.Location = new System.Drawing.Point(113, 157);
+            this.chkSkipIfNoAlerts.Location = new System.Drawing.Point(113, 179);
             this.chkSkipIfNoAlerts.Name = "chkSkipIfNoAlerts";
             this.chkSkipIfNoAlerts.Size = new System.Drawing.Size(68, 17);
             this.chkSkipIfNoAlerts.TabIndex = 9;
@@ -2675,7 +2676,7 @@ namespace AutoWikiBrowser
             this.AlertGroup.TabStop = false;
             this.AlertGroup.Text = "Alerts";
             this.ToolTip.SetToolTip(this.AlertGroup, "Displays alerts for the current page over problems in the page text that may requ" +
-        "ire manual correction");
+                    "ire manual correction");
             // 
             // lbAlerts
             // 
@@ -2830,8 +2831,8 @@ namespace AutoWikiBrowser
             // txtEdit
             // 
             this.txtEdit.AcceptsTab = true;
-            this.txtEdit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtEdit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.txtEdit.ContextMenuStrip = this.mnuTextBox;
             this.txtEdit.DetectUrls = false;
             this.txtEdit.Enabled = false;
@@ -3479,9 +3480,9 @@ namespace AutoWikiBrowser
             // 
             // txtDabVariants
             // 
-            this.txtDabVariants.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDabVariants.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDabVariants.Location = new System.Drawing.Point(6, 19);
             this.txtDabVariants.Multiline = true;
             this.txtDabVariants.Name = "txtDabVariants";
@@ -3552,6 +3553,7 @@ namespace AutoWikiBrowser
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.chkSkipCosmetic);
             this.groupBox8.Controls.Add(this.chkSkipIfNoAlerts);
             this.groupBox8.Controls.Add(this.chkSkipMinorGeneralFixes);
             this.groupBox8.Controls.Add(this.chkSkipIfRedirect);
@@ -3564,7 +3566,7 @@ namespace AutoWikiBrowser
             this.groupBox8.Controls.Add(this.chkSkipNoChanges);
             this.groupBox8.Location = new System.Drawing.Point(6, 101);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(266, 180);
+            this.groupBox8.Size = new System.Drawing.Size(266, 200);
             this.groupBox8.TabIndex = 1;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "General skip options";
@@ -3572,9 +3574,9 @@ namespace AutoWikiBrowser
             // gbPageExisting
             // 
             this.gbPageExisting.Controls.Add(this.flowLayoutPanel1);
-            this.gbPageExisting.Location = new System.Drawing.Point(6, 287);
+            this.gbPageExisting.Location = new System.Drawing.Point(6, 304);
             this.gbPageExisting.Name = "gbPageExisting";
-            this.gbPageExisting.Size = new System.Drawing.Size(260, 48);
+            this.gbPageExisting.Size = new System.Drawing.Size(260, 44);
             this.gbPageExisting.TabIndex = 2;
             this.gbPageExisting.TabStop = false;
             this.gbPageExisting.Text = "Page";
@@ -3588,7 +3590,7 @@ namespace AutoWikiBrowser
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 16);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(254, 29);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(254, 25);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // tpBots
@@ -3809,8 +3811,8 @@ namespace AutoWikiBrowser
             // 
             // EditBoxTab
             // 
-            this.EditBoxTab.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.EditBoxTab.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.EditBoxTab.Controls.Add(this.tpEdit);
             this.EditBoxTab.Controls.Add(this.tpHistory);
             this.EditBoxTab.Controls.Add(this.tpLinks);
@@ -3951,9 +3953,9 @@ namespace AutoWikiBrowser
             // 
             // articleActionLogControl1
             // 
-            this.articleActionLogControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.articleActionLogControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.articleActionLogControl1.Location = new System.Drawing.Point(3, 3);
             this.articleActionLogControl1.Margin = new System.Windows.Forms.Padding(4);
             this.articleActionLogControl1.Name = "articleActionLogControl1";
@@ -3971,14 +3973,6 @@ namespace AutoWikiBrowser
             this.tpLoggingOptions.Text = "Logging to file";
             this.tpLoggingOptions.UseVisualStyleBackColor = true;
             // 
-            // loggingSettings1
-            // 
-            this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
-            this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
-            this.loggingSettings1.Name = "loggingSettings1";
-            this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
-            this.loggingSettings1.TabIndex = 0;
-            // 
             // tpTypos
             // 
             this.tpTypos.Controls.Add(this.splitContainer1);
@@ -3992,9 +3986,9 @@ namespace AutoWikiBrowser
             // 
             // splitContainer1
             // 
-            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainer1.Location = new System.Drawing.Point(3, 3);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -4064,9 +4058,9 @@ namespace AutoWikiBrowser
             // 
             // OverallTypoStats
             // 
-            this.OverallTypoStats.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.OverallTypoStats.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.OverallTypoStats.ComparerFactory = this.OverallTypoStats;
             this.OverallTypoStats.IsOverallStats = true;
             this.OverallTypoStats.Location = new System.Drawing.Point(3, 16);
@@ -4132,9 +4126,9 @@ namespace AutoWikiBrowser
             // 
             this.webBrowser.AllowNavigation = false;
             this.webBrowser.AllowWebBrowserDrop = false;
-            this.webBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.webBrowser.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.webBrowser.Location = new System.Drawing.Point(0, 25);
             this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser.Name = "webBrowser";
@@ -4155,8 +4149,8 @@ namespace AutoWikiBrowser
             // 
             // panel1
             // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.listMaker);
             this.panel1.Controls.Add(this.MainTab);
@@ -4238,10 +4232,30 @@ namespace AutoWikiBrowser
             this.mnuCopyToCategoryLog.Text = "Copy to Category box on &log tab (for edit summaries and logging)";
             this.mnuCopyToCategoryLog.Click += new System.EventHandler(this.mnuCopyToCategoryLog_Click);
             // 
+            // loggingSettings1
+            // 
+            this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
+            this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
+            this.loggingSettings1.Name = "loggingSettings1";
+            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
+            this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
+            this.loggingSettings1.TabIndex = 0;
+            // 
             // NudgeTimer
             // 
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
+            // 
+            // chkSkipCosmetic
+            // 
+            this.chkSkipCosmetic.AutoSize = true;
+            this.chkSkipCosmetic.Location = new System.Drawing.Point(24, 156);
+            this.chkSkipCosmetic.Name = "chkSkipCosmetic";
+            this.chkSkipCosmetic.Size = new System.Drawing.Size(183, 17);
+            this.chkSkipCosmetic.TabIndex = 10;
+            this.chkSkipCosmetic.Text = "Only cosmetic changes are made";
+            this.ToolTip.SetToolTip(this.chkSkipCosmetic, "Automatically skips pages when only cosmetic changes were made");
+            this.chkSkipCosmetic.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
@@ -4735,5 +4749,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Label lblSummary;
         private System.Windows.Forms.ListBox lbAlerts;
         private System.Windows.Forms.ToolStripMenuItem logOutToolStripMenuItem;
+        private System.Windows.Forms.CheckBox chkSkipCosmetic;
     }
 }
