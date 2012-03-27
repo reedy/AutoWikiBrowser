@@ -416,19 +416,21 @@ namespace WikiFunctions
             get
             {
                 ApiEdit parser = Variables.MainForm.TheSession.Editor.SynchronousEditor;
-                char[] delimiters = { '<' };
-                string[] beforecatslangs = parser.ParseApi("prop=langlinks|categories&pst&disablepp&text=" + OriginalArticleText).Split(delimiters);
-                string[] aftercatslangs = parser.ParseApi("prop=langlinks|categories&pst&disablepp&text=" + mArticleText).Split(delimiters);
+
+                if (!mPage.Exists) return false;
+
+                string[] parsebeforebits = parser.ParseApi("prop=text|displaytitle|langlinks|categories&pst&disablepp&text=" + OriginalArticleText).Split( new string[]{ "<langlinks" }, StringSplitOptions.None );
+                string[] parseafterbits = parser.ParseApi("prop=text|displaytitle|langlinks|categories&pst&disablepp&text=" + mArticleText).Split( new string[]{ "<langlinks" }, StringSplitOptions.None );
+                string[] beforecatslangs = parsebeforebits[1].Split( new char[]{ '<' } );
+                string[] aftercatslangs = parseafterbits[1].Split(new char[] { '<' });
                 Array.Sort(beforecatslangs);
                 Array.Sort(aftercatslangs);
 
                 if (beforecatslangs.Length != aftercatslangs.Length
                     || string.Compare(string.Join("", beforecatslangs), string.Join("", aftercatslangs)) != 0) return false;
 
-                string beforetext = parser.ParseApi("prop=text|displaytitle&pst&disablepp&text=" + OriginalArticleText);
-                string aftertext = parser.ParseApi("prop=text|displaytitle&pst&disablepp&text=" + mArticleText);
                 return
-                    (string.Compare(beforetext, aftertext) == 0);
+                    (string.Compare(parsebeforebits[0], parseafterbits[0]) == 0);
             }
         }
 
