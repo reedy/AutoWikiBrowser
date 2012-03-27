@@ -6481,22 +6481,22 @@ words";
             Assert.AreEqual(PortalBox1, Parsers.MergePortals(@"Foo
 ==See also==
 {{Portal|Bar}}
-{{Port|Foo2 }}"), "merges multiple portals to new portal box");
+{{Portal|Foo2 }}"), "merges multiple portals to new portal box");
             
             Assert.AreEqual(PortalBox1, Parsers.MergePortals(@"Foo
 ==See also==
 {{Portal box|Bar}}
-{{Port|Foo2 }}"), "merges portals to existing portal box");
+{{Portal|Foo2 }}"), "merges portals to existing portal box");
             
             const string NoSeeAlso = @"{{Portal|Bar}}
-{{Port|Foo2 }}";
+{{Portal|Foo2 }}";
             
             Assert.AreEqual(NoSeeAlso, Parsers.MergePortals(NoSeeAlso), "no merging if no portal box and no see also");
             
             const string MultipleArguments = @"Foo
 ==See also==
 {{Portal|Bar}}
-{{Port|Foo2|other=here}}";
+{{Portal|Foo2|other=here}}";
             
             Assert.AreEqual(MultipleArguments, Parsers.MergePortals(MultipleArguments), "no merging of portal with multiple arguments");
             
@@ -6504,7 +6504,7 @@ words";
             const string SameSection = @"Foo
 ==Section==
 {{Portal|Bar}}
-{{Port|Foo}}
+{{Portal|Foo}}
 ==Other==";
             Assert.AreEqual(@"Foo
 ==Section==
@@ -6515,7 +6515,7 @@ words";
 ==Section==
 {{Portal|Bar}}
 ==Other==
-{{Port|Foo}}";
+{{Portal|Foo}}";
             Assert.AreEqual(differentSection, Parsers.MergePortals(differentSection), "not merged when portals in ddifferent sections");
         }
         
@@ -6529,7 +6529,7 @@ words";
 ", input = @"Foo
 ==See also==
 {{Portal|Bar}}
-{{Port|Foo2 }}";
+{{Portal|Foo2 }}";
             
             Variables.SetProjectLangCode("fr");
             Assert.AreEqual(input, Parsers.MergePortals(input));

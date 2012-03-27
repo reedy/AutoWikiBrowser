@@ -1012,7 +1012,7 @@ cit"));
         public void PortalTemplateTests()
         {
             Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal}}"));
-            Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{port|Foo}}"));
+            Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal|Foo}}"));
             Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{ portal}}"));
             Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{Portal}}"));
             Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{Portalpar}}"));

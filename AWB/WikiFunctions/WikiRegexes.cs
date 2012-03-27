@@ -960,7 +960,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{Portal}}/{{Portalpar}} templates
         /// </summary>
-        public static readonly Regex PortalTemplate = Tools.NestedTemplateRegex(new [] { "port", "portal", "portalpar" });
+        public static readonly Regex PortalTemplate = Tools.NestedTemplateRegex(new [] { "portal", "portalpar" });
         #endregion
 
         /// <summary>
