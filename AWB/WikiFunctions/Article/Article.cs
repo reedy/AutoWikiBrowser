@@ -420,8 +420,8 @@ namespace WikiFunctions
                 if (!mPage.Exists) return false;
 
                 // Send text to parser
-                string[] parsebeforebits = parser.ParseApi("prop=text|displaytitle|langlinks|categories&pst&disablepp&page=" + mPage.Title).Split( new string[]{ "</text>" }, StringSplitOptions.None );
-                string[] parseafterbits = parser.ParseApi("prop=text|displaytitle|langlinks|categories&pst&disablepp&title=" + mPage.Title + "&text=" + mArticleText).Split( new string[]{ "</text>" }, StringSplitOptions.None );
+                string[] parsebeforebits = parser.ParseApi(new[,]{ { "page", mPage.Title } }).Split( new string[]{ "</text>" }, StringSplitOptions.None );
+                string[] parseafterbits = parser.ParseApi(new[,]{ { "title", mPage.Title }, { "text", mArticleText }, { "pst", null }, { "disablepp", null } }).Split( new string[]{ "</text>" }, StringSplitOptions.None );
                
                 // First half: interwiki and category links
                 // The API will churn them out in the order they go in, so we'll need to sort them ourselves

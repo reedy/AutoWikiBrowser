@@ -1016,11 +1016,16 @@ namespace WikiFunctions.API
         #endregion
 
         #region Parse Api
-        public string ParseApi(string queryParamters)
+        public string ParseApi(string[,] queryParameters)
         {
-            if (string.IsNullOrEmpty(queryParamters)) throw new ArgumentException("queryParamters cannot be null/empty", "queryParamters");
-
-            string result = HttpGet(ApiURL + "?action=parse&format=xml&" + queryParamters); //Should we be checking for maxlag?
+                string result = HttpPost(
+                new[,]
+                {
+                    { "action", "parse" },
+                    { "format", "xml" },
+                    { "prop", "text|displaytitle|langlinks|categories" }
+                },
+                queryParameters);//Should we be checking for maxlag?
 
             CheckForErrors(result, "parse");
 
