@@ -288,6 +288,6 @@ namespace WikiFunctions.API
         /// </summary>
         /// <param name="queryParameters"></param>
         /// <returns></returns>
-        string ParseApi(string queryParameters);
+        string ParseApi(string[,] queryParameters);
     }
 }
