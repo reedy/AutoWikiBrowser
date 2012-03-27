@@ -419,18 +419,24 @@ namespace WikiFunctions
 
                 if (!mPage.Exists) return false;
 
-                string[] parsebeforebits = parser.ParseApi("prop=text|displaytitle|langlinks|categories&pst&disablepp&text=" + OriginalArticleText).Split( new string[]{ "<langlinks" }, StringSplitOptions.None );
-                string[] parseafterbits = parser.ParseApi("prop=text|displaytitle|langlinks|categories&pst&disablepp&text=" + mArticleText).Split( new string[]{ "<langlinks" }, StringSplitOptions.None );
+                // Send text to parser
+                string[] parsebeforebits = parser.ParseApi("prop=text|displaytitle|langlinks|categories&pst&disablepp&page=" + mPage.Title).Split( new string[]{ "</text>" }, StringSplitOptions.None );
+                string[] parseafterbits = parser.ParseApi("prop=text|displaytitle|langlinks|categories&pst&disablepp&title=" + mPage.Title + "&text=" + mArticleText).Split( new string[]{ "</text>" }, StringSplitOptions.None );
+               
+                // First half: interwiki and category links
+                // The API will churn them out in the order they go in, so we'll need to sort them ourselves
                 string[] beforecatslangs = parsebeforebits[1].Split( new char[]{ '<' } );
                 string[] aftercatslangs = parseafterbits[1].Split(new char[] { '<' });
                 Array.Sort(beforecatslangs);
                 Array.Sort(aftercatslangs);
-
                 if (beforecatslangs.Length != aftercatslangs.Length
                     || string.Compare(string.Join("", beforecatslangs), string.Join("", aftercatslangs)) != 0) return false;
 
+                // Second half: consemtic changes to text (such as template redirect bypassing)
+                // We'll need to strip the text of the cache markers and metadata to make old and new comparable
+                parsebeforebits[0] = Regex.Replace(parsebeforebits[0], "&lt;!--(([^&]*?)NewPP limit report| Saved in parser cache)([^&]*?)--&gt;", "");
                 return
-                    (string.Compare(parsebeforebits[0], parseafterbits[0]) == 0);
+                    (string.Compare(parsebeforebits[0].Trim(), parseafterbits[0].Trim()) == 0);
             }
         }
 
