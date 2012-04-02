@@ -399,12 +399,15 @@ namespace AutoWikiBrowser
                         {
                             asm = Assembly.LoadFile(plugin);
                         }
+#if DEBUG
                         catch (Exception ex)
                         {
-#if DEBUG
                             Tools.WriteDebug(plugin, ex.ToString());
+#else
+                        catch (Exception)
+                        {
 #endif
-							continue;
+                            continue;
                         }
 
                         if (asm == null)
@@ -417,7 +420,7 @@ namespace AutoWikiBrowser
                                 if (t.GetInterface("IAWBPlugin") != null)
                                 {
                                     IAWBPlugin awbPlugin =
-                                        (IAWBPlugin)Activator.CreateInstance(t);
+                                        (IAWBPlugin) Activator.CreateInstance(t);
 
                                     if (AWBPlugins.ContainsKey(awbPlugin.Name))
                                     {
@@ -435,9 +438,9 @@ namespace AutoWikiBrowser
                                     if (afterStartup) UsageStats.AddedPlugin(awbPlugin);
                                 }
                                 else if (t.GetInterface("IAWBBasePlugin") != null)
-                                //IAWBBasePlugin needs to be checked after IAWBPlugin, as IAWBPlugin extends IAWBBasePlugin
+                                    //IAWBBasePlugin needs to be checked after IAWBPlugin, as IAWBPlugin extends IAWBBasePlugin
                                 {
-                                    IAWBBasePlugin awbBasePlugin = (IAWBBasePlugin)Activator.CreateInstance(t);
+                                    IAWBBasePlugin awbBasePlugin = (IAWBBasePlugin) Activator.CreateInstance(t);
 
                                     if (AWBBasePlugins.ContainsKey(awbBasePlugin.Name))
                                     {
@@ -457,7 +460,7 @@ namespace AutoWikiBrowser
                                 else if (t.GetInterface("IListMakerPlugin") != null)
                                 {
                                     IListMakerPlugin listMakerPlugin =
-                                        (IListMakerPlugin)Activator.CreateInstance(t);
+                                        (IListMakerPlugin) Activator.CreateInstance(t);
 
                                     if (ListMakerPlugins.ContainsKey(listMakerPlugin.Name))
                                     {
@@ -492,7 +495,7 @@ namespace AutoWikiBrowser
                 }
                 catch (Exception ex)
                 {
-#if debug
+#if DEBUG
                     ErrorHandler.Handle(ex);
 #else
                     MessageBox.Show(ex.Message, "Problem loading plugins");
