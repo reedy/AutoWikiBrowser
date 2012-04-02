@@ -92,11 +92,13 @@ namespace WikiFunctions.Profiles
                         : lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text;
 
                 if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[2].Text == "Yes")
-                {//Get 'Saved' Password
+                {
+                    //Get 'Saved' Password
                     PerformLogin(AWBProfiles.GetPassword(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)));
                 }
                 else
-                {//Get Password from User
+                {
+                    //Get Password from User
                     UserPassword password = new UserPassword
                                                 {
                                                     Username = lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text
@@ -112,6 +114,7 @@ namespace WikiFunctions.Profiles
             }
             catch (Exception ex)
             {
+                Cursor = Cursors.Default;
                 ErrorHandler.Handle(ex);
             }
         }
