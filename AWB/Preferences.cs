@@ -85,7 +85,7 @@ namespace AutoWikiBrowser
 
         public string Language
         {
-            get { return cmboLang.SelectedItem.ToString(); }
+            get { return cmboLang.SelectedItem == null ? "" : cmboLang.SelectedItem.ToString(); }
         }
 
         public ProjectEnum Project

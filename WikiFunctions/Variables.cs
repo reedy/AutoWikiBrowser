@@ -459,7 +459,7 @@ namespace WikiFunctions
                 SystemProxy = null;
             }
         }
-
+         
         #endregion
 
         // for logging, these will probably need internationalising
@@ -557,17 +557,10 @@ namespace WikiFunctions
             if (IsCustomProject)
             {
                 LangCode = "en";
-                URLEnd = "";
-                int x = customProject.IndexOf('/');
-
-                if (x > 0)
-                {
-                    URLEnd = customProject.Substring(x, customProject.Length - x);
-                    CustomProject = customProject.Substring(0, x);
-                }
-
-                URL = protocol + CustomProject;
-
+                var uri = new Uri(Protocol + customProject);
+                URLEnd = uri.AbsolutePath;
+                URL = protocol + uri.Host;
+                CustomProject = URLLong;
             }
             else
             {
@@ -712,9 +705,6 @@ namespace WikiFunctions
                             // strsummarytag = " ";
                             // strWPAWB = "";
                             // break;
-
-                        default:
-                            break;
                     }
                     break;
                 case ProjectEnum.commons:
@@ -738,11 +728,6 @@ namespace WikiFunctions
                     URLEnd = "/";
                     break;
                 case ProjectEnum.custom:
-                    // Make sure URL ends with / so ApiURL won't become www.customwiki.comapi.php.
-                    if (!URL.EndsWith("/"))
-                    {
-                        URLEnd = "/";
-                    }
                     break;
             }
 
@@ -769,6 +754,7 @@ namespace WikiFunctions
                                                     projectName = projectName,
                                                     customProject = customProject,
                                                     langCode = langCode,
+                                                    protocol = Protocol
                                                 };
                     return;
                 }
