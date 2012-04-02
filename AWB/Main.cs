@@ -2918,7 +2918,7 @@ window.scrollTo(0, diffTopY);
                 if (Variables.TryLoadingAgainAfterLogin)
                 {
                     MessageBox.Show(
-                        "You seem to be accessing a private wiki. Project loading will be attempted again after login",
+                        "You seem to be accessing a private wiki. Project loading will be attempted again after login.",
                         "Restricted Wiki");
                 }
 
