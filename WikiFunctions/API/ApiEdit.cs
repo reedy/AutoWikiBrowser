@@ -541,7 +541,8 @@ namespace WikiFunctions.API
             XmlReader xr = XmlReader.Create(new StringReader(result));
             xr.ReadToFollowing("login");
 
-            if (xr.GetAttribute("result").Equals("NeedToken", StringComparison.InvariantCultureIgnoreCase))
+            var attribute = xr.GetAttribute("result");
+            if (attribute != null && attribute.Equals("NeedToken", StringComparison.InvariantCultureIgnoreCase))
             {
                 AdjustCookies();
                 string token = xr.GetAttribute("token");
@@ -561,8 +562,7 @@ namespace WikiFunctions.API
             }
 
             string status = xr.GetAttribute("result");
-
-            if (!status.Equals("Success", StringComparison.InvariantCultureIgnoreCase))
+            if (status != null && !status.Equals("Success", StringComparison.InvariantCultureIgnoreCase))
             {
                 throw new LoginException(this, status);
             }
