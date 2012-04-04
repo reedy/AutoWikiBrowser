@@ -1297,6 +1297,7 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("í", "i"),
 			
 			new KeyValuePair<string, string>("ŏ", "o"),
+			new KeyValuePair<string, string>("ổ", "o"),
 			new KeyValuePair<string, string>("í", "i"),
 			new KeyValuePair<string, string>("į", "i"),
 			new KeyValuePair<string, string>("í", "i"),
