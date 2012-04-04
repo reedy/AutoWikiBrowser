@@ -393,9 +393,10 @@ namespace WikiFunctions.Parse
                 articleText = articleText.Replace(m.Value, firstPart + parameterFirstChar + lastPart);
             }
 
-            // remove any date field within  {{Multiple issues}} if no 'expert' field using it
+            // remove any date field within  {{Multiple issues}} if no 'expert=subject' field using it
             string MICall = WikiRegexes.MultipleIssues.Match(articleText).Value;
-            if (MICall.Length > 10 && Tools.GetTemplateParameterValue(MICall, "expert").Length == 0)
+            if (MICall.Length > 10 && (Tools.GetTemplateParameterValue(MICall, "expert").Length == 0 || 
+                                       MonthYear.IsMatch(Tools.GetTemplateParameterValue(MICall, "expert"))))
                 articleText = articleText.Replace(MICall, Tools.RemoveTemplateParameter(MICall, "date"));
 
             articleText = SectionTemplates.Replace(articleText, new MatchEvaluator(SectionTemplateConversionsME));
