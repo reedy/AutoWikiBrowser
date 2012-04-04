@@ -8707,7 +8707,11 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         public void MultipleIssuesDateField()
         {
             // don't remove date field where expert field is using it
-            Assert.AreEqual(@"{{Article issues|cleanup=March 2008|expert=Anime and manga|refimprove=May 2008|date=February 2009}}", parser.MultipleIssues(@"{{Article issues|Cleanup=March 2008|expert=Anime and manga|refimprove=May 2008|date=February 2009}}"));
+            const string ESD = @"{{Article issues|cleanup=March 2008|expert=Anime and manga|refimprove=May 2008|date=February 2009}}";
+            Assert.AreEqual(ESD, parser.MultipleIssues(ESD));
+            
+            // can remove date field when expert=Month YYYY
+            Assert.AreEqual(@"{{Article issues|cleanup=March 2008|expert=May 2008|refimprove=May 2008}}", parser.MultipleIssues(@"{{Article issues|Cleanup=March 2008|expert=May 2008|refimprove=May 2008|date=February 2009}}"));
 
             // date field removed where no expert field to use it
             Assert.AreEqual(@"{{Article issues|cleanup=March 2008|COI=March 2008|refimprove=May 2008}}", parser.MultipleIssues(@"{{Article issues|Cleanup=March 2008|COI=March 2008|refimprove=May 2008|date=February 2009}}"));
