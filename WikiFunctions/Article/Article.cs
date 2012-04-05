@@ -432,9 +432,14 @@ namespace WikiFunctions
                 if (beforecatslangs.Length != aftercatslangs.Length
                     || string.Compare(string.Join("", beforecatslangs), string.Join("", aftercatslangs)) != 0) return false;
 
-                // Second half: consemtic changes to text (such as template redirect bypassing)
+                // Second half: cosmetic changes to text (such as template redirect bypassing)
                 // We'll need to strip the text of the cache markers and metadata to make old and new comparable
+                // and then remove some common whitespace changes for good measure
                 parsebeforebits[0] = Regex.Replace(parsebeforebits[0], "&lt;!--(([^&]*?)NewPP limit report| Saved in parser cache)([^&]*?)--&gt;", "");
+                string whitespace1 = "&lt;p&gt;&lt;br /&gt;&lt;/p&gt;\n";
+                parsebeforebits[0] = parsebeforebits[0].Replace(whitespace1, "");
+                parseafterbits[0] = parseafterbits[0].Replace(whitespace1, "");
+
                 return
                     (string.Compare(parsebeforebits[0].Trim(), parseafterbits[0].Trim()) == 0);
             }
