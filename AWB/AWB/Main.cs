@@ -920,7 +920,7 @@ namespace AutoWikiBrowser
                         }
 
                         if (chkSkipCosmetic.Checked
-                            && TheArticle.OnlyCosmeticChanged)
+                            && ( TheArticle.NoArticleTextChanged ||  TheArticle.OnlyCosmeticChanged) )
                         {
                             SkipPage("Only cosmetic changes made");
                             return;
