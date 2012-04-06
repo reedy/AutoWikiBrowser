@@ -15,6 +15,7 @@ CREATE INDEX `sitecheckedout` ON `articles` (`siteid`, `checkedout`, `userid`);
 CREATE INDEX `checkedoutuser` ON `articles` (`checkedout`, `userid`);
 CREATE INDEX `finished` ON `articles` (`finished`);
 CREATE INDEX `skipid` ON `articles` (`skipid`);
+CREATE INDEX `userid` ON `articles` (`userid`);
 
 DROP TABLE IF EXISTS `skippedreason`;
 CREATE TABLE `skippedreason` (
