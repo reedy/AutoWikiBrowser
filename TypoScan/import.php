@@ -35,7 +35,7 @@ while ( !feof( $f ) ) {
 	mysql_query( $q ) or die;
 	// echo $name . "\n";
 	if ( $i % 10 == 0 ) {
-		echo $i . "\n';
+		echo $i . "\n";
 	}
 }
 
