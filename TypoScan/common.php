@@ -57,13 +57,10 @@
 
 		// echo $query;
 
-		if ( mysql_num_rows( $result ) == 1 )
-		{
+		if ( mysql_num_rows( $result ) == 1 ) {
 			// echo 'Exists:' . mysql_result($result, 0);
 			return mysql_result( $result, 0 );
-		}
-		else
-		{
+		} else {
 			$query = 'INSERT INTO ' . $table . '(' . $wherecol . ') VALUES("' . mysql_escape_string( $data ) . '")';
 			$result = mysql_query( $query ) or die ( 'Error: ' . mysql_error() . '\nQuery: ' . $query ); ;
 

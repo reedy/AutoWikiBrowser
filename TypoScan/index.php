@@ -281,20 +281,23 @@
 	mysql_close( $conn );
 	
 	function PrintTableRow( $header, $data ) {
-	echo '	<tr>
+		echo '	<tr>
 		<th align="left" scope="row">' . $header . '</th><td>' . $data . '</td>
 	</tr>
 ';
 	}
 	
 	function PostRequired() {
-		if ( $_SERVER['REQUEST_METHOD'] != 'POST' ) ReturnError( 'method', 'This operation requires data to be posted' );
+		if ( $_SERVER['REQUEST_METHOD'] != 'POST' ) {
+			ReturnError( 'method', 'This operation requires data to be posted' );
+		}
 	}
 	
 	function ReturnError( string $message, $error = false ) {
 		$attribs = array( array( 'status' => 'failed' ) );
-		if ( $error )
+		if ( $error ) {
 			$attribs['error'] = $error;
+		}
 
 		echo Xml::XmlHeader() . Xml::element( 'operation', $attribs, $message );
 		die;
