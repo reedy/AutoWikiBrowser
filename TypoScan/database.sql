@@ -11,6 +11,11 @@ CREATE TABLE  `articles` (
   PRIMARY KEY  (`articleid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE INDEX `sitecheckedout` ON `articles` (`siteid`, `checkedout`, `userid`);
+CREATE INDEX `checkedoutuser` ON `articles` (`checkedout`, `userid`);
+CREATE INDEX `finished` ON `articles` (`finished`);
+CREATE INDEX `skipid` ON `articles` (`skipid`);
+
 DROP TABLE IF EXISTS `skippedreason`;
 CREATE TABLE `skippedreason` (
   `skipid` int(10) unsigned NOT NULL auto_increment,
@@ -33,5 +38,7 @@ CREATE TABLE `site` (
   `address` varchar(50) NOT NULL,
    PRIMARY KEY (`siteid`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE INDEX `siteaddress` ON `site` (`siteid`, `address`);
 
 INSERT INTO `site`(`address`) VALUES ('en.wikipedia.org');
