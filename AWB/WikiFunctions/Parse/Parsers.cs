@@ -5362,6 +5362,9 @@ namespace WikiFunctions.Parse
 
             if (dateBirthAndAgeCount == 1 || dateDeathCount == 1)
                 return true;
+            
+            if(WikiRegexes.InfoBox.IsMatch(zerothSection) && !WikiRegexes.PeopleInfoboxTemplates.IsMatch(zerothSection))
+				return false;
 
             return WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText)
                 || WikiRegexes.LivingPeopleRegex2.IsMatch(articleText)
