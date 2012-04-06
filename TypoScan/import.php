@@ -34,9 +34,10 @@ while ( !feof( $f ) ) {
 	$q = "INSERT INTO articles (title, siteid) VALUES ('" . mysql_escape_string( $name ) . "', '" . $siteid . "')";
 	mysql_query( $q ) or die;
 	// echo $name . "\n";
-	if ( $i % 10 == 0 ) {
+	if ( $i % 100 == 0 ) {
 		echo $i . "\n";
 	}
 }
 
+echo $i . "\n";
 echo "Success!\n";
