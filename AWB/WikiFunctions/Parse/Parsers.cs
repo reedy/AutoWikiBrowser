@@ -6073,7 +6073,7 @@ namespace WikiFunctions.Parse
 
             if (linkCount > 0 && WikiRegexes.DeadEnd.IsMatch(articleText))
             {
-                articleText = WikiRegexes.DeadEnd.Replace(articleText, new MatchEvaluator(SectionTagME));
+                articleText = WikiRegexes.DeadEnd.Replace(articleText, m => SectionTagME(m, articleText));
                 
                 if(!WikiRegexes.DeadEnd.IsMatch(articleText))
                     tagsRemoved.Add("deadend");
@@ -6155,7 +6155,7 @@ namespace WikiFunctions.Parse
             else if (linkCount > 3 && !underlinked &&
                      WikiRegexes.Wikify.IsMatch(articleText))
             {
-                articleText = WikiRegexes.Wikify.Replace(articleText, new MatchEvaluator(SectionTagME));
+                articleText = WikiRegexes.Wikify.Replace(articleText, m => SectionTagME(m, articleText));
                 
                 if(!WikiRegexes.Wikify.IsMatch(articleText))
                     tagsRemoved.Add("wikify");
@@ -6196,11 +6196,13 @@ namespace WikiFunctions.Parse
             return articleText;
         }
         
-        private static string SectionTagME(Match m)
+        private static string SectionTagME(Match m, string articletext)
         {
             string templateCall = m.Value;
             
-            if(WikiRegexes.NestedTemplates.IsMatch(templateCall) && Tools.GetTemplateArgument(templateCall, 1).Equals("section"))
+            // section if {{x|section}} or {{multiple issues|...|section=y|...}}
+            if((WikiRegexes.NestedTemplates.IsMatch(templateCall) && Tools.GetTemplateArgument(templateCall, 1).Equals("section")) 
+               || Tools.GetTemplateParameterValue(WikiRegexes.MultipleIssues.Match(articletext).Value, "section").Equals("y"))
                 return m.Value;
             
             return m.Groups[1].Value;
