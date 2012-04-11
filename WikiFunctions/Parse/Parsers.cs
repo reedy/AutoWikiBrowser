@@ -3201,12 +3201,12 @@ namespace WikiFunctions.Parse
             // date = Month DD and year = YYYY --> date = Month DD, YYYY
             if(!YearOnly.IsMatch(TheDate) && YearOnly.IsMatch(TheYear))
             {
-                if(WikiRegexes.AmericanDates.IsMatch(TheDate + ", " + TheYear))
+            	if(!WikiRegexes.AmericanDates.IsMatch(TheDate) && WikiRegexes.AmericanDates.IsMatch(TheDate + ", " + TheYear))
                 {
                     newValue = Tools.SetTemplateParameterValue(newValue, "date", TheDate + ", " + TheYear);
                     newValue = Tools.RemoveTemplateParameter(newValue, "year");
                 }
-                else if (WikiRegexes.InternationalDates.IsMatch(TheDate + " " + TheYear))
+            	else if (!WikiRegexes.InternationalDates.IsMatch(TheDate) && WikiRegexes.InternationalDates.IsMatch(TheDate + " " + TheYear))
                 {
                     newValue = Tools.SetTemplateParameterValue(newValue, "date", TheDate + " " + TheYear);
                     newValue = Tools.RemoveTemplateParameter(newValue, "year");
@@ -5442,7 +5442,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex PersonYearOfDeath = new Regex(@"(?<='''.{0,100}?)\([^\(\)]*?[Dd]ied[^\)\.;]+?([12]?\d{3}(?: BC)?)\b", RegexOptions.Compiled);
         private static readonly Regex PersonYearOfBirthAndDeath = new Regex(@"^.{0,100}?'''\s*\([^\)\r\n]*?(?<![Dd]ied)\b([12]?\d{3})\b[^\)\r\n]*?(-|–|—|&[nm]dash;)[^\)\r\n]*?([12]?\d{3})\b[^\)]{0,200}", RegexOptions.Singleline | RegexOptions.Compiled);
 
-        private static readonly Regex UncertainWordings = new Regex(@"(?:\b(about|approx\.?|before|by|or \d+|later|after|near|either|probably|prior to|around|late|[Cc]irca|between|be?tw\.?|[Bb]irth based on age as of date|\d{3,4}(?:\]\])?/(?:\[\[)?\d{1,4}|or +(?:\[\[)?\d{3,})\b|\d{3} *\?|\bca?(?:'')?\.|\b[Cc]a?\b|\b(bef|abt|est)\.|~|/|''fl''\.?)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex UncertainWordings = new Regex(@"(?:\b(about|abt|approx\.?|before|by|or \d+|later|after|near|either|probably|missing|prior to|around|late|[Cc]irca|between|be?tw\.?|[Bb]irth based on age as of date|\d{3,4}(?:\]\])?/(?:\[\[)?\d{1,4}|or +(?:\[\[)?\d{3,})\b|\d{3} *\?|\bca?(?:'')?\.|\b[Cc]a?\b|\b(bef|abt|est)\.|~|/|''fl''\.?)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex ReignedRuledUnsure = new Regex(@"(?:\?|[Rr](?:uled|eign(?:ed)?\b)|\br\.|(chr|fl(?:\]\])?)\.|\b(?:[Ff]lo(?:urished|ruit)|active|baptized)\b)", RegexOptions.Compiled);
 
         /// <summary>
