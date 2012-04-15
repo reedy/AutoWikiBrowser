@@ -145,38 +145,19 @@ namespace WikiFunctions.ReplaceSpecial
 
                 for (; ; )
                 {
-                    int i = text_.IndexOf("}}");
+                   /* 
+                       This function used to have slightly different logic;
+                       it was changed in r8062 following a discussion at
+                       http://en.wikipedia.org/wiki/WT:AutoWikiBrowser/Bugs/Archive_20#Bad_.22in_template.22_handling
+                    */
+                    string text_2 = Tools.ReplaceWithSpaces(text_, WikiRegexes.NestedTemplates.Matches(text_));
+                    int i = text_2.IndexOf("}}");
                     if (i < 0)
                         return; // error: template not closed
 
-                    int j = text_.IndexOf("{{");
+                    int j = text_2.IndexOf("{{");
 
                     string t;
-
-                    if (j != -1 && j < i)
-                    {
-                        t = text_.Substring(0, j);
-                        j += 2;
-                        text_ = text_.Substring(j);
-
-                        if (!checkDone)
-                        {
-                            check = TemplateUsedInText(template_, t);
-                            checkDone = true;
-                        }
-
-                        if (check)
-                        {
-                            result_ += ReplaceOn(template_, tn, t, title_);
-                        }
-                        else
-                        {
-                            result_ += t;
-                        }
-                        result_ += "{{";
-                        Inside(tn);
-                        continue;
-                    }
 
                     t = text_.Substring(0, i);
                     i += 2;
