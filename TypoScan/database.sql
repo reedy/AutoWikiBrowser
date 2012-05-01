@@ -20,7 +20,7 @@ CREATE INDEX `userid` ON `articles` (`userid`);
 DROP TABLE IF EXISTS `skippedreason`;
 CREATE TABLE `skippedreason` (
   `skipid` int(10) unsigned NOT NULL auto_increment,
-  `skipreason` varchar(50) default NULL,
+  `skipreason` varchar(255) default NULL,
   PRIMARY KEY  (`skipid`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -29,7 +29,7 @@ INSERT INTO `skippedreason`(`skipreason`) VALUES ('Clicked ignore'), ('No change
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `userid` int(10) unsigned NOT NULL auto_increment,
-  `username` varchar(50) default NULL,
+  `username` varchar(255) default NULL,
   PRIMARY KEY (`userid`)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
