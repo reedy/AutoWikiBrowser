@@ -784,6 +784,25 @@ Jones 2005</ref>"));
         }
         
         [Test]
+        public void AddMissingReflistEnOnly()
+        {
+        	#if DEBUG
+        	const string SingleRef = @"now <ref>foo</ref>", Cat = @"
+[[Category:Here]]", ExtLinks = @"==External links==
+*[http://www.site.com hello]";
+        	Assert.AreEqual(SingleRef + "\r\n\r\n" + @"==References==
+{{Reflist}}" + Cat, Parsers.AddMissingReflist(SingleRef + Cat));
+        	
+        	Variables.SetProjectLangCode("fr");
+        	Assert.AreEqual(SingleRef + Cat, Parsers.AddMissingReflist(SingleRef + Cat));
+        	
+        	Variables.SetProjectLangCode("en");
+        	Assert.AreEqual(SingleRef + "\r\n\r\n" + @"==References==
+{{Reflist}}" + Cat, Parsers.AddMissingReflist(SingleRef + Cat));
+        	#endif
+        }
+        
+        [Test]
         public void RefsAfterPunctuation()
         {
             string AllAfter = @"Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The next";
