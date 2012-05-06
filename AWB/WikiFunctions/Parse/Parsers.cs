@@ -2194,7 +2194,7 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text</returns>
         public static string AddMissingReflist(string articleText)
         {
-            if (!IsMissingReferencesDisplay(articleText))
+        	if (!IsMissingReferencesDisplay(articleText) || !Variables.LangCode.Equals("en"))
                 return articleText;
 
             if (ReferencesMissingSlash.IsMatch(articleText))
