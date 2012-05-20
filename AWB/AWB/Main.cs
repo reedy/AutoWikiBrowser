@@ -394,6 +394,11 @@ namespace AutoWikiBrowser
         private int _listComparerUseCurrentArticleList, _listSplitterUseCurrentArticleList, _dbScannerUseCurrentArticleList;
 
         private bool _flash, _beep;
+        
+              /// <summary>
+        /// True if user has been warned in AWB session that articles with characters in Unicode private use area can't be saved
+        /// </summary>
+        private bool _userWarnedAboutUnicodePUA = false;
 
         /// <summary>
         /// True if AWB should be minimised to the system tray; False if it should minimise to the taskbar
@@ -847,6 +852,10 @@ namespace AutoWikiBrowser
              * Reference: [[Unicode#Character General Category]] PUA is U+E000 to U+F8FF */
             if(UnicodePUA.IsMatch(page.Text))
             {
+                if(!_userWarnedAboutUnicodePUA)
+                    MessageBox.Show("This page has character(s) in the Unicode Private Use Area so unfortunately can't be edited with AWB. The page will now be skipped");
+                
+                _userWarnedAboutUnicodePUA = true;
                 SkipPage("Page has character in Unicode Private Use Area");
                 return;
             }
