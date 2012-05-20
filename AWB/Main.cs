@@ -933,9 +933,23 @@ namespace AutoWikiBrowser
                         return;
                 }
             }
+            
+            txtEdit.Text = TheArticle.ArticleText;
+
+            //Update statistics and alerts
+            if (!BotMode)
+                ArticleInfo(false);
+            
+            if (chkSkipIfNoAlerts.Checked && lbAlerts.Items.Count == 0)
+            {
+                SkipPage("Page has no alerts");
+                return;
+            }
+
+            Variables.Profiler.Profile("Alerts");
 
             if (preParseModeToolStripMenuItem.Checked)
-            {
+            {              
                 // if we reach here the article has valid changes, so move on to next article
 
                 // if user has loaded a settings file, save it every 10 ignored edits
@@ -958,12 +972,6 @@ namespace AutoWikiBrowser
 
             if (syntaxHighlightEditBoxToolStripMenuItem.Checked)
                 txtEdit.Visible = false;
-
-            txtEdit.Text = TheArticle.ArticleText;
-
-            //Update statistics and alerts
-            if (!BotMode)
-                ArticleInfo(false);
 
             if (!Abort)
             {
@@ -1006,15 +1014,6 @@ namespace AutoWikiBrowser
                 txtReviewEditSummary.Text = MakeSummary();
 
                 Variables.Profiler.Profile("Make Edit summary");
-
-                // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Working_with_Alerts
-                if (chkSkipIfNoAlerts.Checked && lbAlerts.Items.Count == 0)
-                {
-                    SkipPage("Page has no alerts");
-                    return;
-                }
-
-                Variables.Profiler.Profile("Alerts");
 
                 // syntax highlighting of edit box based on m:extension:wikEd standards
                 if (syntaxHighlightEditBoxToolStripMenuItem.Checked)
