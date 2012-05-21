@@ -852,10 +852,12 @@ namespace AutoWikiBrowser
              * Reference: [[Unicode#Character General Category]] PUA is U+E000 to U+F8FF */
             if(UnicodePUA.IsMatch(page.Text))
             {
-                if(!_userWarnedAboutUnicodePUA)
+                if(!_userWarnedAboutUnicodePUA && !preParseModeToolStripMenuItem.Checked && !BotMode)
+                {
                     MessageBox.Show("This page has character(s) in the Unicode Private Use Area so unfortunately can't be edited with AWB. The page will now be skipped");
+                    _userWarnedAboutUnicodePUA = true;
+                }
                 
-                _userWarnedAboutUnicodePUA = true;
                 SkipPage("Page has character in Unicode Private Use Area");
                 return;
             }
