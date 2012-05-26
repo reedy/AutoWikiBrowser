@@ -6179,7 +6179,7 @@ namespace WikiFunctions.Parse
 
             // rename unreferenced --> refimprove if has existing refs
             if (WikiRegexes.Unreferenced.IsMatch(commentsCategoriesStripped)
-                && TotalRefsNotGrouped(commentsCategoriesStripped) > 0)
+                && (TotalRefsNotGrouped(commentsCategoriesStripped) + Tools.NestedTemplateRegex("sfn").Matches(articleText).Count) > 0)
             {
                 articleText = Tools.RenameTemplate(articleText, "unreferenced", "refimprove", true);
                 
