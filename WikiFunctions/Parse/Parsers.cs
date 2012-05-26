@@ -5884,9 +5884,9 @@ namespace WikiFunctions.Parse
                 articleText = k.Key.Replace(articleText, k.Value);
             }
 
-            // {{no footnotes}} --> {{more footnotes}}, if some <ref>...</ref> references in article, uses regex from WikiRegexes.Refs
+            // {{no footnotes}} --> {{more footnotes}}, if some <ref>...</ref> or {{sfn}} references in article, uses regex from WikiRegexes.Refs
             // does not change section templates
-            if (TotalRefsNotGrouped(articleText) > 0)
+            if ((TotalRefsNotGrouped(articleText) + Tools.NestedTemplateRegex("sfn").Matches(articleText).Count) > 0)
                 articleText = Tools.NestedTemplateRegex("no footnotes").Replace(articleText, m => NotSectionTemplateME(m, "more footnotes"));
 
             // {{foo|section|...}} --> {{foo section|...}} for unreferenced, wikify, refimprove, BLPsources, expand, BLP unsourced

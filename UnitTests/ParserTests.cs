@@ -788,8 +788,7 @@ Jones 2005</ref>"));
         {
         	#if DEBUG
         	const string SingleRef = @"now <ref>foo</ref>", Cat = @"
-[[Category:Here]]", ExtLinks = @"==External links==
-*[http://www.site.com hello]";
+[[Category:Here]]";
         	Assert.AreEqual(SingleRef + "\r\n\r\n" + @"==References==
 {{Reflist}}" + Cat, Parsers.AddMissingReflist(SingleRef + Cat));
         	
@@ -7835,6 +7834,14 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             ==References==
             {{more footnotes}}
             {{reflist}}", Parsers.Conversions(@"Article <ref>A</ref>
+            ==References==
+            {{no footnotes}}
+            {{reflist}}"));
+            
+            Assert.AreEqual(@"Article {{sfn|Smith|2004}}
+            ==References==
+            {{more footnotes}}
+            {{reflist}}", Parsers.Conversions(@"Article {{sfn|Smith|2004}}
             ==References==
             {{no footnotes}}
             {{reflist}}"));
