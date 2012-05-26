@@ -7839,12 +7839,18 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             {{no footnotes}}
             {{reflist}}"));
 
-            // no change
-            Assert.AreEqual(@"Article
+            const string NoChange = @"Article
             ==References==
-            {{no footnotes}}", Parsers.Conversions(@"Article
+            {{no footnotes}}";
+            Assert.AreEqual(NoChange, Parsers.Conversions(NoChange));
+            
+            const string NoFootnotesSection = @"Article <ref>A</ref>
+            ==Sec==
+            {{no footnotes|section}}
             ==References==
-            {{no footnotes}}"));
+            {{reflist}}";
+            
+            Assert.AreEqual(NoFootnotesSection, Parsers.Conversions(NoFootnotesSection));
         }
         
         [Test]

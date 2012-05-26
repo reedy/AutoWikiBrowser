@@ -5885,8 +5885,9 @@ namespace WikiFunctions.Parse
             }
 
             // {{no footnotes}} --> {{more footnotes}}, if some <ref>...</ref> references in article, uses regex from WikiRegexes.Refs
+            // does not change section templates
             if (TotalRefsNotGrouped(articleText) > 0)
-                articleText = Tools.RenameTemplate(articleText, @"no footnotes", "more footnotes");
+                articleText = Tools.NestedTemplateRegex("no footnotes").Replace(articleText, m => NotSectionTemplateME(m, "more footnotes"));
 
             // {{foo|section|...}} --> {{foo section|...}} for unreferenced, wikify, refimprove, BLPsources, expand, BLP unsourced
             articleText = SectionTemplates.Replace(articleText, new MatchEvaluator(SectionTemplateConversionsME));
@@ -5943,6 +5944,21 @@ namespace WikiFunctions.Parse
                 newValue = Tools.RemoveTemplateParameter(newValue, "auto");
             
             return newValue;
+        }
+        
+        /// <summary>
+        /// Renames template if not a section template
+        /// </summary>
+        /// <param name="m">Template call</param>
+        /// /// <param name="newTemplateName">New template name to use</param>
+        /// <returns>The updated emplate call</returns>
+        private static string NotSectionTemplateME(Match m, string newTemplateName)
+        {
+            string newValue = m.Value, existingName = Tools.GetTemplateName(newValue);
+            if(Tools.GetTemplateArgument(newValue, 1).Equals("section") || Tools.GetTemplateArgument(newValue, 1).Equals("Section"))
+                return m.Value;
+            
+            return Tools.RenameTemplate(newValue, newTemplateName);
         }
 
         private static readonly Regex TemplateParameter2 = new Regex(@" \{\{\{2\|\}\}\}", RegexOptions.Compiled);
@@ -6642,7 +6658,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Check if the article contains a {{nofootnotes}} or {{morefootnotes}} template but has 5+ &lt;ref>...&lt;/ref> references
+        /// Check if the article contains a {{no footnotes}} or {{more footnotes}} template but has 5+ &lt;ref>...&lt;/ref> references
         /// </summary>
         public static bool HasMorefootnotesAndManyReferences(string articleText)
         {
