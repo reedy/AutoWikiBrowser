@@ -331,65 +331,111 @@ namespace WikiFunctions
             get
             {
                 return @"
-body {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size:95%;
-    margin-left:2px;
-    margin-right:2px;
-    margin-top: 0px;
-    margin-bottom: 0px;
+/*
+** Diff rendering
+*/
+table.diff, td.diff-otitle, td.diff-ntitle {
+	background-color: white;
 }
 
-p {
-    font-family:arial;
-    size:75%;
+td.diff-otitle,
+td.diff-ntitle {
+	text-align: center;
 }
 
-table.diff {
-	background:white;
-    border:1px solid gray;
-    width:100%;
+td.diff-marker {
+	text-align: right;
+	font-weight: bold;
+	font-size: 1.25em;
 }
-table.diff td {
-}
-td.diff-otitle, td.diff-ntitle {
-    border: 1px solid gray;
-    text-align:center;
-    font-weight:bold;
-}
+
 td.diff-lineno {
-	font: bold 80%;
+	font-weight: bold;
 }
-/* line display */
-td.diff-addedline {
-	background: #cfc;
-	font-size: smaller;
-}
-td.diff-deletedline {
-	background: #ffa;
-	font-size: smaller;
-}
+
+td.diff-addedline,
+td.diff-deletedline,
 td.diff-context {
-	background: #eee;
-	font-size: smaller;
+	font-size: 88%;
+	vertical-align: top;
+	white-space: -moz-pre-wrap;
+	white-space: pre-wrap;
 }
+
+td.diff-addedline,
+td.diff-deletedline {
+	border-style: solid;
+	border-width: 1px 1px 1px 4px;
+	border-radius: 0.33em;
+}
+
+td.diff-addedline {
+	border-color: #a3d3ff;
+}
+
+td.diff-deletedline {
+	border-color: #ffe49c;
+}
+
+td.diff-context {
+	background: #f3f3f3;
+	color: #333333;
+	border-style: solid;
+	border-width: 1px 1px 1px 4px;
+	border-color: #e6e6e6;
+	border-radius: 0.33em;
+}
+
 .diffchange {
-	color: red;
 	font-weight: bold;
 	text-decoration: none;
 }
 
-td.diff-deletedline span.diffchange {
-    background-color: #FFD754; color:black;
+table.diff {
+	border: none;
+	width: 98%;
+	border-spacing: 4px;
+
+	/* Ensure that colums are of equal width */
+	table-layout: fixed;
 }
 
-td.diff-addedline span.diffchange {
-    background-color: #73E5A1; color:black;
+td.diff-addedline .diffchange,
+td.diff-deletedline .diffchange {
+	border-radius: 0.33em;
+	padding: 0.25em 0;
 }
 
-.d {
-    overflow: auto;
+td.diff-addedline .diffchange {
+	background: #d8ecff;
 }
+
+td.diff-deletedline .diffchange {
+	background: #feeec8;
+}
+
+table.diff td {
+	padding: 0.33em 0.66em;
+}
+
+table.diff col.diff-marker {
+	width: 2%;
+}
+
+table.diff col.diff-content {
+	width: 48%;
+}
+
+table.diff td div {
+	/* Force-wrap very long lines such as URLs or page-widening char strings.*/
+	word-wrap: break-word;
+
+	/* As fallback (FF<3.5, Opera <10.5), scrollbars will be added for very wide cells
+	   instead of text overflowing or widening
+	*/
+	overflow: auto;
+}
+
 ";
             }
         }
