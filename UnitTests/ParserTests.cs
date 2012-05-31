@@ -8613,6 +8613,9 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             
             const string subst = @"{{wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
             Assert.AreEqual(subst, Parsers.TagUpdater(subst), "no change when value is subst month/year");
+            
+            const string notSubst = @"{{wikify|date={{CURRENTMONTHNAME}} {{CURRENTYEAR}}}}";
+            Assert.AreEqual(notSubst, Parsers.TagUpdater(notSubst), "no change when value is non-subst month/year keywords");
         }
 
         [Test]

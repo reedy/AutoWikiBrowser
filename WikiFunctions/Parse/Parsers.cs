@@ -6478,7 +6478,7 @@ namespace WikiFunctions.Parse
                 }
                 
                 // date field starts lower case?
-                if(!dateFieldValue.Contains(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}") && !dateFieldValue.Equals(Tools.TurnFirstToUpper(dateFieldValue.ToLower())))
+                if(!dateFieldValue.Contains(@"CURRENTMONTHNAME") && !dateFieldValue.Equals(Tools.TurnFirstToUpper(dateFieldValue.ToLower())))
                     templatecall = Tools.SetTemplateParameterValue(templatecall, dateparam, Tools.TurnFirstToUpper(dateFieldValue.ToLower()));
             }
             
