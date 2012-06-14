@@ -678,6 +678,10 @@ Jones 2005</ref>"));
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|foodoo=bar|date=2009}} was"));
             
             Found.Remove(15);
+            Found.Add(15, 6);
+            Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|fooéoo=bar|date=2009}} was"));
+            
+            Found.Remove(15);
             Found.Add(15, 3);
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|day=11|date=2009}} was"));
             
