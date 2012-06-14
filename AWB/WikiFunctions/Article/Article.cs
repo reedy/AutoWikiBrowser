@@ -242,7 +242,7 @@ namespace WikiFunctions
 			get
 			{
 				return Variables.Project == ProjectEnum.wikipedia
-					&& Variables.LangCode == "en"
+					&& (Variables.LangCode == "en" || Variables.LangCode == "simple")
 					&& Parsers.IsArticleAboutAPerson(mArticleText, Name, true);
 			}
 		}
@@ -294,14 +294,14 @@ namespace WikiFunctions
 		/// </summary>
 		[XmlIgnore]
 		public bool IsDisambiguationPage
-		{ get { return Variables.LangCode == "en" && NameSpaceKey == Namespace.Mainspace && WikiRegexes.Disambigs.IsMatch(mArticleText); } }
+		{ get { return (Variables.LangCode == "en" || Variables.LangCode == "simple") && NameSpaceKey == Namespace.Mainspace && WikiRegexes.Disambigs.IsMatch(mArticleText); } }
 
 		/// <summary>
 		/// Returns whether the article is a SIA page (en only)
 		/// </summary>
 		[XmlIgnore]
 		public bool IsSIAPage
-		{ get { return Variables.LangCode == "en" && NameSpaceKey == Namespace.Mainspace && WikiRegexes.SIAs.IsMatch(mArticleText); } }
+		{ get { return (Variables.LangCode == "en" || Variables.LangCode == "simple") && NameSpaceKey == Namespace.Mainspace && WikiRegexes.SIAs.IsMatch(mArticleText); } }
 
 		/// <summary>
 		/// Returns whether the article is a disambiguation page has references
@@ -887,7 +887,7 @@ namespace WikiFunctions
 		{
 			AWBChangeArticleText("Fixed interwikis", Parsers.InterwikiConversions(mArticleText, out noChange), true);
 
-			if (langCode == "en")
+			if (langCode.Equals("en") || langCode.Equals("simple"))
 			{
 				string strTemp = mArticleText;
 
@@ -921,7 +921,7 @@ namespace WikiFunctions
 		/// <param name="restrictDefaultsortAddition"></param>
 		public void SetDefaultSort(string langCode, bool skipIfNoChange, bool restrictDefaultsortAddition)
 		{
-			if (langCode == "en" && Variables.IsWikimediaProject && !Variables.IsWikimediaMonolingualProject)
+			if ((langCode.Equals("en") || langCode.Equals("simple")) && Variables.IsWikimediaProject && !Variables.IsWikimediaMonolingualProject)
 			{
 				string strTemp = Parsers.ChangeToDefaultSort(mArticleText, Name, out noChange, restrictDefaultsortAddition);
 
