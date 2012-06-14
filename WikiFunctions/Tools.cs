@@ -1253,11 +1253,9 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("Ḙ", "E"),
 			new KeyValuePair<string, string>("ḙ", "e"),
 			new KeyValuePair<string, string>("Ḛ", "E"),
-			new KeyValuePair<string, string>("ḛ", "e"),
-			
+			new KeyValuePair<string, string>("ḛ", "e"),			
 			new KeyValuePair<string, string>("ị", "i"),
 			new KeyValuePair<string, string>("ỉ", "i"),
-
 			new KeyValuePair<string, string>("ǫ", "o"),
 			new KeyValuePair<string, string>("ợ", "o"),
 			new KeyValuePair<string, string>("ố", "o"),
@@ -1277,7 +1275,6 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("ȭ", "o"),
 			new KeyValuePair<string, string>("ȯ", "o"),
 			new KeyValuePair<string, string>("ȱ", "o"),
-
 			new KeyValuePair<string, string>("ụ", "u"),
 			new KeyValuePair<string, string>("ủ", "u"),
 			new KeyValuePair<string, string>("ữ", "u"),
@@ -1294,15 +1291,27 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("ö", "o"),
 			new KeyValuePair<string, string>("ó", "o"),
 			new KeyValuePair<string, string>("á", "a"),
-			new KeyValuePair<string, string>("í", "i"),
-			
+			new KeyValuePair<string, string>("í", "i"),			
 			new KeyValuePair<string, string>("ŏ", "o"),
 			new KeyValuePair<string, string>("ổ", "o"),
 			new KeyValuePair<string, string>("í", "i"),
 			new KeyValuePair<string, string>("į", "i"),
 			new KeyValuePair<string, string>("í", "i"),
 			new KeyValuePair<string, string>("p̄", "p"),
-			new KeyValuePair<string, string>("Ś̄", "S"),
+			new KeyValuePair<string, string>("Ś̄", "S"),			
+			new KeyValuePair<string, string>("Ẽ", "E"),			
+			new KeyValuePair<string, string>("Ḩ", "H"),
+			new KeyValuePair<string, string>("ṅ", "n"),
+			new KeyValuePair<string, string>("Ś", "S"),
+			new KeyValuePair<string, string>("ò", "o"),
+			new KeyValuePair<string, string>("ó", "o"),
+			new KeyValuePair<string, string>("į", "i"),
+			new KeyValuePair<string, string>("á", "a"),
+			new KeyValuePair<string, string>("ö", "o"),
+			new KeyValuePair<string, string>("í", "i"),
+			new KeyValuePair<string, string>("ĕ", "e"),
+			new KeyValuePair<string, string>("ŏ", "o"),
+			new KeyValuePair<string, string>("ẹ̀", "e"),
 		};
 		#endregion
 
