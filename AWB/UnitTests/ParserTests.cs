@@ -3362,6 +3362,12 @@ Foo}}"));
         }
         
         [Test]
+        public void FixSyntaxMagicWords()
+        {
+        	Assert.AreEqual(@"{{Fullpagename:Foo}}", Parsers.FixSyntax(@"{{Fullpagename|Foo}}"));
+        }
+        
+        [Test]
         public void FixLink()
         {
             bool nochange;

@@ -1872,6 +1872,30 @@ Start date and age
             Assert.AreEqual(@"Greatère, Very der Very", Tools.ReAddDiacritics(@"Véry Greatère", @"Greatere, Very der Very"), "when multiple matches for same word without, that word not changed");
             Assert.AreEqual(@"Greatère, Very der Very", Tools.ReAddDiacritics(@"Véry de Vèry Greatère", @"Greatere, Very der Very"), "when multiple matches for same word without, that word not changed");
         }
+        
+        [Test]
+        public void TemplateToMagicWord()
+        {        	
+        	Assert.AreEqual(@"{{DEFAULTSORT:Foo}}", Tools.TemplateToMagicWord(@"{{DEFAULTSORT|Foo}}"));
+        	Assert.AreEqual(@"{{DISPLAYTITLE:Foo}}", Tools.TemplateToMagicWord(@"{{DISPLAYTITLE|Foo}}"));
+        	Assert.AreEqual(@"{{Displaytitle:Foo}}", Tools.TemplateToMagicWord(@"{{Displaytitle|Foo}}"));
+        	Assert.AreEqual(@"{{FULLPAGENAME:Foo}}", Tools.TemplateToMagicWord(@"{{FULLPAGENAME|Foo}}"));
+        	Assert.AreEqual(@"{{Fullpagename:Foo}}", Tools.TemplateToMagicWord(@"{{Fullpagename|Foo}}"));
+        	Assert.AreEqual(@"{{Namespace:Foo}}", Tools.TemplateToMagicWord(@"{{Namespace|Foo}}"));
+        	Assert.AreEqual(@"{{Numberofarticles:Foo}}", Tools.TemplateToMagicWord(@"{{Numberofarticles|Foo}}"));
+        	Assert.AreEqual(@"{{PAGENAME:Foo}}", Tools.TemplateToMagicWord(@"{{PAGENAME|Foo}}"));
+        	Assert.AreEqual(@"{{PAGESIZE:Foo}}", Tools.TemplateToMagicWord(@"{{PAGESIZE|Foo}}"));
+        	Assert.AreEqual(@"{{PROTECTIONLEVEL:Foo}}", Tools.TemplateToMagicWord(@"{{PROTECTIONLEVEL|Foo}}"));
+        	Assert.AreEqual(@"{{Pagename:Foo}}", Tools.TemplateToMagicWord(@"{{Pagename|Foo}}"));
+        	Assert.AreEqual(@"{{SUBPAGENAME:Foo}}", Tools.TemplateToMagicWord(@"{{SUBPAGENAME|Foo}}"));
+        	Assert.AreEqual(@"{{Subpagename:Foo}}", Tools.TemplateToMagicWord(@"{{Subpagename|Foo}}"));
+        	Assert.AreEqual(@"{{padleft:Foo}}", Tools.TemplateToMagicWord(@"{{padleft|Foo}}"));
+
+        	Assert.AreEqual(@"{{DEFAULTSORT:Foo}}", Tools.TemplateToMagicWord(@"{{ DEFAULTSORT |Foo}}"));
+        	Assert.AreEqual(@"{{DISPLAYTITLE:''Foo''}}", Tools.TemplateToMagicWord(@"{{DISPLAYTITLE|''Foo''}}"));
+        	Assert.AreEqual(@"{{DISPLAYTITLE:''Foo''}} {{DEFAULTSORT:Foo}}", Tools.TemplateToMagicWord(@"{{DISPLAYTITLE|''Foo''}} {{DEFAULTSORT|Foo}}"));
+        	Assert.AreEqual(@"{{BASEPAGENAME:Foo}}", Tools.TemplateToMagicWord(@"{{BASEPAGENAME|Foo}}"));
+        }
     }
 
     [TestFixture]
