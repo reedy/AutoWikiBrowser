@@ -353,7 +353,12 @@ namespace WikiFunctions
         /// Matches {{DEFAULTSORT}}, "key" group being the sortkey
         /// </summary>
         public static Regex Defaultsort;
-
+      
+        /// <summary>
+        /// List of Magic words from [[Category:Pages_which_use_a_template_in_place_of_a_magic_word]]
+        /// </summary>
+        public static readonly Regex MagicWordTemplates = Tools.NestedTemplateRegex(new[] { "BASEPAGENAME", "DEFAULTSORT", "DISPLAYTITLE", "Displaytitle", "FULLPAGENAME", "Fullpagename", "Namespace",
+                                                                                    	"Numberofarticles", "PAGENAME", "PAGESIZE", "PROTECTIONLEVEL", "Pagename", "SUBPAGENAME", "Subpagename", "padleft" });
         /// <summary>
         /// Matches headings of all levels, group 1 being the heading name
         /// </summary>
