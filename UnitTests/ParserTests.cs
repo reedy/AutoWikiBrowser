@@ -6674,10 +6674,11 @@ words";
                                                         out noChange));
             Assert.IsFalse(noChange);
 
-            // should also fix diacritics in existing defaultsort's and remove leading spaces
-            // also support mimicking templates
-            Assert.AreEqual("{{DEFAULTSORT:Test}}",
-                            Parsers.ChangeToDefaultSort("{{defaultsort| Tést}}", "Foo", out noChange));
+            // should also fix diacritics in existing defaultsorts and remove leading spaces
+            // also support mimicking templates: template to magic word conversion, see [[Category:Pages which use a template in place of a magic word]]
+            Assert.AreEqual("{{DEFAULTSORT:Test}}", Parsers.ChangeToDefaultSort("{{defaultsort| Tést}}", "Foo", out noChange));
+            Assert.IsFalse(noChange);            
+                Assert.AreEqual("{{DEFAULTSORT:Test}}", Parsers.ChangeToDefaultSort("{{DEFAULTSORT| Tést}}", "Foo", out noChange));
             Assert.IsFalse(noChange);
 
             // shouldn't change whitespace-only sortkeys
