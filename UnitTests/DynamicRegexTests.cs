@@ -586,6 +586,7 @@ disambig|surname
         public void DefaultsortTests()
         {
             RegexAssert.IsMatch(WikiRegexes.Defaultsort, "{{DEFAULTSORT:foo}}");
+            RegexAssert.IsMatch(WikiRegexes.Defaultsort, "{{DEFAULTSORT|foo}}");
             RegexAssert.IsMatch(WikiRegexes.Defaultsort, "{{DEFAULTSORT:foo bar}}");
 
             RegexAssert.IsMatch(WikiRegexes.Defaultsort, @"{{DEFAULTSORT:foo
