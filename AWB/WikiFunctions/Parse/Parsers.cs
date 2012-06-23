@@ -2781,9 +2781,10 @@ namespace WikiFunctions.Parse
         }
 
         private static List<Regex> SmallTagRegexes = new List<Regex>();
+        private static readonly Regex LegendTemplate = Tools.NestedTemplateRegex("legend");
 
         /// <summary>
-        /// remove &lt;small> in small, ref, sup, sub tags and images
+        /// remove &lt;small> in small, ref, sup, sub tags and images, but not within {{legend}} template
         /// CHECKWIKI errors 55, 63, 66, 77
         /// </summary>
         /// <param name="articleText">The article text</param>
@@ -2798,6 +2799,10 @@ namespace WikiFunctions.Parse
             {
                 foreach (Match m in rx.Matches(articleText))
                 {
+                	// don't remove <small> tags from within {{legend}} where use is not unreasonable
+                	if(LegendTemplate.IsMatch(m.Value))
+                		continue;
+                	
                     Match s = WikiRegexes.Small.Match(m.Value);
                     if (s.Success)
                     {

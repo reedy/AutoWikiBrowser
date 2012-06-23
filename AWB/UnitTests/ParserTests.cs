@@ -5305,6 +5305,12 @@ was"));
         {
             Assert.AreEqual(@"[[File:foo.jpg|bar]]", Parsers.FixSyntax(@"[[File:foo.jpg|<small>bar</small>]]"), "removes small from image descriptions");
             Assert.AreEqual(@"[[File:foo.jpg|thumb|bar]]", Parsers.FixSyntax(@"[[File:foo.jpg|thumb|<small>bar</small>]]"), "removes small from image descriptions when other parameters too");
+            
+            const string FileCaptionLegend = @"[[File:foo.jpg|This text is a caption
+{{legend|foo|<small>a</small>}}
+{{legend|foo2|<small>b</small>}}
+]]";
+            Assert.AreEqual(FileCaptionLegend, Parsers.FixSyntax(FileCaptionLegend), "small tag not removed from legend template");
         }
         
         [Test]
