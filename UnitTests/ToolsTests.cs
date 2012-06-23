@@ -1305,6 +1305,8 @@ John", "*"));
             Assert.AreEqual(@"{{bar||here1}} {{foo|here2}}", Tools.RenameTemplate(@"{{foo|here1}} {{foo|here2}}", "foo", "bar|", 1), "rename to add pipe");
         }
         
+        private readonly WikiFunctions.Parse.HideText Hider = new WikiFunctions.Parse.HideText();
+        
         [Test]
         public void RenameTemplate()
         {
@@ -1326,6 +1328,12 @@ John", "*"));
             
             // comment handling
             Assert.AreEqual(@"{{bar man<!--comm-->|here}}", Tools.RenameTemplate(@"{{foo man<!--comm-->|here}}", "bar man"));
+            Assert.AreEqual(@"{{bar man <!--comm-->|here}}", Tools.RenameTemplate(@"{{foo man <!--comm-->|here}}", "bar man"));
+            Assert.AreEqual(@"{{bar man <!--comm-->
+|here}}", Tools.RenameTemplate(@"{{foo man <!--comm-->
+|here}}", "bar man"));
+            
+            Assert.AreEqual(@"{{bar man <!--comm-->|here}}", Hider.AddBack(Tools.RenameTemplate(Hider.Hide(@"{{foo man <!--comm-->|here}}"), "bar man")));
         }
         
         [Test]
@@ -1847,6 +1855,7 @@ Start date and age
             
             Assert.AreEqual(Tools.GetTemplateName(@"{{start date and age <!--comm--> |1833|7|11}}"),"start date and age", "handles embedded comments");
             Assert.AreEqual(Tools.GetTemplateName(@"{{start date and age <!--comm-->}}"),"start date and age", "handles embedded comments");
+            Assert.AreEqual(Tools.GetTemplateName(@"{{start date and age ⌊⌊⌊⌊1⌋⌋⌋⌋}}"),"start date and age", "handles embedded comments (hidetext)");
             
             Assert.AreEqual(Tools.GetTemplateName(@"{{Start date and age|1833|7|"),"Start date and age", "works on part templates");
             

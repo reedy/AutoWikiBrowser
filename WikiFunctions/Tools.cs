@@ -2809,7 +2809,7 @@ Message: {2}
 			// allow whitespace before semicolon
 			TemplateNamespace = Regex.Replace(TemplateNamespace, @":$", @"[\s_]*:");
 
-			StringBuilder theRegex = new StringBuilder(@"{{\s*(?::?[\s_]*" + TemplateNamespace + @"[\s_]*)?([^\|{}]+?)(?:\s*<!--.*?-->\s*)?\s*(?:\||}})");
+			StringBuilder theRegex = new StringBuilder(@"{{\s*(?::?[\s_]*" + TemplateNamespace + @"[\s_]*)?([^\|{}]+?)(?:\s*(?:<!--.*?-->|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋)\s*)?\s*(?:\||}})");
 			
 			return Regex.Match(templateCall, theRegex.ToString()).Groups[1].Value;
 		}
