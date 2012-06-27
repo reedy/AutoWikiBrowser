@@ -8417,6 +8417,10 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             //wikify tag removed
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
             
+            text = parser.Tagger("{{wikify|reason=something}}" + Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
+            //wikify tag with reason NOT removed
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            
             text = parser.Tagger("{{multiple issues|COI=May 2010 | POV = May 2010 |wikify=June 2010}}" + Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
             //wikify tag removed
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
