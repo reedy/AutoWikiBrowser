@@ -6096,7 +6096,7 @@ namespace WikiFunctions.Parse
 
             if (linkCount > 0 && WikiRegexes.DeadEnd.IsMatch(articleText))
             {
-                articleText = WikiRegexes.DeadEnd.Replace(articleText, m => SectionTagME(m, articleText));
+                articleText = WikiRegexes.DeadEnd.Replace(articleText, m => SectionReasonTagME(m, articleText));
                 
                 if(!WikiRegexes.DeadEnd.IsMatch(articleText))
                     tagsRemoved.Add("deadend");
@@ -6178,7 +6178,8 @@ namespace WikiFunctions.Parse
             else if (linkCount > 3 && !underlinked &&
                      WikiRegexes.Wikify.IsMatch(articleText))
             {
-                articleText = WikiRegexes.Wikify.Replace(articleText, m => SectionTagME(m, articleText));
+            	// remove wikify, except section templates or wikify tags with reason parameter specified
+                articleText = WikiRegexes.Wikify.Replace(articleText, m => SectionReasonTagME(m, articleText));
                 
                 if(!WikiRegexes.Wikify.IsMatch(articleText))
                     tagsRemoved.Add("wikify");
@@ -6219,13 +6220,20 @@ namespace WikiFunctions.Parse
             return articleText;
         }
         
-        private static string SectionTagME(Match m, string articletext)
+        /// <summary>
+        /// Makes no change if template is a section template or has reason parameter
+        /// </summary>
+        /// <param name="m"></param>
+        /// <param name="articletext"></param>
+        /// <returns></returns>
+        private static string SectionReasonTagME(Match m, string articletext)
         {
             string templateCall = m.Value;
             
             // section if {{x|section}} or {{multiple issues|...|section=y|...}}
             if((WikiRegexes.NestedTemplates.IsMatch(templateCall) && Tools.GetTemplateArgument(templateCall, 1).Equals("section")) 
-               || Tools.GetTemplateParameterValue(WikiRegexes.MultipleIssues.Match(articletext).Value, "section").Equals("y"))
+               || Tools.GetTemplateParameterValue(WikiRegexes.MultipleIssues.Match(articletext).Value, "section").Equals("y")
+               || Tools.GetTemplateParameterValue(m.Value, "reason", true).Length > 0)
                 return m.Value;
             
             return m.Groups[1].Value;
