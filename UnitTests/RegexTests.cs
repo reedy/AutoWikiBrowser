@@ -1225,18 +1225,16 @@ words2"));
         [Test]
         public void ArticleIssuesTests()
         {
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Article issues|wikify=May 2008|a=b|c=d}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Articleissues|wikify=May 2008|a=b|c=d}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{articleissues|wikify=May 2008|a=b|c=d}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{article issues|wikify=May 2008|a=b|c=d}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{article issues | wikify=May 2008|a=b|c=d}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{article issues
+            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues|wikify=May 2008|a=b|c=d}}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multipleissues|wikify=May 2008|a=b|c=d}}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{multipleissues|wikify=May 2008|a=b|c=d}}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues|wikify=May 2008|a=b|c=d}}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues | wikify=May 2008|a=b|c=d}}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues
            | wikify=May 2008|a=b|c=d}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{article issues|}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Article issues|}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{articleissues}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Articleissues}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Articleissues }}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues|}}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multipleissues}}"));
+            
             Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues|wikify=May 2008|a=b|c=d}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{ multiple issues|wikify=May 2008|a=b|c=d}}"));
 
@@ -1245,6 +1243,8 @@ words2"));
             // no matches
             Assert.IsFalse(WikiRegexes.MultipleIssues.IsMatch(@"{{ARTICLEISSUES }}"));
             Assert.IsFalse(WikiRegexes.MultipleIssues.IsMatch(@"{{Bert|Articleissues }}"));
+            Assert.IsFalse(WikiRegexes.MultipleIssues.IsMatch(@"{{Articleissues }}"));
+            Assert.IsFalse(WikiRegexes.MultipleIssues.IsMatch(@"{{Article issues }}"));
         }
 
         [Test]

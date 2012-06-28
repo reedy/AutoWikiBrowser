@@ -856,9 +856,9 @@ namespace WikiFunctions
                                                                                 "Categories-improve", "Category improve", "Categories improve", "Catimprove", "More cats" } );
 
         /// <summary>
-        /// Matches the {{Article issues}}/{{Multiple issues}} template
+        /// Matches the {{Multiple issues}} template
         /// </summary>
-        public static readonly Regex MultipleIssues = Tools.NestedTemplateRegex(new [] { "article issues", "articleissues", "multipleissues", "multiple issues" } );
+        public static readonly Regex MultipleIssues = Tools.NestedTemplateRegex(new [] { "multipleissues", "multiple issues" } );
 
         /// <summary>
         /// Matches the {{New unreviewed article}} template
