@@ -622,8 +622,9 @@ namespace WikiFunctions
                             break;
 
                         case "eo":
-                            mSummaryTag = " ";
+                            mSummaryTag = " per ";
                             WPAWB = "[[Vikipedio:AutoWikiBrowser|AWB]]";
+                            TypoSummaryTag = ", Skribmaniero:";
                             break;
 
                         case "he":
@@ -647,7 +648,7 @@ namespace WikiFunctions
                         case "nl":
                             mSummaryTag = " met ";
                             break;
-
+                            
                         case "pl":
                             mSummaryTag = " przy użyciu ";
                             SectStub = @"\{\{[Ss]ek";
