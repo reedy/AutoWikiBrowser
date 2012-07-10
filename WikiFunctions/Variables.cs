@@ -606,7 +606,7 @@ namespace WikiFunctions
                         case "cs":
                             mSummaryTag = " za použití ";
                             WPAWB = "[[Wikipedie:AutoWikiBrowser|AWB]]";
-                            Stub = @"[^{}|]*?([Pp]ahýl)";
+                            //Stub = @"[^{}|]*?([Pp]ahýl)";
                             break;
                             
                         case "da":
