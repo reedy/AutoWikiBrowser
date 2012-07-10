@@ -3102,6 +3102,7 @@ namespace WikiFunctions.Parse
         }
         
         private static readonly Regex IdISBN = new Regex(@"^ISBN:?\s*([\d \-]+X?)$", RegexOptions.Compiled);
+        private static readonly Regex IdASIN = new Regex(@"^ASIN:?\s*([\d \-]+X?)$", RegexOptions.Compiled);
         private static readonly Regex CiteVideoPodcast = new Regex (@"[Cc]ite (?:video|podcast)\b", RegexOptions.Compiled);
         private static readonly Regex YearOnly = new Regex(@"^[12]\d{3}$", RegexOptions.Compiled);
         
@@ -3310,6 +3311,13 @@ namespace WikiFunctions.Parse
             {
                 newValue = Tools.RenameTemplateParameter(newValue, "id", "isbn");
                 newValue = Tools.SetTemplateParameterValue(newValue, "isbn", IdISBN.Match(id).Groups[1].Value.Trim());
+            }
+            
+            //id=ASIN fix
+            if(IdASIN.IsMatch(id) && Tools.GetTemplateParameterValue(newValue, "asin").Length == 0 && Tools.GetTemplateParameterValue(newValue, "ASIN").Length == 0)
+            {
+                newValue = Tools.RenameTemplateParameter(newValue, "id", "asin");
+                newValue = Tools.SetTemplateParameterValue(newValue, "asin", IdASIN.Match(id).Groups[1].Value.Trim());
             }
             
             // origyear --> year when no year/date
