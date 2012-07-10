@@ -603,6 +603,12 @@ namespace WikiFunctions
                             WPAWB = "[[Viquipèdia:AutoWikiBrowser|AWB]]";
                             break;
 
+                        case "cs":
+                            mSummaryTag = " za použití ";
+                            WPAWB = "[[Wikipedie:AutoWikiBrowser|AWB]]";
+                            Stub = @"[^{}|]*?([Pp]ahýl)";
+                            break;
+                            
                         case "da":
                             mSummaryTag = " ved brug af ";
                             WPAWB = "[[en:Wikipedia:AutoWikiBrowser|AWB]]";
