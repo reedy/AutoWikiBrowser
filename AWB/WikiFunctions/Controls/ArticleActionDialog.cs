@@ -50,8 +50,10 @@ namespace WikiFunctions.Controls
 
                 toolTip.SetToolTip(chkCascadingProtection, "Automatically protect any pages transcluded in this page");
 
-                messages = new string[1];
-                messages[0] = "Heavy vandalism";
+                messages = new[]
+                               {
+                                   "Heavy vandalism"
+                               };
             }
             else
             {
@@ -67,9 +69,11 @@ namespace WikiFunctions.Controls
                     chkWatch.Visible = true;
                     chkDealWithAssoc.Visible = true;
 
-                    messages = new string[2];
-                    messages[0] = "Typo in page title";
-                    messages[1] = "Reverting vandalism page move";
+                    messages = new[]
+                                   {
+                                       "Typo in page title",
+                                       "Reverting vandalism page move",
+                                   };
                 }
                 else // if (moveDeleteProtect == ArticleAction.Delete)
                 {
@@ -80,38 +84,40 @@ namespace WikiFunctions.Controls
                     lblNewTitle.Visible = false;
                     txtNewTitle.Visible = false;
 
-                    messages = new string[29];
+                    messages = new[]
+                                   {
+                                       "tagged for [[WP:PROD|proposed deletion]] for 7 days",
+                                       "[[WP:CSD#G1|Patent nonsense]]",
+                                       "[[WP:CSD#G2|Test page]]",
+                                       "[[WP:CSD#G3|Pure vandalism]]",
+                                       "[[WP:CSD#G4|Recreation of deleted material]]",
+                                       "[[WP:CSD#G5|Banned user]]",
+                                       "[[WP:CSD#G6|Housekeeping]]",
+                                       "[[WP:CSD#G7|Author requests deletion]]",
+                                       "[[WP:CSD#G8|Talk page of page that does not exist]]",
+                                       "WP:CSD#G10|Attack page]]",
+                                       "[[WP:CSD#G11|Unambiguous advertising or promotion]]",
+                                       "[[WP:CSD#G12|Unambiguous copyright infringement]]",
+                                       "[[WP:CSD#A1|No context]]",
+                                       "[[WP:CSD#A2|Foreign language article]]",
+                                       "[[WP:CSD#A3|No content whatsoever]]",
+                                       "[[WP:CSD#A5|Transwikied articles]]",
+                                       "[[WP:CSD#A7|No indication of importance (individuals, animals, organizations, web content)]]"
+                                       ,
+                                       "[[WP:CSD#A9|No indication of importance (musical recordings)]]",
+                                       "[[WP:CSD#A10|Recently created article that duplicates an existing topic]]",
+                                       "[[WP:CSD#R1|Redirect to non-existent page]]",
+                                       "[[WP:CSD#R2|Redirect to the User: or User talk: space]]",
+                                       "[[WP:CSD#R3|Redirect as a result of an implausible typo]]",
+                                       "[[WP:CSD#C1|Empty category]]",
+                                       "[[WP:CSD#C2|Speedy renaming]]",
+                                       "[[WP:CSD#U1|User request]]",
+                                       "[[WP:CSD#U2|Nonexistent user]]",
+                                       "[[WP:CSD#U3|Non-free galleries]]",
+                                       "[[WP:CSD#T2|Misrepresentation of policy]]",
+                                       "[[WP:CSD#T3|Duplication and hardcoded instances]]",
+                                   };
 
-                    messages[0] = "tagged for [[WP:PROD|proposed deletion]] for 7 days";
-                    messages[1] = "[[WP:CSD#G1|Patent nonsense]]";
-                    messages[2] = "[[WP:CSD#G2|Test page]]";
-                    messages[3] = "[[WP:CSD#G3|Pure vandalism]]";
-                    messages[4] = "[[WP:CSD#G4|Recreation of deleted material]]";
-                    messages[5] = "[[WP:CSD#G5|Banned user]]";
-                    messages[6] = "[[WP:CSD#G6|Housekeeping]]";
-                    messages[7] = "[[WP:CSD#G7|Author requests deletion]]";
-                    messages[8] = "[[WP:CSD#G8|Talk page of page that does not exist]]";
-                    messages[9] = "[[WP:CSD#G10|Attack page]]";
-                    messages[10] = "[[WP:CSD#G11|Unambiguous advertising or promotion]]";
-                    messages[11] = "[[WP:CSD#G12|Unambiguous copyright infringement]]";
-                    messages[12] = "[[WP:CSD#A1|No context]]";
-                    messages[13] = "[[WP:CSD#A2|Foreign language article]]";
-                    messages[14] = "[[WP:CSD#A3|No content whatsoever]]";
-                    messages[15] = "[[WP:CSD#A5|Transwikied articles]]";
-                    messages[16] =
-                        "[[WP:CSD#A7|No indication of importance (individuals, animals, organizations, web content)]]";
-                    messages[17] = "[[WP:CSD#A9|No indication of importance (musical recordings)]]";
-                    messages[18] = "[[WP:CSD#A10|Recently created article that duplicates an existing topic]]";
-                    messages[19] = "[[WP:CSD#R1|Redirect to non-existent page]]";
-                    messages[20] = "[[WP:CSD#R2|Redirect to the User: or User talk: space]]";
-                    messages[21] = "[[WP:CSD#R3|Redirect as a result of an implausible typo]]";
-                    messages[22] = "[[WP:CSD#C1|Empty category]]";
-                    messages[23] = "[[WP:CSD#C2|Speedy renaming]]";
-                    messages[24] = "[[WP:CSD#U1|User request]]";
-                    messages[25] = "[[WP:CSD#U2|Nonexistent user]]";
-                    messages[26] = "[[WP:CSD#U3|Non-free galleries]]";
-                    messages[27] = "[[WP:CSD#T2|Misrepresentation of policy]]";
-                    messages[28] = "[[WP:CSD#T3|Duplication and hardcoded instances]]";
                 }
             }
             cmboSummary.Items.AddRange(messages);
