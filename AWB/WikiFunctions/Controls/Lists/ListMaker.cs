@@ -857,6 +857,10 @@ namespace WikiFunctions.Controls.Lists
             {
                 MessageBox.Show(iwe.Message, "Interwiki title passed to List Maker");
             }
+            catch (InvalidTitleException ite)
+            {
+                MessageBox.Show(ite.Message, "Invalid title passed to List Maker");
+            }
             catch (Exception ex)
             {
                 ErrorHandler.ListMakerText = UserInputTextBox.Text;
