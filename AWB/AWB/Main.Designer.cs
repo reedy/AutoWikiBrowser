@@ -1683,7 +1683,6 @@ namespace AutoWikiBrowser
             this.lblUserName.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblUserName.Size = new System.Drawing.Size(37, 17);
             this.lblUserName.Text = "User:";
-            this.lblUserName.Click += new System.EventHandler(this.lblUserName_Click);
             this.lblUserName.DoubleClick += new System.EventHandler(this.lblUserName_DoubleClick);
             // 
             // lblProject
