@@ -5335,6 +5335,11 @@ window.scrollTo(0, diffTopY);
             StopProgressBar();
             DisableButtons();
         }
+
+        private void lblUserName_DoubleClick(object sender, EventArgs e)
+        {
+            Profiles.ShowDialog(this);
+        }
     }
     #endregion
 }
