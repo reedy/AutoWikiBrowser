@@ -5336,7 +5336,7 @@ window.scrollTo(0, diffTopY);
             DisableButtons();
         }
 
-        private void lblUserName_DoubleClick(object sender, EventArgs e)
+        private void lblUserName_Click(object sender, EventArgs e)
         {
             Profiles.ShowDialog(this);
         }
