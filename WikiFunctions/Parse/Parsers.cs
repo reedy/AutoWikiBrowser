@@ -527,7 +527,8 @@ namespace WikiFunctions.Parse
             {
                 string single = Tools.GetTemplateArgument(newValue, 1);
                 
-                newValue = @"{{" + single.Substring(0, single.IndexOf("=")).Trim() + @"|date=" + single.Substring(single.IndexOf("=")+1).Trim() + @"}}";
+                if(single.Contains(@"="))
+                	newValue = @"{{" + single.Substring(0, single.IndexOf("=")).Trim() + @"|date=" + single.Substring(single.IndexOf("=")+1).Trim() + @"}}";
             }
             else return m.Value;
             

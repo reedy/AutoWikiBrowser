@@ -8725,6 +8725,9 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             // don't grab tags in later sections of article
             const string a6 = @"==head== {{essay}}";
             Assert.AreEqual(a5 + a3 + a6, parser.MultipleIssues(a5 + a3 + a6));
+            
+            const string NestedT = @"{{Multiple issues|{{Citation style}}}}";
+            Assert.AreEqual(NestedT, parser.MultipleIssues(NestedT));
         }
         
         [Test]
