@@ -610,7 +610,7 @@ namespace WikiFunctions.Controls.Lists
             return true;
         }
 
-        private const string DiffEditURL = @"/w(?:iki)?/index\.php\?title=(.*?)&(?:action|diff|oldid)=.*";
+        private const string DiffEditURL = @"/w(?:iki)?/index\.php5?\?title=(.*?)&(?:action|diff|oldid)=.*";
         /// <summary>
         /// Extracts wiki page title from wiki page URL
         /// </summary>
