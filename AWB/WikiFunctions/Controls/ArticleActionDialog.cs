@@ -80,7 +80,7 @@ namespace WikiFunctions.Controls
                     lblNewTitle.Visible = false;
                     txtNewTitle.Visible = false;
 
-                    messages = new string[23];
+                    messages = new string[29];
 
                     messages[0] = "tagged for [[WP:PROD|proposed deletion]] for 7 days";
                     messages[1] = "[[WP:CSD#G1|Patent nonsense]]";
