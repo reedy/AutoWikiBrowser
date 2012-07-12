@@ -68,7 +68,7 @@ namespace UnitTests
     public class GenfixesTests : GenfixesTestsBase
     {
         [Test]
-        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Incorrect_Underscore_removal_in_URL.27s_in_wikilinks
+        // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Incorrect_Underscore_removal_in_URL.27s_in_wikilinks
         public void UndersoreRemovalInExternalLink()
         {
             // just in case...
@@ -95,7 +95,7 @@ namespace UnitTests
         }
 
         [Test]
-        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Incorrect_Underscore_removal_in_URL.27s_in_wikilinks
+        // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Incorrect_Underscore_removal_in_URL.27s_in_wikilinks
         public void ExternalLinksInImageCaptions()
         {
             AssertNotChanged("[[Image:foo.jpg|Some http://some_crap.com]]");
@@ -134,12 +134,12 @@ namespace UnitTests
             AssertNotChanged("a<br/br>b");
             AssertNotChanged("a<br/>\r\n<br>b");
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#General_fixes_problem:_br_tags_inside_templates
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#General_fixes_problem:_br_tags_inside_templates
             AssertChange("{{foo|bar=a<br><br>b}}<br><br>quux", "{{foo|bar=a<br><br>b}}\r\nquux");
 
             AssertNotChanged("<blockquote>\r\n<br><br></blockquote>");
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#AWB_ruins_formatting_of_table_when_applying_general_clean_up_fixes
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#AWB_ruins_formatting_of_table_when_applying_general_clean_up_fixes
             AssertNotChanged("|a<br><br>b");
             AssertNotChanged("!a<br><br>b");
             AssertNotChanged("| foo || a<br><br>b");
@@ -160,7 +160,7 @@ a");
             AssertChange("<p>a</p>b", "a\r\n\r\nb");
             AssertChange("a\r\n<p>b", "a\r\n\r\n\r\nb");
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#Clean_up_deformats_tables_removing_.3C_p_.3E_tags
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#Clean_up_deformats_tables_removing_.3C_p_.3E_tags
             AssertNotChanged("| a<p>b");
             AssertNotChanged("! a<p>b");
             AssertNotChanged("foo\r\n| a<p>b");
