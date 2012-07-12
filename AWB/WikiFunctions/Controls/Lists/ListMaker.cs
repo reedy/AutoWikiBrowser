@@ -853,6 +853,10 @@ namespace WikiFunctions.Controls.Lists
             {
                 MessageBox.Show(ae.Message, "Invalid Parameter passed to List Maker");
             }
+            catch (InterwikiException iwe)
+            {
+                MessageBox.Show(iwe.Message, "Interwiki title passed to List Maker");
+            }
             catch (Exception ex)
             {
                 ErrorHandler.ListMakerText = UserInputTextBox.Text;
