@@ -181,6 +181,7 @@ namespace WikiFunctions.Parse
                 case ProjectEnum.meta:
                 case ProjectEnum.commons:
                 case ProjectEnum.species:
+                case ProjectEnum.incubator:
                     return WikipediaLanguages;
 
                 case ProjectEnum.wiktionary:
