@@ -610,7 +610,7 @@ namespace WikiFunctions.Controls.Lists
             return true;
         }
 
-        private const string DiffEditURL = @"/w(?:iki)?/index\.php5?\?title=(.*?)&(?:action|diff|oldid)=.*";
+        private const string DiffEditURL = @"/w(?:iki)?/index\.php5?\?title=(.*?)(?:&(?:action|diff|oldid)=.*|$)";
         /// <summary>
         /// Extracts wiki page title from wiki page URL
         /// </summary>
@@ -627,6 +627,10 @@ namespace WikiFunctions.Controls.Lists
             // Assumsuption flaw: that all wikis use /wiki/ as the default path
             string url = Variables.URL + "/wiki/";
             s = s.Replace(url, "").Trim();
+            
+            // handle section links
+            if(s.Contains("#"))
+            	s = s.Substring(0, s.IndexOf("#"));
 
             if (!originals.Equals(s))
                 s = Tools.WikiDecode(s);
@@ -852,14 +856,6 @@ namespace WikiFunctions.Controls.Lists
             catch (ArgumentException ae)
             {
                 MessageBox.Show(ae.Message, "Invalid Parameter passed to List Maker");
-            }
-            catch (InterwikiException iwe)
-            {
-                MessageBox.Show(iwe.Message, "Interwiki title passed to List Maker");
-            }
-            catch (InvalidTitleException ite)
-            {
-                MessageBox.Show(ite.Message, "Invalid title passed to List Maker");
             }
             catch (Exception ex)
             {
