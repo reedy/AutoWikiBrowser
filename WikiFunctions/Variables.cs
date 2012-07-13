@@ -672,6 +672,7 @@ namespace WikiFunctions
 
                         case "pt":
                             mSummaryTag = " utilizando ";
+                            WPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
                             break;
 
                         case "ru":
