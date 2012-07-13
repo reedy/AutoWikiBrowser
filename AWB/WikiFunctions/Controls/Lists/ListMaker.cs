@@ -855,7 +855,15 @@ namespace WikiFunctions.Controls.Lists
             }
             catch (ArgumentException ae)
             {
-                MessageBox.Show(ae.Message, "Invalid Parameter passed to List Maker");
+            	MessageBox.Show(ae.Message, "Invalid Parameter passed to List Maker");
+            }
+            catch (InterwikiException iwe)
+            {
+            	MessageBox.Show(iwe.Message, "Interwiki title passed to List Maker");
+            }
+            catch (InvalidTitleException ite)
+            {
+            	MessageBox.Show(ite.Message, "Invalid title passed to List Maker");
             }
             catch (Exception ex)
             {
