@@ -684,6 +684,11 @@ namespace WikiFunctions
                             Stub = "(?:[^{}]*?[Ss]tub|[Šš]krbina[^{}]*?)";
                             break;
 
+                        case "sv":
+                            mSummaryTag = " med ";
+                            TypoSummaryTag = ", rättningar:";
+                            break;
+
                         case "tr":
                             mSummaryTag = " ";
                             WPAWB = "[[Vikipedi:AWB|AWB]] ile ";
