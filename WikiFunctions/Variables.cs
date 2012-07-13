@@ -40,6 +40,7 @@ namespace WikiFunctions
         commons,
         meta,
         mediawiki,
+        incubator,
         wikia,
         custom
     }
@@ -276,7 +277,9 @@ namespace WikiFunctions
             get
             {
                 return (Project == ProjectEnum.commons || Project == ProjectEnum.meta
-                        || Project == ProjectEnum.species || Project == ProjectEnum.mediawiki);
+                        || Project == ProjectEnum.species || Project == ProjectEnum.mediawiki
+                        || Project == ProjectEnum.incubator
+                        );
             }
         }
 
@@ -724,6 +727,10 @@ namespace WikiFunctions
                     break;
                 case ProjectEnum.mediawiki:
                     URL = "https://www.mediawiki.org";
+                    LangCode = "en";
+                    break;
+                case ProjectEnum.incubator:
+                    URL = "https://incubator.wikimedia.org";
                     LangCode = "en";
                     break;
                 case ProjectEnum.species:
