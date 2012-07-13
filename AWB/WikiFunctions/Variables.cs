@@ -645,7 +645,12 @@ namespace WikiFunctions
                             WPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
                             break;
 
-                        case "ku":
+                        case "hy":
+                            mSummaryTag = " oգտվելով ";
+                            WPAWB = "[[Վիքիպեդիա:ԱվտոՎիքիԲրաուզեր|ԱՎԲ]]";
+                            break;
+
+                           case "ku":
                             mSummaryTag = " ";
                             WPAWB = "[[Wîkîpediya:AutoWikiBrowser|AWB]]";
                             break;
