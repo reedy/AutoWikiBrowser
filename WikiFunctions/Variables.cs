@@ -638,6 +638,7 @@ namespace WikiFunctions
 
                         case "he":
                             mSummaryTag = " באמצעות ";
+                            WPAWB = "[[ויקיפדיה:AutoWikiBrowser|AWB]]";
                             break;
 
                         case "hu":
