@@ -643,7 +643,7 @@ namespace WikiFunctions
 
                         case "hi":
                             mSummaryTag = " ";
-                            WPAWB = "[[विकिपीडिया:ऑटोविकिब्राउज़र|AWB]] का उपयोग";
+                            WPAWB = "[[विकिपीडिया:ऑटोविकिब्राउज़र|AWB]] के साथ";
                             break;
 
                         case "hu":
