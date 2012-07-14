@@ -641,6 +641,11 @@ namespace WikiFunctions
                             WPAWB = "[[ויקיפדיה:AutoWikiBrowser|AWB]]";
                             break;
 
+                        case "hi":
+                            mSummaryTag = " ";
+                            WPAWB = "[[विकिपीडिया:ऑटोविकिब्राउज़र|AWB]] का उपयोग";
+                            break;
+
                         case "hu":
                             mSummaryTag = " ";
                             WPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
