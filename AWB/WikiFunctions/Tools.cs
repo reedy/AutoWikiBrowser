@@ -715,13 +715,15 @@ namespace WikiFunctions
 			}
 			return count;
 		}
+		
+		private static readonly Regex FlagIOC = NestedTemplateRegex("flagIOC");
 
 		// Covered by ToolsTests.LinkCountTests
 		/// <summary>
 		/// Returns the number of [[links]] in the string
 		/// </summary>
 		public static int LinkCount(string text)
-		{ return WikiRegexes.WikiLinksOnly.Matches(text).Count; }
+		{ return (WikiRegexes.WikiLinksOnly.Matches(text).Count + FlagIOC.Matches(text).Count); }
 
 		// Covered by ToolsTests.RemoveSyntax
 		/// <summary>

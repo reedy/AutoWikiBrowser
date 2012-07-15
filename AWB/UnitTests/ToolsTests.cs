@@ -909,6 +909,8 @@ John", "*"));
             Assert.AreEqual(0, Tools.LinkCount(@"[foo]"));
             Assert.AreEqual(1, Tools.LinkCount(@"[[foo]]"));
             Assert.AreEqual(2, Tools.LinkCount(@"[[foo]]s and [[barbie|bar]]"));
+            Assert.AreEqual(1, Tools.LinkCount(@"{{flagIOC}}"));
+            Assert.AreEqual(3, Tools.LinkCount(@"[[foo]]s and [[barbie|bar]] {{flagIOC}}"));            
         }
 
         [Test]
