@@ -3222,6 +3222,9 @@ Template:foo}}"));
             Assert.AreEqual("''foo'' bar", Parsers.FixSyntax("<i>foo<i /> bar"));
             Assert.AreEqual("<i>foo<i> bar", Parsers.FixSyntax("<i>foo<i> bar"));
             Assert.AreEqual("''foo'' bar", Parsers.FixSyntax("<em>foo</em> bar"));
+            
+            const string EmTemplate = @"{{em|foo}}";
+            Assert.AreEqual(EmTemplate, Parsers.FixSyntax(EmTemplate));
         }
         
         [Test]
@@ -8768,6 +8771,12 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(a, parser.MultipleIssues(a));
             
             a = @"{{multiple issues|section=y|refimprove=February 2007|OR=December 2009}}  Article text here";
+            Assert.AreEqual(a, parser.MultipleIssues(a));
+            
+            a = @"{{multiple issues|section=yes|
+{{essay|section|date = October 2011}}
+{{unbalanced|section|date = October 2011}}
+}}";
             Assert.AreEqual(a, parser.MultipleIssues(a));
         }
         
