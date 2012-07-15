@@ -519,11 +519,16 @@ namespace WikiFunctions.Parse
             return MultipleIssuesBLPUnreferenced(articleText);
         }
         
+        /// <summary>
+        /// Converts multiple issues with one issue to stand alone tag
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
         private string MultipleIssuesSingleTagME(Match m)
         {
             string newValue = Parsers.Conversions(Tools.RemoveTemplateParameter(m.Value, "section"));
             
-            if(Tools.GetTemplateArgumentCount(newValue) == 1)
+            if(Tools.GetTemplateArgumentCount(newValue) == 1 && !WikiRegexes.NestedTemplates.IsMatch(Tools.GetTemplateArgument(newValue, 1)))
             {
                 string single = Tools.GetTemplateArgument(newValue, 1);
                 
