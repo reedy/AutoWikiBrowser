@@ -5176,7 +5176,7 @@ Bar", "Test"), "inserts blank line if one missing");
             
             Assert.AreEqual("55–57 meters", parser.Mdashes("55-57 meters", "test"));
             Assert.AreEqual("55–57 metres", parser.Mdashes("55-57 metres", "test"));
-            
+                        
             // dimensions, not range
             const string dimensions = @"around 34-24-34 in (86-60-86&nbsp;cm) and";
             Assert.AreEqual(dimensions, parser.Mdashes(dimensions, "test"));
@@ -5212,6 +5212,8 @@ Bar", "Test"), "inserts blank line if one missing");
             Assert.AreEqual(@"Djali Zwan made their live debut as a quartet—Corgan, Sweeney, Pajo and Chamberlin—at the end of 2001", parser.Mdashes(@"Djali Zwan made their live debut as a quartet -- Corgan, Sweeney, Pajo and Chamberlin -- at the end of 2001", "test"));
             Assert.AreEqual(@"Djali Zwan made their live debut as a quartet—Corgan, Sweeney, Pajo and Chamberlin—at the end of 2001", parser.Mdashes(@"Djali Zwan made their live debut as a quartet --  Corgan, Sweeney, Pajo and Chamberlin --at the end of 2001", "test"));
             Assert.AreEqual(@"Djali Zwan made their live debut as a quartet—Corgan, Sweeney, Pajo and Chamberlin—at the end of 2001", parser.Mdashes(@"Djali Zwan made their live debut as a quartet -- Corgan, Sweeney, Pajo and Chamberlin--at the end of 2001", "test"));
+            Assert.AreEqual("Eugene Ormandy—who later", parser.Mdashes("Eugene Ormandy--who later", "test"));
+            Assert.AreEqual("[[Eugene Ormandy]]—who later", parser.Mdashes("[[Eugene Ormandy]]--who later", "test"));
             
             const string XN = @"now the domain xn-- was ";
             Assert.AreEqual(XN, parser.Mdashes(XN, "test"));

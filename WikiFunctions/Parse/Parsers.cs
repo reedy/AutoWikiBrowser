@@ -2088,7 +2088,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex DollarAmountIncorrectMdash = new Regex(@"(\$[1-9]?\d{1,3}\s*)(?:-|—|&mdash;|&#8212;)(\s*\$?[1-9]?\d{1,3})", RegexOptions.Compiled);
         private static readonly Regex AMPMIncorrectMdash = new Regex(@"([01]?\d:[0-5]\d\s*([AP]M)\s*)(?:-|—|&mdash;|&#8212;)(\s*[01]?\d:[0-5]\d\s*([AP]M))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex AgeIncorrectMdash = new Regex(@"([Aa]ge[sd])\s([1-9]?\d\s*)(?:-|—|&mdash;|&#8212;)(\s*[1-9]?\d)", RegexOptions.Compiled);
-        private static readonly Regex SentenceClauseIncorrectMdash = new Regex(@"(?!xn--)(\w{2})\s*--\s*(\w)", RegexOptions.Compiled);
+        private static readonly Regex SentenceClauseIncorrectMdash = new Regex(@"(?!xn--)(\w{2}|⌊⌊⌊⌊M\d+⌋⌋⌋⌋)\s*--\s*(\w)", RegexOptions.Compiled);
         private static readonly Regex SuperscriptMinus = new Regex(@"(?<=<sup>)(?:-|–|—)(?=\d+</sup>)", RegexOptions.Compiled);
 
         // Covered by: FormattingTests.TestMdashes()
