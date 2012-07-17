@@ -4420,7 +4420,8 @@ namespace WikiFunctions.Parse
             // hide items in quotes etc., though this may also hide items within infoboxes etc.
             articleText = HideMoreText(articleText);
 
-            articleText = WikiRegexes.UnitsWithoutNonBreakingSpaces.Replace(articleText, "$1&nbsp;$2");
+            // only apply um (micrometre) fix on English wiki to avoid German word "um"
+            articleText = WikiRegexes.UnitsWithoutNonBreakingSpaces.Replace(articleText, m=> (m.Groups[2].Value.StartsWith("um") && !Variables.LangCode.Equals("en")) ? m.Value : m.Groups[1].Value + "&nbsp;" + m.Groups[2].Value);
 
             articleText = WikiRegexes.ImperialUnitsInBracketsWithoutNonBreakingSpaces.Replace(articleText, "$1&nbsp;$2");
 
