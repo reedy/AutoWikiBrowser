@@ -7916,6 +7916,12 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 [[Category:Living people]]", Parsers.Conversions(@"Foo
 {{unref|date=May 2010}}
 [[Category:Living people]]"));
+            
+            Assert.AreEqual(@"Foo
+{{BLP unsourced|Date=May 2010}}
+[[Category:Living people]]", Parsers.Conversions(@"Foo
+{{unref|Date=May 2010}}
+[[Category:Living people]]"));
         }
         
         [Test]
