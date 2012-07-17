@@ -586,6 +586,7 @@ Start date and age
             RegexAssert.Matches(WikiRegexes.RefsGrouped, "< ref group=X>foo</ ref>", "< ref group=X>foo</ ref>");
             RegexAssert.Matches(WikiRegexes.RefsGrouped, @"<ref group= ""foo/bar""/>", @"<ref group= ""foo/bar""/>");
             RegexAssert.Matches(WikiRegexes.RefsGrouped, @"<ref group= ""foo/bar"">a</ref>", @"<ref group= ""foo/bar"">a</ref>");
+            RegexAssert.Matches(WikiRegexes.RefsGrouped, "<ref name=A group=foo/>", "<ref name=A group=foo/>");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#.3Cp.3E_deletion_in_references_and_notes
             RegexAssert.Matches(WikiRegexes.RefsGrouped, "<ref group=X>foo<!-- bar --></ref>", "<ref group=X>foo<!-- bar --></ref>");
@@ -615,7 +616,7 @@ Start date and age
             RegexAssert.NoMatch(WikiRegexes.RefsGrouped, "<refname=foo/>");
 
             RegexAssert.Matches(WikiRegexes.RefsGrouped, "<ref group=a name=foo/>", "<ref group=a name=foo/>");
-            RegexAssert.NoMatch(WikiRegexes.RefsGrouped, "<ref name=foo group=a />", "<ref name=foo group=a />");
+            RegexAssert.Matches(WikiRegexes.RefsGrouped, "<ref name=foo group=a />", "<ref name=foo group=a />");
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#.3Cp.3E_deletion_in_references_and_notes
             RegexAssert.NoMatch(WikiRegexes.RefsGrouped, "<ref>foo<!-- bar --></ref>", "<ref>foo<!-- bar --></ref>");
@@ -625,8 +626,6 @@ Start date and age
             // this is why the <DEPTH> business is needed in WikiRegexes.Refs
             RegexAssert.Matches(new Regex(WikiRegexes.RefsGrouped + @"\."), "Foo.<ref group=X>bar</ref>. The next Foo.<ref group=X>bar <br> other</ref> The next Foo.<ref group=X>bar</ref> The next Foo.<ref group=X>bar</ref> The nextFoo<ref group=X>bar2</ref>. The next",
                                 @"<ref group=X>bar</ref>.", @"<ref group=X>bar2</ref>.");
-            
-            RegexAssert.NoMatch(WikiRegexes.RefsGrouped, "<ref name=foo group=a />", "<ref name=foo group=a />");            
         }
 
         [Test]

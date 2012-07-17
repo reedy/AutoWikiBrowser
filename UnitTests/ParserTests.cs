@@ -7885,6 +7885,11 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             {{reflist}}";
             
             Assert.AreEqual(NoFootnotesSection, Parsers.Conversions(NoFootnotesSection));
+            
+            const string NoChange2 = @"Article<ref name=A group=B>A</ref>
+            ==References==
+            {{no footnotes}}";
+            Assert.AreEqual(NoChange2, Parsers.Conversions(NoChange2));
         }
         
         [Test]
