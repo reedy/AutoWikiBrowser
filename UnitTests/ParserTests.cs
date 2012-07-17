@@ -4550,7 +4550,22 @@ http://example.com }}");
             Assert.AreEqual(@"a long (50.5&nbsp;in) toad", parser.FixNonBreakingSpaces(@"a long (50.5 in) toad"));
             Assert.AreEqual(@"a big (50.5&nbsp;oz) toad", parser.FixNonBreakingSpaces(@"a big (50.5 oz) toad"));
         }
-
+        
+        [Test]
+        public void TestFixNonBreakingSpacesDE()
+        {
+        	#if DEBUG
+        	Variables.SetProjectLangCode("fr");
+        	parser = new Parsers();
+        	Assert.AreEqual(@"a 50.247&nbsp;µm laser", parser.FixNonBreakingSpaces(@"a 50.247µm laser"));
+        	Assert.AreEqual(@"a 50.247um laser", parser.FixNonBreakingSpaces(@"a 50.247um laser"));
+        	
+        	Variables.SetProjectLangCode("en");
+        	parser = new Parsers();
+        	Assert.AreEqual(@"a 50.247&nbsp;um laser", parser.FixNonBreakingSpaces(@"a 50.247um laser"));
+        	#endif
+        }
+        
         [Test]
         public void FixNonBreakingSpacesPagination()
         {
