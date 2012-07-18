@@ -978,6 +978,7 @@ namespace AutoWikiBrowser
                         SavePrefs(SettingsFile);
                 }
 
+                NumberOfPagesParsed++;
                 return;
             }
 
@@ -2888,6 +2889,7 @@ window.scrollTo(0, diffTopY);
             NumberOfEditsPerMinute = 0;
             NumberOfNewPages = 0;
             NumberOfPagesPerMinute = 0;
+            NumberOfPagesParsed = 0;
         }
 
         /// <summary>
@@ -3161,10 +3163,13 @@ window.scrollTo(0, diffTopY);
         int _seconds, _lastEditsTotal, _lastPagesTotal;
         private void GenerateEditStatistics()
         {
-            NumberOfEditsPerMinute = (NumberOfEdits - _lastEditsTotal); //Edits in the last minute
-            NumberOfPagesPerMinute = (NumberOfEdits + NumberOfIgnoredEdits - _lastPagesTotal);
+        	//Edits in the last minute
+            NumberOfEditsPerMinute = (NumberOfEdits - _lastEditsTotal);
+            
+            // pages processed in last minute: edits + skipped in normal mode or number of pages pre-parsed when in pre-parse mode
+            NumberOfPagesPerMinute = Math.Max(NumberOfEdits + NumberOfIgnoredEdits + NumberOfPagesParsed - _lastPagesTotal, 0);
             _lastEditsTotal = NumberOfEdits;
-            _lastPagesTotal = NumberOfEdits + NumberOfIgnoredEdits;
+            _lastPagesTotal = NumberOfEdits + NumberOfIgnoredEdits + NumberOfPagesParsed;
         }
 
         #endregion
