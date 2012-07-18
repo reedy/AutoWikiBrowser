@@ -2036,7 +2036,7 @@ namespace WikiFunctions.Parse
             return false;
         }
 
-        private static readonly Regex MathSourceCodeNowikiPreTagStart = new Regex(@"<\s*(?:math|(?:source|ref)\b[^>]*|code|nowiki|pre|small)\s*>", RegexOptions.Compiled);
+        private static readonly Regex MathSourceCodeNowikiPreTag = new Regex(@"<\s*/?\s*(?:math|(?:source|ref)\b[^>]*|code|nowiki|pre|small)\s*>", RegexOptions.Compiled);
         /// <summary>
         ///  Searches for any unclosed &lt;math&gt;, &lt;source&gt;, &lt;ref&gt;, &lt;code&gt;, &lt;nowiki&gt;, &lt;small&gt; or &lt;pre&gt; tags
         /// </summary>
@@ -2053,7 +2053,7 @@ namespace WikiFunctions.Parse
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Small);
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Refs);
 
-            foreach (Match m in MathSourceCodeNowikiPreTagStart.Matches(articleText))
+            foreach (Match m in MathSourceCodeNowikiPreTag.Matches(articleText))
             {
                 back.Add(m.Index, m.Length);
             }
