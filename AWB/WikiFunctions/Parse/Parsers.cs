@@ -369,6 +369,7 @@ namespace WikiFunctions.Parse
         }
 
         private const int MinCleanupTagsToCombine = 3; // article must have at least this many tags to combine to {{multiple issues}}
+        private static readonly Regex ExpertSubject = Tools.NestedTemplateRegex("expert-subject");
 
         /// <summary>
         /// Combines multiple cleanup tags into {{multiple issues}} template, ensures parameters have correct case, removes date parameter where not needed
@@ -378,6 +379,8 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string MultipleIssues(string articleText)
         {
+        	string ESDate = "";
+        	
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
@@ -406,6 +409,12 @@ namespace WikiFunctions.Parse
 
             // get the rest of the article including first heading (may be null if entire article falls in zeroth section)
             string restOfArticle = articleText.Remove(0, zerothSection.Length);
+            
+            if (ExpertSubject.IsMatch(zerothSection))
+            {
+            	ESDate = Tools.GetTemplateParameterValue(ExpertSubject.Match(zerothSection).Value, "date");
+            	zerothSection = Tools.RemoveTemplateParameter(zerothSection, "expert-subject", "date");
+            }
             
             int tagsToAdd = WikiRegexes.MultipleIssuesTemplates.Matches(zerothSection).Count;
 
@@ -497,11 +506,15 @@ namespace WikiFunctions.Parse
                 }
                 else
                     continue;
+                                
                 newTags = newTags.Trim();
 
                 // remove the single template
                 zerothSection = zerothSection.Replace(m.Value, "");
             }
+            
+            if(ESDate.Length > 0)
+            	newTags += ("|date = " + ESDate);
 
             // if article currently has {{Multiple issues}}, add tags to it
             string ai = WikiRegexes.MultipleIssues.Match(zerothSection).Value;
