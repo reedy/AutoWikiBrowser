@@ -5240,6 +5240,9 @@ window.scrollTo(0, diffTopY);
 
         private void RedSelection(int index, int length)
         {
+        	if(!txtEdit.Enabled)
+        		return;
+        	
             // numbers in articleText and txtEdit.Edit are offset by the number of newlines before the index of the text
             int newlinesToIndex = WikiRegexes.Newline.Matches(txtEdit.Text.Substring(0, index)).Count;
             int newlinesInSelection = WikiRegexes.Newline.Matches(txtEdit.Text.Substring(index, length)).Count;
