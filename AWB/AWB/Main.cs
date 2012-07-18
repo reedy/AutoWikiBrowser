@@ -610,7 +610,8 @@ namespace AutoWikiBrowser
         private void OpenPage(string title)
         {
             StatusLabelText = "Loading...";
-            TheSession.Editor.Open(title, followRedirectsToolStripMenuItem.Checked);
+            // if "skip if redirect" is on, don't bypass redirects even if "bypass redirects" is on too
+            TheSession.Editor.Open(title, followRedirectsToolStripMenuItem.Checked && !chkSkipIfRedirect.Checked);
         }
 
         private bool _stopProcessing, _inStart, _startAgain;
