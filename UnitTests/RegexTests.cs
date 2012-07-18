@@ -1612,6 +1612,14 @@ words2"));
             Assert.IsFalse(WikiRegexes.BirthsCategory.IsMatch(@"1960 births"));
             Assert.IsFalse(WikiRegexes.BirthsCategory.IsMatch(@""));
         }
+        
+        [Test]
+        public void PeopleFromCategoryTests()
+        {
+        	Assert.IsTrue(WikiRegexes.PeopleFromCategory.IsMatch(@"[[Category:People from x]]"));
+        	Assert.IsTrue(WikiRegexes.PeopleFromCategory.IsMatch(@"[[Category:People from x|y]]"));
+        	Assert.IsFalse(WikiRegexes.PeopleFromCategory.IsMatch(@"[[Category:People who x]]"));
+        }
 
         [Test]
         public void DateBirthAndAgeTests()
