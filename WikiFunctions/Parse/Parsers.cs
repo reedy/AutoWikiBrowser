@@ -3530,7 +3530,7 @@ namespace WikiFunctions.Parse
                 if(m.Success)
                 {
                     string year = m.Value.Replace(@"[[Category:", "").TrimEnd(']');
-                    if(Regex.IsMatch(year, @"^\d{3,4} births(\|.*)?$"))
+                    if(Regex.IsMatch(year, @"^\d{3,4} (?:BC )?births(\|.*)?$"))
                         newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF BIRTH", year.Substring(0, year.IndexOf(" births")), true);
                 }
             }
