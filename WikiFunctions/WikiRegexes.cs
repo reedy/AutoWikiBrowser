@@ -1141,7 +1141,17 @@ namespace WikiFunctions
         /// Matches consecutive whitespace
         /// </summary>
         public static readonly Regex WhiteSpace = new Regex(@"\s+", RegexOptions.Compiled);
-
+        
+        /// <summary>
+        /// List of PAGENAME, PAGENAMEE, BASEPAGENAME, BASEPAGENAMEE templates
+        /// </summary>
+        public static readonly List<string> BASEPAGENAMETemplatesL = new List<string>(new [] {"PAGENAME", "PAGENAMEE", "BASEPAGENAME", "BASEPAGENAMEE"});
+        
+        /// <summary>
+        /// Matches PAGENAME, PAGENAMEE, BASEPAGENAME, BASEPAGENAMEE templates
+        /// </summary>
+        public static readonly Regex BASEPAGENAMETemplates = Tools.NestedTemplateRegex(BASEPAGENAMETemplatesL);
+        
         /// <summary>
         /// 
         /// </summary>

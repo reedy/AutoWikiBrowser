@@ -1336,6 +1336,12 @@ John", "*"));
 |here}}", "bar man"));
             
             Assert.AreEqual(@"{{bar man <!--comm-->|here}}", Hider.AddBack(Tools.RenameTemplate(Hider.Hide(@"{{foo man <!--comm-->|here}}"), "bar man")));
+            
+            // special case of subst:, first letter case rule does not apply
+            Assert.AreEqual(@"{{subst:PAGENAME}}", Tools.RenameTemplate(@"{{PAGENAME}}", "PAGENAME", "subst:PAGENAME"));
+            Assert.AreEqual(@"{{subst:PAGENAME}}", Tools.RenameTemplate(@"{{PAGENAME}}", "PAGENAME", "subst:PAGENAME", false));
+            Assert.AreEqual(@"{{subst:PAGENAME}}", Tools.RenameTemplate(@"{{PAGENAME}}", "PAGENAME", "subst:PAGENAME", true));
+            
         }
         
         [Test]
