@@ -93,6 +93,11 @@ namespace AutoWikiBrowser
                 lblPagesPerMin.Text = "Pages/min: " + value;
             }
         }
+        
+        /// <summary>
+        /// Holds the number of pages parsed when AWB is in pre-parse mode
+        /// </summary>
+        public int NumberOfPagesParsed;
     }
 
     /// <summary>
