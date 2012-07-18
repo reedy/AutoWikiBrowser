@@ -6125,15 +6125,16 @@ namespace WikiFunctions.Parse
                 #endif
             {
                 // stubs add non-hidden stub categories, don't count these in categories count
+                // also don't count "Proposed deletion..." cats
                 List<Article> Cats = CategoryProv.MakeList(new[] {articleTitle});
-                List<Article> CatsNotStubs = new List<Article>();
+                List<Article> CatsNotStubsProd = new List<Article>();
 
                 foreach (Article a in Cats)
                 {
-                    if (!a.Name.EndsWith(" stubs") && !a.Name.EndsWith(":Stubs"))
-                        CatsNotStubs.Add(a);
+                	if (!a.Name.EndsWith(" stubs") && !a.Name.EndsWith(":Stubs") && !a.Name.StartsWith("Proposed deletion"))
+                        CatsNotStubsProd.Add(a);
                 }
-                totalCategories = CatsNotStubs.Count;
+                totalCategories = CatsNotStubsProd.Count;
             }
 
             if (linkCount > 0 && WikiRegexes.DeadEnd.IsMatch(articleText))
