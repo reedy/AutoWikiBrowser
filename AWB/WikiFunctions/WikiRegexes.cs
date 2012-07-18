@@ -797,6 +797,11 @@ namespace WikiFunctions
         /// Matches the XXXX births / xxth Century / XXXX BC births categories (en only)
         /// </summary>
         public static readonly Regex BirthsCategory = new Regex(@"\[\[ ?Category ?:[ _]?(?:(\d{3,4})(?:s| BC)?|\d{1,2}\w{0,2}[- _]century)[ _]births(\|.*?)?\]\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        
+        /// <summary>
+        /// Matches the "People from ..." en-wiki categories
+        /// </summary>
+        public static readonly Regex PeopleFromCategory = new Regex(@"\[\[ ?Category ?: *People from .*?\]\]", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches the various {{birth date and age}} templates, group 1 being the year of birth

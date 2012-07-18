@@ -5402,6 +5402,7 @@ namespace WikiFunctions.Parse
             return WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText)
                 || WikiRegexes.LivingPeopleRegex2.IsMatch(articleText)
                 || WikiRegexes.BirthsCategory.IsMatch(articleText)
+            	|| WikiRegexes.PeopleFromCategory.IsMatch(articleText)
                 || WikiRegexes.BLPSources.IsMatch(BLPUnsourcedSection.Replace(articleText, ""))
                 || RefImproveBLP.IsMatch(articleText);
         }
