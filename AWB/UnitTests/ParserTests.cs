@@ -7896,6 +7896,30 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             ==References==
             {{no footnotes}}
             {{reflist}}"));
+            
+            Assert.AreEqual(@"Article {{sfn|Smith|2004}}
+            ==References==
+            {{more footnotes|date=May 2012}}
+            {{reflist}}", Parsers.Conversions(@"Article {{sfn|Smith|2004}}
+            ==References==
+            {{no footnotes|date=May 2012}}
+            {{reflist}}"));
+            
+            Assert.AreEqual(@"Article {{sfn|Smith|2004}}
+            ==References==
+            {{more footnotes|BLP=yes|date=May 2012}}
+            {{reflist}}", Parsers.Conversions(@"Article {{sfn|Smith|2004}}
+            ==References==
+            {{no footnotes|BLP=yes|date=May 2012}}
+            {{reflist}}"));
+            
+            Assert.AreEqual(@"Article {{sfn|Smith|2004}}
+            ==References==
+            {{more footnotes|article=yes|date=May 2012}}
+            {{reflist}}", Parsers.Conversions(@"Article {{sfn|Smith|2004}}
+            ==References==
+            {{no footnotes|article=yes|date=May 2012}}
+            {{reflist}}"));
 
             const string NoChange = @"Article
             ==References==
@@ -7909,6 +7933,14 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             {{reflist}}";
             
             Assert.AreEqual(NoFootnotesSection, Parsers.Conversions(NoFootnotesSection));
+            
+            const string NoFootnotesReason = @"Article <ref>A</ref>
+            ==Sec==
+            {{no footnotes|some reason}}
+            ==References==
+            {{reflist}}";
+            
+            Assert.AreEqual(NoFootnotesReason, Parsers.Conversions(NoFootnotesReason));
             
             const string NoChange2 = @"Article<ref name=A group=B>A</ref>
             ==References==

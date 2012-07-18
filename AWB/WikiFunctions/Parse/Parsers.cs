@@ -5935,9 +5935,9 @@ namespace WikiFunctions.Parse
             }
 
             // {{no footnotes}} --> {{more footnotes}}, if some <ref>...</ref> or {{sfn}} references in article, uses regex from WikiRegexes.Refs
-            // does not change section templates
+            // does not change templates with section / reason tags
             if ((TotalRefsNotGrouped(articleText) + Tools.NestedTemplateRegex("sfn").Matches(articleText).Count) > 0)
-                articleText = Tools.NestedTemplateRegex("no footnotes").Replace(articleText, m => NotSectionTemplateME(m, "more footnotes"));
+                articleText = Tools.NestedTemplateRegex("no footnotes").Replace(articleText, m => OnlyArticleBLPTemplateME(m, "more footnotes"));
 
             // {{foo|section|...}} --> {{foo section|...}} for unreferenced, wikify, refimprove, BLPsources, expand, BLP unsourced
             articleText = SectionTemplates.Replace(articleText, new MatchEvaluator(SectionTemplateConversionsME));
@@ -6009,6 +6009,24 @@ namespace WikiFunctions.Parse
                 return m.Value;
             
             return Tools.RenameTemplate(newValue, newTemplateName);
+        }
+        
+        /// <summary>
+        /// Renames template if the only name arguments are BLP=, date= and article=, or there are no arguments
+        /// </summary>
+        /// <param name="m"></param>
+        /// <param name="newTemplateName"></param>
+        /// <returns></returns>
+        private static string OnlyArticleBLPTemplateME(Match m, string newTemplateName)
+        {
+        	string newValue = Tools.RemoveTemplateParameter(m.Value, "BLP");
+        	newValue = Tools.RemoveTemplateParameter(newValue, "article");
+        	newValue = Tools.RemoveTemplateParameter(newValue, "date");
+        	
+        	if(Tools.GetTemplateArgumentCount(newValue) > 0)
+        		return m.Value;
+            
+            return Tools.RenameTemplate(m.Value, newTemplateName);
         }
 
         private static readonly Regex TemplateParameter2 = new Regex(@" \{\{\{2\|\}\}\}", RegexOptions.Compiled);
