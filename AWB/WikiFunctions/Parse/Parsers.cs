@@ -74,8 +74,6 @@ namespace WikiFunctions.Parse
             // .NET doesn't seem to like the Unicode versions of these – deleted from edit box
             RegexUnicode.Add(new Regex("&#(x2[0-9AB][0-9A-Fa-f]{3});", RegexOptions.Compiled), "&amp;#$1;");
 
-            RegexConversion.Add(new Regex(@"\{\{(?:[Tt]emplate:)?((?:BASE)?PAGENAMEE?\}\})", RegexOptions.Compiled), "{{subst:$1");
-
             // clean 'do-attempt =July 2006|att=April 2008' to 'do attempt = April 2008'
             RegexConversion.Add(new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*|\|)\s*[Dd]o-attempt\s*=\s*)[^{}\|]+\|\s*att\s*=\s*([^{}\|]+)(?=\||}})", RegexOptions.Compiled), "$1$2");
 
@@ -5904,6 +5902,22 @@ namespace WikiFunctions.Parse
             foreach (KeyValuePair<Regex, string> k in RegexConversion)
             {
                 articleText = k.Key.Replace(articleText, k.Value);
+            }
+            
+            bool BASEPAGENAMEInRefs = false;
+            foreach (Match m in WikiRegexes.Refs.Matches(articleText))
+            {
+            	if(WikiRegexes.BASEPAGENAMETemplates.IsMatch(m.Value))
+            	{
+            		BASEPAGENAMEInRefs = true;
+            		break;
+            	}
+            }
+            
+            if(!BASEPAGENAMEInRefs)
+            {
+            	foreach (string T in WikiRegexes.BASEPAGENAMETemplatesL)
+            		articleText = Tools.RenameTemplate(articleText, T, "subst:" + T);
             }
 
             // {{no footnotes}} --> {{more footnotes}}, if some <ref>...</ref> or {{sfn}} references in article, uses regex from WikiRegexes.Refs

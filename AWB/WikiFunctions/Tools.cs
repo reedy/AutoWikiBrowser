@@ -2871,7 +2871,7 @@ Message: {2}
 		{
 			string originalTemplateName = m.Groups[2].Value;
 			
-			if(keepFirstLetterCase)
+			if(keepFirstLetterCase && !newTemplateName.StartsWith("subst:"))
 			{
 				if(TurnFirstToUpper(originalTemplateName).Equals(originalTemplateName))
 					newTemplateName = TurnFirstToUpper(newTemplateName);
