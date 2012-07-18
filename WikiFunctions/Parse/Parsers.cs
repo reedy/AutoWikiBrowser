@@ -2752,7 +2752,7 @@ namespace WikiFunctions.Parse
         }
         
         /// <summary>
-        /// workaround for bugzilla 2700: {[subst:}} doesn't work within ref tags
+        /// workaround for bugzilla 2700: {{subst:}} doesn't work within ref tags
         /// </summary>
         /// <param name="articleText"></param>
         /// <returns></returns>
