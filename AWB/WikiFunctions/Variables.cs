@@ -563,7 +563,7 @@ namespace WikiFunctions
                 var uri = new Uri(Protocol + customProject);
                 URLEnd = uri.AbsolutePath;
                 URL = protocol + uri.Host;
-                CustomProject = URLLong;
+                CustomProject = customProject;
             }
             else
             {
