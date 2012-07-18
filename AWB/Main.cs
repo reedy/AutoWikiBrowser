@@ -2554,8 +2554,8 @@ window.scrollTo(0, diffTopY);
                 ArrayList arrayLinks = new ArrayList();
                 ArrayList arrayLinks2 = new ArrayList();
 
-                //get all the links
-                foreach (Match m in WikiRegexes.WikiLink.Matches(articleText))
+                //get all the links, ignore commented out text etc.
+                foreach (Match m in WikiRegexes.WikiLink.Matches(Tools.ReplaceWithSpaces(articleText, WikiRegexes.UnformattedText.Matches(articleText))))
                 {
                     string x = m.Groups[1].Value;
                     if (!WikiRegexes.Dates.IsMatch(x) && !WikiRegexes.Dates2.IsMatch(x))
