@@ -1827,7 +1827,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex CiteWeb = Tools.NestedTemplateRegex(new[] { "cite web", "citeweb" });
         private static readonly Regex CitationPopulatedParameter = new Regex(@"\|\s*([\w_0-9-]+)\s*=\s*([^\|}]+)");
 
-        private static readonly Regex citeWebParameters = new Regex(@"\b(first\d?|last\d?|author\d?|authorlink\d?|coauthors?|title|url|archiveurl|work|publisher|location|pages?|language|trans_title|format|doi|date|month|year|archivedate|accessdate|quote|ref|separator|postscript|at|deadurl|asin|id|editor|issn|isbn|jstor|type)\b", RegexOptions.Compiled);
+        private static readonly Regex citeWebParameters = new Regex(@"\b(accessdate|archivedate|archiveurl|arxiv|asin|at|author\d?|authorlink\d?|bibcode|coauthors?|date|deadurl|doi|doibroken|editor|editor1?-first|editor2-first|editor3-first|editor4-first|editor1?-last|editor2-last|editor3-last|editor4-last|editor1?-link|editor2-link|editor3-link|editor4-link|first\d?|format|id|isbn|issn|jfm|jstor|language|last\d?|lccn|location|month|mr|oclc|ol|osti|pages?|pmc|pmid|postscript|publisher|quote|ref|rfc|separator|ssrn|title|trans_title|type|url|work|year|zbl)\b", RegexOptions.Compiled);
         
         /// <summary>
         /// Searches for unknown/invalid parameters within citation templates
