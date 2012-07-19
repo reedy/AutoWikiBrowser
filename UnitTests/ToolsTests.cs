@@ -1912,6 +1912,7 @@ Start date and age
         	Assert.AreEqual(@"{{DISPLAYTITLE:''Foo''}}", Tools.TemplateToMagicWord(@"{{DISPLAYTITLE|''Foo''}}"));
         	Assert.AreEqual(@"{{DISPLAYTITLE:''Foo''}} {{DEFAULTSORT:Foo}}", Tools.TemplateToMagicWord(@"{{DISPLAYTITLE|''Foo''}} {{DEFAULTSORT|Foo}}"));
         	Assert.AreEqual(@"{{BASEPAGENAME:Foo}}", Tools.TemplateToMagicWord(@"{{BASEPAGENAME|Foo}}"));
+        	Assert.AreEqual(@"{{FULLPAGENAME}}", Tools.TemplateToMagicWord(@"{{FULLPAGENAME}}"));
         }
     }
 
