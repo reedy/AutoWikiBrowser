@@ -353,7 +353,7 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
         {
             // one line
             TestMatch(WikiRegexes.Blockquote, "<blockquote>foo bar< /blockquote>", "<blockquote>foo bar< /blockquote>");
-            
+
             TestMatch(WikiRegexes.Blockquote, "<blockquote style=x>foo bar< /blockquote>", "<blockquote style=x>foo bar< /blockquote>");
 
             // multiple lines
@@ -517,7 +517,7 @@ Start date and age
             RegexAssert.Matches(WikiRegexes.BulletedText, "#foo\r\ntest\r\n*:bar", "#foo\r", "*:bar");
             RegexAssert.Matches(WikiRegexes.BulletedText, " foo\r\nfoo bar", " foo\r");
         }
-        
+
         [Test]
         public void Headings()
         {
@@ -528,7 +528,7 @@ Start date and age
             RegexAssert.IsMatch(WikiRegexes.Headings, "======Foo======");
             Assert.AreEqual(WikiRegexes.Headings.Match("======Foo======").Groups[1].Value, "Foo");
             Assert.AreEqual(WikiRegexes.Headings.Match("== Foo == ").Groups[1].Value, "Foo");
-            
+
             RegexAssert.IsMatch(WikiRegexes.Headings, "==Foo=", "matches unbalanced headings");
         }
 
@@ -538,7 +538,7 @@ Start date and age
             RegexAssert.Matches(WikiRegexes.Refs, "<ref>foo</ref>", "<ref>foo</ref>");
             RegexAssert.Matches(WikiRegexes.Refs, "<ref>foo<br></ref>", "<ref>foo<br></ref>");
             RegexAssert.Matches(WikiRegexes.Refs, "<ref>foo<br>bar</ref>", "<ref>foo<br>bar</ref>");
-            
+
             RegexAssert.IsMatch(WikiRegexes.Refs, @"<ref>{{cite web
 |url=http://www.h.com/.php?tmi=5177|title=Season-by-season record |accessdate = 2008-12-01}}</ref>");
 
@@ -567,7 +567,7 @@ Start date and age
             // this is why the <DEPTH> business is needed in WikiRegexes.Refs
             RegexAssert.Matches(new Regex(WikiRegexes.Refs + @"\."), "Foo.<ref>bar</ref>. The next Foo.<ref>bar <br> other</ref> The next Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The nextFoo<ref>bar2</ref>. The next", "<ref>bar</ref>.", "<ref>bar2</ref>.");
         }
-        
+
         [Test]
         public void RefsGrouped()
         {
@@ -576,7 +576,7 @@ Start date and age
             RegexAssert.Matches(WikiRegexes.RefsGrouped, "<ref group=X>foo<br>bar</ref>", "<ref group=X>foo<br>bar</ref>");
             const string M1 = @"<ref group=X>{{cite web
 |url=http://www.h.com/.php?tmi=5177|title=Season-by-season record |accessdate = 2008-12-01}}</ref>";
-            RegexAssert.Matches(WikiRegexes.RefsGrouped,  M1, M1);
+            RegexAssert.Matches(WikiRegexes.RefsGrouped, M1, M1);
 
             RegexAssert.Matches(WikiRegexes.RefsGrouped, "<REF group=\"foo\" >bar</ref >", "<REF group=\"foo\" >bar</ref >");
             RegexAssert.Matches(WikiRegexes.RefsGrouped, "<REF  group=foo>bar< /ref>", "<REF  group=foo>bar< /ref>");
@@ -595,11 +595,11 @@ Start date and age
 
             // this is why the <DEPTH> business is needed in WikiRegexes.Refs
             RegexAssert.Matches(new Regex(WikiRegexes.Refs + @"\."), "Foo.<ref group=X>bar</ref>. The next Foo.<ref>bar <br> other</ref> The next Foo.<ref>bar</ref> The next Foo.<ref>bar</ref> The nextFoo<ref group=Y>bar2</ref>. The next", "<ref group=X>bar</ref>.", "<ref group=Y>bar2</ref>.");
-            
+
             RegexAssert.NoMatch(WikiRegexes.RefsGrouped, "<ref>foo</ref>", "<ref>foo</ref>");
             RegexAssert.NoMatch(WikiRegexes.RefsGrouped, "<ref>foo<br></ref>", "<ref>foo<br></ref>");
             RegexAssert.NoMatch(WikiRegexes.RefsGrouped, "<ref>foo<br>bar</ref>", "<ref>foo<br>bar</ref>");
-            
+
             RegexAssert.NoMatch(WikiRegexes.RefsGrouped, @"<ref>{{cite web
 |url=http://www.h.com/.php?tmi=5177|title=Season-by-season record |accessdate = 2008-12-01}}</ref>");
 
@@ -643,7 +643,7 @@ foo
             RegexAssert.Matches(WikiRegexes.Small, "<small>a<small>foo</small>b</small>", "<small>a<small>foo</small>b</small>");
             RegexAssert.Matches(WikiRegexes.Small, @"<small>..<small>...</small>", @"<small>...</small>");
         }
-        
+
         [Test]
         public void Big()
         {
@@ -724,7 +724,7 @@ foo
             // length outside range
             RegexAssert.NoMatch(WikiRegexes.PossibleInterwikis, "[[e:foo]]");
             RegexAssert.NoMatch(WikiRegexes.PossibleInterwikis, "[[abcdefghijlkmnop:foo]]");
-            
+
             RegexAssert.Matches(WikiRegexes.PossibleInterwikis, "foo[[en:bar]] <!--comm-->", "[[en:bar]] <!--comm-->");
         }
 
@@ -771,7 +771,7 @@ fast„ "));
             // don't match apostrophes when used within words
             Assert.IsTrue(WikiRegexes.UntemplatedQuotes.Replace(@"Now it’s a shame as it’s a", "").Contains(@"Now it’s a shame as it’s a"));
         }
-        
+
         [Test]
         public void CurlyDoubleQuotes()
         {
@@ -1040,7 +1040,7 @@ cit"));
             Assert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{Infobox_play| bye}} "));
             Assert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{some infobox| hello| bye}} "));
             Assert.IsTrue(WikiRegexes.InfoBox.IsMatch(@" {{Some Infobox| hello| bye}} "));
-            
+
             Assert.AreEqual(WikiRegexes.InfoBox.Match(@" {{Infobox
 | hello| bye}} ").Groups[1].Value, "Infobox");
         }
@@ -1048,10 +1048,10 @@ cit"));
         [Test]
         public void ExpandTests()
         {
-            Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{expand}} here"),"with small first letter");
-            Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{Expand}} here"),"with capital first letter");
-            Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{Expand|date=May 2009}} here"),"with date");
-            
+            Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{expand}} here"), "with small first letter");
+            Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{Expand}} here"), "with capital first letter");
+            Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{Expand|date=May 2009}} here"), "with date");
+
             Assert.IsTrue(WikiRegexes.Expand.IsMatch(@"now {{Article issues
  | orphan = December 2010
  | expand = December 2010
@@ -1233,7 +1233,7 @@ words2"));
            | wikify=May 2008|a=b|c=d}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues|}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multipleissues}}"));
-            
+
             Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues|wikify=May 2008|a=b|c=d}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{ multiple issues|wikify=May 2008|a=b|c=d}}"));
 
@@ -1361,9 +1361,9 @@ words2"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{update|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{weasel|date =  April 2009}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{wikify|date =  April 2009}}"));
-            
+
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{copy edit|for=grammar|date =  April 2009}}"));
-            
+
             //undated
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{abbreviations}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{advert}}"));
@@ -1432,7 +1432,7 @@ words2"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{notable}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{notability}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{onesource}}"));
-            
+
             Assert.IsFalse(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{OR}}"));
 
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{orphan}}"));
@@ -1554,7 +1554,7 @@ words2"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Weasel}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Wikify}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{Coi}}"));
-            
+
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{BLP unsourced}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssuesTemplates.IsMatch(@"{{BLPunsourced}}"));
 
@@ -1612,13 +1612,13 @@ words2"));
             Assert.IsFalse(WikiRegexes.BirthsCategory.IsMatch(@"1960 births"));
             Assert.IsFalse(WikiRegexes.BirthsCategory.IsMatch(@""));
         }
-        
+
         [Test]
         public void PeopleFromCategoryTests()
         {
-        	Assert.IsTrue(WikiRegexes.PeopleFromCategory.IsMatch(@"[[Category:People from x]]"));
-        	Assert.IsTrue(WikiRegexes.PeopleFromCategory.IsMatch(@"[[Category:People from x|y]]"));
-        	Assert.IsFalse(WikiRegexes.PeopleFromCategory.IsMatch(@"[[Category:People who x]]"));
+            Assert.IsTrue(WikiRegexes.PeopleFromCategory.IsMatch(@"[[Category:People from x]]"));
+            Assert.IsTrue(WikiRegexes.PeopleFromCategory.IsMatch(@"[[Category:People from x|y]]"));
+            Assert.IsFalse(WikiRegexes.PeopleFromCategory.IsMatch(@"[[Category:People who x]]"));
         }
 
         [Test]
@@ -1683,15 +1683,15 @@ words2"));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{ Article issues|dead end=May 2008|a=b|c=d}}"));
 
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(@"{{deadend|}}"));
-            
+
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Dead end|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Multiple issues|dead end={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|a=b}}"));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Multiple issues|orphan=May 2010 | dead end={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|a=b}}"));
-            
+
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Multiple issues|wikify ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|dead end ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|orphan ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
-            
+
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Multiple issues|orphan =August 2010|cleanup =March 2009|COI =April 2009|BLP sources = April 2009|autobiography = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|dead end = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
-            
+
             Assert.AreEqual(@"{{multiple issues|peacock=September 2010|wikify=September 2010|BLP unsourced = July 2010}}", WikiRegexes.DeadEnd.Replace(@"{{multiple issues|deadend=September 2010|peacock=September 2010|wikify=September 2010|BLP unsourced = July 2010}}", "$1"));
         }
 
@@ -1725,7 +1725,7 @@ words2"));
             TestMatch(WikiRegexes.BareRefExternalLink, @"<ref>[   http://news.bbc.co.uk/hi/England/story4384.htm   ]   </ref>");
 
             TestMatch(WikiRegexes.BareRefExternalLink, @"<ref>[http://news.bbc.co.uk/hi/England/story4384.htm title here]</ref>", false);
-            
+
             TestMatches(WikiRegexes.BareRefExternalLink, @"<ref>[http://news.bbc.co.uk/hi/England/story4384.htm</ref>", 0); // no matches for unbalanced braces
 
             Assert.AreEqual(WikiRegexes.BareRefExternalLink.Match(@"<ref>[ http://news.bbc.co.uk/hi/England/story4384.htm ] </ref>").Groups[1].Value, @"http://news.bbc.co.uk/hi/England/story4384.htm");
@@ -1743,7 +1743,7 @@ words2"));
             TestMatch(WikiRegexes.BareRefExternalLinkBotGenTitle, @"<ref>Smith, Fred [http://www.independent.co.uk/news/people/bo-johnson-30403.html Boris Johnson: People - The Independent<!-- Bot generated title -->]</ref>", false);
             TestMatch(WikiRegexes.BareRefExternalLinkBotGenTitle, @"<ref>[http://www.independent.co.uk/news/people/bo-johnson-30403.html Boris Johnson: People - The Independent]</ref>", false);
             Assert.IsTrue(WikiRegexes.BareRefExternalLinkBotGenTitle.IsMatch(@"attack<ref>http://www.news.com.au/heraldsun/story/0,21985,23169580-5006022,00.html</ref> was portrayed"));
-            
+
             Assert.AreEqual(@"http://news.bbc.co.uk/hi/England/story4384.htm", WikiRegexes.BareRefExternalLinkBotGenTitle.Match(@"<ref>[http://news.bbc.co.uk/hi/England/story4384.htm]</ref>").Groups[1].Value);
             Assert.AreEqual(@"http://news.bbc.co.uk/hi/England/story4384.htm", WikiRegexes.BareRefExternalLinkBotGenTitle.Match(@"<ref>[http://news.bbc.co.uk/hi/England/story4384.htm]""</ref>").Groups[1].Value);
             Assert.AreEqual(@"http://news.bbc.co.uk/hi/England/story4384.htm", WikiRegexes.BareRefExternalLinkBotGenTitle.Match(@"<ref> [ http://news.bbc.co.uk/hi/England/story4384.htm]. </ref>").Groups[1].Value);
@@ -1771,7 +1771,7 @@ words2"));
             Assert.AreEqual(WikiRegexes.Italics.Match(@"''f''").Groups[1].Value, @"f");
             Assert.AreEqual(WikiRegexes.Italics.Match(@"''f'' nar ''abc''").Groups[1].Value, @"f");
             Assert.AreEqual(WikiRegexes.Bold.Match(@"'''f''' nar '''abc'''").Groups[1].Value, @"f");
-            
+
             Assert.IsFalse(WikiRegexes.Italics.IsMatch(@"'''foo'''"));
             Assert.IsFalse(WikiRegexes.Italics.IsMatch(@"'''''foo'''''"));
             Assert.IsFalse(WikiRegexes.Bold.IsMatch(@"''foo'''"));
@@ -1780,7 +1780,7 @@ words2"));
             Assert.IsFalse(WikiRegexes.BoldItalics.IsMatch(@"'''foo'''"));
             Assert.IsFalse(WikiRegexes.BoldItalics.IsMatch(@"'''''foo''"));
         }
-        
+
         [Test]
         public void StarRowsTests()
         {
@@ -1801,7 +1801,7 @@ Bert").Groups[2].Value, "foo bar\r");
             Assert.IsTrue(WikiRegexes.CircaTemplate.IsMatch(@"{{Circa}}"));
             Assert.IsTrue(WikiRegexes.CircaTemplate.IsMatch(@"{{circa|foo=yes}}"));
         }
-        
+
         [Test]
         public void ReferenceList()
         {
@@ -1809,15 +1809,15 @@ Bert").Groups[2].Value, "foo bar\r");
             Assert.IsTrue(WikiRegexes.ReferenceList.IsMatch(@"{{references-small}}"));
             Assert.IsTrue(WikiRegexes.ReferenceList.IsMatch(@"{{references-2column}}"));
         }
-        
+
         [Test]
         public void SurnameClarificationTemplates()
         {
-        	Assert.IsTrue(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Malay name}}"));
-        	Assert.IsTrue(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Malay_name}}"));
-        	Assert.IsTrue(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Malay-name}}"));
-        	Assert.IsTrue(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Chinese-name}}"));
-        	Assert.IsFalse(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Eastern name order}}"));        	
+            Assert.IsTrue(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Malay name}}"));
+            Assert.IsTrue(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Malay_name}}"));
+            Assert.IsTrue(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Malay-name}}"));
+            Assert.IsTrue(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Chinese-name}}"));
+            Assert.IsFalse(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Eastern name order}}"));
         }
     }
 }

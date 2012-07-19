@@ -271,9 +271,9 @@ namespace WikiFunctions.Controls.Lists
                 txtPage.Text = item.Name;
 
                 int intPosition;
-                
+
                 // if replacing the second instance of the article in the list maker avoid jumping selected article to the first
-                if(lbArticles.SelectedItems.Count == 1 && lbArticles.SelectedItems.Contains(item))
+                if (lbArticles.SelectedItems.Count == 1 && lbArticles.SelectedItems.Contains(item))
                     intPosition = lbArticles.SelectedIndex;
                 else
                     intPosition = lbArticles.Items.IndexOf(item);
@@ -627,10 +627,10 @@ namespace WikiFunctions.Controls.Lists
             // Assumsuption flaw: that all wikis use /wiki/ as the default path
             string url = Variables.URL + "/wiki/";
             s = s.Replace(url, "").Trim();
-            
+
             // handle section links
-            if(s.Contains("#"))
-            	s = s.Substring(0, s.IndexOf("#"));
+            if (s.Contains("#"))
+                s = s.Substring(0, s.IndexOf("#"));
 
             if (!originals.Equals(s))
                 s = Tools.WikiDecode(s);
@@ -652,10 +652,10 @@ namespace WikiFunctions.Controls.Lists
                 Invoke(new AddToListDel(Add), s);
                 return;
             }
-            
+
             s = Tools.RemoveSyntax(s);
-            
-            if(Variables.CapitalizeFirstLetter)
+
+            if (Variables.CapitalizeFirstLetter)
                 s = Tools.TurnFirstToUpper(s);
 
             lbArticles.Items.Add(new Article(s));
@@ -683,18 +683,18 @@ namespace WikiFunctions.Controls.Lists
                 Invoke(new AddDel(Add), l);
                 return;
             }
-            
+
             lbArticles.BeginUpdate();
             lbArticles.Items.AddRange(l.ToArray());
             lbArticles.EndUpdate();
-            
+
             if (FilterDuplicates)
                 RemoveListDuplicates();
-            
+
             if (FilterNonMainAuto)
                 FilterNonMainArticles();
 
-            if(!FilterNonMainAuto && !FilterDuplicates)
+            if (!FilterNonMainAuto && !FilterDuplicates)
                 UpdateNumberOfArticles();
         }
 
@@ -792,7 +792,7 @@ namespace WikiFunctions.Controls.Lists
 
             if (_providerToRun.StripUrl)
             {
-                for(int i = 0; i < sourceValues.Length; i++)
+                for (int i = 0; i < sourceValues.Length; i++)
                 {
                     sourceValues[i] = NormalizeTitle(sourceValues[i]);
                 }
@@ -855,15 +855,15 @@ namespace WikiFunctions.Controls.Lists
             }
             catch (ArgumentException ae)
             {
-            	MessageBox.Show(ae.Message, "Invalid Parameter passed to List Maker");
+                MessageBox.Show(ae.Message, "Invalid Parameter passed to List Maker");
             }
             catch (InterwikiException iwe)
             {
-            	MessageBox.Show(iwe.Message, "Interwiki title passed to List Maker");
+                MessageBox.Show(iwe.Message, "Interwiki title passed to List Maker");
             }
             catch (InvalidTitleException ite)
             {
-            	MessageBox.Show(ite.Message, "Invalid title passed to List Maker");
+                MessageBox.Show(ite.Message, "Invalid title passed to List Maker");
             }
             catch (Exception ex)
             {
@@ -973,7 +973,7 @@ namespace WikiFunctions.Controls.Lists
         {
             lbArticles.Sort();
         }
-        
+
         /// <summary>
         /// Reverse Alphabetically sorts the list
         /// </summary>
@@ -1066,7 +1066,7 @@ namespace WikiFunctions.Controls.Lists
         {
             AlphaSortList();
         }
-        
+
         private void sortReverseAlphebeticallyMenuItem_Click(object sender, EventArgs e)
         {
             ReverseAlphaSortList();
@@ -1119,16 +1119,16 @@ namespace WikiFunctions.Controls.Lists
 
                 string textTba = ((IDataObject)obj).GetData(DataFormats.UnicodeText).ToString();
 
-                List<Article>  NewArticles = new List<Article>();
+                List<Article> NewArticles = new List<Article>();
                 BeginUpdate();
                 foreach (string entry in textTba.Split(new[] { "\r\n", "\n", "|" }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     if (!string.IsNullOrEmpty(entry.Trim()))
                         NewArticles.Add(new Article(NormalizeTitle(entry)));
                 }
-                
+
                 Add(NewArticles);
-                
+
                 EndUpdate();
             }
             catch
@@ -1247,15 +1247,15 @@ namespace WikiFunctions.Controls.Lists
         {
             bool toTop = (toIndex == 0);
             lbArticles.BeginUpdate();
-            
+
             /* Get the selected articles, reverse order so when re-inserted the original order is maintained and
              * remove the articles by index to ensure the selected pages are removed, rather than any earlier instances
              * of the same page in the list */
             List<Article> articlesToMove = GetSelectedArticleList();
             articlesToMove.Reverse();
             lbArticles.RemoveSelected();
-            
-            if(toIndex > lbArticles.Items.Count)
+
+            if (toIndex > lbArticles.Items.Count)
                 toIndex = lbArticles.Items.Count;
 
             foreach (Article a in articlesToMove)
