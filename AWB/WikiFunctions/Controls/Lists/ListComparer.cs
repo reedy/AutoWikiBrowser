@@ -100,11 +100,11 @@ namespace WikiFunctions.Controls.Lists
                     lb3.Items.Add(a);
                     if (list2.IndexOf(a) > 0)
                     {
-                    	foreach (Article a2 in list2.GetRange(0, list2.IndexOf(a) - 1))
-                    	{
-                    	  lb2.Items.Add(a2);
-                          list2.Remove(a2);
-                    	}
+                        foreach (Article a2 in list2.GetRange(0, list2.IndexOf(a) - 1))
+                        {
+                            lb2.Items.Add(a2);
+                            list2.Remove(a2);
+                        }
                     }
 
                     list2.Remove(a);
@@ -130,7 +130,7 @@ namespace WikiFunctions.Controls.Lists
             Clear();
             CompareLists();
         }
-        
+
         private void btnClear_Click(object sender, EventArgs e)
         {
             Clear();
@@ -202,10 +202,10 @@ namespace WikiFunctions.Controls.Lists
         {
             ToolStripMenuItem t = (sender as ToolStripMenuItem);
             Control c = (t != null)
-                            ? ((ContextMenuStrip) t.Owner).SourceControl
-                            : ((ContextMenuStrip) sender).SourceControl;
+                            ? ((ContextMenuStrip)t.Owner).SourceControl
+                            : ((ContextMenuStrip)sender).SourceControl;
 
-            return (ListBoxArticle) c;
+            return (ListBoxArticle)c;
         }
 
         private void btnMoveOnly1_Click(object sender, EventArgs e)

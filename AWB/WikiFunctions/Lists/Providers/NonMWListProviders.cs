@@ -122,26 +122,26 @@ namespace WikiFunctions.Lists.Providers
     /// </summary>
     public class CheckWikiWithNumberListProvider : CheckWikiListProvider
     {
-    	public override List<Article> MakeList(params string[] searchCriteria)
+        public override List<Article> MakeList(params string[] searchCriteria)
         {
             List<Article> list = new List<Article>();
 
             foreach (string errornumber in searchCriteria)
             {
-                    string title = "http://toolserver.org/~sk/cgi-bin/checkwiki/checkwiki.cgi?project=" + Variables.LangCode + "wiki&view=bots&id=" + errornumber + "&offset=0&limit=500";
-                    list.AddRange(base.MakeList(title));
+                string title = "http://toolserver.org/~sk/cgi-bin/checkwiki/checkwiki.cgi?project=" + Variables.LangCode + "wiki&view=bots&id=" + errornumber + "&offset=0&limit=500";
+                list.AddRange(base.MakeList(title));
             }
             return list;
         }
 
         public override string UserInputTextBoxText
         { get { return "Error number:"; } }
-        
+
         public override string DisplayText
         { get { return "CheckWiki error (number)"; } }
     }
-    	
-    	/// <summary>
+
+    /// <summary>
     /// Gets a list of google results based on the named pages
     /// </summary>
     public class GoogleSearchListProvider : IListProvider
@@ -313,8 +313,8 @@ namespace WikiFunctions.Lists.Providers
         { get { return false; } }
         #endregion
     }
-    
-     /// <summary>
+
+    /// <summary>
     /// Gets a list of pages from a Windows 1252 (ANSI) encoded text file
     /// </summary>
     public class TextFileListProviderWindows1252 : TextFileListProviderUFT8

@@ -47,7 +47,7 @@ namespace AwbUpdater
 
             AWBdirectory = Path.GetDirectoryName(Application.ExecutablePath);
             TempDirectory = Environment.GetEnvironmentVariable("TEMP") ?? "C:\\Windows\\Temp";
-            TempDirectory = Path.Combine(TempDirectory,"$AWB$Updater$Temp$");
+            TempDirectory = Path.Combine(TempDirectory, "$AWB$Updater$Temp$");
         }
 
         /// <summary>
@@ -260,7 +260,7 @@ namespace AwbUpdater
         /// </summary>
         private void GetAwbFromInternet()
         {
-            WebClient client = new WebClient {Proxy = Proxy};
+            WebClient client = new WebClient { Proxy = Proxy };
 
             if (!string.IsNullOrEmpty(AWBWebAddress))
                 client.DownloadFile(AWBWebAddress, Path.Combine(TempDirectory, AWBZipName));
@@ -343,13 +343,13 @@ namespace AwbUpdater
 
         private void DeleteIfExists(string name)
         {
-        	string path = Path.Combine(AWBdirectory, name);
-        	while (true)
-        	{
-        		try
-        		{
+            string path = Path.Combine(AWBdirectory, name);
+            while (true)
+            {
+                try
+                {
                     DeleteAbsoluteIfExists(path);
-        		}
+                }
                 catch (UnauthorizedAccessException) //The exception that is thrown when the operating system denies access because of an I/O error or a specific type of security error.
                 {
                     MessageBox.Show(this,
@@ -357,24 +357,24 @@ namespace AwbUpdater
                         "Please run the updater with Administrator rights.");
                     Fail();
                 }
-        		catch (Exception ex)
-        		{
-        			if (MessageBox.Show(
-        				this,
-        				"Problem deleting file:\r\n   " + ex.Message + "\r\n\r\n" +
-        				"Please close all applications that may use it and press 'Retry' to try again " +
-        				"or 'Cancel' to cancel the upgrade.",
-        				"Error",
-        				MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) == DialogResult.Retry)
-        			{
-        				continue;
-        			}
+                catch (Exception ex)
+                {
+                    if (MessageBox.Show(
+                        this,
+                        "Problem deleting file:\r\n   " + ex.Message + "\r\n\r\n" +
+                        "Please close all applications that may use it and press 'Retry' to try again " +
+                        "or 'Cancel' to cancel the upgrade.",
+                        "Error",
+                        MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) == DialogResult.Retry)
+                    {
+                        continue;
+                    }
 
-        		    Fail();
-        		}
+                    Fail();
+                }
 
-        	    break;
-        	}
+                break;
+            }
         }
 
         private void Fail()

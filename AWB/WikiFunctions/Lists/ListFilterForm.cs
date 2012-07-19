@@ -45,7 +45,7 @@ namespace WikiFunctions.Lists
 
             if (_prefs != null)
                 Settings = _prefs;
-        }      
+        }
 
         private List<Article> _list = new List<Article>();
         private static AWBSettings.SpecialFilterPrefs _prefs;
@@ -77,13 +77,13 @@ namespace WikiFunctions.Lists
                 if (_destListBox.Items.Count > 0 && _destListBox.Items[0] is Article)
                     FilterNamespace();
 
-            	_destListBox.BeginUpdate();
+                _destListBox.BeginUpdate();
                 _destListBox.Items.Clear();
 
                 foreach (Article a in _list)
                     _destListBox.Items.Add(a);
 
-            	_destListBox.EndUpdate();
+                _destListBox.EndUpdate();
 
                 //Only try to update number of articles using listmaker method IF the parent is indeed a listmaker
                 //Causes exception on DBScanner otherwise
@@ -106,7 +106,7 @@ namespace WikiFunctions.Lists
                 if (!_list.Contains(a))
                     _list.Add(a);
             }
-		
+
             _destListBox.BeginUpdate();
             _destListBox.Items.Clear();
 
@@ -269,17 +269,17 @@ namespace WikiFunctions.Lists
             get
             {
                 _prefs = new AWBSettings.SpecialFilterPrefs
-                            {
-                                namespaceValues = pageNamespaces.GetSelectedNamespaces(),
-                                filterTitlesThatContain = chkContains.Checked,
-                                filterTitlesThatContainText = txtContains.Text,
-                                filterTitlesThatDontContain = chkNotContains.Checked,
-                                filterTitlesThatDontContainText = txtDoesNotContain.Text,
-                                areRegex = chkIsRegex.Checked,
-                                remDupes = chkRemoveDups.Checked,
-                                sortAZ = chkSortAZ.Checked,
-                                opType = cbOpType.SelectedIndex
-                            };
+                {
+                    namespaceValues = pageNamespaces.GetSelectedNamespaces(),
+                    filterTitlesThatContain = chkContains.Checked,
+                    filterTitlesThatContainText = txtContains.Text,
+                    filterTitlesThatDontContain = chkNotContains.Checked,
+                    filterTitlesThatDontContainText = txtDoesNotContain.Text,
+                    areRegex = chkIsRegex.Checked,
+                    remDupes = chkRemoveDups.Checked,
+                    sortAZ = chkSortAZ.Checked,
+                    opType = cbOpType.SelectedIndex
+                };
 
                 foreach (Article a in lbRemove.Items)
                 {
@@ -296,7 +296,7 @@ namespace WikiFunctions.Lists
                 _prefs = value;
 
                 if (_prefs.namespaceValues == null)
-                    _prefs.namespaceValues = new List<int>(new [] { 0, 1, 2, 3, 4, 5, 6, 7, 10, 11, 14, 15 });
+                    _prefs.namespaceValues = new List<int>(new[] { 0, 1, 2, 3, 4, 5, 6, 7, 10, 11, 14, 15 });
 
                 if (_prefs.namespaceValues.Count > 0)
                     pageNamespaces.SetSelectedNamespaces(_prefs.namespaceValues);

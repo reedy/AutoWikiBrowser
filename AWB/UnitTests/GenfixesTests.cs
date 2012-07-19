@@ -22,13 +22,13 @@ namespace UnitTests
         {
             GenFixes(true);
         }
-        
+
         public void GenFixes(string articleTitle)
         {
             A = new Article(articleTitle, ArticleText);
             GenFixes(true);
         }
-        
+
         public void TalkGenFixes()
         {
             A.PerformTalkGeneralFixes(H);
@@ -78,14 +78,14 @@ namespace UnitTests
 
             AssertChange("[[http://some_link]] testing", "[http://some_link] testing");
         }
-        
+
         [Test]
         public void DablinksHTMLComments()
         {
             const string a1 = @"{{about||a|b}}", a2 = @"{{about||c|d}}";
             AssertNotChanged(@"<!--" + a1 + a2 + @"-->"); // no change to commented out tags
         }
-        
+
         [Test]
         public void OnlyRedirectTaggerOnRedirects()
         {
@@ -115,7 +115,7 @@ namespace UnitTests
             AssertChange("[[a ]]b", "[[a]] b");
             AssertChange("a[[ b]]", "a [[b]]");
         }
-        
+
         [Test]
         public void DateRange()
         {
@@ -184,20 +184,20 @@ a");
             AssertNotChanged("[[Image:foo]]");
             AssertNotChanged("[[File:foo]]");
         }
-        
+
         [Test]
         public void CiteTwoDateFixes()
         {
-            AssertChange(@"{{cite web | url = http://www.census.gov/popest/geographic/boundary_changes/index.html | year=2010 |title = Boundary Changes | date = 2010-1-1 }}", 
+            AssertChange(@"{{cite web | url = http://www.census.gov/popest/geographic/boundary_changes/index.html | year=2010 |title = Boundary Changes | date = 2010-1-1 }}",
                          @"{{cite web | url = http://www.census.gov/popest/geographic/boundary_changes/index.html |title = Boundary Changes | date = 2010-01-01 }}");
-        	
-        	AssertChange(@"Over March 4th - March 10th, 2012 then.", @"Over March 4–10, 2012 then.");
+
+            AssertChange(@"Over March 4th - March 10th, 2012 then.", @"Over March 4–10, 2012 then.");
         }
-        
+
         [Test]
         public void CiteMissingClosingCurlyBracePairTable()
         {
-        	const string MissingClosingCurlyBracePair = @"'''Foo''' is great.
+            const string MissingClosingCurlyBracePair = @"'''Foo''' is great.
 
 {|
 ||
@@ -209,14 +209,14 @@ a");
 
 ==Refs==
 {{reflist}}";
-        	
-        	AssertChange(MissingClosingCurlyBracePair, MissingClosingCurlyBracePair.Replace(@" </ref>", @"}}</ref>")); // mising braces fixed before cleaning double pipes within unclosed cite template
+
+            AssertChange(MissingClosingCurlyBracePair, MissingClosingCurlyBracePair.Replace(@" </ref>", @"}}</ref>")); // mising braces fixed before cleaning double pipes within unclosed cite template
         }
-        
+
         [Test]
         public void MultipleIssuesSectionAutoTemplates()
         {
-        	string before = @"{{Unreferenced|auto=yes|date=December 2009}}
+            string before = @"{{Unreferenced|auto=yes|date=December 2009}}
 {{Orphan|date=November 2006}}
 {{Notability|1=Music|date=September 2010}}
 {{Advert|date=December 2007}}
@@ -236,13 +236,13 @@ a");
 
 
 {{Norway-band-stub}}";
-        	AssertChange(before, after);
+            AssertChange(before, after);
         }
-        
+
         [Test]
         public void HeadingWhitespace()
         {
-        	string foo = @"x
+            string foo = @"x
 
 == Events ==
 <onlyinclude>
@@ -257,12 +257,12 @@ a");
 
 ==== Roman Empire ====
 * Emperor";
-        	
-        	AssertChange(foo, foo2);        	
+
+            AssertChange(foo, foo2);
         }
-        	
+
     }
-    
+
     [TestFixture]
     public class TalkGenfixesTests : GenfixesTestsBase
     {
@@ -273,7 +273,7 @@ a");
 {{WikiProject b|text}}
 {{WikiProject c|text}
 {{WikiProject d|text}} -->";
-            
+
             ArticleText = AllCommented;
             TalkGenFixes();
             Assert.AreEqual(AllCommented, ArticleText, "no WikiProjectBannerShell addition when templates all commented out");
@@ -287,16 +287,16 @@ a");
 | blp=yes
 }}
 ";
-            
+
             ArticleText = @"{{Talk header}}
 {{WikiProject a |text}}
 {{WikiProject b|text}}
 {{WikiProject Biography|living=yes}}
 {{WikiProject c|text}}";
-            
+
             TalkGenFixes();
             Assert.AreEqual(a, ArticleText, "Adds WikiProjectBannerShell below talk header");
-            
+
             a = @"{{Talk header}}
 {{WikiProjectBannerShell|1=
 {{WikiProject a |text}}
@@ -304,15 +304,15 @@ a");
 {{WikiProject c|text}}
 }}
 ";
-            
+
             ArticleText = @"{{Talk header}}
 {{WikiProject a |text}}
 {{WikiProject b|text}}
 {{WikiProject c|text}}";
-            
+
             TalkGenFixes();
             Assert.AreEqual(a, ArticleText, "Adds WikiProjectBannerShell when 3 wikiproject links");
-            
+
         }
     }
 }

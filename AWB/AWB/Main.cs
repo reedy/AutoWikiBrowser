@@ -351,9 +351,9 @@ namespace AutoWikiBrowser
             SplashScreen.SetProgress(100);
             SplashScreen.Close();
 
-            #if DEBUG && INSTASTATS
+#if DEBUG && INSTASTATS
             UsageStats.Do(false);
-            #endif
+#endif
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
@@ -394,8 +394,8 @@ namespace AutoWikiBrowser
         private int _listComparerUseCurrentArticleList, _listSplitterUseCurrentArticleList, _dbScannerUseCurrentArticleList;
 
         private bool _flash, _beep;
-        
-              /// <summary>
+
+        /// <summary>
         /// True if user has been warned in AWB session that articles with characters in Unicode private use area can't be saved
         /// </summary>
         private bool _userWarnedAboutUnicodePUA = false;
@@ -748,16 +748,16 @@ namespace AutoWikiBrowser
         private Dictionary<int, int> ambigCiteDates = new Dictionary<int, int>();
         private List<string> UnknownWikiProjectBannerShellParameters = new List<string>();
         private List<string> UnknownMultipleIssuesParameters = new List<string>();
-        
+
         private readonly SortedDictionary<int, int> Errors = new SortedDictionary<int, int>();
-        
+
         private void SkipRedirect(string reason)
         {
             // if we didn't do this, we were writing the SkipPage info to the AWBLogListener belonging to the object redirect
             // and resident in the MyTrace collection, but then attempting to add TheArticle's log listener to the logging tab
             SkipPage(reason);
         }
-        
+
         private static readonly Regex UnicodePUA = new Regex(@"\p{IsPrivateUseArea}", RegexOptions.Compiled);
 
         /// <summary>
@@ -775,7 +775,7 @@ namespace AutoWikiBrowser
 
             if (_stopProcessing)
                 return;
-            
+
             TheArticle = new Article(page);
 
             if (!preParseModeToolStripMenuItem.Checked && !CheckLoginStatus())
@@ -789,7 +789,7 @@ namespace AutoWikiBrowser
             Text = _settingsFileDisplay + " - " + page.Title;
 
             bool articleIsRedirect = PageInfo.WasRedirected(page);
-            
+
             // check for redirects when 'follow redirects' is off
             if (chkSkipIfRedirect.Checked && Tools.IsRedirect(page.Text))
             {
@@ -846,19 +846,19 @@ namespace AutoWikiBrowser
                     MessageBox.Show("This page has the \"Inuse\" tag, consider skipping it");
                 }
             }
-            
-            
+
+
             /* skip pages containing any Unicode character in Private Use Area as RichTextBox seems to break these
              * not exactly wrong as PUA characters won't be found in standard text, but not exactly right to break them either
              * Reference: [[Unicode#Character General Category]] PUA is U+E000 to U+F8FF */
-            if(UnicodePUA.IsMatch(page.Text))
+            if (UnicodePUA.IsMatch(page.Text))
             {
-                if(!_userWarnedAboutUnicodePUA && !preParseModeToolStripMenuItem.Checked && !BotMode)
+                if (!_userWarnedAboutUnicodePUA && !preParseModeToolStripMenuItem.Checked && !BotMode)
                 {
                     MessageBox.Show("This page has character(s) in the Unicode Private Use Area so unfortunately can't be edited with AWB. The page will now be skipped");
                     _userWarnedAboutUnicodePUA = true;
                 }
-                
+
                 SkipPage("Page has character in Unicode Private Use Area");
                 return;
             }
@@ -886,7 +886,7 @@ namespace AutoWikiBrowser
                         return;
                     }
 
-                    if(Skippable)
+                    if (Skippable)
                     {
                         if ((chkSkipNoChanges.Checked || BotMode) && TheArticle.NoArticleTextChanged)
                         {
@@ -932,7 +932,7 @@ namespace AutoWikiBrowser
                         }
 
                         if (chkSkipCosmetic.Checked
-                            && ( TheArticle.NoArticleTextChanged ||  TheArticle.OnlyCosmeticChanged) )
+                            && (TheArticle.NoArticleTextChanged || TheArticle.OnlyCosmeticChanged))
                         {
                             SkipPage("Only cosmetic changes made");
                             return;
@@ -945,13 +945,13 @@ namespace AutoWikiBrowser
                         return;
                 }
             }
-            
+
             txtEdit.Text = TheArticle.ArticleText;
 
             //Update statistics and alerts
             if (!BotMode)
                 ArticleInfo(false);
-            
+
             if (chkSkipIfNoAlerts.Checked && lbAlerts.Items.Count == 0)
             {
                 SkipPage("Page has no alerts");
@@ -961,7 +961,7 @@ namespace AutoWikiBrowser
             Variables.Profiler.Profile("Alerts");
 
             if (preParseModeToolStripMenuItem.Checked)
-            {              
+            {
                 // if we reach here the article has valid changes, so move on to next article
 
                 // if user has loaded a settings file, save it every 10 ignored edits
@@ -1021,7 +1021,7 @@ namespace AutoWikiBrowser
                 }
 
                 PageWatched = TheSession.Page.IsWatched;
-                
+
                 Variables.Profiler.Profile("ActionOnLoad");
 
                 txtReviewEditSummary.Text = MakeSummary();
@@ -1062,7 +1062,7 @@ namespace AutoWikiBrowser
                         HighlightErrors();
                     }
                 }
-                
+
                 //  tpStart.Select();
                 btnSave.Select();
                 StatusLabelText = "Ready to save";
@@ -1073,48 +1073,48 @@ namespace AutoWikiBrowser
                 Abort = false;
             }
         }
-        
+
         private void HighlightErrors()
         {
             Errors.Clear();
-            
-            foreach(KeyValuePair<int, int> kvp in unbalancedBracket)
+
+            foreach (KeyValuePair<int, int> kvp in unbalancedBracket)
             {
-                if(!Errors.ContainsKey(kvp.Key))
+                if (!Errors.ContainsKey(kvp.Key))
                     Errors.Add(kvp.Key, kvp.Value);
             }
-            
-            foreach(KeyValuePair<int, int> kvp in badCiteParameters)
+
+            foreach (KeyValuePair<int, int> kvp in badCiteParameters)
             {
-                if(!Errors.ContainsKey(kvp.Key))
+                if (!Errors.ContainsKey(kvp.Key))
                     Errors.Add(kvp.Key, kvp.Value);
             }
-            
-            foreach(KeyValuePair<int, int> kvp in dupeBanerShellParameters)
+
+            foreach (KeyValuePair<int, int> kvp in dupeBanerShellParameters)
             {
-                if(!Errors.ContainsKey(kvp.Key))
+                if (!Errors.ContainsKey(kvp.Key))
                     Errors.Add(kvp.Key, kvp.Value);
             }
-            
-            foreach(KeyValuePair<int, int> kvp in deadLinks)
+
+            foreach (KeyValuePair<int, int> kvp in deadLinks)
             {
-                if(!Errors.ContainsKey(kvp.Key))
+                if (!Errors.ContainsKey(kvp.Key))
                     Errors.Add(kvp.Key, kvp.Value);
             }
-            
-            foreach(KeyValuePair<int, int> kvp in ambigCiteDates)
+
+            foreach (KeyValuePair<int, int> kvp in ambigCiteDates)
             {
-                if(!Errors.ContainsKey(kvp.Key))
+                if (!Errors.ContainsKey(kvp.Key))
                     Errors.Add(kvp.Key, kvp.Value);
             }
-            
-            foreach(KeyValuePair<int, int> kvp in unclosedTags)
+
+            foreach (KeyValuePair<int, int> kvp in unclosedTags)
             {
-                if(!Errors.ContainsKey(kvp.Key))
+                if (!Errors.ContainsKey(kvp.Key))
                     Errors.Add(kvp.Key, kvp.Value);
             }
-            
-            if(Errors.Count > 0)
+
+            if (Errors.Count > 0)
                 HighlightErrors(Errors);
         }
 
@@ -1208,9 +1208,9 @@ namespace AutoWikiBrowser
         private void Bleepflash()
         {
             if (ContainsFocus) return;
-            #if !MONO
+#if !MONO
             if (_flash) Tools.FlashWindow(this);
-            #endif
+#endif
             if (_beep) Tools.Beep();
         }
 
@@ -1326,10 +1326,10 @@ namespace AutoWikiBrowser
 
                 //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Endless_cycle_of_loading_and_skipping
                 bool successfullyremoved = listMaker.Remove(TheArticle);
-                
+
                 SameArticleNudges = 0;
-                
-                if(!successfullyremoved)
+
+                if (!successfullyremoved)
                 {
                     TheArticle = null;
                     MessageBox.Show("AWB failed to automatically remove the page from the list while skipping the page. Please remove it manually.", "Page removal from list failed", MessageBoxButtons.OK,
@@ -1390,9 +1390,9 @@ namespace AutoWikiBrowser
             bool process = true;
             TypoStats = null;
 
-            #if DEBUG
+#if DEBUG
             Variables.Profiler.Start("ProcessPage(\"" + theArticle.Name + "\")");
-            #endif
+#endif
 
             try
             {
@@ -1516,36 +1516,36 @@ namespace AutoWikiBrowser
                     {
                         if (chkGeneralFixes.Checked)
                         {
-                            if(!TemplateRedirectsLoaded)
+                            if (!TemplateRedirectsLoaded)
                             {
                                 LoadTemplateRedirects();
                                 Variables.Profiler.Profile("LoadTemplateRedirects");
                             }
-                            
-                            if(!DatedTemplatesLoaded)
+
+                            if (!DatedTemplatesLoaded)
                             {
                                 LoadDatedTemplates();
                                 Variables.Profiler.Profile("LoadDatedTemplates");
                             }
-                            
-                            if(!RenamedTemplateParametersLoaded)
+
+                            if (!RenamedTemplateParametersLoaded)
                             {
                                 LoadRenameTemplateParameters();
                                 Variables.Profiler.Profile("LoadRenameTemplateParameters");
                             }
-                            
+
                             theArticle.PerformGeneralFixes(Parser, RemoveText, Skip,
                                                            replaceReferenceTagsToolStripMenuItem.Checked,
                                                            restrictDefaultsortChangesToolStripMenuItem.Checked,
                                                            noMOSComplianceFixesToolStripMenuItem.Checked);
                         }
                         Variables.Profiler.Profile("Mainspace Genfixes");
-                        
+
                         // auto tag
                         if (chkAutoTagger.Checked)
                         {
                             theArticle.AutoTag(Parser, Skip.SkipNoTag, restrictOrphanTaggingToolStripMenuItem.Checked);
-                            
+
                             if (mainProcess && theArticle.SkipArticle)
                                 return;
                         }
@@ -1593,15 +1593,15 @@ namespace AutoWikiBrowser
                     string newlines = "";
                     for (int i = 0; i < (int)udNewlineChars.Value; i++)
                         newlines += "\n";
-                    
+
                     if (rdoAppend.Checked)
                         theArticle.AWBChangeArticleText("Appended your message",
                                                         theArticle.ArticleText + newlines + Tools.ApplyKeyWords(theArticle.Name, txtAppendMessage.Text), false);
                     else
                         theArticle.AWBChangeArticleText("Prepended your message",
                                                         Tools.ApplyKeyWords(theArticle.Name, txtAppendMessage.Text) + newlines + theArticle.ArticleText, false);
-                    
-                    if(chkAppendMetaDataSort.Checked)
+
+                    if (chkAppendMetaDataSort.Checked)
                         theArticle.PerformMetaDataSort(Parser);
                 }
 
@@ -1640,7 +1640,7 @@ namespace AutoWikiBrowser
             catch (Exception ex)
             {
                 ErrorHandler.Handle(ex);
-                
+
                 // don't remove page over regex error – page itself is not at fault
                 if (!ex.StackTrace.Contains("System.Text.RegularExpressions"))
                     theArticle.Trace.AWBSkipped("Exception:" + ex.Message);
@@ -1756,7 +1756,7 @@ window.scrollTo(0, diffTopY);
         /// </summary>
         private void GuiUpdateAfterProcessing()
         {
-            if(_stopProcessing)
+            if (_stopProcessing)
                 Stop();
             else
             {
@@ -1794,22 +1794,22 @@ window.scrollTo(0, diffTopY);
                 StatusLabelText = "Editor busy";
                 return;
             }
-            
-            #if DEBUG
+
+#if DEBUG
             string extext2 = @"Extra validation for debug builds (don't use a debug build if you want to save blank pages): ";
             // further attempts to track down blank page saving issue
-            if(TheArticle.ArticleText.Length.Equals(0))
+            if (TheArticle.ArticleText.Length.Equals(0))
             {
                 extext2 += @"Attempted to save page with zero length ArticleText";
                 throw new Exception(extext2);
             }
-            
-            if(txtEdit.Text.Length.Equals(0))
+
+            if (txtEdit.Text.Length.Equals(0))
             {
                 extext2 += @"Attempted to save page with zero length txtEditText";
                 throw new Exception(extext2);
             }
-            #endif
+#endif
 
             DisableButtons();
             if (txtEdit.Text.Length > 0 ||
@@ -2175,7 +2175,7 @@ window.scrollTo(0, diffTopY);
 
             if (!string.IsNullOrEmpty(TheArticle.EditSummary))
                 summary += (string.IsNullOrEmpty(summary) ? "" : ", ") + TheArticle.EditSummary;
-            
+
             // check to see if we have only edited one level 2 section
             if (!noSectionEditSummaryToolStripMenuItem.Checked)
             {
@@ -2189,12 +2189,12 @@ window.scrollTo(0, diffTopY);
                 && (Variables.IsWikimediaProject && !_suppressUsingAWB))
                 summary = Summary.Trim(summary) + Variables.SummaryTag;
 
-            #if DEBUG
+#if DEBUG
             if (!Summary.IsCorrect(summary))
             {
                 Tools.WriteDebug("edit summary not correct", summary);
             }
-            #endif
+#endif
 
             return summary;
         }
@@ -2476,8 +2476,8 @@ window.scrollTo(0, diffTopY);
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#.28Yet.29_more_reference_related_changes.
                 if (TheArticle.HasRefAfterReflist)
                     lbAlerts.Items.Add(@"Has a <ref> after <references/>");
-                
-                if(TheArticle.IsDisambiguationPageWithRefs)
+
+                if (TheArticle.IsDisambiguationPageWithRefs)
                     lbAlerts.Items.Add(@"DAB page with <ref>s");
 
                 if (articleText.StartsWith("=="))
@@ -2507,36 +2507,36 @@ window.scrollTo(0, diffTopY);
                 badCiteParameters = TheArticle.BadCiteParameters();
                 if (badCiteParameters.Count > 0)
                     lbAlerts.Items.Add("Invalid citation parameter(s) found" + " (" + badCiteParameters.Count + ")");
-                
+
                 dupeBanerShellParameters = TheArticle.DuplicateWikiProjectBannerShellParameters();
-                if(dupeBanerShellParameters.Count > 0)
+                if (dupeBanerShellParameters.Count > 0)
                     lbAlerts.Items.Add("Duplicate parameter(s) found in WPBannerShell" + " (" + dupeBanerShellParameters.Count + ")");
-                
+
                 UnknownWikiProjectBannerShellParameters = TheArticle.UnknownWikiProjectBannerShellParameters();
-                if(UnknownWikiProjectBannerShellParameters.Count > 0)
+                if (UnknownWikiProjectBannerShellParameters.Count > 0)
                 {
-                    string warn = "Unknown parameters in WPBannerShell: "  + " (" + UnknownWikiProjectBannerShellParameters.Count + ") ";
-                    foreach(string s in UnknownWikiProjectBannerShellParameters)
+                    string warn = "Unknown parameters in WPBannerShell: " + " (" + UnknownWikiProjectBannerShellParameters.Count + ") ";
+                    foreach (string s in UnknownWikiProjectBannerShellParameters)
                         warn += s + ", ";
                     lbAlerts.Items.Add(warn);
                 }
-                
+
                 UnknownMultipleIssuesParameters = TheArticle.UnknownMultipleIssuesParameters();
-                if(UnknownMultipleIssuesParameters.Count > 0)
+                if (UnknownMultipleIssuesParameters.Count > 0)
                 {
-                    string warn = "Unknown parameters in Multiple issues: "  + " (" + UnknownMultipleIssuesParameters.Count + ") ";
-                    foreach(string s in UnknownMultipleIssuesParameters)
+                    string warn = "Unknown parameters in Multiple issues: " + " (" + UnknownMultipleIssuesParameters.Count + ") ";
+                    foreach (string s in UnknownMultipleIssuesParameters)
                         warn += s + ", ";
                     lbAlerts.Items.Add(warn);
                 }
-                
+
                 unclosedTags = TheArticle.UnclosedTags();
                 if (unclosedTags.Count > 0)
                     lbAlerts.Items.Add("Unclosed tag(s) found" + " (" + unclosedTags.Count + ")");
-                
-                if(TheArticle.HasSeeAlsoAfterNotesReferencesOrExternalLinks)
+
+                if (TheArticle.HasSeeAlsoAfterNotesReferencesOrExternalLinks)
                     lbAlerts.Items.Add("See also section out of place");
-                
+
                 // check for {{sic}} tags etc. when doing typo fixes
                 if (chkRegExTypo.Checked && TheArticle.HasSicTag)
                     lbAlerts.Items.Add(@"Page contains 'sic' tag/template");
@@ -2546,7 +2546,7 @@ window.scrollTo(0, diffTopY);
                 lblImages.Text = Imgs + WikiRegexes.Images.Matches(articleText).Count;
                 lblLinks.Text = Links + WikiRegexes.WikiLinksOnly.Matches(articleText).Count;
                 lblInterLinks.Text = IWLinks + Tools.InterwikiCount(articleText);
-                
+
                 // for date types count ignore images and URLs
                 string articleTextNoImagesURLs = WikiRegexes.Images.Replace(WikiRegexes.ExternalLinks.Replace(articleText, ""), "");
                 lblDates.Text = Dates + WikiRegexes.ISODates.Matches(articleTextNoImagesURLs).Count + "/" + WikiRegexes.DayMonth.Matches(articleTextNoImagesURLs).Count
@@ -2578,10 +2578,10 @@ window.scrollTo(0, diffTopY);
                         arrayLinks2.Add(z);
                         // include count of links in form Proton (3)
                         int linkcount = Regex.Matches(articleText, @"\[\[" + Regex.Escape(z) + @"(\|.*?)?\]\]").Count;
-                        
-                        if(!Tools.TurnFirstToLower(z).Equals(z))
+
+                        if (!Tools.TurnFirstToLower(z).Equals(z))
                             linkcount += Regex.Matches(articleText, @"\[\[" + Regex.Escape(Tools.TurnFirstToLower(z)) + @"(\|.*?)?\]\]").Count;
-                        
+
                         lbDuplicateWikilinks.Items.Add(z + @" (" + linkcount + @")");
                     }
                 }
@@ -2589,22 +2589,22 @@ window.scrollTo(0, diffTopY);
             }
             lblDuplicateWikilinks.Visible = lbDuplicateWikilinks.Visible = btnRemove.Visible = (lbDuplicateWikilinks.Items.Count > 0);
         }
-        
+
         /// <summary>
         /// Focuses the edit box on the next alert after the caret
         /// </summary>
         private void lbAlerts_Click(object sender, EventArgs e)
         {
             EditBoxTab.SelectedTab = tpEdit;
-            
+
             string a = txtEdit.Text.Substring(0, txtEdit.SelectionStart);
             int b = WikiRegexes.Newline.Matches(a).Count;
             bool done = false;
-            
-            foreach(KeyValuePair<int, int> kvp in Errors)
+
+            foreach (KeyValuePair<int, int> kvp in Errors)
             {
                 int current = txtEdit.SelectionStart + b; // offset by number of newlines up to it
-                if(kvp.Key > current)
+                if (kvp.Key > current)
                 {
                     RedSelection(kvp.Key, kvp.Value);
                     txtEdit.ScrollToCaret();
@@ -2612,15 +2612,15 @@ window.scrollTo(0, diffTopY);
                     break;
                 }
             }
-            
+
             // if no more alerts after caret, start at beginning
-            if(!done)
+            if (!done)
             {
                 txtEdit.SelectionStart = 0;
-                
-                foreach(KeyValuePair<int, int> kvp in Errors)
+
+                foreach (KeyValuePair<int, int> kvp in Errors)
                 {
-                    if(kvp.Key > txtEdit.SelectionStart)
+                    if (kvp.Key > txtEdit.SelectionStart)
                     {
                         RedSelection(kvp.Key, kvp.Value);
                         txtEdit.ScrollToCaret();
@@ -2678,7 +2678,7 @@ window.scrollTo(0, diffTopY);
         private void txtEdit_TextChanged(object sender, EventArgs e)
         {
             txtEdit.ResetFind();
-            
+
             // when highlight enabled reset back colour for newly inserted text
             /* TODO: does not work fully in that: focus always scrolls to current line unnecessarily
              * text inserted at very end of text box goes before last character
@@ -2754,14 +2754,16 @@ window.scrollTo(0, diffTopY);
             toolStripSeparator29.Visible = true;
             invalidateCacheToolStripMenuItem.Visible = true;
 
-            #if DEBUG
-            try{
+#if DEBUG
+            try
+            {
                 Variables.Profiler = new Profiler(Path.Combine(Application.StartupPath, "profiling.txt"), true);
             }
-            catch{
+            catch
+            {
                 Variables.Profiler = new Profiler(Path.Combine(AwbDirs.UserData, "profiling.txt"), true);
             }
-            #endif
+#endif
         }
 
         [Conditional("RELEASE")]
@@ -2869,22 +2871,22 @@ window.scrollTo(0, diffTopY);
             //refresh talk warnings list
             if (UserTalkWarningsLoaded)
                 LoadUserTalkWarnings();
-            
-            if(TemplateRedirectsLoaded)
+
+            if (TemplateRedirectsLoaded)
                 LoadTemplateRedirects();
-            
-            if(DatedTemplatesLoaded)
+
+            if (DatedTemplatesLoaded)
                 LoadDatedTemplates();
-            
-            if(RenamedTemplateParametersLoaded)
+
+            if (RenamedTemplateParametersLoaded)
                 LoadRenameTemplateParameters();
         }
-        
+
         private void resetEditSkippedCountToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if(NumberOfEdits > 0)
+            if (NumberOfEdits > 0)
                 UsageStats.Do(false);
-            
+
             NumberOfEdits = 0;
             NumberOfIgnoredEdits = 0;
             NumberOfEditsPerMinute = 0;
@@ -3040,7 +3042,7 @@ window.scrollTo(0, diffTopY);
         {
             btnIgnore.Enabled = btnPreview.Enabled = btnDiff.Enabled =
                 btntsPreview.Enabled = btntsChanges.Enabled = /*listMaker.MakeListEnabled = */
-                btntsSave.Enabled = btntsIgnore.Enabled = btnWatch.Enabled =  findGroup.Enabled = enabled;
+                btntsSave.Enabled = btntsIgnore.Enabled = btnWatch.Enabled = findGroup.Enabled = enabled;
 
             btnSave.Enabled = enabled && TheArticle != null && !string.IsNullOrEmpty(TheSession.Page.Title);
 
@@ -3119,8 +3121,8 @@ window.scrollTo(0, diffTopY);
             }
 
             UpdateBotTimer();
-            
-            if(botEditsStop.Value > 0 && NumberOfEdits >= botEditsStop.Value)
+
+            if (botEditsStop.Value > 0 && NumberOfEdits >= botEditsStop.Value)
             {
                 Stop();
                 StatusLabelText = "Stopped: " + botEditsStop.Value + " edits reached";
@@ -3164,9 +3166,9 @@ window.scrollTo(0, diffTopY);
         int _seconds, _lastEditsTotal, _lastPagesTotal;
         private void GenerateEditStatistics()
         {
-        	//Edits in the last minute
+            //Edits in the last minute
             NumberOfEditsPerMinute = (NumberOfEdits - _lastEditsTotal);
-            
+
             // pages processed in last minute: edits + skipped in normal mode or number of pages pre-parsed when in pre-parse mode
             NumberOfPagesPerMinute = Math.Max(NumberOfEdits + NumberOfIgnoredEdits + NumberOfPagesParsed - _lastPagesTotal, 0);
             _lastEditsTotal = NumberOfEdits;
@@ -3526,12 +3528,12 @@ window.scrollTo(0, diffTopY);
 
         private void bypassAllRedirectsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            #if !DEBUG
+#if !DEBUG
             if (MessageBox.Show("Replacement of links to redirects with direct links is strongly discouraged, " +
                                 "however it could be useful in some circumstances. Are you sure you want to continue?",
                                 "Bypass redirects", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
                 return;
-            #endif
+#endif
 
             BackgroundRequest r = new BackgroundRequest();
 
@@ -3572,20 +3574,20 @@ window.scrollTo(0, diffTopY);
             try
             {
                 string articleTextLocal = txtEdit.Text;
-                
+
                 // ignore dates from dated maintenance tags etc.
-                foreach(Match m2 in WikiRegexes.NestedTemplates.Matches(articleTextLocal))
+                foreach (Match m2 in WikiRegexes.NestedTemplates.Matches(articleTextLocal))
                 {
-                    if(Tools.GetTemplateParameterValue(m2.Value, "date").Length > 0)
+                    if (Tools.GetTemplateParameterValue(m2.Value, "date").Length > 0)
                         articleTextLocal = articleTextLocal.Replace(m2.Value, "");
                 }
-                
-                foreach(Match m2 in WikiRegexes.TemplateMultiline.Matches(articleTextLocal))
+
+                foreach (Match m2 in WikiRegexes.TemplateMultiline.Matches(articleTextLocal))
                 {
-                    if(Tools.GetTemplateParameterValue(m2.Value, "date").Length > 0)
+                    if (Tools.GetTemplateParameterValue(m2.Value, "date").Length > 0)
                         articleTextLocal = articleTextLocal.Replace(m2.Value, "");
                 }
-                
+
                 MatchCollection m = RegexDates.Matches(articleTextLocal);
 
                 //find first dates
@@ -3610,9 +3612,9 @@ window.scrollTo(0, diffTopY);
 
                 bool noChange;
                 txtEdit.Text = Parsers.ChangeToDefaultSort(txtEdit.Text, TheArticle.Name, out noChange, restrictDefaultsortChangesToolStripMenuItem.Checked);
-                
+
                 // sort if DEFAULTSORT added to ensure correct placement
-                if(!noChange)
+                if (!noChange)
                 {
                     txtEdit.Text = Parser.SortMetaData(txtEdit.Text, TheArticle.Name);
                 }
@@ -3693,7 +3695,7 @@ window.scrollTo(0, diffTopY);
             _stopProcessing = true;
             PageReload = false;
             NudgeTimer.Stop();
-            
+
             UpdateButtons(null, null);
             DisableButtons();
 
@@ -3836,8 +3838,8 @@ window.scrollTo(0, diffTopY);
         {
             if (_loadingTypos)
                 return;
-            
-            if(!chkRegExTypo.Checked)
+
+            if (!chkRegExTypo.Checked)
             {
                 chkSkipIfNoRegexTypo.Checked = chkSkipIfNoRegexTypo.Enabled = false;
             }
@@ -3861,7 +3863,7 @@ window.scrollTo(0, diffTopY);
 
                 StatusLabelText = "Loading typos";
 
-                #if !DEBUG
+#if !DEBUG
                 string message = @"1. Check each edit before you make it. Although this has been built to be very accurate there will be errors.
 
 2. Optional: Select [[WP:AWB/T|Typo fixing]] as the edit summary. This lets everyone know where to bring issues with the typo correction.";
@@ -3877,7 +3879,7 @@ window.scrollTo(0, diffTopY);
                 }
 
                 MessageBox.Show(message, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                #endif
+#endif
 
                 RegexTypos = new RegExTypoFix();
                 RegexTypos.Complete += RegexTyposComplete;
@@ -4422,7 +4424,7 @@ window.scrollTo(0, diffTopY);
                 }
                 else if (selectedtext.Contains("|"))
                     selectedtext = selectedtext.Substring(selectedtext.IndexOf("|") + 1);
-                
+
                 txtEdit.SelectedText = selectedtext;
                 txtEdit.ResetFind();
             }
@@ -4534,9 +4536,9 @@ window.scrollTo(0, diffTopY);
                                                + Variables.NamespacesCaseInsensitive[Namespace.Template] + @"(.*?)\]\]");
             UserTalkTemplatesRegex = null;
             UserTalkWarningsLoaded = true; // or it will retry on each page load
-            
+
             List<string> UserTalkTemplates = new List<string>();
-            
+
             try
             {
                 string text;
@@ -4548,7 +4550,7 @@ window.scrollTo(0, diffTopY);
                 {
                     return;
                 }
-                
+
                 foreach (Match m in userTalkTemplate.Matches(text))
                 {
                     UserTalkTemplates.Add(m.Groups[1].Value);
@@ -4560,10 +4562,10 @@ window.scrollTo(0, diffTopY);
                 UserTalkWarningsLoaded = false;
             }
 
-            if(UserTalkTemplates.Count > 0)
+            if (UserTalkTemplates.Count > 0)
                 UserTalkTemplatesRegex = Tools.NestedTemplateRegex(UserTalkTemplates);
         }
-        
+
         /// <summary>
         /// Loads the list of template redirects to bypass from [[WP:AWB/Template redirects]]
         /// </summary>
@@ -4580,10 +4582,10 @@ window.scrollTo(0, diffTopY);
                 text = "";
             }
 
-            if(text.Length > 0)
+            if (text.Length > 0)
                 WikiRegexes.TemplateRedirects = Parsers.LoadTemplateRedirects(text);
         }
-        
+
         private void LoadDatedTemplates()
         {
             string text;
@@ -4597,10 +4599,10 @@ window.scrollTo(0, diffTopY);
                 text = "";
             }
 
-            if(text.Length > 0)
+            if (text.Length > 0)
                 WikiRegexes.DatedTemplates = Parsers.LoadDatedTemplates(text);
         }
-        
+
         private void LoadRenameTemplateParameters()
         {
             string text;
@@ -4614,7 +4616,7 @@ window.scrollTo(0, diffTopY);
                 text = "";
             }
 
-            if(text.Length > 0)
+            if (text.Length > 0)
                 WikiRegexes.RenamedTemplateParameters = Parsers.LoadRenamedTemplateParameters(text);
         }
 
@@ -5047,7 +5049,7 @@ window.scrollTo(0, diffTopY);
 
         private void profileTyposToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            #if DEBUG
+#if DEBUG
             if (RegexTypos == null)
             {
                 MessageBox.Show("No typos loaded", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -5072,7 +5074,7 @@ window.scrollTo(0, diffTopY);
                                 "Test typos", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                 return;
 
-            int iterations = 1000000/text.Length;
+            int iterations = 1000000 / text.Length;
             if (iterations > 500) iterations = 500;
 
             List<KeyValuePair<int, string>> times = new List<KeyValuePair<int, string>>();
@@ -5085,7 +5087,7 @@ window.scrollTo(0, diffTopY);
                 {
                     p.Key.IsMatch(text);
                 }
-                times.Add(new KeyValuePair<int, string>((int) watch.ElapsedMilliseconds, p.Key + " > " + p.Value));
+                times.Add(new KeyValuePair<int, string>((int)watch.ElapsedMilliseconds, p.Key + " > " + p.Value));
             }
 
             times.Sort(new Comparison<KeyValuePair<int, string>>(CompareRegexPairs));
@@ -5098,7 +5100,7 @@ window.scrollTo(0, diffTopY);
 
             MessageBox.Show("Results are saved in the file 'typos.txt'", "Profiling complete",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
-            #endif
+#endif
         }
 
         private void loadPluginToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5151,13 +5153,13 @@ window.scrollTo(0, diffTopY);
 
         private void categoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogResult dires =  _catName.ShowDialog();
+            DialogResult dires = _catName.ShowDialog();
 
             if (string.IsNullOrEmpty(_catName.CategoryName) || !dires.Equals(DialogResult.OK))
                 return;
 
             bool pageExists;
-            
+
             // attempt validation of the category's existence, warn user if it doesn't exist
             try
             {
@@ -5172,17 +5174,17 @@ window.scrollTo(0, diffTopY);
                 MessageBox.Show("Unable to check category existence");
                 return;
             }
-            
-            if(pageExists ||
+
+            if (pageExists ||
                MessageBox.Show(_catName.CategoryName + " does not exist. Add it to the page anyway?",
-                               "Non-existent category",  MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                               "Non-existent category", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
                == DialogResult.Yes)
             {
                 txtEdit.Text += "\r\n\r\n[[" + _catName.CategoryName + "]]";
-                
+
                 // remove any {{uncategorised}} tag now – tagger still counts categories based on saved page revision
                 txtEdit.Text = WikiRegexes.Uncat.Replace(txtEdit.Text, "");
-                
+
                 ReparseEditBox();
             }
         }
@@ -5237,7 +5239,7 @@ window.scrollTo(0, diffTopY);
         {
             AddIgnoredToLogFile = displayfalsePositivesButtonToolStripMenuItem.Checked;
         }
-        
+
         private void HighlightErrors(SortedDictionary<int, int> errors)
         {
             foreach (KeyValuePair<int, int> a in errors)
@@ -5246,9 +5248,9 @@ window.scrollTo(0, diffTopY);
 
         private void RedSelection(int index, int length)
         {
-        	if(!txtEdit.Enabled)
-        		return;
-        	
+            if (!txtEdit.Enabled)
+                return;
+
             // numbers in articleText and txtEdit.Edit are offset by the number of newlines before the index of the text
             int newlinesToIndex = WikiRegexes.Newline.Matches(txtEdit.Text.Substring(0, index)).Count;
             int newlinesInSelection = WikiRegexes.Newline.Matches(txtEdit.Text.Substring(index, length)).Count;
@@ -5350,5 +5352,5 @@ window.scrollTo(0, diffTopY);
             Profiles.ShowDialog(this);
         }
     }
-    #endregion
+        #endregion
 }
