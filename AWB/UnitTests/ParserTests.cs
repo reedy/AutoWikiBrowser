@@ -5918,6 +5918,10 @@ While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders", "Smith", out noChangeBack));
             Assert.IsFalse(noChangeBack);
+            
+            Assert.AreEqual(@"{{unreferenced|date=November 2010}}
+'''Vodafone Qatar''' started", parser.BoldTitle(@"{{unreferenced|date=November 2010}}
+Vodafone Qatar started", "Vodafone Qatar", out noChangeBack));
         }
 
         [Test]
