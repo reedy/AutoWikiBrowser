@@ -909,8 +909,7 @@ namespace WikiFunctions.Lists.Providers
     }
 
     /// <summary>
-    /// Gets a list of pages which are returned from a 
-///     of the Named Pages
+    /// Gets a list of pages which are returned from a wiki search of the Named Pages
     /// </summary>
     /// <remarks>Slow query!!</remarks>
     public class WikiSearchListProvider : ApiListProviderBase
