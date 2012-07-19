@@ -41,7 +41,7 @@ namespace WikiFunctions
         private static bool HandleKnownExceptions(Exception ex)
         {
             // invalid regex - only ArgumentException, without subclasses
-            if (ex is ArgumentException && ex.StackTrace.Contains("System.Text.RegularExpressions"))
+            if (ex is ArgumentException && (ex.StackTrace.Contains("System.Text.RegularExpressions") || ex.ToString().StartsWith(@"System.ArgumentException: parsing")))
             {
                 MessageBox.Show(ex.Message, "Invalid regular expression",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
