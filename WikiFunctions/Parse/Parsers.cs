@@ -4715,10 +4715,7 @@ namespace WikiFunctions.Parse
             int fivepc = articleTextHidden.Length / 20;
 
             if (articleTextHidden.Substring(0, fivepc).Contains("'''"))
-            {
-                //articleText = Hider3.AddBackMore(articleTextHidden);
                 return articleTextAtStart;
-            }
 
             Regex regexBoldNoBrackets = new Regex(@"([^\[]|^)(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + ")([ ,.:;])");
 
@@ -4729,7 +4726,7 @@ namespace WikiFunctions.Parse
             articleText = Hider3.AddBackMore(articleTextHidden);
 
             // check that the bold added is the first bit in bold in the main body of the article
-            if (AddedBoldIsValid(articleText, escTitleNoBrackets))
+            if (!articleTextAtStart.Equals(articleText) && AddedBoldIsValid(articleText, escTitleNoBrackets))
             {
                 noChange = false;
                 return articleText;
@@ -4752,22 +4749,22 @@ namespace WikiFunctions.Parse
             int boldAddedPos = regexBoldAdded.Match(articleText).Length - Regex.Unescape(escapedTitle).Length;
 
             int firstBoldPos = RegexFirstBold.Match(articleText).Length;
+            
+            articleText = WikiRegexes.NestedTemplates.Replace(articleText, "");
 
             articleText = Hider2.HideMore(articleText);
 
             // was bold added in first 5% of article?
-            bool inFirst5Percent = articleText.Substring(0, articleText.Length / 20).Contains("'''");
-
-            //articleText = Hider2.AddBackMore(articleText);
+            bool inFirst5Percent = false;
+            
+            if(articleText.Length > 5)
+            	inFirst5Percent = articleText.Trim().Substring(0, Math.Max(articleText.Length / 20, 5)).Contains("'''");
 
             // check that the bold added is the first bit in bold in the main body of the article, and in first 5% of HideMore article
             if (inFirst5Percent && boldAddedPos <= firstBoldPos)
                 return true;
 
-            // second check: bold just after infobox
-            Regex boldAfterInfobox = new Regex(WikiRegexes.InfoBox + @"\s*'''" + escapedTitle);
-
-            return boldAfterInfobox.IsMatch(articletextoriginal);
+           return false;
         }
 
         /// <summary>
