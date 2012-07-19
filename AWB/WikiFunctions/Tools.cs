@@ -2964,13 +2964,21 @@ Message: {2}
 		}
 		
 		/// <summary>
-		/// Replaces magic word templates with magic words
+		/// Replaces magic word templates with magic words, ignores templates with no arguments
 		/// </summary>
 		/// <param name="articleText">The article text</param>
 		/// <returns>The updated article text</returns>
 		public static string TemplateToMagicWord(string articleText)
 		{
-			return WikiRegexes.MagicWordTemplates.Replace(articleText, m => @"{{" + m.Groups[2].Value + @":" + m.Groups[3].Value.Trim().TrimStart('|'));
+			return WikiRegexes.MagicWordTemplates.Replace(articleText, new MatchEvaluator(TemplateToMagicWordME));
+		}
+		
+		private static string TemplateToMagicWordME(Match m)
+		{
+			if(GetTemplateArgumentCount(m.Value) ==0)
+				return m.Value;
+			
+			return @"{{" + m.Groups[2].Value + @":" + m.Groups[3].Value.Trim().TrimStart('|');
 		}
 
 		public static string ListToStringCommaSeparator(List<string> items)
