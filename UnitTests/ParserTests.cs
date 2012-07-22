@@ -5264,15 +5264,21 @@ Bar", "Test"), "inserts blank line if one missing");
         [Test]
         public void TestBulletListWhitespace()
         {
-            Assert.AreEqual(@"* item
+        	Assert.AreEqual(@"* item
 * item2
 * item3", Parsers.RemoveAllWhiteSpace(@"*    item
 *            item2
-*item3"));
+* item3"));
 
-            Assert.AreEqual(@"# item
+        	Assert.AreEqual(@"# item
 # item2
 # item3", Parsers.RemoveAllWhiteSpace(@"#    item
+#            item2
+# item3"));
+        	
+        	Assert.AreEqual(@"# item
+# item2
+#item3", Parsers.RemoveAllWhiteSpace(@"#    item
 #            item2
 #item3"));
         }
