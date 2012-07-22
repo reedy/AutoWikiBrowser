@@ -125,7 +125,7 @@ namespace WikiFunctions
             //else
             //{
             int pos = Tools.FirstDifference(Variables.URL, Variables.URLLong);
-            s = Regex.Escape(Variables.URLLong.Substring(0, pos));
+            s = Regex.Escape(Variables.URLLong.Substring(0, pos)).Replace(@"https://", @"https?://");
             s += "(?:" + Regex.Escape(Variables.URLLong.Substring(pos)) + @"index\.php(?:\?title=|/)|"
                 + Regex.Escape(Variables.URL.Substring(pos)) + "/wiki/" + ")";
             //}
