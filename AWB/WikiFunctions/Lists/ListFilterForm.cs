@@ -57,13 +57,9 @@ namespace WikiFunctions.Lists
                 if (chkRemoveDups.Checked)
                     RemoveDuplicates();
 
-                if (chkSortAZ.Checked)
-                    _destListBox.Sort();
-
                 _list.Clear();
 
-                foreach (Article a in _destListBox)
-                    _list.Add(a);
+                _list.AddRange(_destListBox);
 
                 bool does = (chkContains.Checked && !string.IsNullOrEmpty(txtContains.Text));
                 bool doesnot = (chkNotContains.Checked && !string.IsNullOrEmpty(txtDoesNotContain.Text));
@@ -79,16 +75,20 @@ namespace WikiFunctions.Lists
 
                 _destListBox.BeginUpdate();
                 _destListBox.Items.Clear();
-
+                
                 foreach (Article a in _list)
                     _destListBox.Items.Add(a);
 
                 _destListBox.EndUpdate();
-
+                
+                if (chkSortAZ.Checked)
+                    _destListBox.Sort();
+                
                 //Only try to update number of articles using listmaker method IF the parent is indeed a listmaker
                 //Causes exception on DBScanner otherwise
                 if (_destListBox.Parent is ListMaker)
                     (_destListBox.Parent as ListMaker).UpdateNumberOfArticles();
+                
             }
             catch (Exception ex)
             {
@@ -97,10 +97,14 @@ namespace WikiFunctions.Lists
             DialogResult = DialogResult.OK;
         }
 
+        /// <summary>
+        /// Removes duplicate articles from the listbox
+        /// </summary>
         public void RemoveDuplicates()
         {
             _list.Clear();
 
+            // TODO can performance of this be improved
             foreach (Article a in _destListBox)
             {
                 if (!_list.Contains(a))
@@ -170,50 +174,36 @@ namespace WikiFunctions.Lists
 
         private void FilterList()
         {
-            // has to be sorted so binary search can work
             List<Article> remove = new List<Article>();
             remove.AddRange(lbRemove);
-            remove.Sort();
 
             List<Article> list2 = new List<Article>();
 
             if (cbOpType.SelectedIndex == 0)
             {
-                // find difference Doesn't seem to work
-                //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Can.27t_find_difference_in_list_filter
-                // loaded in:
-                // a, b, c
-                //       c, d, e
-                // expected:
-                // a, b,    d, e
-                // got:
-                // (none)
+            	// symmetric difference
+            	
+                /* The symmetric difference of two sets is the set of elements which are in either of the sets and not in their intersection. 
+					For example, the symmetric difference of the sets {1,2,3} and {3,4} is {1,2,4} */
+               
                 foreach (Article a in _list)
-                    if (BinarySearch(remove, a, 0, remove.Count - 1) == -1)
-                        list2.Add(a);
+                	if (!remove.Contains(a))
+                		list2.Add(a);
+                	else
+                		remove.Remove(a);
+                
+                foreach (Article a in remove)
+                	if (!_list.Contains(a))
+                		list2.Add(a);
             }
             else
             {
                 // find intersection
                 foreach (Article a in _list)
-                    if (BinarySearch(remove, a, 0, remove.Count - 1) != -1)
-                        list2.Add(a);
+                  	if (remove.Contains(a))
+                		list2.Add(a);
             }
             _list = list2;
-        }
-
-        private static int BinarySearch(IList<Article> articleList, Article article, int left, int right)
-        {
-            if (right < left)
-                return -1;
-            int mid = (left + right) / 2;
-            int compare = String.Compare(articleList[mid].ToString(), article.ToString(), false, CultureInfo.InvariantCulture);
-
-            if (compare > 0)
-                return BinarySearch(articleList, article, left, mid - 1);
-            if (compare < 0)
-                return BinarySearch(articleList, article, mid + 1, right);
-            return mid;
         }
 
         private void btnGetList_Click(object sender, EventArgs e)
