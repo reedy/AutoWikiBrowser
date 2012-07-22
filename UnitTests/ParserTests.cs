@@ -6530,12 +6530,17 @@ words";
             Assert.AreEqual(AB.Replace("}}", "|c}}"), Parsers.MergeTemplatesBySection(@"{{See also2|a}}{{see also2|b|c}}"), "different capitalition");
             Assert.AreEqual(AB, Parsers.MergeTemplatesBySection(AB), "no change if already merged");
 
-            const string SeparateSections = @"
-==One==
+            const string SeparateSections = @"==One==
 {{see also|A}}
 ==Two==
 {{see also|B}}";
             Assert.AreEqual(SeparateSections, Parsers.MergeTemplatesBySection(SeparateSections), "does not merge templates in different sections");
+            
+             const string NotStartOfSection = @"==One==
+{{see also|A}}
+Text
+{{see also|B}}";
+            Assert.AreEqual(NotStartOfSection, Parsers.MergeTemplatesBySection(NotStartOfSection), "does not merge templates not at top of section");
         }
 
         [Test]

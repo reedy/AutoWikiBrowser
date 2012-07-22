@@ -834,42 +834,38 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Merges all instances of the given template in the given section of the article
+        /// Merges all instances of the given template in the given section of the article, only when templates at top of section
         /// </summary>
         /// <param name="sectionText">The article section text</param>
         /// <param name="templateName">The template to merge</param>
         /// <returns>The updated article section text</returns>
         private static string MergeTemplates(string sectionText, string templateName)
         {
-            if (!Variables.LangCode.Equals("en"))
-                return sectionText;
-
-            string oldArticleText = "";
-
-            while (oldArticleText != sectionText)
-            {
-                oldArticleText = sectionText;
-                bool doneSeeAlsoMerge = false;
-                foreach (Match m in Tools.NestedTemplateRegex(templateName).Matches(sectionText))
-                {
-                    foreach (Match m2 in Tools.NestedTemplateRegex(templateName).Matches(sectionText))
-                    {
-                        if (m2.Value.Equals(m.Value))
-                            continue;
-
-                        sectionText = sectionText.Replace(m.Value, m.Value.TrimEnd('}') + m2.Groups[3].Value);
-
-                        doneSeeAlsoMerge = true;
-                        sectionText = sectionText.Replace(m2.Value, "");
-                        break;
-                    }
-
-                    if (doneSeeAlsoMerge)
-                        break;
-                }
-            }
-
-            return sectionText;
+        	if (!Variables.LangCode.Equals("en"))
+        		return sectionText;
+        	
+        	Regex TemplateToMerge = Tools.NestedTemplateRegex(templateName);
+        	string mergedTemplates = "";
+        	
+        	while(TemplateToMerge.IsMatch(sectionText))
+        	{
+        		Match m = TemplateToMerge.Match(sectionText);
+        		
+        		if(m.Index > 0)
+        			break;
+        		
+        		if(mergedTemplates.Length == 0)
+        			mergedTemplates = m.Value;
+        		else
+        			mergedTemplates = mergedTemplates.Replace(@"}}", m.Groups[3].Value);
+        		
+        		sectionText = sectionText.Substring(m.Length);
+        	}
+        	
+        	if(mergedTemplates.Length > 0)
+        		return (mergedTemplates + "\r\n" + sectionText);
+        	else
+        		return sectionText;
         }
 
         // fixes extra comma in American format dates
