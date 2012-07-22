@@ -132,16 +132,32 @@ namespace WikiFunctions
                 }
             }
 
-            Result.AppendFormat(@"<tr onclick='window.external.GoTo({1})' ondblclick='window.external.UndoChange({0},{1})'>
+            if(Variables.RTL)
+            {
+            	Result.AppendFormat(@"<tr onclick='window.external.GoTo({1})' ondblclick='window.external.UndoChange({0},{1})'>
+  <td>+</td>
+  <td class='diff-addedline'>", rightLine, leftLine);
+            	Result.Append(right);
+            	Result.Append(@"  </td>
+  <td>-</td>
+  <td class='diff-deletedline'>");
+            	Result.Append(left);
+            	Result.Append(@"  </td>
+		</tr>");
+            }
+            else
+            {
+            	Result.AppendFormat(@"<tr onclick='window.external.GoTo({1})' ondblclick='window.external.UndoChange({0},{1})'>
   <td>-</td>
   <td class='diff-deletedline'>", leftLine, rightLine);
-            Result.Append(left);
-            Result.Append(@"  </td>
+            	Result.Append(left);
+            	Result.Append(@"  </td>
   <td>+</td>
   <td class='diff-addedline'>");
-            Result.Append(right);
-            Result.Append(@"  </td>
+            	Result.Append(right);
+            	Result.Append(@"  </td>
 		</tr>");
+            }
         }
 
         private static void WordDiff(StringBuilder res, Range range, Range otherRange, IList<Word> words, IList<Word> otherWords)
@@ -213,27 +229,62 @@ namespace WikiFunctions
 
         private void LineDeleted(int left, int right)
         {
-            Result.AppendFormat(@"<tr>
+        	if(Variables.RTL)
+        	{
+        		Result.AppendFormat(@"<tr>
+  <td> </td>
+  <td> </td>
   <td>-</td>
   <td class='diff-deletedline' onclick='window.external.GoTo({1})' ondblclick='window.external.UndoDeletion({0}, {1})'>",
-                left, right);
-            Result.Append(HttpUtility.HtmlEncode(LeftLines[left]));
-            Result.Append(@"  </td>
+        		                    left, right);
+        		
+        		Result.Append(HttpUtility.HtmlEncode(LeftLines[left]));
+        		Result.Append(@"  </td>
+</tr>");
+        	}
+        	
+        	else
+        	{
+        		Result.AppendFormat(@"<tr>
+  <td>-</td>
+  <td class='diff-deletedline' onclick='window.external.GoTo({1})' ondblclick='window.external.UndoDeletion({0}, {1})'>",
+        		                    left, right);
+        		
+        		Result.Append(HttpUtility.HtmlEncode(LeftLines[left]));
+        		Result.Append(@"  </td>
   <td> </td>
   <td> </td>
 </tr>");
+        		
+        	}
         }
 
         private void LineAdded(int line)
         {
-            Result.AppendFormat(@"<tr>
+        	if(Variables.RTL)
+        	{        		
+        		Result.AppendFormat(@"<tr>
+  <td>+</td>
+  <td class='diff-addedline' onclick='window.external.GoTo({0})' ondblclick='window.external.UndoAddition({0})'>", line);
+        		Result.Append(HttpUtility.HtmlEncode(RightLines[line]));
+        		
+        		Result.Append(@"  </td>
+  <td> </td>
+  <td> </td>
+</tr>");
+        	}
+        	else
+        	{
+        		Result.AppendFormat(@"<tr>
   <td> </td>
   <td> </td>
   <td>+</td>
   <td class='diff-addedline' onclick='window.external.GoTo({0})' ondblclick='window.external.UndoAddition({0})'>", line);
-            Result.Append(HttpUtility.HtmlEncode(RightLines[line]));
-            Result.Append(@"  </td>
+        		Result.Append(HttpUtility.HtmlEncode(RightLines[line]));
+        		
+        		Result.Append(@"  </td>
 </tr>");
+        	}
         }
 
         private void ContextHeader(int left, int right)
@@ -304,15 +355,26 @@ namespace WikiFunctions
         {
             get
             {
-                return @"<p style='margin: 0px;'>Double click on a line to undo all changes on that line, or single click to focus the edit box to that line.</p>
+               string th = @"<p style='margin: 0px;'>Double click on a line to undo all changes on that line, or single click to focus the edit box to that line.</p>
 " + DiffColumnClasses + @"
 <thead>
-  <tr valign='top'>
+  <tr valign='top'>";
+               
+               if(Variables.RTL)
+               	th = th + @"
+    <td colspan='2' width='50%' class='diff-ntitle'>Your text</td>
+    <td colspan='2' width='50%' class='diff-otitle'>Current revision</td>"; 
+               else
+               	th = th + @"
     <td colspan='2' width='50%' class='diff-otitle'>Current revision</td>
-	<td colspan='2' width='50%' class='diff-ntitle'>Your text</td>
+	<td colspan='2' width='50%' class='diff-ntitle'>Your text</td>"; 
+               
+               th = th + @"
   </tr>
 </thead>
 ";
+               
+               return th;
             }
         }
         /// <summary>
