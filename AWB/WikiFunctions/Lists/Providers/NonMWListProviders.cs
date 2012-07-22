@@ -146,7 +146,7 @@ namespace WikiFunctions.Lists.Providers
     /// </summary>
     public class GoogleSearchListProvider : IListProvider
     {
-        private static readonly Regex RegexGoogle = new Regex("href\\s*=\\s*(?:\"(?<1>[^\"]*)\"|(?<1>\\S+) class=l)",
+        private static readonly Regex RegexGoogle = new Regex(@"href\s*=\s*(?:""(?:/url\?q=)?(?<1>[^""]*)""|(?<1>\S+) class=l)",
                                                               RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public List<Article> MakeList(params string[] searchCriteria)
@@ -168,7 +168,12 @@ namespace WikiFunctions.Lists.Providers
                     //Find each match to the pattern
                     foreach (Match m in RegexGoogle.Matches(googleText))
                     {
-                        string title = Tools.GetTitleFromURL(m.Groups[1].Value);
+                    	string searchres = m.Groups[1].Value;
+                    	
+                    	if(searchres.Contains(@"&amp;"))
+                    		searchres = searchres.Substring(0, searchres.IndexOf(@"&amp;"));
+                    	
+                        string title = Tools.GetTitleFromURL(searchres);
 
                         if (!string.IsNullOrEmpty(title))
                             list.Add(new Article(title));

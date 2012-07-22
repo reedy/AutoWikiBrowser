@@ -569,6 +569,7 @@ In Portugal, this period is also known as the &quot;Portuguese [[Interregnum]]&q
             Assert.AreEqual("Хуй", Tools.GetTitleFromURL("https://en.wikipedia.org/wiki/%D0%A5%D1%83%D0%B9"));
             Assert.AreEqual("foo", Tools.GetTitleFromURL("https://en.wikipedia.org/w/index.php?title=foo"));
             Assert.AreEqual("foo", Tools.GetTitleFromURL("https://en.wikipedia.org/w/index.php/foo"));
+            Assert.AreEqual("foo", Tools.GetTitleFromURL("http://en.wikipedia.org/w/index.php/foo"));
 
             // return null if there is something wrong
             Assert.IsNull(Tools.GetTitleFromURL(""));
