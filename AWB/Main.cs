@@ -398,7 +398,7 @@ namespace AutoWikiBrowser
         /// <summary>
         /// True if user has been warned in AWB session that articles with characters in Unicode private use area can't be saved
         /// </summary>
-        private bool _userWarnedAboutUnicodePUA = false;
+        private bool _userWarnedAboutUnicodePUA;
 
         /// <summary>
         /// True if AWB should be minimised to the system tray; False if it should minimise to the taskbar
@@ -1186,15 +1186,6 @@ namespace AutoWikiBrowser
                                                                  chkSkipIsRegex.Checked,
                                                                  false, // singleline
                                                                  false); // multiline
-        }
-
-        /// <summary>
-        /// Skips the article based on protection level and contains/not contains logic
-        /// </summary>
-        /// <returns>Whether the page has been skipped</returns>
-        private bool SkipChecks()
-        {
-            return SkipChecks(true);
         }
 
         private void ClearBrowser()
