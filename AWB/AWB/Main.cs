@@ -108,7 +108,7 @@ namespace AutoWikiBrowser
 
         private readonly ToolStripMenuItem[] _pasteMoreItems;
         private readonly string[] _pasteMoreItemsPrefixes = new[] {
-            "&1. ", "&2. ", "&3. ", "&4. ", "&5. ", "&6. ", "&7. ", "&8. ", "&9. ", "1&0. ",
+            "&1. ", "&2. ", "&3. ", "&4. ", "&5. ", "&6. ", "&7. ", "&8. ", "&9. ", "1&0. "
         };
         #endregion
 
@@ -177,7 +177,7 @@ namespace AutoWikiBrowser
 
                 _pasteMoreItems = new[]
                 {
-                    PasteMore1, PasteMore2, PasteMore3, PasteMore4, PasteMore5, PasteMore6, PasteMore7, PasteMore8, PasteMore9, PasteMore10,
+                    PasteMore1, PasteMore2, PasteMore3, PasteMore4, PasteMore5, PasteMore6, PasteMore7, PasteMore8, PasteMore9, PasteMore10
                 };
 
                 // to avoid saving to app data
@@ -594,7 +594,7 @@ namespace AutoWikiBrowser
             {
                 SkipPage("Invalid title");
             }
-            else if (ex is System.Net.WebException)
+            else if (ex is WebException)
             {
                 // some 404 error or similar
                 StatusLabelText = ex.Message;
@@ -3430,7 +3430,6 @@ window.scrollTo(0, diffTopY);
                     if (TheArticle != null)
                         txtEdit.Find(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, TheArticle.Name);
                     e.SuppressKeyPress = true;
-                    return;
                 }
             }
         }
@@ -3789,7 +3788,7 @@ window.scrollTo(0, diffTopY);
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 string[] dlgStrings = new[] {
-                    dlg.String1, dlg.String2, dlg.String3, dlg.String4, dlg.String5, dlg.String6, dlg.String7, dlg.String8, dlg.String9, dlg.String10,
+                    dlg.String1, dlg.String2, dlg.String3, dlg.String4, dlg.String5, dlg.String6, dlg.String7, dlg.String8, dlg.String9, dlg.String10
                 };
                 for (int i = 0; i < 10; ++i)
                     SetPasteMoreText(i, dlgStrings[i]);
@@ -5081,7 +5080,7 @@ window.scrollTo(0, diffTopY);
                 times.Add(new KeyValuePair<int, string>((int)watch.ElapsedMilliseconds, p.Key + " > " + p.Value));
             }
 
-            times.Sort(new Comparison<KeyValuePair<int, string>>(CompareRegexPairs));
+            times.Sort(CompareRegexPairs);
 
             StringBuilder builder = new StringBuilder();
 

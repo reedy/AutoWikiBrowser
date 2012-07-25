@@ -394,7 +394,7 @@ namespace AutoWikiBrowser
                             || plugin.EndsWith("WikiFunctions.dll"))
                             continue;
 
-                        Assembly asm = null;
+                        Assembly asm;
                         try
                         {
                             asm = Assembly.LoadFile(plugin);

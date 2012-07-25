@@ -89,9 +89,9 @@ namespace AutoWikiBrowser
                 if (radFile.Checked)
                 {
                     if (txtFile.Text.Contains("\\"))
-                        WikiFunctions.Tools.WriteTextFileAbsolutePath(articleText, ioFile, false);
+                        Tools.WriteTextFileAbsolutePath(articleText, ioFile, false);
                     else
-                        WikiFunctions.Tools.WriteTextFile(articleText, ioFile, false);
+                        Tools.WriteTextFile(articleText, ioFile, false);
                 }
                 else
                     psi.Arguments = psi.Arguments.Replace("%%articletext%%", articleText);

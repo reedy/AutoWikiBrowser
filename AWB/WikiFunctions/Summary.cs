@@ -105,8 +105,7 @@ namespace WikiFunctions
                     // if more double brackets opened before current one closed, summary is invalid
                     if(s.Substring(2, s.IndexOf("]]") >0 ? s.IndexOf("]]") : 0).Contains("[["))
                         return false;
-                    else
-                        pos = s.IndexOf("]]");
+                    pos = s.IndexOf("]]");
                 }
                 else
                     pos = s.IndexOf("[[");

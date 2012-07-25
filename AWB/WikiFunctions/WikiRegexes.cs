@@ -301,7 +301,7 @@ namespace WikiFunctions
         /// <summary>
         /// List of templates with old parameter and new for parameter renaming
         /// </summary>
-        public static List<WikiRegexes.TemplateParameters> RenamedTemplateParameters = new List<WikiRegexes.TemplateParameters>();
+        public static List<TemplateParameters> RenamedTemplateParameters = new List<TemplateParameters>();
 
         /// <summary>
         /// Piece of template call, including curly brace and possible namespace
