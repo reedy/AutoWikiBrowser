@@ -2200,7 +2200,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex ReferencesMissingSlash = new Regex(@"<\s*[Rr]eferences\s*>", RegexOptions.Compiled);
 
         /// <summary>
-        /// First checks for a &lt;references&glt; missing '/' to correct, otherwise:
+        /// First checks for a &lt;references&lt; missing '/' to correct, otherwise:
         /// if the article uses cite references but has no recognised template to display the references, add {{Reflist}} in the appropriate place
         /// </summary>
         /// <param name="articleText">The wiki text of the article</param>
