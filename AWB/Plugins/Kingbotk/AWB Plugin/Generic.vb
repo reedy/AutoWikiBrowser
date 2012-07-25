@@ -121,7 +121,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 End If
             End Get
             Set(ByVal value As ImportanceSettingEnum)
-                ImportanceCheckedListBox.SetItemChecked(DirectCast(value, Integer), True)
+                ImportanceCheckedListBox.SetItemChecked(value, True)
             End Set
         End Property
         Friend Property HasCategoryClass() As Boolean
