@@ -141,8 +141,6 @@ namespace WikiFunctions.ReplaceSpecial
 
             private void Inside(TreeNode tn)
             {
-                bool checkDone = false, check = true;
-
                 for (; ; )
                 {
                    /* 
@@ -155,23 +153,11 @@ namespace WikiFunctions.ReplaceSpecial
                     if (i < 0)
                         return; // error: template not closed
 
-                    int j = text_2.IndexOf("{{");
-
-                    string t;
-
-                    t = text_.Substring(0, i);
+                    string t = text_.Substring(0, i);
                     i += 2;
                     text_ = text_.Substring(i);
 
-                    if (checkDone)
-                    {
-                        if (check)
-                            result_ += ReplaceOn(template_, tn, t, title_);
-                        else
-                            result_ += t;
-                    }
-                    else
-                        result_ += ApplyOn(template_, tn, t, title_);
+                    result_ += ApplyOn(template_, tn, t, title_);
 
                     result_ += "}}";
 
