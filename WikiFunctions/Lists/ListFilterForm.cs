@@ -75,20 +75,20 @@ namespace WikiFunctions.Lists
 
                 _destListBox.BeginUpdate();
                 _destListBox.Items.Clear();
-                
+
                 foreach (Article a in _list)
                     _destListBox.Items.Add(a);
 
                 _destListBox.EndUpdate();
-                
+
                 if (chkSortAZ.Checked)
                     _destListBox.Sort();
-                
+
                 //Only try to update number of articles using listmaker method IF the parent is indeed a listmaker
                 //Causes exception on DBScanner otherwise
                 if (_destListBox.Parent is ListMaker)
                     (_destListBox.Parent as ListMaker).UpdateNumberOfArticles();
-                
+
             }
             catch (Exception ex)
             {
@@ -103,13 +103,12 @@ namespace WikiFunctions.Lists
         public void RemoveDuplicates()
         {
             // hashset by definition does not allow duplicates, discards any on creation
-            System.Collections.Generic.HashSet<Article> NoDupes = new HashSet<Article>(_destListBox);
-            
+            HashSet<Article> NoDupes = new HashSet<Article>(_destListBox);
+
             _destListBox.BeginUpdate();
             _destListBox.Items.Clear();
-            
-            _destListBox.Items.AddRange(new List<Article>(NoDupes).ToArray());
-            
+
+            _destListBox.Items.AddRange(new object[] { new List<Article>(NoDupes).ToArray() });
             _destListBox.EndUpdate();
         }
 
@@ -175,27 +174,27 @@ namespace WikiFunctions.Lists
 
             if (cbOpType.SelectedIndex == 0)
             {
-            	// symmetric difference
-            	
+                // symmetric difference
+
                 /* The symmetric difference of two sets is the set of elements which are in either of the sets and not in their intersection. 
-					For example, the symmetric difference of the sets {1,2,3} and {3,4} is {1,2,4} */
-               
+                    For example, the symmetric difference of the sets {1,2,3} and {3,4} is {1,2,4} */
+
                 foreach (Article a in _list)
-                	if (!remove.Contains(a))
-                		list2.Add(a);
-                	else
-                		remove.Remove(a);
-                
+                    if (!remove.Contains(a))
+                        list2.Add(a);
+                    else
+                        remove.Remove(a);
+
                 foreach (Article a in remove)
-                	if (!_list.Contains(a))
-                		list2.Add(a);
+                    if (!_list.Contains(a))
+                        list2.Add(a);
             }
             else
             {
                 // find intersection
                 foreach (Article a in _list)
-                  	if (remove.Contains(a))
-                		list2.Add(a);
+                    if (remove.Contains(a))
+                        list2.Add(a);
             }
             _list = list2;
         }
