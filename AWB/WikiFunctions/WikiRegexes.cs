@@ -721,7 +721,7 @@ namespace WikiFunctions
         public const string ReferencesTemplates = @"(\{\{\s*(?:ref(?:-?li(?:st|nk)|erence)|[Ll]istaref)(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))\}\}|<\s*references\s*/>|\{\{refs|<\s*references\s*>.*</\s*references\s*>)";
         
         /// <summary>
-        /// Matches a closing &lt;/ref&gt: tag or the {{GR}} template
+        /// Matches a closing &lt;/ref&gt; tag or the {{GR}} template
         /// </summary>
         public const string ReferenceEndGR = @"(?:</ref>|{{GR\|\d}})";
 
@@ -942,7 +942,7 @@ namespace WikiFunctions
         public static readonly Regex CircaTemplate = Tools.NestedTemplateRegex(new List<string>(new [] {"Circa", "c."}));
         
         /// <summary>
-        /// Matches named references in format &lt;ref name="foo"&gt;text&lt/ref&gt;
+        /// Matches named references in format &lt;ref name="foo"&gt;text&lt;/ref&gt;
         /// </summary>
         public static readonly Regex NamedReferences = new Regex(@"(<\s*ref\s+name\s*=\s*(?:""|')?([^<>=\r\n/]+?)(?:""|')?\s*>\s*(.*?)\s*<\s*/\s*ref\s*>)", RegexOptions.Compiled | RegexOptions.Singleline | RegexOptions.IgnoreCase);
 

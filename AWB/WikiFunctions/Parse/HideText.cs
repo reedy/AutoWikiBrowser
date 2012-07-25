@@ -45,12 +45,13 @@ namespace WikiFunctions.Parse
         {
             Replace(matches, ref articleText, HiddenTokens);
         }
-        
+
         /// <summary>
         /// Puts back hidden text
         /// </summary>
         /// <param name="matches"></param>
         /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="Tokens"> </param>
         private void Replace(IEnumerable matches, ref string articleText, List<HideObject> Tokens)
         {
             StringBuilder sb = new StringBuilder((int)(articleText.Length * 1.1));
@@ -128,11 +129,12 @@ namespace WikiFunctions.Parse
         {
             return AddBack(articleText, HiddenTokens);
         }
-        
+
         /// <summary>
         /// Adds stuff removed by Hide back
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="Tokens"></param>
         /// <returns></returns>
         private string AddBack(string articleText, List<HideObject> Tokens)
         {
