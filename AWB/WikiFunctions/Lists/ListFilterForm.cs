@@ -75,9 +75,8 @@ namespace WikiFunctions.Lists
                 _destListBox.BeginUpdate();
                 _destListBox.Items.Clear();
 
-                foreach (Article a in _list)
-                    _destListBox.Items.Add(a);
-
+                _destListBox.Items.AddRange(_list.ToArray());
+                
                 _destListBox.EndUpdate();
 
                 if (chkSortAZ.Checked)
