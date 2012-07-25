@@ -89,25 +89,25 @@ namespace WikiFunctions.Controls.Lists
         public static void CompareLists(IList<Article> list1, List<Article> list2, ListBox lb1, ListBox lb2, ListBox lb3)
         {
             // hashset by definition does not allow duplicates, discards any on creation
-            System.Collections.Generic.HashSet<Article> UniqueIn1 = new HashSet<Article>(list1);
-            System.Collections.Generic.HashSet<Article> Duplicates = new HashSet<Article>(list1);
-            System.Collections.Generic.HashSet<Article> UniqueIn2 = new HashSet<Article>(list2);
-            
-            System.Collections.Generic.HashSet<Article> L1HS = new HashSet<Article>(list1);
-            System.Collections.Generic.HashSet<Article> L2HS = new HashSet<Article>(list2);
-            
+            HashSet<Article> UniqueIn1 = new HashSet<Article>(list1);
+            HashSet<Article> Duplicates = new HashSet<Article>(list1);
+            HashSet<Article> UniqueIn2 = new HashSet<Article>(list2);
+
+            HashSet<Article> L1HS = new HashSet<Article>(list1);
+            HashSet<Article> L2HS = new HashSet<Article>(list2);
+
             Duplicates.IntersectWith(L2HS);
             UniqueIn1.ExceptWith(L2HS);
             UniqueIn2.ExceptWith(L1HS);
-            
+
             lb1.BeginUpdate();
             lb2.BeginUpdate();
             lb3.BeginUpdate();
-            
-            lb1.Items.AddRange(new List<Article>(UniqueIn1).ToArray());
-            lb2.Items.AddRange(new List<Article>(UniqueIn2).ToArray());
-            lb3.Items.AddRange(new List<Article>(Duplicates).ToArray());
-            
+
+            lb1.Items.AddRange(new object[] {new List<Article>(UniqueIn1).ToArray()});
+            lb2.Items.AddRange(new object[] {new List<Article>(UniqueIn2).ToArray()});
+            lb3.Items.AddRange(new object[] {new List<Article>(Duplicates).ToArray()});
+
             lb1.EndUpdate();
             lb2.EndUpdate();
             lb3.EndUpdate();
