@@ -1237,7 +1237,7 @@ __TOC__", articleTextIn);
             LMakerRLD.Add(new Article("B"));
             LMakerRLD.Add(new Article("C"));
             LMakerRLD.Add(new Article("A"));
-                        
+            
             LMakerRLD.RemoveListDuplicates();
             
             Assert.AreEqual(LMakerRLD.Count, 3, "Duplicate removed");
@@ -1248,6 +1248,7 @@ __TOC__", articleTextIn);
             }
         }
         
+        
         [Test]
         public void RemoveListDuplicates10K()
         {
@@ -1255,7 +1256,7 @@ __TOC__", articleTextIn);
             ListMaker LMaker10K = new ListMaker();
             LMaker10K.Clear();
             for(int i=1; i<big; i++)
-                LMaker10K.Add(new Article(i.ToString()));            
+                LMaker10K.Add(new Article(i.ToString()));
             
             LMaker10K.Add(new Article("1"));
             
@@ -1266,7 +1267,11 @@ __TOC__", articleTextIn);
             Assert.AreEqual(LMaker10K.Count, big-1, "Duplicate removed");
             Assert.IsTrue(LMaker10K.Contains(new Article("1")), "First instance of article retained");
         }
-        
+    }
+    
+    [TestFixture]
+    public class ListComparerTests : RequiresInitialization
+    {        
         [Test]
         public void ListComparerSimple()
         {
@@ -1291,11 +1296,11 @@ __TOC__", articleTextIn);
             Assert.IsFalse(lb1.Items.Contains("A"));
             
             // unique in 2
-            Assert.IsFalse(lb2.Items.Contains("A"));            
+            Assert.IsFalse(lb2.Items.Contains("A"));
             Assert.IsTrue(lb2.Items.Contains("D"));
             Assert.IsTrue(lb2.Items.Contains("E"));
             
-            // common to both            
+            // common to both
             Assert.IsTrue(lb3.Items.Contains("A"));
         }
         
