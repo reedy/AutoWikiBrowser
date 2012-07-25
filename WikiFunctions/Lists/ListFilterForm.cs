@@ -102,20 +102,14 @@ namespace WikiFunctions.Lists
         /// </summary>
         public void RemoveDuplicates()
         {
-            _list.Clear();
-
-            // TODO can performance of this be improved
-            foreach (Article a in _destListBox)
-            {
-                if (!_list.Contains(a))
-                    _list.Add(a);
-            }
-
+            // hashset by definition does not allow duplicates, discards any on creation
+            System.Collections.Generic.HashSet<Article> NoDupes = new HashSet<Article>(_destListBox);
+            
             _destListBox.BeginUpdate();
             _destListBox.Items.Clear();
-
-            foreach (Article a in _list)
-                _destListBox.Items.Add(a);
+            
+            _destListBox.Items.AddRange(new List<Article>(NoDupes).ToArray());
+            
             _destListBox.EndUpdate();
         }
 
