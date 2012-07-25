@@ -104,9 +104,9 @@ namespace WikiFunctions.Controls.Lists
             lb2.BeginUpdate();
             lb3.BeginUpdate();
 
-            lb1.Items.AddRange(new object[] {new List<Article>(UniqueIn1).ToArray()});
-            lb2.Items.AddRange(new object[] {new List<Article>(UniqueIn2).ToArray()});
-            lb3.Items.AddRange(new object[] {new List<Article>(Duplicates).ToArray()});
+            lb1.Items.AddRange(new List<Article>(UniqueIn1).ToArray());
+            lb2.Items.AddRange(new List<Article>(UniqueIn2).ToArray());
+            lb3.Items.AddRange(new List<Article>(Duplicates).ToArray());
 
             lb1.EndUpdate();
             lb2.EndUpdate();

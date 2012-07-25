@@ -22,7 +22,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
-using System.Globalization;
 using WikiFunctions.Controls.Lists;
 using WikiFunctions.Lists.Providers;
 
@@ -108,7 +107,7 @@ namespace WikiFunctions.Lists
             _destListBox.BeginUpdate();
             _destListBox.Items.Clear();
 
-            _destListBox.Items.AddRange(new object[] { new List<Article>(NoDupes).ToArray() });
+            _destListBox.Items.AddRange(new List<Article>(NoDupes).ToArray());
             _destListBox.EndUpdate();
         }
 
