@@ -86,7 +86,7 @@ namespace WikiFunctions.Controls.Lists
         /// <param name="lb1">List Box where unique items from list1 should go</param>
         /// <param name="lb2">List Box where unique items from list2 should go</param>
         /// <param name="lb3">List Box where the duplicates should go</param>
-        private static void CompareLists(IList<Article> list1, List<Article> list2, ListBox lb1, ListBox lb2, ListBox lb3)
+        public static void CompareLists(IList<Article> list1, List<Article> list2, ListBox lb1, ListBox lb2, ListBox lb3)
         {
             lb1.BeginUpdate();
             lb2.BeginUpdate();
