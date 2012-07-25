@@ -1890,8 +1890,8 @@ namespace WikiFunctions.Parse
         private const string SiCitStart = @"(?si)(\|\s*";
         private const string CitAccessdate = SiCitStart + @"(?:access|archive)date\s*=\s*";
         private const string CitDate = SiCitStart + @"(?:archive|air)?date2?\s*=\s*";
-        private const string CitYMonthD = SiCitStart + @"(?:archive|air|access)?date2?\s*=\s*\d{4})[-/\s]";
-        private const string dTemEnd = @"?[-/\s]([0-3]?\d\s*(?:\||}}))";
+        //private const string CitYMonthD = SiCitStart + @"(?:archive|air|access)?date2?\s*=\s*\d{4})[-/\s]";
+        //private const string dTemEnd = @"?[-/\s]([0-3]?\d\s*(?:\||}}))";
 
         private static readonly Regex AccessOrArchiveDate = new Regex(@"\b(access|archive)date\s*=", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly RegexReplacement[] CiteTemplateIncorrectISOAccessdates = new[] {
@@ -2374,7 +2374,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex BrTwoNewlines = new Regex("(?:<br */?>)*\r\n\r\n", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex ThreeOrMoreNewlines = new Regex("\r\n(\r\n)+", RegexOptions.Compiled);
-        private static readonly Regex TwoNewlinesInBlankSection = new Regex("== ? ?\r\n\r\n==", RegexOptions.Compiled);
+        //private static readonly Regex TwoNewlinesInBlankSection = new Regex("== ? ?\r\n\r\n==", RegexOptions.Compiled);
         private static readonly Regex NewlinesBelowExternalLinks = new Regex(@"==External links==[\r\n\s]*\*", RegexOptions.Compiled);
         private static readonly Regex NewlinesBeforeUrl = new Regex(@"\r\n\r\n(\* ?\[?http)", RegexOptions.Compiled);
         private static readonly Regex HorizontalRule = new Regex("----+$", RegexOptions.Compiled);
@@ -4737,7 +4737,6 @@ namespace WikiFunctions.Parse
         private bool AddedBoldIsValid(string articleText, string escapedTitle)
         {
             HideText Hider2 = new HideText(true, true, true);
-            string articletextoriginal = articleText;
             Regex regexBoldAdded = new Regex(@"^(.*?)'''" + escapedTitle, RegexOptions.Singleline);
 
             int boldAddedPos = regexBoldAdded.Match(articleText).Length - Regex.Unescape(escapedTitle).Length;
@@ -5995,7 +5994,7 @@ namespace WikiFunctions.Parse
         /// <returns>The updated emplate call</returns>
         private static string NotSectionTemplateME(Match m, string newTemplateName)
         {
-            string newValue = m.Value, existingName = Tools.GetTemplateName(newValue);
+            string newValue = m.Value;
             if (Tools.GetTemplateArgument(newValue, 1).Equals("section") || Tools.GetTemplateArgument(newValue, 1).Equals("Section"))
                 return m.Value;
 
