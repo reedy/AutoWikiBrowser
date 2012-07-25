@@ -88,38 +88,26 @@ namespace WikiFunctions.Controls.Lists
         /// <param name="lb3">List Box where the duplicates should go</param>
         public static void CompareLists(IList<Article> list1, List<Article> list2, ListBox lb1, ListBox lb2, ListBox lb3)
         {
+            // hashset by definition does not allow duplicates, discards any on creation
+            System.Collections.Generic.HashSet<Article> UniqueIn1 = new HashSet<Article>(list1);
+            System.Collections.Generic.HashSet<Article> Duplicates = new HashSet<Article>(list1);
+            System.Collections.Generic.HashSet<Article> UniqueIn2 = new HashSet<Article>(list2);
+            
+            System.Collections.Generic.HashSet<Article> L1HS = new HashSet<Article>(list1);
+            System.Collections.Generic.HashSet<Article> L2HS = new HashSet<Article>(list2);
+            
+            Duplicates.IntersectWith(L2HS);
+            UniqueIn1.ExceptWith(L2HS);
+            UniqueIn2.ExceptWith(L1HS);
+            
             lb1.BeginUpdate();
             lb2.BeginUpdate();
             lb3.BeginUpdate();
-
-            while (list1.Count > 0)
-            {
-                Article a = list1[0];
-                if (list2.Contains(a))
-                {
-                    lb3.Items.Add(a);
-                    if (list2.IndexOf(a) > 0)
-                    {
-                        foreach (Article a2 in list2.GetRange(0, list2.IndexOf(a) - 1))
-                        {
-                            lb2.Items.Add(a2);
-                            list2.Remove(a2);
-                        }
-                    }
-
-                    list2.Remove(a);
-                }
-                else
-                    lb1.Items.Add(a);
-
-                list1.Remove(a);
-            }
-
-            foreach (Article article in list2)
-            {
-                lb2.Items.Add(article);
-            }
-
+            
+            lb1.Items.AddRange(new List<Article>(UniqueIn1).ToArray());
+            lb2.Items.AddRange(new List<Article>(UniqueIn2).ToArray());
+            lb3.Items.AddRange(new List<Article>(Duplicates).ToArray());
+            
             lb1.EndUpdate();
             lb2.EndUpdate();
             lb3.EndUpdate();
