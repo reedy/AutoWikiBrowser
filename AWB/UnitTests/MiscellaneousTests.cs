@@ -1342,4 +1342,27 @@ __TOC__", articleTextIn);
             Assert.AreEqual(lb3.Items.Count, big);
         }
     }
+    
+    [TestFixture]
+    public class ListBoxArticleTests : RequiresInitialization
+    {
+        [Test]
+        public void RemoveSelected()
+        {
+            WikiFunctions.Controls.Lists.ListBoxArticle lbArticles = new WikiFunctions.Controls.Lists.ListBoxArticle();
+            
+            const int big = 70000, sel=5000;
+
+            for(int i=0; i<big; i++)
+                lbArticles.Items.Add(new Article(i.ToString()));
+            
+            for(int j=sel; j>0; j--)
+                lbArticles.SetSelected(big-j, true);
+            
+            lbArticles.RemoveSelected();
+            
+            Assert.AreEqual(lbArticles.Items.Count, big-sel);
+        }
+        
+    }
 }

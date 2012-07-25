@@ -108,26 +108,39 @@ namespace WikiFunctions.Controls.Lists
         }
 
         /// <summary>
-        /// 
+        /// Removes the currently selected articles from the list
         /// </summary>
         public void RemoveSelected()
         {
-            BeginUpdate();
-
+            /* Approach is to convert all articles in listbox into an article list, remove range from article list by index, then add articles back to
+             listbox. This means loop through listbox once, a single remove by index operation and a single loop through article list.
+             
+             Alternative of removing selected articles one by one from listbox means each removal requires scan of listbox from beginning up
+             to point of item. e.g. scan 10,000x5 to remove five entries from position 10000 in a list. */
             int i = SelectedIndex;
 
-            /* remove at index rather than removing article, else if list has article twice the first instance of it
-             * will be removed, not necessarily the one the user selected
-            */ 
-            while (SelectedItems.Count > 0)
-                Items.RemoveAt(SelectedIndex);
+            if(i >= 0)
+            {
+                List<Article> articles = new List<Article>();
+                
+                for (int j = 0; j < Items.Count; j++)
+                    articles.Add((Article)Items[j]);
+                
+                /* remove at index rather than removing article, else if list has article twice the first instance of it
+              will be removed, not necessarily the one the user selected*/
+                articles.RemoveRange(SelectedIndex, SelectedItems.Count);
+                
+                BeginUpdate();
+                Items.Clear();
+                Items.AddRange(articles.ToArray());
 
-            if (Items.Count > i)
-                SelectedIndex = i;
-            else
-                SelectedIndex = Math.Min(i, Items.Count) - 1;
+                if (Items.Count > i)
+                    SelectedIndex = i;
+                else
+                    SelectedIndex = Math.Min(i, Items.Count) - 1;
 
-            EndUpdate();
+                EndUpdate();
+            }
         }
 
         static string _list = "";
