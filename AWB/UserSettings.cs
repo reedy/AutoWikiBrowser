@@ -150,7 +150,6 @@ namespace AutoWikiBrowser
             {
                 UpdateRecentList(RegistryUtils.GetValue("\\RecentList", "").Split('|'));
             }
-            catch { return; }
             finally
             {
                 SplashScreen.SetProgress(70);

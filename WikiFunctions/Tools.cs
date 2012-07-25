@@ -402,7 +402,7 @@ namespace WikiFunctions
 		/// <returns>The HTML.</returns>
 		public static string GetHTML(string url, Encoding enc)
 		{
-			string x = "";
+			string x;
 			return GetHTML(url, enc, out x);
 		}
 		
@@ -767,8 +767,8 @@ namespace WikiFunctions
 
 			if(metaContent.IsMatch(pagesource))
 				return metaContent.Match(pagesource).Groups[1].Value.Trim();
-			else
-				return metaContent2.Match(pagesource).Groups[1].Value.Trim();
+			
+            return metaContent2.Match(pagesource).Groups[1].Value.Trim();
 		}
 
 		// Covered by ToolsTests.SplitToSections()
@@ -2663,9 +2663,7 @@ Message: {2}
 		{
 			List<string> Unknowns = new List<string>();
 
-			string pipecleanedtemplate = "";
-			
-			pipecleanedtemplate = PipeCleanedTemplate(templatecall);
+			string pipecleanedtemplate = PipeCleanedTemplate(templatecall);
 			
 			foreach(Match m in anyParam.Matches(pipecleanedtemplate))
 			{
@@ -2972,7 +2970,7 @@ Message: {2}
 		/// <returns>The updated article text</returns>
 		public static string TemplateToMagicWord(string articleText)
 		{
-			return WikiRegexes.MagicWordTemplates.Replace(articleText, new MatchEvaluator(TemplateToMagicWordME));
+			return WikiRegexes.MagicWordTemplates.Replace(articleText, TemplateToMagicWordME);
 		}
 		
 		private static string TemplateToMagicWordME(Match m)
