@@ -2941,9 +2941,12 @@ namespace WikiFunctions.Parse
                             break;
 
                         default:
-                            // strange bracket
+                            // Chinese language brackets（ and ）[ASCII 65288 and 65289]
+                            if(Variables.LangCode.Equals("en"))
+                            {
                             articleTextTemp = articleTextTemp.Replace("）", ")");
                             articleTextTemp = articleTextTemp.Replace("（", "(");
+                            }
                             break;
                     }
 

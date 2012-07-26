@@ -3781,9 +3781,17 @@ Image:X.JPG|Japanese classification systemJapanese classification systemJapanese
         }
 
         [Test]
-        public void FixUnbalancedBracketsStrangeBrackets()
+        public void FixUnbalancedBracketsChineseBrackets()
         {
-            Assert.AreEqual(@"now (there) was", Parsers.FixSyntax(@"now （there) was"));
+        	#if DEBUG
+        	const string CB = @"now （there) was";
+
+        	Variables.SetProjectLangCode("fr");
+        	Assert.AreEqual(CB, Parsers.CiteTemplateDates(CB));
+
+        	Variables.SetProjectLangCode("en");
+        	Assert.AreEqual(@"now (there) was", Parsers.FixSyntax(CB));
+        	#endif
         }
 
         [Test]
