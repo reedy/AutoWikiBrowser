@@ -1138,7 +1138,7 @@ namespace WikiFunctions.Controls.Lists
 
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SetSelected(true);
+        	SelectAll();
         }
 
         private void invertSelectionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1153,17 +1153,32 @@ namespace WikiFunctions.Controls.Lists
 
         private void selectNoneToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SetSelected(false);
+        	SelectNone();
         }
-
-        private void SetSelected(bool selected)
+        
+        /// <summary>
+        /// Desselects any selected items in the list box. Uses send of keyboard shortcuts for performance
+        /// </summary>
+        private void SelectNone()
         {
-            lbArticles.BeginUpdate();
+        	lbArticles.BeginUpdate();
 
-            for (int i = 0; i < lbArticles.Items.Count; i++)
-                lbArticles.SetSelected(i, selected);
+        	lbArticles.SelectedIndex = -1;
 
-            lbArticles.EndUpdate();
+        	lbArticles.EndUpdate();
+        }
+        
+        /// <summary>
+        /// Selects all items in the list box. Uses send of keyboard shortcuts for performance
+        /// </summary>
+        private void SelectAll()
+        {
+        	lbArticles.BeginUpdate();
+        	
+        	SendKeys.SendWait("{HOME}");
+        	SendKeys.SendWait("+{END}");
+        	
+        	lbArticles.EndUpdate();
         }
 
         private void AddFromSelectedList(IListProvider provider)
