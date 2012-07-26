@@ -84,7 +84,7 @@
             this.lbBoth.FormattingEnabled = true;
             this.lbBoth.Location = new System.Drawing.Point(3, 29);
             this.lbBoth.Name = "lbBoth";
-            this.lbBoth.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.lbBoth.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lbBoth.Size = new System.Drawing.Size(133, 264);
             this.lbBoth.TabIndex = 2;
             // 
@@ -285,7 +285,7 @@
             this.lbNo2.FormattingEnabled = true;
             this.lbNo2.Location = new System.Drawing.Point(3, 29);
             this.lbNo2.Name = "lbNo2";
-            this.lbNo2.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.lbNo2.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lbNo2.Size = new System.Drawing.Size(133, 264);
             this.lbNo2.TabIndex = 18;
             // 
@@ -389,7 +389,7 @@
             this.lbNo1.FormattingEnabled = true;
             this.lbNo1.Location = new System.Drawing.Point(3, 29);
             this.lbNo1.Name = "lbNo1";
-            this.lbNo1.SelectionMode = System.Windows.Forms.SelectionMode.MultiSimple;
+            this.lbNo1.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lbNo1.Size = new System.Drawing.Size(133, 264);
             this.lbNo1.TabIndex = 14;
             // 
