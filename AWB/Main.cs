@@ -652,7 +652,7 @@ namespace AutoWikiBrowser
                 Shutdown();
 
                 //check edit summary
-                txtEdit.Enabled = true;
+                txtEdit.Enabled = txtReviewEditSummary.Enabled = true;
                 SetEditToolBarEnabled(true);
 
                 if (Variables.Project != ProjectEnum.custom && string.IsNullOrEmpty(cmboEditSummary.Text) &&
@@ -1004,7 +1004,7 @@ namespace AutoWikiBrowser
 
                         if (diffInBotMode)
                         {
-                            txtReviewEditSummary.Text = MakeSummary();
+                            txtReviewEditSummary.Text = MakeDefaultEditSummary();
                             return;
                         }
 
@@ -1024,7 +1024,7 @@ namespace AutoWikiBrowser
 
                 Variables.Profiler.Profile("ActionOnLoad");
 
-                txtReviewEditSummary.Text = MakeSummary();
+                txtReviewEditSummary.Text = MakeDefaultEditSummary();
 
                 Variables.Profiler.Profile("Make Edit summary");
 
@@ -1847,7 +1847,7 @@ window.scrollTo(0, diffTopY);
                 if (!TheSession.Page.Exists)
                     NumberOfNewPages++;
 
-                TheSession.Editor.Save(txtEdit.Text, MakeSummary(), markAllAsMinorToolStripMenuItem.Checked,
+                TheSession.Editor.Save(txtEdit.Text, AppendUsingAWBSummary(txtReviewEditSummary.Text), markAllAsMinorToolStripMenuItem.Checked,
                                        opt);
             }
             else
@@ -1947,7 +1947,6 @@ window.scrollTo(0, diffTopY);
                         break;
                 }
 
-                TheArticle.ResetEditSummary();
                 GetDiff();
 
                 // now put caret back where it was
@@ -2157,7 +2156,7 @@ window.scrollTo(0, diffTopY);
         /// Sets the edits summary for the current edit
         /// </summary>
         /// <returns>The completed edit summary</returns>
-        private string MakeSummary()
+        private string MakeDefaultEditSummary()
         {
             if (TheArticle == null)
                 return "";
@@ -2175,11 +2174,7 @@ window.scrollTo(0, diffTopY);
                 if (sectionEditText.Length > 0)
                     summary = @"/* " + sectionEditText + @" */" + summary;
             }
-
-            if (!(TheSession.User.IsBot && chkSuppressTag.Checked)
-                && (Variables.IsWikimediaProject && !_suppressUsingAWB))
-                summary = Summary.Trim(summary) + Variables.SummaryTag;
-
+            
 #if DEBUG
             if (!Summary.IsCorrect(summary))
             {
@@ -2187,6 +2182,20 @@ window.scrollTo(0, diffTopY);
             }
 #endif
 
+            return summary;
+        }
+        
+        /// <summary>
+        /// Appends (transalation of) "using AWB" summary tag to edit summary
+        /// </summary>
+        /// <param name="summary"></param>
+        /// <returns></returns>
+        private string AppendUsingAWBSummary(string summary)
+        {            
+              if (!(TheSession.User.IsBot && chkSuppressTag.Checked)
+                && (Variables.IsWikimediaProject && !_suppressUsingAWB))
+                summary = Summary.Trim(summary) + Variables.SummaryTag;
+            
             return summary;
         }
 
@@ -2681,9 +2690,6 @@ window.scrollTo(0, diffTopY);
                 txtEdit.DeselectAll();
             }
              */
-            // After manual changes, automatic edit summary may be inaccurate, removing it altogether
-            if (TheArticle != null && TheArticle.ArticleText != txtEdit.Text)
-                TheArticle.ResetEditSummary();
         }
 
         private void btnFind_Click(object sender, EventArgs e)
@@ -3019,14 +3025,14 @@ window.scrollTo(0, diffTopY);
 
             if (cmboEditSummary.Focused) txtEdit.Focus();
 
-            txtEdit.Enabled = false;
+            txtEdit.Enabled = txtReviewEditSummary.Enabled = false;
         }
 
         private void EnableButtons()
         {
             UpdateButtons(null, null);
             SetButtons(true);
-            txtEdit.Enabled = true;
+            txtEdit.Enabled = txtReviewEditSummary.Enabled = true;
         }
 
         private void SetButtons(bool enabled)
@@ -3816,7 +3822,7 @@ window.scrollTo(0, diffTopY);
             if ((TheArticle != null) && string.IsNullOrEmpty(TheArticle.EditSummary))
                 ToolTip.SetToolTip(cmboEditSummary, "");
             else
-                ToolTip.SetToolTip(cmboEditSummary, MakeSummary());
+                ToolTip.SetToolTip(cmboEditSummary, MakeDefaultEditSummary());
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -4617,7 +4623,6 @@ window.scrollTo(0, diffTopY);
                 return;
 
             txtEdit.Text = TheArticle.OriginalArticleText;
-            TheArticle.ResetEditSummary();
         }
 
         #region History

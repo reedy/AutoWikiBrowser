@@ -3929,9 +3929,9 @@ namespace AutoWikiBrowser
             this.txtReviewEditSummary.Location = new System.Drawing.Point(3, 3);
             this.txtReviewEditSummary.Multiline = true;
             this.txtReviewEditSummary.Name = "txtReviewEditSummary";
-            this.txtReviewEditSummary.ReadOnly = true;
             this.txtReviewEditSummary.Size = new System.Drawing.Size(388, 88);
             this.txtReviewEditSummary.TabIndex = 0;
+            this.txtReviewEditSummary.Enabled = false;
             // 
             // tpLogs
             // 
