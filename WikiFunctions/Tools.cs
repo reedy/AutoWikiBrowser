@@ -2946,6 +2946,30 @@ Message: {2}
 
 			return new Regex(theRegex.ToString(), RegexOptions.Compiled);
 		}
+		
+		/// <summary>
+		/// Returns whether template call is a section template or has reason parameter
+		/// </summary>
+		/// <param name="templateCall"></param>
+		/// <returns></returns>
+		public static bool IsSectionOrReasonTemplate(string templateCall)
+		{
+		    return IsSectionOrReasonTemplate(templateCall, "");
+		}
+		
+		/// <summary>
+		/// Returns whether template call is a section template or has reason parameter
+		/// Checks articletext for any {{multiple issues}} section templates
+		/// </summary>
+		/// <param name="templateCall"></param>
+		/// <param name="articletext""></param>
+		/// <returns></returns>
+		public static bool IsSectionOrReasonTemplate(string templateCall, string articletext)
+		{
+		    return ((WikiRegexes.NestedTemplates.IsMatch(templateCall) && Tools.GetTemplateArgument(templateCall, 1).Equals("section"))
+		            || Tools.GetTemplateParameterValue(WikiRegexes.MultipleIssues.Match(articletext).Value, "section").Equals("y")
+		            || Tools.GetTemplateParameterValue(templateCall, "reason", true).Length > 0);
+		}
 
 		/// <summary>
 		/// returns true if testnode is the same or a subnode of refnode
