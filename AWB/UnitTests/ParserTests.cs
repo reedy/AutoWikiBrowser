@@ -8408,6 +8408,29 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             string text = parser.Tagger(t1, "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
+            
+            t1 = @"{{infobox something
+|param1=text long text
+|param2=text long text
+|param3=text long text
+|param4=text long text
+|param5=text long text
+}}
+'''Ae0bgz2CNta0Qib4dK3''' VcnyafUE0bqIUdr5e 9zggyDHmIye [[PoPUJrqLG 3a8vnqpgy]].<ref>EdOkQE5gA 7u9P9ZZtd dFw0g9Fsf 99924876231</ref>
+
+==References==
+{{Reflist}}
+
+{{DEFAULTSORT:bJqnzFm7e, opFhLKq7z}}
+[[Category:Albanian people]]
+[[Category:Albanian Declaration of Independence]]
+
+
+{{Albania-bio-stub}}";
+
+            text = parser.Tagger(t1, "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
         }
 
         [Test]

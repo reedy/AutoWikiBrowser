@@ -6070,6 +6070,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex ImproveCategories = Tools.NestedTemplateRegex("improve categories");
         private static readonly Regex ProposedDeletionDated = Tools.NestedTemplateRegex("Proposed deletion/dated");
         private static readonly Regex Unreferenced = Tools.NestedTemplateRegex("unreferenced");
+        private static readonly Regex Drugbox = Tools.NestedTemplateRegex("Drugbox");
 
         //TODO:Needs re-write
         /// <summary>
@@ -6162,8 +6163,13 @@ namespace WikiFunctions.Parse
                     tagsRemoved.Add("deadend");
             }
 
-            // discount persondata along with comments and categories from wikify and stub evaluation
-            int length = WikiRegexes.Persondata.Replace(commentsCategoriesStripped, "").Length + 1;
+            // discount persondata, comments, infoboxes and categories from wikify and stub evaluation
+            string lengthtext = commentsCategoriesStripped;
+            lengthtext = WikiRegexes.Persondata.Replace(commentsCategoriesStripped, "");
+            lengthtext = WikiRegexes.InfoBox.Replace(lengthtext, "");
+            lengthtext = Drugbox.Replace(lengthtext, "");
+            
+            int length = lengthtext.Length + 1;
             bool underlinked = (linkCount < 0.0025 * length);
 
             if (length <= 300 && !WikiRegexes.Stub.IsMatch(commentsCategoriesStripped) &&
