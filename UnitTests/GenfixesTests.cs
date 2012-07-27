@@ -283,6 +283,18 @@ a");
             GenFixes("Test");
             Assert.AreEqual(correct, ArticleText);
         }
+        
+        [Test]
+        public void RefPunctuationSpacing()
+        {
+            ArticleText = @"Targ<ref>[http://www.site.com] Lubawskiego</ref>.It adopted {{reflist}}";
+            
+            GenFixes("Test");
+            
+            string correct = @"Targ.<ref>[http://www.site.com] Lubawskiego</ref> It adopted {{reflist}}";
+
+            Assert.AreEqual(correct, ArticleText);
+        }
     }
 
     [TestFixture]

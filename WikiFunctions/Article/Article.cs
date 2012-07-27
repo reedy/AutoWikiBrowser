@@ -1316,9 +1316,6 @@ namespace WikiFunctions
                 AWBChangeArticleText("Fix empty links and templates", Parsers.FixEmptyLinksAndTemplates(ArticleText), true);
                 Variables.Profiler.Profile("FixEmptyLinksAndTemplates");
 
-                AWBChangeArticleText("FixReferenceTags", Parsers.FixReferenceTags(ArticleText), true);
-                Variables.Profiler.Profile("FixReferenceTags");
-
                 AWBChangeArticleText("Fix empty references", Parsers.SimplifyReferenceTags(ArticleText), true);
                 Variables.Profiler.Profile("FixEmptyReferences");
 
@@ -1335,7 +1332,10 @@ namespace WikiFunctions
                 Variables.Profiler.Profile("RefsAfterPunctuation");
                 
                 AWBChangeArticleText("ReorderReferences", Parsers.ReorderReferences(ArticleText), true);
-                Variables.Profiler.Profile("ReorderReferences");
+                Variables.Profiler.Profile("ReorderReferences");                
+                
+                AWBChangeArticleText("FixReferenceTags", Parsers.FixReferenceTags(ArticleText), true);
+                Variables.Profiler.Profile("FixReferenceTags");
 
                 // does significant fixes
                 AWBChangeArticleText("Add missing {{reflist}}", Parsers.AddMissingReflist(ArticleText), true, true);
