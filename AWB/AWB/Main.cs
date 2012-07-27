@@ -3465,7 +3465,8 @@ window.scrollTo(0, diffTopY);
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            txtEdit.PasteUnformatted();
+        	DataFormats.Format plainText = DataFormats.GetFormat(DataFormats.Text);
+            txtEdit.Paste(plainText);
         }
 
         private void selectAllToolStripMenuItem_Click(object sender, EventArgs e)

@@ -97,26 +97,6 @@ namespace WikiFunctions.Controls
 
             base.OnEnter(e);
         }
-        
-        /// <summary>
-        /// Forces pasted text to be in same font as edit box, without trailing newline
-        /// </summary>
-        public void PasteUnformatted()
-        {
-            int ss = SelectionStart, sl = SelectionLength;
-            string newText = Regex.Replace(Clipboard.GetText(), @"(?m)\r?\n$", "");
-            // where text already selected
-            if(sl > 0)
-            {
-                base.Text = base.Text.Remove(ss, Math.Min(sl, base.Text.Length));
-                Select(ss, sl);
-            }
-            
-            // paste unformatted, newline trimmed text at current cursor position
-            base.Text = base.Text.Insert(SelectionStart, newText);
-            Select(ss + newText.Length, 0);
-            ScrollToCaret();
-        }
 
         private Regex RegexObj;
         private Match MatchObj;
