@@ -1915,6 +1915,20 @@ Start date and age
             Assert.AreEqual(@"{{BASEPAGENAME:Foo}}", Tools.TemplateToMagicWord(@"{{BASEPAGENAME|Foo}}"));
             Assert.AreEqual(@"{{FULLPAGENAME}}", Tools.TemplateToMagicWord(@"{{FULLPAGENAME}}"));
         }
+        
+        [Test]
+        public void IsSectionOrReasonTemplate()
+        {
+            Assert.IsTrue(Tools.IsSectionOrReasonTemplate(@"{{wikify|reason=foo}}"));
+            Assert.IsTrue(Tools.IsSectionOrReasonTemplate(@"{{wikify|date=May 2012|reason=foo}}"));
+            Assert.IsTrue(Tools.IsSectionOrReasonTemplate(@"{{wikify|section|date=May 2012}}"));
+            Assert.IsTrue(Tools.IsSectionOrReasonTemplate(@"{{wikify|section|date=May 2012}}", ""));
+            Assert.IsTrue(Tools.IsSectionOrReasonTemplate(@"{{foo}}", @"{{multiple issues|section=y|POV=May 2012}}"));
+            
+            Assert.IsFalse(Tools.IsSectionOrReasonTemplate(@"{{abc|param1=foo}}"));
+            Assert.IsFalse(Tools.IsSectionOrReasonTemplate(@"{{abc|section=foo}}"));
+            Assert.IsFalse(Tools.IsSectionOrReasonTemplate(@"{{abc}}"));
+        }
     }
 
     [TestFixture]
