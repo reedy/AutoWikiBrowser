@@ -168,7 +168,7 @@ namespace WikiFunctions
 
         // Covered by NamespaceTests.IsTalk()
         /// <summary>
-        /// Tests title to make sure it is a talk page.
+        /// Tests title to make sure it is a talk page (article talk, user talk etc.).
         /// </summary>
         /// <param name="key">The namespace key</param>
         public static bool IsTalk(int key)
