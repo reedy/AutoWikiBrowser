@@ -1260,6 +1260,9 @@ namespace WikiFunctions
                 // does significant fixes, call before MinorFixes
                 AWBChangeArticleText("Fix syntax", Parsers.FixSyntax(ArticleText), true, true);
                 Variables.Profiler.Profile("FixSyntax");
+                
+                // must call EmboldenTitles before calling FixLinks
+                EmboldenTitles(parsers, skip.SkipNoBoldTitle);
 
                 MinorFixes(Variables.LangCode, skip.SkipNoHeaderError);
                 Variables.Profiler.Profile("MinorFixes");
@@ -1345,9 +1348,6 @@ namespace WikiFunctions
 
                 AWBChangeArticleText("PersonData", Parsers.PersonData(ArticleText, Name), false);
                 Variables.Profiler.Profile("PersonData");
-
-                // must call EmboldenTitles before calling FixLinks
-                EmboldenTitles(parsers, skip.SkipNoBoldTitle);
 
                 FixLinks(skip.SkipNoBadLink);
                 Variables.Profiler.Profile("FixLinks");

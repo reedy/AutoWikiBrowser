@@ -260,7 +260,16 @@ a");
 
             AssertChange(foo, foo2);
         }
-
+        
+        [Test]
+        public void EmboldenBorn()
+        {
+        	ArticleText = @"John Smith (1985-) was great.";
+        	
+        	GenFixes("John Smith");
+        	
+        	Assert.AreEqual(@"'''John Smith''' (born 1985) was great.", ArticleText);
+        }
     }
 
     [TestFixture]
