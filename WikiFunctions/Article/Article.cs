@@ -550,13 +550,20 @@ namespace WikiFunctions
 
         /// <summary>
         /// Checks the article text for unbalanced brackets, either square or curly
+        /// For talk pages only the zeroth section of the article is checked
         /// </summary>
         /// <returns>Dictionary of any unbalanced brackets found</returns>
         public Dictionary<int, int> UnbalancedBrackets()
         {
             Dictionary<int, int> UnB = new Dictionary<int, int>();
             int bracketLength = 0;
-            int bracketIndex = Parsers.UnbalancedBrackets(ArticleText, ref bracketLength);
+            
+            string pageText = ArticleText;
+
+            if(Namespace.IsTalk(Name))
+                pageText = WikiRegexes.ZerothSection.Match(ArticleText).Value;
+            
+            int bracketIndex = Parsers.UnbalancedBrackets(pageText, ref bracketLength);
 
             if (bracketIndex > -1)
                 UnB.Add(bracketIndex, bracketLength);
