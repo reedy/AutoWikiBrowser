@@ -1330,12 +1330,12 @@ namespace WikiFunctions
 
                 AWBChangeArticleText("SameRefDifferentName", Parsers.SameRefDifferentName(ArticleText), true);
                 Variables.Profiler.Profile("SameRefDifferentName");
-
-                AWBChangeArticleText("ReorderReferences", Parsers.ReorderReferences(ArticleText), true);
-                Variables.Profiler.Profile("ReorderReferences");
-
+                
                 AWBChangeArticleText("Refs after punctuation", Parsers.RefsAfterPunctuation(ArticleText), true);
                 Variables.Profiler.Profile("RefsAfterPunctuation");
+                
+                AWBChangeArticleText("ReorderReferences", Parsers.ReorderReferences(ArticleText), true);
+                Variables.Profiler.Profile("ReorderReferences");
 
                 // does significant fixes
                 AWBChangeArticleText("Add missing {{reflist}}", Parsers.AddMissingReflist(ArticleText), true, true);
