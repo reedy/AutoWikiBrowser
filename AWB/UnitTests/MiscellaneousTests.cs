@@ -441,6 +441,37 @@ Image:quux[http://example.com]
             //Assert.AreEqual("", new Article("Category:").NamespacelessName);
             //Assert.AreEqual("", new Article("Category: ").NamespacelessName);
         }
+        
+        [Test]
+        public void UnbalancedBrackets()
+        {
+            Dictionary<int, int> UnB = new Dictionary<int, int>();
+            
+            Article a = new Article("TestArticle", "This is the text (here.");
+            UnB = a.UnbalancedBrackets();
+            Assert.AreEqual(1, UnB.Count, "One unbalanced bracket in mainspace article");
+            
+            //   UnB.Clear();
+            a = new Article("TestArticle", @"This is the text here.
+== Section ==
+There [was.");
+            UnB = a.UnbalancedBrackets();
+            Assert.AreEqual(1, UnB.Count, "Unbalanced bracket in mainspace article later sections found");
+            
+            // UnB.Clear();
+            a = new Article("Talk:TestArticle", @"This is the text (here.
+== Section ==
+There [was.");
+            UnB = a.UnbalancedBrackets();
+            Assert.AreEqual(1, UnB.Count, "One unbalanced bracket in zeroth section of talk article");
+            
+            // UnB.Clear();
+            a = new Article("Talk:TestArticle", @"This is the text here.
+== Section ==
+There [was.");
+            UnB = a.UnbalancedBrackets();
+            Assert.AreEqual(0, UnB.Count, "No unbalanced bracket in zeroth section of talk article");
+        }
     }
 
     [TestFixture]
