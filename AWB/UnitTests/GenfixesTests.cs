@@ -270,6 +270,19 @@ a");
         	
         	Assert.AreEqual(@"'''John Smith''' (born 1985) was great.", ArticleText);
         }
+        
+        [Test]
+        public void RefsPunctuationReorder()
+        {
+          ArticleText = @"* Andrew influences.<ref name=HerdFly>{{cite book |last=Herd |first=Andrew Dr |title=The Fly }}</ref>
+
+* Hills  works<ref>{{cite book |last=McDonald }}</ref>,<ref>{{cite book |last=Gingrich }}</ref>,<ref>{{cite book |location=Norwalk, CT }}</ref>,<ref name=HerdFly/> {{Reflist}}";
+            string correct = @"* Andrew influences.<ref name=HerdFly>{{cite book |last=Herd |first=Andrew Dr |title=The Fly }}</ref>
+
+* Hills  works,<ref name=HerdFly/><ref>{{cite book |last=McDonald }}</ref><ref>{{cite book |last=Gingrich }}</ref><ref>{{cite book |location=Norwalk, CT }}</ref> {{Reflist}}";
+            GenFixes("Test");
+            Assert.AreEqual(correct, ArticleText);
+        }
     }
 
     [TestFixture]
