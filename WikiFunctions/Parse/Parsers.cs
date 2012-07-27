@@ -1077,7 +1077,7 @@ namespace WikiFunctions.Parse
             if (referencestags <= 0)
                 referencestags = articleText.Length;
 
-            for (int i = 0; i < 5; i++) // allows for up to 5 consecutive references
+            for (int i = 0; i < 9; i++) // allows for up to 9 consecutive references
             {
                 string articleTextBefore = articleText;
 
