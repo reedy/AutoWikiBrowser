@@ -1125,13 +1125,10 @@ namespace WikiFunctions.Parse
             // quick check of ">" followed by punctuation in article, for performance saving
             if (RefsBeforePunctuationQuick.IsMatch(articleText))
             {
-
-                string articleTextlocal = "";
-
-                while (!articleTextlocal.Equals(articleText))
+                while (RefsBeforePunctuationR.IsMatch(articleText))
                 {
-                    articleTextlocal = articleText;
                     articleText = RefsBeforePunctuationR.Replace(articleText, "$2$1$3");
+                    articleText = RefsAfterDupePunctuation.Replace(articleText, "$1$2$3");
                 }
             }
 
