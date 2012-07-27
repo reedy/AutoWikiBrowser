@@ -2372,7 +2372,7 @@ namespace WikiFunctions.Parse
             return AddBackMoreText(articleText);
         }
 
-        private static readonly Regex BrTwoNewlines = new Regex("(?:<br */?>)*\r\n\r\n", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex BrTwoNewlines = new Regex("(?:<br */?>)+\r\n\r\n", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex ThreeOrMoreNewlines = new Regex("\r\n(\r\n)+", RegexOptions.Compiled);
         //private static readonly Regex TwoNewlinesInBlankSection = new Regex("== ? ?\r\n\r\n==", RegexOptions.Compiled);
         private static readonly Regex NewlinesBelowExternalLinks = new Regex(@"==External links==[\r\n\s]*\*", RegexOptions.Compiled);
@@ -2404,7 +2404,8 @@ namespace WikiFunctions.Parse
         public static string RemoveWhiteSpace(string articleText, bool fixOptionalWhitespace)
         {
             //Remove <br /> if followed by double newline
-            articleText = BrTwoNewlines.Replace(articleText.Trim(), "\r\n\r\n");
+            while(BrTwoNewlines.IsMatch(articleText))
+                articleText = BrTwoNewlines.Replace(articleText.Trim(), "\r\n\r\n");
 
             if (!WikiRegexes.Stub.IsMatch(articleText))
                 articleText = ThreeOrMoreNewlines.Replace(articleText, "\r\n\r\n");
