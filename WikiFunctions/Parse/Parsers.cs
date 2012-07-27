@@ -2486,7 +2486,6 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegexSimpleWikilinkEndsWithSpaces = new Regex("\\[\\[([A-Za-z]*) \\]\\]", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexSectionLinkUnnecessaryUnderscore = new Regex("\\[\\[(.*)?_#(.*)\\]\\]", RegexOptions.Compiled);
 
-        private static readonly Regex SyntaxRegexTemplate = new Regex(@"(\{\{\s*)[Tt]emplate\s*:(.*?)\}\}", RegexOptions.Singleline | RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexListRowBrTag = new Regex(@"^([#\*:;]+.*?) *(?:<[/\\]?br ?[/\\]?>)* *\r\n", RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexListRowBrTagStart = new Regex(@"<[/\\]?br ?[/\\]?> *(\r\n[#\*:;]+.*?)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
@@ -2782,13 +2781,15 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Removes Template: from start of template calls, canonicalizes template names
+        /// Removes Template: (or equivalent translation) from start of template calls, canonicalizes template names
         /// </summary>
         /// <param name="articleText">The wiki article text</param>
         /// <returns>The updated article text</returns>
         public static string RemoveTemplateNamespace(string articleText)
-        {
-            return (SyntaxRegexTemplate.Replace(articleText, m => m.Groups[1].Value + CanonicalizeTitle(m.Groups[2].Value) + "}}"));
+        {        	
+        	Regex SyntaxRegexTemplate = new Regex(@"(\{\{\s*)" + Variables.NamespacesCaseInsensitive[Namespace.Template] + @"(.*?)\}\}", RegexOptions.Singleline);
+        	
+        	return (SyntaxRegexTemplate.Replace(articleText, m => m.Groups[1].Value + CanonicalizeTitle(m.Groups[2].Value) + "}}"));
         }
 
         private static List<Regex> SmallTagRegexes = new List<Regex>();
