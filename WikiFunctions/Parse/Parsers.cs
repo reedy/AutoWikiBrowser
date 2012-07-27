@@ -6069,6 +6069,7 @@ namespace WikiFunctions.Parse
         private readonly List<string> tagsAdded = new List<string>();
         private static readonly Regex ImproveCategories = Tools.NestedTemplateRegex("improve categories");
         private static readonly Regex ProposedDeletionDated = Tools.NestedTemplateRegex("Proposed deletion/dated");
+        private static readonly Regex Unreferenced = Tools.NestedTemplateRegex("unreferenced");
 
         //TODO:Needs re-write
         /// <summary>
@@ -6244,16 +6245,17 @@ namespace WikiFunctions.Parse
                     tagsRemoved.Add("wikify");
             }
 
-            // rename unreferenced --> refimprove if has existing refs
+            // rename unreferenced --> refimprove if has existing refs, update date
             if (WikiRegexes.Unreferenced.IsMatch(commentsCategoriesStripped)
                 && (TotalRefsNotGrouped(commentsCategoriesStripped) + Tools.NestedTemplateRegex("sfn").Matches(articleText).Count) > 0)
             {
-                articleText = Tools.RenameTemplate(articleText, "unreferenced", "refimprove", true);
+                articleText = Unreferenced.Replace(articleText, m2 => Tools.UpdateTemplateParameterValue(Tools.RenameTemplate(m2.Value, "refimprove"), "date", "{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}"));
 
                 Match m = WikiRegexes.MultipleIssues.Match(articleText);
                 if (m.Success)
                 {
                     string newValue = Tools.RenameTemplateParameter(m.Value, "unreferenced", "refimprove");
+                    newValue = Tools.UpdateTemplateParameterValue(newValue, "refimprove", "{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}");
                     if (!newValue.Equals(m.Value))
                         articleText = articleText.Replace(m.Value, newValue);
                 }
