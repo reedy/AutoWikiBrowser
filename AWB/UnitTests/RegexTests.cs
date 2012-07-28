@@ -429,6 +429,20 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
 bar</ IMAGEMAP>", @"< imagemap >foo
 bar</ IMAGEMAP>");
         }
+        
+        [Test]
+        public void GalleryTagTests()
+        {
+            string g1 =  @"< gallery >
+File:foo.JPG
+Image:Bar.png|description
+</ gallery>", g2 =  @"<GALLERY>
+File:foo.JPG
+Image:Bar.png|description
+</ gallery>";
+            TestMatch(WikiRegexes.GalleryTag, g1, g1);
+            TestMatch(WikiRegexes.GalleryTag, g2, g2);
+        }
 
         [Test]
         public void NoincludeTests()

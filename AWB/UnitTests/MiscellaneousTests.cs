@@ -353,14 +353,27 @@ File:Blogs002.jpeg|Description
         [Test]
         public void HideGalleries()
         {
-            AssertAllHiddenMore(@"<gallery>
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
 Image:foo|a [[bar]]
-Image:quux[http://example.com]
-</gallery>");
-            AssertAllHiddenMore(@"<gallery name=""test"">
+Image:quux.JPEG|text
+</gallery>"), @"<gallery>
+" + Hidden + @"|a [[bar]]
+" + Hidden + @"|text
+</gallery>"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"<Gallery>
 Image:foo|a [[bar]]
-Image:quux[http://example.com]
-</gallery>");
+Image:quux.JPEG|text
+</gallery>"), @"<Gallery>
+" + Hidden + @"|a [[bar]]
+" + Hidden + @"|text
+</gallery>"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
+Image:foo
+Image:quux.JPEG|text
+</gallery>"), @"<gallery>
+" + Hidden + @"
+" + Hidden + @"|text
+</gallery>"));
         }
 
         [Test]

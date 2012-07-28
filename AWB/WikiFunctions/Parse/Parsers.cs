@@ -2774,6 +2774,12 @@ namespace WikiFunctions.Parse
                     if (m.Value.Contains(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}"))
                         articleText = articleText.Replace(m.Value, m.Value.Replace(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}", System.DateTime.UtcNow.ToString("MMMM yyyy", BritishEnglish)));
                 }
+
+                 foreach (Match m in WikiRegexes.GalleryTag.Matches(articleText))
+                {
+                    if (m.Value.Contains(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}"))
+                        articleText = articleText.Replace(m.Value, m.Value.Replace(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}", System.DateTime.UtcNow.ToString("MMMM yyyy", BritishEnglish)));
+                }
             }
 
             return articleText;

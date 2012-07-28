@@ -48,7 +48,7 @@ namespace WikiFunctions
             Images =
                 new Regex(
                     @"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.File] +
-                    @"[ \%\!""$&'\(\)\*,\-.\/0-9:;=\?@A-Z\\\^_`a-z~\x80-\xFF\+]+\.[a-zA-Z]{3,4}\b(?:\s*(?:\]\]|\|))?|<[Gg]allery\b([^>]*?)>[\s\S]*?</ ?[Gg]allery>|{{\s*[Gg]allery\s*(?:\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))?}}|(?<=\|\s*[a-zA-Z\d_ ]+\s*=)[^\|{}]+?\.[a-zA-Z]{3,4}(?=\s*(?:<!--[^>]*?-->\s*|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋\s*)?(?:\||}}))",
+                    @"[ \%\!""$&'\(\)\*,\-.\/0-9:;=\?@A-Z\\\^_`a-z~\x80-\xFF\+]+\.[a-zA-Z]{3,4}\b(?:\s*(?:\]\]|\|))?|(?i)(?<=<gallery.*?(?<!</gallery>)\r\n? *)(?:File|Image) *:[^\r\n\|]+(?-i)|{{\s*[Gg]allery\s*(?:\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))?}}|(?<=\|\s*[a-zA-Z\d_ ]+\s*=)[^\|{}]+?\.[a-zA-Z]{3,4}(?=\s*(?:<!--[^>]*?-->\s*|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋\s*)?(?:\||}}))",
                     RegexOptions.Compiled | RegexOptions.Singleline);
             
             FileNamespaceLink = new Regex(@"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.File] +
@@ -448,6 +448,11 @@ namespace WikiFunctions
         /// Matches &lt;imagemap&gt; tags
         /// </summary>
         public static readonly Regex ImageMap = new Regex(@"<\s*imagemap\b[^<>]*>(.*?)<\s*/\s*imagemap\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+
+        /// <summary>
+        /// Matches &lt;gallery&gt; tags
+        /// </summary>
+        public static readonly Regex GalleryTag = new Regex(@"< *gallery\b([^>]*?)>[\s\S]*?</ *gallery *>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
         /// Matches &lt;noinclude&gt; tags
