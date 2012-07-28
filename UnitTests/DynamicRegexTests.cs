@@ -125,20 +125,45 @@ picture = Test.JPG
         }
         
         [Test]
-        public void ImageTestsGallery()
+        public void ImageTestsGalleryTag()
         {
-            RegexAssert.IsMatch(WikiRegexes.Images, @"<gallery>
-Test.JPG
-Foo.JPEG
+            RegexAssert.Matches(WikiRegexes.Images, @"<gallery>
+File:Foo.png
+</gallery>", "File:Foo.png");
+            RegexAssert.Matches(WikiRegexes.Images, @"<gallery>
+File:Foo.png|description
+</gallery>", "File:Foo.png");
+            RegexAssert.Matches(WikiRegexes.Images, @"<gallery>
+Image:Foo.png|description
+</gallery>", "Image:Foo.png");
+            RegexAssert.Matches(WikiRegexes.Images, @"<gallery>
+Image : Foo.png |description
+</gallery>", "Image : Foo.png ");
+            RegexAssert.Matches(WikiRegexes.Images, @"<GALLERY>
+Image:Foo.png|description
+</GALLERY>", "Image:Foo.png");
+            RegexAssert.Matches(WikiRegexes.Images, @"<gallery name=bar style=silver>
+File:Foo.png|description
+</gallery>", "File:Foo.png");
+            
+            MatchCollection mc = WikiRegexes.Images.Matches(@"<gallery>
+Image:Foo.png|description
+Image:Foo2.png|description2
 </gallery>");
-            RegexAssert.IsMatch(WikiRegexes.Images, @"<Gallery>
-Test.JPG
-Foo.JPEG
-</Gallery>");
-            RegexAssert.IsMatch(WikiRegexes.Images, @"<Gallery foo=bar>
-Test.JPG
-Foo.JPEG
-</Gallery>");
+            
+            Assert.AreEqual(mc[0].Value, "Image:Foo.png");
+            Assert.AreEqual(mc[1].Value, "Image:Foo2.png");
+            
+            RegexAssert.NoMatch(WikiRegexes.Images, @"File:Foo.png|description");
+            RegexAssert.NoMatch(WikiRegexes.Images, @"<gallery>
+
+</gallery>
+Image : Foo.png");
+        }
+        
+        [Test]
+        public void ImageTestsGalleryTemplate()
+        {
             RegexAssert.IsMatch(WikiRegexes.Images, @"{{Gallery
 |title=Lamu images
 |width=150
@@ -155,12 +180,6 @@ Foo.JPEG
 |Image:LAMU Riyadha Mosque.jpg|Riyadha Mosque
 |Image:04 Donkey Hospital (June 30 2001).jpg|Donkey Sanctuary
 }}");
-            
-            Assert.AreEqual(WikiRegexes.Images.Match(@"<gallery>
-Test.JPG
-</gallery>").Value, @"<gallery>
-Test.JPG
-</gallery>");
         }
         
         [Test]
