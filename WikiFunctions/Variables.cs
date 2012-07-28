@@ -625,7 +625,7 @@ namespace WikiFunctions
                         case "el":
                             mSummaryTag = " με τη χρήση ";
                             WPAWB = "[[Βικιπαίδεια:AutoWikiBrowser|AWB]]";
-                            Stub = @"[^{}|]*?([Ss]tub|[Εε]πέκταση)";
+                            //Stub = @"[^{}|]*?([Ss]tub|[Εε]πέκταση)";
                             SectStub = @"\{\{θέματος";
                             SectStubRegex = new Regex(SectStub, RegexOptions.Compiled);
                             break;
