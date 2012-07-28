@@ -126,16 +126,16 @@ namespace UnitTests
         // this transformation is currently at Parsers.FixDates()
         public void DoubleBr()
         {
-            AssertChange("a<br><br>b", "a\r\nb");
-            AssertChange("a<br /><bR>b", "a\r\nb");
-            AssertChange("a<BR> <Br/>b", "a\r\nb");
+            AssertChange("a<br><br>b", "a\r\n\r\nb");
+            AssertChange("a<br /><bR>b", "a\r\n\r\nb");
+            AssertChange("a<BR> <Br/>b", "a\r\n\r\nb");
             AssertChange("<br><br>", ""); // \r\n removed as extra whitespace
 
             AssertNotChanged("a<br/br>b");
             AssertNotChanged("a<br/>\r\n<br>b");
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#General_fixes_problem:_br_tags_inside_templates
-            AssertChange("{{foo|bar=a<br><br>b}}<br><br>quux", "{{foo|bar=a<br><br>b}}\r\nquux");
+            AssertChange("{{foo|bar=a<br><br>b}}<br><br>quux", "{{foo|bar=a<br><br>b}}\r\n\r\nquux");
 
             AssertNotChanged("<blockquote>\r\n<br><br></blockquote>");
 
@@ -145,10 +145,11 @@ namespace UnitTests
             AssertNotChanged("| foo || a<br><br>b");
             AssertNotChanged("! foo !! a<br><br>b");
 
-            AssertChange("[[foo|bar]] a<br><br>b", "[[foo|bar]] a\r\nb");
-            AssertChange("foo! a<br><br>b", "foo! a\r\nb");
+            AssertChange("[[foo|bar]] a<br><br>b", "[[foo|bar]] a\r\n\r\nb");
+            AssertChange("foo! a<br><br>b", "foo! a\r\n\r\nb");
 
             AssertChange(@"* {{Polish2|Krzepice (województwo dolnośląskie)|[[24 November]] [[2007]]}}<br><br>  a", @"* {{Polish2|Krzepice (województwo dolnośląskie)|[[24 November]] [[2007]]}}
+
 a");
         }
 

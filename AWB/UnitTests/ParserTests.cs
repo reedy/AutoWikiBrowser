@@ -967,9 +967,10 @@ The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines af
 
             // replace <br> and <p> HTML tags tests
             Assert.AreEqual("\r\n\r\nsome text", parser.FixDates("<p>some text"));
-            Assert.AreEqual("\r\nsome text", parser.FixDates("<br><br>some text"));
+            Assert.AreEqual("\r\n\r\nsome text", parser.FixDates("<br><br>some text"));
             Assert.AreEqual("some text\r\n\r\n", parser.FixDates("some text<p>"));
-            Assert.AreEqual("some text\r\n", parser.FixDates("some text<br><br>"));
+            Assert.AreEqual("some text\r\n\r\n", parser.FixDates("some text<br><br>"));
+             Assert.AreEqual("some text\r\n\r\nword", parser.FixDates("some text<br><br>word"));
 
             // don't match when in table or blockquote
             Assert.AreEqual("|<p>some text", parser.FixDates("|<p>some text"));
@@ -981,6 +982,7 @@ The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines af
             Assert.AreEqual("<blockquote>|<br><br>some text</blockquote>", parser.FixDates("<blockquote>|<br><br>some text</blockquote>"));
 
             Assert.AreEqual(@"* {{Polish2|Krzepice (województwo dolnośląskie)|[[24 November]] [[2007]]}}
+
 ", parser.FixDates(@"* {{Polish2|Krzepice (województwo dolnośląskie)|[[24 November]] [[2007]]}}<br><br>  "));
 
             const string nochange = @"{{cite web | title = Hello April 14 2009 there | date=2011-11-13 }}";
