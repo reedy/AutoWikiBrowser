@@ -962,7 +962,7 @@ namespace WikiFunctions.Parse
             //Remove 2 or more <br />'s
             //This piece's existance here is counter-intuitive, but it requires HideMore()
             //and I don't want to call this slow function yet another time --MaxSem
-            articleText = SyntaxRemoveBr.Replace(articleText, "\r\n");
+            articleText = SyntaxRemoveBr.Replace(articleText, "\r\n\r\n");
             articleText = SyntaxRemoveParagraphs.Replace(articleText, "\r\n\r\n");
             articleText = SyntaxRegexListRowBrTagStart.Replace(articleText, "$1");
 
