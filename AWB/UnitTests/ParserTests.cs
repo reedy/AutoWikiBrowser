@@ -5187,6 +5187,15 @@ Bar", "Test"), "inserts blank line if one missing");
 }}";
 
             Assert.AreEqual(TrackList, Parsers.RemoveWhiteSpace(TrackList));
+            
+            const string BlockQuote = @"<blockquote>
+Friendship betrayal<br />
+They require <br />
+
+Why miserable patient<br />
+</blockquote>";
+            
+            Assert.AreEqual(BlockQuote, Parsers.RemoveWhiteSpace(BlockQuote), "no changes to <br> tags within blockquotes");
         }
 
         [Test]
