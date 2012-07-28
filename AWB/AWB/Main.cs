@@ -994,7 +994,10 @@ namespace AutoWikiBrowser
                     StartDelayedAutoSaveTimer();
 
                     if (!diffInBotMode)
+                    {
+                        txtReviewEditSummary.Text = MakeDefaultEditSummary();
                         return;
+                    }
                 }
 
                 switch (actionOnLoad)
