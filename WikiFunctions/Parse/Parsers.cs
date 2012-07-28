@@ -2401,8 +2401,8 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string RemoveWhiteSpace(string articleText, bool fixOptionalWhitespace)
         {
-            //Remove <br /> if followed by double newline
-            while(BrTwoNewlines.IsMatch(articleText))
+            //Remove <br /> if followed by double newline, NOT in blockquotes
+            while(BrTwoNewlines.IsMatch(articleText) && !WikiRegexes.Blockquote.IsMatch(articleText))
                 articleText = BrTwoNewlines.Replace(articleText.Trim(), "\r\n\r\n");
 
             if (!WikiRegexes.Stub.IsMatch(articleText))
