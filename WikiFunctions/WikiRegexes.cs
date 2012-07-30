@@ -141,6 +141,12 @@ namespace WikiFunctions
             string uncattemplate;
             switch(Variables.LangCode)
             {
+                case "ar":
+                    Orphan = Tools.NestedTemplateRegex(@"يتيمة");
+                    uncattemplate = "غير مصنفة";
+                    DateYearMonthParameter = @"date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
+                    Wikify =Tools.NestedTemplateRegex(@"ويكي");
+                    break;
                 case "sv":
                     Orphan = Tools.NestedTemplateRegex(@"Föräldralös");
                     uncattemplate = "[Oo]kategoriserad";
