@@ -592,7 +592,7 @@ namespace WikiFunctions
 
                         case "ar":
                             mSummaryTag = " ";
-                            WPAWB = "[[Project:أوب|أوب]]";
+                            WPAWB = "باستخدام [[Project:أوب|أوب]]";
                             TypoSummaryTag = ".الأخطاء المصححة: ";
                             break;
 
