@@ -5463,7 +5463,7 @@ namespace WikiFunctions.Parse
             if (ThreeOrMoreDigits.IsMatch(byear))
                 birthYear = int.Parse(byear);
 
-            // per [[:Category:Living people]], don't apply if born > 121 years ago
+            // per [[:Category:Living people]] and [[WP:BDP]], don't apply if born > 115 years ago
             if (birthYear < (DateTime.Now.Year - 121))
                 return articleText;
 
