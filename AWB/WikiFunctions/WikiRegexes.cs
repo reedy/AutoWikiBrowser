@@ -144,7 +144,7 @@ namespace WikiFunctions
                 case "ar":
                     Orphan = Tools.NestedTemplateRegex(@"يتيمة");
                     uncattemplate = "غير مصنفة";
-                    DateYearMonthParameter = @"date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
+                    DateYearMonthParameter = @"تاريخ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
                     Wikify =Tools.NestedTemplateRegex(@"ويكي");
                     break;
                 case "sv":
