@@ -6348,7 +6348,9 @@ namespace WikiFunctions.Parse
                 && !WikiRegexes.Disambigs.IsMatch(articleText) && !WikiRegexes.SIAs.IsMatch(articleText) && !WikiRegexes.Wi.IsMatch(articleText))
             {
                 articleText = "{{Orphan|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
-                tagsAdded.Add("[[CAT:O|orphan]]");
+                if (Variables.LangCode.Equals("ar"))
+                tagsAdded.Add("[[تصنيف:يتيمة|يتيمة]]");
+                else tagsAdded.Add("[[CAT:O|orphan]]");
             }
             else if (!orphaned && WikiRegexes.Orphan.IsMatch(articleText))
             {
