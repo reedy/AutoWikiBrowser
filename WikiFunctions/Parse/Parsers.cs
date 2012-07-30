@@ -5464,7 +5464,7 @@ namespace WikiFunctions.Parse
                 birthYear = int.Parse(byear);
 
             // per [[:Category:Living people]] and [[WP:BDP]], don't apply if born > 115 years ago
-            if (birthYear < (DateTime.Now.Year - 121))
+            if (birthYear < (DateTime.Now.Year - 115))
                 return articleText;
 
             // use any sortkey from 'XXXX births' category
