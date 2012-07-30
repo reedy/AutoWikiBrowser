@@ -334,17 +334,21 @@ now stubborn}}");
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{multiple issues|orphan=June 2010}}"));
             
             #if DEBUG
-            Variables.SetProjectLangCode("sv");
+            Variables.SetProjectLangCode("ar");
             WikiRegexes.MakeLangSpecificRegexes();
-            
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{föräldralös}}"));
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{Föräldralös}}"));
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{يتيمة}}"));
             
             Variables.SetProjectLangCode("ru");
             WikiRegexes.MakeLangSpecificRegexes();
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{изолированная статья}}"));
+
+            Variables.SetProjectLangCode("sv");
+            WikiRegexes.MakeLangSpecificRegexes();
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{föräldralös}}"));
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{Föräldralös}}"));
             
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
