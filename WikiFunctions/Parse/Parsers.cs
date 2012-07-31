@@ -6430,7 +6430,10 @@ namespace WikiFunctions.Parse
             string summary = "";
             if (tagsRemoved.Count > 0)
             {
-                summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " tag" +
+                // Reverse order of words for arwiki
+            	if (Variables.LangCode.Equals("ar"))
+                     summary = "وسوم " + Tools.ListToStringCommaSeparator(tagsRemoved) + " أزال";
+                else summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " tag" +
                     (tagsRemoved.Count == 1 ? "" : "s");
             }
 
@@ -6439,7 +6442,10 @@ namespace WikiFunctions.Parse
                 if (!string.IsNullOrEmpty(summary))
                     summary += ", ";
 
-                summary += "added " + Tools.ListToStringCommaSeparator(tagsAdded) + " tag" +
+                // Reverse order of words for arwiki
+                if (Variables.LangCode.Equals("ar"))
+                	 summary += "وسوم " + Tools.ListToStringCommaSeparator(tagsAdded) + " أضاف";
+                else summary += "added " + Tools.ListToStringCommaSeparator(tagsAdded) + " tag" +
                     (tagsAdded.Count == 1 ? "" : "s");
             }
 
