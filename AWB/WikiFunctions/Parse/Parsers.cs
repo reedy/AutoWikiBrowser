@@ -70,7 +70,7 @@ namespace WikiFunctions.Parse
             //interfere with wiki syntax
             RegexUnicode.Add(new Regex("&#(0?13|126|x5[BD]|x7[bcd]|0?9[13]|0?12[345]|0?0?3[92]);", RegexOptions.Compiled | RegexOptions.IgnoreCase), "&amp;#$1;");
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Greedy regex for unicode characters
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Greedy regex for unicode characters
             // .NET doesn't seem to like the Unicode versions of these – deleted from edit box
             RegexUnicode.Add(new Regex("&#(x2[0-9AB][0-9A-Fa-f]{3});", RegexOptions.Compiled), "&amp;#$1;");
 
@@ -80,13 +80,13 @@ namespace WikiFunctions.Parse
             // clean "Copyedit for=grammar|date=April 2009"to "Copyedit=April 2009"
             RegexConversion.Add(new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*|\|)\s*[Cc]opyedit\s*)for\s*=\s*[^{}\|]+\|\s*date(\s*=[^{}\|]+)(?=\||}})", RegexOptions.Compiled), "$1$2");
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.7B.7Bcommons.7CCategory:XXX.7D.7D_.3E_.7B.7Bcommonscat.7CXXX.7D.7D
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.7B.7Bcommons.7CCategory:XXX.7D.7D_.3E_.7B.7Bcommonscat.7CXXX.7D.7D
             RegexConversion.Add(new Regex(@"\{\{[Cc]ommons\|\s*[Cc]ategory:\s*([^{}]+?)\s*\}\}", RegexOptions.Compiled), @"{{Commons category|$1}}");
 
-            //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Commons_category
+            //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Commons_category
             RegexConversion.Add(new Regex(@"(?<={{[Cc]ommons cat(?:egory)?\|\s*)([^{}\|]+?)\s*\|\s*\1\s*}}", RegexOptions.Compiled), @"$1}}");
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_empty_.7B.7BArticle_issues.7D.7D
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_empty_.7B.7BArticle_issues.7D.7D
             // article issues with no issues -> remove tag
             RegexConversion.Add(new Regex(@"\{\{(?:[Aa]rticle|[Mm]ultiple) ?issues(?:\s*\|\s*(?:section|article)\s*=\s*[Yy])?\s*\}\}", RegexOptions.Compiled), "");
 
@@ -205,7 +205,7 @@ namespace WikiFunctions.Parse
         /// <returns>The re-organised text.</returns>
         public string SortMetaData(string articleText, string articleTitle, bool fixOptionalWhitespace)
         {
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Substituted_templates
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Substituted_templates
             // if article contains some substituted template stuff, sorting the data may mess it up (further)
             if (Namespace.IsMainSpace(articleTitle) && NoIncludeIncludeOnlyProgrammingElement(articleText))
                 return articleText;
@@ -282,7 +282,7 @@ namespace WikiFunctions.Parse
             articleText = Regex.Replace(articleText, "^={1,4} ?" + Regex.Escape(articleTitle) + " ?={1,4}", "", RegexOptions.IgnoreCase);
 
             articleText = RegexHeadingsBold.Replace(articleText, "$1$2$3$4");
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Headlines_end_with_colon_.28WikiProject_Check_Wikipedia_.2357.29
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Headlines_end_with_colon_.28WikiProject_Check_Wikipedia_.2357.29
             articleText = RegexHeadingColonAtEnd.Replace(articleText, "$1$2$3");
             articleText = RegexBadHeader.Replace(articleText, "");
 
@@ -302,7 +302,7 @@ namespace WikiFunctions.Parse
 
             articleText = RegexHeadings1.Replace(articleText, "$1External links$3");
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#ReferenceS
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#ReferenceS
             Match refsHeader = RegexHeadings3.Match(articleText);
             string refsheader1 = refsHeader.Groups[1].Value;
             string refsheader2 = refsHeader.Groups[2].Value;
@@ -329,9 +329,9 @@ namespace WikiFunctions.Parse
             articleText = RegexHeadingWhitespaceBefore.Replace(articleText, "$1$2$1$3");
             articleText = RegexHeadingWhitespaceAfter.Replace(articleText, "$1$2$1$3");
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Section_header_level_.28WikiProject_Check_Wikipedia_.237.29
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Section_header_level_.28WikiProject_Check_Wikipedia_.237.29
             // if no level 2 heading in article, remove a level from all headings (i.e. '===blah===' to '==blah==' etc.)
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Standard_level_2_headers
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Standard_level_2_headers
             // don't consider the "references", "see also", or "external links" level 2 headings when counting level two headings
             string articleTextLocal = articleText;
             articleTextLocal = ReferencesExternalLinksSeeAlso.Replace(articleTextLocal, "");
@@ -357,7 +357,7 @@ namespace WikiFunctions.Parse
                 articleTextLocal = ReferencesExternalLinksSeeAlso.Replace(articleText, "");
             }
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Bold_text_in_headers
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Bold_text_in_headers
             // remove bold from level 3 headers and below, as it makes no visible difference
             articleText = RegexHeadingWithBold.Replace(articleText, "$1");
 
@@ -2123,17 +2123,17 @@ namespace WikiFunctions.Parse
             articleText = AMPMIncorrectMdash.Replace(articleText, @"$1–$3");
             articleText = AgeIncorrectMdash.Replace(articleText, @"$1 $2–$3");
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Match_en_dashes.2Femdashs_from_titles_with_those_in_the_text
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Match_en_dashes.2Femdashs_from_titles_with_those_in_the_text
             // if title has en or em dashes, apply them to strings matching article title but with hyphens
             if (articleTitle.Contains(@"–") || articleTitle.Contains(@"—"))
                 articleText = Regex.Replace(articleText, Regex.Escape(articleTitle.Replace(@"–", @"-").Replace(@"—", @"-")), articleTitle);
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Change_--_.28two_dashes.29_to_.E2.80.94_.28em_dash.29
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Change_--_.28two_dashes.29_to_.E2.80.94_.28em_dash.29
             // convert two dashes to emdash if surrouned by alphanumeric characters, except convert to endash if surrounded by numbers
             if (Namespace.Determine(articleTitle) == Namespace.Mainspace)
                 articleText = SentenceClauseIncorrectMdash.Replace(articleText, m => m.Groups[1].Value + ((Regex.IsMatch(m.Groups[1].Value, @"^\d+$") && Regex.IsMatch(m.Groups[2].Value, @"^\d+$")) ? @"–" : @"—") + m.Groups[2].Value);
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#minuses
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#minuses
             // replace hyphen or en-dash or emdash with Unicode minus (&minus;)
             // [[Wikipedia:MOSNUM#Common_mathematical_symbols]]
             articleText = SuperscriptMinus.Replace(articleText, "−");
@@ -2439,7 +2439,7 @@ namespace WikiFunctions.Parse
             articleText = NewlinesBelowExternalLinks.Replace(articleText, "==External links==\r\n*");
 
             // fix bullet points – one space after them not multiple
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_arbitrary_spaces_after_bullet
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_arbitrary_spaces_after_bullet
             articleText = WikiListWithMultipleSpaces.Replace(articleText, "$1 ");
 
             //fix heading space
@@ -2507,7 +2507,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex CellpaddingTypo = new Regex(@"({\s*\|\s*class\s*=\s*""wikitable[^}]*?)cel(?:lpa|pad?)ding\b", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
-        //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.3Cfont.3E_tags
+        //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.3Cfont.3E_tags
         private static readonly Regex RemoveNoPropertyFontTags = new Regex(@"<font>([^<>]+)</font>", RegexOptions.IgnoreCase);
 
         // for fixing unbalanced brackets
@@ -2690,7 +2690,7 @@ namespace WikiFunctions.Parse
             // double piped links e.g. [[foo||bar]]
             articleText = DoublePipeInWikiLink.Replace(articleText, "|");
 
-            // http://en.wikipedia.org/wiki/Wikipedia:WikiProject_Check_Wikipedia#Article_with_false_.3Cbr.2F.3E_.28AutoEd.29
+            // https://en.wikipedia.org/wiki/Wikipedia:WikiProject_Check_Wikipedia#Article_with_false_.3Cbr.2F.3E_.28AutoEd.29
             // fix incorrect <br> of <br.>, <\br> and <br\>
             articleText = IncorrectBr.Replace(articleText, "<br />");
 
@@ -3142,7 +3142,7 @@ namespace WikiFunctions.Parse
             newValue = Tools.RenameTemplateParameter(newValue, "pg", "page");
 
             // remove the unneeded 'format=HTML' field
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.22format.3DHTML.22_in_citation_templates
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.22format.3DHTML.22_in_citation_templates
             // remove format= field with null value when URL is HTML page
             if (Tools.GetTemplateParameterValue(newValue, "format").TrimStart("[]".ToCharArray()).ToUpper().StartsWith("HTM")
                 ||
@@ -3915,7 +3915,7 @@ namespace WikiFunctions.Parse
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="bracketLength">integer to hold length of unbalanced bracket found</param>
         /// <returns>Index of any unbalanced brackets found</returns>
-        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Missing_opening_or_closing_brackets.2C_table_and_template_markup_.28WikiProject_Check_Wikipedia_.23_10.2C_28.2C_43.2C_46.2C_47.29
+        // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Missing_opening_or_closing_brackets.2C_table_and_template_markup_.28WikiProject_Check_Wikipedia_.23_10.2C_28.2C_43.2C_46.2C_47.29
         public static int UnbalancedBrackets(string articleText, ref int bracketLength)
         {
             // &#93; is used to replace the ] in external link text, which gives correct markup
@@ -4075,9 +4075,9 @@ namespace WikiFunctions.Parse
             // clean up wikilinks: replace underscores, percentages and URL encoded accents etc.
             articleText = WikiRegexes.WikiLink.Replace(articleText, new MatchEvaluator(FixLinksWikilinkME));
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Your_code_creates_page_errors_inside_imagemap_tags.
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Your_code_creates_page_errors_inside_imagemap_tags.
             // don't apply if there's an imagemap on the page or some noinclude transclusion business
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Includes_and_selflinks
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Includes_and_selflinks
             // TODO, better to not apply to text within imagemaps
             if (!WikiRegexes.ImageMap.IsMatch(articleText)
                 && !WikiRegexes.Noinclude.IsMatch(articleText)
@@ -4139,7 +4139,7 @@ namespace WikiFunctions.Parse
         {
             string escTitle = Regex.Escape(articleTitle);
             string lowerTitle = Tools.TurnFirstToLower(escTitle);
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#.22This_album.2Fsingle.22
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#.22This_album.2Fsingle.22
             // for this single or this album within the infobox, make bold instead of delinking
             const string infoBoxSingleAlbum = @"(?s)(?<={{[Ii]nfobox (?:[Ss]ingle|[Aa]lbum).*?\|\s*[Tt]his (?:[Ss]ingle|[Aa]lbum)\s*=[^{}]*?)\[\[\s*";
             articleText = Regex.Replace(articleText, infoBoxSingleAlbum + escTitle + @"\s*\]\](?=[^{}\|]*(?:\||}}))", @"'''" + articleTitle + @"'''");
@@ -4223,7 +4223,7 @@ namespace WikiFunctions.Parse
         }
 
         // Covered by: LinkTests.TestStickyLinks()
-        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Link_simplification_too_greedy_-_eating_spaces -- disabled as genfix
+        // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Link_simplification_too_greedy_-_eating_spaces -- disabled as genfix
         /// <summary>
         /// Joins nearby words with links
         ///   e.g. "[[Russian literature|Russian]] literature" to "[[Russian literature]]"
@@ -4443,7 +4443,7 @@ namespace WikiFunctions.Parse
 
             articleText = WikiRegexes.MetresFeetConversionNonBreakingSpaces.Replace(articleText, @"$1&nbsp;m");
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Pagination
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Pagination
             // add non-breaking space after pp. abbreviation for pages.
             articleText = Regex.Replace(articleText, @"(\b[Pp]?p\.) *(?=[\dIVXCL][^S])", @"$1&nbsp;");
 
@@ -4565,10 +4565,10 @@ namespace WikiFunctions.Parse
         /// </summary>
         public string FixUnicode(string articleText)
         {
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Probably_odd_characters_being_treated_even_more_oddly
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Probably_odd_characters_being_treated_even_more_oddly
             articleText = articleText.Replace('\x2029', ' ');
 
-            // http://en.wikipedia.org/wiki/Wikipedia:AWB/B#Line_break_insertion
+            // https://en.wikipedia.org/wiki/Wikipedia:AWB/B#Line_break_insertion
             // most browsers handle Unicode line separator as whitespace, so should we
             // looks like paragraph separator is properly converted by RichEdit itself
             return articleText.Replace('\x2028', ' ');
@@ -4685,7 +4685,7 @@ namespace WikiFunctions.Parse
             Regex r1 = new Regex(@"\[\[\s*" + escTitle + @"\s*\]\]");
             Regex r2 = new Regex(@"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]");
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Includes_and_selflinks
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Includes_and_selflinks
             // don't apply if bold in lead section already or some noinclude transclusion business
             if (!Regex.IsMatch(zerothSection, "'''" + escTitle + "'''") && !WikiRegexes.Noinclude.IsMatch(articleText) && !WikiRegexes.Includeonly.IsMatch(articleText))
                 zerothSectionHidden = r1.Replace(zerothSectionHidden, "'''" + articleTitle + @"'''");
@@ -4964,7 +4964,7 @@ namespace WikiFunctions.Parse
 
                 oldCategory = Variables.Namespaces[Namespace.Category] + oldCategory + @"\s*(\|[^\|\[\]]+\]\]|\]\])";
 
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Replacing_categoring_and_keeping_pipes
+                // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Replacing_categoring_and_keeping_pipes
                 if (!removeSortKey)
                     newCategory = Variables.Namespaces[Namespace.Category] + newCategory + "$1";
                 else
@@ -5126,7 +5126,7 @@ namespace WikiFunctions.Parse
             // count categories
             int matches;
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#defaultsort_adding_namespace
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#defaultsort_adding_namespace
             if (!Namespace.IsMainSpace(articleTitle))
                 articleTitle = Tools.RemoveNamespaceString(articleTitle);
 
@@ -5137,7 +5137,7 @@ namespace WikiFunctions.Parse
             {
                 bool allsame2 = false;
                 string lastvalue = "";
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Detect_multiple_DEFAULTSORT
+                // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Detect_multiple_DEFAULTSORT
                 // if all the defaultsorts are the same just remove all but one
                 foreach (Match m in WikiRegexes.Defaultsort.Matches(articleText))
                 {
@@ -5161,7 +5161,7 @@ namespace WikiFunctions.Parse
             // match again, after normalisation
             ds = WikiRegexes.Defaultsort.Matches(articleText);
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_9#AWB_didn.27t_fix_special_characters_in_a_pipe
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_9#AWB_didn.27t_fix_special_characters_in_a_pipe
             articleText = FixCategories(articleText);
 
             if (!restrictDefaultsortChanges)
@@ -5186,8 +5186,8 @@ namespace WikiFunctions.Parse
                             articleText += Tools.Newline("{{DEFAULTSORT:") + Tools.FixupDefaultSort(sort) + "}}";
                     }
 
-                    // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Add_defaultsort_to_pages_with_special_letters_and_no_defaultsort
-                    // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Human_DEFAULTSORT
+                    // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Add_defaultsort_to_pages_with_special_letters_and_no_defaultsort
+                    // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Human_DEFAULTSORT
                     articleText = DefaultsortTitlesWithDiacritics(articleText, articleTitle, matches, isArticleAboutAPerson);
                 }
                 else if (ds.Count == 1) // already has DEFAULTSORT
@@ -5249,7 +5249,7 @@ namespace WikiFunctions.Parse
                  (Tools.MakeHumanCatKey(articleTitle, articleText) != articleTitle && articleAboutAPerson))
                 && matches > 0 && !WikiRegexes.Defaultsort.IsMatch(articleText))
             {
-                // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Human_DEFAULTSORT
+                // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Human_DEFAULTSORT
                 // if article is about a person, attempt to add a surname, forenames sort key rather than the tidied article title
                 string sortkey = articleAboutAPerson
                     ? Tools.MakeHumanCatKey(articleTitle, articleText)
@@ -6115,7 +6115,7 @@ namespace WikiFunctions.Parse
             commentsCategoriesStripped = WikiRegexes.Category.Replace(commentsStripped, "");
 
             // on en wiki, remove expand template when a stub template exists
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Remove_.7B.7Bexpand.7D.7D_when_a_stub_template_exists
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Remove_.7B.7Bexpand.7D.7D_when_a_stub_template_exists
             if (Variables.LangCode == "en" && WikiRegexes.Stub.IsMatch(commentsCategoriesStripped) &&
                 WikiRegexes.Expand.IsMatch(commentsCategoriesStripped))
             {
@@ -6181,7 +6181,9 @@ namespace WikiFunctions.Parse
             {
                 // add stub tag
                 articleText += Tools.Newline("{{stub}}", 3);
-                tagsAdded.Add("stub");
+                if (Variables.LangCode.Equals("ar"))
+                     tagsAdded.Add("[[تصنيف:مقالات غير مصنفة|غير مصنفة]]");
+                else tagsAdded.Add("stub");
                 commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
             }
 
