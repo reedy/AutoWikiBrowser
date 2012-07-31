@@ -6238,20 +6238,32 @@ namespace WikiFunctions.Parse
                 && !Regex.IsMatch(WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower(), @"\bdead ?end\b"))
             {
                 // add dead-end tag
-                articleText = "{{dead end|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                 if (Variables.LangCode.Equals("ar"))
+                {
+                	articleText = "{{" + WikiRegexes.DateYearMonthParameter + "|نهاية مسدودة}}\r\n\r\n" + articleText;
                      tagsAdded.Add("[[:تصنيف:مقالات نهاية مسدودة|نهاية مسدودة]]");
-                else tagsAdded.Add("[[:Category:Dead-end pages|deadend]]");
+                }
+                else
+                {
+                    articleText = "{{dead end|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
+                	tagsAdded.Add("[[:Category:Dead-end pages|deadend]]");
+                }
             }
 
             if (linkCount < 3 && underlinked && !WikiRegexes.Wikify.IsMatch(articleText)
                 && !WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower().Contains("wikify"))
             {
                 // add wikify tag
-                articleText = "{{Wikify|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                 if (Variables.LangCode.Equals("ar"))
+                {
+                    articleText = "{{" + WikiRegexes.DateYearMonthParameter + "|ويكي}}\r\n\r\n" + articleText;
                      tagsAdded.Add("[[وب:ويكي|ويكي]]");
-                else tagsAdded.Add("[[WP:WFY|wikify]]");
+                }
+                else
+                {
+                    articleText = "{{Wikify|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
+                	tagsAdded.Add("[[WP:WFY|wikify]]");
+                }
             }
             else if (linkCount > 3 && !underlinked &&
                      WikiRegexes.Wikify.IsMatch(articleText))
@@ -6355,10 +6367,16 @@ namespace WikiFunctions.Parse
             if (orphaned2 && !WikiRegexes.Orphan.IsMatch(articleText) && Tools.GetTemplateParameterValue(WikiRegexes.MultipleIssues.Match(articleText).Value, "orphan").Length == 0
                 && !WikiRegexes.Disambigs.IsMatch(articleText) && !WikiRegexes.SIAs.IsMatch(articleText) && !WikiRegexes.Wi.IsMatch(articleText))
             {
-                articleText = "{{Orphan|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
-                if (Variables.LangCode.Equals("ar"))
-                     tagsAdded.Add("[[تصنيف:يتيمة|يتيمة]]");
-                else tagsAdded.Add("[[CAT:O|orphan]]");
+            	if (Variables.LangCode.Equals("ar"))
+            	{
+                    articleText = "{{" + WikiRegexes.DateYearMonthParameter + "|يتيمة}}\r\n\r\n" + articleText;
+                    tagsAdded.Add("[[تصنيف:يتيمة|يتيمة]]");
+            	}
+            	else
+            	{
+  	                articleText = "{{Orphan|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
+                	tagsAdded.Add("[[CAT:O|orphan]]");
+            	}
             }
             else if (!orphaned && WikiRegexes.Orphan.IsMatch(articleText))
             {
