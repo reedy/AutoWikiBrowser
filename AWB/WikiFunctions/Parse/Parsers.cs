@@ -6182,7 +6182,7 @@ namespace WikiFunctions.Parse
                 // add stub tag
                 articleText += Tools.Newline("{{stub}}", 3);
                 if (Variables.LangCode.Equals("ar"))
-                     tagsAdded.Add("[[تصنيف:مقالات غير مصنفة|غير مصنفة]]");
+                     tagsAdded.Add("بذرة");
                 else tagsAdded.Add("stub");
                 commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
             }
