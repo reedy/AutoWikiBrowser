@@ -6204,7 +6204,9 @@ namespace WikiFunctions.Parse
                     // add uncategorized stub tag
                     articleText += Tools.Newline("{{Uncategorized stub|", 2) + WikiRegexes.DateYearMonthParameter +
                         @"}}";
-                    tagsAdded.Add("[[CAT:UNCATSTUBS|uncategorised]]");
+                    if (Variables.LangCode.Equals("ar"))
+                         tagsAdded.Add("[[تصنيف:مقالات غير مصنفة|غير مصنفة]]");
+                    else tagsAdded.Add("[[CAT:UNCATSTUBS|uncategorised]]");
                 }
                 else
                 {
@@ -6235,7 +6237,9 @@ namespace WikiFunctions.Parse
             {
                 // add dead-end tag
                 articleText = "{{dead end|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
-                tagsAdded.Add("[[:Category:Dead-end pages|deadend]]");
+                if (Variables.LangCode.Equals("ar"))
+                     tagsAdded.Add("[[:تصنيف:مقالات نهاية مسدودة|نهاية مسدودة]]");
+                else tagsAdded.Add("[[:Category:Dead-end pages|deadend]]");
             }
 
             if (linkCount < 3 && underlinked && !WikiRegexes.Wikify.IsMatch(articleText)
@@ -6243,7 +6247,9 @@ namespace WikiFunctions.Parse
             {
                 // add wikify tag
                 articleText = "{{Wikify|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
-                tagsAdded.Add("[[WP:WFY|wikify]]");
+                if (Variables.LangCode.Equals("ar"))
+                     tagsAdded.Add("[[وب:ويكي|ويكي]]");
+                else tagsAdded.Add("[[WP:WFY|wikify]]");
             }
             else if (linkCount > 3 && !underlinked &&
                      WikiRegexes.Wikify.IsMatch(articleText))
@@ -6349,7 +6355,7 @@ namespace WikiFunctions.Parse
             {
                 articleText = "{{Orphan|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                 if (Variables.LangCode.Equals("ar"))
-                tagsAdded.Add("[[تصنيف:يتيمة|يتيمة]]");
+                     tagsAdded.Add("[[تصنيف:يتيمة|يتيمة]]");
                 else tagsAdded.Add("[[CAT:O|orphan]]");
             }
             else if (!orphaned && WikiRegexes.Orphan.IsMatch(articleText))
