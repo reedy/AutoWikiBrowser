@@ -64,15 +64,7 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         private void CompareLists()
         {
-            List<Article> list1 = listMaker1.GetArticleList();
-            list1.Sort();
-            List<Article> list2 = listMaker2.GetArticleList();
-            list2.Sort();
-
-            if (listMaker1.Count < listMaker2.Count)
-                CompareLists(list1, list2, lbNo1, lbNo2, lbBoth);
-            else
-                CompareLists(list2, list1, lbNo2, lbNo1, lbBoth);
+            CompareLists(listMaker1.GetArticleList(), listMaker2.GetArticleList(), lbNo1, lbNo2, lbBoth);
 
             UpdateCounts();
         }
