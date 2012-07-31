@@ -6204,11 +6204,16 @@ namespace WikiFunctions.Parse
                 if (WikiRegexes.Stub.IsMatch(commentsStripped))
                 {
                     // add uncategorized stub tag
-                    articleText += Tools.Newline("{{Uncategorized stub|", 2) + WikiRegexes.DateYearMonthParameter +
-                        @"}}";
                     if (Variables.LangCode.Equals("ar"))
-                         tagsAdded.Add("[[تصنيف:مقالات غير مصنفة|غير مصنفة]]");
-                    else tagsAdded.Add("[[CAT:UNCATSTUBS|uncategorised]]");
+                    {
+                    	articleText += Tools.Newline("{{بذرة غير مصنفة|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                       tagsAdded.Add("[[تصنيف:مقالات غير مصنفة|غير مصنفة]]");
+                    }
+                    else
+                    {
+                    	articleText += Tools.Newline("{{Uncategorized stub|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                    	tagsAdded.Add("[[CAT:UNCATSTUBS|uncategorised]]");
+                    }
                 }
                 else
                 {
@@ -6240,7 +6245,7 @@ namespace WikiFunctions.Parse
                 // add dead-end tag
                 if (Variables.LangCode.Equals("ar"))
                 {
-                	articleText = "{{" + WikiRegexes.DateYearMonthParameter + "|نهاية مسدودة}}\r\n\r\n" + articleText;
+                    articleText = "{{نهاية مسدودة|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                      tagsAdded.Add("[[:تصنيف:مقالات نهاية مسدودة|نهاية مسدودة]]");
                 }
                 else
@@ -6256,7 +6261,7 @@ namespace WikiFunctions.Parse
                 // add wikify tag
                 if (Variables.LangCode.Equals("ar"))
                 {
-                    articleText = "{{" + WikiRegexes.DateYearMonthParameter + "|ويكي}}\r\n\r\n" + articleText;
+                    articleText = "{{ويكي|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                      tagsAdded.Add("[[وب:ويكي|ويكي]]");
                 }
                 else
@@ -6369,7 +6374,7 @@ namespace WikiFunctions.Parse
             {
             	if (Variables.LangCode.Equals("ar"))
             	{
-                    articleText = "{{" + WikiRegexes.DateYearMonthParameter + "|يتيمة}}\r\n\r\n" + articleText;
+  	                articleText = "{{يتيمة|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                     tagsAdded.Add("[[تصنيف:يتيمة|يتيمة]]");
             	}
             	else
