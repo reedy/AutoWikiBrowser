@@ -4427,6 +4427,22 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
+        /// Removes space or non-breaking space from percent per [[WP:PERCENT]].
+        /// Avoid doing this for more spaces to prevent false positives.
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <returns>The modified article text.</returns>
+        public string FixPercent(string articleText)
+        {
+        	 // hide items in quotes etc., though this may also hide items within infoboxes etc.
+            articleText = HideMoreText(articleText);
+            
+            articleText = WikiRegexes.Percent.Replace(articleText, " $1%");
+            
+            return AddBackMoreText(articleText);
+        }
+
+        	/// <summary>
         /// Apply non-breaking spaces for abbreviated SI units
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>

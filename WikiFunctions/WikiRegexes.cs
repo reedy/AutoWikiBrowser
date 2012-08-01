@@ -1120,6 +1120,11 @@ namespace WikiFunctions
         public static readonly Regex GregorianYear = new Regex(@"\b[12]\d{3}\b", RegexOptions.Compiled);
         
         /// <summary>
+        /// Matches a percentage with a space or anon-breaking space
+        /// </summary>
+        public static readonly Regex Percent = new Regex(@"\s([0-9]+)(\s|\&nbsp)\%", RegexOptions.Compiled);
+
+        /// <summary>
         /// List of known infobox fields holding date of birth
         /// </summary>
         public static readonly List<string> InfoBoxDOBFields = new List<string>(new [] {"yearofbirth", "dateofbirth", "date of birth", "datebirth", "born", "birth date", "birthdate", "birth_date", "birth"});
