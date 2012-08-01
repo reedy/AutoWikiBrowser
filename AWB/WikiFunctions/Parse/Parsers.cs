@@ -4721,17 +4721,23 @@ namespace WikiFunctions.Parse
 
             if (articleTextHidden.Substring(0, fivepc).Contains("'''"))
                 return articleTextAtStart;
+            
+            articleText = Hider3.AddBackMore(articleTextHidden);
+            
+            zerothSectionHidden = Hider3.HideMore(zerothSection);
 
             Regex regexBoldNoBrackets = new Regex(@"([^\[]|^)(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + ")([ ,.:;])");
 
             // first try title with brackets removed
-            if (regexBoldNoBrackets.IsMatch(articleTextHidden))
-                articleTextHidden = regexBoldNoBrackets.Replace(articleTextHidden, "$1'''$2'''$3", 1);
+            if (regexBoldNoBrackets.IsMatch(zerothSectionHidden))
+                zerothSectionHidden = regexBoldNoBrackets.Replace(zerothSectionHidden, "$1'''$2'''$3", 1);
 
-            articleText = Hider3.AddBackMore(articleTextHidden);
+            zerothSection = Hider3.AddBackMore(zerothSectionHidden);
+            
+            articleText = zerothSection + restOfArticle;
 
             // check that the bold added is the first bit in bold in the main body of the article
-            if (!articleTextAtStart.Equals(articleText) && AddedBoldIsValid(articleText, escTitleNoBrackets))
+            if (!zerothSectionHiddenOriginal.Equals(zerothSectionHidden) && AddedBoldIsValid(articleText, escTitleNoBrackets))
             {
                 noChange = false;
                 return articleText;
