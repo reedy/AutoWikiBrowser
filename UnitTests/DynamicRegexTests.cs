@@ -145,6 +145,9 @@ Image:Foo.png|description
             RegexAssert.Matches(WikiRegexes.Images, @"<gallery name=bar style=silver>
 File:Foo.png|description
 </gallery>", "File:Foo.png");
+            RegexAssert.Matches(WikiRegexes.Images, @"< gallery >
+File:Foo.png
+< /gallery >", "File:Foo.png");
             
             MatchCollection mc = WikiRegexes.Images.Matches(@"<gallery>
 Image:Foo.png|description
