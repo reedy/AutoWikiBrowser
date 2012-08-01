@@ -6080,6 +6080,12 @@ While remaining upright may be the primary goal of beginning riders While remain
             Assert.AreEqual(@"The '''2009 Indian Premier League''' While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders| 2009<br>", Parsers.FixLinks(parser.BoldTitle(@"The 2009 Indian Premier League While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders| [[2009 Indian Premier League|2009]]<br>", "2009 Indian Premier League", out noChangeBack), "2009 Indian Premier League", out noChangeBack));
+            
+            const string OutsideZerothSection = @"Text here.
+==Bio==
+John Smith was great.";
+            
+            Assert.AreEqual(OutsideZerothSection, parser.BoldTitle(OutsideZerothSection, "John Smith", out noChangeBack));
         }
 
         [Test]
