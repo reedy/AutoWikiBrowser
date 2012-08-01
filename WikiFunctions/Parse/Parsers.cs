@@ -6296,7 +6296,8 @@ namespace WikiFunctions.Parse
                 }
                 else
                 {
-                    articleText = "{{Wikify|reason=It needs more wikilinks. Article has less than 3 wikilinks or the number of wikilinks is smaller than 0.25% of article's size.|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
+                    //articleText = "{{Wikify|reason=It needs more wikilinks. Article has less than 3 wikilinks or the number of wikilinks is smaller than 0.25% of article's size.|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
+                    articleText = "{{Wikify|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                 	tagsAdded.Add("[[WP:WFY|wikify]]");
                 }
             }
