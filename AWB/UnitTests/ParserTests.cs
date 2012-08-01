@@ -4533,6 +4533,16 @@ http://example.com }}");
         }
 
         [Test]
+        public void TestFixPercent()
+        {
+            Assert.AreEqual(@"a 15%", parser.FixPercent(@"a 15 %"), "remove space");
+            Assert.AreEqual(@"a 15%", parser.FixPercent(@"a 15&nbsp%"), "remove non breaking space");
+            Assert.AreEqual(@"a 15  %", parser.FixPercent(@"a 15  %"), "no changes");
+            Assert.AreEqual(@"5a21 %", parser.FixPercent(@"5a21 %"), "no changes");
+            Assert.AreEqual(@"a15 %", parser.FixPercent(@"a15 %"), "no changes");
+        }
+        
+        [Test]
         public void TestFixNonBreakingSpaces()
         {
             Assert.AreEqual(@"a 50&nbsp;km road", parser.FixNonBreakingSpaces(@"a 50 km road"));
@@ -8221,11 +8231,11 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("unreferenced"), "Unref when no refs");
 
             text = parser.Tagger(ShortText + @"{{unreferenced|date=May 2010}} <!--<ref>foo</ref>-->", "Test", false, out noChange, ref summary);
-            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("unreferenced"), "Unref when no refs");
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("unreferenced"), "Unref when no refs 2");
 
             text = parser.Tagger(ShortText + @"{{unreferenced|date=May 2010}} <ref>foo</ref>", "Test", false, out noChange, ref summary);
-            Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(text), "Unref to refimprove when no refs");
-            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("refimprove"), "Unref when no refs");
+            Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(text), "Unref to refimprove when no refs 3");
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("refimprove"), "Unref when no refs 4");
             Assert.AreEqual(Tools.GetTemplateParameterValue(WikiRegexes.MultipleIssues.Match(text).Value, "refimprove"), "{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}", "Date updated on change of template name");
 
             text = parser.Tagger(@"{{Multiple issues|COI = February 2009|wikify = April 2009|unreferenced = April 2007}} <ref>foo</ref>", "Test", false, out noChange, ref summary);
