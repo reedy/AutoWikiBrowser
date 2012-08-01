@@ -302,6 +302,9 @@ Fred has a dog.
 			
 			const string CommentedOut = @"<!---sufficient-?---{{Cleanup|date=January 2010}}--{{Wikify|date=January 2010}}---?--->";
 			Assert.AreEqual(CommentedOut, MetaDataSorter.MoveMaintenanceTags(CommentedOut), "no change to commented out tags");
+			
+			const string NewMultipleIssues = @"{{multiple issues|{{Cleanup|date=January 2010}}}}";
+			Assert.AreEqual(NewMultipleIssues, MetaDataSorter.MoveMaintenanceTags(NewMultipleIssues), "don't pull tags from new-style {{multiple issues}}");
 		}
 
 		[Test]

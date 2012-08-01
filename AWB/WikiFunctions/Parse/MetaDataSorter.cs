@@ -642,8 +642,12 @@ en, sq, ru
 			string originalArticleText = articleText;
 			bool doMove = false;
 			int lastIndex = -1;
+			
+			// don't pull tags from new-style {{multiple issues}} template
+			string articleTextNoMI = Tools.ReplaceWithSpaces(articleText, WikiRegexes.MultipleIssues.Matches(articleText));
+			
 			// if all templates removed from articletext before last MaintenanceTemplates match are not infoboxes then do not change anything
-			foreach(Match m in WikiRegexes.MaintenanceTemplates.Matches(articleText))
+			foreach(Match m in WikiRegexes.MaintenanceTemplates.Matches(articleTextNoMI))
 			{
 				lastIndex = m.Index;
 			}
