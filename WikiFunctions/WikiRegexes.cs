@@ -1122,7 +1122,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches a percentage with a space or anon-breaking space
         /// </summary>
-        public static readonly Regex Percent = new Regex(@"\s([0-9]+)(\s|\&nbsp)\%", RegexOptions.Compiled);
+        public static readonly Regex Percent = new Regex(@"\s([0-9]+)(\s|\&nbsp)\%(\p{P}|\s)", RegexOptions.Compiled);
 
         /// <summary>
         /// List of known infobox fields holding date of birth
