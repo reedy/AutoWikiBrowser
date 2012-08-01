@@ -40,15 +40,15 @@ namespace WikiFunctions
             Category = new Regex(@"\[\[[\s_]*" + Variables.NamespacesCaseInsensitive[Namespace.Category] +
                                  @"[ _]*(.*?)[ _]*(?:\|([^\|\]]*))?[ _]*\]\]", RegexOptions.Compiled);
 
-            // Use allowed character list, then a file extension (these are mandatory on mediawiki), then optional closing ]]
+            // Match file name by using allowed character list, then a file extension (these are mandatory on mediawiki), then optional closing ]]
             // this allows typo fixing and find&replace to operate on image descriptions
             // or, alternatively, an image filename has to have a pipe or ]] after it if using the [[Image: start, so just set first one to
             // @"[^\[\]\|\{\}]+\.[a-zA-Z]{3,4}\b(?:\s*(?:\]\]|\|))
-            // handles <gallery> and {{gallery}} too
+            // handles images within <gallery> and matches all of {{gallery}} too
             Images =
                 new Regex(
-                    @"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.File] +
-                    @"[ \%\!""$&'\(\)\*,\-.\/0-9:;=\?@A-Z\\\^_`a-z~\x80-\xFF\+]+\.[a-zA-Z]{3,4}\b(?:\s*(?:\]\]|\|))?|(?i)(?<=< *gallery[^<>]*>[^<>]*?(?<!< */gallery *>)\r\n? *)(?:File|Image) *:[^\r\n\|]+(?-i)|{{\s*[Gg]allery\s*(?:\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))?}}|(?<=\|\s*[a-zA-Z\d_ ]+\s*=)[^\|{}]+?\.[a-zA-Z]{3,4}(?=\s*(?:<!--[^>]*?-->\s*|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋\s*)?(?:\||}}))",
+                    @"(?:\[\[\s*)?" + Variables.NamespacesCaseInsensitive[Namespace.File] +
+                    @"[ \%\!""$&'\(\)\*,\-.\/0-9:;=\?@A-Z\\\^_`a-z~\x80-\xFF\+]+\.[a-zA-Z]{3,4}\b(?:\s*(?:\]\]|\|))?|{{\s*[Gg]allery\s*(?:\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))?}}|(?<=\|\s*[a-zA-Z\d_ ]+\s*=)[^\|{}]+?\.[a-zA-Z]{3,4}(?=\s*(?:<!--[^>]*?-->\s*|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋\s*)?(?:\||}}))",
                     RegexOptions.Compiled | RegexOptions.Singleline);
             
             FileNamespaceLink = new Regex(@"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.File] +
@@ -575,7 +575,7 @@ namespace WikiFunctions
         public static Regex Category;
 
         /// <summary>
-        /// Matches images (file namespace links and parameters in infoboxes etc.)
+        /// Matches images: file namespace links, parameters in infoboxes, images within gallery tags, {{gallery}} template
         /// </summary>
         public static Regex Images;
         

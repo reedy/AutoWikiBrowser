@@ -55,6 +55,7 @@ namespace UnitTests
             RegexAssert.IsMatch(WikiRegexes.Images, "[[File:Test.JPG]]");
             RegexAssert.IsMatch(WikiRegexes.Images, "[[File:Test.jpg]]");
             RegexAssert.IsMatch(WikiRegexes.Images, "[[File:Test of the.ogg]]");
+            RegexAssert.Matches(WikiRegexes.Images, "[[File:Test of the.ogg]]", "[[File:Test of the.ogg]]");
             RegexAssert.IsMatch(WikiRegexes.Images, "[[File:Test_of_the.ogg]]");
             RegexAssert.IsMatch(WikiRegexes.Images, "[[Image:Test.JPG]]");
             RegexAssert.IsMatch(WikiRegexes.Images, "[[Image:Test here.png|right|200px|Some description [[here]] or there]]");
@@ -132,19 +133,19 @@ File:Foo.png
 </gallery>", "File:Foo.png");
             RegexAssert.Matches(WikiRegexes.Images, @"<gallery>
 File:Foo.png|description
-</gallery>", "File:Foo.png");
+</gallery>", "File:Foo.png|");
             RegexAssert.Matches(WikiRegexes.Images, @"<gallery>
 Image:Foo.png|description
-</gallery>", "Image:Foo.png");
+</gallery>", "Image:Foo.png|");
             RegexAssert.Matches(WikiRegexes.Images, @"<gallery>
 Image : Foo.png |description
-</gallery>", "Image : Foo.png ");
+</gallery>", "Image : Foo.png |");
             RegexAssert.Matches(WikiRegexes.Images, @"<GALLERY>
 Image:Foo.png|description
-</GALLERY>", "Image:Foo.png");
+</GALLERY>", "Image:Foo.png|");
             RegexAssert.Matches(WikiRegexes.Images, @"<gallery name=bar style=silver>
-File:Foo.png|description
-</gallery>", "File:Foo.png");
+File:Foo.png|description<br>text
+</gallery>", "File:Foo.png|");
             RegexAssert.Matches(WikiRegexes.Images, @"< gallery >
 File:Foo.png
 < /gallery >", "File:Foo.png");
@@ -154,14 +155,14 @@ Image:Foo.png|description
 Image:Foo2.png|description2
 </gallery>");
             
-            Assert.AreEqual(mc[0].Value, "Image:Foo.png");
-            Assert.AreEqual(mc[1].Value, "Image:Foo2.png");
+            Assert.AreEqual(mc[0].Value, "Image:Foo.png|");
+            Assert.AreEqual(mc[1].Value, "Image:Foo2.png|");
             
-            RegexAssert.NoMatch(WikiRegexes.Images, @"File:Foo.png|description");
+            RegexAssert.IsMatch(WikiRegexes.Images, @"File:Foo.png|description");
             RegexAssert.NoMatch(WikiRegexes.Images, @"<gallery>
 
 </gallery>
-Image : Foo.png");
+Image here");
         }
         
         [Test]
