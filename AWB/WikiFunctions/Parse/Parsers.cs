@@ -4437,7 +4437,7 @@ namespace WikiFunctions.Parse
         	 // hide items in quotes etc., though this may also hide items within infoboxes etc.
             articleText = HideMoreText(articleText);
             
-            articleText = WikiRegexes.Percent.Replace(articleText, " $1%");
+            articleText = WikiRegexes.Percent.Replace(articleText, " $1%$3");
             
             return AddBackMoreText(articleText);
         }
