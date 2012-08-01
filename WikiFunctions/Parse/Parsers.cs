@@ -6223,8 +6223,16 @@ namespace WikiFunctions.Parse
                 }
                 else
                 {
+                    if (Variables.LangCode.Equals("ar"))
+                    {
+                    	articleText += Tools.Newline("{{غير مصنفة|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                       tagsAdded.Add("[[CAT:UNCAT|مقالات غير مصنفة]]");
+                    }
+                    else
+                    {
                     articleText += Tools.Newline("{{Uncategorized|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
                     tagsAdded.Add("[[CAT:UNCAT|uncategorised]]");
+                    }
                 }
             }
 
