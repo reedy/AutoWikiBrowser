@@ -273,11 +273,11 @@ namespace AutoWikiBrowser
 
                 WindowState = Properties.Settings.Default.WindowState;
 
-                Debug();
-                Release();
-
                 Plugin.LoadPluginsStartup(this, SplashScreen); // progress 25-50 in LoadPlugins()
                 LoadPrefs(); // progress 50-59 in LoadPrefs()
+
+                Debug();
+                Release();
 
                 SplashScreen.SetProgress(60);
                 UpdateButtons(null, null);
@@ -2746,7 +2746,8 @@ window.scrollTo(0, diffTopY);
         private void Debug()
         {
             Tools.WriteDebugEnabled = true;
-            listMaker.Add("Project:AutoWikiBrowser/Sandbox");
+            if(!listMaker.Contains(@"Wikipedia:AutoWikiBrowser/Sandbox") && !listMaker.Contains(@"Project:AutoWikiBrowser/Sandbox"))
+                listMaker.Add("Project:AutoWikiBrowser/Sandbox");
             lblOnlyBots.Visible = false;
             bypassAllRedirectsToolStripMenuItem.Enabled = true;
 
