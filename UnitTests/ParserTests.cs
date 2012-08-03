@@ -4548,6 +4548,8 @@ http://example.com }}");
             Assert.AreEqual(@"a15 %", parser.FixPercent(@"a15 %"), "no changes");
             Assert.AreEqual(@"a 15 %a", parser.FixPercent(@"a 15 %a"), "no changes (character)");
             Assert.AreEqual(@"a 15 %2", parser.FixPercent(@"a 15 %2"), "no changes (character)");
+            Assert.AreEqual(@"a 15.2% ", parser.FixPercent(@"a 15.2 % "), "catch decimal numbers");
+            Assert.AreEqual(@"a 15.a2 % ", parser.FixPercent(@"a 15.a2 % "), "avoid weird things");
         }
         
         [Test]
