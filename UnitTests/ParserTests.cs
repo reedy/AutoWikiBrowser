@@ -4536,13 +4536,13 @@ http://example.com }}");
         public void TestFixPercent()
         {
             Assert.AreEqual(@"a 15% ", parser.FixPercent(@"a 15 % "), "remove space");
-            Assert.AreEqual(@"a 15% ", parser.FixPercent(@"a 15&nbsp% "), "remove non breaking space");
+            Assert.AreEqual(@"a 15% ", parser.FixPercent(@"a 15&nbsp;% "), "remove non breaking space");
             Assert.AreEqual(@"a 15%.", parser.FixPercent(@"a 15 %."), "remove space and maintain point");
-            Assert.AreEqual(@"a 15%.", parser.FixPercent(@"a 15&nbsp%."), "remove non breaking space and maintain point");
-            Assert.AreEqual(@"a 15%,", parser.FixPercent(@"a 15 %,"), "remove space  and maintain comma");
-            Assert.AreEqual(@"a 15%,", parser.FixPercent(@"a 15&nbsp%,"), "remove non breaking space  and maintain comma");
-            Assert.AreEqual(@"a 15%!", parser.FixPercent(@"a 15 %!"), "remove space  and maintain mark");
-            Assert.AreEqual(@"a 15%!", parser.FixPercent(@"a 15&nbsp%!"), "remove non breaking space  and maintain mark");
+            Assert.AreEqual(@"a 15%.", parser.FixPercent(@"a 15&nbsp;%."), "remove non breaking space and maintain point");
+            Assert.AreEqual(@"a 15%,", parser.FixPercent(@"a 15 %,"), "remove space and maintain comma");
+            Assert.AreEqual(@"a 15%,", parser.FixPercent(@"a 15&nbsp;%,"), "remove non breaking space  and maintain comma");
+            Assert.AreEqual(@"a 15%!", parser.FixPercent(@"a 15 %!"), "remove space and maintain mark");
+            Assert.AreEqual(@"a 15%!", parser.FixPercent(@"a 15&nbsp;%!"), "remove non breaking space  and maintain mark");
             Assert.AreEqual(@"a 15  %", parser.FixPercent(@"a 15  %"), "no changes");
             Assert.AreEqual(@"5a21 %", parser.FixPercent(@"5a21 %"), "no changes");
             Assert.AreEqual(@"a15 %", parser.FixPercent(@"a15 %"), "no changes");
