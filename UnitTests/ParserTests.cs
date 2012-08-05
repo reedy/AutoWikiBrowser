@@ -6642,22 +6642,22 @@ Text
 
             const string PortalBox1 = @"Foo
 ==See also==
-{{Portal box|Bar|Foo2}}
+{{Portal|Bar|Foo2}}
 ";
             Assert.AreEqual(PortalBox1, Parsers.MergePortals(@"Foo
 ==See also==
 {{Portal|Bar}}
-{{Portal|Foo2 }}"), "merges multiple portals to new portal box");
+{{Portal|Foo2 }}"), "merges multiple portals to single portal");
 
             Assert.AreEqual(PortalBox1, Parsers.MergePortals(@"Foo
 ==See also==
 {{Portal box|Bar}}
-{{Portal|Foo2 }}"), "merges portals to existing portal box");
+{{Portal|Foo2 }}"), "merges portals to existing portal");
 
             const string NoSeeAlso = @"{{Portal|Bar}}
 {{Portal|Foo2 }}";
 
-            Assert.AreEqual(NoSeeAlso, Parsers.MergePortals(NoSeeAlso), "no merging if no portal box and no see also");
+            Assert.AreEqual(NoSeeAlso, Parsers.MergePortals(NoSeeAlso), "no merging if no portal and no see also");
 
             const string MultipleArguments = @"Foo
 ==See also==
@@ -6674,7 +6674,7 @@ Text
 ==Other==";
             Assert.AreEqual(@"Foo
 ==Section==
-{{Portal box|Bar|Foo}}
+{{Portal|Bar|Foo}}
 ==Other==", Parsers.MergePortals(SameSection), "portals merged to first portal location when all in same section");
 
             const string differentSection = @"Foo
@@ -6691,7 +6691,7 @@ Text
 #if DEBUG
             const string PortalBox1 = @"Foo
 ==See also==
-{{Portal box|Bar|Foo2}}
+{{Portal|Bar|Foo2}}
 ", input = @"Foo
 ==See also==
 {{Portal|Bar}}
