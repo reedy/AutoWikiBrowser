@@ -17,6 +17,7 @@
     ReadOnly params() As TemplateParameters =
     {
        New TemplateParameters() With {.StorageKey = "Place", .Group = PlacesGroup, .ParamName = "place"}, _
+       New TemplateParameters() With {.StorageKey = "AAT", .Group = PlacesGroup, .ParamName = "AAT"}, _
        New TemplateParameters() With {.StorageKey = "Adel", .Group = PlacesGroup, .ParamName = "Adelaide"}, _
        New TemplateParameters() With {.StorageKey = "Bris", .Group = PlacesGroup, .ParamName = "Brisbane"}, _
        New TemplateParameters() With {.StorageKey = "Canb", .Group = PlacesGroup, .ParamName = "Canberra"}, _
@@ -24,16 +25,18 @@
        New TemplateParameters() With {.StorageKey = "Melb", .Group = PlacesGroup, .ParamName = "Melbourne"}, _
        New TemplateParameters() With {.StorageKey = "Perth", .Group = PlacesGroup, .ParamName = "Perth"}, _
        New TemplateParameters() With {.StorageKey = "Sydney", .Group = PlacesGroup, .ParamName = "Sydney"}, _
-       New TemplateParameters() With {.StorageKey = "Sport", .Group = SportsGroup, .ParamName = "Sport"}, _
-       New TemplateParameters() With {.StorageKey = "AFL", .Group = SportsGroup, .ParamName = "AFL"}, _
-       New TemplateParameters() With {.StorageKey = "NBL", .Group = SportsGroup, .ParamName = "NBL"}, _
-       New TemplateParameters() With {.StorageKey = "NRL", .Group = SportsGroup, .ParamName = "NRL"}, _
-       New TemplateParameters() With {.StorageKey = "V8", .Group = SportsGroup, .ParamName = "V8"}, _
-       New TemplateParameters() With {.StorageKey = "Crime", .Group = OtherGroup, .ParamName = "Crime"}, _
-       New TemplateParameters() With {.StorageKey = "Law", .Group = OtherGroup, .ParamName = "Law"}, _
-       New TemplateParameters() With {.StorageKey = "Military", .Group = OtherGroup, .ParamName = "Military"}, _
-       New TemplateParameters() With {.StorageKey = "Music", .Group = OtherGroup, .ParamName = "Music"}, _
-       New TemplateParameters() With {.StorageKey = "Politics", .Group = OtherGroup, .ParamName = "Politics"}
+       New TemplateParameters() With {.StorageKey = "River", .Group = PlacesGroup, .ParamName = "Riverina"}, _
+       New TemplateParameters() With {.StorageKey = "TAS", .Group = PlacesGroup, .ParamName = "TAS"}, _
+       New TemplateParameters() With {.StorageKey = "Sport", .Group = SportsGroup, .ParamName = "sports"}, _
+       New TemplateParameters() With {.StorageKey = "AFL", .Group = SportsGroup, .ParamName = "afl"}, _
+       New TemplateParameters() With {.StorageKey = "NBL", .Group = SportsGroup, .ParamName = "nbl"}, _
+       New TemplateParameters() With {.StorageKey = "NRL", .Group = SportsGroup, .ParamName = "nrl"}, _
+       New TemplateParameters() With {.StorageKey = "V8", .Group = SportsGroup, .ParamName = "v8"}, _
+       New TemplateParameters() With {.StorageKey = "Crime", .Group = OtherGroup, .ParamName = "crime"}, _
+       New TemplateParameters() With {.StorageKey = "Law", .Group = OtherGroup, .ParamName = "law"}, _
+       New TemplateParameters() With {.StorageKey = "Military", .Group = OtherGroup, .ParamName = "military"}, _
+       New TemplateParameters() With {.StorageKey = "Music", .Group = OtherGroup, .ParamName = "music"}, _
+       New TemplateParameters() With {.StorageKey = "Politics", .Group = OtherGroup, .ParamName = "politics"}
     }
 
     ' Settings:
