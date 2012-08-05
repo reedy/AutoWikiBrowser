@@ -581,9 +581,9 @@ namespace WikiFunctions.Parse
         private static readonly Regex PortalBox = Tools.NestedTemplateRegex(new[] { "portal box", "portalbox" });
 
         /// <summary>
-        /// Merges multiple {{portal}} templates into a {{portal box}}, removing any duplicates. En-wiki only.
+        /// Merges multiple {{portal}} templates into a single one, removing any duplicates. En-wiki only.
         /// Restricted to {{portal}} calls with one argument
-        /// Article must have existing {{portal box}} and/or a 'see also' section
+        /// Article must have existing {{portal}} and/or a 'see also' section
         /// </summary>
         /// <param name="articleText">The article text</param>
         /// <returns>The updated article text</returns>
@@ -611,27 +611,27 @@ namespace WikiFunctions.Parse
             if (Portals.Count == 0)
                 return articleText;
 
-            // generate portal box string
+            // generate portal string
             string PortalsToAdd = "";
             foreach (string portal in Portals)
                 PortalsToAdd += ("|" + portal.Trim());
 
             Match pb = PortalBox.Match(articleText);
 
-            if (pb.Success) // append portals to existing portal box
+            if (pb.Success) // append portals to existing portal
                 return articleText.Replace(pb.Value, pb.Value.Substring(0, pb.Length - 2) + PortalsToAdd + @"}}");
 
-            // merge in new portal box if multiple portals
+            // merge in new portal if multiple portals
             if (Portals.Count < 2)
                 return originalArticleText;
 
             // first merge to see also section
             if (WikiRegexes.SeeAlso.IsMatch(articleText))
-                return WikiRegexes.SeeAlso.Replace(articleText, "$0" + Tools.Newline(@"{{Portal box" + PortalsToAdd + @"}}"));
+                return WikiRegexes.SeeAlso.Replace(articleText, "$0" + Tools.Newline(@"{{Portal" + PortalsToAdd + @"}}"));
 
             // otherwise merge to original location if all portals in same section
             if (Summary.ModifiedSection(originalArticleText, articleText).Length > 0)
-                return articleText.Insert(firstPortal, @"{{Portal box" + PortalsToAdd + @"}}" + "\r\n");
+                return articleText.Insert(firstPortal, @"{{Portal" + PortalsToAdd + @"}}" + "\r\n");
 
             return originalArticleText;
         }
