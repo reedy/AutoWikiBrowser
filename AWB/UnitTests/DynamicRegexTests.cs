@@ -524,8 +524,9 @@ disambig|surname
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Hurricane season disambiguation}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{airport disambiguation}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{airport disambig}}");
-           RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Call sign disambiguation}}");
-           RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Callsigndis}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Call sign disambiguation}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Callsigndis}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Mil-unit-dis}}");
             
             RegexAssert.NoMatch(WikiRegexes.Disambigs, @"{{now disambig}}");
             RegexAssert.NoMatch(WikiRegexes.Disambigs, @"{{dablink|foo}}");
