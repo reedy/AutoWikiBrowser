@@ -240,14 +240,15 @@ namespace WikiFunctions.Logging
             RemoveSelected(sender);
         }
 
-        private void filterShowOnlySelectedToolStripMenuItem_Click_1(object sender, EventArgs e)
+        private void FilterItems(bool compareMatch)
         {
             string filterBy = Filter;
 
             lvIgnored.BeginUpdate();
             foreach (AWBLogListener item in lvIgnored.Items)
             {
-                if (string.Compare(item.SkipReason, filterBy, true) != 0) // no match
+                if ((string.Compare(item.SkipReason, filterBy, true) == 0 && compareMatch) // match
+                    || string.Compare(item.SkipReason, filterBy, true) != 0 && !compareMatch ) // no match
                 {
                     FilteredItems.Add(item);
                     item.Remove();
@@ -256,20 +257,14 @@ namespace WikiFunctions.Logging
             lvIgnored.EndUpdate();
         }
 
+        private void filterShowOnlySelectedToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            FilterItems(false);
+        }
+
         private void filterExcludeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string filterBy = Filter;
-
-            lvIgnored.BeginUpdate();
-            foreach (AWBLogListener item in lvIgnored.Items)
-            {
-                if (string.Compare(item.SkipReason, filterBy, true) == 0) // match
-                {
-                    FilteredItems.Add(item);
-                    item.Remove();
-                }
-            }
-            lvIgnored.EndUpdate();
+            FilterItems(true);
         }
 
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
