@@ -119,6 +119,7 @@ namespace WikiFunctions.Logging
             toolStripSeparator1.Visible = enabled;
         }
 
+        // TODO listmaker.beginupdate /endupdate wrap needed?
         private void addSelectedToArticleListToolStripMenuItem_Click(object sender, EventArgs e)
         {
             foreach (ListViewItem item in MenuItemOwner(sender).SelectedItems)
@@ -243,6 +244,7 @@ namespace WikiFunctions.Logging
         {
             string filterBy = Filter;
 
+            lvIgnored.BeginUpdate();
             foreach (AWBLogListener item in lvIgnored.Items)
             {
                 if (string.Compare(item.SkipReason, filterBy, true) != 0) // no match
@@ -251,12 +253,14 @@ namespace WikiFunctions.Logging
                     item.Remove();
                 }
             }
+            lvIgnored.EndUpdate();
         }
 
         private void filterExcludeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             string filterBy = Filter;
 
+            lvIgnored.BeginUpdate();
             foreach (AWBLogListener item in lvIgnored.Items)
             {
                 if (string.Compare(item.SkipReason, filterBy, true) == 0) // match
@@ -265,6 +269,7 @@ namespace WikiFunctions.Logging
                     item.Remove();
                 }
             }
+            lvIgnored.EndUpdate();
         }
 
         private void clearToolStripMenuItem_Click(object sender, EventArgs e)
