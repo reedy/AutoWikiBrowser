@@ -1185,7 +1185,7 @@ namespace WikiFunctions
                 RegexOptions.Compiled);
         
         /// <summary>
-        /// Matches templates from Category:Surname_clarification_templates
+        /// Matches templates from Category:Hatnote templates for names
         /// </summary>
         public static readonly Regex SurnameClarificationTemplates = new Regex(Tools.NestedTemplateRegex("foo").ToString().Replace(@"[Ff]oo", @"[^{}\|]*[\-_ ]name"), RegexOptions.Compiled);
     }
