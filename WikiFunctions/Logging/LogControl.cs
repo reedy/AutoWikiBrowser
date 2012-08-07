@@ -119,13 +119,14 @@ namespace WikiFunctions.Logging
             toolStripSeparator1.Visible = enabled;
         }
 
-        // TODO listmaker.beginupdate /endupdate wrap needed?
         private void addSelectedToArticleListToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            List<Article> articles = new List<Article>();
             foreach (ListViewItem item in MenuItemOwner(sender).SelectedItems)
             {
-                listMaker.Add(new Article(item.Text));
+                articles.Add(new Article(item.Text));
             }
+            listMaker.Add(articles);
         }
 
         private void LogLists_DoubleClick(object sender, EventArgs e)
@@ -247,8 +248,8 @@ namespace WikiFunctions.Logging
             lvIgnored.BeginUpdate();
             foreach (AWBLogListener item in lvIgnored.Items)
             {
-                if ((string.Compare(item.SkipReason, filterBy, true) == 0 && compareMatch) // match
-                    || string.Compare(item.SkipReason, filterBy, true) != 0 && !compareMatch ) // no match
+                if ((compareMatch && string.Compare(item.SkipReason, filterBy, true) == 0 ) // match
+                    || ( !compareMatch && string.Compare(item.SkipReason, filterBy, true) != 0 ) ) // no match
                 {
                     FilteredItems.Add(item);
                     item.Remove();
