@@ -1929,6 +1929,58 @@ Start date and age
             Assert.IsFalse(Tools.IsSectionOrReasonTemplate(@"{{abc|section=foo}}"));
             Assert.IsFalse(Tools.IsSectionOrReasonTemplate(@"{{abc}}"));
         }
+        
+        [Test]
+        public void HowMuchStartsWithTests()
+        {
+            Assert.AreEqual(9, Tools.HowMuchStartsWith(@"{{foo}}
+hello", Tools.NestedTemplateRegex("foo"), false));
+            
+            Assert.AreEqual(9, Tools.HowMuchStartsWith(@"{{foo}}
+hello", Tools.NestedTemplateRegex("foo"), true));
+            
+            Assert.AreEqual(9, Tools.HowMuchStartsWith(@"{{foo}}
+hello {{foo}}", Tools.NestedTemplateRegex("foo"), false));
+            
+            Assert.AreEqual(10, Tools.HowMuchStartsWith(@" {{foo}}
+hello", Tools.NestedTemplateRegex("foo"), false));
+            
+            Assert.AreEqual(0, Tools.HowMuchStartsWith(@"hello{{foo}}
+hello", Tools.NestedTemplateRegex("foo"), false));
+            
+            Assert.AreEqual(0, Tools.HowMuchStartsWith(@"==hello==
+{{foo}}
+hello", Tools.NestedTemplateRegex("foo"), false));
+            
+            Assert.AreEqual(0, Tools.HowMuchStartsWith(@"hello{{foo}}
+hello", Tools.NestedTemplateRegex("foo"), true));
+            
+            Assert.AreEqual(18, Tools.HowMuchStartsWith(@"{{foo}}
+{{foo}}
+hello", Tools.NestedTemplateRegex("foo"), false));
+            
+            Assert.AreEqual(22, Tools.HowMuchStartsWith(@"{{foo}}
+{{foo|bar}}
+hello", Tools.NestedTemplateRegex("foo"), false));
+            
+            Assert.AreEqual(20, Tools.HowMuchStartsWith(@"==hello==
+{{foo}}
+hello", Tools.NestedTemplateRegex("foo"), true));
+            
+            Assert.AreEqual(22, Tools.HowMuchStartsWith(@"===hello===
+{{foo}}
+hello", Tools.NestedTemplateRegex("foo"), true));
+            
+            Assert.AreEqual(9, Tools.HowMuchStartsWith(@"{{foo}}
+hello {{foo}}
+==hi==
+text", Tools.NestedTemplateRegex("foo"), false));
+            
+            Assert.AreEqual(9, Tools.HowMuchStartsWith(@"{{foo}}
+hello {{foo}}
+==hi==
+text", Tools.NestedTemplateRegex("foo"), true));
+        }
     }
 
     [TestFixture]
