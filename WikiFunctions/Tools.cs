@@ -801,6 +801,34 @@ namespace WikiFunctions
 
 			return sections.ToArray();
 		}
+		
+		/// <summary>
+		/// returns how much of the given text starts with only items matched by the given regex, allowing for whitespace only
+		/// E.g. whether a portion of text starts only with one or more wiki templates
+		/// </summary>
+		/// <param name="text">Article text or section to check</param>
+		/// <param name="Items">Regex to match one or more items e.g. wiki templates</param>
+		/// <param name="allowHeading">Whether to also allow text to start with a heading then only the matched items</param>
+		/// <returns>Length</returns>
+		public static int HowMuchStartsWith(string text, Regex Items, bool allowHeading)
+		{
+		    int heading = 0;
+
+		    if(allowHeading)
+		    {
+		        Match m = WikiRegexes.Headings.Match(text);
+		        
+		        if(m.Index == 0)
+		        {
+		            text = WikiRegexes.Headings.Replace(text, "", 1);
+		            heading = m.Length;
+		        }
+		    }
+
+		    string replaced = ReplaceWithSpaces(text, Items.Matches(text)).TrimStart();
+
+		    return (text.Length-replaced.Length+heading);
+		}
 
 		// Covered by ToolsTests.RemoveMatches()
 		/// <summary>
