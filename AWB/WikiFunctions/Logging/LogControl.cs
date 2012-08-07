@@ -160,8 +160,11 @@ namespace WikiFunctions.Logging
 
         private void btnAddToList_Click(object sender, EventArgs e)
         {
+            List<Article> articles = new List<Article>();
             foreach (ListViewItem article in lvIgnored.Items)
-                listMaker.Add(new Article(article.Text));
+                articles.Add(new Article(article.Text));
+
+            listMaker.Add(articles);
         }
 
         private void btnSaveSaved_Click(object sender, EventArgs e)
@@ -301,8 +304,11 @@ namespace WikiFunctions.Logging
 
         private void btnAddSuccessToList_Click(object sender, EventArgs e)
         {
+            List<Article> articles = new List<Article>();
             foreach (ListViewItem article in lvSaved.Items)
-                listMaker.Add(new Article(article.Text));
+                articles.Add(new Article(article.Text));
+
+            listMaker.Add(articles);
         }
     }
 }
