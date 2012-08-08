@@ -1265,6 +1265,8 @@ __TOC__", articleTextIn);
             Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/index.php?title=Foo#References"));
             
             Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"   Foo"), "cleans spacing from Firefox Category paste");
+            
+            Assert.AreEqual(@"Foo", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/index.php?title=Foo&pe=1&#Date_on"));
         }
         
         [Test]
