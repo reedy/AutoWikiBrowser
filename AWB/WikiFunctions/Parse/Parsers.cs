@@ -2549,6 +2549,9 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegexOpeningBracket = new Regex(@"([^[]|^)\[([^[])", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexImageWithHTTP = new Regex("\\[\\[[Ii]mage:[^]]*http", RegexOptions.Compiled);
 
+        /// <summary>
+        /// Matches double piped links e.g. [[foo||bar]] (CHECKWIKI error 32)
+        /// </summary>
         private static readonly Regex DoublePipeInWikiLink = new Regex(@"(?<=\[\[[^\[\[\r\n\|{}]+)\|\|(?=[^\[\[\r\n\|{}]+\]\])", RegexOptions.Compiled);
 
         /// <summary>
