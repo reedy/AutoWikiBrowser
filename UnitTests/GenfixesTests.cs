@@ -133,6 +133,7 @@ namespace UnitTests
 
             AssertNotChanged("a<br/br>b");
             AssertNotChanged("a<br/>\r\n<br>b");
+            AssertChange("a\r\n<br/>\r\n<br>\r\nb", "a\r\n\r\nb");
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#General_fixes_problem:_br_tags_inside_templates
             AssertChange("{{foo|bar=a<br><br>b}}<br><br>quux", "{{foo|bar=a<br><br>b}}\r\n\r\nquux");
