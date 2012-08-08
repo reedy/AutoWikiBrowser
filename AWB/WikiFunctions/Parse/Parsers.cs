@@ -2496,8 +2496,8 @@ namespace WikiFunctions.Parse
 
         // Matches <p> tags only if current line does not start from ! or | (indicator of table cells)
         private static readonly Regex SyntaxRemoveParagraphs = new Regex(@"(?<!^[!\|].*)</? ?[Pp]>", RegexOptions.Multiline | RegexOptions.Compiled);
-        // same for <br>
-        private static readonly Regex SyntaxRemoveBr = new Regex(@"(?<!^[!\|].*)(<br[\s/]*> *){2,}", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
+        // Match execss <br> tags only if current line does not start from ! or | (indicator of table cells)
+        private static readonly Regex SyntaxRemoveBr = new Regex(@"(?<!^[!\|].*)(?:(?:<br[\s/]*> *){2,}|\r\n<br[\s/]*>\r\n<br[\s/]*>\r\n)", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
 
         private static readonly Regex MultipleHttpInLink = new Regex(@"([\s\[>=])((?:ht|f)tp(?::?/+|:/*))(\2)+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex PipedExternalLink = new Regex(@"(\[\w+://[^\]\[<>\""\s]*?\s*)(?: +\||\|([ ']))(?=[^\[\]\|]*\])", RegexOptions.IgnoreCase | RegexOptions.Compiled);

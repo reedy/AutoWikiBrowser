@@ -4665,6 +4665,7 @@ http://example.com }}");
 
             // leading (back)slash is hack for incorrectly formatted breaks per
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#br_tags_are_not_always_removed
+            // remove <br> from lists (end of list line)
             Assert.AreEqual("*a", Parsers.FixSyntax("*a </br/> \r\n"));
             Assert.AreEqual("*a", Parsers.FixSyntax("*a<br\\> \r\n"));
             Assert.AreEqual("*a", Parsers.FixSyntax("*a <\\br\\>\r\n"));
@@ -4691,6 +4692,13 @@ param=<br>
 **text1 }}";
 
             Assert.AreEqual(BrInTemplateList, parser.FixDates(BrInTemplateList), "lists within template not changed");
+
+            Assert.AreEqual(@"** Blog x
+
+'''No", parser.FixDates(@"** Blog x
+<br>
+<br>
+'''No"));
         }
 
         [Test]
