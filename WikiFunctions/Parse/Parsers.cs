@@ -6509,7 +6509,7 @@ namespace WikiFunctions.Parse
         private static readonly HideText ht = new HideText();
 
         /// <summary>
-        /// Sets the date (month & year) for undated cleanup tags that take a date
+        /// Sets the date (month & year) for undated cleanup tags that take a date, from https://en.wikipedia.org/wiki/Wikipedia:AWB/Dated_templates
         /// Avoids changing tags in unformatted text areas (wiki comments etc.)
         /// Note: bugzilla 2700 means {{subst:}} within ref tags doesn't work, AWB doesn't do anything about it
         /// </summary>
@@ -6531,6 +6531,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex CurlyBraceEnd = new Regex(@"(?:\| *)?}}$", RegexOptions.Compiled);
         private static readonly Regex MonthYear = new Regex(@"^\s*" + WikiRegexes.MonthsNoGroup + @" +20\d\d\s*$", RegexOptions.Compiled);
+        private static readonly Regex DateDash = new Regex(@"(\|\s*[Dd]ate\s*)-", RegexOptions.Compiled);
 
         /// <summary>
         /// Match evaluator for tag updater
@@ -6545,6 +6546,10 @@ namespace WikiFunctions.Parse
             {
                 templatecall = Tools.RenameTemplateParameter(templatecall, "Date", "date");
                 templatecall = Tools.RenameTemplateParameter(templatecall, "dates", "date");
+                
+                // date- or Date- --> date=
+                if(Tools.GetTemplateArgument(templatecall, 1).ToLower().Replace(" ", "").StartsWith("date-"))
+                    templatecall = DateDash.Replace(templatecall, m2 => m2.Groups[1].Value.ToLower() + "=");
             }
 
             // remove template namespace in template name
