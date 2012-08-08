@@ -518,7 +518,7 @@ en, sq, ru
 			{
 				Match m = matches[i];
 				x = m.Value;
-				if (!Regex.IsMatch(x, Variables.SectStub) && !x.Contains("|"))
+				if (!Regex.IsMatch(x, Variables.SectStub))
 				{
 					stubList.Add(x);
 					sb.Remove(m.Index, x.Length);

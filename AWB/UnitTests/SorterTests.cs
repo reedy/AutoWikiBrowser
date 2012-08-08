@@ -26,9 +26,13 @@ namespace UnitTests
 			Assert.AreEqual("==foo==\r\nbar<ref name=\"123\"/>{{boz}}", s);
 
 			// should remove stubs, but not section stubs
-			s = "{{foo}}{{stub}}{{foo-stub}}bar{{sect-stub}}{{not-a-stub|123}}{{not a|stub}}";
+			s = "{{foo}}{{stub}}{{foo-stub}}bar{{sect-stub}}{{not a|stub}}";
 			Assert.AreEqual("{{stub}}\r\n{{foo-stub}}\r\n", MetaDataSorter.RemoveStubs(ref s));
-			Assert.AreEqual("{{foo}}bar{{sect-stub}}{{not-a-stub|123}}{{not a|stub}}", s);
+			Assert.AreEqual("{{foo}}bar{{sect-stub}}{{not a|stub}}", s);
+			
+			// handle stubs with extra parameters e.g. date=
+			s = "{{foo}}{{stub}}{{foo-stub|date=May 2012}}bar{{sect-stub}}{{not a|stub}}";
+			Assert.AreEqual("{{stub}}\r\n{{foo-stub|date=May 2012}}\r\n", MetaDataSorter.RemoveStubs(ref s));
 
 			//shouldn't fail
 			s = "";

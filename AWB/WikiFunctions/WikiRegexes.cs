@@ -58,7 +58,7 @@ namespace WikiFunctions
 
             PossiblyCommentedStub =
                 new Regex(
-                    @"(<!-- ?\{\{" + Variables.Stub + @"\b\}\}.*?-->|\{\{" + Variables.Stub + @"\}\})",
+                    @"(<!-- ?\{\{" + Variables.Stub + @"\b\}\}.*?-->|\{\{" + Variables.Stub + @"(?:\s*\|[^{}]+)?}})",
                     RegexOptions.Compiled);
 
             TemplateCall = new Regex(TemplateStart + @"\s*([^\]\|]*)\s*(.*)}}",
