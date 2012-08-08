@@ -235,6 +235,7 @@ Image here");
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{Stub}}");
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{-stub}}");
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{Japan-spacecraft-stub|nocat=yes}}");
+            RegexAssert.IsMatch(WikiRegexes.Stub, @"{{Japan-spacecraft-stub|date=August 2012}}");
             
             RegexAssert.NoMatch(WikiRegexes.Stub, @"{{now stubborn}}");
             RegexAssert.NoMatch(WikiRegexes.Stub, @"{{stubby}}");
