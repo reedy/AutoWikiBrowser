@@ -249,6 +249,7 @@ Image here");
             RegexAssert.IsMatch(WikiRegexes.PossiblyCommentedStub, @"{{footballer-bio-stub}}");
             RegexAssert.IsMatch(WikiRegexes.PossiblyCommentedStub, @"{{ footballer-bio-stub}}");
             RegexAssert.IsMatch(WikiRegexes.PossiblyCommentedStub, @"{{ Footballer-Bio-Stub}}");
+            RegexAssert.IsMatch(WikiRegexes.PossiblyCommentedStub, @"{{ Footballer-Bio-Stub|date=May 2012}}");
             RegexAssert.IsMatch(WikiRegexes.PossiblyCommentedStub, @"{{bio-stub}}");
             RegexAssert.IsMatch(WikiRegexes.PossiblyCommentedStub, @"{{stub}}");
             RegexAssert.IsMatch(WikiRegexes.PossiblyCommentedStub, @"{{ stub}}");
