@@ -668,7 +668,7 @@ There [was.");
             Parsers p1 = new Parsers();
             Parsers p2 = new Parsers();
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#NullReferenceException_in_HideText.AddBackMore
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#NullReferenceException_in_HideText.AddBackMore
             string s1 = p1.HideText("<pre>foo bar</pre>");
             string s2 = p2.HideText("<source>quux</source>");
             Assert.AreEqual("<pre>foo bar</pre>", p1.AddBackText(s1));
@@ -939,7 +939,7 @@ __TOC__", articleTextIn);
             Assert.AreEqual(allInTemplate, articleTextIn);
             
             // no change -- only after template on same line
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Section_header_added_in_wrong_position
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Section_header_added_in_wrong_position
             const string allAfterTemplate = @"{{archive box|words}} extra foo
 
 {{another one}}";
