@@ -2597,7 +2597,7 @@ namespace WikiFunctions.Parse
             // remove unnecessary namespace
             articleText = RemoveTemplateNamespace(articleText);
 
-            // remove <br> from lists (end of list line)
+            // remove <br> from lists (end of list line) CHECKWIKI error 54
             articleText = SyntaxRegexListRowBrTag.Replace(articleText, "$1\r\n");
 
             //fix uneven bracketing on links
