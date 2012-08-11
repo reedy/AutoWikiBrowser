@@ -921,27 +921,15 @@ The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines af
             Assert.AreEqual("[[FOO|FOOBAR]]", Parsers.SimplifyLinks("[[FOO|FOOBAR]]"));
             Assert.AreEqual("[[foo|fooBAR]]", Parsers.SimplifyLinks("[[foo|fooBAR]]"));
 
-<<<<<<< .mine
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_8#Only_one_spurious_space_removed_from_link
-=======
-            // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_8#Only_one_spurious_space_removed_from_link
->>>>>>> .r8249
             Assert.AreEqual("[[Elizabeth Gunn]]", Parsers.SimplifyLinks("[[Elizabeth Gunn | Elizabeth Gunn]]"));
             Assert.AreEqual("[[Big Bend, Texas|Big Bend]]", Parsers.SimplifyLinks("[[Big Bend, Texas | Big Bend]]"));
 
-<<<<<<< .mine
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_8#SVN:_general_fixes_removes_whitespace_around_pipes_within_citation_templates
-=======
-            // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_8#SVN:_general_fixes_removes_whitespace_around_pipes_within_citation_templates
->>>>>>> .r8249
             Assert.AreEqual("{{foo|[[bar]] | boz}}]]", Parsers.SimplifyLinks("{{foo|[[bar]] | boz}}]]"));
             Assert.AreEqual("{{foo|[[bar]]\r\n| boz}}]]", Parsers.SimplifyLinks("{{foo|[[bar]]\r\n| boz}}]]"));
 
-<<<<<<< .mine
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_9#General_fixes_remove_spaces_from_category_sortkeys
-=======
-            // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_9#General_fixes_remove_spaces_from_category_sortkeys
->>>>>>> .r8249
             Assert.AreEqual("[[foo|bar]]", Parsers.SimplifyLinks("[[foo| bar]]"));
             Assert.AreEqual("[[foo|bar]]", Parsers.SimplifyLinks("[[foo| bar ]]"));
             Assert.AreEqual("[[Category:foo| bar]]", Parsers.SimplifyLinks("[[Category:foo| bar]]"));
@@ -971,18 +959,10 @@ The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines af
             Assert.AreEqual("the later 1990s", parser.FixDates("the later 1990's"));
             Assert.AreEqual("the later 1990s", parser.FixDates("the later 1990’s"));
 
-<<<<<<< .mine
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Title_bolding
-=======
-            // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Title_bolding
->>>>>>> .r8249
             Assert.AreEqual("the later A1990's", parser.FixDates("the later A1990's"));
 
-<<<<<<< .mine
             //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Breaking_a_template
-=======
-            //https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Breaking_a_template
->>>>>>> .r8249
             Assert.AreEqual("{{the later 1990's}}", parser.FixDates("{{the later 1990's}}"));
 
             // replace <br> and <p> HTML tags tests
@@ -3226,11 +3206,7 @@ Template:foo}}"));
             Assert.AreEqual("{{cite web | url = http://test.com |title=a }}", Parsers.FixSyntax("{{cite web | url = http:http://test.com |title=a }}"));
             Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://http://http://test.com]"));
 
-<<<<<<< .mine
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#second_pair_of_brackets_added_to_https_links
-=======
-            // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#second_pair_of_brackets_added_to_https_links
->>>>>>> .r8249
             Assert.AreEqual("[https://example.com] site", Parsers.FixSyntax("[https://example.com]] site"));
             Assert.AreEqual("[https://example.com] site", Parsers.FixSyntax("[[https://example.com] site"));
 
@@ -3392,11 +3368,7 @@ Template:foo}}"));
         [Test, Category("Incomplete")]
         public void TestFixSyntax()
         {
-<<<<<<< .mine
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_3#NEsted_square_brackets_again.
-=======
-            // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_3#NEsted_square_brackets_again.
->>>>>>> .r8249
             Assert.AreEqual("[[Image:foo.jpg|Some [http://some_crap.com]]]",
                             Parsers.FixSyntax("[[Image:foo.jpg|Some [http://some_crap.com]]]"));
 
@@ -3406,20 +3378,12 @@ Template:foo}}"));
             Assert.AreEqual("[[somelink]]", Parsers.FixSyntax("[[somelink]"));
             Assert.AreNotEqual("[[somelink]]", Parsers.FixSyntax("[somelink]"));
 
-<<<<<<< .mine
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Erroneously_removing_pipe
-=======
-            // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Erroneously_removing_pipe
->>>>>>> .r8249
             Assert.AreEqual("[[|foo]]", Parsers.FixSyntax("[[|foo]]"));
 
             bool noChange;
             //TODO: move it to parts testing specific functions, when they're covered
-<<<<<<< .mine
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_4#Bug_encountered_when_perusing_Sonorous_Susurrus
-=======
-            // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_4#Bug_encountered_when_perusing_Sonorous_Susurrus
->>>>>>> .r8249
             Parsers.CanonicalizeTitle("[[|foo]]"); // shouldn't throw exceptions
             Assert.AreEqual("[[|foo]]", Parsers.FixLinks("[[|foo]]", "bar", out noChange));
 
@@ -4388,11 +4352,7 @@ http://example.com }}");
             StringAssert.Contains("* http://example.com/foo", s);
             StringAssert.Contains("* [http://example.com foo]", s);
 
-<<<<<<< .mine
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Incorrect_bulleting
-=======
-            // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Incorrect_bulleting
->>>>>>> .r8249
             StringAssert.Contains("\r\nhttp://example.com }}", s);
         }
 
@@ -4461,11 +4421,7 @@ http://example.com }}");
             Assert.AreEqual("File:Foo.jpg", Parsers.CanonicalizeTitleAggressively("Image: foo.jpg "));
 
             // a bit of ambiguousness here, but
-<<<<<<< .mine
             // https://en.wikipedia.org/wiki/Wikipedia:AWB/B#Problem_.28on_runecape_wikia.29_with_articles_with_.2B_in_the_name.
-=======
-            // https://.wikipedia.org/wiki/Wikipedia:AWB/B#Problem_.28on_runecape_wikia.29_with_articles_with_.2B_in_the_name.
->>>>>>> .r8249
             Assert.AreEqual("Romeo+Juliet", Parsers.CanonicalizeTitleAggressively("Romeo+Juliet"));
 
             Assert.AreEqual("Foo", Parsers.CanonicalizeTitleAggressively(":Foo"));
@@ -4473,11 +4429,7 @@ http://example.com }}");
             Assert.AreEqual(":Foo", Parsers.CanonicalizeTitleAggressively("::Foo"));
             Assert.AreEqual("User:Foo", Parsers.CanonicalizeTitleAggressively(":user:Foo"));
 
-<<<<<<< .mine
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#List_of_.22User_talk:.22_pages_change_to_list_of_.22Talk:.22_pages_when_started
-=======
-            // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#List_of_.22User_talk:.22_pages_change_to_list_of_.22Talk:.22_pages_when_started
->>>>>>> .r8249
             Assert.AreEqual("User talk:Foo", Parsers.CanonicalizeTitleAggressively("User talk:Foo"));
         }
 
@@ -4491,22 +4443,14 @@ http://example.com }}");
             Assert.AreEqual(@"[[Category:Foo bar]]", Parsers.FixCategories(@"[[category:Foo bar]]"));
             Assert.AreEqual(@"[[Category:Foo bar]]", Parsers.FixCategories(@"[[Category  :  Foo_bar  ]]"));
 
-<<<<<<< .mine
             // https://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser/Bugs&oldid=262844859#General_fixes_remove_spaces_from_category_sortkeys
-=======
-            // https://.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser/Bugs&oldid=262844859#General_fixes_remove_spaces_from_category_sortkeys
->>>>>>> .r8249
             Assert.AreEqual(@"[[Category:Public transport in Auckland| Public transport in Auckland]]", Parsers.FixCategories(@"[[Category:Public transport in Auckland| Public transport in Auckland]]"));
             Assert.AreEqual(@"[[Category:Actors|Fred Astaire]]", Parsers.FixCategories(@"[[Category:Actors|Fred Astaire ]]")); // trailing space IS removed
             Assert.AreEqual(@"[[Category:Actors| Fred Astaire]]", Parsers.FixCategories(@"[[Category:Actors| Fred Astaire ]]")); // trailing space IS removed
             Assert.AreEqual(@"[[Category:London| ]]", Parsers.FixCategories(@"[[Category:London| ]]")); // leading space NOT removed
             Assert.AreEqual(@"[[Category:Slam poetry| ]] ", Parsers.FixCategories(@"[[Category:Slam poetry| ]] ")); // leading space NOT removed
 
-<<<<<<< .mine
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Archive_18#.2Fdoc_pages_and_includeonly_sections
-=======
-            // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Archive_18#.2Fdoc_pages_and_includeonly_sections
->>>>>>> .r8249
             Assert.AreEqual("[[Category:Foo bar|boz_quux]]", Parsers.FixCategories("[[Category: foo_bar |boz_quux]]"));
             Assert.AreEqual("[[Category:Foo bar|{{boz_quux}}]]", Parsers.FixCategories("[[Category: foo_bar|{{boz_quux}}]]"));
             StringAssert.Contains("{{{boz_quux}}}", Parsers.FixCategories("[[CategorY : foo_bar{{{boz_quux}}}]]"));
@@ -4720,11 +4664,7 @@ http://example.com }}");
             Assert.AreEqual("*a", Parsers.FixSyntax("*a <br\\> \r\n"));
 
             // leading (back)slash is hack for incorrectly formatted breaks per
-<<<<<<< .mine
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#br_tags_are_not_always_removed
-=======
-            // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#br_tags_are_not_always_removed
->>>>>>> .r8249
             // remove <br> from lists (end of list line)
             Assert.AreEqual("*a", Parsers.FixSyntax("*a </br/> \r\n"));
             Assert.AreEqual("*a", Parsers.FixSyntax("*a<br\\> \r\n"));
@@ -4823,11 +4763,7 @@ Some news here.", Parsers.FixHeadings(@"hi.
 ==News place==
 Some news here.", "test"), "space trimmed from end of paragraph when br replaces newline");
 
-<<<<<<< .mine
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#ReferenceS
-=======
-            // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#ReferenceS
->>>>>>> .r8249
             Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==REFERENCES==", "a"));
             Assert.AreEqual(@"==Reference==", Parsers.FixHeadings(@"==REFERENCE:==", "a"));
             Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==REFERENSES==", "a"));
@@ -5699,11 +5635,7 @@ was"));
             Assert.AreEqual(@"In June 2008 there was", parser.FixDateOrdinalsAndOf(@"In June 2008 there was", "test"));
             Assert.AreEqual(@"On 00 June elections were", parser.FixDateOrdinalsAndOf(@"On 00 June elections were", "test"));
             Assert.AreEqual(@"The 007 May was", parser.FixDateOrdinalsAndOf(@"The 007 May was", "test"));
-<<<<<<< .mine
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Overzealous_de-ordinaling
-=======
-            // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Overzealous_de-ordinaling
->>>>>>> .r8249
             Assert.AreEqual(@"On 27 June 2nd and 3rd Panzer Groups", parser.FixDateOrdinalsAndOf(@"On 27 June 2nd and 3rd Panzer Groups", "test"));
         }
 
@@ -5786,11 +5718,7 @@ was"));
             //Assert.AreEqual("[[:Media:foo]]",
             //    Parsers.FixImages("[[ : media : foo]]"));
 
-<<<<<<< .mine
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#URL_underscore_regression
-=======
-            // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#URL_underscore_regression
->>>>>>> .r8249
             Assert.AreEqual("[[File:foo|thumb]] # [http://a_b c] [[link]]",
                             Parsers.FixImages("[[File:foo|thumb]] # [http://a_b c] [[link]]"));
 
@@ -6152,11 +6080,7 @@ The Yucatec form of the name is formed from the word", "Kukulkan", out noChangeB
         }
 
         [Test]
-<<<<<<< .mine
         // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_9#Bold_letters
-=======
-        // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_9#Bold_letters
->>>>>>> .r8249
         public void ExamplesFromBugReport()
         {
             Assert.AreEqual(@"'''Michael Bavaro''' is a [[filmmaker]] based in [[Manhattan]]. While remaining upright may be the primary goal of beginning riders, a bike must lean in order to maintain balance",
@@ -6184,11 +6108,7 @@ While remaining upright may be the primary goal of beginning riders While remain
 While remaining upright may be the primary goal of beginning riders While remaining upright may be the primary goal of beginning riders", "Steve Cook", out noChangeBack));
             Assert.IsFalse(noChangeBack);
 
-<<<<<<< .mine
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#Piped_self-link_delinking_bug
-=======
-            // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#Piped_self-link_delinking_bug
->>>>>>> .r8249
             Assert.AreEqual(@"The '''2009 Indian Premier League''' While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders| 2009<br>", Parsers.FixLinks(parser.BoldTitle(@"The 2009 Indian Premier League While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders| [[2009 Indian Premier League|2009]]<br>", "2009 Indian Premier League", out noChangeBack), "2009 Indian Premier League", out noChangeBack));
@@ -6201,11 +6121,7 @@ John Smith was great.";
         }
 
         [Test]
-<<<<<<< .mine
         // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#If_a_selflink_is_also_bolded.2C_AWB_should_just_remove_the_selflink
-=======
-        // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#If_a_selflink_is_also_bolded.2C_AWB_should_just_remove_the_selflink
->>>>>>> .r8249
         public void SelfLinksWithBold()
         {
             Assert.AreEqual(@"'''Marie-Madeleine-Marguerite d'Aubray, Marquise de Brinvilliers'''", parser.BoldTitle(@"'''[[Marie-Madeleine-Marguerite d'Aubray, Marquise de Brinvilliers]]'''", @"Marie-Madeleine-Marguerite d'Aubray, Marquise de Brinvilliers", out noChangeBack));
@@ -6267,11 +6183,7 @@ John Smith was great.";
         }
 
         [Test]
-<<<<<<< .mine
         // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_3#Fixing_Main_Article_to_.7B.7Bmain.7D.7D
-=======
-        // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_3#Fixing_Main_Article_to_.7B.7Bmain.7D.7D
->>>>>>> .r8249
         public void PipedLinks()
         {
             Assert.AreEqual("{{Main|Foo|l1=Bar}}", Parsers.FixMainArticle("Main article: [[Foo|Bar]]"));
@@ -6310,11 +6222,7 @@ John Smith was great.";
         }
 
         [Test]
-<<<<<<< .mine
         // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_4#Problem_with_reverse_subst_of_.7B.7Bmain.7D.7D
-=======
-        // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_4#Problem_with_reverse_subst_of_.7B.7Bmain.7D.7D
->>>>>>> .r8249
         public void DontEatTooMuch()
         {
             Assert.AreEqual("Foo is a bar, see main article: [[Foo]]",
@@ -6323,11 +6231,7 @@ John Smith was great.";
         }
 
         [Test]
-<<<<<<< .mine
         // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#Main_and_See_also_templates
-=======
-        // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#Main_and_See_also_templates
->>>>>>> .r8249
         public void SingleLinkOnly()
         {
             Assert.AreEqual(":Main article: [[Foo]] and [[Bar]]", Parsers.FixMainArticle(":Main article: [[Foo]] and [[Bar]]"));
@@ -6335,11 +6239,7 @@ John Smith was great.";
         }
 
         [Test]
-<<<<<<< .mine
         // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Problem_with_.22Main_article.22_fixup
-=======
-        // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Problem_with_.22Main_article.22_fixup
->>>>>>> .r8249
         public void Newlines()
         {
             Assert.AreEqual("test\r\n{{Main|Foo}}\r\ntest", Parsers.FixMainArticle("test\r\nMain article: [[Foo]]\r\ntest"));
@@ -6347,11 +6247,7 @@ John Smith was great.";
         }
 
         [Test]
-<<<<<<< .mine
         // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_3#Fixing_Main_Article_to_.7B.7Bmain.7D.7D
-=======
-        // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_3#Fixing_Main_Article_to_.7B.7Bmain.7D.7D
->>>>>>> .r8249
         public void SeeAlso()
         {
             Assert.AreEqual("{{See also|Foo|l1=Bar}}", Parsers.FixMainArticle("See also: [[Foo|Bar]]"));
@@ -6398,11 +6294,7 @@ John Smith was great.";
             Assert.AreEqual(@"<noinclude> [[foo]] </noinclude>", Parsers.FixLinks(@"<noinclude> [[foo]] </noinclude>", "foo", out noChangeBack));
             Assert.IsTrue(noChangeBack);
 
-<<<<<<< .mine
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Incorrect_delinking_of_article_title
-=======
-            // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Incorrect_delinking_of_article_title
->>>>>>> .r8249
             Assert.AreEqual("foo bar", Parsers.FixLinks("[[foo bar]]", "Foo bar", out noChangeBack));
             Assert.AreEqual("Foo bar", Parsers.FixLinks("[[Foo bar]]", "foo bar", out noChangeBack));
         }
@@ -6945,11 +6837,7 @@ Text
             Assert.AreEqual("{{DEFAULTSORT: \t}}", Parsers.ChangeToDefaultSort("{{DEFAULTSORT: \t}}", "Foo", out noChange));
             Assert.IsTrue(noChange);
 
-<<<<<<< .mine
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#DEFAULTSORT_with_spaces
-=======
-            // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#DEFAULTSORT_with_spaces
->>>>>>> .r8249
             // DEFAULTSORT doesn't treat leading spaces the same way as categories do
             Assert.AreEqual("[[Category:Test1| Foooo]][[Category:Test2| Foooo]]",
                             Parsers.ChangeToDefaultSort("[[Category:Test1| Foooo]][[Category:Test2| Foooo]]", "Bar",
@@ -7353,87 +7241,21 @@ foo {{persondata}}
         public void ExternalURLToInternalLinkEn()
         {
             Assert.AreEqual("[[wikt:Test|Test]]",
-<<<<<<< .mine
-<<<<<<< .mine
-                            Parsers.ExternalURLToInternalLink("[http://.wiktionary.org/wiki/Test Test]"));
-=======
                             Parsers.ExternalURLToInternalLink("[http://en.wiktionary.org/wiki/Test Test]"));
-=======
-                            Parsers.ExternalURLToInternalLink("[https://.wiktionary.org/wiki/Test Test]"));
->>>>>>> .r8249
->>>>>>> .r8248
             Assert.AreEqual("[[wikt:Test|Test]]",
-<<<<<<< .mine
-<<<<<<< .mine
-                            Parsers.ExternalURLToInternalLink("[http://.wiktionary.org/w/Test Test]"));
-=======
                             Parsers.ExternalURLToInternalLink("[http://en.wiktionary.org/w/Test Test]"));
-=======
-                            Parsers.ExternalURLToInternalLink("[https://.wiktionary.org/w/Test Test]"));
->>>>>>> .r8249
->>>>>>> .r8248
             Assert.AreEqual("[[n:Test|Test]]",
-<<<<<<< .mine
-<<<<<<< .mine
-                            Parsers.ExternalURLToInternalLink("[http://.wikinews.org/wiki/Test Test]"));
-=======
                             Parsers.ExternalURLToInternalLink("[http://en.wikinews.org/wiki/Test Test]"));
-=======
-                            Parsers.ExternalURLToInternalLink("[https://.wikinews.org/wiki/Test Test]"));
->>>>>>> .r8249
->>>>>>> .r8248
             Assert.AreEqual("[[b:Test|Test]]",
-<<<<<<< .mine
-<<<<<<< .mine
-                            Parsers.ExternalURLToInternalLink("[http://.wikibooks.org/wiki/Test Test]"));
-=======
                             Parsers.ExternalURLToInternalLink("[http://en.wikibooks.org/wiki/Test Test]"));
-=======
-                            Parsers.ExternalURLToInternalLink("[https://.wikibooks.org/wiki/Test Test]"));
->>>>>>> .r8249
->>>>>>> .r8248
             Assert.AreEqual("[[q:Test|Test]]",
-<<<<<<< .mine
-<<<<<<< .mine
-                            Parsers.ExternalURLToInternalLink("[http://.wikiquote.org/wiki/Test Test]"));
-=======
                             Parsers.ExternalURLToInternalLink("[http://en.wikiquote.org/wiki/Test Test]"));
-=======
-                            Parsers.ExternalURLToInternalLink("[https://.wikiquote.org/wiki/Test Test]"));
->>>>>>> .r8249
->>>>>>> .r8248
             Assert.AreEqual("[[s:Test|Test]]",
-<<<<<<< .mine
-<<<<<<< .mine
-                            Parsers.ExternalURLToInternalLink("[http://.wikisource.org/wiki/Test Test]"));
-=======
                             Parsers.ExternalURLToInternalLink("[http://en.wikisource.org/wiki/Test Test]"));
-=======
-                            Parsers.ExternalURLToInternalLink("[https://.wikisource.org/wiki/Test Test]"));
->>>>>>> .r8249
->>>>>>> .r8248
             Assert.AreEqual("[[v:Test|Test]]",
-<<<<<<< .mine
-<<<<<<< .mine
-                            Parsers.ExternalURLToInternalLink("[http://.wikiversity.org/wiki/Test Test]"));
-=======
                             Parsers.ExternalURLToInternalLink("[http://en.wikiversity.org/wiki/Test Test]"));
-=======
-                            Parsers.ExternalURLToInternalLink("[https://.wikiversity.org/wiki/Test Test]"));
->>>>>>> .r8249
->>>>>>> .r8248
             Assert.AreEqual("[[w:Test|Test]]",
-<<<<<<< .mine
-<<<<<<< .mine
-                            Parsers.ExternalURLToInternalLink("[http://.wikipedia.org/wiki/Test Test]"));
-            Assert.AreEqual("[[w:Test|Test]]",
-                            Parsers.ExternalURLToInternalLink("[https://.wikipedia.org/wiki/Test Test]"));
-=======
                             Parsers.ExternalURLToInternalLink("[http://en.wikipedia.org/wiki/Test Test]"));
-=======
-                            Parsers.ExternalURLToInternalLink("[https://.wikipedia.org/wiki/Test Test]"));
->>>>>>> .r8249
->>>>>>> .r8248
 
             Assert.AreEqual("[[wikt:fr:Test|Test]]",
                             Parsers.ExternalURLToInternalLink("[http://fr.wiktionary.org/wiki/Test Test]"));
@@ -7443,26 +7265,10 @@ foo {{persondata}}
 #if DEBUG
             Variables.SetProjectLangCode("fr");
             Assert.AreEqual("[[w:en:Test|Test]]",
-<<<<<<< .mine
-<<<<<<< .mine
-                            Parsers.ExternalURLToInternalLink("[http://.wikipedia.org/wiki/Test Test]"));
-=======
                             Parsers.ExternalURLToInternalLink("[http://en.wikipedia.org/wiki/Test Test]"));
-=======
-                            Parsers.ExternalURLToInternalLink("[https://.wikipedia.org/wiki/Test Test]"));
->>>>>>> .r8249
->>>>>>> .r8248
             Variables.SetProjectLangCode("en");
             Assert.AreEqual("[[w:Test|Test]]",
-<<<<<<< .mine
-<<<<<<< .mine
-                            Parsers.ExternalURLToInternalLink("[http://.wikipedia.org/wiki/Test Test]"));
-=======
                             Parsers.ExternalURLToInternalLink("[http://en.wikipedia.org/wiki/Test Test]"));
-=======
-                            Parsers.ExternalURLToInternalLink("[https://.wikipedia.org/wiki/Test Test]"));
->>>>>>> .r8249
->>>>>>> .r8248
 #endif
         }
 
@@ -7863,11 +7669,8 @@ asdfasdf}} was here", "foo"));
         [Test]
         public void FixUnicode()
         {
-<<<<<<< .mine
             // https://en.wikipedia.org/wiki/Wikipedia:AWB/B#Line_break_insertion
-=======
-            // https://.wikipedia.org/wiki/Wikipedia:AWB/B#Line_break_insertion
->>>>>>> .r8249
+
             Assert.AreEqual("foo bar", parser.FixUnicode("foo\x2028bar"));
             Assert.AreEqual("foo bar", parser.FixUnicode("foo\x2029bar"));
         }
@@ -7978,11 +7781,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.AreEqual("[[Category:Bar]]", Parsers.ReCategoriser("Foo", "Bar", "[[Category:Foo]]", out noChange));
             Assert.IsFalse(noChange);
 
-<<<<<<< .mine
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Replacing_Arabic_categories
-=======
-            // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Replacing_Arabic_categories
->>>>>>> .r8249
             // addresses special case in Tools.CaseInsensitive
             Assert.AreEqual("[[Category:Bar]]", Parsers.ReCategoriser("-Foo bar-", "Bar", "[[Category:-Foo bar-]]", out noChange));
             Assert.IsFalse(noChange);
@@ -8049,11 +7848,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.AreEqual("", Parsers.RemoveCategory("Foo", "[[Category:Foo]]", out noChange));
             Assert.IsFalse(noChange);
 
-<<<<<<< .mine
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Replacing_Arabic_categories
-=======
-            // https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_7#Replacing_Arabic_categories
->>>>>>> .r8249
             // addresses special case in Tools.CaseInsensitive
             Assert.AreEqual("", Parsers.RemoveCategory("-Foo bar-", "[[Category:-Foo bar-]]", out noChange));
             Assert.IsFalse(noChange);
