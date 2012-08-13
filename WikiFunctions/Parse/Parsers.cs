@@ -4008,7 +4008,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex DateLinkWhitespace1 = new Regex(@"\b(\[\[\d\d? " + WikiRegexes.MonthsNoGroup + @"\]\]),? {0,2}(\[\[\d{1,4}\]\])\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex DateLinkWhitespace2 = new Regex(@"\b(\[\[" + WikiRegexes.MonthsNoGroup + @" \d\d?\]\]),? {0,2}(\[\[\d{1,4}\]\])\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex SectionLinkWhitespace = new Regex(@"(\[\[[^\[\]\|]+)(?: +# *| *# +)([^\[\]]+\]\])", RegexOptions.Compiled);
+        private static readonly Regex SectionLinkWhitespace = new Regex(@"(\[\[[^\[\]\|]+)(?: +# *| *# +)([^\[\]]+\]\])(?<!\[\[[CF]# .*)", RegexOptions.Compiled);
         private static readonly Regex Hash = new Regex(@"#", RegexOptions.Compiled);
 
         // Covered by LinkTests.TestFixLinkWhitespace()

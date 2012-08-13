@@ -4389,6 +4389,8 @@ http://example.com }}");
             Assert.AreEqual("[[foo#bar|te]]", Parsers.FixLinkWhitespace("[[foo  #bar|te]]", "foot"));
 
             Assert.AreEqual(@"[[List of The Amazing Spider-Man issues#The Amazing Spider-Man #648–current x|List of issues]]", Parsers.FixLinkWhitespace(@"[[List of The Amazing Spider-Man issues#The Amazing Spider-Man #648–current x|List of issues]]", "x"), "Does not break section links with hash and space");
+
+            Assert.AreEqual("[[C# code]]", Parsers.FixLinkWhitespace("[[C# code]]", "Test"));
         }
 
         [Test]
