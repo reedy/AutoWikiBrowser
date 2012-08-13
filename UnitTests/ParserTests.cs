@@ -3199,6 +3199,9 @@ Template:foo}}"));
             Assert.AreEqual("[http://example.com] site", Parsers.FixSyntax("[http://example.com]] site"));
             Assert.AreEqual("[http://example.com] site", Parsers.FixSyntax("[[http://example.com]] site"));
             Assert.AreEqual("[http://example.com] site", Parsers.FixSyntax("[[ http://example.com]] site"));
+            Assert.AreEqual(@"[http://example.com]
+* List 2", Parsers.FixSyntax(@"[[http://example.com
+* List 2"));
 
             Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://test.com]"));
             Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://http://test.com]"));
@@ -4331,7 +4334,7 @@ x
             Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web|url=[[http://site.net]]|title=hello}} was"));
             Assert.AreEqual(@"now {{cite web|url = http://site.net  |title=hello}} was", Parsers.FixSyntax(@"now {{cite web|url = [http://site.net]  |title=hello}} was"));
             Assert.AreEqual(@"now {{cite web|title=hello |url=www.site.net}} was", Parsers.FixSyntax(@"now {{cite web|title=hello |url=[www.site.net]}} was"));
-            Assert.AreEqual(@"now {{cite journal|title=hello | url=site.net }} was", Parsers.FixSyntax(@"now {{cite journal|title=hello | url=[site.net]] }} was"));
+            Assert.AreEqual(@"now {{cite journal|title=hello | url=http://site.net }} was", Parsers.FixSyntax(@"now {{cite journal|title=hello | url=[http://site.net]] }} was"));
 
             // no match
             Assert.AreEqual(@"now {{cite web| url=http://site.net|title=hello}} was", Parsers.FixSyntax(@"now {{cite web| url=http://site.net|title=hello}} was"));

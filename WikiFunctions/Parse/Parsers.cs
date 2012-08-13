@@ -2600,12 +2600,6 @@ namespace WikiFunctions.Parse
             // remove <br> from lists (end of list line) CHECKWIKI error 54
             articleText = SyntaxRegexListRowBrTag.Replace(articleText, "$1\r\n");
 
-            //fix uneven bracketing on links
-            articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "[$1");
-            articleText = DoubleBracketAtEndOfExternalLink.Replace(articleText, "$1");
-            articleText = DoubleBracketAtEndOfExternalLinkWithinImage.Replace(articleText, "$1");
-            articleText = ListExternalLinkEndsCurlyBrace.Replace(articleText, "$1]");
-
             articleText = MultipleHttpInLink.Replace(articleText, "$1$2");
 
             articleText = PipedExternalLink.Replace(articleText, "$1 $2");
@@ -2649,11 +2643,7 @@ namespace WikiFunctions.Parse
             articleText = CitationTemplateIncorrectBracesAtEnd.Replace(articleText, @"$1}}");
             articleText = RefExternalLinkMissingStartBracket.Replace(articleText, @"[$1");
             articleText = RefExternalLinkMissingEndBracket.Replace(articleText, @"]$1");
-            articleText = BracesWithinDefaultsort.Replace(articleText, @"}}");
-
-            // (part) wikilinked/external linked URL in cite template, uses MediaWiki regex of [^\[\]<>""\s] for URL bit after http://
-            articleText = BracketsAtBeginCiteTemplateURL.Replace(articleText, "$1$2$3");
-            articleText = BracketsAtEndCiteTemplateURL.Replace(articleText, "$1$2$3");
+            articleText = BracesWithinDefaultsort.Replace(articleText, @"}}");            
 
             // fixes for square brackets used within external links
             foreach (Match m in SquareBracketsInExternalLinks.Matches(articleText))
@@ -2685,6 +2675,16 @@ namespace WikiFunctions.Parse
 
             // if there are some unbalanced brackets, see whether we can fix them
             articleText = FixUnbalancedBrackets(articleText);
+            
+            //fix uneven bracketing on links
+            articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "[$1");
+            articleText = DoubleBracketAtEndOfExternalLink.Replace(articleText, "$1");
+            articleText = DoubleBracketAtEndOfExternalLinkWithinImage.Replace(articleText, "$1");
+            articleText = ListExternalLinkEndsCurlyBrace.Replace(articleText, "$1]");
+            
+            // (part) wikilinked/external linked URL in cite template, uses MediaWiki regex of [^\[\]<>""\s] for URL bit after http://
+            articleText = BracketsAtBeginCiteTemplateURL.Replace(articleText, "$1$2$3");
+            articleText = BracketsAtEndCiteTemplateURL.Replace(articleText, "$1$2$3");
 
             // fix newline(s) in external link description
             while (ExternalLinksNewline.IsMatch(articleText))
