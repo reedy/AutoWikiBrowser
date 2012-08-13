@@ -1344,9 +1344,6 @@ namespace WikiFunctions
                 AWBChangeArticleText("Add missing {{reflist}}", Parsers.AddMissingReflist(ArticleText), true, true);
                 Variables.Profiler.Profile("AddMissingReflist");
 
-                AWBChangeArticleText("Remove empty comments", Parsers.RemoveEmptyComments(ArticleText), false);
-                Variables.Profiler.Profile("RemoveEmptyComments");
-
                 if (!noMOSComplianceFixes)
                 {
                     AWBChangeArticleText("Mdashes", parsers.Mdashes(ArticleText, Name), true);
@@ -1384,6 +1381,10 @@ namespace WikiFunctions
                 // FixDates does its own hiding
                 AWBChangeArticleText("Fix dates", parsers.FixDates(ArticleText).Trim(), false);
                 Variables.Profiler.Profile("FixDates");
+
+                AWBChangeArticleText("Remove empty comments", Parsers.RemoveEmptyComments(ArticleText), false);
+                Variables.Profiler.Profile("RemoveEmptyComments");
+
             }
 
             AfterGeneralFixesTextChanged();
