@@ -144,6 +144,13 @@ namespace WikiFunctions.API
         void Watch(string title);
 
         /// <summary>
+        /// Adds the given page to current user's watchlist
+        /// </summary>
+        /// <param name="title">Page to add to watchlist</param>
+        /// <param name="unwatch">Whether to unwatch a page</param>
+        void WatchAction(string title, bool unwatch);
+
+        /// <summary>
         /// Removes the given page from current user's watchlist
         /// </summary>
         /// <param name="title">Page to remove from watchlist</param>

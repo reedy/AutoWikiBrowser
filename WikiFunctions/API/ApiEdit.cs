@@ -583,36 +583,58 @@ namespace WikiFunctions.API
 
         public void Watch(string title)
         {
+            WatchAction(title, false);
+        }
+
+        public void WatchAction(string title, bool unwatch)
+        {
             if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
 
-            //Reset();
-            string result = HttpPost(new[,]
-                                         {
-                                             {"action", "watch"},
-                                         },
-                                     new[,]
-                                         {
-                                             {"title", title}
-                                         },
-                                         ActionOptions.None);
+            // Token needed as of 1.18
+            // TODO: Make token getting optional..
+            string result = HttpGet(
+                new[,]
+                    {
+                        {"action", "query"},
+                        {"prop", "info"},
+                        {"intoken", "watch"},
+                        {"titles", title},
+
+                    },
+                ActionOptions.All);
+
+            CheckForErrors(result);
+
+            try
+            {
+                XmlReader xr = XmlReader.Create(new StringReader(result));
+                if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
+                Page.EditToken = xr.GetAttribute("watchtoken");
+            }
+            catch (Exception ex)
+            {
+                throw new BrokenXmlException(this, ex);
+            }
+
+            if (Aborting) throw new AbortedException(this);
+
+            result = HttpPost(
+                new[,]
+                    {
+                        {"action", "watch"}
+                    },
+                new[,]
+                    {
+                        { "title", title },
+                        { "token", Page.EditToken },
+                    },
+                    ActionOptions.All);
             CheckForErrors(result, "watch");
         }
 
         public void Unwatch(string title)
         {
-            if (string.IsNullOrEmpty(title)) throw new ArgumentException("Page name required", "title");
-
-            //Reset();
-            string result = HttpPost(new[,]
-                                         {
-                                             {"action", "watch"},
-                                         },
-                                     new[,]
-                                         {
-                                             {"title", title},
-                                             {"unwatch", null}
-                                         });
-            CheckForErrors(result, "watch");
+            WatchAction(title, true);
         }
 
         public UserInfo User { get; private set; }
