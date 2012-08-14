@@ -298,18 +298,18 @@ a");
             Assert.AreEqual(correct, ArticleText);
         }
         
-        [Test]
-        public void RemoveEmptyComments()
-        {
-            ArticleText = @"<!---->Foo<!-- --><!--  -->";
-            
-            GenFixes("Test");
-            
-            string correct ="Foo";
-
-            Assert.AreEqual(correct, ArticleText);
-            
-        }
+//        [Test]
+//        public void RemoveEmptyComments()
+//        {
+//            ArticleText = @"<!---->Foo<!-- --><!--  -->";
+//            
+//            GenFixes("Test");
+//            
+//            string correct ="Foo";
+//
+//            Assert.AreEqual(correct, ArticleText);
+//            
+//        }
     }
 
     [TestFixture]

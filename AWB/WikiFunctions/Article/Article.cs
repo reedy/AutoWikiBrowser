@@ -1382,8 +1382,9 @@ namespace WikiFunctions
                 AWBChangeArticleText("Fix dates", parsers.FixDates(ArticleText).Trim(), false);
                 Variables.Profiler.Profile("FixDates");
 
-                AWBChangeArticleText("Remove empty comments", Parsers.RemoveEmptyComments(ArticleText), false);
-                Variables.Profiler.Profile("RemoveEmptyComments");
+				//Disactivated for now. Some editors use empty comments to separate lines in tables
+//                AWBChangeArticleText("Remove empty comments", Parsers.RemoveEmptyComments(ArticleText), false);
+//                Variables.Profiler.Profile("RemoveEmptyComments");
 
             }
 
