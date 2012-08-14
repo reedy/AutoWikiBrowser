@@ -23,10 +23,15 @@ using System.Reflection;
 namespace WikiFunctions.API
 {
     public delegate void AsyncEventHandler(AsyncApiEdit sender);
+
     public delegate void AsyncOpenEditHandler(AsyncApiEdit sender, PageInfo pageInfo);
+
     public delegate void AsyncSaveEventHandler(AsyncApiEdit sender, SaveInfo saveInfo);
+
     public delegate void AsyncStringEventHandler(AsyncApiEdit sender, string result);
+
     public delegate void AsyncExceptionEventHandler(AsyncApiEdit sender, Exception ex);
+
     public delegate void AsyncMaxlagEventHandler(AsyncApiEdit sender, int maxlag, int retryAfter);
 
     /// <summary>
@@ -67,7 +72,7 @@ namespace WikiFunctions.API
 
         public AsyncApiEdit Clone()
         {
-            return new AsyncApiEdit((ApiEdit)SynchronousEditor.Clone(), ParentControl);
+            return new AsyncApiEdit((ApiEdit) SynchronousEditor.Clone(), ParentControl);
         }
 
         /// <summary>
@@ -105,10 +110,7 @@ namespace WikiFunctions.API
         /// </summary>
         public EditState State
         {
-            get
-            {
-                return mState;
-            }
+            get { return mState; }
             protected set
             {
                 CallEvent(StateChanged, this);
@@ -121,10 +123,7 @@ namespace WikiFunctions.API
         /// </summary>
         public bool IsActive
         {
-            get
-            {
-                return State == EditState.Working;
-            }
+            get { return State == EditState.Working; }
         }
 
         /// <summary>
@@ -163,9 +162,12 @@ namespace WikiFunctions.API
         #endregion
 
         #region Events internal
-        delegate void OperationEndedInternal(string operation, object result);
-        delegate void OperationFailedInternal(string operation, Exception ex);
-        delegate void ExceptionCaughtInternal(Exception ex);
+
+        private delegate void OperationEndedInternal(string operation, object result);
+
+        private delegate void OperationFailedInternal(string operation, Exception ex);
+
+        private delegate void ExceptionCaughtInternal(Exception ex);
 
         protected virtual void OnOperationComplete(string operation, object result)
         {
@@ -175,10 +177,10 @@ namespace WikiFunctions.API
                     if (OpenComplete != null) OpenComplete(this, Page);
                     break;
                 case "Save":
-                    if (SaveComplete != null) SaveComplete(this, (SaveInfo)result);
+                    if (SaveComplete != null) SaveComplete(this, (SaveInfo) result);
                     break;
                 case "Preview":
-                    if (PreviewComplete != null) PreviewComplete(this, (string)result);
+                    if (PreviewComplete != null) PreviewComplete(this, (string) result);
                     break;
             }
         }
@@ -189,7 +191,7 @@ namespace WikiFunctions.API
 
             if (ex is MaxlagException)
             {
-                var exm = (MaxlagException)ex;
+                var exm = (MaxlagException) ex;
                 if (MaxlagExceeded != null) MaxlagExceeded(this, exm.Maxlag, exm.RetryAfter);
             }
             else if (ex is LoggedOffException)
@@ -205,6 +207,7 @@ namespace WikiFunctions.API
         {
             if (ExceptionCaught != null) ExceptionCaught(this, ex);
         }
+
         #endregion
 
         #region Death magic invocations
@@ -251,7 +254,7 @@ namespace WikiFunctions.API
 
             try
             {
-                InvokeArgs args = (InvokeArgs)genericArgs;
+                InvokeArgs args = (InvokeArgs) genericArgs;
                 operation = args.Function;
 
                 Thread.CurrentThread.Name = string.Format("InvokerThread ({0})", args.Function);
@@ -259,11 +262,11 @@ namespace WikiFunctions.API
                 Type t = SynchronousEditor.GetType();
 
                 object result = t.InvokeMember(
-                    args.Function,                                  // name
-                    BindingFlags.InvokeMethod,                      // invokeAttr
-                    null,                                           // binder
-                    SynchronousEditor,                                         // target
-                    args.Arguments                                  // args
+                    args.Function, // name
+                    BindingFlags.InvokeMethod, // invokeAttr
+                    null, // binder
+                    SynchronousEditor, // target
+                    args.Arguments // args
                     );
 
                 TheThread = null;
@@ -312,6 +315,7 @@ namespace WikiFunctions.API
         {
             InvokeFunction(new InvokeArgs(name, args));
         }
+
         #endregion
 
         #region IApiEdit Members
@@ -409,12 +413,14 @@ namespace WikiFunctions.API
             InvokeFunction("Delete", title, reason, watch);
         }
 
-        public void Protect(string title, string reason, string expiry, string edit, string move, bool cascade, bool watch)
+        public void Protect(string title, string reason, string expiry, string edit, string move, bool cascade,
+                            bool watch)
         {
             InvokeFunction("Protect", title, reason, expiry, edit, move, cascade, watch);
         }
 
-        public void Protect(string title, string reason, TimeSpan expiry, string edit, string move, bool cascade, bool watch)
+        public void Protect(string title, string reason, TimeSpan expiry, string edit, string move, bool cascade,
+                            bool watch)
         {
             Protect(title, reason, expiry.ToString(), edit, move, cascade, watch);
         }

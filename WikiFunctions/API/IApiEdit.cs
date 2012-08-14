@@ -25,30 +25,25 @@ namespace WikiFunctions.API
         /// <summary>
         /// Path to scripts on server
         /// </summary>
-        string URL
-        { get; }
+        string URL { get; }
 
-        bool PHP5
-        { get; }
+        bool PHP5 { get; }
 
         /// <summary>
         /// Properties of the currently logged in user
         /// </summary>
-        UserInfo User
-        { get; }
+        UserInfo User { get; }
 
         /// <summary>
         /// Maxlag parameter of every request (http://www.mediawiki.org/wiki/Manual:Maxlag_parameter)
         /// </summary>
-        int Maxlag
-        { get; set; }
+        int Maxlag { get; set; }
 
         /// <summary>
         /// If true, all attempts to edit while the user has unread messages result in NewMessagesException,
         /// otherwise only User.HasMessages is updated.
         /// </summary>
-        bool NewMessageThrows
-        { get; set; }
+        bool NewMessageThrows { get; set; }
 
         /// <summary>
         /// Updates the User property
@@ -58,20 +53,17 @@ namespace WikiFunctions.API
         /// <summary>
         /// Action for which we have edit token
         /// </summary>
-        string Action
-        { get; }
+        string Action { get; }
 
         /// <summary>
         /// Information about the page currently being modified
         /// </summary>
-        PageInfo Page
-        { get; }
+        PageInfo Page { get; }
 
         /// <summary>
         /// Retrieves the code of CSS/JS to be used for previews. Forced to default skin for anons.
         /// </summary>
-        string HtmlHeaders
-        { get; }
+        string HtmlHeaders { get; }
 
         /// <summary>
         /// Creates a new instance of the current class by cloning the current instance
