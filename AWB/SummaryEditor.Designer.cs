@@ -40,7 +40,7 @@
             this.Summaries.AcceptsReturn = true;
             this.Summaries.Location = new System.Drawing.Point(12, 25);
             this.Summaries.Multiline = true;
-            this.Summaries.Name = "Summaries";
+            this.Summaries.Name = "Default Edit Summaries";
             this.Summaries.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.Summaries.Size = new System.Drawing.Size(609, 299);
             this.Summaries.TabIndex = 1;
@@ -82,7 +82,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(80, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "&Edit summaries:";
+            this.label1.Text = "Default &Edit Summaries (AWB will use these as the start of the page edit summary):";
             // 
             // SummaryEditor
             // 
@@ -98,7 +98,7 @@
             this.Controls.Add(this.Summaries);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "SummaryEditor";
-            this.Text = "Summary editor";
+            this.Text = "Default Edit Summary editor";
             this.ResumeLayout(false);
             this.PerformLayout();
 
