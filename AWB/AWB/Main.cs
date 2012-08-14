@@ -2189,7 +2189,7 @@ window.scrollTo(0, diffTopY);
         }
         
         /// <summary>
-        /// Appends (transalation of) "using AWB" summary tag to edit summary
+        /// Appends (translation of) "using AWB" summary tag to edit summary
         /// </summary>
         /// <param name="summary"></param>
         /// <returns></returns>
