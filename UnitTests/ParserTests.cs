@@ -5929,6 +5929,11 @@ there]]", false, "", out noChange));
 {{Nihongo|'''Aikido'''|???|aikido}} is a. Aikido was", parser.BoldTitle(@"{{Infobox martial art| website      = }}
 {{Nihongo|'''Aikido'''|???|aikido}} is a. Aikido was", "Aikido", out noChangeBack));
             Assert.IsTrue(noChangeBack);
+            
+            Assert.AreEqual(@"{{Infobox martial art| name='''Aikido'''| website      = }}
+'''Aikido''' was", parser.BoldTitle(@"{{Infobox martial art| name='''Aikido'''| website      = }}
+Aikido was", "Aikido", out noChangeBack), "Bold text in infobox ignored");
+            Assert.IsFalse(noChangeBack);
         }
 
         [Test]
