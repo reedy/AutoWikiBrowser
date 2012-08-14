@@ -1850,6 +1850,15 @@ window.scrollTo(0, diffTopY);
                 if (!TheSession.Page.Exists)
                     NumberOfNewPages++;
 
+                // if section edit summary, check only this section has been edited
+                if(txtReviewEditSummary.Text.StartsWith(@"/*"))
+                {
+                    string sectionEditText = Summary.ModifiedSection(TheArticle.OriginalArticleText, txtEdit.Text);
+
+                    if(sectionEditText.Length == 0 || !txtReviewEditSummary.Text.Contains(@"/* " + sectionEditText + @" */"))
+                        txtReviewEditSummary.Text = txtReviewEditSummary.Text.Substring(txtReviewEditSummary.Text.IndexOf(@"*/")+2);                    
+                }
+
                 TheSession.Editor.Save(txtEdit.Text, AppendUsingAWBSummary(txtReviewEditSummary.Text), markAllAsMinorToolStripMenuItem.Checked,
                                        opt);
             }
@@ -2156,7 +2165,7 @@ window.scrollTo(0, diffTopY);
         }
 
         /// <summary>
-        /// Sets the edits summary for the current edit
+        /// Sets the edit summary for the current edit. Returns a section edit summary if edit is to a single section and the section edit summary option is enabled
         /// </summary>
         /// <returns>The completed edit summary</returns>
         private string MakeDefaultEditSummary()
@@ -2169,7 +2178,7 @@ window.scrollTo(0, diffTopY);
             if (!string.IsNullOrEmpty(TheArticle.EditSummary))
                 summary += (string.IsNullOrEmpty(summary) ? "" : ", ") + TheArticle.EditSummary;
 
-            // check to see if we have only edited one level 2 section
+            // check to see if we have only edited one level-2 section
             if (!noSectionEditSummaryToolStripMenuItem.Checked)
             {
                 string sectionEditText = Summary.ModifiedSection(TheArticle.OriginalArticleText, txtEdit.Text);
@@ -2189,10 +2198,10 @@ window.scrollTo(0, diffTopY);
         }
         
         /// <summary>
-        /// Appends (translation of) "using AWB" summary tag to edit summary
+        /// Appends (translation of) "using AWB" wikilinked summary tag to edit summary
         /// </summary>
-        /// <param name="summary"></param>
-        /// <returns></returns>
+        /// <param name="summary">The current edit summary</param>
+        /// <returns>The updated edit summary</returns>
         private string AppendUsingAWBSummary(string summary)
         {            
               if (!(TheSession.User.IsBot && chkSuppressTag.Checked)
