@@ -3773,9 +3773,9 @@ namespace AutoWikiBrowser
             // 
             this.SummaryLabel.Location = new System.Drawing.Point(-2, 9);
             this.SummaryLabel.Name = "SummaryLabel";
-            this.SummaryLabel.Size = new System.Drawing.Size(56, 18);
+            this.SummaryLabel.Size = new System.Drawing.Size(88, 18);
             this.SummaryLabel.TabIndex = 0;
-            this.SummaryLabel.Text = "Summary:";
+            this.SummaryLabel.Text = "Default Summary";
             // 
             // lblSummary
             // 
@@ -3799,10 +3799,10 @@ namespace AutoWikiBrowser
             this.cmboEditSummary.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmboEditSummary.FormattingEnabled = true;
             this.cmboEditSummary.IntegralHeight = false;
-            this.cmboEditSummary.Location = new System.Drawing.Point(55, 6);
+            this.cmboEditSummary.Location = new System.Drawing.Point(87, 6);
             this.cmboEditSummary.MaxLength = 155;
             this.cmboEditSummary.Name = "cmboEditSummary";
-            this.cmboEditSummary.Size = new System.Drawing.Size(217, 21);
+            this.cmboEditSummary.Size = new System.Drawing.Size(185, 21);
             this.cmboEditSummary.TabIndex = 1;
             this.cmboEditSummary.Text = "clean up";
             this.cmboEditSummary.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmbEditSummary_KeyDown);
