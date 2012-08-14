@@ -4727,9 +4727,12 @@ namespace WikiFunctions.Parse
             Regex boldTitleAlready1 = new Regex(@"'''\s*(" + escTitle + "|" + Tools.TurnFirstToLower(escTitle) + @")\s*'''");
             Regex boldTitleAlready2 = new Regex(@"'''\s*(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + @")\s*'''");
 
-            //if title in bold already exists in article, or page starts with something in bold, don't change anything
-            if (boldTitleAlready1.IsMatch(articleText) || boldTitleAlready2.IsMatch(articleText)
-                || BoldTitleAlready3.IsMatch(articleText))
+            string articleTextNoInfobox = Tools.ReplaceWithSpaces(articleText, WikiRegexes.InfoBox.Matches(articleText));
+
+            // if title in bold already exists in article, or page starts with something in bold, don't change anything
+            // ignore any bold in infoboxes
+            if (boldTitleAlready1.IsMatch(articleTextNoInfobox) || boldTitleAlready2.IsMatch(articleTextNoInfobox)
+                || BoldTitleAlready3.IsMatch(articleTextNoInfobox))
                 return articleTextAtStart;
 
             // so no self links to remove, check for the need to add bold
