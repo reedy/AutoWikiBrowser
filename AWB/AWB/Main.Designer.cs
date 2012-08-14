@@ -1325,7 +1325,7 @@ namespace AutoWikiBrowser
             // 
             this.summariesToolStripMenuItem.Name = "summariesToolStripMenuItem";
             this.summariesToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
-            this.summariesToolStripMenuItem.Text = "&Summaries...";
+            this.summariesToolStripMenuItem.Text = "Default Edit &Summaries...";
             this.summariesToolStripMenuItem.Click += new System.EventHandler(this.summariesToolStripMenuItem_Click);
             // 
             // autoSaveSettingsToolStripMenuItem
@@ -1991,7 +1991,7 @@ namespace AutoWikiBrowser
             this.chkLock.Size = new System.Drawing.Size(50, 17);
             this.chkLock.TabIndex = 2;
             this.chkLock.Text = "Lock";
-            this.ToolTip.SetToolTip(this.chkLock, "Lock the Edit Summary\r\nPrevents the Edit Summary from being changed");
+            this.ToolTip.SetToolTip(this.chkLock, "Lock the Default Edit Summary\r\nPrevents the Default Edit Summary from being changed");
             this.chkLock.CheckedChanged += new System.EventHandler(this.chkLock_CheckedChanged);
             // 
             // chkMinor
@@ -3786,6 +3786,7 @@ namespace AutoWikiBrowser
             this.lblSummary.MaximumSize = new System.Drawing.Size(220, 13);
             this.lblSummary.MinimumSize = new System.Drawing.Size(220, 13);
             this.lblSummary.Name = "lblSummary";
+            this.ToolTip.SetToolTip(this.lblSummary, "The Default Edit Summary to use as the start of the generated edit summary");
             this.lblSummary.Size = new System.Drawing.Size(220, 13);
             this.lblSummary.TabIndex = 13;
             this.lblSummary.UseMnemonic = false;
@@ -3921,6 +3922,7 @@ namespace AutoWikiBrowser
             this.tpEditSummary.TabIndex = 5;
             this.tpEditSummary.Text = "Edit Summary";
             this.tpEditSummary.UseVisualStyleBackColor = true;
+            this.ToolTip.SetToolTip(this.tpEditSummary, "The edit summary for the page, which you can edit prior to saving the page text");
             // 
             // txtReviewEditSummary
             // 
