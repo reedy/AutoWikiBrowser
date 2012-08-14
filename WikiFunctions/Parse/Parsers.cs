@@ -4658,11 +4658,15 @@ namespace WikiFunctions.Parse
 
             Regex r1 = new Regex(@"'''\[\[\s*" + escTitle + @"\s*\]\]'''");
             Regex r2 = new Regex(@"'''\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]'''");
+            Regex r3 = new Regex(@"'''\[\[\s*" + escTitle + @"\s*\|\s*([^\[\]]+?)\s*\]\]'''");
+            Regex r4 = new Regex(@"'''\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\|\s*([^\[\]]+?)\s*\]\]'''");
 
             if (!WikiRegexes.Noinclude.IsMatch(articleText) && !WikiRegexes.Includeonly.IsMatch(articleText))
             {
                 articleText = r1.Replace(articleText, @"'''" + articleTitle + @"'''");
                 articleText = r2.Replace(articleText, @"'''" + Tools.TurnFirstToLower(articleTitle) + @"'''");
+                articleText = r3.Replace(articleText, @"'''$1'''");
+                articleText = r4.Replace(articleText, @"'''$1'''");
             }
 
             return articleText;
@@ -4703,13 +4707,25 @@ namespace WikiFunctions.Parse
             // first check for any self links and no bold title, if found just convert first link to bold and return
             Regex r1 = new Regex(@"\[\[\s*" + escTitle + @"\s*\]\]");
             Regex r2 = new Regex(@"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]");
+            Regex r3 = new Regex(@"\[\[\s*" + escTitle + @"\s*\|\s*([^\[\]]+?)\s*\]\]");
+            Regex r4 = new Regex(@"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\|\s*([^\[\]]+?)\s*\]\]");
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Includes_and_selflinks
             // don't apply if bold in lead section already or some noinclude transclusion business
-            if (!Regex.IsMatch(zerothSection, "'''" + escTitle + "'''") && !WikiRegexes.Noinclude.IsMatch(articleText) && !WikiRegexes.Includeonly.IsMatch(articleText))
-                zerothSectionHidden = r1.Replace(zerothSectionHidden, "'''" + articleTitle + @"'''");
-            if (zerothSectionHiddenOriginal == zerothSectionHidden && !Regex.IsMatch(zerothSection, @"'''" + Tools.TurnFirstToLower(escTitle) + @"'''"))
-                zerothSectionHidden = r2.Replace(zerothSectionHidden, "'''" + Tools.TurnFirstToLower(articleTitle) + @"'''");
+            if(!WikiRegexes.Noinclude.IsMatch(articleText) && !WikiRegexes.Includeonly.IsMatch(articleText))
+            {
+                if (!Regex.IsMatch(zerothSection, "'''" + escTitle + "'''"))
+                {
+                    zerothSectionHidden = r1.Replace(zerothSectionHidden, "'''" + articleTitle + @"'''");
+                    zerothSectionHidden = r3.Replace(zerothSectionHidden, "'''$1'''");
+                }
+
+                if (zerothSectionHiddenOriginal == zerothSectionHidden && !Regex.IsMatch(zerothSection, @"'''" + Tools.TurnFirstToLower(escTitle) + @"'''"))
+                {
+                    zerothSectionHidden = r2.Replace(zerothSectionHidden, "'''" + Tools.TurnFirstToLower(articleTitle) + @"'''");
+                    zerothSectionHidden = r4.Replace(zerothSectionHidden, "'''$1'''");
+                }
+            }
 
             zerothSection = Hider2.AddBackMore(zerothSectionHidden);
 

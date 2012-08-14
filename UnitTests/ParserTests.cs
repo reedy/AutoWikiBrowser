@@ -6123,8 +6123,8 @@ While remaining upright may be the primary goal of beginning riders While remain
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#Piped_self-link_delinking_bug
             Assert.AreEqual(@"The '''2009 Indian Premier League''' While remaining upright may be the primary goal of beginning riders
-While remaining upright may be the primary goal of beginning riders| 2009<br>", Parsers.FixLinks(parser.BoldTitle(@"The 2009 Indian Premier League While remaining upright may be the primary goal of beginning riders
-While remaining upright may be the primary goal of beginning riders| [[2009 Indian Premier League|2009]]<br>", "2009 Indian Premier League", out noChangeBack), "2009 Indian Premier League", out noChangeBack));
+While remaining upright may be the primary goal of beginning riders==sec== 2009<br>", Parsers.FixLinks(parser.BoldTitle(@"The 2009 Indian Premier League While remaining upright may be the primary goal of beginning riders
+While remaining upright may be the primary goal of beginning riders==sec== [[2009 Indian Premier League|2009]]<br>", "2009 Indian Premier League", out noChangeBack), "2009 Indian Premier League", out noChangeBack));
             
             const string OutsideZerothSection = @"Text here.
 ==Bio==
@@ -6181,6 +6181,9 @@ John Smith was great.";
 }}", "It Crawled into My Hand, Honest", out noChangeBack));
 
             Assert.AreEqual(@"<noinclude> = '''''[[It Crawled into My Hand, Honest]]'''''<br /> </noinlcude>", parser.BoldTitle(@"<noinclude> = '''''[[It Crawled into My Hand, Honest]]'''''<br /> </noinlcude>", "[[It Crawled into My Hand, Honest]]", out noChangeBack));
+            
+            Assert.AreEqual(@"'''foo'''", parser.BoldTitle(@"[[foo]]", @"Foo", out noChangeBack));
+            Assert.AreEqual(@"'''Foo'''", parser.BoldTitle(@"'''[[foo (here)|Foo]]'''", @"foo (here)", out noChangeBack));
         }
     }
 
