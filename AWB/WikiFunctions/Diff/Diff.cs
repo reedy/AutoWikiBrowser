@@ -43,7 +43,9 @@ namespace WikiFunctions
 
     public abstract class Hunk
     {
-        internal Hunk() { }
+        internal Hunk()
+        {
+        }
 
         public abstract int ChangedLists { get; }
 
@@ -68,10 +70,17 @@ namespace WikiFunctions
     public class Diff : IDiff
     {
         internal IList left, right;
-        readonly IEqualityComparer comparer;
+        private readonly IEqualityComparer comparer;
 
-        public IList Left { get { return left; } }
-        public IList Right { get { return right; } }
+        public IList Left
+        {
+            get { return left; }
+        }
+
+        public IList Right
+        {
+            get { return right; }
+        }
 
         private class Trio
         {
@@ -88,9 +97,9 @@ namespace WikiFunctions
 
         public class Hunk : WikiFunctions.Hunk
         {
-            IList left, right;
-            readonly int s1start, s1end, s2start, s2end;
-            readonly bool same;
+            private IList left, right;
+            private readonly int s1start, s1end, s2start, s2end;
+            private readonly bool same;
 
             internal Hunk(IList left, IList right, int s1start, int s1end, int s2start, int s2end, bool same)
             {
@@ -109,11 +118,20 @@ namespace WikiFunctions
                 this.right = right;
             }
 
-            public override int ChangedLists { get { return 1; } }
+            public override int ChangedLists
+            {
+                get { return 1; }
+            }
 
-            public override bool Same { get { return same; } }
+            public override bool Same
+            {
+                get { return same; }
+            }
 
-            public override bool Conflict { get { return false; } }
+            public override bool Conflict
+            {
+                get { return false; }
+            }
 
             public override bool IsSame(int index)
             {
@@ -130,10 +148,21 @@ namespace WikiFunctions
                 return new Range(list, start, end - start + 1);
             }
 
-            public Range Left { get { return get(1); } }
-            public Range Right { get { return get(2); } }
+            public Range Left
+            {
+                get { return get(1); }
+            }
 
-            public override Range Original() { return Left; }
+            public Range Right
+            {
+                get { return get(2); }
+            }
+
+            public override Range Original()
+            {
+                return Left;
+            }
+
             public override Range Changes(int index)
             {
                 if (index != 0) throw new ArgumentException();
@@ -167,7 +196,8 @@ namespace WikiFunctions
             public string DiffString()
             {
                 if (left == null || right == null)
-                    throw new InvalidOperationException("This hunk is based on a patch which does not have the compared data.");
+                    throw new InvalidOperationException(
+                        "This hunk is based on a patch which does not have the compared data.");
 
                 StringBuilder ret = new StringBuilder();
 
@@ -201,7 +231,8 @@ namespace WikiFunctions
 
             internal Hunk Crop(int shiftstart, int shiftend)
             {
-                return new Hunk(left, right, Left.Start + shiftstart, Left.End - shiftend, Right.Start + shiftstart, Right.End - shiftend, same);
+                return new Hunk(left, right, Left.Start + shiftstart, Left.End - shiftend, Right.Start + shiftstart,
+                                Right.End - shiftend, same);
             }
 
             internal Hunk Reverse()
@@ -221,7 +252,9 @@ namespace WikiFunctions
         }
 
         public Diff(string leftFile, string rightFile, bool caseSensitive, bool compareWhitespace)
-            : this(UnifiedDiff.LoadFileLines(leftFile), UnifiedDiff.LoadFileLines(rightFile), caseSensitive, compareWhitespace)
+            : this(
+                UnifiedDiff.LoadFileLines(leftFile), UnifiedDiff.LoadFileLines(rightFile), caseSensitive,
+                compareWhitespace)
         {
         }
 
@@ -295,7 +328,7 @@ namespace WikiFunctions
             }
 
 
-            return new Patch((Patch.Hunk[])hunks.ToArray(typeof(Patch.Hunk)));
+            return new Patch((Patch.Hunk[]) hunks.ToArray(typeof (Patch.Hunk)));
         }
 
         /*
@@ -314,7 +347,7 @@ namespace WikiFunctions
         # my $hashRef = _withPositionsOfInInterval( \@array, $start, $end, $keyGen );
         */
 
-        Hashtable _withPositionsOfInInterval(IList aCollection, int start, int end)
+        private Hashtable _withPositionsOfInInterval(IList aCollection, int start, int end)
         {
             Hashtable d = new Hashtable(comparer);
             for (int index = start; index <= end; index++)
@@ -322,12 +355,12 @@ namespace WikiFunctions
                 object element = aCollection[index];
                 if (d.ContainsKey(element))
                 {
-                    IntList list = (IntList)d[element];
+                    IntList list = (IntList) d[element];
                     list.Add(index);
                 }
                 else
                 {
-                    IntList list = new IntList { index };
+                    IntList list = new IntList {index};
                     d[element] = list;
                 }
             }
@@ -346,7 +379,7 @@ namespace WikiFunctions
         # try to make it fast!
         */
         // NOTE: Instead of returning undef, it returns -1.
-        int _replaceNextLargerWith(IntList array, int value, int high)
+        private int _replaceNextLargerWith(IntList array, int value, int high)
         {
             if (high <= 0)
                 high = array.Count - 1;
@@ -362,7 +395,7 @@ namespace WikiFunctions
             int low = 0;
             while (low <= high)
             {
-                int index = (high + low) / 2;
+                int index = (high + low)/2;
 
                 int found = array[index];
 
@@ -375,7 +408,7 @@ namespace WikiFunctions
             }
 
             // # now insertion point is in $low.
-            array[low] = value;    // overwrite next larger
+            array[low] = value; // overwrite next larger
             return low;
         }
 
@@ -399,18 +432,18 @@ namespace WikiFunctions
         # routine.
         */
 
-        bool compare(object a, object b)
+        private bool compare(object a, object b)
         {
             return comparer == null ? a.Equals(b) : comparer.Equals(a, b);
         }
 
-        bool IsPrepared(out Hashtable bMatches)
+        private bool IsPrepared(out Hashtable bMatches)
         {
             bMatches = null;
             return false;
         }
 
-        IntList _longestCommonSubsequence(IList a, IList b)
+        private IntList _longestCommonSubsequence(IList a, IList b)
         {
             int aStart = 0;
             int aFinish = a.Count - 1;
@@ -436,7 +469,7 @@ namespace WikiFunctions
 
                 // Now compute the equivalence classes of positions of elements
                 bMatches =
-                  _withPositionsOfInInterval(b, bStart, bFinish);
+                    _withPositionsOfInInterval(b, bStart, bFinish);
             }
 
             IntList thresh = new IntList();
@@ -444,7 +477,7 @@ namespace WikiFunctions
 
             for (int i = aStart; i <= aFinish; i++)
             {
-                IntList aimatches = (IntList)bMatches[a[i]];
+                IntList aimatches = (IntList) bMatches[a[i]];
                 if (aimatches != null)
                 {
                     int k = 0;
@@ -460,7 +493,7 @@ namespace WikiFunctions
                         // oddly, it's faster to always test this (CPU cache?).
                         if (k != -1)
                         {
-                            Trio t = new Trio((Trio)(k > 0 ? links[k - 1] : null), i, j);
+                            Trio t = new Trio((Trio) (k > 0 ? links[k - 1] : null), i, j);
                             if (k == links.Count)
                                 links.Add(t);
                             else
@@ -472,7 +505,7 @@ namespace WikiFunctions
 
             if (thresh.Count > 0)
             {
-                for (Trio link = (Trio)links[thresh.Count - 1]; link != null; link = link.a)
+                for (Trio link = (Trio) links[thresh.Count - 1]; link != null; link = link.a)
                     matchVector[link.b] = link.c;
             }
 
@@ -484,7 +517,7 @@ namespace WikiFunctions
             preparedlist = list;
         }*/
 
-        void LCSidx(IList a, IList b, out IntList am, out IntList bm)
+        private void LCSidx(IList a, IList b, out IntList am, out IntList bm)
         {
             IntList match = _longestCommonSubsequence(a, b);
             am = new IntList();
@@ -496,7 +529,7 @@ namespace WikiFunctions
                 bm.Add(match[am[vi]]);
         }
 
-        IntList compact_diff(IList a, IList b)
+        private IntList compact_diff(IList a, IList b)
         {
             IntList am, bm;
             LCSidx(a, b, out am, out bm);
@@ -532,11 +565,11 @@ namespace WikiFunctions
             return cdiff;
         }
 
-        int _End;
-        bool _Same;
-        IntList cdif;
+        private int _End;
+        private bool _Same;
+        private IntList cdif;
 
-        void init()
+        private void init()
         {
             cdif = compact_diff(left, right);
             _Same = true;
@@ -547,13 +580,13 @@ namespace WikiFunctions
                 cdif.RemoveAt(0);
             }
 
-            _End = (1 + cdif.Count) / 2;
+            _End = (1 + cdif.Count)/2;
         }
 
         private class Enumerator : IEnumerator
         {
-            readonly Diff diff;
-            int _Pos, _Off;
+            private readonly Diff diff;
+            private int _Pos, _Off;
 
             public Enumerator(Diff diff)
             {
@@ -561,31 +594,44 @@ namespace WikiFunctions
                 Reset();
             }
 
-            public object Current { get { _ChkPos(); return gethunk(); } }
+            public object Current
+            {
+                get
+                {
+                    _ChkPos();
+                    return gethunk();
+                }
+            }
 
-            public bool MoveNext() { return next(); }
+            public bool MoveNext()
+            {
+                return next();
+            }
 
-            public void Reset() { reset(0); }
+            public void Reset()
+            {
+                reset(0);
+            }
 
-            void _ChkPos()
+            private void _ChkPos()
             {
                 if (_Pos == 0) throw new InvalidOperationException("Position is reset.");
             }
 
-            void reset(int pos)
+            private void reset(int pos)
             {
                 if (pos < 0 || diff._End <= pos) pos = -1;
                 _Pos = pos;
-                _Off = 2 * pos - 1;
+                _Off = 2*pos - 1;
             }
 
-            bool next()
+            private bool next()
             {
                 reset(_Pos + 1);
                 return _Pos != -1;
             }
 
-            Hunk gethunk()
+            private Hunk gethunk()
             {
                 _ChkPos();
 
@@ -601,7 +647,7 @@ namespace WikiFunctions
                 return new Hunk(diff.left, diff.right, a1, a2, b1, b2, s);
             }
 
-            bool same()
+            private bool same()
             {
                 _ChkPos();
                 if (diff._Same != ((1 & _Pos) != 0))
@@ -613,10 +659,10 @@ namespace WikiFunctions
 
     public class Range : IList
     {
-        readonly IList list;
-        readonly int start, count;
+        private readonly IList list;
+        private readonly int start, count;
 
-        static readonly ArrayList EmptyList = new ArrayList();
+        private static readonly ArrayList EmptyList = new ArrayList();
 
         public Range(IList list, int start, int count)
         {
@@ -625,11 +671,20 @@ namespace WikiFunctions
             this.count = count;
         }
 
-        public int Start { get { return start; } }
+        public int Start
+        {
+            get { return start; }
+        }
 
-        public int Count { get { return count; } }
+        public int Count
+        {
+            get { return count; }
+        }
 
-        public int End { get { return start + count - 1; } }
+        public int End
+        {
+            get { return start + count - 1; }
+        }
 
         private void Check()
         {
@@ -659,16 +714,29 @@ namespace WikiFunctions
 
         private class Enumer : IEnumerator
         {
-            readonly Range list;
-            int index = -1;
-            public Enumer(Range list) { this.list = list; }
-            public void Reset() { index = -1; }
+            private readonly Range list;
+            private int index = -1;
+
+            public Enumer(Range list)
+            {
+                this.list = list;
+            }
+
+            public void Reset()
+            {
+                index = -1;
+            }
+
             public bool MoveNext()
             {
                 index++;
                 return index < list.Count;
             }
-            public object Current { get { return list[index]; } }
+
+            public object Current
+            {
+                get { return list[index]; }
+            }
         }
 
         // ICollection Functions
@@ -679,10 +747,12 @@ namespace WikiFunctions
             for (int i = 0; i < Count; i++)
                 array.SetValue(this[i], i + index);
         }
+
         object ICollection.SyncRoot
         {
             get { return null; }
         }
+
         bool ICollection.IsSynchronized
         {
             get { return false; }
@@ -690,9 +760,15 @@ namespace WikiFunctions
 
         // IList Functions
 
-        bool IList.IsFixedSize { get { return true; } }
+        bool IList.IsFixedSize
+        {
+            get { return true; }
+        }
 
-        bool IList.IsReadOnly { get { return true; } }
+        bool IList.IsReadOnly
+        {
+            get { return true; }
+        }
 
         object IList.this[int index]
         {
@@ -700,15 +776,30 @@ namespace WikiFunctions
             set { throw new InvalidOperationException(); }
         }
 
-        int IList.Add(object obj) { throw new InvalidOperationException(); }
+        int IList.Add(object obj)
+        {
+            throw new InvalidOperationException();
+        }
 
-        void IList.Clear() { throw new InvalidOperationException(); }
+        void IList.Clear()
+        {
+            throw new InvalidOperationException();
+        }
 
-        void IList.Insert(int index, object obj) { throw new InvalidOperationException(); }
+        void IList.Insert(int index, object obj)
+        {
+            throw new InvalidOperationException();
+        }
 
-        void IList.Remove(object obj) { throw new InvalidOperationException(); }
+        void IList.Remove(object obj)
+        {
+            throw new InvalidOperationException();
+        }
 
-        void IList.RemoveAt(int index) { throw new InvalidOperationException(); }
+        void IList.RemoveAt(int index)
+        {
+            throw new InvalidOperationException();
+        }
 
         public bool Contains(object obj)
         {
