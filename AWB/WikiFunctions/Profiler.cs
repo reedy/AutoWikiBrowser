@@ -21,131 +21,140 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System.Text;
 using System.IO;
 #endif
+using System.Collections;
 using System.Diagnostics;
 
 namespace WikiFunctions
 {
-	/// <summary>
-	/// Provides basic performance profiling
-	/// </summary>
-	public class Profiler
-	{
-		#if DEBUG
-		Stopwatch Watch = new Stopwatch(); // fail-safe in case Start() wasn't called for some reason
-		TextWriter log;
-		private string FileName = "";
-		private bool Append = true;
+    /// <summary>
+    /// Provides basic performance profiling
+    /// </summary>
+    public class Profiler
+    {
 
-		/// <summary>
-		/// Creates a profiler object
-		/// </summary>
-		/// <param name="filename">Name of file to save profiling log to</param>
-		/// <param name="append">True if the file should not be overwritten</param>
-		public Profiler(string filename, bool append)
-		{
-			// done to make sure file path is writeable – each time logging used new streamwriter opened & closed to prevent file locking for entire AWB session
-			log = new StreamWriter(filename, append, Encoding.Unicode);
-			log.Close();
-			FileName = filename;
-			Append = append;
-		}
+#if DEBUG
+        private Stopwatch Watch = new Stopwatch(); // fail-safe in case Start() wasn't called for some reason
+        private TextWriter log;
+        private string FileName = "";
+        private bool Append = true;
 
-		/// <summary>
-		/// 
-		/// </summary>
-		public Profiler() { }
+        /// <summary>
+        /// Creates a profiler object
+        /// </summary>
+        /// <param name="filename">Name of file to save profiling log to</param>
+        /// <param name="append">True if the file should not be overwritten</param>
+        public Profiler(string filename, bool append)
+        {
+            // done to make sure file path is writeable – each time logging used new streamwriter opened & closed to prevent file locking for entire AWB session
+            log = new StreamWriter(filename, append, Encoding.Unicode);
+            log.Close();
+            FileName = filename;
+            Append = append;
+        }
 
-		/// <summary>
-		/// Starts measuring time
-		/// </summary>
-		/// <param name="message">a message to associate with these measure</param>
-		public void Start(string message)
-		{
-			AddLog("--------------------------------------");
-			Watch = Stopwatch.StartNew();
-			AddLog("Started profiling: " + message);
-		}
+        /// <summary>
+        /// 
+        /// </summary>
+        public Profiler()
+        {
+        }
 
-		/// <summary>
-		/// Outputs time difference between previous time mark and now to the profiling log
-		/// </summary>
-		/// <param name="message">description of the time interval</param>
-		public void Profile(string message)
-		{
-			AddLog("   " + message + ": " + Watch.ElapsedMilliseconds);
-			Watch = Stopwatch.StartNew();
-		}
+        /// <summary>
+        /// Starts measuring time
+        /// </summary>
+        /// <param name="message">a message to associate with these measure</param>
+        public void Start(string message)
+        {
+            AddLog("--------------------------------------");
+            Watch = Stopwatch.StartNew();
+            AddLog("Started profiling: " + message);
+        }
 
-		/// <summary>
-		/// Adds a line to the log
-		/// </summary>
-		/// <param name="s"></param>
-		public void AddLog(string s)
-		{
-			if (log != null)
-			{
-				for(int a = 0;a < 1000;a++)
-				{
-					try
-					{
-						log = new StreamWriter(FileName, Append, Encoding.Unicode);
-						log.WriteLine(s);
-						log.Close();
-						break;
-					}
-					
-					catch
-					{
-						System.Threading.Thread.Sleep(50); // prevents errors over log file being 'in use by other application'
-					}
-				}
-			}
-		}
+        /// <summary>
+        /// Outputs time difference between previous time mark and now to the profiling log
+        /// </summary>
+        /// <param name="message">description of the time interval</param>
+        public void Profile(string message)
+        {
+            AddLog("   " + message + ": " + Watch.ElapsedMilliseconds);
+            Watch = Stopwatch.StartNew();
+        }
 
-		/// <summary>
-		/// Flushes profiling log on disk
-		/// </summary>
-		public void Flush()
-		{  for(int a = 0;a < 1000;a++)
-			{
-				try
-				{
-					log = new StreamWriter(FileName, Append, Encoding.Unicode);
-					log.Flush();
-					log.Close();
-				}
-				
-				catch
-				{
-					System.Threading.Thread.Sleep(50); // prevents errors over log file being 'in use by other application'
-				}
-			}
-		}
-		#else
-		/* unfortunately it seems that code within [Conditional] blocks still gets analysed by the compiler; having the class level
+        /// <summary>
+        /// Adds a line to the log
+        /// </summary>
+        /// <param name="s"></param>
+        public void AddLog(string s)
+        {
+            if (log == null) return;
+            for (int a = 0; a < 1000; a++)
+            {
+                try
+                {
+                    log = new StreamWriter(FileName, Append, Encoding.Unicode);
+                    log.WriteLine(s);
+                    log.Close();
+                    break;
+                }
+                catch
+                {
+                    System.Threading.Thread.Sleep(50);
+                        // prevents errors over log file being 'in use by other application'
+                }
+            }
+        }
+
+        /// <summary>
+        /// Flushes profiling log on disk
+        /// </summary>
+        public void Flush()
+        {
+            for (int a = 0; a < 1000; a++)
+            {
+                try
+                {
+                    log = new StreamWriter(FileName, Append, Encoding.Unicode);
+                    log.Flush();
+                    log.Close();
+                }
+
+                catch
+                {
+                    System.Threading.Thread.Sleep(50);
+                        // prevents errors over log file being 'in use by other application'
+                }
+            }
+        }
+#else
+        /* unfortunately it seems that code within [Conditional] blocks still gets analysed by the compiler; having the class level
 		 * vars in #if's and all the methods inside these Conditional attribute blocks didn't work. So, I've used #if statements to
 		 * get a clean compile, and the attribute to then have the calls totally compiled out in release mode. */
-		[Conditional("DEBUG")]
-		public void Profile(string message) { }
 
-		[Conditional("DEBUG")]
-		public void Flush() { }
+        [Conditional("DEBUG")]
+        public void Profile(string message)
+        {
+        }
 
-		// not currently used outside this class:
-		//[Conditional("DEBUG")]
-		//public void AddLog(string s) { }
-		#endif
+        [Conditional("DEBUG")]
+        public void Flush()
+        {
+        }
 
-		//[Conditional("DEBUG")]
-		///// <summary>
-		///// Closes profiling log. The profiler will continue in dummy mode
-		///// </summary>
-		//public void Close()
-		//{
-		//    if (log == null) return;
+        // not currently used outside this class:
+        //[Conditional("DEBUG")]
+        //public void AddLog(string s) { }
+#endif
 
-		//    log.Close();
-		//    log = null;
-		//}
-	}
+        //[Conditional("DEBUG")]
+        ///// <summary>
+        ///// Closes profiling log. The profiler will continue in dummy mode
+        ///// </summary>
+        //public void Close()
+        //{
+        //    if (log == null) return;
+
+        //    log.Close();
+        //    log = null;
+        //}
+    }
 }
