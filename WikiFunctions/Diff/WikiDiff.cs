@@ -43,8 +43,8 @@ namespace WikiFunctions
         public string GetDiff(string leftText, string rightText, int contextLines)
         {
             Result = new StringBuilder(500000);
-            LeftLines = leftText.Split(new [] { "\r\n" }, StringSplitOptions.None);
-            RightLines = rightText.Split(new [] { "\r\n" }, StringSplitOptions.None);
+            LeftLines = leftText.Split(new[] {"\r\n"}, StringSplitOptions.None);
+            RightLines = rightText.Split(new[] {"\r\n"}, StringSplitOptions.None);
             ContextLines = contextLines;
 
             diff = new Diff(LeftLines, RightLines, true, true);
@@ -57,6 +57,7 @@ namespace WikiFunctions
         }
 
         #region High-level diff stuff
+
         private void RenderDifference(Diff.Hunk hunk)
         {
             Range left = hunk.Left;
@@ -90,9 +91,10 @@ namespace WikiFunctions
 
             int toDisplay = Math.Min(right.Count - displayed, ContextLines);
             if ((left.End < LeftLines.Length - 1 || right.End < RightLines.Length - 1) && toDisplay > 0)
-            // not the last hunk, adding context for next change
+                // not the last hunk, adding context for next change
             {
-                if (right.Count > displayed + toDisplay) ContextHeader(left.End - toDisplay + 1, right.End - toDisplay + 1);
+                if (right.Count > displayed + toDisplay)
+                    ContextHeader(left.End - toDisplay + 1, right.End - toDisplay + 1);
                 for (int i = 0; i < toDisplay; i++) ContextLine(right.End - toDisplay + i + 1);
             }
         }
@@ -132,41 +134,43 @@ namespace WikiFunctions
                 }
             }
 
-            if(Variables.RTL)
+            if (Variables.RTL)
             {
-            	Result.AppendFormat(@"<tr onclick='window.external.GoTo({1})' ondblclick='window.external.UndoChange({0},{1})'>
+                Result.AppendFormat(@"<tr onclick='window.external.GoTo({1})' ondblclick='window.external.UndoChange({0},{1})'>
   <td>+</td>
   <td class='diff-addedline'>", rightLine, leftLine);
-            	Result.Append(right);
-            	Result.Append(@"  </td>
+                Result.Append(right);
+                Result.Append(@"  </td>
   <td>-</td>
   <td class='diff-deletedline'>");
-            	Result.Append(left);
-            	Result.Append(@"  </td>
+                Result.Append(left);
+                Result.Append(@"  </td>
 		</tr>");
             }
             else
             {
-            	Result.AppendFormat(@"<tr onclick='window.external.GoTo({1})' ondblclick='window.external.UndoChange({0},{1})'>
+                Result.AppendFormat(@"<tr onclick='window.external.GoTo({1})' ondblclick='window.external.UndoChange({0},{1})'>
   <td>-</td>
   <td class='diff-deletedline'>", leftLine, rightLine);
-            	Result.Append(left);
-            	Result.Append(@"  </td>
+                Result.Append(left);
+                Result.Append(@"  </td>
   <td>+</td>
   <td class='diff-addedline'>");
-            	Result.Append(right);
-            	Result.Append(@"  </td>
+                Result.Append(right);
+                Result.Append(@"  </td>
 		</tr>");
             }
         }
 
-        private static void WordDiff(StringBuilder res, Range range, Range otherRange, IList<Word> words, IList<Word> otherWords)
+        private static void WordDiff(StringBuilder res, Range range, Range otherRange, IList<Word> words,
+                                     IList<Word> otherWords)
         {
             bool open = false;
 
             for (int i = 0; i < range.Count; i++)
             {
-                if (i >= otherRange.Count || words[range.Start + i].ToString() != otherWords[otherRange.Start + i].ToString())
+                if (i >= otherRange.Count ||
+                    words[range.Start + i].ToString() != otherWords[otherRange.Start + i].ToString())
                 {
                     if (!open) res.Append("<span class='diffchange'>");
                     open = true;
@@ -205,9 +209,11 @@ namespace WikiFunctions
                 }
             }
         }
+
         #endregion
 
         #region Visualisation primitives
+
         /// <summary>
         /// Renders a context row
         /// </summary>
@@ -229,62 +235,64 @@ namespace WikiFunctions
 
         private void LineDeleted(int left, int right)
         {
-        	if(Variables.RTL)
-        	{
-        		Result.AppendFormat(@"<tr>
+            if (Variables.RTL)
+            {
+                Result.AppendFormat(@"<tr>
   <td> </td>
   <td> </td>
   <td>-</td>
   <td class='diff-deletedline' onclick='window.external.GoTo({1})' ondblclick='window.external.UndoDeletion({0}, {1})'>",
-        		                    left, right);
-        		
-        		Result.Append(HttpUtility.HtmlEncode(LeftLines[left]));
-        		Result.Append(@"  </td>
+                                    left, right);
+
+                Result.Append(HttpUtility.HtmlEncode(LeftLines[left]));
+                Result.Append(@"  </td>
 </tr>");
-        	}
-        	
-        	else
-        	{
-        		Result.AppendFormat(@"<tr>
+            }
+
+            else
+            {
+                Result.AppendFormat(@"<tr>
   <td>-</td>
   <td class='diff-deletedline' onclick='window.external.GoTo({1})' ondblclick='window.external.UndoDeletion({0}, {1})'>",
-        		                    left, right);
-        		
-        		Result.Append(HttpUtility.HtmlEncode(LeftLines[left]));
-        		Result.Append(@"  </td>
+                                    left, right);
+
+                Result.Append(HttpUtility.HtmlEncode(LeftLines[left]));
+                Result.Append(@"  </td>
   <td> </td>
   <td> </td>
 </tr>");
-        		
-        	}
+
+            }
         }
 
         private void LineAdded(int line)
         {
-        	if(Variables.RTL)
-        	{        		
-        		Result.AppendFormat(@"<tr>
+            if (Variables.RTL)
+            {
+                Result.AppendFormat(@"<tr>
   <td>+</td>
-  <td class='diff-addedline' onclick='window.external.GoTo({0})' ondblclick='window.external.UndoAddition({0})'>", line);
-        		Result.Append(HttpUtility.HtmlEncode(RightLines[line]));
-        		
-        		Result.Append(@"  </td>
+  <td class='diff-addedline' onclick='window.external.GoTo({0})' ondblclick='window.external.UndoAddition({0})'>",
+                                    line);
+                Result.Append(HttpUtility.HtmlEncode(RightLines[line]));
+
+                Result.Append(@"  </td>
   <td> </td>
   <td> </td>
 </tr>");
-        	}
-        	else
-        	{
-        		Result.AppendFormat(@"<tr>
+            }
+            else
+            {
+                Result.AppendFormat(@"<tr>
   <td> </td>
   <td> </td>
   <td>+</td>
-  <td class='diff-addedline' onclick='window.external.GoTo({0})' ondblclick='window.external.UndoAddition({0})'>", line);
-        		Result.Append(HttpUtility.HtmlEncode(RightLines[line]));
-        		
-        		Result.Append(@"  </td>
+  <td class='diff-addedline' onclick='window.external.GoTo({0})' ondblclick='window.external.UndoAddition({0})'>",
+                                    line);
+                Result.Append(HttpUtility.HtmlEncode(RightLines[line]));
+
+                Result.Append(@"  </td>
 </tr>");
-        	}
+            }
         }
 
         private void ContextHeader(int left, int right)
@@ -294,9 +302,11 @@ namespace WikiFunctions
   <td colspan='2' class='diff-lineno'>Line {1}:</td>
 </tr>", left + 1, right + 1, right);
         }
+
         #endregion
 
         #region Undo
+
         public string UndoChange(int left, int right)
         {
             RightLines[right] = LeftLines[left];
@@ -312,7 +322,7 @@ namespace WikiFunctions
                 if (i != right)
                 {
                     if (s.Length > 0) s.Append("\r\n");
-                        s.Append(RightLines[i]);
+                    s.Append(RightLines[i]);
                 }
 
             return s.ToString();
@@ -351,48 +361,45 @@ namespace WikiFunctions
 <col class='diff-content' />
 <col class='diff-marker' />
 <col class='diff-content' />";
+
         public static string TableHeader
         {
             get
             {
-               string th = @"<p style='margin: 0px;'>Double click on a line to undo all changes on that line, or single click to focus the edit box to that line.</p>
+                string th = @"<p style='margin: 0px;'>Double click on a line to undo all changes on that line, or single click to focus the edit box to that line.</p>
 " + DiffColumnClasses + @"
 <thead>
   <tr valign='top'>";
-               
-               if(Variables.RTL)
-               	th = th + @"
+
+                if (Variables.RTL)
+                    th = th + @"
     <td colspan='2' width='50%' class='diff-ntitle'>Your text</td>
-    <td colspan='2' width='50%' class='diff-otitle'>Current revision</td>"; 
-               else
-               	th = th + @"
+    <td colspan='2' width='50%' class='diff-otitle'>Current revision</td>";
+                else
+                    th = th + @"
     <td colspan='2' width='50%' class='diff-otitle'>Current revision</td>
-	<td colspan='2' width='50%' class='diff-ntitle'>Your text</td>"; 
-               
-               th = th + @"
+	<td colspan='2' width='50%' class='diff-ntitle'>Your text</td>";
+
+                th = th + @"
   </tr>
 </thead>
 ";
-               
-               return th;
+
+                return th;
             }
         }
+
         /// <summary>
         /// TableHeader but without help information (double click to undo etc.) and current revision/ your text labels
         /// </summary>
         public static string TableHeaderNoMessages
         {
-            get
-            {
-                return DiffColumnClasses;
-            }
+            get { return DiffColumnClasses; }
         }
 
         public static string DefaultStyles
         {
-            get
-            {
-                return @"
+            get { return @"
 /*
 ** Diff rendering
 */
@@ -498,11 +505,10 @@ table.diff td div {
 	overflow: auto;
 }
 
-";
-            }
+"; }
         }
 
-        static string CustomStyles;
+        private static string CustomStyles;
 
         public static string DiffHead()
         {
@@ -531,6 +537,7 @@ table.diff td div {
         {
             CustomStyles = null;
         }
+
         #endregion
     }
 
@@ -539,16 +546,16 @@ table.diff td div {
         private readonly string m_ToString;
         private readonly int m_HashCode;
 
-        public string TheWord { get; private set;}
+        public string TheWord { get; private set; }
 
-        public string Whitespace { get; private set;}
+        public string Whitespace { get; private set; }
 
         public Word(string word, string white)
         {
             TheWord = word;
             Whitespace = white;
             m_ToString = word + white;
-            m_HashCode = (word/* + white*/).GetHashCode();
+            m_HashCode = (word /* + white*/).GetHashCode();
         }
 
         public static readonly IEqualityComparer Comparer = new WordComparer();
@@ -558,9 +565,9 @@ table.diff td div {
         {
             // Standard alphanumeric
             if ((ch >= '0' && ch <= '9') ||
-               (ch == '_') ||
-               (ch >= 'A' && ch <= 'Z') ||
-               (ch >= 'a' && ch <= 'z'))
+                (ch == '_') ||
+                (ch >= 'A' && ch <= 'Z') ||
+                (ch >= 'a' && ch <= 'z'))
             {
                 return true;
             }
@@ -624,6 +631,7 @@ table.diff td div {
         }
 
         #region Overrides
+
         public override string ToString()
         {
             return m_ToString;
@@ -631,13 +639,14 @@ table.diff td div {
 
         public override bool Equals(object obj)
         {
-            return TheWord.Equals(((Word)obj).TheWord);
+            return TheWord.Equals(((Word) obj).TheWord);
         }
 
         public override int GetHashCode()
         {
             return m_HashCode;
         }
+
         #endregion
     }
 
