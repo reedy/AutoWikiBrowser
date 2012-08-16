@@ -21,7 +21,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System.Text;
 using System.IO;
 #endif
-using System.Collections;
 using System.Diagnostics;
 
 namespace WikiFunctions
@@ -98,8 +97,8 @@ namespace WikiFunctions
                 }
                 catch
                 {
+                    // prevents errors over log file being 'in use by other application'
                     System.Threading.Thread.Sleep(50);
-                        // prevents errors over log file being 'in use by other application'
                 }
             }
         }
@@ -139,22 +138,6 @@ namespace WikiFunctions
         public void Flush()
         {
         }
-
-        // not currently used outside this class:
-        //[Conditional("DEBUG")]
-        //public void AddLog(string s) { }
 #endif
-
-        //[Conditional("DEBUG")]
-        ///// <summary>
-        ///// Closes profiling log. The profiler will continue in dummy mode
-        ///// </summary>
-        //public void Close()
-        //{
-        //    if (log == null) return;
-
-        //    log.Close();
-        //    log = null;
-        //}
     }
 }
