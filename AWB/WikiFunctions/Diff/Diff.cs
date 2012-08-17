@@ -144,7 +144,10 @@ namespace WikiFunctions
                 int start = (seq == 1 ? s1start : s2start);
                 int end = (seq == 1 ? s1end : s2end);
                 IList list = (seq == 1 ? left : right);
-                if (end < start) return new Range(list, start, 0);
+                if (end < start)
+                {
+                    return new Range(list, start, 0);
+                }
                 return new Range(list, start, end - start + 1);
             }
 
@@ -196,8 +199,10 @@ namespace WikiFunctions
             public string DiffString()
             {
                 if (left == null || right == null)
+                {
                     throw new InvalidOperationException(
                         "This hunk is based on a patch which does not have the compared data.");
+                }
 
                 StringBuilder ret = new StringBuilder();
 
@@ -215,13 +220,13 @@ namespace WikiFunctions
                     foreach (object item in Left)
                     {
                         ret.Append("<");
-                        ret.Append(item.ToString());
+                        ret.Append(item);
                         ret.Append("\n");
                     }
                     foreach (object item in Right)
                     {
                         ret.Append(">");
-                        ret.Append(item.ToString());
+                        ret.Append(item;
                         ret.Append("\n");
                     }
                 }
@@ -272,8 +277,14 @@ namespace WikiFunctions
 
         private static string[] StripWhitespace(string[] lines, bool strip)
         {
-            if (lines == null) throw new ArgumentNullException();
-            if (!strip) return lines;
+            if (lines == null)
+            {
+                throw new ArgumentNullException();
+            }
+            if (!strip)
+            {
+                return lines;
+            }
             string[] ret = new string[lines.Length];
             for (int i = 0; i < lines.Length; i++)
             {
@@ -291,7 +302,9 @@ namespace WikiFunctions
         IEnumerator IEnumerable.GetEnumerator()
         {
             if (cdif == null)
+            {
                 throw new InvalidOperationException("No comparison has been performed.");
+            }
             return new Enumerator(this);
         }
 
@@ -306,8 +319,12 @@ namespace WikiFunctions
         {
             int ctr = 0;
             foreach (Hunk hunk in this)
+            {
                 if (!hunk.Same)
+                {
                     ctr += hunk.Right.Count;
+                }
+            }
 
             object[] rightData = new object[ctr];
 
@@ -323,7 +340,9 @@ namespace WikiFunctions
                 {
                     hunks.Add(new Patch.Hunk(rightData, hunk.Left.Start, hunk.Left.Count, ctr, hunk.Right.Count, false));
                     for (int i = 0; i < hunk.Right.Count; i++)
+                    {
                         rightData[ctr++] = hunk.Right[i];
+                    }
                 }
             }
 
@@ -365,7 +384,9 @@ namespace WikiFunctions
                 }
             }
             foreach (IntList list in d.Values)
+            {
                 list.Reverse();
+            }
             return d;
         }
 
@@ -382,7 +403,9 @@ namespace WikiFunctions
         private int _replaceNextLargerWith(IntList array, int value, int high)
         {
             if (high <= 0)
+            {
                 high = array.Count - 1;
+            }
 
             // off the end?
             if (high == -1 || value > array[array.Count - 1])
@@ -400,7 +423,9 @@ namespace WikiFunctions
                 int found = array[index];
 
                 if (value == found)
+                {
                     return -1;
+                }
                 if (value > found)
                     low = index + 1;
                 else
@@ -481,9 +506,8 @@ namespace WikiFunctions
                 if (aimatches != null)
                 {
                     int k = 0;
-                    for (int ji = 0; ji < aimatches.Count; ji++)
+                    foreach (int j in aimatches)
                     {
-                        int j = aimatches[ji];
                         // # optimization: most of the time this will be true
                         if (k > 0 && thresh[k] > j && thresh[k - 1] < j)
                             thresh[k] = j;
@@ -615,7 +639,10 @@ namespace WikiFunctions
 
             private void _ChkPos()
             {
-                if (_Pos == 0) throw new InvalidOperationException("Position is reset.");
+                if (_Pos == 0)
+                {
+                    throw new InvalidOperationException("Position is reset.");
+                }
             }
 
             private void reset(int pos)
