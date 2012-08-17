@@ -16,7 +16,7 @@ namespace WikiFunctions
         }
 
         public static void WriteUnifiedDiff(string[] leftLines, string leftName, string[] rightLines, string rightName,
-                                            System.IO.TextWriter writer, int context, bool caseSensitive,
+                                            TextWriter writer, int context, bool caseSensitive,
                                             bool compareWhitespace)
         {
             Diff diff = new Diff(leftLines, rightLines, caseSensitive, compareWhitespace);
@@ -38,7 +38,9 @@ namespace WikiFunctions
             {
                 string s;
                 while ((s = reader.ReadLine()) != null)
+                {
                     lines.Add(s);
+                }
             }
             return (string[]) lines.ToArray(typeof (string));
         }
@@ -60,7 +62,10 @@ namespace WikiFunctions
             foreach (Diff.Hunk hunk in diff)
             {
                 Diff.Hunk lasthunk = null;
-                if (hunkset.Count > 0) lasthunk = (Diff.Hunk) hunkset[hunkset.Count - 1];
+                if (hunkset.Count > 0)
+                {
+                    lasthunk = (Diff.Hunk) hunkset[hunkset.Count - 1];
+                }
 
                 if (hunk.Same)
                 {
@@ -104,7 +109,9 @@ namespace WikiFunctions
             }
 
             if (hunkset.Count > 0 && !(hunkset.Count == 1 && ((Diff.Hunk) hunkset[0]).Same))
+            {
                 WriteUnifiedDiffSection(writer, hunkset);
+            }
         }
 
         private static void WriteUnifiedDiffSection(TextWriter writer, ArrayList hunks)
@@ -187,7 +194,10 @@ namespace WikiFunctions
                     }
                 }
             }
-            if (!newline) writer.WriteLine();
+            if (!newline)
+            {
+                writer.WriteLine();
+            }
         }
     }
 }

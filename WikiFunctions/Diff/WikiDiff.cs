@@ -50,8 +50,14 @@ namespace WikiFunctions
             diff = new Diff(LeftLines, RightLines, true, true);
             foreach (Diff.Hunk h in diff)
             {
-                if (h.Same) RenderContext(h);
-                else RenderDifference(h);
+                if (h.Same)
+                {
+                    RenderContext(h);
+                }
+                else
+                {
+                    RenderDifference(h);
+                }
             }
             return Result.ToString();
         }
@@ -70,11 +76,19 @@ namespace WikiFunctions
                 LineChanged(left.Start + i, right.Start + i);
             }
             if (left.Count > right.Count)
+            {
                 for (int i = changes; i < left.Count; i++)
+                {
                     LineDeleted(left.Start + i, right.Start + changes);
+                }
+            }
             else if (left.Count < right.Count)
+            {
                 for (int i = changes; i < right.Count; i++)
+                {
                     LineAdded(right.Start + i);
+                }
+            }
         }
 
         private void RenderContext(Diff.Hunk hunk)
@@ -94,8 +108,13 @@ namespace WikiFunctions
                 // not the last hunk, adding context for next change
             {
                 if (right.Count > displayed + toDisplay)
+                {
                     ContextHeader(left.End - toDisplay + 1, right.End - toDisplay + 1);
-                for (int i = 0; i < toDisplay; i++) ContextLine(right.End - toDisplay + i + 1);
+                }
+                for (int i = 0; i < toDisplay; i++)
+                {
+                    ContextLine(right.End - toDisplay + i + 1);
+                }
             }
         }
 
@@ -183,7 +202,10 @@ namespace WikiFunctions
                 res.Append(HttpUtility.HtmlEncode(words[range.Start + i].ToString()));
             }
 
-            if (open) res.Append("</span>");
+            if (open)
+            {
+                res.Append("</span>");
+            }
         }
 
         private static void WhitespaceDiff(StringBuilder res, Word left, Word right)
@@ -199,7 +221,9 @@ namespace WikiFunctions
                 foreach (Diff.Hunk h in diff)
                 {
                     if (h.Same)
+                    {
                         res.Append(rightChars, h.Right.Start, h.Right.Count);
+                    }
                     else
                     {
                         res.Append("<span class='diffchange'>");
@@ -321,7 +345,10 @@ namespace WikiFunctions
             for (int i = 0; i < RightLines.Length; i++)
                 if (i != right)
                 {
-                    if (s.Length > 0) s.Append("\r\n");
+                    if (s.Length > 0)
+                    {
+                        s.Append("\r\n");
+                    }
                     s.Append(RightLines[i]);
                 }
 
@@ -336,16 +363,25 @@ namespace WikiFunctions
             {
                 if (i == right)
                 {
-                    if (s.Length > 0) s.Append("\r\n");
+                    if (s.Length > 0)
+                    {
+                        s.Append("\r\n");
+                    }
                     s.Append(LeftLines[left]);
                 }
-                if (s.Length > 0) s.Append("\r\n");
+                if (s.Length > 0)
+                {
+                    s.Append("\r\n");
+                }
                 s.Append(RightLines[i]);
             }
 
             if (left >= RightLines.Length)
             {
-                if (s.Length > 0) s.Append("\r\n");
+                if (s.Length > 0)
+                {
+                    s.Append("\r\n");
+                }
                 s.Append(LeftLines[left]);
             }
 
@@ -620,7 +656,10 @@ table.diff td div {
                 pos = i;
 
                 // second group: any whitespace character
-                while (i < len && IsSpace(s[i])) i++;
+                while (i < len && IsSpace(s[i]))
+                {
+                    i++;
+                }
                 string trail = s.Substring(pos, i - pos);
 
                 lst.Add(new Word(wordBody, trail));

@@ -9,7 +9,7 @@ namespace WikiFunctions
 
     public class Patch : IEnumerable
     {
-        private Hunk[] hunks;
+        private readonly Hunk[] hunks;
 
         internal Patch(Hunk[] hunks)
         {
@@ -18,9 +18,9 @@ namespace WikiFunctions
 
         public class Hunk
         {
-            private object[] rightData;
-            private int leftstart, leftcount, rightstart, rightcount;
-            private bool same;
+            private readonly object[] rightData;
+            private readonly int leftstart, leftcount, rightstart, rightcount;
+            private readonly bool same;
 
             internal Hunk(object[] rightData, int st, int c, int rs, int rc, bool s)
             {
@@ -56,8 +56,7 @@ namespace WikiFunctions
             {
                 get
                 {
-                    if (same) return null;
-                    return new Range(rightData, rightstart, rightcount);
+                    return same ? null : new Range(rightData, rightstart, rightcount);
                 }
             }
         }
