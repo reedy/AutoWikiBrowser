@@ -1295,7 +1295,7 @@ namespace WikiFunctions.API
                     default:
                         if (errorCode.Contains("disabled"))
                         {
-                            new FeatureDisabledException(this, errorCode, errorMessage);
+                            throw new FeatureDisabledException(this, errorCode, errorMessage);
                         }
 
                         throw new ApiErrorException(this, errorCode, errorMessage);
@@ -1306,6 +1306,16 @@ namespace WikiFunctions.API
 
             var api = doc["api"];
             if (api == null) return doc;
+
+            var redirects = api.GetElementsByTagName("r");
+            if (action == "query" && redirects.Count >= 1) //We have redirects
+            {
+                // Workaround for https://bugzilla.wikimedia.org/show_bug.cgi?id=39492
+                if (Namespace.Determine(redirects[redirects.Count - 1].Attributes["to"].Value) == Namespace.Special)
+                {
+                    throw new RedirectToSpecialPageException(this);
+                }
+            }
 
             //FIXME: Awful code is awful
             var page = api.GetElementsByTagName("page");
