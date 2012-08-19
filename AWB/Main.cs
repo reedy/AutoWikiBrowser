@@ -780,6 +780,11 @@ namespace AutoWikiBrowser
             if (_stopProcessing)
                 return;
 
+            if (Namespace.IsSpecial(Namespace.Determine(page.Title)))
+            {
+                SkipPage("Page is a special page");
+            }
+
             TheArticle = new Article(page);
 
             if (!preParseModeToolStripMenuItem.Checked && !CheckLoginStatus())
