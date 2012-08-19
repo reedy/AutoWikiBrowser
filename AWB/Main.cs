@@ -351,9 +351,9 @@ namespace AutoWikiBrowser
             SplashScreen.SetProgress(100);
             SplashScreen.Close();
 
-#if DEBUG && INSTASTATS
+            #if DEBUG && INSTASTATS
             UsageStats.Do(false);
-#endif
+            #endif
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
@@ -1202,9 +1202,9 @@ namespace AutoWikiBrowser
         private void Bleepflash()
         {
             if (ContainsFocus) return;
-#if !MONO
+            #if !MONO
             if (_flash) Tools.FlashWindow(this);
-#endif
+            #endif
             if (_beep) Tools.Beep();
         }
 
@@ -1384,9 +1384,9 @@ namespace AutoWikiBrowser
             bool process = true;
             TypoStats = null;
 
-#if DEBUG
+            #if DEBUG
             Variables.Profiler.Start("ProcessPage(\"" + theArticle.Name + "\")");
-#endif
+            #endif
 
             try
             {
@@ -1789,7 +1789,7 @@ window.scrollTo(0, diffTopY);
                 return;
             }
 
-#if DEBUG
+            #if DEBUG
             string extext2 = @"Extra validation for debug builds (don't use a debug build if you want to save blank pages): ";
             // further attempts to track down blank page saving issue
             if (TheArticle.ArticleText.Length.Equals(0))
@@ -1803,7 +1803,7 @@ window.scrollTo(0, diffTopY);
                 extext2 += @"Attempted to save page with zero length txtEditText";
                 throw new Exception(extext2);
             }
-#endif
+            #endif
 
             DisableButtons();
             if (txtEdit.Text.Length > 0 ||
@@ -1856,7 +1856,7 @@ window.scrollTo(0, diffTopY);
                     string sectionEditText = Summary.ModifiedSection(TheArticle.OriginalArticleText, txtEdit.Text);
 
                     if(sectionEditText.Length == 0 || !txtReviewEditSummary.Text.Contains(@"/* " + sectionEditText + @" */"))
-                        txtReviewEditSummary.Text = txtReviewEditSummary.Text.Substring(txtReviewEditSummary.Text.IndexOf(@"*/")+2);                    
+                        txtReviewEditSummary.Text = txtReviewEditSummary.Text.Substring(txtReviewEditSummary.Text.IndexOf(@"*/")+2);
                 }
 
                 TheSession.Editor.Save(txtEdit.Text, AppendUsingAWBSummary(txtReviewEditSummary.Text), markAllAsMinorToolStripMenuItem.Checked,
@@ -2187,12 +2187,12 @@ window.scrollTo(0, diffTopY);
                     summary = @"/* " + sectionEditText + @" */" + summary;
             }
             
-#if DEBUG
+            #if DEBUG
             if (!Summary.IsCorrect(summary))
             {
                 Tools.WriteDebug("edit summary not correct", summary);
             }
-#endif
+            #endif
 
             return summary;
         }
@@ -2203,8 +2203,8 @@ window.scrollTo(0, diffTopY);
         /// <param name="summary">The current edit summary</param>
         /// <returns>The updated edit summary</returns>
         private string AppendUsingAWBSummary(string summary)
-        {            
-              if (!(TheSession.User.IsBot && chkSuppressTag.Checked)
+        {
+            if (!(TheSession.User.IsBot && chkSuppressTag.Checked)
                 && (Variables.IsWikimediaProject && !_suppressUsingAWB))
                 summary = Summary.Trim(summary) + Variables.SummaryTag;
             
@@ -2764,7 +2764,7 @@ window.scrollTo(0, diffTopY);
             toolStripSeparator29.Visible = true;
             invalidateCacheToolStripMenuItem.Visible = true;
 
-#if DEBUG
+            #if DEBUG
             try
             {
                 Variables.Profiler = new Profiler(Path.Combine(Application.StartupPath, "profiling.txt"), true);
@@ -2773,7 +2773,7 @@ window.scrollTo(0, diffTopY);
             {
                 Variables.Profiler = new Profiler(Path.Combine(AwbDirs.UserData, "profiling.txt"), true);
             }
-#endif
+            #endif
         }
 
         [Conditional("RELEASE")]
@@ -3484,7 +3484,7 @@ window.scrollTo(0, diffTopY);
 
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-        	DataFormats.Format plainText = DataFormats.GetFormat(DataFormats.Text);
+            DataFormats.Format plainText = DataFormats.GetFormat(DataFormats.Text);
             txtEdit.Paste(plainText);
         }
 
@@ -3538,12 +3538,12 @@ window.scrollTo(0, diffTopY);
 
         private void bypassAllRedirectsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-#if !DEBUG
+            #if !DEBUG
             if (MessageBox.Show("Replacement of links to redirects with direct links is strongly discouraged, " +
                                 "however it could be useful in some circumstances. Are you sure you want to continue?",
                                 "Bypass redirects", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
                 return;
-#endif
+            #endif
 
             BackgroundRequest r = new BackgroundRequest();
 
@@ -3835,7 +3835,14 @@ window.scrollTo(0, diffTopY);
             if ((TheArticle != null) && string.IsNullOrEmpty(TheArticle.EditSummary))
                 ToolTip.SetToolTip(cmboEditSummary, "");
             else
-                ToolTip.SetToolTip(cmboEditSummary, MakeDefaultEditSummary());
+                ToolTip.SetToolTip(cmboEditSummary, txtReviewEditSummary.Text);
+        }
+        
+        // If user changes default edit summary after article has been processed, refresh editable edit summary; any custom changes to editable edit summary will be lost
+        private void cmboEditSummary_TextChanged(object sender, EventArgs e)
+        {
+            if(txtReviewEditSummary.Enabled)
+                txtReviewEditSummary.Text = MakeDefaultEditSummary();
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -3873,7 +3880,7 @@ window.scrollTo(0, diffTopY);
 
                 StatusLabelText = "Loading typos";
 
-#if !DEBUG
+                #if !DEBUG
                 string message = @"1. Check each edit before you make it. Although this has been built to be very accurate there will be errors.
 
 2. Optional: Select [[WP:AWB/T|Typo fixing]] as the edit summary. This lets everyone know where to bring issues with the typo correction.";
@@ -3889,7 +3896,7 @@ window.scrollTo(0, diffTopY);
                 }
 
                 MessageBox.Show(message, "Attention", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-#endif
+                #endif
 
                 RegexTypos = new RegExTypoFix();
                 RegexTypos.Complete += RegexTyposComplete;
@@ -4763,7 +4770,7 @@ window.scrollTo(0, diffTopY);
             else if (Variables.TryLoadingAgainAfterLogin)
             {
                 SetProject(Variables.ReloadProjectSettings.langCode, Variables.ReloadProjectSettings.projectName,
-                    Variables.ReloadProjectSettings.customProject, Variables.ReloadProjectSettings.protocol);
+                           Variables.ReloadProjectSettings.customProject, Variables.ReloadProjectSettings.protocol);
             }
 
             if (TheSession.IsBusy)
@@ -5058,7 +5065,7 @@ window.scrollTo(0, diffTopY);
 
         private void profileTyposToolStripMenuItem_Click(object sender, EventArgs e)
         {
-#if DEBUG
+            #if DEBUG
             if (RegexTypos == null)
             {
                 MessageBox.Show("No typos loaded", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -5109,7 +5116,7 @@ window.scrollTo(0, diffTopY);
 
             MessageBox.Show("Results are saved in the file 'typos.txt'", "Profiling complete",
                             MessageBoxButtons.OK, MessageBoxIcon.Information);
-#endif
+            #endif
         }
 
         private void loadPluginToolStripMenuItem_Click(object sender, EventArgs e)
@@ -5185,9 +5192,9 @@ window.scrollTo(0, diffTopY);
             }
 
             if (pageExists ||
-               MessageBox.Show(_catName.CategoryName + " does not exist. Add it to the page anyway?",
-                               "Non-existent category", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
-               == DialogResult.Yes)
+                MessageBox.Show(_catName.CategoryName + " does not exist. Add it to the page anyway?",
+                                "Non-existent category", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                == DialogResult.Yes)
             {
                 txtEdit.Text += "\r\n\r\n[[" + _catName.CategoryName + "]]";
 
@@ -5361,5 +5368,5 @@ window.scrollTo(0, diffTopY);
             Profiles.ShowDialog(this);
         }
     }
-        #endregion
+    #endregion
 }

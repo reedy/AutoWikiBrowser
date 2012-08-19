@@ -3807,6 +3807,7 @@ namespace AutoWikiBrowser
             this.cmboEditSummary.Text = "clean up";
             this.cmboEditSummary.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmbEditSummary_KeyDown);
             this.cmboEditSummary.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmboEditSummary_MouseMove);
+            this.cmboEditSummary.TextChanged += new System.EventHandler(this.cmboEditSummary_TextChanged);
             // 
             // findGroup
             // 
