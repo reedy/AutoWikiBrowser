@@ -226,7 +226,7 @@ namespace WikiFunctions
                     foreach (object item in Right)
                     {
                         ret.Append(">");
-                        ret.Append(item;
+                        ret.Append(item);
                         ret.Append("\n");
                     }
                 }
