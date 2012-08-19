@@ -31,14 +31,12 @@ namespace WikiFunctions.API
         /// <summary>
         /// The ApiEdit object that threw the exception
         /// </summary>
-        public ApiEdit Editor
-        { get; private set; }
+        public ApiEdit Editor { get; private set; }
 
         /// <summary>
         /// Thread in which the exception was thrown
         /// </summary>
-        public Thread ThrowingThread
-        { get; private set; }
+        public Thread ThrowingThread { get; private set; }
 
         public ApiException(ApiEdit editor, string message)
             : base(message)
@@ -82,13 +80,12 @@ namespace WikiFunctions.API
         /// <summary>
         /// Short error code
         /// </summary>
-        public string ErrorCode{ get; private set; }
+        public string ErrorCode { get; private set; }
 
         /// <summary>
         /// Error message returned by API
         /// </summary>
-        public string ApiErrorMessage
-        { get; private set; }
+        public string ApiErrorMessage { get; private set; }
 
         /// <summary>
         /// 
@@ -118,8 +115,7 @@ namespace WikiFunctions.API
             DisabledFeature = errorCode.Replace("-disabled", "");
         }
 
-        public string DisabledFeature
-        { get; private set; }
+        public string DisabledFeature { get; private set; }
     }
 
     /// <summary>
@@ -163,8 +159,9 @@ namespace WikiFunctions.API
             : base(editor, message, innerException)
         {
         }
+
         public BrokenXmlException(ApiEdit editor, Exception innerException)
-            : base(editor, "Error parsing data returned by server: " + innerException.Message , innerException)
+            : base(editor, "Error parsing data returned by server: " + innerException.Message, innerException)
         {
         }
     }
@@ -203,7 +200,8 @@ namespace WikiFunctions.API
                     return
                         "The wiki tried to automatically create a new account for you, but your IP address has been blocked from account creation";
                 case "throttled":
-                    return "You've logged in too many times in a short time."; //see http://www.mediawiki.org/wiki/API:Login#Throttling
+                    return "You've logged in too many times in a short time.";
+                        //see http://www.mediawiki.org/wiki/API:Login#Throttling
                 case "blocked":
                     return "User is blocked";
                 default:
@@ -218,11 +216,9 @@ namespace WikiFunctions.API
     /// <remarks>http://www.mediawiki.org/wiki/Manual:Maxlag_parameter</remarks>
     public class MaxlagException : ApiErrorException
     {
-        public int Maxlag
-        { get; private set; }
+        public int Maxlag { get; private set; }
 
-        public int RetryAfter
-        { get; private set; }
+        public int RetryAfter { get; private set; }
 
         public MaxlagException(ApiEdit editor, int maxlag, int retryAfter)
             : base(editor, "maxlag", "Maxlag exceeded by " + maxlag + " seconds, retry in " + retryAfter + " seconds")
@@ -272,8 +268,7 @@ namespace WikiFunctions.API
         /// <summary>
         /// URL which triggered the blacklist
         /// </summary>
-        public string URL
-        { get; private set; }
+        public string URL { get; private set; }
 
         public SpamlistException(ApiEdit editor, string url)
             : base(editor, "The link '" + url + "' is blocked by spam blacklist")
@@ -332,11 +327,10 @@ namespace WikiFunctions.API
     /// </summary>
     public class InvalidTitleException : ApiException
     {
-        public string InvalidTitle
-        { get; private set; }
+        public string InvalidTitle { get; private set; }
 
         public InvalidTitleException(ApiEdit editor, string title)
-            :base(editor, "Invalid title: \"" + title + "\"")
+            : base(editor, "Invalid title: \"" + title + "\"")
         {
             InvalidTitle = title;
         }
@@ -388,6 +382,20 @@ namespace WikiFunctions.API
 #endif
             builder.AppendLine("</table>");
             return builder.ToString();
+        }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <remarks>
+    /// Part of workaround for https://bugzilla.wikimedia.org/show_bug.cgi?id=39492
+    /// </remarks>
+    public class RedirectToSpecialPageException : ApiException
+    {
+        public RedirectToSpecialPageException(ApiEdit editor)
+            : base(editor, "Redirect target is special page")
+        {
         }
     }
 }

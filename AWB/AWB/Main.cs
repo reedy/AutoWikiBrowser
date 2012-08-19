@@ -594,6 +594,10 @@ namespace AutoWikiBrowser
             {
                 SkipPage("Invalid title");
             }
+            else if (ex is RedirectToSpecialPageException)
+            {
+                SkipPage("Page is a redirect to a special page");
+            }
             else if (ex is WebException)
             {
                 // some 404 error or similar

@@ -54,11 +54,11 @@ namespace WikiFunctions.API
                     return; //We're not going to have any page text
                 }
 
+                redirectFrom = redirects[0].Attributes["from"].Value;
                 //Valid redirects
                 TitleChangedStatus = redirects.Count == 1
                                          ? PageTitleStatus.Redirected
                                          : PageTitleStatus.MultipleRedirects;
-                redirectFrom = redirects[0].Attributes["from"].Value;
             }
             else
             {
