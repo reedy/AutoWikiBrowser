@@ -258,6 +258,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex HeadingsWhitespaceBefore = new Regex(@"\s+(?:< *[Bb][Rr] *\/? *>\s*)*(^={1,6} *(.*?) *={1,6} *(?=\r\n))", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex LevelOneSeeAlso = new Regex("= ?See also ?=", RegexOptions.Compiled);
+        private static readonly Regex ListOf = new Regex(@"^Lists? of", RegexOptions.Compiled);
 
         // Covered by: FormattingTests.TestFixHeadings(), incomplete
         /// <summary>
@@ -288,7 +289,7 @@ namespace WikiFunctions.Parse
 
             // only apply if < 6 matches, otherwise (badly done) articles with 'list of...' and lots of links in headings will be further messed up
             if (RegexRemoveLinksInHeadings.Matches(articleText).Count < 6
-                && !(Regex.IsMatch(articleTitle, WikiRegexes.Months) || articleTitle.StartsWith(@"List of") || WikiRegexes.GregorianYear.IsMatch(articleTitle)))
+                && !(Regex.IsMatch(articleTitle, WikiRegexes.Months) || ListOf.IsMatch(articleTitle) || WikiRegexes.GregorianYear.IsMatch(articleTitle)))
             {
                 // loop through in case a heading has mulitple wikilinks in it
                 while (RegexRemoveLinksInHeadings.IsMatch(articleText))
@@ -5334,7 +5335,7 @@ namespace WikiFunctions.Parse
         }
 
         private static readonly Regex BLPUnsourcedSection = Tools.NestedTemplateRegex(new List<string>("BLP unsourced section,BLP sources section".Split(',')));
-        private static readonly Regex NotPersonArticles = new Regex(@"(^(((?:First )?(?:Premiership|Presidency|Governor)|List|Murder|Disappearance|Suicide|Adoption) of|Deaths|[12]\d{3}\b|\d{2,} )|Assembly of|(Birth|Death) rates|(discography|(?:film|bibli)ography| deaths| murders)$)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex NotPersonArticles = new Regex(@"(^(((?:First )?(?:Premiership|Presidency|Governor)|Murder|Disappearance|Suicide|Adoption) of|Deaths|[12]\d{3}\b|\d{2,} )|Assembly of|(Birth|Death) rates|(discography|(?:film|bibli)ography| deaths| murders)$)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static MetaDataSorter MDS = new MetaDataSorter();
         private static readonly Regex NobleFamilies = new Regex(@"[[Category:[^\[\]\|]*[nN]oble families", RegexOptions.Compiled);
         private static readonly Regex NotAboutAPersonCategories = new Regex(@"\[\[Category:(\d{4} animal|Comedy duos|Articles about multiple people|Married couples|Fictional|Presidencies|Military careers|Parables of|[^\[\]\|\r\n]*musical groups|Internet memes|Military animals)", RegexOptions.Compiled);
@@ -5354,6 +5355,7 @@ namespace WikiFunctions.Parse
             if (!Variables.LangCode.Equals("en")
                 || Namespace.Determine(articleTitle).Equals(Namespace.Category)
                 || NotPersonArticles.IsMatch(articleTitle)
+                || ListOf.IsMatch(articleTitle)
                 || articleText.Contains(@"[[fictional character")
                 || WikiRegexes.Disambigs.IsMatch(articleText)
                 || InUniverse.IsMatch(articleText)
