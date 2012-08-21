@@ -6150,7 +6150,7 @@ namespace WikiFunctions.Parse
             int words = (Tools.WordCount(commentsCategoriesStripped) + Tools.WordCount(crapStripped)) / 2;
 
             // remove stub tags from long articles, don't move section stubs
-            if ((words > StubMaxWordCount) && WikiRegexes.Stub.IsMatch(commentsStripped))
+            if ((words > StubMaxWordCount) && WikiRegexes.Stub.IsMatch(commentsStripped) && !ListOf.IsMatch(articleTitle))
             {
                 articleText = WikiRegexes.Stub.Replace(articleText, StubChecker).Trim();
                 tagsRemoved.Add("stub");
