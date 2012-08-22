@@ -35,7 +35,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         ReadOnly params() As TemplateParameters =
         {
-           New TemplateParameters() With {.StorageKey = "ActivePol", .Group = WorkgroupsGroups, .ParamName = "Politician"}, _
+           New TemplateParameters() With {.StorageKey = "PolWG", .Group = WorkgroupsGroups, .ParamName = "Politician"}, _
            New TemplateParameters() With {.StorageKey = "ArtsEntsWG", .Group = WorkgroupsGroups, .ParamName = "A&E"}, _
            New TemplateParameters() With {.StorageKey = "FilmWG", .Group = WorkgroupsGroups, .ParamName = "Film Bio"}, _
            New TemplateParameters() With {.StorageKey = "MilitaryWG", .Group = WorkgroupsGroups, .ParamName = "Military"}, _
@@ -46,6 +46,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
            New TemplateParameters() With {.StorageKey = "SportWG", .Group = WorkgroupsGroups, .ParamName = "Sports"}, _
            New TemplateParameters() With {.StorageKey = "LivingPerson", .Group = OthersGroup, .ParamName = "Living"}, _
            New TemplateParameters() With {.StorageKey = "NotLivingPerson", .Group = OthersGroup, .ParamName = "Not Living"}
+           New TemplateParameters() With {.StorageKey = "NoBio", .Group = OthersGroup, .ParamName = "Non-Biography"}
+           New TemplateParameters() With {.StorageKey = "ActivePol", .Group = OthersGroup, .ParamName = "Active Politician"}
        }
 
         ' Settings:
