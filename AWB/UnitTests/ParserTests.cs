@@ -4884,6 +4884,13 @@ Some news here.", "test"), "space trimmed from end of paragraph when br replaces
             Assert.AreEqual(linked, Parsers.FixHeadings(linked, "1980 in poetry"));
             Assert.AreEqual(linked, Parsers.FixHeadings(linked, "1980"));
             Assert.AreEqual(linked, Parsers.FixHeadings(linked, "January 11"));
+
+            string FileInHeading = @"==Text [[File:One.JPG|text]] here ==";
+            Assert.AreEqual(FileInHeading, Parsers.FixHeadings(FileInHeading, "test"));
+            FileInHeading = @"==Text [[Image:One.JPG|text]] here ==";
+            Assert.AreEqual(FileInHeading, Parsers.FixHeadings(FileInHeading, "test"));
+            FileInHeading = @"==Text [[Image:One.jpeg]] here ==";
+            Assert.AreEqual(FileInHeading, Parsers.FixHeadings(FileInHeading, "test"));
         }
 
         [Test]
