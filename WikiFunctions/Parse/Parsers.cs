@@ -6150,7 +6150,7 @@ namespace WikiFunctions.Parse
             int words = (Tools.WordCount(commentsCategoriesStripped) + Tools.WordCount(crapStripped)) / 2;
 
             // remove stub tags from long articles, don't move section stubs
-            if ((words > StubMaxWordCount) && WikiRegexes.Stub.IsMatch(commentsStripped) && !ListOf.IsMatch(articleTitle))
+            if ((words > StubMaxWordCount) && WikiRegexes.Stub.IsMatch(commentsStripped))
             {
                 articleText = WikiRegexes.Stub.Replace(articleText, StubChecker).Trim();
                 tagsRemoved.Add("stub");
@@ -6225,12 +6225,15 @@ namespace WikiFunctions.Parse
             if (length <= 300 && !WikiRegexes.Stub.IsMatch(commentsCategoriesStripped) &&
                 !WikiRegexes.Disambigs.IsMatch(commentsCategoriesStripped) && !WikiRegexes.SIAs.IsMatch(commentsCategoriesStripped))
             {
-                // add stub tag
-                articleText += Tools.Newline("{{stub}}", 3);
-                if (Variables.LangCode.Equals("ar"))
-                     tagsAdded.Add("بذرة");
-                else tagsAdded.Add("stub");
-                commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
+                // add stub tag. Exclude pages their title starts with "List of..."
+                if (!ListOf.IsMatch(articleTitle))
+                {
+                 	articleText += Tools.Newline("{{stub}}", 3);
+                	if (Variables.LangCode.Equals("ar"))
+                    	 tagsAdded.Add("بذرة");
+                	else tagsAdded.Add("stub");
+                	commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
+                }
             }
 
             // rename existing {{improve categories}} else add uncategorized tag

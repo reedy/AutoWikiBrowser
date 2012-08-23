@@ -8231,12 +8231,31 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             // stub already marked uncat
             text = parser.Tagger(ShortText + @"{{uncat}}", "Test", false, out noChange, ref summary);
             //Stub, no existing stub tag. Needs all tags
-            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("orphan"));
-            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("wikify"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("orphan"),"uncat page and orphan");
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("wikify"),"uncat page and needs to wikify");
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text),"uncat page and deadend");
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
             Assert.IsFalse(Tools.NestedTemplateRegex("uncat").IsMatch(text));
             Assert.IsTrue(Tools.NestedTemplateRegex("uncategorized stub").IsMatch(text));
+
+            // stub already marked uncat but with "List of..." in pagetitle. It should not tag as stub
+            text = parser.Tagger(ShortText + @"{{uncat}}", "List of Tests", false, out noChange, ref summary);
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("orphan"));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("wikify"));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
+            Assert.IsTrue(Tools.NestedTemplateRegex("uncat").IsMatch(text));
+            Assert.IsFalse(Tools.NestedTemplateRegex("uncategorized stub").IsMatch(text));
+            
+            // stub already marked uncat but with "Lists of..." in pagetitle. It should not tag as stub
+            text = parser.Tagger(ShortText + @"{{uncat}}", "Lists of Tests", false, out noChange, ref summary);
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("orphan"));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("wikify"));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
+            Assert.IsTrue(Tools.NestedTemplateRegex("uncat").IsMatch(text));
+            Assert.IsFalse(Tools.NestedTemplateRegex("uncategorized stub").IsMatch(text));
+
         }
 
         [Test]
@@ -8314,6 +8333,15 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
             Assert.IsTrue(Tools.NestedTemplateRegex("Uncategorized stub").IsMatch(text));
             Assert.IsTrue(text.Contains(UncatStub));
+
+            text = parser.Tagger(ShortTextWithLongComment, "List of Tests", false, out noChange, ref summary);
+            //Stub, no existing stub tag but with "List of..." in its title. Needs all tags but stub
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("orphan"));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("wikify"));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
+            Assert.IsFalse(Tools.NestedTemplateRegex("Uncategorized stub").IsMatch(text));
+            Assert.IsFalse(text.Contains(UncatStub));
 
             text = parser.Tagger(ShortText + Stub + Uncat + Wikify + Orphan + Deadend, "Test", false, out noChange, ref summary);
             //Tagged article, dupe tags shouldn't be added
