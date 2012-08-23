@@ -6261,7 +6261,7 @@ namespace WikiFunctions.Parse
                     // add uncategorized stub tag
                     if (Variables.LangCode.Equals("ar"))
                     {
-                    	articleText += Tools.Newline("{{بذرة غير مصنفة|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                       articleText += Tools.Newline("{{بذرة غير مصنفة|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
                        tagsAdded.Add("[[تصنيف:مقالات غير مصنفة|غير مصنفة]]");
                     }
                     else
