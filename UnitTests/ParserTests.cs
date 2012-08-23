@@ -8583,7 +8583,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsTrue(text.Contains("{{ويكي|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsTrue(Tools.NestedTemplateRegex("بذرة غير مصنفة").IsMatch(text),"Uncategorized stub");
-            //Assert.IsTrue(text.Contains(UncatStub),"Uncategorized stub");
+            Assert.IsTrue(text.Contains(UncatStub),"Uncategorized stub");
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text),"stub");
             Variables.SetProjectLangCode("en");
 #endif
