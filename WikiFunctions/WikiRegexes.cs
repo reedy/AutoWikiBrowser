@@ -331,7 +331,7 @@ namespace WikiFunctions
 
         /// <summary>
         /// Matches only internal wikilinks (with or without pipe) with extra word character(s) e.g. [[link]]age or [[here|link]]age
-        /// http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Improve_HideText.HideMore.28.29
+        /// https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Improve_HideText.HideMore.28.29
         /// </summary>
         public static readonly Regex WikiLinksOnlyPlusWord = new Regex(@"\[\[[^\[\]\n]+\]\](\w+)", RegexOptions.Compiled);
 
@@ -622,8 +622,8 @@ namespace WikiFunctions
         /// <summary>
         /// Matches quotations outside of templates but within a pair of quotation marks, notably exlcuding straight single quotes
         /// </summary>
-        /// see http://en.wikipedia.org/wiki/Quotation_mark_glyphs
-        /// http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Ignoring_spelling_errors_within_quotation_marks.3F
+        /// see https://en.wikipedia.org/wiki/Quotation_mark_glyphs
+        /// https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Ignoring_spelling_errors_within_quotation_marks.3F
         public static readonly Regex UntemplatedQuotes = new Regex(@"(?<=[^\w])[""«»‘’“”‛‟‹›“”„‘’`’“‘”].{1,2000}?[""«»‘’“”‛‟‹›“”„‘’`’“‘”](?=[^\w])", RegexOptions.Compiled | RegexOptions.Singleline);
         
         /// <summary>
@@ -635,7 +635,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches abbreviated SI units without a non-breaking space, notably does not correct millimetres without a space due to firearms articles using this convention
         /// </summary>
-        /// http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Non_breaking_spaces
+        /// https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Non_breaking_spaces
         public static readonly Regex UnitsWithoutNonBreakingSpaces = new Regex(@"\b(\d?\.?\d+)\s*((?:[cmknuµ])(?:[mgWN])|m?mol|cd|mi|lb[fs]?|b?hp|mph|ft|[kGM]?Hz|m/s)\b(?<!(\d?\.?\d+)mm)", RegexOptions.Compiled);
 
         // covered by TestFixNonBreakingSpaces
@@ -959,7 +959,7 @@ namespace WikiFunctions
 
         // covered by DablinksTests
         /// <summary>
-        /// Finds article disamiguation links from http://en.wikipedia.org/wiki/Wikipedia:Template_messages/General#Disambiguation_and_redirection (en only)
+        /// Finds article disamiguation links from https://en.wikipedia.org/wiki/Wikipedia:Template_messages/General#Disambiguation_and_redirection (en only)
         /// </summary>
         public static readonly Regex Dablinks = Tools.NestedTemplateRegex(new [] { "about", "ambiguous link", "for", "for2", "for3", "dablink", "distinguish", "distinguish2", "hatnote", "otherpeople", "otherpeople1", "otherpeople2", "otherpeople3", "other people", "other people1", "other people2", "other people3", "other persons", "otherpersons", "otherpersons2", "otherpersons3", "otherplaces", "other places", "otherplaces2", "otherplaces3", "other places2", "other places3", "otherships", "other ships", "otheruses-number", "other uses", "other uses2", "other uses3", "other uses4", "other uses6", "otheruses", "otheruses2", "otheruses3", "otheruses4", "other uses of", "otheruse", "2otheruses", "redirect-acronym", "redirect", "redirect2", "redirect3", "redirect4", "this", "two other uses", "three other uses", "disambig-acronym" } );
 
