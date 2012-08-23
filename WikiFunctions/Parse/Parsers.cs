@@ -6228,10 +6228,16 @@ namespace WikiFunctions.Parse
                 // add stub tag. Exclude pages their title starts with "List of..."
                 if (!ListOf.IsMatch(articleTitle))
                 {
-                 	articleText += Tools.Newline("{{stub}}", 3);
                 	if (Variables.LangCode.Equals("ar"))
+                	{
+                		 articleText += Tools.Newline("{{بذرة}}", 3);
                     	 tagsAdded.Add("بذرة");
-                	else tagsAdded.Add("stub");
+                	}
+                	else
+                	{
+                		 articleText += Tools.Newline("{{stub}}", 3);
+						 tagsAdded.Add("stub");
+                	}
                 	commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
                 }
             }
@@ -6444,7 +6450,14 @@ namespace WikiFunctions.Parse
             else if (!orphaned && WikiRegexes.Orphan.IsMatch(articleText))
             {
                 articleText = WikiRegexes.Orphan.Replace(articleText, "$1");
-                tagsRemoved.Add("orphan");
+                if (Variables.LangCode.Equals("ar"))
+            	{
+                	tagsRemoved.Add("يتيمة");
+                }
+                else
+                {
+                	tagsRemoved.Add("orphan");
+                }
             }
             return articleText;
         }
