@@ -8570,6 +8570,26 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
         }
 
         [Test]
+        public void AddAr()
+        {
+            Globals.UnitTestIntValue = 0;
+            Globals.UnitTestBoolValue = true;
+
+#if DEBUG
+            Variables.SetProjectLangCode("ar");
+            string text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
+            //Stub, no existing stub tag. Needs all tags
+            Assert.IsTrue(text.Contains("{{ييتيمة|" + WikiRegexes.DateYearMonthParameter + @"}}"),"orphan");
+            Assert.IsTrue(text.Contains("{{ويكي|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsTrue(Tools.NestedTemplateRegex("بذرة غير مصنفة").IsMatch(text),"Uncategorized stub");
+            Assert.IsTrue(text.Contains(UncatStub),"Uncategorized stub");
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text),"stub");
+            Variables.SetProjectLangCode("en");
+#endif
+        }
+
+        [Test]
         public void AddOrphan()
         {
             Globals.UnitTestBoolValue = true;
