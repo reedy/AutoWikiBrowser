@@ -8579,7 +8579,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Variables.SetProjectLangCode("ar");
             string text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
             //Stub, no existing stub tag. Needs all tags
-            Assert.IsTrue(text.Contains("{{ييتيمة|" + WikiRegexes.DateYearMonthParameter + @"}}"),"orphan");
+            Assert.IsTrue(text.Contains("{{يتيمة|" + WikiRegexes.DateYearMonthParameter + @"}}"),"orphan");
             Assert.IsTrue(text.Contains("{{ويكي|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsTrue(Tools.NestedTemplateRegex("بذرة غير مصنفة").IsMatch(text),"Uncategorized stub");
