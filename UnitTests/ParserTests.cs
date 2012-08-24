@@ -8797,6 +8797,10 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             //stub tag removed
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
             
+            text = parser.Tagger("{{ويكي}}" + Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
+            //wikify tag removed
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
+
             Variables.SetProjectLangCode("en");
             Variables.Stub = "[^{}|]*?[Ss]tub";
             WikiRegexes.MakeLangSpecificRegexes();
