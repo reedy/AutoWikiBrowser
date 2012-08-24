@@ -8285,6 +8285,27 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             text = parser.Tagger(LongText + @"{{stub}} {{Uncategorised|date=May 2010}}", "Test", false, out noChange, ref summary);
             Assert.IsTrue(Tools.NestedTemplateRegex("Uncategorised").IsMatch(text), "Uncategorised not renamed when stub removed");
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
+
+            text = parser.Tagger("{{wikify}}" + Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
+
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
+
+            text = parser.Tagger("{{wikify|reason=something}}" + Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
+
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text), "wikify tag with reason NOT removed");
+
+            Globals.UnitTestIntValue = 4;
+            text = parser.Tagger("{{uncategorised}}", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+
+            text = parser.Tagger("{{uncategorised|date=January 2009}}", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+
+            text = parser.Tagger("{{uncategorised|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
+
+            text = parser.Tagger("{{uncategorised|date=January 2009}} {{foo}}", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text), "Uncat removed even if other template present");        
         }
 
         [Test]
@@ -8588,7 +8609,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsTrue(Tools.NestedTemplateRegex("بذرة غير مصنفة").IsMatch(text),"Uncategorized stub");
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text),"stub");
 
-            Variables.SetProject("en", ProjectEnum.wikipedia);
+            Variables.SetProjectLangCode("en");
             Variables.Stub = "[^{}|]*?[Ss]tub";
             WikiRegexes.MakeLangSpecificRegexes();
             #endif
@@ -8757,6 +8778,31 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.IsTrue(WikiRegexes.MultipleIssues.Match(Text).Value.Contains("expand"), "Expand not removed when stub tag removed");
         }
 
+        [Test]
+        public void RemoveAr()
+        {
+            string text ="";
+#if DEBUG
+            Variables.SetProjectLangCode("ar");
+            Variables.Stub = @"[^{}|]*?([Ss]tub|بذرة|بذور)";
+            WikiRegexes.MakeLangSpecificRegexes();
+            
+            Globals.UnitTestBoolValue = true;
+
+            text = parser.Tagger(ShortText + @"{{بذرة}}", "Test", false, out noChange, ref summary);
+            //Stub, tag not removed
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
+
+            text = parser.Tagger(LongText + @"{{بذرة}}", "Test", false, out noChange, ref summary);
+            //stub tag removed
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
+            
+            Variables.SetProjectLangCode("en");
+            Variables.Stub = "[^{}|]*?[Ss]tub";
+            WikiRegexes.MakeLangSpecificRegexes();
+#endif
+        }
+        
         [Test]
         public void MultipleIssuesNewTags()
         {
