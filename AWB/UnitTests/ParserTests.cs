@@ -7509,6 +7509,17 @@ fish | name = Bert }} ''Bert'' is a good fish."));
         }
 
         [Test]
+        public void HasStubTemplateAr()
+        {
+#if DEBUG
+            Variables.SetProjectLangCode("ar");
+            Assert.IsTrue(Parsers.HasStubTemplate(@"foo {{بذرة ممثل}}"),"actor stub");
+            Assert.IsTrue(Parsers.HasStubTemplate(@"foo {{بذرة ألمانيا}}"), "germany stub");
+            Variables.SetProjectLangCode("en");
+#endif
+        }
+
+        [Test]
         public void IsStub()
         {
             Assert.IsTrue(Parsers.IsStub(@"foo {{foo stub}}"));
@@ -7520,6 +7531,23 @@ fish | name = Bert }} ''Bert'' is a good fish."));
             const string a = @"fooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo";
             const string b = a + a + a + a + a + a;
             Assert.IsFalse(Parsers.IsStub(b + b + b + b));
+        }
+
+        [Test]
+        public void IsStubAr()
+        {
+#if DEBUG
+            Variables.SetProjectLangCode("ar");
+            Assert.IsTrue(Parsers.IsStub(@"foo {{بذرة ممثل}}"));
+
+            // short article
+            Assert.IsTrue(Parsers.IsStub(@"foo {{foo tubs}}"));
+
+            const string a = @"fooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo";
+            const string b = a + a + a + a + a + a;
+            Assert.IsFalse(Parsers.IsStub(b + b + b + b));
+            Variables.SetProjectLangCode("en");
+#endif
         }
 
         [Test]
