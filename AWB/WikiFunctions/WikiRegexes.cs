@@ -172,6 +172,7 @@ namespace WikiFunctions
 
             Uncat = new Regex(@"{{\s*" + uncattemplate + @"((\s*\|[^{}]+)?\s*|\s*\|((?>[^\{\}]+|\{\{(?<DEPTH>)|\}\}(?<-DEPTH>))*(?(DEPTH)(?!))))\}\}", RegexOptions.Compiled);
 
+            // set Link FA/GA/GL string
             switch (Variables.LangCode)
             {
                 case "an":
