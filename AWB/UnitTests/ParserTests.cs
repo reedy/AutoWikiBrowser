@@ -8765,8 +8765,10 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
 
             text = parser.Tagger("{{wikify}}" + Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
+            string text1 = parser.Tagger(Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
             //wikify tag removed
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
+            Assert.AreEqual(text,text1);
 
             text = parser.Tagger("{{wikify|reason=something}}" + Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
             //wikify tag with reason NOT removed
@@ -8838,8 +8840,10 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
             
             text = parser.Tagger("{{ويكي}}" + Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
+            string text1 = parser.Tagger(Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
             //wikify tag removed
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
+            Assert.AreEqual(text,text1);
 
             Variables.SetProjectLangCode("en");
             Variables.Stub = "[^{}|]*?[Ss]tub";
