@@ -8805,11 +8805,45 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 
             string text = parser.Tagger("{{orphan}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
+            
+            //Test if orphan tag is removed properly. Use wikilink and List of to prevent tagging for wikify, deadend and stub
+            text = parser.Tagger("{{orphan}}[[foo]]", "List of Tests", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
+            Assert.AreEqual(text,"[[foo]]");
 
             Globals.UnitTestBoolValue = true;
 
             text = parser.Tagger("{{orphan}}", "Test", false, out noChange, ref summary);
             Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("orphan"));
+        }
+
+        [Test]
+        public void RemoveOrphanAr()
+        {
+#if DEBUG
+            Variables.SetProjectLangCode("ar");
+            Globals.UnitTestBoolValue = false;
+
+            string text = parser.Tagger("{{orphan}}", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
+            
+            text = parser.Tagger("{{يتيمة}}", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
+
+            //Test if orphan tag is removed properly. Use wikilink and disambig to prevent tagging for wikify, deadend and stub
+            text = parser.Tagger("{{orphan}}[[foo]]{{disambig}}", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
+            Assert.AreEqual(text,"[[foo]]{{disambig}}");
+            
+            text = parser.Tagger("{{يتيمة}}[[foo]]{{disambig}}", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
+            Assert.AreEqual(text,"[[foo]]{{disambig}}");
+
+
+            Globals.UnitTestBoolValue = true;
+            Variables.SetProjectLangCode("en");
+            WikiRegexes.MakeLangSpecificRegexes();
+#endif
         }
 
         [Test]
