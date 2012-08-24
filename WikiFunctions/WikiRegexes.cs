@@ -145,13 +145,13 @@ namespace WikiFunctions
             switch(Variables.LangCode)
             {
                 case "ar":
-                    Orphan = Tools.NestedTemplateRegex(@"يتيمة");
+                    Orphan =  new Regex(@"{{\s*يتيمة(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                     uncattemplate = "غير مصنفة";
                     DateYearMonthParameter = @"تاريخ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
-                    Wikify =Tools.NestedTemplateRegex(@"ويكي");
+                    Wikify = new Regex(@"{{\s*ويكي(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                     break;
                 case "sv":
-                    Orphan = Tools.NestedTemplateRegex(@"Föräldralös");
+                    Orphan = new Regex(@"{{\s*Föräldralös(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                     uncattemplate = "[Oo]kategoriserad";
                     DateYearMonthParameter = @"datum={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}";
                     Wikify = new Regex(@"{{\s*Ickewiki(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
