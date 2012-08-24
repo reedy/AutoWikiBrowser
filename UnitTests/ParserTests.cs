@@ -8822,6 +8822,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         {
 #if DEBUG
             Variables.SetProjectLangCode("ar");
+            WikiRegexes.MakeLangSpecificRegexes();
             Globals.UnitTestBoolValue = false;
 
             string text = parser.Tagger("{{orphan}}", "Test", false, out noChange, ref summary);
@@ -8833,7 +8834,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             //Test if orphan tag is removed properly. Use wikilink and disambig to prevent tagging for wikify, deadend and stub
             text = parser.Tagger("{{orphan}}[[foo]]{{disambig}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
-            Assert.AreEqual(text,"[[foo]]{{disambig}}");
+            Assert.AreEqual(text,"{{orphan}}[[foo]]{{disambig}}");
             
             text = parser.Tagger("{{يتيمة}}[[foo]]{{disambig}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
