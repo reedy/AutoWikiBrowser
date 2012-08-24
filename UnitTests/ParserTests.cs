@@ -7513,9 +7513,15 @@ fish | name = Bert }} ''Bert'' is a good fish."));
         {
 #if DEBUG
             Variables.SetProjectLangCode("ar");
+            Variables.Stub = @"(?:[^{}|]*?[Ss]tub|(بذرة|بذور)[^{}]*?)";
+            WikiRegexes.MakeLangSpecificRegexes();
+            
             Assert.IsTrue(Parsers.HasStubTemplate(@"foo {{بذرة ممثل}}"),"actor stub");
             Assert.IsTrue(Parsers.HasStubTemplate(@"foo {{بذرة ألمانيا}}"), "germany stub");
+            
             Variables.SetProjectLangCode("en");
+            Variables.Stub = "[^{}|]*?[Ss]tub";
+            WikiRegexes.MakeLangSpecificRegexes();
 #endif
         }
 
@@ -8296,9 +8302,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
         [Test]
         public void RenameUncategorised()
         {
-            Variables.SetProjectLangCode("en");
-            WikiRegexes.MakeLangSpecificRegexes();
-			Globals.UnitTestIntValue = 0;
+            Globals.UnitTestIntValue = 0;
 
             string text = parser.Tagger(ShortText + @"{{stub}} {{Uncategorised|date=May 2010}}", "Test", false, out noChange, ref summary);
             Assert.IsTrue(Tools.NestedTemplateRegex("Uncategorized stub").IsMatch(text), "Uncategorised renamed to uncat stub");
@@ -8623,10 +8627,10 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
         [Test]
         public void AddAr()
         {
-            #if DEBUG
             Globals.UnitTestIntValue = 0;
             Globals.UnitTestBoolValue = true;
 
+            #if DEBUG
             Variables.SetProjectLangCode("ar");
             Variables.Stub = @"[^{}|]*?([Ss]tub|بذرة|بذور)";
             WikiRegexes.MakeLangSpecificRegexes();
@@ -8897,7 +8901,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             string text ="";
 #if DEBUG
             Variables.SetProjectLangCode("ar");
-            Variables.Stub = @"[^{}|]*?([Ss]tub|بذرة|بذور)";
+            Variables.Stub = @"(?:[^{}|]*?[Ss]tub|(بذرة|بذور)[^{}]*?)";
             WikiRegexes.MakeLangSpecificRegexes();
             
             Globals.UnitTestBoolValue = true;
