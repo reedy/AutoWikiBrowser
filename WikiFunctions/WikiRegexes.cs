@@ -98,6 +98,9 @@ namespace WikiFunctions
 
             switch (Variables.LangCode)
             {
+                case "ar":
+                    s = "([Dd]isambig|توضيح|صفحة توضيح)";
+                    break;
                 case "ru":
                     s = "([Dd]isambiguation|[Dd]isambig|[Нн]еоднозначность|[Мm]ногозначность)";
                     break;
