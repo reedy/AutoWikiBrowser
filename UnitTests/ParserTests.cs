@@ -8296,7 +8296,9 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
         [Test]
         public void RenameUncategorised()
         {
-            Globals.UnitTestIntValue = 0;
+            Variables.SetProjectLangCode("en");
+            WikiRegexes.MakeLangSpecificRegexes();
+			Globals.UnitTestIntValue = 0;
 
             string text = parser.Tagger(ShortText + @"{{stub}} {{Uncategorised|date=May 2010}}", "Test", false, out noChange, ref summary);
             Assert.IsTrue(Tools.NestedTemplateRegex("Uncategorized stub").IsMatch(text), "Uncategorised renamed to uncat stub");
@@ -8621,10 +8623,10 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
         [Test]
         public void AddAr()
         {
+            #if DEBUG
             Globals.UnitTestIntValue = 0;
             Globals.UnitTestBoolValue = true;
 
-            #if DEBUG
             Variables.SetProjectLangCode("ar");
             Variables.Stub = @"[^{}|]*?([Ss]tub|بذرة|بذور)";
             WikiRegexes.MakeLangSpecificRegexes();
