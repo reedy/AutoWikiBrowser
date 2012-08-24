@@ -192,7 +192,7 @@ namespace WikiFunctions
 		/// <summary>
 		/// Returns Category key from article name e.g. "David Smith" returns "Smith, David".
 		/// special case: "John Doe, Jr." turns into "Doe, Jonn Jr."
-		/// http://en.wikipedia.org/wiki/Wikipedia:Categorization_of_people
+		/// https://en.wikipedia.org/wiki/Wikipedia:Categorization_of_people
 		/// </summary>
 		public static string MakeHumanCatKey(string name, string articletext)
 		{
@@ -215,7 +215,7 @@ namespace WikiFunctions
 				name = name.Substring(0, pos).Trim();
 			}
 
-			// http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Arabic_names
+			// https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Arabic_names
 			// Arabic names etc. use "Full Name" format
 			// find the most common of these names and use that format for them
 			if (Regex.IsMatch(origName, @"(\b(Abd[au]ll?ah?|Ahmed|Mustaq|Merza|Kandah[a-z]*|Mohabet|Nasrat|Nazargul|Yasi[mn]|Husayn|Akram|M[ou]hamm?[ae]d\w*|Abd[eu]l|Razzaq|Adil|Anwar|Fahed|Habi[bdr]|Hafiz|Jawad|Hassan|Ibr[ao]him|Khal[ei]d|Karam|Majid|Mustafa|Rash[ie]d|Yusef|[Bb]in|Nasir|Aziz|Rahim|Kareem|Abu|Aminullah|Fahd|Fawaz|Ahmad|Rahman|Hasan|Nassar|A(?:zz|s)am|Jam[ai]l|Tariqe?|Yussef|Said|Wass?im|Wazir|Tarek|Umran|Mahmoud|Malik|Shoaib|Hizani|Abib|Raza|Salim|Iqbal|Saleh|Hajj|Brahim|Zahir|Wasm|Yo?usef|Yunis|Zakim|Shah|Yasser|Samil|Akh[dk]ar|Haji|Uthman|Khadr|Asiri|Rajab|Shakouri|Ishmurat|Anazi|Nahdi|Zaheed|Ramzi|Rasul|Muktar|Muhassen|Radhi|Rafat|Kadir|Zaman|Karim|Awal|Mahmud|Mohammon|Husein|Airat|Alawi|Ullah|Sayaf|Henali|Ismael|Salih|Mahnut|Faha|Hammad|Hozaifa|Ravil|Jehan|Abdah|Djamel|Sabir|Ruhani|Hisham|Rehman|Mesut|Mehdi|Lakhdar|Mourad|Fazal[a-z]*|Mukit|Jalil|Rustam|Jumm?a|Omar Ali)\b|(?:[bdfmtnrz]ullah|alludin|[hm]atulla|r[ao]llah|harudin|millah)\b|\b(?:Abd[aeu][lr]|Nazur| Al[- ][A-Z]| al-[A-Z]))"))
@@ -536,7 +536,7 @@ namespace WikiFunctions
 		/// <summary>
 		/// Applies the key words "%%title%%" etc.
 		/// </summary>
-		/// http://meta.wikimedia.org/wiki/Help:Magic_words
+		/// https://meta.wikimedia.org/wiki/Help:Magic_words
 		public static string ApplyKeyWords(string title, string text)
 		{
 			return ApplyKeyWords(title, text, false);
@@ -546,7 +546,7 @@ namespace WikiFunctions
 		/// <summary>
 		/// Applies the key words "%%title%%" etc.
 		/// </summary>
-		/// http://meta.wikimedia.org/wiki/Help:Magic_words
+		/// https://meta.wikimedia.org/wiki/Help:Magic_words
 		public static string ApplyKeyWords(string title, string text, bool escape)
 		{
 			if (!string.IsNullOrEmpty(text) && !string.IsNullOrEmpty(title) && text.Contains("%%"))
@@ -1243,7 +1243,7 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("ⱴ", "v"),
 			new KeyValuePair<string, string>("ớ", "o"),
 
-			// http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Leaving_foreign_characters_in_DEFAULTSORT
+			// https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Leaving_foreign_characters_in_DEFAULTSORT
 			new KeyValuePair<string, string>("Ả", "A"),
 			new KeyValuePair<string, string>("Ḁ", "A"),
 			new KeyValuePair<string, string>("ầ", "a"),
