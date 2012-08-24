@@ -8615,6 +8615,12 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text),"stub");
             Assert.IsTrue(text.Contains("{{ويكي|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
 
+            text = parser.Tagger(ShortText+ @"{{توضيح}}", "Test", false, out noChange, ref summary);
+            //Don't add stub/orphan to disambig pages. Still add wikify
+            Assert.IsFalse(text.Contains("{{يتيمة|" + WikiRegexes.DateYearMonthParameter + @"}}"),"orphan");
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text),"stub");
+            Assert.IsTrue(text.Contains("{{ويكي|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
+
             Variables.SetProjectLangCode("en");
             Variables.Stub = "[^{}|]*?[Ss]tub";
             WikiRegexes.MakeLangSpecificRegexes();
