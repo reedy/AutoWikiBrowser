@@ -6449,7 +6449,7 @@ namespace WikiFunctions.Parse
             }
             else if (!orphaned && WikiRegexes.Orphan.IsMatch(articleText))
             {
-                articleText = WikiRegexes.Orphan.Replace(articleText, "$1");
+                articleText = WikiRegexes.Orphan.Replace(articleText, m=> m.Groups["MI"].Value);
                 if (Variables.LangCode.Equals("ar"))
             	{
                 	tagsRemoved.Add("يتيمة");
