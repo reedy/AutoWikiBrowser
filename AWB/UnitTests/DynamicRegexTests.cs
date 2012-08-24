@@ -241,6 +241,19 @@ Image here");
             RegexAssert.NoMatch(WikiRegexes.Stub, @"{{stubby}}");
             RegexAssert.NoMatch(WikiRegexes.Stub, @"{{foo|stub}}");
             RegexAssert.NoMatch(WikiRegexes.Stub, @":{{main|stub (electronics)#Short circuited stub|l1=stub}}");
+
+            #if DEBUG
+            Variables.SetProjectLangCode("ar");
+            Variables.Stub = @"[^{}|]*?([Ss]tub|بذرة|بذور)";
+            WikiRegexes.MakeLangSpecificRegexes();
+            
+            RegexAssert.IsMatch(WikiRegexes.Stub, @"{{بذرة}}");
+            RegexAssert.IsMatch(WikiRegexes.Stub, @"{{stub}}");
+
+            Variables.SetProject("en", ProjectEnum.wikipedia);
+            Variables.Stub = "[^{}|]*?[Ss]tub";
+            WikiRegexes.MakeLangSpecificRegexes();
+            #endif
         }
 
         [Test]

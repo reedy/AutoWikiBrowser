@@ -8575,18 +8575,23 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Globals.UnitTestIntValue = 0;
             Globals.UnitTestBoolValue = true;
 
-#if DEBUG
+            #if DEBUG
             Variables.SetProjectLangCode("ar");
+            Variables.Stub = @"[^{}|]*?([Ss]tub|بذرة|بذور)";
+            WikiRegexes.MakeLangSpecificRegexes();
+
             string text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
             //Stub, no existing stub tag. Needs all tags
             Assert.IsTrue(text.Contains("{{يتيمة|" + WikiRegexes.DateYearMonthParameter + @"}}"),"orphan");
             Assert.IsTrue(text.Contains("{{ويكي|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsTrue(Tools.NestedTemplateRegex("بذرة غير مصنفة").IsMatch(text),"Uncategorized stub");
-            Assert.IsTrue(text.Contains(UncatStub),"Uncategorized stub");
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text),"stub");
-            Variables.SetProjectLangCode("en");
-#endif
+
+            Variables.SetProject("en", ProjectEnum.wikipedia);
+            Variables.Stub = "[^{}|]*?[Ss]tub";
+            WikiRegexes.MakeLangSpecificRegexes();
+            #endif
         }
 
         [Test]
