@@ -940,37 +940,15 @@ The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines af
         }
 
         [Test]
-        public void FixDatesEnOnly()
-        {
-#if DEBUG
-            const string bad = "the later 1990's";
-
-            Variables.SetProjectLangCode("fr");
-            Assert.AreEqual(bad, parser.FixDates(bad));
-
-            Variables.SetProjectLangCode("en");
-            Assert.AreEqual("the later 1990s", parser.FixDates(bad));
-#endif
-        }
-
-        [Test]
         public void FixDates()
         {
-            Assert.AreEqual("the later 1990s", parser.FixDates("the later 1990's"));
-            Assert.AreEqual("the later 1990s", parser.FixDates("the later 1990’s"));
-
-            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Title_bolding
-            Assert.AreEqual("the later A1990's", parser.FixDates("the later A1990's"));
-
-            //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_1#Breaking_a_template
-            Assert.AreEqual("{{the later 1990's}}", parser.FixDates("{{the later 1990's}}"));
 
             // replace <br> and <p> HTML tags tests
             Assert.AreEqual("\r\n\r\nsome text", parser.FixDates("<p>some text"));
             Assert.AreEqual("\r\n\r\nsome text", parser.FixDates("<br><br>some text"));
             Assert.AreEqual("some text\r\n\r\n", parser.FixDates("some text<p>"));
             Assert.AreEqual("some text\r\n\r\n", parser.FixDates("some text<br><br>"));
-             Assert.AreEqual("some text\r\n\r\nword", parser.FixDates("some text<br><br>word"));
+            Assert.AreEqual("some text\r\n\r\nword", parser.FixDates("some text<br><br>word"));
 
             // don't match when in table or blockquote
             Assert.AreEqual("|<p>some text", parser.FixDates("|<p>some text"));
@@ -1196,14 +1174,6 @@ was"));
 " + catYearRange;
             Assert.AreEqual(@"now abc (2004–present) was
 " + catYearRange, parser.FixDates(catYearRange2));
-        }
-
-
-        [Test]
-        public void FixDatesRaw()
-        {
-            Assert.AreEqual("the later 1990s", Parsers.FixDatesRaw("the later 1990's"));
-            Assert.AreEqual("the 1980s and 1990s were", Parsers.FixDatesRaw("the 1980's and 1990's were"));
         }
 
         [Test]

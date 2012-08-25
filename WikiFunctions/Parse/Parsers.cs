@@ -213,7 +213,6 @@ namespace WikiFunctions.Parse
             return (Variables.Project <= ProjectEnum.species) ? Sorter.Sort(articleText, articleTitle, fixOptionalWhitespace) : articleText;
         }
 
-        private static readonly Regex ApostropheInDecades = new Regex(@"(?<=(?:the |later? |early |mid-|[12]\d\d0'?s and )(?:\[?\[?[12]\d\d0\]?\]?))['’]s(?=\]\])?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex RegexHeadings0 = new Regex("(== ?)(see also:?|related topics:?|related articles:?|internal links:?|also see:?)( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex RegexHeadings1 = new Regex("(== ?)(external link[s]?|external site[s]?|outside link[s]?|web ?link[s]?|exterior link[s]?):?( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         //private readonly Regex regexHeadings2 = new Regex("(== ?)(external link:?|external site:?|web ?link:?|exterior link:?)( ?==)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -958,8 +957,6 @@ namespace WikiFunctions.Parse
             // date–year --> date – year
             articleText = DateRangeToYear.Replace(articleText, @"$1 $2 – $3");
 
-            articleText = FixDatesRaw(articleText);
-
             //Remove 2 or more <br />'s
             //This piece's existance here is counter-intuitive, but it requires HideMore()
             //and I don't want to call this slow function yet another time --MaxSem
@@ -1044,18 +1041,6 @@ namespace WikiFunctions.Parse
             if (!DOBRegexDash.IsMatch(WikiRegexes.InfoBox.Match(articleText).Value))
                 articleText = DOBRegexDash.Replace(articleText, "$1born $2)"); // date of birth – dash
             return BornDeathRegex.Replace(articleText, "$1$2 – $4"); // birth and death
-        }
-
-        // Covered by: LinkTests.FixDates()
-        /// <summary>
-        /// Fixes date and decade formatting errors.
-        /// Unlike FixDates(), requires wikitext processed with HideMore()
-        /// </summary>
-        /// <param name="articleText">The wiki text of the article.</param>
-        /// <returns>The modified article text.</returns>
-        public static string FixDatesRaw(string articleText)
-        {
-            return ApostropheInDecades.Replace(articleText, "s");
         }
 
         private const string InlineCitationCleanupTemplatesRp = @"(?:Author incomplete|Author missing|Citation broken|Citation not found|Clarifyref|Clarifyref2|Date missing|Episode|ISBN missing|Page needed|Publisher missing|Season needed|Time needed|Title incomplete|Title missing|Volume needed|Year missing|rp)";
