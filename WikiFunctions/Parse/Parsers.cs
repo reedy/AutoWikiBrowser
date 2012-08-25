@@ -5340,7 +5340,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex NobleFamilies = new Regex(@"[[Category:[^\[\]\|]*[nN]oble families", RegexOptions.Compiled);
         private static readonly Regex NotAboutAPersonCategories = new Regex(@"\[\[Category:(\d{4} animal|Comedy duos|Articles about multiple people|Married couples|Fictional|Presidencies|Military careers|Parables of|[^\[\]\|\r\n]*musical groups|Internet memes|Military animals)", RegexOptions.Compiled);
         private static readonly Regex CLSAR = Tools.NestedTemplateRegex(@"Infobox Chinese-language singer and actor");
-        private static readonly Regex ICTB = Tools.NestedTemplateRegex("Infobox cricketer tour biography");
+        private static readonly Regex NotPersonInfoboxes = Tools.NestedTemplateRegex(new [] { "Infobox cricketer tour biography", "Infobox political party" } );
 
         /// <summary>
         /// determines whether the article is about a person by looking for persondata/birth death categories, bio stub etc. for en wiki only
@@ -5363,7 +5363,7 @@ namespace WikiFunctions.Parse
                 || NobleFamilies.IsMatch(articleText)
                 || CategoryCharacters.IsMatch(articleText)
                 || WikiRegexes.InfoBox.Match(articleText).Groups[1].Value.ToLower().Contains("organization")
-                || ICTB.IsMatch(articleText)
+                || NotPersonInfoboxes.IsMatch(articleText)
                )
                 return false;
 
