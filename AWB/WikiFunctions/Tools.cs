@@ -2937,7 +2937,22 @@ Message: {2}
 			if (templatename.Length == 0)
 				return null;
 
-			return NestedTemplateRegex(new [] { templatename });
+			return NestedTemplateRegex(new [] { templatename }, false);
+		}
+		
+		/// <summary>
+		/// Returns a regex to match the input template
+		/// Supports nested templates and comments at end of template call
+		/// </summary>
+		/// <param name="templatename">The template name</param>
+		/// <param name="compiled">Whether to return a compiled regex</param>
+		/// <returns>A Regex matching calls to the template, match group 2 being the template name</returns>
+		public static Regex NestedTemplateRegex(string templatename, bool compiled)
+		{
+			if (templatename.Length == 0)
+				return null;
+
+			return NestedTemplateRegex(new [] { templatename }, compiled);
 		}
 
 		/// <summary>
@@ -2947,6 +2962,18 @@ Message: {2}
 		/// <param name="templatenames">The list of template names</param>
 		/// <returns>A Regex matching calls to the template, match group 2 being the template name, group 3 being the template argument(s)</returns>
 		public static Regex NestedTemplateRegex(ICollection<string> templatenames)
+		{
+		    return NestedTemplateRegex(templatenames, false);
+		}
+		
+		/// <summary>
+		/// Returns a regex to match the input templates
+		/// Supports nested templates and comments at end of template call
+		/// </summary>
+		/// <param name="templatenames">The list of template names</param>
+		/// <param name="compiled">Whether to return a compiled regex</param>
+		/// <returns>A Regex matching calls to the template, match group 2 being the template name, group 3 being the template argument(s)</returns>
+		public static Regex NestedTemplateRegex(ICollection<string> templatenames, bool compiled)
 		{
 			if (templatenames.Count == 0)
 				return null;
@@ -2972,7 +2999,10 @@ Message: {2}
 			theRegex[theRegex.Length - 1] = ')';
 			theRegex.Append(NestedTemplateRegexEnd);
 
-			return new Regex(theRegex.ToString(), RegexOptions.Compiled);
+			if(compiled)
+			    return new Regex(theRegex.ToString(), RegexOptions.Compiled);
+			    
+			return new Regex(theRegex.ToString());
 		}
 		
 		/// <summary>
