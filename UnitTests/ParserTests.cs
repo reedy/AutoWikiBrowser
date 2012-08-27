@@ -3007,7 +3007,7 @@ journal=Crypt of Cthulhu |volume= 3|issue= 3| ";
             Assert.AreEqual(journalstart + @"pages = 140–148}}", Parsers.FixCitationTemplates(journalstart + @"pages = 140   - 148}}")); // hyphen
             Assert.AreEqual(journalstart + @"pages = 940–1083}}", Parsers.FixCitationTemplates(journalstart + @"pages = 940   - 1083}}")); // hyphen
 
-            // mulitple ranges
+            // multiple ranges
             Assert.AreEqual(journalstart + @"pages = 140–148, 150, 152–157}}", Parsers.FixCitationTemplates(journalstart + @"pages = 140-148, 150, 152-157}}")); // hyphen
 
             const string nochange1 = @"{{cite conference

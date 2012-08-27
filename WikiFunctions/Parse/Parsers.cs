@@ -2629,7 +2629,7 @@ namespace WikiFunctions.Parse
             articleText = CitationTemplateIncorrectBracesAtEnd.Replace(articleText, @"$1}}");
             articleText = RefExternalLinkMissingStartBracket.Replace(articleText, @"[$1");
             articleText = RefExternalLinkMissingEndBracket.Replace(articleText, @"]$1");
-            articleText = BracesWithinDefaultsort.Replace(articleText, @"}}");            
+            articleText = BracesWithinDefaultsort.Replace(articleText, @"}}");
 
             // fixes for square brackets used within external links
             foreach (Match m in SquareBracketsInExternalLinks.Matches(articleText))
@@ -2780,7 +2780,7 @@ namespace WikiFunctions.Parse
         /// <param name="articleText">The wiki article text</param>
         /// <returns>The updated article text</returns>
         public static string RemoveTemplateNamespace(string articleText)
-        {        	
+        {
         	Regex SyntaxRegexTemplate = new Regex(@"(\{\{\s*)" + Variables.NamespacesCaseInsensitive[Namespace.Template] + @"(.*?)\}\}", RegexOptions.Singleline);
         	
         	return (SyntaxRegexTemplate.Replace(articleText, m => m.Groups[1].Value + CanonicalizeTitle(m.Groups[2].Value) + "}}"));
@@ -3213,7 +3213,7 @@ namespace WikiFunctions.Parse
             // month=Month and date=...Month... OR month=nn and date=same month
             int num=0;
             string TheMonth = Tools.GetTemplateParameterValue(newValue, "month");
-            if ((TheMonth.Length > 2 && TheDate.Contains(TheMonth)) 
+            if ((TheMonth.Length > 2 && TheDate.Contains(TheMonth))
                 || (int.TryParse(TheMonth, out num) && Regex.IsMatch(Tools.ConvertDate(TheDate, Parsers.DateLocale.ISO), @"\-0?" + TheMonth + @"\-")))
                 newValue = Tools.RemoveTemplateParameter(newValue, "month");
 
