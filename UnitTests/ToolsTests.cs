@@ -1989,28 +1989,28 @@ text", Tools.NestedTemplateRegex("foo"), true));
         [Test]
         public void MakeHumanCatKeyOneWordNames()
         {
-            Assert.AreEqual("Onewordname", Tools.MakeHumanCatKey("OneWordName", ""));
-            Assert.AreEqual("Onewordname", Tools.MakeHumanCatKey("ONEWORDNAME", ""));
+            Assert.AreEqual("OneWordName", Tools.MakeHumanCatKey("OneWordName", ""));
+            Assert.AreEqual("ONEWORDNAME", Tools.MakeHumanCatKey("ONEWORDNAME", ""));
             Assert.AreEqual("Onewordname", Tools.MakeHumanCatKey("Onewordname", ""));
-            Assert.AreEqual("Onewordname", Tools.MakeHumanCatKey("onewordname", ""));
+            Assert.AreEqual("onewordname", Tools.MakeHumanCatKey("onewordname", ""));
         }
 
         [Test]
         public void MakeHumanCatKeyPersonOfPlace()
         {
-            Assert.AreEqual("Foo Of London", Tools.MakeHumanCatKey("Foo of London", ""));
-            Assert.AreEqual("Foe Of London", Tools.MakeHumanCatKey("Foé of London", ""));
-            Assert.AreEqual("Foo 02 Of London", Tools.MakeHumanCatKey("Foo II of London", ""));
-            Assert.AreEqual("Foo 11 Of London", Tools.MakeHumanCatKey("Foo XI of London", ""));
+            Assert.AreEqual("Foo of London", Tools.MakeHumanCatKey("Foo of London", ""));
+            Assert.AreEqual("Foe of London", Tools.MakeHumanCatKey("Foé of London", ""));
+            Assert.AreEqual("Foo 02 of London", Tools.MakeHumanCatKey("Foo II of London", ""));
+            Assert.AreEqual("Foo 11 of London", Tools.MakeHumanCatKey("Foo XI of London", ""));
         }
 
         [Test]
         public void MakeHumanCatKeyWithRomanNumbers()
         {
-            Assert.AreEqual("Doe, John, Iii", Tools.MakeHumanCatKey("John Doe III", ""));
-            Assert.AreEqual("John Iii", Tools.MakeHumanCatKey("John III", ""));
-            Assert.AreEqual("Xvii", Tools.MakeHumanCatKey("XVII", ""));
-            Assert.AreEqual("Spain, John Doe King Of, Iii", Tools.MakeHumanCatKey("John Doe King of Spain III", ""));
+            Assert.AreEqual("Doe, John, III", Tools.MakeHumanCatKey("John Doe III", ""));
+            Assert.AreEqual("John III", Tools.MakeHumanCatKey("John III", ""));
+            Assert.AreEqual("XVII", Tools.MakeHumanCatKey("XVII", ""));
+            Assert.AreEqual("Spain, John Doe King of, III", Tools.MakeHumanCatKey("John Doe King of Spain III", ""));
         }
 
         [Test]
@@ -2030,14 +2030,14 @@ text", Tools.NestedTemplateRegex("foo"), true));
         [Test]
         public void MakeHumanCatKeyWithApostrophes()
         {
-            Assert.AreEqual("Ddoe, John", Tools.MakeHumanCatKey("J'ohn D'Doe", ""));
+            Assert.AreEqual("DDoe, John", Tools.MakeHumanCatKey("J'ohn D'Doe", ""));
             Assert.AreEqual("Test", Tools.MakeHumanCatKey("'Test", ""));
         }
 
         [Test]
         public void MakeHumanCatKeyWithPrefixes()
         {
-            Assert.AreEqual("Doe, John De", Tools.MakeHumanCatKey("John de Doe", ""));
+            Assert.AreEqual("Doe, John de", Tools.MakeHumanCatKey("John de Doe", ""));
         }
 
         [Test]
@@ -2055,9 +2055,9 @@ text", Tools.NestedTemplateRegex("foo"), true));
         [Test]
         public void MakeHumanCatKeyArabicNames()
         {
-            Assert.AreEqual(@"Ahmed Mohammed Mukit", Tools.MakeHumanCatKey(@"Ahmed Mohammed Mukit", ""));
-            Assert.AreEqual(@"Ahmed Mohammed Mukit", Tools.MakeHumanCatKey(@"AHMED Mohammed MUKIT", ""));
-            Assert.AreEqual(@"Ahmed Mohammed Mukit", Tools.MakeHumanCatKey(@"ahmed Mohammed mukit", ""));
+            Assert.AreEqual(@"Ahmed Mohammed Mukit", Tools.MakeHumanCatKey(@"Ahmed Mohammed Mukit", ""),"no change");
+            Assert.AreEqual(@"AHMED Mohammed MUKIT", Tools.MakeHumanCatKey(@"AHMED Mohammed MUKIT", ""),"no change");
+            Assert.AreEqual(@"ahmed Mohammed mukit", Tools.MakeHumanCatKey(@"ahmed Mohammed mukit", ""),"no change");
 
             Assert.AreEqual(@"Smith, John", Tools.MakeHumanCatKey(@"John Smith", ""));
         }
@@ -2065,8 +2065,8 @@ text", Tools.NestedTemplateRegex("foo"), true));
         [Test]
         public void MakeHumanCatKeyMcName()
         {
-            Assert.AreEqual(@"Mcsmith, John", Tools.MakeHumanCatKey(@"John McSmith", ""));
-            Assert.AreEqual(@"Macsmith, John", Tools.MakeHumanCatKey(@"John MacSmith", ""));
+            Assert.AreEqual(@"McSmith, John", Tools.MakeHumanCatKey(@"John McSmith", ""));
+            Assert.AreEqual(@"MacSmith, John", Tools.MakeHumanCatKey(@"John MacSmith", ""));
 
             Assert.AreEqual(@"Mcsmith, John", Tools.MakeHumanCatKey(@"John Mcsmith", ""));
 
@@ -2117,36 +2117,31 @@ text", Tools.NestedTemplateRegex("foo"), true));
         [Test]
         public void FixUpDefaultSortTests()
         {
-            Assert.AreEqual("Hello", Tools.FixupDefaultSort("hellõ"));
-            Assert.AreEqual("Hello", Tools.FixupDefaultSort("hellõ   "));
-            Assert.AreEqual(@"Fred Smith", Tools.FixupDefaultSort(@"FRED SMITH"));
-            Assert.AreEqual(@"Fred Smith", Tools.FixupDefaultSort(@"fred smith"));
-            Assert.AreEqual(@"Fred Smithson", Tools.FixupDefaultSort(@"fred smithson"));
-            Assert.AreEqual(@"Fred Smith", Tools.FixupDefaultSort(@"fred smitH"));
-            Assert.AreEqual(@"Fred Smith", Tools.FixupDefaultSort(@"Fred Smith"));
-            Assert.AreEqual(@"Smith, Fred", Tools.FixupDefaultSort(@"Smith, FRed"));
+            Assert.AreEqual("hello", Tools.FixupDefaultSort("hellõ"));
+            Assert.AreEqual("hello", Tools.FixupDefaultSort("hellõ   "));
+            Assert.AreEqual(@"fred smithson", Tools.FixupDefaultSort(@"fred smithson"));
             Assert.AreEqual(@"De Merino, Fernando Arturo", Tools.FixupDefaultSort(@"De Meriño, Fernando Arturo"));
-            Assert.AreEqual(@"Oneworditem", Tools.FixupDefaultSort(@"OneWordItem"));
-            Assert.AreEqual(@"2007 Fifa Women World Cup Squads", Tools.FixupDefaultSort(@"2007 Fifa women world cup squads"));
-            Assert.AreEqual(@"Foo (Bar)", Tools.FixupDefaultSort(@"Foo (bar)"));
+            Assert.AreEqual(@"OneWordItem", Tools.FixupDefaultSort(@"OneWordItem"));
+            Assert.AreEqual(@"Foo (bar)", Tools.FixupDefaultSort(@"Foo (bar)"));
 
             // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#DEFAULTSORT_capitalization_after_apostrophes
-            Assert.AreEqual("Kwakwaka'wakw Mythology", Tools.FixupDefaultSort("Kwakwaka'wakw mythology"));
+            Assert.AreEqual("Kwakwaka'wakw mythology", Tools.FixupDefaultSort("Kwakwaka'wakw mythology"));
             Assert.AreEqual(@"Peewee's Playhouse", Tools.FixupDefaultSort(@"Peewee's Playhouse"));
         }
 
         [Test]
         public void FixUpDefaultSortHumanName()
         {
-            Assert.AreEqual(@"Oconnor, Fred", Tools.FixupDefaultSort(@"O'connor, Fred", true), "aphostrophe removed for bio sortkey per [[WP:MCSTJR]]");
+            Assert.AreEqual(@"Oconnor, Fred", Tools.FixupDefaultSort(@"O'connor, Fred", true), "apostrophe removed for bio sortkey per [[WP:MCSTJR]]");
             Assert.AreEqual(@"O'connor Trading", Tools.FixupDefaultSort(@"O'connor Trading", false), "apostrophes not removed on non-bio sortkey");
         }
 
         [Test]
         public void FixUpDefaultSortBadChars()
         {
-            Assert.AreEqual(@"Fred Smith", Tools.FixupDefaultSort(@"fred smitHº"));
-            Assert.AreEqual(@"Fred Smith", Tools.FixupDefaultSort(@"fred ""smitH"""));
+            Assert.AreEqual(@"fred smitH", Tools.FixupDefaultSort(@"fred smitHº"));
+            Assert.AreEqual(@"fred smitH", Tools.FixupDefaultSort(@"fred ""smitH"""));
+            Assert.AreEqual(@"Fred Smith", Tools.FixupDefaultSort(@"Fred ""Smith"""));
         }
 
         [Test]
