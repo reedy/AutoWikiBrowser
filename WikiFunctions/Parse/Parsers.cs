@@ -2029,7 +2029,8 @@ namespace WikiFunctions.Parse
             return false;
         }
 
-        private static readonly Regex MathSourceCodeNowikiPreTag = new Regex(@"<\s*/?\s*(?:math|(?:source|ref)\b[^>]*|code|nowiki|pre|small)\s*>", RegexOptions.Compiled);
+        // curly brace in regex to reduce excessive backtracking in rare cases e.g. https://en.wikipedia.org/w/index.php?title=Fungus&diff=509595564&oldid=509591669
+        private static readonly Regex MathSourceCodeNowikiPreTag = new Regex(@"<\s*/?\s*(?:math|(?:source|ref)\b[^>}]*|code|nowiki|pre|small)\s*>", RegexOptions.Compiled);
         /// <summary>
         ///  Searches for any unclosed &lt;math&gt;, &lt;source&gt;, &lt;ref&gt;, &lt;code&gt;, &lt;nowiki&gt;, &lt;small&gt; or &lt;pre&gt; tags
         /// </summary>
