@@ -2093,13 +2093,16 @@ text", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual(@"aaaaaa", Tools.RemoveDiacritics(@"ầắạảằẩ"));
             Assert.AreEqual(@"c", Tools.RemoveDiacritics(@"ḉ"));
             Assert.AreEqual(@"iiiii", Tools.RemoveDiacritics(@"ịỉíįí"));
-            Assert.AreEqual(@"ooooooooo", Tools.RemoveDiacritics(@"ỏøờồȱȯȭȫo"));
+            Assert.AreEqual(@"oooooooooo", Tools.RemoveDiacritics(@"òỏøờồȱȯȭȫo"));
+            Assert.AreEqual(@"eeee", Tools.RemoveDiacritics(@"ḕềĕẹ̀"));
             Assert.AreEqual(@"O", Tools.RemoveDiacritics(@"Ø"));
             Assert.AreEqual(@"uuu y", Tools.RemoveDiacritics(@"ụủữ ỳ"));
             Assert.AreEqual(@"d p S", Tools.RemoveDiacritics(@"ḏ p̄ Ś̄"));
             Assert.AreEqual(@"2", Tools.RemoveDiacritics(@"²"));
             Assert.AreEqual(@"Ae", Tools.RemoveDiacritics(@"Ǣ"));
             Assert.AreEqual(@"ae", Tools.RemoveDiacritics(@"ǣ"));
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Not_replacing_.26_with_.22and.22_in_sort_values
+            Assert.AreEqual(@"and", Tools.RemoveDiacritics(@"&"), "per SORTKEY");
         }
 
         [Test]
@@ -2111,6 +2114,7 @@ text", Tools.NestedTemplateRegex("foo"), true));
             Assert.IsTrue(Tools.HasDiacritics("hẽllo there"));
 
             Assert.IsFalse(Tools.HasDiacritics("hello"));
+            Assert.IsFalse(Tools.HasDiacritics("abcdefghijklmnopqrstuvwxyz"));
             Assert.IsFalse(Tools.HasDiacritics(""));
         }
 
@@ -2124,7 +2128,6 @@ text", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual(@"OneWordItem", Tools.FixupDefaultSort(@"OneWordItem"));
             Assert.AreEqual(@"Foo (bar)", Tools.FixupDefaultSort(@"Foo (bar)"));
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#DEFAULTSORT_capitalization_after_apostrophes
             Assert.AreEqual("Kwakwaka'wakw mythology", Tools.FixupDefaultSort("Kwakwaka'wakw mythology"));
             Assert.AreEqual(@"Peewee's Playhouse", Tools.FixupDefaultSort(@"Peewee's Playhouse"));
         }
