@@ -6975,7 +6975,7 @@ foo {{persondata}}
             // namespace not used in DEFAULTSORT key
             Assert.AreEqual(@"foo
 [[Category:All foos]]
-{{DEFAULTSORT:Special Foos}}", Parsers.ChangeToDefaultSort(@"foo
+{{DEFAULTSORT:Special foos}}", Parsers.ChangeToDefaultSort(@"foo
 [[Category:All foos]]", "Category:Special foŏs", out noChange, false));
 
             // skip when nonclude on page
