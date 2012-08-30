@@ -47,6 +47,9 @@ namespace WikiFunctions.Parse
     {
         private static readonly Regex TypoRegex = new Regex("<(?:Typo)?\\s+(?:word=\"(.*?)\"\\s+)?find=\"(.*?)\"\\s+replace=\"(.*?)\"\\s*/?>", RegexOptions.Compiled);
 
+        /// <summary>
+        /// Returns the URL to the typo rules page e.g. https://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/Typos
+        /// </summary>
         public static string Url
         {
             get
@@ -60,6 +63,11 @@ namespace WikiFunctions.Parse
             }
         }
 
+        /// <summary>
+        /// Loads the typos from the rules page e.g. https://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/Typos
+        /// Throws errors if any rules invalid or duplicate rules exist
+        /// </summary>
+        /// <returns>Dictionary of typo rules</returns>
         public Dictionary<string, string> GetTypos()
         {
             Dictionary<string, string> typoStrings = new Dictionary<string, string>();
@@ -140,8 +148,10 @@ namespace WikiFunctions.Parse
         {
             GroupSize = groupSize;
 
-            if (!string.IsNullOrEmpty(match)) Allow = new Regex(match, RegexOptions.Compiled);
-            if (!string.IsNullOrEmpty(dontMatch)) Disallow = new Regex(dontMatch, RegexOptions.Compiled);
+            if (!string.IsNullOrEmpty(match)) 
+                Allow = new Regex(match, RegexOptions.Compiled);
+            if (!string.IsNullOrEmpty(dontMatch)) 
+                Disallow = new Regex(dontMatch, RegexOptions.Compiled);
 
             Prefix = prefix;
             Postfix = postfix;
@@ -158,7 +168,8 @@ namespace WikiFunctions.Parse
         public readonly List<TypoStat> Statistics = new List<TypoStat>();
 
         /// <summary>
-        /// 
+        /// Returns whether typo is sutable for group: not suitable if Allow regex doesn't match typo,
+        /// or Disallow regex matches typo
         /// </summary>
         /// <param name="typo"></param>
         /// <returns></returns>
@@ -363,7 +374,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Creates a RETF rule
+        /// Creates a RETF rule with a placeholder name
         /// </summary>
         public static string CreateRule(string find, string replace)
         {
@@ -453,7 +464,8 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// 
+        /// Performs typo fixes against the article text.
+        /// Typo fixes not performed if no typos loaded or any sic tags on page
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="noChange"></param>
@@ -496,7 +508,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// 
+        /// Returns whether there are typos on the page
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
