@@ -8874,8 +8874,8 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         [Test]
         public void RemoveAr()
         {
-            string text ="";
 #if DEBUG
+            string text ="";
             Variables.SetProjectLangCode("ar");
             Variables.Stub = @"(?:[^{}|]*?[Ss]tub|(بذرة|بذور)[^{}]*?)";
             WikiRegexes.MakeLangSpecificRegexes();
