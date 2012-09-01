@@ -123,7 +123,7 @@ namespace WikiFunctions
                     s = "([Ff]örgrening|[Dd]isambig|[Bb]etydelselista|[Gg]affel|[Gg]ren|[Gg]rensida|[Ff]örgreningssida|[Ff]lertydig|[Dd]isambiguation|[Oo]rtnamn|[Dd]ab)";
                     break;
                 default:
-                    s = "([Dd]isamb(?:ig(?:uation)?)?|[Dd]ab|[Mm]athdab|[Mm]athematical disambiguation|(?:[Nn]umber|[Hh]ospital|[Gg]eo|[Hh]n|[Ss]chool)dis|[Ll]etter-disambig|[[Aa]irport disambig(?:uation)?|[Cc]allsigndis|[Cc]all sign disambiguation|[Dd]isambig-cleanup|[Mm]olFormDisambig|[Mm]olecular formula disambiguation|([Ss]pecies|)LatinNameDisambig|[Ss]pecies Latin name disambiguation|[[Ss]pecies Latin name abbreviation disambiguation|[Ll]etter-NumberComb[Dd]isambig|[Hh]ndis|[Gg]enus disambiguation|[Tt]axonomy disambiguation|[Hh]urricane season disambiguation|[Mm]athematic[s|al] disambiguation|[Mm]il-unit-dis)";
+                    s = "([Dd]isamb(?:ig(?:uation)?)?|[Dd]ab|[Cs]hinese title disambiguation|[Mm]athdab|[Mm]athematics disambiguation|[Mm]athematical disambiguation|[Mm]il-unit-dis|(?:[Nn]umber|[Hh]ospital|[Gg]eo|[Hh]n|[Ss]chool)dis|[Ll]etter-disambig|[[Aa]irport disambig(?:uation)?|[Cc]allsigndis|[Cc]all sign disambiguation|[Dd]isambig-cleanup|[Mm]olFormDisambig|[Mm]olecular formula disambiguation|([Ss]pecies|)LatinNameDisambig|[Ss]pecies Latin name disambiguation|[[Ss]pecies Latin name abbreviation disambiguation|[Ll]etter-NumberComb[Dd]isambig|[Hh]ndis|[Gg]enus disambiguation|[Tt]axonomy disambiguation|[Hh]urricane season disambiguation)";
                     break;
             }
             Disambigs = new Regex(TemplateStart + s + @"\s*(?:\|[^{}]*?)?}}", RegexOptions.Compiled);
