@@ -526,6 +526,8 @@ disambig|surname
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{disamb|foo}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{dab}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Disambig}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Chinese title disambiguation}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{chinese title disambiguation}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Mathdab}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Mathematical disambiguation}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Numberdis}}");
