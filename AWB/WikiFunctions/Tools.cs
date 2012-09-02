@@ -880,6 +880,7 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("ć", "c"),
 			new KeyValuePair<string, string>("É", "E"),
 			new KeyValuePair<string, string>("é", "e"),
+			new KeyValuePair<string, string>("İ", "I"),
 			new KeyValuePair<string, string>("Í", "I"),
 			new KeyValuePair<string, string>("í", "i"),
 			new KeyValuePair<string, string>("Ĺ", "L"),

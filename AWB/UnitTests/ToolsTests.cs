@@ -2091,8 +2091,10 @@ text", Tools.NestedTemplateRegex("foo"), true));
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Leaving_foreign_characters_in_DEFAULTSORT
             Assert.AreEqual(@"aaaaaa", Tools.RemoveDiacritics(@"ầắạảằẩ"));
-            Assert.AreEqual(@"c", Tools.RemoveDiacritics(@"ḉ"));
+            Assert.AreEqual(@"ccccc", Tools.RemoveDiacritics(@"ḉćĉçċ"));
+            Assert.AreEqual(@"e", Tools.RemoveDiacritics(@"ĕ"));
             Assert.AreEqual(@"iiiii", Tools.RemoveDiacritics(@"ịỉíįí"));
+            Assert.AreEqual(@"I", Tools.RemoveDiacritics(@"İ"));
             Assert.AreEqual(@"oooooooooo", Tools.RemoveDiacritics(@"òỏøờồȱȯȭȫo"));
             Assert.AreEqual(@"eeee", Tools.RemoveDiacritics(@"ḕềĕẹ̀"));
             Assert.AreEqual(@"O", Tools.RemoveDiacritics(@"Ø"));
