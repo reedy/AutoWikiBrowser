@@ -6222,17 +6222,17 @@ namespace WikiFunctions.Parse
                 // add stub tag. Exclude pages their title starts with "List of..."
                 if (!ListOf.IsMatch(articleTitle))
                 {
-                	if (Variables.LangCode.Equals("ar"))
-                	{
-                		 articleText += Tools.Newline("{{بذرة}}", 3);
-                    	 tagsAdded.Add("بذرة");
-                	}
-                	else
-                	{
-                		 articleText += Tools.Newline("{{stub}}", 3);
-						 tagsAdded.Add("stub");
-                	}
-                	commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
+                    if (Variables.LangCode.Equals("ar"))
+                    {
+                        articleText += Tools.Newline("{{بذرة}}", 3);
+                        tagsAdded.Add("بذرة");
+                    }
+                    else
+                    {
+                        articleText += Tools.Newline("{{stub}}", 3);
+                        tagsAdded.Add("stub");
+                    }
+                    commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
                 }
             }
 
@@ -6430,27 +6430,27 @@ namespace WikiFunctions.Parse
             if (orphaned2 && !WikiRegexes.Orphan.IsMatch(articleText) && Tools.GetTemplateParameterValue(WikiRegexes.MultipleIssues.Match(articleText).Value, "orphan").Length == 0
                 && !WikiRegexes.Disambigs.IsMatch(articleText) && !WikiRegexes.SIAs.IsMatch(articleText) && !WikiRegexes.Wi.IsMatch(articleText))
             {
-            	if (Variables.LangCode.Equals("ar"))
-            	{
-  	                articleText = "{{يتيمة|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
-                    tagsAdded.Add("[[تصنيف:يتيمة|يتيمة]]");
-            	}
-            	else
-            	{
-  	                articleText = "{{Orphan|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
-                	tagsAdded.Add("[[CAT:O|orphan]]");
-            	}
-            }
-            else if (!orphaned && WikiRegexes.Orphan.IsMatch(articleText))
-            {
-                articleText = WikiRegexes.Orphan.Replace(articleText, m=> m.Groups["MI"].Value);
                 if (Variables.LangCode.Equals("ar"))
-            	{
-                	tagsRemoved.Add("يتيمة");
+                {
+                    articleText = "{{يتيمة|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
+                    tagsAdded.Add("[[تصنيف:يتيمة|يتيمة]]");
                 }
                 else
                 {
-                	tagsRemoved.Add("orphan");
+                    articleText = "{{Orphan|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
+                    tagsAdded.Add("[[CAT:O|orphan]]");
+                }
+            }
+            else if (!orphaned && WikiRegexes.Orphan.IsMatch(articleText))
+            {
+                articleText = WikiRegexes.Orphan.Replace(articleText, m => m.Groups["MI"].Value);
+                if (Variables.LangCode.Equals("ar"))
+                {
+                    tagsRemoved.Add("يتيمة");
+                }
+                else
+                {
+                    tagsRemoved.Add("orphan");
                 }
             }
             return articleText;
