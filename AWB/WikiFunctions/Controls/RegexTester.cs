@@ -310,7 +310,7 @@ namespace WikiFunctions.Controls
 
             if (string.IsNullOrEmpty(sender.Replace)) // find
             {
-                Captures.Visible = false;
+                Captures.BeginUpdate();
                 foreach (Match m in sender.Matches)
                 {
                     TreeNode n = Captures.Nodes.Add("{" + ReplaceNewLines(m.Value) + "}");
@@ -342,7 +342,7 @@ namespace WikiFunctions.Controls
                 Status.Text += " in " + sender.GetExecutionTime() + " ms";
 
                 Captures.ExpandAll();
-                Captures.Visible = true;
+                Captures.EndUpdate();
             }
             else // replace
             {
