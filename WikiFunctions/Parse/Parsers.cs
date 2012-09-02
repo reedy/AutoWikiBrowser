@@ -6105,7 +6105,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex ImproveCategories = Tools.NestedTemplateRegex("improve categories");
         private static readonly Regex ProposedDeletionDated = Tools.NestedTemplateRegex("Proposed deletion/dated");
         private static readonly Regex Unreferenced = Tools.NestedTemplateRegex("unreferenced");
-        private static readonly Regex Drugbox = Tools.NestedTemplateRegex("Drugbox");
+        private static readonly Regex Drugbox = Tools.NestedTemplateRegex(new[] { "Drugbox", "Chembox" });
 
         //TODO:Needs re-write
         /// <summary>
