@@ -6195,7 +6195,16 @@ namespace WikiFunctions.Parse
                 articleText = WikiRegexes.DeadEnd.Replace(articleText, m => Tools.IsSectionOrReasonTemplate(m.Value, articleText) ? m.Value : m.Groups[1].Value);
 
                 if (!WikiRegexes.DeadEnd.IsMatch(articleText))
-                    tagsRemoved.Add("deadend");
+                {
+                	if (Variables.LangCode.Equals("ar"))
+	                {
+    	                 tagsRemoved.Add("نهاية مسدودة");
+    	            }
+    	            else
+    	            {
+	                    tagsRemoved.Add("deadend");
+		            }
+                }
             }
 
             // discount persondata, comments, infoboxes and categories from wikify and stub evaluation
@@ -6287,7 +6296,7 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            if (linkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(articleText) && Variables.LangCode != "sv"
+            if (linkCount == 0 && Variables.LangCode != "sv" && !WikiRegexes.DeadEnd.IsMatch(articleText) && !WikiRegexes.Centuryinbox.IsMatch(articleText) 
                 && !Regex.IsMatch(WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower(), @"\bdead ?end\b"))
             {
                 // add dead-end tag
