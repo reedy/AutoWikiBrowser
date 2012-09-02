@@ -533,8 +533,8 @@ namespace WikiFunctions
 		
 		/// <summary>
 		/// Applies the key words "%%title%%" etc.
-		/// </summary>
 		/// https://meta.wikimedia.org/wiki/Help:Magic_words
+        /// </summary>
 		public static string ApplyKeyWords(string title, string text)
 		{
 			return ApplyKeyWords(title, text, false);
@@ -543,8 +543,8 @@ namespace WikiFunctions
 		// Covered by ToolsTests.ApplyKeyWords()
 		/// <summary>
 		/// Applies the key words "%%title%%" etc.
+        /// https://meta.wikimedia.org/wiki/Help:Magic_words
 		/// </summary>
-		/// https://meta.wikimedia.org/wiki/Help:Magic_words
 		public static string ApplyKeyWords(string title, string text, bool escape)
 		{
 			if (!string.IsNullOrEmpty(text) && !string.IsNullOrEmpty(title) && text.Contains("%%"))
