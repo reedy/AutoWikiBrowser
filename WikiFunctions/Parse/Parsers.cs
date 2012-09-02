@@ -6196,14 +6196,14 @@ namespace WikiFunctions.Parse
 
                 if (!WikiRegexes.DeadEnd.IsMatch(articleText))
                 {
-                	if (Variables.LangCode.Equals("ar"))
-	                {
-    	                 tagsRemoved.Add("نهاية مسدودة");
-    	            }
-    	            else
-    	            {
-	                    tagsRemoved.Add("deadend");
-		            }
+                    if (Variables.LangCode.Equals("ar"))
+                    {
+                        tagsRemoved.Add("نهاية مسدودة");
+                    }
+                    else
+                    {
+                        tagsRemoved.Add("deadend");
+                    }
                 }
             }
 
@@ -6212,7 +6212,7 @@ namespace WikiFunctions.Parse
             lengthtext = WikiRegexes.Persondata.Replace(commentsCategoriesStripped, "");
             lengthtext = WikiRegexes.InfoBox.Replace(lengthtext, "");
             lengthtext = Drugbox.Replace(lengthtext, "");
-            
+
             int length = lengthtext.Length + 1;
             bool underlinked = (linkCount < 0.0025 * length);
 
@@ -6255,26 +6255,26 @@ namespace WikiFunctions.Parse
                     // add uncategorized stub tag
                     if (Variables.LangCode.Equals("ar"))
                     {
-                       articleText += Tools.Newline("{{بذرة غير مصنفة|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
-                       tagsAdded.Add("[[تصنيف:مقالات غير مصنفة|غير مصنفة]]");
+                        articleText += Tools.Newline("{{بذرة غير مصنفة|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                        tagsAdded.Add("[[تصنيف:مقالات غير مصنفة|غير مصنفة]]");
                     }
                     else
                     {
-                    	articleText += Tools.Newline("{{Uncategorized stub|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
-                    	tagsAdded.Add("[[CAT:UNCATSTUBS|uncategorised]]");
+                        articleText += Tools.Newline("{{Uncategorized stub|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                        tagsAdded.Add("[[CAT:UNCATSTUBS|uncategorised]]");
                     }
                 }
                 else
                 {
                     if (Variables.LangCode.Equals("ar"))
                     {
-                    	articleText += Tools.Newline("{{غير مصنفة|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
-                       tagsAdded.Add("[[CAT:UNCAT|مقالات غير مصنفة]]");
+                        articleText += Tools.Newline("{{غير مصنفة|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                        tagsAdded.Add("[[CAT:UNCAT|مقالات غير مصنفة]]");
                     }
                     else
                     {
-                    articleText += Tools.Newline("{{Uncategorized|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
-                    tagsAdded.Add("[[CAT:UNCAT|uncategorised]]");
+                        articleText += Tools.Newline("{{Uncategorized|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                        tagsAdded.Add("[[CAT:UNCAT|uncategorised]]");
                     }
                 }
             }
@@ -6296,19 +6296,19 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            if (linkCount == 0 && Variables.LangCode != "sv" && !WikiRegexes.DeadEnd.IsMatch(articleText) && !WikiRegexes.Centuryinbox.IsMatch(articleText) 
+            if (linkCount == 0 && Variables.LangCode != "sv" && !WikiRegexes.DeadEnd.IsMatch(articleText) && !WikiRegexes.Centuryinbox.IsMatch(articleText)
                 && !Regex.IsMatch(WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower(), @"\bdead ?end\b"))
             {
                 // add dead-end tag
                 if (Variables.LangCode.Equals("ar"))
                 {
                     articleText = "{{نهاية مسدودة|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
-                     tagsAdded.Add("[[:تصنيف:مقالات نهاية مسدودة|نهاية مسدودة]]");
+                    tagsAdded.Add("[[:تصنيف:مقالات نهاية مسدودة|نهاية مسدودة]]");
                 }
                 else
                 {
                     articleText = "{{dead end|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
-                	tagsAdded.Add("[[:Category:Dead-end pages|deadend]]");
+                    tagsAdded.Add("[[:Category:Dead-end pages|deadend]]");
                 }
             }
 
@@ -6319,13 +6319,13 @@ namespace WikiFunctions.Parse
                 if (Variables.LangCode.Equals("ar"))
                 {
                     articleText = "{{ويكي|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
-                     tagsAdded.Add("[[وب:ويكي|ويكي]]");
+                    tagsAdded.Add("[[وب:ويكي|ويكي]]");
                 }
                 else
                 {
                     //articleText = "{{Wikify|reason=It needs more wikilinks. Article has less than 3 wikilinks or the number of wikilinks is smaller than 0.25% of article's size.|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                     articleText = "{{Wikify|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
-                	tagsAdded.Add("[[WP:WFY|wikify]]");
+                    tagsAdded.Add("[[WP:WFY|wikify]]");
                 }
             }
             else if (linkCount > 3 && !underlinked &&
