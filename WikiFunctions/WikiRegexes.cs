@@ -867,6 +867,11 @@ namespace WikiFunctions
         public static Regex Wikify;
 
         /// <summary>
+        /// Matches {{Centuryinbox}} template and its redirects
+        /// </summary>
+        public static readonly Regex Centuryinbox = Tools.NestedTemplateRegex(new [] { "Centuryinbox" }, true );
+
+        /// <summary>
         /// Matches {{dead link}} template and its redirects
         /// </summary>
         public static readonly Regex DeadLink = Tools.NestedTemplateRegex(new [] { "dead link", "deadlink", "broken link", "brokenlink", "link broken", "linkbroken", "404", "dl", "dl-s", "cleanup-link" }, true );

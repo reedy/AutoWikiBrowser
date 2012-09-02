@@ -8273,6 +8273,20 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsTrue(Tools.NestedTemplateRegex("uncat").IsMatch(text));
             Assert.IsFalse(Tools.NestedTemplateRegex("uncategorized stub").IsMatch(text));
 
+            // Pages with Centuryinbox already have a lot of wikilinks. They should not be tagged as deadend.
+            text = parser.Tagger(@"one two three four five six seven eight nine ten {{Centuryinbox
+| in?=in poetry
+| cpa=19
+| cpb=th century
+| c=20th century
+| cn1=21st century
+}} eleven twelve", "Test", false, out noChange, ref summary);
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text),"Tag for orphan");
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text),"Tag for wikify");
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text),"Don't tag for deadend");
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text),"Tag for stub");
+            Assert.IsTrue(Tools.NestedTemplateRegex("uncategorized stub").IsMatch(text),"Tag for uncat stub");
+
         }
 
         [Test]
