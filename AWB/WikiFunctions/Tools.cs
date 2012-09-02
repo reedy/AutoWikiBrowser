@@ -2952,10 +2952,10 @@ Message: {2}
 		/// </summary>
 		/// <param name="templatenames">The list of template names</param>
 		/// <returns>A Regex matching calls to the template, match group 2 being the template name, group 3 being the template argument(s)</returns>
-		public static Regex NestedTemplateRegex(ICollection<string> templatenames)
-		{
-		    return NestedTemplateRegex(templatenames, false);
-		}
+        public static Regex NestedTemplateRegex(ICollection<string> templatenames)
+        {
+            return NestedTemplateRegex(templatenames, false);
+        }
 		
 		/// <summary>
 		/// Returns a regex to match the input templates
@@ -2964,37 +2964,37 @@ Message: {2}
 		/// <param name="templatenames">The list of template names</param>
 		/// <param name="compiled">Whether to return a compiled regex</param>
 		/// <returns>A Regex matching calls to the template, match group 2 being the template name, group 3 being the template argument(s)</returns>
-		public static Regex NestedTemplateRegex(ICollection<string> templatenames, bool compiled)
-		{
-			if (templatenames.Count == 0)
-				return null;
-			
-			string TemplateNamespace;
-			
-			if (!Variables.NamespacesCaseInsensitive.TryGetValue(Namespace.Template, out TemplateNamespace))
-			{
-				TemplateNamespace = "[Tt]emplate:";
-			}
-			
-			// allow whitespace before semicolon
-			TemplateNamespace = Regex.Replace(TemplateNamespace, @":$", @"[\s_]*:");
-			
-			StringBuilder theRegex = new StringBuilder(NestedTemplateRegexStart + @":?[\s_]*" + TemplateNamespace + @"[\s_]*" + @"\s*)?(");
+        public static Regex NestedTemplateRegex(ICollection<string> templatenames, bool compiled)
+        {
+            if (templatenames.Count == 0)
+                return null;
 
-			foreach (string templatename in templatenames)
-			{
-				string templatename2 = Regex.Escape(templatename.Trim().Replace('_', ' ')).Replace(@"\ ", @"[_ ]+");
-				theRegex.Append(CaseInsensitive(templatename2) + "|");
-			}
+            string TemplateNamespace;
 
-			theRegex[theRegex.Length - 1] = ')';
-			theRegex.Append(NestedTemplateRegexEnd);
+            if (!Variables.NamespacesCaseInsensitive.TryGetValue(Namespace.Template, out TemplateNamespace))
+            {
+                TemplateNamespace = "[Tt]emplate:";
+            }
 
-			if(compiled)
-			    return new Regex(theRegex.ToString(), RegexOptions.Compiled);
-			    
-			return new Regex(theRegex.ToString());
-		}
+            // allow whitespace before semicolon
+            TemplateNamespace = Regex.Replace(TemplateNamespace, @":$", @"[\s_]*:");
+
+            StringBuilder theRegex = new StringBuilder(NestedTemplateRegexStart + @":?[\s_]*" + TemplateNamespace + @"[\s_]*" + @"\s*)?(");
+
+            foreach (string templatename in templatenames)
+            {
+                string templatename2 = Regex.Escape(templatename.Trim().Replace('_', ' ')).Replace(@"\ ", @"[_ ]+");
+                theRegex.Append(CaseInsensitive(templatename2) + "|");
+            }
+
+            theRegex[theRegex.Length - 1] = ')';
+            theRegex.Append(NestedTemplateRegexEnd);
+
+            if (compiled)
+                return new Regex(theRegex.ToString(), RegexOptions.Compiled);
+
+            return new Regex(theRegex.ToString());
+        }
 		
 		/// <summary>
 		/// Returns whether template call is a section template or has reason parameter

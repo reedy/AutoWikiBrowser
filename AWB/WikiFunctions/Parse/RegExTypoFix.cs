@@ -148,9 +148,9 @@ namespace WikiFunctions.Parse
         {
             GroupSize = groupSize;
 
-            if (!string.IsNullOrEmpty(match)) 
+            if (!string.IsNullOrEmpty(match))
                 Allow = new Regex(match, RegexOptions.Compiled);
-            if (!string.IsNullOrEmpty(dontMatch)) 
+            if (!string.IsNullOrEmpty(dontMatch))
                 Disallow = new Regex(dontMatch, RegexOptions.Compiled);
 
             Prefix = prefix;
