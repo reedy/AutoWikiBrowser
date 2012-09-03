@@ -59,6 +59,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 Return Biography
             End Get
         End Property
+
         Protected Overrides ReadOnly Property PreferredTemplateName() As String
             Get
                 Return PluginName
@@ -72,16 +73,19 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 Return OurSettingsControl
             End Get
         End Property
+
         Protected Overrides ReadOnly Property CategoryTalkClassParm() As String
             Get
                 Return "Cat"
             End Get
         End Property
+
         Protected Overrides ReadOnly Property TemplateTalkClassParm() As String
             Get
                 Return "Template"
             End Get
         End Property
+
         Protected Overrides ReadOnly Property FileTalkClassParm() As String
             Get
                 Return "NA"
@@ -93,6 +97,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 Return True
             End Get
         End Property
+
         Friend Overrides Sub ReqPhoto()
             AddNewParamWithAYesValue("needs-photo")
         End Sub
@@ -109,6 +114,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Protected Overrides Function SkipIfContains() As Boolean
             Return False
         End Function
+
         Protected Overrides Sub ProcessArticleFinish()
             Dim Living As Living = Living.Unknown, LivingAlreadyAddedToEditSummary As Boolean
 
@@ -164,6 +170,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 End If
             End With
         End Sub
+
         ''' <summary>
         ''' Send the template to the plugin for preinspection
         ''' </summary>
@@ -190,8 +197,10 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
             Return False
         End Function
+
         Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
         End Sub
+
         Protected Overrides Function WriteTemplateHeader() As String
             Dim res As String = "{{WikiProject Biography" & Microsoft.VisualBasic.vbCrLf
 
