@@ -69,9 +69,7 @@
     Protected Overrides Function TemplateFound() As Boolean
         ' Nothing to do here
     End Function
-    Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
-        ' Only WPBio used to do something here (if {{musician}} add to musician-work-group)
-    End Sub
+
     Protected Overrides Function WriteTemplateHeader() As String
         Return "{{album" & WriteOutParameterToHeader("class") & _
            WriteOutParameterToHeader("importance")

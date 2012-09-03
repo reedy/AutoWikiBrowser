@@ -143,8 +143,7 @@
     End Sub
     Protected Overrides Function TemplateFound() As Boolean
     End Function
-    Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
-    End Sub
+
     Protected Overrides Function WriteTemplateHeader() As String
         Return "{{" & PluginName & _
            Microsoft.VisualBasic.vbCrLf & WriteOutParameterToHeader("class") & _

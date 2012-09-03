@@ -107,8 +107,7 @@
         If CheckForDoublyNamedParameters("V8", "v8") Then Return True ' tag is bad, exit
         If CheckForDoublyNamedParameters("nbl", "NBL") Then Return True
     End Function
-    Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
-    End Sub
+
     Protected Overrides Function WriteTemplateHeader() As String
         Return "{{" & PluginName & _
            Microsoft.VisualBasic.vbCrLf & WriteOutParameterToHeader("class") & _

@@ -449,11 +449,11 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 End Try
             End If
         End Function
+
         Protected Overrides Function TemplateFound() As Boolean
             ' Nothing to do here
         End Function
-        Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
-        End Sub
+
         Protected Overrides Function WriteTemplateHeader() As String
             Dim res As String = "{{" & PreferredTemplateName & WriteOutParameterToHeader("class")
 

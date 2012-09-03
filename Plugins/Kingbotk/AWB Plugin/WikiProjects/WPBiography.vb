@@ -199,9 +199,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Return False
         End Function
 
-        Protected Overrides Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
-        End Sub
-
         Protected Overrides Function WriteTemplateHeader() As String
             Dim res As String = "{{WikiProject Biography" & Microsoft.VisualBasic.vbCrLf
 
