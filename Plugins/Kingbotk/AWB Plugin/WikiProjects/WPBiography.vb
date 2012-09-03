@@ -228,9 +228,11 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
             OurSettingsControl.ReadXML(Reader)
         End Sub
+
         Protected Friend Overrides Sub Reset()
             OurSettingsControl.Reset()
         End Sub
+
         Protected Friend Overrides Sub WriteXML(ByVal Writer As XmlTextWriter)
             Writer.WriteAttributeString(Prefix & "Enabled", Enabled.ToString)
             OurSettingsControl.WriteXML(Writer)
