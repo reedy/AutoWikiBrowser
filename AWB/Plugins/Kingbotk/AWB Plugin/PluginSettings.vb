@@ -29,8 +29,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Friend Sub New()
             ' This call is required by the Windows Form Designer and must come first:
             InitializeComponent()
-            AddHandler LivingPeopleToolStripMenuItem.Click, AddressOf LivingPeopleToolStripMenuItemClick
 
+            ' FIXME: This LivingPeople stuff should live elsewhere
+            AddHandler LivingPeopleToolStripMenuItem.Click, AddressOf LivingPeopleToolStripMenuItemClick
             With PluginManager.AWBForm
                 .CategoryTextBox.ContextMenuStrip.Items.Insert(0, LivingPeopleToolStripMenuItem)
                 .CategoryTextBox.ContextMenuStrip.Items.Insert(1, New ToolStripSeparator())
