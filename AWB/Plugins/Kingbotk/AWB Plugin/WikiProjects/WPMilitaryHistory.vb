@@ -180,10 +180,6 @@
         End With
     End Function
 
-    Protected Overrides Sub GotTemplateNotPreferredName(ByVal templateName As String)
-        ' Currently only WPBio does anything here (if {{musician}} add to musician-work-group)
-    End Sub
-
     Protected Overrides Function WriteTemplateHeader() As String
         Return "{{WPMILHIST" & _
            Microsoft.VisualBasic.vbCrLf & WriteOutParameterToHeader("class")

@@ -185,7 +185,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             End If
         End Sub
 
-        Protected MustOverride Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
+        Protected Overridable Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
+        End Sub
 
         Protected Overridable Sub TemplateNotFound()
             article.ArticleHasAMajorChange()
