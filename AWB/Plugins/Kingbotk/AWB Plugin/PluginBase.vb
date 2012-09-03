@@ -58,14 +58,20 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             End With
             PluginManager.AWBForm.PluginsToolStripMenuItem.DropDownItems.Add(OurMenuItem)
         End Sub
+
         Protected Friend MustOverride Sub Initialise()
+
         Protected Friend MustOverride Sub ReadXML(ByVal Reader As XmlTextReader)
+
         Protected Friend MustOverride Sub Reset()
+
         Protected Friend MustOverride Sub WriteXML(ByVal Writer As XmlTextWriter)
+
         Protected Friend Function ProcessTalkPage(ByVal A As Article, ByVal AddReqPhotoParm As Boolean) As Boolean
             Return ProcessTalkPage(A, Classification.Code, Importance.Code, False, False, False, _
                ProcessTalkPageMode.Normal, AddReqPhotoParm)
         End Function
+
         Protected Friend Function ProcessTalkPage(ByVal A As Article, ByVal Classification As Classification, _
         ByVal Importance As Importance, ByVal ForceNeedsInfobox As Boolean, _
         ByVal ForceNeedsAttention As Boolean, ByVal RemoveAutoStub As Boolean, _
@@ -135,9 +141,14 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         ''' </summary>
         ''' <returns>False if OK, TRUE IF BAD TAG</returns>
         Protected MustOverride Function TemplateFound() As Boolean
+
         Protected MustOverride Sub ProcessArticleFinish()
+
         Protected MustOverride Function WriteTemplateHeader() As String
+
         Protected MustOverride Sub ImportanceParameter(ByVal Importance As Importance)
+
+
         Protected Function MatchEvaluator(ByVal match As Match) As String
             If Not match.Groups("parm").Captures.Count = match.Groups("val").Captures.Count Then
                 Template.BadTemplate = True
@@ -160,6 +171,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
 
             Return conTemplatePlaceholder
         End Function
+
         Protected Sub PluginCheckTemplateName(ByVal TemplateName As String)
             If HasAlternateNames Then
                 If Not PreferredTemplateNameRegex.Match(TemplateName).Success Then
@@ -168,12 +180,15 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                 End If
             End If
         End Sub
+
         Protected MustOverride Sub GotTemplateNotPreferredName(ByVal TemplateName As String)
+
         Protected Overridable Sub TemplateNotFound()
             article.ArticleHasAMajorChange()
             Template.NewTemplateParm("class", "")
             article.TemplateAdded(PreferredTemplateName, PluginShortName)
         End Sub
+
         Private Sub TemplateWritingAndPlacement()
             Dim TemplateHeader As String = WriteTemplateHeader()
 
@@ -193,24 +208,30 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                 End If
             End With
         End Sub
+
         Protected Sub AddAndLogNewParamWithAYesValue(ByVal ParamName As String)
             Template.NewOrReplaceTemplateParm(ParamName, "yes", article, True, False, PluginName:=PluginShortName)
         End Sub
+
         Protected Sub AddNewParamWithAYesValue(ByVal ParamName As String)
             Template.NewOrReplaceTemplateParm(ParamName, "yes", article, False, False, PluginName:=PluginShortName)
         End Sub
+
         Protected Sub AddAndLogNewParamWithAYesValue(ByVal ParamName As String, ByVal ParamAlternativeName As String)
             Template.NewOrReplaceTemplateParm(ParamName, "yes", article, True, True, _
                ParamAlternativeName:=ParamAlternativeName, PluginName:=PluginShortName)
         End Sub
+
         Protected Sub AddAndLogEmptyParam(ByVal ParamName As String)
             If Not Template.Parameters.ContainsKey(ParamName) Then Template.NewTemplateParm(ParamName, "", True, _
             article, PluginShortName)
         End Sub
+
         Protected Sub AddEmptyParam(ByVal ParamName As String)
             If Not Template.Parameters.ContainsKey(ParamName) Then Template.NewTemplateParm(ParamName, "", _
                False, article, PluginShortName)
         End Sub
+
         Protected Sub ProcessArticleFinishNonStandardMode(ByVal Classification As Classification, _
         ByVal Importance As Importance, ByVal ForceNeedsInfobox As Boolean, _
         ByVal ForceNeedsAttention As Boolean, ByVal RemoveAutoStub As Boolean, _
@@ -272,6 +293,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                 End With
             End If
         End Sub
+
         Protected Function WriteOutParameterToHeader(ByVal ParamName As String) As String
             With Template
                 Dim res As String = "|" & ParamName & "="
@@ -285,6 +307,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                 Return res
             End With
         End Function
+
         Protected Sub StubClass()
             If article.Namespace = [Namespace].Talk Then
                 If GenericSettings.StubClass Then Template.NewOrReplaceTemplateParm("class", "Stub", article, _
@@ -300,6 +323,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                    "Ignoring Stub-Class and Auto-Stub options; not a mainspace talk page", PluginShortName, True)
             End If
         End Sub
+
         Protected Sub ReplaceATemplateWithAYesParameter(ByVal R As Regex, ByVal ParamName As String, _
         ByVal TemplateCall As String, Optional ByVal Replace As Boolean = True)
             With article
@@ -311,6 +335,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                 End If
             End With
         End Sub
+
         ''' <summary>
         ''' Checks if params which have two names (V8, v8) exist under both names
         ''' </summary>
@@ -339,6 +364,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                 PluginManager.PluginEnabledStateChanged(Me, IsEnabled)
             End Set
         End Property
+
         Protected Friend Overridable Sub BotModeChanged(ByVal BotMode As Boolean)
             If BotMode AndAlso GenericSettings.StubClass Then
                 GenericSettings.AutoStub = True
@@ -346,6 +372,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             End If
             GenericSettings.StubClassModeAllowed = Not BotMode
         End Sub
+
         Protected Friend Overridable ReadOnly Property IAmGeneric() As Boolean
             Get
                 Return False
@@ -417,6 +444,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                 PreferredTemplateNameRegex = Nothing
             End If
         End Sub
+
         ''' <summary>
         ''' Do any redirects point to the template?
         ''' </summary>
@@ -426,6 +454,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                 Return (Not PreferredTemplateNameRegex Is Nothing)
             End Get
         End Property
+
         ''' <summary>
         ''' Returns true if the templating plugin is ready to start processing
         ''' </summary>
@@ -459,6 +488,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                 PluginManager.DefaultStatusText()
             End Try
         End Function
+
         Protected Shared Function ConvertRedirectsToString(ByRef Redirects As List(Of WikiFunctions.Article)) As String
             Dim tmp As New List(Of WikiFunctions.Article)
             Dim res As String = ""
@@ -483,9 +513,11 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
 
             If Not Redirs = "" Then mLastKnownGoodRedirects = Redirs
         End Sub
+
         Friend Overridable Sub WriteXMLRedirects(ByVal Writer As XmlTextWriter)
             If Not mLastKnownGoodRedirects = "" Then Writer.WriteAttributeString(RedirectsParm, mLastKnownGoodRedirects)
         End Sub
+
         Protected ReadOnly Property RedirectsParm() As String
             Get
                 Return PreferredTemplateName.Replace(" ", "") & "RedirN"
