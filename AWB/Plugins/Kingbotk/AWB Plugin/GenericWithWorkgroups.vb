@@ -91,7 +91,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Friend Sub Reset() Implements IGenericSettings.XMLReset
             StubClass = False
             AutoStub = False
-            ExtraChecks = False
 
             For Each lvi As ListViewItem In ListView1.Items
                 lvi.Checked = False
@@ -122,23 +121,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 AutoStubCheckBox.Checked = value
             End Set
         End Property
-
-        Friend Property ExtraChecks() As Boolean
-            Get
-                Return ExtraCheckBox.Checked
-            End Get
-            Set(ByVal value As Boolean)
-                ExtraCheckBox.Checked = value
-            End Set
-        End Property
-
-        Friend WriteOnly Property ExtraChecksText() As String
-            Set(ByVal value As String)
-                ExtraCheckBox.Text = value
-                ExtraCheckBox.Visible = value <> ""
-            End Set
-        End Property
-
         ' Event handlers:
         Private Sub LinkClicked(ByVal sender As Object, ByVal e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
             Tools.OpenENArticleInBrowser(Variables.Namespaces(WikiFunctions.Namespace.Template) & Template, False)

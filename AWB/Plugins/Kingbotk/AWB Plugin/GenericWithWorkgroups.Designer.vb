@@ -28,7 +28,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.ListView1 = New System.Windows.Forms.ListView()
             Me.colWG = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
             Me.ParametersGroup = New System.Windows.Forms.GroupBox()
-            Me.ExtraCheckBox = New System.Windows.Forms.CheckBox()
             Me.ParametersGroup.SuspendLayout()
             Me.SuspendLayout()
             '
@@ -82,7 +81,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             '
             'ParametersGroup
             '
-            Me.ParametersGroup.Controls.Add(Me.ExtraCheckBox)
             Me.ParametersGroup.Controls.Add(Me.AutoStubCheckBox)
             Me.ParametersGroup.Controls.Add(Me.StubClassCheckBox)
             Me.ParametersGroup.Location = New System.Drawing.Point(3, 293)
@@ -91,16 +89,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.ParametersGroup.TabIndex = 11
             Me.ParametersGroup.TabStop = False
             Me.ParametersGroup.Text = "Template Parameters"
-            '
-            'ExtraCheckBox
-            '
-            Me.ExtraCheckBox.AutoSize = True
-            Me.ExtraCheckBox.Location = New System.Drawing.Point(6, 33)
-            Me.ExtraCheckBox.Name = "ExtraCheckBox"
-            Me.ExtraCheckBox.Size = New System.Drawing.Size(15, 14)
-            Me.ExtraCheckBox.TabIndex = 6
-            Me.ExtraCheckBox.UseVisualStyleBackColor = True
-            Me.ExtraCheckBox.Visible = False
             '
             'GenericWithWorkgroups
             '
@@ -127,7 +115,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Private WithEvents ParametersGroup As System.Windows.Forms.GroupBox
         Private WithEvents AutoStubCheckBox As System.Windows.Forms.CheckBox
         Private WithEvents StubClassCheckBox As System.Windows.Forms.CheckBox
-        Friend WithEvents ExtraCheckBox As System.Windows.Forms.CheckBox
 
     End Class
 End Namespace
