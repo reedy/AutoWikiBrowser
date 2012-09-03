@@ -134,6 +134,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                                     Living = Living.Dead
                                 Case "Living"
                                     Living = Living.Living
+                                Case Else
+                                    AddAndLogNewParamWithAYesValue(tp.ParamName.ToLower().Replace(" ", "-"))
                             End Select
                         End If
                     End If
