@@ -106,6 +106,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             '
             Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+            Me.BackColor = System.Drawing.SystemColors.ButtonFace
             Me.Controls.Add(Me.ParametersGroup)
             Me.Controls.Add(Me.ListView1)
             Me.Controls.Add(Me.LinkLabel1)
