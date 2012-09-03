@@ -46,7 +46,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
            New TemplateParameters() With {.StorageKey = "SportWG", .Group = WorkgroupsGroups, .ParamName = "Sports"}, _
            New TemplateParameters() With {.StorageKey = "LivingPerson", .Group = OthersGroup, .ParamName = "Living"}, _
            New TemplateParameters() With {.StorageKey = "NotLivingPerson", .Group = OthersGroup, .ParamName = "Not Living"}, _
-           New TemplateParameters() With {.StorageKey = "NoBio", .Group = OthersGroup, .ParamName = "Non-Biography"}, _
            New TemplateParameters() With {.StorageKey = "ActivePol", .Group = OthersGroup, .ParamName = "Active Politician"}
        }
 
