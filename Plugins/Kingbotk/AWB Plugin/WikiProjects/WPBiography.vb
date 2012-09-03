@@ -226,7 +226,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Dim blnNewVal As Boolean = PluginManager.XMLReadBoolean(Reader, Prefix & "Enabled", Enabled)
             If Not blnNewVal = Enabled Then Enabled = blnNewVal ' Mustn't set if the same or we get extra tabs
 
-            OurSettingsControl.ExtraChecks = PluginManager.XMLReadBoolean(Reader, Prefix & "ForceListasParm", OurSettingsControl.ExtraChecks)
             OurSettingsControl.ReadXML(Reader)
         End Sub
         Protected Friend Overrides Sub Reset()
@@ -235,15 +234,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Protected Friend Overrides Sub WriteXML(ByVal Writer As XmlTextWriter)
             Writer.WriteAttributeString(Prefix & "Enabled", Enabled.ToString)
             OurSettingsControl.WriteXML(Writer)
-        End Sub
-
-        ' Other overrides:
-        Protected Friend Overrides Sub BotModeChanged(ByVal BotMode As Boolean)
-            MyBase.BotModeChanged(BotMode)
-
-            If BotMode Then
-                OurSettingsControl.ExtraChecks = False
-            End If
         End Sub
     End Class
 End Namespace
