@@ -22,6 +22,7 @@ using System.Text;
 using System.IO;
 #endif
 using System.Diagnostics;
+using System.Threading;
 
 namespace WikiFunctions
 {
@@ -36,6 +37,8 @@ namespace WikiFunctions
         private TextWriter log;
         private string FileName = "";
         private bool Append = true;
+
+        private Mutex mutex = new Mutex();
 
         /// <summary>
         /// Creates a profiler object
@@ -86,21 +89,14 @@ namespace WikiFunctions
         public void AddLog(string s)
         {
             if (log == null) return;
-            for (int a = 0; a < 1000; a++)
-            {
-                try
-                {
-                    log = new StreamWriter(FileName, Append, Encoding.Unicode);
-                    log.WriteLine(s);
-                    log.Close();
-                    break;
-                }
-                catch
-                {
-                    // prevents errors over log file being 'in use by other application'
-                    System.Threading.Thread.Sleep(50);
-                }
-            }
+
+            mutex.WaitOne();
+
+            log = new StreamWriter(FileName, Append, Encoding.Unicode);
+            log.WriteLine(s);
+            log.Close();
+
+            mutex.ReleaseMutex();
         }
 
         /// <summary>
@@ -108,21 +104,13 @@ namespace WikiFunctions
         /// </summary>
         public void Flush()
         {
-            for (int a = 0; a < 1000; a++)
-            {
-                try
-                {
-                    log = new StreamWriter(FileName, Append, Encoding.Unicode);
-                    log.Flush();
-                    log.Close();
-                }
+            mutex.WaitOne();
 
-                catch
-                {
-                    System.Threading.Thread.Sleep(50);
-                        // prevents errors over log file being 'in use by other application'
-                }
-            }
+            log = new StreamWriter(FileName, Append, Encoding.Unicode);
+            log.Flush();
+            log.Close();
+
+            mutex.ReleaseMutex();
         }
 #else
         /* unfortunately it seems that code within [Conditional] blocks still gets analysed by the compiler; having the class level
