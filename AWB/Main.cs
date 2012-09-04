@@ -2254,7 +2254,7 @@ window.scrollTo(0, diffTopY);
 
         private void UpdateBotStatus()
         {
-            bool bot = TheSession.IsBot;
+            bool bot = true;
             chkAutoMode.Enabled = chkSuppressTag.Enabled = bot;
 
             lblOnlyBots.Visible = !bot;
@@ -2491,7 +2491,7 @@ window.scrollTo(0, diffTopY);
                     lbAlerts.Items.Add("No category (may be one in a template)");
 
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Replace_nofootnotes_with_morefootnote_if_references_exists
-                if (TheArticle.HasMorefootnotesAndManyReferences)
+                if (TheArticle.NameSpaceKey == Namespace.Article && TheArticle.HasMorefootnotesAndManyReferences)
                     lbAlerts.Items.Add("Has 'No/More footnotes' template yet many references");
 
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#.28Yet.29_more_reference_related_changes.
