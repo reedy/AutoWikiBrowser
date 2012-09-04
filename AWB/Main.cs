@@ -2501,7 +2501,7 @@ window.scrollTo(0, diffTopY);
                 if (TheArticle.IsDisambiguationPageWithRefs)
                     lbAlerts.Items.Add(@"DAB page with <ref>s");
 
-                if (articleText.StartsWith("=="))
+                if (TheArticle.NameSpaceKey == Namespace.Article && articleText.StartsWith("=="))
                     lbAlerts.Items.Add("Starts with heading");
 
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Format_references
