@@ -36,9 +36,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data.Services.Client" />
+    <Reference Include="System.Net" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BingSearchContainer.cs" />
     <Compile Include="BingSearchCore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
