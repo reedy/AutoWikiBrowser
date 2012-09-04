@@ -1001,7 +1001,7 @@ namespace WikiFunctions
         public static readonly Regex MaintenanceTemplates = Tools.NestedTemplateRegex(new[] { "orphan", "BLPunsourced", "cleanup" }, true );
         
         /// <summary>
-        /// Matches the {{Unreferenced}} template
+        /// Matches the {{Unreferenced}} template, or parameter within old-style multiple issues template
         /// </summary>
         public static readonly Regex Unreferenced = new Regex(@"(?:{{\s*([Uu]nreferenced( stub)?|[Uu]nsourced|[Uu]nverified|[Uu]nref|[Rr]eferences|[Uu]ncited-article|[Cc]itesources|[Nn][Rr]|[Nn]o references|[Uu]nrefarticle|[Nn]o ?refs?|[Nn]oreferences|[Cc]leanup-cite|[Rr]eferences needed)\s*(?:\|.*?)?}}|({{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*unreferenced\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))", RegexOptions.Singleline);
         

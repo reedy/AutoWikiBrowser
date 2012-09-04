@@ -8360,6 +8360,10 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             text = parser.Tagger(@"{{Multiple issues|COI = February 2009|wikify = April 2009|unreferenced = April 2007}} {{sfn|Smith|2004}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(text), "Unref to refimprove when has sfn refs");
             Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("refimprove"), "Renames unreferenced to refimprove in MI parameter when existing refs");
+
+            text = parser.Tagger(@"{{unreferenced|date = April 2007}} <ref>foo</ref>==sec=={{Multiple issues|section=y|COI = February 2009|POV = April 2009|refimprove = April 2009}}", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(text), "Unref to refimprove when has refs");
+            Assert.IsTrue(text.Contains(@"{{Multiple issues|section=y|COI = February 2009|POV = April 2009|refimprove = April 2009}}"), "Doesn't update date of refimprove in section MI template");
         }
 
         [Test]
