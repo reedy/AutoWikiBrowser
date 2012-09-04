@@ -29,6 +29,14 @@ namespace WikiFunctions.Plugins.ListMaker.BingSearch
     /// <summary>
     /// 
     /// </summary>
+    /// <remarks>
+    /// https://datamarket.azure.com/dataset/5ba839f1-12ce-4cce-bf57-a49d98d29a44
+    /// 
+    /// https://datamarket.azure.com/dataset/explore/getproxy/5ba839f1-12ce-4cce-bf57-a49d98d29a44
+    /// http://go.microsoft.com/fwlink/?LinkID=248077
+    /// http://go.microsoft.com/fwlink/?LinkID=252146
+    /// http://go.microsoft.com/fwlink/?LinkID=252151
+    /// </remarks>
     public class BingSearchListMakerPlugin : IListMakerPlugin
     {
         private const string AccountKey = "A3wH+TXilV1e0G5T7RF3XuznfxoOMkcgpo3pxKo49xY=";
