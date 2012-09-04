@@ -6344,8 +6344,9 @@ namespace WikiFunctions.Parse
             {
                 articleText = Unreferenced.Replace(articleText, m2 => Tools.UpdateTemplateParameterValue(Tools.RenameTemplate(m2.Value, "refimprove"), "date", "{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}"));
 
+                // update tag in old-style multiple issues
                 Match m = WikiRegexes.MultipleIssues.Match(articleText);
-                if (m.Success)
+                if (m.Success && Tools.GetTemplateParameterValue(m.Value, "unreferenced").Length > 0)
                 {
                     string newValue = Tools.RenameTemplateParameter(m.Value, "unreferenced", "refimprove");
                     newValue = Tools.UpdateTemplateParameterValue(newValue, "refimprove", "{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}");
