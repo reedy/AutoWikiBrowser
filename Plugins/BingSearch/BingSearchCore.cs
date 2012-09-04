@@ -17,8 +17,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Xml;
 using WikiFunctions.Plugin;
 
@@ -27,60 +29,30 @@ namespace WikiFunctions.Plugins.ListMaker.BingSearch
     /// <summary>
     /// 
     /// </summary>
-    /// <remarks>
-    /// http://msdn.microsoft.com/en-us/library/dd251056.aspx
-    /// http://msdn.microsoft.com/en-us/library/dd251042.aspx - Error Handling
-    /// </remarks>
     public class BingSearchListMakerPlugin : IListMakerPlugin
     {
-        private const string AppId = "56218EEF0B712AA9E56CEBA0FFE1B79E55E92FFA";
-
-        private const string BaseUrl = "http://api.search.live.net/xml.aspx?Appid=" + AppId +
-                                       "&query={0}(site:{1})&sources=web&web.count={2}&web.offset={3}";
-
-        private const int TotalResults = 500,
-            NoOfResultsPerRequest = 50;
+        private const string AccountKey = "A3wH+TXilV1e0G5T7RF3XuznfxoOMkcgpo3pxKo49xY=";
 
         public List<Article> MakeList(params string[] searchCriteria)
         {
             List<Article> articles = new List<Article>();
+            var bingContainer = new Bing.BingSearchContainer(new Uri("https://api.datamarket.azure.com/Bing/Search/"))
+                {Credentials = new NetworkCredential(AccountKey, AccountKey)};
 
             foreach (string s in searchCriteria)
             {
-                int start = 0;
-                do
+                var searchQuery = bingContainer.Web(string.Format("{0}({1})", s, Variables.URL), null, null, null, null,
+                                                    null, null, null);
+                var searchResults = searchQuery.Execute();
+                if (searchResults == null)
                 {
-                    string url = string.Format(BaseUrl, s, Variables.URL, NoOfResultsPerRequest, start);
-
-                    using (XmlTextReader reader = new XmlTextReader(new StringReader(Tools.GetHTML(url))))
-                    {
-                        while (reader.Read())
-                        {
-                            if (reader.Name.Equals("Error"))
-                            {
-                                reader.ReadToFollowing("Code");
-                                if (string.Compare(reader.ReadString(), "2002", true) == 0)
-                                    Tools.MessageBox("Query limit for Bing Exceeded. Please try again later");
-
-                                return articles;
-                            }
-
-                            if (reader.Name.Equals("web:Total"))
-                            {
-                                if (int.Parse(reader.ReadString()) > TotalResults)
-                                    start += NoOfResultsPerRequest;
-                            }
-
-                            if (reader.Name.Equals("web:Url"))
-                            {
-                                string title = Tools.GetTitleFromURL(reader.ReadString());
-
-                                if (!string.IsNullOrEmpty(title))
-                                    articles.Add(new Article(title));
-                            }
-                        }
-                    }
-                } while (articles.Count < TotalResults);
+                    continue;
+                }
+                foreach (var result in searchResults)
+                {
+                    articles.Add(new Article(result.Title));
+                    Console.WriteLine(result.Title);
+                }
             }
 
             return articles;
