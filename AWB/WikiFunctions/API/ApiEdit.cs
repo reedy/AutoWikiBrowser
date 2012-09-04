@@ -1373,15 +1373,14 @@ namespace WikiFunctions.API
 
         protected static string WatchOptionsToParam(WatchOptions watch)
         {
-            // Here we provide options for both 1.16 and older versions
             switch (watch)
             {
                 case WatchOptions.UsePreferences:
                     return "preferences";
                 case WatchOptions.Watch:
-                    return "watch&watch";
+                    return "watch";
                 case WatchOptions.Unwatch:
-                    return "unwatch&unwatch";
+                    return "unwatch";
                 default:
                     return "nochange";
             }
