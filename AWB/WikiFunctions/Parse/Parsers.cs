@@ -3448,13 +3448,13 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Matches the {{birth date}} family of templates
         /// </summary>
-        private static readonly Regex BirthDate = Tools.NestedTemplateRegex(new List<string>(new[] { "birth date", "birth-date", "dob", "bda", "birth date and age", "birthdate and age", "Date of birth and age", "BDA", "Birthdateandage",
-                                                                                                 "Birth Date and age", "birthdate" }));
+        private static readonly Regex BirthDate = Tools.NestedTemplateRegex(new[] { "birth date", "birth-date", "dob", "bda", "birth date and age", "birthdate and age", "Date of birth and age", "BDA", "Birthdateandage",
+                                                                                                 "Birth Date and age", "birthdate" }, true);
 
         /// <summary>
         /// Matches the {{death  date}} family of templates
         /// </summary>
-        private static readonly Regex DeathDate = Tools.NestedTemplateRegex(new List<string>(new[] { "death date", "death-date", "dda", "death date and age", "deathdateandage", "deathdate" }));
+        private static readonly Regex DeathDate = Tools.NestedTemplateRegex(new[] { "death date", "death-date", "dda", "death date and age", "deathdateandage", "deathdate" }, true);
 
         /// <summary>
         /// * Adds the default {{persondata}} template to en-wiki mainspace pages about a person that don't already have {{persondata}}
