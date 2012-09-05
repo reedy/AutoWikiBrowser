@@ -4423,7 +4423,12 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string FixPercent(string articleText)
         {
-        	 // hide items in quotes etc., though this may also hide items within infoboxes etc.
+
+        	//Don't fix space in all wikis. For instance sv:Procent requires a space inbetween
+        	if (!Variables.LangCode.Equals("en") && !Variables.LangCode.Equals("simple"))
+                return articleText;
+            
+	// hide items in quotes etc., though this may also hide items within infoboxes etc.
             articleText = HideMoreText(articleText);
             
             articleText = WikiRegexes.Percent.Replace(articleText, " $1%$3");
