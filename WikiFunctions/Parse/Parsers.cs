@@ -4373,6 +4373,8 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
+        private static readonly Regex TripleBraceNum = new Regex(@"{{{\d}}}", RegexOptions.Compiled);
+
         /// <summary>
         /// Returns whether the article text has a &lt;noinclude&gt; or &lt;includeonly&gt; or '{{{1}}}' etc. which should not appear on the mainspace
         /// </summary>
@@ -4380,7 +4382,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static bool NoIncludeIncludeOnlyProgrammingElement(string articleText)
         {
-            return WikiRegexes.Noinclude.IsMatch(articleText) || WikiRegexes.Includeonly.IsMatch(articleText) || Regex.IsMatch(articleText, @"{{{\d}}}");
+            return WikiRegexes.Noinclude.IsMatch(articleText) || WikiRegexes.Includeonly.IsMatch(articleText) || TripleBraceNum.IsMatch(articleText);
         }
 
         // Covered by: ImageTests.BasicImprovements(), incomplete
