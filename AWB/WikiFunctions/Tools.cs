@@ -1342,6 +1342,7 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("ĕ", "e"),
 			new KeyValuePair<string, string>("ŏ", "o"),
 			new KeyValuePair<string, string>("ẹ̀", "e"),
+			new KeyValuePair<string, string>("ự", "u"),
 			//per WP:SORTKEY "&" needs to change to "and"
 			new KeyValuePair<string, string>("&", "and"),
 		};

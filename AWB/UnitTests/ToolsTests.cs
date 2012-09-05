@@ -2099,7 +2099,7 @@ text", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual(@"oooooooooo", Tools.RemoveDiacritics(@"òỏøờồȱȯȭȫo"));
             Assert.AreEqual(@"eeee", Tools.RemoveDiacritics(@"ḕềĕẹ̀"));
             Assert.AreEqual(@"O", Tools.RemoveDiacritics(@"Ø"));
-            Assert.AreEqual(@"uuu y", Tools.RemoveDiacritics(@"ụủữ ỳ"));
+            Assert.AreEqual(@"uuuu y", Tools.RemoveDiacritics(@"ụủữự ỳ"));
             Assert.AreEqual(@"d p S", Tools.RemoveDiacritics(@"ḏ p̄ Ś̄"));
             Assert.AreEqual(@"2", Tools.RemoveDiacritics(@"²"));
             Assert.AreEqual(@"Ae", Tools.RemoveDiacritics(@"Ǣ"));
