@@ -2974,9 +2974,7 @@ Message: {2}
             string TemplateNamespace;
 
             if (!Variables.NamespacesCaseInsensitive.TryGetValue(Namespace.Template, out TemplateNamespace))
-            {
                 TemplateNamespace = "[Tt]emplate:";
-            }
 
             // allow whitespace before semicolon
             TemplateNamespace = Regex.Replace(TemplateNamespace, @":$", @"[\s_]*:");
@@ -2986,7 +2984,8 @@ Message: {2}
             foreach (string templatename in templatenames)
             {
                 string templatename2 = Regex.Escape(templatename.Trim().Replace('_', ' ')).Replace(@"\ ", @"[_ ]+");
-                theRegex.Append(CaseInsensitive(templatename2) + "|");
+                theRegex.Append(CaseInsensitive(templatename2));
+                theRegex.Append("|");
             }
 
             theRegex[theRegex.Length - 1] = ')';
