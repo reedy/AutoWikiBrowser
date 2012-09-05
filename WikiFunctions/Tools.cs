@@ -2981,7 +2981,7 @@ Message: {2}
             // allow whitespace before semicolon
             TemplateNamespace = Regex.Replace(TemplateNamespace, @":$", @"[\s_]*:");
 
-            StringBuilder theRegex = new StringBuilder(NestedTemplateRegexStart + @":?[\s_]*" + TemplateNamespace + @"[\s_]*" + @"\s*)?(");
+            StringBuilder theRegex = new StringBuilder(NestedTemplateRegexStart + @":?[\s_]*" + TemplateNamespace + @"[\s_]*\s*)?(");
 
             foreach (string templatename in templatenames)
             {
