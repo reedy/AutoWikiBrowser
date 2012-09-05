@@ -2254,7 +2254,7 @@ window.scrollTo(0, diffTopY);
 
         private void UpdateBotStatus()
         {
-            bool bot = true;
+            bool bot = TheSession.IsBot;
             chkAutoMode.Enabled = chkSuppressTag.Enabled = bot;
 
             lblOnlyBots.Visible = !bot;
