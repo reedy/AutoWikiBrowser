@@ -873,6 +873,7 @@ namespace WikiFunctions
 		#region boring chars
 		public static readonly KeyValuePair<string, string>[] Diacritics =
 		{
+			new KeyValuePair<string, string>("’", "'"),
 			//Latin
 			new KeyValuePair<string, string>("Á", "A"),
 			new KeyValuePair<string, string>("á", "a"),
