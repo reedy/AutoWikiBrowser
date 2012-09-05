@@ -3890,9 +3890,7 @@ window.scrollTo(0, diffTopY);
                 StatusLabelText = "Loading typos";
 
                 #if !DEBUG
-                string message = @"1. Check each edit before you make it. Although this has been built to be very accurate there will be errors.
-
-2. Optional: Select [[WP:AWB/T|Typo fixing]] as the edit summary. This lets everyone know where to bring issues with the typo correction.";
+                string message = @"Check each edit before you make it. Although this has been built to be very accurate there will be errors.";
 
                 if (RegexTypos == null)
                 {
