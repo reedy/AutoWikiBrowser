@@ -1310,7 +1310,7 @@ namespace WikiFunctions
                 AWBChangeArticleText("Fix main article", Parsers.FixMainArticle(ArticleText), true);
                 Variables.Profiler.Profile("FixMainArticle");
 
-                if (replaceReferenceTags)
+                if (replaceReferenceTags && !Variables.LangCode.Equals("de"))
                 {
                     AWBChangeArticleText("Fix reference tags", Parsers.FixReferenceListTags(ArticleText), true);
                     Variables.Profiler.Profile("FixReferenceListTags");
