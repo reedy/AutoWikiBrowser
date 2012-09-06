@@ -972,7 +972,7 @@ namespace WikiFunctions
                                                                                             "Infobox secretary-general", "Infobox senator-elect", "Infobox speaker", "Infobox state representative", "Infobox state SC associate justice", "Infobox state SC justice", "Infobox state senator",
                                                                                             "Infobox US associate justice", "Infobox US cabinet official", "Infobox US chief justice", "Infobox US territorial governor", "Infobox vice president", "Infobox US ambassador", "Infobox Eritrea cabinet official",
                                                                                             "Infobox sportsperson", "Infobox NFL player", "Infobox football biography", "Infobox football official", "Infobox golfer", "Infobox gridiron football person", "Infobox gymnast", "Infobox handball biography,",
-                                                                                            "Infobox ice hockey player", "Infobox motorcycle rider", "Infobox rugby biography", "Infobox rugby league biography", "Infobox Rugby Union biography", "Infobox rugby union biography" }, true);
+                                                                                            "Infobox ice hockey player", "Infobox motorcycle rider", "Infobox rugby biography", "Infobox rugby league biography", "Infobox Rugby Union biography", "Infobox rugby union biography" }, false);
 
         /// <summary>
         /// Matches the {{circa}} template
