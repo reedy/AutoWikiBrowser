@@ -1163,7 +1163,7 @@ namespace WikiFunctions.Lists.Providers
     }
 
     /// <summary>
-    /// Returns a list of "all pages"
+    /// Returns a list of "all pages" in a namespace
     /// </summary>
     public class AllPagesSpecialPageProvider : ApiListProviderBase, ISpecialPageProvider
     {
