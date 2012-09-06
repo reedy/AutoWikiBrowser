@@ -5117,6 +5117,8 @@ window.scrollTo(0, diffTopY);
 
             StringBuilder builder = new StringBuilder();
 
+            builder.AppendLine("Profiling " + iterations.ToString() + @" iterations of """ + TheArticle.Name + @"""");
+
             foreach (KeyValuePair<int, string> p in times) builder.AppendLine(p.ToString());
 
             Tools.WriteTextFile(builder, "typos.txt", false);
