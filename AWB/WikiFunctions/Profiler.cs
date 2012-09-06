@@ -48,8 +48,11 @@ namespace WikiFunctions
         public Profiler(string filename, bool append)
         {
             // done to make sure file path is writeable – each time logging used new streamwriter opened & closed to prevent file locking for entire AWB session
-            log = new StreamWriter(filename, append, Encoding.Unicode);
-            log.Close();
+            using (log = new StreamWriter(filename, append, Encoding.Unicode))
+            {
+                log.Close();
+            }
+
             FileName = filename;
             Append = append;
         }
@@ -92,10 +95,11 @@ namespace WikiFunctions
 
             ProfilerMutex.WaitOne();
 
-            log = new StreamWriter(FileName, Append, Encoding.Unicode);
-            log.WriteLine(s);
-            log.Close();
-
+            using (log = new StreamWriter(FileName, Append, Encoding.Unicode))
+            {
+                log.WriteLine(s);
+                log.Close();
+            }
             ProfilerMutex.ReleaseMutex();
         }
 
@@ -106,9 +110,11 @@ namespace WikiFunctions
         {
             ProfilerMutex.WaitOne();
 
-            log = new StreamWriter(FileName, Append, Encoding.Unicode);
-            log.Flush();
-            log.Close();
+            using (log = new StreamWriter(FileName, Append, Encoding.Unicode))
+            {
+                log.Flush();
+                log.Close();
+            }
 
             ProfilerMutex.ReleaseMutex();
         }
