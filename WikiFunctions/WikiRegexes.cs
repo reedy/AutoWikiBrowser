@@ -372,11 +372,6 @@ namespace WikiFunctions
         /// </summary>
         public static readonly Regex UnPipedWikiLink = new Regex(@"\[\[([^\|\n]*?)\]\]", RegexOptions.Compiled);
 
-        ///// <summary>
-        ///// Matches link targets with encoded anchors
-        ///// </summary>
-        //public static readonly Regex AnchorEncodedLink = new Regex(@"#.*(_|\.[0-9A-Z]{2}).*", RegexOptions.Compiled);
-
         /// <summary>
         /// Matches {{DEFAULTSORT}}, "key" group being the sortkey
         /// </summary>
