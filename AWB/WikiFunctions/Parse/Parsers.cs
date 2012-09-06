@@ -1045,11 +1045,11 @@ namespace WikiFunctions.Parse
 
         private const string InlineCitationCleanupTemplatesRp = @"(?:Author incomplete|Author missing|Citation broken|Citation not found|Clarifyref|Clarifyref2|Date missing|Episode|ISBN missing|Page needed|Publisher missing|Season needed|Time needed|Title incomplete|Title missing|Volume needed|Year missing|rp)";
         private const string OutofOrderRefs = @"(<ref\s+name\s*=\s*(?:""|')?([^<>""=]+?)(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>)(\s*{{\s*" + InlineCitationCleanupTemplatesRp + @"\s*\|[^{}]+}})?(\s*)(<ref\s+name\s*=\s*(?:""|')?([^<>""=]+?)(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>)(\s*{{\s*" + InlineCitationCleanupTemplatesRp + @"\s*\|[^{}]+}})?";
-        private static readonly Regex OutofOrderRefs1 = new Regex(@"(<ref>[^<>]+</ref>)(\s*)(<ref\s+name\s*=\s*(?:""|')?([^<>""=]+?)(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>)(\s*{{\s*" + InlineCitationCleanupTemplatesRp + @"\s*\|[^{}]+}})?", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
-        private static readonly Regex OutofOrderRefs2 = new Regex(OutofOrderRefs, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        private static readonly Regex OutofOrderRefs1 = new Regex(@"(<ref>[^<>]+</ref>)(\s*)(<ref\s+name\s*=\s*(?:""|')?([^<>""=]+?)(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>)(\s*{{\s*" + InlineCitationCleanupTemplatesRp + @"\s*\|[^{}]+}})?", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        private static readonly Regex OutofOrderRefs2 = new Regex(OutofOrderRefs, RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         // regex below ensures a forced match on second and third of consecutive references
-        private static readonly Regex OutofOrderRefs3 = new Regex(@"(?<=\s*(?:\/\s*|>[^<>]+</ref)>\s*(?:{{\s*" + InlineCitationCleanupTemplatesRp + @"\s*\|[^{}]+}})?)" + OutofOrderRefs, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        private static readonly Regex OutofOrderRefs3 = new Regex(@"(?<=\s*(?:\/\s*|>[^<>]+</ref)>\s*(?:{{\s*" + InlineCitationCleanupTemplatesRp + @"\s*\|[^{}]+}})?)" + OutofOrderRefs, RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
         /// Reorders references so that they appear in numerical order, allows for use of {{rp}}, doesn't modify grouped references [[WP:REFGROUP]]
