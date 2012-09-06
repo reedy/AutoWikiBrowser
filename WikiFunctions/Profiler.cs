@@ -69,7 +69,7 @@ namespace WikiFunctions
         {
             AddLog("--------------------------------------");
             Watch = Stopwatch.StartNew();
-            AddLog("Started profiling: " + message);
+            AddLog("Started profiling: " + message + " at " + System.DateTime.Now);
         }
 
         /// <summary>
