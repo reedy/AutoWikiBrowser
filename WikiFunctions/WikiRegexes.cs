@@ -386,7 +386,7 @@ namespace WikiFunctions
         /// List of Magic words from [[Category:Pages_which_use_a_template_in_place_of_a_magic_word]]
         /// </summary>
         public static readonly Regex MagicWordTemplates = Tools.NestedTemplateRegex(new[] { "BASEPAGENAME", "DEFAULTSORT", "DISPLAYTITLE", "Displaytitle", "FULLPAGENAME", "Fullpagename", "Namespace",
-                                                                                    	"Numberofarticles", "PAGENAME", "PAGESIZE", "PROTECTIONLEVEL", "Pagename", "SUBPAGENAME", "Subpagename", "padleft" }, true);
+                                                                                    	"Numberofarticles", "PAGENAME", "PAGESIZE", "PROTECTIONLEVEL", "Pagename", "SUBPAGENAME", "Subpagename", "padleft" }, false);
         /// <summary>
         /// Matches headings of all levels, group 1 being the heading name
         /// </summary>
@@ -786,7 +786,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the various citation templates {{citation}}, {{cite web}} etc. on en-wiki
         /// </summary>
-        public static readonly Regex CiteTemplate = Tools.NestedTemplateRegex(new [] { "cite web", "citeweb", "cite news", "cite journal", "cite book", "citebook", "citation", "cite press release", "cite paper", "cite hansard", "cite encyclopedia" }, true);
+        public static readonly Regex CiteTemplate = Tools.NestedTemplateRegex(new [] { "cite web", "citeweb", "cite news", "cite journal", "cite book", "citebook", "citation", "cite press release", "cite paper", "cite hansard", "cite encyclopedia" }, false);
         
         /// <summary>
         /// Matches the various Harvard citation templates on en-wiki
