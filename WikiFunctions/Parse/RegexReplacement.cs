@@ -34,8 +34,10 @@ namespace WikiFunctions.Parse
         {
         }
 
+        // Making a compiled regex by default will only improve overall performance if regex will be used thousands 
+        // of times, otherwise instantiation penalty is much greater than any performance gain in use
         public RegexReplacement(string pattern, string replacement)
-            : this(pattern, RegexOptions.Compiled, replacement)
+            : this(pattern, RegexOptions.None, replacement)
         {
         }
 
