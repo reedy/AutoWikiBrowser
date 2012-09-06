@@ -2107,6 +2107,8 @@ text", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual(@"ae", Tools.RemoveDiacritics(@"ǣ"));
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Not_replacing_.26_with_.22and.22_in_sort_values
             Assert.AreEqual(@"and", Tools.RemoveDiacritics(@"&"), "per SORTKEY");
+            Assert.AreEqual(@"Ai-Ais", Tools.RemoveDiacritics(@"ǀAi-ǀAis"), "removes weird character");
+            Assert.AreEqual(@"Ai-Ais Richtersveld Transfrontier Park", Tools.RemoveDiacritics(@"ǀAi-ǀAis/Richtersveld Transfrontier Park"), "removes weird character");
         }
 
         [Test]
