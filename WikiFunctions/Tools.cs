@@ -1019,6 +1019,7 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("Ū", "U"),
 			new KeyValuePair<string, string>("ū", "u"),
 			new KeyValuePair<string, string>("Ȳ", "Y"),
+			new KeyValuePair<string, string>("ỵ", "y"),
 			new KeyValuePair<string, string>("ȳ", "y"),
 			new KeyValuePair<string, string>("Ǣ", "Ae"),
 			new KeyValuePair<string, string>("ǣ", "ae"),
