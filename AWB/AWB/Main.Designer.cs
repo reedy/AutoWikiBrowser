@@ -3782,12 +3782,12 @@ namespace AutoWikiBrowser
             this.lblSummary.AutoEllipsis = true;
             this.lblSummary.AutoSize = true;
             this.lblSummary.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSummary.Location = new System.Drawing.Point(52, 9);
-            this.lblSummary.MaximumSize = new System.Drawing.Size(220, 13);
-            this.lblSummary.MinimumSize = new System.Drawing.Size(220, 13);
+            this.lblSummary.Location = new System.Drawing.Point(83, 9);
+            this.lblSummary.MaximumSize = new System.Drawing.Size(189, 13);
+            this.lblSummary.MinimumSize = new System.Drawing.Size(189, 13);
             this.lblSummary.Name = "lblSummary";
             this.ToolTip.SetToolTip(this.lblSummary, "The Default Edit Summary to use as the start of the generated edit summary");
-            this.lblSummary.Size = new System.Drawing.Size(220, 13);
+            this.lblSummary.Size = new System.Drawing.Size(189, 13);
             this.lblSummary.TabIndex = 13;
             this.lblSummary.UseMnemonic = false;
             this.lblSummary.Visible = false;
