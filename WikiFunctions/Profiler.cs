@@ -38,7 +38,7 @@ namespace WikiFunctions
         private string FileName = "";
         private bool Append = true;
 
-        private Mutex mutex = new Mutex();
+        private static readonly Mutex ProfilerMutex = new Mutex();
 
         /// <summary>
         /// Creates a profiler object
@@ -90,13 +90,13 @@ namespace WikiFunctions
         {
             if (log == null) return;
 
-            mutex.WaitOne();
+            ProfilerMutex.WaitOne();
 
             log = new StreamWriter(FileName, Append, Encoding.Unicode);
             log.WriteLine(s);
             log.Close();
 
-            mutex.ReleaseMutex();
+            ProfilerMutex.ReleaseMutex();
         }
 
         /// <summary>
@@ -104,13 +104,13 @@ namespace WikiFunctions
         /// </summary>
         public void Flush()
         {
-            mutex.WaitOne();
+            ProfilerMutex.WaitOne();
 
             log = new StreamWriter(FileName, Append, Encoding.Unicode);
             log.Flush();
             log.Close();
 
-            mutex.ReleaseMutex();
+            ProfilerMutex.ReleaseMutex();
         }
 #else
         /* unfortunately it seems that code within [Conditional] blocks still gets analysed by the compiler; having the class level
