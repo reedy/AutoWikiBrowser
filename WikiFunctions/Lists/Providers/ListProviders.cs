@@ -1205,7 +1205,7 @@ namespace WikiFunctions.Lists.Providers
         }
 
         public override string UserInputTextBoxText
-        { get { return "All Pages"; } }
+        { get { return DisplayText; } }
 
         public virtual bool PagesNeeded
         { get { return false; } }
@@ -1217,7 +1217,7 @@ namespace WikiFunctions.Lists.Providers
         public override void Selected() { }
 
         public override string DisplayText
-        { get { return UserInputTextBoxText; } }
+        { get { return "All Pages"; } }
 
         public virtual bool NamespacesEnabled
         { get { return true; } }
