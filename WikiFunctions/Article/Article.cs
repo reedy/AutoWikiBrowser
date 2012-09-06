@@ -906,7 +906,7 @@ namespace WikiFunctions
                 strTemp = Parsers.FixLivingThingsRelatedDates(strTemp);
                 strTemp = Parsers.FixHeadings(strTemp, Name, out noChange);
 
-                if (mArticleText == strTemp && skipIfNoChange)
+                if (skipIfNoChange && mArticleText.Equals(strTemp))
                 {
                     Trace.AWBSkipped("No header errors");
                 }
