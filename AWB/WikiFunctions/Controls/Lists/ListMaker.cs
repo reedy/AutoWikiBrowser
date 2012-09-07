@@ -943,22 +943,17 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public void FilterNonMainArticles()
         {
-            //filter out non-mainspace articles
             if (InvokeRequired)
             {
                 Invoke(new GenericDelegate(FilterNonMainArticles));
                 return;
             }
 
-            int i = 0;
-
             lbArticles.BeginUpdate();
-            while (i < lbArticles.Items.Count)
+            for (int i = 0; i < lbArticles.Items.Count; i++)
             {
                 if(!Namespace.IsMainSpace(lbArticles.Items[i].ToString()))
                     lbArticles.Items.RemoveAt(i);
-                else
-                    i++;
             }
             lbArticles.EndUpdate();
             UpdateNumberOfArticles();
