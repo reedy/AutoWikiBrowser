@@ -460,7 +460,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches unformatted text regions: nowiki, pre, math, html comments, timelines
         /// </summary>
-        public static readonly Regex UnformattedText = new Regex(@"<nowiki>.*?</\s*nowiki>|<pre\b.*?>.*?</\s*pre>|<math\b.*?>.*?</\s*math>|<!--.*?-->|<timeline\b.*?>.*?</\s*timeline>", RegexOptions.Singleline | RegexOptions.Compiled);
+        public static readonly Regex UnformattedText = new Regex(@"<nowiki>.*?</\s*nowiki>|<(pre|math|timeline)\b.*?>.*?</\s*\1>|<!--.*?-->", RegexOptions.Singleline | RegexOptions.Compiled);
 
         /// <summary>
         /// Matches &lt;blockquote> tags
