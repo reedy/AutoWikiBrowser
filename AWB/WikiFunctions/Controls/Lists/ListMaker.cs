@@ -955,11 +955,9 @@ namespace WikiFunctions.Controls.Lists
             lbArticles.BeginUpdate();
             while (i < lbArticles.Items.Count)
             {
-                string s = lbArticles.Items[i].ToString();
-
-                if (!Namespace.IsMainSpace(s))
-                    lbArticles.Items.Remove(lbArticles.Items[i]);
-                else //move on
+                if(!Namespace.IsMainSpace(lbArticles.Items[i].ToString()))
+                    lbArticles.Items.RemoveAt(i);
+                else
                     i++;
             }
             lbArticles.EndUpdate();
