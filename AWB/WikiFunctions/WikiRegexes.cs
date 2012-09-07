@@ -1129,7 +1129,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the 'See also' level 2 heading
         /// </summary>
-        public static readonly Regex SeeAlso = new Regex(@"(\s*(==+)\s*see\s+also\s*\2)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        public static readonly Regex SeeAlso = new Regex(@"(\s*(==+)\s*see\s+also\s*\2)", RegexOptions.IgnoreCase);
         
         /// <summary>
         /// Matches parameters within the {{multiple issues}} template using title case (invalid casing)
