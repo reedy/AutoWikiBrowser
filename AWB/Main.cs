@@ -5093,7 +5093,7 @@ window.scrollTo(0, diffTopY);
                 return;
             }
 
-            if (MessageBox.Show("Test typo rules for performance (this may take considerable time)?",
+            if (MessageBox.Show("Test typo rules for performance (this takes up to 5 minutes)?",
                                 "Test typos", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
                 return;
 
