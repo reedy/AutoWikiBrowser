@@ -268,17 +268,8 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixHeadings(string articleText, string articleTitle)
         {
-            // remove any <br> from headings
-            // TODO replace with a MatchEvaluator
-            foreach (Match m in WikiRegexes.Headings.Matches(articleText))
-            {
-                string hBefore = m.Value;
-                string hAfter = WikiRegexes.Br.Replace(hBefore, "");
-                hAfter = WikiRegexes.Big.Replace(hAfter, "$1");
 
-                if (!hBefore.Equals(hAfter))
-                    articleText = articleText.Replace(hBefore, hAfter);
-            }
+            articleText = WikiRegexes.Headings.Replace(articleText, FixHeadingsRemoveBrBigME);
 
             articleText = Regex.Replace(articleText, "^={1,4} ?" + Regex.Escape(articleTitle) + " ?={1,4}", "", RegexOptions.IgnoreCase);
 
@@ -367,6 +358,17 @@ namespace WikiFunctions.Parse
                 articleText = HeadingsWhitespaceBefore.Replace(articleText, "\r\n\r\n$1");
 
             return articleText;
+        }
+
+        /// <summary>
+        /// removes &lt;br&gt; and &lt;big&gt; tags from headings
+        /// </summary>
+        private static string FixHeadingsRemoveBrBigME(Match m)
+        {
+            string hAfter = WikiRegexes.Br.Replace(m.Value, "");
+            hAfter = WikiRegexes.Big.Replace(hAfter, "$1");
+
+            return hAfter;
         }
 
         private const int MinCleanupTagsToCombine = 3; // article must have at least this many tags to combine to {{multiple issues}}
