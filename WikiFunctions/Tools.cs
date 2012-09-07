@@ -2421,12 +2421,10 @@ Message: {2}
 		/// <returns>The index of the argument</returns>
 		public static int GetTemplateArgumentIndex(string templateCall, int argument)
 		{
-			Regex arg = new Regex(@"\|\s*(.*?)\s*(?=\||}}$)", RegexOptions.Singleline);
-
 			string pipecleanedtemplate = PipeCleanedTemplate(templateCall);
 			int count = 1;
 
-			foreach (Match m in arg.Matches(pipecleanedtemplate))
+			foreach (Match m in TemplateArgument.Matches(pipecleanedtemplate))
 			{
 				if (count.Equals(argument))
 					return m.Index+1;
@@ -2437,7 +2435,7 @@ Message: {2}
 			return -1;
 		}
 
-		private static readonly Regex TemplateArgument = new Regex(@"\|\s*(.*?)\s*(?=\||}}$)", RegexOptions.Singleline);
+		private static readonly Regex TemplateArgument = new Regex(@"\|\s*([^{}\|]*?)\s*(?=\||}}$)", RegexOptions.Compiled);
 
 	    /// <summary>
 	    /// Returns the number of arguments to the input template call
