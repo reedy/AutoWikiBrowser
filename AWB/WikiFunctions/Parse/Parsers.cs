@@ -2755,26 +2755,19 @@ namespace WikiFunctions.Parse
         {
             if (Variables.LangCode.Equals("en") && articleText.Contains(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}"))
             {
-                foreach (Match m in WikiRegexes.Refs.Matches(articleText))
-                {
-                    if (m.Value.Contains(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}"))
-                        articleText = articleText.Replace(m.Value, m.Value.Replace(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}", System.DateTime.UtcNow.ToString("MMMM yyyy", BritishEnglish)));
-                }
+                articleText = WikiRegexes.Refs.Replace(articleText, FixSyntaxSubstRefTagsME);
 
-                foreach (Match m in WikiRegexes.Images.Matches(articleText))
-                {
-                    if (m.Value.Contains(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}"))
-                        articleText = articleText.Replace(m.Value, m.Value.Replace(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}", System.DateTime.UtcNow.ToString("MMMM yyyy", BritishEnglish)));
-                }
+                articleText = WikiRegexes.Images.Replace(articleText, FixSyntaxSubstRefTagsME);
 
-                 foreach (Match m in WikiRegexes.GalleryTag.Matches(articleText))
-                {
-                    if (m.Value.Contains(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}"))
-                        articleText = articleText.Replace(m.Value, m.Value.Replace(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}", System.DateTime.UtcNow.ToString("MMMM yyyy", BritishEnglish)));
-                }
+                articleText = WikiRegexes.GalleryTag.Replace(articleText, FixSyntaxSubstRefTagsME);
             }
 
             return articleText;
+        }
+        
+        private static string FixSyntaxSubstRefTagsME(Match m)
+        {
+            return m.Value.Replace(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}", System.DateTime.UtcNow.ToString("MMMM yyyy", BritishEnglish));
         }
 
         /// <summary>
