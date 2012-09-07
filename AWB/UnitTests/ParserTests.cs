@@ -4793,6 +4793,13 @@ Some news here.", "test"), "space trimmed from end of paragraph when br replaces
 == hello world2: ==
 ", "a"));
 
+            Assert.AreEqual(@"== hello world ==
+
+== hello world2 ==
+", Parsers.FixHeadings(@"== hello world: == 
+== hello world2: ==
+", "a"), "fixes colon in heading when excess whitespace after heading end");
+
             // no change if colon within heading text
             Assert.AreEqual(@"== hello:world ==
 ", Parsers.FixHeadings(@"== hello:world ==

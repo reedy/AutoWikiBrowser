@@ -269,6 +269,7 @@ namespace WikiFunctions.Parse
         public static string FixHeadings(string articleText, string articleTitle)
         {
             // remove any <br> from headings
+            // TODO replace with a MatchEvaluator
             foreach (Match m in WikiRegexes.Headings.Matches(articleText))
             {
                 string hBefore = m.Value;
@@ -280,6 +281,9 @@ namespace WikiFunctions.Parse
             }
 
             articleText = Regex.Replace(articleText, "^={1,4} ?" + Regex.Escape(articleTitle) + " ?={1,4}", "", RegexOptions.IgnoreCase);
+
+            articleText = RegexHeadingWhitespaceBefore.Replace(articleText, "$1$2$1$3");
+            articleText = RegexHeadingWhitespaceAfter.Replace(articleText, "$1$2$1$3");
 
             articleText = RegexHeadingsBold.Replace(articleText, "$1$2$3$4");
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Headlines_end_with_colon_.28WikiProject_Check_Wikipedia_.2357.29
@@ -325,9 +329,6 @@ namespace WikiFunctions.Parse
             articleText = RegexHeadings9.Replace(articleText, "$1Track listing$2");
             articleText = RegexHeadings10.Replace(articleText, "$1Life and career$2");
             articleText = RegexHeadingsCareer.Replace(articleText, "$1$2 career$3");
-
-            articleText = RegexHeadingWhitespaceBefore.Replace(articleText, "$1$2$1$3");
-            articleText = RegexHeadingWhitespaceAfter.Replace(articleText, "$1$2$1$3");
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Section_header_level_.28WikiProject_Check_Wikipedia_.237.29
             // if no level 2 heading in article, remove a level from all headings (i.e. '===blah===' to '==blah==' etc.)
