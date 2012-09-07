@@ -2483,8 +2483,7 @@ window.scrollTo(0, diffTopY);
                 int wordCount = Tools.WordCount(articleText);
                 int catCount = WikiRegexes.Category.Matches(articleText).Count;
 
-                if (TheArticle.NameSpaceKey == Namespace.Article && WikiRegexes.Stub.IsMatch(articleText) &&
-                    wordCount > 500)
+                if (TheArticle.NameSpaceKey == Namespace.Article  && wordCount > 500 && WikiRegexes.Stub.IsMatch(articleText))
                     lbAlerts.Items.Add("Long article with a stub tag.");
 
                 if (catCount == 0 && !Namespace.IsTalk(TheArticle.Name))

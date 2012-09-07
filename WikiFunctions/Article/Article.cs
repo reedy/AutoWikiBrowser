@@ -594,6 +594,8 @@ namespace WikiFunctions
             return Dupes;
         }
 
+        private static List<string> WikiProjectBannerShellKnowns = new List<string>(new[] { "blp", "blpo", "activepol", "collapsed", "banner collapsed", "1" });
+
         /// <summary>
         /// Returns a list of any unknown parameters in any WikiProjectBannerShell template
         /// </summary>
@@ -601,21 +603,13 @@ namespace WikiFunctions
         public List<string> UnknownWikiProjectBannerShellParameters()
         {
             List<string> Unknowns = new List<string>();
-            List<string> Knowns = new List<string>(new[] { "blp", "blpo", "activepol", "collapsed", "banner collapsed", "1" });
 
             if (NameSpaceKey.Equals(Namespace.Talk))
-                Unknowns = Tools.UnknownTemplateParameters(WikiRegexes.WikiProjectBannerShellTemplate.Match(ArticleText).Value, Knowns);
+                Unknowns = Tools.UnknownTemplateParameters(WikiRegexes.WikiProjectBannerShellTemplate.Match(ArticleText).Value, WikiProjectBannerShellKnowns);
             return Unknowns;
         }
 
-        /// <summary>
-        /// Returns a list of any unknown parameters in any Multiple issues template
-        /// </summary>
-        /// <returns>List of unknown parameters</returns>
-        public List<string> UnknownMultipleIssuesParameters()
-        {
-            List<string> Unknowns = new List<string>();
-            List<string> Knowns = new List<string>(new[] { "abbreviations", "advert", "autobiography", "biased", "blpdispute", "BLP IMDB refimprove", "BLP IMDB-only refimprove", "BLP IMDb-only refimprove", "BLPrefimprove", "BLP sources", "BLPsources", "BLPunreferenced", "BLPunref", "BLPunsourced", "BLP unsourced", "citations missing", "citationstyle", "citation style",  "citation-style",
+        private static List<string> MultipleIssuesKnowns = new List<string>(new[] { "abbreviations", "advert", "autobiography", "biased", "blpdispute", "BLP IMDB refimprove", "BLP IMDB-only refimprove", "BLP IMDb-only refimprove", "BLPrefimprove", "BLP sources", "BLPsources", "BLPunreferenced", "BLPunref", "BLPunsourced", "BLP unsourced", "citations missing", "citationstyle", "citation style",  "citation-style",
 			                                       	"citecheck", "cite check", "cleanup", "cleanup-link rot", "COI", "coi", "colloquial", "confusing", "context", "contradict",
 			                                       	"copyedit", "copy edit", "criticisms", "crystal", "date", "deadend", "dead end", "disputed", "do-attempt", "essay", "essay-like", "examplefarm", "expert", "external links", "expand",
 			                                       	"fancruft", "fanpov", "fansite", "fiction", "gameguide", "globalize", "grammar", "histinfo", "hoax", "howto", "inappropriate person", "incomplete", "intro length", "intromissing",
@@ -626,9 +620,17 @@ namespace WikiFunctions
 			                                       	"spam", "story", "synthesis", "inappropriate tone", "technical", "tone", "travelguide", "tooshort", "toolong", "trivia", "unbalanced", "unencyclopedic", "unref", "unreferenced",
 			                                       	"unrefBLP", "unreferencedBLP", "update", "verylong", "weasel", "wikify", "cleanup-laundry", "over detailed", "cleanup-spam", "cleanup-reorganize", "POV-check", "criticism section", "very long", "example farm", "cleanup-rewrite", "quote farm", "over-quotation", "news release", "unreliable", "unreliable sources",
 			                                       	"linkrot", "no footnotes", "abbreviations", "overly detailed", "NOT"});
+        
+        /// <summary>
+        /// Returns a list of any unknown parameters in any Multiple issues template
+        /// </summary>
+        /// <returns>List of unknown parameters</returns>
+        public List<string> UnknownMultipleIssuesParameters()
+        {
+            List<string> Unknowns = new List<string>();
 
             if (NameSpaceKey.Equals(Namespace.Mainspace))
-                Unknowns = Tools.UnknownTemplateParameters(WikiRegexes.MultipleIssues.Match(ArticleText).Value, Knowns);
+                Unknowns = Tools.UnknownTemplateParameters(WikiRegexes.MultipleIssues.Match(ArticleText).Value, MultipleIssuesKnowns);
             return Unknowns;
         }
 
