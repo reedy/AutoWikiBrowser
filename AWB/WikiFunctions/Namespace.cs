@@ -78,6 +78,7 @@ namespace WikiFunctions
 
         
         private static readonly Regex SpacingModifierLetters = new Regex(@"\p{IsSpacingModifierLetters}", RegexOptions.Compiled);
+        private static readonly Regex ColonSpace = new Regex(@"\s*:\s*", RegexOptions.Compiled);
         
         // Covered by: NamespaceTests.Determine
         /// <summary>
@@ -85,14 +86,16 @@ namespace WikiFunctions
         /// </summary>
         public static int Determine(string articleTitle)
         {
-            articleTitle = Tools.TurnFirstToUpper(Regex.Replace(articleTitle, @"\s*:\s*", ":"));
+            articleTitle = ColonSpace.Replace(articleTitle, ":");
             
             /* if there is a spacing modifying character at the start of the articletitle it will mean the article full name will never contain "Namespace:"
              * as the colon and modifier will combine to some other Unicode character, so remove any such modifier characters to allow correct derivation */
-            articleTitle = SpacingModifierLetters.Replace(Tools.WikiDecode(articleTitle), @"'");            
+            articleTitle = SpacingModifierLetters.Replace(Tools.WikiDecode(articleTitle), @"'");
             
             if (!articleTitle.Contains(":"))
                 return 0;
+
+            articleTitle = Tools.TurnFirstToUpper(articleTitle);
 
             foreach (KeyValuePair<int, string> k in Variables.Namespaces)
             {
