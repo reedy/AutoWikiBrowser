@@ -1344,11 +1344,12 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("ŏ", "o"),
 			new KeyValuePair<string, string>("ẹ̀", "e"),
 			new KeyValuePair<string, string>("ự", "u"),
+			new KeyValuePair<string, string>("x̌", "x"),
 			//per WP:SORTKEY "&" needs to change to "and"
 			new KeyValuePair<string, string>("&", "and"),
 			//remove weird "ǀ" character
 			new KeyValuePair<string, string>("ǀ", ""),
-			//per WP:SRTKEY replace / with space
+			//per WP:SORTKEY replace / with space
 			new KeyValuePair<string, string>("/", " "),
 		};
 		#endregion
