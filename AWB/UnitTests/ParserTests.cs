@@ -8174,6 +8174,24 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
         }
 
         [Test]
+        public void ConversionTestsBLPPrimarySources()
+        {
+            string correct = @"Foo
+{{BLP primary sources}}
+[[Category:Living people]]", nochange = @"Foo
+{{primary sources}}";
+
+            Assert.AreEqual(correct, Parsers.Conversions(nochange + "\r\n" + @"[[Category:Living people]]"));
+            Assert.AreEqual(correct, Parsers.Conversions(@"Foo
+{{primary sources}}" + "\r\n" + @"[[Category:Living people]]"));
+
+            Assert.AreEqual(correct, Parsers.Conversions(correct));
+
+            Assert.AreEqual(nochange, Parsers.Conversions(nochange));
+        }
+
+
+        [Test]
         public void ConversionTestsInterwikiMigration()
         {
             Assert.AreEqual(@"{{hello}}", Parsers.Conversions(@"{{msg:hello}}"));
