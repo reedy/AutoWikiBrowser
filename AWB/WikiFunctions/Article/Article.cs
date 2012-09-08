@@ -1302,9 +1302,6 @@ namespace WikiFunctions
 
                 if (!noMOSComplianceFixes)
                 {
-                    AWBChangeArticleText("Fix percent space", parsers.FixPercent(ArticleText), true);
-                    Variables.Profiler.Profile("FixPercent");
-
                     AWBChangeArticleText("Fix non-breaking spaces", parsers.FixNonBreakingSpaces(ArticleText), true);
                     Variables.Profiler.Profile("FixNonBreakingSpaces");
                 }

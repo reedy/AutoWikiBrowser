@@ -4414,28 +4414,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Removes space or non-breaking space from percent per [[WP:PERCENT]].
-        /// Avoid doing this for more spaces to prevent false positives.
-        /// </summary>
-        /// <param name="articleText">The wiki text of the article.</param>
-        /// <returns>The modified article text.</returns>
-        public string FixPercent(string articleText)
-        {
-
-        	//Don't fix space in all wikis. For instance sv:Procent requires a space inbetween
-        	if (!Variables.LangCode.Equals("en") && !Variables.LangCode.Equals("simple"))
-                return articleText;
-            
-	// hide items in quotes etc., though this may also hide items within infoboxes etc.
-            articleText = HideMoreText(articleText);
-            
-            articleText = WikiRegexes.Percent.Replace(articleText, " $1%$3");
-            
-            return AddBackMoreText(articleText);
-        }
-
-        	/// <summary>
-        /// Apply non-breaking spaces for abbreviated SI units
+        /// Apply non-breaking spaces for abbreviated SI units, imperial units, pp for pages. Remove incorrect space before % symbol
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
@@ -4453,7 +4432,11 @@ namespace WikiFunctions.Parse
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Pagination
             // add non-breaking space after pp. abbreviation for pages.
-            articleText = Regex.Replace(articleText, @"(\b[Pp]?p\.) *(?=[\dIVXCL][^S])", @"$1&nbsp;");
+            articleText = Regex.Replace(articleText, @"(\b[Pp]?p\.) *(?=[\dIVXCL][^S])", @"$1&nbsp;");          
+
+            // Don't fix space in all wikis. For instance sv:Procent requires a space inbetween
+            if (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple"))
+                articleText = WikiRegexes.Percent.Replace(articleText, " $1%$3");
 
             return AddBackMoreText(articleText);
         }
