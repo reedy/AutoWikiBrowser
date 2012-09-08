@@ -1149,7 +1149,8 @@ namespace WikiFunctions
         /// <summary>
         /// Matches 12-hour clock time without a space
         /// </summary>
-        public static readonly Regex ClockTime = new Regex(@"(\b[012]?\d\:\b[012345]\d)([a|p].m.)", RegexOptions.Compiled);
+        public static readonly Regex ClockTimeWithZero = new Regex(@"0(\d\:\b[012345]\d)([a|p].m.)", RegexOptions.Compiled);
+        public static readonly Regex ClockTime = new Regex(@"(\b[1]?\d\:\b[012345]\d)([a|p].m.)", RegexOptions.Compiled);
 
         /// <summary>
         /// List of known infobox fields holding date of birth

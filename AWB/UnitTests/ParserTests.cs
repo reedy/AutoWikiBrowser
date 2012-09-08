@@ -4556,10 +4556,10 @@ http://example.com }}");
         {
         	Assert.AreEqual(@"2:35&nbsp;a.m.", parser.FixNonBreakingSpaces(@"2:35a.m."));
             Assert.AreEqual(@"12:35&nbsp;a.m.", parser.FixNonBreakingSpaces(@"12:35a.m."));
-            Assert.AreEqual(@"02:35&nbsp;a.m.", parser.FixNonBreakingSpaces(@"02:35a.m."), "starts with zero");
+            Assert.AreEqual(@"2:35&nbsp;a.m.", parser.FixNonBreakingSpaces(@"02:35a.m."), "starts with zero");
         	Assert.AreEqual(@"2:35&nbsp;p.m.", parser.FixNonBreakingSpaces(@"2:35p.m."));
             Assert.AreEqual(@"12:35&nbsp;p.m.", parser.FixNonBreakingSpaces(@"12:35p.m."));
-            Assert.AreEqual(@"02:35&nbsp;p.m.", parser.FixNonBreakingSpaces(@"02:35p.m."), "starts with zero");
+            Assert.AreEqual(@"2:35&nbsp;p.m.", parser.FixNonBreakingSpaces(@"02:35p.m."), "starts with zero");
             Assert.AreEqual(@"2:75a.m.", parser.FixNonBreakingSpaces(@"2:75a.m."), "invalid minutes number");
             Assert.AreEqual(@"36:15a.m.", parser.FixNonBreakingSpaces(@"36:15a.m."), "invalid hours number");
             Assert.AreEqual(@"16:15c.m.", parser.FixNonBreakingSpaces(@"16:15c.m."), "invalid suffix");

@@ -4434,10 +4434,13 @@ namespace WikiFunctions.Parse
             // add non-breaking space after pp. abbreviation for pages.
             articleText = Regex.Replace(articleText, @"(\b[Pp]?p\.) *(?=[\dIVXCL][^S])", @"$1&nbsp;");          
 
-            // Add non-breaking space to 12-hour clock times [[WP:TIME]].
+            // Add non-breaking space to 12-hour clock times [[MOS:TIME]].
             // It works only for dotted lower-case a.m. or p.m.
             if (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple"))
+            {
+                articleText = WikiRegexes.ClockTimeWithZero.Replace(articleText, "$1&nbsp;$2");
                 articleText = WikiRegexes.ClockTime.Replace(articleText, "$1&nbsp;$2");
+            }
 
             // Removes space or non-breaking space from percent per [[WP:PERCENT]].
             // Avoid doing this for more spaces to prevent false positives.
