@@ -920,6 +920,7 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("ĝ", "g"),
 			new KeyValuePair<string, string>("Ĥ", "H"),
 			new KeyValuePair<string, string>("ĥ", "h"),
+			new KeyValuePair<string, string>("ḫ", "h"),
 			new KeyValuePair<string, string>("Î", "I"),
 			new KeyValuePair<string, string>("î", "i"),
 			new KeyValuePair<string, string>("Ĵ", "J"),
