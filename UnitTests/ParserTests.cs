@@ -4523,31 +4523,31 @@ http://example.com }}");
         [Test]
         public void TestFixPercent()
         {
-            Assert.AreEqual(@"a 15% ", parser.FixPercent(@"a 15 % "), "remove space");
-            Assert.AreEqual(@"a 15% ", parser.FixPercent(@"a 15&nbsp;% "), "remove non breaking space");
-            Assert.AreEqual(@"a 15%.", parser.FixPercent(@"a 15 %."), "remove space and maintain point");
-            Assert.AreEqual(@"a 15%.", parser.FixPercent(@"a 15&nbsp;%."), "remove non breaking space and maintain point");
-            Assert.AreEqual(@"a 15%,", parser.FixPercent(@"a 15 %,"), "remove space and maintain comma");
-            Assert.AreEqual(@"a 15%,", parser.FixPercent(@"a 15&nbsp;%,"), "remove non breaking space  and maintain comma");
-            Assert.AreEqual(@"a 15%!", parser.FixPercent(@"a 15 %!"), "remove space and maintain mark");
-            Assert.AreEqual(@"a 15%!", parser.FixPercent(@"a 15&nbsp;%!"), "remove non breaking space  and maintain mark");
-            Assert.AreEqual(@"a 15  %", parser.FixPercent(@"a 15  %"), "no changes");
-            Assert.AreEqual(@"5a21 %", parser.FixPercent(@"5a21 %"), "no changes");
-            Assert.AreEqual(@"a15 %", parser.FixPercent(@"a15 %"), "no changes");
-            Assert.AreEqual(@"a 15 %a", parser.FixPercent(@"a 15 %a"), "no changes (character)");
-            Assert.AreEqual(@"a 15 %2", parser.FixPercent(@"a 15 %2"), "no changes (character)");
-            Assert.AreEqual(@"a 15.2% ", parser.FixPercent(@"a 15.2 % "), "catch decimal numbers");
-            Assert.AreEqual(@"a 15.a2 % ", parser.FixPercent(@"a 15.a2 % "), "avoid weird things");
+            Assert.AreEqual(@"a 15% ", parser.FixNonBreakingSpaces(@"a 15 % "), "remove space");
+            Assert.AreEqual(@"a 15% ", parser.FixNonBreakingSpaces(@"a 15&nbsp;% "), "remove non breaking space");
+            Assert.AreEqual(@"a 15%.", parser.FixNonBreakingSpaces(@"a 15 %."), "remove space and maintain point");
+            Assert.AreEqual(@"a 15%.", parser.FixNonBreakingSpaces(@"a 15&nbsp;%."), "remove non breaking space and maintain point");
+            Assert.AreEqual(@"a 15%,", parser.FixNonBreakingSpaces(@"a 15 %,"), "remove space and maintain comma");
+            Assert.AreEqual(@"a 15%,", parser.FixNonBreakingSpaces(@"a 15&nbsp;%,"), "remove non breaking space  and maintain comma");
+            Assert.AreEqual(@"a 15%!", parser.FixNonBreakingSpaces(@"a 15 %!"), "remove space and maintain mark");
+            Assert.AreEqual(@"a 15%!", parser.FixNonBreakingSpaces(@"a 15&nbsp;%!"), "remove non breaking space  and maintain mark");
+            Assert.AreEqual(@"a 15  %", parser.FixNonBreakingSpaces(@"a 15  %"), "no changes");
+            Assert.AreEqual(@"5a21 %", parser.FixNonBreakingSpaces(@"5a21 %"), "no changes");
+            Assert.AreEqual(@"a15 %", parser.FixNonBreakingSpaces(@"a15 %"), "no changes");
+            Assert.AreEqual(@"a 15 %a", parser.FixNonBreakingSpaces(@"a 15 %a"), "no changes (character)");
+            Assert.AreEqual(@"a 15 %2", parser.FixNonBreakingSpaces(@"a 15 %2"), "no changes (character)");
+            Assert.AreEqual(@"a 15.2% ", parser.FixNonBreakingSpaces(@"a 15.2 % "), "catch decimal numbers");
+            Assert.AreEqual(@"a 15.a2 % ", parser.FixNonBreakingSpaces(@"a 15.a2 % "), "avoid weird things");
 
 #if DEBUG
             Variables.SetProjectLangCode("sv");
-            Assert.AreEqual(@"a 15 % ", parser.FixPercent(@"a 15 % "), "Don't remove space in svwiki per sv:Procent");
+            Assert.AreEqual(@"a 15 % ", parser.FixNonBreakingSpaces(@"a 15 % "), "Don't remove space in svwiki per sv:Procent");
 
             Variables.SetProjectLangCode("simple");
-            Assert.AreEqual(@"a 15% ", parser.FixPercent(@"a 15 % "), "Remove space in simple");
+            Assert.AreEqual(@"a 15% ", parser.FixNonBreakingSpaces(@"a 15 % "), "Remove space in simple");
 
             Variables.SetProjectLangCode("en");
-            Assert.AreEqual(@"a 15% ", parser.FixPercent(@"a 15 % "), "remove space");
+            Assert.AreEqual(@"a 15% ", parser.FixNonBreakingSpaces(@"a 15 % "), "remove space");
 #endif
         }
         
