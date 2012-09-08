@@ -2505,32 +2505,32 @@ window.scrollTo(0, diffTopY);
 
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Format_references
                 if (TheArticle.HasBareReferences)
-                    lbAlerts.Items.Add("Unformatted references found");
+                    lbAlerts.Items.Add("Unformatted references");
 
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Detect_multiple_DEFAULTSORT
                 if (WikiRegexes.Defaultsort.Matches(txtEdit.Text).Count > 1)
-                    lbAlerts.Items.Add("Multiple DEFAULTSORTs found");
+                    lbAlerts.Items.Add("Multiple DEFAULTSORTs");
 
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Some_additional_edits
                 deadLinks = TheArticle.DeadLinks();
                 if (deadLinks.Count > 0)
-                    lbAlerts.Items.Add("Dead links found" + " (" + deadLinks.Count + ")");
+                    lbAlerts.Items.Add("Dead links" + " (" + deadLinks.Count + ")");
 
                 ambigCiteDates = TheArticle.AmbiguousCiteTemplateDates();
                 if (ambigCiteDates.Count > 0)
-                    lbAlerts.Items.Add("Ambiguous citation dates found" + " (" + ambigCiteDates.Count + ")");
+                    lbAlerts.Items.Add("Ambiguous citation dates" + " (" + ambigCiteDates.Count + ")");
 
                 unbalancedBracket = TheArticle.UnbalancedBrackets();
                 if (unbalancedBracket.Count > 0)
-                    lbAlerts.Items.Add("Unbalanced brackets found" + " (" + unbalancedBracket.Count + ")");
+                    lbAlerts.Items.Add("Unbalanced brackets" + " (" + unbalancedBracket.Count + ")");
 
                 badCiteParameters = TheArticle.BadCiteParameters();
                 if (badCiteParameters.Count > 0)
-                    lbAlerts.Items.Add("Invalid citation parameter(s) found" + " (" + badCiteParameters.Count + ")");
+                    lbAlerts.Items.Add("Invalid citation parameter(s)" + " (" + badCiteParameters.Count + ")");
 
                 dupeBanerShellParameters = TheArticle.DuplicateWikiProjectBannerShellParameters();
                 if (dupeBanerShellParameters.Count > 0)
-                    lbAlerts.Items.Add("Duplicate parameter(s) found in WPBannerShell" + " (" + dupeBanerShellParameters.Count + ")");
+                    lbAlerts.Items.Add("Duplicate parameter(s) in WPBannerShell" + " (" + dupeBanerShellParameters.Count + ")");
 
                 UnknownWikiProjectBannerShellParameters = TheArticle.UnknownWikiProjectBannerShellParameters();
                 if (UnknownWikiProjectBannerShellParameters.Count > 0)
@@ -2552,14 +2552,14 @@ window.scrollTo(0, diffTopY);
 
                 unclosedTags = TheArticle.UnclosedTags();
                 if (unclosedTags.Count > 0)
-                    lbAlerts.Items.Add("Unclosed tag(s) found" + " (" + unclosedTags.Count + ")");
+                    lbAlerts.Items.Add("Unclosed tag(s)" + " (" + unclosedTags.Count + ")");
 
                 if (TheArticle.HasSeeAlsoAfterNotesReferencesOrExternalLinks)
                     lbAlerts.Items.Add("See also section out of place");
 
                 // check for {{sic}} tags etc. when doing typo fixes
                 if (chkRegExTypo.Checked && TheArticle.HasSicTag)
-                    lbAlerts.Items.Add(@"Page contains 'sic' tag/template");
+                    lbAlerts.Items.Add(@"Contains 'sic' tag/template");
 
                 lblWords.Text = Words + wordCount;
                 lblCats.Text = Cats + catCount;
