@@ -4434,6 +4434,8 @@ namespace WikiFunctions.Parse
             // add non-breaking space after pp. abbreviation for pages.
             articleText = Regex.Replace(articleText, @"(\b[Pp]?p\.) *(?=[\dIVXCL][^S])", @"$1&nbsp;");          
 
+            // Removes space or non-breaking space from percent per [[WP:PERCENT]].
+            // Avoid doing this for more spaces to prevent false positives.
             // Don't fix space in all wikis. For instance sv:Procent requires a space inbetween
             if (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple"))
                 articleText = WikiRegexes.Percent.Replace(articleText, " $1%$3");
