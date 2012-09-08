@@ -5982,6 +5982,10 @@ namespace WikiFunctions.Parse
             if (Variables.IsWikipediaEN && Tools.NestedTemplateRegex("unreferenced section").IsMatch(articleText) && articleText.Contains(@"[[Category:Living people"))
                 articleText = Tools.RenameTemplate(articleText, "unreferenced section", "BLP unsourced section", false);
 
+            // {{primary sources}} --> {{BLP primary sources}} if article has [[Category:Living people]]
+            if (Variables.IsWikipediaEN && Tools.NestedTemplateRegex("primary sources").IsMatch(articleText) && articleText.Contains(@"[[Category:Living people"))
+                articleText = Tools.RenameTemplate(articleText, "primary sources", "BLP primary sources", false);
+
             articleText = MergePortals(articleText);
 
             articleText = MergeTemplatesBySection(articleText);
