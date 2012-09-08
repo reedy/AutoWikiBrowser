@@ -1147,6 +1147,11 @@ namespace WikiFunctions
         public static readonly Regex Percent = new Regex(@"\s(\d+.?\d*)(\s|\&nbsp;)\%(\p{P}|\s)", RegexOptions.Compiled);
 
         /// <summary>
+        /// Matches 12-hour clock time without a space
+        /// </summary>
+        public static readonly Regex ClockTime = new Regex(@"(\b[012]?\d\:\b[012345]\d)([a|p].m.)", RegexOptions.Compiled);
+
+        /// <summary>
         /// List of known infobox fields holding date of birth
         /// </summary>
         public static readonly List<string> InfoBoxDOBFields = new List<string>(new [] {"yearofbirth", "dateofbirth", "date of birth", "datebirth", "born", "birth date", "birthdate", "birth_date", "birth"});
