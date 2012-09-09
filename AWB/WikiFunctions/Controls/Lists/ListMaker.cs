@@ -949,11 +949,15 @@ namespace WikiFunctions.Controls.Lists
                 return;
             }
 
+            int i = 0;
+
             lbArticles.BeginUpdate();
-            for (int i = 0; i < lbArticles.Items.Count; i++)
+            while (i < lbArticles.Items.Count)
             {
-                if(!Namespace.IsMainSpace(lbArticles.Items[i].ToString()))
-                    lbArticles.Items.RemoveAt(i);
+                if (!Namespace.IsMainSpace(lbArticles.Items[i].ToString()))
+                    lbArticles.Items.Remove(lbArticles.Items[i]);
+                else
+                    i++;
             }
             lbArticles.EndUpdate();
             UpdateNumberOfArticles();

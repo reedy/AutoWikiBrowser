@@ -1299,19 +1299,50 @@ __TOC__", articleTextIn);
         public void RemoveListDuplicates10K()
         {
             const int big = 10000;
-            ListMaker LMaker10K = new ListMaker();
-            LMaker10K.Clear();
+            ListMaker LMakerLarge = new ListMaker();
+            LMakerLarge.Clear();
             for(int i=1; i<big; i++)
-                LMaker10K.Add(new Article(i.ToString()));
+                LMakerLarge.Add(new Article(i.ToString()));
             
-            LMaker10K.Add(new Article("1"));
+            LMakerLarge.Add(new Article("1"));
             
-            Assert.AreEqual(LMaker10K.Count, big);
+            Assert.AreEqual(LMakerLarge.Count, big);
             
-            LMaker10K.RemoveListDuplicates();
+            LMakerLarge.RemoveListDuplicates();
             
-            Assert.AreEqual(LMaker10K.Count, big-1, "Duplicate removed");
-            Assert.IsTrue(LMaker10K.Contains(new Article("1")), "First instance of article retained");
+            Assert.AreEqual(LMakerLarge.Count, big-1, "Duplicate removed");
+            Assert.IsTrue(LMakerLarge.Contains(new Article("1")), "First instance of article retained");
+        }
+
+        [Test]
+        public void FilterNonMainArticlesVolume()
+        {
+            const int big = 500;
+            ListMaker LMakerLarge = new ListMaker();
+            LMakerLarge.Clear();
+            for(int i=1; i<big; i++)
+                LMakerLarge.Add(i.ToString());
+
+            LMakerLarge.Add("Talk:Me");
+
+            LMakerLarge.FilterNonMainArticles();
+            Assert.AreEqual(LMakerLarge.Count, big-1, "Non-mainspace article removed");
+        }
+
+        [Test]
+        public void FilterNonMainArticles()
+        {
+            ListMaker LMaker = new ListMaker();
+            LMaker.Add("One");
+            LMaker.Add("Two");
+            LMaker.Add("Talk:Three");
+            LMaker.Add("Four");
+            LMaker.Add("Talk:Five");
+            LMaker.Add("Talk:Five2");
+            LMaker.Add("Six");
+
+            LMaker.FilterNonMainArticles();
+            Assert.AreEqual(4, LMaker.NumberOfArticles);
         }
     }
     
