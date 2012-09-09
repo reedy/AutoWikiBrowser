@@ -501,6 +501,7 @@ There [was.");
             Assert.AreEqual(Namespace.User, Namespace.Determine("User:"));
 
             Assert.AreEqual(Namespace.Talk, Namespace.Determine("Talk:foo"));
+            Assert.AreEqual(Namespace.Talk, Namespace.Determine("Talk%3Afoo"), "Handles URL encoded colon");
             Assert.AreEqual(Namespace.UserTalk, Namespace.Determine("User talk:bar"));
 
             Assert.AreEqual(Namespace.File, Namespace.Determine("File:foo"));
@@ -516,6 +517,9 @@ There [was.");
         public void DetermineDeviations()
         {
             Assert.AreEqual(Namespace.File, Namespace.Determine("File : foo"));
+            Assert.AreEqual(Namespace.File, Namespace.Determine("File :foo"));
+            Assert.AreEqual(Namespace.File, Namespace.Determine("File: foo"));
+            Assert.AreEqual(Namespace.File, Namespace.Determine("File :  foo"));
             Assert.AreEqual(Namespace.User, Namespace.Determine("user:foo"));
             Assert.AreEqual(Namespace.UserTalk, Namespace.Determine("user_talk:foo"));
             Assert.AreEqual(Namespace.UserTalk, Namespace.Determine("user%20talk:foo"));
