@@ -409,6 +409,8 @@ Image:quux.JPEG|text
             AssertHidden("<source>foo</source>");
             AssertHidden(@"<source  lang=""foo_bar"">\nfoo\n</source>");
             AssertAllHidden("<source>\r\nfoo\r\n</source><source foo>bar</source>");
+            AssertHidden(@"<syntaxhighlight  lang=""foo_bar"">\nfoo\n</syntaxhighlight>");
+            AssertAllHidden("<syntaxhighlight>\r\nfoo\r\n</source><source foo>bar</syntaxhighlight>");
 
             AssertHidden("<pre>foo\r\nbar</pre>");
             AssertHidden("<pre style=quux>foo\r\nbar</pre>");

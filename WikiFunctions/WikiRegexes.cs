@@ -562,9 +562,9 @@ namespace WikiFunctions
         public static readonly Regex RegexWordApostrophes = new Regex(@"\w+(?:['’]\w+)?", RegexOptions.Compiled);
 
         /// <summary>
-        /// Matches &lt;source&gt;&lt;/source&gt; tags
+        /// Matches &lt;source&gt;&lt;/source&gt;, &lt;syntaxhighlight&gt; tags
         /// </summary>
-        public static readonly Regex Source = new Regex(@"<\s*source(?:\s.*?|)>(.*?)<\s*/\s*source\s*>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        public static readonly Regex Source = new Regex(@"<\s*(?<tag>source|syntaxhighlight)(?:\s.*?|)>(.*?)<\s*/\s*\k<tag>\s*>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
         /// Matches &lt;code&gt;&lt;/code&gt; tags
@@ -572,7 +572,7 @@ namespace WikiFunctions
         public static readonly Regex Code = new Regex(@"<\s*code\s*>(.*?)<\s*/\s*code\s*>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
-        /// Matches math, pre, source, code tags or comments
+        /// Matches math, pre, source, code, syntaxhighlight tags or comments
         /// </summary>
         public static readonly Regex MathPreSourceCodeComments = new Regex(@"<pre>.*?</pre>|<!--.*?-->|<math>.*?</math>|" + Code + @"|" + Source, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
