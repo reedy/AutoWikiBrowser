@@ -38,7 +38,7 @@ namespace WikiFunctions
         private string FileName = "";
         private bool Append = true;
 
-        private static readonly Mutex ProfilerMutex = new Mutex();
+        private static readonly Semaphore ProfilerSemaphore = new Semaphore(1, 1, "AWBProfilerSemaphore");
 
         /// <summary>
         /// Creates a profiler object
@@ -93,14 +93,14 @@ namespace WikiFunctions
         {
             if (log == null) return;
 
-            ProfilerMutex.WaitOne();
+            ProfilerSemaphore.WaitOne();
 
             using (log = new StreamWriter(FileName, Append, Encoding.Unicode))
             {
                 log.WriteLine(s);
                 log.Close();
             }
-            ProfilerMutex.ReleaseMutex();
+            ProfilerSemaphore.Release();
         }
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace WikiFunctions
         /// </summary>
         public void Flush()
         {
-            ProfilerMutex.WaitOne();
+            ProfilerSemaphore.WaitOne();
 
             using (log = new StreamWriter(FileName, Append, Encoding.Unicode))
             {
@@ -116,7 +116,7 @@ namespace WikiFunctions
                 log.Close();
             }
 
-            ProfilerMutex.ReleaseMutex();
+            ProfilerSemaphore.Release();
         }
 #else
         /* unfortunately it seems that code within [Conditional] blocks still gets analysed by the compiler; having the class level
