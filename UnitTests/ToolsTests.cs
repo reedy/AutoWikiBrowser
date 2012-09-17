@@ -2107,7 +2107,7 @@ text", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual(@"2", Tools.RemoveDiacritics(@"²"),"2");
             Assert.AreEqual(@"Ae", Tools.RemoveDiacritics(@"Ǣ"));
             Assert.AreEqual(@"ae", Tools.RemoveDiacritics(@"ǣ"));
-            Assert.AreEqual(@"AaBbCcDdEeFfGgHhIiMmNnOoPpRrSsTtWwXxYyZz", Tools.RemoveDiacritics(@"ȦȧḂḃĊċḊḋĖėḞḟĠġḢḣİıṀṁṄṅȮȯṖṗṘṙṠṡṪṫẆẇẊẋẎẏŻż"),"letters with dob above sign");
+            Assert.AreEqual(@"AaBbCcDdEeFfGgHhIiMmNnOoPpRrSsTtWwXxYyZz", Tools.RemoveDiacritics(@"ȦȧḂḃĊċḊḋĖėḞḟĠġḢḣİıṀṁṄṅȮȯṖṗṘṙṠṡṪṫẆẇẊẋẎẏŻż"),"letters with dot above sign");
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Not_replacing_.26_with_.22and.22_in_sort_values
             Assert.AreEqual(@"and", Tools.RemoveDiacritics(@"&"), "per SORTKEY");
             Assert.AreEqual(@"Ai-Ais", Tools.RemoveDiacritics(@"ǀAi-ǀAis"), "removes weird character");
