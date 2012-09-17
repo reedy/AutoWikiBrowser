@@ -106,6 +106,16 @@ namespace WikiFunctions.API
         }
 
         /// <summary>
+        /// Returns whether the user can create the page baesd on group/edit rights
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public bool CanCreatePage(PageInfo page)
+        {
+            return (IsInGroup(page.CreateProtection) || HasRight(page.CreateProtection));
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="page"></param>
