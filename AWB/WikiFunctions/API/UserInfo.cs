@@ -106,7 +106,7 @@ namespace WikiFunctions.API
         }
 
         /// <summary>
-        /// Returns whether the user can create the page baesd on group/edit rights
+        /// Returns whether the user can create the page based on group/edit rights
         /// </summary>
         /// <param name="page"></param>
         /// <returns></returns>
