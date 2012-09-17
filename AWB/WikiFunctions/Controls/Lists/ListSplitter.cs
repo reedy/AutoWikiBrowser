@@ -132,7 +132,7 @@ namespace WikiFunctions.Controls.Lists
                     for (int i = 1; i <= noGroups; i++)
                     {
                         StringBuilder strList = new StringBuilder();
-                        foreach (Article a in articles.GetRange(baseIndex, Math.Min(splitValue, articles.Count)))
+                        foreach (Article a in articles.GetRange(baseIndex, Math.Min(articles.Count-baseIndex, Math.Min(splitValue, articles.Count))))
                         {
                             strList.AppendLine(a.ToString());
                         }
