@@ -2091,22 +2091,23 @@ text", Tools.NestedTemplateRegex("foo"), true));
             }
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Leaving_foreign_characters_in_DEFAULTSORT
-            Assert.AreEqual(@"aaaaaa", Tools.RemoveDiacritics(@"ầắạảằẩ"));
-            Assert.AreEqual(@"ccccc", Tools.RemoveDiacritics(@"ḉćĉçċ"));
-            Assert.AreEqual(@"eeeee", Tools.RemoveDiacritics(@"ḕềĕẹ̀ĕ"));
-            Assert.AreEqual(@"hh", Tools.RemoveDiacritics(@"ĥḫ"));
-            Assert.AreEqual(@"iiiii", Tools.RemoveDiacritics(@"ịỉíįí"));
-            Assert.AreEqual(@"I", Tools.RemoveDiacritics(@"İ"));
-            Assert.AreEqual(@"ooooooooooo", Tools.RemoveDiacritics(@"òỏøờồȱȯȭȫoỗ"));
+            Assert.AreEqual(@"aaaaaa", Tools.RemoveDiacritics(@"ầắạảằẩ"),"a");
+            Assert.AreEqual(@"ccccc", Tools.RemoveDiacritics(@"ḉćĉçċ"),"c");
+            Assert.AreEqual(@"eeee", Tools.RemoveDiacritics(@"ḕềẹĕ"),"e");
+            Assert.AreEqual(@"hh", Tools.RemoveDiacritics(@"ĥḫ"),"h");
+            Assert.AreEqual(@"iiiii", Tools.RemoveDiacritics(@"ịỉíįí"),"i");
+            Assert.AreEqual(@"I", Tools.RemoveDiacritics(@"İ"),"I");
+            Assert.AreEqual(@"ooooooooooo", Tools.RemoveDiacritics(@"òỏøờồȱȯȭȫoỗ"),"o");
             Assert.AreEqual(@"O", Tools.RemoveDiacritics(@"Ø"));
-            Assert.AreEqual(@"s", Tools.RemoveDiacritics(@"š"));
-            Assert.AreEqual(@"uuuu", Tools.RemoveDiacritics(@"ụủữự"));
-            Assert.AreEqual(@"x", Tools.RemoveDiacritics(@"x̌"));
-            Assert.AreEqual(@"yy", Tools.RemoveDiacritics(@"ỳỵ"));
-            Assert.AreEqual(@"d p S", Tools.RemoveDiacritics(@"ḏ p̄ Ś̄"));
-            Assert.AreEqual(@"2", Tools.RemoveDiacritics(@"²"));
+            Assert.AreEqual(@"s", Tools.RemoveDiacritics(@"š"),"s");
+            Assert.AreEqual(@"uuuu", Tools.RemoveDiacritics(@"ụủữự"),"u");
+            Assert.AreEqual(@"x", Tools.RemoveDiacritics(@"x̌"),"x");
+            Assert.AreEqual(@"yy", Tools.RemoveDiacritics(@"ỳỵ"),"y");
+            Assert.AreEqual(@"d p S", Tools.RemoveDiacritics(@"ḏ p̄ Ś̄"),"Random");
+            Assert.AreEqual(@"2", Tools.RemoveDiacritics(@"²"),"2");
             Assert.AreEqual(@"Ae", Tools.RemoveDiacritics(@"Ǣ"));
             Assert.AreEqual(@"ae", Tools.RemoveDiacritics(@"ǣ"));
+            Assert.AreEqual(@"AaBbCcDdEeFfGgHhIiMmNnOoPpRrSsTtWwXxYyZz", Tools.RemoveDiacritics(@"ȦȧḂḃĊċḊḋĖėḞḟĠġḢḣİıṀṁṄṅȮȯṖṗṘṙṠṡṪṫẆẇẊẋẎẏŻż"),"letters with dob above sign");
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Not_replacing_.26_with_.22and.22_in_sort_values
             Assert.AreEqual(@"and", Tools.RemoveDiacritics(@"&"), "per SORTKEY");
             Assert.AreEqual(@"Ai-Ais", Tools.RemoveDiacritics(@"ǀAi-ǀAis"), "removes weird character");
