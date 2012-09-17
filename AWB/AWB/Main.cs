@@ -1158,6 +1158,12 @@ namespace AutoWikiBrowser
                 return true;
             }
 
+            if(!TheSession.User.CanCreatePage(TheSession.Page))
+            {
+                SkipPage("Page is protected from creation");
+                return true;
+            }
+
             if (_containsComparer == null)
                 MakeSkipChecks();
 

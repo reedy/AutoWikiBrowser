@@ -116,6 +116,9 @@ namespace WikiFunctions.API
                         case "move":
                             MoveProtection = xn.Attributes["level"].Value;
                             break;
+                        case "create":
+                            CreateProtection = xn.Attributes["level"].Value;
+                            break;
                     }
                 }
             }
@@ -197,6 +200,12 @@ namespace WikiFunctions.API
         /// String of any move protection applied to the page
         /// </summary>
         public string MoveProtection
+        { get; private set; }
+        
+        /// <summary>
+        /// String of any create protection applied to the page
+        /// </summary>
+        public string CreateProtection
         { get; private set; }
 
         /// <summary>
