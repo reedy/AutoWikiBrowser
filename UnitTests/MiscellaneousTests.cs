@@ -1273,6 +1273,7 @@ __TOC__", articleTextIn);
             Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"   Foo"), "cleans spacing from Firefox Category paste");
             
             Assert.AreEqual(@"Foo", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/index.php?title=Foo&pe=1&#Date_on"));
+            Assert.AreEqual(@"Foo", LMaker.NormalizeTitle(@"Foo‎"),"title has left-to-right mark ath the end");
         }
         
         [Test]
