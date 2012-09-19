@@ -967,6 +967,25 @@ he}}"));
         }
 
         [Test]
+        public void LinkFGAsTurkish()
+        {
+            #if DEBUG
+            Variables.SetProjectLangCode("tr");
+            WikiRegexes.MakeLangSpecificRegexes();
+
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link SM|foo}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link FA|foo}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link FL|foo}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link SL|foo}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link KM|foo}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link GA|foo}}"));
+
+            Variables.SetProjectLangCode("en");
+            WikiRegexes.MakeLangSpecificRegexes();
+            #endif
+        }
+
+        [Test]
         public void LinkFGAsVietnamese()
         {
             #if DEBUG
