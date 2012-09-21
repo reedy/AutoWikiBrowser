@@ -1013,7 +1013,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex DOBRegex =
             new Regex(
-                @"('''(?:[^']+|.*?[^'])'''\s*\()b\.(\s+\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
+                @"('''(?:[^']+|.*?[^'])'''\s*\()(?:b\.|born:+)(\s+\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
                 WikiRegexes.MonthsNoGroup + @")?\]*\s*\[*[1-2]?\d{3}\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private static readonly Regex DOBRegexDash =
