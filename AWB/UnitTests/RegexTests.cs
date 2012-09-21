@@ -730,6 +730,7 @@ foo
             RegexAssert.Matches(WikiRegexes.PossibleInterwikis, "foo[[en:bar]]", "[[en:bar]]");
             RegexAssert.Matches(WikiRegexes.PossibleInterwikis, "[[en:bar]][[ru:", "[[en:bar]]");
             RegexAssert.Matches(WikiRegexes.PossibleInterwikis, "foo[[en:bar:quux]][[ru:boz test]]", "[[en:bar:quux]]", "[[ru:boz test]]");
+            RegexAssert.Matches(WikiRegexes.PossibleInterwikis, "foo[[en::bar]]", "[[en::bar]]");
 
             RegexAssert.NoMatch(WikiRegexes.PossibleInterwikis, "[[:en:foo]]");
             RegexAssert.NoMatch(WikiRegexes.PossibleInterwikis, "[[:foo]]");
