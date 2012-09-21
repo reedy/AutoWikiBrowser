@@ -952,6 +952,16 @@ second comment <!-- [[it:CN]] -->";
 			b = a.Replace("::", ":");
 
 			Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a), "double colon in interwiki removed");
+			
+			a = @"[[de:Canadian National Railway]]
+[[es:Canadian National]]
+[[es:canadian National]]
+[[fr:Canadien National]]";
+			b = @"[[de:Canadian National Railway]]
+[[es:Canadian National]]
+[[fr:Canadien National]]";
+
+			Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a), "duplicate interwiki removed, variation in first letter casing only");
 		}
 		
 		[Test]
