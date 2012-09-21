@@ -2954,9 +2954,10 @@ namespace WikiFunctions.Parse
                     // {foo}}
                     articleTextTemp = TemplateMissingOpeningBrace.Replace(articleTextTemp, "{{");
 
+                    string unbalancedStartBrackets = articleTextTemp.Substring(unbalancedBracket, Math.Min(4, articleTextTemp.Length - unbalancedBracket));
+                    string unbalancedEndBrackets = articleTextTemp.Substring(Math.Max(0, unbalancedBracket - 2), Math.Min(4, articleTextTemp.Length - unbalancedBracket+2));
                     // might be [[[[link]] or [[link]]]] so see if removing the two found square brackets makes it all balance
-                    if (articleTextTemp.Substring(unbalancedBracket, Math.Min(4, articleTextTemp.Length - unbalancedBracket)) == "[[[["
-                        || articleTextTemp.Substring(Math.Max(0, unbalancedBracket - 2), Math.Min(4, articleTextTemp.Length - unbalancedBracket)) == "]]]]")
+                    if (unbalancedStartBrackets.Equals("[[[[") || unbalancedEndBrackets.Equals("]]]]"))
                     {
                         articleTextTemp = articleTextTemp.Remove(unbalancedBracket, 2);
                     }
