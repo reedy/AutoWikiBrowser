@@ -3777,6 +3777,8 @@ Image:X.JPG|Japanese classification systemJapanese classification systemJapanese
 </gallery>";
 
             Assert.AreEqual(NoFix1, Parsers.FixSyntax(NoFix1));
+            
+            Assert.AreEqual(@"[[Foo]]", Parsers.FixSyntax(@"[ [Foo]]"), "fixes link spacing");
         }
 
         [Test]
