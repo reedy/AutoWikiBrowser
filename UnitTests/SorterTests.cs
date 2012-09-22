@@ -962,6 +962,26 @@ second comment <!-- [[it:CN]] -->";
 [[fr:Canadien National]]";
 
 			Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a), "duplicate interwiki removed, variation in first letter casing only");
+
+			a = @"[[de:Canadian National Railway]]
+[[es:Canadian National]]
+[[es:Canadian National]]<!-- comm-->
+[[fr:Canadien National]]";
+			b = @"[[de:Canadian National Railway]]
+[[es:Canadian National]]
+[[fr:Canadien National]]";
+
+			Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a), "duplicate interwiki removed, inline comment second");
+
+			a = @"[[de:Canadian National Railway]]
+[[es:Canadian National]]<!-- comm-->
+[[es:Canadian National]]
+[[fr:Canadien National]]";
+			b = @"[[de:Canadian National Railway]]
+[[es:Canadian National]]<!-- comm-->
+[[fr:Canadien National]]";
+
+			Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a), "duplicate interwiki removed, inline comment first");
 		}
 		
 		[Test]
