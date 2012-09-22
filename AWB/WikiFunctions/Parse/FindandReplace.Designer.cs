@@ -387,7 +387,6 @@ namespace WikiFunctions.Parse
             this.toolTip1.SetToolTip(this.chkIgnoreLinks, "Find and replacements will not be made in external/interwiki links, images, <nowi" +
                     "ki>. <math> and <!-- comments -->");
             this.chkIgnoreLinks.UseVisualStyleBackColor = true;
-            this.chkIgnoreLinks.CheckedChanged += new System.EventHandler(this.chkIgnoreLinks_CheckedChanged);
             // 
             // chkAddToSummary
             // 
