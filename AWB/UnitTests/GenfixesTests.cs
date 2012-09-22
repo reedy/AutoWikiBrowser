@@ -227,10 +227,15 @@ a");
 [[Category:Blues rock groups]]
 
 
-{{Norway-band-stub}}", after = @"{{Multiple issues|unreferenced = December 2009|orphan = November 2006|advert = December 2007}}
-
-
+{{Norway-band-stub}}", after = @"{{multiple issues|
+{{Unreferenced|date=December 2009}}
+{{Orphan|date=November 2006}}
 {{Notability|1=Music|date=September 2010}}
+{{Advert|date=December 2007}}
+}}
+
+
+
 
 '''Band''' is.
 
