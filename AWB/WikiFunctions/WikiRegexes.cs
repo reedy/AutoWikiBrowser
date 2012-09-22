@@ -457,7 +457,7 @@ namespace WikiFunctions
         public static readonly Regex ExternalLinks = new Regex(@"(https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://(?:[\w\._\-~!/\*""'\(\):;@&=+$,\\\?%#\[\]]+?(?=}})|[\w\._\-~!/\*""'\(\):;@&=+$,\\\?%#\[\]]*)|\[(https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://.*?\]", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
-        /// Matches links that may be interwikis, i.e. containing colon, group 1 being the wiki language, group 2 being the link target
+        /// Matches links that may be interwikis, i.e. containing colon, group 1 being the wiki language, group 2 being the link target, group 3 any comment after the link
         /// </summary>
         public static readonly Regex PossibleInterwikis = new Regex(@"\[\[\s*([-a-z]{2,12})(?<!File|Image|Media)\s*:+\s*([^\]]*?)\s*\]\]( *<!--.*?-->)?", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Singleline);
 

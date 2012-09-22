@@ -933,6 +933,9 @@ en, sq, ru
 		private List<string> RemoveInterWikis(ref string articleText)
 		{
 			List<string> interWikiList = new List<string>();
+			
+			// interwikis without any inline comments
+			List<string> interWikiListLinksOnly = new List<string>();
 			MatchCollection matches = WikiRegexes.PossibleInterwikis.Matches(articleText);
 			if (matches.Count == 0)
 				return interWikiList;
@@ -956,16 +959,20 @@ en, sq, ru
 				
 				if(unformattedText.Contains(m.Value))
 				{
-					//unformattedText = unformattedText.Replace(m.Value, "");
 					Tools.ReplaceOnce(ref unformattedText, m.Value, "");
 					continue;
 				}
 				
 				goodMatches.Add(m);
 				
+				string IW = "[[" + site + ":" + Tools.TurnFirstToUpper(m.Groups[2].Value.Trim()) + "]]";
+				
 				// drop interwikis to own wiki, but not on commons where language = en and en interwikis go to wikipedia
-				if(!(m.Groups[1].Value.Equals(Variables.LangCode) && !Variables.IsWikimediaMonolingualProject))
-				    interWikiList.Add("[[" + site + ":" + Tools.TurnFirstToUpper(m.Groups[2].Value.Trim()) + "]]" + m.Groups[3].Value);
+				if(!(m.Groups[1].Value.Equals(Variables.LangCode) && !Variables.IsWikimediaMonolingualProject) && !interWikiListLinksOnly.Contains(IW))
+				{
+				    interWikiListLinksOnly.Add(IW);
+				    interWikiList.Add(IW + m.Groups[3].Value);
+				}
 			}
 
 			articleText = Tools.RemoveMatches(articleText, goodMatches);
