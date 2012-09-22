@@ -930,6 +930,16 @@ namespace WikiFunctions
         public static readonly Regex MultipleIssuesTemplates = new Regex(@"{{" + MultipleIssuesTemplatesString + @"\s*(?:(?:\|\s*for\s*=\s*grammar\s*)?\|\s*([^{}\|]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}\|]*?)?))?\s*}}");
 
         /// <summary>
+        /// Matches the cleanup templates that can be moved into the {{multiple issues}} article-level template
+        /// </summary>
+        public static readonly Regex MultipleIssuesArticleMaintenanceTemplates = Tools.NestedTemplateRegex(new [] { "Abbreviations", "Advert", "All plot", "Alumni", "Autobiography", "BLP IMDb refimprove", "BLP primary sources", "BLP sources", "BLP unsourced", "Buzzword", "Citation style", "Citations broken", "Cite check", "Cleanup", "Cleanup red links", "Cleanup-biography", "Cleanup-laundry", "Cleanup-link rot", "Cleanup-list", "Cleanup-reorganize", "Cleanup-rewrite", "Cleanup-school", "Cleanup-spam", "Cleanup-tense", "COI", "Colloquial", "Condense", "Confusing", "Context", "Contradict", "Contradict-other", "Copy edit", "Criticism section", "Crystal", "Dead end", "Disputed", "Editorial", "Essay", "Essay-like", "Example farm", "Expand article", "Expert-subject", "External links", "Fanpov", "Fiction", "Format footnotes", "Game guide", "Generalize", "Globalize", "Globalize/North America", "Globalize/US", "Historical information needed", "Hoax", "Howto", "Inadequate lead", "Inappropriate person", "Incoherent", "Incomplete", "In-universe", "Lead missing", "Lead rewrite", "Lead too long", "Lead too short", "Like resume", "Local", "Magazine", "Manual", "Medref", "Missing information", "More footnotes", "MOS", "MOSLOW", "Neologism", "News release", "No footnotes", "Non-free", "Notability", "NPOV language", "Obituary", "One source", "Original research", "Orphan", "Out of date", "Over coverage", "Over-quotation", "Overlinked", "Overly detailed", "Page numbers needed", "Peacock", "Plot", "POV", "POV-check", "Primary sources", "Prose", "Prune", "Recentism", "Refimprove", "Religious text primary", "Repetition", "Review", "Sections", "Self-published", "Story", "Synthesis", "Technical", "Third-party", "Tone", "Too few opinions", "Travel guide", "Trivia", "Unbalanced", "Undue", "Unreferenced", "Unreliable sources", "Update", "USgovtPOV", "Very long", "Video game cleanup", "Weasel", "Wikify" } );
+
+        /// <summary>
+        /// Matches the cleanup templates that can be moved into the {{multiple issues}} section-level template
+        /// </summary>
+        public static readonly Regex MultipleIssuesSectionMaintenanceTemplates = Tools.NestedTemplateRegex(new [] { "BLP sources section", "BLP unsourced section", "Cleanup section", "Confusing section", "Copy edit-section", "Criticism section", "Disputed-section", "Expand section", "Importance-section", "POV-section", "Refimprove section", "Rewrite section", "Unreferenced section", "Update section", "Wikify section" } );
+
+        /// <summary>
         /// Matches the "reflist", "references-small", "references-2column" references display templates
         /// </summary>
         public static readonly Regex ReferenceList = Tools.NestedTemplateRegex(new [] { "reflist", "references-small", "references-2column"}, true);

@@ -380,7 +380,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
-        public string MultipleIssues(string articleText)
+        public string MultipleIssuesOld(string articleText)
         {
             string ESDate = "";
 
@@ -425,7 +425,7 @@ namespace WikiFunctions.Parse
             if (!WikiRegexes.MultipleIssues.IsMatch(zerothSection) && WikiRegexes.MultipleIssuesTemplates.Matches(zerothSection).Count < MinCleanupTagsToCombine)
             {
                 // article issues with one issue -> single issue tag (e.g. {{multiple issues|cleanup=January 2008}} to {{cleanup|date=January 2008}} etc.)
-                articleText = WikiRegexes.MultipleIssues.Replace(articleText, new MatchEvaluator(MultipleIssuesSingleTagME));
+                articleText = WikiRegexes.MultipleIssues.Replace(articleText, new MatchEvaluator(MultipleIssuesOldSingleTagME));
 
                 return MultipleIssuesBLPUnreferenced(articleText);
             }
@@ -436,7 +436,7 @@ namespace WikiFunctions.Parse
             if ((WikiRegexes.MultipleIssuesTemplateNameRegex.Matches(MICall).Count + tagsToAdd) < MinCleanupTagsToCombine || tagsToAdd == 0)
             {
                 // article issues with one issue -> single issue tag (e.g. {{multiple issues|cleanup=January 2008}} to {{cleanup|date=January 2008}} etc.)
-                articleText = WikiRegexes.MultipleIssues.Replace(articleText, new MatchEvaluator(MultipleIssuesSingleTagME));
+                articleText = WikiRegexes.MultipleIssues.Replace(articleText, new MatchEvaluator(MultipleIssuesOldSingleTagME));
 
                 return MultipleIssuesBLPUnreferenced(articleText);
             }
@@ -534,11 +534,11 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Converts multiple issues with one issue to stand alone tag
+        /// Converts old-style multiple issues with one issue to stand alone tag
         /// </summary>
         /// <param name="m"></param>
         /// <returns></returns>
-        private string MultipleIssuesSingleTagME(Match m)
+        private string MultipleIssuesOldSingleTagME(Match m)
         {
             string newValue = Parsers.Conversions(Tools.RemoveTemplateParameter(m.Value, "section"));
 
@@ -579,6 +579,188 @@ namespace WikiFunctions.Parse
             }
 
             return articleText;
+        }
+
+        /// <summary>
+        /// Performs cleanup on old-style multiple issues templates:
+        /// convert title case parameters within {{Multiple issues}} to lower case
+        /// remove any date field within  {{Multiple issues}} if no 'expert=subject' field using it
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <returns></returns>
+        private static string MultipleIssuesOldCleanup(string articleText)
+        {
+            // old-format cleanup: convert title case parameters within {{Multiple issues}} to lower case
+            foreach (Match m in WikiRegexes.MultipleIssuesInTitleCase.Matches(articleText))
+            {
+                string firstPart = m.Groups[1].Value;
+                string parameterFirstChar = m.Groups[2].Value.ToLower();
+                string lastPart = m.Groups[3].Value;
+
+                articleText = articleText.Replace(m.Value, firstPart + parameterFirstChar + lastPart);
+            }
+
+            // old-format cleanup: remove any date field within  {{Multiple issues}} if no 'expert=subject' field using it
+            string MICall = WikiRegexes.MultipleIssues.Match(articleText).Value;
+            if (MICall.Length > 10 && (Tools.GetTemplateParameterValue(MICall, "expert").Length == 0 ||
+                                       MonthYear.IsMatch(Tools.GetTemplateParameterValue(MICall, "expert"))))
+                articleText = articleText.Replace(MICall, Tools.RemoveTemplateParameter(MICall, "date"));
+
+            return articleText;
+        }
+
+        /// <summary>
+        /// Combines maintenance tags into {{multiple issues}} template, for en-wiki only
+        /// Operates on a section by section basis through article text
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <returns></returns>
+        public string MultipleIssues(string articleText)
+        {
+            // en wiki only
+            if (!Variables.LangCode.Equals("en"))
+                return articleText;
+
+            articleText = MultipleIssuesOldCleanup(articleText);
+
+            // get sections
+            string[] sections = Tools.SplitToSections(articleText);
+            string newarticleText = "";
+            
+            foreach(string s in sections)
+            {
+                if(!s.StartsWith("="))
+                    newarticleText = newarticleText + MIZerothSection(s);
+                else
+                    newarticleText = newarticleText + MILaterSection(s).TrimStart();
+            }
+
+            return newarticleText.TrimEnd();
+        }
+
+        private string MIZerothSection(string zerothsection)
+        {
+            Regex Templates = WikiRegexes.MultipleIssuesArticleMaintenanceTemplates;
+            
+            // look for maintenance templates
+            // cannot support more than one multiple issues template per section
+            if(WikiRegexes.MultipleIssues.Matches(zerothsection).Count > 1)
+                return zerothsection;
+
+            string zerothsectionNoMI = Tools.ReplaceWithSpaces(zerothsection, WikiRegexes.MultipleIssues.Matches(zerothsection));
+
+            int totalTemplates = Templates.Matches(zerothsectionNoMI).Count;
+
+            bool existingMultipleIssues = WikiRegexes.MultipleIssues.IsMatch(zerothsection);
+
+            // multiple issues with one issue -> single issue tag (old style or new style multiple issues)
+            if(totalTemplates == 0 && existingMultipleIssues)
+            {
+                zerothsection = WikiRegexes.MultipleIssues.Replace(zerothsection, new MatchEvaluator(MultipleIssuesOldSingleTagME));
+                return WikiRegexes.MultipleIssues.Replace(zerothsection, new MatchEvaluator(MultipleIssuesSingleTagME));
+            }
+            
+            // if currently no {{Multiple issues}} and less than the min number of maintenance templates, do nothing
+            if(!existingMultipleIssues && (totalTemplates < MinCleanupTagsToCombine))
+                return zerothsection;
+
+            // if currently has {{Multiple issues}}, add tags to it (new style only), otherwise insert multiple issues with tags.
+            // multiple issues with some old style tags would have new style added
+            
+            if(!existingMultipleIssues)
+                zerothsection = @"{{multiple issues}}" + "\r\n" + zerothsection;
+            
+            // add each template to MI
+            foreach(Match m in Templates.Matches(zerothsectionNoMI))
+            {
+                zerothsection = zerothsection.Replace(m.Value, "");
+                string MI = WikiRegexes.MultipleIssues.Match(zerothsection).Value;
+                bool newstyleMI = WikiRegexes.NestedTemplates.IsMatch(MI.Substring(2));
+                zerothsection = zerothsection.Replace(MI, Regex.Replace(MI, @"\s*}}$", (newstyleMI ? "" : "|") + "\r\n" + m.Value + "\r\n}}"));
+            }
+            
+            return zerothsection;
+        }
+
+        private string MILaterSection(string section)
+        {
+            string sectionOriginal = section;
+            Regex Templates = WikiRegexes.MultipleIssuesSectionMaintenanceTemplates;
+            
+            // look for maintenance templates
+            // cannot support more than one multiple issues template per section
+            if(WikiRegexes.MultipleIssues.Matches(section).Count > 1)
+                return sectionOriginal;
+            
+            section = Tools.ReplaceWithSpaces(section, WikiRegexes.MultipleIssues.Matches(section));
+            
+            string heading = WikiRegexes.Headings.Match(section).Value.Trim();
+            
+            int templatePortion = Tools.HowMuchStartsWith(section, Templates, true);
+            
+            if(templatePortion == 0)
+                return sectionOriginal;
+            
+            string sectionPortion = section.Substring(0, templatePortion),
+            sectionPortionOriginal = sectionOriginal.Substring(0, templatePortion),
+            sectionRest = sectionOriginal.Substring(templatePortion);
+            
+            int totalTemplates = Templates.Matches(sectionPortion).Count;
+            bool existingMultipleIssues = WikiRegexes.MultipleIssues.IsMatch(sectionPortionOriginal);
+            
+            // multiple issues with one issue -> single issue tag (old style or new style multiple issues)
+            if(totalTemplates == 0 && existingMultipleIssues)
+            {
+                sectionOriginal = WikiRegexes.MultipleIssues.Replace(sectionOriginal, new MatchEvaluator(MultipleIssuesOldSingleTagME));
+                return WikiRegexes.MultipleIssues.Replace(sectionOriginal, new MatchEvaluator(MultipleIssuesSingleTagME));
+            }
+            
+            // if currently no {{Multiple issues}} and less than the min number of maintenance templates, do nothing
+            if(!existingMultipleIssues && (totalTemplates < MinCleanupTagsToCombine))
+                return sectionOriginal;
+            
+
+            // if currently has {{Multiple issues}}, add tags to it (new style only), otherwise insert multiple issues with tags. multiple issues with some old style tags would have new style added
+            string newsection = "";
+            
+            if(existingMultipleIssues) // add each template to MI
+            {
+                
+                newsection = WikiRegexes.MultipleIssues.Match(sectionPortionOriginal).Value;
+                bool newstyleMI = WikiRegexes.NestedTemplates.IsMatch(Tools.GetTemplateArgument(Tools.RemoveTemplateParameter(newsection, "section"), 1));
+                
+                foreach(Match m in Templates.Matches(sectionPortion))
+                {
+                    if(!newsection.Contains(m.Value))
+                        newsection = newsection.Replace(newsection, Regex.Replace(newsection, @"\s*}}$", (newstyleMI ? "" : "|") + "\r\n" + m.Value + "\r\n}}"));
+                }
+            }
+            else // create new MI and add each template
+            {
+                newsection = "{{multiple issues|section=yes|\r\n";
+                
+                foreach(Match m in Templates.Matches(sectionPortion))
+                    newsection = newsection + m.Value + "\r\n";
+                
+                newsection = newsection + "}}\r\n";
+            }
+            
+            return heading + "\r\n" + newsection + "\r\n" + sectionRest;
+        }
+        
+        /// <summary>
+        /// Converts new-style multiple issues with one issue to stand alone tag
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        private string MultipleIssuesSingleTagME(Match m)
+        {
+            string newValue = Tools.RemoveTemplateParameter(m.Value, "section");
+
+            if (Tools.GetTemplateArgumentCount(newValue) == 1 && WikiRegexes.NestedTemplates.Matches(Tools.GetTemplateArgument(newValue, 1)).Count==1)
+                return Tools.GetTemplateArgument(newValue, 1);
+            
+            return m.Value;
         }
 
         private static readonly Regex PortalBox = Tools.NestedTemplateRegex(new[] { "portal box", "portalbox" });
@@ -844,31 +1026,31 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article section text</returns>
         private static string MergeTemplates(string sectionText, string templateName)
         {
-        	if (!Variables.LangCode.Equals("en"))
-        		return sectionText;
-        	
-        	Regex TemplateToMerge = Tools.NestedTemplateRegex(templateName);
-        	string mergedTemplates = "";
-        	
-        	while(TemplateToMerge.IsMatch(sectionText))
-        	{
-        		Match m = TemplateToMerge.Match(sectionText);
-        		
-        		if(m.Index > 0)
-        			break;
-        		
-        		if(mergedTemplates.Length == 0)
-        			mergedTemplates = m.Value;
-        		else
-        			mergedTemplates = mergedTemplates.Replace(@"}}", m.Groups[3].Value);
-        		
-        		sectionText = sectionText.Substring(m.Length);
-        	}
-        	
-        	if(mergedTemplates.Length > 0)
-        		return (mergedTemplates + "\r\n" + sectionText);
-        	else
-        		return sectionText;
+            if (!Variables.LangCode.Equals("en"))
+                return sectionText;
+            
+            Regex TemplateToMerge = Tools.NestedTemplateRegex(templateName);
+            string mergedTemplates = "";
+            
+            while(TemplateToMerge.IsMatch(sectionText))
+            {
+                Match m = TemplateToMerge.Match(sectionText);
+                
+                if(m.Index > 0)
+                    break;
+                
+                if(mergedTemplates.Length == 0)
+                    mergedTemplates = m.Value;
+                else
+                    mergedTemplates = mergedTemplates.Replace(@"}}", m.Groups[3].Value);
+                
+                sectionText = sectionText.Substring(m.Length);
+            }
+            
+            if(mergedTemplates.Length > 0)
+                return (mergedTemplates + "\r\n" + sectionText);
+            else
+                return sectionText;
         }
 
         // fixes extra comma in American format dates
@@ -2777,9 +2959,9 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text</returns>
         public static string RemoveTemplateNamespace(string articleText)
         {
-        	Regex SyntaxRegexTemplate = new Regex(@"(\{\{\s*)" + Variables.NamespacesCaseInsensitive[Namespace.Template] + @"(.*?)\}\}", RegexOptions.Singleline);
-        	
-        	return (SyntaxRegexTemplate.Replace(articleText, m => m.Groups[1].Value + CanonicalizeTitle(m.Groups[2].Value) + "}}"));
+            Regex SyntaxRegexTemplate = new Regex(@"(\{\{\s*)" + Variables.NamespacesCaseInsensitive[Namespace.Template] + @"(.*?)\}\}", RegexOptions.Singleline);
+            
+            return (SyntaxRegexTemplate.Replace(articleText, m => m.Groups[1].Value + CanonicalizeTitle(m.Groups[2].Value) + "}}"));
         }
 
         private static List<Regex> SmallTagRegexes = new List<Regex>();
@@ -2935,8 +3117,8 @@ namespace WikiFunctions.Parse
                             // Chinese language brackets（ and ）[ASCII 65288 and 65289]
                             if(Variables.LangCode.Equals("en"))
                             {
-                            articleTextTemp = articleTextTemp.Replace("）", ")");
-                            articleTextTemp = articleTextTemp.Replace("（", "(");
+                                articleTextTemp = articleTextTemp.Replace("）", ")");
+                                articleTextTemp = articleTextTemp.Replace("（", "(");
                             }
                             break;
                     }
@@ -3795,14 +3977,14 @@ namespace WikiFunctions.Parse
 
             if (Variables.LangCode == "en" && DatesT.Length > 0)
                 switch (DatesT)
-                {
-                    case "dmy":
-                        return DateLocale.International;
-                    case "mdy":
-                        return DateLocale.American;
-                    case "ymd":
-                        return DateLocale.ISO;
-                }
+            {
+                case "dmy":
+                    return DateLocale.International;
+                case "mdy":
+                    return DateLocale.American;
+                case "ymd":
+                    return DateLocale.ISO;
+            }
 
             if (explicitonly)
                 return DateLocale.Undetermined;
@@ -3829,10 +4011,10 @@ namespace WikiFunctions.Parse
 
             // check for explicit df or mf in brith/death templates
             if (Tools.GetTemplateParameterValue(BirthDate.Match(articleText).Value, "df").StartsWith("y")
-               || Tools.GetTemplateParameterValue(DeathDate.Match(articleText).Value, "df").StartsWith("y"))
+                || Tools.GetTemplateParameterValue(DeathDate.Match(articleText).Value, "df").StartsWith("y"))
                 return DateLocale.International;
             else if (Tools.GetTemplateParameterValue(BirthDate.Match(articleText).Value, "mf").StartsWith("y")
-                    || Tools.GetTemplateParameterValue(DeathDate.Match(articleText).Value, "mf").StartsWith("y"))
+                     || Tools.GetTemplateParameterValue(DeathDate.Match(articleText).Value, "mf").StartsWith("y"))
                 return DateLocale.American;
 
             return DateLocale.Undetermined;
@@ -5747,7 +5929,7 @@ namespace WikiFunctions.Parse
 
             // {{uncat}} --> {{Cat improve}} if we've added cats
             if (WikiRegexes.Category.Matches(articleText).Count > catCount && WikiRegexes.Uncat.IsMatch(articleText)
-               && !WikiRegexes.CatImprove.IsMatch(articleText))
+                && !WikiRegexes.CatImprove.IsMatch(articleText))
                 articleText = Tools.RenameTemplate(articleText, WikiRegexes.Uncat.Match(articleText).Groups[1].Value, "Cat improve");
 
             return YearOfBirthDeathMissingCategory(articleText);
@@ -6522,8 +6704,8 @@ namespace WikiFunctions.Parse
             if (tagsRemoved.Count > 0)
             {
                 // Reverse order of words for arwiki
-            	if (Variables.LangCode.Equals("ar"))
-                     summary = "وسوم " + Tools.ListToStringCommaSeparator(tagsRemoved) + " أزال";
+                if (Variables.LangCode.Equals("ar"))
+                    summary = "وسوم " + Tools.ListToStringCommaSeparator(tagsRemoved) + " أزال";
                 else summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " tag" +
                     (tagsRemoved.Count == 1 ? "" : "s");
             }
@@ -6535,7 +6717,7 @@ namespace WikiFunctions.Parse
 
                 // Reverse order of words for arwiki
                 if (Variables.LangCode.Equals("ar"))
-                	 summary += "وسوم " + Tools.ListToStringCommaSeparator(tagsAdded) + " أضاف";
+                    summary += "وسوم " + Tools.ListToStringCommaSeparator(tagsAdded) + " أضاف";
                 else summary += "added " + Tools.ListToStringCommaSeparator(tagsAdded) + " tag" +
                     (tagsAdded.Count == 1 ? "" : "s");
             }
@@ -6649,12 +6831,12 @@ namespace WikiFunctions.Parse
                 else
                     // ISO date?
                     if (WikiRegexes.ISODates.IsMatch(dateFieldValue))
-                    {
-                        DateTime dt = Convert.ToDateTime(dateFieldValue, BritishEnglish);
-                        dateFieldValue = dt.ToString("MMMM yyyy", BritishEnglish);
+                {
+                    DateTime dt = Convert.ToDateTime(dateFieldValue, BritishEnglish);
+                    dateFieldValue = dt.ToString("MMMM yyyy", BritishEnglish);
 
-                        templatecall = Tools.SetTemplateParameterValue(templatecall, dateparam, dateFieldValue);
-                    }
+                    templatecall = Tools.SetTemplateParameterValue(templatecall, dateparam, dateFieldValue);
+                }
 
                 // date field starts lower case?
                 if (!dateFieldValue.Contains(@"CURRENTMONTHNAME") && !dateFieldValue.Equals(Tools.TurnFirstToUpper(dateFieldValue.ToLower())))
