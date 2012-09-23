@@ -1355,7 +1355,7 @@ __TOC__", articleTextIn);
     
     [TestFixture]
     public class ListComparerTests : RequiresInitialization
-    {        
+    {
         [Test]
         public void ListComparerSimple()
         {
@@ -1446,7 +1446,94 @@ __TOC__", articleTextIn);
             lbArticles.RemoveSelected();
             
             Assert.AreEqual(lbArticles.Items.Count, big-sel);
+        }        
+    }
+    
+    [TestFixture]
+    public class FindAndReplaceTests
+    {
+        [Test]
+        public void FindAndReplace()
+        {
+            WikiFunctions.Parse.Replacement r = new WikiFunctions.Parse.Replacement("foo", "bar", true, true, true, true, RegexOptions.None, "");
+            
+            WikiFunctions.Parse.FindandReplace fr = new FindandReplace();
+            
+            bool changemade = false;
+            
+            Assert.AreEqual(fr.PerformFindAndReplace(r, "the was", "Test", out changemade), "the was");
+            Assert.IsFalse(changemade);
+            Assert.AreEqual(null, fr.ReplacedSummary, "No match: no edit summary");
+            
+            Assert.AreEqual(fr.PerformFindAndReplace(r, "the foo was", "Test", out changemade), "the bar was");
+            Assert.IsTrue(changemade);
+            Assert.AreEqual("foo" + WikiFunctions.Parse.FindandReplace.Arrow + "bar", fr.ReplacedSummary, "One match: a to b");
+            
+            fr = new FindandReplace();
+            changemade = false;
+            
+            Assert.AreEqual(fr.PerformFindAndReplace(r, "the foo was or foo was", "Test", out changemade), "the bar was or bar was");
+            Assert.AreEqual("foo" + WikiFunctions.Parse.FindandReplace.Arrow + "bar (2)", fr.ReplacedSummary, "Match count shown");
+            
+            fr = new FindandReplace();
+            changemade = false;
+            
+            Assert.AreEqual(fr.PerformFindAndReplace(r, "the foo was or foo was foo", "Test", out changemade), "the bar was or bar was bar");
+            Assert.AreEqual("foo" + WikiFunctions.Parse.FindandReplace.Arrow + "bar (3)", fr.ReplacedSummary, "Match count shown, 3");
+            
+            r = new WikiFunctions.Parse.Replacement("foot?", "bar", true, true, true, true, RegexOptions.None, "");
+            fr = new FindandReplace();
+            changemade = false;
+            
+            Assert.AreEqual(fr.PerformFindAndReplace(r, "the foot was or foo was", "Test", out changemade), "the bar was or bar was");
+            Assert.IsTrue(changemade);
+            Assert.AreEqual("foot" + WikiFunctions.Parse.FindandReplace.Arrow + "bar (2)", fr.ReplacedSummary, "Different matches, match text of first used");
+            
+            r = new WikiFunctions.Parse.Replacement("fooo?", "foo", true, true, true, true, RegexOptions.None, "");
+            fr = new FindandReplace();
+            changemade = false;
+            Assert.AreEqual(fr.PerformFindAndReplace(r, "the foo was a fooo it", "Test", out changemade), "the foo was a foo it");
+            Assert.IsTrue(changemade);
+            Assert.AreEqual("fooo" + WikiFunctions.Parse.FindandReplace.Arrow + "foo", fr.ReplacedSummary, "No-change match ignored");
+            
+            fr = new FindandReplace();
+            changemade = false;
+            Assert.AreEqual(fr.PerformFindAndReplace(r, "the foo was", "Test", out changemade), "the foo was");
+            Assert.IsFalse(changemade, "only match is no-change on replace, so no change made");
+            Assert.AreEqual(null, fr.ReplacedSummary, "Only match is No-change match, no edit summary");
         }
         
+        [Test]
+        public void FindAndReplaceRemove()
+        {
+            WikiFunctions.Parse.Replacement r = new WikiFunctions.Parse.Replacement("foo", "", true, true, true, true, RegexOptions.None, "");
+            
+            WikiFunctions.Parse.FindandReplace fr = new FindandReplace();
+            
+            bool changemade = false;
+            
+            Assert.AreEqual(fr.PerformFindAndReplace(r, "the was", "Test", out changemade), "the was");
+            Assert.IsFalse(changemade);
+            Assert.AreEqual(null, fr.ReplacedSummary, "No match: no edit summary");
+            Assert.AreEqual(null, fr.RemovedSummary, "No match: no edit summary");
+            
+            Assert.AreEqual(fr.PerformFindAndReplace(r, "the foo was", "Test", out changemade), "the  was");
+            Assert.IsTrue(changemade);
+            Assert.AreEqual("foo", fr.RemovedSummary, "One match: removed a");
+            
+            fr = new FindandReplace();
+            changemade = false;
+            
+            Assert.AreEqual(fr.PerformFindAndReplace(r, "the foo was or foo was", "Test", out changemade), "the  was or  was");
+            Assert.AreEqual("foo (2)", fr.RemovedSummary, "Match count shown");
+
+            r = new WikiFunctions.Parse.Replacement("foot?", "", true, true, true, true, RegexOptions.None, "");
+            fr = new FindandReplace();
+            changemade = false;
+            
+            Assert.AreEqual(fr.PerformFindAndReplace(r, "the foot was or foo was", "Test", out changemade), "the  was or  was");
+            Assert.IsTrue(changemade);
+            Assert.AreEqual("foot (2)", fr.RemovedSummary, "Different matches, match text of first used");
+        }
     }
 }
