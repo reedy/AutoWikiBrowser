@@ -1195,7 +1195,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex DOBRegex =
             new Regex(
-                @"('''(?:[^']+|.*?[^'])'''\s*\()(?:b\.|born:+)(\s+\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
+                @"('''(?:[^']+|.*?[^'])'''\s*\()(?:b\.|[Bb]orn:+)(\s+\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
                 WikiRegexes.MonthsNoGroup + @")?\]*\s*\[*[1-2]?\d{3}\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private static readonly Regex DOBRegexDash =
@@ -1215,7 +1215,7 @@ namespace WikiFunctions.Parse
 
         //Covered by: LinkTests.FixLivingThingsRelatedDates()
         /// <summary>
-        /// Replace b. and d. for born/died, or date– for born
+        /// Replace b. and d. for born/died, or date– for born per [[WP:BORN]]
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
