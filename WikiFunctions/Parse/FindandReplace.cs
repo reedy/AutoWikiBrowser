@@ -170,8 +170,8 @@ namespace WikiFunctions.Parse
             if (!HasReplacements)
                 return articleText;
 
-            _replacedSummary = "";
-            _removedSummary = "";
+            ReplacedSummary = "";
+            RemovedSummary = "";
 
             if (chkIgnoreMore.Checked)
                 articleText = _remove.HideMore(articleText);
@@ -197,77 +197,87 @@ namespace WikiFunctions.Parse
 
             if (chkAddToSummary.Checked)
             {
-                if (!string.IsNullOrEmpty(_replacedSummary))
-                      editSummary = "replaced: " + _replacedSummary.Trim();
+                if (!string.IsNullOrEmpty(ReplacedSummary))
+                      editSummary = "replaced: " + ReplacedSummary.Trim();
 
-                if (!string.IsNullOrEmpty(_removedSummary))
+                if (!string.IsNullOrEmpty(RemovedSummary))
                 {
                     if (!string.IsNullOrEmpty(editSummary))
                         editSummary += ", ";
 
-                    editSummary += "removed: " + _removedSummary.Trim();
+                    editSummary += "removed: " + RemovedSummary.Trim();
                 }
             }
 
             return articleText;
         }
 
-        private string _removedSummary, _replacedSummary;
+        public string RemovedSummary { get; private set; }
+        public string ReplacedSummary { get; private set; }
 
         /// <summary>
-        /// 
+        /// Executes a single find & replace rule against the article text. First applies keywords to the find and replace portions of the rule, then executes the rule.
+        /// Edit summary is generated from the first match of the rule that changes the article text on replacement. Count of changes is replacements affecting article, not total matches
+        /// i.e. no-change replacements are not counted in the edit summary
         /// </summary>
-        /// <param name="rep"></param>
-        /// <param name="articleText"></param>
-        /// <param name="articleTitle"></param>
-        /// <param name="changeMade"></param>
-        /// <returns></returns>
-        private string PerformFindAndReplace(Replacement rep, string articleText, string articleTitle, out bool changeMade)
+        /// <param name="rep">F&R rule to execute</param>
+        /// <param name="articleText">The article text</param>
+        /// <param name="articleTitle">The article title</param>
+        /// <param name="changeMade">Whether the F&R rule caused changes to the article text</param>
+        /// <returns>The updated article text</returns>
+        public string PerformFindAndReplace(Replacement rep, string articleText, string articleTitle, out bool changeMade)
         {
             if (rep == null) throw new ArgumentNullException("rep");
 
-            string findThis = Tools.ApplyKeyWords(articleTitle, rep.Find, true);
-            string replaceWith = Tools.ApplyKeyWords(articleTitle, PrepareReplacePart(rep.Replace));
+            string findThis = Tools.ApplyKeyWords(articleTitle, rep.Find, true), replaceWith = Tools.ApplyKeyWords(articleTitle, PrepareReplacePart(rep.Replace));
 
             Regex findRegex = new Regex(findThis, rep.RegularExpressionOptions);
-            MatchCollection matches = findRegex.Matches(articleText);
 
-            changeMade = false;
+            int Repcount = 0, Remcount = 0;
 
-            if (matches.Count > 0)
-            {
-                articleText = findRegex.Replace(articleText, replaceWith);
+            // use first replace that changes article text to generate edit summary
+            string res = findRegex.Replace(articleText, m =>  {
+                                               string mres = m.Result(replaceWith);
 
-                if (matches[0].Value != matches[0].Result(replaceWith))
-                {
-                    changeMade = true;
+                                               if (!m.Value.Equals(mres))
+                                               {
+                                                   if (!string.IsNullOrEmpty(mres))
+                                                   {
+                                                       if(Repcount == 0)
+                                                       {
+                                                           if (!string.IsNullOrEmpty(ReplacedSummary)) //Add comma before next replaced
+                                                               ReplacedSummary +=  ", ";
 
-                    if (!string.IsNullOrEmpty(matches[0].Result(replaceWith)))
-                    {
-                        if (!string.IsNullOrEmpty(_replacedSummary)) //Add comma before next replaced
-                            _replacedSummary +=  ", ";
+                                                           ReplacedSummary += m.Value + Arrow + mres;
+                                                       }
+                                                       Repcount++;
+                                                   }
+                                                   else
+                                                   {
+                                                       if(Remcount == 0)
+                                                       {
+                                                           if (!string.IsNullOrEmpty(RemovedSummary)) //Add comma before next removed
+                                                               RemovedSummary += ", ";
 
-                        string summary = matches[0].Value + Arrow + matches[0].Result(replaceWith);
+                                                           RemovedSummary += m.Value;
+                                                       }
+                                                       Remcount++;
+                                                   }
+                                               }
+                                               
+                                               return mres;
+                                           } );
 
-                        if (matches.Count > 1)
-                            summary += " (" + matches.Count + ")";
+            // update summaries with count of changes
+            if(Repcount > 1)
+                ReplacedSummary += " (" + Repcount + ")";
 
-                        _replacedSummary += summary;
-                    }
-                    else
-                    {
-                        if (!string.IsNullOrEmpty(_removedSummary)) //Add comma before next removed
-                            _removedSummary += ", ";
+            if(Remcount > 1)
+                RemovedSummary += " (" + Remcount + ")";
 
-                        _removedSummary += matches[0].Value;
+            changeMade = (Repcount + Remcount > 0);
 
-                        if (matches.Count > 1)
-                            _removedSummary += " (" + matches.Count + ")";
-                    }
-                }
-            }
-
-            return articleText;
+            return res;
         }
 
         private void btnDone_Click(object sender, EventArgs e)
