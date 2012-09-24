@@ -1158,7 +1158,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches a percentage with a space or a non-breaking space
         /// </summary>
-        public static readonly Regex Percent = new Regex(@"\s(\d+.?\d*)(\s|\&nbsp;)\%(\p{P}|\s)", RegexOptions.Compiled);
+        public static readonly Regex Percent = new Regex(@"\s(\(?\d+.?\d*)(\s|\&nbsp;)\%(\p{P}|\)?\s)", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches 12-hour clock time without a space
