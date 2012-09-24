@@ -4544,6 +4544,7 @@ http://example.com }}");
             Assert.AreEqual(@"a 15 %a", parser.FixNonBreakingSpaces(@"a 15 %a"), "no changes (character)");
             Assert.AreEqual(@"a 15 %2", parser.FixNonBreakingSpaces(@"a 15 %2"), "no changes (character)");
             Assert.AreEqual(@"a 15.2% ", parser.FixNonBreakingSpaces(@"a 15.2 % "), "catch decimal numbers");
+            Assert.AreEqual(@"acid (15.2%) ", parser.FixNonBreakingSpaces(@"acid (15.2 %) "), "decimal numbers in parenthenses");
             Assert.AreEqual(@"a 15.a2 % ", parser.FixNonBreakingSpaces(@"a 15.a2 % "), "avoid weird things");
 
 #if DEBUG
