@@ -436,6 +436,8 @@ Image:quux.JPEG|text
             // hideImages
             AssertHidden("[[Image:foo.JPG]]");
             Assert.AreEqual("[[Image:foo.jpg]]", Hide("[[Image:foo.jpg]]", true, false, false));
+            AssertHidden("[[File:foo.JPG]]");
+            Assert.AreEqual("[[File:foo.jpg]]", Hide("[[File:foo.jpg]]", true, false, false));
         }
     }
 
