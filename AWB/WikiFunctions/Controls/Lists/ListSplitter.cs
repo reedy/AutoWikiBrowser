@@ -114,13 +114,14 @@ namespace WikiFunctions.Controls.Lists
                 int baseIndex = 0;
                 int splitValue = (int) numSplitAmount.Value;
                 var articles = listMaker1.GetArticleList();
+				int minValueCount = Math.Min(splitValue, articles.Count);
                 if (xml)
                 {
                     string pathPrefix = path.Replace(".xml", " {0}.xml");
 
                     for (int i = 1; i <= noGroups; i++)
                     {
-                        _p.List.ArticleList = articles.GetRange(baseIndex, Math.Min(splitValue, articles.Count));
+                        _p.List.ArticleList = articles.GetRange(baseIndex, minValueCount);
                         baseIndex += splitValue;
                         UserPrefs.SavePrefs(_p, string.Format(pathPrefix, i));
                     }
@@ -132,7 +133,7 @@ namespace WikiFunctions.Controls.Lists
                     for (int i = 1; i <= noGroups; i++)
                     {
                         StringBuilder strList = new StringBuilder();
-                        foreach (Article a in articles.GetRange(baseIndex, Math.Min(articles.Count-baseIndex, Math.Min(splitValue, articles.Count))))
+                        foreach (Article a in articles.GetRange(baseIndex, Math.Min(articles.Count-baseIndex, minValueCount)))
                         {
                             strList.AppendLine(a.ToString());
                         }
