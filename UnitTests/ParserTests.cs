@@ -4688,6 +4688,9 @@ http://example.com }}");
             Assert.AreEqual("*a", Parsers.FixSyntax("*a<br\\> \r\n"));
             Assert.AreEqual("*a", Parsers.FixSyntax("*a <\\br\\>\r\n"));
             Assert.AreEqual("*a", Parsers.FixSyntax("*a     <br\\>    \r\n"));
+            Assert.AreEqual("*a", Parsers.FixSyntax("*a <br/>\r\n"));
+            Assert.AreEqual("*a", Parsers.FixSyntax("*a <br/ >\r\n"));
+            Assert.AreEqual("*a", Parsers.FixSyntax("*a <br / >\r\n"));
 
             Assert.AreEqual("*:#;a\r\n*b", Parsers.FixSyntax("*:#;a<br>\r\n*b"));
             Assert.AreEqual("###;;;:::***a\r\nb", Parsers.FixSyntax("###;;;:::***a<br />\r\nb"));
