@@ -276,8 +276,9 @@ namespace WikiFunctions.Parse
             articleText = RegexHeadingWhitespaceBefore.Replace(articleText, "$1$2$1$3");
             articleText = RegexHeadingWhitespaceAfter.Replace(articleText, "$1$2$1$3");
 
+            //Removed bold from heading - CHECKWIKI error 44
             articleText = RegexHeadingsBold.Replace(articleText, "$1$2$3$4");
-            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Headlines_end_with_colon_.28WikiProject_Check_Wikipedia_.2357.29
+            // Removes colon at end of heading  - CHECKWIKI error 57
             articleText = RegexHeadingColonAtEnd.Replace(articleText, "$1$2$3");
             articleText = RegexBadHeader.Replace(articleText, "");
 
@@ -2740,7 +2741,7 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixSyntax(string articleText)
         {
-            // DEFAULTSORT whitespace fix
+            // DEFAULTSORT whitespace fix - CHECKWIKI error 88
             if (Variables.LangCode.Equals("en"))
                 articleText = WikiRegexes.Defaultsort.Replace(articleText, DefaultsortME);
 
@@ -2755,7 +2756,7 @@ namespace WikiFunctions.Parse
             // <b /> may refer to </b> or <br />
             articleText = articleText.Replace("<i />", "</i>");
 
-            //replace html with wiki syntax
+            //replace html with wiki syntax - CHECKWIKI error 26 and 38
             articleText = SyntaxRegexItalic.Replace(articleText, "''$2''");
 
             articleText = SyntaxRegexBold.Replace(articleText, "'''$1'''");
@@ -2768,7 +2769,7 @@ namespace WikiFunctions.Parse
             // remove unnecessary namespace
             articleText = RemoveTemplateNamespace(articleText);
 
-            // remove <br> from lists (end of list line) CHECKWIKI error 54
+            // remove <br> from lists (end of list line) - CHECKWIKI error 54
             articleText = SyntaxRegexListRowBrTag.Replace(articleText, "$1\r\n");
 
             articleText = MultipleHttpInLink.Replace(articleText, "$1$2");
