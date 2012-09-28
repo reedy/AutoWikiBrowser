@@ -4706,6 +4706,8 @@ http://example.com }}");
             Assert.AreEqual("x\r\n*abc", parser.FixDates("x<br>\r\n*abc"));
             Assert.AreEqual("x\r\n*abc", parser.FixDates("x<br> \r\n*abc"));
             Assert.AreEqual("x\r\n*abc", parser.FixDates("x<br/> \r\n*abc"));
+            Assert.AreEqual("x\r\n*abc", parser.FixDates("x<br /> \r\n*abc"));
+            Assert.AreEqual("x\r\n*abc", parser.FixDates("x<br / > \r\n*abc"));
 
             const string BrInTemplateList = @"{{{Foo|
 param=<br>
