@@ -205,7 +205,7 @@ namespace WikiFunctions.Parse
         /// <returns>The re-organised text.</returns>
         public string SortMetaData(string articleText, string articleTitle, bool fixOptionalWhitespace)
         {
-            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Substituted_templates
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Substituted_templates
             // if article contains some substituted template stuff, sorting the data may mess it up (further)
             if (Namespace.IsMainSpace(articleTitle) && NoIncludeIncludeOnlyProgrammingElement(articleText))
                 return articleText;
@@ -276,7 +276,7 @@ namespace WikiFunctions.Parse
             articleText = RegexHeadingWhitespaceBefore.Replace(articleText, "$1$2$1$3");
             articleText = RegexHeadingWhitespaceAfter.Replace(articleText, "$1$2$1$3");
 
-            //Removed bold from heading - CHECKWIKI error 44
+            //Removes bold from heading - CHECKWIKI error 44
             articleText = RegexHeadingsBold.Replace(articleText, "$1$2$3$4");
             // Removes colon at end of heading  - CHECKWIKI error 57
             articleText = RegexHeadingColonAtEnd.Replace(articleText, "$1$2$3");
@@ -2862,13 +2862,14 @@ namespace WikiFunctions.Parse
             while (ExternalLinksNewline.IsMatch(articleText))
                 articleText = ExternalLinksNewline.Replace(articleText, "$1 $2");
 
-            // double piped links e.g. [[foo||bar]]
+            // double piped links e.g. [[foo||bar]] - CHECKWIKI error 32
             articleText = DoublePipeInWikiLink.Replace(articleText, "|");
 
             // https://en.wikipedia.org/wiki/Wikipedia:WikiProject_Check_Wikipedia#Article_with_false_.3Cbr.2F.3E_.28AutoEd.29
-            // fix incorrect <br> of <br.>, <\br> and <br\>
+            // fix incorrect <br> of <br.>, <\br> and <br\> - CHECKWIKI error 02
             articleText = IncorrectBr.Replace(articleText, "<br />");
 
+            // CHECKWIKI errors 55, 63, 66, 77
             articleText = FixSmallTags(articleText);
 
             articleText = WordingIntoBareExternalLinks.Replace(articleText, @"[$2 $1]");
@@ -2876,7 +2877,7 @@ namespace WikiFunctions.Parse
             articleText = ExternalLinkWordSpacingBefore.Replace(articleText, "$1 ");
             articleText = ExternalLinkWordSpacingAfter.Replace(articleText, " $1");
 
-            // WP:CHECKWIKI 065: Image description ends with break – http://toolserver.org/~sk/cgi-bin/checkwiki/checkwiki.cgi?project=enwiki&view=only&id=65
+            // CHECKWIKI error 65: Image description ends with break – http://toolserver.org/~sk/cgi-bin/checkwiki/checkwiki.cgi?project=enwiki&view=only&id=65
             foreach (Match m in WikiRegexes.FileNamespaceLink.Matches(articleText))
             {
                 if (WikilinkEndsBr.IsMatch(m.Value))
