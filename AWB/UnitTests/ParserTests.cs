@@ -9024,6 +9024,27 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(parser.Tagger(@"foo {{deadend|date=May 2010}} [[a]] and [[b]] and [[b]]", "Test", false, out noChange, ref summary)));
             Assert.IsTrue(summary.Contains("removed deadend tag"));
 
+            Globals.UnitTestBoolValue = false;
+            Assert.AreEqual(@"{{multiple issues|
+{{expert-subject|1=History|date=September 2012}}
+{{Unreferenced|date=December 2006}}
+}}
+
+''Now'' [[a]] and [[b]] and [[b]]
+
+
+{{stub}}", parser.Tagger(@"{{multiple issues|
+{{dead end|date=September 2012}}
+{{expert-subject|1=History|date=September 2012}}
+{{Unreferenced|date=December 2006}}
+}}
+
+''Now'' [[a]] and [[b]] and [[b]]", "Test", false, out noChange, ref summary));
+            
+            Globals.UnitTestBoolValue = true;
+
+            Assert.IsTrue(summary.Contains("removed deadend tag"));
+
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(parser.Tagger(@"foo {{Multiple issues|COI = May 2010 |POV = June 2010 | dead end=May 2010}} [[a]] and [[b]] and [[b]]", "Test", false, out noChange, ref summary)));
 
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(parser.Tagger(@"foo==x== {{deadend|section|date=May 2010}} [[a]] and [[b]] and [[b]]", "Test", false, out noChange, ref summary)), "does not remove section tags");
@@ -10164,7 +10185,23 @@ Text
 {{wikify|date=May 2012}}", parser.MultipleIssues(@"==sec==
 {{multiple issues|wikify=May 2012}}"), "converts old style 1-tag MI to single template");
         }
-        
+
+        [Test]
+        public void MultipleIssuesNewCleanup()
+        {
+            
+            Assert.AreEqual(@"{{multiple issues|
+{{wikify}}
+{{orphan}}
+{{POV}}
+}}", parser.MultipleIssues(@"{{multiple issues|
+{{wikify}}
+
+{{orphan}}
+{{POV}}
+}}"), "Cleans up excess newlines");
+        }
+
         [Test]
         public void MultipleIssuesOldSectionSingleTag()
         {
