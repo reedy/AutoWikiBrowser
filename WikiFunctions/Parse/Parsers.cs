@@ -2825,7 +2825,7 @@ namespace WikiFunctions.Parse
 
                 // if there are some brackets left then they need fixing; the mediawiki parser finishes the external link
                 // at the first ] found
-                if (externalLink.Contains("]") || externalLink.Contains("["))
+                if (!WikiRegexes.Newline.IsMatch(externalLink) && (externalLink.Contains("]") || externalLink.Contains("[")))
                 {
                     // replace single ] with &#93; when used for brackets in the link description
                     if (externalLink.Contains("]"))
