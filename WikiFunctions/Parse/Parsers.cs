@@ -624,6 +624,8 @@ namespace WikiFunctions.Parse
 
             articleText = MultipleIssuesOldCleanup(articleText);
 
+            articleText = WikiRegexes.MultipleIssues.Replace(articleText, m=> Regex.Replace(m.Value, "(\r\n)+", "\r\n"));
+
             // get sections
             string[] sections = Tools.SplitToSections(articleText);
             string newarticleText = "";
