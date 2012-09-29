@@ -4302,6 +4302,15 @@ x
 
             // don't match beyond </ref> tags
             Assert.AreEqual(@"[http://www.site.com some </ref> [stuff] here]", Parsers.FixSyntax(@"[http://www.site.com some </ref> [stuff] here]"));
+
+            // exception handling
+            Assert.AreEqual(@"* [http://www.site.com some stuff
+* [http://site2.com stuff 2]
+Other
+]", Parsers.FixSyntax(@"* [http://www.site.com some stuff
+* [http://site2.com stuff 2]
+Other
+]"));
         }
 
         [Test]
