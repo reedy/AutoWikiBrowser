@@ -3403,12 +3403,14 @@ namespace WikiFunctions.Parse
             {
                 if (!WikiRegexes.AmericanDates.IsMatch(TheDate) && WikiRegexes.AmericanDates.IsMatch(TheDate + ", " + TheYear))
                 {
-                    newValue = Tools.SetTemplateParameterValue(newValue, "date", TheDate + ", " + TheYear);
+                    if(!TheDate.Contains(TheYear))
+                        newValue = Tools.SetTemplateParameterValue(newValue, "date", TheDate + ", " + TheYear);
                     newValue = Tools.RemoveTemplateParameter(newValue, "year");
                 }
                 else if (!WikiRegexes.InternationalDates.IsMatch(TheDate) && WikiRegexes.InternationalDates.IsMatch(TheDate + " " + TheYear))
                 {
-                    newValue = Tools.SetTemplateParameterValue(newValue, "date", TheDate + " " + TheYear);
+                    if(!TheDate.Contains(TheYear))
+                        newValue = Tools.SetTemplateParameterValue(newValue, "date", TheDate + " " + TheYear);
                     newValue = Tools.RemoveTemplateParameter(newValue, "year");
                 }
             }
