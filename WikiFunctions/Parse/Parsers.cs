@@ -3211,9 +3211,6 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly List<string> AccessdateTypos = new List<string>(new[] { "acesdate", "accesdate", "accesssdate", "acessdate", "accessdat", "acccesssdate", "acccessdate", "acccesdate", "accessedate", "accessdare", "accessdaye", "accessate", "accessdaste", "accdessdate", "accessdata", "accesdsate", "accessdaet", "accessdatee", "accessdatge", "accesseddate", "accessedon", "access-date" });
-        private static readonly List<string> PublisherTypos = new List<string>(new[] { "punlisher", "puslisher", "poublisher", "publihser", "pub(?:lication)?", "pubslisher", "puablisher", "publicher", "ublisher", "publsiher", "pusliher", "pblisher", "pubi?lsher", "publishet", "puiblisher", "puplisher", "publiisher", "publiser", "pulisher", "publishser", "pulbisher", "publisber", "publoisher", "publishier", "pubhlisher", "publiaher", "publicser", "publicsher", "publidsherr", "publiher", "publihsher", "publilsher", "publiosher", "publisaher", "publischer", "publiseher", "publisehr", "publiserh", "publisger", "publishe?", "publishey", "publlisher", "publusher", "pubsliher" });
-
         private static readonly Regex AccessdateSynonyms = new Regex(@"(?<={{\s*[Cc]it[ae][^{}]*?\|\s*)(?:\s*date\s*)?(?:retrieved(?:\s+on)?|(?:last|date) *ac+essed|access\s+date)(?=\s*=\s*)", RegexOptions.Compiled);
 
         private static readonly Regex UppercaseCiteFields = new Regex(@"(\{\{\s*(?:[Cc]ite\s*(?:web|book|news|journal|paper|press release|hansard|encyclopedia)|[Cc]itation)\b\s*[^{}]*\|\s*)(\w*?[A-Z]+\w*)(?<!(?:IS[BS]N|DOI|PMID))(\s*=\s*[^{}\|]{3,})", RegexOptions.Compiled);
@@ -3304,10 +3301,6 @@ namespace WikiFunctions.Parse
             string templatename = Tools.GetTemplateName(newValue);
             string theURL = Tools.GetTemplateParameterValue(newValue, "url");
             string id = Tools.GetTemplateParameterValue(newValue, "id");
-
-            newValue = Tools.RenameTemplateParameter(newValue, AccessdateTypos, "accessdate");
-
-            newValue = Tools.RenameTemplateParameter(newValue, PublisherTypos, "publisher");
 
             newValue = AccessdateSynonyms.Replace(newValue, "accessdate");
 
