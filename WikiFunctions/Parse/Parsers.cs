@@ -4538,8 +4538,8 @@ namespace WikiFunctions.Parse
 
                 string sortkey = m.Groups[2].Value;
 
-                // diacritic removal in sortkeys on en-wiki only
-                if (Variables.LangCode.Equals("en"))
+                // diacritic removal in sortkeys on en-wiki/simple-wiki only
+                if (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple"))
                     sortkey = Tools.RemoveDiacritics(sortkey);
 
                 string x = cat + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[1].Value, false).Trim()) +
