@@ -987,6 +987,8 @@ The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines af
             // don't change image names
             string image1 = @"now foo [[Image:Foo July 24 2009.png]] was";
             Assert.AreEqual(image1, parser.FixDates(image1));
+            string image2 = @"now foo [[File:Foo July 24 2009.png]] was";
+            Assert.AreEqual(image2, parser.FixDates(image2));
 
             const string correct2 = @"Retrieved on 14 April 2009 was";
             Assert.AreEqual(correct2, parser.FixDates(@"Retrieved on 14 April, 2009 was"));
@@ -5612,6 +5614,14 @@ was"));
             // no change
             string nochange1 = @"On the 14th of February 2009 was";
             Assert.AreEqual(nochange1, parser.FixDateOrdinalsAndOf(nochange1, "test"));
+            string image3 = @"now foo [[File:9th of June street.jpg]] was";
+            Assert.AreEqual(image3, parser.FixDates(image3));
+            string image4 = @"now foo [[File:9th of June street , City.JPG|Caption]] was";
+            Assert.AreEqual(image4, parser.FixDates(image4));
+            string image5 = @"now foo [[File:9th of June street , City.JPG|On [[Main Article#Overview|9th of June]] Street]] was here";
+            Assert.AreEqual(image5, parser.FixDates(image5));
+            string image6 = @"now foo [[File:9th of June street , Bacău.JPG|[[Main Article#Overview|9th of June]] Street]] was here";
+            Assert.AreEqual(image6, parser.FixDates(image6));
         }
 
         [Test]
