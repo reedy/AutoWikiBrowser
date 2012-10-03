@@ -388,6 +388,17 @@ File:9th of May, ățuux.JPEG|text2
 " + Hidden + @"|text1
 " + Hidden + @"|text2
 </gallery>"),"special characters in regex");
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
+File:foo1|[[foobar]] barbar
+File:foo2.jpg|Winter Festival
+Image:Foo3.jpg|Bar, detail
+File:9th of June street , Bacău.JPG|[[Romanian War of Independence#Overview|9th of May]] Street
+</gallery>"), @"<gallery>
+" + Hidden + @"|[[foobar]] barbar
+" + Hidden + @"|Winter Festival
+" + Hidden + @"|Bar, detail
+" + Hidden + @"|[[Romanian War of Independence#Overview|9th of May]] Street
+</gallery>"));
         }
 
         [Test]
