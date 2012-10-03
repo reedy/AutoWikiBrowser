@@ -374,6 +374,13 @@ Image:quux.JPEG|text
 " + Hidden + @"
 " + Hidden + @"|text
 </gallery>"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
+File:foo
+File:9th of quux.JPEG|text
+</gallery>"), @"<gallery>
+" + Hidden + @"
+" + Hidden + @"|text
+</gallery>"));
         }
 
         [Test]
