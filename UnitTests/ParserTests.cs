@@ -5615,13 +5615,19 @@ was"));
             string nochange1 = @"On the 14th of February 2009 was";
             Assert.AreEqual(nochange1, parser.FixDateOrdinalsAndOf(nochange1, "test"));
             string image3 = @"now foo [[File:9th of June street.jpg]] was";
-            Assert.AreEqual(image3, parser.FixDates(image3));
+            Assert.AreEqual(image3, parser.FixDateOrdinalsAndOf(image3, "testing image"));
             string image4 = @"now foo [[File:9th of June street , City.JPG|Caption]] was";
-            Assert.AreEqual(image4, parser.FixDates(image4));
+            Assert.AreEqual(image4, parser.FixDateOrdinalsAndOf(image4, "testing image with caption"));
             string image5 = @"now foo [[File:9th of June street , City.JPG|On [[Main Article#Overview|9th of June]] Street]] was here";
-            Assert.AreEqual(image5, parser.FixDates(image5));
+            Assert.AreEqual(image5, parser.FixDateOrdinalsAndOf(image5, "testing image with wikilinked caption"));
             string image6 = @"now foo [[File:9th of June street , Bacău.JPG|[[Main Article#Overview|9th of June]] Street]] was here";
-            Assert.AreEqual(image6, parser.FixDates(image6));
+            Assert.AreEqual(image6, parser.FixDateOrdinalsAndOf(image6, "testing a more complicated case"));
+            string imagegallery1 = @"now foo <gallery>File:9th of June street.JPG</gallery> was here";
+            Assert.AreEqual(imagegallery1, parser.FixDateOrdinalsAndOf(imagegallery1,"testing gallery"));
+            string imagegallery2 = @"now foo <gallery>File:9th of June street , B.JPG</gallery> was here";
+            Assert.AreEqual(imagegallery2, parser.FixDateOrdinalsAndOf(imagegallery2,"testing gallery 2"));
+            string imagegallery3 = @"now foo <gallery>File:9th of June street , Bacâu.JPG|[[Main Article#Overview|9th of June]] Street</gallery> was here";
+            Assert.AreEqual(imagegallery3, parser.FixDateOrdinalsAndOf(imagegallery3,"testing gallery 3"));
         }
 
         [Test]
