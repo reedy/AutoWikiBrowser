@@ -381,6 +381,13 @@ File:9th of quux.JPEG|text
 " + Hidden + @"
 " + Hidden + @"|text
 </gallery>"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
+File:bar ă foo|text1
+File:9th of May, ățuux.JPEG|text2
+</gallery>"), @"<gallery>
+" + Hidden + @"|text1
+" + Hidden + @"|text2
+</gallery>"),"special characters in regex");
         }
 
         [Test]
