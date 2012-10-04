@@ -2920,6 +2920,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Performs fixes to redirect pages:
         /// * removes newline between #REDIRECT and link
+        /// CHECKWIKI error 36
         /// </summary>
         /// <param name="articleText"></param>
         /// <returns></returns>
