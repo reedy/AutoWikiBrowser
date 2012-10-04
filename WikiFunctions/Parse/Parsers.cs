@@ -2754,6 +2754,11 @@ namespace WikiFunctions.Parse
             // remove empty <gallery> tags
             articleText = EmptyGallery.Replace(articleText, "");
 
+            // merge italic/bold html tags if there are one after the other
+            //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Another_bug_on_italics
+            articleText = articleText.Replace("</b><b>", "");
+            articleText = articleText.Replace("</i><i>", "");
+
             // fix italic html tags
             // <b /> may refer to </b> or <br />
             articleText = articleText.Replace("<i/>", "</i>");
