@@ -2756,6 +2756,7 @@ namespace WikiFunctions.Parse
 
             // fix italic html tags
             // <b /> may refer to </b> or <br />
+            articleText = articleText.Replace("<i/>", "</i>");
             articleText = articleText.Replace("<i />", "</i>");
 
             //replace html with wiki syntax - CHECKWIKI error 26 and 38
