@@ -149,6 +149,9 @@ File:Foo.png|description<br>text
             RegexAssert.Matches(WikiRegexes.Images, @"< gallery >
 File:Foo.png
 < /gallery >", "File:Foo.png");
+             RegexAssert.Matches(WikiRegexes.Images, @"< gallery >
+File:9th of May_street, Bacău.jpg
+< /gallery >", "File:9th of May_street, Bacău.jpg");
             
             MatchCollection mc = WikiRegexes.Images.Matches(@"<gallery>
 Image:Foo.png|description

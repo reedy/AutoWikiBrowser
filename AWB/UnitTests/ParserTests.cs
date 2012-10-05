@@ -5628,7 +5628,9 @@ was"));
             Assert.AreEqual(imagegallery1, parser.FixDateOrdinalsAndOf(imagegallery1,"testing gallery"));
             string imagegallery2 = @"now foo <gallery>File:9th of June street , B.JPG</gallery> was here";
             Assert.AreEqual(imagegallery2, parser.FixDateOrdinalsAndOf(imagegallery2,"testing gallery 2"));
-            string imagegallery3 = @"now foo <gallery>File:9th of June street , Bacâu.JPG|[[Main Article#Overview|9th of June]] Street</gallery> was here";
+            string imagegallery3 = @"n<gallery>
+File:9th of May_street, Bacău.jpg| Street
+</gallery>";
             Assert.AreEqual(imagegallery3, parser.FixDateOrdinalsAndOf(imagegallery3,"testing gallery 3"));
         }
 
