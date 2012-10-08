@@ -965,7 +965,9 @@ en, sq, ru
 				
 				goodMatches.Add(m);
 				
-				string IW = "[[" + site + ":" + Tools.TurnFirstToUpper(m.Groups[2].Value.Trim()) + "]]";
+				// jbo is only Wikipedia article wiki that's first letter case sensitive
+				string IWTarget = site.Equals("jbo") ? m.Groups[2].Value.Trim() : Tools.TurnFirstToUpper(m.Groups[2].Value.Trim());
+				string IW = "[[" + site + ":" + IWTarget + "]]";
 				
 				// drop interwikis to own wiki, but not on commons where language = en and en interwikis go to wikipedia
 				if(!(m.Groups[1].Value.Equals(Variables.LangCode) && !Variables.IsWikimediaMonolingualProject) && !interWikiListLinksOnly.Contains(IW))

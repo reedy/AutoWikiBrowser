@@ -865,7 +865,7 @@ foo";
 		{
 			parser2.SortInterwikis = false;
 
-			parser2.Sorter.PossibleInterwikis = new System.Collections.Generic.List<string> { "de", "es", "fr", "it", "sv", "ar", "bs", "br", "en" };
+			parser2.Sorter.PossibleInterwikis = new System.Collections.Generic.List<string> { "de", "es", "fr", "it", "sv", "ar", "bs", "br", "en", "jbo" };
 
 			string a = @"[[de:Canadian National Railway]]
 [[es:Canadian National]]
@@ -982,6 +982,12 @@ second comment <!-- [[it:CN]] -->";
 [[fr:Canadien National]]";
 
 			Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a), "duplicate interwiki removed, inline comment first");
+			
+			a = @"[[de:Canadian National Railway]]
+[[jbo:canadian National]]
+[[fr:Canadien National]]";
+
+			Assert.AreEqual(a + "\r\n", parser2.Sorter.Interwikis(ref a), "first letter casing retained for jbo-wiki links");
 		}
 		
 		[Test]
