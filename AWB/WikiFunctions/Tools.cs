@@ -1118,7 +1118,7 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("Ĕ", "E"),
 			new KeyValuePair<string, string>("ĕ", "e"),
 			new KeyValuePair<string, string>("Ğ", "G"),
-			new KeyValuePair<string, string>("ğ", "A"),
+			new KeyValuePair<string, string>("ğ", "g"),
 			new KeyValuePair<string, string>("Ĭ", "I"),
 			new KeyValuePair<string, string>("ĭ", "i"),
 			new KeyValuePair<string, string>("Ŏ", "O"),
