@@ -394,7 +394,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// 
         /// </summary>
-        private static readonly Regex IgnoreRegex = new Regex("133t|-ology|\\(sic\\)|\\[sic\\]|\\[''sic''\\]|\\{\\{sic\\}\\}|spellfixno", RegexOptions.Compiled);
+        private static readonly Regex IgnoreRegex = new Regex("\\(sic\\)|\\[sic\\]|\\[''sic''\\]|\\{\\{sic\\}\\}|spellfixno", RegexOptions.Compiled);
         private static readonly Regex RemoveTail = new Regex(@"(\s|\n|\r|\*|#|:|⌊⌊⌊⌊M?\d*⌋⌋⌋⌋)*$", RegexOptions.Compiled);
         private readonly List<TypoGroup> Groups = new List<TypoGroup>();
 
