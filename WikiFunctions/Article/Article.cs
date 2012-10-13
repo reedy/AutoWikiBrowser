@@ -1220,7 +1220,7 @@ namespace WikiFunctions
         #endregion
 
         #region General fixes
-        private bool _generalFixesCausedChange, _textAlreadyChanged, _generalFixesSignificantChange;
+        private bool _generalFixesCausedChange, _textAlreadyChanged, _generalFixesSignificantChange, _universalGeneralFixesCausedChange;
         private string _afterGeneralFixesArticleText;
 
         /// <summary>
@@ -1397,7 +1397,11 @@ namespace WikiFunctions
         /// </summary>
         public void PerformUniversalGeneralFixes()
         {
-            mArticleText = mArticleText.Trim();
+            if(!mArticleText.Trim().Equals(mArticleText))
+            {
+                _universalGeneralFixesCausedChange = true;
+                mArticleText = mArticleText.Trim();
+            }
         }
 
         /// <summary>
@@ -1428,10 +1432,13 @@ namespace WikiFunctions
             if (!_textAlreadyChanged)
             {
                 _generalFixesCausedChange = (ArticleText != OriginalArticleText);
-
-                if (_generalFixesCausedChange)
-                    _afterGeneralFixesArticleText = ArticleText;
             }
+
+            if(_universalGeneralFixesCausedChange)
+                _generalFixesCausedChange = true;
+
+            if (_generalFixesCausedChange)
+                _afterGeneralFixesArticleText = ArticleText;
         }
 
         /// <summary>
