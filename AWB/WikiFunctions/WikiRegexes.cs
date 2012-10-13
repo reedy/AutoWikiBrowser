@@ -459,7 +459,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches links that may be interwikis, i.e. containing colon, group 1 being the wiki language, group 2 being the link target, group 3 any comment after the link
         /// </summary>
-        public static readonly Regex PossibleInterwikis = new Regex(@"\[\[\s*([-a-z]{2,12})(?<!File|Image|Media)\s*:+\s*([^\]]*?)\s*\]\]( *<!--.*?-->)?", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Singleline);
+        public static readonly Regex PossibleInterwikis = new Regex(@"\[\[\s*([-a-z]{2,12})(?<!File|Image|Media)\s*:+\s*([^\]\[]*?)\s*\]\]( *<!--.*?-->)?", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Singleline);
 
         /// <summary>
         /// Matches unformatted text regions: nowiki, pre, math, html comments, timelines
@@ -1049,6 +1049,11 @@ namespace WikiFunctions
         /// Matches &lt;cite&gt; tags
         /// </summary>
         public static readonly Regex Cites = new Regex(@"<cite[^>]*?>[^<]*<\s*/cite\s*>", RegexOptions.Compiled | RegexOptions.Singleline);
+        
+        /// <summary>
+        /// Matches &lt;/i&gt;...&lt;i&gt; reversed italics tags, group 1 being the content between the tags
+        /// </summary>
+        public static readonly Regex ReversedItalics = new Regex(@"< */ *i *>([^<]*)< *i *>(?![^<]*< */ *i *>)", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches &lt;nowiki&gt; tags
