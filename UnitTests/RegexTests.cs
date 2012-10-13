@@ -742,6 +742,9 @@ foo
 
             // length outside range
             RegexAssert.NoMatch(WikiRegexes.PossibleInterwikis, "[[e:foo]]");
+            RegexAssert.NoMatch(WikiRegexes.PossibleInterwikis, @"[[Something:
+[[other]]
+]]");
             RegexAssert.NoMatch(WikiRegexes.PossibleInterwikis, "[[abcdefghijlkmnop:foo]]");
 
             RegexAssert.Matches(WikiRegexes.PossibleInterwikis, "foo[[en:bar]] <!--comm-->", "[[en:bar]] <!--comm-->");
@@ -1837,6 +1840,19 @@ Bert").Groups[2].Value, "foo bar\r");
             Assert.IsTrue(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Malay-name}}"));
             Assert.IsTrue(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Chinese-name}}"));
             Assert.IsFalse(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Eastern name order}}"));
+        }
+        
+        [Test]
+        public void ReversedItalics()
+        {
+            Assert.IsTrue(WikiRegexes.ReversedItalics.IsMatch(@"</i>foo<i>"));
+            Assert.IsTrue(WikiRegexes.ReversedItalics.IsMatch(@"</i>foo< i >"));
+            Assert.IsTrue(WikiRegexes.ReversedItalics.IsMatch(@"< /i >foo<i>"));
+            Assert.AreEqual("foo", WikiRegexes.ReversedItalics.Match(@"</i>foo<i>").Groups[1].Value);
+            
+            Assert.IsFalse(WikiRegexes.ReversedItalics.IsMatch(@"<i>foo</i>"));
+            Assert.IsFalse(WikiRegexes.ReversedItalics.IsMatch(@"<i>foo<i>"));
+            Assert.IsFalse(WikiRegexes.ReversedItalics.IsMatch(@"<i>foo</i> and <i>foo</i>"));
         }
     }
 }
