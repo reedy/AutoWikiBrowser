@@ -2830,7 +2830,8 @@ window.scrollTo(0, diffTopY);
                 PrefDBScannerUseCurrentArticleList = _dbScannerUseCurrentArticleList,
 
                 PrefDiffInBotMode = doDiffInBotMode,
-                PrefOnLoad = actionOnLoad,
+                // show edit page no longer available as an option
+                PrefOnLoad = actionOnLoad ==2 ? 0 : actionOnLoad,
 
                 EnableLogging = loggingEnabled
             };

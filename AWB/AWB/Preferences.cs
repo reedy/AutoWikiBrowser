@@ -354,7 +354,9 @@ namespace AutoWikiBrowser
 
         public int PrefOnLoad
         {
-            get { return cmboOnLoad.SelectedIndex; }   
+            // show edit page no longer available as an option
+            get { return (cmboOnLoad.SelectedIndex == 2 ? 0 : cmboOnLoad.SelectedIndex); }
+            
             set { cmboOnLoad.SelectedIndex = value;}
         }
 

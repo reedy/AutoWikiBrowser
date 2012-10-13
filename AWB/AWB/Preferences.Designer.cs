@@ -475,8 +475,7 @@ namespace AutoWikiBrowser
             this.cmboOnLoad.FormattingEnabled = true;
             this.cmboOnLoad.Items.AddRange(new object[] {
             "Show changes",
-            "Show preview",
-            "Show edit page"});
+            "Show preview"});
             this.cmboOnLoad.Location = new System.Drawing.Point(58, 98);
             this.cmboOnLoad.Name = "cmboOnLoad";
             this.cmboOnLoad.Size = new System.Drawing.Size(121, 21);
