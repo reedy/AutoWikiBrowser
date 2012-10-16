@@ -1859,7 +1859,7 @@ Message: {2}
 		private static readonly Regex ExpandTemplatesRegex = new Regex(@"<expandtemplates[^\>]*>(.*?)</expandtemplates>", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
 		/// <summary>
-		/// Expands (substitutes) template calls
+		/// Expands (substitutes) template calls using the API
 		/// </summary>
 		/// <param name="articleText">The text of the article</param>
 		/// <param name="articleTitle">The title of the artlce</param>
