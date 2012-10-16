@@ -77,11 +77,15 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// 
+        /// Generates regexes to match the templates from the template list.
+        /// Supports templates with Template: or Msg: at the start
+        /// Does not process nested templates
         /// </summary>
         private void RefreshRegexes()
         {
             Regexes.Clear();
+            
+            // derive optional template namespace prefixes to allow
             string templ = Variables.NamespacesCaseInsensitive[Namespace.Template];
             if (templ[0] == '(')
                 templ = "(?:" + templ.Insert(templ.IndexOf(')'), "|[Mm]sg") + @")?\s*";
@@ -90,9 +94,11 @@ namespace WikiFunctions
 
             foreach (string s in TemplateList)
             {
-                if (string.IsNullOrEmpty(s.Trim())) continue;
-                Regexes.Add(new Regex(@"\{\{\s*" + templ + Tools.CaseInsensitive(s) + @"\s*(\|[^\}]*|)\}\}",
-                    RegexOptions.Singleline | RegexOptions.Compiled), @"{{subst:" + s + "$1}}");
+                if (string.IsNullOrEmpty(s.Trim())) 
+                    continue;
+                
+                Regexes.Add(new Regex(@"\{\{\s*" + templ + Tools.CaseInsensitive(s) + @"\s*(\|[^\}]*|)}}",
+                    RegexOptions.Singleline), @"{{subst:" + s + "$1}}");
             }
         }
 
@@ -113,17 +119,17 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// 
+        /// Returns the number of templates in the substitution list
         /// </summary>
         public int NoOfRegexes { get { return Regexes.Count; } }
 
         /// <summary>
-        /// 
+        /// Returns whether there are any templates in the substitution list
         /// </summary>
         public bool HasSubstitutions { get { return NoOfRegexes != 0; } }
 
         /// <summary>
-        /// 
+        /// Substitutes templates in the given article text
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
