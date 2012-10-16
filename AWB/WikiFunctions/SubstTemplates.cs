@@ -84,9 +84,9 @@ namespace WikiFunctions
             Regexes.Clear();
             string templ = Variables.NamespacesCaseInsensitive[Namespace.Template];
             if (templ[0] == '(')
-                templ = "(" + templ.Insert(templ.IndexOf(')'), "|[Mm]sg") + ")?";
+                templ = "(?:" + templ.Insert(templ.IndexOf(')'), "|[Mm]sg") + @")?\s*";
             else
-                templ = @"(?:" + templ + "|[Mm]sg:|)";
+                templ = @"(?:" + templ + @"|[Mm]sg:|)\s*";
 
             foreach (string s in TemplateList)
             {

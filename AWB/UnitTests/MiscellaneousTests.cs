@@ -1563,4 +1563,34 @@ __TOC__", articleTextIn);
             Assert.AreEqual("foot (2)", fr.RemovedSummary, "Different matches, match text of first used");
         }
     }
+    
+    [TestFixture]
+    public class SubstTemplates
+    {
+        [Test]
+        public void SubstTemplatesNoExpand()
+        {
+            WikiFunctions.SubstTemplates st = new WikiFunctions.SubstTemplates();
+            st.ExpandRecursively =false;
+
+            st.TemplateList = new [] {"foo", "bar"};
+            
+            Assert.AreEqual(2, st.NoOfRegexes);
+            
+            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{foo}}", "test"));
+            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{ foo}}", "test"));
+            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{ foo }}", "test"));
+            Assert.AreEqual("Now {{subst:foo|first=y}}", st.SubstituteTemplates("Now {{foo|first=y}}", "test"));
+            Assert.AreEqual("Now {{subst:foo|first}}", st.SubstituteTemplates("Now {{foo|first}}", "test"));
+            Assert.AreEqual("Now {{subst:foo}} {{subst:bar}}", st.SubstituteTemplates("Now {{foo}} {{bar}}", "test"));
+            
+            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{Template:foo}}", "test"));
+            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{template:foo}}", "test"));
+            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{template :foo}}", "test"));
+            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{ template :foo}}", "test"));
+            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{ template : foo}}", "test"));
+            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{Msg:foo}}", "test"));
+            Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{msg :foo}}", "test"));
+        }
+    }
 }
