@@ -940,11 +940,11 @@ The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines af
         }
 
         [Test]
-        public void FixDates()
+        public void FixDatesHTML()
         {
-
             // replace <br> and <p> HTML tags tests
             Assert.AreEqual("\r\n\r\nsome text", parser.FixDates("<p>some text"));
+            Assert.AreEqual("\r\n\r\nsome text", parser.FixDates("<p> some text"));
             Assert.AreEqual("\r\n\r\nsome text", parser.FixDates("<br><br>some text"));
             Assert.AreEqual("some text\r\n\r\n", parser.FixDates("some text<p>"));
             Assert.AreEqual("some text\r\n\r\n", parser.FixDates("some text<br><br>"));
