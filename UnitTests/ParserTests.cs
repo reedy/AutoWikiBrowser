@@ -3743,6 +3743,8 @@ now"));
             const string Nochange = @"** >> {[[Sei Young Animation Co., Ltd.|Animação Retrô]]}";
 
             Assert.AreEqual(Nochange, Parsers.FixSyntax(Nochange));
+            
+            Assert.AreEqual(@"<ref>{{cite web|url=a|title=b (ABC) }}</ref>", Parsers.FixSyntax(@"<ref>{{cite web|url=a|title=b (ABC} }}</ref>"));
         }
 
         [Test]

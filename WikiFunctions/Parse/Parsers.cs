@@ -3141,6 +3141,8 @@ namespace WikiFunctions.Parse
 
                 if (bracketLength == 2)
                 {
+                    articleTextTemp = CurlyBraceInsteadOfBracketClosing.Replace(articleTextTemp, ")");
+                    
                     // if it's on double curly brackets, see if one is missing e.g. {{foo} or {{foo]}
                     articleTextTemp = TemplateIncorrectClosingBraces.Replace(articleTextTemp, "}}");
 
