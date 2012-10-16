@@ -2127,6 +2127,8 @@ here]"), "newline removed");
 *[http://www.vi.nl/Spelers
 ", ref bracketLength));
             Assert.AreEqual(1, bracketLength);
+            
+            Assert.AreEqual(0, Parsers.UnbalancedBrackets(@"{{Infobox|foo=bar (OMG} }}", ref bracketLength));
         }
 
         [Test]
