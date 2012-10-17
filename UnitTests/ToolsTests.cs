@@ -1700,6 +1700,8 @@ title={{abc|fdkjdsfjk=fdaskjlfds
             Assert.IsTrue(FooTemplate.IsMatch(@"{{ foo}}"));
             Assert.IsTrue(FooTemplate.IsMatch(@"{{Template:foo}}"));
             Assert.IsTrue(FooTemplate.IsMatch(@"{{:Template:foo}}"));
+            Assert.IsTrue(FooTemplate.IsMatch(@"{{:Msg:foo}}"));
+            Assert.IsTrue(FooTemplate.IsMatch(@"{{Msg:foo}}"));
             Assert.IsTrue(FooTemplate.IsMatch(@"{{_:_Template_:_foo_}}"));
 
             Assert.IsFalse(FooTemplate.IsMatch(@"{{Template foo}}"));
