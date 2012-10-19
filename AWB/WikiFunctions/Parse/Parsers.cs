@@ -6285,7 +6285,7 @@ namespace WikiFunctions.Parse
             string newText = Tagger(articleText, articleTitle, restrictOrphanTagging, ref summary);
             newText = TagUpdater(newText);
 
-            noChange = (newText == articleText);
+            noChange = (newText.Equals(articleText));
 
             return newText;
         }
