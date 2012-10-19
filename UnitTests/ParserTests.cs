@@ -5463,16 +5463,16 @@ was"));
         [Test]
         public void LoadDatedTemplates()
         {
-            List<Regex> DatedTemplates = new List<Regex>();
+            List<string> DatedTemplates = new List<string>();
 
             Assert.AreEqual(DatedTemplates, Parsers.LoadDatedTemplates(""), "returns empty list when no rules present");
 
             Assert.AreEqual(DatedTemplates, Parsers.LoadDatedTemplates("<!--{{tl|wikif-->"), "ignores commented out rules");
 
-            DatedTemplates.Add(Tools.NestedTemplateRegex("Wikify"));
+            DatedTemplates.Add("Wikify");
             Assert.AreEqual(DatedTemplates.ToString(), Parsers.LoadDatedTemplates(@"{{tl|wikify}}").ToString(), "loads single rule");
 
-            DatedTemplates.Add(Tools.NestedTemplateRegex("Citation needed"));
+            DatedTemplates.Add("Citation needed");
             Assert.AreEqual(DatedTemplates.ToString(), Parsers.LoadDatedTemplates(@"{{tl|wikify}}
 {{tl|citation needed}}").ToString(), "loads multiple rules");
         }
@@ -9030,7 +9030,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         public void UpdateFactTag()
         {
             WikiRegexes.DatedTemplates.Clear();
-            WikiRegexes.DatedTemplates.Add(Tools.NestedTemplateRegex("fact"));
+            WikiRegexes.DatedTemplates.Add("fact");
 
             //Test of updating some of the non dated tags
             string text = parser.Tagger("{{fact}}", "Test", false, out noChange, ref summary);
@@ -9054,7 +9054,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         {
             Globals.UnitTestBoolValue = false;
             WikiRegexes.DatedTemplates.Clear();
-            WikiRegexes.DatedTemplates.Add(Tools.NestedTemplateRegex("citation needed"));
+            WikiRegexes.DatedTemplates.Add("citation needed");
             string text = parser.Tagger("{{citation needed}}", "Test", false, out noChange, ref summary);
             Assert.IsTrue(text.Contains(@"{{citation needed|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
 
@@ -9088,8 +9088,8 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         public void UpdateWikifyTag()
         {
             WikiRegexes.DatedTemplates.Clear();
-            WikiRegexes.DatedTemplates.Add(Tools.NestedTemplateRegex("wikify"));
-            WikiRegexes.DatedTemplates.Add(Tools.NestedTemplateRegex("wikify section"));
+            WikiRegexes.DatedTemplates.Add("wikify");
+            WikiRegexes.DatedTemplates.Add("wikify section");
             string correct = @"{{wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
             string text = parser.Tagger("{{wikify}}", "Test", false, out noChange, ref summary);
             Assert.IsTrue(text.Contains(correct));
@@ -9111,7 +9111,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         public void TagUpdaterAddDate()
         {
             WikiRegexes.DatedTemplates.Clear();
-            WikiRegexes.DatedTemplates.Add(Tools.NestedTemplateRegex("wikify"));
+            WikiRegexes.DatedTemplates.Add("wikify");
 
             string correct = @"{{wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}";
 
@@ -9136,7 +9136,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(@"{{wikify|section|other={{foo}}|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", Parsers.TagUpdater(@"{{wikify|section|other={{foo}}}}"), "supports templates with additional arguments");
 
             WikiRegexes.DatedTemplates.Clear();
-            WikiRegexes.DatedTemplates.Add(Tools.NestedTemplateRegex("Wikify"));
+            WikiRegexes.DatedTemplates.Add("Wikify");
             Assert.AreEqual(correct, Parsers.TagUpdater(@"{{wikify}}"), "first letter casing of template rule does not matter");
 
             const string commentedOut = @"<!-- {{wikify}} -->";
@@ -9146,7 +9146,8 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         [Test]
         public void TagUpdaterFormatDate()
         {
-            WikiRegexes.DatedTemplates.Add(Tools.NestedTemplateRegex("dead link"));
+            WikiRegexes.DatedTemplates.Add("dead link");
+            WikiRegexes.DatedTemplates.Add("wikify");
             Assert.AreEqual(@"<ref>{{cite web | title=foo| url=http://www.site.com }} {{dead link|date=" + System.DateTime.UtcNow.ToString("MMMM yyyy", BritishEnglish) + @"}}</ref>", Parsers.TagUpdater(@"<ref>{{cite web | title=foo| url=http://www.site.com }} {{dead link}}</ref>"));
 
             Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=may 2010}}"), "corrects lower case month name");

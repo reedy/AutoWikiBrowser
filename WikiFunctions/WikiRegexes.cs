@@ -318,7 +318,7 @@ namespace WikiFunctions
         /// <summary>
         /// List of templates that should be dated (with 'date=Month YYYY' on en-wiki), from https://en.wikipedia.org/wiki/Wikipedia:AWB/Dated_templates, see Category:Wikipedia maintenance categories sorted by month
         /// </summary>
-        public static List<Regex> DatedTemplates = new List<Regex>();
+        public static List<string> DatedTemplates = new List<string>();
         
         /// <summary>
         /// Structure of template name, old parameter, new parameter for parameter renaming
