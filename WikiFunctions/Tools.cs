@@ -3118,8 +3118,8 @@ Message: {2}
                 TemplateNamespace = "[Tt]emplate:";
 
             // support (deprecated) {{msg:Foo}} syntax
-            if(Variables.LangCode.Equals("en"))
-                TemplateNamespace = Regex.Replace(TemplateNamespace, @"(.+):$", @"(?:$1|[Mm]sg):");
+            if(string.IsNullOrEmpty(Variables.LangCode) || Variables.LangCode.Equals("en"))
+                TemplateNamespace = Regex.Replace(TemplateNamespace, @"(.+?):$", @"(?:$1|[Mm]sg):");
             
             // allow whitespace before semicolon
             TemplateNamespace = Regex.Replace(TemplateNamespace, @":$", @"[\s_]*:");
