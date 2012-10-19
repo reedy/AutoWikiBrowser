@@ -5453,11 +5453,14 @@ was"));
 
             Assert.AreEqual(TemplateRedirects.Values, Parsers.LoadTemplateRedirects("{{tl|Cn}} → {{tl|Citation needed}}").Values, "loads single redirect rules");
             Assert.AreEqual(TemplateRedirects.Values, Parsers.LoadTemplateRedirects("{{tl|Cn}} → '''{{tl|Citation needed}}'''").Values, "loads single redirect rules");
+            Assert.IsTrue(WikiRegexes.AllTemplateRedirects.IsMatch("{{cn}}"));
 
             TemplateRedirects.Clear();
             TemplateRedirects.Add(Tools.NestedTemplateRegex(new List<string>(new[] { "Cn", "fact" })), "Citation needed");
 
             Assert.AreEqual(TemplateRedirects.Values, Parsers.LoadTemplateRedirects("{{tl|Cn}}, {{tl|fact}} → {{tl|Citation needed}}").Values, "loads multiple redirect rules");
+            Assert.IsTrue(WikiRegexes.AllTemplateRedirects.IsMatch("{{cn}}"));
+            Assert.IsTrue(WikiRegexes.AllTemplateRedirects.IsMatch("{{fact}}"));
         }
 
         [Test]

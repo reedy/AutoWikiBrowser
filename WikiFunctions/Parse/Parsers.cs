@@ -1832,6 +1832,7 @@ namespace WikiFunctions.Parse
         {
             text = WikiRegexes.UnformattedText.Replace(text, "");
             Dictionary<Regex, string> TRs = new Dictionary<Regex, string>();
+            List<string> AllRedirectsList = new List<string>();
 
             foreach (Match m in TemplateRedirectsR.Matches(text))
             {
@@ -1847,7 +1848,10 @@ namespace WikiFunctions.Parse
                 }
 
                 TRs.Add(Tools.NestedTemplateRegex(redirectsList), templateName);
+                AllRedirectsList.AddRange(redirectsList);
             }
+            
+            WikiRegexes.AllTemplateRedirects = Tools.NestedTemplateRegex(AllRedirectsList);
 
             return TRs;
         }
@@ -1882,6 +1886,10 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text</returns>
         public static string TemplateRedirects(string articleText, Dictionary<Regex, string> TemplateRedirects)
         {
+            // quick check to improve performance when no redirects to change
+            if(!WikiRegexes.AllTemplateRedirects.IsMatch(articleText))
+                return articleText;
+            
             foreach (KeyValuePair<Regex, string> kvp in TemplateRedirects)
             {
                 articleText = kvp.Key.Replace(articleText, m => TemplateRedirectsME(m, kvp.Value));
