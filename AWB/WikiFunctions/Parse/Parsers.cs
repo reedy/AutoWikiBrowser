@@ -1853,20 +1853,20 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Processes the text of [[WP:AWB/Dated templates]] into a list of regexes to match each template
+        /// Processes the text of [[WP:AWB/Dated templates]] into a list of template names
         /// Format: * {{tl|Wikify}}
         /// </summary>
         /// <param name="text">The rule page text</param>
-        /// <returns>List of regexes to match dated templates</returns>
-        public static List<Regex> LoadDatedTemplates(string text)
+        /// <returns>List of templates to match dated templates</returns>
+        public static List<string> LoadDatedTemplates(string text)
         {
             text = WikiRegexes.UnformattedText.Replace(text, "");
-            List<Regex> DTs = new List<Regex>();
+            List<string> DTs = new List<string>();
 
             foreach (Match m in TlOrTlx.Matches(text))
             {
                 string templateName = m.Groups[3].Value.Trim('|').TrimEnd('}').Trim();
-                DTs.Add(Tools.NestedTemplateRegex(templateName));
+                DTs.Add(templateName);
             }
 
             return DTs;
@@ -6283,6 +6283,7 @@ namespace WikiFunctions.Parse
         public string Tagger(string articleText, string articleTitle, bool restrictOrphanTagging, out bool noChange, ref string summary)
         {
             string newText = Tagger(articleText, articleTitle, restrictOrphanTagging, ref summary);
+
             newText = TagUpdater(newText);
 
             noChange = (newText.Equals(articleText));
@@ -6746,10 +6747,8 @@ namespace WikiFunctions.Parse
         {
             articleText = ht.Hide(articleText);
 
-            foreach (Regex r in WikiRegexes.DatedTemplates)
-            {
-                articleText = r.Replace(articleText, new MatchEvaluator(TagUpdaterME));
-            }
+            if(WikiRegexes.DatedTemplates.Count > 0)                
+                articleText = Tools.NestedTemplateRegex(WikiRegexes.DatedTemplates).Replace(articleText, TagUpdaterME);
 
             articleText = FixSyntaxSubstRefTags(articleText);
 
