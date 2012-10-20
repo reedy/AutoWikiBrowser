@@ -114,15 +114,15 @@ bar = a|
 picture = Test.JPG
 | there=here}}");
             
-            RegexAssert.NoMatch(WikiRegexes.Images, @"{{Infobox foo|
-  bar = a|
-  map = Image without exension
-  | there=here}}");
-            
             RegexAssert.Matches(WikiRegexes.Images, @"{{Infobox foo|
   bar = a|
   picture = Test.JPG
   | there=here}}", @" Test.JPG");
+
+            RegexAssert.NoMatch(WikiRegexes.Images, @"{{Infobox foo|
+  bar = a|
+  url = http://apageof.com/a.html
+  | there=here}}");
         }
         
         [Test]
