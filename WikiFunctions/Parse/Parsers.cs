@@ -1104,14 +1104,7 @@ namespace WikiFunctions.Parse
 
             articleText = SameMonthInternationalDateRange.Replace(articleText, @"$1–$2");
 
-            foreach (Match m in SameMonthAmericanDateRange.Matches(articleText))
-            {
-                int day1 = Convert.ToInt32(m.Groups[2].Value);
-                int day2 = Convert.ToInt32(m.Groups[3].Value);
-
-                if (day2 > day1)
-                    articleText = articleText.Replace(m.Value, Regex.Replace(m.Value, @" *- *", @"–"));
-            }
+            articleText = SameMonthAmericanDateRange.Replace(articleText, SameMonthAmericanDateRangeME);
 
             articleText = LongFormatInternationalDateRange.Replace(articleText, @"$1–$3 $2 $4");
             articleText = LongFormatAmericanDateRange.Replace(articleText, @"$1 $2–$3, $4");
@@ -1187,6 +1180,16 @@ namespace WikiFunctions.Parse
 
             if (year2 > year1 && year2 - year1 <= 99)
                 return m.Groups[1].Value + m.Groups[2].Value + @"–" + m.Groups[3].Value;
+
+            return m.Value;
+        }
+
+        private static string SameMonthAmericanDateRangeME(Match m)
+        {
+            int day1 = Convert.ToInt32(m.Groups[2].Value), day2 = Convert.ToInt32(m.Groups[3].Value);
+
+            if (day2 > day1)
+                return Regex.Replace(m.Value, @" *- *", @"–");
 
             return m.Value;
         }
@@ -3312,6 +3315,11 @@ namespace WikiFunctions.Parse
         private static readonly Regex CiteVideoPodcast = new Regex(@"[Cc]ite (?:video|podcast)\b", RegexOptions.Compiled);
         private static readonly Regex YearOnly = new Regex(@"^[12]\d{3}$", RegexOptions.Compiled);
 
+        /// <summary>
+        /// Performs fixes to a given citation template call
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
         private static string FixCitationTemplatesME(Match m)
         {
             string newValue = m.Value;
