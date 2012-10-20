@@ -32,13 +32,13 @@ namespace WikiFunctions
             NamespacesCaseInsensitive = new Dictionary<int,Regex>();
             foreach (var p in Variables.NamespacesCaseInsensitive)
             {
-                NamespacesCaseInsensitive[p.Key] = new Regex(p.Value, RegexOptions.Compiled);
+                NamespacesCaseInsensitive[p.Key] = new Regex(p.Value);
             }
 
             TemplateStart = @"\{\{\s*(:?" + Variables.NamespacesCaseInsensitive[Namespace.Template] + ")?";
 
             Category = new Regex(@"\[\[[\s_]*" + Variables.NamespacesCaseInsensitive[Namespace.Category] +
-                                 @"[ _]*(.*?)[ _]*(?:\|([^\|\]]*))?[ _]*\]\]", RegexOptions.Compiled);
+                                 @"[ _]*(.*?)[ _]*(?:\|([^\|\]]*))?[ _]*\]\]");
 
             // Match file name by using allowed character list, [October 2012 any Unicode word characters] then a file extension (these are mandatory on mediawiki), then optional closing ]]
             // this allows typo fixing and find&replace to operate on image descriptions
@@ -52,9 +52,9 @@ namespace WikiFunctions
                     RegexOptions.Compiled | RegexOptions.Singleline);
             
             FileNamespaceLink = new Regex(@"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.File] +
-                                          @"((?>[^\[\]]+|\[\[(?<DEPTH>)|\]\](?<-DEPTH>))*(?(DEPTH)(?!)))\]\]", RegexOptions.Compiled);
+                                          @"((?>[^\[\]]+|\[\[(?<DEPTH>)|\]\](?<-DEPTH>))*(?(DEPTH)(?!)))\]\]");
 
-            Stub = new Regex(@"{{" + Variables.Stub + @"\s*(?:\|[^{}]+)?}}", RegexOptions.Compiled);
+            Stub = new Regex(@"{{" + Variables.Stub + @"\s*(?:\|[^{}]+)?}}");
 
             PossiblyCommentedStub =
                 new Regex(
@@ -76,18 +76,18 @@ namespace WikiFunctions
             Months = "(" + string.Join("|", Variables.MonthNames) + ")";
             MonthsNoGroup = "(?:" + string.Join("|", Variables.MonthNames) + ")";
 
-            Dates = new Regex("^(0?[1-9]|[12][0-9]|3[01]) " + Months + "$", RegexOptions.Compiled);
-            Dates2 = new Regex("^" + Months + " (0?[1-9]|[12][0-9]|3[01])$", RegexOptions.Compiled);
+            Dates = new Regex("^(0?[1-9]|[12][0-9]|3[01]) " + Months + "$");
+            Dates2 = new Regex("^" + Months + " (0?[1-9]|[12][0-9]|3[01])$");
             
-            InternationalDates = new Regex(@"\b([1-9]|[12][0-9]|3[01])(?: +|&nbsp;)" + Months + @" +([12]\d{3})\b", RegexOptions.Compiled);
-            AmericanDates = new Regex(Months + @"(?: +|&nbsp;)([1-9]|[12][0-9]|3[01]),? +([12]\d{3})\b", RegexOptions.Compiled);
+            InternationalDates = new Regex(@"\b([1-9]|[12][0-9]|3[01])(?: +|&nbsp;)" + Months + @" +([12]\d{3})\b");
+            AmericanDates = new Regex(Months + @"(?: +|&nbsp;)([1-9]|[12][0-9]|3[01]),? +([12]\d{3})\b");
 
-            DayMonth = new Regex(@"\b([1-9]|[12][0-9]|3[01]) +" + Months + @"\b", RegexOptions.Compiled);
-            MonthDay = new Regex(Months + @" +([1-9]|[12][0-9]|3[01])\b", RegexOptions.Compiled);
+            DayMonth = new Regex(@"\b([1-9]|[12][0-9]|3[01]) +" + Months + @"\b");
+            MonthDay = new Regex(Months + @" +([1-9]|[12][0-9]|3[01])\b");
             
-            DayMonthRangeSpan = new Regex(@"\b((?:[1-9]|[12][0-9]|3[01])(?:–|&ndash;|{{ndash}}|\/)(?:[1-9]|[12][0-9]|3[01])) " + Months + @"\b", RegexOptions.Compiled);
+            DayMonthRangeSpan = new Regex(@"\b((?:[1-9]|[12][0-9]|3[01])(?:–|&ndash;|{{ndash}}|\/)(?:[1-9]|[12][0-9]|3[01])) " + Months + @"\b");
             
-            MonthDayRangeSpan = new Regex(Months + @" ((?:[1-9]|[12][0-9]|3[01])(?:–|&ndash;|{{ndash}}|\/)(?:[1-9]|[12][0-9]|3[01]))\b", RegexOptions.Compiled);
+            MonthDayRangeSpan = new Regex(Months + @" ((?:[1-9]|[12][0-9]|3[01])(?:–|&ndash;|{{ndash}}|\/)(?:[1-9]|[12][0-9]|3[01]))\b");
 
             List<string> magic;
             string s = Variables.MagicWords.TryGetValue("redirect", out magic)
@@ -126,10 +126,10 @@ namespace WikiFunctions
                     s = "([Dd]isamb(?:ig(?:uation)?)?|[Dd]ab|[Cc]hinese title disambiguation|[Gg]enus disambiguation|[Gg]enus disambig|[Mm]athdab|[Mm]athematics disambiguation|[Mm]athematical disambiguation|[Mm]il-unit-dis|(?:[Nn]umber|[Hh]ospital|[Gg]eo|[Hh]n|[Ss]chool)dis|[Ll]etter-disambig|[[Aa]irport disambig(?:uation)?|[Cc]allsigndis|[Cc]all sign disambiguation|[Dd]isambig-cleanup|[Dd]isambiguation cleanup|[Mm]olFormDisambig|[Mm]olecular formula disambiguation|([Ss]pecies|)LatinNameDisambig|[Ss]pecies Latin name disambiguation|[[Ss]pecies Latin name abbreviation disambiguation|[Ll]etter-NumberComb[Dd]isambig|[Hh]ndis|[Gg]enus disambiguation|[Tt]axonomy disambiguation|[Hh]urricane season disambiguation)";
                     break;
             }
-            Disambigs = new Regex(TemplateStart + s + @"\s*(?:\|[^{}]*?)?}}", RegexOptions.Compiled);
+            Disambigs = new Regex(TemplateStart + s + @"\s*(?:\|[^{}]*?)?}}");
 
             s = "([Ss]urname|SIA|[Ss]hipindex|[Mm]ountainindex|[[Rr]oadindex|[Ss]portindex|[Gg]iven name)";
-            SIAs = new Regex(TemplateStart + s + @"\s*(?:\|[^{}]*?)?}}", RegexOptions.Compiled);
+            SIAs = new Regex(TemplateStart + s + @"\s*(?:\|[^{}]*?)?}}");
             
             if (Variables.MagicWords.TryGetValue("defaultsort", out magic))
                 s = "(?i:" + string.Join("|", magic.ToArray()).Replace(":", "") + ")";
@@ -150,13 +150,13 @@ namespace WikiFunctions
             s += "(?:" + Regex.Escape(Variables.URLLong.Substring(pos)) + @"index\.php(?:\?title=|/)|"
                 + Regex.Escape(Variables.URL.Substring(pos)) + "/wiki/" + ")";
             //}
-            ExtractTitle = new Regex("^" + s + "([^?&]*)$", RegexOptions.Compiled);
+            ExtractTitle = new Regex("^" + s + "([^?&]*)$");
 
             string cat = Variables.NamespacesCaseInsensitive[Namespace.Category],
             img = Variables.NamespacesCaseInsensitive[Namespace.Image];
 
-            EmptyLink = new Regex("\\[\\[(:?" + cat + "|" + img + "|)(|" + img + "|" + cat + "|.*?)\\]\\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-            EmptyTemplate = new Regex(@"{{(" + Variables.NamespacesCaseInsensitive[Namespace.Template] + @")?[|\s]*}}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+            EmptyLink = new Regex("\\[\\[(:?" + cat + "|" + img + "|)(|" + img + "|" + cat + "|.*?)\\]\\]", RegexOptions.IgnoreCase);
+            EmptyTemplate = new Regex(@"{{(" + Variables.NamespacesCaseInsensitive[Namespace.Template] + @")?[|\s]*}}", RegexOptions.IgnoreCase);
             
             // set orphan, wikify, uncat templates & dateparameter string
             string uncattemplate;
@@ -181,14 +181,14 @@ namespace WikiFunctions
                     Wikify = new Regex(@"({{\s*Wikify(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|(?<={{\s*(?:Article|Multiple)\s*issues\b[^{}]*?)\|\s*wikify\s*=[^{}\|]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                     break;
                 default:
-                    Orphan = new Regex(@"(?:{{\s*[Oo]rphan(?:\|(?:[^{}]+|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}))?}}|(?<MI>{{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*orphan\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))", RegexOptions.Compiled);
+                    Orphan = new Regex(@"(?:{{\s*[Oo]rphan(?:\|(?:[^{}]+|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}))?}}|(?<MI>{{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*orphan\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))");
                     uncattemplate = UncatTemplatesEN;
                     DateYearMonthParameter = @"date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
                     Wikify = new Regex(@"(?:{{\s*Wikify(?:\s*\|\s*(?:date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|({{\s*(?:Article|Multiple)\s*issues\b[^{}]*?)\|\s*wikify\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
                     break;
             }
 
-            Uncat = new Regex(@"{{\s*" + uncattemplate + @"((\s*\|[^{}]+)?\s*|\s*\|((?>[^\{\}]+|\{\{(?<DEPTH>)|\}\}(?<-DEPTH>))*(?(DEPTH)(?!))))\}\}", RegexOptions.Compiled);
+            Uncat = new Regex(@"{{\s*" + uncattemplate + @"((\s*\|[^{}]+)?\s*|\s*\|((?>[^\{\}]+|\{\{(?<DEPTH>)|\}\}(?<-DEPTH>))*(?(DEPTH)(?!))))\}\}");
 
             // set Link FA/GA/GL string
             switch (Variables.LangCode)
@@ -348,38 +348,38 @@ namespace WikiFunctions
         /// <summary>
         /// Matches all wikilinks, categories, images etc. with nested links on same line
         /// </summary>
-        public static readonly Regex SimpleWikiLink = new Regex(@"\[\[((?>[^\[\]\n]+|\[\[(?<DEPTH>)|\]\](?<-DEPTH>))*(?(DEPTH)(?!)))\]\]", RegexOptions.Compiled);
+        public static readonly Regex SimpleWikiLink = new Regex(@"\[\[((?>[^\[\]\n]+|\[\[(?<DEPTH>)|\]\](?<-DEPTH>))*(?(DEPTH)(?!)))\]\]");
 
         /// <summary>
         /// Matches only internal wiki links
         /// </summary>
-        public static readonly Regex WikiLinksOnly = new Regex(@"\[\[[^[\]\n]+(?<!\[\[[A-Z]?[a-z-]{2,}:[^[\]\n]+)\]\]", RegexOptions.Compiled);
+        public static readonly Regex WikiLinksOnly = new Regex(@"\[\[[^[\]\n]+(?<!\[\[[A-Z]?[a-z-]{2,}:[^[\]\n]+)\]\]");
 
         /// <summary>
         /// Matches only internal wiki links, possibly with pipe; group 1 is target, group 2 is pipe text, if piped link
         /// </summary>
-        public static readonly Regex WikiLinksOnlyPossiblePipe = new Regex(@"\[\[([^[\]\|\n]+)(?<!\[\[[A-Z]?[a-z-]{2,}:[^[\]\n]+)(?:\|([^[\]\|\n]+))?\]\]", RegexOptions.Compiled);
+        public static readonly Regex WikiLinksOnlyPossiblePipe = new Regex(@"\[\[([^[\]\|\n]+)(?<!\[\[[A-Z]?[a-z-]{2,}:[^[\]\n]+)(?:\|([^[\]\|\n]+))?\]\]");
 
         /// <summary>
         /// Matches only internal wikilinks (with or without pipe) with extra word character(s) e.g. [[link]]age or [[here|link]]age
         /// https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Improve_HideText.HideMore.28.29
         /// </summary>
-        public static readonly Regex WikiLinksOnlyPlusWord = new Regex(@"\[\[[^\[\]\n]+\]\](\w+)", RegexOptions.Compiled);
+        public static readonly Regex WikiLinksOnlyPlusWord = new Regex(@"\[\[[^\[\]\n]+\]\](\w+)");
 
         /// <summary>
         /// Group 1 Matches only the target of the wikilink
         /// </summary>
-        public static readonly Regex WikiLink = new Regex(@"\[\[(.*?)(?:\]\]|\|)", RegexOptions.Compiled);
+        public static readonly Regex WikiLink = new Regex(@"\[\[(.*?)(?:\]\]|\|)");
 
         /// <summary>
         /// Matches piped wikilinks, group 1 is target, group 2 the text
         /// </summary>
-        public static readonly Regex PipedWikiLink = new Regex(@"\[\[([^[\]\n]*?)\|([^[\]\n]*?)\]\]", RegexOptions.Compiled);
+        public static readonly Regex PipedWikiLink = new Regex(@"\[\[([^[\]\n]*?)\|([^[\]\n]*?)\]\]");
 
         /// <summary>
         /// Matches unpiped wikilinks, group 1 is text
         /// </summary>
-        public static readonly Regex UnPipedWikiLink = new Regex(@"\[\[([^\|\n]*?)\]\]", RegexOptions.Compiled);
+        public static readonly Regex UnPipedWikiLink = new Regex(@"\[\[([^\|\n]*?)\]\]");
 
         /// <summary>
         /// Matches {{DEFAULTSORT}}, "key" group being the sortkey
@@ -394,7 +394,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches headings of all levels, group 1 being the heading name
         /// </summary>
-        public static readonly Regex Headings = new Regex(@"^={1,6} *(.*?) *={1,6}(?: *⌊⌊⌊⌊\d{1,4}⌋⌋⌋⌋| *<!--.*?-->)?\s*$", RegexOptions.Multiline | RegexOptions.Compiled);
+        public static readonly Regex Headings = new Regex(@"^={1,6} *(.*?) *={1,6}(?: *⌊⌊⌊⌊\d{1,4}⌋⌋⌋⌋| *<!--.*?-->)?\s*$", RegexOptions.Multiline);
         
         /// <summary>
         /// Matches level 2 headings
@@ -429,32 +429,32 @@ namespace WikiFunctions
         /// <summary>
         /// Matches indented, bulleted or numbered text
         /// </summary>
-        public static readonly Regex BulletedText = new Regex(@"^[\*#: ]+.*?$", RegexOptions.Multiline | RegexOptions.Compiled);
+        public static readonly Regex BulletedText = new Regex(@"^[\*#: ]+.*?$", RegexOptions.Multiline);
 
         /// <summary>
         /// Matches single line templates, NOT nested templates
         /// </summary>
-        public static readonly Regex Template = new Regex(@"{{[^{\n]*?}}", RegexOptions.Compiled);
+        public static readonly Regex Template = new Regex(@"{{[^{\n]*?}}");
 
         /// <summary>
         /// Matches the end of a template call including trailing whitespace
         /// </summary>
-        public static readonly Regex TemplateEnd = new Regex(@" *((?:\r\n)* *)}}$", RegexOptions.Compiled);
+        public static readonly Regex TemplateEnd = new Regex(@" *((?:\r\n)* *)}}$");
 
         /// <summary>
         /// Matches single and multiline templates, NOT nested templates
         /// </summary>
-        public static readonly Regex TemplateMultiline = new Regex(@"{{[^{]*?}}", RegexOptions.Compiled);
+        public static readonly Regex TemplateMultiline = new Regex(@"{{[^{]*?}}");
 
         /// <summary>
         /// Matches single and multiline templates, AND those with nested templates
         /// </summary>
-        public static readonly Regex NestedTemplates = new Regex(@"{{(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}}", RegexOptions.Compiled);
+        public static readonly Regex NestedTemplates = new Regex(@"{{(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}}");
 
         /// <summary>
         /// Matches templates: group 1 matches the names of templates. Not for templates including the template namespace prefix
         /// </summary>
-        public static readonly Regex TemplateName = new Regex(@"{{\s*([^\|{}]+?)(?:\s*<!--.*?-->\s*)?\s*(?:\||}})", RegexOptions.Compiled);
+        public static readonly Regex TemplateName = new Regex(@"{{\s*([^\|{}]+?)(?:\s*<!--.*?-->\s*)?\s*(?:\||}})");
 
         /// <summary>
         /// Matches external links
@@ -469,32 +469,32 @@ namespace WikiFunctions
         /// <summary>
         /// Matches unformatted text regions: nowiki, pre, math, html comments, timelines
         /// </summary>
-        public static readonly Regex UnformattedText = new Regex(@"<nowiki>.*?</\s*nowiki>|<(pre|math|timeline)\b.*?>.*?</\s*\1>|<!--.*?-->", RegexOptions.Singleline | RegexOptions.Compiled);
+        public static readonly Regex UnformattedText = new Regex(@"<nowiki>.*?</\s*nowiki>|<(pre|math|timeline)\b.*?>.*?</\s*\1>|<!--.*?-->", RegexOptions.Singleline);
 
         /// <summary>
         /// Matches &lt;blockquote> tags
         /// </summary>
-        public static readonly Regex Blockquote = new Regex(@"<\s*blockquote[^<>]*>(.*?)<\s*/\s*blockquote\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+        public static readonly Regex Blockquote = new Regex(@"<\s*blockquote[^<>]*>(.*?)<\s*/\s*blockquote\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
         /// Matches &lt;imagemap&gt; tags
         /// </summary>
-        public static readonly Regex ImageMap = new Regex(@"<\s*imagemap\b[^<>]*>(.*?)<\s*/\s*imagemap\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+        public static readonly Regex ImageMap = new Regex(@"<\s*imagemap\b[^<>]*>(.*?)<\s*/\s*imagemap\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
         /// Matches &lt;gallery&gt; tags
         /// </summary>
-        public static readonly Regex GalleryTag = new Regex(@"< *gallery\b([^>]*?)>[\s\S]*?</ *gallery *>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex GalleryTag = new Regex(@"< *gallery\b([^>]*?)>[\s\S]*?</ *gallery *>", RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Matches &lt;noinclude&gt; tags
         /// </summary>
-        public static readonly Regex Noinclude = new Regex(@"<\s*noinclude\s*>(.*?)<\s*/\s*noinclude\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+        public static readonly Regex Noinclude = new Regex(@"<\s*noinclude\s*>(.*?)<\s*/\s*noinclude\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
         /// Matches &lt;includeonly&gt; and &lt;onlyinclude&gt; tags
         /// </summary>
-        public static readonly Regex Includeonly = new Regex(@"(?:<\s*includeonly\s*>.*?<\s*/\s*includeonly\s*>|<\s*onlyinclude\s*>.*?<\s*/\s*onlyinclude\s*>)", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+        public static readonly Regex Includeonly = new Regex(@"(?:<\s*includeonly\s*>.*?<\s*/\s*includeonly\s*>|<\s*onlyinclude\s*>.*?<\s*/\s*onlyinclude\s*>)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
         /// Matches redirects
@@ -558,17 +558,17 @@ namespace WikiFunctions
         ///// <summary>
         ///// Matches words
         ///// </summary>
-        //public static readonly Regex RegexWord = new Regex(@"\w+", RegexOptions.Compiled);
+        //public static readonly Regex RegexWord = new Regex(@"\w+");
 
         /// <summary>
         /// 
         /// </summary>
-        public static readonly Regex Newline = new Regex("\\n", RegexOptions.Compiled);
+        public static readonly Regex Newline = new Regex("\\n");
 
         /// <summary>
         /// Matches words, and allows words with apostrophes to be treated as one whole word
         /// </summary>
-        public static readonly Regex RegexWordApostrophes = new Regex(@"\w+(?:['’]\w+)?", RegexOptions.Compiled);
+        public static readonly Regex RegexWordApostrophes = new Regex(@"\w+(?:['’]\w+)?");
 
         /// <summary>
         /// Matches &lt;source&gt;&lt;/source&gt;, &lt;syntaxhighlight&gt; tags
@@ -655,14 +655,14 @@ namespace WikiFunctions
         /// <summary>
         /// Matches common curly double quotes, see [[MOS:PUNCT]]
         /// </summary>
-        public static readonly Regex CurlyDoubleQuotes = new Regex(@"[«»“”‟‹›“”„“”]", RegexOptions.Compiled);
+        public static readonly Regex CurlyDoubleQuotes = new Regex(@"[«»“”‟‹›“”„“”]");
 
         // covered by TestFixNonBreakingSpaces
         /// <summary>
         /// Matches abbreviated SI units without a non-breaking space, notably does not correct millimetres without a space due to firearms articles using this convention
         /// </summary>
         /// https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Non_breaking_spaces
-        public static readonly Regex UnitsWithoutNonBreakingSpaces = new Regex(@"\b(\d?\.?\d+)\s*((?:[cmknuµ])(?:[mgWN])|m?mol|cd|mi|lb[fs]?|b?hp|mph|ft|[kGM]?Hz|m/s)\b(?<!(\d?\.?\d+)mm)", RegexOptions.Compiled);
+        public static readonly Regex UnitsWithoutNonBreakingSpaces = new Regex(@"\b(\d?\.?\d+)\s*((?:[cmknuµ])(?:[mgWN])|m?mol|cd|mi|lb[fs]?|b?hp|mph|ft|[kGM]?Hz|m/s)\b(?<!(\d?\.?\d+)mm)");
 
         // covered by TestFixNonBreakingSpaces
         /// <summary>
@@ -673,13 +673,13 @@ namespace WikiFunctions
         /// <summary>
         /// Matches abbreviated in, oz, feet when in brackets e.g. (3 in); avoids false positives such as "3 in 4..."
         /// </summary>
-        public static readonly Regex ImperialUnitsInBracketsWithoutNonBreakingSpaces = new Regex(@"(\(\d+(?:\.\d+)?(?:\s*(?:-|–|&mdash;)\s*\d+(?:\.\d+)?)?)\s*((?:in|ft|oz)\))", RegexOptions.Compiled);
+        public static readonly Regex ImperialUnitsInBracketsWithoutNonBreakingSpaces = new Regex(@"(\(\d+(?:\.\d+)?(?:\s*(?:-|–|&mdash;)\s*\d+(?:\.\d+)?)?)\s*((?:in|ft|oz)\))");
 
         #region en only
         /// <summary>
         /// Matches sic either in template or as bracketed text, also related {{typo}} template
         /// </summary>
-        public static readonly Regex SicTag = new Regex(@"({{\s*(?:[Ss]ic|[Tt]ypo)(?:\||}})|([\(\[{]\s*[Ss]ic!?\s*[\)\]}]))", RegexOptions.Compiled);
+        public static readonly Regex SicTag = new Regex(@"({{\s*(?:[Ss]ic|[Tt]ypo)(?:\||}})|([\(\[{]\s*[Ss]ic!?\s*[\)\]}]))");
         
         /// <summary>
         /// Matches the {{use dmy dates}} family of templates and redirects
@@ -720,7 +720,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches ISO 8601 format dates – YYYY-DD-MM – between 1600 and 2099
         /// </summary>
-        public static readonly Regex ISODates = new Regex(@"\b(20\d\d|1[6-9]\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\b", RegexOptions.Compiled);
+        public static readonly Regex ISODates = new Regex(@"\b(20\d\d|1[6-9]\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\b");
         
         /// <summary>
         /// Matches the {{talk header}} templates and its redirects
@@ -753,7 +753,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the various {{BLP unsourced}} templates
         /// </summary>
-        public static readonly Regex BLPSources = new Regex(@"{{\s*([Bb](LP|lp) ?(sources|[Uu]n(sourced|ref(?:erenced)?))|[Uu]n(sourced|referenced) ?[Bb](LP|lp))\b", RegexOptions.Compiled);
+        public static readonly Regex BLPSources = new Regex(@"{{\s*([Bb](LP|lp) ?(sources|[Uu]n(sourced|ref(?:erenced)?))|[Uu]n(sourced|referenced) ?[Bb](LP|lp))\b");
 
         public const string ReferencesTemplates = @"(\{\{\s*(?:ref(?:-?li(?:st|nk)|erence)|[Ll]istaref)(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))\}\}|<\s*references\s*/>|\{\{refs|<\s*references\s*>.*</\s*references\s*>)";
         
@@ -780,12 +780,12 @@ namespace WikiFunctions
         /// <summary>
         /// Matches a bare external link (URL only, no title) within a &lt;ref&gt; tag, group 1 being the URL
         /// </summary>
-        public static readonly Regex BareRefExternalLink = new Regex(@"<\s*ref\b[^<>]*>\s*(?<brace>\[+)?\s*((?:https?|ftp|mailto)://[^\ \n\r<>]+?)\s*(?(brace)\]+|)[\.,:;\s]*<\s*/\s*ref\s*>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex BareRefExternalLink = new Regex(@"<\s*ref\b[^<>]*>\s*(?<brace>\[+)?\s*((?:https?|ftp|mailto)://[^\ \n\r<>]+?)\s*(?(brace)\]+|)[\.,:;\s]*<\s*/\s*ref\s*>", RegexOptions.IgnoreCase);
         // (?<test>a)?b(?(test)c|d)
         /// <summary>
         /// Matches an external link (URL only, no title) within a &lt;ref&gt; tag with a bot generated title or no title, group 1 being the URL, group 2 being the title, if any
         /// </summary>
-        public static readonly Regex BareRefExternalLinkBotGenTitle = new Regex(@"<\s*ref\b[^<>]*>\s*\[*\s*((?:https?|ftp|mailto)://[^\ \n\r<>]+?)\s*(?:\s+([^<>{}]+?)\s*<!--\s*Bot generated title\s*-->)?\]*[\.,:;\s""]*<\s*/\s*ref\s*>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex BareRefExternalLinkBotGenTitle = new Regex(@"<\s*ref\b[^<>]*>\s*\[*\s*((?:https?|ftp|mailto)://[^\ \n\r<>]+?)\s*(?:\s+([^<>{}]+?)\s*<!--\s*Bot generated title\s*-->)?\]*[\.,:;\s""]*<\s*/\s*ref\s*>", RegexOptions.IgnoreCase);
         
         /// <summary>
         /// Matches the various citation templates {{citation}}, {{cite web}} etc. on en-wiki
@@ -823,37 +823,37 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the various categories for dead people on en wiki, and the living people category
         /// </summary>
-        public static readonly Regex DeathsOrLivingCategory = new Regex(@"\[\[\s*Category *:[ _]?(\d{1,2}\w{0,2}[- _]century(?: BC)?[ _]deaths|[0-9s]{3,5}(?: BC)?[ _]deaths|Missing[ _]people\s*(?:\|\]\])|Living[ _]people|(?:Date|Year)[ _]of[ _]death[ _](?:missing|unknown)|Possibly[ _]living[ _]people) *(?:\|.*?)?\]\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex DeathsOrLivingCategory = new Regex(@"\[\[\s*Category *:[ _]?(\d{1,2}\w{0,2}[- _]century(?: BC)?[ _]deaths|[0-9s]{3,5}(?: BC)?[ _]deaths|Missing[ _]people\s*(?:\|\]\])|Living[ _]people|(?:Date|Year)[ _]of[ _]death[ _](?:missing|unknown)|Possibly[ _]living[ _]people) *(?:\|.*?)?\]\]", RegexOptions.IgnoreCase);
         
         /// <summary>
         /// Matches the {{recentlydeceased}} templates and its redirects
         /// </summary>
-        public static readonly Regex LivingPeopleRegex2 = new Regex(@"\{\{\s*(Template:)?(Recent ?death|Recentlydeceased)\}\}", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex LivingPeopleRegex2 = new Regex(@"\{\{\s*(Template:)?(Recent ?death|Recentlydeceased)\}\}", RegexOptions.IgnoreCase);
         
         /// <summary>
         /// Matches the XXXX births / xxth Century / XXXX BC births categories (en only)
         /// </summary>
-        public static readonly Regex BirthsCategory = new Regex(@"\[\[ ?Category ?:[ _]?(?:(\d{3,4})(?:s| BC)?|\d{1,2}\w{0,2}[- _]century)[ _]births(\|.*?)?\]\]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex BirthsCategory = new Regex(@"\[\[ ?Category ?:[ _]?(?:(\d{3,4})(?:s| BC)?|\d{1,2}\w{0,2}[- _]century)[ _]births(\|.*?)?\]\]", RegexOptions.IgnoreCase);
         
         /// <summary>
         /// Matches the "People from ..." en-wiki categories
         /// </summary>
-        public static readonly Regex PeopleFromCategory = new Regex(@"\[\[ ?Category ?: *People from .*?\]\]", RegexOptions.Compiled);
+        public static readonly Regex PeopleFromCategory = new Regex(@"\[\[ ?Category ?: *People from .*?\]\]");
 
         /// <summary>
         /// Matches the various {{birth date and age}} templates, group 1 being the year of birth
         /// </summary>
-        public static readonly Regex DateBirthAndAge = new Regex(@"{{\s*[Bb](?:(?:da|irth ?date(?: and age)?)\s*(?:\|\s*[md]f\s*=\s*y(?:es)?\s*)?\|\s*|irth-date\s*\|[^{}\|]*?)(?:year *= *)?\b([12]\d{3})\s*(?:\||}})", RegexOptions.Compiled);
+        public static readonly Regex DateBirthAndAge = new Regex(@"{{\s*[Bb](?:(?:da|irth ?date(?: and age)?)\s*(?:\|\s*[md]f\s*=\s*y(?:es)?\s*)?\|\s*|irth-date\s*\|[^{}\|]*?)(?:year *= *)?\b([12]\d{3})\s*(?:\||}})");
 
         /// <summary>
         /// Matches the various {{death date}} templates, group 1 being the year of death
         /// </summary>
-        public static readonly Regex DeathDate = new Regex(@"{{\s*[Dd]eath(?: date(?: and age)?\s*(?:\|\s*[md]f\s*=\s*y(?:es)?\s*)?\|\s*|-date\s*\|[^{}\|]*?)(?:year *= *)?\b([12]\d{3})\s*(?:\||}})", RegexOptions.Compiled);
+        public static readonly Regex DeathDate = new Regex(@"{{\s*[Dd]eath(?: date(?: and age)?\s*(?:\|\s*[md]f\s*=\s*y(?:es)?\s*)?\|\s*|-date\s*\|[^{}\|]*?)(?:year *= *)?\b([12]\d{3})\s*(?:\||}})");
 
         /// <summary>
         /// Matches the {{death date and age}} template, group 1 being the year of death, group 2 being the year of birth
         /// </summary>
-        public static readonly Regex DeathDateAndAge = new Regex(@"{{\s*[Dd](?:eath[ -]date and age|da)\s*\|(?:[^{}]*?\|)?\s*([12]\d{3})\s*\|[^{}]+?\|\s*([12]\d{3})\s*\|.*}}", RegexOptions.Compiled);
+        public static readonly Regex DeathDateAndAge = new Regex(@"{{\s*[Dd](?:eath[ -]date and age|da)\s*\|(?:[^{}]*?\|)?\s*([12]\d{3})\s*\|[^{}]+?\|\s*([12]\d{3})\s*\|.*}}");
 
         /// <summary>
         /// Matches {{Link FA|xxx}}, {{Link GA|xxx}}, {{Link FL|xxx}}
@@ -863,7 +863,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{Deadend|xxx}} (en only), including in {{Multiple issues}}, group 1 is the {{Multiple issues}} template call up to the dead end tag
         /// </summary>
-        public static readonly Regex DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end|[Ii]nternal ?links|[Nn]uevointernallinks|[Dd]ep)(?:\|(?:[^{}]+|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}))?}}|({{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*dead ?end\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))", RegexOptions.Compiled);
+        public static readonly Regex DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end|[Ii]nternal ?links|[Nn]uevointernallinks|[Dd]ep)(?:\|(?:[^{}]+|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}))?}}|({{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*dead ?end\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))");
 
         /// <summary>
         /// Matches {{wikify}} tag (including within {{multiple issues}} for en-wiki)
@@ -920,12 +920,12 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the cleanup templates that can be moved into the {{multiple issues}} template
         /// </summary>
-        public static readonly Regex MultipleIssuesTemplateNameRegex = new Regex(MultipleIssuesTemplatesString, RegexOptions.Compiled);
+        public static readonly Regex MultipleIssuesTemplateNameRegex = new Regex(MultipleIssuesTemplatesString);
 
         /// <summary>
         /// Matches COI|OR|POV|BLP
         /// </summary>
-        public static readonly Regex CoiOrPovBlp = new Regex("(COI|OR|POV|BLP)", RegexOptions.Compiled);
+        public static readonly Regex CoiOrPovBlp = new Regex("(COI|OR|POV|BLP)");
 
         public static string DateYearMonthParameter;
         
@@ -1038,17 +1038,17 @@ namespace WikiFunctions
         /// <summary>
         /// Matches empty comments (zero or more whitespace)
         /// </summary>
-        public static readonly Regex EmptyComments = new Regex(@"<!--[^\S\r\n]*-->", RegexOptions.Compiled);
+        public static readonly Regex EmptyComments = new Regex(@"<!--[^\S\r\n]*-->");
 
         /// <summary>
         /// Matches &lt;ref&gt; tags, including named references
         /// </summary>
-        public static readonly Regex Refs = new Regex(@"(<\s*ref\s+(?:name|group)\s*=\s*[^<>]*?/\s*>|<\s*ref\b[^<>]*?>(?>.(?<!<\s*ref\b[^>/]*?>|<\s*/\s*ref\s*>)|<\s*ref\b[^>/]*?>(?<DEPTH>)|<\s*/\s*ref\s*>(?<-DEPTH>))*(?(DEPTH)(?!))<\s*/\s*ref\s*>)", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+        public static readonly Regex Refs = new Regex(@"(<\s*ref\s+(?:name|group)\s*=\s*[^<>]*?/\s*>|<\s*ref\b[^<>]*?>(?>.(?<!<\s*ref\b[^>/]*?>|<\s*/\s*ref\s*>)|<\s*ref\b[^>/]*?>(?<DEPTH>)|<\s*/\s*ref\s*>(?<-DEPTH>))*(?(DEPTH)(?!))<\s*/\s*ref\s*>)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
         
         /// <summary>
         /// Matches &lt;ref&gt; tags with group parameter, optionally named as well. Does not match regular named references
         /// </summary>
-        public static readonly Regex RefsGrouped = new Regex(@"(<\s*ref\s+(?:name\s*=\s*[^<>]*?\s*)?group\s*=\s*[^<>]*?/\s*>|<\s*ref\s+(?:name\s*=\s*[^<>]*?\s*)?group\s*=\s*[^<>]*?>(?>.(?<!<\s*ref\s+group\b[^>/]*?>|<\s*/\s*ref\s*>)|<\s*ref\s+group\b[^>/]*?>(?<DEPTH>)|<\s*/\s*ref\s*>(?<-DEPTH>))*(?(DEPTH)(?!))<\s*/\s*ref\s*>)", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+        public static readonly Regex RefsGrouped = new Regex(@"(<\s*ref\s+(?:name\s*=\s*[^<>]*?\s*)?group\s*=\s*[^<>]*?/\s*>|<\s*ref\s+(?:name\s*=\s*[^<>]*?\s*)?group\s*=\s*[^<>]*?>(?>.(?<!<\s*ref\s+group\b[^>/]*?>|<\s*/\s*ref\s*>)|<\s*ref\s+group\b[^>/]*?>(?<DEPTH>)|<\s*/\s*ref\s*>(?<-DEPTH>))*(?(DEPTH)(?!))<\s*/\s*ref\s*>)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
         
         /// <summary>
         /// Matches &lt;cite&gt; tags
@@ -1058,27 +1058,27 @@ namespace WikiFunctions
         /// <summary>
         /// Matches &lt;/i&gt;...&lt;i&gt; reversed italics tags, group 1 being the content between the tags
         /// </summary>
-        public static readonly Regex ReversedItalics = new Regex(@"< */ *i *>([^<]*)< *i *>(?![^<]*< */ *i *>)", RegexOptions.Compiled);
+        public static readonly Regex ReversedItalics = new Regex(@"< */ *i *>([^<]*)< *i *>(?![^<]*< */ *i *>)");
 
         /// <summary>
         /// Matches &lt;nowiki&gt; tags
         /// </summary>
-        public static readonly Regex Nowiki = new Regex(@"<nowiki\s*>.*?</nowiki\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex Nowiki = new Regex(@"<nowiki\s*>.*?</nowiki\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Matches &lt;small&gt; tags
         /// </summary>
-        public static readonly Regex Small = new Regex(@"<\s*small\s*>((?>(?!<\s*small\s*>|<\s*/\s*small\s*>).|<\s*small\s*>(?<DEPTH>)|<\s*/\s*small\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*small\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex Small = new Regex(@"<\s*small\s*>((?>(?!<\s*small\s*>|<\s*/\s*small\s*>).|<\s*small\s*>(?<DEPTH>)|<\s*/\s*small\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*small\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
         
         /// <summary>
         /// Matches &lt;big&gt; tags
         /// </summary>
-        public static readonly Regex Big = new Regex(@"<\s*big\s*>((?>(?!<\s*big\s*>|<\s*/\s*big\s*>).|<\s*big\s*>(?<DEPTH>)|<\s*/\s*big\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*big\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex Big = new Regex(@"<\s*big\s*>((?>(?!<\s*big\s*>|<\s*/\s*big\s*>).|<\s*big\s*>(?<DEPTH>)|<\s*/\s*big\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*big\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
         
         /// <summary>
         /// Matches &lt;sup&gt; and &lt;sub&gt; tags
         /// </summary>
-        public static readonly Regex SupSub = new Regex(@"<(?<key>su(?:p|b))>(.*?)</\k<key>>", RegexOptions.Singleline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        public static readonly Regex SupSub = new Regex(@"<(?<key>su(?:p|b))>(.*?)</\k<key>>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
         
         /// <summary>
         /// Matches templates, including templates with the template namespace prefix
@@ -1088,12 +1088,12 @@ namespace WikiFunctions
         /// <summary>
         /// No General Fixes regex for checkpage parsing
         /// </summary>
-        public static readonly Regex NoGeneralFixes = new Regex("<!--No general fixes:.*?-->", RegexOptions.Singleline | RegexOptions.Compiled);
+        public static readonly Regex NoGeneralFixes = new Regex("<!--No general fixes:.*?-->", RegexOptions.Singleline);
 
         /// <summary>
         /// No RegexTypoFix regex for checkpage parsing
         /// </summary>
-        public static readonly Regex NoRETF = new Regex("<!--No RETF:.*?-->", RegexOptions.Singleline | RegexOptions.Compiled);
+        public static readonly Regex NoRETF = new Regex("<!--No RETF:.*?-->", RegexOptions.Singleline);
 
         /// <summary>
         /// For extraction of page title from URLs
@@ -1113,17 +1113,17 @@ namespace WikiFunctions
         /// <summary>
         /// Matches bold italic text, group 1 being the text in bold italics
         /// </summary>
-        public static readonly Regex BoldItalics = new Regex(@"(?<!')'{5}((?:[^']+|.*?[^'])?)'{5}(?!')", RegexOptions.Compiled);
+        public static readonly Regex BoldItalics = new Regex(@"(?<!')'{5}((?:[^']+|.*?[^'])?)'{5}(?!')");
 
         /// <summary>
         /// Matches italic text, group 1 being the text in italics
         /// </summary>
-        public static readonly Regex Italics = new Regex(@"(?<!')'{2}((?:[^']+|[^'].*?[^'])?)'{2}(?!')", RegexOptions.Compiled);
+        public static readonly Regex Italics = new Regex(@"(?<!')'{2}((?:[^']+|[^'].*?[^'])?)'{2}(?!')");
 
         /// <summary>
         /// Matches bold text, group 1 being the text in bold
         /// </summary>
-        public static readonly Regex Bold = new Regex(@"(?<!')'{3}((?:[^']+|.*?[^'])?)'{3}(?!')", RegexOptions.Compiled);
+        public static readonly Regex Bold = new Regex(@"(?<!')'{3}((?:[^']+|.*?[^'])?)'{3}(?!')");
         
         /// <summary>
         /// Matches the &lt;br/&gt; tag and valid variants
@@ -1158,23 +1158,23 @@ namespace WikiFunctions
         /// <summary>
         /// Matches parameters within the {{multiple issues}} template using title case (invalid casing)
         /// </summary>
-        public static readonly Regex MultipleIssuesInTitleCase = new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\|\s*(?:[^{}]+?\|\s*)?)([A-Z])([a-z]+[ a-zA-Z]*\s*=)", RegexOptions.Compiled);
+        public static readonly Regex MultipleIssuesInTitleCase = new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\|\s*(?:[^{}]+?\|\s*)?)([A-Z])([a-z]+[ a-zA-Z]*\s*=)");
 
         /// <summary>
         /// Matches a number between 1000 and 2999
         /// </summary>
-        public static readonly Regex GregorianYear = new Regex(@"\b[12]\d{3}\b", RegexOptions.Compiled);
+        public static readonly Regex GregorianYear = new Regex(@"\b[12]\d{3}\b");
         
         /// <summary>
         /// Matches a percentage with a space or a non-breaking space
         /// </summary>
-        public static readonly Regex Percent = new Regex(@"\s(\(?\d+.?\d*)(\s|\&nbsp;)\%(\p{P}|\)?\s)", RegexOptions.Compiled);
+        public static readonly Regex Percent = new Regex(@"\s(\(?\d+.?\d*)(\s|\&nbsp;)\%(\p{P}|\)?\s)");
 
         /// <summary>
         /// Matches 12-hour clock time without a space
         /// </summary>
-        public static readonly Regex ClockTimeWithZero = new Regex(@"0(\d\:\b[012345]\d)([a|p].m.)", RegexOptions.Compiled);
-        public static readonly Regex ClockTime = new Regex(@"(\b[1]?\d\:\b[012345]\d)([a|p].m.)", RegexOptions.Compiled);
+        public static readonly Regex ClockTimeWithZero = new Regex(@"0(\d\:\b[012345]\d)([a|p].m.)");
+        public static readonly Regex ClockTime = new Regex(@"(\b[1]?\d\:\b[012345]\d)([a|p].m.)");
 
         /// <summary>
         /// List of known infobox fields holding date of birth
@@ -1213,7 +1213,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches consecutive whitespace
         /// </summary>
-        public static readonly Regex WhiteSpace = new Regex(@"\s+", RegexOptions.Compiled);
+        public static readonly Regex WhiteSpace = new Regex(@"\s+");
         
         /// <summary>
         /// List of PAGENAME, PAGENAMEE, BASEPAGENAME, BASEPAGENAMEE templates
@@ -1239,6 +1239,6 @@ namespace WikiFunctions
         /// <summary>
         /// Matches templates from Category:Hatnote templates for names
         /// </summary>
-        public static readonly Regex SurnameClarificationTemplates = new Regex(Tools.NestedTemplateRegex("foo").ToString().Replace(@"[Ff]oo", @"[^{}\|]*[\-_ ]name"), RegexOptions.Compiled);
+        public static readonly Regex SurnameClarificationTemplates = new Regex(Tools.NestedTemplateRegex("foo").ToString().Replace(@"[Ff]oo", @"[^{}\|]*[\-_ ]name"));
     }
 }
