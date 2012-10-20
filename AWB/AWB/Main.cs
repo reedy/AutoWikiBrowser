@@ -956,6 +956,8 @@ namespace AutoWikiBrowser
             }
 
             txtEdit.Text = TheArticle.ArticleText;
+            
+             Variables.Profiler.Profile("Skip checks");
 
             //Update statistics and alerts
             if (!BotMode)
