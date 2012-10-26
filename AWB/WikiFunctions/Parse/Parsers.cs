@@ -1890,7 +1890,7 @@ namespace WikiFunctions.Parse
         public static string TemplateRedirects(string articleText, Dictionary<Regex, string> TemplateRedirects)
         {
             // quick check to improve performance when no redirects to change
-            if(!WikiRegexes.AllTemplateRedirects.IsMatch(articleText))
+            if(WikiRegexes.AllTemplateRedirects == null || !WikiRegexes.AllTemplateRedirects.IsMatch(articleText))
                 return articleText;
             
             foreach (KeyValuePair<Regex, string> kvp in TemplateRedirects)
