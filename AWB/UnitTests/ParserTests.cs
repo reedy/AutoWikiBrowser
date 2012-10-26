@@ -3777,6 +3777,16 @@ now"));
             Assert.AreEqual(CorrectFileLink, Parsers.FixSyntax(@"{{File:foo.jpeg|eflkjfdslkj]]"));
             Assert.AreEqual(CorrectFileLink, Parsers.FixSyntax(CorrectFileLink));
 
+            const string CorrectFileLink2 = @"[[Image:foo.jpeg|eflkjfdslkj]]";
+
+            Assert.AreEqual(CorrectFileLink2, Parsers.FixSyntax(@"{{Image:foo.jpeg|eflkjfdslkj]]"));
+            Assert.AreEqual(CorrectFileLink2, Parsers.FixSyntax(CorrectFileLink2));
+
+            const string CorrectFileLink3 = @"[[file:foo.jpeg|eflkjfdslkj]]";
+
+            Assert.AreEqual(CorrectFileLink3, Parsers.FixSyntax(@"{{file:foo.jpeg|eflkjfdslkj]]"));
+            Assert.AreEqual(CorrectFileLink3, Parsers.FixSyntax(CorrectFileLink3));
+
             const string NoFix1 = @"==Charact==
 [[Image:X.jpg|thumb
 |alt=
