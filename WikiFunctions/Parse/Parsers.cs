@@ -2707,16 +2707,16 @@ namespace WikiFunctions.Parse
         private static readonly Regex CitationTemplateIncorrectBraceAtStart = new Regex(@"(?<=<ref(?:\s*name\s*=[^{}<>]+?\s*)?>){\[([Cc]it[ae])", RegexOptions.Compiled);
         private static readonly Regex CitationTemplateIncorrectBracesAtEnd = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*{{[Cc]it[ae][^{}]+?)(?:}\]|\]}|{})(?=\s*</ref>)", RegexOptions.Compiled);
         private static readonly Regex RefExternalLinkMissingStartBracket = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>[^{}\[\]<>]*?){?((?:ht|f)tps?://[^{}\[\]<>]+\][^{}\[\]<>]*</ref>)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        private static readonly Regex RefExternalLinkMissingEndBracket = new Regex(@"(?<=<ref(?:\s*name\s*=[^{}<>]+?\s*)?>[^{}\[\]<>]*?\[\s*(?:ht|f)tps?://[^{}\[\]<>]+)}?(</ref>)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex RefExternalLinkMissingEndBracket = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>[^{}\[\]<>]*?\[\s*(?:ht|f)tps?://[^{}\[\]<>]+)}?(</ref>)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex RefCitationMissingOpeningBraces = new Regex(@"(<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>\s*)\(?\(?([Cc]it[ae][^{}]+}}\s*</ref>)", RegexOptions.Compiled);
-        private static readonly Regex BracesWithinDefaultsort = new Regex(@"(?<={{DEFAULTSORT[^{}\[\]]+)[\]\[]+}}", RegexOptions.Compiled);
+        private static readonly Regex BracesWithinDefaultsort = new Regex(@"({{DEFAULTSORT[^{}\[\]]+)[\]\[]+}}", RegexOptions.Compiled);
 
         // refs with wording and bare link: combine the two
-        private static readonly Regex WordingIntoBareExternalLinks = new Regex(@"(?<=<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*)([^<>{}\[\]\r\n]{3,70}?)[\.,::]?\s*\[\s*((?:[Hh]ttp|[Hh]ttps|[Ff]tp|[Mm]ailto)://[^\ \n\r<>]+)\s*\](?=\s*</ref>)", RegexOptions.Compiled);
+        private static readonly Regex WordingIntoBareExternalLinks = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*)([^<>{}\[\]\r\n]{3,70}?)[\.,::]?\s*\[\s*((?:[Hh]ttp|[Hh]ttps|[Ff]tp|[Mm]ailto)://[^\ \n\r<>]+)\s*\](?=\s*</ref>)", RegexOptions.Compiled);
 
         // space needed between word and external link
         private static readonly Regex ExternalLinkWordSpacingBefore = new Regex(@"(\w)(?=\[(?:https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://.*?\])", RegexOptions.Compiled);
-        private static readonly Regex ExternalLinkWordSpacingAfter = new Regex(@"(?<=\[(?:https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://[^\]\[<>]*?\])(\w)", RegexOptions.Compiled);
+        private static readonly Regex ExternalLinkWordSpacingAfter = new Regex(@"(\[(?:https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://[^\]\[<>]*?\])(\w)", RegexOptions.Compiled);
 
         private static readonly Regex WikilinkEndsBr = new Regex(@"<br[\s/]*>\]\]$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
@@ -2836,8 +2836,8 @@ namespace WikiFunctions.Parse
             articleText = CitationTemplateIncorrectBraceAtStart.Replace(articleText, @"{{$1");
             articleText = CitationTemplateIncorrectBracesAtEnd.Replace(articleText, @"$1}}");
             articleText = RefExternalLinkMissingStartBracket.Replace(articleText, @"$1[$2");
-            articleText = RefExternalLinkMissingEndBracket.Replace(articleText, @"]$1");
-            articleText = BracesWithinDefaultsort.Replace(articleText, @"}}");
+            articleText = RefExternalLinkMissingEndBracket.Replace(articleText, @"$1]$2");
+            articleText = BracesWithinDefaultsort.Replace(articleText, @"$1}}");
 
             // fixes for square brackets used within external links
             foreach (Match m in SquareBracketsInExternalLinks.Matches(articleText))
@@ -2894,10 +2894,10 @@ namespace WikiFunctions.Parse
             // CHECKWIKI errors 55, 63, 66, 77
             articleText = FixSmallTags(articleText);
 
-            articleText = WordingIntoBareExternalLinks.Replace(articleText, @"[$2 $1]");
+            articleText = WordingIntoBareExternalLinks.Replace(articleText, @"$1[$3 $2]");
 
             articleText = ExternalLinkWordSpacingBefore.Replace(articleText, "$1 ");
-            articleText = ExternalLinkWordSpacingAfter.Replace(articleText, " $1");
+            articleText = ExternalLinkWordSpacingAfter.Replace(articleText, "$1 $2");
 
             // CHECKWIKI error 65: Image description ends with break – http://toolserver.org/~sk/cgi-bin/checkwiki/checkwiki.cgi?project=enwiki&view=only&id=65
             foreach (Match m in WikiRegexes.FileNamespaceLink.Matches(articleText))
