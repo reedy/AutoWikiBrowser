@@ -433,6 +433,13 @@ namespace WikiFunctions
 
         private static IWebProxy SystemProxy;
 
+        /// <summary>
+        /// Creates an HTTP web request
+        /// Timeout set to 15 seconds
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="userAgent"></param>
+        /// <returns></returns>
         public static HttpWebRequest PrepareWebRequest(string url, string userAgent)
         {
             HttpWebRequest r = (HttpWebRequest) WebRequest.Create(url);
@@ -445,6 +452,7 @@ namespace WikiFunctions
 
             r.Proxy.Credentials = CredentialCache.DefaultCredentials;
             r.UseDefaultCredentials = true;
+            r.Timeout = 15000; // override default timeout of 300,000 (= 5 minutes) down to 15 seconds
 
             return r;
         }
