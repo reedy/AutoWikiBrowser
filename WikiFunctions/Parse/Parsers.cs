@@ -2729,8 +2729,8 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegexHorizontalRule = new Regex("^<hr>|^----+", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SyntaxRegexHeadingWithHorizontalRule = new Regex("(^==?[^=]*==?)\r\n(\r\n)?----+", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SyntaxRegexHTTPNumber = new Regex(@"HTTP/\d\.", RegexOptions.Compiled);
-        private static readonly Regex SyntaxRegexISBN = new Regex(@"ISBN(?:\-1[03])?: *([0-9])", RegexOptions.Compiled);
-        private static readonly Regex SyntaxRegexPMID = new Regex(@"(PMID): *([0-9]+)", RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexISBN = new Regex(@"ISBN(?:\-1[03])?: *(\d)", RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexPMID = new Regex(@"(PMID): *(\d+)", RegexOptions.Compiled);
         private static readonly Regex ISBNTemplates = Tools.NestedTemplateRegex(new[] { "ISBN-10", "ISBN-13" });
         private static readonly Regex SyntaxRegexExternalLinkOnWholeLine = new Regex(@"^\[(\s*http.*?)\]$", RegexOptions.Compiled | RegexOptions.Singleline);
         private static readonly Regex SyntaxRegexClosingBracket = new Regex(@"([^]])\]([^]]|$)", RegexOptions.Compiled);
@@ -2840,25 +2840,7 @@ namespace WikiFunctions.Parse
             articleText = BracesWithinDefaultsort.Replace(articleText, @"$1}}");
 
             // fixes for square brackets used within external links
-            foreach (Match m in SquareBracketsInExternalLinks.Matches(articleText))
-            {
-                // strip off leading [ and trailing ]
-                string externalLink = SyntaxRegexExternalLinkOnWholeLine.Replace(m.Value, "$1");
-
-                // if there are some brackets left then they need fixing; the mediawiki parser finishes the external link
-                // at the first ] found
-                if (!WikiRegexes.Newline.IsMatch(externalLink) && (externalLink.Contains("]") || externalLink.Contains("[")))
-                {
-                    // replace single ] with &#93; when used for brackets in the link description
-                    if (externalLink.Contains("]"))
-                        externalLink = SyntaxRegexClosingBracket.Replace(externalLink, @"$1&#93;$2");
-
-                    if (externalLink.Contains("["))
-                        externalLink = SyntaxRegexOpeningBracket.Replace(externalLink, @"$1&#91;$2");
-
-                    articleText = articleText.Replace(m.Value, @"[" + externalLink + @"]");
-                }
-            }
+            articleText = SquareBracketsInExternalLinks.Replace(articleText, SquareBracketsInExternalLinksME);
 
             // needs to be applied after SquareBracketsInExternalLinks
             if (!SyntaxRegexImageWithHTTP.IsMatch(articleText))
@@ -2900,11 +2882,7 @@ namespace WikiFunctions.Parse
             articleText = ExternalLinkWordSpacingAfter.Replace(articleText, "$1 $2");
 
             // CHECKWIKI error 65: Image description ends with break – http://toolserver.org/~sk/cgi-bin/checkwiki/checkwiki.cgi?project=enwiki&view=only&id=65
-            foreach (Match m in WikiRegexes.FileNamespaceLink.Matches(articleText))
-            {
-                if (WikilinkEndsBr.IsMatch(m.Value))
-                    articleText = articleText.Replace(m.Value, WikilinkEndsBr.Replace(m.Value, @"]]"));
-            }
+            articleText = WikiRegexes.FileNamespaceLink.Replace(articleText, m=> WikilinkEndsBr.Replace(m.Value, @"]]"));
 
             // workaround for bugzilla 2700: {{subst:}} doesn't work within ref tags
             articleText = FixSyntaxSubstRefTags(articleText);
@@ -2934,6 +2912,29 @@ namespace WikiFunctions.Parse
                 returned += end;
 
             return returned;
+        }
+        
+        /// <summary>
+        /// Fixes bracket problems within external links
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        private static string SquareBracketsInExternalLinksME(Match m)
+        {
+            // strip off leading [ and trailing ]
+            string externalLink = SyntaxRegexExternalLinkOnWholeLine.Replace(m.Value, "$1");
+
+            // if there are some brackets left then they need fixing; the mediawiki parser finishes the external link at the first ] found
+            if (!WikiRegexes.Newline.IsMatch(externalLink) && (externalLink.Contains("]") || externalLink.Contains("[")))
+            {
+                // replace single ] with &#93; when used for brackets in the link description
+                if (externalLink.Contains("]"))
+                    externalLink = SyntaxRegexClosingBracket.Replace(externalLink, @"$1&#93;$2");
+
+                if (externalLink.Contains("["))
+                    externalLink = SyntaxRegexOpeningBracket.Replace(externalLink, @"$1&#91;$2");
+            }
+            return (@"[" + externalLink + @"]");
         }
 
         /// <summary>
@@ -3006,22 +3007,7 @@ namespace WikiFunctions.Parse
 
             foreach (Regex rx in SmallTagRegexes)
             {
-                foreach (Match m in rx.Matches(articleText))
-                {
-                    // don't remove <small> tags from within {{legend}} where use is not unreasonable
-                    if (LegendTemplate.IsMatch(m.Value))
-                        continue;
-
-                    Match s = WikiRegexes.Small.Match(m.Value);
-                    if (s.Success)
-                    {
-                        if (s.Index > 0)
-                            articleText = articleText.Replace(m.Value, WikiRegexes.Small.Replace(m.Value, "$1"));
-                        else
-                            // nested small
-                            articleText = articleText.Replace(m.Value, m.Value.Substring(0, 7) + WikiRegexes.Small.Replace(m.Value.Substring(7), "$1"));
-                    }
-                }
+                articleText = rx.Replace(articleText, FixSmallTagsME);
 
                 if (!WikiRegexes.Small.IsMatch(articleText))
                     return articleText;
@@ -3029,14 +3015,32 @@ namespace WikiFunctions.Parse
 
             return articleText;
         }
+        
+        private static string FixSmallTagsME(Match m)
+        {
+            // don't remove <small> tags from within {{legend}} where use is not unreasonable
+            if (!LegendTemplate.IsMatch(m.Value))
+            {
+                Match s = WikiRegexes.Small.Match(m.Value);
+                if (s.Success)
+                {
+                    if (s.Index > 0)
+                        return WikiRegexes.Small.Replace(m.Value, "$1");
+                    else
+                        // nested small
+                        return m.Value.Substring(0, 7) + WikiRegexes.Small.Replace(m.Value.Substring(7), "$1");
+                }
+            }
+            return m.Value;
+        }
 
         private static readonly Regex CurlyBraceInsteadOfPipeInWikiLink = new Regex(@"(?<=\[\[[^\[\]{}<>\r\n\|]{1,50})}(?=[^\[\]{}<>\r\n\|]{1,50}\]\])", RegexOptions.Compiled);
-        private static readonly Regex CurlyBraceInsteadOfBracketClosing = new Regex(@"(?<=\([^{}<>\(\)]+[^{}<>\(\)\|])}(?=[^{}])", RegexOptions.Compiled);
+        private static readonly Regex CurlyBraceInsteadOfBracketClosing = new Regex(@"(\([^{}<>\(\)]+[^{}<>\(\)\|])}(?=[^{}])", RegexOptions.Compiled);
         private static readonly Regex CurlyBraceInsteadOfSquareBracket = new Regex(@"(?<=\[[^{}<>\[\]]+[^{}<>\(\)\|\]])}(?=[^{}])", RegexOptions.Compiled);
         private static readonly Regex CurlyBraceInsteadOfBracketOpening = new Regex(@"(?<=[^{}<>]){(?=[^{}<>\(\)\|][^{}<>\(\)]+\)[^{}\(\)])", RegexOptions.Compiled);
         private static readonly Regex ExtraBracketOnWikilinkOpening = new Regex(@"(?<=[^\[\]{}<>])(?:{\[\[?|\[\[\[)(?=[^\[\]{}<>]+\]\])", RegexOptions.Compiled);
         private static readonly Regex ExtraBracketOnWikilinkOpening2 = new Regex(@"(?<=\[\[){(?=[^{}\[\]<>]+\]\])", RegexOptions.Compiled);
-        private static readonly Regex ExternalLinkMissingClosing = new Regex(@"(?<=^ *\* *\[ *(?:ht|f)tps?://[^<>{}\[\]\r\n\s]+[^\[\]\r\n]*)(\s$)", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex ExternalLinkMissingClosing = new Regex(@"(^ *\* *\[ *(?:ht|f)tps?://[^<>{}\[\]\r\n\s]+[^\[\]\r\n]*)(\s$)", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex ExternalLinkMissingOpening = new Regex(@"(?<=^ *\*) *(?=(?:ht|f)tps?://[^<>{}\[\]\r\n\s]+[^\[\]\r\n]*\]\s$)", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex TemplateIncorrectClosingBraces = new Regex(@"(?<={{[^{}<>]{1,400}[^{}<>\|\]])(?:\]}|}\]?)(?=[^{}])", RegexOptions.Compiled);
         private static readonly Regex TemplateMissingOpeningBrace = new Regex(@"(?<=[^{}<>\|]){(?=[^{}<>]{1,400}}})", RegexOptions.Compiled);
@@ -3087,7 +3091,7 @@ namespace WikiFunctions.Parse
                             articleTextTemp = CurlyBraceInsteadOfPipeInWikiLink.Replace(articleTextTemp, "|");
 
                             // if it's (blah} then see if setting the } to a ) makes it all balance, but not |} which could be wikitables
-                            articleTextTemp = CurlyBraceInsteadOfBracketClosing.Replace(articleTextTemp, ")");
+                            articleTextTemp = CurlyBraceInsteadOfBracketClosing.Replace(articleTextTemp, "$1)");
 
                             // if it's [blah} then see if setting the } to a ] makes it all balance
                             articleTextTemp = CurlyBraceInsteadOfSquareBracket.Replace(articleTextTemp, "]");
@@ -3117,7 +3121,7 @@ namespace WikiFunctions.Parse
 
                         case '[':
                             // external link missing closing ]
-                            articleTextTemp = ExternalLinkMissingClosing.Replace(articleTextTemp, "]$1");
+                            articleTextTemp = ExternalLinkMissingClosing.Replace(articleTextTemp, "$1]$2");
 
                             // ref with closing [ in error
                             articleTextTemp = RefClosingOpeningBracket.Replace(articleTextTemp, "]$1");
@@ -3155,7 +3159,7 @@ namespace WikiFunctions.Parse
 
                 if (bracketLength == 2)
                 {
-                    articleTextTemp = CurlyBraceInsteadOfBracketClosing.Replace(articleTextTemp, ")");
+                    articleTextTemp = CurlyBraceInsteadOfBracketClosing.Replace(articleTextTemp, "$1)");
                     
                     // if it's on double curly brackets, see if one is missing e.g. {{foo} or {{foo]}
                     articleTextTemp = TemplateIncorrectClosingBraces.Replace(articleTextTemp, "}}");
@@ -4543,6 +4547,7 @@ namespace WikiFunctions.Parse
         }
 
         private static readonly Regex WordWhitespaceEndofline = new Regex(@"(\w+)\s+$", RegexOptions.Compiled);
+        private static string CategoryStart = @"[[" + Variables.Namespaces[Namespace.Category];
 
         // Covered by: LinkTests.TestFixCategories()
         /// <summary>
@@ -4552,31 +4557,27 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixCategories(string articleText)
         {
-            string cat = "[[" + Variables.Namespaces[Namespace.Category];
-
             // fix extra brackets: three or more at end
-            articleText = Regex.Replace(articleText, @"(?<=" + Regex.Escape(cat) + @"[^\r\n\[\]{}<>]+\]\])\]+", "");
+            articleText = Regex.Replace(articleText, @"(?<=" + Regex.Escape(CategoryStart) + @"[^\r\n\[\]{}<>]+\]\])\]+", "");
             // three or more at start
-            articleText = Regex.Replace(articleText, @"\[+(?=" + Regex.Escape(cat) + @"[^\r\n\[\]{}<>]+\]\])", "");
+            articleText = Regex.Replace(articleText, @"\[+(?=" + Regex.Escape(CategoryStart) + @"[^\r\n\[\]{}<>]+\]\])", "");
 
-            foreach (Match m in WikiRegexes.LooseCategory.Matches(articleText))
-            {
-                if (!Tools.IsValidTitle(m.Groups[1].Value))
-                    continue;
+            return WikiRegexes.LooseCategory.Replace(articleText, LooseCategoryME);
+        }
+        
+        private static string LooseCategoryME(Match m)
+        {
+            if (!Tools.IsValidTitle(m.Groups[1].Value))
+                return m.Value;
 
-                string sortkey = m.Groups[2].Value;
+            string sortkey = m.Groups[2].Value;
 
-                // diacritic removal in sortkeys on en-wiki/simple-wiki only
-                if (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple"))
-                    sortkey = Tools.RemoveDiacritics(sortkey);
+            // diacritic removal in sortkeys on en-wiki/simple-wiki only
+            if (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple"))
+                sortkey = Tools.RemoveDiacritics(sortkey);
 
-                string x = cat + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[1].Value, false).Trim()) +
-                    WordWhitespaceEndofline.Replace(sortkey, "$1") + "]]";
-                if (x != m.Value)
-                    articleText = articleText.Replace(m.Value, x);
-            }
-
-            return articleText;
+            return CategoryStart + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[1].Value, false).Trim()) +
+                WordWhitespaceEndofline.Replace(sortkey, "$1") + "]]";
         }
 
         private static readonly Regex TripleBraceNum = new Regex(@"{{{\d}}}", RegexOptions.Compiled);
@@ -5443,7 +5444,7 @@ namespace WikiFunctions.Parse
                     articleText = ExplicitCategorySortkeys(articleText, defaultsortKey);
                 }
             }
-            noChange = (testText == articleText);
+            noChange = testText.Equals(articleText);
             return articleText;
         }
 
