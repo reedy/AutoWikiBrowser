@@ -483,6 +483,14 @@ namespace WikiFunctions.TalkPages
                     // add a WikiProjectBannerShell
                     articletext = @"{{WikiProjectBannerShell|1=" + WPBS1 + Tools.Newline(@"}}")
                         + articletextLocal;
+
+                    // clean up excess whitespace
+                    string zerothSection = WikiRegexes.ZerothSection.Match(articletext).Value;
+                    string restOfArticle = articletext.Replace(zerothSection, "");
+
+                    zerothSection = WikiRegexes.ThreeOrMoreNewlines.Replace(zerothSection, "\r\n\r\n");
+
+                    articletext = zerothSection + restOfArticle;
                 }
             }
             

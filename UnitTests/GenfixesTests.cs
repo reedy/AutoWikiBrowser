@@ -366,7 +366,60 @@ a");
 
             TalkGenFixes();
             Assert.AreEqual(a, ArticleText, "Adds WikiProjectBannerShell when 3 wikiproject links");
+        }
 
+        [Test]
+        public void AddWikiProjectBannerShellWhitespace()
+        {
+            ArticleText = @"{{WikiProject Biography|living=yes}}
+{{WikiProject a |text}}
+{{WikiProject b|text}}
+{{WikiProject c|text}}";
+
+            string a = @"{{WikiProjectBannerShell|1=
+{{WikiProject Biography|living=yes}}
+{{WikiProject a |text}}
+{{WikiProject b|text}}
+{{WikiProject c|text}}
+| blp=yes
+}}
+
+";
+
+            TalkGenFixes();
+            Assert.AreEqual(a, ArticleText, "Adds WikiProjectBannerShell when 3 wikiproject links, cleans whitespace");
+
+             ArticleText = @"{{WikiProject Biography|living=yes}}
+{{WikiProject a |text}}
+{{WikiProject b|text}}
+{{WikiProject c|text}}
+
+==First==
+Word.
+
+
+
+
+Second.";
+
+            a = @"{{WikiProjectBannerShell|1=
+{{WikiProject Biography|living=yes}}
+{{WikiProject a |text}}
+{{WikiProject b|text}}
+{{WikiProject c|text}}
+| blp=yes
+}}
+
+==First==
+Word.
+
+
+
+
+Second.";
+
+            TalkGenFixes();
+            Assert.AreEqual(a, ArticleText, "Adds WikiProjectBannerShell when 3 wikiproject links, cleans whitespace");
         }
     }
 }
