@@ -2556,7 +2556,7 @@ namespace WikiFunctions.Parse
         }
 
         private static readonly Regex BrTwoNewlines = new Regex("(?:<br */?>)+\r\n\r\n", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        private static readonly Regex ThreeOrMoreNewlines = new Regex("\r\n(\r\n)+", RegexOptions.Compiled);
+        private static readonly Regex ThreeOrMoreNewlines = new Regex("\r\n(\r\n){2,}", RegexOptions.Compiled);
         //private static readonly Regex TwoNewlinesInBlankSection = new Regex("== ? ?\r\n\r\n==", RegexOptions.Compiled);
         private static readonly Regex NewlinesBelowExternalLinks = new Regex(@"==External links==[\r\n\s]*\*", RegexOptions.Compiled);
         private static readonly Regex NewlinesBeforeUrl = new Regex(@"\r\n\r\n(\* ?\[?http)", RegexOptions.Compiled);
