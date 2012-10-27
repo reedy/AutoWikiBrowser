@@ -1272,6 +1272,7 @@ namespace WikiFunctions
                 
                 // must call EmboldenTitles before calling FixLinks
                 EmboldenTitles(parsers, skip.SkipNoBoldTitle);
+                Variables.Profiler.Profile("EmboldenTitles");
 
                 MinorFixes(Variables.LangCode, skip.SkipNoHeaderError);
                 Variables.Profiler.Profile("MinorFixes");
