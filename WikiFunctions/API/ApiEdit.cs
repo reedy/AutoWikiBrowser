@@ -197,7 +197,7 @@ namespace WikiFunctions.API
             Uri uri = new Uri(URL);
             string host = uri.Host;
             var newCookies = new CookieContainer();
-            var urls = new[] {uri, new Uri(uri.Scheme + Uri.SchemeDelimiter + "fnord." + host)};
+            var urls = new[] { uri, new Uri(uri.Scheme + Uri.SchemeDelimiter + "fnord." + host) };
             foreach (var u in urls)
             {
                 foreach (Cookie c in Cookies.GetCookies(u))
@@ -223,15 +223,19 @@ namespace WikiFunctions.API
             for (int i = 0; i <= request.GetUpperBound(0); i++)
             {
                 string s = request[i, 0];
-                if (string.IsNullOrEmpty(s)) continue;
+                if (string.IsNullOrEmpty(s))
+                {
+                    continue;
+                }
                 sb.Append('&');
                 sb.Append(s);
                 if (s.Contains("="))
                 {
                     Tools.WriteDebug(s, "Api key parameter includes =");
                 }
+                // Always send a =, so we don't break boolean parameters passed in the POST part of the query
                 sb.Append('=');
-                    // Always send a =, so we don't break boolean parameters passed in the POST part of the query
+
                 s = request[i, 1];
                 if (s != null) // empty string is a valid parameter value!
                 {
@@ -341,7 +345,7 @@ namespace WikiFunctions.API
 
             ServicePointManager.Expect100Continue = false;
             ServicePointManager.ServerCertificateValidationCallback += customXertificateValidation;
-            HttpWebRequest res = (HttpWebRequest) WebRequest.Create(url);
+            HttpWebRequest res = (HttpWebRequest)WebRequest.Create(url);
             res.KeepAlive = true;
             res.ServicePoint.Expect100Continue = false;
             res.Expect = "";
@@ -391,7 +395,7 @@ namespace WikiFunctions.API
                     };
                 req.Credentials = myCache;
 
-                req = (HttpWebRequest) SetBasicAuthHeader(req, login.UserName, login.Password);
+                req = (HttpWebRequest)SetBasicAuthHeader(req, login.UserName, login.Password);
             }
 
             try
@@ -406,7 +410,7 @@ namespace WikiFunctions.API
             }
             catch (WebException ex)
             {
-                var resp = (HttpWebResponse) ex.Response;
+                var resp = (HttpWebResponse)ex.Response;
                 if (resp == null) throw;
                 switch (resp.StatusCode)
                 {
@@ -536,7 +540,7 @@ namespace WikiFunctions.API
             User = new UserInfo(); // we don't know for sure what will be our status in case of exception
 
             bool domainSet = !string.IsNullOrEmpty(domain);
-            string result = HttpPost(new[,] {{"action", "login"}},
+            string result = HttpPost(new[,] { { "action", "login" } },
                                      new[,]
                                          {
                                              {"lgname", username},
@@ -554,7 +558,7 @@ namespace WikiFunctions.API
                 AdjustCookies();
                 string token = xr.GetAttribute("token");
 
-                result = HttpPost(new[,] {{"action", "login"}},
+                result = HttpPost(new[,] { { "action", "login" } },
                                   new[,]
                                       {
                                           {"lgname", username},
@@ -584,7 +588,7 @@ namespace WikiFunctions.API
         {
             Reset();
             User = new UserInfo();
-            string result = HttpGet(new[,] {{"action", "logout"}});
+            string result = HttpGet(new[,] { { "action", "logout" } });
             CheckForErrors(result, "logout");
         }
 
@@ -651,7 +655,7 @@ namespace WikiFunctions.API
             Reset();
             User = new UserInfo();
 
-            string result = HttpPost(new[,] {{"action", "query"}},
+            string result = HttpPost(new[,] { { "action", "query" } },
                                      new[,]
                                          {
                                              {"meta", "userinfo"},
@@ -1048,7 +1052,7 @@ namespace WikiFunctions.API
                 throw new ArgumentException("queryParamters cannot be null/empty", "queryParamters");
 
             string result = HttpGet(ApiURL + "?action=query&format=xml&" + queryParamters);
-                //Should we be checking for maxlag?
+            //Should we be checking for maxlag?
 
             CheckForErrors(result, "query");
 
@@ -1089,7 +1093,7 @@ namespace WikiFunctions.API
                                                                   + @"<!--\[if .*?-->"
                                                                   + @"|<style\b.*?>.*?</style>"
                                                                   + @"|<link rel=""stylesheet"".*?/\s?>"
-                                                                  //+ @"|<script type=""text/javascript"".*?</script>"
+            //+ @"|<script type=""text/javascript"".*?</script>"
                                                                   + ")",
                                                                   RegexOptions.Singleline | RegexOptions.Compiled);
 
@@ -1290,8 +1294,8 @@ namespace WikiFunctions.API
                         throw new LoggedOffException(this);
                     case "spamdetected":
                         throw new SpamlistException(this, errorMessage);
-                        //case "confirmemail":
-                        //
+                    //case "confirmemail":
+                    //
                     default:
                         if (errorCode.Contains("disabled"))
                         {
