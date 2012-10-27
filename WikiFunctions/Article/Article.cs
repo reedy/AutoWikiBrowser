@@ -1359,22 +1359,20 @@ namespace WikiFunctions
                 FixLinks(skip.SkipNoBadLink);
                 Variables.Profiler.Profile("FixLinks");
 
-                if (!Globals.UnitTestMode) // disable to avoid ssslow network requests
-                {
-                    // pass unhidden text to MetaDataSorter so that it can allow for comments around persondata, categories etc.
-                    UnHideText(removeText);
-                    AWBChangeArticleText("Sort meta data",
-                                         parsers.SortMetaData(ArticleText, Name), true);
-                    HideText(removeText);
-
-                    Variables.Profiler.Profile("SortMetaData");
-                }
-
                 AWBChangeArticleText("Simplify links", Parsers.SimplifyLinks(ArticleText), true);
                 Variables.Profiler.Profile("SimplifyLinks");
             }
 
             UnHideText(removeText);
+            
+            if (!Globals.UnitTestMode) // disable to avoid ssslow network requests
+            {
+                // pass unhidden text to MetaDataSorter so that it can allow for comments around persondata, categories etc.
+                AWBChangeArticleText("Sort meta data",
+                                     parsers.SortMetaData(ArticleText, Name), true);
+
+                Variables.Profiler.Profile("SortMetaData");
+            }
 
             if (!Tools.IsRedirect(ArticleText))
             {
