@@ -250,7 +250,7 @@ namespace WikiFunctions.Parse
         {
             string newText = FixHeadings(articleText, articleTitle);
 
-            noChange = (newText == articleText);
+            noChange = newText.Equals(articleText);
 
             return newText.Trim();
         }
@@ -268,7 +268,6 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixHeadings(string articleText, string articleTitle)
         {
-
             articleText = WikiRegexes.Headings.Replace(articleText, FixHeadingsRemoveBrBigME);
 
             articleText = Regex.Replace(articleText, "^={1,4} ?" + Regex.Escape(articleTitle) + " ?={1,4}", "", RegexOptions.IgnoreCase);
