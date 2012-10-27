@@ -2556,7 +2556,8 @@ namespace WikiFunctions.Parse
         }
 
         private static readonly Regex BrTwoNewlines = new Regex("(?:<br */?>)+\r\n\r\n", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        private static readonly Regex ThreeOrMoreNewlines = new Regex("\r\n(\r\n){2,}", RegexOptions.Compiled);
+        private static readonly Regex ThreeOrMoreNewlines = new Regex("(\r\n){3,}", RegexOptions.Compiled);
+        private static readonly Regex FourOrMoreNewlines = new Regex("(\r\n){4,}", RegexOptions.Compiled);
         //private static readonly Regex TwoNewlinesInBlankSection = new Regex("== ? ?\r\n\r\n==", RegexOptions.Compiled);
         private static readonly Regex NewlinesBelowExternalLinks = new Regex(@"==External links==[\r\n\s]*\*", RegexOptions.Compiled);
         private static readonly Regex NewlinesBeforeUrl = new Regex(@"\r\n\r\n(\* ?\[?http)", RegexOptions.Compiled);
@@ -2590,7 +2591,10 @@ namespace WikiFunctions.Parse
             while(BrTwoNewlines.IsMatch(articleText) && !WikiRegexes.Blockquote.IsMatch(articleText))
                 articleText = BrTwoNewlines.Replace(articleText.Trim(), "\r\n\r\n");
 
-            if (!WikiRegexes.Stub.IsMatch(articleText))
+            // retain one or two new lines before stub
+            if (WikiRegexes.Stub.IsMatch(articleText))
+                articleText = FourOrMoreNewlines.Replace(articleText, "\r\n\r\n");
+            else
                 articleText = ThreeOrMoreNewlines.Replace(articleText, "\r\n\r\n");
 
             articleText = NewlinesBelowExternalLinks.Replace(articleText, "==External links==\r\n*");

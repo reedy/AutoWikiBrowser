@@ -1115,5 +1115,50 @@ Text";
 			Assert.AreEqual(f + "\r\n", parser2.Sorter.Interwikis(ref g), "En Link FA order not changed");
 			#endif
 		}
+		
+		[Test]
+		public void SortRu()
+		{
+		    #if DEBUG
+		    Variables.SetProjectLangCode("ru");
+		    WikiRegexes.MakeLangSpecificRegexes();
+		    
+		    parser2.Sorter.PossibleInterwikis = new System.Collections.Generic.List<string> { "en", "zh" };
+		    parser2.Sorter.SortInterwikis = false;
+		    
+		    const string before = @"== Литература ==
+* Taylor, Peter. (1989).
+{{ref-en}}
+
+[[Category:Флора Африки]]
+[[Category:Хищные растения]]
+[[Category:Эндемики Африки]]
+[[Category:Пузырчатковые]]
+[[Category:Таксоны растений, названные в честь людей]]
+
+{{botanics-stub}}
+
+[[en:Utricularia pobeguinii]]
+[[zh:波贝甘狸藻]]", after = @"== Литература ==
+* Taylor, Peter. (1989).
+{{ref-en}}
+
+{{botanics-stub}}
+
+[[Category:Флора Африки]]
+[[Category:Хищные растения]]
+[[Category:Эндемики Африки]]
+[[Category:Пузырчатковые]]
+[[Category:Таксоны растений, названные в честь людей]]
+
+[[en:Utricularia pobeguinii]]
+[[zh:波贝甘狸藻]]";
+		    
+		    Assert.AreEqual(after, parser2.SortMetaData(before, "a"), "Even if RemoveStubs not run on ru-wiki, no excess whitespace left from meta data sorting");
+		    
+		    Variables.SetProjectLangCode("en");
+		    WikiRegexes.MakeLangSpecificRegexes();
+		    #endif
+		}
 	}
 }
