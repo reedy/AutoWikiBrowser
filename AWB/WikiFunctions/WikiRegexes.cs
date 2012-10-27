@@ -484,6 +484,11 @@ namespace WikiFunctions
         public static readonly Regex GalleryTag = new Regex(@"< *gallery\b([^>]*?)>[\s\S]*?</ *gallery *>", RegexOptions.IgnoreCase);
 
         /// <summary>
+        /// Matches three or more consecutive new lines
+        /// </summary>
+        public static readonly Regex ThreeOrMoreNewlines = new Regex("(\r\n){3,}");
+
+        /// <summary>
         /// Matches &lt;noinclude&gt; tags
         /// </summary>
         public static readonly Regex Noinclude = new Regex(@"<\s*noinclude\s*>(.*?)<\s*/\s*noinclude\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
