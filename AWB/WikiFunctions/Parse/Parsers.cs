@@ -6101,16 +6101,9 @@ namespace WikiFunctions.Parse
         /// <returns>Page text</returns>
         public static string InterwikiConversions(string articleText)
         {
-            //Use proper codes
-            //checking first instead of substituting blindly saves some
-            //time due to low occurrence rate
-            if (articleText.Contains("[[zh-tw:"))
-                articleText = articleText.Replace("[[zh-tw:", "[[zh:");
-            if (articleText.Contains("[[nb:"))
-                articleText = articleText.Replace("[[nb:", "[[no:");
-            if (articleText.Contains("[[dk:"))
-                articleText = articleText.Replace("[[dk:", "[[da:");
-            return articleText;
+            articleText = articleText.Replace("[[zh-tw:", "[[zh:");
+            articleText = articleText.Replace("[[nb:", "[[no:");
+            return articleText.Replace("[[dk:", "[[da:");
         }
 
         /// <summary>
