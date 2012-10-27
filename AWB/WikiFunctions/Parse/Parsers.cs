@@ -993,6 +993,7 @@ namespace WikiFunctions.Parse
         }
 
         private static readonly List<string> SectionMergedTemplates = new List<string>(new[] { "see also", "see also2" });
+        private static readonly Regex SectionMergedTemplatesR = Tools.NestedTemplateRegex(SectionMergedTemplates);
 
         /// <summary>
         /// Merges multiple instances of the same template in the same section
@@ -1001,7 +1002,7 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text</returns>
         public static string MergeTemplatesBySection(string articleText)
         {
-            if (Tools.NestedTemplateRegex(SectionMergedTemplates).Matches(articleText).Count < 2)
+            if (SectionMergedTemplatesR.Matches(articleText).Count < 2)
                 return articleText;
 
             string[] articleTextInSections = Tools.SplitToSections(articleText);
@@ -6142,8 +6143,7 @@ namespace WikiFunctions.Parse
         /// <returns>The new article text.</returns>
         public static string Conversions(string articleText)
         {
-            if (articleText.Contains("{{msg:"))
-                articleText = articleText.Replace("{{msg:", "{{");
+            articleText = articleText.Replace("{{msg:", "{{");
 
             foreach (KeyValuePair<Regex, string> k in RegexConversion)
             {
@@ -6172,26 +6172,25 @@ namespace WikiFunctions.Parse
 
             // {{no footnotes}} --> {{more footnotes}}, if some <ref>...</ref> or {{sfn}} references in article, uses regex from WikiRegexes.Refs
             // does not change templates with section / reason tags
-            if ((TotalRefsNotGrouped(articleText) + Tools.NestedTemplateRegex("sfn").Matches(articleText).Count) > 0)
+            if (Tools.NestedTemplateRegex("sfn").Matches(articleText).Count > 0 || TotalRefsNotGrouped(articleText) + Tools.NestedTemplateRegex("sfn").Matches(articleText).Count > 0)
                 articleText = Tools.NestedTemplateRegex("no footnotes").Replace(articleText, m => OnlyArticleBLPTemplateME(m, "more footnotes"));
 
             // {{foo|section|...}} --> {{foo section|...}} for unreferenced, wikify, refimprove, BLPsources, expand, BLP unsourced
             articleText = SectionTemplates.Replace(articleText, new MatchEvaluator(SectionTemplateConversionsME));
 
-            // {{unreferenced}} --> {{BLP unsourced}} if article has [[Category:Living people]], and no free-text first argument to {{unref}}
-            string unref = WikiRegexes.Unreferenced.Match(articleText).Value;
-            if (Variables.IsWikipediaEN && WikiRegexes.Unreferenced.Match(articleText).Groups[1].Value.Length > 0 && WikiRegexes.Unreferenced.Matches(articleText).Count == 1 && articleText.Contains(@"[[Category:Living people")
-                && (Tools.TurnFirstToLower(Tools.GetTemplateArgument(unref, 1)).StartsWith("date")
-                    || Tools.GetTemplateArgumentCount(unref) == 0))
-                articleText = Tools.RenameTemplate(articleText, WikiRegexes.Unreferenced.Match(articleText).Groups[1].Value, "BLP unsourced", false);
+            // fixes if article has [[Category:Living people]]
+            if(Variables.IsWikipediaEN && articleText.Contains(@"[[Category:Living people"))
+            {
+                // {{unreferenced}} --> {{BLP unsourced}} if article has [[Category:Living people]], and no free-text first argument to {{unref}}
+                string unref = WikiRegexes.Unreferenced.Match(articleText).Value;
+                if (WikiRegexes.Unreferenced.Match(articleText).Groups[1].Value.Length > 0 && WikiRegexes.Unreferenced.Matches(articleText).Count == 1
+                    && (Tools.TurnFirstToLower(Tools.GetTemplateArgument(unref, 1)).StartsWith("date")
+                        || Tools.GetTemplateArgumentCount(unref) == 0))
+                            articleText = Tools.RenameTemplate(articleText, WikiRegexes.Unreferenced.Match(articleText).Groups[1].Value, "BLP unsourced", false);
 
-            // {{unreferenced section}} --> {{BLP unsourced section}} if article has [[Category:Living people]]
-            if (Variables.IsWikipediaEN && Tools.NestedTemplateRegex("unreferenced section").IsMatch(articleText) && articleText.Contains(@"[[Category:Living people"))
                 articleText = Tools.RenameTemplate(articleText, "unreferenced section", "BLP unsourced section", false);
-
-            // {{primary sources}} --> {{BLP primary sources}} if article has [[Category:Living people]]
-            if (Variables.IsWikipediaEN && Tools.NestedTemplateRegex("primary sources").IsMatch(articleText) && articleText.Contains(@"[[Category:Living people"))
                 articleText = Tools.RenameTemplate(articleText, "primary sources", "BLP primary sources", false);
+            }
 
             articleText = MergePortals(articleText);
 
