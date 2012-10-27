@@ -1134,8 +1134,6 @@ __TOC__", articleTextIn);
 | blp=yes
 }}{{talk header}}
 
-
-
 ";
             
             Assert.AreEqual(f, TalkPageFixes.WikiProjectBannerShell(e), "adds WPBS, ignores non-wikiproject templates");
