@@ -2152,7 +2152,7 @@ Message: {2}
 		}
 
 		/// <summary>
-		/// 
+		/// Performs HTTP post of given variables to given URL
 		/// </summary>
 		/// <param name="postvars"></param>
 		/// <param name="url"></param>
