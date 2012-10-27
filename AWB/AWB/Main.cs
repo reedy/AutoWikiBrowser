@@ -223,6 +223,12 @@ namespace AutoWikiBrowser
             {
                 mSettingsFile = value;
                 _settingsFileDisplay = Program.Name;
+
+                #if DEBUG
+                if(Variables.RevisionNumber > 0)
+                    _settingsFileDisplay += " rev " + Variables.RevisionNumber;
+                #endif
+
                 if (!string.IsNullOrEmpty(value))
                     _settingsFileDisplay += " - " + Path.GetFileName(value);
                 Text = _settingsFileDisplay;
