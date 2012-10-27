@@ -6135,6 +6135,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex MultipleIssuesUndatedTags = new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*)?|\|)\s*)(?![Ee]xpert)" + WikiRegexes.MultipleIssuesTemplatesString + @"\s*(\||}})", RegexOptions.Compiled);
         private static readonly Regex MultipleIssuesDateRemoval = new Regex(@"(?<={{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*?)?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?){0,4}\|[^{}\|]{3,}?)\b(?i)date(?<!.*out of date)", RegexOptions.Compiled);
         private static readonly Regex CiteTemplateDuplicateBars = new Regex(@"(?!{{[Cc]ite ?(?:wikisource|ngall|uscgll|[lL]egislation AU))(\{\{\s*(?:[Cc]it[ae]|(?:[Aa]rticle|[Mm]ultiple) ?issues)[^{}]*)\|\s*(\}\}|\|)", RegexOptions.Compiled);
+        private static readonly Regex NoFootnotes = Tools.NestedTemplateRegex("no footnotes");
 
         /// <summary>
         /// Converts/subst'd some deprecated templates
@@ -6172,11 +6173,11 @@ namespace WikiFunctions.Parse
 
             // {{no footnotes}} --> {{more footnotes}}, if some <ref>...</ref> or {{sfn}} references in article, uses regex from WikiRegexes.Refs
             // does not change templates with section / reason tags
-            if (Tools.NestedTemplateRegex("sfn").Matches(articleText).Count > 0 || TotalRefsNotGrouped(articleText) + Tools.NestedTemplateRegex("sfn").Matches(articleText).Count > 0)
-                articleText = Tools.NestedTemplateRegex("no footnotes").Replace(articleText, m => OnlyArticleBLPTemplateME(m, "more footnotes"));
+            if (NoFootnotes.IsMatch(articleText) && (Tools.NestedTemplateRegex("sfn").Matches(articleText).Count > 0 || TotalRefsNotGrouped(articleText) > 0))
+                articleText = NoFootnotes.Replace(articleText, m => OnlyArticleBLPTemplateME(m, "more footnotes"));
 
             // {{foo|section|...}} --> {{foo section|...}} for unreferenced, wikify, refimprove, BLPsources, expand, BLP unsourced
-            articleText = SectionTemplates.Replace(articleText, new MatchEvaluator(SectionTemplateConversionsME));
+            articleText = SectionTemplates.Replace(articleText, SectionTemplateConversionsME);
 
             // fixes if article has [[Category:Living people]]
             if(Variables.IsWikipediaEN && articleText.Contains(@"[[Category:Living people"))
