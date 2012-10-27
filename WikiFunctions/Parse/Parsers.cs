@@ -6151,19 +6151,23 @@ namespace WikiFunctions.Parse
             }
 
             bool BASEPAGENAMEInRefs = false;
-            foreach (Match m in WikiRegexes.Refs.Matches(articleText))
-            {
-                if (WikiRegexes.BASEPAGENAMETemplates.IsMatch(m.Value))
-                {
-                    BASEPAGENAMEInRefs = true;
-                    break;
-                }
-            }
 
-            if (!BASEPAGENAMEInRefs)
+            if(WikiRegexes.BASEPAGENAMETemplates.IsMatch(articleText))
             {
-                foreach (string T in WikiRegexes.BASEPAGENAMETemplatesL)
-                    articleText = Tools.RenameTemplate(articleText, T, "subst:" + T);
+                foreach (Match m in WikiRegexes.Refs.Matches(articleText))
+                {
+                    if (WikiRegexes.BASEPAGENAMETemplates.IsMatch(m.Value))
+                    {
+                        BASEPAGENAMEInRefs = true;
+                        break;
+                    }
+                }
+
+                if (!BASEPAGENAMEInRefs)
+                {
+                    foreach (string T in WikiRegexes.BASEPAGENAMETemplatesL)
+                        articleText = Tools.RenameTemplate(articleText, T, "subst:" + T);
+                }
             }
 
             // {{no footnotes}} --> {{more footnotes}}, if some <ref>...</ref> or {{sfn}} references in article, uses regex from WikiRegexes.Refs
