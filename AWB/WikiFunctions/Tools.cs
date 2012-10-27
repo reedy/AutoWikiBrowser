@@ -3194,7 +3194,7 @@ Message: {2}
 		
 		private static string TemplateToMagicWordME(Match m)
 		{
-			if(GetTemplateArgumentCount(m.Value) ==0)
+			if(GetTemplateArgumentCount(m.Value) == 0)
 				return m.Value;
 			
 			return @"{{" + m.Groups[2].Value + @":" + m.Groups[3].Value.Trim().TrimStart('|');
