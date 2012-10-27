@@ -104,7 +104,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// 
+        /// Gets the SVN revision number of the current build
         /// </summary>
         public static int RevisionNumber
         {
@@ -117,7 +117,7 @@ namespace WikiFunctions
         }
 
         /// <summary>
-        /// 
+        /// URL of RegexTypoFix rules page
         /// </summary>
         public static string RetfPath;
 
