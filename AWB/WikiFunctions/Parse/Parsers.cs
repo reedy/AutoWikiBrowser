@@ -2649,7 +2649,7 @@ namespace WikiFunctions.Parse
         {
             string newText = FixSyntax(articleText);
 
-            noChange = (newText.Equals(articleText));
+            noChange = newText.Equals(articleText);
             return newText;
         }
 
@@ -2706,9 +2706,9 @@ namespace WikiFunctions.Parse
         private static readonly Regex ReferenceTemplateQuadBracesAtEnd = new Regex(@"(?<=<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*{{[^{}]+)}}(}}\s*</ref>)", RegexOptions.Compiled);
         private static readonly Regex CitationTemplateIncorrectBraceAtStart = new Regex(@"(?<=<ref(?:\s*name\s*=[^{}<>]+?\s*)?>){\[([Cc]it[ae])", RegexOptions.Compiled);
         private static readonly Regex CitationTemplateIncorrectBracesAtEnd = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*{{[Cc]it[ae][^{}]+?)(?:}\]|\]}|{})(?=\s*</ref>)", RegexOptions.Compiled);
-        private static readonly Regex RefExternalLinkMissingStartBracket = new Regex(@"(?<=<ref(?:\s*name\s*=[^{}<>]+?\s*)?>[^{}\[\]<>]*?){?((?:ht|f)tps?://[^{}\[\]<>]+\][^{}\[\]<>]*</ref>)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex RefExternalLinkMissingStartBracket = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>[^{}\[\]<>]*?){?((?:ht|f)tps?://[^{}\[\]<>]+\][^{}\[\]<>]*</ref>)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex RefExternalLinkMissingEndBracket = new Regex(@"(?<=<ref(?:\s*name\s*=[^{}<>]+?\s*)?>[^{}\[\]<>]*?\[\s*(?:ht|f)tps?://[^{}\[\]<>]+)}?(</ref>)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        private static readonly Regex RefCitationMissingOpeningBraces = new Regex(@"(?<=<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>\s*)\(?\(?(?=[Cc]it[ae][^{}]+}}\s*</ref>)", RegexOptions.Compiled);
+        private static readonly Regex RefCitationMissingOpeningBraces = new Regex(@"(<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>\s*)\(?\(?([Cc]it[ae][^{}]+}}\s*</ref>)", RegexOptions.Compiled);
         private static readonly Regex BracesWithinDefaultsort = new Regex(@"(?<={{DEFAULTSORT[^{}\[\]]+)[\]\[]+}}", RegexOptions.Compiled);
 
         // refs with wording and bare link: combine the two
@@ -2827,7 +2827,7 @@ namespace WikiFunctions.Parse
             articleText = CategoryCurlyBrackets.Replace(articleText, @"[[$1]]");
 
             // fixes for missing/unbalanced brackets
-            articleText = RefCitationMissingOpeningBraces.Replace(articleText, @"{{");
+            articleText = RefCitationMissingOpeningBraces.Replace(articleText, @"$1{{$2");
             articleText = RefTemplateIncorrectBracesAtEnd.Replace(articleText, @"$1}}");
             articleText = RefExternalLinkUsingBraces.Replace(articleText, @"[$1$2]$3");
             articleText = TemplateIncorrectBracesAtStart.Replace(articleText, @"{{$1");
@@ -2835,7 +2835,7 @@ namespace WikiFunctions.Parse
             articleText = ReferenceTemplateQuadBracesAtEnd.Replace(articleText, @"$1");
             articleText = CitationTemplateIncorrectBraceAtStart.Replace(articleText, @"{{$1");
             articleText = CitationTemplateIncorrectBracesAtEnd.Replace(articleText, @"$1}}");
-            articleText = RefExternalLinkMissingStartBracket.Replace(articleText, @"[$1");
+            articleText = RefExternalLinkMissingStartBracket.Replace(articleText, @"$1[$2");
             articleText = RefExternalLinkMissingEndBracket.Replace(articleText, @"]$1");
             articleText = BracesWithinDefaultsort.Replace(articleText, @"}}");
 
