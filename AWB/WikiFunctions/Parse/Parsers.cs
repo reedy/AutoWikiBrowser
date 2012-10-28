@@ -1196,7 +1196,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex DiedDateRegex =
             new Regex(
-                @"('''(?:[^']+|.*?[^'])'''\s*\()d\.(\s+\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?[0-9])|0?([1-3]?[0-9])\s*" +
+                @"('''(?:[^']+|.*?[^'])'''\s*\()d\.(\s+\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
                 WikiRegexes.MonthsNoGroup + @")?\]*\s*\[*[1-2]?\d{3}\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private static readonly Regex DOBRegex =
@@ -1996,7 +1996,7 @@ namespace WikiFunctions.Parse
         }
 
         private static readonly Regex CiteWeb = Tools.NestedTemplateRegex(new[] { "cite web", "citeweb" });
-        private static readonly Regex CitationPopulatedParameter = new Regex(@"\|\s*([\w_0-9-]+)\s*=\s*([^\|}]+)");
+        private static readonly Regex CitationPopulatedParameter = new Regex(@"\|\s*([\w_\d-]+)\s*=\s*([^\|}]+)");
 
         private static readonly Regex citeWebParameters = new Regex(@"\b(accessdate|archivedate|archiveurl|arxiv|asin|at|author\d?|authorlink\d?|bibcode|coauthors?|date|deadurl|doi|doibroken|editor|editor1?-first|editor2-first|editor3-first|editor4-first|editor1?-last|editor2-last|editor3-last|editor4-last|editor1?-link|editor2-link|editor3-link|editor4-link|first\d?|format|id|isbn|issn|jfm|jstor|language|last\d?|lccn|location|month|mr|oclc|ol|osti|pages?|pmc|pmid|postscript|publisher|quote|ref|rfc|separator|ssrn|title|trans_title|type|url|work|year|zbl)\b", RegexOptions.Compiled);
 
@@ -2505,7 +2505,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex DateLeadingZerosAm = new Regex(@"(?<!\b[0-3]?\d *)\b" + WikiRegexes.Months + @" +0([1-9])" + @"\b", RegexOptions.Compiled);
         private static readonly Regex DateLeadingZerosInt = new Regex(@"\b" + @"0([1-9]) +" + WikiRegexes.Months + @"\b", RegexOptions.Compiled);
         private static readonly Regex MonthsRegex = new Regex(@"\b" + WikiRegexes.MonthsNoGroup + @"\b", RegexOptions.Compiled);
-        private static readonly Regex DayOfMonth = new Regex(@"(?<![Tt]he +)\b([1-9]|[12][0-9]|3[01])(?:st|nd|rd|th) +of +" + WikiRegexes.Months, RegexOptions.Compiled);
+        private static readonly Regex DayOfMonth = new Regex(@"(?<![Tt]he +)\b([1-9]|[12]\d|3[01])(?:st|nd|rd|th) +of +" + WikiRegexes.Months, RegexOptions.Compiled);
 
         // Covered by TestFixDateOrdinalsAndOf
         /// <summary>
