@@ -364,6 +364,7 @@ namespace WikiFunctions
                 return (NameSpaceKey == Namespace.Article
                         || NameSpaceKey == Namespace.Category
                         || Name.Contains("Sandbox")
+                        || Name.Contains("sandbox")
                         || Name.Contains("/doc")
                         || (Variables.LangCode.Equals("es") && NameSpaceKey == 104 /* Anexo */)
                         || (Variables.LangCode.Equals("pt") && NameSpaceKey == 102 /* Anexo */));
