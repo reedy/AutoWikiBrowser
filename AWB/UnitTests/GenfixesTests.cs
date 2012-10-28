@@ -62,6 +62,13 @@ namespace UnitTests
             GenFixes();
             Assert.AreEqual(text, ArticleText);
         }
+
+        public void AssertNotChanged(string text, string articleTitle)
+        {
+            ArticleText = text;
+            GenFixes(articleTitle);
+            Assert.AreEqual(text, ArticleText);
+        }
     }
 
     [TestFixture]
