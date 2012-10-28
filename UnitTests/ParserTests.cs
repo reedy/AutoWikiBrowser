@@ -873,6 +873,8 @@ The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines af
     [TestFixture]
     public class LinkTests : RequiresParser
     {
+        public GenfixesTestsBase genFixes  = new GenfixesTestsBase();
+
         [Test]
         public void TestStickyLinks()
         {
@@ -4551,7 +4553,7 @@ http://example.com }}");
 	
         }
 
-        	[Test]
+        [Test]
         public void TestFixNonBreakingSpaces()
         {
             Assert.AreEqual(@"a 50&nbsp;km road", parser.FixNonBreakingSpaces(@"a 50 km road"));
@@ -4566,8 +4568,8 @@ http://example.com }}");
             Assert.AreEqual(@"a 50&nbsp;kHz rod", parser.FixNonBreakingSpaces(@"a 50kHz rod"));
 
             Assert.AreEqual(@"a 50&nbsp;cm road", parser.FixNonBreakingSpaces(@"a 50 cm road"));
-            Assert.AreEqual(@"a 50&nbsp;cm road", parser.FixNonBreakingSpaces(@"a 50cm road"));
-            Assert.AreEqual(@"a 50.247&nbsp;cm road", parser.FixNonBreakingSpaces(@"a 50.247cm road"));
+			Assert.AreEqual(@"a 50&nbsp;cm road", parser.FixNonBreakingSpaces(@"a 50cm road"));
+			Assert.AreEqual(@"a 50.247&nbsp;cm road", parser.FixNonBreakingSpaces(@"a 50.247cm road"));
             Assert.AreEqual(@"a 50.247&nbsp;nm laser", parser.FixNonBreakingSpaces(@"a 50.247nm laser"));
             Assert.AreEqual(@"a 50.247&nbsp;mm pen", parser.FixNonBreakingSpaces(@"a 50.247 mm pen"));
             Assert.AreEqual(@"a 50.247&nbsp;nm laser", parser.FixNonBreakingSpaces(@"a 50.247  nm laser"));
@@ -4581,21 +4583,21 @@ http://example.com }}");
             Assert.AreEqual(@"a 50&nbsp;m/s car", parser.FixNonBreakingSpaces(@"a 50m/s car"));
 
             // no changes for these
-            Assert.AreEqual(@"nearly 5m people", parser.FixNonBreakingSpaces(@"nearly 5m people"));
-            Assert.AreEqual(@"nearly 5 in 10 people", parser.FixNonBreakingSpaces(@"nearly 5 in 10 people"));
-            Assert.AreEqual(@"a 3CD set", parser.FixNonBreakingSpaces(@"a 3CD set"));
-            Assert.AreEqual(@"its 3 feet are", parser.FixNonBreakingSpaces(@"its 3 feet are"));
-            Assert.AreEqual(@"http://site.com/View/3356 A show", parser.FixNonBreakingSpaces(@"http://site.com/View/3356 A show"));
-            Assert.AreEqual(@"a 50&nbsp;km road", parser.FixNonBreakingSpaces(@"a 50&nbsp;km road"));
-            Assert.AreEqual(@"over $200K in cash", parser.FixNonBreakingSpaces(@"over $200K in cash"));
-            Assert.AreEqual(@"now {{a 50kg dog}} was", parser.FixNonBreakingSpaces(@"now {{a 50kg dog}} was"));
-            Assert.AreEqual(@"now a [[50kg dog]] was", parser.FixNonBreakingSpaces(@"now a [[50kg dog]] was"));
-            Assert.AreEqual(@"now “a 50kg dog” was", parser.FixNonBreakingSpaces(@"now “a 50kg dog” was"));
-            Assert.AreEqual(@"now <!--a 50kg dog--> was", parser.FixNonBreakingSpaces(@"now <!--a 50kg dog--> was"));
-            Assert.AreEqual(@"now <nowiki>a 50kg dog</nowiki> was", parser.FixNonBreakingSpaces(@"now <nowiki>a 50kg dog</nowiki> was"));
-            Assert.AreEqual(@"*[http://site.com/blah_20cm_long Site here]", parser.FixNonBreakingSpaces("*[http://site.com/blah_20cm_long Site here]"));
-            Assert.AreEqual(@"a 50 gram rod", parser.FixNonBreakingSpaces(@"a 50 gram rod"));
-            Assert.AreEqual(@"a long (50 foot) toad", parser.FixNonBreakingSpaces(@"a long (50 foot) toad"));
+            genFixes.AssertNotChanged(@"nearly 5m people");
+			genFixes.AssertNotChanged(@"nearly 5 in 10 people");
+			genFixes.AssertNotChanged(@"a 3CD set");
+			genFixes.AssertNotChanged(@"its 3 feet are");
+			genFixes.AssertNotChanged(@"http://site.com/View/3356 A show");
+			genFixes.AssertNotChanged(@"a 50&nbsp;km road");
+			genFixes.AssertNotChanged(@"over $200K in cash");
+			genFixes.AssertNotChanged(@"now {{a 50kg dog}} was");
+			genFixes.AssertNotChanged(@"now a [[50kg dog]] was");
+			genFixes.AssertNotChanged(@"now “a 50kg dog” was");
+			genFixes.AssertNotChanged(@"now <!--a 50kg dog--> was");
+			genFixes.AssertNotChanged(@"now <nowiki>a 50kg dog</nowiki> was");
+			genFixes.AssertNotChanged(@"*[http://site.com/blah_20cm_long Site here]");
+			genFixes.AssertNotChanged(@"a 50 gram rod");
+			genFixes.AssertNotChanged(@"a long (50 foot) toad");
 
             // firearms articles don't use spaces for ammo sizes
             Assert.AreEqual(@"the 50mm gun", parser.FixNonBreakingSpaces(@"the 50mm gun"));
@@ -4644,6 +4646,8 @@ http://example.com }}");
     [TestFixture]
     public class FormattingTests : RequiresParser
     {
+        public GenfixesTestsBase genFixes  = new GenfixesTestsBase();
+
         [Test]
         public void TestBrConverter()
         {
@@ -5321,13 +5325,12 @@ Why miserable patient<br />
             Assert.AreEqual(@"Djali Zwan made their live debut as a quartet—Corgan, Sweeney, Pajo and Chamberlin—at the end of 2001", parser.Mdashes(@"Djali Zwan made their live debut as a quartet --  Corgan, Sweeney, Pajo and Chamberlin --at the end of 2001", "test"));
             Assert.AreEqual(@"Djali Zwan made their live debut as a quartet—Corgan, Sweeney, Pajo and Chamberlin—at the end of 2001", parser.Mdashes(@"Djali Zwan made their live debut as a quartet -- Corgan, Sweeney, Pajo and Chamberlin--at the end of 2001", "test"));
             Assert.AreEqual("Eugene Ormandy—who later", parser.Mdashes("Eugene Ormandy--who later", "test"));
-            Assert.AreEqual("[[Eugene Ormandy]]—who later", parser.Mdashes("[[Eugene Ormandy]]--who later", "test"));
+            genFixes.AssertChange("[[Eugene Ormandy]]--who later", "[[Eugene Ormandy]]—who later");
 
-            const string XN = @"now the domain xn-- was ";
-            Assert.AreEqual(XN, parser.Mdashes(XN, "test"));
+            genFixes.AssertNotChanged(@"now the domain xn-- was");
 
             // only applied on article namespace
-            Assert.AreEqual(@"Djali Zwan made their live debut as a quartet -- Corgan, Sweeney, Pajo and Chamberlin -- at the end of 2001", parser.Mdashes(@"Djali Zwan made their live debut as a quartet -- Corgan, Sweeney, Pajo and Chamberlin -- at the end of 2001", "Template:test"));
+            genFixes.AssertNotChanged(@"Djali Zwan made their live debut as a quartet -- Corgan, Sweeney, Pajo and Chamberlin -- at the end of 2001", "Template:test");
 
             // precisely two dashes only
             Assert.AreEqual(@"Djali Zwan made their live debut as a quartet --- Corgan, Sweeney, Pajo and Chamberlin - at the end of 2001", parser.Mdashes(@"Djali Zwan made their live debut as a quartet --- Corgan, Sweeney, Pajo and Chamberlin - at the end of 2001", "test"));
@@ -5559,6 +5562,8 @@ was"));
     [TestFixture]
     public class MOSTests : RequiresParser
     {
+        public GenfixesTestsBase genFixes  = new GenfixesTestsBase();
+        
         [Test]
         public void TestFixDateMonthOfYear()
         {
@@ -5570,11 +5575,11 @@ was"));
             Assert.AreEqual(@"Now in January 1807 and May 1804 a new", parser.FixDateOrdinalsAndOf(@"Now in January of 1807 and May of 1804 a new", "test"));
 
             // no Matches
-            Assert.AreEqual(@"Now ""in July of 2007"" a new", parser.FixDateOrdinalsAndOf(@"Now ""in July of 2007"" a new", "test"));
-            Assert.AreEqual(@"Now {{quote|in July of 2007}} a new", parser.FixDateOrdinalsAndOf(@"Now {{quote|in July of 2007}} a new", "test"));
-            Assert.AreEqual(@"Now ""in July of 1707"" a new", parser.FixDateOrdinalsAndOf(@"Now ""in July of 1707"" a new", "test"));
-            Assert.AreEqual(@"Now a march of 2007 resulted", parser.FixDateOrdinalsAndOf(@"Now a march of 2007 resulted", "test"));
-            Assert.AreEqual(@"Now the June of 2007 was", parser.FixDateOrdinalsAndOf(@"Now the June of 2007 was", "test"));
+            genFixes.AssertNotChanged(@"Now ""in July of 2007"" a new");
+            genFixes.AssertNotChanged(@"Now {{quote|in July of 2007}} a new");
+            genFixes.AssertNotChanged(@"Now ""in July of 1707"" a new");
+            genFixes.AssertNotChanged(@"Now a march of 2007 resulted");
+            genFixes.AssertNotChanged(@"Now the June of 2007 was");
         }
 
         [Test]
@@ -5602,11 +5607,11 @@ was"));
             Assert.AreEqual(@"On 3 and 15 June elections were", parser.FixDateOrdinalsAndOf(@"On 3rd and 15th June elections were", "test"));
 
             // no Matches, particularly dates with 'the' before where fixing the ordinal may leave 'on the 11 May' which wouldn't read well
-            Assert.AreEqual(@"On 14th march was", parser.FixDateOrdinalsAndOf(@"On 14th march was", "test"));
-            Assert.AreEqual(@"Now the 14th February was", parser.FixDateOrdinalsAndOf(@"Now the 14th February was", "test"));
-            Assert.AreEqual(@"Now the February 14th was", parser.FixDateOrdinalsAndOf(@"Now the February 14th was", "test"));
-            Assert.AreEqual(@"'''6th October City''' is", parser.FixDateOrdinalsAndOf(@"'''6th October City''' is", "6th October City"));
-            Assert.AreEqual(@"<blockquote>On March 14th, 2008 elections were</blockquote>", parser.FixDateOrdinalsAndOf(@"<blockquote>On March 14th, 2008 elections were</blockquote>", "test"));
+            genFixes.AssertNotChanged(@"On 14th march was");
+            genFixes.AssertNotChanged(@"Now the 14th February was");
+            genFixes.AssertNotChanged(@"Now the February 14th was");
+            genFixes.AssertNotChanged(@"'''6th October City''' is", "6th October City");
+            genFixes.AssertNotChanged(@"<blockquote>On March 14th, 2008 elections were</blockquote>");
         }
 
         [Test]
@@ -5632,24 +5637,16 @@ was"));
             Assert.AreEqual(@"24 June 2009 was", parser.FixDateOrdinalsAndOf(@"24th of June 2009 was", "test"));
 
             // no change
-            string nochange1 = @"On the 14th of February 2009 was";
-            Assert.AreEqual(nochange1, parser.FixDateOrdinalsAndOf(nochange1, "test"));
-            string image3 = @"now foo [[File:9th of June street.jpg]] was";
-            Assert.AreEqual(image3, parser.FixDateOrdinalsAndOf(image3, "testing image"));
-            string image4 = @"now foo [[File:9th of June street , City.JPG|Caption]] was";
-            Assert.AreEqual(image4, parser.FixDateOrdinalsAndOf(image4, "testing image with caption"));
-            string image5 = @"now foo [[File:9th of June street , City.JPG|On [[Main Article#Overview|9th of June]] Street]] was here";
-            Assert.AreEqual(image5, parser.FixDateOrdinalsAndOf(image5, "testing image with wikilinked caption"));
-            string image6 = @"now foo [[File:9th of June street , Bacău.JPG|[[Main Article#Overview|9th of June]] Street]] was here";
-            Assert.AreEqual(image6, parser.FixDateOrdinalsAndOf(image6, "testing a more complicated case"));
-            string imagegallery1 = @"now foo <gallery>File:9th of June street.JPG</gallery> was here";
-            Assert.AreEqual(imagegallery1, parser.FixDateOrdinalsAndOf(imagegallery1,"testing gallery"));
-            string imagegallery2 = @"now foo <gallery>File:9th of June street , B.JPG</gallery> was here";
-            Assert.AreEqual(imagegallery2, parser.FixDateOrdinalsAndOf(imagegallery2,"testing gallery 2"));
-            string imagegallery3 = @"n<gallery>
+            genFixes.AssertNotChanged(@"On the 14th of February 2009 was");
+            genFixes.AssertNotChanged(@"now foo [[File:9th of June street.jpg]] was");
+            genFixes.AssertNotChanged(@"now foo [[File:9th of June street , City.JPG|Caption]] was");
+            genFixes.AssertNotChanged(@"now foo [[File:9th of June street , City.JPG|On [[Main Article#Overview|9th of June]] Street]] was here");
+            genFixes.AssertNotChanged(@"now foo [[File:9th of June street , Bacău.JPG|[[Main Article#Overview|9th of June]] Street]] was here");
+            genFixes.AssertNotChanged(@"now foo <gallery>File:9th of June street.JPG</gallery> was here");
+            genFixes.AssertNotChanged(@"now foo <gallery>File:9th of June street , B.JPG</gallery> was here");
+            genFixes.AssertNotChanged(@"n<gallery>
 File:9th of May_street, Bacău.jpg| Street
-</gallery>";
-            Assert.AreEqual(imagegallery3, parser.FixDateOrdinalsAndOf(imagegallery3,"testing gallery 3"));
+</gallery>");
         }
 
         [Test]

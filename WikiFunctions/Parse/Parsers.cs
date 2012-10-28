@@ -2282,8 +2282,6 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string Mdashes(string articleText, string articleTitle)
         {
-            articleText = HideMoreText(articleText);
-
             // replace hyphen with dash and convert Pp. to pp.
             foreach (Match m in PageRangeIncorrectMdash.Matches(articleText))
             {
@@ -2313,9 +2311,7 @@ namespace WikiFunctions.Parse
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#minuses
             // replace hyphen or en-dash or emdash with Unicode minus (&minus;)
             // [[Wikipedia:MOSNUM#Common_mathematical_symbols]]
-            articleText = SuperscriptMinus.Replace(articleText, "−");
-
-            return AddBackMoreText(articleText);
+            return SuperscriptMinus.Replace(articleText, "−");
         }
 
         // Covered by: FootnotesTests.TestFixReferenceListTags()
@@ -2523,9 +2519,6 @@ namespace WikiFunctions.Parse
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
-            // hide items in quotes etc., though this may also hide items within infoboxes etc.
-            articleText = HideMoreText(articleText);
-
             articleText = OfBetweenMonthAndYear.Replace(articleText, "$1 $2");
 
             // don't apply if article title has a month in it (e.g. [[6th of October City]])
@@ -2542,9 +2535,7 @@ namespace WikiFunctions.Parse
             // catch after any other fixes
             articleText = NoCommaAmericanDates.Replace(articleText, @"$1, $2");
 
-            articleText = IncorrectCommaInternationalDates.Replace(articleText, @"$1 $2");
-
-            return AddBackMoreText(articleText);
+            return IncorrectCommaInternationalDates.Replace(articleText, @"$1 $2");
         }
 
         private static readonly Regex BrTwoNewlines = new Regex("(?:<br */?>)+\r\n\r\n", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -4623,9 +4614,6 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string FixNonBreakingSpaces(string articleText)
         {
-            // hide items in quotes etc., though this may also hide items within infoboxes etc.
-            articleText = HideMoreText(articleText);
-
             // only apply um (micrometre) fix on English wiki to avoid German word "um"
             articleText = WikiRegexes.UnitsWithoutNonBreakingSpaces.Replace(articleText, m => (m.Groups[1].Value.StartsWith("um") && !Variables.LangCode.Equals("en")) ? m.Value : "&nbsp;" + m.Groups[1].Value);
 
@@ -4650,7 +4638,7 @@ namespace WikiFunctions.Parse
                 articleText = WikiRegexes.Percent.Replace(articleText, " $1%$3");
             }
 
-            return AddBackMoreText(articleText);
+            return articleText;
         }
 
         /// <summary>
@@ -6292,7 +6280,7 @@ namespace WikiFunctions.Parse
 
             newText = TagUpdater(newText);
 
-            noChange = (newText.Equals(articleText));
+            noChange = newText.Equals(articleText);
 
             return newText;
         }

@@ -1222,6 +1222,7 @@ namespace WikiFunctions
         #region General fixes
         private bool _generalFixesCausedChange, _textAlreadyChanged, _generalFixesSignificantChange, _universalGeneralFixesCausedChange;
         private string _afterGeneralFixesArticleText;
+        private readonly HideText HiderHideExtLinksImages = new HideText(true, true, true);
 
         /// <summary>
         /// Performs numerous minor improvements to the page text
@@ -1240,7 +1241,6 @@ namespace WikiFunctions
             BeforeGeneralFixesTextChanged();
 
             HideText(removeText);
-
             Variables.Profiler.Profile("HideText");
 
             if (Tools.IsRedirect(ArticleText))
@@ -1301,12 +1301,6 @@ namespace WikiFunctions
                 AWBChangeArticleText("Fix temperatures", Parsers.FixTemperatures(ArticleText), true);
                 Variables.Profiler.Profile("FixTemperatures");
 
-                if (!noMOSComplianceFixes)
-                {
-                    AWBChangeArticleText("Fix non-breaking spaces", parsers.FixNonBreakingSpaces(ArticleText), true);
-                    Variables.Profiler.Profile("FixNonBreakingSpaces");
-                }
-
                 AWBChangeArticleText("Fix main article", Parsers.FixMainArticle(ArticleText), true);
                 Variables.Profiler.Profile("FixMainArticle");
 
@@ -1344,15 +1338,6 @@ namespace WikiFunctions
                 AWBChangeArticleText("Add missing {{reflist}}", Parsers.AddMissingReflist(ArticleText), true, true);
                 Variables.Profiler.Profile("AddMissingReflist");
 
-                if (!noMOSComplianceFixes)
-                {
-                    AWBChangeArticleText("Mdashes", parsers.Mdashes(ArticleText, Name), true);
-                    Variables.Profiler.Profile("Mdashes");
-
-                    AWBChangeArticleText("Fix Date Ordinals/Of", parsers.FixDateOrdinalsAndOf(ArticleText, Name), true, true);
-                    Variables.Profiler.Profile("FixDateOrdinalsAndOf");
-                }
-
                 AWBChangeArticleText("PersonData", Parsers.PersonData(ArticleText, Name), false);
                 Variables.Profiler.Profile("PersonData");
 
@@ -1364,7 +1349,25 @@ namespace WikiFunctions
             }
 
             UnHideText(removeText);
-            
+
+            HideMoreText(HiderHideExtLinksImages);
+            Variables.Profiler.Profile("HideMoreText");
+
+            if (!noMOSComplianceFixes)
+            {
+                AWBChangeArticleText("Fix non-breaking spaces", parsers.FixNonBreakingSpaces(ArticleText), true);
+                Variables.Profiler.Profile("FixNonBreakingSpaces");
+
+                AWBChangeArticleText("Mdashes", parsers.Mdashes(ArticleText, Name), true);
+                Variables.Profiler.Profile("Mdashes");
+
+                AWBChangeArticleText("Fix Date Ordinals/Of", parsers.FixDateOrdinalsAndOf(ArticleText, Name), true, true);
+                Variables.Profiler.Profile("FixDateOrdinalsAndOf");
+            }
+
+            UnHideMoreText(HiderHideExtLinksImages);
+            Variables.Profiler.Profile("UnHideMoreText");
+
             if (!Globals.UnitTestMode) // disable to avoid ssslow network requests
             {
                 // pass unhidden text to MetaDataSorter so that it can allow for comments around persondata, categories etc.
