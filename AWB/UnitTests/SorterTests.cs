@@ -832,6 +832,14 @@ foo";
 [[Category:Two]]
 ", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category removed, same sortkey");
 		    
+		    cats = @"[[Category:One]] <!--comm-->
+[[Category:Two]]
+[[Category:One]]";
+			
+			Assert.AreEqual( @"[[Category:One]] <!--comm-->
+[[Category:Two]]
+", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category removed, first with comment");
+		    
 		    cats = @"[[Category:One|A]]
 [[Category:Two]]
 [[Category:One|B]]";
@@ -840,6 +848,15 @@ foo";
 [[Category:Two]]
 [[Category:One|B]]
 ", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category NOT removed, conflicting sortkey");
+		    
+		    cats = @"[[Category:One]] <!--comm-->
+[[Category:Two]]
+[[Category:One]] <!--comm2-->";
+			
+			Assert.AreEqual( @"[[Category:One]] <!--comm-->
+[[Category:Two]]
+[[Category:One]] <!--comm2-->
+", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category NOT removed, conflicting comments");
 		}
 
 		[Test]

@@ -1001,23 +1001,29 @@ en, sq, ru
 		}
 
 		/// <summary>
-		/// 
+		/// Remove duplicates, and return List as string, one item per line
 		/// </summary>
 		/// <param name="items"></param>
 		/// <returns></returns>
 		private static string ListToString(ICollection<string> items)
-		{//remove duplicates, and return List as string.
-
+		{
 			if (items.Count == 0)
 				return "";
 
 			List<string> uniqueItems = new List<string>();
 
-			//remove duplicates
+			//remove duplicates: duplicate if an existing list item starts the with string
 			foreach (string s in items)
 			{
-				if (!uniqueItems.Contains(s))
-					uniqueItems.Add(s);
+			    bool addme = true;
+			    foreach(string u in uniqueItems)
+			    {
+			        if(u.StartsWith(s))
+			            addme = false;
+			    }
+
+			    if(addme)
+			        uniqueItems.Add(s);
 			}
 
 			StringBuilder list = new StringBuilder();
