@@ -1606,7 +1606,7 @@ namespace WikiFunctions
 			text = Regex.Replace(text, "<br ?/?>", "", RegexOptions.IgnoreCase);
 			text = Regex.Replace(text, "</?(ol|ul|li)>", "", RegexOptions.IgnoreCase);
 			text = Regex.Replace(text, "^</?(ol|ul|li)>\r\n", "", RegexOptions.Multiline | RegexOptions.IgnoreCase);
-			text = Regex.Replace(text, @"^(\:|\*|#|\(? ?[0-9]{1,3}\b ?\)|[0-9]{1,3}\b\.?)", "", RegexOptions.Multiline);
+			text = Regex.Replace(text, @"^(\:|\*|#|\(? ?\d{1,3}\b ?\)|\d{1,3}\b\.?)", "", RegexOptions.Multiline);
 
 			// add bullet to start of each line, but not lines with just whitespace
 			return Regex.Replace(text, @"^(.*)$(?<!^\s+$)", bullet + "$1", RegexOptions.Multiline);
