@@ -132,9 +132,14 @@ namespace AutoWikiBrowser
 
         /// <summary>
         /// Call this when it's time to consider submitting some data
+        /// Don't try to send stats if no edits/new pages
         /// </summary>
         internal static void Do(bool appexit)
         {
+            // no stats to send if no edits
+            if (Program.AWB.NumberOfEdits == 0 && Program.AWB.NumberOfNewPages == 0) 
+                return;
+            
             try
             {
                 if (EstablishedContact)
