@@ -4530,7 +4530,6 @@ namespace WikiFunctions.Parse
         }
 
         private static readonly Regex WordWhitespaceEndofline = new Regex(@"(\w+)\s+$", RegexOptions.Compiled);
-        private static string CategoryStart = @"[[" + Variables.Namespaces[Namespace.Category];
 
         // Covered by: LinkTests.TestFixCategories()
         /// <summary>
@@ -4540,6 +4539,7 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixCategories(string articleText)
         {
+	        string CategoryStart = @"[[" + Variables.Namespaces[Namespace.Category];
             // fix extra brackets: three or more at end
             articleText = Regex.Replace(articleText, @"(?<=" + Regex.Escape(CategoryStart) + @"[^\r\n\[\]{}<>]+\]\])\]+", "");
             // three or more at start
@@ -4550,6 +4550,7 @@ namespace WikiFunctions.Parse
         
         private static string LooseCategoryME(Match m)
         {
+	        string CategoryStart = @"[[" + Variables.Namespaces[Namespace.Category];
             if (!Tools.IsValidTitle(m.Groups[1].Value))
                 return m.Value;
 
