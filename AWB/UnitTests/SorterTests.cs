@@ -803,7 +803,45 @@ foo";
 			Assert.AreEqual(iw1 + "\r\n", parser2.Sorter.RemoveCats(ref iwall, "test"), "don't pull the interwiki comment");
 			Assert.IsTrue(iwall.Contains(@"<!--interwiki-->"), "don't pull the interwiki comment");
 		}
-		
+
+		[Test]
+		public void CategoryDupeRemoval()
+		{
+		    string cats = @"[[Category:One]]
+[[Category:Two]]
+[[Category:One]]";
+			
+			Assert.AreEqual( @"[[Category:One]]
+[[Category:Two]]
+", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category removed, no sortkey");
+		    
+		    cats = @"[[Category:One]]
+[[Category:Two]]
+[[Category:One]]
+[[Category:One]]";
+			
+			Assert.AreEqual( @"[[Category:One]]
+[[Category:Two]]
+", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate categories removed, no sortkey");
+		    
+		    cats = @"[[Category:One|A]]
+[[Category:Two]]
+[[Category:One|A]]";
+			
+			Assert.AreEqual( @"[[Category:One|A]]
+[[Category:Two]]
+", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category removed, same sortkey");
+		    
+		    cats = @"[[Category:One|A]]
+[[Category:Two]]
+[[Category:One|B]]";
+			
+			Assert.AreEqual( @"[[Category:One|A]]
+[[Category:Two]]
+[[Category:One|B]]
+", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category NOT removed, conflicting sortkey");
+		}
+
 		[Test]
 		public void CategoryCommentTests()
 		{
