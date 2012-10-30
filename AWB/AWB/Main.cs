@@ -3597,7 +3597,7 @@ window.scrollTo(0, diffTopY);
                 txtEdit.SelectedText = "{{DEFAULTSORT:" + Tools.MakeHumanCatKey(TheArticle.Name, TheArticle.ArticleText) + "}}";
         }
 
-        private readonly Regex RegexDates = new Regex("[1-2][0-9]{3}", RegexOptions.Compiled);
+        private readonly Regex RegexDates = new Regex("[1-2]\d{3}", RegexOptions.Compiled);
 
         private void birthdeathCatsToolStripMenuItem_Click(object sender, EventArgs e)
         {
