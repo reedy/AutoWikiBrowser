@@ -722,7 +722,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches ISO 8601 format dates – YYYY-DD-MM – between 1600 and 2099
         /// </summary>
-        public static readonly Regex ISODates = new Regex(@"\b(20\d\d|1[6-9]\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])\b");
+        public static readonly Regex ISODates = new Regex(@"\b(20\d\d|1[6-9]\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])\b");
         
         /// <summary>
         /// Matches the {{talk header}} templates and its redirects
