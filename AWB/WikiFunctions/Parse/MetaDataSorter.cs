@@ -571,7 +571,7 @@ en, sq, ru
 				return articleText;
 
 			// get the rest of the article including first heading (may be null if article has no headings)
-			string restOfArticle = articleText.Replace(zerothSection, "");
+			string restOfArticle = articleText.Substring(zerothSection.Length);
 
 			string strDablinks = "";
 
@@ -708,7 +708,7 @@ en, sq, ru
 		public static string MoveTemplateToSeeAlsoSection(string articleText, Regex TemplateToMove)
 		{
 			// need to have a 'see also' section to move the template to
-			if(WikiRegexes.SeeAlso.Matches(articleText).Count != 1 || TemplateToMove.Matches(articleText).Count < 1)
+			if(TemplateToMove.Matches(articleText).Count < 1 || WikiRegexes.SeeAlso.Matches(articleText).Count != 1)
 				return articleText;
 			
 			string originalArticletext = articleText;
