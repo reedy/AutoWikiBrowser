@@ -1577,12 +1577,12 @@ namespace WikiFunctions.Parse
         {
             foreach (Match m in LongNamedReferences.Matches(articleText))
             {
-                string refname = m.Groups[2].Value, refvalue = m.Groups[3].Value;
-
-                Regex shortNamedReferences = new Regex(@"(<\s*ref\s+name\s*=\s*(?:""|')?(" + Regex.Escape(refname) + @")(?:""|')?\s*>\s*([^<>]{1,9}?|\[?[Ss]ee above\]?)\s*<\s*/\s*ref>)");
+                string refname = m.Groups[2].Value;
 
                 // don't apply if short ref is a page ref
-                articleText = shortNamedReferences.Replace(articleText, m2=> (refvalue.Length > 30 && !PageRef.IsMatch(m2.Groups[3].Value)) ? @"<ref name=""" + refname + @"""/>" : m2.Value);
+                if(m.Groups[3].Value.Length > 30)
+                    articleText = Regex.Replace(articleText, @"(<\s*ref\s+name\s*=\s*(?:""|')?(" + Regex.Escape(refname) + @")(?:""|')?\s*>\s*([^<>]{1,9}?|\[?[Ss]ee above\]?)\s*<\s*/\s*ref>)",
+                                                m2=> PageRef.IsMatch(m2.Groups[3].Value) ? m2.Value : @"<ref name=""" + refname + @"""/>");
             }
 
             return articleText;
