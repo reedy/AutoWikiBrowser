@@ -569,9 +569,9 @@ namespace WikiFunctions.Parse
                 string aiat = WikiRegexes.MultipleIssues.Match(articleText).Value;
 
                 // unref to BLPunref for living person bio articles
-                if (Tools.GetTemplateParameterValue(aiat, "unreferenced").Length > 0 && articleText.Contains(@"[[Category:Living people"))
+                if (Tools.GetTemplateParameterValue(aiat, "unreferenced").Length > 0 && articleText.Contains(CategoryLivingPeople))
                     articleText = articleText.Replace(aiat, Tools.RenameTemplateParameter(aiat, "unreferenced", "BLP unsourced"));
-                else if (Tools.GetTemplateParameterValue(aiat, "unref").Length > 0 && articleText.Contains(@"[[Category:Living people"))
+                else if (Tools.GetTemplateParameterValue(aiat, "unref").Length > 0 && articleText.Contains(CategoryLivingPeople))
                     articleText = articleText.Replace(aiat, Tools.RenameTemplateParameter(aiat, "unref", "BLP unsourced"));
 
                 articleText = MetaDataSorter.MoveMaintenanceTags(articleText);
@@ -5592,7 +5592,7 @@ namespace WikiFunctions.Parse
 
             if (WikiRegexes.Persondata.Matches(articleText).Count == 1
                 || articleText.Contains(@"-bio-stub}}")
-                || articleText.Contains(@"[[Category:Living people")
+                || articleText.Contains(CategoryLivingPeople)
                 || WikiRegexes.PeopleInfoboxTemplates.Matches(zerothSection).Count == 1)
                 return true;
 
@@ -5840,7 +5840,7 @@ namespace WikiFunctions.Parse
                 // validate a YYYY date is not in the future
                 if (!string.IsNullOrEmpty(yearstring) && yearstring.Length > 2
                     && (!YearOnly.IsMatch(yearstring) || Convert.ToInt32(yearstring) <= DateTime.Now.Year)
-                    && !(articleText.Contains(@"[[Category:Living people") && Convert.ToInt32(yearstring) < (DateTime.Now.Year - 121)))
+                    && !(articleText.Contains(CategoryLivingPeople) && Convert.ToInt32(yearstring) < (DateTime.Now.Year - 121)))
                     articleText += Tools.Newline(@"[[Category:") + yearstring + " births" + CatEnd(sort);
             }
 
@@ -6100,6 +6100,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex MultipleIssuesDateRemoval = new Regex(@"(?<={{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*?)?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?){0,4}\|[^{}\|]{3,}?)\b(?i)date(?<!.*out of date)", RegexOptions.Compiled);
         private static readonly Regex CiteTemplateDuplicateBars = new Regex(@"(?!{{[Cc]ite ?(?:wikisource|ngall|uscgll|[lL]egislation AU))(\{\{\s*(?:[Cc]it[ae]|(?:[Aa]rticle|[Mm]ultiple) ?issues)[^{}]*)\|\s*(\}\}|\|)", RegexOptions.Compiled);
         private static readonly Regex NoFootnotes = Tools.NestedTemplateRegex("no footnotes");
+        private static readonly String CategoryLivingPeople = @"[[Category:Living people";
 
         /// <summary>
         /// Converts/subst'd some deprecated templates
@@ -6144,7 +6145,7 @@ namespace WikiFunctions.Parse
             articleText = SectionTemplates.Replace(articleText, SectionTemplateConversionsME);
 
             // fixes if article has [[Category:Living people]]
-            if(Variables.IsWikipediaEN && articleText.Contains(@"[[Category:Living people"))
+            if(Variables.IsWikipediaEN && articleText.Contains(CategoryLivingPeople))
             {
                 // {{unreferenced}} --> {{BLP unsourced}} if article has [[Category:Living people]], and no free-text first argument to {{unref}}
                 string unref = WikiRegexes.Unreferenced.Match(articleText).Value;
