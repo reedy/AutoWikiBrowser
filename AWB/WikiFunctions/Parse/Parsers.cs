@@ -1916,9 +1916,8 @@ namespace WikiFunctions.Parse
         public static string RenameTemplateParameters(string articleText, List<WikiRegexes.TemplateParameters> RenamedTemplateParameters)
         {
             if (RenamedTemplateParameters.Count == 0)
-            {
                 return articleText;
-            }
+
             if (RenameTemplateParametersTemplates == null)
             {
                 List<string> Templates = new List<string>();
@@ -1938,8 +1937,7 @@ namespace WikiFunctions.Parse
 
         private static string RenameTemplateParametersME(Match m, List<WikiRegexes.TemplateParameters> RenamedTemplateParameters)
         {
-            string templatename = Tools.TurnFirstToLower(Tools.GetTemplateName(m.Value));
-            string newvalue = m.Value;
+            string templatename = Tools.TurnFirstToLower(Tools.GetTemplateName(m.Value)), newvalue = m.Value;
 
             foreach (WikiRegexes.TemplateParameters Params in RenamedTemplateParameters)
             {
@@ -1992,7 +1990,6 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex CiteWeb = Tools.NestedTemplateRegex(new[] { "cite web", "citeweb" });
         private static readonly Regex CitationPopulatedParameter = new Regex(@"\|\s*([\w_\d-]+)\s*=\s*([^\|}]+)");
-
         private static readonly Regex citeWebParameters = new Regex(@"\b(accessdate|archivedate|archiveurl|arxiv|asin|at|author\d?|authorlink\d?|bibcode|coauthors?|date|deadurl|doi|doibroken|editor|editor1?-first|editor2-first|editor3-first|editor4-first|editor1?-last|editor2-last|editor3-last|editor4-last|editor1?-link|editor2-link|editor3-link|editor4-link|first\d?|format|id|isbn|issn|jfm|jstor|language|last\d?|lccn|location|month|mr|oclc|ol|osti|pages?|pmc|pmid|postscript|publisher|quote|ref|rfc|separator|ssrn|title|trans_title|type|url|work|year|zbl)\b", RegexOptions.Compiled);
 
         /// <summary>
@@ -2022,7 +2019,7 @@ namespace WikiFunctions.Parse
                 string pipecleaned = Tools.PipeCleanedTemplate(m.Value, false);
 
                 // no equals between two separator pipes
-                if (Regex.Matches(pipecleaned, @"=").Count > 0)
+                if (pipecleaned.Contains("="))
                 {
                     int noequals = Regex.Match(pipecleaned, @"\|[^=]+?\|").Index;
 
@@ -2060,8 +2057,6 @@ namespace WikiFunctions.Parse
         private const string SiCitStart = @"(?si)(\|\s*";
         private const string CitAccessdate = SiCitStart + @"(?:access|archive)date\s*=\s*";
         private const string CitDate = SiCitStart + @"(?:archive|air)?date2?\s*=\s*";
-        //private const string CitYMonthD = SiCitStart + @"(?:archive|air|access)?date2?\s*=\s*\d{4})[-/\s]";
-        //private const string dTemEnd = @"?[-/\s]([0-3]?\d\s*(?:\||}}))";
 
         private static readonly Regex AccessOrArchiveDate = new Regex(@"\b(access|archive)date\s*=", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly RegexReplacement[] CiteTemplateIncorrectISOAccessdates = new[] {
@@ -2129,11 +2124,8 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string CiteTemplateDates(string articleText)
         {
-            if (!Variables.IsWikipediaEN)
-                return articleText;
-
             // cite podcast is non-compliant to citation core standards; don't apply fixes when ambiguous dates present
-            if (CitePodcast.IsMatch(articleText) || AmbiguousCiteTemplateDates(articleText))
+            if (!Variables.IsWikipediaEN || CitePodcast.IsMatch(articleText) || AmbiguousCiteTemplateDates(articleText))
                 return articleText;
 
             string articleTextlocal = "";
@@ -2326,7 +2318,6 @@ namespace WikiFunctions.Parse
         /// Main regex for {{Reflist}} converter
         /// </summary>
         private static readonly Regex ReferenceListTags = new Regex(@"(<(span|div)( class=""(references-small|small|references-2column)|)?""(?:\s*style\s*=\s*""[^<>""]+?""\s*)?>[\r\n\s]*){1,2}[\r\n\s]*<references[\s]?/>([\r\n\s]*</(span|div)>){1,2}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
         private static readonly Regex DivStart = new Regex(@"<div\b.*?>", RegexOptions.Compiled);
         private static readonly Regex DivEnd = new Regex(@"< ?/ ?div\b.*?>", RegexOptions.Compiled);
 
@@ -2532,7 +2523,6 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex BrTwoNewlines = new Regex("(?:<br */?>)+\r\n\r\n", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex FourOrMoreNewlines = new Regex("(\r\n){4,}", RegexOptions.Compiled);
-        //private static readonly Regex TwoNewlinesInBlankSection = new Regex("== ? ?\r\n\r\n==", RegexOptions.Compiled);
         private static readonly Regex NewlinesBelowExternalLinks = new Regex(@"==External links==[\r\n\s]*\*", RegexOptions.Compiled);
         private static readonly Regex NewlinesBeforeUrl = new Regex(@"\r\n\r\n(\* ?\[?http)", RegexOptions.Compiled);
         private static readonly Regex HorizontalRule = new Regex("----+$", RegexOptions.Compiled);
@@ -2576,10 +2566,7 @@ namespace WikiFunctions.Parse
 
             articleText = HorizontalRule.Replace(articleText.Trim(), "");
 
-            if (articleText.Contains("\r\n|\r\n\r\n"))
-                articleText = articleText.Replace("\r\n|\r\n\r\n", "\r\n|\r\n");
-
-            return articleText.Trim();
+            return articleText.Replace("\r\n|\r\n\r\n", "\r\n|\r\n").Trim();
         }
 
         // covered by RemoveAllWhiteSpaceTests
@@ -2921,12 +2908,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string FixSyntaxRedirects(string articleText)
         {
-            Match m = WikiRegexes.Redirect.Match(articleText);
-
-            if (m.Success)
-                articleText = articleText.Replace(m.Value, m.Value.Replace("\r\n", " "));
-
-            return articleText;
+            return WikiRegexes.Redirect.Replace(articleText, m => m.Value.Replace("\r\n", " "));
         }
 
         /// <summary>
