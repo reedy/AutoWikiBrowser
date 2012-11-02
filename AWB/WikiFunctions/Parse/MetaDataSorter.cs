@@ -247,6 +247,8 @@ en, sq, ru
 			return input.Replace("\r\n", "").Replace(">", "").Replace("\n", "");
 		}
 		
+		private static readonly Regex CommentedOutEnInterwiki = new Regex("<!-- ?\\[\\[en:.*?\\]\\] ?-->");
+		
 		/// <summary>
 		/// Sorts article meta data, including optional whitespace fixing
 		/// </summary>
@@ -273,7 +275,7 @@ en, sq, ru
 			string strSave = articleText;
 			try
 			{
-				articleText = Regex.Replace(articleText, "<!-- ?\\[\\[en:.*?\\]\\] ?-->", "");
+				articleText = CommentedOutEnInterwiki.Replace(articleText, "");
 
 				string personData = Tools.Newline(RemovePersonData(ref articleText));
 				string disambig = Tools.Newline(RemoveDisambig(ref articleText));
