@@ -1581,12 +1581,8 @@ namespace WikiFunctions.Parse
 
                 Regex shortNamedReferences = new Regex(@"(<\s*ref\s+name\s*=\s*(?:""|')?(" + Regex.Escape(refname) + @")(?:""|')?\s*>\s*([^<>]{1,9}?|\[?[Ss]ee above\]?)\s*<\s*/\s*ref>)");
 
-                foreach (Match m2 in shortNamedReferences.Matches(articleText))
-                {
-                    // don't apply if short ref is a page ref
-                    if (refvalue.Length > 30 && !PageRef.IsMatch(m2.Groups[3].Value))
-                        articleText = articleText.Replace(m2.Value, @"<ref name=""" + refname + @"""/>");
-                }
+                // don't apply if short ref is a page ref
+                articleText = shortNamedReferences.Replace(articleText, m2=> (refvalue.Length > 30 && !PageRef.IsMatch(m2.Groups[3].Value)) ? @"<ref name=""" + refname + @"""/>" : m2.Value);
             }
 
             return articleText;
@@ -1989,7 +1985,7 @@ namespace WikiFunctions.Parse
         {
             string newText = CiteTemplateDates(articleText);
 
-            noChange = (newText == articleText);
+            noChange = newText.Equals(articleText);
 
             return newText;
         }
@@ -4492,7 +4488,7 @@ namespace WikiFunctions.Parse
         {
             string newText = BulletExternalLinks(articleText);
 
-            noChange = (newText == articleText);
+            noChange = newText.Equals(articleText);
 
             return newText;
         }
@@ -4996,7 +4992,7 @@ namespace WikiFunctions.Parse
         {
             string newText = ReplaceImage(oldImage, newImage, articleText);
 
-            noChange = (newText == articleText);
+            noChange = newText.Equals(articleText);
 
             return newText;
         }
@@ -5072,7 +5068,7 @@ namespace WikiFunctions.Parse
         {
             string newText = RemoveImage(image, articleText, commentOut, comment);
 
-            noChange = (newText == articleText);
+            noChange = newText.Equals(articleText);
 
             return newText;
         }
@@ -5089,7 +5085,7 @@ namespace WikiFunctions.Parse
         {
             string newText = AddCategory(newCategory, articleText, articleTitle);
 
-            noChange = (newText == articleText);
+            noChange = newText.Equals(articleText);
 
             return newText;
         }
@@ -5644,7 +5640,7 @@ namespace WikiFunctions.Parse
         {
             string newText = LivingPeople(articleText);
 
-            noChange = (newText == articleText);
+            noChange = newText.Equals(articleText);
 
             return newText;
         }
@@ -5723,7 +5719,7 @@ namespace WikiFunctions.Parse
         {
             string newText = FixPeopleCategories(articleText, articleTitle, parseTalkPage);
 
-            noChange = (newText == articleText);
+            noChange = newText.Equals(articleText);
 
             return newText;
         }
@@ -6054,7 +6050,7 @@ namespace WikiFunctions.Parse
         {
             string newText = InterwikiConversions(articleText);
 
-            noChange = (newText == articleText);
+            noChange = newText.Equals(articleText);
 
             return newText;
         }
@@ -6091,7 +6087,7 @@ namespace WikiFunctions.Parse
         {
             string newText = Conversions(articleText);
 
-            noChange = (newText == articleText);
+            noChange = newText.Equals(articleText);
 
             return newText;
         }
