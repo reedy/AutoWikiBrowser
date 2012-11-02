@@ -5706,7 +5706,7 @@ namespace WikiFunctions.Parse
         {
             string newText = FixPeopleCategories(articleText, articleTitle);
 
-            noChange = (newText == articleText);
+            noChange = newText.Equals(articleText);
 
             return newText;
         }
@@ -5775,21 +5775,10 @@ namespace WikiFunctions.Parse
             zerothSection = LongWikilink.Replace(zerothSection, " ");
 
             // ignore dates from dated maintenance tags etc.
-            foreach (Match m2 in WikiRegexes.NestedTemplates.Matches(zerothSection))
-            {
-                if (Tools.GetTemplateParameterValue(m2.Value, "date").Length > 0)
-                    zerothSection = zerothSection.Replace(m2.Value, "");
-            }
+            zerothSection = WikiRegexes.NestedTemplates.Replace(zerothSection, m2=> Tools.GetTemplateParameterValue(m2.Value, "date").Length > 0 ? "" : m2.Value);
+            zerothSection = WikiRegexes.TemplateMultiline.Replace(zerothSection, m2=> Tools.GetTemplateParameterValue(m2.Value, "date").Length > 0 ? "" : m2.Value);
 
-            foreach (Match m2 in WikiRegexes.TemplateMultiline.Matches(zerothSection))
-            {
-                if (Tools.GetTemplateParameterValue(m2.Value, "date").Length > 0)
-                    zerothSection = zerothSection.Replace(m2.Value, "");
-            }
-
-            string yearstring, yearFromInfoBox = "";
-
-            string sort = GetCategorySort(articleText);
+            string yearstring, yearFromInfoBox = "", sort = GetCategorySort(articleText);
 
             bool alreadyUncertain = false;
 
