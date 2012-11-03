@@ -996,7 +996,7 @@ namespace WikiFunctions
         public static readonly Regex CircaTemplate = Tools.NestedTemplateRegex(new[] {"Circa", "c."}, true);
         
         /// <summary>
-        /// Matches named references in format &lt;ref name="foo"&gt;text&lt;/ref&gt;
+        /// Matches named references in format &lt;ref name="foo"&gt;text&lt;/ref&gt; Ref name is group 2, ref value is group 3
         /// </summary>
         public static readonly Regex NamedReferences = new Regex(@"(<\s*ref\s+name\s*=\s*(?:""|')?([^<>=\r\n/]+?)(?:""|')?\s*>\s*(.*?)\s*<\s*/\s*ref\s*>)", RegexOptions.Singleline | RegexOptions.IgnoreCase);
 

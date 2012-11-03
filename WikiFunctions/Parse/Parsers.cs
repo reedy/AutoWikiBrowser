@@ -1345,11 +1345,13 @@ namespace WikiFunctions.Parse
         // Covered by: DuplicateNamedReferencesTests()
         /// <summary>
         /// Where an unnamed reference is a duplicate of another named reference, set the unnamed one to use the named ref
+        /// Checks for instances of named references with same ref name having different values, does not modify article text in this case
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
         public static string DuplicateNamedReferences(string articleText)
         {
+            string articleTextOriginal = articleText;
             Dictionary<string, string> NamedRefs = new Dictionary<string, string>();
             bool reparse = false;
 
@@ -1363,7 +1365,13 @@ namespace WikiFunctions.Parse
                     string refName = m.Groups[2].Value, namedRefValue = m.Groups[3].Value, name2 = "";
 
                     if (!NamedRefs.ContainsKey(namedRefValue))
-                        NamedRefs.Add(namedRefValue, refName);
+                    {
+                        // check for instances of named references with same ref name having different values: requires manual correction of article
+                        if(NamedRefs.ContainsValue(refName))
+                            return articleTextOriginal;
+                        else
+                            NamedRefs.Add(namedRefValue, refName);
+                    }
                     else
                     {
                         // we've already seen this reference, can condense later ones
