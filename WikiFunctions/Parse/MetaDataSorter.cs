@@ -734,8 +734,8 @@ en, sq, ru
 				{
 					// remove template, also remove newline after template if template on its own line
 					articleText = Regex.Replace(articleText, @"^" + Regex.Escape(TemplateFound) + @" *(?:\r\n)?", "", RegexOptions.Multiline);
-					if(articleText.Contains(TemplateFound))
-						articleText = Regex.Replace(articleText, Regex.Escape(TemplateFound), "", RegexOptions.Multiline);
+
+					articleText = articleText.Replace(TemplateFound, "");
 					
 					articleText = WikiRegexes.SeeAlso.Replace(articleText, "$0" + Tools.Newline(TemplateFound));
 				}
@@ -772,21 +772,12 @@ en, sq, ru
 		public static string MoveTemplateToReferencesSection(string articleText, Regex TemplateRegex, bool onlyfromzerothsection)
 		{
 			// no support for more than one of these templates in the article
-			if(TemplateRegex.Matches(articleText).Count != 1)
-				return articleText;
-			
-			if(onlyfromzerothsection)
-			{
-				string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
-				if (TemplateRegex.Matches(zerothSection).Count != 1)
-					return articleText;
-			}
+			if(TemplateRegex.Matches(articleText).Count != 1 || (onlyfromzerothsection && TemplateRegex.Matches(WikiRegexes.ZerothSection.Match(articleText).Value).Count != 1))
+			    return articleText;
 
 			// find the template position
-			int templatePosition = TemplateRegex.Match(articleText).Index;
-
 			// the template must be in one of the 'References', 'Notes' or 'Footnotes' section
-			int notesSectionPosition = NotesSectionRegex.Match(articleText).Index;
+			int templatePosition = TemplateRegex.Match(articleText).Index, notesSectionPosition = NotesSectionRegex.Match(articleText).Index;
 
 			if (notesSectionPosition > 0 && templatePosition < notesSectionPosition)
 				return MoveTemplateToSection(articleText, TemplateRegex, 2);
@@ -811,9 +802,8 @@ en, sq, ru
 
 		private static string MoveTemplateToSection(string articleText, Regex templateRegex, int section)
 		{
-			// extract the template
 			string extractedTemplate = templateRegex.Match(articleText).Value;
-			articleText = articleText.Replace(extractedTemplate, "");
+			articleText = templateRegex.Replace(articleText, "");
 
 			switch (section)
 			{
