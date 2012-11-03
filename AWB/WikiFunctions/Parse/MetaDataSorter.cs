@@ -323,6 +323,9 @@ en, sq, ru
 							articleText += "\r\n";
 						break;
 
+					case "ar":
+					case "cs":
+					case "el":
 					case "pl":
 					case "ru":
 					case "simple":
