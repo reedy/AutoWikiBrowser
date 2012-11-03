@@ -602,7 +602,7 @@ namespace WikiFunctions
                         case "ar":
                             mSummaryTag = " ";
                             WPAWB = "باستخدام [[Project:أوب|أوب]]";
-                            //Stub = @"(?:[^{}|]*?[Ss]tub|(بذرة|بذور)[^{}]*?)";
+                            Stub = @"(?:[^{}|]*?[Ss]tub|(بذرة|بذور)[^{}]*?)";
                             TypoSummaryTag = ".الأخطاء المصححة: ";
                             break;
 
@@ -619,7 +619,7 @@ namespace WikiFunctions
                         case "cs":
                             mSummaryTag = " za použití ";
                             WPAWB = "[[Wikipedie:AutoWikiBrowser|AWB]]";
-                            //Stub = @"[^{}|]*?([Pp]ahýl)";
+                            Stub = @"[^{}|]*?([Pp]ahýl)";
                             break;
                             
                         case "da":
@@ -635,7 +635,7 @@ namespace WikiFunctions
                         case "el":
                             mSummaryTag = " με τη χρήση ";
                             WPAWB = "[[Βικιπαίδεια:AutoWikiBrowser|AWB]]";
-                            //Stub = @"[^{}|]*?([Ss]tub|[Εε]πέκταση)";
+                            Stub = @"[^{}|]*?([Ss]tub|[Εε]πέκταση)";
                             SectStub = @"\{\{θέματος";
                             SectStubRegex = new Regex(SectStub, RegexOptions.Compiled);
                             break;
