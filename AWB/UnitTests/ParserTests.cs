@@ -473,6 +473,10 @@ End of.";
             }}";
 
             Assert.AreEqual(RefInReflist, Parsers.DuplicateNamedReferences(RefInReflist));
+
+            // don't condense where same named ref has different values, multiple instances
+            const string h = @"now<ref name=""Fred"">The Honourable Fred Smith, 2002</ref>but later than first<ref name=""Fred"">The Honourable Fred Smith, 2002</ref> and second<ref name=""Fred"">The Honourable Fred Smith, 2005</ref> was"; // ref text different year
+            Assert.AreEqual(h, Parsers.DuplicateNamedReferences(h));
         }
 
         [Test]
