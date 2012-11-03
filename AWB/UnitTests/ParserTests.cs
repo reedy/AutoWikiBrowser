@@ -3284,6 +3284,8 @@ Template:foo}}"));
             Assert.AreEqual(correct, Parsers.FixSyntax(@"Now {{Category:2005 albums]] there"));
             Assert.AreEqual(correct, Parsers.FixSyntax(@"Now {{Category:2005 albums}} there"));
             Assert.AreEqual(correct, Parsers.FixSyntax(@"Now {{ Category:2005 albums]] there"));
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"Now [[Category:2005 albums}} there"));
+            Assert.AreEqual(correct, Parsers.FixSyntax(@"Now [[  Category:2005 albums}} there"));
 
             Assert.AreEqual(correct, Parsers.FixSyntax(correct));
         }
