@@ -757,6 +757,7 @@ namespace AutoWikiBrowser
         private Dictionary<int, int> deadLinks = new Dictionary<int, int>();
         private Dictionary<int, int> ambigCiteDates = new Dictionary<int, int>();
         private Dictionary<int, int> targetlessLinks = new Dictionary<int, int>();
+        private Dictionary<int, int> doublepipeLinks = new Dictionary<int, int>();
         private List<string> UnknownWikiProjectBannerShellParameters = new List<string>();
         private List<string> UnknownMultipleIssuesParameters = new List<string>();
 
@@ -1136,6 +1137,12 @@ namespace AutoWikiBrowser
             }
 
             foreach (KeyValuePair<int, int> kvp in targetlessLinks)
+            {
+                if (!Errors.ContainsKey(kvp.Key))
+                    Errors.Add(kvp.Key, kvp.Value);
+            }
+
+            foreach (KeyValuePair<int, int> kvp in doublepipeLinks)
             {
                 if (!Errors.ContainsKey(kvp.Key))
                     Errors.Add(kvp.Key, kvp.Value);
@@ -2552,6 +2559,10 @@ window.scrollTo(0, diffTopY);
                 targetlessLinks = TheArticle.TargetlessLinks();
                 if (targetlessLinks.Count > 0)
                     lbAlerts.Items.Add("Links with no target" + " (" + targetlessLinks.Count + ")");
+
+                doublepipeLinks = TheArticle.DoublepipeLinks();
+                if (doublepipeLinks.Count > 0)
+                    lbAlerts.Items.Add("Links with double pipes" + " (" + targetlessLinks.Count + ")");
 
                 dupeBanerShellParameters = TheArticle.DuplicateWikiProjectBannerShellParameters();
                 if (dupeBanerShellParameters.Count > 0)

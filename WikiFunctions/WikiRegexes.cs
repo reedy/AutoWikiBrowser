@@ -888,6 +888,11 @@ namespace WikiFunctions
         public static readonly Regex TargetLessLink =  new Regex(@"\[\[\|([\w\s]+)\]\]");
 
         /// <summary>
+        /// Matches wikilinks with double pipes e.g. [[text|text2|text3]] and [[text||text3]]
+        /// </summary>
+        public static readonly Regex DoublePipeLink =  new Regex(@"\[\[([\w\s]+)\|([\w\s]*)\|([\w\s]+)\]\]");
+
+        /// <summary>
         /// 
         /// </summary>
         public static readonly Regex CircaLinkTemplate = new Regex(@"({{[Cc]irca}}|\[\[[Cc]irca *(?:\|[Cc]a?\.?)?\]\]|\[\[[Cc]a?\.?\]*\.?)");

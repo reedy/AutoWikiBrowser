@@ -2084,6 +2084,16 @@ namespace WikiFunctions.Parse
             return DictionaryOfMatches(articleText, WikiRegexes.TargetLessLink);
         }
 
+        /// <summary>
+        /// Searches for wikilinks with double pipes
+        /// </summary>
+        /// <param name="articleText">The article text</param>
+        /// <returns>Dictionary of links with double pipes found</returns>
+        public static Dictionary<int, int> DoublePipeLinks(string articleText)
+        {
+            return DictionaryOfMatches(articleText, WikiRegexes.DoublePipeLink);
+        }
+
         private const string SiCitStart = @"(?si)(\|\s*";
         private const string CitAccessdate = SiCitStart + @"(?:access|archive)date\s*=\s*";
         private const string CitDate = SiCitStart + @"(?:archive|air)?date2?\s*=\s*";
@@ -7026,6 +7036,16 @@ namespace WikiFunctions.Parse
         public static bool HasTargetLessLinks(string articleText)
         {
             return WikiRegexes.TargetLessLink.IsMatch(WikiRegexes.Comments.Replace(articleText, ""));
+        }
+
+        /// <summary>
+        /// Returns whether the input article text contains any wikilinks with double pipes
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <returns></returns>
+        public static bool HasDoublePipeLinks(string articleText)
+        {
+            return WikiRegexes.DoublePipeLink.IsMatch(WikiRegexes.Comments.Replace(articleText, ""));
         }
 
         /// <summary>
