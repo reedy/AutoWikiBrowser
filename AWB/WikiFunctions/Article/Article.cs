@@ -283,6 +283,13 @@ namespace WikiFunctions
         { get { return Parsers.HasDeadLinks(mArticleText); } }
 
         /// <summary>
+        /// Returns whether the article contains any {{dead link}} templates
+        /// </summary>
+        [XmlIgnore]
+        public bool HasTargetLessLinks
+        { get { return Parsers.HasTargetLessLinks(mArticleText); } }
+
+        /// <summary>
         /// Returns true if the article contains a {{nofootnotes}} or {{morefootnotes}} template but has 5+ <ref>...</ref> references
         /// </summary>
         [XmlIgnore]
@@ -579,6 +586,15 @@ namespace WikiFunctions
         public Dictionary<int, int> BadCiteParameters()
         {
             return Parsers.BadCiteParameters(ArticleText);
+        }
+
+        /// <summary>
+        /// Returns a dictionary of the index and length of any links with no target
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<int, int> TargetlessLinks()
+        {
+            return Parsers.TargetLessLinks(ArticleText);
         }
 
         /// <summary>

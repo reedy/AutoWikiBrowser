@@ -2062,6 +2062,24 @@ namespace WikiFunctions.Parse
             return found;
         }
 
+        /// <summary>
+        /// Searches for links with no target
+        /// </summary>
+        /// <param name="articleText">The article text</param>
+        /// <returns>Dictionary of links with no target found</returns>
+        public static Dictionary<int, int> TargetLessLinks(string articleText)
+        {
+            articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Comments);
+            Dictionary<int, int> found = new Dictionary<int, int>();
+
+            foreach (Match m in WikiRegexes.TargetLessLink.Matches(articleText))
+            {
+                found.Add(m.Index, m.Length);
+            }
+
+            return found;
+        }
+
         private const string SiCitStart = @"(?si)(\|\s*";
         private const string CitAccessdate = SiCitStart + @"(?:access|archive)date\s*=\s*";
         private const string CitDate = SiCitStart + @"(?:archive|air)?date2?\s*=\s*";
@@ -6994,6 +7012,16 @@ namespace WikiFunctions.Parse
         public static bool HasDeadLinks(string articleText)
         {
             return WikiRegexes.DeadLink.IsMatch(WikiRegexes.Comments.Replace(articleText, ""));
+        }
+
+        /// <summary>
+        /// Returns whether the input article text contains any links with no target
+        /// </summary>
+        /// <param name="articleText">The wiki text of the article.</param>
+        /// <returns></returns>
+        public static bool HasTargetLessLinks(string articleText)
+        {
+            return WikiRegexes.TargetLessLink.IsMatch(WikiRegexes.Comments.Replace(articleText, ""));
         }
 
         /// <summary>
