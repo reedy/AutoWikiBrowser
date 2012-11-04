@@ -1055,12 +1055,8 @@ namespace WikiFunctions.Parse
                 return sectionText;
         }
 
-        // fixes extra comma in American format dates
-        private static readonly Regex CommaDates = new Regex(WikiRegexes.Months + @" ?, *([1-3]?\d) ?, ?((?:200|19\d)\d)\b");
-
-        // fixes missing comma or space in American format dates
-        private static readonly Regex NoCommaAmericanDates = new Regex(@"\b(" + WikiRegexes.MonthsNoGroup + @" *[1-3]?\d(?:–[1-3]?\d)?)\b *,?([12]\d{3})\b");
-        private static readonly Regex NoSpaceAmericanDates = new Regex(@"\b" + WikiRegexes.Months + @"([1-3]?\d(?:–[1-3]?\d)?), *([12]\d{3})\b");
+        // fixes extra comma or space in American format dates
+        private static readonly Regex CommaDates = new Regex(WikiRegexes.Months + @"[ ,]*([1-3]?\d(?:–[1-3]?\d)?)[ ,]+([12]\d{3})\b");
 
         // fix incorrect comma between month and year in Internaltional-format dates
         private static readonly Regex IncorrectCommaInternationalDates = new Regex(@"\b((?:[1-3]?\d) +" + WikiRegexes.MonthsNoGroup + @") *, *(1\d{3}|20\d{2})\b", RegexOptions.Compiled);
@@ -1081,7 +1077,6 @@ namespace WikiFunctions.Parse
         private static readonly Regex DateRangeToPresent = new Regex(@"\b(" + WikiRegexes.MonthsNoGroup + @"|[0-3]?\d,?) +" + @"([12]\d{3}) *- *([Pp]resent\b)", RegexOptions.Compiled);
         private static readonly Regex DateRangeToYear = new Regex(@"\b(" + WikiRegexes.MonthsNoGroup + @"|(?:&nbsp;|\s+)[0-3]?\d,?) +" + @"([12]\d{3})–([12]\d{3})\b", RegexOptions.Compiled);
         private static readonly Regex YearRangeToPresent = new Regex(@"\b([12]\d{3}) *- *([Pp]resent\b)", RegexOptions.Compiled);
-        private static readonly Regex CircaLinkTemplate = new Regex(@"({{[Cc]irca}}|\[\[[Cc]irca *(?:\|[Cc]a?\.?)?\]\]|\[\[[Cc]a?\.?\]*\.?)", RegexOptions.Compiled);
 
         /// <summary>
         /// Fix date and decade formatting errors: commas in American/international dates, full date ranges, month ranges
@@ -1094,8 +1089,7 @@ namespace WikiFunctions.Parse
                  return articleText;
              
              articleText = HideTextImages(articleText);
-             
-             articleText = CommaDates.Replace(articleText, @"$1 $2, $3");
+
              articleText = IncorrectCommaInternationalDates.Replace(articleText, @"$1 $2");
 
              articleText = SameMonthInternationalDateRange.Replace(articleText, @"$1–$2");
@@ -1106,8 +1100,7 @@ namespace WikiFunctions.Parse
              articleText = LongFormatAmericanDateRange.Replace(articleText, @"$1 $2–$3, $4");
 
              // run this after the date range fixes
-             articleText = NoCommaAmericanDates.Replace(articleText, @"$1, $2");
-             articleText = NoSpaceAmericanDates.Replace(articleText, @"$1 $2, $3");
+             articleText = CommaDates.Replace(articleText, @"$1 $2, $3");
 
              // month range
              articleText = EnMonthRange.Replace(articleText, @"$1–$2");
@@ -2548,7 +2541,7 @@ namespace WikiFunctions.Parse
             articleText = DateLeadingZerosInt.Replace(articleText, "$1 $2");
 
             // catch after any other fixes
-            articleText = NoCommaAmericanDates.Replace(articleText, @"$1, $2");
+            articleText = CommaDates.Replace(articleText, @"$1 $2, $3");
 
             return IncorrectCommaInternationalDates.Replace(articleText, @"$1 $2");
         }
@@ -3500,7 +3493,7 @@ namespace WikiFunctions.Parse
             }
 
             // catch after any other fixes
-            newValue = NoCommaAmericanDates.Replace(newValue, @"$1, $2");
+            newValue = CommaDates.Replace(newValue, @"$1 $2, $3");
 
             // URL starting www. needs http://
             if (theURL.StartsWith("www."))
