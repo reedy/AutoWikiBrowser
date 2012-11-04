@@ -2562,7 +2562,7 @@ window.scrollTo(0, diffTopY);
 
                 doublepipeLinks = TheArticle.DoublepipeLinks();
                 if (doublepipeLinks.Count > 0)
-                    lbAlerts.Items.Add("Links with double pipes" + " (" + targetlessLinks.Count + ")");
+                    lbAlerts.Items.Add("Links with double pipes" + " (" + doublepipeLinks.Count + ")");
 
                 dupeBanerShellParameters = TheArticle.DuplicateWikiProjectBannerShellParameters();
                 if (dupeBanerShellParameters.Count > 0)
