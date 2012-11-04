@@ -1537,6 +1537,7 @@ namespace WikiFunctions.Parse
         /// <returns>the updated wiki text</returns>
         public static string SameRefDifferentName(string articleText)
         {
+            string articleTextOriginal = articleText;
             // refs with same name, but one is very short, so just change to <ref name=foo/> notation
             articleText = SameNamedRefShortText(articleText);
 
@@ -1574,7 +1575,11 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            return DuplicateNamedReferences(articleText);
+            // performance: only call if changes made
+            if(!articleTextOriginal.Equals(articleText))
+               articleText = DuplicateNamedReferences(articleText);
+
+            return articleText;
         }
 
         /// <summary>
