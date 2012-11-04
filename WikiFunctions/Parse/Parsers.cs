@@ -2051,10 +2051,15 @@ namespace WikiFunctions.Parse
         /// <returns>Dictionary of dead links found</returns>
         public static Dictionary<int, int> DeadLinks(string articleText)
         {
+            return DictionaryOfMatches(articleText, WikiRegexes.DeadLink);
+        }
+
+        private static Dictionary<int, int> DictionaryOfMatches(string articleText, Regex r)
+        {
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Comments);
             Dictionary<int, int> found = new Dictionary<int, int>();
 
-            foreach (Match m in WikiRegexes.DeadLink.Matches(articleText))
+            foreach (Match m in r.Matches(articleText))
             {
                 found.Add(m.Index, m.Length);
             }
@@ -2063,21 +2068,13 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Searches for links with no target
+        /// Searches for wikilinks with no target
         /// </summary>
         /// <param name="articleText">The article text</param>
         /// <returns>Dictionary of links with no target found</returns>
         public static Dictionary<int, int> TargetLessLinks(string articleText)
         {
-            articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Comments);
-            Dictionary<int, int> found = new Dictionary<int, int>();
-
-            foreach (Match m in WikiRegexes.TargetLessLink.Matches(articleText))
-            {
-                found.Add(m.Index, m.Length);
-            }
-
-            return found;
+            return DictionaryOfMatches(articleText, WikiRegexes.TargetLessLink);
         }
 
         private const string SiCitStart = @"(?si)(\|\s*";
@@ -7015,7 +7012,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Returns whether the input article text contains any links with no target
+        /// Returns whether the input article text contains any wikilinks with no target
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns></returns>
