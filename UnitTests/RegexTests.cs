@@ -323,6 +323,15 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
         }
 
         [Test]
+        public void TargetLessLinkTests()
+        {
+            TestMatch(WikiRegexes.TargetLessLink, "[[|foo]]", "[[|foo]]");
+            TestMatch(WikiRegexes.TargetLessLink, "[[|foo bar]]", "[[|foo bar]]");
+            TestMatch(WikiRegexes.TargetLessLink, "[[|linktext]]", "[[|linktext]]");
+            TestMatch(WikiRegexes.TargetLessLink, "[[foo|bar]]", false);
+        }
+
+        [Test]
         public void WikiLinkTests()
         {
             Assert.AreEqual(WikiRegexes.WikiLink.Match(@"[[foo]]").Groups[1].Value, @"foo");

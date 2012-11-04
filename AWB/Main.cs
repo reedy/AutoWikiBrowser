@@ -756,6 +756,7 @@ namespace AutoWikiBrowser
         private Dictionary<int, int> unclosedTags = new Dictionary<int, int>();
         private Dictionary<int, int> deadLinks = new Dictionary<int, int>();
         private Dictionary<int, int> ambigCiteDates = new Dictionary<int, int>();
+        private Dictionary<int, int> targetlessLinks = new Dictionary<int, int>();
         private List<string> UnknownWikiProjectBannerShellParameters = new List<string>();
         private List<string> UnknownMultipleIssuesParameters = new List<string>();
 
@@ -1129,6 +1130,12 @@ namespace AutoWikiBrowser
             }
 
             foreach (KeyValuePair<int, int> kvp in unclosedTags)
+            {
+                if (!Errors.ContainsKey(kvp.Key))
+                    Errors.Add(kvp.Key, kvp.Value);
+            }
+
+            foreach (KeyValuePair<int, int> kvp in targetlessLinks)
             {
                 if (!Errors.ContainsKey(kvp.Key))
                     Errors.Add(kvp.Key, kvp.Value);
@@ -2541,6 +2548,10 @@ window.scrollTo(0, diffTopY);
                 badCiteParameters = TheArticle.BadCiteParameters();
                 if (badCiteParameters.Count > 0)
                     lbAlerts.Items.Add("Invalid citation parameter(s)" + " (" + badCiteParameters.Count + ")");
+
+                targetlessLinks = TheArticle.TargetlessLinks();
+                if (targetlessLinks.Count > 0)
+                    lbAlerts.Items.Add("Links with no target" + " (" + targetlessLinks.Count + ")");
 
                 dupeBanerShellParameters = TheArticle.DuplicateWikiProjectBannerShellParameters();
                 if (dupeBanerShellParameters.Count > 0)
