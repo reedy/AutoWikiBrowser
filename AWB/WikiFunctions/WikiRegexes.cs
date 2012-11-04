@@ -883,9 +883,9 @@ namespace WikiFunctions
         public static readonly Regex DeadLink = Tools.NestedTemplateRegex(new [] { "dead link", "deadlink", "broken link", "brokenlink", "link broken", "linkbroken", "404", "dl", "dl-s", "cleanup-link" }, true );
 
         /// <summary>
-        /// Matches links with no target
+        /// Matches wikilinks with no target e.g. [[|foo]]
         /// </summary>
-        public static readonly Regex TargetLessLink =  new Regex(@"\[\[\|(\w\s?)+\]\]", RegexOptions.IgnoreCase);
+        public static readonly Regex TargetLessLink =  new Regex(@"\[\[\|([\w\s]+)\]\]");
 
         /// <summary>
         /// Matches {{expand}} tag and its redirects and also {{expand}} within {{multiple issues}}
