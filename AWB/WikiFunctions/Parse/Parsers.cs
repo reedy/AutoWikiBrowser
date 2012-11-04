@@ -1083,74 +1083,84 @@ namespace WikiFunctions.Parse
         private static readonly Regex YearRangeToPresent = new Regex(@"\b([12]\d{3}) *- *([Pp]resent\b)", RegexOptions.Compiled);
         private static readonly Regex CircaLinkTemplate = new Regex(@"({{[Cc]irca}}|\[\[[Cc]irca *(?:\|[Cc]a?\.?)?\]\]|\[\[[Cc]a?\.?\]*\.?)", RegexOptions.Compiled);
 
-        // Covered by: LinkTests.FixDates()
         /// <summary>
-        /// Fix date and decade formatting errors, and replace &lt;br&gt; and &lt;p&gt; HTML tags
+        /// Fix date and decade formatting errors: commas in American/international dates, full date ranges, month ranges
         /// </summary>
-        /// <param name="articleText">The wiki text of the article.</param>
-        /// <returns>The modified article text.</returns>
-        public string FixDates(string articleText)
-        {
-            if (!Variables.LangCode.Equals("en"))
-                return articleText;
+        /// <param name="articleText"></param>
+        /// <returns></returns>
+         public string FixDatesA(string articleText)
+         {
+             if (!Variables.LangCode.Equals("en"))
+                 return articleText;
+             
+             articleText = HideTextImages(articleText);
+             
+             articleText = CommaDates.Replace(articleText, @"$1 $2, $3");
+             articleText = IncorrectCommaInternationalDates.Replace(articleText, @"$1 $2");
 
-            bool CircaLink = CircaLinkTemplate.IsMatch(articleText);
+             articleText = SameMonthInternationalDateRange.Replace(articleText, @"$1–$2");
 
-            articleText = HideTextImages(articleText);
+             articleText = SameMonthAmericanDateRange.Replace(articleText, SameMonthAmericanDateRangeME);
 
-            articleText = CommaDates.Replace(articleText, @"$1 $2, $3");
-            articleText = IncorrectCommaInternationalDates.Replace(articleText, @"$1 $2");
+             articleText = LongFormatInternationalDateRange.Replace(articleText, @"$1–$3 $2 $4");
+             articleText = LongFormatAmericanDateRange.Replace(articleText, @"$1 $2–$3, $4");
 
-            articleText = SameMonthInternationalDateRange.Replace(articleText, @"$1–$2");
+             // run this after the date range fixes
+             articleText = NoCommaAmericanDates.Replace(articleText, @"$1, $2");
+             articleText = NoSpaceAmericanDates.Replace(articleText, @"$1 $2, $3");
 
-            articleText = SameMonthAmericanDateRange.Replace(articleText, SameMonthAmericanDateRangeME);
+             // month range
+             articleText = EnMonthRange.Replace(articleText, @"$1–$2");
 
-            articleText = LongFormatInternationalDateRange.Replace(articleText, @"$1–$3 $2 $4");
-            articleText = LongFormatAmericanDateRange.Replace(articleText, @"$1 $2–$3, $4");
+             return AddBackTextImages(articleText);
+         }
+         
+         /// <summary>
+         /// Fix date and decade formatting errors: date/year ranges to present, full year ranges, performs floruit term wikilinking
+         /// </summary>
+         /// <param name="articleText"></param>
+         /// <param name="CircaLink"></param>
+         /// <param name="Floruit"></param>
+         /// <returns></returns>
+         public string FixDatesB(string articleText, bool CircaLink, bool Floruit)
+         {
+             if (!Variables.LangCode.Equals("en"))
+                 return articleText;
+             
+             articleText = DateRangeToPresent.Replace(articleText, @"$1 $2 – $3");
+             articleText = YearRangeToPresent.Replace(articleText, @"$1–$2");
 
-            // run this after the date range fixes
-            articleText = NoCommaAmericanDates.Replace(articleText, @"$1, $2");
-            articleText = NoSpaceAmericanDates.Replace(articleText, @"$1 $2, $3");
+             // 1965–1968 fixes: only appy year range fix if two years are in order
+             if (!CircaLink)
+             {
+                 articleText = FullYearRange.Replace(articleText, FullYearRangeME);
+                 articleText = SpacedFullYearRange.Replace(articleText, SpacedFullYearRangeME);
+             }
 
-            // month range
-            articleText = EnMonthRange.Replace(articleText, @"$1–$2");
+             // 1965–68 fixes
+             articleText = YearRangeShortenedCentury.Replace(articleText, YearRangeShortenedCenturyME);
 
-            articleText = AddBackTextImages(articleText);
-
-            // fixes bellow need full HideMore
-            string articleTextRaw = articleText;
-            articleText = HideMoreText(articleText);
-
-            articleText = DateRangeToPresent.Replace(articleText, @"$1 $2 – $3");
-            articleText = YearRangeToPresent.Replace(articleText, @"$1–$2");
-
-            // 1965–1968 fixes: only appy year range fix if two years are in order
-            if (!CircaLink)
-            {
-                articleText = FullYearRange.Replace(articleText, FullYearRangeME);
-                articleText = SpacedFullYearRange.Replace(articleText, SpacedFullYearRangeME);
-            }
-
-            // 1965–68 fixes
-            articleText = YearRangeShortenedCentury.Replace(articleText, YearRangeShortenedCenturyME);
-
-            // date–year --> date – year
-            articleText = DateRangeToYear.Replace(articleText, @"$1 $2 – $3");
-
-            //Remove 2 or more <br />'s
-            //This piece's existance here is counter-intuitive, but it requires HideMore()
-            //and I don't want to call this slow function yet another time --MaxSem
-            articleText = SyntaxRemoveBr.Replace(articleText, "\r\n\r\n");
-            articleText = SyntaxRemoveParagraphs.Replace(articleText, "\r\n\r\n");
-            articleText = SyntaxRegexListRowBrTagStart.Replace(articleText, "$1");
-
-            // replace first occurrence of unlinked floruit with linked version, zeroth section only
-            string zeroth = WikiRegexes.ZerothSection.Match(articleTextRaw).Value;
-            if (!zeroth.Contains(@"[[floruit|fl.]]") && UnlinkedFloruit.IsMatch(zeroth))
-                articleText = UnlinkedFloruit.Replace(articleText, @"([[floruit|fl.]] $1", 1);
-
-            return AddBackMoreText(articleText);
-        }
+             // date–year --> date – year
+             articleText = DateRangeToYear.Replace(articleText, @"$1 $2 – $3");
+             
+             // replace first occurrence of unlinked floruit with linked version, zeroth section only
+             if(Floruit)
+                 articleText = WikiRegexes.UnlinkedFloruit.Replace(articleText, @"([[floruit|fl.]] $1", 1);
+             
+             return articleText;
+         }
+         
+         /// <summary>
+         /// Remove 2 or more &lt;br /&gt;'s
+         /// </summary>
+         /// <param name="articleText"></param>
+         /// <returns></returns>
+         public string FixBrParagraphs(string articleText)
+         {               
+             articleText = SyntaxRemoveBr.Replace(articleText, "\r\n\r\n");
+             articleText = SyntaxRemoveParagraphs.Replace(articleText, "\r\n\r\n");
+             return SyntaxRegexListRowBrTagStart.Replace(articleText, "$1");
+         }
 
         private static string FullYearRangeME(Match m)
         {
@@ -1215,8 +1225,6 @@ namespace WikiFunctions.Parse
                 @")?\]*,?\s*\[*[1-2]?\d{3}\]*)\s*(.|&.dash;)\s*(?:[Dd]ied|d\.)\s+(\[*(?:" + WikiRegexes.MonthsNoGroup +
                 @"\s+0?(?:[1-3]?\d)|0?(?:[1-3]?\d)\s*" + WikiRegexes.MonthsNoGroup + @")\]*,?\s*\[*[1-2]?\d{3}\]*\)\s*)",
                 RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
-        private static readonly Regex UnlinkedFloruit = new Regex(@"\(\s*(?:[Ff]l)\.*\s*(\d\d)", RegexOptions.Compiled);
 
         //Covered by: LinkTests.FixLivingThingsRelatedDates()
         /// <summary>
@@ -1646,7 +1654,8 @@ namespace WikiFunctions.Parse
             derivedName = derivedName.Replace(@"&ndash;", "–");
 
             Parsers p = new Parsers();
-            derivedName = p.FixDates(derivedName);
+            derivedName = p.FixDatesA(derivedName);
+            derivedName = p.FixDatesB(derivedName, false, false);
 
             return DateRetrievedOrAccessed.IsMatch(derivedName) ? "" : derivedName;
         }

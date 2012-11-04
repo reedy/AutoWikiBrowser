@@ -949,177 +949,167 @@ The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines af
         public void FixDatesHTML()
         {
             // replace <br> and <p> HTML tags tests
-            Assert.AreEqual("\r\n\r\nsome text", parser.FixDates("<p>some text"));
-            Assert.AreEqual("\r\n\r\nsome text", parser.FixDates("<p> some text"));
-            Assert.AreEqual("\r\n\r\nsome text", parser.FixDates("<br><br>some text"));
-            Assert.AreEqual("some text\r\n\r\n", parser.FixDates("some text<p>"));
-            Assert.AreEqual("some text\r\n\r\n", parser.FixDates("some text<br><br>"));
-            Assert.AreEqual("some text\r\n\r\nword", parser.FixDates("some text<br><br>word"));
+            Assert.AreEqual("\r\n\r\nsome text", parser.FixBrParagraphs("<p>some text"));
+            Assert.AreEqual("\r\n\r\nsome text", parser.FixBrParagraphs("<p> some text"));
+            Assert.AreEqual("\r\n\r\nsome text", parser.FixBrParagraphs("<br><br>some text"));
+            Assert.AreEqual("some text\r\n\r\n", parser.FixBrParagraphs("some text<p>"));
+            Assert.AreEqual("some text\r\n\r\n", parser.FixBrParagraphs("some text<br><br>"));
+            Assert.AreEqual("some text\r\n\r\nword", parser.FixBrParagraphs("some text<br><br>word"));
 
             // don't match when in table or blockquote
-            Assert.AreEqual("|<p>some text", parser.FixDates("|<p>some text"));
-            Assert.AreEqual("|<br><br>some text", parser.FixDates("|<br><br>some text"));
-            Assert.AreEqual("!<p>some text", parser.FixDates("!<p>some text"));
-            Assert.AreEqual("!<br><br>some text", parser.FixDates("!<br><br>some text"));
+            Assert.AreEqual("|<p>some text", parser.FixBrParagraphs("|<p>some text"));
+            Assert.AreEqual("|<br><br>some text", parser.FixBrParagraphs("|<br><br>some text"));
+            Assert.AreEqual("!<p>some text", parser.FixBrParagraphs("!<p>some text"));
+            Assert.AreEqual("!<br><br>some text", parser.FixBrParagraphs("!<br><br>some text"));
 
-            Assert.AreEqual("<blockquote><p>some text</blockquote>", parser.FixDates("<blockquote><p>some text</blockquote>"));
-            Assert.AreEqual("<blockquote>|<br><br>some text</blockquote>", parser.FixDates("<blockquote>|<br><br>some text</blockquote>"));
+            genFixes.AssertNotChanged(@"<blockquote><p>some text</blockquote>");
+            genFixes.AssertNotChanged("<blockquote>|<br><br>some text</blockquote>");
 
             Assert.AreEqual(@"* {{Polish2|Krzepice (województwo dolnośląskie)|[[24 November]] [[2007]]}}
 
-", parser.FixDates(@"* {{Polish2|Krzepice (województwo dolnośląskie)|[[24 November]] [[2007]]}}<br><br>  "));
+", parser.FixBrParagraphs(@"* {{Polish2|Krzepice (województwo dolnośląskie)|[[24 November]] [[2007]]}}<br><br>  "));
 
             const string nochange = @"{{cite web | title = Hello April 14 2009 there | date=2011-11-13 }}";
 
-            Assert.AreEqual(nochange, parser.FixDates(nochange));
+            Assert.AreEqual(nochange, parser.FixBrParagraphs(nochange));
         }
 
         [Test]
         public void FixDatesCommaErrors()
         {
             const string correct1 = @"Retrieved on April 14, 2009 was";
-            Assert.AreEqual(correct1, parser.FixDates(@"Retrieved on April, 14, 2009 was"));
-            Assert.AreEqual(correct1, parser.FixDates(@"Retrieved on April , 14 , 2009 was"));
-            Assert.AreEqual(correct1, parser.FixDates(@"Retrieved on April , 14 ,2009 was"));
+            Assert.AreEqual(correct1, parser.FixDatesA(@"Retrieved on April, 14, 2009 was"));
+            Assert.AreEqual(correct1, parser.FixDatesA(@"Retrieved on April , 14 , 2009 was"));
+            Assert.AreEqual(correct1, parser.FixDatesA(@"Retrieved on April , 14 ,2009 was"));
 
-            Assert.AreEqual(correct1, parser.FixDates(@"Retrieved on April 14,2009 was"));
-            Assert.AreEqual(correct1, parser.FixDates(@"Retrieved on April 14 ,2009 was"));
-            Assert.AreEqual(correct1, parser.FixDates(@"Retrieved on April 14 2009 was"));
-            Assert.AreEqual(correct1, parser.FixDates(@"Retrieved on April14,2009 was"));
-            Assert.AreEqual(correct1, parser.FixDates(@"Retrieved on April14, 2009 was"));
-            Assert.AreEqual(correct1, parser.FixDates(@"Retrieved on April14 2009 was"));
-            Assert.AreEqual(correct1, parser.FixDates(correct1));
+            Assert.AreEqual(correct1, parser.FixDatesA(@"Retrieved on April 14,2009 was"));
+            Assert.AreEqual(correct1, parser.FixDatesA(@"Retrieved on April 14 ,2009 was"));
+            Assert.AreEqual(correct1, parser.FixDatesA(@"Retrieved on April 14 2009 was"));
+            Assert.AreEqual(correct1, parser.FixDatesA(@"Retrieved on April14,2009 was"));
+            Assert.AreEqual(correct1, parser.FixDatesA(@"Retrieved on April14, 2009 was"));
+            Assert.AreEqual(correct1, parser.FixDatesA(@"Retrieved on April14 2009 was"));
+            Assert.AreEqual(correct1, parser.FixDatesA(correct1));
 
             // don't change image names
             string image1 = @"now foo [[Image:Foo July 24 2009.png]] was";
-            Assert.AreEqual(image1, parser.FixDates(image1));
+            Assert.AreEqual(image1, parser.FixDatesA(image1));
             string image2 = @"now foo [[File:Foo July 24 2009.png]] was";
-            Assert.AreEqual(image2, parser.FixDates(image2));
+            Assert.AreEqual(image2, parser.FixDatesA(image2));
 
             const string correct2 = @"Retrieved on 14 April 2009 was";
-            Assert.AreEqual(correct2, parser.FixDates(@"Retrieved on 14 April, 2009 was"));
-            Assert.AreEqual(correct2, parser.FixDates(@"Retrieved on 14 April , 2009 was"));
-            Assert.AreEqual(correct2, parser.FixDates(@"Retrieved on 14 April,  2009 was"));
+            Assert.AreEqual(correct2, parser.FixDatesA(@"Retrieved on 14 April, 2009 was"));
+            Assert.AreEqual(correct2, parser.FixDatesA(@"Retrieved on 14 April , 2009 was"));
+            Assert.AreEqual(correct2, parser.FixDatesA(@"Retrieved on 14 April,  2009 was"));
 
             const string nochange1 = @"On 14 April, 2590 people", nochange2 = @"Retrieved on April 142009 was";
-            Assert.AreEqual(nochange1, parser.FixDates(nochange1));
-            Assert.AreEqual(nochange2, parser.FixDates(nochange2));
+            Assert.AreEqual(nochange1, parser.FixDatesA(nochange1));
+            Assert.AreEqual(nochange2, parser.FixDatesA(nochange2));
         }
 
         [Test]
         public void FixDatesRanges()
         {
             const string correct1 = @"On 3–17 May 2009 a dog";
-            Assert.AreEqual(correct1, parser.FixDates(@"On 3-17 May 2009 a dog"));
-            Assert.AreEqual(correct1, parser.FixDates(@"On 3 - 17 May 2009 a dog"));
-            Assert.AreEqual(correct1, parser.FixDates(@"On 3 -17 May 2009 a dog"));
-            Assert.AreEqual(correct1, parser.FixDates(@"On 3 May-17 May 2009 a dog"));
-            Assert.AreEqual(correct1, parser.FixDates(@"On 3 May - 17 May 2009 a dog"));
-            Assert.AreEqual(correct1, parser.FixDates(@"On 3 May – 17 May 2009 a dog"));
-            Assert.AreEqual(correct1, parser.FixDates(@"On 3 May – 17 May, 2009 a dog"));
+            Assert.AreEqual(correct1, parser.FixDatesA(@"On 3-17 May 2009 a dog"));
+            Assert.AreEqual(correct1, parser.FixDatesA(@"On 3 - 17 May 2009 a dog"));
+            Assert.AreEqual(correct1, parser.FixDatesA(@"On 3 -17 May 2009 a dog"));
+            Assert.AreEqual(correct1, parser.FixDatesA(@"On 3 May-17 May 2009 a dog"));
+            Assert.AreEqual(correct1, parser.FixDatesA(@"On 3 May - 17 May 2009 a dog"));
+            Assert.AreEqual(correct1, parser.FixDatesA(@"On 3 May – 17 May 2009 a dog"));
+            Assert.AreEqual(correct1, parser.FixDatesA(@"On 3 May – 17 May, 2009 a dog"));
 
             // American format
             const string correct2 = @"On May 3–17, 2009 a dog";
-            Assert.AreEqual(correct2, parser.FixDates(@"On May 3-17, 2009 a dog"));
-            Assert.AreEqual(correct2, parser.FixDates(@"On May 3-17 2009 a dog"));
-            Assert.AreEqual(correct2, parser.FixDates(@"On May 3 - 17 2009 a dog"));
-            Assert.AreEqual(correct2, parser.FixDates(@"On May 3   -17 2009 a dog"));
-            Assert.AreEqual(correct2, parser.FixDates(@"On May 3 - May 17 2009 a dog"));
-            Assert.AreEqual(correct2, parser.FixDates(@"On May 3 - May 17, 2009 a dog"));
-            Assert.AreEqual(correct2, parser.FixDates(@"On May 3 – May 17 2009 a dog"));
-            Assert.AreEqual(correct2, parser.FixDates(@"On May 3 – May 17, 2009 a dog"));
+            Assert.AreEqual(correct2, parser.FixDatesA(@"On May 3-17, 2009 a dog"));
+            Assert.AreEqual(correct2, parser.FixDatesA(@"On May 3-17 2009 a dog"));
+            Assert.AreEqual(correct2, parser.FixDatesA(@"On May 3 - 17 2009 a dog"));
+            Assert.AreEqual(correct2, parser.FixDatesA(@"On May 3   -17 2009 a dog"));
+            Assert.AreEqual(correct2, parser.FixDatesA(@"On May 3 - May 17 2009 a dog"));
+            Assert.AreEqual(correct2, parser.FixDatesA(@"On May 3 - May 17, 2009 a dog"));
+            Assert.AreEqual(correct2, parser.FixDatesA(@"On May 3 – May 17 2009 a dog"));
+            Assert.AreEqual(correct2, parser.FixDatesA(@"On May 3 – May 17, 2009 a dog"));
 
             // no change
             const string nochange1 = @"May 17 - 13,009 dogs";
-            Assert.AreEqual(nochange1, parser.FixDates(nochange1));
+            Assert.AreEqual(nochange1, parser.FixDatesA(nochange1));
 
             const string nochange2 = @"May 2-4-0";
-            Assert.AreEqual(nochange2, parser.FixDates(nochange2));
+            Assert.AreEqual(nochange2, parser.FixDatesA(nochange2));
 
             // month ranges
             const string correct3 = @"May–June 2010";
-            Assert.AreEqual(correct3, parser.FixDates(@"May-June 2010"), "endash set for month range");
-            Assert.AreEqual(correct3, parser.FixDates(correct3));
+            Assert.AreEqual(correct3, parser.FixDatesA(@"May-June 2010"), "endash set for month range");
+            Assert.AreEqual(correct3, parser.FixDatesA(correct3));
 
-            Assert.AreEqual("from 1904 – 11 May 1956 there", parser.FixDates("from 1904 – 11 May 1956 there"));
+            Assert.AreEqual("from 1904 – 11 May 1956 there", parser.FixDatesA("from 1904 – 11 May 1956 there"));
 
             const string DateToYear = @"'''Nowell''' (May 16, 1872 - 1940), was";
-            Assert.AreEqual(DateToYear.Replace("-", "–"), parser.FixDates(DateToYear));
+            genFixes.AssertChange(DateToYear, DateToYear.Replace("-", "–"));
         }
 
         [Test]
         public void TestFullYearRanges()
         {
             const string correct = @"from (1900–1933) there";
-            Assert.AreEqual(correct, parser.FixDates(@"from (1900-1933) there"));
-            Assert.AreEqual(correct, parser.FixDates(@"from (1900  –  1933) there"));
-            Assert.AreEqual(correct, parser.FixDates(@"from (1900 -1933) there"));
-            Assert.AreEqual(correct, parser.FixDates(@"from (1900 - 1933) there"));
-            Assert.AreEqual(correct, parser.FixDates(@"from (1900 -  1933) there"));
-            Assert.AreEqual(@"from (1900–1901) there", parser.FixDates(@"from (1900 - 1901) there"));
-            Assert.AreEqual(@"from (1900–1933, 2000) there", parser.FixDates(@"from (1900-1933, 2000) there"));
-            Assert.AreEqual(@"from (1900–1933, 2000–2002) there", parser.FixDates(@"from (1900-1933, 2000-2002) there"));
-            Assert.AreEqual(@"from ( 1900–1933) there", parser.FixDates(@"from ( 1900-1933) there"));
+            Assert.AreEqual(correct, parser.FixDatesB(@"from (1900-1933) there", false, false));
+            Assert.AreEqual(correct, parser.FixDatesB(@"from (1900  –  1933) there", false, false));
+            Assert.AreEqual(correct, parser.FixDatesB(@"from (1900 -1933) there", false, false));
+            Assert.AreEqual(correct, parser.FixDatesB(@"from (1900 - 1933) there", false, false));
+            Assert.AreEqual(correct, parser.FixDatesB(@"from (1900 -  1933) there", false, false));
+            Assert.AreEqual(@"from (1900–1901) there", parser.FixDatesB(@"from (1900 - 1901) there", false, false));
+            Assert.AreEqual(@"from (1900–1933, 2000) there", parser.FixDatesB(@"from (1900-1933, 2000) there", false, false));
+            Assert.AreEqual(@"from (1900–1933, 2000–2002) there", parser.FixDatesB(@"from (1900-1933, 2000-2002) there", false, false));
+            Assert.AreEqual(@"from ( 1900–1933) there", parser.FixDatesB(@"from ( 1900-1933) there", false, false));
 
-            Assert.AreEqual(@"from 1950–1960,", parser.FixDates(@"from 1950-1960,"));
-            Assert.AreEqual(@"|1950–1960|", parser.FixDates(@"|1950-1960|"));
-            Assert.AreEqual(@"(1950–1960 and 1963–1968)", parser.FixDates(@"(1950-1960 and 1963-1968)"));
-            Assert.AreEqual(@"or 1900–1901,", parser.FixDates(@"or 1900 - 1901,"));
-            Assert.AreEqual(@"for 1900–1901,", parser.FixDates(@"for 1900 - 1901,"));
+            Assert.AreEqual(@"from 1950–1960,", parser.FixDatesB(@"from 1950-1960,", false, false));
+            Assert.AreEqual(@"|1950–1960|", parser.FixDatesB(@"|1950-1960|", false, false));
+            Assert.AreEqual(@"(1950–1960 and 1963–1968)", parser.FixDatesB(@"(1950-1960 and 1963-1968)", false, false));
+            Assert.AreEqual(@"or 1900–1901,", parser.FixDatesB(@"or 1900 - 1901,", false, false));
+            Assert.AreEqual(@"for 1900–1901,", parser.FixDatesB(@"for 1900 - 1901,", false, false));
 
             // no change – not valid date range
-            const string invaliddaterange = @"from (1900–1870) there";
-            Assert.AreEqual(invaliddaterange, parser.FixDates(invaliddaterange));
+            genFixes.AssertNotChanged(@"from (1900–1870) there");
 
             // already okay
-            const string alreadycorrect1 = @"from (1900&ndash;1933) there";
-            Assert.AreEqual(alreadycorrect1, parser.FixDates(alreadycorrect1));
-            const string alreadycorrect2 = @"from (1900–1933) there";
-            Assert.AreEqual(alreadycorrect2, parser.FixDates(alreadycorrect2));
+            genFixes.AssertNotChanged(@"from (1900&ndash;1933) there");
+            genFixes.AssertNotChanged(@"from (1900–1933) there");
 
             Assert.AreEqual(@"now between 1900–1920
-was", parser.FixDates(@"now between 1900-1920
-was"));
+was", parser.FixDatesB(@"now between 1900-1920
+was", false, false));
         }
 
         [Test]
         public void CircaYearRanges()
         {
-            Assert.AreEqual(@"c. 1950 – 1960,", parser.FixDates(@"c. 1950 - 1960,"));
-            Assert.AreEqual(@"ca. 1950 – 1960,", parser.FixDates(@"ca. 1950 - 1960,"));
-            Assert.AreEqual(@"circa 1950 – 1960,", parser.FixDates(@"circa 1950 - 1960,"));
+            Assert.AreEqual(@"c. 1950 – 1960,", parser.FixDatesB(@"c. 1950 - 1960,", false, false));
+            Assert.AreEqual(@"ca. 1950 – 1960,", parser.FixDatesB(@"ca. 1950 - 1960,", false, false));
+            Assert.AreEqual(@"circa 1950 – 1960,", parser.FixDatesB(@"circa 1950 - 1960,", false, false));
 
             // no changes because can't use hidemore and detect the links
-            Assert.AreEqual(@"{{Circa}} 1950 – 1960,", parser.FixDates(@"{{Circa}} 1950 – 1960,"));
-
-            Assert.AreEqual(@"[[c.]] 1950 - 1960,", parser.FixDates(@"[[c.]] 1950 - 1960,"));
-            Assert.AreEqual(@"[[c]]. 1950 - 1960,", parser.FixDates(@"[[c]]. 1950 - 1960,"));
-            Assert.AreEqual(@"[[c]] 1950 - 1960,", parser.FixDates(@"[[c]] 1950 - 1960,"));
-            Assert.AreEqual(@"[[circa]] 1950 - 1960,", parser.FixDates(@"[[circa]] 1950 - 1960,"));
-            Assert.AreEqual(@"[[circa|c.]] 1950 - 1960,", parser.FixDates(@"[[circa|c.]] 1950 - 1960,"));
-            Assert.AreEqual(@"[[circa|c]]. 1950 - 1960,", parser.FixDates(@"[[circa|c]]. 1950 - 1960,"));
-            Assert.AreEqual(@"{{circa}} 1950 - 1960,", parser.FixDates(@"{{circa}} 1950 - 1960,"));
-            Assert.AreEqual(@"{{Circa}} 1950 - 1960,", parser.FixDates(@"{{Circa}} 1950 - 1960,"));
-
-            const string NoChange = @"circle 1950 - 1960,";
-            Assert.AreEqual(NoChange, parser.FixDates(NoChange));
-
-            const string NoChange2 = @"[[Foo (1950-1960)|Foo]]";
-            Assert.AreEqual(NoChange2, parser.FixDates(NoChange2));
-
-            const string NoChange3 = @"[[Foo (1950 - 1960)|Foo]]";
-            Assert.AreEqual(NoChange3, parser.FixDates(NoChange3));
+            genFixes.AssertNotChanged(@"{{Circa}} 1950 – 1960,");
+            genFixes.AssertNotChanged(@"[[c.]] 1950 - 1960,");
+            genFixes.AssertNotChanged(@"[[c]]. 1950 - 1960,");
+            genFixes.AssertNotChanged(@"[[c]] 1950 - 1960,");
+            genFixes.AssertNotChanged(@"[[circa]] 1950 - 1960,");
+            genFixes.AssertNotChanged(@"[[circa|c.]] 1950 - 1960,");
+            genFixes.AssertNotChanged(@"[[circa|c]]. 1950 - 1960,");
+            genFixes.AssertNotChanged(@"{{circa}} 1950 - 1960,");
+            genFixes.AssertNotChanged(@"{{Circa}} 1950 - 1960,");
+            genFixes.AssertNotChanged(@"circle 1950 - 1960,");
+            genFixes.AssertNotChanged(@"[[Foo (1950-1960)|Foo]]");
+            genFixes.AssertNotChanged(@"[[Foo (1950 - 1960)|Foo]]");
         }
 
         [Test]
         public void TestYearToPresentRanges()
         {
             const string present = @"from 2002–present was";
-            Assert.AreEqual(present, parser.FixDates(@"from 2002-present was"));
-            Assert.AreEqual(present, parser.FixDates(@"from 2002 -   present was"));
-            Assert.AreEqual(present, parser.FixDates(@"from 2002–present was"));
+            Assert.AreEqual(present, parser.FixDatesB(@"from 2002-present was", false, false));
+            Assert.AreEqual(present, parser.FixDatesB(@"from 2002 -   present was", false, false));
+            Assert.AreEqual(present, parser.FixDatesB(@"from 2002–present was", false, false));
 
-            Assert.AreEqual(@"from 2002–Present was", parser.FixDates(@"from 2002-Present was"));
+            Assert.AreEqual(@"from 2002–Present was", parser.FixDatesB(@"from 2002-Present was", false, false));
 
             const string present2 = @"== Members ==
 * [[Nick Hexum]] - Vocals, [[Rhythm Guitar]], Programming (1989 - present)
@@ -1128,60 +1118,55 @@ was"));
 * [[P-Nut|Aaron Wills]] - [[Bass guitar]] (1989 - present)
 * [[Chad Sexton]] - [[Drum]]s, Programming, Percussion (1989 - present)";
 
-            Assert.AreEqual(present2.Replace(@" - p", @"–p"), parser.FixDates(present2));
+            Assert.AreEqual(present2.Replace(@" - p", @"–p"), parser.FixDatesB(present2, false, false));
 
-            const string NoChange = @"* 2000 - presented";
-
-            Assert.AreEqual(NoChange, parser.FixDates(NoChange));
+            genFixes.AssertNotChanged(@"* 2000 - presented");
         }
 
         [Test]
         public void TestDateToPresentRanges()
         {
-            Assert.AreEqual(@"from May 2002 – present was", parser.FixDates(@"from May 2002 - present was"));
-            Assert.AreEqual(@"from May 2002 – present was", parser.FixDates(@"from May 2002-present was"));
-            Assert.AreEqual(@"from May 11, 2002 – present was", parser.FixDates(@"from May 11, 2002-present was"));
-            Assert.AreEqual(@"from May 11, 2002 – present was", parser.FixDates(@"from May 11, 2002 - present was"));
+            Assert.AreEqual(@"from May 2002 – present was", parser.FixDatesB(@"from May 2002 - present was", false, false));
+            Assert.AreEqual(@"from May 2002 – present was", parser.FixDatesB(@"from May 2002-present was", false, false));
+            Assert.AreEqual(@"from May 11, 2002 – present was", parser.FixDatesB(@"from May 11, 2002-present was", false, false));
+            Assert.AreEqual(@"from May 11, 2002 – present was", parser.FixDatesB(@"from May 11, 2002 - present was", false, false));
         }
 
         [Test]
         public void TestShortenedYearRanges()
         {
             const string correct = @"from (1900–33) there";
-            Assert.AreEqual(correct, parser.FixDates(@"from (1900-33) there"));
-            Assert.AreEqual(correct, parser.FixDates(@"from (1900 -33) there"));
-            Assert.AreEqual(correct, parser.FixDates(@"from (1900 - 33) there"));
-            Assert.AreEqual(correct, parser.FixDates(@"from (1900 -  33) there"));
-            Assert.AreEqual(@"from (1900–1901) there", parser.FixDates(@"from (1900 - 1901) there"));
-            Assert.AreEqual(@"from (1900–33, 2000) there", parser.FixDates(@"from (1900-33, 2000) there"));
-            Assert.AreEqual(@"from (1900–33, 2000–2002) there", parser.FixDates(@"from (1900-33, 2000-2002) there"));
-            Assert.AreEqual(@"from ( 1900–33) there", parser.FixDates(@"from ( 1900-33) there"));
+            Assert.AreEqual(correct, parser.FixDatesB(@"from (1900-33) there", false, false));
+            Assert.AreEqual(correct, parser.FixDatesB(@"from (1900 -33) there", false, false));
+            Assert.AreEqual(correct, parser.FixDatesB(@"from (1900 - 33) there", false, false));
+            Assert.AreEqual(correct, parser.FixDatesB(@"from (1900 -  33) there", false, false));
+            Assert.AreEqual(@"from (1900–1901) there", parser.FixDatesB(@"from (1900 - 1901) there", false, false));
+            Assert.AreEqual(@"from (1900–33, 2000) there", parser.FixDatesB(@"from (1900-33, 2000) there", false, false));
+            Assert.AreEqual(@"from (1900–33, 2000–2002) there", parser.FixDatesB(@"from (1900-33, 2000-2002) there", false, false));
+            Assert.AreEqual(@"from ( 1900–33) there", parser.FixDatesB(@"from ( 1900-33) there", false, false));
 
-            Assert.AreEqual(@"from 1950–60,", parser.FixDates(@"from 1950-60,"));
-            Assert.AreEqual(@"(1950–60 and 1963–68)", parser.FixDates(@"(1950-60 and 1963-68)"));
+            Assert.AreEqual(@"from 1950–60,", parser.FixDatesB(@"from 1950-60,", false, false));
+            Assert.AreEqual(@"(1950–60 and 1963–68)", parser.FixDatesB(@"(1950-60 and 1963-68)", false, false));
 
             // no change – not valid date range
-            const string invaliddaterange = @"from (1920–18) there";
-            Assert.AreEqual(invaliddaterange, parser.FixDates(invaliddaterange));
+            genFixes.AssertNotChanged(@"from (1920–18) there");
 
             // already okay
-            const string alreadycorrect1 = @"from (1900&ndash;33) there";
-            Assert.AreEqual(alreadycorrect1, parser.FixDates(alreadycorrect1));
-            const string alreadycorrect2 = @"from (1900–33) there";
-            Assert.AreEqual(alreadycorrect2, parser.FixDates(alreadycorrect2));
+            genFixes.AssertNotChanged(@"from (1900&ndash;33) there");
+            genFixes.AssertNotChanged(@"from (1900–33) there");
         }
 
         [Test]
         public void TestYearRangesCategories()
         {
-            const string catYearRange = @"now foo
-[[Category:abc (2004-present)]]";
-            Assert.AreEqual(catYearRange, parser.FixDates(catYearRange));
-
-            const string catYearRange2 = @"now abc (2004-present) was
-" + catYearRange;
-            Assert.AreEqual(@"now abc (2004–present) was
-" + catYearRange, parser.FixDates(catYearRange2));
+            genFixes.AssertNotChanged(@"now foo
+[[Category:Abc (2004-present)]]");
+            
+            genFixes.AssertChange(@"now abc (2004-present) was
+now foo
+[[Category:Abc (2004-present)]]", @"now abc (2004–present) was
+now foo
+[[Category:Abc (2004-present)]]");
         }
 
         [Test]
@@ -1220,45 +1205,48 @@ was"));
         public void UnlinkedFloruit()
         {
             const string LinkedFloruit = @"'''Foo''' ([[floruit|fl.]] 550) was a peasant.
+
 ==Time==
 Foo was happy";
+            genFixes.AssertNotChanged(LinkedFloruit);
 
-            Assert.AreEqual(LinkedFloruit, parser.FixDates(@"'''Foo''' (fl. 550) was a peasant.
-==Time==
-Foo was happy"), "lowercase");
-            Assert.AreEqual(LinkedFloruit, parser.FixDates(@"'''Foo''' (fl 550) was a peasant.
-==Time==
-Foo was happy"), "no dot");
-            Assert.AreEqual(LinkedFloruit, parser.FixDates(@"'''Foo''' ( fl. 550) was a peasant.
-==Time==
-Foo was happy"), "extra whitespace");
-            Assert.AreEqual(LinkedFloruit, parser.FixDates(@"'''Foo''' (Fl. 550) was a peasant.
-==Time==
-Foo was happy"), "title case");
+            genFixes.AssertChange(@"'''Foo''' (fl. 550) was a peasant.
 
-            Assert.AreEqual(LinkedFloruit, parser.FixDates(LinkedFloruit), "no change if already linked");
+==Time==
+Foo was happy", LinkedFloruit); // lowercase
+             genFixes.AssertChange(@"'''Foo''' (fl 550) was a peasant.
 
+==Time==
+Foo was happy", LinkedFloruit); // no dot
+            genFixes.AssertChange(@"'''Foo''' ( fl. 550) was a peasant.
+
+==Time==
+Foo was happy", LinkedFloruit); // extra whitespace
+            genFixes.AssertChange(@"'''Foo''' (Fl. 550) was a peasant.
+
+==Time==
+Foo was happy", LinkedFloruit); // title case
 
             const string Floruit550 = @"'''Foo''' ([[floruit|fl.]] 550) was a peasant.
 Foo was happy
 Other (fl. 1645) was also";
+            
+            genFixes.AssertNotChanged(Floruit550); // No change when first floruit already linked
 
-            Assert.AreEqual(Floruit550, parser.FixDates(@"'''Foo''' (fl. 550) was a peasant.
+            genFixes.AssertChange(@"'''Foo''' (fl. 550) was a peasant.
 Foo was happy
-Other (fl. 1645) was also"), "only first floruit linked");
-
-            Assert.AreEqual(Floruit550, parser.FixDates(Floruit550), "No change when first floruit already linked");
+Other (fl. 1645) was also", Floruit550); // only first floruit linked
 
             const string FloruitLaterSection = @"'''Foo''' was a peasant.
+
 ==Other==
 Other (fl. 1645) was also", FloruitTwice = @"'''Foo''' (fl. 55) was a peasant, related to other (fl. 600)";
 
-            Assert.AreEqual(FloruitLaterSection, parser.FixDates(FloruitLaterSection), "not linked outside zeroth section");
+            genFixes.AssertNotChanged(FloruitLaterSection); // not linked outside zeroth section
 
-            Assert.AreEqual(@"'''Foo''' ([[floruit|fl.]] 55) was a peasant, related to other (fl. 600)", parser.FixDates(FloruitTwice), "only first occurrence linked");
+            genFixes.AssertChange(FloruitTwice, @"'''Foo''' ([[floruit|fl.]] 55) was a peasant, related to other (fl. 600)"); // only first occurrence linked
 
-            const string InsideTemplate = @"{{cite encyclopedia|encyclopedia=ODNB|url=http://www.oxforddnb.com/view/olddnb/21073 |title=Packe, Christopher (fl. 1796)}}";
-            Assert.AreEqual(InsideTemplate, parser.FixDates(InsideTemplate), "not linked within template text");
+            genFixes.AssertNotChanged(@"{{cite encyclopedia|encyclopedia=ODNB|url=http://www.oxforddnb.com/view/olddnb/21073 |title=Packe, Christopher (fl. 1796)}}"); // not linked within template text
         }
 
         [Test]
@@ -4690,22 +4678,20 @@ http://example.com }}");
         [Test]
         public void SyntaxRegexListRowBrTagStart()
         {
-            Assert.AreEqual("x\r\n*abc", parser.FixDates("x<br>\r\n*abc"));
-            Assert.AreEqual("x\r\n*abc", parser.FixDates("x<br> \r\n*abc"));
-            Assert.AreEqual("x\r\n*abc", parser.FixDates("x<br/> \r\n*abc"));
-            Assert.AreEqual("x\r\n*abc", parser.FixDates("x<br /> \r\n*abc"));
-            Assert.AreEqual("x\r\n*abc", parser.FixDates("x<br / > \r\n*abc"));
+            Assert.AreEqual("x\r\n*abc", parser.FixBrParagraphs("x<br>\r\n*abc"));
+            Assert.AreEqual("x\r\n*abc", parser.FixBrParagraphs("x<br> \r\n*abc"));
+            Assert.AreEqual("x\r\n*abc", parser.FixBrParagraphs("x<br/> \r\n*abc"));
+            Assert.AreEqual("x\r\n*abc", parser.FixBrParagraphs("x<br /> \r\n*abc"));
+            Assert.AreEqual("x\r\n*abc", parser.FixBrParagraphs("x<br / > \r\n*abc"));
 
-            const string BrInTemplateList = @"{{{Foo|
+            genFixes.AssertNotChanged(@"{{{Foo|
 param=<br>
 **text
-**text1 }}";
-
-            Assert.AreEqual(BrInTemplateList, parser.FixDates(BrInTemplateList), "lists within template not changed");
+**text1 }}");
 
             Assert.AreEqual(@"** Blog x
 
-'''No", parser.FixDates(@"** Blog x
+'''No", parser.FixBrParagraphs(@"** Blog x
 <br>
 <br>
 '''No"));

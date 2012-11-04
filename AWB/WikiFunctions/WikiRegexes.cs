@@ -888,6 +888,16 @@ namespace WikiFunctions
         public static readonly Regex TargetLessLink =  new Regex(@"\[\[\|([\w\s]+)\]\]");
 
         /// <summary>
+        /// 
+        /// </summary>
+        public static readonly Regex CircaLinkTemplate = new Regex(@"({{[Cc]irca}}|\[\[[Cc]irca *(?:\|[Cc]a?\.?)?\]\]|\[\[[Cc]a?\.?\]*\.?)");
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly Regex UnlinkedFloruit = new Regex(@"\(\s*(?:[Ff]l)\.*\s*(\d\d)");
+
+        /// <summary>
         /// Matches {{expand}} tag and its redirects and also {{expand}} within {{multiple issues}}
         /// </summary>
         public static readonly Regex Expand = new Regex(@"({{\s*(?:Expand)(?:\s*\|\s*(?:date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|(?<={{(?:Article|Multiple)\s*issues\b[^{}]*?)\|\s*expand\s*=[^{}\|]+)", RegexOptions.IgnoreCase);
