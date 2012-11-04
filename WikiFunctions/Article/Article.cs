@@ -1257,6 +1257,10 @@ namespace WikiFunctions
         { //TODO: 2009-01-28 review which of the genfixes below should be labelled 'significant'
             BeforeGeneralFixesTextChanged();
 
+            // two flags for FixDates functionality
+            string zeroth = WikiRegexes.ZerothSection.Match(ArticleText).Value;
+            bool CircaLink = WikiRegexes.CircaLinkTemplate.IsMatch(ArticleText), Floruit = (!zeroth.Contains(@"[[floruit|fl.]]") && WikiRegexes.UnlinkedFloruit.IsMatch(zeroth));
+
             HideText(removeText);
             Variables.Profiler.Profile("HideText");
 
@@ -1382,6 +1386,15 @@ namespace WikiFunctions
                 Variables.Profiler.Profile("FixDateOrdinalsAndOf");
             }
 
+            AWBChangeArticleText("FixBrParagraphs", parsers.FixBrParagraphs(ArticleText).Trim(), false);
+            Variables.Profiler.Profile("FixBrParagraphs");
+
+            if (!Tools.IsRedirect(ArticleText))
+            {
+                AWBChangeArticleText("Fix dates 1", parsers.FixDatesB(ArticleText, CircaLink, Floruit).Trim(), false);
+                Variables.Profiler.Profile("FixDates1");
+            }
+
             UnHideMoreText(HiderHideExtLinksImages);
             Variables.Profiler.Profile("UnHideMoreText");
 
@@ -1397,8 +1410,8 @@ namespace WikiFunctions
             if (!Tools.IsRedirect(ArticleText))
             {
                 // FixDates does its own hiding
-                AWBChangeArticleText("Fix dates", parsers.FixDates(ArticleText).Trim(), false);
-                Variables.Profiler.Profile("FixDates");
+                AWBChangeArticleText("Fix dates 2", parsers.FixDatesA(ArticleText).Trim(), false);
+                Variables.Profiler.Profile("FixDates2");
             }
 
             AfterGeneralFixesTextChanged();
