@@ -283,7 +283,7 @@ namespace WikiFunctions
         { get { return Parsers.HasDeadLinks(mArticleText); } }
 
         /// <summary>
-        /// Returns whether the article contains any {{dead link}} templates
+        /// Returns whether the article contains any links with no target for example [[|linktarget]]
         /// </summary>
         [XmlIgnore]
         public bool HasTargetLessLinks
