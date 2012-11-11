@@ -34,6 +34,7 @@ namespace WikiFunctions
         wikisource,
         wikiquote,
         wikiversity,
+        wikivoyage,
         wikibooks,
         wikinews,
         species,
