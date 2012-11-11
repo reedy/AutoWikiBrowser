@@ -51,6 +51,11 @@ namespace WikiFunctions
         public const int Book = 108;
         public const int BookTalk = 109;
 
+        public const int EducationProgram  = 446;
+        public const int EducationProgramTalk = 447;
+        public const int TimedText = 710;
+        public const int TimedTextTalk = 711;
+
         // Aliases
 
         public static readonly int Mainspace = Article;
