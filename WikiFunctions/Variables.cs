@@ -848,6 +848,10 @@ namespace WikiFunctions
             Namespaces[101] = "Portal talk:";
             Namespaces[108] = "Book:";
             Namespaces[109] = "Book talk:";
+            Namespaces[446] = "Education Program:";
+            Namespaces[447] = "Education Program talk:";
+            Namespaces[710] = "TimedText:";
+            Namespaces[711] = "TimedText talk:";
 
             mSummaryTag = " using ";
 
