@@ -677,6 +677,7 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
             Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wikiquote));
             Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wikisource));
             Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wikiversity));
+            Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wikivoyage));
             Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.wiktionary));
             Assert.IsTrue(Tools.IsWikimediaProject(ProjectEnum.mediawiki));
 
