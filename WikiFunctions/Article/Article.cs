@@ -147,7 +147,7 @@ namespace WikiFunctions
         {
             get
             {
-                if (NameSpaceKey == Namespace.Article) return Name;
+            	if (NameSpaceKey.Equals(Namespace.Article)) return Name;
 
                 int pos = Name.IndexOf(':');
                 return pos < 0 ? Name : Name.Substring(pos + 1).Trim();
@@ -860,7 +860,7 @@ namespace WikiFunctions
                 }
             }
 
-            if (originalText == changedTextByAdvFar)
+            if (originalText.Equals(changedTextByAdvFar))
             {
                 if (skipIfNoChange)
                     SetFaRChange(beforeOrAfter, FaRChange.NoChange);
@@ -1119,7 +1119,7 @@ namespace WikiFunctions
         /// <param name="checkIfChanged">Check if the new text does differ from the existing text before logging it; exits silently if this param is true and there was no change</param>
         public void ChangeArticleText(string changedBy, string reason, string newText, bool checkIfChanged)
         {
-            if (checkIfChanged && newText == mArticleText) return;
+        	if (checkIfChanged && newText.Equals(mArticleText)) return;
 
             mArticleText = newText;
             mAWBLogListener.WriteLine(reason, changedBy);
@@ -1453,7 +1453,7 @@ namespace WikiFunctions
         /// <param name="parsers"></param>
         public void PerformMetaDataSort(Parsers parsers)
         {
-            if (!Globals.UnitTestMode && NameSpaceKey == Namespace.Mainspace)
+        	if (!Globals.UnitTestMode && NameSpaceKey.Equals(Namespace.Mainspace))
                 mArticleText = parsers.SortMetaData(ArticleText, Name);
         }
         #endregion
