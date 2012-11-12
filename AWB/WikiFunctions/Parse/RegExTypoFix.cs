@@ -500,7 +500,7 @@ namespace WikiFunctions.Parse
                 grp.FixTypos(ref articleText, ref strSummary, articleTitle, originalArticleText);
             }
 
-            noChange = (originalText == articleText);
+            noChange = (originalText.Equals(articleText));
 
             summary = Variables.TypoSummaryTag + strSummary.Trim();
 

@@ -1504,7 +1504,7 @@ namespace WikiFunctions
             UnHideText(removeText);
             Variables.Profiler.Profile("UnHideText");
 
-            if (skipIfNoChange && (originalText == ArticleText))
+            if (skipIfNoChange && (originalText.Equals(ArticleText)))
             {
                 Trace.AWBSkipped("No user talk templates subst'd");
             }

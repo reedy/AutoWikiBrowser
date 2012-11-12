@@ -211,7 +211,7 @@ namespace WikiFunctions.DBScanner
                             //reader.ReadToFollowing("title");
                             articleTitle = reader.ReadString();
 
-                            if (From == articleTitle)
+                            if (From.Equals(articleTitle))
                                 break;
                         }
                     }
