@@ -1291,7 +1291,7 @@ namespace WikiFunctions.Parse
 
         /// <summary>
         /// Puts &lt;ref&gt; references after punctuation (comma, full stop) per WP:REFPUNC when this is the majority style in the article
-        /// Applies to en-wiki only
+        /// Applies to en/el wiki only
         /// </summary>
         /// <param name="articleText">The article text</param>
         /// <returns>The updated article text</returns>
@@ -1300,7 +1300,7 @@ namespace WikiFunctions.Parse
             if (!Variables.LangCode.Equals("en") && !Variables.LangCode.Equals("el"))
                 return articleText;
 
-            // quick check of ">" followed by punctuation in article, for performance saving
+            // 'quick' regexes are used for runtime performance saving
             if (RefsBeforePunctuationQuick.IsMatch(articleText))
             {
                 while (RefsBeforePunctuationR.IsMatch(articleText))
@@ -2678,8 +2678,7 @@ namespace WikiFunctions.Parse
         // make double spaces within wikilinks just single spaces
         private static readonly Regex SyntaxRegexMultipleSpacesInWikilink = new Regex(@"(\[\[[^\[\]]+?) {2,}([^\[\]]+\]\])", RegexOptions.Compiled);
 
-        private static readonly Regex SyntaxRegexItalic = new Regex(@"< *(i|em) *>(.*?)< */ *\1 *>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex SyntaxRegexBold = new Regex("< *b *>(.*?)< */ *b *>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexItalicBoldEm = new Regex(@"< *(i|em|b) *>(.*?)< */ *\1 *>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         // Matches <p> tags only if current line does not start from ! or | (indicator of table cells), plus any spaces after
         private static readonly Regex SyntaxRemoveParagraphs = new Regex(@"(?<!^[!\|].*)</? ?[Pp]> *", RegexOptions.Multiline | RegexOptions.Compiled);
@@ -2725,7 +2724,7 @@ namespace WikiFunctions.Parse
         // CHECKWIKI error 2: fix incorrect <br> of <br.>, <\br>, <br\> and <br./>
         private static readonly Regex IncorrectBr = new Regex(@"< *br\. *>|<\\ *br *>|< *br *\\ *>|< *br\. */>|< *br */[v|r]>|< *br *\?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private static readonly Regex SyntaxRegexHorizontalRule = new Regex("^<hr>|^----+", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex SyntaxRegexHorizontalRule = new Regex(@"^\-{5,}", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SyntaxRegexHeadingWithHorizontalRule = new Regex("(^==?[^=]*==?)\r\n(\r\n)?----+", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SyntaxRegexHTTPNumber = new Regex(@"HTTP/\d\.", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexISBN = new Regex(@"ISBN(?:\-1[03])?: *(\d)", RegexOptions.Compiled);
@@ -2778,10 +2777,9 @@ namespace WikiFunctions.Parse
             articleText = articleText.Replace("<i />", "</i>");
 
             //replace html with wiki syntax - CHECKWIKI error 26 and 38
-            articleText = SyntaxRegexItalic.Replace(articleText, "''$2''");
+            articleText = SyntaxRegexItalicBoldEm.Replace(articleText, BoldItalicME);
 
-            articleText = SyntaxRegexBold.Replace(articleText, "'''$1'''");
-
+            articleText = articleText.Replace("<hr>", "----");
             articleText = SyntaxRegexHorizontalRule.Replace(articleText, "----");
 
             //remove appearance of double line break
@@ -2914,6 +2912,12 @@ namespace WikiFunctions.Parse
                 returned += end;
 
             return returned;
+        }
+        
+        private static string BoldItalicME(Match m)
+        {
+            string ret = (m.Groups[1].Value.Equals("b") ? "'''" : "''");            
+            return ret + m.Groups[2].Value +ret;
         }
         
         /// <summary>
