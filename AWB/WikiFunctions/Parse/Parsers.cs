@@ -1287,6 +1287,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex RefsBeforePunctuationR = new Regex(@" *" + WikiRegexes.Refs + @" *" + RefsPunctuation + @"([^,\.:;])", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
         private static readonly Regex RefsBeforePunctuationQuick = new Regex(@">\s*" + RefsPunctuation, RegexOptions.Compiled);
         private static readonly Regex RefsAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *" + WikiRegexes.Refs, RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+        private static readonly Regex RefsAfterDupePunctuationQuick = new Regex(RefsPunctuation + @"\1 *<\s*ref", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         /// <summary>
         /// Puts &lt;ref&gt; references after punctuation (comma, full stop) per WP:REFPUNC when this is the majority style in the article
@@ -1309,7 +1310,10 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            return RefsAfterDupePunctuation.Replace(articleText, "$1$2$3");
+            if(RefsAfterDupePunctuationQuick.IsMatch(articleText))
+                articleText = RefsAfterDupePunctuation.Replace(articleText, "$1$2$3");
+
+            return articleText;
         }
 
         /// <summary>
