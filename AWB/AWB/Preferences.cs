@@ -123,7 +123,7 @@ namespace AutoWikiBrowser
             string proj = CustomProjectRegex.Replace(cmboCustomProject.Text.Trim(), "$1$2");
 
             proj = proj.TrimEnd('/');
-            if (Project == ProjectEnum.custom) // we shouldn't screw up Wikia
+            if (Project.Equals(ProjectEnum.custom)) // we shouldn't screw up Wikia
             {
                 proj += "/";
             }
@@ -184,17 +184,17 @@ namespace AutoWikiBrowser
                 cmboLang.SelectedIndex = cmboLang.Items.IndexOf(temp);
             }
             
-            if (prj == ProjectEnum.custom || prj == ProjectEnum.wikia)
+            if (prj.Equals(ProjectEnum.custom) || prj.Equals(ProjectEnum.wikia))
             {
                 cmboProtocol.Visible = true;
-                cmboProtocol.Enabled = chkPHP5Ext.Enabled = (prj == ProjectEnum.custom);
+                cmboProtocol.Enabled = chkPHP5Ext.Enabled = (prj.Equals(ProjectEnum.custom));
                 cmboCustomProject.Visible = true;
                 cmboLang.Visible = false;
-                if (prj == ProjectEnum.wikia)
+                if (prj.Equals(ProjectEnum.wikia))
                 {
                     cmboProtocol.SelectedIndex = 0;
                 }
-                lblPostfix.Text = prj == ProjectEnum.wikia ? ".wikia.com" : "";
+                lblPostfix.Text = prj.Equals(ProjectEnum.wikia) ? ".wikia.com" : "";
                 cmboCustomProjectChanged(null, null);
 
                 chkSupressAWB.Enabled = true;
@@ -213,7 +213,7 @@ namespace AutoWikiBrowser
         private void cmboCustomProjectChanged(object sender, EventArgs e)
         {
             ProjectEnum prj = (ProjectEnum) Enum.Parse(typeof (ProjectEnum), cmboProject.SelectedItem.ToString());
-            if (prj == ProjectEnum.custom || prj == ProjectEnum.wikia)
+            if (prj.Equals(ProjectEnum.custom) || prj.Equals(ProjectEnum.wikia))
                 btnOK.Enabled = (!string.IsNullOrEmpty(cmboCustomProject.Text));
             else
                 btnOK.Enabled = true;
@@ -393,7 +393,7 @@ namespace AutoWikiBrowser
             if (chkAutoSaveEdit.Checked && string.IsNullOrEmpty(txtAutosave.Text))
                 chkAutoSaveEdit.Checked = false;
 
-            if (cmboProject.Text == "custom" && !string.IsNullOrEmpty(cmboCustomProject.Text))
+            if (cmboProject.Text.Equals("custom") && !string.IsNullOrEmpty(cmboCustomProject.Text))
             {
                 FixCustomProject();
                 cmboCustomProject.Items.Add(cmboCustomProject.Text);
@@ -417,7 +417,7 @@ namespace AutoWikiBrowser
                 Properties.Settings.Default.AskForTerminate = chkAlwaysConfirmExit.Checked;
                 save = true;
             }
-            if (Properties.Settings.Default.Privacy == chkPrivacy.Checked)
+            if (Properties.Settings.Default.Privacy.Equals(chkPrivacy.Checked))
             {
                 Properties.Settings.Default.Privacy = !chkPrivacy.Checked;
                 save = true;
@@ -428,7 +428,7 @@ namespace AutoWikiBrowser
 
         private void cmboOnLoad_SelectedIndexChanged(object sender, EventArgs e)
         {
-            chkDiffInBotMode.Enabled = (cmboOnLoad.SelectedIndex == 0);
+        	chkDiffInBotMode.Enabled = (cmboOnLoad.SelectedIndex.Equals(0));
         }
     }
 }
