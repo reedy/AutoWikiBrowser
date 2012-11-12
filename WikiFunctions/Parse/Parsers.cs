@@ -1276,7 +1276,7 @@ namespace WikiFunctions.Parse
                 articleText = ReorderRefs(articleText, OutofOrderRefs2, referencestags);
                 articleText = ReorderRefs(articleText, OutofOrderRefs3, referencestags);
 
-                if (articleTextBefore == articleText)
+                if (articleTextBefore.Equals(articleText))
                     break;
             }
 
