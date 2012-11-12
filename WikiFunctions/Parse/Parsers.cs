@@ -5201,7 +5201,7 @@ namespace WikiFunctions.Parse
                 articleText = Regex.Replace(articleText, oldCategory, newCategory);
             }
 
-            noChange = (testText == articleText);
+            noChange = (testText.Equals(articleText));
 
             return articleText;
         }
@@ -5221,7 +5221,7 @@ namespace WikiFunctions.Parse
 
             articleText = RemoveCategory(strOldCat, articleText);
 
-            noChange = (testText == articleText);
+            noChange = (testText.Equals(articleText));
 
             return articleText;
         }
