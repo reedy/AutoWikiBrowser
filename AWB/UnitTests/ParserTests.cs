@@ -3369,6 +3369,7 @@ Template:foo}}"));
             Assert.AreEqual("[[|foo]]", Parsers.FixLinks("[[|foo]]", "bar", out noChange));
 
             Assert.AreEqual(@"[[foo|bar]]", Parsers.FixSyntax(@"[[foo||bar]]"));
+            Assert.AreEqual("[[somelink#a]]", Parsers.FixSyntax("[[somelink_#a]]"));
         }
 
         [Test]
