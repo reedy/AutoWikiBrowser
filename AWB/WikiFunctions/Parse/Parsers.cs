@@ -2685,8 +2685,8 @@ namespace WikiFunctions.Parse
         private static readonly Regex MultipleFtpInLink = new Regex(@"(?<=[\s\[>=])(ftp(?::?/+|:/*))(\1)+", RegexOptions.IgnoreCase);
         private static readonly Regex PipedExternalLink = new Regex(@"(\[\w+://[^\]\[<>\""\s]*?\s*)(?: +\||\|([ ']))(?=[^\[\]\|]*\])");
 
-        private static readonly Regex MissingColonInHttpLink = new Regex(@"([\s\[>=](?:ht|f))tp(?://?:?|:(?::+//)?)(\w+)", RegexOptions.Compiled);
-        private static readonly Regex SingleTripleSlashInHttpLink = new Regex(@"([\s\[>=](?:ht|f))tp:(?:/|///)(\w+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex MissingColonInHttpLink = new Regex(@"(?<=[\s\[>=](?:ht|f))tp(?://?:?|:(?::+//)?)(\w+)", RegexOptions.Compiled);
+        private static readonly Regex SingleTripleSlashInHttpLink = new Regex(@"(?<=[\s\[>=](?:ht|f))tp:(?:/|///)(\w+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private static readonly Regex CellpaddingTypo = new Regex(@"({\s*\|\s*class\s*=\s*""wikitable[^}]*?)cel(?:lpa|pad?)ding\b", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
@@ -2804,8 +2804,8 @@ namespace WikiFunctions.Parse
 
             if (!SyntaxRegexHTTPNumber.IsMatch(articleText))
             {
-                articleText = MissingColonInHttpLink.Replace(articleText, "$1tp://$2");
-                articleText = SingleTripleSlashInHttpLink.Replace(articleText, "$1tp://$2");
+                articleText = MissingColonInHttpLink.Replace(articleText, "tp://$1");
+                articleText = SingleTripleSlashInHttpLink.Replace(articleText, "tp://$1");
             }
 
             if (!ISBNTemplates.IsMatch(articleText))
