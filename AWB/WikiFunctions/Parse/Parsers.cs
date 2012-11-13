@@ -4121,7 +4121,8 @@ namespace WikiFunctions.Parse
         {
             // &#93; is used to replace the ] in external link text, which gives correct markup
             // replace [...&#93; with spaces to avoid matching as unbalanced brackets
-            articleText = HideNestedBrackets.Replace(articleText, " ");
+            if(articleText.Contains(@"&#93;"))
+                articleText = HideNestedBrackets.Replace(articleText, " ");
 
             // remove all <math>, <code> stuff etc. where curly brackets are used in singles and pairs
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.MathPreSourceCodeComments);
