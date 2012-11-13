@@ -2699,8 +2699,10 @@ namespace WikiFunctions.Parse
         private static readonly Regex TemplateIncorrectBracesAtStart = new Regex(@"(?:{\[|\[{)([^{}\[\]]+}})", RegexOptions.Compiled);
         private static readonly Regex CitationTemplateSingleBraceAtStart = new Regex(@"(?<=[^{])({\s*[Cc]it[ae])", RegexOptions.Compiled);
         private static readonly Regex ReferenceTemplateQuadBracesAtEnd = new Regex(@"(?<=<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*{{[^{}]+)}}(}}\s*</ref>)", RegexOptions.Compiled);
+        private static readonly Regex ReferenceTemplateQuadBracesAtEndQuick = new Regex(@"}}}}\s*</ref>");
         private static readonly Regex CitationTemplateIncorrectBraceAtStart = new Regex(@"(?<=<ref(?:\s*name\s*=[^{}<>]+?\s*)?>){\[([Cc]it[ae])", RegexOptions.Compiled);
         private static readonly Regex CitationTemplateIncorrectBracesAtEnd = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*{{[Cc]it[ae][^{}]+?)(?:}\]|\]}|{})(?=\s*</ref>)", RegexOptions.Compiled);
+        private static readonly Regex CitationTemplateIncorrectBracesAtEndQuick = new Regex(@"(?:}\]|\]}|{})(?=\s*</ref>)");
         private static readonly Regex RefExternalLinkMissingStartBracket = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>[^{}\[\]<>]*?){?((?:ht|f)tps?://[^{}\[\]<>]+\][^{}\[\]<>]*</ref>)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex RefExternalLinkMissingEndBracket = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>[^{}\[\]<>]*?\[\s*(?:ht|f)tps?://[^{}\[\]<>]+)}?(</ref>)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex RefCitationMissingOpeningBraces = new Regex(@"(<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>\s*)\(?\(?([Cc]it[ae][^{}]+}}\s*</ref>)", RegexOptions.Compiled);
@@ -2828,9 +2830,11 @@ namespace WikiFunctions.Parse
             articleText = RefExternalLinkUsingBraces.Replace(articleText, @"[$1$2]$3");
             articleText = TemplateIncorrectBracesAtStart.Replace(articleText, @"{{$1");
             articleText = CitationTemplateSingleBraceAtStart.Replace(articleText, @"{$1");
-            articleText = ReferenceTemplateQuadBracesAtEnd.Replace(articleText, @"$1");
+            if(ReferenceTemplateQuadBracesAtEndQuick.IsMatch(articleText))
+                articleText = ReferenceTemplateQuadBracesAtEnd.Replace(articleText, @"$1");
             articleText = CitationTemplateIncorrectBraceAtStart.Replace(articleText, @"{{$1");
-            articleText = CitationTemplateIncorrectBracesAtEnd.Replace(articleText, @"$1}}");
+            if(CitationTemplateIncorrectBracesAtEndQuick.IsMatch(articleText))
+                articleText = CitationTemplateIncorrectBracesAtEnd.Replace(articleText, @"$1}}");
             articleText = RefExternalLinkMissingStartBracket.Replace(articleText, @"$1[$2");
             articleText = RefExternalLinkMissingEndBracket.Replace(articleText, @"$1]$2");
             articleText = BracesWithinDefaultsort.Replace(articleText, @"$1}}");
