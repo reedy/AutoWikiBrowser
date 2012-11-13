@@ -2670,7 +2670,6 @@ namespace WikiFunctions.Parse
         private static readonly Regex ExternalLinksNewline = new Regex(@"([^\[]\[ *(?:https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://[^\[\]]+?)" + "\r\n" + @"([^\[\]<>{}]*?\])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex SyntaxRegexSimpleWikilinkStartsWithSpaces = new Regex(@"\[\[ (.*)?\]\]", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexSimpleWikilinkEndsWithSpaces = new Regex(@"\[\[([A-Za-z]*) \]\]", RegexOptions.Compiled);
-        private static readonly Regex SyntaxRegexSectionLinkUnnecessaryUnderscore = new Regex(@"\[\[(.*)?_#(.*)\]\]", RegexOptions.Compiled);
 
         private static readonly Regex SyntaxRegexListRowBrTag = new Regex(@"^([#\*:;]+.*?) *(?:<[/\\]?br ?[/\\]? ?>)+ *\r\n", RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexListRowBrTagStart = new Regex(@"<[/\\]?br ?[/\\]? ?> *(\r\n[#\*:;]+.*?)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -2803,7 +2802,7 @@ namespace WikiFunctions.Parse
             //repair bad internal links
             articleText = SyntaxRegexSimpleWikilinkStartsWithSpaces.Replace(articleText, "[[$1]]");
             articleText = SyntaxRegexSimpleWikilinkEndsWithSpaces.Replace(articleText, "[[$1]]");
-            articleText = SyntaxRegexSectionLinkUnnecessaryUnderscore.Replace(articleText, "[[$1#$2]]");
+            articleText = WikiRegexes.WikiLinksOnlyPossiblePipe.Replace(articleText, m=> m.Groups[0].Value.Replace("_#", "#"));
 
             while (SyntaxRegexMultipleSpacesInWikilink.IsMatch(articleText))
                 articleText = SyntaxRegexMultipleSpacesInWikilink.Replace(articleText, @"$1 $2");
