@@ -2674,9 +2674,6 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegexListRowBrTag = new Regex(@"^([#\*:;]+.*?) *(?:<[/\\]?br ?[/\\]? ?>)+ *\r\n", RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexListRowBrTagStart = new Regex(@"<[/\\]?br ?[/\\]? ?> *(\r\n[#\*:;]+.*?)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        // make double spaces within wikilinks just single spaces
-        private static readonly Regex SyntaxRegexMultipleSpacesInWikilink = new Regex(@"(\[\[[^\[\]]+?) {2,}([^\[\]]+\]\])", RegexOptions.Compiled);
-
         private static readonly Regex SyntaxRegexItalicBoldEm = new Regex(@"< *(i|em|b) *>(.*?)< */ *\1 *>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         // Matches <p> tags only if current line does not start from ! or | (indicator of table cells), plus any spaces after
@@ -2802,10 +2799,8 @@ namespace WikiFunctions.Parse
             //repair bad internal links
             articleText = SyntaxRegexSimpleWikilinkStartsWithSpaces.Replace(articleText, "[[$1]]");
             articleText = SyntaxRegexSimpleWikilinkEndsWithSpaces.Replace(articleText, "[[$1]]");
-            articleText = WikiRegexes.WikiLinksOnlyPossiblePipe.Replace(articleText, m=> m.Groups[0].Value.Replace("_#", "#"));
-
-            while (SyntaxRegexMultipleSpacesInWikilink.IsMatch(articleText))
-                articleText = SyntaxRegexMultipleSpacesInWikilink.Replace(articleText, @"$1 $2");
+            // make double spaces within wikilinks just single spaces
+            articleText = WikiRegexes.WikiLinksOnlyPossiblePipe.Replace(articleText, m=> m.Groups[0].Value.Replace("_#", "#").Replace("  ", " "));
 
             if (!SyntaxRegexHTTPNumber.IsMatch(articleText))
             {
