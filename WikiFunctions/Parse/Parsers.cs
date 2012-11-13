@@ -2672,7 +2672,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegexSimpleWikilinkEndsWithSpaces = new Regex("\\[\\[([A-Za-z]*) \\]\\]", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexSectionLinkUnnecessaryUnderscore = new Regex("\\[\\[(.*)?_#(.*)\\]\\]", RegexOptions.Compiled);
 
-        private static readonly Regex SyntaxRegexListRowBrTag = new Regex(@"^([#\*:;]+.*?) *(?:<[/\\]?br ?[/\\]? ?>)* *\r\n", RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexListRowBrTag = new Regex(@"^([#\*:;]+.*?) *(?:<[/\\]?br ?[/\\]? ?>)+ *\r\n", RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexListRowBrTagStart = new Regex(@"<[/\\]?br ?[/\\]? ?> *(\r\n[#\*:;]+.*?)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         // make double spaces within wikilinks just single spaces
@@ -2685,8 +2685,9 @@ namespace WikiFunctions.Parse
         // Match execss <br> tags only if current line does not start from ! or | (indicator of table cells)
         private static readonly Regex SyntaxRemoveBr = new Regex(@"(?<!^[!\|].*)(?:(?:<br[\s/]*> *){2,}|\r\n<br[\s/]*>\r\n<br[\s/]*>\r\n)", RegexOptions.IgnoreCase | RegexOptions.Multiline | RegexOptions.Compiled);
 
-        private static readonly Regex MultipleHttpInLink = new Regex(@"([\s\[>=])((?:ht|f)tp(?::?/+|:/*))(\2)+", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex PipedExternalLink = new Regex(@"(\[\w+://[^\]\[<>\""\s]*?\s*)(?: +\||\|([ ']))(?=[^\[\]\|]*\])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex MultipleHttpInLink = new Regex(@"(?<=[\s\[>=])(http(?::?/+|:/*))(\1)+", RegexOptions.IgnoreCase);
+        private static readonly Regex MultipleFtpInLink = new Regex(@"(?<=[\s\[>=])(ftp(?::?/+|:/*))(\1)+", RegexOptions.IgnoreCase);
+        private static readonly Regex PipedExternalLink = new Regex(@"(\[\w+://[^\]\[<>\""\s]*?\s*)(?: +\||\|([ ']))([^\[\]\|]*\])");
 
         private static readonly Regex MissingColonInHttpLink = new Regex(@"([\s\[>=](?:ht|f))tp(?://?:?|:(?::+//)?)(\w+)", RegexOptions.Compiled);
         private static readonly Regex SingleTripleSlashInHttpLink = new Regex(@"([\s\[>=](?:ht|f))tp:(?:/|///)(\w+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -2791,7 +2792,8 @@ namespace WikiFunctions.Parse
             // remove <br> from lists (end of list line) - CHECKWIKI error 54
             articleText = SyntaxRegexListRowBrTag.Replace(articleText, "$1\r\n");
 
-            articleText = MultipleHttpInLink.Replace(articleText, "$1$2");
+            articleText = MultipleHttpInLink.Replace(articleText, "$1");
+            articleText = MultipleFtpInLink.Replace(articleText, "$1");
 
             articleText = PipedExternalLink.Replace(articleText, "$1 $2");
 
