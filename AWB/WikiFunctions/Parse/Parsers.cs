@@ -1927,7 +1927,8 @@ namespace WikiFunctions.Parse
         private static Regex RenameTemplateParametersTemplates;
 
         /// <summary>
-        /// Renames parameters in template calls
+        /// Renames parameters in template calls.
+        /// Does not rename old to new if new paramter already in use with a value
         /// </summary>
         /// <param name="articleText">The wiki text</param>
         /// <param name="RenamedTemplateParameters">List of templates, old parameter, new parameter</param>
@@ -1960,7 +1961,8 @@ namespace WikiFunctions.Parse
 
             foreach (WikiRegexes.TemplateParameters Params in RenamedTemplateParameters)
             {
-                if (Params.TemplateName.Equals(templatename) && newvalue.Contains(Params.OldParameter))
+                if (Params.TemplateName.Equals(templatename) && newvalue.Contains(Params.OldParameter)
+                    && Tools.GetTemplateParameterValue(m.Value, Params.NewParameter).Length == 0)
                     newvalue = Tools.RenameTemplateParameter(newvalue, Params.OldParameter, Params.NewParameter);
             }
             return newvalue;
