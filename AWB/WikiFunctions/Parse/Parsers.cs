@@ -2660,11 +2660,6 @@ namespace WikiFunctions.Parse
         private static readonly Regex DoubleBracketAtEndOfExternalLinkWithinImage = new Regex(@"(\[https?:/(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!)))\](?=\]{3})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex ListExternalLinkEndsCurlyBrace = new Regex(@"^(\* *\[https?://[^<>\[\]]+?)\)\s*$", RegexOptions.Multiline | RegexOptions.Compiled);
 
-        private const string TemEnd = @"(\s*(?:\||\}\}))";
-        private const string CitUrl = @"(\{\{\s*cit[ae][^{}]*?\|\s*url\s*=\s*)";
-        private static readonly Regex BracketsAtBeginCiteTemplateURL = new Regex(CitUrl + @"\[+\s*((?:(?:ht|f)tp://)?[^\[\]<>""\s]+?\s*)\]?" + TemEnd, RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex BracketsAtEndCiteTemplateURL = new Regex(CitUrl + @"\[?\s*((?:(?:ht|f)tp://)?[^\[\]<>""\s]+?\s*)\]+" + TemEnd, RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
         private static readonly Regex SyntaxRegexWikilinkMissingClosingBracket = new Regex(@"\[\[([^][]*?)\](?=[^\]]*?(?:$|\[|\n))", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexWikilinkMissingOpeningBracket = new Regex(@"(?<=(?:^|\]|\n)[^\[]*?)\[([^][]*?)\]\](?!\])", RegexOptions.Compiled);
 
@@ -2859,10 +2854,6 @@ namespace WikiFunctions.Parse
             articleText = DoubleBracketAtEndOfExternalLink.Replace(articleText, "$1");
             articleText = DoubleBracketAtEndOfExternalLinkWithinImage.Replace(articleText, "$1");
             articleText = ListExternalLinkEndsCurlyBrace.Replace(articleText, "$1]");
-            
-            // (part) wikilinked/external linked URL in cite template, uses MediaWiki regex of [^\[\]<>""\s] for URL bit after http://
-            articleText = BracketsAtBeginCiteTemplateURL.Replace(articleText, "$1$2$3");
-            articleText = BracketsAtEndCiteTemplateURL.Replace(articleText, "$1$2$3");
 
             // fix newline(s) in external link description
             while (ExternalLinksNewline.IsMatch(articleText))
@@ -3337,6 +3328,7 @@ namespace WikiFunctions.Parse
             string templatename = Tools.GetTemplateName(newValue);
             string theURL = Tools.GetTemplateParameterValue(newValue, "url");
             string id = Tools.GetTemplateParameterValue(newValue, "id");
+            string theURLoriginal = theURL;
 
             newValue = AccessdateSynonyms.Replace(newValue, "accessdate");
 
@@ -3515,7 +3507,14 @@ namespace WikiFunctions.Parse
 
             // URL starting www. needs http://
             if (theURL.StartsWith("www."))
-                newValue = Tools.UpdateTemplateParameterValue(newValue, "url", "http://" + theURL);
+                theURL = "http://" + theURL;
+
+            // (part) wikilinked/external linked URL in cite template, don't change when named external link format
+            if(!theURL.Contains(" ") )
+                theURL = theURL.Trim('[').Trim(']');
+
+            if(!theURLoriginal.Equals(theURL))
+                newValue = Tools.UpdateTemplateParameterValue(newValue, "url", theURL);
 
             // {{dead link}} should be placed outside citation, not in format field per [[Template:Dead link]]
             string FormatField = Tools.GetTemplateParameterValue(newValue, "format");
