@@ -3002,9 +3002,6 @@ namespace WikiFunctions.Parse
             foreach (Regex rx in SmallTagRegexes)
             {
                 articleText = rx.Replace(articleText, FixSmallTagsME);
-
-                if (!WikiRegexes.Small.IsMatch(articleText))
-                    return articleText;
             }
 
             return articleText;
