@@ -5528,6 +5528,12 @@ was"));
 
             const string correct2 = @"<ref>{{cite web | url=http://www.site.com | title = Testing | accessdate = 20 May 2009 }}</ref><ref>{{cite web | url=http://www.site2.com | title = Testing2 | accessdate = 2 May 2009 }}</ref>";
             Assert.AreEqual(correct2, Parsers.RenameTemplateParameters(correct2.Replace("accessdate", "acccessdate"), RenamedTemplateParameters), "renames parameter in simple template call");
+
+            string Dupe = @"{{cite web | url=http://www.site.com | title = Testing | accessdate = 20 May 2012 | acccessdate = 11 June 2012 }}";
+            Assert.AreEqual(Dupe, Parsers.RenameTemplateParameters(Dupe, RenamedTemplateParameters), "no change when target parameter already has a value");
+
+            string Dupe2 = @"{{cite web | url=http://www.site.com | title = Testing | accessdate = | acccessdate = 11 June 2012 }}";
+            Assert.AreEqual(@"{{cite web | url=http://www.site.com | title = Testing | accessdate = | accessdate = 11 June 2012 }}", Parsers.RenameTemplateParameters(Dupe2, RenamedTemplateParameters), "changed when target parameter present without value");
         }
 
         [Test]
