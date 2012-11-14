@@ -202,7 +202,7 @@ namespace WikiFunctions
 
 			// ukwiki uses "Lastname Firstname Patronymic" convention, nothing more is needed
 			// if page has {{Chinese name}} etc. then family name is already first
-			if (!name.Contains(" ") || Variables.LangCode == "uk" || WikiRegexes.SurnameClarificationTemplates.IsMatch(articletext))
+			if (!name.Contains(" ") || Variables.LangCode.Equals("uk") || WikiRegexes.SurnameClarificationTemplates.IsMatch(articletext))
 				return FixupDefaultSort(origName);
 
 			string suffix = "";
