@@ -4845,6 +4845,9 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private static string BoldedSelfLinks(string articleTitle, string articleText)
         {
+            if (WikiRegexes.Noinclude.IsMatch(articleText) || WikiRegexes.Includeonly.IsMatch(articleText))
+                return articleText;
+            
             string escTitle = Regex.Escape(articleTitle);
 
             Regex r1 = new Regex(@"'''\[\[\s*" + escTitle + @"\s*\]\]'''");
@@ -4852,13 +4855,10 @@ namespace WikiFunctions.Parse
             Regex r3 = new Regex(@"'''\[\[\s*" + escTitle + @"\s*\|\s*([^\[\]]+?)\s*\]\]'''");
             Regex r4 = new Regex(@"'''\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\|\s*([^\[\]]+?)\s*\]\]'''");
 
-            if (!WikiRegexes.Noinclude.IsMatch(articleText) && !WikiRegexes.Includeonly.IsMatch(articleText))
-            {
-                articleText = r1.Replace(articleText, @"'''" + articleTitle + @"'''");
-                articleText = r2.Replace(articleText, @"'''" + Tools.TurnFirstToLower(articleTitle) + @"'''");
-                articleText = r3.Replace(articleText, @"'''$1'''");
-                articleText = r4.Replace(articleText, @"'''$1'''");
-            }
+            articleText = r1.Replace(articleText, @"'''" + articleTitle + @"'''");
+            articleText = r2.Replace(articleText, @"'''" + Tools.TurnFirstToLower(articleTitle) + @"'''");
+            articleText = r3.Replace(articleText, @"'''$1'''");
+            articleText = r4.Replace(articleText, @"'''$1'''");
 
             return articleText;
         }
@@ -4883,13 +4883,10 @@ namespace WikiFunctions.Parse
             articleText = BoldedSelfLinks(articleTitle, articleText);
 
             noChange = true;
-            string escTitle = Regex.Escape(articleTitle);
-            string escTitleNoBrackets = Regex.Escape(BracketedAtEndOfLine.Replace(articleTitle, ""));
+            string escTitle = Regex.Escape(articleTitle), escTitleNoBrackets = Regex.Escape(BracketedAtEndOfLine.Replace(articleTitle, ""));
 
-            string articleTextAtStart = articleText;
-
-            string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
-            string restOfArticle = articleText.Remove(0, zerothSection.Length);
+            string articleTextAtStart = articleText, zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
+            string restOfArticle = articleText.Substring(zerothSection.Length);
 
             // There's a limitation here in that we can't hide image descriptions that may be above lead sentence without hiding the self links we are looking to correct
             string zerothSectionHidden = Hider2.HideMore(zerothSection, false, false, false);
@@ -4911,7 +4908,7 @@ namespace WikiFunctions.Parse
                     zerothSectionHidden = r3.Replace(zerothSectionHidden, "'''$1'''");
                 }
 
-                if (zerothSectionHiddenOriginal == zerothSectionHidden && !Regex.IsMatch(zerothSection, @"'''" + Tools.TurnFirstToLower(escTitle) + @"'''"))
+                if (zerothSectionHiddenOriginal.Equals(zerothSectionHidden) && !Regex.IsMatch(zerothSection, @"'''" + Tools.TurnFirstToLower(escTitle) + @"'''"))
                 {
                     zerothSectionHidden = r2.Replace(zerothSectionHidden, "'''" + Tools.TurnFirstToLower(articleTitle) + @"'''");
                     zerothSectionHidden = r4.Replace(zerothSectionHidden, "'''$1'''");
