@@ -3498,8 +3498,6 @@ url=a|title=b}}</ref>"));
             Assert.AreEqual(@"<ref>{{Citation|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>Citation|url=a|title=b}}</ref>"));
             Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>((cite web|url=a|title=b}}</ref>"));
 
-            Assert.AreEqual(@"<ref>{{cite web|url=https://.wikipedia.org/wiki/List_of_English_Football_League_managers_by_date_of_appointment}}</ref>", Parsers.FixSyntax(@"<ref>((cite web|url=https://.wikipedia.org/wiki/List_of_English_Football_League_managers_by_date_of_appointment]}}</ref>"));
-
             Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>{{cite web|url=a|title=b}}}</ref>"), "fixes cite ending in three closing braces");
             Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}
 			</ref>", Parsers.FixSyntax(@"<ref>{{cite web|url=a|title=b}}}
@@ -4283,21 +4281,21 @@ Other
         {
             const string correct = @"now {{cite web|url=http://site.net|title=hello}} was";
 
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web|url=[http://site.net]|title=hello}} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web|url=http://site.net]|title=hello}} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web|url=[http://site.net|title=hello}} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web|url=[[http://site.net]|title=hello}} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web|url=[http://site.net]]|title=hello}} was"));
-            Assert.AreEqual(correct, Parsers.FixSyntax(@"now {{cite web|url=[[http://site.net]]|title=hello}} was"));
-            Assert.AreEqual(@"now {{cite web|url = http://site.net  |title=hello}} was", Parsers.FixSyntax(@"now {{cite web|url = [http://site.net]  |title=hello}} was"));
-            Assert.AreEqual(@"now {{cite web|title=hello |url=www.site.net}} was", Parsers.FixSyntax(@"now {{cite web|title=hello |url=[www.site.net]}} was"));
-            Assert.AreEqual(@"now {{cite journal|title=hello | url=http://site.net }} was", Parsers.FixSyntax(@"now {{cite journal|title=hello | url=[http://site.net]] }} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web|url=[http://site.net]|title=hello}} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web|url=http://site.net]|title=hello}} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web|url=[http://site.net|title=hello}} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web|url=[[http://site.net]|title=hello}} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web|url=[http://site.net]]|title=hello}} was"));
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web|url=[[http://site.net]]|title=hello}} was"));
+            Assert.AreEqual(@"now {{cite web|url = http://site.net  |title=hello}} was", Parsers.FixCitationTemplates(@"now {{cite web|url = [http://site.net]  |title=hello}} was"));
+            Assert.AreEqual(@"now {{cite web|title=hello |url=www.site.net}} was", Parsers.FixCitationTemplates(@"now {{cite web|title=hello |url=[www.site.net]}} was"));
+            Assert.AreEqual(@"now {{cite journal|title=hello | url=http://site.net }} was", Parsers.FixCitationTemplates(@"now {{cite journal|title=hello | url=[http://site.net]] }} was"));
 
             // no match
-            Assert.AreEqual(@"now {{cite web| url=http://site.net|title=hello}} was", Parsers.FixSyntax(@"now {{cite web| url=http://site.net|title=hello}} was"));
-            Assert.AreEqual(@"now {{cite web| url=[http://site.net cool site]|title=hello}} was", Parsers.FixSyntax(@"now {{cite web| url=[http://site.net cool site]|title=hello}} was"));
-            Assert.AreEqual(@"now {{cite web| url=http://site.net cool site]|title=hello}} was", Parsers.FixSyntax(@"now {{cite web| url=http://site.net cool site]|title=hello}} was"));
-            Assert.AreEqual(@"now {{cite web| url=[http://site.net cool site|title=hello}} was", Parsers.FixSyntax(@"now {{cite web| url=[http://site.net cool site|title=hello}} was"));
+            Assert.AreEqual(@"now {{cite web| url=http://site.net|title=hello}} was", Parsers.FixCitationTemplates(@"now {{cite web| url=http://site.net|title=hello}} was"));
+            Assert.AreEqual(@"now {{cite web| url=[http://site.net cool site]|title=hello}} was", Parsers.FixCitationTemplates(@"now {{cite web| url=[http://site.net cool site]|title=hello}} was"));
+            Assert.AreEqual(@"now {{cite web| url=http://site.net cool site]|title=hello}} was", Parsers.FixCitationTemplates(@"now {{cite web| url=http://site.net cool site]|title=hello}} was"));
+            Assert.AreEqual(@"now {{cite web| url=[http://site.net cool site|title=hello}} was", Parsers.FixCitationTemplates(@"now {{cite web| url=[http://site.net cool site|title=hello}} was"));
         }
 
         [Test]
