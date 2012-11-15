@@ -228,9 +228,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex RegexRemoveLinksInHeadings = new Regex(@"^ *((={1,4})[^\[\]\{\}\|=\r\n]*)\[\[(?:[^\[\]\{\}\|=\r\n]+\|)?([^\[\]\{\}\|\r\n]+)(?<!.*(?:File|Image):.*)\]\]([^\{\}=\r\n]*\2)", RegexOptions.Compiled | RegexOptions.Multiline);
 
         private static readonly Regex RegexBadHeader = new Regex("^(={1,4} ?(about|description|overview|definition|profile|(?:general )?information|background|intro(?:duction)?|summary|bio(?:graphy)?) ?={1,4})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-
-        private static readonly Regex RegexHeadingWhitespaceBefore = new Regex(@"^ *(==+)(\s*.+?\s*)\1 +(\r|\n)", RegexOptions.Multiline | RegexOptions.Compiled);
-        private static readonly Regex RegexHeadingWhitespaceAfter = new Regex(@"^ +(==+)(\s*.+?\s*)\1 *(\r|\n)", RegexOptions.Multiline | RegexOptions.Compiled);
+        private static readonly Regex RegexHeadingWhitespace = new Regex(@"^ *(==+)(\s*.+?\s*)\1 *(\r|\n)", RegexOptions.Multiline | RegexOptions.Compiled);
 
         private static readonly Regex RegexHeadingUpOneLevel = new Regex(@"^=(==+[^=].*?[^=]==+)=(\r\n?|\n)$", RegexOptions.Multiline | RegexOptions.Compiled);
         private static readonly Regex ReferencesExternalLinksSeeAlso = new Regex(@"== *([Rr]eferences|[Ee]xternal +[Ll]inks?|[Ss]ee +[Aa]lso) *==\s", RegexOptions.Compiled);
@@ -271,9 +269,7 @@ namespace WikiFunctions.Parse
 
             articleText = Regex.Replace(articleText, "^={1,4} ?" + Regex.Escape(articleTitle) + " ?={1,4}", "", RegexOptions.IgnoreCase);
 
-            articleText = RegexHeadingWhitespaceBefore.Replace(articleText, "$1$2$1$3");
-            articleText = RegexHeadingWhitespaceAfter.Replace(articleText, "$1$2$1$3");
-
+            articleText = RegexHeadingWhitespace.Replace(articleText, "$1$2$1$3");
             //Removes bold from heading - CHECKWIKI error 44
             articleText = RegexHeadingsBold.Replace(articleText, "$1$2$3$4");
             // Removes colon at end of heading  - CHECKWIKI error 57
