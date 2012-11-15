@@ -4940,15 +4940,13 @@ namespace WikiFunctions.Parse
                 return articleTextAtStart;
 
             // so no self links to remove, check for the need to add bold
-            string articleTextHidden = Hider3.HideMore(articleText);
+            string articleTextNoTemplates = WikiRegexes.NestedTemplates.Replace(articleText, "");
 
-            // first quick check: ignore articles with some bold in first 5% of hidemore article
-            int fivepc = articleTextHidden.Length / 20;
+            // first quick check: ignore articles with some bold in first 5% of article, ignoring infoboxes, dablinks etc.
+            int fivepc = articleTextNoTemplates.Length / 20;
 
-            if (articleTextHidden.Substring(0, fivepc).Contains("'''"))
+            if (articleTextNoTemplates.Substring(0, fivepc).Contains("'''"))
                 return articleTextAtStart;
-            
-            articleText = Hider3.AddBackMore(articleTextHidden);
             
             zerothSectionHidden = Hider3.HideMore(zerothSection);
 
