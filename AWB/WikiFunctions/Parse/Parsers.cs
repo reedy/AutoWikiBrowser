@@ -4105,7 +4105,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SingleSquareBrackets = new Regex(@"\[((?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])", RegexOptions.Compiled);
         private static readonly Regex SingleRoundBrackets = new Regex(@"\(((?>[^\(\)]+|\((?<DEPTH>)|\)(?<-DEPTH>))*(?(DEPTH)(?!))\))", RegexOptions.Compiled);
         private static readonly Regex Tags = new Regex(@"\<((?>[^\<\>]+|\<(?<DEPTH>)|\>(?<-DEPTH>))*(?(DEPTH)(?!))\>)", RegexOptions.Compiled);
-        private static readonly Regex HideNestedBrackets = new Regex(@"[^\[\]{}<>]\[[^\[\]{}<>]*?&#93;", RegexOptions.Compiled);
+        private static readonly Regex HideNestedBrackets = new Regex(@"(?<=[^\[\]{}<>]\[[^\[\]{}<>]*?)&#93;", RegexOptions.Compiled);
         private static readonly Regex AmountComparison = new Regex(@"[<>]\s*\d", RegexOptions.Compiled);
 
         /// <summary>
@@ -4118,9 +4118,8 @@ namespace WikiFunctions.Parse
         public static int UnbalancedBrackets(string articleText, ref int bracketLength)
         {
             // &#93; is used to replace the ] in external link text, which gives correct markup
-            // replace [...&#93; with spaces to avoid matching as unbalanced brackets
-            if(articleText.Contains(@"&#93;"))
-                articleText = HideNestedBrackets.Replace(articleText, " ");
+            // replace [...&#93; back to [...] to avoid matching as unbalanced brackets
+            articleText = HideNestedBrackets.Replace(articleText, "] ");
 
             // remove all <math>, <code> stuff etc. where curly brackets are used in singles and pairs
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.MathPreSourceCodeComments);
