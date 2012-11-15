@@ -2424,19 +2424,9 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly RegexReplacement[] RefWhitespace = new[] {
-            // whitespace cleaning
+         private static readonly RegexReplacement[] RefSimple= new[] {
             new RegexReplacement(new Regex(@"<\s*(?:\s+ref\s*|\s*ref\s+)>",  RegexOptions.Singleline), "<ref>"),
-            new RegexReplacement(new Regex(@"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>",  RegexOptions.Singleline), "</ref>"),
-            
-            // remove any spaces between consecutive references -- WP:REFPUNC
-            new RegexReplacement(new Regex(@"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>) +(?=<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)"), "$1"),
-            // ensure a space between a reference and text (reference within a paragraph) -- WP:REFPUNC
-            new RegexReplacement(new Regex(@"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>)(\w)"), "$1 $2"),
-            // remove spaces between punctuation and references -- WP:REFPUNC
-            new RegexReplacement(new Regex(@"([,\.:;]) +(?=<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)",  RegexOptions.IgnoreCase), "$1"),
-
-            // <ref name="Fred" /ref> --> <ref name="Fred"/>
+             // <ref name="Fred" /ref> --> <ref name="Fred"/>
             new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?"")\s*/\s*(?:ref|/)\s*>",  RegexOptions.Singleline | RegexOptions.IgnoreCase), "$1/>"),
 
             // <ref name="Fred""> --> <ref name="Fred">
@@ -2465,22 +2455,7 @@ namespace WikiFunctions.Parse
 
             // ref name typos
             new RegexReplacement(new Regex(@"(<\s*ref\s+n)(me\s*=)",  RegexOptions.IgnoreCase), "$1a$2"),
-
-            // <ref>...<ref/> --> <ref>...</ref> or <ref>...</red> --> <ref>...</ref>
-            new RegexReplacement(new Regex(@"(<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>[^<>""]+?)<\s*(?:/\s*red|ref\s*/)\s*>",  RegexOptions.Singleline | RegexOptions.IgnoreCase), "$1</ref>"),
-
-            // <REF> and <Ref> to <ref>
-            new RegexReplacement(new Regex(@"(<\s*\/?\s*)(?:R[Ee][Ff]|r[Ee]F)(\s*(?:>|name\s*=))"), "$1ref$2"),
-
-            // trailing spaces at the end of a reference, within the reference
-            new RegexReplacement(new Regex(@" +</ref>"), "</ref>"),
-            
-            // Trailing spaces at the beginning of a reference, within the reference
-            new RegexReplacement(new Regex(@"(<ref[^<>\{\}\/]*>) +"), "$1"),
-
-            // empty <ref>...</ref> tags
-            new RegexReplacement(new Regex(@"<ref>\s*</ref>"), ""),
-            
+       
             // <ref name="Fred" Smith> --> <ref name="Fred Smith">
             new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?)""([^<>=""\/]{2,}?)(?<!\s+)(?=\s*/?>)",  RegexOptions.IgnoreCase), @"$1$2"""),
             
@@ -2491,8 +2466,37 @@ namespace WikiFunctions.Parse
             new RegexReplacement(new Regex(@"<\s*ref\s+NAME(\s*=)"), "<ref name$1"),
             
             // empty ref name: <ref name=>
-            new RegexReplacement(new Regex(@"<\s*ref\s+name\s*=\s*>"), "<ref>"),
+            new RegexReplacement(new Regex(@"<\s*ref\s+name\s*=\s*>"), "<ref>")
         };
+
+        private static readonly RegexReplacement[] RefComplex = new[] {
+            // remove any spaces between consecutive references -- WP:REFPUNC
+            new RegexReplacement(new Regex(@"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>) +(?=<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)"), "$1"),
+            // ensure a space between a reference and text (reference within a paragraph) -- WP:REFPUNC
+            new RegexReplacement(new Regex(@"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>)(\w)"), "$1 $2"),
+            // remove spaces between punctuation and references -- WP:REFPUNC
+            new RegexReplacement(new Regex(@"([,\.:;]) +(?=<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)",  RegexOptions.IgnoreCase), "$1"),
+
+            // whitespace cleaning            
+            new RegexReplacement(new Regex(@"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>",  RegexOptions.Singleline), "</ref>"),
+
+            // <ref>...<ref/> --> <ref>...</ref> or <ref>...</red> --> <ref>...</ref>
+            new RegexReplacement(new Regex(@"(<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>[^<>""]+?)<\s*(?:/\s*red|ref\s*/)\s*>",  RegexOptions.Singleline | RegexOptions.IgnoreCase), "$1</ref>"),
+
+            // trailing spaces at the end of a reference, within the reference
+            new RegexReplacement(new Regex(@" +</ref>"), "</ref>"),
+            
+            // Trailing spaces at the beginning of a reference, within the reference
+            new RegexReplacement(new Regex(@"(<ref[^<>\{\}\/]*>) +"), "$1"),
+
+            // empty <ref>...</ref> tags
+            new RegexReplacement(new Regex(@"<ref>\s*</ref>"), ""),
+            
+            // <REF> and <Ref> to <ref>
+            new RegexReplacement(new Regex(@"(<\s*\/?\s*)(?:R[Ee][Ff]|r[Ee]F)(\s*(?:>|name\s*=))"), "$1ref$2")
+        };
+        
+        public static readonly Regex RefTags = new Regex(@"<\s*ref\b[^<>]*>", RegexOptions.IgnoreCase);
         // Covered by TestFixReferenceTags
         /// <summary>
         /// Various fixes to the formatting of &lt;ref&gt; reference tags
@@ -2501,10 +2505,20 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixReferenceTags(string articleText)
         {
-            foreach (RegexReplacement rr in RefWhitespace)
+            foreach (RegexReplacement rr in RefComplex)
                 articleText = rr.Regex.Replace(articleText, rr.Replacement);
 
-            return articleText;
+            return RefTags.Replace(articleText, FixReferenceTagsME);
+        }
+        
+        private static string FixReferenceTagsME(Match m)
+        {
+            string newValue = m.Value;
+            
+            foreach (RegexReplacement rr in RefSimple)
+                newValue = rr.Regex.Replace(newValue, rr.Replacement);
+            
+            return newValue;
         }
 
         // don't match on 'in the June of 2007', 'on the 11th May 2008' etc. as these won't read well if changed
