@@ -270,29 +270,12 @@ namespace WikiFunctions.Parse
             
             articleText = WikiRegexes.Headings.Replace(articleText, m => FixHeadingsME(m, articleTitle, RegexRemoveLinksInHeadingsb));
 
-
-
-
-
             if (!LevelOneSeeAlso.IsMatch(articleText))
                 articleText = RegexHeadings0.Replace(articleText, "$1See also$3");            
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#ReferenceS
-            Match refsHeader = RegexHeadings3.Match(articleText);
-            string refsheader1 = refsHeader.Groups[1].Value;
-            string refsheader2 = refsHeader.Groups[2].Value;
-            string refsheader3 = refsHeader.Groups[3].Value;
-            if (refsheader2.Length > 0)
-                articleText = articleText.Replace(refsheader1 + refsheader2 + refsheader3,
-                                                  refsheader1 + "Reference" + refsheader3.ToLower());
-
-            Match sourcesHeader = RegexHeadings4.Match(articleText);
-            string sourcesheader1 = sourcesHeader.Groups[1].Value;
-            string sourcesheader2 = sourcesHeader.Groups[2].Value;
-            string sourcesheader3 = sourcesHeader.Groups[3].Value;
-            if (sourcesheader2.Length > 0)
-                articleText = articleText.Replace(sourcesheader1 + sourcesheader2 + sourcesheader3,
-                                                  sourcesheader1 + "Source" + sourcesheader3.ToLower());
+            articleText = RegexHeadings3.Replace(articleText, m=> m.Groups[2].Value.Length > 0 ? (m.Groups[1].Value + "Reference" + m.Groups[3].Value.ToLower()) : m.Value);
+            articleText = RegexHeadings4.Replace(articleText, m=> m.Groups[2].Value.Length > 0 ? (m.Groups[1].Value + "Source" + m.Groups[3].Value.ToLower()) : m.Value);
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Section_header_level_.28WikiProject_Check_Wikipedia_.237.29
             // if no level 2 heading in article, remove a level from all headings (i.e. '===blah===' to '==blah==' etc.)
