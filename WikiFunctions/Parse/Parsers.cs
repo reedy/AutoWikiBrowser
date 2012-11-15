@@ -2144,8 +2144,8 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex CiteTemplateAbbreviatedMonthISO = new Regex(@"(?si)(\|\s*(?:archive|air|access)?date2?\s*=\s*)(\d{4}[-/\s][A-Z][a-z]+\.?[-/\s][0-3]?\d)(\s*(?:\||}}))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        private static readonly Regex CiteTemplateDateYYYYDDMMFormat = new Regex(SiCitStart + @"(?:archive|air|access)?date2?\s*=\s*(?:\[\[)?20\d\d)-([2-3]\d|1[3-9])-(0[1-9]|1[0-2])(\]\])?", RegexOptions.Compiled);
-        private static readonly Regex CiteTemplateTimeInDateParameter = new Regex(@"(\{\{\s*cite[^\{\}]*\|\s*(?:archive|air|access)?date2?\s*=\s*(?:(?:20\d\d|19[7-9]\d)-[01]?\d-[0-3]?\d|[0-3]?\d\s*\w+,?\s*(?:20\d\d|19[7-9]\d)|\w+\s*[0-3]?\d,?\s*(?:20\d\d|19[7-9]\d)))(\s*[,-:]?\s+[0-2]?\d[:\.]?[0-5]\d(?:\:?[0-5]\d)?\s*(?:[^\|\}]*\[\[[^[\]\n]+(?<!\[\[[A-Z]?[a-z-]{2,}:[^[\]\n]+)\]\][^\|\}]*|[^\|\}]*)?)(?<!.*(?:20|1[7-9])\d+\s*)", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        private static readonly Regex CiteTemplateDateYYYYDDMMFormat = new Regex(SiCitStart + @"(?:archive|air|access)?date2?\s*=\s*(?:\[\[)?20\d\d)-([2-3]\d|1[3-9])-(0[1-9]|1[0-2])(\]\])?");
+        private static readonly Regex CiteTemplateTimeInDateParameter = new Regex(@"(\{\{\s*cite[^\{\}]*\|\s*(?:archive|air|access)?date2?\s*=\s*(?:(?:20\d\d|19[7-9]\d)-[01]?\d-[0-3]?\d|[0-3]?\d\s*\w+,?\s*(?:20\d\d|19[7-9]\d)|\w+\s*[0-3]?\d,?\s*(?:20\d\d|19[7-9]\d)))(\s*[,-:]?\s+[0-2]?\d[:\.]?[0-5]\d(?:\:?[0-5]\d)?\s*(?:[^\|\}]*\[\[[^[\]\n]+(?<!\[\[[A-Z]?[a-z-]{2,}:[^[\]\n]+)\]\][^\|\}]*|[^\|\}]*)?)(?<!.*(?:20|1[7-9])\d+\s*)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private static readonly Regex CitePodcast = Tools.NestedTemplateRegex("cite podcast");
 
         /// <summary>
@@ -2169,10 +2169,6 @@ namespace WikiFunctions.Parse
 
                 // loop in case a single citation has multiple dates to be fixed
                 articleText =  WikiRegexes.CiteTemplate.Replace(articleText,  CiteTemplateME);
-
-                // all citation dates
-                articleText = CiteTemplateDateYYYYDDMMFormat.Replace(articleText, "$1-$3-$2$4"); // YYYY-DD-MM to YYYY-MM-DD
-                articleText = CiteTemplateTimeInDateParameter.Replace(articleText, "$1<!--$2-->"); // Removes time from date fields
             }
             return articleText;
         }
@@ -2198,6 +2194,10 @@ namespace WikiFunctions.Parse
                 if (Tools.GetTemplateParameterValue(m.Value, "journal").Length == 0)
                     at = CiteTemplateAbbreviatedMonthISO.Replace(at, m2 => m2.Groups[1].Value + Tools.ConvertDate(m2.Groups[2].Value.Replace(".", ""), DateLocale.ISO) + m2.Groups[3].Value);
             }
+            
+            // all citation dates
+            at = CiteTemplateDateYYYYDDMMFormat.Replace(at, "$1-$3-$2$4"); // YYYY-DD-MM to YYYY-MM-DD
+            at = CiteTemplateTimeInDateParameter.Replace(at, "$1<!--$2-->"); // Removes time from date fields
 
             return at;
         }
