@@ -228,7 +228,6 @@ namespace WikiFunctions.Parse
         private static readonly Regex RegexRemoveLinksInHeadings = new Regex(@"^ *((={1,4})[^\[\]\{\}\|=\r\n]*)\[\[(?:[^\[\]\{\}\|=\r\n]+\|)?([^\[\]\{\}\|\r\n]+)(?<!.*(?:File|Image):.*)\]\]([^\{\}=\r\n]*\2)", RegexOptions.Compiled | RegexOptions.Multiline);
 
         private static readonly Regex RegexBadHeader = new Regex("^(={1,4} ?(about|description|overview|definition|profile|(?:general )?information|background|intro(?:duction)?|summary|bio(?:graphy)?) ?={1,4})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex RegexHeadingWhitespace = new Regex(@"^ *(==+)(\s*.+?\s*)\1 *(\r|\n)", RegexOptions.Multiline | RegexOptions.Compiled);
 
         private static readonly Regex RegexHeadingUpOneLevel = new Regex(@"^=(==+[^=].*?[^=]==+)=(\r\n?|\n)$", RegexOptions.Multiline | RegexOptions.Compiled);
         private static readonly Regex ReferencesExternalLinksSeeAlso = new Regex(@"== *([Rr]eferences|[Ee]xternal +[Ll]inks?|[Ss]ee +[Aa]lso) *==\s", RegexOptions.Compiled);
@@ -265,20 +264,15 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixHeadings(string articleText, string articleTitle)
         {
-            articleText = WikiRegexes.Headings.Replace(articleText, m => FixHeadingsME(m, articleTitle));
-
-            articleText = RegexHeadingWhitespace.Replace(articleText, "$1$2$1$3");
-
             // only apply if < 6 matches, otherwise (badly done) articles with 'list of...' and lots of links in headings will be further messed up
-            if (RegexRemoveLinksInHeadings.Matches(articleText).Count < 6
-                && !(Regex.IsMatch(articleTitle, WikiRegexes.Months) || ListOf.IsMatch(articleTitle) || WikiRegexes.GregorianYear.IsMatch(articleTitle)))
-            {
-                // loop through in case a heading has mulitple wikilinks in it
-                while (RegexRemoveLinksInHeadings.IsMatch(articleText))
-                {
-                    articleText = RegexRemoveLinksInHeadings.Replace(articleText, "$1$3$4");
-                }
-            }
+            bool RegexRemoveLinksInHeadingsb = (RegexRemoveLinksInHeadings.Matches(articleText).Count < 6
+                                                && !(Regex.IsMatch(articleTitle, WikiRegexes.Months) || ListOf.IsMatch(articleTitle) || WikiRegexes.GregorianYear.IsMatch(articleTitle)));
+            
+            articleText = WikiRegexes.Headings.Replace(articleText, m => FixHeadingsME(m, articleTitle, RegexRemoveLinksInHeadingsb));
+
+
+
+
 
             if (!LevelOneSeeAlso.IsMatch(articleText))
                 articleText = RegexHeadings0.Replace(articleText, "$1See also$3");            
@@ -338,10 +332,21 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Performs various fixes to headings
         /// </summary>
-        private static string FixHeadingsME(Match m, string articleTitle)
+        private static string FixHeadingsME(Match m, string articleTitle, bool RegexRemoveLinksInHeadingsb)
         {
             string hAfter = WikiRegexes.Br.Replace(m.Value, "");
-            hAfter = WikiRegexes.Big.Replace(hAfter, "$1");
+            hAfter = WikiRegexes.Big.Replace(hAfter, "$1").TrimStart(' ');
+
+            hAfter = Regex.Replace(hAfter, @" +(\s+)$", "$1");
+
+            // loop through in case a heading has mulitple wikilinks in it
+            if(RegexRemoveLinksInHeadingsb)
+            {
+                while (RegexRemoveLinksInHeadings.IsMatch(hAfter))
+                {
+                    hAfter = RegexRemoveLinksInHeadings.Replace(hAfter, "$1$3$4");
+                }
+            }
 
             //Removes bold from heading - CHECKWIKI error 44
             hAfter = RegexHeadingsBold.Replace(hAfter, "$1$2$3");
