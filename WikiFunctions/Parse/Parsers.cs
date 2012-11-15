@@ -271,11 +271,7 @@ namespace WikiFunctions.Parse
             articleText = WikiRegexes.Headings.Replace(articleText, m => FixHeadingsME(m, articleTitle, RegexRemoveLinksInHeadingsb));
 
             if (!LevelOneSeeAlso.IsMatch(articleText))
-                articleText = RegexHeadings0.Replace(articleText, "$1See also$3");            
-
-            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#ReferenceS
-            articleText = RegexHeadings3.Replace(articleText, m=> m.Groups[2].Value.Length > 0 ? (m.Groups[1].Value + "Reference" + m.Groups[3].Value.ToLower()) : m.Value);
-            articleText = RegexHeadings4.Replace(articleText, m=> m.Groups[2].Value.Length > 0 ? (m.Groups[1].Value + "Source" + m.Groups[3].Value.ToLower()) : m.Value);
+                articleText = RegexHeadings0.Replace(articleText, "$1See also$3");
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Section_header_level_.28WikiProject_Check_Wikipedia_.237.29
             // if no level 2 heading in article, remove a level from all headings (i.e. '===blah===' to '==blah==' etc.)
@@ -344,7 +340,11 @@ namespace WikiFunctions.Parse
             hAfter = RegexHeadings7.Replace(hAfter, "$1$2 members$3");
             hAfter = RegexHeadings9.Replace(hAfter, "$1Track listing$2");
             hAfter = RegexHeadings10.Replace(hAfter, "$1Life and career$2");
-            hAfter = RegexHeadingsCareer.Replace(hAfter, "$1$2 career$3");            
+            hAfter = RegexHeadingsCareer.Replace(hAfter, "$1$2 career$3");  
+
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#ReferenceS
+            hAfter = RegexHeadings3.Replace(hAfter, m2=> m2.Groups[2].Value.Length > 0 ? (m2.Groups[1].Value + "Reference" + m2.Groups[3].Value.ToLower()) : m2.Value);
+            hAfter = RegexHeadings4.Replace(hAfter, m2=> m2.Groups[2].Value.Length > 0 ? (m2.Groups[1].Value + "Source" + m2.Groups[3].Value.ToLower()) : m2.Value);            
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Bold_text_in_headers
             // remove bold from level 3 headers and below, as it makes no visible difference
