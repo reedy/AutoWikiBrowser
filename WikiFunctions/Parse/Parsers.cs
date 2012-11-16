@@ -2480,9 +2480,6 @@ namespace WikiFunctions.Parse
             // whitespace cleaning            
             new RegexReplacement(new Regex(@"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>"), "</ref>"),
 
-            // <ref>...<ref/> --> <ref>...</ref> or <ref>...</red> --> <ref>...</ref>
-            new RegexReplacement(new Regex(@"(<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>[^<>""]+?)<\s*(?:/\s*red|ref\s*/)\s*>",  RegexOptions.IgnoreCase), "$1</ref>"),
-
             // trailing spaces at the end of a reference, within the reference
             new RegexReplacement(new Regex(@" +</ref>"), "</ref>"),
             
@@ -2497,6 +2494,10 @@ namespace WikiFunctions.Parse
         };
         
         public static readonly Regex RefTags = new Regex(@"<\s*ref\b[^<>]*>", RegexOptions.IgnoreCase);
+        public static readonly Regex RedRefQuick = new Regex(@"<\s*(?:/\s*red|ref\s*/)\s*>");
+        // <ref>...<ref/> --> <ref>...</ref> or <ref>...</red> --> <ref>...</ref>
+        public static readonly Regex RedRef = new Regex(@"(<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>[^<>""]+?)<\s*(?:/\s*red|ref\s*/)\s*>", RegexOptions.IgnoreCase);
+        
         // Covered by TestFixReferenceTags
         /// <summary>
         /// Various fixes to the formatting of &lt;ref&gt; reference tags
@@ -2507,6 +2508,9 @@ namespace WikiFunctions.Parse
         {
             foreach (RegexReplacement rr in RefComplex)
                 articleText = rr.Regex.Replace(articleText, rr.Replacement);
+            
+            if(RedRefQuick.IsMatch(articleText.ToLower()))
+                articleText = RedRef.Replace(articleText, "$1</ref>");
 
             return RefTags.Replace(articleText, FixReferenceTagsME);
         }
