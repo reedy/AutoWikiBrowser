@@ -4607,7 +4607,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static bool NoIncludeIncludeOnlyProgrammingElement(string articleText)
         {
-            return WikiRegexes.Noinclude.IsMatch(articleText) || WikiRegexes.Includeonly.IsMatch(articleText) || TripleBraceNum.IsMatch(articleText);
+            return WikiRegexes.IncludeonlyNoinclude.IsMatch(articleText) || TripleBraceNum.IsMatch(articleText);
         }
 
         // Covered by: ImageTests.BasicImprovements(), incomplete
