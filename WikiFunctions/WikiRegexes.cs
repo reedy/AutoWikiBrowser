@@ -46,11 +46,11 @@ namespace WikiFunctions
             // @"[^\[\]\|\{\}]+\.[a-zA-Z]{3,4}\b(?:\s*(?:\]\]|\|))
             // handles images within <gallery> and matches all of {{gallery}} too
             // Supported file extensions taken from https://commons.wikimedia.org/wiki/Commons:File_types
-            Images =
-                new Regex(
-                    @"(?:\[\[\s*)?" + Variables.NamespacesCaseInsensitive[Namespace.File] +
-                    @"[ \%\!""$&'\(\)\*,\-.\/0-9:;=\?@\w\\\^_`~\x80-\xFF\+]+\.[a-zA-Z]{3,4}\b(?:\s*(?:\]\]|\|))?|{{\s*[Gg]allery\s*(?:\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))?}}|(?<=\|\s*[a-zA-Z\d_ ]+\s*=)[^\|{}]+?\.(?i:djvu|gif|jpe?g|og[agv]|pdf|png|svg|tiff?|mid|xcf)(?=\s*(?:<!--[^>]*?-->\s*|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋\s*)?(?:\||}}))",
-                    RegexOptions.Singleline);
+            string ImagesString = @"(?:\[\[\s*)?" + Variables.NamespacesCaseInsensitive[Namespace.File] +
+                    @"[ \%\!""$&'\(\)\*,\-.\/0-9:;=\?@\w\\\^_`~\x80-\xFF\+]+\.[a-zA-Z]{3,4}\b(?:\s*(?:\]\]|\|))?|{{\s*[Gg]allery\s*(?:\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))?}}|(?<=\|\s*[a-zA-Z\d_ ]+\s*=)[^\|{}]+?\.(?i:djvu|gif|jpe?g|og[agv]|pdf|png|svg|tiff?|mid|xcf)(?=\s*(?:<!--[^>]*?-->\s*|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋\s*)?(?:\||}}))";
+            Images = new Regex(ImagesString, RegexOptions.Singleline);
+            
+            ImagesCountOnly = new Regex(ImagesString.Replace(@"(?<=", @"(?:"), RegexOptions.Singleline);
             
             FileNamespaceLink = new Regex(@"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.File] +
                                           @"((?>[^\[\]]+|\[\[(?<DEPTH>)|\]\](?<-DEPTH>))*(?(DEPTH)(?!)))\]\]");
@@ -606,6 +606,11 @@ namespace WikiFunctions
         /// Matches images: file namespace links, parameters in infoboxes, images within gallery tags, {{gallery}} template
         /// </summary>
         public static Regex Images;
+        
+        /// <summary>
+        /// Faster version of Images for counting only
+        /// </summary>
+        public static Regex ImagesCountOnly;
         
         /// <summary>
         /// Matches links to the file namespace (images etc.), group 1 is the filename
