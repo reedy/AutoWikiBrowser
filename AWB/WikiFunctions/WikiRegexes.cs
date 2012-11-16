@@ -317,6 +317,8 @@ namespace WikiFunctions
         /// </summary>
         public static Regex AllTemplateRedirects;
         
+        public static HashSet<string> AllTemplateRedirectsHS;
+        
         /// <summary>
         /// List of templates that should be dated (with 'date=Month YYYY' on en-wiki), from https://en.wikipedia.org/wiki/Wikipedia:AWB/Dated_templates, see Category:Wikipedia maintenance categories sorted by month
         /// </summary>
