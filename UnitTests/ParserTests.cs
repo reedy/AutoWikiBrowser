@@ -6697,11 +6697,6 @@ Text
 {{Portal|Bar}}
 {{Portal|Foo2 }}"), "merges multiple portals to single portal");
 
-            Assert.AreEqual(PortalBox1, Parsers.MergePortals(@"Foo
-==See also==
-{{Portal box|Bar}}
-{{Portal|Foo2 }}"), "merges portals to existing portal");
-
             const string NoSeeAlso = @"{{Portal|Bar}}
 {{Portal|Foo2 }}";
 

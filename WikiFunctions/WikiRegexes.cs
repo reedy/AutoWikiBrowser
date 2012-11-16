@@ -1054,9 +1054,9 @@ namespace WikiFunctions
         public static readonly Regex Unreferenced = new Regex(@"(?:{{\s*([Uu]nreferenced( stub)?|[Uu]nsourced|[Uu]nverified|[Uu]nref|[Rr]eferences|[Uu]ncited-article|[Cc]itesources|[Nn][Rr]|[Nn]o references|[Uu]nrefarticle|[Nn]o ?refs?|[Nn]oreferences|[Cc]leanup-cite|[Rr]eferences needed)\s*(?:\|.*?)?}}|({{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*unreferenced\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))", RegexOptions.Singleline);
         
         /// <summary>
-        /// Matches {{Portal}}/{{Portalpar}} templates
+        /// Matches {{Portal}} template
         /// </summary>
-        public static readonly Regex PortalTemplate = Tools.NestedTemplateRegex(new [] { "portal", "portalpar", "portal box", "portalbox" }, true);
+        public static readonly Regex PortalTemplate = Tools.NestedTemplateRegex("portal");
         #endregion
 
         /// <summary>

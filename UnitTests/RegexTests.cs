@@ -1058,7 +1058,6 @@ cit"));
             Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal|Foo}}"));
             Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{ portal}}"));
             Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{Portal}}"));
-            Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{Portalpar}}"));
             Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal|Science}}"));
             Assert.IsTrue(WikiRegexes.PortalTemplate.IsMatch(@"{{portal|Spaceflight|RocketSunIcon.svg|break=yes}}"));
 
