@@ -443,6 +443,9 @@ en, sq, ru
 		/// <returns>whether the unformatted text content is the same in the two strings</returns>
 		private static bool UnformattedTextNotChanged(string originalArticleText, string articleText)
 		{
+		    if(originalArticleText.Equals(articleText))
+		        return true;
+
 			if(WikiRegexes.UnformattedText.Matches(originalArticleText).Count != WikiRegexes.UnformattedText.Matches(articleText).Count)
 				return true;
 			
@@ -599,7 +602,7 @@ en, sq, ru
 		}
 		
 		private static readonly Regex ExternalLinksSection = new Regex(@"(^== *[Ee]xternal +[Ll]inks? *==.*?)(?=^==+[^=][^\r\n]*?[^=]==+(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);
-		private static readonly Regex ExternalLinksToEnd = new Regex(@"(\s*(==+)\s*[Ee]xternal +links\s*\2 *).*", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+		private static readonly Regex ExternalLinksToEnd = new Regex(@"(==+)\s*external +links\s*\1.*", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
 		/// <summary>
 		/// Moves sisterlinks such as {{wiktionary}} to the external links section
@@ -609,10 +612,11 @@ en, sq, ru
 		public static string MoveSisterlinks(string articleText)
 		{
 			string originalArticletext = articleText;
+			MatchCollection mc = WikiRegexes.SisterLinks.Matches(articleText);
 			// need to have an 'external links' section to move the sisterlinks to
-			if (WikiRegexes.SisterLinks.Matches(articleText).Count >= 1 && WikiRegexes.ExternalLinksHeaderRegex.Matches(articleText).Count == 1)
+			if (mc.Count >= 1 && WikiRegexes.ExternalLinksHeaderRegex.Matches(articleText).Count == 1)
 			{
-				foreach (Match m in WikiRegexes.SisterLinks.Matches(articleText))
+				foreach (Match m in mc)
 				{
 					string sisterlinkFound = m.Value;
 					string ExternalLinksSectionString = ExternalLinksSection.Match(articleText).Value;
