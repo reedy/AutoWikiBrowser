@@ -2514,10 +2514,13 @@ namespace WikiFunctions.Parse
         private static string FixReferenceTagsME(Match m)
         {
             string newValue = m.Value;
-            
-            foreach (RegexReplacement rr in RefSimple)
-                newValue = rr.Regex.Replace(newValue, rr.Replacement);
-            
+
+            if(!newValue.Equals("<ref>")) // avoid running regexes if already correct
+            {
+                foreach (RegexReplacement rr in RefSimple)
+                    newValue = rr.Regex.Replace(newValue, rr.Replacement);
+            }
+
             return newValue;
         }
 
