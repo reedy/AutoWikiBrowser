@@ -2475,13 +2475,13 @@ namespace WikiFunctions.Parse
             // ensure a space between a reference and text (reference within a paragraph) -- WP:REFPUNC
             new RegexReplacement(new Regex(@"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>)(\w)"), "$1 $2"),
             // remove spaces between punctuation and references -- WP:REFPUNC
-            new RegexReplacement(new Regex(@"([,\.:;]) +(?=<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)",  RegexOptions.IgnoreCase), "$1"),
+            new RegexReplacement(new Regex(@"(?<=[,\.:;]) +(<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)",  RegexOptions.IgnoreCase), "$1"),
 
             // whitespace cleaning            
-            new RegexReplacement(new Regex(@"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>",  RegexOptions.Singleline), "</ref>"),
+            new RegexReplacement(new Regex(@"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>"), "</ref>"),
 
             // <ref>...<ref/> --> <ref>...</ref> or <ref>...</red> --> <ref>...</ref>
-            new RegexReplacement(new Regex(@"(<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>[^<>""]+?)<\s*(?:/\s*red|ref\s*/)\s*>",  RegexOptions.Singleline | RegexOptions.IgnoreCase), "$1</ref>"),
+            new RegexReplacement(new Regex(@"(<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>[^<>""]+?)<\s*(?:/\s*red|ref\s*/)\s*>",  RegexOptions.IgnoreCase), "$1</ref>"),
 
             // trailing spaces at the end of a reference, within the reference
             new RegexReplacement(new Regex(@" +</ref>"), "</ref>"),
