@@ -499,6 +499,11 @@ namespace WikiFunctions
         public static readonly Regex Includeonly = new Regex(@"<\s*(includeonly|onlyinclude)\s*>.*?<\s*/\s*\1\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
+        /// Matches &lt;includeonly&gt; and &lt;onlyinclude&gt; and &lt;noinclude&gt; tags
+        /// </summary>
+        public static readonly Regex IncludeonlyNoinclude = new Regex(@"<\s*(includeonly|onlyinclude|noinclude)\s*>.*?<\s*/\s*\1\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+
+        /// <summary>
         /// Matches redirects
         /// Don't use directly, use Tools.IsRedirect() and Tools.RedirectTarget instead
         /// </summary>
