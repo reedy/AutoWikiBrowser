@@ -2599,12 +2599,12 @@ window.scrollTo(0, diffTopY);
 
                 lblWords.Text = Words + wordCount;
                 lblCats.Text = Cats + catCount;
-                lblImages.Text = Imgs + WikiRegexes.Images.Matches(articleText).Count;
+                lblImages.Text = Imgs + WikiRegexes.ImagesCountOnly.Matches(articleText).Count;
                 lblLinks.Text = Links + WikiRegexes.WikiLinksOnly.Matches(articleText).Count;
                 lblInterLinks.Text = IWLinks + Tools.InterwikiCount(articleText);
 
                 // for date types count ignore images and URLs
-                string articleTextNoImagesURLs = WikiRegexes.Images.Replace(WikiRegexes.ExternalLinks.Replace(articleText, ""), "");
+                string articleTextNoImagesURLs = WikiRegexes.ImagesCountOnly.Replace(WikiRegexes.ExternalLinks.Replace(articleText, ""), "");
                 lblDates.Text = Dates + WikiRegexes.ISODates.Matches(articleTextNoImagesURLs).Count + "/" + WikiRegexes.DayMonth.Matches(articleTextNoImagesURLs).Count
                     + "/" + WikiRegexes.MonthDay.Matches(articleTextNoImagesURLs).Count;
 

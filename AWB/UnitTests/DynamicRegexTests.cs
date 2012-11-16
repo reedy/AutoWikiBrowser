@@ -190,6 +190,148 @@ Image here");
         }
         
         [Test]
+        public void ImagesCountOnlyTestsStandard()
+        {
+            RegexAssert.IsMatch(WikiRegexes.ImagesCountOnly, "[[File:Test.JPG]]");
+            RegexAssert.IsMatch(WikiRegexes.ImagesCountOnly, "[[File:Test.jpg]]");
+            RegexAssert.IsMatch(WikiRegexes.ImagesCountOnly, "[[File:Test of the.ogg]]");
+            RegexAssert.Matches(WikiRegexes.ImagesCountOnly, "[[File:Test of the.ogg]]", "[[File:Test of the.ogg]]");
+            RegexAssert.IsMatch(WikiRegexes.ImagesCountOnly, "[[File:Test_of_the.ogg]]");
+            RegexAssert.IsMatch(WikiRegexes.ImagesCountOnly, "[[Image:Test.JPG]]");
+            RegexAssert.IsMatch(WikiRegexes.ImagesCountOnly, "[[Image:Test here.png|right|200px|Some description [[here]] or there]]");
+            RegexAssert.IsMatch(WikiRegexes.ImagesCountOnly, @"[[Image:Test here.png|right|200px|Some description [[here]] or there
+ over lines]]");
+            RegexAssert.IsMatch(WikiRegexes.ImagesCountOnly, "[[File:Test.JPG");
+            
+            RegexAssert.NoMatch(WikiRegexes.ImagesCountOnly, "[[File Test.JPG]]");
+        }
+        
+        [Test]
+        public void ImagesCountOnlyTestsInfoboxes()
+        {
+            RegexAssert.IsMatch(WikiRegexes.ImagesCountOnly, @"{{Infobox foo|
+bar = a|
+image = [[File:Test.JPG]]
+| there=here}}");
+            RegexAssert.IsMatch(WikiRegexes.ImagesCountOnly, @"{{Infobox foo|
+  bar = a|
+  image2 = [[File:Test.JPG]]
+  | there=here}}");
+            RegexAssert.IsMatch(WikiRegexes.ImagesCountOnly, @"{{Infobox foo|
+  bar = a|
+  img = [[File:Test.JPG]]
+  | there=here}}");
+            RegexAssert.IsMatch(WikiRegexes.ImagesCountOnly, @"{{Infobox foo|
+  bar = a|
+  img = Test.JPEG
+  | there=here}}");
+            RegexAssert.IsMatch(WikiRegexes.ImagesCountOnly, @"{{Infobox foo|
+  bar = a|
+  cover = [[Image:Test.JPG]]
+  | there=here}}");
+            RegexAssert.IsMatch(WikiRegexes.ImagesCountOnly, @"{{Infobox foo|
+  bar = a|
+  cover art = Test2.png
+  | there=here}}");
+            RegexAssert.IsMatch(WikiRegexes.ImagesCountOnly, @"{{Infobox foo|
+  bar = a|
+  cover_ar = Test.JPG
+  | there=here}}");
+            RegexAssert.IsMatch(WikiRegexes.ImagesCountOnly, @"{{Infobox foo|
+  bar = a|map=[[File:Test.JPG]]
+  | there=here}}");
+            RegexAssert.IsMatch(WikiRegexes.ImagesCountOnly, @"{{Infobox foo|
+  bar = a| map = [[File:Test.JPG]]
+  | there=here}}");
+            
+            RegexAssert.IsMatch(WikiRegexes.ImagesCountOnly, @"{{Infobox foo|
+  bar = a|
+  strangename = Test.JPEG
+  | there=here}}");
+            
+            RegexAssert.IsMatch(WikiRegexes.ImagesCountOnly, @"{{Infobox foo|
+bar = a|
+picture = Test.JPG
+| there=here}}");
+            
+            // here's the difference between Images and ImagesCountOnly
+            RegexAssert.Matches(WikiRegexes.ImagesCountOnly, @"{{Infobox foo|
+  bar = a|
+  picture = Test.JPG
+  | there=here}}", @"|
+  picture = Test.JPG");
+
+            RegexAssert.NoMatch(WikiRegexes.ImagesCountOnly, @"{{Infobox foo|
+  bar = a|
+  url = http://apageof.com/a.html
+  | there=here}}");
+        }
+        
+        [Test]
+        public void ImagesCountOnlyTestsGalleryTag()
+        {
+            RegexAssert.Matches(WikiRegexes.ImagesCountOnly, @"<gallery>
+File:Foo.png
+</gallery>", "File:Foo.png");
+            RegexAssert.Matches(WikiRegexes.ImagesCountOnly, @"<gallery>
+File:Foo.png|description
+</gallery>", "File:Foo.png|");
+            RegexAssert.Matches(WikiRegexes.ImagesCountOnly, @"<gallery>
+Image:Foo.png|description
+</gallery>", "Image:Foo.png|");
+            RegexAssert.Matches(WikiRegexes.ImagesCountOnly, @"<gallery>
+Image : Foo.png |description
+</gallery>", "Image : Foo.png |");
+            RegexAssert.Matches(WikiRegexes.ImagesCountOnly, @"<GALLERY>
+Image:Foo.png|description
+</GALLERY>", "Image:Foo.png|");
+            RegexAssert.Matches(WikiRegexes.ImagesCountOnly, @"<gallery name=bar style=silver>
+File:Foo.png|description<br>text
+</gallery>", "File:Foo.png|");
+            RegexAssert.Matches(WikiRegexes.ImagesCountOnly, @"< gallery >
+File:Foo.png
+< /gallery >", "File:Foo.png");
+             RegexAssert.Matches(WikiRegexes.ImagesCountOnly, @"< gallery >
+File:9th of May_street, Bacău.jpg
+< /gallery >", "File:9th of May_street, Bacău.jpg");
+            
+            MatchCollection mc = WikiRegexes.ImagesCountOnly.Matches(@"<gallery>
+Image:Foo.png|description
+Image:Foo2.png|description2
+</gallery>");
+            
+            Assert.AreEqual(mc[0].Value, "Image:Foo.png|");
+            Assert.AreEqual(mc[1].Value, "Image:Foo2.png|");
+            
+            RegexAssert.IsMatch(WikiRegexes.ImagesCountOnly, @"File:Foo.png|description");
+            RegexAssert.NoMatch(WikiRegexes.ImagesCountOnly, @"<gallery>
+
+</gallery>
+Image here");
+        }
+        
+        [Test]
+        public void ImagesCountOnlyTestsGalleryTemplate()
+        {
+            RegexAssert.IsMatch(WikiRegexes.ImagesCountOnly, @"{{Gallery
+|title=Lamu images
+|width=150
+|lines=2
+|Image:LamuFort.jpg|Lamu Fort
+|Image:LAMU Riyadha Mosque.jpg|Riyadha Mosque
+|Image:04 Donkey Hospital (June 30 2001).jpg|Donkey Sanctuary
+}}");
+            RegexAssert.IsMatch(WikiRegexes.ImagesCountOnly, @"{{ gallery
+|title=Lamu images
+|width=150
+|lines=2
+|Image:LamuFort.jpg|Lamu Fort
+|Image:LAMU Riyadha Mosque.jpg|Riyadha Mosque
+|Image:04 Donkey Hospital (June 30 2001).jpg|Donkey Sanctuary
+}}");
+        }
+        
+        [Test]
         public void LooseImageTests()
         {
             RegexAssert.IsMatch(WikiRegexes.LooseImage, "[[File:Test.JPG]]");
