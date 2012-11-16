@@ -681,14 +681,13 @@ namespace WikiFunctions.Parse
             
             section = Tools.ReplaceWithSpaces(section, WikiRegexes.MultipleIssues.Matches(section));
             
-            string heading = WikiRegexes.Headings.Match(section).Value.Trim();
-            
             int templatePortion = Tools.HowMuchStartsWith(section, Templates, true);
             
             if(templatePortion == 0)
                 return sectionOriginal;
-            
-            string sectionPortion = section.Substring(0, templatePortion),
+
+            string heading = WikiRegexes.Headings.Match(section).Value.Trim(),
+            sectionPortion = section.Substring(0, templatePortion),
             sectionPortionOriginal = sectionOriginal.Substring(0, templatePortion),
             sectionRest = sectionOriginal.Substring(templatePortion);
             
@@ -705,14 +704,12 @@ namespace WikiFunctions.Parse
             // if currently no {{Multiple issues}} and less than the min number of maintenance templates, do nothing
             if(!existingMultipleIssues && (totalTemplates < MinCleanupTagsToCombine))
                 return sectionOriginal;
-            
 
             // if currently has {{Multiple issues}}, add tags to it (new style only), otherwise insert multiple issues with tags. multiple issues with some old style tags would have new style added
             string newsection = "";
             
             if(existingMultipleIssues) // add each template to MI
             {
-                
                 newsection = WikiRegexes.MultipleIssues.Match(sectionPortionOriginal).Value;
                 bool newstyleMI = WikiRegexes.NestedTemplates.IsMatch(Tools.GetTemplateArgument(Tools.RemoveTemplateParameter(newsection, "section"), 1));
                 
@@ -727,9 +724,9 @@ namespace WikiFunctions.Parse
                 newsection = "{{multiple issues|section=yes|\r\n";
                 
                 foreach(Match m in Templates.Matches(sectionPortion))
-                    newsection = newsection + m.Value + "\r\n";
+                    newsection += (m.Value + "\r\n");
                 
-                newsection = newsection + "}}\r\n";
+                newsection += "}}\r\n";
             }
             
             return heading + "\r\n" + newsection + "\r\n" + sectionRest;
@@ -744,7 +741,7 @@ namespace WikiFunctions.Parse
         {
             string newValue = Tools.RemoveTemplateParameter(m.Value, "section");
 
-            if (Tools.GetTemplateArgumentCount(newValue) == 1 && WikiRegexes.NestedTemplates.Matches(Tools.GetTemplateArgument(newValue, 1)).Count==1)
+            if (Tools.GetTemplateArgumentCount(newValue) == 1 && WikiRegexes.NestedTemplates.Matches(Tools.GetTemplateArgument(newValue, 1)).Count == 1)
                 return Tools.GetTemplateArgument(newValue, 1);
             
             return m.Value;
