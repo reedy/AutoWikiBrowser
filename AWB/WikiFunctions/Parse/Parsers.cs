@@ -1881,10 +1881,22 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text</returns>
         public static string TemplateRedirects(string articleText, Dictionary<Regex, string> TemplateRedirects)
         {
+
+            if(WikiRegexes.AllTemplateRedirects == null )
+                return articleText;
+
             // quick check to improve performance when no redirects to change
-            if(WikiRegexes.AllTemplateRedirects == null || !WikiRegexes.AllTemplateRedirects.IsMatch(articleText))
+            StringBuilder ts = new StringBuilder();
+            foreach(Match m in WikiRegexes.NestedTemplates.Matches(articleText))
+            {
+                if(!ts.ToString().Contains(Tools.GetTemplateName(m.Value)))
+                    ts.Append(m.Value);
+            }
+            
+            if(!WikiRegexes.AllTemplateRedirects.IsMatch(ts.ToString()))
                 return articleText;
             
+            // if matches found, run replacements
             foreach (KeyValuePair<Regex, string> kvp in TemplateRedirects)
             {
                 articleText = kvp.Key.Replace(articleText, m => TemplateRedirectsME(m, kvp.Value));
