@@ -963,9 +963,13 @@ namespace AutoWikiBrowser
                 }
             }
 
+            Variables.Profiler.Profile("Skip checks");
+
+            // TODO on long articles this takes > 500 ms, why?
+            // disabling TextChanged or wrapping in visible/enabled toggles doesn't resolve it
             txtEdit.Text = TheArticle.ArticleText;
-            
-             Variables.Profiler.Profile("Skip checks");
+
+            Variables.Profiler.Profile("Set edit box text");
 
             //Update statistics and alerts
             if (!BotMode)
