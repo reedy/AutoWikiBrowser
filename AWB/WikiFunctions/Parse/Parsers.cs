@@ -4658,7 +4658,8 @@ namespace WikiFunctions.Parse
 
             articleText = WikiRegexes.ImperialUnitsInBracketsWithoutNonBreakingSpaces.Replace(articleText, "$1&nbsp;$2");
 
-            articleText = WikiRegexes.MetresFeetConversionNonBreakingSpaces.Replace(articleText, @"$1&nbsp;m");
+            if(articleText.Contains(@"&nbsp;ft")) // check for performance
+                articleText = WikiRegexes.MetresFeetConversionNonBreakingSpaces.Replace(articleText, @"$1&nbsp;m");
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Pagination
             // add non-breaking space after pp. abbreviation for pages.
@@ -4668,8 +4669,11 @@ namespace WikiFunctions.Parse
             // It works only for dotted lower-case a.m. or p.m.
             if (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple"))
             {
-                articleText = WikiRegexes.ClockTimeWithZero.Replace(articleText, "$1&nbsp;$2");
-                articleText = WikiRegexes.ClockTime.Replace(articleText, "$1&nbsp;$2");
+                if(articleText.Contains(".m.")) // check for performance
+                {
+                    articleText = WikiRegexes.ClockTimeWithZero.Replace(articleText, "$1&nbsp;$2");
+                    articleText = WikiRegexes.ClockTime.Replace(articleText, "$1&nbsp;$2");
+                }
 
                 // Removes space or non-breaking space from percent per [[WP:PERCENT]].
                 // Avoid doing this for more spaces to prevent false positives.
