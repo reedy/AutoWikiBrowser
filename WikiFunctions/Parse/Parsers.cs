@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -1836,7 +1837,7 @@ namespace WikiFunctions.Parse
 
                 foreach (Match r in TlOrTlx.Matches(redirects))
                 {
-                    redirectsList.Add(r.Groups[3].Value.Trim('|').TrimEnd('}').Trim());
+                    redirectsList.Add(Tools.TurnFirstToUpper(r.Groups[3].Value.Trim('|').TrimEnd('}').Trim()));
                 }
 
                 TRs.Add(Tools.NestedTemplateRegex(redirectsList), templateName);
@@ -1844,6 +1845,7 @@ namespace WikiFunctions.Parse
             }
             
             WikiRegexes.AllTemplateRedirects = Tools.NestedTemplateRegex(AllRedirectsList);
+            WikiRegexes.AllTemplateRedirectsHS = new HashSet<string>(AllRedirectsList);
 
             return TRs;
         }
@@ -1878,21 +1880,22 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text</returns>
         public static string TemplateRedirects(string articleText, Dictionary<Regex, string> TemplateRedirects)
         {
-
-            if(WikiRegexes.AllTemplateRedirects == null )
+            if(WikiRegexes.AllTemplateRedirects == null)
                 return articleText;
 
-            // quick check to improve performance when no redirects to change
-            StringBuilder ts = new StringBuilder();
+            // quick check to improve performance when no redirects to change: check there's a match between templates found and listed redirects
+            HashSet<string> TFH = new HashSet<string>();
+
             foreach(Match m in WikiRegexes.NestedTemplates.Matches(articleText))
             {
-                if(!ts.ToString().Contains(Tools.GetTemplateName(m.Value)))
-                    ts.Append(m.Value);
-            }
-            
-            if(!WikiRegexes.AllTemplateRedirects.IsMatch(ts.ToString()))
+                TFH.Add(Tools.TurnFirstToUpper(Tools.GetTemplateName(m.Value)));
+            }            
+
+            TFH.IntersectWith(WikiRegexes.AllTemplateRedirectsHS);
+
+            if(TFH.Count == 0)
                 return articleText;
-            
+
             // if matches found, run replacements
             foreach (KeyValuePair<Regex, string> kvp in TemplateRedirects)
             {
