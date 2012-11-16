@@ -496,7 +496,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches &lt;includeonly&gt; and &lt;onlyinclude&gt; tags
         /// </summary>
-        public static readonly Regex Includeonly = new Regex(@"(?:<\s*includeonly\s*>.*?<\s*/\s*includeonly\s*>|<\s*onlyinclude\s*>.*?<\s*/\s*onlyinclude\s*>)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        public static readonly Regex Includeonly = new Regex(@"<\s*(includeonly|onlyinclude)\s*>.*?<\s*/\s*\1\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
         /// Matches redirects
