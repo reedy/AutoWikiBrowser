@@ -1340,7 +1340,7 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string DuplicateNamedReferences(string articleText)
         {
-            string articleTextOriginal = articleText;
+            string articleTextOriginal = articleText, articleTextRefClean = Regex.Replace(articleText, @"<ref>\s+", @"<ref>");
             Dictionary<string, string> NamedRefs = new Dictionary<string, string>();
             bool reparse = false;
 
@@ -1395,8 +1395,9 @@ namespace WikiFunctions.Parse
                     }
 
                     // duplicate citation fixer (first named): <ref name="Fred">(...)</ref>....<ref>\2</ref> --> ..<ref name="Fred"/>
-                    // duplicate citation fixer (second named): <ref>(...)</ref>....<ref name="Fred">\2</ref> --> ..<ref name="Fred"/>                    
-                    articleText = Regex.Replace(articleText, @"<\s*ref\s*>\s*" + Regex.Escape(namedRefValue) + @"\s*<\s*/\s*ref>", @"<ref name=""" + refName + @"""/>");
+                    // duplicate citation fixer (second named): <ref>(...)</ref>....<ref name="Fred">\2</ref> --> ..<ref name="Fred"/>
+                    if(articleTextRefClean.Contains(@"<ref>" + namedRefValue)) // check for performance
+                        articleText = Regex.Replace(articleText, @"<\s*ref\s*>\s*" + Regex.Escape(namedRefValue) + @"\s*<\s*/\s*ref>", @"<ref name=""" + refName + @"""/>");
                 }
 
                 if (!reparse)
