@@ -4618,16 +4618,17 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixImages(string articleText)
         {
-            foreach (Match m in WikiRegexes.LooseImage.Matches(articleText))
-            {
-                string imageName = m.Groups[2].Value;
-                // only apply underscore/URL encoding fixes to image name (group 2)
-                // don't convert %27%27 -- https://bugzilla.wikimedia.org/show_bug.cgi?id=8932
-                string x = "[[" + Namespace.Normalize(m.Groups[1].Value, 6) + (imageName.Contains("%27%27") ? imageName : CanonicalizeTitle(imageName).Trim()) + m.Groups[3].Value.Trim() + "]]";
-                articleText = articleText.Replace(m.Value, x);
-            }
+            return WikiRegexes.LooseImage.Replace(articleText, FixImagesME);
+        }
 
-            return articleText;
+        private static string FixImagesME(Match m)
+        {
+            string imageName = m.Groups[2].Value;
+            // only apply underscore/URL encoding fixes to image name (group 2)
+            // don't convert %27%27 -- https://bugzilla.wikimedia.org/show_bug.cgi?id=8932
+            string x = "[[" + Namespace.Normalize(m.Groups[1].Value, 6) + (imageName.Contains("%27%27") ? imageName : CanonicalizeTitle(imageName).Trim()) + m.Groups[3].Value.Trim() + "]]";
+
+            return x;
         }
 
         private static readonly Regex Temperature = new Regex(@"(?:&deg;|&ordm;|º|°)(?:&nbsp;)?\s*([CcFf])(?![A-Za-z])", RegexOptions.Compiled);
