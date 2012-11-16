@@ -4654,7 +4654,7 @@ namespace WikiFunctions.Parse
         public string FixNonBreakingSpaces(string articleText)
         {
             // only apply um (micrometre) fix on English wiki to avoid German word "um"
-            articleText = WikiRegexes.UnitsWithoutNonBreakingSpaces.Replace(articleText, m => (m.Groups[1].Value.StartsWith("um") && !Variables.LangCode.Equals("en")) ? m.Value : "&nbsp;" + m.Groups[1].Value);
+            articleText = WikiRegexes.UnitsWithoutNonBreakingSpaces.Replace(articleText, m => (m.Groups[2].Value.StartsWith("um") && !Variables.LangCode.Equals("en")) ? m.Value : m.Groups[1].Value + "&nbsp;" + m.Groups[2].Value);
 
             articleText = WikiRegexes.ImperialUnitsInBracketsWithoutNonBreakingSpaces.Replace(articleText, "$1&nbsp;$2");
 
