@@ -2480,9 +2480,6 @@ namespace WikiFunctions.Parse
             // whitespace cleaning            
             new RegexReplacement(new Regex(@"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>"), "</ref>"),
 
-            // trailing spaces at the end of a reference, within the reference
-            new RegexReplacement(new Regex(@" +</ref>"), "</ref>"),
-            
             // Trailing spaces at the beginning of a reference, within the reference
             new RegexReplacement(new Regex(@"(<ref[^<>\{\}\/]*>) +"), "$1"),
 
@@ -2508,6 +2505,10 @@ namespace WikiFunctions.Parse
         {
             foreach (RegexReplacement rr in RefComplex)
                 articleText = rr.Regex.Replace(articleText, rr.Replacement);
+
+            // trailing spaces at the end of a reference, within the reference
+            if(articleText.Contains(@" </ref>"))
+                articleText = Regex.Replace(articleText, @" +</ref>", "</ref>");
             
             if(RedRefQuick.IsMatch(articleText.ToLower()))
                 articleText = RedRef.Replace(articleText, "$1</ref>");
