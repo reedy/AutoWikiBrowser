@@ -4297,8 +4297,7 @@ namespace WikiFunctions.Parse
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Includes_and_selflinks
             // TODO, better to not apply to text within imagemaps
             if (!WikiRegexes.ImageMap.IsMatch(articleText)
-                && !WikiRegexes.Noinclude.IsMatch(articleText)
-                && !WikiRegexes.Includeonly.IsMatch(articleText)
+                && !WikiRegexes.IncludeonlyNoinclude.IsMatch(articleText)
                 && !TaxoboxColour.IsMatch(articleText))
             {
                 // remove any self-links, but not other links with different capitaliastion e.g. [[Foo]] vs [[FOO]]
