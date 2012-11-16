@@ -4480,25 +4480,31 @@ namespace WikiFunctions.Parse
         }
 
         private static readonly Regex RegexMainArticle = new Regex(@"^:?'{0,5}Main article:\s?'{0,5}\[\[([^\|\[\]]*?)(\|([^\[\]]*?))?\]\]\.?'{0,5}\.?\s*?(?=($|[\r\n]))", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
-        private static readonly Regex SeeAlsoLink = new Regex(@"^:?'{0,5}See [Aa]lso:\s?'{0,5}\[\[([^\|\[\]]*?)(\|([^\[\]]*?))?\]\]\.?'{0,5}\.?\s*?(?=($|[\r\n]))", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex SeeAlsoLink = new Regex(@"^:?'{0,5}See also:\s?'{0,5}\[\[([^\|\[\]]*?)(\|([^\[\]]*?))?\]\]\.?'{0,5}\.?\s*?(?=($|[\r\n]))", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
 
         // Covered by: FixMainArticleTests
         /// <summary>
-        /// Fixes instances of ''Main Article: xxx'' to use {{main|xxx}}
+        /// Fixes instances of ''Main Article: xxx'' to use {{main|xxx}}, ''see also:'' to use {{see also|xxx}}
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns></returns>
         public static string FixMainArticle(string articleText)
         {
-            articleText = SeeAlsoLink.Replace(articleText,
-                                              m => m.Groups[2].Value.Length == 0
-                                              ? "{{See also|" + m.Groups[1].Value + "}}"
-                                              : "{{See also|" + m.Groups[1].Value + "|l1=" + m.Groups[3].Value + "}}");
 
-            return RegexMainArticle.Replace(articleText,
-                                            m => m.Groups[2].Value.Length == 0
-                                            ? "{{Main|" + m.Groups[1].Value + "}}"
-                                            : "{{Main|" + m.Groups[1].Value + "|l1=" + m.Groups[3].Value + "}}");
+            // string checks for performance
+            if(articleText.IndexOf("see also:", StringComparison.CurrentCultureIgnoreCase) > -1)
+                articleText = SeeAlsoLink.Replace(articleText,
+                                                  m => m.Groups[2].Value.Length == 0
+                                                  ? "{{See also|" + m.Groups[1].Value + "}}"
+                                                  : "{{See also|" + m.Groups[1].Value + "|l1=" + m.Groups[3].Value + "}}");
+
+            if(articleText.IndexOf("main article:", StringComparison.CurrentCultureIgnoreCase) > -1)
+                articleText = RegexMainArticle.Replace(articleText,
+                                                       m => m.Groups[2].Value.Length == 0
+                                                       ? "{{Main|" + m.Groups[1].Value + "}}"
+                                                       : "{{Main|" + m.Groups[1].Value + "|l1=" + m.Groups[3].Value + "}}");
+
+            return articleText;
         }
 
         // Covered by LinkTests.TestFixEmptyLinksAndTemplates()
