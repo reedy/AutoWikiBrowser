@@ -5955,7 +5955,7 @@ namespace WikiFunctions.Parse
             }
 
             // do this check last as IsArticleAboutAPerson can be relatively slow
-            if (articleText != articleTextBefore && !IsArticleAboutAPerson(articleTextBefore, articleTitle, parseTalkPage))
+            if (!articleText.Equals(articleTextBefore) && !IsArticleAboutAPerson(articleTextBefore, articleTitle, parseTalkPage))
                 return YearOfBirthDeathMissingCategory(articleTextBefore);
 
             // {{uncat}} --> {{Cat improve}} if we've added cats
