@@ -1195,13 +1195,13 @@ namespace WikiFunctions
         /// <summary>
         /// Matches a percentage with a space or a non-breaking space
         /// </summary>
-        public static readonly Regex Percent = new Regex(@"\s(\(?\d+.?\d*)(\s|\&nbsp;)\%(\p{P}|\)?\s)");
+        public static readonly Regex Percent = new Regex(@"\s(\(?\d+\.?\d*)(\s|\&nbsp;)\%(\p{P}|\)?\s)");
 
         /// <summary>
         /// Matches 12-hour clock time without a space
         /// </summary>
-        public static readonly Regex ClockTimeWithZero = new Regex(@"0(\d\:\b[012345]\d)([a|p].m.)");
-        public static readonly Regex ClockTime = new Regex(@"(\b[1]?\d\:\b[012345]\d)([a|p].m.)");
+        public static readonly Regex ClockTimeWithZero = new Regex(@"0(\d\:\b[0-5]\d)([ap]\.m\.)");
+        public static readonly Regex ClockTime = new Regex(@"(\b1?\d\:[0-5]\d)([ap]\.m\.)");
 
         /// <summary>
         /// List of known infobox fields holding date of birth
