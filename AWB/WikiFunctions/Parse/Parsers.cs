@@ -248,7 +248,6 @@ namespace WikiFunctions.Parse
             return newText.Trim();
         }
 
-        private static readonly Regex HeadingsWhitespaceBefore = new Regex(@"\s+(?:< *[Bb][Rr] *\/? *>\s*)*(^={1,6} *(.*?) *={1,6} *(?=\r\n))", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex LevelOneSeeAlso = new Regex("= ?See also ?=", RegexOptions.Compiled);
         private static readonly Regex ListOf = new Regex(@"^Lists? of", RegexOptions.Compiled);
 
@@ -300,7 +299,7 @@ namespace WikiFunctions.Parse
 
             // one blank line before each heading per MOS:HEAD
             if (Variables.IsWikipediaEN)
-                articleText = HeadingsWhitespaceBefore.Replace(articleText, "\r\n\r\n$1");
+                articleText = WikiRegexes.HeadingsWhitespaceBefore.Replace(articleText, "\r\n\r\n$1");
 
             return articleText;
         }
