@@ -2633,7 +2633,7 @@ window.scrollTo(0, diffTopY);
                 lbDuplicateWikilinks.BeginUpdate();
                 foreach (string z in arrayLinks)
                 {
-                    if ((arrayLinks.IndexOf(z) < arrayLinks.LastIndexOf(z)) && (!arrayLinks2.Contains(z)))
+                    if ((arrayLinks.IndexOf(z) < arrayLinks.LastIndexOf(z)) && !arrayLinks2.Contains(z))
                     {
                         arrayLinks2.Add(z);
                         // include count of links in form Proton (3)
