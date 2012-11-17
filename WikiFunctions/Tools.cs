@@ -2905,12 +2905,17 @@ Message: {2}
 
 			string restoftemplate = templateCall.Substring(3);
 			// clear out what may contain pipes that are not the pipe indicating the end of the parameter's value
-			restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.NestedTemplates, rwith);
-			restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.SimpleWikiLink, rwith);
-			restoftemplate = commentsastilde
-				? ReplaceWith(restoftemplate, WikiRegexes.UnformattedText, '~')
-				: ReplaceWithSpaces(restoftemplate, WikiRegexes.UnformattedText);
-
+			// Contains checks for performance gain
+			if(restoftemplate.Contains(@"{{"))
+			    restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.NestedTemplates, rwith);
+			if(restoftemplate.Contains(@"[["))
+			    restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.SimpleWikiLink, rwith);
+			if(restoftemplate.Contains(@"<"))
+			{
+			    restoftemplate = commentsastilde
+			        ? ReplaceWith(restoftemplate, WikiRegexes.UnformattedText, '~')
+			        : ReplaceWithSpaces(restoftemplate, WikiRegexes.UnformattedText);
+			}
 			return (templateCall.Substring(0, 3) + restoftemplate);
 		}
 
