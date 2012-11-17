@@ -204,6 +204,36 @@ a");
         }
 
         [Test]
+        public void PersondataDateFormat()
+        {
+            AssertChange(@"{{BLP sources|date=May 2010}}
+'''Bob Jones''' (born 15 November, 1987 in Smith).<ref>a</ref>
+
+==References==
+{{reflist}}
+
+{{DEFAULTSORT:Jones, Bob}}
+[[Category:Living people]]", @"{{BLP sources|date=May 2010}}
+'''Bob Jones''' (born 15 November 1987 in Smith).<ref>a</ref>
+
+==References==
+{{reflist}}
+
+{{DEFAULTSORT:Jones, Bob}}
+[[Category:Living people]]
+[[Category:1987 births]]
+{{Persondata
+| NAME              = Jones, Bob
+| ALTERNATIVE NAMES =
+| SHORT DESCRIPTION =
+| DATE OF BIRTH     = 15 November 1987
+| PLACE OF BIRTH    =
+| DATE OF DEATH     =
+| PLACE OF DEATH    =
+}}");
+        }
+
+        [Test]
         public void CiteMissingClosingCurlyBracePairTable()
         {
             const string MissingClosingCurlyBracePair = @"'''Foo''' is great.

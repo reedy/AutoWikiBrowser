@@ -1277,6 +1277,40 @@ namespace WikiFunctions
             string zeroth = WikiRegexes.ZerothSection.Match(ArticleText).Value;
             bool CircaLink = WikiRegexes.CircaLinkTemplate.IsMatch(ArticleText), Floruit = (!zeroth.Contains(@"[[floruit|fl.]]") && WikiRegexes.UnlinkedFloruit.IsMatch(zeroth));
 
+            HideMoreText(HiderHideExtLinksImages);
+            Variables.Profiler.Profile("HideMoreText");
+
+            if (!noMOSComplianceFixes)
+            {
+                AWBChangeArticleText("Fix non-breaking spaces", parsers.FixNonBreakingSpaces(ArticleText), true);
+                Variables.Profiler.Profile("FixNonBreakingSpaces");
+
+                AWBChangeArticleText("Mdashes", parsers.Mdashes(ArticleText, Name), true);
+                Variables.Profiler.Profile("Mdashes");
+
+                AWBChangeArticleText("Fix Date Ordinals/Of", parsers.FixDateOrdinalsAndOf(ArticleText, Name), true, true);
+                Variables.Profiler.Profile("FixDateOrdinalsAndOf");
+            }
+
+            AWBChangeArticleText("FixBrParagraphs", parsers.FixBrParagraphs(ArticleText).Trim(), true);
+            Variables.Profiler.Profile("FixBrParagraphs");
+
+            if (!Tools.IsRedirect(ArticleText))
+            {
+                AWBChangeArticleText("Fix dates 1", parsers.FixDatesB(ArticleText, CircaLink, Floruit).Trim(), true);
+                Variables.Profiler.Profile("FixDates1");
+            }
+
+            UnHideMoreText(HiderHideExtLinksImages);
+            Variables.Profiler.Profile("UnHideMoreText");
+
+            if (!Tools.IsRedirect(ArticleText))
+            {
+                // FixDates does its own hiding
+                AWBChangeArticleText("Fix dates 2", parsers.FixDatesA(ArticleText).Trim(), true);
+                Variables.Profiler.Profile("FixDates2");
+            }
+
             HideText(removeText);
             Variables.Profiler.Profile("HideText");
 
@@ -1387,33 +1421,6 @@ namespace WikiFunctions
 
             UnHideText(removeText);
 
-            HideMoreText(HiderHideExtLinksImages);
-            Variables.Profiler.Profile("HideMoreText");
-
-            if (!noMOSComplianceFixes)
-            {
-                AWBChangeArticleText("Fix non-breaking spaces", parsers.FixNonBreakingSpaces(ArticleText), true);
-                Variables.Profiler.Profile("FixNonBreakingSpaces");
-
-                AWBChangeArticleText("Mdashes", parsers.Mdashes(ArticleText, Name), true);
-                Variables.Profiler.Profile("Mdashes");
-
-                AWBChangeArticleText("Fix Date Ordinals/Of", parsers.FixDateOrdinalsAndOf(ArticleText, Name), true, true);
-                Variables.Profiler.Profile("FixDateOrdinalsAndOf");
-            }
-
-            AWBChangeArticleText("FixBrParagraphs", parsers.FixBrParagraphs(ArticleText).Trim(), true);
-            Variables.Profiler.Profile("FixBrParagraphs");
-
-            if (!Tools.IsRedirect(ArticleText))
-            {
-                AWBChangeArticleText("Fix dates 1", parsers.FixDatesB(ArticleText, CircaLink, Floruit).Trim(), true);
-                Variables.Profiler.Profile("FixDates1");
-            }
-
-            UnHideMoreText(HiderHideExtLinksImages);
-            Variables.Profiler.Profile("UnHideMoreText");
-
             if (!Globals.UnitTestMode) // disable to avoid ssslow network requests
             {
                 // pass unhidden text to MetaDataSorter so that it can allow for comments around persondata, categories etc.
@@ -1421,13 +1428,6 @@ namespace WikiFunctions
                                      parsers.SortMetaData(ArticleText, Name), true);
 
                 Variables.Profiler.Profile("SortMetaData");
-            }
-
-            if (!Tools.IsRedirect(ArticleText))
-            {
-                // FixDates does its own hiding
-                AWBChangeArticleText("Fix dates 2", parsers.FixDatesA(ArticleText).Trim(), true);
-                Variables.Profiler.Profile("FixDates2");
             }
 
             AfterGeneralFixesTextChanged();
