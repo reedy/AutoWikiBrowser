@@ -1282,18 +1282,18 @@ namespace WikiFunctions
 
             if (Tools.IsRedirect(ArticleText))
             {
-                AWBChangeArticleText("Redirect tagger", Parsers.RedirectTagger(ArticleText, Name), false);
+                AWBChangeArticleText("Redirect tagger", Parsers.RedirectTagger(ArticleText, Name), true);
                 Variables.Profiler.Profile("RedirectTagger");
 
-                AWBChangeArticleText("Fix syntax redirects", Parsers.FixSyntaxRedirects(ArticleText), false);
+                AWBChangeArticleText("Fix syntax redirects", Parsers.FixSyntaxRedirects(ArticleText), true);
                 Variables.Profiler.Profile("FixSyntaxRedirects");
             }
             else
             {
-                AWBChangeArticleText("Template redirects", Parsers.TemplateRedirects(ArticleText, WikiRegexes.TemplateRedirects), false);
+                AWBChangeArticleText("Template redirects", Parsers.TemplateRedirects(ArticleText, WikiRegexes.TemplateRedirects), true);
                 Variables.Profiler.Profile("TemplateRedirects");
 
-                AWBChangeArticleText("Rename Template Parameters", Parsers.RenameTemplateParameters(ArticleText, WikiRegexes.RenamedTemplateParameters), false);
+                AWBChangeArticleText("Rename Template Parameters", Parsers.RenameTemplateParameters(ArticleText, WikiRegexes.RenamedTemplateParameters), true);
                 Variables.Profiler.Profile("RenameTemplateParameters");
 
                 // call this before MinorFixes so that Parsers.Conversions cleans up from ArticleIssues
@@ -1366,8 +1366,8 @@ namespace WikiFunctions
                 Variables.Profiler.Profile("RefsAfterPunctuation");
                 
                 AWBChangeArticleText("ReorderReferences", Parsers.ReorderReferences(ArticleText), true);
-                Variables.Profiler.Profile("ReorderReferences");                
-                
+                Variables.Profiler.Profile("ReorderReferences");
+
                 AWBChangeArticleText("FixReferenceTags", Parsers.FixReferenceTags(ArticleText), true);
                 Variables.Profiler.Profile("FixReferenceTags");
 
@@ -1375,7 +1375,7 @@ namespace WikiFunctions
                 AWBChangeArticleText("Add missing {{reflist}}", Parsers.AddMissingReflist(ArticleText), true, true);
                 Variables.Profiler.Profile("AddMissingReflist");
 
-                AWBChangeArticleText("PersonData", Parsers.PersonData(ArticleText, Name), false);
+                AWBChangeArticleText("PersonData", Parsers.PersonData(ArticleText, Name), true);
                 Variables.Profiler.Profile("PersonData");
 
                 FixLinks(skip.SkipNoBadLink);
@@ -1402,12 +1402,12 @@ namespace WikiFunctions
                 Variables.Profiler.Profile("FixDateOrdinalsAndOf");
             }
 
-            AWBChangeArticleText("FixBrParagraphs", parsers.FixBrParagraphs(ArticleText).Trim(), false);
+            AWBChangeArticleText("FixBrParagraphs", parsers.FixBrParagraphs(ArticleText).Trim(), true);
             Variables.Profiler.Profile("FixBrParagraphs");
 
             if (!Tools.IsRedirect(ArticleText))
             {
-                AWBChangeArticleText("Fix dates 1", parsers.FixDatesB(ArticleText, CircaLink, Floruit).Trim(), false);
+                AWBChangeArticleText("Fix dates 1", parsers.FixDatesB(ArticleText, CircaLink, Floruit).Trim(), true);
                 Variables.Profiler.Profile("FixDates1");
             }
 
@@ -1426,7 +1426,7 @@ namespace WikiFunctions
             if (!Tools.IsRedirect(ArticleText))
             {
                 // FixDates does its own hiding
-                AWBChangeArticleText("Fix dates 2", parsers.FixDatesA(ArticleText).Trim(), false);
+                AWBChangeArticleText("Fix dates 2", parsers.FixDatesA(ArticleText).Trim(), true);
                 Variables.Profiler.Profile("FixDates2");
             }
 
