@@ -993,13 +993,13 @@ namespace WikiFunctions.Parse
             string[] articleTextInSections = Tools.SplitToSections(articleText);
             StringBuilder newArticleText = new StringBuilder();
 
-            for (int a = 0; a < articleTextInSections.Length; a++)
+            foreach(string s in articleTextInSections)
             {
-                string sectionText = articleTextInSections[a].ToString();
-
+                string sectionText = s;
                 foreach (string t in SectionMergedTemplates)
                 {
-                    sectionText = MergeTemplates(sectionText, t);
+                    if(sectionText.IndexOf(t, StringComparison.CurrentCultureIgnoreCase) > -1) // check for performance
+                        sectionText = MergeTemplates(sectionText, t);
                 }
                 newArticleText.Append(sectionText);
             }
