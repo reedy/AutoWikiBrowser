@@ -2891,6 +2891,7 @@ Message: {2}
 			return templateCall;
 		}
 
+		private const char rwith = '#';
 		/// <summary>
 		/// Removes pipes that are not the pipe indicating the end of the parameter's value
 		/// </summary>
@@ -2899,7 +2900,6 @@ Message: {2}
 		/// <returns>The pipe cleaned template call</returns>
 		public static string PipeCleanedTemplate(string templateCall, bool commentsastilde)
 		{
-			const char rwith = '#';
 			if (templateCall.Length < 5)
 				return templateCall;
 
@@ -2963,7 +2963,7 @@ Message: {2}
 		}
 
 		/// <summary>
-		/// Returns the name of the input template. Not for templates including the template namespace prefix
+		/// Returns the name of the input template
 		/// </summary>
 		/// <param name="templateCall">the template call</param>
 		/// <returns>the template name</returns>
