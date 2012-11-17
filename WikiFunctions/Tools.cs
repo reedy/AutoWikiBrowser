@@ -823,7 +823,12 @@ namespace WikiFunctions
 		        }
 		    }
 
-		    string replaced = ReplaceWithSpaces(text, Items.Matches(text)).TrimStart();
+		    MatchCollection mc = Items.Matches(text);
+
+		    if(mc.Count == 0)
+		        return 0;
+
+		    string replaced = ReplaceWithSpaces(text, mc).TrimStart();
 
 		    return (text.Length-replaced.Length+heading);
 		}

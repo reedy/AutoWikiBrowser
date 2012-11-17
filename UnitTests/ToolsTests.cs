@@ -1983,6 +1983,8 @@ text", Tools.NestedTemplateRegex("foo"), false));
 hello {{foo}}
 ==hi==
 text", Tools.NestedTemplateRegex("foo"), true));
+            Assert.AreEqual(0, Tools.HowMuchStartsWith(@"===hello===
+hello", Tools.NestedTemplateRegex("foo"), true));
         }
     }
 
