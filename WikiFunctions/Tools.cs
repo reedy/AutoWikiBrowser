@@ -2482,7 +2482,7 @@ Message: {2}
 
 			if (m.Success)
 			{
-				Group paramValue = param.Match(pipecleanedtemplate).Groups[1];
+				Group paramValue = m.Groups[1];
 
 				return templateCall.Substring(paramValue.Index, paramValue.Length).Trim();
 			}
