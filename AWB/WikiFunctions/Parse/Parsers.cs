@@ -1186,17 +1186,19 @@ namespace WikiFunctions.Parse
         private static readonly Regex DiedDateRegex =
             new Regex(
                 @"('''(?:[^']+|.*?[^'])'''\s*\()d\.(\s+\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
-                WikiRegexes.MonthsNoGroup + @")?\]*\s*\[*[1-2]?\d{3}\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+                WikiRegexes.MonthsNoGroup + @")?\]*\s*\[*[1-2]?\d{3}\]*\)\s*)", RegexOptions.IgnoreCase);
 
         private static readonly Regex DOBRegex =
             new Regex(
                 @"('''(?:[^']+|.*?[^'])'''\s*\()(?:b\.|[Bb]orn:+)(\s+\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
-                WikiRegexes.MonthsNoGroup + @")?\]*\s*\[*[1-2]?\d{3}\]*\)\s*)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+                WikiRegexes.MonthsNoGroup + @")?\]*\s*\[*[1-2]?\d{3}\]*\)\s*)", RegexOptions.IgnoreCase);
 
         private static readonly Regex DOBRegexDash =
             new Regex(
                 @"(?<!\*.*)('''(?:[^']+|.*?[^'])'''\s*\()(\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
-                WikiRegexes.MonthsNoGroup + @")?\]*\s*\[*[1-2]?\d{3}\]*)\s*(?:\-|–|&ndash;)\s*\)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+                WikiRegexes.MonthsNoGroup + @")?\]*\s*\[*[1-2]?\d{3}\]*)\s*(?:\-|–|&ndash;)\s*\)", RegexOptions.IgnoreCase);
+        
+        private static readonly Regex DOBRegexDashQuick = new Regex(@"(?:\-|–|&ndash;)\s*\)", RegexOptions.IgnoreCase);
 
         private static readonly Regex BornDeathRegex =
             new Regex(
@@ -1204,7 +1206,7 @@ namespace WikiFunctions.Parse
                 @"\s+0?(?:[1-3]?\d)|0?(?:[1-3]?\d)\s*" + WikiRegexes.MonthsNoGroup +
                 @")?\]*,?\s*\[*[1-2]?\d{3}\]*)\s*(.|&.dash;)\s*(?:[Dd]ied|d\.)\s+(\[*(?:" + WikiRegexes.MonthsNoGroup +
                 @"\s+0?(?:[1-3]?\d)|0?(?:[1-3]?\d)\s*" + WikiRegexes.MonthsNoGroup + @")\]*,?\s*\[*[1-2]?\d{3}\]*\)\s*)",
-                RegexOptions.IgnoreCase | RegexOptions.Compiled);
+                RegexOptions.IgnoreCase);
 
         //Covered by: LinkTests.FixLivingThingsRelatedDates()
         /// <summary>
@@ -1214,11 +1216,19 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixLivingThingsRelatedDates(string articleText)
         {
-            articleText = DiedDateRegex.Replace(articleText, "$1died$2"); // date of death
-            articleText = DOBRegex.Replace(articleText, "$1born$2"); // date of birth
-            if (!DOBRegexDash.IsMatch(WikiRegexes.InfoBox.Match(articleText).Value))
+            if(articleText.IndexOf(@"(d. ", StringComparison.OrdinalIgnoreCase) > -1)
+                articleText = DiedDateRegex.Replace(articleText, "$1died$2"); // date of death
+
+            if(articleText.IndexOf(@"(b. ", StringComparison.OrdinalIgnoreCase) > -1 || articleText.IndexOf(@"(born:", StringComparison.OrdinalIgnoreCase) > -1)
+                articleText = DOBRegex.Replace(articleText, "$1born$2"); // date of birth
+
+            if (DOBRegexDashQuick.IsMatch(articleText) && !DOBRegexDash.IsMatch(WikiRegexes.InfoBox.Match(articleText).Value))
                 articleText = DOBRegexDash.Replace(articleText, "$1born $2)"); // date of birth – dash
-            return BornDeathRegex.Replace(articleText, "$1$2 – $4"); // birth and death
+
+            if(articleText.IndexOf(@"(b. ", StringComparison.OrdinalIgnoreCase) > -1 || articleText.IndexOf(@"(born ", StringComparison.OrdinalIgnoreCase) > -1)
+                articleText = BornDeathRegex.Replace(articleText, "$1$2 – $4"); // birth and death
+
+            return articleText;
         }
 
         private const string InlineCitationCleanupTemplatesRp = @"(?:Author incomplete|Author missing|Citation broken|Citation not found|Clarifyref|Clarifyref2|Date missing|Episode|ISBN missing|Page needed|Publisher missing|Season needed|Time needed|Title incomplete|Title missing|Volume needed|Year missing|rp)";
