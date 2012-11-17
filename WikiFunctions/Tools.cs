@@ -2676,16 +2676,8 @@ Message: {2}
 		/// <param name="parameter"></param>
 		/// <returns>The updated article text</returns>
 		public static string RemoveTemplateParameter(string articletext, string templatename, string parameter)
-		{
-			Regex oldtemplate = NestedTemplateRegex(templatename);
-
-			foreach (Match m in oldtemplate.Matches(articletext))
-			{
-				string template = m.Value;
-				articletext = articletext.Replace(template, RemoveTemplateParameter(template, parameter));
-			}
-
-			return articletext;
+		{			
+			return NestedTemplateRegex(templatename).Replace(articletext, m => RemoveTemplateParameter(m.Value, parameter));
 		}
 		
 		/// <summary>
