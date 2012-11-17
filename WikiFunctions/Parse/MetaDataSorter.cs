@@ -366,7 +366,7 @@ en, sq, ru
 		/// <returns>The cleaned page categories in a single string</returns>
 		public string RemoveCats(ref string articleText, string articleTitle)
 		{
-			// don't pull cat form redirect to a category
+			// don't pull category from redirects to a cagegory e.g. page Hello is #REDIRECT[[Category:Hello]]
 			if(WikiRegexes.Category.IsMatch(@"[[" + Tools.RedirectTarget(articleText) + @"]]"))
 				return "";
 			
@@ -393,7 +393,11 @@ en, sq, ru
 			}
 
 			articleText = Tools.RemoveMatches(articleText, matches);
-			
+
+			// one blank line before each heading per MOS:HEAD. Needs to run where category removed from end of a section
+			if (Variables.IsWikipediaEN)
+			    articleText = WikiRegexes.HeadingsWhitespaceBefore.Replace(articleText, "\r\n\r\n$1");
+
 			// if category tidying has changed comments/nowikis return with no changes – we've pulled a cat from a comment
 			if(!UnformattedTextNotChanged(originalArticleText, articleText))
 			{
