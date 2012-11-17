@@ -3307,23 +3307,20 @@ namespace WikiFunctions.Parse
 
             articleText = WikiRegexes.CiteTemplate.Replace(articleText, FixCitationTemplatesME);
 
-            // Harvard template fixes: page range dashes and use of pp for page ranges
-            foreach (Match h in WikiRegexes.HarvTemplate.Matches(articleText))
-            {
-                string newValue = FixPageRanges(h.Value);
-                string page = Tools.GetTemplateParameterValue(newValue, "p");
+            articleText = WikiRegexes.HarvTemplate.Replace(articleText, m =>
+                                                           {
+                                                               string newValue = FixPageRanges(m.Value);
+                                                               string page = Tools.GetTemplateParameterValue(newValue, "p");
 
-                // ignore brackets
-                if (page.Contains(@"("))
-                    page = page.Substring(0, page.IndexOf(@"("));
+                                                               // ignore brackets
+                                                               if (page.Contains(@"("))
+                                                                   page = page.Substring(0, page.IndexOf(@"("));
 
-                if (Regex.IsMatch(page, @"\d+\s*(?:–|&ndash;|, )\s*\d") && Tools.GetTemplateParameterValue(newValue, "pp").Length == 0)
-                    newValue = Tools.RenameTemplateParameter(newValue, "p", "pp");
+                                                               if (Regex.IsMatch(page, @"\d+\s*(?:–|&ndash;|, )\s*\d") && Tools.GetTemplateParameterValue(newValue, "pp").Length == 0)
+                                                                   newValue = Tools.RenameTemplateParameter(newValue, "p", "pp");
 
-                // merge changes to article text
-                if (!h.Value.Equals(newValue))
-                    articleText = articleText.Replace(h.Value, newValue);
-            }
+                                                               return newValue;
+                                                           });
 
             return articleText;
         }
