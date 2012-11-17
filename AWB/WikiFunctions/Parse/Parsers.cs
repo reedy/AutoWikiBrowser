@@ -3260,7 +3260,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly Regex AccessdateSynonyms = new Regex(@"(?<={{\s*[Cc]it[ae][^{}]*?\|\s*)(?:\s*date\s*)?(?:retrieved(?:\s+on)?|(?:last|date) *ac+essed|access\s+date)(?=\s*=\s*)");
+        private static readonly Regex AccessdateSynonyms = new Regex(@"({{\s*[Cc]it[ae][^{}]*?\|\s*)(?:\s*date\s*)?(?:retrieved(?:\s+on)?|(?:last|date) *ac+essed|access\s+date)(?=\s*=\s*)");
 
         private static readonly Regex UppercaseCiteFields = new Regex(@"(\{\{\s*(?:[Cc]ite\s*(?:web|book|news|journal|paper|press release|hansard|encyclopedia)|[Cc]itation)\b\s*[^{}]*\|\s*)(\w*?[A-Z]+\w*)(?<!(?:IS[BS]N|DOI|PMID))(\s*=\s*[^{}\|]{3,})");
 
@@ -3353,17 +3353,18 @@ namespace WikiFunctions.Parse
             string theURL = Tools.GetTemplateParameterValue(newValue, "url");
             string id = Tools.GetTemplateParameterValue(newValue, "id");
             string theURLoriginal = theURL;
+            string format = Tools.GetTemplateParameterValue(newValue, "format");
 
-            newValue = AccessdateSynonyms.Replace(newValue, "accessdate");
+            newValue = AccessdateSynonyms.Replace(newValue, "$1accessdate");
 
             newValue = Tools.RenameTemplateParameter(newValue, "pg", "page");
 
             // remove the unneeded 'format=HTML' field
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.22format.3DHTML.22_in_citation_templates
             // remove format= field with null value when URL is HTML page
-            if (Tools.GetTemplateParameterValue(newValue, "format").TrimStart("[]".ToCharArray()).ToUpper().StartsWith("HTM")
+            if (format.TrimStart("[]".ToCharArray()).ToUpper().StartsWith("HTM")
                 ||
-                (Tools.GetTemplateParameterValue(newValue, "format").Length == 0 &&
+                (format.Length == 0 &&
                  theURL.ToUpper().TrimEnd('L').EndsWith("HTM")))
                 newValue = Tools.RemoveTemplateParameter(newValue, "format");
 
@@ -3377,8 +3378,8 @@ namespace WikiFunctions.Parse
             }
 
             // remove language=English on en-wiki
-            string lang = Tools.GetTemplateParameterValue(newValue, "language").ToLower();
-            if (lang.Equals("english") || lang.Equals("en"))
+            string lang = Tools.GetTemplateParameterValue(newValue, "language");
+            if (lang.Equals("english", StringComparison.OrdinalIgnoreCase) || lang.Equals("en", StringComparison.OrdinalIgnoreCase))
                 newValue = Tools.RemoveTemplateParameter(newValue, "language");
 
             // remove italics for work field for book/periodical, but not website -- auto italicised by template
@@ -3401,8 +3402,7 @@ namespace WikiFunctions.Parse
             }
 
             // page= and pages= fields don't need p. or pp. in them when nopp not set
-            if (Tools.GetTemplateParameterValue(newValue, "nopp").Length == 0 &&
-                !templatename.Equals("cite journal", StringComparison.OrdinalIgnoreCase))
+            if (!templatename.Equals("cite journal", StringComparison.OrdinalIgnoreCase) && Tools.GetTemplateParameterValue(newValue, "nopp").Length == 0)
                 newValue = CiteTemplatePagesPP.Replace(newValue, "");
 
             // date = YYYY --> year = YYYY; not for {{cite video}}
@@ -3541,15 +3541,15 @@ namespace WikiFunctions.Parse
                 newValue = Tools.UpdateTemplateParameterValue(newValue, "url", theURL);
 
             // {{dead link}} should be placed outside citation, not in format field per [[Template:Dead link]]
-            string FormatField = Tools.GetTemplateParameterValue(newValue, "format");
-            if (WikiRegexes.DeadLink.IsMatch(FormatField))
+            format = Tools.GetTemplateParameterValue(newValue, "format");
+            if (WikiRegexes.DeadLink.IsMatch(format))
             {
-                string deadLink = WikiRegexes.DeadLink.Match(FormatField).Value;
+                string deadLink = WikiRegexes.DeadLink.Match(format).Value;
 
-                if (theURL.ToUpper().TrimEnd('L').EndsWith("HTM") && FormatField.Equals(deadLink))
+                if (theURL.ToUpper().TrimEnd('L').EndsWith("HTM") && format.Equals(deadLink))
                     newValue = Tools.RemoveTemplateParameter(newValue, "format");
                 else
-                    newValue = Tools.UpdateTemplateParameterValue(newValue, "format", FormatField.Replace(deadLink, ""));
+                    newValue = Tools.UpdateTemplateParameterValue(newValue, "format", format.Replace(deadLink, ""));
 
                 newValue += (" " + deadLink);
             }
