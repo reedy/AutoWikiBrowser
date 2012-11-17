@@ -1986,6 +1986,16 @@ text", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual(0, Tools.HowMuchStartsWith(@"===hello===
 hello", Tools.NestedTemplateRegex("foo"), true));
         }
+
+        [Test]
+        public void PipeCleanedTemplate()
+        {
+            Assert.AreEqual(@"{{cite journal|title=A}}", Tools.PipeCleanedTemplate(@"{{cite journal|title=A}}", true));
+            Assert.AreEqual(@"{{cite journal|title=A ~~~~~~~~~~ }}", Tools.PipeCleanedTemplate(@"{{cite journal|title=A <!-- a --> }}", true));
+            Assert.AreEqual(@"{{cite journal|title=A ############## }}", Tools.PipeCleanedTemplate(@"{{cite journal|title=A [[here|there]] }}", true));
+            Assert.AreEqual(@"{{cite journal|title=A ######## }}", Tools.PipeCleanedTemplate(@"{{cite journal|title=A [[here]] }}", true));
+            Assert.AreEqual(@"{{cite journal|title=A ######## }}", Tools.PipeCleanedTemplate(@"{{cite journal|title=A {{here}} }}", true));
+        }
     }
 
     [TestFixture]
