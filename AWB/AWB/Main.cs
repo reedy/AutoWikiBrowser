@@ -2620,29 +2620,35 @@ window.scrollTo(0, diffTopY);
                 foreach (Match m in WikiRegexes.WikiLink.Matches(Tools.ReplaceWithSpaces(articleText, WikiRegexes.UnformattedText.Matches(articleText))))
                 {
                     string x = m.Groups[1].Value;
+                    // don't count wikilinked dates as duplicate links
                     if (!WikiRegexes.Dates.IsMatch(x) && !WikiRegexes.Dates2.IsMatch(x))
+                    {
                         // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Multiple_links
                         // make first character uppercase so that [[proton]] and [[Proton]] are marked as duplicate
-                        x = Tools.TurnFirstToUpper(x);
-                    arrayLinks.Add(x);
+                        arrayLinks.Add(Tools.TurnFirstToUpper(x));
+                    }
                 }
 
                 lbDuplicateWikilinks.Sorted = true;
 
-                //add the duplicate articles to the listbox
+                /* add the duplicate articles to the listbox
+                 * Sort array list of all links, then loop through list, keeping count of occurrences of each one.
+                 * One change of link, add to duplicates list only if > 1 occurrence in list. */
+                arrayLinks.Sort();
+                int counter = 0;
+                string last = "";
                 lbDuplicateWikilinks.BeginUpdate();
                 foreach (string z in arrayLinks)
                 {
-                    if ((arrayLinks.IndexOf(z) < arrayLinks.LastIndexOf(z)) && !arrayLinks2.Contains(z))
+                    if(z.Equals(last))
+                        counter++;
+                    else
                     {
-                        arrayLinks2.Add(z);
-                        // include count of links in form Proton (3)
-                        int linkcount = Regex.Matches(articleText, @"\[\[" + Regex.Escape(z) + @"(\|.*?)?\]\]").Count;
+                        if(counter > 1)
+                            lbDuplicateWikilinks.Items.Add(last + @" (" + counter + @")");
 
-                        if (!Tools.TurnFirstToLower(z).Equals(z))
-                            linkcount += Regex.Matches(articleText, @"\[\[" + Regex.Escape(Tools.TurnFirstToLower(z)) + @"(\|.*?)?\]\]").Count;
-
-                        lbDuplicateWikilinks.Items.Add(z + @" (" + linkcount + @")");
+                        counter = 1;
+                        last = z;
                     }
                 }
                 lbDuplicateWikilinks.EndUpdate();
