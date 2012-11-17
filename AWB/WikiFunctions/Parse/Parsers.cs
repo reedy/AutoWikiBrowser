@@ -614,32 +614,30 @@ namespace WikiFunctions.Parse
             // get sections
             string[] sections = Tools.SplitToSections(articleText);
             string newarticleText = "";
-            
+
             foreach(string s in sections)
             {
                 if(!s.StartsWith("="))
-                    newarticleText = newarticleText + MIZerothSection(s);
+                    newarticleText += MIZerothSection(s, WikiRegexes.MultipleIssuesArticleMaintenanceTemplates);
                 else
-                    newarticleText = newarticleText + MILaterSection(s).TrimStart();
+                    newarticleText += MILaterSection(s, WikiRegexes.MultipleIssuesSectionMaintenanceTemplates).TrimStart();
             }
 
             return newarticleText.TrimEnd();
         }
 
-        private string MIZerothSection(string zerothsection)
+        private string MIZerothSection(string zerothsection, Regex Templates)
         {
-            Regex Templates = WikiRegexes.MultipleIssuesArticleMaintenanceTemplates;
-            
             // look for maintenance templates
             // cannot support more than one multiple issues template per section
-            if(WikiRegexes.MultipleIssues.Matches(zerothsection).Count > 1)
+            MatchCollection MIMC = WikiRegexes.MultipleIssues.Matches(zerothsection);
+            bool existingMultipleIssues = MIMC.Count > 0;
+            if(MIMC.Count > 1)
                 return zerothsection;
 
-            string zerothsectionNoMI = Tools.ReplaceWithSpaces(zerothsection, WikiRegexes.MultipleIssues.Matches(zerothsection));
+            string zerothsectionNoMI = Tools.ReplaceWithSpaces(zerothsection, MIMC);
 
             int totalTemplates = Templates.Matches(zerothsectionNoMI).Count;
-
-            bool existingMultipleIssues = WikiRegexes.MultipleIssues.IsMatch(zerothsection);
 
             // multiple issues with one issue -> single issue tag (old style or new style multiple issues)
             if(totalTemplates == 0 && existingMultipleIssues)
@@ -670,22 +668,36 @@ namespace WikiFunctions.Parse
             return zerothsection;
         }
 
-        private string MILaterSection(string section)
+        private string MILaterSection(string section, Regex Templates)
         {
             string sectionOriginal = section;
-            Regex Templates = WikiRegexes.MultipleIssuesSectionMaintenanceTemplates;
+            MatchCollection MIMC = WikiRegexes.MultipleIssues.Matches(section);
+            bool existingMultipleIssues = MIMC.Count > 0;
             
             // look for maintenance templates
             // cannot support more than one multiple issues template per section
-            if(WikiRegexes.MultipleIssues.Matches(section).Count > 1)
+            if(MIMC.Count > 1)
                 return sectionOriginal;
             
-            section = Tools.ReplaceWithSpaces(section, WikiRegexes.MultipleIssues.Matches(section));
+            if(existingMultipleIssues)
+                section = Tools.ReplaceWithSpaces(section, MIMC);
             
-            int templatePortion = Tools.HowMuchStartsWith(section, Templates, true);
-            
+            int templatePortion = 0;
+
+            if(WikiRegexes.NestedTemplates.IsMatch(section))
+                templatePortion = Tools.HowMuchStartsWith(section, Templates, true);
+
+            // multiple issues with one issue -> single issue tag (old style or new style multiple issues)
             if(templatePortion == 0)
-                return sectionOriginal;
+            {
+                if(existingMultipleIssues)
+                {
+                    sectionOriginal = WikiRegexes.MultipleIssues.Replace(sectionOriginal, new MatchEvaluator(MultipleIssuesOldSingleTagME));
+                    return WikiRegexes.MultipleIssues.Replace(sectionOriginal, new MatchEvaluator(MultipleIssuesSingleTagME));
+                }
+                else 
+                    return sectionOriginal;
+            }
 
             string heading = WikiRegexes.Headings.Match(section).Value.Trim(),
             sectionPortion = section.Substring(0, templatePortion),
@@ -693,14 +705,6 @@ namespace WikiFunctions.Parse
             sectionRest = sectionOriginal.Substring(templatePortion);
             
             int totalTemplates = Templates.Matches(sectionPortion).Count;
-            bool existingMultipleIssues = WikiRegexes.MultipleIssues.IsMatch(sectionPortionOriginal);
-            
-            // multiple issues with one issue -> single issue tag (old style or new style multiple issues)
-            if(totalTemplates == 0 && existingMultipleIssues)
-            {
-                sectionOriginal = WikiRegexes.MultipleIssues.Replace(sectionOriginal, new MatchEvaluator(MultipleIssuesOldSingleTagME));
-                return WikiRegexes.MultipleIssues.Replace(sectionOriginal, new MatchEvaluator(MultipleIssuesSingleTagME));
-            }
             
             // if currently no {{Multiple issues}} and less than the min number of maintenance templates, do nothing
             if(!existingMultipleIssues && (totalTemplates < MinCleanupTagsToCombine))
