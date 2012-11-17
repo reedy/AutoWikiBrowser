@@ -613,17 +613,17 @@ namespace WikiFunctions.Parse
 
             // get sections
             string[] sections = Tools.SplitToSections(articleText);
-            string newarticleText = "";
+            StringBuilder newarticleText = new StringBuilder();
 
             foreach(string s in sections)
             {
                 if(!s.StartsWith("="))
-                    newarticleText += MIZerothSection(s, WikiRegexes.MultipleIssuesArticleMaintenanceTemplates);
+                    newarticleText.Append(MIZerothSection(s, WikiRegexes.MultipleIssuesArticleMaintenanceTemplates));
                 else
-                    newarticleText += MILaterSection(s, WikiRegexes.MultipleIssuesSectionMaintenanceTemplates).TrimStart();
+                    newarticleText.Append(MILaterSection(s, WikiRegexes.MultipleIssuesSectionMaintenanceTemplates).TrimStart());
             }
 
-            return newarticleText.TrimEnd();
+            return newarticleText.ToString().TrimEnd();
         }
 
         private string MIZerothSection(string zerothsection, Regex Templates)
