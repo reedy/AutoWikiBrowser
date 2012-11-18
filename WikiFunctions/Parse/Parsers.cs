@@ -5297,6 +5297,10 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static bool CategoryMatch(string articleText, string categoryName)
         {
+            // quick check for performance
+            if(articleText.IndexOf(categoryName, StringComparison.OrdinalIgnoreCase) == -1)
+                return false;
+            
             Regex anyCategory = new Regex(@"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category] +
                                           @"\s*" + Regex.Escape(categoryName) + @"\s*(?:|\|([^\|\]]*))\s*\]\]", RegexOptions.IgnoreCase);
 
@@ -5712,17 +5716,17 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text.</returns>
         public static string LivingPeople(string articleText)
         {
-            // don't add living people category if already dead, or thought to be dead
-            if (WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) || WikiRegexes.LivingPeopleRegex2.IsMatch(articleText) ||
-                BornDeathRegex.IsMatch(articleText) || DiedDateRegex.IsMatch(articleText))
-                return articleText;
-
             Match m = WikiRegexes.BirthsCategory.Match(articleText);
 
             // don't add living people category unless 'XXXX births' category is present
             if (!m.Success)
                 return articleText;
 
+            // don't add living people category if already dead, or thought to be dead
+            if (WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) || WikiRegexes.LivingPeopleRegex2.IsMatch(articleText) ||
+                BornDeathRegex.IsMatch(articleText) || DiedDateRegex.IsMatch(articleText))
+                return articleText;            
+            
             string birthCat = m.Value;
             int birthYear = 0;
 
@@ -5991,8 +5995,8 @@ namespace WikiFunctions.Parse
         YearOfBirthUncertain = "Year of birth uncertain",
         YearofDeathMissing = "Year of death missing";
 
-        private static readonly Regex Cat4YearBirths = new Regex(@"\[\[Category:\d{4} births(?:\s*\|[^\[\]]+)? *\]\]", RegexOptions.Compiled);
-        private static readonly Regex Cat4YearDeaths = new Regex(@"\[\[Category:\d{4} deaths(?:\s*\|[^\[\]]+)? *\]\]", RegexOptions.Compiled);
+        private static readonly Regex Cat4YearBirths = new Regex(@"\[\[Category:\d{4} births(?:\s*\|[^\[\]]+)? *\]\]");
+        private static readonly Regex Cat4YearDeaths = new Regex(@"\[\[Category:\d{4} deaths(?:\s*\|[^\[\]]+)? *\]\]");
 
         /// <summary>
         /// Removes birth/death missing categories when xxx births/deaths category also present
@@ -6005,11 +6009,11 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             // if there is a 'year of birth missing' and a year of birth, remove the 'missing' category
-            if (CategoryMatch(articleText, YearOfBirthMissingLivingPeople) && Cat4YearBirths.IsMatch(articleText))
-                articleText = RemoveCategory(YearOfBirthMissingLivingPeople, articleText);
-            else if (CategoryMatch(articleText, YearOfBirthMissing))
+            if(Cat4YearBirths.IsMatch(articleText))
             {
-                if (Cat4YearBirths.IsMatch(articleText))
+                if (CategoryMatch(articleText, YearOfBirthMissingLivingPeople))
+                    articleText = RemoveCategory(YearOfBirthMissingLivingPeople, articleText);
+                else if (CategoryMatch(articleText, YearOfBirthMissing))
                     articleText = RemoveCategory(YearOfBirthMissing, articleText);
             }
 
@@ -6018,7 +6022,7 @@ namespace WikiFunctions.Parse
                 articleText = RemoveCategory(YearOfBirthMissing, articleText);
 
             // if there's a year of death and a 'year of death missing', remove the latter
-            if (CategoryMatch(articleText, YearofDeathMissing) && Cat4YearDeaths.IsMatch(articleText))
+            if (Cat4YearDeaths.IsMatch(articleText) && CategoryMatch(articleText, YearofDeathMissing))
                 articleText = RemoveCategory(YearofDeathMissing, articleText);
 
             return articleText;
