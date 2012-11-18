@@ -224,7 +224,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex RegexRemoveLinksInHeadings = new Regex(@"^ *((={1,4})[^\[\]\{\}\|=\r\n]*)\[\[(?:[^\[\]\{\}\|=\r\n]+\|)?([^\[\]\{\}\|\r\n]+)(?<!.*(?:File|Image):.*)\]\]([^\{\}=\r\n]*\2)", RegexOptions.Compiled | RegexOptions.Multiline);
 
-        private static readonly Regex RegexBadHeader = new Regex("^(={1,4} ?(about|description|overview|definition|profile|(?:general )?information|background|intro(?:duction)?|summary|bio(?:graphy)?) ?={1,4})", RegexOptions.IgnoreCase);
+        private static readonly Regex RegexBadHeaderStartOfAticle = new Regex("^(={1,4} ?(about|description|overview|definition|profile|(?:general )?information|background|intro(?:duction)?|summary|bio(?:graphy)?) ?={1,4})", RegexOptions.IgnoreCase);
 
         private static readonly Regex RegexHeadingUpOneLevel = new Regex(@"^=(==+[^=].*?[^=]==+)=(\r\n?|\n)$", RegexOptions.Multiline);
         private static readonly Regex ReferencesExternalLinksSeeAlso = new Regex(@"== *([Rr]eferences|[Ee]xternal +[Ll]inks?|[Ss]ee +[Aa]lso) *==\s");
@@ -265,6 +265,9 @@ namespace WikiFunctions.Parse
                                                 && !(Regex.IsMatch(articleTitle, WikiRegexes.Months) || ListOf.IsMatch(articleTitle) || WikiRegexes.GregorianYear.IsMatch(articleTitle)));
             
             articleText = WikiRegexes.Headings.Replace(articleText, m => FixHeadingsME(m, articleTitle, RegexRemoveLinksInHeadingsb));
+
+            // remove unnecessary general headers from start of article
+            articleText = RegexBadHeaderStartOfAticle.Replace(articleText, "");
 
             if (!LevelOneSeeAlso.IsMatch(articleText))
                 articleText = RegexHeadings0.Replace(articleText, "$1See also$3");
@@ -346,7 +349,7 @@ namespace WikiFunctions.Parse
             // remove bold from level 3 headers and below, as it makes no visible difference
             hAfter = RegexHeadingWithBold.Replace(hAfter, "$1");
 
-            if(hAfter.Equals(Regex.Escape(articleTitle)) || RegexBadHeader.IsMatch(hAfter))
+            if(hAfter.Equals(Regex.Escape(articleTitle)))
                 return "";
 
             return hAfter;
@@ -3473,7 +3476,7 @@ namespace WikiFunctions.Parse
             }
 
             // {{cite web}} for Google books -> {{Cite book}}
-            if (Regex.IsMatch(templatename, @"[Cc]ite ?web") && newValue.Contains("http://books.google.")
+            if (templatename.Contains("web") && newValue.Contains("http://books.google.")
                 && Tools.GetTemplateParameterValue(newValue, "work").Length == 0)
                 newValue = Tools.RenameTemplate(newValue, templatename, "Cite book");
 
