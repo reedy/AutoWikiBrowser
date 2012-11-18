@@ -339,6 +339,7 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             TestMatch(WikiRegexes.DoublePipeLink, "[[text|text2|text3]]", "[[text|text2|text3]]");
             TestMatch(WikiRegexes.DoublePipeLink, "[[Text|Text2|Text3]]", "[[Text|Text2|Text3]]");
             TestMatch(WikiRegexes.DoublePipeLink, "[[text||text3]]", "[[text||text3]]");
+            //TestMatch(WikiRegexes.DoublePipeLink, "[[text|(text2)|text3]]", "[[text|(text2)|text3]]");
             TestMatch(WikiRegexes.DoublePipeLink, "[[text|foo bar]]", false);
             TestMatch(WikiRegexes.DoublePipeLink, "[[|linktext]]", false);
             TestMatch(WikiRegexes.DoublePipeLink, "[[foo|bar]]", false);
