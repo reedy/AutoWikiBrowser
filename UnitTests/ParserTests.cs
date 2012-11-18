@@ -5166,6 +5166,12 @@ Bar", "Test"), "inserts blank line if one missing");
 '''Foo''' great.", "Foo").Contains(@"==Profile=="));
             Assert.IsFalse(Parsers.FixHeadings(@"==General information==
 '''Foo''' great.", "Foo").Contains(@"==General information=="));
+
+            const string HeadingNotAtStart = @"Foo is great.
+
+==Overview==
+Here there";
+            Assert.AreEqual(HeadingNotAtStart, Parsers.FixHeadings(HeadingNotAtStart, "Foo"), "Heading not removed when not at start of article");
         }
 
         [Test, Category("Incomplete")]
