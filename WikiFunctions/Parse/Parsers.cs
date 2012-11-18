@@ -1074,8 +1074,21 @@ namespace WikiFunctions.Parse
              if (!Variables.LangCode.Equals("en"))
                  return articleText;
              
+             /* performance check: on most articles no date changes, on long articles HideMore is slow, so if no changes to raw text 
+                don't need to perform actual check on HideMore text, and this is faster overall
+              */
+             if(FixDatesAInternal(articleText).Equals(articleText))
+                 return articleText;
+             
              articleText = HideTextImages(articleText);
 
+             articleText = FixDatesAInternal(articleText);
+
+             return AddBackTextImages(articleText);
+         }
+
+         private string FixDatesAInternal(string articleText)
+         {
              articleText = IncorrectCommaInternationalDates.Replace(articleText, @"$1 $2");
 
              articleText = SameMonthInternationalDateRange.Replace(articleText, @"$1–$2");
@@ -1089,9 +1102,7 @@ namespace WikiFunctions.Parse
              articleText = CommaDates.Replace(articleText, @"$1 $2, $3");
 
              // month range
-             articleText = EnMonthRange.Replace(articleText, @"$1–$2");
-
-             return AddBackTextImages(articleText);
+             return EnMonthRange.Replace(articleText, @"$1–$2");
          }
          
          /// <summary>
