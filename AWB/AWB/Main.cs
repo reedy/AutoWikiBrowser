@@ -1477,14 +1477,8 @@ namespace AutoWikiBrowser
                 // unicodify whole article
                 if (process && chkUnicodifyWhole.Checked)
                 {
-                    theArticle.HideMoreText(RemoveText);
-                    Variables.Profiler.Profile("HideMoreText");
-
-                    theArticle.Unicodify(Skip.SkipNoUnicode, Parser);
+                    theArticle.Unicodify(Skip.SkipNoUnicode, Parser, RemoveText);
                     Variables.Profiler.Profile("Unicodify");
-
-                    theArticle.UnHideMoreText(RemoveText);
-                    Variables.Profiler.Profile("UnHideMoreText");
                 }
 
                 // find and replace before general fixes
