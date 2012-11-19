@@ -262,7 +262,7 @@ image = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
    |IUPAC_name = 6-chloro-1,1-dioxo-2''H''-1,2,4-benzothiadiazine-7-sulfonamide
    | image=Chlorothiazide.svg
    | image2=Chlorothiazide-from-xtal-3D-balls.png
-   | CAS_number=58-94-6").Contains("=Chlorothiazide"));
+   | CAS_number=58-94-6}}").Contains("=Chlorothiazide"));
             
             AssertAllHidden(@"{{ gallery
 |title=Lamu images
@@ -300,20 +300,6 @@ image = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
             AssertAllHiddenMore(@"[[Image:foo with SPACE() and 0004.png|");
             AssertAllHiddenMore(@"[[Image:westminster.tube.station.jubilee.arp.jpg|");
 
-            // in these ones all but the last | is hidden
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"|image_skyline=442px_-_London_Lead_Image.jpg|"), Hidden + @"\|"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"|image_map=London (European Parliament constituency).svg   |"), Hidden + @"   \|"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"|image_map=westminster.tube.station.jubilee.arp.jpg|"), Hidden + @"\|"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"|Cover  = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"|image = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"|
-image = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"|Img = BBC_logo1.jpg
-|"), Hidden + @"
-\|"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"| image name = Fred Astaire.jpg |"), Hidden + @" \|"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"|image2 = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
-
             // in tests below no text is hidden
 
             Assert.AreEqual(Caption1, HideMore(Caption1));
@@ -326,23 +312,11 @@ image = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
             Assert.IsTrue(HideMore(@"[[Image:some_image_name.png]] Normal words in text").EndsWith(@" Normal words in text"));
             Assert.IsTrue(HideMore(Caption4 + Field1).EndsWith(Field1));
 
-            // in these ones all but the last | or }} is hidden
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"| Photo =Arlberg passstrasse.jpg |"), Hidden + @" \|"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"| Photo =Arlberg passstrasse.jpg}}"), Hidden + @"}}"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"|photo=Arlberg passstrasse.jpg|"), Hidden + @"\|"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"| Photo =Arlberg passstrasse.jpg
-|"), Hidden + @"
-\|"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"| Image =Arlberg passstrasse.jpg |"), Hidden + @" \|"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"| image =Arlberg passstrasse.jpg |"), Hidden + @" \|"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"| Img =Arlberg passstrasse.jpg |"), Hidden + @" \|"));
-            Assert.IsTrue(Regex.IsMatch(HideMore(@"| img =Arlberg passstrasse.jpg }}"), Hidden + @" }}"));
-
             Assert.IsFalse(HideMore(@"{{Drugbox|
    |IUPAC_name = 6-chloro-1,1-dioxo-2''H''-1,2,4-benzothiadiazine-7-sulfonamide
    | image=Chlorothiazide.svg
    | image2=Chlorothiazide-from-xtal-3D-balls.png
-   | CAS_number=58-94-6").Contains("=Chlorothiazide"));
+   | CAS_number=58-94-6}}").Contains("=Chlorothiazide"));
             
             AssertAllHiddenMore(@"<imagemap>
 File:Blogs001.jpeg|Description
