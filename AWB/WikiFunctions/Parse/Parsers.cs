@@ -6618,7 +6618,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider WlhProv = new WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider(MinIncomingLinksToBeConsideredAnOrphan);
+        private static readonly WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider WlhProv = new WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider(MinIncomingLinksToBeConsideredAnOrphan) { ForceQueryLimit = 10 }
 
         private const int MinIncomingLinksToBeConsideredAnOrphan = 3;
         private static readonly Regex Rq = Tools.NestedTemplateRegex("Rq");
