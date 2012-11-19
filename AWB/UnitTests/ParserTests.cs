@@ -4775,7 +4775,6 @@ Some news here.", "test"), "space trimmed from end of paragraph when br replaces
         [Test]
         public void TestFixHeadingsColon()
         {
-
             // remove colon from end of heading text
             Assert.AreEqual(@"== hello world ==
 ", Parsers.FixHeadings(@"== hello world: ==
@@ -4807,6 +4806,12 @@ Some news here.", "test"), "space trimmed from end of paragraph when br replaces
 
             Assert.AreEqual(@"== : ==
 ", Parsers.FixHeadings(@"== : ==
+", "a"));
+            Assert.AreEqual(@"A
+
+== hello world ==
+", Parsers.FixHeadings(@"A
+ == hello world: ==
 ", "a"));
         }
 
