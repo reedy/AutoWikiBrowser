@@ -4895,7 +4895,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private static string BoldedSelfLinks(string articleTitle, string articleText)
         {
-            if (WikiRegexes.Noinclude.IsMatch(articleText) || WikiRegexes.Includeonly.IsMatch(articleText))
+            if (WikiRegexes.IncludeonlyNoinclude.IsMatch(articleText))
                 return articleText;
             
             string escTitle = Regex.Escape(articleTitle);
@@ -4950,15 +4950,15 @@ namespace WikiFunctions.Parse
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Includes_and_selflinks
             // don't apply if bold in lead section already or some noinclude transclusion business
-            if(!WikiRegexes.Noinclude.IsMatch(articleText) && !WikiRegexes.Includeonly.IsMatch(articleText))
+            if(!WikiRegexes.IncludeonlyNoinclude.IsMatch(articleText))
             {
-                if (!Regex.IsMatch(zerothSection, "'''" + escTitle + "'''"))
+                if (!zerothSection.Contains("'''" + articleTitle + "'''"))
                 {
                     zerothSectionHidden = r1.Replace(zerothSectionHidden, "'''" + articleTitle + @"'''");
                     zerothSectionHidden = r3.Replace(zerothSectionHidden, "'''$1'''");
                 }
 
-                if (zerothSectionHiddenOriginal.Equals(zerothSectionHidden) && !Regex.IsMatch(zerothSection, @"'''" + Tools.TurnFirstToLower(escTitle) + @"'''"))
+                if (zerothSectionHiddenOriginal.Equals(zerothSectionHidden) && !zerothSection.Contains("'''" + Tools.TurnFirstToLower(articleTitle) + "'''"))
                 {
                     zerothSectionHidden = r2.Replace(zerothSectionHidden, "'''" + Tools.TurnFirstToLower(articleTitle) + @"'''");
                     zerothSectionHidden = r4.Replace(zerothSectionHidden, "'''$1'''");
@@ -4967,7 +4967,7 @@ namespace WikiFunctions.Parse
 
             zerothSection = Hider2.AddBackMore(zerothSectionHidden);
 
-            if (zerothSectionHiddenOriginal != zerothSectionHidden)
+            if (!zerothSectionHiddenOriginal.Equals(zerothSectionHidden))
             {
                 noChange = false;
                 return (zerothSection + restOfArticle);
