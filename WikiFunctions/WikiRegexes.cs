@@ -1266,7 +1266,6 @@ namespace WikiFunctions
         /// </summary>
         /// <remarks>
         /// From http://www.dreamincode.net/code/snippet3490.htm
-        /// FIXME: Fails with 2 letter domains, like http://coop.dk - only http://coop.dk/ works
         /// </remarks>
         public static readonly Regex UrlValidator =
             new Regex(
