@@ -195,7 +195,7 @@ namespace WikiFunctions.Parse
 
         /// <summary>
         /// Replaces back hidden images, external links, templates, headings etc.
-        /// (ie what was hidden by HideMore)
+        /// (i.e. what was hidden by HideMore)
         /// </summary>
         /// <param name="matches"></param>
         /// <param name="articleText">The wiki text of the article.</param>
@@ -203,11 +203,12 @@ namespace WikiFunctions.Parse
         {
             StringBuilder sb = new StringBuilder((int)(articleText.Length * 1.1));
             int pos = 0;
+            string s;
 
             foreach (Match m in matches)
             {
                 sb.Append(articleText, pos, m.Index - pos);
-                string s = "⌊⌊⌊⌊M" + MoreHide.Count + "⌋⌋⌋⌋";
+                s = "⌊⌊⌊⌊M" + MoreHide.Count + "⌋⌋⌋⌋";
                 sb.Append(s);
                 pos = m.Index + m.Value.Length;
                 MoreHide.Add(new HideObject(s, m.Value));
