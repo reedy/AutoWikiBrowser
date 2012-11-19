@@ -716,6 +716,19 @@ foo
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "https://google.co.uk", "https://google.co.uk");
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://foo.com/asdfasdf/asdf.htm", "http://foo.com/asdfasdf/asdf.htm");
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://www.google.co.uk", "http://www.google.co.uk");
+            
+            // protocol coverage
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://foo.com/asdfasdf/asdf.htm", "http://foo.com/asdfasdf/asdf.htm");
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, "https://www.foo.com/asdfasdf/asdf.htm", "https://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, "ftp://www.foo.com/asdfasdf/asdf.htm", "ftp://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, "mailto://www.foo.com/asdfasdf/asdf.htm", "mailto://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, "irc://www.foo.com/asdfasdf/asdf.htm", "irc://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, "gopher://www.foo.com/asdfasdf/asdf.htm", "gopher://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, "telnet://www.foo.com/asdfasdf/asdf.htm", "telnet://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, "nntp://www.foo.com/asdfasdf/asdf.htm", "nntp://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, "worldwind://www.foo.com/asdfasdf/asdf.htm", "worldwind://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, "news://www.foo.com/asdfasdf/asdf.htm", "news://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, "svn://www.foo.com/asdfasdf/asdf.htm", "svn://www.foo.com/asdfasdf/asdf.htm");
 
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "lol http://www.google.co.uk lol", "http://www.google.co.uk");
 
@@ -745,6 +758,74 @@ foo
 
             // not when in external link brackets
             Assert.AreEqual("", WikiRegexes.ExternalLinks.Match(@"[http://google.co.uk Google]").Groups[1].Value);
+        }
+
+        [Test]
+        public void NonHTTPProtocols()
+        {
+            RegexAssert.NoMatch(WikiRegexes.NonHTTPProtocols, "http://foo.com/asdfasdf/asdf.htm");
+            RegexAssert.NoMatch(WikiRegexes.NonHTTPProtocols, "https://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.IsMatch(WikiRegexes.NonHTTPProtocols, "ftp://www.foo.com/asdfasdf/asdf.htm", "ftp://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.IsMatch(WikiRegexes.NonHTTPProtocols, "mailto://www.foo.com/asdfasdf/asdf.htm", "mailto://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.IsMatch(WikiRegexes.NonHTTPProtocols, "irc://www.foo.com/asdfasdf/asdf.htm", "irc://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.IsMatch(WikiRegexes.NonHTTPProtocols, "gopher://www.foo.com/asdfasdf/asdf.htm", "gopher://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.IsMatch(WikiRegexes.NonHTTPProtocols, "telnet://www.foo.com/asdfasdf/asdf.htm", "telnet://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.IsMatch(WikiRegexes.NonHTTPProtocols, "nntp://www.foo.com/asdfasdf/asdf.htm", "nntp://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.IsMatch(WikiRegexes.NonHTTPProtocols, "worldwind://www.foo.com/asdfasdf/asdf.htm", "worldwind://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.IsMatch(WikiRegexes.NonHTTPProtocols, "news://www.foo.com/asdfasdf/asdf.htm", "news://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.IsMatch(WikiRegexes.NonHTTPProtocols, "svn://www.foo.com/asdfasdf/asdf.htm", "svn://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.IsMatch(WikiRegexes.NonHTTPProtocols, "SVN://www.foo.com/asdfasdf/asdf.htm", "SVN://www.foo.com/asdfasdf/asdf.htm");
+        }
+        
+        [Test]
+        public void ExternalLinksHTTPOnly()
+        {
+            RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "http://google.co.uk", "http://google.co.uk");
+            RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "http://google-here.co.uk", "http://google-here.co.uk");
+            RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "https://google.co.uk", "https://google.co.uk");
+            RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "http://foo.com/asdfasdf/asdf.htm", "http://foo.com/asdfasdf/asdf.htm");
+            RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "http://www.google.co.uk", "http://www.google.co.uk");
+            
+            // protocol coverage
+            RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "http://foo.com/asdfasdf/asdf.htm", "http://foo.com/asdfasdf/asdf.htm");
+            RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "https://www.foo.com/asdfasdf/asdf.htm", "https://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.NoMatch(WikiRegexes.ExternalLinksHTTPOnly, "ftp://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.NoMatch(WikiRegexes.ExternalLinksHTTPOnly, "mailto://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.NoMatch(WikiRegexes.ExternalLinksHTTPOnly, "irc://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.NoMatch(WikiRegexes.ExternalLinksHTTPOnly, "gopher://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.NoMatch(WikiRegexes.ExternalLinksHTTPOnly, "telnet://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.NoMatch(WikiRegexes.ExternalLinksHTTPOnly, "nntp://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.NoMatch(WikiRegexes.ExternalLinksHTTPOnly, "worldwind://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.NoMatch(WikiRegexes.ExternalLinksHTTPOnly, "news://www.foo.com/asdfasdf/asdf.htm");
+            RegexAssert.NoMatch(WikiRegexes.ExternalLinksHTTPOnly, "svn://www.foo.com/asdfasdf/asdf.htm");
+
+            RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "lol http://www.google.co.uk lol", "http://www.google.co.uk");
+
+            RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "[http://www.google.co.uk]", "[http://www.google.co.uk]");
+            RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "[http://www.google.co.uk google]", "[http://www.google.co.uk google]");
+
+            RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "lol [http://www.google.co.uk] lol", "[http://www.google.co.uk]");
+            RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "lol [http://www.google.co.uk google] lol", "[http://www.google.co.uk google]");
+
+            //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_14#Regex_problem
+            RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "http://www.google.co.uk google}}", "http://www.google.co.uk");
+            RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "http://www.google.co.uk}}", "http://www.google.co.uk");
+
+            RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, @"date=April 2010|url=http://w/010111a.html}}", "http://w/010111a.html");
+            RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, @"date=April 2010|url=http://w/010111a.html|location=London}}", "http://w/010111a.html");
+
+            // incorrect brackets
+            RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "lol [http://www.google.co.uk lol", "http://www.google.co.uk");
+
+            RegexAssert.NoMatch(WikiRegexes.ExternalLinksHTTPOnly, "Google");
+
+            // protocol is group 1
+            Assert.AreEqual("http", WikiRegexes.ExternalLinksHTTPOnly.Match(@"http://google.co.uk").Groups[1].Value);
+            Assert.AreEqual("Http", WikiRegexes.ExternalLinksHTTPOnly.Match(@"Http://google.co.uk").Groups[1].Value);
+            Assert.AreEqual("HTTP", WikiRegexes.ExternalLinksHTTPOnly.Match(@"HTTP://google.co.uk").Groups[1].Value);
+
+            // not when in external link brackets
+            Assert.AreEqual("", WikiRegexes.ExternalLinksHTTPOnly.Match(@"[http://google.co.uk Google]").Groups[1].Value);
         }
 
         [Test]
