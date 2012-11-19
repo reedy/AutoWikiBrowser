@@ -249,6 +249,7 @@ namespace WikiFunctions.Lists.Providers
 
         protected bool IncludeWhatLinksToRedirects;
         protected string Blfilterredir;
+        public string ForceQueryLimit { get; set; }
 
         public List<Article> MakeList(int Namespace, params string[] searchCriteria)
         {
@@ -269,13 +270,23 @@ namespace WikiFunctions.Lists.Providers
             foreach (string page in searchCriteria)
             {
                 string url = "list=backlinks&bltitle="
-                             + HttpUtility.UrlEncode(page) + "&bllimit=max&blnamespace=" + Namespace;
+                             + HttpUtility.UrlEncode(page) + "&blnamespace=" + Namespace;
 
-                if (IncludeWhatLinksToRedirects)
+                if (!string.IsNullOrEmpty(ForceQueryLimit))
+                {
+                    url += "&bllimit=" + ForceQueryLimit;
+                }
+                else
+                {
+                    url += "&bllimit=max";
+                }
+                if (IncludeWhatLinksToRedirects) {
                     url += "&blredirect";
+                }
 
-                if (!string.IsNullOrEmpty(Blfilterredir))
+                if (!string.IsNullOrEmpty(Blfilterredir)) {
                     url += "&blfilterredir=" + Blfilterredir;
+                }
 
                 list.AddRange(ApiMakeList(url, list.Count));
             }
