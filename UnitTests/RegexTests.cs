@@ -1751,7 +1751,13 @@ words2"));
             Assert.IsTrue(WikiRegexes.BareExternalLink.IsMatch(@"* http://www.site.com/great/a.htm
 "));
 
-            Assert.IsFalse(WikiRegexes.BareExternalLink.IsMatch(@"* [http://www.site.com text]
+            Assert.IsTrue(WikiRegexes.BareExternalLink.IsMatch(@"* https://www.site.com
+"));
+        	Assert.IsTrue(WikiRegexes.BareExternalLink.IsMatch(@"* ftp://www.site.com
+"));
+
+
+        	Assert.IsFalse(WikiRegexes.BareExternalLink.IsMatch(@"* [http://www.site.com text]
 "));
             Assert.IsFalse(WikiRegexes.BareExternalLink.IsMatch(@"<ref>http://www.site.com</ref>
 "));

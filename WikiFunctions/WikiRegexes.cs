@@ -791,7 +791,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches a line with a bare external link (no description or name of link)
         /// </summary>
-        public static readonly Regex BareExternalLink = new Regex(@"^ *\*? *(?:[Hh]ttp|[Hh]ttps|[Ff]tp|[Mm]ailto)://[^\ \n\r<>]+\s+$", RegexOptions.Multiline);
+        public static readonly Regex BareExternalLink = new Regex(@"^ *\*? *(?:[Hh]ttps?|[Ff]tp|[Mm]ailto)://[^\ \n\r<>]+\s+$", RegexOptions.Multiline);
         
         /// <summary>
         /// Matches a bare external link (URL only, no title) within a &lt;ref&gt; tag, group 1 being the URL
