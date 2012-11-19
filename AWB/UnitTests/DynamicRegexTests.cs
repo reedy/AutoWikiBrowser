@@ -331,6 +331,149 @@ Image here");
 }}");
         }
         
+               [Test]
+        public void ImagesNotTemplatesTestsStandard()
+        {
+            RegexAssert.IsMatch(WikiRegexes.ImagesNotTemplates, "[[File:Test.JPG]]");
+            RegexAssert.IsMatch(WikiRegexes.ImagesNotTemplates, "[[File:Test.jpg]]");
+            RegexAssert.IsMatch(WikiRegexes.ImagesNotTemplates, "[[File:Test of the.ogg]]");
+            RegexAssert.Matches(WikiRegexes.ImagesNotTemplates, "[[File:Test of the.ogg]]", "[[File:Test of the.ogg]]");
+            RegexAssert.IsMatch(WikiRegexes.ImagesNotTemplates, "[[File:Test_of_the.ogg]]");
+            RegexAssert.IsMatch(WikiRegexes.ImagesNotTemplates, "[[Image:Test.JPG]]");
+            RegexAssert.IsMatch(WikiRegexes.ImagesNotTemplates, "[[Image:Test here.png|right|200px|Some description [[here]] or there]]");
+            RegexAssert.IsMatch(WikiRegexes.ImagesNotTemplates, @"[[Image:Test here.png|right|200px|Some description [[here]] or there
+ over lines]]");
+            RegexAssert.IsMatch(WikiRegexes.ImagesNotTemplates, "[[File:Test.JPG");
+            
+            RegexAssert.NoMatch(WikiRegexes.ImagesNotTemplates, "[[File Test.JPG]]");
+        }
+        
+        [Test]
+        public void ImagesNotTemplatesTestsInfoboxes()
+        {
+            // Matches file namespace links
+            RegexAssert.IsMatch(WikiRegexes.ImagesNotTemplates, @"{{Infobox foo|
+bar = a|
+image = [[File:Test.JPG]]
+| there=here}}");
+            RegexAssert.IsMatch(WikiRegexes.ImagesNotTemplates, @"{{Infobox foo|
+  bar = a|
+  image2 = [[File:Test.JPG]]
+  | there=here}}");
+            RegexAssert.IsMatch(WikiRegexes.ImagesNotTemplates, @"{{Infobox foo|
+  bar = a|
+  img = [[File:Test.JPG]]
+  | there=here}}");
+            RegexAssert.IsMatch(WikiRegexes.ImagesNotTemplates, @"{{Infobox foo|
+  bar = a|
+  img = File:Test.JPG
+  | there=here}}");
+            RegexAssert.IsMatch(WikiRegexes.ImagesNotTemplates, @"{{Infobox foo|
+  bar = a|
+  cover = [[Image:Test.JPG]]
+  | there=here}}");
+            RegexAssert.IsMatch(WikiRegexes.ImagesNotTemplates, @"{{Infobox foo|
+  bar = a|map=[[File:Test.JPG]]
+  | there=here}}");
+            RegexAssert.IsMatch(WikiRegexes.ImagesNotTemplates, @"{{Infobox foo|
+  bar = a| map = [[File:Test.JPG]]
+  | there=here}}");
+            
+            // no match on parameter links without File:/Image: namespace
+            RegexAssert.NoMatch(WikiRegexes.ImagesNotTemplates, @"{{Infobox foo|
+  bar = a|
+  img = Test.JPEG
+  | there=here}}");
+
+            RegexAssert.NoMatch(WikiRegexes.ImagesNotTemplates, @"{{Infobox foo|
+  bar = a|
+  cover art = Test2.png
+  | there=here}}");
+            RegexAssert.NoMatch(WikiRegexes.ImagesNotTemplates, @"{{Infobox foo|
+  bar = a|
+  cover_ar = Test.JPG
+  | there=here}}");
+
+            RegexAssert.NoMatch(WikiRegexes.ImagesNotTemplates, @"{{Infobox foo|
+  bar = a|
+  strangename = Test.JPEG
+  | there=here}}");
+            
+            RegexAssert.NoMatch(WikiRegexes.ImagesNotTemplates, @"{{Infobox foo|
+bar = a|
+picture = Test.JPG
+| there=here}}");
+            RegexAssert.NoMatch(WikiRegexes.ImagesNotTemplates, @"{{Infobox foo|
+  bar = a|
+  picture = Test.JPG
+  | there=here}}", @"|
+  picture = Test.JPG");
+        }
+        
+        [Test]
+        public void ImagesNotTemplatesTestsGalleryTag()
+        {
+            RegexAssert.Matches(WikiRegexes.ImagesNotTemplates, @"<gallery>
+File:Foo.png
+</gallery>", "File:Foo.png");
+            RegexAssert.Matches(WikiRegexes.ImagesNotTemplates, @"<gallery>
+File:Foo.png|description
+</gallery>", "File:Foo.png|");
+            RegexAssert.Matches(WikiRegexes.ImagesNotTemplates, @"<gallery>
+Image:Foo.png|description
+</gallery>", "Image:Foo.png|");
+            RegexAssert.Matches(WikiRegexes.ImagesNotTemplates, @"<gallery>
+Image : Foo.png |description
+</gallery>", "Image : Foo.png |");
+            RegexAssert.Matches(WikiRegexes.ImagesNotTemplates, @"<GALLERY>
+Image:Foo.png|description
+</GALLERY>", "Image:Foo.png|");
+            RegexAssert.Matches(WikiRegexes.ImagesNotTemplates, @"<gallery name=bar style=silver>
+File:Foo.png|description<br>text
+</gallery>", "File:Foo.png|");
+            RegexAssert.Matches(WikiRegexes.ImagesNotTemplates, @"< gallery >
+File:Foo.png
+< /gallery >", "File:Foo.png");
+             RegexAssert.Matches(WikiRegexes.ImagesNotTemplates, @"< gallery >
+File:9th of May_street, Bacău.jpg
+< /gallery >", "File:9th of May_street, Bacău.jpg");
+            
+            MatchCollection mc = WikiRegexes.ImagesNotTemplates.Matches(@"<gallery>
+Image:Foo.png|description
+Image:Foo2.png|description2
+</gallery>");
+            
+            Assert.AreEqual(mc[0].Value, "Image:Foo.png|");
+            Assert.AreEqual(mc[1].Value, "Image:Foo2.png|");
+            
+            RegexAssert.IsMatch(WikiRegexes.ImagesNotTemplates, @"File:Foo.png|description");
+            RegexAssert.NoMatch(WikiRegexes.ImagesNotTemplates, @"<gallery>
+
+</gallery>
+Image here");
+        }
+        
+        [Test]
+        public void ImagesNotTemplatesTestsGalleryTemplate()
+        {
+            RegexAssert.IsMatch(WikiRegexes.ImagesNotTemplates, @"{{Gallery
+|title=Lamu images
+|width=150
+|lines=2
+|Image:LamuFort.jpg|Lamu Fort
+|Image:LAMU Riyadha Mosque.jpg|Riyadha Mosque
+|Image:04 Donkey Hospital (June 30 2001).jpg|Donkey Sanctuary
+}}");
+            RegexAssert.IsMatch(WikiRegexes.ImagesNotTemplates, @"{{ gallery
+|title=Lamu images
+|width=150
+|lines=2
+|Image:LamuFort.jpg|Lamu Fort
+|Image:LAMU Riyadha Mosque.jpg|Riyadha Mosque
+|Image:04 Donkey Hospital (June 30 2001).jpg|Donkey Sanctuary
+}}");
+        }
+        
         [Test]
         public void LooseImageTests()
         {
