@@ -553,9 +553,17 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
         /// <param name="parsers">An initialised Parsers object</param>
-        public void Unicodify(bool skipIfNoChange, Parsers parsers)
+        public void Unicodify(bool skipIfNoChange, Parsers parsers, HideText removeText)
         {
+            // performance: only run slow HideMore if unicodify of raw text results in changes
             string strTemp = parsers.Unicodify(mArticleText, out noChange);
+            
+            if(!noChange)
+            {
+                HideMoreText(removeText);
+                strTemp = parsers.Unicodify(mArticleText, out noChange);
+                UnHideMoreText(removeText);
+            }
 
             if (skipIfNoChange && noChange)
                 Trace.AWBSkipped("No Unicodification");
