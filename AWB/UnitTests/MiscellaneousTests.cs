@@ -391,6 +391,16 @@ File:9th of June street , Bacău.JPG|[[Romanian War of Independence#Overview|9th
         {
             AssertAllHiddenMore("http://foo.com/asdfasdf/asdf.htm", true);
             AssertAllHiddenMore("https://www.foo.com/asdfasdf/asdf.htm", true);
+            AssertAllHiddenMore("ftp://www.foo.com/asdfasdf/asdf.htm", true);
+            AssertAllHiddenMore("mailto://www.foo.com/asdfasdf/asdf.htm", true);
+            AssertAllHiddenMore("irc://www.foo.com/asdfasdf/asdf.htm", true);
+            AssertAllHiddenMore("gopher://www.foo.com/asdfasdf/asdf.htm", true);
+            AssertAllHiddenMore("telnet://www.foo.com/asdfasdf/asdf.htm", true);
+            AssertAllHiddenMore("nntp://www.foo.com/asdfasdf/asdf.htm", true);
+            AssertAllHiddenMore("worldwind://www.foo.com/asdfasdf/asdf.htm", true);
+            AssertAllHiddenMore("news://www.foo.com/asdfasdf/asdf.htm", true);
+            AssertAllHiddenMore("svn://www.foo.com/asdfasdf/asdf.htm", true);
+            
             Assert.IsFalse(HideMore(@"http://foo.com/asdfasdf/asdf.htm", true, false, false).Contains("asdf"));
             Assert.IsTrue(HideMore(@"http://foo.com/asdfasdf/asdf.htm", false, false, false).Contains("asdf"));
         }
