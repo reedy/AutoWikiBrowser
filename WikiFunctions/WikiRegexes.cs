@@ -1266,10 +1266,11 @@ namespace WikiFunctions
         /// </summary>
         /// <remarks>
         /// From http://www.dreamincode.net/code/snippet3490.htm
+        /// FIXME: Fails with 2 letter domains, like http://coop.dk - only http://coop.dk/ works
         /// </remarks>
         public static readonly Regex UrlValidator =
             new Regex(
-                @"^(http|https|ftp)\://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\-\._\?\,\'/\\\+&amp;%\$#\=~])*[^\.\,\)\(\s]$",
+                @"^(https?|ftp)\://[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(:[a-zA-Z0-9]*)?/?([a-zA-Z0-9\-\._\?\,\'/\\\+&amp;%\$#\=~])*[^\.\,\)\(\s]$",
                 RegexOptions.Compiled);
         
         /// <summary>
