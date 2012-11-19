@@ -264,6 +264,10 @@ namespace WikiFunctions.Parse
             bool RegexRemoveLinksInHeadingsb = (RegexRemoveLinksInHeadings.Matches(articleText).Count < 6
                                                 && !(Regex.IsMatch(articleTitle, WikiRegexes.Months) || ListOf.IsMatch(articleTitle) || WikiRegexes.GregorianYear.IsMatch(articleTitle)));
             
+            // one blank line before each heading per MOS:HEAD
+            if (Variables.IsWikipediaEN)
+                articleText = WikiRegexes.HeadingsWhitespaceBefore.Replace(articleText, "\r\n\r\n$1");
+
             articleText = WikiRegexes.Headings.Replace(articleText, m => FixHeadingsME(m, articleTitle, RegexRemoveLinksInHeadingsb));
 
             // remove unnecessary general headers from start of article
@@ -299,10 +303,6 @@ namespace WikiFunctions.Parse
 
                 articleTextLocal = ReferencesExternalLinksSeeAlso.Replace(articleText, "");
             }
-
-            // one blank line before each heading per MOS:HEAD
-            if (Variables.IsWikipediaEN)
-                articleText = WikiRegexes.HeadingsWhitespaceBefore.Replace(articleText, "\r\n\r\n$1");
 
             return articleText;
         }
