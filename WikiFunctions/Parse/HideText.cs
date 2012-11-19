@@ -271,7 +271,13 @@ namespace WikiFunctions.Parse
             ReplaceMore(WikiRegexes.IncludeonlyNoinclude.Matches(articleText), ref articleText);
 
             if (HideExternalLinks)
-                ReplaceMore(WikiRegexes.ExternalLinks.Matches(articleText), ref articleText);
+            {
+                // performance: only use all-protocol regex if the uncommon protocols are in use
+                if(WikiRegexes.NonHTTPProtocols.IsMatch(articleText))
+                    ReplaceMore(WikiRegexes.ExternalLinks.Matches(articleText), ref articleText);
+                else
+                    ReplaceMore(WikiRegexes.ExternalLinksHTTPOnly.Matches(articleText), ref articleText);
+            }
 
             ReplaceMore(WikiRegexes.Headings.Matches(articleText), ref articleText);
 
@@ -308,7 +314,7 @@ namespace WikiFunctions.Parse
 
             // hide untemplated quotes between some form of quotation marks (most particularly for typo fixing)
             ReplaceMore(WikiRegexes.UntemplatedQuotes.Matches(articleText), ref articleText);
-            
+
             if(hideItalics)
                 ReplaceMore(WikiRegexes.Italics.Matches(articleText), ref articleText);
 

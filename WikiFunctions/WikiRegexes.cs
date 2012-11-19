@@ -462,9 +462,19 @@ namespace WikiFunctions
         public static readonly Regex TemplateName = new Regex(@"{{\s*([^\|{}]+?)(?:\s*<!--.*?-->\s*)?\s*(?:\||}})");
 
         /// <summary>
-        /// Matches external links
+        /// Matches start of links to all Wikimedia-supported protocols except http, https: ftp, mailto, irc, gopher, telnet, nntp, worldwind, news, svn
+        /// </summary>
+        public static readonly Regex NonHTTPProtocols = new Regex(@"(?<=ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://", RegexOptions.IgnoreCase);
+
+        /// <summary>
+        /// (Slowly) Matches external links to all Wikimedia-supported protocols http, https, ftp, mailto, irc, gopher, telnet, nntp, worldwind, news, svn
         /// </summary>
         public static readonly Regex ExternalLinks = new Regex(@"(https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://(?:[\w\._\-~!/\*""'\(\):;@&=+$,\\\?%#\[\]]+?(?=}})|[\w\._\-~!/\*""'\(\):;@&=+$,\\\?%#\[\]]*)|\[(https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://.*?\]", RegexOptions.IgnoreCase);
+
+        /// <summary>
+        /// Matches external links only to http, https protocols
+        /// </summary>
+        public static readonly Regex ExternalLinksHTTPOnly = new Regex(@"(https?)://(?:[\w\._\-~!/\*""'\(\):;@&=+$,\\\?%#\[\]]+?(?=}})|[\w\._\-~!/\*""'\(\):;@&=+$,\\\?%#\[\]]*)|(\[https?)://.*?\]", RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Matches links that may be interwikis, i.e. containing colon, group 1 being the wiki language, group 2 being the link target, group 3 any comment after the link
