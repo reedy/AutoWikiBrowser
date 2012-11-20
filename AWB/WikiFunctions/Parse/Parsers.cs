@@ -5072,7 +5072,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Replaces an iamge in the article.
+        /// Replaces an image in the article.
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="oldImage">The old image to replace.</param>
@@ -5193,7 +5193,7 @@ namespace WikiFunctions.Parse
             else
                 articleText += cat;
 
-            return SortMetaData(articleText, articleTitle, false); //Sort metadata ordering so general fixes don't need to be enabled
+            return SortMetaData(articleText, articleTitle, false); //Sort metadata ordering so general fixes do not need to be enabled
         }
 
         // Covered by: RecategorizerTests.Replacement()
@@ -5457,10 +5457,10 @@ namespace WikiFunctions.Parse
                 // AWB's generation of its own sortkey may be incorrect for people, provide option not to insert in this situation
                 if (ds.Count == 0)
                 {
-                    // So that this doesn't get confused by sort keys of "*", " ", etc.
-                    // MW bug: DEFAULTSORT doesn't treat leading spaces the same way as categories do
+                    // So that this does not get confused by sort keys of "*", " ", etc.
+                    // MW bug: DEFAULTSORT does not treat leading spaces the same way as categories do
                     // if all existing categories use a suitable sortkey, insert that rather than generating a new one
-                    // GetCatSortkey just returns articleTitle if cats don't have sortkey, so don't accept this here
+                    // GetCatSortkey just returns articleTitle if cats do not have sortkey, so do not accept this here
                     if (sort.Length > 4 && matches > 1 && !sort.StartsWith(" "))
                     {
                         // remove keys from categories
@@ -5468,7 +5468,7 @@ namespace WikiFunctions.Parse
                                                                    + Variables.Namespaces[Namespace.Category] + "$1]]");
 
                         // set the defaultsort to the existing unique category sort value
-                        // don't add a defaultsort if cat sort was the same as article title, now not case sensitive
+                        // do not add a defaultsort if cat sort was the same as article title, now not case sensitive
                         if (sort != articleTitle && Tools.FixupDefaultSort(sort).ToLower() != articleTitle.ToLower())
                             articleText += Tools.Newline("{{DEFAULTSORT:") + Tools.FixupDefaultSort(sort) + "}}";
                     }
@@ -5732,11 +5732,11 @@ namespace WikiFunctions.Parse
         {
             Match m = WikiRegexes.BirthsCategory.Match(articleText);
 
-            // don't add living people category unless 'XXXX births' category is present
+            // do not add living people category unless 'XXXX births' category is present
             if (!m.Success)
                 return articleText;
 
-            // don't add living people category if already dead, or thought to be dead
+            // do not add living people category if already dead, or thought to be dead
             if (WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) || WikiRegexes.LivingPeopleRegex2.IsMatch(articleText) ||
                 BornDeathRegex.IsMatch(articleText) || DiedDateRegex.IsMatch(articleText))
                 return articleText;
@@ -5749,7 +5749,7 @@ namespace WikiFunctions.Parse
             if (ThreeOrMoreDigits.IsMatch(byear))
                 birthYear = int.Parse(byear);
 
-            // per [[:Category:Living people]] and [[WP:BDP]], don't apply if born > 115 years ago
+            // per [[:Category:Living people]] and [[WP:BDP]], do not apply if born > 115 years ago
             if (birthYear < (DateTime.Now.Year - 115))
                 return articleText;
 
