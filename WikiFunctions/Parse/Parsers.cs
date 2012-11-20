@@ -4950,19 +4950,20 @@ namespace WikiFunctions.Parse
             // don't apply if bold in lead section already or some noinclude transclusion business
             if(!WikiRegexes.IncludeonlyNoinclude.IsMatch(articleText))
             {
-                Regex r1 = new Regex(@"\[\[\s*" + escTitle + @"\s*\]\]");
-                Regex r2 = new Regex(@"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]");
-                Regex r3 = new Regex(@"\[\[\s*" + escTitle + @"\s*\|\s*([^\[\]]+?)\s*\]\]");
-                Regex r4 = new Regex(@"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\|\s*([^\[\]]+?)\s*\]\]");
-
                 if (!zerothSection.Contains("'''" + articleTitle + "'''"))
                 {
+                    Regex r1 = new Regex(@"\[\[\s*" + escTitle + @"\s*\]\]");
+                    Regex r3 = new Regex(@"\[\[\s*" + escTitle + @"\s*\|\s*([^\[\]]+?)\s*\]\]");                    
+                
                     zerothSectionHidden = r1.Replace(zerothSectionHidden, "'''" + articleTitle + @"'''");
                     zerothSectionHidden = r3.Replace(zerothSectionHidden, "'''$1'''");
                 }
 
                 if (zerothSectionHiddenOriginal.Equals(zerothSectionHidden) && !zerothSection.Contains("'''" + Tools.TurnFirstToLower(articleTitle) + "'''"))
                 {
+                    Regex r2 = new Regex(@"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]");
+                    Regex r4 = new Regex(@"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\|\s*([^\[\]]+?)\s*\]\]");
+                    
                     zerothSectionHidden = r2.Replace(zerothSectionHidden, "'''" + Tools.TurnFirstToLower(articleTitle) + @"'''");
                     zerothSectionHidden = r4.Replace(zerothSectionHidden, "'''$1'''");
                 }
