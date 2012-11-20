@@ -4932,24 +4932,26 @@ namespace WikiFunctions.Parse
         {
             HideText Hider2 = new HideText();
             HideText Hider3 = new HideText(true, true, true);
-            // clean up bolded self links first
+            // 1) clean up bolded self links first
             articleText = BoldedSelfLinks(articleTitle, articleText);
 
+            // 2) Cleans up self wikilinks
             noChange = true;
             string escTitle = Regex.Escape(articleTitle), escTitleNoBrackets = Regex.Escape(BracketedAtEndOfLine.Replace(articleTitle, ""));
 
             string articleTextAtStart = articleText, zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
             string restOfArticle = articleText.Substring(zerothSection.Length);
-
-            // There's a limitation here in that we can't hide image descriptions that may be above lead sentence without hiding the self links we are looking to correct
-            string zerothSectionHidden = Hider2.HideMore(zerothSection, false, false, false);
-            string zerothSectionHiddenOriginal = zerothSectionHidden;
+            string zerothSectionHidden = "", zerothSectionHiddenOriginal = "";
 
             // first check for any self links and no bold title, if found just convert first link to bold and return
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Includes_and_selflinks
             // don't apply if bold in lead section already or some noinclude transclusion business
-            if(!WikiRegexes.IncludeonlyNoinclude.IsMatch(articleText))
+            if(!WikiRegexes.IncludeonlyNoinclude.IsMatch(articleText) && !SelfLinks(zerothSection, articleTitle).Equals(zerothSection))
             {
+                // There's a limitation here in that we can't hide image descriptions that may be above lead sentence without hiding the self links we are looking to correct
+                zerothSectionHidden = Hider2.HideMore(zerothSection, false, false, false);
+                zerothSectionHiddenOriginal = zerothSectionHidden;
+                
                 if (!zerothSection.Contains("'''" + articleTitle + "'''"))
                 {
                     Regex r1 = new Regex(@"\[\[\s*" + escTitle + @"\s*\]\]");
@@ -4967,15 +4969,16 @@ namespace WikiFunctions.Parse
                     zerothSectionHidden = r2.Replace(zerothSectionHidden, "'''" + Tools.TurnFirstToLower(articleTitle) + @"'''");
                     zerothSectionHidden = r4.Replace(zerothSectionHidden, "'''$1'''");
                 }
-            }
-
-            zerothSection = Hider2.AddBackMore(zerothSectionHidden);
+            zerothSection = Hider2.AddBackMore(zerothSectionHidden);                       
 
             if (!zerothSectionHiddenOriginal.Equals(zerothSectionHidden))
             {
                 noChange = false;
                 return (zerothSection + restOfArticle);
             }
+        }
+            
+            // 3) '''Emboldens''' the first occurrence of the article title
 
             // ignore date articles (date in American or international format), nihongo title
             if (WikiRegexes.Dates2.IsMatch(articleTitle) || WikiRegexes.Dates.IsMatch(articleTitle)
@@ -5003,6 +5006,7 @@ namespace WikiFunctions.Parse
                 return articleTextAtStart;
             
             zerothSectionHidden = Hider3.HideMore(zerothSection);
+            zerothSectionHiddenOriginal = zerothSectionHidden;
 
             Regex regexBoldNoBrackets = new Regex(@"([^\[]|^)(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + ")([ ,.:;])");
 
@@ -5021,6 +5025,31 @@ namespace WikiFunctions.Parse
             }
 
             return articleTextAtStart;
+        }
+        
+        private static string SelfLinks(string zerothSection, string articleTitle)
+        {
+            string zerothSectionOriginal = zerothSection, escTitle = Regex.Escape(articleTitle);
+            
+            if (!zerothSection.Contains("'''" + articleTitle + "'''"))
+            {
+                Regex r1 = new Regex(@"\[\[\s*" + escTitle + @"\s*\]\]");
+                Regex r3 = new Regex(@"\[\[\s*" + escTitle + @"\s*\|\s*([^\[\]]+?)\s*\]\]");
+                
+                zerothSection = r1.Replace(zerothSection, "'''" + articleTitle + @"'''");
+                zerothSection = r3.Replace(zerothSection, "'''$1'''");
+            }
+
+            if (zerothSectionOriginal.Equals(zerothSection) && !zerothSection.Contains("'''" + Tools.TurnFirstToLower(articleTitle) + "'''"))
+            {
+                Regex r2 = new Regex(@"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]");
+                Regex r4 = new Regex(@"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\|\s*([^\[\]]+?)\s*\]\]");
+                
+                zerothSection = r2.Replace(zerothSection, "'''" + Tools.TurnFirstToLower(articleTitle) + @"'''");
+                zerothSection = r4.Replace(zerothSection, "'''$1'''");
+            }
+            
+            return zerothSection;
         }
 
         private static readonly Regex RegexFirstBold = new Regex(@"^(.*?)'''", RegexOptions.Singleline | RegexOptions.Compiled);
