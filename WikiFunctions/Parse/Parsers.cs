@@ -4951,32 +4951,15 @@ namespace WikiFunctions.Parse
                 // There's a limitation here in that we can't hide image descriptions that may be above lead sentence without hiding the self links we are looking to correct
                 zerothSectionHidden = Hider2.HideMore(zerothSection, false, false, false);
                 zerothSectionHiddenOriginal = zerothSectionHidden;
-                
-                if (!zerothSection.Contains("'''" + articleTitle + "'''"))
-                {
-                    Regex r1 = new Regex(@"\[\[\s*" + escTitle + @"\s*\]\]");
-                    Regex r3 = new Regex(@"\[\[\s*" + escTitle + @"\s*\|\s*([^\[\]]+?)\s*\]\]");                    
-                
-                    zerothSectionHidden = r1.Replace(zerothSectionHidden, "'''" + articleTitle + @"'''");
-                    zerothSectionHidden = r3.Replace(zerothSectionHidden, "'''$1'''");
-                }
+                zerothSectionHidden = SelfLinks(zerothSectionHidden, articleTitle);
+                zerothSection = Hider2.AddBackMore(zerothSectionHidden);
 
-                if (zerothSectionHiddenOriginal.Equals(zerothSectionHidden) && !zerothSection.Contains("'''" + Tools.TurnFirstToLower(articleTitle) + "'''"))
+                if (!zerothSectionHiddenOriginal.Equals(zerothSectionHidden))
                 {
-                    Regex r2 = new Regex(@"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]");
-                    Regex r4 = new Regex(@"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\|\s*([^\[\]]+?)\s*\]\]");
-                    
-                    zerothSectionHidden = r2.Replace(zerothSectionHidden, "'''" + Tools.TurnFirstToLower(articleTitle) + @"'''");
-                    zerothSectionHidden = r4.Replace(zerothSectionHidden, "'''$1'''");
+                    noChange = false;
+                    return (zerothSection + restOfArticle);
                 }
-            zerothSection = Hider2.AddBackMore(zerothSectionHidden);                       
-
-            if (!zerothSectionHiddenOriginal.Equals(zerothSectionHidden))
-            {
-                noChange = false;
-                return (zerothSection + restOfArticle);
             }
-        }
             
             // 3) '''Emboldens''' the first occurrence of the article title
 
