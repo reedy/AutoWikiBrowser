@@ -4920,6 +4920,9 @@ namespace WikiFunctions.Parse
         // Covered by: BoldTitleTests
         /// <summary>
         /// '''Emboldens''' the first occurrence of the article title, if not already bold
+        /// 1) Cleans up bolded self wikilinks
+        /// 2) Cleans up self wikilinks
+        /// 3) '''Emboldens''' the first occurrence of the article title
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">The title of the article.</param>
@@ -5003,8 +5006,7 @@ namespace WikiFunctions.Parse
             Regex regexBoldNoBrackets = new Regex(@"([^\[]|^)(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + ")([ ,.:;])");
 
             // first try title with brackets removed
-            if (regexBoldNoBrackets.IsMatch(zerothSectionHidden))
-                zerothSectionHidden = regexBoldNoBrackets.Replace(zerothSectionHidden, "$1'''$2'''$3", 1);
+            zerothSectionHidden = regexBoldNoBrackets.Replace(zerothSectionHidden, "$1'''$2'''$3", 1);
 
             zerothSection = Hider3.AddBackMore(zerothSectionHidden);
             
