@@ -339,11 +339,11 @@ namespace WikiFunctions.Parse
             hAfter = RegexHeadings7.Replace(hAfter, "$1$2 members$3");
             hAfter = RegexHeadings9.Replace(hAfter, "$1Track listing$2");
             hAfter = RegexHeadings10.Replace(hAfter, "$1Life and career$2");
-            hAfter = RegexHeadingsCareer.Replace(hAfter, "$1$2 career$3");  
+            hAfter = RegexHeadingsCareer.Replace(hAfter, "$1$2 career$3");
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#ReferenceS
             hAfter = RegexHeadings3.Replace(hAfter, m2=> m2.Groups[2].Value.Length > 0 ? (m2.Groups[1].Value + "Reference" + m2.Groups[3].Value.ToLower()) : m2.Value);
-            hAfter = RegexHeadings4.Replace(hAfter, m2=> m2.Groups[2].Value.Length > 0 ? (m2.Groups[1].Value + "Source" + m2.Groups[3].Value.ToLower()) : m2.Value);            
+            hAfter = RegexHeadings4.Replace(hAfter, m2=> m2.Groups[2].Value.Length > 0 ? (m2.Groups[1].Value + "Source" + m2.Groups[3].Value.ToLower()) : m2.Value);
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Bold_text_in_headers
             // remove bold from level 3 headers and below, as it makes no visible difference
@@ -5738,7 +5738,7 @@ namespace WikiFunctions.Parse
             // don't add living people category if already dead, or thought to be dead
             if (WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) || WikiRegexes.LivingPeopleRegex2.IsMatch(articleText) ||
                 BornDeathRegex.IsMatch(articleText) || DiedDateRegex.IsMatch(articleText))
-                return articleText;            
+                return articleText;
             
             string birthCat = m.Value;
             int birthYear = 0;
