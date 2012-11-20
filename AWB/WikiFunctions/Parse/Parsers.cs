@@ -4900,15 +4900,11 @@ namespace WikiFunctions.Parse
             
             string escTitle = Regex.Escape(articleTitle);
 
-            Regex r1 = new Regex(@"'''\[\[\s*" + escTitle + @"\s*\]\]'''");
-            Regex r2 = new Regex(@"'''\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]'''");
-            Regex r3 = new Regex(@"'''\[\[\s*" + escTitle + @"\s*\|\s*([^\[\]]+?)\s*\]\]'''");
-            Regex r4 = new Regex(@"'''\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\|\s*([^\[\]]+?)\s*\]\]'''");
+            Regex plainLink = new Regex(@"'''\[\[\s*(" + escTitle + @"|" + Tools.TurnFirstToLower(escTitle) + @")\s*\]\]'''");
+            Regex pipedLink = new Regex(@"'''\[\[\s*(?:" + escTitle + @"|" + Tools.TurnFirstToLower(escTitle) + @")\s*\|\s*([^\[\]]+?)\s*\]\]'''");
 
-            articleText = r1.Replace(articleText, @"'''" + articleTitle + @"'''");
-            articleText = r2.Replace(articleText, @"'''" + Tools.TurnFirstToLower(articleTitle) + @"'''");
-            articleText = r3.Replace(articleText, @"'''$1'''");
-            articleText = r4.Replace(articleText, @"'''$1'''");
+            articleText = plainLink.Replace(articleText, @"'''$1'''");
+            articleText = pipedLink.Replace(articleText, @"'''$1'''");
 
             return articleText;
         }
