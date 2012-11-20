@@ -4946,15 +4946,15 @@ namespace WikiFunctions.Parse
             string zerothSectionHiddenOriginal = zerothSectionHidden;
 
             // first check for any self links and no bold title, if found just convert first link to bold and return
-            Regex r1 = new Regex(@"\[\[\s*" + escTitle + @"\s*\]\]");
-            Regex r2 = new Regex(@"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]");
-            Regex r3 = new Regex(@"\[\[\s*" + escTitle + @"\s*\|\s*([^\[\]]+?)\s*\]\]");
-            Regex r4 = new Regex(@"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\|\s*([^\[\]]+?)\s*\]\]");
-
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Includes_and_selflinks
             // don't apply if bold in lead section already or some noinclude transclusion business
             if(!WikiRegexes.IncludeonlyNoinclude.IsMatch(articleText))
             {
+                Regex r1 = new Regex(@"\[\[\s*" + escTitle + @"\s*\]\]");
+                Regex r2 = new Regex(@"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\]\]");
+                Regex r3 = new Regex(@"\[\[\s*" + escTitle + @"\s*\|\s*([^\[\]]+?)\s*\]\]");
+                Regex r4 = new Regex(@"\[\[\s*" + Tools.TurnFirstToLower(escTitle) + @"\s*\|\s*([^\[\]]+?)\s*\]\]");
+
                 if (!zerothSection.Contains("'''" + articleTitle + "'''"))
                 {
                     zerothSectionHidden = r1.Replace(zerothSectionHidden, "'''" + articleTitle + @"'''");
