@@ -498,6 +498,26 @@ There [was.");
             UnB = a.UnbalancedBrackets();
             Assert.AreEqual(0, UnB.Count, "No unbalanced bracket in zeroth section of talk article");
         }
+        
+        [Test]
+        public void Unicodify()
+        {
+            Parsers Parser = new Parsers();
+            HideText RemoveText = new HideText(false, true, false);
+            Article a = new Article("a", @"'''test'''. z &amp; a.
+
+{{DEFAULTSORT:Hello test}}
+[[Category:Test pages]]
+");
+            
+            a.Unicodify(true, Parser, RemoveText);
+            
+            Assert.AreEqual(@"'''test'''. z & a.
+
+{{DEFAULTSORT:Hello test}}
+[[Category:Test pages]]
+", a.ArticleText);
+        }
     }
 
     [TestFixture]

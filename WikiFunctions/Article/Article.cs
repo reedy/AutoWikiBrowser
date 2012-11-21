@@ -562,13 +562,11 @@ namespace WikiFunctions
             {
                 HideMoreText(removeText);
                 strTemp = parsers.Unicodify(mArticleText, out noChange);
+                AWBChangeArticleText("Page Unicodified", strTemp, false);
                 UnHideMoreText(removeText);
             }
-
-            if (skipIfNoChange && noChange)
-                Trace.AWBSkipped("No Unicodification");
-            else if (!noChange)
-                AWBChangeArticleText("Page Unicodified", strTemp, false);
+            else if (skipIfNoChange && noChange)
+                Trace.AWBSkipped("No Unicodification");                
         }
 
         /// <summary>
