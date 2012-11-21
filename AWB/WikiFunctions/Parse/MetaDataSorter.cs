@@ -1015,13 +1015,15 @@ en, sq, ru
 
 			List<string> uniqueItems = new List<string>();
 
-			//remove duplicates: duplicate if an existing list item starts the with string
+			// remove duplicates: duplicate if an existing list item starts the with string
+			// also duplicate when one category is same as another with a sortkey
+			// e.g. [[Category:One]] is duplicate of [[Category:One|A]]
 			foreach (string s in items)
 			{
 			    bool addme = true;
 			    foreach(string u in uniqueItems)
 			    {
-			        if(u.StartsWith(s))
+			        if(u.StartsWith(s) || u.StartsWith(s.TrimEnd(']') + @"|"))
 			            addme = false;
 			    }
 
