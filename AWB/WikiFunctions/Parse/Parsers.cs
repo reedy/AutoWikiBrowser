@@ -4584,12 +4584,18 @@ namespace WikiFunctions.Parse
 
             int intStart = m.Index;
 
-            string articleTextSubstring = articleText.Substring(intStart);
-            articleText = articleText.Substring(0, intStart);
-            articleTextSubstring = BulletExternalHider.HideMore(articleTextSubstring);
-            articleTextSubstring = NewlinesBeforeHTTP.Replace(articleTextSubstring, "$2* $3");
+            string articleTextSubstring = articleText.Substring(intStart);            
+            
+            if(NewlinesBeforeHTTP.IsMatch(articleTextSubstring))
+            {
+                articleText = articleText.Substring(0, intStart);
+                articleTextSubstring = BulletExternalHider.HideMore(articleTextSubstring);
+                articleTextSubstring = NewlinesBeforeHTTP.Replace(articleTextSubstring, "$2* $3");
 
-            return articleText + BulletExternalHider.AddBackMore(articleTextSubstring);
+                return articleText + BulletExternalHider.AddBackMore(articleTextSubstring);
+            }
+            
+            return articleText;
         }
 
         private static readonly Regex WordWhitespaceEndofline = new Regex(@"(\w+)\s+$", RegexOptions.Compiled);
