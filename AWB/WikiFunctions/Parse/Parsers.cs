@@ -3424,6 +3424,14 @@ namespace WikiFunctions.Parse
 
             // year = full date --> date = full date
             string TheYear = Tools.GetTemplateParameterValue(newValue, "year");
+            string TheYearCorected = IncorrectCommaInternationalDates.Replace(TheYear, @"$1 $2");
+            
+            if(!TheYearCorected.Equals(TheYear))
+            {
+                newValue = Tools.UpdateTemplateParameterValue(newValue, "year", TheYearCorected);
+                TheYear = TheYearCorected;
+            }
+            
             if (WikiRegexes.ISODates.IsMatch(TheYear) || WikiRegexes.InternationalDates.IsMatch(TheYear)
                 || WikiRegexes.AmericanDates.IsMatch(TheYear))
                 newValue = Tools.RenameTemplateParameter(newValue, "year", "date");
