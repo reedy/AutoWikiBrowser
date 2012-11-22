@@ -116,7 +116,7 @@ namespace AwbUpdater
         /// <returns>List of fully qualified function names</returns>
         private static string[] MethodNames(Exception ex)
         {
-            MatchCollection mc = Regex.Matches(ex.StackTrace, @"([a-zA-Z_0-9\.]+)(?=\()");
+            MatchCollection mc = Regex.Matches(ex.StackTrace, @"([a-zA-Z_0-9\.`]+)(?=\()");
 
             string[] res = new string[mc.Count];
 
