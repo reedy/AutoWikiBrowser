@@ -3342,6 +3342,8 @@ Template:foo}}"));
             Assert.AreEqual(@"[[File:Foo.png|description]]", Parsers.FixSyntax(@"[[File:Foo.png|description<br/>]]"));
             Assert.AreEqual(@"[[File:Foo.png|description]]", Parsers.FixSyntax(@"[[File:Foo.png|description<BR>]]"));
             Assert.AreEqual(@"[[File:Foo.png|description]]", Parsers.FixSyntax(@"[[File:Foo.png|description<br />]]"));
+            Assert.AreEqual(@"[[File:Foo.png|description]]", Parsers.FixSyntax(@"[[File:Foo.png|description<br />
+]]"));
 
             const string nochange1 = @"[[File:Foo.png|description<br>here]]";
             Assert.AreEqual(nochange1, Parsers.FixSyntax(nochange1));
