@@ -618,7 +618,7 @@ en, sq, ru
 			string originalArticletext = articleText;
 			MatchCollection mc = WikiRegexes.SisterLinks.Matches(articleText);
 			// need to have an 'external links' section to move the sisterlinks to
-			if (mc.Count >= 1 && WikiRegexes.ExternalLinksHeaderRegex.Matches(articleText).Count == 1)
+			if (mc.Count >= 1 && WikiRegexes.ExternalLinksHeader.Matches(articleText).Count == 1)
 			{
 				foreach (Match m in mc)
 				{
@@ -633,7 +633,7 @@ en, sq, ru
 					if (!ExternalLinksSectionString.Contains(sisterlinkFound.Trim()))
 					{
 						articleText = Regex.Replace(articleText, Regex.Escape(sisterlinkFound) + @"\s*(?:\r\n)?", "");
-						articleText = WikiRegexes.ExternalLinksHeaderRegex.Replace(articleText, "$0" + "\r\n" + sisterlinkFound);
+						articleText = WikiRegexes.ExternalLinksHeader.Replace(articleText, "$0" + "\r\n" + sisterlinkFound);
 					}
 				}
 			}

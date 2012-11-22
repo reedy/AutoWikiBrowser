@@ -574,6 +574,23 @@ Start date and age
         }
 
         [Test]
+        public void SpecificLevel2Headings()
+        {
+            RegexAssert.IsMatch(WikiRegexes.ReferencesHeader, "==References==");
+            RegexAssert.IsMatch(WikiRegexes.ReferencesHeader, "== References ==");
+            RegexAssert.IsMatch(WikiRegexes.ReferencesHeader, "==references==");
+            RegexAssert.IsMatch(WikiRegexes.NotesHeader, "==Notes==");
+            RegexAssert.IsMatch(WikiRegexes.NotesHeader, "== Notes ==");
+            RegexAssert.IsMatch(WikiRegexes.NotesHeader, "==notes==");
+            RegexAssert.IsMatch(WikiRegexes.NotesHeader, "== notes ==");
+            RegexAssert.IsMatch(WikiRegexes.ExternalLinksHeader, "==External links==");
+            RegexAssert.IsMatch(WikiRegexes.ExternalLinksHeader, "== External links ==");
+            RegexAssert.IsMatch(WikiRegexes.ExternalLinksHeader, "==External link==");
+            RegexAssert.IsMatch(WikiRegexes.ExternalLinksHeader, "== External link ==");
+        	
+        }
+
+        	[Test]
         public void Refs()
         {
             RegexAssert.Matches(WikiRegexes.Refs, "<ref>foo</ref>", "<ref>foo</ref>");
