@@ -320,7 +320,7 @@ namespace WikiFunctions
             linkLabel1.LinkVisited = true;
             try
             {
-                System.Diagnostics.Process.Start("http://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser/Bugs&action=edit&section=new");
+                System.Diagnostics.Process.Start("https://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser/Bugs&action=edit&section=new");
             }
             catch { }
         }
