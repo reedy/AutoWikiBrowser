@@ -83,7 +83,7 @@ namespace WikiFunctions.Parse
         {
             HiddenTokens.Clear();
 
-            Replace(WikiRegexes.Source.Matches(articleText), ref articleText);
+            Replace(WikiRegexes.SourceCode.Matches(articleText), ref articleText);
 
             var matches = new List<Match>();
             foreach (Match m in WikiRegexes.UnformattedText.Matches(articleText))
@@ -265,9 +265,7 @@ namespace WikiFunctions.Parse
 
             ReplaceMore(WikiRegexes.Blockquote.Matches(articleText), ref articleText);
 
-            ReplaceMore(WikiRegexes.Source.Matches(articleText), ref articleText);
-
-            ReplaceMore(WikiRegexes.Code.Matches(articleText), ref articleText);
+            ReplaceMore(WikiRegexes.SourceCode.Matches(articleText), ref articleText);
 
             ReplaceMore(WikiRegexes.IncludeonlyNoinclude.Matches(articleText), ref articleText);
 
