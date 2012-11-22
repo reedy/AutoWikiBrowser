@@ -2838,12 +2838,6 @@ namespace WikiFunctions.Parse
             //repair bad external links
             articleText = SyntaxRegexExternalLinkToImageURL.Replace(articleText, "[$1]");
 
-            //repair bad internal links
-            articleText = SyntaxRegexSimpleWikilinkStartsWithSpaces.Replace(articleText, "[[$1]]");
-            articleText = SyntaxRegexSimpleWikilinkEndsWithSpaces.Replace(articleText, "[[$1]]");
-            // make double spaces within wikilinks just single spaces
-            articleText = WikiRegexes.WikiLinksOnlyPossiblePipe.Replace(articleText, m=> m.Groups[0].Value.Replace("_#", "#").Replace("  ", " "));
-
             if (!SyntaxRegexHTTPNumber.IsMatch(articleText))
             {
                 articleText = MissingColonInHttpLink.Replace(articleText, "tp://$1");
@@ -2904,6 +2898,12 @@ namespace WikiFunctions.Parse
 
             // double piped links e.g. [[foo||bar]] - CHECKWIKI error 32
             articleText = DoublePipeInWikiLink.Replace(articleText, "|");
+
+            //repair bad internal links
+            articleText = SyntaxRegexSimpleWikilinkStartsWithSpaces.Replace(articleText, "[[$1]]");
+            articleText = SyntaxRegexSimpleWikilinkEndsWithSpaces.Replace(articleText, "[[$1]]");
+            // make double spaces within wikilinks just single spaces
+            articleText = WikiRegexes.WikiLinksOnlyPossiblePipe.Replace(articleText, m=> m.Groups[0].Value.Replace("_#", "#").Replace("  ", " "));
 
             // https://en.wikipedia.org/wiki/Wikipedia:WikiProject_Check_Wikipedia#Article_with_false_.3Cbr.2F.3E_.28AutoEd.29
             // fix incorrect <br> of <br.>, <\br> and <br\> - CHECKWIKI error 02
