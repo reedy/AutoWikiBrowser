@@ -1193,17 +1193,17 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the References level 2 heading
         /// </summary>
-        public static readonly Regex ReferencesRegex = new Regex(@"== *References *==", RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
+        public static readonly Regex ReferencesHeader = new Regex(@"== *References *==", RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
         
         /// <summary>
         /// Matches the Notes level 2 heading
         /// </summary>
-        public static readonly Regex NotesHeading = new Regex(@"== *[Nn]otes *==", RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
+        public static readonly Regex NotesHeader = new Regex(@"== *Notes *==", RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
 
         /// <summary>
         /// Matches the external links level 2 heading
         /// </summary>
-        public static readonly Regex ExternalLinksHeaderRegex = new Regex(@"== *External +links? *==", RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
+        public static readonly Regex ExternalLinksHeader = new Regex(@"== *External +links? *==", RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
 
         /// <summary>
         /// Matches the 'See also' level 2 heading

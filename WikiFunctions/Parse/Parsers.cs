@@ -2261,15 +2261,15 @@ namespace WikiFunctions.Parse
             if (seeAlso <= 0)
                 return false;
 
-            int externalLinks = WikiRegexes.ExternalLinksHeaderRegex.Match(articleText).Index;
+            int externalLinks = WikiRegexes.ExternalLinksHeader.Match(articleText).Index;
             if (externalLinks > 0 && seeAlso > externalLinks)
                 return true;
 
-            int references = WikiRegexes.ReferencesRegex.Match(articleText).Index;
+            int references = WikiRegexes.ReferencesHeader.Match(articleText).Index;
             if (references > 0 && seeAlso > references)
                 return true;
 
-            int notes = WikiRegexes.NotesHeading.Match(articleText).Index;
+            int notes = WikiRegexes.NotesHeader.Match(articleText).Index;
             if (notes > 0 && seeAlso > notes)
                 return true;
 
@@ -7147,13 +7147,13 @@ namespace WikiFunctions.Parse
         // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Format_references
         public static bool HasBareReferences(string articleText)
         {
-            int referencesIndex = WikiRegexes.ReferencesRegex.Match(articleText).Index;
+            int referencesIndex = WikiRegexes.ReferencesHeader.Match(articleText).Index;
 
             if (referencesIndex < 2)
                 return false;
 
             int externalLinksIndex =
-                WikiRegexes.ExternalLinksHeaderRegex.Match(articleText).Index;
+                WikiRegexes.ExternalLinksHeader.Match(articleText).Index;
 
             // get the references section: to external links or end of article, whichever is earlier
             string refsArea = externalLinksIndex > referencesIndex
