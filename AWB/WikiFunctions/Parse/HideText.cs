@@ -263,11 +263,7 @@ namespace WikiFunctions.Parse
 
             ReplaceMore(WikiRegexes.NestedTemplates.Matches(articleText), ref articleText);
 
-            ReplaceMore(WikiRegexes.Blockquote.Matches(articleText), ref articleText);
-
-            ReplaceMore(WikiRegexes.SourceCode.Matches(articleText), ref articleText);
-
-            ReplaceMore(WikiRegexes.IncludeonlyNoinclude.Matches(articleText), ref articleText);
+            ReplaceMore(WikiRegexes.AllTags.Matches(articleText), ref articleText);
 
             if (HideExternalLinks)
             {
@@ -280,7 +276,7 @@ namespace WikiFunctions.Parse
 
             ReplaceMore(WikiRegexes.Headings.Matches(articleText), ref articleText);
 
-            ReplaceMore(WikiRegexes.UnformattedText.Matches(articleText), ref articleText);
+            ReplaceMore(WikiRegexes.Comments.Matches(articleText), ref articleText);
 
             ReplaceMore(WikiRegexes.IndentedText.Matches(articleText), ref articleText);
 
@@ -298,8 +294,6 @@ namespace WikiFunctions.Parse
 
                 ReplaceMore(WikiRegexes.SimpleWikiLink.Matches(articleText), ref articleText);
             }
-
-            ReplaceMore(WikiRegexes.Cites.Matches(articleText), ref articleText);
 
             ReplaceMore(WikiRegexes.Refs.Matches(articleText), ref articleText);
 

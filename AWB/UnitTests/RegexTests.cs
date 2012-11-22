@@ -228,6 +228,46 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             Assert.IsTrue(WikiRegexes.UnformattedText.IsMatch(@"<!--{{abc}}-->"));
             Assert.IsFalse(WikiRegexes.UnformattedText.IsMatch(@"<pre>{{abc}}</nowiki>"), "Does not match unbalanced tags");
         }
+        
+        [Test]
+        public void AllTags()
+        {
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<pre>{{abc}}</pre>"));
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<math>{{abc}}</math>"));
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<nowiki>{{abc}}</nowiki>"));
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<timeline>{{abc}}</timeline>"));
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<cite>{{abc}}</cite>"));
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<blockquote>{{abc}}</blockquote>"));
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<imagemap>{{abc}}</imagemap>"));
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<noinclude>{{abc}}</noinclude>"));
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<includeonly>{{abc}}</includeonly>"));
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<onlyinclude>{{abc}}</onlyinclude>"));
+            
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"now hello {{bye}} <pre>{now}}</pre>"));
+            Assert.IsFalse(WikiRegexes.AllTags.IsMatch(@"<!--{{abc}}-->"));
+            Assert.IsFalse(WikiRegexes.AllTags.IsMatch(@"<pre>{{abc}}</nowiki>"), "Does not match unbalanced tags");
+            
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<pre>{{abc}}</pre>"));
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<code>{{abc}}</code>"));
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<source lang=xml>{{abc}}</source>"));
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<syntaxhighlight lang=xml>{{abc}}</syntaxhighlight>"));
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<source>{{abc}}</source>"));
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<syntaxhighlight>{{abc}}</syntaxhighlight>"));
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"now hello {{bye}} <pre>{now}}</pre>"));
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<math>{{abc}}</math>"));
+            
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<pre>now <br> now </pre>"));
+            
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"< pre >{{abc}}< / pre >"));
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"< pre > {{abc}} < / pre >"));
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"< pre >
+{{abc}}
+< / pre >"));
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<
+ pre > {{abc}} < / pre
+ >"));
+            Assert.AreEqual(WikiRegexes.AllTags.Match(@"<nowiki>now <math>{{abc}}</math> now </nowiki>").Value, "<nowiki>now <math>{{abc}}</math> now </nowiki>");
+        }
 
         [Test]
         public void MathPreSourceCodeTests()
