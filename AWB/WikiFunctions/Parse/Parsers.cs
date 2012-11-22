@@ -1979,7 +1979,7 @@ namespace WikiFunctions.Parse
 
         private static string RenameTemplateParametersME(Match m, List<WikiRegexes.TemplateParameters> RenamedTemplateParameters)
         {
-            string templatename = Tools.TurnFirstToLower(Tools.GetTemplateName(m.Value)), newvalue = m.Value;
+            string templatename = Tools.GetTemplateName(m.Value), newvalue = m.Value;
 
             foreach (WikiRegexes.TemplateParameters Params in RenamedTemplateParameters)
             {
@@ -2288,8 +2288,7 @@ namespace WikiFunctions.Parse
 
             // clear out all the matched tags
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.UnformattedText);
-            articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Code);
-            articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Source);
+            articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.SourceCode);
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Small);
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Refs);
 
@@ -4319,7 +4318,8 @@ namespace WikiFunctions.Parse
             // don't apply if there's an imagemap on the page or some noinclude transclusion business
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Includes_and_selflinks
             // TODO, better to not apply to text within imagemaps
-            if (!WikiRegexes.ImageMap.IsMatch(articleText)
+            if (articleText.IndexOf(@"[[" + articleTitle, StringComparison.OrdinalIgnoreCase) > -1
+                && !WikiRegexes.ImageMap.IsMatch(articleText)
                 && !WikiRegexes.IncludeonlyNoinclude.IsMatch(articleText)
                 && !TaxoboxColour.IsMatch(articleText))
             {
@@ -4931,7 +4931,7 @@ namespace WikiFunctions.Parse
             // 1) clean up bolded self links first
             articleText = BoldedSelfLinks(articleTitle, articleText);
 
-            // 2) Cleans up self wikilinks
+            // 2) Clean up self wikilinks
             noChange = true;
             string escTitle = Regex.Escape(articleTitle), escTitleNoBrackets = Regex.Escape(BracketedAtEndOfLine.Replace(articleTitle, ""));
 

@@ -47,12 +47,12 @@ namespace WikiFunctions
             // handles images within <gallery> and matches all of {{gallery}} too
             // Supported file extensions taken from https://commons.wikimedia.org/wiki/Commons:File_types
             string ImagesString = @"(?:\[\[\s*)?" + Variables.NamespacesCaseInsensitive[Namespace.File] +
-                    @"[ \%\!""$&'\(\)\*,\-.\/0-9:;=\?@\w\\\^_`~\x80-\xFF\+]+\.[a-zA-Z]{3,4}\b(?:\s*(?:\]\]|\|))?|{{\s*[Gg]allery\s*(?:\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))?}}";
-            string InfoboxImageString = @"|(?<=\|\s*[a-zA-Z\d_ ]+\s*=)[^\|{}]+?\.(?i:djvu|gif|jpe?g|og[agv]|pdf|png|svg|tiff?|mid|xcf)(?=\s*(?:<!--[^>]*?-->\s*|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋\s*)?(?:\||}}))";
+                    @"[ \%\!""$&'\(\)\*,\-.\/0-9:;=\?@\w\\\^_`~\x80-\xFF\+]+\.[a-zA-Z]{3,4}\b(?:\s*(?:\]\]|\|))?";
+            string ImageInTemplateString = @"|{{\s*[Gg]allery\s*(?:\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))?}}|(?<=\|\s*[a-zA-Z\d_ ]+\s*=)[^\|{}]+?\.(?i:djvu|gif|jpe?g|og[agv]|pdf|png|svg|tiff?|mid|xcf)(?=\s*(?:<!--[^>]*?-->\s*|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋\s*)?(?:\||}}))";
 
-            Images = new Regex(ImagesString + InfoboxImageString);
+            Images = new Regex(ImagesString + ImageInTemplateString);
 
-            ImagesCountOnly = new Regex(ImagesString + InfoboxImageString.Replace(@"(?<=", @"(?:"));
+            ImagesCountOnly = new Regex(ImagesString + ImageInTemplateString.Replace(@"(?<=", @"(?:"));
 
             ImagesNotTemplates = new Regex(ImagesString);
 
@@ -596,19 +596,14 @@ namespace WikiFunctions
         public static readonly Regex RegexWordApostrophes = new Regex(@"\w+(?:['’]\w+)?");
 
         /// <summary>
-        /// Matches &lt;source&gt;&lt;/source&gt;, &lt;syntaxhighlight&gt; tags
+        /// Matches &lt;source&gt;&lt;/source&gt;, &lt;syntaxhighlight&gt;, &lt;code&gt;&lt;/code&gt; tags
         /// </summary>
-        public static readonly Regex Source = new Regex(@"<\s*(?<tag>source|syntaxhighlight)(?:\s.*?|)>(.*?)<\s*/\s*\k<tag>\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
-
-        /// <summary>
-        /// Matches &lt;code&gt;&lt;/code&gt; tags
-        /// </summary>
-        public static readonly Regex Code = new Regex(@"<\s*code\s*>(.*?)<\s*/\s*code\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        public static readonly Regex SourceCode = new Regex(@"<\s*(?<tag>source|syntaxhighlight|code)(?:\s.*?|)>(.*?)<\s*/\s*\k<tag>\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline);        
 
         /// <summary>
         /// Matches math, pre, source, code, syntaxhighlight tags or comments
         /// </summary>
-        public static readonly Regex MathPreSourceCodeComments = new Regex(@"<pre>.*?</pre>|<!--.*?-->|<math>.*?</math>|" + Code + @"|" + Source, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        public static readonly Regex MathPreSourceCodeComments = new Regex(@"<pre>.*?</pre>|<!--.*?-->|<math>.*?</math>|" + SourceCode, RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
         /// Matches Dates like 21 January
