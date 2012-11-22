@@ -289,11 +289,8 @@ namespace WikiFunctions.Parse
             // if HideOnlyTargetOfWikilink is not set, pipes of links e.g. [[target|pipe]] will be hidden
             // if set then don't mask the pipe of a link so that typo fixing can be done on it
             if (!hideOnlyTargetOfWikilink && hideWikiLinks)
-            {
-                ReplaceMore(WikiRegexes.WikiLinksOnly.Matches(articleText), ref articleText);
-
                 ReplaceMore(WikiRegexes.SimpleWikiLink.Matches(articleText), ref articleText);
-            }
+            
 
             ReplaceMore(WikiRegexes.Refs.Matches(articleText), ref articleText);
 
@@ -303,7 +300,6 @@ namespace WikiFunctions.Parse
 
             // Image links within templates already hidden as NestedTemplates hides all of templates
             ReplaceMore(WikiRegexes.ImagesNotTemplates.Matches(articleText), ref articleText);
-            ReplaceMore(WikiRegexes.ImageMap.Matches(articleText), ref articleText);
 
             // hide untemplated quotes between some form of quotation marks (most particularly for typo fixing)
             ReplaceMore(WikiRegexes.UntemplatedQuotes.Matches(articleText), ref articleText);
