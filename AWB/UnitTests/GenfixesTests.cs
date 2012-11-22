@@ -202,6 +202,16 @@ a");
 
             AssertChange(@"Over March 4th - March 10th, 2012 then.", @"Over March 4–10, 2012 then.");
         }
+        
+        [Test]
+        public void UnbalancedBracketRenameTemplateParameter()
+        {
+            WikiRegexes.RenamedTemplateParameters.Clear();
+            WikiRegexes.RenamedTemplateParameters = Parsers.LoadRenamedTemplateParameters(@"{{AWB rename template parameter|cite web|acccessdate|accessdate}}");
+            
+            AssertChange(@"A.<ref>{{cite web| url=http://www.site.com | title = ABC | acccessdate = 20 May 2012</ref> {{reflist}}", 
+                         @"A.<ref>{{cite web| url=http://www.site.com | title = ABC | accessdate = 20 May 2012}}</ref> {{reflist}}");
+        }
 
         [Test]
         public void PersondataDateFormat()

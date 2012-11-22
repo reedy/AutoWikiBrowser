@@ -1333,9 +1333,6 @@ namespace WikiFunctions
                 AWBChangeArticleText("Template redirects", Parsers.TemplateRedirects(ArticleText, WikiRegexes.TemplateRedirects), true);
                 Variables.Profiler.Profile("TemplateRedirects");
 
-                AWBChangeArticleText("Rename Template Parameters", Parsers.RenameTemplateParameters(ArticleText, WikiRegexes.RenamedTemplateParameters), true);
-                Variables.Profiler.Profile("RenameTemplateParameters");
-
                 // call this before MinorFixes so that Parsers.Conversions cleans up from ArticleIssues
                 AWBChangeArticleText("Fixes for {{Multiple issues}}", parsers.MultipleIssues(ArticleText), true);
                 Variables.Profiler.Profile("MultipleIssues");
@@ -1346,6 +1343,9 @@ namespace WikiFunctions
                 // does significant fixes, call before MinorFixes
                 AWBChangeArticleText("Fix syntax", Parsers.FixSyntax(ArticleText), true, true);
                 Variables.Profiler.Profile("FixSyntax");
+
+                AWBChangeArticleText("Rename Template Parameters", Parsers.RenameTemplateParameters(ArticleText, WikiRegexes.RenamedTemplateParameters), true);
+                Variables.Profiler.Profile("RenameTemplateParameters");
                 
                 // must call EmboldenTitles before calling FixLinks
                 EmboldenTitles(parsers, skip.SkipNoBoldTitle);
