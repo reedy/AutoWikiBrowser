@@ -223,7 +223,7 @@ namespace WikiFunctions
             return MethodNames(ex.StackTrace);
         }
 
-        private static readonly Regex StackTrace = new Regex(@"([a-zA-Z_0-9.`]+)(?=\()", RegexOptions.Compiled);
+        private static readonly Regex StackTrace = new Regex(@"([a-zA-Z_0-9\.`]+)(?=\()", RegexOptions.Compiled);
 
         /// <summary>
         /// Returns names of functions in stack trace of an exception
