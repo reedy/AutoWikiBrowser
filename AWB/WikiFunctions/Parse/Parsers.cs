@@ -6589,11 +6589,16 @@ namespace WikiFunctions.Parse
                     articleText = "{{ويكي|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                     tagsAdded.Add("[[وب:ويكي|ويكي]]");
                 }
+                else if (Variables.LangCode.Equals("sv"))
+                {
+                    articleText = "{{Wikify|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
+                    tagsAdded.Add("[[WP:WFY|Wikify]]");
+                }
                 else
                 {
                     //articleText = "{{Wikify|reason=It needs more wikilinks. Article has less than 3 wikilinks or the number of wikilinks is smaller than 0.25% of article's size.|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
-                    articleText = "{{Wikify|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
-                    tagsAdded.Add("[[WP:WFY|wikify]]");
+                    articleText = "{{Underlinked|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
+                    tagsAdded.Add("[[WP:WFY|Underlinked]]");
                 }
             }
             else if (linkCount > 3 && !underlinked &&
