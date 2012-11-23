@@ -750,8 +750,6 @@ namespace WikiFunctions.Parse
             return m.Value;
         }
 
-        private static readonly Regex PortalBox = Tools.NestedTemplateRegex(new[] { "portal box", "portalbox" });
-
         /// <summary>
         /// Merges multiple {{portal}} templates into a single one, removing any duplicates. En-wiki only.
         /// Restricted to {{portal}} calls with one argument
@@ -787,11 +785,6 @@ namespace WikiFunctions.Parse
             string PortalsToAdd = "";
             foreach (string portal in Portals)
                 PortalsToAdd += ("|" + portal.Trim());
-
-            Match pb = PortalBox.Match(articleText);
-
-            if (pb.Success) // append portals to existing portal
-                return articleText.Replace(pb.Value, pb.Value.Substring(0, pb.Length - 2) + PortalsToAdd + @"}}");
 
             // merge in new portal if multiple portals
             if (Portals.Count < 2)
