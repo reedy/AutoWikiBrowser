@@ -6592,13 +6592,13 @@ namespace WikiFunctions.Parse
                 else if (Variables.LangCode.Equals("sv"))
                 {
                     articleText = "{{Wikify|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
-                    tagsAdded.Add("[[WP:WFY|Wikify]]");
+                    tagsAdded.Add("[[WP:WFY|wikify]]");
                 }
                 else
                 {
                     //articleText = "{{Wikify|reason=It needs more wikilinks. Article has less than 3 wikilinks or the number of wikilinks is smaller than 0.25% of article's size.|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                     articleText = "{{Underlinked|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
-                    tagsAdded.Add("[[WP:WFY|Underlinked]]");
+                    tagsAdded.Add("[[WP:WFY|underlinked]]");
                 }
             }
             else if (linkCount > 3 && !underlinked &&
