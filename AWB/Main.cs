@@ -2602,7 +2602,7 @@ window.scrollTo(0, diffTopY);
                 lblInterLinks.Text = IWLinks + Tools.InterwikiCount(articleText);
 
                 // for date types count ignore images and URLs
-                string articleTextNoImagesURLs = WikiRegexes.ImagesCountOnly.Replace(WikiRegexes.ExternalLinks.Replace(articleText, ""), "");
+                string articleTextNoImagesURLs = WikiRegexes.ImagesCountOnly.Replace(WikiRegexes.ExternalLinksHTTPOnly.Replace(articleText, ""), "");
                 lblDates.Text = Dates + WikiRegexes.ISODates.Matches(articleTextNoImagesURLs).Count + "/" + WikiRegexes.DayMonth.Matches(articleTextNoImagesURLs).Count
                     + "/" + WikiRegexes.MonthDay.Matches(articleTextNoImagesURLs).Count;
 
