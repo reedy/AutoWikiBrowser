@@ -669,10 +669,12 @@ now stubborn}}");
         {
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{wikify}}"));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{wikify|date=March 2009}}"));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{underlinked|date=March 2009}}"));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Wikify}}"));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Wikify|date=March 2009}}"));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{wikify|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Article issues|wikify=May 2008|a=b|c=d}}"));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Article issues|underlinked=May 2008|a=b|c=d}}"));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Articleissues|wikify=May 2008|a=b|c=d}}"));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{articleissues|wikify=May 2008|a=b|c=d}}"));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{article issues|wikify=May 2008|a=b|c=d}}"));

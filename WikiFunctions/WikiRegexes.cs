@@ -185,7 +185,7 @@ namespace WikiFunctions
                     Orphan = new Regex(@"(?:{{\s*[Oo]rphan(?:\|(?:[^{}]+|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}))?}}|(?<MI>{{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*orphan\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))");
                     uncattemplate = UncatTemplatesEN;
                     DateYearMonthParameter = @"date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
-                    Wikify = new Regex(@"(?:{{\s*Wikify(?:\s*\|\s*(?:date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|({{\s*(?:Article|Multiple)\s*issues\b[^{}]*?)\|\s*wikify\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))", RegexOptions.IgnoreCase);
+                    Wikify = new Regex(@"(?:{{\s*(?:Wikify|Underlinked)(?:\s*\|\s*(?:date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|({{\s*(?:Article|Multiple)\s*issues\b[^{}]*?)\|\s*(?:wikify|underlinked)\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))", RegexOptions.IgnoreCase);
                     break;
             }
 
