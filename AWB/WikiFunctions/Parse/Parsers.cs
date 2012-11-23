@@ -2557,13 +2557,13 @@ namespace WikiFunctions.Parse
         }
 
         // don't match on 'in the June of 2007', 'on the 11th May 2008' etc. as these won't read well if changed
-        private static readonly Regex OfBetweenMonthAndYear = new Regex(@"\b" + WikiRegexes.Months + @" +of +(20\d\d|1[89]\d\d)\b(?<!\b[Tt]he {1,5}\w{3,15} {1,5}of {1,5}(20\d\d|1[89]\d\d))", RegexOptions.Compiled);
-        private static readonly Regex OrdinalsInDatesAm = new Regex(@"(?<!\b[1-3]\d +)\b" + WikiRegexes.Months + @" +([0-3]?\d)(?:st|nd|rd|th)\b(?<!\b[Tt]he +\w{3,10} +(?:[0-3]?\d)(?:st|nd|rd|th)\b)(?:( *(?:to|and|.|&.dash;) *[0-3]?\d)(?:st|nd|rd|th)\b)?", RegexOptions.Compiled);
-        private static readonly Regex OrdinalsInDatesInt = new Regex(@"(?:\b([0-3]?\d)(?:st|nd|rd|th)( *(?:to|and|.|&.dash;) *))?\b([0-3]?\d)(?:st|nd|rd|th) +" + WikiRegexes.Months + @"\b(?<!\b[Tt]he +(?:[0-3]?\d)(?:st|nd|rd|th) +\w{3,10})", RegexOptions.Compiled);
-        private static readonly Regex DateLeadingZerosAm = new Regex(@"(?<!\b[0-3]?\d *)\b" + WikiRegexes.Months + @" +0([1-9])" + @"\b", RegexOptions.Compiled);
-        private static readonly Regex DateLeadingZerosInt = new Regex(@"\b" + @"0([1-9]) +" + WikiRegexes.Months + @"\b", RegexOptions.Compiled);
-        private static readonly Regex MonthsRegex = new Regex(@"\b" + WikiRegexes.MonthsNoGroup + @"\b");
-        private static readonly Regex DayOfMonth = new Regex(@"(?<![Tt]he +)\b([1-9]|[12]\d|3[01])(?:st|nd|rd|th) +of +" + WikiRegexes.Months, RegexOptions.Compiled);
+        private static readonly Regex OfBetweenMonthAndYear = new Regex(@"\b" + WikiRegexes.Months + @" +of +(20\d\d|1[89]\d\d)\b(?<!\b[Tt]he {1,5}\w{3,15} {1,5}of {1,5}(20\d\d|1[89]\d\d))");
+        private static readonly Regex OrdinalsInDatesAm = new Regex(@"(?<!\b[1-3]\d +)\b" + WikiRegexes.Months + @" +([0-3]?\d)(?:st|nd|rd|th)\b(?<!\b[Tt]he +\w{3,10} +(?:[0-3]?\d)(?:st|nd|rd|th)\b)(?:( *(?:to|and|.|&.dash;) *[0-3]?\d)(?:st|nd|rd|th)\b)?");
+        private static readonly Regex OrdinalsInDatesInt = new Regex(@"(?:\b([0-3]?\d)(?:st|nd|rd|th)( *(?:to|and|.|&.dash;) *))?\b([0-3]?\d)(?:st|nd|rd|th) +" + WikiRegexes.Months + @"\b(?<!\b[Tt]he +(?:[0-3]?\d)(?:st|nd|rd|th) +\w{3,10})");
+        private static readonly Regex DateLeadingZerosAm = new Regex(@"(?<!\b[0-3]?\d *)\b" + WikiRegexes.Months + @" +0([1-9])" + @"\b");
+        private static readonly Regex DateLeadingZerosInt = new Regex(@"\b" + @"0([1-9]) +" + WikiRegexes.Months + @"\b");
+        private static readonly Regex MonthsRegex = new Regex(@"\b" + WikiRegexes.MonthsNoGroup + @"\b.{0,25}");
+        private static readonly Regex DayOfMonth = new Regex(@"(?<![Tt]he +)\b([1-9]|[12]\d|3[01])(?:st|nd|rd|th) +of +" + WikiRegexes.Months);
 
         // Covered by TestFixDateOrdinalsAndOf
         /// <summary>
@@ -2576,24 +2576,44 @@ namespace WikiFunctions.Parse
         {
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
+            
+            bool monthsInTitle = MonthsRegex.IsMatch(articleTitle);
 
-            articleText = OfBetweenMonthAndYear.Replace(articleText, "$1 $2");
+            // performance: better to loop through all instances of dates and apply regexes to those than
+            // to apply regexes to whole article text
+            foreach(Match m in MonthsRegex.Matches(articleText))
+            {
+                // take up to 25 characters before match, unless match within first 25 characters of article
+                string before = articleText.Substring(m.Index-Math.Min(25, m.Index), Math.Min(25, m.Index)+m.Length);
+                
+                string after = FixDateOrdinalsAndOfLocal(before, monthsInTitle);
+                
+                if(!after.Equals(before))
+                    articleText = articleText.Replace(before, after);
+            }
+            
+            return articleText;
+        }
+        
+        private string FixDateOrdinalsAndOfLocal(string textPortion, bool monthsInTitle)
+        {
+             textPortion = OfBetweenMonthAndYear.Replace(textPortion, "$1 $2");
 
             // don't apply if article title has a month in it (e.g. [[6th of October City]])
-            if (!MonthsRegex.IsMatch(articleTitle))
+            if (!monthsInTitle)
             {
-                articleText = OrdinalsInDatesAm.Replace(articleText, "$1 $2$3");
-                articleText = OrdinalsInDatesInt.Replace(articleText, "$1$2$3 $4");
-                articleText = DayOfMonth.Replace(articleText, "$1 $2");
+                textPortion = OrdinalsInDatesAm.Replace(textPortion, "$1 $2$3");
+                textPortion = OrdinalsInDatesInt.Replace(textPortion, "$1$2$3 $4");
+                textPortion = DayOfMonth.Replace(textPortion, "$1 $2");
             }
 
-            articleText = DateLeadingZerosAm.Replace(articleText, "$1 $2");
-            articleText = DateLeadingZerosInt.Replace(articleText, "$1 $2");
+            textPortion = DateLeadingZerosAm.Replace(textPortion, "$1 $2");
+            textPortion = DateLeadingZerosInt.Replace(textPortion, "$1 $2");
 
             // catch after any other fixes
-            articleText = CommaDates.Replace(articleText, @"$1 $2, $3");
+            textPortion = CommaDates.Replace(textPortion, @"$1 $2, $3");
 
-            return IncorrectCommaInternationalDates.Replace(articleText, @"$1 $2");
+            return IncorrectCommaInternationalDates.Replace(textPortion, @"$1 $2");
         }
 
         private static readonly Regex BrTwoNewlines = new Regex("(?:<br */?>)+\r\n\r\n", RegexOptions.Compiled | RegexOptions.IgnoreCase);
