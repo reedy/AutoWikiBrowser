@@ -3771,12 +3771,11 @@ namespace WikiFunctions.Parse
             }
 
             // date of birth
-            if (Tools.GetTemplateParameterValue(newPersonData, "DATE OF BIRTH", true).Length == 0)
-                newPersonData = SetPersonDataDate(newPersonData, "DATE OF BIRTH", GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxDOBFields), articleText);
-
             // as fallback use year from category
             if (Tools.GetTemplateParameterValue(newPersonData, "DATE OF BIRTH", true).Length == 0)
             {
+                newPersonData = SetPersonDataDate(newPersonData, "DATE OF BIRTH", GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxDOBFields), articleText);
+
                 Match m = WikiRegexes.BirthsCategory.Match(articleText);
 
                 if (m.Success)
@@ -3788,13 +3787,12 @@ namespace WikiFunctions.Parse
             }
 
             // date of death
-            if (Tools.GetTemplateParameterValue(newPersonData, "DATE OF DEATH", true).Length == 0)
-                newPersonData = SetPersonDataDate(newPersonData, "DATE OF DEATH", GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxDODFields), articleText);
-
             // as fallback use year from category
             if (Tools.GetTemplateParameterValue(newPersonData, "DATE OF DEATH", true).Length == 0)
             {
-                Match m = WikiRegexes.DeathsOrLivingCategory.Match(articleText);
+            	newPersonData = SetPersonDataDate(newPersonData, "DATE OF DEATH", GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxDODFields), articleText);
+
+            	Match m = WikiRegexes.DeathsOrLivingCategory.Match(articleText);
 
                 if (m.Success)
                 {
@@ -5066,8 +5064,10 @@ namespace WikiFunctions.Parse
             // was bold added in first 5% of article?
             bool inFirst5Percent = false;
 
-            if (articleText.Length > 5)
-                inFirst5Percent = articleText.Trim().Substring(0, Math.Max(articleText.Length / 20, 5)).Contains("'''");
+            int articlelength = articleText.Length;
+
+            if (articlelength > 5)
+                inFirst5Percent = articleText.Trim().Substring(0, Math.Max(articlelength / 20, 5)).Contains("'''");
 
             // check that the bold added is the first bit in bold in the main body of the article, and in first 5% of HideMore article
             if (inFirst5Percent && boldAddedPos <= firstBoldPos)
