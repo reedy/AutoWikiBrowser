@@ -8439,6 +8439,10 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             //Stub, no existing stub tag. Needs all tags
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "page is orphan");
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text), "page needs to wikified");
+
+            Assert.IsFalse(text.Contains("Wikify"));
+            Assert.IsTrue(text.Contains("Underlinked"));
+
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text), "page is deadend");
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text), "page is stub");
             Assert.IsTrue(Tools.NestedTemplateRegex("Uncategorized stub").IsMatch(text), "page is uncategorised stub");
