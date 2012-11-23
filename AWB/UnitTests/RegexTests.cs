@@ -655,7 +655,7 @@ Start date and age
             RegexAssert.Matches(WikiRegexes.Refs, "<ref group=a name=foo/>", "<ref group=a name=foo/>");
             RegexAssert.Matches(WikiRegexes.Refs, "<ref name=foo group=a />", "<ref name=foo group=a />");
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#.3Cp.3E_deletion_in_references_and_notes
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#.3Cp.3E_deletion_in_references_and_notes
             RegexAssert.Matches(WikiRegexes.Refs, "<ref>foo<!-- bar --></ref>", "<ref>foo<!-- bar --></ref>");
             // shouldn't eat too much
             RegexAssert.Matches(WikiRegexes.Refs, "<ref>foo<!-- bar --></ref> <ref>foo</ref>", "<ref>foo<!-- bar --></ref>", "<ref>foo</ref>");
@@ -686,7 +686,7 @@ Start date and age
             RegexAssert.Matches(WikiRegexes.RefsGrouped, @"<ref group= ""foo/bar"">a</ref>", @"<ref group= ""foo/bar"">a</ref>");
             RegexAssert.Matches(WikiRegexes.RefsGrouped, "<ref name=A group=foo/>", "<ref name=A group=foo/>");
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#.3Cp.3E_deletion_in_references_and_notes
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#.3Cp.3E_deletion_in_references_and_notes
             RegexAssert.Matches(WikiRegexes.RefsGrouped, "<ref group=X>foo<!-- bar --></ref>", "<ref group=X>foo<!-- bar --></ref>");
             // shouldn't eat too much
             RegexAssert.Matches(WikiRegexes.RefsGrouped, "<ref group=X>foo<!-- bar --></ref> <ref group=Y>foo</ref>", "<ref group=X>foo<!-- bar --></ref>", "<ref group=Y>foo</ref>");
@@ -716,7 +716,7 @@ Start date and age
             RegexAssert.Matches(WikiRegexes.RefsGrouped, "<ref group=a name=foo/>", "<ref group=a name=foo/>");
             RegexAssert.Matches(WikiRegexes.RefsGrouped, "<ref name=foo group=a />", "<ref name=foo group=a />");
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#.3Cp.3E_deletion_in_references_and_notes
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#.3Cp.3E_deletion_in_references_and_notes
             RegexAssert.NoMatch(WikiRegexes.RefsGrouped, "<ref>foo<!-- bar --></ref>", "<ref>foo<!-- bar --></ref>");
             // shouldn't eat too much
             RegexAssert.NoMatch(WikiRegexes.RefsGrouped, "<ref>foo<!-- bar --></ref> <ref>foo</ref>");
@@ -795,7 +795,7 @@ foo
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "lol [http://www.google.co.uk] lol", "[http://www.google.co.uk]");
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "lol [http://www.google.co.uk google] lol", "[http://www.google.co.uk google]");
 
-            //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_14#Regex_problem
+            //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_14#Regex_problem
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://www.google.co.uk google}}", "http://www.google.co.uk");
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "http://www.google.co.uk}}", "http://www.google.co.uk");
 
@@ -864,7 +864,7 @@ foo
             RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "lol [http://www.google.co.uk] lol", "[http://www.google.co.uk]");
             RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "lol [http://www.google.co.uk google] lol", "[http://www.google.co.uk google]");
 
-            //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_14#Regex_problem
+            //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_14#Regex_problem
             RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "http://www.google.co.uk google}}", "http://www.google.co.uk");
             RegexAssert.Matches(WikiRegexes.ExternalLinksHTTPOnly, "http://www.google.co.uk}}", "http://www.google.co.uk");
 
