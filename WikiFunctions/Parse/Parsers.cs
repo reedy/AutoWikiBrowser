@@ -2663,14 +2663,20 @@ namespace WikiFunctions.Parse
         public static string RemoveWhiteSpace(string articleText, bool fixOptionalWhitespace)
         {
             //Remove <br /> if followed by double newline, NOT in blockquotes
-            while(BrTwoNewlines.IsMatch(articleText) && !WikiRegexes.Blockquote.IsMatch(articleText))
-                articleText = BrTwoNewlines.Replace(articleText.Trim(), "\r\n\r\n");
+            if(BrTwoNewlines.IsMatch(articleText) && !WikiRegexes.Blockquote.IsMatch(articleText))
+            {
+                while(BrTwoNewlines.IsMatch(articleText))
+                    articleText = BrTwoNewlines.Replace(articleText.Trim(), "\r\n\r\n");
+            }
 
             // retain one or two new lines before stub
-            if (WikiRegexes.Stub.IsMatch(articleText))
-                articleText = FourOrMoreNewlines.Replace(articleText, "\r\n\r\n");
-            else
-                articleText = WikiRegexes.ThreeOrMoreNewlines.Replace(articleText, "\r\n\r\n");
+            if(articleText.Contains("\r\n\r\n"))
+            {
+                if (WikiRegexes.Stub.IsMatch(articleText))
+                    articleText = FourOrMoreNewlines.Replace(articleText, "\r\n\r\n");
+                else
+                    articleText = WikiRegexes.ThreeOrMoreNewlines.Replace(articleText, "\r\n\r\n");
+            }
 
             articleText = NewlinesBelowExternalLinks.Replace(articleText, "==External links==\r\n*");
             articleText = NewlinesBeforeUrl.Replace(articleText, "\r\n$1");
