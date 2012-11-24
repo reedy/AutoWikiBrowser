@@ -357,6 +357,7 @@ en, sq, ru
 		}
 		
 		private static readonly Regex LifeTime = Tools.NestedTemplateRegex("Lifetime");
+		private static readonly Regex CatsForDeletion = new Regex(@"\[\[Category:(Pages|Categories|Articles) for deletion\]\]");
 
 		/// <summary>
 		/// Extracts DEFAULTSORT + categories from the article text; removes duplicate categories, cleans whitespace and underscores
@@ -388,7 +389,7 @@ en, sq, ru
 			MatchCollection matches = r.Matches(articleText);
 			foreach (Match m in matches)
 			{
-				if (!Regex.IsMatch(m.Value, @"\[\[Category:(Pages|Categories|Articles) for deletion\]\]"))
+			    if (!CatsForDeletion.IsMatch(m.Value))
 					categoryList.Add(m.Value.Trim());
 			}
 
@@ -419,18 +420,20 @@ en, sq, ru
 			}
 			else
 			{
-				// ignore commented out DEFAULTSORT – http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Moving_DEFAULTSORT_in_HTML_comments
+				// ignore commented out DEFAULTSORT – https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Moving_DEFAULTSORT_in_HTML_comments
 				if (mc.Count > 0 && WikiRegexes.Defaultsort.Matches(WikiRegexes.Comments.Replace(articleText, "")).Count == mc.Count)
 					defaultSort = mc[0].Value;
 			}
 
 			if (!string.IsNullOrEmpty(defaultSort))
-				articleText = articleText.Replace(defaultSort, "");
+			{
+			    articleText = articleText.Replace(defaultSort, "");
 
-			if (!string.IsNullOrEmpty(defaultSort) && defaultSort.ToUpper().Contains("DEFAULTSORT"))
-				defaultSort = TalkPageFixes.FormatDefaultSort(defaultSort);
-			
-			if (!string.IsNullOrEmpty(defaultSort)) defaultSort += "\r\n";
+			    if (defaultSort.ToUpper().Contains("DEFAULTSORT"))
+			        defaultSort = TalkPageFixes.FormatDefaultSort(defaultSort);
+			    
+			    defaultSort += "\r\n";
+			}
 
 			return defaultSort + ListToString(categoryList);
 		}
@@ -445,17 +448,20 @@ en, sq, ru
 		{
 		    if(originalArticleText.Equals(articleText))
 		        return true;
+		    
+		    MatchCollection beforeMC = WikiRegexes.UnformattedText.Matches(originalArticleText);
+		    MatchCollection afterMC = WikiRegexes.UnformattedText.Matches(articleText);
 
-			if(WikiRegexes.UnformattedText.Matches(originalArticleText).Count != WikiRegexes.UnformattedText.Matches(articleText).Count)
+			if(beforeMC.Count != afterMC.Count)
 				return true;
 			
 			string before = "", after = "";
-			foreach(Match m in WikiRegexes.UnformattedText.Matches(originalArticleText))
+			foreach(Match m in beforeMC)
 			{
 				before += m.Value;
 			}
 			
-			foreach(Match m in WikiRegexes.UnformattedText.Matches(articleText))
+			foreach(Match m in afterMC)
 			{
 				after += m.Value;
 			}
@@ -838,6 +844,11 @@ en, sq, ru
 			string articleTextAtStart = articleText;
 			// is external links section above references?
 			string externalLinks = ExternalLinksSection.Match(articleText).Groups[1].Value;
+
+			// validate no <ref> in external links section
+			if(Regex.IsMatch(externalLinks, WikiRegexes.ReferenceEndGR))
+			    return articleTextAtStart;
+			
 			string references = ReferencesSection.Match(articleText).Groups[1].Value;
 
 			// references may be last section
@@ -849,9 +860,8 @@ en, sq, ru
 				articleText = articleText.Replace(externalLinks, "");
 				articleText = articleText.Replace(references, references + externalLinks);
 			}
-			
-			// newlines are fixed by later logic; validate no <ref> in external links section
-			return !Parsers.HasRefAfterReflist(articleText) ? articleText : articleTextAtStart;
+
+			return articleText;
 		}
 
 		/// <summary>
