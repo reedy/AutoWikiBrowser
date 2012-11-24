@@ -288,7 +288,7 @@ namespace WikiFunctions.Parse
             while (!originalarticleText.Equals(articleText))
             {
                 originalarticleText = articleText;
-                if (!WikiRegexes.HeadingLevelTwo.IsMatch(articleTextLocal) && Namespace.IsMainSpace(articleTitle))
+                if (Namespace.IsMainSpace(articleTitle) && !WikiRegexes.HeadingLevelTwo.IsMatch(articleTextLocal))
                 {
                     int upone = 0;
                     foreach (Match m in RegexHeadingUpOneLevel.Matches(articleText))
