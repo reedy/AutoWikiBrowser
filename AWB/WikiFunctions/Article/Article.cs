@@ -297,7 +297,7 @@ namespace WikiFunctions
         { get { return Parsers.HasDoublePipeLinks(mArticleText); } }
 
         /// <summary>
-        /// Returns true if the article contains a {{nofootnotes}} or {{morefootnotes}} template but has 5+ <ref>...</ref> references
+        /// Returns true if the article contains a {{nofootnotes}} or {{morefootnotes}} template but has 5+ &lt;ref>...&lt;/ref> references
         /// </summary>
         [XmlIgnore]
         public bool HasMorefootnotesAndManyReferences
@@ -308,14 +308,14 @@ namespace WikiFunctions
         /// </summary>
         [XmlIgnore]
         public bool IsDisambiguationPage
-        { get { return (Variables.LangCode == "en" || Variables.LangCode == "simple") && NameSpaceKey == Namespace.Mainspace && WikiRegexes.Disambigs.IsMatch(mArticleText); } }
+        { get { return (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple")) && NameSpaceKey == Namespace.Mainspace && WikiRegexes.Disambigs.IsMatch(mArticleText); } }
 
         /// <summary>
         /// Returns whether the article is a SIA page (en only)
         /// </summary>
         [XmlIgnore]
         public bool IsSIAPage
-        { get { return (Variables.LangCode == "en" || Variables.LangCode == "simple") && NameSpaceKey == Namespace.Mainspace && WikiRegexes.SIAs.IsMatch(mArticleText); } }
+        { get { return (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple")) && NameSpaceKey == Namespace.Mainspace && WikiRegexes.SIAs.IsMatch(mArticleText); } }
 
         /// <summary>
         /// Returns whether the article is a disambiguation page has references
@@ -325,7 +325,7 @@ namespace WikiFunctions
         { get { return IsDisambiguationPage && WikiRegexes.Refs.IsMatch(mArticleText); } }
 
         /// <summary>
-        /// Returns true if the article contains a <ref>...</ref> reference after the {{reflist}} to show them
+        /// Returns true if the article contains a &lt;ref>...&lt;/ref> reference after the {{reflist}} to show them
         /// </summary>
         // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
         [XmlIgnore]

@@ -2595,14 +2595,15 @@ window.scrollTo(0, diffTopY);
                 if (chkRegExTypo.Checked && TheArticle.HasSicTag)
                     lbAlerts.Items.Add(@"Contains 'sic' tag/template");
 
+                MatchCollection imagesMC = WikiRegexes.ImagesCountOnly.Matches(articleText);
                 lblWords.Text = Words + wordCount;
                 lblCats.Text = Cats + catCount;
-                lblImages.Text = Imgs + WikiRegexes.ImagesCountOnly.Matches(articleText).Count;
+                lblImages.Text = Imgs + imagesMC.Count;
                 lblLinks.Text = Links + WikiRegexes.WikiLinksOnly.Matches(articleText).Count;
                 lblInterLinks.Text = IWLinks + Tools.InterwikiCount(articleText);
 
                 // for date types count ignore images and URLs
-                string articleTextNoImagesURLs = WikiRegexes.ImagesCountOnly.Replace(WikiRegexes.ExternalLinksHTTPOnly.Replace(articleText, ""), "");
+                string articleTextNoImagesURLs = WikiRegexes.ExternalLinksHTTPOnlyQuick.Replace(Tools.ReplaceWithSpaces(articleText, imagesMC), "");
                 lblDates.Text = Dates + WikiRegexes.ISODates.Matches(articleTextNoImagesURLs).Count + "/" + WikiRegexes.DayMonth.Matches(articleTextNoImagesURLs).Count
                     + "/" + WikiRegexes.MonthDay.Matches(articleTextNoImagesURLs).Count;
 

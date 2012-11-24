@@ -477,6 +477,11 @@ namespace WikiFunctions
         public static readonly Regex ExternalLinksHTTPOnly = new Regex(@"(https?)://(?:[\w\._\-~!/\*""'\(\):;@&=+$,\\\?%#\[\]]+?(?=}})|[\w\._\-~!/\*""'\(\):;@&=+$,\\\?%#\[\]]*)|(\[https?)://.*?\]", RegexOptions.IgnoreCase);
 
         /// <summary>
+        /// Matches external links only to http, https protocols. For performance, protocol is not part of match value
+        /// </summary>
+        public static readonly Regex ExternalLinksHTTPOnlyQuick = new Regex(@"(?<=https?)://(?:[\w\._\-~!/\*""'\(\):;@&=+$,\\\?%#\[\]]+?(?=}})|[\w\._\-~!/\*""'\(\):;@&=+$,\\\?%#\[\]]*)|(?<=\[https?)://.*?\]", RegexOptions.IgnoreCase);
+
+        /// <summary>
         /// Matches links that may be interwikis, i.e. containing colon, group 1 being the wiki language, group 2 being the link target, group 3 any comment after the link
         /// </summary>
         public static readonly Regex PossibleInterwikis = new Regex(@"\[\[\s*([-a-z]{2,12})(?<!File|Image|Media)\s*:+\s*([^\]\[]*?)\s*\]\]( *<!--.*?-->)?", RegexOptions.IgnoreCase | RegexOptions.Singleline);
