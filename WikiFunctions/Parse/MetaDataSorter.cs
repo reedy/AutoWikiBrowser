@@ -383,20 +383,16 @@ en, sq, ru
 			                    + @".*?(\]\]|\|.*?\]\]).*?-->|\[\["
 			                    + Variables.NamespacesCaseInsensitive[Namespace.Category]
 			                    + @".*?(\]\]|\|.*?\]\])(\s*⌊⌊⌊⌊\d{1,4}⌋⌋⌋⌋| *<!--.*?-->|\s*<!--.*?-->(?=\r\n\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category]
-			                    + @"))?", RegexOptions.Singleline);
+			                    + @")|\s*)?", RegexOptions.Singleline);
 			
 			MatchCollection matches = r.Matches(articleText);
 			foreach (Match m in matches)
 			{
 				if (!Regex.IsMatch(m.Value, @"\[\[Category:(Pages|Categories|Articles) for deletion\]\]"))
-					categoryList.Add(m.Value);
+					categoryList.Add(m.Value.Trim());
 			}
 
 			articleText = Tools.RemoveMatches(articleText, matches);
-
-			// one blank line before each heading per MOS:HEAD. Needs to run where category removed from end of a section
-			if (Variables.IsWikipediaEN)
-			    articleText = WikiRegexes.HeadingsWhitespaceBefore.Replace(articleText, "\r\n\r\n$1");
 
 			// if category tidying has changed comments/nowikis return with no changes – we've pulled a cat from a comment
 			if(!UnformattedTextNotChanged(originalArticleText, articleText))
