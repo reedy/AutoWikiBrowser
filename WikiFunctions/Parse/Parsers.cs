@@ -2041,6 +2041,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex CiteWeb = Tools.NestedTemplateRegex(new[] { "cite web", "citeweb" });
         private static readonly Regex CitationPopulatedParameter = new Regex(@"\|\s*([\w_\d-]+)\s*=\s*([^\|}]+)");
         private static readonly Regex citeWebParameters = new Regex(@"\b(accessdate|archivedate|archiveurl|arxiv|asin|at|author\d?|authorlink\d?|bibcode|coauthors?|date|deadurl|doi|doibroken|editor|editor1?-first|editor2-first|editor3-first|editor4-first|editor1?-last|editor2-last|editor3-last|editor4-last|editor1?-link|editor2-link|editor3-link|editor4-link|first\d?|format|id|isbn|issn|jfm|jstor|language|last\d?|lccn|location|month|mr|oclc|ol|osti|pages?|pmc|pmid|postscript|publisher|quote|ref|rfc|separator|ssrn|title|trans_title|type|url|work|year|zbl)\b", RegexOptions.Compiled);
+        private static readonly Regex NoEqualsTwoBars = new Regex(@"\|[^=\|]+\|");
 
         /// <summary>
         /// Searches for unknown/invalid parameters within citation templates
@@ -2071,10 +2072,10 @@ namespace WikiFunctions.Parse
                 // no equals between two separator pipes
                 if (pipecleaned.Contains("="))
                 {
-                    int noequals = Regex.Match(pipecleaned, @"\|[^=]+?\|").Index;
+                    Match m2 = NoEqualsTwoBars.Match(pipecleaned);
 
-                    if (noequals > 0)
-                        found.Add(m.Index + noequals, Regex.Match(pipecleaned, @"\|[^=]+?\|").Value.Length);
+                    if (m2.Success)
+                        found.Add(m.Index + m2.Index, m2.Length);
                 }
 
                 // URL has space in it
@@ -4243,23 +4244,23 @@ namespace WikiFunctions.Parse
             //TODO: move everything possible to the parent function, however, it shouldn't be performed blindly,
             //without a performance review
 
-            if (openingBrackets == "[") // need to remove double square brackets first
+            if (openingBrackets.Equals("[")) // need to remove double square brackets first
                 articleText = Tools.ReplaceWithSpaces(articleText, DoubleSquareBrackets);
 
 
-            if (openingBrackets == "{") // need to remove double curly brackets first
+            if (openingBrackets.Equals("{")) // need to remove double curly brackets first
                 articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.NestedTemplates);
 
             // replace all the valid balanced bracket sets with spaces
             articleText = Tools.ReplaceWithSpaces(articleText, bracketsRegex);
 
+            // for tags don't mark "> 50 cm" as unbalanced
+            if (openingBrackets.Equals("<") && AmountComparison.IsMatch(articleText))
+                return -1;
+
             // now return the unbalanced one that's left
             int open = Regex.Matches(articleText, Regex.Escape(openingBrackets)).Count;
             int closed = Regex.Matches(articleText, Regex.Escape(closingBrackets)).Count;
-
-            // for tags don't mark "> 50 cm" as unbalanced
-            if (openingBrackets == "<" && AmountComparison.IsMatch(articleText))
-                return -1;
 
             if (open == 0 && closed >= 1)
                 return articleText.IndexOf(closingBrackets);
