@@ -1067,13 +1067,27 @@ namespace WikiFunctions.Parse
              if (!Variables.LangCode.Equals("en"))
                  return articleText;
              
-             /* performance check: on most articles no date changes, on long articles HideMore is slow, so if no changes to raw text 
+             string articleTextAtStart = articleText;
+
+             /* performance check: on most articles no date changes, on long articles HideMore is slow, so if no changes to raw text
                 don't need to perform actual check on HideMore text, and this is faster overall
+                Secondly: faster to apply regexes to each date found than to apply regexes to whole article text
               */
-             if(FixDatesAInternal(articleText).Equals(articleText))
-                 return articleText;
-             
-             articleText = HideTextImages(articleText);
+             foreach(Match m in MonthsRegexNoSecondBreak.Matches(articleText))
+             {
+                 // take up to 25 characters before match, unless match within first 25 characters of article
+                 string before = articleText.Substring(m.Index-Math.Min(25, m.Index), Math.Min(25, m.Index)+m.Length);
+                 
+                 string after = FixDatesAInternal(before);
+
+                 if(!after.Equals(before))
+                     articleText = articleText.Replace(before, after);
+             }
+
+             if(articleText.Equals(articleTextAtStart))
+                 return articleTextAtStart;
+
+             articleText = HideTextImages(articleTextAtStart);
 
              articleText = FixDatesAInternal(articleText);
 
@@ -2563,6 +2577,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex DateLeadingZerosAm = new Regex(@"(?<!\b[0-3]?\d *)\b" + WikiRegexes.Months + @" +0([1-9])" + @"\b");
         private static readonly Regex DateLeadingZerosInt = new Regex(@"\b" + @"0([1-9]) +" + WikiRegexes.Months + @"\b");
         private static readonly Regex MonthsRegex = new Regex(@"\b" + WikiRegexes.MonthsNoGroup + @"\b.{0,25}");
+        private static readonly Regex MonthsRegexNoSecondBreak = new Regex(@"\b" + WikiRegexes.MonthsNoGroup + @".{0,25}");
         private static readonly Regex DayOfMonth = new Regex(@"(?<![Tt]he +)\b([1-9]|[12]\d|3[01])(?:st|nd|rd|th) +of +" + WikiRegexes.Months);
 
         // Covered by TestFixDateOrdinalsAndOf
