@@ -5863,7 +5863,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string FixPeopleCategories(string articleText, string articleTitle, bool parseTalkPage)
         {
-            // over 20 references or long and not DOB/DOD categorised at all yet: implausible
+        	// over 20 references or long and not DOB/DOD categorised at all yet: implausible
             if (!Variables.LangCode.Equals("en") || (articleText.Length > 15000 && !WikiRegexes.BirthsCategory.IsMatch(articleText)
                                                      && !WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText)))
                 return YearOfBirthDeathMissingCategory(articleText);
@@ -5885,6 +5885,7 @@ namespace WikiFunctions.Parse
             zerothSection = WikiRegexes.NestedTemplates.Replace(zerothSection, m2=> Tools.GetTemplateParameterValue(m2.Value, "date").Length > 0 ? "" : m2.Value);
             zerothSection = WikiRegexes.TemplateMultiline.Replace(zerothSection, m2=> Tools.GetTemplateParameterValue(m2.Value, "date").Length > 0 ? "" : m2.Value);
 
+            string StartCategory = Tools.Newline(@"[[Category:");
             string yearstring, yearFromInfoBox = "", sort = GetCategorySort(articleText);
 
             bool alreadyUncertain = false;
@@ -5921,7 +5922,7 @@ namespace WikiFunctions.Parse
                     Match m = PersonYearOfBirth.Match(zerothSection);
 
                     // remove part beyond dash or died
-                    string birthpart = DiedOrBaptised.Replace(m.Value, "$1");
+                    string birthpart = DiedOrBaptised.Replace(m.Value, "$1");                    
 
                     if (WikiRegexes.CircaTemplate.IsMatch(birthpart))
                         alreadyUncertain = true;
@@ -5935,7 +5936,7 @@ namespace WikiFunctions.Parse
                         if (UncertainWordings.IsMatch(birthpart) || alreadyUncertain || FloruitTemplate.IsMatch(birthpart))
                         {
                             if (!CategoryMatch(articleText, YearOfBirthMissingLivingPeople) && !CategoryMatch(articleText, YearOfBirthUncertain))
-                                articleText += Tools.Newline(@"[[Category:") + YearOfBirthUncertain + CatEnd(sort);
+                                articleText += StartCategory + YearOfBirthUncertain + CatEnd(sort);
                         }
                         else // after removing dashes, birthpart must still contain year
                             if (!birthpart.Contains(@"?") && Regex.IsMatch(birthpart, @"\d{3,4}"))
@@ -5948,7 +5949,7 @@ namespace WikiFunctions.Parse
                 if (!string.IsNullOrEmpty(yearstring) && yearstring.Length > 2
                     && (!YearOnly.IsMatch(yearstring) || Convert.ToInt32(yearstring) <= DateTime.Now.Year)
                     && !(articleText.Contains(CategoryLivingPeople) && Convert.ToInt32(yearstring) < (DateTime.Now.Year - 121)))
-                    articleText += Tools.Newline(@"[[Category:") + yearstring + " births" + CatEnd(sort);
+                    articleText += StartCategory + yearstring + " births" + CatEnd(sort);
             }
 
             // scrape any infobox
@@ -5984,7 +5985,7 @@ namespace WikiFunctions.Parse
                 // validate a YYYY date is not in the future
                 if (!string.IsNullOrEmpty(yearstring) && yearstring.Length > 2
                     && (!YearOnly.IsMatch(yearstring) || Convert.ToInt32(yearstring) <= DateTime.Now.Year))
-                    articleText += Tools.Newline(@"[[Category:") + yearstring + " deaths" + CatEnd(sort);
+                    articleText += StartCategory + yearstring + " deaths" + CatEnd(sort);
             }
 
             zerothSection = NotCircaTemplate.Replace(zerothSection, " ");
@@ -6010,15 +6011,15 @@ namespace WikiFunctions.Parse
                     {
                         if (!UncertainWordings.IsMatch(birthpart) && !ReignedRuledUnsure.IsMatch(m.Value) && !Regex.IsMatch(birthpart, @"(?:[Dd](?:ied|\.)|baptised)")
                             && !FloruitTemplate.IsMatch(birthpart))
-                            articleText += Tools.Newline(@"[[Category:") + birthyear + @" births" + CatEnd(sort);
+                            articleText += StartCategory + birthyear + @" births" + CatEnd(sort);
                         else
                             if (UncertainWordings.IsMatch(birthpart) && !CategoryMatch(articleText, YearOfBirthMissingLivingPeople) && !CategoryMatch(articleText, YearOfBirthUncertain))
-                                articleText += Tools.Newline(@"[[Category:Year of birth uncertain") + CatEnd(sort);
+                                articleText += StartCategory + @"Year of birth uncertain" + CatEnd(sort);
                     }
 
                     if (!UncertainWordings.IsMatch(deathpart) && !ReignedRuledUnsure.IsMatch(m.Value) && !Regex.IsMatch(deathpart, @"[Bb](?:orn|\.)") && !Regex.IsMatch(birthpart, @"[Dd](?:ied|\.)")
                         && (!WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) || CategoryMatch(articleText, YearofDeathMissing)))
-                        articleText += Tools.Newline(@"[[Category:") + deathyear + @" deaths" + CatEnd(sort);
+                        articleText += StartCategory + deathyear + @" deaths" + CatEnd(sort);
                 }
             }
 
