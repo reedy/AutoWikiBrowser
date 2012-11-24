@@ -6029,7 +6029,7 @@ namespace WikiFunctions.Parse
                             articleText += StartCategory + birthyear + @" births" + CatEnd(sort);
                         else
                             if (UncertainWordings.IsMatch(birthpart) && !CategoryMatch(articleText, YearOfBirthMissingLivingPeople) && !CategoryMatch(articleText, YearOfBirthUncertain))
-                                articleText += StartCategory + @"Year of birth uncertain" + CatEnd(sort);
+                                articleText += StartCategory + YearOfBirthUncertain + CatEnd(sort);
                     }
 
                     if (!UncertainWordings.IsMatch(deathpart) && !ReignedRuledUnsure.IsMatch(m.Value) && !Regex.IsMatch(deathpart, @"[Bb](?:orn|\.)") && !Regex.IsMatch(birthpart, @"[Dd](?:ied|\.)")
