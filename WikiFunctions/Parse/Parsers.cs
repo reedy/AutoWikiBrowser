@@ -6488,7 +6488,8 @@ namespace WikiFunctions.Parse
 
                 foreach (Article a in Cats)
                 {
-                    if (!a.Name.EndsWith(" stubs") && !a.Name.EndsWith(":Stubs") && !a.Name.StartsWith("Proposed deletion"))
+                    if (!a.Name.EndsWith(" stubs") && !a.Name.EndsWith(":Stubs") && !a.Name.StartsWith("Proposed deletion")
+                        && !a.Name.Contains("proposed for deletion") && !a.Name.Contains("proposed deletions"))
                         CatsNotStubsProd.Add(a);
                 }
                 totalCategories = CatsNotStubsProd.Count;
