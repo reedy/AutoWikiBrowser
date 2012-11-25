@@ -2243,7 +2243,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex CiteTemplateAbbreviatedMonthISO = new Regex(@"(?si)(\|\s*(?:archive|air|access)?date2?\s*=\s*)(\d{4}[-/\s][A-Z][a-z]+\.?[-/\s][0-3]?\d)(\s*(?:\||}}))", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         private static readonly Regex CiteTemplateDateYYYYDDMMFormat = new Regex(SiCitStart + @"(?:archive|air|access)?date2?\s*=\s*(?:\[\[)?20\d\d)-([23]\d|1[3-9])-(0[1-9]|1[0-2])(\]\])?");
-        private static readonly Regex CiteTemplateTimeInDateParameter = new Regex(@"(\{\{\s*cite[^\{\}]*\|\s*(?:archive|air|access)?date2?\s*=\s*(?:(?:20\d\d|19[7-9]\d)-[01]?\d-[0-3]?\d|[0-3]?\d\s*\w+,?\s*(?:20\d\d|19[7-9]\d)|\w+\s*[0-3]?\d,?\s*(?:20\d\d|19[7-9]\d)))(\s*[,-:]?\s+[0-2]?\d[:\.]?[0-5]\d(?:\:?[0-5]\d)?\s*(?:[^\|\}]*\[\[[^[\]\n]+(?<!\[\[[A-Z]?[a-z-]{2,}:[^[\]\n]+)\]\][^\|\}]*|[^\|\}]*)?)(?<!.*(?:20|1[7-9])\d+\s*)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        private static readonly Regex CiteTemplateTimeInDateParameter = new Regex(@"(\|\s*(?:archive|air|access)?date2?\s*=\s*(?:(?:20\d\d|19[7-9]\d)-[01]?\d-[0-3]?\d|[0-3]?\d\s*\w+,?\s*(?:20\d\d|19[7-9]\d)|\w+\s*[0-3]?\d,?\s*(?:20\d\d|19[7-9]\d)))(\s*[,-:]?\s+[0-2]?\d[:\.]?[0-5]\d(?:\:?[0-5]\d)?\s*(?:[^\|\}]*\[\[[^[\]\n]+(?<!\[\[[A-Z]?[a-z-]{2,}:[^[\]\n]+)\]\][^\|\}]*|[^\|\}]*)?)(?<!.*(?:20|1[7-9])\d+\s*)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private static readonly Regex CitePodcast = Tools.NestedTemplateRegex("cite podcast");
 
         /// <summary>
@@ -2289,7 +2289,7 @@ namespace WikiFunctions.Parse
                     at = rr.Regex.Replace(at, rr.Replacement);
 
                 // date = YYYY-Month-DD fix, not for cite journal PubMed date format
-                if (Tools.GetTemplateParameterValue(m.Value, "journal").Length == 0)
+                if (Tools.GetTemplateParameterValue(at, "journal").Length == 0)
                     at = CiteTemplateAbbreviatedMonthISO.Replace(at, m2 => m2.Groups[1].Value + Tools.ConvertDate(m2.Groups[2].Value.Replace(".", ""), DateLocale.ISO) + m2.Groups[3].Value);
             }
             
@@ -2300,7 +2300,7 @@ namespace WikiFunctions.Parse
             return at;
         }
 
-        private static readonly Regex PossibleAmbiguousCiteDate = new Regex(@"(?<={{\s*[Cc]it[ae][^{}]+?\|\s*(?:access|archive|air)?date2?\s*=\s*)(0?[1-9]|1[0-2])[/_\-\.](0?[1-9]|1[0-2])[/_\-\.](20\d\d|19[7-9]\d|[01]\d)\b");
+        private static readonly Regex PossibleAmbiguousCiteDate = new Regex(@"(?<=\|\s*(?:access|archive|air)?date2?\s*=\s*)(0?[1-9]|1[0-2])[/_\-\.](0?[1-9]|1[0-2])[/_\-\.](20\d\d|19[7-9]\d|[01]\d)\b");
 
         /// <summary>
         /// Returns whether the input article text contains ambiguous cite template dates in XX-XX-YYYY or XX-XX-YY format
@@ -2370,11 +2370,14 @@ namespace WikiFunctions.Parse
         {
             Dictionary<int, int> ambigDates = new Dictionary<int, int>();
 
-            foreach (Match m in PossibleAmbiguousCiteDate.Matches(articleText))
+            foreach(Match m in WikiRegexes.CiteTemplate.Matches(articleText))
             {
-                // for YYYY-AA-BB date, ambiguous if AA and BB not the same
-                if (!m.Groups[1].Value.Equals(m.Groups[2].Value))
-                    ambigDates.Add(m.Index, m.Length);
+                foreach (Match m2 in PossibleAmbiguousCiteDate.Matches(m.Value))
+                {
+                    // for YYYY-AA-BB date, ambiguous if AA and BB not the same
+                    if (!m2.Groups[1].Value.Equals(m2.Groups[2].Value))
+                        ambigDates.Add(m.Index+m2.Index, m2.Length);
+                }
             }
 
             return ambigDates;
