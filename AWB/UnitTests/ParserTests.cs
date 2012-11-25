@@ -2111,6 +2111,8 @@ here]"), "newline removed");
             Assert.AreEqual(1, bracketLength);
             Assert.AreEqual(0, Parsers.UnbalancedBrackets(@"<bye", ref bracketLength));
             Assert.AreEqual(1, bracketLength);
+            Assert.AreEqual(36, Parsers.UnbalancedBrackets(@"now hello [words [here&#93; end] now]", ref bracketLength));
+            Assert.AreEqual(1, bracketLength);
 
             // only first reported
             Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now} or {{now} was", ref bracketLength));
