@@ -1200,14 +1200,16 @@ namespace WikiFunctions.Parse
             return m.Value;
         }
 
+        private static readonly Regex BoldToBracket = new Regex(@"('''(?:[^']+|.*?[^'])'''\s*\()(.*)");
+
         private static readonly Regex DiedDateRegex =
             new Regex(
-                @"('''(?:[^']+|.*?[^'])'''\s*\()d\.(\s+\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
+                @"^d\.(\s+\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
                 WikiRegexes.MonthsNoGroup + @")?\]*\s*\[*[12]?\d{3}\]*\)\s*)", RegexOptions.IgnoreCase);
 
         private static readonly Regex DOBRegex =
             new Regex(
-                @"('''(?:[^']+|.*?[^'])'''\s*\()(?:b\.|[Bb]orn:+)(\s+\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
+                @"^(?:b\.|[Bb]orn:+)(\s+\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
                 WikiRegexes.MonthsNoGroup + @")?\]*\s*\[*[12]?\d{3}\]*\)\s*)", RegexOptions.IgnoreCase);
 
         private static readonly Regex DOBRegexDash =
@@ -1215,11 +1217,11 @@ namespace WikiFunctions.Parse
                 @"(?<!\*.*)('''(?:[^']+|.*?[^'])'''\s*\()(\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
                 WikiRegexes.MonthsNoGroup + @")?\]*\s*\[*[12]?\d{3}\]*)\s*(?:\-|–|&ndash;)\s*\)", RegexOptions.IgnoreCase);
         
-        private static readonly Regex DOBRegexDashQuick = new Regex(@"(?:\-|–|&ndash;)\s*\)", RegexOptions.IgnoreCase);
+        private static readonly Regex DOBRegexDashQuick = new Regex(@"(?:\-|–|&ndash;)\s*\)");
 
         private static readonly Regex BornDeathRegex =
             new Regex(
-                @"('''(?:[^']+|.*?[^'])'''\s*\()(?:[Bb]orn|b\.)\s+(\[*(?:" + WikiRegexes.MonthsNoGroup +
+                @"^(?:[Bb]orn|b\.)\s+(\[*(?:" + WikiRegexes.MonthsNoGroup +
                 @"\s+0?(?:[1-3]?\d)|0?(?:[1-3]?\d)\s*" + WikiRegexes.MonthsNoGroup +
                 @")?\]*,?\s*\[*[12]?\d{3}\]*)\s*(.|&.dash;)\s*(?:[Dd]ied|d\.)\s+(\[*(?:" + WikiRegexes.MonthsNoGroup +
                 @"\s+0?(?:[1-3]?\d)|0?(?:[1-3]?\d)\s*" + WikiRegexes.MonthsNoGroup + @")\]*,?\s*\[*[12]?\d{3}\]*\)\s*)",
@@ -1233,17 +1235,18 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixLivingThingsRelatedDates(string articleText)
         {
-            if(articleText.IndexOf(@"(d. ", StringComparison.OrdinalIgnoreCase) > -1)
-                articleText = DiedDateRegex.Replace(articleText, "$1died$2"); // date of death
+            articleText = BoldToBracket.Replace(articleText, m=>
+                                                {
+                                                    string newvalue = m.Groups[2].Value;
 
-            if(articleText.IndexOf(@"(b. ", StringComparison.OrdinalIgnoreCase) > -1 || articleText.IndexOf(@"(born:", StringComparison.OrdinalIgnoreCase) > -1)
-                articleText = DOBRegex.Replace(articleText, "$1born$2"); // date of birth
+                                                    newvalue = DiedDateRegex.Replace(newvalue, "died$1"); // date of death
+                                                    newvalue = DOBRegex.Replace(newvalue, "born$1"); // date of birth
+                                                    newvalue = BornDeathRegex.Replace(newvalue, "$1 – $3"); // birth and death
+                                                    return  m.Groups[1].Value + newvalue;
+                                                });
 
             if (DOBRegexDashQuick.IsMatch(articleText) && !DOBRegexDash.IsMatch(WikiRegexes.InfoBox.Match(articleText).Value))
                 articleText = DOBRegexDash.Replace(articleText, "$1born $2)"); // date of birth – dash
-
-            if(articleText.IndexOf(@"(b. ", StringComparison.OrdinalIgnoreCase) > -1 || articleText.IndexOf(@"(born ", StringComparison.OrdinalIgnoreCase) > -1)
-                articleText = BornDeathRegex.Replace(articleText, "$1$2 – $4"); // birth and death
 
             return articleText;
         }
@@ -5804,7 +5807,8 @@ namespace WikiFunctions.Parse
 
             // do not add living people category if already dead, or thought to be dead
             if (WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) || WikiRegexes.LivingPeopleRegex2.IsMatch(articleText) ||
-                BornDeathRegex.IsMatch(articleText) || DiedDateRegex.IsMatch(articleText))
+                Regex.IsMatch(articleText, BornDeathRegex.ToString().Replace("^", @"('''(?:[^']+|.*?[^'])'''\s*\()"))
+                              || Regex.IsMatch(articleText, DiedDateRegex.ToString().Replace("^", @"('''(?:[^']+|.*?[^'])'''\s*\()")))
                 return articleText;
             
             string birthCat = m.Value;
