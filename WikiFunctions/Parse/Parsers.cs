@@ -1073,15 +1073,26 @@ namespace WikiFunctions.Parse
                 don't need to perform actual check on HideMore text, and this is faster overall
                 Secondly: faster to apply regexes to each date found than to apply regexes to whole article text
               */
-             foreach(Match m in MonthsRegexNoSecondBreak.Matches(articleText))
+             bool reparse = false;
+             for (; ; )
              {
-                 // take up to 25 characters before match, unless match within first 25 characters of article
-                 string before = articleText.Substring(m.Index-Math.Min(25, m.Index), Math.Min(25, m.Index)+m.Length);
-                 
-                 string after = FixDatesAInternal(before);
+                 reparse = false;
+                 foreach(Match m in MonthsRegexNoSecondBreak.Matches(articleText))
+                 {
+                     // take up to 25 characters before match, unless match within first 25 characters of article
+                     string before = articleText.Substring(m.Index-Math.Min(25, m.Index), Math.Min(25, m.Index)+m.Length);
+                     
+                     string after = FixDatesAInternal(before);
 
-                 if(!after.Equals(before))
-                     articleText = articleText.Replace(before, after);
+                     if(!after.Equals(before))
+                     {
+                         reparse = true;
+                         articleText = articleText.Replace(before, after);
+                         break;
+                     }
+                 }
+                 if (!reparse)
+                     break;
              }
 
              if(articleText.Equals(articleTextAtStart))
@@ -1094,24 +1105,26 @@ namespace WikiFunctions.Parse
              return AddBackTextImages(articleText);
          }
 
-         private string FixDatesAInternal(string articleText)
+         private string FixDatesAInternal(string textPortion)
          {
-             articleText = IncorrectCommaInternationalDates.Replace(articleText, @"$1 $2");
+             textPortion = IncorrectCommaInternationalDates.Replace(textPortion, @"$1 $2");
 
-             articleText = SameMonthInternationalDateRange.Replace(articleText, @"$1–$2");
+             textPortion = SameMonthInternationalDateRange.Replace(textPortion, @"$1–$2");
 
-             articleText = SameMonthAmericanDateRange.Replace(articleText, SameMonthAmericanDateRangeME);
+             textPortion = SameMonthAmericanDateRange.Replace(textPortion, SameMonthAmericanDateRangeME);
 
-             articleText = LongFormatInternationalDateRange.Replace(articleText, @"$1–$3 $2 $4");
-             articleText = LongFormatAmericanDateRange.Replace(articleText, @"$1 $2–$3, $4");
+             textPortion = LongFormatInternationalDateRange.Replace(textPortion, @"$1–$3 $2 $4");
+             textPortion = LongFormatAmericanDateRange.Replace(textPortion, @"$1 $2–$3, $4");
 
              // run this after the date range fixes
-             articleText = CommaDates.Replace(articleText, @"$1 $2, $3");
+             textPortion = CommaDates.Replace(textPortion, @"$1 $2, $3");
 
              // month range
-             return EnMonthRange.Replace(articleText, @"$1–$2");
+             return EnMonthRange.Replace(textPortion, @"$1–$2");
          }
          
+         private static readonly Regex YearRange = new Regex(@"\b[12][0-9]{3}.{0,25}");
+
          /// <summary>
          /// Fix date and decade formatting errors: date/year ranges to present, full year ranges, performs floruit term wikilinking
          /// </summary>
@@ -1123,7 +1136,40 @@ namespace WikiFunctions.Parse
          {
              if (!Variables.LangCode.Equals("en"))
                  return articleText;
-             
+
+             bool reparse = false;
+             /* performance check: faster to apply regexes to each year/date found than to apply regexes to whole article text */
+             for (; ; )
+             {
+                 reparse = false;
+                 foreach(Match m in YearRange.Matches(articleText))
+                 {
+                     // take up to 25 characters before match, unless match within first 25 characters of article
+                     string before = articleText.Substring(m.Index-Math.Min(25, m.Index), Math.Min(25, m.Index)+m.Length);
+                     
+                     string after = FixDatesBInternal(before, CircaLink);
+
+                     if(!after.Equals(before))
+                     {
+                         reparse = true;
+                         articleText = articleText.Replace(before, after);
+                         break;
+                     }
+                 }
+
+                 if (!reparse)
+                     break;
+             }
+
+             // replace first occurrence of unlinked floruit with linked version, zeroth section only
+             if(Floruit)
+                 articleText = WikiRegexes.UnlinkedFloruit.Replace(articleText, @"([[floruit|fl.]] $1", 1);
+
+             return articleText;
+         }
+
+         private string FixDatesBInternal(string articleText, bool CircaLink)
+         {
              articleText = DateRangeToPresent.Replace(articleText, @"$1 $2 – $3");
              articleText = YearRangeToPresent.Replace(articleText, @"$1–$2");
 
@@ -1139,10 +1185,6 @@ namespace WikiFunctions.Parse
 
              // date–year --> date – year
              articleText = DateRangeToYear.Replace(articleText, @"$1 $2 – $3");
-             
-             // replace first occurrence of unlinked floruit with linked version, zeroth section only
-             if(Floruit)
-                 articleText = WikiRegexes.UnlinkedFloruit.Replace(articleText, @"([[floruit|fl.]] $1", 1);
              
              return articleText;
          }
