@@ -416,6 +416,17 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
         }
 
         [Test]
+        public void UnPipedWikiLink()
+        {
+            TestMatch(WikiRegexes.UnPipedWikiLink, "[[foo]]");
+            TestMatch(WikiRegexes.UnPipedWikiLink, "a [[foo boo ]] !one", "[[foo boo ]]");
+            TestMatch(WikiRegexes.UnPipedWikiLink, "[[foo|bar]]",false);
+            Assert.AreEqual("foo", WikiRegexes.UnPipedWikiLink.Match("[[foo]]").Groups[1].Value);
+            Assert.AreEqual("foo bar", WikiRegexes.UnPipedWikiLink.Match("[[foo bar]]").Groups[1].Value);
+
+        }
+
+        	[Test]
         public void Blockquote()
         {
             // one line
