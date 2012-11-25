@@ -2232,7 +2232,6 @@ world|format=PDF}} was";
             string correct = @"now {{cite book|title=a |url=http://books.google.com/foo | year=2009}}";
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web|title=a |url=http://books.google.com/foo | year=2009}}"));
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web|title=a |url=http://books.google.com/foo | year=2009}}"));
-            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{citeweb|title=a |url=http://books.google.com/foo | year=2009}}"));
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite web|title=a |url=http://books.google.com/foo | year=2009}}"));
 
             // whitespace not changed
