@@ -5511,6 +5511,20 @@ was"));
             Assert.AreEqual("now {{citation needed}} was{{citation needed}} or", Parsers.TemplateRedirects("now {{cn}} was{{fact}} or", TemplateRedirects), "renames multiple different redirects");
             Assert.AreEqual("now {{citation needed}} was{{citation needed}} or", Parsers.TemplateRedirects("now {{cn}} was{{cn}} or", TemplateRedirects), "renames multiple redirects");
 
+            Assert.AreEqual(@"now {{one|
+{{citation needed}} 
+}}", Parsers.TemplateRedirects(@"now {{one|
+{{cn}} 
+}}", TemplateRedirects), "renames when template nested");
+
+            Assert.AreEqual(@"now {{one|
+{{two|
+{{citation needed}} 
+}}}}", Parsers.TemplateRedirects(@"now {{one|
+{{two|
+{{cn}} 
+}}}}", TemplateRedirects), "renames when template double nested");
+
             TemplateRedirects = Parsers.LoadTemplateRedirects("{{tl|Cn}}, {{tl|fact}} → {{tl|citation needed}}");
             Assert.AreEqual("now {{citation needed}} was", Parsers.TemplateRedirects("now {{cn}} was", TemplateRedirects), "follows case of new template name");
             Assert.AreEqual("now {{Citation needed}} was", Parsers.TemplateRedirects("now {{Cn}} was", TemplateRedirects), "follows case of new template name");
