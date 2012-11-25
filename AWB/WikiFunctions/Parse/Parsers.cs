@@ -1920,7 +1920,16 @@ namespace WikiFunctions.Parse
             foreach(Match m in WikiRegexes.NestedTemplates.Matches(articleText))
             {
                 TFH.Add(Tools.TurnFirstToUpper(Tools.GetTemplateName(m.Value)));
-            }            
+
+                string template = m.Value.Substring(2);
+
+                while(WikiRegexes.NestedTemplates.IsMatch(template))
+                {
+                    template = WikiRegexes.NestedTemplates.Match(template).Value;
+                    TFH.Add(Tools.TurnFirstToUpper(Tools.GetTemplateName(template)));
+                    template = template.Substring(2);
+                }
+            }
 
             TFH.IntersectWith(WikiRegexes.AllTemplateRedirectsHS);
 
