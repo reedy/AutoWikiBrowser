@@ -2491,6 +2491,29 @@ Message: {2}
 		}
 		
 		/// <summary>
+		/// Returns a dictionary of all named parameters used in the template and the value used.
+		/// If the parameter is specified with no value, an empty string is returned as the value.
+		/// If there are duplicate parameters, the value of the first (may be blank) is reported.
+		/// </summary>
+		/// <param name="templateCall"></param>
+		/// <returns></returns>
+		public static Dictionary<string, string> GetTemplateParameterValues(string templateCall)
+		{	
+		    Dictionary<string, string> paramsFound = new Dictionary<string, string>();
+			Regex param = new Regex(@"\|\s*([\w0-9_-]+)\s*=\s*(.*?)(?=\||}}$)", RegexOptions.Singleline);
+
+			string pipecleanedtemplate = PipeCleanedTemplate(templateCall);
+
+			foreach(Match m in param.Matches(pipecleanedtemplate))
+			{
+			    if(!paramsFound.ContainsKey(m.Groups[1].Value))
+			        paramsFound.Add(m.Groups[1].Value, templateCall.Substring(m.Groups[2].Index, m.Groups[2].Length).Trim());
+			}
+
+			return paramsFound;
+		}
+		
+		/// <summary>
 		/// Returns the value of the input parameter in the input template
 		/// </summary>
 		/// <param name="templateCall">the input template call</param>

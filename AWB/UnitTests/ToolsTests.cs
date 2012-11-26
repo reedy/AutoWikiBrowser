@@ -1122,6 +1122,35 @@ John", "*"));
             // case insensitive option
             Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite|PARAM1=here}}", "param1", true));
         }
+        
+        
+        [Test]
+        public void GetTemplateParameterValues()
+        {
+            Dictionary<string, string> Back = new Dictionary<string, string>();
+            Back.Add("accessdate", "2012-05-15");
+            Back.Add("title", "Hello");
+            Back.Add("url", "http://www.site.com/abc");
+            Back.Add("author", "");
+            
+            Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{cite web|url=http://www.site.com/abc|title=Hello | author = | accessdate = 2012-05-15 }}"));
+            Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{cite web|url=http://www.site.com/abc|title=Hello |<!-- comm--> author = | accessdate = 2012-05-15 }}"));
+            Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{cite web|url=http://www.site.com/abc|title=Hello | author <!-- comm--> = | accessdate = 2012-05-15 }}"));
+            Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{cite web|url=http://www.site.com/abc|title=Hello |author =|accessdate = 2012-05-15 }}"));
+            Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{cite web|url=http://www.site.com/abc|title=Hello | author = | accessdate = 2012-05-15 | url=}}"), "ignores second parameter call (no value)");
+            Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{cite web|url=http://www.site.com/abc|title=Hello | author = | accessdate = 2012-05-15 | url=http://site2.com}}"), "ignores second parameter call (with value)");
+
+            Back.Add("format", "{{PDF|test}}");
+            Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{cite web|url=http://www.site.com/abc|title=Hello | author = | accessdate = 2012-05-15 | format={{PDF|test}} }}"), "handles nested templates");
+            Back.Add("last1", "Jones");
+            Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{cite web|url=http://www.site.com/abc|title=Hello | author = | accessdate = 2012-05-15 | format={{PDF|test}} |last1=Jones}}"), "handles parameters with numbers");
+            
+            Back.Clear();
+            Back.Add("ONE", "somevalue");
+            Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{test|ONE=somevalue}}"), "handles uppercase parameters");
+            Back.Add("V_TWO", "some_value");
+            Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{test|ONE=somevalue|V_TWO=some_value}}"), "handles uppercase parameters");
+        }
 
         [Test]
         public void GetTemplateParameterValueAdvancedCases()
