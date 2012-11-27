@@ -3455,14 +3455,35 @@ namespace WikiFunctions.Parse
         {
             string newValue = m.Value;
             string templatename = Tools.GetTemplateName(newValue);
-            string theURL = Tools.GetTemplateParameterValue(newValue, "url");
-            string id = Tools.GetTemplateParameterValue(newValue, "id");
+            
+            Dictionary<string, string> paramsFound = Tools.GetTemplateParameterValues(newValue);
+            
+            string theURL,id,format,pg,theTitle,TheYear,lang,TheDate,TheMonth,TheWork;
+            if(!paramsFound.TryGetValue("url", out theURL))
+                theURL = "";
+            if(!paramsFound.TryGetValue("id", out id))
+                id = "";
+            if(!paramsFound.TryGetValue("format", out format))
+                format = "";
+            if(!paramsFound.TryGetValue("title", out theTitle))
+                theTitle = "";
+            if(!paramsFound.TryGetValue("year", out TheYear))
+                TheYear = "";
+            if(!paramsFound.TryGetValue("date", out TheDate))
+                TheDate = "";
+            if(!paramsFound.TryGetValue("language", out lang))
+                lang = "";
+                if(!paramsFound.TryGetValue("month", out TheMonth))
+                TheMonth = "";
+                      if(!paramsFound.TryGetValue("work", out TheWork))
+                TheWork = "";
+
             string theURLoriginal = theURL;
-            string format = Tools.GetTemplateParameterValue(newValue, "format");
 
             newValue = AccessdateSynonyms.Replace(newValue, "$1accessdate");
-
-            newValue = Tools.RenameTemplateParameter(newValue, "pg", "page");
+            
+            if(paramsFound.TryGetValue("pg", out pg))
+                newValue = Tools.RenameTemplateParameter(newValue, "pg", "page");
 
             // remove the unneeded 'format=HTML' field
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.22format.3DHTML.22_in_citation_templates
@@ -3474,27 +3495,21 @@ namespace WikiFunctions.Parse
                 newValue = Tools.RemoveTemplateParameter(newValue, "format");
 
             // newlines to spaces in title field if URL used, otherwise display broken
-            if (theURL.Length > 0)
-            {
-                string theTitle = Tools.GetTemplateParameterValue(newValue, "title");
-
-                if (theTitle.Contains("\r\n"))
+            if (theURL.Length > 0 && theTitle.Contains("\r\n"))
                     newValue = Tools.UpdateTemplateParameterValue(newValue, "title", theTitle.Replace("\r\n", " "));
-            }
 
             // remove language=English on en-wiki
-            string lang = Tools.GetTemplateParameterValue(newValue, "language");
             if (lang.Equals("english", StringComparison.OrdinalIgnoreCase) || lang.Equals("en", StringComparison.OrdinalIgnoreCase))
                 newValue = Tools.RemoveTemplateParameter(newValue, "language");
 
             // remove italics for work field for book/periodical, but not website -- auto italicised by template
-            if (!Tools.GetTemplateParameterValue(newValue, "work").Contains("."))
+            if (!TheWork.Contains("."))
                 newValue = WorkInItalics.Replace(newValue, "$1$2");
 
             // remove quotes around title field: are automatically added by template markup
             foreach (string dequoteParam in ParametersToDequote)
             {
-                string theTitle = Tools.GetTemplateParameterValue(newValue, dequoteParam);
+                theTitle = Tools.GetTemplateParameterValue(newValue, dequoteParam);
 
                 // convert curly quotes to straight quotes per [[MOS:PUNCT]], except when »/« is section delimeter
                 if ((theTitle.Contains(@"»") && theTitle.Contains(@"«")) || (!theTitle.Contains(@"»") && !theTitle.Contains(@"«")))
@@ -3515,7 +3530,6 @@ namespace WikiFunctions.Parse
                 newValue = YearInDate.Replace(newValue, "$1year$2");
 
             // year = full date --> date = full date
-            string TheYear = Tools.GetTemplateParameterValue(newValue, "year");
             string TheYearCorected = IncorrectCommaInternationalDates.Replace(TheYear, @"$1 $2");
             
             if(!TheYearCorected.Equals(TheYear))
@@ -3541,7 +3555,6 @@ namespace WikiFunctions.Parse
 
             // year=YYYY and date=...YYYY -> remove year; not for year=YYYYa
             TheYear = Tools.GetTemplateParameterValue(newValue, "year");
-            string TheDate = Tools.GetTemplateParameterValue(newValue, "date");
 
             if (YearOnly.IsMatch(TheYear) && TheDate.Contains(TheYear) && (WikiRegexes.InternationalDates.IsMatch(TheDate)
                                                                            || WikiRegexes.AmericanDates.IsMatch(TheDate)
@@ -3553,7 +3566,6 @@ namespace WikiFunctions.Parse
 
             // month=Month and date=...Month... OR month=nn and date=same month
             int num=0;
-            string TheMonth = Tools.GetTemplateParameterValue(newValue, "month");
             if ((TheMonth.Length > 2 && TheDate.Contains(TheMonth))
                 || (int.TryParse(TheMonth, out num) && Regex.IsMatch(Tools.ConvertDate(TheDate, Parsers.DateLocale.ISO), @"\-0?" + TheMonth + @"\-")))
                 newValue = Tools.RemoveTemplateParameter(newValue, "month");
