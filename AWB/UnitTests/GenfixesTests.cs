@@ -201,6 +201,9 @@ a");
                          @"{{cite web | url = http://www.census.gov/popest/geographic/boundary_changes/index.html |title = Boundary Changes | date = 2010-01-01 }}");
 
             AssertChange(@"Over March 4th - March 10th, 2012 then.", @"Over March 4–10, 2012 then.");
+            
+            AssertChange(@"{{cite web| url=http://www.site.com/f | title=A | date= June 29th, 2012 08:44}}", 
+                         @"{{cite web| url=http://www.site.com/f | title=A | date= June 29, 2012<!-- 08:44-->}}");
         }
         
         [Test]
