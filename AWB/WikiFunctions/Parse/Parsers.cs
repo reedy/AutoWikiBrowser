@@ -3458,7 +3458,7 @@ namespace WikiFunctions.Parse
             
             Dictionary<string, string> paramsFound = Tools.GetTemplateParameterValues(newValue);
             
-            string theURL,id,format,pg,theTitle,TheYear,lang,TheDate,TheMonth,TheWork;
+            string theURL,id,format,pg,theTitle,TheYear,lang,TheDate,TheMonth,TheWork,nopp;
             if(!paramsFound.TryGetValue("url", out theURL))
                 theURL = "";
             if(!paramsFound.TryGetValue("id", out id))
@@ -3477,7 +3477,8 @@ namespace WikiFunctions.Parse
                 TheMonth = "";
                       if(!paramsFound.TryGetValue("work", out TheWork))
                 TheWork = "";
-
+          if(!paramsFound.TryGetValue("nopp", out nopp))
+                nopp = "";
             string theURLoriginal = theURL;
 
             newValue = AccessdateSynonyms.Replace(newValue, "$1accessdate");
@@ -3496,7 +3497,12 @@ namespace WikiFunctions.Parse
 
             // newlines to spaces in title field if URL used, otherwise display broken
             if (theURL.Length > 0 && theTitle.Contains("\r\n"))
-                    newValue = Tools.UpdateTemplateParameterValue(newValue, "title", theTitle.Replace("\r\n", " "));
+            {
+                theTitle = theTitle.Replace("\r\n", " ");
+                paramsFound.Remove("title");
+                paramsFound.Add("title", theTitle);
+                newValue = Tools.UpdateTemplateParameterValue(newValue, "title", theTitle);
+            }
 
             // remove language=English on en-wiki
             if (lang.Equals("english", StringComparison.OrdinalIgnoreCase) || lang.Equals("en", StringComparison.OrdinalIgnoreCase))
@@ -3509,16 +3515,18 @@ namespace WikiFunctions.Parse
             // remove quotes around title field: are automatically added by template markup
             foreach (string dequoteParam in ParametersToDequote)
             {
-                theTitle = Tools.GetTemplateParameterValue(newValue, dequoteParam);
+                string quotetitle;
+                if(paramsFound.TryGetValue(dequoteParam, out quotetitle))
+                {
+                    // convert curly quotes to straight quotes per [[MOS:PUNCT]], except when »/« is section delimeter
+                    if ((quotetitle.Contains(@"»") && quotetitle.Contains(@"«")) || (!quotetitle.Contains(@"»") && !quotetitle.Contains(@"«")))
+                        quotetitle = WikiRegexes.CurlyDoubleQuotes.Replace(quotetitle, @"""");
 
-                // convert curly quotes to straight quotes per [[MOS:PUNCT]], except when »/« is section delimeter
-                if ((theTitle.Contains(@"»") && theTitle.Contains(@"«")) || (!theTitle.Contains(@"»") && !theTitle.Contains(@"«")))
-                    theTitle = WikiRegexes.CurlyDoubleQuotes.Replace(theTitle, @"""");
+                    if (quotetitle.Contains(@"""") && !quotetitle.Trim('"').Contains(@""""))
+                        quotetitle = quotetitle.Trim('"');
 
-                if (theTitle.Contains(@"""") && !theTitle.Trim('"').Contains(@""""))
-                    theTitle = theTitle.Trim('"');
-
-                newValue = Tools.SetTemplateParameterValue(newValue, dequoteParam, theTitle);
+                    newValue = Tools.SetTemplateParameterValue(newValue, dequoteParam, quotetitle);
+                }
             }
 
             // page= and pages= fields don't need p. or pp. in them when nopp not set
