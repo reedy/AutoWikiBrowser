@@ -3458,7 +3458,7 @@ namespace WikiFunctions.Parse
             
             Dictionary<string, string> paramsFound = Tools.GetTemplateParameterValues(newValue);
             
-            string theURL,id,format,pg,theTitle,TheYear,lang,TheDate,TheMonth,TheWork,nopp;
+            string theURL,id,format,pg,theTitle,TheYear,lang,TheDate,TheMonth,TheWork,nopp,TheIssue,accessyear,accessdate;
             if(!paramsFound.TryGetValue("url", out theURL))
                 theURL = "";
             if(!paramsFound.TryGetValue("id", out id))
@@ -3473,12 +3473,19 @@ namespace WikiFunctions.Parse
                 TheDate = "";
             if(!paramsFound.TryGetValue("language", out lang))
                 lang = "";
-                if(!paramsFound.TryGetValue("month", out TheMonth))
+            if(!paramsFound.TryGetValue("month", out TheMonth))
                 TheMonth = "";
-                      if(!paramsFound.TryGetValue("work", out TheWork))
+            if(!paramsFound.TryGetValue("work", out TheWork))
                 TheWork = "";
-          if(!paramsFound.TryGetValue("nopp", out nopp))
+            if(!paramsFound.TryGetValue("nopp", out nopp))
                 nopp = "";
+            if(!paramsFound.TryGetValue("issue", out TheIssue))
+                TheIssue = "";
+            if(!paramsFound.TryGetValue("accessyear", out accessyear))
+                accessyear = "";
+            if(!paramsFound.TryGetValue("accessdate", out accessdate))
+                accessdate = "";
+
             string theURLoriginal = theURL;
 
             newValue = AccessdateSynonyms.Replace(newValue, "$1accessdate");
@@ -3518,6 +3525,7 @@ namespace WikiFunctions.Parse
                 string quotetitle;
                 if(paramsFound.TryGetValue(dequoteParam, out quotetitle))
                 {
+                    string before = quotetitle;
                     // convert curly quotes to straight quotes per [[MOS:PUNCT]], except when »/« is section delimeter
                     if ((quotetitle.Contains(@"»") && quotetitle.Contains(@"«")) || (!quotetitle.Contains(@"»") && !quotetitle.Contains(@"«")))
                         quotetitle = WikiRegexes.CurlyDoubleQuotes.Replace(quotetitle, @"""");
@@ -3525,12 +3533,13 @@ namespace WikiFunctions.Parse
                     if (quotetitle.Contains(@"""") && !quotetitle.Trim('"').Contains(@""""))
                         quotetitle = quotetitle.Trim('"');
 
-                    newValue = Tools.SetTemplateParameterValue(newValue, dequoteParam, quotetitle);
+                    if(!before.Equals(quotetitle))
+                        newValue = Tools.SetTemplateParameterValue(newValue, dequoteParam, quotetitle);
                 }
             }
 
             // page= and pages= fields don't need p. or pp. in them when nopp not set
-            if (!templatename.Equals("cite journal", StringComparison.OrdinalIgnoreCase) && Tools.GetTemplateParameterValue(newValue, "nopp").Length == 0)
+            if (!templatename.Equals("cite journal", StringComparison.OrdinalIgnoreCase) && nopp.Length == 0)
                 newValue = CiteTemplatePagesPP.Replace(newValue, "");
 
             // date = YYYY --> year = YYYY; not for {{cite video}}
@@ -3548,13 +3557,20 @@ namespace WikiFunctions.Parse
             
             if (WikiRegexes.ISODates.IsMatch(TheYear) || WikiRegexes.InternationalDates.IsMatch(TheYear)
                 || WikiRegexes.AmericanDates.IsMatch(TheYear))
+            {
+                TheDate = TheYear; 
+                TheYear = "";
                 newValue = Tools.RenameTemplateParameter(newValue, "year", "date");
+            }
 
             // author field typos
             if (templatename.Equals("cite web", StringComparison.OrdinalIgnoreCase))
             {
-                newValue = Tools.RenameTemplateParameter(newValue, "authors", "author");
-                newValue = Tools.RenameTemplateParameter(newValue, "coauthor", "coauthors");
+                string x;
+                if(paramsFound.TryGetValue("authors",out x))
+                    newValue = Tools.RenameTemplateParameter(newValue, "authors", "author");
+                if(paramsFound.TryGetValue("coauthor",out x))
+                    newValue = Tools.RenameTemplateParameter(newValue, "coauthor", "coauthors");
             }
 
             // remove duplicated fields, ensure the URL is not touched (may have pipes in)
@@ -3562,8 +3578,6 @@ namespace WikiFunctions.Parse
                 newValue = Tools.RemoveDuplicateTemplateParameters(newValue);
 
             // year=YYYY and date=...YYYY -> remove year; not for year=YYYYa
-            TheYear = Tools.GetTemplateParameterValue(newValue, "year");
-
             if (YearOnly.IsMatch(TheYear) && TheDate.Contains(TheYear) && (WikiRegexes.InternationalDates.IsMatch(TheDate)
                                                                            || WikiRegexes.AmericanDates.IsMatch(TheDate)
                                                                            || WikiRegexes.ISODates.IsMatch(TheDate)))
@@ -3601,13 +3615,13 @@ namespace WikiFunctions.Parse
                 newValue = CiteTemplatesJournalVolume.Replace(newValue, "");
                 newValue = CiteTemplatesJournalIssue.Replace(newValue, "");
 
-                if (Tools.GetTemplateParameterValue(newValue, "issue").Length == 0)
+                if (TheIssue.Length == 0)
                     newValue = CiteTemplatesJournalVolumeAndIssue.Replace(newValue, @"| issue = ");
             }
 
             // {{cite web}} for Google books -> {{Cite book}}
             if (templatename.Contains("web") && newValue.Contains("http://books.google.")
-                && Tools.GetTemplateParameterValue(newValue, "work").Length == 0)
+                && TheWork.Length == 0)
                 newValue = Tools.RenameTemplate(newValue, templatename, "Cite book");
 
             // remove leading zero in day of month
@@ -3624,8 +3638,7 @@ namespace WikiFunctions.Parse
             }
 
             // remove accessyear where accessdate is present and contains said year
-            string accessyear = Tools.GetTemplateParameterValue(newValue, "accessyear");
-            if (accessyear.Length > 0 && Tools.GetTemplateParameterValue(newValue, "accessdate").Contains(accessyear))
+            if (accessyear.Length > 0 && accessdate.Contains(accessyear))
                 newValue = Tools.RemoveTemplateParameter(newValue, "accessyear");
 
             // fix unspaced comma ranges, avoid pages=12,345 as could be valid page number
