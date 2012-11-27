@@ -1144,6 +1144,10 @@ John", "*"));
             Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{cite web|url=http://www.site.com/abc|title=Hello | author = | accessdate = 2012-05-15 | format={{PDF|test}} }}"), "handles nested templates");
             Back.Add("last1", "Jones");
             Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{cite web|url=http://www.site.com/abc|title=Hello | author = | accessdate = 2012-05-15 | format={{PDF|test}} |last1=Jones}}"), "handles parameters with numbers");
+            Back.Add("trans_title", @"Here 
+There");
+            Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{cite web|url=http://www.site.com/abc|title=Hello | author = | accessdate = 2012-05-15 | format={{PDF|test}} |last1=Jones|trans_title=Here 
+There}}"), "handles parameters with newlines");
             
             Back.Clear();
             Back.Add("ONE", "somevalue");

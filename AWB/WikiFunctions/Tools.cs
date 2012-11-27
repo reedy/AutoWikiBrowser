@@ -2489,6 +2489,8 @@ Message: {2}
 
 			return "";
 		}
+
+		private static readonly Regex param = new Regex(@"\|\s*([\w0-9_-]+)\s*=\s*([^|}]*)");
 		
 		/// <summary>
 		/// Returns a dictionary of all named parameters used in the template and the value used.
@@ -2499,8 +2501,7 @@ Message: {2}
 		/// <returns></returns>
 		public static Dictionary<string, string> GetTemplateParameterValues(string templateCall)
 		{	
-		    Dictionary<string, string> paramsFound = new Dictionary<string, string>();
-			Regex param = new Regex(@"\|\s*([\w0-9_-]+)\s*=\s*(.*?)(?=\||}}$)", RegexOptions.Singleline);
+		    Dictionary<string, string> paramsFound = new Dictionary<string, string>();			
 
 			string pipecleanedtemplate = PipeCleanedTemplate(templateCall);
 
