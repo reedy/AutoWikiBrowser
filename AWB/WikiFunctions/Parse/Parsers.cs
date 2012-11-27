@@ -3458,7 +3458,7 @@ namespace WikiFunctions.Parse
             
             Dictionary<string, string> paramsFound = Tools.GetTemplateParameterValues(newValue);
             
-            string theURL,id,format,pg,theTitle,TheYear,lang,TheDate,TheMonth,TheWork,nopp,TheIssue,accessyear,accessdate;
+            string theURL,id,format,pg,theTitle,TheYear,lang,TheDate,TheMonth,TheWork,nopp,TheIssue,accessyear,accessdate,pages,ISBN,origyear;
             if(!paramsFound.TryGetValue("url", out theURL))
                 theURL = "";
             if(!paramsFound.TryGetValue("id", out id))
@@ -3485,6 +3485,12 @@ namespace WikiFunctions.Parse
                 accessyear = "";
             if(!paramsFound.TryGetValue("accessdate", out accessdate))
                 accessdate = "";
+            if(!paramsFound.TryGetValue("pages", out pages))
+                pages = "";
+             if(!paramsFound.TryGetValue("origyear", out origyear))
+                origyear = "";
+            if(!paramsFound.TryGetValue("isbn", out ISBN) && !paramsFound.TryGetValue("ISBN", out ISBN))
+                ISBN = "";
 
             string theURLoriginal = theURL;
 
@@ -3540,7 +3546,10 @@ namespace WikiFunctions.Parse
 
             // page= and pages= fields don't need p. or pp. in them when nopp not set
             if (!templatename.Equals("cite journal", StringComparison.OrdinalIgnoreCase) && nopp.Length == 0)
+            {
                 newValue = CiteTemplatePagesPP.Replace(newValue, "");
+                pages = Tools.GetTemplateParameterValue(newValue, "pages");
+            }
 
             // date = YYYY --> year = YYYY; not for {{cite video}}
             if (!CiteVideoPodcast.IsMatch(templatename))
@@ -3566,10 +3575,9 @@ namespace WikiFunctions.Parse
             // author field typos
             if (templatename.Equals("cite web", StringComparison.OrdinalIgnoreCase))
             {
-                string x;
-                if(paramsFound.TryGetValue("authors",out x))
+                if(paramsFound.ContainsKey("authors"))
                     newValue = Tools.RenameTemplateParameter(newValue, "authors", "author");
-                if(paramsFound.TryGetValue("coauthor",out x))
+                if(paramsFound.ContainsKey("coauthor"))
                     newValue = Tools.RenameTemplateParameter(newValue, "coauthor", "coauthors");
             }
 
@@ -3642,11 +3650,13 @@ namespace WikiFunctions.Parse
                 newValue = Tools.RemoveTemplateParameter(newValue, "accessyear");
 
             // fix unspaced comma ranges, avoid pages=12,345 as could be valid page number
-            if (Regex.Matches(Tools.GetTemplateParameterValue(newValue, "pages"), @"\b\d{1,2},\d{3}\b").Count == 0)
+            if (Regex.Matches(pages, @"\b\d{1,2},\d{3}\b").Count == 0)
             {
-                while (UnspacedCommaPageRange.IsMatch(Tools.GetTemplateParameterValue(newValue, "pages")))
-                    newValue = Tools.UpdateTemplateParameterValue(newValue, "pages",
-                                                                  UnspacedCommaPageRange.Replace(Tools.GetTemplateParameterValue(newValue, "pages"), "$1, $2"));
+                while (UnspacedCommaPageRange.IsMatch(pages))
+                {
+                    pages = UnspacedCommaPageRange.Replace(pages, "$1, $2");
+                }
+                newValue = Tools.UpdateTemplateParameterValue(newValue, "pages", pages);
             }
 
             // page range should have unspaced en-dash; validate that page is range not section link
@@ -3662,14 +3672,14 @@ namespace WikiFunctions.Parse
             // remove ordinals from dates
             if (OrdinalsInDatesInt.IsMatch(newValue))
             {
-                newValue = Tools.UpdateTemplateParameterValue(newValue, "date", OrdinalsInDatesInt.Replace(Tools.GetTemplateParameterValue(newValue, "date"), "$1$2$3 $4"));
-                newValue = Tools.UpdateTemplateParameterValue(newValue, "accessdate", OrdinalsInDatesInt.Replace(Tools.GetTemplateParameterValue(newValue, "accessdate"), "$1$2$3 $4"));
+                newValue = Tools.UpdateTemplateParameterValue(newValue, "date", OrdinalsInDatesInt.Replace(TheDate, "$1$2$3 $4"));
+                newValue = Tools.UpdateTemplateParameterValue(newValue, "accessdate", OrdinalsInDatesInt.Replace(accessdate, "$1$2$3 $4"));
             }
 
             if (OrdinalsInDatesAm.IsMatch(newValue))
             {
-                newValue = Tools.UpdateTemplateParameterValue(newValue, "date", OrdinalsInDatesAm.Replace(Tools.GetTemplateParameterValue(newValue, "date"), "$1 $2$3"));
-                newValue = Tools.UpdateTemplateParameterValue(newValue, "accessdate", OrdinalsInDatesAm.Replace(Tools.GetTemplateParameterValue(newValue, "accessdate"), "$1 $2$3"));
+                newValue = Tools.UpdateTemplateParameterValue(newValue, "date", OrdinalsInDatesAm.Replace(TheDate, "$1 $2$3"));
+                newValue = Tools.UpdateTemplateParameterValue(newValue, "accessdate", OrdinalsInDatesAm.Replace(accessdate, "$1 $2$3"));
             }
 
             // catch after any other fixes
@@ -3687,7 +3697,6 @@ namespace WikiFunctions.Parse
                 newValue = Tools.UpdateTemplateParameterValue(newValue, "url", theURL);
 
             // {{dead link}} should be placed outside citation, not in format field per [[Template:Dead link]]
-            format = Tools.GetTemplateParameterValue(newValue, "format");
             if (WikiRegexes.DeadLink.IsMatch(format))
             {
                 string deadLink = WikiRegexes.DeadLink.Match(format).Value;
@@ -3701,7 +3710,7 @@ namespace WikiFunctions.Parse
             }
 
             //id=ISBN fix
-            if (IdISBN.IsMatch(id) && Tools.GetTemplateParameterValue(newValue, "isbn").Length == 0 && Tools.GetTemplateParameterValue(newValue, "ISBN").Length == 0)
+            if (IdISBN.IsMatch(id) && ISBN.Length == 0)
             {
                 newValue = Tools.RenameTemplateParameter(newValue, "id", "isbn");
                 newValue = Tools.SetTemplateParameterValue(newValue, "isbn", IdISBN.Match(id).Groups[1].Value.Trim());
@@ -3715,7 +3724,7 @@ namespace WikiFunctions.Parse
             }
 
             // origyear --> year when no year/date
-            if (TheYear.Length == 0 && TheDate.Length == 0 && Tools.GetTemplateParameterValue(newValue, "origyear").Length == 4)
+            if (TheYear.Length == 0 && TheDate.Length == 0 && origyear.Length == 4)
             {
                 newValue = Tools.RenameTemplateParameter(newValue, "origyear", "year");
                 newValue = Tools.RemoveDuplicateTemplateParameters(newValue);
