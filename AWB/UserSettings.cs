@@ -651,6 +651,7 @@ namespace AutoWikiBrowser
 
             CModule.Language = p.Module.Language;
             CModule.Code = p.Module.Code.Replace("\n", "\r\n");
+            //Don't enable custom module until code loaded, prevents phantom compile error
             CModule.ModuleEnabled = p.Module.Enabled;
             if (!CModule.ModuleEnabled)
                 CModule.SetModuleNotBuilt();
