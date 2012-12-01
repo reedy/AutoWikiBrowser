@@ -5996,6 +5996,13 @@ there]]", false, "", out noChange));
 '''Aikido''' was", parser.BoldTitle(@"{{Infobox martial art| name='''Aikido'''| website      = }}
 Aikido was", "Aikido", out noChangeBack), "Bold text in infobox ignored");
             Assert.IsFalse(noChangeBack);
+
+            // images then bold
+            const string NoChangeImages = @"[[Image:098098889899899889089980890890.png|2390823424890243 23980324 234098234980]] [[Image:098098889899899889089980890890.png|2390823424890243 23980324 234098234980]]
+            [[Image:098098889899899889089980890890.png|2390823424890243 23980324 234098234980]] [[Image:098098889899899889089980890890.png|2390823424890243 23980324 234098234980]]
+'''A''' was. Foo One here";
+            Assert.AreEqual(NoChangeImages, parser.BoldTitle(NoChangeImages, "Foo One", out noChangeBack));
+            Assert.IsTrue(noChangeBack);
         }
 
         [Test]
