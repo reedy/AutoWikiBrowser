@@ -2609,7 +2609,6 @@ window.scrollTo(0, diffTopY);
 
                 // Find multiple links
                 ArrayList arrayLinks = new ArrayList();
-                ArrayList arrayLinks2 = new ArrayList();
 
                 //get all the links, ignore commented out text etc.
                 foreach (Match m in WikiRegexes.WikiLink.Matches(Tools.ReplaceWithSpaces(articleText, WikiRegexes.UnformattedText.Matches(articleText))))
