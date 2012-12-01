@@ -649,9 +649,9 @@ namespace AutoWikiBrowser
 
             loggingSettings1.SerialisableSettings = p.Logging;
 
-            CModule.ModuleEnabled = p.Module.Enabled;
             CModule.Language = p.Module.Language;
             CModule.Code = p.Module.Code.Replace("\n", "\r\n");
+            CModule.ModuleEnabled = p.Module.Enabled;
             if (CModule.ModuleEnabled)
                 CModule.MakeModule();
             else
