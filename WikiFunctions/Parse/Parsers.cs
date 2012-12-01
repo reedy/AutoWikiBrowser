@@ -3180,6 +3180,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex FileImageCurlyBrackets = new Regex(@"{{\s*("+Variables.NamespacesCaseInsensitive[Namespace.File]+@"\s*)", RegexOptions.Compiled);
         private static readonly Regex CiteRefEndsTripleClosingBrace = new Regex(@"([^}])\}(\}\}\s*</ref>)", RegexOptions.Compiled);
         private static readonly Regex RefExternalLinkWrongBracket = new Regex(@"(<ref[^<>/]*>)\]", RegexOptions.Compiled);
+        private static readonly Regex CurlyToStraightSingleBracket = new Regex(@"([^{}()]){([^{}()]+)\)");
 
         /// <summary>
         /// Applies some fixes for unbalanced brackets, applied if there are unbalanced brackets
@@ -3317,6 +3318,9 @@ namespace WikiFunctions.Parse
 
                     // {{File: --> [[File:
                     articleTextTemp = FileImageCurlyBrackets.Replace(articleTextTemp, @"[[$1");
+
+                    // {...)
+                    articleTextTemp = CurlyToStraightSingleBracket.Replace(articleTextTemp, @"$1($2)");
                 }
 
                 unbalancedBracket = UnbalancedBrackets(articleTextTemp, ref bracketLength);

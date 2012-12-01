@@ -3804,6 +3804,15 @@ Image:X.JPG|Japanese classification systemJapanese classification systemJapanese
             Assert.AreEqual(@"[[Foo]]", Parsers.FixSyntax(@"[[Foo]]]]"), "fixes excess link bracketss");
 
             Assert.AreEqual(@"[[panka Smith]] (Local national)", Parsers.FixSyntax(@"[panka  Smith]] (Local national)"), "bracket and whitespace fix in one");
+
+            const string Football = @"{{Infobox football biography
+| playername     = D
+| image          = 
+| dateofdeath    = 1940 {aged 57)<ref name=A/>
+| cityofdeath    = [[S]]
+| years3         = 1911–19?? }}";
+
+            Assert.AreEqual(Football.Replace(@"{aged", @"(aged"), Parsers.FixSyntax(Football));
         }
 
         [Test]
