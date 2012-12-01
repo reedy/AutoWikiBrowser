@@ -5189,9 +5189,9 @@ namespace WikiFunctions.Parse
         private bool AddedBoldIsValid(string articleText, string escapedTitle)
         {
             HideText Hider2 = new HideText(true, true, true);
-            Regex RegexBoldAdded = new Regex(@"^(.*?)'''" + escapedTitle, RegexOptions.Singleline);
+            Regex RegexBoldAdded = new Regex(@"^(.*?)'''(" + escapedTitle + @")", RegexOptions.Singleline | RegexOptions.IgnoreCase);
 
-            int boldAddedPos = RegexBoldAdded.Match(articleText).Length - Regex.Unescape(escapedTitle).Length;
+            int boldAddedPos = RegexBoldAdded.Match(articleText).Groups[2].Index;
 
             int firstBoldPos = RegexFirstBold.Match(articleText).Length;
 
