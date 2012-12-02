@@ -609,7 +609,7 @@ namespace WikiFunctions
 
                         case "arz":
                             mSummaryTag = " ";
-                            WPAWB = "عن طريق اوب [[Project:AWB|AWB]]";
+                            WPAWB = "عن طريق [[Project:AWB|اوب]]";
                             Stub = @"(?:[^{}|]*?[Ss]tub|(تقاوى|بذرة)[^{}]*?)";
                             TypoSummaryTag = ".الأخطاء المصححة: ";
                             break;
