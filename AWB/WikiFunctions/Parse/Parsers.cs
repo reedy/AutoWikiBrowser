@@ -6952,7 +6952,7 @@ namespace WikiFunctions.Parse
                 if (Variables.LangCode.Equals("ar"))
                     summary = "وسوم " + Tools.ListToStringCommaSeparator(tagsRemoved) + " أزال";
                 if (Variables.LangCode.Equals("arz"))
-                    summary = "وسوم " + Tools.ListToStringCommaSeparator(tagsRemoved) + " أزال";
+                    summary = "وسوم " + Tools.ListToStringCommaSeparator(tagsRemoved) + " شال";
                 else summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " tag" +
                     (tagsRemoved.Count == 1 ? "" : "s");
             }
