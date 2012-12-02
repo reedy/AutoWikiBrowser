@@ -6862,8 +6862,8 @@ namespace WikiFunctions.Parse
                 }
                 if (Variables.LangCode.Equals("arz"))
                 {
-                    articleText = "{{يتيمة|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
-                    tagsAdded.Add("[[قالب:يتيمه|قالب]]");
+                    articleText = "{{يتيمه|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
+                    tagsAdded.Add("[[قالب:يتيمه|يتيمه]]");
                 }
                 else
                 {
