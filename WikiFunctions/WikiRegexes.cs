@@ -169,6 +169,12 @@ namespace WikiFunctions
                     DateYearMonthParameter = @"تاريخ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
                     Wikify =Tools.NestedTemplateRegex(@"ويكي");
                     break;
+                case "arz":
+                    Orphan = Tools.NestedTemplateRegex(@"يتيمه");
+                    uncattemplate = "بدون تصنيف";
+                    DateYearMonthParameter = @"تاريخ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
+                    Wikify =Tools.NestedTemplateRegex(@"wikify");
+                    break;
                 case "sv":
                     Orphan = Tools.NestedTemplateRegex(@"Föräldralös");
                     uncattemplate = "[Oo]kategoriserad";
