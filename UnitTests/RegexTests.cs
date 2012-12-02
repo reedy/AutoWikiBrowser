@@ -638,6 +638,8 @@ Start date and age
             RegexAssert.IsMatch(WikiRegexes.ExternalLinksHeader, "== External links ==");
             RegexAssert.IsMatch(WikiRegexes.ExternalLinksHeader, "==External link==");
             RegexAssert.IsMatch(WikiRegexes.ExternalLinksHeader, "== External link ==");
+            RegexAssert.IsMatch(WikiRegexes.SeeAlso, "==See also==");
+            RegexAssert.IsMatch(WikiRegexes.SeeAlso, "== See also ==");
         	
         }
 
