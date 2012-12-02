@@ -6667,10 +6667,15 @@ namespace WikiFunctions.Parse
                 if (WikiRegexes.Stub.IsMatch(commentsStripped))
                 {
                     // add uncategorized stub tag
-                    if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz"))
+                    if (Variables.LangCode.Equals("ar"))
                     {
                         articleText += Tools.Newline("{{بذرة غير مصنفة|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
                         tagsAdded.Add("[[تصنيف:مقالات غير مصنفة|غير مصنفة]]");
+                    }
+                    if (Variables.LangCode.Equals("arz"))
+                    {
+                        articleText += Tools.Newline("{{تقاوى مش متصنفه|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                        tagsAdded.Add("[[قالب:تقاوى مش متصنفه|تقاوى مش متصنفه]]");
                     }
                     else
                     {
@@ -6735,10 +6740,15 @@ namespace WikiFunctions.Parse
                 && !WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower().Contains("wikify"))
             {
                 // add wikify tag
-                if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz"))
+                if (Variables.LangCode.Equals("ar"))
                 {
                     articleText = "{{ويكي|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                     tagsAdded.Add("[[وب:ويكي|ويكي]]");
+                }
+                if (Variables.LangCode.Equals("arz"))
+                {
+                    articleText = "{{ويكى|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
+                    tagsAdded.Add("[[قالب:ويكى|ويكى]]");
                 }
                 else if (Variables.LangCode.Equals("sv"))
                 {
@@ -6966,7 +6976,7 @@ namespace WikiFunctions.Parse
                 if (Variables.LangCode.Equals("ar"))
                     summary += "وسوم " + Tools.ListToStringCommaSeparator(tagsAdded) + " أضاف";
                 if (Variables.LangCode.Equals("arz"))
-                    summary += "وسوم " + Tools.ListToStringCommaSeparator(tagsAdded) + " أزود";
+                    summary += "وسوم " + Tools.ListToStringCommaSeparator(tagsAdded) + " زود";
                 else summary += "added " + Tools.ListToStringCommaSeparator(tagsAdded) + " tag" +
                     (tagsAdded.Count == 1 ? "" : "s");
             }
