@@ -2864,7 +2864,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegexExternalLinkOnWholeLine = new Regex(@"^\[(\s*http.*?)\]$", RegexOptions.Compiled | RegexOptions.Singleline);
         private static readonly Regex SyntaxRegexClosingBracket = new Regex(@"([^]])\]([^]]|$)", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexOpeningBracket = new Regex(@"([^[]|^)\[([^[])", RegexOptions.Compiled);
-        private static readonly Regex SyntaxRegexImageWithHTTP = new Regex("\\[\\[[Ii]mage:[^]]*http", RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexFileWithHTTP = new Regex("\\[\\[([Ii]mage|[Ff]ile):[^]]*http", RegexOptions.Compiled);
 
         /// <summary>
         /// Matches double piped links e.g. [[foo||bar]] (CHECKWIKI error 32)
@@ -2969,7 +2969,7 @@ namespace WikiFunctions.Parse
             articleText = SquareBracketsInExternalLinks.Replace(articleText, SquareBracketsInExternalLinksME);
 
             // needs to be applied after SquareBracketsInExternalLinks
-            if (!SyntaxRegexImageWithHTTP.IsMatch(articleText))
+            if (!SyntaxRegexFileWithHTTP.IsMatch(articleText))
             {
                 articleText = SyntaxRegexWikilinkMissingClosingBracket.Replace(articleText, "[[$1]]");
                 articleText = SyntaxRegexWikilinkMissingOpeningBracket.Replace(articleText, "[[$1]]");
