@@ -6692,8 +6692,8 @@ namespace WikiFunctions.Parse
                     }
                     if (Variables.LangCode.Equals("arz"))
                     {
-                        articleText += Tools.Newline("{{قالب|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
-                        tagsAdded.Add("[[CAT:UNCAT|مقالات غير مصنفة]]");
+                        articleText += Tools.Newline("{{مش متصنفه|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                        tagsAdded.Add("[[CAT:UNCAT|مش متصنفه]]");
                     }
                     else
                     {
@@ -6724,10 +6724,15 @@ namespace WikiFunctions.Parse
                 && !Regex.IsMatch(WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower(), @"\bdead ?end\b"))
             {
                 // add dead-end tag
-                if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz"))
+                if (Variables.LangCode.Equals("ar"))
                 {
                     articleText = "{{نهاية مسدودة|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                     tagsAdded.Add("[[:تصنيف:مقالات نهاية مسدودة|نهاية مسدودة]]");
+                }
+                if (Variables.LangCode.Equals("arz"))
+                {
+                    articleText = "{{نهايه مسدوده|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
+                    tagsAdded.Add("[[:قالب:نهايه مسدوده|نهايه مسدوده]]");
                 }
                 else
                 {
