@@ -171,9 +171,9 @@ namespace WikiFunctions
                     break;
                 case "arz":
                     Orphan = Tools.NestedTemplateRegex(@"يتيمه");
-                    uncattemplate = "بدون تصنيف";
+                    uncattemplate = "مش متصنفه";
                     DateYearMonthParameter = @"تاريخ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
-                    Wikify =Tools.NestedTemplateRegex(@"wikify");
+                    Wikify =Tools.NestedTemplateRegex(@"ويكى");
                     break;
                 case "sv":
                     Orphan = Tools.NestedTemplateRegex(@"Föräldralös");
