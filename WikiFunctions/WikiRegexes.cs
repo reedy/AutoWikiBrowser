@@ -912,8 +912,10 @@ namespace WikiFunctions
 
         /// <summary>
         /// Matches {{Deadend|xxx}} (en only), including in {{Multiple issues}}, group 1 is the {{Multiple issues}} template call up to the dead end tag
+        /// HACK: Hacked to work for ar / arz wikis too
+        /// TODO: Modify DeadEnd to work like Wikify does. Dead End is not a tag in most wikis.
         /// </summary>
-        public static readonly Regex DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end|[Ii]nternal ?links|[Nn]uevointernallinks|[Dd]ep)(?:\|(?:[^{}]+|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}))?}}|({{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*dead ?end\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))");
+        public static readonly Regex DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end|[Ii]nternal ?links|[Nn]uevointernallinks|[Dd]ep|نهاية مسدودة|نهايه مسدوده|)(?:\|(?:[^{}]+|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}))?}}|({{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*dead ?end\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))");
 
         /// <summary>
         /// Matches {{wikify}} tag (including within {{multiple issues}} for en-wiki)
