@@ -6638,8 +6638,8 @@ namespace WikiFunctions.Parse
                     }
                     if (Variables.LangCode.Equals("arz"))
                     {
-                        articleText += Tools.Newline("{{قالب}}", 3);
-                        tagsAdded.Add("بذرة");
+                        articleText += Tools.Newline("{{تقاوى}}", 3);
+                        tagsAdded.Add("تقاوى");
                     }
                     else
                     {

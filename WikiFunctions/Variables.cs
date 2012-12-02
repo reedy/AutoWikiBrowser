@@ -607,6 +607,13 @@ namespace WikiFunctions
                             TypoSummaryTag = ".الأخطاء المصححة: ";
                             break;
 
+                        case "arz":
+                            mSummaryTag = " ";
+                            WPAWB = "باستخدام [[Project:AWB|AWB]]";
+                            Stub = @"(?:[^{}|]*?[Ss]tub|(تقاوى|بذرة)[^{}]*?)";
+                            TypoSummaryTag = ".الأخطاء المصححة: ";
+                            break;
+                            
                         case "bg":
                             mSummaryTag = " редактирано с ";
                             WPAWB = "AWB";
