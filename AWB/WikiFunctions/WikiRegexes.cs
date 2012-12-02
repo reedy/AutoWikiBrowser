@@ -208,7 +208,11 @@ namespace WikiFunctions
                     LinkFGAs = Tools.NestedTemplateRegex(new [] {"وصلة مقالة مختارة", "وصلة مقالة جيدة" });
                     break;
 
-                case "br":
+                case "arz":
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "وصلة مقالة مختارة" });
+                    break;
+
+                   case "br":
                     LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "liamm PuB", "lien AdQ", "lien BA" });
                     break;
 
