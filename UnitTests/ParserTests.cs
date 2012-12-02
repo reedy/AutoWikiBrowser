@@ -3357,6 +3357,9 @@ Template:foo}}"));
             Assert.AreEqual("[[Image:foo.jpg|Some [http://some_crap.com]]]",
                             Parsers.FixSyntax("[[Image:foo.jpg|Some [http://some_crap.com]]]"));
 
+            Assert.AreEqual("[[File:foo.jpg|Some [http://some_crap.com]]]",
+                            Parsers.FixSyntax("[[File:foo.jpg|Some [http://some_crap.com]]]"));
+
             Assert.AreEqual("Image:foo.jpg|{{{some_crap}}}]]", Parsers.FixSyntax("Image:foo.jpg|{{{some_crap}}}]]"));
 
             Assert.AreEqual("[[somelink]]", Parsers.FixSyntax("[somelink]]"));
