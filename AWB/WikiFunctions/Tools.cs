@@ -879,6 +879,7 @@ namespace WikiFunctions
 		public static readonly KeyValuePair<string, string>[] Diacritics =
 		{
 			new KeyValuePair<string, string>("’", "'"),
+			new KeyValuePair<string, string>("ʻ", "'"),
 
 			//Latin
 			new KeyValuePair<string, string>("Ɯ", "W"),
