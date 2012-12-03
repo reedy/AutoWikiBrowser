@@ -1190,6 +1190,17 @@ cit"));
         }
 
         [Test]
+        public void SisterLinksTests()
+        {
+            Assert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{wiktionary}}"));
+            Assert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{ wiktionary }}"));
+            Assert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{sisterlinks}}"));
+            Assert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{sister links}}"));
+            Assert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{wikibooks}}"));
+        	
+        }
+
+        [Test]
         public void Unreferenced()
         {
             Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(@"{{unreferenced}}"));
