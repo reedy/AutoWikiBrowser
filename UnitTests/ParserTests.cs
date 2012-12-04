@@ -4840,6 +4840,11 @@ Some news here.", "test"), "space trimmed from end of paragraph when br replaces
             Assert.AreEqual(@"==Source==", Parsers.FixHeadings(@"==source==", "a"));
             Assert.AreEqual(@"==Source==", Parsers.FixHeadings(@"==source:==", "a"));
             Assert.AreEqual(@"== Sources ==", Parsers.FixHeadings(@"== SOURCES ==", "a"));
+            
+            string HeadingEqualTitle = Parsers.FixHeadings(@"A
+==Foo==
+B","Foo");
+            Assert.IsFalse(HeadingEqualTitle.Contains("Foo"), "Heading same as title");
         }
 
         [Test]
