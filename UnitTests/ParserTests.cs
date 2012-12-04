@@ -1008,6 +1008,22 @@ The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines af
             Assert.AreEqual(nochange1, parser.FixDatesA(nochange1));
             Assert.AreEqual(nochange2, parser.FixDatesA(nochange2));
         }
+        
+        [Test]
+        public void FixDatesEnOnly()
+        {
+            #if DEBUG
+            Variables.SetProjectLangCode("fr");
+            Assert.AreEqual(@"Retrieved on April, 14, 2009 was", parser.FixDatesA(@"Retrieved on April, 14, 2009 was"));
+            Assert.AreEqual(@"from (1900-1933) there", parser.FixDatesB(@"from (1900-1933) there", false, false));
+
+            Variables.SetProjectLangCode("en");
+            const string correct1 = @"Retrieved on April 14, 2009 was";
+            Assert.AreEqual(correct1, parser.FixDatesA(@"Retrieved on April, 14, 2009 was"));
+            const string correct = @"from (1900–1933) there";
+            Assert.AreEqual(correct, parser.FixDatesB(@"from (1900-1933) there", false, false));
+            #endif
+        }
 
         [Test]
         public void FixDatesRanges()
