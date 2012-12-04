@@ -2665,6 +2665,9 @@ world|format=PDF}} was";
             string UnformatedDOB = @"'''Fred''' (born 27 June 1950) was great [[Category:1950 births]]";
             Assert.AreEqual(UnformatedDOB + a2, Parsers.PersonData(UnformatedDOB + a, "test x"), "sets full birth date when matches category");
 
+            UnformatedDOB = @"'''Fred''' (born June 27, 1950) was great [[Category:1950 births]] {{use dmy dates}}";
+            Assert.AreEqual(UnformatedDOB + a2, Parsers.PersonData(UnformatedDOB + a, "test x"), "sets full birth date when matches category, American date");
+
             UnformatedDOB = UnformatedDOB.Replace(@"[[Category:1950 births]]", "");
             Assert.AreEqual(UnformatedDOB + a, Parsers.PersonData(UnformatedDOB + a, "test x"), "not set when no birth category");
 
@@ -2762,6 +2765,14 @@ world|format=PDF}} was";
 |DATE OF BIRTH=
 |DATE OF DEATH=
 }}" + u1, "test x"), "birth and death added from unformatted values");
+            u1 = @"Fred (born 11 May 1920{{ndash}} June 4, 2004) was great. [[Category:1920 births]] [[Category:2004 deaths]] {{use dmy dates}}";
+            Assert.AreEqual(@"{{Persondata
+|DATE OF BIRTH= 11 May 1920
+|DATE OF DEATH= 4 June 2004
+}}" + u1, Parsers.PersonData(@"{{Persondata
+|DATE OF BIRTH=
+|DATE OF DEATH=
+}}" + u1, "test x"), "birth and death added from unformatted values, American format dates");
 
             u1 = @"Fred (11 May 1920 – 4 June 1000) was great. [[Category:1920 births]] [[Category:2004 deaths]]";
             Assert.AreEqual(@"{{Persondata
