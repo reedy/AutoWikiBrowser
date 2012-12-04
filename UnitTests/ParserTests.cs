@@ -4348,6 +4348,10 @@ http://example.com }}");
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_2#Incorrect_bulleting
             StringAssert.Contains("\r\nhttp://example.com }}", s);
+            
+            string NoChange = @"==External links==
+* http://example.com/foo";
+            Assert.AreEqual(NoChange, Parsers.BulletExternalLinks(NoChange));
         }
 
         [Test]
