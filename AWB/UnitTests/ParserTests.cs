@@ -5518,6 +5518,9 @@ was"));
 
             const string unclosedTag = @"<ref><small>foo</small></ref> now <small>";
             Assert.AreEqual(unclosedTag, Parsers.FixSyntax(unclosedTag));
+
+            const string NoSmall =  @"<ref>foo</ref> <small>A</small>";
+            Assert.AreEqual(NoSmall, Parsers.FixSyntax(NoSmall), "No change when no small that should be removed");
         }
 
         [Test]
