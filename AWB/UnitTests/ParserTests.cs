@@ -1096,6 +1096,13 @@ The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines af
             Assert.AreEqual(@"now between 1900–1920
 was", parser.FixDatesB(@"now between 1900-1920
 was", false, false));
+
+            string BadRange = @"from 1950-1920,";
+            Assert.AreEqual(BadRange, parser.FixDatesB(BadRange, false, false));
+            BadRange = @"from 1950 – 1920,";
+            Assert.AreEqual(BadRange, parser.FixDatesB(BadRange, false, false));
+            BadRange = @"from 1980-70,";
+            Assert.AreEqual(BadRange, parser.FixDatesB(BadRange, false, false));
         }
 
         [Test]
