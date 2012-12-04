@@ -516,6 +516,9 @@ End of.";
             E2 = @"Foo<ref name=a>a</ref> bar<ref name=a/> was<ref>b</ref> and 1<ref name=""ReferenceA"">c</ref> or 2<ref name=""ReferenceA""/>";
 
             Assert.AreEqual(E2, Parsers.DuplicateUnnamedReferences(E));
+
+            const string F = @"<ref>""book""</ref> foo <ref> ""book"" </ref> <ref name=book>A</ref><ref name=""ReferenceA"">""bookA""</ref><ref name=""ReferenceB"">""bookB""</ref><ref name=""ReferenceC"">""bookC""</ref>";
+            Assert.AreEqual(F, Parsers.DuplicateUnnamedReferences(F));
         }
 
         [Test]
