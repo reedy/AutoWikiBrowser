@@ -6269,11 +6269,14 @@ John Smith was great.";
 }}", "It Crawled into My Hand, Honest", out noChangeBack));
 
             Assert.AreEqual(@"<noinclude> = '''''[[It Crawled into My Hand, Honest]]'''''<br /> </noinlcude>", parser.BoldTitle(@"<noinclude> = '''''[[It Crawled into My Hand, Honest]]'''''<br /> </noinlcude>", "[[It Crawled into My Hand, Honest]]", out noChangeBack));
-            
+
             Assert.AreEqual(@"'''foo'''", parser.BoldTitle(@"[[foo]]", @"Foo", out noChangeBack));
             Assert.AreEqual(@"'''Foo'''", parser.BoldTitle(@"'''[[foo (here)|Foo]]'''", @"foo (here)", out noChangeBack));
-            const string NoChange=@"{{abc|The [[foo]] was}} A.";
+            string NoChange = @"{{abc|The [[foo]] was}} A.";
             Assert.AreEqual(NoChange, parser.BoldTitle(NoChange, @"Foo", out noChangeBack));
+
+            NoChange = @"<noinclude>'''[[foo (here)|Foo]]'''</noinclude> A.";
+            Assert.AreEqual(NoChange, parser.BoldTitle(NoChange, @"Foo", out noChangeBack), "no change when noinclude/includeonly");
         }
     }
 
