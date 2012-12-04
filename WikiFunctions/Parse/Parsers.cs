@@ -4869,14 +4869,17 @@ namespace WikiFunctions.Parse
         private static string ExtractTemplate(string articleText, Match m)
         {
             Regex theTemplate = new Regex(Regex.Escape(m.Groups[1].Value) + @"(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}}");
-
+            string res = "";
             foreach (Match n in theTemplate.Matches(articleText))
             {
                 if (n.Index == m.Index)
-                    return theTemplate.Match(articleText).Value;
+                {
+                    res= theTemplate.Match(articleText).Value;
+                    break;
+                }
             }
 
-            return "";
+            return res;
         }
 
         /// <summary>
