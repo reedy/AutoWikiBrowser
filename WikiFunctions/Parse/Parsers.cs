@@ -3309,11 +3309,6 @@ namespace WikiFunctions.Parse
 
                     articleTextTemp = QuadrupleCurlyBrackets.Replace(articleTextTemp, "$1");
 
-                    // defaultsort missing }} at end
-                    string defaultsort = WikiRegexes.Defaultsort.Match(articleTextTemp).Value;
-                    if (!string.IsNullOrEmpty(defaultsort) && !defaultsort.Contains("}}"))
-                        articleTextTemp = articleTextTemp.Replace(defaultsort.TrimEnd(), defaultsort.TrimEnd() + "}}");
-
                     // unclosed cat/interwiki
                     articleTextTemp = UnclosedCatInterwiki.Replace(articleTextTemp, @"$1]]$2");
 

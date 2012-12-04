@@ -3862,6 +3862,8 @@ Image:X.JPG|Japanese classification systemJapanese classification systemJapanese
 | years3         = 1911–19?? }}";
 
             Assert.AreEqual(Football.Replace(@"{aged", @"(aged"), Parsers.FixSyntax(Football));
+            Assert.AreEqual(@"{{DEFAULTSORT:Foo}}", Parsers.FixSyntax(@"{{DEFAULTSORT:Foo
+"), "fixes DEFAULTSORT ending");
         }
 
         [Test]
