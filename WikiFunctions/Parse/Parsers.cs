@@ -1880,7 +1880,8 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Checks the validity of a new reference name
+        /// Checks the validity of a new reference name:
+        /// Name at least 3 characters and not already used in article
         /// </summary>
         /// <param name="articleText">The article text</param>
         /// <param name="derivedReferenceName">The reference name</param>
