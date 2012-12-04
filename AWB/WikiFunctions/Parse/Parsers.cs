@@ -349,7 +349,7 @@ namespace WikiFunctions.Parse
             // remove bold from level 3 headers and below, as it makes no visible difference
             hAfter = RegexHeadingWithBold.Replace(hAfter, "$1");
 
-            if(hAfter.Equals(Regex.Escape(articleTitle)))
+            if(hAfter.Trim().Trim('=').Trim().Equals(Regex.Escape(articleTitle)))
                 return "";
 
             return hAfter;
