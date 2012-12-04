@@ -2855,7 +2855,7 @@ namespace WikiFunctions.Parse
         // CHECKWIKI error 2: fix incorrect <br> of <br.>, <\br>, <br\> and <br./>
         private static readonly Regex IncorrectBr = new Regex(@"< *br\. *>|<\\ *br *>|< *br *\\ *>|< *br\. */>|< *br */[v|r]>|< *br *\?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-        private static readonly Regex SyntaxRegexHorizontalRule = new Regex(@"^\-{5,}", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex SyntaxRegexHorizontalRule = new Regex("^(<hr>|-{5,})", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SyntaxRegexHeadingWithHorizontalRule = new Regex("(^==?[^=]*==?)\r\n(\r\n)?----+", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SyntaxRegexHTTPNumber = new Regex(@"HTTP/\d\.", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexISBN = new Regex(@"ISBN(?:\-1[03])?: *(\d)", RegexOptions.Compiled);
@@ -2910,8 +2910,8 @@ namespace WikiFunctions.Parse
             //replace html with wiki syntax - CHECKWIKI error 26 and 38
             articleText = SyntaxRegexItalicBoldEm.Replace(articleText, BoldItalicME);
 
-            articleText = articleText.Replace("<hr>", "----");
-            articleText = SyntaxRegexHorizontalRule.Replace(articleText, "----");
+            if(articleText.Contains("<hr>") || articleText.Contains("-----"))
+                articleText = SyntaxRegexHorizontalRule.Replace(articleText, "----");
 
             //remove appearance of double line break
             articleText = SyntaxRegexHeadingWithHorizontalRule.Replace(articleText, "$1");
@@ -3369,7 +3369,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly Regex AccessdateSynonyms = new Regex(@"({{\s*[Cc]it[ae][^{}]*?\|\s*)(?:\s*date\s*)?(?:retrieved(?:\s+on)?|(?:last|date) *ac+essed|access\s+date)(?=\s*=\s*)");
+        private static readonly Regex AccessdateSynonyms = new Regex(@"(\|\s*)(?:\s*date\s*)?(?:retrieved(?:\s+on)?|(?:last|date) *ac+essed|access\s+date)(?=\s*=\s*)");
 
         private static readonly Regex UppercaseCiteFields = new Regex(@"(\{\{\s*(?:[Cc]ite\s*(?:web|book|news|journal|paper|press release|hansard|encyclopedia)|[Cc]itation)\b\s*[^{}]*\|\s*)(\w*?[A-Z]+\w*)(?<!(?:IS[BS]N|DOI|PMID))(\s*=\s*[^{}\|]{3,})");
 
@@ -3462,7 +3462,7 @@ namespace WikiFunctions.Parse
             
             Dictionary<string, string> paramsFound = Tools.GetTemplateParameterValues(newValue);
             
-            string theURL,id,format,pg,theTitle,TheYear,lang,TheDate,TheMonth,TheWork,nopp,TheIssue,accessyear,accessdate,pages,ISBN,origyear;
+            string theURL,id,format,pg,theTitle,TheYear,lang,TheDate,TheMonth,TheWork,nopp,TheIssue,accessyear,accessdate,pages,page,ISBN,origyear;
             if(!paramsFound.TryGetValue("url", out theURL))
                 theURL = "";
             if(!paramsFound.TryGetValue("id", out id))
@@ -3491,7 +3491,9 @@ namespace WikiFunctions.Parse
                 accessdate = "";
             if(!paramsFound.TryGetValue("pages", out pages))
                 pages = "";
-             if(!paramsFound.TryGetValue("origyear", out origyear))
+            if(!paramsFound.TryGetValue("page", out page))
+                page = "";
+            if(!paramsFound.TryGetValue("origyear", out origyear))
                 origyear = "";
             if(!paramsFound.TryGetValue("isbn", out ISBN) && !paramsFound.TryGetValue("ISBN", out ISBN))
                 ISBN = "";
@@ -3549,14 +3551,14 @@ namespace WikiFunctions.Parse
             }
 
             // page= and pages= fields don't need p. or pp. in them when nopp not set
-            if (!templatename.Equals("cite journal", StringComparison.OrdinalIgnoreCase) && nopp.Length == 0)
+            if ((pages.Contains("p") || page.Contains("p")) && !templatename.Equals("cite journal", StringComparison.OrdinalIgnoreCase) && nopp.Length == 0)
             {
                 newValue = CiteTemplatePagesPP.Replace(newValue, "");
                 pages = Tools.GetTemplateParameterValue(newValue, "pages");
             }
 
             // date = YYYY --> year = YYYY; not for {{cite video}}
-            if (!CiteVideoPodcast.IsMatch(templatename))
+            if (TheDate.Length == 4 && !CiteVideoPodcast.IsMatch(templatename))
                 newValue = YearInDate.Replace(newValue, "$1year$2");
 
             // year = full date --> date = full date
@@ -3568,8 +3570,8 @@ namespace WikiFunctions.Parse
                 TheYear = TheYearCorected;
             }
             
-            if (WikiRegexes.ISODates.IsMatch(TheYear) || WikiRegexes.InternationalDates.IsMatch(TheYear)
-                || WikiRegexes.AmericanDates.IsMatch(TheYear))
+            if (TheYear.Length > 5 && (WikiRegexes.ISODates.IsMatch(TheYear) || WikiRegexes.InternationalDates.IsMatch(TheYear)
+                                      || WikiRegexes.AmericanDates.IsMatch(TheYear)))
             {
                 TheDate = TheYear; 
                 TheYear = "";

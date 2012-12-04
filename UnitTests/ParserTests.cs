@@ -2063,6 +2063,22 @@ was [[foo|bar]] too"));
         }
 
         [Test]
+        public void FixSyntaxHorizontalRule()
+        {
+            Assert.AreEqual(@"----", Parsers.FixSyntax(@"<hr>"));
+            Assert.AreEqual(@"----", Parsers.FixSyntax(@"-----"));
+            Assert.AreEqual(@"A
+----
+B", Parsers.FixSyntax(@"A
+<hr>
+B"));
+            string Nochange = @"A<hr>";
+            Assert.AreEqual(Nochange, Parsers.FixSyntax(Nochange));
+            Nochange = @"A----";
+            Assert.AreEqual(Nochange, Parsers.FixSyntax(Nochange));
+        }
+
+        [Test]
         public void FixSyntaxRedirects()
         {
             Assert.AreEqual(@"#REDIRECT [[Foo]]", Parsers.FixSyntaxRedirects(@"#REDIRECT
