@@ -7715,10 +7715,12 @@ fish | name = Bert }} ''Bert'' is a good fish."));
             Assert.AreEqual(@"{{ foo|bar
 asdfasdf}}", Parsers.GetTemplate(@"now {{ foo|bar
 asdfasdf}} was here", "foo"));
+            Assert.AreEqual(@"{{foo}}", Parsers.GetTemplate(@"now {{foo}} was here {{foo|1}}", "foo"));
 
             Assert.AreEqual(@"", Parsers.GetTemplate(@"now {{ foo|bar asdfasdf}} was here", "foot"));
             Assert.AreEqual(@"", Parsers.GetTemplate(@"now {{ foo|bar asdfasdf}} was here", ""));
             Assert.AreEqual(@"", Parsers.GetTemplate(@"", "foo"));
+            Assert.AreEqual(@"", Parsers.GetTemplate(@"now <!--{{foo}} --> was here", "foo"));
             Assert.AreEqual(@"{{foo<!--comm-->}}", Parsers.GetTemplate(@"now {{foo<!--comm-->}} was here", "foo"));
 
             Assert.AreEqual(@"{{foo  |a={{bar}} here}}", Parsers.GetTemplate(@"now {{foo  |a={{bar}} here}} was here", "foo"));
