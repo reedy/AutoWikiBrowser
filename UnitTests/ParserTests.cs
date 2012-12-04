@@ -6272,6 +6272,8 @@ John Smith was great.";
             
             Assert.AreEqual(@"'''foo'''", parser.BoldTitle(@"[[foo]]", @"Foo", out noChangeBack));
             Assert.AreEqual(@"'''Foo'''", parser.BoldTitle(@"'''[[foo (here)|Foo]]'''", @"foo (here)", out noChangeBack));
+            const string NoChange=@"{{abc|The [[foo]] was}} A.";
+            Assert.AreEqual(NoChange, parser.BoldTitle(NoChange, @"Foo", out noChangeBack));
         }
     }
 
