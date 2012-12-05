@@ -272,88 +272,79 @@ en, sq, ru
 			if (Namespace.Determine(articleTitle) == Namespace.Template) // Don't sort on templates
 				return articleText;
 
-			string strSave = articleText;
-			try
+			articleText = CommentedOutEnInterwiki.Replace(articleText, "");
+
+			string personData = Tools.Newline(RemovePersonData(ref articleText));
+			string disambig = Tools.Newline(RemoveDisambig(ref articleText));
+			string categories = Tools.Newline(RemoveCats(ref articleText, articleTitle));
+			string interwikis = Tools.Newline(Interwikis(ref articleText));
+
+			// Dablinks above orphan tags per [[WP:LAYOUT]]
+			if (Variables.LangCode.Equals("en"))
+			    articleText = MoveMaintenanceTags(articleText);
+
+			articleText = MoveDablinks(articleText);
+
+			if (Variables.LangCode.Equals("en"))
 			{
-				articleText = CommentedOutEnInterwiki.Replace(articleText, "");
-
-				string personData = Tools.Newline(RemovePersonData(ref articleText));
-				string disambig = Tools.Newline(RemoveDisambig(ref articleText));
-				string categories = Tools.Newline(RemoveCats(ref articleText, articleTitle));
-				string interwikis = Tools.Newline(Interwikis(ref articleText));
-
-				// Dablinks above orphan tags per [[WP:LAYOUT]]
-				if (Variables.LangCode.Equals("en"))
-					articleText = MoveMaintenanceTags(articleText);
-
-				articleText = MoveDablinks(articleText);
-
-				if (Variables.LangCode.Equals("en"))
-				{
-					articleText = MovePortalTemplates(articleText);
-					articleText = MoveTemplateToSeeAlsoSection(articleText, WikiRegexes.WikipediaBooks);
-					articleText = MoveSisterlinks(articleText);
-					articleText = MoveTemplateToReferencesSection(articleText, WikiRegexes.Ibid);
-					articleText = MoveExternalLinks(articleText);
-					articleText = MoveSeeAlso(articleText);
-				}
-
-				// two newlines here per https://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser&oldid=243224092#Blank_lines_before_stubs
-				// https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Two_empty_lines_before_stub-templates
-				// ru, sl wikis use only one newline
-				string strStub = "";
-				
-				// Category: can use {{Verylargestub}}/{{popstub}} which is not a stub template, don't do stub sorting
-				if(!Namespace.Determine(articleTitle).Equals(Namespace.Category))
-					strStub = Tools.Newline(RemoveStubs(ref articleText), (Variables.LangCode.Equals("ru") || Variables.LangCode.Equals("sl")) ? 1 : 2);
-
-				//filter out excess white space and remove "----" from end of article
-				articleText = Parsers.RemoveWhiteSpace(articleText, fixOptionalWhitespace) + "\r\n";
-				articleText += disambig;
-
-				switch (Variables.LangCode)
-				{
-					case "de":
-					case "sl":
-						articleText += strStub + categories + personData;
-
-						// https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser#Removal_of_blank_lines
-						// on de wiki a blank line is desired between persondata and interwikis
-						if (Variables.LangCode.Equals("de") && personData.Length > 0 && interwikis.Length > 0)
-							articleText += "\r\n";
-						break;
-
-					case "ar":
-					case "cs":
-					case "el":
-					case "pl":
-					case "ru":
-					case "simple":
-						articleText += personData + strStub + categories;
-						break;
-						
-					case "it":
-						if(Variables.Project == ProjectEnum.wikiquote)
-							articleText += personData + strStub + categories;
-						else
-							articleText += personData + categories + strStub;
-						break;
-						
-					default:
-						articleText += personData + categories + strStub;
-						break;
-				}
-				articleText = (articleText + interwikis);
-				
-				if(Namespace.Determine(articleTitle) == Namespace.Category)
-					return articleText.Trim();
-				else return articleText.TrimEnd();
+			    articleText = MovePortalTemplates(articleText);
+			    articleText = MoveTemplateToSeeAlsoSection(articleText, WikiRegexes.WikipediaBooks);
+			    articleText = MoveSisterlinks(articleText);
+			    articleText = MoveTemplateToReferencesSection(articleText, WikiRegexes.Ibid);
+			    articleText = MoveExternalLinks(articleText);
+			    articleText = MoveSeeAlso(articleText);
 			}
-			catch (Exception ex)
+
+			// two newlines here per https://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser&oldid=243224092#Blank_lines_before_stubs
+			// https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Two_empty_lines_before_stub-templates
+			// ru, sl wikis use only one newline
+			string strStub = "";
+			
+			// Category: can use {{Verylargestub}}/{{popstub}} which is not a stub template, don't do stub sorting
+			if(!Namespace.Determine(articleTitle).Equals(Namespace.Category))
+			    strStub = Tools.Newline(RemoveStubs(ref articleText), (Variables.LangCode.Equals("ru") || Variables.LangCode.Equals("sl")) ? 1 : 2);
+
+			//filter out excess white space and remove "----" from end of article
+			articleText = Parsers.RemoveWhiteSpace(articleText, fixOptionalWhitespace) + "\r\n";
+			articleText += disambig;
+
+			switch (Variables.LangCode)
 			{
-				if (!ex.Message.Contains("DEFAULTSORT")) ErrorHandler.Handle(ex);
-				return strSave;
+			    case "de":
+			    case "sl":
+			        articleText += strStub + categories + personData;
+
+			        // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser#Removal_of_blank_lines
+			        // on de wiki a blank line is desired between persondata and interwikis
+			        if (Variables.LangCode.Equals("de") && personData.Length > 0 && interwikis.Length > 0)
+			            articleText += "\r\n";
+			        break;
+
+			    case "ar":
+			    case "cs":
+			    case "el":
+			    case "pl":
+			    case "ru":
+			    case "simple":
+			        articleText += personData + strStub + categories;
+			        break;
+			        
+			    case "it":
+			        if(Variables.Project == ProjectEnum.wikiquote)
+			            articleText += personData + strStub + categories;
+			        else
+			            articleText += personData + categories + strStub;
+			        break;
+			        
+			    default:
+			        articleText += personData + categories + strStub;
+			        break;
 			}
+			articleText = (articleText + interwikis);
+			
+			if(Namespace.Determine(articleTitle) == Namespace.Category)
+			    return articleText.Trim();
+			else return articleText.TrimEnd();
 		}
 		
 		private static readonly Regex LifeTime = Tools.NestedTemplateRegex("Lifetime");
@@ -476,16 +467,16 @@ en, sq, ru
 		/// <returns></returns>
 		public static string RemovePersonData(ref string articleText)
 		{
-			string strPersonData = (Variables.LangCode == "de")
+		    string strPersonData = (Variables.LangCode.Equals("de")
 				? Parsers.GetTemplate(articleText, "[Pp]ersonendaten")
-				: Parsers.GetTemplate(articleText, "[Pp]ersondata");
+				: Parsers.GetTemplate(articleText, "[Pp]ersondata"));
 
 			if (!string.IsNullOrEmpty(strPersonData))
 			{
 				articleText = articleText.Replace(strPersonData, "");
 				
 				// detection of duplicate persondata template
-				if(Variables.LangCode == "en")
+				if(Variables.LangCode.Equals("en"))
 				{
 					string PersonData2 = Parsers.GetTemplate(articleText, "[Pp]ersondata");
 					
