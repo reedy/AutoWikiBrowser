@@ -2653,17 +2653,28 @@ namespace WikiFunctions.Parse
             
             bool monthsInTitle = MonthsRegex.IsMatch(articleTitle);
 
-            // performance: better to loop through all instances of dates and apply regexes to those than
-            // to apply regexes to whole article text
-            foreach(Match m in MonthsRegex.Matches(articleText))
+            bool reparse = false;
+            for (; ; )
             {
-                // take up to 25 characters before match, unless match within first 25 characters of article
-                string before = articleText.Substring(m.Index-Math.Min(25, m.Index), Math.Min(25, m.Index)+m.Length);
-                
-                string after = FixDateOrdinalsAndOfLocal(before, monthsInTitle);
-                
-                if(!after.Equals(before))
-                    articleText = articleText.Replace(before, after);
+                reparse = false;
+                // performance: better to loop through all instances of dates and apply regexes to those than
+                // to apply regexes to whole article text
+                foreach(Match m in MonthsRegex.Matches(articleText))
+                {
+                    // take up to 25 characters before match, unless match within first 25 characters of article
+                    string before = articleText.Substring(m.Index-Math.Min(25, m.Index), Math.Min(25, m.Index)+m.Length);
+                    
+                    string after = FixDateOrdinalsAndOfLocal(before, monthsInTitle);
+                    
+                    if(!after.Equals(before))
+                    {
+                        reparse = true;
+                        articleText = articleText.Replace(before, after);
+                        break;
+                    }
+                }
+                if (!reparse)
+                    break;
             }
             
             return articleText;
