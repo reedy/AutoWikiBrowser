@@ -381,6 +381,8 @@ File:9th of June street , Bacău.JPG|[[Romanian War of Independence#Overview|9th
             AssertAllHiddenMore("[http://foo]", true);
             AssertAllHiddenMore("[http://foo bar]", true);
             AssertAllHiddenMore("[http://foo [bar]", true);
+            AssertAllHiddenMore("[[ru:Link]]", true); // possible interwiki
+            Assert.IsFalse(Hide(@"[[ru:Link]]", true, true, true).Contains("Link")); // possible interwiki
             
             Assert.IsTrue(Hide(@"date=April 2010|url=http://w/010111a.html}}", true, true, true).Contains(@"date=April 2010|url="));
             Assert.IsTrue(Hide(@"date=April 2010|url=http://w/010111a.html}}", true, true, true).Contains(@"}}"));
