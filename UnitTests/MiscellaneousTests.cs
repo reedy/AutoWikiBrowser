@@ -1065,6 +1065,17 @@ __TOC__", articleTextIn);
         }
         
         [Test]
+        public void WikiProjectBannerShellEnOnly()
+        {
+            #if DEBUG
+            Variables.SetProjectLangCode("fr");
+            Assert.AreEqual(@"{{WikiProjectBannerShell|blp=yes|blp=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=yes|blp=yes}}"));
+            Variables.SetProjectLangCode("en");
+            Assert.AreEqual(@"{{WikiProjectBannerShell|blp=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=yes|blp=yes}}"));
+            #endif
+        }
+        
+        [Test]
         public void WikiProjectBannerShellDupeParameters()
         {
             Assert.AreEqual(@"{{WikiProjectBannerShell|blp=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=yes|blp=yes}}"));
