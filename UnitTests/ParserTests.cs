@@ -8872,6 +8872,43 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
         }
 
         [Test]
+        public void AddArz()
+        {
+            Globals.UnitTestIntValue = 0;
+            Globals.UnitTestBoolValue = true;
+
+            #if DEBUG
+            Variables.SetProjectLangCode("arz");
+            Variables.Stub = @"[^{}|]*?([Ss]tub|تقاوى|بذرة)";
+            WikiRegexes.MakeLangSpecificRegexes();
+
+            string text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
+            //Stub, no existing stub tag. Needs all tags
+            Assert.IsTrue(text.Contains("{{يتيمه|" + WikiRegexes.DateYearMonthParameter + @"}}"),"orphan");
+            Assert.IsTrue(text.Contains("{{ويكى|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text));
+            Assert.IsTrue(Tools.NestedTemplateRegex("تقاوى مش متصنفه").IsMatch(text),"Uncategorized stub");
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text),"stub");
+
+            text = parser.Tagger(ShortText+ @"{{disambig}}", "Test", false, out noChange, ref summary);
+            //Don't add stub/orphan to disambig pages. Still add wikify
+            Assert.IsFalse(text.Contains("{{يتيمه|" + WikiRegexes.DateYearMonthParameter + @"}}"),"orphan");
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text),"stub");
+            Assert.IsTrue(text.Contains("{{ويكى|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
+
+            text = parser.Tagger(ShortText+ @"{{توضيح}}", "Test", false, out noChange, ref summary);
+            //Don't add stub/orphan to disambig pages. Still add wikify
+            Assert.IsFalse(text.Contains("{{يتيمه|" + WikiRegexes.DateYearMonthParameter + @"}}"),"orphan");
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text),"stub");
+            Assert.IsTrue(text.Contains("{{ويكى|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
+
+            Variables.SetProjectLangCode("en");
+            Variables.Stub = "[^{}|]*?[Ss]tub";
+            WikiRegexes.MakeLangSpecificRegexes();
+            #endif
+        }
+
+        [Test]
         public void AddOrphan()
         {
             Globals.UnitTestBoolValue = true;

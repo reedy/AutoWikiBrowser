@@ -102,6 +102,9 @@ namespace WikiFunctions
                 case "ar":
                     s = "([Dd]isambig|توضيح|صفحة توضيح)";
                     break;
+                case "arz":
+                    s = "([Dd]isambig|صفحة توضيح|توضيح)";
+                    break;
                 case "ca":
                     s = "([Dd]esambiguació|[Dd]esambigua|[Dd]isambig)";
                     break;
