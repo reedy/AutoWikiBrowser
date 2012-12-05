@@ -539,6 +539,14 @@ Image here");
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{بذرة}}");
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{stub}}");
 
+            Variables.SetProjectLangCode("arz");
+            Variables.Stub = @"[^{}|]*?([Ss]tub|تقاوى|بذرة)";
+            WikiRegexes.MakeLangSpecificRegexes();
+            
+            RegexAssert.IsMatch(WikiRegexes.Stub, @"{{بذرة}}");
+            RegexAssert.IsMatch(WikiRegexes.Stub, @"{{تقاوى}}");
+            RegexAssert.IsMatch(WikiRegexes.Stub, @"{{stub}}");
+
             Variables.SetProject("en", ProjectEnum.wikipedia);
             Variables.Stub = "[^{}|]*?[Ss]tub";
             WikiRegexes.MakeLangSpecificRegexes();
@@ -648,6 +656,11 @@ now stubborn}}");
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{يتيمة}}"));
             
+            Variables.SetProjectLangCode("arz");
+            WikiRegexes.MakeLangSpecificRegexes();
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{يتيمه}}"));
+
             Variables.SetProjectLangCode("ru");
             WikiRegexes.MakeLangSpecificRegexes();
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
@@ -1084,6 +1097,27 @@ he}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{وصلة مقالة مختارة
 |he}}"));
             
+            Variables.SetProjectLangCode("en");
+            WikiRegexes.MakeLangSpecificRegexes();
+            #endif
+        }
+
+        [Test]
+        public void LinkFGAsEgyptianArabic()
+        {
+            #if DEBUG
+            Variables.SetProjectLangCode("arz");
+            WikiRegexes.MakeLangSpecificRegexes();
+            
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{لينك مقاله مختاره|he}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{لينك مقاله مختاره|
+he}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{لينك مقاله مختاره
+|he}}"));
+            
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{لينك مقاله جيده|he}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link FA|he}}"));
+            Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link GA|he}}"));
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
             #endif
