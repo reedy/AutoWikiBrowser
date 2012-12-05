@@ -1229,5 +1229,34 @@ Text";
 		    WikiRegexes.MakeLangSpecificRegexes();
 		    #endif
 		}
+		
+		[Test]
+		public void CommentedReferences()
+		{
+		    const string CommentedRef = @"'''George May''' (3 May 1876 - 1955) was.
+
+<!--
+==References==
+<references />
+-->
+
+==External links==
+* {{CanParlbio|ID=6}}
+
+{{Persondata <!-- Metadata: see [[Wikipedia:Persondata]]. -->
+| NAME              =May, George
+| ALTERNATIVE NAMES =
+| SHORT DESCRIPTION = politician
+| DATE OF BIRTH     =3 May 1876
+| PLACE OF BIRTH    =Ontario
+| DATE OF DEATH     = 1955
+| PLACE OF DEATH    =
+}}
+{{DEFAULTSORT:Macleod, George}}
+[[Category:1876 births]]
+[[Category:1955 deaths]]";
+		    
+		    Assert.AreEqual(CommentedRef, parser2.SortMetaData(CommentedRef, "George May"));
+		}
 	}
 }
