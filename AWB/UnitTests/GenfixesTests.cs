@@ -352,6 +352,17 @@ a");
 
             Assert.AreEqual(correct, ArticleText);
         }
+
+        [Test]
+        public void PerformUniversalGeneralFixes()
+        {
+            HideText H = new HideText();
+            MockSkipOptions S = new MockSkipOptions();
+            Article ar1 = new Article("Hello", " '''Hello''' world text");
+            ar1.PerformUniversalGeneralFixes();
+            ar1.PerformGeneralFixes(parser, H, S, false, false, false);
+            Assert.AreEqual("'''Hello''' world text", ar1.ArticleText);
+        }
         
 //        [Test]
 //        public void RemoveEmptyComments()
