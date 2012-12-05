@@ -1281,7 +1281,37 @@ Text";
 [[en:Test]]";
 		    Assert.AreEqual(afterDe, parser2.SortMetaData(beforeDe, "a"), "De sort order");
 		    
-		    Variables.SetProjectLangCode("en");
+		    Variables.SetProjectLangCode("it");
+		    WikiRegexes.MakeLangSpecificRegexes();
+		    
+		    string beforeIt = @"Andy
+{{botanist-stub}}
+{{Persondata}}
+[[Category:ABC]]
+[[en:Test]]", afterIt = @"Andy
+
+{{Persondata}}
+[[Category:ABC]]
+
+
+{{botanist-stub}}
+
+[[en:Test]]";
+		    Assert.AreEqual(afterIt, parser2.SortMetaData(beforeIt, "a"), "It sort order");
+		    
+		    Variables.SetProjectSimple("it", ProjectEnum.wikiquote);
+		    string afterIt2 = @"Andy
+
+{{Persondata}}
+
+{{botanist-stub}}
+
+[[Category:ABC]]
+
+[[en:Test]]";
+		    Assert.AreEqual(afterIt2, parser2.SortMetaData(beforeIt, "a"), "It wikiquote sort order");
+		    
+		    Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
 		    WikiRegexes.MakeLangSpecificRegexes();
 		    #endif
 		}
