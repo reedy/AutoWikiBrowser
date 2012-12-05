@@ -9102,6 +9102,36 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 
 
         [Test]
+        public void RemoveOrphanArz()
+        {
+#if DEBUG
+            Variables.SetProjectLangCode("arz");
+            WikiRegexes.MakeLangSpecificRegexes();
+            Globals.UnitTestBoolValue = false;
+
+            string text = parser.Tagger("{{orphan}}", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
+            
+            text = parser.Tagger("{{يتيمه}}", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
+
+            //Test if orphan tag is removed properly. Use wikilink and disambig to prevent tagging for wikify, deadend and stub
+            text = parser.Tagger("{{orphan}}[[foo]]{{disambig}}", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
+            Assert.AreEqual(text,"{{orphan}}[[foo]]{{disambig}}");
+            
+            text = parser.Tagger("{{يتيمه}}[[foo]]{{disambig}}", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
+            Assert.AreEqual(text,"[[foo]]{{disambig}}");
+
+
+            Globals.UnitTestBoolValue = true;
+            Variables.SetProjectLangCode("en");
+            WikiRegexes.MakeLangSpecificRegexes();
+#endif
+        }
+
+        [Test]
         public void RemoveOrphanSv()
         {
 #if DEBUG
@@ -9175,6 +9205,39 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 #endif
         }
         
+        [Test]
+        public void RemoveArz()
+        {
+#if DEBUG
+            string text ="";
+            Variables.SetProjectLangCode("arz");
+            Variables.Stub = @"[^{}|]*?([Ss]tub|تقاوى|بذرة)";
+            WikiRegexes.MakeLangSpecificRegexes();
+            
+            Globals.UnitTestBoolValue = true;
+
+            text = parser.Tagger(ShortText + @"{{بذرة}}", "Test", false, out noChange, ref summary);
+            //Stub, tag not removed
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
+
+            text = parser.Tagger(LongText + @"{{بذرة}}", "Test", false, out noChange, ref summary);
+            //stub tag removed
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
+            
+            text = parser.Tagger("{{ويكى}}" + Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
+            string text1 = parser.Tagger(Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
+            string text2 = parser.Tagger(Regex.Replace(LongText, @"(\w+)", "[[$1]]") + @"{{بذرة}}", "Test", false, out noChange, ref summary);
+            //wikify tag removed
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
+            //Assert.AreEqual(text,text1,"check whether wikify tag is removed properly");
+            Assert.AreEqual(text1,text2,"check whether stub tag is removed properly");
+
+            Variables.SetProjectLangCode("en");
+            Variables.Stub = "[^{}|]*?[Ss]tub";
+            WikiRegexes.MakeLangSpecificRegexes();
+#endif
+        }
+
         [Test]
         public void MultipleIssuesNewTags()
         {
