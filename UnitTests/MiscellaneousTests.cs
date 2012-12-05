@@ -1653,6 +1653,8 @@ __TOC__", articleTextIn);
         {
             WikiFunctions.SubstTemplates st = new WikiFunctions.SubstTemplates();
             st.ExpandRecursively =false;
+            
+            Assert.AreEqual("Now {{foo}}", st.SubstituteTemplates("Now {{foo}}", "test"));
 
             st.TemplateList = new [] {"foo", "bar"};
             
