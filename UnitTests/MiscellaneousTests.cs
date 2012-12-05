@@ -568,6 +568,24 @@ http://www.site.com
             a.FixLinks(false);
             Assert.IsTrue(a.ArticleText.Contains("[[B]]"));
         }
+        
+        [Test]
+        public void CiteTemplateDates()
+        {
+            Parsers Parser = new Parsers();
+            Article a = new Article("a", @"A [[B]]");
+            a.CiteTemplateDates(Parser, true);
+            Assert.IsTrue(a.ArticleText.Contains("[[B]]"));
+        }
+        
+        [Test]
+        public void EmboldenTitles()
+        {
+            Parsers Parser = new Parsers();
+            Article a = new Article("a", @"A [[B]]");
+            a.EmboldenTitles(Parser, true);
+            Assert.IsTrue(a.ArticleText.Contains("[[B]]"));
+        }
     }
 
     [TestFixture]
