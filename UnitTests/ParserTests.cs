@@ -5586,7 +5586,10 @@ was"));
         [Test]
         public void TemplateRedirects()
         {
-            Dictionary<Regex, string> TemplateRedirects = Parsers.LoadTemplateRedirects("{{tl|Cn}}, {{tl|fact}} → {{tl|Citation needed}}");
+            Dictionary<Regex, string> TemplateRedirects = new Dictionary<Regex, string>();
+            WikiRegexes.AllTemplateRedirects = null;
+            Assert.AreEqual("now {{Cn}} was", Parsers.TemplateRedirects("now {{Cn}} was", TemplateRedirects), "no change when redirects dictionary not built");
+            TemplateRedirects = Parsers.LoadTemplateRedirects("{{tl|Cn}}, {{tl|fact}} → {{tl|Citation needed}}");
 
             Assert.AreEqual("now {{Citation needed}} was", Parsers.TemplateRedirects("now {{Cn}} was", TemplateRedirects));
             Assert.AreEqual("now {{citation needed}} was", Parsers.TemplateRedirects("now {{cn}} was", TemplateRedirects));
