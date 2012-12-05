@@ -1132,6 +1132,29 @@ second comment <!-- [[it:CN]] -->";
 [[sq:Foo]]";
 		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
 		    
+		    #if DEBUG
+		    Variables.SetProjectLangCode("de");
+		    parser2.InterWikiOrder = InterWikiOrderEnum.AlphabeticalEnFirst;
+		    a = @"[[ar:Bar]]
+[[en:Hello]]
+[[sq:Foo]]";
+		    b = @"[[en:Hello]]
+[[ar:Bar]]
+[[sq:Foo]]";
+		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
+		    
+		    parser2.InterWikiOrder = InterWikiOrderEnum.Alphabetical;
+		    a = @"[[ar:Bar]]
+[[en:Hello]]
+[[sq:Foo]]";
+		    b = @"[[ar:Bar]]
+[[en:Hello]]
+[[sq:Foo]]";
+		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
+		    
+		    Variables.SetProjectLangCode("en");
+		    #endif
+		    
 		    parser2.SortInterwikis = false;
 		}
 		
