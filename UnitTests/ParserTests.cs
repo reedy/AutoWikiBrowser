@@ -6800,6 +6800,20 @@ Text
 {{see also|B}}";
             Assert.AreEqual(NotStartOfSection, Parsers.MergeTemplatesBySection(NotStartOfSection), "does not merge templates not at top of section");
         }
+        
+        [Test]
+        public void MergeTemplatesBySectionEnOnly()
+        {
+            #if DEBUG
+            string AB = @"{{See also|a|b}}", ABSeparate = @"{{See also|a}}{{See also|b}}";
+
+            Variables.SetProjectLangCode("fr");
+            Assert.AreEqual(ABSeparate, Parsers.MergeTemplatesBySection(ABSeparate), "No merge when not en-wiki");
+
+            Variables.SetProjectLangCode("en");
+            Assert.AreEqual(AB, Parsers.MergeTemplatesBySection(ABSeparate), "merges when single argument");
+            #endif
+        }
 
         [Test]
         public void MergePortals()
