@@ -443,6 +443,15 @@ some words"));
 		}
 		
 		[Test]
+		public void MoveTemplateToSeeAlsoSection()
+		{
+		    const string Commented = @"A
+<!-- {{ext}} -->
+== See also==
+* [[Other]]";
+		        Assert.AreEqual(Commented, MetaDataSorter.MoveTemplateToSeeAlsoSection(Commented, Tools.NestedTemplateRegex("ext")));
+		}
+		[Test]
 		public void MovePortalTemplatesTestsDuplicates()
 		{
 			
@@ -894,6 +903,18 @@ foo";
 			
 			Assert.AreEqual("", parser2.Sorter.RemoveCats(ref a, "test"));
 			Assert.AreEqual(a, redirect, "cats not pulled from redirect target");
+		}
+		
+		[Test]
+		public void RemoveCatsKey()
+		{
+		    string cats = @"[[Category:1980 births]]
+[[Category:Local people]]", cats2 = @"[[Category:1980 births|Jones, Andrew]]
+[[Category:Local people|Jones, Andrew]]";
+			
+		    parser2.Sorter.AddCatKey = true;
+			Assert.AreEqual(cats2 + "\r\n", parser2.Sorter.RemoveCats(ref cats, "Andrew Jones"));
+			parser2.Sorter.AddCatKey = false;
 		}
 		
 		[Test]
