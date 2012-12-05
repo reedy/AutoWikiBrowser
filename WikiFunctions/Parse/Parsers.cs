@@ -6818,6 +6818,8 @@ namespace WikiFunctions.Parse
                 articleText = ht.AddBackUnformatted(articleText);
 
                 // sort again in case tag removal requires whitespace cleanup
+                // Don't sort interwikis, we can't specify the correct InterWikiSortOrder
+                p.SortInterwikis = false;
                 articleText = p.Sorter.Sort(articleText, articleTitle);
             }
 
