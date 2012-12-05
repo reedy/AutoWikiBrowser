@@ -504,7 +504,7 @@ namespace WikiFunctions
         {
             LangCode = langCode;
 
-            RTL = langCode == "ar";
+            RTL = langCode.Equals("ar");
         }
 
         /// <summary>
