@@ -548,6 +548,26 @@ http://www.site.com
             a.BulletExternalLinks(true);
             Assert.IsTrue(a.ArticleText.Contains("* http://www.site.com"));
         }
+        
+        [Test]
+        public void FixLinks()
+        {
+            Article a = new Article("a", @"A [[ B ]]");
+            a.FixLinks(false);
+            Assert.IsTrue(a.ArticleText.Contains("[[B]]"));
+            
+            a = new Article("a", @"A [[ B ]]");
+            a.FixLinks(true);
+            Assert.IsTrue(a.ArticleText.Contains("[[B]]"));
+            
+            a = new Article("a", @"A [[B]]");
+            a.FixLinks(true);
+            Assert.IsTrue(a.ArticleText.Contains("[[B]]"));
+            
+            a = new Article("a", @"A [[B]]");
+            a.FixLinks(false);
+            Assert.IsTrue(a.ArticleText.Contains("[[B]]"));
+        }
     }
 
     [TestFixture]
