@@ -298,6 +298,7 @@ Fred has a dog.
 			string h1 = @"{{Infobox foo| sdajklfsdjk | dDJfsdjkl }}", h2 = @"{{Orphan|date=February 2008}}", h3 = @"'''Charles M. McKim'''";
 			
 			Assert.AreEqual(h2 + "\r\n" + h1 + "\r\n" + h3, MetaDataSorter.MoveMaintenanceTags(h2 + "\r\n" + h1 + "\r\n" + h3));
+			Assert.AreEqual(h2 + "\r\n" + h1 + "\r\n\r\n" + h3, MetaDataSorter.MoveMaintenanceTags(h1 + "\r\n" + h2 + "\r\n" + h3));
 			
 			string i1 = @"{{cleanup|date=June 2009}}";
 			e = @"{{orphan|date=May 2008}}";
