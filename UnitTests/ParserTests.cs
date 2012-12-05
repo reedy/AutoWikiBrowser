@@ -9500,6 +9500,25 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 |wikify=July 2009}}";
 
             Assert.AreEqual(bug2, Parsers.Conversions(bug2));
+
+            const string ManyInSection  = @"==Section==
+{{multiple issues |
+{{orphan}}
+}}
+{{dead end}}
+{{multiple issues |
+{{refimprove}}
+}}";
+            Assert.AreEqual(ManyInSection, parser.MultipleIssues(ManyInSection));
+
+            const string Many  = @"{{multiple issues |
+{{orphan}}
+}}
+{{dead end}}
+{{multiple issues |
+{{refimprove}}
+}}";
+            Assert.AreEqual(Many, parser.MultipleIssues(Many));
         }
 
         [Test]
