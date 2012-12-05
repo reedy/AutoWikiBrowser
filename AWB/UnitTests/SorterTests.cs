@@ -1208,7 +1208,7 @@ Text";
 		}
 		
 		[Test]
-		public void SortRu()
+		public void SortOtherLanguages()
 		{
 		    #if DEBUG
 		    Variables.SetProjectLangCode("ru");
@@ -1246,6 +1246,40 @@ Text";
 [[zh:波贝甘狸藻]]";
 		    
 		    Assert.AreEqual(after, parser2.SortMetaData(before, "a"), "Even if RemoveStubs not run on ru-wiki, no excess whitespace left from meta data sorting");
+		    
+		    Variables.SetProjectLangCode("sl");
+		    WikiRegexes.MakeLangSpecificRegexes();
+		    
+		    string beforeSl = @"Andy
+{{botanist-stub}}
+{{Persondata}}
+[[Category:ABC]]", afterSl = @"Andy
+
+{{botanist-stub}}
+
+[[Category:ABC]]
+
+{{Persondata}}";
+		    Assert.AreEqual(afterSl, parser2.SortMetaData(beforeSl, "a"), "Sl sort order");
+		    
+		    Variables.SetProjectLangCode("de");
+		    WikiRegexes.MakeLangSpecificRegexes();
+		    
+		    string beforeDe = @"Andy
+{{botanist-stub}}
+{{Personendaten}}
+[[Category:ABC]]
+[[en:Test]]", afterDe = @"Andy
+
+
+{{botanist-stub}}
+
+[[Category:ABC]]
+
+{{Personendaten}}
+
+[[en:Test]]";
+		    Assert.AreEqual(afterDe, parser2.SortMetaData(beforeDe, "a"), "De sort order");
 		    
 		    Variables.SetProjectLangCode("en");
 		    WikiRegexes.MakeLangSpecificRegexes();
