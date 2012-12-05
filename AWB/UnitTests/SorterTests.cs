@@ -1102,6 +1102,40 @@ second comment <!-- [[it:CN]] -->";
 		}
 		
 		[Test]
+		public void InterWikiSorting()
+		{
+		    parser2.SortInterwikis = true;
+		    parser2.Sorter.PossibleInterwikis = new System.Collections.Generic.List<string> { "ar", "de", "en", "ru", "sq" };
+		    
+		    string a = @"[[sq:Foo]]
+[[ru:Bar]]";
+		    string b = a = @"[[ru:Bar]]
+[[sq:Foo]]";
+		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
+		    
+		    a = @"[[ru:Bar]]
+[[sq:Foo]]";
+		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));		    
+		    
+		    parser2.InterWikiOrder = InterWikiOrderEnum.Alphabetical;
+		    a = @"[[ru:Bar]]
+[[sq:Foo]]";
+		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
+		    
+		    parser2.InterWikiOrder = InterWikiOrderEnum.LocalLanguageFirstWord;
+		    a = @"[[ru:Bar]]
+[[sq:Foo]]";
+		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
+		    
+		    parser2.InterWikiOrder = InterWikiOrderEnum.AlphabeticalEnFirst;
+		    a = @"[[ru:Bar]]
+[[sq:Foo]]";
+		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
+		    
+		    parser2.SortInterwikis = false;
+		}
+		
+		[Test]
 		public void InterWikiTestsInlineComments()
 		{
 			parser2.SortInterwikis = false;
