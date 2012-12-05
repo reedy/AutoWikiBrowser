@@ -9564,6 +9564,10 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 
             const string a2 = @"{{Multiple issues|wikify=May 2008|COI=May 2008|expert=Fred}}";
             Assert.AreEqual(a2, Parsers.Conversions(a2));
+            
+            // expert must have parameter
+            Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|COI=May 2008|do-attempt =July 2006}} {{expert}}", 
+                            parser.MultipleIssuesOld(@"{{Multiple issues|wikify=May 2008|COI=May 2008|do-attempt =July 2006}} {{expert}}"));
 
             // don't remove 'update'field
             const string a3 = @"{{Multiple issues|wikify=May 2008|COI=May 2008|update=May 2008}}";
