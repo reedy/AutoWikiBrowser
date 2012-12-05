@@ -7710,6 +7710,23 @@ fish | name = Bert }} ''Bert'' is a good fish."));
         }
 
         [Test]
+        public void IsStubArz()
+        {
+#if DEBUG
+            Variables.SetProjectLangCode("arz");
+            Assert.IsTrue(Parsers.IsStub(@"foo {{بذرة}}"));
+
+            // short article
+            Assert.IsTrue(Parsers.IsStub(@"foo {{foo tubs}}"));
+
+            const string a = @"fooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo";
+            const string b = a + a + a + a + a + a;
+            Assert.IsFalse(Parsers.IsStub(b + b + b + b));
+            Variables.SetProjectLangCode("en");
+#endif
+        }
+
+        [Test]
         public void NoBotsTests()
         {
             Assert.IsTrue(Parsers.CheckNoBots("", ""));
