@@ -520,6 +520,34 @@ There [was.");
 [[Category:Test pages]]
 ", a.ArticleText);
         }
+        
+        [Test]
+        public void BulletExternalLinks()
+        {
+            Article a = new Article("a", @"A
+==External links==
+http://www.site.com
+
+[[Category:A]]");
+            a.BulletExternalLinks(false);
+            Assert.IsTrue(a.ArticleText.Contains("* http://www.site.com"));
+            
+             a = new Article("a", @"A
+==External links==
+http://www.site.com
+
+[[Category:A]]");
+            a.BulletExternalLinks(true);
+            Assert.IsTrue(a.ArticleText.Contains("* http://www.site.com"));
+            
+            a = new Article("a", @"A
+==External links==
+* http://www.site.com
+
+[[Category:A]]");
+            a.BulletExternalLinks(true);
+            Assert.IsTrue(a.ArticleText.Contains("* http://www.site.com"));
+        }
     }
 
     [TestFixture]
