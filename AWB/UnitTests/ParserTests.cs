@@ -8439,8 +8439,8 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             string text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
             //Stub, no existing stub tag. Needs all tags
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "page is orphan");
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text), "page needs to be wikified");
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text), "page is deadend");
+            Assert.IsFalse(text.Contains("Underlinked"));
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text), "page is stub");
             Assert.IsTrue(text.Contains(UncatStub), "page is uncategorised stub");
 
@@ -8450,7 +8450,6 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 
             text = parser.Tagger(LongText, "Test", false, out noChange, ref summary);
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "page is orphan");
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text), "page needs to be wikified");
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
 
@@ -8461,7 +8460,6 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             text = parser.Tagger(ShortText + @"{{uncat}}", "Test", false, out noChange, ref summary);
             //Stub, no existing stub tag. Needs all tags
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "uncat page and orphan");
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text),"uncat page and needs to wikify");
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text),"uncat page and deadend");
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
             Assert.IsFalse(Tools.NestedTemplateRegex("uncat").IsMatch(text));
@@ -8470,7 +8468,6 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             // stub already marked uncat but with "List of..." in pagetitle. It should not tag as stub
             text = parser.Tagger(ShortText + @"{{uncat}}", "List of Tests", false, out noChange, ref summary);
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "page is orphan");
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text), "page needs to be wikified");
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
             Assert.IsTrue(Tools.NestedTemplateRegex("uncat").IsMatch(text));
@@ -8479,7 +8476,6 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             // stub already marked uncat but with "Lists of..." in pagetitle. It should not tag as stub
             text = parser.Tagger(ShortText + @"{{uncat}}", "Lists of Tests", false, out noChange, ref summary);
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "page is orphan");
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text), "page needs to be wikified");
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
             Assert.IsTrue(Tools.NestedTemplateRegex("uncat").IsMatch(text));
@@ -8498,7 +8494,6 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text),"Don't tag for deadend");
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text),"Tag for stub");
             Assert.IsTrue(Tools.NestedTemplateRegex("uncategorized stub").IsMatch(text),"Tag for uncat stub");
-
         }
 
         [Test]
@@ -8552,19 +8547,19 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 
             string text = parser.Tagger(ShortText + @"{{unreferenced|date=May 2010}}", "Test", false, out noChange, ref summary);
 
-            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("unreferenced"), "Unref when no refs");
+            Assert.IsTrue(text.Contains("unreferenced"), "Unref when no refs");
 
             text = parser.Tagger(ShortText + @"{{unreferenced|date=May 2010}} <!--<ref>foo</ref>-->", "Test", false, out noChange, ref summary);
-            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("unreferenced"), "Unref when no refs 2");
+            Assert.IsTrue(text.Contains("unreferenced"), "Unref when no refs 2");
 
             text = parser.Tagger(ShortText + @"{{unreferenced|date=May 2010}} <ref>foo</ref>", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(text), "Unref to refimprove when no refs 3");
-            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("refimprove"), "Unref when no refs 4");
+            Assert.IsTrue(text.Contains("refimprove"), "Unref when no refs 4");
             Assert.AreEqual(Tools.GetTemplateParameterValue(Tools.NestedTemplateRegex("refimprove").Match(text).Value, "date"), "{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}", "Date updated on change of template name");
 
             text = parser.Tagger(@"{{Multiple issues|COI = February 2009|wikify = April 2009|unreferenced = April 2007}} <ref>foo</ref>", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(text), "Unref to refimprove when has refs");
-            Assert.IsTrue(WikiRegexes.MultipleIssues.Match(text).Value.Contains("refimprove"), "Renames unreferenced to refimprove in MI parameter when existing refs");
+            Assert.IsTrue(text.Contains("refimprove"), "Renames unreferenced to refimprove in MI parameter when existing refs");
 
             text = parser.Tagger(ShortText + @"{{unreferenced|date=May 2010}} <ref group=X>foo</ref>", "Test", false, out noChange, ref summary);
             Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(text), "Unref remains when only grouped footnote refs");
@@ -8587,10 +8582,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             string text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
             //Stub, no existing stub tag. Needs all tags
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "page is orphan");
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text), "page needs to wikified");
-
-            Assert.IsFalse(text.Contains("Wikify"));
-            Assert.IsTrue(text.Contains("Underlinked"));
+            Assert.IsFalse(text.Contains("Underlinked"));
 
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text), "page is deadend");
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text), "page is stub");
@@ -8600,7 +8592,6 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             text = parser.Tagger(ShortTextWithLongComment, "Test", false, out noChange, ref summary);
             //Stub, no existing stub tag. Needs all tags
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "page is orphan");
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text), "page needs to be wikified");
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
             Assert.IsTrue(Tools.NestedTemplateRegex("Uncategorized stub").IsMatch(text));
@@ -8609,7 +8600,6 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             text = parser.Tagger(ShortTextWithLongComment, "List of Tests", false, out noChange, ref summary);
             //Stub, no existing stub tag but with "List of..." in its title. Needs all tags but stub
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "page is orphan");
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text), "page needs to be wikified");
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
             Assert.IsFalse(Tools.NestedTemplateRegex("Uncategorized stub").IsMatch(text));
@@ -8626,7 +8616,6 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             text = parser.Tagger(ShortText + Stub, "Test", false, out noChange, ref summary);
             //Stub, existing stub tag
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "page is orphan");
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text), "page needs to be wikified");
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsTrue(text.Contains(UncatStub));
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
@@ -8638,7 +8627,6 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             text = parser.Tagger(ShortText + ShortText, "Test", false, out noChange, ref summary);
             //Not a stub
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "page is orphan");
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text), "page needs to be wikified");
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text));
 
@@ -8654,7 +8642,6 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Globals.UnitTestIntValue = 3;
             text = parser.Tagger(Deadend + ShortText, "Test", false, out noChange, ref summary);
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "page is orphan");
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text), "page needs to be wikified");
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
 
@@ -8663,7 +8650,6 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
             //Categorised Stub
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "page is orphan");
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text), "page needs to be wikified");
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
 
@@ -8673,7 +8659,6 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             text = parser.Tagger(ShortText + ShortText, "Test", false, out noChange, ref summary);
             //Categorised Page
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "page is orphan");
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text), "page needs to be wikified");
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
 
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
@@ -8684,7 +8669,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 
             text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
             //Non orphan categorised stub
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
 
@@ -8694,7 +8679,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 
             text = parser.Tagger(ShortText + ShortText, "Test", false, out noChange, ref summary);
             //Non orphan categorised page
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
 
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
@@ -9244,7 +9229,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             string Text = LongText + @"{{Multiple issues | COI=May 2010 | POV=May 2010 }}";
 
             Text = parser.Tagger(Text, "Test", false, out noChange, ref summary);
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(Text), "added tags go in existing multipleIssues");
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(Text), "added tags go in existing multipleIssues");
         }
 
         [Test]
@@ -9447,7 +9432,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 
             string text = parser.Tagger("{{Test Template}}", "Test", false, out noChange, ref summary);
 
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
             Assert.IsFalse(noChange);
