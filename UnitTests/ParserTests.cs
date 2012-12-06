@@ -3871,6 +3871,8 @@ Image:X.JPG|Japanese classification systemJapanese classification systemJapanese
             Assert.AreEqual(Football.Replace(@"{aged", @"(aged"), Parsers.FixSyntax(Football));
             Assert.AreEqual(@"{{DEFAULTSORT:Foo}}", Parsers.FixSyntax(@"{{DEFAULTSORT:Foo
 "), "fixes DEFAULTSORT ending");
+            
+            Assert.AreEqual(@"{{foo|par=[[Bar]]|par2=Bar2}}", Parsers.FixSyntax(@"{{foo|par=[[Bar[[|par2=Bar2}}"));
         }
 
         [Test]
