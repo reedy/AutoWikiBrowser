@@ -6587,7 +6587,7 @@ namespace WikiFunctions.Parse
 
             int totalCategories;
             // ignore commented out wikilinks, and any in {{Proposed deletion/dated}}
-            int linkCount = Tools.LinkCount(ProposedDeletionDated.Replace(commentsStripped, ""));
+            int wikiLinkCount = Tools.LinkCount(ProposedDeletionDated.Replace(commentsStripped, ""));
 
 #if DEBUG || UNITTEST
             if (Globals.UnitTestMode)
@@ -6611,7 +6611,7 @@ namespace WikiFunctions.Parse
                 totalCategories = CatsNotStubsProd.Count;
             }
 
-            if (linkCount > 0 && WikiRegexes.DeadEnd.IsMatch(articleText))
+            if (wikiLinkCount > 0 && WikiRegexes.DeadEnd.IsMatch(articleText))
             {
                 articleText = WikiRegexes.DeadEnd.Replace(articleText, m => Tools.IsSectionOrReasonTemplate(m.Value, articleText) ? m.Value : m.Groups[1].Value);
 
@@ -6635,7 +6635,7 @@ namespace WikiFunctions.Parse
             lengthtext = Drugbox.Replace(lengthtext, "");
 
             int length = lengthtext.Length + 1;
-            bool underlinked = (linkCount < 0.0025 * length);
+            bool underlinked = (wikiLinkCount < 0.0025 * length);
 
             if (length <= 300 && !WikiRegexes.Stub.IsMatch(commentsCategoriesStripped) &&
                 !WikiRegexes.Disambigs.IsMatch(commentsCategoriesStripped) && !WikiRegexes.SIAs.IsMatch(commentsCategoriesStripped))
@@ -6732,7 +6732,7 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            if (linkCount == 0 && Variables.LangCode != "sv" && !WikiRegexes.DeadEnd.IsMatch(articleText) && !WikiRegexes.Centuryinbox.IsMatch(articleText)
+            if (wikiLinkCount == 0 && Variables.LangCode != "sv" && !WikiRegexes.DeadEnd.IsMatch(articleText) && !WikiRegexes.Centuryinbox.IsMatch(articleText)
                 && !Regex.IsMatch(WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower(), @"\bdead ?end\b"))
             {
                 // add dead-end tag
@@ -6753,7 +6753,7 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            if (linkCount < 3 && underlinked && !WikiRegexes.Wikify.IsMatch(articleText)
+            if (wikiLinkCount < 3 && underlinked && !WikiRegexes.Wikify.IsMatch(articleText)
                 && !WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower().Contains("wikify"))
             {
                 // add wikify tag
@@ -6772,14 +6772,14 @@ namespace WikiFunctions.Parse
                     articleText = "{{Wikify|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                     tagsAdded.Add("[[WP:WFY|wikify]]");
                 }
-                else
+                else if(!WikiRegexes.DeadEnd.IsMatch(articleText))
                 {
-                    //articleText = "{{Wikify|reason=It needs more wikilinks. Article has less than 3 wikilinks or the number of wikilinks is smaller than 0.25% of article's size.|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
+                    // Don't add underlinked if {{dead end}} already present
                     articleText = "{{Underlinked|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                     tagsAdded.Add("[[CAT:UL|underlinked]]");
                 }
             }
-            else if (linkCount > 3 && !underlinked &&
+            else if (wikiLinkCount > 3 && !underlinked &&
                      WikiRegexes.Wikify.IsMatch(articleText))
             {
                 // remove wikify, except section templates or wikify tags with reason parameter specified
