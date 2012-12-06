@@ -921,7 +921,7 @@ namespace WikiFunctions
         public static readonly Regex DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end|[Ii]nternal ?links|[Nn]uevointernallinks|[Dd]ep|نهاية مسدودة|نهايه مسدوده|)(?:\|(?:[^{}]+|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}))?}}|({{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*dead ?end\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))");
 
         /// <summary>
-        /// Matches {{wikify}} tag (including within {{multiple issues}} for en-wiki)
+        /// Matches {{wikify}}, {{underlinked}} tag (including within {{multiple issues}} for en-wiki)
         /// </summary>
         public static Regex Wikify;
 
