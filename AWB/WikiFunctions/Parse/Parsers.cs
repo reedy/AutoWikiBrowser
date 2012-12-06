@@ -6750,6 +6750,12 @@ namespace WikiFunctions.Parse
                 {
                     articleText = "{{dead end|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                     tagsAdded.Add("[[CAT:DE|deadend]]");
+                    // if dead end then remove underlinked
+                    if(articleText.IndexOf("underlinked", StringComparison.OrdinalIgnoreCase) > -1)
+                    {
+                        tagsRemoved.Add("underlinked");
+                        articleText = Tools.NestedTemplateRegex("underlinked").Replace(articleText, "");
+                    }
                 }
             }
 
