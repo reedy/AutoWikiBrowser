@@ -39,7 +39,7 @@ namespace WikiFunctions.Parse
         {
             if (Globals.UnitTestMode) // or unit tests gonna run like a turtle
             {
-                Languages.AddRange(new[] { "en", "ru", "sq" });
+                Languages.AddRange(new[] { "ar", "en", "ru", "sq" });
                 WikipediaLanguages.AddRange(Languages);
                 WiktionaryLanguages.AddRange(Languages);
                 WikibooksLanguages.AddRange(Languages);
