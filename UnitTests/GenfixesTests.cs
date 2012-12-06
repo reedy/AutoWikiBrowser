@@ -364,18 +364,23 @@ a");
             Assert.AreEqual("'''Hello''' world text", ar1.ArticleText);
         }
         
-//        [Test]
-//        public void RemoveEmptyComments()
-//        {
-//            ArticleText = @"<!---->Foo<!-- --><!--  -->";
-//            
-//            GenFixes("Test");
-//            
-//            string correct ="Foo";
-//
-//            Assert.AreEqual(correct, ArticleText);
-//            
-//        }
+        [Test]
+        public void ExternalLinksBr()
+        {
+            ArticleText = @"==External links==
+[http://foo.com]</br>
+[http://foo2.com]</br>
+[[Category:A]]";
+            
+            GenFixes("Test");
+            
+            string correct = @"==External links==
+* [http://foo.com]
+* [http://foo2.com]
+[[Category:A]]";
+
+            Assert.AreEqual(correct, ArticleText);            
+        }
     }
 
     [TestFixture]

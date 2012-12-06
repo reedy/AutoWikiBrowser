@@ -1340,6 +1340,9 @@ namespace WikiFunctions
                 AWBChangeArticleText("Fix whitespace in links", Parsers.FixLinkWhitespace(ArticleText, Name), true);
                 Variables.Profiler.Profile("FixLinkWhitespace");
 
+                BulletExternalLinks(skip.SkipNoBulletedLink);
+                Variables.Profiler.Profile("BulletExternalLinks");
+
                 // does significant fixes, call before MinorFixes
                 AWBChangeArticleText("Fix syntax", Parsers.FixSyntax(ArticleText), true, true);
                 Variables.Profiler.Profile("FixSyntax");
@@ -1365,9 +1368,6 @@ namespace WikiFunctions
 
                 AWBChangeArticleText("Fix images", Parsers.FixImages(ArticleText), true);
                 Variables.Profiler.Profile("FixImages");
-
-                BulletExternalLinks(skip.SkipNoBulletedLink);
-                Variables.Profiler.Profile("BulletExternalLinks");
 
                 CiteTemplateDates(parsers, skip.SkipNoCiteTemplateDatesFixed);
                 Variables.Profiler.Profile("CiteTemplateDates");
