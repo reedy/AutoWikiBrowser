@@ -76,10 +76,10 @@ namespace UnitTests
 [[Category:Pub chains in the United Kingdom]]
 [[Category:Companies established in 1997]]
 
-[[de:Punch Taverns]]
+[[es:Punch Taverns]]
 [[fr:Punch Taverns]]";
 			
-			Assert.AreEqual(correct, parser2.SortMetaData(correct, "test"));
+			Assert.AreEqual(correct, parser2.SortMetaData(correct, "no change"));
 			Assert.AreEqual(correct, parser2.SortMetaData(@"
 
 [[Category:Pub chains in the United Kingdom]]
@@ -87,17 +87,17 @@ namespace UnitTests
 
 
 
-[[de:Punch Taverns]]
-[[fr:Punch Taverns]]", "test"));
+[[es:Punch Taverns]]
+[[fr:Punch Taverns]]", "two newlines before interwikis"));
 			
 			Assert.AreEqual(correct, parser2.SortMetaData(@"
 
 [[Category:Pub chains in the United Kingdom]]
 [[Category:Companies established in 1997]]
-[[de:Punch Taverns]]
+[[es:Punch Taverns]]
 
 [[fr:Punch Taverns]]
-", "test"));
+", "an interwiki immediatelly after categories"));
 		}
 
 		[Test]
@@ -1109,7 +1109,7 @@ second comment <!-- [[it:CN]] -->";
 		    
 		    string a = @"[[sq:Foo]]
 [[ru:Bar]]";
-		    string b = a = @"[[ru:Bar]]
+		    string b = @"[[ru:Bar]]
 [[sq:Foo]]";
 		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
 		    
