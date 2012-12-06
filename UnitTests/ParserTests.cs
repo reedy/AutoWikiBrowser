@@ -8574,6 +8574,18 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
         }
 
         [Test]
+        public void AddDeadEnd()
+        {
+            Globals.UnitTestIntValue = 0;
+            Globals.UnitTestBoolValue = true;
+
+            string text = parser.Tagger(ShortText + "{{Underlinked}}", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(text.Contains("Underlinked"), "underlinked removed when dead end");
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text), "page is deadend");
+            Assert.IsTrue(summary.Contains("emoved underlinked"));
+        }
+
+        [Test]
         public void Add()
         {
             Globals.UnitTestIntValue = 0;
