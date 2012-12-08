@@ -3131,7 +3131,7 @@ namespace AutoWikiBrowser
             this.MainTab.Controls.Add(this.tpMoreOptions);
             this.MainTab.Controls.Add(this.tpDab);
             this.MainTab.Controls.Add(this.tpSkip);
-            this.MainTab.Controls.Add(this.tpBots);
+            //this.MainTab.Controls.Add(this.tpBots); // On sign in as a bot tab is added automatically, so not needed initially. Also causes sizing problem if present under Wine
             this.MainTab.Controls.Add(this.tpStart);
             this.MainTab.HotTrack = true;
             this.MainTab.Location = new System.Drawing.Point(218, 2);
