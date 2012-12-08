@@ -1088,7 +1088,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the maintenance tags (en-wiki only) such as orphan, cleanup
         /// </summary>
-        public static readonly Regex MaintenanceTemplates = Tools.NestedTemplateRegex(new[] { "orphan", "BLPunsourced", "cleanup" }, true );
+        public static readonly Regex MaintenanceTemplates = Tools.NestedTemplateRegex(new[] { "orphan", "BLPunsourced", "cleanup", "underlinked", "dead end" }, true );
         
         /// <summary>
         /// Matches the {{Unreferenced}} template, or parameter within old-style multiple issues template
