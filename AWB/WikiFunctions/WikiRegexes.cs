@@ -248,7 +248,7 @@ namespace WikiFunctions
                     break;
 
                 case "ro":
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link AF", "legătură AC", "legătură AF"});
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link AF", "legătură AC", "legătură AF", "legătură AB"});
                     break;
 
                 case "sv":
