@@ -4985,9 +4985,11 @@ namespace WikiFunctions.Parse
         #endregion
 
         #region other functions
+        private static readonly Regex LineSeparatorStartOfLine = new Regex(@"^(\u2028)+", RegexOptions.Multiline);
 
         /// <summary>
         /// Performs transformations related to Unicode characters that may cause problems for different clients
+        /// Removes line separator Unicode characters at start of paragraph, otherwise converts line separator, paragraph separator Unicode characters to spaces.
         /// </summary>
         public string FixUnicode(string articleText)
         {
@@ -4997,6 +4999,8 @@ namespace WikiFunctions.Parse
             // https://en.wikipedia.org/wiki/Wikipedia:AWB/B#Line_break_insertion
             // most browsers handle Unicode line separator as whitespace, so should we
             // looks like paragraph separator is properly converted by RichEdit itself
+            // if line separator at start of line, remove it, otherwise (within paragraph), convert to space
+            articleText = LineSeparatorStartOfLine.Replace(articleText, "");
             return articleText.Replace('\x2028', ' ');
         }
 
