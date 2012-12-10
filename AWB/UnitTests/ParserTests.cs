@@ -7906,6 +7906,8 @@ asdfasdf}} was here", "foo"));
             // https://en.wikipedia.org/wiki/Wikipedia:AWB/B#Line_break_insertion
 
             Assert.AreEqual("foo bar", parser.FixUnicode("foo\x2028bar"));
+            Assert.AreEqual(@"foo
+bar", parser.FixUnicode("foo" + "\r\n" + "\x2028bar"));
             Assert.AreEqual("foo bar", parser.FixUnicode("foo\x2029bar"));
         }
 
