@@ -4985,7 +4985,7 @@ namespace WikiFunctions.Parse
         #endregion
 
         #region other functions
-        private static readonly Regex LineSeparatorStartOfLine = new Regex(@"^(\u2028)+", RegexOptions.Multiline);
+        private static readonly Regex LineSeparatorZeroWidthSpaceStartOfLine = new Regex(@"^(\u2028|\u200B)+", RegexOptions.Multiline);
         private static readonly Regex ZeroWidthSpace = new Regex(@"^(\u200B)+", RegexOptions.Multiline);
 
         /// <summary>
@@ -5001,14 +5001,11 @@ namespace WikiFunctions.Parse
             // most browsers handle Unicode line separator as whitespace, so should we
             // looks like paragraph separator is properly converted by RichEdit itself
             // if line separator at start of line, remove it, otherwise (within paragraph), convert to space
-            articleText = LineSeparatorStartOfLine.Replace(articleText, "");
+            // remove zero width space - CHECKWIKI 16
+            // this character should not be used in domain names.
+            // Browsers are blacklisting it because of the potential for phishing.
+            articleText = LineSeparatorZeroWidthSpaceStartOfLine.Replace(articleText, "");
             return articleText.Replace('\x2028', ' ');
-            
-			// remove zero width space - CHECKWIKI 16
-			// this character should not be used in domain names.
-			// Browsers are blacklisting it because of the potential for phishing.
-            articleText = ZeroWidthSpace.Replace(articleText, "");
-
         }
 
         /// <summary>

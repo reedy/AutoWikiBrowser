@@ -7910,6 +7910,8 @@ asdfasdf}} was here", "foo"));
             Assert.AreEqual(@"foo
 bar", parser.FixUnicode("foo" + "\r\n" + "\x2028bar"));
             Assert.AreEqual("foo bar", parser.FixUnicode("foo\x2029bar"));
+            Assert.AreEqual(@"foo
+bar", parser.FixUnicode("foo" + "\r\n" + "\x200B\x200Bbar"));
         }
 
         [Test]
