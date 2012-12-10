@@ -4986,6 +4986,7 @@ namespace WikiFunctions.Parse
 
         #region other functions
         private static readonly Regex LineSeparatorStartOfLine = new Regex(@"^(\u2028)+", RegexOptions.Multiline);
+        private static readonly Regex ZeroWidthSpace = new Regex(@"^(\u200B)+", RegexOptions.Multiline);
 
         /// <summary>
         /// Performs transformations related to Unicode characters that may cause problems for different clients
@@ -5002,6 +5003,12 @@ namespace WikiFunctions.Parse
             // if line separator at start of line, remove it, otherwise (within paragraph), convert to space
             articleText = LineSeparatorStartOfLine.Replace(articleText, "");
             return articleText.Replace('\x2028', ' ');
+            
+			// remove zero width space - CHECKWIKI 16
+			// this character should not be used in domain names.
+			// Browsers are blacklisting it because of the potential for phishing.
+            articleText = ZeroWidthSpace.Replace(articleText, "");
+
         }
 
         /// <summary>
