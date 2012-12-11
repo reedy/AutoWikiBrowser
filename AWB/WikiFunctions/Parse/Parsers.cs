@@ -4974,7 +4974,7 @@ namespace WikiFunctions.Parse
 
         // Covered by: UtilityFunctionTests.RemoveEmptyComments()
         /// <summary>
-        /// Removes comments with nothing/only whitespace between tags
+        /// Removes HTML comments with nothing/only whitespace between tags
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text (removed empty comments).</returns>
@@ -6660,7 +6660,7 @@ namespace WikiFunctions.Parse
                         articleText += Tools.Newline("{{بذرة}}", 3);
                         tagsAdded.Add("بذرة");
                     }
-                    if (Variables.LangCode.Equals("arz"))
+                    else if (Variables.LangCode.Equals("arz"))
                     {
                         articleText += Tools.Newline("{{تقاوى}}", 3);
                         tagsAdded.Add("تقاوى");
@@ -6696,7 +6696,7 @@ namespace WikiFunctions.Parse
                         articleText += Tools.Newline("{{بذرة غير مصنفة|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
                         tagsAdded.Add("[[تصنيف:مقالات غير مصنفة|غير مصنفة]]");
                     }
-                    if (Variables.LangCode.Equals("arz"))
+                    else if (Variables.LangCode.Equals("arz"))
                     {
                         articleText += Tools.Newline("{{تقاوى مش متصنفه|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
                         tagsAdded.Add("[[قالب:تقاوى مش متصنفه|تقاوى مش متصنفه]]");
@@ -6714,7 +6714,7 @@ namespace WikiFunctions.Parse
                         articleText += Tools.Newline("{{غير مصنفة|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
                         tagsAdded.Add("[[CAT:UNCAT|مقالات غير مصنفة]]");
                     }
-                    if (Variables.LangCode.Equals("arz"))
+                    else if (Variables.LangCode.Equals("arz"))
                     {
                         articleText += Tools.Newline("{{مش متصنفه|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
                         tagsAdded.Add("[[CAT:UNCAT|مش متصنفه]]");
