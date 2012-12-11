@@ -6744,7 +6744,17 @@ namespace WikiFunctions.Parse
                 {
                     string uncatname = WikiRegexes.Uncat.Match(articleText).Groups[1].Value;
                     if (!uncatname.Contains("stub"))
-                        articleText = Tools.RenameTemplate(articleText, uncatname, "Uncategorized stub");
+                    {
+                    	if (Variables.LangCode.Equals("ar"))
+                    	{
+                    	    articleText = Tools.RenameTemplate(articleText, uncatname, "بذرة غير مصنفة");
+                    	}
+                    	else
+                    	{
+                    	    articleText = Tools.RenameTemplate(articleText, uncatname, "Uncategorized stub");
+                    		
+                    	}
+                    }
                 }
             }
 
