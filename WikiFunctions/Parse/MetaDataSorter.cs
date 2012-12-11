@@ -321,6 +321,7 @@ en, sq, ru
 			        break;
 
 			    case "ar":
+			    case "arz":
 			    case "cs":
 			    case "el":
 			    case "pl":
