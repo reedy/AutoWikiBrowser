@@ -6633,6 +6633,10 @@ namespace WikiFunctions.Parse
                     {
                         tagsRemoved.Add("نهاية مسدودة");
                     }
+                    else if (Variables.LangCode.Equals("arz"))
+                    {
+                        tagsRemoved.Add("نهاية مسدودة");
+                    }
                     else
                     {
                         tagsRemoved.Add("deadend");
@@ -6753,7 +6757,7 @@ namespace WikiFunctions.Parse
                     articleText = "{{نهاية مسدودة|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                     tagsAdded.Add("[[:تصنيف:مقالات نهاية مسدودة|نهاية مسدودة]]");
                 }
-                if (Variables.LangCode.Equals("arz"))
+                else if (Variables.LangCode.Equals("arz"))
                 {
                     articleText = "{{نهايه مسدوده|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                     tagsAdded.Add("[[:قالب:نهايه مسدوده|نهايه مسدوده]]");
@@ -6780,7 +6784,7 @@ namespace WikiFunctions.Parse
                     articleText = "{{ويكي|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                     tagsAdded.Add("[[وب:ويكي|ويكي]]");
                 }
-                if (Variables.LangCode.Equals("arz"))
+                else if (Variables.LangCode.Equals("arz"))
                 {
                     articleText = "{{ويكى|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                     tagsAdded.Add("[[قالب:ويكى|ويكى]]");
@@ -6907,7 +6911,7 @@ namespace WikiFunctions.Parse
                     articleText = "{{يتيمة|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                     tagsAdded.Add("[[تصنيف:يتيمة|يتيمة]]");
                 }
-                if (Variables.LangCode.Equals("arz"))
+                else if (Variables.LangCode.Equals("arz"))
                 {
                     articleText = "{{يتيمه|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                     tagsAdded.Add("[[قالب:يتيمه|يتيمه]]");
@@ -6924,6 +6928,10 @@ namespace WikiFunctions.Parse
                 if (Variables.LangCode.Equals("ar"))
                 {
                     tagsRemoved.Add("يتيمة");
+                }
+                else if (Variables.LangCode.Equals("arz"))
+                {
+                    tagsRemoved.Add("يتيمه");
                 }
                 else
                 {
@@ -6998,7 +7006,7 @@ namespace WikiFunctions.Parse
                 // Reverse order of words for arwiki
                 if (Variables.LangCode.Equals("ar"))
                     summary = "وسوم " + Tools.ListToStringCommaSeparator(tagsRemoved) + " أزال";
-                if (Variables.LangCode.Equals("arz"))
+                else if (Variables.LangCode.Equals("arz"))
                     summary = "وسوم " + Tools.ListToStringCommaSeparator(tagsRemoved) + " شال";
                 else summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " tag" +
                     (tagsRemoved.Count == 1 ? "" : "s");
@@ -7012,7 +7020,7 @@ namespace WikiFunctions.Parse
                 // Reverse order of words for arwiki
                 if (Variables.LangCode.Equals("ar"))
                     summary += "وسوم " + Tools.ListToStringCommaSeparator(tagsAdded) + " أضاف";
-                if (Variables.LangCode.Equals("arz"))
+                else if (Variables.LangCode.Equals("arz"))
                     summary += "وسوم " + Tools.ListToStringCommaSeparator(tagsAdded) + " زود";
                 else summary += "added " + Tools.ListToStringCommaSeparator(tagsAdded) + " tag" +
                     (tagsAdded.Count == 1 ? "" : "s");
