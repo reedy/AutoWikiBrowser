@@ -812,6 +812,13 @@ now stubborn}}");
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{okategoriserad}}"));
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Okategoriserad}}"));
             
+            Variables.SetProjectLangCode("ar");
+            WikiRegexes.MakeLangSpecificRegexes();
+
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{غير مصنف}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{غير مصنفة}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{بذرة غير مصنفة}}"));
+
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
             #endif
