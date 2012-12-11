@@ -8855,6 +8855,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsTrue(text.Contains("{{ويكي|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsTrue(Tools.NestedTemplateRegex("بذرة غير مصنفة").IsMatch(text),"Uncategorized stub");
+            Assert.IsFalse(text.Contains("Uncategorized"), "no en-wiki uncat tags");
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text),"stub");
 
             text = parser.Tagger(ShortText+ @"{{disambig}}", "Test", false, out noChange, ref summary);
@@ -8868,6 +8869,10 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsFalse(text.Contains("{{يتيمة|" + WikiRegexes.DateYearMonthParameter + @"}}"),"orphan");
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text),"stub");
             Assert.IsTrue(text.Contains("{{ويكي|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
+            
+            Globals.UnitTestBoolValue = true;
+            text = parser.Tagger(ShortText+ShortText+ShortText+ShortText, "Test", false, out noChange, ref summary);
+            Assert.IsFalse(text.Contains("Uncategorized"), "no en-wiki uncat tags");
 
             Variables.SetProjectLangCode("en");
             Variables.Stub = "[^{}|]*?[Ss]tub";
