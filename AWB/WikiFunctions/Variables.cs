@@ -603,14 +603,14 @@ namespace WikiFunctions
                         case "ar":
                             mSummaryTag = " ";
                             WPAWB = "باستخدام [[Project:أوب|أوب]]";
-                            Stub = @"(?:[^{}|]*?[Ss]tub|(بذرة|بذور)[^{}]*?)";
+                            Stub = @"(?:[^{}|]*?[Ss]tub|بذرة|بذور[^{}]*?)";
                             TypoSummaryTag = ".الأخطاء المصححة: ";
                             break;
 
                         case "arz":
                             mSummaryTag = " ";
                             WPAWB = "عن طريق [[Project:AWB|اوب]]";
-                            Stub = @"(?:[^{}|]*?[Ss]tub|(تقاوى|بذرة)[^{}]*?)";
+                            Stub = @"(?:[^{}|]*?[Ss]tub|تقاوى|بذرة[^{}]*?)";
                             TypoSummaryTag = ".الأخطاء المصححة: ";
                             break;
                             
