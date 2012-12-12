@@ -6786,9 +6786,11 @@ namespace WikiFunctions.Parse
             }
 
             if (wikiLinkCount < 3 && underlinked && !WikiRegexes.Wikify.IsMatch(articleText)
-                && !WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower().Contains("wikify"))
+                && !WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower().Contains("wikify")
+                && !WikiRegexes.DeadEnd.IsMatch(articleText))
             {
                 // add wikify tag
+                // Don't add underlinked/wikify if {{dead end}} already present
                 if (Variables.LangCode.Equals("ar"))
                 {
                     articleText = "{{ويكي|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
@@ -6804,9 +6806,8 @@ namespace WikiFunctions.Parse
                     articleText = "{{Wikify|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                     tagsAdded.Add("[[WP:WFY|wikify]]");
                 }
-                else if(!WikiRegexes.DeadEnd.IsMatch(articleText))
+                else
                 {
-                    // Don't add underlinked if {{dead end}} already present
                     articleText = "{{Underlinked|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                     tagsAdded.Add("[[CAT:UL|underlinked]]");
                 }
