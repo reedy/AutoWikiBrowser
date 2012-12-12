@@ -1866,41 +1866,6 @@ words2"));
         }
 
         [Test]
-        public void DeadEndTests()
-        {
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Deadend}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{deadend}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dead end}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{deadend|date=May 2008}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Dead end}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{internal links}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{internallinks}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Internal links}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Internal links|date=May 2008}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{nuevointernallinks}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Nuevointernallinks}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dep}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dep|date=May 2008|Foobar}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Article issues|deadend=May 2008|a=b|c=d}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{articleissues|deadend=May 2008|a=b|c=d}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Article issues|dead end=May 2008|a=b|c=d}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Multiple issues|deadend=May 2008|a=b|c=d}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{ Article issues|dead end=May 2008|a=b|c=d}}"));
-
-            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(@"{{deadend|}}"));
-
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Dead end|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Multiple issues|dead end={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|a=b}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Multiple issues|orphan=May 2010 | dead end={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|a=b}}"));
-
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Multiple issues|wikify ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|dead end ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|orphan ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
-
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Multiple issues|orphan =August 2010|cleanup =March 2009|COI =April 2009|BLP sources = April 2009|autobiography = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|wikify = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|dead end = {{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
-
-            Assert.AreEqual(@"{{multiple issues|peacock=September 2010|wikify=September 2010|BLP unsourced = July 2010}}", WikiRegexes.DeadEnd.Replace(@"{{multiple issues|deadend=September 2010|peacock=September 2010|wikify=September 2010|BLP unsourced = July 2010}}", "$1"));
-        }
-
-        [Test]
         public void BareExternalLinkTests()
         {
             Assert.IsTrue(WikiRegexes.BareExternalLink.IsMatch(@"* http://www.site.com
