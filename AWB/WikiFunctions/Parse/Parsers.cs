@@ -6769,7 +6769,7 @@ namespace WikiFunctions.Parse
                     // if dead end then remove underlinked
                     if(WikiRegexes.Wikify.IsMatch(articleText))
                     {
-		                articleText = WikiRegexes.Wikify.Replace(articleText, m => Tools.IsSectionOrReasonTemplate(m.Value, articleText) ? m.Value : m.Groups[1].Value);
+		                articleText = WikiRegexes.Wikify.Replace(articleText, "");
                         tagsRemoved.Add("ويكي");
                     }
                 }
@@ -6780,7 +6780,7 @@ namespace WikiFunctions.Parse
                     // if dead end then remove underlinked
                     if(WikiRegexes.Wikify.IsMatch(articleText))
                     {
-		                articleText = WikiRegexes.Wikify.Replace(articleText, m => Tools.IsSectionOrReasonTemplate(m.Value, articleText) ? m.Value : m.Groups[1].Value);
+		                articleText = WikiRegexes.Wikify.Replace(articleText, "");
                         tagsRemoved.Add("ويكى");
                     }
                 }
