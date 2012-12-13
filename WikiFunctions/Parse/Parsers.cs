@@ -6766,11 +6766,23 @@ namespace WikiFunctions.Parse
                 {
                     articleText = "{{نهاية مسدودة|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                     tagsAdded.Add("[[:تصنيف:مقالات نهاية مسدودة|نهاية مسدودة]]");
+                    // if dead end then remove underlinked
+                    if(WikiRegexes.Wikify.IsMatch(articleText))
+                    {
+		                articleText = WikiRegexes.Wikify.Replace(articleText, m => Tools.IsSectionOrReasonTemplate(m.Value, articleText) ? m.Value : m.Groups[1].Value);
+                        tagsRemoved.Add("ويكي");
+                    }
                 }
                 else if (Variables.LangCode.Equals("arz"))
                 {
                     articleText = "{{نهايه مسدوده|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                     tagsAdded.Add("[[:قالب:نهايه مسدوده|نهايه مسدوده]]");
+                    // if dead end then remove underlinked
+                    if(WikiRegexes.Wikify.IsMatch(articleText))
+                    {
+		                articleText = WikiRegexes.Wikify.Replace(articleText, m => Tools.IsSectionOrReasonTemplate(m.Value, articleText) ? m.Value : m.Groups[1].Value);
+                        tagsRemoved.Add("ويكى");
+                    }
                 }
                 else
                 {
@@ -6779,8 +6791,8 @@ namespace WikiFunctions.Parse
                     // if dead end then remove underlinked
                     if(articleText.IndexOf("underlinked", StringComparison.OrdinalIgnoreCase) > -1)
                     {
-                        tagsRemoved.Add("underlinked");
                         articleText = Tools.NestedTemplateRegex("underlinked").Replace(articleText, "");
+                        tagsRemoved.Add("underlinked");
                     }
                 }
             }
