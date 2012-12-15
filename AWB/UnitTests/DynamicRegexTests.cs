@@ -712,6 +712,18 @@ now stubborn}}");
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(@"{{wikify}}"));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{ickewiki}}"));
             
+            Variables.SetProjectLangCode("ar");
+            WikiRegexes.MakeLangSpecificRegexes();
+
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(@"{{wikify}}"));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{ويكي}}"));
+
+            Variables.SetProjectLangCode("arz");
+            WikiRegexes.MakeLangSpecificRegexes();
+
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(@"{{wikify}}"));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{ويكى}}"));
+
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
             #endif
