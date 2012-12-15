@@ -8617,7 +8617,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text), "page is deadend");
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text), "page is stub");
             Assert.IsTrue(Tools.NestedTemplateRegex("Uncategorized stub").IsMatch(text), "page is uncategorised stub");
-            Assert.IsTrue(text.Contains(UncatStub), "page has already been tagged as uncatgorised stub");
+            Assert.IsTrue(text.Contains(UncatStub), "page has already been tagged as uncategorised stub");
 
             text = parser.Tagger(ShortTextWithLongComment, "Test", false, out noChange, ref summary);
             //Stub, no existing stub tag. Needs all tags
