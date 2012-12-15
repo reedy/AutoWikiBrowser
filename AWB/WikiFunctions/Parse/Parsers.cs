@@ -6776,8 +6776,7 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            if (wikiLinkCount == 0 && Variables.LangCode != "sv" && !WikiRegexes.DeadEnd.IsMatch(articleText) && !WikiRegexes.Centuryinbox.IsMatch(articleText)
-                && !Regex.IsMatch(WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower(), @"\bdead ?end\b"))
+            if (wikiLinkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(articleText))
             {
                 // add dead-end tag
                 if (Variables.LangCode.Equals("ar"))
@@ -6802,7 +6801,7 @@ namespace WikiFunctions.Parse
                         tagsRemoved.Add("ويكى");
                     }
                 }
-                else
+                else if (Variables.LangCode != "sv" && !WikiRegexes.Centuryinbox.IsMatch(articleText)  && !Regex.IsMatch(WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower(), @"\bdead ?end\b"))
                 {
                     articleText = "{{dead end|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                     tagsAdded.Add("[[CAT:DE|deadend]]");
