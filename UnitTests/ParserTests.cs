@@ -9344,6 +9344,26 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         }
 
         [Test]
+        public void RemoveDeadEndAr()
+        {
+            #if DEBUG
+            Variables.SetProjectLangCode("ar");
+            Variables.Stub = @"[^{}|]*?([Ss]tub|بذرة|بذور)";
+            WikiRegexes.MakeLangSpecificRegexes();
+
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(parser.Tagger(@"foo {{نهاية مسدودة|تاريخ=ديسمبر 2012}} [[a]] and [[b]] and [[b]]", "Test", false, out noChange, ref summary)));
+            Assert.IsTrue(summary.Contains("نهاية مسدودة"));
+
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(parser.Tagger(@"foo {{dead end|date=December 2012}} [[a]] and [[b]] and [[b]]", "Test", false, out noChange, ref summary)));
+            Assert.IsTrue(summary.Contains("نهاية مسدودة"));
+
+            Variables.SetProjectLangCode("en");
+            Variables.Stub = "[^{}|]*?[Ss]tub";
+            WikiRegexes.MakeLangSpecificRegexes();
+            #endif
+        }
+
+        [Test]
         public void UpdateFactTag()
         {
             WikiRegexes.DatedTemplates.Clear();
