@@ -8911,6 +8911,16 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             //Assert.IsFalse(text.Contains("{{ويكي|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
             //Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text),"deadend");
             
+            text = parser.Tagger(ShortText.Replace("consectetur", "[[consectetur]]"), "Test", false, out noChange, ref summary);
+            //Non Deadend stub
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
+
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text),"wikify");
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text),"deadend");
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text),"orphan");
+            Assert.IsFalse(text.Contains(UncatStub),"english uncatstub");
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text),"uncat");
+
             text = parser.Tagger(Regex.Replace(ShortText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
             //very wikified stub
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text),"stub");
