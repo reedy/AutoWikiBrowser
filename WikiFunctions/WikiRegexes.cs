@@ -516,6 +516,11 @@ namespace WikiFunctions
         public static readonly Regex Blockquote = new Regex(@"<\s*blockquote[^<>]*>(.*?)<\s*/\s*blockquote\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
+        /// Matches &lt;poem> tags
+        /// </summary>
+        public static readonly Regex Poem = new Regex(@"<\s*poem[^<>]*>(.*?)<\s*/\s*poem\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline);        
+        
+        /// <summary>
         /// Matches &lt;imagemap&gt; tags
         /// </summary>
         public static readonly Regex ImageMap = new Regex(@"<\s*imagemap\b[^<>]*>(.*?)<\s*/\s*imagemap\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline);
