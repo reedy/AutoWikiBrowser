@@ -6592,19 +6592,6 @@ namespace WikiFunctions.Parse
             commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
             commentsCategoriesStripped = WikiRegexes.Category.Replace(commentsStripped, "");
 
-            // on en wiki, remove expand template when a stub template exists
-            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Remove_.7B.7Bexpand.7D.7D_when_a_stub_template_exists
-            if (Variables.LangCode == "en" && WikiRegexes.Stub.IsMatch(commentsCategoriesStripped) &&
-                WikiRegexes.Expand.IsMatch(commentsCategoriesStripped))
-            {
-                articleText = WikiRegexes.Expand.Replace(articleText, "");
-                tagsRemoved.Add("expand");
-            }
-
-            // refresh
-            commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
-            commentsCategoriesStripped = WikiRegexes.Category.Replace(commentsStripped, "");
-
             // do orphan tagging before template analysis for categorisation tags
             articleText = TagOrphans(articleText, articleTitle, restrictOrphanTagging);
 
