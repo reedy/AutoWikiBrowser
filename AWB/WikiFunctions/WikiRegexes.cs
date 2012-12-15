@@ -925,7 +925,7 @@ namespace WikiFunctions
         public static Regex LinkFGAs;
 
         /// <summary>
-        /// Matches {{Deadend|xxx}} (en only), including in {{Multiple issues}}, group 1 is the {{Multiple issues}} template call up to the dead end tag
+        /// Matches {{Deadend|xxx}}, including in {{Multiple issues}}, group 1 is the {{Multiple issues}} template call up to the dead end tag
         /// </summary>
         public static Regex DeadEnd;
 
