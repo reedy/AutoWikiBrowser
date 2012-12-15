@@ -6640,7 +6640,10 @@ namespace WikiFunctions.Parse
 
             if (wikiLinkCount > 0 && WikiRegexes.DeadEnd.IsMatch(articleText))
             {
-                articleText = WikiRegexes.DeadEnd.Replace(articleText, m => Tools.IsSectionOrReasonTemplate(m.Value, articleText) ? m.Value : m.Groups[1].Value);
+                if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz"))
+                    articleText = WikiRegexes.DeadEnd.Replace(articleText, "");
+                else
+                	articleText = WikiRegexes.DeadEnd.Replace(articleText, m => Tools.IsSectionOrReasonTemplate(m.Value, articleText) ? m.Value : m.Groups[1].Value);
 
                 if (!WikiRegexes.DeadEnd.IsMatch(articleText))
                 {
