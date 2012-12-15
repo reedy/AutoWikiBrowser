@@ -6846,7 +6846,20 @@ namespace WikiFunctions.Parse
                 articleText = WikiRegexes.Wikify.Replace(articleText, m => Tools.IsSectionOrReasonTemplate(m.Value, articleText) ? m.Value : m.Groups[1].Value);
 
                 if (!WikiRegexes.Wikify.IsMatch(articleText))
-                    tagsRemoved.Add("underlinked");
+                {
+	                if (Variables.LangCode.Equals("ar"))
+	                {
+	                	tagsRemoved.Add("ويكي");
+                	}     
+	                else if (Variables.LangCode.Equals("arz"))
+	                {
+	                	tagsRemoved.Add("ويكى");
+                	}
+	                else
+	                {
+	                	tagsRemoved.Add("underlinked");
+                	}
+                }
             }
 
             // rename unreferenced --> refimprove if has existing refs, update date
