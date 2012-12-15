@@ -6842,17 +6842,12 @@ namespace WikiFunctions.Parse
             else if (wikiLinkCount > 3 && !underlinked &&
                      WikiRegexes.Wikify.IsMatch(articleText))
             {
-	            if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz"))
-	            {
-		          articleText = WikiRegexes.Wikify.Replace(articleText, "");
-	                	
-	            }
-	            else
-	            {
-	              // remove wikify, except section templates or wikify tags with reason parameter specified
-	              articleText = WikiRegexes.Wikify.Replace(articleText, m => Tools.IsSectionOrReasonTemplate(m.Value, articleText) ? m.Value : m.Groups[1].Value);	                	
-	            }
-	            
+                if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz"))
+                    articleText = WikiRegexes.Wikify.Replace(articleText, "");
+                else
+                    // remove wikify, except section templates or wikify tags with reason parameter specified
+                    articleText = WikiRegexes.Wikify.Replace(articleText, m => Tools.IsSectionOrReasonTemplate(m.Value, articleText) ? m.Value : m.Groups[1].Value);
+
                 if (!WikiRegexes.Wikify.IsMatch(articleText))
                 {
 	                if (Variables.LangCode.Equals("ar"))
