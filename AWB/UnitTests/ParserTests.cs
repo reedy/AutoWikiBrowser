@@ -5337,6 +5337,16 @@ Why miserable patient<br />
 </blockquote>";
             
             Assert.AreEqual(BlockQuote, Parsers.RemoveWhiteSpace(BlockQuote), "no changes to <br> tags within blockquotes");
+
+             const string Poem = @"<poem>
+Friendship betrayal
+They require
+
+
+Why miserable patient
+</poem>";
+
+            Assert.AreEqual(Poem, Parsers.RemoveWhiteSpace(Poem), "no changes to newlines within blockquotes");
         }
 
         [Test]

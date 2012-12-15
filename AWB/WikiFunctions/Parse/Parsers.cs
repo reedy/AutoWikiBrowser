@@ -2738,13 +2738,28 @@ namespace WikiFunctions.Parse
                     articleText = BrTwoNewlines.Replace(articleText.Trim(), "\r\n\r\n");
             }
 
+            // remove excessive newlines
+            // Don't apply within <poem> tags
             // retain one or two new lines before stub
             if(articleText.Contains("\r\n\r\n"))
             {
-                if (WikiRegexes.Stub.IsMatch(articleText))
-                    articleText = FourOrMoreNewlines.Replace(articleText, "\r\n\r\n");
-                else
-                    articleText = WikiRegexes.ThreeOrMoreNewlines.Replace(articleText, "\r\n\r\n");
+                bool OK = true;
+                foreach(Match m in WikiRegexes.Poem.Matches(articleText))
+                {
+                    if(m.Value.Contains("\r\n\r\n"))
+                    {
+                        OK = false;
+                        break;
+                    }
+                }
+
+                if(OK)
+                {
+                    if (WikiRegexes.Stub.IsMatch(articleText))
+                        articleText = FourOrMoreNewlines.Replace(articleText, "\r\n\r\n");
+                    else
+                        articleText = WikiRegexes.ThreeOrMoreNewlines.Replace(articleText, "\r\n\r\n");
+                }
             }
 
             articleText = NewlinesBelowExternalLinks.Replace(articleText, "==External links==\r\n*");
