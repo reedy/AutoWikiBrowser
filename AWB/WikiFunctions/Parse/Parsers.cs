@@ -2570,24 +2570,21 @@ namespace WikiFunctions.Parse
         };
 
         private static readonly RegexReplacement[] RefComplex = new[] {
+            // <REF> and <Ref> to <ref>
+            new RegexReplacement(new Regex(@"(<\s*\/?\s*)(?:R[Ee][Ff]|r[Ee]F)(\s*(?:>|name\s*=))"), "$1ref$2"),	
             // remove any spaces between consecutive references -- WP:REFPUNC
             new RegexReplacement(new Regex(@"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>) +(?=<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)"), "$1"),
             // ensure a space between a reference and text (reference within a paragraph) -- WP:REFPUNC
             new RegexReplacement(new Regex(@"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>)(\w)"), "$1 $2"),
             // remove spaces between punctuation and references -- WP:REFPUNC
             new RegexReplacement(new Regex(@"(?<=[,\.:;]) +(<ref(?:\s*name\s*=[^{}<>]+?\s*\/?\s*)?>)",  RegexOptions.IgnoreCase), "$1"),
-
-            // whitespace cleaning            
-            new RegexReplacement(new Regex(@"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>"), "</ref>"),
-
+            // empty <ref>...</ref> tags
+            new RegexReplacement(new Regex(@"<ref>\s*</ref>"), ""),            
             // Trailing spaces at the beginning of a reference, within the reference
             new RegexReplacement(new Regex(@"(<ref[^<>\{\}\/]*>) +"), "$1"),
+            // whitespace cleaning            
+            new RegexReplacement(new Regex(@"<(?:\s*/(?:\s+ref\s*|\s*ref\s+)|\s+/\s*ref\s*)>"), "</ref>")
 
-            // empty <ref>...</ref> tags
-            new RegexReplacement(new Regex(@"<ref>\s*</ref>"), ""),
-            
-            // <REF> and <Ref> to <ref>
-            new RegexReplacement(new Regex(@"(<\s*\/?\s*)(?:R[Ee][Ff]|r[Ee]F)(\s*(?:>|name\s*=))"), "$1ref$2")
         };
         
         public static readonly Regex RefTags = new Regex(@"<\s*ref\b[^<>]*>", RegexOptions.IgnoreCase);
