@@ -3386,6 +3386,19 @@ Template:foo}}"));
             const string nochange1 = @"their [[play]]ers", nochange2 = @"ts borders.<ref>[http://cyber.law.harvard.edu/filtering/a/ Saudi Arabia]</ref> A Saudi";
             Assert.AreEqual(nochange1, Parsers.FixSyntax(nochange1));
             Assert.AreEqual(nochange2, Parsers.FixSyntax(nochange2));
+
+            // https
+            Assert.AreEqual(@"their new [https://www.site.com site]", Parsers.FixSyntax(@"their new[https://www.site.com site]"));
+            Assert.AreEqual(@"their new [https://www.site.com site] was", Parsers.FixSyntax(@"their new [https://www.site.com site]was"));
+            Assert.AreEqual(@"their new [https://www.site.com site] was", Parsers.FixSyntax(@"their new[https://www.site.com site]was"));
+
+            Assert.AreEqual(@"their new [https://www.site.com site]", Parsers.FixSyntax(@"their new [https://www.site.com site]"));
+            Assert.AreEqual(@"their new [https://www.site.com site] was", Parsers.FixSyntax(@"their new [https://www.site.com site] was"));
+
+            Assert.AreEqual(@"their new [https://www.site.com site] was [[blog]]ger then", Parsers.FixSyntax(@"their new [https://www.site.com site] was [[blog]]ger then"));
+
+            const string nochange3 = @"ts borders.<ref>[https://cyber.law.harvard.edu/filtering/a/ Saudi Arabia]</ref> A Saudi";
+            Assert.AreEqual(nochange3, Parsers.FixSyntax(nochange3));
         }
 
         [Test]
