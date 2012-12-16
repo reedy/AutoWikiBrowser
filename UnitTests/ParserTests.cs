@@ -3340,12 +3340,12 @@ Template:foo}}"));
         [Test]
         public void FixSyntaxHTTPFormat()
         {
-            Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http//www.site.com</ref>"));
-            Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http:://www.site.com</ref>"));
-            Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http:www.site.com</ref>"));
+            Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http//www.site.com</ref>"),"missing colon");
+            Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http:://www.site.com</ref>"),"double colon");
+            Assert.AreEqual("<ref>http://www.site.com</ref>", Parsers.FixSyntax(@"<ref>http:www.site.com</ref>"),"missing slashes");
             Assert.AreEqual("at http://www.site.com", Parsers.FixSyntax(@"at http//www.site.com"));
             Assert.AreEqual("<ref>[http://www.site.com a website]</ref>",
-                            Parsers.FixSyntax(@"<ref>[http:/www.site.com a website]</ref>"));
+                            Parsers.FixSyntax(@"<ref>[http:/www.site.com a website]</ref>"),"missing a slash");
             Assert.AreEqual("*[http://www.site.com a website]", Parsers.FixSyntax(@"*[http//www.site.com a website]"));
             Assert.AreEqual("|url=http://www.site.com", Parsers.FixSyntax(@"|url=http//www.site.com"));
             Assert.AreEqual("|url = http://www.site.com", Parsers.FixSyntax(@"|url = http:/www.site.com"));
@@ -3564,6 +3564,7 @@ url=a|title=b}}</ref>"));
 			</ref>"), "fixes cite ending in three closing braces, newline before ref end");
 
             Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>{{{cite web|url=a|title=b}}</ref>"), "fixes cite starting in three opening braces");
+            Assert.AreEqual(@"<ref name=""foo"">{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref name=""foo"">{{{cite web|url=a|title=b}}</ref>"), "fixes cite starting in three opening braces");
 
             string CiteDeadLink = @"<ref>{{cite web|url=a|title=b}} {{dead link|date=May 2011}}</ref>";
             Assert.AreEqual(CiteDeadLink, Parsers.FixSyntax(CiteDeadLink));
