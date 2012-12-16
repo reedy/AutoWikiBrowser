@@ -6804,7 +6804,7 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            if (wikiLinkCount < 3 && underlinked && !WikiRegexes.Wikify.IsMatch(articleText)
+            else if (wikiLinkCount < 3 && underlinked && !WikiRegexes.Wikify.IsMatch(articleText)
                 && !WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower().Contains("wikify")
                 && !WikiRegexes.DeadEnd.IsMatch(articleText))
             {
