@@ -3563,6 +3563,8 @@ url=a|title=b}}</ref>"));
 			</ref>", Parsers.FixSyntax(@"<ref>{{cite web|url=a|title=b}}}
 			</ref>"), "fixes cite ending in three closing braces, newline before ref end");
 
+            Assert.AreEqual(@"<ref>{{cite web|url=a|title=b}}</ref>", Parsers.FixSyntax(@"<ref>{{{cite web|url=a|title=b}}</ref>"), "fixes cite starting in three opening braces");
+
             string CiteDeadLink = @"<ref>{{cite web|url=a|title=b}} {{dead link|date=May 2011}}</ref>";
             Assert.AreEqual(CiteDeadLink, Parsers.FixSyntax(CiteDeadLink));
 
