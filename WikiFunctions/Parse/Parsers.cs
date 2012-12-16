@@ -3207,6 +3207,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex CategoryCurlyBracketsEnd = new Regex(@"\[\[ *(" + Variables.Namespaces[Namespace.Category] + @"[^{}\[\]]+?)(?:}})", RegexOptions.Compiled);
         private static readonly Regex FileImageCurlyBrackets = new Regex(@"{{\s*("+Variables.NamespacesCaseInsensitive[Namespace.File]+@"\s*)", RegexOptions.Compiled);
         private static readonly Regex CiteRefEndsTripleClosingBrace = new Regex(@"([^}])\}(\}\}\s*</ref>)", RegexOptions.Compiled);
+        private static readonly Regex CiteRefEndsTripleOpeningBrace = new Regex(@"(<ref>\s*)\{\{\{+(\s*[Cc]ite)", RegexOptions.Compiled);
         private static readonly Regex RefExternalLinkWrongBracket = new Regex(@"(<ref[^<>/]*>)\]", RegexOptions.Compiled);
         private static readonly Regex CurlyToStraightSingleBracket = new Regex(@"([^{}()]){([^{}()]+)\)");
 
@@ -3263,7 +3264,9 @@ namespace WikiFunctions.Parse
 
                             // could be [[{link]]
                             articleTextTemp = ExtraBracketOnWikilinkOpening2.Replace(articleTextTemp, "");
-                            break;
+
+                            // if it's <ref>{{{
+                            articleTextTemp = CiteRefEndsTripleOpeningBrace.Replace(articleTextTemp, "$1{{$2");                            break;
 
                         case '(':
                             // if it's ((word) then see if removing the extra opening round bracket makes it all balance
