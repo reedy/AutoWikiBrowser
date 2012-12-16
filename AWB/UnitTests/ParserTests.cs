@@ -8524,7 +8524,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 | cn1=21st century
 }} eleven twelve", "Test", false, out noChange, ref summary);
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text),"Tag for orphan");
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text),"Tag for wikify");
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text),"Don't tag for underlinked");
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text),"Don't tag for deadend");
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text),"Tag for stub");
             Assert.IsTrue(Tools.NestedTemplateRegex("uncategorized stub").IsMatch(text),"Tag for uncat stub");
@@ -8851,10 +8851,12 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 #if DEBUG
             Variables.SetProjectLangCode("sv");
             string text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
-            //Stub, no existing stub tag. Needs all tags
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
-            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
-            Assert.IsTrue(text.Contains("{{Wikify|" + WikiRegexes.DateYearMonthParameter + @"}}
+            //Stub, no existing stub tag. Sv wiki doens't have dead end
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "orphan");
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text), "stub");
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text), "dead end");
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text), "wikify");
+            Assert.IsFalse(text.Contains("{{Wikify|" + WikiRegexes.DateYearMonthParameter + @"}}
 
 "));
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text));
@@ -8876,8 +8878,11 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Variables.Stub = @"[^{}|]*?([Ss]tub|بذرة|بذور)";
             WikiRegexes.MakeLangSpecificRegexes();
 
-			// ويكي = wikify
-            string text = parser.Tagger(ShortText + "{{ويكي}}", "Test", false, out noChange, ref summary);
+            string text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
+            //Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text), "page is deadend");
+
+            // ويكي = wikify
+            text = parser.Tagger(ShortText + "{{ويكي}}", "Test", false, out noChange, ref summary);
             //Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text), "page is deadend");
             //Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text), "wikify should not be present which dead end added");
             //Assert.IsFalse(text.Contains("ويكي"), "wikify removed when dead end");
@@ -8902,13 +8907,13 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 
             string text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
             //Stub, no existing stub tag. Needs all tags
-            //FIXME: In fact the first group of tests should be flase for wikify and true for deadend since the text
+            //FIXME: In fact the first group of tests should be false for wikify and true for deadend since the text
             // has no wikilinks
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text),"orphan");
             Assert.IsTrue(text.Contains("{{يتيمة|" + WikiRegexes.DateYearMonthParameter + @"}}"),"orphan");
-            //Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text),"wikify");
-            //Assert.IsTrue(text.Contains("{{ويكي|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
-            //Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text));
+            //Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text),"wikify");
+            //Assert.IsFalse(text.Contains("{{ويكي|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
+            //Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsTrue(Tools.NestedTemplateRegex("بذرة غير مصنفة").IsMatch(text),"Uncategorized stub");
             Assert.IsFalse(text.Contains("Uncategorized"), "no en-wiki uncat tags");
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text),"stub");
@@ -8970,8 +8975,8 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             string text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
             //Stub, no existing stub tag. Needs all tags
             Assert.IsTrue(text.Contains("{{يتيمه|" + WikiRegexes.DateYearMonthParameter + @"}}"),"orphan");
-            Assert.IsTrue(text.Contains("{{ويكى|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
-            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text));
+            //Assert.IsFalse(text.Contains("{{ويكى|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
+            //Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsTrue(Tools.NestedTemplateRegex("تقاوى مش متصنفه").IsMatch(text),"Uncategorized stub");
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text),"stub");
 
@@ -8979,13 +8984,13 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             //Don't add stub/orphan to disambig pages. Still add wikify
             Assert.IsFalse(text.Contains("{{يتيمه|" + WikiRegexes.DateYearMonthParameter + @"}}"),"orphan");
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text),"stub");
-            Assert.IsTrue(text.Contains("{{ويكى|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
+            //Assert.IsFalse(text.Contains("{{ويكى|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
 
             text = parser.Tagger(ShortText+ @"{{توضيح}}", "Test", false, out noChange, ref summary);
             //Don't add stub/orphan to disambig pages. Still add wikify
             Assert.IsFalse(text.Contains("{{يتيمه|" + WikiRegexes.DateYearMonthParameter + @"}}"),"orphan");
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text),"stub");
-            Assert.IsTrue(text.Contains("{{ويكى|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
+            //Assert.IsFalse(text.Contains("{{ويكى|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
 
             Variables.SetProjectLangCode("en");
             Variables.Stub = "[^{}|]*?[Ss]tub";
@@ -9026,9 +9031,11 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
         [Test]
         public void AddLinklessRu()
         {
-#if DEBUG
-            Variables.SetProjectLangCode("ru");
+            Globals.UnitTestIntValue = 0;
             Globals.UnitTestBoolValue = true;
+
+            #if DEBUG
+            Variables.SetProjectLangCode("ru");
 
             const string textIn = @"Foo bar {{rq|wikify|style}} here", textIn2 = @"Foo bar";
 
