@@ -6790,7 +6790,8 @@ namespace WikiFunctions.Parse
                 }
                 else if (Variables.LangCode != "sv" && !WikiRegexes.Centuryinbox.IsMatch(articleText)  && !Regex.IsMatch(WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower(), @"\bdead ?end\b"))
                 {
-                    articleText = "{{dead end|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
+                    // Don't add excess newlines between new tags
+                    articleText = "{{dead end|" + WikiRegexes.DateYearMonthParameter + "}}" + (tagsAdded.Count > 0 ? "\r\n" : "\r\n\r\n") + articleText;
                     tagsAdded.Add("[[CAT:DE|deadend]]");
                     // if dead end then remove underlinked
                     if(articleText.IndexOf("underlinked", StringComparison.OrdinalIgnoreCase) > -1)

@@ -8623,6 +8623,17 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
         }
 
         [Test]
+        public void AddMultipleTagsWihtespace()
+        {
+            Globals.UnitTestIntValue = 0;
+            Globals.UnitTestBoolValue = true;
+
+            string text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
+            Assert.IsTrue(text.StartsWith(@"{{dead end|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
+{{Orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"), "No excess blank line between multiple tags");
+        }
+
+        [Test]
         public void Add()
         {
             Globals.UnitTestIntValue = 0;
