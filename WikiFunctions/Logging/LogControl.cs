@@ -18,6 +18,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
@@ -48,17 +49,37 @@ namespace WikiFunctions.Logging
         public delegate void LogAddedToControl(bool skipped, AWBLogListener logListener);
         public event LogAddedToControl LogAdded;
 
+        /// <summary>
+        /// Adds the item to the saved or skipped lists as appropriate
+        /// Unless user has explicit sort on by column clicking, sorts log lists newest first
+        /// </summary>
+        /// <param name="skipped"></param>
+        /// <param name="logListener"></param>
         public void AddLog(bool skipped, AWBLogListener logListener)
         {
             if (skipped)
             {
                 logListener.AddAndDateStamp(lvIgnored);
                 ResizeListView(lvIgnored);
+                
+                // sort descending (newest first) unless user has clicked columns to create custom sort order
+                if(lvIgnored.Sorting == SortOrder.None)
+                {
+                    lvIgnored.ListViewItemSorter = new ListViewItemComparer();
+                    lvIgnored.Sort();
+                }
             }
             else
             {
                 logListener.AddAndDateStamp(lvSaved);
                 ResizeListView(lvSaved);
+                
+                 // sort descending (newest first) unless user has clicked columns to create custom sort order
+                if(lvSaved.Sorting == SortOrder.None)
+                {
+                    lvSaved.ListViewItemSorter = new ListViewItemComparer();
+                    lvSaved.Sort();
+                }
             }
 
             if (LogAdded != null)
@@ -309,6 +330,20 @@ namespace WikiFunctions.Logging
                 articles.Add(new Article(article.Text));
 
             listMaker.Add(articles);
+        }
+
+        /// <summary>
+        /// Dummy comparer class, result is that new item compares as less than others
+        /// So we get newest first sorting
+        /// </summary>
+        public class ListViewItemComparer : IComparer
+        {
+            public ListViewItemComparer() {}
+
+            public int Compare(object x, object y)
+            {
+                return String.Compare("", "");
+            }
         }
     }
 }
