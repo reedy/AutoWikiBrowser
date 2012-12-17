@@ -7212,7 +7212,7 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             // {{R to other namespace}}
-            if (!Namespace.IsMainSpace(redirecttarget) && !Tools.NestedTemplateRegex(new[] { "R to other namespace", "R to other namespaces" }).IsMatch(articleText))
+            if (Namespace.IsMainSpace(articleTitle) && !Namespace.IsMainSpace(redirecttarget) && !Tools.NestedTemplateRegex(new[] { "R to other namespace", "R to other namespaces" }).IsMatch(articleText))
                 return (articleText + " {{R to other namespace}}");
 
             // {{R from modification}}

@@ -9911,6 +9911,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 
             Assert.AreEqual(correct, Parsers.RedirectTagger(redirectNam, "FooBar"));
             Assert.AreEqual(correct, Parsers.RedirectTagger(correct, "FooBar"));
+            Assert.AreEqual(redirectNam, Parsers.RedirectTagger(redirectNam, "Template:FooBar"), "Not tagged when redirect not in mainspace");
         }
 
         [Test]
