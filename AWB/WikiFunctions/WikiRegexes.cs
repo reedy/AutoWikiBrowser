@@ -35,9 +35,13 @@ namespace WikiFunctions
                 NamespacesCaseInsensitive[p.Key] = new Regex(p.Value);
             }
 
-            TemplateStart = @"\{\{\s*(:?" + Variables.NamespacesCaseInsensitive[Namespace.Template] + ")?";
+            string category = Variables.NamespacesCaseInsensitive[Namespace.Category],
+            image = Variables.NamespacesCaseInsensitive[Namespace.File],
+            template = Variables.NamespacesCaseInsensitive[Namespace.Template];
 
-            Category = new Regex(@"\[\[[\s_]*" + Variables.NamespacesCaseInsensitive[Namespace.Category] +
+            TemplateStart = @"\{\{\s*(:?" + template + ")?";
+
+            Category = new Regex(@"\[\[[\s_]*" + category +
                                  @"[ _]*(.*?)[ _]*(?:\|([^\|\]]*))?[ _]*\]\]");
 
             // Match file name by using allowed character list, [October 2012 any Unicode word characters] then a file extension (these are mandatory on mediawiki), then optional closing ]]
@@ -46,7 +50,7 @@ namespace WikiFunctions
             // @"[^\[\]\|\{\}]+\.[a-zA-Z]{3,4}\b(?:\s*(?:\]\]|\|))
             // handles images within <gallery> and matches all of {{gallery}} too
             // Supported file extensions taken from https://commons.wikimedia.org/wiki/Commons:File_types
-            string ImagesString = @"(?:\[\[\s*)?" + Variables.NamespacesCaseInsensitive[Namespace.File] +
+            string ImagesString = @"(?:\[\[\s*)?" + image +
                     @"[ \%\!""$&'\(\)\*,\-.\/0-9:;=\?@\w\\\^_`~\x80-\xFF\+]+\.[a-zA-Z]{3,4}\b(?:\s*(?:\]\]|\|))?";
             string ImageInTemplateString = @"|{{\s*[Gg]allery\s*(?:\|(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!)))?}}|(?<=\|\s*[a-zA-Z\d_ ]+\s*=)[^\|{}]+?\.(?i:djvu|gif|jpe?g|og[agv]|pdf|png|svg|tiff?|mid|xcf)(?=\s*(?:<!--[^>]*?-->\s*|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋\s*)?(?:\||}}))";
 
@@ -56,7 +60,7 @@ namespace WikiFunctions
 
             ImagesNotTemplates = new Regex(ImagesString);
 
-            FileNamespaceLink = new Regex(@"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.File] +
+            FileNamespaceLink = new Regex(@"\[\[\s*" + image +
                                           @"((?>[^\[\]]+|\[\[(?<DEPTH>)|\]\](?<-DEPTH>))*(?(DEPTH)(?!)))\]\]");
 
             Stub = new Regex(@"{{" + Variables.Stub + @"\s*(?:\|[^{}]+)?}}");
@@ -68,11 +72,9 @@ namespace WikiFunctions
             TemplateCall = new Regex(TemplateStart + @"\s*([^\]\|]*)\s*(.*)}}", RegexOptions.Singleline);
 
             LooseCategory =
-                new Regex(@"\[\[[\s_]*" + Variables.NamespacesCaseInsensitive[Namespace.Category]
-                          + @"[\s_]*([^\|]*?)(\|.*?)?\]\]");
+                new Regex(@"\[\[[\s_]*" + category + @"[\s_]*([^\|]*?)(\|.*?)?\]\]");
 
-            LooseImage = new Regex(@"\[\[\s*?(" + Variables.NamespacesCaseInsensitive[Namespace.File]
-                                   + @")\s*([^\|\]]+)(.*?)\]\]");
+            LooseImage = new Regex(@"\[\[\s*?(" + image + @")\s*([^\|\]]+)(.*?)\]\]");
 
             Months = "(" + string.Join("|", Variables.MonthNames) + ")";
             MonthsNoGroup = "(?:" + string.Join("|", Variables.MonthNames) + ")";
@@ -156,11 +158,8 @@ namespace WikiFunctions
             //}
             ExtractTitle = new Regex("^" + s + "([^?&]*)$");
 
-            string cat = Variables.NamespacesCaseInsensitive[Namespace.Category],
-            img = Variables.NamespacesCaseInsensitive[Namespace.Image];
-
-            EmptyLink = new Regex("\\[\\[(:?" + cat + "|" + img + "|)(|" + img + "|" + cat + "|.*?)\\]\\]", RegexOptions.IgnoreCase);
-            EmptyTemplate = new Regex(@"{{(" + Variables.NamespacesCaseInsensitive[Namespace.Template] + @")?[|\s]*}}", RegexOptions.IgnoreCase);
+            EmptyLink = new Regex("\\[\\[(:?" + category + "|" + image + "|)(|" + image + "|" + category + "|.*?)\\]\\]", RegexOptions.IgnoreCase);
+            EmptyTemplate = new Regex(@"{{(" + template + @")?[|\s]*}}", RegexOptions.IgnoreCase);
             
             // set orphan, wikify, uncat templates & dateparameter string
             string uncattemplate;
