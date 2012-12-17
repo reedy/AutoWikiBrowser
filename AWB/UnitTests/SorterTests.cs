@@ -1102,7 +1102,7 @@ second comment <!-- [[it:CN]] -->";
 		}
 		
 		[Test]
-		public void InterWikiSorting()
+		public void InterwikiSorting()
 		{
 		    parser2.SortInterwikis = true;
 		    parser2.Sorter.PossibleInterwikis = new System.Collections.Generic.List<string> { "ar", "de", "en", "ru", "sq" };
