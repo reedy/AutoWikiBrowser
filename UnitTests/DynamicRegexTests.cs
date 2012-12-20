@@ -682,6 +682,7 @@ now stubborn}}");
         public void WikifyTests()
         {
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{wikify}}"));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{underlinked}}"));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{wikify|date=March 2009}}"));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{underlinked|date=March 2009}}"));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Wikify}}"));
