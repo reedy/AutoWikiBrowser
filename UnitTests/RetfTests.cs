@@ -177,6 +177,8 @@ namespace UnitTests
             AssertNoFix("now [[foo]] was foo here");
             AssertNoFix("now [[foo|bo]] was foo here");
             AssertNoFix("now [[Mr foo oft]] was foo here");
+            AssertNoFix("now [[Image:foo.png]] was foo here");
+            AssertNoFix("now [[sv:foo]] was foo here");
 
             AssertFix("now bar [[Foo]] was", "now foo [[Foo]] was");
         }
