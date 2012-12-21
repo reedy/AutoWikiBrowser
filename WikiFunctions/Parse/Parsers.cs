@@ -6630,7 +6630,7 @@ namespace WikiFunctions.Parse
                 if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz"))
                     articleText = WikiRegexes.DeadEnd.Replace(articleText, "");
                 else
-                	articleText = WikiRegexes.DeadEnd.Replace(articleText, m => Tools.IsSectionOrReasonTemplate(m.Value, articleText) ? m.Value : m.Groups[1].Value);
+                    articleText = WikiRegexes.DeadEnd.Replace(articleText, m => Tools.IsSectionOrReasonTemplate(m.Value, articleText) ? m.Value : m.Groups[1].Value).TrimStart();
 
                 if (!WikiRegexes.DeadEnd.IsMatch(articleText))
                 {
@@ -6742,7 +6742,7 @@ namespace WikiFunctions.Parse
             {
                 if (totalCategories > 0)
                 {
-                    articleText = WikiRegexes.Uncat.Replace(articleText, "");
+                    articleText = WikiRegexes.Uncat.Replace(articleText, "").TrimStart();
                     tagsRemoved.Add("uncategorised");
                 }
                 else if (totalCategories == 0 && WikiRegexes.Stub.IsMatch(commentsStripped))
@@ -6773,7 +6773,7 @@ namespace WikiFunctions.Parse
                     // if dead end then remove underlinked
                     if(WikiRegexes.Wikify.IsMatch(articleText))
                     {
-		                articleText = WikiRegexes.Wikify.Replace(articleText, "");
+		                articleText = WikiRegexes.Wikify.Replace(articleText, "").TrimStart();
                         tagsRemoved.Add("ويكي");
                     }
                 }
@@ -6784,7 +6784,7 @@ namespace WikiFunctions.Parse
                     // if dead end then remove underlinked
                     if(WikiRegexes.Wikify.IsMatch(articleText))
                     {
-		                articleText = WikiRegexes.Wikify.Replace(articleText, "");
+		                articleText = WikiRegexes.Wikify.Replace(articleText, "").TrimStart();
                         tagsRemoved.Add("ويكى");
                     }
                 }
@@ -6796,7 +6796,7 @@ namespace WikiFunctions.Parse
                     // if dead end then remove underlinked
                     if(articleText.IndexOf("underlinked", StringComparison.OrdinalIgnoreCase) > -1)
                     {
-                        articleText = Tools.NestedTemplateRegex("underlinked").Replace(articleText, "");
+                        articleText = Tools.NestedTemplateRegex("underlinked").Replace(articleText, "").TrimStart();
                         tagsRemoved.Add("underlinked");
                     }
                 }
@@ -6837,7 +6837,7 @@ namespace WikiFunctions.Parse
                     articleText = WikiRegexes.Wikify.Replace(articleText, "");
                 else
                     // remove wikify, except section templates or wikify tags with reason parameter specified
-                    articleText = WikiRegexes.Wikify.Replace(articleText, m => Tools.IsSectionOrReasonTemplate(m.Value, articleText) ? m.Value : m.Groups[1].Value);
+                    articleText = WikiRegexes.Wikify.Replace(articleText, m => Tools.IsSectionOrReasonTemplate(m.Value, articleText) ? m.Value : m.Groups[1].Value).TrimStart();
 
                 if (!WikiRegexes.Wikify.IsMatch(articleText))
                 {
@@ -6969,7 +6969,7 @@ namespace WikiFunctions.Parse
             }
             else if (!orphaned && WikiRegexes.Orphan.IsMatch(articleText))
             {
-                articleText = WikiRegexes.Orphan.Replace(articleText, m => m.Groups["MI"].Value);
+                articleText = WikiRegexes.Orphan.Replace(articleText, m => m.Groups["MI"].Value).TrimStart();
                 if (Variables.LangCode.Equals("ar"))
                 {
                     tagsRemoved.Add("يتيمة");

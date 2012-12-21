@@ -8880,7 +8880,28 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             string text = parser.Tagger(t1 + LongText, "Test", false, out noChange, ref summary);
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
             Assert.IsTrue(text.StartsWith(@"{{Underlinked|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
-{{temp}}"));
+{{temp}}"), "no excess newlines on tag addition");
+
+            t1 = @"{{dead end}}{{temp}}'''Ae0bgz2CNta0Qib4dK3''' VcnyafUE0bqIUdr5e 9zggyDHmIye [[PoPUJrqLG 3a8vnqpgy]].<ref>EdOkQE5gA 7u9P9ZZtd dFw0g9Fsf 99924876231</ref>
+
+==References==
+{{Reflist}}
+
+{{Persondata
+| NAME              = 0mqgyd9wZ ow3yEcrk6
+| ALTERNATIVE NAMES =
+| SHORT DESCRIPTION =
+| DATE OF BIRTH     =
+| PLACE OF BIRTH    =
+| DATE OF DEATH     =
+| PLACE OF DEATH    =
+}}
+{{DEFAULTSORT:bJqnzFm7e, opFhLKq7z}}";
+
+            text = parser.Tagger(t1 + LongText, "Test", false, out noChange, ref summary);
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(text.StartsWith(@"{{Underlinked|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
+{{temp}}"), "no excess newlines on tag change");
         }
 
         [Test]
