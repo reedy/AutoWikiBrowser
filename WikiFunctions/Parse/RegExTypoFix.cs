@@ -299,8 +299,8 @@ namespace WikiFunctions.Parse
                     {
                         for (int j = 0; j < Math.Min(GroupSize, Typos.Count - i * GroupSize); j++)
                         {
-                            // don't apply the typo if it matches on a link target
-                            if (!Regex.IsMatch(originalArticleText, @"\[\[[^\[\]\r\n\|]*?" + Typos[i * GroupSize + j].Key + @"[^\[\]\r\n\|]*?(?:\]\]|\|)"))
+                            // don't apply the typo if it matches on a link target in a wikinlink (but not image/interwiki/category link)
+                            if (!Regex.IsMatch(originalArticleText, @"\[\[[^[\]\n\|]*?" + Typos[i * GroupSize + j].Key + @"[^\[\]\r\n\|]*?(?<!\[\[[A-Z]?[a-z-]{2,}:[^[\]\n]+)(?:\]\]|\|)"))
                                 FixTypo(ref articleText, ref summary, Typos[i * GroupSize + j], articleTitle);
                         }
                     }

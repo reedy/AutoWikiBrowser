@@ -174,11 +174,14 @@ namespace UnitTests
         {
             Typos["foo"] = "bar";
 
-            AssertNoFix("now [[foo]] was foo here");
-            AssertNoFix("now [[foo|bo]] was foo here");
-            AssertNoFix("now [[Mr foo oft]] was foo here");
-            AssertNoFix("now [[Image:foo.png]] was foo here");
-            AssertNoFix("now [[sv:foo]] was foo here");
+            AssertNoFix("now [[foo]] was foo here"); // No change: typo matches wikilink
+            AssertNoFix("now [[foo|bo]] was foo here"); // No change: typo matches piped wikilink
+            AssertNoFix("now [[Mr foo oft]] was foo here"); // No change: typo matches within wikilink
+            AssertNoFix("now [[Mr foo oft]] was foo here [[Image:foo.png]] a"); // No change: typo matches within wikilink
+
+            AssertFix("now [[Image:foo.png]] was bar here", "now [[Image:foo.png]] was foo here"); // Change: typo matches image name which doesn't matter
+            AssertFix("now [[sv:foo]] was bar here", "now [[sv:foo]] was foo here");  // Change: typo matches interwiki name which doesn't matter
+            AssertFix("now [[Category:A foo]] was bar here", "now [[Category:A foo]] was foo here");  // Change: typo matches category name which doesn't matter
 
             AssertFix("now bar [[Foo]] was", "now foo [[Foo]] was");
         }
