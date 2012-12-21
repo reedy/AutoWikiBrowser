@@ -8857,6 +8857,33 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
         }
 
         [Test]
+        public void AddUnderlinked()
+        {
+            Globals.UnitTestIntValue = 1;
+            Globals.UnitTestBoolValue = false;
+            string t1 = @"{{temp}}'''Ae0bgz2CNta0Qib4dK3''' VcnyafUE0bqIUdr5e 9zggyDHmIye [[PoPUJrqLG 3a8vnqpgy]].<ref>EdOkQE5gA 7u9P9ZZtd dFw0g9Fsf 99924876231</ref>
+
+==References==
+{{Reflist}}
+
+{{Persondata
+| NAME              = 0mqgyd9wZ ow3yEcrk6
+| ALTERNATIVE NAMES =
+| SHORT DESCRIPTION =
+| DATE OF BIRTH     =
+| PLACE OF BIRTH    =
+| DATE OF DEATH     =
+| PLACE OF DEATH    =
+}}
+{{DEFAULTSORT:bJqnzFm7e, opFhLKq7z}}";
+
+            string text = parser.Tagger(t1 + LongText, "Test", false, out noChange, ref summary);
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
+            Assert.IsTrue(text.StartsWith(@"{{Underlinked|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
+{{temp}}"));
+        }
+
+        [Test]
         public void AddSv()
         {
             Globals.UnitTestIntValue = 0;

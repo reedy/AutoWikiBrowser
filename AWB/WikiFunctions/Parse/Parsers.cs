@@ -6801,31 +6801,32 @@ namespace WikiFunctions.Parse
                     }
                 }
             }
-
+            // add wikify tag, don't add underlinked/wikify if {{dead end}} already present
             else if (wikiLinkCount < 3 && underlinked && !WikiRegexes.Wikify.IsMatch(articleText)
-                && !WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower().Contains("wikify")
-                && !WikiRegexes.DeadEnd.IsMatch(articleText))
+                     && !WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower().Contains("wikify")
+                     && !WikiRegexes.DeadEnd.IsMatch(articleText))
             {
-                // add wikify tag
-                // Don't add underlinked/wikify if {{dead end}} already present
+                // Avoid excess newlines between templates
+                string templateEnd = "}}\r\n" + (articleText.StartsWith(@"{{") ? "" : "\r\n");
+                
                 if (Variables.LangCode.Equals("ar"))
                 {
-                    articleText = "{{ويكي|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
+                    articleText = "{{ويكي|" + WikiRegexes.DateYearMonthParameter + templateEnd + articleText;
                     tagsAdded.Add("[[وب:ويكي|ويكي]]");
                 }
                 else if (Variables.LangCode.Equals("arz"))
                 {
-                    articleText = "{{ويكى|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
+                    articleText = "{{ويكى|" + WikiRegexes.DateYearMonthParameter + templateEnd + articleText;
                     tagsAdded.Add("[[قالب:ويكى|ويكى]]");
                 }
                 else if (Variables.LangCode.Equals("sv"))
                 {
-                    articleText = "{{Wikify|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
+                    articleText = "{{Wikify|" + WikiRegexes.DateYearMonthParameter + templateEnd + articleText;
                     tagsAdded.Add("[[WP:WFY|wikify]]");
                 }
                 else
                 {
-                    articleText = "{{Underlinked|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
+                    articleText = "{{Underlinked|" + WikiRegexes.DateYearMonthParameter + templateEnd + articleText;
                     tagsAdded.Add("[[CAT:UL|underlinked]]");
                 }
             }
