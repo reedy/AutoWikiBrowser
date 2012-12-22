@@ -1960,7 +1960,8 @@ namespace WikiFunctions.Parse
             if(WikiRegexes.AllTemplateRedirects == null)
                 return articleText;
 
-            // quick check to improve performance when no redirects to change: check there's a match between templates found and listed redirects
+            // performance: check there's a match between templates found and listed redirects
+            // using intersection of lists of the two
             HashSet<string> TFH = new HashSet<string>();
 
             foreach(Match m in WikiRegexes.NestedTemplates.Matches(articleText))
@@ -1977,21 +1978,30 @@ namespace WikiFunctions.Parse
                 }
             }
 
+            // if matches found, run replacements
+            // performance: run replacements on templates from intersected list
             TFH.IntersectWith(WikiRegexes.AllTemplateRedirectsHS);
 
-            if(TFH.Count == 0)
-                return articleText;
-
-            // if matches found, run replacements
-            foreach (KeyValuePair<Regex, string> kvp in TemplateRedirects)
+            if(TFH.Count > 0)
             {
-                articleText = kvp.Key.Replace(articleText, m => TemplateRedirectsME(m, kvp.Value));
+                articleText = Tools.NestedTemplateRegex(TFH.ToList()).Replace(articleText, m2=>
+                                                                              {
+                                                                                  string res = m2.Value;
+                                                                                  
+                                                                                  foreach (KeyValuePair<Regex, string> kvp in TemplateRedirects)
+                                                                                  {
+                                                                                      res = kvp.Key.Replace(res, m => TemplateRedirectsME(m, kvp.Value));
+                                                                                      
+                                                                                      if(!res.Equals(m2.Value))
+                                                                                          break;
+                                                                                  }
+                                                                                  return res;
+                                                                              });
             }
-
             return articleText;
         }
 
-        private static readonly Regex AcronymTemplate = new Regex(@"^[A-Z]{3}", RegexOptions.Compiled);
+        private static readonly Regex AcronymTemplate = new Regex(@"^[A-Z]{3}");
 
         private static string TemplateRedirectsME(Match m, string newTemplateName)
         {
