@@ -2009,6 +2009,7 @@ namespace WikiFunctions.Parse
         }
 
         private static Regex RenameTemplateParametersTemplates;
+        private static List<string> RenameTemplateParametersOldParams;
 
         /// <summary>
         /// Renames parameters in template calls.
@@ -2025,11 +2026,15 @@ namespace WikiFunctions.Parse
             if (RenameTemplateParametersTemplates == null)
             {
                 List<string> Templates = new List<string>();
+                RenameTemplateParametersOldParams = new List<string>();
 
                 foreach (WikiRegexes.TemplateParameters Params in RenamedTemplateParameters)
                 {
                     if (!Templates.Contains(Params.TemplateName))
                         Templates.Add(Params.TemplateName);
+
+                    if(!RenameTemplateParametersOldParams.Contains(Params.OldParameter))
+                        RenameTemplateParametersOldParams.Add(Params.OldParameter);
                 }
 
                 RenameTemplateParametersTemplates = Tools.NestedTemplateRegex(Templates);
@@ -2043,12 +2048,18 @@ namespace WikiFunctions.Parse
         {
             string templatename = Tools.GetTemplateName(m.Value), newvalue = m.Value;
 
-            foreach (WikiRegexes.TemplateParameters Params in RenamedTemplateParameters)
+            // performance: check for intersection of bad parameters and parameters used in template
+            // rather than simply looping through all parameters in list
+            if(Tools.GetTemplateParameterValues(m.Value).Keys.ToArray().Intersect(RenameTemplateParametersOldParams).ToList().Count > 0)
             {
-                if (Params.TemplateName.Equals(templatename) && newvalue.Contains(Params.OldParameter)
-                    && Tools.GetTemplateParameterValue(m.Value, Params.NewParameter).Length == 0)
-                    newvalue = Tools.RenameTemplateParameter(newvalue, Params.OldParameter, Params.NewParameter);
+                foreach (WikiRegexes.TemplateParameters Params in RenamedTemplateParameters)
+                {
+                    if (Params.TemplateName.Equals(templatename) && newvalue.Contains(Params.OldParameter)
+                        && Tools.GetTemplateParameterValue(m.Value, Params.NewParameter).Length == 0)
+                        newvalue = Tools.RenameTemplateParameter(newvalue, Params.OldParameter, Params.NewParameter);
+                }
             }
+
             return newvalue;
         }
 
