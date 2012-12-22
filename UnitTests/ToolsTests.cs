@@ -1121,6 +1121,10 @@ John", "*"));
 
             // case insensitive option
             Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite|PARAM1=here}}", "param1", true));
+            
+            // parameters with space in name
+            Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite|param 1=here}}", "param 1"));
+            Assert.AreEqual("here", Tools.GetTemplateParameterValue(@"{{cite|param other=here}}", "param other"));
         }
         
         
