@@ -1158,6 +1158,14 @@ There}}"), "handles parameters with newlines");
             Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{test|ONE=somevalue}}"), "handles uppercase parameters");
             Back.Add("V_TWO", "some_value");
             Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{test|ONE=somevalue|V_TWO=some_value}}"), "handles uppercase parameters");
+
+            // parameters with space in name
+            Back.Clear();
+            Back.Add("ONE", "somevalue");
+            Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{test|ONE=somevalue}}"), "handles uppercase parameters");
+            Back.Add("V TWO", "some_value");
+            Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{test|ONE=somevalue|V TWO=some_value}}"), "handles uppercase parameters");
+            Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{test|ONE=somevalue|V TWO  =  some_value}}"), "handles uppercase parameters");
         }
 
         [Test]

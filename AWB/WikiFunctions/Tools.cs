@@ -2491,7 +2491,7 @@ Message: {2}
 			return "";
 		}
 
-		private static readonly Regex param = new Regex(@"\|\s*([\w0-9_-]+)\s*=\s*([^|}]*)");
+		private static readonly Regex param = new Regex(@"\|\s*([\w0-9_ -]+?)\s*=\s*([^|}]*)");
 		
 		/// <summary>
 		/// Returns a dictionary of all named parameters used in the template and the value used.
