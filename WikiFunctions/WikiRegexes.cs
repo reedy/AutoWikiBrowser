@@ -339,6 +339,9 @@ namespace WikiFunctions
         /// </summary>
         public static Regex AllTemplateRedirects;
         
+        /// <summary>
+        /// HashSet of all loaded template redirects from [[WP:AWB/TR]]
+        /// </summary>
         public static HashSet<string> AllTemplateRedirectsHS;
         
         /// <summary>
