@@ -1091,6 +1091,7 @@ pp
         {
             RegexAssert.IsMatch(WikiRegexes.MonthDay, @"On July 11, 2009 a");
             RegexAssert.IsMatch(WikiRegexes.MonthDay, @"On July 11 a");
+            RegexAssert.IsMatch(WikiRegexes.MonthDay, @"On July&nbsp;11 a");
             RegexAssert.IsMatch(WikiRegexes.MonthDay, @"On July 11–12 a");
             RegexAssert.IsMatch(WikiRegexes.MonthDay, @"On July 11,  1809 a");
             
@@ -1104,6 +1105,7 @@ pp
             RegexAssert.IsMatch(WikiRegexes.DayMonth, @"On 11 July, 2009 a");
             RegexAssert.IsMatch(WikiRegexes.DayMonth, @"On 11 July 2009 a");
             RegexAssert.IsMatch(WikiRegexes.DayMonth, @"On 11 July a");
+            RegexAssert.IsMatch(WikiRegexes.DayMonth, @"On 11&nbsp;July a");
             RegexAssert.IsMatch(WikiRegexes.DayMonth, @"On 11–12 July a");
             RegexAssert.IsMatch(WikiRegexes.DayMonth, @"On 11 July,  1809 a");
             

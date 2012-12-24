@@ -85,8 +85,8 @@ namespace WikiFunctions
             InternationalDates = new Regex(@"\b([1-9]|[12][0-9]|3[01])(?: +|&nbsp;)" + Months + @" +([12]\d{3})\b");
             AmericanDates = new Regex(Months + @"(?: +|&nbsp;)([1-9]|[12][0-9]|3[01]),? +([12]\d{3})\b");
 
-            DayMonth = new Regex(@"\b([1-9]|[12][0-9]|3[01]) +" + Months + @"\b");
-            MonthDay = new Regex(Months + @" +([1-9]|[12][0-9]|3[01])\b");
+            DayMonth = new Regex(@"\b([1-9]|[12][0-9]|3[01])(?: +|&nbsp;)" + Months + @"\b");
+            MonthDay = new Regex(Months + @"(?: +|&nbsp;)([1-9]|[12][0-9]|3[01])\b");
             
             DayMonthRangeSpan = new Regex(@"\b((?:[1-9]|[12][0-9]|3[01])(?:–|&ndash;|{{ndash}}|\/)(?:[1-9]|[12][0-9]|3[01])) " + Months + @"\b");
             
