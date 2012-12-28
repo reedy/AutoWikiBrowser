@@ -978,6 +978,12 @@ foo";
 [[fr:Canadien National]]" + comm;
 			Assert.AreEqual(comm + "\r\n" + b + "\r\n", parser2.Sorter.Interwikis(ref a));
 			
+			comm = @"<!--Other wikis-->";
+			a = @"[[de:Canadian National Railway]]
+[[es:Canadian National]]
+[[fr:Canadien National]]" + comm;
+			Assert.AreEqual(comm + "\r\n" + b + "\r\n", parser2.Sorter.Interwikis(ref a));
+			
 			comm = @"<!-- interwiki links to this article in other languages, below -->";
 			a = @"[[de:Canadian National Railway]]
 [[es:Canadian National]]
