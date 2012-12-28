@@ -238,6 +238,7 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<timeline>{{abc}}</timeline>"));
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<cite>{{abc}}</cite>"));
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<blockquote>{{abc}}</blockquote>"));
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<BLOCKQUOTE>{{abc}}</BLOCKQUOTE>"));
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<poem>{{abc}}</poem>"));
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<imagemap>{{abc}}</imagemap>"));
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<noinclude>{{abc}}</noinclude>"));
