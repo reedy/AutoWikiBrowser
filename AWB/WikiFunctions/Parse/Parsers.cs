@@ -3647,10 +3647,11 @@ namespace WikiFunctions.Parse
                 newValue = Tools.RemoveTemplateParameter(newValue, "year");
             }
 
-            // month=Month and date=...Month... OR month=nn and date=same month
+            // month=Month and date=...Month... OR month=Month and date=same month (by conversion from ISO format)Ors month=nn and date=same month (by conversion to ISO format)
             int num=0;
-            if ((TheMonth.Length > 2 && TheDate.Contains(TheMonth))
-                || (int.TryParse(TheMonth, out num) && Regex.IsMatch(Tools.ConvertDate(TheDate, Parsers.DateLocale.ISO), @"\-0?" + TheMonth + @"\-")))
+            if ( (TheMonth.Length > 2 && TheDate.Contains(TheMonth)) // named month within date
+                || (TheMonth.Length > 2 && Tools.ConvertDate(TheDate, Parsers.DateLocale.International).Contains(TheMonth))
+                || (int.TryParse(TheMonth, out num) && Regex.IsMatch(Tools.ConvertDate(TheDate, Parsers.DateLocale.ISO), @"\-0?" + TheMonth + @"\-"))               )
                 newValue = Tools.RemoveTemplateParameter(newValue, "month");
 
             // date = Month DD and year = YYYY --> date = Month DD, YYYY
