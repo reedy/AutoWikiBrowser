@@ -6764,7 +6764,11 @@ namespace WikiFunctions.Parse
                 if (totalCategories > 0)
                 {
                     articleText = WikiRegexes.Uncat.Replace(articleText, "").TrimStart();
-                    tagsRemoved.Add("uncategorised");
+                    	if (Variables.LangCode.Equals("ar"))
+	                    	tagsRemoved.Add("غير مصنفة");
+                    	else
+	                    	tagsRemoved.Add("uncategorised");
+                    		
                 }
                 else if (totalCategories == 0 && WikiRegexes.Stub.IsMatch(commentsStripped))
                 {
@@ -6772,14 +6776,10 @@ namespace WikiFunctions.Parse
                     if (!uncatname.Contains("stub"))
                     {
                     	if (Variables.LangCode.Equals("ar"))
-                    	{
                     	    articleText = Tools.RenameTemplate(articleText, uncatname, "بذرة غير مصنفة");
-                    	}
                     	else
-                    	{
                     	    articleText = Tools.RenameTemplate(articleText, uncatname, "Uncategorized stub");
                     		
-                    	}
                     }
                 }
             }
