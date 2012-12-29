@@ -7120,7 +7120,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex CurlyBraceEnd = new Regex(@"(?:\| *)?}}$", RegexOptions.Compiled);
         private static readonly Regex MonthYear = new Regex(@"^\s*" + WikiRegexes.MonthsNoGroup + @" +20\d\d\s*$", RegexOptions.Compiled);
-        private static readonly Regex DateDash = new Regex(@"(\|\s*[Dd]ate\s*)-", RegexOptions.Compiled);
+        private static readonly Regex DateDash = new Regex(@"(\|\s*[Dd]ate\s*)- *=*", RegexOptions.Compiled);
 
         /// <summary>
         /// Match evaluator for tag updater
