@@ -6766,6 +6766,8 @@ namespace WikiFunctions.Parse
                     articleText = WikiRegexes.Uncat.Replace(articleText, "").TrimStart();
                     	if (Variables.LangCode.Equals("ar"))
 	                    	tagsRemoved.Add("غير مصنفة");
+                    	else if (Variables.LangCode.Equals("arz"))
+	                    	tagsRemoved.Add("مش متصنفه");
                     	else
 	                    	tagsRemoved.Add("uncategorised");
                     		
