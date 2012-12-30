@@ -1065,8 +1065,15 @@ The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines af
 
             Assert.AreEqual("from 1904 – 11 May 1956 there", parser.FixDatesA("from 1904 – 11 May 1956 there"));
 
+            // DateRangeToYear: result is spaced endash
             const string DateToYear = @"'''Nowell''' (May 16, 1872 - 1940), was";
             genFixes.AssertChange(DateToYear, DateToYear.Replace("-", "–"));
+            genFixes.AssertChange(DateToYear.Replace(" - ", "-"), DateToYear.Replace("-", "–"));
+            const string DateToYear2 = @"'''Nowell''' (16 May 1872–1940), was";
+            genFixes.AssertChange(DateToYear2, DateToYear2.Replace("–", " – "));
+            genFixes.AssertChange(DateToYear2.Replace("–", "-"), DateToYear2.Replace("–", " – "));
+
+            genFixes.AssertNotChanged(@"Volume 1, 2001–2004 was");
         }
 
         [Test]
