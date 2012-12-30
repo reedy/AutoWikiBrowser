@@ -3029,7 +3029,7 @@ namespace WikiFunctions.Parse
             articleText = DoubleBracketAtEndOfExternalLinkWithinImage.Replace(articleText, "$1");
             articleText = ListExternalLinkEndsCurlyBrace.Replace(articleText, "$1]");
 
-            // fix newline(s) in external link description
+            // fix newline(s) in external link description - Partially CHECKWIKI error 80
             while (ExternalLinksNewline.IsMatch(articleText))
                 articleText = ExternalLinksNewline.Replace(articleText, "$1 $2");
 
