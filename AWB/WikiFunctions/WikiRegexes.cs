@@ -1044,13 +1044,13 @@ namespace WikiFunctions
         /// Matches people infoxboxes from Category:People infobox templates
         /// </summary>
         public static readonly Regex PeopleInfoboxTemplates = Tools.NestedTemplateRegex(new [] { "Infobox college coach", "Infobox American Indian chief", "Infobox Calvinist theologian", "Infobox Chinese-language singer and actor",
-                                                                                            "Infobox Christian leader", "Infobox FBI Ten Most Wanted", "Infobox French parliamentarian", "Infobox Indian athlete", "Infobox Jewish leader",
-                                                                                            "Infobox Playboy Cyber Girl", "Infobox Playboy Playmate", "Infobox Polish politician", "Infobox actor", "Infobox adult biography", "Infobox adult female", "Infobox adult male",
+                                                                                            "Infobox Christian leader", "Infobox FBI Ten Most Wanted", "Infobox Jewish leader",
+                                                                                            "Infobox Playboy Cyber Girl", "Infobox Playboy Playmate", "Infobox actor", "Infobox adult biography", "Infobox adult female", "Infobox adult male",
                                                                                             "Infobox architect", "Infobox artist", "Infobox astronaut", "Infobox aviator", "Infobox bishop",
                                                                                             "Infobox cardinal", "Infobox chef", "Infobox chess player", "Infobox clergy", "Infobox comedian",
                                                                                             "Infobox comics creator", "Infobox criminal", "Infobox dancer", "Infobox economist", "Infobox engineer", "Infobox fashion designer", "Infobox go player",
-                                                                                            "Infobox imam", "Infobox journalist", "Infobox LDSGA", "Infobox linguist", "Infobox male model", "Infobox martyrs", "Infobox mass murderer", "Infobox medical person",
-                                                                                            "Infobox member of the Knesset", "Infobox military person", "Infobox model", "Infobox musical artist", "Infobox officeholder", "Infobox paranormal person",
+                                                                                            "Infobox imam", "Infobox journalist", "Infobox LDSGA", "Infobox male model", "Infobox martyrs", "Infobox mass murderer", "Infobox medical person",
+                                                                                            "Infobox member of the Knesset", "Infobox military person", "Infobox model", "Infobox musical artist", "Infobox officeholder",
                                                                                             "Infobox performer", "Infobox person", "Infobox philosopher", "Infobox pirate", "Infobox poker player", "Infobox police officer", "Infobox pope",
                                                                                             "Infobox presenter", "Infobox rebbe", "Infobox religious biography", "Infobox saint", "Infobox scientist",
                                                                                             "Infobox serial killer", "Infobox sports announcer", "Infobox spy", "Infobox theologian", "Infobox murderer",
