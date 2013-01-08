@@ -2721,6 +2721,25 @@ world|format=PDF}} was";
 
             UnformatedDOB = @"'''Fred''' (baptized 27 June 1950 – 11 May 1990) was great";
             Assert.AreEqual(UnformatedDOB + a2.Replace(" 27 June 1950", ""), Parsers.PersonData(UnformatedDOB + a, "test x"), "No dates set when baptized");
+
+            const string Clark = @"
+{{use mdy dates}}
+{{Infobox college coach
+| name          = Lyal W. Clark
+| birth_date   = {{birth date|mf=yes|1904|07|04}}
+}}
+
+{{Persondata <!-- Metadata: see [[Wikipedia:Persondata]]. -->
+| NAME              = Clark, Lyal W.
+| ALTERNATIVE NAMES =
+| SHORT DESCRIPTION = American college football coach
+| DATE OF BIRTH     =
+| PLACE OF BIRTH    =
+| DATE OF DEATH     =
+| PLACE OF DEATH    =
+}}
+[[Category:1904 births]]";
+            Assert.AreEqual(Clark.Replace(@"| DATE OF BIRTH     =", @"| DATE OF BIRTH     = July 4, 1904"), Parsers.PersonData(Clark, "A"));
         }
 
         [Test]
@@ -2830,6 +2849,25 @@ world|format=PDF}} was";
 |DATE OF BIRTH=
 |DATE OF DEATH=
 }}" + u1, "test x"), "unformatted death value not added if doesn't match category");
+
+            const string Clark = @"
+{{use mdy dates}}
+{{Infobox college coach
+| name          = Lyal W. Clark
+| death_date   = {{death date and age|mf=yes|1904|07|04|1850|11|11}}
+}}
+
+{{Persondata <!-- Metadata: see [[Wikipedia:Persondata]]. -->
+| NAME              = Clark, Lyal W.
+| ALTERNATIVE NAMES =
+| SHORT DESCRIPTION = American college football coach
+| DATE OF BIRTH     =
+| PLACE OF BIRTH    =
+| DATE OF DEATH     =
+| PLACE OF DEATH    =
+}}
+[[Category:1904 deaths]]";
+            Assert.IsTrue(Parsers.PersonData(Clark, "A").Contains(@"| DATE OF DEATH     = July 4, 1904"));
         }
 
         [Test]
