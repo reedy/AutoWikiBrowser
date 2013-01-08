@@ -3960,34 +3960,41 @@ namespace WikiFunctions.Parse
             }
 
             // date of birth
-            // as fallback use year from category
             if (Tools.GetTemplateParameterValue(newPersonData, "DATE OF BIRTH", true).Length == 0)
             {
                 newPersonData = SetPersonDataDate(newPersonData, "DATE OF BIRTH", GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxDOBFields), articleText);
 
-                Match m = WikiRegexes.BirthsCategory.Match(articleText);
-
-                if (m.Success)
+                // as fallback use year from category
+                if(Tools.GetTemplateParameterValue(newPersonData, "DATE OF BIRTH", true).Length == 0)
                 {
-                    string year = m.Value.Replace(@"[[Category:", "").TrimEnd(']');
-                    if (Regex.IsMatch(year, @"^\d{3,4} (?:BC )?births(\|.*)?$"))
-                        newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF BIRTH", year.Substring(0, year.IndexOf(" births")), true);
+
+                    Match m = WikiRegexes.BirthsCategory.Match(articleText);
+
+                    if (m.Success)
+                    {
+                        string year = m.Value.Replace(@"[[Category:", "").TrimEnd(']');
+                        if (Regex.IsMatch(year, @"^\d{3,4} (?:BC )?births(\|.*)?$"))
+                            newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF BIRTH", year.Substring(0, year.IndexOf(" births")), true);
+                    }
                 }
             }
 
             // date of death
-            // as fallback use year from category
             if (Tools.GetTemplateParameterValue(newPersonData, "DATE OF DEATH", true).Length == 0)
             {
-            	newPersonData = SetPersonDataDate(newPersonData, "DATE OF DEATH", GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxDODFields), articleText);
+                newPersonData = SetPersonDataDate(newPersonData, "DATE OF DEATH", GetInfoBoxFieldValue(articleText, WikiRegexes.InfoBoxDODFields), articleText);
 
-            	Match m = WikiRegexes.DeathsOrLivingCategory.Match(articleText);
-
-                if (m.Success)
+                // as fallback use year from category
+                if (Tools.GetTemplateParameterValue(newPersonData, "DATE OF DEATH", true).Length == 0)
                 {
-                    string year = m.Value.Replace(@"[[Category:", "").TrimEnd(']');
-                    if (Regex.IsMatch(year, @"^\d{3,4} deaths(\|.*)?$"))
-                        newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF DEATH", year.Substring(0, year.IndexOf(" deaths")), true);
+                    Match m = WikiRegexes.DeathsOrLivingCategory.Match(articleText);
+
+                    if (m.Success)
+                    {
+                        string year = m.Value.Replace(@"[[Category:", "").TrimEnd(']');
+                        if (Regex.IsMatch(year, @"^\d{3,4} deaths(\|.*)?$"))
+                            newPersonData = Tools.SetTemplateParameterValue(newPersonData, "DATE OF DEATH", year.Substring(0, year.IndexOf(" deaths")), true);
+                    }
                 }
             }
 
