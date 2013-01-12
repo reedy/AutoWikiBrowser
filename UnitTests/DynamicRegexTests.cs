@@ -331,7 +331,7 @@ Image here");
 }}");
         }
         
-               [Test]
+        [Test]
         public void ImagesNotTemplatesTestsStandard()
         {
             RegexAssert.IsMatch(WikiRegexes.ImagesNotTemplates, "[[File:Test.JPG]]");
@@ -346,6 +346,7 @@ Image here");
             RegexAssert.IsMatch(WikiRegexes.ImagesNotTemplates, "[[File:Test.JPG");
             
             RegexAssert.NoMatch(WikiRegexes.ImagesNotTemplates, "[[File Test.JPG]]");
+            RegexAssert.Matches(WikiRegexes.ImagesNotTemplates, "[[Image:Shane Bernagh’s Chair. 28th may 2007 -2.jpg]]", "[[Image:Shane Bernagh’s Chair. 28th may 2007 -2.jpg]]");
         }
         
         [Test]
