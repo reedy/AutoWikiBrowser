@@ -310,6 +310,13 @@ Fred has a dog.
 			
 			const string NewMultipleIssues = @"{{multiple issues|{{Cleanup|date=January 2010}}}}";
 			Assert.AreEqual(NewMultipleIssues, MetaDataSorter.MoveMaintenanceTags(NewMultipleIssues), "don't pull tags from new-style {{multiple issues}}");
+			
+			// zeroth section only
+			const string LaterSection = @"hello
+==Sec==
+{{cleanup|date=May 2012}}
+End";
+			Assert.AreEqual(LaterSection, parser2.SortMetaData(LaterSection, "A"), "maintenance tags outside of zeroth section not moved");
 		}
 
 		[Test]

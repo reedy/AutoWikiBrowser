@@ -279,10 +279,15 @@ en, sq, ru
 			string categories = Tools.Newline(RemoveCats(ref articleText, articleTitle));
 			string interwikis = Tools.Newline(Interwikis(ref articleText));
 
-			// Dablinks above orphan tags per [[WP:LAYOUT]]
+			// maintenance templates above infoboxes etc., zeroth section only
 			if (Variables.LangCode.Equals("en"))
-			    articleText = MoveMaintenanceTags(articleText);
+			{
+			    string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
+			    string restOfArticle = articleText.Substring(zerothSection.Length);
+			    articleText = MoveMaintenanceTags(zerothSection) + restOfArticle;
+			}
 
+			// Dablinks above orphan tags per [[WP:LAYOUT]]
 			articleText = MoveDablinks(articleText);
 
 			if (Variables.LangCode.Equals("en"))
@@ -641,6 +646,7 @@ en, sq, ru
 		/// <summary>
 		/// Moves maintenance tags to the top of the article text.
 		/// Does not move tags when only non-infobox templates are above the last tag
+		/// For en-wiki apply this to zeroth section of article only
 		/// </summary>
 		/// <param name="articleText">the article text</param>
 		/// <returns>the modified article text</returns>
