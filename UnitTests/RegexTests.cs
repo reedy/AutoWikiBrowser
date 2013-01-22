@@ -2016,8 +2016,9 @@ Bert").Groups[2].Value, "foo bar\r");
         {
             const string LC = @"{{Short pages monitor}}<!-- This long comment was added to the page to prevent it from being listed on Special:Shortpages. It and the accompanying monitoring template were generated via Template:Long comment. Please do not remove the monitor template without removing the comment as well.-->";
 
-            Assert.IsFalse(WikiRegexes.ShortPagesMonitor.IsMatch(LC));
-            Assert.IsFalse(WikiRegexes.ShortPagesMonitor.IsMatch(LC.Replace("{{S", "{{s")), "handles template name first letter case insensitive");
+            Assert.IsTrue(WikiRegexes.ShortPagesMonitor.IsMatch(LC));
+            Assert.IsTrue(WikiRegexes.ShortPagesMonitor.IsMatch(LC.Replace("{{S", "{{s")), "handles template name first letter case insensitive");
+            Assert.IsTrue(WikiRegexes.ShortPagesMonitor.IsMatch(@"{{Short pages monitor}}<!-- any old comment-->"));
         }
     }
 }
