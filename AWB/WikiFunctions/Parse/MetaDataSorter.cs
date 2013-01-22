@@ -282,7 +282,7 @@ en, sq, ru
 		        if(spm.Success)
 		        {
 		            articleText = WikiRegexes.ShortPagesMonitor.Replace(articleText, "").TrimEnd();
-		            shortPagesMonitor = spm.Value;
+		            shortPagesMonitor = spm.Value.TrimEnd();;
 		        }
 		    }
 
