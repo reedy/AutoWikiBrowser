@@ -1438,6 +1438,7 @@ Text";
 		    Assert.AreEqual(B, parser2.SortMetaData(B, "Test"), "{{Short pages monitor}} kept at end of article text: interwiki before");
 		    B = B.Replace("\r\n{{Short page", "{{Short page");
 		    Assert.AreEqual(B, parser2.SortMetaData(B, "Test"), "Number of newlines before spm preserved");
+		    Assert.AreEqual(B, parser2.SortMetaData(B.Replace("-->", "-->\r\n"), "Test"), "Page trim still done when spm present");		    
 		}
 	}
 }
