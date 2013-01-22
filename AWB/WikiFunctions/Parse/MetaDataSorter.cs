@@ -269,8 +269,22 @@ en, sq, ru
 		/// <returns>The updated article text</returns>
 		internal string Sort(string articleText, string articleTitle, bool fixOptionalWhitespace)
 		{
-			if (Namespace.Determine(articleTitle) == Namespace.Template) // Don't sort on templates
-				return articleText;
+		    if (Namespace.Determine(articleTitle) == Namespace.Template) // Don't sort on templates
+		        return articleText;
+
+		    // short pages monitor check for en-wiki: keep at very end of article if present
+		    // See [[Template:Long comment/doc]]
+		    string shortPagesMonitor = "";
+		    if(Variables.LangCode.Equals("en"))
+		    {
+		        Match spm = WikiRegexes.ShortPagesMonitor.Match(articleText);
+		        
+		        if(spm.Success)
+		        {
+		            articleText = WikiRegexes.ShortPagesMonitor.Replace(articleText, "").TrimEnd();
+		            shortPagesMonitor = spm.Value;
+		        }
+		    }
 
 			articleText = CommentedOutEnInterwiki.Replace(articleText, "");
 
@@ -347,10 +361,9 @@ en, sq, ru
 			        break;
 			}
 			articleText = (articleText + interwikis);
-			
-			if(Namespace.Determine(articleTitle) == Namespace.Category)
-			    return articleText.Trim();
-			else return articleText.TrimEnd();
+
+			// Only trim start on Category namespace, restore any saved short page monitor text
+			return (Namespace.Determine(articleTitle) == Namespace.Category ?  articleText.Trim() : articleText.TrimEnd()) + shortPagesMonitor;
 		}
 		
 		private static readonly Regex LifeTime = Tools.NestedTemplateRegex("Lifetime");

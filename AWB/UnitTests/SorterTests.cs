@@ -1414,5 +1414,30 @@ Text";
 		    
 		    Assert.AreEqual(CommentedRef, parser2.SortMetaData(CommentedRef, "George May"));
 		}
+		
+		[Test]
+		public void ShortPagesMonitor()
+		{
+		    const string A = @"'''Seyyed Ahmadi''' ({{lang-fa|سيداحمدي‎}}) may refer to:
+* [[Seyyed Ahmadi, Fars]]
+* [[Seyyed Ahmadi, Hormozgan]]
+
+{{geodis}}
+
+{{Short pages monitor}}<!-- This long comment was added to the page to prevent it from being listed on Special:Shortpages. It and the accompanying monitoring template were generated via Template:Long comment. Please do not remove the monitor template without removing the comment as well.-->";
+		    
+		    Assert.AreEqual(A, parser2.SortMetaData(A, "Test"), "{{Short pages monitor}} kept at end of article text: template before");
+		    
+		    string B = @"'''Seyyed Ahmadi''' ({{lang-fa|سيداحمدي‎}}) may refer to:
+* [[Seyyed Ahmadi, Fars]]
+* [[Seyyed Ahmadi, Hormozgan]]
+
+[[de:Foo]]
+
+{{Short pages monitor}}<!-- This long comment -->";
+		    Assert.AreEqual(B, parser2.SortMetaData(B, "Test"), "{{Short pages monitor}} kept at end of article text: interwiki before");
+		    B = B.Replace("\r\n{{Short page", "{{Short page");
+		    Assert.AreEqual(B, parser2.SortMetaData(B, "Test"), "Number of newlines before spm preserved");
+		}
 	}
 }
