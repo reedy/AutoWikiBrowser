@@ -1130,7 +1130,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{Short pages monitor}} plus comment, generated from {{subst:Long comment}}
         /// </summary>
-        public static readonly Regex ShortPagesMonitor = new Regex(@"{{{sS]hort pages monitor}}<!--[^<>]+-->");
+        public static readonly Regex ShortPagesMonitor = new Regex(@"{{[sS]hort pages monitor}}<!--[^<>]+-->");
 
         /// <summary>
         /// Matches &lt;ref&gt; tags, including named references
