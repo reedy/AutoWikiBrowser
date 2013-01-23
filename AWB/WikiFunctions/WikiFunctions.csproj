@@ -127,7 +127,7 @@
     <Compile Include="Profiles\AWBLogUploadProfilesForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Profiles\AWBLogUploadProfilesForm.designer.cs">
+    <Compile Include="Profiles\AWBLogUploadProfilesForm.Designer.cs">
       <DependentUpon>AWBLogUploadProfilesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Profiles\AWBProfile.cs">
@@ -191,7 +191,7 @@
     <Compile Include="Disambiguation\DabForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Disambiguation\DabForm.designer.cs">
+    <Compile Include="Disambiguation\DabForm.Designer.cs">
       <DependentUpon>DabForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\AboutBox.cs">
@@ -256,7 +256,7 @@
     <Compile Include="Logging\UploadingPleaseWaitForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Logging\UploadingPleaseWaitForm.designer.cs">
+    <Compile Include="Logging\UploadingPleaseWaitForm.Designer.cs">
       <DependentUpon>UploadingPleaseWaitForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Parse\MetaDataSorter.cs" />
@@ -285,7 +285,7 @@
     <Compile Include="ReplaceSpecial\InTemplateRuleControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ReplaceSpecial\InTemplateRuleControl.designer.cs">
+    <Compile Include="ReplaceSpecial\InTemplateRuleControl.Designer.cs">
       <DependentUpon>InTemplateRuleControl.cs</DependentUpon>
     </Compile>
     <Compile Include="ReplaceSpecial\IRule.cs" />
@@ -300,7 +300,7 @@
     <Compile Include="ReplaceSpecial\RuleControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ReplaceSpecial\RuleControl.designer.cs">
+    <Compile Include="ReplaceSpecial\RuleControl.Designer.cs">
       <DependentUpon>RuleControl.cs</DependentUpon>
     </Compile>
     <Compile Include="ReplaceSpecial\RuleFactory.cs" />
@@ -309,7 +309,7 @@
     <Compile Include="ReplaceSpecial\TemplateParamRuleControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ReplaceSpecial\TemplateParamRuleControl.designer.cs">
+    <Compile Include="ReplaceSpecial\TemplateParamRuleControl.Designer.cs">
       <DependentUpon>TemplateParamRuleControl.cs</DependentUpon>
     </Compile>
     <Compile Include="SettingsClasses.cs">
@@ -319,7 +319,7 @@
     <Compile Include="Lists\ListFilterForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Lists\ListFilterForm.designer.cs">
+    <Compile Include="Lists\ListFilterForm.Designer.cs">
       <DependentUpon>ListFilterForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Lists\Providers\SpecialPageListProvider.cs">
