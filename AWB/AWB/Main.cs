@@ -770,7 +770,7 @@ namespace AutoWikiBrowser
             SkipPage(reason);
         }
 
-        private static readonly Regex UnicodePUA = new Regex(@"\p{IsPrivateUseArea}", RegexOptions.Compiled);
+        private static readonly Regex UnicodePUA = new Regex(@"\p{IsPrivateUse}", RegexOptions.Compiled);
 
         /// <summary>
         /// Invoked on successful page load, performs skip checks and calls main page processing
