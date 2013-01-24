@@ -5787,9 +5787,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex IMA = Tools.NestedTemplateRegex(new[]
                                                                       {
-                                                                          "Infobox musical artist", "Infobox musical artist 2",
-                                                                          "Infobox singer", "Music artist",
-                                                                          "Infobox Composer", "Infobox composer"
+                                                                          "Infobox musical artist", "Infobox singer",
                                                                       });
 
         /// <summary>
