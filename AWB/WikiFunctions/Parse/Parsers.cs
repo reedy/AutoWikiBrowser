@@ -2850,6 +2850,8 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegexSimpleWikilinkEndsWithSpaces = new Regex(@"\[\[([A-Za-z]*) \]\]", RegexOptions.Compiled);
 
         private static readonly Regex SyntaxRegexListRowBrTag = new Regex(@"^([#\*:;]+.*?) *(?:<[/\\]?br ?[/\\]? ?>)+ *\r\n", RegexOptions.Multiline | RegexOptions.IgnoreCase);
+        private static readonly Regex SyntaxRegexListRowBrTagMiddle = new Regex(@"^([#\*:;]+.*?)\s*(?:<[/\\]?br ?[/\\]? ?>)+ *\r\n([#\*:;]+.*?)", RegexOptions.Multiline | RegexOptions.IgnoreCase);
+
         private static readonly Regex SyntaxRegexListRowBrTagStart = new Regex(@"<[/\\]?br ?[/\\]? ?> *(\r\n[#\*:;]+.*?)", RegexOptions.IgnoreCase);
 
         private static readonly Regex SyntaxRegexItalicBoldEm = new Regex(@"< *(i|em|b) *>(.*?)< */ *\1 *>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -2967,6 +2969,9 @@ namespace WikiFunctions.Parse
 
             // remove <br> from lists (end of list line) - CHECKWIKI error 54
             articleText = SyntaxRegexListRowBrTag.Replace(articleText, "$1\r\n");
+
+            // remove <br> from the middle of lists
+            articleText = SyntaxRegexListRowBrTagMiddle.Replace(articleText, "$1\r\n$2");
 
             articleText = MultipleHttpInLink.Replace(articleText, "$1");
             articleText = MultipleFtpInLink.Replace(articleText, "$1");
