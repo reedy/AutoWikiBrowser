@@ -847,7 +847,10 @@ r</ref>. The next"), "ref moved after punctuation when majority are after");
             Assert.AreEqual(AllAfter + @"Foo,<ref>bar</ref> The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "handles commas too");
             Assert.AreEqual(AllAfter + AllAfter + @"Foo,<ref>bar</ref> The next" + @"Foo,<ref>bar</ref> The next", Parsers.RefsAfterPunctuation(AllAfter + AllAfter + R1 + R1), "multiple conversions");
 
-            R1 = R1.Replace(",", "–");
+            R1 = R1.Replace(",", ":");
+            Assert.AreEqual(AllAfter + @"Foo:<ref>bar</ref> The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "handles colons too");
+
+            R1 = R1.Replace(":", "–");
             Assert.AreEqual(AllAfter + R1, Parsers.RefsAfterPunctuation(AllAfter + R1), "ref not moved when before dash");
 
             string TwoRefs = @"Now<ref name=a>bar</ref><ref name=b>bar</ref>. Then";

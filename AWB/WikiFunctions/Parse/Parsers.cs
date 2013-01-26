@@ -1343,7 +1343,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private const string RefsPunctuation = @"([,\.;])";
+        private const string RefsPunctuation = @"([,\.;:])";
         private static readonly Regex RefsBeforePunctuationR = new Regex(@" *" + WikiRegexes.Refs + @" *" + RefsPunctuation + @"([^,\.:;])", RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private static readonly Regex RefsBeforePunctuationQuick = new Regex(@">\s*" + RefsPunctuation);
         private static readonly Regex RefsAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *" + WikiRegexes.Refs, RegexOptions.IgnoreCase | RegexOptions.Singleline);
