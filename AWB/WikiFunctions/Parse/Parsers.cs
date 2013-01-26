@@ -5708,7 +5708,7 @@ namespace WikiFunctions.Parse
                 }
                 else if (ds.Count == 1) // already has DEFAULTSORT
                 {
-                    string s = Tools.FixupDefaultSort(ds[0].Groups[1].Value, isArticleAboutAPerson).Trim();
+                    string s = Tools.FixupDefaultSort(ds[0].Groups[1].Value.TrimStart('|'), isArticleAboutAPerson).Trim();
 
                     // do not change DEFAULTSORT just for casing
                     if (!s.ToLower().Equals(ds[0].Groups[1].Value.ToLower()) && s.Length > 0 && !restrictDefaultsortChanges)

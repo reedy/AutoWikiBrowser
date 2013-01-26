@@ -7089,6 +7089,8 @@ Text
             Assert.IsFalse(noChange);
             Assert.AreEqual("{{DEFAULTSORT:Test}}", Parsers.ChangeToDefaultSort("{{DEFAULTSORT| Tést}}", "Foo", out noChange));
             Assert.IsFalse(noChange);
+            Assert.AreEqual("{{DEFAULTSORT:Test}}", Parsers.ChangeToDefaultSort("{{DEFAULTSORT:|Test}}", "Foo", out noChange));
+            Assert.IsFalse(noChange);
 
             // shouldn't change whitespace-only sortkeys
             Assert.AreEqual("{{DEFAULTSORT: \t}}", Parsers.ChangeToDefaultSort("{{DEFAULTSORT: \t}}", "Foo", out noChange));
