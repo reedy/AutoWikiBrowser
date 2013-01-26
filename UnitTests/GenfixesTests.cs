@@ -379,7 +379,19 @@ a");
 * [http://foo2.com]
 [[Category:A]]";
 
-            Assert.AreEqual(correct, ArticleText);            
+            Assert.AreEqual(correct, ArticleText);
+            
+            ArticleText = @"==External links==
+[http://foo.com]
+<br>
+[http://foo2.com]";
+            correct = @"==External links==
+* [http://foo.com]
+* [http://foo2.com]";
+            
+            GenFixes("Test");
+            
+            Assert.AreEqual(correct, ArticleText);
         }
     }
 
