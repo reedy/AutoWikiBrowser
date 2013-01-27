@@ -377,6 +377,10 @@ en, sq, ru
 		/// <returns>The cleaned page categories in a single string</returns>
 		public string RemoveCats(ref string articleText, string articleTitle)
 		{
+			// mainspace only. In category space it may ruin category tree
+			if (!Namespace.IsMainSpace(articleTitle))
+			    return "";
+			    
 			// don't pull category from redirects to a cagegory e.g. page Hello is #REDIRECT[[Category:Hello]]
 			if(WikiRegexes.Category.IsMatch(@"[[" + Tools.RedirectTarget(articleText) + @"]]"))
 				return "";
@@ -399,11 +403,11 @@ en, sq, ru
 			MatchCollection matches = r.Matches(articleText);
 			foreach (Match m in matches)
 			{
-			    if (!CatsForDeletion.IsMatch(m.Value))
+				if (!CatsForDeletion.IsMatch(m.Value))
 					categoryList.Add(m.Value.Trim());
 			}
 
-			articleText = Tools.RemoveMatches(articleText, matches);
+				articleText = Tools.RemoveMatches(articleText, matches);
 
 			// if category tidying has changed comments/nowikis return with no changes – we've pulled a cat from a comment
 			if(!UnformattedTextNotChanged(originalArticleText, articleText))
