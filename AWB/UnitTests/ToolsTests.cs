@@ -2172,6 +2172,7 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual(@"and", Tools.RemoveDiacritics(@"&"), "per SORTKEY");
             Assert.AreEqual(@"Ai-Ais", Tools.RemoveDiacritics(@"ǀAi-ǀAis"), "removes weird character");
             Assert.AreEqual(@"Ai-Ais Richtersveld Transfrontier Park", Tools.RemoveDiacritics(@"ǀAi-ǀAis/Richtersveld Transfrontier Park"), "removes weird character");
+            Assert.AreEqual(@"Der Nachtkurier meldet...", Tools.RemoveDiacritics(@"Der Nachtkurier meldet…"), "replaces …");
         }
 
         [Test]
