@@ -880,7 +880,6 @@ namespace WikiFunctions
 		{
 			new KeyValuePair<string, string>("’", "'"),
 			new KeyValuePair<string, string>("ʻ", "'"),
-			new KeyValuePair<string, string>("…", "..."),
 			
 			//Latin
 			new KeyValuePair<string, string>("Ɯ", "W"),
@@ -1510,10 +1509,14 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("x̌", "x"),
 			//per WP:SORTKEY "&" needs to change to "and"
 			new KeyValuePair<string, string>("&", "and"),
-			//remove weird "ǀ" character
-			new KeyValuePair<string, string>("ǀ", ""),
 			//per WP:SORTKEY replace / with space
 			new KeyValuePair<string, string>("/", " "),
+			//remove weird "ǀ" character
+			new KeyValuePair<string, string>("ǀ", ""),
+			//other weird characters
+			new KeyValuePair<string, string>("…", "..."),
+			new KeyValuePair<string, string>("·", " "),
+
 		};
 		#endregion
 
