@@ -2173,6 +2173,7 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual(@"Ai-Ais", Tools.RemoveDiacritics(@"ǀAi-ǀAis"), "removes weird character");
             Assert.AreEqual(@"Ai-Ais Richtersveld Transfrontier Park", Tools.RemoveDiacritics(@"ǀAi-ǀAis/Richtersveld Transfrontier Park"), "removes weird character");
             Assert.AreEqual(@"Der Nachtkurier meldet...", Tools.RemoveDiacritics(@"Der Nachtkurier meldet…"), "replaces …");
+            Assert.AreEqual(@"A L", Tools.RemoveDiacritics(@"A L"), "replaces · with space");
         }
 
         [Test]
