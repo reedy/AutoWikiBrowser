@@ -880,6 +880,7 @@ namespace WikiFunctions
 		{
 			new KeyValuePair<string, string>("’", "'"),
 			new KeyValuePair<string, string>("ʻ", "'"),
+			new KeyValuePair<string, string>("´", "'"),
 			
 			//Latin
 			new KeyValuePair<string, string>("Ɯ", "W"),
