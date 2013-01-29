@@ -898,8 +898,6 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("õ", "o"),
 			new KeyValuePair<string, string>("Ũ", "U"),
 			new KeyValuePair<string, string>("ũ", "u"),
-			new KeyValuePair<string, string>("Ỹ", "Y"),
-			new KeyValuePair<string, string>("ỹ", "y"),
 			new KeyValuePair<string, string>("Ç", "C"),
 			new KeyValuePair<string, string>("ç", "c"),
 			new KeyValuePair<string, string>("Ģ", "G"),
@@ -1041,6 +1039,11 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("Ự", "U"),
 			new KeyValuePair<string, string>("ự", "u"),
 
+			new KeyValuePair<string, string>("Ỷ", "Y"),
+			new KeyValuePair<string, string>("ỷ", "y"),
+			new KeyValuePair<string, string>("Ỹ", "Y"),
+			new KeyValuePair<string, string>("ỹ", "y"),
+			
 
 			// Letters using circumflex accent
 			new KeyValuePair<string, string>("Ĉ", "C"),
@@ -1516,6 +1519,8 @@ namespace WikiFunctions
 			//other weird characters
 			new KeyValuePair<string, string>("…", "..."),
 			new KeyValuePair<string, string>("·", " "),
+			//normalisation - simplify double spaces to a single one
+			new KeyValuePair<string, string>("  ", " "),
 
 		};
 		#endregion
