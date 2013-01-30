@@ -970,7 +970,7 @@ foo";
 [[fr:Canadien National]]";
 			string b = a;
 
-			Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
+			Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a),"no changes");
 			
 			// comment handling
 			string comm = @"<!-- other languages -->";
@@ -1124,26 +1124,26 @@ second comment <!-- [[it:CN]] -->";
 [[ru:Bar]]";
 		    string b = @"[[ru:Bar]]
 [[sq:Foo]]";
-		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
+		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a),"reorder if neccessary");
 		    
 		    a = @"[[ru:Bar]]
 [[sq:Foo]]";
-		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));		    
+		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a),"no change Diff everything is sorted");		    
 		    
 		    parser2.InterWikiOrder = InterWikiOrderEnum.Alphabetical;
 		    a = @"[[ru:Bar]]
 [[sq:Foo]]";
-		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
+		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a),"alphabetical order");
 		    
 		    parser2.InterWikiOrder = InterWikiOrderEnum.LocalLanguageFirstWord;
 		    a = @"[[ru:Bar]]
 [[sq:Foo]]";
-		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
+		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a),"local language");
 		    
 		    parser2.InterWikiOrder = InterWikiOrderEnum.AlphabeticalEnFirst;
 		    a = @"[[ru:Bar]]
 [[sq:Foo]]";
-		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a));
+		    Assert.AreEqual(b + "\r\n", parser2.Sorter.Interwikis(ref a),"alphabetical order with en firsth");
 		    
 		    #if DEBUG
 		    Variables.SetProjectLangCode("de");
