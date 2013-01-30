@@ -1109,7 +1109,7 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("Ž", "Z"),
 			new KeyValuePair<string, string>("ž", "z"),
 			
-			// Letters using macron sign
+			// Letters using macron sign above
 			new KeyValuePair<string, string>("Ā", "A"),
 			new KeyValuePair<string, string>("ā", "a"),
 			new KeyValuePair<string, string>("Ē", "E"),
@@ -1127,6 +1127,23 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("Ǣ", "Ae"),
 			new KeyValuePair<string, string>("ǣ", "ae"),
 
+			// Letters using macron sign below
+			new KeyValuePair<string, string>("Ḇ", "B"),
+			new KeyValuePair<string, string>("ḇ", "b"),
+			new KeyValuePair<string, string>("Ḏ", "D"),
+			new KeyValuePair<string, string>("ḏ", "d"),
+			new KeyValuePair<string, string>("ẖ", "h"),
+			new KeyValuePair<string, string>("Ḵ", "K"),
+			new KeyValuePair<string, string>("ḵ", "k"),
+			new KeyValuePair<string, string>("Ḻ", "L"),
+			new KeyValuePair<string, string>("ḻ", "l"),
+			new KeyValuePair<string, string>("Ṟ", "R"),
+			new KeyValuePair<string, string>("ṟ", "r"),
+			new KeyValuePair<string, string>("Ṉ", "N"),
+			new KeyValuePair<string, string>("ṉ", "n"),
+			new KeyValuePair<string, string>("Ṯ", "T"),
+			new KeyValuePair<string, string>("ṯ", "t"),
+			
 			// Letters using breve sign
 			new KeyValuePair<string, string>("Ĕ", "E"),
 			new KeyValuePair<string, string>("ĕ", "e"),
@@ -1338,11 +1355,6 @@ namespace WikiFunctions
 			// new
 			new KeyValuePair<string, string>("ṅ", "n"),
 			new KeyValuePair<string, string>("ẏ", "y"),
-			new KeyValuePair<string, string>("Ḻ", "L"),
-			new KeyValuePair<string, string>("ḻ", "l"),
-			new KeyValuePair<string, string>("Ṟ", "R"),
-			new KeyValuePair<string, string>("ṟ", "r"),
-			new KeyValuePair<string, string>("ṉ", "n"),
 			new KeyValuePair<string, string>("ƌ", "d"),
 			new KeyValuePair<string, string>("ƒ", "f"),
 			new KeyValuePair<string, string>("ƙ", "k"),
@@ -1458,8 +1470,6 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("ǟ", "a"),
 			new KeyValuePair<string, string>("ǡ", "a"),
 			
-			new KeyValuePair<string, string>("ḇ", "b"),
-
 			new KeyValuePair<string, string>("ḉ", "c"),
 
 			new KeyValuePair<string, string>("ḕ", "e"),
@@ -1480,12 +1490,8 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("ȯ", "o"),
 			new KeyValuePair<string, string>("ȱ", "o"),
 			new KeyValuePair<string, string>("ủ", "u"),
-			new KeyValuePair<string, string>("Ḏ", "D"),
-			new KeyValuePair<string, string>("ḏ", "d"),
 			new KeyValuePair<string, string>("Ḫ", "H"),
 			new KeyValuePair<string, string>("ḫ", "h"),
-			new KeyValuePair<string, string>("Ṯ", "T"),
-			new KeyValuePair<string, string>("ṯ", "t"),
 			new KeyValuePair<string, string>("Ẕ", "Z"),
 			new KeyValuePair<string, string>("²", "2"),
 			new KeyValuePair<string, string>("ö", "o"),
