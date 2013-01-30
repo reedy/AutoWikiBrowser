@@ -109,42 +109,6 @@
             this.CheckBoxPanel.Size = new System.Drawing.Size(163, 237);
             this.CheckBoxPanel.TabIndex = 14;
             // 
-            // chkUserTalkTemplates
-            // 
-            this.chkUserTalkTemplates.AutoSize = true;
-            this.chkUserTalkTemplates.Location = new System.Drawing.Point(3, 164);
-            this.chkUserTalkTemplates.Name = "chkUserTalkTemplates";
-            this.chkUserTalkTemplates.Size = new System.Drawing.Size(152, 17);
-            this.chkUserTalkTemplates.TabIndex = 18;
-            this.chkUserTalkTemplates.Tag = 8;
-            this.chkUserTalkTemplates.Text = "User talk templates subst\'d";
-            this.toolTip1.SetToolTip(this.chkUserTalkTemplates, "Skips page if no user talk templates substituted");
-            this.chkUserTalkTemplates.UseVisualStyleBackColor = true;
-            // 
-            // chkDefaultSortAdded
-            // 
-            this.chkDefaultSortAdded.AutoSize = true;
-            this.chkDefaultSortAdded.Location = new System.Drawing.Point(3, 141);
-            this.chkDefaultSortAdded.Name = "chkDefaultSortAdded";
-            this.chkDefaultSortAdded.Size = new System.Drawing.Size(124, 17);
-            this.chkDefaultSortAdded.TabIndex = 17;
-            this.chkDefaultSortAdded.Tag = 3;
-            this.chkDefaultSortAdded.Text = "{{defaultsort}} added";
-            this.toolTip1.SetToolTip(this.chkDefaultSortAdded, "Skips page if no {{defaultsort}} added");
-            this.chkDefaultSortAdded.UseVisualStyleBackColor = true;
-            // 
-            // chkNoBadLink
-            // 
-            this.chkNoBadLink.AutoSize = true;
-            this.chkNoBadLink.Location = new System.Drawing.Point(3, 49);
-            this.chkNoBadLink.Name = "chkNoBadLink";
-            this.chkNoBadLink.Size = new System.Drawing.Size(94, 17);
-            this.chkNoBadLink.TabIndex = 13;
-            this.chkNoBadLink.Tag = 6;
-            this.chkNoBadLink.Text = "Bad links fixed";
-            this.toolTip1.SetToolTip(this.chkNoBadLink, "Skips page if no bad links fixed");
-            this.chkNoBadLink.UseVisualStyleBackColor = true;
-            // 
             // chkNoBoldTitle
             // 
             this.chkNoBoldTitle.AutoSize = true;
@@ -152,7 +116,7 @@
             this.chkNoBoldTitle.Name = "chkNoBoldTitle";
             this.chkNoBoldTitle.Size = new System.Drawing.Size(93, 17);
             this.chkNoBoldTitle.TabIndex = 11;
-            this.chkNoBoldTitle.Tag = 4;
+            this.chkNoBoldTitle.Tag = 1;
             this.chkNoBoldTitle.Text = "Title boldened";
             this.toolTip1.SetToolTip(this.chkNoBoldTitle, "Skips page if no title boldened");
             this.chkNoBoldTitle.UseVisualStyleBackColor = true;
@@ -164,22 +128,82 @@
             this.chkNoBulletedLink.Name = "chkNoBulletedLink";
             this.chkNoBulletedLink.Size = new System.Drawing.Size(123, 17);
             this.chkNoBulletedLink.TabIndex = 12;
-            this.chkNoBulletedLink.Tag = 5;
+            this.chkNoBulletedLink.Tag = 2;
             this.chkNoBulletedLink.Text = "External link bulleted";
             this.toolTip1.SetToolTip(this.chkNoBulletedLink, "Skips page if no external link was bulleted");
             this.chkNoBulletedLink.UseVisualStyleBackColor = true;
             // 
-            // chkPeopleCategories
+            // chkNoBadLink
             // 
-            this.chkPeopleCategories.AutoSize = true;
-            this.chkPeopleCategories.Location = new System.Drawing.Point(3, 210);
-            this.chkPeopleCategories.Name = "chkPeopleCategories";
-            this.chkPeopleCategories.Size = new System.Drawing.Size(148, 17);
-            this.chkPeopleCategories.TabIndex = 20;
-            this.chkPeopleCategories.Tag = 10;
-            this.chkPeopleCategories.Text = "Human category changes";
-            this.toolTip1.SetToolTip(this.chkPeopleCategories, "Skips page if no human categories were modified");
-            this.chkPeopleCategories.UseVisualStyleBackColor = true;
+            this.chkNoBadLink.AutoSize = true;
+            this.chkNoBadLink.Location = new System.Drawing.Point(3, 49);
+            this.chkNoBadLink.Name = "chkNoBadLink";
+            this.chkNoBadLink.Size = new System.Drawing.Size(94, 17);
+            this.chkNoBadLink.TabIndex = 13;
+            this.chkNoBadLink.Tag = 3;
+            this.chkNoBadLink.Text = "Bad links fixed";
+            this.toolTip1.SetToolTip(this.chkNoBadLink, "Skips page if no bad links fixed");
+            this.chkNoBadLink.UseVisualStyleBackColor = true;
+            // 
+            // chkNoUnicode
+            // 
+            this.chkNoUnicode.AutoSize = true;
+            this.chkNoUnicode.Location = new System.Drawing.Point(3, 72);
+            this.chkNoUnicode.Name = "chkNoUnicode";
+            this.chkNoUnicode.Size = new System.Drawing.Size(96, 17);
+            this.chkNoUnicode.TabIndex = 14;
+            this.chkNoUnicode.Tag = 4;
+            this.chkNoUnicode.Text = "Unicodification";
+            this.toolTip1.SetToolTip(this.chkNoUnicode, "Skips page if no character changed to Unicode");
+            this.chkNoUnicode.UseVisualStyleBackColor = true;
+            // 
+            // chkNoTag
+            // 
+            this.chkNoTag.AutoSize = true;
+            this.chkNoTag.Location = new System.Drawing.Point(3, 95);
+            this.chkNoTag.Name = "chkNoTag";
+            this.chkNoTag.Size = new System.Drawing.Size(110, 17);
+            this.chkNoTag.TabIndex = 15;
+            this.chkNoTag.Tag = 5;
+            this.chkNoTag.Text = "Auto tag changes";
+            this.toolTip1.SetToolTip(this.chkNoTag, "Skips page if no tag added/removed");
+            this.chkNoTag.UseVisualStyleBackColor = true;
+            // 
+            // chkNoHeaderError
+            // 
+            this.chkNoHeaderError.AutoSize = true;
+            this.chkNoHeaderError.Location = new System.Drawing.Point(3, 118);
+            this.chkNoHeaderError.Name = "chkNoHeaderError";
+            this.chkNoHeaderError.Size = new System.Drawing.Size(110, 17);
+            this.chkNoHeaderError.TabIndex = 16;
+            this.chkNoHeaderError.Tag = 6;
+            this.chkNoHeaderError.Text = "Header error fixed";
+            this.toolTip1.SetToolTip(this.chkNoHeaderError, "Skips page if no header error fixed");
+            this.chkNoHeaderError.UseVisualStyleBackColor = true;
+            // 
+            // chkDefaultSortAdded
+            // 
+            this.chkDefaultSortAdded.AutoSize = true;
+            this.chkDefaultSortAdded.Location = new System.Drawing.Point(3, 141);
+            this.chkDefaultSortAdded.Name = "chkDefaultSortAdded";
+            this.chkDefaultSortAdded.Size = new System.Drawing.Size(124, 17);
+            this.chkDefaultSortAdded.TabIndex = 17;
+            this.chkDefaultSortAdded.Tag = 7;
+            this.chkDefaultSortAdded.Text = "{{defaultsort}} added";
+            this.toolTip1.SetToolTip(this.chkDefaultSortAdded, "Skips page if no {{defaultsort}} added");
+            this.chkDefaultSortAdded.UseVisualStyleBackColor = true;
+            // 
+            // chkUserTalkTemplates
+            // 
+            this.chkUserTalkTemplates.AutoSize = true;
+            this.chkUserTalkTemplates.Location = new System.Drawing.Point(3, 164);
+            this.chkUserTalkTemplates.Name = "chkUserTalkTemplates";
+            this.chkUserTalkTemplates.Size = new System.Drawing.Size(152, 17);
+            this.chkUserTalkTemplates.TabIndex = 18;
+            this.chkUserTalkTemplates.Tag = 8;
+            this.chkUserTalkTemplates.Text = "User talk templates subst\'d";
+            this.toolTip1.SetToolTip(this.chkUserTalkTemplates, "Skips page if no user talk templates substituted");
+            this.chkUserTalkTemplates.UseVisualStyleBackColor = true;
             // 
             // chkCiteTemplateDates
             // 
@@ -193,41 +217,17 @@
             this.toolTip1.SetToolTip(this.chkCiteTemplateDates, "Skips page if no citation template dates fixed");
             this.chkCiteTemplateDates.UseVisualStyleBackColor = true;
             // 
-            // chkNoHeaderError
+            // chkPeopleCategories
             // 
-            this.chkNoHeaderError.AutoSize = true;
-            this.chkNoHeaderError.Location = new System.Drawing.Point(3, 118);
-            this.chkNoHeaderError.Name = "chkNoHeaderError";
-            this.chkNoHeaderError.Size = new System.Drawing.Size(110, 17);
-            this.chkNoHeaderError.TabIndex = 16;
-            this.chkNoHeaderError.Tag = 3;
-            this.chkNoHeaderError.Text = "Header error fixed";
-            this.toolTip1.SetToolTip(this.chkNoHeaderError, "Skips page if no header error fixed");
-            this.chkNoHeaderError.UseVisualStyleBackColor = true;
-            // 
-            // chkNoUnicode
-            // 
-            this.chkNoUnicode.AutoSize = true;
-            this.chkNoUnicode.Location = new System.Drawing.Point(3, 72);
-            this.chkNoUnicode.Name = "chkNoUnicode";
-            this.chkNoUnicode.Size = new System.Drawing.Size(96, 17);
-            this.chkNoUnicode.TabIndex = 14;
-            this.chkNoUnicode.Tag = 1;
-            this.chkNoUnicode.Text = "Unicodification";
-            this.toolTip1.SetToolTip(this.chkNoUnicode, "Skips page if no character changed to Unicode");
-            this.chkNoUnicode.UseVisualStyleBackColor = true;
-            // 
-            // chkNoTag
-            // 
-            this.chkNoTag.AutoSize = true;
-            this.chkNoTag.Location = new System.Drawing.Point(3, 95);
-            this.chkNoTag.Name = "chkNoTag";
-            this.chkNoTag.Size = new System.Drawing.Size(110, 17);
-            this.chkNoTag.TabIndex = 15;
-            this.chkNoTag.Tag = 2;
-            this.chkNoTag.Text = "Auto tag changes";
-            this.toolTip1.SetToolTip(this.chkNoTag, "Skips page if no tag added/removed");
-            this.chkNoTag.UseVisualStyleBackColor = true;
+            this.chkPeopleCategories.AutoSize = true;
+            this.chkPeopleCategories.Location = new System.Drawing.Point(3, 210);
+            this.chkPeopleCategories.Name = "chkPeopleCategories";
+            this.chkPeopleCategories.Size = new System.Drawing.Size(148, 17);
+            this.chkPeopleCategories.TabIndex = 20;
+            this.chkPeopleCategories.Tag = 10;
+            this.chkPeopleCategories.Text = "Human category changes";
+            this.toolTip1.SetToolTip(this.chkPeopleCategories, "Skips page if no human categories were modified");
+            this.chkPeopleCategories.UseVisualStyleBackColor = true;
             // 
             // SkipOptions
             // 
