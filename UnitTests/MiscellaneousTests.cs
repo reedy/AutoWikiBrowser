@@ -1554,7 +1554,28 @@ __TOC__", articleTextIn);
             lbArticles.RemoveSelected();
             
             Assert.AreEqual(lbArticles.Items.Count, big-sel);
-        }        
+
+            // non-sequential deletion
+            lbArticles.Items.Clear();
+            for(int i=0; i<10; i++)
+                lbArticles.Items.Add(new Article(i.ToString()));
+            lbArticles.SetSelected(1, true);
+            lbArticles.SetSelected(3, true);
+            lbArticles.RemoveSelected();
+            Assert.IsFalse(lbArticles.Items.Contains(new Article("1")));
+            Assert.IsFalse(lbArticles.Items.Contains(new Article("3")));
+            Assert.IsTrue(lbArticles.Items.Contains(new Article("2")));
+
+            lbArticles.Items.Clear();
+            for(int i=0; i<10; i++)
+                lbArticles.Items.Add(new Article(i.ToString()));
+            lbArticles.SetSelected(1, true);
+            lbArticles.SetSelected(5, true);
+            lbArticles.RemoveSelected();
+            Assert.IsFalse(lbArticles.Items.Contains(new Article("1")));
+            Assert.IsFalse(lbArticles.Items.Contains(new Article("5")));
+            Assert.IsTrue(lbArticles.Items.Contains(new Article("2")));
+        }
     }
     
     [TestFixture]
