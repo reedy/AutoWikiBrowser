@@ -1320,6 +1320,9 @@ namespace WikiFunctions
             HideText(removeText);
             Variables.Profiler.Profile("HideText");
 
+            SetDefaultSort(Variables.LangCode, skip.SkipNoDefaultSortAdded, restrictDefaultsortAddition);
+            Variables.Profiler.Profile("SetDefaultSort");
+
             if (Tools.IsRedirect(ArticleText))
             {
                 AWBChangeArticleText("Redirect tagger", Parsers.RedirectTagger(ArticleText, Name), true);
@@ -1359,9 +1362,6 @@ namespace WikiFunctions
 
                 FixPeopleCategories(parsers, skip.SkipNoPeopleCategoriesFixed);
                 Variables.Profiler.Profile("FixPeopleCategories");
-
-                SetDefaultSort(Variables.LangCode, skip.SkipNoDefaultSortAdded, restrictDefaultsortAddition);
-                Variables.Profiler.Profile("SetDefaultSort");
 
                 AWBChangeArticleText("Fix categories", Parsers.FixCategories(ArticleText), true);
                 Variables.Profiler.Profile("FixCategories");

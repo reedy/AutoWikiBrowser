@@ -15,7 +15,7 @@ namespace UnitTests
 
         public void GenFixes(bool replaceReferenceTags)
         {
-            A.PerformGeneralFixes(parser, H, S, replaceReferenceTags, true, false);
+            A.PerformGeneralFixes(parser, H, S, replaceReferenceTags, false, false);
         }
 
         public void GenFixes()
@@ -392,6 +392,18 @@ a");
             GenFixes("Test");
             
             Assert.AreEqual(correct, ArticleText);
+        }
+
+        [Test]
+        public void RedirectsDefaultsort()
+        {
+            ArticleText = @"#REDIRECT[[Foo]]
+[[Category:One]]";
+            GenFixes("Foé");
+
+            Assert.AreEqual(@"#REDIRECT[[Foo]]
+[[Category:One]]
+{{DEFAULTSORT:Foe}}", ArticleText);
         }
     }
 
