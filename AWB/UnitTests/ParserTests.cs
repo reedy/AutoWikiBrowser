@@ -2180,6 +2180,9 @@ here]"), "newline removed");
             Assert.AreEqual(1, bracketLength);
             
             Assert.AreEqual(0, Parsers.UnbalancedBrackets(@"{{Infobox|foo=bar (OMG} }}", ref bracketLength));
+
+            Assert.AreEqual(4, Parsers.UnbalancedBrackets(@"now [[link],] at", ref bracketLength));
+            Assert.AreEqual(2, bracketLength);
         }
 
         [Test]
