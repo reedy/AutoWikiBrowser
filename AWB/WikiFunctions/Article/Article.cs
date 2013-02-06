@@ -1393,11 +1393,12 @@ namespace WikiFunctions
                 AWBChangeArticleText("Fix empty references", Parsers.SimplifyReferenceTags(ArticleText), true);
                 Variables.Profiler.Profile("FixEmptyReferences");
 
+                AWBChangeArticleText("DuplicateNamedReferences", Parsers.DuplicateNamedReferences(ArticleText), true);
+                Variables.Profiler.Profile("DuplicateNamedReferences");
+
                 AWBChangeArticleText("DuplicateUnnamedReferences", Parsers.DuplicateUnnamedReferences(ArticleText), true);
                 Variables.Profiler.Profile("DuplicateUnnamedReferences");
 
-                AWBChangeArticleText("DuplicateNamedReferences", Parsers.DuplicateNamedReferences(ArticleText), true);
-                Variables.Profiler.Profile("DuplicateNamedReferences");
 
                 AWBChangeArticleText("SameRefDifferentName", Parsers.SameRefDifferentName(ArticleText), true);
                 Variables.Profiler.Profile("SameRefDifferentName");
