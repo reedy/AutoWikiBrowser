@@ -3221,6 +3221,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex ExternalLinkMissingOpening = new Regex(@"(?<=^ *\*) *(?=(?:ht|f)tps?://[^<>{}\[\]\r\n\s]+[^\[\]\r\n]*\]\s$)", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex TemplateIncorrectClosingBraces = new Regex(@"(?<={{[^{}<>]{1,400}[^{}<>\|\]])(?:\]}|}\]?)(?=[^{}])", RegexOptions.Compiled);
         private static readonly Regex TemplateMissingOpeningBrace = new Regex(@"(?<=[^{}<>\|]){(?=[^{}<>]{1,400}}})", RegexOptions.Compiled);
+        private static readonly Regex PersondataPODToDEFAULTSORT = new Regex(@"(\|\s*PLACE OF DEATH\s*=\s*[^{}]+?)(\s*{{DEFAULTSORT)", RegexOptions.IgnoreCase);
 
         private static readonly Regex QuadrupleCurlyBrackets = new Regex(@"(?<=^{{[^{}\r\n]+}})}}(\s)$", RegexOptions.Multiline | RegexOptions.Compiled);
         private static readonly Regex WikiLinkOpeningClosing = new Regex(@"\[(?:\]| +\[)([^\[\]\r\n]+\]\])", RegexOptions.Compiled);
@@ -3343,6 +3344,10 @@ namespace WikiFunctions.Parse
 
                 if (bracketLength == 2)
                 {
+                    // persondata
+                    if(articleTextTemp.Contains("{{Persondata") && !WikiRegexes.Persondata.IsMatch(articleTextTemp))
+                        articleTextTemp = PersondataPODToDEFAULTSORT.Replace(articleTextTemp, @"$1}}$2");
+
                     articleTextTemp = CurlyBraceInsteadOfBracketClosing.Replace(articleTextTemp, "$1)");
                     
                     // if it's on double curly brackets, see if one is missing e.g. {{foo} or {{foo]}
@@ -3922,7 +3927,8 @@ namespace WikiFunctions.Parse
         public static string PersonData(string articleText, string articleTitle)
         {
             if (!Variables.LangCode.Equals("en")
-                || WikiRegexes.Persondata.Matches(articleText).Count > 1)
+                || WikiRegexes.Persondata.Matches(articleText).Count > 1
+                || (articleText.Contains("{{Persondata") && WikiRegexes.Persondata.Matches(articleText).Count == 0)) // skip in case of existing persondata with unbalanced brackets
                 return articleText;
 
             string originalPersonData = "", newPersonData = "";
