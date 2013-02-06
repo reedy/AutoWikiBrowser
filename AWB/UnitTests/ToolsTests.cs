@@ -1754,6 +1754,15 @@ title={{abc|fdkjdsfjk=fdaskjlfds
         }
 
         [Test]
+        public void NestedTemplateRegexRTL()
+        {
+            Regex ArTemplate = Tools.NestedTemplateRegex(@"ويكي");
+            Assert.IsTrue(ArTemplate.IsMatch(@"{{ويكي|تاريخ=ديسمبر 2012}}"));
+            Assert.AreEqual("", ArTemplate.Replace(@"{{ويكي|تاريخ=ديسمبر 2012}}", ""));
+            Assert.AreEqual("", ArTemplate.Replace(@"{{ويكي|تاريخ=يناير_2009}}", ""));
+        }
+
+        [Test]
         public void NestedTemplateRegexTwoWords()
         {
             Regex FooTemplate2 = Tools.NestedTemplateRegex("foo bar");
