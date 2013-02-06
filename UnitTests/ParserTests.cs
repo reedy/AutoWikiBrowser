@@ -9502,6 +9502,8 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(parser.Tagger(@"foo==x== {{deadend|date=May 2010}} {{Proposed deletion/dated|[[a]] and [[b]] and [[b]]}}", "Test", false, out noChange, ref summary)),
                           @"does not remove {{dead end}} when links are within prod template");
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(parser.Tagger(@"foo==x== {{deadend|date=May 2010}} {{Proposed deletion endorsed|[[a]] and [[b]] and [[b]]}}", "Test", false, out noChange, ref summary)),
+                          @"does not remove {{dead end}} when links are within prod template, 2");
             Assert.IsFalse(summary.Contains("removed deadend tag"));
         }
 

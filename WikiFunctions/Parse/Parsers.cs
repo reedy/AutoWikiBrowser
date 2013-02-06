@@ -6587,7 +6587,7 @@ namespace WikiFunctions.Parse
         private readonly List<string> tagsRemoved = new List<string>();
         private readonly List<string> tagsAdded = new List<string>();
         private static readonly Regex ImproveCategories = Tools.NestedTemplateRegex("improve categories");
-        private static readonly Regex ProposedDeletionDated = Tools.NestedTemplateRegex("Proposed deletion/dated");
+        private static readonly Regex ProposedDeletionDatedEndorsed = Tools.NestedTemplateRegex( new string[] {"Proposed deletion/dated", "Proposed deletion endorsed" });
         private static readonly Regex Unreferenced = Tools.NestedTemplateRegex("unreferenced");
         private static readonly Regex Drugbox = Tools.NestedTemplateRegex(new[] { "Drugbox", "Chembox" });
 
@@ -6638,7 +6638,7 @@ namespace WikiFunctions.Parse
 
             int totalCategories;
             // ignore commented out wikilinks, and any in {{Proposed deletion/dated}}
-            int wikiLinkCount = Tools.LinkCount(ProposedDeletionDated.Replace(commentsStripped, ""));
+            int wikiLinkCount = Tools.LinkCount(ProposedDeletionDatedEndorsed.Replace(commentsStripped, ""));
 
 #if DEBUG || UNITTEST
             if (Globals.UnitTestMode)
