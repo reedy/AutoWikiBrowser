@@ -405,6 +405,30 @@ a");
 [[Category:One]]
 {{DEFAULTSORT:Foe}}", ArticleText);
         }
+
+        [Test]
+        public void NamedAndUnnamedRefs()
+        {
+            ArticleText = @"Z<ref name = ""Smith63"">Smith (2004), p.&nbsp;63</ref> in all probability.<ref>Smith (2004), p.&nbsp;63</ref> For.<ref>Smith (2004), p.&nbsp;63</ref>
+
+A.<ref name=""S63"">Smith (2004), p.&nbsp;63</ref>
+
+God.<ref name=""S63"" />
+
+==References==
+{{reflist|2}}";
+
+             GenFixes();
+
+            Assert.AreEqual(@"Z<ref name = ""Smith63"">Smith (2004), p.&nbsp;63</ref> in all probability.<ref name=""Smith63""/> For.<ref name=""Smith63""/>
+
+A.<ref name=""Smith63"">Smith (2004), p.&nbsp;63</ref>
+
+God.<ref name=""Smith63""/>
+
+==References==
+{{reflist|2}}", ArticleText);
+        }
     }
 
     [TestFixture]
