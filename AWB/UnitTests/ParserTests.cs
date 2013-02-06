@@ -2637,6 +2637,19 @@ world|format=PDF}} was";
             Assert.IsFalse(Tools.NestedTemplateRegex("persondata").IsMatch(Parsers.PersonData("test", "Fred")), "PersonData not added when not BLP");
 
             Assert.AreEqual(FredPD, Parsers.PersonData(FredPD, "Fred"), "No change when persondata already present for BLP");
+
+            const string BrokenPersondata = @"{{Persondata<!--Metadata: see [[Wikipedia:Persondata]].-->
+|NAME=Orbeliani, Georgy Ilyich
+|ALTERNATIVE NAMES=
+|SHORT DESCRIPTION=
+|DATE OF BIRTH=1853
+|PLACE OF BIRTH=[[Tbilisi]], [[Georgia Governorate]], [[Russian Empire]]
+|DATE OF DEATH=1924
+|PLACE OF DEATH=[[Paris, France]]
+
+{{DEFAULTSORT:Orbeliani, Georgy}}";
+            
+            Assert.AreEqual(BrokenPersondata, Parsers.PersonData(BrokenPersondata, "Test"), "no change when existing persondata template with unbalanced main brackets");
         }
 
         [Test]
@@ -3974,6 +3987,23 @@ Image:X.JPG|Japanese classification systemJapanese classification systemJapanese
         	Variables.SetProjectLangCode("en");
         	Assert.AreEqual(@"now (there) was", Parsers.FixSyntax(CB));
         	#endif
+        }
+        
+        [Test]
+        public void FixUnbalancedBracketsPersondataEnd()
+        {
+            const string PD = @"{{Persondata<!--Metadata: see [[Wikipedia:Persondata]].-->
+|NAME=Orbe, Georgy
+|ALTERNATIVE NAMES=
+|SHORT DESCRIPTION=
+|DATE OF BIRTH=1873
+|PLACE OF BIRTH=[[Tbilisi]]
+|DATE OF DEATH=1944
+|PLACE OF DEATH=Paris
+
+{{DEFAULTSORT:Orbe, Georgy}}";
+            
+            Assert.AreEqual(PD.Replace(@"Paris", @"Paris}}"), Parsers.FixSyntax(PD));
         }
 
         [Test]
