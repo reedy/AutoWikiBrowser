@@ -6416,7 +6416,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex MultipleIssuesUndatedTags = new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*)?|\|)\s*)(?![Ee]xpert)" + WikiRegexes.MultipleIssuesTemplatesString + @"\s*(\||}})", RegexOptions.Compiled);
         private static readonly Regex MultipleIssuesDateRemoval = new Regex(@"(?<={{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*?)?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?){0,4}\|[^{}\|]{3,}?)\b(?i)date(?<!.*out of date)", RegexOptions.Compiled);
-        private static readonly Regex CiteTemplateDuplicateBars = new Regex(@"(?!{{[Cc]ite ?(?:wikisource|ngall|uscgll|[lL]egislation AU))(\{\{\s*(?:[Cc]it[ae]|(?:[Aa]rticle|[Mm]ultiple) ?issues)[^{}]*)\|\s*(\}\}|\|)", RegexOptions.Compiled);
+        private static readonly Regex CiteTemplateDuplicateBars = new Regex(@"(?!{{[Cc]ite ?(?:wikisource|ngall|uscgll|[lL]egislation AU))(\{\{\s*(?:[Cc]it[ae]|(?:[Aa]rticle|[Mm]ultiple) ?issues)[^{}<]*)\|\s*(\}\}|\|)", RegexOptions.Compiled);
         private static readonly Regex NoFootnotes = Tools.NestedTemplateRegex("no footnotes");
         private static readonly String CategoryLivingPeople = @"[[Category:Living people";
 
@@ -6480,7 +6480,7 @@ namespace WikiFunctions.Parse
 
             articleText = MergeTemplatesBySection(articleText);
 
-            // tidy up || or |}} (maybe with whitespace between) within templates that don't use null parameters
+            // tidy up || or |}} (maybe with whitespace between) within templates that don't use null parameters. Handle for unclosed cites within refs.
             while (CiteTemplateDuplicateBars.IsMatch(articleText))
                 articleText = CiteTemplateDuplicateBars.Replace(articleText, "$1$2");
 

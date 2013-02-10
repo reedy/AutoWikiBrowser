@@ -8324,6 +8324,13 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.AreEqual(@"{{cite uscgll|bar||foo}}", Parsers.Conversions(@"{{cite uscgll|bar||foo}}"));
             Assert.AreEqual(@"{{cite ngall|bar||foo}}", Parsers.Conversions(@"{{cite ngall|bar||foo}}"));
             Assert.AreEqual(@"{{Cite Legislation AU|bar||foo}}", Parsers.Conversions(@"{{Cite Legislation AU|bar||foo}}"));
+
+            const string UnclosedCiteInTable = @"
+|
+|Yes<ref>{{cite web | title=A </ref>
+|
+|";
+            Assert.AreEqual(UnclosedCiteInTable, Parsers.Conversions(UnclosedCiteInTable), "Does not alter table pipes following unclosed ref cite");
         }
 
         [Test]
