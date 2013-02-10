@@ -5654,6 +5654,11 @@ was"));
             Assert.AreEqual(@"<sub>foo</sub>", Parsers.FixSyntax(@"<sub><small>foo</small></sub>"), "removes small from sub tags");
             Assert.AreEqual(@"<small>a foo b</small>", Parsers.FixSyntax(@"<small>a <small>foo</small> b</small>"), "removes nested small from small tags");
 
+            Assert.AreEqual(@"<ref>foo</ref>", Parsers.FixSyntax(@"<small><ref>foo</ref></small>"), "removes small around ref tags");
+            Assert.AreEqual(@"<REF>foo</REF>", Parsers.FixSyntax(@"<small><REF>foo</REF></small>"), "removes small around ref tags");
+            Assert.AreEqual(@"<sup>foo</sup>", Parsers.FixSyntax(@"<small><sup>foo</sup></small>"), "removes small around sup tags");
+            Assert.AreEqual(@"<sub>foo</sub>", Parsers.FixSyntax(@"<small><sub>foo</sub></small>"), "removes small around sub tags");
+
             const string unclosedTag = @"<ref><small>foo</small></ref> now <small>";
             Assert.AreEqual(unclosedTag, Parsers.FixSyntax(unclosedTag));
 
