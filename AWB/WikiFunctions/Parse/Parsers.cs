@@ -5111,14 +5111,8 @@ namespace WikiFunctions.Parse
             {
                 articleText = k.Key.Replace(articleText, k.Value);
             }
-            try
-            {
-                articleText = HttpUtility.HtmlDecode(articleText);
-            }
-            catch (Exception ex)
-            {
-                ErrorHandler.Handle(ex);
-            }
+
+            articleText = HttpUtility.HtmlDecode(articleText);
 
             return articleText;
         }
