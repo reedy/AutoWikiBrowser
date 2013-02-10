@@ -3198,6 +3198,9 @@ namespace WikiFunctions.Parse
                 articleText = rx.Replace(articleText, FixSmallTagsME);
             }
 
+            // fixes for small tags surrounding ref/sup/sub tags
+            articleText = WikiRegexes.Small.Replace(articleText, FixSmallTagsME2);
+
             return articleText;
         }
         
@@ -3216,6 +3219,19 @@ namespace WikiFunctions.Parse
                         return m.Value.Substring(0, 7) + WikiRegexes.Small.Replace(m.Value.Substring(7), "$1");
                 }
             }
+            return m.Value;
+        }
+
+        private static string FixSmallTagsME2(Match m)
+        {
+            string smallContent = m.Groups[1].Value.Trim();
+
+            if(!smallContent.Contains("<"))
+                return m.Value;
+
+            if(WikiRegexes.Refs.Match(smallContent).Value.Equals(smallContent) || WikiRegexes.SupSub.Match(smallContent).Value.Equals(smallContent))
+                return smallContent;
+
             return m.Value;
         }
 
