@@ -2839,8 +2839,9 @@ namespace WikiFunctions.Parse
         }
 
         // regexes for external link match on balanced bracket
-        private static readonly Regex DoubleBracketAtStartOfExternalLink = new Regex(@"\[\[ *(https?:/(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex DoubleBracketAtStartOfExternalLink = new Regex(@"\[\[+ *(https?:/(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex DoubleBracketAtEndOfExternalLink = new Regex(@"(\[ *https?:/(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])\](?!\])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex TripleBracketAtEndOfExternalLink = new Regex(@"(\[ *https?:/(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])\]\](?!\])", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex DoubleBracketAtEndOfExternalLinkWithinImage = new Regex(@"(\[https?:/(?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!)))\](?=\]{3})", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex ListExternalLinkEndsCurlyBrace = new Regex(@"^(\* *\[https?://[^<>\[\]]+?)\)\s*$", RegexOptions.Multiline | RegexOptions.Compiled);
 
@@ -3031,9 +3032,11 @@ namespace WikiFunctions.Parse
                 articleText = SyntaxRegexWikilinkMissingOpeningBracket.Replace(articleText, "[[$1]]");
             }
 
+            articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "[$1");
+
             // if there are some unbalanced brackets, see whether we can fix them
             articleText = FixUnbalancedBrackets(articleText);
-            
+
             //fix uneven bracketing on links
             articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "[$1");
             articleText = DoubleBracketAtEndOfExternalLink.Replace(articleText, "$1");
@@ -3388,6 +3391,9 @@ namespace WikiFunctions.Parse
 
                     // wikilink like [[foo],]
                     articleTextTemp = WikiLinkPunctuation.Replace(articleTextTemp, "$1$3$2");
+
+                    // external link excess closing braces
+                    articleTextTemp = TripleBracketAtEndOfExternalLink.Replace(articleTextTemp, "$1");
                 }
 
                 unbalancedBracket = UnbalancedBrackets(articleTextTemp, ref bracketLength);
