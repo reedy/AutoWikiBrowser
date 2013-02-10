@@ -506,7 +506,7 @@ There [was.");
         {
             Parsers Parser = new Parsers();
             HideText RemoveText = new HideText(false, true, false);
-            Article a = new Article("a", @"'''test'''. z &amp; a.
+            Article a = new Article("a", @"'''test'''. z &amp; a&Dagger; &dagger;.
 
 {{DEFAULTSORT:Hello test}}
 [[Category:Test pages]]
@@ -514,7 +514,7 @@ There [was.");
             
             a.Unicodify(true, Parser, RemoveText);
             
-            Assert.AreEqual(@"'''test'''. z & a.
+            Assert.AreEqual(@"'''test'''. z & a‡ †.
 
 {{DEFAULTSORT:Hello test}}
 [[Category:Test pages]]
