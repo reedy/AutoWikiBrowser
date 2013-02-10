@@ -1494,29 +1494,6 @@ namespace AutoWikiBrowser
                         return;
                 }
 
-                // RegexTypoFix
-                if (chkRegExTypo.Checked && RegexTypos != null && !BotMode && !Namespace.IsTalk(theArticle.NameSpaceKey))
-                {
-                    if (!NoRetf.Contains(theArticle.Name))
-                    {
-                        theArticle.PerformTypoFixes(RegexTypos, chkSkipIfNoRegexTypo.Checked);
-                        Variables.Profiler.Profile("Typos");
-                        TypoStats = RegexTypos.GetStatistics();
-                    }
-                    else if (chkSkipIfNoRegexTypo.Checked)
-                        TheArticle.Trace.AWBSkipped("No typo fixes (Title blacklisted from RegExTypoFix Typo Fixing)");
-
-                    if (theArticle.SkipArticle)
-                    {
-                        if (mainProcess)
-                        {
-                            // update stats only if not called from e.g. 'Re-parse' than could be clicked repeatedly
-                            OverallTypoStats.UpdateStats(TypoStats, true);
-                            UpdateTypoCount();
-                        }
-                    }
-                }
-
                 // replace/add/remove categories
                 if (cmboCategorise.SelectedIndex != 0)
                 {
@@ -1602,6 +1579,29 @@ namespace AutoWikiBrowser
                     }
                 }
 
+                // RegexTypoFix
+                if (chkRegExTypo.Checked && RegexTypos != null && !BotMode && !Namespace.IsTalk(theArticle.NameSpaceKey))
+                {
+                    if (!NoRetf.Contains(theArticle.Name))
+                    {
+                        theArticle.PerformTypoFixes(RegexTypos, chkSkipIfNoRegexTypo.Checked);
+                        Variables.Profiler.Profile("Typos");
+                        TypoStats = RegexTypos.GetStatistics();
+                    }
+                    else if (chkSkipIfNoRegexTypo.Checked)
+                        TheArticle.Trace.AWBSkipped("No typo fixes (Title blacklisted from RegExTypoFix Typo Fixing)");
+
+                    if (theArticle.SkipArticle)
+                    {
+                        if (mainProcess)
+                        {
+                            // update stats only if not called from e.g. 'Re-parse' than could be clicked repeatedly
+                            OverallTypoStats.UpdateStats(TypoStats, true);
+                            UpdateTypoCount();
+                        }
+                    }
+                }
+
                 // find and replace after general fixes
                 if (chkFindandReplace.Checked)
                 {
@@ -1636,7 +1636,7 @@ namespace AutoWikiBrowser
 
                 Variables.Profiler.Profile("Append Text");
 
-                // replace/remove/comment out images
+                // replace/remove/comment out images/files
                 if (cmboImages.SelectedIndex != 0)
                 {
                     theArticle.UpdateImages((WikiFunctions.Options.ImageReplaceOptions)cmboImages.SelectedIndex,
@@ -1645,7 +1645,7 @@ namespace AutoWikiBrowser
                         return;
                 }
 
-                Variables.Profiler.Profile("Images");
+                Variables.Profiler.Profile("Files");
 
                 // disambiguation
                 if (!preParseModeToolStripMenuItem.Checked && chkEnableDab.Checked && txtDabLink.Text.Trim().Length > 0 &&
