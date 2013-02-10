@@ -2060,7 +2060,7 @@ namespace WikiFunctions.Parse
 
         private static string RenameTemplateParametersME(Match m, List<WikiRegexes.TemplateParameters> RenamedTemplateParameters)
         {
-            string templatename = Tools.GetTemplateName(m.Value), newvalue = m.Value;
+            string templatename = Tools.TurnFirstToLower(Tools.GetTemplateName(m.Value)), newvalue = m.Value;
 
             // performance: check for intersection of bad parameters and parameters used in template
             // rather than simply looping through all parameters in list
