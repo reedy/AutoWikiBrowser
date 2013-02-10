@@ -935,6 +935,7 @@ foo
             // be careful about condensing any of these unit tests, as some of the different quote characters *look* the same, but in fact are different Unicode characters
 
             Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ""very fast"" ", "1").Contains(@"""very fast"""));
+            Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@"""very fast"" ", "1").Contains(@"""very fast"""));
             Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" « very fast » ", "1").Contains(@"« very fast »"));
             Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ‘very fast‘ ", "1").Contains(@"‘very fast‘"));
             Assert.IsFalse(WikiRegexes.UntemplatedQuotes.Replace(@" ’ very fast ’ ", "").Contains(@"’ very fast ’"));
