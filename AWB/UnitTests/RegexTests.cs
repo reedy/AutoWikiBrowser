@@ -745,6 +745,7 @@ Start date and age
         public void Small()
         {
             RegexAssert.Matches(WikiRegexes.Small, "<small>foo</small>", "<small>foo</small>");
+            Assert.AreEqual(WikiRegexes.Small.Match("<small>foo</small>").Groups[1].Value, "foo");
             RegexAssert.Matches(WikiRegexes.Small, "<small  >foo</small >", "<small  >foo</small >");
             RegexAssert.Matches(WikiRegexes.Small, @"<small>
 foo
