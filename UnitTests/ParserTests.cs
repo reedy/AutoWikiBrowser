@@ -7057,6 +7057,18 @@ Text
         {
             Assert.AreEqual("<math>&laquo;</math>", parser.Unicodify("<math>&laquo;</math>"));
         }
+        
+        [Test]
+        public void Casing()
+        {
+            Assert.AreEqual("A† B‡", parser.Unicodify("A&dagger; B&Dagger;"), "supports lowercase and first-upper HTML characters");
+        }
+        
+        [Test]
+        public void Templates()
+        {
+            Assert.AreEqual("A† B{{template|†}} C{{template2|one=†}}", parser.Unicodify("A&dagger; B{{template|&dagger;}} C{{template2|one=&dagger;}}"), "can support characters within templates");
+        }
     }
 
     [TestFixture]
