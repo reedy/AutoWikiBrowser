@@ -1697,4 +1697,31 @@ __TOC__", articleTextIn);
             Assert.AreEqual("Now {{subst:foo}}", st.SubstituteTemplates("Now {{msg :foo}}", "test"));
         }
     }
+
+    [TestFixture]
+    public class SessionTests
+    {
+        [Test]
+        public void SessionUser()
+        {
+            Assert.IsTrue(WikiFunctions.Session.UserNameInText("ABC", @"* ABC "));
+            Assert.IsTrue(WikiFunctions.Session.UserNameInText("ABC", @"*ABC"));
+            Assert.IsTrue(WikiFunctions.Session.UserNameInText("ABC", @"*          ABC"));
+
+            Assert.IsTrue(WikiFunctions.Session.UserNameInText("ABC", @"
+* HELLO
+* ABC
+* DEF"));
+
+            Assert.IsTrue(WikiFunctions.Session.UserNameInText("aBC", @"* ABC "));
+            Assert.IsTrue(WikiFunctions.Session.UserNameInText("ABC", @"* aBC "));
+
+            Assert.IsTrue(WikiFunctions.Session.UserNameInText("ABC*", @"* ABC* "));
+            Assert.IsTrue(WikiFunctions.Session.UserNameInText("ABC[D]", @"* ABC[D]"));
+
+            Assert.IsTrue(WikiFunctions.Session.UserNameInText("ABC D", @"* ABC D"));
+            Assert.IsTrue(WikiFunctions.Session.UserNameInText("ABC D", @"* ABC_D"));
+            Assert.IsTrue(WikiFunctions.Session.UserNameInText("ABC_D", @"* ABC D"));
+        }
+    }
 }

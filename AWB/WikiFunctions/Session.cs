@@ -263,9 +263,7 @@ namespace WikiFunctions
                 Variables.CapitalizeFirstLetter = Site.CapitalizeFirstLetter;
 
                 if (Variables.IsCustomProject || Variables.IsWikia)
-                {
                     Variables.LangCode = Site.Language;
-                }
 
                 Updater.WaitForCompletion();
                 Updater.AWBEnabledStatus versionStatus = Updater.Result;
@@ -342,19 +340,17 @@ namespace WikiFunctions
                                                     "<!--enabledusersends-->");
 
                 string strBotUsers = Tools.StringBetween(checkPageText, "<!--enabledbots-->", "<!--enabledbotsends-->");
-                Regex username = new Regex(@"^\*\s*" + Tools.CaseInsensitive(Regex.Escape(User.Name))
-                                           + @"\s*$", RegexOptions.Multiline);
 
                 if (IsSysop && Variables.Project != ProjectEnum.wikia)
                 {
-                    IsBot = username.IsMatch(strBotUsers);
+                    IsBot = UserNameInText(User.Name, strBotUsers);
                     return WikiStatusResult.Registered;
                 }
 
-                if (username.IsMatch(checkPageText))
+                if (UserNameInText(User.Name, checkPageText))
                 {
                     //enable bot mode
-                    IsBot = username.IsMatch(strBotUsers);
+                    IsBot = UserNameInText(User.Name, strBotUsers);
 
                     return WikiStatusResult.Registered;
                 }
@@ -364,7 +360,7 @@ namespace WikiFunctions
                     string globalUsers = Tools.StringBetween(VersionCheckPage, "<!--globalusers-->",
                                                              "<!--globalusersend-->");
 
-                    if (username.IsMatch(globalUsers))
+                    if (UserNameInText(User.Name, globalUsers))
                         return WikiStatusResult.Registered;
                 }
                 return WikiStatusResult.NotRegistered;
@@ -376,6 +372,23 @@ namespace WikiFunctions
                 IsBot = false;
                 return WikiStatusResult.Error;
             }
+        }
+
+        /// <summary>
+        /// Checks text for a user ID
+        /// User ID must be on its own line started with an asterisk (*), any whitespace around it
+        /// Matching is first letter case insensitive, and treats underscores and spaces as the same
+        /// </summary>
+        /// <param name="userID">User ID to look for</param>
+        /// <param name="text">Text to check</param>
+        /// <returns>Whether the User ID is found within the given text</returns>
+        public static bool UserNameInText(string userID, string text)
+        {
+            userID = userID.Replace("_", " ");
+            Regex username = new Regex(@"^\*\s*" + Tools.CaseInsensitive(Regex.Escape(userID).Replace(@"\ ", @"[ _]"))
+                                           + @"\s*$", RegexOptions.Multiline);
+
+            return username.IsMatch(text);
         }
 
         private static void HasTypoLink(string text)
