@@ -1705,6 +1705,9 @@ __TOC__", articleTextIn);
         public void SessionUser()
         {
             Assert.IsTrue(WikiFunctions.Session.UserNameInText("ABC", @"* ABC "));
+            Assert.IsTrue(WikiFunctions.Session.UserNameInText("abc", @"* abc "));
+            Assert.IsTrue(WikiFunctions.Session.UserNameInText("Abc", @"* abc "));
+            Assert.IsTrue(WikiFunctions.Session.UserNameInText("abc", @"* Abc "));
             Assert.IsTrue(WikiFunctions.Session.UserNameInText("ABC", @"*ABC"));
             Assert.IsTrue(WikiFunctions.Session.UserNameInText("ABC", @"*          ABC"));
 
@@ -1722,6 +1725,10 @@ __TOC__", articleTextIn);
             Assert.IsTrue(WikiFunctions.Session.UserNameInText("ABC D", @"* ABC D"));
             Assert.IsTrue(WikiFunctions.Session.UserNameInText("ABC D", @"* ABC_D"));
             Assert.IsTrue(WikiFunctions.Session.UserNameInText("ABC_D", @"* ABC D"));
+
+            Assert.IsFalse(WikiFunctions.Session.UserNameInText("ABC", @"* ABCD "));
+            Assert.IsFalse(WikiFunctions.Session.UserNameInText("Abc", @"* ABC "));
+            Assert.IsFalse(WikiFunctions.Session.UserNameInText("ABC", @"* X"));
         }
     }
 }
