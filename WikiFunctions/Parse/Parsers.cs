@@ -6753,7 +6753,7 @@ namespace WikiFunctions.Parse
             // prevent wictionary redirects from being tagged as uncategorised
             if (words > 6 && totalCategories == 0
                 && !WikiRegexes.Uncat.IsMatch(articleText)
-                && Variables.LangCode != "nl"
+                && Variables.LangCode != "nl")
             {
                 if (WikiRegexes.Stub.IsMatch(commentsStripped))
                 {
