@@ -8761,7 +8761,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Globals.UnitTestBoolValue = true;
 
             string text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
-            Assert.IsTrue(text.StartsWith(@"{{dead end|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
+            Assert.IsTrue(text.Contains(@"{{dead end|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
 {{Orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"), "No excess blank line between multiple tags");
         }
 
@@ -9816,9 +9816,6 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             // don't grab tags in later sections of article
             const string a6 = @"==head== {{essay}}";
             Assert.AreEqual(a5 + a3 + a6, parser.MultipleIssuesOld(a5 + a3 + a6));
-
-            const string NestedT = @"{{Multiple issues|{{Citation style}}}}";
-            Assert.AreEqual(NestedT, parser.MultipleIssuesOld(NestedT));
         }
 
         [Test]
@@ -9871,12 +9868,10 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         [Test]
         public void MultipleIssuesTagCount()
         {
-            // parsers function doesn't add tags if total tags would be less than 3
-            Assert.AreEqual(@"{{POV|date=May 2008}} {{wikify|date=May 2007}}", parser.MultipleIssuesOld(@"{{multiple issues|POV=May 2008}} {{wikify|date=May 2007}}"));
-            Assert.AreEqual(@"{{multiple issues|POV=May 2008|article=y}} {{wikify|date=May 2007}}", parser.MultipleIssuesOld(@"{{multiple issues|POV=May 2008|article=y}} {{wikify|date=May 2007}}"));
-
             // add tags if total would reach 3
             Assert.AreEqual(@"{{multiple issues|POV=May 2008|wikify = May 2007|cleanup = June 2008}}  ", parser.MultipleIssuesOld(@"{{multiple issues|POV=May 2008}} {{wikify|date=May 2007}} {{cleanup|date=June 2008}}"));
+            
+            Assert.AreEqual(@"{{multiple issues|POV=May 2008|wikify = May 2007}} ", parser.MultipleIssuesOld(@"{{multiple issues|POV=May 2008}} {{wikify|date=May 2007}}"));
         }
 
         [Test]
@@ -10560,7 +10555,7 @@ Text
         public void MultipleIssuesNewTagSection()
         {
             const string After = @"==sec==
-{{wikify section|date=May 2012}}{{expand section}}
+{{wikify section|date=May 2012}}
 Text
 {{POV-section}}
 ==hello==";
