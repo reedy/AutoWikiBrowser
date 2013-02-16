@@ -788,6 +788,10 @@ namespace WikiFunctions
                 AWBChangeArticleText(action, strTemp, false);
         }
 
+        /// <summary>
+        /// Performs skip checks for find & replace
+        /// </summary>
+        /// <param name="findAndReplace"></param>
         public void DoFaRSkips(FindandReplace findAndReplace)
         {
             if (_before == FaRChange.MajorChange || _after == FaRChange.MajorChange)
@@ -851,6 +855,7 @@ namespace WikiFunctions
             changedText = findAndReplace.MultipleFindAndReplace(changedText, Name, beforeOrAfter, ref editSummary, out majorChangesMade);
 
             bool farMadeMajorChanges = (originalText != changedText && majorChangesMade);
+            bool AdvFarMadeChanges = false;
 
             string changedTextByAdvFar = changedText;
             if (!beforeOrAfter) // Only run "before"
@@ -859,9 +864,11 @@ namespace WikiFunctions
 
                 changedTextByAdvFar = substTemplates.SubstituteTemplates(changedTextByAdvFar, Name);
 
-                if (!farMadeMajorChanges && changedTextByAdvFar != changedText)
+                AdvFarMadeChanges = !changedTextByAdvFar.Equals(changedText);
+
+                if (!farMadeMajorChanges && AdvFarMadeChanges)
                 {
-                    //override minor changes if other replcements did something
+                    // override minor changes if advanced replacements did something, so we don't skip
                     SetFaRChange(false, FaRChange.MajorChange);
                 }
             }
@@ -873,7 +880,8 @@ namespace WikiFunctions
                 else
                     return; //No changes, so nothing to change in article text (but we're not skipping either)
             }
-            else if (!farMadeMajorChanges && skipIfOnlyMinorChange)
+            // Do not skip for "minor change" if advanced find & replace made changes
+            else if (!farMadeMajorChanges && !AdvFarMadeChanges && skipIfOnlyMinorChange)
             {
                 SetFaRChange(beforeOrAfter, FaRChange.MinorChange);
             }
