@@ -30,6 +30,7 @@ namespace UnitTests
 1910 births]]");
             RegexAssert.NoMatch(WikiRegexes.Category, @"[[Category:1910 births
 ]]");
+            Assert.AreEqual("Test now", WikiRegexes.Category.Match("[[Category:Test now]]").Groups[1].Value);
         }
         
         [Test]
