@@ -698,9 +698,18 @@ namespace WikiFunctions.API
             Reset();
 
             // action=query&prop=info|revisions&intoken=edit&titles=Main%20Page&rvprop=timestamp|user|comment|content
+
+            /* converttitles: API doc says "converttitles - Convert titles to other variants if necessary. Only works if the wiki's content language supports variant conversion.
+               Languages that support variant conversion include gan, iu, kk, ku, shi, sr, tg, uz, zh"
+             * Example with and without converttitles: zh-wiki page 龙门飞甲
+             * https://zh.wikipedia.org/w/api.php?action=query&prop=info|revisions&intoken=edit&titles=龙门飞甲&rvprop=timestamp|user|comment|content
+             * https://zh.wikipedia.org/w/api.php?action=query&converttitles&prop=info|revisions&intoken=edit&titles=龙门飞甲&rvprop=timestamp|user|comment|content
+             If convertitles is not set, API doesn't find the page
+             */
             string result = HttpGet(new[,]
                 {
                     {"action", "query"},
+                    {"converttitles", null },
                     {"prop", "info|revisions"},
                     {"intoken", "edit"},
                     {"titles", title},
