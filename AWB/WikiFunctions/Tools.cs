@@ -1822,11 +1822,15 @@ Message: {2}
 		/// </summary>
 		public static void OpenURLInBrowser(string url)
 		{
-			try
-			{
-				System.Diagnostics.Process.Start(url);
-			}
-			catch { }
+		    /* Note: this doesn't appear to work under wine
+		     * What does work is System.Diagnostics.Process.Start("/usr/bin/firefox", url);
+		     * (on the assumption that /usr/bin/firefox is your path to Firefox
+		     */
+		    try
+		    {
+		        System.Diagnostics.Process.Start(url);
+		    }
+		    catch { }
 		}
 
 		/// <summary>
