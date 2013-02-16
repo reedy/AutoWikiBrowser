@@ -8929,6 +8929,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsFalse(text.Contains(@"{{improve categories"));
 
             // when no cats from existing page by API call but genfixes adds people categories, don't tag uncat
+            Globals.UnitTestIntValue = 1;
             text = parser.Tagger(ShortText + ShortText + @"[[Category:Living people]]", "Test", false, out noChange, ref summary);
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
