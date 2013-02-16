@@ -5073,7 +5073,7 @@ namespace WikiFunctions.Parse
 
         #region other functions
         private static readonly Regex LineSeparatorZeroWidthSpaceStartOfLine = new Regex(@"^(\u2028|\u200B)+", RegexOptions.Multiline);
-        private static readonly Regex ZeroWidthSpace = new Regex(@"^(\u200B)+", RegexOptions.Multiline);
+     //   private static readonly Regex ZeroWidthSpace = new Regex(@"^(\u200B)+", RegexOptions.Multiline);
 
         /// <summary>
         /// Performs transformations related to Unicode characters that may cause problems for different clients
