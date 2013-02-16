@@ -358,7 +358,7 @@ namespace WikiFunctions.Parse
             return hAfter;
         }
 
-        private const int MinCleanupTagsToCombine = 3; // article must have at least this many tags to combine to {{multiple issues}}
+        private const int MinCleanupTagsToCombine = 2; // article must have at least this many tags to combine to {{multiple issues}}
         private static readonly Regex ExpertSubject = Tools.NestedTemplateRegex("expert-subject");
 
         /// <summary>
