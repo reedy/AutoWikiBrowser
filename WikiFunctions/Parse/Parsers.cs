@@ -3249,7 +3249,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex QuadrupleCurlyBrackets = new Regex(@"(?<=^{{[^{}\r\n]+}})}}(\s)$", RegexOptions.Multiline | RegexOptions.Compiled);
         private static readonly Regex WikiLinkOpeningClosing = new Regex(@"\[(?:\]| +\[)([^\[\]\r\n]+\]\])", RegexOptions.Compiled);
-        private static readonly Regex WikiLinkPunctuation = new Regex(@"(\[\[[^\[\]\r\n]+\])([,.;:""'])(\])");
+        private static readonly Regex WikiLinkPunctuation = new Regex(@"(\[\[[^\[\]\r\n]+\])([,.;:""' ]{1,2})(\])");
         private static readonly Regex WikiLinkDoubleOpening = new Regex(@"(\[\[[^\[\]\r\n:]{1,55})\[\[");
         private static readonly Regex UnclosedCatInterwiki = new Regex(@"^(\[\[[^\[\]\r\n]+(?<!File|Image|Media)\:[^\[\]\r\n]+)(\s*)$", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex RefClosingOpeningBracket = new Regex(@"\[(\s*</ref>)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
