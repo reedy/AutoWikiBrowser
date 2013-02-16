@@ -10197,23 +10197,29 @@ foo
         }
         
         [Test]
-        public void RegularCateogries()
+        public void RegularCategories()
         {
             List<Article> Cats = new  List<Article>();
-            Assert.AreEqual(0, Parsers.RegularCateogries(Cats).Count);
+            Assert.AreEqual(0, Parsers.RegularCategories(Cats).Count);
             
             Cats.Add(new Article("Foo"));
-            Assert.AreEqual(1, Parsers.RegularCateogries(Cats).Count);
+            Assert.AreEqual(1, Parsers.RegularCategories(Cats).Count);
             
             Cats.Add(new Article("Bar"));
             Cats.Add(new Article("Some stubs"));
             Cats.Add(new Article("A :Stubs"));
-            Assert.AreEqual(2, Parsers.RegularCateogries(Cats).Count);
+            Assert.AreEqual(2, Parsers.RegularCategories(Cats).Count);
             
             Cats.Add(new Article("Proposed deletion"));
             Cats.Add(new Article("Foo proposed deletions"));
             Cats.Add(new Article("Foo proposed for deletion"));
-            Assert.AreEqual(2, Parsers.RegularCateogries(Cats).Count);
+            Assert.AreEqual(2, Parsers.RegularCategories(Cats).Count);
+            
+            Cats.Clear();
+            Assert.AreEqual(0, Parsers.RegularCategories("").Count);
+            Assert.AreEqual(1, Parsers.RegularCategories("[[Category:Foo]]").Count);
+            Assert.AreEqual(1, Parsers.RegularCategories("[[Category:Foo]] [[Cateogry:Some stubs]]").Count);
+            Assert.AreEqual(1, Parsers.RegularCategories("[[Category:Foo]] <!--[[Cateogry:Bar]]-->").Count);
         }
         
     }

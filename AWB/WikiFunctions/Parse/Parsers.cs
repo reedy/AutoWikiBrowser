@@ -6678,7 +6678,12 @@ namespace WikiFunctions.Parse
                 // stubs add non-hidden stub categories, don't count these in categories count
                 // also don't count "Proposed deletion..." cats
                 List<Article> Cats = CategoryProv.MakeList(new[] { articleTitle });
-                totalCategories = RegularCateogries(Cats).Count;
+                totalCategories = RegularCategories(Cats).Count;
+
+                // cats may have been added to page by genfixes, F&R or user (when reparsing) so check cats on page if API says zero
+                // so we correctly count for uncat tagging
+                if(totalCategories == 0)
+                    totalCategories = RegularCategories(articleText).Count;
             }
 
             if (wikiLinkCount > 0 && WikiRegexes.DeadEnd.IsMatch(articleText))
@@ -6749,9 +6754,6 @@ namespace WikiFunctions.Parse
             if (words > 6 && totalCategories == 0
                 && !WikiRegexes.Uncat.IsMatch(articleText)
                 && Variables.LangCode != "nl"
-                // category count is from API; don't add uncat tag if genfixes added person categories
-                && !WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText)
-                && !WikiRegexes.BirthsCategory.IsMatch(articleText))
             {
                 if (WikiRegexes.Stub.IsMatch(commentsStripped))
                 {
@@ -6956,9 +6958,9 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Returns the categories that are not stub or proposed deletion categories from the input list
         /// </summary>
-        /// <param name="AllCategories"></param>
-        /// <returns></returns>
-        public static List<Article> RegularCateogries(List<Article> AllCategories)
+        /// <param name="AllCategories">List of all categories</param>
+        /// <returns>List of regular categories</returns>
+        public static List<Article> RegularCategories(List<Article> AllCategories)
         {
             List<Article> CatsNotStubsProd = new List<Article>();
             foreach (Article a in AllCategories)
@@ -6969,6 +6971,26 @@ namespace WikiFunctions.Parse
             }
 
             return CatsNotStubsProd;
+        }
+
+        /// <summary>
+        /// Returns the categories that are not stub or proposed deletion categories from the input article text
+        /// </summary>
+        /// <param name="articleText">Wiki text</param>
+        /// <returns>List of regular categories</returns>
+        public static List<Article> RegularCategories(string articleText)
+        {
+            // Don't count commented out categories
+            articleText = WikiRegexes.MathPreSourceCodeComments.Replace(articleText, "");
+
+            List<Article> Cats = new List<Article>();
+        
+            foreach (Match m in WikiRegexes.Category.Matches(articleText))
+            {
+                Cats.Add(new Article(m.Groups[1].Value.Trim()));
+            }
+
+            return RegularCategories(Cats);
         }
 
         private static readonly WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider WlhProv = new WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider(MinIncomingLinksToBeConsideredAnOrphan) { ForceQueryLimit = "10" };
