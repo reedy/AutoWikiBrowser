@@ -3952,6 +3952,8 @@ Image:X.JPG|Japanese classification systemJapanese classification systemJapanese
             Assert.AreEqual(@"[[Foo]],", Parsers.FixSyntax(@"[[Foo],]"), "fixes links broken by punctuation");
             Assert.AreEqual(@"[[Foo]].", Parsers.FixSyntax(@"[[Foo].]"), "fixes links broken by punctuation");
             Assert.AreEqual(@"[[Foo]]:", Parsers.FixSyntax(@"[[Foo]:]"), "fixes links broken by punctuation");
+            Assert.AreEqual(@"[[Foo]]  bar", Parsers.FixSyntax(@"[[Foo] ] bar"), "fixes links broken by punctuation");
+            Assert.AreEqual(@"[[Foo]]''", Parsers.FixSyntax(@"[[Foo]'']"), "fixes links broken by punctuation");
 
             Assert.AreEqual(@"[[panka Smith]] (Local national)", Parsers.FixSyntax(@"[panka  Smith]] (Local national)"), "bracket and whitespace fix in one");
 
