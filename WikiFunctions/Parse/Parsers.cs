@@ -6678,15 +6678,7 @@ namespace WikiFunctions.Parse
                 // stubs add non-hidden stub categories, don't count these in categories count
                 // also don't count "Proposed deletion..." cats
                 List<Article> Cats = CategoryProv.MakeList(new[] { articleTitle });
-                List<Article> CatsNotStubsProd = new List<Article>();
-
-                foreach (Article a in Cats)
-                {
-                    if (!a.Name.EndsWith(" stubs") && !a.Name.EndsWith(":Stubs") && !a.Name.StartsWith("Proposed deletion")
-                        && !a.Name.Contains("proposed for deletion") && !a.Name.Contains("proposed deletions"))
-                        CatsNotStubsProd.Add(a);
-                }
-                totalCategories = CatsNotStubsProd.Count;
+                totalCategories = RegularCateogries(Cats).Count;
             }
 
             if (wikiLinkCount > 0 && WikiRegexes.DeadEnd.IsMatch(articleText))
@@ -6959,6 +6951,24 @@ namespace WikiFunctions.Parse
             summary = PrepareTaggerEditSummary();
 
             return articleText;
+        }
+
+        /// <summary>
+        /// Returns the categories that are not stub or proposed deletion categories from the input list
+        /// </summary>
+        /// <param name="AllCategories"></param>
+        /// <returns></returns>
+        public static List<Article> RegularCateogries(List<Article> AllCategories)
+        {
+            List<Article> CatsNotStubsProd = new List<Article>();
+            foreach (Article a in AllCategories)
+            {
+                if (!a.Name.EndsWith(" stubs") && !a.Name.EndsWith(":Stubs") && !a.Name.StartsWith("Proposed deletion")
+                    && !a.Name.Contains("proposed for deletion") && !a.Name.Contains("proposed deletions"))
+                    CatsNotStubsProd.Add(a);
+            }
+
+            return CatsNotStubsProd;
         }
 
         private static readonly WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider WlhProv = new WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider(MinIncomingLinksToBeConsideredAnOrphan) { ForceQueryLimit = "10" };
