@@ -169,5 +169,32 @@ namespace WikiFunctions.ReplaceSpecial
             RegexTester.Test(ParentForm, IfNotContainsTextBox, null, IfIsMultilineCheckbox,
                 IfIsSinglelineCheckBox, IfIsCaseSensitiveCheckBox);
         }
+
+        // event handlers for Ctrl+A / select all
+        // as per http://msdn.microsoft.com/en-us/library/system.windows.forms.textboxbase.shortcutsenabled.aspx
+        // The TextBox control does not support the CTRL+A shortcut key when the Multiline property value is true.
+        private void ReplaceTextbox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.A)
+                ReplaceTextbox.SelectAll();
+        }
+
+        private void WithTextbox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.A)
+                WithTextbox.SelectAll();
+        }
+
+        private void IfContainsTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.A)
+                IfContainsTextBox.SelectAll();
+        }
+
+        private void IfNotContainsTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.A)
+                IfNotContainsTextBox.SelectAll();
+        }
     }
 }
