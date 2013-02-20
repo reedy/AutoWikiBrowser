@@ -316,6 +316,18 @@ a");
 * Emperor";
 
             AssertChange(foo, foo2);
+            
+            const string HeadingWithOptionalSpace = @"x
+
+== Events ==
+y";
+            AssertNotChanged(HeadingWithOptionalSpace);
+            
+            const string HeadingWithoutOptionalSpace = @"x
+
+==Events==
+y";
+            AssertNotChanged(HeadingWithoutOptionalSpace);
         }
         
         [Test]
