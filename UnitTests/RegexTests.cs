@@ -575,6 +575,7 @@ bar</ INCLUDEONLY>");
             RegexAssert.Matches("Should match distinct templates", WikiRegexes.NestedTemplates, "{{foo}}{{bar}}", "{{foo}}", "{{bar}}");
             RegexAssert.Matches("{{foo| {bar} }}", WikiRegexes.NestedTemplates, "{{foo| {bar} }}");
             RegexAssert.Matches("{{foo {{bar}} end}}", WikiRegexes.NestedTemplates, "{{foo {{bar}} end}}");
+            RegexAssert.Matches("{{foo {{bar}} {{bar2}} end}}", WikiRegexes.NestedTemplates, "{{foo {{bar}} {{bar2}} end}}");
             RegexAssert.Matches("{{foo {bar} end}}", WikiRegexes.NestedTemplates, "{{foo {bar} end}}");
 
             RegexAssert.Matches("{{ foo |bar}}", WikiRegexes.NestedTemplates, "{{ foo |bar}}");
