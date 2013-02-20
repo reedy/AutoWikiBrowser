@@ -9884,6 +9884,13 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         }
 
         [Test]
+        public void MultipleIssuesNoTags()
+        {
+            Assert.AreEqual("", parser.MultipleIssues("{{multiple issues}}"));
+            Assert.AreEqual("{{Advert|date=May 2012}}", parser.MultipleIssues(@"{{multiple issues}}{{Advert|date=May 2012}}"));
+        }
+
+        [Test]
         public void MultipleIssuesTagCount()
         {
             // add tags if total would reach 3

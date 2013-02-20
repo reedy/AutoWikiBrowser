@@ -610,6 +610,9 @@ namespace WikiFunctions.Parse
 
             articleText = MultipleIssuesOldCleanup(articleText);
 
+            // Remove multiple issues with zero tags
+            articleText = WikiRegexes.MultipleIssues.Replace( articleText, MultipleIssuesSingleTag);
+
             articleText = WikiRegexes.MultipleIssues.Replace(articleText, m=> Regex.Replace(m.Value, "(\r\n)+", "\r\n"));
 
             // get sections
@@ -750,6 +753,21 @@ namespace WikiFunctions.Parse
             if (Tools.GetTemplateArgumentCount(newValue) == 1 && WikiRegexes.NestedTemplates.Matches(Tools.GetTemplateArgument(newValue, 1)).Count == 1)
                 return Tools.GetTemplateArgument(newValue, 1);
             
+            return m.Value;
+        }
+
+        /// <summary>
+        /// Removes multiple issues with zero tags
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        private string MultipleIssuesSingleTag(Match m)
+        {
+            string newValue = Tools.RemoveTemplateParameter(m.Value, "section");
+
+            if (Tools.GetTemplateArgumentCount(newValue) == 0)
+                return "";
+
             return m.Value;
         }
 
