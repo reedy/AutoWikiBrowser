@@ -256,7 +256,7 @@ namespace WikiFunctions.Parse
 
         // Covered by: FormattingTests.TestFixHeadings(), incomplete
         /// <summary>
-        /// Fix ==See also== and similar section common errors. Removes unecessary introductory headings and cleans excess whitespace.
+        /// Fix ==See also== and similar section common errors. Removes unecessary introductory headings and cleans excess whitespace (but not the optional single space at the start & end of headings).
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">the title of the article</param>
