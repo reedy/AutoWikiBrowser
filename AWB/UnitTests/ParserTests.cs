@@ -9351,6 +9351,10 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
             Assert.AreEqual(text,"[[foo]]");
 
+            // Don't remove when few parameter set
+            text = parser.Tagger("{{orphan|few=a}}", "Test", false, out noChange, ref summary);
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
+
             Globals.UnitTestBoolValue = true;
 
             text = parser.Tagger("{{orphan}}", "Test", false, out noChange, ref summary);
