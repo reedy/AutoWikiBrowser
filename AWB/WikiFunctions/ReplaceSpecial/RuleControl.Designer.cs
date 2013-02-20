@@ -161,7 +161,8 @@
         this.ReplaceTextbox.Size = new System.Drawing.Size(392, 120);
         this.ReplaceTextbox.TabIndex = 0;
         this.ReplaceTextbox.WordWrap = false;
-        // 
+        this.ReplaceTextbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ReplaceTextbox_KeyDown);
+        //
         // label3
         // 
         this.label3.Location = new System.Drawing.Point(6, 0);
@@ -183,9 +184,10 @@
         this.WithTextbox.Size = new System.Drawing.Size(393, 105);
         this.WithTextbox.TabIndex = 1;
         this.WithTextbox.WordWrap = false;
-        // 
+        this.WithTextbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.WithTextbox_KeyDown);
+        //
         // ReplaceIsCaseSensitiveCheckBox
-        // 
+        //
         this.ReplaceIsCaseSensitiveCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
         this.ReplaceIsCaseSensitiveCheckBox.AutoSize = true;
         this.ReplaceIsCaseSensitiveCheckBox.Location = new System.Drawing.Point(3, 278);
@@ -324,6 +326,7 @@
         this.IfContainsTextBox.Size = new System.Drawing.Size(392, 107);
         this.IfContainsTextBox.TabIndex = 1;
         this.IfContainsTextBox.WordWrap = false;
+        this.IfContainsTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.IfContainsTextBox_KeyDown);
         // 
         // IfNotContainsLabel
         // 
@@ -346,6 +349,7 @@
         this.IfNotContainsTextBox.Size = new System.Drawing.Size(393, 105);
         this.IfNotContainsTextBox.TabIndex = 1;
         this.IfNotContainsTextBox.WordWrap = false;
+        this.IfNotContainsTextBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.IfNotContainsTextBox_KeyDown);
         // 
         // IfIsSinglelineCheckBox
         // 
