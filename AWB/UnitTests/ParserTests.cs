@@ -5754,6 +5754,19 @@ was"));
             TemplateRedirects = Parsers.LoadTemplateRedirects(@"{{tl|Cn}}, {{tl|fact}} → {{tl|citation needed}}
 {{tl|foo}} → {{tl|bar}}");
             Assert.AreEqual("now {{citation needed}} was", Parsers.TemplateRedirects("now {{cn}} was", TemplateRedirects), "follows case of new template name");
+
+            TemplateRedirects = Parsers.LoadTemplateRedirects(@"{{tl|Articleissues}} → {{tl|multiple issues}}
+{{tl|Rewrite}} → {{tl|cleanup-rewrite}}");
+
+            Assert.AreEqual(@"now {{Multiple issues|
+{{Refimprove|date=July 2012}}
+{{Citation style|date=July 2012}}
+{{Cleanup-rewrite|date=July 2012}}
+}} was", Parsers.TemplateRedirects(@"now {{Articleissues|
+{{Refimprove|date=July 2012}}
+{{Citation style|date=July 2012}}
+{{Rewrite|date=July 2012}}
+}} was", TemplateRedirects), "nested template example");
         }
 
         [Test]

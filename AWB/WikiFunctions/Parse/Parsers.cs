@@ -1996,8 +1996,9 @@ namespace WikiFunctions.Parse
                                                                                   {
                                                                                       res = kvp.Key.Replace(res, m => TemplateRedirectsME(m, kvp.Value));
                                                                                       
-                                                                                      if(!res.Equals(m2.Value))
-                                                                                          break;
+                                                                                      // if template name changed and not nested template, done, so break out
+                                                                                      if(!res.Equals(m2.Value) && !m2.Groups[3].Value.Contains("{{"))
+                                                                                         break;
                                                                                   }
                                                                                   return res;
                                                                               });
