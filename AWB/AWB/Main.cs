@@ -3883,6 +3883,11 @@ window.scrollTo(0, diffTopY);
             txtNewCategory.SelectAll();
         }
 
+        private void txtNewCategory2_DoubleClick(object sender, EventArgs e)
+        {
+            txtNewCategory2.SelectAll();
+        }
+
         private void cmboEditSummary_MouseMove(object sender, MouseEventArgs e)
         {
             if ((TheArticle != null) && string.IsNullOrEmpty(TheArticle.EditSummary))

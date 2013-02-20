@@ -3383,6 +3383,7 @@ namespace AutoWikiBrowser
             this.txtNewCategory2.Size = new System.Drawing.Size(107, 20);
             this.txtNewCategory2.TabIndex = 3;
             this.txtNewCategory2.Leave += new System.EventHandler(this.CategoryLeave);
+            this.txtNewCategory2.DoubleClick += new System.EventHandler(this.txtNewCategory2_DoubleClick);
             // 
             // label1
             // 
