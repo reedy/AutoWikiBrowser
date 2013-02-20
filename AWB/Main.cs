@@ -838,6 +838,13 @@ namespace AutoWikiBrowser
                 listMaker.ReplaceArticle(new Article(page.OriginalTitle), TheArticle);
             }
 
+            /* check for normalized page: since we canonicalize title before API read is requested,
+             this shouldn't normally be the case: will be the caes for female user page normalization
+             example https://de.wikipedia.org/w/api.php?action=query&prop=info|revisions&intoken=edit&titles=Benutzer%20Diskussion:MarianneBirkholz&rvprop=timestamp|user|comment|content
+             see the <normalized> block */
+            if(page.TitleChangedStatus == PageTitleStatus.Normalised)
+                listMaker.ReplaceArticle(new Article(page.OriginalTitle), TheArticle);
+
             ErrorHandler.CurrentRevision = page.RevisionID;
 
             if (PageReload)
