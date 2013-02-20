@@ -7065,7 +7065,10 @@ namespace WikiFunctions.Parse
                     tagsAdded.Add("[[CAT:O|orphan]]");
                 }
             }
-            else if (!orphaned && WikiRegexes.Orphan.IsMatch(articleText))
+            // otherwise consider orphan tag removal
+            // do not remove when "few" parameter specified, human review required then
+            else if (!orphaned && WikiRegexes.Orphan.IsMatch(articleText)
+                     && Tools.GetTemplateParameterValue(WikiRegexes.Orphan.Match(articleText).Value, "few").Length == 0)
             {
                 articleText = WikiRegexes.Orphan.Replace(articleText, m => m.Groups["MI"].Value).TrimStart();
                 if (Variables.LangCode.Equals("ar"))
