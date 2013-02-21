@@ -2750,7 +2750,6 @@ namespace WikiFunctions.Parse
         private static readonly Regex MultipleTabs = new Regex("  +", RegexOptions.Compiled);
         private static readonly Regex SpaceThenNewline = new Regex(" \r\n", RegexOptions.Compiled);
         private static readonly Regex WikiListWithMultipleSpaces = new Regex(@"^([\*#]+) +", RegexOptions.Compiled | RegexOptions.Multiline);
-        private static readonly Regex SpacedHeadings = new Regex("^(={1,4}) ?(.*?) ?(={1,4})$", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SpacedDashes = new Regex(" (—|&#15[01];|&mdash;|&#821[12];|&#x201[34];) ", RegexOptions.Compiled);
 
         /// <summary>
@@ -2833,9 +2832,6 @@ namespace WikiFunctions.Parse
             // fix bullet points – one space after them not multiple
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_arbitrary_spaces_after_bullet
             articleText = WikiListWithMultipleSpaces.Replace(articleText, "$1 ");
-
-            //fix heading space
-            articleText = SpacedHeadings.Replace(articleText, "$1$2$3");
 
             //fix dash spacing
             articleText = SpacedDashes.Replace(articleText, "$1");

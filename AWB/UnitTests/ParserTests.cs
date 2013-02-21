@@ -5624,9 +5624,6 @@ was"));
 was", Parsers.RemoveAllWhiteSpace(@"==hi==
 
 was"));
-            Assert.AreEqual(@"==hi==", Parsers.RemoveAllWhiteSpace(@"== hi =="));
-            Assert.AreEqual(@"==hi==", Parsers.RemoveAllWhiteSpace(@"== hi=="));
-
             Assert.AreEqual(@"18 March 1980 – 12 June 1993", Parsers.RemoveAllWhiteSpace(@"18 March 1980 – 12 June 1993"), "endash spacing not changed, may be correct");
             Assert.AreEqual(@"in 1980&mdash;very", Parsers.RemoveAllWhiteSpace(@"in 1980 &mdash; very"), "mdash spacing cleaned");
         }
