@@ -1377,13 +1377,15 @@ __TOC__", articleTextIn);
             Assert.AreEqual(@"Wikipedia:AutoWikiBrowser/Sandbox", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/Sandbox&action=edit"));
             Assert.AreEqual(@"Wikipedia:AutoWikiBrowser/Sandbox", LMaker.NormalizeTitle(@"en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/Sandbox&action=edit"));
             Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/index.php?title=Foo#References"));
-            
+
             Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"   Foo"), "cleans spacing from Firefox Category paste");
-            
+
             Assert.AreEqual(@"Foo", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/index.php?title=Foo&pe=1&#Date_on"));
-            Assert.AreEqual(@"Foo", LMaker.NormalizeTitle(@"Foo‎"),"title has left-to-right mark ath the end");
+            Assert.AreEqual(@"Foo", LMaker.NormalizeTitle(@"Foo‎"),"title has left-to-right mark at the end");
+
+            Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/index.php?title=Foo&offset=20130214190000&action=history"), "cleans spacing from Firefox Category paste");
         }
-        
+
         [Test]
         public void NormalizeTitleSecure()
         {
