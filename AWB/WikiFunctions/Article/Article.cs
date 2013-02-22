@@ -838,7 +838,8 @@ namespace WikiFunctions
         public void PerformFindAndReplace(FindandReplace findAndReplace, SubstTemplates substTemplates,
                                           ReplaceSpecial.ReplaceSpecial replaceSpecial, bool skipIfNoChange, bool skipIfOnlyMinorChange, bool onlyApplyAfter)
         {
-            if (!findAndReplace.HasReplacements && !replaceSpecial.HasRules && !substTemplates.HasSubstitutions)
+            // return if no find&replace rules enabled
+            if (!findAndReplace.HasProcessingReplacements(onlyApplyAfter) && !replaceSpecial.HasRules && !substTemplates.HasSubstitutions)
                 return;
 
             string changedText = Tools.ConvertFromLocalLineEndings(mArticleText);
