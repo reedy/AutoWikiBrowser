@@ -546,6 +546,10 @@ table.diff td div {
 
         private static string CustomStyles;
 
+        /// <summary>
+        /// Returns style header, from style.css file if present, else default style
+        /// </summary>
+        /// <returns></returns>
         public static string DiffHead()
         {
             string styles = DefaultStyles;
