@@ -1096,7 +1096,6 @@ namespace AutoWikiBrowser
                     }
                 }
 
-                //  tpStart.Select();
                 btnSave.Select();
                 StatusLabelText = "Ready to save";
             }
