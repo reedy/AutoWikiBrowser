@@ -34,11 +34,11 @@ namespace WikiFunctions
         /// <returns></returns>
         public static string ModifiedSection(string originalText, string articleText)
         {
-            var sectionsBefore = Tools.SplitToSections(originalText);
+            string[] sectionsBefore = Tools.SplitToSections(originalText);
             if (sectionsBefore.Length == 0)
                 return "";
 
-            var sectionsAfter = Tools.SplitToSections(articleText);
+            string[] sectionsAfter = Tools.SplitToSections(articleText);
 
             // if number of sections has changed, can't provide section edit summary
             if (sectionsAfter.Length != sectionsBefore.Length)
@@ -48,7 +48,7 @@ namespace WikiFunctions
 
             for (int i = 0; i < sectionsAfter.Length; i++)
             {
-                if (sectionsBefore[i] != sectionsAfter[i])
+                if (!sectionsBefore[i].Equals(sectionsAfter[i]))
                 {
                     sectionsChanged++;
                     sectionChangeNumber = i;
