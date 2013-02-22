@@ -818,16 +818,12 @@ namespace WikiFunctions
 
         private FaRChange _before = FaRChange.NotRun, _after = FaRChange.NotRun;
 
-        private void SetFaRChange(bool beforeOrAfter, FaRChange value)
+        private void SetFaRChange(bool after, FaRChange value)
         {
-            if (beforeOrAfter)
-            {
+            if (after)
                 _after = value;
-            }
             else
-            {
                 _before = value;
-            }
         }
 
         /// <summary>
@@ -838,9 +834,9 @@ namespace WikiFunctions
         /// <param name="replaceSpecial">An MWB ReplaceSpecial object</param>
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
         /// <param name="skipIfOnlyMinorChange"></param>
-        /// <param name="beforeOrAfter">False if "before", true if "after"</param>
+        /// <param name="onlyApplyAfter">False if "before", true if "after"</param>
         public void PerformFindAndReplace(FindandReplace findAndReplace, SubstTemplates substTemplates,
-                                          ReplaceSpecial.ReplaceSpecial replaceSpecial, bool skipIfNoChange, bool skipIfOnlyMinorChange, bool beforeOrAfter)
+                                          ReplaceSpecial.ReplaceSpecial replaceSpecial, bool skipIfNoChange, bool skipIfOnlyMinorChange, bool onlyApplyAfter)
         {
             if (!findAndReplace.HasReplacements && !replaceSpecial.HasRules && !substTemplates.HasSubstitutions)
                 return;
@@ -849,13 +845,13 @@ namespace WikiFunctions
             string originalText = changedText, editSummary = "";
 
             bool majorChangesMade;
-            changedText = findAndReplace.MultipleFindAndReplace(changedText, Name, beforeOrAfter, ref editSummary, out majorChangesMade);
+            changedText = findAndReplace.MultipleFindAndReplace(changedText, Name, onlyApplyAfter, ref editSummary, out majorChangesMade);
 
             bool farMadeMajorChanges = (majorChangesMade && !originalText.Equals(changedText));
             bool AdvFarMadeChanges = false;
 
             string changedTextByAdvFar = changedText;
-            if (!beforeOrAfter) // Only run "before"
+            if (!onlyApplyAfter) // Only run "before"
             {
                 changedTextByAdvFar = replaceSpecial.ApplyRules(changedText, Name);
 
@@ -873,18 +869,18 @@ namespace WikiFunctions
             if (originalText.Equals(changedTextByAdvFar))
             {
                 if (skipIfNoChange)
-                    SetFaRChange(beforeOrAfter, FaRChange.NoChange);
+                    SetFaRChange(onlyApplyAfter, FaRChange.NoChange);
                 else
                     return; //No changes, so nothing to change in article text (but we're not skipping either)
             }
             // Do not skip for "minor change" if advanced find & replace made changes
             else if (!farMadeMajorChanges && !AdvFarMadeChanges && skipIfOnlyMinorChange)
             {
-                SetFaRChange(beforeOrAfter, FaRChange.MinorChange);
+                SetFaRChange(onlyApplyAfter, FaRChange.MinorChange);
             }
             else
             {
-                SetFaRChange(beforeOrAfter, FaRChange.MajorChange);
+                SetFaRChange(onlyApplyAfter, FaRChange.MajorChange);
 
                 AWBChangeArticleText("Find and replace applied" + editSummary,
                                      Tools.ConvertToLocalLineEndings(changedTextByAdvFar), true);
