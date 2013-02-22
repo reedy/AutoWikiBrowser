@@ -1672,23 +1672,31 @@ __TOC__", articleTextIn);
         {
             WikiFunctions.Parse.Replacement r = new WikiFunctions.Parse.Replacement("foo", "bar", true, true, true, true, RegexOptions.None, "");
             WikiFunctions.Parse.Replacement r2 = new WikiFunctions.Parse.Replacement("foo2", "bar2", true, true, true, false, RegexOptions.None, "");
+            WikiFunctions.Parse.Replacement r2Disabled = new WikiFunctions.Parse.Replacement("foo2", "bar2", true, false, true, false, RegexOptions.None, "");
             WikiFunctions.Parse.FindandReplace fr = new FindandReplace();
 
             fr.AddNew(r);
             Assert.IsTrue(fr.HasAfterProcessingReplacements);
             Assert.IsTrue(fr.HasProcessingReplacements(true));
             Assert.IsFalse(fr.HasProcessingReplacements(false));
-            
+
             fr.AddNew(r2);
             Assert.IsTrue(fr.HasAfterProcessingReplacements);
             Assert.IsTrue(fr.HasProcessingReplacements(true));
             Assert.IsTrue(fr.HasProcessingReplacements(false));
-            
+
             fr.Clear();
             fr.AddNew(r2);
             Assert.IsFalse(fr.HasAfterProcessingReplacements);
             Assert.IsFalse(fr.HasProcessingReplacements(true));
             Assert.IsTrue(fr.HasProcessingReplacements(false));
+
+            // all false when no enabled rules
+            fr.Clear();
+            fr.AddNew(r2Disabled);
+            Assert.IsFalse(fr.HasAfterProcessingReplacements);
+            Assert.IsFalse(fr.HasProcessingReplacements(true));
+            Assert.IsFalse(fr.HasProcessingReplacements(false));
         }
     }
     
