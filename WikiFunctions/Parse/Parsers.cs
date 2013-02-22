@@ -1994,9 +1994,9 @@ namespace WikiFunctions.Parse
 
                 while(WikiRegexes.NestedTemplates.IsMatch(template))
                 {
-                    template = WikiRegexes.NestedTemplates.Match(template).Value;
-                    TFH.Add(Tools.TurnFirstToUpper(Tools.GetTemplateName(template)));
-                    template = template.Substring(2);
+                    Match m2 = WikiRegexes.NestedTemplates.Match(template);
+                    TFH.Add(Tools.TurnFirstToUpper(Tools.GetTemplateName(m2.Value)));
+                    template = template.Substring(m2.Index + 2);
                 }
             }
 
