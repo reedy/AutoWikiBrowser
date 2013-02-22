@@ -1723,16 +1723,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                                                ? WikiDiff.TableHeader
                                                : WikiDiff.TableHeaderNoMessages) +
                                               Diff.GetDiff(TheArticle.OriginalArticleText, txtEdit.Text, 2) +
-                                              "</table>" + /*"<!--<script language='Javascript'>
-// Scroll part of the way into the table, disabled due to other interface problems
-diffNode=document.getElementById('wikiDiff');
-var diffTopY = 0;
-while(diffNode) {
-    diffTopY += diffNode.offsetTop;
-    diffNode = diffNode.offsetParent;
-}
-window.scrollTo(0, diffTopY);
-</script>-->"*/"</body></html>");
+                                              "</table></body></html>");
                 }
 
                 txtEdit.Focus();
