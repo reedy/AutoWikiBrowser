@@ -1700,7 +1700,6 @@ namespace AutoWikiBrowser
 
             try
             {
-                webBrowser.BringToFront();
                 if (webBrowser.Document == null)
                     return;
 
