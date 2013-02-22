@@ -843,18 +843,15 @@ namespace WikiFunctions
                                           ReplaceSpecial.ReplaceSpecial replaceSpecial, bool skipIfNoChange, bool skipIfOnlyMinorChange, bool beforeOrAfter)
         {
             if (!findAndReplace.HasReplacements && !replaceSpecial.HasRules && !substTemplates.HasSubstitutions)
-            {
                 return;
-            }
 
             string changedText = Tools.ConvertFromLocalLineEndings(mArticleText);
-            string originalText = changedText;
-            string editSummary = "";
+            string originalText = changedText, editSummary = "";
 
             bool majorChangesMade;
             changedText = findAndReplace.MultipleFindAndReplace(changedText, Name, beforeOrAfter, ref editSummary, out majorChangesMade);
 
-            bool farMadeMajorChanges = (originalText != changedText && majorChangesMade);
+            bool farMadeMajorChanges = (majorChangesMade && !originalText.Equals(changedText));
             bool AdvFarMadeChanges = false;
 
             string changedTextByAdvFar = changedText;
@@ -1406,7 +1403,6 @@ namespace WikiFunctions
 
                 AWBChangeArticleText("DuplicateUnnamedReferences", Parsers.DuplicateUnnamedReferences(ArticleText), true);
                 Variables.Profiler.Profile("DuplicateUnnamedReferences");
-
 
                 AWBChangeArticleText("SameRefDifferentName", Parsers.SameRefDifferentName(ArticleText), true);
                 Variables.Profiler.Profile("SameRefDifferentName");
