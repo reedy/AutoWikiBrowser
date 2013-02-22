@@ -145,13 +145,21 @@ namespace WikiFunctions.Parse
         {
             get
             {
-                foreach (Replacement rep in _replacementList)
-                {
-                    if (rep.Enabled && rep.BeforeOrAfter)
-                        return true;
-                }
-                return false;
+                return HasProcessingReplacements(true);
             }
+        }
+        
+        /// <summary>
+        /// Returns whether any of the enabled find & replace entries are specified to be run at before/after as input
+        /// </summary>
+        public bool HasProcessingReplacements(bool after)
+        {
+            foreach (Replacement rep in _replacementList)
+            {
+                if (rep.Enabled && ((after && rep.BeforeOrAfter) || (!after && !rep.BeforeOrAfter)))
+                    return true;
+            }
+            return false;
         }
 
         /// <summary>
