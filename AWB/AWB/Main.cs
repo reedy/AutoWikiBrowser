@@ -2537,7 +2537,7 @@ window.scrollTo(0, diffTopY);
                     lbAlerts.Items.Add("Unformatted references");
 
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Detect_multiple_DEFAULTSORT
-                if (WikiRegexes.Defaultsort.Matches(txtEdit.Text).Count > 1)
+                if (WikiRegexes.Defaultsort.Matches(articleText).Count > 1)
                     lbAlerts.Items.Add("Multiple DEFAULTSORTs");
 
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Some_additional_edits
