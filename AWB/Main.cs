@@ -2313,6 +2313,7 @@ window.scrollTo(0, diffTopY);
         {
             btnProtect.Enabled = btnMove.Enabled = btnDelete.Enabled = btntsDelete.Enabled =
                 TheSession.IsSysop && btnSave.Enabled && (TheArticle != null);
+            bypassAllRedirectsToolStripMenuItem.Enabled = TheSession.User.IsSysop;
         }
 
         private void chkAutoMode_CheckedChanged(object sender, EventArgs e)
@@ -3069,7 +3070,6 @@ window.scrollTo(0, diffTopY);
             SetStartButton(listMaker.NumberOfArticles > 0);
 
             lbltsNumberofItems.Text = "Pages: " + listMaker.NumberOfArticles;
-            bypassAllRedirectsToolStripMenuItem.Enabled = TheSession.User.IsSysop;
         }
 
         private void SetStartButton(bool enabled)
