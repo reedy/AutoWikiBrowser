@@ -6701,7 +6701,9 @@ namespace WikiFunctions.Parse
                     totalCategories = RegularCategories(articleText).Count;
             }
 
-            if (wikiLinkCount > 0 && WikiRegexes.DeadEnd.IsMatch(articleText))
+            // remove dead end when wikilinks on page, but not for en-wiki where dead end can mean "not enough" links
+            if (wikiLinkCount > 0 && WikiRegexes.DeadEnd.IsMatch(articleText)
+                && !Variables.LangCode.Equals("en"))
             {
                 if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz"))
                     articleText = WikiRegexes.DeadEnd.Replace(articleText, "");
