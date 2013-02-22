@@ -5754,7 +5754,8 @@ was"));
             Assert.AreEqual("now {{citation needed}} was", Parsers.TemplateRedirects("now {{cn}} was", TemplateRedirects), "follows case of new template name");
 
             TemplateRedirects = Parsers.LoadTemplateRedirects(@"{{tl|Articleissues}} → {{tl|multiple issues}}
-{{tl|Rewrite}} → {{tl|cleanup-rewrite}}");
+{{tl|Rewrite}} → {{tl|cleanup-rewrite}}
+{{tl|Cn}}, {{tl|fact}} → {{tl|citation needed}}");
 
             Assert.AreEqual(@"now {{Multiple issues|
 {{Refimprove|date=July 2012}}
@@ -5765,6 +5766,16 @@ was"));
 {{Citation style|date=July 2012}}
 {{Rewrite|date=July 2012}}
 }} was", TemplateRedirects), "nested template example");
+
+            const string A = @"{{Infobox musical artist
+| name       = A
+| birth_date  = {{Birth date and age|1989|10|17}}
+| genre      = [[Compas music|Konpa]]{{Cn|date=January 2013}}
+| label      = Recording
+| website        = {{URL|a.com}}
+}}";
+
+            Assert.AreEqual(A.Replace(@"{{Cn", @"{{Citation needed"), Parsers.TemplateRedirects(A, TemplateRedirects));
         }
 
         [Test]
