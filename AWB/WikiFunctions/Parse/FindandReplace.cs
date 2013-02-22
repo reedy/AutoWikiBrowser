@@ -139,7 +139,7 @@ namespace WikiFunctions.Parse
         public bool HasReplacements { get { return NoOfReplacements != 0; } }
 
         /// <summary>
-        /// Returns whether any of the enabled find & replace entreis are specified to be run 'after processing'
+        /// Returns whether any of the enabled find & replace entries are specified to be run 'after processing'
         /// </summary>
         public bool HasAfterProcessingReplacements
         {
