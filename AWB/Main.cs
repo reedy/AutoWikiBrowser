@@ -1705,7 +1705,7 @@ namespace AutoWikiBrowser
                     return;
 
                 webBrowser.Document.OpenNew(false);
-                if (TheArticle.OriginalArticleText == txtEdit.Text)
+                if (TheArticle.OriginalArticleText.Equals(txtEdit.Text))
                 {
                     webBrowser.Document.Write(
                         @"<h2 style='padding-top: .5em;
