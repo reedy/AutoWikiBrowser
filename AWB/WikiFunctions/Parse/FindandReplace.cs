@@ -129,12 +129,12 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// 
+        /// Returns the number of replacements (enabled and disabled)
         /// </summary>
         public int NoOfReplacements { get { return _replacementList.Count; } }
 
         /// <summary>
-        /// 
+        /// Returns whether there are any replacements (enabled and disabled)
         /// </summary>
         public bool HasReplacements { get { return NoOfReplacements != 0; } }
 
