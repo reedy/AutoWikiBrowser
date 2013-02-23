@@ -3969,7 +3969,9 @@ Image:X.JPG|Japanese classification systemJapanese classification systemJapanese
             Assert.AreEqual(@"{{DEFAULTSORT:Foo}}", Parsers.FixSyntax(@"{{DEFAULTSORT:Foo
 "), "fixes DEFAULTSORT ending");
             
-            Assert.AreEqual(@"{{foo|par=[[Bar]]|par2=Bar2}}", Parsers.FixSyntax(@"{{foo|par=[[Bar[[|par2=Bar2}}"));
+            Assert.AreEqual(@"{{foo|par=[[Bar]]|par2=Bar2}}", Parsers.FixSyntax(@"{{foo|par=[[Bar[[|par2=Bar2}}"), "reversed brackets");
+
+            Assert.AreEqual(@"{{foo|par=[[Bar]]|par2=Bar2}}", Parsers.FixSyntax(@"{{foo|par=[{Bar]]|par2=Bar2}}"));
 
             const string Unfixable1 = @"Ruth singled and Meusel [[bunt (baseball)|ed him over, but Ruth split his pants sliding into second, [[announcer|Radio announcer]] [[Graham McNamee]]";
             Assert.AreEqual(Unfixable1, Parsers.FixSyntax(Unfixable1));

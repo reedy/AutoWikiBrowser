@@ -3254,6 +3254,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex CurlyBraceInsteadOfBracketClosing = new Regex(@"(\([^{}<>\(\)]+[^{}<>\(\)\|])}(?=[^{}])", RegexOptions.Compiled);
         private static readonly Regex CurlyBraceInsteadOfSquareBracket = new Regex(@"(?<=\[[^{}<>\[\]]+[^{}<>\(\)\|\]])}(?=[^{}])", RegexOptions.Compiled);
         private static readonly Regex CurlyBraceInsteadOfBracketOpening = new Regex(@"(?<=[^{}<>]){(?=[^{}<>\(\)\|][^{}<>\(\)]+\)[^{}\(\)])", RegexOptions.Compiled);
+        private static readonly Regex CurlyBraceInsteadOfBracketOpening2 = new Regex(@"(?<=\[)\[?{(?=[^{}\[\]<>]+\]\])");
         private static readonly Regex ExtraBracketOnWikilinkOpening = new Regex(@"(?<=[^\[\]{}<>])(?:{\[\[?|\[\[\[)(?=[^\[\]{}<>]+\]\])", RegexOptions.Compiled);
         private static readonly Regex ExtraBracketOnWikilinkOpening2 = new Regex(@"(?<=\[\[){(?=[^{}\[\]<>]+\]\])", RegexOptions.Compiled);
         private static readonly Regex ExternalLinkMissingClosing = new Regex(@"(^ *\* *\[ *(?:ht|f)tps?://[^<>{}\[\]\r\n\s]+[^\[\]\r\n]*)(\s$)", RegexOptions.Compiled | RegexOptions.Multiline);
@@ -3275,6 +3276,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex CiteRefEndsTripleOpeningBrace = new Regex(@"(>\s*)\{\{\{+(\s*[Cc]ite)", RegexOptions.Compiled);
         private static readonly Regex RefExternalLinkWrongBracket = new Regex(@"(<ref[^<>/]*>)\]", RegexOptions.Compiled);
         private static readonly Regex CurlyToStraightSingleBracket = new Regex(@"([^{}()]){([^{}()]+)\)");
+
 
         /// <summary>
         /// Applies some fixes for unbalanced brackets, applied if there are unbalanced brackets
@@ -3391,6 +3393,9 @@ namespace WikiFunctions.Parse
                     
                     // if it's on double curly brackets, see if one is missing e.g. {{foo} or {{foo]}
                     articleTextTemp = TemplateIncorrectClosingBraces.Replace(articleTextTemp, "}}");
+
+		            // {{foo|par=[{Bar]]}}
+		            articleTextTemp = CurlyBraceInsteadOfBracketOpening2.Replace(articleTextTemp, @"[");
 
                     // {foo}}
                     articleTextTemp = TemplateMissingOpeningBrace.Replace(articleTextTemp, "{{");
