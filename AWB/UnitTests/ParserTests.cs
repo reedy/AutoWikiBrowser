@@ -5776,6 +5776,10 @@ was"));
 }}";
 
             Assert.AreEqual(A.Replace(@"{{Cn", @"{{Citation needed"), Parsers.TemplateRedirects(A, TemplateRedirects));
+            
+            string B = @"{{ONE | {{TWO | {{THREE | {{Cn}} }} }} }}";
+            
+            Assert.AreEqual(B.Replace(@"{{Cn", @"{{Citation needed"), Parsers.TemplateRedirects(B, TemplateRedirects));
         }
 
         [Test]
