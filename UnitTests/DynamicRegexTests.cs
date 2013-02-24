@@ -929,6 +929,7 @@ disambig|surname
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{numberdis}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Letter-NumberCombdisambig}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Letter-NumberCombDisambig}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Letter-Number Combination Disambiguation}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{  disambig}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Template:disambig}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{template:disambig}}");
