@@ -3821,7 +3821,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         private void replaceTextWithLastEditToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (LastArticle.Length > 0)
+            {
                 txtEdit.Text = LastArticle;
+
+                if(actionOnLoad = 0)
+                     GetDiff();
+            }
         }
 
         #region PasteMore
