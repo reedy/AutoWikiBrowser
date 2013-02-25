@@ -3788,6 +3788,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             if (TheArticle == null)
                 return;
 
+            StatusLabelText = "Processing page";
             Article a = new Article(TheArticle.Name, txtEdit.Text);
             Article theArtricleOriginal = TheArticle;
             ErrorHandler.CurrentPage = TheArticle.Name;
@@ -3816,6 +3817,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             }
 
             GetDiff();
+            StatusLabelText = "Ready to save";
         }
 
         private void replaceTextWithLastEditToolStripMenuItem_Click(object sender, EventArgs e)
@@ -3824,7 +3826,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             {
                 txtEdit.Text = LastArticle;
 
-                if(actionOnLoad = 0)
+                if(actionOnLoad == 0)
                      GetDiff();
             }
         }
