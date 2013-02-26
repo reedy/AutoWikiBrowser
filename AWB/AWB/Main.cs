@@ -574,6 +574,10 @@ namespace AutoWikiBrowser
                         NoWriteApiRight();
                         break;
 
+                    case "customcssprotected":
+                        SkipPage("You're not allowed to edit custom CSS pages");
+                        break;
+
                     default:
                         StartDelayedRestartTimer();
                         break;
