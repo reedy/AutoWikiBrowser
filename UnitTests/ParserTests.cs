@@ -8780,6 +8780,9 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsFalse(text.Contains("Underlinked"), "underlinked removed when dead end");
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text), "page is deadend");
             Assert.IsTrue(summary.Contains("removed underlinked"));
+
+            text = parser.Tagger(ShortText + @"{{shipindex}}", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text), "SIA page not tagged as deadend");
         }
 
         [Test]
@@ -9063,6 +9066,9 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text));
             Assert.IsTrue(text.StartsWith(@"{{Underlinked|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
 {{temp}}"), "no excess newlines on tag change");
+
+            text = parser.Tagger(@"{{shipindex}}" + LongText, "Test", false, out noChange, ref summary);
+            Assert.IsFalse(text.Contains(@"{{Underlinked|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"), "SIA pages not tagged as underlinked");       
         }
 
         [Test]
