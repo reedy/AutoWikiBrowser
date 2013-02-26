@@ -6845,7 +6845,7 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            if (wikiLinkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(articleText))
+            if (wikiLinkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(articleText) && !WikiRegexes.SIAs.IsMatch(articleText))
             {
                 // add dead-end tag
                 if (Variables.LangCode.Equals("ar"))
@@ -6884,9 +6884,11 @@ namespace WikiFunctions.Parse
                 }
             }
             // add wikify tag, don't add underlinked/wikify if {{dead end}} already present
+            // Dont' tag SIA pages, may create wikilinks from templates
             else if (wikiLinkCount < 3 && underlinked && !WikiRegexes.Wikify.IsMatch(articleText)
                      && !WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower().Contains("wikify")
-                     && !WikiRegexes.DeadEnd.IsMatch(articleText))
+                     && !WikiRegexes.DeadEnd.IsMatch(articleText)
+                     && !WikiRegexes.SIAs.IsMatch(articleText))
             {
                 // Avoid excess newlines between templates
                 string templateEnd = "}}\r\n" + (articleText.StartsWith(@"{{") ? "" : "\r\n");
