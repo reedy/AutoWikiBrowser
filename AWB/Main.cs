@@ -578,6 +578,10 @@ namespace AutoWikiBrowser
                         SkipPage("You're not allowed to edit custom CSS pages");
                         break;
 
+                    case "customjsprotected":
+                        SkipPage("You're not allowed to edit custom JavaScript pages");
+                        break;
+
                     default:
                         StartDelayedRestartTimer();
                         break;
