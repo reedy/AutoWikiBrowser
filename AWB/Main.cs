@@ -616,6 +616,8 @@ namespace AutoWikiBrowser
             {
                 // some 404 error or similar
                 StatusLabelText = ex.Message;
+                if(Tools.WriteDebugEnabled)
+                    Tools.WriteTextFile(ex.Message, "Log.txt", true);
                 StartDelayedRestartTimer();
             }
             else
