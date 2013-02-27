@@ -582,6 +582,10 @@ namespace AutoWikiBrowser
                         SkipPage("You're not allowed to edit custom JavaScript pages");
                         break;
 
+                    case "badmd5":
+                        SkipPage("API MD5 hash error: The page you are editing may contain an unsupported or invalid Unicode character");
+                        break;
+
                     default:
                         StartDelayedRestartTimer();
                         break;
