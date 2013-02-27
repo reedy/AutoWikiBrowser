@@ -45,6 +45,12 @@ namespace WikiFunctions.Profiles
 
         private void PerformLogin(string username, string password)
         {
+            if(TheSession.IsBusy)
+            {
+                MessageBox.Show("Cannot log in, session is busy.\r\n\r\nPlease wait for currently saving pages to complete.", "Session busy", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             bool needsUpdate = TheSession.User.IsLoggedIn;
             try
             {
