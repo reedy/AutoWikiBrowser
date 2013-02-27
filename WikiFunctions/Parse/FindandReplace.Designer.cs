@@ -131,6 +131,7 @@ namespace WikiFunctions.Parse
             this.dataGridView1.Size = new System.Drawing.Size(717, 290);
             this.dataGridView1.TabIndex = 1;
             this.dataGridView1.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dataGridView1_RowsAdded);
+            this.dataGridView1.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             // 
             // FindAndReplaceContextMenu
             // 
@@ -469,7 +470,6 @@ namespace WikiFunctions.Parse
             // 
             this.find.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.find.FillWeight = 92.50688F;
-            this.find.Frozen = true;
             this.find.HeaderText = "Find";
             this.find.MinimumWidth = 45;
             this.find.Name = "find";
@@ -482,7 +482,6 @@ namespace WikiFunctions.Parse
             dataGridViewCellStyle1.NullValue = null;
             this.replace.DefaultCellStyle = dataGridViewCellStyle1;
             this.replace.FillWeight = 87.66718F;
-            this.replace.Frozen = true;
             this.replace.HeaderText = "Replace with";
             this.replace.MinimumWidth = 45;
             this.replace.Name = "replace";
@@ -493,7 +492,6 @@ namespace WikiFunctions.Parse
             this.casesensitive.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.casesensitive.FalseValue = false;
             this.casesensitive.FillWeight = 71.79286F;
-            this.casesensitive.Frozen = true;
             this.casesensitive.HeaderText = "CaseSensitive";
             this.casesensitive.Name = "casesensitive";
             this.casesensitive.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -506,7 +504,6 @@ namespace WikiFunctions.Parse
             this.regex.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.regex.FalseValue = false;
             this.regex.FillWeight = 131.5755F;
-            this.regex.Frozen = true;
             this.regex.HeaderText = "Regex";
             this.regex.Name = "regex";
             this.regex.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -519,7 +516,6 @@ namespace WikiFunctions.Parse
             this.multi.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.multi.FalseValue = false;
             this.multi.FillWeight = 150.1532F;
-            this.multi.Frozen = true;
             this.multi.HeaderText = "MultiLine";
             this.multi.Name = "multi";
             this.multi.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -532,7 +528,6 @@ namespace WikiFunctions.Parse
             this.single.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.single.FalseValue = false;
             this.single.FillWeight = 173.4641F;
-            this.single.Frozen = true;
             this.single.HeaderText = "SingleLine";
             this.single.Name = "single";
             this.single.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -544,7 +539,6 @@ namespace WikiFunctions.Parse
             // 
             this.Minor.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.Minor.FalseValue = false;
-            this.Minor.Frozen = true;
             this.Minor.HeaderText = "Minor";
             this.Minor.Name = "Minor";
             this.Minor.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -556,19 +550,18 @@ namespace WikiFunctions.Parse
             // 
             this.BeforeOrAfter.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.BeforeOrAfter.FalseValue = false;
-            this.BeforeOrAfter.Frozen = true;
             this.BeforeOrAfter.HeaderText = "After fixes";
             this.BeforeOrAfter.Name = "BeforeOrAfter";
             this.BeforeOrAfter.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.BeforeOrAfter.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.BeforeOrAfter.ToolTipText = "Run this Find & Replace before (unchecked) or after (checked) general and typo fixes";
             this.BeforeOrAfter.TrueValue = true;
+            this.BeforeOrAfter.Width = 80;
             // 
             // enabled
             // 
             this.enabled.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.enabled.FalseValue = false;
-            this.enabled.Frozen = true;
             this.enabled.HeaderText = "Enabled";
             this.enabled.Name = "enabled";
             this.enabled.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -580,6 +573,8 @@ namespace WikiFunctions.Parse
             // 
             this.Comment.HeaderText = "Comment";
             this.Comment.Name = "Comment";
+            this.Comment.Width = 98;
+            this.Comment.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             // 
             // FindandReplace
             // 
