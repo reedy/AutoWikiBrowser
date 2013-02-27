@@ -7090,6 +7090,9 @@ Text
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Greedy regex for unicode characters
             Assert.AreEqual(@" hello &#x20000; bye", parser.Unicodify(@" hello &#x20000; bye"));
             Assert.AreEqual(@" hello &#x2000f; bye", parser.Unicodify(@" hello &#x2000f; bye"));
+
+            Assert.AreEqual("A &#x2329; B", parser.Unicodify("A &#x2329; B"));
+            Assert.AreEqual("A &#x232A; B", parser.Unicodify("A &#x232A; B"));
         }
 
         [Test]
