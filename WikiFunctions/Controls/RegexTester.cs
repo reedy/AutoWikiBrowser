@@ -430,7 +430,8 @@ namespace WikiFunctions.Controls
             {
                 Stopwatch sw = Stopwatch.StartNew();
 
-                Matches = _Regex.Matches(Input);
+                // search based on \n for newline
+                Matches = _Regex.Matches(Regex.Replace(Input, "\r\n", "\n"));
 
                 System.Collections.Generic.List<Match> UnneededList = new System.Collections.Generic.List<Match>();
                 // force matches to actually run

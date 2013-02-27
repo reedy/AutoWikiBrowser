@@ -66,7 +66,7 @@
             this.lblFind.Size = new System.Drawing.Size(30, 13);
             this.lblFind.TabIndex = 0;
             this.lblFind.Text = "Fi&nd:";
-            this.toolTip1.SetToolTip(this.lblFind, "The regular expression to find");
+            this.toolTip1.SetToolTip(this.lblFind, @"The regular expression to find: newlines are \n");
             // 
             // lblReplace
             // 
