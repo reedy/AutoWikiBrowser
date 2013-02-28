@@ -1188,6 +1188,7 @@ cit"));
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{otheruse
 |something}}"));
             Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{2otheruses|something}}"));
+            Assert.IsTrue(WikiRegexes.Dablinks.IsMatch(@"{{selfref|something}}"));
 
             Assert.IsFalse(WikiRegexes.Dablinks.IsMatch(@"{{For fake template|Fred the dancer|Fred(dancer)}}"));
             Assert.IsFalse(WikiRegexes.Dablinks.IsMatch(@"{{REDIRECT2|Fred the dancer|Fred Smith (dancer)}}"));
