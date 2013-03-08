@@ -1094,8 +1094,8 @@ namespace WikiFunctions.API
 
         private string ExpandRelativeUrls(string html)
         {
-            return html.Replace(" href=\"/", " href=\"" + Server + "/")
-                .Replace(" src=\"/", " src=\"" + Server + "/");
+            html= html.Replace(@" href=""//", @" href=""https://");
+            return html.Replace(@" src=""//", @" src=""https://");
         }
 
         private static readonly Regex ExtractCssAndJs = new Regex(@"("
@@ -1117,7 +1117,9 @@ namespace WikiFunctions.API
                 new[,]
                     {
                         {"action", "parse"},
-                        {"prop", "headhtml"}
+                        {"prop", "headhtml"},
+                        {"title", "a"},
+                        {"text", "a"}
                     },
                 ActionOptions.None
                 );
