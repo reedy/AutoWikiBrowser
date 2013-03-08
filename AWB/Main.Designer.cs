@@ -408,7 +408,7 @@ namespace AutoWikiBrowser
             this.label6 = new System.Windows.Forms.Label();
             this.lblOverallTypos = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.webBrowser = new System.Windows.Forms.WebBrowser();
+            this.webBrowser = new AWBWebBrowser();
             this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
             this.ShutdownTimer = new System.Windows.Forms.Timer(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
@@ -4596,7 +4596,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.TabPage tpLogs;
         private System.Windows.Forms.ToolStripButton btntsShowHideParameters;
         private WikiFunctions.Logging.LogControl logControl;
-        private System.Windows.Forms.WebBrowser webBrowser;
+        private AWBWebBrowser webBrowser;
         private System.Windows.Forms.ToolStripMenuItem undoAllChangesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openTalkPageInBrowserToolStripMenuItem;
         private System.Windows.Forms.TabPage tpHistory;
