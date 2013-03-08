@@ -68,6 +68,7 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.mshtml" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Drawing" />
@@ -82,6 +83,7 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="AWBWebBrowser.cs" />
     <Compile Include="ConfigurePasteMoreItems.cs">
       <SubType>Form</SubType>
     </Compile>

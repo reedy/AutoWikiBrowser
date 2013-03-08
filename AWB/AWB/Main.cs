@@ -2022,6 +2022,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         /// <param name="destLine">the line number the caret should be moved to</param>
         private void GoTo(int destLine)
         {
+            // If some text is selected in the diff/preview, don't focus edit box else selected text will not be copyable by keyboard shortcuts
+            if(webBrowser.TextSelected())
+                return;
+
             try
             {
                 EditBoxTab.SelectedTab = tpEdit;
