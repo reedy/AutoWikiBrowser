@@ -10231,6 +10231,7 @@ foo
             Cats.Add(new Article("Proposed deletion"));
             Cats.Add(new Article("Foo proposed deletions"));
             Cats.Add(new Article("Foo proposed for deletion"));
+            Cats.Add(new Article("Articles created via the Article Wizard"));
             Assert.AreEqual(2, Parsers.RegularCategories(Cats).Count);
             
             Cats.Clear();

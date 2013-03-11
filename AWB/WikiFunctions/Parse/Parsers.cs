@@ -6993,7 +6993,8 @@ namespace WikiFunctions.Parse
             foreach (Article a in AllCategories)
             {
                 if (!a.Name.EndsWith(" stubs") && !a.Name.EndsWith(":Stubs") && !a.Name.StartsWith("Proposed deletion")
-                    && !a.Name.Contains("proposed for deletion") && !a.Name.Contains("proposed deletions"))
+                    && !a.Name.Contains("proposed for deletion") && !a.Name.Contains("proposed deletions")
+                    && !a.Name.Equals("Articles created via the Article Wizard"))
                     CatsNotStubsProd.Add(a);
             }
 
