@@ -3222,10 +3222,12 @@ namespace WikiFunctions.Parse
             return articleText;
         }
         
+        private static readonly Regex TableEnd = new Regex(@"^\|}", RegexOptions.Multiline);
+
         private static string FixSmallTagsME(Match m)
         {
             // don't remove <small> tags from within {{legend}} where use is not unreasonable
-            if (!LegendTemplate.IsMatch(m.Value))
+            if (!LegendTemplate.IsMatch(m.Value) && !TableEnd.IsMatch(m.Value))
             {
                 Match s = WikiRegexes.Small.Match(m.Value);
                 if (s.Success)
