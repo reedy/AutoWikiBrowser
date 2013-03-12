@@ -802,7 +802,9 @@ namespace WikiFunctions
             {
                 Trace.AWBSkipped("Only minor Find And Replace Changes");
             }
-            else if (_before == FaRChange.NoChange && (_after == FaRChange.NoChange || !findAndReplace.HasAfterProcessingReplacements))
+            else if ((_before == FaRChange.NoChange && !findAndReplace.HasAfterProcessingReplacements)
+                     || (_before == FaRChange.NotRun && _after == FaRChange.NoChange)
+                     || (_before == FaRChange.NoChange && _after == FaRChange.NoChange))
             {
                 Trace.AWBSkipped("No Find And Replace Changes");
             }
