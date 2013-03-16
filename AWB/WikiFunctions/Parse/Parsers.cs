@@ -323,7 +323,7 @@ namespace WikiFunctions.Parse
 
             hAfter = Regex.Replace(hAfter, @" +(\s+)$", "$1");
 
-            // loop through in case a heading has mulitple wikilinks in it
+            // loop through in case a heading has multiple wikilinks in it
             if(RegexRemoveLinksInHeadingsb)
             {
                 while (RegexRemoveLinksInHeadings.IsMatch(hAfter))
