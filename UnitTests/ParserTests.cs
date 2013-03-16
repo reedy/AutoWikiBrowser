@@ -5669,7 +5669,7 @@ was"));
 {|
 ...<small><ref>foo</ref></small>...
 |}</small>";
-            Assert.AreEqual(unclosedTag2, Parsers.FixSyntax(unclosedTag2), "No change to small tags across table end, implies mulitple incorrect small tags");
+            Assert.AreEqual(unclosedTag2, Parsers.FixSyntax(unclosedTag2), "No change to small tags across table end, implies multiple incorrect small tags");
 
             const string NoSmall =  @"<ref>foo</ref> <small>A</small>";
             Assert.AreEqual(NoSmall, Parsers.FixSyntax(NoSmall), "No change when no small that should be removed");
