@@ -1,7 +1,0 @@
-Options +FollowSymLinks
-DirectoryIndex index.php
- 
-RewriteEngine On
-RewriteBase /
-RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php\ HTTP/
-RewriteRule ^index\.php$ / [R=301,L] 
