@@ -1,0 +1,13 @@
+Extend pluginbase to include all logic, which can be read from XML (existing complicated plugins can use hard-coded settings blocks)
+-Easier alternative, make an extended generic template class, which is serialisable, and retain existing architecture
+-Another alternative is simply to bolt parameter defining onto the existing generic template model
+
+Generic template creation wizard, step user through setting up all the params we currently hard code
+
+Add article reading with stub and infobox recognition - perhaps in assessments mode only initially, to test it, then for bots when proven?
+-HasInfobox and IsStub should probably go into AWB/WikiFunctions actually
+
+Perhaps have a protected wiki list of templates which should be moved into the container shells; pages which have more than 2 such templates would get a new container. The regexes might be difficult as template instances could include extra sets of curly brackets and all sorts of muck.
+-This would be universally useful and probably ought to go into AWB/WikiFunctions or WikiFunctions2
+
+[New version testing warning]

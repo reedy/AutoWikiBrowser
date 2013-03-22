@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WikiFunctions", "..\..\WikiFunctions\WikiFunctions.csproj", "{B5B0008C-A306-4B0D-B91E-5C03DA7014E0}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Kingbotk Plugin", "AWB Plugin\Kingbotk Plugin.vbproj", "{70AF6097-1ED6-475C-878E-A0BAEDB705F6}"
+	ProjectSection(WebsiteProperties) = preProject
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.Debug = "False"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B5B0008C-A306-4B0D-B91E-5C03DA7014E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5B0008C-A306-4B0D-B91E-5C03DA7014E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5B0008C-A306-4B0D-B91E-5C03DA7014E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5B0008C-A306-4B0D-B91E-5C03DA7014E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70AF6097-1ED6-475C-878E-A0BAEDB705F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70AF6097-1ED6-475C-878E-A0BAEDB705F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70AF6097-1ED6-475C-878E-A0BAEDB705F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70AF6097-1ED6-475C-878E-A0BAEDB705F6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
