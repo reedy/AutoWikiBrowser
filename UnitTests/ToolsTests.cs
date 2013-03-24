@@ -895,7 +895,7 @@ John", "*"));
             SiteMatrix.Languages = new List<string> { "de", "es", "fr", "it", "sv" };
 
             Assert.AreEqual(0, Tools.InterwikiCount(@"now [[foo]] was great"));
-            Assert.AreEqual(0, Tools.LinkCount(@"now [[lol:foo]] was great"));
+            Assert.AreEqual(0, Tools.LinkCount(@"now [[Template:foo]] was great"));
             Assert.AreEqual(0, Tools.LinkCount(@"now [[Category:foo]] was great"));
 
             Assert.AreEqual(1, Tools.InterwikiCount(@"now [[de:foo]] was great"));
@@ -909,9 +909,14 @@ John", "*"));
         {
             Assert.AreEqual(0, Tools.LinkCount(@"foo"));
             Assert.AreEqual(0, Tools.LinkCount(@"[foo]"));
+            Assert.AreEqual(0, Tools.LinkCount(@"[[Image:foo.png]]"));
+            Assert.AreEqual(0, Tools.LinkCount(@"[[File:foo.png]]"));
+            Assert.AreEqual(0, Tools.LinkCount(@"[[Template:Dn]]"));
             Assert.AreEqual(1, Tools.LinkCount(@"[[foo]]"));
+            Assert.AreEqual(1, Tools.LinkCount(@"[[Image:foo.png]] and [[foo]]"));
             Assert.AreEqual(2, Tools.LinkCount(@"[[foo]]s and [[barbie|bar]]"));
             Assert.AreEqual(1, Tools.LinkCount(@"{{flagIOC}}"));
+            Assert.AreEqual(1, Tools.LinkCount(@"now [[Magic: the gathering]] was great"));
             Assert.AreEqual(3, Tools.LinkCount(@"[[foo]]s and [[barbie|bar]] {{flagIOC}}"));
         }
 

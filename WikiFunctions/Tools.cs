@@ -718,10 +718,20 @@ namespace WikiFunctions
 
 		// Covered by ToolsTests.LinkCountTests
 		/// <summary>
-		/// Returns the number of [[links]] in the string
+		/// Returns the number of mainspace wikilinks i.e. [[links]] in the string
 		/// </summary>
 		public static int LinkCount(string text)
-		{ return (WikiRegexes.WikiLinksOnly.Matches(text).Count + FlagIOC.Matches(text).Count); }
+		{
+		    int res = FlagIOC.Matches(text).Count;
+
+		    // count only mainspace links, not image/category/interwiki/template links
+		    foreach(Match m in WikiRegexes.WikiLink.Matches(text))
+		    {
+		        if(Namespace.Determine(m.Groups[1].Value).Equals(Namespace.Mainspace))
+		            res++;
+		    }
+		    return res;
+		}
 
 		// Covered by ToolsTests.RemoveSyntax
 		/// <summary>
