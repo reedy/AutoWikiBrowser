@@ -391,7 +391,7 @@ namespace WikiFunctions
         public static readonly Regex WikiLinksOnlyPlusWord = new Regex(@"\[\[[^\[\]\n]+\]\](\w+)");
 
         /// <summary>
-        /// Group 1 Matches only the target of the wikilink
+        /// Matches all wikilinks (including interwikis, images, categories etc.) up to pipe or end of wikilink. Group 1 is the target of the wikilink
         /// </summary>
         public static readonly Regex WikiLink = new Regex(@"\[\[(.*?)(?:\]\]|\|)");
 

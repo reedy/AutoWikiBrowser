@@ -595,6 +595,7 @@ http://www.site.com
         public void Determine()
         {
             Assert.AreEqual(0, Namespace.Determine("test"));
+            Assert.AreEqual(0, Namespace.Determine(" test "));
             Assert.AreEqual(0, Namespace.Determine(":test"));
             Assert.AreEqual(0, Namespace.Determine("test:test"));
             Assert.AreEqual(0, Namespace.Determine("My Project:Foo"));
