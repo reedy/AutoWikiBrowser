@@ -1128,6 +1128,11 @@ namespace WikiFunctions
         public static readonly Regex EmptyComments = new Regex(@"<!--[^\S\r\n]*-->");
 
         /// <summary>
+        /// Matches empty bold  wikitags (zero or more whitespace)
+        /// </summary>
+        public static readonly Regex EmptyBold = new Regex(@"'{3}\s*'{3}");
+
+        /// <summary>
         /// Matches {{Short pages monitor}} plus comment, generated from {{subst:Long comment}}
         /// </summary>
         public static readonly Regex ShortPagesMonitor = new Regex(@"\s*{{[sS]hort pages monitor}}<!--[^<>]+-->");

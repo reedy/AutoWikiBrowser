@@ -5031,6 +5031,7 @@ B","Foo");
             Assert.AreEqual(@"==Foo==", Parsers.FixHeadings(@"==Foo< BR >==", "a"));
         }
 
+        [Test]
         public void TestFixHeadingsBigRemoval()
         {
             Assert.AreEqual(@"==Foo==", Parsers.FixHeadings(@"==<big>Foo</big>==", "a"));
@@ -5229,6 +5230,17 @@ text", "Talk:foo"));
             Assert.AreEqual(@"= '''Caernarvon''' 1536-1832 =", Parsers.FixHeadings(@"= '''Caernarvon''' 1536-1832 =", "a"));
 
             Assert.AreEqual("==See also==", Parsers.FixHeadings("=='''See Also'''==", "test"));
+        }
+
+        [Test]
+        public void TestFixHeadingsEmpytyBoldRemoval()
+        {
+        	Assert.AreEqual(@"==Foo==", Parsers.FixHeadings(@"==''''''Foo==", "test"),"empty tag in the beginning");
+        	Assert.AreEqual(@"==Foo==", Parsers.FixHeadings(@"==Foo''''''==", "test"),"empty tag at the end");
+        	Assert.AreEqual(@"==Foo bar==", Parsers.FixHeadings(@"==Foo''' ''' bar==", "test"),"empty tag in the middle");
+        	Assert.AreEqual(@"== Foo bar ==", Parsers.FixHeadings(@"== Foo''' ''' bar ==", "test"),"empty tag in the middle and spaces around");
+        	Assert.AreEqual(@"==Foo bar==", Parsers.FixHeadings(@"==Foo'''   ''' bar==", "test"), "more spaces");
+        	Assert.AreEqual(@"== Foo bar ==", Parsers.FixHeadings(@"== '''Foo''' ''' bar''' ==", "test"));
         }
 
         [Test]

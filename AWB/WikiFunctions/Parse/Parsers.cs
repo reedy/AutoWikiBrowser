@@ -270,7 +270,7 @@ namespace WikiFunctions.Parse
             bool RegexRemoveLinksInHeadingsb = (RegexRemoveLinksInHeadings.Matches(articleText).Count < 6
                                                 && !(Regex.IsMatch(articleTitle, WikiRegexes.Months) || ListOf.IsMatch(articleTitle) || WikiRegexes.GregorianYear.IsMatch(articleTitle)));
             
-            // one blank line before each heading per MOS:HEAD
+                // one blank line before each heading per MOS:HEAD
             if (Variables.IsWikipediaEN)
                 articleText = WikiRegexes.HeadingsWhitespaceBefore.Replace(articleText, "\r\n\r\n$1");
 
@@ -354,6 +354,8 @@ namespace WikiFunctions.Parse
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Bold_text_in_headers
             // remove bold from level 3 headers and below, as it makes no visible difference
             hAfter = RegexHeadingWithBold.Replace(hAfter, "$1");
+
+            hAfter = WikiRegexes.EmptyBold.Replace(hAfter, "");
 
             if(hAfter.Trim().Trim('=').Trim().Equals(Regex.Escape(articleTitle)))
                 return "";
