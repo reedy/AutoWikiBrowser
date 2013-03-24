@@ -50,6 +50,11 @@ namespace WikiFunctions.Disambiguation
         private readonly Session Session;
 
         /// <summary>
+        /// Matches end of wikilink then {{dn}} template then punctuation
+        /// </summary>
+        private static readonly Regex DnPunctuationR = new Regex(@"(\]\])({{dn}})(\p{P}+)");
+
+        /// <summary>
         /// Displays a form that promts user for disambiguation
         /// if no disambiguation needed, immediately returns
         /// </summary>
@@ -124,38 +129,34 @@ namespace WikiFunctions.Disambiguation
                     return articleText;
             }
 
-            int adjust = 0;
-            foreach (DabControl d in Dabs)
-            {
-                if (d.NoChange)
-                    continue;
+       /* https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Errors_disambiguating.2C_possibly_due_to_link_occurring_more_than_once_in_a_line
+        * to perform replace perform each replace via regex, take user's chosen link from the matching dab by index */
+       int a = 0;
+       bool DnPunctuation = false;
 
-                int start;
-                for (start = 0;
-                     (start < Math.Min(d.Surroundings.Length, d.Result.Length)) &&
-                     (d.Result[start] == d.Surroundings[start]);
-                     start++)
-                {
-                }
+       newText = Search.Replace(newText, m2 => {
+                                    string res = "";
 
-                int end1 = d.Surroundings.Length - 1;
-                int end2 = d.Result.Length - 1;
+                                    if(Dabs[a].NoChange)
+                                        res = m2.Value;
+                                    else
+                                        res = Dabs[a].Result;
 
-                while ((end1 > start) && (end2 > start) && (d.Result[end2] == d.Surroundings[end1]))
-                {
-                    end1--;
-                    end2--;
-                }
+                                    if(res.Contains(@"{{dn}}"))
+                                        DnPunctuation = true;
 
-                newText = Tools.ReplacePartOfString(newText, d.SurroundingsStart + start + adjust,
-                                                    end1 - start + 1, d.Result.Substring(start, end2 - start + 1));
-                adjust += d.Result.Length - d.Surroundings.Length;
-            }
+                                    a++;
+                                    return res;
+                                });
 
-            if (newText != articleText)
-                skip = false;
+       if (!newText.Equals(articleText))
+           skip = false;
 
-            return newText;
+       // want ''[[link]]''{{dn}} rather than ''[[link]]{{dn}}''
+       if(DnPunctuation)
+           newText = DnPunctuationR.Replace(newText, "$1$3$2");
+
+       return Parse.Parsers.StickyLinks(newText);
         }
 
         private void btnResetAll_Click(object sender, EventArgs e)
