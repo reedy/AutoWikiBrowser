@@ -418,7 +418,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches headings of all levels, group 1 being the heading name
         /// </summary>
-        public static readonly Regex Headings = new Regex(@"^={1,6} *(.*?) *={1,6}(?: *⌊⌊⌊⌊\d{1,4}⌋⌋⌋⌋| *<!--.*?-->)?\s*$", RegexOptions.Multiline);
+        public static readonly Regex Headings = new Regex(@"^={1,6} *(.*?) *={1,6}(?: *⌊⌊⌊⌊\d{1,4}⌋⌋⌋⌋| *<!--.*?-->|< *[Bb][Rr] */ *>)?\s*$", RegexOptions.Multiline);
         
         public static readonly Regex HeadingsWhitespaceBefore = new Regex(@"\s+(?:< *[Bb][Rr] *\/? *>\s*)*^ *(={1,6} *(.*?) *={1,6} *(?=\r\n))", RegexOptions.Multiline);
         
