@@ -625,6 +625,8 @@ Start date and age
             Assert.AreEqual(WikiRegexes.Headings.Match("== Foo == ").Groups[1].Value, "Foo");
 
             RegexAssert.IsMatch(WikiRegexes.Headings, "==Foo=", "matches unbalanced headings");
+            RegexAssert.NoMatch(WikiRegexes.Headings, @"=='''Header with bold'''==<br/>
+");
         }
 
         [Test]
