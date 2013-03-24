@@ -269,8 +269,8 @@ namespace WikiFunctions.Parse
             // only apply if < 6 matches, otherwise (badly done) articles with 'list of...' and lots of links in headings will be further messed up
             bool RegexRemoveLinksInHeadingsb = (RegexRemoveLinksInHeadings.Matches(articleText).Count < 6
                                                 && !(Regex.IsMatch(articleTitle, WikiRegexes.Months) || ListOf.IsMatch(articleTitle) || WikiRegexes.GregorianYear.IsMatch(articleTitle)));
-            
-                // one blank line before each heading per MOS:HEAD
+
+            // one blank line before each heading per MOS:HEAD
             if (Variables.IsWikipediaEN)
                 articleText = WikiRegexes.HeadingsWhitespaceBefore.Replace(articleText, "\r\n\r\n$1");
 
