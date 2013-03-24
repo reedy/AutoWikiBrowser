@@ -164,7 +164,9 @@ namespace WikiFunctions.Disambiguation
                 if (n == PosStart) StartOfSentence = true;
 
                 // prepare text boxes
-                txtCorrection.Text = Surroundings;
+                // text ediable by user is the new wikilink only, not the context
+                // if user could edit context, could create conflicting changes for nearby links
+                txtCorrection.Text = Match.Value;
 
                 txtViewer.Text = ArticleText.Substring(PosStart, PosEnd - PosStart);
                 // highlight link to disambiguate
@@ -189,51 +191,18 @@ namespace WikiFunctions.Disambiguation
         {
             try
             {
-                string text;
-
                 switch (n)
                 {
                     case 0: //No change
-                        txtCorrection.Text = Surroundings;
                         CurrentLink = Match.Value;
                         break;
 
                     case 1: //unlink
                         CurrentLink = VisibleLink + LinkTrail;
-
-                        text = Surroundings;
-                        Tools.ReplaceOnce(ref text, Match.Value, CurrentLink);
-
-                        txtCorrection.Text = text;
-
                         break;
 
                     case 2: //{{dn}}
                         CurrentLink = Match.Value + "{{dn}}";
-                        if ((Surroundings.Length > PosInSurroundings + Match.Value.Length) &&
-                            (char.IsPunctuation(Surroundings[PosInSurroundings + Match.Value.Length])))
-                        {
-                            int repIndex = 0;
-                            
-                            // keep going until a non-punctuation character is found – ''[[link]]'' to ''[[link]]''{{dn}} rather than ''[[link]]'{{dn}}'
-                            for(int a = PosInSurroundings + Match.Value.Length; a < Surroundings.Length; a++)
-                            {
-                                if (char.IsPunctuation(Surroundings[a]))
-                                    repIndex++;
-                                else
-                                    break;
-                            }
-                            
-                            txtCorrection.Text = Surroundings.Insert(PosInSurroundings + Match.Value.Length + repIndex,
-                                                                     "{{dn}}");
-                        }
-                        else
-                        {
-                            text = Surroundings;
-                            Tools.ReplaceOnce(ref text, Match.Value, CurrentLink);
-
-                            txtCorrection.Text = text;
-                        }
                         break;
 
                     default: //everything else
@@ -250,13 +219,10 @@ namespace WikiFunctions.Disambiguation
                             CurrentLink += "]]" + LinkTrail;
 
                         CurrentLink = Parse.Parsers.SimplifyLinks(CurrentLink);
-
-                        text = Surroundings;
-                        Tools.ReplaceOnce(ref text, Match.Value, CurrentLink);
-
-                        txtCorrection.Text = Parse.Parsers.StickyLinks(text);
                         break;
                 }
+
+                txtCorrection.Text = CurrentLink;
 
                 btnUnpipe.Enabled = btnFlip.Enabled = CurrentLink.Contains("|");
                 if (Changed != null) Changed(this, new EventArgs());
