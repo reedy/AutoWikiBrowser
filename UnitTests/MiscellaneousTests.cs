@@ -598,6 +598,7 @@ http://www.site.com
             Assert.AreEqual(0, Namespace.Determine(":test"));
             Assert.AreEqual(0, Namespace.Determine("test:test"));
             Assert.AreEqual(0, Namespace.Determine("My Project:Foo"));
+            Assert.AreEqual(0, Namespace.Determine("Magic: The Gathering"));
 
             Assert.AreEqual(Namespace.User, Namespace.Determine("User:"));
 
