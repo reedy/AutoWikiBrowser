@@ -366,6 +366,19 @@ y";
         }
 
         [Test]
+        public void ReorderPunctuation()
+        {
+            ArticleText = @"FOOBAR decreases<ref name=""G"">{{cite journal | author = M| title = R by p53: s}}</ref><ref name=""Bensaad""/>. It catalyses the removal of a phosphate group from fructose (F-2,6-BP)<ref name=""B""/><ref name=""G""/>:\r\n==References==\r\n{{reflist}}";
+            
+            GenFixes("Test");
+            
+            string correct = @"FOOBAR decreases.<ref name=""G"">{{cite journal | author = M| title = R by p53: s}}</ref><ref name=""Bensaad""/> It catalyses the removal of a phosphate group from fructose (F-2,6-BP):<ref name=""G""/><ref name=""B""/>\r\n==References==\r\n{{reflist}}";
+
+            Assert.AreEqual(correct, ArticleText);
+
+        }
+
+        [Test]
         public void PerformUniversalGeneralFixes()
         {
             HideText H = new HideText();
