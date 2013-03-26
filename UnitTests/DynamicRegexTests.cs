@@ -529,6 +529,7 @@ Image here");
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{Japan-spacecraft-stub|date=August 2012}}");
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{Uncategorized stub}}");
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{Uncategorized stub|date=March 2013}}");
+            RegexAssert.IsMatch(WikiRegexes.Stub, @"{{Uncategorized stub|date=subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
             
             RegexAssert.NoMatch(WikiRegexes.Stub, @"{{now stubborn}}");
             RegexAssert.NoMatch(WikiRegexes.Stub, @"{{stubby}}");
