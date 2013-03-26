@@ -888,10 +888,11 @@ namespace WikiFunctions
 		#region boring chars
 		public static readonly KeyValuePair<string, string>[] Diacritics =
 		{
-			new KeyValuePair<string, string>("’", "'"),
-			new KeyValuePair<string, string>("ʻ", "'"),
-			new KeyValuePair<string, string>("`", "'"),
-			new KeyValuePair<string, string>("´", "'"),
+			new KeyValuePair<string, string>("’", "'"), // apostrophe
+			new KeyValuePair<string, string>("‘", "'"), // quotation mark
+			new KeyValuePair<string, string>("ʻ", "'"), // okina
+			new KeyValuePair<string, string>("`", "'"), // grave accent
+			new KeyValuePair<string, string>("´", "'"), // acute accent
 			
 			//Latin
 			new KeyValuePair<string, string>("Ɯ", "W"),
