@@ -111,12 +111,12 @@ namespace WikiFunctions.API
         #region Properties
 
         /// <summary>
-        /// Path to scripts on server
+        /// Path to scripts on server e.g. https://en.wikipedia.org/w/ for en-wiki
         /// </summary>
         public string URL { get; private set; }
 
         /// <summary>
-        /// 
+        /// Path to api.php e.g. https://en.wikipedia.org/w/api.php for en-wiki
         /// </summary>
         public string ApiURL { get; private set; }
 
@@ -125,7 +125,7 @@ namespace WikiFunctions.API
         /// </summary>
         private string Server
         {
-            get { return "http://" + new Uri(URL).Host; }
+            get { return "https://" + new Uri(URL).Host; }
         }
 
         /// <summary>
@@ -1094,6 +1094,10 @@ namespace WikiFunctions.API
 
         private string ExpandRelativeUrls(string html)
         {
+            // wikilinks
+            html= html.Replace(@" href=""/wiki/", @" href=""" + Server + @"/wiki/");
+
+            // relative links (to images, scripts etc.)
             html= html.Replace(@" href=""//", @" href=""https://");
             return html.Replace(@" src=""//", @" src=""https://");
         }
