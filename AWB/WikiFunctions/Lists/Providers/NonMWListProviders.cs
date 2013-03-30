@@ -128,7 +128,7 @@ namespace WikiFunctions.Lists.Providers
 
             foreach (string errornumber in searchCriteria)
             {
-                string title = "http://toolserver.org/~sk/cgi-bin/checkwiki/checkwiki.cgi?project=" + Variables.LangCode + "wiki&view=bots&id=" + errornumber + "&offset=0&limit=500";
+                string title = "https://toolserver.org/~sk/cgi-bin/checkwiki/checkwiki.cgi?project=" + Variables.LangCode + "wiki&view=bots&id=" + errornumber + "&offset=0&limit=500";
                 list.AddRange(base.MakeList(title));
             }
             return list;
@@ -160,7 +160,7 @@ namespace WikiFunctions.Lists.Providers
 
                 do
                 {
-                    string url = "http://www.google.com/search?q=" + google + "+site:" + Variables.URL +
+                    string url = "https://www.google.com/search?q=" + google + "+site:" + Variables.URL +
                                  "&num=100&hl=en&lr=&start=" + intStart + "&sa=N&filter=0";
 
                     string googleText = Tools.GetHTML(url, Encoding.Default);
