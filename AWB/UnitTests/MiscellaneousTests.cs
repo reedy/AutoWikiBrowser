@@ -449,6 +449,9 @@ File:9th of June street , Bacău.JPG|[[Romanian War of Independence#Overview|9th
             Assert.AreEqual("[[Image:foo.jpg]]", Hide("[[Image:foo.jpg]]", true, false, false));
             AssertHidden("[[File:foo.JPG]]");
             Assert.AreEqual("[[File:foo.jpg]]", Hide("[[File:foo.jpg]]", true, false, false));
+
+            // <hiero> tags
+            AssertAllHiddenMore(@"<hiero>foo</hiero>");
         }
     }
 

@@ -244,6 +244,7 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<noinclude>{{abc}}</noinclude>"));
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<includeonly>{{abc}}</includeonly>"));
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<onlyinclude>{{abc}}</onlyinclude>"));
+            Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"<hiero>abc</hiero>"));
             
             Assert.IsTrue(WikiRegexes.AllTags.IsMatch(@"now hello {{bye}} <pre>{now}}</pre>"));
             Assert.IsFalse(WikiRegexes.AllTags.IsMatch(@"<!--{{abc}}-->"));
