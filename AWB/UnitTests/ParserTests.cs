@@ -3545,11 +3545,16 @@ Foo}}"));
             const string doubleApos = @"[[Image:foo%27%27s.jpg|thumb|200px|Bar]]";
             Assert.AreEqual(doubleApos, Parsers.FixLinks(doubleApos, "a", out nochange));
 
+            Variables.AddUnderscoredTitles(new List<string>(new [] {"Size t", "Mod perl", "Mod mono" } ));
+
             Assert.AreEqual(@"[[size_t]]", Parsers.FixLinks(@"[[size_t]]", "a", out nochange));
             Assert.IsTrue(nochange);
             Assert.AreEqual(@"[[mod_perl]]", Parsers.FixLinks(@"[[mod_perl]]", "a", out nochange));
             Assert.IsTrue(nochange);
             Assert.AreEqual(@"[[mod_mono]]", Parsers.FixLinks(@"[[mod_mono]]", "a", out nochange));
+            Assert.IsTrue(nochange);
+            Assert.AreEqual(@"[[Mod_mono]]", Parsers.FixLinks(@"[[Mod_mono]]", "a", out nochange));
+            Assert.IsTrue(nochange);
 
             Assert.AreEqual(@"[[List of The Amazing Spider-Man issues#The Amazing Spider-Man #648–current x|List of issues]]", Parsers.FixLinks(@"[[List of The Amazing Spider-Man issues#The Amazing Spider-Man #648–current x|List of issues]]", "a", out nochange), "Does not break section links with hash and space");
         }

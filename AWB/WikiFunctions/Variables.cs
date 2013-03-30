@@ -381,8 +381,21 @@ namespace WikiFunctions
 
         #region Delayed load stuff
 
+        /// <summary>
+        /// Contains list of pages with underscores in titles, from [[Category:Articles with underscores in the title]] for en wiki
+        /// </summary>
         public static readonly List<string> UnderscoredTitles = new List<string>();
         private static readonly List<BackgroundRequest> DelayedRequests = new List<BackgroundRequest>();
+
+        /// <summary>
+        /// For unit tests only, method to add entries to UnderscoredTitles
+        /// </summary>
+        /// <param name="titles"></param>
+        public static void AddUnderscoredTitles(List<string> titles)
+        {
+            if (Globals.UnitTestMode)
+                UnderscoredTitles.AddRange(titles);
+        }
 
         private static void CancelBackgroundRequests()
         {
