@@ -35,11 +35,11 @@ namespace WikiFunctions.API
     /// This class edits MediaWiki sites using api.php
     /// </summary>
     /// <remarks>
-    /// MediaWiki API manual: http://www.mediawiki.org/wiki/API
+    /// MediaWiki API manual: https://www.mediawiki.org/wiki/API
     /// Site prerequisites: MediaWiki 1.13+ with the following settings:
     /// * $wgEnableAPI = true; (enabled by default in DefaultSettings.php)
     /// * $wgEnableWriteAPI = true;
-    /// * AssertEdit extension installed (http://www.mediawiki.org/wiki/Extension:Assert_Edit)
+    /// * AssertEdit extension installed (https://www.mediawiki.org/wiki/Extension:Assert_Edit)
     /// </remarks>
     public class ApiEdit : IApiEdit
     {
@@ -134,7 +134,7 @@ namespace WikiFunctions.API
         public bool PHP5 { get; private set; }
 
         /// <summary>
-        /// Maxlag parameter of every request (http://www.mediawiki.org/wiki/Manual:Maxlag_parameter)
+        /// Maxlag parameter of every request (https://www.mediawiki.org/wiki/Manual:Maxlag_parameter)
         /// </summary>
         public int Maxlag { get; set; }
 

@@ -71,7 +71,7 @@ namespace WikiFunctions.API
 
     /// <summary>
     /// Thrown when an API call returned an &lt;error> tag.
-    /// See http://www.mediawiki.org/wiki/API:Errors for details
+    /// See https://www.mediawiki.org/wiki/API:Errors for details
     /// </summary>
     public class ApiErrorException : ApiException
     {
@@ -201,7 +201,7 @@ namespace WikiFunctions.API
                         "The wiki tried to automatically create a new account for you, but your IP address has been blocked from account creation";
                 case "throttled":
                     return "You've logged in too many times in a short time.";
-                        //see http://www.mediawiki.org/wiki/API:Login#Throttling
+                        //see https://www.mediawiki.org/wiki/API:Login#Throttling
                 case "blocked":
                     return "User is blocked";
                 default:
@@ -213,7 +213,7 @@ namespace WikiFunctions.API
     /// <summary>
     /// Thrown when servers refuse to perform operation due to overloading
     /// </summary>
-    /// <remarks>http://www.mediawiki.org/wiki/Manual:Maxlag_parameter</remarks>
+    /// <remarks>https://www.mediawiki.org/wiki/Manual:Maxlag_parameter</remarks>
     public class MaxlagException : ApiErrorException
     {
         public int Maxlag { get; private set; }

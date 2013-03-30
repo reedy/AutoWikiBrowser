@@ -327,7 +327,7 @@ namespace WikiFunctions
         /// <summary>
         /// Returns true if the article contains a &lt;ref>...&lt;/ref> reference after the {{reflist}} to show them
         /// </summary>
-        // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
+        // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
         [XmlIgnore]
         public bool HasRefAfterReflist
         { get { return Parsers.HasRefAfterReflist(mArticleText); } }
