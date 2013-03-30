@@ -6528,6 +6528,15 @@ namespace WikiFunctions.Parse
 
                 articleText = Tools.RenameTemplate(articleText, "unreferenced section", "BLP unsourced section", false);
                 articleText = Tools.RenameTemplate(articleText, "primary sources", "BLP primary sources", false);
+
+                // {{refimprove}} --> {{BLP sources}} if article has [[Category:Living people]], and no free-text first argument to {{refimprove}}
+                string refimprove = Tools.NestedTemplateRegex("refimprove").Match(articleText).Value;
+                if (refimprove.Length > 0 && Tools.NestedTemplateRegex("refimprove").Matches(articleText).Count == 1
+                    && (Tools.TurnFirstToLower(Tools.GetTemplateArgument(refimprove, 1)).StartsWith("date")
+                        || Tools.GetTemplateArgumentCount(refimprove) == 0))
+                    articleText = Tools.RenameTemplate(articleText, "refimprove", "BLP sources", false);
+
+                articleText = Tools.RenameTemplate(articleText, "refimprove section", "BLP sources section", false);
             }
 
             articleText = MergePortals(articleText);
