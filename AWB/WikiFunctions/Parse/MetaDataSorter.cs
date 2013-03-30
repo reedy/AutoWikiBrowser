@@ -105,7 +105,7 @@ namespace WikiFunctions.Parse
 		/// 
 		/// </summary>
 		public InterWikiOrderEnum InterWikiOrder
-		{//orders from http://meta.wikimedia.org/wiki/Interwiki_sorting_order
+		{//orders from https://meta.wikimedia.org/wiki/Interwiki_sorting_order
 			set
 			{
 				Order = value;
@@ -215,7 +215,7 @@ namespace WikiFunctions.Parse
 		private void LoadInterWikiFromNetwork()
 		{
 			string text = !Globals.UnitTestMode
-				? Tools.GetHTML("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/IW&action=raw")
+				? Tools.GetHTML("https://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/IW&action=raw")
 				: @"<!--InterwikiLocalAlphaBegins-->
 ru, sq, en
 <!--InterwikiLocalAlphaEnds-->
@@ -526,7 +526,7 @@ en, sq, ru
 				}
 			}
 
-			// http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Persondata_comments
+			// https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Persondata_comments
 			// catch the persondata comment the line before it so that the comment and template aren't separated
 			if (articleText.Contains(WikiRegexes.PersonDataCommentEN) && Variables.LangCode == "en")
 			{
@@ -792,7 +792,7 @@ en, sq, ru
 		/// </summary>
 		/// <param name="articleText">The wiki text of the article.</param>
 		/// <returns>Article text with {{XX portal}} template correctly placed</returns>
-		// http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Placement_of_portal_template
+		// https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Placement_of_portal_template
 		public static string MovePortalTemplates(string articleText)
 		{
 			return MoveTemplateToSeeAlsoSection(articleText, WikiRegexes.PortalTemplate);
@@ -862,7 +862,7 @@ en, sq, ru
 		private static readonly Regex ReferencesSection = new Regex(@"(^== *[Rr]eferences *==.*?)(?=^==[^=][^\r\n]*?[^=]==(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);
 		private static readonly Regex ReferencesToEnd = new Regex(@"^== *[Rr]eferences *==\s*" + WikiRegexes.ReferencesTemplates + @"\s*(?={{DEFAULTSORT\:|\[\[Category\:)", RegexOptions.Multiline);
 
-		// http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Place_.22External_links.22_section_after_.22References.22
+		// https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Place_.22External_links.22_section_after_.22References.22
 		// TODO: only works when there is another section following the references section
 		/// <summary>
 		/// Ensures the external links section of an article is after the references section
