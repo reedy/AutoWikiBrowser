@@ -2388,7 +2388,7 @@ namespace WikiFunctions.Parse
             return false;
         }
 
-        private static readonly Regex MathSourceCodeNowikiPreTag = new Regex(@"<\s*/?\s*(?:math|(?:source|ref)\b[^>]*|code|nowiki|pre|small)\s*(?:>|$)", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex MathSourceCodeNowikiPreTag = new Regex(@"<\s*/?\s*(?:math|(?:source|ref)\b[^>]*|code|nowiki|pre|small|gallery)\s*(?:>|$)", RegexOptions.Compiled | RegexOptions.Multiline);
         /// <summary>
         ///  Searches for any unclosed &lt;math&gt;, &lt;source&gt;, &lt;ref&gt;, &lt;code&gt;, &lt;nowiki&gt;, &lt;small&gt; or &lt;pre&gt; tags
         /// </summary>
