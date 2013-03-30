@@ -8580,6 +8580,37 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.AreEqual(nochange, Parsers.Conversions(nochange));
         }
 
+        [Test]
+        public void ConversionTestsBLPSources()
+        {
+            string correct = @"Foo
+{{BLP sources}}
+[[Category:Living people]]", nochange = @"Foo
+{{refimprove}}";
+
+            Assert.AreEqual(correct, Parsers.Conversions(nochange + "\r\n" + @"[[Category:Living people]]"));
+            Assert.AreEqual(correct, Parsers.Conversions(@"Foo
+{{refimprove}}" + "\r\n" + @"[[Category:Living people]]"));
+
+            Assert.AreEqual(correct, Parsers.Conversions(correct));
+
+            Assert.AreEqual(nochange, Parsers.Conversions(nochange));
+
+            nochange = @"Foo {{refimprove|blah}}" + @"[[Category:Living people]]";
+            Assert.AreEqual(nochange, Parsers.Conversions(nochange), "no change when free-format text in refimprove first argument");
+
+            Assert.AreEqual(@"Foo
+{{BLP sources|date=May 2010}}
+[[Category:Living people]]", Parsers.Conversions(@"Foo
+{{refimprove|date=May 2010}}
+[[Category:Living people]]"));
+
+            Assert.AreEqual(@"Foo
+{{BLP sources|Date=May 2010}}
+[[Category:Living people]]", Parsers.Conversions(@"Foo
+{{refimprove|Date=May 2010}}
+[[Category:Living people]]"));
+        }
 
         [Test]
         public void ConversionTestsInterwikiMigration()
