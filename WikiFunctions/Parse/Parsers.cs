@@ -4562,13 +4562,13 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly Regex UnderscoreTitles = new Regex(@"[Ss]ize_t|[Mm]od_", RegexOptions.Compiled);
         private static readonly Regex InfoBoxSingleAlbum = Tools.NestedTemplateRegex(new[] { "Infobox Single", "Infobox single", "Infobox album", "Infobox Album" });
         private static readonly Regex TaxoboxColour = Tools.NestedTemplateRegex(new[] { "taxobox colour", "taxobox color" });
 
         // Partially covered by FixMainArticleTests.SelfLinkRemoval()
         /// <summary>
-        /// Fixes link syntax, including removal of self links
+        /// Fixes link syntax, including removal of self links.
+        /// Underscores not removed from link where page in [[Category:Articles with underscores in the title]]
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
@@ -4614,8 +4614,16 @@ namespace WikiFunctions.Parse
         {
             string theTarget = m.Groups[1].Value, y = m.Value;
             // don't convert %27%27 -- https://bugzilla.wikimedia.org/show_bug.cgi?id=8932
-            if (theTarget.Length > 0 && !theTarget.Contains("%27%27") && !UnderscoreTitles.IsMatch(theTarget))
-                y = y.Replace(theTarget, CanonicalizeTitle(theTarget));
+            if (theTarget.Length > 0 && !theTarget.Contains("%27%27"))
+            {
+                string newTarget = CanonicalizeTitle(theTarget);
+
+                // Don't remove underscore if page from [[Category:Articles with underscores in the title]]
+                if(theTarget.Contains("_") && Variables.UnderscoredTitles.Contains(Tools.TurnFirstToUpper(newTarget)))
+                    return y;
+                else
+                    return y.Replace(theTarget, newTarget);
+            }
 
             return y;
         }
