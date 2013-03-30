@@ -3734,7 +3734,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
         private void openSelectionInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            TheSession.Site.OpenPageInBrowser(txtEdit.SelectedText);
+            if(WikiRegexes.UrlValidator.IsMatch(txtEdit.SelectedText))
+                Tools.OpenURLInBrowser(txtEdit.SelectedText);
+            else
+                TheSession.Site.OpenPageInBrowser(txtEdit.SelectedText);
         }
 
         private void chkGeneralParse_CheckedChanged(object sender, EventArgs e)
