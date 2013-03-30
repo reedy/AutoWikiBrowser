@@ -35,7 +35,7 @@ namespace WikiFunctions.API
         UserInfo User { get; }
 
         /// <summary>
-        /// Maxlag parameter of every request (http://www.mediawiki.org/wiki/Manual:Maxlag_parameter)
+        /// Maxlag parameter of every request (https://www.mediawiki.org/wiki/Manual:Maxlag_parameter)
         /// </summary>
         int Maxlag { get; set; }
 

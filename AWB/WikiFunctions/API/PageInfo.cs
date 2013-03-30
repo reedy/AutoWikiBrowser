@@ -179,7 +179,7 @@ namespace WikiFunctions.API
         { get; private set; }
 
         /// <summary>
-        /// Edit token (http://www.mediawiki.org/wiki/Manual:Edit_token)
+        /// Edit token (https://www.mediawiki.org/wiki/Manual:Edit_token)
         /// </summary>
         public string EditToken
         { get; internal set; }
