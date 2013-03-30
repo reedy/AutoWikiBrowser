@@ -2240,20 +2240,6 @@ world|format=PDF}} was";
         }
 
         [Test]
-        public void FixCitationTemplatesCoauthor()
-        {
-            Assert.AreEqual(@"{{cite web| title=foo | year=2009 | author=Smith, Fred | coauthors=Jones, B}}", Parsers.FixCitationTemplates(@"{{cite web| title=foo | year=2009 | author=Smith, Fred | coauthor=Jones, B}}"));
-            Assert.AreEqual(@"{{Cite web| title=foo | year=2009 | author=Smith, Fred | coauthors=Jones, B}}", Parsers.FixCitationTemplates(@"{{Cite web| title=foo | year=2009 | author=Smith, Fred | coauthor=Jones, B}}"));
-        }
-
-        [Test]
-        public void FixCitationTemplatesAuthor()
-        {
-            Assert.AreEqual(@"{{cite web| title=foo | year=2009 | author=Smith, Fred}}", Parsers.FixCitationTemplates(@"{{cite web| title=foo | year=2009 | authors=Smith, Fred}}"));
-            Assert.AreEqual(@"{{Cite web| title=foo | year=2009 | author=Smith, Fred}}", Parsers.FixCitationTemplates(@"{{Cite web| title=foo | year=2009 | author=Smith, Fred}}"));
-        }
-
-        [Test]
         public void UnspacedCommaPageRange()
         {
             Assert.AreEqual(@"{{cite book|url=http://www.stie.com | pages=55, 59 }}", Parsers.FixCitationTemplates(@"{{cite book|url=http://www.stie.com | pages=55,59 }}"));

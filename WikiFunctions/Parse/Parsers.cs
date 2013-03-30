@@ -3694,15 +3694,6 @@ namespace WikiFunctions.Parse
                 newValue = Tools.RenameTemplateParameter(newValue, "year", "date");
             }
 
-            // author field typos
-            if (templatename.Equals("cite web", StringComparison.OrdinalIgnoreCase))
-            {
-                if(paramsFound.ContainsKey("authors"))
-                    newValue = Tools.RenameTemplateParameter(newValue, "authors", "author");
-                if(paramsFound.ContainsKey("coauthor"))
-                    newValue = Tools.RenameTemplateParameter(newValue, "coauthor", "coauthors");
-            }
-
             // remove duplicated fields, ensure the URL is not touched (may have pipes in)
             if (DupeFields.IsMatch(newValue))
                 newValue = Tools.RemoveDuplicateTemplateParameters(newValue);
