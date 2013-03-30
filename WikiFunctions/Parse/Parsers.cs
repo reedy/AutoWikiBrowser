@@ -2390,7 +2390,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex MathSourceCodeNowikiPreTag = new Regex(@"<\s*/?\s*(?:math|(?:source|ref)\b[^>]*|code|nowiki|pre|small|gallery)\s*(?:>|$)", RegexOptions.Compiled | RegexOptions.Multiline);
         /// <summary>
-        ///  Searches for any unclosed &lt;math&gt;, &lt;source&gt;, &lt;ref&gt;, &lt;code&gt;, &lt;nowiki&gt;, &lt;small&gt; or &lt;pre&gt; tags
+        ///  Searches for any unclosed &lt;math&gt;, &lt;source&gt;, &lt;ref&gt;, &lt;code&gt;, &lt;nowiki&gt;, &lt;small&gt;, &lt;pre&gt; or &lt;gallery&gt; tags
         /// </summary>
         /// <param name="articleText">The article text</param>
         /// <returns>dictionary of the index and length of any unclosed tags</returns>
