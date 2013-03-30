@@ -179,17 +179,32 @@ namespace WikiFunctions.Parse
 		}
 
 		/// <summary>
-		/// 
+		/// Loads interwikis from local disk cache if available
 		/// </summary>
 		/// <returns></returns>
 		private bool LoadInterWikiFromCache()
 		{
-			InterwikiLocalAlpha = Load("InterwikiLocalAlpha");
-			InterwikiLocalFirst = Load("InterwikiLocalFirst");
-			InterwikiAlpha = Load("InterwikiAlpha");
-			InterwikiAlphaEnFirst = Load("InterwikiAlphaEnFirst");
+		    if(!Globals.UnitTestMode)
+		    {
+		        InterwikiLocalAlpha = Load("InterwikiLocalAlpha");
+		        InterwikiLocalFirst = Load("InterwikiLocalFirst");
+		        InterwikiAlpha = Load("InterwikiAlpha");
+		        InterwikiAlphaEnFirst = Load("InterwikiAlphaEnFirst");
 
-			return Loaded;
+		        return Loaded;
+		    }
+		    else
+		    {
+		        List<string> one = new List<string> { "ar", "de", "en", "ru", "sq" };
+		        List<string> two = new List<string> { "en", "ar", "de", "ru", "sq" };
+
+		        InterwikiLocalAlpha = one;
+		        InterwikiLocalFirst = one;
+		        InterwikiAlpha = one;
+		        InterwikiAlphaEnFirst = two;
+
+		        return true;
+		    }
 		}
 
 		private static readonly CultureInfo EnUsCulture = new CultureInfo("en-US", true);
