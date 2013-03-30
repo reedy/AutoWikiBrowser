@@ -505,6 +505,14 @@ God.<ref name=""Smith63""/>
 
             TalkGenFixes();
             Assert.AreEqual(a, ArticleText, "Adds WikiProjectBannerShell when 3 wikiproject links");
+
+            ArticleText = @"{{Talk header}}
+{{wikiProject a |text}}
+{{wikiProject b|text}}
+{{wiki project c|text}}";
+
+            TalkGenFixes();
+            Assert.AreEqual(a.Replace("WikiProject c", "wiki project c").Replace("WikiProject ", "wikiProject "), ArticleText, "Adds WikiProjectBannerShell when 3 wikiProject links, wikiproject name variatsions");
         }
 
         [Test]

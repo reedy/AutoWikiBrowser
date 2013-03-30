@@ -455,6 +455,10 @@ namespace WikiFunctions.TalkPages
         }
         
         private const int WikiProjectsWPBS = 2;
+        /// <summary>
+        /// Regex to match WikiProject templates: WikiProject, Wikiproject, wiki project, wiki Project etc.
+        /// </summary>
+        private static readonly Regex WikiProject = new Regex(@"^[Ww]iki ?[Pp]roject ");
         
         /// <summary>
         /// Adds WikiProjectBannerShell when needed (>= 3 WikiProject templates and no WikiProjectBannerShell)
@@ -470,7 +474,7 @@ namespace WikiFunctions.TalkPages
             {
                 foreach(Match m in WikiRegexes.NestedTemplates.Matches(articletextLocal))
                 {
-                    if(!Tools.GetTemplateName(m.Value).StartsWith("WikiProject "))
+                    if(!WikiProject.IsMatch(Tools.GetTemplateName(m.Value)))
                         continue;
                     
                     wikiProjectTemplates++;
