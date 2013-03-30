@@ -854,7 +854,7 @@ namespace AutoWikiBrowser
             // 
             this.toolStripTextBox1.Name = "toolStripTextBox1";
             this.toolStripTextBox1.Size = new System.Drawing.Size(100, 23);
-            this.toolStripTextBox1.Text = "{{stub}}";
+            this.toolStripTextBox1.Text = "{{-stub}}";
             // 
             // convertListToToolStripMenuItem
             // 
