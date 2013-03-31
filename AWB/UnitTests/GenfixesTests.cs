@@ -368,14 +368,19 @@ y";
         [Test]
         public void ReorderPunctuation()
         {
+            string correct = @"FOOBAR decreases.<ref name=""G"">{{cite journal | author = M| title = R by p53: s}}</ref><ref name=""Bensaad""/> It catalyses the removal of a phosphate group from fructose (F-2,6-BP):<ref name=""G""/><ref name=""B""/>\r\n==References==\r\n{{reflist}}";
+
             ArticleText = @"FOOBAR decreases<ref name=""G"">{{cite journal | author = M| title = R by p53: s}}</ref><ref name=""Bensaad""/>. It catalyses the removal of a phosphate group from fructose (F-2,6-BP)<ref name=""B""/><ref name=""G""/>:\r\n==References==\r\n{{reflist}}";
             
             GenFixes("Test");
             
-            string correct = @"FOOBAR decreases.<ref name=""G"">{{cite journal | author = M| title = R by p53: s}}</ref><ref name=""Bensaad""/> It catalyses the removal of a phosphate group from fructose (F-2,6-BP):<ref name=""G""/><ref name=""B""/>\r\n==References==\r\n{{reflist}}";
+            Assert.AreEqual(correct, ArticleText,"Referecnes section exists");
 
-            Assert.AreEqual(correct, ArticleText);
+            ArticleText = @"FOOBAR decreases<ref name=""G"">{{cite journal | author = M| title = R by p53: s}}</ref><ref name=""Bensaad""/>. It catalyses the removal of a phosphate group from fructose (F-2,6-BP)<ref name=""B""/><ref name=""G""/>:";
 
+            GenFixes("Test");
+            
+            Assert.AreEqual(correct, ArticleText,"Referecnes section does not exist");
         }
 
         [Test]
