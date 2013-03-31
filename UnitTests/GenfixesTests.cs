@@ -368,19 +368,25 @@ y";
         [Test]
         public void ReorderPunctuation()
         {
-            string correct = @"FOOBAR decreases.<ref name=""G"">{{cite journal | author = M| title = R by p53: s}}</ref><ref name=""Bensaad""/> It catalyses the removal of a phosphate group from fructose (F-2,6-BP):<ref name=""G""/><ref name=""B""/>\r\n==References==\r\n{{reflist}}";
+            string correct = @"FOOBAR decreases.<ref name=""G"">{{cite journal | author = M| title = R by p53: s}}</ref><ref name=""Bensaad""/> It catalyses the removal of a phosphate group from fructose (F-2,6-BP):<ref name=""G""/><ref name=""B""/>
 
-            ArticleText = @"FOOBAR decreases<ref name=""G"">{{cite journal | author = M| title = R by p53: s}}</ref><ref name=""Bensaad""/>. It catalyses the removal of a phosphate group from fructose (F-2,6-BP)<ref name=""B""/><ref name=""G""/>:\r\n==References==\r\n{{reflist}}";
+==References==
+{{Reflist}}";
+
+            ArticleText = @"FOOBAR decreases<ref name=""G"">{{cite journal | author = M| title = R by p53: s}}</ref><ref name=""Bensaad""/>. It catalyses the removal of a phosphate group from fructose (F-2,6-BP)<ref name=""B""/><ref name=""G""/>:
+
+==References==
+{{Reflist}}";
             
             GenFixes("Test");
             
-            Assert.AreEqual(correct, ArticleText,"Referecnes section exists");
+            Assert.AreEqual(correct, ArticleText,"References section exists");
 
             ArticleText = @"FOOBAR decreases<ref name=""G"">{{cite journal | author = M| title = R by p53: s}}</ref><ref name=""Bensaad""/>. It catalyses the removal of a phosphate group from fructose (F-2,6-BP)<ref name=""B""/><ref name=""G""/>:";
 
             GenFixes("Test");
             
-            Assert.AreEqual(correct, ArticleText,"References section does not exist");
+            Assert.AreEqual(correct.Replace("\r\n\r\n", "\r\n"), ArticleText,"References section does not exist");
         }
 
         [Test]
