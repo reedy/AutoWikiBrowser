@@ -3485,8 +3485,6 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly Regex AccessdateSynonyms = new Regex(@"(\|\s*)(?:\s*date\s*)?(?:retrieved(?:\s+on)?|(?:last|date) *ac+essed|access\s+date)(?=\s*=\s*)");
-
         private static readonly Regex UppercaseCiteFields = new Regex(@"(\{\{\s*(?:[Cc]ite\s*(?:web|book|news|journal|paper|press release|hansard|encyclopedia)|[Cc]itation)\b\s*[^{}]*\|\s*)(\w*?[A-Z]+\w*)(?<!(?:IS[BS]N|DOI|PMID))(\s*=\s*[^{}\|]{3,})");
 
         private static readonly Regex CiteUrl = new Regex(@"\|\s*url\s*=\s*([^\[\]<>""\s]+)");
@@ -3615,8 +3613,6 @@ namespace WikiFunctions.Parse
                 ISBN = "";
 
             string theURLoriginal = theURL;
-
-            newValue = AccessdateSynonyms.Replace(newValue, "$1accessdate");
             
             // remove the unneeded 'format=HTML' field
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.22format.3DHTML.22_in_citation_templates
@@ -3923,7 +3919,7 @@ namespace WikiFunctions.Parse
         /// Scenarios covered:
         /// * publisher == URL domain, no work= used
         /// </summary>
-        /// <param name="citation">the citaiton</param>
+        /// <param name="citation">the citation</param>
         /// <returns>the updated citation</returns>
         public static string CitationPublisherToWork(string citation)
         {
