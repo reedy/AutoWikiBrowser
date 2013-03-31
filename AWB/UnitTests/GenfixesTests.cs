@@ -380,7 +380,7 @@ y";
 
             GenFixes("Test");
             
-            Assert.AreEqual(correct, ArticleText,"Referecnes section does not exist");
+            Assert.AreEqual(correct, ArticleText,"References section does not exist");
         }
 
         [Test]
