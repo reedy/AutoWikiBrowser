@@ -3578,7 +3578,7 @@ namespace WikiFunctions.Parse
             
             Dictionary<string, string> paramsFound = Tools.GetTemplateParameterValues(newValue);
             
-            string theURL,id,format,pg,theTitle,TheYear,lang,TheDate,TheMonth,TheWork,nopp,TheIssue,accessyear,accessdate,pages,page,ISBN,origyear;
+            string theURL,id,format,theTitle,TheYear,lang,TheDate,TheMonth,TheWork,nopp,TheIssue,accessyear,accessdate,pages,page,ISBN,origyear;
             if(!paramsFound.TryGetValue("url", out theURL))
                 theURL = "";
             if(!paramsFound.TryGetValue("id", out id))
@@ -3618,9 +3618,6 @@ namespace WikiFunctions.Parse
 
             newValue = AccessdateSynonyms.Replace(newValue, "$1accessdate");
             
-            if(paramsFound.TryGetValue("pg", out pg))
-                newValue = Tools.RenameTemplateParameter(newValue, "pg", "page");
-
             // remove the unneeded 'format=HTML' field
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.22format.3DHTML.22_in_citation_templates
             // remove format= field with null value when URL is HTML page
