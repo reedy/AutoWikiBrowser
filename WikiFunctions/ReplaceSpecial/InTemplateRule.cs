@@ -146,7 +146,7 @@ namespace WikiFunctions.ReplaceSpecial
                    /* 
                        This function used to have slightly different logic;
                        it was changed in r8062 following a discussion at
-                       http://en.wikipedia.org/wiki/WT:AutoWikiBrowser/Bugs/Archive_20#Bad_.22in_template.22_handling
+                       https://en.wikipedia.org/wiki/WT:AutoWikiBrowser/Bugs/Archive_20#Bad_.22in_template.22_handling
                     */
                     string text_2 = Tools.ReplaceWithSpaces(text_, WikiRegexes.NestedTemplates.Matches(text_));
                     int i = text_2.IndexOf("}}");

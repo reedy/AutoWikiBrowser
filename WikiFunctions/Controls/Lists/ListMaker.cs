@@ -616,8 +616,8 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public string NormalizeTitle(string s)
         {
-            // http://en.wikipedia.org/w/index.php?title=...&action=history
-            // http://en.wikipedia.org/w/index.php?title=...&diff=
+            // https://en.wikipedia.org/w/index.php?title=...&action=history
+            // https://en.wikipedia.org/w/index.php?title=...&diff=
             string originals = s;
             string escaped = Regex.Escape(Variables.URL);
 

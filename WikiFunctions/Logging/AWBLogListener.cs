@@ -85,7 +85,7 @@ namespace WikiFunctions.Logging
 
             base.SubItems.Insert(1, dateStamp);
 
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#ArgumentException_in_AWBLogListener.AddAndDateStamp
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#ArgumentException_in_AWBLogListener.AddAndDateStamp
             // TODO resolve exception by prevention rather than simply catching
             try
             {
