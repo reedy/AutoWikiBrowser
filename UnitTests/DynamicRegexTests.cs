@@ -571,7 +571,7 @@ Image here");
             RegexAssert.IsMatch(WikiRegexes.PossiblyCommentedStub, @"{{ stub}}");
             RegexAssert.IsMatch(WikiRegexes.PossiblyCommentedStub, @"{{Stub}}");
             RegexAssert.IsMatch(WikiRegexes.PossiblyCommentedStub, @"<!--{{Stub}}-->");
-            RegexAssert.IsMatch(WikiRegexes.PossiblyCommentedStub, @"{{Uncategorized stub|date=subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
+            RegexAssert.IsMatch(WikiRegexes.PossiblyCommentedStub, @"{{Uncategorized stub|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}");
 
             RegexAssert.NoMatch(WikiRegexes.PossiblyCommentedStub, @"{{now stubborn}}");
             RegexAssert.NoMatch(WikiRegexes.PossiblyCommentedStub, @"{{stubby}}");

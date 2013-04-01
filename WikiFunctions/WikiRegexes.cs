@@ -65,10 +65,6 @@ namespace WikiFunctions
 
             Stub = new Regex(@"{{" + Variables.Stub + @"\s*(?:\|[^{}]+)?}}");
 
-            PossiblyCommentedStub =
-                new Regex(
-                    @"(<!-- ?\{\{" + Variables.Stub + @"\b\}\}.*?-->|\{\{" + Variables.Stub + @"\s*(?:\|[^{}]+)?}})");
-
             TemplateCall = new Regex(TemplateStart + @"\s*([^\]\|]*)\s*(.*)}}", RegexOptions.Singleline);
 
             LooseCategory =
@@ -271,6 +267,11 @@ namespace WikiFunctions
                     LinkFGAs =  Tools.NestedTemplateRegex(new [] {"link FA", "link GA", "link FL"});
                     break;
             }
+
+            PossiblyCommentedStub =
+                new Regex(
+                    @"(<!-- ?\{\{" + Variables.Stub + @"\b\}\}.*?-->|\{\{" + Variables.Stub + @"\s*(?:\|(?:[^{}]+|" + DateYearMonthParameter + @"))?}})");
+
         }
         
         private const string UncatTemplatesAR = @"(غير مصنفة|غير مصنف|[Uu]ncategori[sz]ed|[Uu]ncategori[sz]ed ?stub|بذرة غير مصنفة)";
