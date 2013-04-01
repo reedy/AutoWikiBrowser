@@ -3548,6 +3548,26 @@ Foo}}"));
         }
 
         [Test]
+        public void FixLinkBoldItalic()
+        {
+            bool nochange;
+            Assert.AreEqual(@"''[[foo|bar]]''", Parsers.FixLinks(@"[[foo|''bar'']]", "a", out nochange));
+            Assert.IsFalse(nochange);
+            Assert.AreEqual(@"'''[[foo|bar]]'''", Parsers.FixLinks(@"[[foo|'''bar''']]", "a", out nochange));
+            Assert.IsFalse(nochange);
+
+            // No change to single apostrophes
+            Assert.AreEqual(@"[[foo|'bar']]", Parsers.FixLinks(@"[[foo|'bar']]", "a", out nochange));
+            Assert.IsTrue(nochange);
+
+            // No change to part of link text in bold/italics
+            Assert.AreEqual(@"[[foo|A ''bar'']]", Parsers.FixLinks(@"[[foo|A ''bar'']]", "a", out nochange));
+            Assert.IsTrue(nochange);
+            Assert.AreEqual(@"[[foo|A '''bar''']]", Parsers.FixLinks(@"[[foo|A '''bar''']]", "a", out nochange));
+            Assert.IsTrue(nochange);
+        }
+
+        [Test]
         public void FixSelfInterwikis()
         {
             bool nochange;
