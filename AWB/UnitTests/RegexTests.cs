@@ -396,6 +396,8 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             Assert.AreEqual(WikiRegexes.WikiLink.Match(@"[[foo bar]]").Groups[1].Value, @"foo bar");
             Assert.AreEqual(WikiRegexes.WikiLink.Match(@"[[Foo]]").Groups[1].Value, @"Foo");
             Assert.AreEqual(WikiRegexes.WikiLink.Match(@"[[foo bar|word here]]").Groups[1].Value, @"foo bar");
+            TestMatch(WikiRegexes.WikiLink, "[[foo|'''bar''']]");
+            TestMatch(WikiRegexes.WikiLink, "[[foo|''bar'']]");
         }
 
         [Test]
