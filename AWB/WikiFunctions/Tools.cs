@@ -2924,6 +2924,8 @@ Message: {2}
 			return Unknowns;
 		}
 
+		private static readonly Regex StartWhitespace = new Regex(@"^\s+");
+
 		/// <summary>
 		/// Sets the template parameter value to the new value input, only if the template already has the parameter (with or without a value)
 		/// </summary>
@@ -2944,6 +2946,11 @@ Message: {2}
 			if (m.Success)
 			{
 				int start = m.Groups[1].Index, valuelength = m.Groups[1].Length;
+
+				// retain any newlines at start of parameter value if existing parameter has value
+				string startNewline = StartWhitespace.Match(m.Groups[1].Value).Value;
+				if(startNewline.Length > 0 && m.Groups[1].Value.Trim().Length > 0)
+				    newvalue = startNewline + newvalue;
 
 				return (templateCall.Substring(0, start) + newvalue + templateCall.Substring(start + valuelength));
 			}

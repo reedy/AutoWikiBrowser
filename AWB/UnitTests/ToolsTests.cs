@@ -1607,6 +1607,9 @@ def
         {
             Assert.AreEqual(@"{{foo|param1=valueafter}}", Tools.UpdateTemplateParameterValue(@"{{foo|param1=before}}", "param1", "valueafter"));
             Assert.AreEqual(@"{{foo|param1= valueafter }}", Tools.UpdateTemplateParameterValue(@"{{foo|param1= before }}", "param1", "valueafter"), "whitepsace kept");
+            Assert.AreEqual(@"{{foo|param1=
+valueafter}}", Tools.UpdateTemplateParameterValue(@"{{foo|param1=
+before}}", "param1", "valueafter"), "newline before populated parameter kept");
 
             Assert.AreEqual(@"{{foo
 |param1=valueafter
