@@ -547,7 +547,7 @@ en, sq, ru
 			// Per http://ru.wikipedia.org/wiki/Википедия:Опросы/Использование_служебных_разделов/Этап_2#.D0.A1.D0.BB.D1.83.D0.B6.D0.B5.D0.B1.D0.BD.D1.8B.D0.B5_.D1.88.D0.B0.D0.B1.D0.BB.D0.BE.D0.BD.D1.8B
 			// Russian Wikipedia places stubs before navboxes
 			// Category: can use {{Verylargestub}}/{{popstub}} which is not a stub template
-			if (Variables.LangCode.Equals("ru") )
+			if (Variables.LangCode.Equals("ru"))
 				return "";
 
 			List<string> stubList = new List<string>();
