@@ -4630,10 +4630,13 @@ namespace WikiFunctions.Parse
         {
             string theLinkText = m.Groups[2].Value, y = m.Value;
 
-            if(WikiRegexes.Bold.Match(theLinkText).Value.Equals(theLinkText))
-                y = "'''" + y.Replace(theLinkText, WikiRegexes.Bold.Replace(theLinkText, "$1")) + "'''";
-            else if(WikiRegexes.Italics.Match(theLinkText).Value.Equals(theLinkText))
-                y = "''" + y.Replace(theLinkText, WikiRegexes.Italics.Replace(theLinkText, "$1")) + "''";
+            if(theLinkText.Length > 0)
+            {
+                if(WikiRegexes.Bold.Match(theLinkText).Value.Equals(theLinkText))
+                    y = "'''" + y.Replace(theLinkText, WikiRegexes.Bold.Replace(theLinkText, "$1")) + "'''";
+                else if(WikiRegexes.Italics.Match(theLinkText).Value.Equals(theLinkText))
+                    y = "''" + y.Replace(theLinkText, WikiRegexes.Italics.Replace(theLinkText, "$1")) + "''";
+            }
 
             return y;
         }
