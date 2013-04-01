@@ -4570,7 +4570,8 @@ namespace WikiFunctions.Parse
                 articleText = FixLinksInfoBoxSingleAlbum(articleText, articleTitle);
 
             // clean up wikilinks: replace underscores, percentages and URL encoded accents etc.
-            articleText = WikiRegexes.WikiLink.Replace(articleText, new MatchEvaluator(FixLinksWikilinkME));
+            articleText = WikiRegexes.WikiLink.Replace(articleText, FixLinksWikilinkCanonicalizeME);
+            articleText = WikiRegexes.PipedWikiLink.Replace(articleText, FixLinksWikilinkBoldItalicsME);
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Your_code_creates_page_errors_inside_imagemap_tags.
             // don't apply if there's an imagemap on the page or some noinclude transclusion business
@@ -4597,7 +4598,12 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static string FixLinksWikilinkME(Match m)
+        /// <summary>
+        /// Canonicalize link targets, removes underscores except if page from [[Category:Articles with underscores in the title]]
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        private static string FixLinksWikilinkCanonicalizeME(Match m)
         {
             string theTarget = m.Groups[1].Value, y = m.Value;
             // don't convert %27%27 -- https://bugzilla.wikimedia.org/show_bug.cgi?id=8932
@@ -4611,6 +4617,23 @@ namespace WikiFunctions.Parse
                 else
                     return y.Replace(theTarget, newTarget);
             }
+
+            return y;
+        }
+        
+        /// <summary>
+        /// Converts [[foo|''bar''']] → '''[[foo|bar]]''' for bold or italics
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        private static string FixLinksWikilinkBoldItalicsME(Match m)
+        {
+            string theLinkText = m.Groups[2].Value, y = m.Value;
+
+            if(WikiRegexes.Bold.Match(theLinkText).Value.Equals(theLinkText))
+                y = "'''" + y.Replace(theLinkText, WikiRegexes.Bold.Replace(theLinkText, "$1")) + "'''";
+            else if(WikiRegexes.Italics.Match(theLinkText).Value.Equals(theLinkText))
+                y = "''" + y.Replace(theLinkText, WikiRegexes.Italics.Replace(theLinkText, "$1")) + "''";
 
             return y;
         }
