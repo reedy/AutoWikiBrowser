@@ -3820,7 +3820,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             // provide article statistics based on new article, not the existing one
             TheArticle = a;
             ArticleInfo(false);
+            // now restore original article and update the text
             TheArticle = theArtricleOriginal;
+            TheArticle.AWBChangeArticleText("Reparse", a.ArticleText, false);
 
             txtEdit.Text = a.ArticleText;
 
