@@ -3088,7 +3088,7 @@ namespace WikiFunctions.Parse
             articleText = ExternalLinkWordSpacingBefore.Replace(articleText, " $1");
             articleText = ExternalLinkWordSpacingAfter.Replace(articleText, "$1 $2");
 
-            // CHECKWIKI error 65: Image description ends with break – http://toolserver.org/~sk/cgi-bin/checkwiki/checkwiki.cgi?project=enwiki&view=only&id=65
+            // CHECKWIKI error 65: Image description ends with break – https://toolserver.org/~sk/cgi-bin/checkwiki/checkwiki.cgi?project=enwiki&view=only&id=65
             articleText = WikiRegexes.FileNamespaceLink.Replace(articleText, m=> WikilinkEndsBr.Replace(m.Value, @"]]"));
 
             // workaround for bugzilla 2700: {{subst:}} doesn't work within ref tags

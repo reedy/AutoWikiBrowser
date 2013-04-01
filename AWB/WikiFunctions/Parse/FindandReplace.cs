@@ -55,7 +55,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Returns proper direction arrow depending on locale
         /// Currently returns only LTR arrow due to direction conflict
-        /// demonstrated by http://ar.wikipedia.org/w/index.php?diff=1192871
+        /// demonstrated by https://ar.wikipedia.org/w/index.php?diff=1192871
         /// July 2012: from discusison at https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#The_arrow_in_.22replaced.22_edit_summaries_points_the_wrong_way_in_right-to-left_languages
         /// Arrow derivation reinstated
         /// </summary>

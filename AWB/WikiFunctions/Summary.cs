@@ -74,7 +74,7 @@ namespace WikiFunctions
         public static string Trim(string summary)
         {
             int maxAvailableSummaryLength = ((MaxLength - 5) - (Variables.SummaryTag.Length + 1));
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#Edit_summary_issue
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#Edit_summary_issue
             // replace last wikilink with dots as an attempt to prevent broken wikilinks in edit summary
             if (Encoding.UTF8.GetByteCount(summary) >= maxAvailableSummaryLength && summary.EndsWith(@"]]"))
                 summary = SummaryTrim.Replace(summary, "...");

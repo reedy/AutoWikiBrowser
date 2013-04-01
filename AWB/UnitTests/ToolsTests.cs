@@ -832,6 +832,7 @@ John", "*"));
             Assert.AreEqual("bbc.co.uk", Tools.GetDomain("http//bbc.co.uk/08890890"));
 
             Assert.AreEqual("washingtonpost.com", Tools.GetDomain("http://www.washingtonpost.com"));
+            Assert.AreEqual("washingtonpost.com", Tools.GetDomain("https://www.washingtonpost.com"));
             Assert.AreEqual("wsj.com", Tools.GetDomain("http://www.wsj.com"));
             Assert.AreEqual("washingtonpost.com", Tools.GetDomain("http://www99.washingtonpost.com"));
             Assert.AreEqual("washingtonpost.com", Tools.GetDomain("http://www3.washingtonpost.com"));
@@ -861,6 +862,7 @@ John", "*"));
             Assert.AreEqual(@"foo", Tools.RemoveSyntax(@"[foo]"));
             Assert.AreEqual(@"foo&bar", Tools.RemoveSyntax(@"foo&amp;bar"));
             Assert.AreEqual(@"http://site.com words", Tools.RemoveSyntax(@"* [http://site.com words]"));
+            Assert.AreEqual(@"https://site.com words", Tools.RemoveSyntax(@"* [https://site.com words]"));
             Assert.AreEqual(@"foo ""bar"" here", Tools.RemoveSyntax(@"foo &quot;bar&quot; here"));
             Assert.AreEqual(@"foobar", Tools.RemoveSyntax(@"foo�bar"));
 

@@ -281,7 +281,7 @@ namespace WikiFunctions.Parse
             ReplaceMore(WikiRegexes.IndentedText.Matches(articleText), ref articleText);
 
             // This hides internal wikilinks (with or without pipe) with extra word character(s) e.g. [[link]]age, which need hiding even if hiding for typo fixing
-            // http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Improve_HideText.HideMore.28.29
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Improve_HideText.HideMore.28.29
             // place this as first wikilink rule as otherwise WikiLinksOnly will grab link without extra word character(s)
             if(hideWikiLinks)
                 ReplaceMore(WikiRegexes.WikiLinksOnlyPlusWord.Matches(articleText), ref articleText);
