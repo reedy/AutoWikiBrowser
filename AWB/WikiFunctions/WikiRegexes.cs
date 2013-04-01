@@ -417,6 +417,10 @@ namespace WikiFunctions
         public static readonly Regex MagicWordTemplates = Tools.NestedTemplateRegex(new[] { "BASEPAGENAME", "DEFAULTSORT", "DISPLAYTITLE", "Displaytitle", "FULLPAGENAME", "Fullpagename", "Namespace",
                                                                                     	"Numberofarticles", "PAGENAME", "PAGESIZE", "PROTECTIONLEVEL", "Pagename", "SUBPAGENAME", "Subpagename", "padleft" }, false);
         /// <summary>
+        /// List of magic words behaviour switches from https://en.wikipedia.org/wiki/Help:Magic_words#Behavior_switches
+        /// </summary>
+        public static readonly Regex MagicWordsBehaviourSwitches = new Regex (@"__(NOTOC|FORCETOC|TOC|NOEDITSECTION|NEWSECTIONLINK|NONEWSECTIONLINK|NOGALLERY|HIDDENCAT|INDEX|NOINDEX|STATICREDIRECT)__", RegexOptions.IgnoreCase);
+        /// <summary>
         /// Matches headings of all levels, group 1 being the heading name
         /// </summary>
         public static readonly Regex Headings = new Regex(@"^={1,6} *(.*?) *={1,6}(?: *⌊⌊⌊⌊\d{1,4}⌋⌋⌋⌋| *<!--.*?-->|< *[Bb][Rr] */ *>)?\s*$", RegexOptions.Multiline);
