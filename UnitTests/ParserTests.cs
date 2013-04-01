@@ -3515,6 +3515,15 @@ Foo}}"));
         }
 
         [Test]
+        public void FixSyntaxMagicWordsBehaviourSwitches()
+        {
+            Assert.AreEqual(@"__TOC__", Parsers.FixSyntax(@"__ToC__"));
+            Assert.AreEqual(@"__TOC__", Parsers.FixSyntax(@"__toC__"));
+            Assert.AreEqual(@"__TOC__", Parsers.FixSyntax(@"__TOC__"));
+            Assert.AreEqual(@"__NOTOC__", Parsers.FixSyntax(@"__NoToC__"));
+        }
+
+        [Test]
         public void FixLink()
         {
             bool nochange;

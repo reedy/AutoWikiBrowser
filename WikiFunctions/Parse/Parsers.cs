@@ -3094,6 +3094,9 @@ namespace WikiFunctions.Parse
             // workaround for bugzilla 2700: {{subst:}} doesn't work within ref tags
             articleText = FixSyntaxSubstRefTags(articleText);
 
+            // ensure magic word behaviour switches such as __TOC__ are in upper case
+            articleText = WikiRegexes.MagicWordsBehaviourSwitches.Replace(articleText, m=> @"__" + m.Groups[1].Value.ToUpper() + @"__");
+
             return articleText.Trim();
         }
 
