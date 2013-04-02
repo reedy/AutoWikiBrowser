@@ -64,7 +64,7 @@ namespace WikiFunctions
                     try
                     {
                         // see http://msdn.microsoft.com/en-us/library/ky3942xh.aspx
-                        System.Reflection.Assembly.Load("System.Core, Version=3.5.0.0, Culture=netural, PublicKeyToken=b77a5c561934e089");
+                        System.Reflection.Assembly.Load("System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
                         systemCore3500Avail = true;
                     }
                     catch
