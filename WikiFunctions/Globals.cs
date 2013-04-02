@@ -50,6 +50,25 @@ namespace WikiFunctions
             get { return Assembly.GetAssembly(typeof(Variables)).GetName().Version; }
         }
 
+        /// <summary>
+        /// Returns whether System.Core, Version=3.5.0.0 is available
+        /// So whether HashSets can be used (should be available in all .NET 2 but seems to rely on a cetain service pack level)
+        /// </summary>
+        public static bool SystemCore3500Available
+        {
+            get {
+                try{
+                    // see http://msdn.microsoft.com/en-us/library/ky3942xh.aspx
+                    System.Reflection.Assembly.Load("System.Core, Version=3.5.0.0, Culture=netural, PublicKeyToken=b77a5c561934e089");
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
+
         #region Unit tests support
         /// <summary>
         /// Set this to true in unit tests, to disable checkpage loading and other slow stuff.
