@@ -4735,10 +4735,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 {
                     string name = HttpUtility.UrlEncode(pageTitle);
                     if (webBrowserHistory.Url != new Uri(Variables.URLIndex + "?title=" + name
-                                                         + "&action=history&useskin=myskin") && !string.IsNullOrEmpty(pageTitle)
+                                                         + "&action=history&printable=yes") && !string.IsNullOrEmpty(pageTitle)
                        )
                         webBrowserHistory.Navigate(Variables.URLIndex + "?title=" + name
-                                                   + "&action=history&useskin=myskin");
+                                                   + "&action=history&printable=yes");
                 }
                 else
                     webBrowserHistory.Navigate("about:blank");
@@ -4767,9 +4767,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                     title = HttpUtility.UrlEncode(title);
                     if (webBrowserLinks.Url !=
                         new Uri(Variables.URLIndex + "?title=Special:WhatLinksHere/" + title +
-                                "&useskin=myskin") && !string.IsNullOrEmpty(title))
+                                "&printable=yes") && !string.IsNullOrEmpty(title))
                         webBrowserLinks.Navigate(Variables.URLIndex + "?title=Special:WhatLinksHere/" +
-                                                 title + "&useskin=myskin");
+                                                 title + "&printable=yes");
                 }
                 else
                     webBrowserLinks.Navigate("about:blank");
@@ -4810,7 +4810,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         {
             try
             {
-                webBrowserHistory.Navigate(Variables.URLIndex + "?title=" + TheArticle.URLEncodedName + "&action=history&useskin=myskin");
+                webBrowserHistory.Navigate(Variables.URLIndex + "?title=" + TheArticle.URLEncodedName + "&action=history&printable=yes");
             }
             catch
             {
