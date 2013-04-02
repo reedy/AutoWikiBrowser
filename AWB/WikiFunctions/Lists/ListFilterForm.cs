@@ -101,33 +101,39 @@ namespace WikiFunctions.Lists
         public void RemoveDuplicates()
         {
             if(Globals.SystemCore3500Available)
-            {
-                // hashset by definition does not allow duplicates, discards any on creation
-                HashSet<Article> NoDupes = new HashSet<Article>(_destListBox);
-
-                _destListBox.BeginUpdate();
-                _destListBox.Items.Clear();
-
-                _destListBox.Items.AddRange(new List<Article>(NoDupes).ToArray());
-                _destListBox.EndUpdate();
-            }
+                RemoveDuplicatesNew();
             else
+                RemoveDuplicatesOld();
+        }
+
+        private void RemoveDuplicatesNew()
+        {
+            // hashset by definition does not allow duplicates, discards any on creation
+            HashSet<Article> NoDupes = new HashSet<Article>(_destListBox);
+
+            _destListBox.BeginUpdate();
+            _destListBox.Items.Clear();
+
+            _destListBox.Items.AddRange(new List<Article>(NoDupes).ToArray());
+            _destListBox.EndUpdate();
+        }
+
+        private void RemoveDuplicatesOld()
+        {
+            _list.Clear();
+
+            foreach (Article a in _destListBox)
             {
-                _list.Clear();
-                
-                foreach (Article a in _destListBox)
-                {
-                    if (!_list.Contains(a))
-                        _list.Add(a);
-                }
-
-                _destListBox.BeginUpdate();
-                _destListBox.Items.Clear();
-
-                foreach (Article a in _list)
-                    _destListBox.Items.Add(a);
-                _destListBox.EndUpdate();
+                if (!_list.Contains(a))
+                    _list.Add(a);
             }
+
+            _destListBox.BeginUpdate();
+            _destListBox.Items.Clear();
+
+            foreach (Article a in _list)
+                _destListBox.Items.Add(a);
+            _destListBox.EndUpdate();
         }
 
         private void FilterNamespace()
