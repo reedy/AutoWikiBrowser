@@ -192,59 +192,65 @@ namespace WikiFunctions.Lists
         private void FilterList()
         {
             if(Globals.SystemCore3500Available)
+                FilterListNew();
+            else
+                FilterListOld();
+        }
+        
+        private void FilterListOld()
+        {
+            List<Article> remove = new List<Article>();
+            remove.AddRange(lbRemove);
+
+            List<Article> list2 = new List<Article>();
+
+            if (cbOpType.SelectedIndex == 0)
             {
-                List<Article> remove = new List<Article>(lbRemove);
+                // symmetric difference
 
-                HashSet<Article> list = new HashSet<Article>(_list);
+                /* The symmetric difference of two sets is the set of elements which are in either of the sets and not in their intersection.
+                    For example, the symmetric difference of the sets {1,2,3} and {3,4} is {1,2,4} */
 
-                if (cbOpType.SelectedIndex == 0)
-                {
-                    /* The symmetric difference of two sets is the set of elements which are in either
-                     * of the sets and not in their intersection. For example, the symmetric difference
-                     * of the sets {1,2,3} and {3,4} is {1,2,4}.
-                     */
-                    list.ExceptWith(remove);
-                }
-                else
-                {
-                    // find intersection
-                    list.IntersectWith(remove);
-                }
-                _list = new List<Article>(list);
+                foreach (Article a in _list)
+                    if (!remove.Contains(a))
+                        list2.Add(a);
+                    else
+                        remove.Remove(a);
+
+                foreach (Article a in remove)
+                    if (!_list.Contains(a))
+                        list2.Add(a);
             }
             else
             {
-                List<Article> remove = new List<Article>();
-                remove.AddRange(lbRemove);
-
-                List<Article> list2 = new List<Article>();
-
-                if (cbOpType.SelectedIndex == 0)
-                {
-                    // symmetric difference
-
-                    /* The symmetric difference of two sets is the set of elements which are in either of the sets and not in their intersection.
-                    For example, the symmetric difference of the sets {1,2,3} and {3,4} is {1,2,4} */
-
-                    foreach (Article a in _list)
-                        if (!remove.Contains(a))
-                            list2.Add(a);
-                        else
-                            remove.Remove(a);
-
-                    foreach (Article a in remove)
-                        if (!_list.Contains(a))
-                            list2.Add(a);
-                }
-                else
-                {
-                    // find intersection
-                    foreach (Article a in _list)
-                        if (remove.Contains(a))
-                            list2.Add(a);
-                }
-                _list = list2;
+                // find intersection
+                foreach (Article a in _list)
+                    if (remove.Contains(a))
+                        list2.Add(a);
             }
+            _list = list2;
+        }
+        
+        private void FilterListNew()
+        {
+            List<Article> remove = new List<Article>(lbRemove);
+
+            HashSet<Article> list = new HashSet<Article>(_list);
+
+            if (cbOpType.SelectedIndex == 0)
+            {
+                /* The symmetric difference of two sets is the set of elements which are in either
+                 * of the sets and not in their intersection. For example, the symmetric difference
+                 * of the sets {1,2,3} and {3,4} is {1,2,4}.
+                 */
+                list.ExceptWith(remove);
+            }
+            else
+            {
+                // find intersection
+                list.IntersectWith(remove);
+            }
+            _list = new List<Article>(list);
         }
 
         private void btnGetList_Click(object sender, EventArgs e)
