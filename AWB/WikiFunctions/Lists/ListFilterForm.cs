@@ -100,14 +100,34 @@ namespace WikiFunctions.Lists
         /// </summary>
         public void RemoveDuplicates()
         {
-            // hashset by definition does not allow duplicates, discards any on creation
-            HashSet<Article> NoDupes = new HashSet<Article>(_destListBox);
+            if(Globals.SystemCore3500Available)
+            {
+                // hashset by definition does not allow duplicates, discards any on creation
+                HashSet<Article> NoDupes = new HashSet<Article>(_destListBox);
 
-            _destListBox.BeginUpdate();
-            _destListBox.Items.Clear();
+                _destListBox.BeginUpdate();
+                _destListBox.Items.Clear();
 
-            _destListBox.Items.AddRange(new List<Article>(NoDupes).ToArray());
-            _destListBox.EndUpdate();
+                _destListBox.Items.AddRange(new List<Article>(NoDupes).ToArray());
+                _destListBox.EndUpdate();
+            }
+            else
+            {
+                _list.Clear();
+                
+                foreach (Article a in _destListBox)
+                {
+                    if (!_list.Contains(a))
+                        _list.Add(a);
+                }
+
+                _destListBox.BeginUpdate();
+                _destListBox.Items.Clear();
+
+                foreach (Article a in _list)
+                    _destListBox.Items.Add(a);
+                _destListBox.EndUpdate();
+            }
         }
 
         private void FilterNamespace()
@@ -165,24 +185,60 @@ namespace WikiFunctions.Lists
 
         private void FilterList()
         {
-            List<Article> remove = new List<Article>(lbRemove);
-
-            HashSet<Article> list = new HashSet<Article>(_list);
-
-            if (cbOpType.SelectedIndex == 0)
+            if(Globals.SystemCore3500Available)
             {
-                /* The symmetric difference of two sets is the set of elements which are in either
-                 * of the sets and not in their intersection. For example, the symmetric difference
-                 * of the sets {1,2,3} and {3,4} is {1,2,4}.
-                 */
-                list.ExceptWith(remove);
+                List<Article> remove = new List<Article>(lbRemove);
+
+                HashSet<Article> list = new HashSet<Article>(_list);
+
+                if (cbOpType.SelectedIndex == 0)
+                {
+                    /* The symmetric difference of two sets is the set of elements which are in either
+                     * of the sets and not in their intersection. For example, the symmetric difference
+                     * of the sets {1,2,3} and {3,4} is {1,2,4}.
+                     */
+                    list.ExceptWith(remove);
+                }
+                else
+                {
+                    // find intersection
+                    list.IntersectWith(remove);
+                }
+                _list = new List<Article>(list);
             }
             else
             {
-                // find intersection
-                list.IntersectWith(remove);
+                List<Article> remove = new List<Article>();
+                remove.AddRange(lbRemove);
+
+                List<Article> list2 = new List<Article>();
+
+                if (cbOpType.SelectedIndex == 0)
+                {
+                    // symmetric difference
+
+                    /* The symmetric difference of two sets is the set of elements which are in either of the sets and not in their intersection.
+                    For example, the symmetric difference of the sets {1,2,3} and {3,4} is {1,2,4} */
+
+                    foreach (Article a in _list)
+                        if (!remove.Contains(a))
+                            list2.Add(a);
+                        else
+                            remove.Remove(a);
+
+                    foreach (Article a in remove)
+                        if (!_list.Contains(a))
+                            list2.Add(a);
+                }
+                else
+                {
+                    // find intersection
+                    foreach (Article a in _list)
+                        if (remove.Contains(a))
+                            list2.Add(a);
+                }
+                _list = list2;
             }
-            _list = new List<Article>(list);
         }
 
         private void btnGetList_Click(object sender, EventArgs e)
