@@ -50,22 +50,29 @@ namespace WikiFunctions
             get { return Assembly.GetAssembly(typeof(Variables)).GetName().Version; }
         }
 
+        private static bool? systemCore3500Avail = null;
         /// <summary>
         /// Returns whether System.Core, Version=3.5.0.0 is available
         /// So whether HashSets can be used (should be available in all .NET 2 but seems to rely on a cetain service pack level)
         /// </summary>
         public static bool SystemCore3500Available
         {
-            get {
-                try{
-                    // see http://msdn.microsoft.com/en-us/library/ky3942xh.aspx
-                    System.Reflection.Assembly.Load("System.Core, Version=3.5.0.0, Culture=netural, PublicKeyToken=b77a5c561934e089");
-                    return true;
-                }
-                catch
+            get
+            {
+                if (systemCore3500Avail == null)
                 {
-                    return false;
+                    try
+                    {
+                        // see http://msdn.microsoft.com/en-us/library/ky3942xh.aspx
+                        System.Reflection.Assembly.Load("System.Core, Version=3.5.0.0, Culture=netural, PublicKeyToken=b77a5c561934e089");
+                        systemCore3500Avail = true;
+                    }
+                    catch
+                    {
+                        systemCore3500Avail = false;
+                    }
                 }
+                return (bool)systemCore3500Avail;
             }
         }
 
