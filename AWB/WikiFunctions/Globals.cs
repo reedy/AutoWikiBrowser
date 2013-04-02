@@ -18,7 +18,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Reflection;
-using System.Linq;
 
 namespace WikiFunctions
 {
@@ -28,19 +27,6 @@ namespace WikiFunctions
     /// </summary>
     public static class Globals
     {
-        static Globals()
-        {
-            const string SysCore3500 = "System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089";
-            foreach (var a in AppDomain.CurrentDomain.GetAssemblies())
-            {
-                if (a.FullName == SysCore3500)
-                {
-                    systemCore3500Avail = true;
-                    break;
-                }
-            }
-        }
-
         /// <summary>
         /// Whether we are running under Windows
         /// </summary>
@@ -64,18 +50,30 @@ namespace WikiFunctions
             get { return Assembly.GetAssembly(typeof(Variables)).GetName().Version; }
         }
 
-        private static readonly bool systemCore3500Avail;
-
+        private static bool? systemCore3500Avail = null;
         /// <summary>
         /// Returns whether System.Core, Version=3.5.0.0 is available
         /// So whether HashSets can be used (should be available in all .NET 2 but seems to rely on a cetain service pack level)
         /// </summary>
-        /// <remarks>
-        /// Code example from http://stackoverflow.com/questions/4919574/how-to-check-if-a-certain-assembly-exists
-        /// </remarks>
         public static bool SystemCore3500Available
         {
-            get { return systemCore3500Avail; }
+            get
+            {
+                if (systemCore3500Avail == null)
+                {
+                    try
+                    {
+                        // see http://msdn.microsoft.com/en-us/library/ky3942xh.aspx
+                        System.Reflection.Assembly.Load("System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
+                        systemCore3500Avail = true;
+                    }
+                    catch
+                    {
+                        systemCore3500Avail = false;
+                    }
+                }
+                return (bool)systemCore3500Avail;
+            }
         }
 
         #region Unit tests support
