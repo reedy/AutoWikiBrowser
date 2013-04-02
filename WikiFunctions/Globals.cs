@@ -28,6 +28,19 @@ namespace WikiFunctions
     /// </summary>
     public static class Globals
     {
+        static Globals()
+        {
+            const string SysCore3500 = "System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089";
+            foreach (var a in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                if (a.FullName == SysCore3500)
+                {
+                    systemCore3500Avail = true;
+                    break;
+                }
+            }
+        }
+
         /// <summary>
         /// Whether we are running under Windows
         /// </summary>
@@ -51,7 +64,8 @@ namespace WikiFunctions
             get { return Assembly.GetAssembly(typeof(Variables)).GetName().Version; }
         }
 
-        private static bool? systemCore3500Avail = null;
+        private static readonly bool systemCore3500Avail;
+
         /// <summary>
         /// Returns whether System.Core, Version=3.5.0.0 is available
         /// So whether HashSets can be used (should be available in all .NET 2 but seems to rely on a cetain service pack level)
@@ -61,16 +75,7 @@ namespace WikiFunctions
         /// </remarks>
         public static bool SystemCore3500Available
         {
-            get
-            {
-                if (systemCore3500Avail != null)
-                {
-                    return (bool)systemCore3500Avail;
-                }
-                return (from a in AppDomain.CurrentDomain.GetAssemblies()
-                        where a.FullName == "System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
-                        select a).SingleOrDefault() != null;
-            }
+            get { return systemCore3500Avail; }
         }
 
         #region Unit tests support
