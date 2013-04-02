@@ -83,7 +83,9 @@
     <Compile Include="AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="AWBWebBrowser.cs" />
+    <Compile Include="AWBWebBrowser.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="ConfigurePasteMoreItems.cs">
       <SubType>Form</SubType>
     </Compile>
