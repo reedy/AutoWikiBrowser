@@ -3810,21 +3810,16 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 return;
 
             StatusLabelText = "Processing page";
-            Article a = new Article(TheArticle.Name, txtEdit.Text);
-            Article theArtricleOriginal = TheArticle;
-            ErrorHandler.CurrentPage = TheArticle.Name;
-            ProcessPage(a, false);
+
+            // refresh text from text box to pick up user changes
+            TheArticle.AWBChangeArticleText("Reparse", txtEdit.Text, false);
+            ProcessPage(TheArticle, false);
             ErrorHandler.CurrentPage = "";
             UpdateCurrentTypoStats();
 
-            // provide article statistics based on new article, not the existing one
-            TheArticle = a;
             ArticleInfo(false);
-            // now restore original article and update the text
-            TheArticle = theArtricleOriginal;
-            TheArticle.AWBChangeArticleText("Reparse", a.ArticleText, false);
 
-            txtEdit.Text = a.ArticleText;
+            txtEdit.Text = TheArticle.ArticleText;
 
             if (highlightAllFindToolStripMenuItem.Checked)
                 HighlightAllFind();
