@@ -18,6 +18,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Reflection;
+using System.Linq;
 
 namespace WikiFunctions
 {
@@ -55,24 +56,20 @@ namespace WikiFunctions
         /// Returns whether System.Core, Version=3.5.0.0 is available
         /// So whether HashSets can be used (should be available in all .NET 2 but seems to rely on a cetain service pack level)
         /// </summary>
+        /// <remarks>
+        /// Code example from http://stackoverflow.com/questions/4919574/how-to-check-if-a-certain-assembly-exists
+        /// </remarks>
         public static bool SystemCore3500Available
         {
             get
             {
-                if (systemCore3500Avail == null)
+                if (systemCore3500Avail != null)
                 {
-                    try
-                    {
-                        // see http://msdn.microsoft.com/en-us/library/ky3942xh.aspx
-                        System.Reflection.Assembly.Load("System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
-                        systemCore3500Avail = true;
-                    }
-                    catch
-                    {
-                        systemCore3500Avail = false;
-                    }
+                    return (bool)systemCore3500Avail;
                 }
-                return (bool)systemCore3500Avail;
+                return (from a in AppDomain.CurrentDomain.GetAssemblies()
+                        where a.FullName == "System.Core, Version=3.5.0.0, Culture=netural, PublicKeyToken=b77a5c561934e089"
+                        select a).SingleOrDefault() != null;
             }
         }
 
