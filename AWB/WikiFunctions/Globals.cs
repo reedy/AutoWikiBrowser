@@ -68,7 +68,7 @@ namespace WikiFunctions
                     return (bool)systemCore3500Avail;
                 }
                 return (from a in AppDomain.CurrentDomain.GetAssemblies()
-                        where a.FullName == "System.Core, Version=3.5.0.0, Culture=netural, PublicKeyToken=b77a5c561934e089"
+                        where a.FullName == "System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
                         select a).SingleOrDefault() != null;
             }
         }
