@@ -1828,18 +1828,29 @@ Message: {2}
 			OpenURLInBrowser(Variables.NonPrettifiedURL(title));
 		}
 
+		private static string WineBrowserPath = null;
 		/// <summary>
-		/// Error supressed URL opener in default browser
+		/// Error supressed URL opener in default browser (Windows) or Firefox/Chromium/Konqueror for Wine
 		/// </summary>
 		public static void OpenURLInBrowser(string url)
 		{
-		    /* Note: this doesn't appear to work under wine
-		     * What does work is System.Diagnostics.Process.Start("/usr/bin/firefox", url);
-		     * (on the assumption that /usr/bin/firefox is your path to Firefox
-		     */
+		    // For Wine use attempt to dynamically determine available browser, caching result
+		    if(WineBrowserPath == null)
+		    {
+		        if(System.IO.File.Exists("/usr/bin/firefox"))
+		            WineBrowserPath = "/usr/bin/firefox";
+		        else if(System.IO.File.Exists("/usr/bin/chromium-browser"))
+		            WineBrowserPath = "/usr/bin/chromium-browser";
+		        else if(System.IO.File.Exists("/usr/bin/konqueror"))
+		            WineBrowserPath = "/usr/bin/konqueror";
+		        else WineBrowserPath = ""; // Windows, or Wine and none of these browsers available
+		    }
 		    try
 		    {
-		        System.Diagnostics.Process.Start(url);
+		        if(WineBrowserPath.Length > 0) // Wine
+		            System.Diagnostics.Process.Start(WineBrowserPath, url);
+		        else // Windows
+		            System.Diagnostics.Process.Start(url);
 		    }
 		    catch { }
 		}
