@@ -1949,22 +1949,32 @@ namespace WikiFunctions.Parse
             }
             
             WikiRegexes.AllTemplateRedirects = Tools.NestedTemplateRegex(AllRedirectsList);
-            SetAllTemplateRedirects(AllRedirectsList);
+
+            // must use separate functions to set value: if HashSets in same function compiler will pre-load them even if not used
+            if(Globals.SystemCore3500Available)
+                SetAllTemplateRedirectsHashSet(AllRedirectsList);
+            else
+                SetAllTemplateRedirectsList(AllRedirectsList);
 
             return TRs;
         }
         
         /// <summary>
-        /// Sets the WikiRegexes .AllTemplateRedirects: either the HashSet or List depending
-        /// on whether HashSets are available
+        /// Sets the WikiRegexes .AllTemplateRedirects HashSet
         /// </summary>
         /// <param name="RedirectsList"></param>
-        private static void SetAllTemplateRedirects(List<string> RedirectsList)
+        private static void SetAllTemplateRedirectsHashSet(List<string> RedirectsList)
         {
-            if(Globals.SystemCore3500Available)
-                WikiRegexes.AllTemplateRedirectsHS = new HashSet<string>(RedirectsList);
-            else
-                WikiRegexes.AllTemplateRedirectsList = RedirectsList;
+            WikiRegexes.AllTemplateRedirectsHS = new HashSet<string>(RedirectsList);
+        }
+        
+        /// <summary>
+        /// Sets the WikiRegexes .AllTemplateRedirects List
+        /// </summary>
+        /// <param name="RedirectsList"></param>
+        private static void SetAllTemplateRedirectsList(List<string> RedirectsList)
+        {
+            WikiRegexes.AllTemplateRedirectsList = RedirectsList;
         }
 
         /// <summary>
