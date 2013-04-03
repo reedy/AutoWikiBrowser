@@ -4394,6 +4394,12 @@ x
             uct = Parsers.UnclosedTags(@"<pre>bar</pre>");
             Assert.AreEqual(uct.Count, 0);
 
+            uct = Parsers.UnclosedTags(@"<gallery>File:bar</gallery>");
+            Assert.AreEqual(uct.Count, 0);
+
+            uct = Parsers.UnclosedTags(@"<math>bar</math>");
+            Assert.AreEqual(uct.Count, 0);
+
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <math> not ended");
             Assert.AreEqual(uct.Count, 1);
             Assert.IsTrue(uct.ContainsKey(15));
@@ -4435,6 +4441,10 @@ x
             Assert.IsTrue(uct.ContainsKey(15));
 
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> </pre> not opened");
+            Assert.AreEqual(uct.Count, 1);
+            Assert.IsTrue(uct.ContainsKey(15));
+
+            uct = Parsers.UnclosedTags(@"<pre>bar</pre> <gallery> not ended");
             Assert.AreEqual(uct.Count, 1);
             Assert.IsTrue(uct.ContainsKey(15));
 
