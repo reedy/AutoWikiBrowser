@@ -23,16 +23,26 @@ class AWBWebBrowser : WebBrowser
         Document.ExecCommand("Copy", false, null);
     }
     
-    /// <summary>
+      /// <summary>
     /// Returns whether there is currently any text selected
+    /// Only works if Microsoft.mshtml.dll is available
+    /// Check of Globals property must be in separate method to the IHTMLDocument2 code
     /// </summary>
     /// <returns></returns>
     public bool TextSelected()
     {
-        // Only works if Microsoft.mshtml.dll is available
-        if(!Globals.MSHTMLAvailable)
-            return false;
+        if(Globals.MSHTMLAvailable)
+            return TextSelectedChecked();
+        return false;
+    }
 
+    /// <summary>
+    /// Returns whether there is currently any text selected
+    /// Only works if Microsoft.mshtml.dll is available
+    /// </summary>
+    /// <returns></returns>
+    private bool TextSelectedChecked()
+    {
         IHTMLDocument2 htmlDocument = Document.DomDocument as IHTMLDocument2;
 
         IHTMLSelectionObject currentSelection= htmlDocument.selection;
