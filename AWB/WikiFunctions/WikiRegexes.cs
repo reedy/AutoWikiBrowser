@@ -346,6 +346,11 @@ namespace WikiFunctions
         public static HashSet<string> AllTemplateRedirectsHS;
         
         /// <summary>
+        /// List of all loaded template redirects from [[WP:AWB/TR]], used when HashSet AllTemplateRedirectsHS cannot be
+        /// </summary>
+        public static List<string> AllTemplateRedirectsList;
+
+        /// <summary>
         /// List of templates that should be dated (with 'date=Month YYYY' on en-wiki), from https://en.wikipedia.org/wiki/Wikipedia:AWB/Dated_templates, see Category:Wikipedia maintenance categories sorted by month
         /// </summary>
         public static List<string> DatedTemplates = new List<string>();

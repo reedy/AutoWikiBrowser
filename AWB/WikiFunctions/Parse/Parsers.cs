@@ -1949,9 +1949,22 @@ namespace WikiFunctions.Parse
             }
             
             WikiRegexes.AllTemplateRedirects = Tools.NestedTemplateRegex(AllRedirectsList);
-            WikiRegexes.AllTemplateRedirectsHS = new HashSet<string>(AllRedirectsList);
+            SetAllTemplateRedirects(AllRedirectsList);
 
             return TRs;
+        }
+        
+        /// <summary>
+        /// Sets the WikiRegexes .AllTemplateRedirects: either the HashSet or List depending
+        /// on whether HashSets are available
+        /// </summary>
+        /// <param name="RedirectsList"></param>
+        private static void SetAllTemplateRedirects(List<string> RedirectsList)
+        {
+            if(Globals.SystemCore3500Available)
+                WikiRegexes.AllTemplateRedirectsHS = new HashSet<string>(RedirectsList);
+            else
+                WikiRegexes.AllTemplateRedirectsList = RedirectsList;
         }
 
         /// <summary>
@@ -1987,6 +2000,20 @@ namespace WikiFunctions.Parse
             if(WikiRegexes.AllTemplateRedirects == null)
                 return articleText;
 
+            if(Globals.SystemCore3500Available)
+                return TemplateRedirectsHashSet(articleText, TemplateRedirects);
+            else
+                return TemplateRedirectsList(articleText, TemplateRedirects);
+        }
+
+        /// <summary>
+        /// TemplateRedirects using HashSets
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <param name="TemplateRedirects"></param>
+        /// <returns></returns>
+        private static string TemplateRedirectsHashSet(string articleText, Dictionary<Regex, string> TemplateRedirects)
+        {
             // performance: check there's a match between templates found and listed redirects
             // using intersection of lists of the two
             HashSet<string> TFH = new HashSet<string>();
@@ -2021,10 +2048,67 @@ namespace WikiFunctions.Parse
                                                                                       
                                                                                       // if template name changed and not nested template, done, so break out
                                                                                       if(!res.Equals(m2.Value) && !m2.Groups[3].Value.Contains("{{"))
-                                                                                         break;
+                                                                                          break;
                                                                                   }
                                                                                   return res;
                                                                               });
+            }
+            return articleText;
+        }
+
+        /// <summary>
+        /// (slower) version of TemplateRedirects using List
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <param name="TemplateRedirects"></param>
+        /// <returns></returns>
+        private static string TemplateRedirectsList(string articleText, Dictionary<Regex, string> TemplateRedirects)
+        {
+            List<string> TFH = new List<string>();
+
+            foreach(Match m in WikiRegexes.NestedTemplates.Matches(articleText))
+            {
+                string name = Tools.TurnFirstToUpper(Tools.GetTemplateName(m.Value));
+                if(!TFH.Contains(name))
+                    TFH.Add(name);
+
+                string template = m.Value.Substring(2);
+
+                while(WikiRegexes.NestedTemplates.IsMatch(template))
+                {
+                    Match m2 = WikiRegexes.NestedTemplates.Match(template);
+                    name = Tools.TurnFirstToUpper(Tools.GetTemplateName(m2.Value));
+                    if(!TFH.Contains(name))
+                        TFH.Add(name);
+
+                    template = template.Substring(m2.Index + 2);
+                }
+            }
+
+            // if matches found, run replacements
+            List<string> TFH2 = new List<string>();
+            foreach(string s in TFH)
+            {
+                if(WikiRegexes.AllTemplateRedirectsList.Contains(s))
+                    TFH2.Add(s);
+            }
+
+            if(TFH2.Count > 0)
+            {
+                articleText = Tools.NestedTemplateRegex(TFH2).Replace(articleText, m2=>
+                                                                      {
+                                                                          string res = m2.Value;
+                                                                          
+                                                                          foreach (KeyValuePair<Regex, string> kvp in TemplateRedirects)
+                                                                          {
+                                                                              res = kvp.Key.Replace(res, m => TemplateRedirectsME(m, kvp.Value));
+                                                                              
+                                                                              // if template name changed and not nested template, done, so break out
+                                                                              if(!res.Equals(m2.Value) && !m2.Groups[3].Value.Contains("{{"))
+                                                                                  break;
+                                                                          }
+                                                                          return res;
+                                                                      });
             }
             return articleText;
         }
