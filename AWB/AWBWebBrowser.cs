@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using mshtml;
+using WikiFunctions;
 class AWBWebBrowser : WebBrowser
 {
     public override bool PreProcessMessage(ref Message msg) 
@@ -27,7 +28,11 @@ class AWBWebBrowser : WebBrowser
     /// </summary>
     /// <returns></returns>
     public bool TextSelected()
-    {        
+    {
+        // Only works if Microsoft.mshtml.dll is available
+        if(!Globals.MSHTMLAvailable)
+            return false;
+
         IHTMLDocument2 htmlDocument = Document.DomDocument as IHTMLDocument2;
 
         IHTMLSelectionObject currentSelection= htmlDocument.selection;

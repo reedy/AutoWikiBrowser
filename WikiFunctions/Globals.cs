@@ -73,6 +73,32 @@ namespace WikiFunctions
             get { return systemCore3500Avail; }
         }
 
+        private static  bool? mSHTMLAvailable = null;
+
+        /// <summary>
+        /// Returns whether Microsoft.mshtml, Version=7.0.3300.0 is loaded
+        /// So whether IHTMLDocument2 object in AWBWebBrowser can be used
+        /// </summary>
+        public static bool MSHTMLAvailable
+        {
+            get {
+                if(mSHTMLAvailable == null)
+                {
+                    mSHTMLAvailable = false;
+                    foreach(var a in AppDomain.CurrentDomain.GetAssemblies())
+                    {
+                        if(a.FullName.Equals("Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"))
+                        {
+                            mSHTMLAvailable = true;
+                            break;
+                        }
+                    }
+                }
+
+                return (bool)mSHTMLAvailable;
+            }
+        }
+
         #region Unit tests support
         /// <summary>
         /// Set this to true in unit tests, to disable checkpage loading and other slow stuff.
