@@ -1064,9 +1064,15 @@ __TOC__", articleTextIn);
         [Test]
         public void WikiProjectBannerShellRedirects()
         {
-            string red1 = @"{{WPBS}}", WikiProjectBannerShell = @"{{WikiProjectBannerShell}}";
+            string red1 = @"{{WPBS}}", red2=@"{{Wikiprojectbannershell}}", red3=@"{{wpb}}",
+            WikiProjectBannerShell = @"{{WikiProjectBannerShell}}",
+            WikiProjectBanners = @"{{WikiProjectBanners}}";
             
             Assert.AreEqual(WikiProjectBannerShell, TalkPageFixes.WikiProjectBannerShell(red1));
+            Assert.AreEqual(WikiProjectBannerShell, TalkPageFixes.WikiProjectBannerShell(red2));
+            Assert.AreEqual(WikiProjectBannerShell, TalkPageFixes.WikiProjectBannerShell(WikiProjectBannerShell));
+            Assert.AreNotEqual(WikiProjectBannerShell, TalkPageFixes.WikiProjectBannerShell(red3));
+            Assert.AreNotEqual(WikiProjectBanners, TalkPageFixes.WikiProjectBannerShell(red3));
         }
         
         [Test]

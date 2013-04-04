@@ -186,7 +186,8 @@ namespace WikiFunctions.TalkPages
             return articleText;
         }
 
-        private static readonly List<string> BannerShellRedirects = new List<string>(new[] { "WikiProject Banners", "WikiProjectBanners", "WPBS", "WPB", "Wpb", "Wpbs" });
+        private static readonly List<string> BannerShellRedirects = new List<string>(new[] { "WPBS", "Wpbs", "WP banner shell", "WP Banner Shell", "WPBannerShell", "WikiProject Banner Shell", "Wikiprojectbannershell", "Bannershell", "Shell" });
+        private static readonly List<string> BannerRedirects = new List<string>(new[] { "WikiProject Banners", "WikiProjectBanners", "WPB", "Wpb" });
         private static readonly List<string> Nos = new List<string>(new[] { "blp", "blpo", "activepol", "collapsed" });
         private static readonly Regex BLPRegex = Tools.NestedTemplateRegex(new[] { "blp", "BLP", "Blpinfo" });
         private static readonly Regex BLPORegex = Tools.NestedTemplateRegex(new[] { "blpo", "BLPO", "BLP others" });
@@ -216,6 +217,9 @@ namespace WikiFunctions.TalkPages
             // rename redirects
             foreach (string redirect in BannerShellRedirects)
                 articletext = Tools.RenameTemplate(articletext, redirect, "WikiProjectBannerShell", false);
+
+            foreach (string redirect in BannerShellRedirects)
+                articletext = Tools.RenameTemplate(articletext, redirect, "WikiProjectBanners", false);
 
             foreach (Match m in WikiRegexes.WikiProjectBannerShellTemplate.Matches(articletext))
             {
