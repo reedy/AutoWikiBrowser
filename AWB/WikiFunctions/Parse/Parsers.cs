@@ -7231,7 +7231,7 @@ namespace WikiFunctions.Parse
             }
 
             // add orphan tag if applicable, and no disambig nor SIA
-            if (orphaned2 && !WikiRegexes.Orphan.IsMatch(articleText) && Tools.GetTemplateParameterValue(WikiRegexes.MultipleIssues.Match(articleText).Value, "orphan").Length == 0
+            if (!Variables.LangCode.Equals("sv") && orphaned2 && !WikiRegexes.Orphan.IsMatch(articleText) && Tools.GetTemplateParameterValue(WikiRegexes.MultipleIssues.Match(articleText).Value, "orphan").Length == 0
                 && !WikiRegexes.Disambigs.IsMatch(articleText) && !WikiRegexes.SIAs.IsMatch(articleText) && !WikiRegexes.Wi.IsMatch(articleText))
             {
                 if (Variables.LangCode.Equals("ar"))

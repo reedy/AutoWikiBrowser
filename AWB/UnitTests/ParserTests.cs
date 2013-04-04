@@ -9169,8 +9169,8 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 #if DEBUG
             Variables.SetProjectLangCode("sv");
             string text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
-            //Stub, no existing stub tag. Sv wiki doens't have dead end
-            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "orphan");
+            //Stub, no existing stub tag. Sv wiki doens't have dead end nor orphan
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text), "orphan");
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text), "stub");
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text), "dead end");
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text), "wikify");
