@@ -5796,7 +5796,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
-        /// <param name="matches"></param>
+        /// <param name="matches">Number of categories with the same or no sortkey</param>
         /// <returns></returns>
         public static string GetCategorySort(string articleText, string articleTitle, out int matches)
         {
@@ -5962,15 +5962,15 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
-        /// <param name="matches">If there is no change (True if no Change)</param>
+        /// <param name="categories">Number of categories on page</param>
         /// <param name="articleAboutAPerson">Whether the article is about a person</param>
         /// <returns>The article text possibly using defaultsort.</returns>
-        private static string DefaultsortTitlesWithDiacritics(string articleText, string articleTitle, int matches, bool articleAboutAPerson)
+        private static string DefaultsortTitlesWithDiacritics(string articleText, string articleTitle, int categories, bool articleAboutAPerson)
         {
             // need some categories and no defaultsort, and a sortkey not the same as the article title
             if (((Tools.FixupDefaultSort(articleTitle) != articleTitle && !articleAboutAPerson) ||
                  (Tools.MakeHumanCatKey(articleTitle, articleText) != articleTitle && articleAboutAPerson))
-                && matches > 0 && !WikiRegexes.Defaultsort.IsMatch(articleText))
+                && categories > 0 && !WikiRegexes.Defaultsort.IsMatch(articleText))
             {
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Human_DEFAULTSORT
                 // if article is about a person, attempt to add a surname, forenames sort key rather than the tidied article title
