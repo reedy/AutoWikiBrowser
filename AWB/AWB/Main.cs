@@ -2202,15 +2202,14 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         {
             ShuttingDown = true;
 
-            TheSession.Editor.Abort();
+            if(TheSession != null) // TheSession can be null if AWB encounters network problems on startup
+                TheSession.Editor.Abort();
 
             SaveRecentSettingsList();
             UsageStats.Do(true);
 
             ntfyTray.Visible = false;
             ntfyTray.Dispose();
-
-            //Application.Exit();
         }
 
         /// <summary>
