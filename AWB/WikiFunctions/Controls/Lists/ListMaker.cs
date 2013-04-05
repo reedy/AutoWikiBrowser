@@ -1211,12 +1211,15 @@ namespace WikiFunctions.Controls.Lists
 
         private void LoadArticlesInBrowser()
         {
-            Article[] articles = new Article[lbArticles.SelectedItems.Count];
-            lbArticles.SelectedItems.CopyTo(articles, 0);
-
-            foreach (Article item in articles)
+            if(Variables.MainForm.TheSession != null) // TheSession can be null if AWB encounters network problems on startup
             {
-                Variables.MainForm.TheSession.Site.OpenPageInBrowser(item.Name);
+                Article[] articles = new Article[lbArticles.SelectedItems.Count];
+                lbArticles.SelectedItems.CopyTo(articles, 0);
+
+                foreach (Article item in articles)
+                {
+                    Variables.MainForm.TheSession.Site.OpenPageInBrowser(item.Name);
+                }
             }
         }
 
