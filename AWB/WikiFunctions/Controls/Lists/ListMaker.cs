@@ -1211,7 +1211,7 @@ namespace WikiFunctions.Controls.Lists
 
         private void LoadArticlesInBrowser()
         {
-            if(Variables.MainForm.TheSession != null) // TheSession can be null if AWB encounters network problems on startup
+            if(Variables.MainForm.TheSession.Site != null) // TheSession can be null if AWB encounters network problems on startup
             {
                 Article[] articles = new Article[lbArticles.SelectedItems.Count];
                 lbArticles.SelectedItems.CopyTo(articles, 0);
