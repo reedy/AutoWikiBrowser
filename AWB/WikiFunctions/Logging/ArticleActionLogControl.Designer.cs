@@ -156,6 +156,7 @@
             this.clearToolStripMenuItem});
             this.mnuListView.Name = "mnuListView";
             this.mnuListView.Size = new System.Drawing.Size(204, 254);
+            this.mnuListView.Opening += new System.ComponentModel.CancelEventHandler(this.mnuListView_Opening);
             // 
             // addSelectedToArticleListToolStripMenuItem
             // 

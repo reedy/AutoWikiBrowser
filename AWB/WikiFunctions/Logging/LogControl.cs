@@ -138,6 +138,14 @@ namespace WikiFunctions.Logging
             filterShowOnlySelectedToolStripMenuItem.Visible = enabled;
             filterExcludeToolStripMenuItem.Visible = enabled;
             toolStripSeparator1.Visible = enabled;
+
+            addSelectedToArticleListToolStripMenuItem.Enabled = cutToolStripMenuItem.Enabled = copyToolStripMenuItem.Enabled
+                = removeToolStripMenuItem.Enabled = openInBrowserToolStripMenuItem.Enabled = openHistoryInBrowserToolStripMenuItem.Enabled
+                = filterShowOnlySelectedToolStripMenuItem.Enabled = filterExcludeToolStripMenuItem.Enabled =
+                MenuItemOwner(sender).SelectedItems.Count > 0;
+
+            selectAllToolStripMenuItem.Enabled = selectNoneToolStripMenuItem.Enabled = clearToolStripMenuItem.Enabled =
+                MenuItemOwner(sender).Items.Count > 0;
         }
 
         private void addSelectedToArticleListToolStripMenuItem_Click(object sender, EventArgs e)

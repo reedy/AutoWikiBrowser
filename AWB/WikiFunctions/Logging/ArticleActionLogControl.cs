@@ -212,6 +212,15 @@ namespace WikiFunctions.Logging
                 lvSuccessful.Items.Clear();
             }
         }
+
+        private void mnuListView_Opening(object sender, EventArgs e)
+        {
+            addSelectedToArticleListToolStripMenuItem.Enabled = cutToolStripMenuItem.Enabled =
+                copyToolStripMenuItem.Enabled = removeToolStripMenuItem.Enabled = openInBrowserToolStripMenuItem.Enabled = openHistoryInBrowserToolStripMenuItem.Enabled
+                = clearToolStripMenuItem.Enabled = MenuItemOwner(sender).SelectedItems.Count > 0;
+
+            selectAllToolStripMenuItem.Enabled = selectNoneToolStripMenuItem.Enabled = MenuItemOwner(sender).Items.Count > 0;
+        }
         #endregion
 
         private void openLogInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
