@@ -2667,59 +2667,66 @@ world|format=PDF}} was";
         public void PersonDataCompletionDOB()
         {
             const string a = @"{{persondata
+            |NAME=
             |DATE OF BIRTH=
             |DATE OF DEATH=}}", a2 = @"{{persondata
+            |NAME= Doe, John
             |DATE OF BIRTH= 27 June 1950
             |DATE OF DEATH=}}", i1 = @"{{infobox foo| dateofbirth = 27 June 1950}}", i2 = @"{{infobox foo| dateofbirth = {{birth date|1950|06|27}}}}"
-                , i2b = @"{{infobox foo| dateofbirth = {{birth date|df=y|1950|06|27}}}}";
+                , i2b = @"{{infobox foo| dateofbirth = {{birth date|df=y|1950|06|27}}}}",
+            a3 = @"{{persondata
+            |NAME= Doe, John
+            |DATE OF BIRTH=
+            |DATE OF DEATH=}}";
 
-            Assert.AreEqual(i1 + a2, Parsers.PersonData(i1 + a, "test x"));
+            Assert.AreEqual(i1 + a2, Parsers.PersonData(i1 + a, "John Doe"));
             Assert.AreEqual(i1 + a2, Parsers.PersonData(i1 + @"{{persondata
+            |NAME= Doe, John
             |date of birth=
-            |date of death=}}", "test x"));
-            Assert.AreEqual(i1.Replace("27 June", "June 27,") + a2.Replace("27 June", "June 27,"), Parsers.PersonData(i1.Replace("27 June", "June 27,") + a.Replace("27 June", "June 27,"), "test x"));
-            Assert.AreEqual(i2 + a2.Replace("27 June 1950", "1950-06-27"), Parsers.PersonData(i2 + a, "test x"));
+            |date of death=}}", "John Doe"));
+            Assert.AreEqual(i1.Replace("27 June", "June 27,") + a2.Replace("27 June", "June 27,"), Parsers.PersonData(i1.Replace("27 June", "June 27,") + a.Replace("27 June", "June 27,"), "John Doe"));
+            Assert.AreEqual(i2 + a2.Replace("27 June 1950", "1950-06-27"), Parsers.PersonData(i2 + a, "John Doe"));
             Assert.AreEqual(i2.Replace(@"{{birth date|1950|06|27}}", @"{{birth-date|27 June 1950|27 June 1950}}") + a2,
-                            Parsers.PersonData(i2.Replace(@"{{birth date|1950|06|27}}", @"{{birth-date|27 June 1950|27 June 1950}}") + a, "test x"));
+                            Parsers.PersonData(i2.Replace(@"{{birth date|1950|06|27}}", @"{{birth-date|27 June 1950|27 June 1950}}") + a, "John Doe"));
             Assert.AreEqual(i2.Replace("27}}", "27}} in London") + a2.Replace("27 June 1950", "1950-06-27"),
-                            Parsers.PersonData(i2.Replace("27}}", "27}} in London") + a, "test x"), "Completes persondata from {{birth date}} when extra data in infobox field");
+                            Parsers.PersonData(i2.Replace("27}}", "27}} in London") + a, "John Doe"), "Completes persondata from {{birth date}} when extra data in infobox field");
             Assert.AreEqual(i2b.Replace("27}}", "27}} in London") + a2,
-                            Parsers.PersonData(i2b.Replace("27}}", "27}} in London") + a, "test x"), "Completes persondata from {{birth date}} when extra data in infobox field");
+                            Parsers.PersonData(i2b.Replace("27}}", "27}} in London") + a, "John Doe"), "Completes persondata from {{birth date}} when extra data in infobox field");
 
             string i3 = i1.Replace("27 June 1950", @"{{dda|2005|07|20|1950|06|27|df=yes}}");
-            Assert.AreEqual(i3 + a2.Replace("DEATH=", "DEATH= 20 July 2005"), Parsers.PersonData(i3 + a, "test x"), "takes dates from {{dda}}");
+            Assert.AreEqual(i3 + a2.Replace("DEATH=", "DEATH= 20 July 2005"), Parsers.PersonData(i3 + a, "John Doe"), "takes dates from {{dda}}");
 
             string i4 = @"{{infobox foo| birthyear = 1950 | birthmonth=06 | birthday=27}}";
-            Assert.AreEqual(i4 + a2 + @"{{use dmy dates}}", Parsers.PersonData(i4 + a + @"{{use dmy dates}}", "test x"), "takes dates from birthyear etc. fields");
+            Assert.AreEqual(i4 + a2 + @"{{use dmy dates}}", Parsers.PersonData(i4 + a + @"{{use dmy dates}}", "John Doe"), "takes dates from birthyear etc. fields");
 
             string i5 = @"{{infobox foo| yob = 1950 | mob=06 | dob=27}}";
-            Assert.AreEqual(i5 + a2 + @"{{use dmy dates}}", Parsers.PersonData(i5 + a + @"{{use dmy dates}}", "test x"), "takes dates from birthyear etc. fields");
+            Assert.AreEqual(i5 + a2 + @"{{use dmy dates}}", Parsers.PersonData(i5 + a + @"{{use dmy dates}}", "John Doe"), "takes dates from birthyear etc. fields");
 
-            Assert.AreEqual(i1 + a + a, Parsers.PersonData(i1 + a + a, "test x"), "no change when multiple personData templates");
+            Assert.AreEqual(i1 + a + a, Parsers.PersonData(i1 + a + a, "John Doe"), "no change when multiple personData templates");
 
             string i6 = i1.Replace("27 June 1950", @"{{dda|2005|07|00|1950|06|00|df=yes}}");
-            Assert.AreEqual(i6 + a, Parsers.PersonData(i6 + a, "test x"), "ignores incomplete/zerod dates from {{dda}}");
+            Assert.AreEqual(i6 + a3, Parsers.PersonData(i6 + a3, "John Doe"), "ignores incomplete/zerod dates from {{dda}}");
 
             string UnformatedDOB = @"'''Fred''' (born 27 June 1950) was great [[Category:1950 births]]";
-            Assert.AreEqual(UnformatedDOB + a2, Parsers.PersonData(UnformatedDOB + a, "test x"), "sets full birth date when matches category");
+            Assert.AreEqual(UnformatedDOB + a2, Parsers.PersonData(UnformatedDOB + a, "John Doe"), "sets full birth date when matches category");
 
             UnformatedDOB = @"'''Fred''' (born June 27, 1950) was great [[Category:1950 births]] {{use dmy dates}}";
-            Assert.AreEqual(UnformatedDOB + a2, Parsers.PersonData(UnformatedDOB + a, "test x"), "sets full birth date when matches category, American date");
+            Assert.AreEqual(UnformatedDOB + a2, Parsers.PersonData(UnformatedDOB + a, "John Doe"), "sets full birth date when matches category, American date");
 
             UnformatedDOB = UnformatedDOB.Replace(@"[[Category:1950 births]]", "");
-            Assert.AreEqual(UnformatedDOB + a, Parsers.PersonData(UnformatedDOB + a, "test x"), "not set when no birth category");
+            Assert.AreEqual(UnformatedDOB + a3, Parsers.PersonData(UnformatedDOB + a3, "John Doe"), "not set when no birth category");
 
             UnformatedDOB = @"'''Fred''' (born 27 June 1949) was great [[Category:1950 births]]";
-            Assert.AreEqual(UnformatedDOB + a2.Replace("27 June 1950", "1950"), Parsers.PersonData(UnformatedDOB + a, "test x"), "not set when full birth date doesn't match category");
+            Assert.AreEqual(UnformatedDOB + a2.Replace("27 June 1950", "1950"), Parsers.PersonData(UnformatedDOB + a, "John Doe"), "not set when full birth date doesn't match category");
 
             UnformatedDOB = @"'''Fred''' (born circa 27 June 1950) was great [[Category:1950 births]]";
-            Assert.AreEqual(UnformatedDOB + a2.Replace("27 June 1950", "1950"), Parsers.PersonData(UnformatedDOB + a, "test x"), "only year set when circa date");
+            Assert.AreEqual(UnformatedDOB + a2.Replace("27 June 1950", "1950"), Parsers.PersonData(UnformatedDOB + a, "John Doe"), "only year set when circa date");
 
             UnformatedDOB = @"'''Fred''' (reigned 27 June 1950 – 11 May 1990) was great";
-            Assert.AreEqual(UnformatedDOB + a2.Replace(" 27 June 1950", ""), Parsers.PersonData(UnformatedDOB + a, "test x"), "No dates set when reigned");
+            Assert.AreEqual(UnformatedDOB + a2.Replace(" 27 June 1950", ""), Parsers.PersonData(UnformatedDOB + a, "John Doe"), "No dates set when reigned");
 
             UnformatedDOB = @"'''Fred''' (baptized 27 June 1950 – 11 May 1990) was great";
-            Assert.AreEqual(UnformatedDOB + a2.Replace(" 27 June 1950", ""), Parsers.PersonData(UnformatedDOB + a, "test x"), "No dates set when baptized");
+            Assert.AreEqual(UnformatedDOB + a2.Replace(" 27 June 1950", ""), Parsers.PersonData(UnformatedDOB + a, "John Doe"), "No dates set when baptized");
 
             const string Clark = @"
 {{use mdy dates}}
@@ -2759,95 +2766,113 @@ world|format=PDF}} was";
         public void PersonDataCompletionDOD()
         {
             const string a = @"{{persondata
+            |NAME=
             |DATE OF BIRTH=
             |DATE OF DEATH=}}", a2 = @"{{persondata
+            |NAME= Doe, John
             |DATE OF BIRTH=
             |DATE OF DEATH= 27 June 1950}}", i1 = @"{{infobox foo| dateofdeath = 27 June 1950}}", i2 = @"{{infobox foo| dateofdeath = {{death date|1950|06|27}}}}";
 
-            Assert.AreEqual(i1 + a2, Parsers.PersonData(i1 + a, "test x"));
-            Assert.AreEqual(i1.Replace("27 June", "June 27,") + a2.Replace("27 June", "June 27,"), Parsers.PersonData(i1.Replace("27 June", "June 27,") + a.Replace("27 June", "June 27,"), "test x"));
-            Assert.AreEqual(i2 + a2.Replace("27 June 1950", "1950-06-27"), Parsers.PersonData(i2 + a, "test x"));
+            Assert.AreEqual(i1 + a2, Parsers.PersonData(i1 + a, "John Doe"));
+            Assert.AreEqual(i1.Replace("27 June", "June 27,") + a2.Replace("27 June", "June 27,"), Parsers.PersonData(i1.Replace("27 June", "June 27,") + a.Replace("27 June", "June 27,"), "John Doe"));
+            Assert.AreEqual(i2 + a2.Replace("27 June 1950", "1950-06-27"), Parsers.PersonData(i2 + a, "John Doe"));
             Assert.AreEqual(i2.Replace("27}}", "27}} in London") + a2.Replace("27 June 1950", "1950-06-27"),
-                            Parsers.PersonData(i2.Replace("27}}", "27}} in London") + a, "test x"), "Completes persondata from {{death date}} when extra data in infobox field");
+                            Parsers.PersonData(i2.Replace("27}}", "27}} in London") + a, "John Doe"), "Completes persondata from {{death date}} when extra data in infobox field");
 
             string i4d = @"{{infobox foo| deathyear = 1950 | deathmonth=06 | deathday=27}}";
             Assert.AreEqual(i4d + a2.Replace(@"DATE OF BIRTH=27 June 1950
             |DATE OF DEATH= ", @"DATE OF BIRTH=
-            |DATE OF DEATH= 27 June 1950") + @"{{use dmy dates}}", Parsers.PersonData(i4d + a + @"{{use dmy dates}}", "test x"), "takes dates from deathyear etc. fields");
+            |DATE OF DEATH= 27 June 1950") + @"{{use dmy dates}}", Parsers.PersonData(i4d + a + @"{{use dmy dates}}", "John Doe"), "takes dates from deathyear etc. fields");
 
             string i5 = @"{{infobox foo| yod = 1950 | mod=06 | dod=27}}";
             Assert.AreEqual(i5 + a2.Replace(@"DATE OF BIRTH=27 June 1950
             |DATE OF DEATH= ", @"DATE OF BIRTH=
-            |DATE OF DEATH= 27 June 1950") + @"{{use dmy dates}}", Parsers.PersonData(i5 + a + @"{{use dmy dates}}", "test x"), "takes dates from deathyear etc. fields");
+            |DATE OF DEATH= 27 June 1950") + @"{{use dmy dates}}", Parsers.PersonData(i5 + a + @"{{use dmy dates}}", "John Doe"), "takes dates from deathyear etc. fields");
 
             string u1 = @"Fred (11 May 1920 – 4 June 2004) was great. [[Category:1920 births]] [[Category:2004 deaths]]";
             Assert.AreEqual(@"{{Persondata
+|NAME= Doe, John
 |DATE OF BIRTH= 11 May 1920
 |DATE OF DEATH= 4 June 2004
 }}" + u1, Parsers.PersonData(@"{{Persondata
+|NAME= Doe, John
 |DATE OF BIRTH=
 |DATE OF DEATH=
-}}" + u1, "test x"), "birth and death added from unformatted values");
+}}" + u1, "John Doe"), "birth and death added from unformatted values");
 
             u1 = @"Fred (11 May 1920 – 4 June 2004) was great. [[Category:1920 births]] [[Category:2004 deaths]]";
             Assert.AreEqual(@"{{Persondata
+|NAME= Doe, John
 |DATE OF BIRTH= 11 May 1920
 |DATE OF DEATH= 4 June 2004
 }}" + u1, Parsers.PersonData(@"{{Persondata
+|NAME= Doe, John
 |DATE OF BIRTH=
 |DATE OF DEATH=
-}}" + u1, "test x"), "birth and death added from unformatted values");
+}}" + u1, "John Doe"), "birth and death added from unformatted values");
 
             u1 = @"Fred (born 11 May 1920; died 4 June 2004) was great. [[Category:1920 births]] [[Category:2004 deaths]]";
             Assert.AreEqual(@"{{Persondata
+|NAME= Doe, John
 |DATE OF BIRTH= 11 May 1920
 |DATE OF DEATH= 4 June 2004
 }}" + u1, Parsers.PersonData(@"{{Persondata
+|NAME= Doe, John
 |DATE OF BIRTH=
 |DATE OF DEATH=
-}}" + u1, "test x"), "birth and death added from unformatted values");
+}}" + u1, "John Doe"), "birth and death added from unformatted values");
             u1 = @"Fred (born 11 May 1920 {{ndash}} 4 June 2004) was great. [[Category:1920 births]] [[Category:2004 deaths]]";
             Assert.AreEqual(@"{{Persondata
+|NAME= Doe, John
 |DATE OF BIRTH= 11 May 1920
 |DATE OF DEATH= 4 June 2004
 }}" + u1, Parsers.PersonData(@"{{Persondata
+|NAME= Doe, John
 |DATE OF BIRTH=
 |DATE OF DEATH=
-}}" + u1, "test x"), "birth and death added from unformatted values");
+}}" + u1, "John Doe"), "birth and death added from unformatted values");
             u1 = @"Fred (born 11 May 1920{{ndash}} 4 June 2004) was great. [[Category:1920 births]] [[Category:2004 deaths]]";
             Assert.AreEqual(@"{{Persondata
+|NAME= Doe, John
 |DATE OF BIRTH= 11 May 1920
 |DATE OF DEATH= 4 June 2004
 }}" + u1, Parsers.PersonData(@"{{Persondata
+|NAME= Doe, John
 |DATE OF BIRTH=
 |DATE OF DEATH=
-}}" + u1, "test x"), "birth and death added from unformatted values");
+}}" + u1, "John Doe"), "birth and death added from unformatted values");
             u1 = @"Fred (born 11 May 1920{{ndash}} June 4, 2004) was great. [[Category:1920 births]] [[Category:2004 deaths]] {{use dmy dates}}";
             Assert.AreEqual(@"{{Persondata
+|NAME= Doe, John
 |DATE OF BIRTH= 11 May 1920
 |DATE OF DEATH= 4 June 2004
 }}" + u1, Parsers.PersonData(@"{{Persondata
+|NAME= Doe, John
 |DATE OF BIRTH=
 |DATE OF DEATH=
-}}" + u1, "test x"), "birth and death added from unformatted values, American format dates");
+}}" + u1, "John Doe"), "birth and death added from unformatted values, American format dates");
 
             u1 = @"Fred (11 May 1920 – 4 June 1000) was great. [[Category:1920 births]] [[Category:2004 deaths]]";
             Assert.AreEqual(@"{{Persondata
+|NAME= Doe, John
 |DATE OF BIRTH= 11 May 1920
 |DATE OF DEATH= 2004
 }}" + u1, Parsers.PersonData(@"{{Persondata
+|NAME= Doe, John
 |DATE OF BIRTH=
 |DATE OF DEATH=
-}}" + u1, "test x"), "unformatted death value not added if doesn't match category");
+}}" + u1, "John Doe"), "unformatted death value not added if doesn't match category");
 
             u1 = @"Fred (11 May 1920 – {{circa}} 4 June 2004) was great. [[Category:1920 births]] [[Category:2004 deaths]]";
             Assert.AreEqual(@"{{Persondata
+|NAME= Doe, John
 |DATE OF BIRTH= 1920
 |DATE OF DEATH= 2004
 }}" + u1, Parsers.PersonData(@"{{Persondata
+|NAME= Doe, John
 |DATE OF BIRTH=
 |DATE OF DEATH=
-}}" + u1, "test x"), "unformatted death value not added if doesn't match category");
+}}" + u1, "John Doe"), "unformatted death value not added if doesn't match category");
 
             const string Clark = @"
 {{use mdy dates}}
@@ -2873,6 +2898,7 @@ world|format=PDF}} was";
         public void PersonDataParameterCasing()
         {
             const string LowerCase = @"Foo (born 1980) {{Persondata
+|name=X, Foo
 |date of birth=1980
 }}
 [[Cateogory:1980 births]]";
@@ -2880,12 +2906,14 @@ world|format=PDF}} was";
             Assert.AreEqual(LowerCase, Parsers.PersonData(LowerCase, "foo x"), "no update when lowercase parameter holds the data already");
 
             const string LowerCase2 = @"{{Persondata
+|name=X, Foo
 |date of birth=1980
 |DATE OF BIRTH=1980
 }}
 [[Category:2005 deaths]]";
 
             Assert.AreEqual(@"{{Persondata
+|NAME=X, Foo
 |DATE OF BIRTH=1980
 | DATE OF DEATH= 2005
 }}
@@ -7639,6 +7667,32 @@ foo {{persondata}}
 
             Assert.IsTrue(Parsers.IsArticleAboutAPerson(@"'''Margaret Sidney''' was the [[pseudonym]] of American author '''Harriett Mulford Stone''' (June 22, 1844–August 2, 1924).
 [[Category:1844 births]]", "foo"));
+            
+            string AR = @"{{Infobox rugby biography
+| birth_name = Opeti Fonua
+| birth_date ={{birth date and age|df=yes|1986|05|26}}
+| birth_place = [[Tonga]]
+| height = 1.97 m (6 ft 5.5 in)
+| weight = 140 kg (22 st 2 lb, 310 lb)
+| ru_position = Backrow, Secondrow
+| ru_amateurclubs =
+| ru_clubyears = 2005-2007<br />2007-2008<br />2008-
+| ru_proclubs = [[SU Agen Lot-et-Garonne|SU Agen]]<br />[[Football club Auch Gers|FC Auch]]<br />[[Sporting union Agen Lot-et-Garonne|SU Agen]]
+| ru_clubcaps = 34<ref name=""itsrugby""/><br /> 12<ref name=""itsrugby"">{{Lien web |url=http://www.itsrugby.fr/joueur-3640.html |titre=Opeti Fonua |site=www.itsrugby.fr |consulté le=30</ref><br />81<ref name=""itsrugby""/>
+| ru_clubpoints = 10 (2 tries)<br />0<br />135 (23 tries)
+| ru_nationalyears = 2009-
+| ru_nationalteam = {{ru|Tonga}}
+| ru_nationalcaps = 2
+| ru_nationalpoints = (0)
+}}
+
+'''Opeti Fonua''', born [[26 May]] [[1986]], is a [[Tongan]] [[rugby union]] player who plays as a no.8 for French club [[SU Agen]]. Fonua is known for his immense size and strength (Fonua stands a shade under 6 feet 6 inches, or 197 cm, and weights in at 140 kg, well over 300 lb) but also for his speed and agility, surprising attributes given his huge physical size. Big tackles and strong carries, replete with hand-offs to opponents, are his trademarks. He is also known for bouncing off and running over opponents, often leaving them on the ground on their backsides as he continues galloping forward after smashing into them.
+
+==References==
+{{Reflist}}
+";
+            Assert.IsTrue(Parsers.IsArticleAboutAPerson(AR, "Opeti Fonua"));
+            
         }
 
         [Test]

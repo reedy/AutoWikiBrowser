@@ -4134,6 +4134,9 @@ namespace WikiFunctions.Parse
                 if (name.Length == 0 && Tools.WordCount(articleTitle) == 1)
                     name = articleTitle;
 
+                if (name.Length == 0)
+                    name = Tools.MakeHumanCatKey(articleTitle, articleText);
+
                 if (name.Length > 0)
                     newPersonData = Tools.SetTemplateParameterValue(newPersonData, "NAME", name, true);
             }
