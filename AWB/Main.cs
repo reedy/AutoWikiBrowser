@@ -153,7 +153,6 @@ namespace AutoWikiBrowser
                 }
                 catch (Exception ex)
                 {
-                    Parser = new Parsers();
                     ErrorHandler.Handle(ex);
                 }
 
