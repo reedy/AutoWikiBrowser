@@ -19,6 +19,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.Web;
 using System.Collections;
+using System.IO;
+using System.Windows.Forms;
 
 namespace WikiFunctions
 {
@@ -556,11 +558,11 @@ table.diff td div {
 
             if (!string.IsNullOrEmpty(CustomStyles))
                 styles = CustomStyles;
-            else if (System.IO.File.Exists("style.css") && CustomStyles == null)
+            else if (System.IO.File.Exists(Path.Combine(Application.StartupPath, "style.css")) && CustomStyles == null)
             {
                 try
                 {
-                    System.IO.StreamReader reader = System.IO.File.OpenText("style.css");
+                    System.IO.StreamReader reader = System.IO.File.OpenText(Path.Combine(Application.StartupPath, "style.css"));
                     CustomStyles = reader.ReadToEnd();
                     styles = CustomStyles;
                 }
