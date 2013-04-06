@@ -2851,6 +2851,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
         private void PreferencesToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            OpenPreferences(false);
+        }
+
+        private void OpenPreferences(bool focusSiteTab)
+        {
             MyPreferences myPrefs = new MyPreferences(Variables.LangCode, Variables.Project,
                                                       Variables.CustomProject, Variables.PHP5,
                                                       Variables.Protocol)
@@ -2883,6 +2888,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
                 EnableLogging = loggingEnabled
             };
+
+            myPrefs.FocusSiteTab = focusSiteTab;
 
             if (myPrefs.ShowDialog(this) == DialogResult.OK)
             {
@@ -5440,6 +5447,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         private void lblUserName_Click(object sender, EventArgs e)
         {
             Profiles.ShowDialog(this);
+        }
+
+        private void lblProject_Click(object sender, EventArgs e)
+        {
+             OpenPreferences(true);
         }
     }
     #endregion

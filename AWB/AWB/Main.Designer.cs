@@ -1693,6 +1693,7 @@ namespace AutoWikiBrowser
             this.lblProject.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblProject.Size = new System.Drawing.Size(63, 17);
             this.lblProject.Text = "Wikipedia";
+            this.lblProject.Click += new System.EventHandler(this.lblProject_Click);
             // 
             // lblNewArticles
             // 
