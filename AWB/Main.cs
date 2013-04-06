@@ -615,9 +615,9 @@ namespace AutoWikiBrowser
             {
                 SkipPage("Page is a redirect to a special page");
             }
-            else if (ex is WebException)
+            else if (ex is WebException || (ex is IOException && ex.Message.Contains("0x2746")))
             {
-                // some 404 error or similar
+                // some 404 error or similar, or "Unable to write data to the transport connection: Unknown error (0x2746)"
                 StatusLabelText = ex.Message;
                 if(Tools.WriteDebugEnabled)
                     Tools.WriteTextFile(ex.Message, "Log.txt", true);
