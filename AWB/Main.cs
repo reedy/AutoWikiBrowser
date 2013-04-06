@@ -2948,6 +2948,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             //refresh typo list
             LoadTypos(true);
 
+            WikiDiff.ResetCustomStyles();
+
             //refresh talk warnings list
             if (UserTalkWarningsLoaded)
                 LoadUserTalkWarnings();
