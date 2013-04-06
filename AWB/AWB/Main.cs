@@ -1853,6 +1853,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             #endif
 
             DisableButtons();
+            StartProgressBar();
             if (txtEdit.Text.Length > 0 ||
                 (TheArticle.Exists == Exists.Yes && MessageBox.Show("Do you really want to save a blank page?", "Save?",
                                                                     MessageBoxButtons.YesNo, MessageBoxIcon.Question) ==
