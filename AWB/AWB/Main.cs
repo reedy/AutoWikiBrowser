@@ -1714,7 +1714,10 @@ namespace AutoWikiBrowser
             try
             {
                 if (webBrowser.Document == null)
+                {
+                    Tools.WriteDebug("GetDiff", "GetDiff called but webBrowser.Document null");
                     return;
+                }
 
                 webBrowser.Document.OpenNew(false);
                 if (TheArticle.OriginalArticleText.Equals(txtEdit.Text))
