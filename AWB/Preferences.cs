@@ -430,5 +430,13 @@ namespace AutoWikiBrowser
         {
         	chkDiffInBotMode.Enabled = (cmboOnLoad.SelectedIndex.Equals(0));
         }
+
+        public bool FocusSiteTab = false;
+        protected override void OnActivated(EventArgs e) 
+        {
+            base.OnActivated(e);
+            if(FocusSiteTab)
+                tbPrefs.SelectTab(1);
+        }
     }
 }
