@@ -1748,7 +1748,20 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#AccessViolationException_in_MainForm.GetDiff
+                // catch this and use Refresh x2 to get around it
+                // but only try once (diffAccessViolationSeen = false) so we don't get stuck in a loop
+                if(ex is AccessViolationException && !diffAccessViolationSeen)
+                {
+                    diffAccessViolationSeen = true;
+                    Tools.WriteDebug("GetDiff", "AccessViolationException seen");
+ 
+                    webBrowser.Refresh();
+                    webBrowser.Refresh();
+                    GetDiff();
+                }
+                else
+                    ErrorHandler.Handle(ex);
             }
         }
 
