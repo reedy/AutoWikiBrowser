@@ -2328,7 +2328,7 @@ namespace AutoWikiBrowser
             // chkSkipAfterProcessing
             // 
             this.chkSkipAfterProcessing.AutoSize = true;
-            this.chkSkipAfterProcessing.Location = new System.Drawing.Point(179, 66);
+            this.chkSkipAfterProcessing.Location = new System.Drawing.Point(175, 66);
             this.chkSkipAfterProcessing.Name = "chkSkipAfterProcessing";
             this.chkSkipAfterProcessing.Size = new System.Drawing.Size(82, 17);
             this.chkSkipAfterProcessing.TabIndex = 6;
@@ -2455,7 +2455,7 @@ namespace AutoWikiBrowser
             // chkSkipCaseSensitive
             // 
             this.chkSkipCaseSensitive.AutoSize = true;
-            this.chkSkipCaseSensitive.Location = new System.Drawing.Point(84, 66);
+            this.chkSkipCaseSensitive.Location = new System.Drawing.Point(76, 66);
             this.chkSkipCaseSensitive.Name = "chkSkipCaseSensitive";
             this.chkSkipCaseSensitive.Size = new System.Drawing.Size(94, 17);
             this.chkSkipCaseSensitive.TabIndex = 5;
