@@ -4748,7 +4748,8 @@ namespace WikiFunctions.Parse
         }
         
         /// <summary>
-        /// Converts [[foo|''bar''']] → '''[[foo|bar]]''' for bold or italics
+        /// Converts [[foo|''foo''']] → '''[[foo|foo]]''' for bold or italics
+        /// only simplify where link & target values are the same without bold/italics (first letter case insensitive
         /// </summary>
         /// <param name="m"></param>
         /// <returns></returns>
@@ -4756,7 +4757,7 @@ namespace WikiFunctions.Parse
         {
             string theLinkText = m.Groups[2].Value, y = m.Value;
 
-            if(theLinkText.Length > 0)
+            if(theLinkText.Length > 0 && Tools.TurnFirstToUpper(m.Groups[1].Value.Trim()).Equals(Tools.TurnFirstToUpper(m.Groups[2].Value.Trim("'".ToCharArray()).Trim())))
             {
                 if(WikiRegexes.Bold.Match(theLinkText).Value.Equals(theLinkText))
                     y = "'''" + y.Replace(theLinkText, WikiRegexes.Bold.Replace(theLinkText, "$1")) + "'''";

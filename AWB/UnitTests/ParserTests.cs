@@ -3579,9 +3579,9 @@ Foo}}"));
         public void FixLinkBoldItalic()
         {
             bool nochange;
-            Assert.AreEqual(@"''[[foo|bar]]''", Parsers.FixLinks(@"[[foo|''bar'']]", "a", out nochange));
+            Assert.AreEqual(@"''[[foo|foo]]''", Parsers.FixLinks(@"[[foo|''foo'']]", "a", out nochange));
             Assert.IsFalse(nochange);
-            Assert.AreEqual(@"'''[[foo|bar]]'''", Parsers.FixLinks(@"[[foo|'''bar''']]", "a", out nochange));
+            Assert.AreEqual(@"'''[[foo|Foo]]'''", Parsers.FixLinks(@"[[foo|'''Foo''']]", "a", out nochange));
             Assert.IsFalse(nochange);
 
             // No change to single apostrophes
@@ -3589,6 +3589,9 @@ Foo}}"));
             Assert.IsTrue(nochange);
 
             Assert.AreEqual(@"[[foo|]]", Parsers.FixLinks(@"[[foo|]]", "a", out nochange));
+            Assert.IsTrue(nochange);
+            
+             Assert.AreEqual(@"[[foo|''b'']]", Parsers.FixLinks(@"[[foo|''b'']]", "a", out nochange));
             Assert.IsTrue(nochange);
 
             // No change to part of link text in bold/italics
