@@ -3611,7 +3611,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly Regex UppercaseCiteFields = new Regex(@"(\{\{\s*(?:[Cc]ite\s*(?:web|book|news|journal|paper|press release|hansard|encyclopedia)|[Cc]itation)\b\s*[^{}]*\|\s*)(\w*?[A-Z]+\w*)(?<!(?:IS[BS]N|DOI|PMID))(\s*=\s*[^{}\|]{3,})");
+        private static readonly Regex UppercaseCiteFields = new Regex(@"(\{\{\s*(?:[Cc]ite\s*(?:web|book|news|journal|paper|press release|hansard|encyclopedia)|[Cc]itation)\b\s*[^{}]*\|\s*)(\w*?[A-Z]+\w*)(?<!(?:IS[BS]N|DOI|PMID|OCLC))(\s*=\s*[^{}\|]{3,})");
 
         private static readonly Regex CiteUrl = new Regex(@"\|\s*url\s*=\s*([^\[\]<>""\s]+)");
 
@@ -3644,7 +3644,7 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             // {{cite web}}/{{cite book}} etc. need lower case field names; two loops in case a single template has multiple uppercase fields
-            // exceptionally, 'ISBN' is allowed in upper case
+            // exceptionally, identifiers such as 'ISBN' are allowed in upper case
             for (; ; )
             {
                 string articleText2 = UppercaseCiteFields.Replace(articleText, UppercaseCiteFieldsME);
