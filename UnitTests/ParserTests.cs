@@ -4107,6 +4107,8 @@ Image:X.JPG|Japanese classification systemJapanese classification systemJapanese
             // ISBN, DOI, PMID is allowed to be uppercase
             string ISBN = @"{{cite book | author=Smith | title=Great Book | ISBN=15478454 | date=17 May 2004 }}";
             Assert.AreEqual(ISBN, Parsers.FixCitationTemplates(ISBN));
+            string OCLC = @"{{cite book | author=Smith | title=Great Book | OCLC=15478454 | date=17 May 2004 }}";
+            Assert.AreEqual(OCLC, Parsers.FixCitationTemplates(OCLC));
             string DOI = @"{{cite journal| author=Smith | title=Great Book | DOI=15478454 | date=17 May 2004 }}";
             Assert.AreEqual(DOI, Parsers.FixCitationTemplates(DOI));
 
