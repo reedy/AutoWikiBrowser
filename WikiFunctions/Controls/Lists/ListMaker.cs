@@ -287,7 +287,13 @@ namespace WikiFunctions.Controls.Lists
                     intPosition--;
 
                 if (lbArticles.Items.Count > 0)
+                {
                     lbArticles.SelectedIndex = intPosition;
+
+                    // Wine fix: does not scroll listbox if selected article moves out of view
+                    if(lbArticles.TopIndex > lbArticles.Items.Count-1)
+                        lbArticles.TopIndex = intPosition;
+                }
 
                 UpdateNumberOfArticles();
                 return true;
@@ -606,6 +612,10 @@ namespace WikiFunctions.Controls.Lists
 
             lbArticles.SelectedIndex++;
             lbArticles.SetSelected(lbArticles.SelectedIndex, false);
+ 
+            // Wine fix: does not scroll listbox if selected article moves out of view
+            if((lbArticles.TopIndex + 15) < lbArticles.SelectedIndex)
+                lbArticles.TopIndex = lbArticles.SelectedIndex;
 
             return true;
         }
