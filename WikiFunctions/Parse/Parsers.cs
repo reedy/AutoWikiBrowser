@@ -1870,20 +1870,23 @@ namespace WikiFunctions.Parse
             if (ReferenceNameValid(articleText, derivedReferenceName))
                 return derivedReferenceName;
 
-            // name...year...page
-            derivedReferenceName = ExtractReferenceNameComponents(reference, NameYearPage, 3);
+            // name...year...page. Regex checks to avoid excessive backtracking
+            if(Regex.IsMatch(reference, YearMask) && NameYear.IsMatch(reference))
+                derivedReferenceName = ExtractReferenceNameComponents(reference, NameYearPage, 3);
 
             if (ReferenceNameValid(articleText, derivedReferenceName))
                 return derivedReferenceName;
 
             // name...page
-            derivedReferenceName = ExtractReferenceNameComponents(reference, NamePage, 2);
+            if(Regex.IsMatch(reference, PageMask))
+                derivedReferenceName = ExtractReferenceNameComponents(reference, NamePage, 2);
 
             if (ReferenceNameValid(articleText, derivedReferenceName))
                 return derivedReferenceName;
 
             // name...year
-            derivedReferenceName = ExtractReferenceNameComponents(reference, NameYear, 2);
+            if(Regex.IsMatch(reference, YearMask))
+                derivedReferenceName = ExtractReferenceNameComponents(reference, NameYear, 2);
 
             if (ReferenceNameValid(articleText, derivedReferenceName))
                 return derivedReferenceName;
