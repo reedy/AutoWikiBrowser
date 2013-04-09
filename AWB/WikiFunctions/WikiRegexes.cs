@@ -758,6 +758,11 @@ namespace WikiFunctions
         public static readonly Regex SicTag = new Regex(@"({{\s*(?:[Ss]ic|[Tt]ypo)(?:\||}})|([\(\[{]\s*[Ss]ic!?\s*[\)\]}]))");
         
         /// <summary>
+        /// Matches {{Not a typo}} template and redirects
+        /// </summary>
+        public static readonly Regex NotATypo = Tools.NestedTemplateRegex(new [] { "As written", "Notatypo", "Not a typo", "Proper name", "Typo" });
+
+        /// <summary>
         /// Matches the {{use dmy dates}} family of templates and redirects
         /// </summary>
         public static readonly Regex UseDatesTemplate = Tools.NestedTemplateRegex(new [] { "DMY", "dmy", "use dmy dates", "MDY", "mdy", "use mdy dates", "ISO", "use ymd dates" }, true );

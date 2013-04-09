@@ -84,6 +84,7 @@ namespace WikiFunctions.Parse
             HiddenTokens.Clear();
 
             Replace(WikiRegexes.SourceCode.Matches(articleText), ref articleText);
+            Replace(WikiRegexes.NotATypo.Matches(articleText), ref articleText);            
 
             var matches = new List<Match>();
             foreach (Match m in WikiRegexes.UnformattedText.Matches(articleText))

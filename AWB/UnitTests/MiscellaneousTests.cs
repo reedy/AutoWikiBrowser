@@ -233,6 +233,13 @@ image = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
         }
         
         [Test]
+        public void HideNotATypo()
+        {
+            AssertAllHidden(@"{{not a typo|foo}}");
+            AssertAllHidden(@"{{typo|foo}}");
+        }
+
+        [Test]
         public void HideImagesPartial()
         {
             // in tests below no text is hidden
