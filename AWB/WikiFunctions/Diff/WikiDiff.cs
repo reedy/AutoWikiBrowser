@@ -564,6 +564,7 @@ table.diff td div {
                 {
                     System.IO.StreamReader reader = System.IO.File.OpenText(Path.Combine(Application.StartupPath, "style.css"));
                     CustomStyles = reader.ReadToEnd();
+                    reader.Close();
                     styles = CustomStyles;
                 }
                 catch
