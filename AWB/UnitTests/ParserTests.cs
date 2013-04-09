@@ -5030,15 +5030,15 @@ Some news here.", "test"), "space trimmed from end of paragraph when br replaces
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#ReferenceS
             Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==REFERENCES==", "a"));
-            Assert.AreEqual(@"==Reference==", Parsers.FixHeadings(@"==REFERENCE:==", "a"));
+            Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==REFERENCE:==", "a"));
             Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==REFERENSES==", "a"));
-            Assert.AreEqual(@"==Reference==", Parsers.FixHeadings(@"==REFERENCE==", "a"));
-            Assert.AreEqual(@"==Reference==", Parsers.FixHeadings(@"==REFERENCE:==", "a"));
+            Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==REFERENCE==", "a"));
+            Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==REFERENCE:==", "a"));
             Assert.AreEqual(@"== References ==", Parsers.FixHeadings(@"== REFERENCES ==", "a"));
             Assert.AreEqual(@"==Sources==", Parsers.FixHeadings(@"==SOURCES==", "a"));
             Assert.AreEqual(@"==Sources==", Parsers.FixHeadings(@"==sources==", "a"));
-            Assert.AreEqual(@"==Source==", Parsers.FixHeadings(@"==source==", "a"));
-            Assert.AreEqual(@"==Source==", Parsers.FixHeadings(@"==source:==", "a"));
+            Assert.AreEqual(@"==Sources==", Parsers.FixHeadings(@"==source==", "a"));
+            Assert.AreEqual(@"==Sources==", Parsers.FixHeadings(@"==source:==", "a"));
             Assert.AreEqual(@"== Sources ==", Parsers.FixHeadings(@"== SOURCES ==", "a"));
             
             string HeadingEqualTitle = Parsers.FixHeadings(@"A
