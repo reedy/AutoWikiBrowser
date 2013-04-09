@@ -218,8 +218,8 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex RegexHeadings0 = new Regex("(== ?)(see also:?|related topics:?|related articles:?|internal links:?|also see:?)( ?==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadings1 = new Regex("(== ?)(external links?|external sites?|outside links?|web ?links?|exterior links?):?( ?==)", RegexOptions.IgnoreCase);
-        private static readonly Regex RegexHeadings3 = new Regex("(== ?)(referen[sc]e:?)(s? ?==)", RegexOptions.IgnoreCase);
-        private static readonly Regex RegexHeadings4 = new Regex("(== ?)(source:?)(s? ?==)", RegexOptions.IgnoreCase);
+        private static readonly Regex RegexHeadings3 = new Regex("(== *)(?:referen[sc]es?:?)( *==)", RegexOptions.IgnoreCase);
+        private static readonly Regex RegexHeadings4 = new Regex("(== *)(?:sources?:?)( *==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadings5 = new Regex("(== ?)(further readings?:?)( ?==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadings6 = new Regex("(== ?)(Early|Personal|Adult|Later) Life( ?==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadings7 = new Regex("(== ?)(Current|Past|Prior) Members( ?==)", RegexOptions.IgnoreCase);
@@ -347,9 +347,9 @@ namespace WikiFunctions.Parse
             hAfter = RegexHeadings10.Replace(hAfter, "$1Life and career$2");
             hAfter = RegexHeadingsCareer.Replace(hAfter, "$1$2 career$3");
 
-            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#ReferenceS
-            hAfter = RegexHeadings3.Replace(hAfter, m2=> m2.Groups[2].Value.Length > 0 ? (m2.Groups[1].Value + "Reference" + m2.Groups[3].Value.ToLower()) : m2.Value);
-            hAfter = RegexHeadings4.Replace(hAfter, m2=> m2.Groups[2].Value.Length > 0 ? (m2.Groups[1].Value + "Source" + m2.Groups[3].Value.ToLower()) : m2.Value);
+            // plural per [[WP:FNNR]]
+            hAfter = RegexHeadings3.Replace(hAfter, m2=> m2.Groups[1].Value + "References" + m2.Groups[2].Value); 
+            hAfter = RegexHeadings4.Replace(hAfter, m2=> m2.Groups[1].Value + "Sources" + m2.Groups[2].Value);
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Bold_text_in_headers
             // remove bold from level 3 headers and below, as it makes no visible difference
