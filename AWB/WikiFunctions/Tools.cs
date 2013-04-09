@@ -966,12 +966,15 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("ə", "e"),
 
 			//Russian
+
 			new KeyValuePair<string, string>("Ё", "Е"),
 			new KeyValuePair<string, string>("ё", "е"),
 			new KeyValuePair<string, string>("б", "b"),
 			new KeyValuePair<string, string>("л", "l"),
 			new KeyValuePair<string, string>("Ӳ", "Y"),
 			new KeyValuePair<string, string>("ӳ", "y"),
+			new KeyValuePair<string, string>("о", "o"), //cyrillic o (&#1086;)
+			new KeyValuePair<string, string>("О", "O"), //cyrillic O
 
 			//Basic Vietnamese alphabet
 			new KeyValuePair<string, string>("Ă", "A"),
