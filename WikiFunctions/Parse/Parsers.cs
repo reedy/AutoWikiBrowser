@@ -228,8 +228,6 @@ namespace WikiFunctions.Parse
         private static readonly Regex RegexHeadings10 = new Regex("(== ?)Life and Career( ?==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadingsCareer = new Regex("(== ?)([a-zA-Z]+) Career( ?==)", RegexOptions.IgnoreCase);
 
-        private static readonly Regex RegexRemoveLinksInHeadings = new Regex(@"^((={1,4})[^\[\]\{\}\|=\r\n]*)\[\[(?:[^\[\]\{\}\|=\r\n]+\|)?([^\[\]\{\}\|\r\n]+)(?<!.*(?:File|Image):.*)\]\]([^\{\}=\r\n]*\2)", RegexOptions.Compiled | RegexOptions.Multiline);
-
         private static readonly Regex RegexBadHeaderStartOfAticle = new Regex("^(={1,4} ?(about|description|overview|definition|profile|(?:general )?information|background|intro(?:duction)?|summary|bio(?:graphy)?) ?={1,4})", RegexOptions.IgnoreCase);
 
         private static readonly Regex RegexHeadingUpOneLevel = new Regex(@"^=(==+[^=].*?[^=]==+)=(\r\n?|\n)$", RegexOptions.Multiline);
@@ -266,15 +264,11 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixHeadings(string articleText, string articleTitle)
         {
-            // only apply if < 6 matches, otherwise (badly done) articles with 'list of...' and lots of links in headings will be further messed up
-            bool RegexRemoveLinksInHeadingsb = (RegexRemoveLinksInHeadings.Matches(articleText).Count < 6
-                                                && !(Regex.IsMatch(articleTitle, WikiRegexes.Months) || ListOf.IsMatch(articleTitle) || WikiRegexes.GregorianYear.IsMatch(articleTitle)));
-
             // one blank line before each heading per MOS:HEAD
             if (Variables.IsWikipediaEN)
                 articleText = WikiRegexes.HeadingsWhitespaceBefore.Replace(articleText, "\r\n\r\n$1");
 
-            articleText = WikiRegexes.Headings.Replace(articleText, m => FixHeadingsME(m, articleTitle, RegexRemoveLinksInHeadingsb));
+            articleText = WikiRegexes.Headings.Replace(articleText, m => FixHeadingsME(m, articleTitle));
 
             // remove unnecessary general headers from start of article
             articleText = RegexBadHeaderStartOfAticle.Replace(articleText, "");
@@ -316,21 +310,12 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Performs various fixes to headings
         /// </summary>
-        private static string FixHeadingsME(Match m, string articleTitle, bool RegexRemoveLinksInHeadingsb)
+        private static string FixHeadingsME(Match m, string articleTitle)
         {
             string hAfter = WikiRegexes.Br.Replace(m.Value, "");
             hAfter = WikiRegexes.Big.Replace(hAfter, "$1").TrimStart(' ');
 
             hAfter = Regex.Replace(hAfter, @" +(\s+)$", "$1");
-
-            // loop through in case a heading has multiple wikilinks in it
-            if(RegexRemoveLinksInHeadingsb)
-            {
-                while (RegexRemoveLinksInHeadings.IsMatch(hAfter))
-                {
-                    hAfter = RegexRemoveLinksInHeadings.Replace(hAfter, "$1$3$4");
-                }
-            }
 
             //Removes bold from heading - CHECKWIKI error 44
             hAfter = RegexHeadingsBold.Replace(hAfter, "$1$2$3");

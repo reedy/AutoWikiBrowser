@@ -5109,68 +5109,6 @@ B","Foo");
         }
 
         [Test]
-        public void TestFixHeadingsDelinking()
-        {
-            // tests for regexRemoveHeadingsInLinks
-            Assert.AreEqual("==foo==", Parsers.FixHeadings("==[[foo]]==", "test"));
-            Assert.AreEqual("== foo ==", Parsers.FixHeadings("== [[foo]] ==", "test"));
-            Assert.AreEqual("==bar==", Parsers.FixHeadings("==[[foo|bar]]==", "test"));
-            Assert.AreEqual(@"==hello world ==
-", Parsers.FixHeadings(@"==hello [[world]] ==
-", "a"));
-            Assert.AreEqual("==Hello world==", Parsers.FixHeadings("==[[Hello world]]==", "a"));
-            Assert.AreEqual("==world==", Parsers.FixHeadings("==[[hello|world]]==", "a"));
-            Assert.AreEqual("== world ==", Parsers.FixHeadings("== [[hello|world]] ==", "a"));
-            Assert.AreEqual("==world==", Parsers.FixHeadings("==[[hello now|world]]==", "a"));
-            Assert.AreEqual("==world now==", Parsers.FixHeadings("==[[hello|world now]]==", "a"));
-            Assert.AreEqual(@"
-
-==now world==
-", Parsers.FixHeadings(@"
-==now [[hello|world]]==
-", "a"));
-            Assert.AreEqual("==now world here==", Parsers.FixHeadings("==now [[hello|world]] here==", "a"));
-            Assert.AreEqual("==now world def here==", Parsers.FixHeadings("==now [[hello abc|world def]] here==", "a"));
-            Assert.AreEqual("==now world here==", Parsers.FixHeadings("==now [[ hello |world]] here==", "a"));
-            Assert.AreEqual("==now world==", Parsers.FixHeadings("==now [[hello#world|world]]==", "a"));
-            Assert.AreEqual("==now world and moon==", Parsers.FixHeadings("==now [[hello|world]] and [[bye|moon]]==", "a"));
-            Assert.AreEqual("===hello world ===", Parsers.FixHeadings("===hello [[world]] ===", "a"));
-            Assert.AreEqual("====hello world ====", Parsers.FixHeadings("====hello [[world]] ====", "a"));
-            Assert.AreEqual("====hello world ====", Parsers.FixHeadings("====hello [[world]] ====", "7899"));
-            Assert.AreEqual("====United States Marine Corps====", Parsers.FixHeadings("====[[United States Marine Corps]]====", "a"));
-            Assert.AreEqual(@"==foo==
-
-====United States Marine Corps====
-*[[V-22 Osprey]]", Parsers.FixHeadings(@"==foo==
-
-====[[United States Marine Corps]]====
-*[[V-22 Osprey]]", "a"));
-
-            // no match
-            Assert.AreEqual("===hello [[world]] ==", Parsers.FixHeadings("===hello [[world]] ==", "a"));
-            Assert.AreEqual("== hello world ==", Parsers.FixHeadings("== hello world ==", "a"));
-            Assert.AreEqual("==hello==", Parsers.FixHeadings("==hello==", "a"));
-            Assert.AreEqual("==now [[hello|world] ] here==", Parsers.FixHeadings("==now [[hello|world] ] here==", "a"));
-            Assert.AreEqual("==hello[http://example.net]==", Parsers.FixHeadings("==hello[http://example.net]==", "a"));
-            Assert.AreEqual("hello [[world]]", Parsers.FixHeadings("hello [[world]]", "a"));
-            Assert.AreEqual("now == hello [[world]] == here", Parsers.FixHeadings("now == hello [[world]] == here", "a"));
-
-            // some articles excepted
-            const string linked = "==now [[hello|world]] here==";
-            Assert.AreEqual(linked, Parsers.FixHeadings(linked, "List of stuff"));
-            Assert.AreEqual(linked, Parsers.FixHeadings(linked, "1980 in poetry"));
-            Assert.AreEqual(linked, Parsers.FixHeadings(linked, "1980"));
-            Assert.AreEqual(linked, Parsers.FixHeadings(linked, "January 11"));
-
-            string FileInHeading = @"==Text [[File:One.JPG|text]] here ==";
-            Assert.AreEqual(FileInHeading, Parsers.FixHeadings(FileInHeading, "test"));
-            FileInHeading = @"==Text [[Image:One.JPG|text]] here ==";
-            Assert.AreEqual(FileInHeading, Parsers.FixHeadings(FileInHeading, "test"));
-            FileInHeading = @"==Text [[Image:One.jpeg]] here ==";
-            Assert.AreEqual(FileInHeading, Parsers.FixHeadings(FileInHeading, "test"));
-        }
-
-        [Test]
         public void TestFixHeadingsRemoveTwoLevels()
         {
             // single heading
