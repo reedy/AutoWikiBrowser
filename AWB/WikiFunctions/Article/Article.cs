@@ -673,6 +673,25 @@ namespace WikiFunctions
             return Unknowns;
         }
 
+        private static readonly Regex LinksInHeadings = new Regex(@"^((={1,4})[^\[\]\{\}\|=\r\n]*)\[\[(?:[^\[\]\{\}\|=\r\n]+\|)?([^\[\]\{\}\|\r\n]+)(?<!.*(?:File|Image):.*)\]\]([^\{\}=\r\n]*\2)", RegexOptions.Multiline);
+        
+        /// <summary>
+        /// Returns a list of any headers containing wikilinks, mainspace articles only
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<int, int> WikiLinkedHeaders()
+        {
+            Dictionary<int, int> linkedHeaders = new Dictionary<int, int>();
+
+            if (NameSpaceKey.Equals(Namespace.Mainspace))
+            {
+                foreach(Match m in LinksInHeadings.Matches(ArticleText))
+                    linkedHeaders.Add(m.Index, m.Length);
+            }
+
+            return linkedHeaders;
+        }
+
         /// <summary>
         /// Returns a dictionary of the index and length of any unclosed &lt;math&gt;, &lt;source&gt;, &lt;code&gt;, &lt;nowiki&gt; or &lt;pre&gt; tags
         /// </summary>

@@ -767,6 +767,7 @@ namespace AutoWikiBrowser
         private Dictionary<int, int> badCiteParameters = new Dictionary<int, int>();
         private Dictionary<int, int> dupeBanerShellParameters = new Dictionary<int, int>();
         private Dictionary<int, int> unclosedTags = new Dictionary<int, int>();
+        private Dictionary<int, int> wikilinkedHeaders = new Dictionary<int, int>();
         private Dictionary<int, int> deadLinks = new Dictionary<int, int>();
         private Dictionary<int, int> ambigCiteDates = new Dictionary<int, int>();
         private Dictionary<int, int> targetlessLinks = new Dictionary<int, int>();
@@ -1154,6 +1155,12 @@ namespace AutoWikiBrowser
             }
 
             foreach (KeyValuePair<int, int> kvp in unclosedTags)
+            {
+                if (!Errors.ContainsKey(kvp.Key))
+                    Errors.Add(kvp.Key, kvp.Value);
+            }
+
+            foreach (KeyValuePair<int, int> kvp in wikilinkedHeaders)
             {
                 if (!Errors.ContainsKey(kvp.Key))
                     Errors.Add(kvp.Key, kvp.Value);
@@ -2613,6 +2620,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                         warn += s + ", ";
                     lbAlerts.Items.Add(warn);
                 }
+
+                wikilinkedHeaders = TheArticle.WikiLinkedHeaders();
+                if (wikilinkedHeaders.Count > 0)
+                    lbAlerts.Items.Add("Header(s) with wikilinks found" + " (" + wikilinkedHeaders.Count + ")");
 
                 unclosedTags = TheArticle.UnclosedTags();
                 if (unclosedTags.Count > 0)
