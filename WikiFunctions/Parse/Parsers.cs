@@ -276,9 +276,10 @@ namespace WikiFunctions.Parse
             if (!LevelOneSeeAlso.IsMatch(articleText))
                 articleText = RegexHeadings0.Replace(articleText, "$1See also$3");
 
-            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Section_header_level_.28WikiProject_Check_Wikipedia_.237.29
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Section_header_level_.28WikiProject_Check_Wikipedia_.237.29
+            // CHECKWIKI error 7
             // if no level 2 heading in article, remove a level from all headings (i.e. '===blah===' to '==blah==' etc.)
-            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Standard_level_2_headers
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Standard_level_2_headers
             // don't consider the "references", "see also", or "external links" level 2 headings when counting level two headings
             string articleTextLocal = articleText;
             articleTextLocal = ReferencesExternalLinksSeeAlso.Replace(articleTextLocal, "");
@@ -317,7 +318,7 @@ namespace WikiFunctions.Parse
 
             hAfter = Regex.Replace(hAfter, @" +(\s+)$", "$1");
 
-            //Removes bold from heading - CHECKWIKI error 44
+            // Removes bold from heading - CHECKWIKI error 44
             hAfter = RegexHeadingsBold.Replace(hAfter, "$1$2$3");
 
             // Removes colon at end of heading  - CHECKWIKI error 57
@@ -332,20 +333,21 @@ namespace WikiFunctions.Parse
             hAfter = RegexHeadings10.Replace(hAfter, "$1Life and career$2");
             hAfter = RegexHeadingsCareer.Replace(hAfter, "$1$2 career$3");
 
-            // plural per [[WP:FNNR]]
+            // Plural per [[WP:FNNR]]
             hAfter = RegexHeadings3.Replace(hAfter, m2=> m2.Groups[1].Value + "References" + m2.Groups[2].Value); 
             hAfter = RegexHeadings4.Replace(hAfter, m2=> m2.Groups[1].Value + "Sources" + m2.Groups[2].Value);
 
-            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Bold_text_in_headers
-            // remove bold from level 3 headers and below, as it makes no visible difference
+            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Bold_text_in_headers
+            // Removes bold from level 3 headers and below, as it makes no visible difference
             hAfter = RegexHeadingWithBold.Replace(hAfter, "$1");
 
             hAfter = WikiRegexes.EmptyBold.Replace(hAfter, "");
 
-            if(hAfter.Trim().Trim('=').Trim().Equals(Regex.Escape(articleTitle)))
+			// Removes heading if it matches pagetitle
+			if(hAfter.Trim().Trim('=').Trim().Equals(Regex.Escape(articleTitle)))
                 return "";
 
-            return hAfter;
+			return hAfter;
         }
 
         private const int MinCleanupTagsToCombine = 2; // article must have at least this many tags to combine to {{multiple issues}}
