@@ -5402,7 +5402,11 @@ Bar", "Test"), "inserts blank line if one missing");
             Assert.IsFalse(Parsers.FixHeadings(@"==General information==
 '''Foo''' great.", "Foo").Contains(@"==General information=="));
 
-            const string HeadingNotAtStart = @"Foo is great.
+            Assert.AreEqual(Parsers.FixHeadings(@"==Introduction==
+'''Foo''' great.", "Foo"),@"
+'''Foo''' great.");
+
+        	const string HeadingNotAtStart = @"Foo is great.
 
 ==Overview==
 Here there";
