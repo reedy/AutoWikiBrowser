@@ -5056,19 +5056,19 @@ B","Foo");
             // remove colon from end of heading text
             Assert.AreEqual(@"== hello world ==
 ", Parsers.FixHeadings(@"== hello world: ==
-", "a"));
+", "a"),"removes colon");
             Assert.AreEqual(@"== hello world  ==
 ", Parsers.FixHeadings(@"== hello world : ==
-", "a"));
+", "a"),"removes colon with space");
             Assert.AreEqual(@"== hello world ==
 ", Parsers.FixHeadings(@"=== hello world: ===
-", "a"));
+", "a"),"removes colon - header level 3");
             Assert.AreEqual(@"== hello world ==
 
 == hello world2 ==
 ", Parsers.FixHeadings(@"== hello world: ==
 == hello world2: ==
-", "a"));
+", "a"),"removes colons from multiple places");
 
             Assert.AreEqual(@"== hello world ==
 
@@ -5404,7 +5404,14 @@ Bar", "Test"), "inserts blank line if one missing");
 
             Assert.AreEqual(Parsers.FixHeadings(@"==Introduction==
 '''Foo''' great.", "Foo"),@"
-'''Foo''' great.");
+'''Foo''' great.","Removes unnecessary general headers from start of article");
+
+//            Assert.AreEqual(Parsers.FixHeadings(@"Great article
+//
+//==Foo==
+//Really great", "Foo"),@"Great article
+//
+//Really great","Removes heading if it matches pagetitle");
 
         	const string HeadingNotAtStart = @"Foo is great.
 
