@@ -5406,12 +5406,12 @@ Bar", "Test"), "inserts blank line if one missing");
 '''Foo''' great.", "Foo"),@"
 '''Foo''' great.","Removes unnecessary general headers from start of article");
 
-//            Assert.AreEqual(Parsers.FixHeadings(@"Great article
-//
-//==Foo==
-//Really great", "Foo"),@"Great article
-//
-//Really great","Removes heading if it matches pagetitle");
+            Assert.AreEqual(@"Great article
+
+Really great", Parsers.FixHeadings(@"Great article
+
+==Foo==
+Really great", "Foo"),"Removes heading if it matches pagetitle");
 
         	const string HeadingNotAtStart = @"Foo is great.
 
