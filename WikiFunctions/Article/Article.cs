@@ -502,7 +502,17 @@ namespace WikiFunctions
         [XmlIgnore]
         public bool OnlyGeneralFixesChanged
         {
-            get { return (_generalFixesCausedChange && (ArticleText == _afterGeneralFixesArticleText)); }
+            get { return (_generalFixesCausedChange && !FindAndReplaceMadeChanges && (ArticleText == _afterGeneralFixesArticleText)); }
+        }
+
+        /// <summary>
+        /// Returns whether Find & Replace made any changes
+        /// </summary>
+        [XmlIgnore]
+        public bool FindAndReplaceMadeChanges
+        {
+            get { return (_after == FaRChange.MajorChange || _after == FaRChange.MinorChange
+                         || _before == FaRChange.MinorChange || _before == FaRChange.MajorChange); }
         }
 
         /// <summary>
