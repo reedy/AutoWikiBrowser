@@ -217,6 +217,15 @@ a");
         }
 
         [Test]
+        public void UnbalancedBracketsTemplateRedirects()
+        {
+            WikiRegexes.TemplateRedirects.Clear();
+            WikiRegexes.TemplateRedirects = Parsers.LoadTemplateRedirects(@"{{tl|facts}} → {{tl|citation needed}}");
+
+            AssertChange(@"Foo.{facts}}", @"Foo.{{citation needed}}");
+        }
+
+        [Test]
         public void PersondataDateFormat()
         {
             AssertChange(@"{{BLP sources|date=May 2010}}
