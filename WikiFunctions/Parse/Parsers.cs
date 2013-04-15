@@ -268,6 +268,9 @@ namespace WikiFunctions.Parse
             if (Variables.IsWikipediaEN)
                 articleText = WikiRegexes.HeadingsWhitespaceBefore.Replace(articleText, "\r\n\r\n$1");
 
+            // Removes heading if it matches pagetitle
+            articleText = Regex.Replace(articleText, @"^(=+) *" + Regex.Escape(articleTitle) + @" *\1\r\n", "", RegexOptions.Multiline);
+
             articleText = WikiRegexes.Headings.Replace(articleText, m => FixHeadingsME(m, articleTitle));
 
             // remove unnecessary general headers from start of article
@@ -342,10 +345,6 @@ namespace WikiFunctions.Parse
             hAfter = RegexHeadingWithBold.Replace(hAfter, "$1");
 
             hAfter = WikiRegexes.EmptyBold.Replace(hAfter, "");
-
-			// Removes heading if it matches pagetitle
-			if(hAfter.Trim().Trim('=').Trim().Equals(Regex.Escape(articleTitle)))
-                return "";
 
 			return hAfter;
         }
