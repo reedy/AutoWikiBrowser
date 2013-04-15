@@ -3556,7 +3556,9 @@ namespace WikiFunctions.Parse
 
                 unbalancedBracket = UnbalancedBrackets(articleTextTemp, ref bracketLength);
                 // the change worked if unbalanced bracket location moved considerably (so this one fixed), or all brackets now balance
-                if (unbalancedBracket < 0 || Math.Abs(unbalancedBracket - firstUnbalancedBracket) > 300)
+                if (unbalancedBracket < 0 
+                    || (Math.Abs(unbalancedBracket - firstUnbalancedBracket) > 300) &&
+                    unbalancedBracket - firstUnbalancedBracket > -300)
                     articleText = articleTextTemp;
             }
 
