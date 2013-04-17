@@ -2192,9 +2192,10 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual(@"Ai-Ais", Tools.RemoveDiacritics(@"ǀAi-ǀAis"), "removes weird character");
             Assert.AreEqual(@"Ai-Ais Richtersveld Transfrontier Park", Tools.RemoveDiacritics(@"ǀAi-ǀAis/Richtersveld Transfrontier Park"), "removes weird character");
             Assert.AreEqual(@"Der Nachtkurier meldet...", Tools.RemoveDiacritics(@"Der Nachtkurier meldet…"), "replaces …");
-            Assert.AreEqual(@"A L", Tools.RemoveDiacritics(@"A L"), "replaces · with space");
+            Assert.AreEqual(@"A L", Tools.RemoveDiacritics(@"A·L"), "replaces · with space");
             Assert.AreEqual(@"Bb, Dd, h, Kk, Ll, Nn, Rr, Tt", Tools.RemoveDiacritics(@"Ḇḇ, Ḏḏ, ẖ, Ḵḵ, Ḻḻ, Ṉṉ, Ṟṟ, Ṯṯ"), "letters with macron below");
             Assert.AreEqual(@"b, d, f, g, k, l, m, n, p, r, s, t, y, x, z", Tools.RemoveDiacritics(@"ᶀ, ᶁ, ᶂ, ᶃ, ᶄ, ᶅ, ᶆ, ᶇ, ᶈ, ᶉ, ᶊ, ƫ, ᶌ, ᶍ, ᶎ"), "letters with palatal hook");
+            Assert.AreEqual(@"'''''''", Tools.RemoveDiacritics(@"’‘ʻ`´“”"), "quotes");
         }
 
         [Test]
