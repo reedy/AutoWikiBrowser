@@ -2196,6 +2196,7 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual(@"Bb, Dd, h, Kk, Ll, Nn, Rr, Tt", Tools.RemoveDiacritics(@"Ḇḇ, Ḏḏ, ẖ, Ḵḵ, Ḻḻ, Ṉṉ, Ṟṟ, Ṯṯ"), "letters with macron below");
             Assert.AreEqual(@"b, d, f, g, k, l, m, n, p, r, s, t, y, x, z", Tools.RemoveDiacritics(@"ᶀ, ᶁ, ᶂ, ᶃ, ᶄ, ᶅ, ᶆ, ᶇ, ᶈ, ᶉ, ᶊ, ƫ, ᶌ, ᶍ, ᶎ"), "letters with palatal hook");
             Assert.AreEqual(@"'''''''", Tools.RemoveDiacritics(@"’‘ʻ`´“”"), "quotes");
+            Assert.AreEqual(@"1-2-3", Tools.RemoveDiacritics(@"1–2–3"), "endash");
         }
 
         [Test]

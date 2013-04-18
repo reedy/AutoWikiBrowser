@@ -897,6 +897,9 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("“", "'"),  // double quotes (curly)
 			new KeyValuePair<string, string>("”", "'"), // double quotes (curly)
 
+			new KeyValuePair<string, string>("–", "-"), // endash
+			new KeyValuePair<string, string>("—", "-"), // emdash
+
 			//Latin
 			new KeyValuePair<string, string>("Ɯ", "W"),
 			new KeyValuePair<string, string>("ß", "ss"),
