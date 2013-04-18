@@ -981,6 +981,8 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("ӳ", "y"),
 			new KeyValuePair<string, string>("о", "o"), //cyrillic o (&#1086;)
 			new KeyValuePair<string, string>("О", "O"), //cyrillic O
+			new KeyValuePair<string, string>("а", "a"), //cyrillic а
+			new KeyValuePair<string, string>("А", "A"), //cyrillic А
 
 			//Basic Vietnamese alphabet
 			new KeyValuePair<string, string>("Ă", "A"),
