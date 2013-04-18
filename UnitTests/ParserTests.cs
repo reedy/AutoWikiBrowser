@@ -4982,11 +4982,13 @@ param=<br>
             // breaks if article title is empty
             Assert.AreEqual("==foo==", Parsers.FixHeadings("=='''foo'''==", "Heading with bold"));
             Assert.AreEqual("== foo ==", Parsers.FixHeadings("== '''foo''' ==", "Heading with bold and space"));
+            Assert.AreEqual("==  foo  ==", Parsers.FixHeadings("==  '''foo'''  ==", "Heading with bold and more than one space"));
             StringAssert.StartsWith("==foo==", Parsers.FixHeadings("=='''foo'''==\r\n", "test"));
             Assert.AreEqual("quux\r\n\r\n==foo==\r\nbar", Parsers.FixHeadings("quux\r\n=='''foo'''==\r\nbar", "test"));
             Assert.AreEqual("quux\r\n\r\n==foo==\r\n\r\nbar", Parsers.FixHeadings("quux\r\n=='''foo'''==\r\n\r\nbar", "test"));
 
             Assert.AreEqual("==foo==", Parsers.FixHeadings("==foo==", "No change"));
+            Assert.AreEqual("== foo ==", Parsers.FixHeadings("== foo ==", "No change"));
 
             Assert.AreEqual(@"hi.
 

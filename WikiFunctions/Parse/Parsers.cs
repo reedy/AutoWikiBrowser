@@ -223,7 +223,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex RegexHeadings5 = new Regex("(== ?)(further readings?:?)( ?==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadings6 = new Regex("(== ?)(Early|Personal|Adult|Later) Life( ?==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadings7 = new Regex("(== ?)(Current|Past|Prior) Members( ?==)", RegexOptions.IgnoreCase);
-        private static readonly Regex RegexHeadingsBold = new Regex(@"^(=+ ?)(?:'''|<b>)(.*?)(?:'''|</b>)( ?=+\s*)$");
+        private static readonly Regex RegexHeadingsBold = new Regex(@"^(=+\s*)(?:'''|<b>)(.*?)(?:'''|</b>)(\s*=+\s*)$");
         private static readonly Regex RegexHeadings9 = new Regex("(== ?)track listing( ?==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadings10 = new Regex("(== ?)Life and Career( ?==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadingsCareer = new Regex("(== ?)([a-zA-Z]+) Career( ?==)", RegexOptions.IgnoreCase);
