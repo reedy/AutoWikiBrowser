@@ -5422,6 +5422,12 @@ Really great", Parsers.FixHeadings(@"Great article
 ==Foo==
 Really great", "Foo"),"Removes heading if it matches pagetitle");
 
+            const string L3 = @"Great article
+==A==
+===Foo===
+Really great";
+            Assert.AreEqual(L3, Parsers.FixHeadings(L3, "Foo"),"Does not remove level 3 heading that matches pagetitle");
+
         	const string HeadingNotAtStart = @"Foo is great.
 
 ==Overview==
