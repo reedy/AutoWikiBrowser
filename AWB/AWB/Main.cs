@@ -1096,18 +1096,16 @@ namespace AutoWikiBrowser
                 if (highlightAllFindToolStripMenuItem.Checked)
                     HighlightAllFind();
 
+                if (scrollToAlertsToolStripMenuItem.Checked)
+                {
+                    EditBoxTab.SelectedTab = tpEdit;
+                    HighlightErrors();
+                }
+
                 if (focusAtEndOfEditTextBoxToolStripMenuItem.Checked)
                 {
                     txtEdit.Select(txtEdit.Text.Length, 0);
                     txtEdit.ScrollToCaret();
-                }
-                else
-                {
-                    if (scrollToAlertsToolStripMenuItem.Checked)
-                    {
-                        EditBoxTab.SelectedTab = tpEdit;
-                        HighlightErrors();
-                    }
                 }
 
                 btnSave.Select();
@@ -5342,18 +5340,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
             MainFormProgressBar.MarqueeAnimationSpeed = 0;
             MainFormProgressBar.Style = ProgressBarStyle.Continuous;
-        }
-
-        private void scrollToUnbalancedBracketsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (scrollToAlertsToolStripMenuItem.Checked)
-                focusAtEndOfEditTextBoxToolStripMenuItem.Checked = false;
-        }
-
-        private void focusAtEndOfEditTextBoxToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (focusAtEndOfEditTextBoxToolStripMenuItem.Checked)
-                scrollToAlertsToolStripMenuItem.Checked = false;
         }
 
         private void BotImage_Click(object sender, EventArgs e)
