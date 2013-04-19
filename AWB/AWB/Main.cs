@@ -1075,11 +1075,10 @@ namespace AutoWikiBrowser
 
                 Variables.Profiler.Profile("Make Edit summary");
 
+                txtEdit.Visible = false;
                 // syntax highlighting of edit box based on m:extension:wikEd standards
                 if (syntaxHighlightEditBoxToolStripMenuItem.Checked)
                 {
-                    txtEdit.Visible = false;
-
                     HighlightSyntax();
                     Variables.Profiler.Profile("Syntax highlighting");
 
@@ -1089,8 +1088,6 @@ namespace AutoWikiBrowser
                         txtEdit.Select(0, 0);
                         txtEdit.ScrollToCaret();
                     }
-
-                    txtEdit.Visible = true;
                 }
 
                 if (highlightAllFindToolStripMenuItem.Checked)
@@ -1101,6 +1098,8 @@ namespace AutoWikiBrowser
                     EditBoxTab.SelectedTab = tpEdit;
                     HighlightErrors();
                 }
+                // performance: only make text visible once highlighting complete
+                txtEdit.Visible = true;
 
                 if (focusAtEndOfEditTextBoxToolStripMenuItem.Checked)
                 {
@@ -3856,7 +3855,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             ArticleInfo(false);
 
             txtEdit.Text = TheArticle.ArticleText;
-
+            txtEdit.Visible = false;
             if (highlightAllFindToolStripMenuItem.Checked)
                 HighlightAllFind();
 
@@ -3864,11 +3863,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 HighlightErrors();
 
             if (syntaxHighlightEditBoxToolStripMenuItem.Checked)
-            {
-                txtEdit.Visible = false;
                 HighlightSyntax();
-                txtEdit.Visible = true;
-            }
+
+            txtEdit.Visible = true;
 
             GetDiff();
             StatusLabelText = "Ready to save";
