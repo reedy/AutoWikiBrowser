@@ -1912,7 +1912,7 @@ namespace WikiFunctions.Parse
 
         /// <summary>
         /// Processes the text of [[WP:AWB/Template redirects]] into a dictionary of regexes and new template names
-        /// Format: {{tl|template 1}}, {{tl|template 2}} --> {{tl|actual template}}
+        /// Format: {{tl|template 1}}, {{tl|template 2}} → {{tl|actual template}}
         /// </summary>
         public static Dictionary<Regex, string> LoadTemplateRedirects(string text)
         {
