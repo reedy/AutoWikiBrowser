@@ -1376,7 +1376,6 @@ namespace AutoWikiBrowser
             this.focusAtEndOfEditTextBoxToolStripMenuItem.Name = "focusAtEndOfEditTextBoxToolStripMenuItem";
             this.focusAtEndOfEditTextBoxToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
             this.focusAtEndOfEditTextBoxToolStripMenuItem.Text = "Auto &focus end of the edit box";
-            this.focusAtEndOfEditTextBoxToolStripMenuItem.Click += new System.EventHandler(this.focusAtEndOfEditTextBoxToolStripMenuItem_Click);
             // 
             // noSectionEditSummaryToolStripMenuItem
             // 
@@ -1426,7 +1425,6 @@ namespace AutoWikiBrowser
             this.scrollToAlertsToolStripMenuItem.Name = "scrollToAlertsToolStripMenuItem";
             this.scrollToAlertsToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
             this.scrollToAlertsToolStripMenuItem.Text = "Highlight errors";
-            this.scrollToAlertsToolStripMenuItem.Click += new System.EventHandler(this.scrollToUnbalancedBracketsToolStripMenuItem_Click);
             // 
             // toolStripSeparator6
             // 
