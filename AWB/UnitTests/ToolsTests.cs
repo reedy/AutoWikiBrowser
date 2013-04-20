@@ -1173,6 +1173,10 @@ There}}"), "handles parameters with newlines");
             Back.Add("V TWO", "some_value");
             Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{test|ONE=somevalue|V TWO=some_value}}"), "handles uppercase parameters");
             Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{test|ONE=somevalue|V TWO  =  some_value}}"), "handles uppercase parameters");
+
+            Back.Clear();
+            Back.Add("name", "<timeline>abc</timeline>X");
+            Assert.AreEqual(Back, Tools.GetTemplateParameterValues(@"{{test|name = <timeline>abc</timeline>X}}"), "handles parameters including unformatted text");
         }
 
         [Test]
