@@ -3024,8 +3024,10 @@ Message: {2}
 			if(restoftemplate.Contains(@"<"))
 			{
 			    restoftemplate = commentsastilde
-			        ? ReplaceWith(restoftemplate, WikiRegexes.UnformattedText, '~')
-			        : ReplaceWithSpaces(restoftemplate, WikiRegexes.UnformattedText);
+			        ? ReplaceWith(restoftemplate, WikiRegexes.Comments, '~')
+			        : ReplaceWithSpaces(restoftemplate, WikiRegexes.Comments);
+
+			    restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.AllTags, rwith);
 			}
 			return (templateCall.Substring(0, 3) + restoftemplate);
 		}
