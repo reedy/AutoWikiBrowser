@@ -1188,6 +1188,9 @@ There}}"), "handles parameters with newlines");
 |param2=other}}", "param1"));
             Assert.AreEqual(@"here <nowiki>|</nowiki> there", Tools.GetTemplateParameterValue(@"{{cite|param1 = here <nowiki>|</nowiki> there}}", "param1"));
             Assert.AreEqual(@"here <nowiki>|</nowiki> there", Tools.GetTemplateParameterValue(@"{{cite|param1 = here <nowiki>|</nowiki> there|parae=aaa}}", "param1"));
+            Assert.AreEqual(@"here <pre>|</pre> there", Tools.GetTemplateParameterValue(@"{{cite|param1 = here <pre>|</pre> there|parae=aaa}}", "param1"));
+            Assert.AreEqual(@"here <math>foo</math> there", Tools.GetTemplateParameterValue(@"{{cite|param1 = here <math>foo</math> there|parae=aaa}}", "param1"));
+            Assert.AreEqual(@"here <timeline>foo</timeline> there", Tools.GetTemplateParameterValue(@"{{cite|param1 = here <timeline>foo</timeline> there|parae=aaa}}", "param1"));
 
             string ItFilm = @"{{Film
 |titoloitaliano= Matrix
@@ -1204,6 +1207,7 @@ There}}"), "handles parameters with newlines");
             Assert.AreEqual(@"[[1999]", Tools.GetTemplateParameterValue(ItFilm.Replace(@"[[1999]]", @"[[1999]"), "annoproduzione"));
             Assert.AreEqual(@"[[1999", Tools.GetTemplateParameterValue(ItFilm.Replace(@"[[1999]]", @"[[1999"), "annoproduzione"));
             Assert.AreEqual(@"1999]]", Tools.GetTemplateParameterValue(ItFilm.Replace(@"[[1999]]", @"1999]]"), "annoproduzione"));
+
         }
 
         [Test]
