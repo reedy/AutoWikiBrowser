@@ -642,9 +642,9 @@ namespace WikiFunctions
         public static readonly Regex RegexWordApostrophes = new Regex(@"\w+(?:['’]\w+)?");
 
         /// <summary>
-        /// Matches &lt;source&gt;&lt;/source&gt;, &lt;syntaxhighlight&gt;, &lt;code&gt;&lt;/code&gt; tags
+        /// Matches &lt;source&gt;&lt;/source&gt;, &lt;syntaxhighlight&gt;, &lt;code&gt;&lt;/code&gt;, &lt;tt&gt;&lt;/tt&gt; tags
         /// </summary>
-        public static readonly Regex SourceCode = new Regex(@"<\s*(?<tag>source|syntaxhighlight|code)(?:\s.*?|)>(.*?)<\s*/\s*\k<tag>\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline);        
+        public static readonly Regex SourceCode = new Regex(@"<\s*(?<tag>source|syntaxhighlight|code|tt)(?:\s.*?|)>(.*?)<\s*/\s*\k<tag>\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline);        
 
         /// <summary>
         /// Matches math, pre, source, code, syntaxhighlight tags or comments
