@@ -8808,6 +8808,10 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text),"Don't tag for deadend");
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text),"Tag for stub");
             Assert.IsTrue(Tools.NestedTemplateRegex("uncategorized stub").IsMatch(text),"Tag for uncat stub");
+
+            // Pages with MinorPlanetListFooter will have wikilinks. They should not be tagged as deadend.
+            text = parser.Tagger(@"A {{MinorPlanetListFooter|A}} B", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text),"Don't tag for deadend");
         }
 
         [Test]

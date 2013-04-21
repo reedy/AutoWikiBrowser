@@ -6792,6 +6792,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex ProposedDeletionDatedEndorsed = Tools.NestedTemplateRegex( new string[] {"Proposed deletion/dated", "Proposed deletion endorsed" });
         private static readonly Regex Unreferenced = Tools.NestedTemplateRegex("unreferenced");
         private static readonly Regex Drugbox = Tools.NestedTemplateRegex(new[] { "Drugbox", "Chembox" });
+        private static readonly Regex MinorPlanetListFooter = Tools.NestedTemplateRegex("MinorPlanetListFooter");
 
         //TODO:Needs re-write
         /// <summary>
@@ -7025,7 +7026,9 @@ namespace WikiFunctions.Parse
                         tagsRemoved.Add("ويكى");
                     }
                 }
-                else if (Variables.LangCode != "sv" && !WikiRegexes.Centuryinbox.IsMatch(articleText)  && !Regex.IsMatch(WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower(), @"\bdead ?end\b"))
+                else if (Variables.LangCode != "sv" && !WikiRegexes.Centuryinbox.IsMatch(articleText)
+                         && !Regex.IsMatch(WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower(), @"\bdead ?end\b")
+                         && !MinorPlanetListFooter.IsMatch(articleText))
                 {
                     // Don't add excess newlines between new tags
                     articleText = "{{dead end|" + WikiRegexes.DateYearMonthParameter + "}}" + (tagsAdded.Count > 0 ? "\r\n" : "\r\n\r\n") + articleText;
