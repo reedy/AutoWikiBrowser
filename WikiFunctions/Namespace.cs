@@ -132,7 +132,7 @@ namespace WikiFunctions
         /// <param name="articleTitle">The title.</param>
         public static bool IsMainSpace(string articleTitle)
         {
-            return Determine(articleTitle) == 0;
+            return Determine(articleTitle) == Article;
         }
 
         /// <summary>
