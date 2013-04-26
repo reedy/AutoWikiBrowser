@@ -645,7 +645,7 @@ namespace WikiFunctions
                             
                         case "da":
                             mSummaryTag = " ved brug af ";
-                            WPAWB = "[[en:Wikipedia:AutoWikiBrowser|AWB]]";
+                            WPAWB = "[[en:WP:AWB|AWB]]";
                             break;
 
                         case "de":
