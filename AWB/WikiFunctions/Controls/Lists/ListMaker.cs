@@ -963,17 +963,17 @@ namespace WikiFunctions.Controls.Lists
                 return;
             }
 
-            int i = 0;
+            List<Article> articles = new List<Article>(lbArticles);
+            articles.RemoveAll(a => a.NameSpaceKey != Namespace.Article);
 
-            lbArticles.BeginUpdate();
-            while (i < lbArticles.Items.Count)
+            if(lbArticles.Items.Count > articles.Count)
             {
-                if (!Namespace.IsMainSpace(lbArticles.Items[i].ToString()))
-                    lbArticles.Items.Remove(lbArticles.Items[i]);
-                else
-                    i++;
+                lbArticles.BeginUpdate();
+                lbArticles.Items.Clear();
+                lbArticles.Items.AddRange(articles.ToArray());
+                lbArticles.EndUpdate();
             }
-            lbArticles.EndUpdate();
+
             UpdateNumberOfArticles();
         }
 
