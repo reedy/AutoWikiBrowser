@@ -671,10 +671,7 @@ namespace AutoWikiBrowser
             try
             {
                 Tools.WriteDebug(Name, "Starting");
-             /*   Variables.Profiler.Profile("Starting");
-                System.GC.Collect();
-                  Variables.Profiler.Profile("GC done");
-*/
+
                 Shutdown();
 
                 //check edit summary
