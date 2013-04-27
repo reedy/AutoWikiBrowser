@@ -1208,7 +1208,6 @@ namespace AutoWikiBrowser
             this.filterOutNonMainSpaceToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.filterOutNonMainSpaceToolStripMenuItem.Text = "Remove non-&main space";
             this.filterOutNonMainSpaceToolStripMenuItem.CheckedChanged += new System.EventHandler(this.filterOutNonMainSpaceToolStripMenuItem_Click);
-            this.filterOutNonMainSpaceToolStripMenuItem.Click += new System.EventHandler(this.filterOutNonMainSpaceToolStripMenuItem_Click);
             // 
             // toolStripSeparator28
             // 
