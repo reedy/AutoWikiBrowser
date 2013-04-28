@@ -1366,10 +1366,6 @@ namespace WikiFunctions
             }
             else
             {
-                // call this before MinorFixes so that Parsers.Conversions cleans up from ArticleIssues
-                AWBChangeArticleText("Fixes for {{Multiple issues}}", parsers.MultipleIssues(ArticleText), true);
-                Variables.Profiler.Profile("MultipleIssues");
-
                 AWBChangeArticleText("Fix whitespace in links", Parsers.FixLinkWhitespace(ArticleText, Name), true);
                 Variables.Profiler.Profile("FixLinkWhitespace");
 
@@ -1386,6 +1382,10 @@ namespace WikiFunctions
                 AWBChangeArticleText("Rename Template Parameters", Parsers.RenameTemplateParameters(ArticleText, WikiRegexes.RenamedTemplateParameters), true);
                 Variables.Profiler.Profile("RenameTemplateParameters");
                 
+                // call this before MinorFixes so that Parsers.Conversions cleans up from MultipleIssues
+                AWBChangeArticleText("Fixes for {{Multiple issues}}", parsers.MultipleIssues(ArticleText), true);
+                Variables.Profiler.Profile("MultipleIssues");
+
                 // must call EmboldenTitles before calling FixLinks
                 EmboldenTitles(parsers, skip.SkipNoBoldTitle);
                 Variables.Profiler.Profile("EmboldenTitles");
