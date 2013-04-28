@@ -1006,7 +1006,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the {{Multiple issues}} template
         /// </summary>
-        public static readonly Regex MultipleIssues = Tools.NestedTemplateRegex(new [] { "multipleissues", "multiple issues" }, true );
+        public static readonly Regex MultipleIssues = Tools.NestedTemplateRegex(new [] { "multipleissues", "multiple issues", "mi", "MI", "multiple", "issues", "Articleissues", "Article issues" }, true );
 
         /// <summary>
         /// Matches the {{New unreviewed article}} template
