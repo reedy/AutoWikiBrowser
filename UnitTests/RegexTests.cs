@@ -1440,15 +1440,14 @@ words2"));
         [Test]
         public void ArticleIssuesTests()
         {
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues|wikify=May 2008|a=b|c=d}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multipleissues|wikify=May 2008|a=b|c=d}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{multipleissues|wikify=May 2008|a=b|c=d}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues|wikify=May 2008|a=b|c=d}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues | wikify=May 2008|a=b|c=d}}"));
+            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues|wikify=May 2008|a=b|c=d}}"),"with space");
+            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multipleissues|wikify=May 2008|a=b|c=d}}"), "unspaced");
+            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{multipleissues|wikify=May 2008|a=b|c=d}}"), "unspaced no capitals");
+            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues | wikify=May 2008|a=b|c=d}}"), "with spaces in parameters");
             Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues
-           | wikify=May 2008|a=b|c=d}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues|}}"));
-            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multipleissues}}"));
+           | wikify=May 2008|a=b|c=d}}"),"with break lines");
+            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues|}}"),"empty");
+            Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multipleissues}}"), "empty too");
 
             Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{Multiple issues|wikify=May 2008|a=b|c=d}}"));
             Assert.IsTrue(WikiRegexes.MultipleIssues.IsMatch(@"{{ multiple issues|wikify=May 2008|a=b|c=d}}"));
@@ -1458,8 +1457,6 @@ words2"));
             // no matches
             Assert.IsFalse(WikiRegexes.MultipleIssues.IsMatch(@"{{ARTICLEISSUES }}"));
             Assert.IsFalse(WikiRegexes.MultipleIssues.IsMatch(@"{{Bert|Articleissues }}"));
-            Assert.IsFalse(WikiRegexes.MultipleIssues.IsMatch(@"{{Articleissues }}"));
-            Assert.IsFalse(WikiRegexes.MultipleIssues.IsMatch(@"{{Article issues }}"));
         }
 
         [Test]
