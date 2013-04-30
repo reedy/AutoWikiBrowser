@@ -7505,6 +7505,11 @@ foo {{persondata}}
             Assert.AreEqual(a + b, Parsers.ChangeToDefaultSort(a, "Fred Smith", out noChange));
             Assert.IsFalse(noChange);
 
+            string a2 = @"Fred Smith blah {{imdb name|id=abc}} [[Category:Living people]]";
+
+            Assert.AreEqual(a2 + b, Parsers.ChangeToDefaultSort(a2, "Fred Smith", out noChange));
+            Assert.IsFalse(noChange);
+
             // no defaultsort added if restricted defaultsort addition on
             Assert.AreEqual(a, Parsers.ChangeToDefaultSort(a, "Fred Smith", out noChange, true));
             Assert.IsTrue(noChange);
