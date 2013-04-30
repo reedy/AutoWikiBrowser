@@ -2000,8 +2000,7 @@ Bert").Groups[2].Value, "foo bar\r");
         {
             Assert.IsTrue(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Malay name}}"));
             Assert.IsTrue(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Malay_name}}"));
-            Assert.IsTrue(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Malay-name}}"));
-            Assert.IsTrue(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Chinese-name}}"));
+            Assert.IsTrue(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Chinese name}}"));
             Assert.IsFalse(WikiRegexes.SurnameClarificationTemplates.IsMatch(@"{{Eastern name order}}"));
         }
         
