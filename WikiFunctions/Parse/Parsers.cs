@@ -5953,7 +5953,8 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// if title has diacritics, no defaultsort added yet, adds a defaultsort with cleaned up title as sort key
+        /// If title has diacritics, no defaultsort added yet, adds a defaultsort with cleaned up title as sort key
+        /// If article is about a person, generates human name sortkey
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
