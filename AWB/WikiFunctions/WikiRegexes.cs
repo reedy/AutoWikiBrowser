@@ -1088,7 +1088,7 @@ namespace WikiFunctions
                                                                                             "Infobox US associate justice", "Infobox US cabinet official", "Infobox US chief justice", "Infobox US territorial governor", "Infobox vice president", "Infobox US ambassador", "Infobox Eritrea cabinet official",
                                                                                             "Infobox sportsperson", "Infobox NFL player", "Infobox football biography", "Infobox football official", "Infobox golfer", "Infobox gridiron football person", "Infobox gymnast", "Infobox handball biography,",
                                                                                             "Infobox ice hockey player", "Infobox motorcycle rider", "Infobox rugby biography", "Infobox rugby league biography", "Infobox Rugby Union biography", "Infobox rugby union biography", "Infobox cricketer", "Infobox nobility",
-                                                                                            "Infobox noble", "Infobox tennis biography", "Infobox handball biography", "Infobox pro football player", "Infobox badminton player", "Infobox basketball official", "Infobox bodybuilder", "Infobox boxer"}, false);
+                                                                                            "Infobox noble", "Infobox tennis biography", "Infobox handball biography", "Infobox pro football player", "Infobox badminton player", "Infobox basketball official", "Infobox bodybuilder", "Infobox boxer", "Infobox MLB player"}, false);
 
         /// <summary>
         /// Matches the {{circa}} template
