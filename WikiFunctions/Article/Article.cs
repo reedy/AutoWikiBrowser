@@ -1353,9 +1353,6 @@ namespace WikiFunctions
             HideText(removeText);
             Variables.Profiler.Profile("HideText");
 
-            SetDefaultSort(Variables.LangCode, skip.SkipNoDefaultSortAdded, restrictDefaultsortAddition);
-            Variables.Profiler.Profile("SetDefaultSort");
-
             if (Tools.IsRedirect(ArticleText))
             {
                 AWBChangeArticleText("Redirect tagger", Parsers.RedirectTagger(ArticleText, Name), true);
@@ -1457,6 +1454,10 @@ namespace WikiFunctions
                 AWBChangeArticleText("Simplify links", Parsers.SimplifyLinks(ArticleText), true);
                 Variables.Profiler.Profile("SimplifyLinks");
             }
+
+            // run whether redirect or not, must be after FixPeopleCategories
+            SetDefaultSort(Variables.LangCode, skip.SkipNoDefaultSortAdded, restrictDefaultsortAddition);
+            Variables.Profiler.Profile("SetDefaultSort");
 
             UnHideText(removeText);
 
