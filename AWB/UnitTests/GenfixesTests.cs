@@ -452,6 +452,19 @@ y";
         }
 
         [Test]
+        public void CatsAndDefaultSort()
+        {
+            ArticleText = @"{{infobox person}}
+'''John Smith''' (born 11 April 1990) is great.";
+            
+            GenFixes("John Smith");
+            
+            Assert.IsTrue(ArticleText.Contains(@"[[Category:1990 births]]"));
+            Assert.IsTrue(ArticleText.Contains(@"[[Category:Living people]]"));
+            Assert.IsTrue(ArticleText.Contains(@"{{DEFAULTSORT:Smith, John}}"));
+        }
+
+        [Test]
         public void NamedAndUnnamedRefs()
         {
             ArticleText = @"Z<ref name = ""Smith63"">Smith (2004), p.&nbsp;63</ref> in all probability.<ref>Smith (2004), p.&nbsp;63</ref> For.<ref>Smith (2004), p.&nbsp;63</ref>
