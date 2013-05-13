@@ -1127,6 +1127,7 @@ namespace WikiFunctions
         public static readonly Regex PortalTemplate = Tools.NestedTemplateRegex("portal");
         #endregion
 
+        // to find only matching comments use <!--(?>(?!<!--|-->).|<!--(?<Depth>)|-->(?<-Depth>))*(?(Depth)(?!))-->
         /// <summary>
         /// Matches &lt;!-- comments --&gt;
         /// </summary>
