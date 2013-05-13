@@ -205,6 +205,12 @@ a");
             AssertChange(@"{{cite web| url=http://www.site.com/f | title=A | date= June 29th, 2012 08:44}}", 
                          @"{{cite web| url=http://www.site.com/f | title=A | date= June 29, 2012<!-- 08:44-->}}");
         }
+
+        [Test]
+        public void CiteWorkLink()
+        {
+            AssertChange(@"{{cite news|work=''[[foo|foo]]''}}", @"{{cite news|work=[[foo]]}}");
+        }
         
         [Test]
         public void UnbalancedBracketRenameTemplateParameter()
