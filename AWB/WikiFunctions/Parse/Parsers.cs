@@ -1441,6 +1441,7 @@ namespace WikiFunctions.Parse
             {
                 reparse = false;
                 NamedRefs.Clear();
+                int reflistIndex = WikiRegexes.ReferencesTemplate.Match(articleText).Index;
 
                 foreach (Match m in WikiRegexes.NamedReferences.Matches(articleText))
                 {
@@ -1461,8 +1462,6 @@ namespace WikiFunctions.Parse
 
                         if (name2.Equals(refName) && namedRefValue.Length >= 25)
                         {
-                            int reflistIndex = WikiRegexes.ReferencesTemplate.Match(articleText).Index;
-
                             // don't condense refs in {{reflist...}}
                             if (reflistIndex > 0 && m.Index > reflistIndex)
                                 continue;
