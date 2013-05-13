@@ -5058,6 +5058,16 @@ Some news here.", "test"), "space trimmed from end of paragraph when br replaces
 ==Foo==
 B","Foo");
             Assert.IsFalse(HeadingEqualTitle.Contains("Foo"), "Heading same as title");
+
+            Assert.AreEqual(@"'''The'''.
+
+== History ==
+
+Five", Parsers.FixHeadings(@"'''The'''.
+
+== History ==	 
+ 		 
+Five", "a"));
         }
 
         [Test]

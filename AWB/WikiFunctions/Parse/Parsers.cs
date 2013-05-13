@@ -311,6 +311,8 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
+        private static readonly Regex SpaceNewLineEnd = new Regex(@" +(\s+)$");
+
         /// <summary>
         /// Performs various fixes to headings
         /// </summary>
@@ -319,7 +321,10 @@ namespace WikiFunctions.Parse
             string hAfter = WikiRegexes.Br.Replace(m.Value, "");
             hAfter = WikiRegexes.Big.Replace(hAfter, "$1").TrimStart(' ');
 
-            hAfter = Regex.Replace(hAfter, @" +(\s+)$", "$1");
+            // clean whitespace
+            hAfter = hAfter.Replace("\t", " ");
+            while(SpaceNewLineEnd.IsMatch(hAfter))
+                hAfter = SpaceNewLineEnd.Replace(hAfter, "$1");
 
             // Removes bold from heading - CHECKWIKI error 44
             hAfter = RegexHeadingsBold.Replace(hAfter, "$1$2$3");
