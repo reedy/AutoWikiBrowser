@@ -3495,8 +3495,9 @@ namespace WikiFunctions.Parse
                             break;
 
                         default:
-                            // Chinese language brackets（ and ）[ASCII 65288 and 65289]
-                            if(Variables.LangCode.Equals("en"))
+                            // Chinese language brackets（ and ）[ASCII 65288 and 65289], change if unbalanced
+                            if(Variables.LangCode.Equals("en") && Regex.Matches(articleTextTemp, "（").Count
+                                != Regex.Matches(articleTextTemp, "）").Count)
                             {
                                 articleTextTemp = articleTextTemp.Replace("）", ")");
                                 articleTextTemp = articleTextTemp.Replace("（", "(");

@@ -4056,6 +4056,9 @@ Now [[Fred was";
 
         	Variables.SetProjectLangCode("en");
         	Assert.AreEqual(@"now (there) was", Parsers.FixSyntax(CB));
+
+        	const string CB2 = @"now （there） was";
+        	Assert.AreEqual(CB2, Parsers.FixSyntax(CB2), "No change when brackets are balanced");
         	#endif
         }
         
