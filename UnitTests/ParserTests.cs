@@ -2022,16 +2022,21 @@ was [[foo|bar]] too"));
             // with sortkey
             Assert.AreEqual(@"'''Fred Smith''' (born 1960) is a bloke.
 [[Category:1960 births|Smith, Fred]][[Category:Living people|Smith, Fred]]", Parsers.LivingPeople(@"'''Fred Smith''' (born 1960) is a bloke.
-[[Category:1960 births|Smith, Fred]]"));
+[[Category:1960 births|Smith, Fred]]", "A"));
 
             // no sortkey
             Assert.AreEqual(@"'''Fred Smith''' (born 1960) is a bloke.
 [[Category:1960 births]][[Category:Living people]]", Parsers.LivingPeople(@"'''Fred Smith''' (born 1960) is a bloke.
-[[Category:1960 births]]"));
+[[Category:1960 births]]", "A"));
+            
+            // non-mainspace: add with colon
+                        Assert.AreEqual(@"'''Fred Smith''' (born 1960) is a bloke.
+[[Category:1960 births]][[:Category:Living people]]", Parsers.LivingPeople(@"'''Fred Smith''' (born 1960) is a bloke.
+[[Category:1960 births]]", "Wikipedia:Sandbox"));
 
             // no matches if not identified as born
             const string b1 = @"'''Fred Smith''' is a bloke.";
-            Assert.AreEqual(b1, Parsers.LivingPeople(b1));
+            Assert.AreEqual(b1, Parsers.LivingPeople(b1, "A"));
 
             // no matches if identified as dead
             const string a = @"'''Fred Smith''' (born 1960) is a bloke.
@@ -2056,23 +2061,23 @@ was [[foo|bar]] too"));
 [[Category:Year of death missing]]";
             const string h = @"'''Fred Smith''' (d. 1950) is a bloke.";
 
-            Assert.AreEqual(a, Parsers.LivingPeople(a));
-            Assert.AreEqual(b, Parsers.LivingPeople(b));
-            Assert.AreEqual(c, Parsers.LivingPeople(c));
-            Assert.AreEqual(d, Parsers.LivingPeople(d));
-            Assert.AreEqual(e, Parsers.LivingPeople(e));
-            Assert.AreEqual(f, Parsers.LivingPeople(f));
-            Assert.AreEqual(g, Parsers.LivingPeople(g));
-            Assert.AreEqual(h, Parsers.LivingPeople(h));
+            Assert.AreEqual(a, Parsers.LivingPeople(a, "A"));
+            Assert.AreEqual(b, Parsers.LivingPeople(b, "A"));
+            Assert.AreEqual(c, Parsers.LivingPeople(c, "A"));
+            Assert.AreEqual(d, Parsers.LivingPeople(d, "A"));
+            Assert.AreEqual(e, Parsers.LivingPeople(e, "A"));
+            Assert.AreEqual(f, Parsers.LivingPeople(f, "A"));
+            Assert.AreEqual(g, Parsers.LivingPeople(g, "A"));
+            Assert.AreEqual(h, Parsers.LivingPeople(h, "A"));
 
             // assume dead if born earlier than 121 years ago, so no change
             const string d1 = @"'''Fred Smith''' (born 1879) is a bloke.
 [[Category:1879 births|Smith, Fred]]";
-            Assert.AreEqual(d1, Parsers.LivingPeople(d1));
+            Assert.AreEqual(d1, Parsers.LivingPeople(d1, "A"));
 
             // check correctly handles birth category with no year to parse
             const string d2 = @"Fred [[Category:15th-century births]]";
-            Assert.AreEqual(d2, Parsers.LivingPeople(d2));
+            Assert.AreEqual(d2, Parsers.LivingPeople(d2, "A"));
         }
 
         [Test]

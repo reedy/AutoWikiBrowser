@@ -6145,11 +6145,12 @@ namespace WikiFunctions.Parse
         /// Adds [[Category:Living people]] to articles with a [[Category:XXXX births]] and no living people/deaths category, taking sortkey from births category if present
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitle">The page title of the article.</param>
         /// <param name="noChange"></param>
         /// <returns></returns>
-        public static string LivingPeople(string articleText, out bool noChange)
+        public static string LivingPeople(string articleText, string articleTitle, out bool noChange)
         {
-            string newText = LivingPeople(articleText);
+            string newText = LivingPeople(articleText, articleTitle);
 
             noChange = newText.Equals(articleText);
 
@@ -6160,10 +6161,12 @@ namespace WikiFunctions.Parse
         private static readonly Regex BirthsSortKey = new Regex(@"\|.*?\]\]", RegexOptions.Compiled);
         /// <summary>
         /// Adds [[Category:Living people]] to articles with a [[Category:XXXX births]] and no living people/deaths category, taking sortkey from births category if present
+        /// When page is not mainspace, adds [[:Category rather than [[Category
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
+        /// <param name="articleTitle">The page title of the article.</param>
         /// <returns>The updated article text.</returns>
-        public static string LivingPeople(string articleText)
+        public static string LivingPeople(string articleText, string articleTitle)
         {
             Match m = WikiRegexes.BirthsCategory.Match(articleText);
 
@@ -6192,7 +6195,7 @@ namespace WikiFunctions.Parse
             // use any sortkey from 'XXXX births' category
             string catKey = birthCat.Contains("|") ? BirthsSortKey.Match(birthCat).Value : "]]";
 
-            return articleText + "[[Category:Living people" + catKey;
+            return articleText + "[[" + (Namespace.IsMainSpace(articleTitle) ? "" : ":") + "Category:Living people" + catKey;
         }
 
         private static readonly Regex PersonYearOfBirth = new Regex(@"(?<='''.{0,100}?)\( *[Bb]orn[^\)\.;]{1,150}?(?<!.*(?:[Dd]ied|&[nm]dash;|—).*)([12]?\d{3}(?: BC)?)\b[^\)]{0,200}");
@@ -6257,6 +6260,7 @@ namespace WikiFunctions.Parse
 
         /// <summary>
         /// Adds [[Category:XXXX births]], [[Category:XXXX deaths]] to articles about people where available, for en-wiki only
+        /// When page is not mainspace, adds [[:Category rather than [[Category
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
@@ -6286,7 +6290,7 @@ namespace WikiFunctions.Parse
             zerothSection = WikiRegexes.NestedTemplates.Replace(zerothSection, m2=> Tools.GetTemplateParameterValue(m2.Value, "date").Length > 0 ? "" : m2.Value);
             zerothSection = WikiRegexes.TemplateMultiline.Replace(zerothSection, m2=> Tools.GetTemplateParameterValue(m2.Value, "date").Length > 0 ? "" : m2.Value);
 
-            string StartCategory = Tools.Newline(@"[[Category:");
+            string StartCategory = Tools.Newline(@"[[" + (Namespace.IsMainSpace(articleTitle) ? "" : ":") + @"Category:");
             string yearstring, yearFromInfoBox = "", sort = GetCategorySort(articleText);
 
             bool alreadyUncertain = false;
