@@ -1047,7 +1047,7 @@ namespace WikiFunctions
         {
             bool noChange2;
             string strTemp = parsers.FixPeopleCategories(mArticleText, Name, true, out noChange);
-            strTemp = Parsers.LivingPeople(strTemp, out noChange2);
+            strTemp = Parsers.LivingPeople(strTemp, Name, out noChange2);
 
             if (!noChange2)
                 noChange = false;
