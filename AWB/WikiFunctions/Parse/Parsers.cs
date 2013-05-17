@@ -2518,7 +2518,7 @@ namespace WikiFunctions.Parse
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.SourceCode);
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Small);
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Refs);
-            articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.GalleryTag);
+            articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.GalleryTag, 2);
             
             foreach (Match m in MathSourceCodeNowikiPreTag.Matches(articleText))
             {

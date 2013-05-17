@@ -2374,6 +2374,18 @@ Message: {2}
 		}
 
 		/// <summary>
+		/// Replaces the values of all matches with spaces
+		/// </summary>
+		/// <param name="input">The article text to update</param>
+		/// <param name="matches">Collection of matches to replace with spaces</param>
+		/// <param name="keepGroup">Regex match group to keep text of in replacement</param>
+		/// <returns>The updated article text</returns>
+		public static string ReplaceWithSpaces(string input, MatchCollection matches, int keepGroup)
+		{
+			return ReplaceWith(input, matches, ' ', keepGroup);
+		}
+
+		/// <summary>
 		/// Replaces the values of all matches with a given character
 		/// </summary>
 		/// <param name="input">The article text to update</param>
@@ -2382,11 +2394,31 @@ Message: {2}
 		/// <returns>The updated article text</returns>
 		public static string ReplaceWith(string input, MatchCollection matches, char rwith)
 		{
+		    return ReplaceWith(input, matches, rwith, 0);
+		}
+
+		/// <summary>
+		/// Replaces the values of all matches with a given character
+		/// </summary>
+		/// <param name="input">The article text to update</param>
+		/// <param name="matches">Collection of matches to replace with spaces</param>
+		/// <param name="rwith">The character to use</param>
+		/// <param name="keepGroup">Regex match group to keep text of in replacement</param>
+		/// <returns>The updated article text</returns>
+		public static string ReplaceWith(string input, MatchCollection matches, char rwith, int keepGroup)
+		{
 			StringBuilder sb = new StringBuilder(input.Length);
 			foreach (Match m in matches)
 			{
-				sb.Append(input, sb.Length, m.Index - sb.Length);
-				sb.Append(rwith, m.Length);
+			    sb.Append(input, sb.Length, m.Index - sb.Length);
+			    if(keepGroup < 1 || m.Groups[keepGroup].Value.Length == 0)
+			        sb.Append(rwith, m.Length);
+			    else
+			    {
+			        sb.Append(rwith, m.Groups[keepGroup].Index - m.Index);
+			        sb.Append(m.Groups[keepGroup].Value);
+			        sb.Append(rwith, m.Index + m.Length - m.Groups[keepGroup].Index - m.Groups[keepGroup].Length);
+			    }
 			}
 			sb.Append(input, sb.Length, input.Length - sb.Length);
 			return sb.ToString();
@@ -2405,6 +2437,19 @@ Message: {2}
 		}
 
 		/// <summary>
+		/// Replaces all matches of a given regex in a string with space characters
+		/// such that the length of the string remains the same
+		/// </summary>
+		/// <param name="input">The article text to update</param>
+		/// <param name="regex">The regex to replace all matches of</param>
+		/// <param name="keepGroup">Regex match group to keep text of in replacement</param>
+		/// <returns>The updated article text</returns>
+		public static string ReplaceWithSpaces(string input, Regex regex, int keepGroup)
+		{
+			return ReplaceWithSpaces(input, regex.Matches(input), keepGroup);
+		}
+
+		/// <summary>
 		/// Replaces all matches of a given regex in a string with a character
 		/// such that the length of the string remains the same
 		/// </summary>
@@ -2415,6 +2460,20 @@ Message: {2}
 		public static string ReplaceWith(string input, Regex regex, char rwith)
 		{
 			return ReplaceWith(input, regex.Matches(input), rwith);
+		}
+
+		/// <summary>
+		/// Replaces all matches of a given regex in a string with a character
+		/// such that the length of the string remains the same
+		/// </summary>
+		/// <param name="input">The article text to update</param>
+		/// <param name="regex">The regex to replace all matches of</param>
+		/// <param name="rwith">The character to use</param>
+		/// <param name="keepGroup">Regex match group to keep text of in replacement</param>
+		/// <returns>The updated article text</returns>
+		public static string ReplaceWith(string input, Regex regex, char rwith, int keepGroup)
+		{
+			return ReplaceWith(input, regex.Matches(input), rwith, keepGroup);
 		}
 
 		// ensure dates returned are English.
