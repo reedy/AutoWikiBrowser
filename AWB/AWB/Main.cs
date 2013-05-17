@@ -3152,6 +3152,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             btnSave.Enabled = enabled && TheArticle != null && !string.IsNullOrEmpty(TheSession.Page.Title);
 
             btnDelete.Enabled = btntsDelete.Enabled = btnMove.Enabled = btnProtect.Enabled = (enabled && TheSession.User.IsSysop && (TheArticle != null));
+
+            // if there are find matches, colour the Find button yellow
+            if(btnFind.Enabled && txtFind.Text.Length > 0 && txtEdit.FindAll(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, TheArticle.Name).Count > 0)
+                btnFind.BackColor = System.Drawing.Color.Yellow;
+            else
+                btnFind.BackColor = SystemColors.ButtonFace;
         }
 
         #endregion
