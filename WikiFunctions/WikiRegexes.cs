@@ -543,9 +543,9 @@ namespace WikiFunctions
         public static readonly Regex AllTags = new Regex(@"<\s*(nowiki|pre|math|timeline|code|source|cite|syntaxhighlight|blockquote|poem|imagemap|includeonly|onlyinclude|noinclude|hiero)[^<>]*>(?>(?!<\s*\1[^<>]*>|<\s*/\s*\1\b[^<>]*>).|<\s*\1[^<>]*>(?<Depth>)|<\s*/\s*\1\b[^<>]*>(?<-Depth>))*(?(Depth)(?!))<\s*/\s*\1\b[^<>]*>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
 
         /// <summary>
-        /// Matches &lt;gallery&gt; tags
+        /// Matches &lt;gallery&gt; tags, group 1 is any tag parameters, group 2 is the tag contents
         /// </summary>
-        public static readonly Regex GalleryTag = new Regex(@"< *gallery\b([^>]*?)>[\s\S]*?</ *gallery *>", RegexOptions.IgnoreCase);
+        public static readonly Regex GalleryTag = new Regex(@"< *gallery\b([^>]*?)>([\s\S]*?)</ *gallery *>", RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Matches three or more consecutive new lines
@@ -642,7 +642,7 @@ namespace WikiFunctions
         public static readonly Regex RegexWordApostrophes = new Regex(@"\w+(?:['’]\w+)?");
 
         /// <summary>
-        /// Matches &lt;source&gt;&lt;/source&gt;, &lt;syntaxhighlight&gt;, &lt;code&gt;&lt;/code&gt;, &lt;tt&gt;&lt;/tt&gt; tags
+        /// Matches &lt;source&gt;&lt;/source&gt;, &lt;syntaxhighlight&gt;, &lt;code&gt;&lt;/code&gt;, &lt;tt&gt;&lt;/tt&gt; tags, group 1 is the tag contents
         /// </summary>
         public static readonly Regex SourceCode = new Regex(@"<\s*(?<tag>source|syntaxhighlight|code|tt)(?:\s.*?|)>(.*?)<\s*/\s*\k<tag>\s*>", RegexOptions.IgnoreCase | RegexOptions.Singleline);        
 

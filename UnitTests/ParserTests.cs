@@ -4506,6 +4506,10 @@ x
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> </gallery> not opened");
             Assert.AreEqual(uct.Count, 1);
             Assert.IsTrue(uct.ContainsKey(15));
+
+            uct = Parsers.UnclosedTags(@"<gallery>A|<div><small>(1717)</small><br/><small><small>Munich</small></div></gallery>");
+            Assert.AreEqual(uct.Count, 1);
+            Assert.IsTrue(uct.ContainsKey(42));
         }
 
         [Test]

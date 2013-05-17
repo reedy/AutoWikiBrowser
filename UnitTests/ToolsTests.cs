@@ -745,6 +745,11 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
             Assert.AreEqual("", Tools.ReplaceWithSpaces("", foo));
             Assert.AreEqual("   ", Tools.ReplaceWithSpaces("foo", foo));
             Assert.AreEqual("   bar   ", Tools.ReplaceWithSpaces("foobarfoo", foo));
+            Assert.AreEqual("   bar   ", Tools.ReplaceWithSpaces("foobarfoo", foo, 1));
+
+            foo = new Regex("f(o)o");
+            Assert.AreEqual(" o ", Tools.ReplaceWithSpaces("foo", foo, 1));
+            Assert.AreEqual(" o bar o ", Tools.ReplaceWithSpaces("foobarfoo", foo, 1));
         }
 
         [Test]
@@ -754,6 +759,14 @@ en.wikipedia.org", Tools.ApplyKeyWords("n/a", @"%%server%%
             Assert.AreEqual("", Tools.ReplaceWith("", foo, '#'));
             Assert.AreEqual("###", Tools.ReplaceWith("foo", foo, '#'));
             Assert.AreEqual("###bar###", Tools.ReplaceWith("foobarfoo", foo, '#'));
+
+            foo = new Regex("f(o)o");
+            Assert.AreEqual("", Tools.ReplaceWith("", foo, '#'));
+            Assert.AreEqual("###", Tools.ReplaceWith("foo", foo, '#'));
+            Assert.AreEqual("###bar###", Tools.ReplaceWith("foobarfoo", foo, '#'));
+            Assert.AreEqual("", Tools.ReplaceWith("", foo, '#', 1));
+            Assert.AreEqual("#o#", Tools.ReplaceWith("foo", foo, '#', 1));
+            Assert.AreEqual("#o#bar#o#", Tools.ReplaceWith("foobarfoo", foo, '#', 1));
         }
 
         [Test]
