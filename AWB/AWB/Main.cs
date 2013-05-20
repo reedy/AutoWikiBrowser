@@ -5103,15 +5103,16 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             {
                 if (imgBold.Visible != value)
                 {
+                    // move edit summary box for toolbar
                     if (value)
                     {
-                        txtEdit.Location = new Point(txtEdit.Location.X, txtEdit.Location.Y + 30);
-                        txtEdit.Size = new Size(txtEdit.Size.Width, txtEdit.Size.Height - 30);
+                        txtReviewEditSummary.Location = new Point(txtReviewEditSummary.Location.X+imgBold.Width*12, txtReviewEditSummary.Location.Y);
+                        txtReviewEditSummary.Size = new Size(txtReviewEditSummary.Size.Width-imgBold.Width*12, txtReviewEditSummary.Size.Height);
                     }
                     else
                     {
-                        txtEdit.Location = new Point(txtEdit.Location.X, txtEdit.Location.Y - 30);
-                        txtEdit.Size = new Size(txtEdit.Size.Width, txtEdit.Size.Height + 30);
+                        txtReviewEditSummary.Location = new Point(3, txtReviewEditSummary.Location.Y);
+                        txtReviewEditSummary.Size = new Size(txtReviewEditSummary.Size.Width+imgBold.Width*12, txtReviewEditSummary.Size.Height);
                     }
 
                     imgBold.Visible = imgExtlink.Visible = imgHr.Visible = imgItalics.Visible = imgLink.Visible =

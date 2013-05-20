@@ -388,7 +388,6 @@ namespace AutoWikiBrowser
             this.webBrowserHistory = new System.Windows.Forms.WebBrowser();
             this.tpLinks = new System.Windows.Forms.TabPage();
             this.webBrowserLinks = new System.Windows.Forms.WebBrowser();
-            this.tpEditSummary = new System.Windows.Forms.TabPage();
             this.txtReviewEditSummary = new System.Windows.Forms.TextBox();
             this.tpLogs = new System.Windows.Forms.TabPage();
             this.logControl = new WikiFunctions.Logging.LogControl();
@@ -475,7 +474,6 @@ namespace AutoWikiBrowser
             this.tpEdit.SuspendLayout();
             this.tpHistory.SuspendLayout();
             this.tpLinks.SuspendLayout();
-            this.tpEditSummary.SuspendLayout();
             this.tpLogs.SuspendLayout();
             this.tpArticleActionLogs.SuspendLayout();
             this.tpLoggingOptions.SuspendLayout();
@@ -3829,7 +3827,6 @@ namespace AutoWikiBrowser
             this.EditBoxTab.Controls.Add(this.tpEdit);
             this.EditBoxTab.Controls.Add(this.tpHistory);
             this.EditBoxTab.Controls.Add(this.tpLinks);
-            this.EditBoxTab.Controls.Add(this.tpEditSummary);
             this.EditBoxTab.Controls.Add(this.tpLogs);
             this.EditBoxTab.Controls.Add(this.tpArticleActionLogs);
             this.EditBoxTab.Controls.Add(this.tpLoggingOptions);
@@ -3858,6 +3855,7 @@ namespace AutoWikiBrowser
             this.tpEdit.Controls.Add(this.imgItalics);
             this.tpEdit.Controls.Add(this.imgBold);
             this.tpEdit.Controls.Add(this.txtEdit);
+            this.tpEdit.Controls.Add(this.txtReviewEditSummary);
             this.tpEdit.Location = new System.Drawing.Point(4, 22);
             this.tpEdit.Name = "tpEdit";
             this.tpEdit.Padding = new System.Windows.Forms.Padding(3);
@@ -3912,28 +3910,18 @@ namespace AutoWikiBrowser
             this.webBrowserLinks.TabIndex = 0;
             this.webBrowserLinks.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserLinks_DocumentCompleted);
             // 
-            // tpEditSummary
-            // 
-            this.tpEditSummary.Controls.Add(this.txtReviewEditSummary);
-            this.tpEditSummary.Location = new System.Drawing.Point(4, 22);
-            this.tpEditSummary.Name = "tpEditSummary";
-            this.tpEditSummary.Padding = new System.Windows.Forms.Padding(3);
-            this.tpEditSummary.Size = new System.Drawing.Size(394, 351);
-            this.tpEditSummary.TabIndex = 5;
-            this.tpEditSummary.Text = "Edit Summary";
-            this.tpEditSummary.UseVisualStyleBackColor = true;
-            this.ToolTip.SetToolTip(this.tpEditSummary, "The edit summary for the page, which you can edit prior to saving the page text");
-            // 
             // txtReviewEditSummary
             // 
+            this.txtReviewEditSummary.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                                                                                     | System.Windows.Forms.AnchorStyles.Right)));
             this.txtReviewEditSummary.BackColor = System.Drawing.SystemColors.Window;
-            this.txtReviewEditSummary.Dock = System.Windows.Forms.DockStyle.Top;
             this.txtReviewEditSummary.Location = new System.Drawing.Point(3, 3);
             this.txtReviewEditSummary.Multiline = true;
             this.txtReviewEditSummary.Name = "txtReviewEditSummary";
-            this.txtReviewEditSummary.Size = new System.Drawing.Size(388, 88);
-            this.txtReviewEditSummary.TabIndex = 0;
+            this.txtReviewEditSummary.Size = new System.Drawing.Size(113, 26);
             this.txtReviewEditSummary.Enabled = false;
+            this.txtReviewEditSummary.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.ToolTip.SetToolTip(this.txtReviewEditSummary, "The edit summary for the page");
             // 
             // tpLogs
             // 
@@ -4358,8 +4346,6 @@ namespace AutoWikiBrowser
             this.tpEdit.PerformLayout();
             this.tpHistory.ResumeLayout(false);
             this.tpLinks.ResumeLayout(false);
-            this.tpEditSummary.ResumeLayout(false);
-            this.tpEditSummary.PerformLayout();
             this.tpLogs.ResumeLayout(false);
             this.tpArticleActionLogs.ResumeLayout(false);
             this.tpLoggingOptions.ResumeLayout(false);
@@ -4713,7 +4699,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem commentSelectedToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkSkipIfRedirect;
         private System.Windows.Forms.CheckBox chkSkipIfNoAlerts;
-        private System.Windows.Forms.TabPage tpEditSummary;
         private System.Windows.Forms.TextBox txtReviewEditSummary;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem enableTheToolbarToolStripMenuItem;
