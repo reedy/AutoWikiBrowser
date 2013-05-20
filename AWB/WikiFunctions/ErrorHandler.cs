@@ -54,7 +54,14 @@ namespace WikiFunctions
             // network access error
             else if (ex is System.Net.WebException || ex.InnerException is System.Net.WebException)
             {
-                MessageBox.Show(ex.Message, "Network access error",
+                // if AWB starts up offline we'll hit here, so provide clear network related message
+                string msg="";
+                if(ex.Message.StartsWith(@"The type initializer for"))
+                    msg = ex.InnerException.Message;
+                else
+                    msg = ex.Message;
+
+                MessageBox.Show(msg, "Network access error",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             // out of memory error
