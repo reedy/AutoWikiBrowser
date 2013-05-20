@@ -49,6 +49,7 @@ namespace WikiFunctions
 
         /// <summary>
         /// Application data directory specific to the current user
+        /// e.g. C:\Users\&lt;user&gt;\AppData\Local\AutoWikiBrowser\ on Windows 7
         /// </summary>
         public static string UserData
         {
