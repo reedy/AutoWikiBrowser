@@ -308,27 +308,29 @@ en, sq, ru
 			string categories = Tools.Newline(RemoveCats(ref articleText, articleTitle));
 			string interwikis = Tools.Newline(Interwikis(ref articleText));
 
-			// maintenance templates above infoboxes etc., zeroth section only
-			if (Variables.LangCode.Equals("en"))
+			if(Namespace.Determine(articleTitle) == Namespace.Mainspace)
 			{
-			    string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
-			    string restOfArticle = articleText.Substring(zerothSection.Length);
-			    articleText = MoveMaintenanceTags(zerothSection) + restOfArticle;
+			    // maintenance templates above infoboxes etc., zeroth section only
+			    if (Variables.LangCode.Equals("en"))
+			    {
+			        string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
+			        string restOfArticle = articleText.Substring(zerothSection.Length);
+			        articleText = MoveMaintenanceTags(zerothSection) + restOfArticle;
+			    }
+
+			    // Dablinks above orphan tags per [[WP:LAYOUT]]
+			    articleText = MoveDablinks(articleText);
+
+			    if (Variables.LangCode.Equals("en"))
+			    {
+			        articleText = MovePortalTemplates(articleText);
+			        articleText = MoveTemplateToSeeAlsoSection(articleText, WikiRegexes.WikipediaBooks);
+			        articleText = MoveSisterlinks(articleText);
+			        articleText = MoveTemplateToReferencesSection(articleText, WikiRegexes.Ibid);
+			        articleText = MoveExternalLinks(articleText);
+			        articleText = MoveSeeAlso(articleText);
+			    }
 			}
-
-			// Dablinks above orphan tags per [[WP:LAYOUT]]
-			articleText = MoveDablinks(articleText);
-
-			if (Variables.LangCode.Equals("en"))
-			{
-			    articleText = MovePortalTemplates(articleText);
-			    articleText = MoveTemplateToSeeAlsoSection(articleText, WikiRegexes.WikipediaBooks);
-			    articleText = MoveSisterlinks(articleText);
-			    articleText = MoveTemplateToReferencesSection(articleText, WikiRegexes.Ibid);
-			    articleText = MoveExternalLinks(articleText);
-			    articleText = MoveSeeAlso(articleText);
-			}
-
 			// two newlines here per https://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser&oldid=243224092#Blank_lines_before_stubs
 			// https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Two_empty_lines_before_stub-templates
 			// ru, sl wikis use only one newline
