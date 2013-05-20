@@ -394,12 +394,8 @@ en, sq, ru
 		/// <returns>The cleaned page categories in a single string</returns>
 		public string RemoveCats(ref string articleText, string articleTitle)
 		{
-			// mainspace only. In category space it may ruin category tree
-			if (!Namespace.IsMainSpace(articleTitle))
-			    return "";
-			    
-			// don't pull category from redirects to a cagegory e.g. page Hello is #REDIRECT[[Category:Hello]]
-			if(WikiRegexes.Category.IsMatch(@"[[" + Tools.RedirectTarget(articleText) + @"]]"))
+		    // don't pull category from redirects to a cagegory e.g. page Hello is #REDIRECT[[Category:Hello]]
+		    if(WikiRegexes.Category.IsMatch(@"[[" + Tools.RedirectTarget(articleText) + @"]]"))
 				return "";
 			
 			// don't operate on pages with (incorrectly) multiple defaultsorts
