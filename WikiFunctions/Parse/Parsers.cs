@@ -223,7 +223,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex RegexHeadings5 = new Regex("(== ?)(further readings?:?)( ?==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadings6 = new Regex("(== ?)(Early|Personal|Adult|Later) Life( ?==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadings7 = new Regex("(== ?)(Current|Past|Prior) Members( ?==)", RegexOptions.IgnoreCase);
-        private static readonly Regex RegexHeadingsBold = new Regex(@"^(=+\s*)(?:'''|<b>|<B>)(.*?)(?:'''|</b>|</B>)(\s*=+\s*)$");
+        private static readonly Regex RegexHeadingsBold = new Regex(@"^(=+\s*)(?:'''|<[Bb]>)(.*?)(?:'''|</[Bb]>)(\s*=+\s*)$");
         private static readonly Regex RegexHeadings9 = new Regex("(== ?)track listing( ?==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadings10 = new Regex("(== ?)Life and Career( ?==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadingsCareer = new Regex("(== ?)([a-zA-Z]+) Career( ?==)", RegexOptions.IgnoreCase);
@@ -234,7 +234,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex ReferencesExternalLinksSeeAlso = new Regex(@"== *([Rr]eferences|[Ee]xternal +[Ll]inks?|[Ss]ee +[Aa]lso) *==\s");
 
         private static readonly Regex RegexHeadingColonAtEnd = new Regex(@"^(=+)(\s*[^=\s].*?)\:(\s*\1\s*)$");
-        private static readonly Regex RegexHeadingWithBold = new Regex(@"(?<====+.*?)(?:'''|<b>|<B>)(.*?)(?:'''|</b>|</B>)(?=.*?===+)");
+        private static readonly Regex RegexHeadingWithBold = new Regex(@"(?<====+.*?)(?:'''|<[Bb]>)(.*?)(?:'''|</[Bb]>)(?=.*?===+)");
 
         /// <summary>
         /// Fix ==See also== and similar section common errors.
