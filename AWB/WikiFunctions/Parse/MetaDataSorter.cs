@@ -424,7 +424,7 @@ en, sq, ru
 					categoryList.Add(m.Value.Trim());
 			}
 
-				articleText = Tools.RemoveMatches(articleText, matches);
+			articleText = Tools.RemoveMatches(articleText, matches);
 
 			// if category tidying has changed comments/nowikis return with no changes – we've pulled a cat from a comment
 			if(!UnformattedTextNotChanged(originalArticleText, articleText))
