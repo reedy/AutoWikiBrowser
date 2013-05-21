@@ -2771,6 +2771,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         private void ResetFind(object sender, EventArgs e)
         {
             txtEdit.ResetFind();
+
+            btnFind.Enabled = txtFind.TextLength > 0;
+
+            if(!btnFind.Enabled)
+                btnFind.BackColor = SystemColors.ButtonFace;
         }
 
         private void txtEdit_TextChanged(object sender, EventArgs e)
@@ -3152,9 +3157,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             btnSave.Enabled = enabled && TheArticle != null && !string.IsNullOrEmpty(TheSession.Page.Title);
 
             btnDelete.Enabled = btntsDelete.Enabled = btnMove.Enabled = btnProtect.Enabled = (enabled && TheSession.User.IsSysop && (TheArticle != null));
+            btnFind.Enabled = txtFind.TextLength > 0;
 
             // if there are find matches, colour the Find button yellow
-            if(btnFind.Enabled && txtFind.Text.Length > 0 && txtEdit.FindAll(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, TheArticle.Name).Count > 0)
+            if(btnFind.Enabled && txtEdit.FindAll(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, TheArticle.Name).Count > 0)
                 btnFind.BackColor = System.Drawing.Color.Yellow;
             else
                 btnFind.BackColor = SystemColors.ButtonFace;
