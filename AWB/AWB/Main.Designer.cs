@@ -1825,7 +1825,7 @@ namespace AutoWikiBrowser
             this.btnFind.Size = new System.Drawing.Size(40, 22);
             this.btnFind.TabIndex = 2;
             this.btnFind.Text = "&Find";
-            this.ToolTip.SetToolTip(this.btnFind, "Find occurances in text (Ctrl + F)");
+            this.ToolTip.SetToolTip(this.btnFind, "Find occurrences in text (Ctrl + F)");
             this.btnFind.Click += new System.EventHandler(this.btnFind_Click);
             // 
             // btnFalsePositive
