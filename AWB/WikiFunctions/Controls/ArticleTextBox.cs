@@ -180,7 +180,8 @@ namespace WikiFunctions.Controls
             RegexObj = new Regex(strRegex, caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase);
             foreach (Match m in RegexObj.Matches(articleText))
             {
-                found.Add(m.Index, m.Length);
+                if(m.Length > 0)
+                    found.Add(m.Index, m.Length);
             }
 
             return found;
