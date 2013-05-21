@@ -111,12 +111,13 @@ namespace WikiFunctions.Controls
         }
 
         /// <summary>
-        /// 
+        /// Finds the next match of the search regex in the page text
+        /// Applies article keywords prior to search
         /// </summary>
-        /// <param name="strRegex"></param>
-        /// <param name="isRegex"></param>
-        /// <param name="caseSensitive"></param>
-        /// <param name="articleName"></param>
+        /// <param name="strRegex">Search string</param>
+        /// <param name="isRegex">Whether search string is a regex</param>
+        /// <param name="caseSensitive">Whether search string is to be case sensitive</param>
+        /// <param name="articleName">Wiki page name</param>
         public void Find(string strRegex, bool isRegex, bool caseSensitive, string articleName)
         {
             string articleText = RawText;
@@ -157,12 +158,13 @@ namespace WikiFunctions.Controls
         }
 
         /// <summary>
-        /// 
+        /// Finds all the matches of the search regex in the page text
+        /// Applies article keywords prior to search
         /// </summary>
-        /// <param name="strRegex"></param>
-        /// <param name="isRegex"></param>
-        /// <param name="caseSensitive"></param>
-        /// <param name="articleName"></param>
+        /// <param name="strRegex">Search string</param>
+        /// <param name="isRegex">Whether search string is a regex</param>
+        /// <param name="caseSensitive">Whether search string is to be case sensitive</param>
+        /// <param name="articleName">Wiki page name</param>
         public Dictionary<int, int> FindAll(string strRegex, bool isRegex, bool caseSensitive, string articleName)
         {
             Dictionary<int, int> found = new Dictionary<int, int>();
