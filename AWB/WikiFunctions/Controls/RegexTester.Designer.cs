@@ -122,12 +122,12 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.txtInput.Font = new System.Drawing.Font("Courier New", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtInput.Location = new System.Drawing.Point(54, 0);
+            this.txtInput.Location = new System.Drawing.Point(56, 0);
             this.txtInput.MaxLength = 2147483647;
             this.txtInput.Multiline = true;
             this.txtInput.Name = "txtInput";
             this.txtInput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtInput.Size = new System.Drawing.Size(568, 118);
+            this.txtInput.Size = new System.Drawing.Size(571, 118);
             this.txtInput.TabIndex = 8;
             this.toolTip1.SetToolTip(this.txtInput, "Enter or paste in the text to be searched here");
             this.txtInput.TextChanged += new System.EventHandler(this.ConditionsChanged);
@@ -165,7 +165,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.Captures.Location = new System.Drawing.Point(54, 0);
             this.Captures.Name = "Captures";
-            this.Captures.Size = new System.Drawing.Size(571, 148);
+            this.Captures.Size = new System.Drawing.Size(571, 147);
             this.Captures.TabIndex = 11;
             this.toolTip1.SetToolTip(this.Captures, "Displays the result");
             // 
