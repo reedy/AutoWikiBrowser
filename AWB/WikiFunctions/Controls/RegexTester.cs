@@ -165,8 +165,7 @@ namespace WikiFunctions.Controls
         private void ConditionsChanged(object sender, EventArgs e)
         {
             bool enabled = (!string.IsNullOrEmpty(txtFind.Text) && !string.IsNullOrEmpty(txtInput.Text));
-            ReplaceBtn.Enabled = (!string.IsNullOrEmpty(txtReplace.Text) && enabled);
-            FindBtn.Enabled = enabled;
+            ReplaceBtn.Enabled = FindBtn.Enabled = enabled;
         }
         
         private void KeyPressHandler(object sender, KeyPressEventArgs e)
@@ -308,7 +307,8 @@ namespace WikiFunctions.Controls
                 return;
             }
 
-            if (string.IsNullOrEmpty(sender.Replace)) // find
+            // replace may be with nothing (zero length string), so find mode is when replace is null
+            if (sender.Replace == null) // find
             {
                 Captures.BeginUpdate();
                 foreach (Match m in sender.Matches)
@@ -440,7 +440,7 @@ namespace WikiFunctions.Controls
                     UnneededList.Add(m);
                 }
 
-                if (!string.IsNullOrEmpty(Replace))
+                if (Replace != null)
                     Result = _Regex.Replace(Input, Replace);
 
                 ExecutionTime = sw.ElapsedMilliseconds;
