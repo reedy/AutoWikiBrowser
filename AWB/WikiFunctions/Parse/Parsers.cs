@@ -6100,7 +6100,8 @@ namespace WikiFunctions.Parse
             if (WikiRegexes.Persondata.Matches(articleText).Count == 1
                 || articleText.Contains(@"-bio-stub}}")
                 || articleText.Contains(CategoryLivingPeople)
-                || WikiRegexes.PeopleInfoboxTemplates.Matches(zerothSection).Count == 1)
+                || WikiRegexes.PeopleInfoboxTemplates.Matches(zerothSection).Count == 1
+                || CategoryMatch(articleText, "Year of birth missing (living people)"))
                 return true;
 
             // articles with bold linking to another article may be linking to the main article on the person the article is about
