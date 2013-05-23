@@ -434,7 +434,7 @@ namespace WikiFunctions.Controls.Lists
             // btnFilter
             // 
             this.btnFilter.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnFilter.Location = new System.Drawing.Point(107, 321);
+            this.btnFilter.Location = new System.Drawing.Point(107, 325);
             this.btnFilter.Name = "btnFilter";
             this.btnFilter.Size = new System.Drawing.Size(98, 25);
             this.btnFilter.TabIndex = 12;
@@ -445,7 +445,7 @@ namespace WikiFunctions.Controls.Lists
             // btnRemove
             // 
             this.btnRemove.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnRemove.Location = new System.Drawing.Point(3, 321);
+            this.btnRemove.Location = new System.Drawing.Point(3, 325);
             this.btnRemove.Margin = new System.Windows.Forms.Padding(3, 3, 0, 3);
             this.btnRemove.Name = "btnRemove";
             this.btnRemove.Size = new System.Drawing.Size(98, 25);
@@ -464,10 +464,10 @@ namespace WikiFunctions.Controls.Lists
             this.lbArticles.FormattingEnabled = true;
             this.lbArticles.HorizontalScrollbar = true;
             this.lbArticles.Location = new System.Drawing.Point(3, 105);
-            this.lbArticles.MinimumSize = new System.Drawing.Size(202, 212);
+            this.lbArticles.MinimumSize = new System.Drawing.Size(202, 220);
             this.lbArticles.Name = "lbArticles";
             this.lbArticles.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this.lbArticles.Size = new System.Drawing.Size(202, 212);
+            this.lbArticles.Size = new System.Drawing.Size(202, 220);
             this.lbArticles.TabIndex = 9;
             this.lbArticles.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.lbArticles_DrawItem);
             this.lbArticles.DoubleClick += new System.EventHandler(this.lbArticles_DoubleClick);
