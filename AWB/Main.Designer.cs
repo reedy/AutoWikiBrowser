@@ -4144,7 +4144,7 @@ namespace AutoWikiBrowser
             this.webBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.webBrowser.Name = "webBrowser";
             this.webBrowser.ScriptErrorsSuppressed = true;
-            this.webBrowser.Size = new System.Drawing.Size(907, 237);
+            this.webBrowser.Size = new System.Drawing.Size(907, 251);
             this.webBrowser.TabIndex = 2;
             this.webBrowser.WebBrowserShortcutsEnabled = false;
             // 
@@ -4166,9 +4166,9 @@ namespace AutoWikiBrowser
             this.panel1.Controls.Add(this.listMaker);
             this.panel1.Controls.Add(this.MainTab);
             this.panel1.Controls.Add(this.EditBoxTab);
-            this.panel1.Location = new System.Drawing.Point(0, 268);
+            this.panel1.Location = new System.Drawing.Point(0, 277);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(907, 386);
+            this.panel1.Size = new System.Drawing.Size(907, 377);
             this.panel1.TabIndex = 1;
             // 
             // label8
