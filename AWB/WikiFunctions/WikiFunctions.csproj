@@ -150,12 +150,6 @@
     <Compile Include="Controls\DeveloperLinkLabel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\LED.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\LED.Designer.cs">
-      <DependentUpon>LED.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\LevelNumber.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -383,10 +377,6 @@
     <EmbeddedResource Include="Profiles\UserPassword.resx">
       <SubType>Designer</SubType>
       <DependentUpon>UserPassword.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Controls\LED.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>LED.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Controls\LevelNumber.resx">
       <SubType>Designer</SubType>
