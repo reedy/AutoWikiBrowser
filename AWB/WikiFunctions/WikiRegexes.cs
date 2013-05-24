@@ -32,7 +32,7 @@ namespace WikiFunctions
             NamespacesCaseInsensitive = new Dictionary<int,Regex>();
             foreach (var p in Variables.NamespacesCaseInsensitive)
             {
-                NamespacesCaseInsensitive[p.Key] = new Regex(p.Value);
+                NamespacesCaseInsensitive.Add(p.Key, new Regex(p.Value));
             }
 
             string category = Variables.NamespacesCaseInsensitive[Namespace.Category],
