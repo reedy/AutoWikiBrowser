@@ -159,6 +159,7 @@ namespace WikiFunctions.DBScanner
             this.tabConvert = new System.Windows.Forms.TabPage();
             this.btnPause = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.gbText.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudLength)).BeginInit();
@@ -187,6 +188,7 @@ namespace WikiFunctions.DBScanner
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtList
@@ -1005,7 +1007,6 @@ namespace WikiFunctions.DBScanner
             this.gbAWBSpecific.TabIndex = 3;
             this.gbAWBSpecific.TabStop = false;
             this.gbAWBSpecific.Text = "A&WB specific";
-            this.gbAWBSpecific.Enter += new System.EventHandler(this.gbAWBSpecific_Enter);
             // 
             // flwAWB
             // 
@@ -1057,6 +1058,7 @@ namespace WikiFunctions.DBScanner
             this.tbParameters.Controls.Add(this.tabText);
             this.tbParameters.Controls.Add(this.tabAWB);
             this.tbParameters.Controls.Add(this.tabRestrict);
+            this.tbParameters.Controls.Add(this.tabPage1);
             this.tbParameters.Location = new System.Drawing.Point(13, 12);
             this.tbParameters.Name = "tbParameters";
             this.tbParameters.SelectedIndex = 0;
@@ -1065,7 +1067,6 @@ namespace WikiFunctions.DBScanner
             // 
             // tabDump
             // 
-            this.tabDump.Controls.Add(this.flwHelpLinks);
             this.tabDump.Controls.Add(this.txtCase);
             this.tabDump.Controls.Add(this.lblCase);
             this.tabDump.Controls.Add(this.txtGenerator);
@@ -1091,7 +1092,7 @@ namespace WikiFunctions.DBScanner
             this.flwHelpLinks.Controls.Add(this.lnkWmfDumps);
             this.flwHelpLinks.Controls.Add(this.lnkWikiaDumps);
             this.flwHelpLinks.Controls.Add(this.lnkGenDump);
-            this.flwHelpLinks.Location = new System.Drawing.Point(6, 138);
+            this.flwHelpLinks.Location = new System.Drawing.Point(6, 10);
             this.flwHelpLinks.Name = "flwHelpLinks";
             this.flwHelpLinks.Size = new System.Drawing.Size(406, 19);
             this.flwHelpLinks.TabIndex = 16;
@@ -1616,6 +1617,17 @@ namespace WikiFunctions.DBScanner
             this.splitContainer1.SplitterDistance = 308;
             this.splitContainer1.TabIndex = 5;
             // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.flwHelpLinks);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(523, 165);
+            this.tabPage1.TabIndex = 7;
+            this.tabPage1.Text = "Help";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
             // DatabaseScanner
             // 
             this.AcceptButton = this.btnStart;
@@ -1676,6 +1688,7 @@ namespace WikiFunctions.DBScanner
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1810,5 +1823,6 @@ namespace WikiFunctions.DBScanner
         private DateTimePicker dtpTo;
         private ToolStripStatusLabel lblPercentageComplete;
         private WikiFunctions.Controls.NamespacesControl pageNamespaces;
+        private TabPage tabPage1;
     }
 }
