@@ -16,10 +16,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-using System;
 using System.Collections.Generic;
-using WikiFunctions.Logging.Uploader;
-using System.Windows.Forms;
 
 namespace WikiFunctions.Logging
 {
@@ -50,6 +47,11 @@ namespace WikiFunctions.Logging
         /// <param name="key">Key to remove</param>
 		public virtual void RemoveListener(string key)
 		{
+            if (!Listeners.ContainsKey(key))
+            {
+                return;
+            }
+
 			Listeners[key].Close();
 			Listeners.Remove(key);
 		}
