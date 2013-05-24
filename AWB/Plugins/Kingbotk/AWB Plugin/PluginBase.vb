@@ -267,12 +267,10 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             With Template
                 Dim res As String = "|" & ParamName & "="
                 If .Parameters.ContainsKey(ParamName) Then
-                    res += .Parameters(ParamName).Value + ParameterBreak
+                    res += .Parameters(ParamName).Value
                     .Parameters.Remove(ParamName)
-                Else
-                    res += ParameterBreak
                 End If
-
+                res += ParameterBreak
                 Return res
             End With
         End Function

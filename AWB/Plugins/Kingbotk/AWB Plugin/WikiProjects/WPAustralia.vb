@@ -94,8 +94,7 @@
     End Function
 
     Protected Overrides Function WriteTemplateHeader() As String
-        Return "{{" & PluginName & _
-           Microsoft.VisualBasic.vbCrLf & WriteOutParameterToHeader("class") & _
+        Return "{{" & PluginName & WriteOutParameterToHeader("class") & _
            WriteOutParameterToHeader("importance")
     End Function
 
