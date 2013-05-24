@@ -940,7 +940,7 @@ namespace WikiFunctions.API
                     },
                 ActionOptions.All);
 
-            CheckForErrors(result);
+            CheckForErrors(result, "query");
 
             bool invalid;
             try
@@ -981,7 +981,7 @@ namespace WikiFunctions.API
                     },
                 ActionOptions.All);
 
-            CheckForErrors(result);
+            CheckForErrors(result, "move");
 
             Reset();
         }
