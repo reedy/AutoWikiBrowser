@@ -65,7 +65,6 @@ namespace WikiFunctions.AWBSettings
             Project = Variables.Project;
             CustomProject = Variables.CustomProject;
             Protocol = Variables.Protocol;
-            PHP5 = Variables.PHP5;
 
             FindAndReplace = mFaRPrefs;
             Editprefs = mEditprefs;

@@ -2887,8 +2887,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         private void OpenPreferences(bool focusSiteTab)
         {
             MyPreferences myPrefs = new MyPreferences(Variables.LangCode, Variables.Project,
-                                                      Variables.CustomProject, Variables.PHP5,
-                                                      Variables.Protocol)
+                                                      Variables.CustomProject, Variables.Protocol)
             {
                 TextBoxFont = txtEdit.Font,
                 LowThreadPriority = LowThreadPriority,
@@ -2956,7 +2955,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 if (myPrefs.Language != Variables.LangCode || myPrefs.Project != Variables.Project
                     || (myPrefs.CustomProject != Variables.CustomProject) || (myPrefs.Protocol != Variables.Protocol))
                 {
-                    Variables.PHP5 = myPrefs.PrefPHP5;
                     SetProject(myPrefs.Language, myPrefs.Project, myPrefs.CustomProject, myPrefs.Protocol);
 
                     BotMode = false;
