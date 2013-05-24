@@ -424,7 +424,10 @@ namespace AutoWikiBrowser
                     },
 
                 Plugin.AWBPlugins
-                );
+                )
+                       {
+                           LoginDomain = Variables.LoginDomain
+                       };
         }
 
         /// <summary>
@@ -481,6 +484,7 @@ namespace AutoWikiBrowser
         private void LoadPrefs(UserPrefs p)
         {
             SetProject(p.LanguageCode, p.Project, p.CustomProject, p.Protocol);
+            Variables.LoginDomain = p.LoginDomain;
 
             FindAndReplace.Clear();
             chkFindandReplace.Checked = p.FindAndReplace.Enabled;

@@ -230,7 +230,7 @@ namespace WikiFunctions.Profiles
             bool needsUpdate = TheSession.User.IsLoggedIn;
             try
             {
-                TheSession.Editor.SynchronousEditor.Login(username, password);
+                TheSession.Editor.SynchronousEditor.Login(username, password, Variables.LoginDomain);
                 needsUpdate = true;
             }
             catch (LoginException ex)

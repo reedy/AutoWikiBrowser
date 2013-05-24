@@ -71,6 +71,7 @@ namespace AutoWikiBrowser
             this.cmboOnLoad = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.tabSite = new System.Windows.Forms.TabPage();
+            this.txtDomain = new System.Windows.Forms.TextBox();
             this.chkDomain = new System.Windows.Forms.CheckBox();
             this.cmboProtocol = new System.Windows.Forms.ComboBox();
             this.chkEmptyOnProjectChange = new System.Windows.Forms.CheckBox();
@@ -493,6 +494,7 @@ namespace AutoWikiBrowser
             // 
             // tabSite
             // 
+            this.tabSite.Controls.Add(this.txtDomain);
             this.tabSite.Controls.Add(this.chkDomain);
             this.tabSite.Controls.Add(this.cmboProtocol);
             this.tabSite.Controls.Add(this.chkEmptyOnProjectChange);
@@ -513,6 +515,14 @@ namespace AutoWikiBrowser
             this.tabSite.Text = "Site";
             this.tabSite.UseVisualStyleBackColor = true;
             // 
+            // txtDomain
+            // 
+            this.txtDomain.Enabled = false;
+            this.txtDomain.Location = new System.Drawing.Point(140, 146);
+            this.txtDomain.Name = "txtDomain";
+            this.txtDomain.Size = new System.Drawing.Size(165, 20);
+            this.txtDomain.TabIndex = 15;
+            // 
             // chkDomain
             // 
             this.chkDomain.AutoSize = true;
@@ -524,6 +534,7 @@ namespace AutoWikiBrowser
             this.chkDomain.Text = "Require login domain";
             this.chkDomain.UseVisualStyleBackColor = true;
             this.chkDomain.Visible = false;
+            this.chkDomain.CheckedChanged += new System.EventHandler(this.chkDomain_CheckedChanged);
             // 
             // cmboProtocol
             // 
@@ -780,5 +791,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkEnableLogging;
         private System.Windows.Forms.ComboBox cmboProtocol;
         private System.Windows.Forms.CheckBox chkDomain;
+        private System.Windows.Forms.TextBox txtDomain;
     }
 }

@@ -181,7 +181,7 @@ namespace AutoWikiBrowser
                 cmboLang.SelectedIndex = cmboLang.Items.IndexOf(temp);
             }
 
-            chkSupressAWB.Enabled = cmboProtocol.Enabled = chkDomain.Enabled = (prj.Equals(ProjectEnum.custom));
+            chkSupressAWB.Enabled = cmboProtocol.Enabled = DomainEnabled = (prj.Equals(ProjectEnum.custom));
             if (prj.Equals(ProjectEnum.custom) || prj.Equals(ProjectEnum.wikia))
             {
                 cmboProtocol.Visible = true;
@@ -220,6 +220,27 @@ namespace AutoWikiBrowser
         #region Other
 
         public Font TextBoxFont;
+
+        private bool DomainEnabled
+        {
+            get { return chkDomain.Enabled; }
+            set
+            {
+                chkDomain.Enabled = value;
+                txtDomain.Enabled = value && chkDomain.Checked;
+            }
+        }
+
+        public string PrefDomain
+        {
+            get { return txtDomain.Text; }
+            set
+            {
+                txtDomain.Text = value;
+                ProjectEnum prj = (ProjectEnum) Enum.Parse(typeof (ProjectEnum), cmboProject.SelectedItem.ToString());
+                DomainEnabled = !string.IsNullOrEmpty(value) && prj.Equals(ProjectEnum.custom);
+            }
+        }
 
         private void btnTextBoxFont_Click(object sender, EventArgs e)
         {
@@ -373,7 +394,9 @@ namespace AutoWikiBrowser
             saveFile.InitialDirectory = Application.StartupPath;
             saveFile.ShowDialog();
             if (!string.IsNullOrEmpty(saveFile.FileName))
+            {
                 txtAutosave.Text = saveFile.FileName;
+            }
         }
 
         private void btnOk_Click(object sender, EventArgs e)
@@ -381,7 +404,9 @@ namespace AutoWikiBrowser
             bool save = false;
 
             if (chkAutoSaveEdit.Checked && string.IsNullOrEmpty(txtAutosave.Text))
+            {
                 chkAutoSaveEdit.Checked = false;
+            }
 
             if (cmboProject.Text.Equals("custom") && !string.IsNullOrEmpty(cmboCustomProject.Text))
             {
@@ -413,7 +438,10 @@ namespace AutoWikiBrowser
                 save = true;
             }
 
-            if (save) Properties.Settings.Default.Save();
+            if (save)
+            {
+                Properties.Settings.Default.Save();
+            }
         }
 
         private void cmboOnLoad_SelectedIndexChanged(object sender, EventArgs e)
@@ -427,6 +455,11 @@ namespace AutoWikiBrowser
             base.OnActivated(e);
             if(FocusSiteTab)
                 tbPrefs.SelectTab(1);
+        }
+
+        private void chkDomain_CheckedChanged(object sender, EventArgs e)
+        {
+            txtDomain.Enabled = chkDomain.Checked;
         }
     }
 }
