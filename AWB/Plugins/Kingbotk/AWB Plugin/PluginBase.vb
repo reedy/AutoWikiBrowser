@@ -26,12 +26,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
 
         Protected Friend MustOverride ReadOnly Property GenericSettings() As IGenericSettings
 
-        Protected MustOverride ReadOnly Property CategoryTalkClassParm() As String
-
-        Protected MustOverride ReadOnly Property TemplateTalkClassParm() As String
-
-        Protected MustOverride ReadOnly Property FileTalkClassParm() As String
-
         Friend MustOverride ReadOnly Property HasReqPhotoParam() As Boolean
 
         Friend MustOverride Sub ReqPhoto()
@@ -237,48 +231,16 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                False, article, PluginShortName)
         End Sub
 
-        Protected Sub ProcessArticleFinishNonStandardMode(ByVal Classification As Classification, _
+        Protected Sub ProcessArticleFinishNonStandardMode(ByVal classification As Classification, _
         ByVal Importance As Importance, ByVal ForceNeedsInfobox As Boolean, _
         ByVal ForceNeedsAttention As Boolean, ByVal RemoveAutoStub As Boolean, _
         ByVal ProcessTalkPageMode As ProcessTalkPageMode)
-            Select Case Classification
-                Case Classification.Code
-                    If ProcessTalkPageMode = ProcessTalkPageMode.NonStandardTalk Then
-                        Select Case article.Namespace
-                            Case [Namespace].CategoryTalk
-                                Template.NewOrReplaceTemplateParm( _
-                                   "class", CategoryTalkClassParm, article, True, False, _
-                                   PluginName:=PluginShortName)
-                                Exit Select
 
-                            Case [Namespace].TemplateTalk
-                                Template.NewOrReplaceTemplateParm( _
-                                   "class", TemplateTalkClassParm, article, True, False, _
-                                   PluginName:=PluginShortName)
-                                Exit Select
+            If article.Namespace = [Namespace].Article AndAlso classification = classification.Unassessed Then
+                Template.NewOrReplaceTemplateParm("class", classification.ToString, article, False, False)
+            End If
 
-                            Case [Namespace].FileTalk
-                                Template.NewOrReplaceTemplateParm( _
-                                            "class", FileTalkClassParm, article, True, False, _
-                                            PluginName:=PluginShortName)
-                                Exit Select
-                            Case 101, [Namespace].ProjectTalk '101 is Portal Talk
-                                Template.NewOrReplaceTemplateParm( _
-                                   "class", "NA", article, True, False, PluginName:=PluginShortName)
-                                Exit Select
-
-                        End Select
-                    End If
-                Case Classification.Unassessed
-                Case Else
-                    Template.NewOrReplaceTemplateParm("class", Classification.ToString, article, False, False)
-            End Select
-
-            Select Case Importance
-                Case Importance.Code, Importance.Unassessed
-                Case Else
-                    ImportanceParameter(Importance)
-            End Select
+            ImportanceParameter(Importance)
 
             If ForceNeedsInfobox Then
                 AddAndLogNewParamWithAYesValue("needs-infobox")
