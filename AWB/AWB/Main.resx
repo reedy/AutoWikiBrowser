@@ -536,6 +536,9 @@
   <metadata name="EditBoxSaveTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>224, 50</value>
   </metadata>
+  <metadata name="ShutdownTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>669, 47</value>
+  </metadata>
   <data name="listMaker.SpecialFilterSettings" mimetype="application/x-microsoft.net.object.binary.base64">
     <value>
         AAEAAAD/////AQAAAAAAAAAMAgAAAERXaWtpRnVuY3Rpb25zLCBWZXJzaW9uPTUuNS4wLjMsIEN1bHR1
@@ -556,9 +559,6 @@
         eVRva2VuPWI3N2E1YzU2MTkzNGUwODkRCAAAAAAAAAAL
 </value>
   </data>
-  <metadata name="ShutdownTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>669, 47</value>
-  </metadata>
   <metadata name="mnuMakeFromTextBox.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>798, 48</value>
   </metadata>
