@@ -3361,6 +3361,7 @@ Template:foo}}"));
         public void FixSyntaxHTMLTags()
         {
             Assert.AreEqual("'''foo''' bar", Parsers.FixSyntax("<b>foo</b> bar"));
+            Assert.AreEqual("'''foo''' bar", Parsers.FixSyntax("<B>foo</B> bar"));
             Assert.AreEqual("'''foo''' bar", Parsers.FixSyntax("< b >foo</b> bar"));
             Assert.AreEqual("'''foo''' bar", Parsers.FixSyntax("<b>foo< /b > bar"));
             Assert.AreEqual("<b>foo<b> bar", Parsers.FixSyntax("<b>foo<b> bar"));
