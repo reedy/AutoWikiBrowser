@@ -132,8 +132,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             ManuallyAssess = False
             Cleanup = False
             PluginStats = New Stats
-            ' don't change logging settings
-            PluginManager.AWBForm.TraceManager.WriteBulletedLine("Reset", False, True, True)
             AssessmentsAlwaysLeaveAComment = False
             OpenBadInBrowser = False
         End Sub
@@ -185,8 +183,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 
             CleanupCheckBox.Checked = ManuallyAssess
             CleanupCheckBox.Enabled = ManuallyAssess
-            PluginManager.AWBForm.TraceManager.WriteBulletedLine(String.Format("Manual assessments mode on: {0}", _
-               ManuallyAssess.ToString), True, True, True)
         End Sub
         Private Sub ResetTimerButton_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ResetTimerButton.Click
             TimerStats1.Reset()

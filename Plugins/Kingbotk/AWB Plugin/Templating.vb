@@ -98,9 +98,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                     End If
                     Return True
                 Else ' Contains param with a different value, and we don't want to change it
-                    PluginManager.AWBForm.TraceManager.WriteArticleActionLine( _
-                       String.Format("{0} not changed, has existing value of {1}", _
-                       ParameterName, ParameterValue), PluginName)
                     Return False
                 End If
             End If ' Else: Already contains parameter and correct value; no need to change

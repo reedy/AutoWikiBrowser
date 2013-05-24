@@ -514,8 +514,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                     ' The object is being disposed, not finalized.
                     ' It is safe to access other objects (other than the mybase object)
                     ' only from inside this block
-                    PluginManager.AWBForm.TraceManager.WriteBulletedLine("Generic template """ & OurName & _
-                       """ finalized.", True, True, True)
                     RemoveHandler OurSettingsControl.SkipRegexCheckBox.CheckedChanged, AddressOf SkipRegexChanged
                     RemoveHandler OurSettingsControl.SkipRegexTextBox.TextChanged, AddressOf SkipRegexChanged
                     RemoveHandler OurSettingsControl.TemplateNameTextBox.TextChanged, AddressOf TemplateNamesChanged

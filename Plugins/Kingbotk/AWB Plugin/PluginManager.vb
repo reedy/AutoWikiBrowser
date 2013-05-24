@@ -376,8 +376,6 @@ SkipOrStop:
                     End If
 
                     .FinaliseEditSummary()
-                    AWBForm.TraceManager.WriteArticleActionLine1("Returning to AWB: Edit summary: " & _
-                       .EditSummary, PluginName, True)
                     Summary = .EditSummary
                     Return .AlteredArticleText
                 End With
@@ -416,9 +414,6 @@ SkipOrStop:
             Return ArticleText
         End Function
         Private Shared Sub CreateNewGenericPlugin(ByVal pluginName As String, ByVal Creator As String)
-            AWBForm.TraceManager.WriteBulletedLine(Creator & ": Creating generic template """ & _
-               pluginName & """", True, True)
-
             Dim plugin As New GenericTemplatePlugin(pluginName)
             Plugins.Add(pluginName, plugin)
             plugin.Initialise()
@@ -544,7 +539,6 @@ SkipOrStop:
             End If
 
             With AWBForm.TraceManager()
-                .WriteBulletedLine(conAWBPluginName & "Application closing.", True, False, True)
                 .Flush()
                 .Close()
             End With
@@ -557,8 +551,6 @@ SkipOrStop:
             Else
                 Line += "disabled"
             End If
-
-            AWBForm.TraceManager.WriteBulletedLine(Line, True, True, True)
 
             For Each p As PluginBase In ActivePlugins
                 p.BotModeChanged(BotMode)
@@ -575,7 +567,6 @@ SkipOrStop:
                 If ActivePlugins.Count > 0 Then PluginSettings.AWBProcessingStart(sender)
             Else
                 DefaultStatusText()
-                AWBForm.TraceManager.WriteBulletedLine(conAWBPluginName & "AWB stopped processing", True, True, True)
                 ' If AWB has stopped and the list is empty we assume the job is finished, so close the log and upload:
                 If AWBForm.ListMaker.Count = 0 Then
                     AWBForm.TraceManager.Close()
@@ -646,8 +637,6 @@ SkipOrStop:
             If reader.MoveToAttribute(param) Then Return Integer.Parse(reader.Value) Else Return ExistingValue
         End Function
         Private Shared Sub ReadXML(ByVal Reader As XmlTextReader)
-            AWBForm.TraceManager.WriteBulletedLine(conAWBPluginName & "Reading settings from XML", False, True, True)
-
             blnShowManualAssessmentsInstructions = XMLReadBoolean(Reader, _
                conShowManualAssessmentsInstructions, _
                blnShowManualAssessmentsInstructions) ' must happen BEFORE get ManualAssessment yes/no
@@ -717,15 +706,10 @@ SkipOrStop:
         Private Sub Nudge(ByRef cancel As Boolean) Implements IAWBPlugin.Nudge
             For Each p As PluginBase In ActivePlugins
                 If Not p.IAmReady Then
-                    AWBForm.TraceManager.WriteBulletedLine(conAWBPluginName & _
-                       "Bot mode: Cancelling AWB nudge as a generic plugin isn't ready yet", True, True, True)
                     cancel = True
                     Exit For
                 End If
             Next
-
-            If Not cancel Then AWBForm.TraceManager.WriteBulletedLine(conAWBPluginName & _
-               "Bot mode: AWB is giving a nudge", True, False, True)
         End Sub
         Private Sub Nudged(ByVal nudges As Integer) Implements IAWBPlugin.Nudged
             PluginSettings.lblAWBNudges.Text = "Nudges: " & nudges.ToString
