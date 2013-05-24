@@ -71,9 +71,9 @@ namespace AutoWikiBrowser
             this.cmboOnLoad = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.tabSite = new System.Windows.Forms.TabPage();
+            this.chkDomain = new System.Windows.Forms.CheckBox();
             this.cmboProtocol = new System.Windows.Forms.ComboBox();
             this.chkEmptyOnProjectChange = new System.Windows.Forms.CheckBox();
-            this.chkPHP5Ext = new System.Windows.Forms.CheckBox();
             this.chkIgnoreNoBots = new System.Windows.Forms.CheckBox();
             this.tabEditing = new System.Windows.Forms.TabPage();
             this.chkShowTimer = new System.Windows.Forms.CheckBox();
@@ -493,9 +493,9 @@ namespace AutoWikiBrowser
             // 
             // tabSite
             // 
+            this.tabSite.Controls.Add(this.chkDomain);
             this.tabSite.Controls.Add(this.cmboProtocol);
             this.tabSite.Controls.Add(this.chkEmptyOnProjectChange);
-            this.tabSite.Controls.Add(this.chkPHP5Ext);
             this.tabSite.Controls.Add(this.chkSupressAWB);
             this.tabSite.Controls.Add(this.chkIgnoreNoBots);
             this.tabSite.Controls.Add(this.lblPostfix);
@@ -512,6 +512,18 @@ namespace AutoWikiBrowser
             this.tabSite.TabIndex = 0;
             this.tabSite.Text = "Site";
             this.tabSite.UseVisualStyleBackColor = true;
+            // 
+            // chkDomain
+            // 
+            this.chkDomain.AutoSize = true;
+            this.chkDomain.Enabled = false;
+            this.chkDomain.Location = new System.Drawing.Point(9, 148);
+            this.chkDomain.Name = "chkDomain";
+            this.chkDomain.Size = new System.Drawing.Size(125, 17);
+            this.chkDomain.TabIndex = 14;
+            this.chkDomain.Text = "Require login domain";
+            this.chkDomain.UseVisualStyleBackColor = true;
+            this.chkDomain.Visible = false;
             // 
             // cmboProtocol
             // 
@@ -536,17 +548,6 @@ namespace AutoWikiBrowser
             this.chkEmptyOnProjectChange.Text = "Empty page list on project change";
             this.ToolTip.SetToolTip(this.chkEmptyOnProjectChange, "Automatically empties the page list on project change");
             this.chkEmptyOnProjectChange.UseVisualStyleBackColor = true;
-            // 
-            // chkPHP5Ext
-            // 
-            this.chkPHP5Ext.AutoSize = true;
-            this.chkPHP5Ext.Enabled = false;
-            this.chkPHP5Ext.Location = new System.Drawing.Point(214, 60);
-            this.chkPHP5Ext.Name = "chkPHP5Ext";
-            this.chkPHP5Ext.Size = new System.Drawing.Size(123, 17);
-            this.chkPHP5Ext.TabIndex = 11;
-            this.chkPHP5Ext.Text = "&Use .php5 extension";
-            this.chkPHP5Ext.UseVisualStyleBackColor = true;
             // 
             // chkIgnoreNoBots
             // 
@@ -764,7 +765,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkIgnoreNoBots;
         private System.Windows.Forms.CheckBox chkShowTimer;
         private System.Windows.Forms.Label lblSaveAsDefaultFile;
-        private System.Windows.Forms.CheckBox chkPHP5Ext;
         private System.Windows.Forms.ToolTip ToolTip;
         private System.Windows.Forms.TabPage tabTools;
         private System.Windows.Forms.ComboBox cmboListComparer;
@@ -779,5 +779,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkEmptyOnProjectChange;
         private System.Windows.Forms.CheckBox chkEnableLogging;
         private System.Windows.Forms.ComboBox cmboProtocol;
+        private System.Windows.Forms.CheckBox chkDomain;
     }
 }

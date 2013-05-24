@@ -18,16 +18,6 @@ namespace AutoWikiBrowser
 			}
 		}
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
 		private void btnLogin_Click(object sender, EventArgs e)
 		{
 			CloseForm();
@@ -37,10 +27,6 @@ namespace AutoWikiBrowser
 			Variables.HttpAuthUsername = txtUsername.Text;
 			Variables.HttpAuthPassword = txtPassword.Text;
 			Close();
-		}
-
-		private void Login_Load(object sender, EventArgs e) {
-
 		}
     }
 }

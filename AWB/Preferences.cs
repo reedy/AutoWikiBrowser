@@ -38,9 +38,8 @@ namespace AutoWikiBrowser
         /// <param name="lang"></param>
         /// <param name="proj"></param>
         /// <param name="customproj"></param>
-        /// <param name="usePHP5"></param>
         /// <param name="protocol"></param>
-        public MyPreferences(string lang, ProjectEnum proj, string customproj, bool usePHP5, string protocol)
+        public MyPreferences(string lang, ProjectEnum proj, string customproj, string protocol)
         {
             InitializeComponent();
 
@@ -65,8 +64,6 @@ namespace AutoWikiBrowser
             }
 
             cmboCustomProject.Text = customproj;
-
-            PrefPHP5 = usePHP5;
 
             chkSupressAWB.Enabled = (cmboProject.Text == "custom" || cmboProject.Text == "wikia");
 
@@ -183,11 +180,12 @@ namespace AutoWikiBrowser
             {
                 cmboLang.SelectedIndex = cmboLang.Items.IndexOf(temp);
             }
-            
+
+            chkSupressAWB.Enabled = cmboProtocol.Enabled = chkDomain.Enabled = (prj.Equals(ProjectEnum.custom));
             if (prj.Equals(ProjectEnum.custom) || prj.Equals(ProjectEnum.wikia))
             {
                 cmboProtocol.Visible = true;
-                cmboProtocol.Enabled = chkPHP5Ext.Enabled = (prj.Equals(ProjectEnum.custom));
+
                 cmboCustomProject.Visible = true;
                 cmboLang.Visible = false;
                 if (prj.Equals(ProjectEnum.wikia))
@@ -196,8 +194,6 @@ namespace AutoWikiBrowser
                 }
                 lblPostfix.Text = prj.Equals(ProjectEnum.wikia) ? ".wikia.com" : "";
                 cmboCustomProjectChanged(null, null);
-
-                chkSupressAWB.Enabled = true;
 
                 return;
             }
@@ -314,12 +310,6 @@ namespace AutoWikiBrowser
                 foreach (string temp in value)
                     cmboCustomProject.Items.Add(temp);
             }
-        }
-
-        public bool PrefPHP5
-        {
-            get { return chkPHP5Ext.Checked; }
-            set { chkPHP5Ext.Checked = value; }
         }
 
         public bool PrefIgnoreNoBots

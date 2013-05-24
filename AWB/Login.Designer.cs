@@ -51,7 +51,6 @@ namespace AutoWikiBrowser
 			this.lblDescription.Size = new System.Drawing.Size(260, 39);
 			this.lblDescription.TabIndex = 1;
 			this.lblDescription.Text = "This wiki is protected using HTTP AUTH. Please login to proceed.";
-			this.lblDescription.Click += new System.EventHandler(this.label1_Click);
 			// 
 			// lblUsername
 			// 
@@ -61,7 +60,6 @@ namespace AutoWikiBrowser
 			this.lblUsername.Size = new System.Drawing.Size(58, 13);
 			this.lblUsername.TabIndex = 2;
 			this.lblUsername.Text = "Username:";
-			this.lblUsername.Click += new System.EventHandler(this.label2_Click);
 			// 
 			// lblPassword
 			// 
@@ -108,7 +106,6 @@ namespace AutoWikiBrowser
 			this.Name = "Login";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
 			this.Text = "Login";
-			this.Load += new System.EventHandler(this.Login_Load);
 			this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.FormOnKeyUp);
 			this.ResumeLayout(false);
 			this.PerformLayout();

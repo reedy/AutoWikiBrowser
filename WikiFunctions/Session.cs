@@ -77,9 +77,9 @@ namespace WikiFunctions
             UpdateProject(true);
         }
 
-        private AsyncApiEdit CreateEditor(string url, bool php5)
+        private AsyncApiEdit CreateEditor(string url)
         {
-            AsyncApiEdit edit = new AsyncApiEdit(url, parentControl, php5)
+            AsyncApiEdit edit = new AsyncApiEdit(url, parentControl)
                                     {
                                         NewMessageThrows = false
                                     };
@@ -175,9 +175,9 @@ namespace WikiFunctions
         public bool UpdateProject(bool delayLoading)
         {
             // recreate only if project changed, to prevent losing login information
-            if (Editor == null || Editor.URL != Variables.URLLong || Editor.PHP5 != Variables.PHP5)
+            if (Editor == null || Editor.URL != Variables.URLLong)
             {
-                Editor = CreateEditor(Variables.URLLong, Variables.PHP5);
+                Editor = CreateEditor(Variables.URLLong);
             }
 
             if (delayLoading)
@@ -208,7 +208,7 @@ namespace WikiFunctions
             }
             catch (Exception)
             {                
-                Editor = CreateEditor("http://en.wikipedia.org/w/", false);
+                Editor = CreateEditor("http://en.wikipedia.org/w/");
                 return false;
             }
         }

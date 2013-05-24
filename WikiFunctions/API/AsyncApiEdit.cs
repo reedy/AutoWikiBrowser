@@ -44,22 +44,12 @@ namespace WikiFunctions.API
         private bool InCrossThreadCall;
 
         public AsyncApiEdit(string url)
-            : this(url, null, false)
-        {
-        }
-
-        public AsyncApiEdit(string url, bool php5)
-            : this(url, null, php5)
+            : this(url, null)
         {
         }
 
         public AsyncApiEdit(string url, Control parentControl)
-            : this(url, parentControl, false)
-        {
-        }
-
-        public AsyncApiEdit(string url, Control parentControl, bool php5)
-            : this(new ApiEdit(url, php5), parentControl)
+            : this(new ApiEdit(url), parentControl)
         {
         }
 

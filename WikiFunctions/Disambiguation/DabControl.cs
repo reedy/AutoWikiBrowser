@@ -155,7 +155,6 @@ namespace WikiFunctions.Disambiguation
                     }
                 }
                 Surroundings = ArticleText.Substring(SurroundingsStart, n - SurroundingsStart);
-                PosInSurroundings = Match.Index - SurroundingsStart; //Surroundings.IndexOf(Match.Value);
 
                 // check if the link is at the beginning of a sentence
                 for (n = Match.Index - 1; n > PosStart; --n)
