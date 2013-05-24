@@ -305,7 +305,12 @@ namespace WikiFunctions
         public static string CustomProject { get; private set; }
 
         /// <summary>
-        /// 
+        /// Login domain if needed
+        /// </summary>
+        public static string LoginDomain { get; set; }
+
+        /// <summary>
+        /// Protocol, HTTP or HTTPS?
         /// </summary>
         public static string Protocol { get; private set; }
 

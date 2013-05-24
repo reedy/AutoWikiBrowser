@@ -2888,37 +2888,38 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         {
             MyPreferences myPrefs = new MyPreferences(Variables.LangCode, Variables.Project,
                                                       Variables.CustomProject, Variables.Protocol)
-            {
-                TextBoxFont = txtEdit.Font,
-                LowThreadPriority = LowThreadPriority,
-                PrefFlash = _flash,
-                PrefBeep = _beep,
-                PrefMinimize = _minimize,
-                PrefSaveArticleList = _saveArticleList,
+                                        {
+                                            TextBoxFont = txtEdit.Font,
+                                            LowThreadPriority = LowThreadPriority,
+                                            PrefFlash = _flash,
+                                            PrefBeep = _beep,
+                                            PrefMinimize = _minimize,
+                                            PrefSaveArticleList = _saveArticleList,
 
-                PrefAutoSaveEditBoxEnabled = _autoSaveEditBoxEnabled,
-                PrefAutoSaveEditBoxFile = _autoSaveEditBoxFile,
-                PrefAutoSaveEditBoxPeriod = AutoSaveEditBoxPeriod,
+                                            PrefAutoSaveEditBoxEnabled = _autoSaveEditBoxEnabled,
+                                            PrefAutoSaveEditBoxFile = _autoSaveEditBoxFile,
+                                            PrefAutoSaveEditBoxPeriod = AutoSaveEditBoxPeriod,
 
-                PrefIgnoreNoBots = IgnoreNoBots,
-                PrefClearPageListOnProjectChange = ClearPageListOnProjectChange,
+                                            PrefIgnoreNoBots = IgnoreNoBots,
+                                            PrefClearPageListOnProjectChange = ClearPageListOnProjectChange,
 
-                PrefShowTimer = ShowMovingAverageTimer,
-                PrefAddUsingAWBOnArticleAction = Article.AddUsingAWBOnArticleAction,
-                PrefSuppressUsingAWB = _suppressUsingAWB,
+                                            PrefShowTimer = ShowMovingAverageTimer,
+                                            PrefAddUsingAWBOnArticleAction = Article.AddUsingAWBOnArticleAction,
+                                            PrefSuppressUsingAWB = _suppressUsingAWB,
 
-                PrefListComparerUseCurrentArticleList = _listComparerUseCurrentArticleList,
-                PrefListSplitterUseCurrentArticleList = _listSplitterUseCurrentArticleList,
-                PrefDBScannerUseCurrentArticleList = _dbScannerUseCurrentArticleList,
+                                            PrefListComparerUseCurrentArticleList = _listComparerUseCurrentArticleList,
+                                            PrefListSplitterUseCurrentArticleList = _listSplitterUseCurrentArticleList,
+                                            PrefDBScannerUseCurrentArticleList = _dbScannerUseCurrentArticleList,
 
-                PrefDiffInBotMode = doDiffInBotMode,
-                // show edit page no longer available as an option
-                PrefOnLoad = actionOnLoad ==2 ? 0 : actionOnLoad,
+                                            PrefDiffInBotMode = doDiffInBotMode,
+                                            // show edit page no longer available as an option
+                                            PrefOnLoad = actionOnLoad == 2 ? 0 : actionOnLoad,
 
-                EnableLogging = loggingEnabled
-            };
+                                            EnableLogging = loggingEnabled,
+                                            FocusSiteTab = focusSiteTab,
 
-            myPrefs.FocusSiteTab = focusSiteTab;
+                                            PrefDomain = Variables.LoginDomain
+                                        };
 
             if (myPrefs.ShowDialog(this) == DialogResult.OK)
             {
@@ -2951,6 +2952,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 actionOnLoad = myPrefs.PrefOnLoad;
 
                 loggingEnabled = myPrefs.EnableLogging;
+
+                Variables.LoginDomain = myPrefs.PrefDomain;
 
                 if (myPrefs.Language != Variables.LangCode || myPrefs.Project != Variables.Project
                     || (myPrefs.CustomProject != Variables.CustomProject) || (myPrefs.Protocol != Variables.Protocol))

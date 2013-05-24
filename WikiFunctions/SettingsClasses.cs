@@ -93,7 +93,7 @@ namespace WikiFunctions.AWBSettings
         public string LanguageCode = "en";
         public string CustomProject = "";
         public string Protocol = "http://";
-        public bool PHP5;
+        public string LoginDomain = "";
 
         public ListPrefs List;
         public FaRPrefs FindAndReplace;
