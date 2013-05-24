@@ -22,7 +22,10 @@ using WikiFunctions.Plugin;
 
 namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
 {
-    internal class ImageFileLinksNoLimitsListProvider : ImageFileLinksListProvider, IListMakerPlugin
+    /// <summary>
+    /// 
+    /// </summary>
+    public class ImageFileLinksNoLimitsListProvider : ImageFileLinksListProvider, IListMakerPlugin
     {
         public ImageFileLinksNoLimitsListProvider()
         {
