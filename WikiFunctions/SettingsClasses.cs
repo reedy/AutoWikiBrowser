@@ -51,7 +51,6 @@ namespace WikiFunctions.AWBSettings
             General = new GeneralPrefs();
             Disambiguation = new DabPrefs();
             Module = new ModulePrefs();
-            Logging = new LoggingPrefs();
             Special = new SpecialFilterPrefs();
             Tool = new ToolsPrefs();
             ExternalProgram = new ExternalProgramPrefs();
@@ -59,7 +58,7 @@ namespace WikiFunctions.AWBSettings
 
         // the public constructors are used to create an object with settings from the UI
         public UserPrefs(FaRPrefs mFaRPrefs, EditPrefs mEditprefs, ListPrefs mList, SkipPrefs mSkipOptions,
-            GeneralPrefs mGeneral, DabPrefs mDisambiguation, ModulePrefs mModule, ExternalProgramPrefs mExternalProgram, LoggingPrefs mLogging, SpecialFilterPrefs mSpecial, ToolsPrefs mTool,
+            GeneralPrefs mGeneral, DabPrefs mDisambiguation, ModulePrefs mModule, ExternalProgramPrefs mExternalProgram, SpecialFilterPrefs mSpecial, ToolsPrefs mTool,
             Dictionary<string, Plugin.IAWBPlugin> plugins)
         {
             LanguageCode = Variables.LangCode;
@@ -76,7 +75,6 @@ namespace WikiFunctions.AWBSettings
             Disambiguation = mDisambiguation;
             Module = mModule;
             ExternalProgram = mExternalProgram;
-            Logging = mLogging;
             Special = mSpecial;
 
             Tool = mTool;
@@ -106,7 +104,6 @@ namespace WikiFunctions.AWBSettings
         public ModulePrefs Module;
         public ExternalProgramPrefs ExternalProgram;
         public DabPrefs Disambiguation;
-        public LoggingPrefs Logging;
         public SpecialFilterPrefs Special;
         public ToolsPrefs Tool;
 
@@ -396,25 +393,6 @@ namespace WikiFunctions.AWBSettings
         public bool Enabled = false;
         public decimal SavePeriod;
         public string SaveFile = "";
-    }
-
-    [Serializable]
-    public class LoggingPrefs
-    {
-        // initialised/handled in LoggingSettings.SerialisableSettings
-        public bool LogVerbose;
-        public bool LogWiki;
-        public bool LogXHTML;
-        public bool UploadYN;
-        public bool UploadAddToWatchlist;
-        public bool UploadOpenInBrowser;
-        public bool UploadToWikiProjects;
-        public bool DebugUploading;
-        public int UploadMaxLines = 1000;
-        public string LogFolder = "";
-        public string UploadJobName = "";
-        public string UploadLocation = "";
-        public string LogCategoryName = "";
     }
 
     [Serializable]

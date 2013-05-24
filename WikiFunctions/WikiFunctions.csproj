@@ -255,7 +255,6 @@
     <Compile Include="Logging\LoggingBase.cs" />
     <Compile Include="Logging\LoggingInterface.cs" />
     <Compile Include="Logging\Uploader\LogUploader.cs" />
-    <Compile Include="Logging\TraceListeners.cs" />
     <Compile Include="Logging\TraceManager.cs" />
     <Compile Include="Logging\UploadingPleaseWaitForm.cs">
       <SubType>Form</SubType>

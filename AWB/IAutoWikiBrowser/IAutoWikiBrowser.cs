@@ -26,7 +26,6 @@ namespace AutoWikiBrowser
     {
         // Objects:
         TraceManager IAutoWikiBrowser.TraceManager { get { return Program.MyTrace; } }
-        WikiFunctions.Logging.Uploader.UploadableLogSettings2 IAutoWikiBrowser.LoggingSettings { get { return Program.MyTrace.LS.Settings; } }
 
         bool IAutoWikiBrowser.SkipNoChanges { get { return chkSkipNoChanges.Checked; } set { chkSkipNoChanges.Checked = value; } }
 

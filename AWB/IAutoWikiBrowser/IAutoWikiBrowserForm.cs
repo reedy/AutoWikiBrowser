@@ -40,7 +40,6 @@ namespace AutoWikiBrowser
         CheckBox IAutoWikiBrowserForm.RegexTypoFix { get { return chkRegExTypo; } }
         bool IAutoWikiBrowserForm.PreParseMode { get { return preParseModeToolStripMenuItem.Checked; }}
         TextBoxBase IAutoWikiBrowserForm.EditBox { get { return txtEdit; } }
-        TextBox IAutoWikiBrowserForm.CategoryTextBox { get { return loggingSettings1.LoggingCategoryTextBox; } }
         Form IAutoWikiBrowserForm.Form { get { return this; } }
         ToolStripMenuItem IAutoWikiBrowserForm.HelpToolStripMenuItem { get { return helpToolStripMenuItem; } }
         ToolStripMenuItem IAutoWikiBrowserForm.PluginsToolStripMenuItem { get { return pluginsToolStripMenuItem; } }

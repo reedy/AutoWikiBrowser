@@ -153,7 +153,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
 
                 Dim TheArticle As Article, Namesp As Integer = .NameSpaceKey
 
-                PluginSettings.Led1.Colour = Controls.Colour.Green
                 StatusText.Text = "Processing " & .ArticleTitle
                 AWBForm.TraceManager.ProcessingArticle(.ArticleTitle, Namesp)
 
@@ -203,9 +202,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                         Else
                             TheArticle = New Article(.ArticleText, .ArticleTitle, Namesp)
 
-                            If Not PluginSettings.ManuallyAssess Then _
-                               TheArticle.PluginManagerEditSummaryTaggingCategory(PluginSettings.CategoryName)
-
                             Dim ReqPhoto As Boolean = ReqPhotoParamNeeded(TheArticle)
 
                             If PluginSettings.ManuallyAssess Then
@@ -232,7 +228,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                             GoTo SkipOrStop
                         Else
                             TheArticle = New Article(.ArticleText, .ArticleTitle, Namesp)
-                            TheArticle.PluginManagerEditSummaryTaggingCategory(PluginSettings.CategoryName)
 
                             For Each p As PluginBase In ActivePlugins
                                 p.ProcessTalkPage(TheArticle, Classification.Code, Importance.NA, False, _
@@ -257,8 +252,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
 ExitMe:
             If Not PluginSettings.ManuallyAssess Then DefaultStatusText()
             AWBForm.TraceManager.Flush()
-
-            PluginSettings.Led1.Colour = Controls.Colour.Red
             Return res
 
 SkipBadNamespace:

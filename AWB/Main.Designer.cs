@@ -228,21 +228,10 @@ namespace AutoWikiBrowser
             this.btnDelete = new System.Windows.Forms.Button();
             this.btnSubst = new System.Windows.Forms.Button();
             this.btnWatch = new System.Windows.Forms.Button();
-            this.imgSub = new System.Windows.Forms.PictureBox();
-            this.imgSup = new System.Windows.Forms.PictureBox();
-            this.imgRedirect = new System.Windows.Forms.PictureBox();
-            this.imgHr = new System.Windows.Forms.PictureBox();
-            this.imgNowiki = new System.Windows.Forms.PictureBox();
-            this.imgMath = new System.Windows.Forms.PictureBox();
-            this.imgExtlink = new System.Windows.Forms.PictureBox();
-            this.imgLink = new System.Windows.Forms.PictureBox();
-            this.imgItalics = new System.Windows.Forms.PictureBox();
-            this.imgBold = new System.Windows.Forms.PictureBox();
             this.btnLoadLinks = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
             this.btnFindAndReplaceAdvanced = new System.Windows.Forms.Button();
             this.btnMoreFindAndReplce = new System.Windows.Forms.Button();
-            this.imgStrike = new System.Windows.Forms.PictureBox();
             this.chkSkipIfContains = new System.Windows.Forms.CheckBox();
             this.txtSkipIfNotContains = new System.Windows.Forms.TextBox();
             this.txtSkipIfContains = new System.Windows.Forms.TextBox();
@@ -256,7 +245,6 @@ namespace AutoWikiBrowser
             this.chkSkipGeneralFixes = new System.Windows.Forms.CheckBox();
             this.chkSkipMinorGeneralFixes = new System.Windows.Forms.CheckBox();
             this.chkSkipCasing = new System.Windows.Forms.CheckBox();
-            this.imgComment = new System.Windows.Forms.PictureBox();
             this.chkSkipIfRedirect = new System.Windows.Forms.CheckBox();
             this.chkSkipIfNoAlerts = new System.Windows.Forms.CheckBox();
             this.chkSkipCaseSensitive = new System.Windows.Forms.CheckBox();
@@ -292,9 +280,9 @@ namespace AutoWikiBrowser
             this.chkSkipIfNoRegexTypo = new System.Windows.Forms.CheckBox();
             this.chkSkipNoImgChange = new System.Windows.Forms.CheckBox();
             this.chkSkipCosmetic = new System.Windows.Forms.CheckBox();
+            this.lblSummary = new System.Windows.Forms.Label();
             this.chkAppendMetaDataSort = new System.Windows.Forms.CheckBox();
             this.botEditsStop = new System.Windows.Forms.NumericUpDown();
-            this.txtEdit = new WikiFunctions.Controls.ArticleTextBox();
             this.mnuHistory = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openInBrowserToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.refreshHistoryToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -366,6 +354,10 @@ namespace AutoWikiBrowser
             this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.gbPageExisting = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.tpStart = new System.Windows.Forms.TabPage();
+            this.SummaryLabel = new System.Windows.Forms.Label();
+            this.cmboEditSummary = new System.Windows.Forms.ComboBox();
+            this.findGroup = new System.Windows.Forms.GroupBox();
             this.tpBots = new System.Windows.Forms.TabPage();
             this.groupBox16 = new System.Windows.Forms.GroupBox();
             this.radStandby = new System.Windows.Forms.RadioButton();
@@ -377,36 +369,6 @@ namespace AutoWikiBrowser
             this.label2 = new System.Windows.Forms.Label();
             this.BotImage = new System.Windows.Forms.PictureBox();
             this.lblOnlyBots = new System.Windows.Forms.Label();
-            this.tpStart = new System.Windows.Forms.TabPage();
-            this.SummaryLabel = new System.Windows.Forms.Label();
-            this.lblSummary = new System.Windows.Forms.Label();
-            this.cmboEditSummary = new System.Windows.Forms.ComboBox();
-            this.findGroup = new System.Windows.Forms.GroupBox();
-            this.EditBoxTab = new System.Windows.Forms.TabControl();
-            this.tpEdit = new System.Windows.Forms.TabPage();
-            this.tpHistory = new System.Windows.Forms.TabPage();
-            this.webBrowserHistory = new System.Windows.Forms.WebBrowser();
-            this.tpLinks = new System.Windows.Forms.TabPage();
-            this.webBrowserLinks = new System.Windows.Forms.WebBrowser();
-            this.txtReviewEditSummary = new System.Windows.Forms.TextBox();
-            this.tpLogs = new System.Windows.Forms.TabPage();
-            this.logControl = new WikiFunctions.Logging.LogControl();
-            this.tpArticleActionLogs = new System.Windows.Forms.TabPage();
-            this.articleActionLogControl1 = new WikiFunctions.Logging.ArticleActionLogControl();
-            this.tpLoggingOptions = new System.Windows.Forms.TabPage();
-            this.loggingSettings1 = new AutoWikiBrowser.LoggingSettings();
-            this.tpTypos = new System.Windows.Forms.TabPage();
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.CurrentTypoStats = new WikiFunctions.Controls.TypoStatsControl();
-            this.groupBox10 = new System.Windows.Forms.GroupBox();
-            this.lblTypoRatio = new System.Windows.Forms.Label();
-            this.OverallTypoStats = new WikiFunctions.Controls.TypoStatsControl();
-            this.lblNoChange = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.lblOverallTypos = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.webBrowser = new AWBWebBrowser();
             this.toolStripSeparator25 = new System.Windows.Forms.ToolStripSeparator();
             this.ShutdownTimer = new System.Windows.Forms.Timer(this.components);
@@ -419,24 +381,47 @@ namespace AutoWikiBrowser
             this.menuitemMakeFromTextBoxCopy = new System.Windows.Forms.ToolStripMenuItem();
             this.menuitemMakeFromTextBoxPaste = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparatorMakeFromTextBox = new System.Windows.Forms.ToolStripSeparator();
-            this.mnuCopyToCategoryLog = new System.Windows.Forms.ToolStripMenuItem();
             this.NudgeTimer = new AutoWikiBrowser.NudgeTimer(this.components);
+            this.tpTypos = new System.Windows.Forms.TabPage();
+            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.lblOverallTypos = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lblNoChange = new System.Windows.Forms.Label();
+            this.OverallTypoStats = new WikiFunctions.Controls.TypoStatsControl();
+            this.lblTypoRatio = new System.Windows.Forms.Label();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.CurrentTypoStats = new WikiFunctions.Controls.TypoStatsControl();
+            this.tpArticleActionLogs = new System.Windows.Forms.TabPage();
+            this.articleActionLogControl1 = new WikiFunctions.Logging.ArticleActionLogControl();
+            this.tpLogs = new System.Windows.Forms.TabPage();
+            this.logControl = new WikiFunctions.Logging.LogControl();
+            this.tpLinks = new System.Windows.Forms.TabPage();
+            this.webBrowserLinks = new System.Windows.Forms.WebBrowser();
+            this.tpHistory = new System.Windows.Forms.TabPage();
+            this.webBrowserHistory = new System.Windows.Forms.WebBrowser();
+            this.tpEdit = new System.Windows.Forms.TabPage();
+            this.txtReviewEditSummary = new System.Windows.Forms.TextBox();
+            this.txtEdit = new WikiFunctions.Controls.ArticleTextBox();
+            this.imgBold = new System.Windows.Forms.PictureBox();
+            this.imgItalics = new System.Windows.Forms.PictureBox();
+            this.imgLink = new System.Windows.Forms.PictureBox();
+            this.imgExtlink = new System.Windows.Forms.PictureBox();
+            this.imgMath = new System.Windows.Forms.PictureBox();
+            this.imgNowiki = new System.Windows.Forms.PictureBox();
+            this.imgHr = new System.Windows.Forms.PictureBox();
+            this.imgRedirect = new System.Windows.Forms.PictureBox();
+            this.imgStrike = new System.Windows.Forms.PictureBox();
+            this.imgSup = new System.Windows.Forms.PictureBox();
+            this.imgSub = new System.Windows.Forms.PictureBox();
+            this.imgComment = new System.Windows.Forms.PictureBox();
+            this.EditBoxTab = new System.Windows.Forms.TabControl();
             this.mnuTextBox.SuspendLayout();
             this.MnuMain.SuspendLayout();
             this.StatusMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudBotSpeed)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgSub)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgSup)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgRedirect)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgHr)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgNowiki)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgMath)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgExtlink)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgLink)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgItalics)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgBold)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgStrike)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgComment)).BeginInit();
             this.AlertGroup.SuspendLayout();
             this.SummaryGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.botEditsStop)).BeginInit();
@@ -463,28 +448,39 @@ namespace AutoWikiBrowser
             this.groupBox8.SuspendLayout();
             this.gbPageExisting.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
+            this.tpStart.SuspendLayout();
+            this.findGroup.SuspendLayout();
             this.tpBots.SuspendLayout();
             this.groupBox16.SuspendLayout();
             this.groupBox14.SuspendLayout();
             this.groupBox7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BotImage)).BeginInit();
-            this.tpStart.SuspendLayout();
-            this.findGroup.SuspendLayout();
-            this.EditBoxTab.SuspendLayout();
-            this.tpEdit.SuspendLayout();
-            this.tpHistory.SuspendLayout();
-            this.tpLinks.SuspendLayout();
-            this.tpLogs.SuspendLayout();
-            this.tpArticleActionLogs.SuspendLayout();
-            this.tpLoggingOptions.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.mnuMakeFromTextBox.SuspendLayout();
             this.tpTypos.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.groupBox9.SuspendLayout();
             this.groupBox10.SuspendLayout();
-            this.panel1.SuspendLayout();
-            this.mnuMakeFromTextBox.SuspendLayout();
+            this.groupBox9.SuspendLayout();
+            this.tpArticleActionLogs.SuspendLayout();
+            this.tpLogs.SuspendLayout();
+            this.tpLinks.SuspendLayout();
+            this.tpHistory.SuspendLayout();
+            this.tpEdit.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imgBold)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgItalics)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgLink)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgExtlink)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgMath)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgNowiki)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgHr)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgRedirect)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgStrike)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgSup)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgSub)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgComment)).BeginInit();
+            this.EditBoxTab.SuspendLayout();
             this.SuspendLayout();
             // 
             // mnuTextBox
@@ -1765,7 +1761,7 @@ namespace AutoWikiBrowser
             // 
             // btnSave
             // 
-            this.btnSave.BackColor = System.Drawing.Color.FromArgb(220, 255, 220);
+            this.btnSave.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(255)))), ((int)(((byte)(220)))));
             this.btnSave.Enabled = false;
             this.btnSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSave.Location = new System.Drawing.Point(155, 219);
@@ -1941,8 +1937,8 @@ namespace AutoWikiBrowser
             this.chkAutoTagger.Size = new System.Drawing.Size(66, 17);
             this.chkAutoTagger.TabIndex = 0;
             this.chkAutoTagger.Text = "Auto tag";
-            this.ToolTip.SetToolTip(this.chkAutoTagger, "Automatically add {{orphan}}, {{deadend}}, {{underlinked}}, {{ibid}} and {{stub}} tags " +
-        "when appropriate");
+            this.ToolTip.SetToolTip(this.chkAutoTagger, "Automatically add {{orphan}}, {{deadend}}, {{underlinked}}, {{ibid}} and {{stub}}" +
+        " tags when appropriate");
             // 
             // chkUnicodifyWhole
             // 
@@ -1987,7 +1983,8 @@ namespace AutoWikiBrowser
             this.chkLock.Size = new System.Drawing.Size(50, 17);
             this.chkLock.TabIndex = 2;
             this.chkLock.Text = "Lock";
-            this.ToolTip.SetToolTip(this.chkLock, "Lock the Default Edit Summary\r\nPrevents the Default Edit Summary from being changed");
+            this.ToolTip.SetToolTip(this.chkLock, "Lock the Default Edit Summary\r\nPrevents the Default Edit Summary from being chang" +
+        "ed");
             this.chkLock.CheckedChanged += new System.EventHandler(this.chkLock_CheckedChanged);
             // 
             // chkMinor
@@ -2069,146 +2066,6 @@ namespace AutoWikiBrowser
             this.ToolTip.SetToolTip(this.btnWatch, "Add this page to your watchlist");
             this.btnWatch.Click += new System.EventHandler(this.btnWatch_Click);
             // 
-            // imgSub
-            // 
-            this.imgSub.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.imgSub.Enabled = false;
-            this.imgSub.Image = global::AutoWikiBrowser.Properties.Resources.Button_lower_letter;
-            this.imgSub.Location = new System.Drawing.Point(233, 3);
-            this.imgSub.Name = "imgSub";
-            this.imgSub.Size = new System.Drawing.Size(23, 22);
-            this.imgSub.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.imgSub.TabIndex = 11;
-            this.imgSub.TabStop = false;
-            this.ToolTip.SetToolTip(this.imgSub, "Subscript text");
-            this.imgSub.Click += new System.EventHandler(this.imgSub_Click);
-            // 
-            // imgSup
-            // 
-            this.imgSup.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.imgSup.Enabled = false;
-            this.imgSup.Image = global::AutoWikiBrowser.Properties.Resources.Button_upper_letter;
-            this.imgSup.Location = new System.Drawing.Point(210, 3);
-            this.imgSup.Name = "imgSup";
-            this.imgSup.Size = new System.Drawing.Size(23, 22);
-            this.imgSup.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.imgSup.TabIndex = 10;
-            this.imgSup.TabStop = false;
-            this.ToolTip.SetToolTip(this.imgSup, "Superscript text");
-            this.imgSup.Click += new System.EventHandler(this.imgSup_Click);
-            // 
-            // imgRedirect
-            // 
-            this.imgRedirect.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.imgRedirect.Enabled = false;
-            this.imgRedirect.Image = global::AutoWikiBrowser.Properties.Resources.Button_redirect;
-            this.imgRedirect.Location = new System.Drawing.Point(164, 3);
-            this.imgRedirect.Name = "imgRedirect";
-            this.imgRedirect.Size = new System.Drawing.Size(23, 22);
-            this.imgRedirect.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.imgRedirect.TabIndex = 8;
-            this.imgRedirect.TabStop = false;
-            this.ToolTip.SetToolTip(this.imgRedirect, "Redirect page");
-            this.imgRedirect.Click += new System.EventHandler(this.imgRedirect_Click);
-            // 
-            // imgHr
-            // 
-            this.imgHr.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.imgHr.Enabled = false;
-            this.imgHr.Image = global::AutoWikiBrowser.Properties.Resources.button_hr;
-            this.imgHr.Location = new System.Drawing.Point(141, 3);
-            this.imgHr.Name = "imgHr";
-            this.imgHr.Size = new System.Drawing.Size(23, 22);
-            this.imgHr.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.imgHr.TabIndex = 7;
-            this.imgHr.TabStop = false;
-            this.ToolTip.SetToolTip(this.imgHr, "Horizontal line (use sparingly)");
-            this.imgHr.Click += new System.EventHandler(this.imgHr_Click);
-            // 
-            // imgNowiki
-            // 
-            this.imgNowiki.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.imgNowiki.Enabled = false;
-            this.imgNowiki.Image = global::AutoWikiBrowser.Properties.Resources.button_nowiki;
-            this.imgNowiki.Location = new System.Drawing.Point(118, 3);
-            this.imgNowiki.Name = "imgNowiki";
-            this.imgNowiki.Size = new System.Drawing.Size(23, 22);
-            this.imgNowiki.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.imgNowiki.TabIndex = 6;
-            this.imgNowiki.TabStop = false;
-            this.ToolTip.SetToolTip(this.imgNowiki, "Ignore wiki formatting");
-            this.imgNowiki.Click += new System.EventHandler(this.imgNowiki_Click);
-            // 
-            // imgMath
-            // 
-            this.imgMath.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.imgMath.Enabled = false;
-            this.imgMath.Image = global::AutoWikiBrowser.Properties.Resources.button_math;
-            this.imgMath.Location = new System.Drawing.Point(95, 3);
-            this.imgMath.Name = "imgMath";
-            this.imgMath.Size = new System.Drawing.Size(23, 22);
-            this.imgMath.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.imgMath.TabIndex = 5;
-            this.imgMath.TabStop = false;
-            this.ToolTip.SetToolTip(this.imgMath, "Mathematical formula (LaTeX)");
-            this.imgMath.Click += new System.EventHandler(this.imgMath_Click);
-            // 
-            // imgExtlink
-            // 
-            this.imgExtlink.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.imgExtlink.Enabled = false;
-            this.imgExtlink.Image = global::AutoWikiBrowser.Properties.Resources.button_extlink;
-            this.imgExtlink.Location = new System.Drawing.Point(72, 3);
-            this.imgExtlink.Name = "imgExtlink";
-            this.imgExtlink.Size = new System.Drawing.Size(23, 22);
-            this.imgExtlink.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.imgExtlink.TabIndex = 4;
-            this.imgExtlink.TabStop = false;
-            this.ToolTip.SetToolTip(this.imgExtlink, "External link (remember http:// prefix)");
-            this.imgExtlink.Click += new System.EventHandler(this.imgExtlink_Click);
-            // 
-            // imgLink
-            // 
-            this.imgLink.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.imgLink.Enabled = false;
-            this.imgLink.Image = global::AutoWikiBrowser.Properties.Resources.button_link;
-            this.imgLink.Location = new System.Drawing.Point(49, 3);
-            this.imgLink.Name = "imgLink";
-            this.imgLink.Size = new System.Drawing.Size(23, 22);
-            this.imgLink.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.imgLink.TabIndex = 3;
-            this.imgLink.TabStop = false;
-            this.ToolTip.SetToolTip(this.imgLink, "Internal link");
-            this.imgLink.Click += new System.EventHandler(this.imgLink_Click);
-            // 
-            // imgItalics
-            // 
-            this.imgItalics.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.imgItalics.Enabled = false;
-            this.imgItalics.Image = global::AutoWikiBrowser.Properties.Resources.button_italic;
-            this.imgItalics.Location = new System.Drawing.Point(26, 3);
-            this.imgItalics.Name = "imgItalics";
-            this.imgItalics.Size = new System.Drawing.Size(23, 22);
-            this.imgItalics.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.imgItalics.TabIndex = 2;
-            this.imgItalics.TabStop = false;
-            this.ToolTip.SetToolTip(this.imgItalics, "Italic text");
-            this.imgItalics.Click += new System.EventHandler(this.imgItalics_Click);
-            // 
-            // imgBold
-            // 
-            this.imgBold.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.imgBold.Enabled = false;
-            this.imgBold.Image = global::AutoWikiBrowser.Properties.Resources.button_bold;
-            this.imgBold.Location = new System.Drawing.Point(3, 3);
-            this.imgBold.Name = "imgBold";
-            this.imgBold.Size = new System.Drawing.Size(23, 22);
-            this.imgBold.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.imgBold.TabIndex = 1;
-            this.imgBold.TabStop = false;
-            this.ToolTip.SetToolTip(this.imgBold, "Bold text");
-            this.imgBold.Click += new System.EventHandler(this.imgBold_Click);
-            // 
             // btnLoadLinks
             // 
             this.btnLoadLinks.Enabled = false;
@@ -2252,20 +2109,6 @@ namespace AutoWikiBrowser
             this.btnMoreFindAndReplce.Text = "Normal settings";
             this.ToolTip.SetToolTip(this.btnMoreFindAndReplce, "Simple find and replace with regular expression support in a table style layout");
             this.btnMoreFindAndReplce.Click += new System.EventHandler(this.btnMoreFindAndReplce_Click);
-            // 
-            // imgStrike
-            // 
-            this.imgStrike.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.imgStrike.Enabled = false;
-            this.imgStrike.Image = global::AutoWikiBrowser.Properties.Resources.Button_strike;
-            this.imgStrike.Location = new System.Drawing.Point(187, 3);
-            this.imgStrike.Name = "imgStrike";
-            this.imgStrike.Size = new System.Drawing.Size(23, 22);
-            this.imgStrike.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.imgStrike.TabIndex = 9;
-            this.imgStrike.TabStop = false;
-            this.ToolTip.SetToolTip(this.imgStrike, "Strike text");
-            this.imgStrike.Click += new System.EventHandler(this.imgStrike_Click);
             // 
             // chkSkipIfContains
             // 
@@ -2411,20 +2254,6 @@ namespace AutoWikiBrowser
             this.chkSkipCasing.Text = "Only casing is changed";
             this.ToolTip.SetToolTip(this.chkSkipCasing, "Automatically skips pages when only case changes were automatically made");
             this.chkSkipCasing.UseVisualStyleBackColor = true;
-            // 
-            // imgComment
-            // 
-            this.imgComment.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.imgComment.Enabled = false;
-            this.imgComment.Image = global::AutoWikiBrowser.Properties.Resources.Button_hide_comment;
-            this.imgComment.Location = new System.Drawing.Point(256, 3);
-            this.imgComment.Name = "imgComment";
-            this.imgComment.Size = new System.Drawing.Size(23, 22);
-            this.imgComment.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.imgComment.TabIndex = 12;
-            this.imgComment.TabStop = false;
-            this.ToolTip.SetToolTip(this.imgComment, "Comment");
-            this.imgComment.Click += new System.EventHandler(this.imgComment_Click);
             // 
             // chkSkipIfRedirect
             // 
@@ -2812,6 +2641,21 @@ namespace AutoWikiBrowser
             this.ToolTip.SetToolTip(this.chkSkipCosmetic, "Automatically skips pages when only cosmetic changes were made");
             this.chkSkipCosmetic.UseVisualStyleBackColor = true;
             // 
+            // lblSummary
+            // 
+            this.lblSummary.AutoEllipsis = true;
+            this.lblSummary.AutoSize = true;
+            this.lblSummary.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblSummary.Location = new System.Drawing.Point(83, 9);
+            this.lblSummary.MaximumSize = new System.Drawing.Size(189, 13);
+            this.lblSummary.MinimumSize = new System.Drawing.Size(189, 13);
+            this.lblSummary.Name = "lblSummary";
+            this.lblSummary.Size = new System.Drawing.Size(189, 13);
+            this.lblSummary.TabIndex = 13;
+            this.ToolTip.SetToolTip(this.lblSummary, "The Default Edit Summary to use as the start of the generated edit summary");
+            this.lblSummary.UseMnemonic = false;
+            this.lblSummary.Visible = false;
+            // 
             // chkAppendMetaDataSort
             // 
             this.chkAppendMetaDataSort.AutoSize = true;
@@ -2835,22 +2679,6 @@ namespace AutoWikiBrowser
             this.botEditsStop.Name = "botEditsStop";
             this.botEditsStop.Size = new System.Drawing.Size(51, 20);
             this.botEditsStop.TabIndex = 2;
-            // 
-            // txtEdit
-            // 
-            this.txtEdit.AcceptsTab = true;
-            this.txtEdit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtEdit.ContextMenuStrip = this.mnuTextBox;
-            this.txtEdit.DetectUrls = false;
-            this.txtEdit.Enabled = false;
-            this.txtEdit.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEdit.Location = new System.Drawing.Point(0, 31);
-            this.txtEdit.Name = "txtEdit";
-            this.txtEdit.Size = new System.Drawing.Size(394, 320);
-            this.txtEdit.TabIndex = 0;
-            this.txtEdit.Text = "";
-            this.txtEdit.TextChanged += new System.EventHandler(this.txtEdit_TextChanged);
             // 
             // mnuHistory
             // 
@@ -3127,7 +2955,6 @@ namespace AutoWikiBrowser
             this.MainTab.Controls.Add(this.tpMoreOptions);
             this.MainTab.Controls.Add(this.tpDab);
             this.MainTab.Controls.Add(this.tpSkip);
-            //this.MainTab.Controls.Add(this.tpBots); // On sign in as a bot tab is added automatically, so not needed initially. Also causes sizing problem if present under Wine
             this.MainTab.Controls.Add(this.tpStart);
             this.MainTab.HotTrack = true;
             this.MainTab.Location = new System.Drawing.Point(218, 2);
@@ -3378,8 +3205,8 @@ namespace AutoWikiBrowser
             this.txtNewCategory2.Name = "txtNewCategory2";
             this.txtNewCategory2.Size = new System.Drawing.Size(107, 20);
             this.txtNewCategory2.TabIndex = 3;
-            this.txtNewCategory2.Leave += new System.EventHandler(this.CategoryLeave);
             this.txtNewCategory2.DoubleClick += new System.EventHandler(this.txtNewCategory2_DoubleClick);
+            this.txtNewCategory2.Leave += new System.EventHandler(this.CategoryLeave);
             // 
             // label1
             // 
@@ -3602,6 +3429,74 @@ namespace AutoWikiBrowser
             this.flowLayoutPanel1.Size = new System.Drawing.Size(254, 25);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
+            // tpStart
+            // 
+            this.tpStart.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.tpStart.Controls.Add(this.btnStart);
+            this.tpStart.Controls.Add(this.btnStop);
+            this.tpStart.Controls.Add(this.btnFalsePositive);
+            this.tpStart.Controls.Add(this.btnPreview);
+            this.tpStart.Controls.Add(this.btnDiff);
+            this.tpStart.Controls.Add(this.btnWatch);
+            this.tpStart.Controls.Add(this.btnMove);
+            this.tpStart.Controls.Add(this.btnProtect);
+            this.tpStart.Controls.Add(this.btnDelete);
+            this.tpStart.Controls.Add(this.btnIgnore);
+            this.tpStart.Controls.Add(this.btnSave);
+            this.tpStart.Controls.Add(this.SummaryLabel);
+            this.tpStart.Controls.Add(this.lblSummary);
+            this.tpStart.Controls.Add(this.cmboEditSummary);
+            this.tpStart.Controls.Add(this.chkLock);
+            this.tpStart.Controls.Add(this.chkMinor);
+            this.tpStart.Controls.Add(this.findGroup);
+            this.tpStart.Controls.Add(this.AlertGroup);
+            this.tpStart.Controls.Add(this.SummaryGroup);
+            this.tpStart.Location = new System.Drawing.Point(4, 22);
+            this.tpStart.Name = "tpStart";
+            this.tpStart.Padding = new System.Windows.Forms.Padding(3);
+            this.tpStart.Size = new System.Drawing.Size(278, 351);
+            this.tpStart.TabIndex = 3;
+            this.tpStart.Text = "Start";
+            // 
+            // SummaryLabel
+            // 
+            this.SummaryLabel.Location = new System.Drawing.Point(-2, 9);
+            this.SummaryLabel.Name = "SummaryLabel";
+            this.SummaryLabel.Size = new System.Drawing.Size(88, 18);
+            this.SummaryLabel.TabIndex = 0;
+            this.SummaryLabel.Text = "Default Summary";
+            // 
+            // cmboEditSummary
+            // 
+            this.cmboEditSummary.DropDownHeight = 198;
+            this.cmboEditSummary.DropDownWidth = 400;
+            this.cmboEditSummary.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmboEditSummary.FormattingEnabled = true;
+            this.cmboEditSummary.IntegralHeight = false;
+            this.cmboEditSummary.Location = new System.Drawing.Point(87, 6);
+            this.cmboEditSummary.MaxLength = 155;
+            this.cmboEditSummary.Name = "cmboEditSummary";
+            this.cmboEditSummary.Size = new System.Drawing.Size(185, 21);
+            this.cmboEditSummary.TabIndex = 1;
+            this.cmboEditSummary.Text = "clean up";
+            this.cmboEditSummary.TextChanged += new System.EventHandler(this.cmboEditSummary_TextChanged);
+            this.cmboEditSummary.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmbEditSummary_KeyDown);
+            this.cmboEditSummary.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmboEditSummary_MouseMove);
+            // 
+            // findGroup
+            // 
+            this.findGroup.Controls.Add(this.chkFindCaseSensitive);
+            this.findGroup.Controls.Add(this.btnFind);
+            this.findGroup.Controls.Add(this.chkFindRegex);
+            this.findGroup.Controls.Add(this.txtFind);
+            this.findGroup.Enabled = false;
+            this.findGroup.Location = new System.Drawing.Point(155, 259);
+            this.findGroup.Name = "findGroup";
+            this.findGroup.Size = new System.Drawing.Size(110, 85);
+            this.findGroup.TabIndex = 17;
+            this.findGroup.TabStop = false;
+            this.findGroup.Text = "Find";
+            // 
             // tpBots
             // 
             this.tpBots.BackColor = System.Drawing.SystemColors.ButtonFace;
@@ -3737,402 +3632,6 @@ namespace AutoWikiBrowser
             this.lblOnlyBots.Text = "Sorry, these options\r\nare available only\r\nfor approved bots.";
             this.lblOnlyBots.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // tpStart
-            // 
-            this.tpStart.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.tpStart.Controls.Add(this.btnStart);
-            this.tpStart.Controls.Add(this.btnStop);
-            this.tpStart.Controls.Add(this.btnFalsePositive);
-            this.tpStart.Controls.Add(this.btnPreview);
-            this.tpStart.Controls.Add(this.btnDiff);
-            this.tpStart.Controls.Add(this.btnWatch);
-            this.tpStart.Controls.Add(this.btnMove);
-            this.tpStart.Controls.Add(this.btnProtect);
-            this.tpStart.Controls.Add(this.btnDelete);
-            this.tpStart.Controls.Add(this.btnIgnore);
-            this.tpStart.Controls.Add(this.btnSave);
-            this.tpStart.Controls.Add(this.SummaryLabel);
-            this.tpStart.Controls.Add(this.lblSummary);
-            this.tpStart.Controls.Add(this.cmboEditSummary);
-            this.tpStart.Controls.Add(this.chkLock);
-            this.tpStart.Controls.Add(this.chkMinor);
-            this.tpStart.Controls.Add(this.findGroup);
-            this.tpStart.Controls.Add(this.AlertGroup);
-            this.tpStart.Controls.Add(this.SummaryGroup);
-            this.tpStart.Location = new System.Drawing.Point(4, 22);
-            this.tpStart.Name = "tpStart";
-            this.tpStart.Padding = new System.Windows.Forms.Padding(3);
-            this.tpStart.Size = new System.Drawing.Size(278, 351);
-            this.tpStart.TabIndex = 3;
-            this.tpStart.Text = "Start";
-            // 
-            // SummaryLabel
-            // 
-            this.SummaryLabel.Location = new System.Drawing.Point(-2, 9);
-            this.SummaryLabel.Name = "SummaryLabel";
-            this.SummaryLabel.Size = new System.Drawing.Size(88, 18);
-            this.SummaryLabel.TabIndex = 0;
-            this.SummaryLabel.Text = "Default Summary";
-            // 
-            // lblSummary
-            // 
-            this.lblSummary.AutoEllipsis = true;
-            this.lblSummary.AutoSize = true;
-            this.lblSummary.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblSummary.Location = new System.Drawing.Point(83, 9);
-            this.lblSummary.MaximumSize = new System.Drawing.Size(189, 13);
-            this.lblSummary.MinimumSize = new System.Drawing.Size(189, 13);
-            this.lblSummary.Name = "lblSummary";
-            this.ToolTip.SetToolTip(this.lblSummary, "The Default Edit Summary to use as the start of the generated edit summary");
-            this.lblSummary.Size = new System.Drawing.Size(189, 13);
-            this.lblSummary.TabIndex = 13;
-            this.lblSummary.UseMnemonic = false;
-            this.lblSummary.Visible = false;
-            // 
-            // cmboEditSummary
-            // 
-            this.cmboEditSummary.DropDownHeight = 198;
-            this.cmboEditSummary.DropDownWidth = 400;
-            this.cmboEditSummary.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmboEditSummary.FormattingEnabled = true;
-            this.cmboEditSummary.IntegralHeight = false;
-            this.cmboEditSummary.Location = new System.Drawing.Point(87, 6);
-            this.cmboEditSummary.MaxLength = 155;
-            this.cmboEditSummary.Name = "cmboEditSummary";
-            this.cmboEditSummary.Size = new System.Drawing.Size(185, 21);
-            this.cmboEditSummary.TabIndex = 1;
-            this.cmboEditSummary.Text = "clean up";
-            this.cmboEditSummary.KeyDown += new System.Windows.Forms.KeyEventHandler(this.cmbEditSummary_KeyDown);
-            this.cmboEditSummary.MouseMove += new System.Windows.Forms.MouseEventHandler(this.cmboEditSummary_MouseMove);
-            this.cmboEditSummary.TextChanged += new System.EventHandler(this.cmboEditSummary_TextChanged);
-            // 
-            // findGroup
-            // 
-            this.findGroup.Controls.Add(this.chkFindCaseSensitive);
-            this.findGroup.Controls.Add(this.btnFind);
-            this.findGroup.Controls.Add(this.chkFindRegex);
-            this.findGroup.Controls.Add(this.txtFind);
-            this.findGroup.Enabled = false;
-            this.findGroup.Location = new System.Drawing.Point(155, 259);
-            this.findGroup.Name = "findGroup";
-            this.findGroup.Size = new System.Drawing.Size(110, 85);
-            this.findGroup.TabIndex = 17;
-            this.findGroup.TabStop = false;
-            this.findGroup.Text = "Find";
-            // 
-            // EditBoxTab
-            // 
-            this.EditBoxTab.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.EditBoxTab.Controls.Add(this.tpEdit);
-            this.EditBoxTab.Controls.Add(this.tpHistory);
-            this.EditBoxTab.Controls.Add(this.tpLinks);
-            this.EditBoxTab.Controls.Add(this.tpLogs);
-            this.EditBoxTab.Controls.Add(this.tpArticleActionLogs);
-            this.EditBoxTab.Controls.Add(this.tpLoggingOptions);
-            this.EditBoxTab.Controls.Add(this.tpTypos);
-            this.EditBoxTab.HotTrack = true;
-            this.EditBoxTab.Location = new System.Drawing.Point(506, 2);
-            this.EditBoxTab.Name = "EditBoxTab";
-            this.EditBoxTab.SelectedIndex = 0;
-            this.EditBoxTab.Size = new System.Drawing.Size(402, 377);
-            this.EditBoxTab.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
-            this.EditBoxTab.TabIndex = 2;
-            this.EditBoxTab.SelectedIndexChanged += new System.EventHandler(this.tabControl2_SelectedIndexChanged);
-            // 
-            // tpEdit
-            // 
-            this.tpEdit.Controls.Add(this.imgComment);
-            this.tpEdit.Controls.Add(this.imgSub);
-            this.tpEdit.Controls.Add(this.imgSup);
-            this.tpEdit.Controls.Add(this.imgStrike);
-            this.tpEdit.Controls.Add(this.imgRedirect);
-            this.tpEdit.Controls.Add(this.imgHr);
-            this.tpEdit.Controls.Add(this.imgNowiki);
-            this.tpEdit.Controls.Add(this.imgMath);
-            this.tpEdit.Controls.Add(this.imgExtlink);
-            this.tpEdit.Controls.Add(this.imgLink);
-            this.tpEdit.Controls.Add(this.imgItalics);
-            this.tpEdit.Controls.Add(this.imgBold);
-            this.tpEdit.Controls.Add(this.txtEdit);
-            this.tpEdit.Controls.Add(this.txtReviewEditSummary);
-            this.tpEdit.Location = new System.Drawing.Point(4, 22);
-            this.tpEdit.Name = "tpEdit";
-            this.tpEdit.Padding = new System.Windows.Forms.Padding(3);
-            this.tpEdit.Size = new System.Drawing.Size(394, 351);
-            this.tpEdit.TabIndex = 0;
-            this.tpEdit.Text = "Edit box";
-            this.tpEdit.UseVisualStyleBackColor = true;
-            // 
-            // tpHistory
-            // 
-            this.tpHistory.ContextMenuStrip = this.mnuHistory;
-            this.tpHistory.Controls.Add(this.webBrowserHistory);
-            this.tpHistory.Location = new System.Drawing.Point(4, 22);
-            this.tpHistory.Name = "tpHistory";
-            this.tpHistory.Size = new System.Drawing.Size(394, 351);
-            this.tpHistory.TabIndex = 2;
-            this.tpHistory.Text = "History";
-            this.tpHistory.UseVisualStyleBackColor = true;
-            // 
-            // webBrowserHistory
-            // 
-            this.webBrowserHistory.ContextMenuStrip = this.mnuHistory;
-            this.webBrowserHistory.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowserHistory.IsWebBrowserContextMenuEnabled = false;
-            this.webBrowserHistory.Location = new System.Drawing.Point(0, 0);
-            this.webBrowserHistory.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowserHistory.Name = "webBrowserHistory";
-            this.webBrowserHistory.ScriptErrorsSuppressed = true;
-            this.webBrowserHistory.Size = new System.Drawing.Size(394, 351);
-            this.webBrowserHistory.TabIndex = 0;
-            this.webBrowserHistory.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserHistory_DocumentCompleted);
-            // 
-            // tpLinks
-            // 
-            this.tpLinks.Controls.Add(this.webBrowserLinks);
-            this.tpLinks.Location = new System.Drawing.Point(4, 22);
-            this.tpLinks.Name = "tpLinks";
-            this.tpLinks.Size = new System.Drawing.Size(394, 351);
-            this.tpLinks.TabIndex = 2;
-            this.tpLinks.Text = "What links here";
-            this.tpLinks.UseVisualStyleBackColor = true;
-            // 
-            // webBrowserLinks
-            // 
-            this.webBrowserLinks.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowserLinks.IsWebBrowserContextMenuEnabled = false;
-            this.webBrowserLinks.Location = new System.Drawing.Point(0, 0);
-            this.webBrowserLinks.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowserLinks.Name = "webBrowserLinks";
-            this.webBrowserLinks.ScriptErrorsSuppressed = true;
-            this.webBrowserLinks.Size = new System.Drawing.Size(394, 351);
-            this.webBrowserLinks.TabIndex = 0;
-            this.webBrowserLinks.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserLinks_DocumentCompleted);
-            // 
-            // txtReviewEditSummary
-            // 
-            this.txtReviewEditSummary.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                                                                                     | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtReviewEditSummary.BackColor = System.Drawing.SystemColors.Window;
-            this.txtReviewEditSummary.Location = new System.Drawing.Point(3, 3);
-            this.txtReviewEditSummary.Multiline = true;
-            this.txtReviewEditSummary.Name = "txtReviewEditSummary";
-            this.txtReviewEditSummary.Size = new System.Drawing.Size(113, 26);
-            this.txtReviewEditSummary.Enabled = false;
-            this.txtReviewEditSummary.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.ToolTip.SetToolTip(this.txtReviewEditSummary, "The edit summary for the page");
-            // 
-            // tpLogs
-            // 
-            this.tpLogs.Controls.Add(this.logControl);
-            this.tpLogs.Location = new System.Drawing.Point(4, 22);
-            this.tpLogs.Name = "tpLogs";
-            this.tpLogs.Padding = new System.Windows.Forms.Padding(3);
-            this.tpLogs.Size = new System.Drawing.Size(394, 351);
-            this.tpLogs.TabIndex = 1;
-            this.tpLogs.Text = "Logs";
-            this.tpLogs.UseVisualStyleBackColor = true;
-            // 
-            // logControl
-            // 
-            this.logControl.Dock = System.Windows.Forms.DockStyle.Top;
-            this.logControl.Location = new System.Drawing.Point(3, 3);
-            this.logControl.Margin = new System.Windows.Forms.Padding(4);
-            this.logControl.Name = "logControl";
-            this.logControl.Size = new System.Drawing.Size(388, 345);
-            this.logControl.TabIndex = 0;
-            // 
-            // tpArticleActionLogs
-            // 
-            this.tpArticleActionLogs.Controls.Add(this.articleActionLogControl1);
-            this.tpArticleActionLogs.Location = new System.Drawing.Point(4, 22);
-            this.tpArticleActionLogs.Name = "tpArticleActionLogs";
-            this.tpArticleActionLogs.Size = new System.Drawing.Size(394, 351);
-            this.tpArticleActionLogs.TabIndex = 6;
-            this.tpArticleActionLogs.Text = "Page Logs";
-            this.tpArticleActionLogs.UseVisualStyleBackColor = true;
-            // 
-            // articleActionLogControl1
-            // 
-            this.articleActionLogControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.articleActionLogControl1.Location = new System.Drawing.Point(3, 3);
-            this.articleActionLogControl1.Margin = new System.Windows.Forms.Padding(4);
-            this.articleActionLogControl1.Name = "articleActionLogControl1";
-            this.articleActionLogControl1.Size = new System.Drawing.Size(388, 345);
-            this.articleActionLogControl1.TabIndex = 0;
-            // 
-            // tpLoggingOptions
-            // 
-            this.tpLoggingOptions.Controls.Add(this.loggingSettings1);
-            this.tpLoggingOptions.Location = new System.Drawing.Point(4, 22);
-            this.tpLoggingOptions.Name = "tpLoggingOptions";
-            this.tpLoggingOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.tpLoggingOptions.Size = new System.Drawing.Size(394, 351);
-            this.tpLoggingOptions.TabIndex = 3;
-            this.tpLoggingOptions.Text = "Logging to file";
-            this.tpLoggingOptions.UseVisualStyleBackColor = true;
-            // 
-            // loggingSettings1
-            // 
-            this.loggingSettings1.Location = new System.Drawing.Point(-1, 3);
-            this.loggingSettings1.Margin = new System.Windows.Forms.Padding(4);
-            this.loggingSettings1.Name = "loggingSettings1";
-            this.loggingSettings1.SerialisableSettings = ((WikiFunctions.AWBSettings.LoggingPrefs)(resources.GetObject("loggingSettings1.SerialisableSettings")));
-            this.loggingSettings1.Size = new System.Drawing.Size(276, 349);
-            this.loggingSettings1.TabIndex = 0;
-            // 
-            // tpTypos
-            // 
-            this.tpTypos.Controls.Add(this.splitContainer1);
-            this.tpTypos.Location = new System.Drawing.Point(4, 22);
-            this.tpTypos.Name = "tpTypos";
-            this.tpTypos.Padding = new System.Windows.Forms.Padding(3);
-            this.tpTypos.Size = new System.Drawing.Size(394, 351);
-            this.tpTypos.TabIndex = 4;
-            this.tpTypos.Text = "Typos";
-            this.tpTypos.UseVisualStyleBackColor = true;
-            // 
-            // splitContainer1
-            // 
-            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.splitContainer1.Location = new System.Drawing.Point(3, 3);
-            this.splitContainer1.Name = "splitContainer1";
-            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer1.Panel1
-            // 
-            this.splitContainer1.Panel1.Controls.Add(this.groupBox9);
-            // 
-            // splitContainer1.Panel2
-            // 
-            this.splitContainer1.Panel2.Controls.Add(this.groupBox10);
-            this.splitContainer1.Size = new System.Drawing.Size(388, 345);
-            this.splitContainer1.SplitterDistance = 152;
-            this.splitContainer1.SplitterWidth = 5;
-            this.splitContainer1.TabIndex = 0;
-            // 
-            // groupBox9
-            // 
-            this.groupBox9.Controls.Add(this.CurrentTypoStats);
-            this.groupBox9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox9.Location = new System.Drawing.Point(0, 0);
-            this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(388, 152);
-            this.groupBox9.TabIndex = 0;
-            this.groupBox9.TabStop = false;
-            this.groupBox9.Text = "On this page";
-            // 
-            // CurrentTypoStats
-            // 
-            this.CurrentTypoStats.ComparerFactory = this.CurrentTypoStats;
-            this.CurrentTypoStats.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.CurrentTypoStats.Location = new System.Drawing.Point(3, 16);
-            this.CurrentTypoStats.MultiSelect = false;
-            this.CurrentTypoStats.Name = "CurrentTypoStats";
-            this.CurrentTypoStats.Size = new System.Drawing.Size(382, 133);
-            this.CurrentTypoStats.SortColumnsOnClick = true;
-            this.CurrentTypoStats.TabIndex = 0;
-            this.CurrentTypoStats.UseCompatibleStateImageBehavior = false;
-            this.CurrentTypoStats.View = System.Windows.Forms.View.Details;
-            // 
-            // groupBox10
-            // 
-            this.groupBox10.Controls.Add(this.lblTypoRatio);
-            this.groupBox10.Controls.Add(this.OverallTypoStats);
-            this.groupBox10.Controls.Add(this.lblNoChange);
-            this.groupBox10.Controls.Add(this.label3);
-            this.groupBox10.Controls.Add(this.label6);
-            this.groupBox10.Controls.Add(this.lblOverallTypos);
-            this.groupBox10.Controls.Add(this.label7);
-            this.groupBox10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox10.Location = new System.Drawing.Point(0, 0);
-            this.groupBox10.Name = "groupBox10";
-            this.groupBox10.Size = new System.Drawing.Size(388, 188);
-            this.groupBox10.TabIndex = 0;
-            this.groupBox10.TabStop = false;
-            this.groupBox10.Text = "Overall statistics";
-            // 
-            // lblTypoRatio
-            // 
-            this.lblTypoRatio.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblTypoRatio.AutoSize = true;
-            this.lblTypoRatio.Location = new System.Drawing.Point(338, 172);
-            this.lblTypoRatio.Name = "lblTypoRatio";
-            this.lblTypoRatio.Size = new System.Drawing.Size(13, 13);
-            this.lblTypoRatio.TabIndex = 1;
-            this.lblTypoRatio.Text = "0";
-            // 
-            // OverallTypoStats
-            // 
-            this.OverallTypoStats.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.OverallTypoStats.ComparerFactory = this.OverallTypoStats;
-            this.OverallTypoStats.IsOverallStats = true;
-            this.OverallTypoStats.Location = new System.Drawing.Point(3, 16);
-            this.OverallTypoStats.MultiSelect = false;
-            this.OverallTypoStats.Name = "OverallTypoStats";
-            this.OverallTypoStats.Size = new System.Drawing.Size(382, 153);
-            this.OverallTypoStats.SortColumnsOnClick = true;
-            this.OverallTypoStats.TabIndex = 1;
-            this.OverallTypoStats.UseCompatibleStateImageBehavior = false;
-            this.OverallTypoStats.View = System.Windows.Forms.View.Details;
-            // 
-            // lblNoChange
-            // 
-            this.lblNoChange.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblNoChange.AutoSize = true;
-            this.lblNoChange.Location = new System.Drawing.Point(221, 172);
-            this.lblNoChange.Name = "lblNoChange";
-            this.lblNoChange.Size = new System.Drawing.Size(13, 13);
-            this.lblNoChange.TabIndex = 672;
-            this.lblNoChange.Text = "0";
-            // 
-            // label3
-            // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 172);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(34, 13);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "Total:";
-            // 
-            // label6
-            // 
-            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(135, 172);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(63, 13);
-            this.label6.TabIndex = 671;
-            this.label6.Text = "No change:";
-            // 
-            // lblOverallTypos
-            // 
-            this.lblOverallTypos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblOverallTypos.AutoSize = true;
-            this.lblOverallTypos.Location = new System.Drawing.Point(92, 172);
-            this.lblOverallTypos.Name = "lblOverallTypos";
-            this.lblOverallTypos.Size = new System.Drawing.Size(13, 13);
-            this.lblOverallTypos.TabIndex = 2;
-            this.lblOverallTypos.Text = "0";
-            // 
-            // label7
-            // 
-            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(252, 172);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(67, 13);
-            this.label7.TabIndex = 673;
-            this.label7.Text = "Typos/save:";
-            // 
             // webBrowser
             // 
             this.webBrowser.AllowNavigation = false;
@@ -4189,29 +3688,28 @@ namespace AutoWikiBrowser
             this.menuitemMakeFromTextBoxCut,
             this.menuitemMakeFromTextBoxCopy,
             this.menuitemMakeFromTextBoxPaste,
-            this.toolStripSeparatorMakeFromTextBox,
-            this.mnuCopyToCategoryLog});
+            this.toolStripSeparatorMakeFromTextBox});
             this.mnuMakeFromTextBox.Name = "mnuMakeFromTextBox";
-            this.mnuMakeFromTextBox.Size = new System.Drawing.Size(424, 126);
+            this.mnuMakeFromTextBox.Size = new System.Drawing.Size(145, 104);
             // 
             // menuitemMakeFromTextBoxUndo
             // 
             this.menuitemMakeFromTextBoxUndo.Name = "menuitemMakeFromTextBoxUndo";
             this.menuitemMakeFromTextBoxUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.menuitemMakeFromTextBoxUndo.Size = new System.Drawing.Size(423, 22);
+            this.menuitemMakeFromTextBoxUndo.Size = new System.Drawing.Size(144, 22);
             this.menuitemMakeFromTextBoxUndo.Text = "&Undo";
             this.menuitemMakeFromTextBoxUndo.Click += new System.EventHandler(this.menuitemMakeFromTextBoxUndo_Click);
             // 
             // toolStripSeparator27
             // 
             this.toolStripSeparator27.Name = "toolStripSeparator27";
-            this.toolStripSeparator27.Size = new System.Drawing.Size(420, 6);
+            this.toolStripSeparator27.Size = new System.Drawing.Size(141, 6);
             // 
             // menuitemMakeFromTextBoxCut
             // 
             this.menuitemMakeFromTextBoxCut.Name = "menuitemMakeFromTextBoxCut";
             this.menuitemMakeFromTextBoxCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.menuitemMakeFromTextBoxCut.Size = new System.Drawing.Size(423, 22);
+            this.menuitemMakeFromTextBoxCut.Size = new System.Drawing.Size(144, 22);
             this.menuitemMakeFromTextBoxCut.Text = "Cu&t";
             this.menuitemMakeFromTextBoxCut.Click += new System.EventHandler(this.menuitemMakeFromTextBoxCut_Click);
             // 
@@ -4219,7 +3717,7 @@ namespace AutoWikiBrowser
             // 
             this.menuitemMakeFromTextBoxCopy.Name = "menuitemMakeFromTextBoxCopy";
             this.menuitemMakeFromTextBoxCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.menuitemMakeFromTextBoxCopy.Size = new System.Drawing.Size(423, 22);
+            this.menuitemMakeFromTextBoxCopy.Size = new System.Drawing.Size(144, 22);
             this.menuitemMakeFromTextBoxCopy.Text = "&Copy";
             this.menuitemMakeFromTextBoxCopy.Click += new System.EventHandler(this.menuitemMakeFromTextBoxCopy_Click);
             // 
@@ -4227,26 +3725,496 @@ namespace AutoWikiBrowser
             // 
             this.menuitemMakeFromTextBoxPaste.Name = "menuitemMakeFromTextBoxPaste";
             this.menuitemMakeFromTextBoxPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.menuitemMakeFromTextBoxPaste.Size = new System.Drawing.Size(423, 22);
+            this.menuitemMakeFromTextBoxPaste.Size = new System.Drawing.Size(144, 22);
             this.menuitemMakeFromTextBoxPaste.Text = "&Paste";
             this.menuitemMakeFromTextBoxPaste.Click += new System.EventHandler(this.menuitemMakeFromTextBoxPaste_Click);
             // 
             // toolStripSeparatorMakeFromTextBox
             // 
             this.toolStripSeparatorMakeFromTextBox.Name = "toolStripSeparatorMakeFromTextBox";
-            this.toolStripSeparatorMakeFromTextBox.Size = new System.Drawing.Size(420, 6);
-            // 
-            // mnuCopyToCategoryLog
-            // 
-            this.mnuCopyToCategoryLog.Name = "mnuCopyToCategoryLog";
-            this.mnuCopyToCategoryLog.Size = new System.Drawing.Size(423, 22);
-            this.mnuCopyToCategoryLog.Text = "Copy to Category box on &log tab (for edit summaries and logging)";
-            this.mnuCopyToCategoryLog.Click += new System.EventHandler(this.mnuCopyToCategoryLog_Click);
+            this.toolStripSeparatorMakeFromTextBox.Size = new System.Drawing.Size(141, 6);
             // 
             // NudgeTimer
             // 
             this.NudgeTimer.Interval = 120000;
             this.NudgeTimer.Tick += new AutoWikiBrowser.NudgeTimer.TickEventHandler(this.NudgeTimer_Tick);
+            // 
+            // tpTypos
+            // 
+            this.tpTypos.Controls.Add(this.splitContainer1);
+            this.tpTypos.Location = new System.Drawing.Point(4, 22);
+            this.tpTypos.Name = "tpTypos";
+            this.tpTypos.Padding = new System.Windows.Forms.Padding(3);
+            this.tpTypos.Size = new System.Drawing.Size(394, 351);
+            this.tpTypos.TabIndex = 4;
+            this.tpTypos.Text = "Typos";
+            this.tpTypos.UseVisualStyleBackColor = true;
+            // 
+            // splitContainer1
+            // 
+            this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.splitContainer1.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer1.Panel1
+            // 
+            this.splitContainer1.Panel1.Controls.Add(this.groupBox9);
+            // 
+            // splitContainer1.Panel2
+            // 
+            this.splitContainer1.Panel2.Controls.Add(this.groupBox10);
+            this.splitContainer1.Size = new System.Drawing.Size(388, 345);
+            this.splitContainer1.SplitterDistance = 152;
+            this.splitContainer1.SplitterWidth = 5;
+            this.splitContainer1.TabIndex = 0;
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.lblTypoRatio);
+            this.groupBox10.Controls.Add(this.OverallTypoStats);
+            this.groupBox10.Controls.Add(this.lblNoChange);
+            this.groupBox10.Controls.Add(this.label3);
+            this.groupBox10.Controls.Add(this.label6);
+            this.groupBox10.Controls.Add(this.lblOverallTypos);
+            this.groupBox10.Controls.Add(this.label7);
+            this.groupBox10.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox10.Location = new System.Drawing.Point(0, 0);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(388, 188);
+            this.groupBox10.TabIndex = 0;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Overall statistics";
+            // 
+            // label7
+            // 
+            this.label7.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(252, 172);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(67, 13);
+            this.label7.TabIndex = 673;
+            this.label7.Text = "Typos/save:";
+            // 
+            // lblOverallTypos
+            // 
+            this.lblOverallTypos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblOverallTypos.AutoSize = true;
+            this.lblOverallTypos.Location = new System.Drawing.Point(92, 172);
+            this.lblOverallTypos.Name = "lblOverallTypos";
+            this.lblOverallTypos.Size = new System.Drawing.Size(13, 13);
+            this.lblOverallTypos.TabIndex = 2;
+            this.lblOverallTypos.Text = "0";
+            // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(135, 172);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(63, 13);
+            this.label6.TabIndex = 671;
+            this.label6.Text = "No change:";
+            // 
+            // label3
+            // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 172);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(34, 13);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Total:";
+            // 
+            // lblNoChange
+            // 
+            this.lblNoChange.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblNoChange.AutoSize = true;
+            this.lblNoChange.Location = new System.Drawing.Point(221, 172);
+            this.lblNoChange.Name = "lblNoChange";
+            this.lblNoChange.Size = new System.Drawing.Size(13, 13);
+            this.lblNoChange.TabIndex = 672;
+            this.lblNoChange.Text = "0";
+            // 
+            // OverallTypoStats
+            // 
+            this.OverallTypoStats.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.OverallTypoStats.ComparerFactory = this.OverallTypoStats;
+            this.OverallTypoStats.IsOverallStats = true;
+            this.OverallTypoStats.Location = new System.Drawing.Point(3, 16);
+            this.OverallTypoStats.MultiSelect = false;
+            this.OverallTypoStats.Name = "OverallTypoStats";
+            this.OverallTypoStats.Size = new System.Drawing.Size(382, 153);
+            this.OverallTypoStats.SortColumnsOnClick = true;
+            this.OverallTypoStats.TabIndex = 1;
+            this.OverallTypoStats.UseCompatibleStateImageBehavior = false;
+            this.OverallTypoStats.View = System.Windows.Forms.View.Details;
+            // 
+            // lblTypoRatio
+            // 
+            this.lblTypoRatio.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.lblTypoRatio.AutoSize = true;
+            this.lblTypoRatio.Location = new System.Drawing.Point(338, 172);
+            this.lblTypoRatio.Name = "lblTypoRatio";
+            this.lblTypoRatio.Size = new System.Drawing.Size(13, 13);
+            this.lblTypoRatio.TabIndex = 1;
+            this.lblTypoRatio.Text = "0";
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.CurrentTypoStats);
+            this.groupBox9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox9.Location = new System.Drawing.Point(0, 0);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(388, 152);
+            this.groupBox9.TabIndex = 0;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "On this page";
+            // 
+            // CurrentTypoStats
+            // 
+            this.CurrentTypoStats.ComparerFactory = this.CurrentTypoStats;
+            this.CurrentTypoStats.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.CurrentTypoStats.Location = new System.Drawing.Point(3, 16);
+            this.CurrentTypoStats.MultiSelect = false;
+            this.CurrentTypoStats.Name = "CurrentTypoStats";
+            this.CurrentTypoStats.Size = new System.Drawing.Size(382, 133);
+            this.CurrentTypoStats.SortColumnsOnClick = true;
+            this.CurrentTypoStats.TabIndex = 0;
+            this.CurrentTypoStats.UseCompatibleStateImageBehavior = false;
+            this.CurrentTypoStats.View = System.Windows.Forms.View.Details;
+            // 
+            // tpArticleActionLogs
+            // 
+            this.tpArticleActionLogs.Controls.Add(this.articleActionLogControl1);
+            this.tpArticleActionLogs.Location = new System.Drawing.Point(4, 22);
+            this.tpArticleActionLogs.Name = "tpArticleActionLogs";
+            this.tpArticleActionLogs.Size = new System.Drawing.Size(394, 351);
+            this.tpArticleActionLogs.TabIndex = 6;
+            this.tpArticleActionLogs.Text = "Page Logs";
+            this.tpArticleActionLogs.UseVisualStyleBackColor = true;
+            // 
+            // articleActionLogControl1
+            // 
+            this.articleActionLogControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.articleActionLogControl1.Location = new System.Drawing.Point(3, 3);
+            this.articleActionLogControl1.Margin = new System.Windows.Forms.Padding(4);
+            this.articleActionLogControl1.Name = "articleActionLogControl1";
+            this.articleActionLogControl1.Size = new System.Drawing.Size(388, 345);
+            this.articleActionLogControl1.TabIndex = 0;
+            // 
+            // tpLogs
+            // 
+            this.tpLogs.Controls.Add(this.logControl);
+            this.tpLogs.Location = new System.Drawing.Point(4, 22);
+            this.tpLogs.Name = "tpLogs";
+            this.tpLogs.Padding = new System.Windows.Forms.Padding(3);
+            this.tpLogs.Size = new System.Drawing.Size(394, 351);
+            this.tpLogs.TabIndex = 1;
+            this.tpLogs.Text = "Logs";
+            this.tpLogs.UseVisualStyleBackColor = true;
+            // 
+            // logControl
+            // 
+            this.logControl.Dock = System.Windows.Forms.DockStyle.Top;
+            this.logControl.Location = new System.Drawing.Point(3, 3);
+            this.logControl.Margin = new System.Windows.Forms.Padding(4);
+            this.logControl.Name = "logControl";
+            this.logControl.Size = new System.Drawing.Size(388, 345);
+            this.logControl.TabIndex = 0;
+            // 
+            // tpLinks
+            // 
+            this.tpLinks.Controls.Add(this.webBrowserLinks);
+            this.tpLinks.Location = new System.Drawing.Point(4, 22);
+            this.tpLinks.Name = "tpLinks";
+            this.tpLinks.Size = new System.Drawing.Size(394, 351);
+            this.tpLinks.TabIndex = 2;
+            this.tpLinks.Text = "What links here";
+            this.tpLinks.UseVisualStyleBackColor = true;
+            // 
+            // webBrowserLinks
+            // 
+            this.webBrowserLinks.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowserLinks.IsWebBrowserContextMenuEnabled = false;
+            this.webBrowserLinks.Location = new System.Drawing.Point(0, 0);
+            this.webBrowserLinks.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowserLinks.Name = "webBrowserLinks";
+            this.webBrowserLinks.ScriptErrorsSuppressed = true;
+            this.webBrowserLinks.Size = new System.Drawing.Size(394, 351);
+            this.webBrowserLinks.TabIndex = 0;
+            this.webBrowserLinks.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserLinks_DocumentCompleted);
+            // 
+            // tpHistory
+            // 
+            this.tpHistory.ContextMenuStrip = this.mnuHistory;
+            this.tpHistory.Controls.Add(this.webBrowserHistory);
+            this.tpHistory.Location = new System.Drawing.Point(4, 22);
+            this.tpHistory.Name = "tpHistory";
+            this.tpHistory.Size = new System.Drawing.Size(394, 351);
+            this.tpHistory.TabIndex = 2;
+            this.tpHistory.Text = "History";
+            this.tpHistory.UseVisualStyleBackColor = true;
+            // 
+            // webBrowserHistory
+            // 
+            this.webBrowserHistory.ContextMenuStrip = this.mnuHistory;
+            this.webBrowserHistory.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webBrowserHistory.IsWebBrowserContextMenuEnabled = false;
+            this.webBrowserHistory.Location = new System.Drawing.Point(0, 0);
+            this.webBrowserHistory.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webBrowserHistory.Name = "webBrowserHistory";
+            this.webBrowserHistory.ScriptErrorsSuppressed = true;
+            this.webBrowserHistory.Size = new System.Drawing.Size(394, 351);
+            this.webBrowserHistory.TabIndex = 0;
+            this.webBrowserHistory.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowserHistory_DocumentCompleted);
+            // 
+            // tpEdit
+            // 
+            this.tpEdit.Controls.Add(this.imgComment);
+            this.tpEdit.Controls.Add(this.imgSub);
+            this.tpEdit.Controls.Add(this.imgSup);
+            this.tpEdit.Controls.Add(this.imgStrike);
+            this.tpEdit.Controls.Add(this.imgRedirect);
+            this.tpEdit.Controls.Add(this.imgHr);
+            this.tpEdit.Controls.Add(this.imgNowiki);
+            this.tpEdit.Controls.Add(this.imgMath);
+            this.tpEdit.Controls.Add(this.imgExtlink);
+            this.tpEdit.Controls.Add(this.imgLink);
+            this.tpEdit.Controls.Add(this.imgItalics);
+            this.tpEdit.Controls.Add(this.imgBold);
+            this.tpEdit.Controls.Add(this.txtEdit);
+            this.tpEdit.Controls.Add(this.txtReviewEditSummary);
+            this.tpEdit.Location = new System.Drawing.Point(4, 22);
+            this.tpEdit.Name = "tpEdit";
+            this.tpEdit.Padding = new System.Windows.Forms.Padding(3);
+            this.tpEdit.Size = new System.Drawing.Size(394, 351);
+            this.tpEdit.TabIndex = 0;
+            this.tpEdit.Text = "Edit box";
+            this.tpEdit.UseVisualStyleBackColor = true;
+            // 
+            // txtReviewEditSummary
+            // 
+            this.txtReviewEditSummary.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtReviewEditSummary.BackColor = System.Drawing.SystemColors.Window;
+            this.txtReviewEditSummary.Enabled = false;
+            this.txtReviewEditSummary.Location = new System.Drawing.Point(3, 3);
+            this.txtReviewEditSummary.Multiline = true;
+            this.txtReviewEditSummary.Name = "txtReviewEditSummary";
+            this.txtReviewEditSummary.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtReviewEditSummary.Size = new System.Drawing.Size(113, 26);
+            this.txtReviewEditSummary.TabIndex = 13;
+            this.ToolTip.SetToolTip(this.txtReviewEditSummary, "The edit summary for the page");
+            // 
+            // txtEdit
+            // 
+            this.txtEdit.AcceptsTab = true;
+            this.txtEdit.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtEdit.ContextMenuStrip = this.mnuTextBox;
+            this.txtEdit.DetectUrls = false;
+            this.txtEdit.Enabled = false;
+            this.txtEdit.Font = new System.Drawing.Font("Courier New", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtEdit.Location = new System.Drawing.Point(0, 31);
+            this.txtEdit.Name = "txtEdit";
+            this.txtEdit.Size = new System.Drawing.Size(394, 320);
+            this.txtEdit.TabIndex = 0;
+            this.txtEdit.Text = "";
+            this.txtEdit.TextChanged += new System.EventHandler(this.txtEdit_TextChanged);
+            // 
+            // imgBold
+            // 
+            this.imgBold.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.imgBold.Enabled = false;
+            this.imgBold.Image = global::AutoWikiBrowser.Properties.Resources.button_bold;
+            this.imgBold.Location = new System.Drawing.Point(3, 3);
+            this.imgBold.Name = "imgBold";
+            this.imgBold.Size = new System.Drawing.Size(23, 22);
+            this.imgBold.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgBold.TabIndex = 1;
+            this.imgBold.TabStop = false;
+            this.ToolTip.SetToolTip(this.imgBold, "Bold text");
+            this.imgBold.Click += new System.EventHandler(this.imgBold_Click);
+            // 
+            // imgItalics
+            // 
+            this.imgItalics.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.imgItalics.Enabled = false;
+            this.imgItalics.Image = global::AutoWikiBrowser.Properties.Resources.button_italic;
+            this.imgItalics.Location = new System.Drawing.Point(26, 3);
+            this.imgItalics.Name = "imgItalics";
+            this.imgItalics.Size = new System.Drawing.Size(23, 22);
+            this.imgItalics.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgItalics.TabIndex = 2;
+            this.imgItalics.TabStop = false;
+            this.ToolTip.SetToolTip(this.imgItalics, "Italic text");
+            this.imgItalics.Click += new System.EventHandler(this.imgItalics_Click);
+            // 
+            // imgLink
+            // 
+            this.imgLink.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.imgLink.Enabled = false;
+            this.imgLink.Image = global::AutoWikiBrowser.Properties.Resources.button_link;
+            this.imgLink.Location = new System.Drawing.Point(49, 3);
+            this.imgLink.Name = "imgLink";
+            this.imgLink.Size = new System.Drawing.Size(23, 22);
+            this.imgLink.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgLink.TabIndex = 3;
+            this.imgLink.TabStop = false;
+            this.ToolTip.SetToolTip(this.imgLink, "Internal link");
+            this.imgLink.Click += new System.EventHandler(this.imgLink_Click);
+            // 
+            // imgExtlink
+            // 
+            this.imgExtlink.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.imgExtlink.Enabled = false;
+            this.imgExtlink.Image = global::AutoWikiBrowser.Properties.Resources.button_extlink;
+            this.imgExtlink.Location = new System.Drawing.Point(72, 3);
+            this.imgExtlink.Name = "imgExtlink";
+            this.imgExtlink.Size = new System.Drawing.Size(23, 22);
+            this.imgExtlink.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgExtlink.TabIndex = 4;
+            this.imgExtlink.TabStop = false;
+            this.ToolTip.SetToolTip(this.imgExtlink, "External link (remember http:// prefix)");
+            this.imgExtlink.Click += new System.EventHandler(this.imgExtlink_Click);
+            // 
+            // imgMath
+            // 
+            this.imgMath.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.imgMath.Enabled = false;
+            this.imgMath.Image = global::AutoWikiBrowser.Properties.Resources.button_math;
+            this.imgMath.Location = new System.Drawing.Point(95, 3);
+            this.imgMath.Name = "imgMath";
+            this.imgMath.Size = new System.Drawing.Size(23, 22);
+            this.imgMath.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgMath.TabIndex = 5;
+            this.imgMath.TabStop = false;
+            this.ToolTip.SetToolTip(this.imgMath, "Mathematical formula (LaTeX)");
+            this.imgMath.Click += new System.EventHandler(this.imgMath_Click);
+            // 
+            // imgNowiki
+            // 
+            this.imgNowiki.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.imgNowiki.Enabled = false;
+            this.imgNowiki.Image = global::AutoWikiBrowser.Properties.Resources.button_nowiki;
+            this.imgNowiki.Location = new System.Drawing.Point(118, 3);
+            this.imgNowiki.Name = "imgNowiki";
+            this.imgNowiki.Size = new System.Drawing.Size(23, 22);
+            this.imgNowiki.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgNowiki.TabIndex = 6;
+            this.imgNowiki.TabStop = false;
+            this.ToolTip.SetToolTip(this.imgNowiki, "Ignore wiki formatting");
+            this.imgNowiki.Click += new System.EventHandler(this.imgNowiki_Click);
+            // 
+            // imgHr
+            // 
+            this.imgHr.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.imgHr.Enabled = false;
+            this.imgHr.Image = global::AutoWikiBrowser.Properties.Resources.button_hr;
+            this.imgHr.Location = new System.Drawing.Point(141, 3);
+            this.imgHr.Name = "imgHr";
+            this.imgHr.Size = new System.Drawing.Size(23, 22);
+            this.imgHr.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgHr.TabIndex = 7;
+            this.imgHr.TabStop = false;
+            this.ToolTip.SetToolTip(this.imgHr, "Horizontal line (use sparingly)");
+            this.imgHr.Click += new System.EventHandler(this.imgHr_Click);
+            // 
+            // imgRedirect
+            // 
+            this.imgRedirect.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.imgRedirect.Enabled = false;
+            this.imgRedirect.Image = global::AutoWikiBrowser.Properties.Resources.Button_redirect;
+            this.imgRedirect.Location = new System.Drawing.Point(164, 3);
+            this.imgRedirect.Name = "imgRedirect";
+            this.imgRedirect.Size = new System.Drawing.Size(23, 22);
+            this.imgRedirect.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgRedirect.TabIndex = 8;
+            this.imgRedirect.TabStop = false;
+            this.ToolTip.SetToolTip(this.imgRedirect, "Redirect page");
+            this.imgRedirect.Click += new System.EventHandler(this.imgRedirect_Click);
+            // 
+            // imgStrike
+            // 
+            this.imgStrike.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.imgStrike.Enabled = false;
+            this.imgStrike.Image = global::AutoWikiBrowser.Properties.Resources.Button_strike;
+            this.imgStrike.Location = new System.Drawing.Point(187, 3);
+            this.imgStrike.Name = "imgStrike";
+            this.imgStrike.Size = new System.Drawing.Size(23, 22);
+            this.imgStrike.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgStrike.TabIndex = 9;
+            this.imgStrike.TabStop = false;
+            this.ToolTip.SetToolTip(this.imgStrike, "Strike text");
+            this.imgStrike.Click += new System.EventHandler(this.imgStrike_Click);
+            // 
+            // imgSup
+            // 
+            this.imgSup.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.imgSup.Enabled = false;
+            this.imgSup.Image = global::AutoWikiBrowser.Properties.Resources.Button_upper_letter;
+            this.imgSup.Location = new System.Drawing.Point(210, 3);
+            this.imgSup.Name = "imgSup";
+            this.imgSup.Size = new System.Drawing.Size(23, 22);
+            this.imgSup.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgSup.TabIndex = 10;
+            this.imgSup.TabStop = false;
+            this.ToolTip.SetToolTip(this.imgSup, "Superscript text");
+            this.imgSup.Click += new System.EventHandler(this.imgSup_Click);
+            // 
+            // imgSub
+            // 
+            this.imgSub.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.imgSub.Enabled = false;
+            this.imgSub.Image = global::AutoWikiBrowser.Properties.Resources.Button_lower_letter;
+            this.imgSub.Location = new System.Drawing.Point(233, 3);
+            this.imgSub.Name = "imgSub";
+            this.imgSub.Size = new System.Drawing.Size(23, 22);
+            this.imgSub.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgSub.TabIndex = 11;
+            this.imgSub.TabStop = false;
+            this.ToolTip.SetToolTip(this.imgSub, "Subscript text");
+            this.imgSub.Click += new System.EventHandler(this.imgSub_Click);
+            // 
+            // imgComment
+            // 
+            this.imgComment.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.imgComment.Enabled = false;
+            this.imgComment.Image = global::AutoWikiBrowser.Properties.Resources.Button_hide_comment;
+            this.imgComment.Location = new System.Drawing.Point(256, 3);
+            this.imgComment.Name = "imgComment";
+            this.imgComment.Size = new System.Drawing.Size(23, 22);
+            this.imgComment.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.imgComment.TabIndex = 12;
+            this.imgComment.TabStop = false;
+            this.ToolTip.SetToolTip(this.imgComment, "Comment");
+            this.imgComment.Click += new System.EventHandler(this.imgComment_Click);
+            // 
+            // EditBoxTab
+            // 
+            this.EditBoxTab.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.EditBoxTab.Controls.Add(this.tpEdit);
+            this.EditBoxTab.Controls.Add(this.tpHistory);
+            this.EditBoxTab.Controls.Add(this.tpLinks);
+            this.EditBoxTab.Controls.Add(this.tpLogs);
+            this.EditBoxTab.Controls.Add(this.tpArticleActionLogs);
+            this.EditBoxTab.Controls.Add(this.tpTypos);
+            this.EditBoxTab.HotTrack = true;
+            this.EditBoxTab.Location = new System.Drawing.Point(506, 2);
+            this.EditBoxTab.Name = "EditBoxTab";
+            this.EditBoxTab.SelectedIndex = 0;
+            this.EditBoxTab.Size = new System.Drawing.Size(402, 377);
+            this.EditBoxTab.SizeMode = System.Windows.Forms.TabSizeMode.FillToRight;
+            this.EditBoxTab.TabIndex = 2;
+            this.EditBoxTab.SelectedIndexChanged += new System.EventHandler(this.tabControl2_SelectedIndexChanged);
             // 
             // MainForm
             // 
@@ -4276,18 +4244,6 @@ namespace AutoWikiBrowser
             this.StatusMain.ResumeLayout(false);
             this.StatusMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudBotSpeed)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgSub)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgSup)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgRedirect)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgHr)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgNowiki)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgMath)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgExtlink)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgLink)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgItalics)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgBold)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgStrike)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imgComment)).EndInit();
             this.AlertGroup.ResumeLayout(false);
             this.AlertGroup.PerformLayout();
             this.SummaryGroup.ResumeLayout(false);
@@ -4329,6 +4285,10 @@ namespace AutoWikiBrowser
             this.gbPageExisting.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
+            this.tpStart.ResumeLayout(false);
+            this.tpStart.PerformLayout();
+            this.findGroup.ResumeLayout(false);
+            this.findGroup.PerformLayout();
             this.tpBots.ResumeLayout(false);
             this.groupBox16.ResumeLayout(false);
             this.groupBox16.PerformLayout();
@@ -4337,28 +4297,35 @@ namespace AutoWikiBrowser
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.BotImage)).EndInit();
-            this.tpStart.ResumeLayout(false);
-            this.tpStart.PerformLayout();
-            this.findGroup.ResumeLayout(false);
-            this.findGroup.PerformLayout();
-            this.EditBoxTab.ResumeLayout(false);
-            this.tpEdit.ResumeLayout(false);
-            this.tpEdit.PerformLayout();
-            this.tpHistory.ResumeLayout(false);
-            this.tpLinks.ResumeLayout(false);
-            this.tpLogs.ResumeLayout(false);
-            this.tpArticleActionLogs.ResumeLayout(false);
-            this.tpLoggingOptions.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.mnuMakeFromTextBox.ResumeLayout(false);
             this.tpTypos.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
-            this.groupBox9.ResumeLayout(false);
             this.groupBox10.ResumeLayout(false);
             this.groupBox10.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
-            this.mnuMakeFromTextBox.ResumeLayout(false);
+            this.groupBox9.ResumeLayout(false);
+            this.tpArticleActionLogs.ResumeLayout(false);
+            this.tpLogs.ResumeLayout(false);
+            this.tpLinks.ResumeLayout(false);
+            this.tpHistory.ResumeLayout(false);
+            this.tpEdit.ResumeLayout(false);
+            this.tpEdit.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imgBold)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgItalics)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgLink)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgExtlink)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgMath)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgNowiki)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgHr)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgRedirect)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgStrike)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgSup)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgSub)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imgComment)).EndInit();
+            this.EditBoxTab.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -4574,26 +4541,15 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Button btnDiff;
         private System.Windows.Forms.Button btnIgnore;
-        private System.Windows.Forms.TabControl EditBoxTab;
-        private System.Windows.Forms.TabPage tpEdit;
-        private WikiFunctions.Controls.ArticleTextBox txtEdit;
-        private System.Windows.Forms.TabPage tpLogs;
         private System.Windows.Forms.ToolStripButton btntsShowHideParameters;
-        private WikiFunctions.Logging.LogControl logControl;
         private AWBWebBrowser webBrowser;
         private System.Windows.Forms.ToolStripMenuItem undoAllChangesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openTalkPageInBrowserToolStripMenuItem;
-        private System.Windows.Forms.TabPage tpHistory;
-        private System.Windows.Forms.WebBrowser webBrowserHistory;
         private System.Windows.Forms.ContextMenuStrip mnuHistory;
         private System.Windows.Forms.ToolStripMenuItem openInBrowserToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem refreshHistoryToolStripMenuItem;
-        private System.Windows.Forms.TabPage tpLinks;
-        private System.Windows.Forms.WebBrowser webBrowserLinks;
         private System.Windows.Forms.Button btnProtect;
-        private LoggingSettings loggingSettings1;
         internal System.Windows.Forms.ToolStripSeparator toolStripSeparator25;
-        private System.Windows.Forms.TabPage tpLoggingOptions;
         private System.Windows.Forms.ToolStripMenuItem profilesToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkMinor;
         private System.Windows.Forms.GroupBox groupBox16;
@@ -4605,17 +4561,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Timer ShutdownTimer;
         private System.Windows.Forms.PictureBox BotImage;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.PictureBox imgNowiki;
-        private System.Windows.Forms.PictureBox imgMath;
-        private System.Windows.Forms.PictureBox imgExtlink;
-        private System.Windows.Forms.PictureBox imgLink;
-        private System.Windows.Forms.PictureBox imgItalics;
-        private System.Windows.Forms.PictureBox imgBold;
-        private System.Windows.Forms.PictureBox imgHr;
-        private System.Windows.Forms.PictureBox imgSub;
-        private System.Windows.Forms.PictureBox imgSup;
-        private System.Windows.Forms.PictureBox imgStrike;
-        private System.Windows.Forms.PictureBox imgRedirect;
         private System.Windows.Forms.Label lblUse;
         private System.Windows.Forms.NumericUpDown udNewlineChars;
         private System.Windows.Forms.Label lblNewlineCharacters;
@@ -4632,7 +4577,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem menuitemMakeFromTextBoxCopy;
         private System.Windows.Forms.ToolStripMenuItem menuitemMakeFromTextBoxPaste;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparatorMakeFromTextBox;
-        private System.Windows.Forms.ToolStripMenuItem mnuCopyToCategoryLog;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator27;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem testRegexToolStripMenuItem;
@@ -4680,26 +4624,12 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.CheckBox chkSkipGeneralFixes;
         private System.Windows.Forms.CheckBox chkSkipMinorGeneralFixes;
         private System.Windows.Forms.CheckBox chkSkipCasing;
-        private System.Windows.Forms.PictureBox imgComment;
-        private System.Windows.Forms.TabPage tpTypos;
-        private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.GroupBox groupBox9;
-        private System.Windows.Forms.GroupBox groupBox10;
-        private WikiFunctions.Controls.TypoStatsControl CurrentTypoStats;
-        private WikiFunctions.Controls.TypoStatsControl OverallTypoStats;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label lblOverallTypos;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label lblTypoRatio;
-        private System.Windows.Forms.Label lblNoChange;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.GroupBox gbRegexSkip;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator30;
         private System.Windows.Forms.ToolStripMenuItem commentSelectedToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkSkipIfRedirect;
         private System.Windows.Forms.CheckBox chkSkipIfNoAlerts;
-        private System.Windows.Forms.TextBox txtReviewEditSummary;
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem enableTheToolbarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem showHidePanelToolStripMenuItem;
@@ -4726,8 +4656,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator29;
         private System.Windows.Forms.ToolStripMenuItem invalidateCacheToolStripMenuItem;
-        private System.Windows.Forms.TabPage tpArticleActionLogs;
-        private WikiFunctions.Logging.ArticleActionLogControl articleActionLogControl1;
         private System.Windows.Forms.ToolStripMenuItem clearCurrentListToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel lblNewArticles;
         private System.Windows.Forms.CheckBox chkSkipOnlyMinorFaR;
@@ -4738,5 +4666,41 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ListBox lbAlerts;
         private System.Windows.Forms.ToolStripMenuItem logOutToolStripMenuItem;
         private System.Windows.Forms.CheckBox chkSkipCosmetic;
+        private System.Windows.Forms.TabControl EditBoxTab;
+        private System.Windows.Forms.TabPage tpEdit;
+        private System.Windows.Forms.PictureBox imgComment;
+        private System.Windows.Forms.PictureBox imgSub;
+        private System.Windows.Forms.PictureBox imgSup;
+        private System.Windows.Forms.PictureBox imgStrike;
+        private System.Windows.Forms.PictureBox imgRedirect;
+        private System.Windows.Forms.PictureBox imgHr;
+        private System.Windows.Forms.PictureBox imgNowiki;
+        private System.Windows.Forms.PictureBox imgMath;
+        private System.Windows.Forms.PictureBox imgExtlink;
+        private System.Windows.Forms.PictureBox imgLink;
+        private System.Windows.Forms.PictureBox imgItalics;
+        private System.Windows.Forms.PictureBox imgBold;
+        private WikiFunctions.Controls.ArticleTextBox txtEdit;
+        private System.Windows.Forms.TextBox txtReviewEditSummary;
+        private System.Windows.Forms.TabPage tpHistory;
+        private System.Windows.Forms.WebBrowser webBrowserHistory;
+        private System.Windows.Forms.TabPage tpLinks;
+        private System.Windows.Forms.WebBrowser webBrowserLinks;
+        private System.Windows.Forms.TabPage tpLogs;
+        private WikiFunctions.Logging.LogControl logControl;
+        private System.Windows.Forms.TabPage tpArticleActionLogs;
+        private WikiFunctions.Logging.ArticleActionLogControl articleActionLogControl1;
+        private System.Windows.Forms.TabPage tpTypos;
+        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private WikiFunctions.Controls.TypoStatsControl CurrentTypoStats;
+        private System.Windows.Forms.GroupBox groupBox10;
+        private System.Windows.Forms.Label lblTypoRatio;
+        private WikiFunctions.Controls.TypoStatsControl OverallTypoStats;
+        private System.Windows.Forms.Label lblNoChange;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label lblOverallTypos;
+        private System.Windows.Forms.Label label7;
     }
 }

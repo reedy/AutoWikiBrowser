@@ -250,8 +250,6 @@ namespace AutoWikiBrowser
 
             SplashScreen.SetProgress(22);
 
-            Program.MyTrace.LS = loggingSettings1;
-
             try
             {
                 //check that we are not using an old OS. 98 seems to mangled some unicode
@@ -752,14 +750,6 @@ namespace AutoWikiBrowser
             {
                 Tools.WriteDebug(Name, "Start() error: " + ex.Message);
                 StartDelayedRestartTimer();
-            }
-
-            if (Program.MyTrace.StoppedWithConfigError)
-            {
-                try
-                { Program.MyTrace.ValidateUploadProfile(); }
-                catch (Exception ex)
-                { Program.MyTrace.ConfigError(ex); }
             }
         }
 
@@ -4597,12 +4587,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             //make sure there was no error and bot mode is still enabled
             if (BotMode)
             {
-                if (Program.MyTrace.IsUploading || Program.MyTrace.IsGettingPassword)
-                {
-                    // Don't nudge when a log is uploading in the background or it is attempting to get a password from the user, just wait for it
-                    e.Cancel = true; return;
-                }
-
                 // Tell plugins we're about to nudge, and give them the opportunity to cancel:
                 foreach (KeyValuePair<string, IAWBPlugin> a in Plugin.AWBPlugins)
                 {
@@ -5267,15 +5251,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             listMaker.UserInputTextBox.Paste();
         }
 
-        private void mnuCopyToCategoryLog_Click(object sender, EventArgs e)
-        {
-            loggingSettings1.LoggingCategoryTextBox.Text = (listMaker.UserInputTextBox.SelectionLength > 0) ? listMaker.UserInputTextBox.SelectedText : listMaker.UserInputTextBox.Text;
-        }
-
         private void ListMakerSourceSelectHandler(object sender, EventArgs e)
         {
-            toolStripSeparatorMakeFromTextBox.Visible = mnuCopyToCategoryLog.Visible =
-                listMaker.cmboSourceSelect.Text.Contains("Category");
+            toolStripSeparatorMakeFromTextBox.Visible = listMaker.cmboSourceSelect.Text.Contains("Category");
         }
 
         private void externalProcessingToolStripMenuItem_Click(object sender, EventArgs e)

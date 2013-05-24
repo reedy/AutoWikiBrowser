@@ -44,7 +44,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.ResetTimerButton = New System.Windows.Forms.Button()
             Me.ETALabel = New System.Windows.Forms.Label()
             Me.OpenBadInBrowserCheckBox = New System.Windows.Forms.CheckBox()
-            Me.Led1 = New WikiFunctions.Controls.LED()
             Me.GroupBox4 = New System.Windows.Forms.GroupBox()
             Me.PluginMenuStrip = New System.Windows.Forms.MenuStrip()
             Me.PluginToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -301,15 +300,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.OpenBadInBrowserCheckBox.UseVisualStyleBackColor = True
             Me.OpenBadInBrowserCheckBox.Visible = False
             '
-            'Led1
-            '
-            Me.Led1.Colour = WikiFunctions.Controls.Colour.Red
-            Me.Led1.Location = New System.Drawing.Point(7, 207)
-            Me.Led1.Name = "Led1"
-            Me.Led1.Size = New System.Drawing.Size(20, 20)
-            Me.Led1.TabIndex = 43
-            Me.ToolTip1.SetToolTip(Me.Led1, "Green when the plugin is processing article text")
-            '
             'GroupBox4
             '
             Me.GroupBox4.Controls.Add(Me.CleanupCheckBox)
@@ -382,10 +372,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Me.Controls.Add(Me.GroupBox2)
             Me.Controls.Add(Me.lblAWBNudges)
             Me.Controls.Add(Me.GroupBox4)
-            Me.Controls.Add(Me.TimerStats1)
             Me.Controls.Add(Me.SkipNoChangesCheckBox)
             Me.Controls.Add(Me.PluginMenuStrip)
-            Me.Controls.Add(Me.Led1)
             Me.Controls.Add(Me.SkipBadTagsCheckBox)
             Me.Controls.Add(Me.Label7)
             Me.Name = "PluginSettingsControl"
@@ -419,7 +407,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         Friend WithEvents PluginToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents MenuAbout As System.Windows.Forms.ToolStripMenuItem
         Friend WithEvents MenuHelp As System.Windows.Forms.ToolStripMenuItem
-        Friend WithEvents Led1 As WikiFunctions.Controls.LED
         Friend WithEvents TimerStats1 As AutoWikiBrowser.Plugins.Kingbotk.Components.TimerStats
         Friend WithEvents Label7 As System.Windows.Forms.Label
         Friend WithEvents SkipNoChangesCheckBox As System.Windows.Forms.CheckBox

@@ -30,12 +30,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             ' This call is required by the Windows Form Designer and must come first:
             InitializeComponent()
 
-            ' FIXME: This LivingPeople stuff should live elsewhere
-            AddHandler LivingPeopleToolStripMenuItem.Click, AddressOf LivingPeopleToolStripMenuItemClick
             With PluginManager.AWBForm
-                .CategoryTextBox.ContextMenuStrip.Items.Insert(0, LivingPeopleToolStripMenuItem)
-                .CategoryTextBox.ContextMenuStrip.Items.Insert(1, New ToolStripSeparator())
-
                 AddHandler .SkipNoChangesCheckBox.CheckedChanged, AddressOf SkipNoChangesCheckBoxCheckedChanged
             End With
 
@@ -61,14 +56,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         ' Properties:
         Private mAssessmentsAlwaysLeaveAComment As Boolean
 
-        Friend Property CategoryName() As String
-            Get
-                Return Regex.Replace(PluginManager.AWBForm.CategoryTextBox.Text, "^category:", "", RegexOptions.IgnoreCase)
-            End Get
-            Set(ByVal value As String)
-                PluginManager.AWBForm.CategoryTextBox.Text = value
-            End Set
-        End Property
         Friend Property ManuallyAssess() As Boolean
             Get
                 Return ManuallyAssessCheckBox.Checked
@@ -154,9 +141,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
                 .AutoTagCheckBox.Checked = False
                 If .EditSummaryComboBox.Text = "clean up" Then .EditSummaryComboBox.Text = ""
             End With
-        End Sub
-        Private Sub LivingPeopleToolStripMenuItemClick(ByVal sender As Object, ByVal e As EventArgs)
-            CategoryName = "Living people"
         End Sub
         Private Sub MenuAbout_Click(ByVal sender As Object, ByVal e As EventArgs) Handles MenuAbout.Click
             Dim about As New AboutBox()

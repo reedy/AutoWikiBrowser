@@ -161,11 +161,6 @@ namespace WikiFunctions.Logging
             Skip(skippedBy, "Red link (article deleted)");
         }
 
-        bool IMyTraceListener.Uploadable
-        {
-            get { return false; }
-        }
-
         void IMyTraceListener.WriteArticleActionLine(string line, string pluginName, bool verboseOnly)
         {
             if (!verboseOnly) WriteLine(line, pluginName);

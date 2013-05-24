@@ -32,7 +32,6 @@ namespace AutoWikiBrowser
         TabPage IAutoWikiBrowserTabs.StartTab { get { return tpStart; } }
         TabPage IAutoWikiBrowserTabs.DabTab { get { return tpDab; } }
         TabPage IAutoWikiBrowserTabs.BotTab { get { return tpBots; } }
-        TabPage IAutoWikiBrowserTabs.LoggingTab { get { return tpLoggingOptions; } }
         bool IAutoWikiBrowserTabs.ContainsTabPage(TabPage tabp) { return MainTab.TabPages.Contains(tabp); }
 
         private void AddTabPage(TabPage tabp)

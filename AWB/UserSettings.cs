@@ -414,7 +414,6 @@ namespace AutoWikiBrowser
                     },
 
                 ExtProgram.Settings,
-                loggingSettings1.SerialisableSettings,
                 listMaker.SpecialFilterSettings,
 
                 new ToolsPrefs
@@ -646,8 +645,6 @@ namespace AutoWikiBrowser
             udContextChars.Value = p.Disambiguation.ContextChars;
 
             listMaker.SpecialFilterSettings = p.Special;
-
-            loggingSettings1.SerialisableSettings = p.Logging;
 
             CModule.Language = p.Module.Language;
             CModule.Code = p.Module.Code.Replace("\n", "\r\n");
