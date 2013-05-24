@@ -101,8 +101,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         End Function
 
         Protected Overrides Function WriteTemplateHeader() As String
-            Return "{{" & PluginName & Microsoft.VisualBasic.vbCrLf & _
-                WriteOutParameterToHeader("class") & _
+            Return "{{" & PluginName & WriteOutParameterToHeader("class") & _
                 WriteOutParameterToHeader("importance")
         End Function
 
