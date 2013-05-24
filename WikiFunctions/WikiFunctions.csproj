@@ -128,12 +128,6 @@
     <Compile Include="Profiles\AWBProfilesForm.Designer.cs">
       <DependentUpon>AWBProfilesForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Profiles\AWBLogUploadProfilesForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Profiles\AWBLogUploadProfilesForm.Designer.cs">
-      <DependentUpon>AWBLogUploadProfilesForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Profiles\AWBProfile.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -379,11 +373,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Profiles\AWBProfilesForm.resx">
-      <SubType>Designer</SubType>
       <DependentUpon>AWBProfilesForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Profiles\AWBLogUploadProfilesForm.resx">
-      <DependentUpon>AWBLogUploadProfilesForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Profiles\AWBProfileAdd.resx">
