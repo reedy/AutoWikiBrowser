@@ -300,6 +300,19 @@ namespace WikiFunctions.API
     }
 
     /// <summary>
+    /// Perfect from when MediaWiki just says no
+    /// Such as hook aborted "The modification you tried to make was aborted by an extension hook";
+    /// Thanks AbuseFilter
+    /// </summary>
+    public class MediaWikiSaysNoException : ApiException
+    {
+        public MediaWikiSaysNoException(ApiEdit editor, string message)
+            : base(editor, message)
+        {
+        }
+    }
+
+    /// <summary>
     /// Thrown when server requests to solve a captcha.
     /// Note: we currently don't support captchas in any way other than stopping and reporting.
     /// </summary>

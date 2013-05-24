@@ -627,6 +627,11 @@ namespace AutoWikiBrowser
             {
                 MessageBox.Show("Cannot move this file to the specified target, as it exists in a shared repo (such as commons).", "Target file exists in shared repo");
             }
+            else if (ex is MediaWikiSaysNoException)
+            {
+                MessageBox.Show("MediaWiki prevented you from making that edit. Chances are it's spam filter related", "MediaWiki says no");
+                SkipPage("");
+            }
             else
             {
                 Stop();
