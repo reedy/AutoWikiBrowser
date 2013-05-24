@@ -39,7 +39,7 @@ namespace WikiFunctions.Parse
 
         private readonly HideText _remove = new HideText(true, false, true);
 
-        private readonly List<Replacement> _replacementList = new List<Replacement>();
+        private List<Replacement> _replacementList = new List<Replacement>();
         private List<Replacement> replacementBackup;
 
         private bool _applyDefault;
@@ -456,8 +456,7 @@ namespace WikiFunctions.Parse
                 dataGridView1.Rows.Clear();
                 AddNew(replacementBackup);
                 _replacementList.Clear();
-                _replacementList.AddRange(replacementBackup.ConvertAll(repl => new Replacement(repl)));
-                replacementBackup.Clear();
+                _replacementList = replacementBackup;
                 replacementBackup = null;
                 return;
             }
@@ -604,7 +603,10 @@ namespace WikiFunctions.Parse
                         dataGridView1.ClearSelection();
                         dataGridView1.EndEdit();
                         dataGridView1.CurrentCell = c;
-                        if (!c.Displayed) dataGridView1.FirstDisplayedScrollingRowIndex = c.RowIndex;
+                        if (!c.Displayed)
+                        {
+                            dataGridView1.FirstDisplayedScrollingRowIndex = c.RowIndex;
+                        }
                         dataGridView1.Focus();
                         dataGridView1.BeginEdit(false);
                     }
