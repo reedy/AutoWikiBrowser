@@ -105,8 +105,6 @@ Is this SVN (1) or a release (2)? ");
                 CopyAndCreateDirectory(currFolder, kingPath, "Kingbotk AWB Plugin.dll");
 
 				currFolder = Path.Combine(Path.Combine(awbDir, "Plugins"), "Kingbotk");
-                Copy(currFolder, kingPath, "Physics generic template.xml");
-                Copy(currFolder, kingPath, "Film generic template.xml");
                 Copy(currFolder, kingPath, "COPYING"); 
 
                 Console.WriteLine("Files copied to temporary directory");
