@@ -184,7 +184,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
 
         Protected Overridable Sub TemplateNotFound()
             article.ArticleHasAMajorChange()
-            Template.NewTemplateParm("class", "")
+            If article.Namespace = [Namespace].Article Then
+                Template.NewTemplateParm("class", "")
+            End If
             article.TemplateAdded(PreferredTemplateName, PluginShortName)
         End Sub
 
@@ -277,8 +279,10 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
 
         Protected Sub StubClass()
             If article.Namespace = [Namespace].Talk Then
-                If GenericSettings.StubClass Then Template.NewOrReplaceTemplateParm("class", "Stub", article, _
-                   True, False, PluginName:=PluginShortName, DontChangeIfSet:=True)
+                If GenericSettings.StubClass Then
+                    Template.NewOrReplaceTemplateParm("class", "Stub", article, _
+                       True, False, PluginName:=PluginShortName, DontChangeIfSet:=True)
+                End If
 
                 If GenericSettings.AutoStub _
                 AndAlso Template.NewOrReplaceTemplateParm("class", "Stub", article, True, False, _
