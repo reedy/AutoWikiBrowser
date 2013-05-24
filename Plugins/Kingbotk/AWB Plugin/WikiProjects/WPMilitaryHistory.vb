@@ -163,8 +163,7 @@
     End Function
 
     Protected Overrides Function WriteTemplateHeader() As String
-        Return "{{WPMILHIST" & _
-           Microsoft.VisualBasic.vbCrLf & WriteOutParameterToHeader("class")
+        Return "{{WPMILHIST" & WriteOutParameterToHeader("class")
     End Function
 
     'User interface:
