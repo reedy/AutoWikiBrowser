@@ -75,8 +75,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         Friend Sub PluginCheckTemplateCall(ByVal TemplateCall As String, ByVal PluginName As String)
             If Not TemplateCall = "" Then ' we have "template:"
                 mProcessIt = True
-                'EditSummary += "Remove ""template:"", "
-                PluginManager.AWBForm.TraceManager.WriteArticleActionLine("Remove ""template:"" call", PluginName, True)
             End If
         End Sub
         Friend Sub PluginIHaveFinished(ByVal Result As SkipResults, ByVal PluginName As String)
@@ -110,25 +108,19 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         ' General article writing and manipulation:
         Friend Sub RenamedATemplate(ByVal OldName As String, ByVal NewName As String, ByVal Caller As String)
             DoneReplacement(OldName, NewName, False)
-            PluginManager.AWBForm.TraceManager.WriteArticleActionLine( _
-               String.Format("Rename template [[Template:{0}|{0}]]→[[Template:{1}|{1}]]", OldName, NewName), Caller)
         End Sub
         Friend Sub DoneReplacement(ByVal Old As String, ByVal Replacement As String, _
         ByVal LogIt As Boolean, Optional ByVal PluginName As String = "")
             mProcessIt = True
             EditSummary += Old + "→" + Replacement + ", "
-            If LogIt Then PluginManager.AWBForm.TraceManager.WriteArticleActionLine("Replacement: " + Old + "→" + _
-               Replacement, PluginName)
         End Sub
         Friend Sub TemplateAdded(ByVal Template As String, ByVal PluginName As String)
             mEditSummary += String.Format("Added {{{{[[Template:{0}|{0}]]}}}}, ", Template)
-            PluginManager.AWBForm.TraceManager.WriteTemplateAdded(Template, PluginName)
             ArticleHasAMajorChange()
         End Sub
         Friend Sub ParameterAdded(ByVal ParamName As String, ByVal ParamValue As String, _
         ByVal PluginName As String, Optional ByVal MinorEdit As Boolean = False)
             mEditSummary += ParamName & "=" & ParamValue & ", "
-            PluginManager.AWBForm.TraceManager.WriteArticleActionLine(ParamName & "=" & ParamValue, PluginName)
 
             If MinorEdit Then ArticleHasAMinorChange() Else ArticleHasAMajorChange()
         End Sub

@@ -196,8 +196,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             With article
                 If Template.FoundTemplate Then
                     If article.PageContainsShellTemplate() Then ' We're putting an existing template back into the shell where we found it
-                        PluginManager.AWBForm.TraceManager.WriteArticleActionLine1( _
-                          "Shell template found; leaving " & PreferredTemplateName & " where we found it", PluginShortName, True)
                         TemplateHeader = article.LineBreakRegex.Replace(TemplateHeader, "") & Template.ParametersToString("")
                         .RestoreTemplateToPlaceholderSpot(TemplateHeader)
                     Else ' writing it back where it was
@@ -281,9 +279,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                     PluginName:=PluginShortName, DontChangeIfSet:=True) _
                        Then AddAndLogNewParamWithAYesValue("auto")
                 ' If add class=Stub (we don't change if set) add auto
-            Else
-                PluginManager.AWBForm.TraceManager.WriteArticleActionLine1( _
-                   "Ignoring Stub-Class and Auto-Stub options; not a mainspace talk page", PluginShortName, True)
             End If
         End Sub
 
@@ -384,9 +379,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
 
             AlternateNames = AlternateNames.Trim
 
-            PluginManager.AWBForm.TraceManager.WriteBulletedLine("Template:" & PreferredTemplateName & " redirects: " & _
-               AlternateNames, False, True, False)
-
             If AlternateNames = "" Then
                 mHasAlternateNames = False
                 RegexpMiddle = PreferredTemplateName
@@ -440,7 +432,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
             Dim message As String = "Loading redirects for Template:" & Target
 
             PluginManager.StatusText.Text = message
-            PluginManager.AWBForm.TraceManager.WriteBulletedLine(conAWBPluginName & ":" & message, False, False, True)
             Windows.Forms.Application.DoEvents() ' the statusbar text wasn't updating without this; if happens elsewhere may need to write a small subroutine
 
             Try

@@ -139,11 +139,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                 If returnVal Then
                     PluginManager.StatusText.Text = "Processing " & TheArticle.FullArticleTitle
 
-                    If State.NeedsPhoto AndAlso ReqphotoAnyRegex.IsMatch(TheArticle.AlteredArticleText) Then
-                        PluginManager.AWBForm.TraceManager.WriteArticleActionLine1( _
-                           "Photo needed: Template already present", conMe, True)
-                    End If
-
                     For Each p As PluginBase In PluginManager.ActivePlugins
                         If p.ProcessTalkPage(TheArticle, State.Classification, State.Importance, State.NeedsInfobox, _
                            State.NeedsAttention, True, ProcessTalkPageMode.ManualAssessment, _

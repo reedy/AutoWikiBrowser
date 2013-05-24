@@ -129,15 +129,11 @@
         If Template.Parameters.ContainsKey("importance") Then
             Template.Parameters.Remove("importance")
             Article.ArticleHasAMajorChange()
-            PluginManager.AWBForm.TraceManager.WriteArticleActionLine("Removed importance parameter", _
-               PluginShortName)
         End If
 
         If Template.Parameters.ContainsKey("auto") Then
             Template.Parameters.Remove("auto")
             Article.ArticleHasAMajorChange()
-            PluginManager.AWBForm.TraceManager.WriteArticleActionLine("Removed auto parameter", _
-               PluginShortName)
         End If
     End Sub
 
@@ -153,8 +149,6 @@
                     Article.DoneReplacement(conMiddleAges, conMedievalTaskForce, True, PluginShortName)
                 Else
                     Article.EditSummary += "deprecated Middle-Ages-task-force removed"
-                    PluginManager.AWBForm.TraceManager.WriteArticleActionLine( _
-                       "Middle-Ages-task-force parameter removed, not set to yes", PluginShortName)
                 End If
                 .Parameters.Remove(conMiddleAges)
                 Article.ArticleHasAMinorChange()
