@@ -3239,10 +3239,15 @@ namespace WikiFunctions.Parse
 
             return returned;
         }
-        
+
+        /// <summary>
+        /// Replaces with three apostrophes (''') if &lt;B> or &lt;b> tag, else just two ('')
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
         private static string BoldItalicME(Match m)
         {
-            string ret = (m.Groups[1].Value.Equals("b") ? "'''" : "''");            
+            string ret = (m.Groups[1].Value.Equals("b", StringComparison.OrdinalIgnoreCase) ? "'''" : "''");
             return ret + m.Groups[2].Value +ret;
         }
         
