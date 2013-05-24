@@ -65,14 +65,6 @@ namespace WikiFunctions
 		public static string DefaultUserAgentString
 		{ get; private set; }
 
-		/// <summary>
-		/// Displays the WikiFunctions About box
-		/// </summary>
-		public static void About()
-		{
-			new Controls.AboutBox().Show();
-		}
-
 		// Covered by ToolsTests.IsRedirect()
 		/// <summary>
 		/// Tests article to see if it is a redirect
