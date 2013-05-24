@@ -75,6 +75,9 @@ namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
         }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class CategoryRecursiveNoLimitUserDefinedLevelListProvider : CategoryRecursiveUserDefinedLevelListProvider,
                                                                         IListMakerPlugin
     {
@@ -86,6 +89,11 @@ namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
         public override List<Article> MakeList(params string[] searchCriteria)
         {
             return Base.CanUsePlugin() ? base.MakeList(searchCriteria) : null;
+        }
+
+        public override string DisplayText
+        {
+            get { return base.DisplayText + " (NL, Admin & Bot)"; }
         }
 
         public string Name
