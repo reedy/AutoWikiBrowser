@@ -637,7 +637,9 @@ SkipOrStop:
             PluginSettings.ReadXML(Reader)
 
             Dim Count As Integer = XMLReadInteger(Reader, conGenericTemplatesCount, 0)
-            If Count > 0 Then ReadGenericTemplatesFromXML(Count, Reader) ' Must set up generic templates 
+            If Count > 0 Then
+                ReadGenericTemplatesFromXML(Count, Reader) ' Must set up generic templates
+            End If
             'before reading in per-template properties, so that the new template receives a ReadXML() of its own
 
             For Each plugin As KeyValuePair(Of String, PluginBase) In Plugins
@@ -661,9 +663,9 @@ SkipOrStop:
             For Each plugin As KeyValuePair(Of String, PluginBase) In Plugins
                 plugin.Value.WriteXML(Writer)
                 plugin.Value.WriteXMLRedirects(Writer)
-                If plugin.Value.IAmGeneric Then _
-                   strGenericTemplates.Add(DirectCast(plugin.Value, IGenericTemplatePlugin) _
-                   .GenericTemplateKey)
+                If plugin.Value.IAmGeneric Then
+                    strGenericTemplates.Add(DirectCast(plugin.Value, IGenericTemplatePlugin).GenericTemplateKey)
+                End If
             Next
 
             Writer.WriteAttributeString(conGenericTemplatesCount, strGenericTemplates.Count.ToString)
