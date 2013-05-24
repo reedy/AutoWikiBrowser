@@ -103,7 +103,11 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             UpdateETACount += 1
             TimeSpan = Date.Now - Start
             TimerLabel.Text = timerregexp.Replace(TimeSpan.ToString, "")
-            SecondsPerPage = Math.Round(TimeSpan.TotalSeconds / NumberOfEdits, 2)
+            If NumberOfEdits = 0 Then
+                SecondsPerPage = TimeSpan.TotalSeconds
+            Else
+                SecondsPerPage = Math.Round(TimeSpan.TotalSeconds / NumberOfEdits, 2)
+            End If
 
             If Double.IsInfinity(SecondsPerPage) Then
                 SpeedLabel.Text = "0"
@@ -113,7 +117,12 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
                 SpeedLabel.Text = SecondsPerPage.ToString & " s/p"
                 If UpdateETACount > 9 OrElse ETA = "-" Then
                     UpdateETACount = 0
-                    CalculateETA(TimeSpan.TotalSeconds / (NumberOfEdits + mSkipped))
+                    If (NumberOfEdits + mSkipped) = 0 Then
+                        CalculateETA(TimeSpan.TotalSeconds)
+                    Else
+                        CalculateETA(TimeSpan.TotalSeconds / (NumberOfEdits + mSkipped))
+                    End If
+
                 End If
             End If
         End Sub
