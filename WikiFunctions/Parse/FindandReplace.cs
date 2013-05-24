@@ -40,6 +40,7 @@ namespace WikiFunctions.Parse
         private readonly HideText _remove = new HideText(true, false, true);
 
         private readonly List<Replacement> _replacementList = new List<Replacement>();
+        private List<Replacement> replacementBackup;
 
         private bool _applyDefault;
         private bool ApplyDefaultFormatting
@@ -442,14 +443,25 @@ namespace WikiFunctions.Parse
 
         private void FindandReplace_Shown(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.None;
             ApplyDefaultFormatting = true;
         }
 
         private void FindandReplace_FormClosing(object sender, FormClosingEventArgs e)
         {
             ApplyDefaultFormatting = false;
-            MakeList();
             Hide();
+            if (replacementBackup != null && DialogResult == DialogResult.Cancel)
+            {
+                dataGridView1.Rows.Clear();
+                AddNew(replacementBackup);
+                _replacementList.Clear();
+                _replacementList.AddRange(replacementBackup.ConvertAll(repl => new Replacement(repl)));
+                replacementBackup.Clear();
+                replacementBackup = null;
+                return;
+            }
+            MakeList();
         }
 
         #endregion
@@ -702,6 +714,19 @@ namespace WikiFunctions.Parse
         {
             ChangeChecked("minor", false);
         }
+
+        private void FindandReplace_VisibleChanged(object sender, EventArgs e)
+        {
+            if (Visible)
+            {
+                replacementBackup = _replacementList.ConvertAll(repl => new Replacement(repl));
+            }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+        }
     }
 
     /// <summary>
@@ -714,7 +739,8 @@ namespace WikiFunctions.Parse
             RegularExpressionOptions = RegexOptions.None;
         }
 
-        public Replacement(string find, string replace, bool isRegex, bool enabled, bool minor, bool beforeOrAfter, RegexOptions regularExpressionOptions, string comment)
+        public Replacement(string find, string replace, bool isRegex, bool enabled, bool minor, bool beforeOrAfter,
+                           RegexOptions regularExpressionOptions, string comment)
         {
             Find = find;
             Replace = replace;
@@ -724,6 +750,13 @@ namespace WikiFunctions.Parse
             BeforeOrAfter = beforeOrAfter;
             RegularExpressionOptions = regularExpressionOptions;
             Comment = comment;
+        }
+
+        public Replacement(Replacement repl)
+            : this(
+                repl.Find, repl.Replace, repl.IsRegex, repl.Enabled, repl.Minor,
+                repl.BeforeOrAfter, repl.RegularExpressionOptions, repl.Comment)
+        {
         }
 
         public string Find,
