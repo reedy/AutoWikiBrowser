@@ -191,8 +191,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
                     .Parameters.Remove("living") ' we've written this parameter; if we leave it in the collection PluginBase.TemplateWritingAndPlacement() will write it again
                 End If
-
-                res += WriteOutParameterToHeader("class")
+                If article.Namespace = [Namespace].Article Then
+                    res += WriteOutParameterToHeader("class")
+                End If
             End With
 
             Return res
