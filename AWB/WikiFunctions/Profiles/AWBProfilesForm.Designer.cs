@@ -290,6 +290,7 @@
             this.txtPassword.PasswordChar = '●';
             this.txtPassword.Size = new System.Drawing.Size(339, 20);
             this.txtPassword.TabIndex = 3;
+            this.txtPassword.TextChanged += new System.EventHandler(this.UsernameOrPasswordChanged);
             this.txtPassword.KeyUp += new System.Windows.Forms.KeyEventHandler(this.txtPassword_KeyUp);
             // 
             // txtUsername
@@ -300,6 +301,7 @@
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.Size = new System.Drawing.Size(339, 20);
             this.txtUsername.TabIndex = 1;
+            this.txtUsername.TextChanged += new System.EventHandler(this.UsernameOrPasswordChanged);
             // 
             // label1
             // 
@@ -310,7 +312,7 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "&Username:";
             // 
-            // AWBLogUploadProfilesForm
+            // AWBProfilesForm
             // 
             this.AcceptButton = this.btnLogin;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -325,7 +327,7 @@
             this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.btnLogin);
             this.MinimumSize = new System.Drawing.Size(450, 128);
-            this.Name = "AWBLogUploadProfilesForm";
+            this.Name = "AWBProfilesForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
