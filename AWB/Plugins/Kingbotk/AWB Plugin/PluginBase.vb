@@ -259,13 +259,12 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         End Sub
 
         Protected Function WriteOutParameterToHeader(ByVal ParamName As String) As String
+            Dim res As String = String.Empty
             With Template
-                Dim res As String = "|" & ParamName & "="
                 If .Parameters.ContainsKey(ParamName) Then
-                    res += .Parameters(ParamName).Value
+                    res = "|" & ParamName & "=" & .Parameters(ParamName).Value & ParameterBreak
                     .Parameters.Remove(ParamName)
                 End If
-                res += ParameterBreak
                 Return res
             End With
         End Function
