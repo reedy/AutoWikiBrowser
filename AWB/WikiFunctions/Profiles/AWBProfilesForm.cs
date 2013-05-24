@@ -206,7 +206,7 @@ namespace WikiFunctions.Profiles
 
         protected virtual void lvAccounts_DoubleClick(object sender, EventArgs e)
         {
-            Edit();
+            Login();
         }
 
         private void BtnEdit_Click(object sender, EventArgs e)
