@@ -41,7 +41,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.openDefaultFile = new System.Windows.Forms.OpenFileDialog();
             this.btnCancel = new System.Windows.Forms.Button();
-            this.chkUseForUpload = new System.Windows.Forms.CheckBox();
             this.btnBrowse = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
@@ -92,7 +91,7 @@
             // 
             // txtNotes
             // 
-            this.txtNotes.Location = new System.Drawing.Point(74, 169);
+            this.txtNotes.Location = new System.Drawing.Point(74, 143);
             this.txtNotes.Name = "txtNotes";
             this.txtNotes.Size = new System.Drawing.Size(244, 20);
             this.txtNotes.TabIndex = 11;
@@ -100,7 +99,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 172);
+            this.label3.Location = new System.Drawing.Point(12, 146);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(38, 13);
             this.label3.TabIndex = 10;
@@ -108,8 +107,9 @@
             // 
             // btnOK
             // 
+            this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(154, 215);
+            this.btnOK.Location = new System.Drawing.Point(154, 169);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(78, 23);
             this.btnOK.TabIndex = 12;
@@ -152,26 +152,18 @@
             // 
             // btnCancel
             // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(240, 215);
+            this.btnCancel.Location = new System.Drawing.Point(240, 169);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(78, 23);
             this.btnCancel.TabIndex = 13;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
-            // chkUseForUpload
-            // 
-            this.chkUseForUpload.AutoSize = true;
-            this.chkUseForUpload.Location = new System.Drawing.Point(15, 152);
-            this.chkUseForUpload.Name = "chkUseForUpload";
-            this.chkUseForUpload.Size = new System.Drawing.Size(182, 17);
-            this.chkUseForUpload.TabIndex = 9;
-            this.chkUseForUpload.Text = "&Use this profile for log uploading?";
-            this.chkUseForUpload.UseVisualStyleBackColor = true;
-            // 
             // btnBrowse
             // 
+            this.btnBrowse.Enabled = false;
             this.btnBrowse.Location = new System.Drawing.Point(243, 114);
             this.btnBrowse.Name = "btnBrowse";
             this.btnBrowse.Size = new System.Drawing.Size(75, 23);
@@ -179,7 +171,6 @@
             this.btnBrowse.Text = "&Browse...";
             this.btnBrowse.UseVisualStyleBackColor = true;
             this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
-            this.btnBrowse.Enabled = false;
             // 
             // AWBProfileAdd
             // 
@@ -187,9 +178,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(330, 250);
+            this.ClientSize = new System.Drawing.Size(330, 204);
             this.Controls.Add(this.btnBrowse);
-            this.Controls.Add(this.chkUseForUpload);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.txtPath);
@@ -231,7 +221,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.OpenFileDialog openDefaultFile;
         private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.CheckBox chkUseForUpload;
         private System.Windows.Forms.Button btnBrowse;
     }
 }

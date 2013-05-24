@@ -25,7 +25,5 @@ namespace WikiFunctions.Profiles
         public string DefaultSettings, Notes;
 
         public string Username, Password;
-
-        public bool UseForUpload;
     }
 }
