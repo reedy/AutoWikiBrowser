@@ -61,21 +61,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 Return OurSettingsControl
             End Get
         End Property
-        Protected Overrides ReadOnly Property CategoryTalkClassParm() As String
-            Get
-                Return "Cat"
-            End Get
-        End Property
-        Protected Overrides ReadOnly Property TemplateTalkClassParm() As String
-            Get
-                Return "Template"
-            End Get
-        End Property
-        Protected Overrides ReadOnly Property FileTalkClassParm() As String
-            Get
-                Return "File"
-            End Get
-        End Property
 
         Friend Overrides ReadOnly Property HasReqPhotoParam() As Boolean
             Get

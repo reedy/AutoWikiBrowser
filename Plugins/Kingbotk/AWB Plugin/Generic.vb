@@ -45,21 +45,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 Return mName & "GenericTemplateImp"
             End Get
         End Property
-        Private ReadOnly Property conTemplateCatsParm() As String
-            Get
-                Return mName & "GenericTemplateCats"
-            End Get
-        End Property
-        Private ReadOnly Property conTemplateTemplatesParm() As String
-            Get
-                Return mName & "GenericTemplateTempl"
-            End Get
-        End Property
-        Private ReadOnly Property conTemplateFilesParm() As String
-            Get
-                Return mName & "GenericTemplateFiles"
-            End Get
-        End Property
         Private ReadOnly Property conTemplateAutoStubYNParm() As String
             Get
                 Return mName & "GenericTemplateAutoStubYN"
@@ -122,44 +107,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             End Get
             Set(ByVal value As ImportanceSettingEnum)
                 ImportanceCheckedListBox.SetItemChecked(value, True)
-            End Set
-        End Property
-        Friend Property HasCategoryClass() As Boolean
-            Get
-                If CatsCheckedListBox.CheckedIndices.Count = 0 Then
-                    Return False
-                Else
-                    Return (CatsCheckedListBox.CheckedIndices(0) = 0)
-                End If
-            End Get
-            Set(ByVal value As Boolean)
-                If value Then CatsCheckedListBox.SetItemChecked(0, True) Else CatsCheckedListBox.SetItemChecked(1, True)
-            End Set
-        End Property
-        Friend Property HasTemplateClass() As Boolean
-            Get
-                If TemplatesCheckedListBox.CheckedIndices.Count = 0 Then
-                    Return False
-                Else
-                    Return (TemplatesCheckedListBox.CheckedIndices(0) = 0)
-                End If
-            End Get
-            Set(ByVal value As Boolean)
-                If value Then TemplatesCheckedListBox.SetItemChecked(0, True) _
-                   Else TemplatesCheckedListBox.SetItemChecked(1, True)
-            End Set
-        End Property
-        Friend Property HasFileClass() As Boolean
-            Get
-                If FileCheckedListBox.CheckedIndices.Count = 0 Then
-                    Return False
-                Else
-                    Return (FileCheckedListBox.CheckedIndices(0) = 0)
-                End If
-            End Get
-            Set(ByVal value As Boolean)
-                If value Then FileCheckedListBox.SetItemChecked(0, True) _
-                   Else FileCheckedListBox.SetItemChecked(1, True)
             End Set
         End Property
         Friend Property SkipRegex() As String
@@ -238,9 +185,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             ImportanceSetting = CType(ImportanceSettingEnum.Parse(GetType(ImportanceSettingEnum), _
                PluginManager.XMLReadString(Reader, conTemplateImportanceParm, ImportanceSetting.ToString), True),  _
                ImportanceSettingEnum)
-            HasCategoryClass = PluginManager.XMLReadBoolean(Reader, conTemplateCatsParm, HasCategoryClass)
-            HasTemplateClass = PluginManager.XMLReadBoolean(Reader, conTemplateTemplatesParm, HasTemplateClass)
-            HasFileClass = PluginManager.XMLReadBoolean(Reader, conTemplateFilesParm, HasFileClass)
             AutoStubYN = PluginManager.XMLReadBoolean(Reader, conTemplateAutoStubYNParm, AutoStubYN)
             SkipRegexYN = PluginManager.XMLReadBoolean(Reader, conSkipRegexYN, SkipRegexYN)
             SkipRegex = PluginManager.XMLReadString(Reader, conSkipRegex, SkipRegex)
@@ -253,9 +197,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 .WriteAttributeString(conTemplateAlternateNamesYNParm, HasAlternateNames.ToString)
                 .WriteAttributeString(conTemplateAlternateNamesParm, AlternateNames)
                 .WriteAttributeString(conTemplateImportanceParm, ImportanceSetting.ToString)
-                .WriteAttributeString(conTemplateCatsParm, HasCategoryClass.ToString)
-                .WriteAttributeString(conTemplateTemplatesParm, HasTemplateClass.ToString)
-                .WriteAttributeString(conTemplateFilesParm, HasFileClass.ToString)
                 .WriteAttributeString(conTemplateAutoStubYNParm, AutoStubYN.ToString)
                 .WriteAttributeString(conSkipRegexYN, SkipRegexYN.ToString)
                 .WriteAttributeString(conSkipRegex, SkipRegex)
@@ -268,9 +209,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             HasAlternateNames = False
             AlternateNames = ""
             ImportanceSetting = ImportanceSettingEnum.None
-            HasCategoryClass = False
-            HasFileClass = False
-            HasTemplateClass = False
             AutoStubYN = False
             SkipRegexYN = False
             SkipRegex = ""
@@ -286,16 +224,16 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Handles ImportanceCheckedListBox.ItemCheck
             AssessmentForm.AllowOnlyOneCheckedItem(sender, e)
         End Sub
-        Private Sub CatsCheckedListBox_ItemCheck(ByVal sender As Object, ByVal e As ItemCheckEventArgs) _
-        Handles CatsCheckedListBox.ItemCheck
+        Private Sub CatsCheckedListBox_ItemCheck(ByVal sender As Object, ByVal e As ItemCheckEventArgs)
+
             AssessmentForm.AllowOnlyOneCheckedItem(sender, e)
         End Sub
-        Private Sub FileCheckedListbox_ItemCheck(ByVal sender As Object, ByVal e As ItemCheckEventArgs) _
-        Handles FileCheckedListbox.ItemCheck
+        Private Sub FileCheckedListbox_ItemCheck(ByVal sender As Object, ByVal e As ItemCheckEventArgs)
+
             AssessmentForm.AllowOnlyOneCheckedItem(sender, e)
         End Sub
-        Private Sub TemplatesCheckedListBox_ItemCheck(ByVal sender As Object, ByVal e As ItemCheckEventArgs) _
-        Handles TemplatesCheckedListBox.ItemCheck
+        Private Sub TemplatesCheckedListBox_ItemCheck(ByVal sender As Object, ByVal e As ItemCheckEventArgs)
+
             AssessmentForm.AllowOnlyOneCheckedItem(sender, e)
         End Sub
         Private Sub HasAlternateNamesCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
@@ -403,33 +341,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                     ' Case GenericTemplateSettings.ImportanceSettingEnum.None ' do nothing
             End Select
         End Sub
-        Protected Overrides ReadOnly Property CategoryTalkClassParm() As String
-            Get
-                If OurSettingsControl.HasCategoryClass Then
-                    Return "Cat"
-                Else
-                    Return "NA"
-                End If
-            End Get
-        End Property
-        Protected Overrides ReadOnly Property TemplateTalkClassParm() As String
-            Get
-                If OurSettingsControl.HasTemplateClass Then
-                    Return "Template"
-                Else
-                    Return "NA"
-                End If
-            End Get
-        End Property
-        Protected Overrides ReadOnly Property FileTalkClassParm() As String
-            Get
-                If OurSettingsControl.HasFileClass Then
-                    Return "File"
-                Else
-                    Return "NA"
-                End If
-            End Get
-        End Property
         Protected Friend Overrides ReadOnly Property GenericSettings() As IGenericSettings
             Get
                 Return OurSettingsControl
@@ -555,23 +466,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                     frm.AutoStubLabel.Text += "auto=yes"
                 Else
                     frm.AutoStubLabel.Text += "<none>"
-                End If
-
-                If .HasTemplateClass Then
-                    frm.TemplatesLabel.Text += "Template"
-                Else
-                    frm.TemplatesLabel.Text += "NA"
-                End If
-
-                If .HasCategoryClass Then
-                    frm.CatsLabel.Text += "Cat"
-                Else
-                    frm.CatsLabel.Text += "NA"
-                End If
-                If .HasFileClass Then
-                    frm.FilesLabel.Text += "File"
-                Else
-                    frm.FilesLabel.Text += "NA"
                 End If
             End With
 

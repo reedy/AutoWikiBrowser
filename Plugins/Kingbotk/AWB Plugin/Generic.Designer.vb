@@ -26,9 +26,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.AutoStubCheckBox = New System.Windows.Forms.CheckBox()
             Me.TemplateNameTextBox = New System.Windows.Forms.TextBox()
             Me.AlternateNamesTextBox = New System.Windows.Forms.TextBox()
-            Me.CatsCheckedListBox = New System.Windows.Forms.CheckedListBox()
             Me.Label3 = New System.Windows.Forms.Label()
-            Me.TemplatesCheckedListBox = New System.Windows.Forms.CheckedListBox()
             Me.AutoStubSupportYNCheckBox = New System.Windows.Forms.CheckBox()
             Me.SkipRegexTextBox = New System.Windows.Forms.TextBox()
             Me.SkipRegexCheckBox = New System.Windows.Forms.CheckBox()
@@ -40,13 +38,9 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.GroupBox2 = New System.Windows.Forms.GroupBox()
             Me.TipLabel = New System.Windows.Forms.Label()
             Me.GroupBox3 = New System.Windows.Forms.GroupBox()
-            Me.Label6 = New System.Windows.Forms.Label()
-            Me.Label5 = New System.Windows.Forms.Label()
-            Me.Label4 = New System.Windows.Forms.Label()
             Me.ImportanceCheckedListBox = New System.Windows.Forms.CheckedListBox()
             Me.PropertiesButton = New System.Windows.Forms.Button()
             Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-            Me.FileCheckedListbox = New System.Windows.Forms.CheckedListBox()
             Me.GroupBox2.SuspendLayout()
             Me.GroupBox3.SuspendLayout()
             Me.SuspendLayout()
@@ -90,19 +84,8 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.AlternateNamesTextBox.Size = New System.Drawing.Size(136, 20)
             Me.AlternateNamesTextBox.TabIndex = 2
             Me.ToolTip1.SetToolTip(Me.AlternateNamesTextBox, "Enter the alternate names of the template. If there is more than one alternate na" & _
-                    "me seperate them with a vertical bar | and NO SPACES, e.g. WikiProjectBiography|" & _
-                    "BiographyWikiProject banner")
-            '
-            'CatsCheckedListBox
-            '
-            Me.CatsCheckedListBox.CheckOnClick = True
-            Me.CatsCheckedListBox.FormattingEnabled = True
-            Me.CatsCheckedListBox.Items.AddRange(New Object() {"Cat", "NA"})
-            Me.CatsCheckedListBox.Location = New System.Drawing.Point(89, 96)
-            Me.CatsCheckedListBox.Name = "CatsCheckedListBox"
-            Me.CatsCheckedListBox.Size = New System.Drawing.Size(74, 34)
-            Me.CatsCheckedListBox.TabIndex = 10
-            Me.ToolTip1.SetToolTip(Me.CatsCheckedListBox, "Do you label categories with class=Cat or class=NA?")
+            "me seperate them with a vertical bar | and NO SPACES, e.g. WikiProjectBiography|" & _
+            "BiographyWikiProject banner")
             '
             'Label3
             '
@@ -113,17 +96,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.Label3.TabIndex = 11
             Me.Label3.Text = "Importance"
             Me.ToolTip1.SetToolTip(Me.Label3, "The name of your importance= parameter (importance, priority, or not supported)")
-            '
-            'TemplatesCheckedListBox
-            '
-            Me.TemplatesCheckedListBox.CheckOnClick = True
-            Me.TemplatesCheckedListBox.FormattingEnabled = True
-            Me.TemplatesCheckedListBox.Items.AddRange(New Object() {"Template", "NA"})
-            Me.TemplatesCheckedListBox.Location = New System.Drawing.Point(172, 96)
-            Me.TemplatesCheckedListBox.Name = "TemplatesCheckedListBox"
-            Me.TemplatesCheckedListBox.Size = New System.Drawing.Size(74, 34)
-            Me.TemplatesCheckedListBox.TabIndex = 13
-            Me.ToolTip1.SetToolTip(Me.TemplatesCheckedListBox, "Do you label your template talk pages with class=Template or class=NA?")
             '
             'AutoStubSupportYNCheckBox
             '
@@ -144,7 +116,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.SkipRegexTextBox.Size = New System.Drawing.Size(144, 20)
             Me.SkipRegexTextBox.TabIndex = 9
             Me.ToolTip1.SetToolTip(Me.SkipRegexTextBox, "Advanced. Enter a REGULAR EXPRESSION, and the plugin will skip if the talk page c" & _
-                    "ontains it.")
+            "ontains it.")
             '
             'SkipRegexCheckBox
             '
@@ -155,7 +127,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             Me.SkipRegexCheckBox.TabIndex = 16
             Me.SkipRegexCheckBox.Text = "Skip RE"
             Me.ToolTip1.SetToolTip(Me.SkipRegexCheckBox, "Check this if you want to supply a regular expression to tell the plugin when to " & _
-                    "skip pages")
+            "skip pages")
             Me.SkipRegexCheckBox.UseVisualStyleBackColor = True
             '
             'GetRedirectsButton
@@ -210,7 +182,7 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             '
             Me.GroupBox2.Controls.Add(Me.StubClassCheckBox)
             Me.GroupBox2.Controls.Add(Me.AutoStubCheckBox)
-            Me.GroupBox2.Location = New System.Drawing.Point(18, 234)
+            Me.GroupBox2.Location = New System.Drawing.Point(18, 180)
             Me.GroupBox2.Name = "GroupBox2"
             Me.GroupBox2.Size = New System.Drawing.Size(171, 45)
             Me.GroupBox2.TabIndex = 2
@@ -220,60 +192,27 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             'TipLabel
             '
             Me.TipLabel.AutoSize = True
-            Me.TipLabel.Location = New System.Drawing.Point(15, 282)
+            Me.TipLabel.Location = New System.Drawing.Point(15, 228)
             Me.TipLabel.Name = "TipLabel"
             Me.TipLabel.Size = New System.Drawing.Size(255, 39)
             Me.TipLabel.TabIndex = 7
             Me.TipLabel.Text = "Tip: The plugin also adds parameter insertion options" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "to the context menu of the" & _
-                " edit box. Just right" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "click inside the edit box to access them."
+        " edit box. Just right" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "click inside the edit box to access them."
             Me.TipLabel.Visible = False
             '
             'GroupBox3
             '
-            Me.GroupBox3.Controls.Add(Me.FileCheckedListbox)
-            Me.GroupBox3.Controls.Add(Me.Label6)
             Me.GroupBox3.Controls.Add(Me.SkipRegexCheckBox)
             Me.GroupBox3.Controls.Add(Me.SkipRegexTextBox)
             Me.GroupBox3.Controls.Add(Me.AutoStubSupportYNCheckBox)
-            Me.GroupBox3.Controls.Add(Me.Label5)
-            Me.GroupBox3.Controls.Add(Me.TemplatesCheckedListBox)
-            Me.GroupBox3.Controls.Add(Me.Label4)
             Me.GroupBox3.Controls.Add(Me.Label3)
-            Me.GroupBox3.Controls.Add(Me.CatsCheckedListBox)
             Me.GroupBox3.Controls.Add(Me.ImportanceCheckedListBox)
             Me.GroupBox3.Location = New System.Drawing.Point(12, 87)
             Me.GroupBox3.Name = "GroupBox3"
-            Me.GroupBox3.Size = New System.Drawing.Size(252, 141)
+            Me.GroupBox3.Size = New System.Drawing.Size(252, 87)
             Me.GroupBox3.TabIndex = 8
             Me.GroupBox3.TabStop = False
             Me.GroupBox3.Text = "Template Properties"
-            '
-            'Label6
-            '
-            Me.Label6.AutoSize = True
-            Me.Label6.Location = New System.Drawing.Point(6, 80)
-            Me.Label6.Name = "Label6"
-            Me.Label6.Size = New System.Drawing.Size(28, 13)
-            Me.Label6.TabIndex = 18
-            Me.Label6.Text = "Files"
-            '
-            'Label5
-            '
-            Me.Label5.AutoSize = True
-            Me.Label5.Location = New System.Drawing.Point(174, 80)
-            Me.Label5.Name = "Label5"
-            Me.Label5.Size = New System.Drawing.Size(56, 13)
-            Me.Label5.TabIndex = 14
-            Me.Label5.Text = "Templates"
-            '
-            'Label4
-            '
-            Me.Label4.AutoSize = True
-            Me.Label4.Location = New System.Drawing.Point(86, 80)
-            Me.Label4.Name = "Label4"
-            Me.Label4.Size = New System.Drawing.Size(28, 13)
-            Me.Label4.TabIndex = 12
-            Me.Label4.Text = "Cats"
             '
             'ImportanceCheckedListBox
             '
@@ -287,23 +226,12 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             '
             'PropertiesButton
             '
-            Me.PropertiesButton.Location = New System.Drawing.Point(195, 247)
+            Me.PropertiesButton.Location = New System.Drawing.Point(195, 193)
             Me.PropertiesButton.Name = "PropertiesButton"
             Me.PropertiesButton.Size = New System.Drawing.Size(75, 23)
             Me.PropertiesButton.TabIndex = 17
             Me.PropertiesButton.Text = "Properties"
             Me.PropertiesButton.UseVisualStyleBackColor = True
-            '
-            'FileCheckedListbox
-            '
-            Me.FileCheckedListbox.CheckOnClick = True
-            Me.FileCheckedListbox.FormattingEnabled = True
-            Me.FileCheckedListbox.Items.AddRange(New Object() {"File", "NA"})
-            Me.FileCheckedListbox.Location = New System.Drawing.Point(9, 96)
-            Me.FileCheckedListbox.Name = "FileCheckedListbox"
-            Me.FileCheckedListbox.Size = New System.Drawing.Size(74, 34)
-            Me.FileCheckedListbox.TabIndex = 19
-            Me.ToolTip1.SetToolTip(Me.FileCheckedListbox, "Do you label files with class=Cat or class=NA?")
             '
             'GenericTemplateSettings
             '
@@ -345,19 +273,13 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Friend WithEvents HasAlternateNamesCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents GroupBox3 As System.Windows.Forms.GroupBox
         Friend WithEvents Label3 As System.Windows.Forms.Label
-        Friend WithEvents CatsCheckedListBox As System.Windows.Forms.CheckedListBox
         Friend WithEvents ImportanceCheckedListBox As System.Windows.Forms.CheckedListBox
-        Friend WithEvents Label4 As System.Windows.Forms.Label
-        Friend WithEvents Label5 As System.Windows.Forms.Label
-        Friend WithEvents TemplatesCheckedListBox As System.Windows.Forms.CheckedListBox
         Friend WithEvents AutoStubSupportYNCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents SkipRegexTextBox As System.Windows.Forms.TextBox
         Friend WithEvents SkipRegexCheckBox As System.Windows.Forms.CheckBox
         Friend WithEvents PropertiesButton As System.Windows.Forms.Button
         Friend WithEvents Timer1 As System.Windows.Forms.Timer
         Friend WithEvents GetRedirectsButton As System.Windows.Forms.Button
-        Friend WithEvents Label6 As System.Windows.Forms.Label
-        Friend WithEvents FileCheckedListbox As System.Windows.Forms.CheckedListBox
 
     End Class
 End Namespace

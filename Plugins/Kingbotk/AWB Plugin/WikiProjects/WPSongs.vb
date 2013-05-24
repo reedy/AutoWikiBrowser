@@ -34,22 +34,6 @@
             Return OurSettingsControl
         End Get
     End Property
-    Protected Overrides ReadOnly Property CategoryTalkClassParm() As String
-        Get
-            Return "Cat"
-        End Get
-    End Property
-    Protected Overrides ReadOnly Property TemplateTalkClassParm() As String
-        Get
-            Return "Template"
-        End Get
-    End Property
-
-    Protected Overrides ReadOnly Property FileTalkClassParm() As String
-        Get
-            Return "NA"
-        End Get
-    End Property
 
     ' Initialisation:
 
