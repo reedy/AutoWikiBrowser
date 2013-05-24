@@ -223,11 +223,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
                ParamAlternativeName:=ParamAlternativeName, PluginName:=PluginShortName)
         End Sub
 
-        Protected Sub AddAndLogEmptyParam(ByVal ParamName As String)
-            If Not Template.Parameters.ContainsKey(ParamName) Then Template.NewTemplateParm(ParamName, "", True, _
-            article, PluginShortName)
-        End Sub
-
         Protected Sub AddEmptyParam(ByVal ParamName As String)
             If Not Template.Parameters.ContainsKey(ParamName) Then Template.NewTemplateParm(ParamName, "", _
                False, article, PluginShortName)
