@@ -1224,7 +1224,9 @@ namespace WikiFunctions.API
                 && NewMessageThrows
                 && User.HasMessages
                 && !prevMessages)
+            {
                 throw new NewMessagesException(this);
+            }
 
             var errors = doc.GetElementsByTagName("error");
 
@@ -1246,6 +1248,8 @@ namespace WikiFunctions.API
                         throw new SpamlistException(this, errorMessage);
                     case "fileexists-sharedrepo-perm":
                         throw new SharedRepoException(this, errorMessage);
+                    case "hookaborted":
+                        throw new MediaWikiSaysNoException(this, errorMessage);
                     //case "confirmemail":
                     //
                     default:
