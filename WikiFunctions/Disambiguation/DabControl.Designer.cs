@@ -39,9 +39,9 @@
             // 
             // txtViewer
             // 
-            this.txtViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtViewer.BackColor = System.Drawing.SystemColors.Window;
             this.txtViewer.Location = new System.Drawing.Point(3, 3);
             this.txtViewer.Name = "txtViewer";
@@ -68,8 +68,8 @@
             // 
             // txtCorrection
             // 
-            this.txtCorrection.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCorrection.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCorrection.Location = new System.Drawing.Point(360, 28);
             this.txtCorrection.Multiline = true;
             this.txtCorrection.Name = "txtCorrection";

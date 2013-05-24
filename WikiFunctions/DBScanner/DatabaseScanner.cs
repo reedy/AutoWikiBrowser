@@ -71,7 +71,9 @@ namespace WikiFunctions.DBScanner
         {
             LMaker = lm;
             if (lm != null)
+            {
                 AWBListbox = lm.Items;
+            }
         }
 
         private void DatabaseScanner_Load(object sender, EventArgs e)
@@ -902,11 +904,6 @@ namespace WikiFunctions.DBScanner
                 }
             }
             catch (Exception ex) { ErrorHandler.Handle(ex); }
-        }
-
-        private void btnAbout_Click(object sender, EventArgs e)
-        {
-            Tools.About();
         }
 
         private void lnkGenDump_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
