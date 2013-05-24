@@ -539,7 +539,9 @@ namespace AutoWikiBrowser
         private void ApiEditExceptionCaught(AsyncApiEdit sender, Exception ex)
         {
             if (ex is InterwikiException)
+            {
                 SkipPage(ex.Message);
+            }
             else if (ex is SpamlistException)
             {
                 string message = "Text '" + (ex as SpamlistException).URL + "' is blocked by spam blacklist";
@@ -617,9 +619,13 @@ namespace AutoWikiBrowser
             {
                 // some 404 error or similar, or "Unable to write data to the transport connection: Unknown error (0x2746)"
                 StatusLabelText = ex.Message;
-                if(Tools.WriteDebugEnabled)
+                if (Tools.WriteDebugEnabled)
                     Tools.WriteTextFile(ex.Message, "Log.txt", true);
                 StartDelayedRestartTimer();
+            }
+            else if (ex is SharedRepoException)
+            {
+                MessageBox.Show("Cannot move this file to the specified target, as it exists in a shared repo (such as commons).", "Target file exists in shared repo");
             }
             else
             {
