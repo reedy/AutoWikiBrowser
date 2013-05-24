@@ -278,6 +278,17 @@ namespace WikiFunctions.API
     }
 
     /// <summary>
+    /// Thrown when you try to move a file onto a target that exists in a shared repo (e.g. Commons)
+    /// </summary>
+    public class SharedRepoException : ApiException
+    {
+        public SharedRepoException(ApiEdit editor, string message)
+            : base(editor, message)
+        {
+        }
+    }
+
+    /// <summary>
     /// Thrown when attempted operation requires login
     /// </summary>
     public class LoggedOffException : ApiException
@@ -374,7 +385,7 @@ namespace WikiFunctions.API
             {
                 builder.AppendFormat("<tr><td>Post</td><td>{0}</td></tr>", PostQuery);
             }
-#if DEBUG
+#if DEBUG5
             if (!string.IsNullOrEmpty(Content))
             {
                 builder.AppendFormat("<tr><td>Content</td><td>{0}</td></tr>", Content);
