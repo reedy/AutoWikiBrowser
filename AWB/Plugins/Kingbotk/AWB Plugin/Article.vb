@@ -101,9 +101,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
         Friend Sub FinaliseEditSummary()
             EditSummary = Regex.Replace(EditSummary, ", $", "")
         End Sub
-        Friend Sub PluginManagerEditSummaryTaggingCategory(ByVal CategoryName As String)
-            If Not CategoryName = "" Then EditSummary += "Tag [[Category:" + CategoryName + "]]. "
-        End Sub
 
         ' General article writing and manipulation:
         Friend Sub RenamedATemplate(ByVal OldName As String, ByVal NewName As String, ByVal Caller As String)

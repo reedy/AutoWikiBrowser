@@ -134,13 +134,6 @@ namespace WikiFunctions.Logging
         /// <param name="template"></param>
         /// <param name="pluginName"></param>
         void WriteTemplateAdded(string template, string pluginName);
-
-        // Properties
-        /// <summary>
-        /// Is this trace listener an upload client?
-        /// </summary>
-        /// <returns>&lt;b>True&lt;/b> if the trace listener can upload to Wikipedia</returns>
-        bool Uploadable { get; }
     }
 
     public interface IAWBTraceListener : IMyTraceListener

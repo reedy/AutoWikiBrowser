@@ -140,12 +140,6 @@
     <Compile Include="IAutoWikiBrowser\IAutoWikiBrowserInfo.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LoggingSettings.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="LoggingSettings.Designer.cs">
-      <DependentUpon>LoggingSettings.cs</DependentUpon>
-    </Compile>
     <Compile Include="Logging\MyTrace.cs" />
     <Compile Include="PluginManager.cs">
       <SubType>Form</SubType>
@@ -213,10 +207,6 @@
     <EmbeddedResource Include="CategoryNameForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>CategoryNameForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="LoggingSettings.resx">
-      <DependentUpon>LoggingSettings.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <SubType>Designer</SubType>

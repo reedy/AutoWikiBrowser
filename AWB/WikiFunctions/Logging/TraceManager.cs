@@ -170,17 +170,6 @@ namespace WikiFunctions.Logging
             }
         }
 
-        public virtual bool Uploadable
-        {
-            get
-            {
-                foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
-                {
-                    if (t.Value.Uploadable) return true;
-                }
-                return false;
-            }
-        }
         public virtual void Write(string text)
         {
             foreach (KeyValuePair<string, IMyTraceListener> t in Listeners)
@@ -213,98 +202,7 @@ namespace WikiFunctions.Logging
             }
         }
 
-        public struct UploadHandlerReturnVal
-        {
-            public bool Success;
-            public List<EditPageRetvals> PageRetVals;
-        }
-
-        /// <summary>
-        /// A fully featured upload-event handler
-        /// </summary>
-        protected virtual UploadHandlerReturnVal UploadHandler(TraceListenerUploadableBase sender, string logTitle, 
-            string logDetails, string uploadToWithoutPageNumber, List<LogEntry> linksToLog, bool openInBrowser,
-            bool addToWatchlist, string username, string logHeader, string editSummary,
-            string logSummaryEditSummary, Plugin.IAutoWikiBrowser awb, 
-            UsernamePassword loginDetails)
-        {
-            UploadHandlerReturnVal retval = new UploadHandlerReturnVal {Success = false};
-
-            if (StartingUpload(sender))
-            {
-                string pageName = uploadToWithoutPageNumber + " " + sender.TraceStatus.PageNumber;
-                UploadingPleaseWaitForm waitForm = new UploadingPleaseWaitForm();
-                LogUploader uploader = new LogUploader(awb.TheSession.Editor);
-
-                waitForm.Show();
-
-                try
-                {
-                    uploader.LogIn(loginDetails);
-                    Application.DoEvents();
-
-                    retval.PageRetVals = uploader.LogIt(sender.TraceStatus.LogUpload, logTitle, logDetails, pageName, linksToLog,
-                        sender.TraceStatus.PageNumber, sender.TraceStatus.StartDate, openInBrowser,
-                        addToWatchlist, username, "{{log|name=" + uploadToWithoutPageNumber + "|page=" +
-                        sender.TraceStatus.PageNumber + "}}" + Environment.NewLine + logHeader,
-                        false, editSummary, logSummaryEditSummary, ApplicationName, true, awb);
-
-                    retval.Success = true;
-                }
-                catch (Exception ex)
-                {
-                    ErrorHandler.Handle(ex);
-
-                    retval.Success = false;
-                }
-                finally
-                {
-                    if (retval.Success)                       
-                        sender.WriteCommentAndNewLine("Log uploaded to " + pageName);
-                    else
-                        sender.WriteCommentAndNewLine(
-                           "LOG UPLOADING FAILED. Please manually upload this section to " + pageName);
-                }
-
-                waitForm.Dispose();
-                FinishedUpload();
-            }
-            return retval;
-        }
-
-        public virtual void WriteUploadLog(List<EditPageRetvals> pageRetVals, string logFolder)
-        {
-            try
-            {
-                System.IO.StreamWriter io =
-                    new System.IO.StreamWriter(logFolder + "\\Log uploading " +
-                    DateTime.Now.Ticks + ".txt");
-
-                foreach (EditPageRetvals editPageRetval in pageRetVals)
-                {
-                    io.WriteLine("***********************************************************************************");
-                    io.WriteLine("Page: " + editPageRetval.Article);
-                    io.WriteLine("Diff link: " + editPageRetval.DiffLink);
-                    io.WriteLine("Server response: ");
-                    io.WriteLine(editPageRetval.ResponseText);
-                    io.WriteLine();
-                    io.WriteLine();
-                    io.WriteLine();
-                    io.WriteLine();
-                }
-
-                io.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error creating upload log: " + ex.Message, "Error", MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-            }
-        }
-
         protected abstract string ApplicationName { get; }
-        protected abstract bool StartingUpload(TraceListenerUploadableBase sender);
-        protected virtual void FinishedUpload() { }
     }
 }
 

@@ -40,7 +40,6 @@ namespace AutoWikiBrowser
 
         void IAutoWikiBrowserCommands.AddLogItem(bool skipped, AWBLogListener logListener)
         { if (loggingEnabled) logControl.AddLog(skipped, logListener); }
-        void IAutoWikiBrowserCommands.TurnOffLogging() { Program.MyTrace.TurnOffLogging(); }
         void IAutoWikiBrowserCommands.ShowHelp(string url) { Tools.OpenURLInBrowser(url); }
         void IAutoWikiBrowserCommands.ShowHelpEnWiki(string article) { Tools.OpenENArticleInBrowser(article, false); }
 

@@ -27,7 +27,6 @@ namespace WikiFunctions.Plugin
     {
         Form Form { get; }
         TextBoxBase EditBox { get; }
-        TextBox CategoryTextBox { get; }
         CheckBox BotModeCheckbox { get; }
         CheckBox SkipNoChangesCheckBox { get; }
         Button DiffButton { get; }
@@ -74,7 +73,6 @@ namespace WikiFunctions.Plugin
         TabPage SkipTab { get; }
         TabPage DabTab { get; }
         TabPage BotTab { get; }
-        TabPage LoggingTab { get; }
         void AddTabPage(TabPage tabp);
         void RemoveTabPage(TabPage tabp);
         void HideAllTabPages();
@@ -124,11 +122,6 @@ namespace WikiFunctions.Plugin
         void AddLogItem(bool skipped, AWBLogListener logListener);
 
         /// <summary>
-        /// Turn off any logging to files
-        /// </summary>
-        void TurnOffLogging();
-
-        /// <summary>
         /// For the purposes of the logging tab, mark the page as Skipped and provide a reason.
         /// </summary>
         /// <remarks>IProcessArticleEventArgs.Skip needs to be set to True if you want AWB to actually skip the article.
@@ -174,12 +167,9 @@ namespace WikiFunctions.Plugin
         /// Returns a reference to a WikiFunctions.Logging.TraceManager class which handles AWB's logging. This object also implements the IMyTraceListener interface. Plugin authors can use this reference to write to all active loggers, including the AWB Log tab and logfiles.
         /// </summary>
         TraceManager TraceManager { get; } // implements IMyTraceListener
-        Logging.Uploader.UploadableLogSettings2 LoggingSettings { get; }
         bool SkipNoChanges { get; set; }
         Parse.FindandReplace FindandReplace { get; }
         SubstTemplates SubstTemplates { get; }
         string CustomModule { get; }
-
-        event GetLogUploadLocationsEvent GetLogUploadLocations;
     }
 }
