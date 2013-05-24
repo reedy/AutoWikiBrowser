@@ -679,11 +679,11 @@ SkipOrStop:
             XMLString = XMLString.Replace("WikiProject Songs", "Songs")
             XMLString = XMLString.Replace("WikiProject Albums", "Albums")
             Dim st As New IO.StringReader(XMLString)
-            Dim Reader As XmlTextReader = New XmlTextReader(st)
+            Dim reader As XmlTextReader = New XmlTextReader(st)
 
-            While Reader.Read()
-                If Reader.NodeType = XmlNodeType.Element Then
-                    ReadXML(Reader)
+            While reader.Read()
+                If reader.NodeType = XmlNodeType.Element Then
+                    ReadXML(reader)
                     Exit While
                 End If
             End While
