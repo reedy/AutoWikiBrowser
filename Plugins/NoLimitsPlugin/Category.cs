@@ -38,10 +38,14 @@ namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
         }
 
         public override string DisplayText
-        { get { return base.DisplayText + " (NL, Admin & Bot)"; } }
+        {
+            get { return base.DisplayText + " (NL, Admin & Bot)"; }
+        }
 
         public string Name
-        { get { return "CategoryNoLimitsForAdminAndBotsPlugin"; } }
+        {
+            get { return "CategoryNoLimitsForAdminAndBotsPlugin"; }
+        }
     }
 
     /// <summary>
@@ -61,9 +65,32 @@ namespace WikiFunctions.Plugins.ListMaker.NoLimitsPlugin
         }
 
         public override string DisplayText
-        { get { return base.DisplayText + " (NL, Admin & Bot, recursive)"; } }
+        {
+            get { return base.DisplayText + " (NL, Admin & Bot, recursive)"; }
+        }
 
         public string Name
-        { get { return "CategoryRecursiveNoLimitsForAdminAndBotsPlugin"; } }
+        {
+            get { return "CategoryRecursiveNoLimitsForAdminAndBotsPlugin"; }
+        }
+    }
+
+    public class CategoryRecursiveNoLimitUserDefinedLevelListProvider : CategoryRecursiveUserDefinedLevelListProvider,
+                                                                        IListMakerPlugin
+    {
+        public CategoryRecursiveNoLimitUserDefinedLevelListProvider()
+        {
+            Limit = 1000000;
+        }
+
+        public override List<Article> MakeList(params string[] searchCriteria)
+        {
+            return Base.CanUsePlugin() ? base.MakeList(searchCriteria) : null;
+        }
+
+        public string Name
+        {
+            get { return "CategoryRecursiveNoLimitUserDefinedLevelListProvider"; }
+        }
     }
 }
