@@ -73,7 +73,7 @@ namespace WikiFunctions.Disambiguation
 
         //internal
         private readonly int ContextChars;
-        private int PosStart, PosEnd, PosInSurroundings;
+        private int PosStart, PosEnd;
         private bool StartOfSentence;
 
         private string VisibleLink, RealLink, CurrentLink, LinkTrail;
@@ -95,7 +95,10 @@ namespace WikiFunctions.Disambiguation
                 Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 
                 // prepare variants
-                foreach (string s in Variants) cmboChoice.Items.Add(s);
+                foreach (string s in Variants)
+                {
+                    cmboChoice.Items.Add(s);
+                }
 
                 //find our paragraph
                 for (PosStart = Match.Index; PosStart > 0; PosStart--)
@@ -123,7 +126,10 @@ namespace WikiFunctions.Disambiguation
 
                 LinkTrail = Match.Groups[3].Value;
 
-                while (PosEnd < ArticleText.Length - 1 && !"\n\r".Contains(ArticleText[PosEnd] + "")) PosEnd++;
+                while (PosEnd < ArticleText.Length - 1 && !"\n\r".Contains(ArticleText[PosEnd] + ""))
+                {
+                    PosEnd++;
+                }
 
                 // find surroundings (~ �ContextChars from link)
                 int n = Match.Index - ContextChars;
@@ -159,9 +165,15 @@ namespace WikiFunctions.Disambiguation
                         StartOfSentence = true;
                         break;
                     }
-                    if (!char.IsWhiteSpace(ArticleText[n])) break;
+                    if (!char.IsWhiteSpace(ArticleText[n]))
+                    {
+                        break;
+                    }
                 }
-                if (n == PosStart) StartOfSentence = true;
+                if (n == PosStart)
+                {
+                    StartOfSentence = true;
+                }
 
                 // prepare text boxes
                 // text ediable by user is the new wikilink only, not the context
@@ -271,12 +283,18 @@ namespace WikiFunctions.Disambiguation
             string newLink = UnpipeRegex.Replace(CurrentLink, "[[$1]]$2");
             txtCorrection.Text = txtCorrection.Text.Replace(CurrentLink, newLink);
             CurrentLink = newLink;
-            if (Changed != null) Changed(this, new EventArgs());
+            if (Changed != null)
+            {
+                Changed(this, new EventArgs());
+            }
         }
 
         private void txtCorrection_TextChanged(object sender, EventArgs e)
         {
-            if (Changed != null) Changed(this, new EventArgs());
+            if (Changed != null)
+            {
+                Changed(this, new EventArgs());
+            }
         }
 
         private void btnFlip_Click(object sender, EventArgs e)
