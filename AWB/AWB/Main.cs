@@ -5097,24 +5097,35 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         {
             set
             {
-                if (imgBold.Visible != value)
+                if (imgBold.Visible == value)
                 {
-                    // move edit summary box for toolbar
-                    if (value)
-                    {
-                        txtReviewEditSummary.Location = new Point(txtReviewEditSummary.Location.X+imgBold.Width*12, txtReviewEditSummary.Location.Y);
-                        txtReviewEditSummary.Size = new Size(txtReviewEditSummary.Size.Width-imgBold.Width*12, txtReviewEditSummary.Size.Height);
-                    }
-                    else
-                    {
-                        txtReviewEditSummary.Location = new Point(3, txtReviewEditSummary.Location.Y);
-                        txtReviewEditSummary.Size = new Size(txtReviewEditSummary.Size.Width+imgBold.Width*12, txtReviewEditSummary.Size.Height);
-                    }
-
-                    imgBold.Visible = imgExtlink.Visible = imgHr.Visible = imgItalics.Visible = imgLink.Visible =
-                        imgMath.Visible = imgNowiki.Visible = imgRedirect.Visible = imgStrike.Visible = imgSub.Visible =
-                        imgSup.Visible = imgComment.Visible = value;
+                    return;
                 }
+
+                // move edit summary box for toolbar
+                if (value) // Edit toolbar visible
+                {
+                    txtReviewEditSummary.Location =
+                        new Point((int) Math.Round(txtEdit.Location.X + imgBold.Width*12.4),
+                                  txtReviewEditSummary.Location.Y);
+                    txtReviewEditSummary.Size = new Size((int) Math.Round(txtEdit.Size.Width - imgBold.Width*12.4),
+                                                         txtReviewEditSummary.Size.Height);
+                }
+                else
+                {
+                    txtReviewEditSummary.Location = new Point(txtEdit.Location.X, txtReviewEditSummary.Location.Y);
+                    txtReviewEditSummary.Size = new Size(txtEdit.Size.Width, txtReviewEditSummary.Size.Height);
+                }
+
+                imgBold.Visible = imgExtlink.Visible = imgHr.Visible = imgItalics.Visible = imgLink.Visible =
+                                                                                            imgMath.Visible =
+                                                                                            imgNowiki.Visible =
+                                                                                            imgRedirect.Visible =
+                                                                                            imgStrike.Visible =
+                                                                                            imgSub.Visible =
+                                                                                            imgSup.Visible =
+                                                                                            imgComment.Visible =
+                                                                                            value;
                 showHideEditToolbarToolStripMenuItem.Checked = value;
             }
             get { return imgBold.Visible; }
@@ -5122,8 +5133,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
         private void showHideEditToolbarToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            showHideEditToolbarToolStripMenuItem.Checked = !showHideEditToolbarToolStripMenuItem.Checked;
-            EditToolBarVisible = showHideEditToolbarToolStripMenuItem.Checked;
+            EditToolBarVisible = !showHideEditToolbarToolStripMenuItem.Checked;
         }
         #endregion
 
@@ -5461,6 +5471,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         private void lblProject_Click(object sender, EventArgs e)
         {
              OpenPreferences(true);
+        }
+
+        private void tpEdit_Click(object sender, EventArgs e)
+        {
+
         }
     }
     #endregion
