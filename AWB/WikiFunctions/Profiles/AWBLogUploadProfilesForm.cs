@@ -78,9 +78,6 @@ namespace WikiFunctions.Profiles
                 item.SubItems.Add(!string.IsNullOrEmpty(profile.Password) ? "Yes" : "No");
 
                 item.SubItems.Add(profile.DefaultSettings);
-
-                item.SubItems.Add(profile.UseForUpload ? "Yes" : "No");
-
                 item.SubItems.Add(profile.Notes);
 
                 lvAccounts.Items.Add(item);

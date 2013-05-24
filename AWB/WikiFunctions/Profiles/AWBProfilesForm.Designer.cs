@@ -64,10 +64,6 @@
             this.btnClose.Location = new System.Drawing.Point(433, 270);
             this.btnClose.TabIndex = 6;
             // 
-            // colUsedForUpload
-            // 
-            this.colUsedForUpload.Width = 98;
-            // 
             // btnLogin
             // 
             this.btnLogin.Location = new System.Drawing.Point(12, 137);

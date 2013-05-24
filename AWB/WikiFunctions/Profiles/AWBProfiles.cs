@@ -74,8 +74,6 @@ namespace WikiFunctions.Profiles
             finally
             {
                 prof.DefaultSettings = RegistryGetValue(id + "\\Settings", "");
-                try { prof.UseForUpload = bool.Parse(RegistryGetValue(id + "\\UseForUpload", "")); }
-                catch { prof.UseForUpload = false; }
                 prof.Notes = RegistryGetValue(id + "\\Notes", "");
             }
             return prof;
@@ -94,70 +92,6 @@ namespace WikiFunctions.Profiles
 
             // failure
             return null;
-        }
-
-        /// <summary>
-        /// Return (or create and return) an <see cref="AWBProfile"/> for the account used for log uploading
-        /// </summary>
-        /// <returns>The Profile. Throw an error or return <see langword="null"/> if the user declines to create a profile?</returns>
-        public static AWBProfile GetProfileForLogUploading(IWin32Window owner)
-        {
-            int idOfUploadAccount = GetIDOfUploadAccount();
-            AWBProfile retval;
-
-            if (idOfUploadAccount == -1)
-            {
-                if (MessageBox.Show("Please select or add a Profile to use for log uploading",
-                    "Log uploading", MessageBoxButtons.OKCancel, MessageBoxIcon.Information)
-                    == DialogResult.OK)
-                {
-                    AWBLogUploadProfilesForm profiles = new AWBLogUploadProfilesForm();
-                    profiles.ShowDialog(owner);
-                    retval = GetProfileForLogUploading(owner);
-                }
-                else
-                    throw new System.Configuration.ConfigurationErrorsException("Log upload profile: User cancelled");
-            }
-            else
-                retval = GetProfile(idOfUploadAccount);
-
-            if (string.IsNullOrEmpty(retval.Password) && string.IsNullOrEmpty(TempPassword))
-            {
-                UserPassword password = new UserPassword {Username = retval.Username};
-                if (password.ShowDialog() == DialogResult.OK)
-                {
-                    retval.Password = TempPassword = password.GetPassword;
-                }
-            }
-            else if (!string.IsNullOrEmpty(TempPassword))
-                retval.Password = TempPassword;
-            return retval;
-        }
-
-        /// <summary>
-        /// Returns the ID of the account set to be used to upload logs
-        /// </summary>
-        /// <returns>-1 if no Upload Profile found</returns>
-        public static int GetIDOfUploadAccount()
-        {
-            foreach (AWBProfile prof in GetProfiles())
-                if (prof.UseForUpload)
-                    return prof.ID;
-            return -1;
-        }
-
-        /// <summary>
-        /// Sets all current accounts as not for upload, so the new account can be the upload account
-        /// </summary>
-        internal static void SetOtherAccountsAsNotForUpload()
-        {
-            try
-            {
-                ResetTempPassword();
-                foreach (int id in GetProfileIDs())
-                { RegistrySetValue(id, "UseForUpload", false.ToString()); }
-            }
-            catch { }
         }
 
         /// <summary>
@@ -211,7 +145,6 @@ namespace WikiFunctions.Profiles
                 key.SetValue("User", EncryptionUtils.Encrypt(profile.Username));
                 key.SetValue("Pass", EncryptionUtils.Encrypt(profile.Password));
                 key.SetValue("Settings", profile.DefaultSettings);
-                key.SetValue("UseForUpload", profile.UseForUpload);
                 key.SetValue("Notes", profile.Notes);
             }
             catch { }
