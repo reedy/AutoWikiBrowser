@@ -224,18 +224,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         Handles ImportanceCheckedListBox.ItemCheck
             AssessmentForm.AllowOnlyOneCheckedItem(sender, e)
         End Sub
-        Private Sub CatsCheckedListBox_ItemCheck(ByVal sender As Object, ByVal e As ItemCheckEventArgs)
-
-            AssessmentForm.AllowOnlyOneCheckedItem(sender, e)
-        End Sub
-        Private Sub FileCheckedListbox_ItemCheck(ByVal sender As Object, ByVal e As ItemCheckEventArgs)
-
-            AssessmentForm.AllowOnlyOneCheckedItem(sender, e)
-        End Sub
-        Private Sub TemplatesCheckedListBox_ItemCheck(ByVal sender As Object, ByVal e As ItemCheckEventArgs)
-
-            AssessmentForm.AllowOnlyOneCheckedItem(sender, e)
-        End Sub
         Private Sub HasAlternateNamesCheckBox_CheckedChanged(ByVal sender As Object, ByVal e As EventArgs) _
         Handles HasAlternateNamesCheckBox.CheckedChanged
             AlternateNamesTextBox.Enabled = HasAlternateNamesCheckBox.Checked

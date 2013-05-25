@@ -22,10 +22,6 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         Private PluginSettings As PluginSettingsControl
         Private State As New StateClass
 
-        ' Regex:
-        Private Shared ReadOnly ReqphotoAnyRegex As New Regex(TemplatePrefix & "reqphoto", _
-           RegexOptions.IgnoreCase Or RegexOptions.Compiled Or RegexOptions.ExplicitCapture)
-
         ' New:
         Friend Sub New(ByVal vPluginSettings As PluginSettingsControl)
             PluginSettings = vPluginSettings

@@ -12,7 +12,6 @@ Imports WikiFunctions.API
 
 Namespace AutoWikiBrowser.Plugins.Kingbotk.Components
     Friend NotInheritable Class PluginSettingsControl
-        Private WithEvents LivingPeopleToolStripMenuItem As New ToolStripMenuItem("Living people")
 
         ' XML parm-name constants:
         Private Const conManuallyAssessParm As String = "ManuallyAssess"
