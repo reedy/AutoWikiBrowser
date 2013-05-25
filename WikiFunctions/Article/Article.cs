@@ -52,7 +52,6 @@ namespace WikiFunctions
         protected bool mPluginSkip;
 
         private readonly PageInfo mPage;
-        public SaveInfo SaveInfo { get; set; }
 
         private bool noChange;
 
@@ -452,7 +451,7 @@ namespace WikiFunctions
                 // We'll need to strip the text of the cache markers and metadata to make old and new comparable
                 // and then remove some common whitespace changes for good measure
                 parsebeforebits[0] = Regex.Replace(parsebeforebits[0], "&lt;!--(([^&]*?)NewPP limit report| Saved in parser cache)([^&]*?)--&gt;", "");
-                const string whitespace1 = "&lt;p&gt;&lt;br /&gt;&lt;/p&gt;\n";
+                string whitespace1 = "&lt;p&gt;&lt;br /&gt;&lt;/p&gt;\n";
                 parsebeforebits[0] = parsebeforebits[0].Replace(whitespace1, "");
                 parseafterbits[0] = parseafterbits[0].Replace(whitespace1, "");
 
@@ -1679,15 +1678,6 @@ namespace WikiFunctions
             return AddUsingAWBOnArticleAction
                 ? dlgArticleAction.Summary + " (" + Variables.SummaryTag.Trim() + ")"
                 : dlgArticleAction.Summary;
-        }
-
-        /// <summary>
-        /// Whether the page has been saved
-        /// </summary>
-        /// <returns>bool</returns>
-        public bool HasBeenSaved
-        {
-            get { return SaveInfo != null; }
         }
     }
 }

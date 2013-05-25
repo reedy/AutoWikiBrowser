@@ -67,10 +67,6 @@ namespace WikiFunctions.API
         public XmlDocument ResponseXml
         { get; private set; }
 
-        internal SaveInfo()
-        {
-        }
-
         internal SaveInfo(XmlDocument doc)
         {
             ResponseXml = doc;

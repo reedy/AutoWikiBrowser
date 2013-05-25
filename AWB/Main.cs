@@ -1353,7 +1353,6 @@ namespace AutoWikiBrowser
 
             LastArticle = "";
             listMaker.Remove(TheArticle);
-            TheArticle.SaveInfo = saveInfo;
             NudgeTimer.Stop();
             SameArticleNudges = 0;
             if (EditBoxTab.SelectedTab == tpHistory)
