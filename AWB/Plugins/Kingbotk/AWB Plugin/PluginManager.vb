@@ -537,14 +537,6 @@ SkipOrStop:
             End With
         End Sub
         Private Shared Sub AWBBotModeCheckboxCheckedChangeHandler(ByVal sender As Object, ByVal e As EventArgs)
-            Dim Line As String = conAWBPluginName & "Bot-mode "
-
-            If BotMode Then
-                Line += "enabled"
-            Else
-                Line += "disabled"
-            End If
-
             For Each p As PluginBase In ActivePlugins
                 p.BotModeChanged(BotMode)
             Next
