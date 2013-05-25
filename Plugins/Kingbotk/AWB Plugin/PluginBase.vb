@@ -195,14 +195,11 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk
 
             With article
                 If Template.FoundTemplate Then
-                    If article.PageContainsShellTemplate() Then ' We're putting an existing template back into the shell where we found it
-                        TemplateHeader = article.LineBreakRegex.Replace(TemplateHeader, "") & Template.ParametersToString("")
-                        .RestoreTemplateToPlaceholderSpot(TemplateHeader)
-                    Else ' writing it back where it was
-                        TemplateHeader += Template.ParametersToString(ParameterBreak)
-                        .RestoreTemplateToPlaceholderSpot(TemplateHeader)
-                    End If
-                Else ' Our template wasn't found, write it into a shell or to the top of the page
+                    ' Write it back where it was
+                    TemplateHeader += Template.ParametersToString(ParameterBreak)
+                    .RestoreTemplateToPlaceholderSpot(TemplateHeader)
+                Else
+                    ' Our template wasn't found, write it into a shell or to the top of the page
                     .PrependTemplateOrWriteIntoShell(Template, ParameterBreak, TemplateHeader)
                 End If
             End With
