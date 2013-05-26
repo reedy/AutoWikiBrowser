@@ -86,6 +86,8 @@ namespace AutoWikiBrowser
             this.cmboListComparer = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPrivacy = new System.Windows.Forms.TabPage();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.alertListBox = new System.Windows.Forms.CheckedListBox();
             this.ToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.lblSaveAsDefaultFile = new System.Windows.Forms.Label();
             this.AutoSaveEditBoxGroup.SuspendLayout();
@@ -96,6 +98,7 @@ namespace AutoWikiBrowser
             this.tabEditing.SuspendLayout();
             this.tabTools.SuspendLayout();
             this.tabPrivacy.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmboLang
@@ -423,6 +426,7 @@ namespace AutoWikiBrowser
             this.tbPrefs.Controls.Add(this.tabEditing);
             this.tbPrefs.Controls.Add(this.tabTools);
             this.tbPrefs.Controls.Add(this.tabPrivacy);
+            this.tbPrefs.Controls.Add(this.tabPage1);
             this.tbPrefs.Location = new System.Drawing.Point(12, 12);
             this.tbPrefs.Name = "tbPrefs";
             this.tbPrefs.SelectedIndex = 0;
@@ -690,6 +694,25 @@ namespace AutoWikiBrowser
             this.tabPrivacy.Text = "Privacy";
             this.tabPrivacy.UseVisualStyleBackColor = true;
             // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.alertListBox);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(382, 181);
+            this.tabPage1.TabIndex = 6;
+            this.tabPage1.Text = "Alerts";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // alertListBox
+            // 
+            this.alertListBox.FormattingEnabled = true;
+            this.alertListBox.Location = new System.Drawing.Point(6, 6);
+            this.alertListBox.Name = "alertListBox";
+            this.alertListBox.Size = new System.Drawing.Size(370, 169);
+            this.alertListBox.TabIndex = 0;
+            // 
             // lblSaveAsDefaultFile
             // 
             this.lblSaveAsDefaultFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -731,6 +754,7 @@ namespace AutoWikiBrowser
             this.tabTools.PerformLayout();
             this.tabPrivacy.ResumeLayout(false);
             this.tabPrivacy.PerformLayout();
+            this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -792,5 +816,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ComboBox cmboProtocol;
         private System.Windows.Forms.CheckBox chkDomain;
         private System.Windows.Forms.TextBox txtDomain;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.CheckedListBox alertListBox;
     }
 }
