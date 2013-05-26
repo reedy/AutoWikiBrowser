@@ -43,7 +43,7 @@ namespace AutoWikiBrowser
         {
             InitializeComponent();
 
-            foreach (ProjectEnum l in Enum.GetValues(typeof(ProjectEnum)))
+            foreach (ProjectEnum l in Enum.GetValues(typeof (ProjectEnum)))
             {
                 cmboProject.Items.Add(l);
             }
@@ -76,6 +76,51 @@ namespace AutoWikiBrowser
                 chkFlash.Checked = false;
             }
             cmboProtocol.SelectedIndex = (protocol == "http://") ? 0 : 1;
+
+            tbPrefs.TabPages.Remove(tabPage1);
+            Dictionary<string, bool> alerts = new Dictionary<string, bool>
+                                                  {
+                                                      {"Ambiguous citation dates", false},
+                                                      {"Contains 'sic' tag", false},
+                                                      {"DAB page with <ref>s", false},
+                                                      {"Dead links", false},
+                                                      {
+                                                          "Duplicate parameters in WPBannerShell",
+                                                          false
+                                                      },
+                                                      {"Has <ref> after </references>", false},
+                                                      {
+                                                          "Has 'No/More footnotes' template yet many references"
+                                                          , false
+                                                      },
+                                                      {"Headers with wikilinks", false},
+                                                      {"Invalid citation parameters", false},
+                                                      {"Links with double pipes", false},
+                                                      {"Links with no target", false},
+                                                      {"Long article with stub tag", false},
+                                                      {"Multiple DEFAULTSORT", false},
+                                                      {
+                                                          "No category (may be one in a template)",
+                                                          false
+                                                      },
+                                                      {"See also section out of place", false},
+                                                      {"Starts with heading", false},
+                                                      {"Unbalanced brakets", false},
+                                                      {"Unclosed tags", false},
+                                                      {"Unformatted references", false},
+                                                      {
+                                                          "Unknown paraemeters in multiple issues",
+                                                          false
+                                                      },
+                                                      {
+                                                          "Unknown parameters in WPBannerShell",
+                                                          false
+                                                      }
+                                                  };
+            foreach (string s in alerts.Keys)
+            {
+                alertListBox.Items.Add(s);
+            }
         }
 
         #region Language and project
