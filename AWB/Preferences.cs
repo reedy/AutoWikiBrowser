@@ -385,43 +385,37 @@ namespace AutoWikiBrowser
             set { chkEmptyOnProjectChange.Checked = value; }
         }
 
-        public Dictionary<int, bool> AlertPreferences
+        public List<int> AlertPreferences
         {
             get
             {
-                Dictionary<int, bool> alerts = new Dictionary<int, bool>();
+                List<int> alerts = new List<int>();
                 for (int i = 0; i < alertListBox.Items.Count - 1; i++)
                 {
                     CheckedBoxItem cbi = (CheckedBoxItem) alertListBox.Items[i];
-                    alerts.Add(cbi.ID, alertListBox.GetItemChecked(i));
+                    if (alertListBox.GetItemChecked(i))
+                    {
+                        alerts.Add(cbi.ID);
+                    }
                 }
                 return alerts;
             }
             set
             {
                 alertListBox.BeginUpdate();
+                alertListBox.Items.Clear();
                 foreach (KeyValuePair<int, string> kvp in alertDescriptions)
                 {
-                    bool outVar;
                     alertListBox.Items.Add(new CheckedBoxItem
                                                {
                                                    ID = kvp.Key,
                                                    Description = kvp.Value,
-                                               }, value.TryGetValue(kvp.Key, out outVar));
+                                               }, value.Contains(kvp.Key));
                 }
                 alertListBox.EndUpdate();
             }
         }
 
-        class CheckedBoxItem
-        {
-            public int ID;
-            public string Description;
-            public override string ToString()
-            {
-                return Description;
-            }
-        }
         #endregion
 
         private void chkAutoSaveEdit_CheckedChanged(object sender, EventArgs e)
