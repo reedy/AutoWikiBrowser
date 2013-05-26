@@ -43,18 +43,19 @@ Is this SVN (1) or a release (2)? ");
                 
                 int.TryParse(Console.ReadLine(), out selection);
                 
-                if (selection == -1)
+                if (selection != 1 && selection != 2)
                 {
                     Console.Write("Please select 1 or 2");
+                    Console.ReadLine();
                     return;
                 }
 
                 string awbDir = Directory.GetCurrentDirectory();
                 string tmp = Path.Combine(awbDir, "temp");
-                awbDir = awbDir.Remove(awbDir.IndexOf("Extras"));
+                awbDir = awbDir.Remove(awbDir.IndexOf("Extras", StringComparison.Ordinal));
                 Directory.CreateDirectory(tmp);
 
-                string currFolder = Path.Combine(Path.Combine(awbDir, "AWB"), "bin");;
+                string currFolder = Path.Combine(Path.Combine(awbDir, "AWB"), "bin");
 
                 if (selection == 1)
                 {
