@@ -2604,18 +2604,18 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 UnknownWikiProjectBannerShellParameters = TheArticle.UnknownWikiProjectBannerShellParameters();
                 if (UnknownWikiProjectBannerShellParameters.Count > 0)
                 {
-                    string warn = "Unknown parameters in WPBannerShell: " + " (" + UnknownWikiProjectBannerShellParameters.Count + ") ";
-                    foreach (string s in UnknownWikiProjectBannerShellParameters)
-                        warn += s + ", ";
+                    string warn = "Unknown parameters in WPBannerShell: " + " (" +
+                                  UnknownWikiProjectBannerShellParameters.Count + ") "
+                                  + string.Join(",", UnknownWikiProjectBannerShellParameters.ToArray());
                     lbAlerts.Items.Add(warn);
                 }
 
                 UnknownMultipleIssuesParameters = TheArticle.UnknownMultipleIssuesParameters();
                 if (UnknownMultipleIssuesParameters.Count > 0)
                 {
-                    string warn = "Unknown parameters in Multiple issues: " + " (" + UnknownMultipleIssuesParameters.Count + ") ";
-                    foreach (string s in UnknownMultipleIssuesParameters)
-                        warn += s + ", ";
+                    string warn = "Unknown parameters in Multiple issues: " + " (" +
+                                  UnknownMultipleIssuesParameters.Count + ") "
+                                  + string.Join(", ", UnknownMultipleIssuesParameters.ToArray());
                     lbAlerts.Items.Add(warn);
                 }
 
