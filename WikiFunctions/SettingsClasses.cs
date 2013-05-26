@@ -294,8 +294,6 @@ namespace WikiFunctions.AWBSettings
         public bool SkipIfRedirect = false;
         public bool SkipIfNoAlerts = false;
 
-        public List<int> AlertPreferences = new List<int>();
-
         public bool SkipDoes = false;
         public bool SkipDoesNot = false;
 
@@ -381,6 +379,8 @@ namespace WikiFunctions.AWBSettings
         public bool ReplaceReferenceTags = true;
 
         public bool LoggingEnabled = true;
+
+        public List<int> AlertPreferences = new List<int>();
     }
 
     [Serializable]

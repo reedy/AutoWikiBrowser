@@ -395,7 +395,8 @@ namespace AutoWikiBrowser
 
                         SortInterWikiOrder = alphaSortInterwikiLinksToolStripMenuItem.Checked,
                         ReplaceReferenceTags = replaceReferenceTagsToolStripMenuItem.Checked,
-                        LoggingEnabled = loggingEnabled
+                        LoggingEnabled = loggingEnabled,
+                        AlertPreferences = prefere
                     },
 
                 new DabPrefs

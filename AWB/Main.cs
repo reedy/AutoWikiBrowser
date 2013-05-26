@@ -2884,6 +2884,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             OpenPreferences(false);
         }
 
+        List<int> alertPreferences = new List<int>();
+
         private void OpenPreferences(bool focusSiteTab)
         {
             MyPreferences myPrefs = new MyPreferences(Variables.LangCode, Variables.Project,
@@ -2918,7 +2920,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                                             EnableLogging = loggingEnabled,
                                             FocusSiteTab = focusSiteTab,
 
-                                            PrefDomain = Variables.LoginDomain
+                                            PrefDomain = Variables.LoginDomain,
+
+                                            AlertPreferences = alertPreferences
                                         };
 
             if (myPrefs.ShowDialog(this) == DialogResult.OK)
@@ -2954,6 +2958,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 loggingEnabled = myPrefs.EnableLogging;
 
                 Variables.LoginDomain = myPrefs.PrefDomain;
+
+                alertPreferences = myPrefs.AlertPreferences;
 
                 if (myPrefs.Language != Variables.LangCode || myPrefs.Project != Variables.Project
                     || (myPrefs.CustomProject != Variables.CustomProject) || (myPrefs.Protocol != Variables.Protocol))
