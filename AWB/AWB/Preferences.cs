@@ -117,9 +117,9 @@ namespace AutoWikiBrowser
                                                           false
                                                       }
                                                   };
-            foreach (string s in alerts.Keys)
+            foreach (KeyValuePair<string, bool> kvp in alerts)
             {
-                alertListBox.Items.Add(s);
+                alertListBox.Items.Add(kvp.Key, kvp.Value);
             }
         }
 
