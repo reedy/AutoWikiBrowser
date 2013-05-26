@@ -86,10 +86,10 @@ Namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             ToggleAWBCleanup(False)
 
             With PluginManager.AWBForm.ListMaker
-                If .Count > 0 Then
-                    If .Count > 1 AndAlso State.IsNextPage(.Item(1).Name) Then .RemoveAt(1)
-
-                    If State.IsNextPage(.Item(0).Name) Then .RemoveAt(0)
+                If .Count > 1 AndAlso State.IsNextPage(.Item(1).Name) Then
+                    .RemoveAt(1)
+                ElseIf .Count > 0 AndAlso State.IsNextPage(.Item(0).Name) Then
+                    .RemoveAt(0)
                 End If
             End With
 
