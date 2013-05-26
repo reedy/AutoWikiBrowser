@@ -2621,7 +2621,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
                 wikilinkedHeaders = TheArticle.WikiLinkedHeaders();
                 if (wikilinkedHeaders.Count > 0)
-                    lbAlerts.Items.Add("Header(s) with wikilinks found" + " (" + wikilinkedHeaders.Count + ")");
+                    lbAlerts.Items.Add("Header(s) with wikilinks" + " (" + wikilinkedHeaders.Count + ")");
 
                 unclosedTags = TheArticle.UnclosedTags();
                 if (unclosedTags.Count > 0)
@@ -2632,7 +2632,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
                 // check for {{sic}} tags etc. when doing typo fixes
                 if (chkRegExTypo.Checked && TheArticle.HasSicTag)
-                    lbAlerts.Items.Add(@"Contains 'sic' tag/template");
+                    lbAlerts.Items.Add(@"Contains 'sic' tag");
 
                 MatchCollection imagesMC = WikiRegexes.ImagesCountOnly.Matches(articleText);
                 lblWords.Text = Words + wordCount;
