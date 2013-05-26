@@ -3163,7 +3163,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
             // if there are find matches, colour the Find button yellow
             if(btnFind.Enabled && txtEdit.FindAll(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, TheArticle.Name).Count > 0)
-                btnFind.BackColor = System.Drawing.Color.Yellow;
+                btnFind.BackColor = Color.Yellow;
             else
                 btnFind.BackColor = SystemColors.ButtonFace;
         }
@@ -5477,11 +5477,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         private void lblProject_Click(object sender, EventArgs e)
         {
              OpenPreferences(true);
-        }
-
-        private void tpEdit_Click(object sender, EventArgs e)
-        {
-
         }
     }
     #endregion
