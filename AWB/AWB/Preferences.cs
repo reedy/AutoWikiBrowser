@@ -78,96 +78,6 @@ namespace AutoWikiBrowser
             cmboProtocol.SelectedIndex = (protocol == "http://") ? 0 : 1;
 
             tbPrefs.TabPages.Remove(tabPage1);
-            Dictionary<int, string> alertDescriptions = new Dictionary<int, string>()
-                                                            {
-                                                                {1, "Ambiguous citation dates"},
-                                                                {2, "Contains 'sic' tag"},
-                                                                {3, "DAB page with <ref>s"},
-                                                                {4, "Dead links"},
-                                                                {
-                                                                    5,
-                                                                    "Duplicate parameters in WPBannerShell"
-                                                                },
-                                                                {6, "Has <ref> after </references>"},
-                                                                {
-                                                                    7,
-                                                                    "Has 'No/More footnotes' template yet many references"
-                                                                },
-                                                                {8, "Headers with wikilinks"},
-                                                                {9, "Invalid citation parameters"},
-                                                                {10, "Links with double pipes"},
-                                                                {11, "Links with no target"},
-                                                                {12, "Long article with stub tag"},
-                                                                {13, "Multiple DEFAULTSORT"},
-                                                                {
-                                                                    14,
-                                                                    "No category (may be one in a template)"
-                                                                },
-                                                                {15, "See also section out of place"},
-                                                                {16, "Starts with heading"},
-                                                                {17, "Unbalanced brakets"},
-                                                                {18, "Unclosed tags"},
-                                                                {19, "Unformatted references"},
-                                                                {
-                                                                    20,
-                                                                    "Unknown paraemeters in multiple issues"
-                                                                },
-                                                                {
-                                                                    21,
-                                                                    "Unknown parameters in WPBannerShell"
-                                                                }
-                                                            };
-
-            Dictionary<int, AlertStuff> alerts = new Dictionary<int, AlertStuff>
-                                                     {
-                                                         {1, new AlertStuff(1, false)},
-                                                         {2, new AlertStuff(2, false)},
-                                                         {3, new AlertStuff(3, false)},
-                                                         {4, new AlertStuff(4, false)},
-                                                         {5, new AlertStuff(5, false)},
-                                                         {6, new AlertStuff(6, false)},
-                                                         {7, new AlertStuff(7, false)},
-                                                         {8, new AlertStuff(8, false)},
-                                                         {9, new AlertStuff(9, false)},
-                                                         {10, new AlertStuff(10, false)},
-                                                         {11, new AlertStuff(11, false)},
-                                                         {12, new AlertStuff(12, false)},
-                                                         {13, new AlertStuff(13, false)},
-                                                         {14, new AlertStuff(14, false)},
-                                                         {15, new AlertStuff(15, false)},
-                                                         {16, new AlertStuff(16, false)},
-                                                         {17, new AlertStuff(17, false)},
-                                                         {18, new AlertStuff(18, false)},
-                                                         {19, new AlertStuff(19, false)},
-                                                         {20, new AlertStuff(20, false)},
-                                                         {21, new AlertStuff(21, false)}
-                                                     };
-            foreach (KeyValuePair<int, string> kvp in alertDescriptions)
-            {
-                AlertStuff value;
-                if (!alerts.TryGetValue(kvp.Key, out value))
-                {
-                    alertListBox.Items.Add(kvp.Value, true);
-                    continue;
-                }
-                alertListBox.Items.Add(kvp.Value, value.Enabled);
-            }
-        }
-
-        class AlertStuff
-        {
-            internal AlertStuff()
-            {
-            }
-
-            public AlertStuff(int id, bool enabled)
-            {
-                ID = id;
-                Enabled = enabled;
-            }
-
-            public int ID { get; internal set; }
-            public bool Enabled { get; internal set; }
         }
 
         #region Language and project
@@ -474,6 +384,44 @@ namespace AutoWikiBrowser
             get { return chkEmptyOnProjectChange.Checked; }
             set { chkEmptyOnProjectChange.Checked = value; }
         }
+
+        public Dictionary<int, bool> AlertPreferences
+        {
+            get
+            {
+                Dictionary<int, bool> alerts = new Dictionary<int, bool>();
+                for (int i = 0; i < alertListBox.Items.Count - 1; i++)
+                {
+                    CheckedBoxItem cbi = (CheckedBoxItem) alertListBox.Items[i];
+                    alerts.Add(cbi.ID, alertListBox.GetItemChecked(i));
+                }
+                return alerts;
+            }
+            set
+            {
+                alertListBox.BeginUpdate();
+                foreach (KeyValuePair<int, string> kvp in alertDescriptions)
+                {
+                    bool outVar;
+                    alertListBox.Items.Add(new CheckedBoxItem
+                                               {
+                                                   ID = kvp.Key,
+                                                   Description = kvp.Value,
+                                               }, value.TryGetValue(kvp.Key, out outVar));
+                }
+                alertListBox.EndUpdate();
+            }
+        }
+
+        class CheckedBoxItem
+        {
+            public int ID;
+            public string Description;
+            public override string ToString()
+            {
+                return Description;
+            }
+        }
         #endregion
 
         private void chkAutoSaveEdit_CheckedChanged(object sender, EventArgs e)
@@ -553,5 +501,45 @@ namespace AutoWikiBrowser
         {
             txtDomain.Enabled = chkDomain.Checked;
         }
+
+        private readonly Dictionary<int, string> alertDescriptions = new Dictionary<int, string>
+                                                                {
+                                                                    {1, "Ambiguous citation dates"},
+                                                                    {2, "Contains 'sic' tag"},
+                                                                    {3, "DAB page with <ref>s"},
+                                                                    {4, "Dead links"},
+                                                                    {
+                                                                        5,
+                                                                        "Duplicate parameters in WPBannerShell"
+                                                                    },
+                                                                    {6, "Has <ref> after </references>"},
+                                                                    {
+                                                                        7,
+                                                                        "Has 'No/More footnotes' template yet many references"
+                                                                    },
+                                                                    {8, "Headers with wikilinks"},
+                                                                    {9, "Invalid citation parameters"},
+                                                                    {10, "Links with double pipes"},
+                                                                    {11, "Links with no target"},
+                                                                    {12, "Long article with stub tag"},
+                                                                    {13, "Multiple DEFAULTSORT"},
+                                                                    {
+                                                                        14,
+                                                                        "No category (may be one in a template)"
+                                                                    },
+                                                                    {15, "See also section out of place"},
+                                                                    {16, "Starts with heading"},
+                                                                    {17, "Unbalanced brakets"},
+                                                                    {18, "Unclosed tags"},
+                                                                    {19, "Unformatted references"},
+                                                                    {
+                                                                        20,
+                                                                        "Unknown paraemeters in multiple issues"
+                                                                    },
+                                                                    {
+                                                                        21,
+                                                                        "Unknown parameters in WPBannerShell"
+                                                                    }
+                                                                };
     }
 }
