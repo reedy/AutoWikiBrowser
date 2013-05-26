@@ -67,6 +67,7 @@
     <Compile Include="Article\Article.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="CheckedBoxItem.cs" />
     <Compile Include="Controls\NamespacesControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

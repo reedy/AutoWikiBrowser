@@ -294,7 +294,7 @@ namespace WikiFunctions.AWBSettings
         public bool SkipIfRedirect = false;
         public bool SkipIfNoAlerts = false;
 
-        public Dictionary<int, bool> AlertPreferences = new Dictionary<int, bool>();
+        public List<CheckedBoxItem> AlertPreferences = new List<CheckedBoxItem>();
 
         public bool SkipDoes = false;
         public bool SkipDoesNot = false;
