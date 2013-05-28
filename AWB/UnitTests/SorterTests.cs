@@ -887,7 +887,15 @@ foo";
 		    
 		    Assert.AreEqual( @"[[Category:One|A]]
 [[Category:Two]]
-", parser2.Sorter.RemoveCats(ref cats, "A"), "Duplicate category removed, one without sortkey");		    
+", parser2.Sorter.RemoveCats(ref cats, "A"), "Duplicate category removed, one without sortkey");
+
+cats = @"[[Category:One|A]]
+[[Category:Two]]
+[[Category:One|a]]";
+			
+			Assert.AreEqual( @"[[Category:One|A]]
+[[Category:Two]]
+", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category removed, same sortkey ignoring first letter case");		    
 		}
 
 		[Test]
