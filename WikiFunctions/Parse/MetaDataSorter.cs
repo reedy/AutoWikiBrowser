@@ -1052,12 +1052,18 @@ en, sq, ru
 			// remove duplicates: duplicate if an existing list item starts the with string
 			// also duplicate when one category is same as another with a sortkey
 			// e.g. [[Category:One]] is duplicate of [[Category:One|A]]
+			// Or sortkeys vary only by first letter case
 			foreach (string s in items)
 			{
 			    bool addme = true;
+
+			    string s2 =s;
+			    // compare based on first letter upper sortkey for categories
+			    if(s2.Contains("|") && WikiRegexes.Category.IsMatch(s2))
+			        s2 = Regex.Replace(s2, @"(\|\s*)(.+)(\s*\]\]$)", m=> m.Groups[1].Value + Tools.TurnFirstToUpper(m.Groups[2].Value) + m.Groups[3].Value);
 			    foreach(string u in uniqueItems)
 			    {
-			        if(u.StartsWith(s) || u.StartsWith(s.TrimEnd(']') + @"|"))
+			        if(u.StartsWith(s2) || u.StartsWith(s2.TrimEnd(']') + @"|"))
 			            addme = false;
 			    }
 
