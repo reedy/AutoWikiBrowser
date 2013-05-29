@@ -7019,10 +7019,10 @@ namespace WikiFunctions.Parse
 
             if (wikiLinkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(articleText) && !WikiRegexes.SIAs.IsMatch(articleText))
             {
-                // add dead-end tag
+                // add dead-end tag, no blank linked between dead end and orphan tags
                 if (Variables.LangCode.Equals("ar"))
                 {
-                    articleText = "{{نهاية مسدودة|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
+                    articleText = "{{نهاية مسدودة|" + WikiRegexes.DateYearMonthParameter + "}}\r\n" + (WikiRegexes.Orphan.IsMatch(articleText) ? "" : "\r\n") + articleText;
                     tagsAdded.Add("[[:تصنيف:مقالات نهاية مسدودة|نهاية مسدودة]]");
                     // if dead end then remove underlinked
                     if(WikiRegexes.Wikify.IsMatch(articleText))
