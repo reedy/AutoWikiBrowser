@@ -9260,14 +9260,14 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             WikiRegexes.MakeLangSpecificRegexes();
 
             string text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
-            //Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text), "page is deadend");
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text), "page is deadend");
 
             // ويكي = wikify
             text = parser.Tagger(ShortText + "{{ويكي}}", "Test", false, out noChange, ref summary);
-            //Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text), "page is deadend");
-            //Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text), "wikify should not be present which dead end added");
-            //Assert.IsFalse(text.Contains("ويكي"), "wikify removed when dead end");
-            //Assert.IsTrue(summary.Contains("ويكي"));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text), "page is deadend");
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text), "wikify should not be present which dead end added");
+            Assert.IsFalse(text.Contains("ويكي"), "wikify removed when dead end");
+            Assert.IsTrue(summary.Contains("ويكي"));
 
             Variables.SetProjectLangCode("en");
             Variables.Stub = "[^{}|]*?[Ss]tub";
