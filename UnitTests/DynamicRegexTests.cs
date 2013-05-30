@@ -1040,6 +1040,8 @@ disambig|surname
             RegexAssert.IsMatch(WikiRegexes.Defaultsort, @"{{DEFAULTSORT:foo
 ");
             RegexAssert.NoMatch(WikiRegexes.Defaultsort, @"{{DEFAULTSORT:foo");
+            RegexAssert.IsMatch(WikiRegexes.Defaultsort, @"{{DEFAULTSORT:}}");
+            Assert.AreEqual("", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:}}").Groups["key"].Value);
             
             RegexAssert.IsMatch(WikiRegexes.Defaultsort, @"{{DEFAULTSORT:
 Wangchuck, Tshering Pem}}");
