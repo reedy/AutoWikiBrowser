@@ -333,12 +333,12 @@ en, sq, ru
 			}
 			// two newlines here per https://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser&oldid=243224092#Blank_lines_before_stubs
 			// https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Two_empty_lines_before_stub-templates
-			// ru, sl, ar wikis use only one newline
+			// ru, sl, ar, arz wikis use only one newline
 			string strStub = "";
 			
 			// Category: can use {{Verylargestub}}/{{popstub}} which is not a stub template, don't do stub sorting
 			if(!Namespace.Determine(articleTitle).Equals(Namespace.Category))
-			    strStub = Tools.Newline(RemoveStubs(ref articleText), (Variables.LangCode.Equals("ru") || Variables.LangCode.Equals("sl") || Variables.LangCode.Equals("ar")) ? 1 : 2);
+			    strStub = Tools.Newline(RemoveStubs(ref articleText), (Variables.LangCode.Equals("ru") || Variables.LangCode.Equals("sl") || Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz")) ? 1 : 2);
 
 			// filter out excess white space and remove "----" from end of article
 			articleText = Parsers.RemoveWhiteSpace(articleText, fixOptionalWhitespace) + "\r\n";
