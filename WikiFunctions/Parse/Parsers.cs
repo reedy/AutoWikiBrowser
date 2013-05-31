@@ -1264,12 +1264,12 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex DiedDateRegex =
             new Regex(
-                @"^d\.(\s+\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
+                @"^d\.\s*(\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
                 WikiRegexes.MonthsNoGroup + @")?\]*\s*\[*[12]?\d{3}\]*[\),])", RegexOptions.IgnoreCase);
 
         private static readonly Regex DOBRegex =
             new Regex(
-                @"^(?:b\.|[Bb]orn:+)(\s+\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
+                @"^(?:b\.|[Bb]orn:+)\s*(\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
                 WikiRegexes.MonthsNoGroup + @")?[\]\s,]*\[*[12]?\d{3}\]*[\),])", RegexOptions.IgnoreCase);
 
         private static readonly Regex DOBRegexDash =
@@ -1281,7 +1281,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex BornDeathRegex =
             new Regex(
-                @"^(?:[Bb]orn|b\.)\s+(\[*(?:" + WikiRegexes.MonthsNoGroup +
+                @"^(?:[Bb]orn|b\.)\s*(\[*(?:" + WikiRegexes.MonthsNoGroup +
                 @"\s+0?(?:[1-3]?\d)|0?(?:[1-3]?\d)\s*" + WikiRegexes.MonthsNoGroup +
                 @")?\]*,?\s*\[*[12]?\d{3}\]*)\s*(.|&.dash;)\s*(?:[Dd]ied|d\.)\s+(\[*(?:" + WikiRegexes.MonthsNoGroup +
                 @"\s+0?(?:[1-3]?\d)|0?(?:[1-3]?\d)\s*" + WikiRegexes.MonthsNoGroup + @")\]*,?\s*\[*[12]?\d{3}\]*\)\s*)",
@@ -1299,8 +1299,8 @@ namespace WikiFunctions.Parse
                                                 {
                                                     string newvalue = m.Groups[2].Value;
 
-                                                    newvalue = DiedDateRegex.Replace(newvalue, "died$1"); // date of death
-                                                    newvalue = DOBRegex.Replace(newvalue, "born$1"); // date of birth
+                                                    newvalue = DiedDateRegex.Replace(newvalue, "died $1"); // date of death
+                                                    newvalue = DOBRegex.Replace(newvalue, "born $1"); // date of birth
                                                     newvalue = BornDeathRegex.Replace(newvalue, "$1 – $3"); // birth and death
                                                     return  m.Groups[1].Value + newvalue;
                                                 });
