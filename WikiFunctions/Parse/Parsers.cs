@@ -7428,6 +7428,10 @@ namespace WikiFunctions.Parse
             // check if template already dated (date= parameter, localised for some wikis)
             string dateparam = WikiRegexes.DateYearMonthParameter.Substring(0, WikiRegexes.DateYearMonthParameter.IndexOf("="));
 
+            // rename date= if localized
+            if(!dateparam.Equals("date"))
+                templatecall = Tools.RenameTemplateParameter(templatecall, "date", dateparam);
+
             // date tag needed?
             if (Tools.GetTemplateParameterValue(templatecall, dateparam).Length == 0)
             {
