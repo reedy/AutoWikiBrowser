@@ -1015,6 +1015,10 @@ The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines af
             const string nochange1 = @"On 14 April, 2590 people", nochange2 = @"Retrieved on April 142009 was";
             Assert.AreEqual(nochange1, parser.FixDatesA(nochange1));
             Assert.AreEqual(nochange2, parser.FixDatesA(nochange2));
+
+            Assert.AreEqual(@"#####
+'''A''' (1 December 1920 &ndash; 28 May 2013)", parser.FixDatesA(@"#####
+'''A''' (1 December 1920 &ndash; 28 May, 2013)"));
         }
         
         [Test]
