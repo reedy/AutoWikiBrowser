@@ -9901,6 +9901,24 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         }
 
         [Test]
+        public void TagUpdaterLocalizeDate()
+        {
+            #if DEBUG
+            WikiRegexes.DatedTemplates = Parsers.LoadDatedTemplates(@"{{tl|wikify}}");
+
+            Variables.SetProjectLangCode("ar");
+            WikiRegexes.MakeLangSpecificRegexes();
+
+            Assert.AreEqual(@"{{wikify|تاريخ=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=May 2010}}"), "Renames date= when localized");
+
+            Variables.SetProjectLangCode("en");
+            WikiRegexes.MakeLangSpecificRegexes();
+
+            Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=May 2010}}"), "");
+            #endif
+        }
+
+        [Test]
         public void General()
         {
             Globals.UnitTestBoolValue = false;
