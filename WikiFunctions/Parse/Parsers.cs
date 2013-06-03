@@ -7425,7 +7425,7 @@ namespace WikiFunctions.Parse
                 templatecall = Regex.Replace(templatecall, TemplateNamespace, "");
             }
 
-            // check if template already dated (date field, localised for sv-wiki)
+            // check if template already dated (date= parameter, localised for some wikis)
             string dateparam = WikiRegexes.DateYearMonthParameter.Substring(0, WikiRegexes.DateYearMonthParameter.IndexOf("="));
 
             // date tag needed?
