@@ -876,7 +876,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the various Harvard citation templates on en-wiki
         /// </summary>
-        public static readonly Regex HarvTemplate = Tools.NestedTemplateRegex(new [] { "Harvard citation", "harv", "harvsp", "Harvard citation no brackets", "harvnb", "Harvard citation text", "harvtxt", "Harvcol", "Harvcolnb", "Harvcoltxt" }, true);
+        public static readonly Regex HarvTemplate = Tools.NestedTemplateRegex(new [] { "Harvard citation", "harv", "harvsp", "Harvard citation no brackets", "harvnb", "Harvard citation text", "harvtxt", "Harvcol", "Harvcolnb", "Harvcoltxt" }, false);
         
         /// <summary>
         /// Matches persondata (en only)
