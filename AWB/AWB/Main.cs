@@ -2089,7 +2089,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 btntsShowHideParameters.Image = Resources.Showhideparameters2;
 
                 _oldPosition = EditBoxTab.Location;
-                EditBoxTab.Location = new Point(listMaker.Location.X, listMaker.Location.Y - 5);
+                EditBoxTab.Location = new Point(listMaker.Location.X, listMaker.Location.Y - 17);
 
                 _oldSize = EditBoxTab.Size;
                 EditBoxTab.Size = new Size((EditBoxTab.Size.Width + MainTab.Size.Width + listMaker.Size.Width + 8), EditBoxTab.Size.Height);
@@ -2102,6 +2102,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 EditBoxTab.Size = _oldSize;
             }
             listMaker.Visible = MainTab.Visible = !listMaker.Visible;
+            label8.Visible =  listMaker.Visible;
         }
 
         private void UpdateStatusUI()
