@@ -699,7 +699,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches Wi templates (en only)
         /// </summary>
-        public static readonly Regex Wi = Tools.NestedTemplateRegex(new [] { "Wiktionary redirect", "Wi", "Widirect", "Moved to Wiktionary", "RedirecttoWiktionary", "Seewiktionary"}, true);
+        public static readonly Regex Wi = Tools.NestedTemplateRegex(new [] { "Wiktionary redirect", "Wi", "Widirect", "Moved to Wiktionary", "RedirecttoWiktionary", "Seewiktionary"});
 
         /// <summary>
         /// Matches stubs
@@ -829,7 +829,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{no footnotes}} OR {{more footnotes}} templates
         /// </summary>
-        public static readonly Regex MoreNoFootnotes = Tools.NestedTemplateRegex(new[] { "no footnotes", "nofootnotes", "more footnotes", "morefootnotes" }, true);
+        public static readonly Regex MoreNoFootnotes = Tools.NestedTemplateRegex(new[] { "no footnotes", "nofootnotes", "more footnotes", "morefootnotes" });
 
         /// <summary>
         /// Matches the various {{BLP unsourced}} templates
@@ -881,7 +881,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches persondata (en only)
         /// </summary>
-        public static readonly Regex Persondata = Tools.NestedTemplateRegex(@"Persondata", true);
+        public static readonly Regex Persondata = Tools.NestedTemplateRegex(@"Persondata");
         
         /// <summary>
         /// The default blank Persondata template for en-wiki, from [[Template:Persondata#Usage]]
@@ -954,12 +954,12 @@ namespace WikiFunctions
         /// <summary>
         /// Matches {{Centuryinbox}} template and its redirects
         /// </summary>
-        public static readonly Regex Centuryinbox = Tools.NestedTemplateRegex(new [] { "Centuryinbox" }, true );
+        public static readonly Regex Centuryinbox = Tools.NestedTemplateRegex(new [] { "Centuryinbox" });
 
         /// <summary>
         /// Matches {{dead link}} template and its redirects
         /// </summary>
-        public static readonly Regex DeadLink = Tools.NestedTemplateRegex(new [] { "dead link", "deadlink", "broken link", "brokenlink", "link broken", "linkbroken", "404", "dl", "dl-s", "cleanup-link" }, true );
+        public static readonly Regex DeadLink = Tools.NestedTemplateRegex(new [] { "dead link", "deadlink", "broken link", "brokenlink", "link broken", "linkbroken", "404", "dl", "dl-s", "cleanup-link" });
 
         /// <summary>
         /// Matches wikilinks with no target e.g. [[|foo]]
@@ -1001,17 +1001,17 @@ namespace WikiFunctions
         /// </summary>
         public static readonly Regex CatImprove = Tools.NestedTemplateRegex(new [] { "CI", "Cleanup-cat", "Cleanup cat", "Few categories", "Few cats", "Fewcategories", "Fewcats", "Improve-categories", "Improve-cats", "Improve categories", "Improve cats",
                                                                                 "Improvecategories", "Improvecats", "More categories", "More category", "Morecat", "Morecategories", "Morecats", "Cat-improve", "Category-improve",
-                                                                                "Categories-improve", "Category improve", "Categories improve", "Catimprove", "More cats" }, true );
+                                                                                "Categories-improve", "Category improve", "Categories improve", "Catimprove", "More cats" });
 
         /// <summary>
         /// Matches the {{Multiple issues}} template
         /// </summary>
-        public static readonly Regex MultipleIssues = Tools.NestedTemplateRegex(new [] { "multipleissues", "multiple issues", "mi", "MI", "multiple", "issues", "Articleissues", "Article issues" }, true );
+        public static readonly Regex MultipleIssues = Tools.NestedTemplateRegex(new [] { "multipleissues", "multiple issues", "mi", "MI", "multiple", "issues", "Articleissues", "Article issues" });
 
         /// <summary>
         /// Matches the {{New unreviewed article}} template
         /// </summary>
-        public static readonly Regex NewUnReviewedArticle = Tools.NestedTemplateRegex("new unreviewed article", true);
+        public static readonly Regex NewUnReviewedArticle = Tools.NestedTemplateRegex("new unreviewed article");
 
         /// <summary>
         /// The cleanup templates that can be moved into the {{multiple issues}} template
@@ -1048,7 +1048,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the "reflist", "references-small", "references-2column" references display templates
         /// </summary>
-        public static readonly Regex ReferenceList = Tools.NestedTemplateRegex(new [] { "reflist", "references-small", "references-2column"}, true);
+        public static readonly Regex ReferenceList = Tools.NestedTemplateRegex(new [] { "reflist", "references-small", "references-2column"});
 
         /// <summary>
         /// Matches infoboxes, group 1 being the template name of the infobox
@@ -1104,17 +1104,17 @@ namespace WikiFunctions
         /// <summary>
         /// Finds article disamiguation links from https://en.wikipedia.org/wiki/Wikipedia:Template_messages/General#Disambiguation_and_redirection (en only)
         /// </summary>
-        public static readonly Regex Dablinks = Tools.NestedTemplateRegex(new [] { "about", "ambiguous link", "for", "for2", "for3", "dablink", "distinguish", "distinguish2", "hatnote", "otherpeople", "otherpeople1", "otherpeople2", "otherpeople3", "other people", "other people1", "other people2", "other people3", "other persons", "otherpersons", "otherpersons2", "otherpersons3", "otherplaces", "other places", "otherplaces3", "other places3", "otherships", "other ships", "otheruses-number", "other uses", "other uses2", "other uses3", "other uses4", "other uses6", "otheruses", "otheruses2", "otheruses3", "otheruses4", "other uses of", "otheruse", "2otheruses", "redirect-acronym", "redirect", "redirect2", "redirect3", "redirect4", "this", "two other uses", "three other uses", "disambig-acronym", "selfref" }, true );
+        public static readonly Regex Dablinks = Tools.NestedTemplateRegex(new [] { "about", "ambiguous link", "for", "for2", "for3", "dablink", "distinguish", "distinguish2", "hatnote", "otherpeople", "otherpeople1", "otherpeople2", "otherpeople3", "other people", "other people1", "other people2", "other people3", "other persons", "otherpersons", "otherpersons2", "otherpersons3", "otherplaces", "other places", "otherplaces3", "other places3", "otherships", "other ships", "otheruses-number", "other uses", "other uses2", "other uses3", "other uses4", "other uses6", "otheruses", "otheruses2", "otheruses3", "otheruses4", "other uses of", "otheruse", "2otheruses", "redirect-acronym", "redirect", "redirect2", "redirect3", "redirect4", "this", "two other uses", "three other uses", "disambig-acronym", "selfref" }, false);
 
         /// <summary>
         /// Matches the sister links templates such as {{wiktionary}}
         /// </summary>
-        public static readonly Regex SisterLinks = Tools.NestedTemplateRegex(new[] { "wiktionary", "sisterlinks", "sister links", "sister project links", "wikibooks", "wikimedia", "wikiversity" }, true );
+        public static readonly Regex SisterLinks = Tools.NestedTemplateRegex(new[] { "wiktionary", "sisterlinks", "sister links", "sister project links", "wikibooks", "wikimedia", "wikiversity" }, false );
         
         /// <summary>
         /// Matches the maintenance tags (en-wiki only) such as orphan, cleanup
         /// </summary>
-        public static readonly Regex MaintenanceTemplates = Tools.NestedTemplateRegex(new[] { "orphan", "BLPunsourced", "cleanup", "underlinked", "dead end", "notability" }, true );
+        public static readonly Regex MaintenanceTemplates = Tools.NestedTemplateRegex(new[] { "orphan", "BLPunsourced", "cleanup", "underlinked", "dead end", "notability" }, false );
         
         /// <summary>
         /// Matches the {{Unreferenced}} template, or parameter within old-style multiple issues template
@@ -1311,17 +1311,17 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the {{Ibid}} template
         /// </summary>
-        public static readonly Regex Ibid = Tools.NestedTemplateRegex(@"Ibid", true);
+        public static readonly Regex Ibid = Tools.NestedTemplateRegex(@"Ibid");
         
         /// <summary>
         /// Matches the {{In use}} template
         /// </summary>
-        public static readonly Regex InUse = Tools.NestedTemplateRegex(new[] { "Inuse", "In use", "GOCEinuse", "goceinuse" }, true);
+        public static readonly Regex InUse = Tools.NestedTemplateRegex(new[] { "Inuse", "In use", "GOCEinuse", "goceinuse" });
 
         /// <summary>
         /// Matches the {{Wikipedia books}} template
         /// </summary>
-        public static readonly Regex WikipediaBooks = Tools.NestedTemplateRegex(new [] {"Wikipedia-Books", "wikipedia books"}, true);
+        public static readonly Regex WikipediaBooks = Tools.NestedTemplateRegex(new [] {"Wikipedia-Books", "wikipedia books"});
 
         /// <summary>
         /// Matches consecutive whitespace
@@ -1336,7 +1336,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches PAGENAME, PAGENAMEE, BASEPAGENAME, BASEPAGENAMEE templates
         /// </summary>
-        public static readonly Regex BASEPAGENAMETemplates = Tools.NestedTemplateRegex(BASEPAGENAMETemplatesL, true);
+        public static readonly Regex BASEPAGENAMETemplates = Tools.NestedTemplateRegex(BASEPAGENAMETemplatesL);
         
         /// <summary>
         /// 
