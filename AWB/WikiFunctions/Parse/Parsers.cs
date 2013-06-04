@@ -1666,6 +1666,8 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
+        private static readonly Regex ShortNameReferenceQuick = new Regex(@"(?:""|')?\s*>\s*([^<>]{1,9}?|\[?[Ss]ee above\]?)\s*<\s*/\s*ref>");
+
         /// <summary>
         /// refs with same name, but one is very short, so just change to &lt;ref name=foo/&gt; notation
         /// </summary>
@@ -1673,14 +1675,17 @@ namespace WikiFunctions.Parse
         /// <returns>the update wiki text</returns>
         private static string SameNamedRefShortText(string articleText)
         {
-            foreach (Match m in LongNamedReferences.Matches(articleText))
+            if(ShortNameReferenceQuick.IsMatch(articleText))
             {
-                string refname = m.Groups[2].Value;
+                foreach (Match m in LongNamedReferences.Matches(articleText))
+                {
+                    string refname = m.Groups[2].Value;
 
-                // don't apply if short ref is a page ref
-                if(m.Groups[3].Value.Length > 30)
-                    articleText = Regex.Replace(articleText, @"(<\s*ref\s+name\s*=\s*(?:""|')?(" + Regex.Escape(refname) + @")(?:""|')?\s*>\s*([^<>]{1,9}?|\[?[Ss]ee above\]?)\s*<\s*/\s*ref>)",
-                                                m2=> PageRef.IsMatch(m2.Groups[3].Value) ? m2.Value : @"<ref name=""" + refname + @"""/>");
+                    // don't apply if short ref is a page ref
+                    if(m.Groups[3].Value.Length > 30)
+                        articleText = Regex.Replace(articleText, @"(<\s*ref\s+name\s*=\s*(?:""|')?(" + Regex.Escape(refname) + @")(?:""|')?\s*>\s*([^<>]{1,9}?|\[?[Ss]ee above\]?)\s*<\s*/\s*ref>)",
+                                                    m2=> PageRef.IsMatch(m2.Groups[3].Value) ? m2.Value : @"<ref name=""" + refname + @"""/>");
+                }
             }
 
             return articleText;
