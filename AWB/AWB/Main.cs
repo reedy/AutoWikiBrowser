@@ -5384,7 +5384,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             // numbers in articleText and txtEdit.Edit are offset by the number of newlines before the index of the text
             int newlinesToIndex = WikiRegexes.Newline.Matches(txtEdit.Text.Substring(0, index)).Count;
             int newlinesInSelection = WikiRegexes.Newline.Matches(txtEdit.Text.Substring(index, length)).Count;
-            txtEdit.SetEditBoxSelection(index - newlinesToIndex, length - newlinesInSelection);
+            txtEdit.SetEditBoxSelection(index - newlinesToIndex, length - newlinesInSelection, false);
             txtEdit.SelectionBackColor = Color.Tomato;
         }
 
