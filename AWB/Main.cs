@@ -1101,6 +1101,7 @@ namespace AutoWikiBrowser
                 }
                 // performance: only make text visible once highlighting complete
                 txtEdit.Visible = true;
+                Variables.Profiler.Profile("Find/alert highlighting");
 
                 if (focusAtEndOfEditTextBoxToolStripMenuItem.Checked)
                 {
