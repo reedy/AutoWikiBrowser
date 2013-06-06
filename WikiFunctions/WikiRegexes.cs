@@ -1181,7 +1181,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches &lt;small&gt; tags, including nested tags 
         /// </summary>
-        public static readonly Regex Small = new Regex(@"<\s*small\s*>((?>(?!<\s*small\s*>|<\s*/\s*small\s*>).|<\s*small\s*>(?<DEPTH>)|<\s*/\s*small\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*small\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
+        public static readonly Regex Small = new Regex(@"<\s*small\s*>((?>(?!<\s*/?\s*small\s*>).|<\s*small\s*>(?<DEPTH>)|<\s*/\s*small\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*small\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
         
         /// <summary>
         /// Matches &lt;big&gt; tags
