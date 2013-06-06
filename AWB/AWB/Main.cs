@@ -5372,8 +5372,16 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
         private void HighlightErrors(SortedDictionary<int, int> errors)
         {
+            // performance: only highlight first 100 errors
+            int done = 0;
             foreach (KeyValuePair<int, int> a in errors)
+            {
                 RedSelection(a.Key, a.Value);
+                done++;
+                
+                if(done > 100)
+                    break;
+            }
         }
 
         private void RedSelection(int index, int length)
