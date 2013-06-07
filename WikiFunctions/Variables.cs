@@ -646,6 +646,10 @@ namespace WikiFunctions
                             WPAWB = "[[Wikipedie:AutoWikiBrowser|AWB]]";
                             Stub = @"[^{}|]*?([Pp]ahýl)";
                             break;
+
+                        case "cy":
+                            Stub = @"[^{}|]*?([Ss]tub|[Εe]ginyn[^{}]*?)";
+                            break;
                             
                         case "da":
                             mSummaryTag = " ved brug af ";
