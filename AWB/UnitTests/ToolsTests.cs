@@ -2150,7 +2150,7 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual(@"Gu, Prince Imperial Hoeun", Tools.MakeHumanCatKey("Gu, Prince Imperial Hoeun", ""));
 
             // Ё should be changed, but not Й
-            Assert.AreEqual("Епрстий", Tools.MakeHumanCatKey("Ёпрстий", ""));
+            Assert.AreEqual("Eпрстий", Tools.MakeHumanCatKey("Ёпрстий", ""));
         }
 
         [Test]
@@ -2198,7 +2198,7 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual(@"iiiii", Tools.RemoveDiacritics(@"ịỉíįí"),"i");
             Assert.AreEqual(@"I", Tools.RemoveDiacritics(@"İ"),"I");
             Assert.AreEqual(@"ooooooooooo", Tools.RemoveDiacritics(@"òỏøờồȱȯȭȫoỗ"),"o");
-            Assert.AreEqual(@"O", Tools.RemoveDiacritics(@"Ø"));
+            Assert.AreEqual(@"O", Tools.RemoveDiacritics(@"Ø"), "null");
             Assert.AreEqual(@"s", Tools.RemoveDiacritics(@"š"),"s");
             Assert.AreEqual(@"uuuu", Tools.RemoveDiacritics(@"ụủữự"),"u");
             Assert.AreEqual(@"x", Tools.RemoveDiacritics(@"x̌"),"x");

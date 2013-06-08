@@ -965,11 +965,13 @@ namespace WikiFunctions
 
 			//Russian
 
-			new KeyValuePair<string, string>("Ё", "Е"),
-			new KeyValuePair<string, string>("ё", "е"),
+			new KeyValuePair<string, string>("Ё", "E"),
+			new KeyValuePair<string, string>("ё", "e"),
 			new KeyValuePair<string, string>("б", "b"),
 			new KeyValuePair<string, string>("л", "l"),
 
+			new KeyValuePair<string, string>("К", "K"), //cyrillic k
+			new KeyValuePair<string, string>("к", "k"),
 			new KeyValuePair<string, string>("М", "M"), //cyrillic m
 			new KeyValuePair<string, string>("м", "m"),
 
@@ -979,6 +981,9 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("О", "O"), //cyrillic O
 			new KeyValuePair<string, string>("а", "a"), //cyrillic а
 			new KeyValuePair<string, string>("А", "A"), //cyrillic А
+			new KeyValuePair<string, string>("е", "e"), //cyrillic e (&#1077;)
+			new KeyValuePair<string, string>("Е", "E"), //cyrillic E
+			
 
 			//Basic Vietnamese alphabet
 			new KeyValuePair<string, string>("Ă", "A"),
