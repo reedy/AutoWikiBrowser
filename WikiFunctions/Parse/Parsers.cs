@@ -216,7 +216,7 @@ namespace WikiFunctions.Parse
             return (Variables.Project <= ProjectEnum.species) ? Sorter.Sort(articleText, articleTitle, fixOptionalWhitespace) : articleText;
         }
 
-        private static readonly Regex RegexHeadings0 = new Regex("(== ?)(see also:?|related topics:?|related articles:?|internal links:?|also see:?)( ?==)", RegexOptions.IgnoreCase);
+        private static readonly Regex RegexHeadings0 = new Regex("(== ?)(?:see also|related topics|related articles|internal links|also see)( ?==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadings1 = new Regex("(== ?)(external links?|external sites?|outside links?|web ?links?|exterior links?):?( ?==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadings3 = new Regex("(== *)(?:referen[sc]es?:?)( *==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadings4 = new Regex("(== *)(?:sources?:?)( *==)", RegexOptions.IgnoreCase);
@@ -277,7 +277,7 @@ namespace WikiFunctions.Parse
             articleText = RegexBadHeaderStartOfAticle.Replace(articleText, "");
 
             if (!LevelOneSeeAlso.IsMatch(articleText))
-                articleText = RegexHeadings0.Replace(articleText, "$1See also$3");
+                articleText = RegexHeadings0.Replace(articleText, "$1See also$2");
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Section_header_level_.28WikiProject_Check_Wikipedia_.237.29
             // CHECKWIKI error 7
@@ -6844,7 +6844,7 @@ namespace WikiFunctions.Parse
         public string Tagger(string articleText, string articleTitle, bool restrictOrphanTagging, ref string summary)
         {
             // don't tag redirects/outside article namespace/no tagging changes
-            if (!Namespace.IsMainSpace(articleTitle) || Tools.IsRedirect(articleText) || WikiRegexes.Wi.IsMatch(articleText))
+            if (!Namespace.IsMainSpace(articleTitle) || Tools.IsRedirect(articleText) || WikiRegexes.Wi.IsMatch(articleText) || articleTitle=="Main Page")
                 return articleText;
 
             tagsRemoved.Clear();
