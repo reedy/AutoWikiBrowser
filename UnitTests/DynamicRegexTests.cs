@@ -962,6 +962,8 @@ disambig|surname
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Roadindex}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{SIA}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{sportindex}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{MolFormIndex}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Molecular formula index}}");
             RegexAssert.NoMatch(WikiRegexes.SIAs, @"{{surname-stub}}");
         }
 
