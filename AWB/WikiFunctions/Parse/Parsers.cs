@@ -2956,6 +2956,7 @@ namespace WikiFunctions.Parse
         // covered by RemoveAllWhiteSpaceTests
         /// <summary>
         /// Applies removes all excess whitespace from the article
+        /// Not called by general fixes
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
