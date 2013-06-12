@@ -1069,6 +1069,7 @@ namespace AutoWikiBrowser
                 }
 
                 PageWatched = TheSession.Page.IsWatched;
+                UpdateUserNotifications();
 
                 Variables.Profiler.Profile("ActionOnLoad");
 
@@ -2111,6 +2112,25 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             UpdateUserName();
             UpdateBotStatus();
             UpdateAdminStatus();
+            UpdateUserNotifications();
+        }
+
+        private void UpdateUserNotifications()
+        {
+            int n = TheSession.User.Notifications;
+
+            lblUserNotifications.Text = TheSession.User.Notifications.ToString();
+
+            if(n > 0)
+            {
+                lblUserNotifications.BackColor = Color.Tomato;                
+                lblUserNotifications.Font = new Font(lblUserNotifications.Font, FontStyle.Bold);
+            }
+            else
+            {
+                lblUserNotifications.BackColor = Color.Gray;
+                lblUserNotifications.Font = new Font(lblUserNotifications.Font, FontStyle.Regular);
+            }
         }
 
         private void UpdateUserName()
@@ -5488,6 +5508,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         private void lblUserName_Click(object sender, EventArgs e)
         {
             Profiles.ShowDialog(this);
+        }
+        
+        private void lblUserNotifications_Click(object sender, EventArgs e)
+        {
+            Tools.OpenArticleInBrowser("Special:Notifications");
         }
 
         private void lblProject_Click(object sender, EventArgs e)
