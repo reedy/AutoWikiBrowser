@@ -216,16 +216,16 @@ namespace WikiFunctions.Parse
             return (Variables.Project <= ProjectEnum.species) ? Sorter.Sort(articleText, articleTitle, fixOptionalWhitespace) : articleText;
         }
 
-        private static readonly Regex RegexHeadings0 = new Regex("(== ?)(?:see also|related topics|related articles|internal links|also see)( ?==)", RegexOptions.IgnoreCase);
-        private static readonly Regex RegexHeadings1 = new Regex("(== ?)(external links?|external sites?|outside links?|web ?links?|exterior links?):?( ?==)", RegexOptions.IgnoreCase);
+        private static readonly Regex RegexHeadings0 = new Regex("(== *)(?:see also|related topics|related articles|internal links|also see)( *==)", RegexOptions.IgnoreCase);
+        private static readonly Regex RegexHeadings1 = new Regex("(== *)(external links?|external sites?|outside links?|web ?links?|exterior links?):?( *==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadings3 = new Regex("(== *)(?:referen[sc]es?:?)( *==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadings4 = new Regex("(== *)(?:sources?:?)( *==)", RegexOptions.IgnoreCase);
-        private static readonly Regex RegexHeadings5 = new Regex("(== ?)(further readings?:?)( ?==)", RegexOptions.IgnoreCase);
-        private static readonly Regex RegexHeadings6 = new Regex("(== ?)(Early|Personal|Adult|Later) Life( ?==)", RegexOptions.IgnoreCase);
-        private static readonly Regex RegexHeadings7 = new Regex("(== ?)(Current|Past|Prior) Members( ?==)", RegexOptions.IgnoreCase);
+        private static readonly Regex RegexHeadings5 = new Regex("(== *)(further readings?:?)( *==)", RegexOptions.IgnoreCase);
+        private static readonly Regex RegexHeadings6 = new Regex("(== *)(Early|Personal|Adult|Later) Life( *==)", RegexOptions.IgnoreCase);
+        private static readonly Regex RegexHeadings7 = new Regex("(== *)(Current|Past|Prior) Members( *==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadingsBold = new Regex(@"^(=+\s*)(?:'''|<[Bb]>)(.*?)(?:'''|</[Bb]>)(\s*=+\s*)$");
-        private static readonly Regex RegexHeadings9 = new Regex("(== ?)track listing( ?==)", RegexOptions.IgnoreCase);
-        private static readonly Regex RegexHeadings10 = new Regex("(== ?)Life and Career( ?==)", RegexOptions.IgnoreCase);
+        private static readonly Regex RegexHeadings9 = new Regex("(== *)track listing( *==)", RegexOptions.IgnoreCase);
+        private static readonly Regex RegexHeadings10 = new Regex("(== *)Life and Career( *==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadingsCareer = new Regex("(== ?)([a-zA-Z]+) Career( ?==)", RegexOptions.IgnoreCase);
 
         private static readonly Regex RegexBadHeaderStartOfAticle = new Regex("^(={1,4} ?(about|description|overview|definition|profile|(?:general )?information|background|intro(?:duction)?|summary|bio(?:graphy)?) ?={1,4})", RegexOptions.IgnoreCase);
