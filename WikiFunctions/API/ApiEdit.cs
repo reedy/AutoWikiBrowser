@@ -287,7 +287,7 @@ namespace WikiFunctions.API
                 url += "&assert=user";
 
             if ((options & ActionOptions.CheckNewMessages) > 0)
-                url += "&meta=userinfo&uiprop=hasmsg";
+                url += "&meta=userinfo|notifications&uiprop=hasmsg&notprop=count";
 
             return url;
         }

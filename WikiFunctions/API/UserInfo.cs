@@ -75,6 +75,12 @@ namespace WikiFunctions.API
         { get; internal set; }
 
         /// <summary>
+        /// The number of unread notifications for the user
+        /// </summary>
+        public int Notifications
+        { get; internal set; }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="group"></param>
@@ -168,10 +174,18 @@ namespace WikiFunctions.API
         internal void Update(XmlDocument xml)
         {
             var users = xml.GetElementsByTagName("userinfo");
-            if (users.Count == 0) return;
+            if (users.Count > 0)
+            {
 
             HasMessages = users[0].Attributes["messages"] != null;
             IsBlocked = users[0].Attributes["blockedby"] != null;
+            }
+            
+            var notifications = xml.GetElementsByTagName("notifications");
+            if(notifications.Count > 0)
+                Notifications =  int.Parse(notifications[0].Attributes["count"].Value);
+            else
+                Notifications = 0;
         }
 
         /// <summary>
