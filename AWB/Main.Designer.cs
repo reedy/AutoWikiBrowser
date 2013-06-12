@@ -193,6 +193,7 @@ namespace AutoWikiBrowser
             this.lblStatusText = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblBotTimer = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblUserName = new System.Windows.Forms.ToolStripStatusLabel();
+            this.lblUserNotifications = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblProject = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblNewArticles = new System.Windows.Forms.ToolStripStatusLabel();
             this.lblIgnoredArticles = new System.Windows.Forms.ToolStripStatusLabel();
@@ -1632,7 +1633,8 @@ namespace AutoWikiBrowser
             this.MainFormProgressBar,
             this.lblStatusText,
             this.lblBotTimer,
-            this.lblUserName,
+            this.lblUserNotifications,
+            this.lblUserName,            
             this.lblProject,
             this.lblNewArticles,
             this.lblIgnoredArticles,
@@ -1677,6 +1679,18 @@ namespace AutoWikiBrowser
             this.lblUserName.Size = new System.Drawing.Size(37, 17);
             this.lblUserName.Text = "User:";
             this.lblUserName.Click += new System.EventHandler(this.lblUserName_Click);
+                        // 
+            // lblUserNotifications
+            // 
+            this.lblUserNotifications.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
+            this.lblUserNotifications.BackColor = System.Drawing.Color.Gray;
+            this.lblUserNotifications.ForeColor = System.Drawing.Color.White;
+            this.lblUserNotifications.Name = "lblUserNotifications";
+            this.lblUserNotifications.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblUserNotifications.Size = new System.Drawing.Size(8, 17);
+            this.lblUserNotifications.Text = "0";
+            this.lblUserNotifications.Click += new System.EventHandler(this.lblUserNotifications_Click);
+            this.lblUserNotifications.ToolTipText = "User notifications";
             // 
             // lblProject
             // 
@@ -4418,6 +4432,7 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripLabel lbltsNumberofItems;
         private System.Windows.Forms.ToolStripStatusLabel lblProject;
         private System.Windows.Forms.ToolStripStatusLabel lblUserName;
+        private System.Windows.Forms.ToolStripStatusLabel lblUserNotifications;
         private System.Windows.Forms.ToolStripStatusLabel lblTimer;
         private System.Windows.Forms.ToolStripButton btntsStart;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator18;
