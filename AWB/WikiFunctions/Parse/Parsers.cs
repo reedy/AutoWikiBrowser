@@ -6845,9 +6845,8 @@ namespace WikiFunctions.Parse
         /// <returns>The tagged article.</returns>
         public string Tagger(string articleText, string articleTitle, bool restrictOrphanTagging, ref string summary)
         {
-            // don't tag redirects/outside article namespace/no tagging changes
-            if (!Namespace.IsMainSpace(articleTitle) || Tools.IsRedirect(articleText) || WikiRegexes.Wi.IsMatch(articleText) || articleTitle=="Main Page")
-                return articleText;
+ 			if(!TaggerPermitted(articleText, articleTitle))
+ 				return articleText;
 
             tagsRemoved.Clear();
             tagsAdded.Clear();
@@ -7176,6 +7175,26 @@ namespace WikiFunctions.Parse
 
             return articleText;
         }
+
+		/// <summary>
+		/// Checks whether Tagger is permitted on article.
+		/// Allowed on mainspace for non-redirect pages without {{wi}} template
+		/// Also allowed for ar-wiki namespace 104
+		/// </summary>
+		/// <returns>True if Tagger is permitted on article</returns>
+		/// <param name='articleText'>Article text</param>
+		/// <param name='articleTitle'>Article title</param>
+		private static bool TaggerPermitted(string articleText, string articleTitle)
+		{
+			// don't tag redirects/outside article namespace/no tagging changes
+			// allow for ar-wiki 104
+			if(Variables.LangCode.Equals("ar") && Namespace.Determine(articleTitle) == 104)
+				return true;
+			else if (!Namespace.IsMainSpace(articleTitle) || Tools.IsRedirect(articleText) || WikiRegexes.Wi.IsMatch(articleText))
+				return false;
+
+			return true;
+		}
 
         /// <summary>
         /// Returns the categories that are not stub or proposed deletion categories from the input list
