@@ -738,6 +738,7 @@ namespace WikiFunctions
                         case "sv":
                             mSummaryTag = " med ";
                             TypoSummaryTag = ", rättningar:";
+							Stub = @"(?:[^{}]*?[Ss]tub|[^{}]+?stub\-[^{}]+)";
                             break;
 
                         case "tr":
