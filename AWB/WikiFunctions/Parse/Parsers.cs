@@ -2950,6 +2950,8 @@ namespace WikiFunctions.Parse
 
             articleText = HorizontalRule.Replace(articleText.Trim(), "");
 
+            articleText = SpaceThenNewline.Replace(articleText, "\r\n");
+
             return articleText.Replace("\r\n|\r\n\r\n", "\r\n|\r\n").Trim();
         }
 
@@ -2968,7 +2970,6 @@ namespace WikiFunctions.Parse
             articleText = articleText.Replace("\r\n\r\n*", "\r\n*");
 
             articleText = MultipleTabs.Replace(articleText, " ");
-            articleText = SpaceThenNewline.Replace(articleText, "\r\n");
 
             articleText = articleText.Replace("==\r\n\r\n", "==\r\n");
             articleText = NewlinesBelowExternalLinks.Replace(articleText, "==External links==\r\n*");
