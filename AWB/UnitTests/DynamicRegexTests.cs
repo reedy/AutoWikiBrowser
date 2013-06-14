@@ -552,6 +552,14 @@ Image here");
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{تقاوى}}");
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{stub}}");
 
+			Variables.SetProjectLangCode("sv");
+			Variables.Stub = @"(?:[^{}]*?[Ss]tub|[^{}]+?stub\-[^{}]+)";
+			WikiRegexes.MakeLangSpecificRegexes();
+
+			RegexAssert.IsMatch(WikiRegexes.Stub, @"{{1920-talsstub}}");
+			RegexAssert.IsMatch(WikiRegexes.Stub, @"{{1910-talsstub-USA}}");
+			RegexAssert.IsMatch(WikiRegexes.Stub, @"{{stub}}");
+
             Variables.SetProject("en", ProjectEnum.wikipedia);
             Variables.Stub = "[^{}|]*?[Ss]tub";
             WikiRegexes.MakeLangSpecificRegexes();
