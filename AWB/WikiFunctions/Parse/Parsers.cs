@@ -3891,8 +3891,13 @@ namespace WikiFunctions.Parse
                 newValue = Tools.RenameTemplate(newValue, templatename, "Cite book");
 
             // remove leading zero in day of month
-            newValue = DateLeadingZero.Replace(newValue, @"$1$2$3$4$5");
-            newValue = DateLeadingZero.Replace(newValue, @"$1$2$3$4$5");
+            if(DateLeadingZero.IsMatch(newValue))
+            {
+                newValue = DateLeadingZero.Replace(newValue, @"$1$2$3$4$5");
+                newValue = DateLeadingZero.Replace(newValue, @"$1$2$3$4$5");
+                TheDate = Tools.GetTemplateParameterValue(newValue, "date");
+                accessdate = Tools.GetTemplateParameterValue(newValue, "accessdate");
+            }
 
             if (Regex.IsMatch(templatename, @"[Cc]ite(?: ?web| book| news)"))
             {

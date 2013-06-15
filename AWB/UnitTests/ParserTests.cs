@@ -3266,6 +3266,9 @@ publisher=The BBC|date=3rd June 2009|accessdate=15th January 2010}}"));
             string nochange = @"{{cite web|url=http://news.bbc.co.uk/1/hi/uk_politics/8080777.stm|title=Brown pressure at January 15th, 2010}}";
 
             Assert.AreEqual(nochange, Parsers.FixCitationTemplates(nochange));
+
+            Assert.AreEqual(@"{{cite web | url=http://www.foo.com| title=Bar | date=January 28, 2013 | accessdate=March 7, 2013 | other=}}", 
+                            Parsers.FixCitationTemplates(@"{{cite web | url=http://www.foo.com| title=Bar | date=January 28th, 2013 | accessdate=March 07, 2013 | other=}}"));
         }
 
         [Test]
