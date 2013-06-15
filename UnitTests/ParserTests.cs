@@ -1986,6 +1986,7 @@ died 2002
             Assert.IsTrue(Parsers.CategoryMatch(@"foo [[Category:Year of birth missing|Foo, bar]]", "Year of birth missing"));
 
             Assert.IsFalse(Parsers.CategoryMatch(@"foo [[Category:1990 births]]", @"1990"));
+            Assert.IsFalse(Parsers.CategoryMatch(@"foo [[Category:1990_births]]", @"1990 births"));
         }
 
         [Test]
@@ -8688,6 +8689,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 {{refimprove}}";
 
             Assert.AreEqual(correct, Parsers.Conversions(nochange + "\r\n" + @"[[Category:Living people]]"));
+            Assert.AreEqual(correct.Replace(":", " : "), Parsers.Conversions(nochange + "\r\n" + @"[[Category : Living people]]"));
             Assert.AreEqual(correct, Parsers.Conversions(@"Foo
 {{refimprove}}" + "\r\n" + @"[[Category:Living people]]"));
 

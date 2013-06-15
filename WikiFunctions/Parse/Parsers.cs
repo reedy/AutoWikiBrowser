@@ -6693,7 +6693,7 @@ namespace WikiFunctions.Parse
             articleText = SectionTemplates.Replace(articleText, SectionTemplateConversionsME);
 
             // fixes if article has [[Category:Living people]]
-            if(Variables.IsWikipediaEN && articleText.Contains(CategoryLivingPeople))
+            if(Variables.IsWikipediaEN && CategoryMatch(articleText, "Living people"))
             {
                 // {{unreferenced}} --> {{BLP unsourced}} if article has [[Category:Living people]], and no free-text first argument to {{unref}}
                 string unref = WikiRegexes.Unreferenced.Match(articleText).Value;
