@@ -77,6 +77,7 @@
             this.btnAddSkippedToList.Text = "Add all to list";
             this.btnAddSkippedToList.UseVisualStyleBackColor = true;
             this.btnAddSkippedToList.Click += new System.EventHandler(this.btnAddToList_Click);
+            this.btnAddSkippedToList.Enabled = false;
             // 
             // btnClearIgnored
             // 
@@ -88,6 +89,7 @@
             this.btnClearIgnored.Text = "Clear";
             this.btnClearIgnored.UseVisualStyleBackColor = true;
             this.btnClearIgnored.Click += new System.EventHandler(this.btnClearIgnored_Click);
+            this.btnClearIgnored.Enabled = false;
             // 
             // btnSaveIgnored
             // 
@@ -98,6 +100,7 @@
             this.btnSaveIgnored.Text = "Save log";
             this.btnSaveIgnored.UseVisualStyleBackColor = true;
             this.btnSaveIgnored.Click += new System.EventHandler(this.btnSaveIgnored_Click);
+            this.btnSaveIgnored.Enabled = false;
             // 
             // btnClearSaved
             // 
@@ -109,6 +112,7 @@
             this.btnClearSaved.Text = "Clear";
             this.btnClearSaved.UseVisualStyleBackColor = true;
             this.btnClearSaved.Click += new System.EventHandler(this.btnClearSaved_Click);
+            this.btnClearSaved.Enabled = false;
             // 
             // btnSaveSaved
             // 
@@ -119,6 +123,7 @@
             this.btnSaveSaved.Text = "Save log";
             this.btnSaveSaved.UseVisualStyleBackColor = true;
             this.btnSaveSaved.Click += new System.EventHandler(this.btnSaveSaved_Click);
+            this.btnSaveSaved.Enabled = false;
             // 
             // label8
             // 
@@ -364,6 +369,7 @@
             this.btnAddSuccessToList.Text = "Add all to list";
             this.btnAddSuccessToList.UseVisualStyleBackColor = true;
             this.btnAddSuccessToList.Click += new System.EventHandler(this.btnAddSuccessToList_Click);
+            this.btnAddSuccessToList.Enabled = false;
             // 
             // LogControl
             // 
