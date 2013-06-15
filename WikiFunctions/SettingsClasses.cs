@@ -158,7 +158,15 @@ namespace WikiFunctions.AWBSettings
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#InvalidOperationException_in_UserPrefs.SavePrefs
+                // Saving settings will fail if permissions problems, so handle this
+                if (ex is InvalidOperationException && ex.Message.Contains("CS0016"))
+                {
+                    MessageBox.Show("Saving settings failed due to insufficient permissions.", "Error",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                else
+                    ErrorHandler.Handle(ex);
             }
         }
 
