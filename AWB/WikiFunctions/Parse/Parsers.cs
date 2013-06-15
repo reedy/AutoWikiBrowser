@@ -2891,7 +2891,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex NewlinesBeforeUrl = new Regex(@"\r\n\r\n(\* ?\[?http)");
         private static readonly Regex HorizontalRule = new Regex("----+$");
         private static readonly Regex MultipleTabs = new Regex("  +", RegexOptions.Compiled);
-        private static readonly Regex SpaceThenNewline = new Regex(" \r\n", RegexOptions.Compiled);
+        private static readonly Regex SpacesThenTwoNewline = new Regex(" +\r\n\r\n", RegexOptions.Compiled);
         private static readonly Regex WikiListWithMultipleSpaces = new Regex(@"^([\*#]+) +", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SpacedDashes = new Regex(" (—|&#15[01];|&mdash;|&#821[12];|&#x201[34];) ", RegexOptions.Compiled);
 
@@ -2950,7 +2950,7 @@ namespace WikiFunctions.Parse
 
             articleText = HorizontalRule.Replace(articleText.Trim(), "");
 
-            articleText = SpaceThenNewline.Replace(articleText, "\r\n");
+            articleText = SpacesThenTwoNewline.Replace(articleText, "\r\n\r\n");
 
             return articleText.Replace("\r\n|\r\n\r\n", "\r\n|\r\n").Trim();
         }
