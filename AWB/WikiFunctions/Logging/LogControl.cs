@@ -84,6 +84,7 @@ namespace WikiFunctions.Logging
 
             if (LogAdded != null)
                 LogAdded(skipped, logListener);
+            RefreshButtonEnablement(null, null);
         }
         #endregion
 
@@ -167,6 +168,17 @@ namespace WikiFunctions.Logging
             catch { }
         }
 
+        /// <summary>
+        /// Disables the Clear / Save log / Add all to list buttons when no articles in log, enables when 1 or more articles.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RefreshButtonEnablement(object sender, EventArgs e)
+        {
+            btnClearSaved.Enabled = btnSaveSaved.Enabled = btnAddSuccessToList.Enabled = lvSaved.Items.Count > 0;
+            btnClearIgnored.Enabled = btnSaveIgnored.Enabled = btnAddSkippedToList.Enabled = lvIgnored.Items.Count > 0;
+        }
+
         private static void ResizeListView(NoFlickerExtendedListView lstView)
         {
             lstView.ResizeColumns(true);
@@ -209,18 +221,21 @@ namespace WikiFunctions.Logging
         private void btnClearSaved_Click(object sender, EventArgs e)
         {
             lvSaved.Items.Clear();
+            RefreshButtonEnablement(null, null);
         }
 
         private void btnClearIgnored_Click(object sender, EventArgs e)
         {
             lvIgnored.Items.Clear();
             FilteredItems.Clear();
+            RefreshButtonEnablement(null, null);
         }
 
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Tools.Copy(MenuItemOwner(sender));
             RemoveSelected(sender);
+            RefreshButtonEnablement(null, null);
         }
 
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
@@ -271,6 +286,7 @@ namespace WikiFunctions.Logging
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RemoveSelected(sender);
+            RefreshButtonEnablement(null, null);
         }
 
         private void FilterItems(bool compareMatch)
@@ -288,6 +304,7 @@ namespace WikiFunctions.Logging
                 }
             }
             lvIgnored.EndUpdate();
+            RefreshButtonEnablement(null, null);
         }
 
         private void filterShowOnlySelectedToolStripMenuItem_Click_1(object sender, EventArgs e)
@@ -311,6 +328,7 @@ namespace WikiFunctions.Logging
             {
                 lvSaved.Items.Clear();
             }
+            RefreshButtonEnablement(null, null);
         }
 
         private void resetToolStripMenuItem_Click(object sender, EventArgs e)
@@ -328,6 +346,7 @@ namespace WikiFunctions.Logging
             {
                 lvSaved.Sorting = SortOrder.None;
             }
+            RefreshButtonEnablement(null, null);
         }
         #endregion
 
