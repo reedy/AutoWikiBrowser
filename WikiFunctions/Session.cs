@@ -349,7 +349,7 @@ namespace WikiFunctions
 
                 if (UserNameInText(User.Name, checkPageText))
                 {
-                    //enable bot mode
+                    // enable bot mode if in bots section
                     IsBot = UserNameInText(User.Name, strBotUsers);
 
                     return WikiStatusResult.Registered;
