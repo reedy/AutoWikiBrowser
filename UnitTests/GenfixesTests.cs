@@ -127,6 +127,7 @@ namespace UnitTests
         public void DateRange()
         {
             AssertChange(@"over July 09-11, 2009", @"over July 9–11, 2009");
+            AssertChange(@"{{Citation | title = Admiralty notice | date = March 1st – March 5th, 1747 | page = 1}}", @"{{Citation | title = Admiralty notice | date = March 1–5, 1747 | page = 1}}");
         }
 
         [Test]
