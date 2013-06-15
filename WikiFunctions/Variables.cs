@@ -89,6 +89,7 @@ namespace WikiFunctions
             AWBDefaultSummaryTag();
             mSummaryTag = " using ";
             Protocol = "http://";
+            NotificationsEnabled = true;
         }
 
         /// <summary>
@@ -196,6 +197,11 @@ namespace WikiFunctions
         /// true if current wiki uses right-to-left writing system
         /// </summary>
         public static bool RTL { get; set; }
+
+        /// <summary>
+        /// Whether user notifications (from MediaWiki Echo extension) are available on the wiki
+        /// </summary>
+        public static bool NotificationsEnabled { get; set; }
 
         /// <summary>
         /// 
@@ -582,6 +588,7 @@ namespace WikiFunctions
             TypoSummaryTag = "typos fixed: ";
             AWBDefaultSummaryTag();
             mSummaryTag = " using ";
+            NotificationsEnabled = true;
 
             if (IsCustomProject)
             {

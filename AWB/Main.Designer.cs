@@ -1688,7 +1688,7 @@ namespace AutoWikiBrowser
             this.lblUserNotifications.Name = "lblUserNotifications";
             this.lblUserNotifications.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblUserNotifications.Size = new System.Drawing.Size(8, 17);
-            this.lblUserNotifications.Text = "0";
+            this.lblUserNotifications.Text = " ";
             this.lblUserNotifications.Click += new System.EventHandler(this.lblUserNotifications_Click);
             this.lblUserNotifications.ToolTipText = "User notifications";
             // 
