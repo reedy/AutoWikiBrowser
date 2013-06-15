@@ -1395,6 +1395,15 @@ namespace WikiFunctions
                 CiteTemplateDates(parsers, skip.SkipNoCiteTemplateDatesFixed);
                 Variables.Profiler.Profile("CiteTemplateDates");
 
+                FixLinks(skip.SkipNoBadLink);
+                Variables.Profiler.Profile("FixLinks");
+
+                AWBChangeArticleText("Simplify links", Parsers.SimplifyLinks(ArticleText), true);
+                Variables.Profiler.Profile("SimplifyLinks");
+
+                AWBChangeArticleText("Fix citation templates", Parsers.FixCitationTemplates(ArticleText), true, true);
+                Variables.Profiler.Profile("FixCitationTemplates");
+
                 AWBChangeArticleText("Fix temperatures", Parsers.FixTemperatures(ArticleText), true);
                 Variables.Profiler.Profile("FixTemperatures");
 
@@ -1437,15 +1446,6 @@ namespace WikiFunctions
 
                 AWBChangeArticleText("PersonData", Parsers.PersonData(ArticleText, Name), true);
                 Variables.Profiler.Profile("PersonData");
-
-                FixLinks(skip.SkipNoBadLink);
-                Variables.Profiler.Profile("FixLinks");
-
-                AWBChangeArticleText("Simplify links", Parsers.SimplifyLinks(ArticleText), true);
-                Variables.Profiler.Profile("SimplifyLinks");
-
-                AWBChangeArticleText("Fix citation templates", Parsers.FixCitationTemplates(ArticleText), true, true);
-                Variables.Profiler.Profile("FixCitationTemplates");
             }
 
             // run whether redirect or not, must be after FixPeopleCategories

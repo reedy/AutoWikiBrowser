@@ -493,6 +493,16 @@ God.<ref name=""Smith63""/>
 
 ==References==
 {{reflist|2}}", ArticleText);
+
+             AssertChange(@"A<ref>{{cite book|last=Warnock|first=C |title=The Affair|year=1980|publisher=Pro |language=English}}</ref> which stood for son of the
+company's founder<ref name=""Warnock 1980"">{{cite book|last=Warnock|first=C |title=The Affair|year=1980|publisher=Pro }}</ref>
+
+==References==
+{{reflist}}", @"A<ref name=""Warnock 1980""/> which stood for son of the
+company's founder<ref name=""Warnock 1980"">{{cite book|last=Warnock|first=C |title=The Affair|year=1980|publisher=Pro }}</ref>
+
+==References==
+{{reflist}}");
         }
     }
 
