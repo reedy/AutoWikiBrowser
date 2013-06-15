@@ -2112,18 +2112,23 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             UpdateUserName();
             UpdateBotStatus();
             UpdateAdminStatus();
-            UpdateUserNotifications();
         }
 
         private void UpdateUserNotifications()
         {
+            if(!Variables.NotificationsEnabled)
+            {
+                lblUserNotifications.Text = " ";
+                return;
+            }
+
             int n = TheSession.User.Notifications;
 
             lblUserNotifications.Text = TheSession.User.Notifications.ToString();
 
             if(n > 0)
             {
-                lblUserNotifications.BackColor = Color.Tomato;                
+                lblUserNotifications.BackColor = Color.Tomato;
                 lblUserNotifications.Font = new Font(lblUserNotifications.Font, FontStyle.Bold);
             }
             else
@@ -5512,7 +5517,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         
         private void lblUserNotifications_Click(object sender, EventArgs e)
         {
-            Tools.OpenArticleInBrowser("Special:Notifications");
+            if(Variables.NotificationsEnabled && TheSession.User.IsLoggedIn)
+                Tools.OpenArticleInBrowser("Special:Notifications");
         }
 
         private void lblProject_Click(object sender, EventArgs e)
