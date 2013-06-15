@@ -1343,13 +1343,6 @@ namespace WikiFunctions
             UnHideMoreText(HiderHideExtLinksImages);
             Variables.Profiler.Profile("UnHideMoreText");
 
-            if (!Tools.IsRedirect(ArticleText))
-            {
-                // FixDates does its own hiding
-                AWBChangeArticleText("Fix dates 2", parsers.FixDatesA(ArticleText).Trim(), true);
-                Variables.Profiler.Profile("FixDates2");
-            }
-
             HideText(removeText);
             Variables.Profiler.Profile("HideText");
 
@@ -1460,6 +1453,13 @@ namespace WikiFunctions
             Variables.Profiler.Profile("SetDefaultSort");
 
             UnHideText(removeText);
+
+            if (!Tools.IsRedirect(ArticleText))
+            {
+                // FixDates does its own hiding
+                AWBChangeArticleText("Fix dates 2", parsers.FixDatesA(ArticleText).Trim(), true);
+                Variables.Profiler.Profile("FixDates2");
+            }
 
             if (!Globals.UnitTestMode) // disable to avoid ssslow network requests
             {
