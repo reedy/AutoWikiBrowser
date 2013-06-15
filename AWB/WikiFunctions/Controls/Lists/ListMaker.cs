@@ -1027,7 +1027,7 @@ namespace WikiFunctions.Controls.Lists
         }
 
         /// <summary>
-        /// Updates the Number of Articles
+        /// Updates the Number of Articles, enablement of Remove, Filter buttons. Sorts list if sorting is turned on
         /// </summary>
         public void UpdateNumberOfArticles()
         {
@@ -1039,6 +1039,8 @@ namespace WikiFunctions.Controls.Lists
 
             if (AutoAlpha)
                 AlphaSortList();
+
+            btnRemove.Enabled = btnFilter.Enabled = lbArticles.Items.Count > 0;
         }
 
         /// <summary>
