@@ -78,10 +78,10 @@ namespace WikiFunctions.Parse
             RegexUnicode.Add(new Regex("&#(x2[0-9AB][0-9A-Fa-f]{3});"), "&amp;#$1;");
 
             // clean 'do-attempt =July 2006|att=April 2008' to 'do attempt = April 2008'
-            RegexConversion.Add(new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:(?:\|[^{}]*)?\|)\s*[Dd]o-attempt\s*=\s*)[^{}\|]+\|\s*att\s*=\s*([^{}\|]+)(?=\||}})", RegexOptions.Compiled), "$1$2");
+            RegexConversion.Add(new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*)?\|\s*[Dd]o-attempt\s*=\s*)[^{}\|]+\|\s*att\s*=\s*([^{}\|]+)(?=\||}})", RegexOptions.Compiled), "$1$2");
 
             // clean "Copyedit for=grammar|date=April 2009"to "Copyedit=April 2009"
-            RegexConversion.Add(new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:(?:\|[^{}]*)?\|)\s*[Cc]opyedit\s*)for\s*=\s*[^{}\|]+\|\s*date(\s*=[^{}\|]+)(?=\||}})", RegexOptions.Compiled), "$1$2");
+            RegexConversion.Add(new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*)?\|\s*[Cc]opyedit\s*)for\s*=\s*[^{}\|]+\|\s*date(\s*=[^{}\|]+)(?=\||}})", RegexOptions.Compiled), "$1$2");
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.7B.7Bcommons.7CCategory:XXX.7D.7D_.3E_.7B.7Bcommonscat.7CXXX.7D.7D
             RegexConversion.Add(new Regex(@"\{\{\s*[Cc]ommons\|\s*[Cc]ategory:\s*([^{}]+?)\s*\}\}", RegexOptions.Compiled), @"{{Commons category|$1}}");
@@ -216,7 +216,7 @@ namespace WikiFunctions.Parse
             return (Variables.Project <= ProjectEnum.species) ? Sorter.Sort(articleText, articleTitle, fixOptionalWhitespace) : articleText;
         }
 
-        private static readonly Regex RegexHeadings0 = new Regex("(== *)(?:see also|related topics|related articles|internal links|also see)( *==)", RegexOptions.IgnoreCase);
+        private static readonly Regex RegexHeadings0 = new Regex("(== *)(?:see also|related topics|related articles|internal links|also see):?( *==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadings1 = new Regex("(== *)(external links?|external sites?|outside links?|web ?links?|exterior links?):?( *==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadings3 = new Regex("(== *)(?:referen[sc]es?:?)( *==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadings4 = new Regex("(== *)(?:sources?:?)( *==)", RegexOptions.IgnoreCase);
