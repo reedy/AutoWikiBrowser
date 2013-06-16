@@ -7398,9 +7398,9 @@ namespace WikiFunctions.Parse
             {
                 // Reverse order of words for arwiki and arzwiki
                 if (Variables.LangCode.Equals("ar"))
-                    summary = Tools.ListToStringCommaSeparator(tagsRemoved) + " وسوم " + " أزال";
+                    summary = " أزال" + " وسوم " + Tools.ListToStringCommaSeparator(tagsRemoved);
                 else if (Variables.LangCode.Equals("arz"))
-                    summary = Tools.ListToStringCommaSeparator(tagsRemoved) + " وسوم " +  " شال";
+                    summary = " شال" +  " وسوم " + Tools.ListToStringCommaSeparator(tagsRemoved);
                 else summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " tag" +
                     (tagsRemoved.Count == 1 ? "" : "s");
             }
@@ -7412,9 +7412,9 @@ namespace WikiFunctions.Parse
 
                 // Reverse order of words for arwiki and arzwiki
                 if (Variables.LangCode.Equals("ar"))
-                    summary += Tools.ListToStringCommaSeparator(tagsAdded) + " وسوم " + " أضاف";
+                    summary += "أضاف " + " وسوم " + Tools.ListToStringCommaSeparator(tagsAdded);
                 else if (Variables.LangCode.Equals("arz"))
-                    summary += Tools.ListToStringCommaSeparator(tagsAdded) + " وسوم " + " زود";
+                    summary += "زود " + " وسوم " + Tools.ListToStringCommaSeparator(tagsAdded);
                 else summary += "added " + Tools.ListToStringCommaSeparator(tagsAdded) + " tag" +
                     (tagsAdded.Count == 1 ? "" : "s");
             }
