@@ -9025,6 +9025,10 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsFalse(text.Contains(UncatStub));
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
 
+            text = parser.Tagger(ShortText, "Main Page", false, out noChange, ref summary);
+            //Main Page should not be tagged
+            Assert.IsTrue(ShortText == text, "nothing changed");
+
             // rename {{improve categories}} if uncategorized
             text = parser.Tagger(ShortText + ShortText + @"{{improve categories}}", "Test", false, out noChange, ref summary);
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text));
