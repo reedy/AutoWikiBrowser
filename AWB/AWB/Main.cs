@@ -3903,6 +3903,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
             txtEdit.Text = TheArticle.ArticleText;
             txtEdit.Visible = false;
+
+            // clear any red from previous alerts to avoid entire edit box being coloured red after reparse
+            txtEdit.SelectAll();
+            txtEdit.SelectionBackColor = Color.White;
+
             if (highlightAllFindToolStripMenuItem.Checked)
                 HighlightAllFind();
 
