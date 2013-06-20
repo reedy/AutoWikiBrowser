@@ -138,8 +138,8 @@ namespace UnitTests
             AssertChange("a<br /><bR>b", "a\r\n\r\nb");
             AssertChange("a<BR> <Br/>b", "a\r\n\r\nb");
             AssertChange("<br><br>", ""); // \r\n removed as extra whitespace
+            AssertChange("a<br/br>b", "a<br />b"); // incorrect single br tag
 
-            AssertNotChanged("a<br/br>b");
             AssertNotChanged("a<br/>\r\n<br>b");
             AssertChange("a\r\n<br/>\r\n<br>\r\nb", "a\r\n\r\nb");
 
