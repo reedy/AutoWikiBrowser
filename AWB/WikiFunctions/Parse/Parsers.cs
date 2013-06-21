@@ -6869,7 +6869,19 @@ namespace WikiFunctions.Parse
             if ((words > StubMaxWordCount) && WikiRegexes.Stub.IsMatch(commentsStripped))
             {
                 articleText = WikiRegexes.Stub.Replace(articleText, StubChecker).Trim();
-                tagsRemoved.Add("stub");
+
+                if (Variables.LangCode.Equals("ar"))
+                {
+                    tagsRemoved.Add("بذرة");
+                }
+                else if (Variables.LangCode.Equals("arz"))
+                {
+                    tagsRemoved.Add("تقاوى");
+                }
+                else
+                {
+                    tagsRemoved.Add("stub");
+                }                
             }
 
             // refresh
