@@ -76,8 +76,6 @@ namespace AutoWikiBrowser
                 chkFlash.Checked = false;
             }
             cmboProtocol.SelectedIndex = (protocol == "http://") ? 0 : 1;
-
-            tbPrefs.TabPages.Remove(tabPage1);
         }
 
         #region Language and project
@@ -387,13 +385,26 @@ namespace AutoWikiBrowser
 
         public List<int> AlertPreferences
         {
+            // if no alerts checked, will be settings file prior to alerts preferences, so enable all
+            // using anyChecked for get, value.Count == 0 for set
             get
             {
                 List<int> alerts = new List<int>();
+
+                bool anyChecked = false;
+                for (int a = 0; a < alertListBox.Items.Count; a++)
+                {
+                    if(alertListBox.GetItemChecked(a))
+                    {
+                        anyChecked = true;
+                        break;
+                    }
+                }
+
                 for (int i = 0; i < alertListBox.Items.Count; i++)
                 {
                     CheckedBoxItem cbi = (CheckedBoxItem) alertListBox.Items[i];
-                    if (alertListBox.GetItemChecked(i))
+                    if (alertListBox.GetItemChecked(i) || !anyChecked)
                     {
                         alerts.Add(cbi.ID);
                     }
@@ -410,7 +421,7 @@ namespace AutoWikiBrowser
                                                {
                                                    ID = kvp.Key,
                                                    Description = kvp.Value,
-                                               }, value.Contains(kvp.Key));
+                                                }, (value.Contains(kvp.Key) || value.Count == 0));
                 }
                 alertListBox.EndUpdate();
             }
