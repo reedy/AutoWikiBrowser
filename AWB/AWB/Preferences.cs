@@ -390,7 +390,7 @@ namespace AutoWikiBrowser
             get
             {
                 List<int> alerts = new List<int>();
-                for (int i = 0; i < alertListBox.Items.Count - 1; i++)
+                for (int i = 0; i < alertListBox.Items.Count; i++)
                 {
                     CheckedBoxItem cbi = (CheckedBoxItem) alertListBox.Items[i];
                     if (alertListBox.GetItemChecked(i))
