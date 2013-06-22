@@ -2571,94 +2571,127 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 int wordCount = Tools.WordCount(articleText);
                 int catCount = WikiRegexes.Category.Matches(articleText).Count;
 
-                if (TheArticle.NameSpaceKey == Namespace.Article  && wordCount > Parsers.StubMaxWordCount && WikiRegexes.Stub.IsMatch(articleText))
+                if ((alertPreferences.Count == 0 || alertPreferences.Contains(12)) && TheArticle.NameSpaceKey == Namespace.Article  && wordCount > Parsers.StubMaxWordCount && WikiRegexes.Stub.IsMatch(articleText))
                     lbAlerts.Items.Add("Long article with a stub tag.");
 
-                if (catCount == 0 && !Namespace.IsTalk(TheArticle.Name))
+                if ((alertPreferences.Count == 0 || alertPreferences.Contains(14)) && catCount == 0 && !Namespace.IsTalk(TheArticle.Name))
                     lbAlerts.Items.Add("No category (may be one in a template)");
 
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Replace_nofootnotes_with_morefootnote_if_references_exists
-                if (TheArticle.NameSpaceKey == Namespace.Article && TheArticle.HasMorefootnotesAndManyReferences)
+                if ((alertPreferences.Count == 0 || alertPreferences.Contains(7)) && TheArticle.NameSpaceKey == Namespace.Article && TheArticle.HasMorefootnotesAndManyReferences)
                     lbAlerts.Items.Add("Has 'No/More footnotes' template yet many references");
 
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#.28Yet.29_more_reference_related_changes.
-                if (TheArticle.HasRefAfterReflist)
+                if ((alertPreferences.Count == 0 || alertPreferences.Contains(6)) && TheArticle.HasRefAfterReflist)
                     lbAlerts.Items.Add(@"Has a <ref> after <references/>");
 
-                if (TheArticle.IsDisambiguationPageWithRefs)
+                if ((alertPreferences.Count == 0 || alertPreferences.Contains(3)) && TheArticle.IsDisambiguationPageWithRefs)
                     lbAlerts.Items.Add(@"DAB page with <ref>s");
 
-                if (TheArticle.NameSpaceKey == Namespace.Article && articleText.StartsWith("=="))
+                if ((alertPreferences.Count == 0 || alertPreferences.Contains(16)) && TheArticle.NameSpaceKey == Namespace.Article && articleText.StartsWith("=="))
                     lbAlerts.Items.Add("Starts with heading");
 
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Format_references
-                if (TheArticle.HasBareReferences)
+                if ((alertPreferences.Count == 0 || alertPreferences.Contains(19)) && TheArticle.HasBareReferences)
                     lbAlerts.Items.Add("Unformatted references");
 
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Detect_multiple_DEFAULTSORT
-                if (WikiRegexes.Defaultsort.Matches(articleText).Count > 1)
+                if ((alertPreferences.Count == 0 || alertPreferences.Contains(13)) && WikiRegexes.Defaultsort.Matches(articleText).Count > 1)
                     lbAlerts.Items.Add("Multiple DEFAULTSORTs");
 
                 // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Some_additional_edits
-                deadLinks = TheArticle.DeadLinks();
-                if (deadLinks.Count > 0)
-                    lbAlerts.Items.Add("Dead links" + " (" + deadLinks.Count + ")");
-
-                ambigCiteDates = TheArticle.AmbiguousCiteTemplateDates();
-                if (ambigCiteDates.Count > 0)
-                    lbAlerts.Items.Add("Ambiguous citation dates" + " (" + ambigCiteDates.Count + ")");
-
-                unbalancedBracket = TheArticle.UnbalancedBrackets();
-                if (unbalancedBracket.Count > 0)
-                    lbAlerts.Items.Add("Unbalanced brackets" + " (" + unbalancedBracket.Count + ")");
-
-                badCiteParameters = TheArticle.BadCiteParameters();
-                if (badCiteParameters.Count > 0)
-                    lbAlerts.Items.Add("Invalid citation parameter(s)" + " (" + badCiteParameters.Count + ")");
-
-                targetlessLinks = TheArticle.TargetlessLinks();
-                if (targetlessLinks.Count > 0)
-                    lbAlerts.Items.Add("Links with no target" + " (" + targetlessLinks.Count + ")");
-
-                doublepipeLinks = TheArticle.DoublepipeLinks();
-                if (doublepipeLinks.Count > 0)
-                    lbAlerts.Items.Add("Links with double pipes" + " (" + doublepipeLinks.Count + ")");
-
-                dupeBanerShellParameters = TheArticle.DuplicateWikiProjectBannerShellParameters();
-                if (dupeBanerShellParameters.Count > 0)
-                    lbAlerts.Items.Add("Duplicate parameter(s) in WPBannerShell" + " (" + dupeBanerShellParameters.Count + ")");
-
-                UnknownWikiProjectBannerShellParameters = TheArticle.UnknownWikiProjectBannerShellParameters();
-                if (UnknownWikiProjectBannerShellParameters.Count > 0)
+                if(alertPreferences.Count == 0 || alertPreferences.Contains(4))
                 {
-                    string warn = "Unknown parameters in WPBannerShell: " + " (" +
-                                  UnknownWikiProjectBannerShellParameters.Count + ") "
-                                  + string.Join(",", UnknownWikiProjectBannerShellParameters.ToArray());
-                    lbAlerts.Items.Add(warn);
+                    deadLinks = TheArticle.DeadLinks();
+                    if (deadLinks.Count > 0)
+                        lbAlerts.Items.Add("Dead links" + " (" + deadLinks.Count + ")");
                 }
 
-                UnknownMultipleIssuesParameters = TheArticle.UnknownMultipleIssuesParameters();
-                if (UnknownMultipleIssuesParameters.Count > 0)
+                if(alertPreferences.Count == 0 || alertPreferences.Contains(1))
                 {
-                    string warn = "Unknown parameters in Multiple issues: " + " (" +
-                                  UnknownMultipleIssuesParameters.Count + ") "
-                                  + string.Join(", ", UnknownMultipleIssuesParameters.ToArray());
-                    lbAlerts.Items.Add(warn);
+                    ambigCiteDates = TheArticle.AmbiguousCiteTemplateDates();
+                    if (ambigCiteDates.Count > 0)
+                        lbAlerts.Items.Add("Ambiguous citation dates" + " (" + ambigCiteDates.Count + ")");
                 }
 
-                wikilinkedHeaders = TheArticle.WikiLinkedHeaders();
-                if (wikilinkedHeaders.Count > 0)
-                    lbAlerts.Items.Add("Header(s) with wikilinks" + " (" + wikilinkedHeaders.Count + ")");
+                if(alertPreferences.Count == 0 || alertPreferences.Contains(17))
+                {
+                    unbalancedBracket = TheArticle.UnbalancedBrackets();
+                    if (unbalancedBracket.Count > 0)
+                        lbAlerts.Items.Add("Unbalanced brackets" + " (" + unbalancedBracket.Count + ")");
+                }
 
-                unclosedTags = TheArticle.UnclosedTags();
-                if (unclosedTags.Count > 0)
-                    lbAlerts.Items.Add("Unclosed tag(s)" + " (" + unclosedTags.Count + ")");
+                if(alertPreferences.Count == 0 || alertPreferences.Contains(9))
+                {
+                    badCiteParameters = TheArticle.BadCiteParameters();
+                    if (badCiteParameters.Count > 0)
+                        lbAlerts.Items.Add("Invalid citation parameter(s)" + " (" + badCiteParameters.Count + ")");
+                }
 
-                if (TheArticle.HasSeeAlsoAfterNotesReferencesOrExternalLinks)
+                if(alertPreferences.Count == 0 || alertPreferences.Contains(11))
+                {
+                    targetlessLinks = TheArticle.TargetlessLinks();
+                    if (targetlessLinks.Count > 0)
+                        lbAlerts.Items.Add("Links with no target" + " (" + targetlessLinks.Count + ")");
+                }
+
+                if(alertPreferences.Count == 0 || alertPreferences.Contains(10))
+                {
+                    doublepipeLinks = TheArticle.DoublepipeLinks();
+                    if (doublepipeLinks.Count > 0)
+                        lbAlerts.Items.Add("Links with double pipes" + " (" + doublepipeLinks.Count + ")");
+                }
+
+                if(alertPreferences.Count == 0 || alertPreferences.Contains(5))
+                {
+                    dupeBanerShellParameters = TheArticle.DuplicateWikiProjectBannerShellParameters();
+                    if (dupeBanerShellParameters.Count > 0)
+                        lbAlerts.Items.Add("Duplicate parameter(s) in WPBannerShell" + " (" + dupeBanerShellParameters.Count + ")");
+                }
+
+                if(alertPreferences.Count == 0 || alertPreferences.Contains(21))
+                {
+                    UnknownWikiProjectBannerShellParameters = TheArticle.UnknownWikiProjectBannerShellParameters();
+                    if (UnknownWikiProjectBannerShellParameters.Count > 0)
+                    {
+                        string warn = "Unknown parameters in WPBannerShell: " + " (" +
+                            UnknownWikiProjectBannerShellParameters.Count + ") "
+                            + string.Join(",", UnknownWikiProjectBannerShellParameters.ToArray());
+                        lbAlerts.Items.Add(warn);
+                    }
+                }
+
+                if(alertPreferences.Count == 0 || alertPreferences.Contains(20))
+                {
+                    UnknownMultipleIssuesParameters = TheArticle.UnknownMultipleIssuesParameters();
+                    if (UnknownMultipleIssuesParameters.Count > 0)
+                    {
+                        string warn = "Unknown parameters in Multiple issues: " + " (" +
+                            UnknownMultipleIssuesParameters.Count + ") "
+                            + string.Join(", ", UnknownMultipleIssuesParameters.ToArray());
+                        lbAlerts.Items.Add(warn);
+                    }
+                }
+
+                if(alertPreferences.Count == 0 || alertPreferences.Contains(8))
+                {
+                    wikilinkedHeaders = TheArticle.WikiLinkedHeaders();
+                    if (wikilinkedHeaders.Count > 0)
+                        lbAlerts.Items.Add("Header(s) with wikilinks" + " (" + wikilinkedHeaders.Count + ")");
+                }
+
+                if(alertPreferences.Count == 0 || alertPreferences.Contains(18))
+                {
+                    unclosedTags = TheArticle.UnclosedTags();
+                    if (unclosedTags.Count > 0)
+                        lbAlerts.Items.Add("Unclosed tag(s)" + " (" + unclosedTags.Count + ")");
+                }
+
+                if ((alertPreferences.Count == 0 || alertPreferences.Contains(15)) && TheArticle.HasSeeAlsoAfterNotesReferencesOrExternalLinks)
                     lbAlerts.Items.Add("See also section out of place");
 
                 // check for {{sic}} tags etc. when doing typo fixes
-                if (chkRegExTypo.Checked && TheArticle.HasSicTag)
+                if ((alertPreferences.Count == 0 || alertPreferences.Contains(2) || chkRegExTypo.Checked) && TheArticle.HasSicTag)
                     lbAlerts.Items.Add(@"Contains 'sic' tag");
 
                 MatchCollection imagesMC = WikiRegexes.ImagesCountOnly.Matches(articleText);
