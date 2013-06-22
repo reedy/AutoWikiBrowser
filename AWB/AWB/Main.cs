@@ -2553,6 +2553,15 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         {
             lbDuplicateWikilinks.Items.Clear();
             lbAlerts.Items.Clear();
+            ambigCiteDates.Clear();
+            badCiteParameters.Clear();
+            deadLinks.Clear();
+            doublepipeLinks.Clear();
+            dupeBanerShellParameters.Clear();
+            targetlessLinks.Clear();
+            unclosedTags.Clear();
+            wikilinkedHeaders.Clear();
+            unbalancedBracket.Clear();
 
             if (reset)
             {
