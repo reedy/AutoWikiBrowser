@@ -613,6 +613,7 @@ namespace AutoWikiBrowser
             chkMinor.Checked = p.General.Minor;
             addToWatchList.SelectedIndex = p.General.AddToWatchlist;
             ShowMovingAverageTimer = p.General.TimerEnabled;
+            alertPreferences = p.General.AlertPreferences;
 
             sortAlphabeticallyToolStripMenuItem.Checked = p.General.SortListAlphabetically;
             displayfalsePositivesButtonToolStripMenuItem.Checked = p.General.AddIgnoredToLog;
