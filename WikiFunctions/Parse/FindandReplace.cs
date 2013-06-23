@@ -207,14 +207,20 @@ namespace WikiFunctions.Parse
             if (chkAddToSummary.Checked)
             {
                 if (!string.IsNullOrEmpty(ReplacedSummary))
-                      editSummary = "replaced: " + ReplacedSummary.Trim();
+	                if (Variables.LangCode.Equals("fr"))
+	                    editSummary = "remplacement: " + ReplacedSummary.Trim();
+                	else
+		                editSummary += "replaced: " + RemovedSummary.Trim();
 
                 if (!string.IsNullOrEmpty(RemovedSummary))
                 {
                     if (!string.IsNullOrEmpty(editSummary))
                         editSummary += ", ";
 
-                    editSummary += "removed: " + RemovedSummary.Trim();
+	                if (Variables.LangCode.Equals("fr"))
+	                    editSummary += "retrait: " + RemovedSummary.Trim();
+	                else
+	                    editSummary += "removed: " + RemovedSummary.Trim();
                 }
             }
 
