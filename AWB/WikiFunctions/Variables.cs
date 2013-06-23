@@ -85,6 +85,8 @@ namespace WikiFunctions
             }
 
             CapitalizeFirstLetter = true;
+            IndexPHP = "index.php";
+            ApiPHP = "api.php";
             TypoSummaryTag = "typos fixed: ";
             AWBDefaultSummaryTag();
             mSummaryTag = " using ";
@@ -329,22 +331,6 @@ namespace WikiFunctions
         /// api.php appended with "5" if appropriate for the wiki
         /// </summary>
         public static string ApiPHP { get; private set; }
-
-        private static bool usePHP5;
-
-        /// <summary>
-        /// Whether the current wiki uses the .php5 extension
-        /// </summary>
-        public static bool PHP5
-        {
-            get { return usePHP5; }
-            set
-            {
-                usePHP5 = value;
-                IndexPHP = value ? "index.php5" : "index.php";
-                ApiPHP = value ? "api.php5" : "api.php";
-            }
-        }
 
         /// <summary>
         /// 
