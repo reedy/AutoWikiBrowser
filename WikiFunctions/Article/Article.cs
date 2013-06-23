@@ -147,10 +147,7 @@ namespace WikiFunctions
         {
             get
             {
-            	if (NameSpaceKey.Equals(Namespace.Article)) return Name;
-
-                int pos = Name.IndexOf(':');
-                return pos < 0 ? Name : Name.Substring(pos + 1).Trim();
+                return Tools.RemoveNamespaceString(Name);
             }
         }
 
