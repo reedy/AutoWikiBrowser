@@ -111,9 +111,8 @@ namespace WikiFunctions
 				return false;
 
 			articleTitle = Parsers.CanonicalizeTitleAggressively(articleTitle);
-			var a = new Article(articleTitle);
-			var name = a.NamespacelessName;
-			return name.Length > 0 && !name.StartsWith(":");
+			articleTitle = RemoveNamespaceString(articleTitle);
+			return articleTitle.Length > 0 && !articleTitle.StartsWith(":");
 		}
 
 		// Covered by ToolsTests.RemoveInvalidChars()
@@ -286,18 +285,11 @@ namespace WikiFunctions
 		/// <returns></returns>
 		public static string RemoveNamespaceString(string title)
 		{
-			return RemoveNamespaceString(new Article(title));
-		}
+		    if (Namespace.Determine(title).Equals(Namespace.Article))
+		        return title;
 
-		// Covered by ToolsTests.RemoveNamespaceString()
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="a"></param>
-		/// <returns></returns>
-		public static string RemoveNamespaceString(Article a)
-		{
-			return a.NamespacelessName;
+		    int pos = title.IndexOf(':');
+		    return pos < 0 ? title : title.Substring(pos + 1).Trim();
 		}
 
 		// Covered by ToolsTests.GetNamespaceString()
