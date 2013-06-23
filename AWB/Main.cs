@@ -5454,6 +5454,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 if(done > 100)
                     break;
             }
+
+            // If any text highlighted, don't leave last text selected
+            if(done > 0)
+                txtEdit.Select(0, 0);
         }
 
         private void RedSelection(int index, int length)
