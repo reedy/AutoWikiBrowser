@@ -5371,6 +5371,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex BracketedAtEndOfLine = new Regex(@" \(.*?\)$", RegexOptions.Compiled);
         private static readonly Regex BoldTitleAlready3 = new Regex(@"^\s*({{[^\{\}]+}}\s*)*'''('')?\s*\w", RegexOptions.Compiled);
+        private static readonly Regex BoldTitleAlready4 = new Regex(@"^\s*'''", RegexOptions.Multiline);
         private static readonly Regex NihongoTitle = Tools.NestedTemplateRegex("nihongo title");
 
         // Covered by: BoldTitleTests
@@ -5428,11 +5429,13 @@ namespace WikiFunctions.Parse
             Regex boldTitleAlready2 = new Regex(@"'''\s*(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + @")\s*'''");
 
             string articleTextNoInfobox = Tools.ReplaceWithSpaces(articleText, WikiRegexes.InfoBox.Matches(articleText));
+            string zerothSectionNoInfobox = Tools.ReplaceWithSpaces(zerothSection, WikiRegexes.InfoBox.Matches(articleText));
 
-            // if title in bold already exists in article, or page starts with something in bold, don't change anything
+            // if title in bold already exists in article, or paragraph starts with something in bold, don't change anything
             // ignore any bold in infoboxes
             if (boldTitleAlready1.IsMatch(articleTextNoInfobox) || boldTitleAlready2.IsMatch(articleTextNoInfobox)
-                || BoldTitleAlready3.IsMatch(articleTextNoInfobox))
+                || BoldTitleAlready3.IsMatch(articleTextNoInfobox)
+                || BoldTitleAlready4.IsMatch(zerothSectionNoInfobox))
                 return articleTextAtStart;
 
             // so no self links to remove, check for the need to add bold
