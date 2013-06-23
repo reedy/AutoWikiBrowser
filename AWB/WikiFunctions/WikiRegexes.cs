@@ -702,6 +702,11 @@ namespace WikiFunctions
         public static readonly Regex Wi = Tools.NestedTemplateRegex(new [] { "Wiktionary redirect", "Wi", "Widirect", "Moved to Wiktionary", "RedirecttoWiktionary", "Seewiktionary"});
 
         /// <summary>
+        /// Matches Events by year for decade (en only)
+        /// </summary>
+        public static readonly Regex EventsForDecade = Tools.NestedTemplateRegex(new [] { "Events by year for decade"});
+
+        /// <summary>
         /// Matches stubs
         /// </summary>
         public static Regex Stub;

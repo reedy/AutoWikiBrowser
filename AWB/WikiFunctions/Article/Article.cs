@@ -318,6 +318,13 @@ namespace WikiFunctions
         { get { return (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple")) && NameSpaceKey == Namespace.Mainspace && WikiRegexes.SIAs.IsMatch(mArticleText); } }
 
         /// <summary>
+        /// Returns whether the article is a page that contains Events for Decade (en only)
+        /// </summary>
+        [XmlIgnore]
+        public bool IsEventsForDecadePage
+        { get { return (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple")) && NameSpaceKey == Namespace.Mainspace && WikiRegexes.EventsForDecade.IsMatch(mArticleText); } }
+
+        /// <summary>
         /// Returns whether the article is a disambiguation page has references
         /// </summary>
         [XmlIgnore]

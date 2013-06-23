@@ -988,6 +988,13 @@ disambig|surname
         }
 
         [Test]
+        public void EventsForDecadeTests()
+        {
+            RegexAssert.IsMatch(WikiRegexes.EventsForDecade, @"{{Events by year for decade|31}}");
+        }
+
+
+	[Test]
         public void ExtractTitleTests()
         {
             RegexAssert.IsMatch(WikiRegexes.ExtractTitle, @"https://en.wikipedia.org/wiki/Foo");
