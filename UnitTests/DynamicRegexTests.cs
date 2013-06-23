@@ -987,13 +987,6 @@ disambig|surname
             RegexAssert.IsMatch(WikiRegexes.Wi, @"{{Seewiktionary}}");
         }
 
-        [Test]
-        public void EventsForDecadeTests()
-        {
-            RegexAssert.IsMatch(WikiRegexes.EventsForDecade, @"{{Events by year for decade|31}}");
-        }
-
-
 	[Test]
         public void ExtractTitleTests()
         {

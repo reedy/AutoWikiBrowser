@@ -1781,6 +1781,12 @@ words2"));
         }
 
         [Test]
+        public void EventsForDecadeTests()
+        {
+        	Assert.IsTrue(WikiRegexes.EventsForDecade.IsMatch(@"{{Events by year for decade|31}}"));
+        }
+
+        [Test]
         public void WordApostropheTests()
         {
             Assert.IsTrue(WikiRegexes.RegexWordApostrophes.IsMatch(@"Rachel"));
