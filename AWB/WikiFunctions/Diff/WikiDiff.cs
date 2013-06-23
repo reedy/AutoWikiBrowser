@@ -506,7 +506,7 @@ td.diff-context {
 
 table.diff {
 	border: none;
-	width: 98%;
+	width: 100%;
 	border-spacing: 4px;
 
 	/* Ensure that colums are of equal width */
