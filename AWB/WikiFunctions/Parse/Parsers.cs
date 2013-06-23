@@ -7414,6 +7414,9 @@ namespace WikiFunctions.Parse
                     summary = " أزال" + " وسوم " + Tools.ListToStringCommaSeparator(tagsRemoved);
                 else if (Variables.LangCode.Equals("arz"))
                     summary = " شال" +  " وسوم " + Tools.ListToStringCommaSeparator(tagsRemoved);
+                else if (Variables.LangCode.Equals("fr"))
+                	summary = "retrait " + Tools.ListToStringCommaSeparator(tagsRemoved) + " balise" +
+                    (tagsRemoved.Count == 1 ? "" : "s");
                 else summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " tag" +
                     (tagsRemoved.Count == 1 ? "" : "s");
             }
@@ -7428,6 +7431,9 @@ namespace WikiFunctions.Parse
                     summary += "أضاف " + " وسوم " + Tools.ListToStringCommaSeparator(tagsAdded);
                 else if (Variables.LangCode.Equals("arz"))
                     summary += "زود " + " وسوم " + Tools.ListToStringCommaSeparator(tagsAdded);
+                else if (Variables.LangCode.Equals("fr"))
+                	summary = "ajout " + Tools.ListToStringCommaSeparator(tagsRemoved) + " balise" +
+                    (tagsRemoved.Count == 1 ? "" : "s");
                 else summary += "added " + Tools.ListToStringCommaSeparator(tagsAdded) + " tag" +
                     (tagsAdded.Count == 1 ? "" : "s");
             }
