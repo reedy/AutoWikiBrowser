@@ -6414,6 +6414,10 @@ Foo is a bar", "Foo", out noChangeBack));
             // non-changes
             Assert.AreEqual("Fooo is a bar", parser.BoldTitle("Fooo is a bar", "Foo", out noChangeBack));
             Assert.IsTrue(noChangeBack);
+            const string ImageBold = @"[[Image...]]
+'''Something''' is a bar";
+            Assert.AreEqual(ImageBold, parser.BoldTitle(ImageBold, "Foo", out noChangeBack));
+            Assert.IsTrue(noChangeBack);
 
             Assert.AreEqual(@"Foo is a '''bar''' While remaining upright may be the primary goal of beginning riders
 While remaining upright may be the primary goal of beginning riders
