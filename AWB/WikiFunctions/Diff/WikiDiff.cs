@@ -528,15 +528,15 @@ td.diff-deletedline .diffchange {
 }
 
 table.diff td {
-	padding: 0.33em 0.66em;
+	padding: 0.25em 0.25em;
 }
 
 table.diff col.diff-marker {
-	width: 2%;
+	width: 1.5%;
 }
 
 table.diff col.diff-content {
-	width: 48%;
+	width: 48.5%;
 }
 
 table.diff td div {
