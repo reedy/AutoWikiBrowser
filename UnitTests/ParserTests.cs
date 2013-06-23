@@ -9124,6 +9124,10 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             text = parser.Tagger(ShortText + @" {{surname|Smith, John}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
 
+            // Pages with Events by year for decade are not stubs
+            text = parser.Tagger(ShortText + @" {{Events by year for decade|79}}", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
+
             // {{improve categories}} --> {{uncat}} if no cats
             Globals.UnitTestIntValue = 0;
             text = parser.Tagger(@"{{improve categories}}\r\n" + ShortText, "Test", false, out noChange, ref summary);
