@@ -438,6 +438,12 @@ namespace WikiFunctions
         public static string DefaultStyles
         {
             get { return @"
+/* suppress whitespace padding by C# WebBrowser, see
+http://stackoverflow.com/questions/15033023/white-space-padding-in-webbrowser-control */
+html , body {
+ margin: 0;
+}
+
 /*
 ** Diff rendering
 */
