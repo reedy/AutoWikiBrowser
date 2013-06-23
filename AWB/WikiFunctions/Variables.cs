@@ -668,7 +668,12 @@ namespace WikiFunctions
                             TypoSummaryTag = ", Skribmaniero:";
                             break;
 
-                        case "he":
+                        case "fr":
+                            mSummaryTag = " avec ";
+                            WPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
+                            break;
+
+                           case "he":
                             mSummaryTag = " באמצעות ";
                             WPAWB = "[[ויקיפדיה:AutoWikiBrowser|AWB]]";
                             break;
