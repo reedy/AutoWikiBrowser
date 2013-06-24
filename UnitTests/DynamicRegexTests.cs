@@ -538,7 +538,6 @@ Image here");
 
             #if DEBUG
             Variables.SetProjectLangCode("ar");
-            Variables.Stub = @"(?:[^{}|]*?(?:[Ss]tub|بذرة|بذور)[^{}]*?)";
             WikiRegexes.MakeLangSpecificRegexes();
             
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{بذرة}}");
@@ -547,7 +546,6 @@ Image here");
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{قالب:بذرة كرة سلة}}"); // basketball-stub
 
             Variables.SetProjectLangCode("arz");
-            Variables.Stub = @"[^{}|]*?(?:[Ss]tub|تقاوى|بذرة)[^{}]*?";
             WikiRegexes.MakeLangSpecificRegexes();
             
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{بذرة}}");
@@ -556,7 +554,6 @@ Image here");
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{قالب:تقاوى تونس}}"); // Tunisia-stub
 
 			Variables.SetProjectLangCode("sv");
-			Variables.Stub = @"(?:[^{}]*?[Ss]tub|[^{}]+?stub\-[^{}]+)";
 			WikiRegexes.MakeLangSpecificRegexes();
 
 			RegexAssert.IsMatch(WikiRegexes.Stub, @"{{1920-talsstub}}");
@@ -564,7 +561,6 @@ Image here");
 			RegexAssert.IsMatch(WikiRegexes.Stub, @"{{stub}}");
 
             Variables.SetProject("en", ProjectEnum.wikipedia);
-            Variables.Stub = "[^{}|]*?[Ss]tub";
             WikiRegexes.MakeLangSpecificRegexes();
             #endif
         }
