@@ -210,7 +210,7 @@ namespace WikiFunctions.Parse
 	                if (Variables.LangCode.Equals("fr"))
 	                    editSummary = "remplacement: " + ReplacedSummary.Trim();
                 	else
-		                editSummary += "replaced: " + RemovedSummary.Trim();
+		                editSummary += "replaced: " + ReplacedSummary.Trim();
 
                 if (!string.IsNullOrEmpty(RemovedSummary))
                 {
