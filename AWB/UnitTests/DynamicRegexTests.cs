@@ -538,22 +538,21 @@ Image here");
 
             #if DEBUG
             Variables.SetProjectLangCode("ar");
-            Variables.Stub = @"[^{}|]*?([Ss]tub|بذرة|بذور)";
+            Variables.Stub = @"(?:[^{}|]*?[Ss]tub|بذرة|بذور[^{}]*?)";
             WikiRegexes.MakeLangSpecificRegexes();
             
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{بذرة}}");
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{stub}}");
+   //         RegexAssert.IsMatch(WikiRegexes.Stub, @"{{قالب:بذرة أعلام البرتغال}}"); //Portugal-bio-stub
+   //         RegexAssert.IsMatch(WikiRegexes.Stub, @"{{قالب:بذرة كرة سلة}}"); //basketball-stub
 
             Variables.SetProjectLangCode("arz");
-            Variables.Stub = @"[^{}|]*?([Ss]tub|تقاوى|بذرة)";
+            Variables.Stub = @"(?:[^{}|]*?[Ss]tub|تقاوى|بذرة[^{}]*?)";
             WikiRegexes.MakeLangSpecificRegexes();
             
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{بذرة}}");
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{تقاوى}}");
-            RegexAssert.IsMatch(WikiRegexes.Stub, @"{{stub}}");
-      //      RegexAssert.IsMatch(WikiRegexes.Stub, @"{{قالب:بذرة أعلام البرتغال}}"); //Portugal-bio-stub
-      //      RegexAssert.IsMatch(WikiRegexes.Stub, @"{{قالب:بذرة كرة سلة}}"); //basketball-stub
-            
+            RegexAssert.IsMatch(WikiRegexes.Stub, @"{{stub}}");            
 
 			Variables.SetProjectLangCode("sv");
 			Variables.Stub = @"(?:[^{}]*?[Ss]tub|[^{}]+?stub\-[^{}]+)";
