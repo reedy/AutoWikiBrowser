@@ -551,6 +551,9 @@ Image here");
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{بذرة}}");
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{تقاوى}}");
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{stub}}");
+      //      RegexAssert.IsMatch(WikiRegexes.Stub, @"{{قالب:بذرة أعلام البرتغال}}"); //Portugal-bio-stub
+      //      RegexAssert.IsMatch(WikiRegexes.Stub, @"{{قالب:بذرة كرة سلة}}"); //basketball-stub
+            
 
 			Variables.SetProjectLangCode("sv");
 			Variables.Stub = @"(?:[^{}]*?[Ss]tub|[^{}]+?stub\-[^{}]+)";
