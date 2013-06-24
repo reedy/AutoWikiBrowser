@@ -49,7 +49,7 @@ namespace WikiFunctions.Parse
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.find = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.replace = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -146,8 +146,8 @@ namespace WikiFunctions.Parse
             // replace
             // 
             this.replace.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            dataGridViewCellStyle2.NullValue = null;
-            this.replace.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.NullValue = null;
+            this.replace.DefaultCellStyle = dataGridViewCellStyle4;
             this.replace.FillWeight = 87.66718F;
             this.replace.HeaderText = "Replace with";
             this.replace.MinimumWidth = 45;
@@ -579,6 +579,7 @@ namespace WikiFunctions.Parse
             // 
             // btnCancel
             // 
+            this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnCancel.Location = new System.Drawing.Point(654, 6);
             this.btnCancel.Name = "btnCancel";
@@ -609,7 +610,7 @@ namespace WikiFunctions.Parse
             this.Controls.Add(this.lnkWpRE);
             this.Controls.Add(this.btnDone);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
-            this.MinimumSize = new System.Drawing.Size(685, 130);
+            this.MinimumSize = new System.Drawing.Size(757, 250);
             this.Name = "FindandReplace";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
