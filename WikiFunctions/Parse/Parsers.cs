@@ -5429,7 +5429,7 @@ namespace WikiFunctions.Parse
             Regex boldTitleAlready2 = new Regex(@"'''\s*(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + @")\s*'''");
 
             string articleTextNoInfobox = Tools.ReplaceWithSpaces(articleText, WikiRegexes.InfoBox.Matches(articleText));
-            string zerothSectionNoInfobox = Tools.ReplaceWithSpaces(zerothSection, WikiRegexes.InfoBox.Matches(articleText));
+            string zerothSectionNoInfobox = Tools.ReplaceWithSpaces(zerothSection, WikiRegexes.InfoBox.Matches(zerothSection));
 
             // if title in bold already exists in article, or paragraph starts with something in bold, don't change anything
             // ignore any bold in infoboxes
