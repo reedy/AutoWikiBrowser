@@ -865,7 +865,7 @@ namespace WikiFunctions
 
                 case "sv":
                     mSummaryTag = " med ";
-                    TypoSummaryTag = "rättningar: ";
+                    TypoSummaryTag = "fixar rättningar: ";
                     Stub = @"(?:[^{}]*?[Ss]tub|[^{}]+?stub\-[^{}]+)";
                     break;
 
