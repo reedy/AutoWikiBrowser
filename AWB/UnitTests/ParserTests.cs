@@ -7993,14 +7993,12 @@ fish | name = Bert }} ''Bert'' is a good fish."));
         {
 #if DEBUG
             Variables.SetProjectLangCode("ar");
-            Variables.Stub = @"(?:[^{}|]*?[Ss]tub|(بذرة|بذور)[^{}]*?)";
             WikiRegexes.MakeLangSpecificRegexes();
             
             Assert.IsTrue(Parsers.HasStubTemplate(@"foo {{بذرة ممثل}}"),"actor stub");
             Assert.IsTrue(Parsers.HasStubTemplate(@"foo {{بذرة ألمانيا}}"), "germany stub");
             
             Variables.SetProjectLangCode("en");
-            Variables.Stub = "[^{}|]*?[Ss]tub";
             WikiRegexes.MakeLangSpecificRegexes();
 #endif
         }
@@ -9289,7 +9287,6 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 
             #if DEBUG
             Variables.SetProjectLangCode("ar");
-            Variables.Stub = @"[^{}|]*?([Ss]tub|بذرة|بذور)";
             WikiRegexes.MakeLangSpecificRegexes();
 
             string text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
@@ -9305,7 +9302,6 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsTrue(summary.Contains("ويكي"));
 
             Variables.SetProjectLangCode("en");
-            Variables.Stub = "[^{}|]*?[Ss]tub";
             WikiRegexes.MakeLangSpecificRegexes();
             #endif
         }
@@ -9318,7 +9314,6 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 
             #if DEBUG
             Variables.SetProjectLangCode("ar");
-            Variables.Stub = @"[^{}|]*?([Ss]tub|بذرة|بذور)";
             WikiRegexes.MakeLangSpecificRegexes();
 
             string text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
@@ -9372,7 +9367,6 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsFalse(text.Contains("Uncategorized"), "no en-wiki uncat tags");
 
             Variables.SetProjectLangCode("en");
-            Variables.Stub = "[^{}|]*?[Ss]tub";
             WikiRegexes.MakeLangSpecificRegexes();
             #endif
         }
@@ -9385,7 +9379,6 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 
             #if DEBUG
             Variables.SetProjectLangCode("arz");
-            Variables.Stub = @"[^{}|]*?([Ss]tub|تقاوى|بذرة)";
             WikiRegexes.MakeLangSpecificRegexes();
 
             string text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
@@ -9409,7 +9402,6 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             //Assert.IsFalse(text.Contains("{{ويكى|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
 
             Variables.SetProjectLangCode("en");
-            Variables.Stub = "[^{}|]*?[Ss]tub";
             WikiRegexes.MakeLangSpecificRegexes();
             #endif
         }
@@ -9679,7 +9671,6 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 #if DEBUG
             string text ="";
             Variables.SetProjectLangCode("ar");
-            Variables.Stub = @"(?:[^{}|]*?[Ss]tub|(بذرة|بذور)[^{}]*?)";
             WikiRegexes.MakeLangSpecificRegexes();
             
             Globals.UnitTestBoolValue = true;
@@ -9701,7 +9692,6 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(text1,text2,"check whether stub tag is removed properly");
 
             Variables.SetProjectLangCode("en");
-            Variables.Stub = "[^{}|]*?[Ss]tub";
             WikiRegexes.MakeLangSpecificRegexes();
 #endif
         }
@@ -9712,7 +9702,6 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 #if DEBUG
             string text ="";
             Variables.SetProjectLangCode("arz");
-            Variables.Stub = @"[^{}|]*?([Ss]tub|تقاوى|بذرة)";
             WikiRegexes.MakeLangSpecificRegexes();
             
             Globals.UnitTestBoolValue = true;
@@ -9734,7 +9723,6 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(text1,text2,"check whether stub tag is removed properly");
 
             Variables.SetProjectLangCode("en");
-            Variables.Stub = "[^{}|]*?[Ss]tub";
             WikiRegexes.MakeLangSpecificRegexes();
 #endif
         }
@@ -9771,7 +9759,6 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         {
             #if DEBUG
             Variables.SetProjectLangCode("ar");
-            Variables.Stub = @"[^{}|]*?([Ss]tub|بذرة|بذور)";
             WikiRegexes.MakeLangSpecificRegexes();
 
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(parser.Tagger(@"foo {{نهاية مسدودة|تاريخ=ديسمبر 2012}} [[a]] and [[b]] and [[b]]", "Test", false, out noChange, ref summary)));
@@ -9781,7 +9768,6 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.IsTrue(summary.Contains("نهاية مسدودة"));
 
             Variables.SetProjectLangCode("en");
-            Variables.Stub = "[^{}|]*?[Ss]tub";
             WikiRegexes.MakeLangSpecificRegexes();
             #endif
         }
