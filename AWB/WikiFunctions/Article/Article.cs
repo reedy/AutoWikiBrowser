@@ -378,6 +378,7 @@ namespace WikiFunctions
                         || Name.Contains("sandbox")
                         || Name.Contains("/doc")
                         || (Variables.LangCode.Equals("es") && NameSpaceKey == 104 /* Anexo */)
+                        || (Variables.LangCode.Equals("ar") && NameSpaceKey == 104 /*  */)
                         || (Variables.LangCode.Equals("pt") && NameSpaceKey == 102 /* Anexo */));
             }
         }
