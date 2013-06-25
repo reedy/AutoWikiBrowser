@@ -9277,8 +9277,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 
 "));
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text));
-            Assert.IsTrue(Tools.NestedTemplateRegex("Uncategorized stub").IsMatch(text));
-            Assert.IsTrue(text.Contains(UncatStub));
+            Assert.IsTrue(Tools.NestedTemplateRegex("Okategoriserad").IsMatch(text));
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
             Variables.SetProjectLangCode("en");
 #endif
