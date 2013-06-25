@@ -7008,6 +7008,11 @@ namespace WikiFunctions.Parse
                         articleText += Tools.Newline("{{تقاوى مش متصنفه|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
                         tagsAdded.Add("[[قالب:تقاوى مش متصنفه|تقاوى مش متصنفه]]");
                     }
+                    else if(Variables.LangCode.Equals("sv")) // same template for uncat and uncat stub
+                    {
+                        articleText += Tools.Newline("{{Okategoriserad|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                        tagsAdded.Add("[[Mall:Okategoriserad|Okategoriserad]]");
+                    }
                     else
                     {
                         articleText += Tools.Newline("{{Uncategorized stub|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
@@ -7025,6 +7030,11 @@ namespace WikiFunctions.Parse
                     {
                         articleText += Tools.Newline("{{مش متصنفه|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
                         tagsAdded.Add("[[CAT:UNCAT|مش متصنفه]]");
+                    }
+                    else if(Variables.LangCode.Equals("sv"))
+                    {
+                        articleText += Tools.Newline("{{Okategoriserad|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                        tagsAdded.Add("[[Mall:Okategoriserad|Okategoriserad]]");
                     }
                     else
                     {
