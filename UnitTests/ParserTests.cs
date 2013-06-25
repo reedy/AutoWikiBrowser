@@ -5884,6 +5884,9 @@ was"));
             string B = @"{{ONE | {{TWO | {{THREE | {{Cn}} }} }} }}";
             
             Assert.AreEqual(B.Replace(@"{{Cn", @"{{Citation needed"), Parsers.TemplateRedirects(B, TemplateRedirects));
+
+            TemplateRedirects = Parsers.LoadTemplateRedirects("{{tl|Infobox Play}} → {{tl|Infobox play}}");
+            Assert.AreEqual("{{Infobox play}}", Parsers.TemplateRedirects("{{Infobox_Play}}", TemplateRedirects), "");
         }
 
         [Test]

@@ -1959,6 +1959,9 @@ Start date and age
             Assert.AreEqual(Tools.GetTemplateName(@"{{Template:Foo|1=yes}}"), "Foo", "Template namespace removed");
             Assert.AreEqual(Tools.GetTemplateName(@"{{ Template : Foo |1=yes}}"), "Foo", "Template namespace removed");
             Assert.AreEqual(Tools.GetTemplateName(@"{{template:Foo|1=yes}}"), "Foo", "Template namespace removed");
+            Assert.AreEqual(Tools.GetTemplateName(@"{{Foo_one|1=yes}}"), "Foo one", "underscore cleaned");
+            Assert.AreEqual(Tools.GetTemplateName(@"{{Foo___one|1=yes}}"), "Foo one", "underscores cleaned");
+            Assert.AreEqual(Tools.GetTemplateName(@"{{Foo   one|1=yes}}"), "Foo one", "underscores cleaned");
 
             Assert.AreEqual(Tools.GetTemplateName(@""), "");
         }

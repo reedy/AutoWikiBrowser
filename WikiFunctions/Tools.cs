@@ -3128,7 +3128,7 @@ Message: {2}
 		}
 
 		/// <summary>
-		/// Returns the name of the input template
+		/// Returns the name of the input template, excess whitespace removed, underscores replaced with spaces
 		/// </summary>
 		/// <param name="templateCall">the template call</param>
 		/// <returns>the template name</returns>
@@ -3150,7 +3150,8 @@ Message: {2}
 
 			StringBuilder theRegex = new StringBuilder(@"{{\s*(?::?[\s_]*" + TemplateNamespace + @"[\s_]*)?([^\|{}]+?)(?:\s*(?:<!--.*?-->|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋)\s*)?\s*(?:\||}})");
 			
-			return Regex.Match(templateCall, theRegex.ToString()).Groups[1].Value;
+			string name = Regex.Match(templateCall, theRegex.ToString()).Groups[1].Value;
+			return Regex.Replace(name, @"[\s_]+", " ");
 		}
 
 		/// <summary>
