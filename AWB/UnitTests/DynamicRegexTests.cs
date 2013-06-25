@@ -890,15 +890,19 @@ now stubborn}}");
             // no match
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized other template}}"));
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized other template|foo=bar}}"));
-            
+
             // language variation
             #if DEBUG
             Variables.SetProjectLangCode("sv");
             WikiRegexes.MakeLangSpecificRegexes();
-            
+
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{okategoriserad}}"));
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Okategoriserad}}"));
-            
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorizedstub}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorized stub}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorised}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized}}"));
+
             Variables.SetProjectLangCode("ar");
             WikiRegexes.MakeLangSpecificRegexes();
 
