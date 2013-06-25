@@ -333,7 +333,8 @@ namespace WikiFunctions
         public static string ApiPHP { get; private set; }
 
         /// <summary>
-        /// 
+        /// Typos wording e.g. "typos fixed: "
+        /// Should not start with spaces or commas. Must end with a space
         /// </summary>
         public static string TypoSummaryTag { get; private set; }
 
@@ -780,7 +781,7 @@ namespace WikiFunctions
 
                 case "de":
                     mSummaryTag = " mit ";
-                    TypoSummaryTag = ", Schreibweise:";
+                    TypoSummaryTag = "Schreibweise: ";
                     break;
 
                 case "el":
@@ -794,7 +795,7 @@ namespace WikiFunctions
                 case "eo":
                     mSummaryTag = " per ";
                     WPAWB = "[[Vikipedio:AutoWikiBrowser|AWB]]";
-                    TypoSummaryTag = ", Skribmaniero:";
+                    TypoSummaryTag = "Skribmaniero: ";
                     break;
 
                 case "fr":
@@ -842,12 +843,12 @@ namespace WikiFunctions
                     break;
 
                 case "pt":
-                    mSummaryTag = " utilizando ";
+                    mSummaryTag = "utilizando ";
                     WPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
                     break;
 
                 case "ru":
-                    mSummaryTag = " с помощью ";
+                    mSummaryTag = "с помощью ";
                     Stub = "[^{}]*?(?:[Ss]tub|[Зз]аготовка)";
                     break;
 
@@ -864,19 +865,19 @@ namespace WikiFunctions
 
                 case "sv":
                     mSummaryTag = " med ";
-                    TypoSummaryTag = ", rättningar:";
+                    TypoSummaryTag = "rättningar: ";
                     Stub = @"(?:[^{}]*?[Ss]tub|[^{}]+?stub\-[^{}]+)";
                     break;
 
                 case "tr":
                     mSummaryTag = " ";
                     WPAWB = "[[Vikipedi:AWB|AWB]] ile ";
-                    TypoSummaryTag = " yazış şekli:";
+                    TypoSummaryTag = "yazış şekli: ";
                     break;
 
                 case "uk":
                     Stub = ".*?(?:[Ss]tub|[Дд]оробити)";
-                    mSummaryTag = " за допомогою ";
+                    mSummaryTag = "за допомогою ";
                     WPAWB = "[[Вікіпедія:AutoWikiBrowser|AWB]]";
                     break;
 
