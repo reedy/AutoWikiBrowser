@@ -253,7 +253,6 @@ namespace WikiFunctions.Parse
             return newText.Trim();
         }
 
-        private static readonly Regex LevelOneSeeAlso = new Regex("= ?See also ?=", RegexOptions.Compiled);
         private static readonly Regex ListOf = new Regex(@"^Lists? of", RegexOptions.Compiled);
 
         // Covered by: FormattingTests.TestFixHeadings(), incomplete
@@ -277,8 +276,7 @@ namespace WikiFunctions.Parse
             // remove unnecessary general headers from start of article
             articleText = RegexBadHeaderStartOfAticle.Replace(articleText, "");
 
-            if (!LevelOneSeeAlso.IsMatch(articleText))
-                articleText = RegexHeadings0.Replace(articleText, "$1See also$2");
+            articleText = RegexHeadings0.Replace(articleText, "$1See also$2");
 
             // CHECKWIKI error 8. Add missing = in some headers
             if (ReferencesExternalLinksSeeAlsoUnbalancedRight.IsMatch(articleText))
