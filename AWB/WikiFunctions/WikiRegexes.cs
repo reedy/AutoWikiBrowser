@@ -974,7 +974,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches wikilinks with double pipes e.g. [[text|text2|text3]] and [[text||text3]]
         /// </summary>
-        public static readonly Regex DoublePipeLink =  new Regex(@"\[\[([\w\s]+)\|([\w\s]*)\|([\w\s]+)\]\]");
+        public static readonly Regex DoublePipeLink =  new Regex(@"\[\[([\w\s\-\(\),]+)\|([\w\s\-\(\),]*)\|([\w\s\-\(\),]+)\]\]");
 
         /// <summary>
         /// 
