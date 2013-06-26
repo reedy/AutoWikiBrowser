@@ -308,7 +308,7 @@ en, sq, ru
 			string categories = Tools.Newline(RemoveCats(ref articleText, articleTitle));
 			string interwikis = Tools.Newline(Interwikis(ref articleText));
 
-			if(Namespace.Determine(articleTitle) == Namespace.Mainspace)
+			if(Namespace.IsMainSpace(articleTitle))
 			{
 			    // maintenance templates above infoboxes etc., zeroth section only
 			    if (Variables.LangCode.Equals("en"))
