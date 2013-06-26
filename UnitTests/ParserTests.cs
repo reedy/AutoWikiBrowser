@@ -5291,7 +5291,7 @@ text", "Talk:foo"));
             Assert.AreEqual(@"== '''Caernarvon''' 1536-1832 ==", Parsers.FixHeadings(@"== '''Caernarvon''' 1536-1832 ==", "a"));
             Assert.AreEqual(@"= '''Caernarvon''' 1536-1832 =", Parsers.FixHeadings(@"= '''Caernarvon''' 1536-1832 =", "a"));
 
-            Assert.AreEqual("==See also==", Parsers.FixHeadings("=='''See Also'''==", "test"));
+            Assert.AreEqual("==See also==", Parsers.FixHeadings("=='''See Also'''==", "test"),"remove bold and fix casing at once");
 
             Assert.AreEqual(@"==Header with bold==", Parsers.FixHeadings(@"=='''Header with bold'''==<br/>", "test"));
         }
