@@ -5482,7 +5482,21 @@ Here there";
             Assert.AreEqual(HeadingNotAtStart, Parsers.FixHeadings(HeadingNotAtStart, "Foo"), "Heading not removed when not at start of article");
         }
 
-        [Test, Category("Incomplete")]
+        [Test]
+        public void UnbalancedHeadings()
+        {
+            Assert.IsTrue(Parsers.FixHeadings(@"==External links=
+*Foo", "Bar").Contains(@"==External links=="));
+            Assert.IsTrue(Parsers.FixHeadings(@"==References=
+{{Reflist}}", "Bar").Contains(@"==References=="));
+            Assert.IsTrue(Parsers.FixHeadings(@"==See also=
+*Foo1
+*Foo2", "Bar").Contains(@"==See also=="));
+        		
+        }
+
+
+        		[Test, Category("Incomplete")]
         //TODO: cover everything
         public void TestFixWhitespace()
         {
