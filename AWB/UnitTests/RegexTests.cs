@@ -1787,6 +1787,7 @@ words2"));
         public void EventsForDecadeTests()
         {
         	Assert.IsTrue(WikiRegexes.EventsForDecade.IsMatch(@"{{Events by year for decade|31}}"));
+        	Assert.IsTrue(WikiRegexes.EventsForDecade.IsMatch(@"{{Events by year for decade BC|31}}"));
         }
 
         [Test]

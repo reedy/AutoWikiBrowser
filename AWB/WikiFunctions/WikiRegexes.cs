@@ -704,7 +704,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches Events by year for decade (en only)
         /// </summary>
-        public static readonly Regex EventsForDecade = Tools.NestedTemplateRegex(new [] { "Events by year for decade"});
+        public static readonly Regex EventsForDecade = Tools.NestedTemplateRegex(new [] { "Events by year for decade", "Events by year for decade BC"});
 
         /// <summary>
         /// Matches stubs
