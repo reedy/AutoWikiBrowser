@@ -122,7 +122,7 @@ namespace WikiFunctions
                     s = "([Dd]isambiguation|[Dd]isambig|[Нн]еоднозначность|[Мm]ногозначность)";
                     break;
                 case "sv":
-                    s = "([Ff]örgrening|[Dd]isambig|[Bb]etydelselista|[Gg]affel|[Gg]ren|[Gg]rensida|[Ff]örgreningssida|[Ff]lertydig|[Dd]isambiguation|[Oo]rtnamn|[Dd]ab)";
+                    s = "([Bb]etydelselista|[Dd]ab|[Dd]isambig|[Dd]isambiguation|[Ee]fternamn|[Ff]örgrening|[Ff]örgreningssida|[Ff]lertydig|[Gg]affel|[Gg]ren|[Gg]rensida|[Oo]rtnamn|[Rr]obotskapad förgrening|[Tt]rebokstavsförkortning|[Tt]rebokstavsförgrening)";
                     break;
                 default:
                     s = "([Dd]isamb(?:ig(?:uation)?)?|[Dd]ab|[Cc]hinese title disambiguation|[Gg]enus disambiguation|[Gg]enus disambig|[Mm]athdab|[Mm]athematics disambiguation|[Mm]athematical disambiguation|[Mm]il-unit-dis|(?:[Nn]umber|[Hh]ospital|[Gg]eo|[Hh]n|[Ss]chool)dis|[Ll]etter-disambig|[[Aa]irport disambig(?:uation)?|[Cc]allsigndis|[Cc]all sign disambiguation|[Dd]isambig-cleanup|[Dd]isambiguation cleanup|[Mm]olFormDisambig|[Mm]olecular formula disambiguation|([Ss]pecies|)LatinNameDisambig|[Ss]pecies Latin name disambiguation|[[Ss]pecies Latin name abbreviation disambiguation|[Ll]etter-NumberComb[Dd]isambig|[Ll]etter-Number Combination Disambiguation|[Hh]ndis|[Hh]ndis-cleanup|[Gg]enus disambiguation|[Tt]axonomy disambiguation|[Hh]urricane season disambiguation|[Hh]ospital disambiguation)";
