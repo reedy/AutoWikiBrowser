@@ -6963,7 +6963,7 @@ namespace WikiFunctions.Parse
             bool underlinked = (wikiLinkCount < 0.0025 * length);
 
             if (length <= 300 && !WikiRegexes.Stub.IsMatch(commentsCategoriesStripped) &&
-                !WikiRegexes.Disambigs.IsMatch(commentsCategoriesStripped) && !WikiRegexes.SIAs.IsMatch(commentsCategoriesStripped) && !WikiRegexes.EventsForDecade.IsMatch(commentsCategoriesStripped))
+                !WikiRegexes.Disambigs.IsMatch(commentsCategoriesStripped) && !WikiRegexes.SIAs.IsMatch(commentsCategoriesStripped) && !WikiRegexes.NonDeadEndPageTemplates.IsMatch(commentsCategoriesStripped))
             {
                 // add stub tag. Exclude pages their title starts with "List of..."
                 if (!ListOf.IsMatch(articleTitle))
@@ -7076,7 +7076,7 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            if (wikiLinkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(articleText) && !WikiRegexes.SIAs.IsMatch(articleText) && !WikiRegexes.EventsForDecade.IsMatch(articleText))
+            if (wikiLinkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(articleText) && !WikiRegexes.SIAs.IsMatch(articleText) && !WikiRegexes.NonDeadEndPageTemplates.IsMatch(articleText))
             {
                 // add dead-end tag, no blank linked between dead end and orphan tags
                 if (Variables.LangCode.Equals("ar"))
@@ -7122,7 +7122,7 @@ namespace WikiFunctions.Parse
                      && !WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower().Contains("wikify")
                      && !WikiRegexes.DeadEnd.IsMatch(articleText)
                      && !WikiRegexes.SIAs.IsMatch(articleText)
-                     && !WikiRegexes.EventsForDecade.IsMatch(articleText))
+                     && !WikiRegexes.NonDeadEndPageTemplates.IsMatch(articleText))
             {
                 // Avoid excess newlines between templates
                 string templateEnd = "}}\r\n" + (articleText.StartsWith(@"{{") ? "" : "\r\n");
