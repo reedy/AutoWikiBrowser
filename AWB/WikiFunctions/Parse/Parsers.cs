@@ -2924,6 +2924,9 @@ namespace WikiFunctions.Parse
                     articleText = BrTwoNewlines.Replace(articleText.Trim(), "\r\n\r\n");
             }
 
+            while(SpacesThenTwoNewline.IsMatch(articleText))
+                articleText = SpacesThenTwoNewline.Replace(articleText, "\r\n\r\n");
+
             // remove excessive newlines
             // Don't apply within <poem> tags
             // retain one or two new lines before stub
@@ -2952,8 +2955,6 @@ namespace WikiFunctions.Parse
             articleText = NewlinesBeforeUrl.Replace(articleText, "\r\n$1");
 
             articleText = HorizontalRule.Replace(articleText.Trim(), "");
-
-            articleText = SpacesThenTwoNewline.Replace(articleText, "\r\n\r\n");
 
             return articleText.Replace("\r\n|\r\n\r\n", "\r\n|\r\n").Trim();
         }
