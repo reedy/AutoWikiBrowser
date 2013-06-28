@@ -3435,13 +3435,31 @@ namespace WikiFunctions.Parse
         private static readonly Regex RefExternalLinkWrongBracket = new Regex(@"(<ref[^<>/]*>)\]", RegexOptions.Compiled);
         private static readonly Regex CurlyToStraightSingleBracket = new Regex(@"([^{}()]){([^{}()]+)\)");
 
-
         /// <summary>
         /// Applies some fixes for unbalanced brackets, applied if there are unbalanced brackets
         /// </summary>
         /// <param name="articleText">the article text</param>
         /// <returns>the corrected article text</returns>
         private static string FixUnbalancedBrackets(string articleText)
+        {
+            string[] sections = Tools.SplitToSections(articleText);
+            StringBuilder articleTextReturned = new StringBuilder();
+
+            foreach(string s in sections)
+            {
+                articleTextReturned.Append(FixUnbalancedBracketsSection(s));
+            }
+
+            return articleTextReturned.ToString();
+        }
+
+        /// <summary>
+        /// Applies some fixes for unbalanced brackets, applied if there are unbalanced brackets
+        /// Run at section level: allows unbalanced brackets in other sections not to affect correction of current section
+        /// </summary>
+        /// <param name="articleText">the article text</param>
+        /// <returns>the corrected article text</returns>
+        private static string FixUnbalancedBracketsSection(string articleText)
         {
             // if there are some unbalanced brackets, see whether we can fix them
             // the fixes applied might damage correct wiki syntax, hence are only applied if there are unbalanced brackets

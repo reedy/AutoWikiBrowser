@@ -4061,6 +4061,12 @@ XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 Now [[Fred was";
              Assert.AreEqual(Unfixable2, Parsers.FixSyntax(Unfixable2));
+
+             Assert.AreEqual(Unfixable2 + @"
+==Heading==
+Now [[A]], was.", Parsers.FixSyntax(Unfixable2 + @"
+==Heading==
+Now [[A],] was."));
         }
 
         [Test]
