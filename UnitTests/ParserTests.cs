@@ -6849,6 +6849,18 @@ John Smith was great.";
 | Next single = ""[[Love in the First Degree (Alabama song)|Love in the First Degree]]"" <br />(1981)
 }}", @"Feels So Right", out noChangeBack));
 
+              Assert.AreEqual(@"{{Infobox Single
+| Name = Feels So Right
+| Last single = ""[[Old Flame (song)|Old Flame]]""<br />(1981)
+| This single = '''''Feels So Right''''' <br />(1981)
+| Next single = ""[[Love in the First Degree (Alabama song)|Love in the First Degree]]"" <br />(1981)
+}}", Parsers.FixLinks(@"{{Infobox Single
+| Name = Feels So Right
+| Last single = ""[[Old Flame (song)|Old Flame]]""<br />(1981)
+| This single = '''''[[Feels So Right]]''''' <br />(1981)
+| Next single = ""[[Love in the First Degree (Alabama song)|Love in the First Degree]]"" <br />(1981)
+}}", @"Feels So Right", out noChangeBack));
+
             Assert.AreEqual(@"{{Infobox Album  <!-- See Wikipedia:WikiProject_Albums -->
 |Name        = Feels So Right
 |Type        = [[Album]]
