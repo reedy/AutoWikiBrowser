@@ -1789,10 +1789,12 @@ words2"));
         }
 
         [Test]
-        public void EventsForDecadeTests()
+        public void NonDeadEndPageTemplatesTests()
         {
-        	Assert.IsTrue(WikiRegexes.EventsForDecade.IsMatch(@"{{Events by year for decade|31}}"));
-        	Assert.IsTrue(WikiRegexes.EventsForDecade.IsMatch(@"{{Events by year for decade BC|31}}"));
+        	Assert.IsTrue(WikiRegexes.NonDeadEndPageTemplates.IsMatch(@"{{Events by year for decade|31}}"));
+        	Assert.IsTrue(WikiRegexes.NonDeadEndPageTemplates.IsMatch(@"{{Events by year for decade BC|31}}"));
+        	Assert.IsTrue(WikiRegexes.NonDeadEndPageTemplates.IsMatch(@"{{SCOTUSRow | case name = Arizona v. Inter Tribal Council of Ariz., Inc. | docket = 12-71 | decision date = June 17 | decision year = 2013}}
+"));
         }
 
         [Test]
