@@ -5587,6 +5587,13 @@ Why miserable patient
 
             Assert.AreEqual(Poem, Parsers.RemoveWhiteSpace(Poem), "no changes to newlines within poem");
             Assert.AreEqual("a\r\n\r\nb<poem>A</poem", Parsers.RemoveWhiteSpace("a\r\n\r\n\r\nb<poem>A</poem"), "Changes to newlines OK when poem tags don't contain excess newlines");
+
+            Assert.AreEqual(@"</sup>
+
+Bring",  Parsers.RemoveWhiteSpace(@"</sup>
+ 
+
+Bring"));
         }
 
         [Test]
