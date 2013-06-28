@@ -961,6 +961,35 @@ disambig|surname
             
             RegexAssert.NoMatch(WikiRegexes.Disambigs, @"{{now disambig}}");
             RegexAssert.NoMatch(WikiRegexes.Disambigs, @"{{dablink|foo}}");
+
+            // language variation
+            #if DEBUG
+            Variables.SetProjectLangCode("sv");
+            WikiRegexes.MakeLangSpecificRegexes();
+
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Förgrening}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Betydelselista}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Dab}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Disambig}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{disambiguation}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Flertydig}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Förgreningssida}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{gaffel}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{gren}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Grensida}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Ortnamn}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Trebokstavsförgrening}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{4LA}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Namnförgrening}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Hndis}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Namngrensida}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Efternamn}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Förnamn}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Robotskapad förgrening}}");
+
+            Variables.SetProjectLangCode("en");
+            WikiRegexes.MakeLangSpecificRegexes();
+            #endif
         }
 
         [Test]
