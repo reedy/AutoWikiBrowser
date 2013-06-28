@@ -207,7 +207,9 @@ namespace WikiFunctions.Parse
             if (chkAddToSummary.Checked)
             {
                 if (!string.IsNullOrEmpty(ReplacedSummary))
-	                if (Variables.LangCode.Equals("fr"))
+	                if (Variables.LangCode.Equals("eo"))
+	                    editSummary = "anstataŭigis: " + ReplacedSummary.Trim();
+	                else if (Variables.LangCode.Equals("fr"))
 	                    editSummary = "remplacement: " + ReplacedSummary.Trim();
                 	else
 		                editSummary += "replaced: " + ReplacedSummary.Trim();
@@ -217,7 +219,9 @@ namespace WikiFunctions.Parse
                     if (!string.IsNullOrEmpty(editSummary))
                         editSummary += ", ";
 
-	                if (Variables.LangCode.Equals("fr"))
+	                if (Variables.LangCode.Equals("eo"))
+	                    editSummary += "forigis: " + RemovedSummary.Trim();
+	                else if (Variables.LangCode.Equals("fr"))
 	                    editSummary += "retrait: " + RemovedSummary.Trim();
 	                else
 	                    editSummary += "removed: " + RemovedSummary.Trim();
