@@ -6077,7 +6077,7 @@ namespace WikiFunctions.Parse
         }
 
         private static readonly Regex BLPUnsourcedSection = Tools.NestedTemplateRegex(new [] { "BLP unsourced section","BLP sources section" });
-        private static readonly Regex NotPersonArticles = new Regex(@"(^(((?:First )?(?:Premiership|Presidency|Governor)|Murder|Disappearance|Suicide|Adoption) of|Deaths|[12]\d{3}\b|\d{2,} )|Assembly of|(Birth|Death) rates|(discography|(?:film|bibli)ography| deaths| murders)$)", RegexOptions.IgnoreCase);
+        private static readonly Regex NotPersonArticles = new Regex(@"(^(((?:First )?(?:Premiership|Presidency|Governor)|Murder|Atlanta murders|Disappearance|Suicide|Adoption) of|Deaths|[12]\d{3}\b|\d{2,} )|Assembly of|(Birth|Death) rates|(discography|(?:film|bibli)ography| deaths| murders)$)", RegexOptions.IgnoreCase);
         private static MetaDataSorter MDS = new MetaDataSorter();
         private static readonly Regex NobleFamilies = new Regex(@"\[\[Category:[^\[\]\|]*[nN]oble families");
         private static readonly Regex NotAboutAPersonCategories = new Regex(@"\[\[Category:(\d{4} animal|(?:Comedy|Entertainer) duos|Articles about multiple people|Married couples|Fictional|Presidencies|Military careers|Parables of|[^\[\]\|\r\n]*musical groups|Internet memes|Military animals)");
