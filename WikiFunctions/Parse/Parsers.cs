@@ -3304,14 +3304,19 @@ namespace WikiFunctions.Parse
 
         /// <summary>
         /// Performs fixes to redirect pages:
-        /// * removes newline between #REDIRECT and link
-        /// CHECKWIKI error 36
+        /// * removes newline between #REDIRECT and link (CHECKWIKI error 36)
+        /// * removes uneccessary brackets around redirect
         /// </summary>
         /// <param name="articleText"></param>
         /// <returns></returns>
         public static string FixSyntaxRedirects(string articleText)
         {
-            return WikiRegexes.Redirect.Replace(articleText, m => m.Value.Replace("\r\n", " "));
+            articleText = WikiRegexes.Redirect.Replace(articleText, m => m.Value.Replace("\r\n", " "));
+            articleText = WikiRegexes.Redirect.Replace(articleText, m => m.Value.Replace("[[[[", "[["));
+            articleText = WikiRegexes.Redirect.Replace(articleText, m => m.Value.Replace("]]]]", "]]"));
+            articleText = WikiRegexes.Redirect.Replace(articleText, m => m.Value.Replace("[[[", "[["));
+            articleText = WikiRegexes.Redirect.Replace(articleText, m => m.Value.Replace("]]]", "]]"));
+            return articleText;
         }
 
         /// <summary>
