@@ -969,12 +969,13 @@ namespace WikiFunctions
         /// <summary>
         /// Matches wikilinks with no target e.g. [[|foo]]
         /// </summary>
-        public static readonly Regex TargetLessLink =  new Regex(@"\[\[\|([\w\s]+)\]\]");
+        public static readonly Regex TargetLessLink =  new Regex(@"\[\[\|([\w\s\-\(\),\.&]+)\]\]");
 
         /// <summary>
         /// Matches wikilinks with double pipes e.g. [[text|text2|text3]] and [[text||text3]]
         /// </summary>
-        public static readonly Regex DoublePipeLink =  new Regex(@"\[\[([\w\s\-\(\),\.&]+)\|([\w\s\-\(\),\.&]*)\|([\w\s\-\(\),\.&]+)\]\]");
+        private const string AllowedCharacters = @"([\w\s\-\(\),\.&]*)";
+        public static readonly Regex DoublePipeLink =  new Regex(@"\[\["+AllowedCharacters+@"\|"+AllowedCharacters+@"\|"+AllowedCharacters+@"\]\]");
 
         /// <summary>
         /// 
