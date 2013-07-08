@@ -373,7 +373,10 @@ namespace WikiFunctions.DBScanner
                 {
                     i++;
                     s = a.ToString().Replace("&amp;", "&");
-                    if (a.NameSpaceKey == Namespace.File) s = ":" + s; //images should be inlined
+                    if (a.NameSpaceKey == Namespace.File)
+                    {
+                        s = ":" + s; //images should be inlined
+                    }
 
                     strbList.AppendLine(strBullet + " [[" + s + "]]");
 
@@ -393,7 +396,7 @@ namespace WikiFunctions.DBScanner
                     s = a.ToString().Replace("&amp;", "&");
 
                     string sr = (s.Length > 1) ? s.Remove(1) : s;
-                    
+
                     sr = Tools.RemoveDiacritics(sr);
 
                     if (sr != l)
@@ -428,7 +431,9 @@ namespace WikiFunctions.DBScanner
                     Text = "Wiki Database Scanner - " + Path.GetFileName(FileName);
                 }
                 else
+                {
                     Text = "Wiki Database Scanner";
+                }
             }
         }
 
@@ -850,11 +855,17 @@ namespace WikiFunctions.DBScanner
             {
                 if (openXMLDialog.ShowDialog() == DialogResult.OK)
                 {
-                    FileName = openXMLDialog.FileName;
-                    txtDumpLocation.Text = FileName;
+                    var fileName = openXMLDialog.FileName;
+                    if (!string.IsNullOrEmpty(fileName) && Path.GetExtension(fileName).ToLower() != ".xml")
+                    {
+                        MessageBox.Show("The Database Scanner works with XML dump files. Please extract any compressed files (gz, bz2, 7z) and try again using the XML file from archive", "Wrong extension");
+                        return;
+                    }
+
+                    FileName = fileName;
+                    txtDumpLocation.Text = fileName;
 
                     int dataFound = 0;
-
                     using (XmlTextReader reader = new XmlTextReader(FileName))
                     {
                         while (reader.Read())
@@ -884,16 +895,24 @@ namespace WikiFunctions.DBScanner
                             }
 
                             if (dataFound == 4)
+                            {
                                 break;
+                            }
+                            if (dataFound > 100)
+                            {
+                                // TODO: Bail, not going to happen
+                            }
                         }
                     }
 
                     try
                     {
                         if (new Uri(lnkBase.Text).Host != Variables.Host)
+                        {
                             MessageBox.Show(
                                 "The project of the loaded dump doesn't match the project AWB is currently setup for.\r\nIt is recommended you change the current project to that of the database dump.\r\nThis will ensure the namespaces are correct.",
                                 "Project mismatch", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
                     }
                     catch (UriFormatException)
                     {
