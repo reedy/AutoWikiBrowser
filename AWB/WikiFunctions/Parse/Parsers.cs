@@ -3311,11 +3311,14 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string FixSyntaxRedirects(string articleText)
         {
-            articleText = WikiRegexes.Redirect.Replace(articleText, m => m.Value.Replace("\r\n", " "));
-            articleText = WikiRegexes.Redirect.Replace(articleText, m => m.Value.Replace("[[[[", "[["));
-            articleText = WikiRegexes.Redirect.Replace(articleText, m => m.Value.Replace("]]]]", "]]"));
-            articleText = WikiRegexes.Redirect.Replace(articleText, m => m.Value.Replace("[[[", "[["));
-            articleText = WikiRegexes.Redirect.Replace(articleText, m => m.Value.Replace("]]]", "]]"));
+            articleText = WikiRegexes.Redirect.Replace(articleText, m => {
+                                                           string res = m.Value.Replace("\r\n", " ");
+                                                           res = res.Replace("[[[[", "[[");
+                                                           res = res.Replace("]]]]", "]]");
+                                                           res = res.Replace("[[[", "[[");
+                                                           return res.Replace("]]]", "]]");
+                                                       });
+
             return articleText;
         }
 
