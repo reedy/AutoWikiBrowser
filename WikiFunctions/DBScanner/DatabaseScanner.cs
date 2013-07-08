@@ -856,14 +856,12 @@ namespace WikiFunctions.DBScanner
                 if (openXMLDialog.ShowDialog() == DialogResult.OK)
                 {
                     var fileName = openXMLDialog.FileName;
-                    if (!string.IsNullOrEmpty(fileName) && Path.GetExtension(fileName).ToLower() != ".xml")
+                    var extension = Path.GetExtension(fileName);
+                    if (extension != null && extension.ToLower() != ".xml")
                     {
                         MessageBox.Show("The Database Scanner works with XML dump files. Please extract any compressed files (gz, bz2, 7z) and try again using the XML file from archive", "Wrong extension");
                         return;
                     }
-
-                    FileName = fileName;
-                    txtDumpLocation.Text = fileName;
 
                     int dataFound = 0;
                     using (XmlTextReader reader = new XmlTextReader(FileName))
@@ -871,7 +869,9 @@ namespace WikiFunctions.DBScanner
                         while (reader.Read())
                         {
                             if (reader.Name.Length == 0)
+                            {
                                 continue;
+                            }
 
                             if (reader.Name == "sitename")
                             {
@@ -900,10 +900,14 @@ namespace WikiFunctions.DBScanner
                             }
                             if (dataFound > 100)
                             {
-                                // TODO: Bail, not going to happen
+                                MessageBox.Show("This doesn't look like an XML dump from MediaWiki");
+                                return;
                             }
                         }
                     }
+
+                    FileName = fileName;
+                    txtDumpLocation.Text = fileName;
 
                     try
                     {
