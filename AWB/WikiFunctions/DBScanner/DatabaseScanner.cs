@@ -864,7 +864,7 @@ namespace WikiFunctions.DBScanner
                     }
 
                     int dataFound = 0;
-                    using (XmlTextReader reader = new XmlTextReader(FileName))
+                    using (XmlTextReader reader = new XmlTextReader(fileName))
                     {
                         while (reader.Read())
                         {
