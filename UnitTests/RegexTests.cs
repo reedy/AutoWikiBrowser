@@ -417,6 +417,7 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             TestMatch(WikiRegexes.PipedWikiLink, "[[foo|bar]]");
             TestMatch(WikiRegexes.PipedWikiLink, "a [[foo boo | bar bar ]] !one", "[[foo boo | bar bar ]]");
             TestMatch(WikiRegexes.PipedWikiLink, "[[foo]]", false);
+            TestMatch(WikiRegexes.PipedWikiLink, "[[foo|bar|]]");
 
             // shouldn't eat too much
             TestMatch(WikiRegexes.PipedWikiLink, "[[foo]] [[foo|bar]]", "[[foo|bar]]");
