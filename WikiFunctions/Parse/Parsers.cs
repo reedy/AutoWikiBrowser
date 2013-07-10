@@ -4761,6 +4761,8 @@ namespace WikiFunctions.Parse
             // clean up wikilinks: replace underscores, percentages and URL encoded accents etc.
             articleText = WikiRegexes.WikiLink.Replace(articleText, FixLinksWikilinkCanonicalizeME);
             articleText = WikiRegexes.PipedWikiLink.Replace(articleText, FixLinksWikilinkBoldItalicsME);
+            // fix excess trailing pipe
+            articleText = WikiRegexes.PipedWikiLink.Replace(articleText, m => (m.Groups[2].Value.Trim().EndsWith("|") ? "[[" + m.Groups[1].Value + "|" + m.Groups[2].Value.Trim().TrimEnd('|').Trim() + "]]" : m.Value));
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Your_code_creates_page_errors_inside_imagemap_tags.
             // don't apply if there's an imagemap on the page or some noinclude transclusion business
