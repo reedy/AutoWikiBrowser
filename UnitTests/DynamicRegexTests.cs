@@ -552,6 +552,7 @@ Image here");
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{تقاوى}}");
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{stub}}");
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{قالب:تقاوى تونس}}"); // Tunisia-stub
+            RegexAssert.IsMatch(WikiRegexes.Stub, @"{{تقاوى مش متصنفه}}"); //uncategorised stub
 
 			Variables.SetProjectLangCode("sv");
 			WikiRegexes.MakeLangSpecificRegexes();
@@ -909,6 +910,12 @@ now stubborn}}");
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{غير مصنف}}"));
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{غير مصنفة}}"));
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{بذرة غير مصنفة}}"));
+
+            Variables.SetProjectLangCode("arz");
+            WikiRegexes.MakeLangSpecificRegexes();
+
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{مش متصنفه}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{تقاوى مش متصنفه}}"));
 
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();

@@ -7098,6 +7098,8 @@ namespace WikiFunctions.Parse
                     {
                         if (Variables.LangCode.Equals("ar"))
                             articleText = Tools.RenameTemplate(articleText, uncatname, "بذرة غير مصنفة");
+                        else if (Variables.LangCode.Equals("arz"))
+                            articleText = Tools.RenameTemplate(articleText, uncatname, "تقاوى مش متصنفه");
                         else
                             articleText = Tools.RenameTemplate(articleText, uncatname, "Uncategorized stub");
                         
