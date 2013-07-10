@@ -3978,12 +3978,12 @@ namespace WikiFunctions.Parse
             // catch after any other fixes
             newValue = CommaDates.Replace(newValue, @"$1 $2, $3");
 
-            // URL starting www. needs http://
-            if (theURL.StartsWith("www."))
+            // URL starting www needs http://
+            if (theURL.StartsWith("www", StringComparison.OrdinalIgnoreCase))
                 theURL = "http://" + theURL;
 
             // (part) wikilinked/external linked URL in cite template, don't change when named external link format
-            if(!theURL.Contains(" ") )
+            if(!theURL.Contains(" "))
                 theURL = theURL.Trim('[').Trim(']');
 
             if(!theURLoriginal.Equals(theURL))
