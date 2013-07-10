@@ -171,7 +171,7 @@ namespace WikiFunctions
                     break;
                 case "arz":
                     Orphan = Tools.NestedTemplateRegex(@"يتيمه");
-                    uncattemplate = "مش متصنفه";
+                    uncattemplate = UncatTemplatesARZ;
                     DateYearMonthParameter = @"تاريخ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
 					DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end|نهايه مسدوده)(?:\|(?:[^{}]+|" + DateYearMonthParameter + @"))?}}|({{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*dead ?end\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))");
                     Wikify =Tools.NestedTemplateRegex(@"ويكى");
@@ -276,6 +276,7 @@ namespace WikiFunctions
         }
         
         private const string UncatTemplatesAR = @"(غير مصنفة|غير مصنف|[Uu]ncategori[sz]ed|[Uu]ncategori[sz]ed ?stub|بذرة غير مصنفة)";
+        private const string UncatTemplatesARZ = @"(مش متصنفه|[Uu]ncategori[sz]ed|[Uu]ncategori[sz]ed ?stub|صالون المناقشه)";
         private const string UncatTemplatesEN = @"([Uu]ncat|[Cc]lassify|[Cc]at[Nn]eeded|[Uu]ncategori[sz]ed|[Cc]ategori[sz]e|[Cc]ategories needed|[Cc]ategory ?needed|[Cc]ategory requested|[Cc]ategories requested|[Nn]ocats?|[Uu]ncat-date|[Uu]ncategorized-date|[Nn]eeds cats?|[Cc]ats? needed|[Uu]ncategori[sz]ed ?stub)";
 
         /// <summary>
