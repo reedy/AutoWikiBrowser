@@ -276,7 +276,7 @@ namespace WikiFunctions
         }
         
         private const string UncatTemplatesAR = @"(غير مصنفة|غير مصنف|[Uu]ncategori[sz]ed|[Uu]ncategori[sz]ed ?stub|بذرة غير مصنفة)";
-        private const string UncatTemplatesARZ = @"(مش متصنفه|[Uu]ncategori[sz]ed|[Uu]ncategori[sz]ed ?stub|صالون المناقشه)";
+        private const string UncatTemplatesARZ = @"(مش متصنفه|[Uu]ncategori[sz]ed|[Uu]ncategori[sz]ed ?stub|تقاوى مش متصنفه)";
         private const string UncatTemplatesEN = @"([Uu]ncat|[Cc]lassify|[Cc]at[Nn]eeded|[Uu]ncategori[sz]ed|[Cc]ategori[sz]e|[Cc]ategories needed|[Cc]ategory ?needed|[Cc]ategory requested|[Cc]ategories requested|[Nn]ocats?|[Uu]ncat-date|[Uu]ncategorized-date|[Nn]eeds cats?|[Cc]ats? needed|[Uu]ncategori[sz]ed ?stub)";
 
         /// <summary>

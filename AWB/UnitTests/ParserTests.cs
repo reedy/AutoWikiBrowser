@@ -9398,8 +9398,8 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             //Don't add stub/orphan to disambig pages. Still add wikify
             Assert.IsFalse(text.Contains("{{يتيمة|" + WikiRegexes.DateYearMonthParameter + @"}}"),"orphan");
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text),"stub");
-            //Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text),"wikify");
-            //Assert.IsFalse(text.Contains("{{ويكي|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text),"wikify");
+            Assert.IsFalse(text.Contains("{{ويكي|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
             //Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text),"deadend");
             
             text = parser.Tagger(ShortText.Replace("consectetur", "[[consectetur]]"), "Test", false, out noChange, ref summary);
@@ -9446,19 +9446,19 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             //Assert.IsFalse(text.Contains("{{ويكى|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
             //Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsTrue(Tools.NestedTemplateRegex("تقاوى مش متصنفه").IsMatch(text),"Uncategorized stub");
-            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text),"stub");
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text),"stub tag added");
 
             text = parser.Tagger(ShortText+ @"{{disambig}}", "Test", false, out noChange, ref summary);
             //Don't add stub/orphan to disambig pages. Still add wikify
-            Assert.IsFalse(text.Contains("{{يتيمه|" + WikiRegexes.DateYearMonthParameter + @"}}"),"orphan");
-            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text),"stub");
-            //Assert.IsFalse(text.Contains("{{ويكى|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
+            Assert.IsFalse(text.Contains("{{يتيمه|" + WikiRegexes.DateYearMonthParameter + @"}}"),"orphan not added");
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text),"stub tag not added");
+            Assert.IsFalse(text.Contains("{{ويكى|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify not added");
 
             text = parser.Tagger(ShortText+ @"{{توضيح}}", "Test", false, out noChange, ref summary);
             //Don't add stub/orphan to disambig pages. Still add wikify
-            Assert.IsFalse(text.Contains("{{يتيمه|" + WikiRegexes.DateYearMonthParameter + @"}}"),"orphan");
-            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text),"stub");
-            //Assert.IsFalse(text.Contains("{{ويكى|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify");
+            Assert.IsFalse(text.Contains("{{يتيمه|" + WikiRegexes.DateYearMonthParameter + @"}}"),"orphan not added");
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text),"stub not added");
+            Assert.IsFalse(text.Contains("{{ويكى|" + WikiRegexes.DateYearMonthParameter + @"}}"),"wikify not added");
 
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
