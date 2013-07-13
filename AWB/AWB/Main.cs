@@ -629,8 +629,8 @@ namespace AutoWikiBrowser
             }
             else if (ex is MediaWikiSaysNoException)
             {
-                MessageBox.Show("MediaWiki prevented you from making that edit. Chances are it's spam filter related", "MediaWiki says no");
-                SkipPage("");
+                MessageBox.Show("MediaWiki prevented you from making that edit. Chances are it's spam or abuse filter related", "MediaWiki says no");
+                SkipPage("Edit blocked by spam/abuse filter");
             }
             else
             {
