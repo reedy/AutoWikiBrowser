@@ -2722,8 +2722,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 foreach (Match m in WikiRegexes.WikiLink.Matches(Tools.ReplaceWithSpaces(articleText, WikiRegexes.UnformattedText.Matches(articleText))))
                 {
                     string x = m.Groups[1].Value;
-                    // don't count wikilinked dates as duplicate links
-                    if (!WikiRegexes.Dates.IsMatch(x) && !WikiRegexes.Dates2.IsMatch(x))
+                    // don't count wikilinked dates or targetless links as duplicate links
+                    if (!WikiRegexes.Dates.IsMatch(x) && !WikiRegexes.Dates2.IsMatch(x) && x.Length > 0)
                     {
                         // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Multiple_links
                         // make first character uppercase so that [[proton]] and [[Proton]] are marked as duplicate
