@@ -1319,7 +1319,10 @@ namespace WikiFunctions.API
             string result = actionElement.GetAttribute("result");
             if (!string.IsNullOrEmpty(result) && result != "Success")
             {
-                throw new OperationFailedException(this, action, result, xml);
+                if(actionElement.GetAttribute("code").Contains("abusefilter"))
+                    throw new MediaWikiSaysNoException(this, actionElement.GetAttribute("warning"));
+                else
+                    throw new OperationFailedException(this, action, result, xml);
             }
 
             return doc;
