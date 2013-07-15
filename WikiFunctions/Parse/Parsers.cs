@@ -5114,7 +5114,7 @@ namespace WikiFunctions.Parse
 
             // diacritic removal in sortkeys on en-wiki/simple-wiki only
             if (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple"))
-                sortkey = Tools.RemoveDiacritics(sortkey);
+                sortkey = Tools.CleanSortKey(sortkey);
 
             return CategoryStart + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[1].Value, false).Trim()) +
                 WordWhitespaceEndofline.Replace(sortkey, "$1") + "]]";

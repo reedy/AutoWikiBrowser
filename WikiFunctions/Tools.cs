@@ -187,7 +187,7 @@ namespace WikiFunctions
 		/// </summary>
 		public static string MakeHumanCatKey(string name, string articletext)
 		{
-			name = RemoveNamespaceString(Regex.Replace(RemoveDiacritics(name), @"\(.*?\)$", "").Replace("'", "").Trim()).Trim();
+			name = RemoveNamespaceString(Regex.Replace(CleanSortKey(name), @"\(.*?\)$", "").Replace("'", "").Trim()).Trim();
 
 			string origName = name;
 
@@ -872,18 +872,6 @@ namespace WikiFunctions
 		#region boring chars
 		public static readonly KeyValuePair<string, string>[] Diacritics =
 		{
-			new KeyValuePair<string, string>("’", "'"), // apostrophe
-			new KeyValuePair<string, string>("‘", "'"), // quotation mark
-			new KeyValuePair<string, string>("ʻ", "'"), // okina
-			new KeyValuePair<string, string>("`", "'"), // grave accent
-			new KeyValuePair<string, string>("´", "'"), // acute accent
-			
-			new KeyValuePair<string, string>("“", "'"),  // double quotes (curly)
-			new KeyValuePair<string, string>("”", "'"), // double quotes (curly)
-
-			new KeyValuePair<string, string>("–", "-"), // endash
-			new KeyValuePair<string, string>("—", "-"), // emdash
-
 			//Latin
 			new KeyValuePair<string, string>("Ɯ", "W"),
 			new KeyValuePair<string, string>("ß", "ss"),
@@ -1546,19 +1534,34 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("ŏ", "o"),
 			new KeyValuePair<string, string>("x̌", "x"),
 			new KeyValuePair<string, string>("Ŋ", "n"),			
-			new KeyValuePair<string, string>("ŋ", "n"),			
-			//per WP:SORTKEY "&" needs to change to "and"
-			new KeyValuePair<string, string>("&", "and"),
-			//per WP:SORTKEY replace / with space
-			new KeyValuePair<string, string>("/", " "),
-			//remove weird "ǀ" character
-			new KeyValuePair<string, string>("ǀ", ""),
-			//other weird characters
-			new KeyValuePair<string, string>("…", "..."),
-			new KeyValuePair<string, string>("·", " "),
-			//normalisation - simplify double spaces to a single one
-			new KeyValuePair<string, string>("  ", " "),
+			new KeyValuePair<string, string>("ŋ", "n")
+		};
 
+		public static readonly KeyValuePair<string, string>[] SortKeyChars =
+		{
+		    //per WP:SORTKEY "&" needs to change to "and"
+		    new KeyValuePair<string, string>("&", "and"),
+		    //per WP:SORTKEY replace / with space
+		    new KeyValuePair<string, string>("/", " "),
+		    //remove weird "ǀ" character
+		    new KeyValuePair<string, string>("ǀ", ""),
+		    //other weird characters
+		    new KeyValuePair<string, string>("…", "..."),
+		    new KeyValuePair<string, string>("·", " "),
+		    //normalisation - simplify double spaces to a single one
+		    new KeyValuePair<string, string>("  ", " "),
+		    
+		    new KeyValuePair<string, string>("’", "'"), // apostrophe
+		    new KeyValuePair<string, string>("‘", "'"), // quotation mark
+		    new KeyValuePair<string, string>("ʻ", "'"), // okina
+		    new KeyValuePair<string, string>("`", "'"), // grave accent
+		    new KeyValuePair<string, string>("´", "'"), // acute accent
+		    
+		    new KeyValuePair<string, string>("“", "'"),  // double quotes (curly)
+		    new KeyValuePair<string, string>("”", "'"), // double quotes (curly)
+
+		    new KeyValuePair<string, string>("–", "-"), // endash
+		    new KeyValuePair<string, string>("—", "-") // emdash
 		};
 		#endregion
 
@@ -1600,11 +1603,9 @@ namespace WikiFunctions
 		/// </summary>
 		public static string FixupDefaultSort(string s, bool isArticleAboutAPerson)
 		{
-			// no diacritic removal in sortkeys on ru-wiki
-			if(!Variables.LangCode.Equals("ru"))
-				s = RemoveDiacritics(s);
-			
-			s = BadDsChars.Replace(s, "");
+		    s = CleanSortKey(s);
+		    
+		    s = BadDsChars.Replace(s, "");
 			
 			if(isArticleAboutAPerson)
 			{
@@ -1612,6 +1613,20 @@ namespace WikiFunctions
 			}
 
 			return s.Trim();
+		}
+
+		public static string CleanSortKey(string s)
+		{
+		    // no diacritic removal in sortkeys on ru-wiki
+		    if(!Variables.LangCode.Equals("ru"))
+		        s = RemoveDiacritics(s);
+
+		    foreach (KeyValuePair<string, string> p in SortKeyChars)
+		    {
+		        s = s.Replace(p.Key, p.Value);
+		    }
+
+		    return s;
 		}
 
 		/// <summary>
