@@ -2212,16 +2212,21 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual(@"Ae", Tools.RemoveDiacritics(@"Ǣ"));
             Assert.AreEqual(@"ae", Tools.RemoveDiacritics(@"ǣ"));
             Assert.AreEqual(@"AaBbCcDdEeFfGgHhIiMmNnOoPpRrSsTtWwXxYyZz", Tools.RemoveDiacritics(@"ȦȧḂḃĊċḊḋĖėḞḟĠġḢḣİıṀṁṄṅȮȯṖṗṘṙṠṡṪṫẆẇẊẋẎẏŻż"),"letters with dot above sign");
+        }
+
+        [Test]
+        public void CleanSortKey()
+        {
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Not_replacing_.26_with_.22and.22_in_sort_values
-            Assert.AreEqual(@"and", Tools.RemoveDiacritics(@"&"), "per SORTKEY");
-            Assert.AreEqual(@"Ai-Ais", Tools.RemoveDiacritics(@"ǀAi-ǀAis"), "removes weird character");
-            Assert.AreEqual(@"Ai-Ais Richtersveld Transfrontier Park", Tools.RemoveDiacritics(@"ǀAi-ǀAis/Richtersveld Transfrontier Park"), "removes weird character");
-            Assert.AreEqual(@"Der Nachtkurier meldet...", Tools.RemoveDiacritics(@"Der Nachtkurier meldet…"), "replaces …");
-            Assert.AreEqual(@"A L", Tools.RemoveDiacritics(@"A·L"), "replaces · with space");
-            Assert.AreEqual(@"Bb, Dd, h, Kk, Ll, Nn, Rr, Tt", Tools.RemoveDiacritics(@"Ḇḇ, Ḏḏ, ẖ, Ḵḵ, Ḻḻ, Ṉṉ, Ṟṟ, Ṯṯ"), "letters with macron below");
-            Assert.AreEqual(@"b, d, f, g, k, l, m, n, p, r, s, t, y, x, z", Tools.RemoveDiacritics(@"ᶀ, ᶁ, ᶂ, ᶃ, ᶄ, ᶅ, ᶆ, ᶇ, ᶈ, ᶉ, ᶊ, ƫ, ᶌ, ᶍ, ᶎ"), "letters with palatal hook");
-            Assert.AreEqual(@"'''''''", Tools.RemoveDiacritics(@"’‘ʻ`´“”"), "quotes");
-            Assert.AreEqual(@"1-2-3", Tools.RemoveDiacritics(@"1–2–3"), "endash");
+            Assert.AreEqual(@"and", Tools.CleanSortKey(@"&"), "per SORTKEY");
+            Assert.AreEqual(@"Ai-Ais", Tools.CleanSortKey(@"ǀAi-ǀAis"), "removes weird character");
+            Assert.AreEqual(@"Ai-Ais Richtersveld Transfrontier Park", Tools.CleanSortKey(@"ǀAi-ǀAis/Richtersveld Transfrontier Park"), "removes weird character");
+            Assert.AreEqual(@"Der Nachtkurier meldet...", Tools.CleanSortKey(@"Der Nachtkurier meldet…"), "replaces …");
+            Assert.AreEqual(@"A L", Tools.CleanSortKey(@"A·L"), "replaces · with space");
+            Assert.AreEqual(@"Bb, Dd, h, Kk, Ll, Nn, Rr, Tt", Tools.CleanSortKey(@"Ḇḇ, Ḏḏ, ẖ, Ḵḵ, Ḻḻ, Ṉṉ, Ṟṟ, Ṯṯ"), "letters with macron below");
+            Assert.AreEqual(@"b, d, f, g, k, l, m, n, p, r, s, t, y, x, z", Tools.CleanSortKey(@"ᶀ, ᶁ, ᶂ, ᶃ, ᶄ, ᶅ, ᶆ, ᶇ, ᶈ, ᶉ, ᶊ, ƫ, ᶌ, ᶍ, ᶎ"), "letters with palatal hook");
+            Assert.AreEqual(@"'''''''", Tools.CleanSortKey(@"’‘ʻ`´“”"), "quotes");
+            Assert.AreEqual(@"1-2-3", Tools.CleanSortKey(@"1–2–3"), "endash");
         }
 
         [Test]
