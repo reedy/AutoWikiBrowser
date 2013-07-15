@@ -1970,6 +1970,7 @@ Start date and age
         public void ReAddDiacritics()
         {
             Assert.AreEqual(@"Floué, John", Tools.ReAddDiacritics(@"Floué, John", @"Floue, John"), "diacritics reapplied");
+            Assert.AreEqual(@"Floué", Tools.ReAddDiacritics(@"Floué", @"Floue"), "diacritics reapplied");
             Assert.AreEqual(@"Floué, John", Tools.ReAddDiacritics(@" Floué, John ", @"Floue, John"), "diacritics reapplied");
             Assert.AreEqual(@" Floué, John ", Tools.ReAddDiacritics(@" Floué, John ", @" Floue, John "), "diacritics reapplied");
 
