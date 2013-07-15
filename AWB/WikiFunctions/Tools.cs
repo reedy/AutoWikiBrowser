@@ -1627,6 +1627,9 @@ namespace WikiFunctions
 		    if(!Variables.LangCode.Equals("ru"))
 		        s = RemoveDiacritics(s);
 
+		    s = s.Replace("&ndash;", "–");
+		    s = s.Replace("&mdash;", "—");
+
 		    foreach (KeyValuePair<string, string> p in SortKeyChars)
 		    {
 		        s = s.Replace(p.Key, p.Value);
