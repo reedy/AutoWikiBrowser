@@ -1615,6 +1615,12 @@ namespace WikiFunctions
 			return s.Trim();
 		}
 
+		/// <summary>
+		/// Cleans sortkeys: removes diacritics, except for ru-wiki
+		/// Cleans up/removes specific characters per WP:SORTKEY
+		/// </summary>
+		/// <param name="s"></param>
+		/// <returns></returns>
 		public static string CleanSortKey(string s)
 		{
 		    // no diacritic removal in sortkeys on ru-wiki
