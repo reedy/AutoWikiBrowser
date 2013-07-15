@@ -4198,7 +4198,10 @@ namespace WikiFunctions.Parse
                     name = Tools.MakeHumanCatKey(articleTitle, articleText);
 
                 if (name.Length > 0)
+                {
+                    name = Tools.ReAddDiacritics(articleTitle, name);
                     newPersonData = Tools.SetTemplateParameterValue(newPersonData, "NAME", name, true);
+                }
             }
 
             // date of birth

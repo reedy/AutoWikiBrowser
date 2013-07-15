@@ -2677,6 +2677,12 @@ world|format=PDF}} was";
             res = Parsers.PersonData(Fred, "Fred");
             PD = Tools.NestedTemplateRegex("persondata").Match(res).Value;
             Assert.AreEqual(Tools.GetTemplateParameterValue(PD, "NAME"), "Smith, Fred", "Persondata NAME taken from DEFAULTSORT when available, even when single word title");
+
+            Fred = @"'''Fréd''' (born 1960) is.
+[[Category:1960 births]] {{DEFAULTSORT:Fred}}";
+            res = Parsers.PersonData(Fred, "Fréd");
+            PD = Tools.NestedTemplateRegex("persondata").Match(res).Value;
+            Assert.AreEqual(Tools.GetTemplateParameterValue(PD, "NAME"), "Fréd", "Persondata NAME includes diacritics");
         }
 
         [Test]
