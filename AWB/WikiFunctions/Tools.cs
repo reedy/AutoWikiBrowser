@@ -1561,7 +1561,10 @@ namespace WikiFunctions
 		    new KeyValuePair<string, string>("”", "'"), // double quotes (curly)
 
 		    new KeyValuePair<string, string>("–", "-"), // endash
-		    new KeyValuePair<string, string>("—", "-") // emdash
+		    new KeyValuePair<string, string>("—", "-"), // emdash
+
+		    new KeyValuePair<string, string>("¡", ""), // inverted exclamation mark
+		    new KeyValuePair<string, string>("¿", "") // inverted question mark
 		};
 		#endregion
 
