@@ -3196,6 +3196,7 @@ namespace WikiFunctions.Parse
                 articleText = SyntaxRegexWikilinkMissingOpeningBracket.Replace(articleText, "[[$1]]");
             }
 
+			//CHECKWIKI error 86
             articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "[$1");
 
             // if there are some unbalanced brackets, see whether we can fix them
