@@ -131,7 +131,7 @@ namespace WikiFunctions
             }
             Disambigs = new Regex(TemplateStart + s + @"\s*(?:\|[^{}]*?)?}}");
 
-            s = "([Ss]urnames?|SIA|[Ss]hipindex|[Mm]ountainindex|[[Rr]oadindex|[Ss]portindex|[Gg]iven name|[Mm]olFormIndex|[Mm]olecular formula index)";
+            s = "([Ss]urnames?|SIA|[Ss]ia|[Ss]et index article|[Ss]et ?index|[Ss]hip ?index|[Mm]ountain ?index|[[Rr]oad ?index|[Ss]port ?index|[Gg]iven name|[Mm]olForm ?Index|[Mm]olecular formula index)";
             SIAs = new Regex(TemplateStart + s + @"\s*(?:\|[^{}]*?)?}}");
             
             if (Variables.MagicWords.TryGetValue("defaultsort", out magic))
