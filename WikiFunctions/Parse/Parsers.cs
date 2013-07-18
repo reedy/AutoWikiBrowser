@@ -6115,6 +6115,7 @@ namespace WikiFunctions.Parse
                 || CategoryCharacters.IsMatch(articleText)
                 || WikiRegexes.InfoBox.Match(articleText).Groups[1].Value.ToLower().Contains("organization")
                 || NotPersonInfoboxes.IsMatch(articleText)
+                || WikiRegexes.SIAs.IsMatch(articleText)
                )
                 return false;
 
