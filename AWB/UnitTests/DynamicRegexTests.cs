@@ -1009,10 +1009,15 @@ disambig|surname
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{mountainindex}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Roadindex}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{SIA}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{sia}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{set index}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{set index article}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{sportindex}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{MolFormIndex}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Molecular formula index}}");
             RegexAssert.NoMatch(WikiRegexes.SIAs, @"{{surname-stub}}");
+
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{set index article|param}}");
         }
 
         [Test]
