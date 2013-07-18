@@ -89,7 +89,7 @@ namespace WikiFunctions
             ApiPHP = "api.php";
             TypoSummaryTag = "typos fixed: ";
             AWBDefaultSummaryTag();
-            mSummaryTag = " using ";
+            mSummaryTag = "using ";
             Protocol = "http://";
             NotificationsEnabled = true;
         }
@@ -338,6 +338,10 @@ namespace WikiFunctions
         /// </summary>
         public static string TypoSummaryTag { get; private set; }
 
+        /// <summary>
+        /// Localized version of " using " for edit summary tag
+        /// Does not need spaces at start or end
+        /// </summary>
         private static string mSummaryTag;
 
         /// <summary>
@@ -347,7 +351,7 @@ namespace WikiFunctions
         {
             get
             {
-                string text = mSummaryTag + WPAWB;
+                string text = " " + mSummaryTag + " " + WPAWB;
 #if DEBUG
                 text += " (" + RevisionNumber + ")";
 #endif
@@ -372,7 +376,7 @@ namespace WikiFunctions
 
         private static void AWBDefaultSummaryTag()
         {
-            mSummaryTag = " using ";
+            mSummaryTag = "using ";
             WPAWB = "[[Project:AWB|AWB]]";
         }
 
@@ -575,7 +579,7 @@ namespace WikiFunctions
 
             TypoSummaryTag = "typos fixed: ";
             AWBDefaultSummaryTag();
-            mSummaryTag = " using ";
+            mSummaryTag = "using";
             NotificationsEnabled = true;
 
             if (IsCustomProject)
@@ -714,7 +718,7 @@ namespace WikiFunctions
             Namespaces[710] = "TimedText:";
             Namespaces[711] = "TimedText talk:";
 
-            mSummaryTag = " using ";
+            mSummaryTag = "using";
             WPAWB = "[[Project:AWB|AWB]]";
 
             NamespaceAliases = CanonicalNamespaceAliases;
@@ -741,31 +745,31 @@ namespace WikiFunctions
                     break;
 
                 case "ar":
-                    mSummaryTag = " ";
+                    mSummaryTag = "";
                     WPAWB = "باستخدام [[Project:أوب|أوب]]";
                     Stub = @"[^{}|]*?(?:[Ss]tub|بذرة|بذور)[^{}]*?";
                     TypoSummaryTag = ".الأخطاء المصححة: ";
                     break;
 
                 case "arz":
-                    mSummaryTag = " ";
+                    mSummaryTag = "";
                     WPAWB = "عن طريق [[Project:AWB|اوب]]";
                     Stub = @"[^{}|]*?(?:[Ss]tub|تقاوى|بذرة)[^{}]*?";
                     TypoSummaryTag = ".الأخطاء المصححة: ";
                     break;
                     
                 case "bg":
-                    mSummaryTag = " редактирано с ";
+                    mSummaryTag = "редактирано с";
                     WPAWB = "AWB";
                     break;
 
                 case "ca":
-                    mSummaryTag = " ";
+                    mSummaryTag = "";
                     WPAWB = "[[Viquipèdia:AutoWikiBrowser|AWB]]";
                     break;
 
                 case "cs":
-                    mSummaryTag = " za použití ";
+                    mSummaryTag = "za použití";
                     WPAWB = "[[Wikipedie:AutoWikiBrowser|AWB]]";
                     Stub = @"[^{}|]*?([Pp]ahýl)";
                     break;
@@ -775,17 +779,17 @@ namespace WikiFunctions
                     break;
                     
                 case "da":
-                    mSummaryTag = " ved brug af ";
+                    mSummaryTag = "ved brug af";
                     WPAWB = "[[en:WP:AWB|AWB]]";
                     break;
 
                 case "de":
-                    mSummaryTag = " mit ";
+                    mSummaryTag = "mit";
                     TypoSummaryTag = "Schreibweise: ";
                     break;
 
                 case "el":
-                    mSummaryTag = " με τη χρήση ";
+                    mSummaryTag = "με τη χρήση";
                     WPAWB = "[[Βικιπαίδεια:AutoWikiBrowser|AWB]]";
                     Stub = @"[^{}|]*?([Ss]tub|[Εε]πέκταση)";
                     SectStub = @"\{\{θέματος";
@@ -793,38 +797,38 @@ namespace WikiFunctions
                     break;
 
                 case "eo":
-                    mSummaryTag = " per ";
+                    mSummaryTag = "per";
                     WPAWB = "[[Vikipedio:AutoWikiBrowser|AWB]]";
                     TypoSummaryTag = "Skribmaniero: ";
                     break;
 
                 case "fr":
-                    mSummaryTag = " avec ";
+                    mSummaryTag = "avec";
                     WPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
                     break;
 
                 case "he":
-                    mSummaryTag = " באמצעות ";
+                    mSummaryTag = "באמצעות";
                     WPAWB = "[[ויקיפדיה:AutoWikiBrowser|AWB]]";
                     break;
 
                 case "hi":
-                    mSummaryTag = " ";
+                    mSummaryTag = "";
                     WPAWB = "[[विकिपीडिया:ऑटोविकिब्राउज़र|AWB]] के साथ";
                     break;
 
                 case "hu":
-                    mSummaryTag = " ";
+                    mSummaryTag = "";
                     WPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
                     break;
 
                 case "hy":
-                    mSummaryTag = " oգտվելով ";
+                    mSummaryTag = "oգտվելով";
                     WPAWB = "[[Վիքիպեդիա:ԱվտոՎիքիԲրաուզեր|ԱՎԲ]]";
                     break;
 
                 case "ku":
-                    mSummaryTag = " ";
+                    mSummaryTag = "";
                     WPAWB = "[[Wîkîpediya:AutoWikiBrowser|AWB]]";
                     break;
 
@@ -833,51 +837,51 @@ namespace WikiFunctions
                     break;
 
                 case "nl":
-                    mSummaryTag = " met ";
+                    mSummaryTag = "met";
                     break;
                     
                 case "pl":
-                    mSummaryTag = " przy użyciu ";
+                    mSummaryTag = "przy użyciu";
                     SectStub = @"\{\{[Ss]ek";
                     SectStubRegex = new Regex(SectStub, RegexOptions.Compiled);
                     break;
 
                 case "pt":
-                    mSummaryTag = "utilizando ";
+                    mSummaryTag = "utilizando";
                     WPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
                     break;
 
                 case "ru":
-                    mSummaryTag = "с помощью ";
+                    mSummaryTag = "с помощью";
                     Stub = "[^{}]*?(?:[Ss]tub|[Зз]аготовка)";
                     break;
 
                 case "sk":
-                    mSummaryTag = " ";
+                    mSummaryTag = "";
                     WPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
                     break;
 
                 case "sl":
-                    mSummaryTag = " ";
+                    mSummaryTag = "";
                     WPAWB = "[[Wikipedija:AutoWikiBrowser|AWB]]";
                     Stub = "(?:[^{}]*?[Ss]tub|[Šš]krbina[^{}]*?)";
                     break;
 
                 case "sv":
-                    mSummaryTag = " med ";
+                    mSummaryTag = "med";
                     TypoSummaryTag = "fixar rättningar: ";
                     Stub = @"(?:[^{}]*?[Ss]tub|[^{}]+?stub\-[^{}]+)";
                     break;
 
                 case "tr":
-                    mSummaryTag = " ";
+                    mSummaryTag = "";
                     WPAWB = "[[Vikipedi:AWB|AWB]] ile ";
                     TypoSummaryTag = "yazış şekli: ";
                     break;
 
                 case "uk":
                     Stub = ".*?(?:[Ss]tub|[Дд]оробити)";
-                    mSummaryTag = "за допомогою ";
+                    mSummaryTag = "за допомогою";
                     WPAWB = "[[Вікіпедія:AutoWikiBrowser|AWB]]";
                     break;
 
