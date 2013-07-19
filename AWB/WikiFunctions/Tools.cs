@@ -3225,7 +3225,7 @@ Message: {2}
 		/// </summary>
 		/// <param name="templateCall">the template call</param>
 		/// <param name="newtemplatename">the new template name</param>
-		/// <param name="keepFirstLetterCase">Whether to keep the first letter casing of the existing template</param>
+		/// <param name="keepFirstLetterCase">Whether to keep the first letter casing of the existing template. If false, casing of new template name is used.</param>
 		/// <returns></returns>
 		public static string RenameTemplate(string templateCall, string newtemplatename, bool keepFirstLetterCase)
 		{
