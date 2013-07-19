@@ -513,8 +513,6 @@ namespace AutoWikiBrowser
             IgnoreNoBots = p.General.IgnoreNoBots;
             ClearPageListOnProjectChange = p.General.ClearPageListOnProjectChange;
 
-            listMaker.Add(p.List.ArticleList);
-
             chkGeneralFixes.Checked = p.Editprefs.GeneralFixes;
             chkAutoTagger.Checked = p.Editprefs.Tagger;
             chkUnicodifyWhole.Checked = p.Editprefs.Unicodify;
@@ -649,6 +647,8 @@ namespace AutoWikiBrowser
             udContextChars.Value = p.Disambiguation.ContextChars;
 
             listMaker.SpecialFilterSettings = p.Special;
+            // ensure listmaker is only populated once listmaker filter settings (remove non-mainpace etc.) have been loaded
+            listMaker.Add(p.List.ArticleList);
 
             CModule.Language = p.Module.Language;
             CModule.Code = p.Module.Code.Replace("\n", "\r\n");
