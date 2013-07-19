@@ -536,7 +536,7 @@ en, sq, ru
 		}
 
 		/// <summary>
-		/// 
+		/// Extracts stub templates from the article text
 		/// </summary>
 		/// <param name="articleText">The wiki text of the article.</param>
 		/// <returns></returns>
@@ -1061,10 +1061,20 @@ en, sq, ru
 			    // compare based on first letter upper sortkey for categories
 			    if(s2.Contains("|") && WikiRegexes.Category.IsMatch(s2))
 			        s2 = Regex.Replace(s2, @"(\|\s*)(.+)(\s*\]\]$)", m=> m.Groups[1].Value + Tools.TurnFirstToUpper(m.Groups[2].Value) + m.Groups[3].Value);
+
 			    foreach(string u in uniqueItems)
 			    {
 			        if(u.StartsWith(s2) || u.StartsWith(s2.TrimEnd(']') + @"|"))
 			            addme = false;
+
+			        // compare on first letter case insensitive for templates
+			        if (WikiRegexes.NestedTemplates.IsMatch(s2) && WikiRegexes.NestedTemplates.IsMatch(u))
+			        {
+			            string s2upper = s2.Substring(1,3).ToUpper() + s2.Substring(3);
+			            string uupper = u.Substring(1,3).ToUpper() + u.Substring(3);
+			            if(s2upper.Equals(uupper))
+			                addme = false;
+			        }
 			    }
 
 			    if(addme)

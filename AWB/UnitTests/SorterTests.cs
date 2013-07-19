@@ -45,6 +45,8 @@ namespace UnitTests
 			// remove duplicate stubs
 			s = "{{foo}}{{stub}}{{stub}}";
 			Assert.AreEqual("{{stub}}\r\n", MetaDataSorter.RemoveStubs(ref s));
+			s = "{{foo}}{{Stub}}{{stub}}";
+			Assert.AreEqual("{{Stub}}\r\n", MetaDataSorter.RemoveStubs(ref s));
 		}
 		
 		[Test]
