@@ -28,6 +28,7 @@ namespace WikiFunctions.Profiles
         protected string CurrentSettingsProfile;
         private readonly Session TheSession;
         public event EventHandler LoggedIn;
+        public event EventHandler UserDefaultSettingsLoadRequired;
 
         public AWBProfilesForm(Session session)
         {
@@ -267,6 +268,10 @@ namespace WikiFunctions.Profiles
                     string.IsNullOrEmpty(lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text)
                         ? ""
                         : lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text;
+
+                // fire event to load settings before logging in so we log into user's project/wiki
+                if(CurrentSettingsProfile.Length > 0)
+                    UserDefaultSettingsLoadRequired(null, null);
 
                 if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[2].Text == "Yes")
                 {

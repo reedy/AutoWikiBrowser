@@ -171,6 +171,7 @@ namespace AutoWikiBrowser
 
                 Profiles = new WikiFunctions.Profiles.AWBProfilesForm(TheSession);
                 Profiles.LoggedIn += ProfileLoggedIn;
+                Profiles.UserDefaultSettingsLoadRequired += UserDefaultSettingsLoadRequired;
 
                 SplashScreen.SetProgress(15);
 
@@ -4952,13 +4953,14 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             Profiles.ShowDialog(this);
         }
 
+        private void UserDefaultSettingsLoadRequired(object sender, EventArgs e)
+        {
+            LoadPrefs(Profiles.SettingsToLoad);
+        }
+
         private void ProfileLoggedIn(object sender, EventArgs e)
         {
-            if (!string.IsNullOrEmpty(Profiles.SettingsToLoad))
-            {
-                LoadPrefs(Profiles.SettingsToLoad);
-            }
-            else if (Variables.TryLoadingAgainAfterLogin)
+            if (string.IsNullOrEmpty(Profiles.SettingsToLoad) && Variables.TryLoadingAgainAfterLogin)
             {
                 SetProject(Variables.ReloadProjectSettings.langCode, Variables.ReloadProjectSettings.projectName,
                            Variables.ReloadProjectSettings.customProject, Variables.ReloadProjectSettings.protocol);
