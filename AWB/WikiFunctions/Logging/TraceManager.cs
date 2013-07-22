@@ -47,7 +47,7 @@ namespace WikiFunctions.Logging
         /// <param name="key">Key to remove</param>
 		public virtual void RemoveListener(string key)
 		{
-            if (!Listeners.ContainsKey(key))
+            if (Listeners == null || !Listeners.ContainsKey(key))
             {
                 return;
             }
