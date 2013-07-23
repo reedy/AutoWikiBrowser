@@ -956,6 +956,8 @@ disambig|surname
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Template:disambig}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{template:disambig}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{LatinNameDisambig}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Schooldis}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{School disambiguation}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{SpeciesLatinNameDisambig}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Species Latin name disambiguation}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Species Latin name abbreviation disambiguation}}");
