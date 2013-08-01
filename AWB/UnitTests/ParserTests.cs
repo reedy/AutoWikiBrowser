@@ -3575,6 +3575,8 @@ Template:foo}}"));
 Foo}}"));
 
             Assert.AreEqual(@"{{DEFAULTSORT:Foo}}", Parsers.FixSyntax(@"{{DEFAULTSORT: Foo }}"));
+            Assert.AreEqual(@"{{DEFAULTSORT:Foo}}", Parsers.FixSyntax(@"{{DEFAULTSORT:Foo
+}}"));
         }
 
         [Test]

@@ -141,7 +141,7 @@ namespace WikiFunctions
                     ? "(?:(?i:defaultsort(key|CATEGORYSORT)?))"
                     : "(?i:defaultsort)";
 
-            Defaultsort = new Regex(TemplateStart + s + @"\s*[:\|]\s*(?<key>(?>[^\{\}\r\n]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))|[^\}\r\n]*?)(?<end>}}|\r|\n)",
+            Defaultsort = new Regex(TemplateStart + s + @"\s*[:\|]\s*(?<key>(?>[^\{\}\r\n]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))|[^\}\r\n]*?)(?<end>\s*}}|\r|\n)",
                                     RegexOptions.ExplicitCapture);
 
             //if (Variables.URL == Variables.URLLong)
