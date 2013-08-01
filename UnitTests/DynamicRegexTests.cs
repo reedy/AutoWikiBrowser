@@ -1126,6 +1126,9 @@ pp").Value);
 pp
 {{x}}
 ").Value);
+            Assert.AreEqual(@"{{DEFAULTSORT:foo
+}}", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo
+}}").Value);
         }
         
         [Test]

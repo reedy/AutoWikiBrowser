@@ -3263,7 +3263,7 @@ namespace WikiFunctions.Parse
             // handle case where defaultsort ended by newline, preserve newline at end of defaultort returned
             string end = m.Groups["end"].Value;
 
-            if (!end.Equals(@"}}"))
+            if (!end.TrimStart().Equals(@"}}"))
                 returned += end;
 
             return returned;
