@@ -224,6 +224,7 @@ namespace WikiFunctions.TalkPages
             foreach (Match m in WikiRegexes.WikiProjectBannerShellTemplate.Matches(articletext))
             {
                 string newValue = m.Value;
+                newValue = Tools.RemoveExcessTemplatePipes(newValue);
                 string arg1 = Tools.GetTemplateParameterValue(newValue, "1");
                 
                 // Add explicit call to first unnamed parameter 1= if missing/has no value
