@@ -3960,7 +3960,8 @@ namespace WikiFunctions.Parse
                 newValue = AccessDayMonthDay.Replace(newValue, "");
 
                 // merge accessdate of 'D Month' or 'Month D' and accessyear of 'YYYY' in cite web
-                newValue = AccessDateYear.Replace(newValue, @" $2$1$3");
+                if(accessyear.Length == 4)
+                    newValue = AccessDateYear.Replace(newValue, @" $2$1$3");
             }
 
             // remove accessyear where accessdate is present and contains said year
