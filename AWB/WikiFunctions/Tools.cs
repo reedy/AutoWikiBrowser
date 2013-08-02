@@ -3002,7 +3002,36 @@ Message: {2}
 			}
 			return Dupes;
 		}
+
+		private static readonly Regex SpacedPipes = new Regex(@"(\|\s*)(?:\||}})");
 		
+		/// <summary>
+		/// Removes excess pipes from template calls, any where two pipes with no value/only whitespace between
+		/// </summary>
+		/// <param name="templatecall">The template call to clean up</param>
+		/// <returns>The updated template call</returns>
+		public static string RemoveExcessTemplatePipes(string templatecall)
+		{
+		    string originalURL = CiteUrl.Match(templatecall).Groups[1].Value.TrimEnd("|".ToCharArray()), originalTemplateCall = templatecall;
+		    string pipecleanedtemplate = PipeCleanedTemplate(templatecall);
+
+		    while (SpacedPipes.IsMatch(pipecleanedtemplate))
+		    {
+		        Match m = SpacedPipes.Match(pipecleanedtemplate);
+		        
+		        // imatch is like "|   |" or "| }}" so remove first | and whitespace
+		        templatecall = templatecall.Remove(m.Index, m.Groups[1].Length);
+
+		        pipecleanedtemplate = PipeCleanedTemplate(templatecall);
+		    }
+
+		    // check for URL breakage due to unescaped pipes in URL
+		    if(originalURL.Length > 0 && !CiteUrl.Match(templatecall).Groups[1].Value.Equals(originalURL))
+		        return originalTemplateCall;
+
+		    return templatecall;
+		}
+
 		/// <summary>
 		/// Checks template calls using named parameters for unknown parameters
 		/// </summary>
