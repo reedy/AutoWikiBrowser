@@ -8574,25 +8574,25 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
         }
 
         [Test]
-        public void ConversionTestsGeneral()
+        public void RemoveExcessTemplatePipes()
         {
             // extra pipe
             Assert.AreEqual(@"{{Multiple issues|sections=May 2008|POV=March 2008|COI=May 2009}}", Parsers.Conversions(@"{{Multiple issues|sections=May 2008||POV=March 2008|COI=May 2009}}"));
-            Assert.AreEqual(@"{{cite web | url=http://www.site.com | title=hello}}", Parsers.Conversions(@"{{cite web | url=http://www.site.com || title=hello}}"));
-            Assert.AreEqual(@"{{cite web | url=http://www.site.com | title=hello}}", Parsers.Conversions(@"{{cite web || url=http://www.site.com || title=hello}}"));
-            Assert.AreEqual(@"{{cite web | url=http://www.site.com | title=hello}}", Parsers.Conversions(@"{{cite web | url=http://www.site.com | | title=hello}}"));
-            Assert.AreEqual(@"{{cite wikisource|bar||foo}}", Parsers.Conversions(@"{{cite wikisource|bar||foo}}"));
+            Assert.AreEqual(@"{{cite web | url=http://www.site.com | title=hello}}", Parsers.FixCitationTemplates(@"{{cite web | url=http://www.site.com || title=hello}}"));
+            Assert.AreEqual(@"{{cite web | url=http://www.site.com | title=hello}}", Parsers.FixCitationTemplates(@"{{cite web || url=http://www.site.com || title=hello}}"));
+            Assert.AreEqual(@"{{cite web | url=http://www.site.com | title=hello}}", Parsers.FixCitationTemplates(@"{{cite web | url=http://www.site.com | | title=hello}}"));
+            Assert.AreEqual(@"{{cite wikisource|bar||foo}}", Parsers.FixCitationTemplates(@"{{cite wikisource|bar||foo}}"));
 
-            Assert.AreEqual(@"{{cite uscgll|bar||foo}}", Parsers.Conversions(@"{{cite uscgll|bar||foo}}"));
-            Assert.AreEqual(@"{{cite ngall|bar||foo}}", Parsers.Conversions(@"{{cite ngall|bar||foo}}"));
-            Assert.AreEqual(@"{{Cite Legislation AU|bar||foo}}", Parsers.Conversions(@"{{Cite Legislation AU|bar||foo}}"));
+            Assert.AreEqual(@"{{cite uscgll|bar||foo}}", Parsers.FixCitationTemplates(@"{{cite uscgll|bar||foo}}"));
+            Assert.AreEqual(@"{{cite ngall|bar||foo}}", Parsers.FixCitationTemplates(@"{{cite ngall|bar||foo}}"));
+            Assert.AreEqual(@"{{Cite Legislation AU|bar||foo}}", Parsers.FixCitationTemplates(@"{{Cite Legislation AU|bar||foo}}"));
 
             const string UnclosedCiteInTable = @"
 |
 |Yes<ref>{{cite web | title=A </ref>
 |
 |";
-            Assert.AreEqual(UnclosedCiteInTable, Parsers.Conversions(UnclosedCiteInTable), "Does not alter table pipes following unclosed ref cite");
+            Assert.AreEqual(UnclosedCiteInTable, Parsers.FixCitationTemplates(UnclosedCiteInTable), "Does not alter table pipes following unclosed ref cite");
         }
 
         [Test]

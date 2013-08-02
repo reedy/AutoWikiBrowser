@@ -3754,6 +3754,7 @@ namespace WikiFunctions.Parse
         private static string FixCitationTemplatesME(Match m)
         {
             string newValue = m.Value;
+            newValue = Tools.RemoveExcessTemplatePipes(newValue);
             string templatename = Tools.GetTemplateName(newValue);
             
             Dictionary<string, string> paramsFound = Tools.GetTemplateParameterValues(newValue);
@@ -6689,7 +6690,6 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex MultipleIssuesUndatedTags = new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*)?|\|)\s*)(?![Ee]xpert)" + WikiRegexes.MultipleIssuesTemplatesString + @"\s*(\||}})", RegexOptions.Compiled);
         private static readonly Regex MultipleIssuesDateRemoval = new Regex(@"(?<={{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*?)?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?){0,4}\|[^{}\|]{3,}?)\b(?i)date(?<!.*out of date)", RegexOptions.Compiled);
-        private static readonly Regex CiteTemplateDuplicateBars = new Regex(@"(?!{{[Cc]ite ?(?:wikisource|ngall|uscgll|[lL]egislation AU))(\{\{\s*(?:[Cc]it[ae]|(?:[Aa]rticle|[Mm]ultiple) ?issues)[^{}<]*)\|\s*(\}\}|\|)", RegexOptions.Compiled);
         private static readonly Regex NoFootnotes = Tools.NestedTemplateRegex("no footnotes");
         private static readonly String CategoryLivingPeople = @"[[Category:Living people";
 
@@ -6762,9 +6762,8 @@ namespace WikiFunctions.Parse
 
             articleText = MergeTemplatesBySection(articleText);
 
-            // tidy up || or |}} (maybe with whitespace between) within templates that don't use null parameters. Handle for unclosed cites within refs.
-            while (CiteTemplateDuplicateBars.IsMatch(articleText))
-                articleText = CiteTemplateDuplicateBars.Replace(articleText, "$1$2");
+            // tidy up || or |}} (maybe with whitespace between) within MI templates 
+            articleText = WikiRegexes.MultipleIssues.Replace(articleText, m => Tools.RemoveExcessTemplatePipes(m.Value));
 
             // clean up Template:/underscores in infobox names
             string InfoBox = WikiRegexes.InfoBox.Match(articleText).Groups[1].Value;
