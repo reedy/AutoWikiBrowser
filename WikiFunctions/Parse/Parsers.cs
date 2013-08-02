@@ -2364,7 +2364,6 @@ namespace WikiFunctions.Parse
         private const string CitAccessdate = SiCitStart + @"(?:access|archive)date\s*=\s*";
         private const string CitDate = SiCitStart + @"(?:archive|air)?date2?\s*=\s*";
 
-        private static readonly Regex AccessOrArchiveDate = new Regex(@"\b(access|archive)date\s*=", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly RegexReplacement[] CiteTemplateIncorrectISOAccessdates = new[] {
             new RegexReplacement(CitAccessdate + @")(1[0-2])[/_\-\.]?(1[3-9])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$2-$3"),
             new RegexReplacement(CitAccessdate + @")(1[0-2])[/_\-\.]?([23]\d)[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$2-$3"),
@@ -2385,7 +2384,6 @@ namespace WikiFunctions.Parse
             new RegexReplacement(CitAccessdate + @")0?([1-9])[/_\-\.]?0?\2[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$3-0$2-0$2"), // n-n-2004 and n-n-04 to ISO format (both n the same)
         };
 
-        private static readonly Regex CiteTemplateArchiveAirDate = new Regex(@"{{\s*cit[^{}]*\|\s*(?:archive|air)?date2?\s*=", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private static readonly RegexReplacement[] CiteTemplateIncorrectISODates = new[] {
             new RegexReplacement(CitDate + @"\[?\[?)(20\d\d|19[7-9]\d)[/_]?([01]\d)[/_]?([0-3]\d\s*(?:\||}}))", "$1$2-$3-$4"),
             new RegexReplacement(CitDate + @"\[?\[?)(1[0-2])[/_\-\.]?([23]\d)[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-$2-$3"),
@@ -2450,30 +2448,55 @@ namespace WikiFunctions.Parse
         private static string CiteTemplateME(Match m)
         {
             string at = m.Value;
+            List<string> dates = new List<string>();
+            string accessdate = Tools.GetTemplateParameterValue(at, "accessdate"), date = Tools.GetTemplateParameterValue(at, "date"), 
+            date2 = Tools.GetTemplateParameterValue(at, "date2"), archivedate = Tools.GetTemplateParameterValue(at, "archivedate"), 
+            airdate = Tools.GetTemplateParameterValue(at, "airdate");
 
             // convert invalid date formats like DD-MM-YYYY, MM-DD-YYYY, YYYY-D-M, YYYY-DD-MM, YYYY_MM_DD etc. to iso format of YYYY-MM-DD
             // for accessdate= and archivedate=
             // provided no ambiguous ones
-            if (AccessOrArchiveDate.IsMatch(at))
+            dates.Add(accessdate);
+            dates.Add(archivedate);
+
+            if(CiteTemplateMEParameterToProcess(dates))
                 foreach (RegexReplacement rr in CiteTemplateIncorrectISOAccessdates)
                     at = rr.Regex.Replace(at, rr.Replacement);
 
+            dates.Add(date);
+            dates.Add(date2);
+            dates.Add(airdate);
+            dates.Remove(accessdate);
+
             // date=, archivedate=, airdate=, date2=
-            if (CiteTemplateArchiveAirDate.IsMatch(at))
+           if(CiteTemplateMEParameterToProcess(dates))
             {
                 foreach (RegexReplacement rr in CiteTemplateIncorrectISODates)
                     at = rr.Regex.Replace(at, rr.Replacement);
 
-                // date = YYYY-Month-DD fix, not for cite journal PubMed date format
-                if (Tools.GetTemplateParameterValue(at, "journal").Length == 0)
-                    at = CiteTemplateAbbreviatedMonthISO.Replace(at, m2 => m2.Groups[1].Value + Tools.ConvertDate(m2.Groups[2].Value.Replace(".", ""), DateLocale.ISO) + m2.Groups[3].Value);
+                at = CiteTemplateDateYYYYDDMMFormat.Replace(at, "$1-$3-$2$4"); // YYYY-DD-MM to YYYY-MM-DD
             }
             
+            // date = YYYY-Month-DD fix, not for cite journal PubMed date format
+            if((accessdate.Length + archivedate.Length + date.Length + date2.Length + airdate.Length) > 0
+               && Tools.GetTemplateParameterValue(at, "journal").Length == 0)
+                at = CiteTemplateAbbreviatedMonthISO.Replace(at, m2 => m2.Groups[1].Value + Tools.ConvertDate(m2.Groups[2].Value.Replace(".", ""), DateLocale.ISO) + m2.Groups[3].Value);
+
             // all citation dates
-            at = CiteTemplateDateYYYYDDMMFormat.Replace(at, "$1-$3-$2$4"); // YYYY-DD-MM to YYYY-MM-DD
             at = CiteTemplateTimeInDateParameter.Replace(at, "$1<!--$2-->"); // Removes time from date fields
 
             return at;
+        }
+
+        private static bool CiteTemplateMEParameterToProcess(List<string> parameters)
+        {
+            foreach(string s in parameters)
+            {
+                if(s.Length > 0 && !WikiRegexes.ISODates.IsMatch(s)
+                   && !Regex.IsMatch(s, WikiRegexes.Months))
+                    return true;
+            }
+            return false;
         }
 
         private static readonly Regex PossibleAmbiguousCiteDate = new Regex(@"(?<=\|\s*(?:access|archive|air)?date2?\s*=\s*)(0?[1-9]|1[0-2])[/_\-\.](0?[1-9]|1[0-2])[/_\-\.](20\d\d|19[7-9]\d|[01]\d)\b");
