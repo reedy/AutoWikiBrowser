@@ -1626,6 +1626,20 @@ def
         }
 
         [Test]
+        public void RemoveExcessTemplatePipes()
+        {
+            Assert.AreEqual(@"{{foo|param1=before}}", Tools.RemoveExcessTemplatePipes(@"{{foo||param1=before}}"), "excess pipe removed");
+            Assert.AreEqual(@"{{foo|param1=before}}", Tools.RemoveExcessTemplatePipes(@"{{foo| |param1=before}}"), "excess spaced pipe removed");
+            Assert.AreEqual(@"{{foo|param1=before}}", Tools.RemoveExcessTemplatePipes(@"{{foo|
+		|param1=before}}"), "space is newline");
+            Assert.AreEqual(@"{{foo|param1=before}}", Tools.RemoveExcessTemplatePipes(@"{{foo|     |param1=before}}"));
+            Assert.AreEqual(@"{{foo|param1=before|param2=b}}", Tools.RemoveExcessTemplatePipes(@"{{foo||param1=before||param2=b}}"), "mulitple excess pipes");
+            Assert.AreEqual(@"{{foo|param1=before}}", Tools.RemoveExcessTemplatePipes(@"{{foo||param1=before|}}"), "excess pipe at end");
+            const string nested = @"{{foo| one={{bar|a||c}}|two=x}}";
+            Assert.AreEqual(nested, Tools.RemoveExcessTemplatePipes(nested), "pipes within nested templates not changed");
+        }
+
+        [Test]
         public void UpdateTemplateParameterValue()
         {
             Assert.AreEqual(@"{{foo|param1=valueafter}}", Tools.UpdateTemplateParameterValue(@"{{foo|param1=before}}", "param1", "valueafter"));
