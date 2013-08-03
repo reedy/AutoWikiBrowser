@@ -3779,7 +3779,9 @@ namespace WikiFunctions.Parse
             newValue = Tools.RemoveExcessTemplatePipes(newValue);
             string templatename = Tools.GetTemplateName(newValue);
             
-            Dictionary<string, string> paramsFound = Tools.GetTemplateParameterValues(newValue);
+            Dictionary<string, string> paramsFound = new  Dictionary<string, string>();
+            // remove duplicated fields, ensure the URL is not touched (may have pipes in)
+            newValue = Tools.RemoveDuplicateTemplateParameters(newValue, out paramsFound);
             
             string theURL,id,format,theTitle,TheYear,lang,TheDate,TheMonth,TheWork,nopp,TheIssue,accessyear,accessdate,pages,page,ISBN,origyear;
             if(!paramsFound.TryGetValue("url", out theURL))
@@ -3891,9 +3893,6 @@ namespace WikiFunctions.Parse
                 TheYear = "";
                 newValue = Tools.RenameTemplateParameter(newValue, "year", "date");
             }
-
-            // remove duplicated fields, ensure the URL is not touched (may have pipes in)
-            newValue = Tools.RemoveDuplicateTemplateParameters(newValue);
 
             // year=YYYY and date=...YYYY -> remove year; not for year=YYYYa
             if (TheYear.Length == 4 && TheDate.Contains(TheYear) && YearOnly.IsMatch(TheYear) && (WikiRegexes.InternationalDates.IsMatch(TheDate)
