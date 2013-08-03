@@ -3987,17 +3987,15 @@ namespace WikiFunctions.Parse
             }
 
             // remove ordinals from dates
-            if (OrdinalsInDatesInt.IsMatch(newValue))
-            {
+            if (OrdinalsInDatesInt.IsMatch(TheDate))
                 newValue = Tools.UpdateTemplateParameterValue(newValue, "date", OrdinalsInDatesInt.Replace(TheDate, "$1$2$3 $4"));
-                newValue = Tools.UpdateTemplateParameterValue(newValue, "accessdate", OrdinalsInDatesInt.Replace(accessdate, "$1$2$3 $4"));
-            }
-
-            if (OrdinalsInDatesAm.IsMatch(newValue))
-            {
+            else if (OrdinalsInDatesAm.IsMatch(TheDate))
                 newValue = Tools.UpdateTemplateParameterValue(newValue, "date", OrdinalsInDatesAm.Replace(TheDate, "$1 $2$3"));
+
+            if (OrdinalsInDatesInt.IsMatch(accessdate))
+                newValue = Tools.UpdateTemplateParameterValue(newValue, "accessdate", OrdinalsInDatesInt.Replace(accessdate, "$1$2$3 $4"));
+            else if(OrdinalsInDatesAm.IsMatch(accessdate))
                 newValue = Tools.UpdateTemplateParameterValue(newValue, "accessdate", OrdinalsInDatesAm.Replace(accessdate, "$1 $2$3"));
-            }
 
             // catch after any other fixes
             newValue = CommaDates.Replace(newValue, @"$1 $2, $3");
