@@ -1573,6 +1573,18 @@ def
             Assert.AreEqual(@"{{foo|first=abc|second=dex|second=defg}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=dex|second=dex|second=defg}}"), "non-duplicates not removed");
 
             Assert.AreEqual(@"{{foo|first=abc|second={{def|bar}}}}", Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second={{def|bar}}|second={{def|bar}}}}"));
+        
+            Dictionary<string, string> Params = new Dictionary<string, string>();
+            Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc|second=def|second=def}}", out Params);
+            Assert.AreEqual(Params.Count, 2);
+            Params.Clear();
+            Tools.RemoveDuplicateTemplateParameters(noDupe2, out Params);
+            Assert.AreEqual(Params.Count, 3);
+            Params.Clear();
+            Tools.RemoveDuplicateTemplateParameters(@"{{foo|first=abc||second=  def <!--com-->  }}", out Params);
+            string d = "";
+            Assert.IsTrue(Params.TryGetValue("second", out d));
+            Assert.AreEqual("def <!--com-->", d, "parameter with space and comment retrieved correctly");
         }
 
         [Test]

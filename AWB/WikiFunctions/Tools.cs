@@ -2927,7 +2927,7 @@ Message: {2}
 		}
 		
 		private static readonly Regex CiteUrl = new Regex(@"\|\s*url\s*=\s*([^\[\]<>""\s]+)", RegexOptions.Compiled);
-		
+
 		/// <summary>
 		/// Removes duplicate (same or null) named parameters from template calls
 		/// </summary>
@@ -2935,19 +2935,31 @@ Message: {2}
 		/// <returns>The updated template call</returns>
 		public static string RemoveDuplicateTemplateParameters(string templatecall)
 		{
+		    Dictionary<string, string> Params = new Dictionary<string, string>();
+		    return RemoveDuplicateTemplateParameters(templatecall, out Params);
+		}
+
+		/// <summary>
+		/// Removes duplicate (same or null) named parameters from template calls
+		/// </summary>
+		/// <param name="templatecall">The template call to clean up</param>
+		/// <returns>The updated template call</returns>
+		public static string RemoveDuplicateTemplateParameters(string templatecall, out Dictionary<string, string> Params)
+		{
 			string originalURL = CiteUrl.Match(templatecall).Groups[1].Value.TrimEnd("|".ToCharArray()), originalTemplateCall = templatecall;
 
 			string updatedTemplateCall = "";
+			Params = new Dictionary<string, string>();
 
 			while(!updatedTemplateCall.Equals(templatecall))
 			{
-				Dictionary<string, string> Params = new Dictionary<string, string>();
+			    Params.Clear();
 				string pipecleanedtemplate = PipeCleanedTemplate(templatecall);
 				updatedTemplateCall = templatecall;
 				
 				foreach(Match m in anyParam.Matches(pipecleanedtemplate))
 				{
-					string paramValue = templatecall.Substring(m.Groups[2].Index, m.Groups[2].Length),
+				    string paramValue = templatecall.Substring(m.Groups[2].Index, m.Groups[2].Length).Trim(),
 					paramName = m.Groups[1].Value;
 					
 					if(!Params.ContainsKey(paramName))
@@ -2976,7 +2988,7 @@ Message: {2}
 			return templatecall;
 		}
 		
-		private static readonly Regex anyParam = new Regex(@"\|\s*([^{}\|<>\r\n]+?)\s*=\s*(.*?)\s*(?=\||}}$)", RegexOptions.Singleline);
+		private static readonly Regex anyParam = new Regex(@"\|\s*([^{}\|<>\r\n]+?)\s*=\s*(.*?\s*)(?=\||}}$)", RegexOptions.Singleline);
 		
 		/// <summary>
 		/// Returns duplicate named parameters in a template call
@@ -2992,7 +3004,7 @@ Message: {2}
 			
 			foreach(Match m in anyParam.Matches(pipecleanedtemplate))
 			{
-				string paramValue = templatecall.Substring(m.Groups[2].Index, m.Groups[2].Length),
+			    string paramValue = templatecall.Substring(m.Groups[2].Index, m.Groups[2].Length).Trim(),
 				paramName = m.Groups[1].Value;
 				
 				if(!Params.ContainsKey(paramName))
