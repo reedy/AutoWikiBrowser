@@ -3898,7 +3898,7 @@ namespace WikiFunctions.Parse
                 newValue = Tools.RemoveDuplicateTemplateParameters(newValue);
 
             // year=YYYY and date=...YYYY -> remove year; not for year=YYYYa
-            if (YearOnly.IsMatch(TheYear) && TheDate.Contains(TheYear) && (WikiRegexes.InternationalDates.IsMatch(TheDate)
+            if (TheYear.Length == 4 && TheDate.Contains(TheYear) && YearOnly.IsMatch(TheYear) && (WikiRegexes.InternationalDates.IsMatch(TheDate)
                                                                            || WikiRegexes.AmericanDates.IsMatch(TheDate)
                                                                            || WikiRegexes.ISODates.IsMatch(TheDate)))
             {
