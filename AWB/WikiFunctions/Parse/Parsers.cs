@@ -3707,7 +3707,6 @@ namespace WikiFunctions.Parse
         private static readonly Regex DateLeadingZero = new Regex(@"(?<=\|\s*(?:access|archive)?date\s*=\s*)(?:0([1-9]\s+" + WikiRegexes.MonthsNoGroup + @")|(\s*" + WikiRegexes.MonthsNoGroup + @"\s)+0([1-9],?))(\s+(?:20[01]|1[89]\d)\d)?(\s*\||}})");
         private static readonly Regex YearInDate = new Regex(@"(\|\s*)date(\s*=\s*[12]\d{3}\s*)(?=\||}})");
 
-        private static readonly Regex DupeFields = new Regex(@"((\|\s*([a-z\d]+)\s*=\s*([^\{\}\|]*?))\s*(?:\|.*?)?)\|\s*\3\s*=\s*([^\{\}\|]*?)\s*(\||}})", RegexOptions.Singleline | RegexOptions.Compiled);
         private static readonly Regex UnspacedCommaPageRange = new Regex(@"((?:[ ,–]|^)\d+),(\d+(?:[ ,–]|$))");
 
         private static readonly List<string> ParametersToDequote = new List<string>(new[] { "title", "trans_title" });
@@ -3894,8 +3893,7 @@ namespace WikiFunctions.Parse
             }
 
             // remove duplicated fields, ensure the URL is not touched (may have pipes in)
-            if (DupeFields.IsMatch(newValue))
-                newValue = Tools.RemoveDuplicateTemplateParameters(newValue);
+            newValue = Tools.RemoveDuplicateTemplateParameters(newValue);
 
             // year=YYYY and date=...YYYY -> remove year; not for year=YYYYa
             if (TheYear.Length == 4 && TheDate.Contains(TheYear) && YearOnly.IsMatch(TheYear) && (WikiRegexes.InternationalDates.IsMatch(TheDate)
