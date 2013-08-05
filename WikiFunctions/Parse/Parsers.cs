@@ -2444,7 +2444,12 @@ namespace WikiFunctions.Parse
             }
             return articleText;
         }
-        
+
+        /// <summary>
+        /// convert invalid date formats like DD-MM-YYYY, MM-DD-YYYY, YYYY-D-M, YYYY-DD-MM, YYYY_MM_DD etc. to iso format of YYYY-MM-DD
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
         private static string CiteTemplateME(Match m)
         {
             string newValue = m.Value;
@@ -2466,23 +2471,19 @@ namespace WikiFunctions.Parse
                 journal = "";
 
             List<string> dates = new List<string>();
-            // convert invalid date formats like DD-MM-YYYY, MM-DD-YYYY, YYYY-D-M, YYYY-DD-MM, YYYY_MM_DD etc. to iso format of YYYY-MM-DD
-            // for accessdate= and archivedate=
-            // provided no ambiguous ones
             dates.Add(accessdate);
             dates.Add(archivedate);
-
-            if(CiteTemplateMEParameterToProcess(dates))
-                foreach (RegexReplacement rr in CiteTemplateIncorrectISOAccessdates)
-                    newValue = rr.Regex.Replace(newValue, rr.Replacement);
-
             dates.Add(date);
             dates.Add(date2);
             dates.Add(airdate);
 
-            // date=, archivedate=, airdate=, date2=
             if(CiteTemplateMEParameterToProcess(dates))
             {
+                // accessdate=, archivedate=
+                foreach (RegexReplacement rr in CiteTemplateIncorrectISOAccessdates)
+                    newValue = rr.Regex.Replace(newValue, rr.Replacement);
+
+                // date=, archivedate=, airdate=, date2=
                 foreach (RegexReplacement rr in CiteTemplateIncorrectISODates)
                     newValue = rr.Regex.Replace(newValue, rr.Replacement);
 
