@@ -2447,11 +2447,11 @@ namespace WikiFunctions.Parse
         
         private static string CiteTemplateME(Match m)
         {
-            string at = m.Value;
+            string newValue = m.Value;
             List<string> dates = new List<string>();
-            string accessdate = Tools.GetTemplateParameterValue(at, "accessdate"), date = Tools.GetTemplateParameterValue(at, "date"), 
-            date2 = Tools.GetTemplateParameterValue(at, "date2"), archivedate = Tools.GetTemplateParameterValue(at, "archivedate"), 
-            airdate = Tools.GetTemplateParameterValue(at, "airdate");
+            string accessdate = Tools.GetTemplateParameterValue(newValue, "accessdate"), date = Tools.GetTemplateParameterValue(newValue, "date"), 
+            date2 = Tools.GetTemplateParameterValue(newValue, "date2"), archivedate = Tools.GetTemplateParameterValue(newValue, "archivedate"), 
+            airdate = Tools.GetTemplateParameterValue(newValue, "airdate");
 
             // convert invalid date formats like DD-MM-YYYY, MM-DD-YYYY, YYYY-D-M, YYYY-DD-MM, YYYY_MM_DD etc. to iso format of YYYY-MM-DD
             // for accessdate= and archivedate=
@@ -2461,7 +2461,7 @@ namespace WikiFunctions.Parse
 
             if(CiteTemplateMEParameterToProcess(dates))
                 foreach (RegexReplacement rr in CiteTemplateIncorrectISOAccessdates)
-                    at = rr.Regex.Replace(at, rr.Replacement);
+                    newValue = rr.Regex.Replace(newValue, rr.Replacement);
 
             dates.Add(date);
             dates.Add(date2);
@@ -2472,20 +2472,20 @@ namespace WikiFunctions.Parse
            if(CiteTemplateMEParameterToProcess(dates))
             {
                 foreach (RegexReplacement rr in CiteTemplateIncorrectISODates)
-                    at = rr.Regex.Replace(at, rr.Replacement);
+                    newValue = rr.Regex.Replace(newValue, rr.Replacement);
 
-                at = CiteTemplateDateYYYYDDMMFormat.Replace(at, "$1-$3-$2$4"); // YYYY-DD-MM to YYYY-MM-DD
+                newValue = CiteTemplateDateYYYYDDMMFormat.Replace(newValue, "$1-$3-$2$4"); // YYYY-DD-MM to YYYY-MM-DD
             }
             
             // date = YYYY-Month-DD fix, not for cite journal PubMed date format
             if((accessdate.Length + archivedate.Length + date.Length + date2.Length + airdate.Length) > 0
-               && Tools.GetTemplateParameterValue(at, "journal").Length == 0)
-                at = CiteTemplateAbbreviatedMonthISO.Replace(at, m2 => m2.Groups[1].Value + Tools.ConvertDate(m2.Groups[2].Value.Replace(".", ""), DateLocale.ISO) + m2.Groups[3].Value);
+               && Tools.GetTemplateParameterValue(newValue, "journal").Length == 0)
+                newValue = CiteTemplateAbbreviatedMonthISO.Replace(newValue, m2 => m2.Groups[1].Value + Tools.ConvertDate(m2.Groups[2].Value.Replace(".", ""), DateLocale.ISO) + m2.Groups[3].Value);
 
             // all citation dates
-            at = CiteTemplateTimeInDateParameter.Replace(at, "$1<!--$2-->"); // Removes time from date fields
+            newValue = CiteTemplateTimeInDateParameter.Replace(newValue, "$1<!--$2-->"); // Removes time from date fields
 
-            return at;
+            return newValue;
         }
 
         private static bool CiteTemplateMEParameterToProcess(List<string> parameters)
