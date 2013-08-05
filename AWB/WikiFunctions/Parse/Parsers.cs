@@ -2479,22 +2479,19 @@ namespace WikiFunctions.Parse
             dates.Add(date);
             dates.Add(date2);
             dates.Add(airdate);
-            dates.Remove(accessdate);
 
             // date=, archivedate=, airdate=, date2=
-           if(CiteTemplateMEParameterToProcess(dates))
+            if(CiteTemplateMEParameterToProcess(dates))
             {
                 foreach (RegexReplacement rr in CiteTemplateIncorrectISODates)
                     newValue = rr.Regex.Replace(newValue, rr.Replacement);
 
                 newValue = CiteTemplateDateYYYYDDMMFormat.Replace(newValue, "$1-$3-$2$4"); // YYYY-DD-MM to YYYY-MM-DD
-            }
-            
-            // date = YYYY-Month-DD fix, not for cite journal PubMed date format
-            if((accessdate.Length + archivedate.Length + date.Length + date2.Length + airdate.Length) > 0
-               && journal.Length == 0)
-                newValue = CiteTemplateAbbreviatedMonthISO.Replace(newValue, m2 => m2.Groups[1].Value + Tools.ConvertDate(m2.Groups[2].Value.Replace(".", ""), DateLocale.ISO) + m2.Groups[3].Value);
 
+                // date = YYYY-Month-DD fix, not for cite journal PubMed date format
+                if(journal.Length == 0)
+                    newValue = CiteTemplateAbbreviatedMonthISO.Replace(newValue, m2 => m2.Groups[1].Value + Tools.ConvertDate(m2.Groups[2].Value.Replace(".", ""), DateLocale.ISO) + m2.Groups[3].Value);
+            }
             // all citation dates
             newValue = CiteTemplateTimeInDateParameter.Replace(newValue, "$1<!--$2-->"); // Removes time from date fields
 
@@ -2506,7 +2503,7 @@ namespace WikiFunctions.Parse
             foreach(string s in parameters)
             {
                 if(s.Length > 0 && !WikiRegexes.ISODates.IsMatch(s)
-                   && !Regex.IsMatch(s, WikiRegexes.Months))
+                   && !Regex.IsMatch(s, @"^(\d{1,2} *|)" + WikiRegexes.MonthsNoGroup))
                     return true;
             }
             return false;
