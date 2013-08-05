@@ -2451,7 +2451,7 @@ namespace WikiFunctions.Parse
 
             Dictionary<string, string> paramsFound = Tools.GetTemplateParameterValues(newValue);            
 
-            string accessdate, date, date2, archivedate, airdate;
+            string accessdate, date, date2, archivedate, airdate, journal;
             if(!paramsFound.TryGetValue("accessdate", out accessdate))
                 accessdate = "";
             if(!paramsFound.TryGetValue("date", out date))
@@ -2462,6 +2462,8 @@ namespace WikiFunctions.Parse
                 archivedate = "";
             if(!paramsFound.TryGetValue("airdate", out airdate))
                 airdate = "";
+            if(!paramsFound.TryGetValue("journal", out journal))
+                journal = "";
 
             List<string> dates = new List<string>();
             // convert invalid date formats like DD-MM-YYYY, MM-DD-YYYY, YYYY-D-M, YYYY-DD-MM, YYYY_MM_DD etc. to iso format of YYYY-MM-DD
@@ -2490,7 +2492,7 @@ namespace WikiFunctions.Parse
             
             // date = YYYY-Month-DD fix, not for cite journal PubMed date format
             if((accessdate.Length + archivedate.Length + date.Length + date2.Length + airdate.Length) > 0
-               && Tools.GetTemplateParameterValue(newValue, "journal").Length == 0)
+               && journal.Length == 0)
                 newValue = CiteTemplateAbbreviatedMonthISO.Replace(newValue, m2 => m2.Groups[1].Value + Tools.ConvertDate(m2.Groups[2].Value.Replace(".", ""), DateLocale.ISO) + m2.Groups[3].Value);
 
             // all citation dates
