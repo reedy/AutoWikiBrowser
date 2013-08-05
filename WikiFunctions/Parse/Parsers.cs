@@ -2448,11 +2448,22 @@ namespace WikiFunctions.Parse
         private static string CiteTemplateME(Match m)
         {
             string newValue = m.Value;
-            List<string> dates = new List<string>();
-            string accessdate = Tools.GetTemplateParameterValue(newValue, "accessdate"), date = Tools.GetTemplateParameterValue(newValue, "date"), 
-            date2 = Tools.GetTemplateParameterValue(newValue, "date2"), archivedate = Tools.GetTemplateParameterValue(newValue, "archivedate"), 
-            airdate = Tools.GetTemplateParameterValue(newValue, "airdate");
 
+            Dictionary<string, string> paramsFound = Tools.GetTemplateParameterValues(newValue);            
+
+            string accessdate, date, date2, archivedate, airdate;
+            if(!paramsFound.TryGetValue("accessdate", out accessdate))
+                accessdate = "";
+            if(!paramsFound.TryGetValue("date", out date))
+                date = "";
+            if(!paramsFound.TryGetValue("date2", out date2))
+                date2 = "";
+            if(!paramsFound.TryGetValue("archivedate", out archivedate))
+                archivedate = "";
+            if(!paramsFound.TryGetValue("airdate", out airdate))
+                airdate = "";
+
+            List<string> dates = new List<string>();
             // convert invalid date formats like DD-MM-YYYY, MM-DD-YYYY, YYYY-D-M, YYYY-DD-MM, YYYY_MM_DD etc. to iso format of YYYY-MM-DD
             // for accessdate= and archivedate=
             // provided no ambiguous ones
