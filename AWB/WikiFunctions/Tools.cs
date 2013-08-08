@@ -1727,7 +1727,7 @@ namespace WikiFunctions
 		public static bool WriteDebugEnabled;
 
 		/// <summary>
-		/// Writes debug log message
+		/// Writes debug log message with timestamp to nearest millisecond
 		/// </summary>
 		public static void WriteDebug(string @object, string text)
 		{
@@ -1743,7 +1743,7 @@ namespace WikiFunctions
 Time: {1}
 Message: {2}
 
-", @object, DateTime.Now.ToLongTimeString(), text), "Log.txt", true);
+", @object, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture), text), "Log.txt", true);
 					break;
 				}
 				catch
