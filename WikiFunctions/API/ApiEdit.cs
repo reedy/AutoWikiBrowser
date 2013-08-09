@@ -549,7 +549,7 @@ namespace WikiFunctions.API
                                          }
                 );
 
-            XmlReader xr = XmlReader.Create(new StringReader(result));
+            XmlReader xr = CreateXmlReader(result);
             xr.ReadToFollowing("login");
 
             var attribute = xr.GetAttribute("result");
@@ -568,7 +568,7 @@ namespace WikiFunctions.API
                                       }
                     );
 
-                xr = XmlReader.Create(new StringReader(result));
+                xr = CreateXmlReader(result);
                 xr.ReadToFollowing("login");
             }
 
@@ -618,7 +618,7 @@ namespace WikiFunctions.API
 
             try
             {
-                XmlReader xr = XmlReader.Create(new StringReader(result));
+                XmlReader xr = CreateXmlReader(result);
                 if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
                 Page.EditToken = xr.GetAttribute("watchtoken");
             }
@@ -800,7 +800,7 @@ namespace WikiFunctions.API
 
             try
             {
-                XmlReader xr = XmlReader.Create(new StringReader(result));
+                XmlReader xr = CreateXmlReader(result);
                 if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
                 Page.EditToken = xr.GetAttribute("deletetoken");
             }
@@ -871,7 +871,7 @@ namespace WikiFunctions.API
 
             try
             {
-                XmlReader xr = XmlReader.Create(new StringReader(result));
+                XmlReader xr = CreateXmlReader(result);
                 if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
                 Page.EditToken = xr.GetAttribute("protecttoken");
             }
@@ -945,7 +945,7 @@ namespace WikiFunctions.API
             bool invalid;
             try
             {
-                XmlReader xr = XmlReader.Create(new StringReader(result));
+                XmlReader xr = CreateXmlReader(result);
                 if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
 
                 invalid = xr.MoveToAttribute("invalid");
@@ -1095,7 +1095,7 @@ namespace WikiFunctions.API
             CheckForErrors(result, "parse");
             try
             {
-                XmlReader xr = XmlReader.Create(new StringReader(result));
+                XmlReader xr = CreateXmlReader(result);
                 if (!xr.ReadToFollowing("text")) throw new Exception("Cannot find <text> element");
                 return ExpandRelativeUrls(xr.ReadString());
             }
@@ -1120,7 +1120,7 @@ namespace WikiFunctions.API
 
             CheckForErrors(result, "query");
 
-            XmlReader xr = XmlReader.Create(new StringReader(result));
+            XmlReader xr = CreateXmlReader(result);
             if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
             string rollbackToken = xr.GetAttribute("rollbacktoken");
 
@@ -1154,7 +1154,7 @@ namespace WikiFunctions.API
             CheckForErrors(result, "expandtemplates");
             try
             {
-                XmlReader xr = XmlReader.Create(new StringReader(result));
+                XmlReader xr = CreateXmlReader(result);
                 if (!xr.ReadToFollowing("expandtemplates"))
                     throw new Exception("Cannot find <expandtemplates> element");
                 return xr.ReadString();
@@ -1321,8 +1321,8 @@ namespace WikiFunctions.API
             {
                 if(actionElement.GetAttribute("code").Contains("abusefilter"))
                     throw new MediaWikiSaysNoException(this, actionElement.GetAttribute("warning"));
-                else
-                    throw new OperationFailedException(this, action, result, xml);
+                
+                throw new OperationFailedException(this, action, result, xml);
             }
 
             return doc;
@@ -1388,6 +1388,14 @@ namespace WikiFunctions.API
             }
 
             return sb.ToString();
+        }
+
+        protected XmlReader CreateXmlReader(string result)
+        {
+            return XmlReader.Create(new StringReader(result), new XmlReaderSettings
+                                                              {
+                                                                  ProhibitDtd = false
+                                                              });
         }
 
         #endregion
