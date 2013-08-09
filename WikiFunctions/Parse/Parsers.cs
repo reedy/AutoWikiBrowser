@@ -7412,6 +7412,11 @@ namespace WikiFunctions.Parse
                     articleText = "{{يتيمه|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                     tagsAdded.Add("[[قالب:يتيمه|يتيمه]]");
                 }
+                else if (Variables.LangCode.Equals("hy"))
+                {
+                    articleText = "{{Որբ|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
+                    tagsAdded.Add("[[Կատեգորիա:«Որբ» հոդվածներ|Որբ]]");
+                }
                 else
                 {
                     articleText = "{{Orphan|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
@@ -7431,6 +7436,10 @@ namespace WikiFunctions.Parse
                 else if (Variables.LangCode.Equals("arz"))
                 {
                     tagsRemoved.Add("يتيمه");
+                }
+                else if (Variables.LangCode.Equals("hy"))
+                {
+                    tagsRemoved.Add("Որբ");
                 }
                 else
                 {
@@ -7514,7 +7523,7 @@ namespace WikiFunctions.Parse
                 	summary = "retrait " + Tools.ListToStringCommaSeparator(tagsRemoved) + " balise" +
                     (tagsRemoved.Count == 1 ? "" : "s");
                 else if (Variables.LangCode.Equals("hy"))
-                	summary = "ջնջվեց " + Tools.ListToStringCommaSeparator(tagsRemoved) + " Կաղապար" +
+                	summary = "ջնջվեց " + Tools.ListToStringCommaSeparator(tagsRemoved) + " կաղապար" +
                     (tagsRemoved.Count == 1 ? "" : "ներ");
                 else summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " tag" +
                     (tagsRemoved.Count == 1 ? "" : "s");
@@ -7537,7 +7546,7 @@ namespace WikiFunctions.Parse
                 	summary = "ajout " + Tools.ListToStringCommaSeparator(tagsRemoved) + " balise" +
                     (tagsAdded.Count == 1 ? "" : "s");
                 else if (Variables.LangCode.Equals("hy"))
-                	summary = "ավելացրել է " + Tools.ListToStringCommaSeparator(tagsRemoved) + " Կաղապար" +
+                	summary = "ավելացրել է " + Tools.ListToStringCommaSeparator(tagsRemoved) + " կաղապար" +
                     (tagsAdded.Count == 1 ? "" : "ներ");
                 else summary += "added " + Tools.ListToStringCommaSeparator(tagsAdded) + " tag" +
                     (tagsAdded.Count == 1 ? "" : "s");
