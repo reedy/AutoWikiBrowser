@@ -6950,6 +6950,10 @@ namespace WikiFunctions.Parse
                 {
                     tagsRemoved.Add("تقاوى");
                 }
+                else if (Variables.LangCode.Equals("hy"))
+                {
+                    tagsRemoved.Add("Անավարտ");
+                }
                 else
                 {
                     tagsRemoved.Add("stub");
@@ -7040,6 +7044,11 @@ namespace WikiFunctions.Parse
                     {
                         articleText += Tools.Newline("{{تقاوى}}", 3);
                         tagsAdded.Add("تقاوى");
+                    }
+                    else if (Variables.LangCode.Equals("hy"))
+                    {
+                        articleText += Tools.Newline("{{Անավարտ}}", 3);
+                        tagsAdded.Add("Անավարտ");
                     }
                     else
                     {
