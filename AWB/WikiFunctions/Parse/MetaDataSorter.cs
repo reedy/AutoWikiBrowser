@@ -193,18 +193,15 @@ namespace WikiFunctions.Parse
 
 		        return Loaded;
 		    }
-		    else
-		    {
-		        List<string> one = new List<string> { "ar", "de", "en", "ru", "sq" };
-		        List<string> two = new List<string> { "en", "ar", "de", "ru", "sq" };
+		    List<string> one = new List<string> { "ar", "de", "en", "ru", "sq" };
+		    List<string> two = new List<string> { "en", "ar", "de", "ru", "sq" };
 
-		        InterwikiLocalAlpha = one;
-		        InterwikiLocalFirst = one;
-		        InterwikiAlpha = one;
-		        InterwikiAlphaEnFirst = two;
+		    InterwikiLocalAlpha = one;
+		    InterwikiLocalFirst = one;
+		    InterwikiAlpha = one;
+		    InterwikiAlphaEnFirst = two;
 
-		        return true;
-		    }
+		    return true;
 		}
 
 		private static readonly CultureInfo EnUsCulture = new CultureInfo("en-US", true);
@@ -978,12 +975,11 @@ en, sq, ru
 				return interWikiList;
 			
 			// get all unformatted text in article to avoid taking interwikis from comments etc.
-			string unformattedText = "";
-			StringBuilder ut = new StringBuilder();
+		    StringBuilder ut = new StringBuilder();
 			foreach(Match u in WikiRegexes.UnformattedText.Matches(articleText))
 				ut.Append(u.Value);
 			
-			unformattedText = ut.ToString();
+			string unformattedText = ut.ToString();
 
 			List<Match> goodMatches = new List<Match>();
 
@@ -1033,7 +1029,7 @@ en, sq, ru
 		/// <returns></returns>
 		public static string IWMatchEval(Match match)
 		{
-			string[] textArray = new[] { "[[", match.Groups["site"].ToString().ToLower(), ":", match.Groups["text"].ToString(), "]]" };
+			string[] textArray = { "[[", match.Groups["site"].ToString().ToLower(), ":", match.Groups["text"].ToString(), "]]" };
 			return string.Concat(textArray);
 		}
 

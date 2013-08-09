@@ -569,7 +569,6 @@ namespace WikiFunctions
             if(!noChange)
             {
                 HideMoreText(removeText);
-                strTemp = parsers.Unicodify(mArticleText, out noChange);
                 AWBChangeArticleText("Page Unicodified", strTemp, false);
                 UnHideMoreText(removeText);
             }
@@ -585,14 +584,14 @@ namespace WikiFunctions
         public Dictionary<int, int> UnbalancedBrackets()
         {
             Dictionary<int, int> UnB = new Dictionary<int, int>();
-            int bracketLength = 0;
+            int bracketLength;
             
             string pageText = ArticleText;
 
             if(Namespace.IsTalk(Name))
                 pageText = WikiRegexes.ZerothSection.Match(ArticleText).Value;
             
-            int bracketIndex = Parsers.UnbalancedBrackets(pageText, ref bracketLength);
+            int bracketIndex = Parsers.UnbalancedBrackets(pageText, out bracketLength);
 
             if (bracketIndex > -1)
                 UnB.Add(bracketIndex, bracketLength);
