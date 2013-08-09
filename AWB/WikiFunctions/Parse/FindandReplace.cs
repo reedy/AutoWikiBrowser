@@ -183,9 +183,13 @@ namespace WikiFunctions.Parse
             RemovedSummary = "";
 
             if (chkIgnoreMore.Checked)
+            {
                 articleText = _remove.HideMore(articleText);
+            }
             else if (chkIgnoreLinks.Checked)
+            {
                 articleText = _remove.Hide(articleText);
+            }
 
             foreach (Replacement rep in _replacementList)
             {
@@ -196,13 +200,23 @@ namespace WikiFunctions.Parse
                 articleText = PerformFindAndReplace(rep, articleText, strTitle, out changeMade);
 
                 if (changeMade && !rep.Minor)
+                {
                     majorChangesMade = true;
+                }
             }
 
             if (chkIgnoreMore.Checked)
+            {
+                // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#FormatException_in_HideText.AddBackMore
+                // FIXME: Usages of IgnoreMore with number (or M) replacement done in the FindAndReplace can cause corruption
+                // e.g. Replacing 2 with "" ⌊⌊⌊⌊M2⌋⌋⌋⌋ becomes ⌊⌊⌊⌊M⌋⌋⌋⌋
+                // This cannot then be added back
                 articleText = _remove.AddBackMore(articleText);
+            }
             else if (chkIgnoreLinks.Checked)
+            {
                 articleText = _remove.AddBack(articleText);
+            }
 
             if (chkAddToSummary.Checked)
             {
