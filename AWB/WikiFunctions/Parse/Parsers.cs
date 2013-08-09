@@ -5468,7 +5468,7 @@ namespace WikiFunctions.Parse
 
             string articleTextAtStart = articleText, zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
             string restOfArticle = articleText.Substring(zerothSection.Length);
-            string zerothSectionHidden = "", zerothSectionHiddenOriginal = "";
+            string zerothSectionHidden, zerothSectionHiddenOriginal;
 
             // first check for any self links and no bold title, if found just convert first link to bold and return
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Includes_and_selflinks
@@ -6901,7 +6901,10 @@ namespace WikiFunctions.Parse
             return newText;
         }
 
-        private static readonly CategoriesOnPageNoHiddenListProvider CategoryProv = new CategoriesOnPageNoHiddenListProvider();
+        private static readonly CategoriesOnPageNoHiddenListProvider CategoryProv = new CategoriesOnPageNoHiddenListProvider
+                                                                                    {
+                                                                                        Limit = 10
+                                                                                    };
 
         private readonly List<string> tagsRemoved = new List<string>();
         private readonly List<string> tagsAdded = new List<string>();
@@ -7356,7 +7359,12 @@ namespace WikiFunctions.Parse
             return RegularCategories(Cats);
         }
 
-        private static readonly WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider WlhProv = new WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider(MinIncomingLinksToBeConsideredAnOrphan) { ForceQueryLimit = "10" };
+        private static readonly WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider WlhProv =
+            new WhatLinksHereAndPageRedirectsExcludingTheRedirectsListProvider(MinIncomingLinksToBeConsideredAnOrphan)
+            {
+                ForceQueryLimit = "10",
+                Limit = 10
+            };
 
         private const int MinIncomingLinksToBeConsideredAnOrphan = 3;
         private static readonly Regex Rq = Tools.NestedTemplateRegex("Rq");
