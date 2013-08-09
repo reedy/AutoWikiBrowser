@@ -211,6 +211,8 @@ namespace WikiFunctions.Parse
 	                    editSummary = "anstataŭigis: " + ReplacedSummary.Trim();
 	                else if (Variables.LangCode.Equals("fr"))
 	                    editSummary = "remplacement: " + ReplacedSummary.Trim();
+	                else if (Variables.LangCode.Equals("hy"))
+	                    editSummary = "փոխարինվեց: " + ReplacedSummary.Trim();
                 	else
 		                editSummary += "replaced: " + ReplacedSummary.Trim();
 
@@ -223,6 +225,8 @@ namespace WikiFunctions.Parse
 	                    editSummary += "forigis: " + RemovedSummary.Trim();
 	                else if (Variables.LangCode.Equals("fr"))
 	                    editSummary += "retrait: " + RemovedSummary.Trim();
+	                else if (Variables.LangCode.Equals("hy"))
+	                    editSummary += "ջնջվեց: " + RemovedSummary.Trim();
 	                else
 	                    editSummary += "removed: " + RemovedSummary.Trim();
                 }
