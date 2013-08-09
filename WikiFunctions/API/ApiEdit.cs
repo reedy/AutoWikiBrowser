@@ -440,7 +440,16 @@ namespace WikiFunctions.API
         private string[,] lastPostParameters;
         private string lastGetUrl;
 
-        // Source: http://blog.kowalczyk.info/article/Forcing-basic-http-authentication-for-HttpWebReq.html
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="req"></param>
+        /// <param name="userName"></param>
+        /// <param name="userPassword"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Source: http://blog.kowalczyk.info/article/Forcing-basic-http-authentication-for-HttpWebReq.html
+        /// </remarks>
         protected WebRequest SetBasicAuthHeader(WebRequest req, string userName, string userPassword)
         {
             string authInfo = userName + ":" + userPassword;
