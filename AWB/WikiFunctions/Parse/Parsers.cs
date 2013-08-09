@@ -7513,6 +7513,9 @@ namespace WikiFunctions.Parse
                 else if (Variables.LangCode.Equals("fr"))
                 	summary = "retrait " + Tools.ListToStringCommaSeparator(tagsRemoved) + " balise" +
                     (tagsRemoved.Count == 1 ? "" : "s");
+                else if (Variables.LangCode.Equals("hy"))
+                	summary = "ջնջվեց " + Tools.ListToStringCommaSeparator(tagsRemoved) + " Կաղապար" +
+                    (tagsRemoved.Count == 1 ? "" : "ներ");
                 else summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " tag" +
                     (tagsRemoved.Count == 1 ? "" : "s");
             }
@@ -7532,7 +7535,10 @@ namespace WikiFunctions.Parse
                     (tagsRemoved.Count == 1 ? "" : "j");
                 else if (Variables.LangCode.Equals("fr"))
                 	summary = "ajout " + Tools.ListToStringCommaSeparator(tagsRemoved) + " balise" +
-                    (tagsRemoved.Count == 1 ? "" : "s");
+                    (tagsAdded.Count == 1 ? "" : "s");
+                else if (Variables.LangCode.Equals("hy"))
+                	summary = "ավելացրել է " + Tools.ListToStringCommaSeparator(tagsRemoved) + " Կաղապար" +
+                    (tagsAdded.Count == 1 ? "" : "ներ");
                 else summary += "added " + Tools.ListToStringCommaSeparator(tagsAdded) + " tag" +
                     (tagsAdded.Count == 1 ? "" : "s");
             }
