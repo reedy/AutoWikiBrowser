@@ -2172,44 +2172,44 @@ here]"), "newline removed");
         public void UnbalancedBrackets()
         {
             int bracketLength = 0;
-            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now}", ref bracketLength));
+            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now}", out bracketLength));
             Assert.AreEqual(2, bracketLength);
-            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now} abc", ref bracketLength));
+            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now} abc", out bracketLength));
             Assert.AreEqual(2, bracketLength);
-            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} [[now]", ref bracketLength));
+            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} [[now]", out bracketLength));
             Assert.AreEqual(2, bracketLength);
-            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello [[bye]] {{now}", ref bracketLength));
+            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello [[bye]] {{now}", out bracketLength));
             Assert.AreEqual(2, bracketLength);
-            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} [now words [here]", ref bracketLength));
+            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} [now words [here]", out bracketLength));
             Assert.AreEqual(1, bracketLength);
-            Assert.AreEqual(21, Parsers.UnbalancedBrackets(@"now hello {{bye}} now] words [here]", ref bracketLength));
+            Assert.AreEqual(21, Parsers.UnbalancedBrackets(@"now hello {{bye}} now] words [here]", out bracketLength));
             Assert.AreEqual(1, bracketLength);
-            Assert.AreEqual(22, Parsers.UnbalancedBrackets(@"now hello {{bye}} {now}}", ref bracketLength));
+            Assert.AreEqual(22, Parsers.UnbalancedBrackets(@"now hello {{bye}} {now}}", out bracketLength));
             Assert.AreEqual(2, bracketLength);
-            Assert.AreEqual(33, Parsers.UnbalancedBrackets(@"[http://www.site.com a link [cool]]", ref bracketLength)); // FixSyntax replaces with &#93;
+            Assert.AreEqual(33, Parsers.UnbalancedBrackets(@"[http://www.site.com a link [cool]]", out bracketLength)); // FixSyntax replaces with &#93;
             Assert.AreEqual(2, bracketLength);
-            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {now", ref bracketLength));
+            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {now", out bracketLength));
             Assert.AreEqual(1, bracketLength);
-            Assert.AreEqual(0, Parsers.UnbalancedBrackets(@"{bye", ref bracketLength));
+            Assert.AreEqual(0, Parsers.UnbalancedBrackets(@"{bye", out bracketLength));
             Assert.AreEqual(1, bracketLength);
-            Assert.AreEqual(0, Parsers.UnbalancedBrackets(@"<bye", ref bracketLength));
+            Assert.AreEqual(0, Parsers.UnbalancedBrackets(@"<bye", out bracketLength));
             Assert.AreEqual(1, bracketLength);
-            Assert.AreEqual(36, Parsers.UnbalancedBrackets(@"now hello [words [here&#93; end] now]", ref bracketLength));
+            Assert.AreEqual(36, Parsers.UnbalancedBrackets(@"now hello [words [here&#93; end] now]", out bracketLength));
             Assert.AreEqual(1, bracketLength);
 
             // only first reported
-            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now} or {{now} was", ref bracketLength));
-            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now} or [[now] was", ref bracketLength));
+            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now} or {{now} was", out bracketLength));
+            Assert.AreEqual(18, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now} or [[now] was", out bracketLength));
 
             Assert.AreEqual(115, Parsers.UnbalancedBrackets(@"==External links==
 *[http://www.transfermarkt.de/profil.html]&section=p&teamid=458 Profile] at Transfermarkt.de
 *[http://www.vi.nl/Spelers
-", ref bracketLength));
+", out bracketLength));
             Assert.AreEqual(1, bracketLength);
             
-            Assert.AreEqual(0, Parsers.UnbalancedBrackets(@"{{Infobox|foo=bar (OMG} }}", ref bracketLength));
+            Assert.AreEqual(0, Parsers.UnbalancedBrackets(@"{{Infobox|foo=bar (OMG} }}", out bracketLength));
 
-            Assert.AreEqual(4, Parsers.UnbalancedBrackets(@"now [[link],] at", ref bracketLength));
+            Assert.AreEqual(4, Parsers.UnbalancedBrackets(@"now [[link],] at", out bracketLength));
             Assert.AreEqual(2, bracketLength);
         }
 
@@ -2218,21 +2218,21 @@ here]"), "newline removed");
         {
             int bracketLength = 0;
             // brackets all okay
-            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now}}", ref bracketLength));
-            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello [[bye]] {{now}}", ref bracketLength));
-            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} [now]", ref bracketLength));
-            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello", ref bracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} {{now}}", out bracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello [[bye]] {{now}}", out bracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} [now]", out bracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello", out bracketLength));
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"<ref>[http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=32159 Message to
-complementary and alternative medicine: evidence is a better friend than power. Andrew J Vickers]</ref>", ref bracketLength));
-            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"[http://www.site.com a link [cool&#93;]", ref bracketLength)); // displays as valid syntax
-            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"[http://www.site.com a link &#91;cool&#93; here]", ref bracketLength)); // displays as valid syntax
+complementary and alternative medicine: evidence is a better friend than power. Andrew J Vickers]</ref>", out bracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"[http://www.site.com a link [cool&#93;]", out bracketLength)); // displays as valid syntax
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"[http://www.site.com a link &#91;cool&#93; here]", out bracketLength)); // displays as valid syntax
 
             // don't consider stuff in <math> or <pre> tags etc.
-            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <pre>{now}}</pre>", ref bracketLength));
-            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <math>{a{b}}</math>", ref bracketLength));
-            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <code>{now}}</code>", ref bracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <pre>{now}}</pre>", out bracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <math>{a{b}}</math>", out bracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <code>{now}}</code>", out bracketLength));
             // ignore in certain templates
-            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{LSJ|foo(bar}}", ref bracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{LSJ|foo(bar}}", out bracketLength));
         }
 
         [Test]
@@ -2240,14 +2240,14 @@ complementary and alternative medicine: evidence is a better friend than power. 
         {
             int bracketLength = 0;
             // unbalanced tags
-            Assert.AreEqual(15, Parsers.UnbalancedBrackets(@"now <b>hello /b>", ref bracketLength));
+            Assert.AreEqual(15, Parsers.UnbalancedBrackets(@"now <b>hello /b>", out bracketLength));
             Assert.AreEqual(1, bracketLength);
 
-            Assert.AreEqual(27, Parsers.UnbalancedBrackets(@"<a>asdf</a> now <b>hello /b>", ref bracketLength));
+            Assert.AreEqual(27, Parsers.UnbalancedBrackets(@"<a>asdf</a> now <b>hello /b>", out bracketLength));
             Assert.AreEqual(1, bracketLength);
 
             // not unbalanced
-            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now was < 50 cm long", ref bracketLength));
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now was < 50 cm long", out bracketLength));
         }
 
         [Test]
