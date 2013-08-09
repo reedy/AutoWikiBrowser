@@ -472,7 +472,7 @@ namespace WikiFunctions.API
             if (TheThread != null)
                 TheThread.Abort();
 
-            if (TheThread != null)
+            if (TheThread != null && TheThread.ThreadState != ThreadState.Unstarted)
                 TheThread.Join();
             TheThread = null; // the thread should reset this even if aborted, but let's be sure
 
