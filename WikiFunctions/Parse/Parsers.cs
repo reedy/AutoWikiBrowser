@@ -526,7 +526,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private string MultipleIssuesOldSingleTagME(Match m)
         {
-            string newValue = Parsers.Conversions(Tools.RemoveTemplateParameter(m.Value, "section"));
+            string newValue = Conversions(Tools.RemoveTemplateParameter(m.Value, "section"));
 
             if (Tools.GetTemplateArgumentCount(newValue) == 1 && !WikiRegexes.NestedTemplates.IsMatch(Tools.GetTemplateArgument(newValue, 1)))
             {
@@ -714,7 +714,7 @@ namespace WikiFunctions.Parse
                 return sectionOriginal;
 
             // if currently has {{Multiple issues}}, add tags to it (new style only), otherwise insert multiple issues with tags. multiple issues with some old style tags would have new style added
-            string newsection = "";
+            string newsection;
             
             if(existingMultipleIssues) // add each template to MI
             {
@@ -833,8 +833,6 @@ namespace WikiFunctions.Parse
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
-            string oldArticleText = "";
-
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
             string restOfArticle = articleText.Remove(0, zerothSection.Length);
             articleText = zerothSection;
@@ -855,7 +853,7 @@ namespace WikiFunctions.Parse
             // merging
 
             // multiple same about into one
-            oldArticleText = "";
+            string oldArticleText = "";
             while (oldArticleText != articleText)
             {
                 oldArticleText = articleText;
@@ -1089,15 +1087,13 @@ namespace WikiFunctions.Parse
                 return articleText;
             
             string articleTextAtStart = articleText;
-
-            /* performance check: on most articles no date changes, on long articles HideMore is slow, so if no changes to raw text
-                don't need to perform actual check on HideMore text, and this is faster overall
-                Secondly: faster to apply regexes to each date found than to apply regexes to whole article text
-             */
-            bool reparse = false;
             for (; ; )
             {
-                reparse = false;
+                /* performance check: on most articles no date changes, on long articles HideMore is slow, so if no changes to raw text
+                 * don't need to perform actual check on HideMore text, and this is faster overall
+                 * Secondly: faster to apply regexes to each date found than to apply regexes to whole article text
+                 */
+                bool reparse = false;
                 foreach(Match m in MonthsRegexNoSecondBreak.Matches(articleText))
                 {
                     // take up to 25 characters before match, unless match within first 25 characters of article
@@ -1158,11 +1154,12 @@ namespace WikiFunctions.Parse
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
-            bool reparse = false;
-            /* performance check: faster to apply regexes to each year/date found than to apply regexes to whole article text */
             for (; ; )
             {
-                reparse = false;
+                /* performance check: faster to apply regexes to each year/date found
+                 * than to apply regexes to whole article text
+                 */
+                bool reparse = false;
                 foreach(Match m in YearRange.Matches(articleText))
                 {
                     // take up to 25 characters before match, unless match within first 25 characters of article
@@ -1441,32 +1438,32 @@ namespace WikiFunctions.Parse
         {
             string articleTextOriginal = articleText, articleTextRefClean = Regex.Replace(articleText, @"<ref>\s+", @"<ref>");
             Dictionary<string, string> NamedRefs = new Dictionary<string, string>();
-            bool reparse = false;
 
             for (; ; )
             {
-                reparse = false;
+                bool reparse = false;
                 NamedRefs.Clear();
                 int reflistIndex = WikiRegexes.ReferencesTemplate.Match(articleText).Index;
 
                 foreach (Match m in WikiRegexes.NamedReferences.Matches(articleText))
                 {
-                    string refName = m.Groups[2].Value, namedRefValue = m.Groups[3].Value, name2 = "";
+                    string refName = m.Groups[2].Value, namedRefValue = m.Groups[3].Value;
 
                     if (!NamedRefs.ContainsKey(namedRefValue))
                     {
                         // check for instances of named references with same ref name having different values: requires manual correction of article
                         if(NamedRefs.ContainsValue(refName))
                             return articleTextOriginal;
-                        else
-                            NamedRefs.Add(namedRefValue, refName);
+                        
+                        NamedRefs.Add(namedRefValue, refName);
                     }
                     else
                     {
                         // we've already seen this reference, can condense later ones
+                        string name2;
                         NamedRefs.TryGetValue(namedRefValue, out name2);
 
-                        if (name2.Equals(refName) && namedRefValue.Length >= 25)
+                        if (!string.IsNullOrEmpty(name2) && name2.Equals(refName) && namedRefValue.Length >= 25)
                         {
                             // don't condense refs in {{reflist...}}
                             if (reflistIndex > 0 && m.Index > reflistIndex)
@@ -1632,7 +1629,7 @@ namespace WikiFunctions.Parse
 
             foreach (Match m in WikiRegexes.NamedReferences.Matches(articleText))
             {
-                string refname = m.Groups[2].Value, refvalue = m.Groups[3].Value, existingname = "";
+                string refname = m.Groups[2].Value, refvalue = m.Groups[3].Value, existingname;
 
                 if (!NamedRefs.ContainsKey(refvalue))
                 {
@@ -2016,8 +2013,8 @@ namespace WikiFunctions.Parse
 
             if(Globals.SystemCore3500Available)
                 return TemplateRedirectsHashSet(articleText, TemplateRedirects);
-            else
-                return TemplateRedirectsList(articleText, TemplateRedirects);
+
+            return TemplateRedirectsList(articleText, TemplateRedirects);
         }
 
         /// <summary>
@@ -2364,7 +2361,7 @@ namespace WikiFunctions.Parse
         private const string CitAccessdate = SiCitStart + @"(?:access|archive)date\s*=\s*";
         private const string CitDate = SiCitStart + @"(?:archive|air)?date2?\s*=\s*";
 
-        private static readonly RegexReplacement[] CiteTemplateIncorrectISOAccessdates = new[] {
+        private static readonly RegexReplacement[] CiteTemplateIncorrectISOAccessdates = {
             new RegexReplacement(CitAccessdate + @")(1[0-2])[/_\-\.]?(1[3-9])[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$2-$3"),
             new RegexReplacement(CitAccessdate + @")(1[0-2])[/_\-\.]?([23]\d)[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$4-$2-$3"),
             new RegexReplacement(CitAccessdate + @")(1[0-2])[/_\-\.]?\2[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$3-$2-$2"), // nn-nn-2004 and nn-nn-04 to ISO format (both nn the same)
@@ -2384,7 +2381,7 @@ namespace WikiFunctions.Parse
             new RegexReplacement(CitAccessdate + @")0?([1-9])[/_\-\.]?0?\2[/_\-\.]?(?:20)?([01]\d)(?=\s*(?:\||}}))", "${1}20$3-0$2-0$2"), // n-n-2004 and n-n-04 to ISO format (both n the same)
         };
 
-        private static readonly RegexReplacement[] CiteTemplateIncorrectISODates = new[] {
+        private static readonly RegexReplacement[] CiteTemplateIncorrectISODates = {
             new RegexReplacement(CitDate + @"\[?\[?)(20\d\d|19[7-9]\d)[/_]?([01]\d)[/_]?([0-3]\d\s*(?:\||}}))", "$1$2-$3-$4"),
             new RegexReplacement(CitDate + @"\[?\[?)(1[0-2])[/_\-\.]?([23]\d)[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-$2-$3"),
             new RegexReplacement(CitDate + @"\[?\[?)0?([1-9])[/_\-\.]?([23]\d)[/_\-\.]?(19[7-9]\d)(?=\s*(?:\||}}))", "$1$4-0$2-$3"),
@@ -2874,10 +2871,9 @@ namespace WikiFunctions.Parse
             
             bool monthsInTitle = MonthsRegex.IsMatch(articleTitle);
 
-            bool reparse = false;
             for (; ; )
             {
-                reparse = false;
+                bool reparse = false;
                 // performance: better to loop through all instances of dates and apply regexes to those than
                 // to apply regexes to whole article text
                 foreach(Match m in MonthsRegex.Matches(articleText))
@@ -3508,9 +3504,9 @@ namespace WikiFunctions.Parse
             // if there are some unbalanced brackets, see whether we can fix them
             // the fixes applied might damage correct wiki syntax, hence are only applied if there are unbalanced brackets
             // of the right type
-            int bracketLength = 0;
+            int bracketLength;
             string articleTextTemp = articleText;
-            int unbalancedBracket = UnbalancedBrackets(articleText, ref bracketLength);
+            int unbalancedBracket = UnbalancedBrackets(articleText, out bracketLength);
             if (unbalancedBracket > -1)
             {
                 int firstUnbalancedBracket = unbalancedBracket;
@@ -3653,7 +3649,7 @@ namespace WikiFunctions.Parse
                     articleTextTemp = TripleBracketAtEndOfExternalLink.Replace(articleTextTemp, "$1");
                 }
 
-                unbalancedBracket = UnbalancedBrackets(articleTextTemp, ref bracketLength);
+                unbalancedBracket = UnbalancedBrackets(articleTextTemp, out bracketLength);
                 // the change worked if unbalanced bracket location moved considerably (so this one fixed), or all brackets now balance
                 if (unbalancedBracket < 0
                     || (Math.Abs(unbalancedBracket - firstUnbalancedBracket) > 300) &&
@@ -3664,7 +3660,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static List<string> DateFields = new List<string>(new[] { "date", "accessdate", "archivedate", "airdate" });
+        private static readonly List<string> DateFields = new List<string>(new[] { "date", "accessdate", "archivedate", "airdate" });
 
         /// <summary>
         /// Updates dates in citation templates to use the strict predominant date format in the article (en wiki only)
@@ -3790,11 +3786,27 @@ namespace WikiFunctions.Parse
             newValue = Tools.RemoveExcessTemplatePipes(newValue);
             string templatename = Tools.GetTemplateName(newValue);
             
-            Dictionary<string, string> paramsFound = new  Dictionary<string, string>();
+            Dictionary<string, string> paramsFound = new Dictionary<string, string>();
             // remove duplicated fields, ensure the URL is not touched (may have pipes in)
-            newValue = Tools.RemoveDuplicateTemplateParameters(newValue, out paramsFound);
-            
-            string theURL,id,format,theTitle,TheYear,lang,TheDate,TheMonth,TheWork,nopp,TheIssue,accessyear,accessdate,pages,page,ISBN,origyear;
+            newValue = Tools.RemoveDuplicateTemplateParameters(newValue, paramsFound);
+
+            string theURL,
+                id,
+                format,
+                theTitle,
+                TheYear,
+                lang,
+                TheDate,
+                TheMonth,
+                TheWork,
+                nopp,
+                TheIssue,
+                accessyear,
+                accessdate,
+                pages,
+                page,
+                ISBN,
+                origyear;
             if(!paramsFound.TryGetValue("url", out theURL))
                 theURL = "";
             if(!paramsFound.TryGetValue("id", out id))
@@ -3915,7 +3927,7 @@ namespace WikiFunctions.Parse
             }
 
             // month=Month and date=...Month... OR month=Month and date=same month (by conversion from ISO format)Ors month=nn and date=same month (by conversion to ISO format)
-            int num=0;
+            int num;
             if ((TheMonth.Length > 2 && TheDate.Contains(TheMonth)) // named month within date
                 || (TheMonth.Length > 2 && Tools.ConvertDate(TheDate, Parsers.DateLocale.International).Contains(TheMonth))
                 || (int.TryParse(TheMonth, out num) && Regex.IsMatch(Tools.ConvertDate(TheDate, Parsers.DateLocale.ISO), @"\-0?" + TheMonth + @"\-")))
@@ -4058,7 +4070,7 @@ namespace WikiFunctions.Parse
             return newValue;
         }
 
-        private static List<string> PageFields = new List<string>(new[] { "page", "pages", "p", "pp" });
+        private static readonly List<string> PageFields = new List<string>(new[] { "page", "pages", "p", "pp" });
         private static readonly Regex PageRange = new Regex(@"\b(\d+)\s*[-—]+\s*(\d+)", RegexOptions.Compiled);
         private static readonly Regex SpacedPageRange = new Regex(@"(\d+) +(–|&ndash;) +(\d)", RegexOptions.Compiled);
 
@@ -4187,7 +4199,7 @@ namespace WikiFunctions.Parse
                 || (articleText.Contains("{{Persondata") && WikiRegexes.Persondata.Matches(articleText).Count == 0)) // skip in case of existing persondata with unbalanced brackets
                 return articleText;
 
-            string originalPersonData = "", newPersonData = "";
+            string originalPersonData, newPersonData;
 
             // add default persondata if missing
             if (!WikiRegexes.Persondata.IsMatch(articleText))
@@ -4244,7 +4256,6 @@ namespace WikiFunctions.Parse
                 // as fallback use year from category
                 if(Tools.GetTemplateParameterValue(newPersonData, "DATE OF BIRTH", true).Length == 0)
                 {
-
                     Match m = WikiRegexes.BirthsCategory.Match(articleText);
 
                     if (m.Success)
@@ -4441,7 +4452,7 @@ namespace WikiFunctions.Parse
                     if (!UncertainWordings.IsMatch(bValue) && !ReignedRuledUnsure.IsMatch(bValue) && !FloruitTemplate.IsMatch(bValue))
                     {
 
-                        string bBorn = "", bDied = "";
+                        string bBorn, bDied = "";
                         // split on died/spaced dash
                         if (FreeFormatDied.IsMatch(bValue))
                         {
@@ -4635,7 +4646,7 @@ namespace WikiFunctions.Parse
         /// <param name="bracketLength">integer to hold length of unbalanced bracket found</param>
         /// <returns>Index of any unbalanced brackets found</returns>
         // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Missing_opening_or_closing_brackets.2C_table_and_template_markup_.28WikiProject_Check_Wikipedia_.23_10.2C_28.2C_43.2C_46.2C_47.29
-        public static int UnbalancedBrackets(string articleText, ref int bracketLength)
+        public static int UnbalancedBrackets(string articleText, out int bracketLength)
         {
             // &#93; is used to replace the ] in external link text, which gives correct markup
             // replace [...&#93; back to [...] to avoid matching as unbalanced brackets
@@ -7024,8 +7035,7 @@ namespace WikiFunctions.Parse
             }
 
             // discount persondata, comments, infoboxes and categories from wikify and stub evaluation
-            string lengthtext = commentsCategoriesStripped;
-            lengthtext = WikiRegexes.Persondata.Replace(commentsCategoriesStripped, "");
+            string lengthtext = WikiRegexes.Persondata.Replace(commentsCategoriesStripped, "");
             lengthtext = WikiRegexes.InfoBox.Replace(lengthtext, "");
             lengthtext = Drugbox.Replace(lengthtext, "");
 

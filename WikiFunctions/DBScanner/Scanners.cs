@@ -309,9 +309,9 @@ namespace WikiFunctions.DBScanner
     {
         public override bool Check(ArticleInfo article)
         {
-            int bracketLength = 0;
+            int bracketLength;
 
-            return (Parsers.UnbalancedBrackets(article.Text, ref bracketLength) != -1);
+            return (Parsers.UnbalancedBrackets(article.Text, out bracketLength) != -1);
         }
     }
 

@@ -246,9 +246,6 @@ namespace WikiFunctions.TalkPages
                 
                 // remove duplicate parameters
                 newValue = Tools.RemoveDuplicateTemplateParameters(newValue);
-                
-                // refresh after cleanup
-                arg1 = Tools.GetTemplateParameterValue(newValue, "1");
 
                 // clean blp=no, blpo=no, activepol=no, collapsed=no
                 foreach (string theNo in Nos)

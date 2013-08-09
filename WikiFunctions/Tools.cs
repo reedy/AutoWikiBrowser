@@ -2005,7 +2005,10 @@ Message: {2}
 						{
 							string respStr = GetHTML(expandUri);
 							Match m1 = ExpandTemplatesRegex.Match(respStr);
-							if (!m.Success) continue;
+						    if (!m1.Success)
+						    {
+						        continue;
+						    }
 							result = HttpUtility.HtmlDecode(m1.Groups[1].Value);
 						}
 						catch
@@ -2936,7 +2939,7 @@ Message: {2}
 		public static string RemoveDuplicateTemplateParameters(string templatecall)
 		{
 		    Dictionary<string, string> Params = new Dictionary<string, string>();
-		    return RemoveDuplicateTemplateParameters(templatecall, out Params);
+		    return RemoveDuplicateTemplateParameters(templatecall, Params);
 		}
 
 		/// <summary>
@@ -2944,12 +2947,11 @@ Message: {2}
 		/// </summary>
 		/// <param name="templatecall">The template call to clean up</param>
 		/// <returns>The updated template call</returns>
-		public static string RemoveDuplicateTemplateParameters(string templatecall, out Dictionary<string, string> Params)
+		public static string RemoveDuplicateTemplateParameters(string templatecall, Dictionary<string, string> Params)
 		{
 			string originalURL = CiteUrl.Match(templatecall).Groups[1].Value.TrimEnd("|".ToCharArray()), originalTemplateCall = templatecall;
 
 			string updatedTemplateCall = "";
-			Params = new Dictionary<string, string>();
 
 			while(!updatedTemplateCall.Equals(templatecall))
 			{
