@@ -2276,7 +2276,18 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             string summary = string.IsNullOrEmpty(cmboEditSummary.Text.Trim()) ? "" : cmboEditSummary.Text.Trim();
 
             if (!string.IsNullOrEmpty(TheArticle.EditSummary))
-                summary += (string.IsNullOrEmpty(summary) ? "" : ", ") + TheArticle.EditSummary;
+            {
+                switch (Variables.LangCode)
+                {
+	            	case "fa":
+		            	summary += (string.IsNullOrEmpty(summary) ? "" : "، ") + TheArticle.EditSummary;
+		            	break;
+	            	default:
+		            	summary += (string.IsNullOrEmpty(summary) ? "" : ", ") + TheArticle.EditSummary;
+		            	break;
+            	}
+			}
+
 
             // check to see if we have only edited one level-2 section
             if (!noSectionEditSummaryToolStripMenuItem.Checked)
