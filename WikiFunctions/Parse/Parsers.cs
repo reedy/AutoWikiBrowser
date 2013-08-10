@@ -4849,10 +4849,10 @@ namespace WikiFunctions.Parse
                 string newTarget = CanonicalizeTitle(theTarget);
 
                 // Don't remove underscore if page from [[Category:Articles with underscores in the title]]
-                if(theTarget.Contains("_") && Variables.UnderscoredTitles.Contains(Tools.TurnFirstToUpper(newTarget)))
-                    return y;
-                else
+                if (!theTarget.Contains("_") || !Variables.UnderscoredTitles.Contains(Tools.TurnFirstToUpper(newTarget)))
+                {
                     return y.Replace(theTarget, newTarget);
+                }
             }
 
             return y;
