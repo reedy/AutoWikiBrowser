@@ -135,12 +135,7 @@ namespace WikiFunctions.Disambiguation
        bool DnPunctuation = false;
 
        newText = Search.Replace(newText, m2 => {
-                                    string res = "";
-
-                                    if(Dabs[a].NoChange)
-                                        res = m2.Value;
-                                    else
-                                        res = Dabs[a].Result;
+                                    string res = Dabs[a].NoChange ? m2.Value : Dabs[a].Result;
 
                                     if(res.Contains(@"{{dn}}"))
                                         DnPunctuation = true;

@@ -564,11 +564,11 @@ table.diff td div {
 
             if (!string.IsNullOrEmpty(CustomStyles))
                 styles = CustomStyles;
-            else if (System.IO.File.Exists(Path.Combine(Application.StartupPath, "style.css")) && CustomStyles == null)
+            else if (File.Exists(Path.Combine(Application.StartupPath, "style.css")) && CustomStyles == null)
             {
                 try
                 {
-                    System.IO.StreamReader reader = System.IO.File.OpenText(Path.Combine(Application.StartupPath, "style.css"));
+                    StreamReader reader = File.OpenText(Path.Combine(Application.StartupPath, "style.css"));
                     CustomStyles = reader.ReadToEnd();
                     reader.Close();
                     styles = CustomStyles;

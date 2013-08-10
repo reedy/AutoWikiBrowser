@@ -194,6 +194,7 @@ namespace WikiFunctions.Controls
         /// </summary>
         /// <param name="inputIndex"></param>
         /// <param name="inputLength"></param>
+        /// <param name="scrollToCaret"></param>
         public void SetEditBoxSelection(int inputIndex, int inputLength, bool scrollToCaret)
         {
             if (inputIndex >= 0 && inputLength > 0 && (inputIndex + inputLength) <= TextLength)

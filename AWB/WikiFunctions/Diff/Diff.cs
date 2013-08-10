@@ -339,9 +339,9 @@ namespace WikiFunctions
                 else
                 {
                     hunks.Add(new Patch.Hunk(rightData, hunk.Left.Start, hunk.Left.Count, ctr, hunk.Right.Count, false));
-                    for (int i = 0; i < hunk.Right.Count; i++)
+                    foreach (object t in hunk.Right)
                     {
-                        rightData[ctr++] = hunk.Right[i];
+                        rightData[ctr++] = t;
                     }
                 }
             }

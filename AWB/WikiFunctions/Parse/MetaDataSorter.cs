@@ -549,13 +549,12 @@ en, sq, ru
 			MatchCollection matches = WikiRegexes.PossiblyCommentedStub.Matches(articleText);
 			if (matches.Count == 0) return "";
 
-			string x;
 			StringBuilder sb = new StringBuilder(articleText);
 
 			for (int i = matches.Count - 1; i >= 0; i--)
 			{
 				Match m = matches[i];
-				x = m.Value;
+				string x = m.Value;
 				if (!Regex.IsMatch(x, Variables.SectStub))
 				{
 					stubList.Add(x);

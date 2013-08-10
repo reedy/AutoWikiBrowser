@@ -203,12 +203,11 @@ namespace WikiFunctions.Parse
         {
             StringBuilder sb = new StringBuilder((int)(articleText.Length * 1.1));
             int pos = 0;
-            string s;
 
             foreach (Match m in matches)
             {
                 sb.Append(articleText, pos, m.Index - pos);
-                s = "⌊⌊⌊⌊M" + MoreHide.Count + "⌋⌋⌋⌋";
+                string s = "⌊⌊⌊⌊M" + MoreHide.Count + "⌋⌋⌋⌋";
                 sb.Append(s);
                 pos = m.Index + m.Value.Length;
                 MoreHide.Add(new HideObject(s, m.Value));

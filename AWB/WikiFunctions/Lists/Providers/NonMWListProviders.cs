@@ -251,7 +251,7 @@ namespace WikiFunctions.Lists.Providers
 
                 foreach (string fileName in searchCriteria)
                 {
-                    string pageText, title;
+                    string pageText;
 
                     using (StreamReader sr = new StreamReader(fileName, TargetEncoding))
                     {
@@ -272,7 +272,7 @@ namespace WikiFunctions.Lists.Providers
                             {
                                 foreach (Match m in LoadWikiLink.Matches(pageText))
                                 {
-                                    title = m.Groups[1].Value;
+                                    string title = m.Groups[1].Value;
                                     if (!RegexFromFile.IsMatch(title) && (!(title.StartsWith("#"))))
                                     {
                                         list.Add(new Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(title))));

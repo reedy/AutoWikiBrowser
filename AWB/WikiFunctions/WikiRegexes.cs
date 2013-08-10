@@ -577,7 +577,7 @@ namespace WikiFunctions
         
         public const string RFromModificationString = @"{{R from modification}}";
 
-        public static readonly string[] RFromModificationList = new[]
+        public static readonly string[] RFromModificationList =
         {
             "R from alternative punctuation", "R mod",
             "R from modification",
@@ -586,7 +586,7 @@ namespace WikiFunctions
         
         public const string RFromTitleWithoutDiacriticsString = @"{{R from title without diacritics}}";
 
-        public static readonly string[] RFromTitleWithoutDiacriticsList = new[]
+        public static readonly string[] RFromTitleWithoutDiacriticsList =
         {
             "R from name without diacritics",
             "R from original name without diacritics",
@@ -600,7 +600,7 @@ namespace WikiFunctions
         
         public const string RFromOtherCapitalisationString = @"{{R from other capitalisation}}";
 
-        public static readonly string[] RFromOtherCapitaliastionList = new[]
+        public static readonly string[] RFromOtherCapitaliastionList =
         {
             "R cap", "R for alternate capitalisation",
             "R for alternate capitalization",

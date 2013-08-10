@@ -257,10 +257,10 @@ namespace WikiFunctions.Parse
         /// Edit summary is generated from the first match of the rule that changes the article text on replacement. Count of changes is replacements affecting article, not total matches
         /// i.e. no-change replacements are not counted in the edit summary
         /// </summary>
-        /// <param name="rep">F&R rule to execute</param>
+        /// <param name="rep">F&amp;R rule to execute</param>
         /// <param name="articleText">The article text</param>
         /// <param name="articleTitle">The article title</param>
-        /// <param name="changeMade">Whether the F&R rule caused changes to the article text</param>
+        /// <param name="changeMade">Whether the F&amp;R rule caused changes to the article text</param>
         /// <returns>The updated article text</returns>
         public string PerformFindAndReplace(Replacement rep, string articleText, string articleTitle, out bool changeMade)
         {
