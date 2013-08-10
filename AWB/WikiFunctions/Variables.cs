@@ -802,7 +802,12 @@ namespace WikiFunctions
                     TypoSummaryTag = "Skribmaniero: ";
                     break;
 
-                case "fr":
+                case "fa":
+                    mSummaryTag = "";
+                    WPAWB = "با استفاده از [[Project:AutoWikiBrowser|AWB]]";
+                    break;
+
+                   case "fr":
                     mSummaryTag = "avec";
                     WPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
                     break;

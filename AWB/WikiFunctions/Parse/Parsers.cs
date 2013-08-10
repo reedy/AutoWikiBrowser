@@ -7547,6 +7547,8 @@ namespace WikiFunctions.Parse
                 else if (Variables.LangCode.Equals("eo"))
                 	summary = "forigis " + Tools.ListToStringCommaSeparator(tagsRemoved) + " etikedo" +
                     (tagsRemoved.Count == 1 ? "" : "j");
+                else if (Variables.LangCode.Equals("fa"))
+                    summary = " tags" +  " حذف شد " + Tools.ListToStringCommaSeparator(tagsRemoved);
                 else if (Variables.LangCode.Equals("fr"))
                 	summary = "retrait " + Tools.ListToStringCommaSeparator(tagsRemoved) + " balise" +
                     (tagsRemoved.Count == 1 ? "" : "s");
@@ -7570,6 +7572,8 @@ namespace WikiFunctions.Parse
                 else if (Variables.LangCode.Equals("eo"))
                 	summary = "aldonis " + Tools.ListToStringCommaSeparator(tagsRemoved) + " etikedo" +
                     (tagsRemoved.Count == 1 ? "" : "j");
+                else if (Variables.LangCode.Equals("fa"))
+                    summary += "tags " + " اضافه شد " + Tools.ListToStringCommaSeparator(tagsAdded);
                 else if (Variables.LangCode.Equals("fr"))
                 	summary = "ajout " + Tools.ListToStringCommaSeparator(tagsRemoved) + " balise" +
                     (tagsAdded.Count == 1 ? "" : "s");
