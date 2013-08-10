@@ -389,7 +389,7 @@ namespace WikiFunctions.Parse
                                        MonthYear.IsMatch(Tools.GetTemplateParameterValue(MICall, "expert"))))
                 articleText = articleText.Replace(MICall, Tools.RemoveTemplateParameter(MICall, "date"));
 
-            articleText = SectionTemplates.Replace(articleText, new MatchEvaluator(SectionTemplateConversionsME));
+            articleText = SectionTemplates.Replace(articleText, SectionTemplateConversionsME);
 
             string newTags = "";
 
@@ -411,7 +411,7 @@ namespace WikiFunctions.Parse
             if (!WikiRegexes.MultipleIssues.IsMatch(zerothSection) && WikiRegexes.MultipleIssuesTemplates.Matches(zerothSection).Count < MinCleanupTagsToCombine)
             {
                 // article issues with one issue -> single issue tag (e.g. {{multiple issues|cleanup=January 2008}} to {{cleanup|date=January 2008}} etc.)
-                articleText = WikiRegexes.MultipleIssues.Replace(articleText, new MatchEvaluator(MultipleIssuesOldSingleTagME));
+                articleText = WikiRegexes.MultipleIssues.Replace(articleText, MultipleIssuesOldSingleTagME);
 
                 return MultipleIssuesBLPUnreferenced(articleText);
             }
@@ -422,7 +422,7 @@ namespace WikiFunctions.Parse
             if ((WikiRegexes.MultipleIssuesTemplateNameRegex.Matches(MICall).Count + tagsToAdd) < MinCleanupTagsToCombine || tagsToAdd == 0)
             {
                 // article issues with one issue -> single issue tag (e.g. {{multiple issues|cleanup=January 2008}} to {{cleanup|date=January 2008}} etc.)
-                articleText = WikiRegexes.MultipleIssues.Replace(articleText, new MatchEvaluator(MultipleIssuesOldSingleTagME));
+                articleText = WikiRegexes.MultipleIssues.Replace(articleText, (MultipleIssuesOldSingleTagME));
 
                 return MultipleIssuesBLPUnreferenced(articleText);
             }
@@ -645,8 +645,8 @@ namespace WikiFunctions.Parse
             // multiple issues with one issue -> single issue tag (old style or new style multiple issues)
             if(totalTemplates == 0 && existingMultipleIssues)
             {
-                zerothsection = WikiRegexes.MultipleIssues.Replace(zerothsection, new MatchEvaluator(MultipleIssuesOldSingleTagME));
-                return WikiRegexes.MultipleIssues.Replace(zerothsection, new MatchEvaluator(MultipleIssuesSingleTagME));
+                zerothsection = WikiRegexes.MultipleIssues.Replace(zerothsection, MultipleIssuesOldSingleTagME);
+                return WikiRegexes.MultipleIssues.Replace(zerothsection, MultipleIssuesSingleTagME);
             }
             
             // if currently no {{Multiple issues}} and less than the min number of maintenance templates, do nothing
@@ -695,11 +695,10 @@ namespace WikiFunctions.Parse
             {
                 if(existingMultipleIssues)
                 {
-                    sectionOriginal = WikiRegexes.MultipleIssues.Replace(sectionOriginal, new MatchEvaluator(MultipleIssuesOldSingleTagME));
-                    return WikiRegexes.MultipleIssues.Replace(sectionOriginal, new MatchEvaluator(MultipleIssuesSingleTagME));
+                    sectionOriginal = WikiRegexes.MultipleIssues.Replace(sectionOriginal, MultipleIssuesOldSingleTagME);
+                    return WikiRegexes.MultipleIssues.Replace(sectionOriginal, MultipleIssuesSingleTagME);
                 }
-                else
-                    return sectionOriginal;
+                return sectionOriginal;
             }
 
             string heading = WikiRegexes.Headings.Match(section).Value.Trim(),
@@ -1048,8 +1047,8 @@ namespace WikiFunctions.Parse
             
             if(mergedTemplates.Length > 0)
                 return (mergedTemplates + "\r\n" + sectionText);
-            else
-                return sectionText;
+            
+            return sectionText;
         }
 
         // fixes extra comma or space in American format dates
@@ -2191,7 +2190,7 @@ namespace WikiFunctions.Parse
 
             // performance: check for intersection of bad parameters and parameters used in template
             // rather than simply looping through all parameters in list
-            if(Tools.GetTemplateParameterValues(m.Value).Keys.ToArray().Intersect(RenameTemplateParametersOldParams).ToList().Count > 0)
+            if(Tools.GetTemplateParameterValues(m.Value).Keys.ToArray().Intersect(RenameTemplateParametersOldParams).Any())
             {
                 foreach (WikiRegexes.TemplateParameters Params in RenamedTemplateParameters)
                 {
@@ -2467,12 +2466,7 @@ namespace WikiFunctions.Parse
             if(!paramsFound.TryGetValue("journal", out journal))
                 journal = "";
 
-            List<string> dates = new List<string>();
-            dates.Add(accessdate);
-            dates.Add(archivedate);
-            dates.Add(date);
-            dates.Add(date2);
-            dates.Add(airdate);
+            List<string> dates = new List<string> {accessdate, archivedate, date, date2, airdate};
 
             if(CiteTemplateMEParameterToProcess(dates))
             {
@@ -2683,7 +2677,7 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text</returns>
         public static string FixReferenceListTags(string articleText)
         {
-            return ReferenceListTags.Replace(articleText, new MatchEvaluator(ReflistMatchEvaluator));
+            return ReferenceListTags.Replace(articleText, ReflistMatchEvaluator);
         }
 
         private static readonly Regex EmptyReferences = new Regex(@"(<ref\s+name\s*=\s*(?:""|')?[^<>=\r\n]+?(?:""|')?)\s*(?:/\s*)?>\s*<\s*/\s*ref\s*>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
@@ -2745,7 +2739,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly RegexReplacement[] RefSimple= new[] {
+        private static readonly RegexReplacement[] RefSimple= {
             new RegexReplacement(new Regex(@"<\s*(?:\s+ref\s*|\s*ref\s+)>",  RegexOptions.Singleline), "<ref>"),
             // <ref name="Fred" /ref> --> <ref name="Fred"/>
             new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*=\s*""[^<>=""\/]+?"")\s*/\s*(?:ref|/)\s*>",  RegexOptions.Singleline | RegexOptions.IgnoreCase), "$1/>"),
@@ -2790,7 +2784,7 @@ namespace WikiFunctions.Parse
             new RegexReplacement(new Regex(@"<\s*ref\s+name\s*=\s*>"), "<ref>")
         };
 
-        private static readonly RegexReplacement[] RefComplex = new[] {
+        private static readonly RegexReplacement[] RefComplex = {
             // <REF> and <Ref> to <ref>
             new RegexReplacement(new Regex(@"(<\s*\/?\s*)(?:R[Ee][Ff]|r[Ee]F)(\s*(?:>|name\s*=))"), "$1ref$2"),
             // remove any spaces between consecutive references -- WP:REFPUNC
@@ -3374,7 +3368,7 @@ namespace WikiFunctions.Parse
         
         private static string FixSyntaxSubstRefTagsME(Match m)
         {
-            return m.Value.Replace(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}", System.DateTime.UtcNow.ToString("MMMM yyyy", BritishEnglish));
+            return m.Value.Replace(@"{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}", DateTime.UtcNow.ToString("MMMM yyyy", BritishEnglish));
         }
 
         /// <summary>
@@ -3389,7 +3383,7 @@ namespace WikiFunctions.Parse
             return (SyntaxRegexTemplate.Replace(articleText, m => m.Groups[1].Value + CanonicalizeTitle(m.Groups[2].Value) + "}}"));
         }
 
-        private static List<Regex> SmallTagRegexes = new List<Regex>();
+        private static readonly List<Regex> SmallTagRegexes = new List<Regex>();
         private static readonly Regex LegendTemplate = Tools.NestedTemplateRegex("legend");
 
         /// <summary>
@@ -3427,9 +3421,8 @@ namespace WikiFunctions.Parse
                 {
                     if (s.Index > 0)
                         return WikiRegexes.Small.Replace(m.Value, "$1");
-                    else
-                        // nested small
-                        return m.Value.Substring(0, 7) + WikiRegexes.Small.Replace(m.Value.Substring(7), "$1");
+                    // nested small
+                    return m.Value.Substring(0, 7) + WikiRegexes.Small.Replace(m.Value.Substring(7), "$1");
                 }
             }
             return m.Value;
@@ -3929,8 +3922,8 @@ namespace WikiFunctions.Parse
             // month=Month and date=...Month... OR month=Month and date=same month (by conversion from ISO format)Ors month=nn and date=same month (by conversion to ISO format)
             int num;
             if ((TheMonth.Length > 2 && TheDate.Contains(TheMonth)) // named month within date
-                || (TheMonth.Length > 2 && Tools.ConvertDate(TheDate, Parsers.DateLocale.International).Contains(TheMonth))
-                || (int.TryParse(TheMonth, out num) && Regex.IsMatch(Tools.ConvertDate(TheDate, Parsers.DateLocale.ISO), @"\-0?" + TheMonth + @"\-")))
+                || (TheMonth.Length > 2 && Tools.ConvertDate(TheDate, DateLocale.International).Contains(TheMonth))
+                || (int.TryParse(TheMonth, out num) && Regex.IsMatch(Tools.ConvertDate(TheDate, DateLocale.ISO), @"\-0?" + TheMonth + @"\-")))
                 newValue = Tools.RemoveTemplateParameter(newValue, "month");
 
             // date = Month DD and year = YYYY --> date = Month DD, YYYY
@@ -4107,11 +4100,8 @@ namespace WikiFunctions.Parse
                             page2 = page1.Substring(0, page1.Length - page2.Length) + page2;
 
                         // check a valid range with difference < 999
-                        if (Convert.ToInt32(page1) < Convert.ToInt32(page2) &&
-                            Convert.ToInt32(page2) - Convert.ToInt32(page1) < 999)
-                            pagerangesokay = true;
-                        else
-                            pagerangesokay = false;
+                        pagerangesokay = (Convert.ToInt32(page1) < Convert.ToInt32(page2) &&
+                                          Convert.ToInt32(page2) - Convert.ToInt32(page1) < 999);
 
                         // check range doesn't overlap with another range found
                         foreach (KeyValuePair<int, int> kvp in PageRanges)
@@ -4337,7 +4327,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static List<string> DfMf = new List<string>(new[] { "df", "mf" });
+        private static readonly List<string> DfMf = new List<string>(new[] { "df", "mf" });
 
         /// <summary>
         /// Completes a persondata call with a date of birth/death.
@@ -4574,8 +4564,9 @@ namespace WikiFunctions.Parse
             if (Tools.GetTemplateParameterValue(BirthDate.Match(articleText).Value, "df").StartsWith("y")
                 || Tools.GetTemplateParameterValue(DeathDate.Match(articleText).Value, "df").StartsWith("y"))
                 return DateLocale.International;
-            else if (Tools.GetTemplateParameterValue(BirthDate.Match(articleText).Value, "mf").StartsWith("y")
-                     || Tools.GetTemplateParameterValue(DeathDate.Match(articleText).Value, "mf").StartsWith("y"))
+            
+            if (Tools.GetTemplateParameterValue(BirthDate.Match(articleText).Value, "mf").StartsWith("y")
+                || Tools.GetTemplateParameterValue(DeathDate.Match(articleText).Value, "mf").StartsWith("y"))
                 return DateLocale.American;
 
             return DateLocale.Undetermined;
@@ -4857,7 +4848,7 @@ namespace WikiFunctions.Parse
 
             return y;
         }
-        
+
         /// <summary>
         /// Converts [[foo|''foo''']] → '''[[foo|foo]]''' for bold or italics
         /// only simplify where link & target values are the same without bold/italics (first letter case insensitive
@@ -6129,7 +6120,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex BLPUnsourcedSection = Tools.NestedTemplateRegex(new [] { "BLP unsourced section","BLP sources section" });
         private static readonly Regex NotPersonArticles = new Regex(@"(^(((?:First )?(?:Premiership|Presidency|Governor)|Murder|Atlanta murders|Disappearance|Suicide|Adoption) of|Deaths|[12]\d{3}\b|\d{2,} )|Assembly of|(Birth|Death) rates|(discography|(?:film|bibli)ography| deaths| murders)$)", RegexOptions.IgnoreCase);
-        private static MetaDataSorter MDS = new MetaDataSorter();
+        private static readonly MetaDataSorter MDS = new MetaDataSorter();
         private static readonly Regex NobleFamilies = new Regex(@"\[\[Category:[^\[\]\|]*[nN]oble families");
         private static readonly Regex NotAboutAPersonCategories = new Regex(@"\[\[Category:(\d{4} animal|(?:Comedy|Entertainer) duos|Articles about multiple people|Married couples|Fictional|Presidencies|Military careers|Parables of|[^\[\]\|\r\n]*musical groups|Internet memes|Military animals)");
         private static readonly Regex CLSAR = Tools.NestedTemplateRegex(@"Infobox Chinese-language singer and actor");
@@ -6249,6 +6240,12 @@ namespace WikiFunctions.Parse
                 || RefImproveBLP.IsMatch(articleText);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        /// <remarks>Unused</remarks>
         private static string TryGetArticleText(string title)
         {
             try
@@ -6732,7 +6729,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex MultipleIssuesUndatedTags = new Regex(@"({{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*)?|\|)\s*)(?![Ee]xpert)" + WikiRegexes.MultipleIssuesTemplatesString + @"\s*(\||}})", RegexOptions.Compiled);
         private static readonly Regex MultipleIssuesDateRemoval = new Regex(@"(?<={{\s*(?:[Aa]rticle|[Mm]ultiple) ?issues\s*(?:\|[^{}]*?)?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}[^{}]*?){0,4}\|[^{}\|]{3,}?)\b(?i)date(?<!.*out of date)", RegexOptions.Compiled);
         private static readonly Regex NoFootnotes = Tools.NestedTemplateRegex("no footnotes");
-        private static readonly String CategoryLivingPeople = @"[[Category:Living people";
+        private const string CategoryLivingPeople = @"[[Category:Living people";
 
         /// <summary>
         /// Converts/subst'd some deprecated templates
@@ -6847,6 +6844,7 @@ namespace WikiFunctions.Parse
         /// <param name="m">Template call</param>
         /// /// <param name="newTemplateName">New template name to use</param>
         /// <returns>The updated emplate call</returns>
+        /// <remarks>Unused</remarks>
         private static string NotSectionTemplateME(Match m, string newTemplateName)
         {
             string newValue = m.Value;
@@ -6920,7 +6918,7 @@ namespace WikiFunctions.Parse
         private readonly List<string> tagsRemoved = new List<string>();
         private readonly List<string> tagsAdded = new List<string>();
         private static readonly Regex ImproveCategories = Tools.NestedTemplateRegex("improve categories");
-        private static readonly Regex ProposedDeletionDatedEndorsed = Tools.NestedTemplateRegex( new string[] {"Proposed deletion/dated", "Proposed deletion endorsed" });
+        private static readonly Regex ProposedDeletionDatedEndorsed = Tools.NestedTemplateRegex( new [] {"Proposed deletion/dated", "Proposed deletion endorsed" });
         private static readonly Regex Unreferenced = Tools.NestedTemplateRegex("unreferenced");
         private static readonly Regex Drugbox = Tools.NestedTemplateRegex(new[] { "Drugbox", "Chembox" });
         private static readonly Regex MinorPlanetListFooter = Tools.NestedTemplateRegex("MinorPlanetListFooter");
@@ -7291,13 +7289,13 @@ namespace WikiFunctions.Parse
             if (tagsAdded.Count > 0 || tagsRemoved.Count > 0)
             {
                 Parsers p = new Parsers();
-                HideText ht = new HideText();
+                HideText hider = new HideText();
 
-                articleText = ht.HideUnformatted(articleText);
+                articleText = hider.HideUnformatted(articleText);
 
                 articleText = p.MultipleIssues(articleText);
                 articleText = Conversions(articleText);
-                articleText = ht.AddBackUnformatted(articleText);
+                articleText = hider.AddBackUnformatted(articleText);
 
                 // sort again in case tag removal requires whitespace cleanup
                 // Don't sort interwikis, we can't specify the correct InterWikiSortOrder
@@ -7324,7 +7322,7 @@ namespace WikiFunctions.Parse
 			// allow for ar-wiki 104
 			if(Variables.LangCode.Equals("ar") && Namespace.Determine(articleTitle) == 104)
 				return true;
-			else if (!Namespace.IsMainSpace(articleTitle) || Tools.IsRedirect(articleText) || WikiRegexes.Wi.IsMatch(articleText) || articleTitle=="Main Page")
+			if (!Namespace.IsMainSpace(articleTitle) || Tools.IsRedirect(articleText) || WikiRegexes.Wi.IsMatch(articleText) || articleTitle=="Main Page")
 				return false;
 
 			return true;
@@ -7869,9 +7867,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         public static bool IsInUse(string articleText)
         {
-            return (!Variables.LangCode.Equals("en"))
-                ? false
-                : WikiRegexes.InUse.IsMatch(WikiRegexes.UnformattedText.Replace(articleText, ""));
+            return Variables.LangCode.Equals("en") && WikiRegexes.InUse.IsMatch(WikiRegexes.UnformattedText.Replace(articleText, ""));
         }
 
         /// <summary>
