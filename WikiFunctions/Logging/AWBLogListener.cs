@@ -231,7 +231,7 @@ namespace WikiFunctions.Logging
                     return (Datestamped) ? 1 : -1;
 
                 default:
-                    throw new ArgumentOutOfRangeException("SubItem");
+                    throw new ArgumentOutOfRangeException("subItem");
             }
         }
 

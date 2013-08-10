@@ -63,8 +63,7 @@ namespace WikiFunctions.TalkPages
         {
             Processor pr = new Processor();
 
-            articleText = WikiRegexes.SkipTOCTemplateRegex.Replace(articleText,
-                                                                   new MatchEvaluator(pr.SkipTOCMatchEvaluator), 1);
+            articleText = WikiRegexes.SkipTOCTemplateRegex.Replace(articleText, pr.SkipTOCMatchEvaluator, 1);
 
             articleText = WikiProjectBannerShell(articleText);
 
@@ -76,8 +75,7 @@ namespace WikiFunctions.TalkPages
 
             if (moveDefaultsort != DEFAULTSORT.NoChange)
             {
-                articleText = WikiRegexes.Defaultsort.Replace(articleText,
-                                                              new MatchEvaluator(pr.DefaultSortMatchEvaluator), 1);
+                articleText = WikiRegexes.Defaultsort.Replace(articleText, pr.DefaultSortMatchEvaluator, 1);
                 if (pr.FoundDefaultSort)
                 {
                     if (!string.IsNullOrEmpty(pr.DefaultSortKey))

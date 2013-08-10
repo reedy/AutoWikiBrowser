@@ -215,7 +215,7 @@ namespace WikiFunctions
         /// </summary>
         public static string[] MonthNames;
 
-        public static readonly string[] ENLangMonthNames = new[]
+        public static readonly string[] ENLangMonthNames =
                                                                {
                                                                    "January", "February", "March", "April", "May",
                                                                    "June",

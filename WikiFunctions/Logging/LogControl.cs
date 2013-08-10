@@ -365,8 +365,6 @@ namespace WikiFunctions.Logging
         /// </summary>
         public class ListViewItemComparer : IComparer
         {
-            public ListViewItemComparer() {}
-
             public int Compare(object x, object y)
             {
                 return String.Compare("", "");

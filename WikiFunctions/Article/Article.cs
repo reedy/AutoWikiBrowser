@@ -433,13 +433,17 @@ namespace WikiFunctions
                 if (!mPage.Exists) return false;
 
                 // Send text to parser
-                string[] parsebeforebits = parser.ParseApi(new[,] { { "page", mPage.Title } }).Split(new string[] { "</text>" }, StringSplitOptions.None);
-                string[] parseafterbits = parser.ParseApi(new[,] { { "title", mPage.Title }, { "text", mArticleText }, { "pst", null }, { "disablepp", null } }).Split(new string[] { "</text>" }, StringSplitOptions.None);
+                string[] parsebeforebits = parser.ParseApi(new[,] {{"page", mPage.Title}})
+                    .Split(new[] {"</text>"}, StringSplitOptions.None);
+                string[] parseafterbits =
+                    parser.ParseApi(new[,]
+                                    {{"title", mPage.Title}, {"text", mArticleText}, {"pst", null}, {"disablepp", null}})
+                        .Split(new[] {"</text>"}, StringSplitOptions.None);
 
                 // First half: interwiki and category links
                 // The API will churn them out in the order they go in, so we'll need to sort them ourselves
-                string[] beforecatslangs = parsebeforebits[1].Split(new char[] { '<' });
-                string[] aftercatslangs = parseafterbits[1].Split(new char[] { '<' });
+                string[] beforecatslangs = parsebeforebits[1].Split(new [] { '<' });
+                string[] aftercatslangs = parseafterbits[1].Split(new [] { '<' });
                 Array.Sort(beforecatslangs);
                 Array.Sort(aftercatslangs);
                 if (beforecatslangs.Length != aftercatslangs.Length
@@ -449,7 +453,7 @@ namespace WikiFunctions
                 // We'll need to strip the text of the cache markers and metadata to make old and new comparable
                 // and then remove some common whitespace changes for good measure
                 parsebeforebits[0] = Regex.Replace(parsebeforebits[0], "&lt;!--(([^&]*?)NewPP limit report| Saved in parser cache)([^&]*?)--&gt;", "");
-                string whitespace1 = "&lt;p&gt;&lt;br /&gt;&lt;/p&gt;\n";
+                const string whitespace1 = "&lt;p&gt;&lt;br /&gt;&lt;/p&gt;\n";
                 parsebeforebits[0] = parsebeforebits[0].Replace(whitespace1, "");
                 parseafterbits[0] = parseafterbits[0].Replace(whitespace1, "");
 
@@ -561,20 +565,21 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
         /// <param name="parsers">An initialised Parsers object</param>
+        /// <param name="removeText"></param>
         public void Unicodify(bool skipIfNoChange, Parsers parsers, HideText removeText)
         {
             // performance: only run slow HideMore if unicodify of raw text results in changes
-            string strTemp = parsers.Unicodify(mArticleText, out noChange);
+            parsers.Unicodify(mArticleText, out noChange);
             
             if(!noChange)
             {
                 HideMoreText(removeText);
-                 strTemp = parsers.Unicodify(mArticleText, out noChange);
+                string strTemp = parsers.Unicodify(mArticleText, out noChange);
                 AWBChangeArticleText("Page Unicodified", strTemp, false);
                 UnHideMoreText(removeText);
             }
             else if (skipIfNoChange && noChange)
-                Trace.AWBSkipped("No Unicodification");                
+                Trace.AWBSkipped("No Unicodification");
         }
 
         /// <summary>
@@ -641,7 +646,7 @@ namespace WikiFunctions
             return Dupes;
         }
 
-        private static List<string> WikiProjectBannerShellKnowns = new List<string>(new[] { "blp", "blpo", "activepol", "collapsed", "banner collapsed", "1" });
+        private static readonly List<string> WikiProjectBannerShellKnowns = new List<string>(new[] { "blp", "blpo", "activepol", "collapsed", "banner collapsed", "1" });
 
         /// <summary>
         /// Returns a list of any unknown parameters in any WikiProjectBannerShell template
@@ -656,7 +661,7 @@ namespace WikiFunctions
             return Unknowns;
         }
 
-        private static List<string> MultipleIssuesKnowns = new List<string>(new[] { "abbreviations", "advert", "autobiography", "biased", "blpdispute", "BLP IMDB refimprove", "BLP IMDB-only refimprove", "BLP IMDb-only refimprove", "BLPrefimprove", "BLP sources", "BLPsources", "BLPunreferenced", "BLPunref", "BLPunsourced", "BLP unsourced", "citations missing", "citationstyle", "citation style",  "citation-style",
+        private static readonly List<string> MultipleIssuesKnowns = new List<string>(new[] { "abbreviations", "advert", "autobiography", "biased", "blpdispute", "BLP IMDB refimprove", "BLP IMDB-only refimprove", "BLP IMDb-only refimprove", "BLPrefimprove", "BLP sources", "BLPsources", "BLPunreferenced", "BLPunref", "BLPunsourced", "BLP unsourced", "citations missing", "citationstyle", "citation style",  "citation-style",
 			                                       	"citecheck", "cite check", "cleanup", "cleanup-link rot", "COI", "coi", "colloquial", "confusing", "context", "contradict",
 			                                       	"copyedit", "copy edit", "criticisms", "crystal", "date", "deadend", "dead end", "disputed", "do-attempt", "essay", "essay-like", "examplefarm", "external links", "expand",
 			                                       	"fancruft", "fanpov", "fansite", "fiction", "gameguide", "globalize", "grammar", "histinfo", "hoax", "howto", "inappropriate person", "incomplete", "intro length", "intromissing",
@@ -900,8 +905,8 @@ namespace WikiFunctions
             {
                 if (skipIfNoChange)
                     SetFaRChange(onlyApplyAfter, FaRChange.NoChange);
-                else
-                    return; //No changes, so nothing to change in article text (but we're not skipping either)
+
+                //No changes, so nothing to change in article text (but we're not skipping either)
             }
             // Do not skip for "minor change" if advanced find & replace made changes
             else if (!farMadeMajorChanges && !AdvFarMadeChanges && skipIfOnlyMinorChange)

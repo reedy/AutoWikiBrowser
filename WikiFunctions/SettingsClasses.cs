@@ -339,7 +339,7 @@ namespace WikiFunctions.AWBSettings
         public string SelectedSummary = "Clean up";
         public List<string> Summaries = new List<string>();
 
-        public string[] PasteMore = new [] { "", "", "", "", "", "", "", "", "", "" };
+        public string[] PasteMore = { "", "", "", "", "", "", "", "", "", "" };
 
         public string FindText = "";
         public bool FindRegex = false;

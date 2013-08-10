@@ -35,8 +35,8 @@ namespace WikiFunctions
 #if DEBUG
         private Stopwatch Watch = new Stopwatch(); // fail-safe in case Start() wasn't called for some reason
         private TextWriter log;
-        private string FileName = "";
-        private bool Append = true;
+        private readonly string FileName = "";
+        private readonly bool Append = true;
 
         private static readonly Semaphore ProfilerSemaphore = new Semaphore(1, 1, "AWBProfilerSemaphore");
 
