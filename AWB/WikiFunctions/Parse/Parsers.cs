@@ -7440,6 +7440,11 @@ namespace WikiFunctions.Parse
                     articleText = "{{يتيمه|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                     tagsAdded.Add("[[قالب:يتيمه|يتيمه]]");
                 }
+                else if (Variables.LangCode.Equals("fa"))
+                {
+                    articleText = "{{یتیم|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
+                    tagsAdded.Add("[[الگو:یتیم|یتیم]]");
+                }
                 else if (Variables.LangCode.Equals("hy"))
                 {
                     articleText = "{{Որբ|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
@@ -7562,7 +7567,12 @@ namespace WikiFunctions.Parse
             if (tagsAdded.Count > 0)
             {
                 if (!string.IsNullOrEmpty(summary))
-                    summary += ", ";
+                {
+	                if (Variables.LangCode.Equals("fa"))
+	                    summary += "، ";
+                	else
+	                    summary += ", ";
+                }
 
                 // Reverse order of words for arwiki and arzwiki
                 if (Variables.LangCode.Equals("ar"))
