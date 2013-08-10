@@ -80,15 +80,6 @@ namespace AutoWikiBrowser.Logging
             return ((ITraceStatusProvider) (Listeners[key])).TraceStatus.FileName;
         }
 
-        private void RemoveListenerAndReplaceWithSameType(string key)
-        {
-            string str = GetFileNameFromActiveListener(key);
-            RemoveListener(key);
-            IMyTraceListener listener;
-            if (Listeners.TryGetValue(key, out listener))
-                listener.WriteCommentAndNewLine("logging continued from " + str);
-        }
-
         // Overrides:
         public override void AddListener(string key, IMyTraceListener listener)
         {
@@ -144,67 +135,6 @@ namespace AutoWikiBrowser.Logging
                 ((IAWBTraceListener) listener.Value).UserSkipped();
             }
         }
-
-        public override void ProcessingArticle(string fullArticleTitle, int ns)
-        {
-            base.ProcessingArticle(fullArticleTitle, ns);
-        }
-
-        public override void SkippedArticle(string skippedBy, string reason)
-        {
-            base.SkippedArticle(skippedBy, reason);
-        }
-
-        public override void SkippedArticleBadTag(string skippedBy, string fullArticleTitle, int ns)
-        {
-            base.SkippedArticleBadTag(skippedBy, fullArticleTitle, ns);
-        }
-
-        public override void SkippedArticleRedlink(string skippedBy, string fullArticleTitle, int ns)
-        {
-            base.SkippedArticleRedlink(skippedBy, fullArticleTitle, ns);
-        }
-
-        public override void Write(string text)
-        {
-            base.Write(text);
-        }
-
-        public override void WriteArticleActionLine(string line, string pluginName)
-        {
-            base.WriteArticleActionLine(line, pluginName);
-        }
-
-        public override void WriteArticleActionLine1(string line, string pluginName, bool verboseOnly)
-        {
-            base.WriteArticleActionLine1(line, pluginName, verboseOnly);
-        }
-
-        public override void WriteBulletedLine(string line, bool bold, bool verboseOnly, bool dateStamp)
-        {
-            base.WriteBulletedLine(line, bold, verboseOnly, dateStamp);
-        }
-
-        public override void WriteComment(string line)
-        {
-            base.WriteComment(line);
-        }
-
-        public override void WriteCommentAndNewLine(string line)
-        {
-            base.WriteCommentAndNewLine(line);
-        }
-
-        public override void WriteLine(string line)
-        {
-            base.WriteLine(line);
-        }
-
-        public override void WriteTemplateAdded(string template, string pluginName)
-        {
-            base.WriteTemplateAdded(template, pluginName);
-        }
-
         #endregion
 
         protected override string ApplicationName
