@@ -95,7 +95,7 @@ namespace WikiFunctions
 			return (p != ProjectEnum.custom && p != ProjectEnum.wikia);
 		}
 
-		private readonly static char[] InvalidChars = new[] { '[', ']', '{', '}', '|', '<', '>', '#' };
+		private readonly static char[] InvalidChars = { '[', ']', '{', '}', '|', '<', '>', '#' };
 
 		// Covered by ToolsTests.IsValidTitle()
 		/// <summary>
@@ -215,7 +215,11 @@ namespace WikiFunctions
 			// Person of Place --> Person Of Place, WP:NAMESORT
 			if(PersonOfPlace.IsMatch(origName))
 			{
-				origName = PersonOfPlace.Replace(origName, m => m.Groups["person"].Value + (m.Groups["ordinal"].Length > 0 ? " " + Tools.RomanToInt(m.Groups["ordinal"].Value) : "") + " of " + m.Groups["place"].Value);
+			    origName = PersonOfPlace.Replace(origName,
+			        m =>
+			            m.Groups["person"].Value +
+			            (m.Groups["ordinal"].Length > 0 ? " " + RomanToInt(m.Groups["ordinal"].Value) : "") + " of " +
+			            m.Groups["place"].Value);
 				return FixupDefaultSort(origName);
 			}
 
@@ -1859,7 +1863,7 @@ Message: {2}
 			OpenURLInBrowser(Variables.NonPrettifiedURL(title));
 		}
 
-		private static string WineBrowserPath = null;
+		private static string WineBrowserPath;
 		/// <summary>
 		/// Error supressed URL opener in default browser (Windows) or Firefox/Chromium/Konqueror for Wine
 		/// </summary>
@@ -1868,11 +1872,11 @@ Message: {2}
 		    // For Wine use attempt to dynamically determine available browser, caching result
 		    if(WineBrowserPath == null)
 		    {
-		        if(System.IO.File.Exists("/usr/bin/firefox"))
+		        if(File.Exists("/usr/bin/firefox"))
 		            WineBrowserPath = "/usr/bin/firefox";
-		        else if(System.IO.File.Exists("/usr/bin/chromium-browser"))
+		        else if(File.Exists("/usr/bin/chromium-browser"))
 		            WineBrowserPath = "/usr/bin/chromium-browser";
-		        else if(System.IO.File.Exists("/usr/bin/konqueror"))
+		        else if(File.Exists("/usr/bin/konqueror"))
 		            WineBrowserPath = "/usr/bin/konqueror";
 		        else WineBrowserPath = ""; // Windows, or Wine and none of these browsers available
 		    }
@@ -2071,11 +2075,11 @@ Message: {2}
 			try
 			{
 				StringBuilder builder = new StringBuilder();
-				for (int i = 0; i < box.SelectedItems.Count; i++)
+				foreach (object t in box.SelectedItems)
 				{
-					builder.AppendLine(box.SelectedItems[i].ToString());
+				    builder.AppendLine(t.ToString());
 				}
-				Clipboard.SetDataObject(builder.ToString().Trim(), true);
+			    Clipboard.SetDataObject(builder.ToString().Trim(), true);
 			}
 			catch { }
 		}
@@ -2100,7 +2104,7 @@ Message: {2}
 		#endregion
 
 		private const char ReturnLine = '\r', NewLine = '\n';
-		private static readonly char[] Separators = new[] { ReturnLine, NewLine };
+		private static readonly char[] Separators = { ReturnLine, NewLine };
 
 		// Covered by ToolsTests.SplitLines()
 		/// <summary>
@@ -2644,11 +2648,11 @@ Message: {2}
 			if(caseInsensitiveParameterName)
 				ro |= RegexOptions.IgnoreCase;
 			
-			Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=(.*?)(?=\||}}$)", ro);
+			Regex paramRegex = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=(.*?)(?=\||}}$)", ro);
 
 			string pipecleanedtemplate = PipeCleanedTemplate(templateCall);
 
-			Match m = param.Match(pipecleanedtemplate);
+			Match m = paramRegex.Match(pipecleanedtemplate);
 
 			if (m.Success)
 			{
@@ -2706,9 +2710,9 @@ Message: {2}
 		{
 			List<string> returnedvalues = new List<string>();
 
-			foreach (string param in parameters)
+			foreach (string p in parameters)
 			{
-				returnedvalues.Add(GetTemplateParameterValue(templateCall, param, caseInsensitiveParameterNames));
+				returnedvalues.Add(GetTemplateParameterValue(templateCall, p, caseInsensitiveParameterNames));
 			}
 
 			return returnedvalues;
@@ -2810,9 +2814,9 @@ Message: {2}
 		/// <returns>The updated template call</returns>
 		public static string RenameTemplateParameter(string templateCall, string oldparameter, string newparameter)
 		{
-			Regex param = new Regex(@"(\|\s*(?:<!--.*?-->)?)" + Regex.Escape(oldparameter) + @"(\s*(?:<!--.*?-->\s*)?=)");
+			Regex paramRegex = new Regex(@"(\|\s*(?:<!--.*?-->)?)" + Regex.Escape(oldparameter) + @"(\s*(?:<!--.*?-->\s*)?=)");
 
-			return (param.Replace(templateCall, m => RenameTemplateParameterME(m, templateCall, newparameter)));
+			return (paramRegex.Replace(templateCall, m => RenameTemplateParameterME(m, templateCall, newparameter)));
 		}
 
 		/// <summary>
@@ -2829,9 +2833,9 @@ Message: {2}
 				oldparam += Regex.Escape(oldparameter) + @"|";
 
 			oldparam = oldparam.TrimEnd('|') + @")";
-			Regex param = new Regex(@"(\|\s*(?:<!--.*?-->)?)" + oldparam + @"(\s*(?:<!--.*?-->\s*)?=)");
+			Regex paramRegex = new Regex(@"(\|\s*(?:<!--.*?-->)?)" + oldparam + @"(\s*(?:<!--.*?-->\s*)?=)");
 
-			return (param.Replace(templateCall, m => RenameTemplateParameterME(m, templateCall, newparameter)));
+			return (paramRegex.Replace(templateCall, m => RenameTemplateParameterME(m, templateCall, newparameter)));
 		}
 		
 		/// <summary>
@@ -2908,17 +2912,17 @@ Message: {2}
 		/// <returns>The updated template</returns>
 		public static string RemoveTemplateParameter(string templateCall, string parameter, bool removeLastMatch)
 		{
-			Regex param = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=(.*?)(?=\||}}$)", RegexOptions.Singleline);
+			Regex paramRegex = new Regex(@"\|\s*" + Regex.Escape(parameter) + @"\s*=(.*?)(?=\||}}$)", RegexOptions.Singleline);
 
 			string pipecleanedtemplate = PipeCleanedTemplate(templateCall);
 
-			Match m = param.Match(pipecleanedtemplate);
+			Match m = paramRegex.Match(pipecleanedtemplate);
 
 			if (m.Success)
 			{
 				if(removeLastMatch)
 				{
-					foreach(Match y in param.Matches(pipecleanedtemplate))
+					foreach(Match y in paramRegex.Matches(pipecleanedtemplate))
 						m = y;
 				}
 				
@@ -2942,12 +2946,13 @@ Message: {2}
 		    return RemoveDuplicateTemplateParameters(templatecall, Params);
 		}
 
-		/// <summary>
-		/// Removes duplicate (same or null) named parameters from template calls
-		/// </summary>
-		/// <param name="templatecall">The template call to clean up</param>
-		/// <returns>The updated template call</returns>
-		public static string RemoveDuplicateTemplateParameters(string templatecall, Dictionary<string, string> Params)
+	    /// <summary>
+	    /// Removes duplicate (same or null) named parameters from template calls
+	    /// </summary>
+	    /// <param name="templatecall">The template call to clean up</param>
+	    /// <param name="Params"></param>
+	    /// <returns>The updated template call</returns>
+	    public static string RemoveDuplicateTemplateParameters(string templatecall, Dictionary<string, string> Params)
 		{
 			string originalURL = CiteUrl.Match(templatecall).Groups[1].Value.TrimEnd("|".ToCharArray()), originalTemplateCall = templatecall;
 
@@ -3081,11 +3086,11 @@ Message: {2}
 		{
 			// HACK we are allowing matching on tilde character around parameter name to represent cleaned HTML comment, so may falsely match
 			// on stray templates with stray tildes. Will that ever happen?
-			Regex param = new Regex(@"\|[\s~]*" + Regex.Escape(parameter) + @"[\s~]*= *\s*?(.*?)\s*(?=(?:\||}}$))", RegexOptions.Singleline);
+			Regex paramRegex = new Regex(@"\|[\s~]*" + Regex.Escape(parameter) + @"[\s~]*= *\s*?(.*?)\s*(?=(?:\||}}$))", RegexOptions.Singleline);
 
 			string pipecleanedtemplate = PipeCleanedTemplate(templateCall, true);
 
-			Match m = param.Match(pipecleanedtemplate);
+			Match m = paramRegex.Match(pipecleanedtemplate);
 
 			if (m.Success)
 			{
@@ -3114,17 +3119,17 @@ Message: {2}
 		{
 			string combined = "";
 
-			foreach (string param in parameters)
+			foreach (string p in parameters)
 			{
-				combined +=(GetTemplateParameterValue(templateCall, param) + " ");
-				templateCall = RemoveTemplateParameter(templateCall, param, false);
+				combined +=(GetTemplateParameterValue(templateCall, p) + " ");
+				templateCall = RemoveTemplateParameter(templateCall, p, false);
 			}
 
 			templateCall = AppendParameterToTemplate(templateCall, newparameter, combined, false);
 			return templateCall;
 		}
 
-		private const char rwith = '#';
+		private const char RepWith = '#';
 		/// <summary>
 		/// Removes pipes that are not the pipe indicating the end of the parameter's value
 		/// </summary>
@@ -3140,16 +3145,16 @@ Message: {2}
 			// clear out what may contain pipes that are not the pipe indicating the end of the parameter's value
 			// Contains checks for performance gain
 			if(restoftemplate.Contains(@"{{"))
-			    restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.NestedTemplates, rwith);
+			    restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.NestedTemplates, RepWith);
 			if(restoftemplate.Contains(@"[["))
-			    restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.SimpleWikiLink, rwith);
+			    restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.SimpleWikiLink, RepWith);
 			if(restoftemplate.Contains(@"<"))
 			{
 			    restoftemplate = commentsastilde
 			        ? ReplaceWith(restoftemplate, WikiRegexes.Comments, '~')
 			        : ReplaceWithSpaces(restoftemplate, WikiRegexes.Comments);
 
-			    restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.AllTags, rwith);
+			    restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.AllTags, RepWith);
 			}
 			return (templateCall.Substring(0, 3) + restoftemplate);
 		}
@@ -3278,16 +3283,15 @@ Message: {2}
 		private static string RenameTemplateME(Match m, string newTemplateName, bool keepFirstLetterCase)
 		{
 			string originalTemplateName = m.Groups[2].Value;
-			
-			if(keepFirstLetterCase && !newTemplateName.StartsWith("subst:"))
-			{
-				if(TurnFirstToUpper(originalTemplateName).Equals(originalTemplateName))
-					newTemplateName = TurnFirstToUpper(newTemplateName);
-				else
-					newTemplateName = TurnFirstToLower(newTemplateName);
-			}
-			
-			return (m.Groups[1].Value + newTemplateName + m.Groups[3].Value);
+
+		    if (keepFirstLetterCase && !newTemplateName.StartsWith("subst:"))
+		    {
+		        newTemplateName = TurnFirstToUpper(originalTemplateName).Equals(originalTemplateName)
+		            ? TurnFirstToUpper(newTemplateName)
+		            : TurnFirstToLower(newTemplateName);
+		    }
+
+		    return (m.Groups[1].Value + newTemplateName + m.Groups[3].Value);
 		}
 
 		/// <summary>
@@ -3403,13 +3407,13 @@ Message: {2}
 		/// Checks articletext for any {{multiple issues}} section templates
 		/// </summary>
 		/// <param name="templateCall"></param>
-		/// <param name="articletext""></param>
+		/// <param name="articletext"></param>
 		/// <returns></returns>
 		public static bool IsSectionOrReasonTemplate(string templateCall, string articletext)
 		{
-		    return ((WikiRegexes.NestedTemplates.IsMatch(templateCall) && Tools.GetTemplateArgument(templateCall, 1).Equals("section"))
-		            || Tools.GetTemplateParameterValue(WikiRegexes.MultipleIssues.Match(articletext).Value, "section").Equals("y")
-		            || Tools.GetTemplateParameterValue(templateCall, "reason", true).Length > 0);
+		    return ((WikiRegexes.NestedTemplates.IsMatch(templateCall) && GetTemplateArgument(templateCall, 1).Equals("section"))
+		            || GetTemplateParameterValue(WikiRegexes.MultipleIssues.Match(articletext).Value, "section").Equals("y")
+		            || GetTemplateParameterValue(templateCall, "reason", true).Length > 0);
 		}
 
 		/// <summary>
