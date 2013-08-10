@@ -2950,7 +2950,7 @@ Message: {2}
 	    /// Removes duplicate (same or null) named parameters from template calls
 	    /// </summary>
 	    /// <param name="templatecall">The template call to clean up</param>
-	    /// <param name="Params"></param>
+	    /// <param name="Params">Dictionary of parameter name and value found in template call</param>
 	    /// <returns>The updated template call</returns>
 	    public static string RemoveDuplicateTemplateParameters(string templatecall, Dictionary<string, string> Params)
 		{
