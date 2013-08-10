@@ -55,7 +55,7 @@ namespace WikiFunctions
             else if (ex is System.Net.WebException || ex.InnerException is System.Net.WebException)
             {
                 // if AWB starts up offline we'll hit here, so provide clear network related message
-                string msg="";
+                string msg;
                 if(ex.Message.StartsWith(@"The type initializer for"))
                     msg = ex.InnerException.Message;
                 else
@@ -90,7 +90,7 @@ namespace WikiFunctions
         /// Displays exception information. Should be called from try...catch handlers
         /// </summary>
         /// <param name="ex">Exception object to handle</param>
-        new public static void Handle(Exception ex)
+        public static void Handle(Exception ex)
         {
             if (ex == null || HandleKnownExceptions(ex)) return;
 
@@ -259,8 +259,8 @@ namespace WikiFunctions
             return Thrower(ex.StackTrace);
         }
 
-        static readonly string[] PresetNamespaces =
-            new [] { "System.", "Microsoft.", "Mono." };
+        private static readonly string[] PresetNamespaces =
+        {"System.", "Microsoft.", "Mono."};
 
         /// <summary>
         /// Returns the name of our function where supposedly error resides;
@@ -275,18 +275,18 @@ namespace WikiFunctions
             if (trace.Length == 0) return "unknown function";
 
             string res = "";
-            for (int i = 0; i < trace.Length; i++)
+            foreach (string t in trace)
             {
                 bool match = false;
                 foreach (string ns in PresetNamespaces)
                 {
-                    if (trace[i].StartsWith(ns)) match = true;
+                    if (t.StartsWith(ns)) match = true;
                 }
                 if (match)
                     res = trace[0];
                 else
                 {
-                    res = trace[i];
+                    res = t;
                     break;
                 }
             }

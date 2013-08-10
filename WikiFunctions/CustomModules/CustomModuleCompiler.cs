@@ -83,10 +83,12 @@ namespace WikiFunctions.CustomModules
         /// </summary>
         public static CustomModuleCompiler[] GetList()
         {
-            var modules = new List<CustomModuleCompiler>();
-
             // for compatibility and user experience reason, we should maintain this order
-            modules.Add(new CSharpCustomModule());
+            var modules = new List<CustomModuleCompiler>
+                          {
+                              new CSharpCustomModule()
+                          };
+
 
             AddToList(modules, typeof(VbModuleCompiler));
             //AddToList(modules, typeof(NemerleModuleCompiler));

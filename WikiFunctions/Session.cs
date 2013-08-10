@@ -479,7 +479,7 @@ namespace WikiFunctions
 
                 MessageBox.Show(message, "Error connecting to wiki", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 
-                throw ex;
+                throw;
             }
             catch (Exception ex)
             {

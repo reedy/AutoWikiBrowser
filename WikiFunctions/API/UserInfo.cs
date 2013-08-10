@@ -182,7 +182,7 @@ namespace WikiFunctions.API
             }
             
             var notifications = xml.GetElementsByTagName("notifications");
-            if(notifications.Count > 0)
+            if (notifications.Count > 0 && notifications[0].Attributes != null)
                 Notifications =  int.Parse(notifications[0].Attributes["count"].Value);
             else
                 Notifications = 0;

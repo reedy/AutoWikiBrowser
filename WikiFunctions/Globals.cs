@@ -34,7 +34,7 @@ namespace WikiFunctions
             * which is not what we want since assemblies may be 'available' but not loadable for use */
             try
             {
-                System.Reflection.Assembly.Load("System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
+                Assembly.Load("System.Core, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
                 systemCore3500Avail = true;
             }
             catch
@@ -43,7 +43,7 @@ namespace WikiFunctions
 
             try
             {
-                System.Reflection.Assembly.Load("Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a");
+                Assembly.Load("Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a");
                 mSHTMLAvailable = true;
             }
             catch
@@ -74,7 +74,7 @@ namespace WikiFunctions
             get { return Assembly.GetAssembly(typeof(Variables)).GetName().Version; }
         }
 
-        private static readonly bool systemCore3500Avail = false;
+        private static readonly bool systemCore3500Avail;
 
         /// <summary>
         /// Returns whether System.Core, Version=3.5.0.0 is loaded
@@ -85,7 +85,7 @@ namespace WikiFunctions
             get { return systemCore3500Avail; }
         }
 
-        private static readonly bool mSHTMLAvailable = false;
+        private static readonly bool mSHTMLAvailable;
 
         /// <summary>
         /// Returns whether Microsoft.mshtml, Version=7.0.3300.0 is loaded
