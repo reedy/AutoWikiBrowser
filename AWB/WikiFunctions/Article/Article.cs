@@ -569,6 +569,7 @@ namespace WikiFunctions
             if(!noChange)
             {
                 HideMoreText(removeText);
+                 strTemp = parsers.Unicodify(mArticleText, out noChange);
                 AWBChangeArticleText("Page Unicodified", strTemp, false);
                 UnHideMoreText(removeText);
             }

@@ -522,14 +522,28 @@ There [was.");
 {{DEFAULTSORT:Hello test}}
 [[Category:Test pages]]
 ");
-            
+
             a.Unicodify(true, Parser, RemoveText);
-            
+
             Assert.AreEqual(@"'''test'''. z & a‡ †.
 
 {{DEFAULTSORT:Hello test}}
 [[Category:Test pages]]
-", a.ArticleText);
+", a.ArticleText, "Text unicodified");
+
+            a = new Article("a", @"'''test'''. z &amp; {{t|a&Dagger; &dagger;}}.
+
+{{DEFAULTSORT:Hello test}}
+[[Category:Test pages]]
+");
+
+            a.Unicodify(true, Parser, RemoveText);
+
+            Assert.AreEqual(@"'''test'''. z & {{t|a&Dagger; &dagger;}}.
+
+{{DEFAULTSORT:Hello test}}
+[[Category:Test pages]]
+", a.ArticleText, "Text unicodified, hidemore used");
         }
         
         [Test]
