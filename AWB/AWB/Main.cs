@@ -107,7 +107,7 @@ namespace AutoWikiBrowser
         private bool ShuttingDown { get; set; }
 
         private readonly ToolStripMenuItem[] _pasteMoreItems;
-        private readonly string[] _pasteMoreItemsPrefixes = new[] {
+        private readonly string[] _pasteMoreItemsPrefixes = {
             "&1. ", "&2. ", "&3. ", "&4. ", "&5. ", "&6. ", "&7. ", "&8. ", "&9. ", "1&0. "
         };
         #endregion
@@ -1711,7 +1711,7 @@ namespace AutoWikiBrowser
             }
         }
 
-        bool diffAccessViolationSeen = false;
+        bool diffAccessViolationSeen;
 
         private void GetDiff()
         {
@@ -4013,7 +4013,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                                                                       (string)PasteMore10.Tag);
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                string[] dlgStrings = new[] {
+                string[] dlgStrings = {
                     dlg.String1, dlg.String2, dlg.String3, dlg.String4, dlg.String5, dlg.String6, dlg.String7, dlg.String8, dlg.String9, dlg.String10
                 };
                 for (int i = 0; i < 10; ++i)
@@ -5325,7 +5325,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
             StringBuilder builder = new StringBuilder();
 
-            builder.AppendLine("Profiling " + iterations.ToString() + @" iterations of """ + TheArticle.Name + @"""");
+            builder.AppendLine("Profiling " + iterations + @" iterations of """ + TheArticle.Name + @"""");
 
             foreach (KeyValuePair<int, string> p in times) builder.AppendLine(p.ToString());
 
