@@ -1182,9 +1182,9 @@ namespace WikiFunctions.API
         /// Checks the XML returned by the server for error codes and throws an appropriate exception
         /// </summary>
         /// <param name="xml">Server output</param>
-        private XmlDocument CheckForErrors(string xml)
+        private void CheckForErrors(string xml)
         {
-            return CheckForErrors(xml, null);
+            CheckForErrors(xml, null);
         }
 
         private static readonly Regex MaxLag = new Regex(@": (\d+) seconds lagged",
@@ -1391,9 +1391,9 @@ namespace WikiFunctions.API
             byte[] hash = Md5Summer.ComputeHash(input);
 
             StringBuilder sb = new StringBuilder(20);
-            for (int i = 0; i < hash.Length; i++)
+            foreach (byte t in hash)
             {
-                sb.Append(hash[i].ToString("x2"));
+                sb.Append(t.ToString("x2"));
             }
 
             return sb.ToString();
