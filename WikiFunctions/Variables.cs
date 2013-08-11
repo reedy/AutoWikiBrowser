@@ -841,6 +841,11 @@ namespace WikiFunctions
                     mSummaryTag = "menggunakan";
                     break;
 
+                case "ne":
+                    mSummaryTag = "";
+                    WPAWB = "स्वतःविकी ब्राउजर प्रयोग गर्दै";
+                    break;
+                    
                 case "nl":
                     mSummaryTag = "met";
                     break;
