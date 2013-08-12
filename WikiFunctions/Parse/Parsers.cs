@@ -7551,7 +7551,7 @@ namespace WikiFunctions.Parse
                 	summary = "forigis " + Tools.ListToStringCommaSeparator(tagsRemoved) + " etikedo" +
                     (tagsRemoved.Count == 1 ? "" : "j");
                 else if (Variables.LangCode.Equals("fa"))
-                    summary = " برچسب" +  " حذف شد " + Tools.ListToStringCommaSeparator(tagsRemoved);
+                    summary = " برچسب" + Tools.ListToStringCommaSeparator(tagsRemoved) + " حذف شد ";
                 else if (Variables.LangCode.Equals("fr"))
                 	summary = "retrait " + Tools.ListToStringCommaSeparator(tagsRemoved) + " balise" +
                     (tagsRemoved.Count == 1 ? "" : "s");
@@ -7578,15 +7578,15 @@ namespace WikiFunctions.Parse
                 else if (Variables.LangCode.Equals("arz"))
                     summary += "زود " + " وسوم " + Tools.ListToStringCommaSeparator(tagsAdded);
                 else if (Variables.LangCode.Equals("eo"))
-                	summary = "aldonis " + Tools.ListToStringCommaSeparator(tagsRemoved) + " etikedo" +
+                	summary = "aldonis " + Tools.ListToStringCommaSeparator(tagsAdded) + " etikedo" +
                     (tagsRemoved.Count == 1 ? "" : "j");
                 else if (Variables.LangCode.Equals("fa"))
-                    summary += "برچسب " + " اضافه شد " + Tools.ListToStringCommaSeparator(tagsAdded);
+                    summary += "برچسب " + Tools.ListToStringCommaSeparator(tagsAdded) + " اضافه شد ";
                 else if (Variables.LangCode.Equals("fr"))
-                	summary = "ajout " + Tools.ListToStringCommaSeparator(tagsRemoved) + " balise" +
+                	summary = "ajout " + Tools.ListToStringCommaSeparator(tagsAdded) + " balise" +
                     (tagsAdded.Count == 1 ? "" : "s");
                 else if (Variables.LangCode.Equals("hy"))
-                	summary = "ավելացրել է " + Tools.ListToStringCommaSeparator(tagsRemoved) + " կաղապար" +
+                	summary = "ավելացրել է " + Tools.ListToStringCommaSeparator(tagsAdded) + " կաղապար" +
                     (tagsAdded.Count == 1 ? "" : "ներ");
                 else summary += "added " + Tools.ListToStringCommaSeparator(tagsAdded) + " tag" +
                     (tagsAdded.Count == 1 ? "" : "s");
