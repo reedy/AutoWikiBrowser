@@ -3100,7 +3100,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegexHeadingWithHorizontalRule = new Regex("(^==?[^=]*==?)\r\n(\r\n)?----+", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SyntaxRegexHTTPNumber = new Regex(@"HTTP/\d\.", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexISBN = new Regex(@"ISBN(?:\-1[03])?: *(\d)", RegexOptions.Compiled);
-        private static readonly Regex SyntaxRegexPMID = new Regex(@"(PMID): *(\d+)", RegexOptions.Compiled);
+        private static readonly Regex SyntaxRegexPMID = new Regex(@"(PMID): *(\d)", RegexOptions.Compiled);
         private static readonly Regex ISBNTemplates = Tools.NestedTemplateRegex(new[] { "ISBN-10", "ISBN-13" });
         private static readonly Regex SyntaxRegexExternalLinkOnWholeLine = new Regex(@"^\[(\s*http.*?)\]$", RegexOptions.Compiled | RegexOptions.Singleline);
         private static readonly Regex SyntaxRegexClosingBracket = new Regex(@"([^]])\]([^]]|$)", RegexOptions.Compiled);
