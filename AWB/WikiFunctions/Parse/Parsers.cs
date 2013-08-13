@@ -3095,6 +3095,7 @@ namespace WikiFunctions.Parse
 
         // CHECKWIKI error 2: fix incorrect <br> of <br.>, <\br>, <br\> and <br./> etc.
         private static readonly Regex IncorrectBr = new Regex(@"< *br\. *>|<\\ *br *>|< *br *\\ *>|< *br\. */>|< *br */([a-z/]|br)>|< *br *\?>|</ *br *>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex IncorrectClosingItalics = new Regex(@"<i *[\\/] *>");
 
         private static readonly Regex SyntaxRegexHorizontalRule = new Regex("^(<hr>|-{5,})", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SyntaxRegexHeadingWithHorizontalRule = new Regex("(^==?[^=]*==?)\r\n(\r\n)?----+", RegexOptions.Compiled | RegexOptions.Multiline);
@@ -3140,10 +3141,7 @@ namespace WikiFunctions.Parse
 
             // fix italic html tags
             // <b /> may refer to </b> or <br />
-            articleText = articleText.Replace("<i/>", "</i>");
-            articleText = articleText.Replace("<i />", "</i>");
-            articleText = articleText.Replace("<i\\>", "</i>");
-            articleText = articleText.Replace("<i \\>", "</i>");
+            articleText = IncorrectClosingItalics.Replace(articleText, "</i>");
 
             // merge italic/bold html tags if there are one after the other
             //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Another_bug_on_italics
