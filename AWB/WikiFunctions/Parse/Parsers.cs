@@ -3037,7 +3037,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SyntaxRegexWikilinkMissingOpeningBracket = new Regex(@"(?<=(?:^|\]|\n)[^\[]*?)\[([^][]*?)\]\](?!\])", RegexOptions.Compiled);
 
         private static readonly Regex SyntaxRegexExternalLinkToImageURL = new Regex("\\[?\\["+Variables.NamespacesCaseInsensitive[Namespace.File]+":(http:\\/\\/.*?)\\]\\]?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex ExternalLinksNewline = new Regex(@"([^\[]\[ *(?:https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://[^\[\]]+?)" + "\r\n" + @"([^\[\]<>{}]*?\])", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex ExternalLinksStart = new Regex(@"^\[ *(?:https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://", RegexOptions.IgnoreCase);
         private static readonly Regex SyntaxRegexSimpleWikilinkStartsWithSpaces = new Regex(@"\[\[ (.*)?\]\]", RegexOptions.Compiled);
         private static readonly Regex SyntaxRegexSimpleWikilinkEndsWithSpaces = new Regex(@"\[\[([A-Za-z]*) \]\]", RegexOptions.Compiled);
 
@@ -3235,8 +3235,7 @@ namespace WikiFunctions.Parse
             articleText = ListExternalLinkEndsCurlyBrace.Replace(articleText, "$1]");
 
             // fix newline(s) in external link description - Partially CHECKWIKI error 80
-            while (ExternalLinksNewline.IsMatch(articleText))
-                articleText = ExternalLinksNewline.Replace(articleText, "$1 $2");
+            articleText = SingleSquareBrackets.Replace(articleText, m => (m.Value.Contains("\r\n") && !m.Value.Substring(1).Contains("[") && ExternalLinksStart.IsMatch(m.Value)) ? m.Value.Replace("\r\n", " ") : m.Value);
 
             // double piped links e.g. [[foo||bar]] - CHECKWIKI error 32
             articleText = DoublePipeInWikiLink.Replace(articleText, "|");
