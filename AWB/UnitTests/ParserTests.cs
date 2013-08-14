@@ -4990,6 +4990,8 @@ http://example.com }}");
             Assert.AreEqual("*a\r\nb", Parsers.FixSyntax("*a<br><br>\r\nb"));
             Assert.AreEqual("*a\r\nb", Parsers.FixSyntax("\r\n*a<br>\r\nb"));
             Assert.AreEqual("foo\r\n*a\r\nb", Parsers.FixSyntax("foo\r\n*a<br>\r\nb"));
+            const string correct1 = "foo\r\n*a<br>b";
+            Assert.AreEqual(correct1, Parsers.FixSyntax(correct1), "No change to br tag in middle of list line");
 
             Assert.AreEqual("*a", Parsers.FixSyntax("*a<br>\r\n")); // \r\n\ trimmed
 
