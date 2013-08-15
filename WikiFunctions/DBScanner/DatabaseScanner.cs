@@ -931,7 +931,7 @@ namespace WikiFunctions.DBScanner
 
         private void lnkGenDump_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Tools.OpenURLInBrowser("http://www.mediawiki.org/wiki/Manual:DumpBackup.php");
+            Tools.OpenURLInBrowser("https://www.mediawiki.org/wiki/Manual:DumpBackup.php");
         }
 
         private void lnkBase_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
