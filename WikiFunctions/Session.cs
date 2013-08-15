@@ -208,7 +208,7 @@ namespace WikiFunctions
             }
             catch (Exception)
             {                
-                Editor = CreateEditor("http://en.wikipedia.org/w/");
+                Editor = CreateEditor("https://en.wikipedia.org/w/");
                 return false;
             }
         }

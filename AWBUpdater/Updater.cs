@@ -73,7 +73,7 @@ namespace AwbUpdater
             {
                 Proxy = WebRequest.GetSystemWebProxy();
 
-                if (Proxy.IsBypassed(new Uri("http://en.wikipedia.org")))
+                if (Proxy.IsBypassed(new Uri("https://en.wikipedia.org")))
                     Proxy = null;
 
                 UpdateUI("Getting current AWB and Updater versions", true);
@@ -190,7 +190,7 @@ namespace AwbUpdater
             UpdateUI("   Retrieving current version...", true);
             try
             {
-                HttpWebRequest rq = (HttpWebRequest)WebRequest.Create("http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
+                HttpWebRequest rq = (HttpWebRequest)WebRequest.Create("https://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
 
                 rq.Proxy = Proxy;
 
