@@ -94,7 +94,7 @@ namespace WikiFunctions.Parse
                         {
                             text =
                                 Tools.GetHTML(
-                                    "http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/Typos&action=raw",
+                                    "https://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/Typos&action=raw",
                                     Encoding.UTF8);
                         }
                         catch (Exception ex)

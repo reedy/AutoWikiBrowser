@@ -73,7 +73,7 @@ namespace WikiFunctions
             {
                 string text =
                     Tools.GetHTML(
-                        "http://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
+                        "https://en.wikipedia.org/w/index.php?title=Wikipedia:AutoWikiBrowser/CheckPage/Version&action=raw");
                 GlobalVersionPage = text;
 
                 int awbCurrentVersion =
