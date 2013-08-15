@@ -505,7 +505,7 @@ namespace WikiFunctions
         /// <param name="projectName">The project name default is Wikipedia</param>
         public static void SetProject(string langCode, ProjectEnum projectName)
         {
-            SetProject(langCode, projectName, "", "http://");
+            SetProject(langCode, projectName, "", "https://");
         }
 
 #if DEBUG || UNITTEST
