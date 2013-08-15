@@ -105,7 +105,7 @@ namespace WikiFunctions.Parse
 
         private static void LoadFromNetwork()
         {
-            string strMatrix = Tools.GetHTML("http://en.wikipedia.org/w/api.php?action=sitematrix&format=xml");
+            string strMatrix = Tools.GetHTML("https://en.wikipedia.org/w/api.php?action=sitematrix&format=xml");
 
             XmlDocument matrix = new XmlDocument();
             matrix.LoadXml(strMatrix);
