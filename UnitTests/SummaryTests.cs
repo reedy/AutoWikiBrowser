@@ -71,7 +71,7 @@ namespace UnitTests
             Assert.AreEqual("foo", Summary.ModifiedSection("==foo==\r\n123", "== foo ==\r\ntest"));
             Assert.AreEqual("bar", Summary.ModifiedSection("==foo==\r\n123", "==bar==\r\ntest"));
 
-            // http://en.wikipedia.org/w/index.php?diff=prev&oldid=338360216
+            // https://en.wikipedia.org/w/index.php?diff=prev&oldid=338360216
             Assert.AreEqual("", Summary.ModifiedSection("==foo==\r\nbar", "test\r\n==foo==\r\nbar"));
         }
     }
