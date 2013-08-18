@@ -2505,7 +2505,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                     RunUpdater();
                     break;
                 case DialogResult.No:
-                    Tools.OpenURLInBrowser("http://sourceforge.net/project/showfiles.php?group_id=158332");
+                    Tools.OpenURLInBrowser("http://sourceforge.net/projects/autowikibrowser/files/");
                     break;
             }
         }
@@ -5447,7 +5447,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
         private void BotImage_Click(object sender, EventArgs e)
         {
-            Tools.OpenURLInBrowser("http://commons.wikimedia.org/wiki/File:Crystal_Clear_action_run.png");
+            Tools.OpenURLInBrowser("https://commons.wikimedia.org/wiki/File:Crystal_Clear_action_run.png");
         }
 
         private void displayfalsePositivesButtonToolStripMenuItem_Click(object sender, EventArgs e)

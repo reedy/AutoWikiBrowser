@@ -104,14 +104,14 @@ namespace AutoWikiBrowser
     /// A class to collect and submit some non-invasive usage stats, to help AWB developers track usage and plan development
     /// </summary>
     /// <remarks>
-    /// Stats can be viewed at http://toolserver.org/~awb/stats/
+    /// Stats can be viewed at https://toolserver.org/~awb/stats/
     /// ToolServer access is needed to access files/database
     /// </remarks>
     internal static class UsageStats
     {
         // TODO: Add other stuff we'd like to track. e.g. I'd quite like to know if anybody is using log to file.
 
-        private const string StatsURL = "http://toolserver.org/~awb/stats/";
+        private const string StatsURL = "https://toolserver.org/~awb/stats/";
         
         private static int RecordId,
             SecretNumber, 
