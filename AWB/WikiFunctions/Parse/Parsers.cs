@@ -2912,7 +2912,7 @@ namespace WikiFunctions.Parse
             return IncorrectCommaInternationalDates.Replace(textPortion, @"$1 $2");
         }
 
-        private static readonly Regex BrTwoNewlines = new Regex("(?:<br */?>)+\r\n\r\n", RegexOptions.IgnoreCase);
+        private static readonly Regex BrTwoNewlines = new Regex("(?:<br */?> *)+\r\n\r\n", RegexOptions.IgnoreCase);
         private static readonly Regex FourOrMoreNewlines = new Regex("(\r\n){4,}");
         private static readonly Regex NewlinesBelowExternalLinks = new Regex(@"==External links==[\r\n\s]*\*");
         private static readonly Regex NewlinesBeforeUrl = new Regex(@"\r\n\r\n(\* ?\[?http)");
