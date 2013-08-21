@@ -1036,6 +1036,9 @@ namespace WikiFunctions
         /// </summary>
         public static readonly Regex CoiOrPovBlp = new Regex("(COI|OR|POV|BLP)");
 
+        /// <summary>
+        /// Localized version of date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}
+        /// </summary>
         public static string DateYearMonthParameter;
         
         /// <summary>
