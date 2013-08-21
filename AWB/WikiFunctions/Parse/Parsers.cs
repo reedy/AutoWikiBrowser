@@ -7682,7 +7682,7 @@ namespace WikiFunctions.Parse
                 string dateFieldValue = Tools.GetTemplateParameterValue(templatecall, dateparam);
 
                 // May, 2010 --> May 2010
-                if (dateFieldValue.Contains(","))
+                if (dateFieldValue.Contains(",") && !WikiRegexes.AmericanDates.IsMatch(dateFieldValue))
                 {
                     templatecall = Tools.SetTemplateParameterValue(templatecall, dateparam, dateFieldValue.Replace(",", ""));
                     dateFieldValue = Tools.GetTemplateParameterValue(templatecall, dateparam);

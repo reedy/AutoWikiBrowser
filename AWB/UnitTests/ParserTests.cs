@@ -9956,6 +9956,9 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(@"{{wikify|section|other={{foo}} bar|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", Parsers.TagUpdater(@"{{wikify|section|other={{foo}} bar}}"), "supports templates with additional arguments");
             Assert.AreEqual(@"{{wikify|section|other={{foo}}|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", Parsers.TagUpdater(@"{{wikify|section|other={{foo}}}}"), "supports templates with additional arguments");
 
+            Assert.AreEqual(@"{{wikify|date=May 2010}}", Parsers.TagUpdater(@"{{wikify|date=May, 2010}}"), "removes excess comma");
+            Assert.AreEqual(@"{{wikify|date=May 2, 2010}}", Parsers.TagUpdater(@"{{wikify|date=May 2, 2010}}"), "American date not altered");
+
             WikiRegexes.DatedTemplates.Clear();
             WikiRegexes.DatedTemplates.Add("Wikify");
             Assert.AreEqual(correct, Parsers.TagUpdater(@"{{wikify}}"), "first letter casing of template rule does not matter");
