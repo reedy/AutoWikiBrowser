@@ -2254,6 +2254,7 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual(@"'''''''", Tools.CleanSortKey(@"’‘ʻ`´“”"), "quotes");
             Assert.AreEqual(@"1-2-3", Tools.CleanSortKey(@"1–2–3"), "endash");
             Assert.AreEqual(@"1-2-3", Tools.CleanSortKey(@"1–2&ndash;3"), "&ndash;");
+            Assert.AreEqual(@"A ", Tools.CleanSortKey(@"A       "), "Excess whitespace");
         }
 
         [Test]

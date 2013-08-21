@@ -1552,8 +1552,6 @@ namespace WikiFunctions
 		    //other weird characters
 		    new KeyValuePair<string, string>("…", "..."),
 		    new KeyValuePair<string, string>("·", " "),
-		    //normalisation - simplify double spaces to a single one
-		    new KeyValuePair<string, string>("  ", " "),
 		    
 		    new KeyValuePair<string, string>("’", "'"), // apostrophe
 		    new KeyValuePair<string, string>("‘", "'"), // quotation mark
@@ -1636,6 +1634,10 @@ namespace WikiFunctions
 
 		    s = s.Replace("&ndash;", "–");
 		    s = s.Replace("&mdash;", "—");
+
+		    // normalisation - simplify double spaces to a single one
+		    while(s.Contains("  "))
+		        s = s.Replace("  ", " ");
 
 		    foreach (KeyValuePair<string, string> p in SortKeyChars)
 		    {
