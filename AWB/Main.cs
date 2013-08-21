@@ -740,6 +740,10 @@ namespace AutoWikiBrowser
                 if (BotMode)
                     NudgeTimer.StartMe();
 
+                // reset last article text if now processing a different article
+                if(TheArticle != null && !TheArticle.Name.Equals(title))
+                    LastArticle = "";
+
                 TheArticle = new Article(title, "");
 
                 //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#.27Find.27_sometimes_fails_to_use_the_search_key
