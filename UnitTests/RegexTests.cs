@@ -281,6 +281,7 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<code>{{abc}}</code>"));
             Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<source lang=xml>{{abc}}</source>"));
             Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<syntaxhighlight lang=xml>{{abc}}</syntaxhighlight>"));            
+            Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<syntaxhighlight lang=""xml"">{{abc}}</syntaxhighlight>"));
             Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<source>{{abc}}</source>"));
             Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<syntaxhighlight>{{abc}}</syntaxhighlight>"));
             Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"now hello {{bye}} <pre>{now}}</pre>"));
