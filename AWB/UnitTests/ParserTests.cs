@@ -5428,6 +5428,16 @@ x
 === By place ===
 ==== Roman Empire ====
 x", "test"));
+
+            Assert.AreEqual(@"x
+
+==Major championships==
+
+====Wins====
+x", Parsers.FixHeadings(@"x
+==Major championships==
+====Wins====	
+x", "test"), "Excess tab whitespace in second header handled");
         }
 
         [Test]
