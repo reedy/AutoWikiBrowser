@@ -5563,6 +5563,7 @@ Here there";
             Assert.AreEqual("== foo ==\r\n\r\n==bar", Parsers.RemoveWhiteSpace("== foo ==\r\n\r\n\r\n==bar"));
 
             Assert.AreEqual("a\r\n\r\nx", Parsers.RemoveWhiteSpace("a<br/>\r\n\r\nx"));
+            Assert.AreEqual("a\r\n\r\nx", Parsers.RemoveWhiteSpace("a<br/> \r\n\r\nx"));
             Assert.AreEqual("a\r\n\r\nx", Parsers.RemoveWhiteSpace("a<br/><br/>\r\n\r\nx"));
             Assert.AreEqual("a\r\n\r\nx", Parsers.RemoveWhiteSpace("a\r\n\r\n<br/>\r\n\r\nx"));
             Assert.AreEqual("a\r\n\r\nx", Parsers.RemoveWhiteSpace("a\r\n\r\n<br/><br/>\r\n\r\nx"));
