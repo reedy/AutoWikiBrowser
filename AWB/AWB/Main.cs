@@ -3978,6 +3978,18 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             txtEdit.Visible = true;
 
             GetDiff();
+
+            // refocus edit box and Save button
+            if (!focusAtEndOfEditTextBoxToolStripMenuItem.Checked)
+            {
+                txtEdit.SetEditBoxSelection(0, 0);
+                txtEdit.Select(0, 0);
+            }
+            else
+                txtEdit.Select(txtEdit.Text.Length, 0);
+
+            txtEdit.ScrollToCaret();
+            btnSave.Select();
             StatusLabelText = "Ready to save";
         }
 
