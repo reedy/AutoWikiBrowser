@@ -274,6 +274,22 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
         }
 
         [Test]
+        public void SourceCodeTests()
+        {
+            Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<code>{{abc}}</code>"));
+            Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<source lang=xml>{{abc}}</source>"));
+            Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<syntaxhighlight lang=xml>{{abc}}</syntaxhighlight>"));            
+            Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<syntaxhighlight lang=""xml"">{{abc}}</syntaxhighlight>"));
+            Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<syntaxhighlight lang=""javascript"">\r\n var x; //defines the variable x</syntaxhighlight>"));
+            Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<source>{{abc}}</source>"));
+            Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<syntaxhighlight>{{abc}}</syntaxhighlight>"));
+            Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<tt>{{abc}}</tt>"));
+        	
+
+            Assert.IsFalse(WikiRegexes.SourceCode.IsMatch(@"<math>{{abc}}</math>"));
+            Assert.IsFalse(WikiRegexes.SourceCode.IsMatch(@"<pre>{{abc}}</pre>"));
+        }
+        [Test]
         public void MathPreSourceCodeTests()
         {
             Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<pre>{{abc}}</pre>"));
@@ -282,10 +298,12 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<source lang=xml>{{abc}}</source>"));
             Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<syntaxhighlight lang=xml>{{abc}}</syntaxhighlight>"));            
             Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<syntaxhighlight lang=""xml"">{{abc}}</syntaxhighlight>"));
+            Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<syntaxhighlight lang=""javascript"">\r\n var x; //defines the variable x</syntaxhighlight>"));
             Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<source>{{abc}}</source>"));
             Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<syntaxhighlight>{{abc}}</syntaxhighlight>"));
             Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"now hello {{bye}} <pre>{now}}</pre>"));
             Assert.IsTrue(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<math>{{abc}}</math>"));
+            Assert.IsTrue(WikiRegexes.SourceCode.IsMatch(@"<tt>{{abc}}</tt>"));
 
             Assert.IsFalse(WikiRegexes.MathPreSourceCodeComments.IsMatch(@"<nowiki>{{abc}}</nowiki>"));
         }
