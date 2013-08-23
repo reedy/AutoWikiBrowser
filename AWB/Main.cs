@@ -778,6 +778,7 @@ namespace AutoWikiBrowser
         private Dictionary<int, int> ambigCiteDates = new Dictionary<int, int>();
         private Dictionary<int, int> targetlessLinks = new Dictionary<int, int>();
         private Dictionary<int, int> doublepipeLinks = new Dictionary<int, int>();
+        private Dictionary<int, int> otherErrors = new Dictionary<int, int>();
         private List<string> UnknownWikiProjectBannerShellParameters = new List<string>();
         private List<string> UnknownMultipleIssuesParameters = new List<string>();
 
@@ -1178,6 +1179,12 @@ namespace AutoWikiBrowser
             }
 
             foreach (KeyValuePair<int, int> kvp in doublepipeLinks)
+            {
+                if (!Errors.ContainsKey(kvp.Key))
+                    Errors.Add(kvp.Key, kvp.Value);
+            }
+
+            foreach (KeyValuePair<int, int> kvp in otherErrors)
             {
                 if (!Errors.ContainsKey(kvp.Key))
                     Errors.Add(kvp.Key, kvp.Value);
@@ -2578,6 +2585,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             unclosedTags.Clear();
             wikilinkedHeaders.Clear();
             unbalancedBracket.Clear();
+            otherErrors.Clear();
 
             if (reset)
             {
@@ -2713,7 +2721,12 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 }
 
                 if ((alertPreferences.Count == 0 || alertPreferences.Contains(15)) && TheArticle.HasSeeAlsoAfterNotesReferencesOrExternalLinks)
+                {
                     lbAlerts.Items.Add("See also section out of place");
+                    Match m = WikiRegexes.SeeAlso.Match(txtEdit.Text);
+                    if(!otherErrors.ContainsKey(m.Index))
+                        otherErrors.Add(m.Index, m.Length);
+                }
 
                 // check for {{sic}} tags etc. when doing typo fixes
                 if ((alertPreferences.Count == 0 || alertPreferences.Contains(2) || chkRegExTypo.Checked) && TheArticle.HasSicTag)
