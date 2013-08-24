@@ -1050,6 +1050,7 @@ namespace AutoWikiBrowser
                         return;
                     }
                 }
+                else lblBotTimer.Text = ""; // remove for situation where bot mode used then turned off
 
                 switch (actionOnLoad)
                 {
