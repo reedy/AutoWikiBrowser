@@ -401,6 +401,7 @@ namespace WikiFunctions
 		/// <returns>The HTML.</returns>
 		public static string GetHTML(string url, Encoding enc, out string responseURL)
 		{
+		    WriteDebug("GetHTML", url);
 			if (Globals.UnitTestMode) throw new Exception("You shouldn't access Wikipedia from unit tests");
 			CookieContainer cookieJar = new CookieContainer();
 
