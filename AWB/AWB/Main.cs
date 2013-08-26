@@ -230,7 +230,7 @@ namespace AutoWikiBrowser
                 #endif
 
                 if (!string.IsNullOrEmpty(value))
-                    _settingsFileDisplay += " - " + Path.GetFileName(value);
+                    _settingsFileDisplay += " – " + Path.GetFileName(value);
                 Text = _settingsFileDisplay;
 
                 ntfyTray.Text = (_settingsFileDisplay.Length >= 64) ? _settingsFileDisplay.Substring(0, 62) : _settingsFileDisplay;
@@ -824,7 +824,7 @@ namespace AutoWikiBrowser
             else
                 Program.MyTrace.Initialise();
 
-            Text = _settingsFileDisplay + " - " + page.Title;
+            Text = _settingsFileDisplay + " – " + page.Title;
 
             bool articleIsRedirect = PageInfo.WasRedirected(page);
 
