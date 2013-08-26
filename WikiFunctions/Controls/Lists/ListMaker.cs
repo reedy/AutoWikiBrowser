@@ -636,6 +636,9 @@ namespace WikiFunctions.Controls.Lists
 
             // Assumsuption flaw: that all wikis use /wiki/ as the default path
             string url = Variables.URL + "/wiki/";
+            if(Variables.URL.Contains("https:"))
+                s = s.Replace("http://", "https://"); // support HTTP and HTTPS links
+
             s = s.Replace(url, "").Trim();
 
             // handle section links
