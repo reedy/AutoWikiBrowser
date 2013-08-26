@@ -528,6 +528,7 @@ namespace WikiFunctions.API
         /// <returns>Text received</returns>
         public string HttpGet(string url)
         {
+            Tools.WriteDebug("ApiEdit", url);
             return GetResponseString(CreateRequest(url));
         }
 
