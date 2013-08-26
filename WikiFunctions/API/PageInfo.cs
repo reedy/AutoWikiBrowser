@@ -102,6 +102,7 @@ namespace WikiFunctions.API
             RevisionID = long.TryParse(xr.GetAttribute("lastrevid"), out revId) ? revId : -1;
 
             Title = xr.GetAttribute("title");
+            DisplayTitle = xr.GetAttribute("displaytitle");
             NamespaceID = int.Parse(xr.GetAttribute("ns"));
 
             if (xr.ReadToDescendant("protection") && !xr.IsEmptyElement)
@@ -129,6 +130,12 @@ namespace WikiFunctions.API
             Timestamp = xr.GetAttribute("timestamp");
             Text = Tools.ConvertToLocalLineEndings(xr.ReadString());
         }
+
+        /// <summary>
+        /// Display title of the Page in HTML format, used e.g. if page has some italics (using {{italic title}} etc.)
+        /// </summary>
+        public string DisplayTitle
+        { get; private set; }
 
         /// <summary>
         /// Title of the Page
