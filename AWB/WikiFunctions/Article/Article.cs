@@ -91,6 +91,7 @@ namespace WikiFunctions
             mPage = page;
             mArticleText = page.Text;
             Exists = page.Exists ? Exists.Yes : Exists.No;
+            DisplayTitle = page.DisplayTitle;
         }
 
         private static event AddListenerDelegate addListener;
@@ -138,6 +139,12 @@ namespace WikiFunctions
         /// The full name of the article
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// The display name of the article in HTML syntax
+        /// </summary>
+        [XmlIgnore]
+        public string DisplayTitle { get; set; }
 
         /// <summary>
         /// 

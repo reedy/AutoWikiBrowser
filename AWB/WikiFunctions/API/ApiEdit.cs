@@ -722,7 +722,7 @@ namespace WikiFunctions.API
                     {"prop", "info|revisions"},
                     {"intoken", "edit"},
                     {"titles", title},
-                    {"inprop", "protection|watched"},
+                    {"inprop", "protection|watched|displaytitle"},
                     {"rvprop", "content|timestamp"}, // timestamp|user|comment|
                     {resolveRedirects ? "redirects" : null, null}
                 },
