@@ -3766,7 +3766,6 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex IdISBN = new Regex(@"^ISBN:?\s*([\d \-]+X?)$", RegexOptions.Compiled);
         private static readonly Regex IdASIN = new Regex(@"^ASIN:?\s*([\d \-]+X?)$", RegexOptions.Compiled);
-        private static readonly Regex CiteVideoPodcast = new Regex(@"[Cc]ite (?:video|podcast)\b", RegexOptions.Compiled);
         private static readonly Regex YearOnly = new Regex(@"^[12]\d{3}$", RegexOptions.Compiled);
 
         /// <summary>
@@ -3890,8 +3889,8 @@ namespace WikiFunctions.Parse
                 pages = Tools.GetTemplateParameterValue(newValue, "pages");
             }
 
-            // date = YYYY --> year = YYYY; not for {{cite video}}
-            if (TheDate.Length == 4 && !CiteVideoPodcast.IsMatch(templatename))
+            // date = YYYY --> year = YYYY
+            if (TheDate.Length == 4)
                 newValue = YearInDate.Replace(newValue, "$1year$2");
 
             // year = full date --> date = full date

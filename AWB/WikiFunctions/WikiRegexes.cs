@@ -878,7 +878,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the various citation templates {{citation}}, {{cite web}} etc. on en-wiki
         /// </summary>
-        public static readonly Regex CiteTemplate = Tools.NestedTemplateRegex(new [] { "cite web", "cite news", "cite journal", "cite book", "citation", "cite conference", "cite hansard", "cite manual", "cite paper", "cite press release", "cite encyclopedia" }, false);
+        public static readonly Regex CiteTemplate = Tools.NestedTemplateRegex(new [] { "cite web", "cite news", "cite journal", "cite book", "citation", "cite conference", "cite hansard", "cite manual", "cite paper", "cite press release", "cite encyclopedia", "cite AV media" }, false);
         
         /// <summary>
         /// Matches the various Harvard citation templates on en-wiki
