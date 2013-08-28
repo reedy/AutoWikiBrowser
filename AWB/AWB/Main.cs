@@ -746,7 +746,7 @@ namespace AutoWikiBrowser
 
                 TheArticle = new Article(title, "");
 
-                //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#.27Find.27_sometimes_fails_to_use_the_search_key
+                //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_12#.27Find.27_sometimes_fails_to_use_the_search_key
                 txtEdit.ResetFind();
 
                 NewHistory(title);
@@ -1398,7 +1398,7 @@ namespace AutoWikiBrowser
                 NudgeTimer.Stop();
                 txtEdit.Text = "";
 
-                //http://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Endless_cycle_of_loading_and_skipping
+                //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Endless_cycle_of_loading_and_skipping
                 bool successfullyremoved = listMaker.Remove(TheArticle);
 
                 SameArticleNudges = 0;
