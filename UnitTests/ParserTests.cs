@@ -7842,16 +7842,22 @@ foo {{persondata}}
                             Parsers.ExternalURLToInternalLink("[http://en.wikiversity.org/wiki/Test Test]"));
             Assert.AreEqual("[[w:Test|Test]]",
                             Parsers.ExternalURLToInternalLink("[http://en.wikipedia.org/wiki/Test Test]"));
+            Assert.AreEqual("[[w:Test|Test]]",
+                            Parsers.ExternalURLToInternalLink("[https://en.wikipedia.org/wiki/Test Test]"));
 
             Assert.AreEqual("[[wikt:fr:Test|Test]]",
                             Parsers.ExternalURLToInternalLink("[http://fr.wiktionary.org/wiki/Test Test]"));
             Assert.AreEqual("[[w:fr:Test|Test]]",
                             Parsers.ExternalURLToInternalLink("[http://fr.wikipedia.org/wiki/Test Test]"));
+            Assert.AreEqual("[[w:fr:Test|Test]]",
+                            Parsers.ExternalURLToInternalLink("[https://fr.wikipedia.org/wiki/Test Test]"));
 
 #if DEBUG
             Variables.SetProjectLangCode("fr");
             Assert.AreEqual("[[w:en:Test|Test]]",
                             Parsers.ExternalURLToInternalLink("[http://en.wikipedia.org/wiki/Test Test]"));
+            Assert.AreEqual("[[w:en:Test|Test]]",
+                            Parsers.ExternalURLToInternalLink("[https://en.wikipedia.org/wiki/Test Test]"));
             Variables.SetProjectLangCode("en");
             Assert.AreEqual("[[w:Test|Test]]",
                             Parsers.ExternalURLToInternalLink("[http://en.wikipedia.org/wiki/Test Test]"));
