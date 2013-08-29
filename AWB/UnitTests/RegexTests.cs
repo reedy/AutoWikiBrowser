@@ -854,6 +854,7 @@ foo
 
             RegexAssert.Matches(WikiRegexes.ExternalLinks, @"date=April 2010|url=http://w/010111a.html}}", "http://w/010111a.html");
             RegexAssert.Matches(WikiRegexes.ExternalLinks, @"date=April 2010|url=http://w/010111a.html|location=London}}", "http://w/010111a.html");
+            RegexAssert.Matches(WikiRegexes.ExternalLinks, @"date=April 2010|url=https://w/010111a.html|location=London}}", "https://w/010111a.html");
 
             // incorrect brackets
             RegexAssert.Matches(WikiRegexes.ExternalLinks, "lol [http://www.google.co.uk lol", "http://www.google.co.uk");
@@ -862,6 +863,7 @@ foo
 
             // protocol is group 1
             Assert.AreEqual("http", WikiRegexes.ExternalLinks.Match(@"http://google.co.uk").Groups[1].Value);
+            Assert.AreEqual("https", WikiRegexes.ExternalLinks.Match(@"https://google.co.uk").Groups[1].Value);
             Assert.AreEqual("svn", WikiRegexes.ExternalLinks.Match(@"svn://google.co.uk Google}}").Groups[1].Value);
             Assert.AreEqual("Http", WikiRegexes.ExternalLinks.Match(@"Http://google.co.uk").Groups[1].Value);
             Assert.AreEqual("HTTP", WikiRegexes.ExternalLinks.Match(@"HTTP://google.co.uk").Groups[1].Value);
