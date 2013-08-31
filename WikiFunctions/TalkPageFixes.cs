@@ -67,8 +67,11 @@ namespace WikiFunctions.TalkPages
 
             articleText = WikiProjectBannerShell(articleText);
 
+            // move GA nominee to the top (goes below talk header)
+            articleText = MoveTalkTemplate(articleText, GANomineeTemplate);
+
             // move talk page header to the top
-            articleText = MoveTalkHeader(articleText);
+            articleText = MoveTalkTemplate(articleText, WikiRegexes.TalkHeaderTemplate);
 
             if (pr.FoundSkipToTalk)
                 WriteHeaderTemplate("Skip to talk", ref articleText);
@@ -129,25 +132,29 @@ namespace WikiFunctions.TalkPages
             articleText = "{{" + name + "}}\r\n" + articleText;
         }
 
+        private static readonly Regex GANomineeTemplate = Tools.NestedTemplateRegex(new [] { "GA nominee", "GAnominee"});
+
         /// <summary>
-        /// Moves the {{talk header}} template to the top of the talk page
+        /// Moves the input template to the top of the talk page
         /// </summary>
         /// <param name="articleText">the talk page text</param>
+        /// <param name="r">Regex matching the template to be moved</param>
         /// <returns>the update talk page text</returns>
-        private static string MoveTalkHeader(string articleText)
+        private static string MoveTalkTemplate(string articleText, Regex r)
         {
-            Match m = WikiRegexes.TalkHeaderTemplate.Match(articleText);
+            Match m = r.Match(articleText);
 
             if (m.Success && m.Index > 0)
             {
-                // remove existing talk header – handle case where not at beginning of line
+                // remove existing template – handle case where not at beginning of line
                 articleText = articleText.Replace(m.Value, articleText.Contains("\r\n" + m.Value) ? "" : "\r\n");
 
-                // write existing talk header to top
+                // write existing template to top
                 articleText = m.Value.TrimEnd() + "\r\n" + articleText.TrimStart();
 
-                // ensure template is now named {{talk header}}
-                articleText = articleText.Replace(m.Groups[1].Value, "Talk header");
+                // ensure any talk header template is now named {{talk header}}
+                if(m.Groups[1].Value.ToLower().Contains("talk"))
+                    articleText = Tools.RenameTemplate(articleText, m.Groups[1].Value, "Talk header", false);
             }
 
             return articleText;
