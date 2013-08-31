@@ -854,6 +854,15 @@ In the article it says that above mentioned";
             
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(talkrest, articleText);
+
+            talkheader = @"{{Talk header}}";
+            talkrest = @"==hello==
+hello talk";
+            articleText = talkrest + "\r\n" + talkheader + "\r\n{{GA nominee}}";
+
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+
+            Assert.AreEqual(talkheader + "\r\n" + "{{GA nominee}}\r\n" + talkrest + "\r\n", articleText);
         }
         
         [Test]
