@@ -731,12 +731,10 @@ namespace WikiFunctions.Controls.Lists
         public List<Article> GetSelectedArticleList()
         {
             List<Article> list = new List<Article>();
+            Article[] articles = new Article[lbArticles.SelectedItems.Count];
 
-            foreach (Article a in lbArticles.SelectedItems)
-            {
-                list.Add(a);
-            }
-
+            lbArticles.SelectedItems.CopyTo(articles, 0);
+            list.AddRange(articles);
             return list;
         }
 
@@ -1228,8 +1226,7 @@ namespace WikiFunctions.Controls.Lists
         {
             if(Variables.MainForm.TheSession.Site != null) // TheSession can be null if AWB encounters network problems on startup
             {
-                Article[] articles = new Article[lbArticles.SelectedItems.Count];
-                lbArticles.SelectedItems.CopyTo(articles, 0);
+                List<Article> articles = GetSelectedArticleList();
 
                 foreach (Article item in articles)
                 {
@@ -1254,7 +1251,8 @@ namespace WikiFunctions.Controls.Lists
 
         private void LoadArticleHistoryInBrowser()
         {
-            foreach (Article item in lbArticles.SelectedItems)
+            List<Article> sel = GetSelectedArticleList();
+            foreach (Article item in sel)
                 Tools.OpenArticleHistoryInBrowser(item.Name);
         }
 
