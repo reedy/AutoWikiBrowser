@@ -2539,7 +2539,7 @@ namespace WikiFunctions.Parse
             return false;
         }
 
-        private static readonly Regex MathSourceCodeNowikiPreTag = new Regex(@"<\s*/?\s*(?:math|(?:source|ref)\b[^>]*|code|nowiki|pre|small|gallery)\s*(?:>|$)", RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex MathSourceCodeNowikiPreTag = new Regex(@"<\s*/?\s*(?:math|(?:source|ref|gallery)\b[^>]*|code|nowiki|pre|small)\s*(?:>|$)", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SmallStart = new Regex(@"<\s*small\s*>", RegexOptions.IgnoreCase);
         private static readonly Regex SmallEnd = new Regex(@"<\s*/\s*small\s*>", RegexOptions.IgnoreCase);
         private static readonly Regex SmallNoNestedTags = new Regex(@"<\s*small\s*>((?>[^<>]*|<\s*small\s*>(?<DEPTH>)|<\s*/\s*small\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*small\s*>", RegexOptions.IgnoreCase);
