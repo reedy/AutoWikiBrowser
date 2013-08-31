@@ -4554,6 +4554,14 @@ x
             Assert.AreEqual(uct.Count, 1);
             Assert.IsTrue(uct.ContainsKey(15));
 
+            uct = Parsers.UnclosedTags(@"<gallery> not ended <gallery>bar</gallery>");
+            Assert.AreEqual(uct.Count, 1);
+            Assert.IsTrue(uct.ContainsKey(20));
+
+            uct = Parsers.UnclosedTags(@"<gallery other='a'> not ended <gallery other='a'>bar</gallery>");
+            Assert.AreEqual(uct.Count, 1);
+            Assert.IsTrue(uct.ContainsKey(30));
+
             uct = Parsers.UnclosedTags(@"<gallery>A|<div><small>(1717)</small><br/><small><small>Munich</small></div></gallery>");
             Assert.AreEqual(uct.Count, 1);
             Assert.IsTrue(uct.ContainsKey(42));
