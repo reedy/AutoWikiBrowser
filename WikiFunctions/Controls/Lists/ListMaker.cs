@@ -1222,6 +1222,9 @@ namespace WikiFunctions.Controls.Lists
                 LoadArticlesInBrowser();
         }
 
+		//  Get selected list first, then process. Otherwise looping through listmaker and processing,
+		// may take seconds to open multiple browser tabs, could lead to exception if listmaker list changes
+		// in the meantime
         private void LoadArticlesInBrowser()
         {
             if(Variables.MainForm.TheSession.Site != null) // TheSession can be null if AWB encounters network problems on startup
