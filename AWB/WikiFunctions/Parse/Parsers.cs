@@ -3331,6 +3331,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Performs fixes to redirect pages:
         /// * removes newline between #REDIRECT and link (CHECKWIKI error 36)
+        /// * removes equal sing and double dot between #REDIRECT and link (CHECKWIKI error 36)
         /// * removes uneccessary brackets around redirect
         /// </summary>
         /// <param name="articleText"></param>
@@ -3342,7 +3343,11 @@ namespace WikiFunctions.Parse
                                                            res = res.Replace("[[[[", "[[");
                                                            res = res.Replace("]]]]", "]]");
                                                            res = res.Replace("[[[", "[[");
-                                                           return res.Replace("]]]", "]]");
+                                                           res = res.Replace("]]]", "]]");
+                                                           res = res.Replace("= [[", " [[");
+                                                           res = res.Replace("=[[", " [[");
+                                                           res = res.Replace(": [[", " [[");
+                                                           return res = res.Replace(":[[", " [[");
                                                        });
 
             return articleText;
