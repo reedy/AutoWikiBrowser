@@ -93,8 +93,8 @@ namespace WikiFunctions
                 ? string.Join("|", magic.ToArray()).Replace("#", "")
                 : "REDIRECT";
 
-            //Regex contains extra opening/closing brackets so that we fix with FixSyntaxRedirects
-            Redirect = new Regex(@"#(?:" + s + @")\s*:?\s*\[?\[?\[\[\s*:?\s*([^\|\[\]]*?)\s*(\|.*?)?\]\]\]?\]?", RegexOptions.IgnoreCase);
+            //Regex contains extra opening/closing brackets and double bot, equal sign so that we fix with FixSyntaxRedirects
+            Redirect = new Regex(@"#(?:" + s + @")\s*[:|=]?\s*\[?\[?\[\[\s*:?\s*([^\|\[\]]*?)\s*(\|.*?)?\]\]\]?\]?", RegexOptions.IgnoreCase);
 
             switch (Variables.LangCode)
             {
