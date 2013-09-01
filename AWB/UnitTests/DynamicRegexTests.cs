@@ -647,6 +647,9 @@ now stubborn}}");
             RegexAssert.IsMatch(WikiRegexes.Redirect, @"#REDIRECT:[[ :Foo bar]]");
             RegexAssert.IsMatch(WikiRegexes.Redirect, @"#REDIRECT:[[Foo bar|the best]]");
             RegexAssert.IsMatch(WikiRegexes.Redirect, @"#REDIRECT:[[Foo bar#best]]");
+
+            RegexAssert.IsMatch(WikiRegexes.Redirect, @"#REDIRECT=[[Foo]]");
+            RegexAssert.IsMatch(WikiRegexes.Redirect, @"#REDIRECT = [[Foo bar#best]]");
             
             RegexAssert.NoMatch(WikiRegexes.Redirect, @"#  REDIRECT:[[Foo]]");
         }
