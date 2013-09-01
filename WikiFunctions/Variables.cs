@@ -741,7 +741,7 @@ namespace WikiFunctions
                 case "en":
                     if (projectName == ProjectEnum.wikipedia)
                         SetToEnglish();
-                    TypoSummaryTag = @"[[WP:AWB/T|typos fixed]]: ";
+                    TypoSummaryTag = @"[[WP:AWB/T|typo(s) fixed]]: ";
                     break;
 
                 case "ar":
