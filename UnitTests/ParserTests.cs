@@ -9333,7 +9333,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsTrue(text.StartsWith(@"{{Underlinked|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
 {{temp}}"), "no excess newlines on tag addition");
 
-            t1 = @"{{temp}}'''Ae0bgz2CNta0Qib4dK3''' VcnyafUE0bqIUdr5e 9zggyDHmIye [[PoPUJrqLG 3a8vnqpgy]].<ref>EdOkQE5gA 7u9P9ZZtd dFw0g9Fsf 99924876231</ref>
+            t1 = @"{{dead end}}{{temp}}'''Ae0bgz2CNta0Qib4dK3''' VcnyafUE0bqIUdr5e 9zggyDHmIye [[PoPUJrqLG 3a8vnqpgy]].<ref>EdOkQE5gA 7u9P9ZZtd dFw0g9Fsf 99924876231</ref>
 
 ==References==
 {{Reflist}}
@@ -9853,7 +9853,39 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         [Test]
         public void RemoveDeadEnd()
         {
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(parser.Tagger(@"foo {{deadend|date=May 2010}} [[a]] and [[b]] and [[b]]", "Test", false, out noChange, ref summary)));
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(parser.Tagger(@"foo {{deadend|date=May 2010}} [[a]] and [[b]] and [[b]]", "Test", false, out noChange, ref summary)));
+            Assert.IsTrue(summary.Contains("removed deadend tag"));
+
+            Globals.UnitTestBoolValue = false;
+            Assert.AreEqual(@"{{multiple issues|
+{{expert-subject|1=History|date=September 2012}}
+{{Unreferenced|date=December 2006}}
+}}
+
+''Now'' [[a]] and [[b]] and [[b]]
+
+
+{{stub}}", parser.Tagger(@"{{multiple issues|
+{{dead end|date=September 2012}}
+{{expert-subject|1=History|date=September 2012}}
+{{Unreferenced|date=December 2006}}
+}}
+
+''Now'' [[a]] and [[b]] and [[b]]", "Test", false, out noChange, ref summary));
+            
+            Globals.UnitTestBoolValue = true;
+
+            Assert.IsTrue(summary.Contains("removed deadend tag"));
+
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(parser.Tagger(@"foo {{Multiple issues|COI = May 2010 |POV = June 2010 | dead end=May 2010}} [[a]] and [[b]] and [[b]]", "Test", false, out noChange, ref summary)));
+
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(parser.Tagger(@"foo==x== {{deadend|section|date=May 2010}} [[a]] and [[b]] and [[b]]", "Test", false, out noChange, ref summary)), "does not remove section tags");
+            Assert.IsFalse(summary.Contains("removed deadend tag"));
+
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(parser.Tagger(@"foo==x== {{deadend|date=May 2010}} {{Proposed deletion/dated|[[a]] and [[b]] and [[b]]}}", "Test", false, out noChange, ref summary)),
+                          @"does not remove {{dead end}} when links are within prod template");
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(parser.Tagger(@"foo==x== {{deadend|date=May 2010}} {{Proposed deletion endorsed|[[a]] and [[b]] and [[b]]}}", "Test", false, out noChange, ref summary)),
+                          @"does not remove {{dead end}} when links are within prod template, 2");
             Assert.IsFalse(summary.Contains("removed deadend tag"));
         }
 
