@@ -2111,6 +2111,22 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual(@"{{cite journal|title=A ######## }}", Tools.PipeCleanedTemplate(@"{{cite journal|title=A [[here]] }}", true));
             Assert.AreEqual(@"{{cite journal|title=A ######## }}", Tools.PipeCleanedTemplate(@"{{cite journal|title=A {{here}} }}", true));
         }
+
+        [Test]
+        public void UnformattedTextNotChanged()
+        {
+            Assert.IsTrue(Tools.UnformattedTextNotChanged("", ""));
+            Assert.IsTrue(Tools.UnformattedTextNotChanged("A", "A"));
+            Assert.IsTrue(Tools.UnformattedTextNotChanged("<nowiki>A</nowiki>", "<nowiki>A</nowiki>"));
+            Assert.IsTrue(Tools.UnformattedTextNotChanged("<nowiki>A</nowiki> <nowiki>B</nowiki>", "<nowiki>A</nowiki> <nowiki>B</nowiki>"));
+            Assert.IsTrue(Tools.UnformattedTextNotChanged("<nowiki>A</nowiki> <nowiki>B</nowiki>", "<nowiki>A</nowiki>"), "Unformatted text entirely removed, true");
+            Assert.IsTrue(Tools.UnformattedTextNotChanged("<nowiki>A</nowiki>", ""), "Unformatted text entirely removed, true");
+
+            Assert.IsFalse(Tools.UnformattedTextNotChanged("<nowiki>A</nowiki> <nowiki>B</nowiki>", "<nowiki>C</nowiki>"));
+            Assert.IsFalse(Tools.UnformattedTextNotChanged("<nowiki>A</nowiki>", "<nowiki></nowiki>"));
+            Assert.IsFalse(Tools.UnformattedTextNotChanged("<nowiki>A</nowiki>", "<nowiki>B</nowiki>"), "Unformatted text changed removed, false");
+            Assert.IsFalse(Tools.UnformattedTextNotChanged("<nowiki>A</nowiki>", "<nowiki></nowiki>B"), "Unformatted text changed (no content) removed, false");
+        }
     }
 
     [TestFixture]
