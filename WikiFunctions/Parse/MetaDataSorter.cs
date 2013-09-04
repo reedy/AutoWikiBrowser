@@ -420,7 +420,7 @@ en, sq, ru
 			articleText = Tools.RemoveMatches(articleText, matches);
 
 			// if category tidying has changed comments/nowikis return with no changes – we've pulled a cat from a comment
-			if(!UnformattedTextNotChanged(originalArticleText, articleText))
+			if(!Tools.UnformattedTextNotChanged(originalArticleText, articleText))
 			{
 				articleText = originalArticleText;
 				return "";
@@ -460,38 +460,7 @@ en, sq, ru
 			}
 
 			return defaultSort + ListToString(categoryList);
-		}
-		
-		/// <summary>
-		/// Returns whether the unformatted text content is the same in the two strings
-		/// </summary>
-		/// <param name="originalArticleText">the first string to search</param>
-		/// <param name="articleText">the second string to search</param>
-		/// <returns>whether the unformatted text content is the same in the two strings</returns>
-		private static bool UnformattedTextNotChanged(string originalArticleText, string articleText)
-		{
-		    if(originalArticleText.Equals(articleText))
-		        return true;
-		    
-		    MatchCollection beforeMC = WikiRegexes.UnformattedText.Matches(originalArticleText);
-		    MatchCollection afterMC = WikiRegexes.UnformattedText.Matches(articleText);
-
-			if(beforeMC.Count != afterMC.Count)
-				return true;
-			
-			string before = "", after = "";
-			foreach(Match m in beforeMC)
-			{
-				before += m.Value;
-			}
-			
-			foreach(Match m in afterMC)
-			{
-				after += m.Value;
-			}
-			
-			return(before.Length.Equals(after.Length));
-		}
+		}		
 
 		/// <summary>
 		/// Extracts the persondata template from the articleText, along with the persondata comment, if present on the line before
@@ -624,7 +593,7 @@ en, sq, ru
 			articleText = strDablinks + zerothSection + restOfArticle;
 			
 			// avoid moving commented out Dablinks, round 2
-			if(UnformattedTextNotChanged(originalArticletext, articleText))
+			if(Tools.UnformattedTextNotChanged(originalArticletext, articleText))
 				return articleText;
 			
 			return originalArticletext;
@@ -663,7 +632,7 @@ en, sq, ru
 				}
 			}
 			
-			if(UnformattedTextNotChanged(originalArticletext, articleText))
+			if(Tools.UnformattedTextNotChanged(originalArticletext, articleText))
 				return articleText;
 
 			return originalArticletext;
@@ -727,7 +696,7 @@ en, sq, ru
 
 			articleText = strMaintTags + articleText;
 			
-			if(!UnformattedTextNotChanged(originalArticleText, articleText))
+			if(!Tools.UnformattedTextNotChanged(originalArticleText, articleText))
 				return originalArticleText;
 
 			return strMaintTags.Length > 0 ? articleText.Replace(strMaintTags + "\r\n", strMaintTags) : articleText;
@@ -775,7 +744,7 @@ en, sq, ru
 				}
 			}
 
-			if(UnformattedTextNotChanged(originalArticletext, articleText))
+			if(Tools.UnformattedTextNotChanged(originalArticletext, articleText))
 				return articleText;
 
 			return originalArticletext;

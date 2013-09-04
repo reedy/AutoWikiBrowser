@@ -2165,6 +2165,38 @@ Message: {2}
 		}
 
 		/// <summary>
+		/// Returns whether the unformatted text content is the same in the two strings
+		/// Rule is: unformatted text must be entirely missing in new string, or present exactly as before
+		/// </summary>
+		/// <param name="originalArticleText">the first string to search</param>
+		/// <param name="articleText">the second string to search</param>
+		/// <returns>whether the unformatted text content is the same in the two strings</returns>
+		public static bool UnformattedTextNotChanged(string originalArticleText, string articleText)
+		{
+		    if(originalArticleText.Equals(articleText))
+		        return true;
+
+		    List<string> before = new List<string>();
+		       foreach(Match m in WikiRegexes.UnformattedText.Matches(originalArticleText))
+		    {
+		           before.Add(m.Value);
+		    }
+		    
+		    List<string> after = new List<string>();
+		    foreach(Match m in WikiRegexes.UnformattedText.Matches(articleText))
+		    {
+		        after.Add(m.Value);
+		    }
+		    
+		    foreach(string s in before)
+		    {
+		            after.Remove(s);
+		    }
+		    
+		    return (after.Count == 0);
+		}
+
+		/// <summary>
 		/// Turns an article into its associated talk page
 		/// </summary>
 		public static string ConvertToTalk(string a)
