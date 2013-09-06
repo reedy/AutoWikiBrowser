@@ -237,6 +237,8 @@ image = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
         {
             AssertAllHidden(@"{{not a typo|foo}}");
             AssertAllHidden(@"{{typo|foo}}");
+            AssertAllHidden(@"{{proper name|foo}}");
+            AssertAllHidden(@"{{as written|foo}}");
         }
 
         [Test]
