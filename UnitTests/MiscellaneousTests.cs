@@ -1362,15 +1362,18 @@ __TOC__", articleTextIn);
         {
             string a = @"{{WPJazz}}";
 
-            Assert.AreEqual(a.Replace(@"}}", " | song=yes}}"), TalkPageFixes.WPJazz(a + @"{{WPSongs}}"), "Add song to WPJazz");
-            Assert.AreEqual(a.Replace(@"}}", " | song=yes}}"), TalkPageFixes.WPJazz(a.Replace(@"}}", " | song=}}" + @"{{WikiProject Songs}}")), "Add song to WPJAzz with empty parameter");
+            Assert.AreEqual(a.Replace(@"}}", " | song=yes}}{{WPSongs}}"), TalkPageFixes.WPJazz(a + @"{{WPSongs}}"), "Add song to WPJazz");
+            Assert.AreEqual(a.Replace(@"}}", " | album=yes}}{{WPAlbums}}"), TalkPageFixes.WPJazz(a + @"{{WPAlbums}}"), "Add album to WPJazz");
+            Assert.AreEqual(a.Replace(@"}}", " | song=yes}}{{WikiProject Songs}}"), TalkPageFixes.WPJazz(a.Replace(@"}}", " | song=}}" + @"{{WikiProject Songs}}")), "Add song to WPJazz with empty parameter");
+            Assert.AreEqual(a.Replace(@"}}", " | album=yes}}{{WikiProject Albums}}"), TalkPageFixes.WPJazz(a.Replace(@"}}", " | album=}}" + @"{{WikiProject Albums}}")), "Add album to WPJazz with empty parameter");
             Assert.AreEqual(a, TalkPageFixes.WPJazz(a), "Do nothing");
             Assert.AreEqual(a, TalkPageFixes.WPJazz(a.Replace(@"}}", "|needs-infobox=no}}")), "Remove needs-infobox=no");
 
             string b = @"{{WikiProject Jazz}}";
 
-            Assert.AreEqual(b.Replace(@"}}", " | song=yes}}"), TalkPageFixes.WPJazz(b + @"{{WPSongs}}"), "Add song to WPJazz");
-            Assert.AreEqual(b.Replace(@"}}", " | song=yes}}"), TalkPageFixes.WPJazz(b.Replace(@"}}", " | song=}}" + @"{{WikiProject Songs}}")), "Add song to WPJAzz with empty parameter");
+            Assert.AreEqual(b.Replace(@"}}", " | song=yes}}{{WPSongs}}"), TalkPageFixes.WPJazz(b + @"{{WPSongs}}"), "Add song to WikiProject Jazz");
+            Assert.AreEqual(b.Replace(@"}}", " | album=yes}}{{WPAlbums}}"), TalkPageFixes.WPJazz(b + @"{{WPAlbums}}"), "Add album to WikiProject Jazz");
+            Assert.AreEqual(b.Replace(@"}}", " | song=yes}}{{WikiProject Songs}}"), TalkPageFixes.WPJazz(b.Replace(@"}}", " | song=}}" + @"{{WikiProject Songs}}")), "Add song to WPJAzz with empty parameter");
             Assert.AreEqual(b, TalkPageFixes.WPJazz(b), "Do nothing");
             Assert.AreEqual(b, TalkPageFixes.WPJazz(b.Replace(@"}}", "|needs-infobox=no}}")), "Remove needs-infobox=no");
         }

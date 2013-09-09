@@ -202,6 +202,7 @@ namespace WikiFunctions.TalkPages
         private static readonly Regex WPBiographyR = Tools.NestedTemplateRegex(new[] { "WPBiography", "Wikiproject Biography", "WikiProject Biography", "WPBIO", "Bio" });
         private static readonly Regex WPSongsR = Tools.NestedTemplateRegex(new[] { "WikiProject Songs", "WikiProjectSongs", "WP Songs", "Song", "WPSongs", "Songs", "WikiProject Song" });
         private static readonly Regex WPJazzR = Tools.NestedTemplateRegex(new[] { "WikiProject Jazz", "WPJAZZ", "WPJazz", "WP Jazz", "Wikiproject Jazz", "WikiProject Jazz music", "Jazz-music-project" });
+        private static readonly Regex WPAlbumR = Tools.NestedTemplateRegex(new[] { "WikiProject Albums", "Albums", "WP Albums", "WPAlbums", "Album", "WPALBUMS" });
         private static readonly Regex SirRegex = Tools.NestedTemplateRegex(new[] { "sir", "Single infobox request" });
         
         /// <summary>
@@ -495,6 +496,13 @@ namespace WikiFunctions.TalkPages
                     articletext = articletext.Replace(m.Value, newvalue);
                 }
 
+                // If {{WPAlbums}} then add album=yes to WPJazz
+                Match album = WPAlbumR.Match(articletext);
+                if (album.Success)
+                {
+                    newvalue = Tools.SetTemplateParameterValue(newvalue, "album", "yes");
+                    articletext = articletext.Replace(m.Value, newvalue);
+                }
             }
 
             return articletext;
