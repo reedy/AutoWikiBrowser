@@ -1700,6 +1700,7 @@ namespace AutoWikiBrowser
             this.lblProject.Padding = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblProject.Size = new System.Drawing.Size(63, 17);
             this.lblProject.Text = "Wikipedia";
+            this.lblProject.ToolTipText = "Click to switch project";
             this.lblProject.Click += new System.EventHandler(this.lblProject_Click);
             // 
             // lblNewArticles
@@ -2550,6 +2551,7 @@ namespace AutoWikiBrowser
             this.lblDuplicateWikilinks.Size = new System.Drawing.Size(91, 13);
             this.lblDuplicateWikilinks.TabIndex = 1;
             this.lblDuplicateWikilinks.Text = "Multiple wiki-links:";
+            this.ToolTip.SetToolTip(this.lblDuplicateWikilinks, "Displays wiki-links that appear more than once in the page");
             this.lblDuplicateWikilinks.Visible = false;
             // 
             // SummaryGroup
@@ -2640,9 +2642,9 @@ namespace AutoWikiBrowser
             this.chkSkipNoImgChange.Enabled = false;
             this.chkSkipNoImgChange.Location = new System.Drawing.Point(7, 68);
             this.chkSkipNoImgChange.Name = "chkSkipNoImgChange";
-            this.chkSkipNoImgChange.Size = new System.Drawing.Size(158, 17);
+            this.chkSkipNoImgChange.Size = new System.Drawing.Size(131, 17);
             this.chkSkipNoImgChange.TabIndex = 4;
-            this.chkSkipNoImgChange.Text = "Skip page if no file changed";
+            this.chkSkipNoImgChange.Text = "Skip if no file changed";
             this.ToolTip.SetToolTip(this.chkSkipNoImgChange, "Automatically skips page when no file changed");
             this.chkSkipNoImgChange.UseVisualStyleBackColor = true;
             // 
@@ -3195,6 +3197,7 @@ namespace AutoWikiBrowser
             this.chkRegExTypo.Name = "chkRegExTypo";
             this.chkRegExTypo.Size = new System.Drawing.Size(15, 14);
             this.chkRegExTypo.TabIndex = 0;
+            this.ToolTip.SetToolTip(this.chkRegExTypo, "Enable typo fixing via regular expessions");
             this.chkRegExTypo.CheckedChanged += new System.EventHandler(this.chkRegExTypo_CheckedChanged);
             // 
             // groupBox1
@@ -3497,6 +3500,7 @@ namespace AutoWikiBrowser
             this.chkSkipNoDab.Size = new System.Drawing.Size(225, 17);
             this.chkSkipNoDab.TabIndex = 1;
             this.chkSkipNoDab.Text = "Skip page when no disambiguations made";
+            this.ToolTip.SetToolTip(this.chkSkipNoDab, "Automatically skip pages if now disambiguations made");
             this.chkSkipNoDab.UseVisualStyleBackColor = true;
             // 
             // txtDabVariants
