@@ -94,6 +94,8 @@ namespace WikiFunctions.TalkPages
 
             articleText = WPSongs(articleText);
 
+            articleText = WPJazz(articleText);
+
             // remove redundant Template: in templates in zeroth section
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
             if(zerothSection.Length > 0)
@@ -199,6 +201,7 @@ namespace WikiFunctions.TalkPages
         private static readonly Regex ActivepolRegex = Tools.NestedTemplateRegex(new[] { "activepol", "active politician", "activepolitician" });
         private static readonly Regex WPBiographyR = Tools.NestedTemplateRegex(new[] { "WPBiography", "Wikiproject Biography", "WikiProject Biography", "WPBIO", "Bio" });
         private static readonly Regex WPSongsR = Tools.NestedTemplateRegex(new[] { "WikiProject Songs", "WikiProjectSongs", "WP Songs", "Song", "WPSongs", "Songs", "WikiProject Song" });
+        private static readonly Regex WPJazzR = Tools.NestedTemplateRegex(new[] { "WikiProject Jazz", "WPJAZZ", "WPJazz", "WP Jazz", "Wikiproject Jazz", "WikiProject Jazz music", "Jazz-music-project" });
         private static readonly Regex SirRegex = Tools.NestedTemplateRegex(new[] { "sir", "Single infobox request" });
         
         /// <summary>
@@ -456,6 +459,42 @@ namespace WikiFunctions.TalkPages
                     articletext = SirRegex.Replace(articletext, "");
                 }
                 
+            }
+
+            return articletext;
+        }
+
+        /// <summary>
+        /// Does various fixes to WPJazz
+        /// en-wiki only
+        /// </summary>
+        /// <param name="articletext">The talk page text</param>
+        /// <returns>The updated talk page text</returns>
+        public static string WPJazz(string articletext)
+        {
+            if (!Variables.LangCode.Equals("en"))
+                return articletext;
+
+            Match m = WPJazzR.Match(articletext);
+
+            if (m.Success)
+            {
+                string newvalue = m.Value;
+
+                // Remove needs-infobox=no
+                if (Tools.GetTemplateParameterValue(newvalue, "needs-infobox").Equals("no"))
+                    newvalue = Tools.RemoveTemplateParameter(newvalue, "needs-infobox");
+
+                articletext = articletext.Replace(m.Value, newvalue);
+
+                // If {{WPSongs}} then add song=yes to WPJazz
+                Match songs = WPSongsR.Match(articletext);
+                if (songs.Success)
+                {
+                    newvalue = Tools.SetTemplateParameterValue(newvalue, "song", "yes");
+                    articletext = articletext.Replace(m.Value, newvalue);
+                }
+
             }
 
             return articletext;
