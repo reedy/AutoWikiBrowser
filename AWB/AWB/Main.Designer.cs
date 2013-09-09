@@ -296,6 +296,8 @@ namespace AutoWikiBrowser
             this.imgSub = new System.Windows.Forms.PictureBox();
             this.imgComment = new System.Windows.Forms.PictureBox();
             this.EnableRegexTypoFixLinkLabel = new System.Windows.Forms.LinkLabel();
+            this.chkRegExTypo = new System.Windows.Forms.CheckBox();
+            this.chkSkipNoDab = new System.Windows.Forms.CheckBox();
             this.chkAppendMetaDataSort = new System.Windows.Forms.CheckBox();
             this.botEditsStop = new System.Windows.Forms.NumericUpDown();
             this.mnuHistory = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -332,7 +334,6 @@ namespace AutoWikiBrowser
             this.MainTab = new System.Windows.Forms.TabControl();
             this.tpOptions = new System.Windows.Forms.TabPage();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
-            this.chkRegExTypo = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label9 = new System.Windows.Forms.Label();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
@@ -357,7 +358,6 @@ namespace AutoWikiBrowser
             this.label5 = new System.Windows.Forms.Label();
             this.udContextChars = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
-            this.chkSkipNoDab = new System.Windows.Forms.CheckBox();
             this.txtDabVariants = new System.Windows.Forms.TextBox();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.txtDabLink = new System.Windows.Forms.TextBox();
@@ -2469,7 +2469,7 @@ namespace AutoWikiBrowser
             this.chkSkipNoCatChange.Size = new System.Drawing.Size(133, 17);
             this.chkSkipNoCatChange.TabIndex = 4;
             this.chkSkipNoCatChange.Text = "Skip if no cat changed";
-            this.ToolTip.SetToolTip(this.chkSkipNoCatChange, "Automatically skips page if no category changed");
+            this.ToolTip.SetToolTip(this.chkSkipNoCatChange, "Automatically skips pages when no category changed");
             this.chkSkipNoCatChange.UseVisualStyleBackColor = true;
             // 
             // chkRemoveSortKey
@@ -2645,7 +2645,7 @@ namespace AutoWikiBrowser
             this.chkSkipNoImgChange.Size = new System.Drawing.Size(131, 17);
             this.chkSkipNoImgChange.TabIndex = 4;
             this.chkSkipNoImgChange.Text = "Skip if no file changed";
-            this.ToolTip.SetToolTip(this.chkSkipNoImgChange, "Automatically skips page when no file changed");
+            this.ToolTip.SetToolTip(this.chkSkipNoImgChange, "Automatically skips pages when no file changed");
             this.chkSkipNoImgChange.UseVisualStyleBackColor = true;
             // 
             // chkSkipCosmetic
@@ -2867,6 +2867,27 @@ namespace AutoWikiBrowser
             this.EnableRegexTypoFixLinkLabel.Text = "Regex typo fixing";
             this.ToolTip.SetToolTip(this.EnableRegexTypoFixLinkLabel, "Enable typo fixing via regular expessions");
             this.EnableRegexTypoFixLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.ProfileToLoad_LinkClicked);
+            // 
+            // chkRegExTypo
+            // 
+            this.chkRegExTypo.AutoSize = true;
+            this.chkRegExTypo.Location = new System.Drawing.Point(6, 20);
+            this.chkRegExTypo.Name = "chkRegExTypo";
+            this.chkRegExTypo.Size = new System.Drawing.Size(15, 14);
+            this.chkRegExTypo.TabIndex = 0;
+            this.ToolTip.SetToolTip(this.chkRegExTypo, "Enable typo fixing via regular expessions");
+            this.chkRegExTypo.CheckedChanged += new System.EventHandler(this.chkRegExTypo_CheckedChanged);
+            // 
+            // chkSkipNoDab
+            // 
+            this.chkSkipNoDab.AutoSize = true;
+            this.chkSkipNoDab.Location = new System.Drawing.Point(6, 225);
+            this.chkSkipNoDab.Name = "chkSkipNoDab";
+            this.chkSkipNoDab.Size = new System.Drawing.Size(225, 17);
+            this.chkSkipNoDab.TabIndex = 1;
+            this.chkSkipNoDab.Text = "Skip page when no disambiguations made";
+            this.ToolTip.SetToolTip(this.chkSkipNoDab, "Automatically skip pages if now disambiguations made");
+            this.chkSkipNoDab.UseVisualStyleBackColor = true;
             // 
             // chkAppendMetaDataSort
             // 
@@ -3190,16 +3211,6 @@ namespace AutoWikiBrowser
             this.groupBox13.TabIndex = 2;
             this.groupBox13.TabStop = false;
             // 
-            // chkRegExTypo
-            // 
-            this.chkRegExTypo.AutoSize = true;
-            this.chkRegExTypo.Location = new System.Drawing.Point(6, 20);
-            this.chkRegExTypo.Name = "chkRegExTypo";
-            this.chkRegExTypo.Size = new System.Drawing.Size(15, 14);
-            this.chkRegExTypo.TabIndex = 0;
-            this.ToolTip.SetToolTip(this.chkRegExTypo, "Enable typo fixing via regular expessions");
-            this.chkRegExTypo.CheckedChanged += new System.EventHandler(this.chkRegExTypo_CheckedChanged);
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.chkSkipOnlyMinorFaR);
@@ -3491,17 +3502,6 @@ namespace AutoWikiBrowser
             this.label4.Size = new System.Drawing.Size(35, 13);
             this.label4.TabIndex = 2;
             this.label4.Text = "Use ±";
-            // 
-            // chkSkipNoDab
-            // 
-            this.chkSkipNoDab.AutoSize = true;
-            this.chkSkipNoDab.Location = new System.Drawing.Point(6, 225);
-            this.chkSkipNoDab.Name = "chkSkipNoDab";
-            this.chkSkipNoDab.Size = new System.Drawing.Size(225, 17);
-            this.chkSkipNoDab.TabIndex = 1;
-            this.chkSkipNoDab.Text = "Skip page when no disambiguations made";
-            this.ToolTip.SetToolTip(this.chkSkipNoDab, "Automatically skip pages if now disambiguations made");
-            this.chkSkipNoDab.UseVisualStyleBackColor = true;
             // 
             // txtDabVariants
             // 
