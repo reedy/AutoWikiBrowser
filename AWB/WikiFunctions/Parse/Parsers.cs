@@ -7920,6 +7920,7 @@ namespace WikiFunctions.Parse
         }
 
         private static readonly Regex GRTemplateDecimal = new Regex(@"{{GR\|\d}}", RegexOptions.Compiled);
+        private static readonly Regex ReflistQuick = new Regex(@"\{\{\s*(?:ref(?:-?li(?:st|nk)|erence)|[Ll]istaref)", RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Check if the article uses cite references but has no recognised template to display the references; only for en-wiki
@@ -7930,7 +7931,8 @@ namespace WikiFunctions.Parse
             if (!Variables.LangCode.Equals("en"))
                 return false;
 
-            return !WikiRegexes.ReferencesTemplate.IsMatch(articleText) && (TotalRefsNotGrouped(articleText) > 0 | GRTemplateDecimal.IsMatch(articleText));
+            // list-defined references with unbalanced { or } in cite template can cause ReferencesTemplate not to match, hence quick check
+            return !ReflistQuick.IsMatch(articleText) && !WikiRegexes.ReferencesTemplate.IsMatch(articleText) && (TotalRefsNotGrouped(articleText) > 0 | GRTemplateDecimal.IsMatch(articleText));
         }
 
         /// <summary>
