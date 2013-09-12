@@ -6981,6 +6981,12 @@ namespace WikiFunctions.Parse
             commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
             commentsCategoriesStripped = WikiRegexes.Category.Replace(commentsStripped, "");
 
+            //remove disambiguation if disambiguation cleanup exists (en-wiki only)
+            if (Variables.LangCode.Equals("en") && WikiRegexes.DisambigsGeneral.IsMatch(commentsStripped) && WikiRegexes.DisambigsCleanup.IsMatch(commentsStripped))
+            {
+                articleText = WikiRegexes.DisambigsGeneral.Replace(articleText, "").Trim();
+            }
+
             // do orphan tagging before template analysis for categorisation tags
             articleText = TagOrphans(articleText, articleTitle, restrictOrphanTagging);
 

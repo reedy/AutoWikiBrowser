@@ -9663,6 +9663,25 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         }
 
         [Test]
+        public void RemoveDisambig()
+        {
+            Globals.UnitTestBoolValue = false;
+            string text = parser.Tagger("{{disambig|date=September 2013}}{{disambig cleanup|date=September 2013}}", "Test", false, out noChange, ref summary);
+            Assert.IsTrue(WikiRegexes.DisambigsCleanup.IsMatch(text), "keeps disambig cleanup");
+            Assert.IsFalse(WikiRegexes.DisambigsGeneral.IsMatch(text), "removes disambig");
+
+            text = parser.Tagger("{{disambiguation|date=September 2013}}{{disambig cleanup|date=September 2013}}", "Test", false, out noChange, ref summary);
+            Assert.IsTrue(WikiRegexes.DisambigsCleanup.IsMatch(text), "keeps disambig cleanup");
+            Assert.IsFalse(WikiRegexes.DisambigsGeneral.IsMatch(text), "removes disambig");
+
+            text = parser.Tagger("{{disambig cleanup|date=September 2013}}{{disambig|date=September 2013}}", "Test", false, out noChange, ref summary);
+            Assert.IsTrue(WikiRegexes.DisambigsCleanup.IsMatch(text), "keeps disambig cleanup");
+            Assert.IsFalse(WikiRegexes.DisambigsGeneral.IsMatch(text), "removes disambig");
+
+            Globals.UnitTestBoolValue = true;
+        }
+
+        [Test]
         public void RemoveOrphan()
         {
             Globals.UnitTestBoolValue = false;
