@@ -1458,6 +1458,7 @@ __TOC__", articleTextIn);
             Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"https://en.wikipedia.org/w/?title=Foo"));
             Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"https://en.wikipedia.org/wiki/Foo"));
             Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"http://en.wikipedia.org/wiki/Foo"), "HTTP not HTTPS support");
+            Assert.AreEqual("Foo", LMaker.NormalizeTitle(@"//en.wikipedia.org/w/index.php?title=Foo&action=history"), "Protocol-relative support");
         }
 
         [Test]
