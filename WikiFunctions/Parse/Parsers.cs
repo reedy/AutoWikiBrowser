@@ -1273,7 +1273,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex DOBRegexDash =
             new Regex(
-                @"(?<!\*.*)('''(?:[^']+|.*?[^'])'''\s*\()(\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
+                @"(?<![\*#].*)('''(?:[^']+|.*?[^'])'''\s*\()(\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
                 WikiRegexes.MonthsNoGroup + @")?\]*\s*\[*[12]?\d{3}\]*)\s*(?:\-|–|&ndash;)\s*\)", RegexOptions.IgnoreCase);
         
         private static readonly Regex DOBRegexDashQuick = new Regex(@"(?:\-|–|&ndash;)\s*\)");
