@@ -831,6 +831,19 @@ foo";
 			
 			Assert.AreEqual(iw1 + "\r\n", parser2.Sorter.RemoveCats(ref iwall, "test"), "don't pull the interwiki comment");
 			Assert.IsTrue(iwall.Contains(@"<!--interwiki-->"), "don't pull the interwiki comment");
+
+			string writers = @"[[Category:Writers from Alabama]]
+[[Category:Writers from North Carolina]]
+[[Category:Writers from North Carolina]]
+
+<!-- novelists tree -->
+[[Category:20th-century American novelists]]";
+			Assert.AreEqual(@"[[Category:Writers from Alabama]]
+[[Category:Writers from North Carolina]]
+
+<!-- novelists tree -->
+[[Category:20th-century American novelists]]" + "\r\n",
+			                parser2.Sorter.RemoveCats(ref writers, "test"), "Dupe cat removed if second has comment");
 		}
 
 		[Test]

@@ -1033,6 +1033,11 @@ en, sq, ru
 			            addme = false;
 			            break;
 			        }
+			        else if(s2.StartsWith(u)) // e.g. [[Category:A]] already added but [[Category:A]] <!-- comment--> next in list
+			        {
+			            uniqueItems.Remove(u);
+			            break;
+			        }
 
 			        // compare on first letter case insensitive for templates
 			        if (WikiRegexes.NestedTemplates.IsMatch(s2) && WikiRegexes.NestedTemplates.IsMatch(u))
