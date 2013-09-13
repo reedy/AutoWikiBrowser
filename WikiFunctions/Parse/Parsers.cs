@@ -6982,7 +6982,7 @@ namespace WikiFunctions.Parse
             commentsCategoriesStripped = WikiRegexes.Category.Replace(commentsStripped, "");
 
             //remove disambiguation if disambiguation cleanup exists (en-wiki only)
-            if (Variables.LangCode.Equals("en") && WikiRegexes.DisambigsGeneral.IsMatch(commentsStripped) && WikiRegexes.DisambigsCleanup.IsMatch(commentsStripped))
+            if (Variables.LangCode.Equals("en") && WikiRegexes.DisambigsCleanup.IsMatch(commentsStripped))
             {
                 articleText = WikiRegexes.DisambigsGeneral.Replace(articleText, "").Trim();
             }
