@@ -1029,7 +1029,10 @@ en, sq, ru
 			    foreach(string u in uniqueItems)
 			    {
 			        if(u.StartsWith(s2) || u.StartsWith(s2.TrimEnd(']') + @"|"))
+			        {
 			            addme = false;
+			            break;
+			        }
 
 			        // compare on first letter case insensitive for templates
 			        if (WikiRegexes.NestedTemplates.IsMatch(s2) && WikiRegexes.NestedTemplates.IsMatch(u))
@@ -1037,7 +1040,10 @@ en, sq, ru
 			            string s2upper = s2.Substring(1,3).ToUpper() + s2.Substring(3);
 			            string uupper = u.Substring(1,3).ToUpper() + u.Substring(3);
 			            if(s2upper.Equals(uupper))
+			            {
 			                addme = false;
+			                break;
+			            }
 			        }
 			    }
 
