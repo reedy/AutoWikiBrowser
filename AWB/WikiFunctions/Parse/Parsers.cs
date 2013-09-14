@@ -2265,8 +2265,10 @@ namespace WikiFunctions.Parse
         }
 
         private static readonly Regex CiteWeb = Tools.NestedTemplateRegex(new[] { "cite web", "citeweb" });
+        private static readonly Regex CiteArXiv = Tools.NestedTemplateRegex(new[] { "cite arxiv", "cite arXiv" });
         private static readonly Regex CitationPopulatedParameter = new Regex(@"\|\s*([\w_\d-]+)\s*=\s*([^\|}]+)");
         private static readonly Regex citeWebParameters = new Regex(@"\b(accessdate|agency|archivedate|archiveurl|arxiv|asin|at|author\d?|authorlink\d?|bibcode|coauthors?|date|deadurl|doi|doibroken|editor|editor\d*-first|editor\d*-last|editor\d*-link|first\d*|format|id|isbn|issn|jfm|jstor|language|last\d*|lccn|location|month|mr|oclc|ol|origyear|others|osti|pages?|pmc|pmid|postscript|publisher|quote|ref|rfc|separator|ssrn|title|trans_title|type|url|via|website|work|year|zbl)\b", RegexOptions.Compiled);
+        private static readonly Regex citeArXivParameters = new Regex(@"\b(arxiv|asin|ASIN|author\d?|author-?link\d?|bibcode|class|coauthors?|date|day|doi|DOI|doi brokendate|doi inactivedate|eprint|first\d?|format|given\d?|id|in|isbn|ISBN|issn|ISSN|jfm|JFM|jstor|JSTOR|language|last\d?|laydate|laysource|laysummary|lccn|LCCN|month|mr|MR|oclc|OCLC|ol|OL|osti|OSTI|pmc|PMC|pmid|PMID|postscript|publication-date|quote|ref|rfc|RFC|separator|seperator|ssrn|SSRN|surname\d?|title|version|year|zbl)\b", RegexOptions.Compiled);
         private static readonly Regex NoEqualsTwoBars = new Regex(@"\|[^=\|]+\|");
 
         /// <summary>
@@ -2287,6 +2289,19 @@ namespace WikiFunctions.Parse
                 foreach (Match m2 in CitationPopulatedParameter.Matches(cite))
                 {
                     if (!citeWebParameters.IsMatch(m2.Groups[1].Value) && Tools.GetTemplateParameterValue(cite, m2.Groups[1].Value).Length > 0)
+                        found.Add(m.Index + m2.Groups[1].Index, m2.Groups[1].Length);
+                }
+            }
+
+            // unknown parameters in cite arXiv
+            foreach (Match m in CiteArXiv.Matches(articleText))
+            {
+                // ignore parameters in templates within cite
+                string cite = @"{{" + Tools.ReplaceWithSpaces(m.Value.Substring(2), WikiRegexes.NestedTemplates.Matches(m.Value.Substring(2)));
+
+                foreach (Match m2 in CitationPopulatedParameter.Matches(cite))
+                {
+                    if (!citeArXivParameters.IsMatch(m2.Groups[1].Value) && Tools.GetTemplateParameterValue(cite, m2.Groups[1].Value).Length > 0)
                         found.Add(m.Index + m2.Groups[1].Index, m2.Groups[1].Length);
                 }
             }
