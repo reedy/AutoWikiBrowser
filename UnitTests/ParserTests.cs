@@ -10904,9 +10904,10 @@ Text
 {{expand section}}
 {{POV-section}}
 }}
-
+A
 ==hello==", parser.MultipleIssues(@"==sec==
 {{wikify section}}{{expand section}}{{POV-section}}
+A
 ==hello=="), "takes tags from same line");
             
             Assert.AreEqual(@"==sec==
@@ -10915,11 +10916,12 @@ Text
 {{expand section}}
 {{POV-section}}
 }}
-
+A
 ==hello==", parser.MultipleIssues(@"==sec==
 {{wikify section}}
 {{expand section}}
 {{POV-section}}
+A
 ==hello=="), "takes tags from separate lines, takes tags without dates");
         }
         
@@ -10932,9 +10934,10 @@ Text
 {{expand section}}
 {{POV-section}}
 }}
-
+A
 ==hello==", parser.MultipleIssues(@"==sec==
 {{wikify section|date=May 2012}}{{expand section}}{{POV-section}}
+A
 ==hello=="), "takes tags with dates");
             
             Assert.AreEqual(@"==sec==
@@ -10943,9 +10946,10 @@ Text
 {{expand section}}
 {{POV-section}}
 }}
-
+A
 ==hello==", parser.MultipleIssues(@"==sec==
 {{wikify section|date=May 2012|reason=x}}{{expand section}}{{POV-section}}
+A
 ==hello=="), "takes tags with extra parameters");
         }
         
@@ -10965,7 +10969,6 @@ Text
 {{expand section}}
 {{POV-section}}
 }}
-
 Text
 {{unreferenced section}}
 ==hello==", parser.MultipleIssues(@"==sec==

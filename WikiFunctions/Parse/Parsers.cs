@@ -733,7 +733,7 @@ namespace WikiFunctions.Parse
                 foreach(Match m in Templates.Matches(sectionPortion))
                     newsection += (m.Value + "\r\n");
                 
-                newsection += "}}\r\n";
+                newsection += "}}";
             }
             
             return heading + "\r\n" + newsection + "\r\n" + sectionRest;
