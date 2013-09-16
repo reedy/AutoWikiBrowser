@@ -1093,6 +1093,21 @@ __TOC__", articleTextIn);
             TalkPageFixes.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
             
             Assert.AreEqual(allAfterTemplate, articleTextIn);
+
+            // no change – only text in gallery tags
+            articleTextIn = @"
+<gallery>
+File:Example.jpg|Caption1
+File:Example.jpg|Caption2
+</gallery>";
+
+            TalkPageFixes.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
+
+            Assert.AreEqual(@"
+<gallery>
+File:Example.jpg|Caption1
+File:Example.jpg|Caption2
+</gallery>", articleTextIn);
         }
         
         [Test]
