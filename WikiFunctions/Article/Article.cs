@@ -982,8 +982,8 @@ namespace WikiFunctions
             {
                 string strTemp = mArticleText;
 
-                // do not subst on Template documentation pages, or commons category pages
-                if (!(Namespace.Determine(Name).Equals(Namespace.Template) && Name.EndsWith(@"/doc"))
+                // do not subst on Template documentation pages, Template sandbox pages or commons category pages
+                if (!(Namespace.Determine(Name).Equals(Namespace.Template) && (Name.EndsWith(@"/doc") || Name.EndsWith(@"/sandbox")))
                     && !(Variables.IsCommons && Namespace.Determine(Name).Equals(Namespace.Category)))
                     strTemp = Parsers.Conversions(mArticleText);
 
