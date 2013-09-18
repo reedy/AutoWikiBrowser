@@ -1548,6 +1548,8 @@ namespace WikiFunctions
 		    new KeyValuePair<string, string>("&", "and"),
 		    //per WP:SORTKEY replace / with space
 		    new KeyValuePair<string, string>("/", " "),
+		    //per WP:SORTKEY replace multiplication sign with x letter
+		    new KeyValuePair<string, string>("×", "x"),
 		    //remove weird "ǀ" character
 		    new KeyValuePair<string, string>("ǀ", ""),
 		    //other weird characters
