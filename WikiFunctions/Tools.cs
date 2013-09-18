@@ -1567,7 +1567,9 @@ namespace WikiFunctions
 		    new KeyValuePair<string, string>("—", "-"), // emdash
 
 		    new KeyValuePair<string, string>("¡", ""), // inverted exclamation mark
-		    new KeyValuePair<string, string>("¿", "") // inverted question mark
+		    new KeyValuePair<string, string>("¿", ""), // inverted question mark
+		    new KeyValuePair<string, string>("ʾ", "'"), // modifier letter right half ring
+		    new KeyValuePair<string, string>("ʿ", "'") // modifier letter left half ring
 		};
 		#endregion
 
