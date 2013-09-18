@@ -1039,6 +1039,7 @@ namespace AutoWikiBrowser
 
             if (!Abort)
             {
+                UpdateUserNotifications();
                 bool diffInBotMode = (BotMode && doDiffInBotMode);
                 if (BotMode)
                 {
@@ -1076,7 +1077,6 @@ namespace AutoWikiBrowser
                 }
 
                 PageWatched = TheSession.Page.IsWatched;
-                UpdateUserNotifications();
 
                 Variables.Profiler.Profile("ActionOnLoad");
 
