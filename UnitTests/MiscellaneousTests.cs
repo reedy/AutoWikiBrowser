@@ -236,6 +236,7 @@ image = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
         public void HideNotATypo()
         {
             AssertAllHidden(@"{{not a typo|foo}}");
+            AssertAllHidden(@"{{Not a typo|The pEneLOpe[s]}}");
             AssertAllHidden(@"{{typo|foo}}");
             AssertAllHidden(@"{{proper name|foo}}");
             AssertAllHidden(@"{{as written|foo}}");
