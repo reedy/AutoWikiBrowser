@@ -717,9 +717,9 @@ namespace WikiFunctions
         public static readonly Regex Wi = Tools.NestedTemplateRegex(new [] { "Wiktionary redirect", "Wi", "Widirect", "Moved to Wiktionary", "RedirecttoWiktionary", "Seewiktionary"});
 
         /// <summary>
-        /// Matches Events by year for decade (en only)
+        /// Matches templates with many wikilinks to avoid tagging the transcluding page as dead-end and/or stub (en only)
         /// </summary>
-        public static readonly Regex NonDeadEndPageTemplates = Tools.NestedTemplateRegex(new [] { "Events by year for decade", "Events by year for decade BC", "SCOTUSRow"});
+        public static readonly Regex NonDeadEndPageTemplates = Tools.NestedTemplateRegex(new [] { "Events by year for decade", "Events by year for decade BC", "SCOTUSRow", "ATC codes lead"});
 
         /// <summary>
         /// Matches stubs
