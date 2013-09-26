@@ -872,7 +872,7 @@ en, sq, ru
 			if (articleText.IndexOf(seealso) > articleText.IndexOf(references) && ReferencesSection.Matches(articleText).Count == 1 && seealso.Length > 0)
 			{
 				articleText = articleText.Replace(seealso, "");
-				articleText = articleText.Replace(references, seealso + references);
+                articleText = articleText.Replace(references, seealso + "\r\n" + references);
 			}
 			// newlines are fixed by later logic
 			return articleText;
