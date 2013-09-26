@@ -678,7 +678,7 @@ blah";
 == blah ==
 words<ref>abc</ref>";
 
-			const string b = @"== see also ==
+			const string b = @"== See also ==
 * [http://www.site.com a site]";
 
 			const string c = @"== References ==
@@ -686,10 +686,10 @@ words<ref>abc</ref>";
 			const string d = @"== another section ==
 blah";
 
-			Assert.AreEqual(a + "\r\n" + b + "\r\n" + c + "\r\n" + d, MetaDataSorter.MoveSeeAlso(a + "\r\n" + c + "\r\n" + b + "\r\n" + d));
+			Assert.AreEqual(a + "\r\n" + b + "\r\n\r\n" + c + "\r\n" + d, MetaDataSorter.MoveSeeAlso(a + "\r\n" + c + "\r\n" + b + "\r\n" + d),"reorder");
 
 			// no change when already correct
-			Assert.AreEqual(a + "\r\n" + b + "\r\n" + c + "\r\n" + d, MetaDataSorter.MoveSeeAlso(a + "\r\n" + b + "\r\n" + c + "\r\n" + d));
+			Assert.AreEqual(a + "\r\n" + b + "\r\n" + c + "\r\n" + d, MetaDataSorter.MoveSeeAlso(a + "\r\n" + b + "\r\n" + c + "\r\n" + d),"no change when already correct");
 			
 			const string TwoReferencesSection = a + "\r\n" + c + "\r\n" + b + "\r\n" + c + "\r\n" + d;
 			Assert.AreEqual(TwoReferencesSection, MetaDataSorter.MoveSeeAlso(TwoReferencesSection), "no change when two references sections");
