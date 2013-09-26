@@ -44,7 +44,7 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
     {
         private readonly ToolStripMenuItem pluginMenuItem = new ToolStripMenuItem("TheTemplator plugin");
         private readonly ToolStripMenuItem pluginConfigMenuItem = new ToolStripMenuItem("&Configuration...");
-        private readonly ToolStripMenuItem aboutMenuItem2 = new ToolStripMenuItem("About TheTemplator plugin...");
+        private readonly ToolStripMenuItem aboutMenuItem2 = new ToolStripMenuItem("About TheTemplator plugin");
 
 #if !SHORT_PLUGIN_MENU
         private readonly ToolStripMenuItem pluginEnabledMenuItem = new ToolStripMenuItem("&Enabled");
