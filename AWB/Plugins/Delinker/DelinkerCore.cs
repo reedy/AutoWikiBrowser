@@ -13,7 +13,7 @@ namespace AutoWikiBrowser.Plugins.Delinker
     {
         private readonly ToolStripMenuItem pluginenabledMenuItem = new ToolStripMenuItem("Delinker plugin");
         private readonly ToolStripMenuItem pluginconfigMenuItem = new ToolStripMenuItem("Configuration");
-        //private ToolStripMenuItem aboutMenuItem = new ToolStripMenuItem("About the Delinker plugin");
+        private ToolStripMenuItem aboutMenuItem = new ToolStripMenuItem("About the Delinker plugin");
         private static IAutoWikiBrowser AWB;
 
         private static bool Enabled;
@@ -53,11 +53,11 @@ namespace AutoWikiBrowser.Plugins.Delinker
 
             pluginconfigMenuItem.Click += ShowSettings;
             pluginenabledMenuItem.CheckedChanged += PluginEnabledCheckedChange;
-            //aboutMenuItem.Click += AboutMenuItemClicked;
+            aboutMenuItem.Click += AboutMenuItemClicked;
             pluginenabledMenuItem.DropDownItems.Add(pluginconfigMenuItem);
 
             sender.PluginsToolStripMenuItem.DropDownItems.Add(pluginenabledMenuItem);
-            //sender.HelpToolStripMenuItem.DropDownItems.Add(aboutMenuItem);
+            sender.HelpToolStripMenuItem.DropDownItems.Add(aboutMenuItem);
 
             Reset();
         }
@@ -71,6 +71,11 @@ namespace AutoWikiBrowser.Plugins.Delinker
         void PluginEnabledCheckedChange(object sender, EventArgs e)
         {
             Enabled = pluginenabledMenuItem.Checked;
+        }
+
+        void AboutMenuItemClicked(object o, EventArgs e)
+        {
+            new AboutBox().ShowDialog();
         }
 
         public string Name

@@ -44,6 +44,9 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="About.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="DelinkerCore.cs" />
     <Compile Include="DelinkerSettingsForm.cs">
       <SubType>Form</SubType>
