@@ -222,7 +222,7 @@ namespace AutoWikiBrowser.Plugins.Delinker
         {
             if (string.IsNullOrEmpty(Link)) return;
 
-            LinkRegexed = @"http://(\S*?\.|)" + Link + @"/?(|[^\]\s]*?)";
+            LinkRegexed = @"https?://(\S*?\.|)" + Link + @"/?(|[^\]\s]*?)";
 
             r1 = new Regex(@"^[\*#]\s*\[" + LinkRegexed + @"(|\s+[^\]]*?)\].{0,100}\n",
                 RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.IgnoreCase);
