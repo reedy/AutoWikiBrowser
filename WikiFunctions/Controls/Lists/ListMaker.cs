@@ -97,7 +97,7 @@ namespace WikiFunctions.Controls.Lists
                 DefaultProviders.Add(new LinksOnPageListProvider());
                 DefaultProviders.Add(new LinksOnPageOnlyBlueListProvider());
                 DefaultProviders.Add(new LinksOnPageOnlyRedListProvider());
-                DefaultProviders.Add(new ImagesOnPageListProvider());
+                DefaultProviders.Add(new FilesOnPageListProvider());
                 DefaultProviders.Add(new TransclusionsOnPageListProvider());
                 DefaultProviders.Add(new TextFileListProviderUFT8());
                 DefaultProviders.Add(new TextFileListProviderWindows1252());

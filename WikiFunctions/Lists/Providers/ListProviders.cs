@@ -664,7 +664,7 @@ namespace WikiFunctions.Lists.Providers
     /// <summary>
     /// Gets a list of all Images on the Named Pages
     /// </summary>
-    public class ImagesOnPageListProvider : ApiListProviderBase
+    public class FilesOnPageListProvider : ApiListProviderBase
     {
         #region Tags: <images>/<im>
         static readonly List<string> pe = new List<string>(new[] { "im" });
@@ -698,10 +698,10 @@ namespace WikiFunctions.Lists.Providers
 
         #region ListMaker properties
         public override string DisplayText
-        { get { return "Images on page"; } }
+        { get { return "Files on page"; } }
 
         public override string UserInputTextBoxText
-        { get { return "Images on:"; } }
+        { get { return "Files on:"; } }
 
         public override bool UserInputTextBoxEnabled
         { get { return true; } }
