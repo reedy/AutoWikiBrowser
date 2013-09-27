@@ -254,6 +254,8 @@ namespace WikiFunctions.Parse
         }
 
         private static readonly Regex ListOf = new Regex(@"^Lists? of", RegexOptions.Compiled);
+        
+        private static readonly Regex Anchor2NewlineHeader = new Regex(Tools.NestedTemplateRegex("Anchor").ToString() + "\r\n(\r\n)+==", RegexOptions.Multiline);
 
         // Covered by: FormattingTests.TestFixHeadings(), incomplete
         /// <summary>
@@ -266,7 +268,10 @@ namespace WikiFunctions.Parse
         {
             // one blank line before each heading per MOS:HEAD
             if (Variables.IsWikipediaEN)
-                articleText = WikiRegexes.HeadingsWhitespaceBefore.Replace(articleText, "\r\n\r\n$1");
+            {
+                articleText = Anchor2NewlineHeader.Replace(articleText, m => m.Value.Replace("\r\n\r\n==", "\r\n=="));
+            	articleText = WikiRegexes.HeadingsWhitespaceBefore.Replace(articleText, "\r\n\r\n$1");
+            }
 
             // Removes level 2 heading if it matches pagetitle
             articleText = Regex.Replace(articleText, @"^(==) *" + Regex.Escape(articleTitle) + @" *\1\r\n", "", RegexOptions.Multiline);
