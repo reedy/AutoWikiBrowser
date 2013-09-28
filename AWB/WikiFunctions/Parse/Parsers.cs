@@ -7767,9 +7767,43 @@ namespace WikiFunctions.Parse
             if (Tools.TurnFirstToUpperNoProjectCheck(redirecttarget).Equals(Tools.TurnFirstToUpperNoProjectCheck(articleTitle)))
                 return articleText;
 
-            // {{R to other namespace}}
-            if (Namespace.IsMainSpace(articleTitle) && !Namespace.IsMainSpace(redirecttarget) && !Tools.NestedTemplateRegex(new[] { "R to other namespace", "R to other namespaces" }).IsMatch(articleText))
-                return (articleText + " {{R to other namespace}}");
+            // {{R to other namespace}} or more specific template for project/help/portal/category/template/user/talk
+            // See https://en.wikipedia.org/wiki/Template:R_to_other_namespace
+            if (Namespace.IsMainSpace(articleTitle) && !Namespace.IsMainSpace(redirecttarget) && !WikiRegexes.NestedTemplates.IsMatch(articleText))
+            {
+                string template;
+                
+                switch (Namespace.Determine(redirecttarget))
+                {
+                    case Namespace.Project :
+                        template = "{{R to project namespace}}";
+                        break;
+                    case Namespace.Help :
+                        template = "{{R to help namespace}}";
+                        break;
+                    case Namespace.FirstCustom :
+                        template = "{{R to portal namespace}}";
+                        break;
+                    case Namespace.Category :
+                        template = "{{R to category namespace}}";
+                        break;
+                    case Namespace.Template :
+                        template = "{{R to template namespace}}";
+                        break;
+                    case Namespace.User :
+                        template = "{{R to user namespace}}";
+                        break;
+                    case Namespace.Talk :
+                        template = "{{R to talk namespace}}";
+                        break;
+
+                        default :
+                            template = "{{R to other namespace}}";
+                        break;
+                }
+                
+                return (articleText + " " + template);
+            }
 
             // {{R from modification}}
             // difference is extra/removed/changed puntuation
