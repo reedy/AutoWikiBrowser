@@ -1292,6 +1292,7 @@ There}}"), "handles parameters with newlines");
         {
             Assert.AreEqual(0, Tools.GetTemplateArgumentCount(@"{{foo}}"));
             Assert.AreEqual(0, Tools.GetTemplateArgumentCount(@"{{foo}}", true));
+            Assert.AreEqual(1, Tools.GetTemplateArgumentCount(@"{{foo|}}"));
             Assert.AreEqual(1, Tools.GetTemplateArgumentCount(@"{{foo|bar}}"), "counts unnamed parameters");
             Assert.AreEqual(0, Tools.GetTemplateArgumentCount(@"{{foo|bar}}", true), "counts populated named parameters only when requested");
             Assert.AreEqual(0, Tools.GetTemplateArgumentCount(@"{{foo|bar=}}", true), "counts populated named parameters only when requested");
