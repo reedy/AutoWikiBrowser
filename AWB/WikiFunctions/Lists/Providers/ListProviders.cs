@@ -639,7 +639,7 @@ namespace WikiFunctions.Lists.Providers
         { get { return "Links on page (only redlinks)"; } }
 
         public override string UserInputTextBoxText
-        { get { return "Links on"; } }
+        { get { return "Links on:"; } }
 
         public override bool UserInputTextBoxEnabled
         { get { return true; } }
