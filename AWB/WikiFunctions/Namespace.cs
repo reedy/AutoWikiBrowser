@@ -46,8 +46,8 @@ namespace WikiFunctions
         public const int Category = 14;
         public const int CategoryTalk = 15;
 
-        public const int FirstCustom = 100;
-        public const int FirstCustomTalk = 101;
+        public const int FirstCustom = 100; // Portal on en-wiki, see https://en.wikipedia.org/wiki/Wikipedia:Namespace
+        public const int FirstCustomTalk = 101; // Portal talk on en-wiki
         public const int Book = 108;
         public const int BookTalk = 109;
 
