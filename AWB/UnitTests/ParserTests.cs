@@ -9698,6 +9698,14 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             text = parser.Tagger("{{orphan|few=a}}", "Test", false, out noChange, ref summary);
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
 
+            // multiple issues removed if tagger removes only tag in it
+            text = parser.Tagger(@"{{multiple issues|
+{{orphan}}
+}}[[foo]]", "List of Tests", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.MultipleIssues.IsMatch(text));
+            Assert.AreEqual(text,"[[foo]]");
+
             Globals.UnitTestBoolValue = true;
 
             text = parser.Tagger("{{orphan}}", "Test", false, out noChange, ref summary);

@@ -766,7 +766,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private string MultipleIssuesSingleTag(Match m)
         {
-            string newValue = Tools.RemoveTemplateParameter(m.Value, "section");
+            string newValue = Tools.RemoveTemplateParameter(Tools.RemoveExcessTemplatePipes(m.Value), "section");
 
             if (Tools.GetTemplateArgumentCount(newValue) == 0)
                 return "";
