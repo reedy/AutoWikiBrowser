@@ -440,7 +440,7 @@ namespace WikiFunctions.Lists.Providers
         { get { return "What redirects here"; } }
 
         public override string UserInputTextBoxText
-        { get { return "Redirects to"; } }
+        { get { return "Redirects to:"; } }
     }
 
     /// <summary>
@@ -457,7 +457,7 @@ namespace WikiFunctions.Lists.Providers
         { get { return "What redirects here (all NS)"; } }
 
         public override string UserInputTextBoxText
-        { get { return "Redirects to"; } }
+        { get { return "Redirects to:"; } }
     }
 
     /// <summary>
