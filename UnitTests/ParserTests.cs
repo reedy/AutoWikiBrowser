@@ -4509,6 +4509,9 @@ x
             uct = Parsers.UnclosedTags(@"<math>bar</math>");
             Assert.AreEqual(uct.Count, 0);
 
+            uct = Parsers.UnclosedTags(@"<source>bar</source> <ref name=Foo>boo</ref>");
+            Assert.AreEqual(uct.Count, 0);
+
             uct = Parsers.UnclosedTags(@"<pre>bar</pre> <ref name=Foo>boo</ref>");
             Assert.AreEqual(uct.Count, 0);
 
@@ -4564,6 +4567,14 @@ x
             Assert.AreEqual(uct.Count, 1);
             Assert.IsTrue(uct.ContainsKey(15));
 
+            uct = Parsers.UnclosedTags(@"<pre>bar</pre> <!-- not ended");
+            Assert.AreEqual(uct.Count, 1);
+            Assert.IsTrue(uct.ContainsKey(15));
+
+            uct = Parsers.UnclosedTags(@"<!--bar--> <!-- not ended");
+            Assert.AreEqual(uct.Count, 1);
+            Assert.IsTrue(uct.ContainsKey(11));
+
             uct = Parsers.UnclosedTags(@"<gallery> not ended <gallery>bar</gallery>");
             Assert.AreEqual(uct.Count, 1);
             Assert.IsTrue(uct.ContainsKey(20));
@@ -4580,7 +4591,7 @@ x
         [Test]
         public void ExtraBracketInExternalLink()
         {
-            //https://.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_9#Bug_in_regex_to_correct_double_bracketed_external_links
+            //https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_9#Bug_in_regex_to_correct_double_bracketed_external_links
             const string valid = "now [http://www.site.com a [[a]] site] was";
             Assert.AreEqual(valid, Parsers.FixSyntax(valid));  // valid syntax
             Assert.AreEqual("now [http://www.site.com a b site] was", Parsers.FixSyntax("now [http://www.site.com a b site]] was"));
