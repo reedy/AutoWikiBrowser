@@ -2154,7 +2154,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         private void UpdateUserName()
         {
             lblUserName.Text = string.IsNullOrEmpty(TheSession.User.Name)
-                ? Variables.Namespaces[Namespace.User]
+                ? (Variables.Namespaces.ContainsKey(Namespace.User) ? Variables.Namespaces[Namespace.User] : "User:")
                 : TheSession.User.Name;
 
             if (TheSession.Status == WikiStatusResult.Registered)
