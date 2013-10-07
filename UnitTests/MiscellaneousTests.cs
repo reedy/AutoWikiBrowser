@@ -1200,6 +1200,13 @@ File:Example.jpg|Caption2
 {{WikiProject Biography|living=yes|activepol=yes|foo=bar}} | blp=yes | activepol=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject Biography|living=yes|activepol=yes|foo=bar}}{{WikiProjectBannerShell|1={{WikiProject foo}}
 {{WikiProject bar}}}}"), "WikiProjects pulled into WPBS, WPBIO contains living, activepol=yes");
 
+            Assert.AreEqual(@"{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}
+{{WikiProject bar}}
+{{WikiProject foo}}}}
+", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProject bar}}
+
+{{WikiProjectBannerShell|1={{WPBiography|foo=bar}}}}
+{{WikiProject foo}}"), "WikiProjects pulled into WPBS, no excess whitespace left");
         }
         
         [Test]
