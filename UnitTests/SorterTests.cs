@@ -933,6 +933,15 @@ cats = @"[[Category:One|A]]
 			string a = cats + "\r\n" + comm;
 			
 			Assert.AreEqual(comm + "\r\n" + cats + "\r\n", parser2.Sorter.RemoveCats(ref a, "test"));
+
+			string b = @"Text
+[[Category:One]]
+
+==References==
+{{reflist}}
+[[Category:Two]]";
+			Assert.AreEqual("[[Category:One]]\r\n[[Category:Two]]\r\n", parser2.Sorter.RemoveCats(ref b, "test"));
+			Assert.AreEqual("Text\r\n\r\n==References==\r\n{{reflist}}\r\n", b, "Blank newline before heading retained");
 		}
 		
 		[Test]

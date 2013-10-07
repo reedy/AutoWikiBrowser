@@ -404,11 +404,12 @@ en, sq, ru
 			string originalArticleText = articleText;
 
 			// allow comments between categories, and keep them in the same place, only grab any comment after the last category if on same line
+			// whitespace: remove all whitespace after, but leave a blank newline before a heading (rare case where category not in last section)
 			Regex r = new Regex(@"<!-- [^<>]*?\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category]
 			                    + @".*?(\]\]|\|.*?\]\]).*?-->|\[\["
 			                    + Variables.NamespacesCaseInsensitive[Namespace.Category]
 			                    + @".*?(\]\]|\|.*?\]\])(\s*⌊⌊⌊⌊\d{1,4}⌋⌋⌋⌋| *<!--.*?-->|\s*<!--.*?-->(?=\r\n\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category]
-			                    + @")|\s*)?", RegexOptions.Singleline);
+			                    + @")|\s*(?=\r\n==)|\s*)?", RegexOptions.Singleline);
 			
 			MatchCollection matches = r.Matches(articleText);
 			foreach (Match m in matches)
