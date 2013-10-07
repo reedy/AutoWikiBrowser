@@ -3917,7 +3917,12 @@ namespace WikiFunctions.Parse
 
             // date = YYYY --> year = YYYY
             if (TheDate.Length == 4)
-                newValue = YearInDate.Replace(newValue, "$1year$2");
+            {
+                if(TheYear.Equals(TheDate))
+                    newValue = Tools.RemoveTemplateParameter(newValue, "date");
+                else
+                    newValue = YearInDate.Replace(newValue, "$1year$2");
+            }
 
             // year = full date --> date = full date
             string TheYearCorected = IncorrectCommaInternationalDates.Replace(TheYear, @"$1 $2");
