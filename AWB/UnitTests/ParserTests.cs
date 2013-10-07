@@ -2406,6 +2406,8 @@ world|format=PDF}} was";
             Assert.AreEqual(nochange4, Parsers.FixCitationTemplates(nochange4), "Year not removed if date is only 'Month YYYY'");
 
             Assert.AreEqual(correct3, Parsers.FixCitationTemplates(correct3.Replace(@"}}", @"|year=2009}}")), "year removed when within date");
+            Assert.AreEqual(@"{{cite book|title=a |url=http://books.google.com/foo | year=2009 }}", Parsers.FixCitationTemplates(@"{{cite book|title=a |url=http://books.google.com/foo | date=2009 | year=2009 }}"), 
+                            "Date removed if date is YYYY and year same");
         }
         
         [Test]
