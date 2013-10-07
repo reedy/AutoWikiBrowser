@@ -307,7 +307,7 @@ namespace WikiFunctions.TalkPages
                     }
                 }
                 if(newParams.Length > 0)
-                    articletext = articletext.Replace(WPBS, Tools.SetTemplateParameterValue(WPBS, "1", Tools.GetTemplateParameterValue(WPBS, "1") + newParams));
+                    articletext = articletext.Replace(WPBS, Tools.SetTemplateParameterValue(WPBS, "1", Tools.GetTemplateParameterValue(WPBS, "1") + newParams)).TrimStart();
             }
             
             // check living, activepol, blpo flags against WPBiography
