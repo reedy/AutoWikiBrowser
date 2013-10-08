@@ -821,7 +821,38 @@ http://www.site.com
     {
         const string articleTextHeader = @"{{talkheader|noarchive=no}}
 [[Category:Foo bar]]";
-        
+
+        [Test]
+        public void MoveBanners()
+        {
+            string a = @"{{Skip to talk}}", b = @"{{Talk header}}", c = @"{{GA nominee}}", d = @"{{BLP others}}", e = @"{{Not a forum}}", f=@"{{FailedGA}}";
+            string correct = a + "\r\n" + b +"\r\n"+ c +"\r\n" + d +"\r\n"+ e + "\r\n" +f+"\r\n";
+            string articleText = b + "\r\n"+ a + "\r\n"+ c + "\r\n"+ d + "\r\n"+ e + "\r\n" + f;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"bacdef");
+
+            articleText = b + "\r\n"+ a + "\r\n"+ c + "\r\n"+ d + "\r\n"+ e + "\r\n" + f;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"bacdef");
+
+            articleText = a + c + b + d + e + f;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"acbdef");
+
+           // articleText = a + c + d + e + f + b;
+           // TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+           // Assert.AreEqual(correct, articleText,"acdefb");
+
+            articleText = f + a + c + b + d + e;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"dacbde");
+
+            articleText = f + e + d + c + b + a;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"fedcba");
+
+        }
+
         [Test]
         public void MoveTalkHeader()
         {
