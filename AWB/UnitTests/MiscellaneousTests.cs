@@ -826,14 +826,14 @@ http://www.site.com
         public void MoveBanners()
         {
             string a = @"{{Skip to talk}}", b = @"{{Talk header}}", c = @"{{GA nominee}}", d = @"{{BLP others}}", e = @"{{Not a forum}}", f=@"{{FailedGA}}";
-            string correct = a + "\r\n" + b +"\r\n"+ c +"\r\n" + d +"\r\n"+ e + "\r\n" +f+"\r\n";
+            string correct = a + "\r\n" + b +"\r\n"+ c +"\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n";
             string articleText = b + "\r\n"+ a + "\r\n"+ c + "\r\n"+ d + "\r\n"+ e + "\r\n" + f;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"bacdef");
+            Assert.AreEqual(correct, articleText,"bacdef with newlines");
 
-            articleText = b + "\r\n"+ a + "\r\n"+ c + "\r\n"+ d + "\r\n"+ e + "\r\n" + f;
+            articleText = b + a + c + d + e + f;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"bacdef");
+            Assert.AreEqual(correct, articleText,"bacdef without newlines");
 
             articleText = a + c + b + d + e + f;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
@@ -851,6 +851,13 @@ http://www.site.com
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(correct, articleText,"fedcba");
 
+			// string h=@"{{WikiBannerShell|1={{WikiProject Greece|class=}}}}", g=@"{{Image requested}}";
+			// correct = correct + h + "\r\n" + g;
+            // articleText = b + "\r\n"+ a + "\r\n"+ c + "\r\n"+ d + "\r\n"+ e + "\r\n" + f+ "\r\n" + h + "\r\n" + g;
+            // TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            // Assert.AreEqual(correct, articleText,"bacdefhg");
+			
+			
         }
 
         [Test]
