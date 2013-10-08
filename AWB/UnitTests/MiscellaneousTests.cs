@@ -831,6 +831,10 @@ http://www.site.com
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(correct, articleText,"bacdef with newlines");
 
+            articleText = a + b + c + d + e + f;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"abcdef");
+
             articleText = b + a + c + d + e + f;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(correct, articleText,"bacdef without newlines");
@@ -839,13 +843,22 @@ http://www.site.com
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(correct, articleText,"acbdef");
 
-           // articleText = a + c + d + e + f + b;
-           // TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-           // Assert.AreEqual(correct, articleText,"acdefb");
+            articleText = a + b + c + e + d + f;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"abcedf");
+
+            articleText = a + e + c + b + d + f;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"aecbdf");
+
+            // It adds 3 newlines
+            articleText = a + c + d + e + f + b;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct+"\r\n\r\n\r\n", articleText,"acdefb");
 
             articleText = f + a + c + b + d + e;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"dacbde");
+            Assert.AreEqual(correct, articleText,"facbde");
 
             articleText = f + e + d + c + b + a;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
