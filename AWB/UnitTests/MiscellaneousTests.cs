@@ -869,7 +869,7 @@ hello talk";
             
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             
-            Assert.AreEqual(talkheader.Replace("{{talk", @"{{Talk") + "\r\n" + talkrest + "\r\n", articleText);
+            Assert.AreEqual(talkheader.Replace("{{talk", @"{{Talk") + "\r\n" + talkrest + "\r\n", articleText,"move talk header");
             
             // handles {{talk header}} on same line as other template
             string WPBS = @"{{WikiProjectBannerShell|blp=yes|1=
@@ -882,19 +882,19 @@ In the article it says that above mentioned";
             
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             
-            Assert.AreEqual(@"{{Talk header}}" + "\r\n" + WPBS + rest, articleText);
+            Assert.AreEqual(@"{{Talk header}}" + "\r\n" + WPBS + rest, articleText,"talk header on same line as other template");
             
             // no change if already at top
             articleText = talkheader + "\r\n" + talkrest;
             
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(talkheader + "\r\n" + talkrest, articleText);
+            Assert.AreEqual(talkheader + "\r\n" + talkrest, articleText,"talk header already on top");
             
             // no change if no talk header
             articleText = talkrest;
             
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(talkrest, articleText);
+            Assert.AreEqual(talkrest, articleText,"no talk header");
 
             talkheader = @"{{Talk header}}";
             talkrest = @"==hello==
@@ -903,7 +903,7 @@ hello talk";
 
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
 
-            Assert.AreEqual(talkheader + "\r\n" + "{{GA nominee}}\r\n" + talkrest + "\r\n", articleText);
+            Assert.AreEqual(talkheader + "\r\n" + "{{GA nominee}}\r\n" + talkrest + "\r\n", articleText,"GA nominee involved");
         }
         
         [Test]
