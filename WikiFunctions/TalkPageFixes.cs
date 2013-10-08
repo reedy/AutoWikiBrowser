@@ -65,9 +65,26 @@ namespace WikiFunctions.TalkPages
 
             articleText = WikiRegexes.SkipTOCTemplateRegex.Replace(articleText, pr.SkipTOCMatchEvaluator, 1);
 
+
+            // https://en.wikipedia.org/wiki/Wikipedia:TPL
+            // Correct order per WP:TPL is
+            // 1. {{Skip to talk}}
+            // 2. {{Talk header}}
+            // 3. {{GA nominee}}
+            // 4. {{community article probation}}, {{censor}}, {{BLP others}} and other high-priority/importance, warning/attention templates.
+            // 5. Specific talk page guideline banners, such as {{Not a forum}}, {{Recurring themes}}, {{FAQ}}, {{Round in circles}}, {{American English}}, etc.
+            // 6. Any "article history" banner
+            // 7. WikiProjectBannerShell - Any WikiProject banners
+            // 8. {{Image requested}}
+
+
+            articleText = MoveTalkTemplate(articleText, ImageRequested);
+ 
             articleText = WikiProjectBannerShell(articleText);
 
-            // move GA nominee to the top (goes below talk header)
+            articleText = MoveTalkTemplate(articleText, TalkHistoryTemplates);
+            articleText = MoveTalkTemplate(articleText, TalkGuidelineTemplates);
+            articleText = MoveTalkTemplate(articleText, TalkWarningTemplates);            
             articleText = MoveTalkTemplate(articleText, GANomineeTemplate);
 
             // move talk page header to the top
@@ -135,6 +152,10 @@ namespace WikiFunctions.TalkPages
         }
 
         private static readonly Regex GANomineeTemplate = Tools.NestedTemplateRegex(new [] { "GA nominee", "GAnominee"});
+        private static readonly Regex TalkWarningTemplates = Tools.NestedTemplateRegex(new[] { "Community article probation", "Censor", "BLP others"});
+        private static readonly Regex TalkGuidelineTemplates = Tools.NestedTemplateRegex(new[] { "Not a forum", "Recurring themes", "FAQ", "Round in circles", "American English"});
+        private static readonly Regex TalkHistoryTemplates = Tools.NestedTemplateRegex(new[] { "Article history", "FailedGA", "Old prod"});
+        private static readonly Regex ImageRequested = Tools.NestedTemplateRegex(new[] { "Image requested" });
 
         /// <summary>
         /// Moves the input template to the top of the talk page
