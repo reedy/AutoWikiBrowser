@@ -84,7 +84,7 @@ namespace WikiFunctions.TalkPages
 
             articleText = MoveTalkTemplate(articleText, TalkHistoryTemplates);
             articleText = MoveTalkTemplate(articleText, TalkGuidelineTemplates);
-            articleText = MoveTalkTemplate(articleText, TalkWarningTemplates);            
+            articleText = MoveTalkTemplate(articleText, TalkWarningTemplates);
             articleText = MoveTalkTemplate(articleText, GANomineeTemplate);
 
             // move talk page header to the top
