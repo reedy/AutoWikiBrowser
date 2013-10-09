@@ -864,7 +864,7 @@ http://www.site.com
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(correct, articleText,"fedcba");
 
-			// string h=@"{{WikiBannerShell|1={{WikiProject Greece|class=}}}}", g=@"{{Image requested}}";
+			// string h=@"{{WikiProjectBannerShell|1={{WikiProject Greece|class=}}}}", g=@"{{Image requested}}";
 			// correct = correct + h + "\r\n" + g;
             // articleText = b + "\r\n"+ a + "\r\n"+ c + "\r\n"+ d + "\r\n"+ e + "\r\n" + f+ "\r\n" + h + "\r\n" + g;
             // TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
