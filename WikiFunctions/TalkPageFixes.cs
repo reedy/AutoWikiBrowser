@@ -78,10 +78,11 @@ namespace WikiFunctions.TalkPages
             // 8. {{Image requested}}
 
 
-            //articleText = MoveTalkTemplate(articleText, ImageRequested);
+            articleText = MoveTalkTemplate(articleText, ImageRequested);
  
             articleText = WikiProjectBannerShell(articleText);
 
+            articleText = MoveTalkTemplate(articleText, WikiRegexes.WikiProjectBannerShellTemplate);
             articleText = MoveTalkTemplate(articleText, TalkHistoryTemplates);
             articleText = MoveTalkTemplate(articleText, TalkGuidelineTemplates);
             articleText = MoveTalkTemplate(articleText, TalkWarningTemplates);
