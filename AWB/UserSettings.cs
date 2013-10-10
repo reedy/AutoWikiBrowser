@@ -203,6 +203,9 @@ namespace AutoWikiBrowser
             recentToolStripMenuItem.Visible = (RecentList.Count > 0);
         }
 
+        /// <summary>
+        /// Updates registry entry for recently used settings files
+        /// </summary>
         private void SaveRecentSettingsList()
         {
             RegistryUtils.SetValue("", "RecentList", string.Join("|", RecentList.ToArray()));
