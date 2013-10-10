@@ -152,10 +152,10 @@ namespace WikiFunctions.TalkPages
             articleText = "{{" + name + "}}\r\n" + articleText;
         }
 
-        private static readonly Regex GANomineeTemplate = Tools.NestedTemplateRegex(new [] { "GA nominee", "GAnominee"});
+        private static readonly Regex GANomineeTemplate = Tools.NestedTemplateRegex(new [] { "GA nominee", "GAnominee", "GA"});
         private static readonly Regex TalkWarningTemplates = Tools.NestedTemplateRegex(new[] { "Community article probation", "Censor", "Controversial", "BLP others", "COI editnotice", "Notice", "warning"});
         private static readonly Regex TalkGuidelineTemplates = Tools.NestedTemplateRegex(new[] { "Not a forum", "Recurring themes", "FAQ", "Round in circles", "American English", "British English", "British English Oxford spelling", "Calm talk"});
-        private static readonly Regex TalkHistoryTemplates = Tools.NestedTemplateRegex(new[] { "Article history", "FailedGA", "Old prod"});
+        private static readonly Regex TalkHistoryTemplates = Tools.NestedTemplateRegex(new[] { "Article history", "ArticleHistory", "FailedGA", "Old prod"});
         private static readonly Regex ImageRequested = Tools.NestedTemplateRegex(new[] { "Image requested" });
 
         /// <summary>
