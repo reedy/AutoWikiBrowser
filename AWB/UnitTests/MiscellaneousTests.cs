@@ -825,65 +825,69 @@ http://www.site.com
         [Test]
         public void MoveBanners()
         {
-            string a = @"{{Skip to talk}}", b = @"{{Talk header}}", c = @"{{GA nominee}}", d = @"{{Controversial}}", e = @"{{Not a forum}}", f=@"{{FailedGA}}";
-            string correct = a + "\r\n" + b +"\r\n"+ c +"\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n";
-            string articleText = b + "\r\n"+ a + "\r\n"+ c + "\r\n"+ d + "\r\n"+ e + "\r\n" + f;
+            string a = @"{{Skip to talk}}", b = @"{{Talk header}}", c = @"{{GA nominee}}", d = @"{{Controversial}}", e = @"{{Not a forum}}", f = @"{{British English}}", g = @"{{FailedGA}}";
+            string correct = a + "\r\n" + b + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + g + "\r\n";
+            string articleText = b + "\r\n"+ a + "\r\n"+ c + "\r\n"+ d + "\r\n"+ e + "\r\n" + f + g;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"bacdef with newlines");
+            Assert.AreEqual(correct, articleText,"bacdefg with newlines");
 
-            articleText = a + b + c + d + e + f;
-            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"abcdef");
-
-            articleText = b + a + c + d + e + f;
-            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"bacdef without newlines");
-
-            articleText = a + c + b + d + e + f;
-            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"acbdef");
-
-            articleText = a + b + c + e + d + f;
-            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"abcedf");
-
-            articleText = a + e + c + b + d + f;
-            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"aecbdf");
-
-            // It adds 3 newlines
-            articleText = a + c + d + e + f + b;
-            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct+"\r\n\r\n\r\n", articleText,"acdefb");
-
-            articleText = f + a + c + b + d + e;
-            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"facbde");
-
-            articleText = f + e + d + c + b + a;
-            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"fedcba");
-
-			string g=@"{{WikiProjectBannerShell|1={{WikiProject Greece|class=}}}}", h=@"{{Image requested}}";
-
-			correct = correct + g + "\r\n";
-			articleText = correct;
+            articleText = a + b + c + d + e + f + g;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(correct, articleText,"abcdefg");
 
-			correct = correct + h + "\r\n";
+            articleText = b + a + c + d + e + f + g;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"bacdefg without newlines");
 
+            articleText = a + c + b + d + e + f + g;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"acbdefg");
+
+            articleText = a + b + c + e + d + f + g;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"abcedfg");
+
+            articleText = a + e + c + b + d + f + g;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"aecbdfg");
+
+            articleText = a + e + c + b + d + g + f;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText, "aecbdgf");
+
+            // It adds 3 newlines
+            articleText = a + c + d + e + f + b + g;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct+"\r\n\r\n\r\n", articleText,"acdefbg");
+
+            articleText = f + a + c + b + d + e + g;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"facbdeg");
+
+            articleText = f + e + d + c + b + a + g;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"fedcbag");
+
+			string h=@"{{WikiProjectBannerShell|1={{WikiProject Greece|class=}}}}", i=@"{{Image requested}}";
+
+			correct = correct + h + "\r\n";
 			articleText = correct;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(correct, articleText,"abcdefgh");
 
-            articleText = b + "\r\n"+ a + "\r\n"+ c + "\r\n"+ d + "\r\n"+ e + "\r\n" + f+ "\r\n" + h + "\r\n" + g;
+			correct = correct + i + "\r\n";
+
+			articleText = correct;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"bacdefhg");
-			
-            articleText = b + "\r\n"+ a + "\r\n"+ c + "\r\n"+ g + "\r\n"+ e + "\r\n" + f+ "\r\n" + h + "\r\n" + d;
+            Assert.AreEqual(correct, articleText,"abcdefghi");
+
+            articleText = b + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + h + "\r\n" + g + "\r\n" + i;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"bacgefhd");
+            Assert.AreEqual(correct, articleText,"bacdefhgi");
+
+            articleText = b + "\r\n" + a + "\r\n" + c + "\r\n" + g + "\r\n" + e + "\r\n" + f + "\r\n" + h + "\r\n" + d + "\r\n" + i;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"bacgefhdi");
 			
         }
 

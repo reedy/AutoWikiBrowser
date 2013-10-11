@@ -72,10 +72,11 @@ namespace WikiFunctions.TalkPages
             // 2. {{Talk header}}
             // 3. {{GA nominee}}
             // 4. {{community article probation}}, {{censor}}, {{BLP others}} and other high-priority/importance, warning/attention templates.
-            // 5. Specific talk page guideline banners, such as {{Not a forum}}, {{Recurring themes}}, {{FAQ}}, {{Round in circles}}, {{American English}}, etc.
-            // 6. Any "article history" banner
-            // 7. WikiProjectBannerShell - Any WikiProject banners
-            // 8. {{Image requested}}
+            // 5. Specific talk page guideline banners, such as {{Not a forum}}, {{Recurring themes}}, {{FAQ}}, {{Round in circles}}, etc.
+			// 6. Language related talk page guideline banners, such as {{American English}}
+            // 7. Any "article history" banner
+            // 8. WikiProjectBannerShell - Any WikiProject banners
+            // 9. {{Image requested}}
 
 
             articleText = MoveTalkTemplate(articleText, ImageRequested);
@@ -84,6 +85,7 @@ namespace WikiFunctions.TalkPages
 
             articleText = MoveTalkTemplate(articleText, WikiRegexes.WikiProjectBannerShellTemplate);
             articleText = MoveTalkTemplate(articleText, TalkHistoryTemplates);
+            articleText = MoveTalkTemplate(articleText, EnglishVariationsTemplates);
             articleText = MoveTalkTemplate(articleText, TalkGuidelineTemplates);
             articleText = MoveTalkTemplate(articleText, TalkWarningTemplates);
             articleText = MoveTalkTemplate(articleText, GANomineeTemplate);
@@ -154,8 +156,9 @@ namespace WikiFunctions.TalkPages
 
         private static readonly Regex GANomineeTemplate = Tools.NestedTemplateRegex(new [] { "GA nominee", "GAnominee", "GA"});
         private static readonly Regex TalkWarningTemplates = Tools.NestedTemplateRegex(new[] { "Community article probation", "Censor", "Controversial", "BLP others", "COI editnotice", "Notice", "warning"});
-        private static readonly Regex TalkGuidelineTemplates = Tools.NestedTemplateRegex(new[] { "Not a forum", "Recurring themes", "FAQ", "Round in circles", "American English", "Australian English", "British English", "British English Oxford spelling", "Canadian English", "Hiberno-English", "Indian English", "Malawian English", "New Zealand English", "Pakistani English", "Philippine English", "Scottish English", "South African English", "Trinidadian English", "Calm talk"});
-        private static readonly Regex TalkHistoryTemplates = Tools.NestedTemplateRegex(new[] { "Article history", "ArticleHistory", "FailedGA", "Old prod"});
+        private static readonly Regex TalkGuidelineTemplates = Tools.NestedTemplateRegex(new[] { "Not a forum", "Recurring themes", "FAQ", "Round in circles", "Calm talk"});
+        private static readonly Regex EnglishVariationsTemplates = Tools.NestedTemplateRegex(new[] { "American English", "Australian English", "British English", "British English Oxford spelling", "Canadian English", "Hiberno-English", "Indian English", "Malaysian English", "Malawian English", "New Zealand English", "Pakistani English", "Philippine English", "Scottish English", "South African English", "Trinidadian English" });
+        private static readonly Regex TalkHistoryTemplates = Tools.NestedTemplateRegex(new[] { "Article history", "ArticleHistory", "FailedGA", "Old prod" });
         private static readonly Regex ImageRequested = Tools.NestedTemplateRegex(new[] { "Image requested" });
 
         /// <summary>
