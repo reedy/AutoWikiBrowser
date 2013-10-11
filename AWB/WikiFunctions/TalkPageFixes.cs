@@ -86,8 +86,8 @@ namespace WikiFunctions.TalkPages
             articleText = MoveTalkTemplate(articleText, WikiRegexes.WikiProjectBannerShellTemplate);
             articleText = MoveTalkTemplate(articleText, TalkHistoryTemplates);
             articleText = MoveTalkTemplate(articleText, EnglishVariationsTemplates);
-            articleText = MoveTalkTemplate(articleText, TalkGuidelineTemplates);
-            articleText = MoveTalkTemplate(articleText, TalkWarningTemplates);
+            articleText = MoveTalkTemplates(articleText, TalkGuidelineTemplates);
+            articleText = MoveTalkTemplates(articleText, TalkWarningTemplates);
             articleText = MoveTalkTemplate(articleText, GANomineeTemplate);
 
             // move talk page header to the top
@@ -185,6 +185,45 @@ namespace WikiFunctions.TalkPages
             }
 
             return articleText;
+        }
+
+        /// <summary>
+        /// Moves the input templates to the top of the talk page
+        /// </summary>
+        /// <param name="articleText">the talk page text</param>
+        /// <param name="r">Regex matching the templates to be moved</param>
+        /// <returns>the update talk page text</returns>
+        private static string MoveTalkTemplates(string articleText, Regex r)
+        {
+            string originalArticletext = articleText;
+
+            // get the zeroth section (text upto first heading)
+            string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
+
+            // avoid moving commented out tags
+            if (Variables.LangCode != "en" || !r.IsMatch(WikiRegexes.Comments.Replace(zerothSection, "")))
+                return articleText;
+
+            // get the rest of the article including first heading (may be null if article has no headings)
+            string restOfArticle = articleText.Substring(zerothSection.Length);
+
+            string strTags = "";
+
+            foreach (Match m in r.Matches(zerothSection))
+            {
+                strTags += m.Value + "\r\n";
+
+                // additionally, remove whitespace after tag
+                zerothSection = Regex.Replace(zerothSection, Regex.Escape(m.Value) + @" *(?:\r\n)?", "");
+            }
+
+            articleText = strTags + zerothSection + restOfArticle;
+
+            // avoid moving commented out tags, round 2
+            if (Tools.UnformattedTextNotChanged(originalArticletext, articleText))
+                return articleText;
+
+            return originalArticletext;
         }
 
         private static readonly Regex FirstComment = new Regex(@"^ {0,4}[:\*\w'""](?<!_)", RegexOptions.Compiled | RegexOptions.Multiline);

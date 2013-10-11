@@ -855,10 +855,9 @@ http://www.site.com
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(correct, articleText, "aecbdgf");
 
-            // It adds 3 newlines
             articleText = a + c + d + e + f + b + g;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct+"\r\n\r\n\r\n", articleText,"acdefbg");
+            Assert.AreEqual(correct, articleText,"acdefbg");
 
             articleText = f + a + c + b + d + e + g;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
