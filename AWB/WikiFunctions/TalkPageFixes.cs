@@ -73,7 +73,7 @@ namespace WikiFunctions.TalkPages
             // 3. {{GA nominee}}
             // 4. {{community article probation}}, {{censor}}, {{BLP others}} and other high-priority/importance, warning/attention templates.
             // 5. Specific talk page guideline banners, such as {{Not a forum}}, {{Recurring themes}}, {{FAQ}}, {{Round in circles}}, etc.
-			// 6. Language related talk page guideline banners, such as {{American English}}
+            // 6. Language related talk page guideline banners, such as {{American English}}
             // 7. Any "article history" banner
             // 8. WikiProjectBannerShell - Any WikiProject banners
             // 9. {{Image requested}}
