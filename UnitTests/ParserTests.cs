@@ -2331,6 +2331,8 @@ world|format=PDF}} was";
             Assert.AreEqual(correct.Replace("www", "Www"), Parsers.FixCitationTemplates(correct.Replace("http://www", "Www")), "Adds http:// when URL begins www.");
             Assert.AreEqual(correct.Replace("www", "www2"), Parsers.FixCitationTemplates(correct.Replace("http://www", "www2")), "Adds http:// when URL begins www2");
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(correct), "no change if already correct URL");
+            Assert.AreEqual(correct.Replace("url=", "archiveurl="), Parsers.FixCitationTemplates(correct.Replace("url=http://", "archiveurl=")), "Adds http:// when archiveurl begins www.");
+            Assert.AreEqual(correct.Replace("url=", "contribution-url="), Parsers.FixCitationTemplates(correct.Replace("url=http://", "contribution-url=")), "Adds http:// when contribution-url begins www.");
         }
 
         [Test]
