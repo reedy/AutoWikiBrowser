@@ -4879,7 +4879,7 @@ namespace WikiFunctions.Parse
             // don't convert %27%27 -- https://bugzilla.wikimedia.org/show_bug.cgi?id=8932
             if (theTarget.Length > 0 && !theTarget.Contains("%27%27"))
             {
-                string newTarget = CanonicalizeTitle(theTarget);
+            	string newTarget = CanonicalizeTitle(theTarget).Replace("%20", " ");
 
                 // Don't remove underscore if page from [[Category:Articles with underscores in the title]]
                 if (!theTarget.Contains("_") || !Variables.UnderscoredTitles.Contains(Tools.TurnFirstToUpper(newTarget)))
