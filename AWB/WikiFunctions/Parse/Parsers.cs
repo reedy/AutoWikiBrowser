@@ -3776,6 +3776,15 @@ namespace WikiFunctions.Parse
                                                                return newValue;
                                                            });
 
+            articleText = Tools.NestedTemplateRegex("rp").Replace(articleText, m =>
+                                                                  {
+                                                                      string pagerange = Tools.GetTemplateArgument(m.Value, 1);
+                                                                      if(pagerange.Length > 0)
+                                                                          return m.Value.Replace(pagerange, FixPageRangesValue(pagerange));
+
+                                                                      return m.Value;
+                                                                  });
+
             return articleText;
         }
 
@@ -4118,57 +4127,62 @@ namespace WikiFunctions.Parse
         {
             foreach (string pageField in PageFields)
             {
-                string pageRange = Tools.GetTemplateParameterValue(templateCall, pageField);
-
-                // fix spaced page ranges e.g. 15 – 20 --> 15–20
-                if (SpacedPageRange.IsMatch(pageRange))
-                {
-                    pageRange = SpacedPageRange.Replace(pageRange, "$1$2$3");
-                    return Tools.SetTemplateParameterValue(templateCall, pageField, pageRange);
-                }
-
-                if (pageRange.Length > 2 && !pageRange.Contains(" to "))
-                {
-                    bool pagerangesokay = true;
-                    Dictionary<int, int> PageRanges = new Dictionary<int, int>();
-
-                    foreach (Match pagerange in PageRange.Matches(pageRange))
-                    {
-                        string page1 = pagerange.Groups[1].Value;
-                        string page2 = pagerange.Groups[2].Value;
-
-                        // convert 350-2 into 350-352 etc.
-                        if (page1.Length > page2.Length)
-                            page2 = page1.Substring(0, page1.Length - page2.Length) + page2;
-
-                        // check a valid range with difference < 999
-                        pagerangesokay = (Convert.ToInt32(page1) < Convert.ToInt32(page2) &&
-                                          Convert.ToInt32(page2) - Convert.ToInt32(page1) < 999);
-
-                        // check range doesn't overlap with another range found
-                        foreach (KeyValuePair<int, int> kvp in PageRanges)
-                        {
-                            // check if page 1 or page 2 within existing range
-                            if ((Convert.ToInt32(page1) >= kvp.Key && Convert.ToInt32(page1) <= kvp.Value) || (Convert.ToInt32(page2) >= kvp.Key && Convert.ToInt32(page2) <= kvp.Value))
-                            {
-                                pagerangesokay = false;
-                                break;
-                            }
-                        }
-
-                        if (!pagerangesokay)
-                            break;
-
-                        // add to dictionary of ranges found
-                        PageRanges.Add(Convert.ToInt32(page1), Convert.ToInt32(page2));
-                    }
-
-                    if (pagerangesokay)
-                        templateCall = Tools.UpdateTemplateParameterValue(templateCall, pageField, PageRange.Replace(pageRange, @"$1–$2"));
-                }
+            	string pageRange = Tools.GetTemplateParameterValue(templateCall, pageField);
+            	if(pageRange.Length > 0)
+            		templateCall = Tools.UpdateTemplateParameterValue(templateCall, pageField, FixPageRangesValue(pageRange));
             }
 
             return templateCall;
+        }
+        
+        private static string FixPageRangesValue(string pageRange)
+        {
+        	string original = pageRange;
+        	// fix spaced page ranges e.g. 15 – 20 --> 15–20
+        	if (SpacedPageRange.IsMatch(pageRange))
+        		return SpacedPageRange.Replace(pageRange, "$1$2$3");
+
+        	if (pageRange.Length > 2 && !pageRange.Contains(" to "))
+        	{
+        		bool pagerangesokay = true;
+        		Dictionary<int, int> PageRanges = new Dictionary<int, int>();
+
+        		foreach (Match pagerange in PageRange.Matches(pageRange))
+        		{
+        			string page1 = pagerange.Groups[1].Value;
+        			string page2 = pagerange.Groups[2].Value;
+
+        			// convert 350-2 into 350-352 etc.
+        			if (page1.Length > page2.Length)
+        				page2 = page1.Substring(0, page1.Length - page2.Length) + page2;
+
+        			// check a valid range with difference < 999
+        			pagerangesokay = (Convert.ToInt32(page1) < Convert.ToInt32(page2) &&
+        			                  Convert.ToInt32(page2) - Convert.ToInt32(page1) < 999);
+
+        			// check range doesn't overlap with another range found
+        			foreach (KeyValuePair<int, int> kvp in PageRanges)
+        			{
+        				// check if page 1 or page 2 within existing range
+        				if ((Convert.ToInt32(page1) >= kvp.Key && Convert.ToInt32(page1) <= kvp.Value) || (Convert.ToInt32(page2) >= kvp.Key && Convert.ToInt32(page2) <= kvp.Value))
+        				{
+        					pagerangesokay = false;
+        					break;
+        				}
+        			}
+
+        			if (!pagerangesokay)
+        				break;
+
+        			// add to dictionary of ranges found
+        			PageRanges.Add(Convert.ToInt32(page1), Convert.ToInt32(page2));
+        		}
+
+        		if (pagerangesokay)
+        			return PageRange.Replace(pageRange, @"$1–$2");
+        	}
+        	
+        	return original;
         }
 
         private static readonly Regex CiteWebOrNews = Tools.NestedTemplateRegex(new[] { "cite web", "citeweb", "cite news", "citenews" });
