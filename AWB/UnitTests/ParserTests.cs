@@ -2100,6 +2100,7 @@ was [[foo|bar]] too"));
         public void FixISBNFormat()
         {
             Assert.AreEqual(@"ISBN 1245781549", Parsers.FixSyntax(@"ISBN: 1245781549"), "removes colon after ISBN");
+            Assert.AreEqual(@"ISBN 1245781549", Parsers.FixSyntax(@"[[ISBN]] 1245781549"), "removes wikilink around ISBN");
             Assert.AreEqual(@"ISBN 1245781549", Parsers.FixSyntax(@"ISBN-10: 1245781549"), "removes colon after ISBN");
             Assert.AreEqual(@"ISBN 9781245781549", Parsers.FixSyntax(@"ISBN-13: 9781245781549"), "removes colon after ISBN");
             Assert.AreEqual(@"ISBN 1245781549", Parsers.FixSyntax(@"ISBN 1245781549"), "no change if already correct");
