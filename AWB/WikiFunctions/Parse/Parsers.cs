@@ -3825,7 +3825,9 @@ namespace WikiFunctions.Parse
                 pages,
                 page,
                 ISBN,
-                origyear;
+                origyear,
+                archiveurl,
+                contributionurl;
             if(!paramsFound.TryGetValue("url", out theURL))
                 theURL = "";
             if(!paramsFound.TryGetValue("id", out id))
@@ -3858,6 +3860,10 @@ namespace WikiFunctions.Parse
                 page = "";
             if(!paramsFound.TryGetValue("origyear", out origyear))
                 origyear = "";
+            if(!paramsFound.TryGetValue("archiveurl", out archiveurl))
+                archiveurl = "";
+            if(!paramsFound.TryGetValue("contribution-url", out contributionurl))
+                contributionurl = "";
             if(!paramsFound.TryGetValue("isbn", out ISBN) && !paramsFound.TryGetValue("ISBN", out ISBN))
                 ISBN = "";
 
@@ -4049,6 +4055,11 @@ namespace WikiFunctions.Parse
             // URL starting www needs http://
             if (theURL.StartsWith("www", StringComparison.OrdinalIgnoreCase))
                 theURL = "http://" + theURL;
+
+            if(archiveurl.StartsWith("www", StringComparison.OrdinalIgnoreCase))
+                newValue = Tools.UpdateTemplateParameterValue(newValue, "archiveurl", "http://" + archiveurl);
+            if(contributionurl.StartsWith("www", StringComparison.OrdinalIgnoreCase))
+                newValue = Tools.UpdateTemplateParameterValue(newValue, "contribution-url", "http://" + contributionurl);
 
             // (part) wikilinked/external linked URL in cite template, don't change when named external link format
             if(!theURL.Contains(" "))
