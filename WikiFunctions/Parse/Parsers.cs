@@ -1369,9 +1369,12 @@ namespace WikiFunctions.Parse
         private static readonly Regex RefsBeforePunctuationQuick = new Regex(@"> *" + RefsPunctuation);
         private static readonly Regex RefsAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *" + WikiRegexes.Refs, RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private static readonly Regex RefsAfterDupePunctuationQuick = new Regex(@"(?<![,\.:;])" + RefsPunctuation + @"\1 *<\s*ref", RegexOptions.IgnoreCase);
+        private static readonly Regex Sfn = Tools.NestedTemplateRegex(new[] {"Sfn", "Shortened footnote", "Shortened footnote template"});
+        private static readonly Regex PunctuationAfterSfn = new Regex(@"(?<sfn>" + Tools.NestedTemplateRegex(new[] {"Sfn", "Shortened footnote", "Shortened footnote template"}).ToString() + @")(?<punc>[,\.;:])");
+        private static readonly Regex SfnAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *(?<sfn>" + Tools.NestedTemplateRegex(new[] {"Sfn", "Shortened footnote", "Shortened footnote template"}).ToString() + @")");
 
         /// <summary>
-        /// Puts &lt;ref&gt; references after punctuation (comma, full stop) per WP:REFPUNC when this is the majority style in the article
+        /// Puts &lt;ref&gt; and {{sfn}} references after punctuation (comma, full stop) per WP:REFPUNC
         /// Applies to en/el wiki only
         /// </summary>
         /// <param name="articleText">The article text</param>
@@ -1380,6 +1383,8 @@ namespace WikiFunctions.Parse
         {
             if (!Variables.LangCode.Equals("en") && !Variables.LangCode.Equals("el"))
                 return articleText;
+
+            bool sfnUsed = Sfn.IsMatch(articleText);
 
             // 'quick' regexes are used for runtime performance saving
             if (RefsBeforePunctuationQuick.IsMatch(articleText))
@@ -1391,8 +1396,13 @@ namespace WikiFunctions.Parse
                 }
             }
 
+            if(sfnUsed)
+                articleText = PunctuationAfterSfn.Replace(articleText, "${punc}${sfn}");
+
             if(RefsAfterDupePunctuationQuick.IsMatch(articleText))
                 articleText = RefsAfterDupePunctuation.Replace(articleText, "$1$2$3");
+            if(sfnUsed)
+                articleText = SfnAfterDupePunctuation.Replace(articleText, "$1$2${sfn}");
 
             return articleText;
         }
