@@ -4882,6 +4882,8 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
+        private static readonly Regex SectionLink = new Regex(@"(.+)#(.+)");
+
         /// <summary>
         /// Canonicalize link targets, removes underscores except if page from [[Category:Articles with underscores in the title]]
         /// </summary>
@@ -4893,10 +4895,24 @@ namespace WikiFunctions.Parse
             // don't convert %27%27 -- https://bugzilla.wikimedia.org/show_bug.cgi?id=8932
             if (theTarget.Length > 0 && !theTarget.Contains("%27%27"))
             {
-            	string newTarget = CanonicalizeTitle(theTarget).Replace("%20", " ");
+                string newTarget = "", underscorecheck = "";
+                Match sl = SectionLink.Match(theTarget);
+
+                if(sl.Success) // Canonicalize section links in two parts
+                {
+                    underscorecheck = CanonicalizeTitle(sl.Groups[1].Value);
+                    newTarget = underscorecheck + "#" + CanonicalizeTitle(sl.Groups[2].Value);
+                }
+                else 
+                {
+                    underscorecheck = newTarget;
+                    newTarget = CanonicalizeTitle(theTarget);
+                }
+
+                newTarget = newTarget.Replace("%20", " ");
 
                 // Don't remove underscore if page from [[Category:Articles with underscores in the title]]
-                if (!theTarget.Contains("_") || !Variables.UnderscoredTitles.Contains(Tools.TurnFirstToUpper(newTarget)))
+                if (!theTarget.Contains("_") || !Variables.UnderscoredTitles.Contains(Tools.TurnFirstToUpper(underscorecheck)))
                 {
                     return y.Replace(theTarget, newTarget);
                 }
