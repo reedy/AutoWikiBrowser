@@ -2396,6 +2396,7 @@ world|format=PDF}} was";
         {
             string correct1 = @"now {{cite book|title=a |url=http://books.google.com/foo | date=2009-10-17}}",
             nochange1 = @"now {{cite book|title=a |url=http://books.google.com/foo | date=2009-10-17 | year=2009a}}",
+            nochange1b = @"now {{cite book|title=a |url=http://books.google.com/foo | date=2009 | year=2009a}}",
             nochange2 = @"now {{cite book|title=a |url=http://books.google.com/foo | date=2009-10-17 | year=2004}}",
             nochange2b = @"now {{cite book|title=a |url=http://books.google.com/foo | date=17 October 2009 | year=2004}}",
             nochange2c = @"now {{cite book|title=a |url=http://books.google.com/foo | date=October 17, 2009 | year=2004}}";
@@ -2404,6 +2405,7 @@ world|format=PDF}} was";
             Assert.AreEqual(correct1, Parsers.FixCitationTemplates(correct1.Replace(@"foo", @"foo |year=2009")));
 
             Assert.AreEqual(nochange1, Parsers.FixCitationTemplates(nochange1), "Harvard anchors using YYYYa are not removed");
+            Assert.AreEqual(nochange1b, Parsers.FixCitationTemplates(nochange1b), "Harvard anchor using YYYYa in year and year in date: both needed so not removed");
             Assert.AreEqual(nochange2, Parsers.FixCitationTemplates(nochange2), "Year not removed if different to year in ISO date");
             Assert.AreEqual(nochange2b, Parsers.FixCitationTemplates(nochange2b), "Year not removed if different to year in International date");
             Assert.AreEqual(nochange2c, Parsers.FixCitationTemplates(nochange2c), "Year not removed if different to year in American date");
@@ -2553,7 +2555,7 @@ world|format=PDF}} was";
         }
 
         [Test]
-        public void AccessYear()
+        public void FixCitationTemplatesAccessYear()
         {
             string a = @"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008}}";
             Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=11 May 2008|accessyear=2008   }}"));
@@ -2565,7 +2567,7 @@ world|format=PDF}} was";
         }
 
         [Test]
-        public void DateLeadingZero()
+        public void FixCitationTemplatesDateLeadingZero()
         {
             string a = @"{{cite web|url=a |title=b |year=2008 | accessdate=1 May 2008}}";
             Assert.AreEqual(a, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=01 May 2008}}"));
@@ -2575,6 +2577,7 @@ world|format=PDF}} was";
 
             string a2 = @"{{cite web|url=a |title=b |year=2008 | accessdate=1 May 1998}}";
             Assert.AreEqual(a2, Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=01 May 1998}}"));
+            Assert.AreEqual(a2.Replace(@"}}", @" }}"), Parsers.FixCitationTemplates(@"{{cite web|url=a |title=b |year=2008 | accessdate=01 May 1998 }}"));
 
             string b = @"{{cite book|url=a |title=b | date=May 1, 2008}}";
             Assert.AreEqual(b, Parsers.FixCitationTemplates(@"{{cite book|url=a |title=b | date=May 01, 2008}}"));
