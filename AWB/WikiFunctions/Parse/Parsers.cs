@@ -7424,9 +7424,10 @@ namespace WikiFunctions.Parse
             List<Article> CatsNotStubsProd = new List<Article>();
             foreach (Article a in AllCategories)
             {
-                if (!a.Name.EndsWith(" stubs") && !a.Name.EndsWith(":Stubs") && !a.Name.StartsWith("Proposed deletion")
-                    && !a.Name.Contains("proposed for deletion") && !a.Name.Contains("proposed deletions")
-                    && !a.Name.Equals("Articles created via the Article Wizard"))
+                string name = a.NamespacelessName;
+                if (!name.EndsWith(" stubs") && !a.Name.EndsWith(":Stubs") && !name.StartsWith("Proposed deletion")
+                    && !name.Contains("proposed for deletion") && !name.Contains("proposed deletions")
+                    && !name.Equals("Articles created via the Article Wizard"))
                     CatsNotStubsProd.Add(a);
             }
 
