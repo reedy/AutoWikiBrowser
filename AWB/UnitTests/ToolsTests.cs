@@ -505,6 +505,18 @@ bar"));
         }
 
         [Test]
+        public void IsRedirectOrSoftRedirect()
+        {
+            Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("#REDIRECT  [[Foo]]"));
+            Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("#redirecT[[:Foo]]"));
+            Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("should work!\r\n#REDIRECT [[Foo]]"));
+            Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{soft redirect|Foo}}"));
+            Assert.IsTrue(Tools.IsRedirectOrSoftRedirect("{{soft|Foo}}"));
+
+            Assert.IsFalse(Tools.IsRedirectOrSoftRedirect("{{software|Foo}}"));
+        }
+
+        [Test]
         public void RedirectTarget()
         {
             Assert.AreEqual("Foo", Tools.RedirectTarget("#redirect [[Foo]]"));

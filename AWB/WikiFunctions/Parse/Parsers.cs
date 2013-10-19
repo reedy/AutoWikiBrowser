@@ -7408,7 +7408,7 @@ namespace WikiFunctions.Parse
 			// allow for ar-wiki 104
 			if(Variables.LangCode.Equals("ar") && Namespace.Determine(articleTitle) == 104)
 				return true;
-			if (!Namespace.IsMainSpace(articleTitle) || Tools.IsRedirect(articleText) || WikiRegexes.Wi.IsMatch(articleText) || articleTitle=="Main Page")
+			if (!Namespace.IsMainSpace(articleTitle) || Tools.IsRedirectOrSoftRedirect(articleText) || WikiRegexes.Wi.IsMatch(articleText) || articleTitle=="Main Page")
 				return false;
 
 			return true;

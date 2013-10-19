@@ -69,10 +69,21 @@ namespace WikiFunctions
 		/// <summary>
 		/// Tests article to see if it is a redirect
 		/// </summary>
-		/// <param name="articletext">The title.</param>
+		/// <param name="articletext">The article text</param>
 		public static bool IsRedirect(string articletext)
 		{
 			return (RedirectTarget(articletext).Length > 0);
+		}
+
+		private static readonly Regex SoftRedirect = NestedTemplateRegex(new[] {"Soft redirect", "SoftRedirect", "Soft Redirect", "Softredirect", "Softredir", "Soft link", "Soft redir", "Soft"});
+
+		/// <summary>
+		/// Tests article to see if it is a redirect OR a soft redirect using {{soft redirect}}
+		/// </summary>
+		/// <param name="articletext">The article text</param>
+		public static bool IsRedirectOrSoftRedirect(string articletext)
+		{
+		    return (RedirectTarget(articletext).Length > 0 || SoftRedirect.IsMatch(articletext));
 		}
 
 		// Covered by ToolsTests.RedirectTarget()
