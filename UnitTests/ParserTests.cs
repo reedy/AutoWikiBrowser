@@ -9585,6 +9585,9 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             text = parser.Tagger(ShortText + @"{{Wi}}", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text), "pages using {{wi}} not tagged as orphan");
 
+            text = parser.Tagger(ShortText + @"{{soft redirect}}", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text), "soft redirect not tagged as orphan");
+
             text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "page is orphan");
 
