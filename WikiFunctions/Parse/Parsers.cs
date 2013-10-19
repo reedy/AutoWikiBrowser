@@ -7259,7 +7259,7 @@ namespace WikiFunctions.Parse
 
             if (wikiLinkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(articleText) && !WikiRegexes.SIAs.IsMatch(articleText) && !WikiRegexes.NonDeadEndPageTemplates.IsMatch(articleText))
             {
-                // add dead-end tag, no blank linked between dead end and orphan tags
+                // add dead-end tag, no blank line between dead end and orphan tags
                 if (Variables.LangCode.Equals("ar"))
                 {
                     articleText = "{{نهاية مسدودة|" + WikiRegexes.DateYearMonthParameter + "}}\r\n" + (WikiRegexes.Orphan.IsMatch(articleText) ? "" : "\r\n") + articleText;
