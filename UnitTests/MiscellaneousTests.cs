@@ -221,6 +221,7 @@ image = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
             Assert.IsTrue(Regex.IsMatch(Hide(@"| image name = Fred Astaire.jpg |"), Hidden + @" \|"));
             Assert.IsTrue(Regex.IsMatch(Hide(@"|image2 = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
             Assert.IsTrue(Regex.IsMatch(Hide(@"|map = AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
+            Assert.IsTrue(Regex.IsMatch(Hide(@"|AmorMexicanaThalia.jpg |"), Hidden + @" \|"));
         }
         
         [Test]
