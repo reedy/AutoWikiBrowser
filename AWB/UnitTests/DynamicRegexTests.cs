@@ -124,6 +124,10 @@ picture = Test.JPG
   bar = a|
   url = http://apageof.com/a.html
   | there=here}}");
+
+            RegexAssert.IsMatch(WikiRegexes.Images, @"{{double image
+|right|
+Bob D.jpg|120|Florence.jpg|120|Mmm}}");
         }
         
         [Test]
