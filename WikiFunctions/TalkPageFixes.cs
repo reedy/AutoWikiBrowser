@@ -120,7 +120,7 @@ namespace WikiFunctions.TalkPages
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
             if(zerothSection.Length > 0)
             {
-	            zerothSection = WikiRegexes.ThreeOrMoreNewlines.Replace(zerothSection, "\r\n\r\n");
+                zerothSection = WikiRegexes.ThreeOrMoreNewlines.Replace(zerothSection, "\r\n\r\n");
                 articleText = articleText.Replace(zerothSection, Parse.Parsers.RemoveTemplateNamespace(zerothSection));
             }
 
