@@ -868,7 +868,7 @@ http://www.site.com
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(correct, articleText,"fedcbag");
 
-			string h=@"{{WikiProjectBannerShell|1={{WikiProject Greece|class=}}}}", i=@"{{Image requested}}";
+            string h=@"{{WikiProjectBannerShell|1={{WikiProject Greece|class=}}}}", i=@"{{Image requested}}", j=@"{{Connected contributor|John Doe}}";
 
 			correct = correct + h + "\r\n";
 			articleText = correct;
@@ -884,6 +884,16 @@ http://www.site.com
             articleText = b + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + h + "\r\n" + g + "\r\n" + i;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(correct, articleText,"bacdefhgi");
+
+			correct = correct + j + "\r\n";
+
+			articleText = correct;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"abcdefghij");
+
+            articleText = b + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + h + "\r\n" + g + "\r\n" + j + "\r\n" + i;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"bacdefhgji");
 
             articleText = @"{{some other template}}" + "\r\n" + @"==Untitled==" + "\r\n" + @"some text";
             string articleText2 = articleText;
