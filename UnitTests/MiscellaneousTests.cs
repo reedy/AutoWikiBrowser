@@ -885,10 +885,16 @@ http://www.site.com
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(correct, articleText,"bacdefhgi");
 
-            articleText = b + "\r\n" + a + "\r\n" + c + "\r\n" + g + "\r\n" + e + "\r\n" + f + "\r\n" + h + "\r\n" + d + "\r\n" + i;
+            articleText = @"{{some other template}}" + "\r\n" + @"==Untitled==" + "\r\n" + @"some text";
+            string articleText2 = articleText;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(correct, articleText,"bacgefhdi");
-			
+            Assert.AreEqual(articleText2, articleText,"no changes if nothing is detected; starts with template");
+
+            articleText = @"==Untitled==" + "\r\n" + @"some text";
+            articleText2 = articleText;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(articleText2, articleText,"no changes if nothing is detected; starts with header");
+            
         }
 
         [Test]
