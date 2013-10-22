@@ -78,8 +78,10 @@ namespace WikiFunctions.TalkPages
             // 8. WikiProjectBannerShell - Any WikiProject banners
             // 9. {{Image requested}}
             // 10. {{Press}} and {{Connected contributor}}
+            // 11. {{To do}}
 
 
+            articleText = MoveTalkTemplates(articleText, TodoTemplate);
             articleText = MoveTalkTemplates(articleText, PressConnected);
             articleText = MoveTalkTemplate(articleText, ImageRequested);
  
@@ -166,7 +168,8 @@ namespace WikiFunctions.TalkPages
         private static readonly Regex EnglishVariationsTemplates = Tools.NestedTemplateRegex(new[] { "American English", "Australian English", "British English", "British English Oxford spelling", "Canadian English", "Hiberno-English", "Indian English", "Malaysian English", "Malawian English", "New Zealand English", "Pakistani English", "Philippine English", "Scottish English", "South African English", "Trinidadian English" });
         private static readonly Regex TalkHistoryTemplates = Tools.NestedTemplateRegex(new[] { "Article history", "ArticleHistory", "FailedGA", "Old prod" });
         private static readonly Regex ImageRequested = Tools.NestedTemplateRegex(new[] { "Image requested" });
-        private static readonly Regex PressConnected = Tools.NestedTemplateRegex(new[] { "Press", "Connected contributor", "Wikipedian-bio" });
+        private static readonly Regex PressConnected = Tools.NestedTemplateRegex(new[] { "Press", "Connected contributor", "Wikipedian-bio", "Notable Wikipedian" });
+        private static readonly Regex TodoTemplate = Tools.NestedTemplateRegex(new[] { "To do", "Todo", "To-do" });
 
         /// <summary>
         /// Moves the input template to the top of the talk page
