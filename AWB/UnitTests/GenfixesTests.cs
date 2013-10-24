@@ -447,6 +447,15 @@ y";
         }
 
         [Test]
+        public void RedirectsSimplifyLinks()
+        {
+            ArticleText = @"#REDIRECT[[foo|foo]]";
+            GenFixes("test");
+
+            Assert.AreEqual(@"#REDIRECT[[foo]]", ArticleText);
+        }
+
+        [Test]
         public void RedirectsDefaultsort()
         {
             ArticleText = @"#REDIRECT[[Foo]]

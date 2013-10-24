@@ -491,6 +491,7 @@ bar"));
         public void IsRedirect()
         {
             Assert.IsTrue(Tools.IsRedirect("#REDIRECT  [[Foo]]"));
+            Assert.IsTrue(Tools.IsRedirect("#REDIRECT  [[Foo|bar]]"));
             Assert.IsTrue(Tools.IsRedirect("#redirecT[[:Foo]]"));
             Assert.IsTrue(Tools.IsRedirect("should work!\r\n#REDIRECT [[Foo]]"));
 

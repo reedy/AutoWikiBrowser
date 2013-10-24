@@ -1363,6 +1363,9 @@ namespace WikiFunctions
 
                 AWBChangeArticleText("Fix syntax redirects", Parsers.FixSyntaxRedirects(ArticleText), true);
                 Variables.Profiler.Profile("FixSyntaxRedirects");
+
+                AWBChangeArticleText("Simplify links", Parsers.SimplifyLinks(ArticleText), true);
+                Variables.Profiler.Profile("SimplifyLinks");
             }
             else
             {
