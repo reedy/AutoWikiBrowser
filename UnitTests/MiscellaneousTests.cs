@@ -995,17 +995,17 @@ bar", df = @"{{DEFAULTSORT:Bert}}";
             string articleText = start + "\r\n" + df;
             
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.MoveToBottom);
-            Assert.AreEqual(start + "\r\n"+ "\r\n" + df, articleText);
+            Assert.AreEqual(start + "\r\n"+ "\r\n" + df, articleText, "removes second newline");
             
             articleText = start + df;
             
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.MoveToTop);
-            Assert.AreEqual(df + "\r\n" + start, articleText);
+            Assert.AreEqual(df + "\r\n" + start, articleText, "moves df after text");
             
             articleText = start + df;
             
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(start + df, articleText);
+            Assert.AreEqual(start + df, articleText, "no changes");
             
             string df2 = @"{{DEFAULTSORT:}}";
             
