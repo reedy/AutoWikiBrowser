@@ -5874,7 +5874,7 @@ namespace WikiFunctions.Parse
 
                 oldCategory = Variables.Namespaces[Namespace.Category] + oldCategory + @"\s*(\|[^\|\[\]]+\]\]|\]\])";
 
-                // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Replacing_categoring_and_keeping_pipes
+                // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Replacing_categoring_and_keeping_pipes
                 if (!removeSortKey)
                     newCategory = Variables.Namespaces[Namespace.Category] + newCategory + "$1";
                 else
@@ -6051,7 +6051,7 @@ namespace WikiFunctions.Parse
             {
                 bool allsame2 = false;
                 string lastvalue = "";
-                // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Detect_multiple_DEFAULTSORT
+                // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Detect_multiple_DEFAULTSORT
                 // if all the defaultsorts are the same just remove all but one
                 foreach (Match m in WikiRegexes.Defaultsort.Matches(articleText))
                 {
