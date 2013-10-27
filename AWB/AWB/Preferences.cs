@@ -525,7 +525,7 @@ namespace AutoWikiBrowser
                                                                     {14, "No category (may be one in a template)"},
                                                                     {15, "See also section out of place"},
                                                                     {16, "Starts with heading"},
-                                                                    {17, "Unbalanced brakets"},
+                                                                    {17, "Unbalanced brackets"},
                                                                     {18, "Unclosed tags"},
                                                                     {19, "Unformatted references"},
                                                                     {20,"Unknown parameters in multiple issues"},
