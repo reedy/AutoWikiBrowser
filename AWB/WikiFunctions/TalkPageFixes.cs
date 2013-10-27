@@ -79,9 +79,11 @@ namespace WikiFunctions.TalkPages
             // 9. {{Image requested}}
             // 10. {{Press}} and {{Connected contributor}}
             // 11. {{To do}}
+            // 12. {{Maintained}}
 
 
-            articleText = MoveTalkTemplates(articleText, TodoTemplate);
+            articleText = MoveTalkTemplate(articleText, Maintained);
+            articleText = MoveTalkTemplate(articleText, TodoTemplate);
             articleText = MoveTalkTemplates(articleText, PressConnected);
             articleText = MoveTalkTemplate(articleText, ImageRequested);
  
@@ -170,6 +172,7 @@ namespace WikiFunctions.TalkPages
         private static readonly Regex ImageRequested = Tools.NestedTemplateRegex(new[] { "Image requested" });
         private static readonly Regex PressConnected = Tools.NestedTemplateRegex(new[] { "Press", "Connected contributor", "Wikipedian-bio", "Notable Wikipedian" });
         private static readonly Regex TodoTemplate = Tools.NestedTemplateRegex(new[] { "To do", "Todo", "To-do" });
+        private static readonly Regex Maintained = Tools.NestedTemplateRegex(new[] { "Maintained" });
 
         /// <summary>
         /// Moves the input template to the top of the talk page
