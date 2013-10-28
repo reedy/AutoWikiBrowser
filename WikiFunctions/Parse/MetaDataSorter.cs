@@ -460,14 +460,17 @@ en, sq, ru
 			    defaultSort += "\r\n";
 			}
 
-			// Extract any {{uncategorized}} template
+			// Extract any {{uncategorized}} template, but not uncat stub templates
 			string uncat = "";
 			if(WikiRegexes.Uncat.IsMatch(WikiRegexes.Comments.Replace(articleText, "")))
 			{
 			    Match uncatm = WikiRegexes.Uncat.Match(articleText);
 
-			    if(uncatm.Success)
+			    if(uncatm.Success && !WikiRegexes.Stub.IsMatch(uncatm.Value))
+			    {
+			        articleText = articleText.Replace(uncatm.Value, "");
 			        uncat = uncatm.Value + "\r\n";
+			    }
 			}
 
 			return uncat + defaultSort + ListToString(categoryList);
