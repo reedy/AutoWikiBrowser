@@ -1095,6 +1095,13 @@ Hello world comment.");
             
             Assert.IsTrue(articleTextIn.Contains(@"==Foo bar=="));
             Assert.IsFalse(articleTextIn.Contains(@"==Untitled=="));
+            
+            articleTextIn = comment;
+
+            TalkPageFixes.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
+            
+            Assert.AreEqual(articleTextIn, @"==Untitled==
+Hello world comment.","don't add blank line when header is on the top");
         }
         
         [Test]
