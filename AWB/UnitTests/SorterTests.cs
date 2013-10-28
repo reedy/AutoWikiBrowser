@@ -972,12 +972,19 @@ cats = @"[[Category:One|A]]
 == References ==
 {{reflist}}";
 			Assert.AreEqual(@"{{Uncategorized}}" + "\r\n", parser2.Sorter.RemoveCats(ref at, "Andrew Jones"), "uncat moved");
+			Assert.IsFalse(WikiRegexes.Uncat.IsMatch(at));
 			at = @"Text.
 
 <!--{{Uncategorized}}-->
 == References ==
 {{reflist}}";
 			Assert.AreEqual("", parser2.Sorter.RemoveCats(ref at, "Andrew Jones"), "commented out uncat not moved");
+			at = @"Text.
+
+{{Uncategorized stub}}
+== References ==
+{{reflist}}";
+			Assert.AreEqual("", parser2.Sorter.RemoveCats(ref at, "Andrew Jones"), "uncat stub not moved");
 		}
 		
 		[Test]
