@@ -110,6 +110,8 @@ namespace UnitTests
 
             AssertNotChanged("[[Image:foo.jpg|Some [http://some_crap.com]]]");
 
+            AssertNotChanged("[[File:foo.jpg|Some [http://some_crap.com]]]");
+
             ArticleText = "[[Image:foo.jpg|Some [[http://some_crap.com]]]]";
             GenFixes();
             // not performing a full comparison due to a bug that should be tested elsewhere
@@ -278,6 +280,17 @@ a");
 [[Category:Living people]]
 [[Category:1987 births]]","no persondata added");
 
+			            AssertNotChanged(@"{{Unreferenced|date=December 2009}}
+{{Orphan|date=November 2006}}
+{{Notability|1=Music|date=September 2010}}
+{{Advert|date=December 2007}}
+'''Band''' is.
+
+[[Category:Blues rock groups]]
+
+
+{{Norway-band-stub}}","no multiple issues added");
+			
 	    Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
         }
 
