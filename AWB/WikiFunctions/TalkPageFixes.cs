@@ -265,6 +265,7 @@ namespace WikiFunctions.TalkPages
                     string articletexttofirstcomment = articleText.Substring(0, firstCommentIndex);
 
                     articleText = WikiRegexes.HeadingLevelThree.IsMatch(articletexttofirstcomment) ? WikiRegexes.HeadingLevelThree.Replace(articleText, @"==$1==", 1) : articleText.Insert(firstCommentIndex, "\r\n==Untitled==\r\n").TrimStart();
+					articleText = articleText.Replace("\r\n\r\n\r\n==Untitled", "\r\n\r\n==Untitled");
                 }
             }
 
