@@ -1267,6 +1267,9 @@ File:Example.jpg|Caption2
         public void WikiProjectBannerShellUnneededParams()
         {
             Assert.AreEqual(@"{{WikiProjectBannerShell}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=no|activepol=no|collapsed=no|blpo=no}}"));
+            Assert.AreEqual(@"{{WikiProjectBannerShell|collapsed=yes}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBannerShell|blp=no|activepol=no|collapsed=yes|blpo=no}}"));
+            Assert.AreEqual(@"{{WikiProjectBanners|collapsed=no}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBanners|blp=no|activepol=no|collapsed=no|blpo=no}}"));
+            Assert.AreEqual(@"{{WikiProjectBanners}}", TalkPageFixes.WikiProjectBannerShell(@"{{WikiProjectBanners|blp=no|activepol=no|collapsed=yes|blpo=no}}"));
         }
         
         [Test]

@@ -273,7 +273,7 @@ namespace WikiFunctions.TalkPages
 
         private static readonly List<string> BannerShellRedirects = new List<string>(new[] { "WPBS", "Wpbs", "WP banner shell", "WP Banner Shell", "WPBannerShell", "WikiProject Banner Shell", "Wikiprojectbannershell", "Bannershell", "Shell" });
         private static readonly List<string> BannerRedirects = new List<string>(new[] { "WikiProject Banners", "WikiProjectBanners", "WPB", "Wpb" });
-        private static readonly List<string> Nos = new List<string>(new[] { "blp", "blpo", "activepol", "collapsed" });
+        private static readonly List<string> Nos = new List<string>(new[] { "blp", "blpo", "activepol" });
         private static readonly Regex BLPRegex = Tools.NestedTemplateRegex(new[] { "blp", "BLP", "Blpinfo" });
         private static readonly Regex BLPORegex = Tools.NestedTemplateRegex(new[] { "blpo", "BLPO", "BLP others" });
         private static readonly Regex ActivepolRegex = Tools.NestedTemplateRegex(new[] { "activepol", "active politician", "activepolitician" });
@@ -313,6 +313,7 @@ namespace WikiFunctions.TalkPages
                 string newValue = m.Value;
                 newValue = Tools.RemoveExcessTemplatePipes(newValue);
                 string arg1 = Tools.GetTemplateParameterValue(newValue, "1");
+                bool shellTemplate = Tools.GetTemplateName(newValue).ToLower().EndsWith("shell");
                 
                 // Add explicit call to first unnamed parameter 1= if missing/has no value
                 if (arg1.Length == 0)
@@ -340,6 +341,12 @@ namespace WikiFunctions.TalkPages
                     if (Tools.GetTemplateParameterValue(newValue, theNo).Equals("no"))
                         newValue = Tools.RemoveTemplateParameter(newValue, theNo);
                 }
+                
+                string collapsedParam = Tools.GetTemplateParameterValue(newValue, "collapsed");
+                if(shellTemplate && collapsedParam.Equals("no"))
+                    newValue = Tools.RemoveTemplateParameter(newValue, "collapsed");
+                else  if(!shellTemplate && collapsedParam.Equals("yes"))
+                    newValue = Tools.RemoveTemplateParameter(newValue, "collapsed");
 
                 // If {{blpo}} then add blpo=yes to WPBS and remove {{blpo}}
                 Match blpom = BLPORegex.Match(articletext);
