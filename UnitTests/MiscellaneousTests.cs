@@ -934,6 +934,57 @@ http://www.site.com
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(articleText2, articleText,"no changes if nothing is detected; starts with header");
             
+            articleText = @"{{afd-merged-from|George Piggins Medal|George Piggins Medal|10 June 2012}}
+
+{{User:WildBot/m04|sect={{User:WildBot/m03|1|History of rugby league#Professional rugby begins in Australia|schism}}|m04}}
+{{ArticleHistory
+|action1=FAC
+
+|currentstatus=GA
+|topic=Everydaylife}}
+{{WikiProjectBannerShell|1=
+{{WikiProject Rugby league|class=GA|importance=High}}
+}}
+
+== older entries ==
+The";
+
+            articleText2 = @"{{ArticleHistory
+|action1=FAC
+
+|currentstatus=GA
+|topic=Everydaylife}}
+{{WikiProjectBannerShell|1=
+{{WikiProject Rugby league|class=GA|importance=High}}
+}}
+{{afd-merged-from|George Piggins Medal|George Piggins Medal|10 June 2012}}
+
+{{User:WildBot/m04|sect={{User:WildBot/m03|1|History of rugby league#Professional rugby begins in Australia|schism}}|m04}}
+
+== older entries ==
+The";
+          	TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(articleText2, articleText,"unknown templates get below known ones");
+
+			articleText = @"{{Talk header}}
+{{WikiProjectBannerShell|1=
+{{WikiProject Architecture|class=Start |importance=Low }}
+{{WikiProject Virginia|class=Start |importance=Low }}
+{{WikiProject National Register of Historic Places|class=start|importance=low}}
+{{Image requested|in=Virginia}}
+}}";
+			articleText2 = @"{{Talk header}}
+{{WikiProjectBannerShell|1=
+{{WikiProject Architecture|class=Start |importance=Low }}
+{{WikiProject Virginia|class=Start |importance=Low }}
+{{WikiProject National Register of Historic Places|class=start|importance=low}}
+
+}}
+{{Image requested|in=Virginia}}
+";
+          	TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(articleText2, articleText,"image requested is moved away from WPBS");
+			
         }
 
         [Test]
