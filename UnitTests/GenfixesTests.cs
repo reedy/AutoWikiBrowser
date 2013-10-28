@@ -37,6 +37,7 @@ namespace UnitTests
         public GenfixesTestsBase()
         {
             A.InitialiseLogListener();
+            Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
         }
 
         public string ArticleText
@@ -263,6 +264,24 @@ a");
         }
 
         [Test]
+        public void Wikia()
+        {
+			Variables.SetProjectSimple("en", ProjectEnum.wikia);
+
+			AssertNotChanged(@"{{BLP sources|date=May 2010}}
+'''Bob Jones''' (born 1987 in Smith).<ref>a</ref>
+
+==References==
+{{reflist}}
+
+{{DEFAULTSORT:Jones, Bob}}
+[[Category:Living people]]
+[[Category:1987 births]]","no persondata added");
+
+	    Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
+        }
+
+        	[Test]
         public void CiteMissingClosingCurlyBracePairTable()
         {
             const string MissingClosingCurlyBracePair = @"'''Foo''' is great.
