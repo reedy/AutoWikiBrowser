@@ -1102,6 +1102,16 @@ Hello world comment.");
             
             Assert.AreEqual(articleTextIn, @"==Untitled==
 Hello world comment.","don't add blank line when header is on the top");
+
+            articleTextIn = @"{{Football}}" +"\r\n" + comment;
+
+            TalkPageFixes.ProcessTalkPage(ref articleTextIn, DEFAULTSORT.NoChange);
+            
+            Assert.AreEqual(articleTextIn, @"{{Football}}
+
+==Untitled==
+Hello world comment.","add header between template and text");
+
         }
         
         [Test]
