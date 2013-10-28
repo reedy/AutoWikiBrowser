@@ -123,11 +123,14 @@ namespace WikiFunctions.TalkPages
             articleText = WPJazz(articleText);
 
             // remove redundant Template: in templates in zeroth section
+            // clean up excess blank lines after template move
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
             if(zerothSection.Length > 0)
             {
+                string zerothbefore = zerothSection;
                 zerothSection = WikiRegexes.ThreeOrMoreNewlines.Replace(zerothSection, "\r\n\r\n");
-                articleText = articleText.Replace(zerothSection, Parse.Parsers.RemoveTemplateNamespace(zerothSection));
+                zerothSection = Parse.Parsers.RemoveTemplateNamespace(zerothSection);
+                articleText = articleText.Replace(zerothbefore, zerothSection);
             }
 
 
