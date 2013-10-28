@@ -964,6 +964,20 @@ cats = @"[[Category:One|A]]
 		    parser2.Sorter.AddCatKey = true;
 			Assert.AreEqual(cats2 + "\r\n", parser2.Sorter.RemoveCats(ref cats, "Andrew Jones"));
 			parser2.Sorter.AddCatKey = false;
+
+			// Extract {{Uncategorized}}
+			string at = @"Text.
+
+{{Uncategorized}}
+== References ==
+{{reflist}}";
+			Assert.AreEqual(@"{{Uncategorized}}" + "\r\n", parser2.Sorter.RemoveCats(ref at, "Andrew Jones"), "uncat moved");
+			at = @"Text.
+
+<!--{{Uncategorized}}-->
+== References ==
+{{reflist}}";
+			Assert.AreEqual("", parser2.Sorter.RemoveCats(ref at, "Andrew Jones"), "commented out uncat not moved");
 		}
 		
 		[Test]
