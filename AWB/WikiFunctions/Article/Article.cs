@@ -1386,8 +1386,11 @@ namespace WikiFunctions
                 Variables.Profiler.Profile("RenameTemplateParameters");
                 
                 // call this before MinorFixes so that Parsers.Conversions cleans up from MultipleIssues
-                AWBChangeArticleText("Fixes for {{Multiple issues}}", parsers.MultipleIssues(ArticleText), true);
-                Variables.Profiler.Profile("MultipleIssues");
+                if (Variables.IsWikipediaEN)
+				{
+	                AWBChangeArticleText("Fixes for {{Multiple issues}}", parsers.MultipleIssues(ArticleText), true);
+	                Variables.Profiler.Profile("MultipleIssues");
+                }
 
                 // must call EmboldenTitles before calling FixLinks
                 EmboldenTitles(parsers, skip.SkipNoBoldTitle);
@@ -1457,8 +1460,11 @@ namespace WikiFunctions
                 AWBChangeArticleText("Add missing {{reflist}}", Parsers.AddMissingReflist(ArticleText), true, true);
                 Variables.Profiler.Profile("AddMissingReflist");
 
+                if (Variables.IsWikipediaEN)
+				{
                 AWBChangeArticleText("PersonData", Parsers.PersonData(ArticleText, Name), true);
                 Variables.Profiler.Profile("PersonData");
+                }
             }
 
             // run whether redirect or not, must be after FixPeopleCategories
