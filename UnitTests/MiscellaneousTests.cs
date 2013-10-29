@@ -983,8 +983,16 @@ The";
 {{Image requested|in=Virginia}}
 ";
           	TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(articleText2, articleText,"image requested is moved away from WPBS");
+            Assert.AreEqual(articleText2, articleText,"image requested is moved away from WPBS; at some point we could fix the whitespace inside WPBS");
 			
+            articleText = @"{{Talk header|search=yes}}
+
+==Random header==
+Some text";
+            articleText2 = articleText;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(articleText2, articleText,"no changes if nothing is detected; starts with talk header");
+
         }
 
         [Test]
