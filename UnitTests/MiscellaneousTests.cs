@@ -933,7 +933,6 @@ http://www.site.com
         [Test]
         public void MoveBannersAndSpacing()
         {
-
             string articleText = @"==Untitled==" + "\r\n" + @"some text";
             string articleText2 = articleText;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
@@ -1067,6 +1066,18 @@ Some text";
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(articleText2, articleText,"moves skip to talk on the top 2");
 
+            articleText = @"{{Talk header}}
+{{WikiProjectBannerShell|1=
+{{WikiProject Iraq|class=C|importance=mid}}
+{{WikiProject Crime|class=C|importance=low}}
+{{WikiProject Terrorism|class=C|importance=low}}
+}}
+{{image requested}}
+
+== Reliable sources ==";
+            articleText2 = articleText;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(articleText2, articleText, "No change, heading whitespace not affected");
         }
 
         [Test]
@@ -1085,7 +1096,7 @@ hello talk";
 {{OH-Project|class=B|importance=Low|nested=yes}}
 {{WPBiography|living=yes|class=B|priority=Low|filmbio-work-group=yes|nested=yes|listas=Parker, Sarah Jessica}}
 {{WikiProject Cincinnati|class=B|importance=mid|nested=yes}}
-}}", rest = "\r\n" +  @"==Song Jessie by Joshua Kadison==
+}}", rest = "\r\n\r\n" +  @"==Song Jessie by Joshua Kadison==
 In the article it says that above mentioned";
             articleText = WPBS + @"{{Talkheader}}" + rest;
             

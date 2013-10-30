@@ -824,9 +824,9 @@ namespace WikiFunctions
         public static readonly Regex ISODates = new Regex(@"\b(20\d\d|1[6-9]\d\d)-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])\b");
         
         /// <summary>
-        /// Matches the {{talk header}} templates and its redirects
+        /// Matches the {{talk header}} templates and its redirects. Also matches to whitespace after template, but not newline before a heading following
         /// </summary>
-        public static readonly Regex TalkHeaderTemplate = new Regex(@"\{\{\s*(?:template *:)?\s*(talk[ _]?(page)?(header)?)\s*(?:\|[^{}]*)?\}\}\s*",
+        public static readonly Regex TalkHeaderTemplate = new Regex(@"\{\{\s*(?:template *:)?\s*(talk[ _]?(page)?(header)?)\s*(?:\|[^{}]*)?\}\}(?:\s*?(?=\r\n==)|\s*)",
                                                                     RegexOptions.IgnoreCase);
 
         /// <summary>
