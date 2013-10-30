@@ -929,8 +929,13 @@ http://www.site.com
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(articleText2, articleText,"no changes if nothing is detected; starts with template");
 
-            articleText = @"==Untitled==" + "\r\n" + @"some text";
-            articleText2 = articleText;
+        }
+        [Test]
+        public void MoveBannersAndSpacing()
+        {
+
+            string articleText = @"==Untitled==" + "\r\n" + @"some text";
+            string articleText2 = articleText;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(articleText2, articleText,"no changes if nothing is detected; starts with header");
             
@@ -992,6 +997,31 @@ Some text";
             articleText2 = articleText;
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(articleText2, articleText,"no changes if nothing is detected; starts with talk header");
+
+            articleText = @"{{Not a forum}}
+
+==Random header==
+Some text";
+            articleText2 = articleText;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(articleText2, articleText,"no changes if nothing is detected; starts with not a forum");
+
+            articleText = @"{{Random template}}
+
+==Random header==
+Some text";
+            articleText2 = articleText;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(articleText2, articleText,"no changes if nothing is detected; starts with a random template");
+
+            articleText = @"{{Random template}}
+{{Yet another random template}}
+
+==Random header==
+Some text";
+            articleText2 = articleText;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(articleText2, articleText,"no changes if nothing is detected; starts with two random templates");
 
         }
 
