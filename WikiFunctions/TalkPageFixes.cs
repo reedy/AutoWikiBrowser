@@ -81,11 +81,17 @@ namespace WikiFunctions.TalkPages
             // 11. {{To do}}
             // 12. {{Maintained}}
 
+            string wpbsBefore = WikiRegexes.WikiProjectBannerShellTemplate.Match(articleText).Value;
+            bool blanklinesinwpbsBefore = wpbsBefore.Contains("\r\n\r\n");
 
             articleText = MoveTalkTemplate(articleText, Maintained);
             articleText = MoveTalkTemplate(articleText, TodoTemplate);
             articleText = MoveTalkTemplates(articleText, PressConnected);
             articleText = MoveTalkTemplate(articleText, ImageRequested);
+
+            // if template moving leaves blank lines in WPBS then clean this up
+            if(wpbsBefore.Length > 0 && !blanklinesinwpbsBefore)
+                articleText = WikiRegexes.WikiProjectBannerShellTemplate.Replace(articleText, m => m.Value.Replace("\r\n\r\n", "\r\n"));
  
             articleText = WikiProjectBannerShell(articleText);
 

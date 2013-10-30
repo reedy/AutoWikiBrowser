@@ -983,7 +983,6 @@ The";
 {{WikiProject Architecture|class=Start |importance=Low }}
 {{WikiProject Virginia|class=Start |importance=Low }}
 {{WikiProject National Register of Historic Places|class=start|importance=low}}
-
 }}
 {{Image requested|in=Virginia}}
 ";
