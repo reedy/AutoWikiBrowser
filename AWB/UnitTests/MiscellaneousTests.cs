@@ -1050,7 +1050,23 @@ Some text";
 ==Random header==
 Some text";
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
-            Assert.AreEqual(articleText2, articleText,"no changes if nothing is detected; starts with skt, naf and a random template");
+            Assert.AreEqual(articleText2, articleText,"moves skip to talk on the top 1");
+
+
+            articleText = @"{{Talk header}}
+{{Skip to talk}}
+{{Random template}}
+
+==Random header==
+Some text";
+            articleText2 = @"{{Skip to talk}}
+{{Talk header}}
+{{Random template}}
+
+==Random header==
+Some text";
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(articleText2, articleText,"moves skip to talk on the top 2");
 
         }
 
