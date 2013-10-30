@@ -1023,6 +1023,35 @@ Some text";
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(articleText2, articleText,"no changes if nothing is detected; starts with two random templates");
 
+            articleText = @"{{Skip to talk}}
+{{Talk header}}
+{{Random template}}
+
+==Random header==
+Some text";
+            articleText2 = articleText;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(articleText2, articleText,"no changes if nothing is detected; starts with two skt, th and a random template");
+
+            articleText = @"{{Skip to talk}}
+{{Not a forum}}
+{{Random template}}
+
+==Random header==
+Some text";
+            articleText2 = articleText;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(articleText2, articleText,"no changes if nothing is detected; starts with skt, naf and a random template");
+
+            articleText = @"{{Not a forum}}
+{{Skip to talk}}
+{{Random template}}
+
+==Random header==
+Some text";
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(articleText2, articleText,"no changes if nothing is detected; starts with skt, naf and a random template");
+
         }
 
         [Test]
