@@ -910,6 +910,7 @@ now stubborn}}");
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorized stub}}"));
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorised}}"));
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Uncategorized}}"));
+            Assert.AreEqual("okategoriserad", WikiRegexes.Uncat.Match(@"{{okategoriserad}}").Groups[1].Value);
 
             Variables.SetProjectLangCode("ar");
             WikiRegexes.MakeLangSpecificRegexes();

@@ -181,7 +181,7 @@ namespace WikiFunctions
                     break;
                 case "sv":
                     Orphan = Tools.NestedTemplateRegex(@"Föräldralös");
-                    uncattemplate = "[Oo]kategoriserad|[Uu]ncategori[sz]ed|[Uu]ncategori[sz]ed ?stub";
+                    uncattemplate = "([Oo]kategoriserad|[Uu]ncategori[sz]ed|[Uu]ncategori[sz]ed ?stub)";
                     DateYearMonthParameter = @"datum={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}";
 					DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end)(?:\|(?:[^{}]+|" + DateYearMonthParameter + @"))?}})");
                     Wikify = new Regex(@"{{\s*Ickewiki(?:\s*\|\s*(" + DateYearMonthParameter + @"|.*?))?}}", RegexOptions.IgnoreCase);
