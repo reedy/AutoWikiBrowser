@@ -7188,7 +7188,7 @@ namespace WikiFunctions.Parse
                     else if(Variables.LangCode.Equals("sv")) // same template for uncat and uncat stub
                     {
                         articleText += Tools.Newline("{{Okategoriserad|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
-                        tagsAdded.Add("[[Mall:Okategoriserad|Okategoriserad]]");
+                        tagsAdded.Add("[[Mall:Okategoriserad|okategoriserad]]");
                     }
                     else
                     {
@@ -7216,7 +7216,7 @@ namespace WikiFunctions.Parse
                     else if(Variables.LangCode.Equals("sv"))
                     {
                         articleText += Tools.Newline("{{Okategoriserad|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
-                        tagsAdded.Add("[[Mall:Okategoriserad|Okategoriserad]]");
+                        tagsAdded.Add("[[Mall:Okategoriserad|okategoriserad]]");
                     }
                     else
                     {
@@ -7321,8 +7321,8 @@ namespace WikiFunctions.Parse
                 }
                 else if (Variables.LangCode.Equals("sv"))
                 {
-                    articleText = "{{Wikify|" + WikiRegexes.DateYearMonthParameter + templateEnd + articleText;
-                    tagsAdded.Add("[[WP:WFY|wikify]]");
+                    articleText = "{{Ickewiki|" + WikiRegexes.DateYearMonthParameter + templateEnd + articleText;
+                    tagsAdded.Add("[[WP:PW|ickewiki]]");
                 }
                 else
                 {
