@@ -37,7 +37,9 @@ namespace UnitTests
         public GenfixesTestsBase()
         {
             A.InitialiseLogListener();
+            #if DEBUG
             Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
+            #endif
         }
 
         public string ArticleText
@@ -268,6 +270,7 @@ a");
         [Test]
         public void Wikia()
         {
+            #if DEBUG
 			Variables.SetProjectSimple("en", ProjectEnum.wikia);
 
 			AssertNotChanged(@"{{BLP sources|date=May 2010}}
@@ -292,6 +295,7 @@ a");
 {{Norway-band-stub}}","no multiple issues added");
 			
 	    Variables.SetProjectSimple("en", ProjectEnum.wikipedia);
+	    #endif
         }
 
         	[Test]
