@@ -879,7 +879,7 @@ namespace WikiFunctions
 
                 case "sv":
                     mSummaryTag = "med";
-                    TypoSummaryTag = "fixar rättningar: ";
+                    TypoSummaryTag = "rättar stavfel: ";
                     Stub = @"(?:[^{}]*?[Ss]tub|[^{}]+?stub\-[^{}]+)";
                     break;
 
