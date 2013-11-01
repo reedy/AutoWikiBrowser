@@ -466,7 +466,7 @@ en, sq, ru
 			{
 			    Match uncatm = WikiRegexes.Uncat.Match(articleText);
 
-			    if(uncatm.Success && !WikiRegexes.Stub.IsMatch(uncatm.Value))
+			    if(uncatm.Success && !WikiRegexes.PossiblyCommentedStub.IsMatch(uncatm.Value))
 			    {
 			        articleText = articleText.Replace(uncatm.Value, "");
 			        uncat = uncatm.Value + "\r\n";
