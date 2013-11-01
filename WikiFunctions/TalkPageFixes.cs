@@ -96,6 +96,8 @@ namespace WikiFunctions.TalkPages
             articleText = WikiProjectBannerShell(articleText);
 
             articleText = MoveTalkTemplate(articleText, WikiRegexes.WikiProjectBannerShellTemplate);
+            if(!WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articleText))
+            	articleText = MoveTalkTemplates(articleText, WikiProjects);
             articleText = MoveTalkTemplate(articleText, TalkHistoryTemplates);
             articleText = MoveTalkTemplate(articleText, EnglishVariationsTemplates);
             articleText = MoveTalkTemplates(articleText, TalkGuidelineTemplates);
@@ -188,6 +190,7 @@ namespace WikiFunctions.TalkPages
         private static readonly Regex PressConnected = Tools.NestedTemplateRegex(new[] { "Press", "Connected contributor", "Wikipedian-bio", "Notable Wikipedian" });
         private static readonly Regex TodoTemplate = Tools.NestedTemplateRegex(new[] { "To do", "Todo", "To-do" });
         private static readonly Regex Maintained = Tools.NestedTemplateRegex(new[] { "Maintained" });
+        private static readonly Regex WikiProjects = new Regex(Tools.NestedTemplateRegex("foo").ToString().Replace(@"[Ff]oo", @"[Ww]ikiProject\b[^{}\|]+"));
 
         /// <summary>
         /// Moves the input template to the top of the talk page
