@@ -930,6 +930,69 @@ http://www.site.com
             Assert.AreEqual(articleText2, articleText,"no changes if nothing is detected; starts with template");
 
         }
+         [Test]
+        public void MoveBannersAndWikiProjects()
+        {
+            string a = @"{{Skip to talk}}", b = @"{{Talk header}}", c = @"{{GA nominee}}", d = @"{{Controversial}}", e = @"{{Not a forum}}", f = @"{{British English}}", g = @"{{FailedGA}}", h=@"{{WikiProject Greece|class=}}", i=@"{{Image requested}}", j=@"{{Connected contributor|John Doe}}";
+            string correct = a + "\r\n" + b + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + g + "\r\n"+ h + "\r\n" + i + "\r\n";
+            string articleText = correct;
+
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"abcdefghi");
+
+            articleText = b + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + h + "\r\n" + g + "\r\n" + i;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"bacdefhgi");
+
+            articleText = h + "\r\n" + c + "\r\n" + a + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + b + "\r\n" + g + "\r\n" + i;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"hcadefbgi");
+
+            articleText = d + "\r\n" + c + "\r\n" + a + "\r\n" + h + "\r\n" + f + "\r\n" + e + "\r\n" + b + "\r\n" + i + "\r\n" + g;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"dcahfebig");
+
+            correct = correct + j + "\r\n";
+
+			articleText = correct;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"abcdefghij");
+
+            articleText = b + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + h + "\r\n" + g + "\r\n" + j + "\r\n" + i;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"bacdefhgji");
+
+            articleText = b + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + h + "\r\n" + g + "\r\n" + j + "\r\n" + i + "\r\n" + "\r\n" + "\r\n";
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"bacdefhgji with newlines at the end");
+
+            articleText = b + "\r\n" + "\r\n" + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + h + "\r\n" + g + "\r\n" + j + "\r\n" + "\r\n" + "\r\n" + i + "\r\n" + "\r\n" + "\r\n";
+
+            string k=@"{{To do}}", l=@"{{Maintained|[[User:Foo|bar]]}}";
+
+			correct = correct + k + "\r\n";
+			articleText = correct;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"abcdefghijk");
+
+            articleText = b + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + k + "\r\n" + g + "\r\n" + j + "\r\n" + i + "\r\n" + h;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"bacdefkgjih");
+
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText,"bacdefhgji with newlines at the end and in the middle");
+
+            correct = correct + l + "\r\n";
+            articleText = correct;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText, "abcdefghijkl");
+
+            articleText = b + "\r\n" + a + "\r\n" + c + "\r\n" + d + "\r\n" + e + "\r\n" + f + "\r\n" + k + "\r\n" + g + "\r\n" + j + "\r\n" + l + "\r\n" + i + "\r\n" + h;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(correct, articleText, "bacdefkgjlih");
+
+        }
+
         [Test]
         public void MoveBannersAndSpacing()
         {
