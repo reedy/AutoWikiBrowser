@@ -985,6 +985,12 @@ cats = @"[[Category:One|A]]
 == References ==
 {{reflist}}";
 			Assert.AreEqual("", parser2.Sorter.RemoveCats(ref at, "Andrew Jones"), "uncat stub not moved");
+			at = @"Text.
+
+{{Uncategorized stub|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
+== References ==
+{{reflist}}";
+			Assert.AreEqual("", parser2.Sorter.RemoveCats(ref at, "Andrew Jones"), "uncat stub not moved");
 		}
 		
 		[Test]
