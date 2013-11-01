@@ -134,6 +134,12 @@ namespace WikiFunctions.TalkPages
             if(zerothSection.Length > 0)
             {
                 string zerothbefore = zerothSection;
+                // clean excess blank lines at end of zeroth section, leave only one newline
+                // not when later sections: would remove blank line before heading
+                if(zerothSection.Length == articleText.Length &&
+                   (zerothSection.Length-zerothSection.Trim().Length) > 2)
+                    zerothSection = zerothSection.Trim() + "\r\n";
+
                 zerothSection = WikiRegexes.ThreeOrMoreNewlines.Replace(zerothSection, "\r\n\r\n");
                 zerothSection = Parse.Parsers.RemoveTemplateNamespace(zerothSection);
                 articleText = articleText.Replace(zerothbefore, zerothSection);

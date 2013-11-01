@@ -625,7 +625,6 @@ company's founder<ref name=""Warnock 1980"">{{cite book|last=Warnock|first=C |ti
 {{WikiProject c|text}}
 | blp=yes
 }}
-
 ";
 
             TalkGenFixes();
