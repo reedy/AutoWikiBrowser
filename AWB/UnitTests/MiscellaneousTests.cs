@@ -480,9 +480,11 @@ File:9th of June street , Bacău.JPG|[[Romanian War of Independence#Overview|9th
             Assert.IsFalse(a.Equals(null));
             b = new Article("A");
             Assert.AreEqual("A", a.ToString());
+            Assert.AreEqual("A", a.Name);
             Assert.IsFalse(a != b);
             
             Assert.AreEqual("A", a.URLEncodedName);
+            Assert.AreEqual(null, a.DisplayTitle);
         }
         
         [Test]
@@ -538,7 +540,7 @@ File:9th of June street , Bacău.JPG|[[Romanian War of Independence#Overview|9th
             Assert.IsTrue(a.IsStub);
             
             a = new Article("A", "ABC");
-            Assert.IsFalse(a.HasStubTemplate);             
+            Assert.IsFalse(a.HasStubTemplate);
             Assert.IsFalse(a.HasInfoBox);
             Assert.IsFalse(a.HasSicTag);
             Assert.IsFalse(a.IsInUse);
@@ -566,6 +568,31 @@ File:9th of June street , Bacău.JPG|[[Romanian War of Independence#Overview|9th
             Assert.IsFalse(a.CanDoTalkGeneralFixes);
             a = new Article("Talk:A", "ABC");
             Assert.IsTrue(a.CanDoTalkGeneralFixes);
+        }
+
+        [Test]
+        public void Changes()
+        {
+            Article a = new Article("A", "ABC");
+            a.AWBChangeArticleText("test", "ABC D", false);
+            Assert.IsFalse(a.OnlyWhiteSpaceChanged);
+            Assert.IsFalse(a.OnlyCasingChanged);
+
+            a = new Article("A", "ABC");
+            a.AWBChangeArticleText("test", "AB C", false);
+            Assert.IsTrue(a.OnlyWhiteSpaceChanged);
+            Assert.IsTrue(a.OnlyWhiteSpaceAndCasingChanged);
+            Assert.IsFalse(a.OnlyCasingChanged);
+            Assert.IsFalse(a.NoArticleTextChanged);
+
+            a = new Article("A", "ABC");
+            a.AWBChangeArticleText("test", "ABc", false);
+            Assert.IsTrue(a.OnlyCasingChanged);
+
+            a = new Article("A", "ABC");
+            a.AWBChangeArticleText("test", "ABC", false);
+            Assert.IsTrue(a.NoArticleTextChanged);
+            Assert.IsFalse(a.OnlyMinorGeneralFixesChanged);
         }
 
         [Test]
