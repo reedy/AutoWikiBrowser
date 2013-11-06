@@ -2367,7 +2367,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Searches for wikilinks with no target
+        /// Searches for wikilinks with no target e.g. [[|foo]]
         /// </summary>
         /// <param name="articleText">The article text</param>
         /// <returns>Dictionary of links with no target found</returns>
