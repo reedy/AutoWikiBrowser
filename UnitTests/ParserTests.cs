@@ -10199,6 +10199,27 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         }
 
         [Test]
+        public void TaggerPermitted()
+        {
+            Assert.IsTrue(Parsers.TaggerPermitted("A", "Wikipedia:AutoWikiBrowser/Sandbox"));
+            Assert.IsFalse(Parsers.TaggerPermitted("A", "Wikipedia:ABC"));
+            Assert.IsFalse(Parsers.TaggerPermitted("A {{wi}}", "ABC"));
+            Assert.IsFalse(Parsers.TaggerPermitted("A", "Main Page"));
+            Assert.IsFalse(Parsers.TaggerPermitted("#REDIRECT [[A]]", "ABC"));
+            Assert.IsFalse(Parsers.TaggerPermitted("{{soft redirect}}", "ABC"));
+
+            #if DEBUG
+            Variables.SetProjectLangCode("ar");
+            Assert.IsFalse(Parsers.TaggerPermitted("A", "Talk:A"));
+
+            Variables.Namespaces.Add(104, "Special104");
+            Assert.IsTrue(Parsers.TaggerPermitted("A", "Special104:A"));
+            Variables.Namespaces.Remove(104);
+            Variables.SetProjectLangCode("en");
+            #endif
+        }
+
+        [Test]
         public void ConversionsTestsCitationNeeded()
         {
             string correct = @"{{citation needed|date=May 2010}}";
