@@ -1005,6 +1005,18 @@ disambig|surname
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Förnamn}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Robotskapad förgrening}}");
 
+            Variables.SetProjectLangCode("el");
+            WikiRegexes.MakeLangSpecificRegexes();
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{disambig}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Αποσαφήνιση}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{αποσαφήνιση}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Αποσαφ}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{αποσαφ}}");
+
+            Variables.SetProjectLangCode("pl");
+            WikiRegexes.MakeLangSpecificRegexes();
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{disambig}}");
+
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
             #endif
