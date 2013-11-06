@@ -7404,7 +7404,7 @@ namespace WikiFunctions.Parse
 		/// <returns>True if Tagger is permitted on article</returns>
 		/// <param name='articleText'>Article text</param>
 		/// <param name='articleTitle'>Article title</param>
-		private static bool TaggerPermitted(string articleText, string articleTitle)
+		public static bool TaggerPermitted(string articleText, string articleTitle)
 		{
 		    if(articleTitle.Equals("Wikipedia:AutoWikiBrowser/Sandbox"))
 		        return true;
