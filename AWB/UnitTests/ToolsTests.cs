@@ -163,6 +163,23 @@ namespace UnitTests
         }
 
         [Test]
+        public void FirstToUpperAndRemoveHashOnArray()
+        {
+            string[] a = new string[2];
+            a[0] = "Abc#f";
+            a[1] = "efh ";
+
+            string[] b = new string[2];
+            b[0] = "Abc";
+            b[1] = "Efh";
+
+            Assert.AreEqual(b, Tools.FirstToUpperAndRemoveHashOnArray(a));
+            a[1] = "[[Efh]]";
+            Assert.AreEqual(b, Tools.FirstToUpperAndRemoveHashOnArray(a));
+            Assert.AreEqual(null, Tools.FirstToUpperAndRemoveHashOnArray(null));
+        }
+
+        [Test]
         public void TurnFirstToLower()
         {
             Assert.AreEqual("", Tools.TurnFirstToLower(""));
@@ -2411,6 +2428,7 @@ hello", Tools.NestedTemplateRegex("foo"), true));
         public void ConvertToTalk()
         {
             Assert.AreEqual("Talk:Foo", ToTalk("Foo"));
+            Assert.AreEqual("Talk:Foo", Tools.ConvertToTalk("Foo"));
             Assert.AreEqual("Talk:Foo bar", ToTalk("Foo bar"));
             Assert.AreEqual("Talk:Foo:Bar", ToTalk("Foo:Bar"));
             Assert.AreEqual("Wikipedia talk:Foo", ToTalk("Wikipedia:Foo"));
@@ -2445,6 +2463,7 @@ hello", Tools.NestedTemplateRegex("foo"), true));
         public void ConvertFromTalk()
         {
             Assert.AreEqual("Foo", FromTalk("Talk:Foo"));
+            Assert.AreEqual("Foo", Tools.ConvertFromTalk("Talk:Foo"));
             Assert.AreEqual("Foo", FromTalk("Foo"));
             Assert.AreEqual("Foo:Bar", FromTalk("Foo:Bar"));
             Assert.AreEqual("Foo:Bar", FromTalk("Talk:Foo:Bar"));
