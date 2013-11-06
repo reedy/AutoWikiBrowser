@@ -472,6 +472,103 @@ File:9th of June street , Bacău.JPG|[[Romanian War of Independence#Overview|9th
     public class ArticleTests : RequiresInitialization
     {
         [Test]
+        public void General()
+        {
+            Article a = new Article("A");
+            Article b = new Article("A");
+            b=null;
+            Assert.IsFalse(a.Equals(null));
+            b = new Article("A");
+            Assert.AreEqual("A", a.ToString());
+            Assert.IsFalse(a != b);
+            
+            Assert.AreEqual("A", a.URLEncodedName);
+        }
+        
+        [Test]
+        public void AlertProperties()
+        {
+            Article a = new Article("A", "{{dead link}}");
+            Assert.AreEqual(1, a.DeadLinks().Count);
+            Assert.IsTrue(a.HasDeadLinks);
+            
+            a = new Article("A", "<small>");
+            Assert.AreEqual(1, a.UnclosedTags().Count);
+            
+            a = new Article("A", "==[[A]]==");
+            Assert.AreEqual(1, a.WikiLinkedHeaders().Count);
+            
+            a = new Article("A", "{{multiple issues|foo=bar}}");
+            Assert.AreEqual(1, a.UnknownMultipleIssuesParameters().Count);
+            
+            a = new Article("Talk:A", "{{WikiProjectBannerShell|foo=bar}}");
+            Assert.AreEqual(1, a.UnknownWikiProjectBannerShellParameters().Count);
+            
+            a = new Article("Talk:A", "{{WikiProjectBannerShell|foo=bar|foo=bar}}");
+            Assert.AreEqual(1, a.DuplicateWikiProjectBannerShellParameters().Count);
+            
+            a = new Article("A", "[[A|B|C]]");
+            Assert.AreEqual(1, a.DoublepipeLinks().Count);
+            
+            a = new Article("A", "[[|A]]");
+            Assert.AreEqual(1, a.TargetlessLinks().Count);
+            
+            a = new Article("A", "{{cite web|sajksdfa=a}}");
+            Assert.AreEqual(1, a.BadCiteParameters().Count);
+            
+            a = new Article("A", "{{cite web|date=5-4-10}}");
+            Assert.AreEqual(1, a.AmbiguousCiteTemplateDates().Count);
+            
+            a.ResetEditSummary();
+            Assert.AreEqual("", a.EditSummary);
+        }
+
+        [Test]
+        public void Properties()
+        {
+            Article a = new Article("A", "ABC");
+            Assert.IsFalse(a.ArticleIsAboutAPerson);
+            
+            a = new Article("A");
+            Assert.IsFalse(a.HasDiacriticsInTitle);
+            
+            a = new Article("Aé");
+            Assert.IsTrue(a.HasDiacriticsInTitle);
+            
+            Assert.IsTrue(a.IsStub);
+            
+            a = new Article("A", "ABC");
+            Assert.IsFalse(a.HasStubTemplate);             
+            Assert.IsFalse(a.HasInfoBox);
+            Assert.IsFalse(a.HasSicTag);
+            Assert.IsFalse(a.IsInUse);
+            Assert.IsFalse(a.HasTargetLessLinks);
+            Assert.IsFalse(a.HasDoublePipeLinks);
+            Assert.IsFalse(a.HasMorefootnotesAndManyReferences);
+            Assert.IsFalse(a.IsDisambiguationPage);
+            Assert.IsFalse(a.IsDisambiguationPageWithRefs);
+            Assert.IsFalse(a.IsSIAPage);
+            Assert.IsFalse(a.HasRefAfterReflist);
+            Assert.IsFalse(a.HasNamedReferences);
+            Assert.IsFalse(a.HasBareReferences);
+            Assert.IsFalse(a.HasAmbiguousCiteTemplateDates);
+            Assert.IsFalse(a.HasSeeAlsoAfterNotesReferencesOrExternalLinks);
+            Assert.IsFalse(a.IsMissingReferencesDisplay);
+            Assert.IsFalse(a.IsRedirect);
+        }
+        
+        [Test]
+        public void CanDoGeneralFixes()
+        {
+            Article a = new Article("A", "ABC");
+            Assert.IsTrue(a.CanDoGeneralFixes);
+            
+            Assert.IsFalse(a.CanDoTalkGeneralFixes);
+            a = new Article("Talk:A", "ABC");
+            Assert.IsTrue(a.CanDoTalkGeneralFixes);
+        }
+
+        [Test]
         public void NamespacelessName()
         {
             Assert.AreEqual("Foo", new Article("Foo").NamespacelessName);
@@ -549,6 +646,10 @@ There [was.");
 {{DEFAULTSORT:Hello test}}
 [[Category:Test pages]]
 ", a.ArticleText, "Text unicodified, hidemore used");
+            
+            a = new Article("a", @"ABC");
+            a.Unicodify(true, Parser, RemoveText);
+            Assert.AreEqual(@"ABC", a.ArticleText, "No change");
         }
         
         [Test]
