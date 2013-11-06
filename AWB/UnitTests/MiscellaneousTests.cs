@@ -92,22 +92,18 @@ namespace UnitTests
             AssertAllHiddenMore(text);
         }
 
-        private void AssertPartiallyHidden(string expected, string text)
-        {
-            Assert.AreEqual(expected, Hide(text));
-        }
-
-        private void AssertPartiallyHiddenMore(string expected, string text, bool hideOnlyTargetOfWikilink)
-        {
-            Assert.AreEqual(expected, HideMore(text, hideOnlyTargetOfWikilink));
-        }
-
-        private void AssertPartiallyHiddenMore(string expected, string text)
-        {
-            AssertPartiallyHiddenMore(expected, text, false);
-        }
-
         #endregion
+
+        [Test]
+        public void HideMore()
+        {
+            Hider = new HideText(true, false, true);
+
+            string text = Hider.HideMore("[[foo]]", false, true);
+            RegexAssert.IsMatch(AllHidden, text);
+            text = Hider.AddBackMore(text);
+            Assert.AreEqual("[[foo]]", text);
+        }
 
         [Test]
         public void AcceptEmptyStrings()
@@ -201,6 +197,10 @@ abc={{bar}}
 File:Blogs001.jpeg|Description
 File:Blogs002.jpeg|Description
 </imagemap>");
+
+            AssertBothHidden(@"[[File:foo.jpg]]");
+            AssertBothHidden(@"[[Image:foo with space and 0004.png|");
+            AssertBothHidden(@"[[Image:foo_here.png|");
         }
         
         [Test]
