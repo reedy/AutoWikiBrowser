@@ -10565,11 +10565,12 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
         public void RedirectTaggerOtherNamespace()
         {
             Assert.AreEqual(@"#REDIRECT:[[Project:FooBar]] {{R to project namespace}}", Parsers.RedirectTagger(@"#REDIRECT:[[Project:FooBar]]", "FooBar"));
-            Assert.AreEqual(@"#REDIRECT:[[Help:FooBar]] {{R to help namespace}}", Parsers.RedirectTagger(@"#REDIRECT:[[Help:FooBar]]", "FooBar"));            
-            Assert.AreEqual(@"#REDIRECT:[[Portal:FooBar]] {{R to portal namespace}}", Parsers.RedirectTagger(@"#REDIRECT:[[Portal:FooBar]]", "FooBar"));            
-            Assert.AreEqual(@"#REDIRECT:[[Template:FooBar]] {{R to template namespace}}", Parsers.RedirectTagger(@"#REDIRECT:[[Template:FooBar]]", "FooBar"));            
-            Assert.AreEqual(@"#REDIRECT:[[User:FooBar]] {{R to user namespace}}", Parsers.RedirectTagger(@"#REDIRECT:[[User:FooBar]]", "FooBar"));            
-            Assert.AreEqual(@"#REDIRECT:[[Talk:FooBar]] {{R to talk namespace}}", Parsers.RedirectTagger(@"#REDIRECT:[[Talk:FooBar]]", "FooBar"));            
+            Assert.AreEqual(@"#REDIRECT:[[Help:FooBar]] {{R to help namespace}}", Parsers.RedirectTagger(@"#REDIRECT:[[Help:FooBar]]", "FooBar"));
+            Assert.AreEqual(@"#REDIRECT:[[Portal:FooBar]] {{R to portal namespace}}", Parsers.RedirectTagger(@"#REDIRECT:[[Portal:FooBar]]", "FooBar"));
+            Assert.AreEqual(@"#REDIRECT:[[Template:FooBar]] {{R to template namespace}}", Parsers.RedirectTagger(@"#REDIRECT:[[Template:FooBar]]", "FooBar"));
+            Assert.AreEqual(@"#REDIRECT:[[Category:FooBar]] {{R to category namespace}}", Parsers.RedirectTagger(@"#REDIRECT:[[Category:FooBar]]", "FooBar"));
+            Assert.AreEqual(@"#REDIRECT:[[User:FooBar]] {{R to user namespace}}", Parsers.RedirectTagger(@"#REDIRECT:[[User:FooBar]]", "FooBar"));
+            Assert.AreEqual(@"#REDIRECT:[[Talk:FooBar]] {{R to talk namespace}}", Parsers.RedirectTagger(@"#REDIRECT:[[Talk:FooBar]]", "FooBar"));
             Assert.AreEqual(@"#REDIRECT:[[Template talk:FooBar]] {{R to other namespace}}", Parsers.RedirectTagger(@"#REDIRECT:[[Template talk:FooBar]]", "FooBar"));
 
             const string correct = @"#REDIRECT:[[Category:FooBar]] {{R to other namespace}}", redirectNam = @"#REDIRECT:[[Category:FooBar]]";
