@@ -9069,7 +9069,17 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
 
             text = parser.Tagger("{{uncategorised|date=January 2009}} {{foo}}", "Test", false, out noChange, ref summary);
-            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text), "Uncat removed even if other template present");        
+            Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text), "Uncat removed even if other template present");
+
+            Globals.UnitTestIntValue = 0;
+            text = parser.Tagger(ShortText + @"{{dead end}}{{orphan}}
+{{reflist}}
+{{Uncategorised|date=May 2010}}{{stub}}", "Test", false, out noChange, ref summary);
+            Assert.IsTrue(text.EndsWith(@"{{reflist}}
+
+
+{{Uncategorized stub|date=May 2010}}
+{{stub}}"));
         }
 
         [Test]

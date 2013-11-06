@@ -7021,6 +7021,7 @@ namespace WikiFunctions.Parse
 
             tagsRemoved.Clear();
             tagsAdded.Clear();
+            int tagsrenamed = 0;
 
             string commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
             string commentsCategoriesStripped = WikiRegexes.Category.Replace(commentsStripped, "");
@@ -7246,13 +7247,13 @@ namespace WikiFunctions.Parse
                     string uncatname = WikiRegexes.Uncat.Match(articleText).Groups[1].Value;
                     if (!uncatname.Contains("stub"))
                     {
+                        tagsrenamed++;
                         if (Variables.LangCode.Equals("ar"))
                             articleText = Tools.RenameTemplate(articleText, uncatname, "بذرة غير مصنفة");
                         else if (Variables.LangCode.Equals("arz"))
                             articleText = Tools.RenameTemplate(articleText, uncatname, "تقاوى مش متصنفه");
                         else
-                            articleText = Tools.RenameTemplate(articleText, uncatname, "Uncategorized stub");
-                        
+                            articleText = Tools.RenameTemplate(articleText, uncatname, "Uncategorized stub");                        
                     }
                 }
             }
@@ -7373,7 +7374,7 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            if (tagsAdded.Count > 0 || tagsRemoved.Count > 0)
+            if (tagsAdded.Count > 0 || tagsRemoved.Count > 0 || tagsrenamed > 0)
             {
                 Parsers p = new Parsers();
                 HideText hider = new HideText();
@@ -7405,6 +7406,8 @@ namespace WikiFunctions.Parse
 		/// <param name='articleTitle'>Article title</param>
 		private static bool TaggerPermitted(string articleText, string articleTitle)
 		{
+		    if(articleTitle.Equals("Wikipedia:AutoWikiBrowser/Sandbox"))
+		        return true;
 			// don't tag redirects/outside article namespace/no tagging changes
 			// allow for ar-wiki 104
 			if(Variables.LangCode.Equals("ar") && Namespace.Determine(articleTitle) == 104)
