@@ -34,11 +34,8 @@ namespace WikiFunctions
         /// <returns></returns>
         public static string ModifiedSection(string originalText, string articleText)
         {
-            string[] sectionsBefore = Tools.SplitToSections(originalText);
-            if (sectionsBefore.Length == 0)
-                return "";
-
-            string[] sectionsAfter = Tools.SplitToSections(articleText);
+            string[] sectionsBefore = Tools.SplitToSections(originalText), 
+            sectionsAfter = Tools.SplitToSections(articleText);
 
             // if number of sections has changed, can't provide section edit summary
             if (sectionsAfter.Length != sectionsBefore.Length)
