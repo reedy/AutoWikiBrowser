@@ -2072,6 +2072,19 @@ Start date and age
         }
 
         [Test]
+        public void BuildPostDataString()
+        {
+            System.Collections.Specialized.NameValueCollection nvc = new System.Collections.Specialized.NameValueCollection();
+
+            nvc.Add("param1", "value1");
+            Assert.AreEqual("param1=value1", Tools.BuildPostDataString(nvc));
+            nvc.Add("param2", "value2");
+            Assert.AreEqual("param1=value1&param2=value2", Tools.BuildPostDataString(nvc));
+            nvc.Add("param3", "A B C");
+            Assert.AreEqual("param1=value1&param2=value2&param3=A+B+C", Tools.BuildPostDataString(nvc));
+        }
+
+        [Test]
         public void TemplateToMagicWord()
         {
             Assert.AreEqual(@"{{DEFAULTSORT:Foo}}", Tools.TemplateToMagicWord(@"{{DEFAULTSORT|Foo}}"));
