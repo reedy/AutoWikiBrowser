@@ -2040,6 +2040,10 @@ Start date and age
             Assert.AreEqual(Tools.GetTemplateName(@"{{Foo   one|1=yes}}"), "Foo one", "underscores cleaned");
 
             Assert.AreEqual(Tools.GetTemplateName(@""), "");
+
+            Variables.NamespacesCaseInsensitive.Remove(Namespace.Template);
+            Assert.AreEqual(Tools.GetTemplateName(@""), "");
+            Variables.NamespacesCaseInsensitive.Add(Namespace.Template, "[Tt]emplate:");
         }
 
         [Test]
@@ -2057,6 +2061,14 @@ Start date and age
             Assert.AreEqual(@"Greatère, Véry", Tools.ReAddDiacritics(@"Véry Greatère", @"Greatere, Very"), "multiple words changed");
             Assert.AreEqual(@"Greatère, Very der Very", Tools.ReAddDiacritics(@"Véry Greatère", @"Greatere, Very der Very"), "when multiple matches for same word without, that word not changed");
             Assert.AreEqual(@"Greatère, Very der Very", Tools.ReAddDiacritics(@"Véry de Vèry Greatère", @"Greatere, Very der Very"), "when multiple matches for same word without, that word not changed");
+        }
+        
+        [Test]
+        public void IsIP()
+        {
+            Assert.IsTrue(Tools.IsIP("192.168.0.1"));
+            Assert.IsTrue(Tools.IsIP("8.8.8.8"));
+            Assert.IsFalse(Tools.IsIP("www.google.com"));
         }
 
         [Test]
