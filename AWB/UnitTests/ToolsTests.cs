@@ -1845,6 +1845,11 @@ title={{abc|fdkjdsfjk=fdaskjlfds
 
             FooTemplate = Tools.NestedTemplateRegex("", true);
             Assert.AreEqual(null, FooTemplate);
+            
+            Variables.NamespacesCaseInsensitive.Remove(Namespace.Template);
+            FooTemplate = Tools.NestedTemplateRegex("Foo", true);
+            Assert.IsTrue(FooTemplate.IsMatch(@"{{Template:foo}}"));
+            Variables.NamespacesCaseInsensitive.Add(Namespace.Template, "[Tt]emplate:");
         }
 
         [Test]
@@ -2000,6 +2005,14 @@ foo<!--comm-->|title=abc
             Assert.AreEqual(@"10.1111/j.1096-0031.2009.00267.x", Tools.GetMetaContentValue(@"<meta xmlns=""http://www.w3.org/1999/xhtml"" name=""citation_doi"" content=""10.1111/j.1096-0031.2009.00267.x"" />", "citation_doi"));
             Assert.AreEqual(@"10.1093/nar/27.19.3821", Tools.GetMetaContentValue(@"<meta content=""10.1093/nar/27.19.3821"" name=""DC.Identifier"" />", "DC.Identifier"));
             Assert.AreEqual(@"10.1101/gr.7.4.359", Tools.GetMetaContentValue(@"<meta content=""10.1101/gr.7.4.359"" name=""DC.Identifier"" />", "DC.Identifier"));
+        }
+        
+        [Test]
+        public void UnescapeXML()
+        {
+            Assert.AreEqual(@"<tag>value</tag>", Tools.UnescapeXML(@"<tag>value</tag>"));
+            Assert.AreEqual("", Tools.UnescapeXML(""));
+            Assert.AreEqual(@"<tag>A&B</tag>", Tools.UnescapeXML(@"<tag>A&amp;B</tag>"));
         }
 
         [Test]
