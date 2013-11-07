@@ -1397,7 +1397,10 @@ namespace WikiFunctions.Parse
             }
 
             if(sfnUsed)
-                articleText = PunctuationAfterSfn.Replace(articleText, "${punc}${sfn}");
+            {
+                while(PunctuationAfterSfn.IsMatch(articleText))
+                    articleText = PunctuationAfterSfn.Replace(articleText, "${punc}${sfn}");
+            }
 
             if(RefsAfterDupePunctuationQuick.IsMatch(articleText))
                 articleText = RefsAfterDupePunctuation.Replace(articleText, "$1$2$3");
