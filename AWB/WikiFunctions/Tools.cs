@@ -2357,7 +2357,7 @@ Message: {2}
 		}
 
 		/// <summary>
-		/// 
+		/// Converts a NameValueCollection of parameter names and values into an API command string
 		/// </summary>
 		/// <param name="postvars"></param>
 		/// <returns></returns>
@@ -3510,6 +3510,11 @@ Message: {2}
 			return string.Join(", ", items.ToArray());
 		}
 
+		/// <summary>
+		/// Replaces escaped characters in XML with the single character: apotrophe, quote, greater than, less than, ampersand
+		/// </summary>
+		/// <param name="s"></param>
+		/// <returns></returns>
 		public static string UnescapeXML(string s)
 		{
 			if (string.IsNullOrEmpty(s)) return s;
@@ -3519,9 +3524,7 @@ Message: {2}
 			returnString = returnString.Replace("&quot;", "\"");
 			returnString = returnString.Replace("&gt;", ">");
 			returnString = returnString.Replace("&lt;", "<");
-			returnString = returnString.Replace("&amp;", "&");
-
-			return returnString;
+			return returnString.Replace("&amp;", "&");
 		}
 		
 		public static string ReAddDiacritics(string WithDiacritics, string WithoutDiacritics)
