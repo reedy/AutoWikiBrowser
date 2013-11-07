@@ -1905,10 +1905,13 @@ Message: {2}
 		    }
 		    try
 		    {
-		        if(WineBrowserPath.Length > 0) // Wine
-		            System.Diagnostics.Process.Start(WineBrowserPath, url);
-		        else // Windows
-		            System.Diagnostics.Process.Start(url);
+		        if(!Globals.UnitTestMode)
+		        {
+		            if(WineBrowserPath.Length > 0) // Wine
+		                System.Diagnostics.Process.Start(WineBrowserPath, url);
+		            else // Windows
+		                System.Diagnostics.Process.Start(url);
+		        }
 		    }
 		    catch { }
 		}
