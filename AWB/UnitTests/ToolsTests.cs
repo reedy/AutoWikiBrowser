@@ -1839,6 +1839,12 @@ title={{abc|fdkjdsfjk=fdaskjlfds
             Assert.IsTrue(FooTemplate.IsMatch(@"{{_:_Template_:_foo_}}"));
 
             Assert.IsFalse(FooTemplate.IsMatch(@"{{Template foo}}"));
+
+            FooTemplate = Tools.NestedTemplateRegex("foo", true);
+            Assert.AreEqual(FooTemplate.Match(@"{{  foo}}").Groups[1].Value, @"{{  ");
+
+            FooTemplate = Tools.NestedTemplateRegex("", true);
+            Assert.AreEqual(null, FooTemplate);
         }
 
         [Test]
