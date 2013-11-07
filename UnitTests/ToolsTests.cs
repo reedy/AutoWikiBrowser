@@ -2085,6 +2085,19 @@ Start date and age
         }
 
         [Test]
+        public void OpenInBRowser()
+        {
+            Tools.OpenURLInBrowser("https://en.wikipedia.org");
+            Tools.OpenArticleInBrowser("A");
+            Tools.OpenArticleHistoryInBrowser("A");
+            Tools.OpenENArticleInBrowser("A", true);
+            Tools.OpenENArticleInBrowser("A", false);
+            Tools.OpenUserTalkInBrowser("A");
+            Tools.OpenArticleLogInBrowser("A");
+            Tools.EditArticleInBrowser("A");
+        }
+
+        [Test]
         public void TemplateToMagicWord()
         {
             Assert.AreEqual(@"{{DEFAULTSORT:Foo}}", Tools.TemplateToMagicWord(@"{{DEFAULTSORT|Foo}}"));
