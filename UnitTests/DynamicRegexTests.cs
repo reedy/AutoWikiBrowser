@@ -1150,6 +1150,17 @@ pp
             Assert.AreEqual(@"{{DEFAULTSORT:foo
 }}", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo
 }}").Value);
+
+            #if DEBUG
+            Variables.SetProjectLangCode("en");
+            System.Collections.Generic.List<string> ds = new System.Collections.Generic.List<string>(new[] { "DEFAULTSORT", "dsort"});
+            Variables.MagicWords.Add("defaultsort", ds);
+            WikiRegexes.MakeLangSpecificRegexes();
+            RegexAssert.IsMatch(WikiRegexes.Defaultsort, "{{DEFAULTSORT:foo}}");
+            RegexAssert.IsMatch(WikiRegexes.Defaultsort, "{{dsort:foo}}");
+            Variables.MagicWords.Remove("defaultsort");
+            WikiRegexes.MakeLangSpecificRegexes();
+            #endif
         }
         
         [Test]
