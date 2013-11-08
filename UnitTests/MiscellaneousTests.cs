@@ -2309,6 +2309,13 @@ File:Example.jpg|Caption2
             Assert.IsFalse(fr.HasAfterProcessingReplacements);
             Assert.IsFalse(fr.HasProcessingReplacements(true));
             Assert.IsFalse(fr.HasProcessingReplacements(false));
+
+            fr.Clear();
+            List<WikiFunctions.Parse.Replacement> l = new List<Replacement>();
+            l.Add(r);
+            l.Add(r2);
+            fr.AddNew(l);
+            Assert.IsTrue(fr.HasReplacements);
         }
     }
     
