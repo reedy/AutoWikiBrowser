@@ -692,7 +692,7 @@ namespace WikiFunctions
         public static Regex FileNamespaceLink;
 
         /// <summary>
-        /// Matches disambig templates (en and ru only)
+        /// Matches disambig templates, supports language variants e.g. for en-wiki {{disambig}}, {{dab}}
         /// </summary>
         public static Regex Disambigs;
 
