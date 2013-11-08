@@ -14,15 +14,6 @@ namespace UnitTests
             Typos = list;
         }
 
-        public TypoList(IEnumerable<KeyValuePair<string, string>> list)
-        {
-            Typos = new Dictionary<string, string>();
-            foreach (KeyValuePair<string, string> p in list)
-            {
-                Typos.Add(p.Key, p.Value);
-            }
-        }
-
         public Dictionary<string, string> GetTypos()
         {
             return Typos;
