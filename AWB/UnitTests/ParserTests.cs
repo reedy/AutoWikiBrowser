@@ -3699,6 +3699,7 @@ Foo}}"));
 
             const string FrIW = @"Now [[fr:Here]]";
             Assert.AreEqual(FrIW, Parsers.FixLinks(FrIW, "Bar", out nochange));
+            Assert.IsTrue(parser.SortInterwikis);
         }
 
         [Test]
