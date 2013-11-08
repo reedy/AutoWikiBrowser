@@ -266,6 +266,10 @@ Might eventually be relevant on a disambig page?  But these are a redirect and a
 			a = @"<!--" + dab + @"-->" + "\r\n" + foo;
 			Assert.AreEqual("", MetaDataSorter.RemoveDisambig(ref a));
 			Assert.AreEqual(a,  @"<!--" + dab + @"-->" + "\r\n" + foo);
+
+			a = dab + "<!--comm-->\r\n" + foo;
+			Assert.AreEqual(dab + "<!--comm-->", MetaDataSorter.RemoveDisambig(ref a), "Handles disambig template with comment after");
+			Assert.AreEqual(a, "\r\n" + foo);
 		}
 
 		[Test]
