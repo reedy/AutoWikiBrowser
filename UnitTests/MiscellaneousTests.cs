@@ -580,6 +580,14 @@ File:9th of June street , Bacău.JPG|[[Romanian War of Independence#Overview|9th
         }
 
         [Test]
+        public void SetDefaultSort()
+        {
+            Article a = new Article("A", "ABC");
+            a.SetDefaultSort("en", true);
+            Assert.AreEqual("ABC", a.ArticleText);
+        }
+
+        [Test]
         public void Changes()
         {
             Article a = new Article("A", "ABC");
