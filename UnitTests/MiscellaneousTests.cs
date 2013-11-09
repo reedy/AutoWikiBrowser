@@ -504,7 +504,7 @@ Fusce massa. Nullam lacinia purus nec ipsum. Vestibulum ante ipsum primis in fau
 Proin in odio. Pellentesque [[habitant]] [[morbi]] [[tristique]] senectus et netus et malesuada fames ac turpis egestas. Vivamus bibendum arcu nec risus. Nulla iaculis ligula in purus. Etiam vulputate nibh sit amet lectus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse potenti. Suspendisse eleifend. Donec blandit nibh hendrerit turpis. Integer accumsan posuere odio. Ut commodo augue malesuada risus. Curabitur augue. Praesent volutpat nunc a diam. Nulla lobortis interdum dolor. Nunc imperdiet, ipsum ac tempor iaculis, nunc.
 ";
             Article a = new Article("A", "ABC");
-            Parsers p = new Parsers();
+            Parsers p = new Parsers(500, true);
             a.AutoTag(p, true, true);
             Assert.IsFalse(a.NoArticleTextChanged);
 
@@ -2316,6 +2316,7 @@ File:Example.jpg|Caption2
             l.Add(r2);
             fr.AddNew(l);
             Assert.IsTrue(fr.HasReplacements);
+            Assert.AreEqual(fr.GetList(), l);
         }
     }
     
