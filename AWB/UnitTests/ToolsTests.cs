@@ -2387,6 +2387,8 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual("Kwakwaka'wakw mythology", Tools.FixupDefaultSort("Kwakwaka'wakw mythology"));
             Assert.AreEqual(@"Peewee's Playhouse", Tools.FixupDefaultSort(@"Peewee's Playhouse"));
             Assert.AreEqual(@"Peewee's Playhouse", Tools.FixupDefaultSort(@"Peewee’s Playhouse"));
+            Assert.AreEqual(@"2010 ITF Women's Circuit (July-September)", Tools.FixupDefaultSort(@"2010 ITF Women's Circuit (July–September)"));
+            
         }
 
         [Test]
