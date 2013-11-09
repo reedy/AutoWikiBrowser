@@ -7594,6 +7594,11 @@ foo {{persondata}}
 {{DEFAULTSORT:Special foos}}", Parsers.ChangeToDefaultSort(@"foo
 [[Category:All foos]]", "Category:Special foŏs", out noChange, false));
 
+            // hyphen in title becomes a minus in DEFAULTSORT key
+            Assert.AreEqual(@"foo
+{{DEFAULTSORT:Women's Circuit (July-September)}}", Parsers.ChangeToDefaultSort(@"foo
+{{DEFAULTSORT:Women's Circuit (July–September)}}", "Women's Circuit (July–September)", out noChange, false));
+
             // skip when nonclude on page
             const string NoInclude = @"[[Category:Test1|Foooo]][[Category:Test2|Foooo]] <noinclude>foo</noinclude>";
             Assert.AreEqual(NoInclude,
