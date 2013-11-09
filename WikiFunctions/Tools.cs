@@ -1012,6 +1012,8 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("ế", "e"),
 			new KeyValuePair<string, string>("Ệ", "E"),
 			new KeyValuePair<string, string>("ệ", "e"),
+			new KeyValuePair<string, string>("Ẻ", "E"),
+			new KeyValuePair<string, string>("ẻ", "e"),			
 			new KeyValuePair<string, string>("Ố", "O"),
 			new KeyValuePair<string, string>("ố", "o"),
 			new KeyValuePair<string, string>("Ồ", "O"),
