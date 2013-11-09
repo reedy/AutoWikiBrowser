@@ -1467,10 +1467,6 @@ namespace WikiFunctions
                 }
             }
 
-            // run whether redirect or not, must be after FixPeopleCategories
-            SetDefaultSort(Variables.LangCode, skip.SkipNoDefaultSortAdded, restrictDefaultsortAddition);
-            Variables.Profiler.Profile("SetDefaultSort");
-
             UnHideText(removeText);
 
             if (!Tools.IsRedirect(ArticleText))
@@ -1479,6 +1475,10 @@ namespace WikiFunctions
                 AWBChangeArticleText("Fix dates 2", parsers.FixDatesA(ArticleText).Trim(), true);
                 Variables.Profiler.Profile("FixDates2");
             }
+
+            // run whether redirect or not, must be after FixPeopleCategories
+            SetDefaultSort(Variables.LangCode, skip.SkipNoDefaultSortAdded, restrictDefaultsortAddition);
+            Variables.Profiler.Profile("SetDefaultSort");
 
             if (!Globals.UnitTestMode) // disable to avoid ssslow network requests
             {
