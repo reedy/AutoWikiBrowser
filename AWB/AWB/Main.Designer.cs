@@ -86,7 +86,6 @@ namespace AutoWikiBrowser
             this.humanNameDisambigTagToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.wikifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cleanupToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.expandToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.speedyDeleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uncategorisedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -772,7 +771,6 @@ namespace AutoWikiBrowser
             this.humanNameDisambigTagToolStripMenuItem,
             this.wikifyToolStripMenuItem,
             this.cleanupToolStripMenuItem,
-            this.expandToolStripMenuItem,
             this.speedyDeleteToolStripMenuItem,
             this.clearToolStripMenuItem,
             this.uncategorisedToolStripMenuItem,
@@ -809,13 +807,6 @@ namespace AutoWikiBrowser
             this.cleanupToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
             this.cleanupToolStripMenuItem.Text = "Cleanup";
             this.cleanupToolStripMenuItem.Click += new System.EventHandler(this.cleanupToolStripMenuItem_Click);
-            // 
-            // expandToolStripMenuItem
-            // 
-            this.expandToolStripMenuItem.Name = "expandToolStripMenuItem";
-            this.expandToolStripMenuItem.Size = new System.Drawing.Size(228, 22);
-            this.expandToolStripMenuItem.Text = "Expand";
-            this.expandToolStripMenuItem.Click += new System.EventHandler(this.expandToolStripMenuItem_Click);
             // 
             // speedyDeleteToolStripMenuItem
             // 
@@ -4372,7 +4363,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.ToolStripMenuItem insertTagToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem wikifyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cleanupToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem expandToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem speedyDeleteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stubToolStripMenuItem;
         private System.Windows.Forms.ToolStripTextBox toolStripTextBox1;
