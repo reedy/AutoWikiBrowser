@@ -7098,6 +7098,7 @@ namespace WikiFunctions.Parse
                     totalCategories = RegularCategories(articleText).Count;
             }
 
+            // remove dead end if > 0 wikilinks on page
             if (wikiLinkCount > 0 && WikiRegexes.DeadEnd.IsMatch(articleText))
             {
                 if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz"))
