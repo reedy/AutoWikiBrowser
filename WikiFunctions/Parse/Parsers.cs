@@ -7270,7 +7270,7 @@ namespace WikiFunctions.Parse
                 {
                     articleText = "{{نهاية مسدودة|" + WikiRegexes.DateYearMonthParameter + "}}\r\n" + (WikiRegexes.Orphan.IsMatch(articleText) ? "" : "\r\n") + articleText;
                     tagsAdded.Add("[[:تصنيف:مقالات نهاية مسدودة|نهاية مسدودة]]");
-                    // if dead end then remove underlinked
+                    // if dead end then remove underlinked/wikify
                     if(WikiRegexes.Wikify.IsMatch(articleText))
                     {
                         articleText = WikiRegexes.Wikify.Replace(articleText, "").TrimStart();
@@ -7312,11 +7312,11 @@ namespace WikiFunctions.Parse
                      && !WikiRegexes.NonDeadEndPageTemplates.IsMatch(articleText))
             {
                 // Avoid excess newlines between templates
-                string templateEnd = "}}\r\n" + (articleText.StartsWith(@"{{") ? "" : "\r\n");
+                string templateEnd = "}}\r\n" + (articleText.TrimStart().StartsWith(@"{{") ? "" : "\r\n");
                 
                 if (Variables.LangCode.Equals("ar"))
                 {
-                    articleText = "{{ويكي|" + WikiRegexes.DateYearMonthParameter + templateEnd + articleText;
+                    articleText = "{{ويكي|" + WikiRegexes.DateYearMonthParameter + templateEnd + articleText.TrimStart();
                     tagsAdded.Add("[[وب:ويكي|ويكي]]");
                 }
                 else if (Variables.LangCode.Equals("arz"))

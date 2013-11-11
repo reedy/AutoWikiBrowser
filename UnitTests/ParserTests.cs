@@ -9553,6 +9553,16 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.IsFalse(text.Contains(UncatStub),"english uncatstub");
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text),"uncat");
 
+            // dead end plus porphan but one wikilink: dead end --> orphan
+            text = parser.Tagger(@"{{نهاية مسدودة|تاريخ=نوفمبر 2013}}
+{{يتيمة|تاريخ=نوفمبر 2013}}
+
+[[link]]" + LongText,"Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text),"deadend");
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text),"orphan");
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(text),"wikify");
+            Assert.IsFalse(text.Contains("}}" + "\r\n\r\n" + "{{")); // no blank line between wikify & orphan
+
             Globals.UnitTestBoolValue = true;
             text = parser.Tagger(ShortText+ShortText+ShortText+ShortText, "Test", false, out noChange, ref summary);
             Assert.IsFalse(text.Contains("Uncategorized"), "no en-wiki uncat tags");
