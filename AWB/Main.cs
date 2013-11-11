@@ -3737,11 +3737,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             txtEdit.Text = "{{cleanup|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}\r\n\r\n" + txtEdit.Text;
         }
 
-        private void expandToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            txtEdit.Text = "{{Expand}}\r\n\r\n" + txtEdit.Text;
-        }
-
         private void speedyDeleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Rectangle scrn = Screen.GetWorkingArea(this);
