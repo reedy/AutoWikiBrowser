@@ -839,22 +839,23 @@ en, sq, ru
 		{
 			string articleTextAtStart = articleText;
 			// is external links section above references?
-			string externalLinks = ExternalLinksSection.Match(articleText).Groups[1].Value;
+			Match elm = ExternalLinksSection.Match(articleText);
+			string externalLinks = elm.Groups[1].Value;
 
 			// validate no <ref> in external links section
-			if(Regex.IsMatch(externalLinks, WikiRegexes.ReferenceEndGR))
+			if(!elm.Success || Regex.IsMatch(externalLinks, WikiRegexes.ReferenceEndGR))
 			    return articleTextAtStart;
 			
 			string references = ReferencesSection.Match(articleText).Groups[1].Value;
 
 			// references may be last section
 			if (references.Length == 0)
-				references = ReferencesToEnd.Match(articleText).Value;
+			    references = ReferencesToEnd.Match(articleText).Value;
 
-			if (articleText.IndexOf(externalLinks) < articleText.IndexOf(references) && references.Length > 0 && externalLinks.Length > 0)
+			if (references.Length > 0 && elm.Index < articleText.IndexOf(references))
 			{
-				articleText = articleText.Replace(externalLinks, "");
-				articleText = articleText.Replace(references, references + externalLinks);
+			    articleText = articleText.Replace(externalLinks, "");
+			    articleText = articleText.Replace(references, references + externalLinks);
 			}
 
 			return articleText;
@@ -869,10 +870,10 @@ en, sq, ru
 		public static string MoveSeeAlso(string articleText)
 		{
 			// is 'see also' section below references?
-			string references = ReferencesSection.Match(articleText).Groups[1].Value;
-			string seealso = SeeAlsoSection.Match(articleText).Groups[1].Value;
+			Match refSm = ReferencesSection.Match(articleText), seeAm = SeeAlsoSection.Match(articleText);
+			string references = refSm.Groups[1].Value, seealso = seeAm.Groups[1].Value;
 
-			if (articleText.IndexOf(seealso) > articleText.IndexOf(references) && ReferencesSection.Matches(articleText).Count == 1 && seealso.Length > 0)
+			if (seeAm.Success && seeAm.Index > refSm.Index && ReferencesSection.Matches(articleText).Count == 1)
 			{
 				articleText = articleText.Replace(seealso, "");
                 articleText = articleText.Replace(references, seealso + "\r\n" + references);
