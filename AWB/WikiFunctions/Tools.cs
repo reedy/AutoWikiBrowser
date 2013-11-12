@@ -2202,9 +2202,9 @@ Message: {2}
 		        return true;
 
 		    List<string> before = new List<string>();
-		       foreach(Match m in WikiRegexes.UnformattedText.Matches(originalArticleText))
+		    foreach(Match m in WikiRegexes.UnformattedText.Matches(originalArticleText))
 		    {
-		           before.Add(m.Value);
+		        before.Add(m.Value);
 		    }
 		    
 		    List<string> after = new List<string>();
@@ -2215,7 +2215,7 @@ Message: {2}
 		    
 		    foreach(string s in before)
 		    {
-		            after.Remove(s);
+		        after.Remove(s);
 		    }
 		    
 		    return (after.Count == 0);
