@@ -430,12 +430,11 @@ en, sq, ru
 			if (AddCatKey)
 				categoryList = CatKeyer(categoryList, articleTitle);
 
-			Match ccr = CatCommentRegex.Match(articleText);
-			if (ccr.Success)
-			{
-				articleText = articleText.Replace(ccr.Value, "");
-				categoryList.Insert(0, ccr.Value);
-			}
+			articleText = CatCommentRegex.Replace(articleText, m =>
+			                                      {
+			                                          categoryList.Insert(0, m.Value);
+			                                          return "";
+			                                      }, 1);
 
 			string defaultSort = "";
 			
