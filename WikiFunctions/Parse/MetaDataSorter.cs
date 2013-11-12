@@ -913,12 +913,12 @@ en, sq, ru
 		/// <returns>string of interwiki featured article and interwiki links</returns>
 		public string Interwikis(ref string articleText)
 		{
-			string interWikiComment = "";
-			if (InterLangRegex.IsMatch(articleText))
-			{
-				interWikiComment = InterLangRegex.Match(articleText).Value;
-				articleText = articleText.Replace(interWikiComment, "");
-			}
+		    string interWikiComment = "";
+		    articleText = InterLangRegex.Replace(articleText, m =>
+		                                         {
+		                                             interWikiComment = m.Value;
+		                                             return "";
+		                                         }, 1);
 
 			string interWikis = ListToString(RemoveLinkFGAs(ref articleText));
 			
