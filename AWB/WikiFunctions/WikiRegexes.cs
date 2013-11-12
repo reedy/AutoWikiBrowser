@@ -147,6 +147,8 @@ namespace WikiFunctions
             Defaultsort = new Regex(TemplateStart + s + @"\s*[:\|]\s*(?<key>(?>[^\{\}\r\n]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))|[^\}\r\n]*?)(?<end>\s*}}|\r|\n)",
                                     RegexOptions.ExplicitCapture);
 
+            Persondata = (Variables.LangCode.Equals("de") ? Tools.NestedTemplateRegex("personendaten") : Tools.NestedTemplateRegex("persondata"));
+
             //if (Variables.URL == Variables.URLLong)
             //    s = Regex.Escape(Variables.URL);
             //else
@@ -900,9 +902,9 @@ namespace WikiFunctions
         public static readonly Regex HarvTemplate = Tools.NestedTemplateRegex(new [] { "Harvard citation", "harv", "harvsp", "Harvard citation no brackets", "harvnb", "Harvard citation text", "harvtxt", "Harvcol", "Harvcolnb", "Harvcoltxt" }, false);
         
         /// <summary>
-        /// Matches persondata (en only)
+        /// Matches {{persondata}} template, or {{personendaten}} on de-wiki
         /// </summary>
-        public static readonly Regex Persondata = Tools.NestedTemplateRegex(@"Persondata");
+        public static Regex Persondata;
         
         /// <summary>
         /// The default blank Persondata template for en-wiki, from [[Template:Persondata#Usage]]
