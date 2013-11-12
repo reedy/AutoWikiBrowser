@@ -4644,10 +4644,11 @@ namespace WikiFunctions.Parse
         // Covered by: LinkTests.TestCanonicalizeTitle(), incomplete
         /// <summary>
         /// returns URL-decoded link target
+        /// Handles titles from [[Category:Articles with underscores in the title]]
         /// </summary>
         public static string CanonicalizeTitle(string title)
         {
-            // visible parts of links may contain crap we shouldn't modify, such as refs and external links
+            // visible parts of links may contain text we shouldn't modify, such as refs and external links
             if (!Tools.IsValidTitle(title) || title.Contains(":/"))
                 return title;
 
@@ -4655,8 +4656,7 @@ namespace WikiFunctions.Parse
             string s = CanonicalizeTitleRaw(title);
             if (Variables.UnderscoredTitles.Contains(Tools.TurnFirstToUpper(s)))
             {
-                return HttpUtility.UrlDecode(title.Replace("+", "%2B"))
-                    .Trim(new[] { '_' });
+                return HttpUtility.UrlDecode(title.Replace("+", "%2B")).Trim(new[] { '_' });
             }
             return s;
         }
@@ -4908,27 +4908,20 @@ namespace WikiFunctions.Parse
             // don't convert %27%27 -- https://bugzilla.wikimedia.org/show_bug.cgi?id=8932
             if (theTarget.Length > 0 && !theTarget.Contains("%27%27"))
             {
-                string newTarget = "", underscorecheck = "";
-                Match sl = SectionLink.Match(theTarget);
+                string newTarget = "";
+                if(theTarget.Contains("#")) // check for performance
+                {
+                    Match sl = SectionLink.Match(theTarget);
 
-                if(sl.Success) // Canonicalize section links in two parts
-                {
-                    underscorecheck = CanonicalizeTitle(sl.Groups[1].Value);
-                    newTarget = underscorecheck + "#" + CanonicalizeTitle(sl.Groups[2].Value);
+                    if(sl.Success) // Canonicalize section links in two parts
+                        newTarget = CanonicalizeTitle(sl.Groups[1].Value) + "#" + CanonicalizeTitle(sl.Groups[2].Value);
+                    else
+                        newTarget = CanonicalizeTitle(theTarget);
                 }
-                else 
-                {
-                    underscorecheck = newTarget;
+                else
                     newTarget = CanonicalizeTitle(theTarget);
-                }
 
-                newTarget = newTarget.Replace("%20", " ");
-
-                // Don't remove underscore if page from [[Category:Articles with underscores in the title]]
-                if (!theTarget.Contains("_") || !Variables.UnderscoredTitles.Contains(Tools.TurnFirstToUpper(underscorecheck)))
-                {
-                    return y.Replace(theTarget, newTarget);
-                }
+                return y.Replace(theTarget, newTarget.Replace("%20", " "));
             }
 
             return y;
