@@ -548,11 +548,14 @@ en, sq, ru
 
 			string strDisambig = "";
 			
-			// don't pull out of comments
+			// Extract up to one disambig (should not be multiple per page), don't pull out of comments
 			if (WikiRegexes.Disambigs.IsMatch(WikiRegexes.Comments.Replace(articleText, "")))
 			{
-				strDisambig = WikiRegexes.Disambigs.Match(articleText).Value;
-				articleText = articleText.Replace(strDisambig, "");
+			    articleText = WikiRegexes.Disambigs.Replace(articleText, m =>
+			                                                {
+			                                                    strDisambig = m.Value;
+			                                                    return "";
+			                                                }, 1);
 			}
 
 			return strDisambig;
