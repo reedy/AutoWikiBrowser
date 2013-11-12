@@ -3658,6 +3658,8 @@ Foo}}"));
             Assert.IsTrue(nochange);
             Assert.AreEqual(@"[[Mod_mono]]", Parsers.FixLinks(@"[[Mod_mono]]", "a", out nochange));
             Assert.IsTrue(nochange);
+            Assert.AreEqual(@"[[E|Mod_mono]]", Parsers.FixLinks(@"[[E|Mod_mono]]", "a", out nochange));
+            Assert.IsTrue(nochange);
             Assert.AreEqual(@"[[Mod_mono#link]]", Parsers.FixLinks(@"[[Mod_mono#link]]", "a", out nochange));
             Assert.IsTrue(nochange);
 
