@@ -894,11 +894,9 @@ en, sq, ru
 
 			foreach (Match m in matches)
 			{
-				string FGAlink = m.Value;
-				linkFGAList.Add(FGAlink);
-				articleText = articleText.Replace(FGAlink, "");
+				linkFGAList.Add(m.Value);
 			}
-			
+			articleText = Tools.RemoveMatches(articleText, matches);
 			return linkFGAList;
 		}
 
