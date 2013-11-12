@@ -892,9 +892,6 @@ en, sq, ru
 
 			MatchCollection matches = WikiRegexes.LinkFGAs.Matches(Tools.ReplaceWithSpaces(articleText, WikiRegexes.UnformattedText.Matches(articleText)));
 
-			if (matches.Count == 0)
-				return linkFGAList;
-
 			foreach (Match m in matches)
 			{
 				string FGAlink = m.Value;
