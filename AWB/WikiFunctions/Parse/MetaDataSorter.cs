@@ -403,6 +403,7 @@ en, sq, ru
 			
 			List<string> categoryList = new List<string>();
 			string originalArticleText = articleText;
+			string articleTextNoComments = WikiRegexes.Comments.Replace(articleText, "");
 
 			// allow comments between categories, and keep them in the same place, only grab any comment after the last category if on same line
 			// whitespace: remove all whitespace after, but leave a blank newline before a heading (rare case where category not in last section)
@@ -429,11 +430,11 @@ en, sq, ru
 			if (AddCatKey)
 				categoryList = CatKeyer(categoryList, articleTitle);
 
-			if (CatCommentRegex.IsMatch(articleText))
+			Match ccr = CatCommentRegex.Match(articleText);
+			if (ccr.Success)
 			{
-				string catComment = CatCommentRegex.Match(articleText).Value;
-				articleText = articleText.Replace(catComment, "");
-				categoryList.Insert(0, catComment);
+				articleText = articleText.Replace(ccr.Value, "");
+				categoryList.Insert(0, ccr.Value);
 			}
 
 			string defaultSort = "";
@@ -445,7 +446,7 @@ en, sq, ru
 			else
 			{
 				// ignore commented out DEFAULTSORT – https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs#Moving_DEFAULTSORT_in_HTML_comments
-				if (mc.Count > 0 && WikiRegexes.Defaultsort.Matches(WikiRegexes.Comments.Replace(articleText, "")).Count == mc.Count)
+				if (mc.Count > 0 && WikiRegexes.Defaultsort.Matches(articleTextNoComments).Count == mc.Count)
 					defaultSort = mc[0].Value;
 			}
 
@@ -461,7 +462,7 @@ en, sq, ru
 
 			// Extract any {{uncategorized}} template, but not uncat stub templates
 			string uncat = "";
-			if(WikiRegexes.Uncat.IsMatch(WikiRegexes.Comments.Replace(articleText, "")))
+			if(WikiRegexes.Uncat.IsMatch(articleTextNoComments))
 			{
 			    Match uncatm = WikiRegexes.Uncat.Match(articleText);
 
@@ -473,7 +474,7 @@ en, sq, ru
 			}
 
 			return uncat + defaultSort + ListToString(categoryList);
-		}		
+		}
 
 		/// <summary>
 		/// Extracts the persondata template from the articleText, along with the persondata comment, if present on the line before
