@@ -391,8 +391,9 @@ en, sq, ru
 		/// <returns>The cleaned page categories in a single string</returns>
 		public string RemoveCats(ref string articleText, string articleTitle)
 		{
-		    // don't pull category from redirects to a cagegory e.g. page Hello is #REDIRECT[[Category:Hello]]
-		    if(WikiRegexes.Category.IsMatch(@"[[" + Tools.RedirectTarget(articleText) + @"]]"))
+		    // don't pull category from redirects to a category e.g. page Hello is #REDIRECT[[Category:Hello]]
+		    string rt = Tools.RedirectTarget(articleText);
+		    if(rt.Length > 0 && WikiRegexes.Category.IsMatch(@"[[" + rt + @"]]"))
 				return "";
 			
 			// don't operate on pages with (incorrectly) multiple defaultsorts
@@ -411,14 +412,12 @@ en, sq, ru
 			                    + @".*?(\]\]|\|.*?\]\])(\s*⌊⌊⌊⌊\d{1,4}⌋⌋⌋⌋| *<!--.*?-->|\s*<!--.*?-->(?=\r\n\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category]
 			                    + @")|\s*(?=\r\n==)|\s*)?", RegexOptions.Singleline);
 			
-			MatchCollection matches = r.Matches(articleText);
-			foreach (Match m in matches)
-			{
-				if (!CatsForDeletion.IsMatch(m.Value))
-					categoryList.Add(m.Value.Trim());
-			}
-
-			articleText = Tools.RemoveMatches(articleText, matches);
+			articleText = r.Replace(articleText, m =>
+			                        {
+			                            if (!CatsForDeletion.IsMatch(m.Value))
+			                                categoryList.Add(m.Value.Trim());
+			                            return "";
+			                        });
 
 			// if category tidying has changed comments/nowikis return with no changes – we've pulled a cat from a comment
 			if(!Tools.UnformattedTextNotChanged(originalArticleText, articleText))
@@ -483,30 +482,17 @@ en, sq, ru
 		/// <returns></returns>
 		public static string RemovePersonData(ref string articleText)
 		{
-		    string strPersonData = (Variables.LangCode.Equals("de")
-				? Parsers.GetTemplate(articleText, "[Pp]ersonendaten")
-				: Parsers.GetTemplate(articleText, "[Pp]ersondata"));
+		    string strPersonData = "";
 
-			if (!string.IsNullOrEmpty(strPersonData))
-			{
-				articleText = articleText.Replace(strPersonData, "");
-				
-				// detection of duplicate persondata template
-				if(Variables.LangCode.Equals("en"))
-				{
-					string PersonData2 = Parsers.GetTemplate(articleText, "[Pp]ersondata");
-					
-					if (!string.IsNullOrEmpty(PersonData2))
-					{
-						articleText = articleText.Replace(PersonData2, "");
-						strPersonData += Tools.Newline(PersonData2);
-					}
-				}
-			}
+		    articleText = WikiRegexes.Persondata.Replace(articleText, m=>
+		                                                 {
+		                                                     strPersonData += (strPersonData.Length == 0 ? m.Value : Tools.Newline(m.Value));
+		                                                     return "";
+		                                                 });
 
 			// https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Persondata_comments
 			// catch the persondata comment the line before it so that the comment and template aren't separated
-			if (articleText.Contains(WikiRegexes.PersonDataCommentEN) && Variables.LangCode == "en")
+			if (articleText.Contains(WikiRegexes.PersonDataCommentEN) && Variables.LangCode.Equals("en"))
 			{
 				articleText = articleText.Replace(WikiRegexes.PersonDataCommentEN, "");
 				strPersonData = WikiRegexes.PersonDataCommentEN + strPersonData;
