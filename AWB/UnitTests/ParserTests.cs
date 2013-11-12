@@ -6756,65 +6756,110 @@ John Smith was great.";
         [Test]
         public void BasicBehaviour()
         {
-            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle("Main article: [[Foo]]"));
-            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle("Main article: [[Foo]]."));
-            Assert.AreEqual("Main article:\r\n [[Foo]]", Parsers.FixMainArticle("Main article:\r\n [[Foo]]"));
+            Assert.AreEqual(@"A==Sec==
+{{Main|Foo}}", Parsers.FixMainArticle(@"A==Sec==
+Main article: [[Foo]]"));
+            Assert.AreEqual(@"A==Sec==
+{{Main|Foo}}", Parsers.FixMainArticle(@"A==Sec==
+Main article: [[Foo]]."));
+            Assert.AreEqual(@"A==Sec==
+Main article:\r\n [[Foo]]", Parsers.FixMainArticle(@"A==Sec==
+Main article:\r\n [[Foo]]"));
         }
 
         [Test]
         // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_3#Fixing_Main_Article_to_.7B.7Bmain.7D.7D
         public void PipedLinks()
         {
-            Assert.AreEqual("{{Main|Foo|l1=Bar}}", Parsers.FixMainArticle("Main article: [[Foo|Bar]]"));
+            Assert.AreEqual(@"A==Sec==
+{{Main|Foo|l1=Bar}}", Parsers.FixMainArticle(@"A==Sec==
+Main article: [[Foo|Bar]]"));
         }
 
         [Test]
         public void SupportIndenting()
         {
-            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle(":Main article: [[Foo]]"));
-            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle(":Main article: [[Foo]]."));
-            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle(":''Main article: [[Foo]]''"));
-            Assert.AreEqual("'':Main article: [[Foo]]''", Parsers.FixMainArticle("'':Main article: [[Foo]]''"));
+            Assert.AreEqual(@"A==Sec==
+{{Main|Foo}}", Parsers.FixMainArticle(@"A==Sec==
+:Main article: [[Foo]]"));
+            Assert.AreEqual(@"A==Sec==
+{{Main|Foo}}", Parsers.FixMainArticle(@"A==Sec==
+:Main article: [[Foo]]."));
+            Assert.AreEqual(@"A==Sec==
+{{Main|Foo}}", Parsers.FixMainArticle(@"A==Sec==
+:''Main article: [[Foo]]''"));
+            Assert.AreEqual(@"A==Sec==
+'':Main article: [[Foo]]''", Parsers.FixMainArticle(@"A==Sec==
+'':Main article: [[Foo]]''"));
         }
 
         [Test]
         public void SupportBoldAndItalic()
         {
-            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle("Main article: '[[Foo]]'"));
-            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle("Main article: ''[[Foo]]''"));
-            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle("Main article: '''[[Foo]]'''"));
-            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle("Main article: '''''[[Foo]]'''''"));
+            Assert.AreEqual(@"A==Sec==
+{{Main|Foo}}", Parsers.FixMainArticle(@"A==Sec==
+Main article: '[[Foo]]'"));
+            Assert.AreEqual(@"A==Sec==
+{{Main|Foo}}", Parsers.FixMainArticle(@"A==Sec==
+Main article: ''[[Foo]]''"));
+            Assert.AreEqual(@"A==Sec==
+{{Main|Foo}}", Parsers.FixMainArticle(@"A==Sec==
+Main article: '''[[Foo]]'''"));
+            Assert.AreEqual(@"A==Sec==
+{{Main|Foo}}", Parsers.FixMainArticle(@"A==Sec==
+Main article: '''''[[Foo]]'''''"));
 
-            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle("'Main article: [[Foo]]'"));
-            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle("''Main article: [[Foo]]''"));
-            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle("'''Main article: [[Foo]]'''"));
-            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle("'''''Main article: [[Foo]]'''''"));
+            Assert.AreEqual(@"A==Sec==
+{{Main|Foo}}", Parsers.FixMainArticle(@"A==Sec==
+'Main article: [[Foo]]'"));
+            Assert.AreEqual(@"A==Sec==
+{{Main|Foo}}", Parsers.FixMainArticle(@"A==Sec==
+''Main article: [[Foo]]''"));
+            Assert.AreEqual(@"A==Sec==
+{{Main|Foo}}", Parsers.FixMainArticle(@"A==Sec==
+'''Main article: [[Foo]]'''"));
+            Assert.AreEqual(@"A==Sec==
+{{Main|Foo}}", Parsers.FixMainArticle(@"A==Sec==
+'''''Main article: [[Foo]]'''''"));
 
-            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle("''Main article: '''[[Foo]]'''''"));
-            Assert.AreEqual("{{Main|Foo}}", Parsers.FixMainArticle("'''Main article: ''[[Foo]]'''''"));
+            Assert.AreEqual(@"A==Sec==
+{{Main|Foo}}", Parsers.FixMainArticle(@"A==Sec==
+''Main article: '''[[Foo]]'''''"));
+            Assert.AreEqual(@"A==Sec==
+{{Main|Foo}}", Parsers.FixMainArticle(@"A==Sec==
+'''Main article: ''[[Foo]]'''''"));
         }
 
         [Test]
         public void CaseInsensitivity()
         {
-            Assert.AreEqual("{{Main|foo}}", Parsers.FixMainArticle("main Article: [[foo]]"));
+            Assert.AreEqual(@"A==Sec==
+{{Main|foo}}", Parsers.FixMainArticle(@"A==Sec==
+main Article: [[foo]]"));
         }
 
         [Test]
         // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_4#Problem_with_reverse_subst_of_.7B.7Bmain.7D.7D
         public void DontEatTooMuch()
         {
-            Assert.AreEqual("Foo is a bar, see main article: [[Foo]]",
-                            Parsers.FixMainArticle("Foo is a bar, see main article: [[Foo]]"));
-            Assert.AreEqual("Main article: [[Foo]], bar", Parsers.FixMainArticle("Main article: [[Foo]], bar"));
+            Assert.AreEqual(@"A==Sec==
+Foo is a bar, see main article: [[Foo]]", Parsers.FixMainArticle(@"A==Sec==
+Foo is a bar, see main article: [[Foo]]"));
+            Assert.AreEqual(@"A==Sec==
+Main article: [[Foo]], bar", Parsers.FixMainArticle(@"A==Sec==
+Main article: [[Foo]], bar"));
         }
 
         [Test]
         // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_6#Main_and_See_also_templates
         public void SingleLinkOnly()
         {
-            Assert.AreEqual(":Main article: [[Foo]] and [[Bar]]", Parsers.FixMainArticle(":Main article: [[Foo]] and [[Bar]]"));
-            Assert.AreEqual(":Main article: [[Foo|f00]] and [[Bar]]", Parsers.FixMainArticle(":Main article: [[Foo|f00]] and [[Bar]]"));
+            Assert.AreEqual(@"A==Sec==
+:Main article: [[Foo]] and [[Bar]]", Parsers.FixMainArticle(@"A==Sec==
+:Main article: [[Foo]] and [[Bar]]"));
+            Assert.AreEqual(@"A==Sec==
+:Main article: [[Foo|f00]] and [[Bar]]", Parsers.FixMainArticle(@"A==Sec==
+:Main article: [[Foo|f00]] and [[Bar]]"));
         }
 
         [Test]
@@ -6829,8 +6874,12 @@ John Smith was great.";
         // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_3#Fixing_Main_Article_to_.7B.7Bmain.7D.7D
         public void SeeAlso()
         {
-            Assert.AreEqual("{{See also|Foo|l1=Bar}}", Parsers.FixMainArticle("See also: [[Foo|Bar]]"));
-            Assert.AreEqual("{{See also|Foo}}", Parsers.FixMainArticle("See also: [[Foo]]"));
+            Assert.AreEqual(@"A==Sec==
+{{See also|Foo|l1=Bar}}", Parsers.FixMainArticle(@"A==Sec==
+See also: [[Foo|Bar]]"));
+            Assert.AreEqual(@"A==Sec==
+{{See also|Foo}}", Parsers.FixMainArticle(@"A==Sec==
+See also: [[Foo]]"));
         }
 
         [Test]
