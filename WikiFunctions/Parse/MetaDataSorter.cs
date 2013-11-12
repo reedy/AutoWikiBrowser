@@ -1057,7 +1057,6 @@ en, sq, ru
 			}
 
 			StringBuilder list = new StringBuilder();
-			//add to string
 			foreach (string s in uniqueItems)
 			{
 				list.AppendLine(s);
