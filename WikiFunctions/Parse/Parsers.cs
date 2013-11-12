@@ -5105,8 +5105,9 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly Regex RegexMainArticle = new Regex(@"^:?'{0,5}Main article:\s?'{0,5}\[\[([^\|\[\]]*?)(\|([^\[\]]*?))?\]\]\.?'{0,5}\.?\s*?(?=($|[\r\n]))", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
-        private static readonly Regex SeeAlsoLink = new Regex(@"^:?'{0,5}See also:\s?'{0,5}\[\[([^\|\[\]]*?)(\|([^\[\]]*?))?\]\]\.?'{0,5}\.?\s*?(?=($|[\r\n]))", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.Multiline);
+        private static readonly Regex RegexMainArticle = new Regex(@"^:?'{0,5}Main article:\s?'{0,5}\[\[([^\|\[\]]*?)(\|([^\[\]]*?))?\]\]\.?'{0,5}\.?\s*?(?=($|[\r\n]))", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+        private static readonly Regex SeeAlsoLink = new Regex(@"^:?'{0,5}See also:\s?'{0,5}\[\[([^\|\[\]]*?)(\|([^\[\]]*?))?\]\]\.?'{0,5}\.?\s*?(?=($|[\r\n]))", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+        private static readonly Regex SeeAlsoMainArticleQuick = new Regex(@"\r\n[:']*(See also|Main article):", RegexOptions.IgnoreCase);
 
         // Covered by: FixMainArticleTests
         /// <summary>
@@ -5116,20 +5117,18 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string FixMainArticle(string articleText)
         {
-
-            // string checks for performance
-            if(articleText.IndexOf("see also:", StringComparison.CurrentCultureIgnoreCase) > -1)
+            if(SeeAlsoMainArticleQuick.IsMatch(articleText))
+            {
                 articleText = SeeAlsoLink.Replace(articleText,
                                                   m => m.Groups[2].Value.Length == 0
                                                   ? "{{See also|" + m.Groups[1].Value + "}}"
                                                   : "{{See also|" + m.Groups[1].Value + "|l1=" + m.Groups[3].Value + "}}");
 
-            if(articleText.IndexOf("main article:", StringComparison.CurrentCultureIgnoreCase) > -1)
                 articleText = RegexMainArticle.Replace(articleText,
                                                        m => m.Groups[2].Value.Length == 0
                                                        ? "{{Main|" + m.Groups[1].Value + "}}"
                                                        : "{{Main|" + m.Groups[1].Value + "|l1=" + m.Groups[3].Value + "}}");
-
+            }
             return articleText;
         }
 
