@@ -437,6 +437,9 @@ bar"));
             List<Match> MatchesList = new List<Match>();
 
             Assert.AreEqual("test", Tools.RemoveMatches("test", MatchesList));
+
+            matches = Regex.Matches("world abc then abc after that then", "abc");
+            Assert.AreEqual("world  then  after that then", Tools.RemoveMatches("world abc then abc after that then", matches));
         }
 
         [Test]
