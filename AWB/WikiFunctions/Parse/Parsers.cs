@@ -6075,7 +6075,6 @@ namespace WikiFunctions.Parse
 
             if (!restrictDefaultsortChanges)
             {
-                bool isArticleAboutAPerson = IsArticleAboutAPerson(articleText, articleTitle, true);
                 // AWB's generation of its own sortkey may be incorrect for people, provide option not to insert in this situation
                 if (ds.Count == 0)
                 {
@@ -6097,11 +6096,11 @@ namespace WikiFunctions.Parse
 
                     // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Add_defaultsort_to_pages_with_special_letters_and_no_defaultsort
                     // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Human_DEFAULTSORT
-                    articleText = DefaultsortTitlesWithDiacritics(articleText, articleTitle, matches, isArticleAboutAPerson);
+                    articleText = DefaultsortTitlesWithDiacritics(articleText, articleTitle, matches, IsArticleAboutAPerson(articleText, articleTitle, true));
                 }
                 else if (ds.Count == 1) // already has DEFAULTSORT
                 {
-                    string s = Tools.FixupDefaultSort(ds[0].Groups[1].Value.TrimStart('|'), isArticleAboutAPerson).Trim();
+                    string s = Tools.FixupDefaultSort(ds[0].Groups[1].Value.TrimStart('|'), (ds[0].Groups[1].Value.Contains("'") && IsArticleAboutAPerson(articleText, articleTitle, true))).Trim();
 
                     // do not change DEFAULTSORT just for casing
                     if (!s.ToLower().Equals(ds[0].Groups[1].Value.ToLower()) && s.Length > 0 && !restrictDefaultsortChanges)
@@ -6226,6 +6225,7 @@ namespace WikiFunctions.Parse
                 || WikiRegexes.InfoBox.Match(articleText).Groups[1].Value.ToLower().Contains("organization")
                 || NotPersonInfoboxes.IsMatch(articleText)
                 || WikiRegexes.SIAs.IsMatch(articleText)
+                || WikiRegexes.PeopleInfoboxTemplates.Matches(articleText).Count > 1
                )
                 return false;
 
@@ -6273,9 +6273,6 @@ namespace WikiFunctions.Parse
 
                 DD.Add(m.Value);
             }
-
-            if (WikiRegexes.PeopleInfoboxTemplates.Matches(articleText).Count > 1)
-                return false;
 
             // fix for duplicate living people categories being miscounted as article about multiple people
             string cats = MDS.RemoveCats(ref articleText, articleTitle);
