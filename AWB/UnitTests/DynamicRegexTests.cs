@@ -976,6 +976,7 @@ disambig|surname
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Call sign disambiguation}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Callsigndis}}");
             RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Mil-unit-dis}}");
+            RegexAssert.IsMatch(WikiRegexes.Disambigs, @"{{Road disambiguation}}");
             
             RegexAssert.NoMatch(WikiRegexes.Disambigs, @"{{now disambig}}");
             RegexAssert.NoMatch(WikiRegexes.Disambigs, @"{{dablink|foo}}");
