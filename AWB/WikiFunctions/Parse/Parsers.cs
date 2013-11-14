@@ -2181,11 +2181,10 @@ namespace WikiFunctions.Parse
                 foreach (WikiRegexes.TemplateParameters Params in RenamedTemplateParameters)
                 {
                     Templates.Add(Params.TemplateName);
-
-                    if(!RenameTemplateParametersOldParams.Contains(Params.OldParameter))
-                        RenameTemplateParametersOldParams.Add(Params.OldParameter);
+                    RenameTemplateParametersOldParams.Add(Params.OldParameter);
                 }
 
+                RenameTemplateParametersOldParams = RenameTemplateParametersOldParams.Distinct().ToList();
                 RenameTemplateParametersTemplates = Tools.NestedTemplateRegex(Templates.Distinct().ToList());
             }
 
