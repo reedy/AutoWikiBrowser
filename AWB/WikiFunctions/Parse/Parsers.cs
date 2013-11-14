@@ -2180,14 +2180,13 @@ namespace WikiFunctions.Parse
 
                 foreach (WikiRegexes.TemplateParameters Params in RenamedTemplateParameters)
                 {
-                    if (!Templates.Contains(Params.TemplateName))
-                        Templates.Add(Params.TemplateName);
+                    Templates.Add(Params.TemplateName);
 
                     if(!RenameTemplateParametersOldParams.Contains(Params.OldParameter))
                         RenameTemplateParametersOldParams.Add(Params.OldParameter);
                 }
 
-                RenameTemplateParametersTemplates = Tools.NestedTemplateRegex(Templates);
+                RenameTemplateParametersTemplates = Tools.NestedTemplateRegex(Templates.Distinct().ToList());
             }
 
             return RenameTemplateParametersTemplates.Replace(articleText,
