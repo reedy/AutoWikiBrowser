@@ -2888,6 +2888,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex MonthsRegex = new Regex(@"\b" + WikiRegexes.MonthsNoGroup + @"\b.{0,25}");
         private static readonly Regex MonthsRegexNoSecondBreak = new Regex(@"\b" + WikiRegexes.MonthsNoGroup + @".{0,30}");
         private static readonly Regex DayOfMonth = new Regex(@"(?<![Tt]he +)\b([1-9]|[12]\d|3[01])(?:st|nd|rd|th) +of +" + WikiRegexes.Months);
+        private static readonly Regex Ordinal = new Regex(@"\d(?:st|nd|rd|th)");
 
         // Covered by TestFixDateOrdinalsAndOf
         /// <summary>
@@ -4072,16 +4073,18 @@ namespace WikiFunctions.Parse
             }
 
             // remove ordinals from dates
-            if (OrdinalsInDatesInt.IsMatch(TheDate))
-                newValue = Tools.UpdateTemplateParameterValue(newValue, "date", OrdinalsInDatesInt.Replace(TheDate, "$1$2$3 $4"));
-            else if (OrdinalsInDatesAm.IsMatch(TheDate))
-                newValue = Tools.UpdateTemplateParameterValue(newValue, "date", OrdinalsInDatesAm.Replace(TheDate, "$1 $2$3"));
+            if(Ordinal.IsMatch(TheDate) || Ordinal.IsMatch(accessdate))
+            {
+                if (OrdinalsInDatesInt.IsMatch(TheDate))
+                    newValue = Tools.UpdateTemplateParameterValue(newValue, "date", OrdinalsInDatesInt.Replace(TheDate, "$1$2$3 $4"));
+                else if (OrdinalsInDatesAm.IsMatch(TheDate))
+                    newValue = Tools.UpdateTemplateParameterValue(newValue, "date", OrdinalsInDatesAm.Replace(TheDate, "$1 $2$3"));
 
-            if (OrdinalsInDatesInt.IsMatch(accessdate))
-                newValue = Tools.UpdateTemplateParameterValue(newValue, "accessdate", OrdinalsInDatesInt.Replace(accessdate, "$1$2$3 $4"));
-            else if(OrdinalsInDatesAm.IsMatch(accessdate))
-                newValue = Tools.UpdateTemplateParameterValue(newValue, "accessdate", OrdinalsInDatesAm.Replace(accessdate, "$1 $2$3"));
-
+                if (OrdinalsInDatesInt.IsMatch(accessdate))
+                    newValue = Tools.UpdateTemplateParameterValue(newValue, "accessdate", OrdinalsInDatesInt.Replace(accessdate, "$1$2$3 $4"));
+                else if(OrdinalsInDatesAm.IsMatch(accessdate))
+                    newValue = Tools.UpdateTemplateParameterValue(newValue, "accessdate", OrdinalsInDatesAm.Replace(accessdate, "$1 $2$3"));
+            }
             // catch after any other fixes
             newValue = CommaDates.Replace(newValue, @"$1 $2, $3");
 
