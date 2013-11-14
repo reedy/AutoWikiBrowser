@@ -5948,6 +5948,23 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
+        /// Returns a concatenated string of all categories in the article
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <returns></returns>
+        private static string GetCats(string articleText)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            foreach(Match m in WikiRegexes.Category.Matches(articleText))
+            {
+                sb.Append(m.Value);
+            }
+
+            return sb.ToString();
+        }
+
+        /// <summary>
         /// Changes an article to use defaultsort when all categories use the same sort field / cleans diacritics from defaultsort/categories
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
@@ -6651,8 +6668,8 @@ namespace WikiFunctions.Parse
         YearOfBirthUncertain = "Year of birth uncertain",
         YearofDeathMissing = "Year of death missing";
 
-        private static readonly Regex Cat4YearBirths = new Regex(@"\[\[Category:\d{4} births(?:\s*\|[^\[\]]+)? *\]\]");
-        private static readonly Regex Cat4YearDeaths = new Regex(@"\[\[Category:\d{4} deaths(?:\s*\|[^\[\]]+)? *\]\]");
+        private static readonly Regex Cat4YearBirths = new Regex(@"\[\[Category:\d{4} births\s*(?:\||\]\])");
+        private static readonly Regex Cat4YearDeaths = new Regex(@"\[\[Category:\d{4} deaths\s*(?:\||\]\])");
 
         /// <summary>
         /// Removes birth/death missing categories when xxx births/deaths category also present
@@ -6664,21 +6681,23 @@ namespace WikiFunctions.Parse
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
+            string cats = GetCats(articleText);
+
             // if there is a 'year of birth missing' and a year of birth, remove the 'missing' category
-            if(Cat4YearBirths.IsMatch(articleText))
+            if(Cat4YearBirths.IsMatch(cats))
             {
-                if (CategoryMatch(articleText, YearOfBirthMissingLivingPeople))
+                if (CategoryMatch(cats, YearOfBirthMissingLivingPeople))
                     articleText = RemoveCategory(YearOfBirthMissingLivingPeople, articleText);
-                else if (CategoryMatch(articleText, YearOfBirthMissing))
+                else if (CategoryMatch(cats, YearOfBirthMissing))
                     articleText = RemoveCategory(YearOfBirthMissing, articleText);
             }
 
             // if there's a 'year of birth missing' and a 'year of birth uncertain', remove the former
-            if (CategoryMatch(articleText, YearOfBirthMissing) && CategoryMatch(articleText, YearOfBirthUncertain))
+            if (CategoryMatch(cats, YearOfBirthMissing) && CategoryMatch(cats, YearOfBirthUncertain))
                 articleText = RemoveCategory(YearOfBirthMissing, articleText);
 
             // if there's a year of death and a 'year of death missing', remove the latter
-            if (Cat4YearDeaths.IsMatch(articleText) && CategoryMatch(articleText, YearofDeathMissing))
+            if (Cat4YearDeaths.IsMatch(cats) && CategoryMatch(cats, YearofDeathMissing))
                 articleText = RemoveCategory(YearofDeathMissing, articleText);
 
             return articleText;
