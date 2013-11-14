@@ -3827,8 +3827,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private static string FixCitationTemplatesME(Match m)
         {
-            string newValue = m.Value;
-            newValue = Tools.RemoveExcessTemplatePipes(newValue);
+            string newValue = Tools.RemoveExcessTemplatePipes(m.Value);
             string templatename = m.Groups[2].Value;
             
             Dictionary<string, string> paramsFound = new Dictionary<string, string>();
