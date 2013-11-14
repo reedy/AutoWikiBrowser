@@ -927,7 +927,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the various categories for dead people on en wiki, and the living people category
         /// </summary>
-        public static readonly Regex DeathsOrLivingCategory = new Regex(@"\[\[\s*Category *:[ _]?(\d{1,2}\w{0,2}[- _]century(?: BC)?[ _]deaths|[0-9s]{3,5}(?: BC)?[ _]deaths|Missing[ _]people\s*(?:\|\]\])|Living[ _]people|(?:Date|Year)[ _]of[ _]death[ _](?:missing|unknown|uncertain)|Possibly[ _]living[ _]people) *(?:\|.*?)?\]\]", RegexOptions.IgnoreCase);
+        public static readonly Regex DeathsOrLivingCategory = new Regex(@"\[\[\s*Category *:[ _]?(\d{1,2}\w{0,2}[- _]century(?: BC)?[ _]deaths|[0-9s]{3,5}(?: BC)?[ _]deaths|Missing[ _]people\s*(?:\|\]\])|Living[ _]people|(?:Date|Year)[ _]of[ _]death[ _](?:missing|unknown|uncertain)|Possibly[ _]living[ _]people) *(?:\|.*?)?\]\]", RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
         
         /// <summary>
         /// Matches the {{recentlydeceased}} templates and its redirects
@@ -937,7 +937,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the XXXX births / xxth Century / XXXX BC births categories (en only)
         /// </summary>
-        public static readonly Regex BirthsCategory = new Regex(@"\[\[ ?Category ?:[ _]?(?:(\d{3,4})(?:s| BC)?|\d{1,2}\w{0,2}[- _]century)[ _]births(\|.*?)?\]\]", RegexOptions.IgnoreCase);
+        public static readonly Regex BirthsCategory = new Regex(@"\[\[ ?Category ?:[ _]?(?:(\d{3,4})(?:s| BC)?|\d{1,2}\w{0,2}[- _]century)[ _]births(\|.*?)?\]\]", RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
         
         /// <summary>
         /// Matches the "People from ..." en-wiki categories
