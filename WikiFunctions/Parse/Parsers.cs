@@ -3829,7 +3829,7 @@ namespace WikiFunctions.Parse
         {
             string newValue = m.Value;
             newValue = Tools.RemoveExcessTemplatePipes(newValue);
-            string templatename = Tools.GetTemplateName(newValue);
+            string templatename = m.Groups[2].Value;
             
             Dictionary<string, string> paramsFound = new Dictionary<string, string>();
             // remove duplicated fields, ensure the URL is not touched (may have pipes in)
