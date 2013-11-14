@@ -3920,7 +3920,7 @@ namespace WikiFunctions.Parse
                 newValue = Tools.RemoveTemplateParameter(newValue, "language");
 
             // remove italics for work field for book/periodical, but not website -- auto italicised by template
-            if (!TheWork.Contains("."))
+            if (TheWork.Length > 0 && !TheWork.Contains("."))
                 newValue = WorkInItalics.Replace(newValue, "$1$2");
 
             // remove quotes around title field: are automatically added by template markup
@@ -3959,12 +3959,15 @@ namespace WikiFunctions.Parse
             }
 
             // year = full date --> date = full date
-            string TheYearCorected = IncorrectCommaInternationalDates.Replace(TheYear, @"$1 $2");
-            
-            if(!TheYearCorected.Equals(TheYear))
+            if (TheYear.Length > 5)
             {
-                newValue = Tools.UpdateTemplateParameterValue(newValue, "year", TheYearCorected);
-                TheYear = TheYearCorected;
+                string TheYearCorected = IncorrectCommaInternationalDates.Replace(TheYear, @"$1 $2");
+                
+                if(!TheYearCorected.Equals(TheYear))
+                {
+                    newValue = Tools.UpdateTemplateParameterValue(newValue, "year", TheYearCorected);
+                    TheYear = TheYearCorected;
+                }
             }
             
             if (TheYear.Length > 5 && (WikiRegexes.ISODates.IsMatch(TheYear) || WikiRegexes.InternationalDates.IsMatch(TheYear)
