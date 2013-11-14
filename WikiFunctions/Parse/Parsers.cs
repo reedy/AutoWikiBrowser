@@ -2203,7 +2203,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private static string RenameTemplateParametersHashSetME(Match m, List<WikiRegexes.TemplateParameters> RenamedTemplateParameters)
         {
-            string templatename = Tools.TurnFirstToLower(Tools.GetTemplateName(m.Value)), newvalue = m.Value;
+            string templatename = Tools.TurnFirstToLower(m.Groups[2].Value), newvalue = m.Value;
 
             // performance: check for intersection of bad parameters and parameters used in template
             // rather than simply looping through all parameters in list
@@ -2234,7 +2234,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private static string RenameTemplateParametersME(Match m, List<WikiRegexes.TemplateParameters> RenamedTemplateParameters)
         {
-            string templatename = Tools.TurnFirstToLower(Tools.GetTemplateName(m.Value)), newvalue = m.Value;
+            string templatename = Tools.TurnFirstToLower(m.Groups[2].Value), newvalue = m.Value;
 
             foreach (WikiRegexes.TemplateParameters Params in RenamedTemplateParameters)
             {
