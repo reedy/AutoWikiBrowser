@@ -3897,11 +3897,14 @@ namespace WikiFunctions.Parse
             // remove the unneeded 'format=HTML' field
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Remove_.22format.3DHTML.22_in_citation_templates
             // remove format= field with null value when URL is HTML page
-            if (format.TrimStart("[]".ToCharArray()).ToUpper().StartsWith("HTM")
-                ||
-                (format.Length == 0 &&
-                 theURL.ToUpper().TrimEnd('L').EndsWith("HTM")))
-                newValue = Tools.RemoveTemplateParameter(newValue, "format");
+            if(paramsFound.ContainsKey("format"))
+            {
+                if (format.TrimStart("[]".ToCharArray()).ToUpper().StartsWith("HTM")
+                    ||
+                    (format.Length == 0 &&
+                     theURL.ToUpper().TrimEnd('L').EndsWith("HTM")))
+                    newValue = Tools.RemoveTemplateParameter(newValue, "format");
+            }
 
             // newlines to spaces in title field if URL used, otherwise display broken
             if (theURL.Length > 0 && theTitle.Contains("\r\n"))
