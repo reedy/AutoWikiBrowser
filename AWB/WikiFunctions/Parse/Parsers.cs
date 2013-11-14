@@ -6469,7 +6469,7 @@ namespace WikiFunctions.Parse
             bool dolmatch = WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText),
             bimatch = WikiRegexes.BirthsCategory.IsMatch(articleText);
 
-            // no work to do if already has a birht and a death/living cat
+            // no work to do if already has a birth and a death/living cat
             if(dolmatch && bimatch)
                 return YearOfBirthDeathMissingCategory(articleText);
 
