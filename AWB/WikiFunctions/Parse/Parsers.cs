@@ -402,7 +402,7 @@ namespace WikiFunctions.Parse
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
 
             // get the rest of the article including first heading (may be null if entire article falls in zeroth section)
-            string restOfArticle = articleText.Remove(0, zerothSection.Length);
+            string restOfArticle = articleText.Substring(zerothSection.Length);
 
             if (ExpertSubject.IsMatch(zerothSection))
             {
@@ -838,7 +838,7 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
-            string restOfArticle = articleText.Remove(0, zerothSection.Length);
+            string restOfArticle = articleText.Substring(zerothSection.Length);
             articleText = zerothSection;
 
             // conversions
@@ -6918,20 +6918,29 @@ namespace WikiFunctions.Parse
 
             articleText = MergeTemplatesBySection(articleText);
 
-            // tidy up || or |}} (maybe with whitespace between) within MI templates 
-            articleText = WikiRegexes.MultipleIssues.Replace(articleText, m => Tools.RemoveExcessTemplatePipes(m.Value));
+            bool mifound = false;
+            articleText = WikiRegexes.MultipleIssues.Replace(articleText, m => 
+                                                             {
+                                                                 mifound = true;
+                                                                 return Tools.RemoveExcessTemplatePipes(m.Value);
+                                                             });
+            if(mifound)
+            {
+                // add date to any undated tags within {{Multiple issues}} (loop due to lookbehind in regex)
+                while (MultipleIssuesUndatedTags.IsMatch(articleText))
+                    articleText = MultipleIssuesUndatedTags.Replace(articleText, "$1$2={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}$3");
+
+                // clean any 'date' word within {{Multiple issues}} (but not 'update' or 'out of date' fields), place after the date adding rule above (loop due to lookbehind in regex)
+                while (MultipleIssuesDateRemoval.IsMatch(articleText))
+                    articleText = MultipleIssuesDateRemoval.Replace(articleText, "");
+            }
 
             // clean up Template:/underscores in infobox names
-            string InfoBox = WikiRegexes.InfoBox.Match(articleText).Groups[1].Value;
-            articleText = Tools.RenameTemplate(articleText, InfoBox, CanonicalizeTitle(InfoBox));
-
-            // add date to any undated tags within {{Multiple issues}} (loop due to lookbehind in regex)
-            while (MultipleIssuesUndatedTags.IsMatch(articleText))
-                articleText = MultipleIssuesUndatedTags.Replace(articleText, "$1$2={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}$3");
-
-            // clean any 'date' word within {{Multiple issues}} (but not 'update' or 'out of date' fields), place after the date adding rule above (loop due to lookbehind in regex)
-            while (MultipleIssuesDateRemoval.IsMatch(articleText))
-                articleText = MultipleIssuesDateRemoval.Replace(articleText, "");
+            articleText = WikiRegexes.InfoBox.Replace(articleText, m =>
+                                                      {
+                                                          string newName = CanonicalizeTitle(m.Groups[1].Value);
+                                                          return (newName.Equals(m.Groups[1].Value) ? m.Value : Tools.RenameTemplate(m.Value, newName));
+                                                      });
 
             return Dablinks(articleText);
         }
