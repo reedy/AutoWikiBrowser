@@ -6465,11 +6465,16 @@ namespace WikiFunctions.Parse
         {
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
-            // over 20 references or long and not DOB/DOD categorised at all yet: implausible
-            if (articleText.Length > 15000 && !WikiRegexes.BirthsCategory.IsMatch(articleText) && !WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText))
+
+            bool dolmatch = WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText),
+            bimatch = WikiRegexes.BirthsCategory.IsMatch(articleText);
+
+            // no work to do if already has a birht and a death/living cat
+            if(dolmatch && bimatch)
                 return YearOfBirthDeathMissingCategory(articleText);
 
-            if (!WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText) && WikiRegexes.Refs.Matches(articleText).Count > 20)
+            // over 20 references or long and not DOB/DOD categorised at all yet: implausible
+            if ((articleText.Length > 15000 && !bimatch && !dolmatch) || (!dolmatch && WikiRegexes.Refs.Matches(articleText).Count > 20))
                 return YearOfBirthDeathMissingCategory(articleText);
 
             string articleTextBefore = articleText;
