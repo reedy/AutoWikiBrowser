@@ -3780,7 +3780,7 @@ namespace WikiFunctions.Parse
 
             articleText = WikiRegexes.HarvTemplate.Replace(articleText, m =>
                                                            {
-                                                               string newValue = FixPageRanges(m.Value);
+                                                               string newValue = FixPageRanges(m.Value, Tools.GetTemplateParameterValues(m.Value));
                                                                string page = Tools.GetTemplateParameterValue(newValue, "p");
 
                                                                // ignore brackets
@@ -4057,10 +4057,12 @@ namespace WikiFunctions.Parse
                     pages = UnspacedCommaPageRange.Replace(pages, "$1, $2");
                 }
                 newValue = Tools.UpdateTemplateParameterValue(newValue, "pages", pages);
+                paramsFound.Remove("pages");
+                paramsFound.Add("pages", pages);
             }
 
             // page range should have unspaced en-dash; validate that page is range not section link
-            newValue = FixPageRanges(newValue);
+            newValue = FixPageRanges(newValue, paramsFound);
 
             // page range or list should use 'pages' parameter not 'page'
             if (CiteTemplatesPageRangeName.IsMatch(newValue))
@@ -4144,19 +4146,24 @@ namespace WikiFunctions.Parse
         /// Converts hyphens in page ranges in citation template fields to endashes
         /// </summary>
         /// <param name="templateCall">The template call</param>
+        /// <param name="Params">Dictionary of template parameters in template call</param>
         /// <returns>The updated template call</returns>
-        private static string FixPageRanges(string templateCall)
+        private static string FixPageRanges(string templateCall, Dictionary<string, string> Params)
         {
             foreach (string pageField in PageFields)
             {
-            	string pageRange = Tools.GetTemplateParameterValue(templateCall, pageField);
-            	if(pageRange.Length > 0)
-            		templateCall = Tools.UpdateTemplateParameterValue(templateCall, pageField, FixPageRangesValue(pageRange));
+                string pageRange;
+                if(Params.TryGetValue(pageField, out pageRange) && pageRange.Length > 0)
+                {
+                    string res = FixPageRangesValue(pageRange);
+                    if(!res.Equals(pageRange))
+                        templateCall = Tools.UpdateTemplateParameterValue(templateCall, pageField, res);
+                }
             }
 
             return templateCall;
         }
-        
+
         private static string FixPageRangesValue(string pageRange)
         {
         	string original = pageRange;
