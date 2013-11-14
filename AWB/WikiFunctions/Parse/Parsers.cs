@@ -2207,13 +2207,19 @@ namespace WikiFunctions.Parse
 
             // performance: check for intersection of bad parameters and parameters used in template
             // rather than simply looping through all parameters in list
-            if(Tools.GetTemplateParameterValues(m.Value).Keys.ToArray().Intersect(RenameTemplateParametersOldParams).Any())
+            Dictionary<string, string> pv = Tools.GetTemplateParameterValues(m.Value);
+            if(pv.Keys.ToArray().Intersect(RenameTemplateParametersOldParams).Any())
             {
                 foreach (WikiRegexes.TemplateParameters Params in RenamedTemplateParameters)
                 {
-                    if (Params.TemplateName.Equals(templatename) && newvalue.Contains(Params.OldParameter)
-                        && Tools.GetTemplateParameterValue(m.Value, Params.NewParameter).Length == 0)
-                        newvalue = Tools.RenameTemplateParameter(newvalue, Params.OldParameter, Params.NewParameter);
+                    if (Params.TemplateName.Equals(templatename) && pv.ContainsKey(Params.OldParameter))
+                    {
+                        string newp;
+                        pv.TryGetValue(Params.NewParameter, out newp);
+
+                        if(string.IsNullOrEmpty(newp))
+                            newvalue = Tools.RenameTemplateParameter(newvalue, Params.OldParameter, Params.NewParameter);
+                    }
                 }
             }
 
