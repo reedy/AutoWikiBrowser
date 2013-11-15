@@ -201,6 +201,7 @@ namespace UnitTests
             Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name = ""foo""></ref>"));
             Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name =foo>text</ref>"));
             Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name=foo>text< / ref >"));
+            Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name=foo>te<taga</tag>xt</ref>"), "nested tag support");
             Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"<ref name = 'foo'>text</ref>"));
             Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"< REF NAME = ""foo"">text</ref>"));
             Assert.IsTrue(WikiRegexes.NamedReferences.IsMatch(@"< REF NAME = ""foo"">
