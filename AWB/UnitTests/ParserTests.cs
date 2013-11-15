@@ -8112,6 +8112,7 @@ foo {{persondata}}
         public void HasInUseTagTests()
         {
             Assert.IsTrue(Parsers.IsInUse("{{inuse}} Hello world"));
+            Assert.IsTrue(Parsers.IsInUse("{{in creation}} Hello world"));
             Assert.IsTrue(Parsers.IsInUse("{{ inuse  }} Hello world"));
             Assert.IsTrue(Parsers.IsInUse("{{Inuse}} Hello world"));
             Assert.IsTrue(Parsers.IsInUse("Hello {{inuse}} Hello world"));
