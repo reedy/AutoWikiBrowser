@@ -2871,7 +2871,7 @@ namespace WikiFunctions.Parse
         
         // Covered by TestFixReferenceTags
         /// <summary>
-        /// Various fixes to the formatting of &lt;ref&gt; reference tags
+        /// Various fixes to the formatting of &lt;ref&gt; reference tags including trimming excess whitespace
         /// </summary>
         /// <param name="articleText">The wiki text of the article</param>
         /// <returns>The modified article text.</returns>
