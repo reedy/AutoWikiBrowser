@@ -5177,17 +5177,8 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string FixEmptyLinksAndTemplates(string articleText)
         {
-            foreach (Match link in WikiRegexes.EmptyLink.Matches(articleText))
-            {
-                string trim = link.Groups[2].Value.Trim();
-                if (string.IsNullOrEmpty(trim) || trim == "|" + Variables.NamespacesCaseInsensitive[Namespace.Image] ||
-                    trim == "|" + Variables.NamespacesCaseInsensitive[Namespace.Category] || trim == "|")
-                    articleText = articleText.Replace("[[" + link.Groups[1].Value + link.Groups[2].Value + "]]", "");
-            }
-
-            articleText = WikiRegexes.EmptyTemplate.Replace(articleText, "");
-
-            return articleText;
+            articleText = WikiRegexes.EmptyLink.Replace(articleText, "");
+            return WikiRegexes.EmptyTemplate.Replace(articleText, "");
         }
 
         /// <summary>

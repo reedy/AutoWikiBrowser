@@ -1082,6 +1082,7 @@ ABC");
             RegexAssert.IsMatch(WikiRegexes.EmptyLink, "[[|]]");
             RegexAssert.IsMatch(WikiRegexes.EmptyLink, "[[       |    ]]");
             RegexAssert.IsMatch(WikiRegexes.EmptyLink, "[[Category:]]");
+            RegexAssert.IsMatch(WikiRegexes.EmptyLink, "[[ Category:]]");
             RegexAssert.IsMatch(WikiRegexes.EmptyLink, "[[Category:|]]");
             RegexAssert.IsMatch(WikiRegexes.EmptyLink, "[[Category:|A]]");
             RegexAssert.IsMatch(WikiRegexes.EmptyLink, "[[Image:]]");
