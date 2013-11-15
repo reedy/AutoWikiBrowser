@@ -1342,6 +1342,9 @@ namespace WikiFunctions.Parse
         // regex below ensures a forced match on second and third of consecutive references
         private static readonly Regex OutofOrderRefs3 = new Regex(@"(?<=\s*(?:\/\s*|>[^<>]+</ref)>\s*(?:{{\s*" + InlineCitationCleanupTemplatesRp + @"\s*\|[^{}]+}})?)" + OutofOrderRefs, RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
+        private static readonly Regex RefsTemplates = Tools.NestedTemplateRegex(new [] { "reflist", "reflink", "ref-list", "ref-link", "reference", "listaref", "refs" });
+        private static readonly Regex RefsTag = new Regex(@"<\s*references");
+
         /// <summary>
         /// Reorders references so that they appear in numerical order, allows for use of {{rp}}, doesn't modify grouped references [[WP:REFGROUP]]
         /// </summary>
@@ -1350,9 +1353,7 @@ namespace WikiFunctions.Parse
         public static string ReorderReferences(string articleText)
         {
             // do not reorder stuff in the <references>...</references> section
-            int referencestags = WikiRegexes.ReferencesTemplate.Match(articleText).Index;
-            if (referencestags <= 0)
-                referencestags = articleText.Length;
+            int referencestags = RefsTemplateIndex(articleText);
 
             for (int i = 0; i < 9; i++) // allows for up to 9 consecutive references
             {
@@ -1381,6 +1382,25 @@ namespace WikiFunctions.Parse
             }
 
             return articleText;
+        }
+
+        /// <summary>
+        /// Returns the index of the {{reflist}} or {{refs}} or &lt;references&gt; tags, or the articleText length if no tags found
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <returns></returns>
+        private static int RefsTemplateIndex(string articleText)
+        {
+            Match r1 = RefsTemplates.Match(articleText);
+            if(r1.Success)
+                return r1.Index;
+
+            Match r2 = RefsTag.Match(articleText);
+
+            if(r2.Success)
+                return r2.Index;
+
+            return articleText.Length;
         }
 
         private const string RefsPunctuation = @"([,\.;:])";
@@ -1484,7 +1504,7 @@ namespace WikiFunctions.Parse
             {
                 bool reparse = false;
                 NamedRefs.Clear();
-                int reflistIndex = WikiRegexes.ReferencesTemplate.Match(articleText).Index;
+                int reflistIndex = RefsTemplateIndex(articleText);
 
                 foreach (Match m in WikiRegexes.NamedReferences.Matches(articleText))
                 {
