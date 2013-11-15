@@ -8856,8 +8856,6 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
 {{unreferenced}}";
 
             Assert.AreEqual(correct, Parsers.Conversions(nochange + "\r\n" + @"[[Category:Living people]]"));
-            Assert.AreEqual(correct, Parsers.Conversions(@"Foo
-{{no refs}}" + "\r\n" + @"[[Category:Living people]]"));
 
             Assert.AreEqual(correct, Parsers.Conversions(correct));
 
@@ -8869,13 +8867,13 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.AreEqual(@"Foo
 {{BLP unsourced|date=May 2010}}
 [[Category:Living people]]", Parsers.Conversions(@"Foo
-{{unref|date=May 2010}}
+{{unreferenced|date=May 2010}}
 [[Category:Living people]]"));
 
             Assert.AreEqual(@"Foo
 {{BLP unsourced|Date=May 2010}}
 [[Category:Living people]]", Parsers.Conversions(@"Foo
-{{unref|Date=May 2010}}
+{{unreferenced|Date=May 2010}}
 [[Category:Living people]]"));
         }
 
