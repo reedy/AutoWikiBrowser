@@ -6974,7 +6974,7 @@ namespace WikiFunctions.Parse
                                                           return (newName.Equals(m.Groups[1].Value) ? m.Value : Tools.RenameTemplate(m.Value, newName));
                                                       });
 
-            articleText= Dablinks(articleText);
+            articleText = Dablinks(articleText);
 
             return articleText;
         }
