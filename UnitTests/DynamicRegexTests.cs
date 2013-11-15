@@ -1084,6 +1084,9 @@ ABC");
             RegexAssert.IsMatch(WikiRegexes.EmptyLink, "[[Category:]]");
             RegexAssert.IsMatch(WikiRegexes.EmptyLink, "[[Image:]]");
             RegexAssert.IsMatch(WikiRegexes.EmptyLink, "[[File:]]");
+            RegexAssert.IsMatch(WikiRegexes.EmptyLink, "[[category:]]");
+            RegexAssert.IsMatch(WikiRegexes.EmptyLink, "[[IMAGE:]]");
+            RegexAssert.IsMatch(WikiRegexes.EmptyLink, "[[file:]]");
         }
 
         [Test]
@@ -1095,6 +1098,7 @@ ABC");
             RegexAssert.NoMatch(WikiRegexes.EmptyTemplate, "{{Test|}}");
 
             RegexAssert.IsMatch(WikiRegexes.EmptyTemplate, "{{Template:}}");
+            RegexAssert.IsMatch(WikiRegexes.EmptyTemplate, "{{template:}}");
             RegexAssert.IsMatch(WikiRegexes.EmptyTemplate, "{{}}");
             RegexAssert.IsMatch(WikiRegexes.EmptyTemplate, "{{|}}");
             RegexAssert.IsMatch(WikiRegexes.EmptyTemplate, "{{          }}");
