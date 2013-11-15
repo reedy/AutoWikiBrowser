@@ -4838,8 +4838,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex LinkWhitespace4 = new Regex(@"\[\[([^\]\|]{1,30}) \]\] ", RegexOptions.Compiled);
         private static readonly Regex LinkWhitespace5 = new Regex(@"\[\[([^\]]{1,30}) \]\](?=\w)", RegexOptions.Compiled);
 
-        private static readonly Regex DateLinkWhitespace1 = new Regex(@"\b(\[\[\d\d? " + WikiRegexes.MonthsNoGroup + @"\]\]),? {0,2}(\[\[\d{1,4}\]\])\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
-        private static readonly Regex DateLinkWhitespace2 = new Regex(@"\b(\[\[" + WikiRegexes.MonthsNoGroup + @" \d\d?\]\]),? {0,2}(\[\[\d{1,4}\]\])\b", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex DateLinkWhitespace = new Regex(@"(?<=\b\[\[(?:\d\d? " + WikiRegexes.MonthsNoGroup + @"|"  + WikiRegexes.MonthsNoGroup + @" \d\d?)\]\](?:,|,?  ))(\[\[\d{1,4}\]\])\b", RegexOptions.IgnoreCase);
         private static readonly Regex SectionLinkWhitespace = new Regex(@"(\[\[[^\[\]\|]+)(?: +# *| *# +)([^\[\]]+\]\])(?<!\[\[[ACFJ]# .*)", RegexOptions.Compiled);
         private static readonly Regex Hash = new Regex(@"#", RegexOptions.Compiled);
 
@@ -4867,11 +4866,8 @@ namespace WikiFunctions.Parse
             //remove undesirable space from end of wikilink and move it outside link - parse this line second
             articleText = LinkWhitespace5.Replace(articleText, "[[$1]] ");
 
-            //remove undesirable double space between links in date (day first)
-            articleText = DateLinkWhitespace1.Replace(articleText, "$1 $2");
-
-            //remove undesirable double space between links in date (day second)
-            articleText = DateLinkWhitespace2.Replace(articleText, "$1 $2");
+            //remove undesirable double space between wikilinked dates
+            articleText = DateLinkWhitespace.Replace(articleText, "$1");
 
             // [[link #section]] or [[link# section]] --> [[link#section]], don't change if hash in part of text of section link
             articleText = SectionLinkWhitespace.Replace(articleText, m => (Hash.Matches(m.Value).Count == 1) ? m.Groups[1].Value.TrimEnd() + "#" + m.Groups[2].Value.TrimStart() : m.Value);
