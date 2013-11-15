@@ -1031,29 +1031,49 @@ namespace WikiFunctions.Parse
         {
             if (!Variables.LangCode.Equals("en"))
                 return sectionText;
-            
+
+            string sectionTextOriginal = sectionText;
             Regex TemplateToMerge = Tools.NestedTemplateRegex(templateName);
             string mergedTemplates = "";
-            
+
+            // unless it's zeroth section must remove heading to have templates at start of section
+            string heading = "";
+            Match h = WikiRegexes.Headings.Match(sectionText);
+
+            if(h.Success && h.Index == 0)
+            {
+                heading = h.Value.TrimEnd();
+                sectionText = sectionText.Substring(h.Length).TrimStart();
+            }
+
+            int merged = 0;
+
             while(TemplateToMerge.IsMatch(sectionText))
             {
                 Match m = TemplateToMerge.Match(sectionText);
                 
+                // only take templates at very start of section (after heading)
                 if(m.Index > 0)
                     break;
                 
+                // if first template just append, if subsequent then merge in value
                 if(mergedTemplates.Length == 0)
                     mergedTemplates = m.Value;
                 else
+                {
                     mergedTemplates = mergedTemplates.Replace(@"}}", m.Groups[3].Value);
+                    merged++;
+                }
                 
-                sectionText = sectionText.Substring(m.Length);
+                // reove template from section text
+                sectionText = sectionText.Substring(m.Length).TrimStart();
             }
-            
-            if(mergedTemplates.Length > 0)
-                return (mergedTemplates + "\r\n" + sectionText);
-            
-            return sectionText;
+
+            // recompose section: only if a merge has happened
+            if(merged > 0)
+                return ((heading.Length > 0 ? heading + "\r\n" : "") + mergedTemplates + "\r\n" + sectionText);
+
+            return sectionTextOriginal;
         }
 
         // fixes extra comma or space in American format dates
