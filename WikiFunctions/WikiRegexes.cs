@@ -160,7 +160,7 @@ namespace WikiFunctions
             //}
             ExtractTitle = new Regex("^" + s + "([^?&]*)$");
 
-            EmptyLink = new Regex("\\[\\[(:?" + category + "|" + image + "|)(|" + image + "|" + category + "|.*?)\\]\\]");
+            EmptyLink = new Regex(@"\[\[\s*(?:(:?" + category + "|" + image + @")\s*:?\s*(\|.*?)?|[|\s]*)\]\]");
             EmptyTemplate = new Regex(@"{{(" + template + @")?[|\s]*}}");
             
             // set orphan, wikify, uncat templates & dateparameter string
