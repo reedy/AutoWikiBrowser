@@ -6891,17 +6891,41 @@ namespace WikiFunctions.Parse
             // {{foo|section|...}} --> {{foo section|...}} for unreferenced, wikify, refimprove, BLPsources, expand, BLP unsourced
             articleText = SectionTemplates.Replace(articleText, SectionTemplateConversionsME);
 
+            bool mifound = false;
+            articleText = WikiRegexes.MultipleIssues.Replace(articleText, m =>
+                                                             {
+                                                                 mifound = true;
+                                                                 return Tools.RemoveExcessTemplatePipes(m.Value);
+                                                             });
+            if(mifound)
+            {
+                // add date to any undated tags within {{Multiple issues}} (loop due to lookbehind in regex)
+                while (MultipleIssuesUndatedTags.IsMatch(articleText))
+                    articleText = MultipleIssuesUndatedTags.Replace(articleText, "$1$2={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}$3");
+
+                // clean any 'date' word within {{Multiple issues}} (but not 'update' or 'out of date' fields), place after the date adding rule above (loop due to lookbehind in regex)
+                while (MultipleIssuesDateRemoval.IsMatch(articleText))
+                    articleText = MultipleIssuesDateRemoval.Replace(articleText, "");
+            }
+
             // fixes if article has [[Category:Living people]]
             if(Variables.IsWikipediaEN && CategoryMatch(articleText, "Living people"))
             {
                 // {{unreferenced}} --> {{BLP unsourced}} if article has [[Category:Living people]], and no free-text first argument to {{unref}}
-                MatchCollection unrefm = WikiRegexes.Unreferenced.Matches(articleText);
+                MatchCollection unrefm;
+
+                if(mifound)
+                    unrefm = WikiRegexes.Unreferenced.Matches(articleText);
+                else
+                    unrefm = Tools.NestedTemplateRegex("unreferenced").Matches(articleText);
+
                 if(unrefm.Count == 1)
                 {
                     string unref = unrefm[0].Value;
+                    string name = (mifound ? unrefm[0].Groups[1].Value : unrefm[0].Groups[2].Value);
                     if (Tools.TurnFirstToLower(Tools.GetTemplateArgument(unref, 1)).StartsWith("date")
                             || Tools.GetTemplateArgumentCount(unref) == 0)
-                        articleText = Tools.RenameTemplate(articleText, unrefm[0].Groups[1].Value, "BLP unsourced", false);
+                        articleText = Tools.RenameTemplate(articleText, name, "BLP unsourced", false);
                 }
 
                 articleText = Tools.RenameTemplate(articleText, "unreferenced section", "BLP unsourced section", false);
@@ -6923,23 +6947,6 @@ namespace WikiFunctions.Parse
             articleText = MergePortals(articleText);
 
             articleText = MergeTemplatesBySection(articleText);
-
-            bool mifound = false;
-            articleText = WikiRegexes.MultipleIssues.Replace(articleText, m => 
-                                                             {
-                                                                 mifound = true;
-                                                                 return Tools.RemoveExcessTemplatePipes(m.Value);
-                                                             });
-            if(mifound)
-            {
-                // add date to any undated tags within {{Multiple issues}} (loop due to lookbehind in regex)
-                while (MultipleIssuesUndatedTags.IsMatch(articleText))
-                    articleText = MultipleIssuesUndatedTags.Replace(articleText, "$1$2={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}$3");
-
-                // clean any 'date' word within {{Multiple issues}} (but not 'update' or 'out of date' fields), place after the date adding rule above (loop due to lookbehind in regex)
-                while (MultipleIssuesDateRemoval.IsMatch(articleText))
-                    articleText = MultipleIssuesDateRemoval.Replace(articleText, "");
-            }
 
             // clean up Template:/underscores in infobox names
             articleText = WikiRegexes.InfoBox.Replace(articleText, m =>
