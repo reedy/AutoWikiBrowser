@@ -7281,6 +7281,10 @@ words";
 Text
 {{see also|B}}";
             Assert.AreEqual(NotStartOfSection, Parsers.MergeTemplatesBySection(NotStartOfSection), "does not merge templates not at top of section");
+            Assert.AreEqual(@"==One==
+{{see also|A|B}}", Parsers.MergeTemplatesBySection(@"==One==
+{{see also|A}}
+{{see also|B}}"), "does not merge templates not at top of section");
         }
         
         [Test]
