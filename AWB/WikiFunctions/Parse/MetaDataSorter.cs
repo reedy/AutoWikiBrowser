@@ -260,6 +260,7 @@ en, sq, ru
 		}
 		
 		private static readonly Regex CommentedOutEnInterwiki = new Regex("<!-- ?\\[\\[en:.*?\\]\\] ?-->");
+		private static readonly Regex SPMQuick = Tools.NestedTemplateRegex("short pages monitor");
 		
 		/// <summary>
 		/// Sorts article meta data, including optional whitespace fixing
@@ -286,8 +287,9 @@ en, sq, ru
 
 		    // short pages monitor check for en-wiki: keep at very end of article if present
 		    // See [[Template:Long comment/doc]]
+		    // SPM regex quick check for performance on long pages
 		    string shortPagesMonitor = "";
-		    if(Variables.LangCode.Equals("en"))
+		    if(Variables.LangCode.Equals("en") && SPMQuick.IsMatch(articleText))
 		    {
 		        Match spm = WikiRegexes.ShortPagesMonitor.Match(articleText);
 		        
