@@ -403,6 +403,17 @@ y";
 * Hills  works,<ref name=HerdFly/><ref>{{cite book |last=McDonald }}</ref><ref>{{cite book |last=Gingrich }}</ref><ref>{{cite book |location=Norwalk, CT }}</ref> {{Reflist}}";
             GenFixes("Test");
             Assert.AreEqual(correct, ArticleText);
+
+            // RefsAfterPunctuation
+            ArticleText = @"A<ref>ABC</REF>.
+
+==References==
+{{reflist}}";
+            GenFixes("Test");
+            Assert.AreEqual(@"A.<ref>ABC</ref>
+
+==References==
+{{reflist}}", ArticleText);
         }
         
         [Test]

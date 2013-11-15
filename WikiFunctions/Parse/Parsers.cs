@@ -1385,7 +1385,7 @@ namespace WikiFunctions.Parse
 
         private const string RefsPunctuation = @"([,\.;:])";
         private static readonly Regex RefsBeforePunctuationR = new Regex(@" *" + WikiRegexes.Refs + @" *" + RefsPunctuation + @"([^,\.:;]|$)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
-        private static readonly Regex RefsBeforePunctuationQuick = new Regex(@"> *" + RefsPunctuation);
+        private static readonly Regex RefsBeforePunctuationQuick = new Regex(@"(?<=(?:/|ref) *)> *" + RefsPunctuation);
         private static readonly Regex RefsAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *" + WikiRegexes.Refs, RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private static readonly Regex RefsAfterDupePunctuationQuick = new Regex(@"(?<![,\.:;])" + RefsPunctuation + @"\1 *<\s*ref", RegexOptions.IgnoreCase);
         private static readonly Regex Sfn = Tools.NestedTemplateRegex(new[] {"Sfn", "Shortened footnote", "Shortened footnote template", "Efn"});
@@ -1403,6 +1403,7 @@ namespace WikiFunctions.Parse
             if (!Variables.LangCode.Equals("en") && !Variables.LangCode.Equals("el"))
                 return articleText;
 
+            string articleTextOriginal = articleText;
             bool sfnUsed = Sfn.IsMatch(articleText);
 
             // 'quick' regexes are used for runtime performance saving
@@ -1426,6 +1427,10 @@ namespace WikiFunctions.Parse
             if(sfnUsed)
                 articleText = SfnAfterDupePunctuation.Replace(articleText, "$1$2${sfn}");
 
+            // if there have been changes need to call FixReferenceTags in case punctation moved didn't have witespace after it  
+            if(!articleTextOriginal.Equals(articleText))
+                articleText = FixReferenceTags(articleText);
+            
             return articleText;
         }
 
@@ -8068,7 +8073,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Check if article has an 'inusetag'
+        /// Check if article has an 'in use' or 'in creation' tag
         /// </summary>
         public static bool IsInUse(string articleText)
         {
