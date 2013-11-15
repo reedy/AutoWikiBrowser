@@ -719,6 +719,18 @@ Start date and age
         }
 
         [Test]
+        public void UnnamedReferences()
+        {
+            RegexAssert.IsMatch(WikiRegexes.UnnamedReferences, @"<ref>Foo</ref>");
+            RegexAssert.IsMatch(WikiRegexes.UnnamedReferences, @"<ref> Foo </ref>");
+            RegexAssert.IsMatch(WikiRegexes.UnnamedReferences, @"<ref>
+Foo
+</ref>");
+            RegexAssert.IsMatch(WikiRegexes.UnnamedReferences, @"<ref>Foo<small>bar</small>Here</ref>");
+            Assert.AreEqual("Foo", WikiRegexes.UnnamedReferences.Match("<ref>Foo</ref>").Groups[1].Value);
+        }
+
+        [Test]
         public void RefsGrouped()
         {
             RegexAssert.Matches(WikiRegexes.RefsGrouped, "<ref group=X>foo</ref>", "<ref group=X>foo</ref>");
