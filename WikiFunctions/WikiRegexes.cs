@@ -1341,9 +1341,9 @@ namespace WikiFunctions
         public static readonly Regex Ibid = Tools.NestedTemplateRegex(@"Ibid");
         
         /// <summary>
-        /// Matches the {{In use}} template
+        /// Matches the {{In use}}/{{in creation}} templates
         /// </summary>
-        public static readonly Regex InUse = Tools.NestedTemplateRegex(new[] { "Inuse", "In use", "GOCEinuse", "goceinuse" });
+        public static readonly Regex InUse = Tools.NestedTemplateRegex(new[] { "Inuse", "In use", "GOCEinuse", "goceinuse", "in creation" });
 
         /// <summary>
         /// Matches the {{Wikipedia books}} template
