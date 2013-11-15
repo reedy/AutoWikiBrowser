@@ -1001,9 +1001,6 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text</returns>
         public static string MergeTemplatesBySection(string articleText)
         {
-            if (SectionMergedTemplatesR.Matches(articleText).Count < 2)
-                return articleText;
-
             string[] articleTextInSections = Tools.SplitToSections(articleText);
             StringBuilder newArticleText = new StringBuilder();
 
@@ -1012,8 +1009,10 @@ namespace WikiFunctions.Parse
                 string sectionText = s;
                 foreach (string t in SectionMergedTemplates)
                 {
-                    if(sectionText.IndexOf(t, StringComparison.CurrentCultureIgnoreCase) > -1) // check for performance
-                        sectionText = MergeTemplates(sectionText, t);
+                    if(SectionMergedTemplatesR.Matches(sectionText).Count < 2)
+                        break;
+
+                    sectionText = MergeTemplates(sectionText, t);
                 }
                 newArticleText.Append(sectionText);
             }
