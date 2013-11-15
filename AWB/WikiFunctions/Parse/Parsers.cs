@@ -5957,7 +5957,7 @@ namespace WikiFunctions.Parse
                 return false;
             
             Regex anyCategory = new Regex(@"\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category] +
-                                          @"\s*" + Regex.Escape(categoryName) + @"\s*(?:|\|([^\|\]]*))\s*\]\]", RegexOptions.IgnoreCase);
+                                          @"\s*" + Regex.Escape(categoryName) + @"\s*(?:|\|([^\|\]]*))\s*\]\]", RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
 
             return anyCategory.IsMatch(articleText);
         }
@@ -6895,21 +6895,27 @@ namespace WikiFunctions.Parse
             if(Variables.IsWikipediaEN && CategoryMatch(articleText, "Living people"))
             {
                 // {{unreferenced}} --> {{BLP unsourced}} if article has [[Category:Living people]], and no free-text first argument to {{unref}}
-                string unref = WikiRegexes.Unreferenced.Match(articleText).Value;
-                if (WikiRegexes.Unreferenced.Match(articleText).Groups[1].Value.Length > 0 && WikiRegexes.Unreferenced.Matches(articleText).Count == 1
-                    && (Tools.TurnFirstToLower(Tools.GetTemplateArgument(unref, 1)).StartsWith("date")
-                        || Tools.GetTemplateArgumentCount(unref) == 0))
-                    articleText = Tools.RenameTemplate(articleText, WikiRegexes.Unreferenced.Match(articleText).Groups[1].Value, "BLP unsourced", false);
+                MatchCollection unrefm = WikiRegexes.Unreferenced.Matches(articleText);
+                if(unrefm.Count == 1)
+                {
+                    string unref = unrefm[0].Value;
+                    if (Tools.TurnFirstToLower(Tools.GetTemplateArgument(unref, 1)).StartsWith("date")
+                            || Tools.GetTemplateArgumentCount(unref) == 0)
+                        articleText = Tools.RenameTemplate(articleText, unrefm[0].Groups[1].Value, "BLP unsourced", false);
+                }
 
                 articleText = Tools.RenameTemplate(articleText, "unreferenced section", "BLP unsourced section", false);
                 articleText = Tools.RenameTemplate(articleText, "primary sources", "BLP primary sources", false);
 
                 // {{refimprove}} --> {{BLP sources}} if article has [[Category:Living people]], and no free-text first argument to {{refimprove}}
-                string refimprove = Tools.NestedTemplateRegex("refimprove").Match(articleText).Value;
-                if (refimprove.Length > 0 && Tools.NestedTemplateRegex("refimprove").Matches(articleText).Count == 1
-                    && (Tools.TurnFirstToLower(Tools.GetTemplateArgument(refimprove, 1)).StartsWith("date")
-                        || Tools.GetTemplateArgumentCount(refimprove) == 0))
-                    articleText = Tools.RenameTemplate(articleText, "refimprove", "BLP sources", false);
+                MatchCollection mc = Tools.NestedTemplateRegex("refimprove").Matches(articleText);
+                if(mc.Count == 1)
+                {
+                    string refimprove = mc[0].Value;
+                    if ((Tools.TurnFirstToLower(Tools.GetTemplateArgument(refimprove, 1)).StartsWith("date")
+                         || Tools.GetTemplateArgumentCount(refimprove) == 0))
+                        articleText = Tools.RenameTemplate(articleText, "refimprove", "BLP sources", false);
+                }
 
                 articleText = Tools.RenameTemplate(articleText, "refimprove section", "BLP sources section", false);
             }
@@ -6942,7 +6948,9 @@ namespace WikiFunctions.Parse
                                                           return (newName.Equals(m.Groups[1].Value) ? m.Value : Tools.RenameTemplate(m.Value, newName));
                                                       });
 
-            return Dablinks(articleText);
+            articleText= Dablinks(articleText);
+
+            return articleText;
         }
 
         private static readonly Regex SectionTemplates = Tools.NestedTemplateRegex(new[] { "unreferenced", "wikify", "refimprove", "BLP sources", "expand", "BLP unsourced" });
