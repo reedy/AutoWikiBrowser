@@ -867,7 +867,7 @@ namespace WikiFunctions
         public const string ReferenceEndGR = @"(?:</ref>|{{GR\|\d}})";
 
         /// <summary>
-        /// Matches any of the recognised templates for displaying cite references e.g. {{reflist}}, &lt;references/&gt;
+        /// Matches any of the recognised templates for displaying cite references e.g. {{reflist}}, {{refs}}, &lt;references/&gt;
         /// </summary>
         public static readonly Regex ReferencesTemplate = new Regex(ReferencesTemplates, RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
