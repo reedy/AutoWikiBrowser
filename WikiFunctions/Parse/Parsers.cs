@@ -1713,7 +1713,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly Regex ShortNameReferenceQuick = new Regex(@"(?:""|')?\s*>\s*([^<>]{1,9}?|\[?[Ss]ee above\]?)\s*<\s*/\s*ref>");
+        private static readonly Regex ShortNameReferenceQuick = new Regex(@">\s*([^<>]{1,9}?|\[?[Ss]ee above\]?)\s*<\s*/\s*ref>");
 
         /// <summary>
         /// refs with same name, but one is very short, so just change to &lt;ref name=foo/&gt; notation
