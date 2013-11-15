@@ -1529,12 +1529,18 @@ namespace WikiFunctions.Parse
                             }
                         }
                     }
-
-                    // duplicate citation fixer (first named): <ref name="Fred">(...)</ref>....<ref>\2</ref> --> ..<ref name="Fred"/>
-                    // duplicate citation fixer (second named): <ref>(...)</ref>....<ref name="Fred">\2</ref> --> ..<ref name="Fred"/>
-                    if(articleTextRefClean.Contains(@"<ref>" + namedRefValue)) // check for performance
-                        articleText = Regex.Replace(articleText, @"<\s*ref\s*>\s*" + Regex.Escape(namedRefValue) + @"\s*<\s*/\s*ref>", @"<ref name=""" + refName + @"""/>");
                 }
+
+                // duplicate citation fixer (first named): <ref name="Fred">(...)</ref>....<ref>\2</ref> --> ..<ref name="Fred"/>
+                // duplicate citation fixer (second named): <ref>(...)</ref>....<ref name="Fred">\2</ref> --> ..<ref name="Fred"/>
+                articleText = WikiRegexes.UnnamedReferences.Replace(articleText, m =>
+                                                                    {
+                                                                        string newname;
+                                                                        if(NamedRefs.TryGetValue(m.Groups[1].Value.Trim(), out newname))
+                                                                            return @"<ref name=""" + newname + @"""/>";
+                                                                        
+                                                                        return m.Value;
+                                                                    });
 
                 if (!reparse)
                     break;
