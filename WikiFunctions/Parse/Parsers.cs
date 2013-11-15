@@ -991,7 +991,7 @@ namespace WikiFunctions.Parse
             return (articleText + restOfArticle);
         }
 
-        private static readonly List<string> SectionMergedTemplates = new List<string>(new[] { "see also", "see also2" });
+        private static readonly List<string> SectionMergedTemplates = new List<string>(new[] { "see also", "see also2", "main" });
         private static readonly Regex SectionMergedTemplatesR = Tools.NestedTemplateRegex(SectionMergedTemplates);
 
         /// <summary>
