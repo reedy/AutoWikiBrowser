@@ -949,6 +949,11 @@ namespace WikiFunctions.DBScanner
             Tools.OpenURLInBrowser("http://dumps.wikimedia.org/");
         }
 
+        private void lnkWikiPage_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Tools.OpenURLInBrowser("https://en.wikipedia.org/wiki/Wikipedia:AutoWikiBrowser/Database_Scanner");
+        }
+
         private void chkSearchDates_CheckedChanged(object sender, EventArgs e)
         {
             dtpFrom.Enabled = dtpTo.Enabled = chkSearchDates.Checked;
