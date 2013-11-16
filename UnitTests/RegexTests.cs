@@ -745,6 +745,7 @@ Start date and age
         public void UnnamedReferences()
         {
             RegexAssert.IsMatch(WikiRegexes.UnnamedReferences, @"<ref>Foo</ref>");
+            RegexAssert.IsMatch(WikiRegexes.UnnamedReferences, @"< ref >Foo< / ref >");
             RegexAssert.IsMatch(WikiRegexes.UnnamedReferences, @"<ref> Foo </ref>");
             RegexAssert.IsMatch(WikiRegexes.UnnamedReferences, @"<ref>
 Foo
