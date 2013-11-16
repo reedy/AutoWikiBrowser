@@ -110,11 +110,6 @@ namespace WikiFunctions.DBScanner
             this.chkDefaultSort = new System.Windows.Forms.CheckBox();
             this.tbParameters = new System.Windows.Forms.TabControl();
             this.tabDump = new System.Windows.Forms.TabPage();
-            this.flwHelpLinks = new System.Windows.Forms.FlowLayoutPanel();
-            this.lblAlso = new System.Windows.Forms.Label();
-            this.lnkWmfDumps = new System.Windows.Forms.LinkLabel();
-            this.lnkWikiaDumps = new System.Windows.Forms.LinkLabel();
-            this.lnkGenDump = new System.Windows.Forms.LinkLabel();
             this.txtCase = new System.Windows.Forms.TextBox();
             this.lblCase = new System.Windows.Forms.Label();
             this.txtGenerator = new System.Windows.Forms.TextBox();
@@ -149,6 +144,13 @@ namespace WikiFunctions.DBScanner
             this.tabRestrict = new System.Windows.Forms.TabPage();
             this.chkProtection = new System.Windows.Forms.CheckBox();
             this.MoveDelete = new WikiFunctions.Controls.EditProtectControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.flwHelpLinks = new System.Windows.Forms.FlowLayoutPanel();
+            this.lblAlso = new System.Windows.Forms.Label();
+            this.lnkWmfDumps = new System.Windows.Forms.LinkLabel();
+            this.lnkWikiaDumps = new System.Windows.Forms.LinkLabel();
+            this.lnkGenDump = new System.Windows.Forms.LinkLabel();
+            this.lnkWikiPage = new System.Windows.Forms.LinkLabel();
             this.btnReset = new System.Windows.Forms.Button();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
@@ -159,7 +161,6 @@ namespace WikiFunctions.DBScanner
             this.tabConvert = new System.Windows.Forms.TabPage();
             this.btnPause = new System.Windows.Forms.Button();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
             this.gbText.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudLength)).BeginInit();
@@ -174,7 +175,6 @@ namespace WikiFunctions.DBScanner
             this.flwAWB.SuspendLayout();
             this.tbParameters.SuspendLayout();
             this.tabDump.SuspendLayout();
-            this.flwHelpLinks.SuspendLayout();
             this.tabNamespace.SuspendLayout();
             this.tabTitle.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -183,19 +183,20 @@ namespace WikiFunctions.DBScanner
             this.gbProperties.SuspendLayout();
             this.tabAWB.SuspendLayout();
             this.tabRestrict.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.flwHelpLinks.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabConvert.SuspendLayout();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtList
             // 
-            this.txtList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.txtList.Location = new System.Drawing.Point(3, 51);
             this.txtList.MaxLength = 0;
             this.txtList.Multiline = true;
@@ -267,8 +268,8 @@ namespace WikiFunctions.DBScanner
             // 
             // txtArticleDoesContain
             // 
-            this.txtArticleDoesContain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtArticleDoesContain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel3.SetColumnSpan(this.txtArticleDoesContain, 2);
             this.txtArticleDoesContain.Enabled = false;
             this.txtArticleDoesContain.Location = new System.Drawing.Point(98, 3);
@@ -289,8 +290,8 @@ namespace WikiFunctions.DBScanner
             // 
             // txtArticleDoesNotContain
             // 
-            this.txtArticleDoesNotContain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtArticleDoesNotContain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel3.SetColumnSpan(this.txtArticleDoesNotContain, 2);
             this.txtArticleDoesNotContain.Enabled = false;
             this.txtArticleDoesNotContain.Location = new System.Drawing.Point(98, 29);
@@ -329,7 +330,7 @@ namespace WikiFunctions.DBScanner
             this.chkSingle.TabIndex = 6;
             this.chkSingle.Text = "S&ingleline";
             this.tooltip.SetToolTip(this.chkSingle, "Changes meaning of \".\"  so it matches all characters, as opposed to all apart fro" +
-        "m newlines");
+                    "m newlines");
             // 
             // chkMulti
             // 
@@ -341,7 +342,7 @@ namespace WikiFunctions.DBScanner
             this.chkMulti.TabIndex = 7;
             this.chkMulti.Text = "&Multiline";
             this.tooltip.SetToolTip(this.chkMulti, "Changes meaning of \"^\" and \"$\" so they represent the beginning and end respective" +
-        "ly of every line, rather just of the entire string");
+                    "ly of every line, rather just of the entire string");
             // 
             // chkIgnoreComments
             // 
@@ -685,8 +686,8 @@ namespace WikiFunctions.DBScanner
             // 
             // txtStartFrom
             // 
-            this.txtStartFrom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtStartFrom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.txtStartFrom.Location = new System.Drawing.Point(94, 140);
             this.txtStartFrom.Name = "txtStartFrom";
             this.txtStartFrom.Size = new System.Drawing.Size(172, 20);
@@ -776,9 +777,9 @@ namespace WikiFunctions.DBScanner
             // 
             // lbArticles
             // 
-            this.lbArticles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbArticles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.lbArticles.ContextMenuStrip = this.ArticlesListBoxContextMenu;
             this.lbArticles.FormattingEnabled = true;
             this.lbArticles.Location = new System.Drawing.Point(6, 19);
@@ -1049,8 +1050,8 @@ namespace WikiFunctions.DBScanner
             // 
             // tbParameters
             // 
-            this.tbParameters.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tbParameters.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tbParameters.Controls.Add(this.tabDump);
             this.tbParameters.Controls.Add(this.tabNamespace);
             this.tbParameters.Controls.Add(this.tabTitle);
@@ -1086,63 +1087,10 @@ namespace WikiFunctions.DBScanner
             this.tabDump.Text = "Database";
             this.tabDump.UseVisualStyleBackColor = true;
             // 
-            // flwHelpLinks
-            // 
-            this.flwHelpLinks.Controls.Add(this.lblAlso);
-            this.flwHelpLinks.Controls.Add(this.lnkWmfDumps);
-            this.flwHelpLinks.Controls.Add(this.lnkWikiaDumps);
-            this.flwHelpLinks.Controls.Add(this.lnkGenDump);
-            this.flwHelpLinks.Location = new System.Drawing.Point(6, 10);
-            this.flwHelpLinks.Name = "flwHelpLinks";
-            this.flwHelpLinks.Size = new System.Drawing.Size(406, 19);
-            this.flwHelpLinks.TabIndex = 16;
-            // 
-            // lblAlso
-            // 
-            this.lblAlso.AutoSize = true;
-            this.lblAlso.Location = new System.Drawing.Point(3, 0);
-            this.lblAlso.Name = "lblAlso";
-            this.lblAlso.Size = new System.Drawing.Size(51, 13);
-            this.lblAlso.TabIndex = 11;
-            this.lblAlso.Text = "See also:";
-            // 
-            // lnkWmfDumps
-            // 
-            this.lnkWmfDumps.AutoSize = true;
-            this.lnkWmfDumps.Location = new System.Drawing.Point(60, 0);
-            this.lnkWmfDumps.Name = "lnkWmfDumps";
-            this.lnkWmfDumps.Size = new System.Drawing.Size(67, 13);
-            this.lnkWmfDumps.TabIndex = 12;
-            this.lnkWmfDumps.TabStop = true;
-            this.lnkWmfDumps.Text = "WMF dumps";
-            this.lnkWmfDumps.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkWmfDumps_LinkClicked);
-            // 
-            // lnkWikiaDumps
-            // 
-            this.lnkWikiaDumps.AutoSize = true;
-            this.lnkWikiaDumps.Location = new System.Drawing.Point(133, 0);
-            this.lnkWikiaDumps.Name = "lnkWikiaDumps";
-            this.lnkWikiaDumps.Size = new System.Drawing.Size(68, 13);
-            this.lnkWikiaDumps.TabIndex = 13;
-            this.lnkWikiaDumps.TabStop = true;
-            this.lnkWikiaDumps.Text = "Wikia dumps";
-            this.lnkWikiaDumps.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkWikiaDumps_LinkClicked);
-            // 
-            // lnkGenDump
-            // 
-            this.lnkGenDump.AutoSize = true;
-            this.lnkGenDump.Location = new System.Drawing.Point(207, 0);
-            this.lnkGenDump.Name = "lnkGenDump";
-            this.lnkGenDump.Size = new System.Drawing.Size(142, 13);
-            this.lnkGenDump.TabIndex = 14;
-            this.lnkGenDump.TabStop = true;
-            this.lnkGenDump.Text = "Generating Database dumps";
-            this.lnkGenDump.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkGenDump_LinkClicked);
-            // 
             // txtCase
             // 
-            this.txtCase.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtCase.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.txtCase.Location = new System.Drawing.Point(89, 110);
             this.txtCase.Name = "txtCase";
             this.txtCase.ReadOnly = true;
@@ -1160,8 +1108,8 @@ namespace WikiFunctions.DBScanner
             // 
             // txtGenerator
             // 
-            this.txtGenerator.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtGenerator.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.txtGenerator.Location = new System.Drawing.Point(89, 84);
             this.txtGenerator.Name = "txtGenerator";
             this.txtGenerator.ReadOnly = true;
@@ -1197,8 +1145,8 @@ namespace WikiFunctions.DBScanner
             // 
             // txtSitename
             // 
-            this.txtSitename.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtSitename.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSitename.Location = new System.Drawing.Point(89, 32);
             this.txtSitename.Name = "txtSitename";
             this.txtSitename.ReadOnly = true;
@@ -1227,8 +1175,8 @@ namespace WikiFunctions.DBScanner
             // 
             // txtDumpLocation
             // 
-            this.txtDumpLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDumpLocation.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.txtDumpLocation.Location = new System.Drawing.Point(89, 6);
             this.txtDumpLocation.Name = "txtDumpLocation";
             this.txtDumpLocation.Size = new System.Drawing.Size(333, 20);
@@ -1327,8 +1275,8 @@ namespace WikiFunctions.DBScanner
             // 
             // txtTitleContains
             // 
-            this.txtTitleContains.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTitleContains.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel2.SetColumnSpan(this.txtTitleContains, 2);
             this.txtTitleContains.Enabled = false;
             this.txtTitleContains.Location = new System.Drawing.Point(95, 3);
@@ -1350,8 +1298,8 @@ namespace WikiFunctions.DBScanner
             // 
             // txtTitleNotContains
             // 
-            this.txtTitleNotContains.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTitleNotContains.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.tableLayoutPanel2.SetColumnSpan(this.txtTitleNotContains, 2);
             this.txtTitleNotContains.Enabled = false;
             this.txtTitleNotContains.Location = new System.Drawing.Point(95, 29);
@@ -1516,6 +1464,82 @@ namespace WikiFunctions.DBScanner
             this.MoveDelete.Size = new System.Drawing.Size(311, 101);
             this.MoveDelete.TabIndex = 0;
             // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.flwHelpLinks);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(523, 165);
+            this.tabPage1.TabIndex = 7;
+            this.tabPage1.Text = "Help";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // flwHelpLinks
+            // 
+            this.flwHelpLinks.Controls.Add(this.lblAlso);
+            this.flwHelpLinks.Controls.Add(this.lnkWmfDumps);
+            this.flwHelpLinks.Controls.Add(this.lnkWikiaDumps);
+            this.flwHelpLinks.Controls.Add(this.lnkGenDump);
+            this.flwHelpLinks.Controls.Add(this.lnkWikiPage);
+            this.flwHelpLinks.Location = new System.Drawing.Point(6, 10);
+            this.flwHelpLinks.Name = "flwHelpLinks";
+            this.flwHelpLinks.Size = new System.Drawing.Size(423, 19);
+            this.flwHelpLinks.TabIndex = 16;
+            // 
+            // lblAlso
+            // 
+            this.lblAlso.AutoSize = true;
+            this.lblAlso.Location = new System.Drawing.Point(3, 0);
+            this.lblAlso.Name = "lblAlso";
+            this.lblAlso.Size = new System.Drawing.Size(51, 13);
+            this.lblAlso.TabIndex = 11;
+            this.lblAlso.Text = "See also:";
+            // 
+            // lnkWmfDumps
+            // 
+            this.lnkWmfDumps.AutoSize = true;
+            this.lnkWmfDumps.Location = new System.Drawing.Point(60, 0);
+            this.lnkWmfDumps.Name = "lnkWmfDumps";
+            this.lnkWmfDumps.Size = new System.Drawing.Size(67, 13);
+            this.lnkWmfDumps.TabIndex = 12;
+            this.lnkWmfDumps.TabStop = true;
+            this.lnkWmfDumps.Text = "WMF dumps";
+            this.lnkWmfDumps.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkWmfDumps_LinkClicked);
+            // 
+            // lnkWikiaDumps
+            // 
+            this.lnkWikiaDumps.AutoSize = true;
+            this.lnkWikiaDumps.Location = new System.Drawing.Point(133, 0);
+            this.lnkWikiaDumps.Name = "lnkWikiaDumps";
+            this.lnkWikiaDumps.Size = new System.Drawing.Size(68, 13);
+            this.lnkWikiaDumps.TabIndex = 13;
+            this.lnkWikiaDumps.TabStop = true;
+            this.lnkWikiaDumps.Text = "Wikia dumps";
+            this.lnkWikiaDumps.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkWikiaDumps_LinkClicked);
+            // 
+            // lnkGenDump
+            // 
+            this.lnkGenDump.AutoSize = true;
+            this.lnkGenDump.Location = new System.Drawing.Point(207, 0);
+            this.lnkGenDump.Name = "lnkGenDump";
+            this.lnkGenDump.Size = new System.Drawing.Size(142, 13);
+            this.lnkGenDump.TabIndex = 14;
+            this.lnkGenDump.TabStop = true;
+            this.lnkGenDump.Text = "Generating Database dumps";
+            this.lnkGenDump.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkGenDump_LinkClicked);
+            // 
+            // lnkWikiPage
+            // 
+            this.lnkWikiPage.AutoSize = true;
+            this.lnkWikiPage.Location = new System.Drawing.Point(355, 0);
+            this.lnkWikiPage.Name = "lnkWikiPage";
+            this.lnkWikiPage.Size = new System.Drawing.Size(55, 13);
+            this.lnkWikiPage.TabIndex = 15;
+            this.lnkWikiPage.TabStop = true;
+            this.lnkWikiPage.Text = "Wiki page";
+            this.lnkWikiPage.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkWikiPage_LinkClicked);
+            // 
             // btnReset
             // 
             this.btnReset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -1617,17 +1641,6 @@ namespace WikiFunctions.DBScanner
             this.splitContainer1.SplitterDistance = 308;
             this.splitContainer1.TabIndex = 5;
             // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.flwHelpLinks);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(523, 165);
-            this.tabPage1.TabIndex = 7;
-            this.tabPage1.Text = "Help";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
             // DatabaseScanner
             // 
             this.AcceptButton = this.btnStart;
@@ -1667,8 +1680,6 @@ namespace WikiFunctions.DBScanner
             this.tbParameters.ResumeLayout(false);
             this.tabDump.ResumeLayout(false);
             this.tabDump.PerformLayout();
-            this.flwHelpLinks.ResumeLayout(false);
-            this.flwHelpLinks.PerformLayout();
             this.tabNamespace.ResumeLayout(false);
             this.tabTitle.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -1682,13 +1693,15 @@ namespace WikiFunctions.DBScanner
             this.tabAWB.PerformLayout();
             this.tabRestrict.ResumeLayout(false);
             this.tabRestrict.PerformLayout();
+            this.tabPage1.ResumeLayout(false);
+            this.flwHelpLinks.ResumeLayout(false);
+            this.flwHelpLinks.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabConvert.ResumeLayout(false);
             this.tabConvert.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             this.splitContainer1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1789,6 +1802,7 @@ namespace WikiFunctions.DBScanner
         private LinkLabel lnkWikiaDumps;
         private LinkLabel lnkWmfDumps;
         private LinkLabel lnkGenDump;
+        private LinkLabel lnkWikiPage;
         private StatusStrip statusStrip;
         private CheckBox chkDefaultSort;
         private TabPage tabRev;
