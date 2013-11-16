@@ -1128,7 +1128,12 @@ namespace WikiFunctions
         public static readonly Regex NamedReferences = new Regex(@"(<\s*ref\s+name\s*=\s*(?:""|')?([^<>=\r\n/]+?)(?:""|')?\s*>\s*(.*?)\s*<\s*/\s*ref\s*>)", RegexOptions.Singleline | RegexOptions.IgnoreCase);
 
         /// <summary>
-        /// Matches unnamed references in format &lt;ref&gt;...&lt;/ref&gt; group 1 being the reference text @"<\s*ref\s*>\s*([^<>]+?)\s*<\s*/\s*ref\s*>"
+        /// Matches named references in format &lt;ref name="foo"&gt;text&lt;/ref&gt; or &lt;ref name="foo" /&gt; Ref name is group 2, ref value is group 3
+        /// </summary>
+        public static readonly Regex NamedReferences2 = new Regex(@"(<\s*ref\s+name\s*=\s*(?:""|')?([^<>=\r\n/]+?)(?:""|')?\s*(?:>\s*(.*?)\s*<\s*/\s*ref|/)\s*>)", RegexOptions.Singleline | RegexOptions.IgnoreCase);
+
+        /// <summary>
+        /// Matches unnamed references in format &lt;ref&gt;...&lt;/ref&gt; group 1 being the reference text
         /// </summary>
         public static readonly Regex UnnamedReferences = new Regex(@"<\s*ref\s*>((?>.(?<!<\s*ref\b[^>/]*?>|<\s*/\s*ref\s*>)|<\s*ref\b[^>/]*?>(?<DEPTH>)|<\s*/\s*ref\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*ref\s*>", RegexOptions.Singleline);        
 
