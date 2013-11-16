@@ -3314,7 +3314,17 @@ namespace WikiFunctions.Parse
             articleText = BracesWithinDefaultsort.Replace(articleText, @"$1}}");
 
             // fixes for square brackets used within external links
-            articleText = SquareBracketsInExternalLinks.Replace(articleText, SquareBracketsInExternalLinksME);
+            // fix newline(s) in external link description - Partially CHECKWIKI error 80
+            articleText = SingleSquareBrackets.Replace(articleText, m =>
+                                                       {
+                                                           string newvalue = m.Value;
+                                                           if(newvalue.Contains("\r\n") && !newvalue.Substring(1).Contains("[") && ExternalLinksStart.IsMatch(newvalue))
+                                                               newvalue = newvalue.Replace("\r\n", " ");
+                                                           
+                                                           newvalue = SquareBracketsInExternalLinks.Replace(newvalue, SquareBracketsInExternalLinksME);
+                                                           
+                                                           return PipedExternalLink.Replace(newvalue, "$1 $2");
+                                                       });
 
             // needs to be applied after SquareBracketsInExternalLinks
             if (!SyntaxRegexFileWithHTTP.IsMatch(articleText))
@@ -3323,7 +3333,7 @@ namespace WikiFunctions.Parse
                 articleText = SyntaxRegexWikilinkMissingOpeningBracket.Replace(articleText, "[[$1]]");
             }
 
-			//CHECKWIKI error 86
+            //CHECKWIKI error 86
             articleText = DoubleBracketAtStartOfExternalLink.Replace(articleText, "[$1");
 
             // if there are some unbalanced brackets, see whether we can fix them
@@ -3334,16 +3344,6 @@ namespace WikiFunctions.Parse
             articleText = DoubleBracketAtEndOfExternalLink.Replace(articleText, "$1");
             articleText = DoubleBracketAtEndOfExternalLinkWithinImage.Replace(articleText, "$1");
             articleText = ListExternalLinkEndsCurlyBrace.Replace(articleText, "$1]");
-
-            // fix newline(s) in external link description - Partially CHECKWIKI error 80
-            articleText = SingleSquareBrackets.Replace(articleText, m => 
-                                                       {
-                                                           string newvalue = m.Value;
-                                                           if(newvalue.Contains("\r\n") && !newvalue.Substring(1).Contains("[") && ExternalLinksStart.IsMatch(newvalue))
-                                                               newvalue = newvalue.Replace("\r\n", " ");
-                                                           
-                                                           return PipedExternalLink.Replace(newvalue, "$1 $2");
-                                                       });
 
             // double piped links e.g. [[foo||bar]] - CHECKWIKI error 32
             articleText = DoublePipeInWikiLink.Replace(articleText, "|");
