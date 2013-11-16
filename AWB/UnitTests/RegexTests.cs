@@ -218,26 +218,26 @@ work = text
             Assert.AreEqual(@"Shul726", WikiRegexes.NamedReferences.Match(@"<ref name=""vietnam.ttu.edu""/><ref name=""Shul726"">
 Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/trailing whitespace");
 
-            Assert.IsTrue(WikiRegexes.NamedReferences2.IsMatch(@"<ref name = ""foo"">text</ref>"));
-            Assert.IsTrue(WikiRegexes.NamedReferences2.IsMatch(@"<ref name = ""foo"">text<tag>a</tag></ref>"), "matches with nested tags");
-            Assert.IsTrue(WikiRegexes.NamedReferences2.IsMatch(@"<ref name = ""foo""></ref>"));
-            Assert.IsTrue(WikiRegexes.NamedReferences2.IsMatch(@"<ref name =foo>text</ref>"));
-            Assert.IsTrue(WikiRegexes.NamedReferences2.IsMatch(@"<ref name=foo>text< / ref >"));
-            Assert.IsTrue(WikiRegexes.NamedReferences2.IsMatch(@"<ref name=foo>te<taga</tag>xt</ref>"), "nested tag support");
-            Assert.IsTrue(WikiRegexes.NamedReferences2.IsMatch(@"<ref name = 'foo'>text</ref>"));
-            Assert.IsTrue(WikiRegexes.NamedReferences2.IsMatch(@"< REF NAME = ""foo"">text</ref>"));
-            Assert.IsTrue(WikiRegexes.NamedReferences2.IsMatch(@"< REF NAME = ""foo"" />"), "matches condensed named ref");
-            Assert.IsTrue(WikiRegexes.NamedReferences2.IsMatch(@"< REF NAME = ""foo"">
+            Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref name = ""foo"">text</ref>"));
+            Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref name = ""foo"">text<tag>a</tag></ref>"), "matches with nested tags");
+            Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref name = ""foo""></ref>"));
+            Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref Name =foo>text</ref>"));
+            Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref name=foo>text< / ref >"));
+            Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref name=foo>te<taga</tag>xt</ref>"), "nested tag support");
+            Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref name = 'foo'>text</ref>"));
+            Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"< ref NAME = ""foo"">text</ref>"));
+            Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"< ref NAME = ""foo"" />"), "matches condensed named ref");
+            Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"< ref NAME = ""foo"">
 {{ cite web|
 title = text |
 work = text
 }}</ref>"), "matches multiple line ref");
-            Assert.IsTrue(WikiRegexes.NamedReferences2.IsMatch(@"< REF NAME = ""foo"">text <br>more</ref>"), "case insensitive matching");
+            Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"< ref NAME = ""foo"">text <br>more</ref>"), "case insensitive matching");
 
-            Assert.AreEqual(@"<ref name=""vietnam.ttu.edu""/>", WikiRegexes.NamedReferences2.Match(@"<ref name=""vietnam.ttu.edu""/><ref name=""Shul726"">Shul, p. 726</ref>").Value, "match is not across consecutive references – first condensed");
-            Assert.AreEqual(@"Shul726", WikiRegexes.NamedReferences2.Match(@"<ref name=""Shul726"">Shul, p. 726</ref>").Groups[2].Value, "ref name is group 2");
-            Assert.AreEqual(@"Shul, p. 726", WikiRegexes.NamedReferences2.Match(@"<ref name=""Shul726"">Shul, p. 726</ref>").Groups[3].Value, "ref value is group 3");
-            Assert.AreEqual(@"Shul726", WikiRegexes.NamedReferences2.Match(@"<ref name=""Shul726"">
+            Assert.AreEqual(@"<ref name=""vietnam.ttu.edu""/>", WikiRegexes.NamedReferencesIncludingCondensed.Match(@"<ref name=""vietnam.ttu.edu""/><ref name=""Shul726"">Shul, p. 726</ref>").Value, "match is not across consecutive references – first condensed");
+            Assert.AreEqual(@"Shul726", WikiRegexes.NamedReferencesIncludingCondensed.Match(@"<ref name=""Shul726"">Shul, p. 726</ref>").Groups[2].Value, "ref name is group 2");
+            Assert.AreEqual(@"Shul, p. 726", WikiRegexes.NamedReferencesIncludingCondensed.Match(@"<ref name=""Shul726"">Shul, p. 726</ref>").Groups[3].Value, "ref value is group 3");
+            Assert.AreEqual(@"Shul726", WikiRegexes.NamedReferencesIncludingCondensed.Match(@"<ref name=""Shul726"">
 Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/trailing whitespace");
         }
 
