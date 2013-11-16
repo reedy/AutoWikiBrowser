@@ -3143,8 +3143,6 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex SyntaxRegexExternalLinkToImageURL = new Regex("\\[?\\["+Variables.NamespacesCaseInsensitive[Namespace.File]+":(http:\\/\\/.*?)\\]\\]?", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex ExternalLinksStart = new Regex(@"^\[ *(?:https?|ftp|mailto|irc|gopher|telnet|nntp|worldwind|news|svn)://", RegexOptions.IgnoreCase);
-        private static readonly Regex SyntaxRegexSimpleWikilinkStartsWithSpaces = new Regex(@"\[\[ (.*)?\]\]", RegexOptions.Compiled);
-        private static readonly Regex SyntaxRegexSimpleWikilinkEndsWithSpaces = new Regex(@"\[\[([A-Za-z]*) \]\]", RegexOptions.Compiled);
 
         private static readonly Regex SyntaxRegexListRowBrTag = new Regex(@"^([#\*:;]+.*?) *(?:<[/\\]?br ?[/\\]? ?>)+ *\r\n", RegexOptions.Multiline | RegexOptions.IgnoreCase);
         private static readonly Regex SyntaxRegexListRowBrTagMiddle = new Regex(@"^([#\*:;]+.*?)\s*(?:<[/\\]?br ?[/\\]? ?>)+ *\r\n([#\*:;]+)", RegexOptions.Multiline | RegexOptions.IgnoreCase);
@@ -3345,9 +3343,6 @@ namespace WikiFunctions.Parse
             // double piped links e.g. [[foo||bar]] - CHECKWIKI error 32
             articleText = DoublePipeInWikiLink.Replace(articleText, "|");
 
-            //repair bad internal links
-            articleText = SyntaxRegexSimpleWikilinkStartsWithSpaces.Replace(articleText, "[[$1]]");
-            articleText = SyntaxRegexSimpleWikilinkEndsWithSpaces.Replace(articleText, "[[$1]]");
             // make double spaces within wikilinks just single spaces
             articleText = WikiRegexes.WikiLinksOnlyPossiblePipe.Replace(articleText, m=> m.Groups[0].Value.Replace("_#", "#").Replace("  ", " "));
 
