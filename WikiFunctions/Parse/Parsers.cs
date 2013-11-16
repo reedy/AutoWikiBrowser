@@ -1359,7 +1359,7 @@ namespace WikiFunctions.Parse
             // No need to go collect refs in named refs section: must be used in article
             Dictionary<string, int> NamedRefsIndexes = new Dictionary<string, int>();
             
-            foreach (Match n in WikiRegexes.NamedReferences2.Matches(articleText))
+            foreach (Match n in WikiRegexes.NamedReferencesIncludingCondensed.Matches(articleText))
             {
                 if(n.Index > referencestags)
                     break;
