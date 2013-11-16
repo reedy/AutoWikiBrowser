@@ -1352,7 +1352,7 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string ReorderReferences(string articleText)
         {
-            // do not reorder stuff in the <references>...</references> section
+            // do not reorder stuff in the {{refs}} or <references>...</references> section
             int referencestags = RefsTemplateIndex(articleText);
 
             for (int i = 0; i < 9; i++) // allows for up to 9 consecutive references
@@ -1363,7 +1363,7 @@ namespace WikiFunctions.Parse
                 {
                     string ref1 = m.Groups[1].Value;
                     int ref1Index = Regex.Match(articleText, @"(?si)<ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(m.Groups[4].Value) + @"(?:""|')?\s*(?:\/\s*|>.+?</ref)>").Index;
-                    int ref2Index = articleText.IndexOf(ref1);
+                    int ref2Index = m.Index;
 
                     if (ref1Index < ref2Index && ref2Index > 0 && ref1Index > 0 && m.Groups[3].Index < referencestags)
                     {
@@ -1481,6 +1481,7 @@ namespace WikiFunctions.Parse
                         articleText = articleText.Replace(ref1 + rptemplate1 + whitespace + ref2 + rptemplate2, ref2 + rptemplate2 + whitespace + ref1 + rptemplate1);
                     }
                 }
+                else break; // all further matches beyond refs template
             }
 
             return articleText;
