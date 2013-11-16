@@ -1355,6 +1355,19 @@ namespace WikiFunctions.Parse
             // do not reorder stuff in the {{refs}} or <references>...</references> section
             int referencestags = RefsTemplateIndex(articleText);
 
+            // build dictionary of all named references and index of first occurrence
+            // No need to go collect refs in named refs section: must be used in article
+            Dictionary<string, int> NamedRefsIndexes = new Dictionary<string, int>();
+            
+            foreach (Match n in WikiRegexes.NamedReferences2.Matches(articleText))
+            {
+                if(n.Index > referencestags)
+                    break;
+
+                if(!NamedRefsIndexes.ContainsKey(n.Groups[2].Value))
+                    NamedRefsIndexes.Add(n.Groups[2].Value, n.Index);
+            }
+
             for (int i = 0; i < 9; i++) // allows for up to 9 consecutive references
             {
                 string articleTextBefore = articleText;
@@ -1362,7 +1375,8 @@ namespace WikiFunctions.Parse
                 foreach (Match m in OutofOrderRefs1.Matches(articleText))
                 {
                     string ref1 = m.Groups[1].Value;
-                    int ref1Index = Regex.Match(articleText, @"(?si)<ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(m.Groups[4].Value) + @"(?:""|')?\s*(?:\/\s*|>.+?</ref)>").Index;
+                    int ref1Index;
+                    NamedRefsIndexes.TryGetValue(m.Groups[4].Value, out ref1Index);
                     int ref2Index = m.Index;
 
                     if (ref1Index < ref2Index && ref2Index > 0 && ref1Index > 0 && m.Groups[3].Index < referencestags)
@@ -1374,8 +1388,8 @@ namespace WikiFunctions.Parse
                     }
                 }
 
-                articleText = ReorderRefs(articleText, OutofOrderRefs2, referencestags);
-                articleText = ReorderRefs(articleText, OutofOrderRefs3, referencestags);
+                articleText = ReorderRefs(articleText, OutofOrderRefs2, referencestags, NamedRefsIndexes);
+                articleText = ReorderRefs(articleText, OutofOrderRefs3, referencestags, NamedRefsIndexes);
 
                 if (articleTextBefore.Equals(articleText))
                     break;
@@ -1461,14 +1475,15 @@ namespace WikiFunctions.Parse
         /// <param name="outofOrderRegex">a regular expression representing two references that are out of numerical order</param>
         /// <param name="referencestagindex"></param>
         /// <returns>the modified article text</returns>
-        private static string ReorderRefs(string articleText, Regex outofOrderRegex, int referencestagindex)
+        private static string ReorderRefs(string articleText, Regex outofOrderRegex, int referencestagindex, Dictionary<string, int> NamedRefsIndexes)
         {
             foreach (Match m in outofOrderRegex.Matches(articleText))
             {
                 if(m.Groups[5].Index < referencestagindex)
                 {
-                    int ref1Index = Regex.Match(articleText, @"(?si)<ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(m.Groups[2].Value) + @"(?:""|')?\s*(?:\/\s*|>.+?</ref)>").Index;
-                    int ref2Index = Regex.Match(articleText, @"(?si)<ref\s+name\s*=\s*(?:""|')?" + Regex.Escape(m.Groups[6].Value) + @"(?:""|')?\s*(?:\/\s*|>.+?</ref)>").Index;
+                    int ref1Index, ref2Index; 
+                    NamedRefsIndexes.TryGetValue(m.Groups[2].Value, out ref1Index);
+                    NamedRefsIndexes.TryGetValue(m.Groups[6].Value, out ref2Index);
 
                     if (ref1Index > ref2Index && ref1Index > 0)
                     {
