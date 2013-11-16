@@ -1191,7 +1191,7 @@ namespace WikiFunctions
         public static readonly Regex ShortPagesMonitor = new Regex(@"\s*{{[sS]hort pages monitor}}<!--[^<>]+-->");
 
         /// <summary>
-        /// Matches &lt;ref&gt; tags, including named references
+        /// Matches &lt;ref&gt; tags, including named references and condensed named references
         /// </summary>
         public static readonly Regex Refs = new Regex(@"(<\s*ref\s+(?:name|group)\s*=\s*[^<>]*?/\s*>|<\s*ref\b[^<>]*>(?>.(?<!<\s*ref\b[^>/]*?>|<\s*/\s*ref\s*>)|<\s*ref\b[^>/]*>(?<DEPTH>)|<\s*/\s*ref\s*>(?<-DEPTH>))*(?(DEPTH)(?!))<\s*/\s*ref\s*>)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
         
