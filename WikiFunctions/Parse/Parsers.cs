@@ -3275,8 +3275,6 @@ namespace WikiFunctions.Parse
             articleText = MultipleHttpInLink.Replace(articleText, "$1");
             articleText = MultipleFtpInLink.Replace(articleText, "$1");
 
-            articleText = PipedExternalLink.Replace(articleText, "$1 $2");
-
             //repair bad external links
             articleText = SyntaxRegexExternalLinkToImageURL.Replace(articleText, "[$1]");
 
@@ -3338,7 +3336,14 @@ namespace WikiFunctions.Parse
             articleText = ListExternalLinkEndsCurlyBrace.Replace(articleText, "$1]");
 
             // fix newline(s) in external link description - Partially CHECKWIKI error 80
-            articleText = SingleSquareBrackets.Replace(articleText, m => (m.Value.Contains("\r\n") && !m.Value.Substring(1).Contains("[") && ExternalLinksStart.IsMatch(m.Value)) ? m.Value.Replace("\r\n", " ") : m.Value);
+            articleText = SingleSquareBrackets.Replace(articleText, m => 
+                                                       {
+                                                           string newvalue = m.Value;
+                                                           if(newvalue.Contains("\r\n") && !newvalue.Substring(1).Contains("[") && ExternalLinksStart.IsMatch(newvalue))
+                                                               newvalue = newvalue.Replace("\r\n", " ");
+                                                           
+                                                           return PipedExternalLink.Replace(newvalue, "$1 $2");
+                                                       });
 
             // double piped links e.g. [[foo||bar]] - CHECKWIKI error 32
             articleText = DoublePipeInWikiLink.Replace(articleText, "|");
