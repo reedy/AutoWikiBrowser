@@ -2913,7 +2913,7 @@ namespace WikiFunctions.Parse
         
         // Covered by TestFixReferenceTags
         /// <summary>
-        /// Various fixes to the formatting of &lt;ref&gt; reference tags including trimming excess whitespace
+        /// Various fixes to the formatting of &lt;ref&gt; reference tags including case conversion and trimming excess whitespace
         /// </summary>
         /// <param name="articleText">The wiki text of the article</param>
         /// <returns>The modified article text.</returns>
