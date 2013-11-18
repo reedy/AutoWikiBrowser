@@ -4116,7 +4116,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             LoadTypos(false);
         }
 
-        private void LoadTypos(bool reload)
+        public void LoadTypos(bool reload)
         {
             if (chkRegExTypo.Checked && (RegexTypos == null || reload))
             {
