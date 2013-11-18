@@ -157,6 +157,8 @@ namespace WikiFunctions.Plugin
         void StopProgressBar();
 
         void AddArticleRedirectedEventHandler(ArticleRedirected handler);
+
+        void LoadTypos(bool reload);
     }
 
     /* This interface allows plugins to manipulate AWB UI elements. Members can be added without breaking plugins,

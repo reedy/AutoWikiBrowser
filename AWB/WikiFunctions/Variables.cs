@@ -671,6 +671,9 @@ namespace WikiFunctions
 
             RetfPath = Namespaces[Namespace.Project] + "AutoWikiBrowser/Typos";
 
+            if(MainForm != null)
+                MainForm.LoadTypos(true);
+
             foreach (string s in Namespaces.Values)
             {
                 System.Diagnostics.Trace.Assert(s.EndsWith(":"), "Internal error: namespace does not end with ':'.",
