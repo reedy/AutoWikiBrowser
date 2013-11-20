@@ -7197,9 +7197,10 @@ namespace WikiFunctions.Parse
             else
                 #endif
             {
+                // templates may add categories to page that are not [[Category...]] links, so use API call for accurate Category count
+                List<Article> Cats = CategoryProv.MakeList(new[] { articleTitle });
                 // stubs add non-hidden stub categories, don't count these in categories count
                 // also don't count "Proposed deletion..." cats
-                List<Article> Cats = CategoryProv.MakeList(new[] { articleTitle });
                 totalCategories = RegularCategories(Cats).Count;
 
                 // cats may have been added to page by genfixes, F&R or user (when reparsing) so check cats on page if API says zero
