@@ -7197,16 +7197,14 @@ namespace WikiFunctions.Parse
             else
                 #endif
             {
-                // templates may add categories to page that are not [[Category...]] links, so use API call for accurate Category count
-                List<Article> Cats = CategoryProv.MakeList(new[] { articleTitle });
                 // stubs add non-hidden stub categories, don't count these in categories count
                 // also don't count "Proposed deletion..." cats
-                totalCategories = RegularCategories(Cats).Count;
+                totalCategories = RegularCategories(articleText).Count;
 
-                // cats may have been added to page by genfixes, F&R or user (when reparsing) so check cats on page if API says zero
-                // so we correctly count for uncat tagging
-                if(totalCategories == 0)
-                    totalCategories = RegularCategories(articleText).Count;
+                // templates may add categories to page that are not [[Category...]] links, so use API call for accurate Category count
+                // on the other hand [[Category...]] links could be redlinks, so check by API if < 5 cats.
+                if(totalCategories < 5)
+                    totalCategories = RegularCategories(CategoryProv.MakeList(new[] { articleTitle })).Count;
             }
 
             // remove dead end if > 0 wikilinks on page
