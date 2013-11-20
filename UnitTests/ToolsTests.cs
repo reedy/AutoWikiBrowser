@@ -2357,6 +2357,7 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual(@"Der Nachtkurier meldet...", Tools.CleanSortKey(@"Der Nachtkurier meldet…"), "replaces …");
             Assert.AreEqual(@"A L", Tools.CleanSortKey(@"A·L"), "replaces · with space");
             Assert.AreEqual(@"Bb, Dd, h, Kk, Ll, Nn, Rr, Tt", Tools.CleanSortKey(@"Ḇḇ, Ḏḏ, ẖ, Ḵḵ, Ḻḻ, Ṉṉ, Ṟṟ, Ṯṯ"), "letters with macron below");
+            Assert.AreEqual(@"b, c, d, f, g, h, k, n, p, q, t, v, w, y", Tools.CleanSortKey(@"ɓ, ƈ, ɗ, ƒ, ɠ, ɦ, ƙ, ɲ, ƥ, ʠ, ƭ, ʋ, ⱳ, ƴ"), "letters with hook");
             Assert.AreEqual(@"b, d, f, g, k, l, m, n, p, r, s, t, y, x, z", Tools.CleanSortKey(@"ᶀ, ᶁ, ᶂ, ᶃ, ᶄ, ᶅ, ᶆ, ᶇ, ᶈ, ᶉ, ᶊ, ƫ, ᶌ, ᶍ, ᶎ"), "letters with palatal hook");
             Assert.AreEqual(@"'''''''", Tools.CleanSortKey(@"’‘ʻ`´“”"), "quotes");
             Assert.AreEqual(@"1-2-3", Tools.CleanSortKey(@"1–2–3"), "endash");
