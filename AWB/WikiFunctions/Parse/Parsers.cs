@@ -4046,12 +4046,17 @@ namespace WikiFunctions.Parse
             }
 
             // year=YYYY and date=...YYYY -> remove year; not for year=YYYYa
-            if (TheYear.Length == 4 && TheDate.Contains(TheYear) && YearOnly.IsMatch(TheYear) && (WikiRegexes.InternationalDates.IsMatch(TheDate)
-                                                                           || WikiRegexes.AmericanDates.IsMatch(TheDate)
-                                                                           || WikiRegexes.ISODates.IsMatch(TheDate)))
+            if (TheYear.Length == 4 && TheDate.Contains(TheYear) && YearOnly.IsMatch(TheYear))
             {
-                TheYear = "";
-                newValue = Tools.RemoveTemplateParameter(newValue, "year");
+                Parsers p = new Parsers();
+                TheDate = p.FixDatesAInternal(TheDate);
+
+                if(WikiRegexes.InternationalDates.IsMatch(TheDate) || WikiRegexes.AmericanDates.IsMatch(TheDate)
+                   || WikiRegexes.ISODates.IsMatch(TheDate))
+                {
+                    TheYear = "";
+                    newValue = Tools.RemoveTemplateParameter(newValue, "year");
+                }
             }
 
             // month=Month and date=...Month... OR month=Month and date=same month (by conversion from ISO format)Ors month=nn and date=same month (by conversion to ISO format)
