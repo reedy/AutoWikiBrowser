@@ -2361,6 +2361,7 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual(@"b, d, f, g, k, l, m, n, p, r, s, t, y, x, z", Tools.CleanSortKey(@"ᶀ, ᶁ, ᶂ, ᶃ, ᶄ, ᶅ, ᶆ, ᶇ, ᶈ, ᶉ, ᶊ, ƫ, ᶌ, ᶍ, ᶎ"), "letters with palatal hook");
             Assert.AreEqual(@"Aa, Ee, Ii, Oo, Uu", Tools.CleanSortKey(@"Ąą, Ęę, Įį, Ǫǫ, Ųų"), "letters using ogonek sign");
             Assert.AreEqual(@"Aa, Ee, Ii, Oo, Uu, Rr", Tools.CleanSortKey(@"Ȃȃ, Ȇȇ, Ȋȋ, Ȏȏ, Ȗȗ, Ȓȓ"), "letters using inverted breve");
+            Assert.AreEqual(@"Dd, Ss, Tt", Tools.CleanSortKey(@"D̦d̦, Șș, Țț"), "letters using comma sign");
             Assert.AreEqual(@"'''''''", Tools.CleanSortKey(@"’‘ʻ`´“”"), "quotes");
             Assert.AreEqual(@"1-2-3", Tools.CleanSortKey(@"1–2–3"), "endash");
             Assert.AreEqual(@"1-2-3", Tools.CleanSortKey(@"1–2&ndash;3"), "&ndash;");
