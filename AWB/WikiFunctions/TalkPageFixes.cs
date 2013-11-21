@@ -80,10 +80,14 @@ namespace WikiFunctions.TalkPages
             // 10. {{Press}} and {{Connected contributor}}
             // 11. {{To do}}
             // 12. {{Maintained}}
+            // 13. {{Find sources notice}}
+            // 14. {{Split from}}, {{Split to}}
 
             string wpbsBefore = WikiRegexes.WikiProjectBannerShellTemplate.Match(articleText).Value;
             bool blanklinesinwpbsBefore = wpbsBefore.Contains("\r\n\r\n");
 
+            articleText = MoveTalkTemplates(articleText, SplitTemplates);
+            articleText = MoveTalkTemplate(articleText, FindSource);
             articleText = MoveTalkTemplate(articleText, Maintained);
             articleText = MoveTalkTemplate(articleText, TodoTemplate);
             articleText = MoveTalkTemplates(articleText, PressConnected);
@@ -190,6 +194,8 @@ namespace WikiFunctions.TalkPages
         private static readonly Regex PressConnected = Tools.NestedTemplateRegex(new[] { "Press", "Connected contributor", "Wikipedian-bio", "Notable Wikipedian" });
         private static readonly Regex TodoTemplate = Tools.NestedTemplateRegex(new[] { "To do", "Todo", "To-do" });
         private static readonly Regex Maintained = Tools.NestedTemplateRegex(new[] { "Maintained" });
+        private static readonly Regex FindSource = Tools.NestedTemplateRegex(new[] { "Find sources notice" });
+        private static readonly Regex SplitTemplates = Tools.NestedTemplateRegex(new[] { "Split from", "Split to" });
         private static readonly Regex WikiProjects = new Regex(Tools.NestedTemplateRegex("foo").ToString().Replace(@"[Ff]oo", @"[Ww]ikiProject\b[^{}\|]+"));
 
         /// <summary>
