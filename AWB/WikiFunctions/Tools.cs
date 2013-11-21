@@ -21,6 +21,7 @@ using System;
 using System.Collections.Specialized;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Net;
 using System.Web;
@@ -1695,6 +1696,37 @@ namespace WikiFunctions
 		    }
 
 		    return s;
+		}
+
+		/// <summary>
+		/// Returns a dediplicated list, using .NET 3.5 Distinct() function if available
+		/// </summary>
+		/// <param name="input"></param>
+		/// <returns></returns>
+		public static List<string> DeduplicateList(List<string> input)
+		{
+		    if(Globals.SystemCore3500Available)
+		        return DeduplicateListHS(input);
+
+		    return DeduplicateListLoop(input);
+		}
+
+		private static List<string> DeduplicateListHS(List<string> input)
+		{
+		    return input.Distinct().ToList();
+		}
+
+		private static List<string> DeduplicateListLoop(List<string> input)
+		{
+		    List<string> output = new List<string>();
+
+		    foreach(string s in input)
+		    {
+		        if(!output.Contains(s))
+		            output.Add(s);
+		    }
+
+		    return output;
 		}
 
 		/// <summary>

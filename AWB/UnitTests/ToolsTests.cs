@@ -454,6 +454,19 @@ bar"));
         }
 
         [Test]
+        public void DeduplicateList()
+        {
+            List<string> A = new List<string>();
+            Assert.AreEqual(A, Tools.DeduplicateList(A));
+            A.Add("hello");
+            Assert.AreEqual(A, Tools.DeduplicateList(A));
+            A.Add("hello2");
+            Assert.AreEqual(A, Tools.DeduplicateList(A));
+            A.Add("hello");
+            Assert.AreEqual(2, Tools.DeduplicateList(A).Count);
+        }
+
+        [Test]
         public void SplitLines()
         {
             CollectionAssert.IsEmpty(Tools.SplitLines(""));
