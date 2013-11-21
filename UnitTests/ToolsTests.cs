@@ -2360,6 +2360,7 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual(@"b, c, d, f, g, h, k, n, p, q, t, v, w, y", Tools.CleanSortKey(@"ɓ, ƈ, ɗ, ƒ, ɠ, ɦ, ƙ, ɲ, ƥ, ʠ, ƭ, ʋ, ⱳ, ƴ"), "letters with hook");
             Assert.AreEqual(@"b, d, f, g, k, l, m, n, p, r, s, t, y, x, z", Tools.CleanSortKey(@"ᶀ, ᶁ, ᶂ, ᶃ, ᶄ, ᶅ, ᶆ, ᶇ, ᶈ, ᶉ, ᶊ, ƫ, ᶌ, ᶍ, ᶎ"), "letters with palatal hook");
             Assert.AreEqual(@"Aa, Ee, Ii, Oo, Uu", Tools.CleanSortKey(@"Ąą, Ęę, Įį, Ǫǫ, Ųų"), "letters using ogonek sign");
+            Assert.AreEqual(@"Aa, Ee, Ii, Oo, Uu, Rr", Tools.CleanSortKey(@"Ȃȃ, Ȇȇ, Ȋȋ, Ȏȏ, Ȗȗ, Ȓȓ"), "letters using inverted breve");
             Assert.AreEqual(@"'''''''", Tools.CleanSortKey(@"’‘ʻ`´“”"), "quotes");
             Assert.AreEqual(@"1-2-3", Tools.CleanSortKey(@"1–2–3"), "endash");
             Assert.AreEqual(@"1-2-3", Tools.CleanSortKey(@"1–2&ndash;3"), "&ndash;");
@@ -2375,8 +2376,10 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.IsTrue(Tools.HasDiacritics("hẽllo there"));
 
             Assert.IsFalse(Tools.HasDiacritics("hello"));
-            Assert.IsFalse(Tools.HasDiacritics("abcdefghijklmnopqrstuvwxyz"));
-            Assert.IsFalse(Tools.HasDiacritics(""));
+            Assert.IsFalse(Tools.HasDiacritics("abcdefghijklmnopqrstuvwxyz"),"standard Latin alphabet");
+            Assert.IsFalse(Tools.HasDiacritics("0123456789"),"digits");
+            Assert.IsFalse(Tools.HasDiacritics(""),"empty string");
+            Assert.IsFalse(Tools.HasDiacritics("   "),"whitespace");
         }
 
         [Test]

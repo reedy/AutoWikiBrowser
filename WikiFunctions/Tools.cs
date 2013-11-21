@@ -1428,6 +1428,20 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("Ų", "U"),
 			new KeyValuePair<string, string>("ų", "u"),
 
+			// Letters using inverted breve
+			new KeyValuePair<string, string>("Ȃ", "A"),
+			new KeyValuePair<string, string>("ȃ", "a"),
+			new KeyValuePair<string, string>("Ȇ", "E"),
+			new KeyValuePair<string, string>("ȇ", "e"),
+			new KeyValuePair<string, string>("Ȋ", "I"),
+			new KeyValuePair<string, string>("ȋ", "i"),
+			new KeyValuePair<string, string>("Ȏ", "O"),
+			new KeyValuePair<string, string>("ȏ", "o"),
+			new KeyValuePair<string, string>("Ȗ", "U"),
+			new KeyValuePair<string, string>("ȗ", "u"),
+			new KeyValuePair<string, string>("Ȓ", "R"),
+			new KeyValuePair<string, string>("ȓ", "r"),
+
 			// new
 			new KeyValuePair<string, string>("ƌ", "d"),
 			new KeyValuePair<string, string>("ƚ", "l"),
@@ -1440,15 +1454,10 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("ǜ", "u"),
 			new KeyValuePair<string, string>("ǰ", "j"),
 			new KeyValuePair<string, string>("ȅ", "e"),
-			new KeyValuePair<string, string>("ȇ", "e"),
 			new KeyValuePair<string, string>("ȉ", "i"),
-			new KeyValuePair<string, string>("ȋ", "i"),
 			new KeyValuePair<string, string>("ȍ", "o"),
-			new KeyValuePair<string, string>("ȏ", "o"),
 			new KeyValuePair<string, string>("ȑ", "r"),
-			new KeyValuePair<string, string>("ȓ", "r"),
 			new KeyValuePair<string, string>("ȕ", "u"),
-			new KeyValuePair<string, string>("ȗ", "u"),
 			new KeyValuePair<string, string>("ș", "s"),
 			new KeyValuePair<string, string>("ț", "t"),
 			new KeyValuePair<string, string>("ȡ", "d"),
@@ -1479,17 +1488,11 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("ǲ", "Dz"),
 			new KeyValuePair<string, string>("Ǻ", "A"),
 			new KeyValuePair<string, string>("Ȁ", "A"),
-			new KeyValuePair<string, string>("Ȃ", "A"),
 			new KeyValuePair<string, string>("Ȅ", "E"),
-			new KeyValuePair<string, string>("Ȇ", "E"),
 			new KeyValuePair<string, string>("Ȉ", "I"),
-			new KeyValuePair<string, string>("Ȋ", "I"),
 			new KeyValuePair<string, string>("Ȍ", "O"),
-			new KeyValuePair<string, string>("Ȏ", "O"),
 			new KeyValuePair<string, string>("Ȑ", "R"),
-			new KeyValuePair<string, string>("Ȓ", "R"),
 			new KeyValuePair<string, string>("Ȕ", "U"),
-			new KeyValuePair<string, string>("Ȗ", "U"),
 			new KeyValuePair<string, string>("Ș", "S"),
 			new KeyValuePair<string, string>("Ț", "T"),
 			new KeyValuePair<string, string>("Ƞ", "N"),
@@ -1522,7 +1525,6 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("ḁ", "a"),
 			new KeyValuePair<string, string>("ẚ", "a"),
 			new KeyValuePair<string, string>("ȁ", "a"),
-			new KeyValuePair<string, string>("ȃ", "a"),
 			new KeyValuePair<string, string>("ǟ", "a"),
 			new KeyValuePair<string, string>("ǡ", "a"),
 			
@@ -1572,7 +1574,7 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("ĕ", "e"),
 			new KeyValuePair<string, string>("ŏ", "o"),
 			new KeyValuePair<string, string>("x̌", "x"),
-			new KeyValuePair<string, string>("Ŋ", "n"),			
+			new KeyValuePair<string, string>("Ŋ", "n"),	// eng
 			new KeyValuePair<string, string>("ŋ", "n")
 		};
 
