@@ -1452,6 +1452,11 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("Ț", "T"),
 			new KeyValuePair<string, string>("ț", "t"),
 
+			// Letters using retroflex hook sign
+			new KeyValuePair<string, string>("Ʈ", "T"),
+			new KeyValuePair<string, string>("ʈ", "t"),
+			new KeyValuePair<string, string>("ʐ", "z"),
+			
 			// new
 			new KeyValuePair<string, string>("ƌ", "d"),
 			new KeyValuePair<string, string>("ƚ", "l"),
@@ -1473,15 +1478,15 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("ȴ", "l"),
 			new KeyValuePair<string, string>("ȵ", "n"),
 			new KeyValuePair<string, string>("ȶ", "t"),
-			new KeyValuePair<string, string>("ȿ", "s"),
-			new KeyValuePair<string, string>("ɀ", "z"), //Z with swash tail
-			new KeyValuePair<string, string>("Ɖ", "D"),
+			new KeyValuePair<string, string>("ȿ", "s"), // S with swash tail
+			new KeyValuePair<string, string>("ɀ", "z"), // Z with swash tail
+			new KeyValuePair<string, string>("Ɖ", "D"), // African D
+			new KeyValuePair<string, string>("ɖ", "d"), // African D
 			new KeyValuePair<string, string>("Ƌ", "D"),
 			new KeyValuePair<string, string>("Ǝ", "E"),
 			new KeyValuePair<string, string>("Ɛ", "E"),
-			new KeyValuePair<string, string>("Ɵ", "O"),
-			new KeyValuePair<string, string>("ɵ", "o"),
-			new KeyValuePair<string, string>("Ʈ", "T"),
+			new KeyValuePair<string, string>("Ɵ", "O"), //Barred O
+			new KeyValuePair<string, string>("ɵ", "o"), //Barred O
 			new KeyValuePair<string, string>("ǅ", "Dz"),
 			new KeyValuePair<string, string>("ǈ", "Lj"),
 			new KeyValuePair<string, string>("ǋ", "Nj"),
