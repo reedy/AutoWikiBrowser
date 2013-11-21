@@ -2261,8 +2261,8 @@ namespace WikiFunctions.Parse
                     RenameTemplateParametersOldParams.Add(Params.OldParameter);
                 }
 
-                RenameTemplateParametersOldParams = RenameTemplateParametersOldParams.Distinct().ToList();
-                RenameTemplateParametersTemplates = Tools.NestedTemplateRegex(Templates.Distinct().ToList());
+                RenameTemplateParametersOldParams = Tools.DeduplicateList(RenameTemplateParametersOldParams);
+                RenameTemplateParametersTemplates = Tools.NestedTemplateRegex(Tools.DeduplicateList(Templates));
             }
 
             return RenameTemplateParametersTemplates.Replace(articleText,
