@@ -1099,6 +1099,10 @@ namespace WikiFunctions.Parse
         private static readonly Regex DateRangeToYear = new Regex(@"\b(" + WikiRegexes.MonthsNoGroup + @"|\b" + WikiRegexes.MonthsNoGroup + @"(?:&nbsp;|\s+)[0-3]?\d,?) +" + @"([12]\d{3})[-–]([12]\d{3})\b", RegexOptions.Compiled);
         private static readonly Regex YearRangeToPresent = new Regex(@"\b([12]\d{3}) *- *([Pp]resent\b)", RegexOptions.Compiled);
 
+        private static readonly Regex YearDash = new Regex(@"[12]\d{3}[–-]");
+        private static readonly Regex InternationalDateFullUnspacedRange = new Regex(WikiRegexes.InternationalDates.ToString() + @"[–-]" + WikiRegexes.InternationalDates.ToString());
+        private static readonly Regex AmericanDateFullUnspacedRange = new Regex(WikiRegexes.AmericanDates.ToString() + @"[–-]" + WikiRegexes.AmericanDates.ToString());
+
         /// <summary>
         /// Fix date and decade formatting errors: commas in American/international dates, full date ranges, month ranges
         /// </summary>
@@ -1226,7 +1230,14 @@ namespace WikiFunctions.Parse
 
             // endash spacing: date–year --> date – year
             articleText = DateRangeToYear.Replace(articleText, @"$1 $2 – $3");
-            
+
+            // full date range spacing: date–date --> date – date
+            if(YearDash.IsMatch(articleText))
+            {
+                articleText = InternationalDateFullUnspacedRange.Replace(articleText, m => m.Value.Replace("-", "–").Replace("–", " – "));
+                articleText = AmericanDateFullUnspacedRange.Replace(articleText, m => m.Value.Replace("-", "–").Replace("–", " – "));
+            }
+
             return articleText;
         }
         

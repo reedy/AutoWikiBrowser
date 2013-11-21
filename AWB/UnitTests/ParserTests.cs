@@ -1143,6 +1143,10 @@ was", false, false));
             Assert.AreEqual(BadRange, parser.FixDatesB(BadRange, false, false));
             BadRange = @"from 1980-70,";
             Assert.AreEqual(BadRange, parser.FixDatesB(BadRange, false, false));
+
+            // full date ranges
+            Assert.AreEqual(@"over 1 April 2004 – 5 July 2009.", parser.FixDatesB(@"over 1 April 2004-5 July 2009.", false, false));
+            Assert.AreEqual(@"over April 1, 2004 – July 5, 2009.", parser.FixDatesB(@"over April 1, 2004–July 5, 2009.", false, false));
         }
 
         [Test]
