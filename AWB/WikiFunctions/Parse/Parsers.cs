@@ -1213,32 +1213,32 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private string FixDatesBInternal(string articleText, bool CircaLink)
+        private string FixDatesBInternal(string textPortion, bool CircaLink)
         {
-            articleText = DateRangeToPresent.Replace(articleText, @"$1 $2 – $3");
-            articleText = YearRangeToPresent.Replace(articleText, @"$1–$2");
+            textPortion = DateRangeToPresent.Replace(textPortion, @"$1 $2 – $3");
+            textPortion = YearRangeToPresent.Replace(textPortion, @"$1–$2");
 
             // 1965–1968 fixes: only appy year range fix if two years are in order
             if (!CircaLink)
             {
-                articleText = FullYearRange.Replace(articleText, FullYearRangeME);
-                articleText = SpacedFullYearRange.Replace(articleText, SpacedFullYearRangeME);
+                textPortion = FullYearRange.Replace(textPortion, FullYearRangeME);
+                textPortion = SpacedFullYearRange.Replace(textPortion, SpacedFullYearRangeME);
             }
 
             // 1965–68 fixes
-            articleText = YearRangeShortenedCentury.Replace(articleText, YearRangeShortenedCenturyME);
+            textPortion = YearRangeShortenedCentury.Replace(textPortion, YearRangeShortenedCenturyME);
 
             // endash spacing: date–year --> date – year
-            articleText = DateRangeToYear.Replace(articleText, @"$1 $2 – $3");
+            textPortion = DateRangeToYear.Replace(textPortion, @"$1 $2 – $3");
 
             // full date range spacing: date–date --> date – date
-            if(YearDash.IsMatch(articleText))
+            if(YearDash.IsMatch(textPortion))
             {
-                articleText = InternationalDateFullUnspacedRange.Replace(articleText, m => m.Value.Replace("-", "–").Replace("–", " – "));
-                articleText = AmericanDateFullUnspacedRange.Replace(articleText, m => m.Value.Replace("-", "–").Replace("–", " – "));
+                textPortion = InternationalDateFullUnspacedRange.Replace(textPortion, m => m.Value.Replace("-", "–").Replace("–", " – "));
+                textPortion = AmericanDateFullUnspacedRange.Replace(textPortion, m => m.Value.Replace("-", "–").Replace("–", " – "));
             }
 
-            return articleText;
+            return textPortion;
         }
         
         /// <summary>
