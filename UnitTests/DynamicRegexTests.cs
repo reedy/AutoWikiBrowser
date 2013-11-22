@@ -1035,6 +1035,8 @@ ABC");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Shipindex}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{mountainindex}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Roadindex}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Road index}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Chemistry index}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{SIA}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{sia}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{set index}}");
