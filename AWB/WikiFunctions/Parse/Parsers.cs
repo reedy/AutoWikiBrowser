@@ -7812,7 +7812,7 @@ namespace WikiFunctions.Parse
                 	summary = "ավելացրել է " + Tools.ListToStringCommaSeparator(tagsAdded) + " կաղապար" +
                     (tagsAdded.Count == 1 ? "" : "ներ");
                 else if (Variables.LangCode.Equals("sv"))
-                	summary = "lade till en " + Tools.ListToStringCommaSeparator(tagsAdded) + " tag" +
+                	summary = "lade till " + Tools.ListToStringCommaSeparator(tagsAdded) + " tag" +
                     (tagsAdded.Count == 1 ? "" : "s");
                 else summary += "added " + Tools.ListToStringCommaSeparator(tagsAdded) + " tag" +
                     (tagsAdded.Count == 1 ? "" : "s");
