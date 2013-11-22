@@ -1029,21 +1029,27 @@ ABC");
         [Test]
         public void SIAsTests()
         {
-            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{surname}}");
-            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{surnames}}");
-            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{given name}}");
-            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Shipindex}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Chemistry index}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Enzyme index}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Lake index}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Media set index}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Molecular formula index}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{MolFormIndex}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{mountain index}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{mountainindex}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Roadindex}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Road index}}");
-            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Chemistry index}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Shipindex}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{sportindex}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{sport index}}");
+
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{surname}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{surnames}}");
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{given name}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{SIA}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{sia}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{set index}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{set index article}}");
-            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{sportindex}}");
-            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{MolFormIndex}}");
-            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Molecular formula index}}");
             RegexAssert.NoMatch(WikiRegexes.SIAs, @"{{surname-stub}}");
 
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{set index article|param}}");
