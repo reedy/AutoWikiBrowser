@@ -7215,11 +7215,11 @@ namespace WikiFunctions.Parse
             {
                 // stubs add non-hidden stub categories, don't count these in categories count
                 // also don't count "Proposed deletion..." cats
+                // limitation: in the unlikely event that the article has only redlinked cats then it is {{uncat}} but we won't tag it as such
                 totalCategories = RegularCategories(articleText).Count;
 
                 // templates may add categories to page that are not [[Category...]] links, so use API call for accurate Category count
-                // on the other hand [[Category...]] links could be redlinks, so check by API if < 5 cats.
-                if(totalCategories < 5)
+                if(totalCategories == 0)
                     totalCategories = RegularCategories(CategoryProv.MakeList(new[] { articleTitle })).Count;
             }
 
