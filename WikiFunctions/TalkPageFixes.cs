@@ -87,7 +87,7 @@ namespace WikiFunctions.TalkPages
             bool blanklinesinwpbsBefore = wpbsBefore.Contains("\r\n\r\n");
 
             articleText = MoveTalkTemplates(articleText, SplitTemplates);
-            articleText = MoveTalkTemplate(articleText, FindSource);
+            articleText = MoveTalkTemplates(articleText, FindSource);
             articleText = MoveTalkTemplate(articleText, Maintained);
             articleText = MoveTalkTemplate(articleText, TodoTemplate);
             articleText = MoveTalkTemplates(articleText, PressConnected);
