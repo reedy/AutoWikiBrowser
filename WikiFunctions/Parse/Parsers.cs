@@ -3028,7 +3028,7 @@ namespace WikiFunctions.Parse
             return IncorrectCommaInternationalDates.Replace(textPortion, @"$1 $2");
         }
 
-        private static readonly Regex BrTwoNewlines = new Regex("(?:<br */?> *)+\r\n\r\n", RegexOptions.IgnoreCase);
+        private static readonly Regex BrTwoNewlines = new Regex("(?:<br */?> *)\r\n\r\n", RegexOptions.IgnoreCase);
         private static readonly Regex FourOrMoreNewlines = new Regex("(\r\n){4,}");
         private static readonly Regex NewlinesBelowExternalLinks = new Regex(@"==External links==[\r\n\s]*\*");
         private static readonly Regex NewlinesBeforeUrl = new Regex(@"\r\n\r\n(\* ?\[?http)");
@@ -3069,16 +3069,21 @@ namespace WikiFunctions.Parse
 
             // remove excessive newlines
             // Don't apply within <poem> tags
-            // retain one or two new lines before stub
-            if(articleText.Contains("\r\n\r\n"))
+            // retain one or two newlines before stub
+            if(articleText.Contains("\r\n\r\n\r\n"))
             {
                 bool OK = true;
-                foreach(Match m in WikiRegexes.Poem.Matches(articleText))
+                int p = articleText.IndexOf("poem", StringComparison.OrdinalIgnoreCase);
+
+                if(p > -1)
                 {
-                    if(m.Value.Contains("\r\n\r\n"))
+                    foreach(Match m in WikiRegexes.Poem.Matches(articleText.Substring(Math.Max(p-50,0))))
                     {
-                        OK = false;
-                        break;
+                        if(m.Value.Contains("\r\n\r\n"))
+                        {
+                            OK = false;
+                            break;
+                        }
                     }
                 }
 
