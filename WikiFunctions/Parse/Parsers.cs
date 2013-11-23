@@ -256,6 +256,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex ListOf = new Regex(@"^Lists? of", RegexOptions.Compiled);
         
         private static readonly Regex Anchor2NewlineHeader = new Regex(Tools.NestedTemplateRegex("Anchor").ToString() + "\r\n(\r\n)+==", RegexOptions.Multiline);
+        private static readonly Regex HeadingsIncorrectWhitespaceBefore = new Regex(@"(?<=\S *(?:(\r\n){3,}|\r\n|\s*< *[Bb][Rr] *\/? *>\s*) *)=");
 
         // Covered by: FormattingTests.TestFixHeadings(), incomplete
         /// <summary>
@@ -270,7 +271,8 @@ namespace WikiFunctions.Parse
             if (Variables.IsWikipediaEN)
             {
                 articleText = Anchor2NewlineHeader.Replace(articleText, m => m.Value.Replace("\r\n\r\n==", "\r\n=="));
-            	articleText = WikiRegexes.HeadingsWhitespaceBefore.Replace(articleText, "\r\n\r\n$1");
+                if(HeadingsIncorrectWhitespaceBefore.IsMatch(articleText)) // check for performance
+                    articleText = WikiRegexes.HeadingsWhitespaceBefore.Replace(articleText, "\r\n\r\n$1");
             }
 
             // Removes level 2 heading if it matches pagetitle
@@ -278,10 +280,8 @@ namespace WikiFunctions.Parse
 
             articleText = WikiRegexes.Headings.Replace(articleText, m => FixHeadingsME(m, articleTitle));
 
-            // remove unnecessary general headers from start of article
+            // remove unnecessary general header from start of article
             articleText = RegexBadHeaderStartOfAticle.Replace(articleText, "");
-
-            articleText = RegexHeadings0.Replace(articleText, "$1See also$2");
 
             // CHECKWIKI error 8. Add missing = in some headers
             articleText = ReferencesExternalLinksSeeAlsoUnbalancedRight.Replace(articleText, "$1=\r\n");
@@ -347,6 +347,7 @@ namespace WikiFunctions.Parse
             hAfter = RegexHeadings9.Replace(hAfter, "$1Track listing$2");
             hAfter = RegexHeadings10.Replace(hAfter, "$1Life and career$2");
             hAfter = RegexHeadingsCareer.Replace(hAfter, "$1$2 career$3");
+            hAfter = RegexHeadings0.Replace(hAfter, "$1See also$2");
 
             // Plural per [[WP:FNNR]]
             hAfter = RegexHeadings3.Replace(hAfter, m2=> m2.Groups[1].Value + "References" + m2.Groups[2].Value);

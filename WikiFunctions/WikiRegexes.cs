@@ -437,7 +437,7 @@ namespace WikiFunctions
         /// </summary>
         public static readonly Regex Headings = new Regex(@"^={1,6} *(.*?) *={1,6}(?: *⌊⌊⌊⌊\d{1,4}⌋⌋⌋⌋| *<!--.*?-->|< *[Bb][Rr] */ *>)?\s*$", RegexOptions.Multiline);
         
-        public static readonly Regex HeadingsWhitespaceBefore = new Regex(@"\s+(?:< *[Bb][Rr] *\/? *>\s*)*^ *(={1,6} *(.*?) *={1,6}[\t ]*(?=\r\n))", RegexOptions.Multiline);
+        public static readonly Regex HeadingsWhitespaceBefore = new Regex(@"\s+(?:< *[Bb][Rr] *\/? *>\s*)*^ *(={1,6}(.*?)={1,6}[\t ]*)(?=\r\n)", RegexOptions.Multiline);
         
         /// <summary>
         /// Matches level 2 headings
