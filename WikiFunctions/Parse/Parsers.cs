@@ -1310,7 +1310,7 @@ namespace WikiFunctions.Parse
                 @"(?<![\*#].*)('''(?:[^']+|.*?[^'])'''\s*\()(\[*(?:" + WikiRegexes.MonthsNoGroup + @"\s+0?([1-3]?\d)|0?([1-3]?\d)\s*" +
                 WikiRegexes.MonthsNoGroup + @")?\]*\s*\[*[12]?\d{3}\]*)\s*(?:\-|–|&ndash;)\s*\)", RegexOptions.IgnoreCase);
         
-        private static readonly Regex DOBRegexDashQuick = new Regex(@"(?:\-|–|&ndash;)\s*\)");
+        private static readonly Regex DOBRegexDashQuick = new Regex(@"(?<=(?:\-|–|&ndash;)\s*)\)");
 
         private static readonly Regex BornDeathRegex =
             new Regex(
