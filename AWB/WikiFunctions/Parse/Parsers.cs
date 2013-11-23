@@ -284,8 +284,7 @@ namespace WikiFunctions.Parse
             articleText = RegexHeadings0.Replace(articleText, "$1See also$2");
 
             // CHECKWIKI error 8. Add missing = in some headers
-            if (ReferencesExternalLinksSeeAlsoUnbalancedRight.IsMatch(articleText))
-                articleText = ReferencesExternalLinksSeeAlsoUnbalancedRight.Replace(articleText, "$1=\r\n");
+            articleText = ReferencesExternalLinksSeeAlsoUnbalancedRight.Replace(articleText, "$1=\r\n");
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Section_header_level_.28WikiProject_Check_Wikipedia_.237.29
             // CHECKWIKI error 7
