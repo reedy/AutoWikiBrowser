@@ -384,6 +384,7 @@ en, sq, ru
 		
 		private static readonly Regex LifeTime = Tools.NestedTemplateRegex("Lifetime");
 		private static readonly Regex CatsForDeletion = new Regex(@"\[\[Category:(Pages|Categories|Articles) for deletion\]\]");
+		private static readonly Regex CategoryQuick = new Regex(@"\[\[[\s_]*" + Variables.NamespacesCaseInsensitive[Namespace.Category]); 
 
 		/// <summary>
 		/// Extracts DEFAULTSORT + categories from the article text; removes duplicate categories, cleans whitespace and underscores
@@ -415,12 +416,19 @@ en, sq, ru
 			                    + @".*?(\]\]|\|.*?\]\])(\s*⌊⌊⌊⌊\d{1,4}⌋⌋⌋⌋| *<!--.*?-->|\s*<!--.*?-->(?=\r\n\[\[\s*" + Variables.NamespacesCaseInsensitive[Namespace.Category]
 			                    + @")|\s*(?=\r\n==)|\s*)?", RegexOptions.Singleline);
 			
-			articleText = r.Replace(articleText, m =>
-			                        {
-			                            if (!CatsForDeletion.IsMatch(m.Value))
-			                                categoryList.Add(m.Value.Trim());
-			                            return "";
-			                        });
+			// performance: apply regex on portion of article containing category links rather than whole text
+			Match cq = CategoryQuick.Match(articleText);
+
+			if(cq.Success)
+			{
+			    int cutoff = Math.Max(0, cq.Index -500);			    
+			    articleText = articleText.Substring(0, cutoff) + r.Replace(articleText.Substring(cutoff), m =>
+			                                                               {
+			                                                                   if (!CatsForDeletion.IsMatch(m.Value))
+			                                                                       categoryList.Add(m.Value.Trim());
+			                                                                   return "";
+			                                                               });
+			}
 
 			// if category tidying has changed comments/nowikis return with no changes – we've pulled a cat from a comment
 			if(!Tools.UnformattedTextNotChanged(originalArticleText, articleText))
@@ -605,7 +613,7 @@ en, sq, ru
 		}
 		
 		private static readonly Regex ExternalLinksSection = new Regex(@"(^== *[Ee]xternal +[Ll]inks? *==.*?)(?=^==+[^=][^\r\n]*?[^=]==+(\r\n?|\n)$)", RegexOptions.Multiline | RegexOptions.Singleline);
-		private static readonly Regex ExternalLinksToEnd = new Regex(@"(==+)\s*external +links\s*\1.*", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+		private static readonly Regex ExternalLinksToEnd = new Regex(@"(==+) *[Ee]xternal +[Ll]inks? *\1.*", RegexOptions.Singleline);
 
 		/// <summary>
 		/// Moves sisterlinks such as {{wiktionary}} to the external links section
@@ -614,33 +622,29 @@ en, sq, ru
 		/// <returns>The updated article text</returns>
 		public static string MoveSisterlinks(string articleText)
 		{
-			string originalArticletext = articleText;
-			MatchCollection mc = WikiRegexes.SisterLinks.Matches(articleText);
-			// need to have an 'external links' section to move the sisterlinks to
-			if (mc.Count >= 1 && WikiRegexes.ExternalLinksHeader.Matches(articleText).Count == 1)
-			{
-				foreach (Match m in mc)
-				{
-					string sisterlinkFound = m.Value;
-					string ExternalLinksSectionString = ExternalLinksSection.Match(articleText).Value;
+		    string originalArticletext = articleText;
+		    // need to have an 'external links' section to move the sisterlinks to
+		    foreach (Match m in WikiRegexes.SisterLinks.Matches(articleText))
+		    {
+		        string sisterlinkFound = m.Value;
+		        string ExternalLinksSectionString = ExternalLinksSection.Match(articleText).Value;
 
-					// if ExteralLinksSection didn't match then 'external links' must be last section
-					if (ExternalLinksSectionString.Length == 0)
-						ExternalLinksSectionString = ExternalLinksToEnd.Match(articleText).Value;
+		        // if ExteralLinksSection didn't match then 'external links' must be last section
+		        if (ExternalLinksSectionString.Length == 0)
+		            ExternalLinksSectionString = ExternalLinksToEnd.Match(articleText).Value;
 
-					// check sisterlink NOT currently in 'external links'
-					if (!ExternalLinksSectionString.Contains(sisterlinkFound.Trim()))
-					{
-						articleText = Regex.Replace(articleText, Regex.Escape(sisterlinkFound) + @"\s*(?:\r\n)?", "");
-						articleText = WikiRegexes.ExternalLinksHeader.Replace(articleText, "$0" + "\r\n" + sisterlinkFound);
-					}
-				}
-			}
-			
-			if(Tools.UnformattedTextNotChanged(originalArticletext, articleText))
-				return articleText;
+		        // check sisterlink NOT currently in 'external links'
+		        if (!ExternalLinksSectionString.Contains(sisterlinkFound.Trim()))
+		        {
+		            articleText = Regex.Replace(articleText, Regex.Escape(sisterlinkFound) + @"\s*(?:\r\n)?", "");
+		            articleText = WikiRegexes.ExternalLinksHeader.Replace(articleText, "$0" + "\r\n" + sisterlinkFound);
+		        }
+		    }
+		    
+		    if(Tools.UnformattedTextNotChanged(originalArticletext, articleText))
+		        return articleText;
 
-			return originalArticletext;
+		    return originalArticletext;
 		}
 
 		/// <summary>
