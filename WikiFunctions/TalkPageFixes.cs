@@ -102,7 +102,8 @@ namespace WikiFunctions.TalkPages
             articleText = MoveTalkTemplate(articleText, WikiRegexes.WikiProjectBannerShellTemplate);
             if(!WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articleText))
             	articleText = MoveTalkTemplates(articleText, WikiProjects);
-            articleText = MoveTalkTemplate(articleText, TalkHistoryTemplates);
+            articleText = MoveTalkTemplates(articleText, TalkHistoryBTemplates);
+            articleText = MoveTalkTemplates(articleText, TalkHistoryTemplates);
             articleText = MoveTalkTemplate(articleText, EnglishVariationsTemplates);
             articleText = MoveTalkTemplates(articleText, TalkGuidelineTemplates);
             articleText = MoveTalkTemplates(articleText, TalkWarningTemplates);
@@ -189,7 +190,8 @@ namespace WikiFunctions.TalkPages
         private static readonly Regex TalkWarningTemplates = Tools.NestedTemplateRegex(new[] { "Community article probation", "Censor", "Controversial", "BLP others", "COI editnotice", "Notice", "warning", "Austrian economics sanctions"});
         private static readonly Regex TalkGuidelineTemplates = Tools.NestedTemplateRegex(new[] { "Not a forum", "Recurring themes", "FAQ", "Round in circles", "Calm talk"});
         private static readonly Regex EnglishVariationsTemplates = Tools.NestedTemplateRegex(new[] { "American English", "Australian English", "British English", "British English Oxford spelling", "Canadian English", "Hiberno-English", "Indian English", "Malaysian English", "Malawian English", "New Zealand English", "Pakistani English", "Philippine English", "Scottish English", "South African English", "Trinidadian English" });
-        private static readonly Regex TalkHistoryTemplates = Tools.NestedTemplateRegex(new[] { "Article history", "ArticleHistory", "FailedGA", "Old prod" });
+        private static readonly Regex TalkHistoryTemplates = Tools.NestedTemplateRegex(new[] { "Article history", "ArticleHistory" });
+        private static readonly Regex TalkHistoryBTemplates = Tools.NestedTemplateRegex(new[] { "FailedGA", "Old prod", "Afd-merged-from", "Old AfD multi" });
         private static readonly Regex ImageRequested = Tools.NestedTemplateRegex(new[] { "Image requested" });
         private static readonly Regex PressConnected = Tools.NestedTemplateRegex(new[] { "Press", "Connected contributor", "Wikipedian-bio", "Notable Wikipedian" });
         private static readonly Regex TodoTemplate = Tools.NestedTemplateRegex(new[] { "To do", "Todo", "To-do" });

@@ -1203,10 +1203,10 @@ The";
 
 |currentstatus=GA
 |topic=Everydaylife}}
+{{afd-merged-from|George Piggins Medal|George Piggins Medal|10 June 2012}}
 {{WikiProjectBannerShell|1=
 {{WikiProject Rugby league|class=GA|importance=High}}
 }}
-{{afd-merged-from|George Piggins Medal|George Piggins Medal|10 June 2012}}
 
 {{User:WildBot/m04|sect={{User:WildBot/m03|1|History of rugby league#Professional rugby begins in Australia|schism}}|m04}}
 
