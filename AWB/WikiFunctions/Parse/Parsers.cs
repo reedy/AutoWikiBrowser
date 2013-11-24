@@ -7777,7 +7777,7 @@ namespace WikiFunctions.Parse
                 		tags = " وسمي ";
                 	else 
                 		tags = " وسوم ";
-                    summary = tags + " أزال" + Tools.ListToStringCommaSeparator(tagsRemoved);
+                    summary = " أزال" + tags + Tools.ListToStringCommaSeparator(tagsRemoved);
                 }
                 else if (Variables.LangCode.Equals("arz"))
                 {
@@ -7787,7 +7787,7 @@ namespace WikiFunctions.Parse
                 		tags = " وسمين ";
                 	else 
                 		tags = " وسوم ";
-                    summary = tags + " شال"  + Tools.ListToStringCommaSeparator(tagsRemoved);
+                    summary = " شال" + tags + Tools.ListToStringCommaSeparator(tagsRemoved);
                 }
                 else if (Variables.LangCode.Equals("eo"))
                 	summary = "forigis " + Tools.ListToStringCommaSeparator(tagsRemoved) + " etikedo" +
@@ -7828,7 +7828,7 @@ namespace WikiFunctions.Parse
                 		tags = " وسمي ";
                 	else 
                 		tags = " وسوم ";
-                    summary += tags + "أضاف " + Tools.ListToStringCommaSeparator(tagsAdded);
+                    summary += "أضاف " + tags + Tools.ListToStringCommaSeparator(tagsAdded);
                 }
                 else if (Variables.LangCode.Equals("arz"))
                 {
@@ -7838,7 +7838,7 @@ namespace WikiFunctions.Parse
                 		tags = " وسمين ";
                 	else 
                 		tags = " وسوم ";
-                    summary += tags + "زود " + Tools.ListToStringCommaSeparator(tagsAdded);
+                    summary += "زود " + tags + Tools.ListToStringCommaSeparator(tagsAdded);
                 }
                 else if (Variables.LangCode.Equals("eo"))
                 	summary += "aldonis " + Tools.ListToStringCommaSeparator(tagsAdded) + " etikedo" +
