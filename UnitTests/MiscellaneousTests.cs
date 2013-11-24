@@ -1111,6 +1111,25 @@ http://www.site.com
             TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
             Assert.AreEqual(articleText2, articleText,"no changes if nothing is detected; starts with template");
 
+            articleText = @"{{GA|21:12, 11 May 2013 (UTC)|topic=Geography|page=1|oldid=554646767}}
+{{WikiProjectBannerShell|1=
+{{WikiProject Canada|geography=yes|class=Start|importance=Mid|bc=yes}}
+{{WikiProject Protected areas|class=Start|importance=Mid}}
+{{WikiProject Greece|class=Start}}
+}}
+{{DYK talk|17 April|2013|entry=... that Canada's '''[[Glacier National Park (Canada)|Glacier National Park]]''' ''(pictured)'' contains [[moonmilk]]?}}";
+            articleText2 = articleText;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(articleText2, articleText,"no changes if everything is in place; contains WPBS");
+
+            articleText = @"{{GA|21:12, 11 May 2013 (UTC)|topic=Geography|page=1|oldid=554646767}}
+{{WikiProject Canada|geography=yes|class=Start|importance=Mid|bc=yes}}
+{{WikiProject Protected areas|class=Start|importance=Mid}}
+{{DYK talk|17 April|2013|entry=... that Canada's '''[[Glacier National Park (Canada)|Glacier National Park]]''' ''(pictured)'' contains [[moonmilk]]?}}";
+            articleText2 = articleText;
+            TalkPageFixes.ProcessTalkPage(ref articleText, DEFAULTSORT.NoChange);
+            Assert.AreEqual(articleText2, articleText,"no changes if everything is in place; contains 2 Wikiprojects");
+
         }
          [Test]
         public void MoveBannersAndWikiProjects()
