@@ -7817,24 +7817,42 @@ namespace WikiFunctions.Parse
 	                    summary += ", ";
                 }
 
+                tags = "";
+                
                 // Reverse order of words for arwiki and arzwiki
                 if (Variables.LangCode.Equals("ar"))
-                    summary += "أضاف " + " وسوم " + Tools.ListToStringCommaSeparator(tagsAdded);
+                {
+                	if (tagsAdded.Count == 1)
+                		tags = " وسم ";
+                	else if (tagsAdded.Count == 2)
+                		tags = " وسمي ";
+                	else 
+                		tags = " وسوم ";
+                    summary += tags + "أضاف " + Tools.ListToStringCommaSeparator(tagsAdded);
+                }
                 else if (Variables.LangCode.Equals("arz"))
-                    summary += "زود " + " وسوم " + Tools.ListToStringCommaSeparator(tagsAdded);
+                {
+                	if (tagsAdded.Count == 1)
+                		tags = " وسم ";
+                	else if (tagsAdded.Count == 2)
+                		tags = " وسمين ";
+                	else 
+                		tags = " وسوم ";
+                    summary += tags + "زود " + Tools.ListToStringCommaSeparator(tagsAdded);
+                }
                 else if (Variables.LangCode.Equals("eo"))
-                	summary = "aldonis " + Tools.ListToStringCommaSeparator(tagsAdded) + " etikedo" +
+                	summary += "aldonis " + Tools.ListToStringCommaSeparator(tagsAdded) + " etikedo" +
                     (tagsRemoved.Count == 1 ? "" : "j");
                 else if (Variables.LangCode.Equals("fa"))
                     summary += "برچسب " + Tools.ListToStringCommaSeparator(tagsAdded) + " اضافه شد ";
                 else if (Variables.LangCode.Equals("fr"))
-                	summary = "ajout " + Tools.ListToStringCommaSeparator(tagsAdded) + " balise" +
+                	summary += "ajout " + Tools.ListToStringCommaSeparator(tagsAdded) + " balise" +
                     (tagsAdded.Count == 1 ? "" : "s");
                 else if (Variables.LangCode.Equals("hy"))
-                	summary = "ավելացրել է " + Tools.ListToStringCommaSeparator(tagsAdded) + " կաղապար" +
+                	summary += "ավելացրել է " + Tools.ListToStringCommaSeparator(tagsAdded) + " կաղապար" +
                     (tagsAdded.Count == 1 ? "" : "ներ");
                 else if (Variables.LangCode.Equals("sv"))
-                	summary = "lade till " + Tools.ListToStringCommaSeparator(tagsAdded) + " tag" +
+                	summary += "lade till " + Tools.ListToStringCommaSeparator(tagsAdded) + " tag" +
                     (tagsAdded.Count == 1 ? "" : "s");
                 else summary += "added " + Tools.ListToStringCommaSeparator(tagsAdded) + " tag" +
                     (tagsAdded.Count == 1 ? "" : "s");
