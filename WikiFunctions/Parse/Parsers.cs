@@ -7765,13 +7765,30 @@ namespace WikiFunctions.Parse
         private string PrepareTaggerEditSummary()
         {
             string summary = "";
+            string tags = "";
             if (tagsRemoved.Count > 0)
             {
-                // Reverse order of words for arwiki and arzwiki
+            	// Reverse order of words for arwiki and arzwiki
                 if (Variables.LangCode.Equals("ar"))
-                    summary = " أزال" + " وسوم " + Tools.ListToStringCommaSeparator(tagsRemoved);
+                {
+                	if (tagsRemoved.Count == 1)
+                		tags = " وسم ";
+                	else if (tagsRemoved.Count == 2)
+                		tags = " وسمي ";
+                	else 
+                		tags = " وسوم ";
+                    summary = tags + " أزال" + Tools.ListToStringCommaSeparator(tagsRemoved);
+                }
                 else if (Variables.LangCode.Equals("arz"))
-                    summary = " شال" +  " وسوم " + Tools.ListToStringCommaSeparator(tagsRemoved);
+                {
+                	if (tagsRemoved.Count == 1)
+                		tags = " وسم ";
+                	else if (tagsRemoved.Count == 2)
+                		tags = " وسمين ";
+                	else 
+                		tags = " وسوم ";
+                    summary = tags + " شال"  + Tools.ListToStringCommaSeparator(tagsRemoved);
+                }
                 else if (Variables.LangCode.Equals("eo"))
                 	summary = "forigis " + Tools.ListToStringCommaSeparator(tagsRemoved) + " etikedo" +
                     (tagsRemoved.Count == 1 ? "" : "j");
