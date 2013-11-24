@@ -64,7 +64,8 @@ namespace WikiFunctions.TalkPages
             Processor pr = new Processor();
 
             articleText = WikiRegexes.SkipTOCTemplateRegex.Replace(articleText, pr.SkipTOCMatchEvaluator, 1);
-
+            string zerothSectionOriginal = WikiRegexes.ZerothSection.Match(articleText).Value,
+            articleTextOriginal = articleText;
 
             // https://en.wikipedia.org/wiki/Wikipedia:TPL
             // Correct order per WP:TPL is
@@ -140,16 +141,23 @@ namespace WikiFunctions.TalkPages
             string zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
             if(zerothSection.Length > 0)
             {
-                string zerothbefore = zerothSection;
-                // clean excess blank lines at end of zeroth section, leave only one newline
-                // not when later sections: would remove blank line before heading
-                if(zerothSection.Length == articleText.Length &&
-                   (zerothSection.Length-zerothSection.Trim().Length) > 2)
-                    zerothSection = zerothSection.Trim() + "\r\n";
+				// have we only added whitespace? then reset articletext
+				if(zerothSection.Length > zerothSectionOriginal.Length && 
+				   WikiRegexes.WhiteSpace.Replace(zerothSection, "").Equals(WikiRegexes.WhiteSpace.Replace(zerothSectionOriginal, "")))
+					articleText = articleTextOriginal;
+				else 
+				{
+	                string zerothbefore = zerothSection;
+	                // clean excess blank lines at end of zeroth section, leave only one newline
+	                // not when later sections: would remove blank line before heading
+	                if(zerothSection.Length == articleText.Length &&
+	                   (zerothSection.Length-zerothSection.Trim().Length) > 2)
+	                    zerothSection = zerothSection.Trim() + "\r\n";
 
                 zerothSection = WikiRegexes.ThreeOrMoreNewlines.Replace(zerothSection, "\r\n\r\n");
                 zerothSection = Parse.Parsers.RemoveTemplateNamespace(zerothSection);
                 articleText = articleText.Replace(zerothbefore, zerothSection);
+				}
             }
 
 
