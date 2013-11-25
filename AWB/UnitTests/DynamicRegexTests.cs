@@ -31,6 +31,19 @@ namespace UnitTests
             RegexAssert.NoMatch(WikiRegexes.Category, @"[[Category:1910 births
 ]]");
             Assert.AreEqual("Test now", WikiRegexes.Category.Match("[[Category:Test now]]").Groups[1].Value);
+
+            #if DEBUG
+            Variables.SetProjectLangCode("sv");
+            Variables.NamespacesCaseInsensitive.Remove(Namespace.Category);
+            Variables.NamespacesCaseInsensitive.Add(Namespace.Category, "[Kk]ategori:");
+            WikiRegexes.MakeLangSpecificRegexes();
+            RegexAssert.IsMatch(WikiRegexes.Category, "[[Kategori:Test]]");
+
+            Variables.SetProjectLangCode("en");
+            Variables.NamespacesCaseInsensitive.Remove(Namespace.Category);
+            Variables.NamespacesCaseInsensitive.Add(Namespace.Category, @"(?i:Category)\s*:");
+            WikiRegexes.MakeLangSpecificRegexes();
+            #endif
         }
         
         [Test]
