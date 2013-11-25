@@ -44,6 +44,8 @@ namespace WikiFunctions
             Category = new Regex(@"\[\[[\s_]*" + category +
                                  @"[ _]*(.*?)[ _]*(?:\|([^\|\]]*))?[ _]*\]\]");
 
+            CategoryQuick = new Regex(@"\[\[[\s_]*" + category);
+
             // Match file name by using allowed character list, [October 2012 any Unicode word characters] then a file extension (these are mandatory on mediawiki), then optional closing ]]
             // this allows typo fixing and find&replace to operate on image descriptions
             // or, alternatively, an image filename has to have a pipe or ]] after it if using the [[Image: start, so just set first one to
@@ -672,6 +674,11 @@ namespace WikiFunctions
         /// Matches categories, group 1 being the category name
         /// </summary>
         public static Regex Category;
+
+        /// <summary>
+        /// Matches the start of a category link
+        /// </summary>
+        public static Regex CategoryQuick;
 
         /// <summary>
         /// Matches images: file namespace links (includes images within gallery tags), {{gallery}} template, image name parameters in infoboxes/templates
