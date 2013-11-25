@@ -14,6 +14,7 @@ namespace UnitTests
         public void CategoryTests()
         {
             RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:Test]]");
+            RegexAssert.IsMatch(WikiRegexes.CategoryQuick, "[[Category:Test]]");
             RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:Test|{{PAGENAME}}]]");
             RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:Test|{{subst:PAGENAME}}]]");
             RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:Test now]]");
@@ -23,6 +24,7 @@ namespace UnitTests
             RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:_Test]]");
             RegexAssert.IsMatch(WikiRegexes.Category, "[[_Category:Test]]");
             RegexAssert.IsMatch(WikiRegexes.Category, "[[_Category:Test_]]");
+            RegexAssert.IsMatch(WikiRegexes.CategoryQuick, "[[_Category:Test_]]");
 
             RegexAssert.NoMatch(WikiRegexes.Category, "[[Test]]");
             RegexAssert.NoMatch(WikiRegexes.Category, "[[Image:Test.jpg]]");
@@ -38,11 +40,14 @@ namespace UnitTests
             Variables.NamespacesCaseInsensitive.Add(Namespace.Category, "[Kk]ategori:");
             WikiRegexes.MakeLangSpecificRegexes();
             RegexAssert.IsMatch(WikiRegexes.Category, "[[Kategori:Test]]");
+            RegexAssert.IsMatch(WikiRegexes.CategoryQuick, "[[Kategori:Test]]");
 
             Variables.SetProjectLangCode("en");
             Variables.NamespacesCaseInsensitive.Remove(Namespace.Category);
             Variables.NamespacesCaseInsensitive.Add(Namespace.Category, @"(?i:Category)\s*:");
             WikiRegexes.MakeLangSpecificRegexes();
+            RegexAssert.IsMatch(WikiRegexes.Category, "[[Category:Test]]");
+            RegexAssert.IsMatch(WikiRegexes.CategoryQuick, "[[Category:Test]]");
             #endif
         }
         

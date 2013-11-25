@@ -383,8 +383,7 @@ en, sq, ru
 		}
 		
 		private static readonly Regex LifeTime = Tools.NestedTemplateRegex("Lifetime");
-		private static readonly Regex CatsForDeletion = new Regex(@"\[\[Category:(Pages|Categories|Articles) for deletion\]\]");
-		private static readonly Regex CategoryQuick = new Regex(@"\[\[[\s_]*" + Variables.NamespacesCaseInsensitive[Namespace.Category]); 
+		private static readonly Regex CatsForDeletion = new Regex(@"\[\[Category:(Pages|Categories|Articles) for deletion\]\]"); 
 
 		/// <summary>
 		/// Extracts DEFAULTSORT + categories from the article text; removes duplicate categories, cleans whitespace and underscores
@@ -417,7 +416,7 @@ en, sq, ru
 			                    + @")|\s*(?=\r\n==)|\s*)?", RegexOptions.Singleline);
 			
 			// performance: apply regex on portion of article containing category links rather than whole text
-			Match cq = CategoryQuick.Match(articleText);
+			Match cq = WikiRegexes.CategoryQuick.Match(articleText);
 
 			if(cq.Success)
 			{
