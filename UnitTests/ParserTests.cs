@@ -9232,7 +9232,7 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Globals.UnitTestBoolValue = true;
 
             string text = parser.Tagger(ShortText, "Test", false, out noChange, ref summary);
-            Assert.IsTrue(text.Contains(@"{{dead end|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
+            Assert.IsTrue(text.Contains(@"{{Dead end|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}
 {{Orphan|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"), "No excess blank line between multiple tags");
         }
 

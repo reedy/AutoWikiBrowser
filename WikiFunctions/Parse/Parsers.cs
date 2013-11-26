@@ -7423,7 +7423,7 @@ namespace WikiFunctions.Parse
                          && !MinorPlanetListFooter.IsMatch(articleText))
                 {
                     // Don't add excess newlines between new tags
-                    articleText = "{{dead end|" + WikiRegexes.DateYearMonthParameter + "}}" + (tagsAdded.Count > 0 ? "\r\n" : "\r\n\r\n") + articleText;
+                    articleText = "{{Dead end|" + WikiRegexes.DateYearMonthParameter + "}}" + (tagsAdded.Count > 0 ? "\r\n" : "\r\n\r\n") + articleText;
                     tagsAdded.Add("[[CAT:DE|deadend]]");
                     // if dead end then remove underlinked
                     if(articleText.IndexOf("underlinked", StringComparison.OrdinalIgnoreCase) > -1)
