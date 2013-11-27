@@ -2388,6 +2388,7 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.IsTrue(Tools.HasDiacritics("hellõ there"));
             Assert.IsTrue(Tools.HasDiacritics("hẽllõ there"));
             Assert.IsTrue(Tools.HasDiacritics("hẽllo there"));
+            Assert.IsTrue(Tools.HasDiacritics("İzmir"));
 
             Assert.IsFalse(Tools.HasDiacritics("hello"));
             Assert.IsFalse(Tools.HasDiacritics("abcdefghijklmnopqrstuvwxyz"),"standard Latin alphabet");
