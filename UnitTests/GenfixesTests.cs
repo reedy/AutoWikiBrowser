@@ -524,9 +524,9 @@ y";
             
             GenFixes("John Smith");
             
-            Assert.IsTrue(ArticleText.Contains(@"[[Category:1990 births]]"));
-            Assert.IsTrue(ArticleText.Contains(@"[[Category:Living people]]"));
-            Assert.IsTrue(ArticleText.Contains(@"{{DEFAULTSORT:Smith, John}}"));
+            Assert.IsTrue(ArticleText.Contains(@"[[Category:1990 births]]"),"birth category");
+            Assert.IsTrue(ArticleText.Contains(@"[[Category:Living people]]"),"living people");
+            Assert.IsTrue(ArticleText.Contains(@"{{DEFAULTSORT:Smith, John}}"),"human name defaultsort");
         }
 
         [Test]
