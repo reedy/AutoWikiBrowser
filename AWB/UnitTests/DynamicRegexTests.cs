@@ -583,6 +583,14 @@ Image here");
 			RegexAssert.IsMatch(WikiRegexes.Stub, @"{{1920-talsstub}}");
 			RegexAssert.IsMatch(WikiRegexes.Stub, @"{{1910-talsstub-USA}}");
 			RegexAssert.IsMatch(WikiRegexes.Stub, @"{{stub}}");
+			RegexAssert.IsMatch(WikiRegexes.Stub, @"{{Robotskapad stub om hjuldjur}}");
+			RegexAssert.IsMatch(WikiRegexes.Stub, @"{{Robotskapad djurstub}}");
+
+			RegexAssert.NoMatch(WikiRegexes.Stub, @"{{uncategorized stub}}");
+			RegexAssert.NoMatch(WikiRegexes.Stub, @"{{wordwithstubin}}");
+			RegexAssert.NoMatch(WikiRegexes.Stub, @"{{substub}}");
+			RegexAssert.NoMatch(WikiRegexes.Stub, @"{{stubbmall}}");
+			RegexAssert.NoMatch(WikiRegexes.Stub, @"{{ Stubbmall }}");
 
             Variables.SetProject("en", ProjectEnum.wikipedia);
             WikiRegexes.MakeLangSpecificRegexes();
