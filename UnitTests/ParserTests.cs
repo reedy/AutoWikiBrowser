@@ -7677,6 +7677,13 @@ foo {{persondata}}
 {{DEFAULTSORT:Special foos}}", Parsers.ChangeToDefaultSort(@"foo
 [[Category:All foos]]", "Category:Special foŏs", out noChange, false));
 
+            Assert.AreEqual(@"foo
+[[Category:All foos]]
+[[Category:All foos2]]
+{{DEFAULTSORT:Rail in Izmir}}", Parsers.ChangeToDefaultSort(@"foo
+[[Category:All foos]]
+[[Category:All foos2]]", "Rail in İzmir", out noChange, false));
+
             // hyphen in title becomes a minus in DEFAULTSORT key
             Assert.AreEqual(@"foo
 {{DEFAULTSORT:Women's Circuit (July-September)}}", Parsers.ChangeToDefaultSort(@"foo
