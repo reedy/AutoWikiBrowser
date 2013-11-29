@@ -183,6 +183,13 @@ namespace WikiFunctions
 					DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end|نهايه مسدوده)(?:\|(?:[^{}]+|" + DateYearMonthParameter + @"))?}}|({{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*dead ?end\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))");
                     Wikify =Tools.NestedTemplateRegex(@"ويكى");
                     break;
+                case "el":
+                    Orphan = Tools.NestedTemplateRegex(@"Ορφανό");
+                    uncattemplate = "([Αα]κατηγοριοποίητο)";
+                    DateYearMonthParameter = @"ημερομηνία={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}";
+					DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end)(?:\|(?:[^{}]+|" + DateYearMonthParameter + @"))?}})");
+                    Wikify = new Regex(@"{{\s*Επιμέλεια(?:\s*\|\s*(" + DateYearMonthParameter + @"|.*?))?}}", RegexOptions.IgnoreCase);
+                    break;
                 case "sv":
                     Orphan = Tools.NestedTemplateRegex(@"Föräldralös");
                     uncattemplate = "([Oo]kategoriserad|[Uu]ncategori[sz]ed|[Uu]ncategori[sz]ed ?stub)";
