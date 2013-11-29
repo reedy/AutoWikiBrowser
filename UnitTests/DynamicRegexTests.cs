@@ -932,6 +932,8 @@ now stubborn}}");
             WikiRegexes.MakeLangSpecificRegexes();
 
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{okategoriserad}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{okategoriserad|datum=May-2013}}"));
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{okategoriserad|datum={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}}}"));
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{Okategoriserad}}"));
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorizedstub}}"));
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(@"{{uncategorized stub}}"));
