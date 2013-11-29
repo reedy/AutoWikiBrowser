@@ -7387,7 +7387,7 @@ namespace WikiFunctions.Parse
                             articleText = Tools.RenameTemplate(articleText, uncatname, "بذرة غير مصنفة");
                         else if (Variables.LangCode.Equals("arz"))
                             articleText = Tools.RenameTemplate(articleText, uncatname, "تقاوى مش متصنفه");
-                        else if (!Variables.LangCode.Equals("sv"))
+                        else if (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple"))
                             articleText = Tools.RenameTemplate(articleText, uncatname, "Uncategorized stub");                        
                     }
                 }
