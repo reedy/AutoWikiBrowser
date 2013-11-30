@@ -3576,6 +3576,27 @@ Message: {2}
 		}
 
 		/// <summary>
+  		/// Creates a string from a list with the following additions: 
+  		/// Specify a separator to be used between all elements in the list
+  		/// Specify a suffix to be added to each element in the list
+  		/// Specify a lastseparator that will be used between the last two elements in the list
+  		/// </summary>
+  		public static string ListToStringWithSeparatorAndWordSuffix(List<string> items, string separator, string suffix, string lastseparator)
+  		{
+  			string ret = "";
+  			for(int i = 0; i < items.Count; i++)
+  			{
+  				if(i + 1 == items.Count)
+  					ret += items[i] + suffix + lastseparator;
+  				else if(i == items.Count)
+  					ret += items[i] + suffix;
+  				else 
+  					ret += items[i] + suffix + separator;
+  			}
+  			return ret;
+  		}
+  		
+		/// <summary>
 		/// Replaces escaped characters in XML with the single character: apotrophe, quote, greater than, less than, ampersand
 		/// </summary>
 		/// <param name="s"></param>
