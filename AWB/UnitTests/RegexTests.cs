@@ -1284,7 +1284,10 @@ cit"));
             Assert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{ wiktionary }}"));
             Assert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{sisterlinks}}"));
             Assert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{sister links}}"));
+            Assert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{sister project links}}"));
             Assert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{wikibooks}}"));
+            Assert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{wikimedia}}"));
+            Assert.IsTrue(WikiRegexes.SisterLinks.IsMatch(@"{{wikiversity}}"));
         	
         }
 
