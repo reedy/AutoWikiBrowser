@@ -7802,9 +7802,16 @@ namespace WikiFunctions.Parse
                 	summary = "ջնջվեց " + Tools.ListToStringCommaSeparator(tagsRemoved) + " կաղապար" +
                     (tagsRemoved.Count == 1 ? "" : "ներ");
                 else if (Variables.LangCode.Equals("sv"))
-                	summary = "tog bort " + Tools.ListToStringCommaSeparator(tagsRemoved) + " tag" +
-                    (tagsRemoved.Count == 1 ? "" : "s");
-                else summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " tag" +
+                {
+                	 if(tagsRemoved.Count == 1)
+  						tags = Tools.ListToStringCommaSeparator(tagsRemoved) + "-mall";
+  					else 
+  						tags = Tools.ListToStringWithSeparatorAndWordSuffix(tagsRemoved, "-", ", ", " och ") + "mallar";
+                	summary = "tog bort " + tags;
+                }
+
+                else
+                	summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " tag" +
                     (tagsRemoved.Count == 1 ? "" : "s");
             }
 
@@ -7853,12 +7860,17 @@ namespace WikiFunctions.Parse
                 	summary += "ավելացրել է " + Tools.ListToStringCommaSeparator(tagsAdded) + " կաղապար" +
                     (tagsAdded.Count == 1 ? "" : "ներ");
                 else if (Variables.LangCode.Equals("sv"))
-                	summary += "lade till " + Tools.ListToStringCommaSeparator(tagsAdded) + " tag" +
-                    (tagsAdded.Count == 1 ? "" : "s");
-                else summary += "added " + Tools.ListToStringCommaSeparator(tagsAdded) + " tag" +
+                {
+                	if (tagsAdded.Count == 1)
+                		tags = Tools.ListToStringCommaSeparator(tagsAdded) + "-mall";
+                	else 
+                		tags = Tools.ListToStringWithSeparatorAndWordSuffix(tagsAdded, "-", ", ", " och ") + "mallar";
+                	summary += "lade till " + tags;
+                }
+                else
+                	summary += "added " + Tools.ListToStringCommaSeparator(tagsAdded) + " tag" +
                     (tagsAdded.Count == 1 ? "" : "s");
             }
-
             return summary;
         }
 
