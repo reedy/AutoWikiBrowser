@@ -7344,6 +7344,11 @@ namespace WikiFunctions.Parse
                         articleText += Tools.Newline("{{مش متصنفه|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
                         tagsAdded.Add("[[CAT:UNCAT|مش متصنفه]]");
                     }
+                    else if(Variables.LangCode.Equals("el"))
+                    {
+                        articleText += Tools.Newline("{{Ακατηγοριοποίητο|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
+                        tagsAdded.Add("[[Πρότυπο:Ακατηγοριοποίητο|ακατηγοριοποίητο]]");
+                    }
                     else if(Variables.LangCode.Equals("hy"))
                     {
                         articleText += Tools.Newline("{{Կատեգորիա չկա|", 2) + WikiRegexes.DateYearMonthParameter + @"}}";
@@ -7664,6 +7669,11 @@ namespace WikiFunctions.Parse
                     articleText = "{{يتيمه|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                     tagsAdded.Add("[[قالب:يتيمه|يتيمه]]");
                 }
+                else if (Variables.LangCode.Equals("el"))
+                {
+                    articleText = "{{Ορφανό|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
+                    tagsAdded.Add("[[Κατηγορία:Ορφανά λήμματα|ορφανό]]");
+                }
                 else if (Variables.LangCode.Equals("fa"))
                 {
                     articleText = "{{یتیم|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
@@ -7790,6 +7800,13 @@ namespace WikiFunctions.Parse
                 		tags = " وسوم ";
                     summary = " شال" + tags + Tools.ListToStringCommaSeparator(tagsRemoved);
                 }
+                else if (Variables.LangCode.Equals("el"))
+                {
+                	 if(tagsRemoved.Count == 1)
+						summary = "αφαιρέθηκε η ετικέτα:" + Tools.ListToStringCommaSeparator(tagsRemoved);
+  					else 
+						summary = "αφαιρέθηκαν οι ετικέτες:" + Tools.ListToStringCommaSeparator(tagsRemoved);
+                }
                 else if (Variables.LangCode.Equals("eo"))
                 	summary = "forigis " + Tools.ListToStringCommaSeparator(tagsRemoved) + " etikedo" +
                     (tagsRemoved.Count == 1 ? "" : "j");
@@ -7848,7 +7865,14 @@ namespace WikiFunctions.Parse
                 		tags = " وسوم ";
                     summary += "زود " + tags + Tools.ListToStringCommaSeparator(tagsAdded);
                 }
-                else if (Variables.LangCode.Equals("eo"))
+                else if (Variables.LangCode.Equals("el"))
+                {
+                	if (tagsAdded.Count == 1)
+	                	summary += "προστέθηκε η ετικέτα: " + Tools.ListToStringCommaSeparator(tagsAdded);
+                	else 
+	                	summary += "προστέθηκαν οι ετικέτες: " + Tools.ListToStringCommaSeparator(tagsAdded);
+                }
+                	else if (Variables.LangCode.Equals("eo"))
                 	summary += "aldonis " + Tools.ListToStringCommaSeparator(tagsAdded) + " etikedo" +
                     (tagsRemoved.Count == 1 ? "" : "j");
                 else if (Variables.LangCode.Equals("fa"))
