@@ -6740,10 +6740,10 @@ namespace WikiFunctions.Parse
             if (!articleText.Equals(articleTextBefore) && !IsArticleAboutAPerson(articleTextBefore, articleTitle, parseTalkPage))
                 return YearOfBirthDeathMissingCategory(articleTextBefore);
 
-            // {{uncat}} --> {{Cat improve}} if we've added cats
+            // {{uncat}} --> {{Improve categories}} if we've added cats
             if (WikiRegexes.Category.Matches(articleText).Count > catCount && WikiRegexes.Uncat.IsMatch(articleText)
                 && !WikiRegexes.CatImprove.IsMatch(articleText))
-                articleText = Tools.RenameTemplate(articleText, WikiRegexes.Uncat.Match(articleText).Groups[1].Value, "Cat improve");
+                articleText = Tools.RenameTemplate(articleText, WikiRegexes.Uncat.Match(articleText).Groups[1].Value, "Improve categories");
 
             return YearOfBirthDeathMissingCategory(articleText);
         }
