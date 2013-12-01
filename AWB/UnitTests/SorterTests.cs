@@ -542,6 +542,20 @@ text here2
 == other ==
 x"), "another section at end");
 			
+			Assert.AreEqual(@"text here
+text here2
+== External links ==
+{{Sister project links|Programming languages|wikt=programming language|b=Computer Programming|s=How to Think Like a Computer Scientist|commons=Category:Programming languages}}
+* Fred
+== other ==
+x", MetaDataSorter.MoveSisterlinks(@"text here
+{{Sister project links|Programming languages|wikt=programming language|b=Computer Programming|s=How to Think Like a Computer Scientist|commons=Category:Programming languages}}
+text here2
+== External links ==
+* Fred
+== other ==
+x"), "sister project links may contain many parameters");
+
 			Assert.AreEqual(WiktInExtLinks, MetaDataSorter.MoveSisterlinks(@"text here
 {{wiktionary}}
 text here2
@@ -557,6 +571,7 @@ text here2
 == other ==
 x";
 			Assert.AreEqual(CommentedOut, MetaDataSorter.MoveSisterlinks(CommentedOut), "no change if commented out");
+
 		}
 
 		[Test]
