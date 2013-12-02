@@ -10705,6 +10705,9 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             returned = parser.Tagger(@"now<ref>foo</ref> was", "test", false, ref summary);
             Assert.IsFalse(returned.Contains(@"{{Ibid|date="));
             Assert.IsFalse(summary.Contains("Ibid"));
+
+            returned = parser.Tagger(@"now<Ref name=""again"">IBID</ref> was", "test", false, ref summary);
+            Assert.IsTrue(returned.Contains(@"{{Ibid|date="), "Case-insensitive check for ibid");
         }
 
         [Test]
