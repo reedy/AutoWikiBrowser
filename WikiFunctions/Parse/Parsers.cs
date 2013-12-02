@@ -7834,7 +7834,7 @@ namespace WikiFunctions.Parse
             {
                 if (!string.IsNullOrEmpty(summary))
                 {
-	                if (Variables.LangCode.Equals("fa"))
+	                if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz") || Variables.LangCode.Equals("fa"))
 	                    summary += "، ";
                 	else
 	                    summary += ", ";
