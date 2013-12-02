@@ -1207,6 +1207,15 @@ pp
             RegexAssert.IsMatch(WikiRegexes.Defaultsort, "{{DEFAULTSORT:foo}}");
             RegexAssert.IsMatch(WikiRegexes.Defaultsort, "{{dsort:foo}}");
             Variables.MagicWords.Remove("defaultsort");
+            Assert.AreEqual("{{DEFAULTSORT:foo}}", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo}}<!--comm-->").Value, "comment after DEFAULTSORT not extracted");
+
+            Variables.SetProjectLangCode("sv");
+            WikiRegexes.MakeLangSpecificRegexes();
+            Assert.AreEqual("{{DEFAULTSORT:foo}}", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo}}").Value);
+            Assert.AreEqual("{{DEFAULTSORT:foo}} <!--comm-->", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo}} <!--comm-->").Value, "comment after DEFAULTSORT allowed for sv-wiki");
+            Assert.AreEqual("{{DEFAULTSORT:foo}}<!--comm-->", WikiRegexes.Defaultsort.Match(@"{{DEFAULTSORT:foo}}<!--comm-->").Value, "comment after DEFAULTSORT allowed for sv-wiki");
+
+            Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
             #endif
         }
