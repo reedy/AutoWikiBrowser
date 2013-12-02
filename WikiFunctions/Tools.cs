@@ -675,7 +675,7 @@ namespace WikiFunctions
 		public static int WordCount(string text)
 		{
 			text = RegexWordCountTable.Replace(text, "");
-			text = WikiRegexes.TemplateMultiline.Replace(text, " ");
+			text = WikiRegexes.NestedTemplates.Replace(text, " ");
 			text = WikiRegexes.Comments.Replace(text, "");
 
 			int words = 0;
