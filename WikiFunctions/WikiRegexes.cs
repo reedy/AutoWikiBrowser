@@ -146,8 +146,13 @@ namespace WikiFunctions
                     ? "(?:(?i:defaultsort(key|CATEGORYSORT)?))"
                     : "(?i:defaultsort)";
 
-            Defaultsort = new Regex(TemplateStart + s + @"\s*[:\|]\s*(?<key>(?>[^\{\}\r\n]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))|[^\}\r\n]*?)(?<end>\s*}}|\r|\n)",
-                                    RegexOptions.ExplicitCapture);
+            // sv-wiki: allow comment on same line as DEFAULTSORT
+            if(Variables.LangCode.Equals("sv"))
+                Defaultsort = new Regex(TemplateStart + s + @"\s*[:\|]\s*(?<key>(?>[^\{\}\r\n]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))|[^\}\r\n]*?)(?<end>\s*}}(?: *<!--[^<>]+-->)?|\r|\n)",
+                                        RegexOptions.ExplicitCapture);
+            else
+                Defaultsort = new Regex(TemplateStart + s + @"\s*[:\|]\s*(?<key>(?>[^\{\}\r\n]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))|[^\}\r\n]*?)(?<end>\s*}}|\r|\n)",
+                                        RegexOptions.ExplicitCapture);                    
 
             Persondata = (Variables.LangCode.Equals("de") ? Tools.NestedTemplateRegex("personendaten") : Tools.NestedTemplateRegex("persondata"));
 
