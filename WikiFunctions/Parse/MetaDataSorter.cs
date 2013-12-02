@@ -622,7 +622,6 @@ en, sq, ru
 		public static string MoveSisterlinks(string articleText)
 		{
 		    string originalArticletext = articleText;
-		    // need to have an 'external links' section to move the sisterlinks to
 		    foreach (Match m in WikiRegexes.SisterLinks.Matches(articleText))
 		    {
 		        string sisterlinkFound = m.Value;
@@ -632,8 +631,9 @@ en, sq, ru
 		        if (ExternalLinksSectionString.Length == 0)
 		            ExternalLinksSectionString = ExternalLinksToEnd.Match(articleText).Value;
 
+		        // need to have an 'external links' section to move the sisterlinks to
 		        // check sisterlink NOT currently in 'external links'
-		        if (!ExternalLinksSectionString.Contains(sisterlinkFound.Trim()))
+		        if (ExternalLinksSectionString.Length > 0 && !ExternalLinksSectionString.Contains(sisterlinkFound.Trim()))
 		        {
 		            articleText = Regex.Replace(articleText, Regex.Escape(sisterlinkFound) + @"\s*(?:\r\n)?", "");
 		            articleText = WikiRegexes.ExternalLinksHeader.Replace(articleText, "$0" + "\r\n" + sisterlinkFound);

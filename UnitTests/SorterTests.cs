@@ -572,6 +572,12 @@ text here2
 x";
 			Assert.AreEqual(CommentedOut, MetaDataSorter.MoveSisterlinks(CommentedOut), "no change if commented out");
 
+			const string NoExtLinks = @"text here
+{{wiktionary}}
+text here2
+== other ==
+x";
+			Assert.AreEqual(NoExtLinks, MetaDataSorter.MoveSisterlinks(NoExtLinks), "no ext links sections");
 		}
 
 		[Test]
