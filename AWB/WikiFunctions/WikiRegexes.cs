@@ -486,7 +486,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches indented, bulleted or numbered text
         /// </summary>
-        public static readonly Regex BulletedText = new Regex(@"^[\*#: ]+.*?$", RegexOptions.Multiline);
+        public static readonly Regex BulletedText = new Regex(@"^[\*#: ]+.*", RegexOptions.Multiline);
 
         /// <summary>
         /// Matches single line templates, NOT nested templates
