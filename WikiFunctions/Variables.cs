@@ -883,7 +883,7 @@ namespace WikiFunctions
                 case "sv":
                     mSummaryTag = "med";
                     TypoSummaryTag = "rättar stavfel: ";
-                    Stub = @"(?:[^{}]*?[Ss]tub|[^{}]+?stub(?:[ \-][^{}]+)?)(?<![Ss]tubbmall|[Ss]ubstub|[Uu]ncategorized stub)";
+                    Stub = @"(?:[^{}]*?[Ss]tub|[^{}]+?stub(?:[ \-][^{}]+)?)(?<![Ss]tubbmall|[Ss]ubstub|[Ss]tubavsnitt|[Uu]ncategorized stub)";
                     break;
 
                 case "tr":

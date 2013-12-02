@@ -591,6 +591,7 @@ Image here");
 			RegexAssert.NoMatch(WikiRegexes.Stub, @"{{substub}}");
 			RegexAssert.NoMatch(WikiRegexes.Stub, @"{{stubbmall}}");
 			RegexAssert.NoMatch(WikiRegexes.Stub, @"{{ Stubbmall }}");
+			RegexAssert.NoMatch(WikiRegexes.Stub, @"{{Stubavsnitt}}");
 
             Variables.SetProject("en", ProjectEnum.wikipedia);
             WikiRegexes.MakeLangSpecificRegexes();
