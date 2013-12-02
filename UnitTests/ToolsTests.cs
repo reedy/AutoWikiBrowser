@@ -224,6 +224,8 @@ namespace UnitTests
             Assert.AreEqual(1, Tools.WordCount("123"));
             Assert.AreEqual(3, Tools.WordCount("foo\nbar\r\nboz"));
             Assert.AreEqual(2, Tools.WordCount("foo.bar"));
+            Assert.AreEqual(2, Tools.WordCount("foo.bar", 10));
+            Assert.AreEqual(1, Tools.WordCount("foo.bar", 1));
 
             Assert.AreEqual(1, Tools.WordCount("foo<!-- bar boz -->"));
             Assert.AreEqual(1, Tools.WordCount("foo<!--bar-->quux"));

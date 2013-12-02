@@ -668,11 +668,18 @@ namespace WikiFunctions
 
 		private static readonly Regex RegexWordCountTable = new Regex(@"\{\|.*?\|\}", RegexOptions.Compiled | RegexOptions.Singleline);
 
-		// Covered by ToolsTests.WordCount()
 		/// <summary>
 		/// Returns word count of the string
 		/// </summary>
 		public static int WordCount(string text)
+		{
+		    return WordCount(text, 999999);
+		}
+		// Covered by ToolsTests.WordCount()
+		/// <summary>
+		/// Returns word count of the string
+		/// </summary>
+		public static int WordCount(string text, int limit)
 		{
 			text = RegexWordCountTable.Replace(text, "");
 			text = WikiRegexes.NestedTemplates.Replace(text, " ");
@@ -695,6 +702,9 @@ namespace WikiFunctions
 					do
 						i++;
 					while (i < text.Length && char.IsLetterOrDigit(text[i]));
+					
+					if(words == limit)
+					    return words;
 				}
 			}
 

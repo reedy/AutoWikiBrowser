@@ -4821,7 +4821,7 @@ namespace WikiFunctions.Parse
             // remove all <math>, <code> stuff etc. where curly brackets are used in singles and pairs
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.MathPreSourceCodeComments);
             // some templates deliberately use unbalanced brackets within their parameters
-            articleText = Tools.ReplaceWithSpaces(articleText, TemplatesWithUnbalancedBrackets.Matches(articleText));
+            articleText = Tools.ReplaceWithSpaces(articleText, TemplatesWithUnbalancedBrackets);
 
             bracketLength = 2;
 
@@ -4870,9 +4870,7 @@ namespace WikiFunctions.Parse
 
             if (openingBrackets.Equals("[")) // need to remove double square brackets first
                 articleText = Tools.ReplaceWithSpaces(articleText, DoubleSquareBrackets);
-
-
-            if (openingBrackets.Equals("{")) // need to remove double curly brackets first
+            else if (openingBrackets.Equals("{")) // need to remove double curly brackets first
                 articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.NestedTemplates);
 
             // replace all the valid balanced bracket sets with spaces
@@ -4888,8 +4886,7 @@ namespace WikiFunctions.Parse
 
             if (open == 0 && closed >= 1)
                 return articleText.IndexOf(closingBrackets);
-
-            if (open >= 1)
+            else if (open >= 1)
                 return articleText.IndexOf(openingBrackets);
 
             return -1;
@@ -7139,6 +7136,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex Unreferenced = Tools.NestedTemplateRegex("unreferenced");
         private static readonly Regex Drugbox = Tools.NestedTemplateRegex(new[] { "Drugbox", "Chembox" });
         private static readonly Regex MinorPlanetListFooter = Tools.NestedTemplateRegex("MinorPlanetListFooter");
+        private static readonly Regex BulletedText = new Regex(@"\r\n[\*#: ].*");
 
         //TODO:Needs re-write
         /// <summary>
@@ -7164,8 +7162,8 @@ namespace WikiFunctions.Parse
 
             // bulleted or indented text should weigh less than simple text.
             // for example, actor stubs may contain large filmographies
-            string crapStripped = WikiRegexes.BulletedText.Replace(commentsCategoriesStripped, "");
-            int words = (Tools.WordCount(commentsCategoriesStripped) + Tools.WordCount(crapStripped)) / 2;
+            string crapStripped = BulletedText.Replace(commentsCategoriesStripped, "");
+            int words = (Tools.WordCount(commentsCategoriesStripped, 999) + Tools.WordCount(crapStripped, 999)) / 2;
 
             // remove stub tags from long articles, don't move section stubs
             if ((words > StubMaxWordCount) && WikiRegexes.Stub.IsMatch(commentsStripped))
@@ -7187,7 +7185,7 @@ namespace WikiFunctions.Parse
                 else
                 {
                     tagsRemoved.Add("stub");
-                }                
+                }
             }
 
             // refresh
