@@ -3582,7 +3582,10 @@ Message: {2}
 
 		public static string ListToStringCommaSeparator(List<string> items)
 		{
-			return string.Join(", ", items.ToArray());
+	        if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz") || Variables.LangCode.Equals("fa"))
+	        	return string.Join("، ", items.ToArray());
+	        else
+	        	return string.Join(", ", items.ToArray());
 		}
 
 		/// <summary>
