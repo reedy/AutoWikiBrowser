@@ -2202,6 +2202,8 @@ namespace WikiFunctions.Parse
             return (m.Groups[1].Value + newTemplateName + m.Groups[3].Value);
         }
 
+        private static readonly Regex NestedTemplates = new Regex(@"{{\s*([^{}\|]+)(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}}");
+
         /// <summary>
         /// Extracts a list of all templates used in the input text
         /// </summary>
@@ -2209,21 +2211,32 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private static List<string> GetAllTemplates(string articleText)
         {
+            /* performance: faster to process all templates, extract rough template name then get exact template names later
+             than to get exact template name for each template found */
+            // process all templates, handle nested templates to any level of nesting
             List<string> TFH = new List<string>();
-            foreach(Match m in WikiRegexes.NestedTemplates.Matches(articleText))
+            foreach(Match m in NestedTemplates.Matches(articleText))
             {
-                TFH.Add(Tools.TurnFirstToUpper(Tools.GetTemplateName(m.Value)));
-
+                TFH.Add(m.Groups[1].Value);
                 string template = m.Value.Substring(2);
 
-                while(WikiRegexes.NestedTemplates.IsMatch(template))
+                while(NestedTemplates.IsMatch(template))
                 {
-                    Match m2 = WikiRegexes.NestedTemplates.Match(template);
-                    TFH.Add(Tools.TurnFirstToUpper(Tools.GetTemplateName(m2.Value)));
+                    Match m2 = NestedTemplates.Match(template);
+                    TFH.Add(m2.Groups[1].Value);
                     template = template.Substring(m2.Index + 2);
                 }
             }
-            return Tools.DeduplicateList(TFH);
+
+            // now extract exact template names
+            TFH = Tools.DeduplicateList(TFH);
+            List<string> TFH2 = new List<string>();
+            foreach(string s in TFH)
+            {
+                TFH2.Add(Tools.TurnFirstToUpper(Tools.GetTemplateName(@"{{" + s + @"}}")));
+            }
+
+            return Tools.DeduplicateList(TFH2);
         }
 
         private static Regex RenameTemplateParametersTemplates;
