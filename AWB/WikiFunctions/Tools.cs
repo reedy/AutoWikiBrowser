@@ -3339,24 +3339,27 @@ Message: {2}
 		/// <returns>the template name</returns>
 		public static string GetTemplateName(string templateCall)
 		{
-			string TemplateNamespace;
-			
-			try
-			{
-				TemplateNamespace = Variables.NamespacesCaseInsensitive[Namespace.Template];
-			}
-			catch
-			{
-				TemplateNamespace = "[Tt]emplate:";
-			}
-			
-			// allow whitespace before semicolon
-			TemplateNamespace = Regex.Replace(TemplateNamespace, @":$", @"[\s_]*:");
+		    string name = WikiRegexes.TemplateNameRegex.Match(templateCall).Groups[1].Value;
+		    return Regex.Replace(name, @"[\s_]+", " ");
+		}
 
-			StringBuilder theRegex = new StringBuilder(@"{{\s*(?::?[\s_]*" + TemplateNamespace + @"[\s_]*)?([^\|{}]+?)(?:\s*(?:<!--.*?-->|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋)\s*)?\s*(?:\||}})");
-			
-			string name = Regex.Match(templateCall, theRegex.ToString()).Groups[1].Value;
-			return Regex.Replace(name, @"[\s_]+", " ");
+		public static Regex TemplateNameRegex()
+		{
+		    string TemplateNamespace;
+
+		    try
+		    {
+		        TemplateNamespace = Variables.NamespacesCaseInsensitive[Namespace.Template];
+		    }
+		    catch
+		    {
+		        TemplateNamespace = "[Tt]emplate:";
+		    }
+
+		    // allow whitespace before semicolon
+		    TemplateNamespace = Regex.Replace(TemplateNamespace, @":$", @"[\s_]*:");
+
+		    return (new Regex(@"{{\s*(?::?[\s_]*" + TemplateNamespace + @"[\s_]*)?([^\|{}]+?)(?:\s*(?:<!--.*?-->|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋)\s*)?\s*(?:\||}})"));
 		}
 
 		/// <summary>

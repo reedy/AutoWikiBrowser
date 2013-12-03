@@ -41,6 +41,8 @@ namespace WikiFunctions
 
             TemplateStart = @"\{\{\s*(:?" + template + ")?";
 
+            TemplateNameRegex = Tools.TemplateNameRegex();
+
             Category = new Regex(@"\[\[[\s_]*" + category +
                                  @"[ _]*(.*?)[ _]*(?:\|([^\|\]]*))?[ _]*\]\]");
 
@@ -839,6 +841,11 @@ namespace WikiFunctions
         /// </summary>
         public static Regex DayMonthRangeSpan;
         
+        /// <summary>
+        /// Matches the start of template calls to extract the template name, group 1 is the template name
+        /// </summary>
+        public static Regex TemplateNameRegex;
+
         // strictly should accept year form 1583
         /// <summary>
         /// Matches ISO 8601 format dates – YYYY-DD-MM – between 1600 and 2099
