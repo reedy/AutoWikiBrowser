@@ -2205,7 +2205,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex NestedTemplates = new Regex(@"{{\s*([^{}\|]+)(?>[^\{\}]+|\{(?<DEPTH>)|\}(?<-DEPTH>))*(?(DEPTH)(?!))}}");
 
         /// <summary>
-        /// Extracts a list of all templates used in the input text
+        /// Extracts a list of all templates used in the input text. Template name given in first letter upper
         /// </summary>
         /// <param name="articleText"></param>
         /// <returns></returns>
@@ -7912,9 +7912,19 @@ namespace WikiFunctions.Parse
         public static string TagUpdater(string articleText)
         {
             articleText = ht.Hide(articleText);
-
             if(WikiRegexes.DatedTemplates.Count > 0)
-                articleText = Tools.NestedTemplateRegex(WikiRegexes.DatedTemplates).Replace(articleText, TagUpdaterME);
+            {
+                List<string> t = GetAllTemplates(articleText), t2 = new List<string>();
+
+                foreach(string s in WikiRegexes.DatedTemplates)
+                {
+                    if(t.Contains(Tools.TurnFirstToUpper(s)))
+                        t2.Add(s);
+                }
+
+                if(t2.Count > 0)
+                    articleText = Tools.NestedTemplateRegex(t2).Replace(articleText, TagUpdaterME);
+            }
 
             articleText = FixSyntaxSubstRefTags(articleText);
 
