@@ -551,6 +551,19 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             TestMatch(WikiRegexes.ISODates, @"on 2009-2-11 a", false);
             TestMatch(WikiRegexes.ISODates, @"on 2009-08-33 a", false);
             TestMatch(WikiRegexes.ISODates, @"on 2009/08/31 a", false);
+
+            TestMatch(WikiRegexes.ISODatesQuick, @"on 2009-12-11 a", true);
+            TestMatch(WikiRegexes.ISODatesQuick, @"on 2009-12-01 a", true);
+            TestMatch(WikiRegexes.ISODatesQuick, @"on 2009-12-21 a", true);
+            TestMatch(WikiRegexes.ISODatesQuick, @"on 2009-08-31 a", true);
+            TestMatch(WikiRegexes.ISODatesQuick, @"BC]] |date=2003-10-19 }}", true);
+
+            TestMatch(WikiRegexes.ISODatesQuick, @"on 1009-12-11 a", false);
+            TestMatch(WikiRegexes.ISODatesQuick, @"on 2209-12-11 a", false);
+            TestMatch(WikiRegexes.ISODatesQuick, @"on 2009-14-11 a", false);
+            TestMatch(WikiRegexes.ISODatesQuick, @"on 2009-2-11 a", false);
+            TestMatch(WikiRegexes.ISODatesQuick, @"on 2009-08-33 a", false);
+            TestMatch(WikiRegexes.ISODatesQuick, @"on 2009/08/31 a", false);
         }
 
         [Test]
