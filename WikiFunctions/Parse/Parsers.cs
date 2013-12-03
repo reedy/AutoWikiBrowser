@@ -2676,7 +2676,6 @@ namespace WikiFunctions.Parse
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.SourceCode);
             articleText = Tools.ReplaceWithSpaces(articleText, new Regex(WikiRegexes.Refs.ToString(), RegexOptions.Singleline));
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.GalleryTag, 2);
-            articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.Comments);
             
             // some (badly done) List of pages can have hundreds of unclosed small tags, causes WikiRegexes.Small to backtrack a lot
             // so workaround solution: if > 10 unclosed small tags, only remove small tags without other tags embedded in them
