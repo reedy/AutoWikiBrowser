@@ -638,6 +638,7 @@ bar</ INCLUDEONLY>");
             RegexAssert.Matches("{{ foo |bar}}", WikiRegexes.NestedTemplates, "{{ foo |bar}}");
             RegexAssert.Matches("{{foo<!--comm-->|bar}}", WikiRegexes.NestedTemplates, "{{foo<!--comm-->|bar}}");
             RegexAssert.Matches("", WikiRegexes.NestedTemplates, "{{foo");
+            RegexAssert.Matches("{{{foo}}}", WikiRegexes.NestedTemplates, "{{{foo}}}");
         }
 
         [Test]
