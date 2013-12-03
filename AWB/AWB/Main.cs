@@ -2750,7 +2750,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
                 // for date types count ignore images and URLs
                 string articleTextNoImagesURLs = WikiRegexes.ExternalLinksHTTPOnlyQuick.Replace(Tools.ReplaceWithSpaces(articleText, imagesMC), "");
-                lblDates.Text = Dates + WikiRegexes.ISODates.Matches(articleTextNoImagesURLs).Count + "/" + WikiRegexes.DayMonth.Matches(articleTextNoImagesURLs).Count
+                lblDates.Text = Dates + WikiRegexes.ISODatesQuick.Matches(articleTextNoImagesURLs).Count + "/" + WikiRegexes.DayMonth.Matches(articleTextNoImagesURLs).Count
                     + "/" + WikiRegexes.MonthDay.Matches(articleTextNoImagesURLs).Count;
 
                 // Find multiple links
