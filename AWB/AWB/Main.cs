@@ -2297,6 +2297,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             {
                 switch (Variables.LangCode)
                 {
+	            	case "ar":
+	            	case "arz":
 	            	case "fa":
 		            	summary += (string.IsNullOrEmpty(summary) ? "" : "، ") + TheArticle.EditSummary;
 		            	break;
