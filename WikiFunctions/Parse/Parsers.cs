@@ -2174,8 +2174,7 @@ namespace WikiFunctions.Parse
             foreach(Match m in WikiRegexes.NestedTemplates.Matches(articleText))
             {
                 string name = Tools.TurnFirstToUpper(Tools.GetTemplateName(m.Value));
-                if(!TFH.Contains(name))
-                    TFH.Add(name);
+                TFH.Add(name);
 
                 string template = m.Value.Substring(2);
 
@@ -2183,8 +2182,7 @@ namespace WikiFunctions.Parse
                 {
                     Match m2 = WikiRegexes.NestedTemplates.Match(template);
                     name = Tools.TurnFirstToUpper(Tools.GetTemplateName(m2.Value));
-                    if(!TFH.Contains(name))
-                        TFH.Add(name);
+                    TFH.Add(name);
 
                     template = template.Substring(m2.Index + 2);
                 }
@@ -2192,6 +2190,7 @@ namespace WikiFunctions.Parse
 
             // if matches found, run replacements
             List<string> TFH2 = new List<string>();
+            TFH = Tools.DeduplicateList(TFH);
             foreach(string s in TFH)
             {
                 if(WikiRegexes.AllTemplateRedirectsList.Contains(s))
