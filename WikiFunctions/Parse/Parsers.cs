@@ -8288,8 +8288,16 @@ namespace WikiFunctions.Parse
         public static bool HasRefAfterReflist(string articleText)
         {
             articleText = WikiRegexes.Comments.Replace(articleText, "");
-            return (WikiRegexes.RefAfterReflist.IsMatch(articleText) &&
-                    WikiRegexes.ReferencesTemplate.Matches(articleText).Count == 1);
+            int refstemplateindex = 0, reflength = 0;
+            foreach(Match m in WikiRegexes.ReferencesTemplate.Matches(articleText))
+            {
+                if(refstemplateindex > 0)
+                    return false; // multiple {{reflist}} etc. in page, not supported for check
+
+                refstemplateindex= m.Index;
+                reflength = m.Length;
+            }
+            return Regex.IsMatch(articleText.Substring(refstemplateindex+reflength), WikiRegexes.ReferenceEndGR);
         }
 
         /// <summary>
