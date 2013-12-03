@@ -2745,7 +2745,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 lblWords.Text = Words + wordCount;
                 lblCats.Text = Cats + catCount;
                 lblImages.Text = Imgs + imagesMC.Count;
-                lblLinks.Text = Links + WikiRegexes.WikiLinksOnly.Matches(articleText).Count;
+                lblLinks.Text = Links + Tools.LinkCount(articleText);
                 lblInterLinks.Text = IWLinks + Tools.InterwikiCount(articleText);
 
                 // for date types count ignore images and URLs
