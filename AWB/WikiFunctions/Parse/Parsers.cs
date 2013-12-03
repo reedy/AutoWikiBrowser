@@ -7918,7 +7918,7 @@ namespace WikiFunctions.Parse
 
                 foreach(string s in WikiRegexes.DatedTemplates)
                 {
-                    if(t.Contains(Tools.TurnFirstToUpper(s)))
+                    if(t.Contains(Tools.TurnFirstToUpper(s))) // DatedTemplates can be first character upper or lower
                         t2.Add(s);
                 }
 
