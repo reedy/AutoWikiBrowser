@@ -2670,10 +2670,10 @@ namespace WikiFunctions.Parse
         {
             Dictionary<int, int> back = new Dictionary<int, int>();
 
-            // clear out all the matched tags: performance of Refs is better if IgnoreCase avoided
+            // clear out all the matched tags: performance of Refs/SourceCode is better if IgnoreCase avoided
             articleText = articleText.ToLower();
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.UnformattedText);
-            articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.SourceCode);
+            articleText = Tools.ReplaceWithSpaces(articleText, new Regex(WikiRegexes.SourceCode.ToString(), RegexOptions.Singleline));
             articleText = Tools.ReplaceWithSpaces(articleText, new Regex(WikiRegexes.Refs.ToString(), RegexOptions.Singleline));
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.GalleryTag, 2);
             
