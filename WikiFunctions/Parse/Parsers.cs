@@ -2121,21 +2121,7 @@ namespace WikiFunctions.Parse
         {
             // performance: check there's a match between templates found and listed redirects
             // using intersection of lists of the two
-            HashSet<string> TFH = new HashSet<string>();
-
-            foreach(Match m in WikiRegexes.NestedTemplates.Matches(articleText))
-            {
-                TFH.Add(Tools.TurnFirstToUpper(Tools.GetTemplateName(m.Value)));
-
-                string template = m.Value.Substring(2);
-
-                while(WikiRegexes.NestedTemplates.IsMatch(template))
-                {
-                    Match m2 = WikiRegexes.NestedTemplates.Match(template);
-                    TFH.Add(Tools.TurnFirstToUpper(Tools.GetTemplateName(m2.Value)));
-                    template = template.Substring(m2.Index + 2);
-                }
-            }
+            HashSet<string> TFH = new HashSet<string>(GetAllTemplates(articleText));
 
             // if matches found, run replacements
             // performance: run replacements on templates from intersected list
@@ -2169,28 +2155,10 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private static string TemplateRedirectsList(string articleText, Dictionary<Regex, string> TemplateRedirects)
         {
-            List<string> TFH = new List<string>();
-
-            foreach(Match m in WikiRegexes.NestedTemplates.Matches(articleText))
-            {
-                string name = Tools.TurnFirstToUpper(Tools.GetTemplateName(m.Value));
-                TFH.Add(name);
-
-                string template = m.Value.Substring(2);
-
-                while(WikiRegexes.NestedTemplates.IsMatch(template))
-                {
-                    Match m2 = WikiRegexes.NestedTemplates.Match(template);
-                    name = Tools.TurnFirstToUpper(Tools.GetTemplateName(m2.Value));
-                    TFH.Add(name);
-
-                    template = template.Substring(m2.Index + 2);
-                }
-            }
+            List<string> TFH = GetAllTemplates(articleText);
 
             // if matches found, run replacements
             List<string> TFH2 = new List<string>();
-            TFH = Tools.DeduplicateList(TFH);
             foreach(string s in TFH)
             {
                 if(WikiRegexes.AllTemplateRedirectsList.Contains(s))
@@ -2232,6 +2200,30 @@ namespace WikiFunctions.Parse
             }
 
             return (m.Groups[1].Value + newTemplateName + m.Groups[3].Value);
+        }
+
+        /// <summary>
+        /// Extracts a list of all templates used in the input text
+        /// </summary>
+        /// <param name="articleText"></param>
+        /// <returns></returns>
+        private static List<string> GetAllTemplates(string articleText)
+        {
+            List<string> TFH = new List<string>();
+            foreach(Match m in WikiRegexes.NestedTemplates.Matches(articleText))
+            {
+                TFH.Add(Tools.TurnFirstToUpper(Tools.GetTemplateName(m.Value)));
+
+                string template = m.Value.Substring(2);
+
+                while(WikiRegexes.NestedTemplates.IsMatch(template))
+                {
+                    Match m2 = WikiRegexes.NestedTemplates.Match(template);
+                    TFH.Add(Tools.TurnFirstToUpper(Tools.GetTemplateName(m2.Value)));
+                    template = template.Substring(m2.Index + 2);
+                }
+            }
+            return Tools.DeduplicateList(TFH);
         }
 
         private static Regex RenameTemplateParametersTemplates;
