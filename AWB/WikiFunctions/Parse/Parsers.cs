@@ -2620,6 +2620,7 @@ namespace WikiFunctions.Parse
         }
 
         private static readonly Regex PossibleAmbiguousCiteDate = new Regex(@"(?<=\|\s*(?:access|archive|air)?date2?\s*=\s*)(0?[1-9]|1[0-2])[/_\-\.](0?[1-9]|1[0-2])[/_\-\.](20\d\d|19[7-9]\d|[01]\d)\b");
+        private static readonly Regex PossibleAmbiguousCiteDateQuick = new Regex(@"(\|\s*(?:access|archive|air)?date2?\s*=\s*)(0?[1-9]|1[0-2])[/_\-\.](0?[1-9]|1[0-2])[/_\-\.](20\d\d|19[7-9]\d|[01]\d)\b");
 
         /// <summary>
         /// Returns whether the input article text contains ambiguous cite template dates in XX-XX-YYYY or XX-XX-YY format
@@ -2704,14 +2705,16 @@ namespace WikiFunctions.Parse
         public static Dictionary<int, int> AmbigCiteTemplateDates(string articleText)
         {
             Dictionary<int, int> ambigDates = new Dictionary<int, int>();
-
-            foreach(Match m in WikiRegexes.CiteTemplate.Matches(articleText))
+            if(PossibleAmbiguousCiteDateQuick.IsMatch(articleText)) // check for performance
             {
-                foreach (Match m2 in PossibleAmbiguousCiteDate.Matches(m.Value))
+                foreach(Match m in WikiRegexes.CiteTemplate.Matches(articleText))
                 {
-                    // for YYYY-AA-BB date, ambiguous if AA and BB not the same
-                    if (!m2.Groups[1].Value.Equals(m2.Groups[2].Value))
-                        ambigDates.Add(m.Index+m2.Index, m2.Length);
+                    foreach (Match m2 in PossibleAmbiguousCiteDate.Matches(m.Value))
+                    {
+                        // for YYYY-AA-BB date, ambiguous if AA and BB not the same
+                        if (!m2.Groups[1].Value.Equals(m2.Groups[2].Value))
+                            ambigDates.Add(m.Index+m2.Index, m2.Length);
+                    }
                 }
             }
 
