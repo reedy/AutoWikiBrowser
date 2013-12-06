@@ -6991,21 +6991,15 @@ namespace WikiFunctions.Parse
             if(Variables.IsWikipediaEN && CategoryMatch(articleText, "Living people"))
             {
                 // {{unreferenced}} --> {{BLP unsourced}} if article has [[Category:Living people]], and no free-text first argument to {{unref}}
-                MatchCollection unrefm;
-
-                if(mifound)
-                    unrefm = WikiRegexes.Unreferenced.Matches(articleText);
-                else
-                    unrefm = Tools.NestedTemplateRegex("unreferenced").Matches(articleText);
-
+                MatchCollection unrefm = Tools.NestedTemplateRegex("unreferenced").Matches(articleText);
                 if(unrefm.Count == 1)
                 {
-                    string unref = unrefm[0].Value;
-                    string name = (mifound ? unrefm[0].Groups[1].Value : unrefm[0].Groups[2].Value);
-                    if (Tools.TurnFirstToLower(Tools.GetTemplateArgument(unref, 1)).StartsWith("date")
-                            || Tools.GetTemplateArgumentCount(unref) == 0)
-                        articleText = Tools.RenameTemplate(articleText, name, "BLP unsourced", false);
+                    if (Tools.TurnFirstToLower(Tools.GetTemplateArgument(unrefm[0].Value, 1)).StartsWith("date")
+                        || Tools.GetTemplateArgumentCount(unrefm[0].Value) == 0)
+                        articleText = Tools.RenameTemplate(articleText, "unreferenced", "BLP unsourced", false);
                 }
+                else if(mifound) // could be unreferenced parameter in old style MI template
+                    articleText = WikiRegexes.MultipleIssues.Replace(articleText, m => Tools.RenameTemplateParameter(m.Value, "unreferenced", "BLP unsourced"));
 
                 articleText = Tools.RenameTemplate(articleText, "unreferenced section", "BLP unsourced section", false);
                 articleText = Tools.RenameTemplate(articleText, "primary sources", "BLP primary sources", false);
