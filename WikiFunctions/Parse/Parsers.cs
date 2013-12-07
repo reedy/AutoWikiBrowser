@@ -2532,6 +2532,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex CiteTemplateDateYYYYDDMMFormat = new Regex(SiCitStart + @"(?:archive|air|access)?date2?\s*=\s*(?:\[\[)?20\d\d)-([23]\d|1[3-9])-(0[1-9]|1[0-2])(\]\])?");
         private static readonly Regex CiteTemplateTimeInDateParameter = new Regex(@"(\|\s*(?:archive|air|access)?date2?\s*=\s*(?:(?:20\d\d|19[7-9]\d)-[01]?\d-[0-3]?\d|[0-3]?\d[a-z]{0,2}\s*\w+,?\s*(?:20\d\d|19[7-9]\d)|\w+\s*[0-3]?\d[a-z]{0,2},?\s*(?:20\d\d|19[7-9]\d)))(\s*[,-:]?\s+[0-2]?\d[:\.]?[0-5]\d(?:\:?[0-5]\d)?\s*(?:[^\|\}]*\[\[[^[\]\n]+(?<!\[\[[A-Z]?[a-z-]{2,}:[^[\]\n]+)\]\][^\|\}]*|[^\|\}]*)?)(?<!.*(?:20|1[7-9])\d+\s*)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        private static readonly Regex WhitespaceEnd = new Regex(@"(\s+)$");
         private static readonly Regex CitePodcast = Tools.NestedTemplateRegex("cite podcast");
 
         /// <summary>
@@ -2602,8 +2603,21 @@ namespace WikiFunctions.Parse
                 if(journal.Length == 0)
                     newValue = CiteTemplateAbbreviatedMonthISO.Replace(newValue, m2 => m2.Groups[1].Value + Tools.ConvertDate(m2.Groups[2].Value.Replace(".", ""), DateLocale.ISO) + m2.Groups[3].Value);
             }
-            // all citation dates
-            newValue = CiteTemplateTimeInDateParameter.Replace(newValue, "$1<!--$2-->"); // Removes time from date fields
+            // all citation dates: Remove time from date fields
+            newValue = CiteTemplateTimeInDateParameter.Replace(newValue, m3 => {
+                                                                   // keep end whitespace outside comment
+                                                                   string comm = m3.Groups[2].Value, whitespace = "";
+
+                                                                   Match whm = WhitespaceEnd.Match(comm);
+
+                                                                   if(whm.Success)
+                                                                   {
+                                                                       comm = comm.TrimEnd();
+                                                                       whitespace = whm.Groups[1].Value;
+                                                                   }
+
+                                                                   return m3.Groups[1].Value + "<!--" + comm + @"-->" + whitespace;
+                                                               });
 
             return newValue;
         }
