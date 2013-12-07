@@ -4462,6 +4462,9 @@ now {{cite web | url=http://site.it | title=hello|date = 5-5-1998}} was";
 
             string datestamp = @" 12:12:54 BST";
             Assert.AreEqual(correctpart + @"<!--" + datestamp + @"-->}} was", Parsers.CiteTemplateDates(correctpart + datestamp + @"}} was"));
+            Assert.AreEqual(correctpart + @"<!--" + datestamp + @"-->
+}} was", Parsers.CiteTemplateDates(correctpart + datestamp + @"
+}} was")); // end whitespace handling
 
             datestamp = @" 12:30 BST";
             Assert.AreEqual(correctpart + @"<!--" + datestamp + @"-->}} was", Parsers.CiteTemplateDates(correctpart + datestamp + @"}} was"));
