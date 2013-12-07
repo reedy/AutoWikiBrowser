@@ -9156,6 +9156,15 @@ Foo
             Assert.IsTrue(Tools.NestedTemplateRegex("Uncategorised").IsMatch(text), "Uncategorised not renamed when stub removed");
             Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
 
+            text = parser.Tagger(ShortText + @"{{stub}} {{Uncategorized stub|date=May 2010}} {{Uncategorised|date=May 2010}}", "Test", false, out noChange, ref summary);
+            Assert.IsTrue(Tools.NestedTemplateRegex("Uncategorized stub").IsMatch(text), "Uncat stub retained");
+            Assert.IsFalse(Tools.NestedTemplateRegex("Uncategorised").IsMatch(text), "Uncategorised removed when already uncat stub");
+            Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
+
+            text = parser.Tagger(LongText + @"{{stub}} {{Uncategorized stub|date=May 2010}} {{Uncategorised|date=May 2010}}", "Test", false, out noChange, ref summary);
+            Assert.IsTrue(Tools.NestedTemplateRegex("Uncategorised").IsMatch(text), "Uncategorised not renamed when stub removed");
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text));
+
             text = parser.Tagger("{{wikify}}" + Regex.Replace(LongText, @"(\w+)", "[[$1]]"), "Test", false, out noChange, ref summary);
 
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text));

@@ -7397,17 +7397,43 @@ namespace WikiFunctions.Parse
                 }
                 else if (totalCategories == 0 && WikiRegexes.Stub.IsMatch(commentsStripped))
                 {
-                    string uncatname = WikiRegexes.Uncat.Match(articleText).Groups[1].Value;
-                    if (!uncatname.Contains("stub"))
+                   // rename uncat to uncat stub if no uncat stub. If uncat and uncat stub, remove uncat.
+                    bool uncatstub = false;
+                    foreach(Match u in WikiRegexes.Uncat.Matches(articleText))
                     {
-                        tagsrenamed++;
-                        if (Variables.LangCode.Equals("ar"))
-                            articleText = Tools.RenameTemplate(articleText, uncatname, "بذرة غير مصنفة");
-                        else if (Variables.LangCode.Equals("arz"))
-                            articleText = Tools.RenameTemplate(articleText, uncatname, "تقاوى مش متصنفه");
-                        else if (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple"))
-                            articleText = Tools.RenameTemplate(articleText, uncatname, "Uncategorized stub");                        
+                        if(WikiRegexes.Stub.IsMatch(u.Value))
+                        {
+                            uncatstub = true;
+                            break;
+                        }
                     }
+
+                    articleText = WikiRegexes.Uncat.Replace(articleText, u2 => {
+                                                                if (!uncatstub) // rename
+                                                                {
+                                                                    tagsrenamed++;
+                                                                    if (Variables.LangCode.Equals("ar"))
+                                                                        return Tools.RenameTemplate(u2.Value, "بذرة غير مصنفة");
+                                                                    else if (Variables.LangCode.Equals("arz"))
+                                                                        return Tools.RenameTemplate(u2.Value, "تقاوى مش متصنفه");
+                                                                    else if (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple"))
+                                                                        return Tools.RenameTemplate(u2.Value, "Uncategorized stub");
+                                                                }
+                                                                else // already uncat stub so remove plain uncat
+                                                                {
+                                                                    if(!WikiRegexes.Stub.IsMatch(u2.Value))
+                                                                    {
+                                                                        if (Variables.LangCode.Equals("ar"))
+                                                                            tagsRemoved.Add("غير مصنفة");
+                                                                        else if (Variables.LangCode.Equals("arz"))
+                                                                            tagsRemoved.Add("مش متصنفه");
+                                                                        else
+                                                                            tagsRemoved.Add("uncategorised");
+                                                                        return "";
+                                                                    }
+                                                                }
+                                                                return u2.Value;
+                                                            });
                 }
             }
 
