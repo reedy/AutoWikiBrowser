@@ -5149,9 +5149,9 @@ namespace WikiFunctions.Parse
                 if (b.Length == 0)
                     continue;
 
-                if (a == b || Tools.TurnFirstToLower(a) == b)
+                if (a == b.Replace("_", " ") || Tools.TurnFirstToLower(a) == b.Replace("_", " "))
                 {
-                    articleText = articleText.Replace(n, "[[" + b + "]]");
+                    articleText = articleText.Replace(n, "[[" + b.Replace("_", " ") + "]]");
                 }
                 else if (Tools.TurnFirstToLower(b).StartsWith(Tools.TurnFirstToLower(a), StringComparison.Ordinal))
                 {

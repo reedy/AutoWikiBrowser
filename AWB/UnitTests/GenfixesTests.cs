@@ -126,6 +126,7 @@ namespace UnitTests
         {
             AssertChange("[[a ]]b", "[[a]] b");
             AssertChange("a[[ b]]", "a [[b]]");
+            AssertChange("[[Foo bar|Foo_bar]]", "[[Foo bar]]");
         }
 
         [Test]
