@@ -227,6 +227,8 @@ namespace WikiFunctions.Parse
 	                    editSummary = "remplacement: " + ReplacedSummary.Trim();
 	                else if (Variables.LangCode.Equals("hy"))
 	                    editSummary = "փոխարինվեց: " + ReplacedSummary.Trim();
+	                else if (Variables.LangCode.Equals("tr"))
+	                    editSummary = "değiştirildi: " + ReplacedSummary.Trim();
                 	else
 		                editSummary += "replaced: " + ReplacedSummary.Trim();
 
