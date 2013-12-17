@@ -3155,6 +3155,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                             break;
                     }
                 }
+                catch (ArgumentNullException)
+                {
+                    MessageBox.Show("The interwiki list didn't load correctly. Please check your internet connection, and then restart AWB");
+                }
 
                 if (Variables.TryLoadingAgainAfterLogin)
                 {
@@ -3216,10 +3220,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
                 TemplateRedirectsLoaded = false;
                 ResetTypoStats();
-            }
-            catch (ArgumentNullException)
-            {
-                MessageBox.Show("The interwiki list didn't load correctly. Please check your internet connection, and then restart AWB");
             }
         }
 
