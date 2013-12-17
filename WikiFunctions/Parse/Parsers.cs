@@ -5338,7 +5338,7 @@ namespace WikiFunctions.Parse
             if (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple"))
                 sortkey = Tools.CleanSortKey(sortkey);
 
-            return CategoryStart + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[1].Value, false).Trim()) +
+            return CategoryStart + Tools.TurnFirstToUpper(CanonicalizeTitleRaw(m.Groups[1].Value, false).Trim().TrimStart(':')) +
                 WordWhitespaceEndofline.Replace(sortkey, "$1") + "]]";
         }
 
