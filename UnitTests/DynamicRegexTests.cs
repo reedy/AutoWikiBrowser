@@ -62,6 +62,7 @@ namespace UnitTests
             RegexAssert.IsMatch(WikiRegexes.LooseCategory, "[[ Category :Test|here]]");
             RegexAssert.IsMatch(WikiRegexes.LooseCategory, @"[[Category:
 1910 births]]");
+            RegexAssert.IsMatch(WikiRegexes.LooseCategory, "[[Category::Test]]");
 
             RegexAssert.NoMatch(WikiRegexes.LooseCategory, "[[Test]]");
             RegexAssert.NoMatch(WikiRegexes.LooseCategory, "[[Category");
