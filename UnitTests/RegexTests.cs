@@ -219,6 +219,7 @@ work = text
 Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/trailing whitespace");
 
             Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref name = ""foo"">text</ref>"));
+            Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref name = ""fo/o"">text</ref>"));
             Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref name = ""foo"">text<tag>a</tag></ref>"), "matches with nested tags");
             Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref name = ""foo""></ref>"));
             Assert.IsTrue(WikiRegexes.NamedReferencesIncludingCondensed.IsMatch(@"<ref Name =foo>text</ref>"));

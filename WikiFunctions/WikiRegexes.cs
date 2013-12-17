@@ -1161,7 +1161,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches named references in format &lt;ref name="foo"&gt;text&lt;/ref&gt; or &lt;ref name="foo" /&gt; Ref name is group 2, ref value is group 3
         /// </summary>
-        public static readonly Regex NamedReferencesIncludingCondensed = new Regex(@"(<\s*ref\s+(?i)name(?-i)\s*=\s*(?:""|')?([^<>=\r\n/]+?)(?:""|')?\s*(?:>\s*(.*?)\s*<\s*/\s*ref|/)\s*>)", RegexOptions.Singleline);
+        public static readonly Regex NamedReferencesIncludingCondensed = new Regex(@"(<\s*ref\s+(?i)name(?-i)\s*=\s*(?:""|')?([^<>=\r\n]+?)(?:""|')?\s*(?:>\s*(.*?)\s*<\s*/\s*ref|/)\s*>)", RegexOptions.Singleline);
 
         /// <summary>
         /// Matches unnamed references in format &lt;ref&gt;...&lt;/ref&gt; group 1 being the reference text
