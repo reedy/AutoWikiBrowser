@@ -756,7 +756,7 @@ namespace WikiFunctions
         public static Regex PossiblyCommentedStub;
 
         /// <summary>
-        /// Matches Category links
+        /// Matches Category links. Group 1 is the category name, group 2 is the pipe plus sortkey, if present.
         /// </summary>
         public static Regex LooseCategory;
 
