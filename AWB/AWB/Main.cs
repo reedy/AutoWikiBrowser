@@ -3131,96 +3131,93 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         private void SetProject(string code, ProjectEnum project, string customProject, string protocol)
         {
             SplashScreen.SetProgress(81);
+            //set namespaces
             try
             {
                 //set namespaces
-                try
-                {
-                    //set namespaces
-                    Variables.SetProject(code, project, customProject, protocol);
-                }
-                catch (WebException ex)
-                {
-                    // Check for HTTP 401 error.
-                    var resp = (HttpWebResponse)ex.Response;
-                    if (resp == null) throw;
-                    switch (resp.StatusCode)
-                    {
-                        case HttpStatusCode.Unauthorized /*401*/:
-                            ShowLogin();
-
-                            // Reload project.
-                            Variables.SetProject(code, project, customProject, protocol);
-
-                            break;
-                    }
-                }
-                catch (ArgumentNullException)
-                {
-                    MessageBox.Show("The interwiki list didn't load correctly. Please check your internet connection, and then restart AWB");
-                }
-
-                if (Variables.TryLoadingAgainAfterLogin)
-                {
-                    MessageBox.Show(
-                        "You seem to be accessing a private wiki. Project loading will be attempted again after login.",
-                        "Restricted Wiki");
-                }
-
-                //set interwikiorder
-                switch (Variables.LangCode)
-                {
-                    case "en":
-                    case "lb":
-                    case "pl":
-                    case "no":
-                    case "sv":
-                    case "simple":
-                        Parser.InterWikiOrder = InterWikiOrderEnum.LocalLanguageAlpha;
-                        break;
-
-                    case "he":
-                    case "hu":
-                    case "te":
-                    case "yi":
-                        Parser.InterWikiOrder = InterWikiOrderEnum.AlphabeticalEnFirst;
-                        break;
-
-                    case "ms":
-                    case "et":
-                    case "nn":
-                    case "fi":
-                    case "vi":
-                    case "ur":
-                        Parser.InterWikiOrder = InterWikiOrderEnum.LocalLanguageFirstWord;
-                        break;
-
-                    default:
-                        Parser.InterWikiOrder = InterWikiOrderEnum.Alphabetical;
-                        break;
-                }
-
-                //user interface
-                if (!Variables.IsWikipediaEN)
-                {
-                    humanNameDisambigTagToolStripMenuItem.Visible = birthdeathCatsToolStripMenuItem.Visible = false;
-                    chkAutoTagger.Checked = false;
-                }
-                else if (!humanNameDisambigTagToolStripMenuItem.Visible)
-                {
-                    humanNameDisambigTagToolStripMenuItem.Visible = birthdeathCatsToolStripMenuItem.Visible = true;
-                }
-
-                UserTalkWarningsLoaded = false; // force reload
-
-                if (!Variables.IsCustomProject && !Variables.IsWikia && !Variables.IsWikimediaMonolingualProject)
-                    lblProject.Text = Variables.LangCode + "." + Variables.Project;
-                else
-                    lblProject.Text = Variables.IsWikimediaMonolingualProject ? Variables.Project.ToString() : Variables.URL;
-
-                TemplateRedirectsLoaded = false;
-                ResetTypoStats();
+                Variables.SetProject(code, project, customProject, protocol);
             }
+            catch (WebException ex)
+            {
+                // Check for HTTP 401 error.
+                var resp = (HttpWebResponse)ex.Response;
+                if (resp == null) throw;
+                switch (resp.StatusCode)
+                {
+                    case HttpStatusCode.Unauthorized /*401*/:
+                        ShowLogin();
+
+                        // Reload project.
+                        Variables.SetProject(code, project, customProject, protocol);
+
+                        break;
+                }
+            }
+            catch (ArgumentNullException)
+            {
+                MessageBox.Show("The interwiki list didn't load correctly. Please check your internet connection, and then restart AWB");
+            }
+
+            if (Variables.TryLoadingAgainAfterLogin)
+            {
+                MessageBox.Show(
+                    "You seem to be accessing a private wiki. Project loading will be attempted again after login.",
+                    "Restricted Wiki");
+            }
+
+            //set interwikiorder
+            switch (Variables.LangCode)
+            {
+                case "en":
+                case "lb":
+                case "pl":
+                case "no":
+                case "sv":
+                case "simple":
+                    Parser.InterWikiOrder = InterWikiOrderEnum.LocalLanguageAlpha;
+                    break;
+
+                case "he":
+                case "hu":
+                case "te":
+                case "yi":
+                    Parser.InterWikiOrder = InterWikiOrderEnum.AlphabeticalEnFirst;
+                    break;
+
+                case "ms":
+                case "et":
+                case "nn":
+                case "fi":
+                case "vi":
+                case "ur":
+                    Parser.InterWikiOrder = InterWikiOrderEnum.LocalLanguageFirstWord;
+                    break;
+
+                default:
+                    Parser.InterWikiOrder = InterWikiOrderEnum.Alphabetical;
+                    break;
+            }
+
+            //user interface
+            if (!Variables.IsWikipediaEN)
+            {
+                humanNameDisambigTagToolStripMenuItem.Visible = birthdeathCatsToolStripMenuItem.Visible = false;
+                chkAutoTagger.Checked = false;
+            }
+            else if (!humanNameDisambigTagToolStripMenuItem.Visible)
+            {
+                humanNameDisambigTagToolStripMenuItem.Visible = birthdeathCatsToolStripMenuItem.Visible = true;
+            }
+
+            UserTalkWarningsLoaded = false; // force reload
+
+            if (!Variables.IsCustomProject && !Variables.IsWikia && !Variables.IsWikimediaMonolingualProject)
+                lblProject.Text = Variables.LangCode + "." + Variables.Project;
+            else
+                lblProject.Text = Variables.IsWikimediaMonolingualProject ? Variables.Project.ToString() : Variables.URL;
+
+            TemplateRedirectsLoaded = false;
+            ResetTypoStats();
         }
 
         #endregion
