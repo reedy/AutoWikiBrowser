@@ -6506,6 +6506,10 @@ Aikido was", "Aikido", out noChangeBack), "Bold text in infobox ignored");
 '''A''' was. Foo One here";
             Assert.AreEqual(NoChangeImages, parser.BoldTitle(NoChangeImages, "Foo One", out noChangeBack));
             Assert.IsTrue(noChangeBack);
+
+            Assert.AreEqual("{{year article header}} Foo is a bar While remaining upright may be the primary goal of beginning riders",
+                            parser.BoldTitle("{{year article header}} Foo is a bar While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
+            Assert.IsTrue(noChangeBack);
         }
 
         [Test]

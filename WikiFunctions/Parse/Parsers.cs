@@ -5633,6 +5633,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex BoldTitleAlready3 = new Regex(@"^\s*({{[^\{\}]+}}\s*)*'''('')?\s*\w", RegexOptions.Compiled);
         private static readonly Regex BoldTitleAlready4 = new Regex(@"^\s*'''", RegexOptions.Multiline);
         private static readonly Regex NihongoTitle = Tools.NestedTemplateRegex("nihongo title");
+        private static readonly Regex NoBoldTitle = Tools.NestedTemplateRegex("year article header");
 
         // Covered by: BoldTitleTests
         /// <summary>
@@ -5647,13 +5648,16 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string BoldTitle(string articleText, string articleTitle, out bool noChange)
         {
+            noChange = true;
+            if(NoBoldTitle.IsMatch(articleText))
+                return articleText;
+
             HideText Hider2 = new HideText();
             HideText Hider3 = new HideText(true, true, true);
             // 1) clean up bolded self links first
             articleText = BoldedSelfLinks(articleTitle, articleText);
 
             // 2) Clean up self wikilinks
-            noChange = true;
             string escTitle = Regex.Escape(articleTitle), escTitleNoBrackets = Regex.Escape(BracketedAtEndOfLine.Replace(articleTitle, ""));
 
             string articleTextAtStart = articleText, zerothSection = WikiRegexes.ZerothSection.Match(articleText).Value;
