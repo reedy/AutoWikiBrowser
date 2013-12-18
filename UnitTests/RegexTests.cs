@@ -590,9 +590,13 @@ Image:Bar.png|description
 </ gallery>", g2 =  @"<GALLERY>
 File:foo.JPG
 Image:Bar.png|description
+</ gallery>", g3 =  @"<gallery param=""value"">
+File:foo.JPG
+Image:Bar.png|description
 </ gallery>";
             TestMatch(WikiRegexes.GalleryTag, g1, g1);
             TestMatch(WikiRegexes.GalleryTag, g2, g2);
+            TestMatch(WikiRegexes.GalleryTag, g3, g3);
         }
 
         [Test]
