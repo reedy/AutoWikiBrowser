@@ -345,6 +345,13 @@ Image:quux.JPEG|text
 " + Hidden + @"|a [[bar]]
 " + Hidden + @"|text
 </gallery>"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery param=""a"">
+Image:foo|a [[bar]]
+Image:quux.svg|text
+</gallery>"), @"<gallery param=""a"">
+" + Hidden + @"|a [[bar]]
+" + Hidden + @"|text
+</gallery>"));
             Assert.IsTrue(Regex.IsMatch(HideMore(@"<Gallery>
 Image:foo|a [[bar]]
 Image:quux.JPEG|text
