@@ -264,6 +264,10 @@ namespace WikiFunctions.Parse
 
             ReplaceMore(WikiRegexes.AllTags.Matches(articleText), ref articleText);
 
+            // on some non-en wikis egfr-wiki, gallery tag does not require Image: namespace link before image in gallery, so hide the whole lot
+            if(!Variables.LangCode.Equals("en"))
+                ReplaceMore(WikiRegexes.GalleryTag.Matches(articleText), ref articleText);
+
             if (HideExternalLinks)
             {
                 // performance: only use all-protocol regex if the uncommon protocols are in use

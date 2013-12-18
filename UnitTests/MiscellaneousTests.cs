@@ -399,6 +399,23 @@ File:9th of June street , Bacău.JPG|[[Romanian War of Independence#Overview|9th
         }
 
         [Test]
+        public void HideGalleryFr()
+        {
+            #if DEBUG
+            Variables.SetProjectLangCode("fr");
+            AssertAllHiddenMore(@"<gallery param = value>
+Foo.jpg
+</gallery>");
+            Variables.SetProjectLangCode("en");
+            Assert.AreEqual(@"<gallery param = value>
+Foo.jpg
+</gallery>", HideMore(@"<gallery param = value>
+Foo.jpg
+</gallery>"));
+            #endif
+        }
+
+        [Test]
         public void HideExternalLinks()
         {
             AssertAllHiddenMore("[http://foo]", true);
