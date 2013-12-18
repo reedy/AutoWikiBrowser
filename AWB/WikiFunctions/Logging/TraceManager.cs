@@ -35,26 +35,31 @@ namespace WikiFunctions.Logging
         /// <param name="listener"></param>
 		public virtual void AddListener(string key, IMyTraceListener listener)
 		{
-            if (!Listeners.ContainsKey(key))
-            {
-                Listeners.Add(key, listener);
-            }
+		    lock(Listeners)
+		    {
+		        if (!Listeners.ContainsKey(key))
+		            Listeners.Add(key, listener);
+		    }
 		}
 
         /// <summary>
         /// Override this if you want to programatically remove an event handler
         /// </summary>
         /// <param name="key">Key to remove</param>
-		public virtual void RemoveListener(string key)
-		{
-            if (Listeners == null || !Listeners.ContainsKey(key))
-            {
+        public virtual void RemoveListener(string key)
+        {
+            if (Listeners == null)
                 return;
-            }
 
-			Listeners[key].Close();
-			Listeners.Remove(key);
-		}
+            lock(Listeners)
+            {
+                if(Listeners.ContainsKey(key))
+                {
+                    Listeners[key].Close();
+                    Listeners.Remove(key);
+                }
+            }
+        }
 
 	    protected bool TryGetValue(string key, out IMyTraceListener listener)
 		{
