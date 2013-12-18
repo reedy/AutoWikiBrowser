@@ -339,6 +339,11 @@ File:Blogs002.jpeg|Description
         public void HideGalleries()
         {
             Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
+Image:quux.JPEG|text
+</gallery>"), @"<gallery>
+" + Hidden + @"text
+</gallery>"));
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
 Image:foo|a [[bar]]
 Image:quux.JPEG|text
 </gallery>"), @"<gallery>
