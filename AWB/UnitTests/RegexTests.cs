@@ -419,6 +419,7 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             TestMatch(WikiRegexes.TargetLessLink, "[[|linktext]]", "[[|linktext]]");
             TestMatch(WikiRegexes.TargetLessLink, "[[|linktext (foo)]]", "[[|linktext (foo)]]");
             TestMatch(WikiRegexes.TargetLessLink, "[[|link.text (foo)]]", "[[|link.text (foo)]]");
+            TestMatch(WikiRegexes.TargetLessLink, "[[|link!?]]", "[[|link!?]]");
             TestMatch(WikiRegexes.TargetLessLink, "[[foo|bar]]", false);
         }
 
