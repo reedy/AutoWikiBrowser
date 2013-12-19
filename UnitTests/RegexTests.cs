@@ -420,6 +420,8 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             TestMatch(WikiRegexes.TargetLessLink, "[[|linktext (foo)]]", "[[|linktext (foo)]]");
             TestMatch(WikiRegexes.TargetLessLink, "[[|link.text (foo)]]", "[[|link.text (foo)]]");
             TestMatch(WikiRegexes.TargetLessLink, "[[|link!?]]", "[[|link!?]]");
+            TestMatch(WikiRegexes.TargetLessLink, "[[|Foo (1971–1985)]]", "[[|Foo (1971–1985)]]");
+            TestMatch(WikiRegexes.TargetLessLink, "[[|Victor + Victoria]]", "[[|Victor + Victoria]]");
             TestMatch(WikiRegexes.TargetLessLink, "[[foo|bar]]", false);
         }
 
@@ -439,6 +441,8 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             TestMatch(WikiRegexes.DoublePipeLink, "[[Bairnsdale|, Victoria|Bairnsdale]]", "[[Bairnsdale|, Victoria|Bairnsdale]]");
             TestMatch(WikiRegexes.DoublePipeLink, "[[Bairnsdale!|Victoria|Bairnsdale]]", "[[Bairnsdale!|Victoria|Bairnsdale]]");
             TestMatch(WikiRegexes.DoublePipeLink, "[[Bairnsdale!|Victoria?|Bairns, dale]]", "[[Bairnsdale!|Victoria?|Bairns, dale]]");
+            TestMatch(WikiRegexes.DoublePipeLink, "[[Foo (1971–1985)|Victoria?|Bairns, dale]]", "[[Foo (1971–1985)|Victoria?|Bairns, dale]]");
+            TestMatch(WikiRegexes.DoublePipeLink, "[[Foo (1971–1985)|Victor + Victoria|Bairns, dale]]", "[[Foo (1971–1985)|Victor + Victoria|Bairns, dale]]");
 
             TestMatch(WikiRegexes.DoublePipeLink, "[[text|foo bar]]", false);
             TestMatch(WikiRegexes.DoublePipeLink, "[[|linktext]]", false);
