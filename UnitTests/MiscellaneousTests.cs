@@ -341,14 +341,29 @@ File:Blogs002.jpeg|Description
             Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
 Image:quux.JPEG|text
 </gallery>"), @"<gallery>
-" + Hidden + @"text
+" + Hidden + @"|text
 </gallery>"), "Simple case: one image link with namespace hidden, description retained");
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
+quux.JPEG|text
+</gallery>"), @"<gallery>
+" + Hidden + @"|text
+</gallery>"), "One image link without namespace hidden, description retained");
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
+quux.JPEG|
+</gallery>"), @"<gallery>
+" + Hidden + @"|
+</gallery>"), "One image link without namespace hidden, blank description");
+            Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
+quux.JPEG
+</gallery>"), @"<gallery>
+" + Hidden + @"
+</gallery>"), "One image link without namespace hidden, no description ");
             Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
 Image:foo.png|a bar
 Image:quux.JPEG|text
 </gallery>"), @"<gallery>
-" + Hidden + @"a bar
-" + Hidden + @"text
+" + Hidden + @"|a bar
+" + Hidden + @"|text
 </gallery>"), "Multiple image links hidden");
 
             Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery param=""a"">
@@ -360,8 +375,8 @@ Image:quux.svg|text
 Image:foo.png|a bar
 Image:quux.JPEG|text
 </gallery>"), @"<Gallery>
-" + Hidden + @"a bar
-" + Hidden + @"text
+" + Hidden + @"|a bar
+" + Hidden + @"|text
 </gallery>"), "gallery tag casing");
 
             Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
@@ -369,21 +384,21 @@ Image:foo
 Image:quux.JPEG|text
 </gallery>"), @"<gallery>
 Image:foo
-" + Hidden + @"text
+" + Hidden + @"|text
 </gallery>"), "Image link without file extension not hidden");
             Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
 File:foo.png
 File:9th of quux.JPEG|text
 </gallery>"), @"<gallery>
 " + Hidden + @"
-" + Hidden + @"text
+" + Hidden + @"|text
 </gallery>"), "image without description hidden OK");
             Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
 File:bar ă foo.jpg|text1
 File:9th of May, ățuux.JPEG|text2
 </gallery>"), @"<gallery>
-" + Hidden + @"text1
-" + Hidden + @"text2
+" + Hidden + @"|text1
+" + Hidden + @"|text2
 </gallery>"),"special characters in image name handled OK");
             Assert.IsTrue(Regex.IsMatch(HideMore(@"<gallery>
 File:foo1.jpg|[[foobar]] barbar
@@ -391,28 +406,11 @@ File:foo2.jpg|Winter Festival
 Image:Foo3.jpg|Bar, detail
 File:9th of June street , Bacău.JPG|[[Romanian War of Independence#Overview|9th of May]] Street
 </gallery>"), @"<gallery>
-" + Hidden + Hidden + @" barbar
-" + Hidden + @"Winter Festival
-" + Hidden + @"Bar, detail
-" + Hidden + Hidden + @" Street
+" + Hidden + "|" + Hidden + @" barbar
+" + Hidden + @"|Winter Festival
+" + Hidden + @"|Bar, detail
+" + Hidden + "|" + Hidden + @" Street
 </gallery>"), "Wiki formatting within image description handled OK");
-        }
-
-        [Test]
-        public void HideGalleryFr()
-        {
-            #if DEBUG
-            Variables.SetProjectLangCode("fr");
-            AssertAllHiddenMore(@"<gallery param = value>
-Foo.jpg
-</gallery>");
-            Variables.SetProjectLangCode("en");
-            Assert.AreEqual(@"<gallery param = value>
-Foo.jpg
-</gallery>", HideMore(@"<gallery param = value>
-Foo.jpg
-</gallery>"));
-            #endif
         }
 
         [Test]

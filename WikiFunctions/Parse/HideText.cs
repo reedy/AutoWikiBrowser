@@ -248,6 +248,7 @@ namespace WikiFunctions.Parse
             return HideMore(articleText, hideOnlyTargetOfWikilink, hideWikiLinks, true);
         }
 
+        private static readonly Regex ImageToBar = new Regex(@"^.+?\.[a-zA-Z]{3,4}\s*(?=\||\r\n)", RegexOptions.Multiline);
         /// <summary>
         /// Hides images, external links, templates, headings
         /// </summary>
@@ -264,9 +265,11 @@ namespace WikiFunctions.Parse
 
             ReplaceMore(WikiRegexes.AllTags.Matches(articleText), ref articleText);
 
-            // on some non-en wikis egfr-wiki, gallery tag does not require Image: namespace link before image in gallery, so hide the whole lot
-            if(!Variables.LangCode.Equals("en"))
-                ReplaceMore(WikiRegexes.GalleryTag.Matches(articleText), ref articleText);
+            // gallery tag does not require Image: namespace link before image in gallery, so hide anything before pipe
+           	articleText = WikiRegexes.GalleryTag.Replace(articleText, m => {
+				string res = m.Value;
+				ReplaceMore(ImageToBar.Matches(res), ref res);
+				return res;});
 
             if (HideExternalLinks)
             {
