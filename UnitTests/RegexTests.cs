@@ -436,6 +436,8 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             TestMatch(WikiRegexes.DoublePipeLink, "[[Ric (f)|Ric (f)|o.g.]]", "[[Ric (f)|Ric (f)|o.g.]]");
             TestMatch(WikiRegexes.DoublePipeLink, "[[text|text2|text3 & text4]]", "[[text|text2|text3 & text4]]");
             TestMatch(WikiRegexes.DoublePipeLink, "[[Bairnsdale|, Victoria|Bairnsdale]]", "[[Bairnsdale|, Victoria|Bairnsdale]]");
+            TestMatch(WikiRegexes.DoublePipeLink, "[[Bairnsdale!|Victoria|Bairnsdale]]", "[[Bairnsdale!|Victoria|Bairnsdale]]");
+            TestMatch(WikiRegexes.DoublePipeLink, "[[Bairnsdale!|Victoria?|Bairns, dale]]", "[[Bairnsdale!|Victoria?|Bairns, dale]]");
 
             TestMatch(WikiRegexes.DoublePipeLink, "[[text|foo bar]]", false);
             TestMatch(WikiRegexes.DoublePipeLink, "[[|linktext]]", false);

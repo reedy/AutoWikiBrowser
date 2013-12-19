@@ -1023,7 +1023,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches wikilinks with double pipes e.g. [[text|text2|text3]] and [[text||text3]]
         /// </summary>
-        private const string AllowedCharacters = @"([\w\s\-\(\),\.&]*)";
+        private const string AllowedCharacters = @"([\w\s\-\(\),\.&\!\?]*)";
         public static readonly Regex DoublePipeLink =  new Regex(@"\[\["+AllowedCharacters+@"\|"+AllowedCharacters+@"\|"+AllowedCharacters+@"\]\]");
 
         /// <summary>
