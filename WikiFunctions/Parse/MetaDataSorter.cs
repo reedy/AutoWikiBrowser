@@ -342,6 +342,7 @@ en, sq, ru
 			// filter out excess white space and remove "----" from end of article
 			articleText = Parsers.RemoveWhiteSpace(articleText, fixOptionalWhitespace) + "\r\n";
 			articleText += disambig;
+			articleText = WikiRegexes.MultipleIssues.Replace(articleText, m=> Regex.Replace(m.Value, "(\r\n)+", "\r\n"));
 
 			switch (Variables.LangCode)
 			{

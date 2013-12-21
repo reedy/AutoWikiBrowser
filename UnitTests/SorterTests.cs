@@ -1016,6 +1016,17 @@ cats = @"[[Category:One|A]]
 == References ==
 {{reflist}}";
 			Assert.AreEqual("", parser2.Sorter.RemoveCats(ref at, "Andrew Jones"), "uncat stub not moved");
+			at = @"{{multiple issues|
+{{a}}
+{{Uncategorized}}
+{{b}}
+}}
+== References ==
+{{reflist}}";
+			Assert.IsTrue(parser2.SortMetaData(at, "Andrew Jones").Contains(@"{{multiple issues|
+{{a}}
+{{b}}
+}}"), "no blank line left in MI");
 		}
 		
 		[Test]
