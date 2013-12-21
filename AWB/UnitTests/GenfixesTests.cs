@@ -324,7 +324,7 @@ a");
         public void MultipleIssuesSectionAutoTemplates()
         {
             string before = @"{{Unreferenced|auto=yes|date=December 2009}}
-{{Orphan|date=November 2006}}
+{{Underlinked|date=November 2006}}
 {{Notability|1=Music|date=September 2010}}
 {{Advert|date=December 2007}}
 '''Band''' is.
@@ -334,7 +334,7 @@ a");
 
 {{Norway-band-stub}}", after = @"{{multiple issues|
 {{Unreferenced|date=December 2009}}
-{{Orphan|date=November 2006}}
+{{Underlinked|date=November 2006}}
 {{Notability|1=Music|date=September 2010}}
 {{Advert|date=December 2007}}
 }}
