@@ -317,7 +317,7 @@ en, sq, ru
 			        articleText = MoveMaintenanceTags(zerothSection) + restOfArticle;
 			    }
 
-			    // Dablinks above orphan tags per [[WP:LAYOUT]]
+			    // Dablinks above maintance tags per [[WP:LAYOUT]]
 			    articleText = MoveDablinks(articleText);
 
 			    if (Variables.LangCode.Equals("en"))
