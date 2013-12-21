@@ -3465,6 +3465,12 @@ Template:foo}}"));
         }
 
         [Test]
+        public void FixSyntaxStrike()
+        {
+            Assert.AreEqual("<s>hello</s>", Parsers.FixSyntax(@"<strike>hello</strike>"));
+        }
+
+        [Test]
         public void FixSyntaxSpacing()
         {
             Assert.AreEqual("[[Foo]]", Parsers.FixSyntax("[[Foo]]"));

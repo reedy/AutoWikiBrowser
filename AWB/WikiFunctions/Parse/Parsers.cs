@@ -3276,6 +3276,9 @@ namespace WikiFunctions.Parse
 
             articleText = articleText.Replace(@"<small/>", @"</small>");
 
+            articleText = articleText.Replace(@"<strike>", @"<s>");
+            articleText = articleText.Replace(@"</strike>", @"</s>");
+
             // remove empty <gallery> tags
             articleText = EmptyGallery.Replace(articleText, "");
 
