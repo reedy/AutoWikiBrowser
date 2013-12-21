@@ -83,10 +83,12 @@ namespace WikiFunctions.TalkPages
             // 12. {{Maintained}}
             // 13. {{Find sources notice}}
             // 14. {{Split from}}, {{Split to}}
+            // 15. {{Merge from}}, {{Merge-to}}
 
             string wpbsBefore = WikiRegexes.WikiProjectBannerShellTemplate.Match(articleText).Value;
             bool blanklinesinwpbsBefore = wpbsBefore.Contains("\r\n\r\n");
 
+            articleText = MoveTalkTemplates(articleText, MergeTemplates);
             articleText = MoveTalkTemplates(articleText, SplitTemplates);
             articleText = MoveTalkTemplates(articleText, FindSource);
             articleText = MoveTalkTemplate(articleText, Maintained);
@@ -206,6 +208,7 @@ namespace WikiFunctions.TalkPages
         private static readonly Regex Maintained = Tools.NestedTemplateRegex(new[] { "Maintained" });
         private static readonly Regex FindSource = Tools.NestedTemplateRegex(new[] { "Find sources notice" });
         private static readonly Regex SplitTemplates = Tools.NestedTemplateRegex(new[] { "Split from", "Split to" });
+        private static readonly Regex MergeTemplates = Tools.NestedTemplateRegex(new[] { "Merge from", "Merge-to" });
         private static readonly Regex WikiProjects = new Regex(Tools.NestedTemplateRegex("foo").ToString().Replace(@"[Ff]oo", @"[Ww]ikiProject\b[^{}\|]+"));
 
         /// <summary>
