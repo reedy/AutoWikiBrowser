@@ -10561,7 +10561,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|COI=May 2008|expand =March 2009}}", Parsers.Conversions(@"{{Multiple issues|wikify=May 2008|COI=May 2008|expand date=March 2009}}"));
             Assert.AreEqual(@"{{Multiple issues|unreferenced=March 2009|wikify=March 2009|cleanup=March 2009|autobiography={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI = April 2009}}", Parsers.Conversions(@"{{Multiple issues|unreferenced=March 2009|wikify=March 2009|cleanup=March 2009|autobiography={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI =date April 2009}}"));
             Assert.AreEqual(@"{{Multiple issues|wikify ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|POV ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", Parsers.Conversions(@"{{Multiple issues|wikify date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|COI date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|expand date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|POV date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
-            Assert.AreEqual(@"{{Multiple issues|orphan =February 2009|out of date =October 2009|context =October 2009}}", Parsers.Conversions(@"{{Multiple issues|orphan =February 2009|out of date date=October 2009|context date=October 2009}}"));
+            Assert.AreEqual(@"{{Multiple issues|underlinked =February 2009|out of date =October 2009|context =October 2009}}", Parsers.Conversions(@"{{Multiple issues|underlinked =February 2009|out of date date=October 2009|context date=October 2009}}"));
 
             // clean of 'do-attempt =July 2006|att=April 2008'
             Assert.AreEqual(@"{{Multiple issues|wikify=May 2008|COI=May 2008|do-attempt =April 2008}}", Parsers.Conversions(@"{{Multiple issues|wikify=May 2008|COI=May 2008|do-attempt =July 2006|att=April 2008}}"));
@@ -11238,11 +11238,11 @@ Text
 Text
 
 ==hello==", ThreeTag = @"==sec==
-{{multiple issues|section=yes|wikify=May 2012|orphan=May 2012|POV=May 2012}}
+{{multiple issues|section=yes|wikify=May 2012|underlinked=May 2012|POV=May 2012}}
 Text
 
 ==hello==", TwoTag = @"==sec==
-{{multiple issues|section=yes|wikify=May 2012|orphan=May 2012}}
+{{multiple issues|section=yes|wikify=May 2012|underlinked=May 2012}}
 Text
 
 ==hello==";
@@ -11307,11 +11307,11 @@ Text
 ==hello=="), "adds tags to existing MI, MI new style, tags before MI");
             
             Assert.AreEqual(@"==sec==
-{{multiple issues|wikify=May 2012|orphan=May 2012|POV=May 2012|
+{{multiple issues|wikify=May 2012|underlinked=May 2012|POV=May 2012|
 {{unreferenced section}}
 }}
 ==hello==", parser.MultipleIssues(@"==sec==
-{{multiple issues|wikify=May 2012|orphan=May 2012|POV=May 2012}}
+{{multiple issues|wikify=May 2012|underlinked=May 2012|POV=May 2012}}
 {{unreferenced section}}
 
 ==hello=="), "adds tags to existing MI, MI old style");
@@ -11393,12 +11393,12 @@ Text
             
             Assert.AreEqual(@"{{multiple issues|
 {{wikify}}
-{{orphan}}
+{{underlinked}}
 {{POV}}
 }}", parser.MultipleIssues(@"{{multiple issues|
 {{wikify}}
 
-{{orphan}}
+{{underlinked}}
 {{POV}}
 }}"), "Cleans up excess newlines");
         }
