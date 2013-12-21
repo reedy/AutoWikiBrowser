@@ -9404,9 +9404,9 @@ Foo
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text));
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#Autotagging_and_Articleissues
-            // do not add orphan where article already has orphan tag within {{Article issues}}
+            // do not add orphan where article already has orphan tag within {{Multiple issues}}
             Globals.UnitTestBoolValue = true;
-            text = parser.Tagger(@"{{Article issues|orphan=May 2008|cleanup=May 2008|story=May 2008}}\r\n" + ShortText, "Test", false, out noChange, ref summary);
+            text = parser.Tagger(@"{{Multiple issues|orphan=May 2008|cleanup=May 2008|story=May 2008}}\r\n" + ShortText, "Test", false, out noChange, ref summary);
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text));
 
             text = parser.Tagger(@"{{Article issues|orphan={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|deadend={{subst:CURRENTMONTH}} {{subst:CURRENTYEAR}}|wikify=May 2008}}\r\n" + ShortText, "Test", false, out noChange, ref summary);
