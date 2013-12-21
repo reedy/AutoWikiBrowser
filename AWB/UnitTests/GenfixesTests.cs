@@ -287,7 +287,7 @@ a");
 [[Category:1987 births]]","no persondata added");
 
 			            AssertNotChanged(@"{{Unreferenced|date=December 2009}}
-{{Orphan|date=November 2006}}
+{{Dead end|date=November 2006}}
 {{Notability|1=Music|date=September 2010}}
 {{Advert|date=December 2007}}
 '''Band''' is.
