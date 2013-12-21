@@ -1325,7 +1325,7 @@ cit"));
             Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(@"{{  Unreferenced}}"));
             Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(@"{{unreferenced  }}"));
             Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(@"{{unreferenced|date=May 2009}}"));
-            Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(@"{{Multiple issues|orphan = February 2009|wikify = April 2009|unreferenced = April 2007}}"));
+            Assert.IsTrue(WikiRegexes.Unreferenced.IsMatch(@"{{Multiple issues|peacock = February 2009|wikify = April 2009|unreferenced = April 2007}}"));
 
             Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(@"{{unreferenced-stub}}"));
         }
