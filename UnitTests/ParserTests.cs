@@ -9660,7 +9660,7 @@ Foo
             Assert.IsFalse(text.Contains(UncatStub),"english uncatstub");
             Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text),"uncat");
 
-            // dead end plus porphan but one wikilink: dead end --> orphan
+            // dead end plus orphan but one wikilink: dead end --> orphan
             text = parser.Tagger(@"{{نهاية مسدودة|تاريخ=نوفمبر 2013}}
 {{يتيمة|تاريخ=نوفمبر 2013}}
 
@@ -10877,21 +10877,21 @@ foo
         public void MultipleIssuesNewZerothTagParameters()
         {
             Assert.AreEqual(@"{{multiple issues|
-{{wikify|date=May 2012}}
-{{orphan}}
+{{underlinked|date=May 2012}}
+{{unreferenced}}
 {{POV}}
 }}
 
-==hello==", parser.MultipleIssues(@"{{wikify|date=May 2012}}{{orphan}}{{POV}}
+==hello==", parser.MultipleIssues(@"{{underlinked|date=May 2012}}{{unreferenced}}{{POV}}
 ==hello=="), "takes tags with dates");
             
             Assert.AreEqual(@"{{multiple issues|
-{{wikify|date=May 2012|reason=x}}
-{{orphan}}
+{{underlinked|date=May 2012|reason=x}}
+{{unreferenced}}
 {{POV}}
 }}
 
-==hello==", parser.MultipleIssues(@"{{wikify|date=May 2012|reason=x}}{{orphan}}{{POV}}
+==hello==", parser.MultipleIssues(@"{{underlinked|date=May 2012|reason=x}}{{unreferenced}}{{POV}}
 ==hello=="), "takes tags with extra parameters");
         }
         
@@ -10899,27 +10899,27 @@ foo
         public void MultipleIssuesNewTagZeroth()
         {
             Assert.AreEqual(@"{{multiple issues|
-{{wikify|date=May 2012}}
-{{orphan}}
+{{underlinked|date=May 2012}}
+{{unreferenced}}
 {{POV}}
 }}
 
 Text
 
-==hello==", parser.MultipleIssues(@"{{wikify|date=May 2012}}{{orphan}}
+==hello==", parser.MultipleIssues(@"{{underlinked|date=May 2012}}{{unreferenced}}
 Text
 {{POV}}
 ==hello=="), "takes tags from anywhere in zeroth section");
             
             Assert.AreEqual(@"{{multiple issues|
-{{wikify|date=May 2012}}
-{{orphan}}
+{{underlinked|date=May 2012}}
+{{unreferenced}}
 {{POV}}
 }}
 Text
 
 ==hello==", parser.MultipleIssues(@"Text
-{{wikify|date=May 2012}}{{orphan}}{{POV}}
+{{underlinked|date=May 2012}}{{unreferenced}}{{POV}}
 ==hello=="), "takes tags from anywhere in zeroth section: all after");
             
         }
@@ -10928,22 +10928,22 @@ Text
         public void MultipleIssuesNewZerothExistingMINotChanged()
         {
             const string ThreeTagNew = @"{{multiple issues|
-{{wikify|date=May 2012}}
-{{orphan}}
+{{underlinked|date=May 2012}}
+{{unreferenced}}
 {{POV}}
 }}
 Text
 
 ==hello==", TwoTagNew = @"{{multiple issues|
-{{orphan}}
+{{unreferenced}}
 {{POV}}
 }}
 Text
 
-==hello==", ThreeTag = @"{{multiple issues|wikify=May 2012|orphan=May 2012|POV=May 2012}}
+==hello==", ThreeTag = @"{{multiple issues|underlinked=May 2012|unreferenced=May 2012|POV=May 2012}}
 Text
 
-==hello==", TwoTag = @"{{multiple issues|wikify=May 2012|orphan=May 2012}}
+==hello==", TwoTag = @"{{multiple issues|underlinked=May 2012|unreferenced=May 2012}}
 Text
 
 ==hello==";
@@ -10959,7 +10959,7 @@ Text
         {
             Assert.AreEqual(@"{{multiple issues|
 {{wikify|date=May 2012}}
-{{orphan}}
+{{peacock}}
 {{POV}}
 {{unreferenced}}
 }}
@@ -10967,7 +10967,7 @@ Text
 
 ==hello==", parser.MultipleIssues(@"{{multiple issues|
 {{wikify|date=May 2012}}
-{{orphan}}
+{{peacock}}
 {{POV}}
 }}
 {{unreferenced}}
@@ -10976,7 +10976,7 @@ Text
             
             Assert.AreEqual(@"{{multiple issues|
 {{wikify|date=May 2012}}
-{{orphan}}
+{{peacock}}
 {{advert}}
 {{POV}}
 {{unreferenced}}
@@ -10986,7 +10986,7 @@ Text
 
 ==hello==", parser.MultipleIssues(@"{{multiple issues|
 {{wikify|date=May 2012}}
-{{orphan}}
+{{peacock}}
 {{advert}}
 }}
 {{POV}}
@@ -10996,37 +10996,37 @@ Text
             
              Assert.AreEqual(@"{{multiple issues|
 {{wikify|date=May 2012}}
-{{orphan}}
+{{peacock}}
 {{POV}}
 {{unreferenced}}
 }}
 
 ==hello==", parser.MultipleIssues(@"{{unreferenced}}{{multiple issues|
 {{wikify|date=May 2012}}
-{{orphan}}
+{{peacock}}
 {{POV}}
 }}
 
 ==hello=="), "adds tags to existing MI, MI new style, tags before MI");
             
-            Assert.AreEqual(@"{{multiple issues|wikify=May 2012|orphan=May 2012|POV=May 2012|
+            Assert.AreEqual(@"{{multiple issues|wikify=May 2012|peacock=May 2012|POV=May 2012|
 {{unreferenced}}
 }}
 
 
-==hello==", parser.MultipleIssues(@"{{multiple issues|wikify=May 2012|orphan=May 2012|POV=May 2012}}
+==hello==", parser.MultipleIssues(@"{{multiple issues|wikify=May 2012|peacock=May 2012|POV=May 2012}}
 {{unreferenced}}
 
 ==hello=="), "adds tags to existing MI, MI old style");
             
-            Assert.AreEqual(@"{{multiple issues|wikify=May 2012|orphan=May 2012|POV=May 2012|
+            Assert.AreEqual(@"{{multiple issues|wikify=May 2012|peacock=May 2012|POV=May 2012|
 {{unreferenced}}
 {{POV}}
 }}
 
 
 
-==hello==", parser.MultipleIssues(@"{{multiple issues|wikify=May 2012|orphan=May 2012|POV=May 2012}}
+==hello==", parser.MultipleIssues(@"{{multiple issues|wikify=May 2012|peacock=May 2012|POV=May 2012}}
 {{unreferenced}}
 {{POV}}
 
@@ -11057,7 +11057,7 @@ Text
             
             Assert.AreEqual(@"{{multiple issues|
 {{wikify|date=May 2012}}
-{{orphan}}
+{{peacock}}
 {{POV}}
 {{unreferenced}}
 }}
@@ -11065,7 +11065,7 @@ Text
 
 ==hello==", parser.MultipleIssues(@"{{multiple issues|
 {{wikify|date=May 2012}}
-{{orphan}}
+{{peacock}}
 {{POV}}
 {{unreferenced}}
 }}
