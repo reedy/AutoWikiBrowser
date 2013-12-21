@@ -281,10 +281,10 @@ Fred has a dog.
 {{some template}}
 ";
 
-			string e = @"{{Orphan|date=May 2008}}";
+			string e = @"{{Underlinked|date=May 2008}}";
 			Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveMaintenanceTags(d + e));
 
-			e = @"{{orphan|date=May 2008}}";
+			e = @"{{underlinked|date=May 2008}}";
 			Assert.AreEqual(e + "\r\n" + d, MetaDataSorter.MoveMaintenanceTags(d + e));
 			
 			e = @"{{cleanup|date=May 2008}}";
@@ -299,13 +299,13 @@ Fred has a dog.
 			Assert.AreEqual(f, MetaDataSorter.MoveMaintenanceTags(f));
 			
 			string g = @"{{BLP unsourced|date=August 2009|bot=yes}}
-{{Orphan|date=February 2008}}
+{{Underlinked|date=February 2008}}
 '''Charles M. McKim'''";
 			
 			Assert.AreEqual(g, MetaDataSorter.MoveMaintenanceTags(g));
 			
 			// do move above infoboxes
-			string h1 = @"{{Infobox foo| sdajklfsdjk | dDJfsdjkl }}", h2 = @"{{Orphan|date=February 2008}}", h3 = @"'''Charles M. McKim'''";
+			string h1 = @"{{Infobox foo| sdajklfsdjk | dDJfsdjkl }}", h2 = @"{{Underlinked|date=February 2008}}", h3 = @"'''Charles M. McKim'''";
 			
 			Assert.AreEqual(h2 + "\r\n" + h1 + "\r\n" + h3, MetaDataSorter.MoveMaintenanceTags(h2 + "\r\n" + h1 + "\r\n" + h3));
 			Assert.AreEqual(h2 + "\r\n" + h1 + "\r\n\r\n" + h3, MetaDataSorter.MoveMaintenanceTags(h1 + "\r\n" + h2 + "\r\n" + h3));
@@ -317,7 +317,7 @@ Fred has a dog.
 			Assert.AreEqual(h2 + "\r\n" + h1 + "\r\n\r\n" + h3, MetaDataSorter.MoveMaintenanceTags(h1 + "\r\n" + h2 + "\r\n" + h3));
 
 			string i1 = @"{{cleanup|date=June 2009}}";
-			e = @"{{orphan|date=May 2008}}";
+			e = @"{{underlinked|date=May 2008}}";
 			// move when tags not all at top
 			Assert.AreEqual(e + "\r\n" + i1 + "\r\nfoo\r\n", MetaDataSorter.MoveMaintenanceTags(e + "\r\nfoo\r\n" + i1));
 			
