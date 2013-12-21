@@ -9192,7 +9192,7 @@ Foo
             Assert.IsFalse(WikiRegexes.Uncat.IsMatch(text), "Uncat removed even if other template present");
 
             Globals.UnitTestIntValue = 0;
-            text = parser.Tagger(ShortText + @"{{dead end}}{{orphan}}
+            text = parser.Tagger(ShortText + @"{{dead end}}
 {{reflist}}
 {{Uncategorised|date=May 2010}}{{stub}}", "Test", false, out noChange, ref summary);
             Assert.IsTrue(text.EndsWith(@"{{reflist}}
@@ -10846,29 +10846,29 @@ foo
             
             Assert.AreEqual(@"{{multiple issues|
 {{wikify}}
-{{orphan}}
+{{unreferenced}}
 {{POV}}
-}}", parser.MultipleIssues(@"{{wikify}} {{orphan}} {{POV}}"), "preserves tag order adding new tags");
+}}", parser.MultipleIssues(@"{{wikify}} {{unreferenced}} {{POV}}"), "preserves tag order adding new tags");
             
             Assert.AreEqual(@"{{multiple issues|
 {{wikify}}
-{{orphan}}
+{{unreferenced}}
 {{POV}}
 }}
 
-==hello==", parser.MultipleIssues(@"{{wikify}}{{orphan}}{{POV}}
+==hello==", parser.MultipleIssues(@"{{wikify}}{{unreferenced}}{{POV}}
 ==hello=="), "takes tags from same line");
             
             Assert.AreEqual(@"{{multiple issues|
 {{wikify}}
-{{orphan}}
+{{unreferenced}}
 {{POV}}
 }}
 
 
 
 ==hello==", parser.MultipleIssues(@"{{wikify}}
-{{orphan}}
+{{unreferenced}}
 {{POV}}
 ==hello=="), "takes tags from separate lines, takes tags without dates");
         }
