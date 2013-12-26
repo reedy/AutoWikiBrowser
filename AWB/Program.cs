@@ -62,13 +62,13 @@ namespace AutoWikiBrowser
                 if (ex is SecurityException) //"Fix" - http://geekswithblogs.net/TimH/archive/2006/03/08/71714.aspx
                     MessageBox.Show("AWB is unable to start up from the current location due to a lack of permissions.\r\nPlease try on a local drive or similar.", "Permissions Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 else
-                    ErrorHandler.Handle(ex);
+                    ErrorHandler.HandleException(ex);
             }
         }
 
         private static void ApplicationThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
-            ErrorHandler.Handle(e.Exception);
+            ErrorHandler.HandleException(e.Exception);
         }
 
         internal static Version Version { get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version; } }

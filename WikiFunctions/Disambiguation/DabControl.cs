@@ -42,7 +42,7 @@ namespace WikiFunctions.Disambiguation
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
 
             InitializeComponent();
@@ -194,7 +194,7 @@ namespace WikiFunctions.Disambiguation
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
         }
 
@@ -240,7 +240,7 @@ namespace WikiFunctions.Disambiguation
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
         }
 

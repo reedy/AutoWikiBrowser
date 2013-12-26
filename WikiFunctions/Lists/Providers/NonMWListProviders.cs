@@ -294,7 +294,7 @@ namespace WikiFunctions.Lists.Providers
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
                 return list;
             }
         }

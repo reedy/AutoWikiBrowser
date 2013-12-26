@@ -90,7 +90,7 @@ namespace WikiFunctions.Lists
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
             DialogResult = DialogResult.OK;
         }
@@ -185,7 +185,7 @@ namespace WikiFunctions.Lists
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
         }
 

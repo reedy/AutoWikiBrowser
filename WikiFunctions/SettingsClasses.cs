@@ -166,7 +166,7 @@ namespace WikiFunctions.AWBSettings
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
-                    ErrorHandler.Handle(ex);
+                    ErrorHandler.HandleException(ex);
             }
         }
 

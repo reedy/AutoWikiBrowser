@@ -155,7 +155,7 @@ namespace AutoWikiBrowser
             }
             catch (Exception ex)
             {
-                if (appexit) ErrorHandler.Handle(ex); // else try again later
+                if (appexit) ErrorHandler.HandleException(ex); // else try again later
             }
         }
 

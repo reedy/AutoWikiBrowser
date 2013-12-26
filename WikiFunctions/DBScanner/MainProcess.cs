@@ -252,7 +252,7 @@ namespace WikiFunctions.DBScanner
             {
                 if (Message)
                     //System.Windows.Forms.MessageBox.Show("Problem on " + articleTitle + "\r\n\r\n" + ex.Message);
-                    ErrorHandler.Handle(ex);
+                    ErrorHandler.HandleException(ex);
             }
             finally
             {
@@ -323,7 +323,7 @@ namespace WikiFunctions.DBScanner
             { }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
         }
 

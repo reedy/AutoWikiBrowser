@@ -489,14 +489,14 @@ namespace AutoWikiBrowser
                         }
                         catch (Exception ex)
                         {
-                            ErrorHandler.Handle(ex);
+                            ErrorHandler.HandleException(ex);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
 #if DEBUG
-                    ErrorHandler.Handle(ex);
+                    ErrorHandler.HandleException(ex);
 #else
                     MessageBox.Show(ex.Message, "Problem loading plugins");
 #endif

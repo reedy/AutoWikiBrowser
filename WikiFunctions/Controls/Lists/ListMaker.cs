@@ -883,7 +883,7 @@ namespace WikiFunctions.Controls.Lists
             catch (Exception ex)
             {
                 ErrorHandler.ListMakerText = UserInputTextBox.Text;
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
                 ErrorHandler.ListMakerText = "";
             }
             finally

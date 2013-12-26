@@ -152,7 +152,7 @@ namespace WikiFunctions.Controls.Lists
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
 
 

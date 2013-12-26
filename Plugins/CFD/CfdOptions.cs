@@ -119,7 +119,7 @@ namespace AutoWikiBrowser.Plugins.CFD
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
             DialogResult = DialogResult.OK;
         }
