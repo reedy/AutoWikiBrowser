@@ -90,7 +90,7 @@ namespace WikiFunctions
         {
             if (ex == null || HandleKnownExceptions(ex)) return;
 
-            // suggest a bug report for other exceptions
+            // TODO: suggest a bug report for other exceptions
             ErrorHandler handler = new ErrorHandler { txtError = { Text = ex.Message } };
 
             StringBuilder errorMessage = new StringBuilder("{{AWB bug\r\n | status      = new <!-- when fixed replace with \"fixed\" -->\r\n | description = ");
@@ -103,9 +103,10 @@ namespace WikiFunctions
             FormatException(ex, errorMessage, ExceptionKind.TopLevel);
             errorMessage.AppendLine("</table>");
 
-            if (ex is ApiException)
+            var exception = ex as ApiException;
+            if (exception != null)
             {
-                string extra = ((ApiException)ex).GetExtraSpecificInformation();
+                string extra = exception.GetExtraSpecificInformation();
                 if(!string.IsNullOrEmpty(extra))
                 {
                     errorMessage.AppendLine(extra);
