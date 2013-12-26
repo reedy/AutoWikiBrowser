@@ -958,7 +958,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches the various categories for dead people on en wiki, and the living people category
         /// </summary>
-        public static readonly Regex DeathsOrLivingCategory = new Regex(@"\[\[\s*Category *:[ _]?(\d{1,2}\w{0,2}[- _]century(?: BC)?[ _]deaths|[0-9s]{3,5}(?: BC)?[ _]deaths|Missing[ _]people\s*(?:\|\]\])|Living[ _]people|(?:Date|Year)[ _]of[ _]death[ _](?:missing|unknown|uncertain)|Possibly[ _]living[ _]people) *(?:\|.*?)?\]\]", RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
+        public static readonly Regex DeathsOrLivingCategory = new Regex(@"\[\[\s*Category *:[ _]?(\d{1,2}\w{0,2}[- _]century(?: BC)?[ _]deaths|[0-9s]{3,5}(?: BC)?[ _]deaths|Missing[ _]people|Living[ _]people|(?:Date|Year)[ _]of[ _]death[ _](?:missing|unknown|uncertain)|Possibly[ _]living[ _]people|People[ _]declared[ _]dead[ _]in[ _]absentia) *(?:\|.*?)?\]\]", RegexOptions.IgnoreCase | RegexOptions.RightToLeft);
         
         /// <summary>
         /// Matches the {{recentlydeceased}} templates and its redirects
