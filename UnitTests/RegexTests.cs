@@ -1909,17 +1909,20 @@ words2"));
         [Test]
         public void DeathsOrLivingCategoryTests()
         {
-            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:653 deaths|Honorius]]"));
-            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:839 deaths]]"));
-            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:5th-century BC deaths]]"));
-            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:1209 deaths]]"));
-            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Living people]]"));
-            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:221 BC deaths]]"));
-            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Year of death missing]]"));
-            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Year of death unknown]]"));
-            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Date of death unknown]]"));
-            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Year of death uncertain]]"));
-            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:839 deaths ]]"));
+            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:653 deaths|Honorius]]"),"xxx deaths with sortkey");
+            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:839 deaths]]"),"xxx deaths");
+            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:5th-century BC deaths]]"),"centure BC deaths");
+            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:1209 deaths]]"),"xxxx deaths");
+            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Living people]]"),"living people");
+            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Possibly living people]]"),"possibly living people");
+            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:221 BC deaths]]"),"xxx BC deaths");
+            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Year of death missing]]"),"YOD missing");
+            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Year of death unknown]]"),"YOD unknown");
+            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Date of death unknown]]"),"DOD unknown");
+            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Year of death uncertain]]"),"YOD uncertain");
+            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:Missing people]]"),"Mising people");
+            //Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:People declared dead in absentia]]"));
+            Assert.IsTrue(WikiRegexes.DeathsOrLivingCategory.IsMatch(@"[[Category:839 deaths ]]"),"xxx deaths with space");
 
             // no matches
             Assert.IsFalse(WikiRegexes.DeathsOrLivingCategory.IsMatch(@""));
