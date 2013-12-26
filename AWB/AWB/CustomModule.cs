@@ -191,7 +191,7 @@ namespace AutoWikiBrowser
             catch (Exception ex)
             {
                 Module = null;
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
         }
 

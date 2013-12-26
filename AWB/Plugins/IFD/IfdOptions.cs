@@ -119,7 +119,7 @@ namespace AutoWikiBrowser.Plugins.IFD
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
             DialogResult = DialogResult.OK;
         }

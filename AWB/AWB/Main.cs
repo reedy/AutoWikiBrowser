@@ -153,7 +153,7 @@ namespace AutoWikiBrowser
                 }
                 catch (Exception ex)
                 {
-                    ErrorHandler.Handle(ex);
+                    ErrorHandler.HandleException(ex);
                 }
 
                 addToWatchList.SelectedIndex = 3;
@@ -186,7 +186,7 @@ namespace AutoWikiBrowser
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
         }
 
@@ -348,7 +348,7 @@ namespace AutoWikiBrowser
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
 
             StatusLabelText = "";
@@ -636,7 +636,7 @@ namespace AutoWikiBrowser
             else
             {
                 Stop();
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
         }
 
@@ -1335,7 +1335,7 @@ namespace AutoWikiBrowser
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
             NudgeTimer.Reset();
             return true;
@@ -1421,7 +1421,7 @@ namespace AutoWikiBrowser
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
         }
 
@@ -1707,7 +1707,7 @@ namespace AutoWikiBrowser
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
 
                 // don't remove page over regex error – page itself is not at fault
                 if (!ex.StackTrace.Contains("System.Text.RegularExpressions"))
@@ -1784,7 +1784,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                     GetDiff();
                 }
                 else
-                    ErrorHandler.Handle(ex);
+                    ErrorHandler.HandleException(ex);
             }
         }
 
@@ -2051,7 +2051,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
         }
 
@@ -2081,7 +2081,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
         }
         #endregion
@@ -3848,7 +3848,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
         }
 
@@ -4422,7 +4422,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                                                                   "Target exists");
                         break;
                     default:
-                        ErrorHandler.Handle(ae);
+                        ErrorHandler.HandleException(ae);
                         break;
                 }
             }
@@ -4433,11 +4433,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                     MessageBox.Show("Target title is invalid", "Invalid Target page");
                     return;
                 }
-                ErrorHandler.Handle(ae);
+                ErrorHandler.HandleException(ae);
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
         }
 
@@ -4490,11 +4490,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                                                               "Article already deleted");
                     return;
                 }
-                ErrorHandler.Handle(ae);
+                ErrorHandler.HandleException(ae);
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
         }
 
@@ -4535,7 +4535,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
         }
         #endregion
@@ -4605,7 +4605,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
         }
 
@@ -4811,7 +4811,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
                 UserTalkWarningsLoaded = false;
             }
 

@@ -240,7 +240,7 @@ namespace WikiFunctions.Profiles
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
 
             if (LoggedIn != null && needsUpdate)
@@ -297,7 +297,7 @@ namespace WikiFunctions.Profiles
             catch (Exception ex)
             {
                 Cursor = Cursors.Default;
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
         }
 
@@ -339,7 +339,7 @@ namespace WikiFunctions.Profiles
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
         }
 

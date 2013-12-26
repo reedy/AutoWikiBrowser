@@ -7691,7 +7691,7 @@ namespace WikiFunctions.Parse
                     // don't mark as orphan in case of exception
                     orphaned = orphaned2 = false;
                     ErrorHandler.CurrentPage = articleTitle;
-                    ErrorHandler.Handle(ex);
+                    ErrorHandler.HandleException(ex);
                 }
             }
 

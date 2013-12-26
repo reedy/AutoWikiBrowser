@@ -114,7 +114,7 @@ namespace WikiFunctions.DBScanner
             catch (Exception ex)
             {
                 StopButton(false);
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
                 UpdateControls(false);
             }
         }
@@ -328,7 +328,7 @@ namespace WikiFunctions.DBScanner
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
             finally
             {
@@ -926,7 +926,7 @@ namespace WikiFunctions.DBScanner
                     }
                 }
             }
-            catch (Exception ex) { ErrorHandler.Handle(ex); }
+            catch (Exception ex) { ErrorHandler.HandleException(ex); }
         }
 
         private void lnkGenDump_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

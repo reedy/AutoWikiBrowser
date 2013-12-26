@@ -55,11 +55,7 @@ namespace WikiFunctions
             else if (ex is System.Net.WebException || ex.InnerException is System.Net.WebException)
             {
                 // if AWB starts up offline we'll hit here, so provide clear network related message
-                string msg;
-                if(ex.Message.StartsWith(@"The type initializer for"))
-                    msg = ex.InnerException.Message;
-                else
-                    msg = ex.Message;
+                string msg = ex.Message.StartsWith(@"The type initializer for") ? ex.InnerException.Message : ex.Message;
 
                 MessageBox.Show(msg, "Network access error",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -90,7 +86,7 @@ namespace WikiFunctions
         /// Displays exception information. Should be called from try...catch handlers
         /// </summary>
         /// <param name="ex">Exception object to handle</param>
-        public static void Handle(Exception ex)
+        public static void HandleException(Exception ex)
         {
             if (ex == null || HandleKnownExceptions(ex)) return;
 

@@ -258,7 +258,7 @@ namespace AutoWikiBrowser
                                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
-                    ErrorHandler.Handle(ex);
+                    ErrorHandler.HandleException(ex);
 
                 // don't attempt to write to disk if the error was IOException (disk full etc.)
                 if (!(ex is IOException) && File.Exists(SettingsFile + ".old"))
@@ -473,7 +473,7 @@ namespace AutoWikiBrowser
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
 
             SettingsFile = path;

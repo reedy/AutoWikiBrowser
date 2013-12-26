@@ -122,7 +122,7 @@ namespace WikiFunctions.Parse
             }
             catch (Exception ex)
             {
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
                 // refuse to accept malformed typo lists to encourage people to correct errors
                 return new Dictionary<string, string>();
             }
@@ -455,7 +455,7 @@ namespace WikiFunctions.Parse
             catch (Exception ex)
             {
                 TyposLoaded = false;
-                ErrorHandler.Handle(ex);
+                ErrorHandler.HandleException(ex);
             }
             finally
             {
