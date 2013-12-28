@@ -531,6 +531,19 @@ y";
         }
 
         [Test]
+        public void CatsAndDefaultSort2()
+        {
+            ArticleText = @"{{infobox person}}
+'''Cecilia Uddén''' (born 11 April 1990) is great.";
+            
+            GenFixes("Cecilia Uddén");
+            
+            Assert.IsTrue(ArticleText.Contains(@"[[Category:1990 births]]"),"birth category");
+            Assert.IsTrue(ArticleText.Contains(@"[[Category:Living people]]"),"living people");
+            Assert.IsTrue(ArticleText.Contains(@"{{DEFAULTSORT:Udden, Cecilia}}"),"human name defaultsort without special characters");
+        }
+
+        [Test]
         public void NamedAndUnnamedRefs()
         {
             ArticleText = @"Z<ref name = ""Smith63"">Smith (2004), p.&nbsp;63</ref> in all probability.<ref>Smith (2004), p.&nbsp;63</ref> For.<ref>Smith (2004), p.&nbsp;63</ref>
