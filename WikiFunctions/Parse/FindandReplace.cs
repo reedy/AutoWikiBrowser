@@ -243,6 +243,10 @@ namespace WikiFunctions.Parse
 
 	                if (Variables.LangCode.Equals("eo"))
 	                    editSummary += "forigis: " + RemovedSummary.Trim();
+	                else if (Variables.LangCode.Equals("ar"))
+	                    editSummary += "أزال: " + RemovedSummary.Trim();
+	                else if (Variables.LangCode.Equals("arz"))
+	                    editSummary += "شال: " + RemovedSummary.Trim();
 	                else if (Variables.LangCode.Equals("fr"))
 	                    editSummary += "retrait: " + RemovedSummary.Trim();
 	                else if (Variables.LangCode.Equals("hy"))
