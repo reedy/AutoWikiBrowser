@@ -223,6 +223,10 @@ namespace WikiFunctions.Parse
                 if (!string.IsNullOrEmpty(ReplacedSummary))
 	                if (Variables.LangCode.Equals("eo"))
 	                    editSummary = "anstataŭigis: " + ReplacedSummary.Trim();
+	                else if (Variables.LangCode.Equals("ar"))
+	                    editSummary = "استبدل: " + ReplacedSummary.Trim();
+	                else if (Variables.LangCode.Equals("arz"))
+	                    editSummary = "غير: " + ReplacedSummary.Trim();
 	                else if (Variables.LangCode.Equals("fr"))
 	                    editSummary = "remplacement: " + ReplacedSummary.Trim();
 	                else if (Variables.LangCode.Equals("hy"))
