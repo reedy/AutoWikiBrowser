@@ -3234,7 +3234,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SquareBracketsInExternalLinks = new Regex(@"(\[https?://(?>[^\[\]<>]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])", RegexOptions.Compiled);
 
         // CHECKWIKI error 2: fix incorrect <br> of <br.>, <\br>, <br\> and <br./> etc.
-        private static readonly Regex IncorrectBr = new Regex(@"< *br\. *>|<\\ *br *>|< *br *\\ *>|< *br\. */>|< *br */([a-z/0-9•]|br)>|< *br *\?>|</ *br *>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex IncorrectBr = new Regex(@"< *br\. *>|<\\ *br *>|< *br *\\ *>|< *br\. */>|< *br */([a-z/0-9•]|br)>|< *br *\?>|</ *br */?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex IncorrectClosingItalics = new Regex(@"<i *[\\/] *>");
 
         private static readonly Regex SyntaxRegexHorizontalRule = new Regex("^(<hr>|-{5,})", RegexOptions.Compiled | RegexOptions.Multiline);
