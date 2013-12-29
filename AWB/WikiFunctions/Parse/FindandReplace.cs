@@ -221,12 +221,14 @@ namespace WikiFunctions.Parse
             if (chkAddToSummary.Checked)
             {
                 if (!string.IsNullOrEmpty(ReplacedSummary))
-	                if (Variables.LangCode.Equals("eo"))
-	                    editSummary = "anstataŭigis: " + ReplacedSummary.Trim();
-	                else if (Variables.LangCode.Equals("ar"))
+	                if (Variables.LangCode.Equals("ar"))
 	                    editSummary = "استبدل: " + ReplacedSummary.Trim();
 	                else if (Variables.LangCode.Equals("arz"))
 	                    editSummary = "غير: " + ReplacedSummary.Trim();
+	                else if (Variables.LangCode.Equals("el"))
+	                    editSummary = "αντικατέστησε: " + ReplacedSummary.Trim();
+	                else if (Variables.LangCode.Equals("eo"))
+	                    editSummary = "anstataŭigis: " + ReplacedSummary.Trim();
 	                else if (Variables.LangCode.Equals("fr"))
 	                    editSummary = "remplacement: " + ReplacedSummary.Trim();
 	                else if (Variables.LangCode.Equals("hy"))
@@ -239,14 +241,21 @@ namespace WikiFunctions.Parse
                 if (!string.IsNullOrEmpty(RemovedSummary))
                 {
                     if (!string.IsNullOrEmpty(editSummary))
+                    {
+                    	if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz") || Variables.LangCode.Equals("fa"))
                         editSummary += ", ";
+                    	else
+                        editSummary += "، ";                    		
+                    }
 
-	                if (Variables.LangCode.Equals("eo"))
-	                    editSummary += "forigis: " + RemovedSummary.Trim();
 	                else if (Variables.LangCode.Equals("ar"))
 	                    editSummary += "أزال: " + RemovedSummary.Trim();
 	                else if (Variables.LangCode.Equals("arz"))
 	                    editSummary += "شال: " + RemovedSummary.Trim();
+	                else if (Variables.LangCode.Equals("el"))
+	                    editSummary += "αφαίρεσε: " + RemovedSummary.Trim();
+	                else if (Variables.LangCode.Equals("eo"))
+	                    editSummary += "forigis: " + RemovedSummary.Trim();
 	                else if (Variables.LangCode.Equals("fr"))
 	                    editSummary += "retrait: " + RemovedSummary.Trim();
 	                else if (Variables.LangCode.Equals("hy"))
