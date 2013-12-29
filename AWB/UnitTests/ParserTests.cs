@@ -7481,8 +7481,8 @@ Text
 
             // don't change sorting for single categories
             Assert.AreEqual("[[Category:Test1|Foooo]]",
-                            Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]]", "Foo", out noChange));
-            Assert.IsTrue(noChange);
+                            Parsers.ChangeToDefaultSort("[[Category:Test1|Foooo]]", "Foo", out noChange),"don't change sorting for single categories");
+            Assert.IsTrue(noChange,"don't change sorting for single categories");
 
             // should work
             Assert.AreEqual("[[Category:Test1]][[Category:Test2]]\r\n{{DEFAULTSORT:Foooo}}",
