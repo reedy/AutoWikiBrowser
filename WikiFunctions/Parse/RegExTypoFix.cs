@@ -242,6 +242,10 @@ namespace WikiFunctions.Parse
             if (typo.Key.IsMatch(articleTitle))
                 return;
 
+            string comma = ", ";
+            if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz") || Variables.LangCode.Equals("fa"))
+            	comma = "، ";
+
             MatchCollection matches = typo.Key.Matches(articleText);
 
             if (matches.Count > 0)
@@ -259,7 +263,7 @@ namespace WikiFunctions.Parse
                     {
                         count++;
                         if (1 == count)
-                            summary += (summary.Length > 0 ? ", " : "") + m.Value + FindandReplace.Arrow + res;
+                            summary += (summary.Length > 0 ? comma : "") + m.Value + FindandReplace.Arrow + res;
                     }
                 }
                 if (count > 1)
