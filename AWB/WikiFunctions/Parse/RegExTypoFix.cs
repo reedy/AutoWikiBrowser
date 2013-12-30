@@ -242,9 +242,9 @@ namespace WikiFunctions.Parse
             if (typo.Key.IsMatch(articleTitle))
                 return;
 
-            string comma = ", ";
+            string comma = @", ";
             if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz") || Variables.LangCode.Equals("fa"))
-            	comma = "، ";
+            	comma = @"، ";
 
             MatchCollection matches = typo.Key.Matches(articleText);
 
