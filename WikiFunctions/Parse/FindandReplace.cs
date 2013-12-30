@@ -287,6 +287,10 @@ namespace WikiFunctions.Parse
 
             string findThis = Tools.ApplyKeyWords(articleTitle, rep.Find, true), replaceWith = Tools.ApplyKeyWords(articleTitle, PrepareReplacePart(rep.Replace));
 
+            string comma = ", ";
+            if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz") || Variables.LangCode.Equals("fa"))
+            	comma = @"، ";
+            
             Regex findRegex = new Regex(findThis, rep.RegularExpressionOptions);
 
             int Repcount = 0, Remcount = 0;
@@ -302,7 +306,7 @@ namespace WikiFunctions.Parse
                                                        if(Repcount == 0)
                                                        {
                                                            if (!string.IsNullOrEmpty(ReplacedSummary)) //Add comma before next replaced
-                                                               ReplacedSummary +=  ", ";
+                                                               ReplacedSummary += comma;
 
                                                            ReplacedSummary += m.Value + Arrow + mres;
                                                        }
@@ -313,7 +317,7 @@ namespace WikiFunctions.Parse
                                                        if(Remcount == 0)
                                                        {
                                                            if (!string.IsNullOrEmpty(RemovedSummary)) //Add comma before next removed
-                                                               RemovedSummary += ", ";
+                                                               RemovedSummary += comma;
 
                                                            RemovedSummary += m.Value;
                                                        }
