@@ -248,7 +248,7 @@ namespace WikiFunctions.Parse
                         editSummary += "، ";                    		
                     }
 
-	                else if (Variables.LangCode.Equals("ar"))
+	                if (Variables.LangCode.Equals("ar"))
 	                    editSummary += "أزال: " + RemovedSummary.Trim();
 	                else if (Variables.LangCode.Equals("arz"))
 	                    editSummary += "شال: " + RemovedSummary.Trim();
