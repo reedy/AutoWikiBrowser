@@ -243,9 +243,9 @@ namespace WikiFunctions.Parse
                     if (!string.IsNullOrEmpty(editSummary))
                     {
                     	if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz") || Variables.LangCode.Equals("fa"))
-                        editSummary += ", ";
+                        editSummary += "، ";
                     	else
-                        editSummary += "، ";                    		
+                        editSummary += ", ";                    		
                     }
 
 	                if (Variables.LangCode.Equals("ar"))
