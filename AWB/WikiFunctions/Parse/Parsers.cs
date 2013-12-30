@@ -940,11 +940,13 @@ namespace WikiFunctions.Parse
                     // append {{for}} value to the {{about}}
                     if (Tools.GetTemplateArgument(m.Value, 3).Length == 0)
                         articleText = articleText.Replace(about, about.TrimEnd('}') + extra + m.Groups[3].Value);
-                    else // where for has 3 arguments need extra and
+                    else if  (Tools.GetTemplateArgument(m.Value, 4).Length == 0) // where for has 3 arguments need extra and
                         articleText = articleText.Replace(about, about.TrimEnd('}') + extra + m.Groups[3].Value.Insert(m.Groups[3].Value.LastIndexOf('|') + 1, "and|"));
-
+    
+                    // if there are 4 arguments do nothing
                     // remove the old {{for}}
-                    articleText = articleText.Replace(m.Value, "");
+                    if  (Tools.GetTemplateArgument(m.Value, 4).Length == 0)
+	                    articleText = articleText.Replace(m.Value, "");
                 }
             }
 
