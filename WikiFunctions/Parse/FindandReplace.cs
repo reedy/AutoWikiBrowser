@@ -287,7 +287,7 @@ namespace WikiFunctions.Parse
 
             string findThis = Tools.ApplyKeyWords(articleTitle, rep.Find, true), replaceWith = Tools.ApplyKeyWords(articleTitle, PrepareReplacePart(rep.Replace));
 
-            string comma = ", ";
+            string comma = @", ";
             if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz") || Variables.LangCode.Equals("fa"))
             	comma = @"، ";
             
