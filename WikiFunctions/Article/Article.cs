@@ -218,8 +218,12 @@ namespace WikiFunctions
             if (string.IsNullOrEmpty(newText.Trim()))
                 return;
 
-            if (summary.Length > 0)
-                summary.Append(", " + newText);
+            string comma = ", ";
+            if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz") || Variables.LangCode.Equals("fa"))
+            	comma = "، ";
+
+			if (summary.Length > 0)
+                summary.Append(comma + newText);
             else
                 summary.Append(newText);
         }
