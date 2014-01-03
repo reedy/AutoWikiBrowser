@@ -6229,7 +6229,7 @@ namespace WikiFunctions.Parse
                         // set the defaultsort to the existing unique category sort value
                         // do not add a defaultsort if cat sort was the same as article title, now not case sensitive
                         if ((sort != articleTitle && Tools.FixupDefaultSort(sort).ToLower() != articleTitle.ToLower()
-                             || Tools.RemoveDiacritics(sort) != sort))
+                             || Tools.RemoveDiacritics(sort) != sort && !IsArticleAboutAPerson(articleText, articleTitle, false)))
                             articleText += Tools.Newline("{{DEFAULTSORT:") + Tools.FixupDefaultSort(sort) + "}}";
                     }
 
