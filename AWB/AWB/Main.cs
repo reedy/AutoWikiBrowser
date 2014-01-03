@@ -4994,7 +4994,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
         private void profilesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Profiles.ShowDialog(this);
+            if (!ShuttingDown)
+            {
+                Profiles.ShowDialog(this);
+            }
         }
 
         private void UserDefaultSettingsLoadRequired(object sender, EventArgs e)
