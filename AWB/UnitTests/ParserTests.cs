@@ -9580,7 +9580,6 @@ Foo
             Assert.IsFalse(text.Contains("{{Wikify|" + WikiRegexes.DateYearMonthParameter + @"}}
 
 "));
-            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text));
             Assert.IsTrue(Tools.NestedTemplateRegex("Okategoriserad").IsMatch(text));
             Assert.IsTrue(WikiRegexes.Stub.IsMatch(text));
             Variables.SetProjectLangCode("en");
