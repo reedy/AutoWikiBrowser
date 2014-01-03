@@ -1073,7 +1073,8 @@ ABC");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Shipindex}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{sportindex}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{sport index}}");
-
+            RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{Plant common name}}");
+            
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{surname}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{surnames}}");
             RegexAssert.IsMatch(WikiRegexes.SIAs, @"{{given name}}");
