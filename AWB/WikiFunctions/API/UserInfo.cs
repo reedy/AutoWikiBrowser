@@ -176,16 +176,21 @@ namespace WikiFunctions.API
             var users = xml.GetElementsByTagName("userinfo");
             if (users.Count > 0)
             {
-
-            HasMessages = users[0].Attributes["messages"] != null;
-            IsBlocked = users[0].Attributes["blockedby"] != null;
+                HasMessages = users[0].Attributes["messages"] != null;
+                IsBlocked = users[0].Attributes["blockedby"] != null;
             }
-            
+
             var notifications = xml.GetElementsByTagName("notifications");
-            if (notifications.Count > 0 && notifications[0].Attributes != null)
-                Notifications =  int.Parse(notifications[0].Attributes["rawcount"].Value);
+            if (notifications.Count > 0 &&
+                notifications[0].Attributes != null &&
+                notifications[0].Attributes["rawcount"] != null)
+            {
+                Notifications = int.Parse(notifications[0].Attributes["rawcount"].Value);
+            }
             else
+            {
                 Notifications = 0;
+            }
         }
 
         /// <summary>
