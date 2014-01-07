@@ -71,8 +71,7 @@ namespace WikiFunctions
 
             TemplateCall = new Regex(TemplateStart + @"\s*([^\]\|]*)\s*(.*)}}", RegexOptions.Singleline);
 
-            LooseCategory =
-                new Regex(@"\[\[[\s_]*" + category + @"[\s_]*([^\|]*?)(\|.*?)?\]\]");
+            LooseCategory = new Regex(@"\[\[[\s_]*" + category + @"[\s_]*([^\|]*?)(\|.*?)?\]\]");
 
             LooseImage = new Regex(@"\[\[\s*?(" + image + @")\s*([^\|\]]+)(.*?)\]\]");
 
