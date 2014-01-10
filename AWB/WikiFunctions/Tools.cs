@@ -3585,13 +3585,12 @@ Message: {2}
 
 		public static string ListToStringCommaSeparator(List<string> items)
 		{
-	        if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz") || Variables.LangCode.Equals("fa"))
+		    if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz") || Variables.LangCode.Equals("fa"))
 	        	return string.Join("، ", items.ToArray());
-	        else
-	        	return string.Join(", ", items.ToArray());
+		    return string.Join(", ", items.ToArray());
 		}
 
-		/// <summary>
+	    /// <summary>
   		/// Creates a string from a list with the following additions: 
   		/// Specify a separator to be used between all elements in the list
   		/// Specify a suffix to be added to each element in the list
