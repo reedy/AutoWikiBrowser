@@ -115,7 +115,6 @@
     <Compile Include="Logging\ArticleActionLogControl.Designer.cs">
       <DependentUpon>ArticleActionLogControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="Logging\Uploader\UploaderExtras.cs" />
     <Compile Include="Parse\RegexReplacement.cs" />
     <Compile Include="Profiles\AWBProfiles.cs" />
     <Compile Include="Session.cs" />

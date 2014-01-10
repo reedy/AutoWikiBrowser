@@ -22,7 +22,6 @@ using System;
 using System.Collections.Generic;
 using WikiFunctions.Logging;
 using System.Windows.Forms;
-using WikiFunctions.Logging.Uploader;
 
 namespace AutoWikiBrowser.Logging
 {
@@ -31,8 +30,6 @@ namespace AutoWikiBrowser.Logging
     /// </summary>
     internal sealed class MyTrace : TraceManager, IAWBTraceListener
     {
-        private bool mStoppedWithConfigError;
-
         // The most important stuff:
         internal void Initialise()
         {
@@ -53,7 +50,6 @@ namespace AutoWikiBrowser.Logging
         internal void ConfigError(Exception ex)
         {
             MessageBox.Show(ex.Message);
-            mStoppedWithConfigError = true;
             Program.AWB.Stop("AutoWikiBrowser");
         }
 
