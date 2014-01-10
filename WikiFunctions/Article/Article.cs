@@ -373,7 +373,7 @@ namespace WikiFunctions
         /// </summary>
         [XmlIgnore]
         public bool SkipArticle
-        { get { return mAWBLogListener.Skipped; } private set { mAWBLogListener.Skipped = value; } }
+        { get { return mAWBLogListener.Skipped; } }
 
         /// <summary>
         /// Returns true of article general fixes can be applied to the page: article or category namespace, sandbox, template documnetation page or Anexo namespace on es-wiki and pt-wiki

@@ -1535,7 +1535,7 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string DuplicateNamedReferences(string articleText)
         {
-            string articleTextOriginal = articleText, articleTextRefClean = Regex.Replace(articleText, @"<ref>\s+", @"<ref>");
+            string articleTextOriginal = articleText;
             Dictionary<string, string> NamedRefs = new Dictionary<string, string>();
 
             for (; ; )
@@ -6463,24 +6463,6 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="title"></param>
-        /// <returns></returns>
-        /// <remarks>Unused</remarks>
-        private static string TryGetArticleText(string title)
-        {
-            try
-            {
-                return Variables.MainForm.TheSession.Editor.SynchronousEditor.Clone().Open(title, false);
-            }
-            catch
-            {
-                return "";
-            }
-        }
-
-        /// <summary>
         /// Adds [[Category:Living people]] to articles with a [[Category:XXXX births]] and no living people/deaths category, taking sortkey from births category if present
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
@@ -7084,22 +7066,6 @@ namespace WikiFunctions.Parse
                 newValue = Tools.RemoveTemplateParameter(newValue, "auto");
 
             return newValue;
-        }
-
-        /// <summary>
-        /// Renames template if not a section template
-        /// </summary>
-        /// <param name="m">Template call</param>
-        /// /// <param name="newTemplateName">New template name to use</param>
-        /// <returns>The updated emplate call</returns>
-        /// <remarks>Unused</remarks>
-        private static string NotSectionTemplateME(Match m, string newTemplateName)
-        {
-            string newValue = m.Value;
-            if (Tools.GetTemplateArgument(newValue, 1).Equals("section") || Tools.GetTemplateArgument(newValue, 1).Equals("Section"))
-                return m.Value;
-
-            return Tools.RenameTemplate(newValue, newTemplateName);
         }
 
         /// <summary>

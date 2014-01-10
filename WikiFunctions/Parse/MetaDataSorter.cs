@@ -1038,7 +1038,7 @@ en, sq, ru
 			            addme = false;
 			            break;
 			        }
-			        else if(s2.StartsWith(u)) // e.g. [[Category:A]] already added but [[Category:A]] <!-- comment--> next in list
+			        if(s2.StartsWith(u)) // e.g. [[Category:A]] already added but [[Category:A]] <!-- comment--> next in list
 			        {
 			            uniqueItems.Remove(u);
 			            break;
