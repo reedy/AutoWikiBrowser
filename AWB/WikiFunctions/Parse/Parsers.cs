@@ -1496,7 +1496,6 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="articleText">the wiki text of the article</param>
         /// <param name="outofOrderRegex">a regular expression representing two references that are out of numerical order</param>
-        /// <param name="referencestagindex"></param>
         /// <returns>the modified article text</returns>
         private static string ReorderRefs(string articleText, Regex outofOrderRegex, int referencestagindex, Dictionary<string, int> NamedRefsIndexes)
         {

@@ -720,7 +720,6 @@ namespace WikiFunctions
         public static Regex Disambigs;
 
         /// <summary>
-        /// <summary>
         /// Matches general disambig templates
         /// </summary>
         public static Regex DisambigsGeneral;
@@ -730,6 +729,7 @@ namespace WikiFunctions
         /// </summary>
         public static Regex DisambigsCleanup;
 
+        /// <summary>
         /// Matches SIA templates (en only)
         /// </summary>
         public static Regex SIAs;
@@ -785,7 +785,7 @@ namespace WikiFunctions
 
         // covered by TestFixNonBreakingSpaces
         /// <summary>
-        /// Matches "50m (170&nbsp;ft)"
+        /// Matches "50m (170&amp;nbsp;ft)"
         /// </summary>
         public static readonly Regex MetresFeetConversionNonBreakingSpaces = new Regex(@"(\d+(?:\.\d+)?) ?m(?= \(\d+(?:\.\d+)?&nbsp;ft\.?\))");
 
