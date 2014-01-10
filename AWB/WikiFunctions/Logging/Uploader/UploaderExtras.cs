@@ -20,44 +20,6 @@ namespace WikiFunctions.Logging.Uploader
     }
 
     /// <summary>
-    /// Stores the user's login details/cookies
-    /// </summary>
-    public class UsernamePassword
-    {
-        private string mUserName = "", mPassword = "";
-
-        public virtual string Username
-        { get { return mUserName; } set { mUserName = value; } }
-
-        public virtual string Password
-        { get { return mPassword; } set { mPassword = value; } }
-
-        public virtual bool IsSet
-        { get { return (!string.IsNullOrEmpty(Password) && !string.IsNullOrEmpty(Username)); } }
-
-        public bool HaveCookies { get { return Cookies.Count > 0; } }
-
-        public System.Net.CookieCollection Cookies { get; set; }
-    }
-
-    /// <summary>
-    /// Stores the user's login Profile/cookies
-    /// </summary>
-    public sealed class UsernamePassword2 : UsernamePassword
-    {
-        private Profiles.AWBProfile Profile;
-
-        public override string Password
-        { get { return Profile.Password; } set { Profile.Password = value; } }
-
-        public override string Username
-        { get { return Profile.Username; } set { Profile.Username = value; } }
-
-        public Profiles.AWBProfile AWBProfile
-        { get { return Profile; } set { Profile = value; } }
-    }
-
-    /// <summary>
     /// A simple settings class for logging solutions
     /// </summary>
     public class UploadableLogSettings
