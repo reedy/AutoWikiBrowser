@@ -7594,6 +7594,9 @@ Text
             Assert.AreEqual(@"[[Category:Bronze Wolf awardees|Laine, Juan]]",
                             Parsers.ChangeToDefaultSort(@"[[Category:Bronze Wolf awardees|Lainé, Juan]]", "Hi", out noChange));
             Assert.IsFalse(noChange);
+            Assert.AreEqual(@"[[Category:Bronze Wolf awardees|LainI, Juan]]",
+                            Parsers.ChangeToDefaultSort(@"[[Category:Bronze Wolf awardees|Lainİ, Juan]]", "Hi", out noChange), "unusual one where lowercase of diacritic is a Latin character");
+            Assert.IsFalse(noChange);
 
             Assert.AreEqual(@"[[Category:Bronze Wolf awardees|Laine, Juan]]",
                             Parsers.ChangeToDefaultSort(@"[[Category:Bronze Wolf awardees|Laine, Juan]]", "Hi", out noChange));
