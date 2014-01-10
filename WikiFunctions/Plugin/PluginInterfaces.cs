@@ -94,8 +94,6 @@ namespace WikiFunctions.Plugin
         void Nudged(int nudges);
     }
 
-    public delegate void GetLogUploadLocationsEvent(IAutoWikiBrowser sender, List<Logging.Uploader.LogEntry> locations);
-
     /* Members may be added to this interface, but not removed unless absolutely necessary. */
     /// <summary>
     /// Sent by AWB to plugins in ProcessArticle()

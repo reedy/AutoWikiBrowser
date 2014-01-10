@@ -115,6 +115,7 @@
     <Compile Include="Logging\ArticleActionLogControl.Designer.cs">
       <DependentUpon>ArticleActionLogControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Logging\Uploader\UploaderExtras.cs" />
     <Compile Include="Parse\RegexReplacement.cs" />
     <Compile Include="Profiles\AWBProfiles.cs" />
     <Compile Include="Session.cs" />
@@ -124,7 +125,6 @@
     <Compile Include="Controls\Lists\ProtectionLevel.Designer.cs">
       <DependentUpon>ProtectionLevel.cs</DependentUpon>
     </Compile>
-    <Compile Include="Logging\Uploader\UploaderExtras.cs" />
     <Compile Include="Namespace.cs" />
     <Compile Include="Logging\AWBLogListener.cs" />
     <Compile Include="Parse\SiteMatrix.cs" />
@@ -247,7 +247,6 @@
     </Compile>
     <Compile Include="Logging\LoggingBase.cs" />
     <Compile Include="Logging\LoggingInterface.cs" />
-    <Compile Include="Logging\Uploader\LogUploader.cs" />
     <Compile Include="Logging\TraceManager.cs" />
     <Compile Include="Logging\UploadingPleaseWaitForm.cs">
       <SubType>Form</SubType>

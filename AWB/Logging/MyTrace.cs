@@ -70,16 +70,6 @@ namespace AutoWikiBrowser.Logging
             }
         }
 
-        internal bool StoppedWithConfigError
-        {
-            get { return mStoppedWithConfigError; }
-        }
-
-        private string GetFileNameFromActiveListener(string key)
-        {
-            return ((ITraceStatusProvider) (Listeners[key])).TraceStatus.FileName;
-        }
-
         // Overrides:
         public override void AddListener(string key, IMyTraceListener listener)
         {
