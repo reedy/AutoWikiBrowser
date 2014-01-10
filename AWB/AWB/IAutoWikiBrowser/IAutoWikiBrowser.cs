@@ -16,7 +16,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-using System.Collections.Generic;
 using WikiFunctions.Plugin;
 using WikiFunctions.Logging;
 
@@ -32,17 +31,5 @@ namespace AutoWikiBrowser
         WikiFunctions.Parse.FindandReplace IAutoWikiBrowser.FindandReplace { get { return FindAndReplace; } }
         WikiFunctions.SubstTemplates IAutoWikiBrowser.SubstTemplates { get { return SubstTemplates; } }
         string IAutoWikiBrowser.CustomModule { get { return (CModule.ModuleUsable) ? CModule.Code : null; } }
-
-        public event GetLogUploadLocationsEvent GetLogUploadLocations;
-
-        /* In the (perhaps unlikely) event we need to know the name of the plugin which calls these subroutines,
-         * the code is here and ready to go. */
-
-        // Fire GetLogUploadLocations event
-        internal void RaiseGetLogUploadLocationsEvent(object sender, List<WikiFunctions.Logging.Uploader.LogEntry> locations)
-        {
-            if (GetLogUploadLocations != null)
-                GetLogUploadLocations(this, locations);
-        }
     }
 }
