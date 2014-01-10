@@ -948,6 +948,16 @@ namespace WikiFunctions.Parse
                     if  (Tools.GetTemplateArgument(m.Value, 4).Length == 0)
 	                    articleText = articleText.Replace(m.Value, "");
                 }
+
+                // if for with blank first argument copied over then now need to put "other uses" as the argment
+                articleText = Tools.NestedTemplateRegex("about").Replace(articleText, m2 => {
+                                                                             string res = m2.Value;
+                                                                             if(Tools.GetTemplateArgument(res, 7).Length > 0 && Tools.GetTemplateArgument(res, 6).Length == 0)
+                                                                             {
+                                                                                 res = res.Insert(Tools.GetTemplateArgumentIndex(res, 6), "other uses");
+                                                                             }
+                                                                             return res;
+                                                                         });
             }
 
             // non-mainspace links need escaping in {{about}}
