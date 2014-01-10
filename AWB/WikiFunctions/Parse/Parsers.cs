@@ -278,7 +278,7 @@ namespace WikiFunctions.Parse
             // Removes level 2 heading if it matches pagetitle
             articleText = Regex.Replace(articleText, @"^(==) *" + Regex.Escape(articleTitle) + @" *\1\r\n", "", RegexOptions.Multiline);
 
-            articleText = WikiRegexes.Headings.Replace(articleText, m => FixHeadingsME(m, articleTitle));
+            articleText = WikiRegexes.Headings.Replace(articleText, m => FixHeadingsME(m));
 
             // remove unnecessary general header from start of article
             articleText = RegexBadHeaderStartOfAticle.Replace(articleText, "");
@@ -323,7 +323,7 @@ namespace WikiFunctions.Parse
         /// <summary>
         /// Performs various fixes to headings
         /// </summary>
-        private static string FixHeadingsME(Match m, string articleTitle)
+        private static string FixHeadingsME(Match m)
         {
             string hAfter = WikiRegexes.Br.Replace(m.Value, "");
             hAfter = WikiRegexes.Big.Replace(hAfter, "$1").TrimStart(' ');
@@ -1496,6 +1496,8 @@ namespace WikiFunctions.Parse
         /// </summary>
         /// <param name="articleText">the wiki text of the article</param>
         /// <param name="outofOrderRegex">a regular expression representing two references that are out of numerical order</param>
+        /// <param name="referencestagindex"></param>
+        /// <param name="NamedRefsIndexes"></param>
         /// <returns>the modified article text</returns>
         private static string ReorderRefs(string articleText, Regex outofOrderRegex, int referencestagindex, Dictionary<string, int> NamedRefsIndexes)
         {
