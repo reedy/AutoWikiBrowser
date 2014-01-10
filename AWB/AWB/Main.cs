@@ -3637,38 +3637,39 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                     e.SuppressKeyPress = true;
                     return;
                 }
-                else if (e.KeyCode == Keys.G)
+                if (e.KeyCode == Keys.G)
                 {
                     Start();
                     e.SuppressKeyPress = true;
                     return;
                 }
-                else if (e.KeyCode == Keys.I && btnIgnore.Enabled)
+                if (e.KeyCode == Keys.I && btnIgnore.Enabled)
                 {
                     SkipPage("user");
                     e.SuppressKeyPress = true;
                     return;
                 }
-                else if (e.KeyCode == Keys.D && btnDiff.Enabled)
+                if (e.KeyCode == Keys.D && btnDiff.Enabled)
                 {
                     GetDiff();
                     e.SuppressKeyPress = true;
                     return;
                 }
-                else if (e.KeyCode == Keys.E && btnPreview.Enabled)
+                if (e.KeyCode == Keys.E && btnPreview.Enabled)
                 {
                     GetPreview();
                     e.SuppressKeyPress = true;
                     return;
                 }
-                else if (e.KeyCode == Keys.F)
+                if (e.KeyCode == Keys.F)
                 {
                     if (TheArticle != null)
                         txtEdit.Find(txtFind.Text, chkFindRegex.Checked, chkFindCaseSensitive.Checked, TheArticle.Name);
                     e.SuppressKeyPress = true;
+                    return;
                 }
-
-                else if(e.KeyCode == Keys.B) 
+                
+                if(e.KeyCode == Keys.B) 
                 {
                     lbAlerts_Click(null, null);
                 }

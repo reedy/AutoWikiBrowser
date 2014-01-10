@@ -38,7 +38,10 @@ namespace AutoWikiBrowser
         public void SetProgress(int percent)
         {
             System.Reflection.MethodBase method = new System.Diagnostics.StackFrame(1).GetMethod();
-            MethodLabel.Text = method.DeclaringType.Name + "::" + method.Name + "()";
+            if (method.DeclaringType != null)
+            {
+                MethodLabel.Text = method.DeclaringType.Name + "::" + method.Name + "()";
+            }
             progressBar.Value = percent;
             Application.DoEvents();
         }

@@ -367,7 +367,7 @@ namespace AutoWikiBrowser
                 XmlDocument doc = new XmlDocument();
                 doc.LoadXml(xml);
                 XmlNodeList nodes = doc.GetElementsByTagName("DB");
-                if (nodes.Count == 1 && nodes[0].Attributes.Count == 2)
+                if (nodes.Count == 1 && nodes[0].Attributes != null && nodes[0].Attributes.Count == 2)
                 {
                     RecordId = int.Parse(nodes[0].Attributes["Record"].Value);
                     SecretNumber = int.Parse(nodes[0].Attributes["Verify"].Value);
