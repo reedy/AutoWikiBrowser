@@ -60,23 +60,6 @@ namespace WikiFunctions.Logging.Uploader
 		    editor = e.Clone();
 		}
 
-		public void LogIn(string username, string password)
-		{
-			editor.Login(username, password);
-		}
-
-		public virtual void LogIn(UsernamePassword loginDetails)
-		{
-			if (loginDetails.IsSet)
-			{
-				LogIn(loginDetails.Username, loginDetails.Password);
-			}
-			else
-			{
-				throw new System.Configuration.SettingsPropertyNotFoundException("Login details not found");
-			}
-		}
-
         /// <summary>
         /// Upload log to the wiki, and optionally add log entries to central log pages
         /// </summary>
