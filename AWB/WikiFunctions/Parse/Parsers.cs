@@ -6315,7 +6315,7 @@ namespace WikiFunctions.Parse
                     : Tools.FixupDefaultSort(articleTitle);
 
                 // sorkteys now not case sensitive
-                if (!sortkey.ToLower().Equals(articleTitle.ToLower()))
+                if (!sortkey.ToLower().Equals(articleTitle.ToLower()) || Tools.RemoveDiacritics(articleTitle) != articleTitle)
                     articleText += Tools.Newline("{{DEFAULTSORT:") + sortkey + "}}";
 
                 return (ExplicitCategorySortkeys(articleText, sortkey));
