@@ -8166,7 +8166,7 @@ namespace WikiFunctions.Parse
             return
                 !Regex.IsMatch(articleText,
                                @"\{\{\s*(?:nobots|(nobots|bots)\|(allow=none|deny=(?!none).*(" + user.Normalize() +
-                               @"|awb|all)|optout=all))\s*\}\}", RegexOptions.IgnoreCase);
+                               @"|awb|all)|optout=all))\s*(?:\}\}|,)", RegexOptions.IgnoreCase);
         }
 
         private static readonly Regex DuplicatePipedLinks = new Regex(@"\[\[([^\]\|]+)\|([^\]]*)\]\](.*[.\n]*)\[\[\1\|\2\]\]", RegexOptions.Compiled);
