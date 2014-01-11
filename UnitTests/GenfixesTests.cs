@@ -528,9 +528,18 @@ y";
             Assert.IsTrue(ArticleText.Contains(@"[[Category:1990 births]]"),"birth category");
             Assert.IsTrue(ArticleText.Contains(@"[[Category:Living people]]"),"living people");
             Assert.IsTrue(ArticleText.Contains(@"{{DEFAULTSORT:Smith, John}}"),"human name defaultsort");
+
+             ArticleText = @"{{infobox person}}
+'''İbrahim Smith''' (born 12 April 1991) is great.";
+            
+            GenFixes("İbrahim Smith");
+            
+            Assert.IsTrue(ArticleText.Contains(@"[[Category:1991 births]]"),"birth category");
+            Assert.IsTrue(ArticleText.Contains(@"[[Category:Living people]]"),"living people");
+            Assert.IsTrue(ArticleText.Contains(@"[["),"human name defaultsort (diacritics removed)");
         }
 
-        [Test]
+            [Test]
         public void CatsAndDefaultSort2()
         {
             ArticleText = @"{{infobox person}}
