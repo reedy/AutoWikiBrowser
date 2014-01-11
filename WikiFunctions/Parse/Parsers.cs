@@ -930,6 +930,11 @@ namespace WikiFunctions.Parse
                 foreach (Match m in Tools.NestedTemplateRegex("for").Matches(articleText))
                 {
                     string about = Tools.NestedTemplateRegex("about").Match(articleText).Value;
+                    
+                    // about supports up to 9 arguments
+                    if (Tools.GetTemplateArgument(about, 9).Length > 0)
+                        continue;
+                    
                     string extra = "";
 
                     // where about has 2 arguments need extra pipe
