@@ -541,6 +541,13 @@ y";
             Assert.IsTrue(ArticleText.Contains(@"[[Category:1990 births]]"),"birth category");
             Assert.IsTrue(ArticleText.Contains(@"[[Category:Living people]]"),"living people");
             Assert.IsTrue(ArticleText.Contains(@"{{DEFAULTSORT:Udden, Cecilia}}"),"human name defaultsort without special characters");
+
+            ArticleText = @"{{infobox person}}
+'''İbrahim Smith''' (born 12 April 1991) is great.";
+
+            GenFixes("İbrahim Smith");
+
+            Assert.IsTrue(ArticleText.Contains(@"{{DEFAULTSORT:Ibrahim Smith}}"),"human name defaultsort (diacritics removed)");
         }
 
         [Test]
