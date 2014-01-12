@@ -4846,7 +4846,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex Tags = new Regex(@"\<((?>[^\<\>]+|\<(?<DEPTH>)|\>(?<-DEPTH>))*(?(DEPTH)(?!))\>)", RegexOptions.Compiled);
         private static readonly Regex HideNestedBrackets = new Regex(@"(?<=[^\[\]{}<>]\[[^\[\]{}<>]*?)&#93;", RegexOptions.Compiled);
         private static readonly Regex AmountComparison = new Regex(@"[<>]\s*\d", RegexOptions.Compiled);
-        private static readonly Regex TemplatesWithUnbalancedBrackets = Tools.NestedTemplateRegex("LSJ");
+        private static readonly Regex TemplatesWithUnbalancedBrackets = Tools.NestedTemplateRegex(new [] {"LSJ", ")!", "!("});
 
         /// <summary>
         /// Checks the article text for unbalanced brackets, either square or curly
