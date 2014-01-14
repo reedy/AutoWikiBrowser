@@ -2266,6 +2266,7 @@ here]"), "newline removed");
 complementary and alternative medicine: evidence is a better friend than power. Andrew J Vickers]</ref>", out bracketLength));
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"[http://www.site.com a link [cool&#93;]", out bracketLength)); // displays as valid syntax
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"[http://www.site.com a link &#91;cool&#93; here]", out bracketLength)); // displays as valid syntax
+            Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"*[http://external.oneonta.edu/html A&#91;lbert&#93; T. 1763]", out bracketLength));
 
             // don't consider stuff in <math> or <pre> tags etc.
             Assert.AreEqual(-1, Parsers.UnbalancedBrackets(@"now hello {{bye}} <pre>{now}}</pre>", out bracketLength));

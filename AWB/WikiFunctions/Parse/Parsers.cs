@@ -4844,7 +4844,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex SingleSquareBrackets = new Regex(@"\[((?>[^\[\]]+|\[(?<DEPTH>)|\](?<-DEPTH>))*(?(DEPTH)(?!))\])", RegexOptions.Compiled);
         private static readonly Regex SingleRoundBrackets = new Regex(@"\(((?>[^\(\)]+|\((?<DEPTH>)|\)(?<-DEPTH>))*(?(DEPTH)(?!))\))", RegexOptions.Compiled);
         private static readonly Regex Tags = new Regex(@"\<((?>[^\<\>]+|\<(?<DEPTH>)|\>(?<-DEPTH>))*(?(DEPTH)(?!))\>)", RegexOptions.Compiled);
-        private static readonly Regex HideNestedBrackets = new Regex(@"(?<=[^\[\]{}<>]\[[^\[\]{}<>]*?)&#93;", RegexOptions.Compiled);
+        private static readonly Regex HideNestedBrackets = new Regex(@"&#9[13];");
         private static readonly Regex AmountComparison = new Regex(@"[<>]\s*\d", RegexOptions.Compiled);
         private static readonly Regex TemplatesWithUnbalancedBrackets = Tools.NestedTemplateRegex(new [] {"LSJ", ")!", "!("});
 
@@ -4857,9 +4857,9 @@ namespace WikiFunctions.Parse
         // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Missing_opening_or_closing_brackets.2C_table_and_template_markup_.28WikiProject_Check_Wikipedia_.23_10.2C_28.2C_43.2C_46.2C_47.29
         public static int UnbalancedBrackets(string articleText, out int bracketLength)
         {
-            // &#93; is used to replace the ] in external link text, which gives correct markup
-            // replace [...&#93; back to [...] to avoid matching as unbalanced brackets
-            articleText = HideNestedBrackets.Replace(articleText, "]    ");
+            // &#91; and &#93; are used to replace the [ or ] in external link text, which gives correct markup
+            // replace back to avoid matching as unbalanced brackets
+            articleText = HideNestedBrackets.Replace(articleText, m => (m.Value.Contains("93") ? "]    " : "[    "));
 
             // remove all <math>, <code> stuff etc. where curly brackets are used in singles and pairs
             articleText = Tools.ReplaceWithSpaces(articleText, WikiRegexes.MathPreSourceCodeComments);
