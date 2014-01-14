@@ -1778,7 +1778,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly Regex ShortNameReferenceQuick = new Regex(@">\s*([^<>]{1,9}?|\[?[Ss]ee above\]?)\s*<\s*/\s*ref>");
+        private static readonly Regex ShortNameReferenceQuick = new Regex(@">\s*([^<>]{1,9}?|\[?[Ss]ee above\]?|{{\s*[Cc]ite *\w+\s*}})\s*<\s*/\s*ref>");
 
         /// <summary>
         /// refs with same name, but one is very short, so just change to &lt;ref name=foo/&gt; notation
@@ -1795,7 +1795,7 @@ namespace WikiFunctions.Parse
 
                     // don't apply if short ref is a page ref
                     if(m.Groups[3].Value.Length > 30)
-                        articleText = Regex.Replace(articleText, @"(<\s*ref\s+name\s*=\s*(?:""|')?(" + Regex.Escape(refname) + @")(?:""|')?\s*>\s*([^<>]{1,9}?|\[?[Ss]ee above\]?)\s*<\s*/\s*ref>)",
+                        articleText = Regex.Replace(articleText, @"(<\s*ref\s+name\s*=\s*(?:""|')?(" + Regex.Escape(refname) + @")(?:""|')?\s*>\s*([^<>]{1,9}?|\[?[Ss]ee above\]?|{{\s*[Cc]ite *\w+\s*}})\s*<\s*/\s*ref>)",
                                                     m2=> PageRef.IsMatch(m2.Groups[3].Value) ? m2.Value : @"<ref name=""" + refname + @"""/>");
                 }
             }
