@@ -1027,6 +1027,18 @@ John", "*"));
         }
 
         [Test]
+        public void DateBeforeToday()
+        {
+            Assert.IsTrue(Tools.DateBeforeToday("11 May 2009"));
+            Assert.IsTrue(Tools.DateBeforeToday("May 11, 2009"));
+            Assert.IsTrue(Tools.DateBeforeToday("2013-12-31"));
+            Assert.IsTrue(Tools.DateBeforeToday(System.DateTime.Now.AddDays(-1).ToString()));
+
+            Assert.IsFalse(Tools.DateBeforeToday(System.DateTime.Now.AddMonths(1).ToString()));
+            Assert.IsFalse(Tools.DateBeforeToday("foo"));
+        }
+
+        [Test]
         public void ConvertDateEnOnly()
         {
 #if DEBUG
