@@ -2689,6 +2689,29 @@ Message: {2}
 		}
 		
 		/// <summary>
+		/// Attempts to parse the input string as a date, if parsed returns whether the date is before the system date
+		/// Otherwise returns false
+		/// </summary>
+		/// <param name="date"></param>
+		/// <returns></returns>
+		public static bool DateBeforeToday(string date)
+		{
+		    try
+		    {
+		        DateTime dt = DateTime.Parse(date);
+
+		        if(dt.CompareTo(DateTime.Now) < 0)
+		            return true;
+		    }
+		    catch
+		    {
+		        return false;
+		    }
+		    
+		    return false;
+		}
+		
+		/// <summary>
 		/// Appends the input parameter and value to the input template
 		/// </summary>
 		/// <param name="templateCall">The input template call</param>
