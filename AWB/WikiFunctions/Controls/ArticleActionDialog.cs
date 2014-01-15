@@ -223,6 +223,11 @@ namespace WikiFunctions.Controls
                 case ArticleAction.Protect:
                     errorTitle = "Protection error";
 
+                    if(!string.IsNullOrEmpty(txtExpiry.Text) && Tools.DateBeforeToday(txtExpiry.Text))
+                    {
+                        errorMessage.AppendLine("Please enter an expiry date in the future");
+                    }
+
                     if (string.IsNullOrEmpty(cmboSummary.Text))
                         errorMessage.AppendLine("Please enter/select a protection reason.");
 
