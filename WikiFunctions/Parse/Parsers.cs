@@ -4276,6 +4276,7 @@ namespace WikiFunctions.Parse
                 // fix dashes: only hyphens allowed
                 while(ISBNDash.IsMatch(ISBN))
                     ISBN = ISBNDash.Replace(ISBN, @"$1-$2");
+                ISBN = ISBN.Replace('\x2010', '-');
 
                 if(!ISBN.Equals(ISBNbefore))
                 {

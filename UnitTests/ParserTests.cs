@@ -2690,6 +2690,7 @@ world|format=PDF}} was";
 
             Assert.AreEqual(@"{{cite book|title=foo|isbn=123-456-789-X|year=2009}}", Parsers.FixCitationTemplates(@"{{cite book|title=foo|isbn=123–456–789–X :|year=2009}}"));
             Assert.AreEqual(@"{{cite book|title=foo|isbn=123-4-56789-X |year=2009}}", Parsers.FixCitationTemplates(@"{{cite book|title=foo|isbn=123–4–56789–X |year=2009}}"));
+            Assert.AreEqual(@"{{cite book|title=foo|isbn=123-4-56789-X |year=2009}}", Parsers.FixCitationTemplates(@"{{cite book|title=foo|isbn=123‐4‐56789‐X |year=2009}}")); // U+2010 character
         }
 
         [Test]
