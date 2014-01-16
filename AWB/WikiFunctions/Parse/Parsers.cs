@@ -3945,6 +3945,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex IdISBN = new Regex(@"^ISBN:?\s*([\d \-]+X?)$", RegexOptions.Compiled);
         private static readonly Regex IdASIN = new Regex(@"^ASIN:?\s*([\d \-]+X?)$", RegexOptions.Compiled);
         private static readonly Regex YearOnly = new Regex(@"^[12]\d{3}$", RegexOptions.Compiled);
+        private static readonly Regex ISBNDash = new Regex(@"(\d)[–](\d|X$)");
 
         /// <summary>
         /// Performs fixes to a given citation template call
@@ -4259,6 +4260,28 @@ namespace WikiFunctions.Parse
             {
                 newValue = Tools.RenameTemplateParameter(newValue, "id", "asin");
                 newValue = Tools.SetTemplateParameterValue(newValue, "asin", IdASIN.Match(id).Groups[1].Value.Trim());
+            }
+
+            if(ISBN.Length > 0)
+            {
+                string ISBNbefore = ISBN;
+                // remove ISBN at start, but not if multiple ISBN
+                if(ISBN.IndexOf("isbn", StringComparison.OrdinalIgnoreCase) > -1
+                   && ISBN.Substring(4).IndexOf("isbn", StringComparison.OrdinalIgnoreCase) == -1)
+                    ISBN = Regex.Replace(ISBN, @"^(?i)ISBN\s*", "");
+
+                // trim unneeded characters
+                ISBN = ISBN.Trim(".;,:".ToCharArray()).Trim();
+
+                // fix dashes: only hyphens allowed
+                while(ISBNDash.IsMatch(ISBN))
+                    ISBN = ISBNDash.Replace(ISBN, @"$1-$2");
+
+                if(!ISBN.Equals(ISBNbefore))
+                {
+                    newValue = Tools.UpdateTemplateParameterValue(newValue, "ISBN", ISBN);
+                    newValue = Tools.UpdateTemplateParameterValue(newValue, "isbn", ISBN);
+                }
             }
 
             // origyear --> year when no year/date
