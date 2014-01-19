@@ -44,17 +44,19 @@ namespace WikiFunctions.API
 
             if (redirects.Count >= 1) //We have redirects
             {
-                if (redirects[0].Attributes["from"].Value == redirects[redirects.Count - 1].Attributes["to"].Value)
+                var first = redirects[0].Attributes;
+                var last = redirects[redirects.Count - 1].Attributes;
+                if (first != null && last != null && first["from"].Value == last["to"].Value)
                 {
                     //Redirect loop
                     TitleChangedStatus = PageTitleStatus.RedirectLoop;
-                    OriginalTitle = Title = redirects[0].Attributes["from"].Value;
+                    OriginalTitle = Title = first["from"].Value;
                     Exists = true;
                     Text = "";
                     return; //We're not going to have any page text
                 }
 
-                redirectFrom = redirects[0].Attributes["from"].Value;
+                redirectFrom = first != null ? first["from"].Value : "";
                 //Valid redirects
                 TitleChangedStatus = redirects.Count == 1
                                          ? PageTitleStatus.Redirected
@@ -73,7 +75,7 @@ namespace WikiFunctions.API
             //Normalised before redirect, so would be root. Could still be multiple redirects, or looped
             var normalised = doc.GetElementsByTagName("n");
 
-            if (normalised.Count > 0)
+            if (normalised.Count > 0 && normalised[0].Attributes != null)
             {
                 normalisedFrom = normalised[0].Attributes["from"].Value;
 
@@ -103,7 +105,8 @@ namespace WikiFunctions.API
 
             Title = xr.GetAttribute("title");
             DisplayTitle = xr.GetAttribute("displaytitle");
-            NamespaceID = int.Parse(xr.GetAttribute("ns"));
+            var ns = xr.GetAttribute("ns");
+            NamespaceID = ns != null ? int.Parse(ns) : 0;
 
             if (xr.ReadToDescendant("protection") && !xr.IsEmptyElement)
             {
