@@ -883,6 +883,10 @@ The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines af
             Assert.AreEqual(@"thing.{{sfn|Jones|2000}}<ref>foo</ref>", Parsers.RefsAfterPunctuation(@"thing.{{sfn|Jones|2000}}<ref>foo</ref>."), "Handles {{sfn}}");
             Assert.AreEqual(@"thing.{{sfn|Jones|2000}}<ref>foo</ref>", Parsers.RefsAfterPunctuation(@"thing{{sfn|Jones|2000}}<ref>foo</ref>."), "Handles {{sfn}}");
 
+            Assert.AreEqual(@"thing.{{sfnp|Jones|2000}}<ref>foo</ref>", Parsers.RefsAfterPunctuation(@"thing.{{sfnp|Jones|2000}}.<ref>foo</ref>"), "Handles {{sfnp}}");
+            Assert.AreEqual(@"thing.{{sfnp|Jones|2000}}<ref>foo</ref>", Parsers.RefsAfterPunctuation(@"thing.{{sfnp|Jones|2000}}<ref>foo</ref>."), "Handles {{sfnp}}");
+            Assert.AreEqual(@"thing.{{sfnp|Jones|2000}}<ref>foo</ref>", Parsers.RefsAfterPunctuation(@"thing{{sfnp|Jones|2000}}<ref>foo</ref>."), "Handles {{sfnp}}");
+
             Assert.AreEqual(@"thing.{{efn|Jones|2000}}<ref>foo</ref>", Parsers.RefsAfterPunctuation(@"thing.{{efn|Jones|2000}}.<ref>foo</ref>"), "Handles {{efn}}");
             Assert.AreEqual(@"thing.{{efn|Jones|2000}}<ref>foo</ref>", Parsers.RefsAfterPunctuation(@"thing.{{efn|Jones|2000}}<ref>foo</ref>."), "Handles {{efn}}");
             Assert.AreEqual(@"thing.{{efn|Jones|2000}}<ref>foo</ref>", Parsers.RefsAfterPunctuation(@"thing{{efn|Jones|2000}}<ref>foo</ref>."), "Handles {{efn}}");
