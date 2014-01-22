@@ -1462,7 +1462,7 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text</returns>
         public static string RefsAfterPunctuation(string articleText)
         {
-            if (!Variables.LangCode.Equals("en") && !Variables.LangCode.Equals("el"))
+            if (!Variables.LangCode.Equals("en") && !Variables.LangCode.Equals("simple"))
                 return articleText;
 
             string articleTextOriginal = articleText;
