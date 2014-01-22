@@ -1093,7 +1093,7 @@ namespace WikiFunctions.Parse
         }
 
         // fixes extra comma or space in American format dates
-        private static readonly Regex CommaDates = new Regex(WikiRegexes.Months + @"[ ,]*([1-3]?\d(?:–[1-3]?\d)?)[ ,]+([12]\d{3})\b");
+        private static readonly Regex IncorrectCommaAmericanDates = new Regex(WikiRegexes.Months + @"[ ,]*([1-3]?\d(?:–[1-3]?\d)?)[ ,]+([12]\d{3})\b");
 
         // fix incorrect comma between month and year in Internaltional-format dates
         private static readonly Regex IncorrectCommaInternationalDates = new Regex(@"\b((?:[1-3]?\d) +" + WikiRegexes.MonthsNoGroup + @") *, *(1\d{3}|20\d{2})\b", RegexOptions.Compiled);
@@ -1178,7 +1178,7 @@ namespace WikiFunctions.Parse
             textPortion = LongFormatAmericanDateRange.Replace(textPortion, @"$1 $2–$3, $4");
 
             // run this after the date range fixes
-            textPortion = CommaDates.Replace(textPortion, @"$1 $2, $3");
+            textPortion = IncorrectCommaAmericanDates.Replace(textPortion, @"$1 $2, $3");
 
             // month range
             return EnMonthRange.Replace(textPortion, @"$1–$2");
@@ -3062,7 +3062,7 @@ namespace WikiFunctions.Parse
             textPortion = DateLeadingZerosInt.Replace(textPortion, "$1 $2");
 
             // catch after any other fixes
-            textPortion = CommaDates.Replace(textPortion, @"$1 $2, $3");
+            textPortion = IncorrectCommaAmericanDates.Replace(textPortion, @"$1 $2, $3");
 
             return IncorrectCommaInternationalDates.Replace(textPortion, @"$1 $2");
         }
@@ -4217,7 +4217,7 @@ namespace WikiFunctions.Parse
                     newValue = Tools.UpdateTemplateParameterValue(newValue, "accessdate", OrdinalsInDatesAm.Replace(accessdate, "$1 $2$3"));
             }
             // catch after any other fixes
-            newValue = CommaDates.Replace(newValue, @"$1 $2, $3");
+            newValue = IncorrectCommaAmericanDates.Replace(newValue, @"$1 $2, $3");
 
             // URL starting www needs http://
             if (theURL.StartsWith("www", StringComparison.OrdinalIgnoreCase))
