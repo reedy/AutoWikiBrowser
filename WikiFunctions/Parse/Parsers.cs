@@ -4089,6 +4089,7 @@ namespace WikiFunctions.Parse
             if (TheYear.Length > 5)
             {
                 string TheYearCorected = IncorrectCommaInternationalDates.Replace(TheYear, @"$1 $2");
+                TheYearCorected = IncorrectCommaAmericanDates.Replace(TheYearCorected, @"$1 $2, $3");
                 
                 if(!TheYearCorected.Equals(TheYear))
                 {
