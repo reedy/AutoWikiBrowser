@@ -4282,8 +4282,10 @@ namespace WikiFunctions.Parse
 
                 if(!ISBN.Equals(ISBNbefore))
                 {
-                    newValue = Tools.UpdateTemplateParameterValue(newValue, "ISBN", ISBN);
-                    newValue = Tools.UpdateTemplateParameterValue(newValue, "isbn", ISBN);
+                    if(paramsFound.ContainsKey("ISBN"))
+                        newValue = Tools.UpdateTemplateParameterValue(newValue, "ISBN", ISBN);
+                    else
+                        newValue = Tools.UpdateTemplateParameterValue(newValue, "isbn", ISBN);
                 }
             }
 
