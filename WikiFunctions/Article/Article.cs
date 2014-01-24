@@ -978,34 +978,38 @@ namespace WikiFunctions
         /// </summary>
         /// <param name="langCode">The wiki's language code</param>
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
-        protected void MinorFixes(string langCode, bool skipIfNoChange)
+        protected bool MinorFixes(string langCode, bool skipIfNoChange)
         {
             AWBChangeArticleText("Fixed interwikis", Parsers.InterwikiConversions(mArticleText, out noChange), true);
+             bool anyChanges = false;
 
-            if (langCode.Equals("en") || langCode.Equals("simple"))
-            {
-                string strTemp = mArticleText;
+             if (langCode.Equals("en") || langCode.Equals("simple"))
+             {
+                 string strTemp = mArticleText;
 
-                // do not subst on Template documentation pages, Template sandbox pages or commons category pages
-                if (!(Namespace.Determine(Name).Equals(Namespace.Template) && (Name.EndsWith(@"/doc") || Name.EndsWith(@"/sandbox")))
-                    && !(Variables.IsCommons && Namespace.Determine(Name).Equals(Namespace.Category)))
-                    strTemp = Parsers.Conversions(mArticleText);
+                 // do not subst on Template documentation pages, Template sandbox pages or commons category pages
+                 if (!(Namespace.Determine(Name).Equals(Namespace.Template) && (Name.EndsWith(@"/doc") || Name.EndsWith(@"/sandbox")))
+                     && !(Variables.IsCommons && Namespace.Determine(Name).Equals(Namespace.Category)))
+                     strTemp = Parsers.Conversions(mArticleText);
 
-                strTemp = Parsers.FixLivingThingsRelatedDates(strTemp);
-                strTemp = Parsers.FixHeadings(strTemp, Name, out noChange);
+                 strTemp = Parsers.FixLivingThingsRelatedDates(strTemp);
+                 strTemp = Parsers.FixHeadings(strTemp, Name, out noChange);
 
-                if (skipIfNoChange && mArticleText.Equals(strTemp))
-                {
-                    Trace.AWBSkipped("No header errors");
-                }
-                else if (!noChange)
-                    AWBChangeArticleText("Fixed header errors", strTemp, true);
-                else
-                {
-                    AWBChangeArticleText("Fixed minor formatting issues", strTemp, true);
-                    if (skipIfNoChange) Trace.AWBSkipped("No header errors");
-                }
-            }
+                 anyChanges = !mArticleText.Equals(strTemp);
+
+                 if (skipIfNoChange && mArticleText.Equals(strTemp))
+                 {
+                     Trace.AWBSkipped("No header errors");
+                 }
+                 else if (!noChange)
+                     AWBChangeArticleText("Fixed header errors", strTemp, true);
+                 else
+                 {
+                     AWBChangeArticleText("Fixed minor formatting issues", strTemp, true);
+                     if (skipIfNoChange) Trace.AWBSkipped("No header errors");
+                 }
+             }
+             return anyChanges;
         }
 
         /// <summary>
@@ -1400,8 +1404,14 @@ namespace WikiFunctions
                 EmboldenTitles(parsers, skip.SkipNoBoldTitle);
                 Variables.Profiler.Profile("EmboldenTitles");
 
-                MinorFixes(Variables.LangCode, skip.SkipNoHeaderError);
+                bool changesByMF = MinorFixes(Variables.LangCode, skip.SkipNoHeaderError);
                 Variables.Profiler.Profile("MinorFixes");
+
+                if(changesByMF) // call EmboldenTitles again: zeroth section may have changed now
+                {
+                    EmboldenTitles(parsers, false);
+                    Variables.Profiler.Profile("EmboldenTitles");
+                }
 
                 FixPeopleCategories(parsers, skip.SkipNoPeopleCategoriesFixed);
                 Variables.Profiler.Profile("FixPeopleCategories");

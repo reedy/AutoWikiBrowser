@@ -497,6 +497,16 @@ y";
         }
 
         [Test]
+        public void BoldTitle()
+        {
+            ArticleText = @"
+==Foo.(here)==
+Foo.(here) is a bar While remaining upright may be the primary goal of beginning riders";
+            GenFixes("Foo.(here)");
+            Assert.AreEqual("'''Foo.(here)''' is a bar While remaining upright may be the primary goal of beginning riders", ArticleText);
+        }
+
+        [Test]
         public void RedirectsSimplifyLinks()
         {
             ArticleText = @"#REDIRECT[[foo|foo]]";
