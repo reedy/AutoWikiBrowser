@@ -735,9 +735,9 @@ namespace WikiFunctions
         public static Regex SIAs;
 
         /// <summary>
-        /// Matches Wi templates (en only)
+        /// Matches Wiktionary redirect and Wikiquote redirect templates (en only)
         /// </summary>
-        public static readonly Regex Wi = Tools.NestedTemplateRegex(new [] { "Wiktionary redirect", "Wi", "Widirect", "Moved to Wiktionary", "RedirecttoWiktionary", "Seewiktionary"});
+        public static readonly Regex Wi = Tools.NestedTemplateRegex(new [] { "Wiktionary redirect", "Wi", "Widirect", "Moved to Wiktionary", "RedirecttoWiktionary", "Seewiktionary", "Wikiquote redirect"});
 
         /// <summary>
         /// Matches templates with many wikilinks to avoid tagging the transcluding page as dead-end and/or stub (en only)
