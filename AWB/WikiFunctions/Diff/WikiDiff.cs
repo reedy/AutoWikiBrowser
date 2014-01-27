@@ -473,6 +473,7 @@ td.diff-context {
 	vertical-align: top;
 	white-space: -moz-pre-wrap;
 	white-space: pre-wrap;
+	word-wrap: break-word;
 }
 
 td.diff-addedline,
