@@ -7167,7 +7167,7 @@ namespace WikiFunctions.Parse
         private readonly List<string> tagsRemoved = new List<string>();
         private readonly List<string> tagsAdded = new List<string>();
         private static readonly Regex ImproveCategories = Tools.NestedTemplateRegex("improve categories");
-        private static readonly Regex ProposedDeletionDatedEndorsed = Tools.NestedTemplateRegex( new [] {"Proposed deletion/dated", "Proposed deletion endorsed" });
+        private static readonly Regex ProposedDeletionDatedEndorsed = Tools.NestedTemplateRegex( new [] {"Proposed deletion/dated", "Proposed deletion endorsed", "Prod blp/dated" });
         private static readonly Regex Unreferenced = Tools.NestedTemplateRegex("unreferenced");
         private static readonly Regex Drugbox = Tools.NestedTemplateRegex(new[] { "Drugbox", "Chembox" });
         private static readonly Regex MinorPlanetListFooter = Tools.NestedTemplateRegex("MinorPlanetListFooter");
