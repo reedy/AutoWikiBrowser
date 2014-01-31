@@ -76,6 +76,7 @@
             this.lblReplace.Size = new System.Drawing.Size(50, 13);
             this.lblReplace.TabIndex = 2;
             this.lblReplace.Text = "Re&place:";
+            this.toolTip1.SetToolTip(this.lblReplace, @"The expression to replace: newlines are \n");
             // 
             // txtFind
             // 

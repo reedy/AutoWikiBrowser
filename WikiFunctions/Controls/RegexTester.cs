@@ -358,7 +358,10 @@ namespace WikiFunctions.Controls
                 ResultText.Visible = true;
 
                 txtInput.Text = NewLineRegex.Replace(txtInput.Text, "\r\n");
-                ResultText.Text = ResultText.Text.Replace("\r\n", "\n");
+
+                // make user-inserted \n show as a genuine newline
+                ResultText.Text = ResultText.Text.Replace("\\n", "\r\n");
+                // make any existing newlines in replace text display as newlines
                 ResultText.Text = NewLineRegex.Replace(ResultText.Text, "\r\n");
             }
         }
