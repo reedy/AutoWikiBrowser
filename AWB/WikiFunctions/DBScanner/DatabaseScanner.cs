@@ -821,21 +821,25 @@ namespace WikiFunctions.DBScanner
             UpdateListMakerCount();
         }
 
+        /// <summary>
+        /// Updates progress bar, detailed % reading (3 dp) and ETC to indicate progress through scan
+        /// </summary>
         private void UpdateProgressBar()
         {
-            double matchesByLimit = ((double)Matches / Limit);
-            double completion = Main.PercentageComplete;
+            double matchesByLimit = ((double)Matches / Limit), completion = Main.PercentageComplete, newValue;
 
-            int newValue;
-
+            /* indicate progress based on either fraction of matches compared to user-requested match limit
+             or overall fraction of file scanned, whichever is greater */             
             if (matchesByLimit > completion)
-                newValue = (int)(matchesByLimit * progressBar.Maximum);
+                newValue = matchesByLimit * progressBar.Maximum;
             else
-                newValue = (int)(completion * progressBar.Maximum);
+                newValue = completion * progressBar.Maximum;
 
-            progressBar.Value = (newValue < progressBar.Maximum) ? newValue : progressBar.Maximum;
-            lblPercentageComplete.Text = progressBar.Value / 2 + "%";
+            // show progress bar to nearest %, and detailed percentage to 3 dp
+            progressBar.Value = ((int)newValue < progressBar.Maximum) ? (int)newValue : progressBar.Maximum;
+            lblPercentageComplete.Text = Math.Round(newValue/2, 3) + "%";
 
+            // estimate an ETC. based on elapsed time and scan progress so far
             if (completion > 0.001)
             {
                 TimeSpan elapsedtime = new TimeSpan(DateTime.Now.Day, DateTime.Now.Hour, DateTime.Now.Minute,
@@ -846,7 +850,6 @@ namespace WikiFunctions.DBScanner
                 if (minutesLeft > 0)
                     lblPercentageComplete.Text += " ETC: " + minutesLeft + " mins,";
             }
-
         }
 
         private void btnBrowse_Click(object sender, EventArgs e)
