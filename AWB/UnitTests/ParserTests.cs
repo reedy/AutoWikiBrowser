@@ -4960,6 +4960,7 @@ http://example.com }}");
             Assert.AreEqual("[[|Bar]]", Parsers.FixEmptyLinksAndTemplates("[[|Bar]]"));
 
             Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[]]"));
+            Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[[[  ]]]]"));
             Assert.AreEqual("", Parsers.FixEmptyLinksAndTemplates("[[  ]]"));
 
             Assert.AreEqual("[[Category:Test]]", Parsers.FixEmptyLinksAndTemplates("[[Category:Test]]"));

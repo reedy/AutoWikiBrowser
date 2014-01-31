@@ -5304,7 +5304,8 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string FixEmptyLinksAndTemplates(string articleText)
         {
-            articleText = WikiRegexes.EmptyLink.Replace(articleText, "");
+            while(WikiRegexes.EmptyLink.IsMatch(articleText))
+                articleText = WikiRegexes.EmptyLink.Replace(articleText, "");
             return WikiRegexes.EmptyTemplate.Replace(articleText, "");
         }
 
