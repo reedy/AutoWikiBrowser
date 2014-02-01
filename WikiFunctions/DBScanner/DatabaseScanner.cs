@@ -829,7 +829,7 @@ namespace WikiFunctions.DBScanner
             double matchesByLimit = ((double)Matches / Limit), completion = Main.PercentageComplete, newValue;
 
             /* indicate progress based on either fraction of matches compared to user-requested match limit
-             or overall fraction of file scanned, whichever is greater */             
+             or overall fraction of file scanned, whichever is greater */
             if (matchesByLimit > completion)
                 newValue = matchesByLimit * progressBar.Maximum;
             else
@@ -837,7 +837,7 @@ namespace WikiFunctions.DBScanner
 
             // show progress bar to nearest %, and detailed percentage to 3 dp
             progressBar.Value = ((int)newValue < progressBar.Maximum) ? (int)newValue : progressBar.Maximum;
-            lblPercentageComplete.Text = Math.Round(newValue/2, 3) + "%";
+            lblPercentageComplete.Text = string.Format("{0:f3}", newValue/2) + "%"; // show percentage progress to 3 dp
 
             // estimate an ETC. based on elapsed time and scan progress so far
             if (completion > 0.001)
