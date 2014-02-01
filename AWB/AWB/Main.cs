@@ -779,6 +779,7 @@ namespace AutoWikiBrowser
         private Dictionary<int, int> targetlessLinks = new Dictionary<int, int>();
         private Dictionary<int, int> doublepipeLinks = new Dictionary<int, int>();
         private Dictionary<int, int> otherErrors = new Dictionary<int, int>();
+        private Dictionary<int, int> userSignature = new Dictionary<int, int>();
         private List<string> UnknownWikiProjectBannerShellParameters = new List<string>();
         private List<string> UnknownMultipleIssuesParameters = new List<string>();
 
@@ -1186,6 +1187,12 @@ namespace AutoWikiBrowser
             }
 
             foreach (KeyValuePair<int, int> kvp in otherErrors)
+            {
+                if (!Errors.ContainsKey(kvp.Key))
+                    Errors.Add(kvp.Key, kvp.Value);
+            }
+
+            foreach (KeyValuePair<int, int> kvp in userSignature)
             {
                 if (!Errors.ContainsKey(kvp.Key))
                     Errors.Add(kvp.Key, kvp.Value);
@@ -2595,6 +2602,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             wikilinkedHeaders.Clear();
             unbalancedBracket.Clear();
             otherErrors.Clear();
+            userSignature.Clear();
 
             if (reset)
             {
@@ -2740,6 +2748,14 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 // check for {{sic}} tags etc. when doing typo fixes
                 if ((alertPreferences.Count == 0 || alertPreferences.Contains(2) || chkRegExTypo.Checked) && TheArticle.HasSicTag)
                     lbAlerts.Items.Add(@"Contains 'sic' tag");
+
+                // check for [[User: or [[[User talk:
+                if ((alertPreferences.Count == 0 || alertPreferences.Contains(22)))
+                {
+                    userSignature = TheArticle.UserSignature();
+                    if (userSignature.Count > 0)
+                        lbAlerts.Items.Add("Editor's signature or link to user space" + " (" + userSignature.Count + ")");
+                }
 
                 MatchCollection imagesMC = WikiRegexes.ImagesCountOnly.Matches(articleText);
                 lblWords.Text = Words + wordCount;

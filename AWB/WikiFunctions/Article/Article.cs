@@ -644,6 +644,15 @@ namespace WikiFunctions
         }
 
         /// <summary>
+        /// Returns a dictionary of the index and length of any user or user talk occurence
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<int, int> UserSignature()
+        {
+            return Parsers.UserSignature(ArticleText);
+        }
+
+        /// <summary>
         /// Returns a dictionary of the index and length of any duplicated parameters in any WikiProjectBannerShell template
         /// </summary>
         /// <returns></returns>

@@ -8327,6 +8327,16 @@ namespace WikiFunctions.Parse
         private static readonly Regex ReflistQuick = new Regex(@"\{\{\s*(?:ref(?:-?li(?:st|nk)|erence)|[Ll]istaref)", RegexOptions.IgnoreCase);
 
         /// <summary>
+        /// Searches for link to user and/or user talk namespace
+        /// </summary>
+        /// <param name="articleText">The article text</param>
+        /// <returns>Dictionary of links to user or user talk namespace</returns>
+        public static Dictionary<int, int> UserSignature(string articleText)
+        {
+            return DictionaryOfMatches(articleText, WikiRegexes.UserSignature);
+        }
+
+        /// <summary>
         /// Check if the article uses cite references but has no recognised template to display the references; only for en-wiki
         /// </summary>
         // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.

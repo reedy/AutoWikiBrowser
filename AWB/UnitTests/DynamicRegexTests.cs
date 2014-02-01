@@ -537,6 +537,16 @@ Image here");
         }
 
         [Test]
+        public void UserSignature()
+        {
+            RegexAssert.IsMatch(WikiRegexes.UserSignature, "[[User:Foo bar]]");
+            RegexAssert.IsMatch(WikiRegexes.UserSignature, "[[User:JohnD]]");
+            RegexAssert.IsMatch(WikiRegexes.UserSignature, "[[User talk:Foo bar]]");
+            RegexAssert.IsMatch(WikiRegexes.UserSignature, "[[User talk:John D]]");
+        }
+
+
+        [Test]
         public void StubTests()
         {
             RegexAssert.IsMatch(WikiRegexes.Stub, @"{{footballer-bio-stub}}");
