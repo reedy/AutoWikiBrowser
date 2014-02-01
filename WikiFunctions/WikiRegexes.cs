@@ -37,7 +37,9 @@ namespace WikiFunctions
 
             string category = Variables.NamespacesCaseInsensitive[Namespace.Category],
             image = Variables.NamespacesCaseInsensitive[Namespace.File],
-            template = Variables.NamespacesCaseInsensitive[Namespace.Template];
+            template = Variables.NamespacesCaseInsensitive[Namespace.Template],
+            userns = Variables.NamespacesCaseInsensitive[Namespace.User],
+            usertalkns = Variables.NamespacesCaseInsensitive[Namespace.UserTalk];
 
             TemplateStart = @"\{\{\s*(:?" + template + ")?";
 
@@ -68,6 +70,8 @@ namespace WikiFunctions
                                           @"((?>[^\[\]]+|\[\[(?<DEPTH>)|\]\](?<-DEPTH>))*(?(DEPTH)(?!)))\]\]");
 
             Stub = new Regex(@"{{" + Variables.Stub + @"\s*(?:\|[^{}]+)?}}");
+            
+			UserSignature = new Regex(@"\[\[[\s_]*"+ userns + @"|" + usertalkns + @"[\s_]*([^\|]*?)(\|.*?)?\]\]");
 
             TemplateCall = new Regex(TemplateStart + @"\s*([^\]\|]*)\s*(.*)}}", RegexOptions.Singleline);
 
@@ -712,6 +716,12 @@ namespace WikiFunctions
         /// Matches links to the file namespace (images etc.), group 1 is the filename
         /// </summary>
         public static Regex FileNamespaceLink;
+
+        /// <summary>
+        /// Matches links to use or user talk namespace
+        /// </summary>
+        public static Regex UserSignature;
+
 
         /// <summary>
         /// Matches disambig templates, supports language variants e.g. for en-wiki {{disambig}}, {{dab}}.

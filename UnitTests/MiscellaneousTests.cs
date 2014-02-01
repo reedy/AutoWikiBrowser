@@ -576,6 +576,9 @@ Proin in odio. Pellentesque [[habitant]] [[morbi]] [[tristique]] senectus et net
             a = new Article("A", "{{cite web|date=5-4-10}}");
             Assert.AreEqual(1, a.AmbiguousCiteTemplateDates().Count);
             
+            a = new Article("A", "[[User talk:Noobie]]");
+            Assert.AreEqual(1, a.UserSignature().Count);
+
             a.ResetEditSummary();
             Assert.AreEqual("", a.EditSummary);
         }
