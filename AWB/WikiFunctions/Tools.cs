@@ -1777,7 +1777,7 @@ namespace WikiFunctions
 			if (file.Contains(":")) //If another drive, dont append startup path
 				WriteTextFileAbsolutePath(message, file, append);
 			else
-				WriteTextFileAbsolutePath(message, Application.StartupPath + "\\" + file, append);
+			    WriteTextFileAbsolutePath(message, Application.StartupPath + DirectoryDelimiter() + file, append);
 		}
 
 		/// <summary>
@@ -1788,7 +1788,16 @@ namespace WikiFunctions
 		/// <param name="append"></param>
 		public static void WriteTextFile(StringBuilder message, string file, bool append)
 		{
-			WriteTextFileAbsolutePath(message.ToString(), Application.StartupPath + "\\" + file, append);
+		    WriteTextFileAbsolutePath(message.ToString(), Application.StartupPath + DirectoryDelimiter() + file, append);
+		}
+
+		/// <summary>
+		/// Returns directory delimiter: normally \\ but / if running under Mono
+		/// </summary>
+		/// <returns></returns>
+		private static string DirectoryDelimiter()
+		{
+		    return Globals.UsingMono ? "/" : "\\";
 		}
 
 		/// <summary>
