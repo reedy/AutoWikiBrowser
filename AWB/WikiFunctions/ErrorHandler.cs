@@ -172,6 +172,7 @@ namespace WikiFunctions
 
             handler.txtSubject.Text = ex.GetType().Name + " in " + Thrower(ex);
 
+            Tools.WriteDebug("HandleException", errorMessage.ToString());
             handler.ShowDialog();
         }
 
