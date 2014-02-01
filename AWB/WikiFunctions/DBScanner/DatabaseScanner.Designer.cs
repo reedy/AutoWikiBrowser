@@ -995,7 +995,7 @@ namespace WikiFunctions.DBScanner
             // 
             // timerProgessUpdate
             // 
-            this.timerProgessUpdate.Interval = 300;
+            this.timerProgessUpdate.Interval = 1000;
             this.timerProgessUpdate.Tick += new System.EventHandler(this.timerProgessUpdate_Tick);
             // 
             // gbAWBSpecific
