@@ -1466,7 +1466,7 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             string articleTextOriginal = articleText;
-            bool sfnUsed = Footnote.IsMatch(articleText);
+            bool HasFootnote = Footnote.IsMatch(articleText);
 
             // 'quick' regexes are used for runtime performance saving
             if (RefsBeforePunctuationQuick.IsMatch(articleText))
@@ -1478,7 +1478,7 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            if(sfnUsed)
+            if(HasFootnote)
             {
                 while(PunctuationAfterSfn.IsMatch(articleText))
                     articleText = PunctuationAfterSfn.Replace(articleText, "${punc}${sfn}");
@@ -1486,7 +1486,7 @@ namespace WikiFunctions.Parse
 
             if(RefsAfterDupePunctuationQuick.IsMatch(articleText))
                 articleText = RefsAfterDupePunctuation.Replace(articleText, "$1$2$3");
-            if(sfnUsed)
+            if(HasFootnote)
                 articleText = SfnAfterDupePunctuation.Replace(articleText, "$1$2${sfn}");
 
             // if there have been changes need to call FixReferenceTags in case punctation moved didn't have witespace after it  
