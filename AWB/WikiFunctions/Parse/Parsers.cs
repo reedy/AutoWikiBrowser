@@ -1450,9 +1450,9 @@ namespace WikiFunctions.Parse
         private static readonly Regex RefsBeforePunctuationQuick = new Regex(@"(?<=(?:/|ref) *)> *" + RefsPunctuation);
         private static readonly Regex RefsAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *" + WikiRegexes.Refs, RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private static readonly Regex RefsAfterDupePunctuationQuick = new Regex(@"(?<![,\.:;])" + RefsPunctuation + @"\1 *<\s*ref", RegexOptions.IgnoreCase);
-        private static readonly Regex Sfn = Tools.NestedTemplateRegex(new[] {"Sfn", "Shortened footnote", "Shortened footnote template", "Efn", "Sfnp"});
-        private static readonly Regex PunctuationAfterSfn = new Regex(@"(?<sfn>" + Sfn.ToString() + @")(?<punc>[,\.;:])");
-        private static readonly Regex SfnAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *(?<sfn>" + Sfn.ToString() + @")");
+        private static readonly Regex Footnote = Tools.NestedTemplateRegex(new[] {"Efn", "Efn-ua", "Efn-lr", "Sfn", "Shortened footnote", "Shortened footnote template", "Sfnp", "Sfnm"});
+        private static readonly Regex PunctuationAfterSfn = new Regex(@"(?<sfn>" + Footnote.ToString() + @")(?<punc>[,\.;:])");
+        private static readonly Regex SfnAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *(?<sfn>" + Footnote.ToString() + @")");
 
         /// <summary>
         /// Puts &lt;ref&gt; and {{sfn}} references after punctuation (comma, full stop) per WP:REFPUNC
@@ -1466,7 +1466,7 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             string articleTextOriginal = articleText;
-            bool sfnUsed = Sfn.IsMatch(articleText);
+            bool sfnUsed = Footnote.IsMatch(articleText);
 
             // 'quick' regexes are used for runtime performance saving
             if (RefsBeforePunctuationQuick.IsMatch(articleText))
@@ -7015,7 +7015,7 @@ namespace WikiFunctions.Parse
 
             // {{no footnotes}} --> {{more footnotes}}, if some <ref>...</ref> or {{sfn}} references in article, uses regex from WikiRegexes.Refs
             // does not change templates with section / reason tags
-            if (NoFootnotes.IsMatch(articleText) && (Sfn.IsMatch(articleText) || TotalRefsNotGrouped(articleText) > 0))
+            if (NoFootnotes.IsMatch(articleText) && (Footnote.IsMatch(articleText) || TotalRefsNotGrouped(articleText) > 0))
                 articleText = NoFootnotes.Replace(articleText, m => OnlyArticleBLPTemplateME(m, "more footnotes"));
 
             // {{foo|section|...}} --> {{foo section|...}} for unreferenced, wikify, refimprove, BLPsources, expand, BLP unsourced
