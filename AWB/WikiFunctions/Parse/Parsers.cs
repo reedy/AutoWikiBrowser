@@ -1451,9 +1451,9 @@ namespace WikiFunctions.Parse
         private static readonly Regex RefsAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *" + WikiRegexes.Refs, RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private static readonly Regex RefsAfterDupePunctuationQuick = new Regex(@"(?<![,\.:;])" + RefsPunctuation + @"\1 *<\s*ref", RegexOptions.IgnoreCase);
         private static readonly Regex Footnote = Tools.NestedTemplateRegex(new[] {"Efn", "Efn-ua", "Efn-lr", "Sfn", "Shortened footnote", "Shortened footnote template", "Sfnp", "Sfnm"});
-        private static readonly Regex InlineTemplate = Tools.NestedTemplateRegex(new[] {"by whom", "citation needed", "clarify", "disambiguation needed", "dubious", "geographic reference", "peacock term", "update after", "update inline", "weasel-inline", "when", "which", "who", "whom", "whom2", "year needed"});
-        private static readonly Regex PunctuationAfterFootnoteOrInlineTemplate = new Regex(@"(?<sfn>" + Footnote.ToString() + @"|" + InlineTemplate.ToString() + @")(?<punc>[,\.;:])");
-        private static readonly Regex FootnoteOrInlineTemplateAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *(?<sfn>" + Footnote.ToString() + @"|" + InlineTemplate.ToString() + @")");
+        private static readonly Regex FootnoreOrInlineTemplate = Tools.NestedTemplateRegex(new[] {"Efn", "Efn-ua", "Efn-lr", "Sfn", "Shortened footnote", "Shortened footnote template", "Sfnp", "Sfnm", "by whom", "citation needed", "clarify", "disambiguation needed", "dubious", "geographic reference", "peacock term", "update after", "update inline", "weasel-inline", "when", "which", "who", "whom", "whom2", "year needed"});
+        private static readonly Regex PunctuationAfterFootnoteOrInlineTemplate = new Regex(@"(?<sfn>" + FootnoreOrInlineTemplate.ToString() + @")(?<punc>[,\.;:])");
+        private static readonly Regex FootnoteOrInlineTemplateAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *(?<sfn>" + FootnoreOrInlineTemplate.ToString() + @")");
 
         /// <summary>
         /// Puts &lt;ref&gt; and {{sfn}} references after punctuation (comma, full stop) per WP:REFPUNC
@@ -1467,7 +1467,7 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             string articleTextOriginal = articleText;
-            bool HasFootnoteOrInlineTemplate = Footnote.IsMatch(articleText) || InlineTemplate.IsMatch(articleText);
+            bool HasFootnoteOrInlineTemplate = FootnoreOrInlineTemplate.IsMatch(articleText);
 
             // 'quick' regexes are used for runtime performance saving
             if (RefsBeforePunctuationQuick.IsMatch(articleText))
@@ -6285,7 +6285,7 @@ namespace WikiFunctions.Parse
                 }
                 else if (ds.Count == 1) // already has DEFAULTSORT
                 {
-                    string s = Tools.FixupDefaultSort(ds[0].Groups[1].Value.TrimStart('|'), (ds[0].Groups[1].Value.Contains("'") && IsArticleAboutAPerson(articleText, articleTitle, true))).Trim();
+                    string s = Tools.FixupDefaultSort(ds[0].Groups[1].Value.TrimStart('|'), (HumanDefaultSortCleanupRequired(ds[0]) && IsArticleAboutAPerson(articleText, articleTitle, true))).Trim();
 
                     // do not change DEFAULTSORT just for casing
                     if (!s.ToLower().Equals(ds[0].Groups[1].Value.ToLower()) && s.Length > 0 && !restrictDefaultsortChanges)
@@ -6301,6 +6301,16 @@ namespace WikiFunctions.Parse
             }
             noChange = testText.Equals(articleText);
             return articleText;
+        }
+        
+        /// <summary>
+        /// Returns whether human name defaultsort cleanup required: contains apostrophe or unspaced comma
+        /// </summary>
+        /// <param name="ds"></param>
+        /// <returns></returns>
+        private static bool HumanDefaultSortCleanupRequired(Match ds)
+        {
+            return (ds.Groups[1].Value.Contains("'") || Regex.IsMatch(ds.Groups[1].Value, @"\w,\w"));
         }
 
         /// <summary>
