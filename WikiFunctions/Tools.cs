@@ -1677,6 +1677,7 @@ namespace WikiFunctions
 			if(isArticleAboutAPerson)
 			{
 				s = s.Replace("'", "");
+				s = Regex.Replace(s, @"(\w) *,(\w)", "$1, $2"); // ensure space after comma between names
 			}
 
 			return s.Trim();

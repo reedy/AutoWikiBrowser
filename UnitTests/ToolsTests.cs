@@ -2433,6 +2433,9 @@ hello", Tools.NestedTemplateRegex("foo"), true));
         {
             Assert.AreEqual(@"Oconnor, Fred", Tools.FixupDefaultSort(@"O'connor, Fred", true), "apostrophe removed for bio sortkey per [[WP:MCSTJR]]");
             Assert.AreEqual(@"O'connor Trading", Tools.FixupDefaultSort(@"O'connor Trading", false), "apostrophes not removed on non-bio sortkey");
+            Assert.AreEqual(@"Jones, Fred", Tools.FixupDefaultSort(@"Jones,Fred", true), "comma spacing");
+            Assert.AreEqual(@"Jones, Fred", Tools.FixupDefaultSort(@"Jones ,Fred", true), "comma spacing");
+            Assert.AreEqual(@"Jones, Fred", Tools.FixupDefaultSort(@"Jones, Fred", true), "comma spacing: no change if already correct");
         }
 
         [Test]
