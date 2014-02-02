@@ -1451,8 +1451,8 @@ namespace WikiFunctions.Parse
         private static readonly Regex RefsAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *" + WikiRegexes.Refs, RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private static readonly Regex RefsAfterDupePunctuationQuick = new Regex(@"(?<![,\.:;])" + RefsPunctuation + @"\1 *<\s*ref", RegexOptions.IgnoreCase);
         private static readonly Regex Sfn = Tools.NestedTemplateRegex(new[] {"Sfn", "Shortened footnote", "Shortened footnote template", "Efn", "Sfnp"});
-        private static readonly Regex PunctuationAfterSfn = new Regex(@"(?<sfn>" + Tools.NestedTemplateRegex(new[] {"Sfn", "Shortened footnote", "Shortened footnote template", "efn", "sfnp"}).ToString() + @")(?<punc>[,\.;:])");
-        private static readonly Regex SfnAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *(?<sfn>" + Tools.NestedTemplateRegex(new[] {"Sfn", "Shortened footnote", "Shortened footnote template", "efn", "sfnp"}).ToString() + @")");
+        private static readonly Regex PunctuationAfterSfn = new Regex(@"(?<sfn>" + Sfn.ToString() + @")(?<punc>[,\.;:])");
+        private static readonly Regex SfnAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *(?<sfn>" + Sfn.ToString() + @")");
 
         /// <summary>
         /// Puts &lt;ref&gt; and {{sfn}} references after punctuation (comma, full stop) per WP:REFPUNC
