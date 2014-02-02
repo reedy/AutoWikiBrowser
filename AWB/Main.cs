@@ -911,7 +911,7 @@ namespace AutoWikiBrowser
 
             if (automaticallyDoAnythingToolStripMenuItem.Checked)
             {
-                StatusLabelText = "Processing page";
+                StatusLabelText = (preParseModeToolStripMenuItem.Checked ? "Processing page (pre-parse mode)": "Processing page");
                 Application.DoEvents();
 
                 //FIXME: this position is imprefect, since above there is code that can explode, but this way
