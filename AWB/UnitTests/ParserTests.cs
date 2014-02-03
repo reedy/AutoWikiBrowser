@@ -8239,6 +8239,16 @@ foo {{persondata}}
             Assert.IsTrue(Parsers.IsInUse("<!--{{inuse}}--> {{in use|5 minutes}} Hello world"));
 
             Assert.IsFalse(Parsers.IsInUse("{{INUSE}} Hello world")); // no such template
+
+#if DEBUG
+            Variables.SetProjectLangCode("el");
+            WikiRegexes.MakeLangSpecificRegexes();
+            
+            Assert.IsTrue(Parsers.IsInUse("{{Σε χρήση}} Hello world"),"σε χρήση");
+            Assert.IsTrue(Parsers.IsInUse("{{inuse}} Hello world"),"inuse");
+            Assert.IsFalse(Parsers.IsInUse("{{goceinuse}} Hello world"),"goceinuse is en-only");
+
+#endif
         }
 
         [Test]
