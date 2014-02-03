@@ -142,7 +142,7 @@ namespace WikiFunctions
             DisambigsCleanup = new Regex(TemplateStart + @"([Dd]isambig-cleanup|[Dd]isambig cleanup|[Dd]isambiguation cleanup)" + @"\s*(?:\|[^{}]*?)?}}");
 
 
-        s = "([Ss]urnames?|SIA|[Ss]ia|[Ss]et index article|[Ss]et ?index|[Ss]hip ?index|[Mm]ountain ?index|[[Rr]oad ?index|[Ss]port ?index|[Gg]iven name|[Mm]olForm ?Index|[Mm]olecular formula index|[Cc]hemistry index|[Ee]nzyme index|[Mm]edia set index|[Ll]ake ?index|[Pp]lant common name)";
+        	s = "([Ss]urnames?|SIA|[Ss]ia|[Ss]et index article|[Ss]et ?index|[Ss]hip ?index|[Mm]ountain ?index|[[Rr]oad ?index|[Ss]port ?index|[Gg]iven name|[Mm]olForm ?Index|[Mm]olecular formula index|[Cc]hemistry index|[Ee]nzyme index|[Mm]edia set index|[Ll]ake ?index|[Pp]lant common name)";
             SIAs = new Regex(TemplateStart + s + @"\s*(?:\|[^{}]*?)?}}");
             
             if (Variables.MagicWords.TryGetValue("defaultsort", out magic))
@@ -193,7 +193,7 @@ namespace WikiFunctions
                     DateYearMonthParameter = @"تاريخ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
 					DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end|نهايه مسدوده)(?:\|(?:[^{}]+|" + DateYearMonthParameter + @"))?}}|({{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*dead ?end\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))");
                     Wikify =Tools.NestedTemplateRegex(@"ويكى");
-					break;
+                    break;
                 case "el":
                     Orphan = Tools.NestedTemplateRegex(@"Ορφανό");
                     uncattemplate = "([Αα]κατηγοριοποίητο)";
