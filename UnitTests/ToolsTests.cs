@@ -82,6 +82,7 @@ namespace UnitTests
             Assert.AreEqual(@"[Aa]bc", Tools.CaseInsensitive("abc"));
             Assert.AreEqual(@"[Aa]BC", Tools.CaseInsensitive("aBC"));
             Assert.AreEqual(@"[Aa]bc[de]", Tools.CaseInsensitive("abc[de]"));
+            Assert.AreEqual(@"[Σσ]bc", Tools.CaseInsensitive("Σbc"));
 
             // trimming
             Assert.AreEqual(@"[Aa]bc", Tools.CaseInsensitive("abc "));
