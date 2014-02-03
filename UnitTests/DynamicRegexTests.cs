@@ -853,6 +853,25 @@ now stubborn}}");
         }
 
         [Test]
+        public void InUseTests()
+        {
+            Assert.IsTrue(WikiRegexes.InUse.IsMatch(@"{{in use}}"));
+            Assert.IsTrue(WikiRegexes.InUse.IsMatch(@"{{inuse}}"));
+            Assert.IsTrue(WikiRegexes.InUse.IsMatch(@"{{in creation}}"));
+            
+            #if DEBUG
+            Variables.SetProjectLangCode("el");
+            WikiRegexes.MakeLangSpecificRegexes();
+            
+            Assert.IsTrue(WikiRegexes.InUse.IsMatch(@"{{σε χρήση}}"),"σε χρήση");
+            Assert.IsTrue(WikiRegexes.InUse.IsMatch(@"{{inuse}}"));
+            Assert.IsFalse(WikiRegexes.InUse.IsMatch(@"{{goceinuse}}"),"goceinuse is en-only");            
+            Variables.SetProjectLangCode("en");
+            WikiRegexes.MakeLangSpecificRegexes();
+            #endif
+        }
+
+        [Test]
         public void DateYearMonthParameterTests()
         {
             #if DEBUG

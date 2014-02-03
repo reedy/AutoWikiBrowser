@@ -8285,7 +8285,7 @@ namespace WikiFunctions.Parse
         /// </summary>
         public static bool IsInUse(string articleText)
         {
-            return Variables.LangCode.Equals("en") && WikiRegexes.InUse.IsMatch(WikiRegexes.UnformattedText.Replace(articleText, ""));
+            return WikiRegexes.InUse.IsMatch(WikiRegexes.UnformattedText.Replace(articleText, ""));
         }
 
         /// <summary>
