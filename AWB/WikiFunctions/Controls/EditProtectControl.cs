@@ -160,6 +160,7 @@ namespace WikiFunctions.Controls
             {
                 new ProtectionLevel("", "Unprotected"),
                 new ProtectionLevel("autoconfirmed", "Semi-protected"),
+                new ProtectionLevel("templateeditor", "Template editor"),
                 new ProtectionLevel("sysop", "Fully protected")
             };
     }
