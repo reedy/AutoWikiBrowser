@@ -186,6 +186,7 @@ namespace WikiFunctions
                     DateYearMonthParameter = @"تاريخ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
 					DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end|[Ii]nternal ?links|نهاية مسدودة)(?:\|(?:[^{}]+|" + DateYearMonthParameter + @"))?}}|({{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*dead ?end\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))");
                     Wikify =Tools.NestedTemplateRegex(@"ويكي");
+                    InUse = Tools.NestedTemplateRegex(new[] {"إنشاء", "تحرر", "Underconstruction", "تحت الإنشاء", "تحت الأنشاء", "يحرر", "إنشاء مقالة", "انشاء مقالة", "Inuse", "تحرير كثيف", "يحرر المقالة", "تحت التحرير", "قيد الاستخدام" });
                     break;
                 case "arz":
                     Orphan = Tools.NestedTemplateRegex(@"يتيمه");
@@ -203,8 +204,8 @@ namespace WikiFunctions
                     InUse = Tools.NestedTemplateRegex(new[] {"Inuse", "Σε χρήση" });
                     break;
                 case "hu":
-                   uncattemplate = UncatTemplatesEN;
-                   InUse = Tools.NestedTemplateRegex(new[] {"Építés alatt", "Fejlesztés"});
+                    uncattemplate = UncatTemplatesEN;
+                    InUse = Tools.NestedTemplateRegex(new[] {"Építés alatt", "Fejlesztés"});
                    break;
                 case "sv":
                     Orphan = Tools.NestedTemplateRegex(@"Föräldralös");
@@ -212,6 +213,7 @@ namespace WikiFunctions
                     DateYearMonthParameter = @"datum={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}";
 					DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end)(?:\|(?:[^{}]+|" + DateYearMonthParameter + @"))?}})");
                     Wikify = new Regex(@"{{\s*Ickewiki(?:\s*\|\s*(" + DateYearMonthParameter + @"|.*?))?}}", RegexOptions.IgnoreCase);
+                    InUse = Tools.NestedTemplateRegex(new[] {"Pågår", "Information kommer", "Pågående uppdateringar", "Ständiga uppdateringar", "PÅGÅR", "Påbörjad", "Bearbetning pågår"});
                     break;
                 case "ru":
                     Orphan = Tools.NestedTemplateRegex(@"изолированная статья");
@@ -219,6 +221,7 @@ namespace WikiFunctions
                     DateYearMonthParameter = @"date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
 					DeadEnd = new Regex(@"(?:{{\s*(?:[Tt]упиковая статья|[Dd]ead ?end)(?:\|(?:[^{}]+|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}))?}}|({{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*dead ?end\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))");
                     Wikify = new Regex(@"({{\s*Wikify(?:\s*\|\s*(date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|.*?))?}}|(?<={{\s*(?:Article|Multiple)\s*issues\b[^{}]*?)\|\s*wikify\s*=[^{}\|]+)", RegexOptions.IgnoreCase);
+                    InUse = Tools.NestedTemplateRegex(new[] {"Редактирую", "Перерабатываю", "Inuse-by", "Пишу", "Inuse", "Правлю", "Перевожу", "In-use", "Processing", "Process", "Статья редактируется", "Викифицирую", "Under construction" });
                     break;
                 default:
                     Orphan = new Regex(@"(?:{{\s*[Oo]rphan(?:\s*\|(?:[^{}]+|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}))?}}|(?<MI>{{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*orphan\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))");
