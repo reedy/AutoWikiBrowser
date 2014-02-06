@@ -18,6 +18,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Windows.Forms;
 using System.ComponentModel;
+using WikiFunctions;
 
 namespace WikiFunctions.Controls
 {
@@ -34,7 +35,43 @@ namespace WikiFunctions.Controls
             lbEdit.Items.Clear();
             lbMove.Items.Clear();
 
-            foreach (var p in ProtectionLevel.Levels)
+            // add basic protection levels
+            foreach (var p in ProtectionLevel.BasicLevels)
+            {
+                lbEdit.Items.Add(p);
+                lbMove.Items.Add(p);
+            }
+
+            // then add any custom protection levels per wiki
+            // see https://noc.wikimedia.org/conf/highlight.php?file=InitialiseSettings.php at the wgRestrictionLevels section
+            if(Variables.LangCode.Equals("en"))
+            {
+                lbEdit.Items.Add(new ProtectionLevel("templateeditor", "Template editor"));
+                lbMove.Items.Add(new ProtectionLevel("templateeditor", "Template editor"));
+            }
+            else   if(Variables.LangCode.Equals("ar"))
+            {
+                lbEdit.Items.Add(new ProtectionLevel("autoreview", "autoreview"));
+                lbMove.Items.Add(new ProtectionLevel("autoreview", "autoreview"));
+            }
+            else   if(Variables.LangCode.Equals("ckb") || Variables.LangCode.Equals("he"))
+            {
+                lbEdit.Items.Add(new ProtectionLevel("autopatrol", "autopatrol"));
+                lbMove.Items.Add(new ProtectionLevel("autopatrol", "autopatrol"));
+            }
+            else   if(Variables.LangCode.Equals("pl"))
+            {
+                lbEdit.Items.Add(new ProtectionLevel("editor", "editor"));
+                lbMove.Items.Add(new ProtectionLevel("editor", "editor"));
+            }
+            else   if(Variables.LangCode.Equals("pt"))
+            {
+                lbEdit.Items.Add(new ProtectionLevel("autoreviewer", "autoreviewer"));
+                lbMove.Items.Add(new ProtectionLevel("autoreviewer", "autoreviewer"));
+            }
+
+            // finally add the sysop protection level
+            foreach (var p in ProtectionLevel.Sysop)
             {
                 lbEdit.Items.Add(p);
                 lbMove.Items.Add(p);
@@ -156,11 +193,14 @@ namespace WikiFunctions.Controls
             return Group.GetHashCode();
         }
 
-        public static readonly ProtectionLevel[] Levels =
+        public static readonly ProtectionLevel[] BasicLevels =
             {
                 new ProtectionLevel("", "Unprotected"),
-                new ProtectionLevel("autoconfirmed", "Semi-protected"),
-                new ProtectionLevel("templateeditor", "Template editor"),
+                new ProtectionLevel("autoconfirmed", "Semi-protected")
+            };
+
+         public static readonly ProtectionLevel[] Sysop =
+            {
                 new ProtectionLevel("sysop", "Fully protected")
             };
     }
