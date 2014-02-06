@@ -52,7 +52,10 @@ namespace WikiFunctions.Controls
 
                 messages = new[]
                                {
-                                   "Heavy vandalism"
+                                   "Excessive vandalism",
+                                   "High traffic page",
+                                   "Excessive spamming",
+                                   "Edit warring"
                                };
             }
             else
@@ -72,7 +75,9 @@ namespace WikiFunctions.Controls
                     messages = new[]
                                    {
                                        "Typo in page title",
+                                       "Wikipedia naming convention",
                                        "Reverting vandalism page move",
+                                       "Facilitating concordance with a category's name"
                                    };
                 }
                 else // if (moveDeleteProtect == ArticleAction.Delete)
