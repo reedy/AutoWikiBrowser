@@ -964,6 +964,8 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("А", "A"), //cyrillic А
 			new KeyValuePair<string, string>("е", "e"), //cyrillic e (&#1077;)
 			new KeyValuePair<string, string>("Е", "E"), //cyrillic E
+			new KeyValuePair<string, string>("і", "i"), //cyrillic i (&#1110;)
+			new KeyValuePair<string, string>("І", "I"), //cyrillic I
 			
 
 			//Basic Vietnamese alphabet
@@ -1624,7 +1626,8 @@ namespace WikiFunctions
 		    new KeyValuePair<string, string>("–", "-"), // endash
 		    new KeyValuePair<string, string>("—", "-"), // emdash
 		    new KeyValuePair<string, string>("‒", "-"), // figure dash
-
+		    new KeyValuePair<string, string>("−", "-"), // minus
+		    
 		    new KeyValuePair<string, string>("¡", ""), // inverted exclamation mark
 		    new KeyValuePair<string, string>("¿", ""), // inverted question mark
 		    new KeyValuePair<string, string>("ʾ", "'"), // modifier letter right half ring
