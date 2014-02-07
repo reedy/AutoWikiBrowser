@@ -1479,6 +1479,8 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("ư", "u"),
 			new KeyValuePair<string, string>("ǔ", "u"),
 			new KeyValuePair<string, string>("ǖ", "u"),
+			new KeyValuePair<string, string>("Ṳ", "u"),
+			new KeyValuePair<string, string>("ṳ", "u"),
 			new KeyValuePair<string, string>("ǘ", "u"),
 			new KeyValuePair<string, string>("ǚ", "u"),
 			new KeyValuePair<string, string>("ǜ", "u"),
@@ -1621,6 +1623,7 @@ namespace WikiFunctions
 		    new KeyValuePair<string, string>("ʻ", "'"), // okina
 		    new KeyValuePair<string, string>("`", "'"), // grave accent
 		    new KeyValuePair<string, string>("´", "'"), // acute accent
+		    new KeyValuePair<string, string>("′", "'"), // prime
 		    
 		    new KeyValuePair<string, string>("“", "'"),  // double quotes (curly)
 		    new KeyValuePair<string, string>("”", "'"), // double quotes (curly)
