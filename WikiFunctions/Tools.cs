@@ -966,6 +966,8 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("Е", "E"), //cyrillic E
 			new KeyValuePair<string, string>("і", "i"), //cyrillic i (&#1110;)
 			new KeyValuePair<string, string>("І", "I"), //cyrillic I
+			new KeyValuePair<string, string>("х", "x"), //cyrillic x (&#1061;)
+			new KeyValuePair<string, string>("Х", "X"), //cyrillic X
 			
 
 			//Basic Vietnamese alphabet
@@ -1631,7 +1633,9 @@ namespace WikiFunctions
 		    new KeyValuePair<string, string>("¡", ""), // inverted exclamation mark
 		    new KeyValuePair<string, string>("¿", ""), // inverted question mark
 		    new KeyValuePair<string, string>("ʾ", "'"), // modifier letter right half ring
-		    new KeyValuePair<string, string>("ʿ", "'") // modifier letter left half ring
+		    new KeyValuePair<string, string>("ʿ", "'"), // modifier letter left half ring
+
+		    new KeyValuePair<string, string>("̧ ", "") // cedilla
 		};
 		#endregion
 
