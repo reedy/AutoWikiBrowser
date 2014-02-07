@@ -4431,7 +4431,7 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string PersonData(string articleText, string articleTitle)
         {
-            if (!Variables.LangCode.Equals("en")
+            if (!Variables.IsWikipediaEN
                 || WikiRegexes.Persondata.Matches(articleText).Count > 1
                 || (articleText.Contains("{{Persondata") && WikiRegexes.Persondata.Matches(articleText).Count == 0)) // skip in case of existing persondata with unbalanced brackets
                 return articleText;
