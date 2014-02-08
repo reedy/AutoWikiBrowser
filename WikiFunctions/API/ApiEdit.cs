@@ -902,7 +902,15 @@ namespace WikiFunctions.API
 
             if (Aborting) throw new AbortedException(this);
 
-            result = HttpPost(
+			// if page does not exist, protection (i.e. salting) requires create protection only
+			string protections;
+
+			if(Page.Exists)
+				protections = "edit=" + edit + "|move=" + move;
+			else 
+				protections = "create=" + edit;
+
+			result = HttpPost(
                 new[,]
                     {
                         {"action", "protect"}
@@ -912,7 +920,7 @@ namespace WikiFunctions.API
                         {"title", title},
                         {"token", Page.EditToken},
                         {"reason", reason},
-                        {"protections", "edit=" + edit + "|move=" + move},
+                        {"protections", protections},
                         {
                             string.IsNullOrEmpty(expiry) ? "" : "expiry",
                             string.IsNullOrEmpty(expiry) ? "" : expiry + "|" + expiry
@@ -979,7 +987,7 @@ namespace WikiFunctions.API
 
             if (Aborting) throw new AbortedException(this);
 
-            if (invalid)
+			if (invalid)
                 throw new ApiException(this, "invalidnewtitle", new ArgumentException("Target page invalid", "newTitle"));
 
             result = HttpPost(
