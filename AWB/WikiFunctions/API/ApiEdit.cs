@@ -905,10 +905,8 @@ namespace WikiFunctions.API
 			// if page does not exist, protection (i.e. salting) requires create protection only
 			string protections;
 
-			if(Page.Exists)
-				protections = "edit=" + edit + "|move=" + move;
-			else 
-				protections = "create=" + edit;
+			protections = "edit=" + edit + "|move=" + move;
+
 
 			result = HttpPost(
                 new[,]
