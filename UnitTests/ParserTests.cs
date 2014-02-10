@@ -8216,6 +8216,13 @@ foo {{persondata}}
 [[vo:Tatamy]]";
             Assert.IsFalse(Parsers.HasRefAfterReflist(bug1));
 
+            #if DEBUG
+            Variables.SetProjectLangCode("fr");
+
+            Assert.IsFalse(Parsers.HasRefAfterReflist(@"blah <ref>a</ref>
+==references== {{reflist}} <ref>b</ref>"));
+            Variables.SetProjectLangCode("en");
+            #endif
         }
 
         [Test]
