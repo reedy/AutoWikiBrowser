@@ -8366,6 +8366,9 @@ namespace WikiFunctions.Parse
         // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#.28Yet.29_more_reference_related_changes.
         public static bool HasRefAfterReflist(string articleText)
         {
+             if (!Variables.LangCode.Equals("en"))
+                return false;
+
             articleText = WikiRegexes.Comments.Replace(articleText, "");
             int refstemplateindex = 0, reflength = 0;
             foreach(Match m in WikiRegexes.ReferencesTemplate.Matches(articleText))
