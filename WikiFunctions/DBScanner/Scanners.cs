@@ -382,17 +382,13 @@ namespace WikiFunctions.DBScanner
     }
 
     /// <summary>
-    /// Returns whether the article is missing a default sort (ie criteria match so that default sort would be added)
+    /// Returns whether the article is missing a defaultsort (i.e. criteria match so that defaultsort would be added)
     /// </summary>
     public class MissingDefaultsort : Scan
     {
-        private bool Skip = true;
-
         public override bool Check(ArticleInfo article)
         {
-            Parsers.ChangeToDefaultSort(article.Text, article.Title, out Skip);
-
-            return !Skip;
+            return Parsers.MissingDefaultSort(article.Text, article.Title);
         }
     }
 

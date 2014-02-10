@@ -7779,6 +7779,16 @@ foo {{persondata}}
         }
 
         [Test]
+        public void MissingDefaultSort()
+        {
+            Assert.IsFalse(Parsers.MissingDefaultSort(@"A", @"A"));
+            Assert.IsFalse(Parsers.MissingDefaultSort(@"A {{DEFAULTSORT:A}}", @"A {{DEFAULTSORT:A}}"));
+            Assert.IsFalse(Parsers.MissingDefaultSort(@"A {{DEFAULTSORT:A}} [[category:A]]", @"A"));
+            Assert.IsTrue(Parsers.MissingDefaultSort(@"A
+[[Category:1910 births]]", @"John Smith"));
+        }
+
+        [Test]
         public void ChangeToDefaultsortCaseInsensitive()
         {
             bool noChange;

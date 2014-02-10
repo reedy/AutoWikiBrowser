@@ -6128,6 +6128,24 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
+        /// Returns whether the article is missing a defaultsort (i.e. criteria match so that defaultsort would be added)
+        /// </summary>
+        /// <param name="articletext"></param>
+        /// <param name="articletitle"></param>
+        /// <returns></returns>
+        public static bool MissingDefaultSort(string articletext, string articletitle)
+        {
+            bool Skip, DSbefore = WikiRegexes.Defaultsort.IsMatch(articletext);
+            if(!DSbefore)
+            {
+                articletext = ChangeToDefaultSort(articletext, articletitle, out Skip);
+                return (!Skip && WikiRegexes.Defaultsort.IsMatch(articletext));
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Changes an article to use defaultsort when all categories use the same sort field / cleans diacritics from defaultsort/categories
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
