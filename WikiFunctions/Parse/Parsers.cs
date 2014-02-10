@@ -1451,9 +1451,8 @@ namespace WikiFunctions.Parse
         private static readonly Regex RefsAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *" + WikiRegexes.Refs, RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private static readonly Regex RefsAfterDupePunctuationQuick = new Regex(@"(?<![,\.:;])" + RefsPunctuation + @"\1 *<\s*ref", RegexOptions.IgnoreCase);
         private static readonly Regex Footnote = Tools.NestedTemplateRegex(new[] {"Efn", "Efn-ua", "Efn-lr", "Sfn", "Shortened footnote", "Shortened footnote template", "Sfnp", "Sfnm"});
-        private static readonly Regex FootnoreOrInlineTemplate = Tools.NestedTemplateRegex(new[] {"Efn", "Efn-ua", "Efn-lr", "Sfn", "Shortened footnote", "Shortened footnote template", "Sfnp", "Sfnm"});
-        private static readonly Regex PunctuationAfterFootnoteOrInlineTemplate = new Regex(@"(?<sfn>" + FootnoreOrInlineTemplate.ToString() + @")(?<punc>[,\.;:])");
-        private static readonly Regex FootnoteOrInlineTemplateAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *(?<sfn>" + FootnoreOrInlineTemplate.ToString() + @")");
+        private static readonly Regex PunctuationAfterFootnote = new Regex(@"(?<sfn>" + Footnote.ToString() + @")(?<punc>[,\.;:])");
+        private static readonly Regex FootnoteAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *(?<sfn>" + Footnote.ToString() + @")");
 
         /// <summary>
         /// Puts &lt;ref&gt; and {{sfn}} references after punctuation (comma, full stop) per WP:REFPUNC
@@ -1467,7 +1466,7 @@ namespace WikiFunctions.Parse
                 return articleText;
 
             string articleTextOriginal = articleText;
-            bool HasFootnoteOrInlineTemplate = FootnoreOrInlineTemplate.IsMatch(articleText);
+            bool HasFootnote = Footnote.IsMatch(articleText);
 
             // 'quick' regexes are used for runtime performance saving
             if (RefsBeforePunctuationQuick.IsMatch(articleText))
@@ -1479,16 +1478,16 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            if(HasFootnoteOrInlineTemplate)
+            if(HasFootnote)
             {
-                while(PunctuationAfterFootnoteOrInlineTemplate.IsMatch(articleText))
-                    articleText = PunctuationAfterFootnoteOrInlineTemplate.Replace(articleText, "${punc}${sfn}");
+                while(PunctuationAfterFootnote.IsMatch(articleText))
+                    articleText = PunctuationAfterFootnote.Replace(articleText, "${punc}${sfn}");
             }
 
             if(RefsAfterDupePunctuationQuick.IsMatch(articleText))
                 articleText = RefsAfterDupePunctuation.Replace(articleText, "$1$2$3");
-            if(HasFootnoteOrInlineTemplate)
-                articleText = FootnoteOrInlineTemplateAfterDupePunctuation.Replace(articleText, "$1$2${sfn}");
+            if(HasFootnote)
+                articleText = FootnoteAfterDupePunctuation.Replace(articleText, "$1$2${sfn}");
 
             // if there have been changes need to call FixReferenceTags in case punctation moved didn't have witespace after it  
             if(!articleTextOriginal.Equals(articleText))
