@@ -2408,8 +2408,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
         private void UpdateAdminStatus()
         {
-            btnProtect.Enabled = btnMove.Enabled = btnDelete.Enabled = btntsDelete.Enabled =
-                TheSession.IsSysop && btnSave.Enabled && (TheArticle != null) && TheSession.Page.Exists;
+            // allow protection of non-existent page (salting)
+            btnProtect.Enabled = TheSession.IsSysop && btnSave.Enabled && (TheArticle != null);
+            btnMove.Enabled = btnDelete.Enabled = btntsDelete.Enabled =
+                btnProtect.Enabled && TheSession.Page.Exists;
             bypassAllRedirectsToolStripMenuItem.Enabled = TheSession.User.IsSysop;
         }
 
@@ -3284,7 +3286,9 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
             btnSave.Enabled = enabled && TheArticle != null && !string.IsNullOrEmpty(TheSession.Page.Title);
 
-            btnDelete.Enabled = btntsDelete.Enabled = btnMove.Enabled = btnProtect.Enabled = (enabled && TheSession.User.IsSysop && (TheArticle != null) && TheSession.Page.Exists);
+            // allow protection of non-existent page (salting)
+            btnProtect.Enabled = (enabled && TheSession.User.IsSysop && TheArticle != null);
+            btnDelete.Enabled = btntsDelete.Enabled = btnMove.Enabled = btnProtect.Enabled && TheSession.Page.Exists;
             btnFind.Enabled = txtFind.TextLength > 0;
 
             // if there are find matches, colour the Find button yellow
@@ -4525,12 +4529,6 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
             try
             {
-                if (!TheSession.Page.Exists)
-                {
-                    MessageBox.Show("Cannot protect a non-existent page");
-                    return;
-                }
-
                 if (!TheSession.User.IsSysop)
                 {
                     MessageBox.Show(

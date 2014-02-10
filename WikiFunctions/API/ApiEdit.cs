@@ -888,6 +888,7 @@ namespace WikiFunctions.API
                 ActionOptions.All);
 
             CheckForErrors(result);
+            Page = new PageInfo(result);
 
             try
             {
@@ -905,8 +906,19 @@ namespace WikiFunctions.API
 			// if page does not exist, protection (i.e. salting) requires create protection only
 			string protections;
 
-			protections = "edit=" + edit + "|move=" + move;
+			if(Page.Exists)
+				protections = "edit=" + edit + "|move=" + move;
+			else 
+				protections = "create=" + edit;
 
+			string expiryvalue;
+
+			if(string.IsNullOrEmpty(expiry))
+			    expiryvalue = "";
+			else if(Page.Exists)
+			    expiryvalue = expiry + "|" + expiry;
+			else
+			    expiryvalue = expiry;
 
 			result = HttpPost(
                 new[,]
@@ -921,7 +933,7 @@ namespace WikiFunctions.API
                         {"protections", protections},
                         {
                             string.IsNullOrEmpty(expiry) ? "" : "expiry",
-                            string.IsNullOrEmpty(expiry) ? "" : expiry + "|" + expiry
+                            expiryvalue
                         },
                         {cascade ? "cascade" : null, null},
                         //{ User.IsBot ? "bot" : null, null },
