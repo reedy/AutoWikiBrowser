@@ -89,7 +89,7 @@
             this.lblEdit.Name = "lblEdit";
             this.lblEdit.Size = new System.Drawing.Size(25, 13);
             this.lblEdit.TabIndex = 12;
-            this.lblEdit.Text = "Edit";
+            this.lblEdit.Text = "Create/Edit";
             // 
             // EditProtectControl
             // 
