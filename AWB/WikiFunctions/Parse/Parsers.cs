@@ -6496,6 +6496,7 @@ namespace WikiFunctions.Parse
 
             if (WikiRegexes.Persondata.Matches(articleText).Count == 1
                 || articleText.Contains(@"-bio-stub}}")
+                || articleText.Contains(@"-politician-stub}}")
                 || articleText.Contains(CategoryLivingPeople)
                 || WikiRegexes.PeopleInfoboxTemplates.Matches(zerothSection).Count == 1
                 || CategoryMatch(articleText, YearOfBirthMissingLivingPeople))
