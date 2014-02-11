@@ -1077,8 +1077,7 @@ fast„ "));
         public void CurlyDoubleQuotes()
         {
             Assert.IsTrue(WikiRegexes.CurlyDoubleQuotes.IsMatch(@" “ very fast ”"));
-            Assert.IsTrue(WikiRegexes.CurlyDoubleQuotes.IsMatch(@"very fast «"));
-            Assert.IsTrue(WikiRegexes.CurlyDoubleQuotes.IsMatch(@"very fast»"));
+			Assert.IsTrue(WikiRegexes.CurlyDoubleQuotes.IsMatch(@"very fast „"));
         }
 
         [Test]

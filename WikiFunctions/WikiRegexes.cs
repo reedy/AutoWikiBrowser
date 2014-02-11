@@ -795,7 +795,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches common curly double quotes, see [[MOS:PUNCT]]
         /// </summary>
-        public static readonly Regex CurlyDoubleQuotes = new Regex(@"[«»“”‟‹›“”„“”]");
+        public static readonly Regex CurlyDoubleQuotes = new Regex(@"[“”‟“”„“”]");
 
         // covered by TestFixNonBreakingSpaces
         /// <summary>
