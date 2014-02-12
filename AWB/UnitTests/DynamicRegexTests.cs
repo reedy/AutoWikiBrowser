@@ -541,6 +541,7 @@ Image here");
         {
             RegexAssert.IsMatch(WikiRegexes.UserSignature, "[[User:Foo bar]]");
             RegexAssert.IsMatch(WikiRegexes.UserSignature, "[[User:JohnD]]");
+            RegexAssert.IsMatch(WikiRegexes.UserSignature, "[[User:JohnD|Bob]]");
             RegexAssert.IsMatch(WikiRegexes.UserSignature, "[[User talk:Foo bar]]");
             RegexAssert.IsMatch(WikiRegexes.UserSignature, "[[User talk:John D]]");
         }
