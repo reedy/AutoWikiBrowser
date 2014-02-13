@@ -166,12 +166,35 @@ namespace WikiFunctions.TalkPages
             return pr.FoundSkipToTalk || pr.FoundDefaultSort;
         }
 
+		/// <summary>
+		/// Formats the default sort: ensures in {{DEFAULTSORT:key}} format
+		/// </summary>
+		/// <returns>
+		/// The updated article text.
+		/// </returns>
+		/// <param name='articleText'>
+		/// The article text.
+		/// </param>
         public static string FormatDefaultSort(string articleText)
         {
             return WikiRegexes.Defaultsort.Replace(articleText, "{{DEFAULTSORT:${key}}}");
         }
 
-        // Helper routines:
+		/// <summary>
+		/// Moves the default sort.
+		/// </summary>
+		/// <returns>
+		/// The updated article text.
+		/// </returns>
+		/// <param name='key'>
+		/// Current defaultsort key.
+		/// </param>
+		/// <param name='location'>
+		/// Required defaultsort location (top or bottom).
+		/// </param>
+		/// <param name='articleText'>
+		/// Article text.
+		/// </param>
         private static string SetDefaultSort(string key, DEFAULTSORT location, string articleText)
         {
             switch (location)
