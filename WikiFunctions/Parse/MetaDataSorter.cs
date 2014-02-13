@@ -806,12 +806,39 @@ en, sq, ru
 
 			return articleText;
 		}
-		
+
+		/// <summary>
+		/// Moves the given template(s) from anywhere in the article to the references section.
+		/// </summary>
+		/// <returns>
+		/// Updated article text
+		/// </returns>
+		/// <param name='articleText'>
+		/// Article text.
+		/// </param>
+		/// <param name='templateRegex'>
+		/// Regex to match the template(s) to be moved
+		/// </param>
 		public static string MoveTemplateToReferencesSection(string articleText, Regex templateRegex)
 		{
 			return MoveTemplateToReferencesSection(articleText, templateRegex, false);
 		}
 
+		/// <summary>
+		/// Moves the given template(s) to the required section.
+		/// </summary>
+		/// <returns>
+		/// Updated article text
+		/// </returns>
+		/// <param name='articleText'>
+		/// Article text.
+		/// </param>
+		/// <param name='templateRegex'>
+		/// Regex to match the template(s) to be moved
+		/// </param>
+		/// <param name='section'>
+		/// Section (references/notes/footnotes)
+		/// </param>
 		private static string MoveTemplateToSection(string articleText, Regex templateRegex, int section)
 		{
 			string extractedTemplate = templateRegex.Match(articleText).Value;
