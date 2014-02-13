@@ -102,7 +102,6 @@ namespace WikiFunctions
             get // see SvnInfo.template.cs for details
             {
                 return (!m_Revision.Contains("$")) ? m_Revision.Replace("/", "-") : "?";
-                //fallback in case of failed revision extraction
             }
         }
 
@@ -374,6 +373,9 @@ namespace WikiFunctions
             return ret;
         }
 
+		/// <summary>
+		/// Sets the AWB default summary tag.
+		/// </summary>
         private static void AWBDefaultSummaryTag()
         {
             mSummaryTag = "using ";
@@ -449,8 +451,7 @@ namespace WikiFunctions
         private static IWebProxy SystemProxy;
 
         /// <summary>
-        /// Creates an HTTP web request
-        /// Timeout set to 15 seconds
+        /// Creates an HTTP web request. Timeout set to 15 seconds
         /// </summary>
         /// <param name="url"></param>
         /// <param name="userAgent"></param>
@@ -472,11 +473,23 @@ namespace WikiFunctions
             return r;
         }
 
+		/// <summary>
+		/// Creates an HTTP web request. Timeout set to 15 seconds
+		/// </summary>
+		/// <returns>
+		/// The web request.
+		/// </returns>
+		/// <param name='url'>
+		/// URL.
+		/// </param>
         public static HttpWebRequest PrepareWebRequest(string url)
         {
             return PrepareWebRequest(url, "");
         }
 
+		/// <summary>
+		/// Refreshs the system proxy.
+		/// </summary>
         public static void RefreshProxy()
         {
             SystemProxy = WebRequest.GetSystemWebProxy();
@@ -741,6 +754,15 @@ namespace WikiFunctions
             CapitalizeFirstLetter = true;
         }
 
+		/// <summary>
+		/// Sets the language specific values: summary tag, stub regex, AWB project link
+		/// </summary>
+		/// <param name='langCode'>
+		/// Language code of wiki.
+		/// </param>
+		/// <param name='projectName'>
+		/// Project name of wiki.
+		/// </param>
         private static void SetLanguageSpecificValues(string langCode, ProjectEnum projectName)
         {
             switch (langCode)
