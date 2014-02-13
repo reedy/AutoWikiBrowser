@@ -57,7 +57,6 @@ namespace WikiFunctions
         public const int TimedTextTalk = 711;
 
         // Aliases
-
         public static readonly int Mainspace = Article;
         public static readonly int Image = File;
         public static readonly int ImageTalk = FileTalk;
