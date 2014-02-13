@@ -216,16 +216,16 @@ namespace WikiFunctions.Parse
             return (Variables.Project <= ProjectEnum.species) ? Sorter.Sort(articleText, articleTitle, fixOptionalWhitespace) : articleText;
         }
 
-        private static readonly Regex RegexHeadings0 = new Regex("(== *)(?:see also|related topics|related articles|internal links|also see):?( *==)", RegexOptions.IgnoreCase);
-        private static readonly Regex RegexHeadings1 = new Regex("(== *)(external links?|external sites?|outside links?|web ?links?|exterior links?):?( *==)", RegexOptions.IgnoreCase);
-        private static readonly Regex RegexHeadings3 = new Regex("(== *)(?:referen[sc]es?:?)( *==)", RegexOptions.IgnoreCase);
-        private static readonly Regex RegexHeadings4 = new Regex("(== *)(?:sources?:?)( *==)", RegexOptions.IgnoreCase);
-        private static readonly Regex RegexHeadings5 = new Regex("(== *)(further readings?:?)( *==)", RegexOptions.IgnoreCase);
-        private static readonly Regex RegexHeadings6 = new Regex("(== *)(Early|Personal|Adult|Later) Life( *==)", RegexOptions.IgnoreCase);
-        private static readonly Regex RegexHeadings7 = new Regex("(== *)(Current|Past|Prior) Members( *==)", RegexOptions.IgnoreCase);
+        private static readonly Regex RegexHeadingsSeeAlso = new Regex("(== *)(?:see also|related topics|related articles|internal links|also see):?( *==)", RegexOptions.IgnoreCase);
+        private static readonly Regex RegexHeadingsExternalLink = new Regex("(== *)(external links?|external sites?|outside links?|web ?links?|exterior links?):?( *==)", RegexOptions.IgnoreCase);
+        private static readonly Regex RegexHeadingsReferencess = new Regex("(== *)(?:referen[sc]es?:?)( *==)", RegexOptions.IgnoreCase);
+        private static readonly Regex RegexHeadingsSources = new Regex("(== *)(?:sources?:?)( *==)", RegexOptions.IgnoreCase);
+        private static readonly Regex RegexHeadingsFurtherReading = new Regex("(== *)(further readings?:?)( *==)", RegexOptions.IgnoreCase);
+        private static readonly Regex RegexHeadingsLife = new Regex("(== *)(Early|Personal|Adult|Later) Life( *==)", RegexOptions.IgnoreCase);
+        private static readonly Regex RegexHeadingsMembers = new Regex("(== *)(Current|Past|Prior) Members( *==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadingsBold = new Regex(@"^(=+\s*)(?:'''|<[Bb]>)(.*?)(?:'''|</[Bb]>)(\s*=+\s*)$");
-        private static readonly Regex RegexHeadings9 = new Regex("(== *)track listing( *==)", RegexOptions.IgnoreCase);
-        private static readonly Regex RegexHeadings10 = new Regex("(== *)Life and Career( *==)", RegexOptions.IgnoreCase);
+        private static readonly Regex RegexHeadingsTrackListing = new Regex("(== *)track listing( *==)", RegexOptions.IgnoreCase);
+        private static readonly Regex RegexHeadingsLifeCareer = new Regex("(== *)Life and Career( *==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadingsCareer = new Regex("(== ?)([a-zA-Z]+) Career( ?==)", RegexOptions.IgnoreCase);
 
         private static readonly Regex RegexBadHeaderStartOfAticle = new Regex("^(={1,4} ?(about|description|overview|definition|profile|(?:general )?information|background|intro(?:duction)?|summary|bio(?:graphy)?) ?={1,4})", RegexOptions.IgnoreCase);
@@ -339,19 +339,19 @@ namespace WikiFunctions.Parse
             // Removes colon at end of heading  - CHECKWIKI error 57
             hAfter = RegexHeadingColonAtEnd.Replace(hAfter, "$1$2$3");
 
-            hAfter = RegexHeadings1.Replace(hAfter, "$1External links$3");
+            hAfter = RegexHeadingsExternalLink.Replace(hAfter, "$1External links$3");
 
-            hAfter = RegexHeadings5.Replace(hAfter, "$1Further reading$3");
-            hAfter = RegexHeadings6.Replace(hAfter, "$1$2 life$3");
-            hAfter = RegexHeadings7.Replace(hAfter, "$1$2 members$3");
-            hAfter = RegexHeadings9.Replace(hAfter, "$1Track listing$2");
-            hAfter = RegexHeadings10.Replace(hAfter, "$1Life and career$2");
+            hAfter = RegexHeadingsFurtherReading.Replace(hAfter, "$1Further reading$3");
+            hAfter = RegexHeadingsLife.Replace(hAfter, "$1$2 life$3");
+            hAfter = RegexHeadingsMembers.Replace(hAfter, "$1$2 members$3");
+            hAfter = RegexHeadingsTrackListing.Replace(hAfter, "$1Track listing$2");
+            hAfter = RegexHeadingsLifeCareer.Replace(hAfter, "$1Life and career$2");
             hAfter = RegexHeadingsCareer.Replace(hAfter, "$1$2 career$3");
-            hAfter = RegexHeadings0.Replace(hAfter, "$1See also$2");
+            hAfter = RegexHeadingsSeeAlso.Replace(hAfter, "$1See also$2");
 
             // Plural per [[WP:FNNR]]
-            hAfter = RegexHeadings3.Replace(hAfter, m2=> m2.Groups[1].Value + "References" + m2.Groups[2].Value);
-            hAfter = RegexHeadings4.Replace(hAfter, m2=> m2.Groups[1].Value + "Sources" + m2.Groups[2].Value);
+            hAfter = RegexHeadingsReferencess.Replace(hAfter, m2=> m2.Groups[1].Value + "References" + m2.Groups[2].Value);
+            hAfter = RegexHeadingsSources.Replace(hAfter, m2=> m2.Groups[1].Value + "Sources" + m2.Groups[2].Value);
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Bold_text_in_headers
             // Removes bold from level 3 headers and below, as it makes no visible difference

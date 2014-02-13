@@ -89,6 +89,12 @@ namespace WikiFunctions.Parse
             return result;
         }
 
+		/// <summary>
+		/// Loads all wiki site languages from local disk cache.
+		/// </summary>
+		/// <returns>
+		/// <c>true</c>, if from cache was loaded, <c>false</c> otherwise.
+		/// </returns>
         private static bool LoadFromCache()
         {
             Languages = Load("Languages");
@@ -103,6 +109,9 @@ namespace WikiFunctions.Parse
             return Loaded;
         }
 
+		/// <summary>
+		/// Loads site matrix info from network by API call to en-wiki
+		/// </summary>
         private static void LoadFromNetwork()
         {
             string strMatrix = Tools.GetHTML("https://en.wikipedia.org/w/api.php?action=sitematrix&format=xml");
@@ -155,6 +164,9 @@ namespace WikiFunctions.Parse
             }
         }
 
+		/// <summary>
+		/// Saves loaded wiki language information to local disk cache.
+		/// </summary>
         private static void SaveToCache()
         {
             ObjectCache.Global.Set(Key("Languages"), Languages);
@@ -168,11 +180,15 @@ namespace WikiFunctions.Parse
             ObjectCache.Global.Set(Key("Specials"), Specials);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="project"></param>
-        /// <returns></returns>
+		/// <summary>
+		/// Gets the project languages for the given project.
+		/// </summary>
+		/// <returns>
+		/// The project language list
+		/// </returns>
+		/// <param name='project'>
+		/// Project.
+		/// </param>
         public static List<string> GetProjectLanguages(ProjectEnum project)
         {
             switch (project)
