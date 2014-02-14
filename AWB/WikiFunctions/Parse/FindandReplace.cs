@@ -388,24 +388,6 @@ namespace WikiFunctions.Parse
         #region loading/saving
 
         /// <summary>
-        /// Adds a find and replacement task.
-        /// </summary>
-        /// <param name="findText">The string to find.</param>
-        /// <param name="replaceWith">The replacement string.</param>
-        /// <param name="caseSensitive"></param>
-        /// <param name="isRegex"></param>
-        /// <param name="multiline"></param>
-        /// <param name="singleline"></param>
-        /// <param name="lineEnabled"></param>
-        /// <param name="lineComment"></param>
-        public void AddNew(string findText, string replaceWith, bool caseSensitive, bool isRegex, bool multiline, bool singleline, bool lineEnabled, string lineComment)
-        {
-            dataGridView1.Rows.Add(findText, replaceWith, caseSensitive, isRegex, multiline, singleline, lineEnabled, lineComment);
-            
-            MakeList();
-        }
-
-        /// <summary>
         /// 
         /// </summary>
         /// <param name="r"></param>
