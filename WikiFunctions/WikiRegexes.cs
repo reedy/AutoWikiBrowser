@@ -71,7 +71,7 @@ namespace WikiFunctions
 
             Stub = new Regex(@"{{" + Variables.Stub + @"\s*(?:\|[^{}]+)?}}");
             
-			UserSignature = new Regex(@"\[\[[\s_]*"+ userns + @"|" + usertalkns + @"[\s_]*([^\|]*?)(\|.*?)?\]\]");
+			UserSignature = new Regex(@"\[\[\s*(?:"+ userns + @"|" + usertalkns + @")");
 
             TemplateCall = new Regex(TemplateStart + @"\s*([^\]\|]*)\s*(.*)}}", RegexOptions.Singleline);
 
