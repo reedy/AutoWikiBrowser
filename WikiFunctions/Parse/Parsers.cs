@@ -3946,7 +3946,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex IdASIN = new Regex(@"^ASIN:?\s*([\d \-]+X?)$", RegexOptions.Compiled);
         private static readonly Regex YearOnly = new Regex(@"^[12]\d{3}$", RegexOptions.Compiled);
         private static readonly Regex ISBNDash = new Regex(@"(\d)[–](\d|X$)");
-		private static readonly Regex BalancedArrows = new Regex(@"(?:«(.*)»|‹(.*)›)");
+		private static readonly Regex BalancedArrows = new Regex(@"(?:«([^»]+)»|‹([^›]+)›)");
 
         /// <summary>
         /// Performs fixes to a given citation template call
