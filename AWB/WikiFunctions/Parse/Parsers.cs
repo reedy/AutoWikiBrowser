@@ -4061,7 +4061,7 @@ namespace WikiFunctions.Parse
 					// convert curly quotes to straight quotes per [[MOS:PUNCT]], but » or › may be section delimeter
 					// so only change those when balanced. Note regular <> characters are not changed.
                     quotetitle = WikiRegexes.CurlyDoubleQuotes.Replace(quotetitle, @"""");
-					quotetitle = BalancedArrows.Replace(quotetitle, @"$1$2");
+					quotetitle = BalancedArrows.Replace(quotetitle, @"""$1$2""");
 
                     if (quotetitle.Contains(@"""") && !quotetitle.Trim('"').Contains(@""""))
                         quotetitle = quotetitle.Trim('"');
