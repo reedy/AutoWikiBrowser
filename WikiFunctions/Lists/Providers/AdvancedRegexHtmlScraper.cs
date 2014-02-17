@@ -76,7 +76,7 @@ namespace WikiFunctions.Lists.Providers
 
         public string DisplayText
         {
-            get { return "HTML Scraper (Advanced Regex)"; }
+            get { return "HTML Scraper (advanced regex)"; }
         }
 
         public string UserInputTextBoxText
