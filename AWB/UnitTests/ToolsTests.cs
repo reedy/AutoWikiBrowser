@@ -2568,6 +2568,9 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual("Foo:Bar", FromTalk("Foo:Bar"));
             Assert.AreEqual("Foo:Bar", FromTalk("Talk:Foo:Bar"));
             Assert.AreEqual("User:Foo bar", FromTalk("User:Foo bar"));
+            Assert.AreEqual("File:Bar", FromTalk("File talk:Bar"));
+            //Assert.AreEqual("File:Bar", FromTalk("Image talk:Bar"),"it bypasses redirects to file namespace");
+            Assert.AreEqual("Template:Bar", FromTalk("Template talk:Bar"));
             Assert.AreEqual("Category:Foo bar", FromTalk("Category talk:Foo bar"));
 
             // Don't choke on special namespaces
