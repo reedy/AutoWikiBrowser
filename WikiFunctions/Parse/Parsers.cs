@@ -268,11 +268,12 @@ namespace WikiFunctions.Parse
         public static string FixHeadings(string articleText, string articleTitle)
         {
             // one blank line before each heading per MOS:HEAD
+            // avoid special case of indented text that may be code with lost of == that matches a heading
             if (Variables.IsWikipediaEN)
             {
                 articleText = Anchor2NewlineHeader.Replace(articleText, m => m.Value.Replace("\r\n\r\n==", "\r\n=="));
                 if(HeadingsIncorrectWhitespaceBefore.IsMatch(articleText)) // check for performance
-                    articleText = WikiRegexes.HeadingsWhitespaceBefore.Replace(articleText, "\r\n\r\n$1");
+                    articleText = WikiRegexes.HeadingsWhitespaceBefore.Replace(articleText, m => m.Groups[2].Value.Contains("==") ? m.Value : "\r\n\r\n" + m.Groups[1].Value);
             }
 
             // Removes level 2 heading if it matches pagetitle

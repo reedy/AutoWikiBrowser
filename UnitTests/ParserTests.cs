@@ -5594,6 +5594,11 @@ x", Parsers.FixHeadings(@"x
 ==Major championships==
 ====Wins====	
 x", "test"), "Excess tab whitespace in second header handled");
+
+            const string indented = @"A
+ == some code here === and here ==
+ Done";
+            Assert.AreEqual(indented, Parsers.FixHeadings(indented, "Test"), "No change to indented text with other == in");
         }
 
         [Test]
