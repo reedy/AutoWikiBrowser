@@ -4919,6 +4919,10 @@ http://example.com }}");
 
             // diacritics removed from sortkeys
             Assert.AreEqual(@"[[Category:World Scout Committee members|Laine, Juan]]", Parsers.FixCategories(@"[[Category:World Scout Committee members|Lainé, Juan]]"));
+
+            Variables.Namespaces.Remove(Namespace.Category);
+            Assert.AreEqual("", Parsers.FixCategories(""), "Fallback to English category namespace name");
+            Variables.Namespaces.Add(Namespace.Category,"Category:");
         }
 
         [Test]
