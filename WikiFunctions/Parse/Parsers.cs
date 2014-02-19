@@ -5371,7 +5371,12 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixCategories(string articleText)
         {
-            string CategoryStart = @"[[" + Variables.Namespaces[Namespace.Category];
+            string CategoryStart = @"[[";
+            if(Variables.Namespaces.ContainsKey(Namespace.Category))
+                CategoryStart += Variables.Namespaces[Namespace.Category];
+            else
+                CategoryStart += "Category:";
+
             // fix extra brackets: three or more at end
             articleText = Regex.Replace(articleText, @"(?<=" + Regex.Escape(CategoryStart) + @"[^\r\n\[\]{}<>]+\]\])\]+", "");
             // three or more at start
