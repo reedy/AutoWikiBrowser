@@ -2752,7 +2752,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                     lbAlerts.Items.Add(@"Contains 'sic' tag");
 
                 // check for [[User: or [[[User talk:
-                if ((alertPreferences.Count == 0 || alertPreferences.Contains(22)))
+                if ((alertPreferences.Count == 0 || alertPreferences.Contains(22)) && TheArticle.NameSpaceKey == Namespace.Article)
                 {
                     userSignature = TheArticle.UserSignature();
                     if (userSignature.Count > 0)
