@@ -3312,7 +3312,8 @@ namespace WikiFunctions.Parse
             articleText = articleText.Replace("</i><i>", "");
 
             //replace html with wiki syntax - CHECKWIKI error 26 and 38
-            articleText = SyntaxRegexItalicBoldEm.Replace(articleText, BoldItalicME);
+            while(SyntaxRegexItalicBoldEm.IsMatch(articleText))
+                articleText = SyntaxRegexItalicBoldEm.Replace(articleText, BoldItalicME);
 
             if(articleText.Contains("<hr>") || articleText.Contains("-----"))
                 articleText = SyntaxRegexHorizontalRule.Replace(articleText, "----");

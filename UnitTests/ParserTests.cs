@@ -3518,6 +3518,7 @@ Template:foo}}"));
             Assert.AreEqual("''foo'' bar", Parsers.FixSyntax("<em>foo</em> bar"));
             Assert.AreEqual("''foobar''", Parsers.FixSyntax("<i>foo</i><i>bar</i>"));
             Assert.AreEqual("''foobar''", Parsers.FixSyntax("<i>foo<i/><i>bar</i>"));
+            Assert.AreEqual("'''''foo''''' bar", Parsers.FixSyntax("<b><i>foo</i></b> bar"));
 
             const string EmTemplate = @"{{em|foo}}";
             Assert.AreEqual(EmTemplate, Parsers.FixSyntax(EmTemplate));
