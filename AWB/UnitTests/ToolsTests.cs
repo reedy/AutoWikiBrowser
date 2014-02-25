@@ -2298,6 +2298,7 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual("DDoe, John", Tools.MakeHumanCatKey("J'ohn D'Doe", ""));
             Assert.AreEqual("Test", Tools.MakeHumanCatKey("'Test", ""));
             Assert.AreEqual("ODonnell, Lillian", Tools.MakeHumanCatKey("Lillian O’Donnell", ""));
+            Assert.AreEqual("Word", Tools.MakeHumanCatKey(", Word", ""));
         }
 
         [Test]
