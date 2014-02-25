@@ -237,7 +237,8 @@ namespace WikiFunctions
 
 			int intLast = name.LastIndexOf(" ") + 1;
 			string lastName = name.Substring(intLast).Trim();
-			name = name.Remove(intLast).Trim();
+			if(name.Length > 0)
+			    name = name.Remove(intLast).Trim();
 
 			if (IsRomanNumber(lastName) || Regex.IsMatch(lastName, @"^[SJsj]n?r\.$"))
 			{
