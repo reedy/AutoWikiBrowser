@@ -644,6 +644,7 @@ words.
 			Assert.AreEqual(b + e + a + "\r\n", MetaDataSorter.MoveTemplateToReferencesSection(a + b + e, WikiFunctions.WikiRegexes.Ibid));
 			
 			Assert.AreEqual(b + c + d + a + "\r\n" + g, MetaDataSorter.MoveTemplateToReferencesSection(a + b + c + d + g, WikiFunctions.WikiRegexes.Ibid, false), "move to Notes ahead of References");
+			Assert.AreEqual(b + d + a + "\r\n" + c + g, MetaDataSorter.MoveTemplateToReferencesSection(b + d + a + "\r\n" + c + g, WikiFunctions.WikiRegexes.Ibid), "No change: ibid already in notes section");
 			
 			// outside zeroth section – okay
 			Assert.AreEqual(@"'''Article''' words.

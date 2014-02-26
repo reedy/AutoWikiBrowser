@@ -787,6 +787,19 @@ en, sq, ru
 			if(TemplateRegex.Matches(articleText).Count != 1 || (onlyfromzerothsection && TemplateRegex.Matches(WikiRegexes.ZerothSection.Match(articleText).Value).Count != 1))
 			    return articleText;
 
+			// return if template is already in one the the 'References', 'Notes' or 'Footnotes' sections
+			string[] sec = Tools.SplitToSections(articleText);
+
+			foreach(string s in sec)
+			{
+			    if(TemplateRegex.IsMatch(s))
+			    {
+			        if(NotesSectionRegex.IsMatch(s) || ReferencesSectionRegex.IsMatch(s)
+			           || FootnotesSectionRegex.IsMatch(s))
+			            return articleText;
+			    }
+			}
+
 			// find the template position
 			// the template must end up in one of the 'References', 'Notes' or 'Footnotes' section
 			int templatePosition = TemplateRegex.Match(articleText).Index, notesSectionPosition = NotesSectionRegex.Match(articleText).Index;
