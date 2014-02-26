@@ -788,7 +788,7 @@ en, sq, ru
 			    return articleText;
 
 			// find the template position
-			// the template must be in one of the 'References', 'Notes' or 'Footnotes' section
+			// the template must end up in one of the 'References', 'Notes' or 'Footnotes' section
 			int templatePosition = TemplateRegex.Match(articleText).Index, notesSectionPosition = NotesSectionRegex.Match(articleText).Index;
 
 			if (notesSectionPosition > 0 && templatePosition < notesSectionPosition)
