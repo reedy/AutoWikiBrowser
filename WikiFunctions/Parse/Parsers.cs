@@ -3295,7 +3295,12 @@ namespace WikiFunctions.Parse
 
             articleText = articleText.Replace(@"<small/>", @"</small>");
 
-			// The <strike> tag is not supported in HTML5. - CHECKWIKI error 42
+            articleText = articleText.Replace(@"<sub/>", @"</sub>");
+            articleText = articleText.Replace(@"</sub/>", @"</sub>");
+            articleText = articleText.Replace(@"<sup/>", @"</sup>");
+            articleText = articleText.Replace(@"</sup/>", @"</sup>");
+
+            // The <strike> tag is not supported in HTML5. - CHECKWIKI error 42
             articleText = articleText.Replace(@"<strike>", @"<s>");
             articleText = articleText.Replace(@"</strike>", @"</s>");
 

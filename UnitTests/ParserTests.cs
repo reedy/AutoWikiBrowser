@@ -2163,11 +2163,13 @@ was [[foo|bar]] too"));
         }
 
         [Test]
-        public void FixSmallSyntax()
+        public void FixSmallSubSupSyntax()
         {
-            const string corr = @"Foo<small>bar</small> was";
-            Assert.AreEqual(corr, Parsers.FixSyntax(@"Foo<small>bar<small/> was"));
+            const string corr = @"Foo<small>bar</small> was the 1<sub>st</sub> to drink H<sup>2</sup>O";
+            Assert.AreEqual(corr, Parsers.FixSyntax(@"Foo<small>bar<small/> was the 1<sub>st<sub/> to drink H<sup>2<sup/>O"));
+            Assert.AreEqual(corr, Parsers.FixSyntax(@"Foo<small>bar<small/> was the 1<sub>st</sub/> to drink H<sup>2</sup/>O"));
             Assert.AreEqual(corr, Parsers.FixSyntax(corr));
+            
         }
 
         [Test]
