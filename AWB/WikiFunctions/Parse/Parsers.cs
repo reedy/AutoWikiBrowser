@@ -3294,11 +3294,15 @@ namespace WikiFunctions.Parse
             articleText = Tools.TemplateToMagicWord(articleText);
 
             articleText = articleText.Replace(@"<small/>", @"</small>");
+            articleText = articleText.Replace(@"</small/>", @"</small>");
 
             articleText = articleText.Replace(@"<sub/>", @"</sub>");
             articleText = articleText.Replace(@"</sub/>", @"</sub>");
             articleText = articleText.Replace(@"<sup/>", @"</sup>");
             articleText = articleText.Replace(@"</sup/>", @"</sup>");
+
+            articleText = articleText.Replace(@"<center/>", @"</center>");
+            articleText = articleText.Replace(@"</center/>", @"</center>");
 
             // The <strike> tag is not supported in HTML5. - CHECKWIKI error 42
             articleText = articleText.Replace(@"<strike>", @"<s>");
