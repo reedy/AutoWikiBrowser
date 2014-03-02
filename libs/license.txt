@@ -1,31 +1,3 @@
-Json.NET
-
-http://james.newtonking.com/projects/json-net.aspx
-http://www.codeplex.com/json/
-
-
-Description:
-
-Json.NET makes working with JSON formatted data in .NET simple. Quickly read and write
-JSON using LINQ to JSON or serialize your .NET objects with a single method call using
-the JsonSerializer.
-
--Flexible JSON serializer to convert .NET objects to JSON and back again 
--LINQ to JSON for reading and writing JSON 
--Writes indented, easy to read JSON 
--Convert JSON to and from XML 
--Supports Silverlight and Windows Phone
-
-
-Documentation:
-
-http://james.newtonking.com/projects/json/help/
-
-
-  Portable Class Library (.NET 4.0, WP7, SL4)
-
-License:
-
 Copyright (c) 2007 James Newton-King
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this
