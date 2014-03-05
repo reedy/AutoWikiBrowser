@@ -8036,7 +8036,7 @@ namespace WikiFunctions.Parse
 
         /// <summary>
         /// Match evaluator for tag updater
-        /// Tags undatd tags, corrects incorrect template parameter names, removes template namespace in template name
+        /// Tags undated tags, corrects incorrect template parameter names, removes template namespace in template name
         /// </summary>
         private static string TagUpdaterME(Match m)
         {
@@ -8057,7 +8057,7 @@ namespace WikiFunctions.Parse
             string TemplateNamespace;
             if (Variables.NamespacesCaseInsensitive.TryGetValue(Namespace.Template, out TemplateNamespace))
             {
-                templatecall = Regex.Replace(templatecall, TemplateNamespace, "");
+                templatecall = Regex.Replace(templatecall, @"\b" + TemplateNamespace, "");
             }
 
             // check if template already dated (date= parameter, localised for some wikis)
@@ -8125,7 +8125,7 @@ namespace WikiFunctions.Parse
                 }
 
                 // date field starts lower case?
-                if (!dateFieldValue.Contains(@"CURRENTMONTHNAME") && !dateFieldValue.Equals(Tools.TurnFirstToUpper(dateFieldValue.ToLower())))
+                if (!dateFieldValue.Contains(@"CURRENTMONTH") && !dateFieldValue.Equals(Tools.TurnFirstToUpper(dateFieldValue.ToLower())))
                     templatecall = Tools.SetTemplateParameterValue(templatecall, dateparam, Tools.TurnFirstToUpper(dateFieldValue.ToLower()));
             }
 
