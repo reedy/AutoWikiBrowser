@@ -225,7 +225,7 @@ namespace WikiFunctions
                     break;
                 case "zh":
                     DateYearMonthParameter = @"time={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}-{{subst:CURRENTDAY2}}";
-                    Orphan = new Regex(@"(?:{{\s*[Oo]rphan(?:\s*\|(?:[^{}]+|" +DateYearMonthParameter +@"))?}}|(?<MI>{{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*orphan\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))");
+                    Orphan = new Regex(@"(?:{{\s*[Oo]rphan(?:\s*\|(?:[^{}]+|" +DateYearMonthParameter +@"))?}}|(?<MI>{{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}-{{subst:CURRENTDAY2}})?[^{}]*?)*\|\s*orphan\s*=\s*(?:{{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}-{{subst:CURRENTDAY2}}|[^{}\|]+))");
                     uncattemplate = UncatTemplatesEN;
                     break;
                    default:

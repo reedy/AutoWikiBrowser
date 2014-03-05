@@ -734,6 +734,11 @@ now stubborn}}");
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{föräldralös}}"));
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{Föräldralös}}"));
             
+            Variables.SetProjectLangCode("zh");
+            WikiRegexes.MakeLangSpecificRegexes();
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{orphan|time=2014-03-07}}"));
+
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
             #endif
