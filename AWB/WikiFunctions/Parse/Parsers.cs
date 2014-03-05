@@ -2973,12 +2973,15 @@ namespace WikiFunctions.Parse
             foreach (RegexReplacement rr in RefComplex)
                 articleText = rr.Regex.Replace(articleText, rr.Replacement);
 
-            // trailing spaces at the end of a reference, within the reference
+            // trim trailing spaces at the end of a reference, within the reference
             if(articleText.Contains(@" </ref>"))
                 articleText = Regex.Replace(articleText, @" +</ref>", "</ref>");
             
             if(RedRefQuick.IsMatch(articleText.ToLower()))
                 articleText = RedRef.Replace(articleText, "$1</ref>");
+            
+            if (Variables.LangCode.Equals("zh") && articleText.Contains(@"</ref> "))
+                articleText = Regex.Replace(articleText, @"</ref> +", "</ref>");
 
             return RefTags.Replace(articleText, FixReferenceTagsME);
         }
