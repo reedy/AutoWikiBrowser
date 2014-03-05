@@ -258,6 +258,7 @@ namespace UnitTests
             Assert.AreEqual(@"</ref>some text", Parsers.FixReferenceTags(@"</ref> some text"), "Chinese put no space before/after the reference tags");
 
             Variables.SetProjectLangCode("en");
+            Assert.AreEqual(@"</ref> some text", Parsers.FixReferenceTags(@"</ref> some text"), "English put a space after the reference tags");
         }
 
         [Test]
