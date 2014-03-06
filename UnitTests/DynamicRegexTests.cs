@@ -897,8 +897,9 @@ now stubborn}}");
             
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
-            #endif
+            
             Assert.AreEqual(WikiRegexes.DateYearMonthParameter, @"date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}");
+            #endif
         }
         
         [Test]
@@ -1356,7 +1357,7 @@ pp
         }
 
         [Test]
-        public void LinkFGAsAragonese()
+        public void LinkFGAsOtherLanguages()
         {
             #if DEBUG
             Variables.SetProjectLangCode("an");
@@ -1366,14 +1367,6 @@ pp
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Destacato|ar}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Destacau|ar}}"));
 
-            Variables.SetProjectLangCode("en");
-            WikiRegexes.MakeLangSpecificRegexes();
-            #endif
-        }
-        [Test]
-        public void LinkFGAsArabic()
-        {
-            #if DEBUG
             Variables.SetProjectLangCode("ar");
             WikiRegexes.MakeLangSpecificRegexes();
             
@@ -1383,15 +1376,7 @@ he}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{وصلة مقالة مختارة
 |he}}"));
             
-            Variables.SetProjectLangCode("en");
-            WikiRegexes.MakeLangSpecificRegexes();
-            #endif
-        }
 
-        [Test]
-        public void LinkFGAsEgyptianArabic()
-        {
-            #if DEBUG
             Variables.SetProjectLangCode("arz");
             WikiRegexes.MakeLangSpecificRegexes();
             
@@ -1406,13 +1391,8 @@ he}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link GA|he}}"));
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
-            #endif
-        }
 
-        [Test]
-        public void LinkFGAsBrezhoneg()
-        {
-            #if DEBUG
+
             Variables.SetProjectLangCode("br");
             WikiRegexes.MakeLangSpecificRegexes();
 
@@ -1421,45 +1401,21 @@ he}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{lien AdQ|ar}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{lien BA|ar}}"));
             
-            Variables.SetProjectLangCode("en");
-            WikiRegexes.MakeLangSpecificRegexes();
-            #endif
-        }
 
-        [Test]
-        public void LinkFGAsCatalan()
-        {
-            #if DEBUG
             Variables.SetProjectLangCode("ca");
             WikiRegexes.MakeLangSpecificRegexes();
 
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link FA|ar}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Enllaç AD|ar}}"));
             
-            Variables.SetProjectLangCode("en");
-            WikiRegexes.MakeLangSpecificRegexes();
-            #endif
-        }
 
-        [Test]
-        public void LinkFGAsEsperando()
-        {
-            #if DEBUG
             Variables.SetProjectLangCode("eo");
             WikiRegexes.MakeLangSpecificRegexes();
 
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link FA|ar}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{ligoElstara|ar}}"));
             
-            Variables.SetProjectLangCode("en");
-            WikiRegexes.MakeLangSpecificRegexes();
-            #endif
-        }
 
-        [Test]
-        public void LinkFGAsSpanish()
-        {
-            #if DEBUG
             Variables.SetProjectLangCode("es");
             WikiRegexes.MakeLangSpecificRegexes();
 
@@ -1468,15 +1424,7 @@ he}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Bueno|el}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{bueno|el}}"));
             
-            Variables.SetProjectLangCode("en");
-            WikiRegexes.MakeLangSpecificRegexes();
-            #endif
-        }
 
-        [Test]
-        public void LinkFGAsBasque()
-        {
-            #if DEBUG
             Variables.SetProjectLangCode("eu");
             WikiRegexes.MakeLangSpecificRegexes();
 
@@ -1484,15 +1432,7 @@ he}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{FA link|ar}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{NA lotura|el}}"));
             
-            Variables.SetProjectLangCode("en");
-            WikiRegexes.MakeLangSpecificRegexes();
-            #endif
-        }
 
-        [Test]
-        public void LinkFGAsFrench()
-        {
-            #if DEBUG
             Variables.SetProjectLangCode("fr");
             WikiRegexes.MakeLangSpecificRegexes();
 
@@ -1500,15 +1440,7 @@ he}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Lien AdQ|ar}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{lien PdQ|ar}}"));
             
-            Variables.SetProjectLangCode("en");
-            WikiRegexes.MakeLangSpecificRegexes();
-            #endif
-        }
 
-        [Test]
-        public void LinkFGAsItalian()
-        {
-            #if DEBUG
             Variables.SetProjectLangCode("it");
             WikiRegexes.MakeLangSpecificRegexes();
 
@@ -1517,15 +1449,7 @@ he}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link GA|ar}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{Link VdQ|ar}}"));
             
-            Variables.SetProjectLangCode("en");
-            WikiRegexes.MakeLangSpecificRegexes();
-            #endif
-        }
 
-        [Test]
-        public void LinkFGAsPortuguese()
-        {
-            #if DEBUG
             Variables.SetProjectLangCode("pt");
             WikiRegexes.MakeLangSpecificRegexes();
 
@@ -1537,15 +1461,7 @@ he}}"));
             
             Assert.IsFalse(WikiRegexes.LinkFGAs.IsMatch(@"foo {{foo |pub=FA|text=a}}"));
             
-            Variables.SetProjectLangCode("en");
-            WikiRegexes.MakeLangSpecificRegexes();
-            #endif
-        }
 
-        [Test]
-        public void LinkFGAsRomanian()
-        {
-            #if DEBUG
             Variables.SetProjectLangCode("ro");
             WikiRegexes.MakeLangSpecificRegexes();
 
@@ -1556,16 +1472,7 @@ he}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{legătură AF|ar}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{legătură AB|ar}}"));
             
-            Variables.SetProjectLangCode("en");
-            WikiRegexes.MakeLangSpecificRegexes();
-            #endif
-        }
 
-        
-        [Test]
-        public void LinkFGAsSwedish()
-        {
-            #if DEBUG
             Variables.SetProjectLangCode("sv");
             WikiRegexes.MakeLangSpecificRegexes();
 
@@ -1576,15 +1483,7 @@ he}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{lank UA|ar}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{UA|ar}}"));
 
-            Variables.SetProjectLangCode("en");
-            WikiRegexes.MakeLangSpecificRegexes();
-            #endif
-        }
 
-        [Test]
-        public void LinkFGAsTurkish()
-        {
-            #if DEBUG
             Variables.SetProjectLangCode("tr");
             WikiRegexes.MakeLangSpecificRegexes();
 
@@ -1595,15 +1494,7 @@ he}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link KM|foo}}"));
             Assert.IsTrue(WikiRegexes.LinkFGAs.IsMatch(@"foo {{link GA|foo}}"));
 
-            Variables.SetProjectLangCode("en");
-            WikiRegexes.MakeLangSpecificRegexes();
-            #endif
-        }
 
-        [Test]
-        public void LinkFGAsVietnamese()
-        {
-            #if DEBUG
             Variables.SetProjectLangCode("vi");
             WikiRegexes.MakeLangSpecificRegexes();
 
