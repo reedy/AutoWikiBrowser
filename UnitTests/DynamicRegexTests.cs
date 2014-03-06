@@ -834,23 +834,23 @@ now stubborn}}");
             Variables.SetProjectLangCode("ar");
             WikiRegexes.MakeLangSpecificRegexes();
             
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dead end}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{internal links}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{نهاية مسدودة}}"));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dead end}}"),"ar dead end");
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{internal links}}"),"ar dead end");
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{نهاية مسدودة}}"),"ar dead end");
             
             Variables.SetProjectLangCode("arz");
             WikiRegexes.MakeLangSpecificRegexes();
             
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dead end}}"));
-            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(@"{{internal links}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{نهايه مسدوده}}"));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dead end}}"),"arz dead end");
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(@"{{internal links}}"),"arz dead end");
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{نهايه مسدوده}}"),"arz dead end");
 
             Variables.SetProjectLangCode("ru");
             WikiRegexes.MakeLangSpecificRegexes();
             
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dead end}}"));
-            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(@"{{internal links}}"));
-            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Tупиковая статья}}"));
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dead end}}"),"ru dead end");
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(@"{{internal links}}"),"ru dead end");
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Tупиковая статья}}"),"ru dead end");
 
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
