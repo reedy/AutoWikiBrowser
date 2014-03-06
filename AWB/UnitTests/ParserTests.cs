@@ -8334,6 +8334,8 @@ foo {{persondata}}
 
             Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref>Fred</ref>"));
             Assert.IsFalse(Parsers.IsMissingReferencesDisplay(@"Hello<ref name=""F"">Fred</ref>"));
+
+            Variables.SetProjectLangCode("en");
 #endif
         }
 

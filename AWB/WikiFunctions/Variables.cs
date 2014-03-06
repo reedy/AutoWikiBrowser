@@ -836,7 +836,7 @@ namespace WikiFunctions
                     WPAWB = "با استفاده از [[Project:AutoWikiBrowser|AWB]]";
                     break;
 
-                   case "fr":
+                case "fr":
                     mSummaryTag = "avec";
                     WPAWB = "[[Wikipédia:AutoWikiBrowser|AWB]]";
                     break;
