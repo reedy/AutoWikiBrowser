@@ -43,14 +43,14 @@ namespace AutoWikiBrowser.Plugins.TheTemplator
     public class TheTemplator : WikiFunctions.Plugin.IAWBPlugin
     {
         private readonly ToolStripMenuItem pluginMenuItem = new ToolStripMenuItem("TheTemplator plugin");
-        private readonly ToolStripMenuItem pluginConfigMenuItem = new ToolStripMenuItem("&Configuration...");
+        private readonly ToolStripMenuItem pluginConfigMenuItem = new ToolStripMenuItem("&Configuration");
         private readonly ToolStripMenuItem aboutMenuItem2 = new ToolStripMenuItem("About TheTemplator plugin");
 
 #if !SHORT_PLUGIN_MENU
         private readonly ToolStripMenuItem pluginEnabledMenuItem = new ToolStripMenuItem("&Enabled");
-        private readonly ToolStripMenuItem pluginConfigMenuItem = new ToolStripMenuItem("&Configuration...");
-        private readonly ToolStripMenuItem aboutMenuItem1 = new ToolStripMenuItem("&About TheTemplator plugin...");
-        private readonly ToolStripMenuItem aboutMenuItem2 = new ToolStripMenuItem("About TheTemplator plugin...");
+        private readonly ToolStripMenuItem pluginConfigMenuItem = new ToolStripMenuItem("&Configuration");
+        private readonly ToolStripMenuItem aboutMenuItem1 = new ToolStripMenuItem("&About TheTemplator plugin");
+        private readonly ToolStripMenuItem aboutMenuItem2 = new ToolStripMenuItem("About TheTemplator plugin");
 #endif
 
         #region IAWBPlugin Members
