@@ -880,21 +880,21 @@ now stubborn}}");
         public void DateYearMonthParameterTests()
         {
             #if DEBUG
-            Variables.SetProjectLangCode("zh");
-            WikiRegexes.MakeLangSpecificRegexes();
-            
-            Assert.AreEqual(WikiRegexes.DateYearMonthParameter, @"time={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}-{{subst:CURRENTDAY2}}");
-
-            Variables.SetProjectLangCode("sv");
-            WikiRegexes.MakeLangSpecificRegexes();
-            
-            Assert.AreEqual(WikiRegexes.DateYearMonthParameter, @"datum={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}");
-            
             Variables.SetProjectLangCode("fr");
             WikiRegexes.MakeLangSpecificRegexes();
             
             Assert.AreEqual(WikiRegexes.DateYearMonthParameter, @"date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}");
             
+            Variables.SetProjectLangCode("sv");
+            WikiRegexes.MakeLangSpecificRegexes();
+            
+            Assert.AreEqual(WikiRegexes.DateYearMonthParameter, @"datum={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}");
+            
+            Variables.SetProjectLangCode("zh");
+            WikiRegexes.MakeLangSpecificRegexes();
+            
+            Assert.AreEqual(WikiRegexes.DateYearMonthParameter, @"time={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}-{{subst:CURRENTDAY2}}");
+
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
             
