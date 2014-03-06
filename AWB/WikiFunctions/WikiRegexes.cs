@@ -176,10 +176,13 @@ namespace WikiFunctions
             EmptyLink = new Regex(@"\[\[\s*(?:(:?" + category + "|" + image + @")\s*:?\s*(\|.*?)?|[|\s]*)\]\]");
             EmptyTemplate = new Regex(@"{{(" + template + @")?[|\s]*}}");
             
-            // set orphan, wikify, uncat, inuse templates & dateparameter string
+            // set orphan, wikify, uncat, inuse templates, dateparameter & Link FA/GA/GL strings
             string uncattemplate = UncatTemplatesEN;
             switch(Variables.LangCode)
             {
+                case "an":
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "Destacato", "Destacau" });
+                    break;
                 case "ar":
                     Orphan = Tools.NestedTemplateRegex(@"يتيمة");
                     uncattemplate = UncatTemplatesAR;
@@ -187,6 +190,7 @@ namespace WikiFunctions
 					DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end|[Ii]nternal ?links|نهاية مسدودة)(?:\|(?:[^{}]+|" + DateYearMonthParameter + @"))?}}|({{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*dead ?end\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))");
                     Wikify =Tools.NestedTemplateRegex(@"ويكي");
                     InUse = Tools.NestedTemplateRegex(new[] {"إنشاء", "تحرر", "Underconstruction", "تحت الإنشاء", "تحت الأنشاء", "يحرر", "إنشاء مقالة", "انشاء مقالة", "Inuse", "تحرير كثيف", "يحرر المقالة", "تحت التحرير", "قيد الاستخدام" });
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"وصلة مقالة مختارة", "وصلة مقالة جيدة" });
                     break;
                 case "arz":
                     Orphan = Tools.NestedTemplateRegex(@"يتيمه");
@@ -194,6 +198,13 @@ namespace WikiFunctions
                     DateYearMonthParameter = @"تاريخ={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
 					DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end|نهايه مسدوده)(?:\|(?:[^{}]+|" + DateYearMonthParameter + @"))?}}|({{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*dead ?end\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))");
                     Wikify =Tools.NestedTemplateRegex(@"ويكى");
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "لينك مقاله مختاره", "link GA", "لينك مقاله جيده" });
+                    break;
+                case "br":
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "liamm PuB", "lien AdQ", "lien BA" });
+                    break;
+                case "ca":
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "enllaç AD" });
                     break;
                 case "el":
                     Orphan = Tools.NestedTemplateRegex(@"Ορφανό");
@@ -203,16 +214,29 @@ namespace WikiFunctions
                     Wikify = new Regex(@"{{\s*Επιμέλεια(?:\s*\|\s*(" + DateYearMonthParameter + @"|.*?))?}}", RegexOptions.IgnoreCase);
                     InUse = Tools.NestedTemplateRegex(new[] {"Inuse", "Σε χρήση" });
                     break;
-                case "hu":
+                case "eo":
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "ligoElstara" });
+                    break;
+                case "es":
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "destacado", "bueno"});
+                    break;
+                case "eu":
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "FA link", "NA lotura"});
+                    break;
+                case "fr":
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"lien BA", "lien AdQ", "lien PdQ"});
+                    break;
+                   case "hu":
                     InUse = Tools.NestedTemplateRegex(new[] {"Építés alatt", "Fejlesztés"});
-                   break;
-                case "sv":
-                    Orphan = Tools.NestedTemplateRegex(@"Föräldralös");
-                    uncattemplate = "([Oo]kategoriserad|[Uu]ncategori[sz]ed|[Uu]ncategori[sz]ed ?stub)";
-                    DateYearMonthParameter = @"datum={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}";
-					DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end)(?:\|(?:[^{}]+|" + DateYearMonthParameter + @"))?}})");
-                    Wikify = new Regex(@"{{\s*Ickewiki(?:\s*\|\s*(" + DateYearMonthParameter + @"|.*?))?}}", RegexOptions.IgnoreCase);
-                    InUse = Tools.NestedTemplateRegex(new[] {"Pågår", "Information kommer", "Pågående uppdateringar", "Ständiga uppdateringar", "PÅGÅR", "Påbörjad", "Bearbetning pågår"});
+                    break;
+                case "it":
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link AdQ",  "link VdQ", "link GA" });
+                    break;
+                case "pt":
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link GA", "bom interwiki", "interwiki destacado", "FA"});
+                    break;
+                case "ro":
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link GA", "link AF", "legătură AC", "legătură AF", "legătură AB"});
                     break;
                 case "ru":
                     Orphan = Tools.NestedTemplateRegex(@"изолированная статья");
@@ -221,95 +245,44 @@ namespace WikiFunctions
                     Wikify = new Regex(@"({{\s*Wikify(?:\s*\|\s*(" +DateYearMonthParameter +@"|.*?))?}}|(?<={{\s*(?:Article|Multiple)\s*issues\b[^{}]*?)\|\s*wikify\s*=[^{}\|]+)", RegexOptions.IgnoreCase);
                     InUse = Tools.NestedTemplateRegex(new[] {"Редактирую", "Перерабатываю", "Inuse-by", "Пишу", "Inuse", "Правлю", "Перевожу", "In-use", "Processing", "Process", "Статья редактируется", "Викифицирую", "Under construction" });
                     break;
+                case "sv":
+                    Orphan = Tools.NestedTemplateRegex(@"Föräldralös");
+                    uncattemplate = "([Oo]kategoriserad|[Uu]ncategori[sz]ed|[Uu]ncategori[sz]ed ?stub)";
+                    DateYearMonthParameter = @"datum={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}";
+					DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end)(?:\|(?:[^{}]+|" + DateYearMonthParameter + @"))?}})");
+                    Wikify = new Regex(@"{{\s*Ickewiki(?:\s*\|\s*(" + DateYearMonthParameter + @"|.*?))?}}", RegexOptions.IgnoreCase);
+                    InUse = Tools.NestedTemplateRegex(new[] {"Pågår", "Information kommer", "Pågående uppdateringar", "Ständiga uppdateringar", "PÅGÅR", "Påbörjad", "Bearbetning pågår"});
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link GA", "länk UA", "lank UA", "UA", "GA"});
+                    break;
+                case "tr":
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link SM", "link FA", "link FL", "link SL", "link KM", "link GA"});
+                    break;
+                case "vi":
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "Liên kết chọn lọc", "LKCL", "FA link"});
+                    break;
                 case "zh":
                     DateYearMonthParameter = @"time={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}-{{subst:CURRENTDAY2}}";
                     Orphan = new Regex(@"(?:{{\s*[Oo]rphan(?:\s*\|(?:[^{}]+|" +DateYearMonthParameter +@"))?}}|(?<MI>{{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}-{{subst:CURRENTDAY2}})?[^{}]*?)*\|\s*orphan\s*=\s*(?:{{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}-{{subst:CURRENTDAY2}}|[^{}\|]+))");
                     break;
-                   default:
+                default:
                     DateYearMonthParameter = @"date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}";
                     Orphan = new Regex(@"(?:{{\s*[Oo]rphan(?:\s*\|(?:[^{}]+|" +DateYearMonthParameter +@"))?}}|(?<MI>{{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*orphan\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))");
                     uncattemplate = UncatTemplatesEN;
 					DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end|[Ii]nternal ?links|[Nn]uevointernallinks|[Dd]ep)(?:\|(?:[^{}]+|" +DateYearMonthParameter +@"))?}}|({{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}})?[^{}]*?)*\|\s*dead ?end\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))");
                     Wikify = new Regex(@"(?:{{\s*(?:Wikify|Underlinked)(?:\s*\|\s*(?:" +DateYearMonthParameter +@"|.*?))?}}|({{\s*(?:Article|Multiple)\s*issues\b[^{}]*?)\|\s*(?:wikify|underlinked)\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))", RegexOptions.IgnoreCase);
                     InUse = Tools.NestedTemplateRegex(new[] {"Inuse", "In use", "GOCEinuse", "goceinuse", "in creation" });
+                    LinkFGAs =  Tools.NestedTemplateRegex(new [] {"link FA", "link GA", "link FL"});
                     break;
 
             }
             
             Uncat = new Regex(@"{{\s*" + uncattemplate + @"((\s*\|[^{}]+)?\s*|\s*\|((?>[^\{\}]+|\{\{(?<DEPTH>)|\}\}(?<-DEPTH>))*(?(DEPTH)(?!))))\}\}");
 
-            // set Link FA/GA/GL string
-            switch (Variables.LangCode)
-            {
-                case "an":
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "Destacato", "Destacau" });
-                    break;
-
-                case "ar":
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"وصلة مقالة مختارة", "وصلة مقالة جيدة" });
-                    break;
-
-                case "arz":
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "لينك مقاله مختاره", "link GA", "لينك مقاله جيده" });
-                    break;
-
-                   case "br":
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "liamm PuB", "lien AdQ", "lien BA" });
-                    break;
-
-                case "ca":
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "enllaç AD" });
-                    break;
-
-                case "eo":
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "ligoElstara" });
-                    break;
-
-                case "es":
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "destacado", "bueno"});
-                    break;
-
-                case "eu":
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "FA link", "NA lotura"});
-                    break;
-
-                case "fr":
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"lien BA", "lien AdQ", "lien PdQ" });
-                    break;
-
-                case "it":
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link AdQ",  "link VdQ", "link GA" });
-                    break;
-
-                case "pt":
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link GA", "bom interwiki", "interwiki destacado", "FA"});
-                    break;
-
-                case "ro":
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link GA", "link AF", "legătură AC", "legătură AF", "legătură AB"});
-                    break;
-
-                case "sv":
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link GA", "länk UA", "lank UA", "UA", "GA"});
-                    break;
-
-                case "tr":
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link SM", "link FA", "link FL", "link SL", "link KM", "link GA"});
-                    break;
-
-                   case "vi":
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "Liên kết chọn lọc", "LKCL", "FA link"});
-                    break;
-
-                default:
-                    LinkFGAs =  Tools.NestedTemplateRegex(new [] {"link FA", "link GA", "link FL"});
-                    break;
-            }
-
             PossiblyCommentedStub =
                 new Regex(
                     @"(<!-- ?\{\{" + Variables.Stub + @"\b\}\}.*?-->|\{\{" + Variables.Stub + @"\s*(?:\|(?:[^{}]+|" + DateYearMonthParameter + @"))?}})");
 
+            
         }
         
         private const string UncatTemplatesAR = @"(غير مصنفة|غير مصنف|[Uu]ncategori[sz]ed|[Uu]ncategori[sz]ed ?stub|بذرة غير مصنفة)";
