@@ -3258,7 +3258,7 @@ namespace WikiFunctions.Parse
         // CHECKWIKI error 2: fix incorrect <br> of <br.>, <\br>, <br\> and <br./> etc.
         private static readonly Regex IncorrectBr = new Regex(@"< *br\. *>|<\\ *br *>|< *br *\\ *>|< *br\. */>|< *br */([a-z/0-9•]|br)>|< *br *\?>|</ *br */?>", RegexOptions.IgnoreCase | RegexOptions.Compiled);
         private static readonly Regex IncorrectClosingItalics = new Regex(@"<i *[\\/] *>");
-        private static readonly Regex IncorrectClosingHtmlTags = new Regex(@"< */?(center|small|sub|sup) */ *>");
+        private static readonly Regex IncorrectClosingHtmlTags = new Regex(@"< */?(center|gallery|small|sub|sup) */ *>");
 
         private static readonly Regex SyntaxRegexHorizontalRule = new Regex("^(<hr>|-{5,})", RegexOptions.Compiled | RegexOptions.Multiline);
         private static readonly Regex SyntaxRegexHeadingWithHorizontalRule = new Regex("(^==?[^=]*==?)\r\n(\r\n)?----+", RegexOptions.Compiled | RegexOptions.Multiline);
