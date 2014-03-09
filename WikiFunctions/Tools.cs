@@ -1625,7 +1625,8 @@ namespace WikiFunctions
 		    new KeyValuePair<string, string>("`", "'"), // grave accent
 		    new KeyValuePair<string, string>("´", "'"), // acute accent
 		    new KeyValuePair<string, string>("′", "'"), // prime
-		    
+		    new KeyValuePair<string, string>("ʹ", "'"), // greek numeral
+		  
 		    new KeyValuePair<string, string>("“", "'"),  // double quotes (curly)
 		    new KeyValuePair<string, string>("”", "'"), // double quotes (curly)
 
