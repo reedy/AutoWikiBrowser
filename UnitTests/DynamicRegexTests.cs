@@ -893,7 +893,7 @@ now stubborn}}");
             Variables.SetProjectLangCode("zh");
             WikiRegexes.MakeLangSpecificRegexes();
             
-            Assert.AreEqual(WikiRegexes.DateYearMonthParameter, @"time={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}-{{subst:CURRENTDAY2}}");
+            Assert.AreEqual(WikiRegexes.DateYearMonthParameter, @"time={{subst:#time:c}}");
 
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
