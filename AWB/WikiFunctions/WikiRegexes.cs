@@ -268,7 +268,7 @@ namespace WikiFunctions
                     LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "Liên kết chọn lọc", "LKCL", "FA link"});
                     break;
                 case "zh":
-                    DateYearMonthParameter = @"time={{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}-{{subst:CURRENTDAY2}}";
+                    DateYearMonthParameter = @"time={{subst:#time:c}}";
                     Orphan = new Regex(@"(?:{{\s*[Oo]rphan(?:\s*\|(?:[^{}]+|" +DateYearMonthParameter +@"))?}}|(?<MI>{{\s*(?:[Aa]rticle|[Mm]ultiple)\s*issues\b[^{}]*?(?:{{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}-{{subst:CURRENTDAY2}})?[^{}]*?)*\|\s*orphan\s*=\s*(?:{{subst:CURRENTYEAR}}-{{subst:CURRENTMONTH}}-{{subst:CURRENTDAY2}}|[^{}\|]+))");
                     InUse = Tools.NestedTemplateRegex(new[] {"Inuse", "UnderConstruction", "工事中", "Inedit", "Editing", "使用中", "2小时内重大修改 " });
                     break;
