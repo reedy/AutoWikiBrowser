@@ -963,6 +963,9 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("О", "O"), //cyrillic O
 			new KeyValuePair<string, string>("а", "a"), //cyrillic а
 			new KeyValuePair<string, string>("А", "A"), //cyrillic А
+			new KeyValuePair<string, string>("с", "c"), //cyrillic c
+			new KeyValuePair<string, string>("С", "C"), //cyrillic C
+			
 			new KeyValuePair<string, string>("е", "e"), //cyrillic e (&#1077;)
 			new KeyValuePair<string, string>("Е", "E"), //cyrillic E
 			new KeyValuePair<string, string>("і", "i"), //cyrillic i (&#1110;)

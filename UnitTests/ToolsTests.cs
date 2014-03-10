@@ -2316,7 +2316,7 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual(@"Gu, Prince Imperial Hoeun", Tools.MakeHumanCatKey("Gu, Prince Imperial Hoeun", ""));
 
             // Ё should be changed, but not Й
-            Assert.AreEqual("Eпрстий", Tools.MakeHumanCatKey("Ёпрстий", ""));
+            Assert.AreEqual("Eпрcтий", Tools.MakeHumanCatKey("Ёпрстий", ""));
         }
 
         [Test]
