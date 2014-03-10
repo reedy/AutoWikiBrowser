@@ -1070,7 +1070,7 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("ȩ", "e"),
 			new KeyValuePair<string, string>("Ģ", "G"),
 			new KeyValuePair<string, string>("ģ", "g"),
-			new KeyValuePair<string, string>("Ḩ", "H"),
+			new KeyValuePair<string, string>("Ḩ", "H"),
 			new KeyValuePair<string, string>("ḩ̧", "h"),
 			new KeyValuePair<string, string>("Ķ", "K"),
 			new KeyValuePair<string, string>("ķ", "k"),
