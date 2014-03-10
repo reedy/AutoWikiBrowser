@@ -1602,7 +1602,9 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("ŏ", "o"),
 			new KeyValuePair<string, string>("x̌", "x"),
 			new KeyValuePair<string, string>("Ŋ", "n"),	// eng
-			new KeyValuePair<string, string>("ŋ", "n")
+			new KeyValuePair<string, string>("ŋ", "n"),
+			new KeyValuePair<string, string>("ﬂ", "fl")
+				
 		};
 
 		public static readonly KeyValuePair<string, string>[] SortKeyChars =
