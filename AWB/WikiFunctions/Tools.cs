@@ -1638,7 +1638,8 @@ namespace WikiFunctions
 
 		    new KeyValuePair<string, string>("–", "-"), // endash
 		    new KeyValuePair<string, string>("—", "-"), // emdash
-		    new KeyValuePair<string, string>("‐", "-"), // hyphen		    
+		    new KeyValuePair<string, string>("‐", "-"), // hyphen
+		    new KeyValuePair<string, string>("‑", "-"), // hyphen-minus
 		    new KeyValuePair<string, string>("‒", "-"), // figure dash
 		    new KeyValuePair<string, string>("−", "-"), // minus
 		    
