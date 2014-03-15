@@ -1969,11 +1969,21 @@ Message: {2}
 			return (str.Length <= count) ? str : str.Substring(0, count);
 		}
 
+		/// <summary>
+		/// Converts all line endings are the environment default
+		/// </summary>
+		/// <param name="input"></param>
+		/// <returns></returns>
 		public static string ConvertToLocalLineEndings(string input)
 		{
 			return input.Replace("\n", Environment.NewLine);
 		}
 
+		/// <summary>
+		/// Converts all line endings to \n
+		/// </summary>
+		/// <param name="input"></param>
+		/// <returns></returns>
 		public static string ConvertFromLocalLineEndings(string input)
 		{
 			return input.Replace(Environment.NewLine, "\n");
