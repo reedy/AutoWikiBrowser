@@ -33,7 +33,8 @@ namespace WikiFunctions
 
         public bool Matches(Article article)
         {
-            return Comparator.IsMatch(article.ArticleText);
+            string text = Tools.ConvertFromLocalLineEndings(article.ArticleText);
+            return Comparator.IsMatch(text);
         }
 
         private readonly Regex Comparator;
@@ -54,7 +55,8 @@ namespace WikiFunctions
 
         public bool Matches(Article article)
         {
-            return Regex.IsMatch(article.ArticleText, Tools.ApplyKeyWords(article.Name, Comparator), Options);
+            string text = Tools.ConvertFromLocalLineEndings(article.ArticleText);
+            return Regex.IsMatch(text, Tools.ApplyKeyWords(article.Name, Comparator), Options);
         }
 
         private readonly string Comparator;

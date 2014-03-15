@@ -717,6 +717,31 @@ There [was.");
         }
         
         [Test]
+        public void Comparers()
+        {
+            IArticleComparer containsComparer = ArticleComparerFactory.Create(@"foo\nbar",
+                                                                              false,
+                                                                              false,
+                                                                              false, // singleline
+                                                                              false); // multiline
+
+            IArticleComparer notContainsComparer = ArticleComparerFactory.Create(@"foo\nbar",
+                                                                                 false,
+                                                                                 false,
+                                                                                 false, // singleline
+                                                                                 false); // multiline
+            
+            Article a = new Article("A", @"Now foo
+bar");
+            Assert.IsTrue(notContainsComparer.Matches(a));
+            Assert.IsTrue(containsComparer.Matches(a));
+            
+            a = new Article("A", @"Now foo-bar");
+            Assert.IsFalse(notContainsComparer.Matches(a));
+            Assert.IsFalse(containsComparer.Matches(a));
+        }
+        
+        [Test]
         public void Unicodify()
         {
             Parsers Parser = new Parsers();
@@ -2304,6 +2329,23 @@ File:Example.jpg|Caption2
             Assert.AreEqual(fr.PerformFindAndReplace(r, "the foo was", "Test", out changemade), "the foo was");
             Assert.IsFalse(changemade, "only match is no-change on replace, so no change made");
             Assert.AreEqual(null, fr.ReplacedSummary, "Only match is No-change match, no edit summary");
+        }
+
+        [Test]
+        public void FindAndReplaceNewLines()
+        {
+            // regex
+            WikiFunctions.Parse.Replacement r = new WikiFunctions.Parse.Replacement("foo\n", "bar ", true, true, true, true, RegexOptions.None, "");
+            WikiFunctions.Parse.FindandReplace fr = new FindandReplace();
+            bool changemade = false;
+
+            Assert.AreEqual("the bar was", fr.PerformFindAndReplace(r, "the foo\nwas", "Test", out changemade));
+            Assert.IsTrue(changemade);
+            
+            // not regex
+            r = new WikiFunctions.Parse.Replacement("foo\n", "bar ", false, true, true, true, RegexOptions.None, "");
+            Assert.AreEqual("the bar was", fr.PerformFindAndReplace(r, "the foo\nwas", "Test", out changemade));
+            Assert.IsTrue(changemade);
         }
         
         [Test]

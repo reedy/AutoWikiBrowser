@@ -69,6 +69,8 @@ namespace WikiFunctions
                 }
             }
 
+            // Allow \n to match newline
+            comparator = comparator.Replace(@"\n", "\n");
             if (comparator.Contains("%%"))
                 return isCaseSensitive
                     ? (IArticleComparer)new CaseSensitiveArticleComparerWithKeywords(comparator)
