@@ -32,7 +32,8 @@ namespace WikiFunctions
 
         public bool Matches(Article article)
         {
-            return article.ArticleText.Contains(Comparator);
+            string text = Tools.ConvertFromLocalLineEndings(article.ArticleText);
+            return text.Contains(Comparator);
         }
 
         private readonly string Comparator;
@@ -50,8 +51,8 @@ namespace WikiFunctions
 
         public bool Matches(Article article)
         {
-            return article.ArticleText.IndexOf(Comparator, StringComparison.CurrentCultureIgnoreCase) >= 0;
-            // or should that be OrdinalIgnoreCase?
+            string text = Tools.ConvertFromLocalLineEndings(article.ArticleText);
+            return text.IndexOf(Comparator, StringComparison.CurrentCultureIgnoreCase) >= 0;
         }
 
         private readonly string Comparator;
@@ -69,7 +70,8 @@ namespace WikiFunctions
 
         public bool Matches(Article article)
         {
-            return article.ArticleText.Contains(Tools.ApplyKeyWords(article.Name, Comparator));
+            string text = Tools.ConvertFromLocalLineEndings(article.ArticleText);
+            return text.Contains(Tools.ApplyKeyWords(article.Name, Comparator));
         }
 
         private readonly string Comparator;
@@ -87,8 +89,8 @@ namespace WikiFunctions
 
         public bool Matches(Article article)
         {
-            return article.ArticleText.IndexOf(Tools.ApplyKeyWords(article.Name, Comparator), StringComparison.CurrentCultureIgnoreCase) >= 0;
-            // or should that be OrdinalIgnoreCase?
+            string text = Tools.ConvertFromLocalLineEndings(article.ArticleText);
+            return text.IndexOf(Tools.ApplyKeyWords(article.Name, Comparator), StringComparison.CurrentCultureIgnoreCase) >= 0;
         }
 
         private readonly string Comparator;

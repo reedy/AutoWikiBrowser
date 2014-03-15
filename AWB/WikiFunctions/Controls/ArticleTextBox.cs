@@ -120,14 +120,11 @@ namespace WikiFunctions.Controls
         /// <param name="articleName">Wiki page name</param>
         public void Find(string strRegex, bool isRegex, bool caseSensitive, string articleName)
         {
-            string articleText = RawText;
+            string articleText = Tools.ConvertFromLocalLineEndings(RawText);
 
             RegexOptions regOptions = caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase;
 
-            strRegex = Tools.ApplyKeyWords(articleName, strRegex);
-
-            if (!isRegex)
-                strRegex = Regex.Escape(strRegex);
+            strRegex = FormatRegex(strRegex, articleName, isRegex);
 
             if (MatchObj == null || RegexObj == null)
             {
@@ -172,12 +169,9 @@ namespace WikiFunctions.Controls
             if (string.IsNullOrEmpty(strRegex))
                 return found;
 
-            string articleText = RawText;
+            string articleText = Tools.ConvertFromLocalLineEndings(RawText);
 
-            strRegex = Tools.ApplyKeyWords(articleName, strRegex);
-
-            if (!isRegex)
-                strRegex = Regex.Escape(strRegex);
+            strRegex = FormatRegex(strRegex, articleName, isRegex);
 
             RegexObj = new Regex(strRegex, caseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase);
             foreach (Match m in RegexObj.Matches(articleText))
@@ -187,6 +181,27 @@ namespace WikiFunctions.Controls
             }
 
             return found;
+        }
+
+        /// <summary>
+        /// Applies keywords to search text, formats newlines to support \n as newline
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        string FormatRegex(string strRegex, string articleName, bool isRegex)
+        {
+            strRegex = Tools.ApplyKeyWords(articleName, strRegex);
+            // in Find newline matching is on \n, so if not a regex ensure this isn't escaped
+            if (!isRegex)
+            {
+                bool newlines = strRegex.Contains("\\n");
+                strRegex = Regex.Escape(strRegex);
+
+                if(newlines)
+                    strRegex = strRegex.Replace(@"\\n", "\n");
+            }
+
+            return strRegex;
         }
 
         /// <summary>

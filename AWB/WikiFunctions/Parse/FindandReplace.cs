@@ -84,8 +84,15 @@ namespace WikiFunctions.Parse
             string f = Encode(dataGridRow.Cells["find"].Value.ToString());
             string r = Encode(dataGridRow.Cells["replace"].Value.ToString());
 
+            // in F&R newline matching is on \n, so if not a regex ensure this isn't escaped
             if (!rep.IsRegex)
+            {
+                bool newlines = f.Contains("\\n");
                 f = Regex.Escape(f);
+                
+                if(newlines)
+                    f = f.Replace(@"\\n", "\n");
+            }
 
             rep.Find = f;
             rep.Replace = r;
