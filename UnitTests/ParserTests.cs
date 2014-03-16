@@ -5974,7 +5974,9 @@ was"));
         {
             Assert.AreEqual("5°C today", Parsers.FixTemperatures(@"5ºC today"));
             Assert.AreEqual("5°C today", Parsers.FixTemperatures(@"5ºc today"));
+            Assert.AreEqual("5°C today", Parsers.FixTemperatures(@"5º C today"));
             Assert.AreEqual("5°C today", Parsers.FixTemperatures(@"5°C today"));
+            Assert.AreEqual("5&nbsp;°C today", Parsers.FixTemperatures(@"5&nbsp;ºC today"));
             Assert.AreEqual("5°C today", Parsers.FixTemperatures(@"5°    C today"));
             Assert.AreEqual("5°C today", Parsers.FixTemperatures(@"5°C today"));
             Assert.AreEqual("5°F today", Parsers.FixTemperatures(@"5°F today"));
