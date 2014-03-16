@@ -5089,6 +5089,10 @@ http://example.com }}");
             Assert.AreEqual(@"a 50.247&nbsp;kW laser", parser.FixNonBreakingSpaces(@"a 50.247 kW laser"));
             Assert.AreEqual(@"a 50.247&nbsp;mW laser", parser.FixNonBreakingSpaces(@"a 50.247 mW laser"));
             Assert.AreEqual(@"a 50&nbsp;m/s car", parser.FixNonBreakingSpaces(@"a 50m/s car"));
+            Assert.AreEqual(@"at 5&nbsp;°C today", parser.FixNonBreakingSpaces(@"at 5°C today"));
+            Assert.AreEqual(@"at 5&nbsp;°C today", parser.FixNonBreakingSpaces(@"at 5 °C today"));
+            Assert.AreEqual(@"at 55&nbsp;°F today", parser.FixNonBreakingSpaces(@"at 55°F today"));
+            Assert.AreEqual(@"at 55&nbsp;°F today", parser.FixNonBreakingSpaces(@"at 55  °F today"));
 
             // no changes for these
             genFixes.AssertNotChanged(@"nearly 5m people");
