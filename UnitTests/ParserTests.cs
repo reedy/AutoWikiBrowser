@@ -1003,6 +1003,8 @@ The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "doesn't eat newlines af
         {
             // replace <br> and <p> HTML tags tests
             Assert.AreEqual("\r\n\r\nsome text", parser.FixBrParagraphs("<p>some text"));
+            Assert.AreEqual("\r\n\r\n[[some text|bar]]", parser.FixBrParagraphs("<p>[[some text|bar]]"));
+            Assert.AreEqual("\r\n\r\nsome text\r\n\r\n", parser.FixBrParagraphs("<p>some text</p>"));
             Assert.AreEqual("\r\n\r\nsome text", parser.FixBrParagraphs("<p> some text"));
             Assert.AreEqual("\r\n\r\nsome text", parser.FixBrParagraphs("<br><br>some text"));
             Assert.AreEqual("some text\r\n\r\n", parser.FixBrParagraphs("some text<p>"));
