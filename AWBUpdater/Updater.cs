@@ -370,7 +370,7 @@ namespace AwbUpdater
                         this,
                         "Problem deleting file:\r\n   " + ex.Message + "\r\n\r\n" +
                         "Please close all applications that may use it and press 'Retry' to try again " +
-                        "or 'Canhcel' to cancel the upgrade.",
+                        "or 'Cancel' to cancel the upgrade.",
                         "Error",
                         MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) == DialogResult.Retry)
                     {
