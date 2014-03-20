@@ -165,7 +165,7 @@ namespace AwbUpdater
         #endregion
 
         /// <summary>
-        /// Creates the temporary folder if it doesnt already exist
+        /// Creates the temporary folder if it doesnt already exist. If it does exist, delete all the contents
         /// </summary>
         private void CreateTempDir()
         {
@@ -175,8 +175,15 @@ namespace AwbUpdater
                 Directory.Delete(TempDirectory, true);
             }
 
-            Directory.CreateDirectory(TempDirectory);
-
+            try
+            {
+                Directory.CreateDirectory(TempDirectory);
+            }
+            catch (Exception) // UnauthorizedAccessException and IOEXception
+            {
+                AppendLine("Unable to create temporary directory: " + TempDirectory);
+                throw new AbortException();
+            }
             progressUpdate.Value = 10;
         }
 
@@ -363,7 +370,7 @@ namespace AwbUpdater
                         this,
                         "Problem deleting file:\r\n   " + ex.Message + "\r\n\r\n" +
                         "Please close all applications that may use it and press 'Retry' to try again " +
-                        "or 'Cancel' to cancel the upgrade.",
+                        "or 'Canhcel' to cancel the upgrade.",
                         "Error",
                         MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) == DialogResult.Retry)
                     {
