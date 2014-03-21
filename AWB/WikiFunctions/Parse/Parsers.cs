@@ -7654,7 +7654,7 @@ namespace WikiFunctions.Parse
 		        return true;
 			// don't tag redirects/outside article namespace/no tagging changes
 			// allow for ar-wiki 104
-			if(Variables.LangCode.Equals("ar") && Namespace.Determine(articleTitle) == 104)
+			if(Variables.LangCode.Equals("ar") && Namespace.Determine(articleTitle) == 104 && !WikiRegexes.CEHar.IsMatch(articleText))
 				return true;
 			if (!Namespace.IsMainSpace(articleTitle) || Tools.IsRedirectOrSoftRedirect(articleText) || WikiRegexes.Wi.IsMatch(articleText) || articleTitle=="Main Page")
 				return false;
