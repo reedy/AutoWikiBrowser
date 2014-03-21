@@ -744,6 +744,11 @@ namespace WikiFunctions
         public static readonly Regex Wi = Tools.NestedTemplateRegex(new [] { "Wiktionary redirect", "Wi", "Widirect", "Moved to Wiktionary", "RedirecttoWiktionary", "Seewiktionary", "Wikiquote redirect"});
 
         /// <summary>
+        /// Matches Current events header in arwiki
+        /// </summary>
+        public static readonly Regex CEHar = Tools.NestedTemplateRegex(new [] { "رأس الأحداث الجارية"});
+
+        /// <summary>
         /// Matches templates with many wikilinks to avoid tagging the transcluding page as dead-end and/or stub (en only)
         /// </summary>
         public static readonly Regex NonDeadEndPageTemplates = Tools.NestedTemplateRegex(new [] { "Events by year for decade", "Events by year for decade BC", "SCOTUSRow", "ATC codes lead", "Portal:Current events/Month Inclusion"});
