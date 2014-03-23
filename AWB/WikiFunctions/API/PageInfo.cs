@@ -231,10 +231,11 @@ namespace WikiFunctions.API
         /// <returns>Whether the article was redirected</returns>
         public static bool WasRedirected(PageInfo page)
         {
-            if (page.TitleChangedStatus == PageTitleStatus.NoChange)
+            PageTitleStatus pts = page.TitleChangedStatus;
+
+            if (pts == PageTitleStatus.NoChange)
                 return false;
 
-            PageTitleStatus pts = page.TitleChangedStatus;
             return ((pts & PageTitleStatus.Redirected) == PageTitleStatus.Redirected ||
                     (pts & PageTitleStatus.RedirectLoop) == PageTitleStatus.RedirectLoop ||
                     (pts & PageTitleStatus.MultipleRedirects) == PageTitleStatus.MultipleRedirects);
