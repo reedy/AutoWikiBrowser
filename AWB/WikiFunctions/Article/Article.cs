@@ -1346,6 +1346,9 @@ namespace WikiFunctions
             HideMoreText(HiderHideExtLinksImages);
             Variables.Profiler.Profile("HideMoreText");
 
+            AWBChangeArticleText("Fix temperatures", Parsers.FixTemperatures(ArticleText), true);
+            Variables.Profiler.Profile("FixTemperatures");
+
             if (!noMOSComplianceFixes)
             {
                 AWBChangeArticleText("Fix non-breaking spaces", parsers.FixNonBreakingSpaces(ArticleText), true);
@@ -1442,9 +1445,6 @@ namespace WikiFunctions
 
                 AWBChangeArticleText("Fix citation templates", Parsers.FixCitationTemplates(ArticleText), true, true);
                 Variables.Profiler.Profile("FixCitationTemplates");
-
-                AWBChangeArticleText("Fix temperatures", Parsers.FixTemperatures(ArticleText), true);
-                Variables.Profiler.Profile("FixTemperatures");
 
                 AWBChangeArticleText("Fix main article", Parsers.FixMainArticle(ArticleText), true);
                 Variables.Profiler.Profile("FixMainArticle");
