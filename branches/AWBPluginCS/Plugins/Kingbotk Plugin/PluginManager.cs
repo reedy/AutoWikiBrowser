@@ -697,7 +697,8 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 				if (Plugins.ContainsKey(str)) {
 					MessageBox.Show("A plugin of this name already exists", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
 					return;
-				} else if (Convert.ToBoolean(Microsoft.VisualBasic.Strings.InStr(str, " "))) {
+				} 
+                if (str.Contains(" ")) {
 					str = str.Replace(" ", "");
 				}
 
@@ -708,26 +709,26 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 		// XML:
 		static internal bool XMLReadBoolean(XmlTextReader reader, string param, bool ExistingValue)
 		{
-			if (reader.MoveToAttribute(param))
+		    if (reader.MoveToAttribute(param))
 				return bool.Parse(reader.Value);
-			else
-				return ExistingValue;
+		    return ExistingValue;
 		}
-		static internal string XMLReadString(XmlTextReader reader, string param, string ExistingValue)
-		{
-			if (reader.MoveToAttribute(param))
+
+	    static internal string XMLReadString(XmlTextReader reader, string param, string ExistingValue)
+	    {
+	        if (reader.MoveToAttribute(param))
 				return reader.Value.Trim();
-			else
-				return ExistingValue;
-		}
-		static internal int XMLReadInteger(XmlTextReader reader, string param, int ExistingValue)
-		{
-			if (reader.MoveToAttribute(param))
+	        return ExistingValue;
+	    }
+
+	    static internal int XMLReadInteger(XmlTextReader reader, string param, int ExistingValue)
+	    {
+	        if (reader.MoveToAttribute(param))
 				return int.Parse(reader.Value);
-			else
-				return ExistingValue;
-		}
-		private static void ReadXML(XmlTextReader Reader)
+	        return ExistingValue;
+	    }
+
+	    private static void ReadXML(XmlTextReader Reader)
 		{
 			blnShowManualAssessmentsInstructions = XMLReadBoolean(Reader, conShowManualAssessmentsInstructions, blnShowManualAssessmentsInstructions);
 			// must happen BEFORE get ManualAssessment yes/no

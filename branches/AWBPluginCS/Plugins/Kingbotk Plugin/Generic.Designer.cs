@@ -172,7 +172,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 			this.Label2.Name = "Label2";
 			this.Label2.Size = new System.Drawing.Size(49, 26);
 			this.Label2.TabIndex = 3;
-			this.Label2.Text = "Alternate" + Microsoft.VisualBasic.Strings.ChrW(13) + Microsoft.VisualBasic.Strings.ChrW(10) + "Names";
+            this.Label2.Text = "Alternate" + char.ConvertFromUtf32(13) + char.ConvertFromUtf32(10) + "Names";
 			//
 			//Label1
 			//

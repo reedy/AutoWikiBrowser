@@ -309,7 +309,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			this.OpenBadInBrowserCheckBox.Name = "OpenBadInBrowserCheckBox";
 			this.OpenBadInBrowserCheckBox.Size = new System.Drawing.Size(105, 30);
 			this.OpenBadInBrowserCheckBox.TabIndex = 52;
-			this.OpenBadInBrowserCheckBox.Text = "Open bad pages" + Microsoft.VisualBasic.Strings.ChrW(13) + Microsoft.VisualBasic.Strings.ChrW(10) + "in browser";
+            this.OpenBadInBrowserCheckBox.Text = "Open bad pages" + char.ConvertFromUtf32(13) + char.ConvertFromUtf32(10) + "in browser";
 			this.ToolTip1.SetToolTip(this.OpenBadInBrowserCheckBox, "Open in the web browser pages skipped because they have bad tags");
 			this.OpenBadInBrowserCheckBox.UseVisualStyleBackColor = true;
 			this.OpenBadInBrowserCheckBox.Visible = false;
