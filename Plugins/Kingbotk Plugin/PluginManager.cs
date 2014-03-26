@@ -590,30 +590,38 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 				StatusText.Text += " (manual assessments plugin active)";
 		}
 
-		static bool TestSkipNonExistingPages_WeCheckedSkipNonExistingPages;
+        // FIXME: To be removed
+        static readonly Microsoft.VisualBasic.CompilerServices.StaticLocalInitFlag static_TestSkipNonExistingPages_WeCheckedSkipNonExistingPages_Init = new Microsoft.VisualBasic.CompilerServices.StaticLocalInitFlag();
+        static bool static_TestSkipNonExistingPages_WeCheckedSkipNonExistingPages;
+        static internal void TestSkipNonExistingPages()
+        {
+            lock (static_TestSkipNonExistingPages_WeCheckedSkipNonExistingPages_Init)
+            {
+                try
+                {
+                    if (InitStaticVariableHelper(static_TestSkipNonExistingPages_WeCheckedSkipNonExistingPages_Init))
+                    {
+                        static_TestSkipNonExistingPages_WeCheckedSkipNonExistingPages = false;
+                    }
+                }
+                finally
+                {
+                    static_TestSkipNonExistingPages_WeCheckedSkipNonExistingPages_Init.State = 1;
+                }
+            }
 
-	    internal static void TestSkipNonExistingPages()
-	    {
-	        if (!TestSkipNonExistingPages_WeCheckedSkipNonExistingPages && ActivePlugins.Count > 0)
-	        {
-	            if (AWBForm.SkipNonExistentPages.Checked)
-	            {
-	                TestSkipNonExistingPages_WeCheckedSkipNonExistingPages = true;
-	                if (
-	                    MessageBox.Show(
-	                        "The skip non existent pages checkbox is checked. This is not optimal for WikiProject tagging " +
-	                        "as AWB will skip red-link talk pages. Please note that you will not receive this warning " +
-	                        "again during this session, even if you load settings which have that box checked." +
-	                        Environment.NewLine + Environment.NewLine +
-	                        "Would you like the plugin to change this setting to false?", "Skip Non Existent Pages",
-	                        MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) ==
-	                    DialogResult.Yes)
-	                {
-	                    AWBForm.SkipNonExistentPages.Checked = false;
-	                }
-	            }
-	        }
-	    }
+            if (!static_TestSkipNonExistingPages_WeCheckedSkipNonExistingPages && ActivePlugins.Count > 0)
+            {
+                if (AWBForm.SkipNonExistentPages.Checked)
+                {
+                    static_TestSkipNonExistingPages_WeCheckedSkipNonExistingPages = true;
+                    if (MessageBox.Show("The skip non existent pages checkbox is checked. This is not optimal for WikiProject tagging " + "as AWB will skip red-link talk pages. Please note that you will not receive this warning " + "again during this session, even if you load settings which have that box checked." + Microsoft.VisualBasic.Constants.vbCrLf + Microsoft.VisualBasic.Constants.vbCrLf + "Would you like the plugin to change this setting to false?", "Skip Non Existent Pages", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                    {
+                        AWBForm.SkipNonExistentPages.Checked = false;
+                    }
+                }
+            }
+        }
 
 	    // Event handlers - AWB:
 		private static void AWBClosingEventHandler(object sender, FormClosingEventArgs e)
@@ -748,7 +756,8 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 			}
 
 			bool blnNewVal = XMLReadBoolean(Reader, conShowHideTabsParm, ShowHideTabs);
-			if (!(blnNewVal == ShowHideTabs))
+            // ReSharper disable once RedundantCheckBeforeAssignment
+			if (blnNewVal != ShowHideTabs)
 				ShowHideTabs = blnNewVal;
 			// Mustn't set if the same or we get extra tabs; must happen AFTER plugins
 
@@ -821,5 +830,22 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 		public string WikiName {
             get { return Constants.conWikiPlugin + " version " + AboutBox.Version; }
 		}
+
+        static bool InitStaticVariableHelper(Microsoft.VisualBasic.CompilerServices.StaticLocalInitFlag flag)
+        {
+            if (flag.State == 0)
+            {
+                flag.State = 2;
+                return true;
+            }
+            else if (flag.State == 2)
+            {
+                throw new Microsoft.VisualBasic.CompilerServices.IncompleteInitialization();
+            }
+            else
+            {
+                return false;
+            }
+        }
 	}
 }
