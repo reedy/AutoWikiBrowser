@@ -128,12 +128,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 		}
 #endregion
 		private System.Windows.Forms.ToolTip ToolTip1;
-		private System.Windows.Forms.LinkLabel withEventsField_LinkLabel1;
         private System.Windows.Forms.LinkLabel LinkLabel1;
 		internal System.Windows.Forms.ListView ListView1;
 		internal System.Windows.Forms.ColumnHeader colWG;
 		private System.Windows.Forms.GroupBox ParametersGroup;
-		private System.Windows.Forms.CheckBox withEventsField_AutoStubCheckBox;
         private System.Windows.Forms.CheckBox AutoStubCheckBox;
         private System.Windows.Forms.CheckBox StubClassCheckBox;
 	}
