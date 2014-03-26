@@ -1,0 +1,1 @@
+This directory contains plugin(s) shipped with AWB, but too narrow to be used by many users. To enable a plugin, copy it (*.dll file) to the main directory where AutoWikiBrowser.exe resides.
