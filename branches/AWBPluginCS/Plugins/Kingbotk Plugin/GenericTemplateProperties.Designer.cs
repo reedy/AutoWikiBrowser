@@ -1,16 +1,7 @@
-using AutoWikiBrowser.Plugins.Kingbotk;
-using AutoWikiBrowser.Plugins.Kingbotk.Components;
-using AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments;
-using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
-
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
+
 using WikiFunctions;
 
 using WikiFunctions.Plugin;
@@ -65,6 +56,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			this.OK_Button.Size = new System.Drawing.Size(67, 23);
 			this.OK_Button.TabIndex = 0;
 			this.OK_Button.Text = "OK";
+            this.OK_Button.Click += OK_Button_Click;
 			//
 			//NameLabel
 			//

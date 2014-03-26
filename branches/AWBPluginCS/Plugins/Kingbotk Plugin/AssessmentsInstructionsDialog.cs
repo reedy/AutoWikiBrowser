@@ -1,18 +1,6 @@
-using AutoWikiBrowser.Plugins.Kingbotk;
-using AutoWikiBrowser.Plugins.Kingbotk.Components;
-using AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments;
-using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
-
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using System.Xml;
-using WikiFunctions;
-using WikiFunctions.Plugin;
+
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 //Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
 
@@ -29,15 +17,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 	{
 		private void OK_Button_Click(object sender, EventArgs e)
 		{
-			if (CheckBox1.Checked) {
-				DialogResult = System.Windows.Forms.DialogResult.Yes;
-			} else {
-				DialogResult = System.Windows.Forms.DialogResult.OK;
-			}
+		    DialogResult = CheckBox1.Checked ? DialogResult.Yes : DialogResult.OK;
 
-			Close();
+		    Close();
 		}
-		public AssessmentsInstructionsDialog()
+
+	    public AssessmentsInstructionsDialog()
 		{
 			InitializeComponent();
 		}

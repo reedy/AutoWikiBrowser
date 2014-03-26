@@ -1,17 +1,14 @@
-using System.Linq;
-using AutoWikiBrowser.Plugins.Kingbotk;
 using AutoWikiBrowser.Plugins.Kingbotk.Components;
 using AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments;
 using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
+
 using WikiFunctions;
 
 using WikiFunctions.Plugin;
@@ -121,9 +118,9 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 			KingbotkPluginTab.Controls.Add(PluginSettings);
 
 			// Show/hide tabs menu:
-			var _with3 = MenuShowSettingsTabs;
-			_with3.CheckOnClick = true;
-			_with3.Checked = true;
+            MenuShowSettingsTabs.CheckOnClick = true;
+            MenuShowSettingsTabs.Checked = true;
+		    MenuShowSettingsTabs.Click += MenuShowHide_Click;
 			AWBForm.ToolStripMenuGeneral.DropDownItems.Add(MenuShowSettingsTabs);
 
 			// Add-Generic-Template menu:
@@ -155,14 +152,14 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 		{
 			if (prefs.Length > 0) {
 				// Check if we're receiving an new type settings block (a serialized string)
-				if (object.ReferenceEquals(prefs[0].GetType(), typeof(string))) {
+				if (ReferenceEquals(prefs[0].GetType(), typeof(string))) {
 					LoadSettingsNewWay(Convert.ToString(prefs[0]));
 				}
 			}
 		}
 		public string ProcessArticle(IAutoWikiBrowser sender, IProcessArticleEventArgs eventargs)
 		{
-			string res = null;
+			string res;
 
 			var _with4 = eventargs;
 			if (ActivePlugins.Count == 0)
@@ -647,10 +644,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 				}
 			}
 		}
+
 		private static void EditorAborted(AsyncApiEdit sender)
 		{
 			PluginSettings.AWBProcessingAborted();
 		}
+
 		private void StopButtonClickEventHandler(object sender, EventArgs e)
 		{
 			DefaultStatusText();
@@ -658,10 +657,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 				AssessmentsObject.Reset();
 			PluginSettings.AWBProcessingAborted();
 		}
+
 		private static void MenuShowHide_Click(object sender, EventArgs e)
 		{
 			ShowHideTabs = MenuShowSettingsTabs.Checked;
 		}
+
 		private void ManuallyAssessCheckBox_CheckChanged(object sender, EventArgs e)
 		{
 			if (((CheckBox)sender).Checked) {

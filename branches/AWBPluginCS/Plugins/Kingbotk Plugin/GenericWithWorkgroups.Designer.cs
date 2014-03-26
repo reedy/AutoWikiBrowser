@@ -59,6 +59,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 			this.AutoStubCheckBox.Text = "Auto-Stub";
 			this.ToolTip1.SetToolTip(this.AutoStubCheckBox, "class=Stub|auto=yes");
 			this.AutoStubCheckBox.UseVisualStyleBackColor = true;
+            this.AutoStubCheckBox.CheckedChanged += AutoStubCheckBox_CheckedChanged;
 			//
 			//StubClassCheckBox
 			//
@@ -70,6 +71,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 			this.StubClassCheckBox.Text = "Stub-Class";
 			this.ToolTip1.SetToolTip(this.StubClassCheckBox, "class=Stub (not for use in bot mode; use Auto-Stub)");
 			this.StubClassCheckBox.UseVisualStyleBackColor = true;
+            this.StubClassCheckBox.CheckedChanged += StubClassCheckBox_CheckedChanged;
 			//
 			//LinkLabel1
 			//
@@ -80,6 +82,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 			this.LinkLabel1.TabIndex = 8;
 			this.LinkLabel1.TabStop = true;
 			this.LinkLabel1.Text = "{{}}";
+            this.LinkLabel1.LinkClicked += LinkLabel1_LinkClicked;
 			//
 			//ListView1
 			//

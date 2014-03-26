@@ -1,19 +1,6 @@
-using AutoWikiBrowser.Plugins.Kingbotk;
-using AutoWikiBrowser.Plugins.Kingbotk.Components;
-using AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments;
-using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
-
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using System.Xml;
-using WikiFunctions;
 
-using WikiFunctions.Plugin;
 namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 {
 	partial class PluginSettingsControl : System.Windows.Forms.UserControl
@@ -225,6 +212,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			this.ManuallyAssessCheckBox.Text = "Assess";
 			this.ToolTip1.SetToolTip(this.ManuallyAssessCheckBox, "Assess articles by loading an article list and having the plugin load the talk pa" + "ge after the article has been reviewed");
 			this.ManuallyAssessCheckBox.UseVisualStyleBackColor = true;
+            this.ManuallyAssessCheckBox.CheckedChanged += ManuallyAssessCheckBox_CheckedChanged;
 			//
 			//CleanupCheckBox
 			//
@@ -258,6 +246,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			this.SkipNoChangesCheckBox.Text = "N/C";
 			this.ToolTip1.SetToolTip(this.SkipNoChangesCheckBox, "Skip the talk page if the plugin doesn't make a change (suggest YES for bots, NO " + "for manual editing)");
 			this.SkipNoChangesCheckBox.UseVisualStyleBackColor = true;
+            this.SkipNoChangesCheckBox.CheckedChanged += SkipNoChangesCheckBox_CheckedChanged;
 			//
 			//SkipBadTagsCheckBox
 			//
@@ -269,6 +258,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			this.SkipBadTagsCheckBox.Text = "Bad";
 			this.ToolTip1.SetToolTip(this.SkipBadTagsCheckBox, "Skip the talk page if the existing template instance is bad  (suggest YES for bot" + "s, NO for manual editing)");
 			this.SkipBadTagsCheckBox.UseVisualStyleBackColor = true;
+            this.SkipBadTagsCheckBox.CheckedChanged += SkipBadTagsCheckBox_CheckedChanged;
 			//
 			//lblAWBNudges
 			//
@@ -290,6 +280,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			this.ResetTimerButton.Text = "Reset";
 			this.ToolTip1.SetToolTip(this.ResetTimerButton, "Reset the timer");
 			this.ResetTimerButton.UseVisualStyleBackColor = true;
+            this.ResetTimerButton.Click += ResetTimerButton_Click;
 			//
 			//ETALabel
 			//
@@ -353,18 +344,21 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			this.SetAWBToolStripMenuItem.Size = new System.Drawing.Size(119, 22);
 			this.SetAWBToolStripMenuItem.Text = "Set AWB";
 			this.SetAWBToolStripMenuItem.ToolTipText = "Reset AWB to default values suitable for use with the plugin";
+            this.SetAWBToolStripMenuItem.Click += SetAWBToolStripMenuItem_Click;
 			//
 			//MenuAbout
 			//
 			this.MenuAbout.Name = "MenuAbout";
 			this.MenuAbout.Size = new System.Drawing.Size(160, 20);
 			this.MenuAbout.Text = "About the Kingbotk plugin";
+            this.MenuAbout.Click += MenuAbout_Click;
 			//
 			//MenuHelp
 			//
 			this.MenuHelp.Name = "MenuHelp";
 			this.MenuHelp.Size = new System.Drawing.Size(170, 20);
 			this.MenuHelp.Text = "Help for the Kingbotk plugin";
+            this.MenuHelp.Click += MenuHelp_Click;
 			//
 			//BotTimer
 			//

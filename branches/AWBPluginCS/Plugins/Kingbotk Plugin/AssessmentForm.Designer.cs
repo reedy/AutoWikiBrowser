@@ -79,6 +79,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 			this.OK_Button.Size = new System.Drawing.Size(67, 23);
 			this.OK_Button.TabIndex = 0;
 			this.OK_Button.Text = "OK";
+            this.OK_Button.Click += OK_Button_Click;
 			//
 			//Cancel_Button
 			//
@@ -89,6 +90,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 			this.Cancel_Button.Size = new System.Drawing.Size(67, 23);
 			this.Cancel_Button.TabIndex = 1;
 			this.Cancel_Button.Text = "Skip";
+            this.Cancel_Button.Click += Cancel_Button_Click;
 			//
 			//PictureBox1
 			//

@@ -161,7 +161,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 		protected override void ProcessArticleFinish()
 		{
 			Living Living = Living.Unknown;
-			bool LivingAlreadyAddedToEditSummary = false;
 
 			StubClass();
 
@@ -193,14 +192,11 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
 			switch (Living) {
 				case Living.Living:
-					if (!Template.HasYesParamLowerOrTitleCase(true, "living")) {
-						if (LivingAlreadyAddedToEditSummary) {
-							AddNewParamWithAYesValue("living");
-						} else {
-							AddAndLogNewParamWithAYesValue("living");
-						}
-					}
-					break;
+			        if (!Template.HasYesParamLowerOrTitleCase(true, "living"))
+			        {
+			            AddAndLogNewParamWithAYesValue("living");
+			        }
+			        break;
 				case Living.Dead:
 					if (!Template.HasYesParamLowerOrTitleCase(false, "living")) {
 						Template.NewOrReplaceTemplateParm("living", "no", article, true, false, false, "", PluginShortName, true);

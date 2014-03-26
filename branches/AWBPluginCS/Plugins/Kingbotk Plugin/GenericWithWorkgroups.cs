@@ -36,8 +36,8 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 		public GenericWithWorkgroups(string template, string prefix, bool autoStubEnabled, params TemplateParameters[] @params)
             :this()
 		{
-			this.Template = template;
-			this.Prefix = prefix;
+			Template = template;
+			Prefix = prefix;
 
 			AutoStubCheckBox.Enabled = autoStubEnabled;
 
@@ -47,12 +47,11 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
 			ListView1.BeginUpdate();
 
-			foreach (TemplateParameters prop in @params) {
-				ListViewItem lvi = new ListViewItem(prop.ParamName);
-				lvi.Name = prop.StorageKey;
-				lvi.Tag = prop;
+			foreach (TemplateParameters prop in @params)
+			{
+			    ListViewItem lvi = new ListViewItem(prop.ParamName) {Name = prop.StorageKey, Tag = prop};
 
-				if (!string.IsNullOrEmpty(prop.Group)) {
+			    if (!string.IsNullOrEmpty(prop.Group)) {
 					string @group = prop.Group.Replace(" ", "");
 
 					if (!groupsAndMenus.ContainsKey(@group)) {
@@ -137,10 +136,11 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 			get { return AutoStubCheckBox.Enabled && AutoStubCheckBox.Checked; }
 			set { AutoStubCheckBox.Checked = value; }
 		}
+
 		// Event handlers:
-		private void LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
-			Tools.OpenENArticleInBrowser(Variables.Namespaces[WikiFunctions.Namespace.Template] + Template, false);
+			Tools.OpenENArticleInBrowser(Variables.Namespaces[Namespace.Template] + Template, false);
 		}
 
 		private void AutoStubCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -148,6 +148,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 			if (AutoStubCheckBox.Checked)
 				StubClassCheckBox.Checked = false;
 		}
+
 		private void StubClassCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
 			if (StubClassCheckBox.Checked)
