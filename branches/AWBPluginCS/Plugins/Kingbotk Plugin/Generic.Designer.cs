@@ -211,7 +211,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 			this.TipLabel.Name = "TipLabel";
 			this.TipLabel.Size = new System.Drawing.Size(255, 39);
 			this.TipLabel.TabIndex = 7;
-            this.TipLabel.Text = "Tip: The plugin also adds parameter insertion options" + char.ConvertFromUtf32(13) + char.ConvertFromUtf32(10) + "to the context menu of the" + " edit box. Just right" + Microsoft.VisualBasic.Strings.ChrW(13) + Microsoft.VisualBasic.Strings.ChrW(10) + "click inside the edit box to access them.";
+            this.TipLabel.Text = "Tip: The plugin also adds parameter insertion options" + char.ConvertFromUtf32(13) + char.ConvertFromUtf32(10) + "to the context menu of the" + " edit box. Just right" + char.ConvertFromUtf32(13) + char.ConvertFromUtf32(10) + "click inside the edit box to access them.";
 			this.TipLabel.Visible = false;
 			//
 			//GroupBox3
