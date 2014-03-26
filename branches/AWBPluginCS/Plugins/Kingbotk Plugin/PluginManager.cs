@@ -604,7 +604,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 	                        "The skip non existent pages checkbox is checked. This is not optimal for WikiProject tagging " +
 	                        "as AWB will skip red-link talk pages. Please note that you will not receive this warning " +
 	                        "again during this session, even if you load settings which have that box checked." +
-	                        Environment.Newline + Environment.Newline +
+	                        Environment.NewLine + Environment.NewLine +
 	                        "Would you like the plugin to change this setting to false?", "Skip Non Existent Pages",
 	                        MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) ==
 	                    DialogResult.Yes)
