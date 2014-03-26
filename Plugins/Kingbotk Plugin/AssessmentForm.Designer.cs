@@ -215,7 +215,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 #endregion
 
 		private System.Windows.Forms.TableLayoutPanel TableLayoutPanel1;
-		private System.Windows.Forms.Button withEventsField_OK_Button;
         private System.Windows.Forms.Button OK_Button;
         private System.Windows.Forms.Button Cancel_Button;
 		private System.Windows.Forms.PictureBox PictureBox1;
