@@ -12,9 +12,9 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using WikiFunctions;
-using WikiFunctions.Logging.Uploader;
+
 using WikiFunctions.Plugin;
-using AutoWikiBrowser.Plugins.Kingbotk.Templating;
+using AutoWikiBrowser.Plugins.Kingbotk;
 
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 //Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
@@ -116,11 +116,11 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
 		};
 		// Settings:
-		private readonly TabPage OurTab = new TabPage(Biography);
+		private readonly TabPage OurTab = new TabPage("Biography");
 
 		private GenericWithWorkgroups OurSettingsControl;
 		protected internal override string PluginShortName {
-			get { return Biography; }
+			get { return "Biography"; }
 		}
 
 		protected override string PreferredTemplateName {
@@ -232,9 +232,9 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 				article.ArticleHasAMinorChange();
 			}
 			if (_with3.Parameters.ContainsKey("priority")) {
-				string priorityValue = _with3.Parameters("priority").Value;
+				string priorityValue = _with3.Parameters["priority"].Value;
 
-				foreach (KeyValuePair<string, TemplateParametersObject> kvp in _with3.Parameters) {
+				foreach (KeyValuePair<string, Templating.TemplateParametersObject> kvp in _with3.Parameters) {
 					if (kvp.Key.Contains("-priority") && !string.IsNullOrEmpty(kvp.Value.Value)) {
 						kvp.Value.Value = priorityValue;
 					}
@@ -253,8 +253,8 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
 			var _with4 = Template;
 			if (_with4.Parameters.ContainsKey("living")) {
-				_with4.Parameters("living").Value = _with4.Parameters("living").Value.ToLower;
-				res += "|living=" + _with4.Parameters("living").Value + ParameterBreak;
+				_with4.Parameters["living"].Value = _with4.Parameters["living"].Value.ToLower();
+				res += "|living=" + _with4.Parameters["living"].Value + ParameterBreak;
 
 				_with4.Parameters.Remove("living");
 				// we've written this parameter; if we leave it in the collection PluginBase.TemplateWritingAndPlacement() will write it again

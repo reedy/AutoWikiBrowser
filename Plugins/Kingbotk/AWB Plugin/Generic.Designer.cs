@@ -12,7 +12,6 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using WikiFunctions;
-using WikiFunctions.Logging.Uploader;
 using WikiFunctions.Plugin;
 namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 {

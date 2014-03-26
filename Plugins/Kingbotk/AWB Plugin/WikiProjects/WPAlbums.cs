@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using WikiFunctions;
-using WikiFunctions.Logging.Uploader;
+
 using WikiFunctions.Plugin;
 internal sealed class WPAlbums : PluginBase
 {
@@ -70,6 +70,7 @@ internal sealed class WPAlbums : PluginBase
 	protected override bool TemplateFound()
 	{
 		// Nothing to do here
+	    return false;
 	}
 
 	protected override string WriteTemplateHeader()

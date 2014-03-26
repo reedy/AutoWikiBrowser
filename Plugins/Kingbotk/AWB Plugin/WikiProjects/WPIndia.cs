@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using WikiFunctions;
-using WikiFunctions.Logging.Uploader;
+
 using WikiFunctions.Plugin;
 internal sealed class WPIndia : PluginBase
 {
@@ -324,6 +324,7 @@ internal sealed class WPIndia : PluginBase
 	protected override bool SkipIfContains()
 	{
 		// None
+	    return false;
 	}
 	protected override void ProcessArticleFinish()
 	{
@@ -341,6 +342,7 @@ internal sealed class WPIndia : PluginBase
 	}
 	protected override bool TemplateFound()
 	{
+	    return false;
 	}
 
 	protected override string WriteTemplateHeader()

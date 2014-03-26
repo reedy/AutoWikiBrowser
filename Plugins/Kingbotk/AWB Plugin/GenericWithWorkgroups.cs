@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using WikiFunctions;
-using WikiFunctions.Logging.Uploader;
+
 using WikiFunctions.Plugin;
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 //Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
@@ -28,7 +28,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 {
 	internal partial class GenericWithWorkgroups : IGenericSettings
 	{
-
 		public GenericWithWorkgroups(string template, string prefix, bool autoStubEnabled, params TemplateParameters[] @params)
 		{
 			// This call is required by the designer.
@@ -78,7 +77,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
 		private const string conAutoStubParm = "AutoStub";
 		#region "XML interface"
-		internal void ReadXML(XmlTextReader Reader)
+		public void ReadXML(XmlTextReader Reader)
 		{
 			foreach (ListViewItem lvi in ListView1.Items) {
 				TemplateParameters tp = (TemplateParameters)lvi.Tag;
@@ -92,7 +91,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 			}
 		}
 
-		internal void WriteXML(XmlTextWriter Writer)
+		public void WriteXML(XmlTextWriter Writer)
 		{
 			var _with1 = Writer;
 			foreach (ListViewItem lvi in ListView1.Items) {
@@ -122,7 +121,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 		}
 		#endregion
 		// Properties:
-		internal bool StubClass {
+		public bool StubClass {
 			get { return StubClassCheckBox.Checked; }
 			set { StubClassCheckBox.Checked = value; }
 		}
@@ -131,7 +130,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 			set { StubClassCheckBox.Enabled = value; }
 		}
 
-		internal bool AutoStub {
+		public bool AutoStub {
 			get { return AutoStubCheckBox.Enabled && AutoStubCheckBox.Checked; }
 			set { AutoStubCheckBox.Checked = value; }
 		}

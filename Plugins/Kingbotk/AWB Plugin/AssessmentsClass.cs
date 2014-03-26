@@ -12,7 +12,6 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using WikiFunctions;
-using WikiFunctions.Logging.Uploader;
 using WikiFunctions.Plugin;
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 //Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
@@ -31,8 +30,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 {
 	internal sealed class Assessments : IDisposable
 	{
-
-
 		internal const string conMe = "Wikipedia Assessments Plugin";
 		// Objects:
 		private List<CheckBox> AWBCleanupCheckboxes = new List<CheckBox>();
@@ -62,7 +59,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 		private bool disposed;
 
 		// This procedure is where the actual cleanup occurs
-		private void Dispose(bool disposing)
+		internal void Dispose(bool disposing)
 		{
 			// Exit now if the object has already been disposed
 			if (disposed)
@@ -87,7 +84,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 			disposed = true;
 		}
 
-		internal void Dispose()
+		public void Dispose()
 		{
 			Debug.WriteLine("Disposing of AssessmentClass object");
 			// Execute the code that does the cleanup.
@@ -96,13 +93,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 			GC.SuppressFinalize(this);
 		}
 
-		protected override void Finalize()
-		{
-			base.Finalize();
-			Debug.WriteLine("Finalizing AssessmentClass object");
-			// Execute the code that does the cleanup.
-			Dispose(false);
-		}
 		#endregion
 
 		// Friend methods:
@@ -111,13 +101,15 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 			ToggleAWBCleanup(false);
 
 			var _with1 = PluginManager.AWBForm.ListMaker;
-			if (_with1.Count > 1 && State.IsNextPage(_with1.Item(1).Name)) {
+			if (_with1.Count > 1 && State.IsNextPage(((WikiFunctions.Article)_with1.Items.Items[1]).Name)) {
 				_with1.RemoveAt(1);
-			} else if (_with1.Count > 0 && State.IsNextPage(_with1.Item(0).Name)) {
-				_with1.RemoveAt(0);
+            }
+            else if (_with1.Count > 0 && State.IsNextPage(((WikiFunctions.Article)_with1.Items.Items[0]).Name))
+			{
+			    _with1.RemoveAt(0);
 			}
 
-			State = new StateClass();
+		    State = new StateClass();
 		}
 		internal void ProcessMainSpaceArticle(string ArticleTitle)
 		{
@@ -130,7 +122,9 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 			var _with2 = PluginManager.AWBForm.ListMaker;
 			if (_with2.Count < 2) {
 				_with2.Insert(1, State.NextTalkPageExpected);
-			} else if (!State.IsNextPage(_with2.Item(1).Name)) {
+            }
+            else if (!State.IsNextPage(((WikiFunctions.Article)_with2.Items.Items[1]).Name))
+            {
 				_with2.Insert(1, State.NextTalkPageExpected);
 			}
 
@@ -177,10 +171,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 				switch (State.Classification) {
 					case Classification.Code:
 					case Classification.Unassessed:
-						TheArticle.EditSummary = "Assessed article using " + conWikiPlugin;
+                        TheArticle.EditSummary = "Assessed article using " + Constants.conWikiPlugin;
 						break;
 					default:
-						TheArticle.EditSummary = "Assessing as " + State.Classification.ToString() + " class, using " + conWikiPlugin;
+                        TheArticle.EditSummary = "Assessing as " + State.Classification.ToString() + " class, using " + Constants.conWikiPlugin;
 						break;
 				}
 

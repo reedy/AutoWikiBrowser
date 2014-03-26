@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using WikiFunctions;
-using WikiFunctions.Logging.Uploader;
+
 using WikiFunctions.Plugin;
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 //Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
@@ -35,12 +35,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 	// Fields here shouldn't need to be Shared, as there will only ever be one instance - created by AWB at startup
 	public sealed class PluginManager : IAWBPlugin
 	{
-
-
 		private const string conMe = "Kingbotk Plugin Manager";
 		// Regular expressions:
 
-		private static readonly Regex ReqPhotoNoParamsRegex = new Regex(TemplatePrefix + "reqphoto\\s*\\}\\}\\s*", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+		private static readonly Regex ReqPhotoNoParamsRegex = new Regex(Constants.TemplatePrefix + "reqphoto\\s*\\}\\}\\s*", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 		// Plugins:
 		static internal List<PluginBase> ActivePlugins = new List<PluginBase>();
 		private static readonly Dictionary<string, PluginBase> Plugins = new Dictionary<string, PluginBase>();
@@ -51,20 +49,11 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
 		static internal ToolStripStatusLabel StatusText = new ToolStripStatusLabel("Initialising plugin");
 		// Menu items:
-		private ToolStripMenuItem withEventsField_AddGenericTemplateMenuItem = new ToolStripMenuItem("Add Generic Template");
+		private static ToolStripMenuItem withEventsField_AddGenericTemplateMenuItem = new ToolStripMenuItem("Add Generic Template");
 		private static ToolStripMenuItem AddGenericTemplateMenuItem {
 			get { return withEventsField_AddGenericTemplateMenuItem; }
-			set {
-				if (withEventsField_AddGenericTemplateMenuItem != null) {
-					withEventsField_AddGenericTemplateMenuItem.Click -= AddGenericTemplateMenuItem_Click;
-				}
-				withEventsField_AddGenericTemplateMenuItem = value;
-				if (withEventsField_AddGenericTemplateMenuItem != null) {
-					withEventsField_AddGenericTemplateMenuItem.Click += AddGenericTemplateMenuItem_Click;
-				}
-			}
 		}
-		private ToolStripMenuItem withEventsField_MenuShowSettingsTabs = new ToolStripMenuItem("Show settings tabs");
+		private static ToolStripMenuItem withEventsField_MenuShowSettingsTabs = new ToolStripMenuItem("Show settings tabs");
 		private static ToolStripMenuItem MenuShowSettingsTabs {
 			get { return withEventsField_MenuShowSettingsTabs; }
 			set {
@@ -104,10 +93,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
 		private const string conGenericTemplate = "GenericTemplate";
 		// AWB interface:
-		private string Name {
-			get { return conAWBPluginName; }
+		public string Name {
+            get { return Constants.conAWBPluginName; }
 		}
-		private void Initialise(IAutoWikiBrowser sender)
+		public void Initialise(IAutoWikiBrowser sender)
 		{
 			// Store AWB object reference:
 			AWBForm = sender;
@@ -124,7 +113,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 			StatusText.Margin = new Padding(50, 0, 50, 0);
 			StatusText.BorderSides = ToolStripStatusLabelBorderSides.Left | ToolStripStatusLabelBorderSides.Right;
 			StatusText.BorderStyle = Border3DStyle.Etched;
-			_with1.HelpToolStripMenuItem.DropDownItems.AddRange(new Windows.Forms.ToolStripItem[] {
+			_with1.HelpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[]{
 				new ToolStripSeparator(),
 				PluginSettings.MenuHelp,
 				PluginSettings.MenuAbout
@@ -161,7 +150,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 			Plugins.Add("MilHist", new WPMilitaryHistory());
 			Plugins.Add("Songs", new WPSongs());
 			Plugins.Add("WPNovels", new WPNovels());
-			Plugins.Add(Biography, new WPBiography());
+			Plugins.Add("Biography", new WPBiography());
 			// hopefully if add WPBio last it will ensure that the template gets added to the *top* of pages
 
 			// Initialise plugins:
@@ -175,7 +164,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 			// Reset statusbar text:
 			DefaultStatusText();
 		}
-		private void LoadSettings(object[] prefs)
+		public void LoadSettings(object[] prefs)
 		{
 			if (prefs.Length > 0) {
 				// Check if we're receiving an new type settings block (a serialized string)
@@ -184,7 +173,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 				}
 			}
 		}
-		private string ProcessArticle(IAutoWikiBrowser sender, IProcessArticleEventArgs eventargs)
+		public string ProcessArticle(IAutoWikiBrowser sender, IProcessArticleEventArgs eventargs)
 		{
 			string res = null;
 
@@ -212,22 +201,25 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 			}
 
 			switch (Namesp) {
-				case Namespace.Mainspace:
+				case Namespace.Article:
 					if (PluginSettings.ManuallyAssess) {
 						if (_with4.Exists == Exists.Yes) {
 							StatusText.Text += ": Click Preview to read the article; " + "click Save or Ignore to load the assessments form";
 							AssessmentsObject.ProcessMainSpaceArticle(_with4.ArticleTitle);
 							_with4.EditSummary = "Clean up";
 							goto SkipOrStop;
-						} else {
-							res = Skipping(_with4.EditSummary, "", SkipReason.ProcessingMainArticleDoesntExist, _with4.ArticleText, _with4.Skip);
-							goto ExitMe;
 						}
-					} else {
-						goto SkipBadNamespace;
+                        //FIXME
+					    var es = _with4.EditSummary;
+					    var with4Skip = _with4.Skip;
+                        res = Skipping(ref es, "", SkipReason.ProcessingMainArticleDoesntExist, _with4.ArticleText, ref with4Skip);
+					    _with4.EditSummary = es;
+					    _with4.Skip = with4Skip;
+					    goto ExitMe;
 					}
+			        goto SkipBadNamespace;
 
-					break;
+			        //break;
 				case Namespace.Talk:
 					AsyncApiEdit editor = AWBForm.TheSession.Editor.Clone();
 
@@ -235,8 +227,15 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
 					editor.Wait();
 
-					if (!editor.Page.Exists) {
-						res = Skipping(ref ref _with4.EditSummary, "", SkipReason.ProcessingTalkPageArticleDoesntExist, _with4.ArticleText, ref ref _with4.Skip, _with4.ArticleTitle, Namespace.Talk);
+					if (!editor.Page.Exists)
+					{
+                        // FIXME
+					    var with4ES = _with4.EditSummary;
+					    var with4Skip = _with4.Skip;
+					    res = Skipping(ref with4ES, "", SkipReason.ProcessingTalkPageArticleDoesntExist, _with4.ArticleText,
+					        ref with4Skip, _with4.ArticleTitle);
+					    _with4.EditSummary = with4ES;
+					    _with4.Skip = with4Skip;
 					} else {
 						TheArticle = new Article(_with4.ArticleText, _with4.ArticleTitle, Namesp);
 
@@ -244,7 +243,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
 						if (PluginSettings.ManuallyAssess) {
 							// reqphoto byref
-							if (!AssessmentsObject.ProcessTalkPage(TheArticle, PluginSettings, ref ref ReqPhoto)) {
+							if (!AssessmentsObject.ProcessTalkPage(TheArticle, PluginSettings, ref ReqPhoto)) {
 								_with4.Skip = true;
 								goto SkipOrStop;
 							}
@@ -253,7 +252,13 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 							// We successfully added a reqphoto param
 						}
 
-						res = FinaliseArticleProcessing(TheArticle, ref ref _with4.Skip, ref ref _with4.EditSummary, _with4.ArticleText, ReqPhoto);
+                        // FIXME
+					    var with4Skip = _with4.Skip;
+					    var with4ES = _with4.EditSummary;
+                        res = FinaliseArticleProcessing(TheArticle, ref with4Skip, ref with4ES, _with4.ArticleText,
+					        ReqPhoto);
+					    _with4.Skip = with4Skip;
+					    _with4.EditSummary = with4ES;
 					}
 
 					break;
@@ -276,13 +281,17 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 								break; // TODO: might not be correct. Was : Exit For
 						}
 
-						res = FinaliseArticleProcessing(TheArticle, ref ref _with4.Skip, ref ref _with4.EditSummary, _with4.ArticleText, false);
+                        // FIXME
+					    var with4Skip = _with4.Skip;
+					    var with4ES = _with4.EditSummary;
+					    res = FinaliseArticleProcessing(TheArticle, ref with4Skip, ref with4ES, _with4.ArticleText, false);
+					    _with4.Skip = with4Skip;
+					    _with4.EditSummary = with4ES;
 					}
 
 					break;
 				default:
 					goto SkipBadNamespace;
-					break;
 			}
 
 			if (!_with4.Skip) {
@@ -298,14 +307,19 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 			return res;
 			SkipBadNamespace:
 
-			res = Skipping(eventargs.EditSummary, "", SkipReason.BadNamespace, eventargs.ArticleText, eventargs.Skip);
+            //FIXME
+		    var eaES = eventargs.EditSummary;
+            var eaSkip = eventargs.Skip;
+			res = Skipping(ref eaES, "", SkipReason.BadNamespace, eventargs.ArticleText, ref eaSkip);
+		    eventargs.EditSummary = eaES;
+		    eventargs.Skip = eaSkip;
 			goto ExitMe;
 			SkipOrStop:
 
 			res = eventargs.ArticleText;
 			goto ExitMe;
 		}
-		private void Reset()
+		public void Reset()
 		{
 			blnShowManualAssessmentsInstructions = true;
 			var _with5 = PluginSettings;
@@ -316,7 +330,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 				plugin.Value.Reset();
 			}
 		}
-		private object[] SaveSettings()
+		public object[] SaveSettings()
 		{
 			System.IO.StringWriter st = new System.IO.StringWriter();
 			XmlTextWriter Writer = new XmlTextWriter(st);
@@ -348,13 +362,13 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 		private static bool ReqPhotoParamNeeded(Article TheArticle)
 		{
 			foreach (PluginBase p in ActivePlugins) {
-				if (p.HasReqPhotoParam) {
-					if (ReqPhotoNoParamsRegex.IsMatch(TheArticle.AlteredArticleText))
+				if (p.HasReqPhotoParam)
+				{
+				    if (ReqPhotoNoParamsRegex.IsMatch(TheArticle.AlteredArticleText))
 						return true;
-					else
-						return false;
 				}
 			}
+		    return false;
 		}
 		private static string FinaliseArticleProcessing(Article TheArticle, ref bool Skip, ref string Summary, string ArticleText, bool ReqPhoto)
 		{
@@ -379,7 +393,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 							// the plugin manager stops processing when it gets a bad tag. We know however
 							// that one plugin found a bad template and possibly replaced it with
 							// conTemplatePlaceholder. We're also not skipping, so we need to remove the placeholder
-							TheArticle.AlteredArticleText = TheArticle.AlteredArticleText.Replace(conTemplatePlaceholder, "");
+                            TheArticle.AlteredArticleText = TheArticle.AlteredArticleText.Replace(Constants.conTemplatePlaceholder, "");
 							MessageBox.Show("Bad tag. Please fix it manually or click ignore.", "Bad tag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 							PluginSettings.PluginStats.Tagged += 1;
 						}
@@ -410,19 +424,18 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 			}
 
 			if (Skip) {
-				return Skipping(Summary, TheArticle.EditSummary, SkipReason, ArticleText, Skip);
-			} else {
-				var _with7 = TheArticle;
-				if (ReqPhoto) {
-					_with7.AlteredArticleText = ReqPhotoNoParamsRegex.Replace(_with7.AlteredArticleText, "");
-					_with7.DoneReplacement("{{[[template:reqphoto|reqphoto]]}}", "template param(s)", true, PluginName);
-					_with7.ArticleHasAMajorChange();
-				}
-
-				_with7.FinaliseEditSummary();
-				Summary = _with7.EditSummary;
-				return _with7.AlteredArticleText;
+				return Skipping(ref Summary, TheArticle.EditSummary, SkipReason, ArticleText, ref Skip);
 			}
+		    var _with7 = TheArticle;
+		    if (ReqPhoto) {
+		        _with7.AlteredArticleText = ReqPhotoNoParamsRegex.Replace(_with7.AlteredArticleText, "");
+		        _with7.DoneReplacement("{{[[template:reqphoto|reqphoto]]}}", "template param(s)", true, PluginName);
+		        _with7.ArticleHasAMajorChange();
+		    }
+
+		    _with7.FinaliseEditSummary();
+		    Summary = _with7.EditSummary;
+		    return _with7.AlteredArticleText;
 		}
 		private static string Skipping(ref string EditSummary, string DefaultEditSummary, SkipReason SkipReason, string ArticleText, ref bool Skip, string ArticleTitle = null, int NS = Namespace.Talk)
 		{
@@ -494,7 +507,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 			if (IsEnabled) {
 				if (!ActivePlugins.Contains(Plugin)) {
 					// WPBio must be last in list
-					if (Plugin.PluginShortName == Biography) {
+					if (Plugin.PluginShortName == "Biography") {
 						ActivePlugins.Add(Plugin);
 					} else {
 						ActivePlugins.Insert(0, Plugin);
@@ -514,11 +527,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 		}
 		static internal void StopAWB()
 		{
-			AWBForm.Stop(conAWBPluginName);
+            AWBForm.Stop(Constants.conAWBPluginName);
 		}
 		static internal void DeleteGenericPlugin(IGenericTemplatePlugin PG, PluginBase P)
 		{
-			PG.Goodbye();
 			Plugins.Remove(PG.GenericTemplateKey);
 			if (ActivePlugins.Contains(P))
 				ActivePlugins.Remove(P);
@@ -608,7 +620,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 				return;
 			}
 
-			var _with8 = AWBForm.TraceManager();
+			var _with8 = AWBForm.TraceManager;
 			_with8.Flush();
 			_with8.Close();
 		}
@@ -659,7 +671,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 				StatusText.Text = "Initialising assessments plugin";
 
 				if (AWBForm.TheSession.Editor.IsActive)
-					AWBForm.Stop(conAWBPluginName);
+                    AWBForm.Stop(Constants.conAWBPluginName);
 
 				if (blnShowManualAssessmentsInstructions) {
 					AssessmentsInstructionsDialog dialog = new AssessmentsInstructionsDialog();
@@ -788,8 +800,9 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 		}
 
 		// AWB nudges:
-		private void Nudge(ref bool cancel)
+		public void Nudge(out bool cancel)
 		{
+		    cancel = false;
 			foreach (PluginBase p in ActivePlugins) {
 				if (!p.IAmReady) {
 					cancel = true;
@@ -797,13 +810,13 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 				}
 			}
 		}
-		private void Nudged(int nudges)
+		public void Nudged(int nudges)
 		{
 			PluginSettings.lblAWBNudges.Text = "Nudges: " + nudges.ToString();
 		}
 
-		internal string WikiName {
-			get { return conWikiPlugin + " version " + AboutBox.Version; }
+		public string WikiName {
+            get { return Constants.conWikiPlugin + " version " + AboutBox.Version; }
 		}
 		static bool InitStaticVariableHelper(Microsoft.VisualBasic.CompilerServices.StaticLocalInitFlag flag)
 		{

@@ -12,7 +12,6 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using WikiFunctions;
-using WikiFunctions.Logging.Uploader;
 using WikiFunctions.Plugin;
 internal sealed class WPSongs : PluginBase
 {
@@ -70,6 +69,7 @@ internal sealed class WPSongs : PluginBase
 	protected override bool TemplateFound()
 	{
 		// Nothing to do here
+	    return false;
 	}
 
 	protected override string WriteTemplateHeader()
