@@ -1,19 +1,7 @@
-using AutoWikiBrowser.Plugins.Kingbotk;
-using AutoWikiBrowser.Plugins.Kingbotk.Components;
-using AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments;
-using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
-
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using System.Xml;
-using WikiFunctions;
 
-using WikiFunctions.Plugin;
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 //Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
 
@@ -29,34 +17,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 {
 	internal sealed partial class TimerStats
 	{
-		private AsyncApiEdit withEventsField_editor;
-		private AsyncApiEdit editor {
-			get { return withEventsField_editor; }
-			set {
-				if (withEventsField_editor != null) {
-					withEventsField_editor.SaveComplete -= IncrementSavedEdits;
-				}
-				withEventsField_editor = value;
-				if (withEventsField_editor != null) {
-					withEventsField_editor.SaveComplete += IncrementSavedEdits;
-				}
-			}
-		}
-		private AutoWikiBrowser.Plugins.Kingbotk.Components.PluginSettingsControl.Stats withEventsField_mStats;
-		private AutoWikiBrowser.Plugins.Kingbotk.Components.PluginSettingsControl.Stats mStats {
-			get { return withEventsField_mStats; }
-			set {
-				if (withEventsField_mStats != null) {
-					withEventsField_mStats.SkipMisc -= mStats_SkipMisc;
-				}
-				withEventsField_mStats = value;
-				if (withEventsField_mStats != null) {
-					withEventsField_mStats.SkipMisc += mStats_SkipMisc;
-				}
-			}
-		}
+	    private AsyncApiEdit editor;
+	    private PluginSettingsControl.Stats mStats;
 		private TimeSpan TimeSpan;
-		private System.DateTime Start;
+		private DateTime Start;
 		private int mNumberOfEdits;
 		private int mSkipped;
 
@@ -93,7 +57,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 		private void ResetVars()
 		{
 			NumberOfEdits = 0;
-			Start = System.DateTime.Now;
+			Start = DateTime.Now;
 			mSkipped = 0;
 		}
 		internal void StopStats()
@@ -112,11 +76,11 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			if (Count == 0) {
 				ETA = "Now";
 			} else {
-				System.DateTime ETADateTime = System.DateTime.Now.AddSeconds(SecondsPerPage * Count);
+				DateTime ETADateTime = DateTime.Now.AddSeconds(SecondsPerPage * Count);
 
-				if (ETADateTime.Date == System.DateTime.Now.Date) {
+				if (ETADateTime.Date == DateTime.Now.Date) {
 					ETA = ETADateTime.ToString("HH:mm") + " today";
-				} else if (System.DateTime.Now.AddDays(1).Date == ETADateTime.Date) {
+				} else if (DateTime.Now.AddDays(1).Date == ETADateTime.Date) {
 					ETA = ETADateTime.ToString("HH:mm") + " tomorrow";
 				} else {
 					ETA = ETADateTime.ToString("HH:mm, ddd d MMM");
@@ -138,24 +102,24 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 		int static_Timer1_Tick_UpdateETACount;
 		private void Timer1_Tick(object sender, EventArgs e)
 		{
-			double SecondsPerPage = 0;
+			double secondsPerPage;
 
 			static_Timer1_Tick_UpdateETACount += 1;
-			TimeSpan = System.DateTime.Now - Start;
+			TimeSpan = DateTime.Now - Start;
 			TimerLabel.Text = timerregexp.Replace(TimeSpan.ToString(), "");
 			if (NumberOfEdits == 0) {
-				SecondsPerPage = TimeSpan.TotalSeconds;
+				secondsPerPage = TimeSpan.TotalSeconds;
 			} else {
-				SecondsPerPage = Math.Round(TimeSpan.TotalSeconds / NumberOfEdits, 2);
+				secondsPerPage = Math.Round(TimeSpan.TotalSeconds / NumberOfEdits, 2);
 			}
 
-			if (double.IsInfinity(SecondsPerPage)) {
+			if (double.IsInfinity(secondsPerPage)) {
 				SpeedLabel.Text = "0";
 				ETA = "-";
 				if (static_Timer1_Tick_UpdateETACount > 9)
 					static_Timer1_Tick_UpdateETACount = 0;
 			} else {
-				SpeedLabel.Text = SecondsPerPage.ToString() + " s/p";
+				SpeedLabel.Text = secondsPerPage + " s/p";
 				if (static_Timer1_Tick_UpdateETACount > 9 || ETA == "-") {
 					static_Timer1_Tick_UpdateETACount = 0;
 					if ((NumberOfEdits + mSkipped) == 0) {
