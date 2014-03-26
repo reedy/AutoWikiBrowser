@@ -15,12 +15,13 @@ using WikiFunctions;
 using WikiFunctions.Plugin;
 namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 {
-	[Microsoft.VisualBasic.CompilerServices.DesignerGenerated()]
 	partial class AboutBox : System.Windows.Forms.Form
 	{
+        private System.ComponentModel.IContainer components = null;
 
-		//Form overrides dispose to clean up the component list.
-		[System.Diagnostics.DebuggerNonUserCode()]
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing && components != null) {
@@ -29,14 +30,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			base.Dispose(disposing);
 		}
 
+        #region Windows Form Designer generated code
 
-		//Required by the Windows Form Designer
-
-		private System.ComponentModel.IContainer components;
-		//NOTE: The following procedure is required by the Windows Form Designer
-		//It can be modified using the Windows Form Designer.  
-		//Do not modify it using the code editor.
-		[System.Diagnostics.DebuggerStepThrough()]
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
 		private void InitializeComponent()
 		{
 			this.OKButton = new System.Windows.Forms.Button();
@@ -200,66 +199,18 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			this.Text = "About the Kingbotk Templating Plugin";
 			this.ResumeLayout(false);
 			this.PerformLayout();
+		}
+        #endregion
 
-		}
-		private System.Windows.Forms.LinkLabel withEventsField_linkKingboy;
-		private System.Windows.Forms.LinkLabel linkKingboy {
-			get { return withEventsField_linkKingboy; }
-			set {
-				if (withEventsField_linkKingboy != null) {
-					withEventsField_linkKingboy.LinkClicked -= linkKingboy_LinkClicked;
-				}
-				withEventsField_linkKingboy = value;
-				if (withEventsField_linkKingboy != null) {
-					withEventsField_linkKingboy.LinkClicked += linkKingboy_LinkClicked;
-				}
-			}
-		}
-		private System.Windows.Forms.LinkLabel withEventsField_linkReedy;
-		private System.Windows.Forms.LinkLabel linkReedy {
-			get { return withEventsField_linkReedy; }
-			set {
-				if (withEventsField_linkReedy != null) {
-					withEventsField_linkReedy.LinkClicked -= linkReedy_LinkClicked;
-				}
-				withEventsField_linkReedy = value;
-				if (withEventsField_linkReedy != null) {
-					withEventsField_linkReedy.LinkClicked += linkReedy_LinkClicked;
-				}
-			}
-		}
-		private System.Windows.Forms.Button withEventsField_OKButton;
-		private System.Windows.Forms.Button OKButton {
-			get { return withEventsField_OKButton; }
-			set {
-				if (withEventsField_OKButton != null) {
-					withEventsField_OKButton.Click -= OKButton_Click;
-				}
-				withEventsField_OKButton = value;
-				if (withEventsField_OKButton != null) {
-					withEventsField_OKButton.Click += OKButton_Click;
-				}
-			}
-		}
+        private System.Windows.Forms.LinkLabel linkKingboy;
+        private System.Windows.Forms.LinkLabel linkReedy;
+        private System.Windows.Forms.Button OKButton;
 		private System.Windows.Forms.Label LabelProductName;
 		private System.Windows.Forms.Label LabelVersion;
 		private System.Windows.Forms.Label LabelCopyright;
 		private System.Windows.Forms.Label TextBoxDescription;
 		private System.Windows.Forms.Label Label1;
 		private System.Windows.Forms.Label Label2;
-		private System.Windows.Forms.Button withEventsField_LicencingButton;
-		internal System.Windows.Forms.Button LicencingButton {
-			get { return withEventsField_LicencingButton; }
-			set {
-				if (withEventsField_LicencingButton != null) {
-					withEventsField_LicencingButton.Click -= LicencingButton_Click;
-				}
-				withEventsField_LicencingButton = value;
-				if (withEventsField_LicencingButton != null) {
-					withEventsField_LicencingButton.Click += LicencingButton_Click;
-				}
-			}
-
-		}
+        private System.Windows.Forms.Button LicencingButton;
 	}
 }
