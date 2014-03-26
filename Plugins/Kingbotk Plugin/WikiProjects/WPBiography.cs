@@ -248,7 +248,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
 		protected override string WriteTemplateHeader()
 		{
-			string res = "{{WikiProject Biography" + Environment.Newline;
+			string res = "{{WikiProject Biography" + Environment.NewLine;
 
 			var _with4 = Template;
 			if (_with4.Parameters.ContainsKey("living")) {

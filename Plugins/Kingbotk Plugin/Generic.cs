@@ -314,7 +314,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 				try {
 					return (SkipRegex.Matches(article.AlteredArticleText).Count > 0);
 				} catch (Exception ex) {
-					MessageBox.Show("Error processing skip regular expression: " + Environment.Newline + Environment.Newline + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show("Error processing skip regular expression: " + Environment.NewLine + Environment.NewLine + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					PluginManager.StopAWB();
 				}
 			}
@@ -462,7 +462,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 					OurSettingsControl.AlternateNames = ConvertRedirectsToString(GetRedirects(OurSettingsControl.TemplateName));
 					OurSettingsControl.HasAlternateNamesCheckBox.Checked = !(string.IsNullOrEmpty(OurSettingsControl.AlternateNames));
 				} catch (Exception ex) {
-					MessageBox.Show("Whoops, we caught an error when trying to get the redirects from Wikipedia." + Environment.Newline + Environment.Newline + "The error was:" + ex.Message + Environment.Newline + Environment.Newline + "Depending on the error you might want to " + "try again by repressing Get. If this shouldn't have happened please report it to the authors.");
+					MessageBox.Show("Whoops, we caught an error when trying to get the redirects from Wikipedia." + Environment.NewLine + Environment.NewLine + "The error was:" + ex.Message + Environment.NewLine + Environment.NewLine + "Depending on the error you might want to " + "try again by repressing Get. If this shouldn't have happened please report it to the authors.");
 				}
 			}
 		}
