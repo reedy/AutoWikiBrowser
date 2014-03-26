@@ -59,6 +59,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			this.OKButton.Size = new System.Drawing.Size(87, 23);
 			this.OKButton.TabIndex = 0;
 			this.OKButton.Text = "&OK";
+            this.OKButton.Click += OKButton_Click;
 			//
 			//LabelProductName
 			//
@@ -136,6 +137,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			this.linkKingboy.TabIndex = 47;
 			this.linkKingboy.TabStop = true;
 			this.linkKingboy.Text = "Steve";
+            this.linkKingboy.LinkClicked += linkKingboy_LinkClicked;
 			//
 			//Label2
 			//
@@ -161,6 +163,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			this.linkReedy.TabIndex = 49;
 			this.linkReedy.TabStop = true;
 			this.linkReedy.Text = "Sam";
+            this.linkReedy.LinkClicked += linkReedy_LinkClicked;
 			//
 			//LicencingButton
 			//
@@ -170,6 +173,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			this.LicencingButton.TabIndex = 50;
 			this.LicencingButton.Text = "Licensing";
 			this.LicencingButton.UseVisualStyleBackColor = true;
+            this.LicencingButton.Click += LicencingButton_Click;
 			//
 			//AboutBox
 			//

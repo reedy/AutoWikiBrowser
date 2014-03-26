@@ -1,19 +1,10 @@
-using AutoWikiBrowser.Plugins.Kingbotk;
-using AutoWikiBrowser.Plugins.Kingbotk.Components;
-using AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments;
-using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
 using AutoWikiBrowser.Plugins.Kingbotk.Properties;
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using System.Xml;
+
 using WikiFunctions;
-using WikiFunctions.Plugin;
+
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 //Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
 
@@ -51,12 +42,14 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			// Add any initialization after the InitializeComponent() call.
 			LabelVersion.Text = string.Format("Version {0}", Version);
 		}
-		private void linkKingboy_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
+
+		private void linkKingboy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			linkKingboy.LinkVisited = true;
 			Tools.OpenENArticleInBrowser("Kingboyk", true);
 		}
-		private void linkReedy_LinkClicked(object sender, System.Windows.Forms.LinkLabelLinkClickedEventArgs e)
+
+		private void linkReedy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			linkReedy.LinkVisited = true;
 			Tools.OpenENArticleInBrowser("Reedy", true);
@@ -70,7 +63,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 
 		private class GPLAboutBox : WikiFunctions.Controls.AboutBox
 		{
-
 		    protected override void Initialise()
 		    {
                 Text = Constants.conAWBPluginName;
