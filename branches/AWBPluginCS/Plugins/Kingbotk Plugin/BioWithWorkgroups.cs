@@ -21,8 +21,8 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         public BioWithWorkgroups(string template, string prefix, bool autoStubEnabled, params TemplateParameters[] @params)
             : base(template, prefix, autoStubEnabled, @params)
         {
+            ListView1.ItemChecked += ListView1_ItemChecked;
         }
-
 
 		private void ListView1_ItemChecked(object sender, ItemCheckedEventArgs e)
 		{
