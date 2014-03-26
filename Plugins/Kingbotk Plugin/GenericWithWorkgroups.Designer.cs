@@ -36,7 +36,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-		private void InitializeComponent()
+		protected void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
 			this.ToolTip1 = new System.Windows.Forms.ToolTip(this.components);
