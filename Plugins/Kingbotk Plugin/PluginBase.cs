@@ -38,7 +38,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 		protected const bool ForceAddition = true;
 
 		protected virtual string ParameterBreak {
-			get { return Microsoft.VisualBasic.Constants.vbCrLf; }
+			get { return Environment.Newline; }
 		}
 
 		protected internal abstract IGenericSettings GenericSettings { get; }

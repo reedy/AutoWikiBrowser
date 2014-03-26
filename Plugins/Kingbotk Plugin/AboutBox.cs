@@ -30,7 +30,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 	{
 		private void AboutBox_Load(object sender, EventArgs e)
 		{
-			TextBoxDescription.Text = "An AWB plugin for adding and updating WikiProject templates on Wikipedia talk pages. " + Microsoft.VisualBasic.Constants.vbCrLf + Microsoft.VisualBasic.Constants.vbCrLf + "AWB Version: " + Application.ProductVersion.ToString() + Microsoft.VisualBasic.Constants.vbCrLf + Microsoft.VisualBasic.Constants.vbCrLf + "Made in England. Store in a dry place and consume within 7 days of opening. COMES WITH NO WARRANTY - " + "check your edits and use sensibly!";
+			TextBoxDescription.Text = "An AWB plugin for adding and updating WikiProject templates on Wikipedia talk pages. " + Environment.Newline + Environment.Newline + "AWB Version: " + Application.ProductVersion.ToString() + Environment.Newline + Environment.Newline + "Made in England. Store in a dry place and consume within 7 days of opening. COMES WITH NO WARRANTY - " + "check your edits and use sensibly!";
 		}
 
 		private void OKButton_Click(object sender, EventArgs e)
