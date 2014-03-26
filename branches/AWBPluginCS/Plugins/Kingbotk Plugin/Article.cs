@@ -204,9 +204,9 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 			ShellTemplateMatchEvaluatorsCommonTasks(templatename, match);
 
 			if (!string.IsNullOrEmpty(Ending))
-				Ending = Microsoft.VisualBasic.Constants.vbCrLf + Ending;
+				Ending = Environment.Newline + Ending;
 
-			return DoubleLineBreakRegex.Replace("{{" + templatename + "|1=" + Microsoft.VisualBasic.Constants.vbCrLf + LineBreakRegex.Replace(MatchEvaluatorString, "") + Microsoft.VisualBasic.Constants.vbCrLf + match.Groups["body"].Value + Ending + "}}", Microsoft.VisualBasic.Constants.vbCrLf);
+			return DoubleLineBreakRegex.Replace("{{" + templatename + "|1=" + Environment.Newline + LineBreakRegex.Replace(MatchEvaluatorString, "") + Environment.Newline + match.Groups["body"].Value + Ending + "}}", Environment.Newline);
 		}
 
 		private void ShellTemplateMatchEvaluatorsCommonTasks(string templatename, Match match)

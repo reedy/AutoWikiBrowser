@@ -136,7 +136,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 				res += "|" + _with1.Key + "=" + _with1.Value.Value + ParameterBreak;
 			}
 
-			res += "}}" + Microsoft.VisualBasic.Constants.vbCrLf;
+			res += "}}" + Environment.Newline;
 			return res;
 		}
 		internal bool HasYesParamLowerOrTitleCase(bool Yes, string ParamName)
