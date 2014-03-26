@@ -506,8 +506,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 					PluginManager.AWBForm.PluginsToolStripMenuItem.DropDownItems.Remove(OurMenuItem);
 				}
 
-			} catch (Exception ex) {
-
+			} catch (Exception) {
 			} finally {
 				// Perform cleanup that has to be executed in either case:
 				OurTab = null;

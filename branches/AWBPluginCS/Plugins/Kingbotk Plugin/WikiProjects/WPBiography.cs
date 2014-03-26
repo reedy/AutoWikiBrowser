@@ -14,7 +14,6 @@ using System.Xml;
 using WikiFunctions;
 
 using WikiFunctions.Plugin;
-using AutoWikiBrowser.Plugins.Kingbotk;
 
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 //Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
