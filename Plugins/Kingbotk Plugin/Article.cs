@@ -137,6 +137,8 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 			else
 				ArticleHasAMajorChange();
 		}
+
+        // FIXME: To be replaced
 		readonly Microsoft.VisualBasic.CompilerServices.StaticLocalInitFlag static_RestoreTemplateToPlaceholderSpot_strPlaceholder_Init = new Microsoft.VisualBasic.CompilerServices.StaticLocalInitFlag();
 		// just write one instance of template even if have multiple conTemplatePlaceholder's
 		string static_RestoreTemplateToPlaceholderSpot_strPlaceholder;
