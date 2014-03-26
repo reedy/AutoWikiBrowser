@@ -1,19 +1,8 @@
-using AutoWikiBrowser.Plugins.Kingbotk;
-using AutoWikiBrowser.Plugins.Kingbotk.Components;
-using AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments;
-using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
-
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
-using WikiFunctions;
 
-using WikiFunctions.Plugin;
 using WikiFunctions.API;
 
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
@@ -131,6 +120,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			AssessmentsAlwaysLeaveAComment = false;
 			OpenBadInBrowser = false;
 		}
+
 		internal void WriteXML(XmlTextWriter Writer)
 		{
 			Writer.WriteAttributeString(conManuallyAssessParm, ManuallyAssess.ToString());
@@ -151,11 +141,13 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			if (_with2.EditSummaryComboBox.Text == "clean up")
 				_with2.EditSummaryComboBox.Text = "";
 		}
+
 		private void MenuAbout_Click(object sender, EventArgs e)
 		{
 			AboutBox about = new AboutBox();
 			about.Show();
 		}
+
 		private void MenuHelp_Click(object sender, EventArgs e)
 		{
 			PluginManager.AWBForm.ShowHelpEnWiki("User:Kingbotk/Plugin/User guide");
@@ -179,14 +171,17 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			CleanupCheckBox.Checked = ManuallyAssess;
 			CleanupCheckBox.Enabled = ManuallyAssess;
 		}
+
 		private void ResetTimerButton_Click(object sender, EventArgs e)
 		{
 			TimerStats1.Reset();
 		}
+
 		private void SkipBadTagsCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
 			OpenBadInBrowserCheckBox.Visible = SkipBadTagsCheckBox.Checked;
 		}
+
 		private void SkipNoChangesCheckBoxCheckedChanged(object sender, EventArgs e)
 		{
 			if ((PluginManager.AWBForm.SkipNoChanges != SkipNoChangesCheckBox.Checked)) {

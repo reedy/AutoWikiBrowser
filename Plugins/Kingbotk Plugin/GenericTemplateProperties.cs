@@ -44,14 +44,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 
         static internal void DoRegexTextBox(TextBox txt, Regex regx)
         {
-            if (regx == null)
-            {
-                txt.Text = "<not set>";
-            }
-            else
-            {
-                txt.Text = regx.ToString();
-            }
+            txt.Text = regx == null ? "<not set>" : regx.ToString();
         }
     }
 }

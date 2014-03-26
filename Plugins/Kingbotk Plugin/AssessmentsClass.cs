@@ -43,7 +43,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 
 			// Get a reference to the cleanup checkboxes:
 			foreach (Control ctl in PluginManager.AWBForm.OptionsTab.Controls["groupBox6"].Controls) {
-				if (object.ReferenceEquals(ctl.GetType(), typeof(CheckBox)))
+				if (ReferenceEquals(ctl.GetType(), typeof(CheckBox)))
 					AWBCleanupCheckboxes.Add((CheckBox)ctl);
 			}
 			ToggleAWBCleanup(PluginSettings.Cleanup);

@@ -17,7 +17,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 {
 	internal sealed partial class TimerStats
 	{
-	    private AsyncApiEdit editor;
 	    private PluginSettingsControl.Stats mStats;
 		private TimeSpan TimeSpan;
 		private DateTime Start;
@@ -36,13 +35,13 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 		internal void Init(AsyncApiEdit e, Label ETALabel, PluginSettingsControl.Stats Stats)
 		{
 			if (!TimerEnabled) {
-				editor = e;
-
 				ResetVars();
 				mETALabel = ETALabel;
 
 				TimerEnabled = true;
+
 				mStats = Stats;
+			    mStats.SkipMisc += mStats_SkipMisc;
 
 				Timer1_Tick(null, null);
 			}

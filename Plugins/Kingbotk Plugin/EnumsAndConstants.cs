@@ -1,18 +1,5 @@
-using AutoWikiBrowser.Plugins.Kingbotk;
-using AutoWikiBrowser.Plugins.Kingbotk.Components;
-using AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments;
-using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
-
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using System.Xml;
-using WikiFunctions;
-using WikiFunctions.Plugin;
+
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 //Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
 
@@ -25,7 +12,7 @@ using WikiFunctions.Plugin;
 
 namespace AutoWikiBrowser.Plugins.Kingbotk
 {
-	internal enum SkipResults : int
+	internal enum SkipResults
 	{
 		NotSet = -1,
 		//Processed = 0
@@ -33,7 +20,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 		SkipBadTag,
 		SkipRegex
 	}
-	internal enum Classification : int
+	internal enum Classification
 	{
 		Unassessed = 0,
 		Stub,
@@ -49,7 +36,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 		FL,
 		Code = 100
 	}
-	internal enum Importance : int
+	internal enum Importance
 	{
 		Unassessed = 0,
 		Low,
@@ -59,7 +46,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 		NA,
 		Code = 100
 	}
-	internal enum ProcessTalkPageMode : int
+	internal enum ProcessTalkPageMode
 	{
 		Normal,
 		ManualAssessment,

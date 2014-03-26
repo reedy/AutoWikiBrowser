@@ -1,8 +1,3 @@
-using AutoWikiBrowser.Plugins.Kingbotk;
-using AutoWikiBrowser.Plugins.Kingbotk.Components;
-using AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments;
-using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -94,6 +89,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 			this.TemplateNameTextBox.Size = new System.Drawing.Size(90, 20);
 			this.TemplateNameTextBox.TabIndex = 0;
 			this.ToolTip1.SetToolTip(this.TemplateNameTextBox, "The usual (preferred) name of the template. e.g. {{Target}}");
+            this.TemplateNameTextBox.TextChanged += TemplateNameTextBox_TextChanged;
 			//
 			//AlternateNamesTextBox
 			//
@@ -124,6 +120,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 			this.AutoStubSupportYNCheckBox.Text = "Auto-Stub";
 			this.ToolTip1.SetToolTip(this.AutoStubSupportYNCheckBox, "Do you have an auto=yes parameter?");
 			this.AutoStubSupportYNCheckBox.UseVisualStyleBackColor = true;
+            this.AutoStubSupportYNCheckBox.CheckedChanged += AutoStubSupportYNCheckBox_CheckedChanged;
 			//
 			//SkipRegexTextBox
 			//
@@ -144,6 +141,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 			this.SkipRegexCheckBox.Text = "Skip RE";
 			this.ToolTip1.SetToolTip(this.SkipRegexCheckBox, "Check this if you want to supply a regular expression to tell the plugin when to " + "skip pages");
 			this.SkipRegexCheckBox.UseVisualStyleBackColor = true;
+            this.SkipRegexCheckBox.CheckedChanged += SkipRegexCheckBox_CheckedChanged;
 			//
 			//GetRedirectsButton
 			//
@@ -164,6 +162,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 			this.HasAlternateNamesCheckBox.TabIndex = 4;
 			this.HasAlternateNamesCheckBox.Text = "Template has alternate names (redirects)";
 			this.HasAlternateNamesCheckBox.UseVisualStyleBackColor = true;
+            this.HasAlternateNamesCheckBox.CheckedChanged += HasAlternateNamesCheckBox_CheckedChanged;
 			//
 			//Label2
 			//
@@ -192,6 +191,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 			this.LinkLabel1.TabIndex = 2;
 			this.LinkLabel1.TabStop = true;
 			this.LinkLabel1.Text = "Help";
+            this.LinkLabel1.LinkClicked += LinkLabel1_LinkClicked;
 			//
 			//GroupBox2
 			//
@@ -241,6 +241,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 			this.ImportanceCheckedListBox.Name = "ImportanceCheckedListBox";
 			this.ImportanceCheckedListBox.Size = new System.Drawing.Size(86, 49);
 			this.ImportanceCheckedListBox.TabIndex = 9;
+            this.ImportanceCheckedListBox.ItemCheck += ImportanceCheckedListBox_ItemCheck;
 			//
 			//PropertiesButton
 			//

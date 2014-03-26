@@ -67,7 +67,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 		// AWB pass through:
 		protected void InitialiseBase()
 		{
-			var _with1 = OurMenuItem;
             OurMenuItem.CheckOnClick = true;
             OurMenuItem.Checked = false;
             OurMenuItem.ToolTipText = "Enable/disable the " + PluginShortName + " plugin";
@@ -446,13 +445,11 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 			string message = "Loading redirects for Template:" + Target;
 
 			PluginManager.StatusText.Text = message;
-			System.Windows.Forms.Application.DoEvents();
+			Application.DoEvents();
 			// the statusbar text wasn't updating without this; if happens elsewhere may need to write a small subroutine
 
 			try {
-				return rlp.MakeList(Namespace.Template, new string[] { Variables.Namespaces[Namespace.Template] + Target });
-			} catch {
-				throw;
+				return rlp.MakeList(Namespace.Template, new [] { Variables.Namespaces[Namespace.Template] + Target });
 			} finally {
 				PluginManager.DefaultStatusText();
 			}
@@ -460,19 +457,15 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
 		protected static string ConvertRedirectsToString(List<WikiFunctions.Article> Redirects)
 		{
-			List<WikiFunctions.Article> tmp = new List<WikiFunctions.Article>();
 			string res = "";
 
 			foreach (WikiFunctions.Article redirect in Redirects) {
 				if (redirect.NameSpaceKey == Namespace.Template) {
 					res += redirect.Name.Remove(0, 9) + "|";
-					tmp.Add(redirect);
 				}
 			}
 
-			Redirects = tmp;
-
-			return res.Trim(new char[] { Convert.ToChar("|") });
+			return res.Trim(new [] { Convert.ToChar("|") });
 			// would .Remove be quicker? or declaring this as static?
 		}
 

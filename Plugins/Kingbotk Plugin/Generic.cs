@@ -5,6 +5,7 @@ using System;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
+
 using WikiFunctions;
 
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
@@ -25,7 +26,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
 		private readonly string mName;
 		// Enums:
-		internal enum ImportanceSettingEnum : int
+		internal enum ImportanceSettingEnum
 		{
 			Imp,
 			Pri,
@@ -72,7 +73,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 			set { HasAlternateNamesCheckBox.Checked = value; }
 		}
 		internal string AlternateNames {
-			get { return AlternateNamesTextBox.Text.Trim(new char[] {Convert.ToChar("|"),Convert.ToChar(" ")}); }
+			get { return AlternateNamesTextBox.Text.Trim(new [] {Convert.ToChar("|"),Convert.ToChar(" ")}); }
 			set { AlternateNamesTextBox.Text = value; }
 		}
 		internal ImportanceSettingEnum ImportanceSetting {
@@ -171,18 +172,21 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 		#endregion
 
 		#region "Event handlers"
-		private void LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
 		{
 			Tools.OpenENArticleInBrowser("Kingbotk/Plugin/Generic_WikiProject_templates", true);
 		}
+
 		private void ImportanceCheckedListBox_ItemCheck(object sender, ItemCheckEventArgs e)
 		{
 			AssessmentForm.AllowOnlyOneCheckedItem(sender, e);
 		}
+
 		private void HasAlternateNamesCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
 			AlternateNamesTextBox.Enabled = HasAlternateNamesCheckBox.Checked;
 		}
+
 		private void AutoStubSupportYNCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
 			if (AutoStubSupportYNCheckBox.Checked) {
@@ -192,10 +196,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 				AutoStubCheckBox.Enabled = false;
 			}
 		}
+
 		private void SkipRegexCheckBox_CheckedChanged(object sender, EventArgs e)
 		{
 			SkipRegexTextBox.Enabled = SkipRegexCheckBox.Checked;
 		}
+
 		private void TemplateNameTextBox_TextChanged(object sender, EventArgs e)
 		{
 			GetRedirectsButton.Enabled = !(string.IsNullOrEmpty(TemplateName));
@@ -203,7 +209,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 		#endregion
 	}
 
-	internal sealed class GenericTemplatePlugin : PluginBase, IGenericTemplatePlugin
+	internal sealed class GenericTemplatePlugin : PluginBase, IGenericTemplatePlugin, IDisposable
 	{
 
 		// Objects:
@@ -245,7 +251,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 			OurSettingsControl.Reset();
 			OurTab.Controls.Add(OurSettingsControl);
 			DeleteMeMenuItem.ToolTipText = "Delete the " + PluginShortName + " plugin";
-		    DeleteMeMenuItem.Click += DeleteMeMenuItem_Click;
+            DeleteMeMenuItem.Click += DeleteMeMenuItem_Click;
 			OurMenuItem.DropDownItems.Add(DeleteMeMenuItem);
 		}
 
@@ -293,8 +299,11 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 			if ((SkipRegex != null)) {
 				try {
 					return (SkipRegex.Matches(article.AlteredArticleText).Count > 0);
-				} catch (Exception ex) {
-					MessageBox.Show("Error processing skip regular expression: " + Environment.NewLine + Environment.NewLine + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				} catch (Exception ex)
+				{
+				    MessageBox.Show(
+				        "Error processing skip regular expression: " + Environment.NewLine + Environment.NewLine + ex,
+				        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					PluginManager.StopAWB();
 				}
 			}
@@ -366,7 +375,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 		// Our interface:
 	    public void Goodbye()
 	    {
-	        // Bye!
+	        Dispose();
 	    }
 
 	    public string GenericTemplateKey {
@@ -460,7 +469,13 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 		}
 
 		#region "IDisposable"
-			// To detect redundant calls
+	    public void Dispose()
+	    {
+            Dispose(true);
+	        GC.SuppressFinalize(this);
+	    }
+
+		// To detect redundant calls
 		private bool disposed;
 		// This procedure is where the actual cleanup occurs
 		private void Dispose(bool disposing)
