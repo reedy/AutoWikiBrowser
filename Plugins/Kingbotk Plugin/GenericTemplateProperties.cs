@@ -26,29 +26,32 @@ using WikiFunctions.Plugin;
 
 namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 {
-	/// <summary>
-	/// A form which displays the configuration properties of a "generic template"
-	/// </summary>
-	/// <remarks></remarks>
-	internal sealed partial class GenericTemplatePropertiesForm
-	{
+    /// <summary>
+    /// A form which displays the configuration properties of a "generic template"
+    /// </summary>
+    /// <remarks></remarks>
+    internal sealed partial class GenericTemplatePropertiesForm
+    {
         public GenericTemplatePropertiesForm()
         {
             InitializeComponent();
         }
 
-		private void OK_Button_Click(object sender, EventArgs e)
-		{
-			Close();
-		}
+        private void OK_Button_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
 
-		static internal void DoRegexTextBox(TextBox txt, Regex regx)
-		{
-			if (regx == null) {
-				txt.Text = "<not set>";
-			} else {
-				txt.Text = regx.ToString();
-			}
-		}
-	}
+        static internal void DoRegexTextBox(TextBox txt, Regex regx)
+        {
+            if (regx == null)
+            {
+                txt.Text = "<not set>";
+            }
+            else
+            {
+                txt.Text = regx.ToString();
+            }
+        }
+    }
 }
