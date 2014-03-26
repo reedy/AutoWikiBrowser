@@ -1,18 +1,12 @@
-using AutoWikiBrowser.Plugins.Kingbotk;
 using AutoWikiBrowser.Plugins.Kingbotk.Components;
 using AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments;
-using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using WikiFunctions;
-using WikiFunctions.Plugin;
+
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 //Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
 
@@ -215,20 +209,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 		// Objects:
 		private TabPage OurTab;
 		private GenericTemplateSettings OurSettingsControl;
-		private ToolStripMenuItem withEventsField_DeleteMeMenuItem = new ToolStripMenuItem("Delete");
-		private ToolStripMenuItem DeleteMeMenuItem {
-			get { return withEventsField_DeleteMeMenuItem; }
-			set {
-				if (withEventsField_DeleteMeMenuItem != null) {
-					withEventsField_DeleteMeMenuItem.Click -= DeleteMeMenuItem_Click;
-				}
-				withEventsField_DeleteMeMenuItem = value;
-				if (withEventsField_DeleteMeMenuItem != null) {
-					withEventsField_DeleteMeMenuItem.Click += DeleteMeMenuItem_Click;
-				}
-			}
-
-		}
+	    private ToolStripMenuItem DeleteMeMenuItem;
 		// Settings:
 		private readonly string OurName;
 		private string conEnabled {
@@ -264,6 +245,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 			OurSettingsControl.Reset();
 			OurTab.Controls.Add(OurSettingsControl);
 			DeleteMeMenuItem.ToolTipText = "Delete the " + PluginShortName + " plugin";
+		    DeleteMeMenuItem.Click += DeleteMeMenuItem_Click;
 			OurMenuItem.DropDownItems.Add(DeleteMeMenuItem);
 		}
 
@@ -360,19 +342,23 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 			// Mustn't set if the same or we get extra tabs
 			OurSettingsControl.ReadXML(Reader);
 		}
+
 		protected internal override void Reset()
 		{
 			OurSettingsControl.Reset();
 		}
+
 		protected internal override void WriteXML(XmlTextWriter Writer)
 		{
 			Writer.WriteAttributeString(conEnabled, Enabled.ToString());
 			OurSettingsControl.WriteXML(Writer);
 		}
+
 		//' These do nothing because generic templates already have a AlternateNames XML property
 		internal override void ReadXMLRedirects(XmlTextReader Reader)
 		{
 		}
+
 		internal override void WriteXMLRedirects(XmlTextWriter Writer)
 		{
 		}

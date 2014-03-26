@@ -48,19 +48,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 		internal abstract void ReqPhoto();
 
 		// Objects:
-		private ToolStripMenuItem withEventsField_OurMenuItem;
-		protected ToolStripMenuItem OurMenuItem {
-			get { return withEventsField_OurMenuItem; }
-			set {
-				if (withEventsField_OurMenuItem != null) {
-					withEventsField_OurMenuItem.CheckedChanged -= ourmenuitem_CheckedChanged;
-				}
-				withEventsField_OurMenuItem = value;
-				if (withEventsField_OurMenuItem != null) {
-					withEventsField_OurMenuItem.CheckedChanged += ourmenuitem_CheckedChanged;
-				}
-			}
-		}
+	    protected ToolStripMenuItem OurMenuItem;
 		protected Article article;
 
 		protected Templating Template;
@@ -80,9 +68,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 		protected void InitialiseBase()
 		{
 			var _with1 = OurMenuItem;
-			_with1.CheckOnClick = true;
-			_with1.Checked = false;
-			_with1.ToolTipText = "Enable/disable the " + PluginShortName + " plugin";
+            OurMenuItem.CheckOnClick = true;
+            OurMenuItem.Checked = false;
+            OurMenuItem.ToolTipText = "Enable/disable the " + PluginShortName + " plugin";
+		    OurMenuItem.CheckedChanged += ourmenuitem_CheckedChanged;
 			PluginManager.AWBForm.PluginsToolStripMenuItem.DropDownItems.Add(OurMenuItem);
 		}
 
