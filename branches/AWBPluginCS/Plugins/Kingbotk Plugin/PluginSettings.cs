@@ -30,7 +30,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 {
 	internal sealed partial class PluginSettingsControl
 	{
-
 		// XML parm-name constants:
 		private const string conManuallyAssessParm = "ManuallyAssess";
 		private const string conCleanupParm = "Cleanup";
@@ -40,29 +39,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 
 		private const string conOpenBadInBrowser = "OpenBadInBrowser";
 		// Statistics:
-		private Stats withEventsField_PluginStats = new Stats();
-		internal Stats PluginStats {
-			get { return withEventsField_PluginStats; }
-			set {
-				if (withEventsField_PluginStats != null) {
-					withEventsField_PluginStats.SkipBadTag -= PluginStats_SkipBadTag;
-					withEventsField_PluginStats.SkipMisc -= PluginStats_SkipMisc;
-					withEventsField_PluginStats.SkipNamespace -= PluginStats_SkipNamespace;
-					withEventsField_PluginStats.SkipNoChange -= PluginStats_SkipNoChange;
-					withEventsField_PluginStats.evTagged -= PluginStats_Tagged;
-					withEventsField_PluginStats.RedLink -= PluginStats_RedLink;
-				}
-				withEventsField_PluginStats = value;
-				if (withEventsField_PluginStats != null) {
-					withEventsField_PluginStats.SkipBadTag += PluginStats_SkipBadTag;
-					withEventsField_PluginStats.SkipMisc += PluginStats_SkipMisc;
-					withEventsField_PluginStats.SkipNamespace += PluginStats_SkipNamespace;
-					withEventsField_PluginStats.SkipNoChange += PluginStats_SkipNoChange;
-					withEventsField_PluginStats.evTagged += PluginStats_Tagged;
-					withEventsField_PluginStats.RedLink += PluginStats_RedLink;
-				}
-			}
-		}
+		internal Stats PluginStats = new Stats();
 
 		private readonly List<Label> StatLabels = new List<Label>();
 		internal PluginSettingsControl()
@@ -70,10 +47,16 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			// This call is required by the Windows Form Designer and must come first:
 			InitializeComponent();
 
-			var _with1 = PluginManager.AWBForm;
-			_with1.SkipNoChangesCheckBox.CheckedChanged += SkipNoChangesCheckBoxCheckedChanged;
+            PluginStats.SkipBadTag += PluginStats_SkipBadTag;
+            PluginStats.SkipMisc += PluginStats_SkipMisc;
+            PluginStats.SkipNamespace += PluginStats_SkipNamespace;
+            PluginStats.SkipNoChange += PluginStats_SkipNoChange;
+            PluginStats.evTagged += PluginStats_Tagged;
+            PluginStats.RedLink += PluginStats_RedLink;
 
-			StatLabels.AddRange(new Label[] {
+			PluginManager.AWBForm.SkipNoChangesCheckBox.CheckedChanged += SkipNoChangesCheckBoxCheckedChanged;
+
+			StatLabels.AddRange(new [] {
 				lblTagged,
 				lblSkipped,
 				lblNoChange,
