@@ -1,3 +1,4 @@
+using System.Linq;
 using AutoWikiBrowser.Plugins.Kingbotk;
 using AutoWikiBrowser.Plugins.Kingbotk.Components;
 using AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments;
@@ -49,24 +50,9 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
 		static internal ToolStripStatusLabel StatusText = new ToolStripStatusLabel("Initialising plugin");
 		// Menu items:
-		private static ToolStripMenuItem withEventsField_AddGenericTemplateMenuItem = new ToolStripMenuItem("Add Generic Template");
-		private static ToolStripMenuItem AddGenericTemplateMenuItem {
-			get { return withEventsField_AddGenericTemplateMenuItem; }
-		}
-		private static ToolStripMenuItem withEventsField_MenuShowSettingsTabs = new ToolStripMenuItem("Show settings tabs");
-		private static ToolStripMenuItem MenuShowSettingsTabs {
-			get { return withEventsField_MenuShowSettingsTabs; }
-			set {
-				if (withEventsField_MenuShowSettingsTabs != null) {
-					withEventsField_MenuShowSettingsTabs.Click -= MenuShowHide_Click;
-				}
-				withEventsField_MenuShowSettingsTabs = value;
-				if (withEventsField_MenuShowSettingsTabs != null) {
-					withEventsField_MenuShowSettingsTabs.Click += MenuShowHide_Click;
-				}
-			}
+	    private static readonly ToolStripMenuItem AddGenericTemplateMenuItem = new ToolStripMenuItem("Add Generic Template");
+	    private static readonly ToolStripMenuItem MenuShowSettingsTabs = new ToolStripMenuItem("Show settings tabs");
 
-		}
 		// Library state and shared objects:
 		private static readonly TabPage KingbotkPluginTab = new TabPage("Plugin");
 
@@ -141,6 +127,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 			AWBForm.ToolStripMenuGeneral.DropDownItems.Add(MenuShowSettingsTabs);
 
 			// Add-Generic-Template menu:
+		    AddGenericTemplateMenuItem.Click += AddGenericTemplateMenuItem_Click;
 			AWBForm.PluginsToolStripMenuItem.DropDownItems.Add(AddGenericTemplateMenuItem);
 
 			// Create plugins:
@@ -814,17 +801,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 		// AWB nudges:
 		public void Nudge(out bool cancel)
 		{
-		    cancel = false;
-			foreach (PluginBase p in ActivePlugins) {
-				if (!p.IAmReady) {
-					cancel = true;
-					break; // TODO: might not be correct. Was : Exit For
-				}
-			}
+		    cancel = ActivePlugins.Any(p => !p.IAmReady);
 		}
-		public void Nudged(int nudges)
+
+	    public void Nudged(int nudges)
 		{
-			PluginSettings.lblAWBNudges.Text = "Nudges: " + nudges.ToString();
+			PluginSettings.lblAWBNudges.Text = "Nudges: " + nudges;
 		}
 
 		public string WikiName {
