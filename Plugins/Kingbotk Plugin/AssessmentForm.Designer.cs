@@ -16,12 +16,13 @@ using WikiFunctions;
 using WikiFunctions.Plugin;
 namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 {
-	[Microsoft.VisualBasic.CompilerServices.DesignerGenerated()]
 	partial class AssessmentForm : System.Windows.Forms.Form
 	{
+        private System.ComponentModel.IContainer components;
 
-		//Form overrides dispose to clean up the component list.
-		[System.Diagnostics.DebuggerNonUserCode()]
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing && components != null) {
@@ -30,13 +31,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 			base.Dispose(disposing);
 		}
 
-		//Required by the Windows Form Designer
+        #region Windows Form Designer generated code
 
-		private System.ComponentModel.IContainer components;
-		//NOTE: The following procedure is required by the Windows Form Designer
-		//It can be modified using the Windows Form Designer.  
-		//Do not modify it using the code editor.
-		[System.Diagnostics.DebuggerStepThrough()]
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
@@ -212,65 +212,19 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+#endregion
+
 		private System.Windows.Forms.TableLayoutPanel TableLayoutPanel1;
 		private System.Windows.Forms.Button withEventsField_OK_Button;
-		private System.Windows.Forms.Button OK_Button {
-			get { return withEventsField_OK_Button; }
-			set {
-				if (withEventsField_OK_Button != null) {
-					withEventsField_OK_Button.Click -= OK_Button_Click;
-				}
-				withEventsField_OK_Button = value;
-				if (withEventsField_OK_Button != null) {
-					withEventsField_OK_Button.Click += OK_Button_Click;
-				}
-			}
-		}
-		private System.Windows.Forms.Button withEventsField_Cancel_Button;
-		private System.Windows.Forms.Button Cancel_Button {
-			get { return withEventsField_Cancel_Button; }
-			set {
-				if (withEventsField_Cancel_Button != null) {
-					withEventsField_Cancel_Button.Click -= Cancel_Button_Click;
-				}
-				withEventsField_Cancel_Button = value;
-				if (withEventsField_Cancel_Button != null) {
-					withEventsField_Cancel_Button.Click += Cancel_Button_Click;
-				}
-			}
-		}
+        private System.Windows.Forms.Button OK_Button;
+        private System.Windows.Forms.Button Cancel_Button;
 		private System.Windows.Forms.PictureBox PictureBox1;
-		private System.Windows.Forms.CheckedListBox withEventsField_ClassCheckedListBox;
-		private System.Windows.Forms.CheckedListBox ClassCheckedListBox {
-			get { return withEventsField_ClassCheckedListBox; }
-			set {
-				if (withEventsField_ClassCheckedListBox != null) {
-					withEventsField_ClassCheckedListBox.ItemCheck -= AllowOnlyOneCheckedItem;
-				}
-				withEventsField_ClassCheckedListBox = value;
-				if (withEventsField_ClassCheckedListBox != null) {
-					withEventsField_ClassCheckedListBox.ItemCheck += AllowOnlyOneCheckedItem;
-				}
-			}
-		}
-		private System.Windows.Forms.CheckedListBox withEventsField_ImportanceCheckedListBox;
-		private System.Windows.Forms.CheckedListBox ImportanceCheckedListBox {
-			get { return withEventsField_ImportanceCheckedListBox; }
-			set {
-				if (withEventsField_ImportanceCheckedListBox != null) {
-					withEventsField_ImportanceCheckedListBox.ItemCheck -= AllowOnlyOneCheckedItem;
-				}
-				withEventsField_ImportanceCheckedListBox = value;
-				if (withEventsField_ImportanceCheckedListBox != null) {
-					withEventsField_ImportanceCheckedListBox.ItemCheck += AllowOnlyOneCheckedItem;
-				}
-			}
-		}
+        private System.Windows.Forms.CheckedListBox ClassCheckedListBox;
+        private System.Windows.Forms.CheckedListBox ImportanceCheckedListBox;
 		private System.Windows.Forms.Label Label1;
 		private System.Windows.Forms.Label Label2;
 		private System.Windows.Forms.ToolTip ToolTip1;
 		private System.Windows.Forms.CheckedListBox SettingsCheckedListBox;
-
 		private System.Windows.Forms.Label Label3;
 	}
 }

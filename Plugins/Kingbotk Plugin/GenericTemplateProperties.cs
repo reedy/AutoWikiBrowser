@@ -32,6 +32,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 	/// <remarks></remarks>
 	internal sealed partial class GenericTemplatePropertiesForm
 	{
+        public GenericTemplatePropertiesForm()
+        {
+            InitializeComponent();
+        }
 
 		private void OK_Button_Click(object sender, EventArgs e)
 		{

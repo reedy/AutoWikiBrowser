@@ -18,10 +18,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 {
 	internal class BioWithWorkgroups : GenericWithWorkgroups
 	{
-
-		public BioWithWorkgroups(string template, string prefix, bool autoStubEnabled, params TemplateParameters[] @params) : base(template, prefix, autoStubEnabled, @params)
-		{
-		}
+        public BioWithWorkgroups(string template, string prefix, bool autoStubEnabled, params TemplateParameters[] @params)
+            : base(template, prefix, autoStubEnabled, @params)
+        {
+        }
 
 
 		private void ListView1_ItemChecked(object sender, ItemCheckedEventArgs e)

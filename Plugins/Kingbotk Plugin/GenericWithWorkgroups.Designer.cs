@@ -15,12 +15,13 @@ using WikiFunctions;
 using WikiFunctions.Plugin;
 namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 {
-	[Microsoft.VisualBasic.CompilerServices.DesignerGenerated()]
 	partial class GenericWithWorkgroups : System.Windows.Forms.UserControl
 	{
+        private System.ComponentModel.IContainer components = null;
 
-		//UserControl overrides dispose to clean up the component list.
-		[System.Diagnostics.DebuggerNonUserCode()]
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing && components != null) {
@@ -29,13 +30,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 			base.Dispose(disposing);
 		}
 
-		//Required by the Windows Form Designer
+        #region Windows Form Designer generated code
 
-		private System.ComponentModel.IContainer components;
-		//NOTE: The following procedure is required by the Windows Form Designer
-		//It can be modified using the Windows Form Designer.  
-		//Do not modify it using the code editor.
-		[System.Diagnostics.DebuggerStepThrough()]
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
@@ -126,49 +126,15 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 			this.PerformLayout();
 
 		}
+#endregion
 		private System.Windows.Forms.ToolTip ToolTip1;
 		private System.Windows.Forms.LinkLabel withEventsField_LinkLabel1;
-		private System.Windows.Forms.LinkLabel LinkLabel1 {
-			get { return withEventsField_LinkLabel1; }
-			set {
-				if (withEventsField_LinkLabel1 != null) {
-					withEventsField_LinkLabel1.LinkClicked -= LinkClicked;
-				}
-				withEventsField_LinkLabel1 = value;
-				if (withEventsField_LinkLabel1 != null) {
-					withEventsField_LinkLabel1.LinkClicked += LinkClicked;
-				}
-			}
-		}
+        private System.Windows.Forms.LinkLabel LinkLabel1;
 		internal System.Windows.Forms.ListView ListView1;
 		internal System.Windows.Forms.ColumnHeader colWG;
 		private System.Windows.Forms.GroupBox ParametersGroup;
 		private System.Windows.Forms.CheckBox withEventsField_AutoStubCheckBox;
-		private System.Windows.Forms.CheckBox AutoStubCheckBox {
-			get { return withEventsField_AutoStubCheckBox; }
-			set {
-				if (withEventsField_AutoStubCheckBox != null) {
-					withEventsField_AutoStubCheckBox.CheckedChanged -= AutoStubCheckBox_CheckedChanged;
-				}
-				withEventsField_AutoStubCheckBox = value;
-				if (withEventsField_AutoStubCheckBox != null) {
-					withEventsField_AutoStubCheckBox.CheckedChanged += AutoStubCheckBox_CheckedChanged;
-				}
-			}
-		}
-		private System.Windows.Forms.CheckBox withEventsField_StubClassCheckBox;
-		private System.Windows.Forms.CheckBox StubClassCheckBox {
-			get { return withEventsField_StubClassCheckBox; }
-			set {
-				if (withEventsField_StubClassCheckBox != null) {
-					withEventsField_StubClassCheckBox.CheckedChanged -= StubClassCheckBox_CheckedChanged;
-				}
-				withEventsField_StubClassCheckBox = value;
-				if (withEventsField_StubClassCheckBox != null) {
-					withEventsField_StubClassCheckBox.CheckedChanged += StubClassCheckBox_CheckedChanged;
-				}
-			}
-
-		}
+        private System.Windows.Forms.CheckBox AutoStubCheckBox;
+        private System.Windows.Forms.CheckBox StubClassCheckBox;
 	}
 }
