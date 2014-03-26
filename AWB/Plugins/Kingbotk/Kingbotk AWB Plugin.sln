@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WikiFunctions", "..\..\WikiFunctions\WikiFunctions.csproj", "{B5B0008C-A306-4B0D-B91E-5C03DA7014E0}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Kingbotk Plugin", "AWB Plugin\Kingbotk Plugin.vbproj", "{70AF6097-1ED6-475C-878E-A0BAEDB705F6}"
