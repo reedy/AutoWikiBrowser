@@ -15,27 +15,28 @@ using WikiFunctions;
 using WikiFunctions.Plugin;
 namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 {
-	[Microsoft.VisualBasic.CompilerServices.DesignerGenerated()]
 	partial class GenericTemplateSettings : System.Windows.Forms.UserControl
 	{
+        private System.ComponentModel.IContainer components = null;
 
-		//UserControl overrides dispose to clean up the component list.
-		[System.Diagnostics.DebuggerNonUserCode()]
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && components != null) {
-				components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && components != null)
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
-		//Required by the Windows Form Designer
+        #region Windows Form Designer generated code
 
-		private System.ComponentModel.IContainer components;
-		//NOTE: The following procedure is required by the Windows Form Designer
-		//It can be modified using the Windows Form Designer.  
-		//Do not modify it using the code editor.
-		[System.Diagnostics.DebuggerStepThrough()]
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
@@ -277,95 +278,25 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 			this.PerformLayout();
 
 		}
-		internal System.Windows.Forms.ToolTip ToolTip1;
+
+        #endregion
+        internal System.Windows.Forms.ToolTip ToolTip1;
 		internal System.Windows.Forms.GroupBox GroupBox2;
 		internal System.Windows.Forms.CheckBox StubClassCheckBox;
 		internal System.Windows.Forms.CheckBox AutoStubCheckBox;
 		internal System.Windows.Forms.Label TipLabel;
 		internal System.Windows.Forms.Label Label1;
-		private System.Windows.Forms.TextBox withEventsField_TemplateNameTextBox;
-		internal System.Windows.Forms.TextBox TemplateNameTextBox {
-			get { return withEventsField_TemplateNameTextBox; }
-			set {
-				if (withEventsField_TemplateNameTextBox != null) {
-					withEventsField_TemplateNameTextBox.TextChanged -= TemplateNameTextBox_TextChanged;
-				}
-				withEventsField_TemplateNameTextBox = value;
-				if (withEventsField_TemplateNameTextBox != null) {
-					withEventsField_TemplateNameTextBox.TextChanged += TemplateNameTextBox_TextChanged;
-				}
-			}
-		}
-		private System.Windows.Forms.LinkLabel withEventsField_LinkLabel1;
-		internal System.Windows.Forms.LinkLabel LinkLabel1 {
-			get { return withEventsField_LinkLabel1; }
-			set {
-				if (withEventsField_LinkLabel1 != null) {
-					withEventsField_LinkLabel1.LinkClicked -= LinkClicked;
-				}
-				withEventsField_LinkLabel1 = value;
-				if (withEventsField_LinkLabel1 != null) {
-					withEventsField_LinkLabel1.LinkClicked += LinkClicked;
-				}
-			}
-		}
+        internal System.Windows.Forms.TextBox TemplateNameTextBox;
+        internal System.Windows.Forms.LinkLabel LinkLabel1;
 		internal System.Windows.Forms.Label Label2;
 		internal System.Windows.Forms.TextBox AlternateNamesTextBox;
-		private System.Windows.Forms.CheckBox withEventsField_HasAlternateNamesCheckBox;
-		internal System.Windows.Forms.CheckBox HasAlternateNamesCheckBox {
-			get { return withEventsField_HasAlternateNamesCheckBox; }
-			set {
-				if (withEventsField_HasAlternateNamesCheckBox != null) {
-					withEventsField_HasAlternateNamesCheckBox.CheckedChanged -= HasAlternateNamesCheckBox_CheckedChanged;
-				}
-				withEventsField_HasAlternateNamesCheckBox = value;
-				if (withEventsField_HasAlternateNamesCheckBox != null) {
-					withEventsField_HasAlternateNamesCheckBox.CheckedChanged += HasAlternateNamesCheckBox_CheckedChanged;
-				}
-			}
-		}
+        internal System.Windows.Forms.CheckBox HasAlternateNamesCheckBox;
 		internal System.Windows.Forms.GroupBox GroupBox3;
 		internal System.Windows.Forms.Label Label3;
-		private System.Windows.Forms.CheckedListBox withEventsField_ImportanceCheckedListBox;
-		internal System.Windows.Forms.CheckedListBox ImportanceCheckedListBox {
-			get { return withEventsField_ImportanceCheckedListBox; }
-			set {
-				if (withEventsField_ImportanceCheckedListBox != null) {
-					withEventsField_ImportanceCheckedListBox.ItemCheck -= ImportanceCheckedListBox_ItemCheck;
-				}
-				withEventsField_ImportanceCheckedListBox = value;
-				if (withEventsField_ImportanceCheckedListBox != null) {
-					withEventsField_ImportanceCheckedListBox.ItemCheck += ImportanceCheckedListBox_ItemCheck;
-				}
-			}
-		}
-		private System.Windows.Forms.CheckBox withEventsField_AutoStubSupportYNCheckBox;
-		internal System.Windows.Forms.CheckBox AutoStubSupportYNCheckBox {
-			get { return withEventsField_AutoStubSupportYNCheckBox; }
-			set {
-				if (withEventsField_AutoStubSupportYNCheckBox != null) {
-					withEventsField_AutoStubSupportYNCheckBox.CheckedChanged -= AutoStubSupportYNCheckBox_CheckedChanged;
-				}
-				withEventsField_AutoStubSupportYNCheckBox = value;
-				if (withEventsField_AutoStubSupportYNCheckBox != null) {
-					withEventsField_AutoStubSupportYNCheckBox.CheckedChanged += AutoStubSupportYNCheckBox_CheckedChanged;
-				}
-			}
-		}
+        internal System.Windows.Forms.CheckedListBox ImportanceCheckedListBox;
+        internal System.Windows.Forms.CheckBox AutoStubSupportYNCheckBox;
 		internal System.Windows.Forms.TextBox SkipRegexTextBox;
-		private System.Windows.Forms.CheckBox withEventsField_SkipRegexCheckBox;
-		internal System.Windows.Forms.CheckBox SkipRegexCheckBox {
-			get { return withEventsField_SkipRegexCheckBox; }
-			set {
-				if (withEventsField_SkipRegexCheckBox != null) {
-					withEventsField_SkipRegexCheckBox.CheckedChanged -= SkipRegexCheckBox_CheckedChanged;
-				}
-				withEventsField_SkipRegexCheckBox = value;
-				if (withEventsField_SkipRegexCheckBox != null) {
-					withEventsField_SkipRegexCheckBox.CheckedChanged += SkipRegexCheckBox_CheckedChanged;
-				}
-			}
-		}
+        internal System.Windows.Forms.CheckBox SkipRegexCheckBox;
 		internal System.Windows.Forms.Button PropertiesButton;
 		internal System.Windows.Forms.Timer Timer1;
 

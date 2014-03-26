@@ -16,27 +16,28 @@ using WikiFunctions;
 using WikiFunctions.Plugin;
 namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 {
-	[Microsoft.VisualBasic.CompilerServices.DesignerGenerated()]
 	partial class TimerStats : System.Windows.Forms.UserControl
 	{
+        private System.ComponentModel.IContainer components = null;
 
-		//UserControl overrides dispose to clean up the component list.
-		[System.Diagnostics.DebuggerNonUserCode()]
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && components != null) {
-				components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && components != null)
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
-		//Required by the Windows Form Designer
+        #region Windows Form Designer generated code
 
-		private System.ComponentModel.IContainer components;
-		//NOTE: The following procedure is required by the Windows Form Designer
-		//It can be modified using the Windows Form Designer.  
-		//Do not modify it using the code editor.
-		[System.Diagnostics.DebuggerStepThrough()]
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
@@ -95,23 +96,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			this.PerformLayout();
 
 		}
-		private System.Windows.Forms.Timer withEventsField_Timer1;
-		private System.Windows.Forms.Timer Timer1 {
-			get { return withEventsField_Timer1; }
-			set {
-				if (withEventsField_Timer1 != null) {
-					withEventsField_Timer1.Tick -= Timer1_Tick;
-				}
-				withEventsField_Timer1 = value;
-				if (withEventsField_Timer1 != null) {
-					withEventsField_Timer1.Tick += Timer1_Tick;
-				}
-			}
-		}
+        #endregion
+
+        private System.Windows.Forms.Timer Timer1;
 		private System.Windows.Forms.Label TimerLabel;
 		private System.Windows.Forms.Label SpeedLabel;
 		private System.Windows.Forms.Label EditsLabel;
-
 		private System.Windows.Forms.ToolTip ToolTip1;
 	}
 }

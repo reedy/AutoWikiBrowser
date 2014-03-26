@@ -16,27 +16,28 @@ using WikiFunctions;
 using WikiFunctions.Plugin;
 namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 {
-	[Microsoft.VisualBasic.CompilerServices.DesignerGenerated()]
 	partial class PluginSettingsControl : System.Windows.Forms.UserControl
 	{
+        private System.ComponentModel.IContainer components = null;
 
-		//UserControl overrides dispose to clean up the component list.
-		[System.Diagnostics.DebuggerNonUserCode()]
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && components != null) {
-				components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && components != null)
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
-		//Required by the Windows Form Designer
+        #region Windows Form Designer generated code
 
-		private System.ComponentModel.IContainer components;
-		//NOTE: The following procedure is required by the Windows Form Designer
-		//It can be modified using the Windows Form Designer.  
-		//Do not modify it using the code editor.
-		[System.Diagnostics.DebuggerStepThrough()]
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
@@ -405,7 +406,9 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			this.PerformLayout();
 
 		}
-		internal System.Windows.Forms.ToolTip ToolTip1;
+        #endregion
+
+        internal System.Windows.Forms.ToolTip ToolTip1;
 		internal System.Windows.Forms.GroupBox GroupBox2;
 		internal System.Windows.Forms.Label Label5;
 		internal System.Windows.Forms.Label Label4;
@@ -417,109 +420,24 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 		internal System.Windows.Forms.Label lblBadTag;
 		internal System.Windows.Forms.Label lblNamespace;
 		internal System.Windows.Forms.Label lblTagged;
-		private System.Windows.Forms.CheckBox withEventsField_ManuallyAssessCheckBox;
-		internal System.Windows.Forms.CheckBox ManuallyAssessCheckBox {
-			get { return withEventsField_ManuallyAssessCheckBox; }
-			set {
-				if (withEventsField_ManuallyAssessCheckBox != null) {
-					withEventsField_ManuallyAssessCheckBox.CheckedChanged -= ManuallyAssessCheckBox_CheckedChanged;
-				}
-				withEventsField_ManuallyAssessCheckBox = value;
-				if (withEventsField_ManuallyAssessCheckBox != null) {
-					withEventsField_ManuallyAssessCheckBox.CheckedChanged += ManuallyAssessCheckBox_CheckedChanged;
-				}
-			}
-		}
+        internal System.Windows.Forms.CheckBox ManuallyAssessCheckBox;
 		internal System.Windows.Forms.CheckBox CleanupCheckBox;
 		internal System.Windows.Forms.GroupBox GroupBox4;
 		internal System.Windows.Forms.MenuStrip PluginMenuStrip;
 		internal System.Windows.Forms.ToolStripMenuItem PluginToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem withEventsField_MenuAbout;
-		internal System.Windows.Forms.ToolStripMenuItem MenuAbout {
-			get { return withEventsField_MenuAbout; }
-			set {
-				if (withEventsField_MenuAbout != null) {
-					withEventsField_MenuAbout.Click -= MenuAbout_Click;
-				}
-				withEventsField_MenuAbout = value;
-				if (withEventsField_MenuAbout != null) {
-					withEventsField_MenuAbout.Click += MenuAbout_Click;
-				}
-			}
-		}
-		private System.Windows.Forms.ToolStripMenuItem withEventsField_MenuHelp;
-		internal System.Windows.Forms.ToolStripMenuItem MenuHelp {
-			get { return withEventsField_MenuHelp; }
-			set {
-				if (withEventsField_MenuHelp != null) {
-					withEventsField_MenuHelp.Click -= MenuHelp_Click;
-				}
-				withEventsField_MenuHelp = value;
-				if (withEventsField_MenuHelp != null) {
-					withEventsField_MenuHelp.Click += MenuHelp_Click;
-				}
-			}
-		}
+        internal System.Windows.Forms.ToolStripMenuItem MenuAbout;
+        internal System.Windows.Forms.ToolStripMenuItem MenuHelp;
 		internal AutoWikiBrowser.Plugins.Kingbotk.Components.TimerStats TimerStats1;
 		internal System.Windows.Forms.Label Label7;
-		private System.Windows.Forms.CheckBox withEventsField_SkipNoChangesCheckBox;
-		internal System.Windows.Forms.CheckBox SkipNoChangesCheckBox {
-			get { return withEventsField_SkipNoChangesCheckBox; }
-			set {
-				if (withEventsField_SkipNoChangesCheckBox != null) {
-					withEventsField_SkipNoChangesCheckBox.CheckedChanged -= SkipNoChangesCheckBox_CheckedChanged;
-				}
-				withEventsField_SkipNoChangesCheckBox = value;
-				if (withEventsField_SkipNoChangesCheckBox != null) {
-					withEventsField_SkipNoChangesCheckBox.CheckedChanged += SkipNoChangesCheckBox_CheckedChanged;
-				}
-			}
-		}
-		private System.Windows.Forms.CheckBox withEventsField_SkipBadTagsCheckBox;
-		internal System.Windows.Forms.CheckBox SkipBadTagsCheckBox {
-			get { return withEventsField_SkipBadTagsCheckBox; }
-			set {
-				if (withEventsField_SkipBadTagsCheckBox != null) {
-					withEventsField_SkipBadTagsCheckBox.CheckedChanged -= SkipBadTagsCheckBox_CheckedChanged;
-				}
-				withEventsField_SkipBadTagsCheckBox = value;
-				if (withEventsField_SkipBadTagsCheckBox != null) {
-					withEventsField_SkipBadTagsCheckBox.CheckedChanged += SkipBadTagsCheckBox_CheckedChanged;
-				}
-			}
-		}
+        internal System.Windows.Forms.CheckBox SkipNoChangesCheckBox;
+        internal System.Windows.Forms.CheckBox SkipBadTagsCheckBox;
 		internal System.Windows.Forms.Label Label9;
 		internal System.Windows.Forms.Label lblRedlink;
 		internal System.Windows.Forms.Label lblAWBNudges;
-		private System.Windows.Forms.Button withEventsField_ResetTimerButton;
-		internal System.Windows.Forms.Button ResetTimerButton {
-			get { return withEventsField_ResetTimerButton; }
-			set {
-				if (withEventsField_ResetTimerButton != null) {
-					withEventsField_ResetTimerButton.Click -= ResetTimerButton_Click;
-				}
-				withEventsField_ResetTimerButton = value;
-				if (withEventsField_ResetTimerButton != null) {
-					withEventsField_ResetTimerButton.Click += ResetTimerButton_Click;
-				}
-			}
-		}
+        internal System.Windows.Forms.Button ResetTimerButton;
 		internal System.Windows.Forms.Timer BotTimer;
 		private System.Windows.Forms.Label ETALabel;
-		private System.Windows.Forms.ToolStripMenuItem withEventsField_SetAWBToolStripMenuItem;
-		internal System.Windows.Forms.ToolStripMenuItem SetAWBToolStripMenuItem {
-			get { return withEventsField_SetAWBToolStripMenuItem; }
-			set {
-				if (withEventsField_SetAWBToolStripMenuItem != null) {
-					withEventsField_SetAWBToolStripMenuItem.Click -= SetAWBToolStripMenuItem_Click;
-				}
-				withEventsField_SetAWBToolStripMenuItem = value;
-				if (withEventsField_SetAWBToolStripMenuItem != null) {
-					withEventsField_SetAWBToolStripMenuItem.Click += SetAWBToolStripMenuItem_Click;
-				}
-			}
-		}
-
+        internal System.Windows.Forms.ToolStripMenuItem SetAWBToolStripMenuItem;
 		internal System.Windows.Forms.CheckBox OpenBadInBrowserCheckBox;
 	}
 

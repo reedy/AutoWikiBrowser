@@ -16,12 +16,13 @@ using WikiFunctions;
 using WikiFunctions.Plugin;
 namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 {
-	[Microsoft.VisualBasic.CompilerServices.DesignerGenerated()]
 	partial class GenericTemplatePropertiesForm : System.Windows.Forms.Form
 	{
+        private System.ComponentModel.IContainer components = null;
 
-		//Form overrides dispose to clean up the component list.
-		[System.Diagnostics.DebuggerNonUserCode()]
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing && components != null) {
@@ -30,13 +31,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			base.Dispose(disposing);
 		}
 
-		//Required by the Windows Form Designer
+        #region Windows Form Designer generated code
 
-		private System.ComponentModel.IContainer components;
-		//NOTE: The following procedure is required by the Windows Form Designer
-		//It can be modified using the Windows Form Designer.  
-		//Do not modify it using the code editor.
-		[System.Diagnostics.DebuggerStepThrough()]
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
@@ -218,19 +218,9 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			this.PerformLayout();
 
 		}
-		private System.Windows.Forms.Button withEventsField_OK_Button;
-		internal System.Windows.Forms.Button OK_Button {
-			get { return withEventsField_OK_Button; }
-			set {
-				if (withEventsField_OK_Button != null) {
-					withEventsField_OK_Button.Click -= OK_Button_Click;
-				}
-				withEventsField_OK_Button = value;
-				if (withEventsField_OK_Button != null) {
-					withEventsField_OK_Button.Click += OK_Button_Click;
-				}
-			}
-		}
+        #endregion
+
+        internal System.Windows.Forms.Button OK_Button;
 		internal System.Windows.Forms.Label NameLabel;
 		internal System.Windows.Forms.Label Label1;
 		internal System.Windows.Forms.TextBox MainRegexTextBox;
@@ -244,11 +234,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 		internal System.Windows.Forms.Label SkipLabel;
 		internal System.Windows.Forms.TextBox SkipRegexTextBox;
 		internal System.Windows.Forms.Label ImportanceLabel;
-
 		internal System.Windows.Forms.Label AutoStubLabel;
-		public GenericTemplatePropertiesForm()
-		{
-			InitializeComponent();
-		}
 	}
 }
