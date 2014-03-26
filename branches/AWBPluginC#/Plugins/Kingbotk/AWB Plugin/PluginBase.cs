@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using WikiFunctions;
-using WikiFunctions.Logging.Uploader;
+
 using WikiFunctions.Plugin;
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 //Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
@@ -101,7 +101,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
 		protected internal bool ProcessTalkPage(Article A, Classification Classification, Importance Importance, bool ForceNeedsInfobox, bool ForceNeedsAttention, bool RemoveAutoStub, ProcessTalkPageMode ProcessTalkPageMode, bool AddReqPhotoParm)
 		{
-
 			bool BadTemplate = false;
 			bool res = false;
 
@@ -196,7 +195,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 				}
 			}
 
-			return conTemplatePlaceholder;
+            return Constants.conTemplatePlaceholder;
 		}
 
 		protected void PluginCheckTemplateName(string TemplateName)
@@ -261,7 +260,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
 		protected void ProcessArticleFinishNonStandardMode(Classification classification, Importance Importance, bool ForceNeedsInfobox, bool ForceNeedsAttention, bool RemoveAutoStub, ProcessTalkPageMode ProcessTalkPageMode)
 		{
-			if (article.Namespace == Namespace.Talk && classification == classification.Unassessed) {
+			if (article.Namespace == Namespace.Talk && classification == Classification.Unassessed) {
 				Template.NewOrReplaceTemplateParm("class", classification.ToString(), article, false, false);
 			}
 
@@ -290,7 +289,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 			string res = string.Empty;
 			var _with4 = Template;
 			if (_with4.Parameters.ContainsKey(ParamName)) {
-				res = "|" + ParamName + "=" + _with4.Parameters(ParamName).Value + ParameterBreak;
+				res = "|" + ParamName + "=" + _with4.Parameters[ParamName].Value + ParameterBreak;
 				_with4.Parameters.Remove(ParamName);
 			}
 			return res;
@@ -329,13 +328,14 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 		{
 			var _with6 = Template.Parameters;
 			if (_with6.ContainsKey(Name1) && _with6.ContainsKey(Name2)) {
-				if (_with6.Item(Name1).Value == _with6.Item(Name2).Value) {
+				if (_with6[Name1].Value == _with6[Name2].Value) {
 					_with6.Remove(Name2);
 					article.DoneReplacement(Name2, "", true, PluginShortName);
 				} else {
 					return true;
 				}
 			}
+		    return false;
 		}
 
 		// Interraction with manager:
@@ -418,8 +418,8 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 			}
 			RegexpMiddle = RegexpMiddle.Replace(" ", "[ _]");
 
-			MainRegex = new Regex(conRegexpLeft + RegexpMiddle + conRegexpRight, conRegexpOptions);
-			SecondChanceRegex = new Regex(conRegexpLeft + RegexpMiddle + conRegexpRightNotStrict, conRegexpOptions);
+            MainRegex = new Regex(Constants.conRegexpLeft + RegexpMiddle + Constants.conRegexpRight, Constants.conRegexpOptions);
+            SecondChanceRegex = new Regex(Constants.conRegexpLeft + RegexpMiddle + Constants.conRegexpRightNotStrict, Constants.conRegexpOptions);
 
 			if (mHasAlternateNames) {
 				PreferredTemplateNameRegex = new Regex(PreferredTemplateNameRegexCreator.Replace(PreferredTemplateName, PreferredTemplateNameWikiMatchEvaluator), RegexOptions.Compiled);
@@ -469,7 +469,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 			}
 		}
 
-		protected static string ConvertRedirectsToString(ref List<WikiFunctions.Article> Redirects)
+		protected static string ConvertRedirectsToString(List<WikiFunctions.Article> Redirects)
 		{
 			List<WikiFunctions.Article> tmp = new List<WikiFunctions.Article>();
 			string res = "";

@@ -12,7 +12,6 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using WikiFunctions;
-using WikiFunctions.Logging.Uploader;
 using WikiFunctions.Plugin;
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 //Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
@@ -68,17 +67,18 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			GPL.ShowDialog(PluginManager.AWBForm.Form);
 		}
 
-		private class GPLAboutBox : Controls.AboutBox
+		private class GPLAboutBox : WikiFunctions.Controls.AboutBox
 		{
 
-			protected override void Initialise()
-			{
-				Text = conAWBPluginName;
-				linkLabel1.Visible = false;
-				lblMadeBy.Text = "Made by Stephen Kennedy with Sam Reed";
-				lblVersion.Text = "Version " + Version;
-				textBoxDescription.Text = AssemblyDescription(System.Reflection.Assembly.GetExecutingAssembly()) + Environment.NewLine + Environment.NewLine + My.Resources.GPL;
-			}
+		    protected override void Initialise()
+		    {
+                Text = Constants.conAWBPluginName;
+		        linkLabel1.Visible = false;
+		        lblMadeBy.Text = "Made by Stephen Kennedy with Sam Reed";
+		        lblVersion.Text = "Version " + Version;
+		        textBoxDescription.Text = AssemblyDescription(System.Reflection.Assembly.GetExecutingAssembly()) +
+		                                  Environment.NewLine + Environment.NewLine + My.Resources.Resources.GPL;
+		    }
 		}
 
 	}

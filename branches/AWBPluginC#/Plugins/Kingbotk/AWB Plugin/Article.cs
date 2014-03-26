@@ -12,7 +12,6 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using WikiFunctions;
-using WikiFunctions.Logging.Uploader;
 using WikiFunctions.Plugin;
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 //Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
@@ -36,7 +35,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 		private readonly string mFullArticleTitle;
 		private readonly int mNamespace;
 
-		private string mEditSummary = conWikiPluginBrackets;
+		private string mEditSummary = Constants.conWikiPluginBrackets;
 		// Plugin-state:
 		private SkipResults mSkipResults = SkipResults.NotSet;
 			// gets set by ArticleHasAMajorChange/ArticleHasAMinorChange
@@ -148,7 +147,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 			lock (static_RestoreTemplateToPlaceholderSpot_strPlaceholder_Init) {
 				try {
 					if (InitStaticVariableHelper(static_RestoreTemplateToPlaceholderSpot_strPlaceholder_Init)) {
-						static_RestoreTemplateToPlaceholderSpot_strPlaceholder = Regex.Escape(conTemplatePlaceholder);
+                        static_RestoreTemplateToPlaceholderSpot_strPlaceholder = Regex.Escape(Constants.conTemplatePlaceholder);
 					}
 				} finally {
 					static_RestoreTemplateToPlaceholderSpot_strPlaceholder_Init.State = 1;
@@ -187,7 +186,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 		// Regexes:
 		// These could probably be simplified significantly (and extra logic doing things like removing linebreaks) if I learnt more of the magic characters
 
-		private static readonly Regex WikiProjectBannerShellRegex = new Regex(conRegexpLeft + WikiProjectBannerShell + ")\\b\\s*(?<start>\\|[^1]*=.*?)*\\s*\\|\\s*1\\s*=\\s*(?<body>.*}}[^{]*?)\\s*(?<end>\\|[^{]*)?\\s*}}", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.ExplicitCapture);
+        private static readonly Regex WikiProjectBannerShellRegex = new Regex(Constants.conRegexpLeft + WikiProjectBannerShell + ")\\b\\s*(?<start>\\|[^1]*=.*?)*\\s*\\|\\s*1\\s*=\\s*(?<body>.*}}[^{]*?)\\s*(?<end>\\|[^{]*)?\\s*}}", RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.ExplicitCapture);
 
 		static internal readonly Regex LineBreakRegex = new Regex("[\\n\\r]*");
 

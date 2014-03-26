@@ -12,7 +12,6 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using WikiFunctions;
-using WikiFunctions.Logging.Uploader;
 using WikiFunctions.Plugin;
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 //Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
@@ -30,7 +29,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 {
 	internal sealed partial class GenericTemplateSettings : IGenericSettings
 	{
-
 		// Our name:
 
 		private readonly string mName;
@@ -86,14 +84,14 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 			set { AlternateNamesTextBox.Text = value; }
 		}
 		internal ImportanceSettingEnum ImportanceSetting {
-			get {
-				if (ImportanceCheckedListBox.CheckedIndices.Count == 0) {
+			get
+			{
+			    if (ImportanceCheckedListBox.CheckedIndices.Count == 0) {
 					return ImportanceSettingEnum.None;
-				} else {
-					return (ImportanceSettingEnum)ImportanceCheckedListBox.CheckedIndices[0];
 				}
+			    return (ImportanceSettingEnum)ImportanceCheckedListBox.CheckedIndices[0];
 			}
-			set { ImportanceCheckedListBox.SetItemChecked(value, true); }
+		    set { ImportanceCheckedListBox.SetItemChecked((int)value, true); }
 		}
 		internal string SkipRegex {
 			get { return SkipRegexTextBox.Text.Trim(); }
@@ -107,21 +105,17 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 			get { return AutoStubSupportYNCheckBox.Checked; }
 			set { AutoStubSupportYNCheckBox.Checked = value; }
 		}
-		internal bool StubClass {
+		public bool StubClass {
 			get { return StubClassCheckBox.Checked; }
 			set { StubClassCheckBox.Checked = value; }
 		}
-		internal bool AutoStub {
+		public bool AutoStub {
 			get { return (AutoStubCheckBox.Checked & AutoStubSupportYNCheckBox.Checked); }
 			set {
-				if (AutoStubYN) {
-					AutoStubCheckBox.Checked = value;
-				} else {
-					AutoStubCheckBox.Checked = false;
-				}
+			    AutoStubCheckBox.Checked = AutoStubYN && value;
 			}
 		}
-		internal bool StubClassModeAllowed {
+		public bool StubClassModeAllowed {
 			set { StubClassCheckBox.Enabled = value; }
 		}
 		#endregion
@@ -141,7 +135,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 		}
 
 		#region "XML interface"
-		internal void ReadXML(XmlTextReader Reader)
+		public void ReadXML(XmlTextReader Reader)
 		{
 			AutoStub = PluginManager.XMLReadBoolean(Reader, conAutoStubParm, AutoStub);
 			StubClass = PluginManager.XMLReadBoolean(Reader, conStubClassParm, StubClass);
@@ -153,7 +147,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 			SkipRegexYN = PluginManager.XMLReadBoolean(Reader, conSkipRegexYN, SkipRegexYN);
 			SkipRegex = PluginManager.XMLReadString(Reader, conSkipRegex, SkipRegex);
 		}
-		internal void WriteXML(XmlTextWriter Writer)
+		public void WriteXML(XmlTextWriter Writer)
 		{
 			var _with1 = Writer;
 			_with1.WriteAttributeString(conTemplateNameParm, TemplateName);
@@ -217,7 +211,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 		#endregion
 	}
 
-	internal sealed class GenericTemplatePlugin : PluginBase, IGenericTemplatePlugin, IDisposable
+	internal sealed class GenericTemplatePlugin : PluginBase, IGenericTemplatePlugin
 	{
 
 		// Objects:
@@ -318,17 +312,19 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 		{
 			if ((SkipRegex != null)) {
 				try {
-					return (SkipRegex.Matches(Article.AlteredArticleText).Count > 0);
+					return (SkipRegex.Matches(article.AlteredArticleText).Count > 0);
 				} catch (Exception ex) {
 					MessageBox.Show("Error processing skip regular expression: " + Microsoft.VisualBasic.Constants.vbCrLf + Microsoft.VisualBasic.Constants.vbCrLf + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 					PluginManager.StopAWB();
 				}
 			}
+		    return false;
 		}
 
 		protected override bool TemplateFound()
 		{
 			// Nothing to do here
+		    return false;
 		}
 
 		protected override string WriteTemplateHeader()
@@ -384,7 +380,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 		}
 
 		// Our interface:
-		internal string GenericTemplateKey {
+	    public void Goodbye()
+	    {
+	        // Bye!
+	    }
+
+	    public string GenericTemplateKey {
 			get { return OurName; }
 		}
 
@@ -458,7 +459,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 		{
 			if (MessageBox.Show("Get the redirects from Wikipedia? Note: This may take a while.", "Get from Wikipedia?", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes) {
 				try {
-					OurSettingsControl.AlternateNames = ConvertRedirectsToString(ref GetRedirects(OurSettingsControl.TemplateName));
+					OurSettingsControl.AlternateNames = ConvertRedirectsToString(GetRedirects(OurSettingsControl.TemplateName));
 					OurSettingsControl.HasAlternateNamesCheckBox.Checked = !(string.IsNullOrEmpty(OurSettingsControl.AlternateNames));
 				} catch (Exception ex) {
 					MessageBox.Show("Whoops, we caught an error when trying to get the redirects from Wikipedia." + Microsoft.VisualBasic.Constants.vbCrLf + Microsoft.VisualBasic.Constants.vbCrLf + "The error was:" + ex.Message + Microsoft.VisualBasic.Constants.vbCrLf + Microsoft.VisualBasic.Constants.vbCrLf + "Depending on the error you might want to " + "try again by repressing Get. If this shouldn't have happened please report it to the authors.");
@@ -525,26 +526,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 				disposed = true;
 			}
 		}
-		internal void Dispose()
-		{
-			Debug.WriteLine("Disposing of generic plugin " + OurName);
-			// Execute the code that does the cleanup.
-			Dispose(true);
-			// Let the CLR know that Finalize doesn't have to be called.
-			GC.SuppressFinalize(this);
-		}
-		void IGenericTemplatePlugin.Goodbye()
-		{
-			Dispose();
-		}
 
-		protected override void Finalize()
-		{
-			base.Finalize();
-			Debug.WriteLine("Finalizing generic plugin " + OurName);
-			// Execute the code that does the cleanup.
-			Dispose(false);
-		}
 		#endregion
 
 		/// <summary>

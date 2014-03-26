@@ -12,7 +12,6 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using WikiFunctions;
-using WikiFunctions.Logging.Uploader;
 using WikiFunctions.Plugin;
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 //Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
@@ -45,7 +44,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 
 			Text += ": " + Title;
 
-			ShowDialog();
+			var ret = ShowDialog();
 			if (ClassCheckedListBox.SelectedIndices.Count == 0) {
 				Clss = Classification.Unassessed;
 			} else {
@@ -59,6 +58,8 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 			Infobox = (SettingsCheckedListBox.GetItemCheckState(0) == CheckState.Checked);
 			Attention = (SettingsCheckedListBox.GetItemCheckState(1) == CheckState.Checked);
 			NeedsPhoto = (SettingsCheckedListBox.GetItemCheckState(2) == CheckState.Checked);
+
+		    return ret;
 		}
 
 		// Button event handlers:

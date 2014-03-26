@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using WikiFunctions;
-using WikiFunctions.Logging.Uploader;
+
 using WikiFunctions.Plugin;
 internal sealed class WPAustralia : PluginBase
 {
@@ -174,6 +174,7 @@ internal sealed class WPAustralia : PluginBase
 	protected override bool SkipIfContains()
 	{
 		// None
+        return false;
 	}
 	protected override void ProcessArticleFinish()
 	{
@@ -194,6 +195,8 @@ internal sealed class WPAustralia : PluginBase
 		// tag is bad, exit
 		if (CheckForDoublyNamedParameters("nbl", "NBL"))
 			return true;
+
+	    return false;
 	}
 
 	protected override string WriteTemplateHeader()
