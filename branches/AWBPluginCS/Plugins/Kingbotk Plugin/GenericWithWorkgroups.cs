@@ -26,13 +26,16 @@ using WikiFunctions.Plugin;
 
 namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 {
-	internal partial class GenericWithWorkgroups : IGenericSettings
+	partial class GenericWithWorkgroups : IGenericSettings
 	{
-		public GenericWithWorkgroups(string template, string prefix, bool autoStubEnabled, params TemplateParameters[] @params)
-		{
-			// This call is required by the designer.
-			InitializeComponent();
+        public GenericWithWorkgroups()
+        {
+            InitializeComponent();
+        }
 
+		public GenericWithWorkgroups(string template, string prefix, bool autoStubEnabled, params TemplateParameters[] @params)
+            :this()
+		{
 			this.Template = template;
 			this.Prefix = prefix;
 
