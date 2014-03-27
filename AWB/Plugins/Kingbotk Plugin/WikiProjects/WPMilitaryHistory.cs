@@ -23,7 +23,7 @@ internal sealed class WPMilitaryHistory : PluginBase
 
 	private readonly GenericWithWorkgroups OurSettingsControl;
 	protected internal override string PluginShortName {
-		get { return "MilitaryHistory"; }
+		get { return "Military History"; }
 	}
 
 	protected override string PreferredTemplateName {
