@@ -109,6 +109,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 			this.ClassCheckedListBox.Name = "ClassCheckedListBox";
 			this.ClassCheckedListBox.Size = new System.Drawing.Size(120, 184);
 			this.ClassCheckedListBox.TabIndex = 3;
+			this.ClassCheckedListBox.ItemCheck += AllowOnlyOneCheckedItem;
 			this.ToolTip1.SetToolTip(this.ClassCheckedListBox, "Article classification");
 			//
 			//ImportanceCheckedListBox
@@ -127,6 +128,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 			this.ImportanceCheckedListBox.Name = "ImportanceCheckedListBox";
 			this.ImportanceCheckedListBox.Size = new System.Drawing.Size(120, 94);
 			this.ImportanceCheckedListBox.TabIndex = 4;
+			this.ImportanceCheckedListBox.ItemCheck += AllowOnlyOneCheckedItem;
 			this.ToolTip1.SetToolTip(this.ImportanceCheckedListBox, "Article importance/priority. Note: If you're tagging the talk page for more than " + "one WikiProject and the importance levels differ you'll have to tweak it manuall" + "y.");
 			//
 			//Label1
