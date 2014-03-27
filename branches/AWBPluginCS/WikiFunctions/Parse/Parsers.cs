@@ -6614,6 +6614,7 @@ namespace WikiFunctions.Parse
         /// <param name="noChange"></param>
         /// <returns></returns>
         [Obsolete]
+        [CLSCompliant(false)]
         public string FixPeopleCategories(string articleText, string articleTitle, out bool noChange)
         {
             string newText = FixPeopleCategories(articleText, articleTitle);

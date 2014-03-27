@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
@@ -9,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AutoWikiBrowser")]
-[assembly: AssemblyCopyright("Copyright © 2013 AutoWikiBrowser Team")]
+[assembly: AssemblyCopyright("Copyright © 2006-2014 AutoWikiBrowser Team")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -30,3 +31,5 @@ using System.Runtime.InteropServices;
 //
 [assembly: AssemblyVersion("5.5.2.4")]
 [assembly: AssemblyFileVersion("5.5.2.4")]
+
+[assembly: CLSCompliant(true)]
