@@ -183,7 +183,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			//Label2
 			//
 			this.Label2.AutoSize = true;
-			this.Label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25f, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, Convert.ToByte(0));
+			this.Label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25f, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Label2.Location = new System.Drawing.Point(3, 35);
 			this.Label2.Name = "Label2";
 			this.Label2.Size = new System.Drawing.Size(57, 13);
@@ -194,7 +194,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			//Label1
 			//
 			this.Label1.AutoSize = true;
-			this.Label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25f, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, Convert.ToByte(0));
+			this.Label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25f, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Label1.Location = new System.Drawing.Point(3, 16);
 			this.Label1.Name = "Label1";
 			this.Label1.Size = new System.Drawing.Size(54, 13);
