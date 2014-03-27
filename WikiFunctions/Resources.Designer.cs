@@ -73,6 +73,7 @@ namespace WikiFunctions.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
+        [CLSCompliant(false)]
         public static System.IO.UnmanagedMemoryStream beep1 {
             get {
                 return ResourceManager.GetStream("beep1", resourceCulture);
