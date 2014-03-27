@@ -156,9 +156,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\WP1.bmp" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\WP1_0_Icon_small.png" />
   </ItemGroup>
   <ItemGroup>
