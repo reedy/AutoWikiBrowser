@@ -1,19 +1,8 @@
-using AutoWikiBrowser.Plugins.Kingbotk;
-using AutoWikiBrowser.Plugins.Kingbotk.Components;
-using AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments;
-using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
-
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using System.Xml;
+
 using WikiFunctions;
 
-using WikiFunctions.Plugin;
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 //Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
 
@@ -46,7 +35,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 				// This code is very similar to ReplaceTemplateParm(), but that is for programmatic changes (i.e. not
 				// from template), needs an Article object, doesn't understand empty new values, and doesn't report
 				// bad tags. Turned out to be easier to rewrite here than to modify it.
-				if (!(Parameters[ParameterName].Value == ParameterValue)) {
+				if (Parameters[ParameterName].Value != ParameterValue) {
 					// existing value is empty, overwrite with new
 					if (string.IsNullOrEmpty(Parameters[ParameterName].Value)) {
 						Parameters[ParameterName].Value = ParameterValue;
@@ -78,7 +67,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 		/// <returns>True if made a change</returns>
 		internal bool NewOrReplaceTemplateParm(string ParameterName, string ParameterValue, Article TheArticle, bool LogItAndUpdateEditSummary, bool ParamHasAlternativeName, bool DontChangeIfSet = false, string ParamAlternativeName = "", string PluginName = "", bool MinorEditOnlyIfAdding = false)
 		{
-			bool res = false;
+			bool res;
 
 			if (Parameters.ContainsKey(ParameterName)) {
 				res = ReplaceTemplateParm(ParameterName, ParameterValue, TheArticle, LogItAndUpdateEditSummary, DontChangeIfSet, PluginName);
@@ -105,8 +94,9 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 			// trim still needed because altho main regex shouldn't give us spaces at the end of vals any more, the .Replace here might
 
 			// Contains parameter with a different value
-			if (!(ExistingValue == ParameterValue)) {
-				// Contains parameter with a different value, and _
+			if (ExistingValue != ParameterValue)
+			{
+			    // Contains parameter with a different value, and _
 				if (string.IsNullOrEmpty(ExistingValue) || !DontChangeIfSet) {
 					// we want to change it; or contains an empty parameter
 					Parameters[ParameterName].Value = ParameterValue;
@@ -120,11 +110,9 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 					}
 					return true;
 				// Contains param with a different value, and we don't want to change it
-				} else {
-					return false;
 				}
 			}
-			// Else: Already contains parameter and correct value; no need to change
+		    // Else: Already contains parameter and correct value; no need to change
 			return false;
 		}
 
@@ -132,8 +120,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 		{
 			string res = "";
 			foreach (KeyValuePair<string, TemplateParametersObject> o in Parameters) {
-				var _with1 = o;
-				res += "|" + _with1.Key + "=" + _with1.Value.Value + ParameterBreak;
+				res += "|" + o.Key + "=" + o.Value.Value + ParameterBreak;
 			}
 
 			res += "}}" + Environment.NewLine;
@@ -142,15 +129,16 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 		internal bool HasYesParamLowerOrTitleCase(bool Yes, string ParamName)
 		{
 			// A little hack to ensure we don't change no to No or yes to Yes as our only edit, and also for checking "yes" values
-			if (Parameters.ContainsKey(ParamName)) {
-				if (Yes && Parameters[ParamName].Value.ToLower() == "yes") {
-					return true;
-				} else if (!Yes && Parameters[ParamName].Value.ToLower() == "No") {
-					return true;
-				}
+			if (Parameters.ContainsKey(ParamName))
+			{
+			    if (Yes && Parameters[ParamName].Value.ToLower() == "yes" ||
+			        !Yes && Parameters[ParamName].Value.ToLower() == "No")
+			    {
+			        return true;
+			    }
 			}
 
-			return false;
+		    return false;
 		}
 
 		/// <summary>

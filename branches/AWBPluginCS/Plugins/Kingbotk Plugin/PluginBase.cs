@@ -1,19 +1,12 @@
-using AutoWikiBrowser.Plugins.Kingbotk;
-using AutoWikiBrowser.Plugins.Kingbotk.Components;
-using AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments;
-using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
+
 using WikiFunctions;
 
-using WikiFunctions.Plugin;
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 //Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
 
@@ -34,7 +27,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 	{
 		// Settings:
 		protected internal abstract string PluginShortName { get; }
-			// we might want to parameterise this later
+		// we might want to parameterise this later
 		protected const bool ForceAddition = true;
 
 		protected virtual string ParameterBreak {
@@ -125,7 +118,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 				}
 
 				ProcessArticleFinish();
-				if (!(ProcessTalkPageMode == ProcessTalkPageMode.Normal)) {
+				if (ProcessTalkPageMode != ProcessTalkPageMode.Normal) {
 					ProcessArticleFinishNonStandardMode(Classification, Importance, ForceNeedsInfobox, ForceNeedsAttention, RemoveAutoStub, ProcessTalkPageMode);
 				}
 
@@ -162,7 +155,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
 		protected string MatchEvaluator(Match match)
 		{
-			if (!(match.Groups["parm"].Captures.Count == match.Groups["val"].Captures.Count)) {
+			if (match.Groups["parm"].Captures.Count != match.Groups["val"].Captures.Count) {
 				Template.BadTemplate = true;
 			} else {
 				Template.FoundTemplate = true;
@@ -330,6 +323,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 		internal bool Enabled {
 			get { return OurMenuItem.Checked; }
 			set {
+			    if (value == Enabled)
+			    {
+			        return;
+			    }
 				OurMenuItem.Checked = value;
 				ShowHideOurObjects(value);
 				PluginManager.PluginEnabledStateChanged(this, value);
@@ -385,9 +382,9 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 		/// <remarks></remarks>
 		protected void GotNewAlternateNamesString(string AlternateNames, bool SenderIsGenericTemplateForm = false)
 		{
-			string RegexpMiddle = null;
+			string RegexpMiddle;
 			// Less efficient to transfer to a new string but makes code easier to understand
-			bool mHasAlternateNames = false;
+			bool mHasAlternateNames;
 
 			// Argument should NOT contain the default name at this stage; should contain spaces not [ _] or _
 			if (SenderIsGenericTemplateForm) {
@@ -409,11 +406,11 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             MainRegex = new Regex(Constants.conRegexpLeft + RegexpMiddle + Constants.conRegexpRight, Constants.conRegexpOptions);
             SecondChanceRegex = new Regex(Constants.conRegexpLeft + RegexpMiddle + Constants.conRegexpRightNotStrict, Constants.conRegexpOptions);
 
-			if (mHasAlternateNames) {
-				PreferredTemplateNameRegex = new Regex(PreferredTemplateNameRegexCreator.Replace(PreferredTemplateName, PreferredTemplateNameWikiMatchEvaluator), RegexOptions.Compiled);
-			} else {
-				PreferredTemplateNameRegex = null;
-			}
+		    PreferredTemplateNameRegex = mHasAlternateNames
+		        ? new Regex(
+		            PreferredTemplateNameRegexCreator.Replace(PreferredTemplateName, PreferredTemplateNameWikiMatchEvaluator),
+		            RegexOptions.Compiled)
+		        : null;
 		}
 
 		/// <summary>

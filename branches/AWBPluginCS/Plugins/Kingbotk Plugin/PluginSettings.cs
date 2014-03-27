@@ -76,8 +76,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 
 		// Properties:
 
-		private bool mAssessmentsAlwaysLeaveAComment;
-		internal bool ManuallyAssess {
+	    internal bool ManuallyAssess {
 			get { return ManuallyAssessCheckBox.Checked; }
 			set { ManuallyAssessCheckBox.Checked = value; }
 		}
@@ -93,11 +92,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			get { return SkipNoChangesCheckBox.Checked; }
 			set { SkipNoChangesCheckBox.Checked = value; }
 		}
-		internal bool AssessmentsAlwaysLeaveAComment {
-			get { return mAssessmentsAlwaysLeaveAComment; }
-			set { mAssessmentsAlwaysLeaveAComment = value; }
-		}
-		internal bool OpenBadInBrowser {
+
+	    internal bool AssessmentsAlwaysLeaveAComment { get; set; }
+
+	    internal bool OpenBadInBrowser {
 			get { return OpenBadInBrowserCheckBox.Checked; }
 			set { OpenBadInBrowserCheckBox.Checked = value; }
 		}
