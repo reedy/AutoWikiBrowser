@@ -163,6 +163,7 @@ namespace WikiFunctions.Plugin
 
     /* This interface allows plugins to manipulate AWB UI elements. Members can be added without breaking plugins,
      * since plugins use but don't implement the interface. Removing members is to be avoided if at all possible. */
+    [CLSCompliant(true)]
     public interface IAutoWikiBrowser : IAutoWikiBrowserForm, IAutoWikiBrowserCommands, IAutoWikiBrowserInfo
     {
         /// <summary>
