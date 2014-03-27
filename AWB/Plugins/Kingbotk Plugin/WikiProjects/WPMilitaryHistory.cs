@@ -1,56 +1,59 @@
 using AutoWikiBrowser.Plugins.Kingbotk;
 using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
-
 using System.Windows.Forms;
 using System.Xml;
 
 internal sealed class WPMilitaryHistory : PluginBase
 {
+    private const string PluginName = "MilHist";
 
-	private const string PluginName = "MilHist";
+    private const string TemplateName = "WPMILHIST";
+    // Initialisation:
+    internal WPMilitaryHistory() : base("WikiProject Military History")
+    {
+        // Specify alternate names only
 
-	private const string TemplateName = "WPMILHIST";
-	// Initialisation:
-	internal WPMilitaryHistory() : base("WikiProject Military History")
-	{
-		// Specify alternate names only
+        OurSettingsControl = new GenericWithWorkgroups(TemplateName, PluginName, false, @params);
+    }
 
-		OurSettingsControl = new GenericWithWorkgroups(TemplateName, PluginName, false, @params);
-	}
+    // Settings:
+    private readonly TabPage OurTab = new TabPage(PluginName);
 
-	// Settings:
-	private readonly TabPage OurTab = new TabPage(PluginName);
+    private readonly GenericWithWorkgroups OurSettingsControl;
 
-	private readonly GenericWithWorkgroups OurSettingsControl;
-	protected internal override string PluginShortName {
-		get { return "Military History"; }
-	}
+    protected internal override string PluginShortName
+    {
+        get { return "Military History"; }
+    }
 
-	protected override string PreferredTemplateName {
-		get { return TemplateName; }
-	}
+    protected override string PreferredTemplateName
+    {
+        get { return TemplateName; }
+    }
 
-	protected override void ImportanceParameter(Importance Importance)
-	{
-		// WPMILHIST doesn't do importance
-	}
+    protected override void ImportanceParameter(Importance Importance)
+    {
+        // WPMILHIST doesn't do importance
+    }
 
-	protected internal override IGenericSettings GenericSettings {
-		get { return OurSettingsControl; }
-	}
+    protected internal override IGenericSettings GenericSettings
+    {
+        get { return OurSettingsControl; }
+    }
 
-	internal override bool HasReqPhotoParam {
-		get { return false; }
-	}
+    internal override bool HasReqPhotoParam
+    {
+        get { return false; }
+    }
 
-	internal override void ReqPhoto()
-	{
-	}
+    internal override void ReqPhoto()
+    {
+    }
 
-	const string PeriodsAndConflictsGroup = "Periods and Conflicts";
-	const string GeneralGroup = "General Task Forces";
+    private const string PeriodsAndConflictsGroup = "Periods and Conflicts";
+    private const string GeneralGroup = "General Task Forces";
 
-	const string NationsGroup = "Nations and Regions";
+    private const string NationsGroup = "Nations and Regions";
 
     private readonly TemplateParameters[] @params =
     {
@@ -360,96 +363,107 @@ internal sealed class WPMilitaryHistory : PluginBase
             Group = NationsGroup,
             ParamName = "US"
         }
-
     };
-	protected internal override void Initialise()
-	{
-		OurMenuItem = new ToolStripMenuItem("Military History Plugin");
-		InitialiseBase();
-		// must set menu item object first
-		OurTab.UseVisualStyleBackColor = true;
-		OurTab.Controls.Add(OurSettingsControl);
-	}
 
-	// Article processing:
-	protected override bool SkipIfContains()
-	{
-	    return false;
-	}
+    protected internal override void Initialise()
+    {
+        OurMenuItem = new ToolStripMenuItem("Military History Plugin");
+        InitialiseBase();
+        // must set menu item object first
+        OurTab.UseVisualStyleBackColor = true;
+        OurTab.Controls.Add(OurSettingsControl);
+    }
 
-	protected override void ProcessArticleFinish()
-	{
-		StubClass();
-		var _with1 = OurSettingsControl;
-		foreach (ListViewItem lvi in _with1.ListView1.Items) {
-			if (lvi.Checked) {
-				TemplateParameters tp = (TemplateParameters)lvi.Tag;
-				AddAndLogNewParamWithAYesValue(tp.ParamName.ToLower().Replace(" ", "-"));
-				//Probably needs some reformatting
-			}
-		}
-		if (Template.Parameters.ContainsKey("importance")) {
-			Template.Parameters.Remove("importance");
-			article.ArticleHasAMajorChange();
-		}
+    // Article processing:
+    protected override bool SkipIfContains()
+    {
+        return false;
+    }
 
-		if (Template.Parameters.ContainsKey("auto")) {
-			Template.Parameters.Remove("auto");
-			article.ArticleHasAMajorChange();
-		}
-	}
+    protected override void ProcessArticleFinish()
+    {
+        StubClass();
+        var _with1 = OurSettingsControl;
+        foreach (ListViewItem lvi in _with1.ListView1.Items)
+        {
+            if (lvi.Checked)
+            {
+                TemplateParameters tp = (TemplateParameters) lvi.Tag;
+                AddAndLogNewParamWithAYesValue(tp.ParamName.ToLower().Replace(" ", "-"));
+                //Probably needs some reformatting
+            }
+        }
+        if (Template.Parameters.ContainsKey("importance"))
+        {
+            Template.Parameters.Remove("importance");
+            article.ArticleHasAMajorChange();
+        }
 
-	private const string conMedievalTaskForce = "Medieval-task-force";
-	protected override bool TemplateFound()
-	{
-		const string conMiddleAges = "Middle-Ages-task-force";
+        if (Template.Parameters.ContainsKey("auto"))
+        {
+            Template.Parameters.Remove("auto");
+            article.ArticleHasAMajorChange();
+        }
+    }
 
-		var _with2 = Template;
-		if (_with2.Parameters.ContainsKey(conMiddleAges)) {
-			if (_with2.Parameters[conMiddleAges].Value.ToLower() == "yes") {
-				_with2.NewOrReplaceTemplateParm(conMedievalTaskForce, "yes", article, false, false, false, "", PluginShortName);
-				article.DoneReplacement(conMiddleAges, conMedievalTaskForce, true, PluginShortName);
-			} else {
-				article.EditSummary += "deprecated Middle-Ages-task-force removed";
-			}
-			_with2.Parameters.Remove(conMiddleAges);
-			article.ArticleHasAMinorChange();
-		}
-	    return false;
-	}
+    private const string conMedievalTaskForce = "Medieval-task-force";
 
-	protected override string WriteTemplateHeader()
-	{
-		return "{{WPMILHIST" + WriteOutParameterToHeader("class");
-	}
+    protected override bool TemplateFound()
+    {
+        const string conMiddleAges = "Middle-Ages-task-force";
 
-	//User interface:
-	protected override void ShowHideOurObjects(bool Visible)
-	{
-		PluginManager.ShowHidePluginTab(OurTab, Visible);
-	}
+        var _with2 = Template;
+        if (_with2.Parameters.ContainsKey(conMiddleAges))
+        {
+            if (_with2.Parameters[conMiddleAges].Value.ToLower() == "yes")
+            {
+                _with2.NewOrReplaceTemplateParm(conMedievalTaskForce, "yes", article, false, false, false, "",
+                    PluginShortName);
+                article.DoneReplacement(conMiddleAges, conMedievalTaskForce, true, PluginShortName);
+            }
+            else
+            {
+                article.EditSummary += "deprecated Middle-Ages-task-force removed";
+            }
+            _with2.Parameters.Remove(conMiddleAges);
+            article.ArticleHasAMinorChange();
+        }
+        return false;
+    }
 
-	// XML settings:
-	protected internal override void ReadXML(XmlTextReader Reader)
-	{
-		bool blnNewVal = PluginManager.XMLReadBoolean(Reader, PluginName + "Enabled", Enabled);
+    protected override string WriteTemplateHeader()
+    {
+        return "{{WPMILHIST" + WriteOutParameterToHeader("class");
+    }
+
+    //User interface:
+    protected override void ShowHideOurObjects(bool Visible)
+    {
+        PluginManager.ShowHidePluginTab(OurTab, Visible);
+    }
+
+    // XML settings:
+    protected internal override void ReadXML(XmlTextReader Reader)
+    {
+        bool blnNewVal = PluginManager.XMLReadBoolean(Reader, PluginName + "Enabled", Enabled);
         // ReSharper disable once RedundantCheckBeforeAssignment
-		if (blnNewVal != Enabled) {
-			Enabled = blnNewVal;
-			// Mustn't set if the same or we get extra tabs
-		}
+        if (blnNewVal != Enabled)
+        {
+            Enabled = blnNewVal;
+            // Mustn't set if the same or we get extra tabs
+        }
 
-		OurSettingsControl.ReadXML(Reader);
-	}
+        OurSettingsControl.ReadXML(Reader);
+    }
 
-	protected internal override void Reset()
-	{
-		OurSettingsControl.Reset();
-	}
+    protected internal override void Reset()
+    {
+        OurSettingsControl.Reset();
+    }
 
-	protected internal override void WriteXML(XmlTextWriter Writer)
-	{
-		Writer.WriteAttributeString(PluginName + "Enabled", Enabled.ToString());
-		OurSettingsControl.WriteXML(Writer);
-	}
+    protected internal override void WriteXML(XmlTextWriter Writer)
+    {
+        Writer.WriteAttributeString(PluginName + "Enabled", Enabled.ToString());
+        OurSettingsControl.WriteXML(Writer);
+    }
 }

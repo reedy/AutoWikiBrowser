@@ -1,16 +1,13 @@
-using AutoWikiBrowser.Plugins.Kingbotk.Components;
+﻿using AutoWikiBrowser.Plugins.Kingbotk.Components;
 using AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments;
 using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
-
 using WikiFunctions;
-
 using WikiFunctions.Plugin;
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 //Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
@@ -24,553 +21,651 @@ using WikiFunctions.Plugin;
 using WikiFunctions.API;
 
 [assembly: CLSCompliant(true)]
+
 namespace AutoWikiBrowser.Plugins.Kingbotk
 {
-	/// <summary>
-	/// The plugin manager, which interracts with AWB and manages the individual plugins
-	/// </summary>
-	/// <remarks></remarks>
-	// Fields here shouldn't need to be Shared, as there will only ever be one instance - created by AWB at startup
-	public sealed class PluginManager : IAWBPlugin
-	{
-		private const string conMe = "Kingbotk Plugin Manager";
-		// Regular expressions:
+    /// <summary>
+    /// The plugin manager, which interracts with AWB and manages the individual plugins
+    /// </summary>
+    /// <remarks></remarks>
+    // Fields here shouldn't need to be Shared, as there will only ever be one instance - created by AWB at startup
+    public sealed class PluginManager : IAWBPlugin
+    {
+        private const string conMe = "Kingbotk Plugin Manager";
+        // Regular expressions:
 
-		private static readonly Regex ReqPhotoNoParamsRegex = new Regex(Constants.TemplatePrefix + "reqphoto\\s*\\}\\}\\s*", RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.ExplicitCapture);
-		// Plugins:
-		static internal List<PluginBase> ActivePlugins = new List<PluginBase>();
-		private static readonly Dictionary<string, PluginBase> Plugins = new Dictionary<string, PluginBase>();
+        private static readonly Regex ReqPhotoNoParamsRegex =
+            new Regex(Constants.TemplatePrefix + "reqphoto\\s*\\}\\}\\s*",
+                RegexOptions.IgnoreCase | RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 
-		private Assessments AssessmentsObject;
-		//AWB objects:
-		static internal IAutoWikiBrowser AWBForm;
+        // Plugins:
+        internal static List<PluginBase> ActivePlugins = new List<PluginBase>();
+        private static readonly Dictionary<string, PluginBase> Plugins = new Dictionary<string, PluginBase>();
 
-		static internal ToolStripStatusLabel StatusText = new ToolStripStatusLabel("Initialising plugin");
-		// Menu items:
-	    private static readonly ToolStripMenuItem AddGenericTemplateMenuItem = new ToolStripMenuItem("Add Generic Template");
-	    private static readonly ToolStripMenuItem MenuShowSettingsTabs = new ToolStripMenuItem("Show settings tabs");
+        private Assessments AssessmentsObject;
+        //AWB objects:
+        internal static IAutoWikiBrowser AWBForm;
 
-		// Library state and shared objects:
-		private static readonly TabPage KingbotkPluginTab = new TabPage("Plugin");
+        internal static ToolStripStatusLabel StatusText = new ToolStripStatusLabel("Initialising plugin");
+        // Menu items:
+        private static readonly ToolStripMenuItem AddGenericTemplateMenuItem =
+            new ToolStripMenuItem("Add Generic Template");
 
-		private static PluginSettingsControl PluginSettings;
-		// User settings:
+        private static readonly ToolStripMenuItem MenuShowSettingsTabs = new ToolStripMenuItem("Show settings tabs");
 
-		private static bool blnShowManualAssessmentsInstructions = true;
-		// SkipReason:
-		private enum SkipReason : byte
-		{
-			Other,
-			BadNamespace,
-			BadTag,
-			ProcessingMainArticleDoesntExist,
-			ProcessingTalkPageArticleDoesntExist,
-			NoChange,
-			Regex
-		}
+        // Library state and shared objects:
+        private static readonly TabPage KingbotkPluginTab = new TabPage("Plugin");
 
-		// XML:
-		private const string conShowHideTabsParm = "ShowHideTabs";
-		private const string conShowManualAssessmentsInstructions = "ShowManualAssessmentsInstructions";
-		private const string conGenericTemplatesCount = "GenericTemplatesCount";
+        private static PluginSettingsControl PluginSettings;
+        // User settings:
 
-		private const string conGenericTemplate = "GenericTemplate";
-		// AWB interface:
-		public string Name {
+        private static bool blnShowManualAssessmentsInstructions = true;
+        // SkipReason:
+        private enum SkipReason : byte
+        {
+            Other,
+            BadNamespace,
+            BadTag,
+            ProcessingMainArticleDoesntExist,
+            ProcessingTalkPageArticleDoesntExist,
+            NoChange,
+            Regex
+        }
+
+        // XML:
+        private const string conShowHideTabsParm = "ShowHideTabs";
+        private const string conShowManualAssessmentsInstructions = "ShowManualAssessmentsInstructions";
+        private const string conGenericTemplatesCount = "GenericTemplatesCount";
+
+        private const string conGenericTemplate = "GenericTemplate";
+        // AWB interface:
+        public string Name
+        {
             get { return Constants.conAWBPluginName; }
-		}
-		public void Initialise(IAutoWikiBrowser sender)
-		{
-			// Store AWB object reference:
-			AWBForm = sender;
+        }
 
-			// Initialise our settings object:
-			PluginSettings = new PluginSettingsControl();
+        public void Initialise(IAutoWikiBrowser sender)
+        {
+            // Store AWB object reference:
+            AWBForm = sender;
+
+            // Initialise our settings object:
+            PluginSettings = new PluginSettingsControl();
 
 
-			// Set up our UI objects:
+            // Set up our UI objects:
             var _with2 = AWBForm.BotModeCheckbox;
-			_with2.EnabledChanged += AWBBotModeCheckboxEnabledChangedHandler;
-			_with2.CheckedChanged += AWBBotModeCheckboxCheckedChangeHandler;
+            _with2.EnabledChanged += AWBBotModeCheckboxEnabledChangedHandler;
+            _with2.CheckedChanged += AWBBotModeCheckboxCheckedChangeHandler;
             AWBForm.StatusStrip.Items.Insert(2, StatusText);
-			StatusText.Margin = new Padding(50, 0, 50, 0);
-			StatusText.BorderSides = ToolStripStatusLabelBorderSides.Left | ToolStripStatusLabelBorderSides.Right;
-			StatusText.BorderStyle = Border3DStyle.Etched;
-            AWBForm.HelpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[]{
-				new ToolStripSeparator(),
-				PluginSettings.MenuHelp,
-				PluginSettings.MenuAbout
-			});
+            StatusText.Margin = new Padding(50, 0, 50, 0);
+            StatusText.BorderSides = ToolStripStatusLabelBorderSides.Left | ToolStripStatusLabelBorderSides.Right;
+            StatusText.BorderStyle = Border3DStyle.Etched;
+            AWBForm.HelpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[]
+            {
+                new ToolStripSeparator(),
+                PluginSettings.MenuHelp,
+                PluginSettings.MenuAbout
+            });
 
-			// UI - addhandlers for Start/Stop/Diff/Preview/Save/Ignore buttons/form closing:
-			AWBForm.Form.FormClosing += AWBClosingEventHandler;
+            // UI - addhandlers for Start/Stop/Diff/Preview/Save/Ignore buttons/form closing:
+            AWBForm.Form.FormClosing += AWBClosingEventHandler;
 
-			// Handle over events from AWB:
-			AWBForm.StopButton.Click += StopButtonClickEventHandler;
-			AWBForm.TheSession.StateChanged += EditorStatusChanged;
-			AWBForm.TheSession.Aborted += EditorAborted;
+            // Handle over events from AWB:
+            AWBForm.StopButton.Click += StopButtonClickEventHandler;
+            AWBForm.TheSession.StateChanged += EditorStatusChanged;
+            AWBForm.TheSession.Aborted += EditorAborted;
 
-			// Track Manual Assessment checkbox:
-			PluginSettings.ManuallyAssessCheckBox.CheckedChanged += ManuallyAssessCheckBox_CheckChanged;
+            // Track Manual Assessment checkbox:
+            PluginSettings.ManuallyAssessCheckBox.CheckedChanged += ManuallyAssessCheckBox_CheckChanged;
 
-			// Tabs:
-			KingbotkPluginTab.UseVisualStyleBackColor = true;
-			KingbotkPluginTab.Controls.Add(PluginSettings);
+            // Tabs:
+            KingbotkPluginTab.UseVisualStyleBackColor = true;
+            KingbotkPluginTab.Controls.Add(PluginSettings);
 
-			// Show/hide tabs menu:
+            // Show/hide tabs menu:
             MenuShowSettingsTabs.CheckOnClick = true;
             MenuShowSettingsTabs.Checked = true;
-		    MenuShowSettingsTabs.Click += MenuShowHide_Click;
-			AWBForm.ToolStripMenuGeneral.DropDownItems.Add(MenuShowSettingsTabs);
+            MenuShowSettingsTabs.Click += MenuShowHide_Click;
+            AWBForm.ToolStripMenuGeneral.DropDownItems.Add(MenuShowSettingsTabs);
 
-			// Add-Generic-Template menu:
-		    AddGenericTemplateMenuItem.Click += AddGenericTemplateMenuItem_Click;
-			AWBForm.PluginsToolStripMenuItem.DropDownItems.Add(AddGenericTemplateMenuItem);
+            // Add-Generic-Template menu:
+            AddGenericTemplateMenuItem.Click += AddGenericTemplateMenuItem_Click;
+            AWBForm.PluginsToolStripMenuItem.DropDownItems.Add(AddGenericTemplateMenuItem);
 
-			// Create plugins:
-			Plugins.Add("Albums", new WPAlbums());
-			Plugins.Add("Australia", new WPAustralia());
-			Plugins.Add("India", new WPIndia());
-			Plugins.Add("MilHist", new WPMilitaryHistory());
-			Plugins.Add("Songs", new WPSongs());
-			Plugins.Add("WPNovels", new WPNovels());
-			Plugins.Add("Biography", new WPBiography());
-			// hopefully if add WPBio last it will ensure that the template gets added to the *top* of pages
+            // Create plugins:
+            Plugins.Add("Albums", new WPAlbums());
+            Plugins.Add("Australia", new WPAustralia());
+            Plugins.Add("India", new WPIndia());
+            Plugins.Add("MilHist", new WPMilitaryHistory());
+            Plugins.Add("Songs", new WPSongs());
+            Plugins.Add("WPNovels", new WPNovels());
+            Plugins.Add("Biography", new WPBiography());
+            // hopefully if add WPBio last it will ensure that the template gets added to the *top* of pages
 
-			// Initialise plugins:
-			foreach (KeyValuePair<string, PluginBase> plugin in Plugins) {
-				plugin.Value.Initialise();
-			}
+            // Initialise plugins:
+            foreach (KeyValuePair<string, PluginBase> plugin in Plugins)
+            {
+                plugin.Value.Initialise();
+            }
 
-			// Add our menu items last:
-			AWBForm.PluginsToolStripMenuItem.DropDownItems.Add(PluginSettings.PluginToolStripMenuItem);
+            // Add our menu items last:
+            AWBForm.PluginsToolStripMenuItem.DropDownItems.Add(PluginSettings.PluginToolStripMenuItem);
 
-			// Reset statusbar text:
-			DefaultStatusText();
-		}
-		public void LoadSettings(object[] prefs)
-		{
-			if (prefs.Length > 0) {
-				// Check if we're receiving an new type settings block (a serialized string)
-				if (ReferenceEquals(prefs[0].GetType(), typeof(string))) {
-					LoadSettingsNewWay(Convert.ToString(prefs[0]));
-				}
-			}
-		}
-		public string ProcessArticle(IAutoWikiBrowser sender, IProcessArticleEventArgs eventargs)
-		{
-			string res;
+            // Reset statusbar text:
+            DefaultStatusText();
+        }
 
-			if (ActivePlugins.Count == 0)
+        public void LoadSettings(object[] prefs)
+        {
+            if (prefs.Length > 0)
+            {
+                // Check if we're receiving an new type settings block (a serialized string)
+                if (ReferenceEquals(prefs[0].GetType(), typeof (string)))
+                {
+                    LoadSettingsNewWay(Convert.ToString(prefs[0]));
+                }
+            }
+        }
+
+        public string ProcessArticle(IAutoWikiBrowser sender, IProcessArticleEventArgs eventargs)
+        {
+            string res;
+
+            if (ActivePlugins.Count == 0)
                 return eventargs.ArticleText;
 
-			Article TheArticle;
-			int Namesp = eventargs.NameSpaceKey;
+            Article TheArticle;
+            int Namesp = eventargs.NameSpaceKey;
 
             StatusText.Text = "Processing " + eventargs.ArticleTitle;
             AWBForm.TraceManager.ProcessingArticle(eventargs.ArticleTitle, Namesp);
 
-			foreach (PluginBase p in ActivePlugins) {
-				try {
-					if (!p.IAmReady && p.IAmGeneric) {
-						MessageBox.Show("The generic template plugin \"" + p.PluginShortName + "\"isn't properly configured.", "Can't start", MessageBoxButtons.OK, MessageBoxIcon.Error);
-						StopAWB();
-						goto SkipOrStop;
-					}
-				} catch {
-					StopAWB();
-					goto SkipOrStop;
-				}
-			}
+            foreach (PluginBase p in ActivePlugins)
+            {
+                try
+                {
+                    if (!p.IAmReady && p.IAmGeneric)
+                    {
+                        MessageBox.Show(
+                            "The generic template plugin \"" + p.PluginShortName + "\"isn't properly configured.",
+                            "Can't start", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        StopAWB();
+                        goto SkipOrStop;
+                    }
+                }
+                catch
+                {
+                    StopAWB();
+                    goto SkipOrStop;
+                }
+            }
 
-			switch (Namesp) {
-				case Namespace.Article:
-					if (PluginSettings.ManuallyAssess) {
+            switch (Namesp)
+            {
+                case Namespace.Article:
+                    if (PluginSettings.ManuallyAssess)
+                    {
                         if (eventargs.Exists == Exists.Yes)
                         {
-							StatusText.Text += ": Click Preview to read the article; " + "click Save or Ignore to load the assessments form";
+                            StatusText.Text += ": Click Preview to read the article; " +
+                                               "click Save or Ignore to load the assessments form";
                             AssessmentsObject.ProcessMainSpaceArticle(eventargs.ArticleTitle);
                             eventargs.EditSummary = "Clean up";
-							goto SkipOrStop;
-						}
+                            goto SkipOrStop;
+                        }
                         //FIXME
                         var eaArticleES = eventargs.EditSummary;
                         var eaArticleSkip = eventargs.Skip;
-                        res = Skipping(ref eaArticleES, "", SkipReason.ProcessingMainArticleDoesntExist, eventargs.ArticleText, ref eaArticleSkip);
+                        res = Skipping(ref eaArticleES, "", SkipReason.ProcessingMainArticleDoesntExist,
+                            eventargs.ArticleText, ref eaArticleSkip);
                         eventargs.EditSummary = eaArticleES;
                         eventargs.Skip = eaArticleSkip;
-					    goto ExitMe;
-					}
-			        goto SkipBadNamespace;
+                        goto ExitMe;
+                    }
+                    goto SkipBadNamespace;
 
-			        //break;
-				case Namespace.Talk:
-					AsyncApiEdit editor = AWBForm.TheSession.Editor.Clone();
+                    //break;
+                case Namespace.Talk:
+                    AsyncApiEdit editor = AWBForm.TheSession.Editor.Clone();
 
                     editor.Open(Tools.ConvertFromTalk(eventargs.ArticleTitle), false);
 
-					editor.Wait();
+                    editor.Wait();
 
-					if (!editor.Page.Exists)
-					{
+                    if (!editor.Page.Exists)
+                    {
                         // FIXME
                         var eaNotExistsES = eventargs.EditSummary;
                         var eaNotExistsSkip = eventargs.Skip;
-                        res = Skipping(ref eaNotExistsES, "", SkipReason.ProcessingTalkPageArticleDoesntExist, eventargs.ArticleText,
+                        res = Skipping(ref eaNotExistsES, "", SkipReason.ProcessingTalkPageArticleDoesntExist,
+                            eventargs.ArticleText,
                             ref eaNotExistsSkip, eventargs.ArticleTitle);
                         eventargs.EditSummary = eaNotExistsES;
                         eventargs.Skip = eaNotExistsSkip;
-					} else {
+                    }
+                    else
+                    {
                         TheArticle = new Article(eventargs.ArticleText, eventargs.ArticleTitle, Namesp);
 
-						bool ReqPhoto = ReqPhotoParamNeeded(TheArticle);
+                        bool ReqPhoto = ReqPhotoParamNeeded(TheArticle);
 
-						if (PluginSettings.ManuallyAssess) {
-							// reqphoto byref
-							if (!AssessmentsObject.ProcessTalkPage(TheArticle, PluginSettings, ref ReqPhoto)) {
+                        if (PluginSettings.ManuallyAssess)
+                        {
+                            // reqphoto byref
+                            if (!AssessmentsObject.ProcessTalkPage(TheArticle, PluginSettings, ref ReqPhoto))
+                            {
                                 eventargs.Skip = true;
-								goto SkipOrStop;
-							}
-						} else {
-							ReqPhoto = ProcessTalkPageAndCheckWeAddedReqPhotoParam(TheArticle, ReqPhoto);
-							// We successfully added a reqphoto param
-						}
+                                goto SkipOrStop;
+                            }
+                        }
+                        else
+                        {
+                            ReqPhoto = ProcessTalkPageAndCheckWeAddedReqPhotoParam(TheArticle, ReqPhoto);
+                            // We successfully added a reqphoto param
+                        }
 
                         // FIXME
                         var eaTalkSkip = eventargs.Skip;
                         var eaTalkES = eventargs.EditSummary;
                         res = FinaliseArticleProcessing(TheArticle, ref eaTalkSkip, ref eaTalkES, eventargs.ArticleText,
-					        ReqPhoto);
+                            ReqPhoto);
                         eventargs.Skip = eaTalkSkip;
                         eventargs.EditSummary = eaTalkES;
-					}
+                    }
 
-					break;
+                    break;
 
-				case Namespace.CategoryTalk:
+                case Namespace.CategoryTalk:
                 case 101: //101 is Portal Talk 
-				case Namespace.ProjectTalk:
-				case Namespace.TemplateTalk:
-				case Namespace.FileTalk:
-					if (PluginSettings.ManuallyAssess) {
-						MessageBox.Show("The plugin has received a non-standard namespace talk page in " + "manual assessment mode. Please remove this item from the list and start again.", "Manual Assessments", MessageBoxButtons.OK, MessageBoxIcon.Error);
-						StopAWB();
-						goto SkipOrStop;
-					}
-			        TheArticle = new Article(eventargs.ArticleText, eventargs.ArticleTitle, Namesp);
+                case Namespace.ProjectTalk:
+                case Namespace.TemplateTalk:
+                case Namespace.FileTalk:
+                    if (PluginSettings.ManuallyAssess)
+                    {
+                        MessageBox.Show(
+                            "The plugin has received a non-standard namespace talk page in " +
+                            "manual assessment mode. Please remove this item from the list and start again.",
+                            "Manual Assessments", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        StopAWB();
+                        goto SkipOrStop;
+                    }
+                    TheArticle = new Article(eventargs.ArticleText, eventargs.ArticleTitle, Namesp);
 
-			        foreach (PluginBase p in ActivePlugins) {
-			            p.ProcessTalkPage(TheArticle, Classification.Code, Importance.NA, false, false, false, ProcessTalkPageMode.NonStandardTalk, false);
-			            if (TheArticle.PluginManagerGetSkipResults == SkipResults.SkipBadTag)
-			                break; // TODO: might not be correct. Was : Exit For
-			        }
+                    foreach (PluginBase p in ActivePlugins)
+                    {
+                        p.ProcessTalkPage(TheArticle, Classification.Code, Importance.NA, false, false, false,
+                            ProcessTalkPageMode.NonStandardTalk, false);
+                        if (TheArticle.PluginManagerGetSkipResults == SkipResults.SkipBadTag)
+                            break; // TODO: might not be correct. Was : Exit For
+                    }
 
-			        // FIXME
+                    // FIXME
                     var eaMiscSkip = eventargs.Skip;
                     var eaMiscES = eventargs.EditSummary;
-                    res = FinaliseArticleProcessing(TheArticle, ref eaMiscSkip, ref eaMiscES, eventargs.ArticleText, false);
+                    res = FinaliseArticleProcessing(TheArticle, ref eaMiscSkip, ref eaMiscES, eventargs.ArticleText,
+                        false);
                     eventargs.Skip = eaMiscSkip;
                     eventargs.EditSummary = eaMiscES;
 
-			        break;
-				default:
-					goto SkipBadNamespace;
-			}
+                    break;
+                default:
+                    goto SkipBadNamespace;
+            }
 
             if (!eventargs.Skip)
             {
-				//TempHackInsteadOfDefaultSettings:
-				if (AWBForm.EditSummaryComboBox.Text == "clean up")
-					AWBForm.EditSummaryComboBox.Text = "Tagging";
-			}
-			ExitMe:
+                //TempHackInsteadOfDefaultSettings:
+                if (AWBForm.EditSummaryComboBox.Text == "clean up")
+                    AWBForm.EditSummaryComboBox.Text = "Tagging";
+            }
+            ExitMe:
 
-			if (!PluginSettings.ManuallyAssess)
-				DefaultStatusText();
-			AWBForm.TraceManager.Flush();
-			return res;
-			SkipBadNamespace:
+            if (!PluginSettings.ManuallyAssess)
+                DefaultStatusText();
+            AWBForm.TraceManager.Flush();
+            return res;
+            SkipBadNamespace:
 
             //FIXME
-		    var eaES = eventargs.EditSummary;
+            var eaES = eventargs.EditSummary;
             var eaSkip = eventargs.Skip;
-			res = Skipping(ref eaES, "", SkipReason.BadNamespace, eventargs.ArticleText, ref eaSkip);
-		    eventargs.EditSummary = eaES;
-		    eventargs.Skip = eaSkip;
-			goto ExitMe;
-			SkipOrStop:
+            res = Skipping(ref eaES, "", SkipReason.BadNamespace, eventargs.ArticleText, ref eaSkip);
+            eventargs.EditSummary = eaES;
+            eventargs.Skip = eaSkip;
+            goto ExitMe;
+            SkipOrStop:
 
-			res = eventargs.ArticleText;
-			goto ExitMe;
-		}
-		public void Reset()
-		{
-			blnShowManualAssessmentsInstructions = true;
-			var _with5 = PluginSettings;
-			_with5.Reset();
-			_with5.SkipBadTags = BotMode;
-			_with5.SkipWhenNoChange = BotMode;
-			foreach (KeyValuePair<string, PluginBase> plugin in Plugins) {
-				plugin.Value.Reset();
-			}
-		}
-		public object[] SaveSettings()
-		{
-			System.IO.StringWriter st = new System.IO.StringWriter();
-			XmlTextWriter Writer = new XmlTextWriter(st);
+            res = eventargs.ArticleText;
+            goto ExitMe;
+        }
 
-			Writer.WriteStartElement("root");
-			WriteXML(Writer);
-			Writer.WriteEndElement();
-			Writer.Flush();
+        public void Reset()
+        {
+            blnShowManualAssessmentsInstructions = true;
+            var _with5 = PluginSettings;
+            _with5.Reset();
+            _with5.SkipBadTags = BotMode;
+            _with5.SkipWhenNoChange = BotMode;
+            foreach (KeyValuePair<string, PluginBase> plugin in Plugins)
+            {
+                plugin.Value.Reset();
+            }
+        }
 
-			return new object[] { st.ToString() };
-		}
+        public object[] SaveSettings()
+        {
+            System.IO.StringWriter st = new System.IO.StringWriter();
+            XmlTextWriter Writer = new XmlTextWriter(st);
 
-		// Private routines:
-		private static bool ProcessTalkPageAndCheckWeAddedReqPhotoParam(Article TheArticle, bool ReqPhoto)
-		{
-			bool res = false;
-			foreach (PluginBase p in ActivePlugins) {
-				if (p.ProcessTalkPage(TheArticle, ReqPhoto) && ReqPhoto && p.HasReqPhotoParam) {
-					res = true;
-				}
+            Writer.WriteStartElement("root");
+            WriteXML(Writer);
+            Writer.WriteEndElement();
+            Writer.Flush();
 
-				if (TheArticle.PluginManagerGetSkipResults == SkipResults.SkipBadTag) {
-					return false;
-				}
-			}
+            return new object[] {st.ToString()};
+        }
 
-			return res;
-		}
+        // Private routines:
+        private static bool ProcessTalkPageAndCheckWeAddedReqPhotoParam(Article TheArticle, bool ReqPhoto)
+        {
+            bool res = false;
+            foreach (PluginBase p in ActivePlugins)
+            {
+                if (p.ProcessTalkPage(TheArticle, ReqPhoto) && ReqPhoto && p.HasReqPhotoParam)
+                {
+                    res = true;
+                }
 
-	    private static bool ReqPhotoParamNeeded(Article TheArticle)
-	    {
-	        return
-	            ActivePlugins.Where(p => p.HasReqPhotoParam)
-	                .Any(p => ReqPhotoNoParamsRegex.IsMatch(TheArticle.AlteredArticleText));
-	    }
+                if (TheArticle.PluginManagerGetSkipResults == SkipResults.SkipBadTag)
+                {
+                    return false;
+                }
+            }
 
-	    private static string FinaliseArticleProcessing(Article TheArticle, ref bool Skip, ref string Summary, string ArticleText, bool ReqPhoto)
-		{
+            return res;
+        }
 
-			SkipReason SkipReason = SkipReason.Other;
+        private static bool ReqPhotoParamNeeded(Article TheArticle)
+        {
+            return
+                ActivePlugins.Where(p => p.HasReqPhotoParam)
+                    .Any(p => ReqPhotoNoParamsRegex.IsMatch(TheArticle.AlteredArticleText));
+        }
 
-			if (TheArticle.PluginManagerGetSkipResults == SkipResults.NotSet) {
-				PluginSettings.PluginStats.Tagged += 1;
-			} else {
-				var _with6 = PluginSettings.PluginStats;
-				switch (TheArticle.PluginManagerGetSkipResults) {
-					case SkipResults.SkipBadTag:
-						// always skip
-						if (PluginSettings.SkipBadTags) {
-							_with6.SkippedBadTagIncrement();
-							if (PluginSettings.OpenBadInBrowser)
-								TheArticle.EditInBrowser();
-							Skip = true;
-							// always skip
-							SkipReason = SkipReason.BadTag;
-						} else {
-							// the plugin manager stops processing when it gets a bad tag. We know however
-							// that one plugin found a bad template and possibly replaced it with
-							// conTemplatePlaceholder. We're also not skipping, so we need to remove the placeholder
-                            TheArticle.AlteredArticleText = TheArticle.AlteredArticleText.Replace(Constants.conTemplatePlaceholder, "");
-							MessageBox.Show("Bad tag. Please fix it manually or click ignore.", "Bad tag", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-							PluginSettings.PluginStats.Tagged += 1;
-						}
-						break;
-					case SkipResults.SkipRegex:
-					case SkipResults.SkipNoChange:
-						if (TheArticle.ProcessIt) {
-							PluginSettings.PluginStats.Tagged += 1;
-						} else {
-							if (TheArticle.PluginManagerGetSkipResults == SkipResults.SkipRegex) {
-								_with6.SkippedMiscellaneousIncrement();
-								Skip = true;
-								SkipReason = SkipReason.Regex;
-							// No change:
-							} else {
-								if (PluginSettings.SkipWhenNoChange) {
-									_with6.SkippedNoChangeIncrement();
-									SkipReason = SkipReason.NoChange;
-									Skip = true;
-								} else {
-									PluginSettings.PluginStats.Tagged += 1;
-									Skip = false;
-								}
-							}
-						}
-						break;
-				}
-			}
+        private static string FinaliseArticleProcessing(Article TheArticle, ref bool Skip, ref string Summary,
+            string ArticleText, bool ReqPhoto)
+        {
+            SkipReason SkipReason = SkipReason.Other;
 
-			if (Skip) {
-				return Skipping(ref Summary, TheArticle.EditSummary, SkipReason, ArticleText, ref Skip);
-			}
-		    var _with7 = TheArticle;
-		    if (ReqPhoto) {
-		        _with7.AlteredArticleText = ReqPhotoNoParamsRegex.Replace(_with7.AlteredArticleText, "");
-		        _with7.DoneReplacement("{{[[template:reqphoto|reqphoto]]}}", "template param(s)", true, PluginName);
-		        _with7.ArticleHasAMajorChange();
-		    }
+            if (TheArticle.PluginManagerGetSkipResults == SkipResults.NotSet)
+            {
+                PluginSettings.PluginStats.Tagged += 1;
+            }
+            else
+            {
+                var _with6 = PluginSettings.PluginStats;
+                switch (TheArticle.PluginManagerGetSkipResults)
+                {
+                    case SkipResults.SkipBadTag:
+                        // always skip
+                        if (PluginSettings.SkipBadTags)
+                        {
+                            _with6.SkippedBadTagIncrement();
+                            if (PluginSettings.OpenBadInBrowser)
+                                TheArticle.EditInBrowser();
+                            Skip = true;
+                            // always skip
+                            SkipReason = SkipReason.BadTag;
+                        }
+                        else
+                        {
+                            // the plugin manager stops processing when it gets a bad tag. We know however
+                            // that one plugin found a bad template and possibly replaced it with
+                            // conTemplatePlaceholder. We're also not skipping, so we need to remove the placeholder
+                            TheArticle.AlteredArticleText =
+                                TheArticle.AlteredArticleText.Replace(Constants.conTemplatePlaceholder, "");
+                            MessageBox.Show("Bad tag. Please fix it manually or click ignore.", "Bad tag",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            PluginSettings.PluginStats.Tagged += 1;
+                        }
+                        break;
+                    case SkipResults.SkipRegex:
+                    case SkipResults.SkipNoChange:
+                        if (TheArticle.ProcessIt)
+                        {
+                            PluginSettings.PluginStats.Tagged += 1;
+                        }
+                        else
+                        {
+                            if (TheArticle.PluginManagerGetSkipResults == SkipResults.SkipRegex)
+                            {
+                                _with6.SkippedMiscellaneousIncrement();
+                                Skip = true;
+                                SkipReason = SkipReason.Regex;
+                                // No change:
+                            }
+                            else
+                            {
+                                if (PluginSettings.SkipWhenNoChange)
+                                {
+                                    _with6.SkippedNoChangeIncrement();
+                                    SkipReason = SkipReason.NoChange;
+                                    Skip = true;
+                                }
+                                else
+                                {
+                                    PluginSettings.PluginStats.Tagged += 1;
+                                    Skip = false;
+                                }
+                            }
+                        }
+                        break;
+                }
+            }
 
-		    _with7.FinaliseEditSummary();
-		    Summary = _with7.EditSummary;
-		    return _with7.AlteredArticleText;
-		}
-		private static string Skipping(ref string EditSummary, string DefaultEditSummary, SkipReason SkipReason, string ArticleText, ref bool Skip, string ArticleTitle = null, int NS = Namespace.Talk)
-		{
-			EditSummary = BotMode ? "This article should have been skipped" : DefaultEditSummary;
+            if (Skip)
+            {
+                return Skipping(ref Summary, TheArticle.EditSummary, SkipReason, ArticleText, ref Skip);
+            }
+            var _with7 = TheArticle;
+            if (ReqPhoto)
+            {
+                _with7.AlteredArticleText = ReqPhotoNoParamsRegex.Replace(_with7.AlteredArticleText, "");
+                _with7.DoneReplacement("{{[[template:reqphoto|reqphoto]]}}", "template param(s)", true, PluginName);
+                _with7.ArticleHasAMajorChange();
+            }
 
-			switch (SkipReason) {
-				case SkipReason.BadNamespace:
-					PluginSettings.PluginStats.SkippedNamespaceIncrement();
-					AWBForm.TraceManager.SkippedArticle(PluginName, "Incorrect namespace");
-					break;
-				case SkipReason.ProcessingMainArticleDoesntExist:
-					PluginSettings.PluginStats.SkippedRedLinkIncrement();
-					AWBForm.TraceManager.SkippedArticle(PluginName, "Article doesn't exist");
-					break;
-				case SkipReason.ProcessingTalkPageArticleDoesntExist:
-					PluginSettings.PluginStats.SkippedRedLinkIncrement();
-					AWBForm.TraceManager.SkippedArticleRedlink(PluginName, ArticleTitle, NS);
-					break;
-				case SkipReason.BadTag:
-					AWBForm.TraceManager.SkippedArticleBadTag(PluginName, ArticleTitle, NS);
-					break;
-				case SkipReason.NoChange:
-					AWBForm.TraceManager.SkippedArticle(PluginName, "No change");
-					break;
-				case SkipReason.Regex:
-					AWBForm.TraceManager.SkippedArticle(PluginName, "Article text matched a skip-if-found regular expression");
-					break;
-				case SkipReason.Other:
-					AWBForm.TraceManager.SkippedArticle(PluginName, "");
-					break;
-			}
+            _with7.FinaliseEditSummary();
+            Summary = _with7.EditSummary;
+            return _with7.AlteredArticleText;
+        }
 
-			Skip = true;
-			return ArticleText;
-		}
-		private static void CreateNewGenericPlugin(string pluginName)
-		{
-			GenericTemplatePlugin plugin = new GenericTemplatePlugin(pluginName);
-			Plugins.Add(pluginName, plugin);
-			plugin.Initialise();
-			plugin.Enabled = true;
-			// (adds it to activeplugins)
-		}
+        private static string Skipping(ref string EditSummary, string DefaultEditSummary, SkipReason SkipReason,
+            string ArticleText, ref bool Skip, string ArticleTitle = null, int NS = Namespace.Talk)
+        {
+            EditSummary = BotMode ? "This article should have been skipped" : DefaultEditSummary;
 
-		// Friend interface exposed to client plugins:
-		static internal void ShowHidePluginTab(TabPage tabp, bool Visible)
-		{
-			if (Visible) {
-				//If Not AWBForm.ContainsTabPage(tabp) Then
-				bool ContainedMainTab = AWBForm.ContainsTabPage(KingbotkPluginTab);
+            switch (SkipReason)
+            {
+                case SkipReason.BadNamespace:
+                    PluginSettings.PluginStats.SkippedNamespaceIncrement();
+                    AWBForm.TraceManager.SkippedArticle(PluginName, "Incorrect namespace");
+                    break;
+                case SkipReason.ProcessingMainArticleDoesntExist:
+                    PluginSettings.PluginStats.SkippedRedLinkIncrement();
+                    AWBForm.TraceManager.SkippedArticle(PluginName, "Article doesn't exist");
+                    break;
+                case SkipReason.ProcessingTalkPageArticleDoesntExist:
+                    PluginSettings.PluginStats.SkippedRedLinkIncrement();
+                    AWBForm.TraceManager.SkippedArticleRedlink(PluginName, ArticleTitle, NS);
+                    break;
+                case SkipReason.BadTag:
+                    AWBForm.TraceManager.SkippedArticleBadTag(PluginName, ArticleTitle, NS);
+                    break;
+                case SkipReason.NoChange:
+                    AWBForm.TraceManager.SkippedArticle(PluginName, "No change");
+                    break;
+                case SkipReason.Regex:
+                    AWBForm.TraceManager.SkippedArticle(PluginName,
+                        "Article text matched a skip-if-found regular expression");
+                    break;
+                case SkipReason.Other:
+                    AWBForm.TraceManager.SkippedArticle(PluginName, "");
+                    break;
+            }
 
-				if (ContainedMainTab)
-					AWBForm.RemoveTabPage(KingbotkPluginTab);
-				AWBForm.AddTabPage(tabp);
-				if (ContainedMainTab)
-					AWBForm.AddTabPage(KingbotkPluginTab);
-			//End If
-			//If AWBForm.ContainsTabPage(tabp) Then
-			} else {
-				AWBForm.RemoveTabPage(tabp);
-			}
-		}
-		static internal void PluginEnabledStateChanged(PluginBase Plugin, bool IsEnabled)
-		{
-			if (IsEnabled) {
-				if (!ActivePlugins.Contains(Plugin)) {
-					// WPBio must be last in list
-					if (Plugin.PluginShortName == "Biography") {
-						ActivePlugins.Add(Plugin);
-					} else {
-						ActivePlugins.Insert(0, Plugin);
-					}
+            Skip = true;
+            return ArticleText;
+        }
 
-					if (ActivePlugins.Count == 1)
-						AWBForm.AddTabPage(KingbotkPluginTab);
+        private static void CreateNewGenericPlugin(string pluginName)
+        {
+            GenericTemplatePlugin plugin = new GenericTemplatePlugin(pluginName);
+            Plugins.Add(pluginName, plugin);
+            plugin.Initialise();
+            plugin.Enabled = true;
+            // (adds it to activeplugins)
+        }
 
-				}
-			} else {
-				ActivePlugins.Remove(Plugin);
+        // Friend interface exposed to client plugins:
+        internal static void ShowHidePluginTab(TabPage tabp, bool Visible)
+        {
+            if (Visible)
+            {
+                //If Not AWBForm.ContainsTabPage(tabp) Then
+                bool ContainedMainTab = AWBForm.ContainsTabPage(KingbotkPluginTab);
 
-				if (ActivePlugins.Count == 0)
-					AWBForm.RemoveTabPage(KingbotkPluginTab);
-			}
-			DefaultStatusText();
-		}
-		static internal void StopAWB()
-		{
+                if (ContainedMainTab)
+                    AWBForm.RemoveTabPage(KingbotkPluginTab);
+                AWBForm.AddTabPage(tabp);
+                if (ContainedMainTab)
+                    AWBForm.AddTabPage(KingbotkPluginTab);
+                //End If
+                //If AWBForm.ContainsTabPage(tabp) Then
+            }
+            else
+            {
+                AWBForm.RemoveTabPage(tabp);
+            }
+        }
+
+        internal static void PluginEnabledStateChanged(PluginBase Plugin, bool IsEnabled)
+        {
+            if (IsEnabled)
+            {
+                if (!ActivePlugins.Contains(Plugin))
+                {
+                    // WPBio must be last in list
+                    if (Plugin.PluginShortName == "Biography")
+                    {
+                        ActivePlugins.Add(Plugin);
+                    }
+                    else
+                    {
+                        ActivePlugins.Insert(0, Plugin);
+                    }
+
+                    if (ActivePlugins.Count == 1)
+                        AWBForm.AddTabPage(KingbotkPluginTab);
+                }
+            }
+            else
+            {
+                ActivePlugins.Remove(Plugin);
+
+                if (ActivePlugins.Count == 0)
+                    AWBForm.RemoveTabPage(KingbotkPluginTab);
+            }
+            DefaultStatusText();
+        }
+
+        internal static void StopAWB()
+        {
             AWBForm.Stop(Constants.conAWBPluginName);
-		}
-		static internal void DeleteGenericPlugin(IGenericTemplatePlugin PG, PluginBase P)
-		{
-			Plugins.Remove(PG.GenericTemplateKey);
-			if (ActivePlugins.Contains(P))
-				ActivePlugins.Remove(P);
-			if (ActivePlugins.Count == 0)
-				AWBForm.RemoveTabPage(KingbotkPluginTab);
-			DefaultStatusText();
-		}
+        }
 
-		// Friend static members:
-		static internal bool BotMode {
-			get { return AWBForm.BotModeCheckbox.Checked; }
-		}
-		static internal string PluginName {
-			get { return conMe; }
-		}
-		static internal void EditBoxInsertYesParam(string ParameterName)
-		{
-			EditBoxInsert("|" + ParameterName + "=yes");
-		}
-		static internal void EditBoxInsert(string Text)
-		{
-			AWBForm.EditBox.SelectedText = Text;
-		}
+        internal static void DeleteGenericPlugin(IGenericTemplatePlugin PG, PluginBase P)
+        {
+            Plugins.Remove(PG.GenericTemplateKey);
+            if (ActivePlugins.Contains(P))
+                ActivePlugins.Remove(P);
+            if (ActivePlugins.Count == 0)
+                AWBForm.RemoveTabPage(KingbotkPluginTab);
+            DefaultStatusText();
+        }
 
-		// User interface management:
-		private static bool ShowHideTabs {
-			get { return MenuShowSettingsTabs.Checked; }
-			set {
-				if (value) {
-					AWBForm.ShowAllTabPages();
-					//For Each tabp As TabPage In SettingsTabs ' may not need this now AWB tracks tabs
-					//    AWBForm.AddTabPage(tabp)
-					//Next
-					if (ActivePlugins.Count > 0)
-						AWBForm.AddTabPage(KingbotkPluginTab);
-				} else {
-					AWBForm.HideAllTabPages();
-					AWBForm.AddTabPage(KingbotkPluginTab);
-				}
-				MenuShowSettingsTabs.Checked = value;
-			}
-		}
-		static internal void DefaultStatusText()
-		{
-			switch (ActivePlugins.Count) {
-				case 0:
-					StatusText.Text = "Kingbotk plugin manager ready";
-					break;
-				case 1:
-					StatusText.Text = "Kingbotk plugin ready";
-					break;
-				default:
-					StatusText.Text = ActivePlugins.Count.ToString("0 Kingbotk plugins ready");
-					break;
-			}
-			if (PluginSettings.ManuallyAssess)
-				StatusText.Text += " (manual assessments plugin active)";
-		}
+        // Friend static members:
+        internal static bool BotMode
+        {
+            get { return AWBForm.BotModeCheckbox.Checked; }
+        }
+
+        internal static string PluginName
+        {
+            get { return conMe; }
+        }
+
+        internal static void EditBoxInsertYesParam(string ParameterName)
+        {
+            EditBoxInsert("|" + ParameterName + "=yes");
+        }
+
+        internal static void EditBoxInsert(string Text)
+        {
+            AWBForm.EditBox.SelectedText = Text;
+        }
+
+        // User interface management:
+        private static bool ShowHideTabs
+        {
+            get { return MenuShowSettingsTabs.Checked; }
+            set
+            {
+                if (value)
+                {
+                    AWBForm.ShowAllTabPages();
+                    //For Each tabp As TabPage In SettingsTabs ' may not need this now AWB tracks tabs
+                    //    AWBForm.AddTabPage(tabp)
+                    //Next
+                    if (ActivePlugins.Count > 0)
+                        AWBForm.AddTabPage(KingbotkPluginTab);
+                }
+                else
+                {
+                    AWBForm.HideAllTabPages();
+                    AWBForm.AddTabPage(KingbotkPluginTab);
+                }
+                MenuShowSettingsTabs.Checked = value;
+            }
+        }
+
+        internal static void DefaultStatusText()
+        {
+            switch (ActivePlugins.Count)
+            {
+                case 0:
+                    StatusText.Text = "Kingbotk plugin manager ready";
+                    break;
+                case 1:
+                    StatusText.Text = "Kingbotk plugin ready";
+                    break;
+                default:
+                    StatusText.Text = ActivePlugins.Count.ToString("0 Kingbotk plugins ready");
+                    break;
+            }
+            if (PluginSettings.ManuallyAssess)
+                StatusText.Text += " (manual assessments plugin active)";
+        }
 
         // FIXME: To be removed
-        static readonly Microsoft.VisualBasic.CompilerServices.StaticLocalInitFlag static_TestSkipNonExistingPages_WeCheckedSkipNonExistingPages_Init = new Microsoft.VisualBasic.CompilerServices.StaticLocalInitFlag();
-        static bool static_TestSkipNonExistingPages_WeCheckedSkipNonExistingPages;
-        static internal void TestSkipNonExistingPages()
+        private static readonly Microsoft.VisualBasic.CompilerServices.StaticLocalInitFlag
+            static_TestSkipNonExistingPages_WeCheckedSkipNonExistingPages_Init =
+                new Microsoft.VisualBasic.CompilerServices.StaticLocalInitFlag();
+
+        private static bool static_TestSkipNonExistingPages_WeCheckedSkipNonExistingPages;
+
+        internal static void TestSkipNonExistingPages()
         {
             lock (static_TestSkipNonExistingPages_WeCheckedSkipNonExistingPages_Init)
             {
@@ -592,7 +687,15 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 if (AWBForm.SkipNonExistentPages.Checked)
                 {
                     static_TestSkipNonExistingPages_WeCheckedSkipNonExistingPages = true;
-                    if (MessageBox.Show("The skip non existent pages checkbox is checked. This is not optimal for WikiProject tagging " + "as AWB will skip red-link talk pages. Please note that you will not receive this warning " + "again during this session, even if you load settings which have that box checked." + Microsoft.VisualBasic.Constants.vbCrLf + Microsoft.VisualBasic.Constants.vbCrLf + "Would you like the plugin to change this setting to false?", "Skip Non Existent Pages", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes)
+                    if (
+                        MessageBox.Show(
+                            "The skip non existent pages checkbox is checked. This is not optimal for WikiProject tagging " +
+                            "as AWB will skip red-link talk pages. Please note that you will not receive this warning " +
+                            "again during this session, even if you load settings which have that box checked." +
+                            Microsoft.VisualBasic.Constants.vbCrLf + Microsoft.VisualBasic.Constants.vbCrLf +
+                            "Would you like the plugin to change this setting to false?", "Skip Non Existent Pages",
+                            MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) ==
+                        DialogResult.Yes)
                     {
                         AWBForm.SkipNonExistentPages.Checked = false;
                     }
@@ -600,213 +703,246 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             }
         }
 
-	    // Event handlers - AWB:
-		private static void AWBClosingEventHandler(object sender, FormClosingEventArgs e)
-		{
-			if (e.Cancel) {
-				return;
-			}
+        // Event handlers - AWB:
+        private static void AWBClosingEventHandler(object sender, FormClosingEventArgs e)
+        {
+            if (e.Cancel)
+            {
+                return;
+            }
 
-			var _with8 = AWBForm.TraceManager;
-			_with8.Flush();
-			_with8.Close();
-		}
-		private static void AWBBotModeCheckboxCheckedChangeHandler(object sender, EventArgs e)
-		{
-			foreach (PluginBase p in ActivePlugins) {
-				p.BotModeChanged(BotMode);
-			}
-		}
-		private static void AWBBotModeCheckboxEnabledChangedHandler(object sender, EventArgs e)
-		{
-			if (AWBForm.BotModeCheckbox.Enabled && PluginSettings.ManuallyAssess) {
-				AWBForm.BotModeCheckbox.Checked = false;
-				AWBForm.BotModeCheckbox.Enabled = false;
-			}
-		}
-		private static void EditorStatusChanged(AsyncApiEdit sender)
-		{
-			if (AWBForm.TheSession.Editor.IsActive) {
-				if (ActivePlugins.Count > 0)
-					PluginSettings.AWBProcessingStart(sender);
-			} else {
-				DefaultStatusText();
-				// If AWB has stopped and the list is empty we assume the job is finished, so close the log and upload:
-				if (AWBForm.ListMaker.Count == 0) {
-					AWBForm.TraceManager.Close();
-				}
-			}
-		}
+            var _with8 = AWBForm.TraceManager;
+            _with8.Flush();
+            _with8.Close();
+        }
 
-		private static void EditorAborted(AsyncApiEdit sender)
-		{
-			PluginSettings.AWBProcessingAborted();
-		}
+        private static void AWBBotModeCheckboxCheckedChangeHandler(object sender, EventArgs e)
+        {
+            foreach (PluginBase p in ActivePlugins)
+            {
+                p.BotModeChanged(BotMode);
+            }
+        }
 
-		private void StopButtonClickEventHandler(object sender, EventArgs e)
-		{
-			DefaultStatusText();
-			if ((AssessmentsObject != null))
-				AssessmentsObject.Reset();
-			PluginSettings.AWBProcessingAborted();
-		}
+        private static void AWBBotModeCheckboxEnabledChangedHandler(object sender, EventArgs e)
+        {
+            if (AWBForm.BotModeCheckbox.Enabled && PluginSettings.ManuallyAssess)
+            {
+                AWBForm.BotModeCheckbox.Checked = false;
+                AWBForm.BotModeCheckbox.Enabled = false;
+            }
+        }
 
-		private static void MenuShowHide_Click(object sender, EventArgs e)
-		{
-			ShowHideTabs = MenuShowSettingsTabs.Checked;
-		}
+        private static void EditorStatusChanged(AsyncApiEdit sender)
+        {
+            if (AWBForm.TheSession.Editor.IsActive)
+            {
+                if (ActivePlugins.Count > 0)
+                    PluginSettings.AWBProcessingStart(sender);
+            }
+            else
+            {
+                DefaultStatusText();
+                // If AWB has stopped and the list is empty we assume the job is finished, so close the log and upload:
+                if (AWBForm.ListMaker.Count == 0)
+                {
+                    AWBForm.TraceManager.Close();
+                }
+            }
+        }
 
-		private void ManuallyAssessCheckBox_CheckChanged(object sender, EventArgs e)
-		{
-			if (((CheckBox)sender).Checked) {
-				StatusText.Text = "Initialising assessments plugin";
+        private static void EditorAborted(AsyncApiEdit sender)
+        {
+            PluginSettings.AWBProcessingAborted();
+        }
 
-				if (AWBForm.TheSession.Editor.IsActive)
+        private void StopButtonClickEventHandler(object sender, EventArgs e)
+        {
+            DefaultStatusText();
+            if ((AssessmentsObject != null))
+                AssessmentsObject.Reset();
+            PluginSettings.AWBProcessingAborted();
+        }
+
+        private static void MenuShowHide_Click(object sender, EventArgs e)
+        {
+            ShowHideTabs = MenuShowSettingsTabs.Checked;
+        }
+
+        private void ManuallyAssessCheckBox_CheckChanged(object sender, EventArgs e)
+        {
+            if (((CheckBox) sender).Checked)
+            {
+                StatusText.Text = "Initialising assessments plugin";
+
+                if (AWBForm.TheSession.Editor.IsActive)
                     AWBForm.Stop(Constants.conAWBPluginName);
 
-				if (blnShowManualAssessmentsInstructions) {
-					AssessmentsInstructionsDialog dialog = new AssessmentsInstructionsDialog();
+                if (blnShowManualAssessmentsInstructions)
+                {
+                    AssessmentsInstructionsDialog dialog = new AssessmentsInstructionsDialog();
 
-					blnShowManualAssessmentsInstructions = dialog.ShowDialog() != DialogResult.Yes;
-				}
+                    blnShowManualAssessmentsInstructions = dialog.ShowDialog() != DialogResult.Yes;
+                }
 
-				AssessmentsObject = new Assessments(PluginSettings);
+                AssessmentsObject = new Assessments(PluginSettings);
 
-				DefaultStatusText();
-			} else {
-				AssessmentsObject.Dispose();
-				AssessmentsObject = null;
-			}
-		}
-		private static void AddGenericTemplateMenuItem_Click(object sender, EventArgs e)
-		{
-			string str = Microsoft.VisualBasic.Interaction.InputBox("Enter the name for this generic plugin").Trim();
+                DefaultStatusText();
+            }
+            else
+            {
+                AssessmentsObject.Dispose();
+                AssessmentsObject = null;
+            }
+        }
 
-			if (!string.IsNullOrEmpty(str)) {
-				if (Plugins.ContainsKey(str)) {
-					MessageBox.Show("A plugin of this name already exists", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-					return;
-				} 
-                if (str.Contains(" ")) {
-					str = str.Replace(" ", "");
-				}
+        private static void AddGenericTemplateMenuItem_Click(object sender, EventArgs e)
+        {
+            string str = Microsoft.VisualBasic.Interaction.InputBox("Enter the name for this generic plugin").Trim();
 
-				CreateNewGenericPlugin(str);
-			}
-		}
+            if (!string.IsNullOrEmpty(str))
+            {
+                if (Plugins.ContainsKey(str))
+                {
+                    MessageBox.Show("A plugin of this name already exists", "Error", MessageBoxButtons.OK,
+                        MessageBoxIcon.Exclamation);
+                    return;
+                }
+                if (str.Contains(" "))
+                {
+                    str = str.Replace(" ", "");
+                }
 
-		// XML:
-		static internal bool XMLReadBoolean(XmlTextReader reader, string param, bool ExistingValue)
-		{
-		    if (reader.MoveToAttribute(param))
-				return bool.Parse(reader.Value);
-		    return ExistingValue;
-		}
+                CreateNewGenericPlugin(str);
+            }
+        }
 
-	    static internal string XMLReadString(XmlTextReader reader, string param, string ExistingValue)
-	    {
-	        if (reader.MoveToAttribute(param))
-				return reader.Value.Trim();
-	        return ExistingValue;
-	    }
+        // XML:
+        internal static bool XMLReadBoolean(XmlTextReader reader, string param, bool ExistingValue)
+        {
+            if (reader.MoveToAttribute(param))
+                return bool.Parse(reader.Value);
+            return ExistingValue;
+        }
 
-	    static internal int XMLReadInteger(XmlTextReader reader, string param, int ExistingValue)
-	    {
-	        if (reader.MoveToAttribute(param))
-				return int.Parse(reader.Value);
-	        return ExistingValue;
-	    }
+        internal static string XMLReadString(XmlTextReader reader, string param, string ExistingValue)
+        {
+            if (reader.MoveToAttribute(param))
+                return reader.Value.Trim();
+            return ExistingValue;
+        }
 
-	    private static void ReadXML(XmlTextReader Reader)
-		{
-			blnShowManualAssessmentsInstructions = XMLReadBoolean(Reader, conShowManualAssessmentsInstructions, blnShowManualAssessmentsInstructions);
-			// must happen BEFORE get ManualAssessment yes/no
+        internal static int XMLReadInteger(XmlTextReader reader, string param, int ExistingValue)
+        {
+            if (reader.MoveToAttribute(param))
+                return int.Parse(reader.Value);
+            return ExistingValue;
+        }
 
-			PluginSettings.ReadXML(Reader);
+        private static void ReadXML(XmlTextReader Reader)
+        {
+            blnShowManualAssessmentsInstructions = XMLReadBoolean(Reader, conShowManualAssessmentsInstructions,
+                blnShowManualAssessmentsInstructions);
+            // must happen BEFORE get ManualAssessment yes/no
 
-			int Count = XMLReadInteger(Reader, conGenericTemplatesCount, 0);
-			if (Count > 0) {
-				ReadGenericTemplatesFromXML(Count, Reader);
-				// Must set up generic templates
-			}
-			//before reading in per-template properties, so that the new template receives a ReadXML() of its own
+            PluginSettings.ReadXML(Reader);
 
-			foreach (KeyValuePair<string, PluginBase> plugin in Plugins) {
-				plugin.Value.ReadXML(Reader);
-				plugin.Value.ReadXMLRedirects(Reader);
-			}
+            int Count = XMLReadInteger(Reader, conGenericTemplatesCount, 0);
+            if (Count > 0)
+            {
+                ReadGenericTemplatesFromXML(Count, Reader);
+                // Must set up generic templates
+            }
+            //before reading in per-template properties, so that the new template receives a ReadXML() of its own
 
-			bool blnNewVal = XMLReadBoolean(Reader, conShowHideTabsParm, ShowHideTabs);
+            foreach (KeyValuePair<string, PluginBase> plugin in Plugins)
+            {
+                plugin.Value.ReadXML(Reader);
+                plugin.Value.ReadXMLRedirects(Reader);
+            }
+
+            bool blnNewVal = XMLReadBoolean(Reader, conShowHideTabsParm, ShowHideTabs);
             // ReSharper disable once RedundantCheckBeforeAssignment
-			if (blnNewVal != ShowHideTabs)
-				ShowHideTabs = blnNewVal;
-			// Mustn't set if the same or we get extra tabs; must happen AFTER plugins
+            if (blnNewVal != ShowHideTabs)
+                ShowHideTabs = blnNewVal;
+            // Mustn't set if the same or we get extra tabs; must happen AFTER plugins
 
-			TestSkipNonExistingPages();
-		}
-		private static void WriteXML(XmlTextWriter Writer)
-		{
-			System.Collections.Specialized.StringCollection strGenericTemplates = new System.Collections.Specialized.StringCollection();
-			int i = 0;
+            TestSkipNonExistingPages();
+        }
 
-			Writer.WriteAttributeString(conShowHideTabsParm, ShowHideTabs.ToString());
-			Writer.WriteAttributeString(conShowManualAssessmentsInstructions, blnShowManualAssessmentsInstructions.ToString());
-			PluginSettings.WriteXML(Writer);
-			foreach (KeyValuePair<string, PluginBase> plugin in Plugins) {
-				plugin.Value.WriteXML(Writer);
-				plugin.Value.WriteXMLRedirects(Writer);
-				if (plugin.Value.IAmGeneric) {
-					strGenericTemplates.Add(((IGenericTemplatePlugin)plugin.Value).GenericTemplateKey);
-				}
-			}
+        private static void WriteXML(XmlTextWriter Writer)
+        {
+            System.Collections.Specialized.StringCollection strGenericTemplates =
+                new System.Collections.Specialized.StringCollection();
+            int i = 0;
 
-			Writer.WriteAttributeString(conGenericTemplatesCount, strGenericTemplates.Count.ToString());
+            Writer.WriteAttributeString(conShowHideTabsParm, ShowHideTabs.ToString());
+            Writer.WriteAttributeString(conShowManualAssessmentsInstructions,
+                blnShowManualAssessmentsInstructions.ToString());
+            PluginSettings.WriteXML(Writer);
+            foreach (KeyValuePair<string, PluginBase> plugin in Plugins)
+            {
+                plugin.Value.WriteXML(Writer);
+                plugin.Value.WriteXMLRedirects(Writer);
+                if (plugin.Value.IAmGeneric)
+                {
+                    strGenericTemplates.Add(((IGenericTemplatePlugin) plugin.Value).GenericTemplateKey);
+                }
+            }
 
-			foreach (string str in strGenericTemplates) {
-				Writer.WriteAttributeString(conGenericTemplate + i, str);
-				i += 1;
-			}
-		}
-		private static void LoadSettingsNewWay(string XMLString)
-		{
-			XMLString = XMLString.Replace("WikiProject Songs", "Songs");
-			XMLString = XMLString.Replace("WikiProject Albums", "Albums");
-			System.IO.StringReader st = new System.IO.StringReader(XMLString);
-			XmlTextReader reader = new XmlTextReader(st);
+            Writer.WriteAttributeString(conGenericTemplatesCount, strGenericTemplates.Count.ToString());
 
-			while (reader.Read()) {
-				if (reader.NodeType == XmlNodeType.Element) {
-					ReadXML(reader);
-					break; // TODO: might not be correct. Was : Exit While
-				}
-			}
-		}
-		private static void ReadGenericTemplatesFromXML(int Count, XmlTextReader Reader)
-		{
-		    for (int i = 0; i <= Count - 1; i++)
-			{
-			    string plugin = XMLReadString(Reader, conGenericTemplate + i, "").Trim();
-			    if (!Plugins.ContainsKey(plugin))
-					CreateNewGenericPlugin(plugin);
-			}
-		}
+            foreach (string str in strGenericTemplates)
+            {
+                Writer.WriteAttributeString(conGenericTemplate + i, str);
+                i += 1;
+            }
+        }
 
-		// AWB nudges:
-		public void Nudge(out bool cancel)
-		{
-		    cancel = ActivePlugins.Any(p => !p.IAmReady);
-		}
+        private static void LoadSettingsNewWay(string XMLString)
+        {
+            XMLString = XMLString.Replace("WikiProject Songs", "Songs");
+            XMLString = XMLString.Replace("WikiProject Albums", "Albums");
+            System.IO.StringReader st = new System.IO.StringReader(XMLString);
+            XmlTextReader reader = new XmlTextReader(st);
 
-	    public void Nudged(int nudges)
-		{
-			PluginSettings.lblAWBNudges.Text = "Nudges: " + nudges;
-		}
+            while (reader.Read())
+            {
+                if (reader.NodeType == XmlNodeType.Element)
+                {
+                    ReadXML(reader);
+                    break; // TODO: might not be correct. Was : Exit While
+                }
+            }
+        }
 
-		public string WikiName {
+        private static void ReadGenericTemplatesFromXML(int Count, XmlTextReader Reader)
+        {
+            for (int i = 0; i <= Count - 1; i++)
+            {
+                string plugin = XMLReadString(Reader, conGenericTemplate + i, "").Trim();
+                if (!Plugins.ContainsKey(plugin))
+                    CreateNewGenericPlugin(plugin);
+            }
+        }
+
+        // AWB nudges:
+        public void Nudge(out bool cancel)
+        {
+            cancel = ActivePlugins.Any(p => !p.IAmReady);
+        }
+
+        public void Nudged(int nudges)
+        {
+            PluginSettings.lblAWBNudges.Text = "Nudges: " + nudges;
+        }
+
+        public string WikiName
+        {
             get { return Constants.conWikiPlugin + " version " + AboutBox.Version; }
-		}
+        }
 
-        static bool InitStaticVariableHelper(Microsoft.VisualBasic.CompilerServices.StaticLocalInitFlag flag)
+        private static bool InitStaticVariableHelper(Microsoft.VisualBasic.CompilerServices.StaticLocalInitFlag flag)
         {
             if (flag.State == 0)
             {
@@ -819,5 +955,5 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             }
             return false;
         }
-	}
+    }
 }

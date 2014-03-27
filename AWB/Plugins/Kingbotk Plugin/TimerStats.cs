@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -15,131 +15,165 @@ using WikiFunctions.API;
 
 namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 {
-	internal sealed partial class TimerStats
-	{
-	    private PluginSettingsControl.Stats mStats;
-		private TimeSpan TimeSpan;
-		private DateTime Start;
-		private int mNumberOfEdits;
-		private int mSkipped;
+    internal sealed partial class TimerStats
+    {
+        private PluginSettingsControl.Stats mStats;
+        private TimeSpan TimeSpan;
+        private DateTime Start;
+        private int mNumberOfEdits;
+        private int mSkipped;
 
-		private Label mETALabel;
-		private int NumberOfEdits {
-			get { return mNumberOfEdits; }
-			set {
-				mNumberOfEdits = value;
-				EditsLabel.Text = mNumberOfEdits.ToString();
-			}
-		}
+        private Label mETALabel;
 
-		internal void Init(AsyncApiEdit e, Label ETALabel, PluginSettingsControl.Stats Stats)
-		{
-			if (!TimerEnabled) {
-				ResetVars();
-				mETALabel = ETALabel;
+        private int NumberOfEdits
+        {
+            get { return mNumberOfEdits; }
+            set
+            {
+                mNumberOfEdits = value;
+                EditsLabel.Text = mNumberOfEdits.ToString();
+            }
+        }
 
-				TimerEnabled = true;
+        internal void Init(AsyncApiEdit e, Label ETALabel, PluginSettingsControl.Stats Stats)
+        {
+            if (!TimerEnabled)
+            {
+                ResetVars();
+                mETALabel = ETALabel;
 
-				mStats = Stats;
-			    mStats.SkipMisc += mStats_SkipMisc;
+                TimerEnabled = true;
 
-				Timer1_Tick(null, null);
-			}
-		}
-		internal void Reset()
-		{
-			ResetVars();
-			TimerLabel.Text = "0:00";
-			SpeedLabel.Text = "0";
-			EditsLabel.Text = "0";
-		}
-		private void ResetVars()
-		{
-			NumberOfEdits = 0;
-			Start = DateTime.Now;
-			mSkipped = 0;
-		}
-		internal void StopStats()
-		{
-			ResetVars();
-			TimerEnabled = false;
-		}
-		private string ETA {
-			get { return mETALabel.Text.Replace("ETC: ", ""); }
-			set { mETALabel.Text = "ETC: " + value; }
-		}
-		private void CalculateETA(double SecondsPerPage)
-		{
-			int Count = PluginManager.AWBForm.ListMaker.Count;
+                mStats = Stats;
+                mStats.SkipMisc += mStats_SkipMisc;
 
-			if (Count == 0) {
-				ETA = "Now";
-			} else {
-				DateTime ETADateTime = DateTime.Now.AddSeconds(SecondsPerPage * Count);
+                Timer1_Tick(null, null);
+            }
+        }
 
-				if (ETADateTime.Date == DateTime.Now.Date) {
-					ETA = ETADateTime.ToString("HH:mm") + " today";
-				} else if (DateTime.Now.AddDays(1).Date == ETADateTime.Date) {
-					ETA = ETADateTime.ToString("HH:mm") + " tomorrow";
-				} else {
-					ETA = ETADateTime.ToString("HH:mm, ddd d MMM");
-				}
-			}
-		}
-		private bool TimerEnabled {
-			get { return Timer1.Enabled; }
-			set {
-				if (mETALabel != null) {
-					mETALabel.Visible = value;
-				}
-				Timer1.Enabled = value;
-			}
-		}
+        internal void Reset()
+        {
+            ResetVars();
+            TimerLabel.Text = "0:00";
+            SpeedLabel.Text = "0";
+            EditsLabel.Text = "0";
+        }
 
-		// Event handlers
-		private readonly Regex timerregexp = new Regex("\\..*");
-		int UpdateETACount;
-		
+        private void ResetVars()
+        {
+            NumberOfEdits = 0;
+            Start = DateTime.Now;
+            mSkipped = 0;
+        }
+
+        internal void StopStats()
+        {
+            ResetVars();
+            TimerEnabled = false;
+        }
+
+        private string ETA
+        {
+            get { return mETALabel.Text.Replace("ETC: ", ""); }
+            set { mETALabel.Text = "ETC: " + value; }
+        }
+
+        private void CalculateETA(double SecondsPerPage)
+        {
+            int Count = PluginManager.AWBForm.ListMaker.Count;
+
+            if (Count == 0)
+            {
+                ETA = "Now";
+            }
+            else
+            {
+                DateTime ETADateTime = DateTime.Now.AddSeconds(SecondsPerPage*Count);
+
+                if (ETADateTime.Date == DateTime.Now.Date)
+                {
+                    ETA = ETADateTime.ToString("HH:mm") + " today";
+                }
+                else if (DateTime.Now.AddDays(1).Date == ETADateTime.Date)
+                {
+                    ETA = ETADateTime.ToString("HH:mm") + " tomorrow";
+                }
+                else
+                {
+                    ETA = ETADateTime.ToString("HH:mm, ddd d MMM");
+                }
+            }
+        }
+
+        private bool TimerEnabled
+        {
+            get { return Timer1.Enabled; }
+            set
+            {
+                if (mETALabel != null)
+                {
+                    mETALabel.Visible = value;
+                }
+                Timer1.Enabled = value;
+            }
+        }
+
+        // Event handlers
+        private readonly Regex timerregexp = new Regex("\\..*");
+        private int UpdateETACount;
+
         private void Timer1_Tick(object sender, EventArgs e)
-		{
-		    UpdateETACount += 1;
-			TimeSpan = DateTime.Now - Start;
-			TimerLabel.Text = timerregexp.Replace(TimeSpan.ToString(), "");
-		    double secondsPerPage = NumberOfEdits == 0 ? TimeSpan.TotalSeconds : Math.Round(TimeSpan.TotalSeconds/NumberOfEdits, 2);
+        {
+            UpdateETACount += 1;
+            TimeSpan = DateTime.Now - Start;
+            TimerLabel.Text = timerregexp.Replace(TimeSpan.ToString(), "");
+            double secondsPerPage = NumberOfEdits == 0
+                ? TimeSpan.TotalSeconds
+                : Math.Round(TimeSpan.TotalSeconds/NumberOfEdits, 2);
 
-			if (double.IsInfinity(secondsPerPage)) {
-				SpeedLabel.Text = "0";
-				ETA = "-";
-				if (UpdateETACount > 9)
-					UpdateETACount = 0;
-			} else {
-				SpeedLabel.Text = secondsPerPage + " s/p";
-				if (UpdateETACount > 9 || ETA == "-") {
-					UpdateETACount = 0;
-					if ((NumberOfEdits + mSkipped) == 0) {
-						CalculateETA(TimeSpan.TotalSeconds);
-					} else {
-						CalculateETA(TimeSpan.TotalSeconds / (NumberOfEdits + mSkipped));
-					}
+            if (double.IsInfinity(secondsPerPage))
+            {
+                SpeedLabel.Text = "0";
+                ETA = "-";
+                if (UpdateETACount > 9)
+                    UpdateETACount = 0;
+            }
+            else
+            {
+                SpeedLabel.Text = secondsPerPage + " s/p";
+                if (UpdateETACount > 9 || ETA == "-")
+                {
+                    UpdateETACount = 0;
+                    if ((NumberOfEdits + mSkipped) == 0)
+                    {
+                        CalculateETA(TimeSpan.TotalSeconds);
+                    }
+                    else
+                    {
+                        CalculateETA(TimeSpan.TotalSeconds/(NumberOfEdits + mSkipped));
+                    }
+                }
+            }
+        }
 
-				}
-			}
-		}
-		internal void IncrementSavedEdits(AsyncApiEdit sender, SaveInfo save)
-		{
-			IncrementSavedEdits();
-		}
-		internal void IncrementSavedEdits()
-		{
-			NumberOfEdits += 1;
-		}
-		private void mStats_SkipMisc(int val)
-		{
-			mSkipped += 1;
-		}
-		public TimerStats()
-		{
-			InitializeComponent();
-		}
-	}
+        internal void IncrementSavedEdits(AsyncApiEdit sender, SaveInfo save)
+        {
+            IncrementSavedEdits();
+        }
+
+        internal void IncrementSavedEdits()
+        {
+            NumberOfEdits += 1;
+        }
+
+        private void mStats_SkipMisc(int val)
+        {
+            mSkipped += 1;
+        }
+
+        public TimerStats()
+        {
+            InitializeComponent();
+        }
+    }
 }

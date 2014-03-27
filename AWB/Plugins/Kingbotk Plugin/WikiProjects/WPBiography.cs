@@ -1,8 +1,7 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml;
-
 using WikiFunctions;
 
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
@@ -17,263 +16,301 @@ using WikiFunctions;
 
 namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 {
+    internal enum Living
+    {
+        Unknown,
+        Living,
+        Dead
+    }
 
-	internal enum Living
-	{
-		Unknown,
-		Living,
-		Dead
-	}
+    internal sealed class WPBiography : PluginBase
+    {
+        internal WPBiography()
+            : base("WPBiography|Wpbiography|WPBIO|WP Biography|WPbiography|Wikiproject Biography|WP Bio|Bio")
+        {
+            // Specify alternate names only
 
-	internal sealed class WPBiography : PluginBase
-	{
+            OurSettingsControl = new BioWithWorkgroups(PluginName, Prefix, true, @params);
+        }
 
-		internal WPBiography() : base("WPBiography|Wpbiography|WPBIO|WP Biography|WPbiography|Wikiproject Biography|WP Bio|Bio")
-		{
-			// Specify alternate names only
+        private const string PluginName = "WikiProject Biography";
 
-			OurSettingsControl = new BioWithWorkgroups(PluginName, Prefix, true, @params);
-		}
+        private const string Prefix = "Bio";
+        private const string WorkgroupsGroups = "Work Groups";
 
-		private const string PluginName = "WikiProject Biography";
+        private const string OthersGroup = "Others";
 
-		private const string Prefix = "Bio";
-		private const string WorkgroupsGroups = "Work Groups";
+        private readonly TemplateParameters[] @params =
+        {
+            new TemplateParameters
+            {
+                StorageKey = "PolWG",
+                Group = WorkgroupsGroups,
+                ParamName = "Politician"
+            },
+            new TemplateParameters
+            {
+                StorageKey = "ArtsEntsWG",
+                Group = WorkgroupsGroups,
+                ParamName = "A&E"
+            },
+            new TemplateParameters
+            {
+                StorageKey = "FilmWG",
+                Group = WorkgroupsGroups,
+                ParamName = "Film Bio"
+            },
+            new TemplateParameters
+            {
+                StorageKey = "MilitaryWG",
+                Group = WorkgroupsGroups,
+                ParamName = "Military"
+            },
+            new TemplateParameters
+            {
+                StorageKey = "PeerageWG",
+                Group = WorkgroupsGroups,
+                ParamName = "Peerage"
+            },
+            new TemplateParameters
+            {
+                StorageKey = "RoyaltyWG",
+                Group = WorkgroupsGroups,
+                ParamName = "Royalty"
+            },
+            new TemplateParameters
+            {
+                StorageKey = "MusiciansWG",
+                Group = WorkgroupsGroups,
+                ParamName = "Musician"
+            },
+            new TemplateParameters
+            {
+                StorageKey = "ScienceWG",
+                Group = WorkgroupsGroups,
+                ParamName = "S&A"
+            },
+            new TemplateParameters
+            {
+                StorageKey = "SportWG",
+                Group = WorkgroupsGroups,
+                ParamName = "Sports"
+            },
+            new TemplateParameters
+            {
+                StorageKey = "LivingPerson",
+                Group = OthersGroup,
+                ParamName = "Living"
+            },
+            new TemplateParameters
+            {
+                StorageKey = "NotLivingPerson",
+                Group = OthersGroup,
+                ParamName = "Not Living"
+            },
+            new TemplateParameters
+            {
+                StorageKey = "ActivePol",
+                Group = OthersGroup,
+                ParamName = "Active Politician"
+            }
+        };
 
-		private const string OthersGroup = "Others";
-		readonly TemplateParameters[] @params = {
-			new TemplateParameters {
-				StorageKey = "PolWG",
-				Group = WorkgroupsGroups,
-				ParamName = "Politician"
-			},
-			new TemplateParameters {
-				StorageKey = "ArtsEntsWG",
-				Group = WorkgroupsGroups,
-				ParamName = "A&E"
-			},
-			new TemplateParameters {
-				StorageKey = "FilmWG",
-				Group = WorkgroupsGroups,
-				ParamName = "Film Bio"
-			},
-			new TemplateParameters {
-				StorageKey = "MilitaryWG",
-				Group = WorkgroupsGroups,
-				ParamName = "Military"
-			},
-			new TemplateParameters {
-				StorageKey = "PeerageWG",
-				Group = WorkgroupsGroups,
-				ParamName = "Peerage"
-			},
-			new TemplateParameters {
-				StorageKey = "RoyaltyWG",
-				Group = WorkgroupsGroups,
-				ParamName = "Royalty"
-			},
-			new TemplateParameters {
-				StorageKey = "MusiciansWG",
-				Group = WorkgroupsGroups,
-				ParamName = "Musician"
-			},
-			new TemplateParameters {
-				StorageKey = "ScienceWG",
-				Group = WorkgroupsGroups,
-				ParamName = "S&A"
-			},
-			new TemplateParameters {
-				StorageKey = "SportWG",
-				Group = WorkgroupsGroups,
-				ParamName = "Sports"
-			},
-			new TemplateParameters {
-				StorageKey = "LivingPerson",
-				Group = OthersGroup,
-				ParamName = "Living"
-			},
-			new TemplateParameters {
-				StorageKey = "NotLivingPerson",
-				Group = OthersGroup,
-				ParamName = "Not Living"
-			},
-			new TemplateParameters {
-				StorageKey = "ActivePol",
-				Group = OthersGroup,
-				ParamName = "Active Politician"
-			}
+        // Settings:
+        private readonly TabPage OurTab = new TabPage("Biography");
 
-		};
-		// Settings:
-		private readonly TabPage OurTab = new TabPage("Biography");
+        private readonly GenericWithWorkgroups OurSettingsControl;
 
-		private readonly GenericWithWorkgroups OurSettingsControl;
-		protected internal override string PluginShortName {
-			get { return "Biography"; }
-		}
+        protected internal override string PluginShortName
+        {
+            get { return "Biography"; }
+        }
 
-		protected override string PreferredTemplateName {
-			get { return PluginName; }
-		}
+        protected override string PreferredTemplateName
+        {
+            get { return PluginName; }
+        }
 
-		protected override void ImportanceParameter(Importance Importance)
-		{
-		}
-		protected internal override IGenericSettings GenericSettings {
-			get { return OurSettingsControl; }
-		}
+        protected override void ImportanceParameter(Importance Importance)
+        {
+        }
 
-		internal override bool HasReqPhotoParam {
-			get { return true; }
-		}
+        protected internal override IGenericSettings GenericSettings
+        {
+            get { return OurSettingsControl; }
+        }
 
-		internal override void ReqPhoto()
-		{
-			AddNewParamWithAYesValue("needs-photo");
-		}
+        internal override bool HasReqPhotoParam
+        {
+            get { return true; }
+        }
 
-		// Initialisation:
-		protected internal override void Initialise()
-		{
-			OurMenuItem = new ToolStripMenuItem("Biography Plugin");
-			InitialiseBase();
-			// must set menu item object first
-			OurTab.UseVisualStyleBackColor = true;
-			OurTab.Controls.Add(OurSettingsControl);
-		}
+        internal override void ReqPhoto()
+        {
+            AddNewParamWithAYesValue("needs-photo");
+        }
 
-		// Article processing:
-		protected override bool SkipIfContains()
-		{
-			return false;
-		}
+        // Initialisation:
+        protected internal override void Initialise()
+        {
+            OurMenuItem = new ToolStripMenuItem("Biography Plugin");
+            InitialiseBase();
+            // must set menu item object first
+            OurTab.UseVisualStyleBackColor = true;
+            OurTab.Controls.Add(OurSettingsControl);
+        }
 
-		protected override void ProcessArticleFinish()
-		{
-			Living Living = Living.Unknown;
+        // Article processing:
+        protected override bool SkipIfContains()
+        {
+            return false;
+        }
 
-			StubClass();
+        protected override void ProcessArticleFinish()
+        {
+            Living Living = Living.Unknown;
 
-			var _with1 = OurSettingsControl;
-			foreach (ListViewItem lvi in _with1.ListView1.Items) {
-				if (lvi.Checked) {
-					TemplateParameters tp = (TemplateParameters)lvi.Tag;
+            StubClass();
 
-					if (tp.Group == WorkgroupsGroups) {
-						string param = tp.ParamName.ToLower().Replace(" ", "-");
-						AddAndLogNewParamWithAYesValue(param + "-work-group");
-						//Probably needs some reformatting
-						AddEmptyParam(param + "-priority");
-					} else {
-						switch (tp.ParamName) {
-							case "Not Living":
-								Living = Living.Dead;
-								break;
-							case "Living":
-								Living = Living.Living;
-								break;
-							default:
-								AddAndLogNewParamWithAYesValue(tp.ParamName.ToLower().Replace(" ", "-"));
-								break;
-						}
-					}
-				}
-			}
+            var _with1 = OurSettingsControl;
+            foreach (ListViewItem lvi in _with1.ListView1.Items)
+            {
+                if (lvi.Checked)
+                {
+                    TemplateParameters tp = (TemplateParameters) lvi.Tag;
 
-			switch (Living) {
-				case Living.Living:
-			        if (!Template.HasYesParamLowerOrTitleCase(true, "living"))
-			        {
-			            AddAndLogNewParamWithAYesValue("living");
-			        }
-			        break;
-				case Living.Dead:
-					if (!Template.HasYesParamLowerOrTitleCase(false, "living")) {
-						Template.NewOrReplaceTemplateParm("living", "no", article, true, false, false, "", PluginShortName, true);
-					}
-					break;
-				case Living.Unknown:
-					Template.NewOrReplaceTemplateParm("living", "", article, false, false, true, "", PluginShortName, true);
-					break;
-			}
+                    if (tp.Group == WorkgroupsGroups)
+                    {
+                        string param = tp.ParamName.ToLower().Replace(" ", "-");
+                        AddAndLogNewParamWithAYesValue(param + "-work-group");
+                        //Probably needs some reformatting
+                        AddEmptyParam(param + "-priority");
+                    }
+                    else
+                    {
+                        switch (tp.ParamName)
+                        {
+                            case "Not Living":
+                                Living = Living.Dead;
+                                break;
+                            case "Living":
+                                Living = Living.Living;
+                                break;
+                            default:
+                                AddAndLogNewParamWithAYesValue(tp.ParamName.ToLower().Replace(" ", "-"));
+                                break;
+                        }
+                    }
+                }
+            }
 
-			var _with2 = article;
-			if (_with2.Namespace == Namespace.Talk && _with2.ProcessIt && !PluginManager.BotMode) {
-				// Since we're dealing with talk pages, we want a listas= even if it's the same as the
-				// article title without namespace (otherwise it sorts to namespace)
-				Template.NewOrReplaceTemplateParm("listas", Tools.MakeHumanCatKey(article.FullArticleTitle, article.AlteredArticleText), article, true, false, true, "", PluginShortName);
-			}
-		}
+            switch (Living)
+            {
+                case Living.Living:
+                    if (!Template.HasYesParamLowerOrTitleCase(true, "living"))
+                    {
+                        AddAndLogNewParamWithAYesValue("living");
+                    }
+                    break;
+                case Living.Dead:
+                    if (!Template.HasYesParamLowerOrTitleCase(false, "living"))
+                    {
+                        Template.NewOrReplaceTemplateParm("living", "no", article, true, false, false, "",
+                            PluginShortName, true);
+                    }
+                    break;
+                case Living.Unknown:
+                    Template.NewOrReplaceTemplateParm("living", "", article, false, false, true, "", PluginShortName,
+                        true);
+                    break;
+            }
 
-		/// <summary>
-		/// Send the template to the plugin for preinspection
-		/// </summary>
-		/// <returns>False if OK, TRUE IF BAD TAG</returns>
-		protected override bool TemplateFound()
-		{
-			var _with3 = Template;
-			if (_with3.Parameters.ContainsKey("importance")) {
-				_with3.Parameters.Remove("importance");
-				article.ArticleHasAMinorChange();
-			}
-			if (_with3.Parameters.ContainsKey("priority")) {
-				string priorityValue = _with3.Parameters["priority"].Value;
+            var _with2 = article;
+            if (_with2.Namespace == Namespace.Talk && _with2.ProcessIt && !PluginManager.BotMode)
+            {
+                // Since we're dealing with talk pages, we want a listas= even if it's the same as the
+                // article title without namespace (otherwise it sorts to namespace)
+                Template.NewOrReplaceTemplateParm("listas",
+                    Tools.MakeHumanCatKey(article.FullArticleTitle, article.AlteredArticleText), article, true, false,
+                    true, "", PluginShortName);
+            }
+        }
 
-				foreach (KeyValuePair<string, Templating.TemplateParametersObject> kvp in _with3.Parameters) {
-					if (kvp.Key.Contains("-priority") && !string.IsNullOrEmpty(kvp.Value.Value)) {
-						kvp.Value.Value = priorityValue;
-					}
-				}
+        /// <summary>
+        /// Send the template to the plugin for preinspection
+        /// </summary>
+        /// <returns>False if OK, TRUE IF BAD TAG</returns>
+        protected override bool TemplateFound()
+        {
+            var _with3 = Template;
+            if (_with3.Parameters.ContainsKey("importance"))
+            {
+                _with3.Parameters.Remove("importance");
+                article.ArticleHasAMinorChange();
+            }
+            if (_with3.Parameters.ContainsKey("priority"))
+            {
+                string priorityValue = _with3.Parameters["priority"].Value;
 
-				_with3.Parameters.Remove("priority");
-				article.ArticleHasAMinorChange();
-			}
+                foreach (KeyValuePair<string, Templating.TemplateParametersObject> kvp in _with3.Parameters)
+                {
+                    if (kvp.Key.Contains("-priority") && !string.IsNullOrEmpty(kvp.Value.Value))
+                    {
+                        kvp.Value.Value = priorityValue;
+                    }
+                }
 
-			return false;
-		}
+                _with3.Parameters.Remove("priority");
+                article.ArticleHasAMinorChange();
+            }
 
-		protected override string WriteTemplateHeader()
-		{
-			string res = "{{WikiProject Biography" + Environment.NewLine;
+            return false;
+        }
 
-			var _with4 = Template;
-			if (_with4.Parameters.ContainsKey("living")) {
-				_with4.Parameters["living"].Value = _with4.Parameters["living"].Value.ToLower();
-				res += "|living=" + _with4.Parameters["living"].Value + ParameterBreak;
+        protected override string WriteTemplateHeader()
+        {
+            string res = "{{WikiProject Biography" + Environment.NewLine;
 
-				_with4.Parameters.Remove("living");
-				// we've written this parameter; if we leave it in the collection PluginBase.TemplateWritingAndPlacement() will write it again
-			}
-			if (article.Namespace == Namespace.Talk) {
-				res += WriteOutParameterToHeader("class");
-			}
+            var _with4 = Template;
+            if (_with4.Parameters.ContainsKey("living"))
+            {
+                _with4.Parameters["living"].Value = _with4.Parameters["living"].Value.ToLower();
+                res += "|living=" + _with4.Parameters["living"].Value + ParameterBreak;
 
-			return res;
-		}
+                _with4.Parameters.Remove("living");
+                // we've written this parameter; if we leave it in the collection PluginBase.TemplateWritingAndPlacement() will write it again
+            }
+            if (article.Namespace == Namespace.Talk)
+            {
+                res += WriteOutParameterToHeader("class");
+            }
 
-		//User interface:
-		protected override void ShowHideOurObjects(bool Visible)
-		{
-			PluginManager.ShowHidePluginTab(OurTab, Visible);
-		}
+            return res;
+        }
 
-		// XML settings:
-		protected internal override void ReadXML(XmlTextReader Reader)
-		{
+        //User interface:
+        protected override void ShowHideOurObjects(bool Visible)
+        {
+            PluginManager.ShowHidePluginTab(OurTab, Visible);
+        }
+
+        // XML settings:
+        protected internal override void ReadXML(XmlTextReader Reader)
+        {
             Enabled = PluginManager.XMLReadBoolean(Reader, Prefix + "Enabled", Enabled);
 
-			OurSettingsControl.ReadXML(Reader);
-		}
+            OurSettingsControl.ReadXML(Reader);
+        }
 
-		protected internal override void Reset()
-		{
-			OurSettingsControl.Reset();
-		}
+        protected internal override void Reset()
+        {
+            OurSettingsControl.Reset();
+        }
 
-		protected internal override void WriteXML(XmlTextWriter Writer)
-		{
-			Writer.WriteAttributeString(Prefix + "Enabled", Enabled.ToString());
-			OurSettingsControl.WriteXML(Writer);
-		}
-	}
+        protected internal override void WriteXML(XmlTextWriter Writer)
+        {
+            Writer.WriteAttributeString(Prefix + "Enabled", Enabled.ToString());
+            OurSettingsControl.WriteXML(Writer);
+        }
+    }
 }

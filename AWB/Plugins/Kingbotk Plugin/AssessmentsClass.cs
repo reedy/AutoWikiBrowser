@@ -1,11 +1,9 @@
-using AutoWikiBrowser.Plugins.Kingbotk.Components;
-
+﻿using AutoWikiBrowser.Plugins.Kingbotk.Components;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-
 using WikiFunctions;
 
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
@@ -23,263 +21,314 @@ using WikiFunctions.API;
 
 namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 {
-	internal sealed class Assessments : IDisposable
-	{
-		internal const string conMe = "Wikipedia Assessments Plugin";
-		// Objects:
-		private List<CheckBox> AWBCleanupCheckboxes = new List<CheckBox>();
-		private PluginSettingsControl PluginSettings;
+    internal sealed class Assessments : IDisposable
+    {
+        internal const string conMe = "Wikipedia Assessments Plugin";
+        // Objects:
+        private List<CheckBox> AWBCleanupCheckboxes = new List<CheckBox>();
+        private PluginSettingsControl PluginSettings;
 
-		private StateClass State = new StateClass();
-		// New:
-		internal Assessments(PluginSettingsControl vPluginSettings)
-		{
-			PluginSettings = vPluginSettings;
+        private StateClass State = new StateClass();
+        // New:
+        internal Assessments(PluginSettingsControl vPluginSettings)
+        {
+            PluginSettings = vPluginSettings;
 
-			// Get a reference to the cleanup checkboxes:
-			foreach (Control ctl in PluginManager.AWBForm.OptionsTab.Controls["groupBox6"].Controls) {
-				if (ReferenceEquals(ctl.GetType(), typeof(CheckBox)))
-					AWBCleanupCheckboxes.Add((CheckBox)ctl);
-			}
-			ToggleAWBCleanup(PluginSettings.Cleanup);
-
-			PluginSettings.CleanupCheckBox.CheckedChanged += CleanupCheckBox_CheckedChanged;
-			PluginManager.AWBForm.TheSession.StateChanged += EditorStatusChanged;
-			PluginManager.AWBForm.SaveButton.Click += Save_Click;
-			PluginManager.AWBForm.SkipButton.Click += Skip_Click;
-		}
-
-		#region "IDisposable"
-			// To detect redundant calls
-		private bool disposed;
-
-		// This procedure is where the actual cleanup occurs
-		internal void Dispose(bool disposing)
-		{
-			// Exit now if the object has already been disposed
-			if (disposed)
-				return;
-
-			if (disposing) {
-				// The object is being disposed, not finalized.
-				// It is safe to access other objects (other than the mybase object)
-				// only from inside this block
-				PluginSettings.CleanupCheckBox.CheckedChanged -= CleanupCheckBox_CheckedChanged;
-				PluginManager.AWBForm.TheSession.StateChanged -= EditorStatusChanged;
-				PluginManager.AWBForm.SaveButton.Click -= Save_Click;
-				PluginManager.AWBForm.SkipButton.Click -= Skip_Click;
-			}
-
-			// Perform cleanup that has to be executed in either case:
-			AWBCleanupCheckboxes = null;
-			PluginSettings = null;
-			State = null;
-
-			// Remember that this object has been disposed of:
-			disposed = true;
-		}
-
-		public void Dispose()
-		{
-			Debug.WriteLine("Disposing of AssessmentClass object");
-			// Execute the code that does the cleanup.
-			Dispose(true);
-		}
-
-		#endregion
-
-		// Friend methods:
-		internal void Reset()
-		{
-			ToggleAWBCleanup(false);
-
-			var _with1 = PluginManager.AWBForm.ListMaker;
-			if (_with1.Count > 1 && State.IsNextPage(((WikiFunctions.Article)_with1.Items.Items[1]).Name)) {
-				_with1.RemoveAt(1);
-            }
-            else if (_with1.Count > 0 && State.IsNextPage(((WikiFunctions.Article)_with1.Items.Items[0]).Name))
-			{
-			    _with1.RemoveAt(0);
-			}
-
-		    State = new StateClass();
-		}
-		internal void ProcessMainSpaceArticle(string ArticleTitle)
-		{
-			if (State.NextArticleShouldBeTalk) {
-				IsThisABug("a talk page");
-			}
-
-			State.NextTalkPageExpected = ArticleTitle;
-
-			var _with2 = PluginManager.AWBForm.ListMaker;
-			if (_with2.Count < 2) {
-				_with2.Insert(1, State.NextTalkPageExpected);
-            }
-            else if (!State.IsNextPage(((WikiFunctions.Article)_with2.Items.Items[1]).Name))
+            // Get a reference to the cleanup checkboxes:
+            foreach (Control ctl in PluginManager.AWBForm.OptionsTab.Controls["groupBox6"].Controls)
             {
-				_with2.Insert(1, State.NextTalkPageExpected);
-			}
+                if (ReferenceEquals(ctl.GetType(), typeof (CheckBox)))
+                    AWBCleanupCheckboxes.Add((CheckBox) ctl);
+            }
+            ToggleAWBCleanup(PluginSettings.Cleanup);
 
-			State.NextEventShouldBeMainSpace = true;
-			State.NextArticleShouldBeTalk = true;
-		}
-		internal bool ProcessTalkPage(Article TheArticle, PluginSettingsControl pluginSettings, ref bool ReqPhoto)
-		{
-			bool WeAddedAReqPhotoParam = false;
-			bool returnVal = false;
+            PluginSettings.CleanupCheckBox.CheckedChanged += CleanupCheckBox_CheckedChanged;
+            PluginManager.AWBForm.TheSession.StateChanged += EditorStatusChanged;
+            PluginManager.AWBForm.SaveButton.Click += Save_Click;
+            PluginManager.AWBForm.SkipButton.Click += Skip_Click;
+        }
 
-			if (!State.NextArticleShouldBeTalk) {
-				IsThisABug("an article");
-			} else if (!State.IsNextPage(TheArticle.FullArticleTitle)) {
-				IsThisABug(State.NextTalkPageExpected);
-			} else {
-				State.NextArticleShouldBeTalk = false;
+        #region "IDisposable"
 
-				PluginManager.StatusText.Text = "Assessments plugin: please assess the article or click cancel";
+        // To detect redundant calls
+        private bool disposed;
 
-				AssessmentForm frmDialog = new AssessmentForm();
+        // This procedure is where the actual cleanup occurs
+        internal void Dispose(bool disposing)
+        {
+            // Exit now if the object has already been disposed
+            if (disposed)
+                return;
 
-				returnVal = (frmDialog.ShowDialog(ref State.Classification, ref State.Importance, ref State.NeedsInfobox, ref State.NeedsAttention, ref State.NeedsPhoto, State.NextTalkPageExpected) == DialogResult.OK);
+            if (disposing)
+            {
+                // The object is being disposed, not finalized.
+                // It is safe to access other objects (other than the mybase object)
+                // only from inside this block
+                PluginSettings.CleanupCheckBox.CheckedChanged -= CleanupCheckBox_CheckedChanged;
+                PluginManager.AWBForm.TheSession.StateChanged -= EditorStatusChanged;
+                PluginManager.AWBForm.SaveButton.Click -= Save_Click;
+                PluginManager.AWBForm.SkipButton.Click -= Skip_Click;
+            }
 
-				if (returnVal) {
-					PluginManager.StatusText.Text = "Processing " + TheArticle.FullArticleTitle;
+            // Perform cleanup that has to be executed in either case:
+            AWBCleanupCheckboxes = null;
+            PluginSettings = null;
+            State = null;
 
-					foreach (PluginBase p in PluginManager.ActivePlugins) {
-						if (p.ProcessTalkPage(TheArticle, State.Classification, State.Importance, State.NeedsInfobox, State.NeedsAttention, true, ProcessTalkPageMode.ManualAssessment, ReqPhoto || State.NeedsPhoto) && (ReqPhoto || State.NeedsPhoto) && p.HasReqPhotoParam)
-							WeAddedAReqPhotoParam = true;
-						if (TheArticle.PluginManagerGetSkipResults == SkipResults.SkipBadTag) {
-							MessageBox.Show("Bad tag(s). Fix manually.", "Bad tag", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-							break; // TODO: might not be correct. Was : Exit For
-						}
-					}
-				} else {
-					pluginSettings.PluginStats.SkippedMiscellaneousIncrement(false);
-					PluginManager.StatusText.Text = "Skipping this talk page";
-					LoadArticle();
-				}
-			}
+            // Remember that this object has been disposed of:
+            disposed = true;
+        }
 
-			if (returnVal) {
-				switch (State.Classification) {
-					case Classification.Code:
-					case Classification.Unassessed:
+        public void Dispose()
+        {
+            Debug.WriteLine("Disposing of AssessmentClass object");
+            // Execute the code that does the cleanup.
+            Dispose(true);
+        }
+
+        #endregion
+
+        // Friend methods:
+        internal void Reset()
+        {
+            ToggleAWBCleanup(false);
+
+            var _with1 = PluginManager.AWBForm.ListMaker;
+            if (_with1.Count > 1 && State.IsNextPage(((WikiFunctions.Article) _with1.Items.Items[1]).Name))
+            {
+                _with1.RemoveAt(1);
+            }
+            else if (_with1.Count > 0 && State.IsNextPage(((WikiFunctions.Article) _with1.Items.Items[0]).Name))
+            {
+                _with1.RemoveAt(0);
+            }
+
+            State = new StateClass();
+        }
+
+        internal void ProcessMainSpaceArticle(string ArticleTitle)
+        {
+            if (State.NextArticleShouldBeTalk)
+            {
+                IsThisABug("a talk page");
+            }
+
+            State.NextTalkPageExpected = ArticleTitle;
+
+            var _with2 = PluginManager.AWBForm.ListMaker;
+            if (_with2.Count < 2)
+            {
+                _with2.Insert(1, State.NextTalkPageExpected);
+            }
+            else if (!State.IsNextPage(((WikiFunctions.Article) _with2.Items.Items[1]).Name))
+            {
+                _with2.Insert(1, State.NextTalkPageExpected);
+            }
+
+            State.NextEventShouldBeMainSpace = true;
+            State.NextArticleShouldBeTalk = true;
+        }
+
+        internal bool ProcessTalkPage(Article TheArticle, PluginSettingsControl pluginSettings, ref bool ReqPhoto)
+        {
+            bool WeAddedAReqPhotoParam = false;
+            bool returnVal = false;
+
+            if (!State.NextArticleShouldBeTalk)
+            {
+                IsThisABug("an article");
+            }
+            else if (!State.IsNextPage(TheArticle.FullArticleTitle))
+            {
+                IsThisABug(State.NextTalkPageExpected);
+            }
+            else
+            {
+                State.NextArticleShouldBeTalk = false;
+
+                PluginManager.StatusText.Text = "Assessments plugin: please assess the article or click cancel";
+
+                AssessmentForm frmDialog = new AssessmentForm();
+
+                returnVal =
+                    (frmDialog.ShowDialog(ref State.Classification, ref State.Importance, ref State.NeedsInfobox,
+                        ref State.NeedsAttention, ref State.NeedsPhoto, State.NextTalkPageExpected) == DialogResult.OK);
+
+                if (returnVal)
+                {
+                    PluginManager.StatusText.Text = "Processing " + TheArticle.FullArticleTitle;
+
+                    foreach (PluginBase p in PluginManager.ActivePlugins)
+                    {
+                        if (
+                            p.ProcessTalkPage(TheArticle, State.Classification, State.Importance, State.NeedsInfobox,
+                                State.NeedsAttention, true, ProcessTalkPageMode.ManualAssessment,
+                                ReqPhoto || State.NeedsPhoto) && (ReqPhoto || State.NeedsPhoto) && p.HasReqPhotoParam)
+                            WeAddedAReqPhotoParam = true;
+                        if (TheArticle.PluginManagerGetSkipResults == SkipResults.SkipBadTag)
+                        {
+                            MessageBox.Show("Bad tag(s). Fix manually.", "Bad tag", MessageBoxButtons.OK,
+                                MessageBoxIcon.Exclamation);
+                            break; // TODO: might not be correct. Was : Exit For
+                        }
+                    }
+                }
+                else
+                {
+                    pluginSettings.PluginStats.SkippedMiscellaneousIncrement(false);
+                    PluginManager.StatusText.Text = "Skipping this talk page";
+                    LoadArticle();
+                }
+            }
+
+            if (returnVal)
+            {
+                switch (State.Classification)
+                {
+                    case Classification.Code:
+                    case Classification.Unassessed:
                         TheArticle.EditSummary = "Assessed article using " + Constants.conWikiPlugin;
-						break;
-					default:
-                        TheArticle.EditSummary = "Assessing as " + State.Classification.ToString() + " class, using " + Constants.conWikiPlugin;
-						break;
-				}
+                        break;
+                    default:
+                        TheArticle.EditSummary = "Assessing as " + State.Classification.ToString() + " class, using " +
+                                                 Constants.conWikiPlugin;
+                        break;
+                }
 
-				ReqPhoto = WeAddedAReqPhotoParam;
-			} else {
-				ReqPhoto = false;
-			}
+                ReqPhoto = WeAddedAReqPhotoParam;
+            }
+            else
+            {
+                ReqPhoto = false;
+            }
 
-			return returnVal;
-		}
+            return returnVal;
+        }
 
-		// Private:
-		private void IsThisABug(string text)
-		{
-			PluginManager.StatusText.Text = "Unexpected sequence: Assessments plugin is stopping AWB.";
-			MessageBox.Show("The assessments plugin was expecting to receive " + text + " next. Is this a bug or is your list messed up?", "Expecting " + text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-			PluginManager.StopAWB();
-		}
-		private void ToggleAWBCleanup(bool Cleanup)
-		{
-			foreach (CheckBox chk in AWBCleanupCheckboxes) {
-				chk.Checked = Cleanup;
-			}
-		}
-		private void LoadTalkPage()
-		{
-			//State.blnWaitingForATalkPage = True
+        // Private:
+        private void IsThisABug(string text)
+        {
+            PluginManager.StatusText.Text = "Unexpected sequence: Assessments plugin is stopping AWB.";
+            MessageBox.Show(
+                "The assessments plugin was expecting to receive " + text +
+                " next. Is this a bug or is your list messed up?", "Expecting " + text, MessageBoxButtons.OK,
+                MessageBoxIcon.Exclamation);
+            PluginManager.StopAWB();
+        }
 
-			ToggleAWBCleanup(false);
+        private void ToggleAWBCleanup(bool Cleanup)
+        {
+            foreach (CheckBox chk in AWBCleanupCheckboxes)
+            {
+                chk.Checked = Cleanup;
+            }
+        }
 
-			PluginManager.StatusText.Text = "Assessments plugin: loading talk page";
-		}
-		private void LoadArticle()
-		{
-			ToggleAWBCleanup(PluginSettings.Cleanup);
+        private void LoadTalkPage()
+        {
+            //State.blnWaitingForATalkPage = True
 
-		}
+            ToggleAWBCleanup(false);
 
-		// UI event handlers:
-		private void Save_Click(object sender, EventArgs e)
-		{
-			if (!disposed) {
-				if (State.NextEventShouldBeMainSpace) {
-					LoadTalkPage();
-				} else {
-					LoadArticle();
-				}
+            PluginManager.StatusText.Text = "Assessments plugin: loading talk page";
+        }
 
-				State.NextEventShouldBeMainSpace = !State.NextEventShouldBeMainSpace;
-			}
-		}
-		private void Skip_Click(object sender, EventArgs e)
-		{
-			if (!disposed) {
-				if (State.NextEventShouldBeMainSpace) {
-					LoadTalkPage();
-				} else {
-					LoadArticle();
-					PluginManager.AWBForm.TraceManager.SkippedArticle("User", WikiFunctions.Logging.AWBLogListener.StringUserSkipped);
-					PluginSettings.PluginStats.SkippedMiscellaneousIncrement(true);
-				}
+        private void LoadArticle()
+        {
+            ToggleAWBCleanup(PluginSettings.Cleanup);
+        }
 
-				State.NextEventShouldBeMainSpace = !State.NextEventShouldBeMainSpace;
-			}
-		}
-		private void CleanupCheckBox_CheckedChanged(object sender, EventArgs e)
-		{
-			if (!disposed && PluginSettings.Cleanup)
-				ToggleAWBCleanup(true);
-		}
+        // UI event handlers:
+        private void Save_Click(object sender, EventArgs e)
+        {
+            if (!disposed)
+            {
+                if (State.NextEventShouldBeMainSpace)
+                {
+                    LoadTalkPage();
+                }
+                else
+                {
+                    LoadArticle();
+                }
 
-		// Webcontrol event handlers:
-		private void EditorStatusChanged(AsyncApiEdit sender)
-		{
-			if (PluginManager.AWBForm.TheSession.Editor.IsActive) {
-				LoadArticle();
-			}
-		}
+                State.NextEventShouldBeMainSpace = !State.NextEventShouldBeMainSpace;
+            }
+        }
 
-		// State:
-		private sealed class StateClass
-		{
-			//Friend LastArticle As String
+        private void Skip_Click(object sender, EventArgs e)
+        {
+            if (!disposed)
+            {
+                if (State.NextEventShouldBeMainSpace)
+                {
+                    LoadTalkPage();
+                }
+                else
+                {
+                    LoadArticle();
+                    PluginManager.AWBForm.TraceManager.SkippedArticle("User",
+                        WikiFunctions.Logging.AWBLogListener.StringUserSkipped);
+                    PluginSettings.PluginStats.SkippedMiscellaneousIncrement(true);
+                }
+
+                State.NextEventShouldBeMainSpace = !State.NextEventShouldBeMainSpace;
+            }
+        }
+
+        private void CleanupCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!disposed && PluginSettings.Cleanup)
+                ToggleAWBCleanup(true);
+        }
+
+        // Webcontrol event handlers:
+        private void EditorStatusChanged(AsyncApiEdit sender)
+        {
+            if (PluginManager.AWBForm.TheSession.Editor.IsActive)
+            {
+                LoadArticle();
+            }
+        }
+
+        // State:
+        private sealed class StateClass
+        {
+            //Friend LastArticle As String
 
 
-			string page;
-			internal string NextTalkPageExpected {
-				get { return page; }
-				set {
-					pageRegex = new Regex(Variables.NamespacesCaseInsensitive[Namespace.Talk] + value);
-					page = Variables.Namespaces[Namespace.Talk] + value;
-				}
-			}
+            private string page;
 
-			//Friend EditSummary As String
+            internal string NextTalkPageExpected
+            {
+                get { return page; }
+                set
+                {
+                    pageRegex = new Regex(Variables.NamespacesCaseInsensitive[Namespace.Talk] + value);
+                    page = Variables.Namespaces[Namespace.Talk] + value;
+                }
+            }
+
+            //Friend EditSummary As String
 
 
-			private Regex pageRegex;
-			internal bool IsNextPage(string title)
-			{
-				return pageRegex.IsMatch(title);
-			}
+            private Regex pageRegex;
 
-			internal bool NextEventShouldBeMainSpace;
+            internal bool IsNextPage(string title)
+            {
+                return pageRegex.IsMatch(title);
+            }
 
-			internal bool NextArticleShouldBeTalk;
-			// Assessment:
-			internal Classification Classification;
-			internal Importance Importance;
-			internal bool NeedsInfobox;
-			internal bool NeedsAttention;
-			internal bool NeedsPhoto;
-		}
-	}
+            internal bool NextEventShouldBeMainSpace;
+
+            internal bool NextArticleShouldBeTalk;
+            // Assessment:
+            internal Classification Classification;
+            internal Importance Importance;
+            internal bool NeedsInfobox;
+            internal bool NeedsAttention;
+            internal bool NeedsPhoto;
+        }
+    }
 }

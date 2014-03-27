@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -30,7 +30,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             Close();
         }
 
-        static internal void DoRegexTextBox(TextBox txt, Regex regx)
+        internal static void DoRegexTextBox(TextBox txt, Regex regx)
         {
             txt.Text = regx == null ? "<not set>" : regx.ToString();
         }
