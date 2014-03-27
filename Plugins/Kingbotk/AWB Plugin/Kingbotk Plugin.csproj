@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{29B1BAB8-D24C-4CCA-BDBB-136747D47E94}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace />
+    <AssemblyName>Kingbotk AWB Plugin</AssemblyName>
+    <MyType>Windows</MyType>
+    <OptionStrict>On</OptionStrict>
+    <FileUpgradeFlags />
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <SourceAnalysisOverrideSettingsFile>C:\Users\Marios\AppData\Roaming\ICSharpCode/SharpDevelop3.0\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <RemoveIntegerChecks>False</RemoveIntegerChecks>
+    <OptionExplicit>On</OptionExplicit>
+    <OptionCompare>Binary</OptionCompare>
+    <OptionInfer>Off</OptionInfer>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <NoWarn>1591</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>Full</DebugType>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>Kingbotk AWB Plugin.xml</DocumentationFile>
+    <NoWarn>42353,42354,42355</NoWarn>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>Kingbotk AWB Plugin.xml</DocumentationFile>
+    <NoWarn>42353,42354,42355</NoWarn>
+    <WarningsAsErrors>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</WarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
+    <RegisterForComInterop>False</RegisterForComInterop>
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <BaseAddress>4194304</BaseAddress>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PostBuildEvent>$(SolutionDir)Copy.exe "$(TargetDir)$(TargetFileName)" "$(SolutionDir)AWB\$(OutDir)$(TargetFileName)"</PostBuildEvent>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutBox.Designer.cs">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Article.cs" />
+    <Compile Include="AssessmentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AssessmentForm.Designer.cs">
+      <DependentUpon>AssessmentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AssessmentsClass.cs" />
+    <Compile Include="AssessmentsInstructionsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AssessmentsInstructionsDialog.Designer.cs">
+      <DependentUpon>AssessmentsInstructionsDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="BioWithWorkgroups.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EnumsAndConstants.cs" />
+    <Compile Include="Generic.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Generic.Designer.cs">
+      <DependentUpon>Generic.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GenericTemplateProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenericTemplateProperties.Designer.cs">
+      <DependentUpon>GenericTemplateProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GenericWithWorkgroups.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GenericWithWorkgroups.Designer.cs">
+      <DependentUpon>GenericWithWorkgroups.cs</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Application.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Application.myapp</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.cs" />
+    <Compile Include="My Project\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="MyNamespaceSupportForCSharp.cs" />
+    <Compile Include="PluginBase.cs" />
+    <Compile Include="PluginManager.cs" />
+    <Compile Include="PluginSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PluginSettings.Designer.cs">
+      <DependentUpon>PluginSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TemplateParameters.cs" />
+    <Compile Include="Templating.cs" />
+    <Compile Include="TimerStats.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TimerStats.Designer.cs">
+      <DependentUpon>TimerStats.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WikiProjects\WPAlbums.cs" />
+    <Compile Include="WikiProjects\WPAustralia.cs" />
+    <Compile Include="WikiProjects\WPBiography.cs" />
+    <Compile Include="WikiProjects\WPIndia.cs" />
+    <Compile Include="WikiProjects\WPMilitaryHistory.cs" />
+    <Compile Include="WikiProjects\WPNovels.cs" />
+    <Compile Include="WikiProjects\WPSongs.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Import Include="AutoWikiBrowser.Plugins.Kingbotk" />
+    <Import Include="AutoWikiBrowser.Plugins.Kingbotk.Components" />
+    <Import Include="AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments" />
+    <Import Include="AutoWikiBrowser.Plugins.Kingbotk.Plugins" />
+    <Import Include="My" />
+    <Import Include="System" />
+    <Import Include="System.Collections" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Data" />
+    <Import Include="System.Diagnostics" />
+    <Import Include="System.Text.RegularExpressions" />
+    <Import Include="System.Windows.Forms" />
+    <Import Include="System.Xml" />
+    <Import Include="WikiFunctions" />
+    <Import Include="WikiFunctions.Logging.Uploader" />
+    <Import Include="WikiFunctions.Plugin" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AboutBox.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AssessmentForm.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AssessmentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AssessmentsInstructionsDialog.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>AssessmentsInstructionsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Generic.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>Generic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenericTemplateProperties.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>GenericTemplateProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenericWithWorkgroups.resx">
+      <DependentUpon>GenericWithWorkgroups.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PluginSettings.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>PluginSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimerStats.resx">
+      <SubType>Designer</SubType>
+      <DependentUpon>TimerStats.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="My Project\Application.myapp">
+      <Generator>MyApplicationCodeGenerator</Generator>
+      <LastGenOutput>Application.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Resources\king_worship.gif" />
+    <None Include="Resources\WP1_0_Icon_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{94E38DFF-614B-4CBD-B67C-F211BB35CE8B}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\WikiFunctions\WikiFunctions.csproj">
+      <Project>{B5B0008C-A306-4B0D-B91E-5C03DA7014E0}</Project>
+      <Name>WikiFunctions</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
+</Project>

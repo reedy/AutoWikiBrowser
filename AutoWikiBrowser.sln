@@ -20,7 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DelinkerPlugin", "Plugins\D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypoScan", "Plugins\TypoScan\TypoScan.csproj", "{996E563D-0501-4908-BC22-D098940F414E}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Kingbotk Plugin", "Plugins\Kingbotk\AWB Plugin\Kingbotk Plugin.vbproj", "{70AF6097-1ED6-475C-878E-A0BAEDB705F6}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Kingbotk Plugin", "Plugins\Kingbotk\AWB Plugin\Kingbotk Plugin.csproj", "{70AF6097-1ED6-475C-878E-A0BAEDB705F6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoLimitsPlugin", "Plugins\NoLimitsPlugin\NoLimitsPlugin.csproj", "{468DA108-0051-4F6F-AC1B-F655CB46ED19}"
 EndProject
