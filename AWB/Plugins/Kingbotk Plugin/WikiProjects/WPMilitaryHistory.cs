@@ -396,13 +396,13 @@ internal sealed class WPMilitaryHistory : PluginBase
         if (Template.Parameters.ContainsKey("importance"))
         {
             Template.Parameters.Remove("importance");
-            article.ArticleHasAMajorChange();
+            TheArticle.ArticleHasAMajorChange();
         }
 
         if (Template.Parameters.ContainsKey("auto"))
         {
             Template.Parameters.Remove("auto");
-            article.ArticleHasAMajorChange();
+            TheArticle.ArticleHasAMajorChange();
         }
     }
 
@@ -417,16 +417,16 @@ internal sealed class WPMilitaryHistory : PluginBase
         {
             if (_with2.Parameters[conMiddleAges].Value.ToLower() == "yes")
             {
-                _with2.NewOrReplaceTemplateParm(conMedievalTaskForce, "yes", article, false, false, false, "",
+                _with2.NewOrReplaceTemplateParm(conMedievalTaskForce, "yes", TheArticle, false, false, false, "",
                     PluginShortName);
-                article.DoneReplacement(conMiddleAges, conMedievalTaskForce, true, PluginShortName);
+                TheArticle.DoneReplacement(conMiddleAges, conMedievalTaskForce, true, PluginShortName);
             }
             else
             {
-                article.EditSummary += "deprecated Middle-Ages-task-force removed";
+                TheArticle.EditSummary += "deprecated Middle-Ages-task-force removed";
             }
             _with2.Parameters.Remove(conMiddleAges);
-            article.ArticleHasAMinorChange();
+            TheArticle.ArticleHasAMinorChange();
         }
         return false;
     }
@@ -437,9 +437,9 @@ internal sealed class WPMilitaryHistory : PluginBase
     }
 
     //User interface:
-    protected override void ShowHideOurObjects(bool Visible)
+    protected override void ShowHideOurObjects(bool visible)
     {
-        PluginManager.ShowHidePluginTab(OurTab, Visible);
+        PluginManager.ShowHidePluginTab(OurTab, visible);
     }
 
     // XML settings:

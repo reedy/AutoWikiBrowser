@@ -167,7 +167,9 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                             p.ProcessTalkPage(theArticle, _state.Classification, _state.Importance, _state.NeedsInfobox,
                                 _state.NeedsAttention, true, ProcessTalkPageMode.ManualAssessment,
                                 reqPhoto || _state.NeedsPhoto) && (reqPhoto || _state.NeedsPhoto) && p.HasReqPhotoParam)
+                        {
                             weAddedAReqPhotoParam = true;
+                        }
                         if (theArticle.PluginManagerGetSkipResults == SkipResults.SkipBadTag)
                         {
                             MessageBox.Show("Bad tag(s). Fix manually.", "Bad tag", MessageBoxButtons.OK,

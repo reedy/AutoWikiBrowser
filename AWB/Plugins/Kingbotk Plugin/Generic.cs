@@ -345,10 +345,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             switch (OurSettingsControl.ImportanceSetting)
             {
                 case GenericTemplateSettings.ImportanceSettingEnum.Imp:
-                    Template.NewOrReplaceTemplateParm("importance", Importance.ToString(), article, false, false);
+                    Template.NewOrReplaceTemplateParm("importance", Importance.ToString(), TheArticle, false, false);
                     break;
                 case GenericTemplateSettings.ImportanceSettingEnum.Pri:
-                    Template.NewOrReplaceTemplateParm("priority", Importance.ToString(), article, false, false);
+                    Template.NewOrReplaceTemplateParm("priority", Importance.ToString(), TheArticle, false, false);
                     break;
                     // Case GenericTemplateSettings.ImportanceSettingEnum.None ' do nothing
             }
@@ -366,7 +366,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             {
                 try
                 {
-                    return (SkipRegex.Matches(article.AlteredArticleText).Count > 0);
+                    return (SkipRegex.Matches(TheArticle.AlteredArticleText).Count > 0);
                 }
                 catch (Exception ex)
                 {
@@ -408,9 +408,9 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         }
 
         //User interface:
-        protected override void ShowHideOurObjects(bool Visible)
+        protected override void ShowHideOurObjects(bool visible)
         {
-            PluginManager.ShowHidePluginTab(OurTab, Visible);
+            PluginManager.ShowHidePluginTab(OurTab, visible);
         }
 
         // XML settings:
@@ -436,11 +436,11 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         }
 
         //' These do nothing because generic templates already have a AlternateNames XML property
-        internal override void ReadXMLRedirects(XmlTextReader Reader)
+        internal override void ReadXMLRedirects(XmlTextReader reader)
         {
         }
 
-        internal override void WriteXMLRedirects(XmlTextWriter Writer)
+        internal override void WriteXMLRedirects(XmlTextWriter writer)
         {
         }
 
@@ -621,7 +621,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 // Perform cleanup that has to be executed in either case:
                 OurTab = null;
                 OurMenuItem = null;
-                article = null;
+                TheArticle = null;
                 Template = null;
                 MainRegex = null;
                 SecondChanceRegex = null;
