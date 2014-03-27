@@ -28,8 +28,8 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             }
         }
 
-        internal DialogResult ShowDialog(ref Classification classification, ref Importance importance, ref bool infobox,
-            ref bool attention, ref bool needsPhoto, string title)
+        internal DialogResult ShowDialog(out Classification classification, out Importance importance, out bool infobox,
+            out bool attention, out bool needsPhoto, string title)
         {
             Text += ": " + title;
 

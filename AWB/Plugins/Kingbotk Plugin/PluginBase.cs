@@ -278,7 +278,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             bool forceNeedsInfobox, bool forceNeedsAttention, bool removeAutoStub,
             ProcessTalkPageMode processTalkPageMode)
         {
-            if (TheArticle.Namespace == Namespace.Talk && classification == Classification.Unassessed)
+            if (TheArticle.Namespace == Namespace.Talk && classification != Classification.Unassessed)
             {
                 Template.NewOrReplaceTemplateParm("class", classification.ToString(), TheArticle, false, false);
             }
