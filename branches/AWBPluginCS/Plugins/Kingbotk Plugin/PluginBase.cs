@@ -323,10 +323,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 		internal bool Enabled {
 			get { return OurMenuItem.Checked; }
 			set {
-			    if (value == Enabled)
-			    {
-			        return;
-			    }
 				OurMenuItem.Checked = value;
 				ShowHideOurObjects(value);
 				PluginManager.PluginEnabledStateChanged(this, value);

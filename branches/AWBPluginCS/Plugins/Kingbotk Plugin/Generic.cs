@@ -215,7 +215,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 		// Objects:
 		private TabPage OurTab;
 		private GenericTemplateSettings OurSettingsControl;
-	    private ToolStripMenuItem DeleteMeMenuItem;
+	    private ToolStripMenuItem DeleteMeMenuItem = new ToolStripMenuItem("Delete");
 		// Settings:
 		private readonly string OurName;
 		private string conEnabled {
@@ -386,11 +386,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 		// Settings control event handlers:
 		private void SkipRegexChanged(object sender, EventArgs e)
 		{
-			var _with2 = OurSettingsControl;
-			if (_with2.SkipRegexYN == false || string.IsNullOrEmpty(_with2.SkipRegex)) {
+			if (OurSettingsControl.SkipRegexYN == false || string.IsNullOrEmpty(OurSettingsControl.SkipRegex)) {
 				SkipRegex = null;
 			} else {
-				SkipRegex = new Regex(_with2.SkipRegex, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+				SkipRegex = new Regex(OurSettingsControl.SkipRegex, RegexOptions.IgnoreCase | RegexOptions.Compiled);
 			}
 		}
 		private void PropertiesButtonClick(object sender, EventArgs e)
