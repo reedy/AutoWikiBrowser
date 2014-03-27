@@ -1,19 +1,9 @@
-using AutoWikiBrowser.Plugins.Kingbotk;
-using AutoWikiBrowser.Plugins.Kingbotk.Components;
-using AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments;
-using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
-
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
-using WikiFunctions;
 
-using WikiFunctions.Plugin;
+using WikiFunctions;
 
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 //Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
@@ -117,7 +107,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 		// Settings:
 		private readonly TabPage OurTab = new TabPage("Biography");
 
-		private GenericWithWorkgroups OurSettingsControl;
+		private readonly GenericWithWorkgroups OurSettingsControl;
 		protected internal override string PluginShortName {
 			get { return "Biography"; }
 		}
@@ -270,10 +260,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 		// XML settings:
 		protected internal override void ReadXML(XmlTextReader Reader)
 		{
-			bool blnNewVal = PluginManager.XMLReadBoolean(Reader, Prefix + "Enabled", Enabled);
-			if (!(blnNewVal == Enabled))
-				Enabled = blnNewVal;
-			// Mustn't set if the same or we get extra tabs
+            Enabled = PluginManager.XMLReadBoolean(Reader, Prefix + "Enabled", Enabled);
 
 			OurSettingsControl.ReadXML(Reader);
 		}

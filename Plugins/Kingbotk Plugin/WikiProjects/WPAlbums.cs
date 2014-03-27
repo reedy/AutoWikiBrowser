@@ -1,19 +1,9 @@
 using AutoWikiBrowser.Plugins.Kingbotk;
-using AutoWikiBrowser.Plugins.Kingbotk.Components;
-using AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments;
 using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
-using WikiFunctions;
 
-using WikiFunctions.Plugin;
 internal sealed class WPAlbums : PluginBase
 {
 
@@ -32,7 +22,7 @@ internal sealed class WPAlbums : PluginBase
 	// Settings:
 	private readonly TabPage OurTab = new TabPage("Albums");
 
-	private GenericWithWorkgroups OurSettingsControl;
+	private readonly GenericWithWorkgroups OurSettingsControl;
 	protected internal override string PluginShortName {
 		get { return "Albums"; }
 	}
@@ -87,10 +77,7 @@ internal sealed class WPAlbums : PluginBase
 	// XML settings:
 	protected internal override void ReadXML(XmlTextReader Reader)
 	{
-		bool blnNewVal = PluginManager.XMLReadBoolean(Reader, Prefix + "Enabled", Enabled);
-		if (!(blnNewVal == Enabled))
-			Enabled = blnNewVal;
-		// Mustn't set if the same or we get extra tabs
+		Enabled = PluginManager.XMLReadBoolean(Reader, Prefix + "Enabled", Enabled);
 		OurSettingsControl.ReadXML(Reader);
 	}
 	protected internal override void Reset()

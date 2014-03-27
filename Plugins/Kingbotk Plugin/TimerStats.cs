@@ -98,29 +98,24 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 
 		// Event handlers
 		private readonly Regex timerregexp = new Regex("\\..*");
-		int static_Timer1_Tick_UpdateETACount;
-		private void Timer1_Tick(object sender, EventArgs e)
+		int UpdateETACount;
+		
+        private void Timer1_Tick(object sender, EventArgs e)
 		{
-			double secondsPerPage;
-
-			static_Timer1_Tick_UpdateETACount += 1;
+		    UpdateETACount += 1;
 			TimeSpan = DateTime.Now - Start;
 			TimerLabel.Text = timerregexp.Replace(TimeSpan.ToString(), "");
-			if (NumberOfEdits == 0) {
-				secondsPerPage = TimeSpan.TotalSeconds;
-			} else {
-				secondsPerPage = Math.Round(TimeSpan.TotalSeconds / NumberOfEdits, 2);
-			}
+		    double secondsPerPage = NumberOfEdits == 0 ? TimeSpan.TotalSeconds : Math.Round(TimeSpan.TotalSeconds/NumberOfEdits, 2);
 
 			if (double.IsInfinity(secondsPerPage)) {
 				SpeedLabel.Text = "0";
 				ETA = "-";
-				if (static_Timer1_Tick_UpdateETACount > 9)
-					static_Timer1_Tick_UpdateETACount = 0;
+				if (UpdateETACount > 9)
+					UpdateETACount = 0;
 			} else {
 				SpeedLabel.Text = secondsPerPage + " s/p";
-				if (static_Timer1_Tick_UpdateETACount > 9 || ETA == "-") {
-					static_Timer1_Tick_UpdateETACount = 0;
+				if (UpdateETACount > 9 || ETA == "-") {
+					UpdateETACount = 0;
 					if ((NumberOfEdits + mSkipped) == 0) {
 						CalculateETA(TimeSpan.TotalSeconds);
 					} else {

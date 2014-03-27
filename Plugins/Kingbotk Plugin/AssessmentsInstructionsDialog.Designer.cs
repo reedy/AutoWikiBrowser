@@ -1,19 +1,6 @@
-using AutoWikiBrowser.Plugins.Kingbotk;
-using AutoWikiBrowser.Plugins.Kingbotk.Components;
-using AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments;
-using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
-
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using System.Xml;
 using AutoWikiBrowser.Plugins.Kingbotk.Properties;
-using WikiFunctions;
-using WikiFunctions.Plugin;
+
 namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 {
 	partial class AssessmentsInstructionsDialog : System.Windows.Forms.Form
@@ -39,6 +26,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         /// </summary>
 		private void InitializeComponent()
 		{
+            this.components = new System.ComponentModel.Container();
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AssessmentsInstructionsDialog));
 			this.OK_Button = new System.Windows.Forms.Button();
 			this.PictureBox1 = new System.Windows.Forms.PictureBox();

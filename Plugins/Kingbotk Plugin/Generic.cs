@@ -346,7 +346,8 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 		protected internal override void ReadXML(XmlTextReader Reader)
 		{
 			bool blnNewVal = PluginManager.XMLReadBoolean(Reader, conEnabled, Enabled);
-			if (!(blnNewVal == Enabled))
+            // ReSharper disable once RedundantCheckBeforeAssignment
+			if (blnNewVal != Enabled)
 				Enabled = blnNewVal;
 			// Mustn't set if the same or we get extra tabs
 			OurSettingsControl.ReadXML(Reader);
@@ -394,53 +395,52 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 		}
 		private void PropertiesButtonClick(object sender, EventArgs e)
 		{
-			GenericTemplatePropertiesForm frm = new GenericTemplatePropertiesForm();
+		    using (GenericTemplatePropertiesForm frm = new GenericTemplatePropertiesForm())
+		    {
+		        frm.AmIReadyLabel.Text = IAmReady
+		            ? "Generic Template Plugin is ready"
+		            : "Generic Template Plugin is not properly configured";
 
-			if (IAmReady) {
-				frm.AmIReadyLabel.Text = "Generic Template Plugin is ready";
-			} else {
-				frm.AmIReadyLabel.Text = "Generic Template Plugin is not properly configured";
-			}
+		        GenericTemplatePropertiesForm.DoRegexTextBox(frm.MainRegexTextBox, MainRegex);
+		        GenericTemplatePropertiesForm.DoRegexTextBox(frm.PreferredTemplateNameRegexTextBox, PreferredTemplateNameRegex);
+		        GenericTemplatePropertiesForm.DoRegexTextBox(frm.SecondChanceRegexTextBox, SecondChanceRegex);
+		        GenericTemplatePropertiesForm.DoRegexTextBox(frm.SkipRegexTextBox, SkipRegex);
 
-			GenericTemplatePropertiesForm.DoRegexTextBox(frm.MainRegexTextBox, MainRegex);
-			GenericTemplatePropertiesForm.DoRegexTextBox(frm.PreferredTemplateNameRegexTextBox, PreferredTemplateNameRegex);
-			GenericTemplatePropertiesForm.DoRegexTextBox(frm.SecondChanceRegexTextBox, SecondChanceRegex);
-			GenericTemplatePropertiesForm.DoRegexTextBox(frm.SkipRegexTextBox, SkipRegex);
+		        frm.HasAltNamesLabel.Text += HasAlternateNames.ToString();
 
-			frm.HasAltNamesLabel.Text += HasAlternateNames.ToString();
+		        var _with3 = OurSettingsControl;
+		        frm.NameLabel.Text += _with3.TemplateName;
 
-			var _with3 = OurSettingsControl;
-			frm.NameLabel.Text += _with3.TemplateName;
+		        if (_with3.SkipRegexYN) {
+		            if (string.IsNullOrEmpty(_with3.SkipRegex)) {
+		                frm.SkipLabel.Text += bool.FalseString;
+		            } else {
+		                frm.SkipLabel.Text += bool.TrueString;
+		            }
+		        } else {
+		            frm.SkipLabel.Text += bool.FalseString;
+		        }
 
-			if (_with3.SkipRegexYN) {
-				if (string.IsNullOrEmpty(_with3.SkipRegex)) {
-					frm.SkipLabel.Text += bool.FalseString;
-				} else {
-					frm.SkipLabel.Text += bool.TrueString;
-				}
-			} else {
-				frm.SkipLabel.Text += bool.FalseString;
-			}
+		        switch (_with3.ImportanceSetting) {
+		            case GenericTemplateSettings.ImportanceSettingEnum.Imp:
+		                frm.ImportanceLabel.Text += "importance=";
+		                break;
+		            case GenericTemplateSettings.ImportanceSettingEnum.None:
+		                frm.ImportanceLabel.Text += "<none>";
+		                break;
+		            case GenericTemplateSettings.ImportanceSettingEnum.Pri:
+		                frm.ImportanceLabel.Text += "priority=";
+		                break;
+		        }
 
-			switch (_with3.ImportanceSetting) {
-				case GenericTemplateSettings.ImportanceSettingEnum.Imp:
-					frm.ImportanceLabel.Text += "importance=";
-					break;
-				case GenericTemplateSettings.ImportanceSettingEnum.None:
-					frm.ImportanceLabel.Text += "<none>";
-					break;
-				case GenericTemplateSettings.ImportanceSettingEnum.Pri:
-					frm.ImportanceLabel.Text += "priority=";
-					break;
-			}
+		        if (_with3.AutoStubYN) {
+		            frm.AutoStubLabel.Text += "auto=yes";
+		        } else {
+		            frm.AutoStubLabel.Text += "<none>";
+		        }
 
-			if (_with3.AutoStubYN) {
-				frm.AutoStubLabel.Text += "auto=yes";
-			} else {
-				frm.AutoStubLabel.Text += "<none>";
-			}
-
-			frm.ShowDialog();
+		        frm.ShowDialog();
+		    }
 		}
 		private void DeleteMeMenuItem_Click(object sender, EventArgs e)
 		{
@@ -472,7 +472,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 	    public void Dispose()
 	    {
             Dispose(true);
-	        GC.SuppressFinalize(this);
 	    }
 
 		// To detect redundant calls
@@ -538,11 +537,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 				PreferredTemplateNameRegex = null;
 				SecondChanceRegex = null;
 			} else {
-				if (_with4.HasAlternateNames) {
-					GotNewAlternateNamesString(_with4.AlternateNames);
-				} else {
-					GotNewAlternateNamesString("");
-				}
+			    GotNewAlternateNamesString(_with4.HasAlternateNames ? _with4.AlternateNames : "");
 			}
 		}
 

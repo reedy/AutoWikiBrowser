@@ -17,6 +17,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
+using System;
 using WikiFunctions.Lists.Providers;
 
 namespace WikiFunctions.Plugin
@@ -93,10 +94,12 @@ namespace WikiFunctions.Plugin
         void Nudged(int nudges);
     }
 
-    /* Members may be added to this interface, but not removed unless absolutely necessary. */
     /// <summary>
     /// Sent by AWB to plugins in ProcessArticle()
     /// </summary>
+    /// <remarks>
+    /// Members may be added to this interface, but not removed unless absolutely necessary.
+    /// </remarks>
     public interface IProcessArticleEventArgs
     {
         /// <summary>

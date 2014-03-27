@@ -1,18 +1,9 @@
-using AutoWikiBrowser.Plugins.Kingbotk;
-using AutoWikiBrowser.Plugins.Kingbotk.Components;
-using AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments;
-using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using System.Xml;
+
 using WikiFunctions;
-using WikiFunctions.Plugin;
+
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 //Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
 
@@ -31,8 +22,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 	internal sealed class Article
 	{
 		// Properties:
-		private string mArticleText;
-		private readonly string mFullArticleTitle;
+	    private readonly string mFullArticleTitle;
 		private readonly int mNamespace;
 
 		private string mEditSummary = Constants.conWikiPluginBrackets;
@@ -42,20 +32,18 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 		private bool mProcessIt;
 
 		// New:
-		internal Article(string ArticleText, string vFullArticleTitle, int vNamespace)
+		internal Article(string articleText, string vFullArticleTitle, int vNamespace)
 		{
-			mArticleText = ArticleText;
+			AlteredArticleText = articleText;
 			mFullArticleTitle = vFullArticleTitle;
 			mNamespace = vNamespace;
 			//mFullArticleTitle = GetArticleName(mNamespace, mArticleTitle)
 		}
 
 		// Friend properties:
-		internal string AlteredArticleText {
-			get { return mArticleText; }
-			set { mArticleText = value; }
-		}
-		internal string FullArticleTitle {
+	    internal string AlteredArticleText { get; set; }
+
+	    internal string FullArticleTitle {
 			get { return mFullArticleTitle; }
 		}
 		internal int Namespace {
@@ -216,7 +204,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 			// Does the shell contain template: ?
 			PluginCheckTemplateCall(match.Groups["tl"].Value, templatename);
 			// Does the template have it's primary name:
-			if (!(match.Groups["tlname"].Value == templatename)) {
+			if (match.Groups["tlname"].Value != templatename) {
 				RenamedATemplate(match.Groups["tlname"].Value, templatename, templatename);
 			}
 		}
@@ -224,15 +212,14 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 		// Where we (possibly) add our template to an existing shell:
 		internal void PrependTemplateOrWriteIntoShell(Templating Template, string ParameterBreak, string Text)
 		{
-			if (WeFoundBannerShells == BannerShellsEnum.NotChecked) {
-				if (WikiProjectBannerShellRegex.IsMatch(AlteredArticleText)) {
-					WeFoundBannerShells = BannerShellsEnum.FoundWikiProjectBannerShell;
-				} else {
-					WeFoundBannerShells = BannerShellsEnum.NoneFound;
-				}
-			}
+		    if (WeFoundBannerShells == BannerShellsEnum.NotChecked)
+		    {
+		        WeFoundBannerShells = WikiProjectBannerShellRegex.IsMatch(AlteredArticleText)
+		            ? BannerShellsEnum.FoundWikiProjectBannerShell
+		            : BannerShellsEnum.NoneFound;
+		    }
 
-			Text += Template.ParametersToString(ParameterBreak);
+		    Text += Template.ParametersToString(ParameterBreak);
 
 			switch (WeFoundBannerShells) {
 				case BannerShellsEnum.FoundWikiProjectBannerShell:
@@ -257,14 +244,14 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 		}
 		static bool InitStaticVariableHelper(Microsoft.VisualBasic.CompilerServices.StaticLocalInitFlag flag)
 		{
-			if (flag.State == 0) {
+		    if (flag.State == 0) {
 				flag.State = 2;
 				return true;
-			} else if (flag.State == 2) {
-				throw new Microsoft.VisualBasic.CompilerServices.IncompleteInitialization();
-			} else {
-				return false;
 			}
+		    if (flag.State == 2) {
+		        throw new Microsoft.VisualBasic.CompilerServices.IncompleteInitialization();
+		    }
+		    return false;
 		}
 	}
 }
