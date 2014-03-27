@@ -87,16 +87,16 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 			// Initialise our settings object:
 			PluginSettings = new PluginSettingsControl();
 
-			var _with1 = AWBForm;
+
 			// Set up our UI objects:
-			var _with2 = _with1.BotModeCheckbox;
+            var _with2 = AWBForm.BotModeCheckbox;
 			_with2.EnabledChanged += AWBBotModeCheckboxEnabledChangedHandler;
 			_with2.CheckedChanged += AWBBotModeCheckboxCheckedChangeHandler;
-			_with1.StatusStrip.Items.Insert(2, StatusText);
+            AWBForm.StatusStrip.Items.Insert(2, StatusText);
 			StatusText.Margin = new Padding(50, 0, 50, 0);
 			StatusText.BorderSides = ToolStripStatusLabelBorderSides.Left | ToolStripStatusLabelBorderSides.Right;
 			StatusText.BorderStyle = Border3DStyle.Etched;
-			_with1.HelpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[]{
+            AWBForm.HelpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[]{
 				new ToolStripSeparator(),
 				PluginSettings.MenuHelp,
 				PluginSettings.MenuAbout
