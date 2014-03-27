@@ -215,23 +215,23 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 case Living.Dead:
                     if (!Template.HasYesParamLowerOrTitleCase(false, "living"))
                     {
-                        Template.NewOrReplaceTemplateParm("living", "no", article, true, false, false, "",
+                        Template.NewOrReplaceTemplateParm("living", "no", TheArticle, true, false, false, "",
                             PluginShortName, true);
                     }
                     break;
                 case Living.Unknown:
-                    Template.NewOrReplaceTemplateParm("living", "", article, false, false, true, "", PluginShortName,
+                    Template.NewOrReplaceTemplateParm("living", "", TheArticle, false, false, true, "", PluginShortName,
                         true);
                     break;
             }
 
-            var _with2 = article;
+            var _with2 = TheArticle;
             if (_with2.Namespace == Namespace.Talk && _with2.ProcessIt && !PluginManager.BotMode)
             {
                 // Since we're dealing with talk pages, we want a listas= even if it's the same as the
                 // article title without namespace (otherwise it sorts to namespace)
                 Template.NewOrReplaceTemplateParm("listas",
-                    Tools.MakeHumanCatKey(article.FullArticleTitle, article.AlteredArticleText), article, true, false,
+                    Tools.MakeHumanCatKey(TheArticle.FullArticleTitle, TheArticle.AlteredArticleText), TheArticle, true, false,
                     true, "", PluginShortName);
             }
         }
@@ -246,7 +246,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             if (_with3.Parameters.ContainsKey("importance"))
             {
                 _with3.Parameters.Remove("importance");
-                article.ArticleHasAMinorChange();
+                TheArticle.ArticleHasAMinorChange();
             }
             if (_with3.Parameters.ContainsKey("priority"))
             {
@@ -261,7 +261,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 }
 
                 _with3.Parameters.Remove("priority");
-                article.ArticleHasAMinorChange();
+                TheArticle.ArticleHasAMinorChange();
             }
 
             return false;
@@ -280,7 +280,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 _with4.Parameters.Remove("living");
                 // we've written this parameter; if we leave it in the collection PluginBase.TemplateWritingAndPlacement() will write it again
             }
-            if (article.Namespace == Namespace.Talk)
+            if (TheArticle.Namespace == Namespace.Talk)
             {
                 res += WriteOutParameterToHeader("class");
             }
@@ -289,9 +289,9 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         }
 
         //User interface:
-        protected override void ShowHideOurObjects(bool Visible)
+        protected override void ShowHideOurObjects(bool visible)
         {
-            PluginManager.ShowHidePluginTab(OurTab, Visible);
+            PluginManager.ShowHidePluginTab(OurTab, visible);
         }
 
         // XML settings:

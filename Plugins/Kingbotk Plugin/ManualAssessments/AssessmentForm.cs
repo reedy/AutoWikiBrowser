@@ -28,31 +28,31 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             }
         }
 
-        internal DialogResult ShowDialog(ref Classification Clss, ref Importance Imp, ref bool Infobox,
-            ref bool Attention, ref bool NeedsPhoto, string Title)
+        internal DialogResult ShowDialog(ref Classification classification, ref Importance importance, ref bool infobox,
+            ref bool attention, ref bool needsPhoto, string title)
         {
-            Text += ": " + Title;
+            Text += ": " + title;
 
             var ret = ShowDialog();
             if (ClassCheckedListBox.SelectedIndices.Count == 0)
             {
-                Clss = Classification.Unassessed;
+                classification = Classification.Unassessed;
             }
             else
             {
-                Clss = (Classification) ClassCheckedListBox.SelectedIndex;
+                classification = (Classification) ClassCheckedListBox.SelectedIndex;
             }
             if (ImportanceCheckedListBox.SelectedIndices.Count == 0)
             {
-                Imp = Importance.Unassessed;
+                importance = Importance.Unassessed;
             }
             else
             {
-                Imp = (Importance) ImportanceCheckedListBox.SelectedIndex;
+                importance = (Importance) ImportanceCheckedListBox.SelectedIndex;
             }
-            Infobox = (SettingsCheckedListBox.GetItemCheckState(0) == CheckState.Checked);
-            Attention = (SettingsCheckedListBox.GetItemCheckState(1) == CheckState.Checked);
-            NeedsPhoto = (SettingsCheckedListBox.GetItemCheckState(2) == CheckState.Checked);
+            infobox = (SettingsCheckedListBox.GetItemCheckState(0) == CheckState.Checked);
+            attention = (SettingsCheckedListBox.GetItemCheckState(1) == CheckState.Checked);
+            needsPhoto = (SettingsCheckedListBox.GetItemCheckState(2) == CheckState.Checked);
 
             return ret;
         }

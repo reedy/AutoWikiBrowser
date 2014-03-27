@@ -77,9 +77,9 @@ internal sealed class WPSongs : PluginBase
     }
 
     //User interface:
-    protected override void ShowHideOurObjects(bool Visible)
+    protected override void ShowHideOurObjects(bool visible)
     {
-        PluginManager.ShowHidePluginTab(OurTab, Visible);
+        PluginManager.ShowHidePluginTab(OurTab, visible);
     }
 
     // XML settings:

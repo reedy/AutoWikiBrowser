@@ -35,7 +35,7 @@ internal sealed class WPAlbums : PluginBase
 
     protected override void ImportanceParameter(Importance Importance)
     {
-        Template.NewOrReplaceTemplateParm("importance", Importance.ToString(), article, false, false);
+        Template.NewOrReplaceTemplateParm("importance", Importance.ToString(), TheArticle, false, false);
     }
 
     protected internal override IGenericSettings GenericSettings
@@ -76,9 +76,9 @@ internal sealed class WPAlbums : PluginBase
     }
 
     //User interface:
-    protected override void ShowHideOurObjects(bool Visible)
+    protected override void ShowHideOurObjects(bool visible)
     {
-        PluginManager.ShowHidePluginTab(OurTab, Visible);
+        PluginManager.ShowHidePluginTab(OurTab, visible);
     }
 
     // XML settings:

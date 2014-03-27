@@ -41,7 +41,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
         // Objects:
         protected ToolStripMenuItem OurMenuItem;
-        protected Article article;
+        protected Article TheArticle;
 
         protected Templating Template;
         // Regular expressions:
@@ -71,56 +71,56 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
         protected internal abstract void Initialise();
 
-        protected internal abstract void ReadXML(XmlTextReader Reader);
+        protected internal abstract void ReadXML(XmlTextReader reader);
 
         protected internal abstract void Reset();
 
-        protected internal abstract void WriteXML(XmlTextWriter Writer);
+        protected internal abstract void WriteXML(XmlTextWriter writer);
 
-        protected internal bool ProcessTalkPage(Article A, bool AddReqPhotoParm)
+        protected internal bool ProcessTalkPage(Article article, bool addReqPhotoParm)
         {
-            return ProcessTalkPage(A, Classification.Code, Importance.Code, false, false, false,
-                ProcessTalkPageMode.Normal, AddReqPhotoParm);
+            return ProcessTalkPage(article, Classification.Code, Importance.Code, false, false, false,
+                ProcessTalkPageMode.Normal, addReqPhotoParm);
         }
 
-        protected internal bool ProcessTalkPage(Article A, Classification Classification, Importance Importance,
-            bool ForceNeedsInfobox, bool ForceNeedsAttention, bool RemoveAutoStub,
-            ProcessTalkPageMode ProcessTalkPageMode, bool AddReqPhotoParm)
+        protected internal bool ProcessTalkPage(Article article, Classification classification, Importance importance,
+            bool forceNeedsInfobox, bool forceNeedsAttention, bool removeAutoStub,
+            ProcessTalkPageMode processTalkPageMode, bool addReqPhotoParm)
         {
-            bool BadTemplate = false;
+            bool badTemplate = false;
             bool res = false;
 
-            article = A;
+            TheArticle = article;
 
             if (SkipIfContains())
             {
-                A.PluginIHaveFinished(SkipResults.SkipRegex, PluginShortName);
+                article.PluginIHaveFinished(SkipResults.SkipRegex, PluginShortName);
             }
             else
             {
                 // MAIN
-                string OriginalArticleText = A.AlteredArticleText;
+                string originalArticleText = article.AlteredArticleText;
 
                 Template = new Templating();
-                A.AlteredArticleText = MainRegex.Replace(A.AlteredArticleText, MatchEvaluator);
+                article.AlteredArticleText = MainRegex.Replace(article.AlteredArticleText, MatchEvaluator);
 
                 if (Template.BadTemplate)
                 {
-                    BadTemplate = true;
+                    badTemplate = true;
                 }
                 else if (Template.FoundTemplate)
                 {
                     // Even if we've found a good template bizarrely the page could still contain a bad template too 
-                    if (SecondChanceRegex.IsMatch(A.AlteredArticleText) || TemplateFound())
+                    if (SecondChanceRegex.IsMatch(article.AlteredArticleText) || TemplateFound())
                     {
-                        BadTemplate = true;
+                        badTemplate = true;
                     }
                 }
                 else
                 {
-                    if (SecondChanceRegex.IsMatch(OriginalArticleText))
+                    if (SecondChanceRegex.IsMatch(originalArticleText))
                     {
-                        BadTemplate = true;
+                        badTemplate = true;
                     }
                     else if (ForceAddition)
                     {
@@ -130,36 +130,36 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
                 // OK, we're in business:
                 res = true;
-                if (HasReqPhotoParam && AddReqPhotoParm)
+                if (HasReqPhotoParam && addReqPhotoParm)
                 {
                     ReqPhoto();
                 }
 
                 ProcessArticleFinish();
-                if (ProcessTalkPageMode != ProcessTalkPageMode.Normal)
+                if (processTalkPageMode != ProcessTalkPageMode.Normal)
                 {
-                    ProcessArticleFinishNonStandardMode(Classification, Importance, ForceNeedsInfobox,
-                        ForceNeedsAttention, RemoveAutoStub, ProcessTalkPageMode);
+                    ProcessArticleFinishNonStandardMode(classification, importance, forceNeedsInfobox,
+                        forceNeedsAttention, removeAutoStub, processTalkPageMode);
                 }
 
-                if (article.ProcessIt)
+                if (TheArticle.ProcessIt)
                 {
                     TemplateWritingAndPlacement();
                 }
                 else
                 {
-                    A.AlteredArticleText = OriginalArticleText;
-                    A.PluginIHaveFinished(SkipResults.SkipNoChange, PluginShortName);
+                    article.AlteredArticleText = originalArticleText;
+                    article.PluginIHaveFinished(SkipResults.SkipNoChange, PluginShortName);
                 }
             }
 
-            if (BadTemplate)
+            if (badTemplate)
             {
-                A.PluginIHaveFinished(SkipResults.SkipBadTag, PluginShortName);
+                article.PluginIHaveFinished(SkipResults.SkipBadTag, PluginShortName);
                 // TODO: We could get the template placeholder here
             }
 
-            article = null;
+            TheArticle = null;
             return res;
         }
 
@@ -176,7 +176,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
         protected abstract string WriteTemplateHeader();
 
-        protected abstract void ImportanceParameter(Importance Importance);
+        protected abstract void ImportanceParameter(Importance importance);
 
         protected string MatchEvaluator(Match match)
         {
@@ -187,7 +187,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             else
             {
                 Template.FoundTemplate = true;
-                article.PluginCheckTemplateCall(match.Groups["tl"].Value, PluginShortName);
+                TheArticle.PluginCheckTemplateCall(match.Groups["tl"].Value, PluginShortName);
 
                 if (HasAlternateNames)
                     PluginCheckTemplateName(match.Groups["tlname"].Value);
@@ -208,146 +208,141 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             return Constants.conTemplatePlaceholder;
         }
 
-        protected void PluginCheckTemplateName(string TemplateName)
+        protected void PluginCheckTemplateName(string templateName)
         {
             if (HasAlternateNames)
             {
-                if (!PreferredTemplateNameRegex.Match(TemplateName).Success)
+                if (!PreferredTemplateNameRegex.Match(templateName).Success)
                 {
-                    article.RenamedATemplate(TemplateName, PreferredTemplateName, PluginShortName);
-                    GotTemplateNotPreferredName(TemplateName);
+                    TheArticle.RenamedATemplate(templateName, PreferredTemplateName, PluginShortName);
+                    GotTemplateNotPreferredName(templateName);
                 }
             }
         }
 
-        protected virtual void GotTemplateNotPreferredName(string TemplateName)
+        protected virtual void GotTemplateNotPreferredName(string templateName)
         {
         }
 
         protected virtual void TemplateNotFound()
         {
-            article.ArticleHasAMajorChange();
-            if (article.Namespace == Namespace.Talk)
+            TheArticle.ArticleHasAMajorChange();
+            if (TheArticle.Namespace == Namespace.Talk)
             {
                 Template.NewTemplateParm("class", "");
             }
-            article.TemplateAdded(PreferredTemplateName, PluginShortName);
+            TheArticle.TemplateAdded(PreferredTemplateName, PluginShortName);
         }
 
         private void TemplateWritingAndPlacement()
         {
-            string TemplateHeader = WriteTemplateHeader();
+            string templateHeader = WriteTemplateHeader();
 
-            var _with2 = article;
             if (Template.FoundTemplate)
             {
                 // Write it back where it was
-                TemplateHeader += Template.ParametersToString(ParameterBreak);
-                _with2.RestoreTemplateToPlaceholderSpot(TemplateHeader);
+                templateHeader += Template.ParametersToString(ParameterBreak);
+                TheArticle.RestoreTemplateToPlaceholderSpot(templateHeader);
             }
             else
             {
                 // Our template wasn't found, write it into a shell or to the top of the page
-                _with2.PrependTemplateOrWriteIntoShell(Template, ParameterBreak, TemplateHeader);
+                TheArticle.PrependTemplateOrWriteIntoShell(Template, ParameterBreak, templateHeader);
             }
         }
 
-        protected void AddAndLogNewParamWithAYesValue(string ParamName)
+        protected void AddAndLogNewParamWithAYesValue(string paramName)
         {
-            Template.NewOrReplaceTemplateParm(ParamName, "yes", article, true, false, PluginName: PluginShortName);
+            Template.NewOrReplaceTemplateParm(paramName, "yes", TheArticle, true, false, PluginName: PluginShortName);
         }
 
-        protected void AddNewParamWithAYesValue(string ParamName)
+        protected void AddNewParamWithAYesValue(string paramName)
         {
-            Template.NewOrReplaceTemplateParm(ParamName, "yes", article, false, false, PluginName: PluginShortName);
+            Template.NewOrReplaceTemplateParm(paramName, "yes", TheArticle, false, false, PluginName: PluginShortName);
         }
 
-        protected void AddAndLogNewParamWithAYesValue(string ParamName, string ParamAlternativeName)
+        protected void AddAndLogNewParamWithAYesValue(string paramName, string paramAlternativeName)
         {
-            Template.NewOrReplaceTemplateParm(ParamName, "yes", article, true, true,
-                ParamAlternativeName: ParamAlternativeName, PluginName: PluginShortName);
+            Template.NewOrReplaceTemplateParm(paramName, "yes", TheArticle, true, true,
+                ParamAlternativeName: paramAlternativeName, PluginName: PluginShortName);
         }
 
-        protected void AddEmptyParam(string ParamName)
+        protected void AddEmptyParam(string paramName)
         {
-            if (!Template.Parameters.ContainsKey(ParamName))
-                Template.NewTemplateParm(ParamName, "", false, article, PluginShortName);
+            if (!Template.Parameters.ContainsKey(paramName))
+                Template.NewTemplateParm(paramName, "", false, TheArticle, PluginShortName);
         }
 
 
-        protected void ProcessArticleFinishNonStandardMode(Classification classification, Importance Importance,
-            bool ForceNeedsInfobox, bool ForceNeedsAttention, bool RemoveAutoStub,
-            ProcessTalkPageMode ProcessTalkPageMode)
+        protected void ProcessArticleFinishNonStandardMode(Classification classification, Importance importance,
+            bool forceNeedsInfobox, bool forceNeedsAttention, bool removeAutoStub,
+            ProcessTalkPageMode processTalkPageMode)
         {
-            if (article.Namespace == Namespace.Talk && classification == Classification.Unassessed)
+            if (TheArticle.Namespace == Namespace.Talk && classification == Classification.Unassessed)
             {
-                Template.NewOrReplaceTemplateParm("class", classification.ToString(), article, false, false);
+                Template.NewOrReplaceTemplateParm("class", classification.ToString(), TheArticle, false, false);
             }
 
-            ImportanceParameter(Importance);
+            ImportanceParameter(importance);
 
-            if (ForceNeedsInfobox)
+            if (forceNeedsInfobox)
             {
                 AddAndLogNewParamWithAYesValue("needs-infobox");
             }
 
-            if (ForceNeedsAttention)
+            if (forceNeedsAttention)
             {
                 AddAndLogNewParamWithAYesValue("attention");
             }
 
-            if (RemoveAutoStub)
+            if (removeAutoStub && Template.Parameters.ContainsKey("auto"))
             {
-                var _with3 = article;
-                if (Template.Parameters.ContainsKey("auto"))
-                {
-                    Template.Parameters.Remove("auto");
-                    _with3.ArticleHasAMajorChange();
-                }
+                Template.Parameters.Remove("auto");
+                TheArticle.ArticleHasAMajorChange();
             }
         }
 
-        protected string WriteOutParameterToHeader(string ParamName)
+        protected string WriteOutParameterToHeader(string paramName)
         {
             string res = string.Empty;
-            var _with4 = Template;
-            if (_with4.Parameters.ContainsKey(ParamName))
+            if (Template.Parameters.ContainsKey(paramName))
             {
-                res = "|" + ParamName + "=" + _with4.Parameters[ParamName].Value + ParameterBreak;
-                _with4.Parameters.Remove(ParamName);
+                res = "|" + paramName + "=" + Template.Parameters[paramName].Value + ParameterBreak;
+                Template.Parameters.Remove(paramName);
             }
             return res;
         }
 
         protected void StubClass()
         {
-            if (article.Namespace == Namespace.Talk)
+            if (TheArticle.Namespace == Namespace.Talk)
             {
                 if (GenericSettings.StubClass)
                 {
-                    Template.NewOrReplaceTemplateParm("class", "Stub", article, true, false, PluginName: PluginShortName,
+                    Template.NewOrReplaceTemplateParm("class", "Stub", TheArticle, true, false, PluginName: PluginShortName,
                         DontChangeIfSet: true);
                 }
 
                 if (GenericSettings.AutoStub &&
-                    Template.NewOrReplaceTemplateParm("class", "Stub", article, true, false, PluginName: PluginShortName,
+                    Template.NewOrReplaceTemplateParm("class", "Stub", TheArticle, true, false, PluginName: PluginShortName,
                         DontChangeIfSet: true))
                     AddAndLogNewParamWithAYesValue("auto");
                 // If add class=Stub (we don't change if set) add auto
             }
         }
 
-        protected void ReplaceATemplateWithAYesParameter(Regex R, string ParamName, string TemplateCall,
-            bool Replace = true)
+        protected void ReplaceATemplateWithAYesParameter(Regex r, string paramName, string templateCall,
+            bool replace = true)
         {
-            var _with5 = article;
-            if ((R.Matches(_with5.AlteredArticleText).Count > 0))
+            if ((r.Matches(TheArticle.AlteredArticleText).Count > 0))
             {
-                if (Replace)
-                    _with5.AlteredArticleText = R.Replace(_with5.AlteredArticleText, "");
-                _with5.DoneReplacement(TemplateCall, ParamName + "=yes", true, PluginShortName);
-                Template.NewOrReplaceTemplateParm(ParamName, "yes", article, false, false);
-                _with5.ArticleHasAMinorChange();
+                if (replace)
+                {
+                    TheArticle.AlteredArticleText = r.Replace(TheArticle.AlteredArticleText, "");
+                }
+                TheArticle.DoneReplacement(templateCall, paramName + "=yes", true, PluginShortName);
+                Template.NewOrReplaceTemplateParm(paramName, "yes", TheArticle, false, false);
+                TheArticle.ArticleHasAMinorChange();
             }
         }
 
@@ -355,15 +350,15 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         /// Checks if params which have two names (V8, v8) exist under both names
         /// </summary>
         /// <returns>True if BAD TAG</returns>
-        protected bool CheckForDoublyNamedParameters(string Name1, string Name2)
+        protected bool CheckForDoublyNamedParameters(string name1, string name2)
         {
-            var _with6 = Template.Parameters;
-            if (_with6.ContainsKey(Name1) && _with6.ContainsKey(Name2))
+            var parameters = Template.Parameters;
+            if (parameters.ContainsKey(name1) && parameters.ContainsKey(name2))
             {
-                if (_with6[Name1].Value == _with6[Name2].Value)
+                if (parameters[name1].Value == parameters[name2].Value)
                 {
-                    _with6.Remove(Name2);
-                    article.DoneReplacement(Name2, "", true, PluginShortName);
+                    parameters.Remove(name2);
+                    TheArticle.DoneReplacement(name2, "", true, PluginShortName);
                 }
                 else
                 {
@@ -401,7 +396,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         }
 
         // User interface:
-        protected abstract void ShowHideOurObjects(bool Visible);
+        protected abstract void ShowHideOurObjects(bool visible);
 
         // Event handlers:
         private void ourmenuitem_CheckedChanged(object sender, EventArgs e)
@@ -409,9 +404,9 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             Enabled = OurMenuItem.Checked;
         }
 
-        internal PluginBase(bool IAmAGenericTemplate)
+        internal PluginBase(bool iamAGenericTemplate)
         {
-            if (!IAmAGenericTemplate)
+            if (!iamAGenericTemplate)
                 throw new NotSupportedException();
         }
 
@@ -419,11 +414,11 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         // SPACES SHOULD BE WRITTEN TO XML AND IN THE GENERIC TL ALTERNATE NAME TEXT BOX AS SPACES ONLY
         // WHEN READ FROM XML, FROM WIKIPEDIA OR FROM THE TEXT BOX AND FED INTO REGEXES CONVERT THEM TO [ _]
         // Should contain spaces not [ _]. We always try to use an up-to-date list from the server, but we can at user's choice fall back to a recent list (generally from XML settings) at user's bidding
-        protected string mLastKnownGoodRedirects = "";
+        protected string LastKnownGoodRedirects = "";
 
-        internal PluginBase(string DefaultRegexpmiddle)
+        internal PluginBase(string defaultRegexpmiddle)
         {
-            GotNewAlternateNamesString(DefaultRegexpmiddle);
+            GotNewAlternateNamesString(defaultRegexpmiddle);
         }
 
         // Properties and regex construction:
@@ -431,39 +426,39 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         /// <summary>
         /// Called when we have a new Redirects list (at startup, from Wikipedia, or from the user in the case of generic templates)
         /// </summary>
-        /// <param name="AlternateNames"></param>
-        /// <param name="SenderIsGenericTemplateForm"></param>
+        /// <param name="alternateNames"></param>
+        /// <param name="senderIsGenericTemplateForm"></param>
         /// <remarks></remarks>
-        protected void GotNewAlternateNamesString(string AlternateNames, bool SenderIsGenericTemplateForm = false)
+        protected void GotNewAlternateNamesString(string alternateNames, bool senderIsGenericTemplateForm = false)
         {
-            string RegexpMiddle;
+            string regexpMiddle;
             // Less efficient to transfer to a new string but makes code easier to understand
             bool mHasAlternateNames;
 
             // Argument should NOT contain the default name at this stage; should contain spaces not [ _] or _
-            if (SenderIsGenericTemplateForm)
+            if (senderIsGenericTemplateForm)
             {
-                AlternateNames = AlternateNames.Replace("_", " ");
+                alternateNames = alternateNames.Replace("_", " ");
             }
 
-            AlternateNames = AlternateNames.Trim();
+            alternateNames = alternateNames.Trim();
 
-            if (string.IsNullOrEmpty(AlternateNames))
+            if (string.IsNullOrEmpty(alternateNames))
             {
                 mHasAlternateNames = false;
-                RegexpMiddle = PreferredTemplateName;
+                regexpMiddle = PreferredTemplateName;
             }
             else
             {
                 mHasAlternateNames = true;
-                mLastKnownGoodRedirects = AlternateNames;
-                RegexpMiddle = PreferredTemplateName + "|" + AlternateNames;
+                LastKnownGoodRedirects = alternateNames;
+                regexpMiddle = PreferredTemplateName + "|" + alternateNames;
             }
-            RegexpMiddle = RegexpMiddle.Replace(" ", "[ _]");
+            regexpMiddle = regexpMiddle.Replace(" ", "[ _]");
 
-            MainRegex = new Regex(Constants.conRegexpLeft + RegexpMiddle + Constants.conRegexpRight,
+            MainRegex = new Regex(Constants.conRegexpLeft + regexpMiddle + Constants.conRegexpRight,
                 Constants.conRegexpOptions);
-            SecondChanceRegex = new Regex(Constants.conRegexpLeft + RegexpMiddle + Constants.conRegexpRightNotStrict,
+            SecondChanceRegex = new Regex(Constants.conRegexpLeft + regexpMiddle + Constants.conRegexpRightNotStrict,
                 Constants.conRegexpOptions);
 
             PreferredTemplateNameRegex = mHasAlternateNames
@@ -493,16 +488,16 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             get { return true; }
         }
 
-
         private static readonly RedirectsListProvider rlp = new RedirectsListProvider();
+
         // Get the redirects from Wikipedia:
         /// <summary>
         /// Load the redirects for a template from Wikipedia
         /// </summary>
-        /// <param name="Target">Template name</param>
-        protected static List<WikiFunctions.Article> GetRedirects(string Target)
+        /// <param name="target">Template name</param>
+        protected static List<WikiFunctions.Article> GetRedirects(string target)
         {
-            string message = "Loading redirects for Template:" + Target;
+            string message = "Loading redirects for Template:" + target;
 
             PluginManager.StatusText.Text = message;
             Application.DoEvents();
@@ -510,7 +505,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
             try
             {
-                return rlp.MakeList(Namespace.Template, new[] {Variables.Namespaces[Namespace.Template] + Target});
+                return rlp.MakeList(Namespace.Template, new[] {Variables.Namespaces[Namespace.Template] + target});
             }
             finally
             {
@@ -518,11 +513,11 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             }
         }
 
-        protected static string ConvertRedirectsToString(List<WikiFunctions.Article> Redirects)
+        protected static string ConvertRedirectsToString(List<WikiFunctions.Article> redirects)
         {
             string res = "";
 
-            foreach (WikiFunctions.Article redirect in Redirects)
+            foreach (WikiFunctions.Article redirect in redirects)
             {
                 if (redirect.NameSpaceKey == Namespace.Template)
                 {
@@ -535,20 +530,20 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         }
 
         // XML:
-        internal virtual void ReadXMLRedirects(XmlTextReader Reader)
+        internal virtual void ReadXMLRedirects(XmlTextReader reader)
         {
             // For compiled template plugins, a Redirect string read in from XML is for backup use only if getting from WP fails
             // Generic templates already support AlternateNames property so will override this
-            string Redirs = PluginManager.XMLReadString(Reader, RedirectsParm, mLastKnownGoodRedirects);
+            string redirs = PluginManager.XMLReadString(reader, RedirectsParm, LastKnownGoodRedirects);
 
-            if (!string.IsNullOrEmpty(Redirs))
-                mLastKnownGoodRedirects = Redirs;
+            if (!string.IsNullOrEmpty(redirs))
+                LastKnownGoodRedirects = redirs;
         }
 
-        internal virtual void WriteXMLRedirects(XmlTextWriter Writer)
+        internal virtual void WriteXMLRedirects(XmlTextWriter writer)
         {
-            if (!string.IsNullOrEmpty(mLastKnownGoodRedirects))
-                Writer.WriteAttributeString(RedirectsParm, mLastKnownGoodRedirects);
+            if (!string.IsNullOrEmpty(LastKnownGoodRedirects))
+                writer.WriteAttributeString(RedirectsParm, LastKnownGoodRedirects);
         }
 
         protected string RedirectsParm
@@ -562,8 +557,8 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         bool AutoStub { get; set; }
         bool StubClass { get; set; }
         bool StubClassModeAllowed { set; }
-        void ReadXML(XmlTextReader Reader);
-        void WriteXML(XmlTextWriter Writer);
+        void ReadXML(XmlTextReader reader);
+        void WriteXML(XmlTextWriter writer);
         void XMLReset();
     }
 }
