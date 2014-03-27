@@ -154,8 +154,8 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                 AssessmentForm frmDialog = new AssessmentForm();
 
                 returnVal =
-                    (frmDialog.ShowDialog(ref _state.Classification, ref _state.Importance, ref _state.NeedsInfobox,
-                        ref _state.NeedsAttention, ref _state.NeedsPhoto, _state.NextTalkPageExpected) == DialogResult.OK);
+                    (frmDialog.ShowDialog(out _state.Classification, out _state.Importance, out _state.NeedsInfobox,
+                        out _state.NeedsAttention, out _state.NeedsPhoto, _state.NextTalkPageExpected) == DialogResult.OK);
 
                 if (returnVal)
                 {
