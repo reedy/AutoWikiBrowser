@@ -58,7 +58,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 			//Label1
 			//
 			this.Label1.AutoSize = true;
-			this.Label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25f, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, Convert.ToByte(0));
+			this.Label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25f, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Label1.Location = new System.Drawing.Point(103, 24);
 			this.Label1.Name = "Label1";
 			this.Label1.Size = new System.Drawing.Size(177, 31);

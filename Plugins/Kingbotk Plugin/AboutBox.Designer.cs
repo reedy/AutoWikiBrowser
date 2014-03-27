@@ -1,4 +1,4 @@
-using AutoWikiBrowser.Plugins.Kingbotk;
+﻿using AutoWikiBrowser.Plugins.Kingbotk;
 using AutoWikiBrowser.Plugins.Kingbotk.Components;
 using AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments;
 using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
@@ -65,7 +65,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			//
 			this.LabelProductName.AutoSize = true;
 			this.LabelProductName.BackColor = System.Drawing.Color.Transparent;
-			this.LabelProductName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25f, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, Convert.ToByte(0));
+			this.LabelProductName.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25f, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.LabelProductName.Location = new System.Drawing.Point(10, 21);
 			this.LabelProductName.Margin = new System.Windows.Forms.Padding(7, 0, 3, 0);
 			this.LabelProductName.MaximumSize = new System.Drawing.Size(0, 17);
@@ -79,7 +79,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			//
 			this.LabelVersion.AutoSize = true;
 			this.LabelVersion.BackColor = System.Drawing.Color.Transparent;
-			this.LabelVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25f, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, Convert.ToByte(0));
+			this.LabelVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25f, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.LabelVersion.Location = new System.Drawing.Point(10, 54);
 			this.LabelVersion.Margin = new System.Windows.Forms.Padding(7, 0, 3, 0);
 			this.LabelVersion.MaximumSize = new System.Drawing.Size(0, 17);
@@ -93,7 +93,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			//
 			this.LabelCopyright.AutoSize = true;
 			this.LabelCopyright.BackColor = System.Drawing.Color.Transparent;
-			this.LabelCopyright.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25f, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, Convert.ToByte(0));
+			this.LabelCopyright.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25f, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.LabelCopyright.Location = new System.Drawing.Point(10, 88);
 			this.LabelCopyright.Margin = new System.Windows.Forms.Padding(7, 0, 3, 0);
 			this.LabelCopyright.MaximumSize = new System.Drawing.Size(0, 17);
@@ -106,7 +106,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			//TextBoxDescription
 			//
 			this.TextBoxDescription.BackColor = System.Drawing.Color.Transparent;
-			this.TextBoxDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25f, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, Convert.ToByte(0));
+			this.TextBoxDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25f, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.TextBoxDescription.Location = new System.Drawing.Point(10, 151);
 			this.TextBoxDescription.Name = "TextBoxDescription";
 			this.TextBoxDescription.Size = new System.Drawing.Size(329, 112);
@@ -117,7 +117,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			//
 			this.Label1.AutoSize = true;
 			this.Label1.BackColor = System.Drawing.Color.Transparent;
-			this.Label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25f, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, Convert.ToByte(0));
+			this.Label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25f, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Label1.Location = new System.Drawing.Point(357, 88);
 			this.Label1.Margin = new System.Windows.Forms.Padding(7, 0, 3, 0);
 			this.Label1.MaximumSize = new System.Drawing.Size(0, 17);
@@ -143,7 +143,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			//
 			this.Label2.AutoSize = true;
 			this.Label2.BackColor = System.Drawing.Color.Transparent;
-			this.Label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25f, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, Convert.ToByte(0));
+			this.Label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25f, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Label2.Location = new System.Drawing.Point(349, 151);
 			this.Label2.Margin = new System.Windows.Forms.Padding(7, 0, 3, 0);
 			this.Label2.MaximumSize = new System.Drawing.Size(0, 17);
@@ -192,7 +192,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			this.Controls.Add(this.LabelVersion);
 			this.Controls.Add(this.LabelCopyright);
 			this.Controls.Add(this.OKButton);
-			this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25f, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, Convert.ToByte(0));
+			this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25f, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;

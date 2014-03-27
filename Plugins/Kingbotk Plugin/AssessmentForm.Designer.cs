@@ -146,7 +146,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 			//Label1
 			//
 			this.Label1.AutoSize = true;
-			this.Label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12f, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, Convert.ToByte(0));
+			this.Label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12f, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Label1.Location = new System.Drawing.Point(8, 4);
 			this.Label1.Name = "Label1";
 			this.Label1.Size = new System.Drawing.Size(48, 20);
@@ -156,7 +156,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 			//Label2
 			//
 			this.Label2.AutoSize = true;
-			this.Label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12f, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, Convert.ToByte(0));
+			this.Label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12f, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Label2.Location = new System.Drawing.Point(145, 4);
 			this.Label2.Name = "Label2";
 			this.Label2.Size = new System.Drawing.Size(141, 20);
@@ -181,7 +181,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 			//Label3
 			//
 			this.Label3.AutoSize = true;
-			this.Label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12f, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, Convert.ToByte(0));
+			this.Label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12f, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 			this.Label3.Location = new System.Drawing.Point(145, 130);
 			this.Label3.Name = "Label3";
 			this.Label3.Size = new System.Drawing.Size(68, 20);
