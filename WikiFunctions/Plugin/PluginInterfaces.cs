@@ -61,11 +61,13 @@ namespace WikiFunctions.Plugin
         object[] SaveSettings();
     }
 
-    /* Please DO NOT CHANGE without consulting plugin authors, unless moving to a new AWB major version (v5, v6 etc).
-     * This interface is a contract with external plugins. If radical changes are needed, create a new additional i/f. */
     /// <summary>
     /// An interface for plugin components to be recognised by and interact with AWB
     /// </summary>
+    /// <remarks>
+    /// Please DO NOT CHANGE without consulting plugin authors, unless moving to a new AWB major version (v5, v6 etc).
+    /// This interface is a contract with external plugins. If radical changes are needed, create a new additional i/f.
+    /// </remarks>
     public interface IAWBPlugin : IAWBBasePlugin
     {
         /// <summary>
@@ -94,10 +96,12 @@ namespace WikiFunctions.Plugin
         void Nudged(int nudges);
     }
 
-    /* Members may be added to this interface, but not removed unless absolutely necessary. */
     /// <summary>
     /// Sent by AWB to plugins in ProcessArticle()
     /// </summary>
+    /// <remarks>
+    /// Members may be added to this interface, but not removed unless absolutely necessary.
+    /// </remarks>
     [CLSCompliant(true)]
     public interface IProcessArticleEventArgs
     {
