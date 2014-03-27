@@ -23,26 +23,26 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 {
     internal sealed class Assessments : IDisposable
     {
-        internal const string conMe = "Wikipedia Assessments Plugin";
+        internal const string Me = "Wikipedia Assessments Plugin";
         // Objects:
-        private List<CheckBox> AWBCleanupCheckboxes = new List<CheckBox>();
-        private PluginSettingsControl PluginSettings;
+        private List<CheckBox> _awbCleanupCheckboxes = new List<CheckBox>();
+        private PluginSettingsControl _pluginSettings;
 
-        private StateClass State = new StateClass();
+        private StateClass _state = new StateClass();
         // New:
         internal Assessments(PluginSettingsControl vPluginSettings)
         {
-            PluginSettings = vPluginSettings;
+            _pluginSettings = vPluginSettings;
 
             // Get a reference to the cleanup checkboxes:
             foreach (Control ctl in PluginManager.AWBForm.OptionsTab.Controls["groupBox6"].Controls)
             {
                 if (ReferenceEquals(ctl.GetType(), typeof (CheckBox)))
-                    AWBCleanupCheckboxes.Add((CheckBox) ctl);
+                    _awbCleanupCheckboxes.Add((CheckBox) ctl);
             }
-            ToggleAWBCleanup(PluginSettings.Cleanup);
+            ToggleAWBCleanup(_pluginSettings.Cleanup);
 
-            PluginSettings.CleanupCheckBox.CheckedChanged += CleanupCheckBox_CheckedChanged;
+            _pluginSettings.CleanupCheckBox.CheckedChanged += CleanupCheckBox_CheckedChanged;
             PluginManager.AWBForm.TheSession.StateChanged += EditorStatusChanged;
             PluginManager.AWBForm.SaveButton.Click += Save_Click;
             PluginManager.AWBForm.SkipButton.Click += Skip_Click;
@@ -51,33 +51,35 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         #region "IDisposable"
 
         // To detect redundant calls
-        private bool disposed;
+        private bool _disposed;
 
         // This procedure is where the actual cleanup occurs
         internal void Dispose(bool disposing)
         {
             // Exit now if the object has already been disposed
-            if (disposed)
+            if (_disposed)
+            {
                 return;
+            }
 
             if (disposing)
             {
                 // The object is being disposed, not finalized.
                 // It is safe to access other objects (other than the mybase object)
                 // only from inside this block
-                PluginSettings.CleanupCheckBox.CheckedChanged -= CleanupCheckBox_CheckedChanged;
+                _pluginSettings.CleanupCheckBox.CheckedChanged -= CleanupCheckBox_CheckedChanged;
                 PluginManager.AWBForm.TheSession.StateChanged -= EditorStatusChanged;
                 PluginManager.AWBForm.SaveButton.Click -= Save_Click;
                 PluginManager.AWBForm.SkipButton.Click -= Skip_Click;
             }
 
             // Perform cleanup that has to be executed in either case:
-            AWBCleanupCheckboxes = null;
-            PluginSettings = null;
-            State = null;
+            _awbCleanupCheckboxes = null;
+            _pluginSettings = null;
+            _state = null;
 
             // Remember that this object has been disposed of:
-            disposed = true;
+            _disposed = true;
         }
 
         public void Dispose()
@@ -94,79 +96,79 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         {
             ToggleAWBCleanup(false);
 
-            var _with1 = PluginManager.AWBForm.ListMaker;
-            if (_with1.Count > 1 && State.IsNextPage(((WikiFunctions.Article) _with1.Items.Items[1]).Name))
+            var listMaker = PluginManager.AWBForm.ListMaker;
+            if (listMaker.Count > 1 && _state.IsNextPage(((WikiFunctions.Article) listMaker.Items.Items[1]).Name))
             {
-                _with1.RemoveAt(1);
+                listMaker.RemoveAt(1);
             }
-            else if (_with1.Count > 0 && State.IsNextPage(((WikiFunctions.Article) _with1.Items.Items[0]).Name))
+            else if (listMaker.Count > 0 && _state.IsNextPage(((WikiFunctions.Article) listMaker.Items.Items[0]).Name))
             {
-                _with1.RemoveAt(0);
+                listMaker.RemoveAt(0);
             }
 
-            State = new StateClass();
+            _state = new StateClass();
         }
 
-        internal void ProcessMainSpaceArticle(string ArticleTitle)
+        internal void ProcessMainSpaceArticle(string articleTitle)
         {
-            if (State.NextArticleShouldBeTalk)
+            if (_state.NextArticleShouldBeTalk)
             {
                 IsThisABug("a talk page");
             }
 
-            State.NextTalkPageExpected = ArticleTitle;
+            _state.NextTalkPageExpected = articleTitle;
 
-            var _with2 = PluginManager.AWBForm.ListMaker;
-            if (_with2.Count < 2)
+            var listMaker = PluginManager.AWBForm.ListMaker;
+            if (listMaker.Count < 2)
             {
-                _with2.Insert(1, State.NextTalkPageExpected);
+                listMaker.Insert(1, _state.NextTalkPageExpected);
             }
-            else if (!State.IsNextPage(((WikiFunctions.Article) _with2.Items.Items[1]).Name))
+            else if (!_state.IsNextPage(((WikiFunctions.Article) listMaker.Items.Items[1]).Name))
             {
-                _with2.Insert(1, State.NextTalkPageExpected);
+                listMaker.Insert(1, _state.NextTalkPageExpected);
             }
 
-            State.NextEventShouldBeMainSpace = true;
-            State.NextArticleShouldBeTalk = true;
+            _state.NextEventShouldBeMainSpace = true;
+            _state.NextArticleShouldBeTalk = true;
         }
 
-        internal bool ProcessTalkPage(Article TheArticle, PluginSettingsControl pluginSettings, ref bool ReqPhoto)
+        internal bool ProcessTalkPage(Article theArticle, PluginSettingsControl pluginSettings, ref bool reqPhoto)
         {
-            bool WeAddedAReqPhotoParam = false;
+            bool weAddedAReqPhotoParam = false;
             bool returnVal = false;
 
-            if (!State.NextArticleShouldBeTalk)
+            if (!_state.NextArticleShouldBeTalk)
             {
                 IsThisABug("an article");
             }
-            else if (!State.IsNextPage(TheArticle.FullArticleTitle))
+            else if (!_state.IsNextPage(theArticle.FullArticleTitle))
             {
-                IsThisABug(State.NextTalkPageExpected);
+                IsThisABug(_state.NextTalkPageExpected);
             }
             else
             {
-                State.NextArticleShouldBeTalk = false;
+                _state.NextArticleShouldBeTalk = false;
 
                 PluginManager.StatusText.Text = "Assessments plugin: please assess the article or click cancel";
 
                 AssessmentForm frmDialog = new AssessmentForm();
 
                 returnVal =
-                    (frmDialog.ShowDialog(ref State.Classification, ref State.Importance, ref State.NeedsInfobox,
-                        ref State.NeedsAttention, ref State.NeedsPhoto, State.NextTalkPageExpected) == DialogResult.OK);
+                    (frmDialog.ShowDialog(ref _state.Classification, ref _state.Importance, ref _state.NeedsInfobox,
+                        ref _state.NeedsAttention, ref _state.NeedsPhoto, _state.NextTalkPageExpected) == DialogResult.OK);
 
                 if (returnVal)
                 {
-                    PluginManager.StatusText.Text = "Processing " + TheArticle.FullArticleTitle;
+                    PluginManager.StatusText.Text = "Processing " + theArticle.FullArticleTitle;
 
                     foreach (PluginBase p in PluginManager.ActivePlugins)
                     {
                         if (
-                            p.ProcessTalkPage(TheArticle, State.Classification, State.Importance, State.NeedsInfobox,
-                                State.NeedsAttention, true, ProcessTalkPageMode.ManualAssessment,
-                                ReqPhoto || State.NeedsPhoto) && (ReqPhoto || State.NeedsPhoto) && p.HasReqPhotoParam)
-                            WeAddedAReqPhotoParam = true;
-                        if (TheArticle.PluginManagerGetSkipResults == SkipResults.SkipBadTag)
+                            p.ProcessTalkPage(theArticle, _state.Classification, _state.Importance, _state.NeedsInfobox,
+                                _state.NeedsAttention, true, ProcessTalkPageMode.ManualAssessment,
+                                reqPhoto || _state.NeedsPhoto) && (reqPhoto || _state.NeedsPhoto) && p.HasReqPhotoParam)
+                            weAddedAReqPhotoParam = true;
+                        if (theArticle.PluginManagerGetSkipResults == SkipResults.SkipBadTag)
                         {
                             MessageBox.Show("Bad tag(s). Fix manually.", "Bad tag", MessageBoxButtons.OK,
                                 MessageBoxIcon.Exclamation);
@@ -184,23 +186,23 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 
             if (returnVal)
             {
-                switch (State.Classification)
+                switch (_state.Classification)
                 {
                     case Classification.Code:
                     case Classification.Unassessed:
-                        TheArticle.EditSummary = "Assessed article using " + Constants.conWikiPlugin;
+                        theArticle.EditSummary = "Assessed article using " + Constants.conWikiPlugin;
                         break;
                     default:
-                        TheArticle.EditSummary = "Assessing as " + State.Classification.ToString() + " class, using " +
+                        theArticle.EditSummary = "Assessing as " + _state.Classification + " class, using " +
                                                  Constants.conWikiPlugin;
                         break;
                 }
 
-                ReqPhoto = WeAddedAReqPhotoParam;
+                reqPhoto = weAddedAReqPhotoParam;
             }
             else
             {
-                ReqPhoto = false;
+                reqPhoto = false;
             }
 
             return returnVal;
@@ -217,11 +219,11 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
             PluginManager.StopAWB();
         }
 
-        private void ToggleAWBCleanup(bool Cleanup)
+        private void ToggleAWBCleanup(bool cleanup)
         {
-            foreach (CheckBox chk in AWBCleanupCheckboxes)
+            foreach (CheckBox chk in _awbCleanupCheckboxes)
             {
-                chk.Checked = Cleanup;
+                chk.Checked = cleanup;
             }
         }
 
@@ -236,15 +238,15 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 
         private void LoadArticle()
         {
-            ToggleAWBCleanup(PluginSettings.Cleanup);
+            ToggleAWBCleanup(_pluginSettings.Cleanup);
         }
 
         // UI event handlers:
         private void Save_Click(object sender, EventArgs e)
         {
-            if (!disposed)
+            if (!_disposed)
             {
-                if (State.NextEventShouldBeMainSpace)
+                if (_state.NextEventShouldBeMainSpace)
                 {
                     LoadTalkPage();
                 }
@@ -253,15 +255,15 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                     LoadArticle();
                 }
 
-                State.NextEventShouldBeMainSpace = !State.NextEventShouldBeMainSpace;
+                _state.NextEventShouldBeMainSpace = !_state.NextEventShouldBeMainSpace;
             }
         }
 
         private void Skip_Click(object sender, EventArgs e)
         {
-            if (!disposed)
+            if (!_disposed)
             {
-                if (State.NextEventShouldBeMainSpace)
+                if (_state.NextEventShouldBeMainSpace)
                 {
                     LoadTalkPage();
                 }
@@ -270,16 +272,16 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                     LoadArticle();
                     PluginManager.AWBForm.TraceManager.SkippedArticle("User",
                         WikiFunctions.Logging.AWBLogListener.StringUserSkipped);
-                    PluginSettings.PluginStats.SkippedMiscellaneousIncrement(true);
+                    _pluginSettings.PluginStats.SkippedMiscellaneousIncrement(true);
                 }
 
-                State.NextEventShouldBeMainSpace = !State.NextEventShouldBeMainSpace;
+                _state.NextEventShouldBeMainSpace = !_state.NextEventShouldBeMainSpace;
             }
         }
 
         private void CleanupCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if (!disposed && PluginSettings.Cleanup)
+            if (!_disposed && _pluginSettings.Cleanup)
                 ToggleAWBCleanup(true);
         }
 
@@ -295,29 +297,23 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
         // State:
         private sealed class StateClass
         {
-            //Friend LastArticle As String
-
-
-            private string page;
+            private string _page;
 
             internal string NextTalkPageExpected
             {
-                get { return page; }
+                get { return _page; }
                 set
                 {
-                    pageRegex = new Regex(Variables.NamespacesCaseInsensitive[Namespace.Talk] + value);
-                    page = Variables.Namespaces[Namespace.Talk] + value;
+                    _pageRegex = new Regex(Variables.NamespacesCaseInsensitive[Namespace.Talk] + value);
+                    _page = Variables.Namespaces[Namespace.Talk] + value;
                 }
             }
 
-            //Friend EditSummary As String
-
-
-            private Regex pageRegex;
+            private Regex _pageRegex;
 
             internal bool IsNextPage(string title)
             {
-                return pageRegex.IsMatch(title);
+                return _pageRegex.IsMatch(title);
             }
 
             internal bool NextEventShouldBeMainSpace;
