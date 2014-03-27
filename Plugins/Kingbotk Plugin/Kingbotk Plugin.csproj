@@ -42,28 +42,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AboutBox.cs">
+    <Compile Include="Components\AboutBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AboutBox.Designer.cs">
+    <Compile Include="Components\AboutBox.Designer.cs">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Article.cs" />
-    <Compile Include="AssessmentForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AssessmentForm.Designer.cs">
-      <DependentUpon>AssessmentForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="AssessmentsClass.cs" />
-    <Compile Include="AssessmentsInstructionsDialog.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AssessmentsInstructionsDialog.Designer.cs">
-      <DependentUpon>AssessmentsInstructionsDialog.cs</DependentUpon>
-    </Compile>
     <Compile Include="BioWithWorkgroups.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Components\PluginSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Components\PluginSettings.Designer.cs">
+      <DependentUpon>PluginSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="EnumsAndConstants.cs" />
     <Compile Include="Generic.cs">
@@ -72,10 +65,10 @@
     <Compile Include="Generic.Designer.cs">
       <DependentUpon>Generic.cs</DependentUpon>
     </Compile>
-    <Compile Include="GenericTemplateProperties.cs">
+    <Compile Include="Components\GenericTemplateProperties.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GenericTemplateProperties.Designer.cs">
+    <Compile Include="Components\GenericTemplateProperties.Designer.cs">
       <DependentUpon>GenericTemplateProperties.cs</DependentUpon>
     </Compile>
     <Compile Include="GenericWithWorkgroups.cs">
@@ -84,14 +77,21 @@
     <Compile Include="GenericWithWorkgroups.Designer.cs">
       <DependentUpon>GenericWithWorkgroups.cs</DependentUpon>
     </Compile>
+    <Compile Include="ManualAssessments\AssessmentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManualAssessments\AssessmentForm.Designer.cs">
+      <DependentUpon>AssessmentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ManualAssessments\AssessmentsClass.cs" />
+    <Compile Include="ManualAssessments\AssessmentsInstructionsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManualAssessments\AssessmentsInstructionsDialog.Designer.cs">
+      <DependentUpon>AssessmentsInstructionsDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="PluginBase.cs" />
     <Compile Include="PluginManager.cs" />
-    <Compile Include="PluginSettings.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="PluginSettings.Designer.cs">
-      <DependentUpon>PluginSettings.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -102,10 +102,10 @@
     </Compile>
     <Compile Include="TemplateParameters.cs" />
     <Compile Include="Templating.cs" />
-    <Compile Include="TimerStats.cs">
+    <Compile Include="Components\TimerStats.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="TimerStats.Designer.cs">
+    <Compile Include="Components\TimerStats.Designer.cs">
       <DependentUpon>TimerStats.cs</DependentUpon>
     </Compile>
     <Compile Include="WikiProjects\WPAlbums.cs" />
@@ -120,32 +120,32 @@
     <None Include="COPYING" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="AboutBox.resx">
+    <EmbeddedResource Include="Components\AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="AssessmentForm.resx">
-      <DependentUpon>AssessmentForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="AssessmentsInstructionsDialog.resx">
-      <DependentUpon>AssessmentsInstructionsDialog.cs</DependentUpon>
+    <EmbeddedResource Include="Components\PluginSettings.resx">
+      <DependentUpon>PluginSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Generic.resx">
       <DependentUpon>Generic.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GenericTemplateProperties.resx">
+    <EmbeddedResource Include="Components\GenericTemplateProperties.resx">
       <DependentUpon>GenericTemplateProperties.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GenericWithWorkgroups.resx">
       <DependentUpon>GenericWithWorkgroups.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PluginSettings.resx">
-      <DependentUpon>PluginSettings.cs</DependentUpon>
+    <EmbeddedResource Include="ManualAssessments\AssessmentForm.resx">
+      <DependentUpon>AssessmentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManualAssessments\AssessmentsInstructionsDialog.resx">
+      <DependentUpon>AssessmentsInstructionsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="TimerStats.resx">
+    <EmbeddedResource Include="Components\TimerStats.resx">
       <DependentUpon>TimerStats.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
