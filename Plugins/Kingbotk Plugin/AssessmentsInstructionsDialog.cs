@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Windows.Forms;
 
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
@@ -13,18 +13,18 @@ using System.Windows.Forms;
 
 namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
 {
-	internal sealed partial class AssessmentsInstructionsDialog
-	{
-		private void OK_Button_Click(object sender, EventArgs e)
-		{
-		    DialogResult = CheckBox1.Checked ? DialogResult.Yes : DialogResult.OK;
+    internal sealed partial class AssessmentsInstructionsDialog
+    {
+        private void OK_Button_Click(object sender, EventArgs e)
+        {
+            DialogResult = CheckBox1.Checked ? DialogResult.Yes : DialogResult.OK;
 
-		    Close();
-		}
+            Close();
+        }
 
-	    public AssessmentsInstructionsDialog()
-		{
-			InitializeComponent();
-		}
-	}
+        public AssessmentsInstructionsDialog()
+        {
+            InitializeComponent();
+        }
+    }
 }

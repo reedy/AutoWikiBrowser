@@ -1,5 +1,4 @@
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml;
@@ -17,133 +16,151 @@ using WikiFunctions;
 
 namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 {
-	partial class GenericWithWorkgroups : IGenericSettings
-	{
+    partial class GenericWithWorkgroups : IGenericSettings
+    {
         public GenericWithWorkgroups()
         {
             InitializeComponent();
         }
 
-		public GenericWithWorkgroups(string template, string prefix, bool autoStubEnabled, params TemplateParameters[] @params)
-            :this()
-		{
-			Template = template;
-			Prefix = prefix;
+        public GenericWithWorkgroups(string template, string prefix, bool autoStubEnabled,
+            params TemplateParameters[] @params)
+            : this()
+        {
+            Template = template;
+            Prefix = prefix;
 
-			AutoStubCheckBox.Enabled = autoStubEnabled;
+            AutoStubCheckBox.Enabled = autoStubEnabled;
 
-			LinkLabel1.Text = "{{" + template + "}}";
+            LinkLabel1.Text = "{{" + template + "}}";
 
-			Dictionary<string, ListViewGroup> groupsAndMenus = new Dictionary<string, ListViewGroup>();
+            Dictionary<string, ListViewGroup> groupsAndMenus = new Dictionary<string, ListViewGroup>();
 
-			ListView1.BeginUpdate();
+            ListView1.BeginUpdate();
 
-			foreach (TemplateParameters prop in @params)
-			{
-			    ListViewItem lvi = new ListViewItem(prop.ParamName) {Name = prop.StorageKey, Tag = prop};
+            foreach (TemplateParameters prop in @params)
+            {
+                ListViewItem lvi = new ListViewItem(prop.ParamName) {Name = prop.StorageKey, Tag = prop};
 
-			    if (!string.IsNullOrEmpty(prop.Group)) {
-					string @group = prop.Group.Replace(" ", "");
+                if (!string.IsNullOrEmpty(prop.Group))
+                {
+                    string @group = prop.Group.Replace(" ", "");
 
-					if (!groupsAndMenus.ContainsKey(@group)) {
-						ListViewGroup lvGroup = new ListViewGroup { Header = prop.Group };
-						ListView1.Groups.Add(lvGroup);
+                    if (!groupsAndMenus.ContainsKey(@group))
+                    {
+                        ListViewGroup lvGroup = new ListViewGroup {Header = prop.Group};
+                        ListView1.Groups.Add(lvGroup);
 
-						groupsAndMenus.Add(@group, lvGroup);
-						//Cache group and menu item
+                        groupsAndMenus.Add(@group, lvGroup);
+                        //Cache group and menu item
 
-						lvi.Group = lvGroup;
-					} else {
-						lvi.Group = groupsAndMenus[@group];
-					}
-				}
+                        lvi.Group = lvGroup;
+                    }
+                    else
+                    {
+                        lvi.Group = groupsAndMenus[@group];
+                    }
+                }
 
-				ListView1.Items.Add(lvi);
-			}
-			ListView1.EndUpdate();
-		}
+                ListView1.Items.Add(lvi);
+            }
+            ListView1.EndUpdate();
+        }
 
-		protected string Prefix;
+        protected string Prefix;
 
-		protected string Template;
-		private const string conStubClassParm = "StubClass";
+        protected string Template;
+        private const string conStubClassParm = "StubClass";
 
-		private const string conAutoStubParm = "AutoStub";
-		#region "XML interface"
-		public void ReadXML(XmlTextReader Reader)
-		{
-			foreach (ListViewItem lvi in ListView1.Items) {
-				TemplateParameters tp = (TemplateParameters)lvi.Tag;
-				lvi.Checked = PluginManager.XMLReadBoolean(Reader, Prefix + tp.StorageKey, lvi.Checked);
-			}
+        private const string conAutoStubParm = "AutoStub";
 
-			StubClass = PluginManager.XMLReadBoolean(Reader, Prefix + conStubClassParm, StubClass);
+        #region "XML interface"
 
-			if (AutoStubCheckBox.Enabled) {
-				PluginManager.XMLReadBoolean(Reader, Prefix + conAutoStubParm, AutoStub);
-			}
-		}
+        public void ReadXML(XmlTextReader Reader)
+        {
+            foreach (ListViewItem lvi in ListView1.Items)
+            {
+                TemplateParameters tp = (TemplateParameters) lvi.Tag;
+                lvi.Checked = PluginManager.XMLReadBoolean(Reader, Prefix + tp.StorageKey, lvi.Checked);
+            }
 
-		public void WriteXML(XmlTextWriter Writer)
-		{
-			var _with1 = Writer;
-			foreach (ListViewItem lvi in ListView1.Items) {
-				TemplateParameters tp = (TemplateParameters)lvi.Tag;
-				_with1.WriteAttributeString(Prefix + tp.StorageKey, lvi.Checked.ToString());
-			}
+            StubClass = PluginManager.XMLReadBoolean(Reader, Prefix + conStubClassParm, StubClass);
 
-			_with1.WriteAttributeString(Prefix + conStubClassParm, StubClass.ToString());
+            if (AutoStubCheckBox.Enabled)
+            {
+                PluginManager.XMLReadBoolean(Reader, Prefix + conAutoStubParm, AutoStub);
+            }
+        }
 
-			if (AutoStubCheckBox.Enabled) {
-				_with1.WriteAttributeString(Prefix + conAutoStubParm, AutoStub.ToString());
-			}
-		}
+        public void WriteXML(XmlTextWriter Writer)
+        {
+            var _with1 = Writer;
+            foreach (ListViewItem lvi in ListView1.Items)
+            {
+                TemplateParameters tp = (TemplateParameters) lvi.Tag;
+                _with1.WriteAttributeString(Prefix + tp.StorageKey, lvi.Checked.ToString());
+            }
 
-		internal void Reset()
-		{
-			StubClass = false;
-			AutoStub = false;
+            _with1.WriteAttributeString(Prefix + conStubClassParm, StubClass.ToString());
 
-			foreach (ListViewItem lvi in ListView1.Items) {
-				lvi.Checked = false;
-			}
-		}
-		void IGenericSettings.XMLReset()
-		{
-			Reset();
-		}
-		#endregion
-		// Properties:
-		public bool StubClass {
-			get { return StubClassCheckBox.Checked; }
-			set { StubClassCheckBox.Checked = value; }
-		}
+            if (AutoStubCheckBox.Enabled)
+            {
+                _with1.WriteAttributeString(Prefix + conAutoStubParm, AutoStub.ToString());
+            }
+        }
 
-		public bool StubClassModeAllowed {
-			set { StubClassCheckBox.Enabled = value; }
-		}
+        internal void Reset()
+        {
+            StubClass = false;
+            AutoStub = false;
 
-		public bool AutoStub {
-			get { return AutoStubCheckBox.Enabled && AutoStubCheckBox.Checked; }
-			set { AutoStubCheckBox.Checked = value; }
-		}
+            foreach (ListViewItem lvi in ListView1.Items)
+            {
+                lvi.Checked = false;
+            }
+        }
 
-		// Event handlers:
+        void IGenericSettings.XMLReset()
+        {
+            Reset();
+        }
+
+        #endregion
+
+        // Properties:
+        public bool StubClass
+        {
+            get { return StubClassCheckBox.Checked; }
+            set { StubClassCheckBox.Checked = value; }
+        }
+
+        public bool StubClassModeAllowed
+        {
+            set { StubClassCheckBox.Enabled = value; }
+        }
+
+        public bool AutoStub
+        {
+            get { return AutoStubCheckBox.Enabled && AutoStubCheckBox.Checked; }
+            set { AutoStubCheckBox.Checked = value; }
+        }
+
+        // Event handlers:
         private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			Tools.OpenENArticleInBrowser(Variables.Namespaces[Namespace.Template] + Template, false);
-		}
+        {
+            Tools.OpenENArticleInBrowser(Variables.Namespaces[Namespace.Template] + Template, false);
+        }
 
-		private void AutoStubCheckBox_CheckedChanged(object sender, EventArgs e)
-		{
-			if (AutoStubCheckBox.Checked)
-				StubClassCheckBox.Checked = false;
-		}
+        private void AutoStubCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (AutoStubCheckBox.Checked)
+                StubClassCheckBox.Checked = false;
+        }
 
-		private void StubClassCheckBox_CheckedChanged(object sender, EventArgs e)
-		{
-			if (StubClassCheckBox.Checked)
-				AutoStubCheckBox.Checked = false;
-		}
-	}
+        private void StubClassCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (StubClassCheckBox.Checked)
+                AutoStubCheckBox.Checked = false;
+        }
+    }
 }

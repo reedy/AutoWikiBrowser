@@ -1,8 +1,6 @@
-using AutoWikiBrowser.Plugins.Kingbotk.Properties;
-
+﻿using AutoWikiBrowser.Plugins.Kingbotk.Properties;
 using System;
 using System.Windows.Forms;
-
 using WikiFunctions;
 
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
@@ -17,66 +15,68 @@ using WikiFunctions;
 
 namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 {
-	internal sealed partial class AboutBox
-	{
-		private void AboutBox_Load(object sender, EventArgs e)
-		{
-		    TextBoxDescription.Text =
-		        "An AWB plugin for adding and updating WikiProject templates on Wikipedia talk pages. " + Environment.NewLine +
-		        Environment.NewLine + "AWB Version: " + Application.ProductVersion + Environment.NewLine + Environment.NewLine +
-		        "Made in England. Store in a dry place and consume within 7 days of opening. COMES WITH NO WARRANTY - " +
-		        "check your edits and use sensibly!";
-		}
+    internal sealed partial class AboutBox
+    {
+        private void AboutBox_Load(object sender, EventArgs e)
+        {
+            TextBoxDescription.Text =
+                "An AWB plugin for adding and updating WikiProject templates on Wikipedia talk pages. " +
+                Environment.NewLine +
+                Environment.NewLine + "AWB Version: " + Application.ProductVersion + Environment.NewLine +
+                Environment.NewLine +
+                "Made in England. Store in a dry place and consume within 7 days of opening. COMES WITH NO WARRANTY - " +
+                "check your edits and use sensibly!";
+        }
 
-		private void OKButton_Click(object sender, EventArgs e)
-		{
-			Close();
-		}
+        private void OKButton_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
 
-		static internal string Version {
-			get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(); }
-		}
+        internal static string Version
+        {
+            get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(); }
+        }
 
-		internal AboutBox()
-		{
-			Load += AboutBox_Load;
-			// This call is required by the Windows Form Designer.
-			InitializeComponent();
+        internal AboutBox()
+        {
+            Load += AboutBox_Load;
+            // This call is required by the Windows Form Designer.
+            InitializeComponent();
 
-			// Add any initialization after the InitializeComponent() call.
-			LabelVersion.Text = string.Format("Version {0}", Version);
-		}
+            // Add any initialization after the InitializeComponent() call.
+            LabelVersion.Text = string.Format("Version {0}", Version);
+        }
 
-		private void linkKingboy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			linkKingboy.LinkVisited = true;
-			Tools.OpenENArticleInBrowser("Kingboyk", true);
-		}
+        private void linkKingboy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            linkKingboy.LinkVisited = true;
+            Tools.OpenENArticleInBrowser("Kingboyk", true);
+        }
 
-		private void linkReedy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-		{
-			linkReedy.LinkVisited = true;
-			Tools.OpenENArticleInBrowser("Reedy", true);
-		}
+        private void linkReedy_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            linkReedy.LinkVisited = true;
+            Tools.OpenENArticleInBrowser("Reedy", true);
+        }
 
-		private void LicencingButton_Click(object sender, EventArgs e)
-		{
-			GPLAboutBox GPL = new GPLAboutBox();
-			GPL.ShowDialog(PluginManager.AWBForm.Form);
-		}
+        private void LicencingButton_Click(object sender, EventArgs e)
+        {
+            GPLAboutBox GPL = new GPLAboutBox();
+            GPL.ShowDialog(PluginManager.AWBForm.Form);
+        }
 
-		private class GPLAboutBox : WikiFunctions.Controls.AboutBox
-		{
-		    protected override void Initialise()
-		    {
+        private class GPLAboutBox : WikiFunctions.Controls.AboutBox
+        {
+            protected override void Initialise()
+            {
                 Text = Constants.conAWBPluginName;
-		        linkLabel1.Visible = false;
-		        lblMadeBy.Text = "Made by Stephen Kennedy with Sam Reed";
-		        lblVersion.Text = "Version " + Version;
-		        textBoxDescription.Text = AssemblyDescription(System.Reflection.Assembly.GetExecutingAssembly()) +
-		                                  Environment.NewLine + Environment.NewLine + Resources.GPL;
-		    }
-		}
-
-	}
+                linkLabel1.Visible = false;
+                lblMadeBy.Text = "Made by Stephen Kennedy with Sam Reed";
+                lblVersion.Text = "Version " + Version;
+                textBoxDescription.Text = AssemblyDescription(System.Reflection.Assembly.GetExecutingAssembly()) +
+                                          Environment.NewLine + Environment.NewLine + Resources.GPL;
+            }
+        }
+    }
 }

@@ -1,4 +1,4 @@
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using System.Xml;
 
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
@@ -13,175 +13,199 @@ using System.Xml;
 
 namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 {
+    internal sealed class WPNovels : PluginBase
+    {
+        // Settings:
+        private readonly TabPage OurTab = new TabPage(Prefix);
 
-	internal sealed class WPNovels : PluginBase
-	{
+        private readonly GenericWithWorkgroups OurSettingsControl;
+        private const string Prefix = "Novels";
 
-		// Settings:
-		private readonly TabPage OurTab = new TabPage(Prefix);
+        private const string PluginName = "WikiProject Novels";
 
-		private readonly GenericWithWorkgroups OurSettingsControl;
-		private const string Prefix = "Novels";
+        internal WPNovels() : base("Novels|WPNovels")
+        {
+            // Specify alternate names only
 
-		private const string PluginName = "WikiProject Novels";
-		internal WPNovels() : base("Novels|WPNovels")
-		{
-			// Specify alternate names only
+            OurSettingsControl = new GenericWithWorkgroups(PluginName, Prefix, true, @params);
+        }
 
-			OurSettingsControl = new GenericWithWorkgroups(PluginName, Prefix, true, @params);
-		}
+        private readonly TemplateParameters[] @params =
+        {
+            new TemplateParameters
+            {
+                StorageKey = "CrimeWG",
+                Group = "",
+                ParamName = "Crime"
+            },
+            new TemplateParameters
+            {
+                StorageKey = "ShortStoryWG",
+                Group = "",
+                ParamName = "Short Story"
+            },
+            new TemplateParameters
+            {
+                StorageKey = "SFWG",
+                Group = "",
+                ParamName = "SF"
+            },
+            new TemplateParameters
+            {
+                StorageKey = "AusWG",
+                Group = "",
+                ParamName = "Australian"
+            },
+            new TemplateParameters
+            {
+                StorageKey = "FantWG",
+                Group = "",
+                ParamName = "Fantasy"
+            },
+            new TemplateParameters
+            {
+                StorageKey = "19thWG",
+                Group = "",
+                ParamName = "19thC"
+            },
+            new TemplateParameters
+            {
+                StorageKey = "NarniaWG",
+                Group = "",
+                ParamName = "Narnia"
+            },
+            new TemplateParameters
+            {
+                StorageKey = "LemonyWG",
+                Group = "",
+                ParamName = "Lemony Snicket"
+            },
+            new TemplateParameters
+            {
+                StorageKey = "ShannaraWG",
+                Group = "",
+                ParamName = "Shannara"
+            },
+            new TemplateParameters
+            {
+                StorageKey = "SwordWG",
+                Group = "",
+                ParamName = "Sword of Truth"
+            },
+            new TemplateParameters
+            {
+                StorageKey = "TwilightWG",
+                Group = "",
+                ParamName = "Twilight"
+            },
+            new TemplateParameters
+            {
+                StorageKey = "OldPeerReview",
+                Group = "",
+                ParamName = "Old Peer Review"
+            }
+        };
 
-		readonly TemplateParameters[] @params = {
-			new TemplateParameters {
-				StorageKey = "CrimeWG",
-				Group = "",
-				ParamName = "Crime"
-			},
-			new TemplateParameters {
-				StorageKey = "ShortStoryWG",
-				Group = "",
-				ParamName = "Short Story"
-			},
-			new TemplateParameters {
-				StorageKey = "SFWG",
-				Group = "",
-				ParamName = "SF"
-			},
-			new TemplateParameters {
-				StorageKey = "AusWG",
-				Group = "",
-				ParamName = "Australian"
-			},
-			new TemplateParameters {
-				StorageKey = "FantWG",
-				Group = "",
-				ParamName = "Fantasy"
-			},
-			new TemplateParameters {
-				StorageKey = "19thWG",
-				Group = "",
-				ParamName = "19thC"
-			},
-			new TemplateParameters {
-				StorageKey = "NarniaWG",
-				Group = "",
-				ParamName = "Narnia"
-			},
-			new TemplateParameters {
-				StorageKey = "LemonyWG",
-				Group = "",
-				ParamName = "Lemony Snicket"
-			},
-			new TemplateParameters {
-				StorageKey = "ShannaraWG",
-				Group = "",
-				ParamName = "Shannara"
-			},
-			new TemplateParameters {
-				StorageKey = "SwordWG",
-				Group = "",
-				ParamName = "Sword of Truth"
-			},
-			new TemplateParameters {
-				StorageKey = "TwilightWG",
-				Group = "",
-				ParamName = "Twilight"
-			},
-			new TemplateParameters {
-				StorageKey = "OldPeerReview",
-				Group = "",
-				ParamName = "Old Peer Review"
-			}
+        protected internal override string PluginShortName
+        {
+            get { return Prefix; }
+        }
 
-		};
-		protected internal override string PluginShortName {
-			get { return Prefix; }
-		}
-		protected override string PreferredTemplateName {
-			get { return PluginName; }
-		}
+        protected override string PreferredTemplateName
+        {
+            get { return PluginName; }
+        }
 
-		protected override void ImportanceParameter(Importance Importance)
-		{
-			Template.NewOrReplaceTemplateParm("importance", Importance.ToString(), article, false, false);
-		}
-		protected internal override IGenericSettings GenericSettings {
-			get { return OurSettingsControl; }
-		}
+        protected override void ImportanceParameter(Importance Importance)
+        {
+            Template.NewOrReplaceTemplateParm("importance", Importance.ToString(), article, false, false);
+        }
 
-		internal override bool HasReqPhotoParam {
-			get { return true; }
-		}
-		internal override void ReqPhoto()
-		{
-			AddNewParamWithAYesValue("needs-infobox-cover");
-		}
+        protected internal override IGenericSettings GenericSettings
+        {
+            get { return OurSettingsControl; }
+        }
 
-		// Initialisation:
-		protected internal override void Initialise()
-		{
-			OurMenuItem = new ToolStripMenuItem("Novels Plugin");
-			InitialiseBase();
-			// must set menu item object first
-			OurTab.UseVisualStyleBackColor = true;
-			OurTab.Controls.Add(OurSettingsControl);
-		}
+        internal override bool HasReqPhotoParam
+        {
+            get { return true; }
+        }
 
-		// Article processing:
-		protected override bool SkipIfContains()
-		{
-			// None
-		    return false;
-		}
+        internal override void ReqPhoto()
+        {
+            AddNewParamWithAYesValue("needs-infobox-cover");
+        }
 
-		protected override void ProcessArticleFinish()
-		{
-			StubClass();
-			var _with1 = OurSettingsControl;
-			foreach (ListViewItem lvi in _with1.ListView1.Items) {
-				if (lvi.Checked) {
-					TemplateParameters tp = (TemplateParameters)lvi.Tag;
-					string param = tp.ParamName.ToLower().Replace(" ", "-");
-					AddAndLogNewParamWithAYesValue(param + "-task-force");
-					//Probably needs some reformatting
-					AddEmptyParam(param + "-importance");
-				}
-			}
-		}
-		protected override bool TemplateFound()
-		{
-		    return false;
-		}
+        // Initialisation:
+        protected internal override void Initialise()
+        {
+            OurMenuItem = new ToolStripMenuItem("Novels Plugin");
+            InitialiseBase();
+            // must set menu item object first
+            OurTab.UseVisualStyleBackColor = true;
+            OurTab.Controls.Add(OurSettingsControl);
+        }
 
-		protected override string WriteTemplateHeader()
-		{
-			return "{{" + PluginName + WriteOutParameterToHeader("class") + WriteOutParameterToHeader("importance");
-		}
+        // Article processing:
+        protected override bool SkipIfContains()
+        {
+            // None
+            return false;
+        }
 
-		//User interface:
-		protected override void ShowHideOurObjects(bool Visible)
-		{
-			PluginManager.ShowHidePluginTab(OurTab, Visible);
-		}
+        protected override void ProcessArticleFinish()
+        {
+            StubClass();
+            var _with1 = OurSettingsControl;
+            foreach (ListViewItem lvi in _with1.ListView1.Items)
+            {
+                if (lvi.Checked)
+                {
+                    TemplateParameters tp = (TemplateParameters) lvi.Tag;
+                    string param = tp.ParamName.ToLower().Replace(" ", "-");
+                    AddAndLogNewParamWithAYesValue(param + "-task-force");
+                    //Probably needs some reformatting
+                    AddEmptyParam(param + "-importance");
+                }
+            }
+        }
 
-		// XML settings:
-		protected internal override void ReadXML(XmlTextReader Reader)
-		{
-			bool blnNewVal = PluginManager.XMLReadBoolean(Reader, Prefix + "Enabled", Enabled);
+        protected override bool TemplateFound()
+        {
+            return false;
+        }
+
+        protected override string WriteTemplateHeader()
+        {
+            return "{{" + PluginName + WriteOutParameterToHeader("class") + WriteOutParameterToHeader("importance");
+        }
+
+        //User interface:
+        protected override void ShowHideOurObjects(bool Visible)
+        {
+            PluginManager.ShowHidePluginTab(OurTab, Visible);
+        }
+
+        // XML settings:
+        protected internal override void ReadXML(XmlTextReader Reader)
+        {
+            bool blnNewVal = PluginManager.XMLReadBoolean(Reader, Prefix + "Enabled", Enabled);
             // ReSharper disable once RedundantCheckBeforeAssignment
-			if (blnNewVal != Enabled)
-				Enabled = blnNewVal;
-			// Mustn't set if the same or we get extra tabs
-			OurSettingsControl.ReadXML(Reader);
-		}
-		protected internal override void Reset()
-		{
-			OurSettingsControl.Reset();
-		}
-		protected internal override void WriteXML(XmlTextWriter Writer)
-		{
-			Writer.WriteAttributeString(Prefix + "Enabled", Enabled.ToString());
-			OurSettingsControl.WriteXML(Writer);
-		}
-	}
+            if (blnNewVal != Enabled)
+                Enabled = blnNewVal;
+            // Mustn't set if the same or we get extra tabs
+            OurSettingsControl.ReadXML(Reader);
+        }
+
+        protected internal override void Reset()
+        {
+            OurSettingsControl.Reset();
+        }
+
+        protected internal override void WriteXML(XmlTextWriter Writer)
+        {
+            Writer.WriteAttributeString(Prefix + "Enabled", Enabled.ToString());
+            OurSettingsControl.WriteXML(Writer);
+        }
+    }
 }
