@@ -165,7 +165,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             if (Parameters.ContainsKey(paramName))
             {
                 if (yes && Parameters[paramName].Value.ToLower() == "yes" ||
-                    !yes && Parameters[paramName].Value.ToLower() == "No")
+                    !yes && Parameters[paramName].Value.ToLower() == "no")
                 {
                     return true;
                 }
