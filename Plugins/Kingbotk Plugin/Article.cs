@@ -20,22 +20,20 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
     internal sealed class Article
     {
         // Properties:
-        private readonly string mFullArticleTitle;
-        private readonly int mNamespace;
+        private readonly string _fullArticleTitle;
 
-        private string mEditSummary = Constants.conWikiPluginBrackets;
         // Plugin-state:
-        private SkipResults mSkipResults = SkipResults.NotSet;
+        private SkipResults _skipResults = SkipResults.NotSet;
+
         // gets set by ArticleHasAMajorChange/ArticleHasAMinorChange
-        private bool mProcessIt;
+        private bool _processIt;
 
         // New:
-        internal Article(string articleText, string vFullArticleTitle, int vNamespace)
+        internal Article(string articleText, string fullArticleTitle, int vNamespace)
         {
             AlteredArticleText = articleText;
-            mFullArticleTitle = vFullArticleTitle;
-            mNamespace = vNamespace;
-            //mFullArticleTitle = GetArticleName(mNamespace, mArticleTitle)
+            _fullArticleTitle = fullArticleTitle;
+            Namespace = vNamespace;
         }
 
         // Friend properties:
@@ -43,61 +41,54 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
         internal string FullArticleTitle
         {
-            get { return mFullArticleTitle; }
+            get { return _fullArticleTitle; }
         }
 
-        internal int Namespace
-        {
-            get { return mNamespace; }
-        }
+        internal int Namespace { get; private set; }
 
-        internal string EditSummary
-        {
-            get { return mEditSummary; }
-            set { mEditSummary = value; }
-        }
+        internal string EditSummary { get; set; }
 
         internal void ArticleHasAMinorChange()
         {
-            mProcessIt = true;
+            _processIt = true;
         }
 
         internal void ArticleHasAMajorChange()
         {
-            mProcessIt = true;
+            _processIt = true;
         }
 
         internal bool ProcessIt
         {
-            get { return mProcessIt; }
+            get { return _processIt; }
         }
 
         // For calling by plugin:
-        internal void PluginCheckTemplateCall(string TemplateCall, string PluginName)
+        internal void PluginCheckTemplateCall(string templateCall, string pluginName)
         {
             // we have "template:"
-            if (!string.IsNullOrEmpty(TemplateCall))
+            if (!string.IsNullOrEmpty(templateCall))
             {
-                mProcessIt = true;
+                _processIt = true;
             }
         }
 
-        internal void PluginIHaveFinished(SkipResults Result, string PluginName)
+        internal void PluginIHaveFinished(SkipResults result, string pluginName)
         {
-            switch (Result)
+            switch (result)
             {
                 case SkipResults.SkipBadTag:
-                    mSkipResults = SkipResults.SkipBadTag;
-                    PluginManager.AWBForm.TraceManager.SkippedArticleBadTag(PluginName, mFullArticleTitle, mNamespace);
+                    _skipResults = SkipResults.SkipBadTag;
+                    PluginManager.AWBForm.TraceManager.SkippedArticleBadTag(pluginName, _fullArticleTitle, Namespace);
                     break;
                 case SkipResults.SkipRegex:
-                    if (mSkipResults == SkipResults.NotSet)
-                        mSkipResults = SkipResults.SkipRegex;
-                    PluginManager.AWBForm.TraceManager.SkippedArticle(PluginName, "Article text matched skip regex");
+                    if (_skipResults == SkipResults.NotSet)
+                        _skipResults = SkipResults.SkipRegex;
+                    PluginManager.AWBForm.TraceManager.SkippedArticle(pluginName, "Article text matched skip regex");
                     break;
                 case SkipResults.SkipNoChange:
-                    PluginManager.AWBForm.TraceManager.SkippedArticle(PluginName, "No change");
-                    mSkipResults = SkipResults.SkipNoChange;
+                    PluginManager.AWBForm.TraceManager.SkippedArticle(pluginName, "No change");
+                    _skipResults = SkipResults.SkipNoChange;
                     break;
             }
         }
@@ -105,7 +96,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         // For calling by manager:
         internal SkipResults PluginManagerGetSkipResults
         {
-            get { return mSkipResults; }
+            get { return _skipResults; }
         }
 
         internal void FinaliseEditSummary()
@@ -114,28 +105,28 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         }
 
         // General article writing and manipulation:
-        internal void RenamedATemplate(string OldName, string NewName, string Caller)
+        internal void RenamedATemplate(string oldName, string newName)
         {
-            DoneReplacement(OldName, NewName, false);
+            DoneReplacement(oldName, newName);
         }
 
-        internal void DoneReplacement(string Old, string Replacement, bool LogIt, string PluginName = "")
+        internal void DoneReplacement(string old, string replacement)
         {
-            mProcessIt = true;
-            EditSummary += Old + "→" + Replacement + ", ";
+            _processIt = true;
+            EditSummary += old + "→" + replacement + ", ";
         }
 
-        internal void TemplateAdded(string Template, string PluginName)
+        internal void TemplateAdded(string template)
         {
-            mEditSummary += string.Format("Added {{{{[[Template:{0}|{0}]]}}}}, ", Template);
+            EditSummary += string.Format("Added {{{{[[Template:{0}|{0}]]}}}}, ", template);
             ArticleHasAMajorChange();
         }
 
-        internal void ParameterAdded(string ParamName, string ParamValue, string PluginName, bool MinorEdit = false)
+        internal void ParameterAdded(string paramName, string paramValue, bool minorEdit = false)
         {
-            mEditSummary += ParamName + "=" + ParamValue + ", ";
+            EditSummary += paramName + "=" + paramValue + ", ";
 
-            if (MinorEdit)
+            if (minorEdit)
                 ArticleHasAMinorChange();
             else
                 ArticleHasAMajorChange();
@@ -212,9 +203,9 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         }
 
         //State:
-        private BannerShellsEnum WeFoundBannerShells;
+        private BannerShellsEnum _weFoundBannerShells;
 
-        private string MatchEvaluatorString;
+        private string _matchEvaluatorString;
         // Regexes:
         // These could probably be simplified significantly (and extra logic doing things like removing linebreaks) if I learnt more of the magic characters
 
@@ -236,17 +227,17 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         private string WPBSRegexMatchEvaluator(Match match)
         {
             const string templatename = "WikiProjectBannerShell";
-            string Ending = match.Groups["start"].Value + match.Groups["end"].Value;
+            string ending = match.Groups["start"].Value + match.Groups["end"].Value;
 
             ShellTemplateMatchEvaluatorsCommonTasks(templatename, match);
 
-            if (!string.IsNullOrEmpty(Ending))
-                Ending = Environment.NewLine + Ending;
+            if (!string.IsNullOrEmpty(ending))
+                ending = Environment.NewLine + ending;
 
             return
                 DoubleLineBreakRegex.Replace(
-                    "{{" + templatename + "|1=" + Environment.NewLine + LineBreakRegex.Replace(MatchEvaluatorString, "") +
-                    Environment.NewLine + match.Groups["body"].Value + Ending + "}}", Environment.NewLine);
+                    "{{" + templatename + "|1=" + Environment.NewLine + LineBreakRegex.Replace(_matchEvaluatorString, "") +
+                    Environment.NewLine + match.Groups["body"].Value + ending + "}}", Environment.NewLine);
         }
 
         private void ShellTemplateMatchEvaluatorsCommonTasks(string templatename, Match match)
@@ -256,33 +247,33 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             // Does the template have it's primary name:
             if (match.Groups["tlname"].Value != templatename)
             {
-                RenamedATemplate(match.Groups["tlname"].Value, templatename, templatename);
+                RenamedATemplate(match.Groups["tlname"].Value, templatename);
             }
         }
 
         // Where we (possibly) add our template to an existing shell:
-        internal void PrependTemplateOrWriteIntoShell(Templating Template, string ParameterBreak, string Text)
+        internal void PrependTemplateOrWriteIntoShell(Templating template, string parameterBreak, string text)
         {
-            if (WeFoundBannerShells == BannerShellsEnum.NotChecked)
+            if (_weFoundBannerShells == BannerShellsEnum.NotChecked)
             {
-                WeFoundBannerShells = WikiProjectBannerShellRegex.IsMatch(AlteredArticleText)
+                _weFoundBannerShells = WikiProjectBannerShellRegex.IsMatch(AlteredArticleText)
                     ? BannerShellsEnum.FoundWikiProjectBannerShell
                     : BannerShellsEnum.NoneFound;
             }
 
-            Text += Template.ParametersToString(ParameterBreak);
+            text += template.ParametersToString(parameterBreak);
 
-            switch (WeFoundBannerShells)
+            switch (_weFoundBannerShells)
             {
                 case BannerShellsEnum.FoundWikiProjectBannerShell:
-                    MatchEvaluatorString = Text;
+                    _matchEvaluatorString = text;
 
                     AlteredArticleText = WikiProjectBannerShellRegex.Replace(AlteredArticleText, WPBSRegexMatchEvaluator,
                         1);
-                    MatchEvaluatorString = null;
+                    _matchEvaluatorString = null;
                     break;
                 case BannerShellsEnum.NoneFound:
-                    AlteredArticleText = Text + AlteredArticleText;
+                    AlteredArticleText = text + AlteredArticleText;
                     break;
             }
         }
