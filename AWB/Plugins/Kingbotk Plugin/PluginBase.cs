@@ -64,7 +64,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         {
             OurMenuItem.CheckOnClick = true;
             OurMenuItem.Checked = false;
-            OurMenuItem.ToolTipText = "Enable/disable the " + PluginShortName + " plugin";
+            OurMenuItem.ToolTipText = string.Format("Enable/disable the {0} plugin", PluginShortName);
             OurMenuItem.CheckedChanged += ourmenuitem_CheckedChanged;
             PluginManager.AWBForm.PluginsToolStripMenuItem.DropDownItems.Add(OurMenuItem);
         }
