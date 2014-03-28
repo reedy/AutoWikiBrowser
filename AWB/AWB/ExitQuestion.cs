@@ -30,7 +30,7 @@ namespace AutoWikiBrowser
 
             lblPrompt.Text = msg + "Are you sure you want to exit?";
 
-            lblTimeAndEdits.Text = "You made " + edits + " edits in " + time;
+            lblTimeAndEdits.Text = string.Format("You made {0} edits in {1}", edits, time);
         }
 
         public bool CheckBoxDontAskAgain
