@@ -419,7 +419,7 @@ internal sealed class WPMilitaryHistory : PluginBase
             {
                 _with2.NewOrReplaceTemplateParm(conMedievalTaskForce, "yes", TheArticle, false, false, false, "",
                     PluginShortName);
-                TheArticle.DoneReplacement(conMiddleAges, conMedievalTaskForce, true, PluginShortName);
+                TheArticle.DoneReplacement(conMiddleAges, conMedievalTaskForce);
             }
             else
             {

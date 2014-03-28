@@ -468,17 +468,17 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             {
                 return Skipping(ref Summary, TheArticle.EditSummary, SkipReason, ArticleText, ref Skip);
             }
-            var _with7 = TheArticle;
+
             if (ReqPhoto)
             {
-                _with7.AlteredArticleText = ReqPhotoNoParamsRegex.Replace(_with7.AlteredArticleText, "");
-                _with7.DoneReplacement("{{[[template:reqphoto|reqphoto]]}}", "template param(s)", true, PluginName);
-                _with7.ArticleHasAMajorChange();
+                TheArticle.AlteredArticleText = ReqPhotoNoParamsRegex.Replace(TheArticle.AlteredArticleText, "");
+                TheArticle.DoneReplacement("{{[[template:reqphoto|reqphoto]]}}", "template param(s)");
+                TheArticle.ArticleHasAMajorChange();
             }
 
-            _with7.FinaliseEditSummary();
-            Summary = _with7.EditSummary;
-            return _with7.AlteredArticleText;
+            TheArticle.FinaliseEditSummary();
+            Summary = TheArticle.EditSummary;
+            return TheArticle.AlteredArticleText;
         }
 
         private static string Skipping(ref string EditSummary, string DefaultEditSummary, SkipReason SkipReason,

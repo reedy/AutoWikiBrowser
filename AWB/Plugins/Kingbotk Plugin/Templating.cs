@@ -72,7 +72,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         {
             NewTemplateParm(ParameterName, ParameterValue);
             if (LogItAndUpdateEditSummary)
-                TheArticle.ParameterAdded(ParameterName, ParameterValue, PluginName, MinorEdit);
+                TheArticle.ParameterAdded(ParameterName, ParameterValue, MinorEdit);
         }
 
         /// <summary>
@@ -132,12 +132,11 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                     {
                         if (string.IsNullOrEmpty(ExistingValue))
                         {
-                            TheArticle.ParameterAdded(ParameterName, ParameterValue, PluginName);
+                            TheArticle.ParameterAdded(ParameterName, ParameterValue);
                         }
                         else
                         {
-                            TheArticle.DoneReplacement(ParameterName + "=" + ExistingValue, ParameterValue, true,
-                                PluginName);
+                            TheArticle.DoneReplacement(ParameterName + "=" + ExistingValue, ParameterValue);
                         }
                     }
                     return true;
@@ -148,25 +147,25 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             return false;
         }
 
-        internal string ParametersToString(string ParameterBreak)
+        internal string ParametersToString(string parameterBreak)
         {
             string res = "";
             foreach (KeyValuePair<string, TemplateParametersObject> o in Parameters)
             {
-                res += "|" + o.Key + "=" + o.Value.Value + ParameterBreak;
+                res += "|" + o.Key + "=" + o.Value.Value + parameterBreak;
             }
 
             res += "}}" + Environment.NewLine;
             return res;
         }
 
-        internal bool HasYesParamLowerOrTitleCase(bool Yes, string ParamName)
+        internal bool HasYesParamLowerOrTitleCase(bool yes, string paramName)
         {
             // A little hack to ensure we don't change no to No or yes to Yes as our only edit, and also for checking "yes" values
-            if (Parameters.ContainsKey(ParamName))
+            if (Parameters.ContainsKey(paramName))
             {
-                if (Yes && Parameters[ParamName].Value.ToLower() == "yes" ||
-                    !Yes && Parameters[ParamName].Value.ToLower() == "No")
+                if (yes && Parameters[paramName].Value.ToLower() == "yes" ||
+                    !yes && Parameters[paramName].Value.ToLower() == "No")
                 {
                     return true;
                 }
@@ -181,14 +180,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         /// <remarks></remarks>
         internal sealed class TemplateParametersObject
         {
-            internal string Name;
+            internal string Name, Value;
 
-            internal string Value;
-
-            internal TemplateParametersObject(string ParameterName, string ParameterValue)
+            internal TemplateParametersObject(string parameterName, string parameterValue)
             {
-                Name = ParameterName;
-                Value = ParameterValue;
+                Name = parameterName;
+                Value = parameterValue;
             }
         }
     }

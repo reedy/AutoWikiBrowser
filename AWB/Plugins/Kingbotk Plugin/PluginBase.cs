@@ -214,7 +214,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             {
                 if (!PreferredTemplateNameRegex.Match(templateName).Success)
                 {
-                    TheArticle.RenamedATemplate(templateName, PreferredTemplateName, PluginShortName);
+                    TheArticle.RenamedATemplate(templateName, PreferredTemplateName);
                     GotTemplateNotPreferredName(templateName);
                 }
             }
@@ -231,7 +231,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             {
                 Template.NewTemplateParm("class", "");
             }
-            TheArticle.TemplateAdded(PreferredTemplateName, PluginShortName);
+            TheArticle.TemplateAdded(PreferredTemplateName);
         }
 
         private void TemplateWritingAndPlacement()
@@ -340,7 +340,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 {
                     TheArticle.AlteredArticleText = r.Replace(TheArticle.AlteredArticleText, "");
                 }
-                TheArticle.DoneReplacement(templateCall, paramName + "=yes", true, PluginShortName);
+                TheArticle.DoneReplacement(templateCall, paramName + "=yes");
                 Template.NewOrReplaceTemplateParm(paramName, "yes", TheArticle, false, false);
                 TheArticle.ArticleHasAMinorChange();
             }
@@ -358,7 +358,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 if (parameters[name1].Value == parameters[name2].Value)
                 {
                     parameters.Remove(name2);
-                    TheArticle.DoneReplacement(name2, "", true, PluginShortName);
+                    TheArticle.DoneReplacement(name2, "");
                 }
                 else
                 {
