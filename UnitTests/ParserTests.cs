@@ -5300,6 +5300,12 @@ Some news here.", "test"), "space trimmed from end of paragraph when br replaces
             Assert.AreEqual(@"== Sources ==", Parsers.FixHeadings(@"== SOURCES ==", "a"));
             Assert.AreEqual(@"==  Sources  ==", Parsers.FixHeadings(@"==  SOURCES  ==", "a"));
             
+            Assert.AreEqual("==See also==", Parsers.FixHeadings("==Also see==", "test"),"rename also see to see also section");
+            Assert.AreEqual("==See also==", Parsers.FixHeadings("==Internal links==", "test"),"rename to see also section");
+            Assert.AreEqual("==See also==", Parsers.FixHeadings("==Related articles==", "test"),"rename to see also section");
+            Assert.AreEqual("===Related articles===", Parsers.FixHeadings("===Related articles===", "test"),"do nothing if level 3");
+
+            
             string HeadingEqualTitle = Parsers.FixHeadings(@"A
 ==Foo==
 B","Foo");
