@@ -7215,7 +7215,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex ImproveCategories = Tools.NestedTemplateRegex("improve categories");
         private static readonly Regex ProposedDeletionDatedEndorsed = Tools.NestedTemplateRegex( new [] {"Proposed deletion/dated", "Proposed deletion endorsed", "Prod blp/dated" });
         private static readonly Regex Unreferenced = Tools.NestedTemplateRegex("unreferenced");
-        private static readonly Regex Drugbox = Tools.NestedTemplateRegex(new[] { "Drugbox", "Chembox", "PBB" });
+        private static readonly Regex Drugbox = Tools.NestedTemplateRegex(new[] { "Drugbox", "Chembox", "PBB", "PBB Summary" });
         private static readonly Regex MinorPlanetListFooter = Tools.NestedTemplateRegex("MinorPlanetListFooter");
         private static readonly Regex BulletedText = new Regex(@"\r\n[\*#: ].*");
 
