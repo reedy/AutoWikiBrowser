@@ -7215,7 +7215,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex ImproveCategories = Tools.NestedTemplateRegex("improve categories");
         private static readonly Regex ProposedDeletionDatedEndorsed = Tools.NestedTemplateRegex( new [] {"Proposed deletion/dated", "Proposed deletion endorsed", "Prod blp/dated" });
         private static readonly Regex Unreferenced = Tools.NestedTemplateRegex("unreferenced");
-        private static readonly Regex Drugbox = Tools.NestedTemplateRegex(new[] { "Drugbox", "Chembox" });
+        private static readonly Regex Drugbox = Tools.NestedTemplateRegex(new[] { "Drugbox", "Chembox", "PBB" });
         private static readonly Regex MinorPlanetListFooter = Tools.NestedTemplateRegex("MinorPlanetListFooter");
         private static readonly Regex BulletedText = new Regex(@"\r\n[\*#: ].*");
 
@@ -7333,7 +7333,7 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            // discount persondata, comments, infoboxes and categories from wikify and stub evaluation
+            // discount persondata, comments, infoboxes and categories from wikify/underlinked and stub evaluation
             string lengthtext = WikiRegexes.Persondata.Replace(commentsCategoriesStripped, "");
             lengthtext = WikiRegexes.InfoBox.Replace(lengthtext, "");
             lengthtext = Drugbox.Replace(lengthtext, "");
