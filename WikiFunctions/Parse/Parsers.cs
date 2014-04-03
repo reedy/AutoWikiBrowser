@@ -2980,6 +2980,7 @@ namespace WikiFunctions.Parse
             if(RedRefQuick.IsMatch(articleText.ToLower()))
                 articleText = RedRef.Replace(articleText, "$1</ref>");
             
+			// Chinese do not use spaces to separate sentences
             if (Variables.LangCode.Equals("zh") && articleText.Contains(@"</ref> "))
                 articleText = Regex.Replace(articleText, @"</ref> +", "</ref>");
 
