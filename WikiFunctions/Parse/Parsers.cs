@@ -2981,8 +2981,8 @@ namespace WikiFunctions.Parse
                 articleText = RedRef.Replace(articleText, "$1</ref>");
             
 			// Chinese do not use spaces to separate sentences
-            if (Variables.LangCode.Equals("zh") && articleText.Contains(@"</ref> "))
-                articleText = Regex.Replace(articleText, @"</ref> +", "</ref>");
+            if (Variables.LangCode.Equals("zh"))
+                articleText = Regex.Replace(articleText, @"(</ref>|<ref\s*name\s*=[^{}<>]+?\s*\/\s*>) +", "$1");
 
             return RefTags.Replace(articleText, FixReferenceTagsME);
         }
