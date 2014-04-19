@@ -1938,6 +1938,16 @@ namespace WikiFunctions.Parse
                             derivedReferenceName = title;
                         derivedReferenceName = CleanDerivedReferenceName(derivedReferenceName);
                     }
+
+                    // try work
+                    if (derivedReferenceName.Length < 4)
+                    {
+                        title = Tools.GetTemplateParameterValue(reference, "work");
+
+                        if (title.Length > 3 && title.Length < 35)
+                            derivedReferenceName = title;
+                        derivedReferenceName = CleanDerivedReferenceName(derivedReferenceName);
+                    }
                 }
             }
 
@@ -2022,14 +2032,15 @@ namespace WikiFunctions.Parse
 
         /// <summary>
         /// Checks the validity of a new reference name:
-        /// Name at least 3 characters and not already used in article
+        /// Name at least 3 characters and not already used in article, not just 'http'
         /// </summary>
         /// <param name="articleText">The article text</param>
         /// <param name="derivedReferenceName">The reference name</param>
         /// <returns>Whether the article does not already have a reference of that name</returns>
         private static bool ReferenceNameValid(string articleText, string derivedReferenceName)
         {
-            return !Regex.IsMatch(articleText, RefName + Regex.Escape(derivedReferenceName) + @"(?:""|')?\s*/?\s*>") && derivedReferenceName.Length >= 3;
+            return !Regex.IsMatch(articleText, RefName + Regex.Escape(derivedReferenceName) + @"(?:""|')?\s*/?\s*>") && derivedReferenceName.Length >= 3
+                && !derivedReferenceName.Equals("http");
         }
 
         private static readonly Regex TlOrTlx = Tools.NestedTemplateRegex(new List<string>(new[] { "tl", "tlx" }));
