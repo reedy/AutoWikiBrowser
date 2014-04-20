@@ -3704,5 +3704,27 @@ Message: {2}
 
 			return WithoutDiacritics;
 		}
+
+		/// <summary>
+		/// Calculates md5sum of a string, see http://msdn.microsoft.com/en-us/library/system.security.cryptography.md5%28v=vs.110%29.aspx
+		/// </summary>
+		/// <param name="input"></param>
+		/// <returns></returns>
+		public static string GetMd5Sum(string input)
+		{
+		    System.Security.Cryptography.MD5 md5Hasher = System.Security.Cryptography.MD5.Create();
+
+		    byte[] data = md5Hasher.ComputeHash(Encoding.Default.GetBytes(input));
+
+		    StringBuilder res = new StringBuilder();
+
+		    // Format each byte as a hexadecimal string.
+		    for (int i = 0; i < data.Length; i++)
+		    {
+		        res.Append(data[i].ToString("x2"));
+		    }
+
+		    return res.ToString();
+		}
 	}
 }
