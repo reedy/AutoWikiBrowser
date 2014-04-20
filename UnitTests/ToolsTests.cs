@@ -2247,6 +2247,12 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.IsFalse(Tools.UnformattedTextNotChanged("<nowiki>A</nowiki>", "<nowiki>B</nowiki>"), "Unformatted text changed removed, false");
             Assert.IsFalse(Tools.UnformattedTextNotChanged("<nowiki>A</nowiki>", "<nowiki></nowiki>B"), "Unformatted text changed (no content) removed, false");
         }
+
+        [Test]
+        public void GetMd5Sum()
+        {
+            Assert.AreEqual("5d41402abc4b2a76b9719d911017c592", Tools.GetMd5Sum("hello"));
+        }
     }
 
     [TestFixture]
