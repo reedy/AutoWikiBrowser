@@ -2419,11 +2419,11 @@ world|format=PDF}} was";
         [Test]
         public void FixCitationYear()
         {
-            string correct = @"now {{cite book|title=a |url=http://books.google.com/foo | year=2009}}";
-            Assert.AreEqual(correct, Parsers.FixCitationTemplates(@"now {{cite book|title=a |url=http://books.google.com/foo | date=2009}}"));
+            string correct = @"now {{cite book|title=a |url=http://books.google.com/foo | date=2009}}";
+            Assert.AreEqual(correct, Parsers.FixCitationTemplates(correct));
 
-            string correct2 = @"now {{cite book|title=a |url=http://books.google.com/foo | year=2009 |page=32}}";
-            Assert.AreEqual(correct2, Parsers.FixCitationTemplates(@"now {{cite book|title=a |url=http://books.google.com/foo | date=2009 |page=32}}"));
+            string correct2 = @"now {{cite book|title=a |url=http://books.google.com/foo | date=2009 |page=32}}";
+            Assert.AreEqual(correct2, Parsers.FixCitationTemplates(correct2));
 
             string nochange1 = @"now {{cite book|title=a |url=http://books.google.com/foo | year=2009a}}",
             nochange2 = @"now {{cite book|title=a |url=http://books.google.com/foo | year=2009a| date = 2009-05-16}}";
