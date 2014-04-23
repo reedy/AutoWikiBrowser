@@ -4100,13 +4100,12 @@ namespace WikiFunctions.Parse
                 pages = Tools.GetTemplateParameterValue(newValue, "pages");
             }
 
-            // date = YYYY --> year = YYYY if year the same or not set
+            // date = YYYY --> year = YYYY if year the same
+            // with Lua no need to rename date to year when date = YYYY
             if (TheDate.Length == 4)
             {
                 if(TheYear.Equals(TheDate))
                     newValue = Tools.RemoveTemplateParameter(newValue, "date");
-                else if(TheYear.Length == 0)
-                    newValue = YearInDate.Replace(newValue, "$1year$2");
             }
 
             // year = full date --> date = full date
