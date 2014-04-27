@@ -515,7 +515,7 @@ namespace WikiFunctions
         [XmlIgnore]
         public bool OnlyGeneralFixesChanged
         {
-            get { return (_generalFixesCausedChange && !FindAndReplaceMadeChanges && (ArticleText == _afterGeneralFixesArticleText)); }
+            get { return (_generalFixesCausedChange && !FindAndReplaceMadeChanges && !_customModuleMadeChanges && (ArticleText == _afterGeneralFixesArticleText)); }
         }
 
         /// <summary>
@@ -1125,6 +1125,8 @@ namespace WikiFunctions
                 AWBChangeArticleText("Emboldened titles", strTemp, false);
         }
 
+        private bool _customModuleMadeChanges = false;
+
         /// <summary>
         /// Invokes the Custom Module code
         /// </summary>
@@ -1138,6 +1140,7 @@ namespace WikiFunctions
             string strTemp = module.ProcessArticle(processArticleEventArgs.ArticleText,
                                                    processArticleEventArgs.ArticleTitle, NameSpaceKey, out strEditSummary, out skipArticle);
 
+            _customModuleMadeChanges = !strTemp.Equals(processArticleEventArgs.ArticleText);
             // take updated article text even if skip true, so that in re-parse mode updates are taken
             AWBChangeArticleText("Custom module", strTemp, true);
 
