@@ -3228,12 +3228,12 @@ namespace WikiFunctions.Parse
         // Match execss <br> tags only if current line does not start from ! or | (indicator of table cells)
         private static readonly Regex SyntaxRemoveBr = new Regex(@"(?:(?:<br[\s/]*> *){2,}|\r\n<br[\s/]*>\r\n<br[\s/]*>\r\n)(?<!^[!\|].*)", RegexOptions.IgnoreCase | RegexOptions.Multiline);
 
-        private static readonly Regex MultipleHttpInLink = new Regex(@"(?<=[\s\[>=])(https?(?::?/+|:/*))(\1)+", RegexOptions.IgnoreCase);
+        private static readonly Regex MultipleHttpInLink = new Regex(@"(?<=[\s\[>=])((https?|ftp)(?::?/+|:/*))(\1)+", RegexOptions.IgnoreCase);
         private static readonly Regex MultipleFtpInLink = new Regex(@"(?<=[\s\[>=])(ftp(?::?/+|:/*))(\1)+", RegexOptions.IgnoreCase);
         private static readonly Regex PipedExternalLink = new Regex(@"(\[\w+://[^\]\[<>\""\s]*?\s*)(?: +\||\|([ ']))(?=[^\[\]\|]*\])");
 
-        private static readonly Regex MissingColonInHttpLink = new Regex(@"(?<=[\s\[>=](?:ht|f))tp(?://?:?|:(?::+//)?)(\w+)", RegexOptions.Compiled);
-        private static readonly Regex SingleTripleSlashInHttpLink = new Regex(@"(?<=[\s\[>=](?:ht|f))tp:(?:/|///)(\w+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+        private static readonly Regex MissingColonInHttpLink = new Regex(@"(?<=[\s\[>=](?:ht|f))(tps?)(?://?:?|:(?::+//)?)(\w+)", RegexOptions.Compiled);
+        private static readonly Regex SingleTripleSlashInHttpLink = new Regex(@"(?<=[\s\[>=](?:ht|f))(tps?):(?:/|///)(\w+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         private static readonly Regex CellpaddingTypo = new Regex(@"({\s*\|\s*class\s*=\s*""wikitable[^}]*?)cel(?:lpa|pad?)ding\b", RegexOptions.IgnoreCase);
 
@@ -3351,15 +3351,14 @@ namespace WikiFunctions.Parse
             }
 
             articleText = MultipleHttpInLink.Replace(articleText, "$1");
-            articleText = MultipleFtpInLink.Replace(articleText, "$1");
 
             //repair bad external links
             articleText = SyntaxRegexExternalLinkToImageURL.Replace(articleText, "[$1]");
 
             if (!SyntaxRegexHTTPNumber.IsMatch(articleText))
             {
-                articleText = MissingColonInHttpLink.Replace(articleText, "tp://$1");
-                articleText = SingleTripleSlashInHttpLink.Replace(articleText, "tp://$1");
+                articleText = MissingColonInHttpLink.Replace(articleText, "$1://$2");
+                articleText = SingleTripleSlashInHttpLink.Replace(articleText, "$1://$2");
             }
 
             if (!ISBNTemplates.IsMatch(articleText))
