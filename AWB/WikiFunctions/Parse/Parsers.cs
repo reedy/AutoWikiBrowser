@@ -3243,6 +3243,7 @@ namespace WikiFunctions.Parse
         // for fixing unbalanced brackets
         private static readonly Regex RefTemplateIncorrectBracesAtEnd = new Regex(@"(?<=<ref(?:\s*name\s*=[^{}<>/]+?\s*)?>\s*)({{\s*[Cc]it[ae][^{}]+?)(?:}\]?|\)\))?(?=\s*</ref>)", RegexOptions.Compiled);
         private static readonly Regex RefExternalLinkUsingBraces = new Regex(@"(?<=<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*){{(\s*https?://[^{}\s\r\n]+)(\s+[^{}]+\s*)?}}(\s*</ref>)", RegexOptions.Compiled);
+        private static readonly Regex RefURLMissingHttp = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\[?)\s*www.", RegexOptions.Compiled);
         private static readonly Regex TemplateIncorrectBracesAtStart = new Regex(@"(?:{\[|\[{)([^{}\[\]]+}})", RegexOptions.Compiled);
         private static readonly Regex CitationTemplateSingleBraceAtStart = new Regex(@"(?<=[^{])({\s*[Cc]it[ae])", RegexOptions.Compiled);
         private static readonly Regex ReferenceTemplateQuadBracesAtEnd = new Regex(@"(?<=<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*{{[^{}]+)}}(}}\s*</ref>)", RegexOptions.Compiled);
@@ -3390,6 +3391,9 @@ namespace WikiFunctions.Parse
             articleText = RefExternalLinkMissingStartBracket.Replace(articleText, @"$1[$2");
             articleText = RefExternalLinkMissingEndBracket.Replace(articleText, @"$1]$2");
             articleText = BracesWithinDefaultsort.Replace(articleText, @"$1}}");
+
+			// adds missing http:// to bare url references lacking it - CHECKWIKI error 62
+			articleText = RefURLMissingHttp.Replace(articleText,@"$1http://www.");
 
             // fixes for square brackets used within external links
             // fix newline(s) in external link description - Partially CHECKWIKI error 80
