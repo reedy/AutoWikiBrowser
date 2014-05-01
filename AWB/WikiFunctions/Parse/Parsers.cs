@@ -3021,6 +3021,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex MonthsRegexNoSecondBreak = new Regex(@"\b" + WikiRegexes.MonthsNoGroup + @".{0,30}");
         private static readonly Regex DayOfMonth = new Regex(@"(?<![Tt]he +)\b([1-9]|[12]\d|3[01])(?:st|nd|rd|th) +of +" + WikiRegexes.Months);
         private static readonly Regex Ordinal = new Regex(@"\d(?:st|nd|rd|th)");
+        private static readonly Regex MonthsAct = new Regex(@"\b(?:January|February|March|April|May|June|July|August|September|October|November|December) Act\b");
 
         // Covered by TestFixDateOrdinalsAndOf
         /// <summary>
@@ -3045,7 +3046,10 @@ namespace WikiFunctions.Parse
                 {
                     // take up to 25 characters before match, unless match within first 25 characters of article
                     string before = articleText.Substring(m.Index-Math.Min(25, m.Index), Math.Min(25, m.Index)+m.Length);
-                    
+
+                    if(MonthsAct.IsMatch(before))
+                        continue;
+
                     string after = FixDateOrdinalsAndOfLocal(before, monthsInTitle);
                     
                     if(!after.Equals(before))
