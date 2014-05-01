@@ -8749,6 +8749,22 @@ Expanded template test return<!-- {{hello2}} -->", Parsers.SubstUserTemplates(@"
             Assert.AreEqual("May 1990 (age 21)", Parsers.FormatToBDA("May 1990 (age 21)"));
             Assert.AreEqual("May 11, 1990 (Age 21) and some other text", Parsers.FormatToBDA("May 11, 1990 (Age 21) and some other text"));
         }
+
+        [Test]
+        public void COinS()
+        {
+            string data1 = @"""coins"": ""ctx_ver=Z39.88-2004&amp;rft_id=info%3Adoi%2Fhttp%3A%2F%2Fdx.doi.org%2F10.1007%2Fs11046-005-4332-4&amp;rfr_id=info%3Asid%2Fcrossref.org%3Asearch&amp;rft.atitle=Morphological+alterations+in+toxigenic+Aspergillus+parasiticus+exposed+to+neem+%28Azadirachta+indica%29+leaf+and+seed+aqueous+extracts&amp;rft.jtitle=Mycopathologia&amp;rft.date=2005&amp;rft.volume=159&amp;rft.issue=4&amp;rft.spage=565&amp;rft.epage=570&amp;rft.aufirst=Mehdi&amp;rft.aulast=Razzaghi-Abyaneh&amp;rft_val_fmt=info%3Aofi%2Ffmt%3Akev%3Amtx%3Ajournal&amp;rft.genre=article&amp;rft.au=Mehdi+Razzaghi-Abyaneh&amp;rft.au=+Abdolamir+Allameh&amp;rft.au=+Taki+Tiraihi&amp;rft.au=+Masoomeh+Shams-Ghahfarokhi&amp;rft.au=+Mehdi+Ghorbanian""";
+            Dictionary<string, string> res = Parsers.ExtractCOinS(data1);
+            Assert.IsTrue(res.ContainsKey("volume"));
+            Assert.IsTrue(res.ContainsKey("issue"));
+            Assert.IsTrue(res.ContainsKey("spage"));
+            Assert.IsTrue(res.ContainsKey("aulast"));
+            Assert.IsTrue(res.ContainsKey("atitle"));
+            Assert.IsTrue(res.ContainsKey("date"));
+            string v;
+            res.TryGetValue("volume", out v);
+            Assert.AreEqual(v, "159");
+        }
     }
 
     [TestFixture]
