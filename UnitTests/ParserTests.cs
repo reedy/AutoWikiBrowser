@@ -6302,6 +6302,7 @@ was"));
             genFixes.AssertNotChanged(@"On 14th march was");
             genFixes.AssertNotChanged(@"Now the 14th February was");
             genFixes.AssertNotChanged(@"Now the February 14th was");
+            genFixes.AssertNotChanged(@"Observance of 5th November Act");
             genFixes.AssertNotChanged(@"'''6th October City''' is", "6th October City");
             genFixes.AssertNotChanged(@"<blockquote>On March 14th, 2008 elections were</blockquote>");
         }
