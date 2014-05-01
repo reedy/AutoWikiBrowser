@@ -8302,6 +8302,31 @@ namespace WikiFunctions.Parse
             return SameLanguageLink.Replace(articleText, "$1$2");
         }
 
+        private static readonly Regex coinsR = new Regex(@"""coins"": ""([^""]+)");
+        private static readonly Regex coinsParam = new Regex(@"[&;]rft\.([a-z0-9]+)=([^&]+)");
+
+        /// <summary>
+        /// Returns a dictonary of COinS parameter and value from the input text
+        /// Only first set of COinS data is processed
+        /// </summary>
+        /// <param name="text">Raw HTML containing COinS data</param>
+        /// <returns></returns>
+        public static Dictionary<string, string> ExtractCOinS(string text)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            // match only the COinS section of the text
+            text = coinsR.Match(text).Groups[1].Value;
+            text = System.Web.HttpUtility.UrlDecode(text);
+
+            foreach(Match m in coinsParam.Matches(text))
+            {
+                if(!data.ContainsKey(m.Groups[1].Value))
+                    data.Add(m.Groups[1].Value, m.Groups[2].Value);
+            }
+
+            return data;
+        }
+
         #endregion
 
         #region Property checkers
