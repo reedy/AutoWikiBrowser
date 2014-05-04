@@ -1049,6 +1049,7 @@ namespace AutoWikiBrowser
                 bool diffInBotMode = (BotMode && doDiffInBotMode);
                 if (BotMode)
                 {
+                    StatusLabelText = "Ready to save";
                     StartDelayedAutoSaveTimer();
 
                     if (!diffInBotMode)
