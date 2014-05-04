@@ -2041,6 +2041,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             try
             {
                 int caretPosition = txtEdit.SelectionStart;
+                // see http://stackoverflow.com/questions/1277691/how-to-retrieve-the-scrollbar-position-of-the-webbrowser-control-in-net
+                int webBrowserYScroll = webBrowser.Document.GetElementsByTagName("HTML")[0].ScrollTop;
                 GetDiff(); // to pick up any manual changes from edit box
 
                 switch (changeType)
@@ -2057,6 +2059,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 }
 
                 GetDiff();
+
+                // scroll back to where user was
+                object[] ob = {"window.scrollTo(0, " + webBrowserYScroll.ToString() + @")"};
+                webBrowser.Document.InvokeScript("eval", ob);
 
                 // now put caret back where it was
                 txtEdit.Select(Math.Min(caretPosition, txtEdit.Text.Length), 0);
