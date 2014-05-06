@@ -126,7 +126,7 @@ namespace AutoWikiBrowser
             this.linkBugs.Size = new System.Drawing.Size(66, 13);
             this.linkBugs.TabIndex = 0;
             this.linkBugs.TabStop = true;
-            this.linkBugs.Text = "Bugs reports";
+            this.linkBugs.Text = "Bug reports";
             this.linkBugs.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkBugs_LinkClicked);
             // 
             // linkFeatureRequests
