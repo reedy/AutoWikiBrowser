@@ -92,9 +92,7 @@ namespace WikiFunctions.Controls.Lists
         	Array.Sort(currentArticles, ArticleForwardComparer);
         	
         	Items.Clear();
-        	
-        	foreach (Article a in currentArticles)
-                Items.Add(a);
+        	Items.AddRange(currentArticles);
         	
         	EndUpdate();
         }
@@ -125,9 +123,7 @@ namespace WikiFunctions.Controls.Lists
             Array.Sort(currentArticles, ArticleReverseComparer);
 
             Items.Clear();
-
-            foreach (Article a in currentArticles)
-                Items.Add(a);
+        	Items.AddRange(currentArticles);
 
             EndUpdate();
         }
