@@ -672,6 +672,7 @@ namespace WikiFunctions.Parse
 
         private void moveUpToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
             foreach (DataGridViewRow row in dataGridView1.SelectedRows)
             {
                 if (row.Index > 0 && row.Index < (dataGridView1.Rows.Count - 1))
@@ -689,6 +690,7 @@ namespace WikiFunctions.Parse
 
         private void moveDownToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
             foreach (DataGridViewRow row in dataGridView1.SelectedRows)
             {
                 if (row.Index < (dataGridView1.Rows.Count - 2))
@@ -706,6 +708,7 @@ namespace WikiFunctions.Parse
 
         private void moveToTopToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
             foreach (DataGridViewRow row in dataGridView1.SelectedRows)
             {
                 if (row.Index > 0 && row.Index < (dataGridView1.Rows.Count - 1))
@@ -722,6 +725,7 @@ namespace WikiFunctions.Parse
 
         private void moveToBottomToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
             foreach (DataGridViewRow row in dataGridView1.SelectedRows)
             {
                 if (row.Index < (dataGridView1.Rows.Count - 2))
