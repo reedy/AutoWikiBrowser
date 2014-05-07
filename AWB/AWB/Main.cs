@@ -1534,10 +1534,11 @@ namespace AutoWikiBrowser
                 }
 
                 // find and replace before general fixes
+                // Do not apply skip checks when reparsing
                 if (chkFindandReplace.Checked)
                 {
                     theArticle.PerformFindAndReplace(FindAndReplace, SubstTemplates, RplcSpecial,
-                                                     chkSkipWhenNoFAR.Checked, chkSkipOnlyMinorFaR.Checked, false);
+                                                     (mainProcess && chkSkipWhenNoFAR.Checked), (mainProcess && chkSkipOnlyMinorFaR.Checked), false);
 
                     Variables.Profiler.Profile("F&R");
 
@@ -1655,10 +1656,11 @@ namespace AutoWikiBrowser
                 }
 
                 // find and replace after general fixes
+                // Do not apply skip checks when reparsing
                 if (chkFindandReplace.Checked)
                 {
                     theArticle.PerformFindAndReplace(FindAndReplace, SubstTemplates, RplcSpecial,
-                                                     chkSkipWhenNoFAR.Checked, chkSkipOnlyMinorFaR.Checked, true);
+                                                     (mainProcess && chkSkipWhenNoFAR.Checked), (mainProcess && chkSkipOnlyMinorFaR.Checked), true);
 
                     theArticle.DoFaRSkips(FindAndReplace);
 
