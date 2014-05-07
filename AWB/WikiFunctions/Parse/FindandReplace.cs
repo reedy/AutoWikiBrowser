@@ -682,6 +682,7 @@ namespace WikiFunctions.Parse
                     ApplyDefaultFormatting = false;
                     dataGridView1.Rows.Insert(index - 1, tmp);
                     ApplyDefaultFormatting = true;
+                    SelectRowAndFocusColumn(index-1);
                 }
             }
         }
@@ -698,6 +699,7 @@ namespace WikiFunctions.Parse
                     ApplyDefaultFormatting = false;
                     dataGridView1.Rows.Insert(index + 1, tmp);
                     ApplyDefaultFormatting = true;
+                    SelectRowAndFocusColumn(index+1);
                 }
             }
         }
@@ -713,6 +715,7 @@ namespace WikiFunctions.Parse
                     ApplyDefaultFormatting = false;
                     dataGridView1.Rows.Insert(0, tmp);
                     ApplyDefaultFormatting = true;
+                    SelectRowAndFocusColumn(0);
                 }
             }
         }
@@ -728,8 +731,21 @@ namespace WikiFunctions.Parse
                     ApplyDefaultFormatting = false;
                     dataGridView1.Rows.Add(tmp);
                     ApplyDefaultFormatting = true;
+                    SelectRowAndFocusColumn(dataGridView1.Rows.Count-2); // zero based row and always one blank at end
                 }
             }
+        }
+
+        /// <summary>
+        /// After a user has just moved a row: selects the moved row and returns focus to the previously selected column
+        /// </summary>
+        /// <param name='row'>
+        /// Moved row number
+        /// </param>
+        private void SelectRowAndFocusColumn(int row)
+        {
+            dataGridView1.Rows[row].Selected = true;
+            dataGridView1.CurrentCell = dataGridView1[dataGridView1.CurrentCell.ColumnIndex, row]; // focus on column that currently has focus, but in the moved row
         }
 
         private void createRetfRuleToolStripMenuItem_Click(object sender, EventArgs e)
