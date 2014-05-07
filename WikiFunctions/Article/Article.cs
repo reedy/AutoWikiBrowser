@@ -1279,9 +1279,13 @@ namespace WikiFunctions
             return (this == a);
         }
 
+        /// <summary>
+        /// Compares article name to another article name, sort based on alphabetical by Unicode code point
+        /// i.e. matches mediawiki sort order, see https://www.mediawiki.org/wiki/Help:Sorting#Sort_order
+        /// </summary>
         public int CompareTo(Article other)
         {
-            return string.Compare(Name, other.Name, false, System.Globalization.CultureInfo.InvariantCulture);
+            return String.CompareOrdinal(Name, other.Name);
         }
 
         #endregion
