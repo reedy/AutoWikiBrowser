@@ -7367,7 +7367,7 @@ namespace WikiFunctions.Parse
                 !WikiRegexes.Disambigs.IsMatch(commentsCategoriesStripped) && !WikiRegexes.SIAs.IsMatch(commentsCategoriesStripped) && !WikiRegexes.NonDeadEndPageTemplates.IsMatch(commentsCategoriesStripped))
             {
                 // add stub tag. Exclude pages their title starts with "List of..."
-                if (!ListOf.IsMatch(articleTitle))
+                if (!ListOf.IsMatch(articleTitle) && !WikiRegexes.MeaningsOfMinorPlanetNames.IsMatch(articleTitle))
                 {
                     if (Variables.LangCode.Equals("ar"))
                     {
@@ -7525,7 +7525,12 @@ namespace WikiFunctions.Parse
                 }
             }
 
-            if (wikiLinkCount == 0 && !WikiRegexes.DeadEnd.IsMatch(articleText) && !WikiRegexes.SIAs.IsMatch(articleText) && !WikiRegexes.NonDeadEndPageTemplates.IsMatch(articleText))
+            if (wikiLinkCount == 0 &&
+                !WikiRegexes.DeadEnd.IsMatch(articleText) &&
+                !WikiRegexes.SIAs.IsMatch(articleText) &&
+                !WikiRegexes.NonDeadEndPageTemplates.IsMatch(articleText) &&
+                !WikiRegexes.MeaningsOfMinorPlanetNames.IsMatch(articleTitle)
+               )
             {
                 // add dead-end tag
                 // no blank line between dead end and orphan tags for ar/arz
@@ -7572,7 +7577,8 @@ namespace WikiFunctions.Parse
                      && !WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower().Contains("wikify")
                      && !WikiRegexes.DeadEnd.IsMatch(articleText)
                      && !WikiRegexes.SIAs.IsMatch(articleText)
-                     && !WikiRegexes.NonDeadEndPageTemplates.IsMatch(articleText))
+                     && !WikiRegexes.NonDeadEndPageTemplates.IsMatch(articleText)
+                     && !WikiRegexes.MeaningsOfMinorPlanetNames.IsMatch(articleTitle))
             {
                 // Avoid excess newlines between templates
                 string templateEnd = "}}\r\n" + (articleText.TrimStart().StartsWith(@"{{") ? "" : "\r\n");

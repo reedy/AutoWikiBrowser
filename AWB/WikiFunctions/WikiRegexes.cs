@@ -672,6 +672,11 @@ namespace WikiFunctions
         public static readonly Regex MathPreSourceCodeComments = new Regex(@"<pre>.*?</pre>|<!--.*?-->|<math>.*?</math>|" + SourceCode, RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
+        /// Matches anything starting with Meanings of minor planet names
+        /// </summary>
+        public static readonly Regex MeaningsOfMinorPlanetNames = new Regex(@"^Meanings of minor planet names", RegexOptions.Compiled);
+
+        /// <summary>
         /// Matches Dates like 21 January
         /// </summary>
         public static Regex Dates;

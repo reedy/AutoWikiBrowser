@@ -824,7 +824,7 @@ Jones 2005</ref>"));
 <References>";
             Assert.AreEqual(missingSlash.Replace(@"s>", @"s/>"), Parsers.AddMissingReflist(missingSlash2));
 
-            // list of references alreadypresent
+            // list of references already present
             const string LDR = @"Foo <ref name='ab'/>
 ==References==
 <references>
@@ -9510,6 +9510,11 @@ Foo
             Assert.IsFalse(Tools.NestedTemplateRegex("Uncategorized stub").IsMatch(text));
             Assert.IsFalse(text.Contains(UncatStub));
 
+            text = parser.Tagger(ShortTextWithLongComment, "Meanings of minor planet names: 3001–4000", false, out noChange, ref summary);
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "page is orphan");
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text), "page is not dead end");
+			Assert.IsFalse(WikiRegexes.Stub.IsMatch(text), "page is not stub");
+ 
             text = parser.Tagger(ShortText + Stub + Uncat + Wikify + Orphan + Deadend, "Test", false, out noChange, ref summary);
             //Tagged article, dupe tags shouldn't be added
             Assert.AreEqual(1, Tools.RegexMatchCount(Regex.Escape(Stub), text));
