@@ -66,20 +66,45 @@ namespace WikiFunctions.Controls.Lists
             }
         }
 
+        private class ForwardComparer : IComparer<Article>
+        {
+        	public int Compare(Article article1, Article article2)
+        	{
+                return article1.CompareTo(article2);
+        	}
+        }
+        
+        private static readonly ForwardComparer ArticleForwardComparer = new ForwardComparer();
+        
+        /// <summary>
+        /// Sorts the article list in alphabetical order, Unicode code point order per https://www.mediawiki.org/wiki/Help:Sorting#Sort_order
+        /// </summary>
         public new void Sort()
         {
-            BeginUpdate();
-            Sorted = true;
-            Sorted = false;
-            EndUpdate();
+        	BeginUpdate();
+        	Sorted = false;
+        	
+        	Article[] currentArticles = new Article[Items.Count];
+        	
+        	for (int i = 0; i < Items.Count; i++)
+                currentArticles[i] = (Article)Items[i];
+        	
+        	Array.Sort(currentArticles, ArticleForwardComparer);
+        	
+        	Items.Clear();
+        	
+        	foreach (Article a in currentArticles)
+                Items.Add(a);
+        	
+        	EndUpdate();
         }
 
         private class ReverseComparer : IComparer<Article>
         {
-            public int Compare(Article article1, Article article2)
-            {
+        	public int Compare(Article article1, Article article2)
+        	{
                 return -article1.CompareTo(article2);
-            }
+        	}
         }
 
         private static readonly ReverseComparer ArticleReverseComparer = new ReverseComparer();
