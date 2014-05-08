@@ -40,6 +40,8 @@ namespace WikiFunctions.API
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xml);
 
+            Exists = (xr.GetAttribute("missing") == null); //if null, page exists
+
             var redirects = doc.GetElementsByTagName("r");
 
             if (redirects.Count >= 1) //We have redirects
@@ -67,11 +69,6 @@ namespace WikiFunctions.API
                 TitleChangedStatus = PageTitleStatus.NoChange;
             }
 
-            if (!xr.ReadToFollowing("page"))
-            {
-                throw new Exception("Cannot find <page> element");
-            }
-
             //Normalised before redirect, so would be root. Could still be multiple redirects, or looped
             var normalised = doc.GetElementsByTagName("n");
 
@@ -95,7 +92,11 @@ namespace WikiFunctions.API
                 OriginalTitle = redirectFrom;
             }
 
-            Exists = (xr.GetAttribute("missing") == null); //if null, page exists
+            if (!xr.ReadToFollowing("page"))
+            {
+                throw new Exception("Cannot find <page> element");
+            }
+
             IsWatched = (xr.GetAttribute("watched") != null);
             EditToken = xr.GetAttribute("edittoken");
             TokenTimestamp = xr.GetAttribute("starttimestamp");
