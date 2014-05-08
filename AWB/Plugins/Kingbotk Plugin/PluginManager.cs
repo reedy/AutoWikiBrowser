@@ -581,6 +581,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 ActivePlugins.Remove(p);
             if (ActivePlugins.Count == 0)
                 AWBForm.RemoveTabPage(KingbotkPluginTab);
+
+            var plugin = p as GenericTemplatePlugin;
+            if (plugin != null)
+            {
+                plugin.Dispose();
+            }
             DefaultStatusText();
         }
 
