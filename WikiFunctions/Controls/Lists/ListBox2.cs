@@ -81,20 +81,7 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public new void Sort()
         {
-        	BeginUpdate();
-        	Sorted = false;
-        	
-        	Article[] currentArticles = new Article[Items.Count];
-        	
-        	for (int i = 0; i < Items.Count; i++)
-                currentArticles[i] = (Article)Items[i];
-        	
-        	Array.Sort(currentArticles, ArticleForwardComparer);
-        	
-        	Items.Clear();
-        	Items.AddRange(currentArticles);
-        	
-        	EndUpdate();
+            SortByDirection(true);
         }
 
         private class ReverseComparer : IComparer<Article>
@@ -106,24 +93,31 @@ namespace WikiFunctions.Controls.Lists
         }
 
         private static readonly ReverseComparer ArticleReverseComparer = new ReverseComparer();
-        
+
         /// <summary>
         /// Sorts the article list in reverse alphabetical order
         /// </summary>
         public void ReverseSort()
         {
+            SortByDirection(false);
+        }
+
+        private void SortByDirection (bool forward)
+        {
             BeginUpdate();
-            Sorted = false;
 
             Article[] currentArticles = new Article[Items.Count];
 
             for (int i = 0; i < Items.Count; i++)
                 currentArticles[i] = (Article)Items[i];
 
-            Array.Sort(currentArticles, ArticleReverseComparer);
+            if(forward)
+                Array.Sort(currentArticles, ArticleForwardComparer);
+            else
+                Array.Sort(currentArticles, ArticleReverseComparer);
 
             Items.Clear();
-        	Items.AddRange(currentArticles);
+            Items.AddRange(currentArticles);
 
             EndUpdate();
         }
