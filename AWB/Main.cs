@@ -850,6 +850,7 @@ namespace AutoWikiBrowser
                     SkipRedirect("Recursive redirect");
                     return;
                 }
+
                 //No double redirects, API should've resolved it
 
                 if (filterOutNonMainSpaceToolStripMenuItem.Checked
