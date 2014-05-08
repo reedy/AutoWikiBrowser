@@ -70,42 +70,41 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         protected string Prefix;
 
         protected string Template;
-        private const string conStubClassParm = "StubClass";
+        private const string StubClassParm = "StubClass";
 
-        private const string conAutoStubParm = "AutoStub";
+        private const string AutoStubParm = "AutoStub";
 
         #region "XML interface"
 
-        public void ReadXML(XmlTextReader Reader)
+        public void ReadXML(XmlTextReader reader)
         {
             foreach (ListViewItem lvi in ListView1.Items)
             {
                 TemplateParameters tp = (TemplateParameters) lvi.Tag;
-                lvi.Checked = PluginManager.XMLReadBoolean(Reader, Prefix + tp.StorageKey, lvi.Checked);
+                lvi.Checked = PluginManager.XMLReadBoolean(reader, Prefix + tp.StorageKey, lvi.Checked);
             }
 
-            StubClass = PluginManager.XMLReadBoolean(Reader, Prefix + conStubClassParm, StubClass);
+            StubClass = PluginManager.XMLReadBoolean(reader, Prefix + StubClassParm, StubClass);
 
             if (AutoStubCheckBox.Enabled)
             {
-                PluginManager.XMLReadBoolean(Reader, Prefix + conAutoStubParm, AutoStub);
+                PluginManager.XMLReadBoolean(reader, Prefix + AutoStubParm, AutoStub);
             }
         }
 
-        public void WriteXML(XmlTextWriter Writer)
+        public void WriteXML(XmlTextWriter writer)
         {
-            var _with1 = Writer;
             foreach (ListViewItem lvi in ListView1.Items)
             {
                 TemplateParameters tp = (TemplateParameters) lvi.Tag;
-                _with1.WriteAttributeString(Prefix + tp.StorageKey, lvi.Checked.ToString());
+                writer.WriteAttributeString(Prefix + tp.StorageKey, lvi.Checked.ToString());
             }
 
-            _with1.WriteAttributeString(Prefix + conStubClassParm, StubClass.ToString());
+            writer.WriteAttributeString(Prefix + StubClassParm, StubClass.ToString());
 
             if (AutoStubCheckBox.Enabled)
             {
-                _with1.WriteAttributeString(Prefix + conAutoStubParm, AutoStub.ToString());
+                writer.WriteAttributeString(Prefix + AutoStubParm, AutoStub.ToString());
             }
         }
 

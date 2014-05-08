@@ -31,11 +31,6 @@ internal sealed class WPMilitaryHistory : PluginBase
         get { return TemplateName; }
     }
 
-    protected override void ImportanceParameter(Importance Importance)
-    {
-        // WPMILHIST doesn't do importance
-    }
-
     protected internal override IGenericSettings GenericSettings
     {
         get { return OurSettingsControl; }
@@ -443,9 +438,9 @@ internal sealed class WPMilitaryHistory : PluginBase
     }
 
     // XML settings:
-    protected internal override void ReadXML(XmlTextReader Reader)
+    protected internal override void ReadXML(XmlTextReader reader)
     {
-        bool blnNewVal = PluginManager.XMLReadBoolean(Reader, PluginName + "Enabled", Enabled);
+        bool blnNewVal = PluginManager.XMLReadBoolean(reader, PluginName + "Enabled", Enabled);
         // ReSharper disable once RedundantCheckBeforeAssignment
         if (blnNewVal != Enabled)
         {
@@ -453,7 +448,7 @@ internal sealed class WPMilitaryHistory : PluginBase
             // Mustn't set if the same or we get extra tabs
         }
 
-        OurSettingsControl.ReadXML(Reader);
+        OurSettingsControl.ReadXML(reader);
     }
 
     protected internal override void Reset()
@@ -461,9 +456,9 @@ internal sealed class WPMilitaryHistory : PluginBase
         OurSettingsControl.Reset();
     }
 
-    protected internal override void WriteXML(XmlTextWriter Writer)
+    protected internal override void WriteXML(XmlTextWriter writer)
     {
-        Writer.WriteAttributeString(PluginName + "Enabled", Enabled.ToString());
-        OurSettingsControl.WriteXML(Writer);
+        writer.WriteAttributeString(PluginName + "Enabled", Enabled.ToString());
+        OurSettingsControl.WriteXML(writer);
     }
 }

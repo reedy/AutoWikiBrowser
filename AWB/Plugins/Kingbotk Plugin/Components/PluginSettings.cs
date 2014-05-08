@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Windows.Forms;
 using System.Xml;
 using WikiFunctions.API;
@@ -19,17 +20,17 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
     internal sealed partial class PluginSettingsControl
     {
         // XML parm-name constants:
-        private const string conManuallyAssessParm = "ManuallyAssess";
-        private const string conCleanupParm = "Cleanup";
-        private const string conSkipBadTagsParm = "SkipBadTags";
-        private const string conSkipWhenNoChangeParm = "SkipWhenNoChange";
-        private const string conAssessmentsAlwaysLeaveACommentParm = "AlwaysLeaveAComment";
+        private const string ManuallyAssessParm = "ManuallyAssess";
+        private const string CleanupParm = "Cleanup";
+        private const string SkipBadTagsParm = "SkipBadTags";
+        private const string SkipWhenNoChangeParm = "SkipWhenNoChange";
+        private const string AssessmentsAlwaysLeaveACommentParm = "AlwaysLeaveAComment";
 
-        private const string conOpenBadInBrowser = "OpenBadInBrowser";
+        private const string OpenBadInBrowserText = "OpenBadInBrowser";
         // Statistics:
         internal Stats PluginStats = new Stats();
 
-        private readonly List<Label> StatLabels = new List<Label>();
+        private readonly List<Label> _statLabels = new List<Label>();
 
         internal PluginSettingsControl()
         {
@@ -45,7 +46,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 
             PluginManager.AWBForm.SkipNoChangesCheckBox.CheckedChanged += SkipNoChangesCheckBoxCheckedChanged;
 
-            StatLabels.AddRange(new[]
+            _statLabels.AddRange(new[]
             {
                 lblTagged,
                 lblSkipped,
@@ -59,7 +60,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         // AWB processing stopped/started:
         internal void AWBProcessingStart(AsyncApiEdit editor)
         {
-            foreach (Label lbl in StatLabels)
+            foreach (Label lbl in _statLabels)
             {
                 if (string.IsNullOrEmpty(lbl.Text))
                     lbl.Text = "0";
@@ -111,15 +112,15 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         }
 
         // XML interface:
-        internal void ReadXML(XmlTextReader Reader)
+        internal void ReadXML(XmlTextReader reader)
         {
-            ManuallyAssess = PluginManager.XMLReadBoolean(Reader, conManuallyAssessParm, ManuallyAssess);
-            Cleanup = PluginManager.XMLReadBoolean(Reader, conCleanupParm, Cleanup);
-            SkipBadTags = PluginManager.XMLReadBoolean(Reader, conSkipBadTagsParm, SkipBadTags);
-            SkipWhenNoChange = PluginManager.XMLReadBoolean(Reader, conSkipWhenNoChangeParm, SkipWhenNoChange);
-            AssessmentsAlwaysLeaveAComment = PluginManager.XMLReadBoolean(Reader, conAssessmentsAlwaysLeaveACommentParm,
+            ManuallyAssess = PluginManager.XMLReadBoolean(reader, ManuallyAssessParm, ManuallyAssess);
+            Cleanup = PluginManager.XMLReadBoolean(reader, CleanupParm, Cleanup);
+            SkipBadTags = PluginManager.XMLReadBoolean(reader, SkipBadTagsParm, SkipBadTags);
+            SkipWhenNoChange = PluginManager.XMLReadBoolean(reader, SkipWhenNoChangeParm, SkipWhenNoChange);
+            AssessmentsAlwaysLeaveAComment = PluginManager.XMLReadBoolean(reader, AssessmentsAlwaysLeaveACommentParm,
                 AssessmentsAlwaysLeaveAComment);
-            OpenBadInBrowser = PluginManager.XMLReadBoolean(Reader, conOpenBadInBrowser, OpenBadInBrowser);
+            OpenBadInBrowser = PluginManager.XMLReadBoolean(reader, OpenBadInBrowserText, OpenBadInBrowser);
         }
 
         internal void Reset()
@@ -133,23 +134,22 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 
         internal void WriteXML(XmlTextWriter Writer)
         {
-            Writer.WriteAttributeString(conManuallyAssessParm, ManuallyAssess.ToString());
-            Writer.WriteAttributeString(conCleanupParm, Cleanup.ToString());
-            Writer.WriteAttributeString(conSkipBadTagsParm, SkipBadTags.ToString());
-            Writer.WriteAttributeString(conSkipWhenNoChangeParm, SkipWhenNoChange.ToString());
-            Writer.WriteAttributeString(conAssessmentsAlwaysLeaveACommentParm, AssessmentsAlwaysLeaveAComment.ToString());
-            Writer.WriteAttributeString(conOpenBadInBrowser, OpenBadInBrowser.ToString());
+            Writer.WriteAttributeString(ManuallyAssessParm, ManuallyAssess.ToString());
+            Writer.WriteAttributeString(CleanupParm, Cleanup.ToString());
+            Writer.WriteAttributeString(SkipBadTagsParm, SkipBadTags.ToString());
+            Writer.WriteAttributeString(SkipWhenNoChangeParm, SkipWhenNoChange.ToString());
+            Writer.WriteAttributeString(AssessmentsAlwaysLeaveACommentParm, AssessmentsAlwaysLeaveAComment.ToString());
+            Writer.WriteAttributeString(OpenBadInBrowserText, OpenBadInBrowser.ToString());
         }
 
         // Event handlers - menu items:
         private void SetAWBToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var _with2 = PluginManager.AWBForm;
-            _with2.SkipNonExistentPages.Checked = false;
-            _with2.ApplyGeneralFixesCheckBox.Checked = false;
-            _with2.AutoTagCheckBox.Checked = false;
-            if (_with2.EditSummaryComboBox.Text == "clean up")
-                _with2.EditSummaryComboBox.Text = "";
+            PluginManager.AWBForm.SkipNonExistentPages.Checked = false;
+            PluginManager.AWBForm.ApplyGeneralFixesCheckBox.Checked = false;
+            PluginManager.AWBForm.AutoTagCheckBox.Checked = false;
+            if (PluginManager.AWBForm.EditSummaryComboBox.Text == "clean up")
+                PluginManager.AWBForm.EditSummaryComboBox.Text = "";
         }
 
         private void MenuAbout_Click(object sender, EventArgs e)
@@ -207,44 +207,44 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         // Event handlers - plugin stats:
         private void PluginStats_SkipBadTag(int val)
         {
-            lblBadTag.Text = val.ToString();
+            lblBadTag.Text = val.ToString(CultureInfo.InvariantCulture);
         }
 
         private void PluginStats_SkipMisc(int val)
         {
-            lblSkipped.Text = val.ToString();
+            lblSkipped.Text = val.ToString(CultureInfo.InvariantCulture);
         }
 
         private void PluginStats_SkipNamespace(int val)
         {
-            lblNamespace.Text = val.ToString();
+            lblNamespace.Text = val.ToString(CultureInfo.InvariantCulture);
         }
 
         private void PluginStats_SkipNoChange(int val)
         {
-            lblNoChange.Text = val.ToString();
+            lblNoChange.Text = val.ToString(CultureInfo.InvariantCulture);
         }
 
         private void PluginStats_Tagged(int val)
         {
-            lblTagged.Text = val.ToString();
+            lblTagged.Text = val.ToString(CultureInfo.InvariantCulture);
         }
 
         private void PluginStats_RedLink(int val)
         {
-            lblRedlink.Text = val.ToString();
+            lblRedlink.Text = val.ToString(CultureInfo.InvariantCulture);
         }
 
         // Statistics:
         internal sealed class Stats
         {
-            private int mTagged;
-            private int mSkipped;
-            private int mSkippedNoChange;
-            private int mSkippedBadTag;
-            private int mSkippedNamespace;
+            private int _tagged;
+            private int _skipped;
+            private int _skippedNoChange;
+            private int _skippedBadTag;
+            private int _skippedNamespace;
 
-            private int mRedLinks;
+            private int _redLinks;
             internal event SkipMiscEventHandler SkipMisc;
 
             internal delegate void SkipMiscEventHandler(int val);
@@ -271,10 +271,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 
             internal int Tagged
             {
-                get { return mTagged; }
+                get { return _tagged; }
                 set
                 {
-                    mTagged = value;
+                    _tagged = value;
                     if (evTagged != null)
                     {
                         evTagged(value);
@@ -284,10 +284,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 
             internal int Skipped
             {
-                get { return mSkipped; }
+                get { return _skipped; }
                 private set
                 {
-                    mSkipped = value;
+                    _skipped = value;
                     if (SkipMisc != null)
                     {
                         SkipMisc(value);
@@ -300,19 +300,19 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
                 Skipped += 1;
             }
 
-            internal void SkippedMiscellaneousIncrement(bool DeincrementTagged)
+            internal void SkippedMiscellaneousIncrement(bool deincrementTagged)
             {
                 Skipped += 1;
-                if (DeincrementTagged)
+                if (deincrementTagged)
                     Tagged -= 1;
             }
 
             internal int SkippedRedLink
             {
-                get { return mRedLinks; }
+                get { return _redLinks; }
                 private set
                 {
-                    mRedLinks = value;
+                    _redLinks = value;
                     if (RedLink != null)
                     {
                         RedLink(value);
@@ -328,10 +328,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 
             private int SkippedNoChange
             {
-                get { return mSkippedNoChange; }
+                get { return _skippedNoChange; }
                 set
                 {
-                    mSkippedNoChange = value;
+                    _skippedNoChange = value;
                     if (SkipNoChange != null)
                     {
                         SkipNoChange(value);
@@ -347,10 +347,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 
             private int SkippedBadTag
             {
-                get { return mSkippedBadTag; }
+                get { return _skippedBadTag; }
                 set
                 {
-                    mSkippedBadTag = value;
+                    _skippedBadTag = value;
                     if (SkipBadTag != null)
                     {
                         SkipBadTag(value);
@@ -366,10 +366,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 
             private int SkippedNamespace
             {
-                get { return mSkippedNamespace; }
+                get { return _skippedNamespace; }
                 set
                 {
-                    mSkippedNamespace = value;
+                    _skippedNamespace = value;
                     if (SkipNamespace != null)
                     {
                         SkipNamespace(value);

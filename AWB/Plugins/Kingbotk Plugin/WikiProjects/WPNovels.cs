@@ -116,9 +116,9 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             get { return PluginName; }
         }
 
-        protected override void ImportanceParameter(Importance Importance)
+        protected override void ImportanceParameter(Importance importance)
         {
-            Template.NewOrReplaceTemplateParm("importance", Importance.ToString(), TheArticle, false, false);
+            Template.NewOrReplaceTemplateParm("importance", importance.ToString(), TheArticle, false, false);
         }
 
         protected internal override IGenericSettings GenericSettings
@@ -187,14 +187,14 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         }
 
         // XML settings:
-        protected internal override void ReadXML(XmlTextReader Reader)
+        protected internal override void ReadXML(XmlTextReader reader)
         {
-            bool blnNewVal = PluginManager.XMLReadBoolean(Reader, Prefix + "Enabled", Enabled);
+            bool blnNewVal = PluginManager.XMLReadBoolean(reader, Prefix + "Enabled", Enabled);
             // ReSharper disable once RedundantCheckBeforeAssignment
             if (blnNewVal != Enabled)
                 Enabled = blnNewVal;
             // Mustn't set if the same or we get extra tabs
-            OurSettingsControl.ReadXML(Reader);
+            OurSettingsControl.ReadXML(reader);
         }
 
         protected internal override void Reset()
@@ -202,10 +202,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             OurSettingsControl.Reset();
         }
 
-        protected internal override void WriteXML(XmlTextWriter Writer)
+        protected internal override void WriteXML(XmlTextWriter writer)
         {
-            Writer.WriteAttributeString(Prefix + "Enabled", Enabled.ToString());
-            OurSettingsControl.WriteXML(Writer);
+            writer.WriteAttributeString(Prefix + "Enabled", Enabled.ToString());
+            OurSettingsControl.WriteXML(writer);
         }
     }
 }
