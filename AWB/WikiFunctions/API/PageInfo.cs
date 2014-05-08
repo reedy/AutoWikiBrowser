@@ -96,6 +96,7 @@ namespace WikiFunctions.API
                 OriginalTitle = redirectFrom;
             }
 
+            Exists = (xr.GetAttribute("missing") == null); //if null, page exists
             IsWatched = (xr.GetAttribute("watched") != null);
             EditToken = xr.GetAttribute("edittoken");
             TokenTimestamp = xr.GetAttribute("starttimestamp");
