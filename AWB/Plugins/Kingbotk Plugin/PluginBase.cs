@@ -456,10 +456,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             }
             regexpMiddle = regexpMiddle.Replace(" ", "[ _]");
 
-            MainRegex = new Regex(Constants.conRegexpLeft + regexpMiddle + Constants.conRegexpRight,
-                Constants.conRegexpOptions);
-            SecondChanceRegex = new Regex(Constants.conRegexpLeft + regexpMiddle + Constants.conRegexpRightNotStrict,
-                Constants.conRegexpOptions);
+            MainRegex = new Regex(Constants.RegexpLeft + regexpMiddle + Constants.RegexpRight,
+                Constants.RegexpOptions);
+            SecondChanceRegex = new Regex(Constants.RegexpLeft + regexpMiddle + Constants.RegexpRightNotStrict,
+                Constants.RegexpOptions);
 
             PreferredTemplateNameRegex = mHasAlternateNames
                 ? new Regex(

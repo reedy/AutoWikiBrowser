@@ -211,7 +211,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
         private static readonly Regex WikiProjectBannerShellRegex =
             new Regex(
-                Constants.conRegexpLeft + WikiProjectBannerShell +
+                Constants.RegexpLeft + WikiProjectBannerShell +
                 ")\\b\\s*(?<start>\\|[^1]*=.*?)*\\s*\\|\\s*1\\s*=\\s*(?<body>.*}}[^{]*?)\\s*(?<end>\\|[^{]*)?\\s*}}",
                 RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.ExplicitCapture);
 

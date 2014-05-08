@@ -192,11 +192,11 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
                 {
                     case Classification.Code:
                     case Classification.Unassessed:
-                        theArticle.EditSummary = "Assessed article using " + Constants.conWikiPlugin;
+                        theArticle.EditSummary = "Assessed article using " + Constants.WikiPlugin;
                         break;
                     default:
                         theArticle.EditSummary = "Assessing as " + _state.Classification + " class, using " +
-                                                 Constants.conWikiPlugin;
+                                                 Constants.WikiPlugin;
                         break;
                 }
 
