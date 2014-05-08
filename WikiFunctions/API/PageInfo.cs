@@ -46,7 +46,8 @@ namespace WikiFunctions.API
             {
                 var first = redirects[0].Attributes;
                 var last = redirects[redirects.Count - 1].Attributes;
-                if (first != null && last != null && first["from"].Value == last["to"].Value)
+                if (first != null && last != null && (first["from"].Value == last["to"].Value ||
+                                                      last["from"].Value == last["to"].Value))
                 {
                     //Redirect loop
                     TitleChangedStatus = PageTitleStatus.RedirectLoop;
@@ -95,7 +96,6 @@ namespace WikiFunctions.API
                 OriginalTitle = redirectFrom;
             }
 
-            Exists = (xr.GetAttribute("missing") == null); //if null, page exists
             IsWatched = (xr.GetAttribute("watched") != null);
             EditToken = xr.GetAttribute("edittoken");
             TokenTimestamp = xr.GetAttribute("starttimestamp");
