@@ -70,7 +70,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         {
             protected override void Initialise()
             {
-                Text = Constants.conAWBPluginName;
+                Text = Constants.AWBPluginName;
                 linkLabel1.Visible = false;
                 lblMadeBy.Text = "Made by Stephen Kennedy with Sam Reed";
                 lblVersion.Text = "Version " + Version;

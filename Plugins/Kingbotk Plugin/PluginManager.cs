@@ -79,7 +79,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         // AWB interface:
         public string Name
         {
-            get { return Constants.conAWBPluginName; }
+            get { return Constants.AWBPluginName; }
         }
 
         public void Initialise(IAutoWikiBrowser sender)
@@ -571,7 +571,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
         internal static void StopAWB()
         {
-            AWBForm.Stop(Constants.conAWBPluginName);
+            AWBForm.Stop(Constants.AWBPluginName);
         }
 
         internal static void DeleteGenericPlugin(IGenericTemplatePlugin pg, PluginBase p)
@@ -743,7 +743,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 StatusText.Text = "Initialising assessments plugin";
 
                 if (AWBForm.TheSession.Editor.IsActive)
-                    AWBForm.Stop(Constants.conAWBPluginName);
+                    AWBForm.Stop(Constants.AWBPluginName);
 
                 if (_showManualAssessmentsInstructions)
                 {
@@ -899,7 +899,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
         public string WikiName
         {
-            get { return Constants.conWikiPlugin + " version " + AboutBox.Version; }
+            get { return Constants.WikiPlugin + " version " + AboutBox.Version; }
         }
 
         private static bool InitStaticVariableHelper(Microsoft.VisualBasic.CompilerServices.StaticLocalInitFlag flag)

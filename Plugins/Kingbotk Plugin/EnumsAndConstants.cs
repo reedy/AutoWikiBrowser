@@ -61,23 +61,23 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         // Regular expression strings:
         internal const string TemplatePrefix = "\\{\\{\\s*(?<tl>template *:)?\\s*";
         // put "(?<!<nowiki[\n\r]*>\s*)" at the start to ignore nowiki, but was difficult to get secondchanceregex adapted (without becoming too strict) so I gave up. It seemed the engine was trying to do it's best to *avoid* matching this negative group
-        internal const string conRegexpLeft = TemplatePrefix + "(?<tlname>";
+        internal const string RegexpLeft = TemplatePrefix + "(?<tlname>";
         // put "\s(?!</nowiki[\n\r]*>)" at the end to ignore nowiki
-        internal const string conRegexpRight =
+        internal const string RegexpRight =
             ")\\b\\s*(((\\|\\|*| \\||\\| |\\s*\\|\\s*(?<parm>[^}{|\\s=]*))\\s*)+(=\\s*(?<val>[^}{|\\n\\r]*?)\\s*)?)*\\}\\}\\s*";
 
         //")\b[^}]*"
-        internal const string conRegexpRightNotStrict = ")\\b";
+        internal const string RegexpRightNotStrict = ")\\b";
 
-        internal const RegexOptions conRegexpOptions =
+        internal const RegexOptions RegexpOptions =
             RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture;
 
         // Identifiers:
         internal const string Biography = "Biography";
-        internal const string conWikiPlugin = "[[WP:Plugin++|Plugin++]]";
-        internal const string conWikiPluginBrackets = "(" + conWikiPlugin + ") ";
-        internal const string conAWBPluginName = "Kingbotk Plugin";
+        internal const string WikiPlugin = "[[WP:Plugin++|Plugin++]]";
+        internal const string WikiPluginBrackets = "(" + WikiPlugin + ") ";
+        internal const string AWBPluginName = "Kingbotk Plugin";
         //Placeholders:
-        internal const string conTemplatePlaceholder = "{{xxxTEMPLATExxx}}";
+        internal const string TemplaterPlaceholder = "{{xxxTEMPLATExxx}}";
     }
 }
