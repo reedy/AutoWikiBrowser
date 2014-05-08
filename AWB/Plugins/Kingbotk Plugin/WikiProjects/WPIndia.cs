@@ -6,9 +6,9 @@ using System.Xml;
 internal sealed class WPIndia : PluginBase
 {
     // Settings:
-    private readonly TabPage OurTab = new TabPage("India");
+    private readonly TabPage _ourTab = new TabPage("India");
 
-    private readonly GenericWithWorkgroups OurSettingsControl;
+    private readonly GenericWithWorkgroups _ourSettingsControl;
     private const string Prefix = "Ind";
 
     private const string PluginName = "WikiProject India";
@@ -16,7 +16,7 @@ internal sealed class WPIndia : PluginBase
 
     private const string OthersGroup = "Others";
 
-    private readonly TemplateParameters[] @params =
+    private readonly TemplateParameters[] _params =
     {
         new TemplateParameters
         {
@@ -324,7 +324,7 @@ internal sealed class WPIndia : PluginBase
     {
         // Specify alternate names only
 
-        OurSettingsControl = new GenericWithWorkgroups(PluginName, Prefix, true, @params);
+        _ourSettingsControl = new GenericWithWorkgroups(PluginName, Prefix, true, _params);
     }
 
     protected internal override string PluginShortName
@@ -339,7 +339,7 @@ internal sealed class WPIndia : PluginBase
 
     protected internal override IGenericSettings GenericSettings
     {
-        get { return OurSettingsControl; }
+        get { return _ourSettingsControl; }
     }
 
     protected override string PreferredTemplateName
@@ -363,8 +363,8 @@ internal sealed class WPIndia : PluginBase
         OurMenuItem = new ToolStripMenuItem("India Plugin");
         InitialiseBase();
         // must set menu item object first
-        OurTab.UseVisualStyleBackColor = true;
-        OurTab.Controls.Add(OurSettingsControl);
+        _ourTab.UseVisualStyleBackColor = true;
+        _ourTab.Controls.Add(_ourSettingsControl);
     }
 
     // Article processing:
@@ -377,9 +377,7 @@ internal sealed class WPIndia : PluginBase
     protected override void ProcessArticleFinish()
     {
         StubClass();
-
-        var _with1 = OurSettingsControl;
-        foreach (ListViewItem lvi in _with1.ListView1.Items)
+        foreach (ListViewItem lvi in _ourSettingsControl.ListView1.Items)
         {
             if (lvi.Checked)
             {
@@ -404,24 +402,24 @@ internal sealed class WPIndia : PluginBase
     //User interface:
     protected override void ShowHideOurObjects(bool visible)
     {
-        PluginManager.ShowHidePluginTab(OurTab, visible);
+        PluginManager.ShowHidePluginTab(_ourTab, visible);
     }
 
     // XML settings:
     protected internal override void ReadXML(XmlTextReader reader)
     {
         Enabled = PluginManager.XMLReadBoolean(reader, Prefix + "Enabled", Enabled);
-        OurSettingsControl.ReadXML(reader);
+        _ourSettingsControl.ReadXML(reader);
     }
 
     protected internal override void Reset()
     {
-        OurSettingsControl.Reset();
+        _ourSettingsControl.Reset();
     }
 
     protected internal override void WriteXML(XmlTextWriter writer)
     {
         writer.WriteAttributeString(Prefix + "Enabled", Enabled.ToString());
-        OurSettingsControl.WriteXML(writer);
+        _ourSettingsControl.WriteXML(writer);
     }
 }

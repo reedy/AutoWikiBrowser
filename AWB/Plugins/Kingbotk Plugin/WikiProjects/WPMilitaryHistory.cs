@@ -13,13 +13,13 @@ internal sealed class WPMilitaryHistory : PluginBase
     {
         // Specify alternate names only
 
-        OurSettingsControl = new GenericWithWorkgroups(TemplateName, PluginName, false, @params);
+        _ourSettingsControl = new GenericWithWorkgroups(TemplateName, PluginName, false, _params);
     }
 
     // Settings:
-    private readonly TabPage OurTab = new TabPage(PluginName);
+    private readonly TabPage _ourTab = new TabPage(PluginName);
 
-    private readonly GenericWithWorkgroups OurSettingsControl;
+    private readonly GenericWithWorkgroups _ourSettingsControl;
 
     protected internal override string PluginShortName
     {
@@ -33,7 +33,7 @@ internal sealed class WPMilitaryHistory : PluginBase
 
     protected internal override IGenericSettings GenericSettings
     {
-        get { return OurSettingsControl; }
+        get { return _ourSettingsControl; }
     }
 
     internal override bool HasReqPhotoParam
@@ -50,7 +50,7 @@ internal sealed class WPMilitaryHistory : PluginBase
 
     private const string NationsGroup = "Nations and Regions";
 
-    private readonly TemplateParameters[] @params =
+    private readonly TemplateParameters[] _params =
     {
         new TemplateParameters
         {
@@ -365,8 +365,8 @@ internal sealed class WPMilitaryHistory : PluginBase
         OurMenuItem = new ToolStripMenuItem("Military History Plugin");
         InitialiseBase();
         // must set menu item object first
-        OurTab.UseVisualStyleBackColor = true;
-        OurTab.Controls.Add(OurSettingsControl);
+        _ourTab.UseVisualStyleBackColor = true;
+        _ourTab.Controls.Add(_ourSettingsControl);
     }
 
     // Article processing:
@@ -378,8 +378,7 @@ internal sealed class WPMilitaryHistory : PluginBase
     protected override void ProcessArticleFinish()
     {
         StubClass();
-        var _with1 = OurSettingsControl;
-        foreach (ListViewItem lvi in _with1.ListView1.Items)
+        foreach (ListViewItem lvi in _ourSettingsControl.ListView1.Items)
         {
             if (lvi.Checked)
             {
@@ -401,26 +400,25 @@ internal sealed class WPMilitaryHistory : PluginBase
         }
     }
 
-    private const string conMedievalTaskForce = "Medieval-task-force";
+    private const string MedievalTaskForce = "Medieval-task-force";
 
     protected override bool TemplateFound()
     {
         const string conMiddleAges = "Middle-Ages-task-force";
 
-        var _with2 = Template;
-        if (_with2.Parameters.ContainsKey(conMiddleAges))
+        if (Template.Parameters.ContainsKey(conMiddleAges))
         {
-            if (_with2.Parameters[conMiddleAges].Value.ToLower() == "yes")
+            if (Template.Parameters[conMiddleAges].Value.ToLower() == "yes")
             {
-                _with2.NewOrReplaceTemplateParm(conMedievalTaskForce, "yes", TheArticle, false, false, false, "",
+                Template.NewOrReplaceTemplateParm(MedievalTaskForce, "yes", TheArticle, false, false, false, "",
                     PluginShortName);
-                TheArticle.DoneReplacement(conMiddleAges, conMedievalTaskForce);
+                TheArticle.DoneReplacement(conMiddleAges, MedievalTaskForce);
             }
             else
             {
                 TheArticle.EditSummary += "deprecated Middle-Ages-task-force removed";
             }
-            _with2.Parameters.Remove(conMiddleAges);
+            Template.Parameters.Remove(conMiddleAges);
             TheArticle.ArticleHasAMinorChange();
         }
         return false;
@@ -434,7 +432,7 @@ internal sealed class WPMilitaryHistory : PluginBase
     //User interface:
     protected override void ShowHideOurObjects(bool visible)
     {
-        PluginManager.ShowHidePluginTab(OurTab, visible);
+        PluginManager.ShowHidePluginTab(_ourTab, visible);
     }
 
     // XML settings:
@@ -448,17 +446,17 @@ internal sealed class WPMilitaryHistory : PluginBase
             // Mustn't set if the same or we get extra tabs
         }
 
-        OurSettingsControl.ReadXML(reader);
+        _ourSettingsControl.ReadXML(reader);
     }
 
     protected internal override void Reset()
     {
-        OurSettingsControl.Reset();
+        _ourSettingsControl.Reset();
     }
 
     protected internal override void WriteXML(XmlTextWriter writer)
     {
         writer.WriteAttributeString(PluginName + "Enabled", Enabled.ToString());
-        OurSettingsControl.WriteXML(writer);
+        _ourSettingsControl.WriteXML(writer);
     }
 }

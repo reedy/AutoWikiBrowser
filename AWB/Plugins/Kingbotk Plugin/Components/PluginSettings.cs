@@ -132,14 +132,14 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             OpenBadInBrowser = false;
         }
 
-        internal void WriteXML(XmlTextWriter Writer)
+        internal void WriteXML(XmlTextWriter writer)
         {
-            Writer.WriteAttributeString(ManuallyAssessParm, ManuallyAssess.ToString());
-            Writer.WriteAttributeString(CleanupParm, Cleanup.ToString());
-            Writer.WriteAttributeString(SkipBadTagsParm, SkipBadTags.ToString());
-            Writer.WriteAttributeString(SkipWhenNoChangeParm, SkipWhenNoChange.ToString());
-            Writer.WriteAttributeString(AssessmentsAlwaysLeaveACommentParm, AssessmentsAlwaysLeaveAComment.ToString());
-            Writer.WriteAttributeString(OpenBadInBrowserText, OpenBadInBrowser.ToString());
+            writer.WriteAttributeString(ManuallyAssessParm, ManuallyAssess.ToString());
+            writer.WriteAttributeString(CleanupParm, Cleanup.ToString());
+            writer.WriteAttributeString(SkipBadTagsParm, SkipBadTags.ToString());
+            writer.WriteAttributeString(SkipWhenNoChangeParm, SkipWhenNoChange.ToString());
+            writer.WriteAttributeString(AssessmentsAlwaysLeaveACommentParm, AssessmentsAlwaysLeaveAComment.ToString());
+            writer.WriteAttributeString(OpenBadInBrowserText, OpenBadInBrowser.ToString());
         }
 
         // Event handlers - menu items:

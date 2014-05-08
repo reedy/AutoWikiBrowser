@@ -15,13 +15,13 @@ internal sealed class WPAlbums : PluginBase
 
         TemplateParameters[] @params = new TemplateParameters[-1 + 1];
 
-        OurSettingsControl = new GenericWithWorkgroups("WikiProject Albums", Prefix, true, @params);
+        _ourSettingsControl = new GenericWithWorkgroups("WikiProject Albums", Prefix, true, @params);
     }
 
     // Settings:
-    private readonly TabPage OurTab = new TabPage("Albums");
+    private readonly TabPage _ourTab = new TabPage("Albums");
 
-    private readonly GenericWithWorkgroups OurSettingsControl;
+    private readonly GenericWithWorkgroups _ourSettingsControl;
 
     protected internal override string PluginShortName
     {
@@ -40,7 +40,7 @@ internal sealed class WPAlbums : PluginBase
 
     protected internal override IGenericSettings GenericSettings
     {
-        get { return OurSettingsControl; }
+        get { return _ourSettingsControl; }
     }
 
     // Initialisation:
@@ -49,8 +49,8 @@ internal sealed class WPAlbums : PluginBase
         OurMenuItem = new ToolStripMenuItem("Albums Plugin");
         InitialiseBase();
         // must set menu item object first
-        OurTab.UseVisualStyleBackColor = true;
-        OurTab.Controls.Add(OurSettingsControl);
+        _ourTab.UseVisualStyleBackColor = true;
+        _ourTab.Controls.Add(_ourSettingsControl);
     }
 
     // Article processing:
@@ -78,25 +78,25 @@ internal sealed class WPAlbums : PluginBase
     //User interface:
     protected override void ShowHideOurObjects(bool visible)
     {
-        PluginManager.ShowHidePluginTab(OurTab, visible);
+        PluginManager.ShowHidePluginTab(_ourTab, visible);
     }
 
     // XML settings:
     protected internal override void ReadXML(XmlTextReader reader)
     {
         Enabled = PluginManager.XMLReadBoolean(reader, Prefix + "Enabled", Enabled);
-        OurSettingsControl.ReadXML(reader);
+        _ourSettingsControl.ReadXML(reader);
     }
 
     protected internal override void Reset()
     {
-        OurSettingsControl.Reset();
+        _ourSettingsControl.Reset();
     }
 
     protected internal override void WriteXML(XmlTextWriter writer)
     {
         writer.WriteAttributeString(Prefix + "Enabled", Enabled.ToString());
-        OurSettingsControl.WriteXML(writer);
+        _ourSettingsControl.WriteXML(writer);
     }
 
     // Misc:
