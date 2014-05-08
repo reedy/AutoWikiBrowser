@@ -18,35 +18,35 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 {
     internal sealed partial class TimerStats
     {
-        private PluginSettingsControl.Stats mStats;
-        private TimeSpan TimeSpan;
-        private DateTime Start;
-        private int mNumberOfEdits;
-        private int mSkipped;
+        private PluginSettingsControl.Stats _stats;
+        private TimeSpan _timeSpan;
+        private DateTime _start;
+        private int _numberOfEdits;
+        private int _skipped;
 
-        private Label mETALabel;
+        private Label _etaLabel;
 
         private int NumberOfEdits
         {
-            get { return mNumberOfEdits; }
+            get { return _numberOfEdits; }
             set
             {
-                mNumberOfEdits = value;
-                EditsLabel.Text = mNumberOfEdits.ToString(CultureInfo.InvariantCulture);
+                _numberOfEdits = value;
+                EditsLabel.Text = _numberOfEdits.ToString(CultureInfo.InvariantCulture);
             }
         }
 
-        internal void Init(AsyncApiEdit e, Label ETALabel, PluginSettingsControl.Stats Stats)
+        internal void Init(AsyncApiEdit e, Label etaLabel, PluginSettingsControl.Stats stats)
         {
             if (!TimerEnabled)
             {
                 ResetVars();
-                mETALabel = ETALabel;
+                _etaLabel = etaLabel;
 
                 TimerEnabled = true;
 
-                mStats = Stats;
-                mStats.SkipMisc += mStats_SkipMisc;
+                _stats = stats;
+                _stats.SkipMisc += StatsSkipMisc;
 
                 Timer1_Tick(null, null);
             }
@@ -63,8 +63,8 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         private void ResetVars()
         {
             NumberOfEdits = 0;
-            Start = DateTime.Now;
-            mSkipped = 0;
+            _start = DateTime.Now;
+            _skipped = 0;
         }
 
         internal void StopStats()
@@ -75,33 +75,33 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 
         private string ETA
         {
-            get { return mETALabel.Text.Replace("ETC: ", ""); }
-            set { mETALabel.Text = "ETC: " + value; }
+            get { return _etaLabel.Text.Replace("ETC: ", ""); }
+            set { _etaLabel.Text = "ETC: " + value; }
         }
 
-        private void CalculateETA(double SecondsPerPage)
+        private void CalculateETA(double secondsPerPage)
         {
-            int Count = PluginManager.AWBForm.ListMaker.Count;
+            int count = PluginManager.AWBForm.ListMaker.Count;
 
-            if (Count == 0)
+            if (count == 0)
             {
                 ETA = "Now";
             }
             else
             {
-                DateTime ETADateTime = DateTime.Now.AddSeconds(SecondsPerPage*Count);
+                DateTime etaDateTime = DateTime.Now.AddSeconds(secondsPerPage*count);
 
-                if (ETADateTime.Date == DateTime.Now.Date)
+                if (etaDateTime.Date == DateTime.Now.Date)
                 {
-                    ETA = ETADateTime.ToString("HH:mm") + " today";
+                    ETA = etaDateTime.ToString("HH:mm") + " today";
                 }
-                else if (DateTime.Now.AddDays(1).Date == ETADateTime.Date)
+                else if (DateTime.Now.AddDays(1).Date == etaDateTime.Date)
                 {
-                    ETA = ETADateTime.ToString("HH:mm") + " tomorrow";
+                    ETA = etaDateTime.ToString("HH:mm") + " tomorrow";
                 }
                 else
                 {
-                    ETA = ETADateTime.ToString("HH:mm, ddd d MMM");
+                    ETA = etaDateTime.ToString("HH:mm, ddd d MMM");
                 }
             }
         }
@@ -111,47 +111,47 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             get { return Timer1.Enabled; }
             set
             {
-                if (mETALabel != null)
+                if (_etaLabel != null)
                 {
-                    mETALabel.Visible = value;
+                    _etaLabel.Visible = value;
                 }
                 Timer1.Enabled = value;
             }
         }
 
         // Event handlers
-        private readonly Regex timerregexp = new Regex("\\..*");
-        private int UpdateETACount;
+        private readonly Regex _timerregexp = new Regex("\\..*");
+        private int _updateETACount;
 
         private void Timer1_Tick(object sender, EventArgs e)
         {
-            UpdateETACount += 1;
-            TimeSpan = DateTime.Now - Start;
-            TimerLabel.Text = timerregexp.Replace(TimeSpan.ToString(), "");
+            _updateETACount += 1;
+            _timeSpan = DateTime.Now - _start;
+            TimerLabel.Text = _timerregexp.Replace(_timeSpan.ToString(), "");
             double secondsPerPage = NumberOfEdits == 0
-                ? TimeSpan.TotalSeconds
-                : Math.Round(TimeSpan.TotalSeconds/NumberOfEdits, 2);
+                ? _timeSpan.TotalSeconds
+                : Math.Round(_timeSpan.TotalSeconds/NumberOfEdits, 2);
 
             if (double.IsInfinity(secondsPerPage))
             {
                 SpeedLabel.Text = "0";
                 ETA = "-";
-                if (UpdateETACount > 9)
-                    UpdateETACount = 0;
+                if (_updateETACount > 9)
+                    _updateETACount = 0;
             }
             else
             {
                 SpeedLabel.Text = secondsPerPage + " s/p";
-                if (UpdateETACount > 9 || ETA == "-")
+                if (_updateETACount > 9 || ETA == "-")
                 {
-                    UpdateETACount = 0;
-                    if ((NumberOfEdits + mSkipped) == 0)
+                    _updateETACount = 0;
+                    if ((NumberOfEdits + _skipped) == 0)
                     {
-                        CalculateETA(TimeSpan.TotalSeconds);
+                        CalculateETA(_timeSpan.TotalSeconds);
                     }
                     else
                     {
-                        CalculateETA(TimeSpan.TotalSeconds/(NumberOfEdits + mSkipped));
+                        CalculateETA(_timeSpan.TotalSeconds/(NumberOfEdits + _skipped));
                     }
                 }
             }
@@ -167,9 +167,9 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             NumberOfEdits += 1;
         }
 
-        private void mStats_SkipMisc(int val)
+        private void StatsSkipMisc(int val)
         {
-            mSkipped += 1;
+            _skipped += 1;
         }
 
         public TimerStats()

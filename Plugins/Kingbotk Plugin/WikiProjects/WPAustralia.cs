@@ -9,7 +9,7 @@ internal sealed class WPAustralia : PluginBase
     {
         // Specify alternate names only
 
-        OurSettingsControl = new GenericWithWorkgroups(PluginName, Prefix, true, @params);
+        _ourSettingsControl = new GenericWithWorkgroups(PluginName, Prefix, true, _params);
     }
 
     private const string Prefix = "Aus";
@@ -20,7 +20,7 @@ internal sealed class WPAustralia : PluginBase
 
     private const string OtherGroup = "Other topics";
 
-    private readonly TemplateParameters[] @params =
+    private readonly TemplateParameters[] _params =
     {
         new TemplateParameters
         {
@@ -151,9 +151,9 @@ internal sealed class WPAustralia : PluginBase
     };
 
     // Settings:
-    private readonly TabPage OurTab = new TabPage("Australia");
+    private readonly TabPage _ourTab = new TabPage("Australia");
 
-    private readonly GenericWithWorkgroups OurSettingsControl;
+    private readonly GenericWithWorkgroups _ourSettingsControl;
 
     protected internal override string PluginShortName
     {
@@ -167,7 +167,7 @@ internal sealed class WPAustralia : PluginBase
 
     protected internal override IGenericSettings GenericSettings
     {
-        get { return OurSettingsControl; }
+        get { return _ourSettingsControl; }
     }
 
     protected override string PreferredTemplateName
@@ -182,8 +182,8 @@ internal sealed class WPAustralia : PluginBase
         OurMenuItem = new ToolStripMenuItem("Australia Plugin");
         InitialiseBase();
         // must set menu item object first
-        OurTab.UseVisualStyleBackColor = true;
-        OurTab.Controls.Add(OurSettingsControl);
+        _ourTab.UseVisualStyleBackColor = true;
+        _ourTab.Controls.Add(_ourSettingsControl);
     }
 
     // Article processing:
@@ -196,8 +196,7 @@ internal sealed class WPAustralia : PluginBase
     protected override void ProcessArticleFinish()
     {
         StubClass();
-        var _with1 = OurSettingsControl;
-        foreach (ListViewItem lvi in _with1.ListView1.Items)
+        foreach (ListViewItem lvi in _ourSettingsControl.ListView1.Items)
         {
             if (lvi.Checked)
             {
@@ -227,25 +226,25 @@ internal sealed class WPAustralia : PluginBase
     //User interface:
     protected override void ShowHideOurObjects(bool visible)
     {
-        PluginManager.ShowHidePluginTab(OurTab, visible);
+        PluginManager.ShowHidePluginTab(_ourTab, visible);
     }
 
     // XML settings:
     protected internal override void ReadXML(XmlTextReader reader)
     {
         Enabled = PluginManager.XMLReadBoolean(reader, Prefix + "Enabled", Enabled);
-        OurSettingsControl.ReadXML(reader);
+        _ourSettingsControl.ReadXML(reader);
     }
 
     protected internal override void Reset()
     {
-        OurSettingsControl.Reset();
+        _ourSettingsControl.Reset();
     }
 
     protected internal override void WriteXML(XmlTextWriter writer)
     {
         writer.WriteAttributeString(Prefix + "Enabled", Enabled.ToString());
-        OurSettingsControl.WriteXML(writer);
+        _ourSettingsControl.WriteXML(writer);
     }
 
     // Not implemented:

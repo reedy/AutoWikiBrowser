@@ -22,7 +22,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
     {
         // Our name:
 
-        private readonly string mName;
+        private readonly string _name;
         // Enums:
         internal enum ImportanceSettingEnum
         {
@@ -33,49 +33,49 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         #region "Parameter Names"
 
-        private string conTemplateNameParm
+        private string TemplateNameParm
         {
-            get { return mName + "GenericTemplateName"; }
+            get { return _name + "GenericTemplateName"; }
         }
 
-        private string conTemplateAlternateNamesYNParm
+        private string TemplateAlternateNamesYNParm
         {
-            get { return mName + "GenericTemplateAlternateNamesYN"; }
+            get { return _name + "GenericTemplateAlternateNamesYN"; }
         }
 
-        private string conTemplateAlternateNamesParm
+        private string TemplateAlternateNamesParm
         {
-            get { return mName + "GenericTemplateAlternateNames"; }
+            get { return _name + "GenericTemplateAlternateNames"; }
         }
 
-        private string conTemplateImportanceParm
+        private string TemplateImportanceParm
         {
-            get { return mName + "GenericTemplateImp"; }
+            get { return _name + "GenericTemplateImp"; }
         }
 
-        private string conTemplateAutoStubYNParm
+        private string TemplateAutoStubYNParm
         {
-            get { return mName + "GenericTemplateAutoStubYN"; }
+            get { return _name + "GenericTemplateAutoStubYN"; }
         }
 
         private string conSkipRegexYN
         {
-            get { return mName + "GenericSkipRegexYN"; }
+            get { return _name + "GenericSkipRegexYN"; }
         }
 
         private string conSkipRegex
         {
-            get { return mName + "GenericSkipRegex"; }
+            get { return _name + "GenericSkipRegex"; }
         }
 
-        private string conAutoStubParm
+        private string AutoStubParm
         {
-            get { return mName + "GenericAutoStub"; }
+            get { return _name + "GenericAutoStub"; }
         }
 
-        private string conStubClassParm
+        private string StubClassParm
         {
-            get { return mName + "GenericStubClass"; }
+            get { return _name + "GenericStubClass"; }
         }
 
         #endregion
@@ -152,13 +152,13 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         // Initialisation and goodbye:
 
-        internal GenericTemplateSettings(string OurPluginName)
+        internal GenericTemplateSettings(string ourPluginName)
         {
             // This call is required by the Windows Form Designer.
             InitializeComponent();
 
             // Add any initialization after the InitializeComponent() call.
-            mName = OurPluginName;
+            _name = ourPluginName;
         }
 
         internal void Goodbye()
@@ -169,33 +169,32 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         public void ReadXML(XmlTextReader reader)
         {
-            AutoStub = PluginManager.XMLReadBoolean(reader, conAutoStubParm, AutoStub);
-            StubClass = PluginManager.XMLReadBoolean(reader, conStubClassParm, StubClass);
-            TemplateName = PluginManager.XMLReadString(reader, conTemplateNameParm, TemplateName);
-            HasAlternateNames = PluginManager.XMLReadBoolean(reader, conTemplateAlternateNamesYNParm, HasAlternateNames);
-            AlternateNames = PluginManager.XMLReadString(reader, conTemplateAlternateNamesParm, AlternateNames);
+            AutoStub = PluginManager.XMLReadBoolean(reader, AutoStubParm, AutoStub);
+            StubClass = PluginManager.XMLReadBoolean(reader, StubClassParm, StubClass);
+            TemplateName = PluginManager.XMLReadString(reader, TemplateNameParm, TemplateName);
+            HasAlternateNames = PluginManager.XMLReadBoolean(reader, TemplateAlternateNamesYNParm, HasAlternateNames);
+            AlternateNames = PluginManager.XMLReadString(reader, TemplateAlternateNamesParm, AlternateNames);
             ImportanceSetting =
                 (ImportanceSettingEnum)
                     ImportanceSettingEnum.Parse(typeof (ImportanceSettingEnum),
-                        PluginManager.XMLReadString(reader, conTemplateImportanceParm, ImportanceSetting.ToString()),
+                        PluginManager.XMLReadString(reader, TemplateImportanceParm, ImportanceSetting.ToString()),
                         true);
-            AutoStubYN = PluginManager.XMLReadBoolean(reader, conTemplateAutoStubYNParm, AutoStubYN);
+            AutoStubYN = PluginManager.XMLReadBoolean(reader, TemplateAutoStubYNParm, AutoStubYN);
             SkipRegexYN = PluginManager.XMLReadBoolean(reader, conSkipRegexYN, SkipRegexYN);
             SkipRegex = PluginManager.XMLReadString(reader, conSkipRegex, SkipRegex);
         }
 
         public void WriteXML(XmlTextWriter writer)
         {
-            var _with1 = writer;
-            _with1.WriteAttributeString(conTemplateNameParm, TemplateName);
-            _with1.WriteAttributeString(conAutoStubParm, AutoStub.ToString());
-            _with1.WriteAttributeString(conStubClassParm, StubClass.ToString());
-            _with1.WriteAttributeString(conTemplateAlternateNamesYNParm, HasAlternateNames.ToString());
-            _with1.WriteAttributeString(conTemplateAlternateNamesParm, AlternateNames);
-            _with1.WriteAttributeString(conTemplateImportanceParm, ImportanceSetting.ToString());
-            _with1.WriteAttributeString(conTemplateAutoStubYNParm, AutoStubYN.ToString());
-            _with1.WriteAttributeString(conSkipRegexYN, SkipRegexYN.ToString());
-            _with1.WriteAttributeString(conSkipRegex, SkipRegex);
+            writer.WriteAttributeString(TemplateNameParm, TemplateName);
+            writer.WriteAttributeString(AutoStubParm, AutoStub.ToString());
+            writer.WriteAttributeString(StubClassParm, StubClass.ToString());
+            writer.WriteAttributeString(TemplateAlternateNamesYNParm, HasAlternateNames.ToString());
+            writer.WriteAttributeString(TemplateAlternateNamesParm, AlternateNames);
+            writer.WriteAttributeString(TemplateImportanceParm, ImportanceSetting.ToString());
+            writer.WriteAttributeString(TemplateAutoStubYNParm, AutoStubYN.ToString());
+            writer.WriteAttributeString(conSkipRegexYN, SkipRegexYN.ToString());
+            writer.WriteAttributeString(conSkipRegex, SkipRegex);
         }
 
         internal void Reset()
@@ -264,36 +263,36 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
     internal sealed class GenericTemplatePlugin : PluginBase, IGenericTemplatePlugin, IDisposable
     {
         // Objects:
-        private TabPage OurTab;
-        private GenericTemplateSettings OurSettingsControl;
-        private ToolStripMenuItem DeleteMeMenuItem = new ToolStripMenuItem("Delete");
+        private TabPage _ourTab;
+        private GenericTemplateSettings _ourSettingsControl;
+        private ToolStripMenuItem _deleteMeMenuItem = new ToolStripMenuItem("Delete");
         // Settings:
-        private readonly string OurName;
+        private readonly string _ourName;
 
         private string conEnabled
         {
-            get { return OurName + "GenericEnabled"; }
+            get { return _ourName + "GenericEnabled"; }
         }
 
         // Regex:
 
         private Regex SkipRegex;
         // Initialisation:
-        internal GenericTemplatePlugin(string MyName) : base(true)
+        internal GenericTemplatePlugin(string myName) : base(true)
         {
-            OurSettingsControl = new GenericTemplateSettings(MyName);
-            OurTab = new TabPage(MyName);
-            OurName = MyName;
+            _ourSettingsControl = new GenericTemplateSettings(myName);
+            _ourTab = new TabPage(myName);
+            _ourName = myName;
 
             // Keep track of changing configuration by suscribing to various events:
-            OurSettingsControl.SkipRegexCheckBox.CheckedChanged += SkipRegexChanged;
-            OurSettingsControl.SkipRegexTextBox.TextChanged += SkipRegexChanged;
-            OurSettingsControl.TemplateNameTextBox.TextChanged += TemplateNamesChanged;
-            OurSettingsControl.HasAlternateNamesCheckBox.CheckedChanged += TemplateNamesChanged;
-            OurSettingsControl.AlternateNamesTextBox.TextChanged += TemplateNamesChanged;
+            _ourSettingsControl.SkipRegexCheckBox.CheckedChanged += SkipRegexChanged;
+            _ourSettingsControl.SkipRegexTextBox.TextChanged += SkipRegexChanged;
+            _ourSettingsControl.TemplateNameTextBox.TextChanged += TemplateNamesChanged;
+            _ourSettingsControl.HasAlternateNamesCheckBox.CheckedChanged += TemplateNamesChanged;
+            _ourSettingsControl.AlternateNamesTextBox.TextChanged += TemplateNamesChanged;
             //AddHandler OurSettingsControl.AlternateNamesTextBox.EnabledChanged, AddressOf TemplateNamesChanged ' CheckedChanged should covert this
-            OurSettingsControl.PropertiesButton.Click += PropertiesButtonClick;
-            OurSettingsControl.GetRedirectsButton.Click += GetRedirectsButtonClick;
+            _ourSettingsControl.PropertiesButton.Click += PropertiesButtonClick;
+            _ourSettingsControl.GetRedirectsButton.Click += GetRedirectsButtonClick;
         }
 
         protected internal override void Initialise()
@@ -301,12 +300,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             OurMenuItem = new ToolStripMenuItem(PluginShortName);
             InitialiseBase();
             // must set menu item object first
-            OurTab.UseVisualStyleBackColor = true;
-            OurSettingsControl.Reset();
-            OurTab.Controls.Add(OurSettingsControl);
-            DeleteMeMenuItem.ToolTipText = "Delete the " + PluginShortName + " plugin";
-            DeleteMeMenuItem.Click += DeleteMeMenuItem_Click;
-            OurMenuItem.DropDownItems.Add(DeleteMeMenuItem);
+            _ourTab.UseVisualStyleBackColor = true;
+            _ourSettingsControl.Reset();
+            _ourTab.Controls.Add(_ourSettingsControl);
+            _deleteMeMenuItem.ToolTipText = "Delete the " + PluginShortName + " plugin";
+            _deleteMeMenuItem.Click += DeleteMeMenuItem_Click;
+            OurMenuItem.DropDownItems.Add(_deleteMeMenuItem);
         }
 
         // Properties:
@@ -314,7 +313,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         {
             get
             {
-                if (string.IsNullOrEmpty(OurSettingsControl.TemplateName))
+                if (string.IsNullOrEmpty(_ourSettingsControl.TemplateName))
                     return false;
                 if (MainRegex == null)
                     return false;
@@ -332,17 +331,17 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         protected internal override string PluginShortName
         {
-            get { return "Generic (" + OurName + ")"; }
+            get { return "Generic (" + _ourName + ")"; }
         }
 
         protected override string PreferredTemplateName
         {
-            get { return OurSettingsControl.TemplateName; }
+            get { return _ourSettingsControl.TemplateName; }
         }
 
         protected override void ImportanceParameter(Importance importance)
         {
-            switch (OurSettingsControl.ImportanceSetting)
+            switch (_ourSettingsControl.ImportanceSetting)
             {
                 case GenericTemplateSettings.ImportanceSettingEnum.Imp:
                     Template.NewOrReplaceTemplateParm("importance", importance.ToString(), TheArticle, false, false);
@@ -356,7 +355,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         protected internal override IGenericSettings GenericSettings
         {
-            get { return OurSettingsControl; }
+            get { return _ourSettingsControl; }
         }
 
         // Article processing:
@@ -389,7 +388,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         {
             string res = "{{" + PreferredTemplateName + WriteOutParameterToHeader("class");
 
-            switch (OurSettingsControl.ImportanceSetting)
+            switch (_ourSettingsControl.ImportanceSetting)
             {
                 case GenericTemplateSettings.ImportanceSettingEnum.Imp:
                     res += WriteOutParameterToHeader("importance");
@@ -410,7 +409,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         //User interface:
         protected override void ShowHideOurObjects(bool visible)
         {
-            PluginManager.ShowHidePluginTab(OurTab, visible);
+            PluginManager.ShowHidePluginTab(_ourTab, visible);
         }
 
         // XML settings:
@@ -421,18 +420,18 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             if (blnNewVal != Enabled)
                 Enabled = blnNewVal;
             // Mustn't set if the same or we get extra tabs
-            OurSettingsControl.ReadXML(reader);
+            _ourSettingsControl.ReadXML(reader);
         }
 
         protected internal override void Reset()
         {
-            OurSettingsControl.Reset();
+            _ourSettingsControl.Reset();
         }
 
         protected internal override void WriteXML(XmlTextWriter writer)
         {
             writer.WriteAttributeString(conEnabled, Enabled.ToString());
-            OurSettingsControl.WriteXML(writer);
+            _ourSettingsControl.WriteXML(writer);
         }
 
         //' These do nothing because generic templates already have a AlternateNames XML property
@@ -452,19 +451,19 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         public string GenericTemplateKey
         {
-            get { return OurName; }
+            get { return _ourName; }
         }
 
         // Settings control event handlers:
         private void SkipRegexChanged(object sender, EventArgs e)
         {
-            if (OurSettingsControl.SkipRegexYN == false || string.IsNullOrEmpty(OurSettingsControl.SkipRegex))
+            if (_ourSettingsControl.SkipRegexYN == false || string.IsNullOrEmpty(_ourSettingsControl.SkipRegex))
             {
                 SkipRegex = null;
             }
             else
             {
-                SkipRegex = new Regex(OurSettingsControl.SkipRegex, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+                SkipRegex = new Regex(_ourSettingsControl.SkipRegex, RegexOptions.IgnoreCase | RegexOptions.Compiled);
             }
         }
 
@@ -484,12 +483,11 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
                 frm.HasAltNamesLabel.Text += HasAlternateNames.ToString();
 
-                var _with3 = OurSettingsControl;
-                frm.NameLabel.Text += _with3.TemplateName;
+                frm.NameLabel.Text += _ourSettingsControl.TemplateName;
 
-                if (_with3.SkipRegexYN)
+                if (_ourSettingsControl.SkipRegexYN)
                 {
-                    if (string.IsNullOrEmpty(_with3.SkipRegex))
+                    if (string.IsNullOrEmpty(_ourSettingsControl.SkipRegex))
                     {
                         frm.SkipLabel.Text += bool.FalseString;
                     }
@@ -503,7 +501,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                     frm.SkipLabel.Text += bool.FalseString;
                 }
 
-                switch (_with3.ImportanceSetting)
+                switch (_ourSettingsControl.ImportanceSetting)
                 {
                     case GenericTemplateSettings.ImportanceSettingEnum.Imp:
                         frm.ImportanceLabel.Text += "importance=";
@@ -516,7 +514,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                         break;
                 }
 
-                if (_with3.AutoStubYN)
+                if (_ourSettingsControl.AutoStubYN)
                 {
                     frm.AutoStubLabel.Text += "auto=yes";
                 }
@@ -532,7 +530,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         private void DeleteMeMenuItem_Click(object sender, EventArgs e)
         {
             if (
-                MessageBox.Show("Delete the " + OurName + " plugin?", "Delete?", MessageBoxButtons.YesNo,
+                MessageBox.Show("Delete the " + _ourName + " plugin?", "Delete?", MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 PluginManager.DeleteGenericPlugin(this, this);
@@ -548,10 +546,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             {
                 try
                 {
-                    OurSettingsControl.AlternateNames =
-                        ConvertRedirectsToString(GetRedirects(OurSettingsControl.TemplateName));
-                    OurSettingsControl.HasAlternateNamesCheckBox.Checked =
-                        !(string.IsNullOrEmpty(OurSettingsControl.AlternateNames));
+                    _ourSettingsControl.AlternateNames =
+                        ConvertRedirectsToString(GetRedirects(_ourSettingsControl.TemplateName));
+                    _ourSettingsControl.HasAlternateNamesCheckBox.Checked =
+                        !(string.IsNullOrEmpty(_ourSettingsControl.AlternateNames));
                 }
                 catch (Exception ex)
                 {
@@ -597,18 +595,18 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                     // The object is being disposed, not finalized.
                     // It is safe to access other objects (other than the mybase object)
                     // only from inside this block
-                    OurSettingsControl.SkipRegexCheckBox.CheckedChanged -= SkipRegexChanged;
-                    OurSettingsControl.SkipRegexTextBox.TextChanged -= SkipRegexChanged;
-                    OurSettingsControl.TemplateNameTextBox.TextChanged -= TemplateNamesChanged;
-                    OurSettingsControl.HasAlternateNamesCheckBox.CheckedChanged -= TemplateNamesChanged;
-                    OurSettingsControl.AlternateNamesTextBox.TextChanged -= TemplateNamesChanged;
-                    OurSettingsControl.PropertiesButton.Click -= PropertiesButtonClick;
+                    _ourSettingsControl.SkipRegexCheckBox.CheckedChanged -= SkipRegexChanged;
+                    _ourSettingsControl.SkipRegexTextBox.TextChanged -= SkipRegexChanged;
+                    _ourSettingsControl.TemplateNameTextBox.TextChanged -= TemplateNamesChanged;
+                    _ourSettingsControl.HasAlternateNamesCheckBox.CheckedChanged -= TemplateNamesChanged;
+                    _ourSettingsControl.AlternateNamesTextBox.TextChanged -= TemplateNamesChanged;
+                    _ourSettingsControl.PropertiesButton.Click -= PropertiesButtonClick;
                     ShowHideOurObjects(false);
 
-                    OurTab.Dispose();
+                    _ourTab.Dispose();
 
-                    OurSettingsControl.Goodbye();
-                    OurSettingsControl.Dispose();
+                    _ourSettingsControl.Goodbye();
+                    _ourSettingsControl.Dispose();
 
                     PluginManager.AWBForm.PluginsToolStripMenuItem.DropDownItems.Remove(OurMenuItem);
                 }
@@ -619,16 +617,16 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             finally
             {
                 // Perform cleanup that has to be executed in either case:
-                OurTab = null;
+                _ourTab = null;
                 OurMenuItem = null;
                 TheArticle = null;
                 Template = null;
                 MainRegex = null;
                 SecondChanceRegex = null;
                 PreferredTemplateNameRegex = null;
-                OurTab = null;
-                OurSettingsControl = null;
-                DeleteMeMenuItem = null;
+                _ourTab = null;
+                _ourSettingsControl = null;
+                _deleteMeMenuItem = null;
                 SkipRegex = null;
 
                 // Remember that this object has been disposed of:
@@ -643,8 +641,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         /// </summary>
         private void TemplateNamesChanged(object sender, EventArgs e)
         {
-            var _with4 = OurSettingsControl;
-            if (string.IsNullOrEmpty(_with4.TemplateName))
+            if (string.IsNullOrEmpty(_ourSettingsControl.TemplateName))
             {
                 MainRegex = null;
                 PreferredTemplateNameRegex = null;
@@ -652,7 +649,9 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             }
             else
             {
-                GotNewAlternateNamesString(_with4.HasAlternateNames ? _with4.AlternateNames : "");
+                GotNewAlternateNamesString(_ourSettingsControl.HasAlternateNames
+                    ? _ourSettingsControl.AlternateNames
+                    : "");
             }
         }
     }

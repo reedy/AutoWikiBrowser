@@ -30,7 +30,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         {
             // Specify alternate names only
 
-            OurSettingsControl = new BioWithWorkgroups(PluginName, Prefix, true, @params);
+            _ourSettingsControl = new BioWithWorkgroups(PluginName, Prefix, true, _params);
         }
 
         private const string PluginName = "WikiProject Biography";
@@ -40,7 +40,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         private const string OthersGroup = "Others";
 
-        private readonly TemplateParameters[] @params =
+        private readonly TemplateParameters[] _params =
         {
             new TemplateParameters
             {
@@ -117,9 +117,9 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         };
 
         // Settings:
-        private readonly TabPage OurTab = new TabPage("Biography");
+        private readonly TabPage _ourTab = new TabPage("Biography");
 
-        private readonly GenericWithWorkgroups OurSettingsControl;
+        private readonly GenericWithWorkgroups _ourSettingsControl;
 
         protected internal override string PluginShortName
         {
@@ -137,7 +137,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         protected internal override IGenericSettings GenericSettings
         {
-            get { return OurSettingsControl; }
+            get { return _ourSettingsControl; }
         }
 
         internal override bool HasReqPhotoParam
@@ -156,8 +156,8 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             OurMenuItem = new ToolStripMenuItem("Biography Plugin");
             InitialiseBase();
             // must set menu item object first
-            OurTab.UseVisualStyleBackColor = true;
-            OurTab.Controls.Add(OurSettingsControl);
+            _ourTab.UseVisualStyleBackColor = true;
+            _ourTab.Controls.Add(_ourSettingsControl);
         }
 
         // Article processing:
@@ -168,12 +168,11 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         protected override void ProcessArticleFinish()
         {
-            Living Living = Living.Unknown;
+            Living living = Living.Unknown;
 
             StubClass();
 
-            var _with1 = OurSettingsControl;
-            foreach (ListViewItem lvi in _with1.ListView1.Items)
+            foreach (ListViewItem lvi in _ourSettingsControl.ListView1.Items)
             {
                 if (lvi.Checked)
                 {
@@ -191,10 +190,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                         switch (tp.ParamName)
                         {
                             case "Not Living":
-                                Living = Living.Dead;
+                                living = Living.Dead;
                                 break;
                             case "Living":
-                                Living = Living.Living;
+                                living = Living.Living;
                                 break;
                             default:
                                 AddAndLogNewParamWithAYesValue(tp.ParamName.ToLower().Replace(" ", "-"));
@@ -204,7 +203,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 }
             }
 
-            switch (Living)
+            switch (living)
             {
                 case Living.Living:
                     if (!Template.HasYesParamLowerOrTitleCase(true, "living"))
@@ -225,8 +224,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                     break;
             }
 
-            var _with2 = TheArticle;
-            if (_with2.Namespace == Namespace.Talk && _with2.ProcessIt && !PluginManager.BotMode)
+            if (TheArticle.Namespace == Namespace.Talk && TheArticle.ProcessIt && !PluginManager.BotMode)
             {
                 // Since we're dealing with talk pages, we want a listas= even if it's the same as the
                 // article title without namespace (otherwise it sorts to namespace)
@@ -242,17 +240,16 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         /// <returns>False if OK, TRUE IF BAD TAG</returns>
         protected override bool TemplateFound()
         {
-            var _with3 = Template;
-            if (_with3.Parameters.ContainsKey("importance"))
+            if (Template.Parameters.ContainsKey("importance"))
             {
-                _with3.Parameters.Remove("importance");
+                Template.Parameters.Remove("importance");
                 TheArticle.ArticleHasAMinorChange();
             }
-            if (_with3.Parameters.ContainsKey("priority"))
+            if (Template.Parameters.ContainsKey("priority"))
             {
-                string priorityValue = _with3.Parameters["priority"].Value;
+                string priorityValue = Template.Parameters["priority"].Value;
 
-                foreach (KeyValuePair<string, Templating.TemplateParametersObject> kvp in _with3.Parameters)
+                foreach (KeyValuePair<string, Templating.TemplateParametersObject> kvp in Template.Parameters)
                 {
                     if (kvp.Key.Contains("-priority") && !string.IsNullOrEmpty(kvp.Value.Value))
                     {
@@ -260,7 +257,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                     }
                 }
 
-                _with3.Parameters.Remove("priority");
+                Template.Parameters.Remove("priority");
                 TheArticle.ArticleHasAMinorChange();
             }
 
@@ -271,13 +268,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         {
             string res = "{{WikiProject Biography" + Environment.NewLine;
 
-            var _with4 = Template;
-            if (_with4.Parameters.ContainsKey("living"))
+            if (Template.Parameters.ContainsKey("living"))
             {
-                _with4.Parameters["living"].Value = _with4.Parameters["living"].Value.ToLower();
-                res += "|living=" + _with4.Parameters["living"].Value + ParameterBreak;
+                Template.Parameters["living"].Value = Template.Parameters["living"].Value.ToLower();
+                res += "|living=" + Template.Parameters["living"].Value + ParameterBreak;
 
-                _with4.Parameters.Remove("living");
+                Template.Parameters.Remove("living");
                 // we've written this parameter; if we leave it in the collection PluginBase.TemplateWritingAndPlacement() will write it again
             }
             if (TheArticle.Namespace == Namespace.Talk)
@@ -291,7 +287,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         //User interface:
         protected override void ShowHideOurObjects(bool visible)
         {
-            PluginManager.ShowHidePluginTab(OurTab, visible);
+            PluginManager.ShowHidePluginTab(_ourTab, visible);
         }
 
         // XML settings:
@@ -299,18 +295,18 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         {
             Enabled = PluginManager.XMLReadBoolean(reader, Prefix + "Enabled", Enabled);
 
-            OurSettingsControl.ReadXML(reader);
+            _ourSettingsControl.ReadXML(reader);
         }
 
         protected internal override void Reset()
         {
-            OurSettingsControl.Reset();
+            _ourSettingsControl.Reset();
         }
 
         protected internal override void WriteXML(XmlTextWriter writer)
         {
             writer.WriteAttributeString(Prefix + "Enabled", Enabled.ToString());
-            OurSettingsControl.WriteXML(writer);
+            _ourSettingsControl.WriteXML(writer);
         }
     }
 }

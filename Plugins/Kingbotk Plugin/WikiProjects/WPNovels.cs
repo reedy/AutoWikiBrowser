@@ -16,9 +16,9 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
     internal sealed class WPNovels : PluginBase
     {
         // Settings:
-        private readonly TabPage OurTab = new TabPage(Prefix);
+        private readonly TabPage _ourTab = new TabPage(Prefix);
 
-        private readonly GenericWithWorkgroups OurSettingsControl;
+        private readonly GenericWithWorkgroups _ourSettingsControl;
         private const string Prefix = "Novels";
 
         private const string PluginName = "WikiProject Novels";
@@ -27,10 +27,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         {
             // Specify alternate names only
 
-            OurSettingsControl = new GenericWithWorkgroups(PluginName, Prefix, true, @params);
+            _ourSettingsControl = new GenericWithWorkgroups(PluginName, Prefix, true, _params);
         }
 
-        private readonly TemplateParameters[] @params =
+        private readonly TemplateParameters[] _params =
         {
             new TemplateParameters
             {
@@ -123,7 +123,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         protected internal override IGenericSettings GenericSettings
         {
-            get { return OurSettingsControl; }
+            get { return _ourSettingsControl; }
         }
 
         internal override bool HasReqPhotoParam
@@ -142,8 +142,8 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             OurMenuItem = new ToolStripMenuItem("Novels Plugin");
             InitialiseBase();
             // must set menu item object first
-            OurTab.UseVisualStyleBackColor = true;
-            OurTab.Controls.Add(OurSettingsControl);
+            _ourTab.UseVisualStyleBackColor = true;
+            _ourTab.Controls.Add(_ourSettingsControl);
         }
 
         // Article processing:
@@ -156,8 +156,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         protected override void ProcessArticleFinish()
         {
             StubClass();
-            var _with1 = OurSettingsControl;
-            foreach (ListViewItem lvi in _with1.ListView1.Items)
+            foreach (ListViewItem lvi in _ourSettingsControl.ListView1.Items)
             {
                 if (lvi.Checked)
                 {
@@ -183,7 +182,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         //User interface:
         protected override void ShowHideOurObjects(bool visible)
         {
-            PluginManager.ShowHidePluginTab(OurTab, visible);
+            PluginManager.ShowHidePluginTab(_ourTab, visible);
         }
 
         // XML settings:
@@ -194,18 +193,18 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             if (blnNewVal != Enabled)
                 Enabled = blnNewVal;
             // Mustn't set if the same or we get extra tabs
-            OurSettingsControl.ReadXML(reader);
+            _ourSettingsControl.ReadXML(reader);
         }
 
         protected internal override void Reset()
         {
-            OurSettingsControl.Reset();
+            _ourSettingsControl.Reset();
         }
 
         protected internal override void WriteXML(XmlTextWriter writer)
         {
             writer.WriteAttributeString(Prefix + "Enabled", Enabled.ToString());
-            OurSettingsControl.WriteXML(writer);
+            _ourSettingsControl.WriteXML(writer);
         }
     }
 }
