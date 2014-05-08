@@ -176,7 +176,9 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
         protected abstract string WriteTemplateHeader();
 
-        protected abstract void ImportanceParameter(Importance importance);
+        protected virtual void ImportanceParameter(Importance importance)
+        {
+        }
 
         protected string MatchEvaluator(Match match)
         {
@@ -205,7 +207,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 }
             }
 
-            return Constants.conTemplatePlaceholder;
+            return Constants.TemplaterPlaceholder;
         }
 
         protected void PluginCheckTemplateName(string templateName)
@@ -253,18 +255,18 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
         protected void AddAndLogNewParamWithAYesValue(string paramName)
         {
-            Template.NewOrReplaceTemplateParm(paramName, "yes", TheArticle, true, false, PluginName: PluginShortName);
+            Template.NewOrReplaceTemplateParm(paramName, "yes", TheArticle, true, false, pluginName: PluginShortName);
         }
 
         protected void AddNewParamWithAYesValue(string paramName)
         {
-            Template.NewOrReplaceTemplateParm(paramName, "yes", TheArticle, false, false, PluginName: PluginShortName);
+            Template.NewOrReplaceTemplateParm(paramName, "yes", TheArticle, false, false, pluginName: PluginShortName);
         }
 
         protected void AddAndLogNewParamWithAYesValue(string paramName, string paramAlternativeName)
         {
             Template.NewOrReplaceTemplateParm(paramName, "yes", TheArticle, true, true,
-                ParamAlternativeName: paramAlternativeName, PluginName: PluginShortName);
+                paramAlternativeName: paramAlternativeName, pluginName: PluginShortName);
         }
 
         protected void AddEmptyParam(string paramName)
@@ -319,13 +321,13 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             {
                 if (GenericSettings.StubClass)
                 {
-                    Template.NewOrReplaceTemplateParm("class", "Stub", TheArticle, true, false, PluginName: PluginShortName,
-                        DontChangeIfSet: true);
+                    Template.NewOrReplaceTemplateParm("class", "Stub", TheArticle, true, false, pluginName: PluginShortName,
+                        dontChangeIfSet: true);
                 }
 
                 if (GenericSettings.AutoStub &&
-                    Template.NewOrReplaceTemplateParm("class", "Stub", TheArticle, true, false, PluginName: PluginShortName,
-                        DontChangeIfSet: true))
+                    Template.NewOrReplaceTemplateParm("class", "Stub", TheArticle, true, false, pluginName: PluginShortName,
+                        dontChangeIfSet: true))
                     AddAndLogNewParamWithAYesValue("auto");
                 // If add class=Stub (we don't change if set) add auto
             }
@@ -380,17 +382,17 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             }
         }
 
-        protected internal virtual void BotModeChanged(bool BotMode)
+        protected internal virtual void BotModeChanged(bool botMode)
         {
-            if (BotMode && GenericSettings.StubClass)
+            if (botMode && GenericSettings.StubClass)
             {
                 GenericSettings.AutoStub = true;
                 GenericSettings.StubClass = false;
             }
-            GenericSettings.StubClassModeAllowed = !BotMode;
+            GenericSettings.StubClassModeAllowed = !botMode;
         }
 
-        protected internal virtual bool IAmGeneric
+        protected internal virtual bool AmGeneric
         {
             get { return false; }
         }
@@ -481,7 +483,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         /// <summary>
         /// Returns true if the templating plugin is ready to start processing
         /// </summary>
-        protected internal virtual bool IAmReady
+        protected internal virtual bool AmReady
         {
             // In compiled templates, this is where we check if we've got an up-to-date redirects list from Wikipedia
             // In generic templates, we also check whether the generic template has enough configuration to start tagging

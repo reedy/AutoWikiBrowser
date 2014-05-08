@@ -15,13 +15,13 @@ internal sealed class WPSongs : PluginBase
 
         TemplateParameters[] @params = new TemplateParameters[-1 + 1];
 
-        OurSettingsControl = new GenericWithWorkgroups(PluginName, Prefix, true, @params);
+        _ourSettingsControl = new GenericWithWorkgroups(PluginName, Prefix, true, @params);
     }
 
     // Settings:
-    private readonly TabPage OurTab = new TabPage(PluginName);
+    private readonly TabPage _ourTab = new TabPage(PluginName);
 
-    private readonly GenericWithWorkgroups OurSettingsControl;
+    private readonly GenericWithWorkgroups _ourSettingsControl;
 
     protected internal override string PluginShortName
     {
@@ -33,14 +33,9 @@ internal sealed class WPSongs : PluginBase
         get { return PluginName; }
     }
 
-    protected override void ImportanceParameter(Importance Importance)
-    {
-        // {{WikiProject Songs}} doesn't do importance
-    }
-
     protected internal override IGenericSettings GenericSettings
     {
-        get { return OurSettingsControl; }
+        get { return _ourSettingsControl; }
     }
 
     // Initialisation:
@@ -50,8 +45,8 @@ internal sealed class WPSongs : PluginBase
         OurMenuItem = new ToolStripMenuItem("Songs Plugin");
         InitialiseBase();
         // must set menu item object first
-        OurTab.UseVisualStyleBackColor = true;
-        OurTab.Controls.Add(OurSettingsControl);
+        _ourTab.UseVisualStyleBackColor = true;
+        _ourTab.Controls.Add(_ourSettingsControl);
     }
 
     // Article processing:
@@ -79,25 +74,25 @@ internal sealed class WPSongs : PluginBase
     //User interface:
     protected override void ShowHideOurObjects(bool visible)
     {
-        PluginManager.ShowHidePluginTab(OurTab, visible);
+        PluginManager.ShowHidePluginTab(_ourTab, visible);
     }
 
     // XML settings:
-    protected internal override void ReadXML(XmlTextReader Reader)
+    protected internal override void ReadXML(XmlTextReader reader)
     {
-        Enabled = PluginManager.XMLReadBoolean(Reader, Prefix + "Enabled", Enabled);
-        OurSettingsControl.ReadXML(Reader);
+        Enabled = PluginManager.XMLReadBoolean(reader, Prefix + "Enabled", Enabled);
+        _ourSettingsControl.ReadXML(reader);
     }
 
     protected internal override void Reset()
     {
-        OurSettingsControl.Reset();
+        _ourSettingsControl.Reset();
     }
 
-    protected internal override void WriteXML(XmlTextWriter Writer)
+    protected internal override void WriteXML(XmlTextWriter writer)
     {
-        Writer.WriteAttributeString(Prefix + "Enabled", Enabled.ToString());
-        OurSettingsControl.WriteXML(Writer);
+        writer.WriteAttributeString(Prefix + "Enabled", Enabled.ToString());
+        _ourSettingsControl.WriteXML(writer);
     }
 
     // Misc:

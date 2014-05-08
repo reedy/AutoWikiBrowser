@@ -155,7 +155,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                     if (InitStaticVariableHelper(static_RestoreTemplateToPlaceholderSpot_strPlaceholder_Init))
                     {
                         static_RestoreTemplateToPlaceholderSpot_strPlaceholder =
-                            Regex.Escape(Constants.conTemplatePlaceholder);
+                            Regex.Escape(Constants.TemplaterPlaceholder);
                     }
                 }
                 finally

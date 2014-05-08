@@ -131,7 +131,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             get { return PluginName; }
         }
 
-        protected override void ImportanceParameter(Importance Importance)
+        protected override void ImportanceParameter(Importance importance)
         {
         }
 
@@ -295,11 +295,11 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         }
 
         // XML settings:
-        protected internal override void ReadXML(XmlTextReader Reader)
+        protected internal override void ReadXML(XmlTextReader reader)
         {
-            Enabled = PluginManager.XMLReadBoolean(Reader, Prefix + "Enabled", Enabled);
+            Enabled = PluginManager.XMLReadBoolean(reader, Prefix + "Enabled", Enabled);
 
-            OurSettingsControl.ReadXML(Reader);
+            OurSettingsControl.ReadXML(reader);
         }
 
         protected internal override void Reset()
@@ -307,10 +307,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             OurSettingsControl.Reset();
         }
 
-        protected internal override void WriteXML(XmlTextWriter Writer)
+        protected internal override void WriteXML(XmlTextWriter writer)
         {
-            Writer.WriteAttributeString(Prefix + "Enabled", Enabled.ToString());
-            OurSettingsControl.WriteXML(Writer);
+            writer.WriteAttributeString(Prefix + "Enabled", Enabled.ToString());
+            OurSettingsControl.WriteXML(writer);
         }
     }
 }

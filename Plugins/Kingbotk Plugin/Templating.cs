@@ -29,23 +29,23 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         /// <summary>
         /// Store a parameter from the exploded on-page template into the Parameters collectiom
         /// </summary>
-        internal void AddTemplateParmFromExistingTemplate(string ParameterName, string ParameterValue)
+        internal void AddTemplateParmFromExistingTemplate(string parameterName, string parameterValue)
         {
             // v2.0: Let's merge duplicates when one or both is empty:
-            if (Parameters.ContainsKey(ParameterName))
+            if (Parameters.ContainsKey(parameterName))
             {
                 // This code is very similar to ReplaceTemplateParm(), but that is for programmatic changes (i.e. not
                 // from template), needs an Article object, doesn't understand empty new values, and doesn't report
                 // bad tags. Turned out to be easier to rewrite here than to modify it.
-                if (Parameters[ParameterName].Value != ParameterValue)
+                if (Parameters[parameterName].Value != parameterValue)
                 {
                     // existing value is empty, overwrite with new
-                    if (string.IsNullOrEmpty(Parameters[ParameterName].Value))
+                    if (string.IsNullOrEmpty(Parameters[parameterName].Value))
                     {
-                        Parameters[ParameterName].Value = ParameterValue;
+                        Parameters[parameterName].Value = parameterValue;
                         // new value is empty, keep existing
                     }
-                    else if (string.IsNullOrEmpty(ParameterValue))
+                    else if (string.IsNullOrEmpty(parameterValue))
                     {
                         // 2 different non-empty values, template is bad
                     }
@@ -58,85 +58,85 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             }
             else
             {
-                Parameters.Add(ParameterName, new TemplateParametersObject(ParameterName, ParameterValue));
+                Parameters.Add(parameterName, new TemplateParametersObject(parameterName, parameterValue));
             }
         }
 
-        internal void NewTemplateParm(string ParameterName, string ParameterValue)
+        internal void NewTemplateParm(string parameterName, string parameterValue)
         {
-            Parameters.Add(ParameterName, new TemplateParametersObject(ParameterName, ParameterValue));
+            Parameters.Add(parameterName, new TemplateParametersObject(parameterName, parameterValue));
         }
 
-        internal void NewTemplateParm(string ParameterName, string ParameterValue, bool LogItAndUpdateEditSummary,
-            Article TheArticle, string PluginName, bool MinorEdit = false)
+        internal void NewTemplateParm(string parameterName, string parameterValue, bool logItAndUpdateEditSummary,
+            Article theArticle, string pluginName, bool minorEdit = false)
         {
-            NewTemplateParm(ParameterName, ParameterValue);
-            if (LogItAndUpdateEditSummary)
-                TheArticle.ParameterAdded(ParameterName, ParameterValue, MinorEdit);
+            NewTemplateParm(parameterName, parameterValue);
+            if (logItAndUpdateEditSummary)
+                theArticle.ParameterAdded(parameterName, parameterValue, minorEdit);
         }
 
         /// <summary>
         /// Checks for the existence of a parameter and adds it if missing/optionally changes it
         /// </summary>
         /// <returns>True if made a change</returns>
-        internal bool NewOrReplaceTemplateParm(string ParameterName, string ParameterValue, Article TheArticle,
-            bool LogItAndUpdateEditSummary, bool ParamHasAlternativeName, bool DontChangeIfSet = false,
-            string ParamAlternativeName = "", string PluginName = "", bool MinorEditOnlyIfAdding = false)
+        internal bool NewOrReplaceTemplateParm(string parameterName, string parameterValue, Article theArticle,
+            bool logItAndUpdateEditSummary, bool paramHasAlternativeName, bool dontChangeIfSet = false,
+            string paramAlternativeName = "", string pluginName = "", bool minorEditOnlyIfAdding = false)
         {
             bool res;
 
-            if (Parameters.ContainsKey(ParameterName))
+            if (Parameters.ContainsKey(parameterName))
             {
-                res = ReplaceTemplateParm(ParameterName, ParameterValue, TheArticle, LogItAndUpdateEditSummary,
-                    DontChangeIfSet, PluginName);
+                res = ReplaceTemplateParm(parameterName, parameterValue, theArticle, logItAndUpdateEditSummary,
+                    dontChangeIfSet);
             }
-            else if (ParamHasAlternativeName && Parameters.ContainsKey(ParamAlternativeName))
+            else if (paramHasAlternativeName && Parameters.ContainsKey(paramAlternativeName))
             {
-                res = ReplaceTemplateParm(ParamAlternativeName, ParameterValue, TheArticle, LogItAndUpdateEditSummary,
-                    DontChangeIfSet, PluginName);
+                res = ReplaceTemplateParm(paramAlternativeName, parameterValue, theArticle, logItAndUpdateEditSummary,
+                    dontChangeIfSet);
                 // Doesn't contain parameter
             }
             else
             {
-                NewTemplateParm(ParameterName, ParameterValue, LogItAndUpdateEditSummary, TheArticle, PluginName,
-                    MinorEditOnlyIfAdding);
+                NewTemplateParm(parameterName, parameterValue, logItAndUpdateEditSummary, theArticle, pluginName,
+                    minorEditOnlyIfAdding);
 
-                if (MinorEditOnlyIfAdding)
-                    TheArticle.ArticleHasAMinorChange();
+                if (minorEditOnlyIfAdding)
+                    theArticle.ArticleHasAMinorChange();
                 else
-                    TheArticle.ArticleHasAMajorChange();
+                    theArticle.ArticleHasAMajorChange();
                 return true;
             }
 
             if (res)
-                TheArticle.ArticleHasAMajorChange();
+                theArticle.ArticleHasAMajorChange();
             return res;
         }
 
-        private bool ReplaceTemplateParm(string ParameterName, string ParameterValue, Article TheArticle,
-            bool LogItAndUpdateEditSummary, bool DontChangeIfSet, string PluginName)
+        private bool ReplaceTemplateParm(string parameterName, string parameterValue, Article theArticle,
+            bool logItAndUpdateEditSummary, bool dontChangeIfSet)
         {
-            string ExistingValue = WikiRegexes.Comments.Replace(Parameters[ParameterName].Value, "").Trim();
+            string existingValue = WikiRegexes.Comments.Replace(Parameters[parameterName].Value, "").Trim();
             // trim still needed because altho main regex shouldn't give us spaces at the end of vals any more, the .Replace here might
 
             // Contains parameter with a different value
-            if (ExistingValue != ParameterValue)
+            if (existingValue != parameterValue)
             {
                 // Contains parameter with a different value, and _
-                if (string.IsNullOrEmpty(ExistingValue) || !DontChangeIfSet)
+                if (string.IsNullOrEmpty(existingValue) || !dontChangeIfSet)
                 {
                     // we want to change it; or contains an empty parameter
-                    Parameters[ParameterName].Value = ParameterValue;
-                    TheArticle.ArticleHasAMajorChange();
-                    if (LogItAndUpdateEditSummary)
+                    Parameters[parameterName].Value = parameterValue;
+                    theArticle.ArticleHasAMajorChange();
+                    if (logItAndUpdateEditSummary)
                     {
-                        if (string.IsNullOrEmpty(ExistingValue))
+                        if (string.IsNullOrEmpty(existingValue))
                         {
-                            TheArticle.ParameterAdded(ParameterName, ParameterValue);
+                            theArticle.ParameterAdded(parameterName, parameterValue);
                         }
                         else
                         {
-                            TheArticle.DoneReplacement(ParameterName + "=" + ExistingValue, ParameterValue);
+                            theArticle.DoneReplacement(parameterName + "=" + existingValue, parameterValue);
                         }
                     }
                     return true;

@@ -33,9 +33,9 @@ internal sealed class WPAlbums : PluginBase
         get { return PluginName; }
     }
 
-    protected override void ImportanceParameter(Importance Importance)
+    protected override void ImportanceParameter(Importance importance)
     {
-        Template.NewOrReplaceTemplateParm("importance", Importance.ToString(), TheArticle, false, false);
+        Template.NewOrReplaceTemplateParm("importance", importance.ToString(), TheArticle, false, false);
     }
 
     protected internal override IGenericSettings GenericSettings
@@ -82,10 +82,10 @@ internal sealed class WPAlbums : PluginBase
     }
 
     // XML settings:
-    protected internal override void ReadXML(XmlTextReader Reader)
+    protected internal override void ReadXML(XmlTextReader reader)
     {
-        Enabled = PluginManager.XMLReadBoolean(Reader, Prefix + "Enabled", Enabled);
-        OurSettingsControl.ReadXML(Reader);
+        Enabled = PluginManager.XMLReadBoolean(reader, Prefix + "Enabled", Enabled);
+        OurSettingsControl.ReadXML(reader);
     }
 
     protected internal override void Reset()
@@ -93,10 +93,10 @@ internal sealed class WPAlbums : PluginBase
         OurSettingsControl.Reset();
     }
 
-    protected internal override void WriteXML(XmlTextWriter Writer)
+    protected internal override void WriteXML(XmlTextWriter writer)
     {
-        Writer.WriteAttributeString(Prefix + "Enabled", Enabled.ToString());
-        OurSettingsControl.WriteXML(Writer);
+        writer.WriteAttributeString(Prefix + "Enabled", Enabled.ToString());
+        OurSettingsControl.WriteXML(writer);
     }
 
     // Misc:

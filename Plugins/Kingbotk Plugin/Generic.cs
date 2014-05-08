@@ -167,26 +167,26 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 
         #region "XML interface"
 
-        public void ReadXML(XmlTextReader Reader)
+        public void ReadXML(XmlTextReader reader)
         {
-            AutoStub = PluginManager.XMLReadBoolean(Reader, conAutoStubParm, AutoStub);
-            StubClass = PluginManager.XMLReadBoolean(Reader, conStubClassParm, StubClass);
-            TemplateName = PluginManager.XMLReadString(Reader, conTemplateNameParm, TemplateName);
-            HasAlternateNames = PluginManager.XMLReadBoolean(Reader, conTemplateAlternateNamesYNParm, HasAlternateNames);
-            AlternateNames = PluginManager.XMLReadString(Reader, conTemplateAlternateNamesParm, AlternateNames);
+            AutoStub = PluginManager.XMLReadBoolean(reader, conAutoStubParm, AutoStub);
+            StubClass = PluginManager.XMLReadBoolean(reader, conStubClassParm, StubClass);
+            TemplateName = PluginManager.XMLReadString(reader, conTemplateNameParm, TemplateName);
+            HasAlternateNames = PluginManager.XMLReadBoolean(reader, conTemplateAlternateNamesYNParm, HasAlternateNames);
+            AlternateNames = PluginManager.XMLReadString(reader, conTemplateAlternateNamesParm, AlternateNames);
             ImportanceSetting =
                 (ImportanceSettingEnum)
                     ImportanceSettingEnum.Parse(typeof (ImportanceSettingEnum),
-                        PluginManager.XMLReadString(Reader, conTemplateImportanceParm, ImportanceSetting.ToString()),
+                        PluginManager.XMLReadString(reader, conTemplateImportanceParm, ImportanceSetting.ToString()),
                         true);
-            AutoStubYN = PluginManager.XMLReadBoolean(Reader, conTemplateAutoStubYNParm, AutoStubYN);
-            SkipRegexYN = PluginManager.XMLReadBoolean(Reader, conSkipRegexYN, SkipRegexYN);
-            SkipRegex = PluginManager.XMLReadString(Reader, conSkipRegex, SkipRegex);
+            AutoStubYN = PluginManager.XMLReadBoolean(reader, conTemplateAutoStubYNParm, AutoStubYN);
+            SkipRegexYN = PluginManager.XMLReadBoolean(reader, conSkipRegexYN, SkipRegexYN);
+            SkipRegex = PluginManager.XMLReadString(reader, conSkipRegex, SkipRegex);
         }
 
-        public void WriteXML(XmlTextWriter Writer)
+        public void WriteXML(XmlTextWriter writer)
         {
-            var _with1 = Writer;
+            var _with1 = writer;
             _with1.WriteAttributeString(conTemplateNameParm, TemplateName);
             _with1.WriteAttributeString(conAutoStubParm, AutoStub.ToString());
             _with1.WriteAttributeString(conStubClassParm, StubClass.ToString());
@@ -310,7 +310,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         }
 
         // Properties:
-        protected internal override bool IAmReady
+        protected internal override bool AmReady
         {
             get
             {
@@ -321,11 +321,11 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
                 if (SecondChanceRegex == null)
                     return false;
                 // else:
-                return base.IAmReady;
+                return base.AmReady;
             }
         }
 
-        protected internal override bool IAmGeneric
+        protected internal override bool AmGeneric
         {
             get { return true; }
         }
@@ -340,15 +340,15 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             get { return OurSettingsControl.TemplateName; }
         }
 
-        protected override void ImportanceParameter(Importance Importance)
+        protected override void ImportanceParameter(Importance importance)
         {
             switch (OurSettingsControl.ImportanceSetting)
             {
                 case GenericTemplateSettings.ImportanceSettingEnum.Imp:
-                    Template.NewOrReplaceTemplateParm("importance", Importance.ToString(), TheArticle, false, false);
+                    Template.NewOrReplaceTemplateParm("importance", importance.ToString(), TheArticle, false, false);
                     break;
                 case GenericTemplateSettings.ImportanceSettingEnum.Pri:
-                    Template.NewOrReplaceTemplateParm("priority", Importance.ToString(), TheArticle, false, false);
+                    Template.NewOrReplaceTemplateParm("priority", importance.ToString(), TheArticle, false, false);
                     break;
                     // Case GenericTemplateSettings.ImportanceSettingEnum.None ' do nothing
             }
@@ -414,14 +414,14 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         }
 
         // XML settings:
-        protected internal override void ReadXML(XmlTextReader Reader)
+        protected internal override void ReadXML(XmlTextReader reader)
         {
-            bool blnNewVal = PluginManager.XMLReadBoolean(Reader, conEnabled, Enabled);
+            bool blnNewVal = PluginManager.XMLReadBoolean(reader, conEnabled, Enabled);
             // ReSharper disable once RedundantCheckBeforeAssignment
             if (blnNewVal != Enabled)
                 Enabled = blnNewVal;
             // Mustn't set if the same or we get extra tabs
-            OurSettingsControl.ReadXML(Reader);
+            OurSettingsControl.ReadXML(reader);
         }
 
         protected internal override void Reset()
@@ -429,10 +429,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             OurSettingsControl.Reset();
         }
 
-        protected internal override void WriteXML(XmlTextWriter Writer)
+        protected internal override void WriteXML(XmlTextWriter writer)
         {
-            Writer.WriteAttributeString(conEnabled, Enabled.ToString());
-            OurSettingsControl.WriteXML(Writer);
+            writer.WriteAttributeString(conEnabled, Enabled.ToString());
+            OurSettingsControl.WriteXML(writer);
         }
 
         //' These do nothing because generic templates already have a AlternateNames XML property
@@ -472,7 +472,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
         {
             using (GenericTemplatePropertiesForm frm = new GenericTemplatePropertiesForm())
             {
-                frm.AmIReadyLabel.Text = IAmReady
+                frm.AmIReadyLabel.Text = AmReady
                     ? "Generic Template Plugin is ready"
                     : "Generic Template Plugin is not properly configured";
 

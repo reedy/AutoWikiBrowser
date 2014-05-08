@@ -176,7 +176,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             {
                 try
                 {
-                    if (!p.IAmReady && p.IAmGeneric)
+                    if (!p.AmReady && p.AmGeneric)
                     {
                         MessageBox.Show(
                             "The generic template plugin \"" + p.PluginShortName + "\"isn't properly configured.",
@@ -413,7 +413,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                             // that one plugin found a bad template and possibly replaced it with
                             // conTemplatePlaceholder. We're also not skipping, so we need to remove the placeholder
                             theArticle.AlteredArticleText =
-                                theArticle.AlteredArticleText.Replace(Constants.conTemplatePlaceholder, "");
+                                theArticle.AlteredArticleText.Replace(Constants.TemplaterPlaceholder, "");
                             MessageBox.Show("Bad tag. Please fix it manually or click ignore.", "Bad tag",
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
                             _pluginSettings.PluginStats.Tagged += 1;
@@ -844,7 +844,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             {
                 plugin.Value.WriteXML(writer);
                 plugin.Value.WriteXMLRedirects(writer);
-                if (plugin.Value.IAmGeneric)
+                if (plugin.Value.AmGeneric)
                 {
                     strGenericTemplates.Add(((IGenericTemplatePlugin) plugin.Value).GenericTemplateKey);
                 }
@@ -889,7 +889,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         // AWB nudges:
         public void Nudge(out bool cancel)
         {
-            cancel = ActivePlugins.Any(p => !p.IAmReady);
+            cancel = ActivePlugins.Any(p => !p.AmReady);
         }
 
         public void Nudged(int nudges)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -31,7 +32,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
             set
             {
                 mNumberOfEdits = value;
-                EditsLabel.Text = mNumberOfEdits.ToString();
+                EditsLabel.Text = mNumberOfEdits.ToString(CultureInfo.InvariantCulture);
             }
         }
 
