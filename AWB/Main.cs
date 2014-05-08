@@ -633,11 +633,6 @@ namespace AutoWikiBrowser
                 MessageBox.Show("MediaWiki prevented you from making that edit. Chances are it's spam or abuse filter related", "MediaWiki says no");
                 SkipPage("Edit blocked by spam/abuse filter");
             }
-            else if(ex is BrokenXmlException && ex.Message.Contains("Cannot find <page> element")) // e.g. due to network error
-            {
-                Tools.WriteDebug(Name, "ApiEditExceptionCaught: " + ex.Message);
-                StartDelayedRestartTimer();
-            }
             else
             {
                 Stop();
