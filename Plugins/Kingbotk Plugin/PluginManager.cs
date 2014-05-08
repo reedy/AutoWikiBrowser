@@ -51,8 +51,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         private static readonly ToolStripMenuItem AddGenericTemplateMenuItem =
             new ToolStripMenuItem("Add Generic Template");
 
-        private static readonly ToolStripMenuItem MenuShowSettingsTabs = new ToolStripMenuItem("Show settings tabs");
-
         // Library state and shared objects:
         private static readonly TabPage KingbotkPluginTab = new TabPage("Plugin");
 
@@ -122,12 +120,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             // Tabs:
             KingbotkPluginTab.UseVisualStyleBackColor = true;
             KingbotkPluginTab.Controls.Add(PluginSettings);
-
-            // Show/hide tabs menu:
-            MenuShowSettingsTabs.CheckOnClick = true;
-            MenuShowSettingsTabs.Checked = true;
-            MenuShowSettingsTabs.Click += MenuShowHide_Click;
-            AWBForm.ToolStripMenuGeneral.DropDownItems.Add(MenuShowSettingsTabs);
 
             // Add-Generic-Template menu:
             AddGenericTemplateMenuItem.Click += AddGenericTemplateMenuItem_Click;
@@ -617,28 +609,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         }
 
         // User interface management:
-        private static bool ShowHideTabs
-        {
-            get { return MenuShowSettingsTabs.Checked; }
-            set
-            {
-                if (value)
-                {
-                    AWBForm.ShowAllTabPages();
-                    //For Each tabp As TabPage In SettingsTabs ' may not need this now AWB tracks tabs
-                    //    AWBForm.AddTabPage(tabp)
-                    //Next
-                    if (ActivePlugins.Count > 0)
-                        AWBForm.AddTabPage(KingbotkPluginTab);
-                }
-                else
-                {
-                    AWBForm.HideAllTabPages();
-                    AWBForm.AddTabPage(KingbotkPluginTab);
-                }
-                MenuShowSettingsTabs.Checked = value;
-            }
-        }
 
         internal static void DefaultStatusText()
         {
@@ -764,11 +734,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             PluginSettings.AWBProcessingAborted();
         }
 
-        private static void MenuShowHide_Click(object sender, EventArgs e)
-        {
-            ShowHideTabs = MenuShowSettingsTabs.Checked;
-        }
-
         private void ManuallyAssessCheckBox_CheckChanged(object sender, EventArgs e)
         {
             if (((CheckBox) sender).Checked)
@@ -861,12 +826,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 plugin.Value.ReadXMLRedirects(Reader);
             }
 
-            bool blnNewVal = XMLReadBoolean(Reader, conShowHideTabsParm, ShowHideTabs);
-            // ReSharper disable once RedundantCheckBeforeAssignment
-            if (blnNewVal != ShowHideTabs)
-                ShowHideTabs = blnNewVal;
-            // Mustn't set if the same or we get extra tabs; must happen AFTER plugins
-
             TestSkipNonExistingPages();
         }
 
@@ -876,7 +835,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 new System.Collections.Specialized.StringCollection();
             int i = 0;
 
-            Writer.WriteAttributeString(conShowHideTabsParm, ShowHideTabs.ToString());
             Writer.WriteAttributeString(conShowManualAssessmentsInstructions,
                 blnShowManualAssessmentsInstructions.ToString());
             PluginSettings.WriteXML(Writer);
