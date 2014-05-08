@@ -1,4 +1,5 @@
-﻿using AutoWikiBrowser.Plugins.Kingbotk.Components;
+﻿using System.Globalization;
+using AutoWikiBrowser.Plugins.Kingbotk.Components;
 using AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments;
 using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
 using System;
@@ -31,7 +32,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
     // Fields here shouldn't need to be Shared, as there will only ever be one instance - created by AWB at startup
     public sealed class PluginManager : IAWBPlugin
     {
-        private const string conMe = "Kingbotk Plugin Manager";
+        private const string Me = "Kingbotk Plugin Manager";
         // Regular expressions:
 
         private static readonly Regex ReqPhotoNoParamsRegex =
@@ -42,7 +43,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         internal static List<PluginBase> ActivePlugins = new List<PluginBase>();
         private static readonly Dictionary<string, PluginBase> Plugins = new Dictionary<string, PluginBase>();
 
-        private Assessments AssessmentsObject;
+        private Assessments _assessmentsObject;
         //AWB objects:
         internal static IAutoWikiBrowser AWBForm;
 
@@ -54,10 +55,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         // Library state and shared objects:
         private static readonly TabPage KingbotkPluginTab = new TabPage("Plugin");
 
-        private static PluginSettingsControl PluginSettings;
+        private static PluginSettingsControl _pluginSettings;
         // User settings:
 
-        private static bool blnShowManualAssessmentsInstructions = true;
+        private static bool _showManualAssessmentsInstructions = true;
         // SkipReason:
         private enum SkipReason : byte
         {
@@ -71,11 +72,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         }
 
         // XML:
-        private const string conShowHideTabsParm = "ShowHideTabs";
-        private const string conShowManualAssessmentsInstructions = "ShowManualAssessmentsInstructions";
-        private const string conGenericTemplatesCount = "GenericTemplatesCount";
+        private const string ShowManualAssessmentsInstructions = "ShowManualAssessmentsInstructions";
+        private const string GenericTemplatesCount = "GenericTemplatesCount";
 
-        private const string conGenericTemplate = "GenericTemplate";
+        private const string GenericTemplate = "GenericTemplate";
         // AWB interface:
         public string Name
         {
@@ -88,13 +88,13 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             AWBForm = sender;
 
             // Initialise our settings object:
-            PluginSettings = new PluginSettingsControl();
+            _pluginSettings = new PluginSettingsControl();
 
 
             // Set up our UI objects:
-            var _with2 = AWBForm.BotModeCheckbox;
-            _with2.EnabledChanged += AWBBotModeCheckboxEnabledChangedHandler;
-            _with2.CheckedChanged += AWBBotModeCheckboxCheckedChangeHandler;
+
+            AWBForm.BotModeCheckbox.EnabledChanged += AWBBotModeCheckboxEnabledChangedHandler;
+            AWBForm.BotModeCheckbox.CheckedChanged += AWBBotModeCheckboxCheckedChangeHandler;
             AWBForm.StatusStrip.Items.Insert(2, StatusText);
             StatusText.Margin = new Padding(50, 0, 50, 0);
             StatusText.BorderSides = ToolStripStatusLabelBorderSides.Left | ToolStripStatusLabelBorderSides.Right;
@@ -102,8 +102,8 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             AWBForm.HelpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[]
             {
                 new ToolStripSeparator(),
-                PluginSettings.MenuHelp,
-                PluginSettings.MenuAbout
+                _pluginSettings.MenuHelp,
+                _pluginSettings.MenuAbout
             });
 
             // UI - addhandlers for Start/Stop/Diff/Preview/Save/Ignore buttons/form closing:
@@ -115,11 +115,11 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             AWBForm.TheSession.Aborted += EditorAborted;
 
             // Track Manual Assessment checkbox:
-            PluginSettings.ManuallyAssessCheckBox.CheckedChanged += ManuallyAssessCheckBox_CheckChanged;
+            _pluginSettings.ManuallyAssessCheckBox.CheckedChanged += ManuallyAssessCheckBox_CheckChanged;
 
             // Tabs:
             KingbotkPluginTab.UseVisualStyleBackColor = true;
-            KingbotkPluginTab.Controls.Add(PluginSettings);
+            KingbotkPluginTab.Controls.Add(_pluginSettings);
 
             // Add-Generic-Template menu:
             AddGenericTemplateMenuItem.Click += AddGenericTemplateMenuItem_Click;
@@ -142,7 +142,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             }
 
             // Add our menu items last:
-            AWBForm.PluginsToolStripMenuItem.DropDownItems.Add(PluginSettings.PluginToolStripMenuItem);
+            AWBForm.PluginsToolStripMenuItem.DropDownItems.Add(_pluginSettings.PluginToolStripMenuItem);
 
             // Reset statusbar text:
             DefaultStatusText();
@@ -167,11 +167,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             if (ActivePlugins.Count == 0)
                 return eventargs.ArticleText;
 
-            Article TheArticle;
-            int Namesp = eventargs.NameSpaceKey;
+            Article theArticle;
 
             StatusText.Text = "Processing " + eventargs.ArticleTitle;
-            AWBForm.TraceManager.ProcessingArticle(eventargs.ArticleTitle, Namesp);
+            AWBForm.TraceManager.ProcessingArticle(eventargs.ArticleTitle, eventargs.NameSpaceKey);
 
             foreach (PluginBase p in ActivePlugins)
             {
@@ -193,16 +192,16 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 }
             }
 
-            switch (Namesp)
+            switch (eventargs.NameSpaceKey)
             {
                 case Namespace.Article:
-                    if (PluginSettings.ManuallyAssess)
+                    if (_pluginSettings.ManuallyAssess)
                     {
                         if (eventargs.Exists == Exists.Yes)
                         {
                             StatusText.Text += ": Click Preview to read the article; " +
                                                "click Save or Ignore to load the assessments form";
-                            AssessmentsObject.ProcessMainSpaceArticle(eventargs.ArticleTitle);
+                            _assessmentsObject.ProcessMainSpaceArticle(eventargs.ArticleTitle);
                             eventargs.EditSummary = "Clean up";
                             goto SkipOrStop;
                         }
@@ -238,14 +237,14 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                     }
                     else
                     {
-                        TheArticle = new Article(eventargs.ArticleText, eventargs.ArticleTitle, Namesp);
+                        theArticle = new Article(eventargs.ArticleText, eventargs.ArticleTitle, eventargs.NameSpaceKey);
 
-                        bool ReqPhoto = ReqPhotoParamNeeded(TheArticle);
+                        bool reqPhoto = ReqPhotoParamNeeded(theArticle);
 
-                        if (PluginSettings.ManuallyAssess)
+                        if (_pluginSettings.ManuallyAssess)
                         {
                             // reqphoto byref
-                            if (!AssessmentsObject.ProcessTalkPage(TheArticle, PluginSettings, ref ReqPhoto))
+                            if (!_assessmentsObject.ProcessTalkPage(theArticle, _pluginSettings, ref reqPhoto))
                             {
                                 eventargs.Skip = true;
                                 goto SkipOrStop;
@@ -253,15 +252,15 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                         }
                         else
                         {
-                            ReqPhoto = ProcessTalkPageAndCheckWeAddedReqPhotoParam(TheArticle, ReqPhoto);
+                            reqPhoto = ProcessTalkPageAndCheckWeAddedReqPhotoParam(theArticle, reqPhoto);
                             // We successfully added a reqphoto param
                         }
 
                         // FIXME
                         var eaTalkSkip = eventargs.Skip;
                         var eaTalkES = eventargs.EditSummary;
-                        res = FinaliseArticleProcessing(TheArticle, ref eaTalkSkip, ref eaTalkES, eventargs.ArticleText,
-                            ReqPhoto);
+                        res = FinaliseArticleProcessing(theArticle, ref eaTalkSkip, ref eaTalkES, eventargs.ArticleText,
+                            reqPhoto);
                         eventargs.Skip = eaTalkSkip;
                         eventargs.EditSummary = eaTalkES;
                     }
@@ -273,7 +272,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 case Namespace.ProjectTalk:
                 case Namespace.TemplateTalk:
                 case Namespace.FileTalk:
-                    if (PluginSettings.ManuallyAssess)
+                    if (_pluginSettings.ManuallyAssess)
                     {
                         MessageBox.Show(
                             "The plugin has received a non-standard namespace talk page in " +
@@ -282,20 +281,20 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                         StopAWB();
                         goto SkipOrStop;
                     }
-                    TheArticle = new Article(eventargs.ArticleText, eventargs.ArticleTitle, Namesp);
+                    theArticle = new Article(eventargs.ArticleText, eventargs.ArticleTitle, eventargs.NameSpaceKey);
 
                     foreach (PluginBase p in ActivePlugins)
                     {
-                        p.ProcessTalkPage(TheArticle, Classification.Code, Importance.NA, false, false, false,
+                        p.ProcessTalkPage(theArticle, Classification.Code, Importance.NA, false, false, false,
                             ProcessTalkPageMode.NonStandardTalk, false);
-                        if (TheArticle.PluginManagerGetSkipResults == SkipResults.SkipBadTag)
+                        if (theArticle.PluginManagerGetSkipResults == SkipResults.SkipBadTag)
                             break; // TODO: might not be correct. Was : Exit For
                     }
 
                     // FIXME
                     var eaMiscSkip = eventargs.Skip;
                     var eaMiscES = eventargs.EditSummary;
-                    res = FinaliseArticleProcessing(TheArticle, ref eaMiscSkip, ref eaMiscES, eventargs.ArticleText,
+                    res = FinaliseArticleProcessing(theArticle, ref eaMiscSkip, ref eaMiscES, eventargs.ArticleText,
                         false);
                     eventargs.Skip = eaMiscSkip;
                     eventargs.EditSummary = eaMiscES;
@@ -313,7 +312,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             }
             ExitMe:
 
-            if (!PluginSettings.ManuallyAssess)
+            if (!_pluginSettings.ManuallyAssess)
                 DefaultStatusText();
             AWBForm.TraceManager.Flush();
             return res;
@@ -334,11 +333,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
         public void Reset()
         {
-            blnShowManualAssessmentsInstructions = true;
-            var _with5 = PluginSettings;
-            _with5.Reset();
-            _with5.SkipBadTags = BotMode;
-            _with5.SkipWhenNoChange = BotMode;
+            _showManualAssessmentsInstructions = true;
+            _pluginSettings.Reset();
+            _pluginSettings.SkipBadTags = BotMode;
+            _pluginSettings.SkipWhenNoChange = BotMode;
             foreach (KeyValuePair<string, PluginBase> plugin in Plugins)
             {
                 plugin.Value.Reset();
@@ -348,28 +346,28 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         public object[] SaveSettings()
         {
             System.IO.StringWriter st = new System.IO.StringWriter();
-            XmlTextWriter Writer = new XmlTextWriter(st);
+            XmlTextWriter writer = new XmlTextWriter(st);
 
-            Writer.WriteStartElement("root");
-            WriteXML(Writer);
-            Writer.WriteEndElement();
-            Writer.Flush();
+            writer.WriteStartElement("root");
+            WriteXML(writer);
+            writer.WriteEndElement();
+            writer.Flush();
 
             return new object[] {st.ToString()};
         }
 
         // Private routines:
-        private static bool ProcessTalkPageAndCheckWeAddedReqPhotoParam(Article TheArticle, bool ReqPhoto)
+        private static bool ProcessTalkPageAndCheckWeAddedReqPhotoParam(Article theArticle, bool reqPhoto)
         {
             bool res = false;
             foreach (PluginBase p in ActivePlugins)
             {
-                if (p.ProcessTalkPage(TheArticle, ReqPhoto) && ReqPhoto && p.HasReqPhotoParam)
+                if (p.ProcessTalkPage(theArticle, reqPhoto) && reqPhoto && p.HasReqPhotoParam)
                 {
                     res = true;
                 }
 
-                if (TheArticle.PluginManagerGetSkipResults == SkipResults.SkipBadTag)
+                if (theArticle.PluginManagerGetSkipResults == SkipResults.SkipBadTag)
                 {
                     return false;
                 }
@@ -378,77 +376,76 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             return res;
         }
 
-        private static bool ReqPhotoParamNeeded(Article TheArticle)
+        private static bool ReqPhotoParamNeeded(Article theArticle)
         {
             return
                 ActivePlugins.Where(p => p.HasReqPhotoParam)
-                    .Any(p => ReqPhotoNoParamsRegex.IsMatch(TheArticle.AlteredArticleText));
+                    .Any(p => ReqPhotoNoParamsRegex.IsMatch(theArticle.AlteredArticleText));
         }
 
-        private static string FinaliseArticleProcessing(Article TheArticle, ref bool Skip, ref string Summary,
-            string ArticleText, bool ReqPhoto)
+        private static string FinaliseArticleProcessing(Article theArticle, ref bool skip, ref string summary,
+            string articleText, bool reqPhoto)
         {
-            SkipReason SkipReason = SkipReason.Other;
+            SkipReason skipReason = SkipReason.Other;
 
-            if (TheArticle.PluginManagerGetSkipResults == SkipResults.NotSet)
+            if (theArticle.PluginManagerGetSkipResults == SkipResults.NotSet)
             {
-                PluginSettings.PluginStats.Tagged += 1;
+                _pluginSettings.PluginStats.Tagged += 1;
             }
             else
             {
-                var _with6 = PluginSettings.PluginStats;
-                switch (TheArticle.PluginManagerGetSkipResults)
+                switch (theArticle.PluginManagerGetSkipResults)
                 {
                     case SkipResults.SkipBadTag:
                         // always skip
-                        if (PluginSettings.SkipBadTags)
+                        if (_pluginSettings.SkipBadTags)
                         {
-                            _with6.SkippedBadTagIncrement();
-                            if (PluginSettings.OpenBadInBrowser)
-                                TheArticle.EditInBrowser();
-                            Skip = true;
+                            _pluginSettings.PluginStats.SkippedBadTagIncrement();
+                            if (_pluginSettings.OpenBadInBrowser)
+                                theArticle.EditInBrowser();
+                            skip = true;
                             // always skip
-                            SkipReason = SkipReason.BadTag;
+                            skipReason = SkipReason.BadTag;
                         }
                         else
                         {
                             // the plugin manager stops processing when it gets a bad tag. We know however
                             // that one plugin found a bad template and possibly replaced it with
                             // conTemplatePlaceholder. We're also not skipping, so we need to remove the placeholder
-                            TheArticle.AlteredArticleText =
-                                TheArticle.AlteredArticleText.Replace(Constants.conTemplatePlaceholder, "");
+                            theArticle.AlteredArticleText =
+                                theArticle.AlteredArticleText.Replace(Constants.conTemplatePlaceholder, "");
                             MessageBox.Show("Bad tag. Please fix it manually or click ignore.", "Bad tag",
                                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                            PluginSettings.PluginStats.Tagged += 1;
+                            _pluginSettings.PluginStats.Tagged += 1;
                         }
                         break;
                     case SkipResults.SkipRegex:
                     case SkipResults.SkipNoChange:
-                        if (TheArticle.ProcessIt)
+                        if (theArticle.ProcessIt)
                         {
-                            PluginSettings.PluginStats.Tagged += 1;
+                            _pluginSettings.PluginStats.Tagged += 1;
                         }
                         else
                         {
-                            if (TheArticle.PluginManagerGetSkipResults == SkipResults.SkipRegex)
+                            if (theArticle.PluginManagerGetSkipResults == SkipResults.SkipRegex)
                             {
-                                _with6.SkippedMiscellaneousIncrement();
-                                Skip = true;
-                                SkipReason = SkipReason.Regex;
+                                _pluginSettings.PluginStats.SkippedMiscellaneousIncrement();
+                                skip = true;
+                                skipReason = SkipReason.Regex;
                                 // No change:
                             }
                             else
                             {
-                                if (PluginSettings.SkipWhenNoChange)
+                                if (_pluginSettings.SkipWhenNoChange)
                                 {
-                                    _with6.SkippedNoChangeIncrement();
-                                    SkipReason = SkipReason.NoChange;
-                                    Skip = true;
+                                    _pluginSettings.PluginStats.SkippedNoChangeIncrement();
+                                    skipReason = SkipReason.NoChange;
+                                    skip = true;
                                 }
                                 else
                                 {
-                                    PluginSettings.PluginStats.Tagged += 1;
-                                    Skip = false;
+                                    _pluginSettings.PluginStats.Tagged += 1;
+                                    skip = false;
                                 }
                             }
                         }
@@ -456,44 +453,44 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 }
             }
 
-            if (Skip)
+            if (skip)
             {
-                return Skipping(ref Summary, TheArticle.EditSummary, SkipReason, ArticleText, ref Skip);
+                return Skipping(ref summary, theArticle.EditSummary, skipReason, articleText, ref skip);
             }
 
-            if (ReqPhoto)
+            if (reqPhoto)
             {
-                TheArticle.AlteredArticleText = ReqPhotoNoParamsRegex.Replace(TheArticle.AlteredArticleText, "");
-                TheArticle.DoneReplacement("{{[[template:reqphoto|reqphoto]]}}", "template param(s)");
-                TheArticle.ArticleHasAMajorChange();
+                theArticle.AlteredArticleText = ReqPhotoNoParamsRegex.Replace(theArticle.AlteredArticleText, "");
+                theArticle.DoneReplacement("{{[[template:reqphoto|reqphoto]]}}", "template param(s)");
+                theArticle.ArticleHasAMajorChange();
             }
 
-            TheArticle.FinaliseEditSummary();
-            Summary = TheArticle.EditSummary;
-            return TheArticle.AlteredArticleText;
+            theArticle.FinaliseEditSummary();
+            summary = theArticle.EditSummary;
+            return theArticle.AlteredArticleText;
         }
 
-        private static string Skipping(ref string EditSummary, string DefaultEditSummary, SkipReason SkipReason,
-            string ArticleText, ref bool Skip, string ArticleTitle = null, int NS = Namespace.Talk)
+        private static string Skipping(ref string editSummary, string defaultEditSummary, SkipReason skipReason,
+            string articleText, ref bool Skip, string articleTitle = null, int ns = Namespace.Talk)
         {
-            EditSummary = BotMode ? "This article should have been skipped" : DefaultEditSummary;
+            editSummary = BotMode ? "This article should have been skipped" : defaultEditSummary;
 
-            switch (SkipReason)
+            switch (skipReason)
             {
                 case SkipReason.BadNamespace:
-                    PluginSettings.PluginStats.SkippedNamespaceIncrement();
+                    _pluginSettings.PluginStats.SkippedNamespaceIncrement();
                     AWBForm.TraceManager.SkippedArticle(PluginName, "Incorrect namespace");
                     break;
                 case SkipReason.ProcessingMainArticleDoesntExist:
-                    PluginSettings.PluginStats.SkippedRedLinkIncrement();
+                    _pluginSettings.PluginStats.SkippedRedLinkIncrement();
                     AWBForm.TraceManager.SkippedArticle(PluginName, "Article doesn't exist");
                     break;
                 case SkipReason.ProcessingTalkPageArticleDoesntExist:
-                    PluginSettings.PluginStats.SkippedRedLinkIncrement();
-                    AWBForm.TraceManager.SkippedArticleRedlink(PluginName, ArticleTitle, NS);
+                    _pluginSettings.PluginStats.SkippedRedLinkIncrement();
+                    AWBForm.TraceManager.SkippedArticleRedlink(PluginName, articleTitle, ns);
                     break;
                 case SkipReason.BadTag:
-                    AWBForm.TraceManager.SkippedArticleBadTag(PluginName, ArticleTitle, NS);
+                    AWBForm.TraceManager.SkippedArticleBadTag(PluginName, articleTitle, ns);
                     break;
                 case SkipReason.NoChange:
                     AWBForm.TraceManager.SkippedArticle(PluginName, "No change");
@@ -508,7 +505,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             }
 
             Skip = true;
-            return ArticleText;
+            return articleText;
         }
 
         private static void CreateNewGenericPlugin(string pluginName)
@@ -521,17 +518,17 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         }
 
         // Friend interface exposed to client plugins:
-        internal static void ShowHidePluginTab(TabPage tabp, bool Visible)
+        internal static void ShowHidePluginTab(TabPage tabp, bool visible)
         {
-            if (Visible)
+            if (visible)
             {
                 //If Not AWBForm.ContainsTabPage(tabp) Then
-                bool ContainedMainTab = AWBForm.ContainsTabPage(KingbotkPluginTab);
+                bool containedMainTab = AWBForm.ContainsTabPage(KingbotkPluginTab);
 
-                if (ContainedMainTab)
+                if (containedMainTab)
                     AWBForm.RemoveTabPage(KingbotkPluginTab);
                 AWBForm.AddTabPage(tabp);
-                if (ContainedMainTab)
+                if (containedMainTab)
                     AWBForm.AddTabPage(KingbotkPluginTab);
                 //End If
                 //If AWBForm.ContainsTabPage(tabp) Then
@@ -542,20 +539,20 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             }
         }
 
-        internal static void PluginEnabledStateChanged(PluginBase Plugin, bool IsEnabled)
+        internal static void PluginEnabledStateChanged(PluginBase plugin, bool isEnabled)
         {
-            if (IsEnabled)
+            if (isEnabled)
             {
-                if (!ActivePlugins.Contains(Plugin))
+                if (!ActivePlugins.Contains(plugin))
                 {
                     // WPBio must be last in list
-                    if (Plugin.PluginShortName == "Biography")
+                    if (plugin.PluginShortName == "Biography")
                     {
-                        ActivePlugins.Add(Plugin);
+                        ActivePlugins.Add(plugin);
                     }
                     else
                     {
-                        ActivePlugins.Insert(0, Plugin);
+                        ActivePlugins.Insert(0, plugin);
                     }
 
                     if (ActivePlugins.Count == 1)
@@ -564,7 +561,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             }
             else
             {
-                ActivePlugins.Remove(Plugin);
+                ActivePlugins.Remove(plugin);
 
                 if (ActivePlugins.Count == 0)
                     AWBForm.RemoveTabPage(KingbotkPluginTab);
@@ -577,11 +574,11 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             AWBForm.Stop(Constants.conAWBPluginName);
         }
 
-        internal static void DeleteGenericPlugin(IGenericTemplatePlugin PG, PluginBase P)
+        internal static void DeleteGenericPlugin(IGenericTemplatePlugin pg, PluginBase p)
         {
-            Plugins.Remove(PG.GenericTemplateKey);
-            if (ActivePlugins.Contains(P))
-                ActivePlugins.Remove(P);
+            Plugins.Remove(pg.GenericTemplateKey);
+            if (ActivePlugins.Contains(p))
+                ActivePlugins.Remove(p);
             if (ActivePlugins.Count == 0)
                 AWBForm.RemoveTabPage(KingbotkPluginTab);
             DefaultStatusText();
@@ -595,17 +592,17 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
         internal static string PluginName
         {
-            get { return conMe; }
+            get { return Me; }
         }
 
-        internal static void EditBoxInsertYesParam(string ParameterName)
+        internal static void EditBoxInsertYesParam(string parameterName)
         {
-            EditBoxInsert("|" + ParameterName + "=yes");
+            EditBoxInsert("|" + parameterName + "=yes");
         }
 
-        internal static void EditBoxInsert(string Text)
+        internal static void EditBoxInsert(string text)
         {
-            AWBForm.EditBox.SelectedText = Text;
+            AWBForm.EditBox.SelectedText = text;
         }
 
         // User interface management:
@@ -624,7 +621,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                     StatusText.Text = ActivePlugins.Count.ToString("0 Kingbotk plugins ready");
                     break;
             }
-            if (PluginSettings.ManuallyAssess)
+            if (_pluginSettings.ManuallyAssess)
                 StatusText.Text += " (manual assessments plugin active)";
         }
 
@@ -681,9 +678,8 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 return;
             }
 
-            var _with8 = AWBForm.TraceManager;
-            _with8.Flush();
-            _with8.Close();
+            AWBForm.TraceManager.Flush();
+            AWBForm.TraceManager.Close();
         }
 
         private static void AWBBotModeCheckboxCheckedChangeHandler(object sender, EventArgs e)
@@ -696,7 +692,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
         private static void AWBBotModeCheckboxEnabledChangedHandler(object sender, EventArgs e)
         {
-            if (AWBForm.BotModeCheckbox.Enabled && PluginSettings.ManuallyAssess)
+            if (AWBForm.BotModeCheckbox.Enabled && _pluginSettings.ManuallyAssess)
             {
                 AWBForm.BotModeCheckbox.Checked = false;
                 AWBForm.BotModeCheckbox.Enabled = false;
@@ -708,7 +704,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             if (AWBForm.TheSession.Editor.IsActive)
             {
                 if (ActivePlugins.Count > 0)
-                    PluginSettings.AWBProcessingStart(sender);
+                    _pluginSettings.AWBProcessingStart(sender);
             }
             else
             {
@@ -723,15 +719,15 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
         private static void EditorAborted(AsyncApiEdit sender)
         {
-            PluginSettings.AWBProcessingAborted();
+            _pluginSettings.AWBProcessingAborted();
         }
 
         private void StopButtonClickEventHandler(object sender, EventArgs e)
         {
             DefaultStatusText();
-            if ((AssessmentsObject != null))
-                AssessmentsObject.Reset();
-            PluginSettings.AWBProcessingAborted();
+            if ((_assessmentsObject != null))
+                _assessmentsObject.Reset();
+            _pluginSettings.AWBProcessingAborted();
         }
 
         private void ManuallyAssessCheckBox_CheckChanged(object sender, EventArgs e)
@@ -743,21 +739,21 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 if (AWBForm.TheSession.Editor.IsActive)
                     AWBForm.Stop(Constants.conAWBPluginName);
 
-                if (blnShowManualAssessmentsInstructions)
+                if (_showManualAssessmentsInstructions)
                 {
                     AssessmentsInstructionsDialog dialog = new AssessmentsInstructionsDialog();
 
-                    blnShowManualAssessmentsInstructions = dialog.ShowDialog() != DialogResult.Yes;
+                    _showManualAssessmentsInstructions = dialog.ShowDialog() != DialogResult.Yes;
                 }
 
-                AssessmentsObject = new Assessments(PluginSettings);
+                _assessmentsObject = new Assessments(_pluginSettings);
 
                 DefaultStatusText();
             }
             else
             {
-                AssessmentsObject.Dispose();
-                AssessmentsObject = null;
+                _assessmentsObject.Dispose();
+                _assessmentsObject = null;
             }
         }
 
@@ -783,85 +779,85 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         }
 
         // XML:
-        internal static bool XMLReadBoolean(XmlTextReader reader, string param, bool ExistingValue)
+        internal static bool XMLReadBoolean(XmlTextReader reader, string param, bool existingValue)
         {
             if (reader.MoveToAttribute(param))
                 return bool.Parse(reader.Value);
-            return ExistingValue;
+            return existingValue;
         }
 
-        internal static string XMLReadString(XmlTextReader reader, string param, string ExistingValue)
+        internal static string XMLReadString(XmlTextReader reader, string param, string existingValue)
         {
             if (reader.MoveToAttribute(param))
                 return reader.Value.Trim();
-            return ExistingValue;
+            return existingValue;
         }
 
-        internal static int XMLReadInteger(XmlTextReader reader, string param, int ExistingValue)
+        internal static int XMLReadInteger(XmlTextReader reader, string param, int existingValue)
         {
             if (reader.MoveToAttribute(param))
                 return int.Parse(reader.Value);
-            return ExistingValue;
+            return existingValue;
         }
 
-        private static void ReadXML(XmlTextReader Reader)
+        private static void ReadXML(XmlTextReader reader)
         {
-            blnShowManualAssessmentsInstructions = XMLReadBoolean(Reader, conShowManualAssessmentsInstructions,
-                blnShowManualAssessmentsInstructions);
+            _showManualAssessmentsInstructions = XMLReadBoolean(reader, ShowManualAssessmentsInstructions,
+                _showManualAssessmentsInstructions);
             // must happen BEFORE get ManualAssessment yes/no
 
-            PluginSettings.ReadXML(Reader);
+            _pluginSettings.ReadXML(reader);
 
-            int Count = XMLReadInteger(Reader, conGenericTemplatesCount, 0);
-            if (Count > 0)
+            int count = XMLReadInteger(reader, GenericTemplatesCount, 0);
+            if (count > 0)
             {
-                ReadGenericTemplatesFromXML(Count, Reader);
+                ReadGenericTemplatesFromXML(count, reader);
                 // Must set up generic templates
             }
             //before reading in per-template properties, so that the new template receives a ReadXML() of its own
 
             foreach (KeyValuePair<string, PluginBase> plugin in Plugins)
             {
-                plugin.Value.ReadXML(Reader);
-                plugin.Value.ReadXMLRedirects(Reader);
+                plugin.Value.ReadXML(reader);
+                plugin.Value.ReadXMLRedirects(reader);
             }
 
             TestSkipNonExistingPages();
         }
 
-        private static void WriteXML(XmlTextWriter Writer)
+        private static void WriteXML(XmlTextWriter writer)
         {
             System.Collections.Specialized.StringCollection strGenericTemplates =
                 new System.Collections.Specialized.StringCollection();
             int i = 0;
 
-            Writer.WriteAttributeString(conShowManualAssessmentsInstructions,
-                blnShowManualAssessmentsInstructions.ToString());
-            PluginSettings.WriteXML(Writer);
+            writer.WriteAttributeString(ShowManualAssessmentsInstructions,
+                _showManualAssessmentsInstructions.ToString());
+            _pluginSettings.WriteXML(writer);
             foreach (KeyValuePair<string, PluginBase> plugin in Plugins)
             {
-                plugin.Value.WriteXML(Writer);
-                plugin.Value.WriteXMLRedirects(Writer);
+                plugin.Value.WriteXML(writer);
+                plugin.Value.WriteXMLRedirects(writer);
                 if (plugin.Value.IAmGeneric)
                 {
                     strGenericTemplates.Add(((IGenericTemplatePlugin) plugin.Value).GenericTemplateKey);
                 }
             }
 
-            Writer.WriteAttributeString(conGenericTemplatesCount, strGenericTemplates.Count.ToString());
+            writer.WriteAttributeString(GenericTemplatesCount, strGenericTemplates.Count.ToString(CultureInfo.InvariantCulture));
 
             foreach (string str in strGenericTemplates)
             {
-                Writer.WriteAttributeString(conGenericTemplate + i, str);
-                i += 1;
+                writer.WriteAttributeString(GenericTemplate + i, str);
+                i++;
             }
         }
 
-        private static void LoadSettingsNewWay(string XMLString)
+        private static void LoadSettingsNewWay(string xmlString)
         {
-            XMLString = XMLString.Replace("WikiProject Songs", "Songs");
-            XMLString = XMLString.Replace("WikiProject Albums", "Albums");
-            System.IO.StringReader st = new System.IO.StringReader(XMLString);
+            xmlString = xmlString.Replace("WikiProject Songs", "Songs");
+            xmlString = xmlString.Replace("WikiProject Albums", "Albums");
+            System.IO.StringReader st = new System.IO.StringReader(xmlString);
             XmlTextReader reader = new XmlTextReader(st);
 
             while (reader.Read())
@@ -869,16 +865,16 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 if (reader.NodeType == XmlNodeType.Element)
                 {
                     ReadXML(reader);
-                    break; // TODO: might not be correct. Was : Exit While
+                    break;
                 }
             }
         }
 
-        private static void ReadGenericTemplatesFromXML(int Count, XmlTextReader Reader)
+        private static void ReadGenericTemplatesFromXML(int count, XmlTextReader reader)
         {
-            for (int i = 0; i <= Count - 1; i++)
+            for (int i = 0; i <= count - 1; i++)
             {
-                string plugin = XMLReadString(Reader, conGenericTemplate + i, "").Trim();
+                string plugin = XMLReadString(reader, GenericTemplate + i, "").Trim();
                 if (!Plugins.ContainsKey(plugin))
                     CreateNewGenericPlugin(plugin);
             }
@@ -892,7 +888,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
         public void Nudged(int nudges)
         {
-            PluginSettings.lblAWBNudges.Text = "Nudges: " + nudges;
+            _pluginSettings.lblAWBNudges.Text = "Nudges: " + nudges;
         }
 
         public string WikiName
