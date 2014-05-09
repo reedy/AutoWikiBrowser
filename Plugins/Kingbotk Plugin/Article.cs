@@ -278,15 +278,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             }
         }
 
-        // Misc:
-        internal bool PageContainsShellTemplate()
-        {
-            // Currently only WPBio can possibly call this, so it's ok to just run the regex and not cache the results
-            // Later on we want to have dynamic redirects and management of these templates (or it maybe should be in
-            // WikiFunctions.TalkPages
-            return WikiProjectBannerShellRegex.IsMatch(AlteredArticleText);
-        }
-
         private static bool InitStaticVariableHelper(Microsoft.VisualBasic.CompilerServices.StaticLocalInitFlag flag)
         {
             if (flag.State == 0)
