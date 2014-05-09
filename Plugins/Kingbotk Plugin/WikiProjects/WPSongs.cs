@@ -69,7 +69,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
 
         protected override string WriteTemplateHeader()
         {
-            return "{{WikiProject Songs" + WriteOutParameterToHeader("class");
+            return "{{" + PluginName + WriteOutParameterToHeader("class");
         }
 
         //User interface:
