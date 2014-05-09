@@ -49,9 +49,6 @@
       <DependentUpon>AboutBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Article.cs" />
-    <Compile Include="BioWithWorkgroups.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
     <Compile Include="Components\PluginSettings.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -107,6 +104,9 @@
     </Compile>
     <Compile Include="Components\TimerStats.Designer.cs">
       <DependentUpon>TimerStats.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WikiProjects\BioWithWorkgroups.cs">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="WikiProjects\WPAlbums.cs" />
     <Compile Include="WikiProjects\WPAustralia.cs" />

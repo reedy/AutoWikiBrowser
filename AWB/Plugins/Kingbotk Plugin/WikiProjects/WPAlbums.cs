@@ -1,111 +1,113 @@
-using AutoWikiBrowser.Plugins.Kingbotk;
 using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
 using System.Windows.Forms;
 using System.Xml;
 
-internal sealed class WPAlbums : PluginBase
+namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
 {
-    private const string PluginName = "WikiProject Albums";
-
-    private const string Prefix = "Albums";
-
-    internal WPAlbums() : base("Album|Albums|WP Albums|WPAlbums")
+    internal sealed class WPAlbums : PluginBase
     {
-        // Specify alternate names only
+        private const string PluginName = "WikiProject Albums";
 
-        TemplateParameters[] @params = new TemplateParameters[-1 + 1];
+        private const string Prefix = "Albums";
 
-        _ourSettingsControl = new GenericWithWorkgroups("WikiProject Albums", Prefix, true, @params);
-    }
+        internal WPAlbums() : base("Album|Albums|WP Albums|WPAlbums")
+        {
+            // Specify alternate names only
 
-    // Settings:
-    private readonly TabPage _ourTab = new TabPage("Albums");
+            TemplateParameters[] @params = new TemplateParameters[-1 + 1];
 
-    private readonly GenericWithWorkgroups _ourSettingsControl;
+            _ourSettingsControl = new GenericWithWorkgroups("WikiProject Albums", Prefix, true, @params);
+        }
 
-    protected internal override string PluginShortName
-    {
-        get { return "Albums"; }
-    }
+        // Settings:
+        private readonly TabPage _ourTab = new TabPage("Albums");
 
-    protected override string PreferredTemplateName
-    {
-        get { return PluginName; }
-    }
+        private readonly GenericWithWorkgroups _ourSettingsControl;
 
-    protected override void ImportanceParameter(Importance importance)
-    {
-        Template.NewOrReplaceTemplateParm("importance", importance.ToString(), TheArticle, false, false);
-    }
+        protected internal override string PluginShortName
+        {
+            get { return "Albums"; }
+        }
 
-    protected internal override IGenericSettings GenericSettings
-    {
-        get { return _ourSettingsControl; }
-    }
+        protected override string PreferredTemplateName
+        {
+            get { return PluginName; }
+        }
 
-    // Initialisation:
-    protected internal override void Initialise()
-    {
-        OurMenuItem = new ToolStripMenuItem("Albums Plugin");
-        InitialiseBase();
-        // must set menu item object first
-        _ourTab.UseVisualStyleBackColor = true;
-        _ourTab.Controls.Add(_ourSettingsControl);
-    }
+        protected override void ImportanceParameter(Importance importance)
+        {
+            Template.NewOrReplaceTemplateParm("importance", importance.ToString(), TheArticle, false, false);
+        }
 
-    // Article processing:
-    protected override bool SkipIfContains()
-    {
-        return false;
-    }
+        protected internal override IGenericSettings GenericSettings
+        {
+            get { return _ourSettingsControl; }
+        }
 
-    protected override void ProcessArticleFinish()
-    {
-        StubClass();
-    }
+        // Initialisation:
+        protected internal override void Initialise()
+        {
+            OurMenuItem = new ToolStripMenuItem("Albums Plugin");
+            InitialiseBase();
+            // must set menu item object first
+            _ourTab.UseVisualStyleBackColor = true;
+            _ourTab.Controls.Add(_ourSettingsControl);
+        }
 
-    protected override bool TemplateFound()
-    {
-        // Nothing to do here
-        return false;
-    }
+        // Article processing:
+        protected override bool SkipIfContains()
+        {
+            return false;
+        }
 
-    protected override string WriteTemplateHeader()
-    {
-        return "{{album" + WriteOutParameterToHeader("class") + WriteOutParameterToHeader("importance");
-    }
+        protected override void ProcessArticleFinish()
+        {
+            StubClass();
+        }
 
-    //User interface:
-    protected override void ShowHideOurObjects(bool visible)
-    {
-        PluginManager.ShowHidePluginTab(_ourTab, visible);
-    }
+        protected override bool TemplateFound()
+        {
+            // Nothing to do here
+            return false;
+        }
 
-    // XML settings:
-    protected internal override void ReadXML(XmlTextReader reader)
-    {
-        Enabled = PluginManager.XMLReadBoolean(reader, Prefix + "Enabled", Enabled);
-        _ourSettingsControl.ReadXML(reader);
-    }
+        protected override string WriteTemplateHeader()
+        {
+            return "{{album" + WriteOutParameterToHeader("class") + WriteOutParameterToHeader("importance");
+        }
 
-    protected internal override void Reset()
-    {
-        _ourSettingsControl.Reset();
-    }
+        //User interface:
+        protected override void ShowHideOurObjects(bool visible)
+        {
+            PluginManager.ShowHidePluginTab(_ourTab, visible);
+        }
 
-    protected internal override void WriteXML(XmlTextWriter writer)
-    {
-        writer.WriteAttributeString(Prefix + "Enabled", Enabled.ToString());
-        _ourSettingsControl.WriteXML(writer);
-    }
+        // XML settings:
+        protected internal override void ReadXML(XmlTextReader reader)
+        {
+            Enabled = PluginManager.XMLReadBoolean(reader, Prefix + "Enabled", Enabled);
+            _ourSettingsControl.ReadXML(reader);
+        }
 
-    // Misc:
-    internal override bool HasReqPhotoParam
-    {
-        get { return false; }
-    }
+        protected internal override void Reset()
+        {
+            _ourSettingsControl.Reset();
+        }
 
-    internal override void ReqPhoto()
-    {
+        protected internal override void WriteXML(XmlTextWriter writer)
+        {
+            writer.WriteAttributeString(Prefix + "Enabled", Enabled.ToString());
+            _ourSettingsControl.WriteXML(writer);
+        }
+
+        // Misc:
+        internal override bool HasReqPhotoParam
+        {
+            get { return false; }
+        }
+
+        internal override void ReqPhoto()
+        {
+        }
     }
 }
