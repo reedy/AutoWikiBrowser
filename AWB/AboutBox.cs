@@ -33,10 +33,15 @@ namespace AutoWikiBrowser
 
             lblAWBVersion.Text = "Version " + Program.VersionString;
             lblRevision.Text = "SVN " + Variables.Revision;
-            lblIEVersion.Text = "Internet Explorer version: " + ieVersion;
             txtWarning.Text = WikiFunctions.Controls.AboutBox.GetDetailedMessage(Assembly.GetExecutingAssembly());
-            lblOSVersion.Text = "Windows version: " + Environment.OSVersion.Version.Major + "." + Environment.OSVersion.Version.Minor;
-            lblNETVersion.Text = ".NET version: " + Environment.Version;
+
+            txtVersions.Text = string.Format(@"Internet Explorer version: {0}
+.NET version: {1}
+Windows version: {2}",
+                     ieVersion,
+                     Environment.OSVersion.Version.Major + "." + Environment.OSVersion.Version.Minor,
+                     Environment.Version
+                );
         }
 
         private void okButton_Click(object sender, EventArgs e)
