@@ -1758,6 +1758,7 @@ namespace AutoWikiBrowser
             // btnDiff
             // 
             this.btnDiff.Enabled = false;
+            this.btnDiff.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDiff.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnDiff.Location = new System.Drawing.Point(219, 90);
             this.btnDiff.Name = "btnDiff";
@@ -1784,6 +1785,7 @@ namespace AutoWikiBrowser
             // btnPreview
             // 
             this.btnPreview.Enabled = false;
+            this.btnPreview.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPreview.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnPreview.Location = new System.Drawing.Point(155, 90);
             this.btnPreview.Name = "btnPreview";
@@ -1796,6 +1798,7 @@ namespace AutoWikiBrowser
             // btnStart
             // 
             this.btnStart.BackColor = System.Drawing.Color.Transparent;
+            this.btnStart.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnStart.Enabled = false;
             this.btnStart.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnStart.Location = new System.Drawing.Point(155, 33);
