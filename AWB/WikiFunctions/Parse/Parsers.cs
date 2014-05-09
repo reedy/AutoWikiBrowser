@@ -5637,10 +5637,10 @@ namespace WikiFunctions.Parse
             articleText = articleText.Replace('\x2029', ' ');
 
             // https://en.wikipedia.org/wiki/Wikipedia:AWB/B#Line_break_insertion
-            // most browsers handle Unicode line separator as whitespace, so should we
-            // looks like paragraph separator is properly converted by RichEdit itself
-            // if line separator at start of line, remove it, otherwise (within paragraph), convert to space
-            // remove zero width space - CHECKWIKI 16
+            // most browsers handle Unicode line separators as whitespace, so should we
+            // check if paragraph separators are properly converted by RichEdit itself
+            // if line separator is at start of line, remove it, otherwise (within paragraph), convert it to space
+            // remove zero width space - CHECKWIKI error 16
             // this character should not be used in domain names.
             // Browsers are blacklisting it because of the potential for phishing.
             articleText = LineSeparatorZeroWidthSpaceStartOfLine.Replace(articleText, "");
