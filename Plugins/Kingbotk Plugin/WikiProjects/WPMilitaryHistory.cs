@@ -6,9 +6,9 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
 {
     internal sealed class WPMilitaryHistory : PluginBase
     {
-        private const string PluginName = "MilHist";
+        private const string PluginName = "WikiProject Military history";
+        private const string TemplateName = "WikiProject Military history";
 
-        private const string TemplateName = "WPMILHIST";
         // Initialisation:
         internal WPMilitaryHistory() : base("WikiProject Military History")
         {
@@ -18,7 +18,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
         }
 
         // Settings:
-        private readonly TabPage _ourTab = new TabPage(PluginName);
+        private readonly TabPage _ourTab = new TabPage("MilHist");
 
         private readonly GenericWithWorkgroups _ourSettingsControl;
 
@@ -427,7 +427,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
 
         protected override string WriteTemplateHeader()
         {
-            return "{{WPMILHIST" + WriteOutParameterToHeader("class");
+            return "{{" + PluginName + WriteOutParameterToHeader("class");
         }
 
         //User interface:
