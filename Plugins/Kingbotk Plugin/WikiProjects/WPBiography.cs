@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml;
+using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
 using WikiFunctions;
 
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
@@ -14,7 +15,7 @@ using WikiFunctions;
 
 //You should have received a copy of the GNU General Public License Version 2 along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
+namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
 {
     internal enum Living
     {

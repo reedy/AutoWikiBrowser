@@ -1,5 +1,6 @@
 ﻿using System.Windows.Forms;
 using System.Xml;
+using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
 
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 //Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
@@ -11,7 +12,7 @@ using System.Xml;
 
 //You should have received a copy of the GNU General Public License Version 2 along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
+namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
 {
     internal sealed class WPNovels : PluginBase
     {

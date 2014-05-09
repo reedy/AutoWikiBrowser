@@ -1,107 +1,109 @@
-using AutoWikiBrowser.Plugins.Kingbotk;
-using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
 using System.Windows.Forms;
 using System.Xml;
+using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
 
-internal sealed class WPSongs : PluginBase
+namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
 {
-    private const string Prefix = "Songs";
-
-    private const string PluginName = "WikiProject Songs";
-
-    internal WPSongs() : base("WikiProjectSongs|WP Songs|Song|Songs|WPSongs|WikiProject Song")
+    internal sealed class WPSongs : PluginBase
     {
-        // Specify alternate names only
+        private const string Prefix = "Songs";
 
-        TemplateParameters[] @params = new TemplateParameters[-1 + 1];
+        private const string PluginName = "WikiProject Songs";
 
-        _ourSettingsControl = new GenericWithWorkgroups(PluginName, Prefix, true, @params);
-    }
+        internal WPSongs() : base("WikiProjectSongs|WP Songs|Song|Songs|WPSongs|WikiProject Song")
+        {
+            // Specify alternate names only
 
-    // Settings:
-    private readonly TabPage _ourTab = new TabPage(PluginName);
+            TemplateParameters[] @params = new TemplateParameters[-1 + 1];
 
-    private readonly GenericWithWorkgroups _ourSettingsControl;
+            _ourSettingsControl = new GenericWithWorkgroups(PluginName, Prefix, true, @params);
+        }
 
-    protected internal override string PluginShortName
-    {
-        get { return Prefix; }
-    }
+        // Settings:
+        private readonly TabPage _ourTab = new TabPage(PluginName);
 
-    protected override string PreferredTemplateName
-    {
-        get { return PluginName; }
-    }
+        private readonly GenericWithWorkgroups _ourSettingsControl;
 
-    protected internal override IGenericSettings GenericSettings
-    {
-        get { return _ourSettingsControl; }
-    }
+        protected internal override string PluginShortName
+        {
+            get { return Prefix; }
+        }
 
-    // Initialisation:
+        protected override string PreferredTemplateName
+        {
+            get { return PluginName; }
+        }
 
-    protected internal override void Initialise()
-    {
-        OurMenuItem = new ToolStripMenuItem("Songs Plugin");
-        InitialiseBase();
-        // must set menu item object first
-        _ourTab.UseVisualStyleBackColor = true;
-        _ourTab.Controls.Add(_ourSettingsControl);
-    }
+        protected internal override IGenericSettings GenericSettings
+        {
+            get { return _ourSettingsControl; }
+        }
 
-    // Article processing:
-    protected override bool SkipIfContains()
-    {
-        return false;
-    }
+        // Initialisation:
 
-    protected override void ProcessArticleFinish()
-    {
-        StubClass();
-    }
+        protected internal override void Initialise()
+        {
+            OurMenuItem = new ToolStripMenuItem("Songs Plugin");
+            InitialiseBase();
+            // must set menu item object first
+            _ourTab.UseVisualStyleBackColor = true;
+            _ourTab.Controls.Add(_ourSettingsControl);
+        }
 
-    protected override bool TemplateFound()
-    {
-        // Nothing to do here
-        return false;
-    }
+        // Article processing:
+        protected override bool SkipIfContains()
+        {
+            return false;
+        }
 
-    protected override string WriteTemplateHeader()
-    {
-        return "{{WikiProject Songs" + WriteOutParameterToHeader("class");
-    }
+        protected override void ProcessArticleFinish()
+        {
+            StubClass();
+        }
 
-    //User interface:
-    protected override void ShowHideOurObjects(bool visible)
-    {
-        PluginManager.ShowHidePluginTab(_ourTab, visible);
-    }
+        protected override bool TemplateFound()
+        {
+            // Nothing to do here
+            return false;
+        }
 
-    // XML settings:
-    protected internal override void ReadXML(XmlTextReader reader)
-    {
-        Enabled = PluginManager.XMLReadBoolean(reader, Prefix + "Enabled", Enabled);
-        _ourSettingsControl.ReadXML(reader);
-    }
+        protected override string WriteTemplateHeader()
+        {
+            return "{{WikiProject Songs" + WriteOutParameterToHeader("class");
+        }
 
-    protected internal override void Reset()
-    {
-        _ourSettingsControl.Reset();
-    }
+        //User interface:
+        protected override void ShowHideOurObjects(bool visible)
+        {
+            PluginManager.ShowHidePluginTab(_ourTab, visible);
+        }
 
-    protected internal override void WriteXML(XmlTextWriter writer)
-    {
-        writer.WriteAttributeString(Prefix + "Enabled", Enabled.ToString());
-        _ourSettingsControl.WriteXML(writer);
-    }
+        // XML settings:
+        protected internal override void ReadXML(XmlTextReader reader)
+        {
+            Enabled = PluginManager.XMLReadBoolean(reader, Prefix + "Enabled", Enabled);
+            _ourSettingsControl.ReadXML(reader);
+        }
 
-    // Misc:
-    internal override bool HasReqPhotoParam
-    {
-        get { return false; }
-    }
+        protected internal override void Reset()
+        {
+            _ourSettingsControl.Reset();
+        }
 
-    internal override void ReqPhoto()
-    {
+        protected internal override void WriteXML(XmlTextWriter writer)
+        {
+            writer.WriteAttributeString(Prefix + "Enabled", Enabled.ToString());
+            _ourSettingsControl.WriteXML(writer);
+        }
+
+        // Misc:
+        internal override bool HasReqPhotoParam
+        {
+            get { return false; }
+        }
+
+        internal override void ReqPhoto()
+        {
+        }
     }
 }
