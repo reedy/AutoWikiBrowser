@@ -73,7 +73,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
 
         protected override string WriteTemplateHeader()
         {
-            return "{{album" + WriteOutParameterToHeader("class") + WriteOutParameterToHeader("importance");
+            return "{{" + PluginName + WriteOutParameterToHeader("class") + WriteOutParameterToHeader("importance");
         }
 
         //User interface:
