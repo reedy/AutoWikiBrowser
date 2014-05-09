@@ -715,9 +715,9 @@ There [was.");
             UnB = a.UnbalancedBrackets();
             Assert.AreEqual(0, UnB.Count, "No unbalanced bracket in zeroth section of talk article");
         }
-        
+
         [Test]
-        public void Comparers()
+        public void ContainsComparers()
         {
             IArticleComparer containsComparer = ArticleComparerFactory.Create(@"foo\nbar",
                                                                               false,
@@ -740,7 +740,22 @@ bar");
             Assert.IsFalse(notContainsComparer.Matches(a));
             Assert.IsFalse(containsComparer.Matches(a));
         }
-        
+
+        [Test]
+        public void Comparers()
+        {
+            Article a = new Article("A"), b = new Article("B"), z = new Article("Z"), one = new Article("1"), diacritic = new Article("Ș"),
+                dollar = new Article("$");
+
+            Assert.AreEqual(-1, a.CompareTo(b), "A just before B");
+            Assert.AreEqual(0, a.CompareTo(a), "equal");
+            Assert.AreEqual(1, b.CompareTo(a), "B just after A");
+            Assert.AreEqual(-16, one.CompareTo(a), "1 before A");
+            Assert.AreEqual(-446, z.CompareTo(diacritic), "Diacritics later than Latin");
+            Assert.AreEqual(-487, one.CompareTo(diacritic), "Diacritics later than numbers");
+            Assert.AreEqual(29, a.CompareTo(dollar), "Keyboard characters before Latin");
+        }
+
         [Test]
         public void Unicodify()
         {
