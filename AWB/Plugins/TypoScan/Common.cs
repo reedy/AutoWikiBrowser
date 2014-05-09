@@ -28,7 +28,7 @@ namespace WikiFunctions.Plugins.ListMaker.TypoScan
         /// <summary>
         /// The URL, script and action=
         /// </summary>
-        private const string Url = "http://toolserver.org/~awb/typoscan/index.php?action=";
+        private const string Url = "http://tools.wmflabs.org/awb/typoscan/index.php?action=";
 
         private static readonly Regex UrlRegex = new Regex(@"^https?://([-a-z0-9\.]+).*$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
