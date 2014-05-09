@@ -3494,6 +3494,7 @@ Template:foo}}"));
             Assert.AreEqual("<ref>[http://test.com foo bar]</ref>", Parsers.FixSyntax("<ref>[http://test.com foo" + "\r\n" +
                                                                                       @"bar</ref>"));
 
+            Assert.AreEqual("{{cite web | url = http://test.com |title=a }}", Parsers.FixSyntax("{{cite web | url = http:http://test.com |title=a }}"));
             Assert.AreEqual(@"* [http://www.site.com text]", Parsers.FixSyntax(@"* [http://www.site.com text)"));
             Assert.AreEqual(@"* [http://www.site.com text]", Parsers.FixSyntax(@"* [http://www.site.com text) "));
 
@@ -3504,16 +3505,13 @@ Template:foo}}"));
         [Test]
         public void FixSyntaxExternalLinks()
         {
-            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://test.com]"));
-            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://http://test.com]"));
-            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http:http://test.com]"));
-            Assert.AreEqual("{{cite web | url = http://test.com |title=a }}", Parsers.FixSyntax("{{cite web | url = http:http://test.com |title=a }}"));
-            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://http://http://test.com]"));
-
-            Assert.AreEqual("[https://test.com]", Parsers.FixSyntax("[https://https://test.com]"));
-            Assert.AreEqual("[https://test.com]", Parsers.FixSyntax("[https://https://test.com]"));
-
-            Assert.AreEqual("[ftp://test.com]", Parsers.FixSyntax("[ftp://ftp://test.com]"));
+            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://test.com]"),"do nothing if everything is OK");
+            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://http://test.com]"),"double http");
+            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http:http://test.com]"),"double http with first lacking slashes");
+            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://http://http://test.com]"),"more than two");
+            Assert.AreEqual("[https://test.com]", Parsers.FixSyntax("[https://https://test.com]"),"double https");
+            Assert.AreEqual("[ftp://test.com]", Parsers.FixSyntax("[ftp://ftp://test.com]"),"double ftp");
+            Assert.AreEqual("[ftp://test.com]", Parsers.FixSyntax("[ftp://ftp://ftp://test.com]"),"triple ftp");
             
         }
  
