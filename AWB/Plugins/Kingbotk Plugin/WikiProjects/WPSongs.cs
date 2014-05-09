@@ -20,7 +20,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
         }
 
         // Settings:
-        private readonly TabPage _ourTab = new TabPage(PluginName);
+        private readonly TabPage _ourTab = new TabPage(Prefix);
 
         private readonly GenericWithWorkgroups _ourSettingsControl;
 

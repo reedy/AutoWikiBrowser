@@ -331,7 +331,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
 
         protected internal override string PluginShortName
         {
-            get { return "India"; }
+            get { return Prefix; }
         }
 
         protected override void ImportanceParameter(Importance importance)
