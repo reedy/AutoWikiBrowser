@@ -3484,17 +3484,6 @@ Template:foo}}"));
 * List 2", Parsers.FixSyntax(@"[[http://example.com
 * List 2"));
 
-            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://test.com]"));
-            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://http://test.com]"));
-            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http:http://test.com]"));
-            Assert.AreEqual("{{cite web | url = http://test.com |title=a }}", Parsers.FixSyntax("{{cite web | url = http:http://test.com |title=a }}"));
-            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://http://http://test.com]"));
-
-            Assert.AreEqual("[https://test.com]", Parsers.FixSyntax("[https://https://test.com]"));
-            Assert.AreEqual("[https://test.com]", Parsers.FixSyntax("[https://https://test.com]"));
-
-            Assert.AreEqual("[ftp://test.com]", Parsers.FixSyntax("[ftp://ftp://test.com]"));
-            
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_10#second_pair_of_brackets_added_to_https_links
             Assert.AreEqual("[https://example.com] site", Parsers.FixSyntax("[https://example.com]] site"));
             Assert.AreEqual("[https://example.com] site", Parsers.FixSyntax("[[https://example.com] site"));
@@ -3512,6 +3501,22 @@ Template:foo}}"));
             Assert.AreEqual(Correct, Parsers.FixSyntax(Correct));
         }
 
+        [Test]
+        public void FixSyntaxExternalLinks()
+        {
+            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://test.com]"));
+            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://http://test.com]"));
+            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http:http://test.com]"));
+            Assert.AreEqual("{{cite web | url = http://test.com |title=a }}", Parsers.FixSyntax("{{cite web | url = http:http://test.com |title=a }}"));
+            Assert.AreEqual("[http://test.com]", Parsers.FixSyntax("[http://http://http://test.com]"));
+
+            Assert.AreEqual("[https://test.com]", Parsers.FixSyntax("[https://https://test.com]"));
+            Assert.AreEqual("[https://test.com]", Parsers.FixSyntax("[https://https://test.com]"));
+
+            Assert.AreEqual("[ftp://test.com]", Parsers.FixSyntax("[ftp://ftp://test.com]"));
+            
+        }
+ 
         [Test]
         public void TestFixSyntaxRemoveEmptyGallery()
         {
