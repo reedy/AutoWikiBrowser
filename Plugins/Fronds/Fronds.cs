@@ -136,6 +136,9 @@ namespace Fronds
         private void PluginEnabledCheckedChange(object sender, EventArgs e)
         {
             Settings.Enabled = PluginEnabled;
+
+            if (PluginEnabled && PossibleFilenames.Count == 0)
+                LoadFronds();
         }
 
         private static void AboutMenuItemClicked(Object sender, EventArgs e)
