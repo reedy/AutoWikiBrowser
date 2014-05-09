@@ -100,7 +100,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 			this.LabelCopyright.Name = "LabelCopyright";
 			this.LabelCopyright.Size = new System.Drawing.Size(189, 13);
 			this.LabelCopyright.TabIndex = 2;
-			this.LabelCopyright.Text = "Copyright © SDK Software 2008";
+			this.LabelCopyright.Text = "Copyright © SDK Software 2008-2014";
 			this.LabelCopyright.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			//
 			//TextBoxDescription
