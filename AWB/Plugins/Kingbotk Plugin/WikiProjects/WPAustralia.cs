@@ -212,7 +212,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
         {
             if (CheckForDoublyNamedParameters("V8", "v8"))
                 return true;
-            // tag is bad, exit
             if (CheckForDoublyNamedParameters("nbl", "NBL"))
                 return true;
 
