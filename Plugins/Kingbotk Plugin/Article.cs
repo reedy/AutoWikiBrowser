@@ -194,88 +194,19 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             Tools.EditArticleInBrowser(FullArticleTitle);
         }
 
-        // Enum:
-        private enum BannerShellsEnum
-        {
-            NotChecked,
-            NoneFound,
-            FoundWikiProjectBannerShell
-        }
-
-        //State:
-        private BannerShellsEnum _weFoundBannerShells;
-
-        private string _matchEvaluatorString;
         // Regexes:
         // These could probably be simplified significantly (and extra logic doing things like removing linebreaks) if I learnt more of the magic characters
-
-        private static readonly Regex WikiProjectBannerShellRegex =
-            new Regex(
-                Constants.RegexpLeft + WikiProjectBannerShell +
-                ")\\b\\s*(?<start>\\|[^1]*=.*?)*\\s*\\|\\s*1\\s*=\\s*(?<body>.*}}[^{]*?)\\s*(?<end>\\|[^{]*)?\\s*}}",
-                RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.ExplicitCapture);
 
         internal static readonly Regex LineBreakRegex = new Regex("[\\n\\r]*");
 
         private static readonly Regex DoubleLineBreakRegex = new Regex("[\\n\\r]{2,}");
-        // Regex constant strings:
-        // IGNORE CASE
-        private const string WikiProjectBannerShell =
-            "WikiProject ?Banner ?Shell|WP?BS|WPBannerShell|WikiProject ?Banners|WPB";
 
-        // Match evaluators:
-        private string WPBSRegexMatchEvaluator(Match match)
+
+        // Add the template on the top. General fixes will put in a shell if it exists
+        internal void PrependTemplate(Templating template, string parameterBreak, string text)
         {
-            const string templatename = "WikiProjectBannerShell";
-            string ending = match.Groups["start"].Value + match.Groups["end"].Value;
-
-            ShellTemplateMatchEvaluatorsCommonTasks(templatename, match);
-
-            if (!string.IsNullOrEmpty(ending))
-                ending = Environment.NewLine + ending;
-
-            return
-                DoubleLineBreakRegex.Replace(
-                    "{{" + templatename + "|1=" + Environment.NewLine + LineBreakRegex.Replace(_matchEvaluatorString, "") +
-                    Environment.NewLine + match.Groups["body"].Value + ending + "}}", Environment.NewLine);
-        }
-
-        private void ShellTemplateMatchEvaluatorsCommonTasks(string templatename, Match match)
-        {
-            // Does the shell contain template: ?
-            PluginCheckTemplateCall(match.Groups["tl"].Value, templatename);
-            // Does the template have it's primary name:
-            if (match.Groups["tlname"].Value != templatename)
-            {
-                RenamedATemplate(match.Groups["tlname"].Value, templatename);
-            }
-        }
-
-        // Where we (possibly) add our template to an existing shell:
-        internal void PrependTemplateOrWriteIntoShell(Templating template, string parameterBreak, string text)
-        {
-            if (_weFoundBannerShells == BannerShellsEnum.NotChecked)
-            {
-                _weFoundBannerShells = WikiProjectBannerShellRegex.IsMatch(AlteredArticleText)
-                    ? BannerShellsEnum.FoundWikiProjectBannerShell
-                    : BannerShellsEnum.NoneFound;
-            }
-
             text += template.ParametersToString(parameterBreak);
-
-            switch (_weFoundBannerShells)
-            {
-                case BannerShellsEnum.FoundWikiProjectBannerShell:
-                    _matchEvaluatorString = text;
-
-                    AlteredArticleText = WikiProjectBannerShellRegex.Replace(AlteredArticleText, WPBSRegexMatchEvaluator,
-                        1);
-                    _matchEvaluatorString = null;
-                    break;
-                case BannerShellsEnum.NoneFound:
-                    AlteredArticleText = text + AlteredArticleText;
-                    break;
-            }
+            AlteredArticleText = text + AlteredArticleText;
         }
 
         private static bool InitStaticVariableHelper(Microsoft.VisualBasic.CompilerServices.StaticLocalInitFlag flag)
