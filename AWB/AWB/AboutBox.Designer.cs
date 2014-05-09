@@ -52,32 +52,28 @@ namespace AutoWikiBrowser
             this.linkBugs = new System.Windows.Forms.LinkLabel();
             this.linkFeatureRequests = new System.Windows.Forms.LinkLabel();
             this.lblDevs = new System.Windows.Forms.Label();
-            this.lblNETVersion = new System.Windows.Forms.Label();
-            this.lblIEVersion = new System.Windows.Forms.Label();
-            this.lblOSVersion = new System.Windows.Forms.Label();
             this.lblAWBVersion = new System.Windows.Forms.Label();
             this.lblDetails = new System.Windows.Forms.Label();
             this.lblOriginalDevs = new System.Windows.Forms.Label();
             this.UsageStatsLabel = new System.Windows.Forms.LinkLabel();
             this.lblRevision = new System.Windows.Forms.Label();
             this.flwDevs = new System.Windows.Forms.FlowLayoutPanel();
-            this.flwOriginalDevs = new System.Windows.Forms.FlowLayoutPanel();
-            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
-            this.flwOSVersion = new System.Windows.Forms.FlowLayoutPanel();
-            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.lblContribs = new System.Windows.Forms.Label();
-            this.kingboykLabel = new WikiFunctions.Controls.DeveloperLinkLabel();
             this.MagioladitisLabel = new WikiFunctions.Controls.DeveloperLinkLabel();
             this.MaxSemLabel = new WikiFunctions.Controls.DeveloperLinkLabel();
             this.ReedyLabel = new WikiFunctions.Controls.DeveloperLinkLabel();
             this.RjLabel = new WikiFunctions.Controls.DeveloperLinkLabel();
+            this.flwOriginalDevs = new System.Windows.Forms.FlowLayoutPanel();
             this.BluemooseLink = new WikiFunctions.Controls.DeveloperLinkLabel();
             this.LigulemLink = new WikiFunctions.Controls.DeveloperLinkLabel();
+            this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
+            this.kingboykLabel = new WikiFunctions.Controls.DeveloperLinkLabel();
+            this.lblContribs = new System.Windows.Forms.Label();
+            this.txtVersions = new System.Windows.Forms.TextBox();
             this.flwDevs.SuspendLayout();
             this.flwOriginalDevs.SuspendLayout();
             this.flowLayoutPanel3.SuspendLayout();
-            this.flwOSVersion.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -123,7 +119,7 @@ namespace AutoWikiBrowser
             this.linkBugs.AutoSize = true;
             this.linkBugs.Location = new System.Drawing.Point(3, 0);
             this.linkBugs.Name = "linkBugs";
-            this.linkBugs.Size = new System.Drawing.Size(66, 13);
+            this.linkBugs.Size = new System.Drawing.Size(61, 13);
             this.linkBugs.TabIndex = 0;
             this.linkBugs.TabStop = true;
             this.linkBugs.Text = "Bug reports";
@@ -148,33 +144,6 @@ namespace AutoWikiBrowser
             this.lblDevs.Size = new System.Drawing.Size(174, 13);
             this.lblDevs.TabIndex = 5;
             this.lblDevs.Text = "Now developed and maintained by:";
-            // 
-            // lblNETVersion
-            // 
-            this.lblNETVersion.AutoSize = true;
-            this.lblNETVersion.Location = new System.Drawing.Point(3, 13);
-            this.lblNETVersion.Name = "lblNETVersion";
-            this.lblNETVersion.Size = new System.Drawing.Size(72, 13);
-            this.lblNETVersion.TabIndex = 1;
-            this.lblNETVersion.Text = ".NET version:";
-            // 
-            // lblIEVersion
-            // 
-            this.lblIEVersion.AutoSize = true;
-            this.lblIEVersion.Location = new System.Drawing.Point(3, 0);
-            this.lblIEVersion.Name = "lblIEVersion";
-            this.lblIEVersion.Size = new System.Drawing.Size(124, 13);
-            this.lblIEVersion.TabIndex = 0;
-            this.lblIEVersion.Text = "Internet Explorer version:";
-            // 
-            // lblOSVersion
-            // 
-            this.lblOSVersion.AutoSize = true;
-            this.lblOSVersion.Location = new System.Drawing.Point(3, 26);
-            this.lblOSVersion.Name = "lblOSVersion";
-            this.lblOSVersion.Size = new System.Drawing.Size(91, 13);
-            this.lblOSVersion.TabIndex = 2;
-            this.lblOSVersion.Text = "Windows version:";
             // 
             // lblAWBVersion
             // 
@@ -235,77 +204,6 @@ namespace AutoWikiBrowser
             this.flwDevs.Size = new System.Drawing.Size(200, 48);
             this.flwDevs.TabIndex = 6;
             // 
-            // flwOriginalDevs
-            // 
-            this.flwOriginalDevs.Controls.Add(this.BluemooseLink);
-            this.flwOriginalDevs.Controls.Add(this.LigulemLink);
-            this.flwOriginalDevs.Location = new System.Drawing.Point(28, 97);
-            this.flwOriginalDevs.Name = "flwOriginalDevs";
-            this.flwOriginalDevs.Size = new System.Drawing.Size(200, 22);
-            this.flwOriginalDevs.TabIndex = 4;
-            // 
-            // flowLayoutPanel3
-            // 
-            this.flowLayoutPanel3.Controls.Add(this.linkBugs);
-            this.flowLayoutPanel3.Controls.Add(this.linkFeatureRequests);
-            this.flowLayoutPanel3.Controls.Add(this.UsageStatsLabel);
-            this.flowLayoutPanel3.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(28, 243);
-            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(200, 44);
-            this.flowLayoutPanel3.TabIndex = 8;
-            // 
-            // flwOSVersion
-            // 
-            this.flwOSVersion.Controls.Add(this.lblIEVersion);
-            this.flwOSVersion.Controls.Add(this.lblNETVersion);
-            this.flwOSVersion.Controls.Add(this.lblOSVersion);
-            this.flwOSVersion.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flwOSVersion.Location = new System.Drawing.Point(234, 41);
-            this.flwOSVersion.Name = "flwOSVersion";
-            this.flwOSVersion.Size = new System.Drawing.Size(254, 43);
-            this.flwOSVersion.TabIndex = 9;
-            // 
-            // flowLayoutPanel1
-            // 
-            this.flowLayoutPanel1.AutoSize = true;
-            this.flowLayoutPanel1.Controls.Add(this.lblAWBVersion);
-            this.flowLayoutPanel1.Controls.Add(this.lblRevision);
-            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 41);
-            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(216, 37);
-            this.flowLayoutPanel1.TabIndex = 2;
-            // 
-            // flowLayoutPanel2
-            // 
-            this.flowLayoutPanel2.Controls.Add(this.kingboykLabel);
-            this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(28, 209);
-            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
-            this.flowLayoutPanel2.Size = new System.Drawing.Size(200, 15);
-            this.flowLayoutPanel2.TabIndex = 12;
-            // 
-            // lblContribs
-            // 
-            this.lblContribs.BackColor = System.Drawing.Color.Transparent;
-            this.lblContribs.Location = new System.Drawing.Point(9, 193);
-            this.lblContribs.Name = "lblContribs";
-            this.lblContribs.Size = new System.Drawing.Size(174, 13);
-            this.lblContribs.TabIndex = 11;
-            this.lblContribs.Text = "Contributors and past developers:";
-            // 
-            // kingboykLabel
-            // 
-            this.kingboykLabel.AutoSize = true;
-            this.kingboykLabel.Location = new System.Drawing.Point(3, 0);
-            this.kingboykLabel.Name = "kingboykLabel";
-            this.kingboykLabel.Size = new System.Drawing.Size(51, 13);
-            this.kingboykLabel.TabIndex = 38;
-            this.kingboykLabel.TabStop = true;
-            this.kingboykLabel.Text = "Kingboyk";
-            this.kingboykLabel.WhichDeveloper = WikiFunctions.Controls.Developers.Kingboyk;
-            // 
             // MagioladitisLabel
             // 
             this.MagioladitisLabel.AutoSize = true;
@@ -350,6 +248,15 @@ namespace AutoWikiBrowser
             this.RjLabel.Text = "Rjwilmsi";
             this.RjLabel.WhichDeveloper = WikiFunctions.Controls.Developers.Rjwilmsi;
             // 
+            // flwOriginalDevs
+            // 
+            this.flwOriginalDevs.Controls.Add(this.BluemooseLink);
+            this.flwOriginalDevs.Controls.Add(this.LigulemLink);
+            this.flwOriginalDevs.Location = new System.Drawing.Point(28, 97);
+            this.flwOriginalDevs.Name = "flwOriginalDevs";
+            this.flwOriginalDevs.Size = new System.Drawing.Size(200, 22);
+            this.flwOriginalDevs.TabIndex = 4;
+            // 
             // BluemooseLink
             // 
             this.BluemooseLink.AutoSize = true;
@@ -371,6 +278,69 @@ namespace AutoWikiBrowser
             this.LigulemLink.Text = "Ligulem";
             this.LigulemLink.WhichDeveloper = WikiFunctions.Controls.Developers.Ligulem;
             // 
+            // flowLayoutPanel3
+            // 
+            this.flowLayoutPanel3.Controls.Add(this.linkBugs);
+            this.flowLayoutPanel3.Controls.Add(this.linkFeatureRequests);
+            this.flowLayoutPanel3.Controls.Add(this.UsageStatsLabel);
+            this.flowLayoutPanel3.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(28, 243);
+            this.flowLayoutPanel3.Name = "flowLayoutPanel3";
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(200, 44);
+            this.flowLayoutPanel3.TabIndex = 8;
+            // 
+            // flowLayoutPanel1
+            // 
+            this.flowLayoutPanel1.AutoSize = true;
+            this.flowLayoutPanel1.Controls.Add(this.lblAWBVersion);
+            this.flowLayoutPanel1.Controls.Add(this.lblRevision);
+            this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(12, 41);
+            this.flowLayoutPanel1.Name = "flowLayoutPanel1";
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(216, 37);
+            this.flowLayoutPanel1.TabIndex = 2;
+            // 
+            // flowLayoutPanel2
+            // 
+            this.flowLayoutPanel2.Controls.Add(this.kingboykLabel);
+            this.flowLayoutPanel2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(28, 209);
+            this.flowLayoutPanel2.Name = "flowLayoutPanel2";
+            this.flowLayoutPanel2.Size = new System.Drawing.Size(200, 15);
+            this.flowLayoutPanel2.TabIndex = 12;
+            // 
+            // kingboykLabel
+            // 
+            this.kingboykLabel.AutoSize = true;
+            this.kingboykLabel.Location = new System.Drawing.Point(3, 0);
+            this.kingboykLabel.Name = "kingboykLabel";
+            this.kingboykLabel.Size = new System.Drawing.Size(51, 13);
+            this.kingboykLabel.TabIndex = 38;
+            this.kingboykLabel.TabStop = true;
+            this.kingboykLabel.Text = "Kingboyk";
+            this.kingboykLabel.WhichDeveloper = WikiFunctions.Controls.Developers.Kingboyk;
+            // 
+            // lblContribs
+            // 
+            this.lblContribs.BackColor = System.Drawing.Color.Transparent;
+            this.lblContribs.Location = new System.Drawing.Point(9, 193);
+            this.lblContribs.Name = "lblContribs";
+            this.lblContribs.Size = new System.Drawing.Size(174, 13);
+            this.lblContribs.TabIndex = 11;
+            this.lblContribs.Text = "Contributors and past developers:";
+            // 
+            // txtVersions
+            // 
+            this.txtVersions.Location = new System.Drawing.Point(237, 41);
+            this.txtVersions.Margin = new System.Windows.Forms.Padding(6, 3, 3, 3);
+            this.txtVersions.Multiline = true;
+            this.txtVersions.Name = "txtVersions";
+            this.txtVersions.ReadOnly = true;
+            this.txtVersions.Size = new System.Drawing.Size(251, 50);
+            this.txtVersions.TabIndex = 13;
+            this.txtVersions.TabStop = false;
+            this.txtVersions.Text = "Internet Explorer version:\r\n.NET version:\r\nWindows version:";
+            // 
             // AboutBox
             // 
             this.AcceptButton = this.okButton;
@@ -379,11 +349,11 @@ namespace AutoWikiBrowser
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(200)))), ((int)(((byte)(255)))), ((int)(((byte)(200)))));
             this.CancelButton = this.okButton;
             this.ClientSize = new System.Drawing.Size(500, 299);
+            this.Controls.Add(this.txtVersions);
             this.Controls.Add(this.flowLayoutPanel2);
             this.Controls.Add(this.lblContribs);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.txtWarning);
-            this.Controls.Add(this.flwOSVersion);
             this.Controls.Add(this.flowLayoutPanel3);
             this.Controls.Add(this.lblDetails);
             this.Controls.Add(this.flwDevs);
@@ -409,8 +379,6 @@ namespace AutoWikiBrowser
             this.flwOriginalDevs.PerformLayout();
             this.flowLayoutPanel3.ResumeLayout(false);
             this.flowLayoutPanel3.PerformLayout();
-            this.flwOSVersion.ResumeLayout(false);
-            this.flwOSVersion.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
             this.flowLayoutPanel2.ResumeLayout(false);
@@ -427,9 +395,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.LinkLabel linkAWBPage;
         private System.Windows.Forms.Label lblDetails;
         private System.Windows.Forms.Label lblAWBVersion;
-        private System.Windows.Forms.Label lblOSVersion;
-        private System.Windows.Forms.Label lblIEVersion;
-        private System.Windows.Forms.Label lblNETVersion;
         private System.Windows.Forms.Label lblDevs;
         private System.Windows.Forms.LinkLabel linkBugs;
         private System.Windows.Forms.LinkLabel linkFeatureRequests;
@@ -439,7 +404,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.FlowLayoutPanel flwDevs;
         private System.Windows.Forms.FlowLayoutPanel flwOriginalDevs;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
-        private System.Windows.Forms.FlowLayoutPanel flwOSVersion;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private WikiFunctions.Controls.DeveloperLinkLabel BluemooseLink;
         private WikiFunctions.Controls.DeveloperLinkLabel LigulemLink;
@@ -450,5 +414,6 @@ namespace AutoWikiBrowser
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel2;
         private WikiFunctions.Controls.DeveloperLinkLabel kingboykLabel;
         private System.Windows.Forms.Label lblContribs;
+        private System.Windows.Forms.TextBox txtVersions;
     }
 }
