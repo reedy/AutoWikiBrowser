@@ -249,7 +249,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             else
             {
                 // Our template wasn't found, write it into a shell or to the top of the page
-                TheArticle.PrependTemplateOrWriteIntoShell(Template, ParameterBreak, templateHeader);
+                TheArticle.PrependTemplate(Template, ParameterBreak, templateHeader);
             }
         }
 
