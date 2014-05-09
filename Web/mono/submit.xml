@@ -1,0 +1,734 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<report version="1.0">
+  <metadata>
+    <definitions>Mono 2.8 (4.0 Profile)</definitions>
+    <momaversion>2.0.0.0</momaversion>
+    <date>2013-06-05 21:39:15Z</date>
+    <name />
+    <email />
+    <homepage />
+    <organization />
+    <comments />
+    <apptype />
+  </metadata>
+  <assemblies>
+    <assembly name="BingSearchPlugin.dll" version="2.0.0.0" runtime="2.0" todo="0" niex="0" miss="2" pinv="0">
+      <issue type="miss">
+        <class>BingSearchContainer</class>
+        <caller>void .ctor(Uri)</caller>
+        <method>void .ctor(Uri)</method>
+        <raw>System.Void System.Data.Services.Client.DataServiceContext::.ctor(System.Uri)</raw>
+      </issue>
+      <issue type="miss">
+        <class>BingSearchListMakerPlugin</class>
+        <caller>Article&gt; MakeList(String[])</caller>
+        <method>void set_Credentials(ICredentials)</method>
+        <raw>System.Void System.Data.Services.Client.DataServiceContext::set_Credentials(System.Net.ICredentials)</raw>
+      </issue>
+    </assembly>
+    <assembly name="CFD.dll" version="1.0.1.0" runtime="2.0" todo="0" niex="0" miss="0" pinv="0" />
+    <assembly name="DelinkerPlugin.dll" version="1.0.0.2" runtime="2.0" todo="0" niex="0" miss="0" pinv="0" />
+    <assembly name="Fronds.dll" version="1.0.1.0" runtime="2.0" todo="0" niex="0" miss="0" pinv="0" />
+    <assembly name="IFD.dll" version="1.0.1.0" runtime="2.0" todo="0" niex="0" miss="0" pinv="0" />
+    <assembly name="Kingbotk AWB Plugin.dll" version="2.3.3.0" runtime="2.0" todo="0" niex="0" miss="59" pinv="0">
+      <issue type="miss">
+        <class>MyApplication</class>
+        <caller>void .ctor()</caller>
+        <method>void .ctor()</method>
+        <raw>System.Void Microsoft.VisualBasic.ApplicationServices.ApplicationBase::.ctor()</raw>
+      </issue>
+      <issue type="miss">
+        <class>MyComputer</class>
+        <caller>void .ctor()</caller>
+        <method>void .ctor()</method>
+        <raw>System.Void Microsoft.VisualBasic.Devices.Computer::.ctor()</raw>
+      </issue>
+      <issue type="miss">
+        <class>Article</class>
+        <caller>void PluginCheckTemplateCall(string, string)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>Article</class>
+        <caller>void RestoreTemplateToPlaceholderSpot(string)</caller>
+        <method>void .ctor()</method>
+        <raw>System.Void Microsoft.VisualBasic.CompilerServices.IncompleteInitialization::.ctor()</raw>
+      </issue>
+      <issue type="miss">
+        <class>Article</class>
+        <caller>void RestoreTemplateToPlaceholderSpot(string)</caller>
+        <method>void .ctor()</method>
+        <raw>System.Void Microsoft.VisualBasic.CompilerServices.IncompleteInitialization::.ctor()</raw>
+      </issue>
+      <issue type="miss">
+        <class>Article</class>
+        <caller>string WPBSRegexMatchEvaluator(Match)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>Article</class>
+        <caller>void ShellTemplateMatchEvaluatorsCommonTasks(string, Match)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>Article</class>
+        <caller>void .ctor(string, string, int)</caller>
+        <method>void .ctor()</method>
+        <raw>System.Void Microsoft.VisualBasic.CompilerServices.StaticLocalInitFlag::.ctor()</raw>
+      </issue>
+      <issue type="miss">
+        <class>Article</class>
+        <caller>void .ctor(string, string, int)</caller>
+        <method>void .ctor()</method>
+        <raw>System.Void Microsoft.VisualBasic.CompilerServices.StaticLocalInitFlag::.ctor()</raw>
+      </issue>
+      <issue type="miss">
+        <class>AssessmentForm</class>
+        <caller>void AllowOnlyOneCheckedItem(Object, ItemCheckEventArgs)</caller>
+        <method>int ToInteger(Object)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Conversions::ToInteger(System.Object)</raw>
+      </issue>
+      <issue type="miss">
+        <class>BioWithWorkgroups</class>
+        <caller>void ListView1_ItemChecked(Object, ItemCheckedEventArgs)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>BioWithWorkgroups</class>
+        <caller>void ListView1_ItemChecked(Object, ItemCheckedEventArgs)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>GenericTemplateSettings</class>
+        <caller>void ReadXML(XmlTextReader)</caller>
+        <method>int ToInteger(Object)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Conversions::ToInteger(System.Object)</raw>
+      </issue>
+      <issue type="miss">
+        <class>GenericTemplateSettings</class>
+        <caller>void TemplateNameTextBox_TextChanged(Object, EventArgs)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>GenericTemplatePlugin</class>
+        <caller>bool get_IAmReady()</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>GenericTemplatePlugin</class>
+        <caller>bool SkipIfContains()</caller>
+        <method>void SetProjectError(Exception)</method>
+        <raw>System.Void Microsoft.VisualBasic.CompilerServices.ProjectData::SetProjectError(System.Exception)</raw>
+      </issue>
+      <issue type="miss">
+        <class>GenericTemplatePlugin</class>
+        <caller>bool SkipIfContains()</caller>
+        <method>void ClearProjectError()</method>
+        <raw>System.Void Microsoft.VisualBasic.CompilerServices.ProjectData::ClearProjectError()</raw>
+      </issue>
+      <issue type="miss">
+        <class>GenericTemplatePlugin</class>
+        <caller>void SkipRegexChanged(Object, EventArgs)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>GenericTemplatePlugin</class>
+        <caller>void PropertiesButtonClick(Object, EventArgs)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>GenericTemplatePlugin</class>
+        <caller>void GetRedirectsButtonClick(Object, EventArgs)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>GenericTemplatePlugin</class>
+        <caller>void GetRedirectsButtonClick(Object, EventArgs)</caller>
+        <method>void SetProjectError(Exception)</method>
+        <raw>System.Void Microsoft.VisualBasic.CompilerServices.ProjectData::SetProjectError(System.Exception)</raw>
+      </issue>
+      <issue type="miss">
+        <class>GenericTemplatePlugin</class>
+        <caller>void GetRedirectsButtonClick(Object, EventArgs)</caller>
+        <method>void ClearProjectError()</method>
+        <raw>System.Void Microsoft.VisualBasic.CompilerServices.ProjectData::ClearProjectError()</raw>
+      </issue>
+      <issue type="miss">
+        <class>GenericTemplatePlugin</class>
+        <caller>void Dispose(bool)</caller>
+        <method>void SetProjectError(Exception)</method>
+        <raw>System.Void Microsoft.VisualBasic.CompilerServices.ProjectData::SetProjectError(System.Exception)</raw>
+      </issue>
+      <issue type="miss">
+        <class>GenericTemplatePlugin</class>
+        <caller>void Dispose(bool)</caller>
+        <method>void ClearProjectError()</method>
+        <raw>System.Void Microsoft.VisualBasic.CompilerServices.ProjectData::ClearProjectError()</raw>
+      </issue>
+      <issue type="miss">
+        <class>GenericTemplatePlugin</class>
+        <caller>void TemplateNamesChanged(Object, EventArgs)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>GenericWithWorkgroups</class>
+        <caller>void .ctor(string, string, bool, TemplateParameters[])</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>PluginBase</class>
+        <caller>bool CheckForDoublyNamedParameters(string, string)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>PluginBase</class>
+        <caller>void GotNewAlternateNamesString(string, bool)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>PluginBase</class>
+        <caller>Article&gt; GetRedirects(string)</caller>
+        <method>void SetProjectError(Exception)</method>
+        <raw>System.Void Microsoft.VisualBasic.CompilerServices.ProjectData::SetProjectError(System.Exception)</raw>
+      </issue>
+      <issue type="miss">
+        <class>PluginBase</class>
+        <caller>Article&gt; GetRedirects(string)</caller>
+        <method>void ClearProjectError()</method>
+        <raw>System.Void Microsoft.VisualBasic.CompilerServices.ProjectData::ClearProjectError()</raw>
+      </issue>
+      <issue type="miss">
+        <class>PluginBase</class>
+        <caller>void ReadXMLRedirects(XmlTextReader)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>PluginBase</class>
+        <caller>void WriteXMLRedirects(XmlTextWriter)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>PluginManager</class>
+        <caller>void LoadSettings(Object[])</caller>
+        <method>string ToString(Object)</method>
+        <raw>System.String Microsoft.VisualBasic.CompilerServices.Conversions::ToString(System.Object)</raw>
+      </issue>
+      <issue type="miss">
+        <class>PluginManager</class>
+        <caller>string ProcessArticle(IAutoWikiBrowser, IProcessArticleEventArgs)</caller>
+        <method>void SetProjectError(Exception)</method>
+        <raw>System.Void Microsoft.VisualBasic.CompilerServices.ProjectData::SetProjectError(System.Exception)</raw>
+      </issue>
+      <issue type="miss">
+        <class>PluginManager</class>
+        <caller>string ProcessArticle(IAutoWikiBrowser, IProcessArticleEventArgs)</caller>
+        <method>void ClearProjectError()</method>
+        <raw>System.Void Microsoft.VisualBasic.CompilerServices.ProjectData::ClearProjectError()</raw>
+      </issue>
+      <issue type="miss">
+        <class>PluginManager</class>
+        <caller>string ProcessArticle(IAutoWikiBrowser, IProcessArticleEventArgs)</caller>
+        <method>void ClearProjectError()</method>
+        <raw>System.Void Microsoft.VisualBasic.CompilerServices.ProjectData::ClearProjectError()</raw>
+      </issue>
+      <issue type="miss">
+        <class>PluginManager</class>
+        <caller>string ProcessArticle(IAutoWikiBrowser, IProcessArticleEventArgs)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>PluginManager</class>
+        <caller>void PluginEnabledStateChanged(PluginBase, bool)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>PluginManager</class>
+        <caller>void TestSkipNonExistingPages()</caller>
+        <method>void .ctor()</method>
+        <raw>System.Void Microsoft.VisualBasic.CompilerServices.IncompleteInitialization::.ctor()</raw>
+      </issue>
+      <issue type="miss">
+        <class>PluginManager</class>
+        <caller>void AddGenericTemplateMenuItem_Click(Object, EventArgs)</caller>
+        <method>string InputBox(string, string, string, int, int)</method>
+        <raw>System.String Microsoft.VisualBasic.Interaction::InputBox(System.String,System.String,System.String,System.Int32,System.Int32)</raw>
+      </issue>
+      <issue type="miss">
+        <class>PluginManager</class>
+        <caller>void AddGenericTemplateMenuItem_Click(Object, EventArgs)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>PluginManager</class>
+        <caller>void AddGenericTemplateMenuItem_Click(Object, EventArgs)</caller>
+        <method>int InStr(string, string, CompareMethod)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.Strings::InStr(System.String,System.String,Microsoft.VisualBasic.CompareMethod)</raw>
+      </issue>
+      <issue type="miss">
+        <class>PluginManager</class>
+        <caller>void .cctor()</caller>
+        <method>void .ctor()</method>
+        <raw>System.Void Microsoft.VisualBasic.CompilerServices.StaticLocalInitFlag::.ctor()</raw>
+      </issue>
+      <issue type="miss">
+        <class>PluginSettingsControl</class>
+        <caller>void AWBProcessingStart(AsyncApiEdit)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>PluginSettingsControl</class>
+        <caller>void SetAWBToolStripMenuItem_Click(Object, EventArgs)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>Templating</class>
+        <caller>void AddTemplateParmFromExistingTemplate(string, string)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>Templating</class>
+        <caller>void AddTemplateParmFromExistingTemplate(string, string)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>Templating</class>
+        <caller>void AddTemplateParmFromExistingTemplate(string, string)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>Templating</class>
+        <caller>bool ReplaceTemplateParm(string, string, Article, bool, bool, string)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>Templating</class>
+        <caller>bool ReplaceTemplateParm(string, string, Article, bool, bool, string)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>Templating</class>
+        <caller>bool ReplaceTemplateParm(string, string, Article, bool, bool, string)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>Templating</class>
+        <caller>bool HasYesParamLowerOrTitleCase(bool, string)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>Templating</class>
+        <caller>bool HasYesParamLowerOrTitleCase(bool, string)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>TimerStats</class>
+        <caller>void Timer1_Tick(Object, EventArgs)</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>WPBiography</class>
+        <caller>void ProcessArticleFinish()</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>WPBiography</class>
+        <caller>void ProcessArticleFinish()</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>WPBiography</class>
+        <caller>void ProcessArticleFinish()</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>WPBiography</class>
+        <caller>bool TemplateFound()</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+      <issue type="miss">
+        <class>WPMilitaryHistory</class>
+        <caller>bool TemplateFound()</caller>
+        <method>int CompareString(string, string, bool)</method>
+        <raw>System.Int32 Microsoft.VisualBasic.CompilerServices.Operators::CompareString(System.String,System.String,System.Boolean)</raw>
+      </issue>
+    </assembly>
+    <assembly name="NoLimitsPlugin.dll" version="1.3.4.0" runtime="2.0" todo="0" niex="0" miss="0" pinv="0" />
+    <assembly name="TheTemplator.dll" version="1.1.4895.15810" runtime="2.0" todo="10" niex="0" miss="0" pinv="0">
+      <issue type="todo">
+        <class>DebugOutput</class>
+        <caller>void AddSection(string, string)</caller>
+        <method>int get_SelectionIndent()</method>
+        <raw>System.Int32 System.Windows.Forms.RichTextBox::get_SelectionIndent()</raw>
+        <data>Stub, does nothing</data>
+      </issue>
+      <issue type="todo">
+        <class>DebugOutput</class>
+        <caller>void AddSection(string, string)</caller>
+        <method>void set_SelectionIndent(int)</method>
+        <raw>System.Void System.Windows.Forms.RichTextBox::set_SelectionIndent(System.Int32)</raw>
+        <data>Stub, does nothing</data>
+      </issue>
+      <issue type="todo">
+        <class>DebugOutput</class>
+        <caller>void AddSection(string, string)</caller>
+        <method>int get_SelectionIndent()</method>
+        <raw>System.Int32 System.Windows.Forms.RichTextBox::get_SelectionIndent()</raw>
+        <data>Stub, does nothing</data>
+      </issue>
+      <issue type="todo">
+        <class>DebugOutput</class>
+        <caller>void AddSection(string, string)</caller>
+        <method>void set_SelectionIndent(int)</method>
+        <raw>System.Void System.Windows.Forms.RichTextBox::set_SelectionIndent(System.Int32)</raw>
+        <data>Stub, does nothing</data>
+      </issue>
+      <issue type="todo">
+        <class>DebugOutput</class>
+        <caller>void StartSection(string)</caller>
+        <method>int get_SelectionIndent()</method>
+        <raw>System.Int32 System.Windows.Forms.RichTextBox::get_SelectionIndent()</raw>
+        <data>Stub, does nothing</data>
+      </issue>
+      <issue type="todo">
+        <class>DebugOutput</class>
+        <caller>void StartSection(string)</caller>
+        <method>void set_SelectionIndent(int)</method>
+        <raw>System.Void System.Windows.Forms.RichTextBox::set_SelectionIndent(System.Int32)</raw>
+        <data>Stub, does nothing</data>
+      </issue>
+      <issue type="todo">
+        <class>DebugOutput</class>
+        <caller>void EndSection()</caller>
+        <method>int get_SelectionIndent()</method>
+        <raw>System.Int32 System.Windows.Forms.RichTextBox::get_SelectionIndent()</raw>
+        <data>Stub, does nothing</data>
+      </issue>
+      <issue type="todo">
+        <class>DebugOutput</class>
+        <caller>void EndSection()</caller>
+        <method>void set_SelectionIndent(int)</method>
+        <raw>System.Void System.Windows.Forms.RichTextBox::set_SelectionIndent(System.Int32)</raw>
+        <data>Stub, does nothing</data>
+      </issue>
+      <issue type="todo">
+        <class>DebugOutput</class>
+        <caller>void Clear()</caller>
+        <method>void set_SelectionIndent(int)</method>
+        <raw>System.Void System.Windows.Forms.RichTextBox::set_SelectionIndent(System.Int32)</raw>
+        <data>Stub, does nothing</data>
+      </issue>
+      <issue type="todo">
+        <class>DebugOutput</class>
+        <caller>void InitializeComponent()</caller>
+        <method>void set_TabStop(bool)</method>
+        <raw>System.Void System.Windows.Forms.SplitContainer::set_TabStop(System.Boolean)</raw>
+        <data>Stub, never called</data>
+      </issue>
+    </assembly>
+    <assembly name="TypoScan.dll" version="2.0.1.0" runtime="2.0" todo="0" niex="0" miss="0" pinv="0" />
+    <assembly name="WikiFunctions.dll" version="5.5.0.3" runtime="2.0" todo="22" niex="0" miss="1" pinv="1">
+      <issue type="todo">
+        <class>ApiEdit</class>
+        <caller>void .ctor(string, bool)</caller>
+        <method>IWebProxy GetSystemWebProxy()</method>
+        <raw>System.Net.IWebProxy System.Net.WebRequest::GetSystemWebProxy()</raw>
+        <data>Look in other places for proxy config info</data>
+      </issue>
+      <issue type="todo">
+        <class>ArticleTextBox</class>
+        <caller>void OnHandleCreated(EventArgs)</caller>
+        <method>bool get_AutoWordSelection()</method>
+        <raw>System.Boolean System.Windows.Forms.RichTextBox::get_AutoWordSelection()</raw>
+        <data>Value not respected, always true</data>
+      </issue>
+      <issue type="todo">
+        <class>ArticleTextBox</class>
+        <caller>void OnHandleCreated(EventArgs)</caller>
+        <method>void set_AutoWordSelection(bool)</method>
+        <raw>System.Void System.Windows.Forms.RichTextBox::set_AutoWordSelection(System.Boolean)</raw>
+        <data>Value not respected, always true</data>
+      </issue>
+      <issue type="todo">
+        <class>ArticleTextBox</class>
+        <caller>void OnHandleCreated(EventArgs)</caller>
+        <method>void set_AutoWordSelection(bool)</method>
+        <raw>System.Void System.Windows.Forms.RichTextBox::set_AutoWordSelection(System.Boolean)</raw>
+        <data>Value not respected, always true</data>
+      </issue>
+      <issue type="todo">
+        <class>ArticleTextBox</class>
+        <caller>void OnEnter(EventArgs)</caller>
+        <method>RichTextBoxLanguageOptions get_LanguageOption()</method>
+        <raw>System.Windows.Forms.RichTextBoxLanguageOptions System.Windows.Forms.RichTextBox::get_LanguageOption()</raw>
+        <data>Stub, does nothing</data>
+      </issue>
+      <issue type="todo">
+        <class>ArticleTextBox</class>
+        <caller>void OnEnter(EventArgs)</caller>
+        <method>void set_LanguageOption(RichTextBoxLanguageOptions)</method>
+        <raw>System.Void System.Windows.Forms.RichTextBox::set_LanguageOption(System.Windows.Forms.RichTextBoxLanguageOptions)</raw>
+        <data>Stub, does nothing</data>
+      </issue>
+      <issue type="todo">
+        <class>ArticleTextBox</class>
+        <caller>void HighlightSyntax()</caller>
+        <method>void set_SelectionBackColor(Color)</method>
+        <raw>System.Void System.Windows.Forms.RichTextBox::set_SelectionBackColor(System.Drawing.Color)</raw>
+        <data>Stub, does nothing</data>
+      </issue>
+      <issue type="todo">
+        <class>ArticleTextBox</class>
+        <caller>void HighlightSyntax()</caller>
+        <method>void set_SelectionBackColor(Color)</method>
+        <raw>System.Void System.Windows.Forms.RichTextBox::set_SelectionBackColor(System.Drawing.Color)</raw>
+        <data>Stub, does nothing</data>
+      </issue>
+      <issue type="todo">
+        <class>ArticleTextBox</class>
+        <caller>void HighlightSyntax()</caller>
+        <method>void set_SelectionBackColor(Color)</method>
+        <raw>System.Void System.Windows.Forms.RichTextBox::set_SelectionBackColor(System.Drawing.Color)</raw>
+        <data>Stub, does nothing</data>
+      </issue>
+      <issue type="todo">
+        <class>ArticleTextBox</class>
+        <caller>void HighlightSyntax()</caller>
+        <method>void set_SelectionBackColor(Color)</method>
+        <raw>System.Void System.Windows.Forms.RichTextBox::set_SelectionBackColor(System.Drawing.Color)</raw>
+        <data>Stub, does nothing</data>
+      </issue>
+      <issue type="todo">
+        <class>ArticleTextBox</class>
+        <caller>void HighlightSyntax()</caller>
+        <method>void set_SelectionBackColor(Color)</method>
+        <raw>System.Void System.Windows.Forms.RichTextBox::set_SelectionBackColor(System.Drawing.Color)</raw>
+        <data>Stub, does nothing</data>
+      </issue>
+      <issue type="todo">
+        <class>ArticleTextBox</class>
+        <caller>void HighlightSyntax()</caller>
+        <method>void set_SelectionBackColor(Color)</method>
+        <raw>System.Void System.Windows.Forms.RichTextBox::set_SelectionBackColor(System.Drawing.Color)</raw>
+        <data>Stub, does nothing</data>
+      </issue>
+      <issue type="todo">
+        <class>ArticleTextBox</class>
+        <caller>void HighlightSyntax()</caller>
+        <method>void set_SelectionBackColor(Color)</method>
+        <raw>System.Void System.Windows.Forms.RichTextBox::set_SelectionBackColor(System.Drawing.Color)</raw>
+        <data>Stub, does nothing</data>
+      </issue>
+      <issue type="todo">
+        <class>ArticleTextBox</class>
+        <caller>void HighlightSyntax()</caller>
+        <method>void set_SelectionBackColor(Color)</method>
+        <raw>System.Void System.Windows.Forms.RichTextBox::set_SelectionBackColor(System.Drawing.Color)</raw>
+        <data>Stub, does nothing</data>
+      </issue>
+      <issue type="todo">
+        <class>ArticleTextBox</class>
+        <caller>void .ctor()</caller>
+        <method>void set_LanguageOption(RichTextBoxLanguageOptions)</method>
+        <raw>System.Void System.Windows.Forms.RichTextBox::set_LanguageOption(System.Windows.Forms.RichTextBoxLanguageOptions)</raw>
+        <data>Stub, does nothing</data>
+      </issue>
+      <issue type="todo">
+        <class>DabControl</class>
+        <caller>void DabControl_Load(Object, EventArgs)</caller>
+        <method>void set_SelectionBackColor(Color)</method>
+        <raw>System.Void System.Windows.Forms.RichTextBox::set_SelectionBackColor(System.Drawing.Color)</raw>
+        <data>Stub, does nothing</data>
+      </issue>
+      <issue type="todo">
+        <class>ListMaker</class>
+        <caller>void btnMakeList_Click(Object, EventArgs)</caller>
+        <method>AutoCompleteStringCollection get_AutoCompleteCustomSource()</method>
+        <raw>System.Windows.Forms.AutoCompleteStringCollection System.Windows.Forms.TextBox::get_AutoCompleteCustomSource()</raw>
+        <data>AutoCompletion algorithm is currently not implemented.</data>
+      </issue>
+      <issue type="todo">
+        <class>ListMaker</class>
+        <caller>void btnMakeList_Click(Object, EventArgs)</caller>
+        <method>AutoCompleteStringCollection get_AutoCompleteCustomSource()</method>
+        <raw>System.Windows.Forms.AutoCompleteStringCollection System.Windows.Forms.TextBox::get_AutoCompleteCustomSource()</raw>
+        <data>AutoCompletion algorithm is currently not implemented.</data>
+      </issue>
+      <issue type="todo">
+        <class>ListMaker</class>
+        <caller>void InitializeComponent()</caller>
+        <method>void set_AutoCompleteMode(AutoCompleteMode)</method>
+        <raw>System.Void System.Windows.Forms.TextBox::set_AutoCompleteMode(System.Windows.Forms.AutoCompleteMode)</raw>
+        <data>AutoCompletion algorithm is currently not implemented.</data>
+      </issue>
+      <issue type="todo">
+        <class>ListMaker</class>
+        <caller>void InitializeComponent()</caller>
+        <method>void set_AutoCompleteSource(AutoCompleteSource)</method>
+        <raw>System.Void System.Windows.Forms.TextBox::set_AutoCompleteSource(System.Windows.Forms.AutoCompleteSource)</raw>
+        <data>AutoCompletion algorithm is currently not implemented.</data>
+      </issue>
+      <issue type="todo">
+        <class>Variables</class>
+        <caller>HttpWebRequest PrepareWebRequest(string, string)</caller>
+        <method>ICredentials get_DefaultCredentials()</method>
+        <raw>System.Net.ICredentials System.Net.CredentialCache::get_DefaultCredentials()</raw>
+        <data>Need EnvironmentPermission implementation first</data>
+      </issue>
+      <issue type="todo">
+        <class>Variables</class>
+        <caller>void RefreshProxy()</caller>
+        <method>IWebProxy GetSystemWebProxy()</method>
+        <raw>System.Net.IWebProxy System.Net.WebRequest::GetSystemWebProxy()</raw>
+        <data>Look in other places for proxy config info</data>
+      </issue>
+      <issue type="miss">
+        <class>Tools</class>
+        <caller>string VBInputBox(string, string, string, int, int)</caller>
+        <method>string InputBox(string, string, string, int, int)</method>
+        <raw>System.String Microsoft.VisualBasic.Interaction::InputBox(System.String,System.String,System.String,System.Int32,System.Int32)</raw>
+      </issue>
+      <issue type="pinv">
+        <class>Tools</class>
+        <caller>void FlashWindow(Control)</caller>
+        <method>void FlashWindow(IntPtr, bool)</method>
+        <raw>System.Void WikiFunctions.Tools::FlashWindow(System.IntPtr,System.Boolean)</raw>
+        <data>user32.dll</data>
+      </issue>
+    </assembly>
+    <assembly name="AutoWikiBrowser.exe" version="5.5.0.3" runtime="2.0" todo="12" niex="1" miss="0" pinv="0">
+      <issue type="todo">
+        <class>AWBWebBrowser</class>
+        <caller>void .ctor()</caller>
+        <method>void .ctor()</method>
+        <raw>System.Void System.Windows.Forms.WebBrowser::.ctor()</raw>
+        <data>WebBrowser control is only supported on Linux/Windows. No support for OSX.</data>
+      </issue>
+      <issue type="todo">
+        <class>MainForm</class>
+        <caller>void MainForm_Load(Object, EventArgs)</caller>
+        <method>void set_ObjectForScripting(Object)</method>
+        <raw>System.Void System.Windows.Forms.WebBrowser::set_ObjectForScripting(System.Object)</raw>
+        <data>Stub, not implemented</data>
+      </issue>
+      <issue type="todo">
+        <class>MainForm</class>
+        <caller>void ShutdownComputer()</caller>
+        <method>bool SetSuspendState(PowerState, bool, bool)</method>
+        <raw>System.Boolean System.Windows.Forms.Application::SetSuspendState(System.Windows.Forms.PowerState,System.Boolean,System.Boolean)</raw>
+        <data>Empty stub.</data>
+      </issue>
+      <issue type="todo">
+        <class>MainForm</class>
+        <caller>void ShutdownComputer()</caller>
+        <method>bool SetSuspendState(PowerState, bool, bool)</method>
+        <raw>System.Boolean System.Windows.Forms.Application::SetSuspendState(System.Windows.Forms.PowerState,System.Boolean,System.Boolean)</raw>
+        <data>Empty stub.</data>
+      </issue>
+      <issue type="todo">
+        <class>MainForm</class>
+        <caller>void RedSelection(int, int)</caller>
+        <method>void set_SelectionBackColor(Color)</method>
+        <raw>System.Void System.Windows.Forms.RichTextBox::set_SelectionBackColor(System.Drawing.Color)</raw>
+        <data>Stub, does nothing</data>
+      </issue>
+      <issue type="todo">
+        <class>MainForm</class>
+        <caller>void YellowSelection(int, int)</caller>
+        <method>void set_SelectionBackColor(Color)</method>
+        <raw>System.Void System.Windows.Forms.RichTextBox::set_SelectionBackColor(System.Drawing.Color)</raw>
+        <data>Stub, does nothing</data>
+      </issue>
+      <issue type="todo">
+        <class>MainForm</class>
+        <caller>void InitializeComponent()</caller>
+        <method>void .ctor()</method>
+        <raw>System.Void System.Windows.Forms.WebBrowser::.ctor()</raw>
+        <data>WebBrowser control is only supported on Linux/Windows. No support for OSX.</data>
+      </issue>
+      <issue type="todo">
+        <class>MainForm</class>
+        <caller>void InitializeComponent()</caller>
+        <method>void .ctor()</method>
+        <raw>System.Void System.Windows.Forms.WebBrowser::.ctor()</raw>
+        <data>WebBrowser control is only supported on Linux/Windows. No support for OSX.</data>
+      </issue>
+      <issue type="todo">
+        <class>MainForm</class>
+        <caller>void InitializeComponent()</caller>
+        <method>void set_RightToLeft(RightToLeft)</method>
+        <raw>System.Void System.Windows.Forms.ToolStripItem::set_RightToLeft(System.Windows.Forms.RightToLeft)</raw>
+        <data>RTL not implemented</data>
+      </issue>
+      <issue type="todo">
+        <class>MainForm</class>
+        <caller>void InitializeComponent()</caller>
+        <method>void set_IsWebBrowserContextMenuEnabled(bool)</method>
+        <raw>System.Void System.Windows.Forms.WebBrowser::set_IsWebBrowserContextMenuEnabled(System.Boolean)</raw>
+        <data>Stub, not implemented</data>
+      </issue>
+      <issue type="todo">
+        <class>MainForm</class>
+        <caller>void InitializeComponent()</caller>
+        <method>void set_IsWebBrowserContextMenuEnabled(bool)</method>
+        <raw>System.Void System.Windows.Forms.WebBrowser::set_IsWebBrowserContextMenuEnabled(System.Boolean)</raw>
+        <data>Stub, not implemented</data>
+      </issue>
+      <issue type="todo">
+        <class>MainForm</class>
+        <caller>void InitializeComponent()</caller>
+        <method>void set_WebBrowserShortcutsEnabled(bool)</method>
+        <raw>System.Void System.Windows.Forms.WebBrowser::set_WebBrowserShortcutsEnabled(System.Boolean)</raw>
+        <data>Stub, not implemented</data>
+      </issue>
+      <issue type="niex">
+        <class>AWBWebBrowser</class>
+        <caller>void CopySelectedText()</caller>
+        <method>void ExecCommand(string, bool, Object)</method>
+        <raw>System.Void System.Windows.Forms.HtmlDocument::ExecCommand(System.String,System.Boolean,System.Object)</raw>
+      </issue>
+    </assembly>
+    <assembly name="AWBUpdater.exe" version="2.0.0.9" runtime="2.0" todo="1" niex="0" miss="0" pinv="0">
+      <issue type="todo">
+        <class>Updater</class>
+        <caller>void UpdateAwb()</caller>
+        <method>IWebProxy GetSystemWebProxy()</method>
+        <raw>System.Net.IWebProxy System.Net.WebRequest::GetSystemWebProxy()</raw>
+        <data>Look in other places for proxy config info</data>
+      </issue>
+    </assembly>
+  </assemblies>
+</report>
