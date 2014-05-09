@@ -3804,7 +3804,7 @@ namespace AutoWikiBrowser
             // lblOnlyBots
             // 
             this.lblOnlyBots.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.lblOnlyBots.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+            this.lblOnlyBots.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblOnlyBots.Location = new System.Drawing.Point(0, 0);
             this.lblOnlyBots.Name = "lblOnlyBots";
             this.lblOnlyBots.Size = new System.Drawing.Size(277, 348);
