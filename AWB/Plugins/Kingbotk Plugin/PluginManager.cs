@@ -29,7 +29,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
     /// <summary>
     /// The plugin manager, which interracts with AWB and manages the individual plugins
     /// </summary>
-    /// <remarks></remarks>
     // Fields here shouldn't need to be Shared, as there will only ever be one instance - created by AWB at startup
     public sealed class PluginManager : IAWBPlugin
     {
