@@ -2903,6 +2903,9 @@ world|format=PDF}} was";
 }}
 [[Category:1904 births]]";
             Assert.AreEqual(Clark.Replace(@"| DATE OF BIRTH     =", @"| DATE OF BIRTH     = July 4, 1904"), Parsers.PersonData(Clark, "A"));
+
+            string small = i1.Replace("27 June 1950", @"<small>27 June 1950</small>");
+            Assert.AreEqual(small + a2, Parsers.PersonData(small + a, "John Doe"), "small tags removed");
         }
 
         [Test]
@@ -3160,13 +3163,48 @@ world|format=PDF}} was";
           const string PD = @"{{Persondata
 | NAME              = Hill, James J.
 | ALTERNATIVE NAMES =
-| SHORT DESCRIPTION =
+| SHORT DESCRIPTION = Politician
 | DATE OF BIRTH     = September 16, 1838
-| PLACE OF BIRTH    = [[Canada]]
+| PLACE OF BIRTH    = Calgary, [[Canada]]
 | DATE OF DEATH     = May 29, 1916
 | PLACE OF DEATH    = [[Minnesota]]
 }}";
           Assert.AreEqual(PD, Parsers.PersonData(PD.Replace("1838", "<small>1838</small>"), "Test"), "Small tag removal");
+
+          string PD1 = @"{{Persondata
+| NAME              = Hill, James J.
+| ALTERNATIVE NAMES =
+| SHORT DESCRIPTION = Politician
+| DATE OF BIRTH     = September 16, 1838
+| PLACE OF BIRTH    = Calgary, <small>[[Canada]]</small>
+| DATE OF DEATH     = May 29, 1916
+| PLACE OF DEATH    = [[Minnesota]]
+}}";
+          Assert.AreEqual(PD, Parsers.PersonData(PD1, "Test"), "Balanced small tag removal");
+
+                    string PD2 = @"{{Persondata
+| NAME              = Hill, James J.
+| ALTERNATIVE NAMES =
+| SHORT DESCRIPTION = Politician
+| DATE OF BIRTH     = September 16, 1838
+| PLACE OF BIRTH    = Calgary, [[Canada]]</small>
+| DATE OF DEATH     = May 29, 1916
+| PLACE OF DEATH    = [[Minnesota]]
+}}";
+
+          Assert.AreEqual(PD, Parsers.PersonData(PD2, "Test"), "Unbalanced small tag removal");
+
+                    string PD3 = @"{{Persondata
+| NAME              = Hill, James J.
+| ALTERNATIVE NAMES =
+| SHORT DESCRIPTION = <small>Politician</small>
+| DATE OF BIRTH     = September 16, 1838
+| PLACE OF BIRTH    = Calgary, [[Canada]]</small>
+| DATE OF DEATH     = May 29, 1916
+| PLACE OF DEATH    = [[Minnesota]]
+}}";
+
+          Assert.AreEqual(PD, Parsers.PersonData(PD3, "Test"), "Small tag removal");
         }
 
         [Test]
