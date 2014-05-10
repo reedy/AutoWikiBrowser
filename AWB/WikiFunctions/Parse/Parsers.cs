@@ -4482,9 +4482,6 @@ namespace WikiFunctions.Parse
             }
             else
             {
-                // remove any <small> tags in persondata
-                articleText = WikiRegexes.Persondata.Replace(articleText, pd => WikiRegexes.Small.Replace(pd.Value, "$1"));
-
                 originalPersonData = WikiRegexes.Persondata.Match(articleText).Value;
                 newPersonData = originalPersonData;
                 // use uppercase parameters if making changes
@@ -4604,6 +4601,13 @@ namespace WikiFunctions.Parse
             // merge changes
             if (!newPersonData.Equals(originalPersonData) && newPersonData.Length > originalPersonData.Length)
                 articleText = articleText.Replace(originalPersonData, newPersonData);
+
+            // remove any <small> tags in persondata
+            articleText = WikiRegexes.Persondata.Replace(articleText, pd => {
+                                                             string res= WikiRegexes.Small.Replace(pd.Value, "$1");
+                                                             res = SmallStart.Replace(res, "");
+                                                             return SmallEnd.Replace(res, "");
+                                                         });
 
             return articleText;
         }
