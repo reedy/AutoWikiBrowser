@@ -944,6 +944,8 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("å", "a"),
 			new KeyValuePair<string, string>("Ə", "E"),
 			new KeyValuePair<string, string>("ə", "e"),
+			new KeyValuePair<string, string>("ĸ", "k"), //Kra
+			new KeyValuePair<string, string>("ŉ", "n"), //N-apostrophe
 
 			//Russian
 
@@ -1604,7 +1606,7 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("ĕ", "e"),
 			new KeyValuePair<string, string>("ŏ", "o"),
 			new KeyValuePair<string, string>("x̌", "x"),
-			new KeyValuePair<string, string>("Ŋ", "n"),	// eng
+			new KeyValuePair<string, string>("Ŋ", "N"),	// eng
 			new KeyValuePair<string, string>("ŋ", "n"),
 			new KeyValuePair<string, string>("ﬂ", "fl"),
 			new KeyValuePair<string, string>("№", "No")
