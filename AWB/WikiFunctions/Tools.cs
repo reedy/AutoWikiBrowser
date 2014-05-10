@@ -946,6 +946,7 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("ə", "e"),
 			new KeyValuePair<string, string>("ĸ", "k"), //Kra
 			new KeyValuePair<string, string>("ŉ", "n"), //N-apostrophe
+			new KeyValuePair<string, string>("ſ", "s"), //archaic S
 
 			//Russian
 
