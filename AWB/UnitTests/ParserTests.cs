@@ -5018,6 +5018,8 @@ http://example.com }}");
             Assert.AreEqual(@"[[Category:Foo bar]]", Parsers.FixCategories(@"[[category:Foo bar]]"));
             Assert.AreEqual(@"[[Category:Foo bar]]", Parsers.FixCategories(@"[[Category::Foo bar]]"));
             Assert.AreEqual(@"[[Category:Foo bar]]", Parsers.FixCategories(@"[[Category  :  Foo_bar  ]]"));
+            Assert.AreEqual("[[Category:Foo bar]]", Parsers.FixCategories("[[CATEGORY: Foo_bar]]"));
+
 
             // https://en.wikipedia.org/w/index.php?title=Wikipedia_talk:AutoWikiBrowser/Bugs&oldid=262844859#General_fixes_remove_spaces_from_category_sortkeys
             Assert.AreEqual(@"[[Category:Public transport in Auckland| Public transport in Auckland]]", Parsers.FixCategories(@"[[Category:Public transport in Auckland| Public transport in Auckland]]"));
