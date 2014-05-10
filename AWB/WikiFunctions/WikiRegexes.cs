@@ -1266,7 +1266,7 @@ namespace WikiFunctions
         public static readonly Regex Nowiki = new Regex(@"<nowiki\s*>.*?</nowiki\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
 
         /// <summary>
-        /// Matches &lt;small&gt; tags, including nested tags 
+        /// Matches &lt;small&gt; tags, including nested tags. Group 1 is the text within the tags
         /// </summary>
         public static readonly Regex Small = new Regex(@"<\s*small\s*>((?>(?!<\s*/?\s*small\s*>).|<\s*small\s*>(?<DEPTH>)|<\s*/\s*small\s*>(?<-DEPTH>))*(?(DEPTH)(?!)))<\s*/\s*small\s*>", RegexOptions.Singleline | RegexOptions.IgnoreCase);
         
