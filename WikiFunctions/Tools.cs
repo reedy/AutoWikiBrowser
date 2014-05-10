@@ -947,6 +947,10 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("ĸ", "k"), //Kra
 			new KeyValuePair<string, string>("ŉ", "n"), //N-apostrophe
 			new KeyValuePair<string, string>("ſ", "s"), //archaic S
+			new KeyValuePair<string, string>("Ḭ", "I"),
+			new KeyValuePair<string, string>("ḭ", "i"),
+			new KeyValuePair<string, string>("Ḯ", "I"),
+			new KeyValuePair<string, string>("ḯ", "i"),
 
 			//Russian
 
@@ -1074,7 +1078,7 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("Ģ", "G"),
 			new KeyValuePair<string, string>("ģ", "g"),
 			new KeyValuePair<string, string>("Ḩ", "H"),
-			new KeyValuePair<string, string>("ḩ̧", "h"),
+			new KeyValuePair<string, string>("ḩ", "h"),
 			new KeyValuePair<string, string>("Ķ", "K"),
 			new KeyValuePair<string, string>("ķ", "k"),
 			new KeyValuePair<string, string>("Ļ", "L"),
@@ -1091,6 +1095,8 @@ namespace WikiFunctions
 			// Letters using circumflex accent
 			new KeyValuePair<string, string>("Ĉ", "C"),
 			new KeyValuePair<string, string>("ĉ", "c"),
+			new KeyValuePair<string, string>("Ḓ", "D"),
+			new KeyValuePair<string, string>("ḓ", "d"),
 			new KeyValuePair<string, string>("Ĝ", "G"),
 			new KeyValuePair<string, string>("ĝ", "g"),
 			new KeyValuePair<string, string>("Ĥ", "H"),
@@ -1099,6 +1105,10 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("î", "i"),
 			new KeyValuePair<string, string>("ĵ", "j"),
 			new KeyValuePair<string, string>("Ĵ", "J"),
+			new KeyValuePair<string, string>("Ḽ", "L"),
+			new KeyValuePair<string, string>("Ṋ", "N"),
+			new KeyValuePair<string, string>("ṋ", "n"),
+			new KeyValuePair<string, string>("ḽ", "l"),
 			new KeyValuePair<string, string>("Ŝ", "S"),
 			new KeyValuePair<string, string>("ŝ", "s"),
 			new KeyValuePair<string, string>("Ṱ", "T"),
@@ -1560,11 +1570,16 @@ namespace WikiFunctions
 			new KeyValuePair<string, string>("ȁ", "a"),
 			new KeyValuePair<string, string>("ǟ", "a"),
 			new KeyValuePair<string, string>("ǡ", "a"),
-			
+
+			new KeyValuePair<string, string>("Ḉ", "C"),
 			new KeyValuePair<string, string>("ḉ", "c"),
 
+
+			new KeyValuePair<string, string>("Ḕ", "E"),
 			new KeyValuePair<string, string>("ḕ", "e"),
+			new KeyValuePair<string, string>("Ḗ", "E"),
 			new KeyValuePair<string, string>("ḗ", "e"),
+			new KeyValuePair<string, string>("Ḝ", "E"),
 			new KeyValuePair<string, string>("ḝ", "e"),
 			new KeyValuePair<string, string>("Ḙ", "E"),
 			new KeyValuePair<string, string>("ḙ", "e"),
