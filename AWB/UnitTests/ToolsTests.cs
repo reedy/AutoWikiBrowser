@@ -2355,6 +2355,20 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual(@"Qingdong, Kong", Tools.MakeHumanCatKey(@"Kong Qingdong", "{{foo}"));
         }
 
+        [Test, Ignore]
+        public void RemoveDiatricsUsingNet()
+        {
+            List<string> notUpdated = new List<string>();
+            foreach (KeyValuePair<string, string> kvp in Tools.Diacritics)
+            {
+                if (kvp.Key.Normalize(NormalizationForm.FormKD) != kvp.Value)
+                {
+                    notUpdated.Add(kvp.Key);
+                }
+            }
+            Assert.IsEmpty(notUpdated);
+        }
+
         [Test]
         public void RemoveDiacritics()
         {
