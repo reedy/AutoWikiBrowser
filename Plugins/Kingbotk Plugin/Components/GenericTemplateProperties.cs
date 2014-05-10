@@ -17,7 +17,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
     /// <summary>
     /// A form which displays the configuration properties of a "generic template"
     /// </summary>
-    /// <remarks></remarks>
     internal sealed partial class GenericTemplatePropertiesForm
     {
         public GenericTemplatePropertiesForm()

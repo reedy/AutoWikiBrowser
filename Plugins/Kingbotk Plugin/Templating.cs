@@ -17,7 +17,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
     /// <summary>
     /// An object which wraps around a collection of template parameters
     /// </summary>
-    /// <remarks></remarks>
     internal sealed class Templating
     {
         internal bool FoundTemplate;
@@ -31,7 +30,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         /// </summary>
         internal void AddTemplateParmFromExistingTemplate(string parameterName, string parameterValue)
         {
-            // v2.0: Let's merge duplicates when one or both is empty:
+            // Let's merge duplicates when one or both is empty:
             if (Parameters.ContainsKey(parameterName))
             {
                 // This code is very similar to ReplaceTemplateParm(), but that is for programmatic changes (i.e. not
@@ -43,18 +42,12 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                     if (string.IsNullOrEmpty(Parameters[parameterName].Value))
                     {
                         Parameters[parameterName].Value = parameterValue;
-                        // new value is empty, keep existing
                     }
-                    else if (string.IsNullOrEmpty(parameterValue))
-                    {
-                        // 2 different non-empty values, template is bad
-                    }
-                    else
+                    else if (!string.IsNullOrEmpty(parameterValue))
                     {
                         BadTemplate = true;
                     }
                 }
-                // Else: 2 values the same, do nothing
             }
             else
             {
@@ -177,7 +170,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         /// <summary>
         /// An object which represents a template parameter
         /// </summary>
-        /// <remarks></remarks>
         internal sealed class TemplateParametersObject
         {
             internal string Name, Value;

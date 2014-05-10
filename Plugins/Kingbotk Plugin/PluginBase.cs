@@ -430,7 +430,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
         /// </summary>
         /// <param name="alternateNames"></param>
         /// <param name="senderIsGenericTemplateForm"></param>
-        /// <remarks></remarks>
         protected void GotNewAlternateNamesString(string alternateNames, bool senderIsGenericTemplateForm = false)
         {
             string regexpMiddle;
