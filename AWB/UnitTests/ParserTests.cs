@@ -3155,6 +3155,21 @@ world|format=PDF}} was";
         }
 
         [Test]
+        public void PersondataCleanup()
+        {
+          const string PD = @"{{Persondata
+| NAME              = Hill, James J.
+| ALTERNATIVE NAMES =
+| SHORT DESCRIPTION =
+| DATE OF BIRTH     = September 16, 1838
+| PLACE OF BIRTH    = [[Canada]]
+| DATE OF DEATH     = May 29, 1916
+| PLACE OF DEATH    = [[Minnesota]]
+}}";
+          Assert.AreEqual(PD, Parsers.PersonData(PD.Replace("1838", "<small>1838</small>"), "Test"), "Small tag removal");
+        }
+
+        [Test]
         public void FixCitationTemplatesEnOnly()
         {
 #if DEBUG
