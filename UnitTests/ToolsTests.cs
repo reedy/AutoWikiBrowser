@@ -2381,7 +2381,9 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual(@"Ae", Tools.RemoveDiacritics(@"Ǣ"));
             Assert.AreEqual(@"ae", Tools.RemoveDiacritics(@"ǣ"));
             Assert.AreEqual(@"AaBbCcDdEeFfGgHhIiMmNnOoPpRrSsTtWwXxYyZz", Tools.RemoveDiacritics(@"ȦȧḂḃĊċḊḋĖėḞḟĠġḢḣİıṀṁṄṅȮȯṖṗṘṙṠṡṪṫẆẇẊẋẎẏŻż"),"letters with dot above sign");
-            Assert.AreEqual(@"AaAaAaCcCcCcCcDdDdEeEeEeEeEeGgGgGgGgHhHhIiIiIiIiIiJjKkkLlLlLlLlLlNnNnNnnNnOoOoOoRrRrRr",Tools.RemoveDiacritics(@"ĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪīĬĭĮįİıĴĵĶķĸĹĺĻļĽľĿŀŁłŃńŅņŇňŉŊŋŌōŎŏŐőŔŕŖŗŘř"));
+            Assert.AreEqual(@"AaAaAaCcCcCcCcDdDdEeEeEeEeEeGgGgGgGgHhHhIiIiIiIiIiJjKkkLlLlLlLlLlNnNnNnnNnOoOoOoRrRrRr",Tools.RemoveDiacritics(@"ĀāĂăĄąĆćĈĉĊċČčĎďĐđĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħĨĩĪīĬĭĮįİıĴĵĶķĸĹĺĻļĽľĿŀŁłŃńŅņŇňŉŊŋŌōŎŏŐőŔŕŖŗŘř"), "extended Latin-A part 1");
+            Assert.AreEqual(@"SsSsSsSsTtTtTtUuUuUuUuUuUuWwYyYZzZzZzs", Tools.RemoveDiacritics(@"ŚśŜŝŞşŠšŢţŤťŦŧŨũŪūŬŭŮůŰűŲųŴŵŶŷŸŹźŻżŽžſ"), "extended Latin-A part 2");
+            Assert.AreEqual(@"AaIiOoUuUuUuUuUueAaAaGgGgKkOoOoNnAaOoAaAaEeEeIiIiOoOoRrRrUuUuSsTt", Tools.RemoveDiacritics(@"ǍǎǏǐǑǒǓǔǕǖǗǘǙǚǛǜǝǞǟǠǡǤǥǦǧǨǩǪǫǬǭǸǹǺǻǾǿȀȁȂȃȄȅȆȇȈȉȊȋȌȍȎȏȐȑȒȓȔȕȖȗȘșȚț"), "extended Latin-B");
         }
 
         [Test]
