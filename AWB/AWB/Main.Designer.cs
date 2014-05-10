@@ -1178,7 +1178,6 @@ namespace AutoWikiBrowser
             this.sortAlphabeticallyToolStripMenuItem.Name = "sortAlphabeticallyToolStripMenuItem";
             this.sortAlphabeticallyToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.sortAlphabeticallyToolStripMenuItem.Text = "&Keep alphabetized";
-            this.sortAlphabeticallyToolStripMenuItem.CheckedChanged += new System.EventHandler(this.sortAlphabeticallyToolStripMenuItem_Click);
             this.sortAlphabeticallyToolStripMenuItem.Click += new System.EventHandler(this.sortAlphabeticallyToolStripMenuItem_Click);
             // 
             // removeDuplicatesToolStripMenuItem
