@@ -154,7 +154,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
         internal bool HasYesParamLowerOrTitleCase(bool yes, string paramName)
         {
-            // A little hack to ensure we don't change no to No or yes to Yes as our only edit, and also for checking "yes" values
+            // HACK: A little hack to ensure we don't change no to No or yes to Yes as our only edit, and also for checking "yes" values
             if (Parameters.ContainsKey(paramName))
             {
                 if (yes && Parameters[paramName].Value.ToLower() == "yes" ||
