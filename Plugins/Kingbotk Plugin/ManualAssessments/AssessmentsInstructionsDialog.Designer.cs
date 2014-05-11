@@ -1,4 +1,3 @@
-using System;
 using AutoWikiBrowser.Plugins.Kingbotk.Properties;
 
 namespace AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments
