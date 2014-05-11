@@ -24,7 +24,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
 
         private const string PluginName = "WikiProject Novels";
 
-        internal WPNovels() : base("Novels|WPNovels")
+        internal WPNovels() : base("Novel|Novels|NovelsWikiProject|Novels WikiProject|WPNovels|WPNOVEL|")
         {
             // Specify alternate names only
 
