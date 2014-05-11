@@ -6,7 +6,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
 {
     internal sealed class WPAustralia : PluginBase
     {
-        internal WPAustralia() : base("")
+        internal WPAustralia() : base("WPAUSTRALIA|WP Australia|WPAUS|WPAustralia")
         {
             // Specify alternate names only
 
