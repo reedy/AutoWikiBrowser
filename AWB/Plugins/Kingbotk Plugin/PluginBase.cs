@@ -274,7 +274,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 Template.NewTemplateParm(paramName, "", false, TheArticle, PluginShortName);
         }
 
-
         protected void ProcessArticleFinishNonStandardMode(Classification classification, Importance importance,
             bool forceNeedsInfobox, bool forceNeedsAttention, bool removeAutoStub,
             ProcessTalkPageMode processTalkPageMode)
@@ -524,7 +523,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                    res += redirect.Name.Remove(0, 9) + "|";
                 }
             }
-    	    return res.Trim(new[] {Convert.ToChar("|")});
+	        return res.Trim(new[] {'|'});
         }
 
         // XML:
