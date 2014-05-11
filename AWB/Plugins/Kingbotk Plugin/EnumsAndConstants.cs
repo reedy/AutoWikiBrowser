@@ -73,9 +73,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture;
 
         // Identifiers:
-        internal const string Biography = "Biography";
         internal const string WikiPlugin = "[[WP:Plugin++|Plugin++]]";
-        internal const string WikiPluginBrackets = "(" + WikiPlugin + ") ";
         internal const string AWBPluginName = "Kingbotk Plugin";
         //Placeholders:
         internal const string TemplaterPlaceholder = "{{xxxTEMPLATExxx}}";
