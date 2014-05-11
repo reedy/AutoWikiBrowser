@@ -447,13 +447,13 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             if (string.IsNullOrEmpty(alternateNames))
             {
                 mHasAlternateNames = false;
-                regexpMiddle = PreferredTemplateName;
+                regexpMiddle = Regex.Escape(PreferredTemplateName);
             }
             else
             {
                 mHasAlternateNames = true;
                 LastKnownGoodRedirects = alternateNames;
-                regexpMiddle = PreferredTemplateName + "|" + alternateNames;
+                regexpMiddle = Regex.Escape(PreferredTemplateName) + "|" + Regex.Escape(alternateNames);
             }
             regexpMiddle = regexpMiddle.Replace(" ", "[ _]");
 
