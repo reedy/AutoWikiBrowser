@@ -2361,6 +2361,8 @@ hello", Tools.NestedTemplateRegex("foo"), true));
         public void RemoveDiatricsUsingNet()
         {
             List<string> notUpdated = new List<string>();
+            StringBuilder builder = new StringBuilder(@"	    public static readonly string[][] Diacritics =
+        {");
             foreach (var p in Tools.Diacritics)
             {
                 if (new string(
@@ -2371,8 +2373,11 @@ hello", Tools.NestedTemplateRegex("foo"), true));
                         .ToArray()) != p[1])
                 {
                     notUpdated.Add(p[0]);
+                    builder.AppendFormat("\t\tnew[] {{\"{0}\", \"{1}\"}},\n", p[0], p[1]);
                 }
             }
+            builder.AppendLine("};");
+            Tools.WriteTextFileAbsolutePath(builder, "D:\\diatrics.txt", false);
             //Assert.IsEmpty(notUpdated);
             Assert.AreEqual(0, notUpdated.Count);
         }
