@@ -461,7 +461,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             if (reqPhoto)
             {
                 theArticle.AlteredArticleText = ReqPhotoNoParamsRegex.Replace(theArticle.AlteredArticleText, "");
-                theArticle.DoneReplacement("{{[[template:reqphoto|reqphoto]]}}", "template param(s)");
+                theArticle.DoneReplacement("{{tl|reqphoto}}", "template param(s)");
                 theArticle.ArticleHasAMajorChange();
             }
 
