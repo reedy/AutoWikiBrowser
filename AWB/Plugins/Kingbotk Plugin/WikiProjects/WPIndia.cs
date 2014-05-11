@@ -322,7 +322,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
             }
         };
 
-        internal WPIndia() : base("")
+        internal WPIndia() : base("WPIndia|WP India|WPINDIA|WP INDIA")
         {
             // Specify alternate names only
 
