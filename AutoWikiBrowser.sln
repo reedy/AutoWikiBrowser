@@ -1,12 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoWikiBrowser", "AWB\AutoWikiBrowser.csproj", "{42769674-70BD-4F11-9718-C5DA36578228}"
-	ProjectSection(ProjectDependencies) = postProject
-		{C95998EA-A697-4A30-97A2-651980A75DD3} = {C95998EA-A697-4A30-97A2-651980A75DD3}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WikiFunctions", "WikiFunctions\WikiFunctions.csproj", "{B5B0008C-A306-4B0D-B91E-5C03DA7014E0}"
 EndProject
