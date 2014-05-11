@@ -4,7 +4,6 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using WikiFunctions;
-using WikiFunctions.Parse;
 
 
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
