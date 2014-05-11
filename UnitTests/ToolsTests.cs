@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using NUnit.Framework;
 using WikiFunctions;
 using System.Text.RegularExpressions;
@@ -2359,22 +2361,28 @@ hello", Tools.NestedTemplateRegex("foo"), true));
         public void RemoveDiatricsUsingNet()
         {
             List<string> notUpdated = new List<string>();
-            foreach (KeyValuePair<string, string> kvp in Tools.Diacritics)
+            foreach (var p in Tools.Diacritics)
             {
-                if (kvp.Key.Normalize(NormalizationForm.FormKD) != kvp.Value)
+                if (new string(
+                    p[0]
+                        .Normalize(NormalizationForm.FormD)
+                        .ToCharArray()
+                        .Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                        .ToArray()) != p[1])
                 {
-                    notUpdated.Add(kvp.Key);
+                    notUpdated.Add(p[0]);
                 }
             }
-            Assert.IsEmpty(notUpdated);
+            //Assert.IsEmpty(notUpdated);
+            Assert.AreEqual(0, notUpdated.Count);
         }
 
         [Test]
         public void RemoveDiacritics()
         {
-            foreach (KeyValuePair<string, string> kvp in Tools.Diacritics)
+            foreach (var p in Tools.Diacritics)
             {
-                Assert.AreEqual(kvp.Value, Tools.RemoveDiacritics(kvp.Key));
+                Assert.AreEqual(p[1], Tools.RemoveDiacritics(p[0]));
             }
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Leaving_foreign_characters_in_DEFAULTSORT
