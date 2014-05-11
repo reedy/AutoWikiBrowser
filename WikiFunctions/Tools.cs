@@ -1071,44 +1071,44 @@ namespace WikiFunctions
 			new[] {"№", "No"},
 		};
 
-		public static readonly KeyValuePair<string, string>[] SortKeyChars =
+		public static readonly string[][] SortKeyChars =
 		{
 			//per WP:SORTKEY "&" needs to change to "and"
-			new KeyValuePair<string, string>("&", "and"),
+			new[] {"&", "and"},
 			//per WP:SORTKEY replace / with space
-			new KeyValuePair<string, string>("/", " "),
+			new[] {"/", " "},
 			//per WP:SORTKEY replace multiplication sign with x letter
-			new KeyValuePair<string, string>("×", "x"),
+			new[] {"×", "x"},
 			//remove weird "ǀ" character
-			new KeyValuePair<string, string>("ǀ", ""),
+			new[] {"ǀ", ""},
 			//other weird characters
-			new KeyValuePair<string, string>("…", "..."),
-			new KeyValuePair<string, string>("·", " "),
-			
-			new KeyValuePair<string, string>("’", "'"), // apostrophe
-			new KeyValuePair<string, string>("‘", "'"), // quotation mark
-			new KeyValuePair<string, string>("ʻ", "'"), // okina
-			new KeyValuePair<string, string>("`", "'"), // grave accent
-			new KeyValuePair<string, string>("´", "'"), // acute accent
-			new KeyValuePair<string, string>("′", "'"), // prime
-			new KeyValuePair<string, string>("ʹ", "'"), // greek numeral
+			new[] {"…", "..."},
+			new[] {"·", " "},
+
+			new[] {"’", "'"}, // apostrophe
+			new[] {"‘", "'"}, // quotation mark
+			new[] {"ʻ", "'"}, // okina
+			new[] {"`", "'"}, // grave accent
+			new[] {"´", "'"}, // acute accent
+			new[] {"′", "'"}, // prime
+			new[] {"ʹ", "'"}, // greek numeral
 		  
-			new KeyValuePair<string, string>("“", "'"),  // double quotes (curly)
-			new KeyValuePair<string, string>("”", "'"), // double quotes (curly)
+			new[] {"“", "'"}, // double quotes (curly)
+			new[] {"”", "'"}, // double quotes (curly)
 
-			new KeyValuePair<string, string>("–", "-"), // endash
-			new KeyValuePair<string, string>("—", "-"), // emdash
-			new KeyValuePair<string, string>("‐", "-"), // hyphen
-			new KeyValuePair<string, string>("‑", "-"), // hyphen-minus
-			new KeyValuePair<string, string>("‒", "-"), // figure dash
-			new KeyValuePair<string, string>("−", "-"), // minus
+			new[] {"–", "-"}, // endash
+			new[] {"—", "-"}, // emdash
+			new[] {"‐", "-"}, // hyphen
+			new[] {"‑", "-"}, // hyphen-minus
+			new[] {"‒", "-"}, // figure dash
+			new[] {"−", "-"}, // minus
 			
-			new KeyValuePair<string, string>("¡", ""), // inverted exclamation mark
-			new KeyValuePair<string, string>("¿", ""), // inverted question mark
-			new KeyValuePair<string, string>("ʾ", "'"), // modifier letter right half ring
-			new KeyValuePair<string, string>("ʿ", "'"), // modifier letter left half ring
+			new[] {"¡", ""}, // inverted exclamation mark
+			new[] {"¿", ""}, // inverted question mark
+			new[] {"ʾ", "'"}, // modifier letter right half ring
+			new[] {"ʿ", "'"}, // modifier letter left half ring
 
-			new KeyValuePair<string, string>("̧ ", "") // cedilla
+			new[] {"̧ ", ""} // cedilla
 		};
 		#endregion
 
@@ -1188,9 +1188,9 @@ namespace WikiFunctions
 			while(s.Contains("  "))
 				s = s.Replace("  ", " ");
 
-			foreach (KeyValuePair<string, string> p in SortKeyChars)
+			foreach (var p in SortKeyChars)
 			{
-				s = s.Replace(p.Key, p.Value);
+				s = s.Replace(p[0], p[1]);
 			}
 
 			return s;
