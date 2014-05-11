@@ -121,7 +121,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
         internal void TemplateAdded(string template)
         {
-            EditSummary += string.Format("Added {{{{[[Template:{0}|{0}]]}}}}, ", template);
+            EditSummary += string.Format("Added {{{{{0}}}}}, ", template);
             ArticleHasAMajorChange();
         }
 
