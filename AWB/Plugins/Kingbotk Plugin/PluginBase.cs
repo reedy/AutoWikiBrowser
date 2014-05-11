@@ -517,19 +517,15 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
         protected static string ConvertRedirectsToString(List<WikiFunctions.Article> redirects)
         {
-        string res = "";
+	        string res = "";
             foreach (WikiFunctions.Article redirect in redirects)
             {
                 if (redirect.NameSpaceKey == Namespace.Template)
                 {
-                    if (res == "")
-                    {
-                        res += "|";
-                    }
-                    res += Regex.Escape(Parsers.RemoveTemplateNamespace(redirect.Name));
+                   res += redirect.Name.Remove(0, 9) + "|";
                 }
             }
-            return res;
+    	    return res.Trim(new[] {Convert.ToChar("|")});
         }
 
         // XML:
