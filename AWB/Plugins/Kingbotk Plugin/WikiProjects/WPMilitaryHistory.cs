@@ -10,7 +10,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
         private const string TemplateName = "WikiProject Military history";
 
         // Initialisation:
-        internal WPMilitaryHistory() : base("WikiProject Military History")
+        internal WPMilitaryHistory() : base("WikiProject Military History|MILHIST|Milhist|WP Military History|WikiProject MILHIST|WPMILHIST|WPMilhist|MilHist|Mil Hist")
         {
             // Specify alternate names only
 
