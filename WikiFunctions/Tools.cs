@@ -41,9 +41,9 @@ namespace WikiFunctions
 		static Tools()
 		{
 			DefaultUserAgentString = string.Format("WikiFunctions/{0} ({1}; .NET CLR {2})",
-			                                       VersionString,
-			                                       Environment.OSVersion.VersionString,
-			                                       Environment.Version);
+												   VersionString,
+												   Environment.OSVersion.VersionString,
+												   Environment.Version);
 		}
 
 		public delegate void SetProgress(int percent);
@@ -84,7 +84,7 @@ namespace WikiFunctions
 		/// <param name="articletext">The article text</param>
 		public static bool IsRedirectOrSoftRedirect(string articletext)
 		{
-		    return (RedirectTarget(articletext).Length > 0 || SoftRedirect.IsMatch(articletext));
+			return (RedirectTarget(articletext).Length > 0 || SoftRedirect.IsMatch(articletext));
 		}
 
 		// Covered by ToolsTests.RedirectTarget()
@@ -227,18 +227,18 @@ namespace WikiFunctions
 			// Person of Place --> Person Of Place, WP:NAMESORT
 			if(PersonOfPlace.IsMatch(origName))
 			{
-			    origName = PersonOfPlace.Replace(origName,
-			        m =>
-			            m.Groups["person"].Value +
-			            (m.Groups["ordinal"].Length > 0 ? " " + RomanToInt(m.Groups["ordinal"].Value) : "") + " of " +
-			            m.Groups["place"].Value);
+				origName = PersonOfPlace.Replace(origName,
+					m =>
+						m.Groups["person"].Value +
+						(m.Groups["ordinal"].Length > 0 ? " " + RomanToInt(m.Groups["ordinal"].Value) : "") + " of " +
+						m.Groups["place"].Value);
 				return FixupDefaultSort(origName);
 			}
 
 			int intLast = name.LastIndexOf(" ") + 1;
 			string lastName = name.Substring(intLast).Trim();
 			if(name.Length > 0)
-			    name = name.Remove(intLast).Trim();
+				name = name.Remove(intLast).Trim();
 
 			if (IsRomanNumber(lastName) || Regex.IsMatch(lastName, @"^[SJsj]n?r\.$"))
 			{
@@ -302,11 +302,11 @@ namespace WikiFunctions
 		/// <returns></returns>
 		public static string RemoveNamespaceString(string title)
 		{
-		    if (Namespace.Determine(title).Equals(Namespace.Article))
-		        return title;
+			if (Namespace.Determine(title).Equals(Namespace.Article))
+				return title;
 
-		    int pos = title.IndexOf(':');
-		    return pos < 0 ? title : title.Substring(pos + 1).Trim();
+			int pos = title.IndexOf(':');
+			return pos < 0 ? title : title.Substring(pos + 1).Trim();
 		}
 
 		// Covered by ToolsTests.GetNamespaceString()
@@ -414,7 +414,7 @@ namespace WikiFunctions
 		/// <returns>The HTML.</returns>
 		public static string GetHTML(string url, Encoding enc, out string responseURL)
 		{
-		    WriteDebug("GetHTML", url);
+			WriteDebug("GetHTML", url);
 			if (Globals.UnitTestMode) throw new Exception("You shouldn't access Wikipedia from unit tests");
 			CookieContainer cookieJar = new CookieContainer();
 
@@ -503,7 +503,7 @@ namespace WikiFunctions
 		public static string CaseInsensitive(string input)
 		{
 			if (!string.IsNullOrEmpty(input) && char.IsLetter(input[0]) &&
-			    (char.ToUpper(input[0]) != char.ToLower(input[0])))
+				(char.ToUpper(input[0]) != char.ToLower(input[0])))
 			{
 				input = input.Trim();
 				// escaping breaks many places that already escape their data
@@ -536,7 +536,7 @@ namespace WikiFunctions
 		/// <summary>
 		/// Applies the key words "%%title%%" etc.
 		/// https://meta.wikimedia.org/wiki/Help:Magic_words
-        /// </summary>
+		/// </summary>
 		public static string ApplyKeyWords(string title, string text)
 		{
 			return ApplyKeyWords(title, text, false);
@@ -545,7 +545,7 @@ namespace WikiFunctions
 		// Covered by ToolsTests.ApplyKeyWords()
 		/// <summary>
 		/// Applies the key words "%%title%%" etc.
-        /// https://meta.wikimedia.org/wiki/Help:Magic_words
+		/// https://meta.wikimedia.org/wiki/Help:Magic_words
 		/// </summary>
 		public static string ApplyKeyWords(string title, string text, bool escape)
 		{
@@ -674,7 +674,7 @@ namespace WikiFunctions
 		/// </summary>
 		public static int WordCount(string text)
 		{
-		    return WordCount(text, 999999);
+			return WordCount(text, 999999);
 		}
 		// Covered by ToolsTests.WordCount()
 		/// <summary>
@@ -705,7 +705,7 @@ namespace WikiFunctions
 					while (i < text.Length && char.IsLetterOrDigit(text[i]));
 					
 					if(words == limit)
-					    return words;
+						return words;
 				}
 			}
 
@@ -734,15 +734,15 @@ namespace WikiFunctions
 		/// </summary>
 		public static int LinkCount(string text)
 		{
-		    int res = FlagIOC.Matches(text).Count;
+			int res = FlagIOC.Matches(text).Count;
 
-		    // count only mainspace links, not image/category/interwiki/template links
-		    foreach(Match m in WikiRegexes.WikiLink.Matches(text))
-		    {
-		        if(Namespace.Determine(m.Groups[1].Value).Equals(Namespace.Mainspace))
-		            res++;
-		    }
-		    return res;
+			// count only mainspace links, not image/category/interwiki/template links
+			foreach(Match m in WikiRegexes.WikiLink.Matches(text))
+			{
+				if(Namespace.Determine(m.Groups[1].Value).Equals(Namespace.Mainspace))
+					res++;
+			}
+			return res;
 		}
 
 		// Covered by ToolsTests.RemoveSyntax
@@ -788,7 +788,7 @@ namespace WikiFunctions
 			if(metaContent.IsMatch(pagesource))
 				return metaContent.Match(pagesource).Groups[1].Value.Trim();
 			
-            return metaContent2.Match(pagesource).Groups[1].Value.Trim();
+			return metaContent2.Match(pagesource).Groups[1].Value.Trim();
 		}
 
 		// Covered by ToolsTests.SplitToSections()
@@ -832,27 +832,27 @@ namespace WikiFunctions
 		/// <returns>Length</returns>
 		public static int HowMuchStartsWith(string text, Regex Items, bool allowHeading)
 		{
-		    int heading = 0;
+			int heading = 0;
 
-		    if(allowHeading)
-		    {
-		        Match m = WikiRegexes.Headings.Match(text);
-		        
-		        if(m.Index == 0)
-		        {
-		            text = WikiRegexes.Headings.Replace(text, "", 1);
-		            heading = m.Length;
-		        }
-		    }
+			if(allowHeading)
+			{
+				Match m = WikiRegexes.Headings.Match(text);
+				
+				if(m.Index == 0)
+				{
+					text = WikiRegexes.Headings.Replace(text, "", 1);
+					heading = m.Length;
+				}
+			}
 
-		    MatchCollection mc = Items.Matches(text);
+			MatchCollection mc = Items.Matches(text);
 
-		    if(mc.Count == 0)
-		        return 0;
+			if(mc.Count == 0)
+				return 0;
 
-		    string replaced = ReplaceWithSpaces(text, mc).TrimStart();
+			string replaced = ReplaceWithSpaces(text, mc).TrimStart();
 
-		    return (text.Length-replaced.Length+heading);
+			return (text.Length-replaced.Length+heading);
 		}
 
 		// Covered by ToolsTests.RemoveMatches()
@@ -1073,42 +1073,42 @@ namespace WikiFunctions
 
 		public static readonly KeyValuePair<string, string>[] SortKeyChars =
 		{
-		    //per WP:SORTKEY "&" needs to change to "and"
-		    new KeyValuePair<string, string>("&", "and"),
-		    //per WP:SORTKEY replace / with space
-		    new KeyValuePair<string, string>("/", " "),
-		    //per WP:SORTKEY replace multiplication sign with x letter
-		    new KeyValuePair<string, string>("×", "x"),
-		    //remove weird "ǀ" character
-		    new KeyValuePair<string, string>("ǀ", ""),
-		    //other weird characters
-		    new KeyValuePair<string, string>("…", "..."),
-		    new KeyValuePair<string, string>("·", " "),
-		    
-		    new KeyValuePair<string, string>("’", "'"), // apostrophe
-		    new KeyValuePair<string, string>("‘", "'"), // quotation mark
-		    new KeyValuePair<string, string>("ʻ", "'"), // okina
-		    new KeyValuePair<string, string>("`", "'"), // grave accent
-		    new KeyValuePair<string, string>("´", "'"), // acute accent
-		    new KeyValuePair<string, string>("′", "'"), // prime
-		    new KeyValuePair<string, string>("ʹ", "'"), // greek numeral
+			//per WP:SORTKEY "&" needs to change to "and"
+			new KeyValuePair<string, string>("&", "and"),
+			//per WP:SORTKEY replace / with space
+			new KeyValuePair<string, string>("/", " "),
+			//per WP:SORTKEY replace multiplication sign with x letter
+			new KeyValuePair<string, string>("×", "x"),
+			//remove weird "ǀ" character
+			new KeyValuePair<string, string>("ǀ", ""),
+			//other weird characters
+			new KeyValuePair<string, string>("…", "..."),
+			new KeyValuePair<string, string>("·", " "),
+			
+			new KeyValuePair<string, string>("’", "'"), // apostrophe
+			new KeyValuePair<string, string>("‘", "'"), // quotation mark
+			new KeyValuePair<string, string>("ʻ", "'"), // okina
+			new KeyValuePair<string, string>("`", "'"), // grave accent
+			new KeyValuePair<string, string>("´", "'"), // acute accent
+			new KeyValuePair<string, string>("′", "'"), // prime
+			new KeyValuePair<string, string>("ʹ", "'"), // greek numeral
 		  
-		    new KeyValuePair<string, string>("“", "'"),  // double quotes (curly)
-		    new KeyValuePair<string, string>("”", "'"), // double quotes (curly)
+			new KeyValuePair<string, string>("“", "'"),  // double quotes (curly)
+			new KeyValuePair<string, string>("”", "'"), // double quotes (curly)
 
-		    new KeyValuePair<string, string>("–", "-"), // endash
-		    new KeyValuePair<string, string>("—", "-"), // emdash
-		    new KeyValuePair<string, string>("‐", "-"), // hyphen
-		    new KeyValuePair<string, string>("‑", "-"), // hyphen-minus
-		    new KeyValuePair<string, string>("‒", "-"), // figure dash
-		    new KeyValuePair<string, string>("−", "-"), // minus
-		    
-		    new KeyValuePair<string, string>("¡", ""), // inverted exclamation mark
-		    new KeyValuePair<string, string>("¿", ""), // inverted question mark
-		    new KeyValuePair<string, string>("ʾ", "'"), // modifier letter right half ring
-		    new KeyValuePair<string, string>("ʿ", "'"), // modifier letter left half ring
+			new KeyValuePair<string, string>("–", "-"), // endash
+			new KeyValuePair<string, string>("—", "-"), // emdash
+			new KeyValuePair<string, string>("‐", "-"), // hyphen
+			new KeyValuePair<string, string>("‑", "-"), // hyphen-minus
+			new KeyValuePair<string, string>("‒", "-"), // figure dash
+			new KeyValuePair<string, string>("−", "-"), // minus
+			
+			new KeyValuePair<string, string>("¡", ""), // inverted exclamation mark
+			new KeyValuePair<string, string>("¿", ""), // inverted question mark
+			new KeyValuePair<string, string>("ʾ", "'"), // modifier letter right half ring
+			new KeyValuePair<string, string>("ʿ", "'"), // modifier letter left half ring
 
-		    new KeyValuePair<string, string>("̧ ", "") // cedilla
+			new KeyValuePair<string, string>("̧ ", "") // cedilla
 		};
 		#endregion
 
@@ -1118,20 +1118,20 @@ namespace WikiFunctions
 		/// </summary>
 		public static string RemoveDiacritics(string s)
 		{
-            foreach (var p in Diacritics)
-            {
-                s = s.Replace(p[0], p[1]);
-            }
-            s = new string(
-                s
-                    .Normalize(NormalizationForm.FormD)
-                    .ToCharArray()
-                    .Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
-                    .ToArray());
-            return s;
+			foreach (var p in Diacritics)
+			{
+				s = s.Replace(p[0], p[1]);
+			}
+			s = new string(
+				s
+					.Normalize(NormalizationForm.FormD)
+					.ToCharArray()
+					.Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+					.ToArray());
+			return s;
 		}
 
-	    // Covered by HumanCatKeyTests.HasDiacritics
+		// Covered by HumanCatKeyTests.HasDiacritics
 		/// <summary>
 		/// Returns whether the given string contains recognised diacritics
 		/// </summary>
@@ -1156,9 +1156,9 @@ namespace WikiFunctions
 		/// </summary>
 		public static string FixupDefaultSort(string s, bool isArticleAboutAPerson)
 		{
-		    s = CleanSortKey(s);
-		    
-		    s = BadDsChars.Replace(s, "");
+			s = CleanSortKey(s);
+			
+			s = BadDsChars.Replace(s, "");
 			
 			if(isArticleAboutAPerson)
 			{
@@ -1177,23 +1177,23 @@ namespace WikiFunctions
 		/// <returns></returns>
 		public static string CleanSortKey(string s)
 		{
-		    // no diacritic removal in sortkeys on ru-wiki
-		    if(!Variables.LangCode.Equals("ru"))
-		        s = RemoveDiacritics(s);
+			// no diacritic removal in sortkeys on ru-wiki
+			if(!Variables.LangCode.Equals("ru"))
+				s = RemoveDiacritics(s);
 
-		    s = s.Replace("&ndash;", "–");
-		    s = s.Replace("&mdash;", "—");
+			s = s.Replace("&ndash;", "–");
+			s = s.Replace("&mdash;", "—");
 
-		    // normalisation - simplify double spaces to a single one
-		    while(s.Contains("  "))
-		        s = s.Replace("  ", " ");
+			// normalisation - simplify double spaces to a single one
+			while(s.Contains("  "))
+				s = s.Replace("  ", " ");
 
-		    foreach (KeyValuePair<string, string> p in SortKeyChars)
-		    {
-		        s = s.Replace(p.Key, p.Value);
-		    }
+			foreach (KeyValuePair<string, string> p in SortKeyChars)
+			{
+				s = s.Replace(p.Key, p.Value);
+			}
 
-		    return s;
+			return s;
 		}
 
 		/// <summary>
@@ -1203,28 +1203,28 @@ namespace WikiFunctions
 		/// <returns></returns>
 		public static List<string> DeduplicateList(List<string> input)
 		{
-		    if(Globals.SystemCore3500Available)
-		        return DeduplicateListHS(input);
+			if(Globals.SystemCore3500Available)
+				return DeduplicateListHS(input);
 
-		    return DeduplicateListLoop(input);
+			return DeduplicateListLoop(input);
 		}
 
 		private static List<string> DeduplicateListHS(List<string> input)
 		{
-		    return input.Distinct().ToList();
+			return input.Distinct().ToList();
 		}
 
 		private static List<string> DeduplicateListLoop(List<string> input)
 		{
-		    List<string> output = new List<string>();
+			List<string> output = new List<string>();
 
-		    foreach(string s in input)
-		    {
-		        if(!output.Contains(s))
-		            output.Add(s);
-		    }
+			foreach(string s in input)
+			{
+				if(!output.Contains(s))
+					output.Add(s);
+			}
 
-		    return output;
+			return output;
 		}
 
 		/// <summary>
@@ -1264,7 +1264,7 @@ namespace WikiFunctions
 			if (file.Contains(":")) //If another drive, dont append startup path
 				WriteTextFileAbsolutePath(message, file, append);
 			else
-			    WriteTextFileAbsolutePath(message, Application.StartupPath + DirectoryDelimiter() + file, append);
+				WriteTextFileAbsolutePath(message, Application.StartupPath + DirectoryDelimiter() + file, append);
 		}
 
 		/// <summary>
@@ -1275,7 +1275,7 @@ namespace WikiFunctions
 		/// <param name="append"></param>
 		public static void WriteTextFile(StringBuilder message, string file, bool append)
 		{
-		    WriteTextFileAbsolutePath(message.ToString(), Application.StartupPath + DirectoryDelimiter() + file, append);
+			WriteTextFileAbsolutePath(message.ToString(), Application.StartupPath + DirectoryDelimiter() + file, append);
 		}
 
 		/// <summary>
@@ -1284,7 +1284,7 @@ namespace WikiFunctions
 		/// <returns></returns>
 		private static string DirectoryDelimiter()
 		{
-		    return Globals.UsingMono ? "/" : "\\";
+			return Globals.UsingMono ? "/" : "\\";
 		}
 
 		/// <summary>
@@ -1470,28 +1470,28 @@ Message: {2}
 		/// </summary>
 		public static void OpenURLInBrowser(string url)
 		{
-		    // For Wine use attempt to dynamically determine available browser, caching result
-		    if(WineBrowserPath == null)
-		    {
-		        if(File.Exists("/usr/bin/firefox"))
-		            WineBrowserPath = "/usr/bin/firefox";
-		        else if(File.Exists("/usr/bin/chromium-browser"))
-		            WineBrowserPath = "/usr/bin/chromium-browser";
-		        else if(File.Exists("/usr/bin/konqueror"))
-		            WineBrowserPath = "/usr/bin/konqueror";
-		        else WineBrowserPath = ""; // Windows, or Wine and none of these browsers available
-		    }
-		    try
-		    {
-		        if(!Globals.UnitTestMode)
-		        {
-		            if(WineBrowserPath.Length > 0) // Wine
-		                System.Diagnostics.Process.Start(WineBrowserPath, url);
-		            else // Windows
-		                System.Diagnostics.Process.Start(url);
-		        }
-		    }
-		    catch { }
+			// For Wine use attempt to dynamically determine available browser, caching result
+			if(WineBrowserPath == null)
+			{
+				if(File.Exists("/usr/bin/firefox"))
+					WineBrowserPath = "/usr/bin/firefox";
+				else if(File.Exists("/usr/bin/chromium-browser"))
+					WineBrowserPath = "/usr/bin/chromium-browser";
+				else if(File.Exists("/usr/bin/konqueror"))
+					WineBrowserPath = "/usr/bin/konqueror";
+				else WineBrowserPath = ""; // Windows, or Wine and none of these browsers available
+			}
+			try
+			{
+				if(!Globals.UnitTestMode)
+				{
+					if(WineBrowserPath.Length > 0) // Wine
+						System.Diagnostics.Process.Start(WineBrowserPath, url);
+					else // Windows
+						System.Diagnostics.Process.Start(url);
+				}
+			}
+			catch { }
 		}
 
 		/// <summary>
@@ -1525,7 +1525,7 @@ Message: {2}
 		public static void OpenArticleLogInBrowser(string page)
 		{
 			OpenURLInBrowser(Variables.URLLong +
-			                 "index.php?title=Special:Log&type=&user=&page=" + page + "&year=&month=-1&tagfilter=&hide_patrol_log=1");
+							 "index.php?title=Special:Log&type=&user=&page=" + page + "&year=&month=-1&tagfilter=&hide_patrol_log=1");
 		}
 
 		/// <summary>
@@ -1613,10 +1613,10 @@ Message: {2}
 						{
 							string respStr = GetHTML(expandUri);
 							Match m1 = ExpandTemplatesRegex.Match(respStr);
-						    if (!m1.Success)
-						    {
-						        continue;
-						    }
+							if (!m1.Success)
+							{
+								continue;
+							}
 							result = HttpUtility.HtmlDecode(m1.Groups[1].Value);
 						}
 						catch
@@ -1681,9 +1681,9 @@ Message: {2}
 				StringBuilder builder = new StringBuilder();
 				foreach (object t in box.SelectedItems)
 				{
-				    builder.AppendLine(t.ToString());
+					builder.AppendLine(t.ToString());
 				}
-			    Clipboard.SetDataObject(builder.ToString().Trim(), true);
+				Clipboard.SetDataObject(builder.ToString().Trim(), true);
 			}
 			catch { }
 		}
@@ -1774,27 +1774,27 @@ Message: {2}
 		/// <returns>whether the unformatted text content is the same in the two strings</returns>
 		public static bool UnformattedTextNotChanged(string originalArticleText, string articleText)
 		{
-		    if(originalArticleText.Equals(articleText))
-		        return true;
+			if(originalArticleText.Equals(articleText))
+				return true;
 
-		    List<string> before = new List<string>();
-		    foreach(Match m in WikiRegexes.UnformattedText.Matches(originalArticleText))
-		    {
-		        before.Add(m.Value);
-		    }
-		    
-		    List<string> after = new List<string>();
-		    foreach(Match m in WikiRegexes.UnformattedText.Matches(articleText))
-		    {
-		        after.Add(m.Value);
-		    }
-		    
-		    foreach(string s in before)
-		    {
-		        after.Remove(s);
-		    }
-		    
-		    return (after.Count == 0);
+			List<string> before = new List<string>();
+			foreach(Match m in WikiRegexes.UnformattedText.Matches(originalArticleText))
+			{
+				before.Add(m.Value);
+			}
+			
+			List<string> after = new List<string>();
+			foreach(Match m in WikiRegexes.UnformattedText.Matches(articleText))
+			{
+				after.Add(m.Value);
+			}
+			
+			foreach(string s in before)
+			{
+				after.Remove(s);
+			}
+			
+			return (after.Count == 0);
 		}
 
 		/// <summary>
@@ -1898,7 +1898,7 @@ Message: {2}
 			foreach (Article a in unfilteredArticles)
 			{
 				if (a.NameSpaceKey >= Namespace.Article && a.NameSpaceKey != Namespace.MediaWiki &&
-				    a.NameSpaceKey != Namespace.MediaWikiTalk && !a.Name.StartsWith("Commons:"))
+					a.NameSpaceKey != Namespace.MediaWikiTalk && !a.Name.StartsWith("Commons:"))
 				{
 					if (!items.Contains(a))
 						items.Add(a);
@@ -2057,7 +2057,7 @@ Message: {2}
 		/// <returns>The updated article text</returns>
 		public static string ReplaceWith(string input, MatchCollection matches, char rwith)
 		{
-		    return ReplaceWith(input, matches, rwith, 0);
+			return ReplaceWith(input, matches, rwith, 0);
 		}
 
 		/// <summary>
@@ -2073,15 +2073,15 @@ Message: {2}
 			StringBuilder sb = new StringBuilder(input.Length);
 			foreach (Match m in matches)
 			{
-			    sb.Append(input, sb.Length, m.Index - sb.Length);
-			    if(keepGroup < 1 || m.Groups[keepGroup].Value.Length == 0)
-			        sb.Append(rwith, m.Length);
-			    else
-			    {
-			        sb.Append(rwith, m.Groups[keepGroup].Index - m.Index);
-			        sb.Append(m.Groups[keepGroup].Value);
-			        sb.Append(rwith, m.Index + m.Length - m.Groups[keepGroup].Index - m.Groups[keepGroup].Length);
-			    }
+				sb.Append(input, sb.Length, m.Index - sb.Length);
+				if(keepGroup < 1 || m.Groups[keepGroup].Value.Length == 0)
+					sb.Append(rwith, m.Length);
+				else
+				{
+					sb.Append(rwith, m.Groups[keepGroup].Index - m.Index);
+					sb.Append(m.Groups[keepGroup].Value);
+					sb.Append(rwith, m.Index + m.Length - m.Groups[keepGroup].Index - m.Groups[keepGroup].Length);
+				}
 			}
 			sb.Append(input, sb.Length, input.Length - sb.Length);
 			return sb.ToString();
@@ -2202,19 +2202,19 @@ Message: {2}
 		/// <returns></returns>
 		public static bool DateBeforeToday(string date)
 		{
-		    try
-		    {
-		        DateTime dt = DateTime.Parse(date);
+			try
+			{
+				DateTime dt = DateTime.Parse(date);
 
-		        if(dt.CompareTo(DateTime.Now) < 0)
-		            return true;
-		    }
-		    catch
-		    {
-		        return false;
-		    }
-		    
-		    return false;
+				if(dt.CompareTo(DateTime.Now) < 0)
+					return true;
+			}
+			catch
+			{
+				return false;
+			}
+			
+			return false;
 		}
 		
 		/// <summary>
@@ -2334,14 +2334,14 @@ Message: {2}
 		/// <returns></returns>
 		public static Dictionary<string, string> GetTemplateParameterValues(string templateCall)
 		{	
-		    Dictionary<string, string> paramsFound = new Dictionary<string, string>();			
+			Dictionary<string, string> paramsFound = new Dictionary<string, string>();			
 
 			string pipecleanedtemplate = PipeCleanedTemplate(templateCall);
 
 			foreach(Match m in param.Matches(pipecleanedtemplate))
 			{
-			    if(!paramsFound.ContainsKey(m.Groups[1].Value))
-			        paramsFound.Add(m.Groups[1].Value, templateCall.Substring(m.Groups[2].Index, m.Groups[2].Length).Trim());
+				if(!paramsFound.ContainsKey(m.Groups[1].Value))
+					paramsFound.Add(m.Groups[1].Value, templateCall.Substring(m.Groups[2].Index, m.Groups[2].Length).Trim());
 			}
 
 			return paramsFound;
@@ -2436,13 +2436,13 @@ Message: {2}
 
 		private static readonly Regex TemplateArgument = new Regex(@"\|\s*([^{}\|]*?)\s*(?=\||}}$)", RegexOptions.Compiled);
 
-	    /// <summary>
-	    /// Returns the number of arguments to the input template call
-	    /// </summary>
-	    /// <param name="template">The template call</param>
-	    /// <param name="populatedparametersonly"> </param>
-	    /// <returns>The argument count</returns>
-	    public static int GetTemplateArgumentCount(string template, bool populatedparametersonly)
+		/// <summary>
+		/// Returns the number of arguments to the input template call
+		/// </summary>
+		/// <param name="template">The template call</param>
+		/// <param name="populatedparametersonly"> </param>
+		/// <returns>The argument count</returns>
+		public static int GetTemplateArgumentCount(string template, bool populatedparametersonly)
 		{
 			string pipecleanedtemplate = PipeCleanedTemplate(template);
 
@@ -2601,17 +2601,17 @@ Message: {2}
 		/// <returns>The updated template call</returns>
 		public static string RemoveDuplicateTemplateParameters(string templatecall)
 		{
-		    Dictionary<string, string> Params = new Dictionary<string, string>();
-		    return RemoveDuplicateTemplateParameters(templatecall, Params);
+			Dictionary<string, string> Params = new Dictionary<string, string>();
+			return RemoveDuplicateTemplateParameters(templatecall, Params);
 		}
 
-	    /// <summary>
-	    /// Removes duplicate (same or null) named parameters from template calls
-	    /// </summary>
-	    /// <param name="templatecall">The template call to clean up</param>
-	    /// <param name="Params">Dictionary of parameter name and value found in template call</param>
-	    /// <returns>The updated template call</returns>
-	    public static string RemoveDuplicateTemplateParameters(string templatecall, Dictionary<string, string> Params)
+		/// <summary>
+		/// Removes duplicate (same or null) named parameters from template calls
+		/// </summary>
+		/// <param name="templatecall">The template call to clean up</param>
+		/// <param name="Params">Dictionary of parameter name and value found in template call</param>
+		/// <returns>The updated template call</returns>
+		public static string RemoveDuplicateTemplateParameters(string templatecall, Dictionary<string, string> Params)
 		{
 			string originalURL = CiteUrl.Match(templatecall).Groups[1].Value.TrimEnd("|".ToCharArray()), originalTemplateCall = templatecall;
 
@@ -2619,13 +2619,13 @@ Message: {2}
 
 			while(!updatedTemplateCall.Equals(templatecall))
 			{
-			    Params.Clear();
+				Params.Clear();
 				string pipecleanedtemplate = PipeCleanedTemplate(templatecall);
 				updatedTemplateCall = templatecall;
 				
 				foreach(Match m in anyParam.Matches(pipecleanedtemplate))
 				{
-				    string paramValue = templatecall.Substring(m.Groups[2].Index, m.Groups[2].Length).Trim(),
+					string paramValue = templatecall.Substring(m.Groups[2].Index, m.Groups[2].Length).Trim(),
 					paramName = m.Groups[1].Value;
 					
 					if(!Params.ContainsKey(paramName))
@@ -2670,7 +2670,7 @@ Message: {2}
 			
 			foreach(Match m in anyParam.Matches(pipecleanedtemplate))
 			{
-			    string paramValue = templatecall.Substring(m.Groups[2].Index, m.Groups[2].Length).Trim(),
+				string paramValue = templatecall.Substring(m.Groups[2].Index, m.Groups[2].Length).Trim(),
 				paramName = m.Groups[1].Value;
 				
 				if(!Params.ContainsKey(paramName))
@@ -2690,24 +2690,24 @@ Message: {2}
 		/// <returns>The updated template call</returns>
 		public static string RemoveExcessTemplatePipes(string templatecall)
 		{
-		    string originalURL = CiteUrl.Match(templatecall).Groups[1].Value.TrimEnd("|".ToCharArray()), originalTemplateCall = templatecall;
-		    string pipecleanedtemplate = PipeCleanedTemplate(templatecall);
+			string originalURL = CiteUrl.Match(templatecall).Groups[1].Value.TrimEnd("|".ToCharArray()), originalTemplateCall = templatecall;
+			string pipecleanedtemplate = PipeCleanedTemplate(templatecall);
 
-		    while (SpacedPipes.IsMatch(pipecleanedtemplate))
-		    {
-		        Match m = SpacedPipes.Match(pipecleanedtemplate);
-		        
-		        // imatch is like "|   |" or "| }}" so remove first | and whitespace
-		        templatecall = templatecall.Remove(m.Index, m.Groups[1].Length);
+			while (SpacedPipes.IsMatch(pipecleanedtemplate))
+			{
+				Match m = SpacedPipes.Match(pipecleanedtemplate);
+				
+				// imatch is like "|   |" or "| }}" so remove first | and whitespace
+				templatecall = templatecall.Remove(m.Index, m.Groups[1].Length);
 
-		        pipecleanedtemplate = PipeCleanedTemplate(templatecall);
-		    }
+				pipecleanedtemplate = PipeCleanedTemplate(templatecall);
+			}
 
-		    // check for URL breakage due to unescaped pipes in URL
-		    if(originalURL.Length > 0 && !CiteUrl.Match(templatecall).Groups[1].Value.Equals(originalURL))
-		        return originalTemplateCall;
+			// check for URL breakage due to unescaped pipes in URL
+			if(originalURL.Length > 0 && !CiteUrl.Match(templatecall).Groups[1].Value.Equals(originalURL))
+				return originalTemplateCall;
 
-		    return templatecall;
+			return templatecall;
 		}
 
 		/// <summary>
@@ -2758,7 +2758,7 @@ Message: {2}
 				// retain any newlines at start of parameter value if existing parameter has value
 				string startNewline = StartWhitespace.Match(m.Groups[1].Value).Value;
 				if(startNewline.Length > 0 && m.Groups[1].Value.Trim().Length > 0)
-				    newvalue = startNewline + newvalue;
+					newvalue = startNewline + newvalue;
 
 				return (templateCall.Substring(0, start) + newvalue + templateCall.Substring(start + valuelength));
 			}
@@ -2804,16 +2804,16 @@ Message: {2}
 			// clear out what may contain pipes that are not the pipe indicating the end of the parameter's value
 			// Contains checks for performance gain
 			if(restoftemplate.Contains(@"{{"))
-			    restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.NestedTemplates, RepWith);
+				restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.NestedTemplates, RepWith);
 			if(restoftemplate.Contains(@"[["))
-			    restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.SimpleWikiLink, RepWith);
+				restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.SimpleWikiLink, RepWith);
 			if(restoftemplate.Contains(@"<"))
 			{
-			    restoftemplate = commentsastilde
-			        ? ReplaceWith(restoftemplate, WikiRegexes.Comments, '~')
-			        : ReplaceWithSpaces(restoftemplate, WikiRegexes.Comments);
+				restoftemplate = commentsastilde
+					? ReplaceWith(restoftemplate, WikiRegexes.Comments, '~')
+					: ReplaceWithSpaces(restoftemplate, WikiRegexes.Comments);
 
-			    restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.AllTags, RepWith);
+				restoftemplate = ReplaceWith(restoftemplate, WikiRegexes.AllTags, RepWith);
 			}
 			return (templateCall.Substring(0, 3) + restoftemplate);
 		}
@@ -2868,27 +2868,27 @@ Message: {2}
 		/// <returns>the template name</returns>
 		public static string GetTemplateName(string templateCall)
 		{
-		    string name = WikiRegexes.TemplateNameRegex.Match(templateCall).Groups[1].Value;
-		    return Regex.Replace(name, @"[\s_]+", " ");
+			string name = WikiRegexes.TemplateNameRegex.Match(templateCall).Groups[1].Value;
+			return Regex.Replace(name, @"[\s_]+", " ");
 		}
 
 		public static Regex TemplateNameRegex()
 		{
-		    string TemplateNamespace;
+			string TemplateNamespace;
 
-		    try
-		    {
-		        TemplateNamespace = Variables.NamespacesCaseInsensitive[Namespace.Template];
-		    }
-		    catch
-		    {
-		        TemplateNamespace = "[Tt]emplate:";
-		    }
+			try
+			{
+				TemplateNamespace = Variables.NamespacesCaseInsensitive[Namespace.Template];
+			}
+			catch
+			{
+				TemplateNamespace = "[Tt]emplate:";
+			}
 
-		    // allow whitespace before semicolon
-		    TemplateNamespace = Regex.Replace(TemplateNamespace, @":$", @"[\s_]*:");
+			// allow whitespace before semicolon
+			TemplateNamespace = Regex.Replace(TemplateNamespace, @":$", @"[\s_]*:");
 
-		    return (new Regex(@"{{\s*(?::?[\s_]*" + TemplateNamespace + @"[\s_]*)?([^\|{}]+?)(?:\s*(?:<!--.*?-->|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋)\s*)?\s*(?:\||}})"));
+			return (new Regex(@"{{\s*(?::?[\s_]*" + TemplateNamespace + @"[\s_]*)?([^\|{}]+?)(?:\s*(?:<!--.*?-->|⌊⌊⌊⌊M?\d+⌋⌋⌋⌋)\s*)?\s*(?:\||}})"));
 		}
 
 		/// <summary>
@@ -2946,14 +2946,14 @@ Message: {2}
 		{
 			string originalTemplateName = m.Groups[2].Value;
 
-		    if (keepFirstLetterCase && !newTemplateName.StartsWith("subst:"))
-		    {
-		        newTemplateName = TurnFirstToUpper(originalTemplateName).Equals(originalTemplateName)
-		            ? TurnFirstToUpper(newTemplateName)
-		            : TurnFirstToLower(newTemplateName);
-		    }
+			if (keepFirstLetterCase && !newTemplateName.StartsWith("subst:"))
+			{
+				newTemplateName = TurnFirstToUpper(originalTemplateName).Equals(originalTemplateName)
+					? TurnFirstToUpper(newTemplateName)
+					: TurnFirstToLower(newTemplateName);
+			}
 
-		    return (m.Groups[1].Value + newTemplateName + m.Groups[3].Value);
+			return (m.Groups[1].Value + newTemplateName + m.Groups[3].Value);
 		}
 
 		/// <summary>
@@ -3007,10 +3007,10 @@ Message: {2}
 		/// </summary>
 		/// <param name="templatenames">The list of template names</param>
 		/// <returns>A Regex matching calls to the template, match group 2 being the template name, group 3 being the template argument(s)</returns>
-        public static Regex NestedTemplateRegex(ICollection<string> templatenames)
-        {
-            return NestedTemplateRegex(templatenames, false);
-        }
+		public static Regex NestedTemplateRegex(ICollection<string> templatenames)
+		{
+			return NestedTemplateRegex(templatenames, false);
+		}
 		
 		/// <summary>
 		/// Returns a regex to match the input templates
@@ -3019,40 +3019,40 @@ Message: {2}
 		/// <param name="templatenames">The list of template names</param>
 		/// <param name="compiled">Whether to return a compiled regex</param>
 		/// <returns>A Regex matching calls to the template, match group 2 being the template name, group 3 being the template argument(s)</returns>
-        public static Regex NestedTemplateRegex(ICollection<string> templatenames, bool compiled)
-        {
-            if (templatenames.Count == 0)
-                return null;
+		public static Regex NestedTemplateRegex(ICollection<string> templatenames, bool compiled)
+		{
+			if (templatenames.Count == 0)
+				return null;
 
-            string TemplateNamespace;
+			string TemplateNamespace;
 
-            if (!Variables.NamespacesCaseInsensitive.TryGetValue(Namespace.Template, out TemplateNamespace))
-                TemplateNamespace = "[Tt]emplate:";
+			if (!Variables.NamespacesCaseInsensitive.TryGetValue(Namespace.Template, out TemplateNamespace))
+				TemplateNamespace = "[Tt]emplate:";
 
-            // support (deprecated) {{msg:Foo}} syntax
-            if(string.IsNullOrEmpty(Variables.LangCode) || Variables.LangCode.Equals("en"))
-                TemplateNamespace = Regex.Replace(TemplateNamespace, @"(.+?):$", @"(?:$1|[Mm]sg):");
-            
-            // allow whitespace before semicolon
-            TemplateNamespace = Regex.Replace(TemplateNamespace, @":$", @"[\s_]*:");
+			// support (deprecated) {{msg:Foo}} syntax
+			if(string.IsNullOrEmpty(Variables.LangCode) || Variables.LangCode.Equals("en"))
+				TemplateNamespace = Regex.Replace(TemplateNamespace, @"(.+?):$", @"(?:$1|[Mm]sg):");
+			
+			// allow whitespace before semicolon
+			TemplateNamespace = Regex.Replace(TemplateNamespace, @":$", @"[\s_]*:");
 
-            StringBuilder theRegex = new StringBuilder(NestedTemplateRegexStart + @":?[\s_]*" + TemplateNamespace + @"[\s_]*\s*)?(");
+			StringBuilder theRegex = new StringBuilder(NestedTemplateRegexStart + @":?[\s_]*" + TemplateNamespace + @"[\s_]*\s*)?(");
 
-            foreach (string templatename in templatenames)
-            {
-                string templatename2 = Regex.Escape(templatename.Trim().Replace('_', ' ')).Replace(@"\ ", @"[_ ]+");
-                theRegex.Append(CaseInsensitive(templatename2));
-                theRegex.Append("|");
-            }
+			foreach (string templatename in templatenames)
+			{
+				string templatename2 = Regex.Escape(templatename.Trim().Replace('_', ' ')).Replace(@"\ ", @"[_ ]+");
+				theRegex.Append(CaseInsensitive(templatename2));
+				theRegex.Append("|");
+			}
 
-            theRegex[theRegex.Length - 1] = ')';
-            theRegex.Append(NestedTemplateRegexEnd);
+			theRegex[theRegex.Length - 1] = ')';
+			theRegex.Append(NestedTemplateRegexEnd);
 
-            if (compiled)
-                return new Regex(theRegex.ToString(), RegexOptions.Compiled);
+			if (compiled)
+				return new Regex(theRegex.ToString(), RegexOptions.Compiled);
 
-            return new Regex(theRegex.ToString());
-        }
+			return new Regex(theRegex.ToString());
+		}
 		
 		/// <summary>
 		/// Returns whether template call is a section template or has reason parameter
@@ -3061,7 +3061,7 @@ Message: {2}
 		/// <returns></returns>
 		public static bool IsSectionOrReasonTemplate(string templateCall)
 		{
-		    return IsSectionOrReasonTemplate(templateCall, "");
+			return IsSectionOrReasonTemplate(templateCall, "");
 		}
 		
 		/// <summary>
@@ -3073,9 +3073,9 @@ Message: {2}
 		/// <returns></returns>
 		public static bool IsSectionOrReasonTemplate(string templateCall, string articletext)
 		{
-		    return ((WikiRegexes.NestedTemplates.IsMatch(templateCall) && GetTemplateArgument(templateCall, 1).Equals("section"))
-		            || GetTemplateParameterValue(WikiRegexes.MultipleIssues.Match(articletext).Value, "section").Equals("y")
-		            || GetTemplateParameterValue(templateCall, "reason", true).Length > 0);
+			return ((WikiRegexes.NestedTemplates.IsMatch(templateCall) && GetTemplateArgument(templateCall, 1).Equals("section"))
+					|| GetTemplateParameterValue(WikiRegexes.MultipleIssues.Match(articletext).Value, "section").Equals("y")
+					|| GetTemplateParameterValue(templateCall, "reason", true).Length > 0);
 		}
 
 		/// <summary>
@@ -3114,32 +3114,32 @@ Message: {2}
 
 		public static string ListToStringCommaSeparator(List<string> items)
 		{
-		    if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz") || Variables.LangCode.Equals("fa"))
-	        	return string.Join("، ", items.ToArray());
-		    return string.Join(", ", items.ToArray());
+			if (Variables.LangCode.Equals("ar") || Variables.LangCode.Equals("arz") || Variables.LangCode.Equals("fa"))
+				return string.Join("، ", items.ToArray());
+			return string.Join(", ", items.ToArray());
 		}
 
-	    /// <summary>
-  		/// Creates a string from a list with the following additions: 
-  		/// Specify a separator to be used between all elements in the list
-  		/// Specify a suffix to be added to each element in the list
-  		/// Specify a lastseparator that will be used between the last two elements in the list
-  		/// </summary>
-  		public static string ListToStringWithSeparatorAndWordSuffix(List<string> items, string separator, string suffix, string lastseparator)
-  		{
-  			string ret = "";
-  			for(int i = 0; i < items.Count; i++)
-  			{
-  				if(i + 1 == items.Count)
-  					ret += items[i] + suffix + lastseparator;
-  				else if(i == items.Count)
-  					ret += items[i] + suffix;
-  				else 
-  					ret += items[i] + suffix + separator;
-  			}
-  			return ret;
-  		}
-  		
+		/// <summary>
+		/// Creates a string from a list with the following additions: 
+		/// Specify a separator to be used between all elements in the list
+		/// Specify a suffix to be added to each element in the list
+		/// Specify a lastseparator that will be used between the last two elements in the list
+		/// </summary>
+		public static string ListToStringWithSeparatorAndWordSuffix(List<string> items, string separator, string suffix, string lastseparator)
+		{
+			string ret = "";
+			for(int i = 0; i < items.Count; i++)
+			{
+				if(i + 1 == items.Count)
+					ret += items[i] + suffix + lastseparator;
+				else if(i == items.Count)
+					ret += items[i] + suffix;
+				else 
+					ret += items[i] + suffix + separator;
+			}
+			return ret;
+		}
+		
 		/// <summary>
 		/// Replaces escaped characters in XML with the single character: apotrophe, quote, greater than, less than, ampersand
 		/// </summary>
@@ -3178,19 +3178,19 @@ Message: {2}
 		/// <returns></returns>
 		public static string GetMd5Sum(string input)
 		{
-		    System.Security.Cryptography.MD5 md5Hasher = System.Security.Cryptography.MD5.Create();
+			System.Security.Cryptography.MD5 md5Hasher = System.Security.Cryptography.MD5.Create();
 
-		    byte[] data = md5Hasher.ComputeHash(Encoding.Default.GetBytes(input));
+			byte[] data = md5Hasher.ComputeHash(Encoding.Default.GetBytes(input));
 
-		    StringBuilder res = new StringBuilder();
+			StringBuilder res = new StringBuilder();
 
-		    // Format each byte as a hexadecimal string.
-		    for (int i = 0; i < data.Length; i++)
-		    {
-		        res.Append(data[i].ToString("x2"));
-		    }
+			// Format each byte as a hexadecimal string.
+			for (int i = 0; i < data.Length; i++)
+			{
+				res.Append(data[i].ToString("x2"));
+			}
 
-		    return res.ToString();
+			return res.ToString();
 		}
 	}
 }
