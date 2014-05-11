@@ -1316,7 +1316,16 @@ namespace WikiFunctions
         { get { return Name; } }
 
         string IProcessArticleEventArgs.EditSummary // this is temp edit summary field, sent from plugin
-        { get { return mPluginEditSummary; } set { mPluginEditSummary = value.Trim(); } }
+        {
+            get { return mPluginEditSummary; }
+            set
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    mPluginEditSummary = value.Trim();
+                }
+            }
+        }
 
         bool IProcessArticleEventArgs.Skip
         { get { return mPluginSkip; } set { mPluginSkip = value; } }

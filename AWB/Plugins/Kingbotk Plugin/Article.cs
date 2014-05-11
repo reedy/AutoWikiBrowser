@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using WikiFunctions;
 
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
@@ -100,7 +101,10 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
         internal void FinaliseEditSummary()
         {
-            EditSummary = Regex.Replace(EditSummary, ", $", "");
+            if (!string.IsNullOrEmpty(EditSummary))
+            {
+                EditSummary = Regex.Replace(EditSummary, ", $", "");
+            }
         }
 
         // General article writing and manipulation:
