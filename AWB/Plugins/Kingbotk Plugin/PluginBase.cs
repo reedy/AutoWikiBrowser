@@ -4,6 +4,8 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml;
 using WikiFunctions;
+using WikiFunctions.Parse;
+
 
 //Copyright © 2008 Stephen Kennedy (Kingboyk) http://www.sdk-software.com/
 //Copyright © 2008 Sam Reed (Reedy) http://www.reedyboy.net/
@@ -25,8 +27,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
     {
         // Settings:
         protected internal abstract string PluginShortName { get; }
-        // we might want to parameterise this later
-        protected const bool ForceAddition = true;
 
         protected virtual string ParameterBreak
         {
@@ -122,7 +122,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                     {
                         badTemplate = true;
                     }
-                    else if (ForceAddition)
+                    else
                     {
                         TemplateNotFound();
                     }
@@ -453,7 +453,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             {
                 mHasAlternateNames = true;
                 LastKnownGoodRedirects = alternateNames;
-                regexpMiddle = Regex.Escape(PreferredTemplateName) + "|" + Regex.Escape(alternateNames);
+                regexpMiddle = Regex.Escape(PreferredTemplateName) + "|" +  alternateNames;
             }
             regexpMiddle = regexpMiddle.Replace(" ", "[ _]");
 
@@ -464,7 +464,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
             PreferredTemplateNameRegex = mHasAlternateNames
                 ? new Regex(
-                    PreferredTemplateNameRegexCreator.Replace(PreferredTemplateName,
+            		PreferredTemplateNameRegexCreator.Replace(Regex.Escape(PreferredTemplateName),
                         PreferredTemplateNameWikiMatchEvaluator),
                     RegexOptions.Compiled)
                 : null;
@@ -513,21 +513,23 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
                 PluginManager.DefaultStatusText();
             }
         }
+	
 
         protected static string ConvertRedirectsToString(List<WikiFunctions.Article> redirects)
         {
-            string res = "";
-
+        string res = "";
             foreach (WikiFunctions.Article redirect in redirects)
             {
                 if (redirect.NameSpaceKey == Namespace.Template)
                 {
-                    res += redirect.Name.Remove(0, 9) + "|";
+                    if (res == "")
+                    {
+                        res += "|";
+                    }
+                    res += Regex.Escape(Parsers.RemoveTemplateNamespace(redirect.Name));
                 }
             }
-
-            return res.Trim(new[] {Convert.ToChar("|")});
-            // would .Remove be quicker? or declaring this as static?
+            return res;
         }
 
         // XML:
