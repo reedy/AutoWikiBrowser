@@ -415,10 +415,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
                         PluginShortName);
                     TheArticle.DoneReplacement(conMiddleAges, MedievalTaskForce);
                 }
-                else
-                {
-                    TheArticle.EditSummary += "deprecated Middle-Ages-task-force removed";
-                }
+
                 Template.Parameters.Remove(conMiddleAges);
                 TheArticle.ArticleHasAMinorChange();
             }
