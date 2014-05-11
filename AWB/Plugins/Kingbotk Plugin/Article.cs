@@ -194,14 +194,6 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             Tools.EditArticleInBrowser(FullArticleTitle);
         }
 
-        // Regexes:
-        // These could probably be simplified significantly (and extra logic doing things like removing linebreaks) if I learnt more of the magic characters
-
-        internal static readonly Regex LineBreakRegex = new Regex("[\\n\\r]*");
-
-        private static readonly Regex DoubleLineBreakRegex = new Regex("[\\n\\r]{2,}");
-
-
         // Add the template on the top. General fixes will put in a shell if it exists
         internal void PrependTemplate(Templating template, string parameterBreak, string text)
         {
