@@ -2357,31 +2357,6 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual(@"Qingdong, Kong", Tools.MakeHumanCatKey(@"Kong Qingdong", "{{foo}"));
         }
 
-        [Test, Ignore]
-        public void RemoveDiatricsUsingNet()
-        {
-            List<string> notUpdated = new List<string>();
-            StringBuilder builder = new StringBuilder(@"	    public static readonly string[][] Diacritics =
-        {");
-            foreach (var p in Tools.Diacritics)
-            {
-                if (new string(
-                    p[0]
-                        .Normalize(NormalizationForm.FormD)
-                        .ToCharArray()
-                        .Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
-                        .ToArray()) != p[1])
-                {
-                    notUpdated.Add(p[0]);
-                    builder.AppendFormat("\t\tnew[] {{\"{0}\", \"{1}\"}},\n", p[0], p[1]);
-                }
-            }
-            builder.AppendLine("};");
-            Tools.WriteTextFileAbsolutePath(builder, "D:\\diatrics.txt", false);
-            //Assert.IsEmpty(notUpdated);
-            Assert.AreEqual(0, notUpdated.Count);
-        }
-
         [Test]
         public void RemoveDiacritics()
         {
