@@ -861,6 +861,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
         private static void LoadSettingsNewWay(string xmlString)
         {
+            xmlString = xmlString.Replace("WikiProject Military history", "Military");
             xmlString = xmlString.Replace("WikiProject Songs", "Songs");
             xmlString = xmlString.Replace("WikiProject Albums", "Albums");
             System.IO.StringReader st = new System.IO.StringReader(xmlString);
