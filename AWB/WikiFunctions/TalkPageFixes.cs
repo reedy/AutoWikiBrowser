@@ -81,7 +81,7 @@ namespace WikiFunctions.TalkPages
             // 10. {{Press}} and {{Connected contributor}}
             // 11. {{To do}}
             // 12. {{Maintained}}
-            // 13. {{Find sources notice}}
+            // 13. {{Find sources notice}}, {{Reliable sources for medical articles}}
             // 14. {{Split from}}, {{Split to}}
             // 15. {{Merge from}}, {{Merge-to}}
 
@@ -229,7 +229,7 @@ namespace WikiFunctions.TalkPages
         private static readonly Regex PressConnected = Tools.NestedTemplateRegex(new[] { "Press", "Connected contributor", "Wikipedian-bio", "Notable Wikipedian" });
         private static readonly Regex TodoTemplate = Tools.NestedTemplateRegex(new[] { "To do", "Todo", "To-do" });
         private static readonly Regex Maintained = Tools.NestedTemplateRegex(new[] { "Maintained" });
-        private static readonly Regex FindSource = Tools.NestedTemplateRegex(new[] { "Find sources notice" });
+        private static readonly Regex FindSource = Tools.NestedTemplateRegex(new[] { "Find sources notice", "Reliable sources for medical articles" });
         private static readonly Regex SplitTemplates = Tools.NestedTemplateRegex(new[] { "Split from", "Split to" });
         private static readonly Regex MergeTemplates = Tools.NestedTemplateRegex(new[] { "Merge from", "Merge-to" });
         private static readonly Regex WikiProjects = new Regex(Tools.NestedTemplateRegex("foo").ToString().Replace(@"[Ff]oo", @"[Ww]ikiProject\b[^{}\|]+"));
