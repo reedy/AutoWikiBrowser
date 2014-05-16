@@ -3524,6 +3524,7 @@ Template:foo}}"));
             Assert.AreEqual(@"Template:Foo", Parsers.RemoveTemplateNamespace(@"Template:Foo"), "no change if it is not a real template");
             Assert.AreEqual(@"[[Template:Foo]]", Parsers.RemoveTemplateNamespace(@"[[Template:Foo]]"), "no change if it is not a real template");
             Assert.AreEqual(@"{{Clarify|date=May 2014|reason=Use Template:Cite web or similar}}", Parsers.RemoveTemplateNamespace(@"{{Clarify|date=May 2014|reason=Use Template:Cite web or similar}}"), "no change if it is part of a comment");
+            Assert.AreEqual(@"{{Foo|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}", Parsers.RemoveTemplateNamespace(@"{{Template:Foo|date={{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}}}"));
         }
 
         [Test]
@@ -10551,6 +10552,10 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 
             const string commentedOut = @"<!-- {{wikify}} -->";
             Assert.AreEqual(commentedOut, Parsers.TagUpdater(commentedOut), "ignores commented out tags");
+
+            WikiRegexes.DatedTemplates.Add("clarify");
+            string nochange=@"{{Clarify|date=May 2014|reason=Use Template:Cite web or similar}}";
+            Assert.AreEqual(nochange, Parsers.TagUpdater(nochange));
         }
 
         [Test]

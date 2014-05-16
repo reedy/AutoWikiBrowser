@@ -3579,9 +3579,9 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text</returns>
         public static string RemoveTemplateNamespace(string articleText)
         {
-            Regex SyntaxRegexTemplate = new Regex(@"(\{\{\s*)" + Variables.NamespacesCaseInsensitive[Namespace.Template] + @"(.*?)\}\}", RegexOptions.Singleline);
+            Regex SyntaxRegexTemplate = new Regex(@"(\{\{\s*)" + Variables.NamespacesCaseInsensitive[Namespace.Template] + @"([^\|]*?)(\s*(?:\}\}|\|))", RegexOptions.Singleline);
             
-            return (SyntaxRegexTemplate.Replace(articleText, m => m.Groups[1].Value + CanonicalizeTitle(m.Groups[2].Value) + "}}"));
+            return (SyntaxRegexTemplate.Replace(articleText, m => m.Groups[1].Value + CanonicalizeTitle(m.Groups[2].Value) + m.Groups[3].Value));
         }
 
         private static readonly List<Regex> SmallTagRegexes = new List<Regex>();
@@ -8094,11 +8094,7 @@ namespace WikiFunctions.Parse
             }
 
             // remove template namespace in template name
-            string TemplateNamespace;
-            if (Variables.NamespacesCaseInsensitive.TryGetValue(Namespace.Template, out TemplateNamespace))
-            {
-                templatecall = Regex.Replace(templatecall, @"\b" + TemplateNamespace, "");
-            }
+            templatecall = RemoveTemplateNamespace(templatecall);
 
             // check if template already dated (date= parameter, localised for some wikis)
             string dateparam = WikiRegexes.DateYearMonthParameter.Substring(0, WikiRegexes.DateYearMonthParameter.IndexOf("="));
