@@ -1363,7 +1363,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private const string InlineCitationCleanupTemplatesRp = @"(?:Author incomplete|Author missing|Citation broken|Citation not found|Clarifyref|Clarifyref2|Date missing|Episode|ISBN missing|Page needed|Publisher missing|Season needed|Time needed|Title incomplete|Title missing|Volume needed|Year missing|rp)";
+        private const string InlineCitationCleanupTemplatesRp = @"(?:Author incomplete|Author missing|Citation broken|Citation not found|Clarify|Date missing|Episode|ISBN missing|Page needed|Publisher missing|Season needed|Time needed|Title incomplete|Title missing|Volume needed|Year missing|rp)";
         private const string OutofOrderRefs = @"(<ref\s+name\s*=\s*(?:""|')?([^<>""=]+?)(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>)(\s*{{\s*" + InlineCitationCleanupTemplatesRp + @"\s*\|[^{}]+}})?(\s*)(<ref\s+name\s*=\s*(?:""|')?([^<>""=]+?)(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>)(\s*{{\s*" + InlineCitationCleanupTemplatesRp + @"\s*\|[^{}]+}})?";
         private static readonly Regex OutofOrderRefs1 = new Regex(@"(<ref>[^<>]+</ref>)(\s*)(<ref\s+name\s*=\s*(?:""|')?([^<>""=]+?)(?:""|')?\s*(?:\/\s*|>[^<>]+</ref)>)(\s*{{\s*" + InlineCitationCleanupTemplatesRp + @"\s*\|[^{}]+}})?", RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private static readonly Regex OutofOrderRefs2 = new Regex(OutofOrderRefs, RegexOptions.IgnoreCase | RegexOptions.Singleline);
