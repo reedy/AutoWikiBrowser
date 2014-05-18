@@ -71,19 +71,21 @@ namespace WikiFunctions.TalkPages
             // Correct order per WP:TPL is
             // 1. {{Skip to talk}}
             // 2. {{Talk header}}
-            // 3. {{GA nominee}}
-            // 4. {{community article probation}}, {{censor}}, {{BLP others}} and other high-priority/importance, warning/attention templates.
-            // 5. Specific talk page guideline banners, such as {{Not a forum}}, {{Recurring themes}}, {{FAQ}}, {{Round in circles}}, etc.
-            // 6. Language related talk page guideline banners, such as {{American English}}
-            // 7. Any "article history" banner
-            // 8. WikiProjectBannerShell - Any WikiProject banners
-            // 9. {{Image requested}}
-            // 10. {{Press}} and {{Connected contributor}}
-            // 11. {{To do}}
-            // 12. {{Maintained}}
-            // 13. {{Find sources notice}}, {{Reliable sources for medical articles}}
-            // 14. {{Split from}}, {{Split to}}
-            // 15. {{Merge from}}, {{Merge-to}}
+            // 3. {{GA}} or {{GA nominee}}
+            // 4. {{Vital article}}
+            // 5. {{community article probation}}, {{censor}}, {{BLP others}} and other high-priority/importance, warning/attention templates.
+            // 6. Specific talk page guideline banners, such as {{Not a forum}}, {{Recurring themes}}, {{FAQ}}, {{Round in circles}}, etc.
+            // 7. Language related talk page guideline banners, such as {{American English}}
+            // 8. Any "article history" banner
+            // 9. {{DYK talk}}
+            // 10. WikiProjectBannerShell - Any WikiProject banners
+            // 11. {{Image requested}}
+            // 12. {{Press}} and {{Connected contributor}}
+            // 13. {{To do}}
+            // 14. {{Maintained}}
+            // 15. {{Find sources notice}}, {{Reliable sources for medical articles}}
+            // 16. {{Split from}}, {{Split to}}
+            // 17. {{Merge from}}, {{Merge-to}}
 
             string wpbsBefore = WikiRegexes.WikiProjectBannerShellTemplate.Match(articleText).Value;
             bool blanklinesinwpbsBefore = wpbsBefore.Contains("\r\n\r\n");
@@ -105,6 +107,7 @@ namespace WikiFunctions.TalkPages
             articleText = MoveTalkTemplate(articleText, WikiRegexes.WikiProjectBannerShellTemplate);
             if(!WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articleText))
             	articleText = MoveTalkTemplates(articleText, WikiProjects);
+            articleText = MoveTalkTemplate(articleText, VitalArticle);
             articleText = MoveTalkTemplates(articleText, TalkHistoryBTemplates);
             articleText = MoveTalkTemplates(articleText, TalkHistoryTemplates);
             articleText = MoveTalkTemplate(articleText, EnglishVariationsTemplates);
@@ -225,6 +228,7 @@ namespace WikiFunctions.TalkPages
         private static readonly Regex EnglishVariationsTemplates = Tools.NestedTemplateRegex(new[] { "American English", "Australian English", "British English", "British English Oxford spelling", "Canadian English", "Hiberno-English", "Indian English", "Malaysian English", "Malawian English", "New Zealand English", "Pakistani English", "Philippine English", "Scottish English", "South African English", "Trinidadian English" });
         private static readonly Regex TalkHistoryTemplates = Tools.NestedTemplateRegex(new[] { "Article history", "ArticleHistory" });
         private static readonly Regex TalkHistoryBTemplates = Tools.NestedTemplateRegex(new[] { "FailedGA", "Old prod", "Old prod full", "Oldprodfull", "Afd-merged-from", "Old AfD multi", "Old AfD", "DYK talk", "Old peer review", "Copied" });
+        private static readonly Regex VitalArticle = Tools.NestedTemplateRegex(new[] { "Vital article" });
         private static readonly Regex ImageRequested = Tools.NestedTemplateRegex(new[] { "Image requested", "Reqphoto" });
         private static readonly Regex PressConnected = Tools.NestedTemplateRegex(new[] { "Press", "Connected contributor", "Wikipedian-bio", "Notable Wikipedian" });
         private static readonly Regex TodoTemplate = Tools.NestedTemplateRegex(new[] { "To do", "Todo", "To-do" });
