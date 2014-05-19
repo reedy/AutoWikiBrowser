@@ -39,8 +39,8 @@ namespace AutoWikiBrowser
 .NET version: {1}
 Windows version: {2}",
                      ieVersion,
-                     Environment.OSVersion.Version.Major + "." + Environment.OSVersion.Version.Minor,
-                     Environment.Version
+                     Environment.Version,
+                     Environment.OSVersion.Version.Major + "." + Environment.OSVersion.Version.Minor
                 );
         }
 
