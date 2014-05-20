@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{00246C07-1FA2-4596-86C3-48A37C7FEA20}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AutoWikiBrowser.Plugins.Kingbotk</RootNamespace>
+    <AssemblyName>Kingbotk AWB Plugin</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Components\AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Components\AboutBox.Designer.cs">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Article.cs" />
+    <Compile Include="Components\PluginSettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Components\PluginSettings.Designer.cs">
+      <DependentUpon>PluginSettings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EnumsAndConstants.cs" />
+    <Compile Include="Generic.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Generic.Designer.cs">
+      <DependentUpon>Generic.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Components\GenericTemplateProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Components\GenericTemplateProperties.Designer.cs">
+      <DependentUpon>GenericTemplateProperties.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GenericWithWorkgroups.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GenericWithWorkgroups.Designer.cs">
+      <DependentUpon>GenericWithWorkgroups.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ManualAssessments\AssessmentForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManualAssessments\AssessmentForm.Designer.cs">
+      <DependentUpon>AssessmentForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ManualAssessments\AssessmentsClass.cs" />
+    <Compile Include="ManualAssessments\AssessmentsInstructionsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ManualAssessments\AssessmentsInstructionsDialog.Designer.cs">
+      <DependentUpon>AssessmentsInstructionsDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PluginBase.cs" />
+    <Compile Include="PluginManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="TemplateParameters.cs" />
+    <Compile Include="Templating.cs" />
+    <Compile Include="Components\TimerStats.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Components\TimerStats.Designer.cs">
+      <DependentUpon>TimerStats.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WikiProjects\BioWithWorkgroups.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="WikiProjects\WPAlbums.cs" />
+    <Compile Include="WikiProjects\WPAustralia.cs" />
+    <Compile Include="WikiProjects\WPBiography.cs" />
+    <Compile Include="WikiProjects\WPIndia.cs" />
+    <Compile Include="WikiProjects\WPMilitaryHistory.cs" />
+    <Compile Include="WikiProjects\WPNovels.cs" />
+    <Compile Include="WikiProjects\WPSongs.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="COPYING" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Components\AboutBox.resx">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Components\PluginSettings.resx">
+      <DependentUpon>PluginSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Generic.resx">
+      <DependentUpon>Generic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Components\GenericTemplateProperties.resx">
+      <DependentUpon>GenericTemplateProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GenericWithWorkgroups.resx">
+      <DependentUpon>GenericWithWorkgroups.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManualAssessments\AssessmentForm.resx">
+      <DependentUpon>AssessmentForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ManualAssessments\AssessmentsInstructionsDialog.resx">
+      <DependentUpon>AssessmentsInstructionsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Components\TimerStats.resx">
+      <DependentUpon>TimerStats.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\WikiFunctions\WikiFunctions.csproj">
+      <Project>{b5b0008c-a306-4b0d-b91e-5c03da7014e0}</Project>
+      <Name>WikiFunctions</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\WP1_0_Icon_small.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\king_worship.gif" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>"$(SolutionDir)Copy.exe" "$(TargetDir)$(TargetFileName)" "$(SolutionDir)AWB\$(OutDir)$(TargetFileName)"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
