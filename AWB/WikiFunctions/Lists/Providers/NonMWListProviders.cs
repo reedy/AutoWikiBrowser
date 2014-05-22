@@ -272,7 +272,7 @@ namespace WikiFunctions.Lists.Providers
                                 foreach (Match m in LoadWikiLink.Matches(pageText))
                                 {
                                     string title = m.Groups[1].Value;
-                                    if (!RegexFromFile.IsMatch(title) && (!(title.StartsWith("#"))))
+                                    if (!RegexFromFile.IsMatch(title) && !title.StartsWith("#"))
                                     {
                                         list.Add(new Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(title))));
                                     }
