@@ -256,7 +256,6 @@ namespace WikiFunctions.Lists.Providers
                     using (StreamReader sr = new StreamReader(fileName, TargetEncoding))
                     {
                         pageText = sr.ReadToEnd();
-                        sr.Close();
                     }
 
                     switch (OpenListDialog.FilterIndex)
