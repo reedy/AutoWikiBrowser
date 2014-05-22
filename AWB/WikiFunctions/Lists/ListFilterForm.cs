@@ -255,8 +255,7 @@ namespace WikiFunctions.Lists
 
         private void btnGetList_Click(object sender, EventArgs e)
         {
-            foreach (Article a in new TextFileListProviderUFT8().MakeList())
-                lbRemove.Items.Add(a);
+            lbRemove.Items.AddRange(new TextFileListProviderUFT8().MakeList().ToArray());
         }
 
         private void btnClear_Click(object sender, EventArgs e)
