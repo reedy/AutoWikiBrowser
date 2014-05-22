@@ -105,7 +105,6 @@ namespace AutoWikiBrowser
                     using (StreamReader reader = File.OpenText(ioFile))
                     {
                         articleText = reader.ReadToEnd();
-                        reader.Close();
                     }
 
                     skip = (chkSkip.Checked && (articleText == origText));
