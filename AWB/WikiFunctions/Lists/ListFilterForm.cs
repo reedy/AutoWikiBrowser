@@ -142,15 +142,7 @@ namespace WikiFunctions.Lists
             if (selectedNS.Count == 0)
                 return;
 
-            int i = 0;
-
-            while (i < _list.Count)
-            {
-                if (!selectedNS.Contains(_list[i].NameSpaceKey))
-                    _list.RemoveAt(i);
-                else
-                    i++;
-            }
+            _list.RemoveAll(a => !selectedNS.Contains(a.NameSpaceKey));
         }
 
         private void FilterMatches(bool does, bool doesnot)
