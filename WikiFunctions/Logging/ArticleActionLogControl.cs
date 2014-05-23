@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Text;
 using System.Windows.Forms;
-
+using System.Collections.Generic;
 using WikiFunctions.Controls;
 using WikiFunctions.Controls.Lists;
 
@@ -92,10 +92,22 @@ namespace WikiFunctions.Logging
 
         private void addSelectedToArticleListToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            List<Article> list = new List<Article>();
             foreach (ListViewItem item in MenuItemOwner(sender).SelectedItems)
             {
-                _listMaker.Add(new Article(item.Text));
+                list.Add(new Article(item.Text));
             }
+            _listMaker.Add(list);
+        }
+
+        private void AddToListMaker(ListView.ListViewItemCollection sic)
+        {
+            List<Article> list = new List<Article>();
+            foreach (ListViewItem item in sic)
+            {
+                list.Add(new Article(item.Text));
+            }
+            _listMaker.Add(list);
         }
 
         private void LogLists_DoubleClick(object sender, EventArgs e)
@@ -129,8 +141,7 @@ namespace WikiFunctions.Logging
 
         private void btnAddToList_Click(object sender, EventArgs e)
         {
-            foreach (ListViewItem article in lvFailed.Items)
-                _listMaker.Add(new Article(article.Text));
+            AddToListMaker(lvFailed.Items);
         }
 
         private void btnSaveSaved_Click(object sender, EventArgs e)
@@ -231,8 +242,7 @@ namespace WikiFunctions.Logging
 
         private void btnAddSucessfulToList_Click(object sender, EventArgs e)
         {
-            foreach (ListViewItem article in lvSuccessful.Items)
-                _listMaker.Add(new Article(article.Text));
+            AddToListMaker(lvSuccessful.Items);
         }
     }
 }
