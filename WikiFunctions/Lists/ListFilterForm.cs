@@ -24,6 +24,7 @@ using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using WikiFunctions.Controls.Lists;
 using WikiFunctions.Lists.Providers;
+using System.Linq;
 
 namespace WikiFunctions.Lists
 {
@@ -108,13 +109,11 @@ namespace WikiFunctions.Lists
 
         private void RemoveDuplicatesNew()
         {
-            // hashset by definition does not allow duplicates, discards any on creation
-            HashSet<Article> NoDupes = new HashSet<Article>(_destListBox);
+            Article[] unique = new List<Article>(_destListBox).Distinct().ToArray();
 
             _destListBox.BeginUpdate();
             _destListBox.Items.Clear();
-
-            _destListBox.Items.AddRange(new List<Article>(NoDupes).ToArray());
+            _destListBox.Items.AddRange(unique);
             _destListBox.EndUpdate();
         }
 
