@@ -171,16 +171,7 @@ namespace WikiFunctions.Lists
                         !chkIsRegex.Checked ? Regex.Escape(txtDoesNotContain.Text) : txtDoesNotContain.Text,
                         RegexOptions.Compiled);
 
-                int i = 0;
-                while (i < _list.Count)
-                {
-                    if (does && match.IsMatch(_list[i].Name))
-                        _list.RemoveAt(i);
-                    else if (doesnot && !notMatch.IsMatch(_list[i].Name))
-                        _list.RemoveAt(i);
-                    else
-                        i++;
-                }
+                _list.RemoveAll(a => (does && match.IsMatch(a.Name) || doesnot && !notMatch.IsMatch(a.Name)));
             }
             catch (Exception ex)
             {
