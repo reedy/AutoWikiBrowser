@@ -266,17 +266,25 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public bool Remove(Article item)
         {
-            if (lbArticles.Items.Contains(item))
-            {
-                txtPage.Text = item.Name;
+            if(!lbArticles.Items.Contains(item))
+                return false;
 
+            // set last used article
+            txtPage.Text = item.Name;
+
+            // if one article selected and it's the one to be removed, just RemoveSelected
+            if(lbArticles.SelectedItems.Count == 1 && lbArticles.SelectedItem.ToString() == item.Name)
+            {
+                lbArticles.RemoveSelected();
+            }
+            else
+            {
+                // otherwise if article to be removed isn't the single selected one, there may be duplicates of the article
+                // so remove first instance and avoid scrolling
                 int intPosition;
 
                 // if replacing the second instance of the article in the list maker avoid jumping selected article to the first
-                if (lbArticles.SelectedItems.Count == 1 && lbArticles.SelectedItems.Contains(item))
-                    intPosition = lbArticles.SelectedIndex;
-                else
-                    intPosition = lbArticles.Items.IndexOf(item);
+                intPosition = lbArticles.Items.IndexOf(item);
 
                 while (lbArticles.SelectedItems.Count > 0)
                     lbArticles.SetSelected(lbArticles.SelectedIndex, false);
@@ -294,12 +302,10 @@ namespace WikiFunctions.Controls.Lists
                     if(lbArticles.TopIndex > lbArticles.Items.Count-1)
                         lbArticles.TopIndex = intPosition;
                 }
-
-                UpdateNumberOfArticles();
-                return true;
             }
 
-            return false;
+            UpdateNumberOfArticles();
+            return true;
         }
 
         #endregion
