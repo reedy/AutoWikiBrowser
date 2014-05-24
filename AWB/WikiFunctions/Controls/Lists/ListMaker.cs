@@ -275,7 +275,10 @@ namespace WikiFunctions.Controls.Lists
             // if one article selected and it's the one to be removed, just RemoveSelected
             if(lbArticles.SelectedItems.Count == 1 && lbArticles.SelectedItem.ToString() == item.Name)
             {
+                int currentIndex = lbArticles.SelectedIndex;
                 lbArticles.RemoveSelected();
+                // Wine fix: does not scroll listbox if selected article moves out of view
+                lbArticles.TopIndex = currentIndex;
             }
             else
             {
