@@ -495,7 +495,7 @@ namespace AutoWikiBrowser
             MessageBox.Show("You've been logged off, probably due to loss of session data.\r\nPlease relogin.",
                             "Logged off", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             Stop();
-            CheckStatus(false);
+            Profiles.ShowDialog(this);
         }
 
         /// <summary>
@@ -584,6 +584,20 @@ namespace AutoWikiBrowser
 
                     case "badmd5":
                         SkipPage("API MD5 hash error: The page you are editing may contain an unsupported or invalid Unicode character");
+                        break;
+
+                    case "assertuserfailed":
+                        HandleLogoff();
+                        break;
+
+                     case "badtoken":
+                        HandleLogoff();
+                        break;
+
+                    case "blocked":
+                        MessageBox.Show("API reports this user is blocked from editing.",
+                                        "User blocked", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        Stop();
                         break;
 
                     default:
