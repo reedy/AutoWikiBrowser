@@ -77,7 +77,7 @@ namespace WikiFunctions.TalkPages
             // 6. Specific talk page guideline banners, such as {{Not a forum}}, {{Recurring themes}}, {{FAQ}}, {{Round in circles}}, etc.
             // 7. Language related talk page guideline banners, such as {{American English}}
             // 8. Any "article history" banner
-            // 9. {{DYK talk}}
+            // 9. Any "article milestone" banner
             // 10. WikiProjectBannerShell - Any WikiProject banners
             // 11. {{Image requested}}
             // 12. {{Press}} and {{Connected contributor}}
@@ -107,12 +107,13 @@ namespace WikiFunctions.TalkPages
             articleText = MoveTalkTemplate(articleText, WikiRegexes.WikiProjectBannerShellTemplate);
             if(!WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articleText))
             	articleText = MoveTalkTemplates(articleText, WikiProjects);
-            articleText = MoveTalkTemplate(articleText, VitalArticle);
+            articleText = MoveTalkTemplates(articleText, MilestoneTemplates);
             articleText = MoveTalkTemplates(articleText, TalkHistoryBTemplates);
             articleText = MoveTalkTemplates(articleText, TalkHistoryTemplates);
             articleText = MoveTalkTemplate(articleText, EnglishVariationsTemplates);
             articleText = MoveTalkTemplates(articleText, TalkGuidelineTemplates);
             articleText = MoveTalkTemplates(articleText, TalkWarningTemplates);
+            articleText = MoveTalkTemplate(articleText, VitalArticle);
             articleText = MoveTalkTemplate(articleText, GANomineeTemplate);
 
             // move talk page header to the top
@@ -227,7 +228,8 @@ namespace WikiFunctions.TalkPages
         private static readonly Regex TalkGuidelineTemplates = Tools.NestedTemplateRegex(new[] { "Not a forum", "Recurring themes", "FAQ", "Round in circles", "Calm talk", "Pbneutral"});
         private static readonly Regex EnglishVariationsTemplates = Tools.NestedTemplateRegex(new[] { "American English", "Australian English", "British English", "British English Oxford spelling", "Canadian English", "Hiberno-English", "Indian English", "Malaysian English", "Malawian English", "New Zealand English", "Pakistani English", "Philippine English", "Scottish English", "South African English", "Trinidadian English" });
         private static readonly Regex TalkHistoryTemplates = Tools.NestedTemplateRegex(new[] { "Article history", "ArticleHistory" });
-        private static readonly Regex TalkHistoryBTemplates = Tools.NestedTemplateRegex(new[] { "FailedGA", "Old prod", "Old prod full", "Oldprodfull", "Afd-merged-from", "Old AfD multi", "Old AfD", "DYK talk", "Old peer review", "Copied" });
+        private static readonly Regex TalkHistoryBTemplates = Tools.NestedTemplateRegex(new[] { "FailedGA", "Old prod", "Old prod full", "Oldprodfull", "Afd-merged-from", "Old AfD multi", "Old AfD", "Old peer review", "Copied" });
+        private static readonly Regex MilestoneTemplates = Tools.NestedTemplateRegex(new[] { "DYK talk", "ITN talk", "On this day" });
         private static readonly Regex VitalArticle = Tools.NestedTemplateRegex(new[] { "Vital article" });
         private static readonly Regex ImageRequested = Tools.NestedTemplateRegex(new[] { "Image requested", "Reqphoto" });
         private static readonly Regex PressConnected = Tools.NestedTemplateRegex(new[] { "Press", "Connected contributor", "Wikipedian-bio", "Notable Wikipedian" });
