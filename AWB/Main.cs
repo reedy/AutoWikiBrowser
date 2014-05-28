@@ -601,12 +601,14 @@ namespace AutoWikiBrowser
                         break;
 
                     default:
+                        Tools.WriteDebug("ApiExceptionCaught", ex.Message);
                         StartDelayedRestartTimer();
                         break;
                 }
             }
             else if (ex is ApiBlankException)
             {
+                Tools.WriteDebug("ApiBlankException", ex.Message);
                 StartDelayedRestartTimer();
             }
             else if (ex is NewMessagesException)
