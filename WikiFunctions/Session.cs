@@ -415,15 +415,20 @@ namespace WikiFunctions
                 {
                     months[i] += "-gen";
                 }
-                Dictionary<string, string> messages = Site.GetMessages(months);
 
-                if (messages.Count == 12)
+                // get localized month names if not en-wiki
+                if(!Variables.IsWikipediaEN)
                 {
-                    for (int i = 0; i < months.Length; i++)
+                    Dictionary<string, string> messages = Site.GetMessages(months);
+
+                    if (messages.Count == 12)
                     {
-                        months[i] = messages[months[i]];
+                        for (int i = 0; i < months.Length; i++)
+                        {
+                            months[i] = messages[months[i]];
+                        }
+                        Variables.MonthNames = months;
                     }
-                    Variables.MonthNames = months;
                 }
 
                 Variables.Namespaces = Site.Namespaces;
