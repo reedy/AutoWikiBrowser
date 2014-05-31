@@ -235,7 +235,7 @@ namespace WikiFunctions
                     break;
                 case "it":
                     InUse = Tools.NestedTemplateRegex(new[] {"WIP", "Wip" });
-                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link AdQ",  "link VdQ", "link GA" });
+                    LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link FL", "link AdQ", "link V", "link VdQ", "link GA" });
                     break;
                 case "pt":
                     InUse = Tools.NestedTemplateRegex(new[] {"Em edição", "Emuso", "Emedição"});
