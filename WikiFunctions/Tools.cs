@@ -374,7 +374,7 @@ namespace WikiFunctions
 			if (string.IsNullOrEmpty(s) || s.Length > 5) return false;
 			foreach (char c in s)
 			{
-				if (c != 'I' && c != 'V' && c != 'X') return false;
+                if (c != 'I' && c != 'V' && c != 'X' && c != 'L') return false;
 			}
 			return true;
 		}
