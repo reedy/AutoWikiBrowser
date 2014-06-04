@@ -2517,6 +2517,7 @@ hello", Tools.NestedTemplateRegex("foo"), true));
             Assert.AreEqual("14", Tools.RomanToInt("XIV"));
             Assert.AreEqual("16", Tools.RomanToInt("XVI"));
             Assert.AreEqual("26", Tools.RomanToInt("XXVI"));
+            Assert.AreEqual("76", Tools.RomanToInt("LXXVI"));
         }
     }
 
