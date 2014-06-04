@@ -175,8 +175,9 @@ namespace WikiFunctions.Lists.Providers
                     	
                         string title = Tools.GetTitleFromURL(searchres);
 
+                        // some google results are double encoded, so WikiDecode again
                         if (!string.IsNullOrEmpty(title))
-                            list.Add(new Article(title));
+                          list.Add(new Article(Tools.WikiDecode(title)));
                     }
 
                     if (!googleText.Contains("img src=\"nav_next.gif\""))
