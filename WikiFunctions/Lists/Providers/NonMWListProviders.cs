@@ -177,7 +177,7 @@ namespace WikiFunctions.Lists.Providers
 
                         // some google results are double encoded, so WikiDecode again
                         if (!string.IsNullOrEmpty(title))
-                          list.Add(new Article(Tools.WikiDecode(title)));
+                            list.Add(new Article(Regex.Replace(Tools.WikiDecode(title), @"\?\w+=.*", "")));
                     }
 
                     if (!googleText.Contains("img src=\"nav_next.gif\""))
