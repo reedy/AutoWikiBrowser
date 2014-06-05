@@ -264,7 +264,7 @@ namespace WikiFunctions
 		}
 		
 		/// <summary>
-		/// Converts Roman numerals in the range I to LXXXIX to Arabic number
+		/// Converts Roman numerals in the range I to CCCCXCIX to Arabic number
 		/// </summary>
 		/// <param name="Roman">Roman numerals</param>
 		/// <returns>Abrabic number as string with leading zero for 1–9</returns>
@@ -289,7 +289,13 @@ namespace WikiFunctions
                 converted += 40;
                 Roman = Roman.Replace("XL", "");
             }
+            if(Roman.Contains("XC"))
+            {
+                converted += 90;
+                Roman = Roman.Replace("XC", "");
+            }
 
+            converted += (Regex.Matches(Roman, "C").Count * 100);
             converted += (Regex.Matches(Roman, "L").Count * 50);
 			converted += (Regex.Matches(Roman, "X").Count * 10);
 			converted += (Regex.Matches(Roman, "V").Count * 5);
@@ -371,10 +377,10 @@ namespace WikiFunctions
 		/// </summary>
 		public static bool IsRomanNumber(string s)
 		{
-			if (string.IsNullOrEmpty(s) || s.Length > 5) return false;
+			if (string.IsNullOrEmpty(s) || s.Length > 9) return false;
 			foreach (char c in s)
 			{
-                if (c != 'I' && c != 'V' && c != 'X' && c != 'L') return false;
+                if (c != 'I' && c != 'V' && c != 'X' && c != 'L' && c != 'C') return false;
 			}
 			return true;
 		}
