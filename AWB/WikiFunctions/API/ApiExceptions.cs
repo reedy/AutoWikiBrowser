@@ -242,6 +242,7 @@ namespace WikiFunctions.API
     /// <summary>
     /// Thrown when an error occurs during asynchronous API operations
     /// </summary>
+    [Serializable]
     public class InvocationException : Exception
     {
         public InvocationException(string message)
