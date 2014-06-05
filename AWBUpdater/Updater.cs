@@ -244,7 +244,7 @@ namespace AwbUpdater
                 if (_awbUpdate)
                 {
                     AWBZipName = "AutoWikiBrowser" + awbNewestVersion + ".zip";
-                    _awbWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + AWBZipName;
+                    _awbWebAddress = "https://sourceforge.net/projects/autowikibrowser/files/" + AWBZipName;
                 }
                 else if ((updaterVersion > 1400) &&
                          (updaterVersion > AssemblyVersion))
