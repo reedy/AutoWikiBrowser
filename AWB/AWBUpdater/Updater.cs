@@ -250,7 +250,7 @@ namespace AwbUpdater
                          (updaterVersion > AssemblyVersion))
                 {
                     _updaterZipName = "AWBUpdater" + updaterVersion + ".zip";
-                    _updaterWebAddress = "http://downloads.sourceforge.net/autowikibrowser/" + _updaterZipName;
+                    _updaterWebAddress = "https://sourceforge.net/projects/autowikibrowser/files/" + _updaterZipName;
                     _updaterUpdate = true;
                 }
             }
