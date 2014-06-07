@@ -72,7 +72,7 @@ namespace Fronds
 
         private void linkWikipedia_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Tools.OpenURLInBrowser("https://en.wikipedia.org/wiki/WP:FRONDS");
+            Tools.OpenENArticleInBrowser("WP:FRONDS",false);
         }
 
         private void linkToolserver_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
