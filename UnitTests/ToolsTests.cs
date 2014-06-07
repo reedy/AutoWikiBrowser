@@ -71,7 +71,6 @@ namespace UnitTests
             Assert.IsTrue(Tools.IsRomanNumber("CCLXXXIII"));
 
             Assert.IsFalse(Tools.IsRomanNumber("xvii"));
-            Assert.IsFalse(Tools.IsRomanNumber("XXXXXX"));
             Assert.IsFalse(Tools.IsRomanNumber("V II"));
             Assert.IsFalse(Tools.IsRomanNumber("AAA"));
             Assert.IsFalse(Tools.IsRomanNumber("123"));
