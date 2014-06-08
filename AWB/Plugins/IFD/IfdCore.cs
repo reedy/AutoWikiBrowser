@@ -198,10 +198,7 @@ namespace AutoWikiBrowser.Plugins.IFD
         private void PluginEnabledCheckedChange(object sender, EventArgs e)
         {
             Settings.Enabled = PluginEnabled;
-            if (PluginEnabled)
-                AWB.NotifyBalloon("IFD plugin enabled", ToolTipIcon.Info);
-            else
-                AWB.NotifyBalloon("IFD plugin disabled", ToolTipIcon.Info);
+            AWB.NotifyBalloon(PluginEnabled ? "IFD plugin enabled" : "IFD plugin disabled", ToolTipIcon.Info);
         }
 
         private static void AboutMenuItemClicked(object sender, EventArgs e)
