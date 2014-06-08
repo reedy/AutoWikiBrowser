@@ -284,10 +284,8 @@ namespace WikiFunctions.Controls.Lists
             {
                 // otherwise if article to be removed isn't the single selected one, there may be duplicates of the article
                 // so remove first instance and avoid scrolling
-                int intPosition;
-
                 // if replacing the second instance of the article in the list maker avoid jumping selected article to the first
-                intPosition = lbArticles.Items.IndexOf(item);
+                int intPosition = lbArticles.Items.IndexOf(item);
 
                 while (lbArticles.SelectedItems.Count > 0)
                     lbArticles.SetSelected(lbArticles.SelectedIndex, false);
