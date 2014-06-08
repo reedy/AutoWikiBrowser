@@ -3537,19 +3537,17 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string FixSyntaxRedirects(string articleText)
         {
-            articleText = WikiRegexes.Redirect.Replace(articleText, m => {
-                                                           string res = m.Value.Replace("\r\n", " ");
-                                                           res = res.Replace("[[[[", "[[");
-                                                           res = res.Replace("]]]]", "]]");
-                                                           res = res.Replace("[[[", "[[");
-                                                           res = res.Replace("]]]", "]]");
-                                                           res = res.Replace("= [[", " [[");
-                                                           res = res.Replace("=[[", " [[");
-                                                           res = res.Replace(": [[", " [[");
-                                                           return res = res.Replace(":[[", " [[");
-                                                       });
-
-            return articleText;
+            return articleText = WikiRegexes.Redirect.Replace(articleText, m => {
+                                                                                    string res = m.Value.Replace("\r\n", " ");
+                                                                                    res = res.Replace("[[[[", "[[");
+                                                                                    res = res.Replace("]]]]", "]]");
+                                                                                    res = res.Replace("[[[", "[[");
+                                                                                    res = res.Replace("]]]", "]]");
+                                                                                    res = res.Replace("= [[", " [[");
+                                                                                    res = res.Replace("=[[", " [[");
+                                                                                    res = res.Replace(": [[", " [[");
+                                                                                    return res = res.Replace(":[[", " [[");
+            });
         }
 
         /// <summary>
@@ -5121,7 +5119,7 @@ namespace WikiFunctions.Parse
             // don't convert %27%27 -- https://bugzilla.wikimedia.org/show_bug.cgi?id=8932
             if (theTarget.Length > 0 && !theTarget.Contains("%27%27"))
             {
-                string newTarget = "";
+                string newTarget;
                 if(theTarget.Contains("#")) // check for performance
                 {
                     Match sl = SectionLink.Match(theTarget);
