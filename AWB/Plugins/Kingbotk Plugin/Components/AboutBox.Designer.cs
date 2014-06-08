@@ -1,18 +1,5 @@
-﻿using AutoWikiBrowser.Plugins.Kingbotk;
-using AutoWikiBrowser.Plugins.Kingbotk.Components;
-using AutoWikiBrowser.Plugins.Kingbotk.ManualAssessments;
-using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using System.Xml;
-using AutoWikiBrowser.Plugins.Kingbotk.Properties;
-using WikiFunctions;
-using WikiFunctions.Plugin;
+﻿using AutoWikiBrowser.Plugins.Kingbotk.Properties;
+
 namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 {
 	partial class AboutBox : System.Windows.Forms.Form

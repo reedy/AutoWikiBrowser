@@ -1,6 +1,3 @@
-using System;
-using System.Windows.Forms;
-
 namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 {
 	partial class PluginSettingsControl : System.Windows.Forms.UserControl

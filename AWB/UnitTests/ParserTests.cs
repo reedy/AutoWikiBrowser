@@ -22,7 +22,6 @@ Copyright © 2000-2002 Philip A. Craig
 
  */
 
-using System.Text;
 using System.Text.RegularExpressions;
 using NUnit.Framework;
 using WikiFunctions;

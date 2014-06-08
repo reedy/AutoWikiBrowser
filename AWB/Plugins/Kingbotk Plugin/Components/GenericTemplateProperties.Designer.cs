@@ -1,10 +1,3 @@
-using System;
-using System.Windows.Forms;
-using System.Xml;
-
-using WikiFunctions;
-
-using WikiFunctions.Plugin;
 namespace AutoWikiBrowser.Plugins.Kingbotk.Components
 {
 	partial class GenericTemplatePropertiesForm : System.Windows.Forms.Form
