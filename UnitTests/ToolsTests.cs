@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using NUnit.Framework;
 using WikiFunctions;
 using System.Text.RegularExpressions;

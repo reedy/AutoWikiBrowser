@@ -1,7 +1,4 @@
-﻿using System.Drawing;
-using WikiFunctions.Lists;
-
-namespace WikiFunctions.Controls.Lists
+﻿namespace WikiFunctions.Controls.Lists
 {
     partial class ListMaker
     {

@@ -1,13 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Text.RegularExpressions;
-using System.Windows.Forms;
-using System.Xml;
-using WikiFunctions;
-using WikiFunctions.Plugin;
 namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
 {
 	partial class GenericTemplateSettings : System.Windows.Forms.UserControl

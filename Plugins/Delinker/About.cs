@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace AutoWikiBrowser.Plugins.Delinker
+﻿namespace AutoWikiBrowser.Plugins.Delinker
 {
     internal sealed class AboutBox : WikiFunctions.Controls.AboutBox
     {
