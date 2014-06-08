@@ -62,24 +62,24 @@ namespace WikiFunctions.Controls
         /// Extracts an assembly description (usually created by Visual Studio?)
         /// </summary>
         /// <returns></returns>
-        public static string AssemblyDescription(Assembly Ass)
+        public static string AssemblyDescription(Assembly ass)
         {
             // Get all Description attributes on this assembly
-            object[] attributes = Ass.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
+            object[] attributes = ass.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
             // If there aren't any Description attributes, return an empty string. If there is a Description attribute, return its value.
             return (attributes.Length == 0) ? "" : ((AssemblyDescriptionAttribute)attributes[0]).Description;
         }
 
-        public static string AssemblyCopyright(Assembly Ass)
+        public static string AssemblyCopyright(Assembly ass)
         {
             // Get all Copyright attributes on this assembly
-            object[] attributes = Ass.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
+            object[] attributes = ass.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
             // If there aren't any Copyright attributes, return an empty string. If there is a Copyright attribute, return its value.
             return (attributes.Length == 0) ? "" : ((AssemblyCopyrightAttribute)attributes[0]).Copyright;
         }
 
-        public static string GetDetailedMessage(Assembly Ass)
-        { return AssemblyDescription(Ass) + Environment.NewLine + Environment.NewLine + GPLNotice; }
+        public static string GetDetailedMessage(Assembly ass)
+        { return AssemblyDescription(ass) + Environment.NewLine + Environment.NewLine + GPLNotice; }
         #endregion
 
         private void AboutBox_Load(object sender, EventArgs e)
