@@ -211,7 +211,7 @@ namespace WikiFunctions
                     foreach (object item in Left)
                     {
                         ret.Append(" ");
-                        ret.Append(item.ToString());
+                        ret.Append(item);
                         ret.Append("\n");
                     }
                 }
