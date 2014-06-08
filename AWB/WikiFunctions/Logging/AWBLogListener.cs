@@ -81,7 +81,7 @@ namespace WikiFunctions.Logging
 
         public void AddAndDateStamp(ListView listView)
         {
-            ListViewSubItem dateStamp = new ListViewSubItem {Text = DateTime.Now.ToString()};
+            var dateStamp = new ListViewSubItem {Text = DateTime.Now.ToString()};
 
             base.SubItems.Insert(1, dateStamp);
 
