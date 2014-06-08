@@ -247,7 +247,7 @@ namespace WikiFunctions.Profiles
                 LoggedIn(null, null);
 
             // do not close if we reached here via command line /u (user profile) argument and form was never shown to user
-            if (TheSession.User.IsLoggedIn && this.Visible) Close();
+            if (TheSession.User.IsLoggedIn && Visible) Close();
         }
 
         private void btnLogin_Click(object sender, EventArgs e)

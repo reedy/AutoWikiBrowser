@@ -619,7 +619,7 @@ namespace WikiFunctions.API
                         {"action", "query"},
                         {"prop", "info"},
                         {"intoken", "watch"},
-                        {"titles", title},
+                        {"titles", title}
 
                     },
                 ActionOptions.All);
@@ -647,7 +647,7 @@ namespace WikiFunctions.API
                 new[,]
                     {
                         {"title", title},
-                        {"token", Page.EditToken},
+                        {"token", Page.EditToken}
                     },
                 ActionOptions.All);
             CheckForErrors(result, "watch");
@@ -811,7 +811,7 @@ namespace WikiFunctions.API
                         {"action", "query"},
                         {"prop", "info"},
                         {"intoken", "delete"},
-                        {"titles", title},
+                        {"titles", title}
 
                     },
                 ActionOptions.All);
@@ -882,7 +882,7 @@ namespace WikiFunctions.API
                         {"action", "query"},
                         {"prop", "info"},
                         {"intoken", "protect"},
-                        {"titles", title},
+                        {"titles", title}
 
                     },
                 ActionOptions.All);
@@ -973,7 +973,7 @@ namespace WikiFunctions.API
                         {"action", "query"},
                         {"prop", "info"},
                         {"intoken", "move"},
-                        {"titles", title + "|" + newTitle},
+                        {"titles", title + "|" + newTitle}
 
                     },
                 ActionOptions.All);
@@ -1151,7 +1151,7 @@ namespace WikiFunctions.API
                         {"action", "query"},
                         {"prop", "revisions"},
                         {"rvtoken", "rollback"},
-                        {"titles", title},
+                        {"titles", title}
 
                     },
                 ActionOptions.All);
@@ -1170,7 +1170,7 @@ namespace WikiFunctions.API
                 new[,]
                     {
                         {"title", title},
-                        {"token", rollbackToken},
+                        {"token", rollbackToken}
                     });
 
             CheckForErrors(result, "rollback");

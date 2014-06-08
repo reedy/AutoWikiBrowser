@@ -1081,7 +1081,7 @@ namespace WikiFunctions
 			new[] {"Ŋ", "N"},
 			new[] {"ŋ", "n"},
 			new[] {"ﬂ", "fl"},
-			new[] {"№", "No"},
+			new[] {"№", "No"}
 		};
 
 		public static readonly string[][] SortKeyChars =
