@@ -196,10 +196,7 @@ namespace AutoWikiBrowser.Plugins.CFD
         private void PluginEnabledCheckedChange(object sender, EventArgs e)
         {
             Settings.Enabled = PluginEnabled;
-            if (PluginEnabled)
-                AWB.NotifyBalloon("CFD plugin enabled", ToolTipIcon.Info);
-            else
-                AWB.NotifyBalloon("CFD plugin disabled", ToolTipIcon.Info);
+            AWB.NotifyBalloon(PluginEnabled ? "CFD plugin enabled" : "CFD plugin disabled", ToolTipIcon.Info);
         }
 
         private static void AboutMenuItemClicked(Object sender, EventArgs e)
