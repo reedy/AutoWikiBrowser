@@ -176,7 +176,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
             AlternateNames = PluginManager.XMLReadString(reader, TemplateAlternateNamesParm, AlternateNames);
             ImportanceSetting =
                 (ImportanceSettingEnum)
-                    ImportanceSettingEnum.Parse(typeof (ImportanceSettingEnum),
+                    Enum.Parse(typeof (ImportanceSettingEnum),
                         PluginManager.XMLReadString(reader, TemplateImportanceParm, ImportanceSetting.ToString()),
                         true);
             AutoStubYN = PluginManager.XMLReadBoolean(reader, TemplateAutoStubYNParm, AutoStubYN);
