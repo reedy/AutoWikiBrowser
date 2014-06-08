@@ -121,7 +121,7 @@ namespace WikiFunctions.Controls
                                        "[[WP:CSD#U2|Nonexistent user]]",
                                        "[[WP:CSD#U3|Non-free galleries]]",
                                        "[[WP:CSD#T2|Misrepresentation of policy]]",
-                                       "[[WP:CSD#T3|Duplication and hardcoded instances]]",
+                                       "[[WP:CSD#T3|Duplication and hardcoded instances]]"
                                    };
 
                 }
