@@ -48,7 +48,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
                 _stats = stats;
                 _stats.SkipMisc += StatsSkipMisc;
 
-                Timer1_Tick(null, null);
+                Timer1_Tick();
             }
         }
 
@@ -123,7 +123,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk.Components
         private readonly Regex _timerregexp = new Regex("\\..*");
         private int _updateETACount;
 
-        private void Timer1_Tick(object sender, EventArgs e)
+        private void Timer1_Tick()
         {
             _updateETACount += 1;
             _timeSpan = DateTime.Now - _start;
