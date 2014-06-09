@@ -940,13 +940,29 @@ foo";
 [[Category:Two]]
 ", parser2.Sorter.RemoveCats(ref cats, "A"), "Duplicate category removed, one without sortkey");
 
-cats = @"[[Category:One|A]]
+		    cats = @"[[Category:One|A]]
 [[Category:Two]]
 [[Category:One|a]]";
 			
-			Assert.AreEqual( @"[[Category:One|A]]
+		    Assert.AreEqual( @"[[Category:One|A]]
 [[Category:Two]]
 ", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category removed, same sortkey ignoring first letter case");		    
+
+		    cats = @"[[Category:One|foo]]
+[[Category:Two]]
+[[Category:One|foo]]";
+
+		    Assert.AreEqual( @"[[Category:One|foo]]
+[[Category:Two]]
+", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category removed, lowercase sortkey");
+
+		    cats = @"[[Category:One|Foo]]
+[[Category:Two]]
+[[Category:One|Foo]]";
+
+		    Assert.AreEqual( @"[[Category:One|Foo]]
+[[Category:Two]]
+", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category removed, uppercase sortkey");
 		}
 
 		[Test]
