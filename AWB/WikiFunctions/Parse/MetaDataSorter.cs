@@ -1073,7 +1073,7 @@ en, sq, ru
 
 			    foreach(string u in uniqueItems)
 			    {
-			        if(u.StartsWith(s2) || u.StartsWith(s2.TrimEnd(']') + @"|"))
+			        if(u.StartsWith(s2) || u.StartsWith(s2.TrimEnd(']') + @"|") || u.Equals(s) || u.Equals(s2))
 			        {
 			            addme = false;
 			            break;
