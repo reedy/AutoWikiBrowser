@@ -255,7 +255,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex ListOf = new Regex(@"^Lists? of", RegexOptions.Compiled);
         
-        private static readonly Regex Anchor2NewlineHeader = new Regex(Tools.NestedTemplateRegex("Anchor").ToString() + "\r\n(\r\n)+==", RegexOptions.Multiline);
+        private static readonly Regex Anchor2NewlineHeader = new Regex(Tools.NestedTemplateRegex("Anchor") + "\r\n(\r\n)+==", RegexOptions.Multiline);
         private static readonly Regex HeadingsIncorrectWhitespaceBefore = new Regex(@"(?<=\S *(?:(\r\n){3,}|\r\n|\s*< *[Bb][Rr] *\/? *>\s*) *)=");
 
         // Covered by: FormattingTests.TestFixHeadings(), incomplete
@@ -1118,8 +1118,8 @@ namespace WikiFunctions.Parse
         private static readonly Regex YearRangeToPresent = new Regex(@"\b([12]\d{3}) *- *([Pp]resent\b)", RegexOptions.Compiled);
 
         private static readonly Regex YearDash = new Regex(@"[12]\d{3}[–-]");
-        private static readonly Regex InternationalDateFullUnspacedRange = new Regex(WikiRegexes.InternationalDates.ToString() + @"[–-]" + WikiRegexes.InternationalDates.ToString());
-        private static readonly Regex AmericanDateFullUnspacedRange = new Regex(WikiRegexes.AmericanDates.ToString() + @"[–-]" + WikiRegexes.AmericanDates.ToString());
+        private static readonly Regex InternationalDateFullUnspacedRange = new Regex(WikiRegexes.InternationalDates + @"[–-]" + WikiRegexes.InternationalDates);
+        private static readonly Regex AmericanDateFullUnspacedRange = new Regex(WikiRegexes.AmericanDates + @"[–-]" + WikiRegexes.AmericanDates);
 
         /// <summary>
         /// Fix date and decade formatting errors: commas in American/international dates, full date ranges, month ranges
@@ -1452,8 +1452,8 @@ namespace WikiFunctions.Parse
         private static readonly Regex RefsAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *" + WikiRegexes.Refs, RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private static readonly Regex RefsAfterDupePunctuationQuick = new Regex(@"(?<![,\.:;])" + RefsPunctuation + @"\1 *<\s*ref", RegexOptions.IgnoreCase);
         private static readonly Regex Footnote = Tools.NestedTemplateRegex(new[] {"Efn", "Efn-ua", "Efn-lr", "Sfn", "Shortened footnote", "Shortened footnote template", "Sfnp", "Sfnm"});
-        private static readonly Regex PunctuationAfterFootnote = new Regex(@"(?<sfn>" + Footnote.ToString() + @")(?<punc>[,\.;:])");
-        private static readonly Regex FootnoteAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *(?<sfn>" + Footnote.ToString() + @")");
+        private static readonly Regex PunctuationAfterFootnote = new Regex(@"(?<sfn>" + Footnote + @")(?<punc>[,\.;:])");
+        private static readonly Regex FootnoteAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *(?<sfn>" + Footnote + @")");
 
         /// <summary>
         /// Puts &lt;ref&gt; and {{sfn}} references after punctuation (comma, full stop) per WP:REFPUNC
@@ -7512,9 +7512,9 @@ namespace WikiFunctions.Parse
                                                                     tagsrenamed++;
                                                                     if (Variables.LangCode.Equals("ar"))
                                                                         return Tools.RenameTemplate(u2.Value, "بذرة غير مصنفة");
-                                                                    else if (Variables.LangCode.Equals("arz"))
+                                                                    if (Variables.LangCode.Equals("arz"))
                                                                         return Tools.RenameTemplate(u2.Value, "تقاوى مش متصنفه");
-                                                                    else if (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple"))
+                                                                    if (Variables.LangCode.Equals("en") || Variables.LangCode.Equals("simple"))
                                                                         return Tools.RenameTemplate(u2.Value, "Uncategorized stub");
                                                                 }
                                                                 else // already uncat stub so remove plain uncat
@@ -7919,7 +7919,7 @@ namespace WikiFunctions.Parse
         private string PrepareTaggerEditSummary()
         {
             string summary = "";
-            string tags = "";
+            string tags;
             if (tagsRemoved.Count > 0)
             {
             	// Reverse order of words for arwiki and arzwiki
@@ -7985,8 +7985,6 @@ namespace WikiFunctions.Parse
 	                    summary += ", ";
                 }
 
-                tags = "";
-                
                 // Reverse order of words for arwiki and arzwiki
                 if (Variables.LangCode.Equals("ar"))
                 {
