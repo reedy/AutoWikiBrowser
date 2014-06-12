@@ -228,7 +228,7 @@ namespace WikiFunctions.TalkPages
         private static readonly Regex TalkGuidelineTemplates = Tools.NestedTemplateRegex(new[] { "Not a forum", "Recurring themes", "FAQ", "Round in circles", "Calm talk", "Pbneutral"});
         private static readonly Regex EnglishVariationsTemplates = Tools.NestedTemplateRegex(new[] { "American English", "Australian English", "British English", "British English Oxford spelling", "Canadian English", "Hiberno-English", "Indian English", "Malaysian English", "Malawian English", "New Zealand English", "Pakistani English", "Philippine English", "Scottish English", "South African English", "Trinidadian English" });
         private static readonly Regex TalkHistoryTemplates = Tools.NestedTemplateRegex(new[] { "Article history", "ArticleHistory" });
-        private static readonly Regex TalkHistoryBTemplates = Tools.NestedTemplateRegex(new[] { "FailedGA", "Old prod", "Old prod full", "Oldprodfull", "Afd-merged-from", "Old AfD multi", "Old AfD", "Old peer review", "Copied" });
+        private static readonly Regex TalkHistoryBTemplates = Tools.NestedTemplateRegex(new[] { "FailedGA", "Old prod", "Old prod full", "Oldprodfull", "Afd-merged-from", "Old AfD multi", "Old AfD", "Oldafdfull ", "Old peer review", "Copied" });
         private static readonly Regex MilestoneTemplates = Tools.NestedTemplateRegex(new[] { "DYK talk", "ITN talk", "On this day" });
         private static readonly Regex VitalArticle = Tools.NestedTemplateRegex(new[] { "Vital article" });
         private static readonly Regex ImageRequested = Tools.NestedTemplateRegex(new[] { "Image requested", "Reqphoto" });
