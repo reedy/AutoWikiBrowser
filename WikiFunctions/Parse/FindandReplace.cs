@@ -597,6 +597,7 @@ namespace WikiFunctions.Parse
 
             using (RegexTester t = new RegexTester(true))
             {
+                dataGridView1.CommitEdit(DataGridViewDataErrorContexts.Commit);
                 t.Find = (string)row.Cells["find"].Value;
                 t.Replace = (string)row.Cells["replace"].Value;
                 t.Multiline = (bool)row.Cells["multi"].FormattedValue;
