@@ -612,6 +612,7 @@ namespace WikiFunctions.Parse
                 row.Cells["multi"].Value = t.Multiline;
                 row.Cells["single"].Value = t.Singleline;
                 row.Cells["casesensitive"].Value = !t.IgnoreCase;
+                dataGridView1.RefreshEdit();
             }
         }
         #endregion
