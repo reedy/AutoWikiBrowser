@@ -756,7 +756,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches templates with many wikilinks to avoid tagging the transcluding page as dead-end and/or stub (en only)
         /// </summary>
-        public static readonly Regex NonDeadEndPageTemplates = Tools.NestedTemplateRegex(new [] { "Events by year for decade", "Events by year for decade BC", "SCOTUSRow", "ATC codes lead", "Portal:Current events/Month Inclusion"});
+        public static readonly Regex NonDeadEndPageTemplates = Tools.NestedTemplateRegex(new [] { "Events by year for decade", "Events by year for decade BC", "SCOTUSRow", "ATC codes lead", "Portal:Current events/Month Inclusion", "Ukrsrow"});
 
         /// <summary>
         /// Matches stubs
