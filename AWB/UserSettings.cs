@@ -616,7 +616,7 @@ namespace AutoWikiBrowser
             ShowMovingAverageTimer = p.General.TimerEnabled;
             alertPreferences = p.General.AlertPreferences;
 
-            sortAlphabeticallyToolStripMenuItem.Checked = p.General.SortListAlphabetically;
+            sortAlphabeticallyToolStripMenuItem.Checked = listMaker.AutoAlpha = p.General.SortListAlphabetically;
             displayfalsePositivesButtonToolStripMenuItem.Checked = p.General.AddIgnoredToLog;
 
             _autoSaveEditBoxEnabled = p.General.AutoSaveEdit.Enabled;
