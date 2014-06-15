@@ -1,4 +1,4 @@
-namespace AutoWikiBrowser.Plugins.Kingbotk.Plugins
+namespace AutoWikiBrowser.Plugins.Kingbotk
 {
 	partial class GenericWithWorkgroups : System.Windows.Forms.UserControl
 	{
