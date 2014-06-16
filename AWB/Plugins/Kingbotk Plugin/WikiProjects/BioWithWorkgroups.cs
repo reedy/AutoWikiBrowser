@@ -1,5 +1,4 @@
 using System.Windows.Forms;
-using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
 
 namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
 {
