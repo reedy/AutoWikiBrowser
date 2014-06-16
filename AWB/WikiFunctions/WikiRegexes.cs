@@ -890,7 +890,7 @@ namespace WikiFunctions
             Tools.NestedTemplateRegex(new[]
                                       {
                                           "WikiProject Banners", "WikiProjectBanners", "WikiProjectBannerShell", "WPBS"
-                                              , "WPB", "Wpb", "Wpbs", "Wikiprojectbannershell", "Shell", "Bannershell"
+                                              , "WPB", "Wpb", "Wpbs", "Wikiprojectbannershell", "Shell", "Bannershell", "WPBannerShell"
                                       }, true);
         
         /// <summary>
