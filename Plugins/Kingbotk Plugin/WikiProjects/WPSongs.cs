@@ -1,6 +1,5 @@
 using System.Windows.Forms;
 using System.Xml;
-using AutoWikiBrowser.Plugins.Kingbotk.Plugins;
 
 namespace AutoWikiBrowser.Plugins.Kingbotk.WikiProjects
 {
