@@ -487,7 +487,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
             get { return true; }
         }
 
-        private static readonly RedirectsListProvider rlp = new RedirectsListProvider();
+        private static readonly RedirectsListProvider Rlp = new RedirectsListProvider();
 
         // Get the redirects from Wikipedia:
         /// <summary>
@@ -504,7 +504,7 @@ namespace AutoWikiBrowser.Plugins.Kingbotk
 
             try
             {
-                return rlp.MakeList(Namespace.Template, new[] {Variables.Namespaces[Namespace.Template] + target});
+                return Rlp.MakeList(Namespace.Template, new[] {Variables.Namespaces[Namespace.Template] + target});
             }
             finally
             {
