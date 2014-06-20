@@ -5136,7 +5136,8 @@ http://example.com }}");
         {
             Assert.AreEqual(@"a 15% ", parser.FixNonBreakingSpaces(@"a 15 % "), "remove space");
             Assert.AreEqual(@"a 15% ", parser.FixNonBreakingSpaces(@"a 15&nbsp;% "), "remove non breaking space");
-            Assert.AreEqual(@"a 15%.", parser.FixNonBreakingSpaces(@"a 15 %."), "remove space and maintain point");
+            Assert.AreEqual(@"a 15%.", parser.FixNonBreakingSpaces(@"a 15 &nbsp;%."), "remove space and nbsp and maintain point");
+            Assert.AreEqual(@"a 15% ", parser.FixNonBreakingSpaces(@"a 15 % "), "remove space");
             Assert.AreEqual(@"a 15%.", parser.FixNonBreakingSpaces(@"a 15&nbsp;%."), "remove non breaking space and maintain point");
             Assert.AreEqual(@"a 15%,", parser.FixNonBreakingSpaces(@"a 15 %,"), "remove space and maintain comma");
             Assert.AreEqual(@"a 15%,", parser.FixNonBreakingSpaces(@"a 15&nbsp;%,"), "remove non breaking space  and maintain comma");
