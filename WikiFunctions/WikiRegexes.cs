@@ -1368,7 +1368,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches a percentage with a space or a non-breaking space
         /// </summary>
-        public static readonly Regex Percent = new Regex(@"\s(\(?\d+\.?\d*)(\s|\&nbsp;)\%(\p{P}|\)?\s)");
+        public static readonly Regex Percent = new Regex(@"\s(\(?\d+\.?\d*)(\s|\s?\&nbsp;)\%(\p{P}|\)?\s)");
 
         /// <summary>
         /// Matches 12-hour clock time without a space
