@@ -816,7 +816,7 @@ namespace WikiFunctions.Parse
                 return originalArticleText;
 
             // first merge to see also section
-            if (WikiRegexes.SeeAlso.IsMatch(articleText))
+            if (WikiRegexes.SeeAlso.Matches(articleText).Count == 1)
                 return WikiRegexes.SeeAlso.Replace(articleText, "$0" + Tools.Newline(@"{{Portal" + PortalsToAdd + @"}}"));
 
             // otherwise merge to original location if all portals in same section
