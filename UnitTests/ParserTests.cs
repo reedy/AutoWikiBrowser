@@ -7640,6 +7640,13 @@ Text
 ==Other==
 {{Portal|Foo}}";
             Assert.AreEqual(differentSection, Parsers.MergePortals(differentSection), "not merged when portals in ddifferent sections");
+
+            const string TwoSeeAlso = @"Foo
+==See also==
+{{Portal|Bar}}
+==See also==
+{{Portal|Foo}}";
+            Assert.AreEqual(TwoSeeAlso, Parsers.MergePortals(TwoSeeAlso), "not merged when multiple see also sections");
         }
 
         [Test]
