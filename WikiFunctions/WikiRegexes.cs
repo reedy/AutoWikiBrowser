@@ -1371,6 +1371,11 @@ namespace WikiFunctions
         public static readonly Regex Percent = new Regex(@"\s(\(?\d+\.?\d*)(\s|\s?\&nbsp;)\%(\p{P}|\)?\s)");
 
         /// <summary>
+        /// Matches a currency symbol with a space or a non-breaking space
+        /// </summary>
+        public static readonly Regex Currency = new Regex(@"(€|£|\$)(\s|\s?\&nbsp;)(\d+\.?\d*(\p{P}|\)?\s))");
+
+        /// <summary>
         /// Matches 12-hour clock time without a space
         /// </summary>
         public static readonly Regex ClockTimeWithZero = new Regex(@"0(\d\:\b[0-5]\d)([ap]\.m\.)");

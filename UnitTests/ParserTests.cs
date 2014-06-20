@@ -5165,6 +5165,28 @@ http://example.com }}");
         }
         
         [Test]
+        public void TestFixCurrency()
+        {
+            Assert.AreEqual(@"£123 ", parser.FixNonBreakingSpaces(@"£ 123 "), "remove space (Pound sign)");
+            Assert.AreEqual(@"€123 ", parser.FixNonBreakingSpaces(@"€ 123 "), "remove space (Euro sign)");
+            Assert.AreEqual(@"$123 ", parser.FixNonBreakingSpaces(@"$ 123 "), "remove space (Dollar sign)");
+            Assert.AreEqual(@"£123 ", parser.FixNonBreakingSpaces(@"£&nbsp;123 "), "remove non breaking space");
+            Assert.AreEqual(@"£123.", parser.FixNonBreakingSpaces(@"£ &nbsp;123."), "remove space and nbsp and maintain point");
+            Assert.AreEqual(@"£12.3,", parser.FixNonBreakingSpaces(@"£ 12.3,"), "remove space and maintain comma");
+
+#if DEBUG
+            Variables.SetProjectLangCode("sv");
+            Assert.AreEqual(@"£ 123 ", parser.FixNonBreakingSpaces(@"£ 123 "), "Don't remove space in svwiki");
+
+            Variables.SetProjectLangCode("simple");
+            Assert.AreEqual(@"£123 ", parser.FixNonBreakingSpaces(@"£ 123 "), "Remove space in simple");
+
+            Variables.SetProjectLangCode("en");
+            Assert.AreEqual(@"£123 ", parser.FixNonBreakingSpaces(@"£ 123 "), "remove space");
+#endif
+        }
+
+        [Test]
         public void TestFixClockTime()
         {
         	Assert.AreEqual(@"2:35&nbsp;a.m.", parser.FixNonBreakingSpaces(@"2:35a.m."));
