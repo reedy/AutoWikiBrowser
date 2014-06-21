@@ -1011,6 +1011,7 @@ foo
             RegexAssert.Matches(WikiRegexes.PossibleInterwikis, "foo[[en::bar]]", "[[en::bar]]");
 
             RegexAssert.NoMatch(WikiRegexes.PossibleInterwikis, "[[:en:foo]]");
+            RegexAssert.NoMatch(WikiRegexes.PossibleInterwikis, "[[:ru:foo]]");
             RegexAssert.NoMatch(WikiRegexes.PossibleInterwikis, "[[:foo]]");
             RegexAssert.NoMatch(WikiRegexes.PossibleInterwikis, "[[File:foo]]");
 
