@@ -5135,7 +5135,9 @@ http://example.com }}");
         public void TestFixPercent()
         {
             Assert.AreEqual(@"a 15% ", parser.FixNonBreakingSpaces(@"a 15 % "), "remove space");
-            Assert.AreEqual(@"a -15% ", parser.FixNonBreakingSpaces(@"a -15 % "), "remove space");
+            Assert.AreEqual(@"a -15% ", parser.FixNonBreakingSpaces(@"a -15 % "), "remove space (minus sign)");
+            Assert.AreEqual(@"a +15% ", parser.FixNonBreakingSpaces(@"a +15 % "), "remove space (plus sign)");
+            Assert.AreEqual(@"a ±15% ", parser.FixNonBreakingSpaces(@"a ±15 % "), "remove space (plus-minus sign)");
             Assert.AreEqual(@"a 15% ", parser.FixNonBreakingSpaces(@"a 15&nbsp;% "), "remove non breaking space");
             Assert.AreEqual(@"a 15%.", parser.FixNonBreakingSpaces(@"a 15 &nbsp;%."), "remove space and nbsp and maintain point");
             Assert.AreEqual(@"a 15% ", parser.FixNonBreakingSpaces(@"a 15 % "), "remove space");
