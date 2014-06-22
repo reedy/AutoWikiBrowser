@@ -5223,6 +5223,7 @@ namespace WikiFunctions.Parse
         // Covered by: LinkTests.TestSimplifyLinks()
         /// <summary>
         /// Simplifies some links in article wiki text such as changing [[Dog|Dogs]] to [[Dog]]s
+        /// Fixes CHECKWIKI error 64
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The simplified article text.</returns>
