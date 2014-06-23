@@ -3910,6 +3910,8 @@ namespace WikiFunctions.Parse
         private static readonly Regex DateLeadingZero = new Regex(@"(?<=\|\s*(?:access|archive)?date\s*=\s*)(?:0([1-9]\s+" + WikiRegexes.MonthsNoGroup + @")|(\s*" + WikiRegexes.MonthsNoGroup + @"\s)+0([1-9],?))(\s+(?:20[01]|1[89]\d)\d)?(\s*(?:\||}}))");
         private static readonly Regex YearInDate = new Regex(@"(\|\s*)date(\s*=\s*[12]\d{3}\s*)(?=\||}})");
 
+        private static readonly Regex LangTemplate = new Regex(@"(\|\s*language\s*=\s*)({{(\w{2}) icon}}\s*)(?=\||}})");
+
         private static readonly Regex UnspacedCommaPageRange = new Regex(@"((?:[ ,–]|^)\d+),(\d+(?:[ ,–]|$))");
 
         private static readonly List<string> ParametersToDequote = new List<string>(new[] { "title", "trans_title" });
@@ -4076,10 +4078,15 @@ namespace WikiFunctions.Parse
                 newValue = Tools.UpdateTemplateParameterValue(newValue, "title", theTitle);
             }
 
+
+            // {{sv icon}} -> sv in language=
+            if(LangTemplate.IsMatch(newValue))
+          	   newValue = LangTemplate.Replace(newValue, "$1$3");
+
             // remove language=English on en-wiki
             if (lang.Equals("english", StringComparison.OrdinalIgnoreCase) || lang.Equals("en", StringComparison.OrdinalIgnoreCase))
                 newValue = Tools.RemoveTemplateParameter(newValue, "language");
-
+            
             // remove italics for work field for book/periodical, but not website -- auto italicised by template
             if (TheWork.Length > 0 && !TheWork.Contains("."))
                 newValue = WorkInItalics.Replace(newValue, "$1$2");
