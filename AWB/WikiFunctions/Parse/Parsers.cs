@@ -5248,8 +5248,8 @@ namespace WikiFunctions.Parse
                 if (b.Length == 0)
                     continue;
 
-                if (a == b.Replace("_", " ") || Tools.TurnFirstToLower(a) == b.Replace("_", " ") || CanonicalizeTitle(a).Equals(b)
-                    || CanonicalizeTitle(a).Equals(Tools.TurnFirstToLower(b)))
+                if (CanonicalizeTitle(b).Equals(a) || CanonicalizeTitle(b).Equals(Tools.TurnFirstToLower(a)) 
+                    || CanonicalizeTitle(a).Equals(b) || CanonicalizeTitle(a).Equals(Tools.TurnFirstToLower(b)))
                 {
                     articleText = articleText.Replace(n, "[[" + b.Replace("_", " ") + "]]");
                 }
