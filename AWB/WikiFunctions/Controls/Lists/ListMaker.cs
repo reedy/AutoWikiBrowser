@@ -220,7 +220,7 @@ namespace WikiFunctions.Controls.Lists
         public void Clear()
         {
             lbArticles.Items.Clear();
-            UpdateNumberOfArticles();
+            UpdateNumberOfArticles(false);
         }
 
         /// <summary>
@@ -305,7 +305,7 @@ namespace WikiFunctions.Controls.Lists
                 }
             }
 
-            UpdateNumberOfArticles();
+            UpdateNumberOfArticles(false);
             return true;
         }
 
@@ -353,7 +353,7 @@ namespace WikiFunctions.Controls.Lists
         public void RemoveAt(int index)
         {
             lbArticles.Items.RemoveAt(index);
-            UpdateNumberOfArticles();
+            UpdateNumberOfArticles(false);
         }
 
         public Article this[int index]
@@ -922,7 +922,7 @@ namespace WikiFunctions.Controls.Lists
         private void RemoveSelectedArticle()
         {
             lbArticles.RemoveSelected();
-            UpdateNumberOfArticles();
+            UpdateNumberOfArticles(false);
         }
 
         /// <summary>
@@ -947,7 +947,7 @@ namespace WikiFunctions.Controls.Lists
             _specialFilter.Clear();
             _specialFilter.RemoveDuplicates();
 
-            UpdateNumberOfArticles();
+            UpdateNumberOfArticles(false);
         }
 
         /// <summary>
@@ -982,7 +982,7 @@ namespace WikiFunctions.Controls.Lists
                 lbArticles.EndUpdate();
             }
 
-            UpdateNumberOfArticles();
+            UpdateNumberOfArticles(false);
         }
 
         /// <summary>
@@ -1039,13 +1039,21 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         public void UpdateNumberOfArticles()
         {
+            UpdateNumberOfArticles(true);
+        }
+
+        /// <summary>
+        /// Updates the Number of Articles, enablement of Remove, Filter buttons. Sorts list if input set
+        /// </summary>
+        public void UpdateNumberOfArticles(bool sortneeded)
+        {
             lblNumOfPages.Text = lbArticles.Items.Count + " page";
             if (lbArticles.Items.Count != 1)
                 lblNumOfPages.Text += "s";
             if (NoOfArticlesChanged != null)
                 NoOfArticlesChanged(null, null);
 
-            if (AutoAlpha)
+            if (sortneeded && AutoAlpha)
                 AlphaSortList();
 
             btnRemove.Enabled = btnFilter.Enabled = lbArticles.Items.Count > 0;
