@@ -718,8 +718,7 @@ namespace WikiFunctions.Controls.Lists
             if (FilterNonMainAuto)
                 FilterNonMainArticles();
 
-            if (!FilterNonMainAuto && !FilterDuplicates)
-                UpdateNumberOfArticles();
+            UpdateNumberOfArticles();
         }
 
         /// <summary>
