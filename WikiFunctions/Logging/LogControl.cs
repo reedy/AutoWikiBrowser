@@ -22,6 +22,7 @@ using System.Collections;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
+using System.Linq;
 
 using WikiFunctions.Controls;
 using WikiFunctions.Controls.Lists;
@@ -151,11 +152,8 @@ namespace WikiFunctions.Logging
 
         private void addSelectedToArticleListToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            List<Article> articles = new List<Article>();
-            foreach (ListViewItem item in MenuItemOwner(sender).SelectedItems)
-            {
-                articles.Add(new Article(item.Text));
-            }
+            List<Article> articles = MenuItemOwner(sender).SelectedItems.Cast<ListViewItem>().Select(item => new Article(item.Text)).ToList();
+
             listMaker.Add(articles);
         }
 
@@ -199,9 +197,7 @@ namespace WikiFunctions.Logging
 
         private void btnAddToList_Click(object sender, EventArgs e)
         {
-            List<Article> articles = new List<Article>();
-            foreach (ListViewItem article in lvIgnored.Items)
-                articles.Add(new Article(article.Text));
+            List<Article> articles = lvIgnored.Items.Cast<ListViewItem>().Select(item => new Article(item.Text)).ToList();
 
             listMaker.Add(articles);
         }
@@ -350,9 +346,7 @@ namespace WikiFunctions.Logging
 
         private void btnAddSuccessToList_Click(object sender, EventArgs e)
         {
-            List<Article> articles = new List<Article>();
-            foreach (ListViewItem article in lvSaved.Items)
-                articles.Add(new Article(article.Text));
+            List<Article> articles = lvSaved.Items.Cast<ListViewItem>().Select(item => new Article(item.Text)).ToList();
 
             listMaker.Add(articles);
         }
