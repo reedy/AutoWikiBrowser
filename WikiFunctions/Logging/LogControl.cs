@@ -255,10 +255,7 @@ namespace WikiFunctions.Logging
 
         private void selectNoneToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            foreach (ListViewItem item in MenuItemOwner(sender).Items)
-            {
-                item.Selected = false;
-            }
+            MenuItemOwner(sender).SelectedItems.Clear();
         }
 
         private void openInBrowserToolStripMenuItem_Click(object sender, EventArgs e)
