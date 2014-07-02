@@ -148,7 +148,7 @@ namespace WikiFunctions.AWBSettings
         {
             try
             {
-                using (FileStream fStream = new FileStream(file, FileMode.Create))
+                using (StreamWriter fStream = new StreamWriter(file, false, Encoding.UTF8))
                 {
                     List<Type> types = SavePluginSettings(prefs);
 
