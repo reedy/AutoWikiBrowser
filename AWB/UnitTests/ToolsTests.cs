@@ -2145,6 +2145,7 @@ Start date and age
             Assert.AreEqual(@"{{PAGESIZE:Foo}}", Tools.TemplateToMagicWord(@"{{PAGESIZE|Foo}}"));
             Assert.AreEqual(@"{{PROTECTIONLEVEL:Foo}}", Tools.TemplateToMagicWord(@"{{PROTECTIONLEVEL|Foo}}"));
             Assert.AreEqual(@"{{Pagename:Foo}}", Tools.TemplateToMagicWord(@"{{Pagename|Foo}}"));
+            Assert.AreEqual(@"{{pagename:Foo}}", Tools.TemplateToMagicWord(@"{{pagename|Foo}}"));
             Assert.AreEqual(@"{{SUBPAGENAME:Foo}}", Tools.TemplateToMagicWord(@"{{SUBPAGENAME|Foo}}"));
             Assert.AreEqual(@"{{Subpagename:Foo}}", Tools.TemplateToMagicWord(@"{{Subpagename|Foo}}"));
             Assert.AreEqual(@"{{padleft:Foo}}", Tools.TemplateToMagicWord(@"{{padleft|Foo}}"));
