@@ -1108,6 +1108,8 @@ namespace WikiFunctions
 		  
 			new[] {"“", "'"}, // double quotes (curly)
 			new[] {"”", "'"}, // double quotes (curly)
+			new[] {"„", "'"}, // double low-9 quotation mark
+			new[] {"‟", "'"}, // double reversed comma, quotation mark
 
 			new[] {"–", "-"}, // endash
 			new[] {"—", "-"}, // emdash
