@@ -9345,8 +9345,6 @@ Foo
         public void PageNameTests()
         {
             Assert.AreEqual(@"{{subst:PAGENAME}}", Parsers.Conversions(@"{{PAGENAME}}"));
-            Assert.AreEqual(@"{{subst:Pagename}}", Parsers.Conversions(@"{{Pagename}}"));
-            Assert.AreEqual(@"{{subst:Pagename}}", Parsers.Conversions(@"{{pagename}}"));
             Assert.AreEqual(@"{{subst:PAGENAMEE}}", Parsers.Conversions(@"{{PAGENAMEE}}"));
             Assert.AreEqual(@"{{subst:PAGENAME}}", Parsers.Conversions(@"{{template:PAGENAME}}"));
             Assert.AreEqual(@"{{subst:BASEPAGENAME}}", Parsers.Conversions(@"{{BASEPAGENAME}}"));

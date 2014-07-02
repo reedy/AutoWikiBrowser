@@ -1418,7 +1418,7 @@ namespace WikiFunctions
         /// <summary>
         /// List of PAGENAME, PAGENAMEE, BASEPAGENAME, BASEPAGENAMEE templates
         /// </summary>
-        public static readonly List<string> BASEPAGENAMETemplatesL = new List<string>(new [] {"PAGENAME", "Pagename", "PAGENAMEE", "BASEPAGENAME", "BASEPAGENAMEE"});
+        public static readonly List<string> BASEPAGENAMETemplatesL = new List<string>(new [] {"PAGENAME", "PAGENAMEE", "BASEPAGENAME", "BASEPAGENAMEE"});
         
         /// <summary>
         /// Matches PAGENAME, PAGENAMEE, BASEPAGENAME, BASEPAGENAMEE templates
