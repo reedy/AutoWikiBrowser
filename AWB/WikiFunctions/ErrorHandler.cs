@@ -40,6 +40,7 @@ namespace WikiFunctions
 
         private static bool HandleKnownExceptions(Exception ex)
         {
+            Tools.WriteDebug("HandleKnownExceptions", ex.StackTrace.ToString());
             // invalid regex - only ArgumentException, without subclasses
             if (ex is ArgumentException && (ex.StackTrace.Contains("System.Text.RegularExpressions") || ex.ToString().StartsWith(@"System.ArgumentException: parsing")))
             {
