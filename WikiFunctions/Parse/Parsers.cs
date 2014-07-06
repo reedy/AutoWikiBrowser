@@ -4081,7 +4081,10 @@ namespace WikiFunctions.Parse
 
             // {{sv icon}} -> sv in language=
             if(LangTemplate.IsMatch(newValue))
-          	   newValue = LangTemplate.Replace(newValue, "$1$3");
+            {
+                newValue = LangTemplate.Replace(newValue, "$1$3");
+                lang = Tools.GetTemplateParameterValue(newValue, "language");
+            }
 
             // remove language=English on en-wiki
             if (lang.Equals("english", StringComparison.OrdinalIgnoreCase) || lang.Equals("en", StringComparison.OrdinalIgnoreCase))
