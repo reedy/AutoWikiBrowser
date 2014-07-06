@@ -646,7 +646,8 @@ namespace WikiFunctions.Parse
 
             string zerothsectionNoMI = Tools.ReplaceWithSpaces(zerothsection, MIMC);
 
-            int totalTemplates = Templates.Matches(zerothsectionNoMI).Count;
+            // count distinct templates
+            int totalTemplates = Tools.DeduplicateList(Templates.Matches(zerothsectionNoMI).OfType<Match>().Select(m => m.Groups[0].Value).ToList()).Count();
 
             // multiple issues with one issue -> single issue tag (old style or new style multiple issues)
             if(totalTemplates == 0 && existingMultipleIssues)
