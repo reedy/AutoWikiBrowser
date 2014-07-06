@@ -10821,6 +10821,7 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             Assert.AreEqual(@"{{multiple issues|POV=May 2008|wikify = May 2007|cleanup = June 2008}}  ", parser.MultipleIssuesOld(@"{{multiple issues|POV=May 2008}} {{wikify|date=May 2007}} {{cleanup|date=June 2008}}"));
             
             Assert.AreEqual(@"{{multiple issues|POV=May 2008|wikify = May 2007}} ", parser.MultipleIssuesOld(@"{{multiple issues|POV=May 2008}} {{wikify|date=May 2007}}"));
+                 
         }
 
         [Test]
@@ -10882,6 +10883,10 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
 {{refimprove}}
 }}";
             Assert.AreEqual(Many, parser.MultipleIssues(Many));
+
+            const string dupe  = @"{{unreferenced}}
+{{unreferenced}}";
+            Assert.AreEqual(dupe, parser.MultipleIssues(dupe));
         }
 
         [Test]
