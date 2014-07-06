@@ -2701,7 +2701,7 @@ world|format=PDF}} was";
             Assert.AreEqual(@"{{cite web|title=foo|url=http://site.net|year=2009}}", Parsers.FixCitationTemplates(@"{{cite web|title=foo|url=http://site.net|year=2009|language=en}}"));
 
             //fix language field
-            //Assert.AreEqual(@"{{cite web|title=foo|url=http://site.net|year=2009}}", (Parsers.FixCitationTemplates(@"{{cite web|title=foo|url=http://site.net|year=2009|language={{en icon}}}}"));
+            Assert.AreEqual(@"{{cite web|title=foo|url=http://site.net|year=2009}}", Parsers.FixCitationTemplates(@"{{cite web|title=foo|url=http://site.net|year=2009|language={{en icon}}}}"));
             Assert.AreEqual(@"{{cite web|title=foo|url=http://site.net|year=2009|language=sv}}", Parsers.FixCitationTemplates(@"{{cite web|title=foo|url=http://site.net|year=2009|language={{sv icon}}}}"));
             Assert.AreEqual(@"{{cite web|title=foo|url=http://site.net|year=2009|language=de}}", Parsers.FixCitationTemplates(@"{{cite web|title=foo|url=http://site.net|year=2009|language={{de icon}}}}"));
             Assert.AreEqual(@"{{cite web|title=foo|url=http://site.net|year=2009|language=el|publisher=Ser}}", Parsers.FixCitationTemplates(@"{{cite web|title=foo|url=http://site.net|year=2009|language={{el icon}}|publisher=Ser}}"));
