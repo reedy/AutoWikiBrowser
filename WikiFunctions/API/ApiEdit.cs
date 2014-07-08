@@ -1325,16 +1325,27 @@ namespace WikiFunctions.API
 
             //FIXME: Awful code is awful
             var page = api.GetElementsByTagName("page");
-            if (page.Count > 0 && page[0].Attributes != null && page[0].Attributes["invalid"] != null &&
-                page[0].Attributes["invalid"].Value == "")
+            if (
+                page.Count > 0
+                && page[0].Attributes != null
+                && page[0].Attributes["invalid"] != null
+                && page[0].Attributes["invalid"].Value == ""
+                )
+            {
                 throw new InvalidTitleException(this, page[0].Attributes["title"].Value);
+            }
 
             if (api.GetElementsByTagName("interwiki").Count > 0)
+            {
                 throw new InterwikiException(this);
+            }
 
             var actionElement = api[action];
 
-            if (actionElement == null) return doc; // or shall we explode?
+            if (actionElement == null)
+            {
+                return doc; // or shall we explode?
+            }
 
             if (actionElement.HasAttribute("assert"))
             {
