@@ -334,6 +334,22 @@ namespace WikiFunctions.API
             : base(editor, "Page title contains interwiki")
         {
         }
+
+        protected InterwikiException(ApiEdit editor, string message)
+            : base(editor, message)
+        {
+        }
+    }
+
+    /// <summary>
+    /// Thrown when a title is a redirect to an interwiki
+    /// </summary>
+    public class RedirectToInterwikiException : InterwikiException
+    {
+        public RedirectToInterwikiException(ApiEdit editor)
+            : base(editor, "Redirect target containts interwiki")
+        {
+        }
     }
 
     /// <summary>
