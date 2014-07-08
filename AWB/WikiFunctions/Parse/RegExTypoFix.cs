@@ -480,7 +480,7 @@ namespace WikiFunctions.Parse
         {
             string originalArticleText = articleText;
             summary = "";
-            if ((TypoCount == 0) || IgnoreRegex.IsMatch(articleText))
+            if (TypoCount == 0 || IgnoreRegex.IsMatch(articleText))
             {
                 noChange = true;
                 return articleText;
@@ -494,7 +494,8 @@ namespace WikiFunctions.Parse
             //to avoid running 2K regexps on them
             Match m = RemoveTail.Match(articleText);
             string tail = m.Value;
-            if (!string.IsNullOrEmpty(tail)) articleText = articleText.Remove(m.Index);
+            if (!string.IsNullOrEmpty(tail)) 
+                articleText = articleText.Remove(m.Index);
 
             string originalText = articleText;
             string strSummary = "";
@@ -504,7 +505,7 @@ namespace WikiFunctions.Parse
                 grp.FixTypos(ref articleText, ref strSummary, articleTitle, originalArticleText);
             }
 
-            noChange = (originalText.Equals(articleText));
+            noChange = originalText.Equals(articleText);
 
             summary = Variables.TypoSummaryTag + strSummary.Trim();
 
@@ -512,19 +513,38 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// Returns whether there are typos on the page
+        /// Checks for known typos on the page
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <param name="articleTitle">Title of the article</param>
-        /// <returns></returns>
+        /// <returns>whether there are typos on the page</returns>
         public bool DetectTypo(string articleText, string articleTitle)
         {
-            bool noChange;
-            string summary;
+            string originalArticleText = articleText;
+            if (TypoCount == 0 || IgnoreRegex.IsMatch(articleText))
+                return false;
+            
+            HideText removeText = new HideText(true, false, true);
+            
+            articleText = removeText.HideMore(articleText, true);
+            
+            //remove newlines, whitespace and hide tokens from bottom
+            //to avoid running 2K regexps on them
+            Match m = RemoveTail.Match(articleText);
+            if (m.Success) 
+                articleText = articleText.Remove(m.Index);
 
-            PerformTypoFixes(articleText, out noChange, out summary, articleTitle);
+            string strSummary = "";
+            
+            foreach (TypoGroup grp in Groups)
+            {
+                grp.FixTypos(ref articleText, ref strSummary, articleTitle, originalArticleText);
 
-            return !noChange;
+                if(strSummary.Length > 0)
+                    return true;
+            }
+
+            return false;
         }
 
         /// <summary>
