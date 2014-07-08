@@ -2428,6 +2428,8 @@ world|format=PDF}} was";
             Assert.AreEqual(correct, Parsers.FixCitationTemplates(correct), "no change if already correct URL");
             Assert.AreEqual(correct.Replace("url=", "archiveurl="), Parsers.FixCitationTemplates(correct.Replace("url=http://", "archiveurl=")), "Adds http:// when archiveurl begins www.");
             Assert.AreEqual(correct.Replace("url=", "contribution-url="), Parsers.FixCitationTemplates(correct.Replace("url=http://", "contribution-url=")), "Adds http:// when contribution-url begins www.");
+            string dash = @"now {{cite web|title=foo | url=www-foo.a.com | date = 1 June 2010 }}";
+            Assert.AreEqual(dash.Replace("www", "http://www"), Parsers.FixCitationTemplates(dash), "handles www-");
         }
 
         [Test]
