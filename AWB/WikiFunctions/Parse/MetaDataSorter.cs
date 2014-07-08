@@ -1104,7 +1104,7 @@ en, sq, ru
 			StringBuilder list = new StringBuilder();
 			foreach (string s in uniqueItems)
 			{
-				list.AppendLine(s);
+                list.Append(s + "\r\n"); // Don't just use AppendLine as this may just give \n under Mono
 			}
 
 			return list.ToString();
