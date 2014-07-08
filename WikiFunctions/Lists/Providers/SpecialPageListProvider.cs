@@ -61,10 +61,13 @@ namespace WikiFunctions.Lists.Providers
         public SpecialPageListProvider(params IListProvider[] providers)
             : this()
         {
-            foreach (IListProvider prov in providers)
+            if(!Globals.UsingMono)
             {
-                if (prov is ISpecialPageProvider)
-                    ListItems.Add(prov);
+                foreach (IListProvider prov in providers)
+                {
+                    if (prov is ISpecialPageProvider)
+                        ListItems.Add(prov);
+                }
             }
         }
 
