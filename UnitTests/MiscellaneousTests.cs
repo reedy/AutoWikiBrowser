@@ -719,13 +719,15 @@ There [was.");
         [Test]
         public void ContainsComparers()
         {
-            IArticleComparer containsComparer = ArticleComparerFactory.Create(@"foo\nbar",
+            IArticleComparer containsComparer = ArticleComparerFactory.Create(@"foo
+bar",
                                                                               false,
                                                                               false,
                                                                               false, // singleline
                                                                               false); // multiline
 
-            IArticleComparer notContainsComparer = ArticleComparerFactory.Create(@"foo\nbar",
+            IArticleComparer notContainsComparer = ArticleComparerFactory.Create(@"foo
+bar",
                                                                                  false,
                                                                                  false,
                                                                                  false, // singleline
@@ -2266,8 +2268,11 @@ File:Example.jpg|Caption2
                 lbArticles.SetSelected(big-j, true);
             
             lbArticles.RemoveSelected();
-            
-            Assert.AreEqual(lbArticles.Items.Count, big-sel);
+
+            if(Globals.UsingMono) // Mono implementation of SetSelected does not seem to honour second input to multi-select
+                Assert.AreEqual(lbArticles.Items.Count, big-1);
+            else
+                Assert.AreEqual(lbArticles.Items.Count, big-sel);
 
             // non-sequential deletion
             lbArticles.Items.Clear();
@@ -2276,6 +2281,11 @@ File:Example.jpg|Caption2
             lbArticles.SetSelected(1, true);
             lbArticles.SetSelected(3, true);
             lbArticles.RemoveSelected();
+            if(Globals.UsingMono)
+            {
+                lbArticles.SetSelected(1, true);
+                lbArticles.RemoveSelected();
+            }
             Assert.IsFalse(lbArticles.Items.Contains(new Article("1")));
             Assert.IsFalse(lbArticles.Items.Contains(new Article("3")));
             Assert.IsTrue(lbArticles.Items.Contains(new Article("2")));
@@ -2286,6 +2296,11 @@ File:Example.jpg|Caption2
             lbArticles.SetSelected(1, true);
             lbArticles.SetSelected(5, true);
             lbArticles.RemoveSelected();
+            if(Globals.UsingMono)
+            {
+                lbArticles.SetSelected(1, true);
+                lbArticles.RemoveSelected();
+            }
             Assert.IsFalse(lbArticles.Items.Contains(new Article("1")));
             Assert.IsFalse(lbArticles.Items.Contains(new Article("5")));
             Assert.IsTrue(lbArticles.Items.Contains(new Article("2")));
