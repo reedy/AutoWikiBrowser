@@ -735,12 +735,12 @@ bar",
             
             Article a = new Article("A", @"Now foo
 bar");
-            Assert.IsTrue(notContainsComparer.Matches(a));
-            Assert.IsTrue(containsComparer.Matches(a));
+            Assert.IsTrue(notContainsComparer.Matches(a),"does not contain comparer");
+            Assert.IsTrue(containsComparer.Matches(a),"it contains comparer");
             
             a = new Article("A", @"Now foo-bar");
-            Assert.IsFalse(notContainsComparer.Matches(a));
-            Assert.IsFalse(containsComparer.Matches(a));
+            Assert.IsFalse(notContainsComparer.Matches(a),"not contains is false");
+            Assert.IsFalse(containsComparer.Matches(a),"contains is false");
         }
 
         [Test]
