@@ -3363,6 +3363,7 @@ namespace WikiFunctions.Parse
 			// CHECKWIKI error 93
             articleText = MultipleHttpInLink.Replace(articleText, "$1");
             articleText = MultipleFtpInLink.Replace(articleText, "$1");
+            articleText = WikiRegexes.UrlTemplate.Replace(articleText, m=> m.Groups[0].Value.Replace("http://http://", "http://"));
 
             //repair bad external links
             articleText = SyntaxRegexExternalLinkToImageURL.Replace(articleText, "[$1]");
