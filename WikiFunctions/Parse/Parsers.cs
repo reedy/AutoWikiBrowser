@@ -3540,16 +3540,16 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         public static string FixSyntaxRedirects(string articleText)
         {
-            return articleText = WikiRegexes.Redirect.Replace(articleText, m => {
-                                                                                    string res = m.Value.Replace("\r\n", " ");
-                                                                                    res = res.Replace("[[[[", "[[");
-                                                                                    res = res.Replace("]]]]", "]]");
-                                                                                    res = res.Replace("[[[", "[[");
-                                                                                    res = res.Replace("]]]", "]]");
-                                                                                    res = res.Replace("= [[", " [[");
-                                                                                    res = res.Replace("=[[", " [[");
-                                                                                    res = res.Replace(": [[", " [[");
-                                                                                    return res = res.Replace(":[[", " [[");
+            return WikiRegexes.Redirect.Replace(articleText, m => {
+                                                                      string res = m.Value.Replace("\r\n", " ");
+                                                                      res = res.Replace("[[[[", "[[");
+                                                                      res = res.Replace("]]]]", "]]");
+                                                                      res = res.Replace("[[[", "[[");
+                                                                      res = res.Replace("]]]", "]]");
+                                                                      res = res.Replace("= [[", " [[");
+                                                                      res = res.Replace("=[[", " [[");
+                                                                      res = res.Replace(": [[", " [[");
+                                                                      return res.Replace(":[[", " [[");
             });
         }
 
