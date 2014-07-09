@@ -436,7 +436,9 @@ namespace WikiFunctions.Parse
                 Groups.Clear();
                 TypoCount = 0;
 
-                Groups.Add(new TypoGroup(20, @"^\\b(.*)\\b$", @"[^\\]\\\d", @"\b", @"\b"));
+                Groups.Add(new TypoGroup(20, @"^\\b(\(\[[A-M].*)\\b$", @"[^\\]\\\d", @"\b", @"\b"));
+                Groups.Add(new TypoGroup(19, @"^\\b(\(\[[N-Z].*)\\b$", @"[^\\]\\\d", @"\b", @"\b"));
+                Groups.Add(new TypoGroup(18, @"^\\b((\(|\[)?[A-Za-z].*)", @"[^\\]\\\d", @"\b", @""));
                 Groups.Add(new TypoGroup(5, null, @"[^\\]\\\d", "", ""));
                 Groups.Add(new TypoGroup(1, null, null, "", ""));
 
