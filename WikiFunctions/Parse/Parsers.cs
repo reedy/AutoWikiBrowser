@@ -3360,6 +3360,7 @@ namespace WikiFunctions.Parse
                 articleText = SyntaxRegexListRowBrTagMiddle.Replace(articleText, "$1\r\n$2");
             }
 
+			// CHECKWIKI error 93
             articleText = MultipleHttpInLink.Replace(articleText, "$1");
             articleText = MultipleFtpInLink.Replace(articleText, "$1");
 
@@ -3373,8 +3374,8 @@ namespace WikiFunctions.Parse
             }
 
 			//  CHECKWIKI error 69
-                articleText = SyntaxRegexISBN.Replace(articleText, "ISBN $1");
-                articleText = SyntaxRegexISBN2.Replace(articleText, "ISBN ");
+            articleText = SyntaxRegexISBN.Replace(articleText, "ISBN $1");
+            articleText = SyntaxRegexISBN2.Replace(articleText, "ISBN ");
 
             articleText = SyntaxRegexPMID.Replace(articleText, "$1 $2");
             articleText = CellpaddingTypo.Replace(articleText, "$1cellpadding");
