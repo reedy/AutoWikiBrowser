@@ -24,6 +24,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using WikiFunctions.Background;
 using WikiFunctions.Controls;
+using System.Threading;
 
 namespace WikiFunctions.Parse
 {
@@ -157,7 +158,7 @@ namespace WikiFunctions.Parse
             Postfix = postfix;
         }
 
-        private readonly int GroupSize;
+        public readonly int GroupSize;
         private readonly Regex Allow, Disallow;
         private readonly string Prefix, Postfix;
 
@@ -286,6 +287,7 @@ namespace WikiFunctions.Parse
             FixTypos(ref articleText, ref summary, articleTitle, articleText);
         }
 
+        private static readonly Object obj = new Object();
         /// <summary>
         /// Fixes typos
         /// </summary>
@@ -312,6 +314,17 @@ namespace WikiFunctions.Parse
             else
                 foreach (KeyValuePair<Regex, string> typo in Typos)
                     FixTypo(ref articleText, ref summary, typo, articleTitle);
+        }
+
+        public void FixTypos2(string articleText, string summary, string articleTitle, string originalArticleText)
+        {
+            FixTypos(ref articleText, ref summary, articleTitle, originalArticleText);
+
+            lock(obj)
+            {
+                RegExTypoFix.resultSummary.Add(GroupSize, summary);
+                RegExTypoFix.resultArticleText.Add(GroupSize, articleText);
+            }
         }
     }
 
@@ -467,15 +480,17 @@ namespace WikiFunctions.Parse
             }
         }
 
+        public static Dictionary<int, string> resultSummary = new Dictionary<int, string>();
+        public static Dictionary<int, string> resultArticleText = new Dictionary<int, string>();
         /// <summary>
-        /// Performs typo fixes against the article text.
+        /// Performs typo fixes against the article text in multi-threaded mode
         /// Typo fixes not performed if no typos loaded or any sic tags on page
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
-        /// <param name="noChange"></param>
-        /// <param name="summary"></param>
+        /// <param name="noChange">True if no typos fixed</param>
+        /// <param name="summary">Edit summary</param>
         /// <param name="articleTitle">Title of the article</param>
-        /// <returns></returns>
+        /// <returns>Updated article text</returns>
         public string PerformTypoFixes(string articleText, out bool noChange, out string summary, string articleTitle)
         {
             string originalArticleText = articleText;
@@ -499,10 +514,47 @@ namespace WikiFunctions.Parse
 
             string originalText = articleText;
             string strSummary = "";
+            /* Run typos threaded, one thread per group for better performance
+             * http://stackoverflow.com/questions/13776846/pass-paramters-through-parameterizedthreadstart
+             * http://www.dotnetperls.com/parameterizedthreadstart
+             * http://stackoverflow.com/questions/831009/thread-with-multiple-parameters */
+            resultSummary.Clear();
+            resultArticleText.Clear();
 
-            foreach (TypoGroup grp in Groups)
+            Thread[] array = new Thread[Groups.Count];
+            int i = 0;
+            foreach(TypoGroup tg in Groups)
             {
-                grp.FixTypos(ref articleText, ref strSummary, articleTitle, originalArticleText);
+                array[i] = new Thread( delegate (object unused) { tg.FixTypos2(articleText, strSummary, articleTitle, originalArticleText); });
+                array[i].Start(i);
+                i++;
+            }
+
+            // Join all the threads: wait for all to complete
+            for (int j = 0; j < array.Length; j++)
+            {
+                array[j].Join();
+            }
+
+            string groupSummary, groupArticleText;
+            foreach(TypoGroup tg in Groups)
+            {
+                resultSummary.TryGetValue(tg.GroupSize, out groupSummary);
+                resultArticleText.TryGetValue(tg.GroupSize, out groupArticleText);
+
+                if(groupSummary.Length > 0)
+                {
+                    if(strSummary.Length > 0)
+                    {
+                        // earlier thread had changes, so need to re-run this one
+                        tg.FixTypos(ref articleText, ref strSummary, articleTitle, originalArticleText);
+                    }
+                    else
+                    {
+                        strSummary = groupSummary;
+                        articleText = groupArticleText;
+                    }
+                }
             }
 
             noChange = originalText.Equals(articleText);
