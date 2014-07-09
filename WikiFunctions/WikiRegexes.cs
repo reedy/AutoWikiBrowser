@@ -941,6 +941,11 @@ namespace WikiFunctions
         public static readonly Regex CiteTemplate = Tools.NestedTemplateRegex(new [] { "cite web", "cite news", "cite journal", "cite book", "citation", "cite conference", "cite hansard", "cite manual", "cite paper", "cite press release", "cite encyclopedia", "cite AV media" }, false);
         
         /// <summary>
+        /// Matches the various url templates {{URL}} etc. on en-wiki
+        /// </summary>
+        public static readonly Regex UrlTemplate = Tools.NestedTemplateRegex(new [] { "URL", "Website", "Url", "Official website" }, false);
+
+        /// <summary>
         /// Matches the various Harvard citation templates on en-wiki
         /// </summary>
         public static readonly Regex HarvTemplate = Tools.NestedTemplateRegex(new [] { "Harvard citation", "harv", "harvsp", "Harvard citation no brackets", "harvnb", "Harvard citation text", "harvtxt", "Harvcol", "Harvcolnb", "Harvcoltxt" }, false);
