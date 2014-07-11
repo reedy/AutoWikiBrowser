@@ -1082,6 +1082,7 @@ namespace WikiFunctions
 			new[] {"ŋ", "n"},
 			new[] {"ﬂ", "fl"},
 			new[] {"ǉ", "lg"},
+			new[] {"ǌ", "ng"},
 			new[] {"№", "No"}
 		};
 
