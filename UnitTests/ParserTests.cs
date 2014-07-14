@@ -5452,6 +5452,10 @@ Some news here.", "test"), "space trimmed from end of paragraph when br replaces
             Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==REFERENCE==", "a"));
             Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==REFERENCE:==", "a"));
             Assert.AreEqual(@"== References ==", Parsers.FixHeadings(@"== REFERENCES ==", "a"));
+            Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==Reference==", "a"));
+            Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==Refferences==", "a"));
+            Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==Referrences==", "a"));
+            Assert.AreEqual(@"==References==", Parsers.FixHeadings(@"==Refferrences==", "a"));
             Assert.AreEqual(@"==Sources==", Parsers.FixHeadings(@"==SOURCES==", "a"));
             Assert.AreEqual(@"==Sources==", Parsers.FixHeadings(@"==sources==", "a"));
             Assert.AreEqual(@"==Sources==", Parsers.FixHeadings(@"==source==", "a"));
