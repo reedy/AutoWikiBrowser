@@ -218,7 +218,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex RegexHeadingsSeeAlso = new Regex("^(== *)(?:see also|related topics|related articles|internal links|also see):?( *==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadingsExternalLink = new Regex("(== *)(external links?|external sites?|outside links?|web ?links?|exterior links?):?( *==)", RegexOptions.IgnoreCase);
-        private static readonly Regex RegexHeadingsReferencess = new Regex("(== *)(?:reff?err?en[sc]es?:?)( *==)", RegexOptions.IgnoreCase);
+        private static readonly Regex RegexHeadingsReferencess = new Regex("(== *)(?:reff?e?rr?en[sc]es?:?)( *==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadingsSources = new Regex("(== *)(?:sources?:?)( *==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadingsFurtherReading = new Regex("(== *)(further readings?:?)( *==)", RegexOptions.IgnoreCase);
         private static readonly Regex RegexHeadingsLife = new Regex("(== *)(Early|Personal|Adult|Later) Life( *==)", RegexOptions.IgnoreCase);
