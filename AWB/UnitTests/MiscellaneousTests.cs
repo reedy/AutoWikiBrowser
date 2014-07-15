@@ -201,6 +201,12 @@ File:Blogs002.jpeg|Description
             AssertBothHidden(@"[[File:foo.jpg]]");
             AssertBothHidden(@"[[Image:foo with space and 0004.png|");
             AssertBothHidden(@"[[Image:foo_here.png|");
+
+            Assert.IsFalse(HideMore(@"[[Category:Foo|abc]]", false).Contains("abc"), "Category sort key always hidden if hiding wikilinks and not leaving target");
+            Assert.IsFalse(HideMore(@"[[Category:Foo|abc]]", true).Contains("abc"), "Category sort key hidden even if keeping targets");
+
+            HideText h = new HideText(true, false, false);
+            Assert.IsTrue(h.HideMore(@"[[Category:Foo|abc]]", false, false).Contains("abc"), "Category sort key kept if keeping wikilinks");
         }
         
         [Test]
