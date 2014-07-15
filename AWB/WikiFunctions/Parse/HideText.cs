@@ -296,7 +296,10 @@ namespace WikiFunctions.Parse
             // if set then don't mask the pipe of a link so that typo fixing can be done on it
             if (!hideOnlyTargetOfWikilink && hideWikiLinks)
                 ReplaceMore(WikiRegexes.SimpleWikiLink.Matches(articleText), ref articleText);
-            
+
+            // if hiding target of wikilinks only, this does not apply to Category links, hide all of these
+            if (hideOnlyTargetOfWikilink && hideWikiLinks)
+                ReplaceMore(WikiRegexes.Category.Matches(articleText), ref articleText);
 
             ReplaceMore(WikiRegexes.Refs.Matches(articleText), ref articleText);
 
