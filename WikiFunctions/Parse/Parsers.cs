@@ -3264,6 +3264,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex RefExternalLinkMissingEndBracket = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>[^{}\[\]<>]*?\[\s*(?:ht|f)tps?://[^{}\[\]<>]+)}?(</ref>)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex RefCitationMissingOpeningBraces = new Regex(@"(<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>\s*)\(?\(?([Cc]it[ae][^{}]+}}\s*</ref>)", RegexOptions.Compiled);
         private static readonly Regex BracesWithinDefaultsort = new Regex(@"({{DEFAULTSORT[^{}\[\]]+)[\]\[]+}}", RegexOptions.Compiled);
+        private static readonly Regex DeadlinkOutsideRef = new Regex(@"(</ref>)( ?\{\{dead ?link\}\})", RegexOptions.Compiled);
 
         // refs with wording and bare link: combine the two
         private static readonly Regex WordingIntoBareExternalLinks = new Regex(@"(<ref(?:\s*name\s*=[^{}<>]+?\s*)?>\s*)([^<>{}\[\]\r\n]{3,70}?)[\.,::]?\s*\[\s*((?:[Hh]ttps?|[Ff]tp|[Mm]ailto)://[^\ \n\r<>]+)\s*\](?=\s*</ref>)", RegexOptions.Compiled);
@@ -3453,6 +3454,8 @@ namespace WikiFunctions.Parse
             articleText = FixSmallTags(articleText);
 
             articleText = WordingIntoBareExternalLinks.Replace(articleText, @"$1[$3 $2]");
+            
+            articleText = DeadlinkOutsideRef.Replace(articleText,@"$2$1");
 
             if (!Variables.LangCode.Equals("zh"))
             {

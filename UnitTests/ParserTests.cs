@@ -4484,6 +4484,13 @@ Now [[A],] was."));
         }
 
         [Test]
+        public void FixDeadlinkOutsideRef()
+        {
+        	Assert.AreEqual("<ref>foo {{dead link}}</ref>", Parsers.FixSyntax(@"<ref>foo</ref> {{dead link}"), "{{dead link}} taken inside ref");
+        	Assert.AreEqual("<ref>{{cite web | url=http://www.site.com/article100.html | title=Foo }} {{dead link}}</ref>", Parsers.FixSyntax(@"<ref>{{cite web | url=http://www.site.com/article100.html | title=Foo }}</ref> {{dead link}"), "{{dead link}} taken inside ref");
+        }
+        
+        [Test]
         public void FixCitationTemplatesDeadLinkInFormat()
         {
             const string correct = @"{{cite web | url=http://www.site.com/article100.html | title=Foo }} {{dead link|date=May 2010}}";
