@@ -16,6 +16,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -252,12 +253,9 @@ namespace WikiFunctions
         /// <returns>true if the namespace list is valid</returns>
         public static bool VerifyNamespaces(Dictionary<int, string> namespaces)
         {
-            foreach (var ns in StandardNamespaces)
+            if (StandardNamespaces.Any(ns => !namespaces.ContainsKey(ns)))
             {
-                if (!namespaces.ContainsKey(ns))
-                {
-                    return false;
-                }
+                return false;
             }
 
             if (namespaces.ContainsKey(Mainspace))
@@ -265,13 +263,7 @@ namespace WikiFunctions
                 return false;
             }
 
-            foreach (var s in namespaces.Values)
-            {
-                if (s.Length < 2 || !s.EndsWith(":"))
-                    return false;
-            }
-
-            return true;
+            return namespaces.Values.All(s => s.Length >= 2 && s.EndsWith(":"));
         }
     }
 }
