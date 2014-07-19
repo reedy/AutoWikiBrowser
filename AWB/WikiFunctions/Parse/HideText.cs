@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Collections;
@@ -86,26 +87,14 @@ namespace WikiFunctions.Parse
             Replace(WikiRegexes.SourceCode.Matches(articleText), ref articleText);
             Replace(WikiRegexes.NotATypo.Matches(articleText), ref articleText);            
 
-            var matches = new List<Match>();
-            foreach (Match m in WikiRegexes.UnformattedText.Matches(articleText))
-            {
-                if (LeaveMetaHeadings && NoWikiIgnoreRegex.IsMatch(m.Value))
-                    continue;
-
-                matches.Add(m);
-            }
+            var matches = (from Match m in WikiRegexes.UnformattedText.Matches(articleText) where !LeaveMetaHeadings || !NoWikiIgnoreRegex.IsMatch(m.Value) select m).ToList();
             Replace(matches, ref articleText);
 
             if (HideExternalLinks)
             {
                 Replace(WikiRegexes.ExternalLinks.Matches(articleText), ref articleText);
 
-                List<Match> matches2 = new List<Match>();
-                foreach (Match m in WikiRegexes.PossibleInterwikis.Matches(articleText))
-                {
-                    if (SiteMatrix.Languages.Contains(m.Groups[1].Value.ToLower()))
-                        matches2.Add(m);
-                }
+                List<Match> matches2 = (from Match m in WikiRegexes.PossibleInterwikis.Matches(articleText) where SiteMatrix.Languages.Contains(m.Groups[1].Value.ToLower()) select m).ToList();
                 Replace(matches2, ref articleText);
             }
             
