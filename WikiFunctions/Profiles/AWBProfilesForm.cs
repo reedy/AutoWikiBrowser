@@ -73,12 +73,17 @@ namespace WikiFunctions.Profiles
             {
                 try
                 {
-                    if (lvAccounts.SelectedIndices.Count == 0) 
+                    if (lvAccounts.SelectedIndices.Count == 0)
+                    {
                         return -1;
-                    
+                    }
+
                     return int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text);
                 }
-                catch { return -1; }
+                catch
+                {
+                    return -1;
+                }
             }
         }
 
@@ -86,7 +91,7 @@ namespace WikiFunctions.Profiles
         {
             btnLogin.Enabled = btnDelete.Enabled = BtnEdit.Enabled = loginAsThisAccountToolStripMenuItem.Enabled =
                 editThisAccountToolStripMenuItem.Enabled = changePasswordToolStripMenuItem.Enabled =
-                deleteThisAccountToolStripMenuItem.Enabled = (lvAccounts.SelectedItems.Count > 0);
+                    deleteThisAccountToolStripMenuItem.Enabled = (lvAccounts.SelectedItems.Count > 0);
         }
 
         /// <summary>
@@ -129,7 +134,9 @@ namespace WikiFunctions.Profiles
         {
             AWBProfileAdd add = new AWBProfileAdd();
             if (add.ShowDialog() == DialogResult.Yes)
+            {
                 LoadProfiles();
+            }
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
@@ -146,7 +153,10 @@ namespace WikiFunctions.Profiles
         {
             try
             {
-                if (SelectedItem < 0) return;
+                if (SelectedItem < 0)
+                {
+                    return;
+                }
                 AWBProfiles.DeleteProfile(SelectedItem);
                 LoadProfiles();
             }
@@ -158,20 +168,23 @@ namespace WikiFunctions.Profiles
 
         private void changePasswordToolStripMenuItem_Click(object sender, EventArgs e)
         {
-			try
-			{
-	            UserPassword password = new UserPassword
-	                                        {
-	                                            Username = lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text
-	                                        };
+            try
+            {
+                UserPassword password = new UserPassword
+                {
+                    Username = lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text
+                };
 
-			    if (password.ShowDialog() == DialogResult.OK)
-	                AWBProfiles.SetPassword(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text), password.GetPassword);
-			}
-			finally
-			{
-				LoadProfiles();
-			}
+                if (password.ShowDialog() == DialogResult.OK)
+                {
+                    AWBProfiles.SetPassword(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text),
+                        password.GetPassword);
+                }
+            }
+            finally
+            {
+                LoadProfiles();
+            }
         }
 
         private void editThisAccountToolStripMenuItem_Click(object sender, EventArgs e)
@@ -183,11 +196,17 @@ namespace WikiFunctions.Profiles
         {
             try
             {
-                AWBProfileAdd add = new AWBProfileAdd(AWBProfiles.GetProfile(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)));
+                AWBProfileAdd add =
+                    new AWBProfileAdd(
+                        AWBProfiles.GetProfile(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)));
                 if (add.ShowDialog() == DialogResult.Yes)
+                {
                     LoadProfiles();
+                }
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -217,14 +236,17 @@ namespace WikiFunctions.Profiles
 
         private void PerformLogin(string password)
         {
-            PerformLogin(AWBProfiles.GetUsername(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)), password);
+            PerformLogin(AWBProfiles.GetUsername(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)),
+                password);
         }
 
         private void PerformLogin(string username, string password)
         {
             if (TheSession.IsBusy)
             {
-                MessageBox.Show("Cannot log in, session is busy.\r\n\r\nPlease wait for currently saving pages to complete.", "Session busy", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    "Cannot log in, session is busy.\r\n\r\nPlease wait for currently saving pages to complete.",
+                    "Session busy", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -244,10 +266,15 @@ namespace WikiFunctions.Profiles
             }
 
             if (LoggedIn != null && needsUpdate)
+            {
                 LoggedIn(null, null);
+            }
 
             // do not close if we reached here via command line /u (user profile) argument and form was never shown to user
-            if (TheSession.User.IsLoggedIn && Visible) Close();
+            if (TheSession.User.IsLoggedIn && Visible)
+            {
+                Close();
+            }
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
@@ -295,7 +322,9 @@ namespace WikiFunctions.Profiles
                     };
 
                     if (password.ShowDialog(this) == DialogResult.OK)
+                    {
                         PerformLogin(password.GetPassword);
+                    }
                 }
 
                 AWBProfiles.LastUsedAccount = item.Text;
@@ -321,7 +350,9 @@ namespace WikiFunctions.Profiles
             try
             {
                 int profileID;
-                AWBProfile startupProfile = int.TryParse(profileIdOrName, out profileID) ? AWBProfiles.GetProfile(profileID) : AWBProfiles.GetProfile(profileIdOrName);
+                AWBProfile startupProfile = int.TryParse(profileIdOrName, out profileID)
+                    ? AWBProfiles.GetProfile(profileID)
+                    : AWBProfiles.GetProfile(profileIdOrName);
 
                 if (startupProfile == null)
                 {
@@ -331,18 +362,22 @@ namespace WikiFunctions.Profiles
                 }
 
                 if (!string.IsNullOrEmpty(startupProfile.Password))
-                {//Get 'Saved' Password
+                {
+                    //Get 'Saved' Password
                     PerformLogin(startupProfile.Username, startupProfile.Password);
                 }
                 else
-                {//Get Password from User
+                {
+                    //Get Password from User
                     UserPassword password = new UserPassword
                     {
                         Username = startupProfile.Username
                     };
 
                     if (password.ShowDialog(this) == DialogResult.OK)
+                    {
                         PerformLogin(startupProfile.Username, password.GetPassword);
+                    }
                 }
             }
             catch (Exception ex)
@@ -375,8 +410,11 @@ namespace WikiFunctions.Profiles
                     return;
                 }
 
-                var profile = new AWBProfile { Username = user };
-                if (chkSavePassword.Checked) profile.Password = password;
+                var profile = new AWBProfile {Username = user};
+                if (chkSavePassword.Checked)
+                {
+                    profile.Password = password;
+                }
                 AWBProfiles.AddEditProfile(profile);
             }
 
