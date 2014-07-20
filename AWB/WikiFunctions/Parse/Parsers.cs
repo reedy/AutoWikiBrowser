@@ -1452,7 +1452,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex RefsBeforePunctuationQuick = new Regex(@"(?<=(?:/|ref) *)> *" + RefsPunctuation);
         private static readonly Regex RefsAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *" + WikiRegexes.Refs, RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private static readonly Regex RefsAfterDupePunctuationQuick = new Regex(@"(?<![,\.:;])" + RefsPunctuation + @"\1 *<\s*ref", RegexOptions.IgnoreCase);
-        private static readonly Regex Footnote = Tools.NestedTemplateRegex(new[] {"Efn", "Efn-ua", "Efn-lr", "Sfn", "Shortened footnote", "Shortened footnote template", "Sfnp", "Sfnm"});
+        private static readonly Regex Footnote = Tools.NestedTemplateRegex(new[] {"Efn", "Efn-ua", "Efn-lr", "Sfn", "Shortened footnote", "Shortened footnote template", "Sfnp", "Sfnm", "Rp"});
         private static readonly Regex PunctuationAfterFootnote = new Regex(@"(?<sfn>" + Footnote + @")(?<punc>[,\.;:])");
         private static readonly Regex FootnoteAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *(?<sfn>" + Footnote + @")");
 
@@ -1471,20 +1471,16 @@ namespace WikiFunctions.Parse
             bool HasFootnote = Footnote.IsMatch(articleText);
 
             // 'quick' regexes are used for runtime performance saving
-            if (RefsBeforePunctuationQuick.IsMatch(articleText))
+            if (RefsBeforePunctuationQuick.IsMatch(articleText) || HasFootnote)
             {
-                while (RefsBeforePunctuationR.IsMatch(articleText))
+                while (RefsBeforePunctuationR.IsMatch(articleText) || PunctuationAfterFootnote.IsMatch(articleText))
                 {
                     articleText = RefsBeforePunctuationR.Replace(articleText, "$2$1$3");
                     articleText = RefsAfterDupePunctuation.Replace(articleText, "$1$2$3");
+                    articleText = PunctuationAfterFootnote.Replace(articleText, "${punc}${sfn}");
                 }
             }
 
-            if(HasFootnote)
-            {
-                while(PunctuationAfterFootnote.IsMatch(articleText))
-                    articleText = PunctuationAfterFootnote.Replace(articleText, "${punc}${sfn}");
-            }
 
             if(RefsAfterDupePunctuationQuick.IsMatch(articleText))
                 articleText = RefsAfterDupePunctuation.Replace(articleText, "$1$2$3");
