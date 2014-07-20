@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 using WikiFunctions.Plugin;
@@ -102,14 +103,7 @@ namespace AutoWikiBrowser
         {
             get
             {
-                List<int> ret = new List<int>();
-                foreach (CheckBox c in CheckBoxPanel.Controls)
-                {
-                    if (c.Checked)
-                        ret.Add((int)c.Tag);
-                }
-
-                return ret;
+                return (from CheckBox c in CheckBoxPanel.Controls where c.Checked select (int) c.Tag).ToList();
             }
             set
             {
