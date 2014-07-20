@@ -262,7 +262,10 @@ namespace WikiFunctions.Profiles
         {
             try
             {
-                if (SelectedItem < 0) return;
+                if (SelectedItem < 0)
+                {
+                    return;
+                }
 
                 Cursor = Cursors.WaitCursor;
                 CurrentSettingsProfile =
@@ -271,8 +274,10 @@ namespace WikiFunctions.Profiles
                         : lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text;
 
                 // fire event to load settings before logging in so we log into user's project/wiki
-                if(CurrentSettingsProfile.Length > 0)
+                if (CurrentSettingsProfile.Length > 0 && UserDefaultSettingsLoadRequired != null)
+                {
                     UserDefaultSettingsLoadRequired(null, null);
+                }
 
                 if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[2].Text == "Yes")
                 {
