@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 using System;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.CodeDom.Compiler;
@@ -58,13 +59,10 @@ namespace AutoWikiBrowser
             get { return cmboLang.SelectedItem.ToString(); }
             set
             {
-                foreach (CustomModuleCompiler c in cmboLang.Items)
+                foreach (CustomModuleCompiler c in from CustomModuleCompiler c in cmboLang.Items where c.CanHandleLanguage(value) select c)
                 {
-                    if (c.CanHandleLanguage(value))
-                    {
-                        cmboLang.SelectedItem = c;
-                        return;
-                    }
+                    cmboLang.SelectedItem = c;
+                    return;
                 }
 
                 // All older configs that specified index instead of language name
@@ -146,10 +144,9 @@ namespace AutoWikiBrowser
                                                 IncludeDebugInformation = false
                                             };
 
-                foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
+                foreach (var path in AppDomain.CurrentDomain.GetAssemblies().Select(asm => asm.Location).Where(path => !string.IsNullOrEmpty(path)))
                 {
-                    var path = asm.Location;
-                    if (!string.IsNullOrEmpty(path)) cp.ReferencedAssemblies.Add(path);
+                    cp.ReferencedAssemblies.Add(path);
                 }
 
                 CompilerResults results = Compiler.Compile(txtCode.Text, cp);
@@ -182,10 +179,9 @@ namespace AutoWikiBrowser
                     }
                 }
 
-                foreach (Type t in results.CompiledAssembly.GetTypes())
+                foreach (Type t in results.CompiledAssembly.GetTypes().Where(t => t.GetInterface("IModule") != null))
                 {
-                    if (t.GetInterface("IModule") != null)
-                        Module = (IModule)Activator.CreateInstance(t, Program.AWB);
+                    Module = (IModule)Activator.CreateInstance(t, Program.AWB);
                 }
             }
             catch (Exception ex)

@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -55,12 +56,9 @@ namespace AutoWikiBrowser
             cmboLang.SelectedItem = lang.ToLower();
 
             cmboCustomProject.Items.Clear();
-            foreach (string s in Properties.Settings.Default.CustomWikis.Split('|'))
+            foreach (string s in Properties.Settings.Default.CustomWikis.Split('|').Where(s => !cmboCustomProject.Items.Contains(s)))
             {
-                if (!cmboCustomProject.Items.Contains(s))
-                {
-                    cmboCustomProject.Items.Add(s);
-                }
+                cmboCustomProject.Items.Add(s);
             }
 
             cmboCustomProject.Text = customproj;
@@ -321,8 +319,7 @@ namespace AutoWikiBrowser
             get
             {
                 List<String> temp = new List<String> {cmboCustomProject.Text};
-                foreach (object a in cmboCustomProject.Items)
-                    temp.Add(a.ToString());
+                temp.AddRange(from object a in cmboCustomProject.Items select a.ToString());
                 return temp;
             }
             set
@@ -460,10 +457,9 @@ namespace AutoWikiBrowser
             }
 
             StringBuilder customs = new StringBuilder();
-            foreach (string s in cmboCustomProject.Items)
+            foreach (string s in from string s in cmboCustomProject.Items where !string.IsNullOrEmpty(s.Trim()) select s)
             {
-                if (!string.IsNullOrEmpty(s.Trim()))
-                    customs.Append(s + "|");
+                customs.Append(s + "|");
             }
 
             string tmp = customs.ToString();
