@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
@@ -160,8 +161,7 @@ namespace WikiFunctions.Lists.Providers
 
                 do
                 {
-                    string url = "https://www.google.com/search?q=" + google + "+site:" + Variables.URL +
-                                 "&num=100&hl=en&lr=&start=" + intStart + "&sa=N&filter=0";
+                    string url = string.Format("https://www.google.com/search?q={0}+site:{1}&num=100&hl=en&lr=&start={2}&sa=N&filter=0", google, Variables.URL, intStart);
 
                     string googleText = Tools.GetHTML(url, Encoding.Default);
 
@@ -262,30 +262,16 @@ namespace WikiFunctions.Lists.Providers
                     switch (OpenListDialog.FilterIndex)
                     {
                         case 2:
-                            foreach (string s in pageText.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
-                            {
-                                list.Add(new Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s.Trim()))));
-                            }
+                            list.AddRange(pageText.Split(new[] {"\r\n", "\n"}, StringSplitOptions.RemoveEmptyEntries).Select(s => new Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s.Trim())))));
                             break;
                         default:
                             if (LoadWikiLink.IsMatch(pageText))
                             {
-                                foreach (Match m in LoadWikiLink.Matches(pageText))
-                                {
-                                    string title = m.Groups[1].Value;
-                                    if (!RegexFromFile.IsMatch(title) && !title.StartsWith("#"))
-                                    {
-                                        list.Add(new Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(title))));
-                                    }
-                                }
+                                list.AddRange(from Match m in LoadWikiLink.Matches(pageText) select m.Groups[1].Value into title where !RegexFromFile.IsMatch(title) && !title.StartsWith("#") select new Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(title))));
                             }
                             else
                             {
-                                foreach (string s in pageText.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries))
-                                {
-                                    if (s.Trim().Length == 0 || !Tools.IsValidTitle(s)) continue;
-                                    list.Add(new Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s.Trim()))));
-                                }
+                                list.AddRange(from s in pageText.Split(new[] {"\r\n", "\n"}, StringSplitOptions.RemoveEmptyEntries) where s.Trim().Length != 0 && Tools.IsValidTitle(s) select new Article(Tools.RemoveSyntax(Tools.TurnFirstToUpper(s.Trim()))));
                             }
                             break;
                     }
