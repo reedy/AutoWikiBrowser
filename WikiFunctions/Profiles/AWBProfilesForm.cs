@@ -268,10 +268,12 @@ namespace WikiFunctions.Profiles
                 }
 
                 Cursor = Cursors.WaitCursor;
+                ListViewItem item = lvAccounts.Items[lvAccounts.SelectedIndices[0]];
+
                 CurrentSettingsProfile =
-                    string.IsNullOrEmpty(lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text)
+                    string.IsNullOrEmpty(item.SubItems[3].Text)
                         ? ""
-                        : lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[3].Text;
+                        : item.SubItems[3].Text;
 
                 // fire event to load settings before logging in so we log into user's project/wiki
                 if (CurrentSettingsProfile.Length > 0 && UserDefaultSettingsLoadRequired != null)
@@ -279,24 +281,24 @@ namespace WikiFunctions.Profiles
                     UserDefaultSettingsLoadRequired(null, null);
                 }
 
-                if (lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[2].Text == "Yes")
+                if (item.SubItems[2].Text == "Yes")
                 {
                     //Get 'Saved' Password
-                    PerformLogin(AWBProfiles.GetPassword(int.Parse(lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text)));
+                    PerformLogin(AWBProfiles.GetPassword(int.Parse(item.Text)));
                 }
                 else
                 {
                     //Get Password from User
                     UserPassword password = new UserPassword
                     {
-                        Username = lvAccounts.Items[lvAccounts.SelectedIndices[0]].SubItems[1].Text
+                        Username = item.SubItems[1].Text
                     };
 
                     if (password.ShowDialog(this) == DialogResult.OK)
                         PerformLogin(password.GetPassword);
                 }
 
-                AWBProfiles.LastUsedAccount = lvAccounts.Items[lvAccounts.SelectedIndices[0]].Text;
+                AWBProfiles.LastUsedAccount = item.Text;
 
                 Cursor = Cursors.Default;
             }
