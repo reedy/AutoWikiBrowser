@@ -1235,20 +1235,17 @@ fast„ "));
         [Test]
         public void IbidOpCitation()
         {
-            Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"ibid"));
-            Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"Ibid"));
-            Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"IBID"));
-            Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"op cit"));
-            Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"Op.cit"));
-            Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"Op. cit"));
-            Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"Op
+            Assert.IsTrue(WikiRegexes.IbidLocCitation.IsMatch(@"ibid"));
+            Assert.IsTrue(WikiRegexes.IbidLocCitation.IsMatch(@"Ibid"));
+            Assert.IsTrue(WikiRegexes.IbidLocCitation.IsMatch(@"IBID"));
+            Assert.IsTrue(WikiRegexes.IbidLocCitation.IsMatch(@"loc cit"));
+            Assert.IsTrue(WikiRegexes.IbidLocCitation.IsMatch(@"loc.cit"));
+            Assert.IsTrue(WikiRegexes.IbidLocCitation.IsMatch(@"Loc. cit"));
+            Assert.IsTrue(WikiRegexes.IbidLocCitation.IsMatch(@"Loc
 cit"));
-            Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"loc cit"));
-            Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"loc.cit"));
-            Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"Loc. cit"));
 
-            Assert.IsFalse(WikiRegexes.IbidOpCitation.IsMatch(@"Libid was"));
-            Assert.IsFalse(WikiRegexes.IbidOpCitation.IsMatch(@"The op was later cit"));
+            Assert.IsFalse(WikiRegexes.IbidLocCitation.IsMatch(@"Libid was"));
+            Assert.IsFalse(WikiRegexes.IbidLocCitation.IsMatch(@"The loc was later cit"));
         }
 
         [Test]
