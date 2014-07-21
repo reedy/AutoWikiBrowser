@@ -1655,8 +1655,8 @@ namespace WikiFunctions.Parse
             {
                 string fullReference = m.Value;
 
-                // ref contains ibid/op cit, don't combine it, could refer to any ref on page
-                if (WikiRegexes.IbidOpCitation.IsMatch(fullReference))
+                // ref contains ibid/loc cit, don't combine it, could refer to any ref on page
+                if (WikiRegexes.IbidLocCitation.IsMatch(fullReference))
                     continue;
 
                 string refContent = m.Groups[1].Value.Trim();
@@ -1750,7 +1750,7 @@ namespace WikiFunctions.Parse
                 NamedRefs.TryGetValue(refvalue, out existingname);
 
                 // don't apply to ibid short ref
-                if (existingname.Length > 0 && !existingname.Equals(refname) && !WikiRegexes.IbidOpCitation.IsMatch(refvalue))
+                if (existingname.Length > 0 && !existingname.Equals(refname) && !WikiRegexes.IbidLocCitation.IsMatch(refvalue))
                 {
                     string newRefName = refname, oldRefName = existingname;
 
