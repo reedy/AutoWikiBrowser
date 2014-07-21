@@ -1403,7 +1403,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches "ibid" and "op cit"
         /// </summary>
-        public static readonly Regex IbidOpCitation = new Regex(@"\b(ibid|op.{1,4}cit)\b", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        public static readonly Regex IbidOpCitation = new Regex(@"\b(ibid|op.{1,4}cit|loc.{1,4}cit)\b", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
         /// Matches the {{Ibid}} template

@@ -1243,6 +1243,9 @@ fast„ "));
             Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"Op. cit"));
             Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"Op
 cit"));
+            Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"loc cit"));
+            Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"loc.cit"));
+            Assert.IsTrue(WikiRegexes.IbidOpCitation.IsMatch(@"Loc. cit"));
 
             Assert.IsFalse(WikiRegexes.IbidOpCitation.IsMatch(@"Libid was"));
             Assert.IsFalse(WikiRegexes.IbidOpCitation.IsMatch(@"The op was later cit"));
