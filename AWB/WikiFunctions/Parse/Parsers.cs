@@ -3057,6 +3057,11 @@ namespace WikiFunctions.Parse
                     {
                         reparse = true;
                         articleText = articleText.Replace(before, after);
+
+                        // catch after other fixes
+                        articleText = IncorrectCommaAmericanDates.Replace(articleText, @"$1 $2, $3");
+                        articleText = IncorrectCommaInternationalDates.Replace(articleText, @"$1 $2");
+
                         break;
                     }
                 }
@@ -3080,12 +3085,7 @@ namespace WikiFunctions.Parse
             }
 
             textPortion = DateLeadingZerosAm.Replace(textPortion, "$1 $2");
-            textPortion = DateLeadingZerosInt.Replace(textPortion, "$1 $2");
-
-            // catch after any other fixes
-            textPortion = IncorrectCommaAmericanDates.Replace(textPortion, @"$1 $2, $3");
-
-            return IncorrectCommaInternationalDates.Replace(textPortion, @"$1 $2");
+            return DateLeadingZerosInt.Replace(textPortion, "$1 $2");
         }
 
         private static readonly Regex BrTwoNewlines = new Regex("(?:<br */?> *)\r\n\r\n", RegexOptions.IgnoreCase);
