@@ -5673,6 +5673,9 @@ namespace WikiFunctions.Parse
             // Browsers are blacklisting it because of the potential for phishing.
             articleText = LineSeparatorZeroWidthSpaceStartOfLine.Replace(articleText, "");
             return articleText.Replace('\x2028', ' ');
+            
+            //MOS:NBSP states that "A literal hard space, such as one of the Unicode non-breaking space characters, should not be used"
+            //return articleText.Replace('\x00a0', ' ');
         }
 
         /// <summary>
