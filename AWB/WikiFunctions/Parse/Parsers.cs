@@ -4713,6 +4713,7 @@ namespace WikiFunctions.Parse
         /// <returns>The updated persondata template call</returns>
         private static string CompletePersonDataDate(string personData, string articletext)
         {
+            Parsers p = new Parsers();
             // get the existing values
             string existingBirthYear = Tools.GetTemplateParameterValue(personData, "DATE OF BIRTH", true);
             string existingDeathYear = Tools.GetTemplateParameterValue(personData, "DATE OF DEATH", true);
@@ -4731,6 +4732,8 @@ namespace WikiFunctions.Parse
 
                 zerothSection = Tools.NestedTemplateRegex("ndash").Replace(zerothSection, " &ndash;");
                 zerothSection = WikiRegexes.NestedTemplates.Replace(zerothSection, " ");
+                // clean up any format errors in birth/death dates we may want to use
+                zerothSection = p.FixDatesA(zerothSection);
 
                 // look for date in bracketed text, check date matches existing value (from categories)
                 foreach (Match m in BracketedBirthDeathDate.Matches(zerothSection))
