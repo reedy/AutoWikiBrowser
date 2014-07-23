@@ -4015,6 +4015,7 @@ namespace WikiFunctions.Parse
                 page,
                 ISBN,
                 origyear,
+                origdate,
                 archiveurl,
                 contributionurl;
             if(!paramsFound.TryGetValue("url", out theURL))
@@ -4049,6 +4050,8 @@ namespace WikiFunctions.Parse
                 page = "";
             if(!paramsFound.TryGetValue("origyear", out origyear))
                 origyear = "";
+            if(!paramsFound.TryGetValue("origdate", out origdate))
+                origdate = "";
             if(!paramsFound.TryGetValue("archiveurl", out archiveurl))
                 archiveurl = "";
             if(!paramsFound.TryGetValue("contribution-url", out contributionurl))
@@ -4070,7 +4073,12 @@ namespace WikiFunctions.Parse
                     newValue = Tools.RemoveTemplateParameter(newValue, "format");
             }
 
-            // newlines to spaces in title field if URL used, otherwise display broken
+            if(paramsFound.ContainsKey("origdate") && origdate.Length == 0)
+            {
+                    newValue = Tools.RemoveTemplateParameter(newValue, "origdate");            	
+            }
+
+            	// newlines to spaces in title field if URL used, otherwise display broken
             if (theURL.Length > 0 && theTitle.Contains("\r\n"))
             {
                 theTitle = theTitle.Replace("\r\n", " ");
