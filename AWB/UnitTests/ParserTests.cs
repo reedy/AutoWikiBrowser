@@ -5271,7 +5271,11 @@ http://example.com }}");
             Assert.AreEqual(@"at 55&nbsp;°F today", parser.FixNonBreakingSpaces(@"at 55°F today"));
             Assert.AreEqual(@"at 55&nbsp;°F today", parser.FixNonBreakingSpaces(@"at 55  °F today"));
 
-            // no changes for these
+			Assert.AreEqual(@"a 50.2&nbsp;m (170&nbsp;ft) road", parser.FixNonBreakingSpaces(@"a 50.2 m (170 ft) road"),"invisible nbsp before m and ft");
+
+			//Assert.AreEqual(@" ", @"&nbsp;");
+
+			// no changes for these
             genFixes.AssertNotChanged(@"nearly 5m people");
 			genFixes.AssertNotChanged(@"nearly 5 in 10 people");
 			genFixes.AssertNotChanged(@"a 3CD set");

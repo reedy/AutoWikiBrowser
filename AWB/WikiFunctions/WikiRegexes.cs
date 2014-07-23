@@ -795,18 +795,18 @@ namespace WikiFunctions
         /// Matches abbreviated SI units without a non-breaking space, notably does not correct millimetres without a space due to firearms articles using this convention
         /// </summary>
         /// https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests#Non_breaking_spaces
-        public static readonly Regex UnitsWithoutNonBreakingSpaces = new Regex(@"(\b\d?\.?\d+)\s*((?:[cmknuµ])(?:[mgWN])|m?mol|cd|mi|lb[fs]?|b?hp|mph|ft|dB|[kGM]?Hz|m/s|°[CF])\b(?<!(\d?\.?\d+)mm)");
+        public static readonly Regex UnitsWithoutNonBreakingSpaces = new Regex(@"(\b\d?\.?\d+)[\s\u00a0]*((?:[cmknuµ])(?:[mgWN])|m?mol|cd|mi|lb[fs]?|b?hp|mph|ft|dB|[kGM]?Hz|m/s|°[CF])\b(?<!(\d?\.?\d+)mm)");
 
         // covered by TestFixNonBreakingSpaces
         /// <summary>
         /// Matches "50m (170&amp;nbsp;ft)"
         /// </summary>
-        public static readonly Regex MetresFeetConversionNonBreakingSpaces = new Regex(@"(\d+(?:\.\d+)?) ?m(?= \(\d+(?:\.\d+)?&nbsp;ft\.?\))");
+        public static readonly Regex MetresFeetConversionNonBreakingSpaces = new Regex(@"(\d+(?:\.\d+)?)[\s\u00a0]?m(?= \(\d+(?:\.\d+)?&nbsp;ft\.?\))");
 
         /// <summary>
         /// Matches abbreviated in, oz, feet when in brackets e.g. (3 in); avoids false positives such as "3 in 4..."
         /// </summary>
-        public static readonly Regex ImperialUnitsInBracketsWithoutNonBreakingSpaces = new Regex(@"(\(\d+(?:\.\d+)?(?:\s*(?:-|–|&mdash;)\s*\d+(?:\.\d+)?)?)\s*((?:in|ft|oz)\))");
+        public static readonly Regex ImperialUnitsInBracketsWithoutNonBreakingSpaces = new Regex(@"(\(\d+(?:\.\d+)?(?:\s*(?:-|–|&mdash;)[\s\u00a0]*\d+(?:\.\d+)?)?)[\s\u00a0]*((?:in|ft|oz)\))");
 
         #region en only
         /// <summary>
