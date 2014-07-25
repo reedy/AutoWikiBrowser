@@ -3111,6 +3111,7 @@ Message: {2}
 			return false;
 		}
 		
+		private static readonly Regex LowerMagicWordTemplates = Tools.NestedTemplateRegex(new[] { "namespace", "numberofarticles", "padleft" });
 		/// <summary>
 		/// Replaces magic word templates with magic words, ignores templates with no arguments
 		/// </summary>
@@ -3125,8 +3126,9 @@ Message: {2}
 		{
 			if(GetTemplateArgumentCount(m.Value) == 0)
 				return m.Value;
-			
-			return @"{{" + m.Groups[2].Value + @":" + m.Groups[3].Value.Trim().TrimStart('|');
+
+			// namespace, numberofarticles, padleft must be lowercase, others must be UPPERCASE
+			return @"{{" + (LowerMagicWordTemplates.IsMatch(m.Value.ToLower()) ? m.Groups[2].Value.ToLower() : m.Groups[2].Value.ToUpper()) + @":" + m.Groups[3].Value.Trim().TrimStart('|');
 		}
 
 		public static string ListToStringCommaSeparator(List<string> items)
