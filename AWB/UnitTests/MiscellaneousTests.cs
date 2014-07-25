@@ -725,15 +725,13 @@ There [was.");
         [Test]
         public void ContainsComparers()
         {
-            IArticleComparer containsComparer = ArticleComparerFactory.Create(@"foo
-bar",
+            IArticleComparer containsComparer = ArticleComparerFactory.Create(@"foo\nbar",
                                                                               false,
                                                                               false,
                                                                               false, // singleline
                                                                               false); // multiline
 
-            IArticleComparer notContainsComparer = ArticleComparerFactory.Create(@"foo
-bar",
+            IArticleComparer notContainsComparer = ArticleComparerFactory.Create(@"foo\nbar",
                                                                                  false,
                                                                                  false,
                                                                                  false, // singleline
