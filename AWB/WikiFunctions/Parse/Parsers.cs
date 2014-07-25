@@ -5515,17 +5515,22 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public string FixNonBreakingSpaces(string articleText)
         {
-            // only apply um (micrometre) fix on English wiki to avoid German word "um"
-            articleText = WikiRegexes.UnitsWithoutNonBreakingSpaces.Replace(articleText, m => (m.Groups[2].Value.StartsWith("um") && !Variables.LangCode.Equals("en")) ? m.Value : m.Groups[1].Value + "&nbsp;" + m.Groups[2].Value);
+            // Chinese do not use spaces to separate sentences/words
+            if (!Variables.LangCode.Equals("zh"))
+            {
 
-            articleText = WikiRegexes.ImperialUnitsInBracketsWithoutNonBreakingSpaces.Replace(articleText, "$1&nbsp;$2");
+	        	// only apply um (micrometre) fix on English wiki to avoid German word "um"
+	            articleText = WikiRegexes.UnitsWithoutNonBreakingSpaces.Replace(articleText, m => (m.Groups[2].Value.StartsWith("um") && !Variables.LangCode.Equals("en")) ? m.Value : m.Groups[1].Value + "&nbsp;" + m.Groups[2].Value);
 
-            if(articleText.Contains(@"&nbsp;ft")) // check for performance
-                articleText = WikiRegexes.MetresFeetConversionNonBreakingSpaces.Replace(articleText, @"$1&nbsp;m");
+	            articleText = WikiRegexes.ImperialUnitsInBracketsWithoutNonBreakingSpaces.Replace(articleText, "$1&nbsp;$2");
 
-            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Pagination
-            // add non-breaking space after pp. abbreviation for pages.
-            articleText = Regex.Replace(articleText, @"(\b[Pp]?p\.) *(?=[\dIVXCL][^S])", @"$1&nbsp;");
+	            if(articleText.Contains(@"&nbsp;ft")) // check for performance
+	                articleText = WikiRegexes.MetresFeetConversionNonBreakingSpaces.Replace(articleText, @"$1&nbsp;m");
+
+	            // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Feature_requests/Archive_5#Pagination
+	            // add non-breaking space after pp. abbreviation for pages.
+	            articleText = Regex.Replace(articleText, @"(\b[Pp]?p\.) *(?=[\dIVXCL][^S])", @"$1&nbsp;");
+            }
 
             // Add non-breaking space to 12-hour clock times [[MOS:TIME]].
             // It works only for dotted lower-case a.m. or p.m.
