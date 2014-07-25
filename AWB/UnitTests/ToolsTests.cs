@@ -2136,18 +2136,18 @@ Start date and age
         {
             Assert.AreEqual(@"{{DEFAULTSORT:Foo}}", Tools.TemplateToMagicWord(@"{{DEFAULTSORT|Foo}}"));
             Assert.AreEqual(@"{{DISPLAYTITLE:Foo}}", Tools.TemplateToMagicWord(@"{{DISPLAYTITLE|Foo}}"));
-            Assert.AreEqual(@"{{Displaytitle:Foo}}", Tools.TemplateToMagicWord(@"{{Displaytitle|Foo}}"));
+            Assert.AreEqual(@"{{DISPLAYTITLE:Foo}}", Tools.TemplateToMagicWord(@"{{Displaytitle|Foo}}"));
             Assert.AreEqual(@"{{FULLPAGENAME:Foo}}", Tools.TemplateToMagicWord(@"{{FULLPAGENAME|Foo}}"));
-            Assert.AreEqual(@"{{Fullpagename:Foo}}", Tools.TemplateToMagicWord(@"{{Fullpagename|Foo}}"));
-            Assert.AreEqual(@"{{Namespace:Foo}}", Tools.TemplateToMagicWord(@"{{Namespace|Foo}}"));
-            Assert.AreEqual(@"{{Numberofarticles:Foo}}", Tools.TemplateToMagicWord(@"{{Numberofarticles|Foo}}"));
+            Assert.AreEqual(@"{{FULLPAGENAME:Foo}}", Tools.TemplateToMagicWord(@"{{Fullpagename|Foo}}"));
+            Assert.AreEqual(@"{{namespace:Foo}}", Tools.TemplateToMagicWord(@"{{Namespace|Foo}}"));
+            Assert.AreEqual(@"{{numberofarticles:Foo}}", Tools.TemplateToMagicWord(@"{{Numberofarticles|Foo}}"));
             Assert.AreEqual(@"{{PAGENAME:Foo}}", Tools.TemplateToMagicWord(@"{{PAGENAME|Foo}}"));
             Assert.AreEqual(@"{{PAGESIZE:Foo}}", Tools.TemplateToMagicWord(@"{{PAGESIZE|Foo}}"));
             Assert.AreEqual(@"{{PROTECTIONLEVEL:Foo}}", Tools.TemplateToMagicWord(@"{{PROTECTIONLEVEL|Foo}}"));
-            Assert.AreEqual(@"{{Pagename:Foo}}", Tools.TemplateToMagicWord(@"{{Pagename|Foo}}"));
-            Assert.AreEqual(@"{{pagename:Foo}}", Tools.TemplateToMagicWord(@"{{pagename|Foo}}"));
+            Assert.AreEqual(@"{{PAGENAME:Foo}}", Tools.TemplateToMagicWord(@"{{Pagename|Foo}}"));
+            Assert.AreEqual(@"{{PAGENAME:Foo}}", Tools.TemplateToMagicWord(@"{{pagename|Foo}}"));
             Assert.AreEqual(@"{{SUBPAGENAME:Foo}}", Tools.TemplateToMagicWord(@"{{SUBPAGENAME|Foo}}"));
-            Assert.AreEqual(@"{{Subpagename:Foo}}", Tools.TemplateToMagicWord(@"{{Subpagename|Foo}}"));
+            Assert.AreEqual(@"{{SUBPAGENAME:Foo}}", Tools.TemplateToMagicWord(@"{{Subpagename|Foo}}"));
             Assert.AreEqual(@"{{padleft:Foo}}", Tools.TemplateToMagicWord(@"{{padleft|Foo}}"));
 
             Assert.AreEqual(@"{{DEFAULTSORT:Foo}}", Tools.TemplateToMagicWord(@"{{ DEFAULTSORT |Foo}}"));
