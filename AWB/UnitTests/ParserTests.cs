@@ -3849,7 +3849,7 @@ Foo}}"));
         [Test]
         public void FixSyntaxMagicWords()
         {
-            Assert.AreEqual(@"{{Fullpagename:Foo}}", Parsers.FixSyntax(@"{{Fullpagename|Foo}}"));
+            Assert.AreEqual(@"{{FULLPAGENAME:Foo}}", Parsers.FixSyntax(@"{{Fullpagename|Foo}}"));
         }
 
         [Test]
