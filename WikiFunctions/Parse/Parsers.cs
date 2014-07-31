@@ -1447,14 +1447,15 @@ namespace WikiFunctions.Parse
             return articleText.Length;
         }
 
-        private const string RefsPunctuation = @"([,\.;:])";
-        private static readonly Regex RefsBeforePunctuationR = new Regex(@" *" + WikiRegexes.Refs + @" *" + RefsPunctuation + @"([^,\.:;]|$)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        private const string RefsPunctuation = @"([,\.;:\?\!])";
+        private const string NoPunctuation = @"([^,\.:;\?\!])";
+        private static readonly Regex RefsBeforePunctuationR = new Regex(@" *" + WikiRegexes.Refs + @" *" + RefsPunctuation + @"([^,\.:;\?\!]|$)", RegexOptions.IgnoreCase | RegexOptions.Singleline);
         private static readonly Regex RefsBeforePunctuationQuick = new Regex(@"(?<=(?:/|ref) *)> *" + RefsPunctuation);
-        private static readonly Regex RefsAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *" + WikiRegexes.Refs, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-        private static readonly Regex RefsAfterDupePunctuationQuick = new Regex(@"(?<![,\.:;])" + RefsPunctuation + @"\1 *<\s*ref", RegexOptions.IgnoreCase);
+        private static readonly Regex RefsAfterDupePunctuation = new Regex(NoPunctuation + RefsPunctuation + @"\2 *" + WikiRegexes.Refs, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        private static readonly Regex RefsAfterDupePunctuationQuick = new Regex(@"(?<![,\.:;\?\!])" + RefsPunctuation + @"\1 *<\s*ref", RegexOptions.IgnoreCase);
         private static readonly Regex Footnote = Tools.NestedTemplateRegex(new[] {"Efn", "Efn-ua", "Efn-lr", "Sfn", "Shortened footnote", "Shortened footnote template", "Sfnp", "Sfnm", "Rp"});
-        private static readonly Regex PunctuationAfterFootnote = new Regex(@"(?<sfn>" + Footnote + @")(?<punc>[,\.;:])");
-        private static readonly Regex FootnoteAfterDupePunctuation = new Regex(@"([^,\.:;])" + RefsPunctuation + @"\2 *(?<sfn>" + Footnote + @")");
+        private static readonly Regex PunctuationAfterFootnote = new Regex(@"(?<sfn>" + Footnote + @")(?<punc>[,\.;:\?\!])");
+        private static readonly Regex FootnoteAfterDupePunctuation = new Regex(NoPunctuation + RefsPunctuation + @"\2 *(?<sfn>" + Footnote + @")");
 
         /// <summary>
         /// Puts &lt;ref&gt; and {{sfn}} references after punctuation (comma, full stop) per WP:REFPUNC
