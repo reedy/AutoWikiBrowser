@@ -2275,7 +2275,7 @@ File:Example.jpg|Caption2
             for(int j=sel; j>0; j--)
                 lbArticles.SetSelected(big-j, true);
             
-            lbArticles.RemoveSelected();
+            lbArticles.RemoveSelected(true);
 
             if(Globals.UsingMono) // Mono implementation of SetSelected does not seem to honour second input to multi-select
                 Assert.AreEqual(lbArticles.Items.Count, big-1);
@@ -2288,11 +2288,11 @@ File:Example.jpg|Caption2
                 lbArticles.Items.Add(new Article(i.ToString()));
             lbArticles.SetSelected(1, true);
             lbArticles.SetSelected(3, true);
-            lbArticles.RemoveSelected();
+            lbArticles.RemoveSelected(true);
             if(Globals.UsingMono)
             {
                 lbArticles.SetSelected(1, true);
-                lbArticles.RemoveSelected();
+                lbArticles.RemoveSelected(true);
             }
             Assert.IsFalse(lbArticles.Items.Contains(new Article("1")));
             Assert.IsFalse(lbArticles.Items.Contains(new Article("3")));
@@ -2303,11 +2303,11 @@ File:Example.jpg|Caption2
                 lbArticles.Items.Add(new Article(i.ToString()));
             lbArticles.SetSelected(1, true);
             lbArticles.SetSelected(5, true);
-            lbArticles.RemoveSelected();
+            lbArticles.RemoveSelected(true);
             if(Globals.UsingMono)
             {
                 lbArticles.SetSelected(1, true);
-                lbArticles.RemoveSelected();
+                lbArticles.RemoveSelected(true);
             }
             Assert.IsFalse(lbArticles.Items.Contains(new Article("1")));
             Assert.IsFalse(lbArticles.Items.Contains(new Article("5")));
