@@ -889,14 +889,14 @@ r</ref>. The next"), "ref moved after punctuation when majority are after");
             R1 = R1.Replace(",", ":");
             Assert.AreEqual(AllAfter + @"Foo:<ref>bar</ref> The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "handles colons too");
 
-            R1 = R1.Replace(":", "–");
-            Assert.AreEqual(AllAfter + R1, Parsers.RefsAfterPunctuation(AllAfter + R1), "ref not moved when before dash");
-
-            R1 = R1.Replace("–", "?");
-            Assert.AreEqual(AllAfter + R1, Parsers.RefsAfterPunctuation(AllAfter + R1), "ref not moved when before question mark");
+            R1 = R1.Replace(":", "?");
+            Assert.AreEqual(AllAfter + @"Foo?<ref>bar</ref> The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "handles question mark");
 
             R1 = R1.Replace("?", "!");
-            Assert.AreEqual(AllAfter + R1, Parsers.RefsAfterPunctuation(AllAfter + R1), "ref not moved when before exclamation mark");
+            Assert.AreEqual(AllAfter + @"Foo!<ref>bar</ref> The next", Parsers.RefsAfterPunctuation(AllAfter + R1), "handles exclamation mark");
+
+            R1 = R1.Replace("!", "–");
+            Assert.AreEqual(AllAfter + R1, Parsers.RefsAfterPunctuation(AllAfter + R1), "ref not moved when before dash");
 
             string TwoRefs = @"Now<ref name=a>bar</ref><ref name=b>bar</ref>. Then";
 
