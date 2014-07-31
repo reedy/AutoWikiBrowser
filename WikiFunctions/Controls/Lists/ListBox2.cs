@@ -132,7 +132,14 @@ namespace WikiFunctions.Controls.Lists
             {
                 BeginUpdate();
 
-                if(filterDuplicates && Globals.SystemCore3500Available)
+                // RemoveAt cost product of list size and selected items, cost at least SelectedItems.Count * SelectedIndex
+                // So cost low for single/few selected articles, use if less than cost of RemoveSelectedNew, which is ~Items.Count
+                if((SelectedItems.Count * SelectedIndex) < Items.Count)
+                {
+                    while (SelectedItems.Count > 0)
+                        Items.RemoveAt(SelectedIndex);
+                }
+                else if(filterDuplicates && Globals.SystemCore3500Available)
                     RemoveSelectedNew();
                 else
                     RemoveSelectedOld();
@@ -161,10 +168,7 @@ namespace WikiFunctions.Controls.Lists
                    Alternative of removing selected articles one by one from listbox means each removal requires scan of listbox from beginning up
                    to point of item. e.g. scan 10,000x5 to remove five entries from position 10000 in a list. */
 
-                List<Article> articles = new List<Article>();
-                
-                for (int j = 0; j < Items.Count; j++)
-                    articles.Add((Article)Items[j]);
+                List<Article> articles = Items.Cast<Article>().ToList();
 
                 articles.RemoveRange(SelectedIndex, SelectedItems.Count);
 
