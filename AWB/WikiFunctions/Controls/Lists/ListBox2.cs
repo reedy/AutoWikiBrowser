@@ -185,6 +185,7 @@ namespace WikiFunctions.Controls.Lists
         }
 
         // Fast implementation to remove the currently selected articles from the list, making use of List.Except method
+        // As list is implicitly deduplicated, only use for main listbox if remove duplicates option is on
         private void RemoveSelectedNew()
         {
             List<Article> articles = Items.Cast<Article>().ToList();
