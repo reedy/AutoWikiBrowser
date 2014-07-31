@@ -2191,6 +2191,7 @@ File:Example.jpg|Caption2
             LMaker.Add(new Article("A"));
             LMaker.Add(new Article("B"));
             LMaker.Add(new Article("C"));
+            LMaker.Add(new Article("C")); // duplicate, removed during compare
             System.Windows.Forms.ListBox lb1 = new System.Windows.Forms.ListBox();
             System.Windows.Forms.ListBox lb2 = new System.Windows.Forms.ListBox();
             System.Windows.Forms.ListBox lb3 = new System.Windows.Forms.ListBox();
@@ -2206,14 +2207,17 @@ File:Example.jpg|Caption2
             Assert.IsTrue(lb1.Items.Contains("B"));
             Assert.IsTrue(lb1.Items.Contains("C"));
             Assert.IsFalse(lb1.Items.Contains("A"));
-            
+            Assert.AreEqual(lb1.Items.Count, 2);
+
             // unique in 2
             Assert.IsFalse(lb2.Items.Contains("A"));
             Assert.IsTrue(lb2.Items.Contains("D"));
             Assert.IsTrue(lb2.Items.Contains("E"));
-            
+            Assert.AreEqual(lb2.Items.Count, 2);
+
             // common to both
             Assert.IsTrue(lb3.Items.Contains("A"));
+            Assert.AreEqual(lb3.Items.Count, 1);
         }
         
         [Test]
