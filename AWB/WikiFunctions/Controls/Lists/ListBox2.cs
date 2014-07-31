@@ -124,7 +124,7 @@ namespace WikiFunctions.Controls.Lists
         }
 
         // Removes the currently selected articles from the list
-        public void RemoveSelected()
+        public void RemoveSelected(bool filterDuplicates)
         {
             int i = SelectedIndex;
             
@@ -132,7 +132,7 @@ namespace WikiFunctions.Controls.Lists
             {
                 BeginUpdate();
 
-                if(Globals.SystemCore3500Available)
+                if(filterDuplicates && Globals.SystemCore3500Available)
                     RemoveSelectedNew();
                 else
                     RemoveSelectedOld();
