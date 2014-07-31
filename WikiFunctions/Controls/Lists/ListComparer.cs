@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace WikiFunctions.Controls.Lists
 {
@@ -88,25 +89,13 @@ namespace WikiFunctions.Controls.Lists
         
         private static void CompareListsNew(IList<Article> list1, List<Article> list2, ListBox lb1, ListBox lb2, ListBox lb3)
         {
-            // hashset by definition does not allow duplicates, discards any on creation
-            HashSet<Article> UniqueIn1 = new HashSet<Article>(list1);
-            HashSet<Article> Duplicates = new HashSet<Article>(list1);
-            HashSet<Article> UniqueIn2 = new HashSet<Article>(list2);
-
-            HashSet<Article> L1HS = new HashSet<Article>(list1);
-            HashSet<Article> L2HS = new HashSet<Article>(list2);
-
-            Duplicates.IntersectWith(L2HS);
-            UniqueIn1.ExceptWith(L2HS);
-            UniqueIn2.ExceptWith(L1HS);
-
             lb1.BeginUpdate();
             lb2.BeginUpdate();
             lb3.BeginUpdate();
 
-            lb1.Items.AddRange(new List<Article>(UniqueIn1).ToArray());
-            lb2.Items.AddRange(new List<Article>(UniqueIn2).ToArray());
-            lb3.Items.AddRange(new List<Article>(Duplicates).ToArray());
+            lb1.Items.AddRange(list1.Except(list2).ToArray());
+            lb2.Items.AddRange(list2.Except(list1).ToArray());
+            lb3.Items.AddRange(list1.Intersect(list2).ToArray());
 
             lb1.EndUpdate();
             lb2.EndUpdate();
