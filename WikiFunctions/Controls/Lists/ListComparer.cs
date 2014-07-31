@@ -236,7 +236,7 @@ namespace WikiFunctions.Controls.Lists
 
         private void removeSelectedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MenuItemOwner(sender).RemoveSelected();
+            MenuItemOwner(sender).RemoveSelected(true);
             UpdateCounts();
         }
 

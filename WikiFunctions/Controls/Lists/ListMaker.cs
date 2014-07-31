@@ -276,7 +276,7 @@ namespace WikiFunctions.Controls.Lists
             if(lbArticles.SelectedItems.Count == 1 && lbArticles.SelectedItem.ToString() == item.Name)
             {
                 int currentIndex = lbArticles.SelectedIndex;
-                lbArticles.RemoveSelected();
+                lbArticles.RemoveSelected(FilterDuplicates);
                 // Wine fix: does not scroll listbox if selected article moves out of view
                 lbArticles.TopIndex = currentIndex;
             }
@@ -920,7 +920,7 @@ namespace WikiFunctions.Controls.Lists
         /// </summary>
         private void RemoveSelectedArticle()
         {
-            lbArticles.RemoveSelected();
+            lbArticles.RemoveSelected(FilterDuplicates);
             UpdateNumberOfArticles(false);
         }
 
@@ -1302,7 +1302,7 @@ namespace WikiFunctions.Controls.Lists
              * of the same page in the list */
             List<Article> articlesToMove = GetSelectedArticleList();
             articlesToMove.Reverse();
-            lbArticles.RemoveSelected();
+            lbArticles.RemoveSelected(FilterDuplicates);
 
             if (toIndex > lbArticles.Items.Count)
                 toIndex = lbArticles.Items.Count;
