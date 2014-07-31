@@ -2312,6 +2312,14 @@ File:Example.jpg|Caption2
             Assert.IsFalse(lbArticles.Items.Contains(new Article("1")));
             Assert.IsFalse(lbArticles.Items.Contains(new Article("5")));
             Assert.IsTrue(lbArticles.Items.Contains(new Article("2")));
+
+            lbArticles.Items.Clear();
+            lbArticles.Items.Add(new Article("A"));
+            lbArticles.Items.Add(new Article("A"));
+            lbArticles.Items.Add(new Article("B"));
+            lbArticles.SetSelected(2, true);
+            lbArticles.RemoveSelected(false);
+            Assert.AreEqual(lbArticles.Items.Count, 2, "Duplicates not removed if not in duplicate mode");
         }
     }
     
