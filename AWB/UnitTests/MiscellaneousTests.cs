@@ -2269,6 +2269,7 @@ File:Example.jpg|Caption2
             
             const int big = 70000, sel=5000;
 
+            // sequential block deletion performance
             for(int i=0; i<big; i++)
                 lbArticles.Items.Add(new Article(i.ToString()));
             
@@ -2281,6 +2282,14 @@ File:Example.jpg|Caption2
                 Assert.AreEqual(lbArticles.Items.Count, big-1);
             else
                 Assert.AreEqual(lbArticles.Items.Count, big-sel);
+
+            // single selected item deletion performance
+            lbArticles.Items.Clear();
+            for(int i=0; i<big*3; i++)
+                lbArticles.Items.Add(new Article(i.ToString()));
+            lbArticles.SetSelected((int)big/2, true);
+            lbArticles.RemoveSelected(true);
+            Assert.AreEqual(lbArticles.Items.Count, big*3-1);
 
             // non-sequential deletion
             lbArticles.Items.Clear();
