@@ -67,6 +67,9 @@ namespace WikiFunctions.Parse
             RegexUnicode.Add(new Regex("&#((?:277|119|84|x1D|x100)[A-Z0-9a-z]{2,3});"), "&amp;#$1;");
             RegexUnicode.Add(new Regex("&#(x12[A-Za-z0-9]{3}|65536|769);"), "&amp;#$1;");
 
+            // Can't change 5-digit Hex strings, get broken by HttpUtility.HtmlDecode
+            RegexUnicode.Add(new Regex("&#(x[A-Fa-f0-9]{5});"), "&amp;#$1;");
+
             //interfere with wiki syntax
             RegexUnicode.Add(new Regex("&#(0?13|126|x5[BD]|x7[bcd]|0?9[13]|0?12[345]|0?0?3[92]);", RegexOptions.IgnoreCase), "&amp;#$1;");
 
@@ -5717,6 +5720,7 @@ namespace WikiFunctions.Parse
         // Covered by: UnicodifyTests
         /// <summary>
         /// Converts HTML entities to unicode, with some deliberate exceptions
+        /// Does not change 5-character HTML hex entities
         /// </summary>
         /// <param name="articleText">The wiki text of the article.</param>
         /// <returns>The modified article text.</returns>
@@ -5737,6 +5741,8 @@ namespace WikiFunctions.Parse
                 articleText = k.Key.Replace(articleText, k.Value);
             }
 
+            // this seems to support 5-character HTML hex entities e.g. U+FB17: ARMENIAN SMALL LIGATURE MEN XEH / &#xFB17; supported OK
+            // But 5-character e.g. &#x10A80; is not supported, gets broken as leading 1 removed
             articleText = HttpUtility.HtmlDecode(articleText);
 
             return articleText;
