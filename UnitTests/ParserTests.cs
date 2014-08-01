@@ -7766,6 +7766,10 @@ Text
 
             Assert.AreEqual("A &#x2329; B", parser.Unicodify("A &#x2329; B"));
             Assert.AreEqual("A &#x232A; B", parser.Unicodify("A &#x232A; B"));
+
+            // Characters above hex 10000 not changed
+            Assert.AreEqual("A &#x10A80; B", parser.Unicodify("A &#x10A80; B"));
+            Assert.AreEqual("A &#x20A80; B", parser.Unicodify("A &#x20A80; B"));
         }
 
         [Test]
