@@ -573,7 +573,7 @@ namespace WikiFunctions.DBScanner
                 AWBListbox.EndUpdate();
             }
 
-            lbArticles.RemoveSelected();
+            lbArticles.RemoveSelected(true);
 
             UpdateDBScannerArticleCount();
             UpdateListMakerCount();
