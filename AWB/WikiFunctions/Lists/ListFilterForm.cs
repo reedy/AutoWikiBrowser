@@ -131,10 +131,14 @@ namespace WikiFunctions.Lists
                     _list.Add(a);
             }
 
-            _destListBox.BeginUpdate();
-            _destListBox.Items.Clear();
-            _destListBox.Items.AddRange(_list.ToArray());
-            _destListBox.EndUpdate();
+            // Avoid performance penalty of AddRange if deduplication didn't remove any articles
+            if(_list.Count != _destListBox.Items.Count)
+            {
+                _destListBox.BeginUpdate();
+                _destListBox.Items.Clear();
+                _destListBox.Items.AddRange(_list.ToArray());
+                _destListBox.EndUpdate();
+            }
         }
 
         private void FilterNamespace()
