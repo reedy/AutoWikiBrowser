@@ -73,12 +73,13 @@ namespace WikiFunctions.Lists
                 if (_destListBox.Items.Count > 0 && _destListBox.Items[0] is Article)
                     FilterNamespace();
 
-                _destListBox.BeginUpdate();
-                _destListBox.Items.Clear();
-
-                _destListBox.Items.AddRange(_list.ToArray());
-                
-                _destListBox.EndUpdate();
+                if(_list.Count != _destListBox.Items.Count)
+                {
+                    _destListBox.BeginUpdate();
+                    _destListBox.Items.Clear();
+                    _destListBox.Items.AddRange(_list.ToArray());
+                    _destListBox.EndUpdate();
+                }
 
                 if (chkSortAZ.Checked)
                     _destListBox.Sort();
