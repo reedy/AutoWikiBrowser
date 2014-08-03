@@ -933,7 +933,7 @@ namespace WikiFunctions.Controls.Lists
         }
 
         /// <summary>
-        /// Automatically removes all duplicates from the list
+        /// Removes all duplicates from the list
         /// </summary>
         public void RemoveListDuplicates()
         {
