@@ -111,10 +111,14 @@ namespace WikiFunctions.Lists
         {
             Article[] unique = new List<Article>(_destListBox).Distinct().ToArray();
 
-            _destListBox.BeginUpdate();
-            _destListBox.Items.Clear();
-            _destListBox.Items.AddRange(unique);
-            _destListBox.EndUpdate();
+            // Avoid performance penalty of AddRange if deduplication didn't remove any articles
+            if(_destListBox.Items.Count != unique.Length)
+            {
+                _destListBox.BeginUpdate();
+                _destListBox.Items.Clear();
+                _destListBox.Items.AddRange(unique);
+                _destListBox.EndUpdate();
+            }
         }
 
         private void RemoveDuplicatesOld()
