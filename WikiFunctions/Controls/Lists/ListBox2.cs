@@ -107,7 +107,8 @@ namespace WikiFunctions.Controls.Lists
         {
             BeginUpdate();
 
-            Article[] currentArticles, currentArticlesBefore = new Article[Items.Count];
+            Article[] currentArticles = new Article[Items.Count];
+            Article[] currentArticlesBefore = new Article[Items.Count];
 
             for (int i = 0; i < Items.Count; i++)
                 currentArticles[i] = (Article)Items[i];
