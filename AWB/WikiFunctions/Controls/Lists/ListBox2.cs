@@ -107,18 +107,35 @@ namespace WikiFunctions.Controls.Lists
         {
             BeginUpdate();
 
-            Article[] currentArticles = new Article[Items.Count];
+            Article[] currentArticles, currentArticlesBefore = new Article[Items.Count];
 
             for (int i = 0; i < Items.Count; i++)
                 currentArticles[i] = (Article)Items[i];
+
+            currentArticles.CopyTo(currentArticlesBefore, 0);
 
             if(forward)
                 Array.Sort(currentArticles, ArticleForwardComparer);
             else
                 Array.Sort(currentArticles, ArticleReverseComparer);
 
-            Items.Clear();
-            Items.AddRange(currentArticles);
+            // performance of AddRange library method is quite slow
+            // so compare arrays and only update articles if sorting changed the order of the articles
+            bool same = true;
+            for (int i = 0; i < Items.Count; i++)
+            {
+                if(!currentArticles[i].Equals(currentArticlesBefore[i]))
+                {
+                    same = false;
+                    break;
+                }
+            }
+
+            if(!same)
+            {
+                Items.Clear();
+                Items.AddRange(currentArticles);
+            }
 
             EndUpdate();
         }
