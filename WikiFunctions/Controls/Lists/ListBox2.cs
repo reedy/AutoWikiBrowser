@@ -152,7 +152,7 @@ namespace WikiFunctions.Controls.Lists
 
                 // RemoveAt cost product of list size and selected items, cost at least SelectedItems.Count * SelectedIndex
                 // So cost low for single/few selected articles, use if less than cost of RemoveSelectedNew, which is ~Items.Count
-                if((SelectedItems.Count * SelectedIndex) < Items.Count)
+                if((SelectedItems.Count * Math.Max(SelectedIndex, 1)) < Items.Count)
                 {
                     while (SelectedItems.Count > 0)
                         Items.RemoveAt(SelectedIndex);
@@ -167,7 +167,7 @@ namespace WikiFunctions.Controls.Lists
                     SelectedIndex = i;
                 else
                     SelectedIndex = Math.Min(i, Items.Count) - 1;
-                
+
                 EndUpdate();
             }
         }
