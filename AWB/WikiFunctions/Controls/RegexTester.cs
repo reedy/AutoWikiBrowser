@@ -311,8 +311,10 @@ namespace WikiFunctions.Controls
             if (sender.Replace == null) // find
             {
                 Captures.BeginUpdate();
+                int i = 0;
                 foreach (Match m in sender.Matches)
                 {
+                    i++;
                     TreeNode n = Captures.Nodes.Add("{" + ReplaceNewLines(m.Value) + "}");
                     foreach (Group g in m.Groups)
                     {
@@ -325,6 +327,9 @@ namespace WikiFunctions.Controls
                         else if (g.Captures.Count == 1)
                             n.Nodes.Add(ReplaceNewLines("{" + g.Captures[0].Value) + "}");
                     }
+                    // For performance limit tree view to first 500 results
+                    if(i > 499)
+                        break;
                 }
                 switch (sender.Matches.Count)
                 {
@@ -335,7 +340,10 @@ namespace WikiFunctions.Controls
                         Status.Text = "1 match found";
                         break;
                     default:
-                        Status.Text = sender.Matches.Count + " matches found";
+                        if(sender.Matches.Count > 500)
+                            Status.Text = sender.Matches.Count + " matches found (showing first 500)";
+                        else
+                            Status.Text = sender.Matches.Count + " matches found";
                         break;
                 }
 
