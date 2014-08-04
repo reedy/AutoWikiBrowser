@@ -971,16 +971,26 @@ namespace WikiFunctions.Controls.Lists
             }
 
             List<Article> articles = new List<Article>(lbArticles);
-            articles.RemoveAll(a => a.NameSpaceKey != Namespace.Article);
+            List<Article> toberemoved = articles.FindAll(a => a.NameSpaceKey != Namespace.Article);
 
-            if(lbArticles.Items.Count > articles.Count)
+            if(toberemoved.Count == 0)
+                return;
+
+            // performance: AddRange performs at about 100 articles per millisecond, Remove takes about 1 millisecond per article
+            // so if removing < 1% of articles it's faster to Remove each one, otherwise faster to clear and AddRange the remainder back
+            lbArticles.BeginUpdate();
+            if(toberemoved.Count < (int)articles.Count/100)
             {
-                lbArticles.BeginUpdate();
+                foreach(Article a in toberemoved)
+                    lbArticles.Items.Remove(a);
+            }
+            else
+            {
+                articles.RemoveAll(a => a.NameSpaceKey != Namespace.Article);
                 lbArticles.Items.Clear();
                 lbArticles.Items.AddRange(articles.ToArray());
-                lbArticles.EndUpdate();
             }
-
+            lbArticles.EndUpdate();
             UpdateNumberOfArticles(false);
         }
 
