@@ -233,6 +233,10 @@ namespace WikiFunctions
                 case "hu":
                     InUse = Tools.NestedTemplateRegex(new[] {"Építés alatt", "Fejlesztés"});
                     break;
+                case "hy":
+                    Orphan = Tools.NestedTemplateRegex(@"Որբ");
+                    InUse = Tools.NestedTemplateRegex(new[] {"Խմբագրում եմ"});
+                    break;
                 case "it":
                     InUse = Tools.NestedTemplateRegex(new[] {"WIP", "Wip" });
                     LinkFGAs = Tools.NestedTemplateRegex(new [] {"link FA", "link FL", "link AdQ", "link V", "link VdQ", "link GA" });
