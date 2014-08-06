@@ -723,6 +723,11 @@ now stubborn}}");
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{يتيمه}}"));
 
+            Variables.SetProjectLangCode("hy");
+            WikiRegexes.MakeLangSpecificRegexes();
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
+            Assert.IsTrue(WikiRegexes.Orphan.IsMatch(@"{{Որբ}}"));
+
             Variables.SetProjectLangCode("ru");
             WikiRegexes.MakeLangSpecificRegexes();
             Assert.IsFalse(WikiRegexes.Orphan.IsMatch(@"{{orphan}}"));
@@ -791,6 +796,12 @@ now stubborn}}");
             Assert.IsFalse(WikiRegexes.Wikify.IsMatch(@"{{wikify}}"));
             Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{ويكى}}"));
 
+            Variables.SetProjectLangCode("hy");
+            WikiRegexes.MakeLangSpecificRegexes();
+            
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(@"{{wikify}}"));
+            Assert.IsTrue(WikiRegexes.Wikify.IsMatch(@"{{Վիքիֆիկացում}}"));
+
             Variables.SetProjectLangCode("en");
             WikiRegexes.MakeLangSpecificRegexes();
             #endif
@@ -845,9 +856,16 @@ now stubborn}}");
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(@"{{internal links}}"),"arz dead end");
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{نهايه مسدوده}}"),"arz dead end");
 
-            Variables.SetProjectLangCode("ru");
+            Variables.SetProjectLangCode("hy");
             WikiRegexes.MakeLangSpecificRegexes();
             
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dead end}}"),"hy dead end");
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(@"{{internal links}}"),"hy dead end");
+            Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Փակ}}"),"hy dead end");
+
+            Variables.SetProjectLangCode("ru");
+            WikiRegexes.MakeLangSpecificRegexes();
+
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{dead end}}"),"ru dead end");
             Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(@"{{internal links}}"),"ru dead end");
             Assert.IsTrue(WikiRegexes.DeadEnd.IsMatch(@"{{Tупиковая статья}}"),"ru dead end");
