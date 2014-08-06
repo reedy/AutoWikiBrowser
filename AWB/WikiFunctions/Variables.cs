@@ -859,6 +859,7 @@ namespace WikiFunctions
                 case "hy":
                     mSummaryTag = "oգտվելով";
                     WPAWB = "[[Վիքիպեդիա:ԱվտոՎիքիԲրաուզեր|ԱՎԲ]]";
+                    Stub = @"[^{}|]*?([Ss]tub|Անավարտ|Զարգացնել[^{}]*?)";
                     break;
 
                 case "ku":
