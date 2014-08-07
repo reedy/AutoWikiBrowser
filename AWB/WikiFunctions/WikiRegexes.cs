@@ -235,7 +235,7 @@ namespace WikiFunctions
                     break;
                 case "hy":
                     Orphan = Tools.NestedTemplateRegex(@"Որբ");
-                    uncattemplate = "Կատեգորիա չկա|Կչ|[Uu]ncategorized";
+                    uncattemplate = "(Կատեգորիա չկա|Կչ|[Uu]ncategorized)";
 					DeadEnd = new Regex(@"(?:{{\s*(?:[Dd]ead ?end|[Uu]nderlinked|Փակ)(?:\|(?:[^{}]+|" +DateYearMonthParameter +@"))?}}|\s*Փակ\s*=\s*(?:{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}|[^{}\|]+))");
 					Wikify = new Regex(@"{{\s*Վիքիֆիկացում(?:\s*\|\s*(" + DateYearMonthParameter + @"|.*?))?}}", RegexOptions.IgnoreCase);
                     InUse = Tools.NestedTemplateRegex(new[] {"Խմբագրում եմ"});
