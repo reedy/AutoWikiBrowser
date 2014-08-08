@@ -1,4 +1,4 @@
-﻿/*
+﻿﻿/*
 
 Copyright (C) 2007 Martin Richards
 
@@ -4743,7 +4743,7 @@ namespace WikiFunctions.Parse
                 zerothSection = Tools.NestedTemplateRegex("ndash").Replace(zerothSection, " &ndash;");
                 zerothSection = WikiRegexes.NestedTemplates.Replace(zerothSection, " ");
                 // clean up any format errors in birth/death dates we may want to use
-                zerothSection = p.FixDatesA(zerothSection);
+                zerothSection = p.FixDatesAInternal(zerothSection);
 
                 // look for date in bracketed text, check date matches existing value (from categories)
                 foreach (Match m in BracketedBirthDeathDate.Matches(zerothSection))
