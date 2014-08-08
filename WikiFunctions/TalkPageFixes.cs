@@ -18,6 +18,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 /* Some of this is currently only suitable for enwiki. */
 
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 
@@ -349,7 +350,7 @@ namespace WikiFunctions.TalkPages
         private static readonly Regex WPJazzR = Tools.NestedTemplateRegex(new[] { "WikiProject Jazz", "WPJAZZ", "WPJazz", "WP Jazz", "Wikiproject Jazz", "WikiProject Jazz music", "Jazz-music-project" });
         private static readonly Regex WPAlbumR = Tools.NestedTemplateRegex(new[] { "WikiProject Albums", "Albums", "WP Albums", "WPAlbums", "Album", "WPALBUMS" });
         private static readonly Regex SirRegex = Tools.NestedTemplateRegex(new[] { "sir", "Single infobox request" });
-        
+
         /// <summary>
         /// Performs fixes to the WikiProjectBannerShells template:
         /// Add explicit call to first unnamed parameter 1= if missing/has no value
@@ -360,22 +361,23 @@ namespace WikiFunctions.TalkPages
         /// <returns>The updated talk page text</returns>
         public static string WikiProjectBannerShell(string articletext)
         {
-            if(!Variables.LangCode.Equals("en"))
+            if (!Variables.LangCode.Equals("en"))
                 return articletext;
-            
+
             articletext = AddWikiProjectBannerShell(articletext);
-            
+
             if (!WikiRegexes.WikiProjectBannerShellTemplate.IsMatch(articletext))
                 return articletext;
 
             // rename redirects
-            foreach (string redirect in BannerShellRedirects)
-                articletext = Tools.RenameTemplate(articletext, redirect, "WikiProjectBannerShell", false);
+            articletext = BannerShellRedirects.Aggregate(articletext,
+                (current, redirect) => Tools.RenameTemplate(current, redirect, "WikiProjectBannerShell", false));
 
-            foreach (string redirect in BannerRedirects)
-                articletext = Tools.RenameTemplate(articletext, redirect, "WikiProjectBanners", false);
+            articletext = BannerRedirects.Aggregate(articletext,
+                (current, redirect) => Tools.RenameTemplate(current, redirect, "WikiProjectBanners", false));
 
-            foreach (Match m in WikiRegexes.WikiProjectBannerShellTemplate.Matches(articletext))
+
+    foreach (Match m in WikiRegexes.WikiProjectBannerShellTemplate.Matches(articletext))
             {
                 string newValue = m.Value;
                 newValue = Tools.RemoveExcessTemplatePipes(newValue);
