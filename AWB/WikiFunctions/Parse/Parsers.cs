@@ -2625,12 +2625,10 @@ namespace WikiFunctions.Parse
             if(CiteTemplateMEParameterToProcess(dates))
             {
                 // accessdate=, archivedate=
-                foreach (RegexReplacement rr in CiteTemplateIncorrectISOAccessdates)
-                    newValue = rr.Regex.Replace(newValue, rr.Replacement);
+                newValue = CiteTemplateIncorrectISOAccessdates.Aggregate(newValue, (current, rr) => rr.Regex.Replace(current, rr.Replacement));
 
                 // date=, archivedate=, airdate=, date2=
-                foreach (RegexReplacement rr in CiteTemplateIncorrectISODates)
-                    newValue = rr.Regex.Replace(newValue, rr.Replacement);
+                newValue = CiteTemplateIncorrectISODates.Aggregate(newValue, (current, rr) => rr.Regex.Replace(current, rr.Replacement));
 
                 newValue = CiteTemplateDateYYYYDDMMFormat.Replace(newValue, "$1-$3-$2$4"); // YYYY-DD-MM to YYYY-MM-DD
 
