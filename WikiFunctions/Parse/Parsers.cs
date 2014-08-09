@@ -5693,6 +5693,7 @@ namespace WikiFunctions.Parse
             return articleText.Replace('\x2028', ' ');
             
             //MOS:NBSP states that "A literal hard space, such as one of the Unicode non-breaking space characters, should not be used"
+            //In an ideal situation we should remove unicode nbsp with space and then readd html nbsp using FixSyntax where really needed
             //return articleText.Replace('\x00a0', ' ');
         }
 
