@@ -46,7 +46,7 @@
             this.chkContents.Size = new System.Drawing.Size(63, 17);
             this.chkContents.TabIndex = 7;
             this.chkContents.Tag = "1000";
-            this.chkContents.Text = "&Content";
+            this.chkContents.Text = "&Subject";
             this.chkContents.CheckedChanged += new System.EventHandler(this.chkContents_CheckedChanged);
             // 
             // checkedLBContent
@@ -56,7 +56,7 @@
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.checkedLBContent.FormattingEnabled = true;
             this.checkedLBContent.Location = new System.Drawing.Point(0, 23);
-            this.checkedLBContent.Name = "checkedLBContent";
+            this.checkedLBContent.Name = "checkedLBSubject";
             this.checkedLBContent.Size = new System.Drawing.Size(104, 214);
             this.checkedLBContent.TabIndex = 9;
             // 

@@ -67,7 +67,7 @@ namespace WikiFunctions.Controls
             checkedLBTalk.Items.Clear();
             checkedLBContent.Items.Clear();
 
-            checkedLBContent.Items.Add(new NSItem(new KeyValuePair<int,string>(0, "Content")));
+            checkedLBContent.Items.Add(new NSItem(new KeyValuePair<int,string>(0, "Main/Article")));
 
             foreach (KeyValuePair<int, string> kvp in Variables.Namespaces)
             {
