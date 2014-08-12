@@ -5245,6 +5245,9 @@ http://example.com }}");
         {
         	Assert.AreEqual(@"2:35&nbsp;a.m.", parser.FixNonBreakingSpaces(@"2:35a.m."));
             Assert.AreEqual(@"12:35&nbsp;a.m.", parser.FixNonBreakingSpaces(@"12:35a.m."));
+            Assert.AreEqual(@"12:35&nbsp;a.m.", parser.FixNonBreakingSpaces(@"12:35 a.m."));
+            Assert.AreEqual(@"12:35&nbsp;p.m.", parser.FixNonBreakingSpaces(@"12:35p.m."));
+            Assert.AreEqual(@"12:35&nbsp;p.m.", parser.FixNonBreakingSpaces(@"12:35 p.m."));
             Assert.AreEqual(@"2:35&nbsp;a.m.", parser.FixNonBreakingSpaces(@"02:35a.m."), "starts with zero");
         	Assert.AreEqual(@"2:35&nbsp;p.m.", parser.FixNonBreakingSpaces(@"2:35p.m."));
             Assert.AreEqual(@"12:35&nbsp;p.m.", parser.FixNonBreakingSpaces(@"12:35p.m."));
