@@ -186,7 +186,6 @@ namespace WikiFunctions.Controls
         /// <summary>
         /// Applies keywords to search text, formats newlines to support \n as newline
         /// </summary>
-        /// <param name="text"></param>
         /// <returns></returns>
         string FormatRegex(string strRegex, string articleName, bool isRegex)
         {
