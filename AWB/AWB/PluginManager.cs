@@ -403,12 +403,14 @@ namespace AutoWikiBrowser
                         catch (Exception ex)
                         {
                             Tools.WriteDebug(plugin, ex.ToString());
-#else
-                        catch (Exception)
-                        {
-#endif
                             continue;
                         }
+#else
+						catch (Exception)
+                        {
+                            continue;
+                        }
+#endif
 
                         if (asm == null)
                             continue;
