@@ -112,6 +112,16 @@ namespace WikiFunctions.API
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="page"></param>
+        /// <returns></returns>
+        public bool CanDeletePage(PageInfo page)
+        {
+            return (HasRight("delete"));
+        }
+
+        /// <summary>
         /// Returns whether the user can create the page based on group/edit rights
         /// </summary>
         /// <param name="page"></param>
