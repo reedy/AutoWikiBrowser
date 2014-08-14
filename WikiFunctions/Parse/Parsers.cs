@@ -7751,17 +7751,16 @@ namespace WikiFunctions.Parse
         /// <returns>List of regular categories</returns>
         public static List<Article> RegularCategories(List<Article> AllCategories)
         {
-            List<Article> CatsNotStubsProd = new List<Article>();
-            foreach (Article a in AllCategories)
-            {
-                string name = a.NamespacelessName;
-                if (!name.EndsWith(" stubs") && !a.Name.EndsWith(":Stubs") && !name.StartsWith("Proposed deletion")
-                    && !name.Contains("proposed for deletion") && !name.Contains("proposed deletions")
-                    && !name.Equals("Articles created via the Article Wizard"))
-                    CatsNotStubsProd.Add(a);
-            }
-
-            return CatsNotStubsProd;
+            return (from a in AllCategories
+                let name = a.NamespacelessName
+                where
+                    !name.EndsWith(" stubs") &&
+                    !a.Name.EndsWith(":Stubs") &&
+                    !name.StartsWith("Proposed deletion") &&
+                    !name.Contains("proposed for deletion") &&
+                    !name.Contains("proposed deletions") &&
+                    !name.Equals("Articles created via the Article Wizard")
+                select a).ToList();
         }
 
         /// <summary>
@@ -8098,11 +8097,8 @@ namespace WikiFunctions.Parse
             {
                 List<string> t = GetAllTemplates(articleText), t2 = new List<string>();
 
-                foreach(string s in WikiRegexes.DatedTemplates)
-                {
-                    if(t.Contains(Tools.TurnFirstToUpper(s))) // DatedTemplates can be first character upper or lower
-                        t2.Add(s);
-                }
+                // DatedTemplates can be first character upper or lower
+                t2.AddRange(WikiRegexes.DatedTemplates.Where(s => t.Contains(Tools.TurnFirstToUpper(s))));
 
                 if(t2.Count > 0)
                     articleText = Tools.NestedTemplateRegex(t2).Replace(articleText, TagUpdaterME);
