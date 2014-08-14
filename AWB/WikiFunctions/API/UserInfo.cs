@@ -112,7 +112,8 @@ namespace WikiFunctions.API
         }
 
         /// <summary>
-        /// 
+        /// Returns whether the user can delete the page based on group/edit rights
+        /// Examples: sysop, eliminator groups should be able to delete pages
         /// </summary>
         /// <param name="page"></param>
         /// <returns></returns>
