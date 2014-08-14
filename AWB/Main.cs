@@ -4506,7 +4506,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                     return;
                 }
 
-                if (!TheSession.User.IsSysop)
+                if (!TheSession.User.CanDeletePage(TheSession.Page))
                 {
                     MessageBox.Show(
                         "Current user doesn't have enough rights to delete \"" + TheSession.Page.Title + "\"",
