@@ -328,6 +328,7 @@ namespace AutoWikiBrowser
                         SkipOnlyCasingChanged = chkSkipCasing.Checked,
                         SkipOnlyGeneralFixChanges = chkSkipGeneralFixes.Checked,
                         SkipOnlyMinorGeneralFixChanges = chkSkipMinorGeneralFixes.Checked,
+                        SkipOnlyCosmetic = chkSkipCosmetic.Checked,
                         SkipNoLinksOnPage = chkSkipNoPageLinks.Checked,
                         SkipIfRedirect = chkSkipIfRedirect.Checked,
                         SkipIfNoAlerts = chkSkipIfNoAlerts.Checked
@@ -554,6 +555,7 @@ namespace AutoWikiBrowser
             chkSkipCasing.Checked = p.SkipOptions.SkipOnlyCasingChanged;
             chkSkipGeneralFixes.Checked = p.SkipOptions.SkipOnlyGeneralFixChanges;
             chkSkipMinorGeneralFixes.Checked = p.SkipOptions.SkipOnlyMinorGeneralFixChanges;
+            chkSkipCosmetic.Checked = p.SkipOptions.SkipOnlyCosmetic;
             chkSkipIfRedirect.Checked = p.SkipOptions.SkipIfRedirect;
             chkSkipIfNoAlerts.Checked = p.SkipOptions.SkipIfNoAlerts;
 

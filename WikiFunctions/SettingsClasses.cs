@@ -298,6 +298,7 @@ namespace WikiFunctions.AWBSettings
         public bool SkipWhenOnlyWhitespaceChanged = false;
         public bool SkipOnlyGeneralFixChanges = true;
         public bool SkipOnlyMinorGeneralFixChanges = false;
+        public bool SkipOnlyCosmetic = false;
         public bool SkipOnlyCasingChanged = false;
         public bool SkipIfRedirect = false;
         public bool SkipIfNoAlerts = false;
