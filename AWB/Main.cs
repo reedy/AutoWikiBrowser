@@ -4539,6 +4539,16 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                                                               "Article already deleted");
                     return;
                 }
+
+                if (ae.ErrorCode == "bigdelete")
+                {
+                    StatusLabelText = "You can't delete this page because it has more than 5,000 revisions";
+                    listMaker.Remove(TheArticle);
+
+                    articleActionLogControl1.LogArticleAction(TheArticle.Name, false, ArticleAction.Delete,
+                                                              "Article can't be deleted");
+                    return;
+                }
                 ErrorHandler.HandleException(ae);
             }
             catch (Exception ex)
