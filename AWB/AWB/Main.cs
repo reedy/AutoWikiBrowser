@@ -2438,8 +2438,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         {
             // allow protection of non-existent page (salting)
             btnProtect.Enabled = TheSession.IsSysop && btnSave.Enabled && (TheArticle != null);
-            btnMove.Enabled = btnDelete.Enabled = btntsDelete.Enabled =
-                btnProtect.Enabled && TheSession.Page.Exists;
+            btnMove.Enabled = btnProtect.Enabled && TheSession.Page.Exists;
+            btnDelete.Enabled = btntsDelete.Enabled = TheSession.User.CanDeletePage(TheSession.Page) && TheSession.Page.Exists;
             bypassAllRedirectsToolStripMenuItem.Enabled = TheSession.User.IsSysop;
         }
 
@@ -3316,7 +3316,8 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
             // allow protection of non-existent page (salting)
             btnProtect.Enabled = (enabled && TheSession.User.IsSysop && TheArticle != null);
-            btnDelete.Enabled = btntsDelete.Enabled = btnMove.Enabled = btnProtect.Enabled && TheSession.Page.Exists;
+            btnMove.Enabled = btnProtect.Enabled && TheSession.Page.Exists;
+            btnDelete.Enabled = btntsDelete.Enabled = TheSession.User.CanDeletePage(TheSession.Page) && TheSession.Page.Exists;
             btnFind.Enabled = txtFind.TextLength > 0;
 
             // if there are find matches, colour the Find button yellow
