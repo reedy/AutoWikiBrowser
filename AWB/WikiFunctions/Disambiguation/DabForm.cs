@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 
@@ -86,14 +87,13 @@ namespace WikiFunctions.Disambiguation
 
             if (dabLink.Contains("|"))
             {
-                string sum = "";
-                foreach (string s in dabLink.Split(new[] {'|'}))
-                {
-                    if (s.Trim().Length == 0) continue;
-                    sum += "|" + Tools.CaseInsensitive(Regex.Escape(s.Trim()));
-                }
-                if (sum.Length > 0 && sum[0] == '|') sum = sum.Remove(0, 1);
-                if (sum.Contains("|")) sum = "(?:" + sum + ")";
+                string sum = dabLink.Split(new[] {'|'})
+                    .Where(s => s.Trim().Length != 0)
+                    .Aggregate("", (current, s) => current + ("|" + Tools.CaseInsensitive(Regex.Escape(s.Trim()))));
+                if (sum.Length > 0 && sum[0] == '|')
+                    sum = sum.Remove(0, 1);
+                if (sum.Contains("|"))
+                    sum = "(?:" + sum + ")";
                 dabLink = sum;
             }
             else
