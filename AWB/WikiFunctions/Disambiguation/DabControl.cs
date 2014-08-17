@@ -103,11 +103,9 @@ namespace WikiFunctions.Disambiguation
                 //find our paragraph
                 for (PosStart = Match.Index; PosStart > 0; PosStart--)
                 {
-                    if ("\n\r".Contains(ArticleText[PosStart] + ""))
-                    {
-                        PosStart++;
-                        break;
-                    }
+                    if (!"\n\r".Contains(ArticleText[PosStart] + "")) continue;
+                    PosStart++;
+                    break;
                 }
 
                 PosEnd = Match.Index + Match.Value.Length;
@@ -136,11 +134,9 @@ namespace WikiFunctions.Disambiguation
                 if (n < PosStart) n = PosStart;
                 for (; n > PosStart; n--)
                 {
-                    if (char.IsSeparator(ArticleText[n]))
-                    {
-                        n++;
-                        break;
-                    }
+                    if (!char.IsSeparator(ArticleText[n])) continue;
+                    n++;
+                    break;
                 }
                 SurroundingsStart = n;
 
@@ -148,11 +144,9 @@ namespace WikiFunctions.Disambiguation
                 if (n > PosEnd) n = PosEnd;
                 for (; n < PosEnd; n++)
                 {
-                    if (char.IsSeparator(ArticleText[n]))
-                    {
-                        //n--;
-                        break;
-                    }
+                    if (!char.IsSeparator(ArticleText[n])) continue;
+                    //n--;
+                    break;
                 }
                 Surroundings = ArticleText.Substring(SurroundingsStart, n - SurroundingsStart);
 
