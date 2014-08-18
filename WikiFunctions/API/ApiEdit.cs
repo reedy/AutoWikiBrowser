@@ -276,18 +276,25 @@ namespace WikiFunctions.API
         /// 
         /// </summary>
         /// <param name="url"></param>
+        /// <param name="request"></param>
         /// <param name="options"></param>
         /// <returns></returns>
-        protected string AppendOptions(string url, ActionOptions options)
+        protected string AppendOptions(string url, string[,] request, ActionOptions options)
         {
             if ((options & ActionOptions.CheckMaxlag) > 0 && Maxlag > 0)
+            {
                 url += "&maxlag=" + Maxlag;
+            }
 
             if ((options & ActionOptions.RequireLogin) > 0)
+            {
                 url += "&assert=user";
+            }
 
-            if ((options & ActionOptions.CheckNewMessages) > 0)
+            if (GetAction(request) == "query" && ((options & ActionOptions.CheckNewMessages) > 0))
+            {
                 url += "&meta=userinfo|notifications&uiprop=hasmsg&notprop=count";
+            }
 
             return url;
         }
@@ -302,7 +309,7 @@ namespace WikiFunctions.API
         {
             string url = ApiURL + "?format=xml" + BuildQuery(request);
 
-            return AppendOptions(url, options);
+            return AppendOptions(url, request, options);
         }
 
         /// <summary>
@@ -1445,6 +1452,23 @@ namespace WikiFunctions.API
                                                               {
                                                                   ProhibitDtd = false
                                                               });
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        private static string GetAction(string[,] request)
+        {
+            for (int i = 0; i < request.GetLength(0); i++ )
+            {
+                if (request[i, 0] == "action")
+                {
+                    return request[i, 1];
+                }
+            }
+            throw new Exception("No action!");
         }
 
         #endregion
