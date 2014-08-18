@@ -1,4 +1,4 @@
-﻿﻿/*
+﻿/*
 
 Copyright (C) 2007 Martin Richards
 
@@ -8304,6 +8304,7 @@ namespace WikiFunctions.Parse
         /// <returns>true if you can edit, false otherwise</returns>
         public static bool CheckNoBots(string articleText, string user)
         {
+            articleText = WikiRegexes.UnformattedText.Replace(articleText, "");
             Match bot = BotsAllow.Match(articleText);
 
             if (bot.Success)
