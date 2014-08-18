@@ -98,7 +98,13 @@ namespace WikiFunctions.API
 
             Exists = (xr.GetAttribute("missing") == null); //if null, page exists
             IsWatched = (xr.GetAttribute("watched") != null);
+
+            // TODO: Check if tokens exist, and load in at Open time
             EditToken = xr.GetAttribute("edittoken");
+            // ProtectToken = xr.GetAttribute("protecttoken");
+            // DeleteToken = xr.GetAttribute("deletetoken");
+            // MoveToken = xr.GetAttribute("movetoken");
+            // WatchToken = xr.GetAttribute("watchtoken");
             TokenTimestamp = xr.GetAttribute("starttimestamp");
 
             long revId;
@@ -193,6 +199,30 @@ namespace WikiFunctions.API
         /// Edit token (https://www.mediawiki.org/wiki/Manual:Edit_token)
         /// </summary>
         public string EditToken
+        { get; internal set; }
+
+        /// <summary>
+        /// Delete Token
+        /// </summary>
+        public string DeleteToken
+        { get; internal set; }
+
+        /// <summary>
+        /// Protect Token
+        /// </summary>
+        public string ProtectToken
+        { get; internal set; }
+
+        /// <summary>
+        /// Move Token
+        /// </summary>
+        public string MoveToken
+        { get; internal set; }
+
+        /// <summary>
+        /// Watch Token
+        /// </summary>
+        public string WatchToken
         { get; internal set; }
 
         /// <summary>

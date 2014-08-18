@@ -630,7 +630,7 @@ namespace WikiFunctions.API
             {
                 XmlReader xr = CreateXmlReader(result);
                 if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
-                Page.EditToken = xr.GetAttribute("watchtoken");
+                Page.WatchToken = xr.GetAttribute("watchtoken");
             }
             catch (Exception ex)
             {
@@ -647,7 +647,7 @@ namespace WikiFunctions.API
                 new[,]
                     {
                         {"title", title},
-                        {"token", Page.EditToken}
+                        {"token", Page.WatchToken}
                     },
                 ActionOptions.All);
             CheckForErrors(result, "watch");
@@ -839,7 +839,7 @@ namespace WikiFunctions.API
             {
                 XmlReader xr = CreateXmlReader(result);
                 if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
-                Page.EditToken = xr.GetAttribute("deletetoken");
+                Page.DeleteToken = xr.GetAttribute("deletetoken");
             }
             catch (Exception ex)
             {
@@ -856,7 +856,7 @@ namespace WikiFunctions.API
                 new[,]
                     {
                         {"title", title},
-                        {"token", Page.EditToken},
+                        {"token", Page.DeleteToken},
                         {"reason", reason},
                         //{ User.IsBot ? "bot" : null, null },
                         {watch ? "watch" : null, null}
@@ -911,7 +911,7 @@ namespace WikiFunctions.API
             {
                 XmlReader xr = CreateXmlReader(result);
                 if (!xr.ReadToFollowing("page")) throw new Exception("Cannot find <page> element");
-                Page.EditToken = xr.GetAttribute("protecttoken");
+                Page.ProtectToken = xr.GetAttribute("protecttoken");
             }
             catch (Exception ex)
             {
@@ -945,7 +945,7 @@ namespace WikiFunctions.API
                 new[,]
                     {
                         {"title", title},
-                        {"token", Page.EditToken},
+                        {"token", Page.ProtectToken},
                         {"reason", reason},
                         {"protections", protections},
                         {
@@ -1005,7 +1005,7 @@ namespace WikiFunctions.API
 
                 invalid = xr.MoveToAttribute("invalid");
 
-                Page.EditToken = xr.GetAttribute("movetoken");
+                Page.MoveToken = xr.GetAttribute("movetoken");
             }
             catch (Exception ex)
             {
@@ -1026,7 +1026,7 @@ namespace WikiFunctions.API
                     {
                         {"from", title},
                         {"to", newTitle},
-                        {"token", Page.EditToken},
+                        {"token", Page.MoveToken},
                         {"reason", reason},
                         {"protections", ""},
                         {moveTalk ? "movetalk" : null, null},
