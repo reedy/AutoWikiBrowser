@@ -766,6 +766,23 @@ namespace WikiFunctions.API
 
             pageText = Tools.ConvertFromLocalLineEndings(pageText);
 
+#if DEBUG
+            string result2 = HttpGet(new[,]
+            {
+                {"action", "query"},
+                {"prop", "info"},
+                {"intoken", "edit"},
+                {"titles", Page.Title}
+            },
+                ActionOptions.All);
+
+            var Page2 = new PageInfo(result2);
+            if (Page.EditToken != Page2.EditToken)
+            {
+                Page.EditToken = Page2.EditToken;
+            }
+#endif
+
             string result = HttpPost(
                 new[,]
                     {
