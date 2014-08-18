@@ -1309,10 +1309,14 @@ namespace WikiFunctions.API
 
             // look at warnings: are notifications enabled on wiki
             var warnings = doc.GetElementsByTagName("warnings");
-            if(warnings.Count > 0)
+            if (warnings.Count > 0)
             {
-                if(warnings.Item(0).InnerXml.Contains("Unrecognized value for parameter 'meta': notifications"))
+                var xmlNode = warnings.Item(0);
+                if (xmlNode != null &&
+                    xmlNode.InnerXml.Contains("Unrecognized value for parameter 'meta': notifications"))
+                {
                     Variables.NotificationsEnabled = false;
+                }
             }
 
             if (string.IsNullOrEmpty(action)) return doc; // no action to check
