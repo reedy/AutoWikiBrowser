@@ -77,8 +77,8 @@ namespace WikiFunctions.Disambiguation
 
             foreach (string s in dabVariants)
             {
-                if (s.Trim().Length == 0) continue;
-                Variants.Add(s.Trim());
+                if (s.Trim().Length > 0)
+                    Variants.Add(s.Trim());
             }
 
             if (Variants.Count == 0) return articleText;
