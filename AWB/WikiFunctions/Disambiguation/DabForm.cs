@@ -102,8 +102,10 @@ namespace WikiFunctions.Disambiguation
             string newText = articleText;
             ArticleTitle = articleTitle;
 
+            // Don't match link that already has {{dn}} after it, allowing for punctuation
             Search = new Regex(@"\[\[\s*(" + dabLink +
-                               @")\s*(?:|#[^\|\]]*)(|\|[^\]]*)\]\]([\p{Ll}\p{Lu}\p{Lt}\p{Pc}\p{Lm}]*)");
+                               @")\s*(?:|#[^\|\]]*)(|\|[^\]]*)\]\]([\p{Ll}\p{Lu}\p{Lt}\p{Pc}\p{Lm}]*)(?![ .,':;]*" + 
+                               Tools.NestedTemplateRegex(new [] { "dn", "disambiguation needed" }).ToString() + ")");
 
             MatchCollection matches = Search.Matches(articleText);
 
