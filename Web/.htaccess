@@ -1,2 +1,0 @@
-RewriteEngine on 
-RewriteRule ^~awb/(.*)$ https://tools.wmflabs.org/awb/$1 [R=301,L]
