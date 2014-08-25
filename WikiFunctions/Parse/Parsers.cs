@@ -6496,10 +6496,10 @@ namespace WikiFunctions.Parse
         }
 
         private static readonly Regex BLPUnsourcedSection = Tools.NestedTemplateRegex(new [] { "BLP unsourced section","BLP sources section" });
-        private static readonly Regex NotPersonArticles = new Regex(@"(^(((?:First )?(?:Premiership|Presidency|Governor|Mayoralty)|Murder|Atlanta murders|Disappearance|Suicide|Adoption) of|Deaths|[12]\d{3}\b|\d{2,} )|Assembly of|(Birth|Death) rates|(discography|(?:film|bibli)ography| deaths| murders| family| campaign)$|\w+ and \w+)", RegexOptions.IgnoreCase);
+        private static readonly Regex NotPersonArticles = new Regex(@"(^(((?:First )?(?:Premiership|Presidency|Governor|Mayoralty)|Murder|Atlanta murders|Disappearance|Suicide|Adoption) of|Deaths|[12]\d{3}\b|\d{2,} )|Assembly of|(Birth|Death) rates|(discography|(?:film|bibli)ography| deaths| murders| family| campaign(?:, \d+)?| groups)$|\w+ and \w+$)", RegexOptions.IgnoreCase);
         private static readonly MetaDataSorter MDS = new MetaDataSorter();
         private static readonly Regex NobleFamilies = new Regex(@"\[\[Category:[^\[\]\|]*[nN]oble families");
-        private static readonly Regex NotAboutAPersonCategories = new Regex(@"\[\[Category:(\d{4} animal|.*(?:Animation|Business|Comedy|Criminal|Entertainer|Filmmaking|Screenwriting|Sibling|Sibling musical|Sports|Writing) duos|Articles about multiple people|Married couples|Fictional|Presidencies|Military careers|Parables of|[^\[\]\|\r\n]*[Mm]usical groups|Internet memes|Military animals|Collective pseudonyms|Sibling filmmakers)", RegexOptions.IgnoreCase);
+        private static readonly Regex NotAboutAPersonCategories = new Regex(@"\[\[Category:(\d{4} animal|.*(?:Animation|Business|Comedy|Criminal|Entertainer|Filmmaking|Screenwriting|Sibling|Sibling musical|Sports|Writing) duos|Articles about multiple people|Married couples|Fictional|Presidencies|Companies|Military careers|Parables of|[^\[\]\|\r\n]*[Mm]usical groups|Internet memes|Military animals|Collective pseudonyms|Sibling filmmakers)", RegexOptions.IgnoreCase);
         private static readonly Regex CLSAR = Tools.NestedTemplateRegex(@"Infobox Chinese-language singer and actor");
         private static readonly Regex NotPersonInfoboxes = Tools.NestedTemplateRegex(new [] { "Infobox cricketer tour biography", "Infobox political party" } );
 
