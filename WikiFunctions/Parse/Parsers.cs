@@ -6633,7 +6633,7 @@ namespace WikiFunctions.Parse
             return newText;
         }
 
-        private static readonly Regex ThreeOrMoreDigits = new Regex(@"\d{3,}", RegexOptions.Compiled);
+        private static readonly Regex ThreeOrMoreDigits = new Regex(@"[0-9]{3,}", RegexOptions.Compiled);
         private static readonly Regex BirthsSortKey = new Regex(@"\|.*?\]\]", RegexOptions.Compiled);
         /// <summary>
         /// Adds [[Category:Living people]] to articles with a [[Category:XXXX births]] and no living people/deaths category, taking sortkey from births category if present
@@ -6718,7 +6718,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex LongWikilink = new Regex(@"\[\[[^\[\]\|]{11,}(?:\|[^\[\]]+)?\]\]");
         private static readonly Regex YearPossiblyWithBC = new Regex(@"\d{3,4}(?![\ds])(?: BC)?");
-        private static readonly Regex ThreeOrFourDigitNumber = new Regex(@"\d{3,4}");
+        private static readonly Regex ThreeOrFourDigitNumber = new Regex(@"[0-9]{3,4}");
         private static readonly Regex DiedOrBaptised = new Regex(@"(^.*?)((?:&[nm]dash;|—|–|;|[Dd](?:ied|\.)|baptised).*)");
         private static readonly Regex NotCircaTemplate = new Regex(@"{{(?!(?:[Cc]irca|[Ff]l\.?))[^{]*?}}");
         private static readonly Regex AsOfText = new Regex(@"\bas of\b");
