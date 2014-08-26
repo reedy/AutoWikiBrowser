@@ -963,6 +963,16 @@ foo";
 		    Assert.AreEqual( @"[[Category:One|Foo]]
 [[Category:Two]]
 ", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate category removed, uppercase sortkey");
+
+            // dupe uncat tags
+            cats = @"[[Category:One]]
+{{uncat|date=August 2014}}
+{{uncat|date=August 2014}}
+";
+
+            Assert.AreEqual(@"{{uncat|date=August 2014}}
+[[Category:One]]
+", parser2.Sorter.RemoveCats(ref cats, "test"), "Duplicate uncat tags removed");
 		}
 
 		[Test]
