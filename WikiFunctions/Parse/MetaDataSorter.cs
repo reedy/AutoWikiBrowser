@@ -470,16 +470,21 @@ en, sq, ru
 			}
 
 			// Extract any {{uncategorized}} template, but not uncat stub templates
+            // remove exact duplicates
 			string uncat = "";
 			if(WikiRegexes.Uncat.IsMatch(articleTextNoComments))
 			{
-			    Match uncatm = WikiRegexes.Uncat.Match(articleText);
+                articleText = WikiRegexes.Uncat.Replace(articleText, uncatm =>
+                                                        {
+                                                            if(WikiRegexes.PossiblyCommentedStub.IsMatch(uncatm.Value))
+                                                                return uncatm.Value;
 
-			    if(uncatm.Success && !WikiRegexes.PossiblyCommentedStub.IsMatch(uncatm.Value))
-			    {
-			        articleText = articleText.Replace(uncatm.Value, "");
-			        uncat = uncatm.Value + "\r\n";
-			    }
+                                                            // remove exact duplicates
+                                                            if(!uncat.Contains(uncatm.Value))
+                                                                uncat += uncatm.Value + "\r\n";
+
+                                                            return "";
+                                                        });
 			}
 
 			return uncat + defaultSort + ListToString(categoryList);
