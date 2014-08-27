@@ -2947,7 +2947,8 @@ namespace WikiFunctions.Parse
             new RegexReplacement(new Regex(@"(<\s*ref\s+name\s*)-"), "$1="),
             
             // <ref NAME= --> <ref name=
-            new RegexReplacement(new Regex(@"<\s*ref\s+NAME(\s*=)"), "<ref name$1"),
+            // <refname= --> <ref name=
+            new RegexReplacement(new Regex(@"<\s*ref(?:\s+NAME|name)(\s*=)"), "<ref name$1"),
             
             // empty ref name: <ref name=>
             new RegexReplacement(new Regex(@"<\s*ref\s+name\s*=\s*>"), "<ref>")
@@ -2971,7 +2972,7 @@ namespace WikiFunctions.Parse
 
         };
         
-        public static readonly Regex RefTags = new Regex(@"<\s*ref\b[^<>]*>", RegexOptions.IgnoreCase);
+        public static readonly Regex RefTags = new Regex(@"<\s*ref[^<>]*>", RegexOptions.IgnoreCase);
         public static readonly Regex RedRefQuick = new Regex(@"<\s*(?:/\s*red|ref\s*/)\s*>");
         // <ref>...<ref/> --> <ref>...</ref> or <ref>...</red> --> <ref>...</ref>
         public static readonly Regex RedRef = new Regex(@"(<\s*ref(?:\s+name\s*=[^<>]*?)?\s*>[^<>""]+?)<\s*(?:/\s*red|ref\s*/)\s*>", RegexOptions.IgnoreCase);
