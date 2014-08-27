@@ -5736,10 +5736,7 @@ namespace WikiFunctions.Parse
             articleText = articleText.Replace("&#153;", "™");
             articleText = articleText.Replace("&#149;", "•");
 
-            foreach (KeyValuePair<Regex, string> k in RegexUnicode)
-            {
-                articleText = k.Key.Replace(articleText, k.Value);
-            }
+            articleText = RegexUnicode.Aggregate(articleText, (current, k) => k.Key.Replace(current, k.Value));
 
             // this seems to support 5-character HTML hex entities e.g. U+FB17: ARMENIAN SMALL LIGATURE MEN XEH / &#xFB17; supported OK
             // But 5-character e.g. &#x10A80; is not supported, gets broken as leading 1 removed
@@ -5926,10 +5923,7 @@ namespace WikiFunctions.Parse
                 inFirst5Percent = articleText.Trim().Substring(0, Math.Max(articlelength / 20, 5)).Contains("'''");
 
             // check that the bold added is the first bit in bold in the main body of the article, and in first 5% of HideMore article
-            if (inFirst5Percent && boldAddedPos <= firstBoldPos)
-                return true;
-
-            return false;
+            return inFirst5Percent && boldAddedPos <= firstBoldPos;
         }
 
         /// <summary>
