@@ -3103,6 +3103,25 @@ world|format=PDF}} was";
 }}
 [[Category:1904 deaths]]";
             Assert.IsTrue(Parsers.PersonData(Clark, "A").Contains(@"| DATE OF DEATH     = July 4, 1904"));
+
+			const string Question = @"
+{{use mdy dates}}
+{{Infobox college coach
+| name          = Lyal W. Clark
+| death_date   = ???
+}}
+
+{{Persondata <!-- Metadata: see [[Wikipedia:Persondata]]. -->
+| NAME              = Clark, Lyal W.
+| ALTERNATIVE NAMES =
+| SHORT DESCRIPTION = American college football coach
+| DATE OF BIRTH     =
+| PLACE OF BIRTH    =
+| DATE OF DEATH     =
+| PLACE OF DEATH    =
+}}
+[[Category:1904 deaths]]";
+			Assert.IsFalse(Tools.NestedTemplateRegex("persondata").Match(Parsers.PersonData(Question, "A")).Value.Contains(@"???"));
         }
 
         [Test]
@@ -3197,6 +3216,7 @@ world|format=PDF}} was";
                             WikiRegexes.Persondata.Match(Parsers.PersonData(IB.Replace(@"[[St. Paul, Minnesota|Saint Paul]], [[Minnesota]]", "Saint Paul, Minnesota}}") + "May 2, 2010 and May 2, 2010", "test")).Value, "city state template converted (death place)");
 
             Assert.AreEqual(PD, WikiRegexes.Persondata.Match(Parsers.PersonData(IB.Replace(@"[[Canada]]", @"[[Canada]] [[File:Foo.svg|country flag]]") + "May 2, 2010 and May 2, 2010", "test")).Value, "removes country flag from place name");
+            Assert.AreEqual(PD, WikiRegexes.Persondata.Match(Parsers.PersonData(IB.Replace(@"[[Canada]]", @"[[Canada]] ???") + "May 2, 2010 and May 2, 2010", "test")).Value, "removes ??? from place name");
             Assert.AreEqual(PD, WikiRegexes.Persondata.Match(Parsers.PersonData(IB.Replace(@"[[Canada]]", @"[[Canada]] <ref>abc</ref>") + "May 2, 2010 and May 2, 2010", "test")).Value, "removes ref from place name");
 
             Assert.AreEqual(PD, WikiRegexes.Persondata.Match(Parsers.PersonData(IB.Replace(@"{{birthdate|1838|9|16}}", @"1838-09-16") + @"{{use mdy dates}}", "test")).Value, "ISO dates supported");
