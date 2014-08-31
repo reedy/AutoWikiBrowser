@@ -4160,6 +4160,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             if (!chkRegExTypo.Checked)
             {
                 chkSkipIfNoRegexTypo.Checked = chkSkipIfNoRegexTypo.Enabled = false;
+                return;
             }
             else
                 chkSkipIfNoRegexTypo.Enabled = true;

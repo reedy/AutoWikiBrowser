@@ -488,6 +488,7 @@ namespace AutoWikiBrowser
         /// </summary>
         private void LoadPrefs(UserPrefs p)
         {
+            chkRegExTypo.Checked = p.Editprefs.RegexTypoFix;
             SetProject(p.LanguageCode, p.Project, p.CustomProject, p.Protocol);
             Variables.LoginDomain = p.LoginDomain;
 
@@ -543,8 +544,6 @@ namespace AutoWikiBrowser
             nudBotSpeed.Value = p.Editprefs.AutoDelay;
             botEditsStop.Value = p.Editprefs.BotMaxEdits;
             chkSuppressTag.Checked = p.Editprefs.SupressTag;
-
-            chkRegExTypo.Checked = p.Editprefs.RegexTypoFix;
 
             radSkipNonExistent.Checked = p.SkipOptions.SkipNonexistent;
             radSkipExistent.Checked = p.SkipOptions.Skipexistent;
