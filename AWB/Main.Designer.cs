@@ -1006,7 +1006,7 @@ namespace AutoWikiBrowser
             // 
             this.loadDefaultSettingsToolStripMenuItem.Name = "loadDefaultSettingsToolStripMenuItem";
             this.loadDefaultSettingsToolStripMenuItem.Size = new System.Drawing.Size(222, 22);
-            this.loadDefaultSettingsToolStripMenuItem.Text = "R&eset to default settings";
+            this.loadDefaultSettingsToolStripMenuItem.Text = "R&eset to original default settings";
             this.loadDefaultSettingsToolStripMenuItem.Click += new System.EventHandler(this.loadDefaultSettingsToolStripMenuItem_Click);
             // 
             // loadSettingsToolStripMenuItem
