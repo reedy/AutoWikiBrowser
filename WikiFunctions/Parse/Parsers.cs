@@ -3313,9 +3313,13 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string FixSyntax(string articleText)
         {
-            // DEFAULTSORT whitespace fix - CHECKWIKI error 88
             if (Variables.LangCode.Equals("en"))
+            {
+	            // DEFAULTSORT whitespace fix - CHECKWIKI error 88
                 articleText = WikiRegexes.Defaultsort.Replace(articleText, DefaultsortME);
+                // This category should not be directly added
+	            articleText = articleText.Replace(@"[[Category:Disambiguation pages]]", @"{{Disambiguation}}");
+            }
 
             articleText = Tools.TemplateToMagicWord(articleText);
 
@@ -7839,7 +7843,7 @@ namespace WikiFunctions.Parse
 
             // add orphan tag if applicable, and no disambig nor SIA
             if (!Variables.LangCode.Equals("sv") && orphaned2 && !WikiRegexes.Orphan.IsMatch(articleText) && Tools.GetTemplateParameterValue(WikiRegexes.MultipleIssues.Match(articleText).Value, "orphan").Length == 0
-                && !WikiRegexes.Disambigs.IsMatch(articleText) && !WikiRegexes.SIAs.IsMatch(articleText) && !WikiRegexes.Wi.IsMatch(articleText))
+                && !WikiRegexes.Disambigs.IsMatch(articleText) && !WikiRegexes.SIAs.IsMatch(articleText) && !WikiRegexes.Wi.IsMatch(articleText) && !articleText.Contains(@"[[Category:Disambiguation pages]]"))
             {
                 if (Variables.LangCode.Equals("ar"))
                 {
