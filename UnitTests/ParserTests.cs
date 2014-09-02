@@ -10226,7 +10226,7 @@ Foo
             Assert.IsTrue(WikiRegexes.Orphan.IsMatch(text), "page is orphan");
 
             text = parser.Tagger(@"{{multiple issues|foo={{subst:CURRENTMONTH}} |orphan={{subst:FOOBAR}} }}" + ShortText, "Test", false, out noChange, ref summary);
-            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text));
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text),"tags with subst");
 
             Globals.UnitTestBoolValue = false;
 
