@@ -347,7 +347,7 @@ namespace WikiFunctions.API
     public class RedirectToInterwikiException : InterwikiException
     {
         public RedirectToInterwikiException(ApiEdit editor)
-            : base(editor, "Redirect target containts interwiki")
+            : base(editor, "Redirect target contains interwiki")
         {
         }
     }
