@@ -113,7 +113,9 @@ namespace UnitTests
         {
             Typos["foo"] = "bar";
             Assert.IsTrue(DetectTypo("The foo was"));
+            Assert.IsTrue(DetectTypo("The foo was "));
             Assert.IsFalse(DetectTypo("The x was"));
+            Assert.IsFalse(DetectTypo("The foo {{sic}} was"));
         }
 
         [Test]
