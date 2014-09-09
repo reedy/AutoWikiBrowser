@@ -1013,6 +1013,8 @@ namespace AutoWikiBrowser
 
             Variables.Profiler.Profile("Skip checks");
 
+            Tools.WriteDebug("PageLoaded", "TheArticle.ArticleText length is " + TheArticle.ArticleText.Length);
+            
             // TODO on long articles this takes > 500 ms, why?
             // disabling TextChanged or wrapping in visible/enabled toggles doesn't resolve it
             txtEdit.Text = TheArticle.ArticleText;
