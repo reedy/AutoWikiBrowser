@@ -52,6 +52,22 @@ namespace UnitTests
             return Retf.PerformTypoFixes(articleText, out noChange, out Summary, articleTitle);
         }
 
+        private bool DetectTypo(string articleText)
+        {
+            return DetectTypo(articleText, "Test");
+        }
+
+        private bool DetectTypo(string articleText, string articleTitle)
+        {
+            if (Retf == null)
+            {
+                if (Typos.Count == 0) throw new Exception("You forgot to provide a list of typos!");
+                Retf = new RegExTypoFix(false, new TypoList(Typos));
+            }
+
+            return Retf.DetectTypo(articleText, articleTitle);
+        }
+
         private void AssertFix(string expected, string articleText, string articleTitle)
         {
             Assert.AreEqual(expected, FixTypos(articleText, articleTitle));
@@ -90,6 +106,14 @@ namespace UnitTests
         {
             Typos["foo"] = "bar";
             AssertNoFix("spellfixno foos are");
+        }
+
+        [Test]
+        public void DetectTypo()
+        {
+            Typos["foo"] = "bar";
+            Assert.IsTrue(DetectTypo("The foo was"));
+            Assert.IsFalse(DetectTypo("The x was"));
         }
 
         [Test]
