@@ -758,7 +758,7 @@ namespace WikiFunctions
         /// <param name="imageWithText">Replacement text (if applicable)</param>
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
         public void UpdateImages(ImageReplaceOptions option,
-                                 string imageReplaceText, string imageWithText, bool skipIfNoChange)
+            string imageReplaceText, string imageWithText, bool skipIfNoChange)
         {
             string strTemp = "";
             bool noChange = true;
@@ -766,31 +766,33 @@ namespace WikiFunctions
             imageReplaceText = imageReplaceText.Trim();
             imageWithText = imageWithText.Trim();
 
-            if (imageReplaceText.Length > 0)
+            if (string.IsNullOrEmpty(imageReplaceText))
             {
-                switch (option)
-                {
-                    case ImageReplaceOptions.NoAction:
+                return;
+            }
+            switch (option)
+            {
+                case ImageReplaceOptions.NoAction:
+                    return;
+
+                case ImageReplaceOptions.Replace:
+                    if (string.IsNullOrEmpty(imageWithText))
+                    {
                         return;
+                    }
+                    strTemp = Parsers.ReplaceImage(imageReplaceText, imageWithText, mArticleText, out noChange);
+                    break;
 
-                    case ImageReplaceOptions.Replace:
-                        if (imageWithText.Length > 0)
-                        {
-                            strTemp = Parsers.ReplaceImage(imageReplaceText, imageWithText, mArticleText, out noChange);
-                        }
-                        break;
+                case ImageReplaceOptions.Remove:
+                    strTemp = Parsers.RemoveImage(imageReplaceText, mArticleText, false, imageWithText, out noChange);
+                    break;
 
-                    case ImageReplaceOptions.Remove:
-                        strTemp = Parsers.RemoveImage(imageReplaceText, mArticleText, false, imageWithText, out noChange);
-                        break;
+                case ImageReplaceOptions.Comment:
+                    strTemp = Parsers.RemoveImage(imageReplaceText, mArticleText, true, imageWithText, out noChange);
+                    break;
 
-                    case ImageReplaceOptions.Comment:
-                        strTemp = Parsers.RemoveImage(imageReplaceText, mArticleText, true, imageWithText, out noChange);
-                        break;
-
-                    default:
-                        throw new ArgumentOutOfRangeException("option");
-                }
+                default:
+                    throw new ArgumentOutOfRangeException("option");
             }
 
             if (noChange && skipIfNoChange)
@@ -814,24 +816,32 @@ namespace WikiFunctions
             string strTemp, action = "";
             bool noChange;
 
+            categoryText = categoryText.Trim();
+            categoryText2 = categoryText2.Trim();
+            if (string.IsNullOrEmpty(categoryText))
+            {
+                return;
+            }
+
             switch (option)
             {
                 case CategorisationOptions.NoAction:
                     return;
 
                 case CategorisationOptions.AddCat:
-                    if (categoryText.Length < 1) return;
                     strTemp = parsers.AddCategory(categoryText, mArticleText, Name, out noChange);
                     action = "Added " + categoryText;
                     break;
 
                 case CategorisationOptions.ReCat:
-                    if (categoryText.Length < 1 || categoryText2.Length < 1) return;
+                    if (string.IsNullOrEmpty(categoryText2))
+                    {
+                        return;
+                    }
                     strTemp = Parsers.ReCategoriser(categoryText, categoryText2, mArticleText, out noChange, removeSortKey);
                     break;
 
-                case CategorisationOptions.RemoveCat:
-                    if (categoryText.Length < 1) return;
+                case CategorisationOptions.RemoveCat: 
                     strTemp = Parsers.RemoveCategory(categoryText, mArticleText, out noChange);
                     action = "Removed " + categoryText;
                     break;
