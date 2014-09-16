@@ -767,13 +767,17 @@ namespace WikiFunctions
             imageWithText = imageWithText.Trim();
 
             if (imageReplaceText.Length > 0)
+            {
                 switch (option)
                 {
                     case ImageReplaceOptions.NoAction:
                         return;
 
                     case ImageReplaceOptions.Replace:
-                        if (imageWithText.Length > 0) strTemp = Parsers.ReplaceImage(imageReplaceText, imageWithText, mArticleText, out noChange);
+                        if (imageWithText.Length > 0)
+                        {
+                            strTemp = Parsers.ReplaceImage(imageReplaceText, imageWithText, mArticleText, out noChange);
+                        }
                         break;
 
                     case ImageReplaceOptions.Remove:
@@ -787,6 +791,7 @@ namespace WikiFunctions
                     default:
                         throw new ArgumentOutOfRangeException("option");
                 }
+            }
 
             if (noChange && skipIfNoChange)
                 Trace.AWBSkipped("No File Changed");
