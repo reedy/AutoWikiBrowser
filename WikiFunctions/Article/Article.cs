@@ -53,8 +53,6 @@ namespace WikiFunctions
 
         private readonly PageInfo mPage;
 
-        private bool noChange;
-
         public virtual IAWBTraceListener Trace
         { get { return mAWBLogListener; } }
 
@@ -579,10 +577,11 @@ namespace WikiFunctions
         /// <param name="removeText"></param>
         public void Unicodify(bool skipIfNoChange, Parsers parsers, HideText removeText)
         {
+            bool noChange;
             // performance: only run slow HideMore if unicodify of raw text results in changes
             parsers.Unicodify(mArticleText, out noChange);
-            
-            if(!noChange)
+
+            if (!noChange)
             {
                 HideMoreText(removeText);
                 string strTemp = parsers.Unicodify(mArticleText, out noChange);
@@ -762,6 +761,7 @@ namespace WikiFunctions
                                  string imageReplaceText, string imageWithText, bool skipIfNoChange)
         {
             string strTemp = "";
+            bool noChange = true;
 
             imageReplaceText = imageReplaceText.Trim();
             imageWithText = imageWithText.Trim();
@@ -812,6 +812,7 @@ namespace WikiFunctions
                                    bool skipIfNoChange, string categoryText, string categoryText2, bool removeSortKey)
         {
             string strTemp, action = "";
+            bool noChange;
 
             switch (option)
             {
@@ -956,6 +957,7 @@ namespace WikiFunctions
         public void PerformTypoFixes(RegExTypoFix regexTypos, bool skipIfNoChange)
         {
             string tmpEditSummary;
+            bool noChange;
             string strTemp = regexTypos.PerformTypoFixes(mArticleText, out noChange, out tmpEditSummary, Name);
 
             if (noChange && skipIfNoChange)
@@ -976,6 +978,7 @@ namespace WikiFunctions
         public void AutoTag(Parsers parsers, bool skipIfNoChange, bool restrictOrphanTagging)
         {
             string tmpEditSummary = "";
+            bool noChange;
             string strTemp = parsers.Tagger(mArticleText, Name, restrictOrphanTagging, out noChange, ref tmpEditSummary);
 
             if (skipIfNoChange && noChange)
@@ -994,36 +997,38 @@ namespace WikiFunctions
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
         protected bool MinorFixes(string langCode, bool skipIfNoChange)
         {
+            bool noChange;
             AWBChangeArticleText("Fixed interwikis", Parsers.InterwikiConversions(mArticleText, out noChange), true);
-             bool anyChanges = false;
+            bool anyChanges = false;
 
-             if (langCode.Equals("en") || langCode.Equals("simple"))
-             {
-                 string strTemp = mArticleText;
+            if (langCode.Equals("en") || langCode.Equals("simple"))
+            {
+                string strTemp = mArticleText;
 
-                 // do not subst on Template documentation pages, Template sandbox pages or commons category pages
-                 if (!(Namespace.Determine(Name).Equals(Namespace.Template) && (Name.EndsWith(@"/doc") || Name.EndsWith(@"/sandbox")))
-                     && !(Variables.IsCommons && Namespace.Determine(Name).Equals(Namespace.Category)))
-                     strTemp = Parsers.Conversions(mArticleText);
+                // do not subst on Template documentation pages, Template sandbox pages or commons category pages
+                if (!(Namespace.Determine(Name).Equals(Namespace.Template) &&
+                      (Name.EndsWith(@"/doc") || Name.EndsWith(@"/sandbox")))
+                    && !(Variables.IsCommons && Namespace.Determine(Name).Equals(Namespace.Category)))
+                    strTemp = Parsers.Conversions(mArticleText);
 
-                 strTemp = Parsers.FixLivingThingsRelatedDates(strTemp);
-                 strTemp = Parsers.FixHeadings(strTemp, Name, out noChange);
+                strTemp = Parsers.FixLivingThingsRelatedDates(strTemp);
+                strTemp = Parsers.FixHeadings(strTemp, Name, out noChange);
 
-                 anyChanges = !mArticleText.Equals(strTemp);
+                anyChanges = !mArticleText.Equals(strTemp);
 
-                 if (skipIfNoChange && mArticleText.Equals(strTemp))
-                 {
-                     Trace.AWBSkipped("No header errors");
-                 }
-                 else if (!noChange)
-                     AWBChangeArticleText("Fixed header errors", strTemp, true);
-                 else
-                 {
-                     AWBChangeArticleText("Fixed minor formatting issues", strTemp, true);
-                     if (skipIfNoChange) Trace.AWBSkipped("No header errors");
-                 }
-             }
-             return anyChanges;
+                if (skipIfNoChange && mArticleText.Equals(strTemp))
+                {
+                    Trace.AWBSkipped("No header errors");
+                }
+                else if (!noChange)
+                    AWBChangeArticleText("Fixed header errors", strTemp, true);
+                else
+                {
+                    AWBChangeArticleText("Fixed minor formatting issues", strTemp, true);
+                    if (skipIfNoChange) Trace.AWBSkipped("No header errors");
+                }
+            }
+            return anyChanges;
         }
 
         /// <summary>
@@ -1036,6 +1041,7 @@ namespace WikiFunctions
         {
             if ((langCode.Equals("en") || langCode.Equals("simple")) && Variables.IsWikimediaProject && !Variables.IsWikimediaMonolingualProject)
             {
+                bool noChange;
                 string strTemp = Parsers.ChangeToDefaultSort(mArticleText, Name, out noChange, restrictDefaultsortAddition);
 
                 if (skipIfNoChange && noChange)
@@ -1062,6 +1068,7 @@ namespace WikiFunctions
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
         public void CiteTemplateDates(Parsers parsers, bool skipIfNoChange)
         {
+            bool noChange;
             string strTemp = parsers.CiteTemplateDates(mArticleText, out noChange);
 
             if (skipIfNoChange && noChange)
@@ -1077,7 +1084,7 @@ namespace WikiFunctions
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
         public void FixPeopleCategories(Parsers parsers, bool skipIfNoChange)
         {
-            bool noChange2;
+            bool noChange, noChange2;
             string strTemp = parsers.FixPeopleCategories(mArticleText, Name, true, out noChange);
             strTemp = Parsers.LivingPeople(strTemp, Name, out noChange2);
 
@@ -1096,6 +1103,7 @@ namespace WikiFunctions
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
         public void FixLinks(bool skipIfNoChange)
         {
+            bool noChange;
             string strTemp = Parsers.FixLinks(mArticleText, Name, out noChange);
             if (noChange && skipIfNoChange)
                 Trace.AWBSkipped("No bad links");
@@ -1109,6 +1117,7 @@ namespace WikiFunctions
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
         public void BulletExternalLinks(bool skipIfNoChange)
         {
+            bool noChange;
             string strTemp = Parsers.BulletExternalLinks(mArticleText, out noChange);
             if (skipIfNoChange && noChange)
                 Trace.AWBSkipped("No missing bulleted links");
@@ -1123,6 +1132,7 @@ namespace WikiFunctions
         /// <param name="skipIfNoChange">True if the article should be skipped if no changes are made</param>
         public void EmboldenTitles(Parsers parsers, bool skipIfNoChange)
         {
+            bool noChange;
             string strTemp = parsers.BoldTitle(mArticleText, Name, out noChange);
             if (skipIfNoChange && noChange)
                 Trace.AWBSkipped("No Titles to embolden");
@@ -1168,6 +1178,7 @@ namespace WikiFunctions
         public bool Disambiguate(Session session, string dabLinkText, string[] dabVariantsLines, bool botMode, int context,
                                  bool skipIfNoChange)
         {
+            bool noChange;
             Disambiguation.DabForm df = new Disambiguation.DabForm(session);
             string strTemp = df.Disambiguate(mArticleText, Name, dabLinkText,
                                              dabVariantsLines, context, botMode, out noChange);
