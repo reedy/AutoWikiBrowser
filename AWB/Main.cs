@@ -1356,13 +1356,6 @@ namespace AutoWikiBrowser
                     return false;
                 }
 
-				// users reporting "page blanking" errors / blank edit box presented for existing page: so skip if mainspace page that exists but no text found
-                if (TheSession.Editor.Page.Exists && TheSession.Page.Text.Length == 0 && TheSession.Page.NamespaceID == Namespace.Mainspace)
-                {
-                    SkipPage("ERROR Existing page but no page text");
-                    return false;
-                }
-
                 if (!preParseModeToolStripMenuItem.Checked && TheSession.User.HasMessages)
                 {
                     WeHaveNewMessages();
