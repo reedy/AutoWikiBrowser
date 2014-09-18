@@ -7685,10 +7685,17 @@ namespace WikiFunctions.Parse
             }
 
             // rename unreferenced --> refimprove if has existing refs, update date
+            // if have both unreferenced and refimprove, and have some refs then just remove unreferenced
             if (WikiRegexes.Unreferenced.IsMatch(commentsCategoriesStripped)
                 && (TotalRefsNotGrouped(commentsCategoriesStripped) + Tools.NestedTemplateRegex("sfn").Matches(articleText).Count) > 0)
             {
-                articleText = Unreferenced.Replace(articleText, m2 => Tools.UpdateTemplateParameterValue(Tools.RenameTemplate(m2.Value, "refimprove"), "date", "{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}"));
+                articleText = Unreferenced.Replace(articleText, m2 => 
+                                                   {
+                                                       if(Tools.NestedTemplateRegex("Refimprove").IsMatch(articleText))
+                                                           return "";
+
+                                                       return Tools.UpdateTemplateParameterValue(Tools.RenameTemplate(m2.Value, "refimprove"), "date", "{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}");
+                                                   });
 
                 // update tag in old-style multiple issues
                 Match m = WikiRegexes.MultipleIssues.Match(articleText);
