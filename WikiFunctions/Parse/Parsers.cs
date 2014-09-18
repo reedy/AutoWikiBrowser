@@ -398,7 +398,7 @@ namespace WikiFunctions.Parse
                                        MonthYear.IsMatch(Tools.GetTemplateParameterValue(MICall, "expert"))))
                 articleText = articleText.Replace(MICall, Tools.RemoveTemplateParameter(MICall, "date"));
 
-            articleText = SectionTemplates.Replace(articleText, SectionTemplateConversionsME);
+            //articleText = SectionTemplates.Replace(articleText, SectionTemplateConversionsME);
 
             string newTags = "";
 
@@ -7205,7 +7205,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly Regex SectionTemplates = Tools.NestedTemplateRegex(new[] { "unreferenced", "wikify", "refimprove", "BLP sources", "expand", "BLP unsourced" });
+        private static readonly Regex SectionTemplates = Tools.NestedTemplateRegex(new[] { "unreferenced", "refimprove", "BLP sources", "expand", "BLP unsourced" });
 
         /// <summary>
         /// Converts templates such as {{foo|section|...}} to {{foo section|...}}
@@ -7215,8 +7215,15 @@ namespace WikiFunctions.Parse
         private static string SectionTemplateConversionsME(Match m)
         {
             string newValue = m.Value, existingName = Tools.GetTemplateName(newValue);
-            if (Tools.GetTemplateArgument(newValue, 1).Equals("section") || Tools.GetTemplateArgument(newValue, 1).Equals("Section"))
+            if (Tools.GetTemplateArgument(newValue, 1).Equals("section") || Tools.GetTemplateArgument(newValue, 1).Equals("Section") || Tools.GetTemplateParameterValue(newValue, "type").ToLower().Equals("section"))
                 newValue = Tools.RenameTemplate(Regex.Replace(newValue, @"\|\s*[Ss]ection\s*\|", "|"), existingName + " section");
+
+            if (Tools.GetTemplateParameterValue(newValue, "type").ToLower().Equals("section"))
+            {
+                newValue = Tools.RemoveTemplateParameter(newValue, "section");
+                newValue = Tools.RenameTemplate(Regex.Replace(newValue, @"\|\s*type\s*=\s*[Ss]ection\s*\|", "|"), existingName + " section");
+            }
+
 
             // for {{Unreferenced}} additionally convert list parameter
             if (existingName.ToLower().Equals("unreferenced") && Tools.GetTemplateArgument(newValue, 1).Equals("list"))
