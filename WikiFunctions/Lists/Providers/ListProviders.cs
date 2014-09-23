@@ -985,20 +985,6 @@ namespace WikiFunctions.Lists.Providers
             Limit = 1000;
         }
 
-        /*   public override List<Article> MakeList(params string[] searchCriteria)
-        {
-            List<Article> list = new List<Article>();
-
-            foreach (string page in searchCriteria)
-            {
-                string url = "list=search&srwhat=" + Srwhat + "&srsearch=all:'"
-                    + HttpUtility.UrlEncode(page) + "'&srlimit=max";
-
-                list.AddRange(ApiMakeList(url, list.Count));
-            }
-            return list;
-        } */
-
         public override List<Article> MakeList(params string[] searchCriteria)
         {
             List<Article> list = new List<Article>();
