@@ -488,8 +488,9 @@ namespace AutoWikiBrowser
         /// </summary>
         private void LoadPrefs(UserPrefs p)
         {
-            chkRegExTypo.Checked = p.Editprefs.RegexTypoFix;
+            chkRegExTypo.Checked = false;
             SetProject(p.LanguageCode, p.Project, p.CustomProject, p.Protocol);
+            chkRegExTypo.Checked = p.Editprefs.RegexTypoFix;
             Variables.LoginDomain = p.LoginDomain;
 
             FindAndReplace.Clear();
