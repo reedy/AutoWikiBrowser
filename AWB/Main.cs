@@ -4170,7 +4170,14 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
         public void LoadTypos(bool reload)
         {
-            if (chkRegExTypo.Checked && (RegexTypos == null || reload))
+            // during change of user settings to settings with typos enabled, LoadTypos will be called more than once
+            // from LoadPrefs...SetProject with RETF to say reload is needed when RETF next used, and then again from LoadPrefs with RETF enabled
+            // so set RegexTypos to null if reload, even if RETF not enabled at the time
+            // This logic is needed to support use of SetProject in other scenarios
+            if(reload)
+                RegexTypos = null;
+
+            if (chkRegExTypo.Checked && RegexTypos == null)
             {
                 _loadingTypos = true;
                 chkRegExTypo.Checked = false;

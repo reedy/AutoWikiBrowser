@@ -573,6 +573,7 @@ namespace WikiFunctions
             CancelBackgroundRequests();
             UnderscoredTitles.Clear();
             WikiRegexes.TemplateRedirects.Clear();
+            bool typoReloadNeeded = (LangCode != langCode || Project != projectName || customProject != CustomProject);
 
             Project = projectName;
             LangCode = langCode;
@@ -684,7 +685,7 @@ namespace WikiFunctions
 
             RetfPath = Namespaces[Namespace.Project] + "AutoWikiBrowser/Typos";
 
-            if(MainForm != null)
+            if(typoReloadNeeded && MainForm != null)
                 MainForm.LoadTypos(true);
 
             foreach (string s in Namespaces.Values)
