@@ -1411,7 +1411,7 @@ namespace WikiFunctions
         /// <summary>
         /// Matches "ibid" and "op cit"
         /// </summary>
-        public static readonly Regex IbidLocCitation = new Regex(@"\b(ibid|loc.{1,4}cit)\b", RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        public static readonly Regex IbidLocCitation = new Regex(@"\b(ibid|loc.{1,4}cit|Page ?needed)\b", RegexOptions.IgnoreCase | RegexOptions.Singleline);
 
         /// <summary>
         /// Matches the {{Ibid}} template

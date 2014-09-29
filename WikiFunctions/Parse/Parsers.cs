@@ -1659,7 +1659,7 @@ namespace WikiFunctions.Parse
             {
                 string fullReference = m.Value;
 
-                // ref contains ibid/loc cit, don't combine it, could refer to any ref on page
+                // ref contains ibid/loc cit or page needed, don't combine it, could refer to any ref on page
                 if (WikiRegexes.IbidLocCitation.IsMatch(fullReference))
                     continue;
 
