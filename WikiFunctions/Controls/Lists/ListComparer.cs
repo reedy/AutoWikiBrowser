@@ -47,6 +47,8 @@ namespace WikiFunctions.Controls.Lists
 
             listMaker1.MakeListEnabled = true;
             listMaker2.MakeListEnabled = true;
+            listMaker1.NoOfArticlesChanged +=UpdateButtons;
+            listMaker2.NoOfArticlesChanged +=UpdateButtons;
         }
 
         /// <summary>
@@ -58,6 +60,11 @@ namespace WikiFunctions.Controls.Lists
             : this(lmMain)
         {
             listMaker1.Add(list);
+        }
+
+        private void UpdateButtons(object sender, EventArgs e)
+        {
+            btnGo.Enabled = (listMaker1.Count > 0 && listMaker2.Count > 0);
         }
 
         /// <summary>

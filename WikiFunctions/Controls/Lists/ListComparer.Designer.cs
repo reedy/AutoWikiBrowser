@@ -155,6 +155,7 @@
             this.btnGo.Text = "Compare";
             this.btnGo.UseVisualStyleBackColor = true;
             this.btnGo.Click += new System.EventHandler(this.btnGo_Click);
+            this.btnGo.Enabled = false;
             // 
             // lblNoBoth
             // 
