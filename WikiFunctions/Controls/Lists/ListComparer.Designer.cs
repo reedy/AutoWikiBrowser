@@ -185,6 +185,7 @@
             this.btnClear.Text = "Clear all";
             this.btnClear.UseVisualStyleBackColor = true;
             this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
+            this.btnClear.Enabled = false;
             // 
             // lblBoth
             // 

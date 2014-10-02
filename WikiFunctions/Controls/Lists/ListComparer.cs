@@ -167,6 +167,8 @@ namespace WikiFunctions.Controls.Lists
             lblNo1.Text = lbNo1.Items.Count + " pages";
             lblNo2.Text = lbNo2.Items.Count + " pages";
             lblNoBoth.Text = lbBoth.Items.Count + " pages";
+
+            btnClear.Enabled = (lbNo1.Items.Count > 0 || lbNo2.Items.Count > 0 || lbBoth.Items.Count > 0);
         }
 
         private void btnSaveOnly1_Click(object sender, EventArgs e)
