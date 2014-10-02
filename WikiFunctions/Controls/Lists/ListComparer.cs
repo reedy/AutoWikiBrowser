@@ -40,10 +40,7 @@ namespace WikiFunctions.Controls.Lists
             InitializeComponent();
 
             if (lmMain != null)
-            {
-                btnMoveOnly1.Enabled = btnMoveOnly2.Enabled = btnMoveCommon.Enabled = true;
                 _mainFormListMaker = lmMain;
-            }
 
             listMaker1.MakeListEnabled = true;
             listMaker2.MakeListEnabled = true;
@@ -169,6 +166,9 @@ namespace WikiFunctions.Controls.Lists
             lblNoBoth.Text = lbBoth.Items.Count + " pages";
 
             btnClear.Enabled = (lbNo1.Items.Count > 0 || lbNo2.Items.Count > 0 || lbBoth.Items.Count > 0);
+            btnSaveOnly1.Enabled = btnMoveOnly1.Enabled = lbNo1.Items.Count > 0;
+            btnSaveOnly2.Enabled = btnMoveOnly2.Enabled = lbNo2.Items.Count > 0;
+            btnSaveBoth.Enabled = btnMoveCommon.Enabled = lbBoth.Items.Count > 0;
         }
 
         private void btnSaveOnly1_Click(object sender, EventArgs e)
@@ -188,12 +188,6 @@ namespace WikiFunctions.Controls.Lists
 
         private static void SaveList(ListBoxArticle lb)
         {
-            if (lb.Items.Count == 0)
-            {
-                MessageBox.Show("Nothing to save", "No items in List Boxes");
-                return;
-            }
-
             lb.SaveList();
         }
 

@@ -175,6 +175,7 @@
             this.btnSaveBoth.Text = "Save list";
             this.btnSaveBoth.UseVisualStyleBackColor = true;
             this.btnSaveBoth.Click += new System.EventHandler(this.btnSave_Click);
+            this.btnSaveBoth.Enabled = false;
             // 
             // btnClear
             // 
@@ -310,6 +311,7 @@
             this.btnSaveOnly2.Text = "Save list";
             this.btnSaveOnly2.UseVisualStyleBackColor = true;
             this.btnSaveOnly2.Click += new System.EventHandler(this.btnSaveOnly2_Click);
+            this.btnSaveOnly2.Enabled = false;
             // 
             // btnMoveOnly2
             // 
@@ -414,6 +416,7 @@
             this.btnSaveOnly1.Text = "Save list";
             this.btnSaveOnly1.UseVisualStyleBackColor = true;
             this.btnSaveOnly1.Click += new System.EventHandler(this.btnSaveOnly1_Click);
+            this.btnSaveOnly1.Enabled = false;
             // 
             // btnMoveOnly1
             // 
