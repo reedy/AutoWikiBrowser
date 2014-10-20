@@ -9468,13 +9468,16 @@ Foo
 {{BLP sources|date=May 2010}}
 [[Category:Living people]]", Parsers.Conversions(@"Foo
 {{refimprove|date=May 2010}}
-[[Category:Living people]]"));
+[[Category:Living people]]"),"do conversion");
 
             Assert.AreEqual(@"Foo
 {{BLP sources|Date=May 2010}}
+
 [[Category:Living people]]", Parsers.Conversions(@"Foo
+{{BLP sources|Date=May 2010}}
 {{refimprove|Date=May 2010}}
-[[Category:Living people]]"));
+[[Category:Living people]]"),"when have existing BLP sources then remove refimprove");
+
         }
 
         [Test]
