@@ -2858,7 +2858,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             foreach (KeyValuePair<int, int> kvp in Errors)
             {
                 int current = txtEdit.SelectionStart + b; // offset by number of newlines up to it
-                if (kvp.Key > current)
+                if (kvp.Key > current && kvp.Key < txtEdit.Text.Length)
                 {
                     RedSelection(kvp.Key, kvp.Value);
                     txtEdit.ScrollToCaret();
@@ -2874,7 +2874,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
                 foreach (KeyValuePair<int, int> kvp in Errors)
                 {
-                    if (kvp.Key > txtEdit.SelectionStart)
+                    if (kvp.Key > txtEdit.SelectionStart && kvp.Key < txtEdit.Text.Length)
                     {
                         RedSelection(kvp.Key, kvp.Value);
                         txtEdit.ScrollToCaret();
