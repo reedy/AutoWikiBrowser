@@ -6390,6 +6390,13 @@ was"));
 
             TemplateRedirects = Parsers.LoadTemplateRedirects("{{tl|Infobox Play}} → {{tl|Infobox play}}");
             Assert.AreEqual("{{Infobox play}}", Parsers.TemplateRedirects("{{Infobox_Play}}", TemplateRedirects), "");
+
+            // when magic word
+            TemplateRedirects = Parsers.LoadTemplateRedirects("{{tl|Display title}}, {{tl|Displaytitle}} → {{tl|DISPLAYTITLE}}");
+
+            Assert.AreEqual("now {{DISPLAYTITLE:Foo}} was", Parsers.TemplateRedirects("now {{display title|Foo}} was", TemplateRedirects), "Magic word template redirected and formatted");
+            Assert.AreEqual("now {{DISPLAYTITLE:Foo}} was", Parsers.TemplateRedirects("now {{displaytitle|Foo}} was", TemplateRedirects), "Magic word template redirected and formatted");
+            Assert.AreEqual("now {{DISPLAYTITLE:Foo}} was", Parsers.TemplateRedirects("now {{Displaytitle|Foo}} was", TemplateRedirects), "Magic word template redirected and formatted");
         }
 
         [Test]

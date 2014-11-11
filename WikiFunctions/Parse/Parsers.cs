@@ -2127,19 +2127,27 @@ namespace WikiFunctions.Parse
         /// Renames templates to bypass template redirects from [[WP:AWB/Template redirects]]
         /// The first letter casing of the existing redirect is kept in the new template name,
         ///  except for acronym templates where first letter uppercase is enforced
+        /// Calls TemplateToMagicWord if changes made
         /// </summary>
         /// <param name="articleText">the page text</param>
         /// <param name="TemplateRedirects">Dictionary of redirects and templates</param>
         /// <returns>The updated article text</returns>
         public static string TemplateRedirects(string articleText, Dictionary<Regex, string> TemplateRedirects)
         {
+            string newArticleText;
             if(WikiRegexes.AllTemplateRedirects == null)
                 return articleText;
 
             if(Globals.SystemCore3500Available)
-                return TemplateRedirectsHashSet(articleText, TemplateRedirects);
+                newArticleText = TemplateRedirectsHashSet(articleText, TemplateRedirects);
+            else
+                newArticleText = TemplateRedirectsList(articleText, TemplateRedirects);
 
-            return TemplateRedirectsList(articleText, TemplateRedirects);
+            // call TemplateToMagicWord if changes made
+            if (!newArticleText.Equals(articleText))
+                return Tools.TemplateToMagicWord(newArticleText);
+
+            return articleText;
         }
 
         /// <summary>
