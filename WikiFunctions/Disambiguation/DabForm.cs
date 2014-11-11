@@ -53,7 +53,7 @@ namespace WikiFunctions.Disambiguation
         /// <summary>
         /// Matches end of wikilink then {{dn}} template then punctuation
         /// </summary>
-        private static readonly Regex DnPunctuationR = new Regex(@"(\]\])({{dn}})(\p{P}+)");
+        private static readonly Regex DnPunctuationR = new Regex(@"(\]\])({{dn}})([.,'"":;]+)");
 
         /// <summary>
         /// Displays a form that promts user for disambiguation
@@ -102,10 +102,8 @@ namespace WikiFunctions.Disambiguation
             string newText = articleText;
             ArticleTitle = articleTitle;
 
-            // Don't match link that already has {{dn}} after it, allowing for punctuation
             Search = new Regex(@"\[\[\s*(" + dabLink +
-                               @")\s*(?:|#[^\|\]]*)(|\|[^\]]*)\]\]([\p{Ll}\p{Lu}\p{Lt}\p{Pc}\p{Lm}]*)(?![ .,':;]*" + 
-                               Tools.NestedTemplateRegex(new [] { "dn", "disambiguation needed" }).ToString() + ")");
+                               @")\s*(?:|#[^\|\]]*)(|\|[^\]]*)\]\]([\p{Ll}\p{Lu}\p{Lt}\p{Pc}\p{Lm}]*)");
 
             MatchCollection matches = Search.Matches(articleText);
 
