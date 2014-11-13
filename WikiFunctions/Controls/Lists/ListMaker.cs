@@ -380,9 +380,6 @@ namespace WikiFunctions.Controls.Lists
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            if (txtPage.Text.Trim().Length == 0)
-                return;
-
             Add(NormalizeTitle(txtPage.Text));
             txtPage.Text = "";
         }
@@ -492,6 +489,11 @@ namespace WikiFunctions.Controls.Lists
         private void txtSelectSource_DoubleClick(object sender, EventArgs e)
         {
             UserInputTextBox.SelectAll();
+        }
+
+        private void txtNewArticle_TextChanged(object sender, EventArgs e)
+        {
+            btnAdd.Enabled = txtPage.Text.Trim().Length > 0;
         }
         #endregion
 
@@ -1384,7 +1386,7 @@ namespace WikiFunctions.Controls.Lists
             e.DrawBackground();
 
             e.Graphics.DrawString(a.Name, e.Font, (selected) ? Brushes.White : Brushes.Black, e.Bounds,
-                                  StringFormat.GenericDefault);
+                StringFormat.GenericDefault);
 
             e.DrawFocusRectangle();
         }

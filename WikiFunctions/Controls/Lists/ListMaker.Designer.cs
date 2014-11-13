@@ -108,6 +108,7 @@
             this.btnAdd.Size = new System.Drawing.Size(20, 21);
             this.btnAdd.TabIndex = 8;
             this.btnAdd.Text = "+";
+            this.btnAdd.Enabled = false;
             this.tooltip.SetToolTip(this.btnAdd, "Append to list as a page");
             this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
             // 
@@ -123,6 +124,7 @@
             this.txtPage.DoubleClick += new System.EventHandler(this.txtNewArticle_DoubleClick);
             this.txtPage.MouseMove += new System.Windows.Forms.MouseEventHandler(this.txtNewArticle_MouseMove);
             this.txtPage.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtNewArticle_KeyDown);
+            this.txtPage.TextChanged += new System.EventHandler(this.txtNewArticle_TextChanged);
             // 
             // lblUserInput
             // 
