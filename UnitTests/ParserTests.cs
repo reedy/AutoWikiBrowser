@@ -6868,6 +6868,9 @@ Aikido was", "Aikido", out noChangeBack), "Bold text in infobox ignored");
             Assert.AreEqual("{{year article header}} Foo is a bar While remaining upright may be the primary goal of beginning riders",
                             parser.BoldTitle("{{year article header}} Foo is a bar While remaining upright may be the primary goal of beginning riders", "Foo", out noChangeBack));
             Assert.IsTrue(noChangeBack);
+
+            Assert.AreEqual("<dfn>Foo</dfn> is this one", parser.BoldTitle("<dfn>Foo</dfn> is this one", "Foo", out noChangeBack));
+            Assert.IsTrue(noChangeBack);
         }
 
         [Test]

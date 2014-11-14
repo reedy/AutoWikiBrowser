@@ -5784,6 +5784,7 @@ namespace WikiFunctions.Parse
         private static readonly Regex BracketedAtEndOfLine = new Regex(@" \(.*?\)$", RegexOptions.Compiled);
         private static readonly Regex BoldTitleAlready3 = new Regex(@"^\s*({{[^\{\}]+}}\s*)*'''('')?\s*\w", RegexOptions.Compiled);
         private static readonly Regex BoldTitleAlready4 = new Regex(@"^\s*'''", RegexOptions.Multiline);
+        private static readonly Regex DfnTag = new Regex(@"<\s*dfn\s*>", RegexOptions.IgnoreCase);
         private static readonly Regex NihongoTitle = Tools.NestedTemplateRegex("nihongo title");
         private static readonly Regex NoBoldTitle = Tools.NestedTemplateRegex("year article header");
 
@@ -5851,7 +5852,7 @@ namespace WikiFunctions.Parse
             // ignore any bold in infoboxes
             if (boldTitleAlready1.IsMatch(articleTextNoInfobox) || boldTitleAlready2.IsMatch(articleTextNoInfobox)
                 || BoldTitleAlready3.IsMatch(articleTextNoInfobox)
-                || BoldTitleAlready4.IsMatch(zerothSectionNoInfobox))
+                || BoldTitleAlready4.IsMatch(zerothSectionNoInfobox) || DfnTag.IsMatch(zerothSection))
                 return articleTextAtStart;
 
             // so no self links to remove, check for the need to add bold
