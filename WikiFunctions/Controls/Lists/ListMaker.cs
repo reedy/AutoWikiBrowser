@@ -1386,7 +1386,7 @@ namespace WikiFunctions.Controls.Lists
             e.DrawBackground();
 
             e.Graphics.DrawString(a.Name, e.Font, (selected) ? Brushes.White : Brushes.Black, e.Bounds,
-                StringFormat.GenericDefault);
+                                  StringFormat.GenericDefault);
 
             e.DrawFocusRectangle();
         }
