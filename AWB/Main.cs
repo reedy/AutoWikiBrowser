@@ -809,6 +809,8 @@ namespace AutoWikiBrowser
         }
 
         private static readonly Regex UnicodePUA = new Regex(@"\p{IsPrivateUse}", RegexOptions.Compiled);
+        private BackgroundRequest RunProcessPageBackground;
+        private event BackgroundRequestComplete RunProcessPageBackgroundComplete;
 
         /// <summary>
         /// Invoked on successful page load, performs skip checks and calls main page processing
@@ -928,91 +930,137 @@ namespace AutoWikiBrowser
                 return;
             }
 
+            // run process page in a background thread
+            // use .Complete event to do rest of processing (skip checks, alerts etc.) once thread finished
             if (automaticallyDoAnythingToolStripMenuItem.Checked)
             {
-                StatusLabelText = (preParseModeToolStripMenuItem.Checked ? "Processing page (pre-parse mode)": "Processing page");
-                Application.DoEvents();
-
-                //FIXME: this position is imprefect, since above there is code that can explode, but this way
-                //at least we don't get bogus reports of unrelated pages
-                ErrorHandler.CurrentPage = TheArticle.Name;
-
-                ProcessPage(TheArticle, true);
-
-                ErrorHandler.CurrentPage = "";
-
-                UpdateCurrentTypoStats();
-
-                if (!Abort)
-                {
-                    if (TheArticle.SkipArticle)
-                    {
-                        SkipPageReasonAlreadyProvided(); // Don't send a reason; ProcessPage() should already have logged one
-                        return;
-                    }
-
-                    if (Skippable)
-                    {
-                        if ((chkSkipNoChanges.Checked || BotMode) && TheArticle.NoArticleTextChanged)
-                        {
-                            SkipPage("No change");
-                            return;
-                        }
-
-                        if (chkSkipWhitespace.Checked && chkSkipCasing.Checked && TheArticle.OnlyWhiteSpaceAndCasingChanged)
-                        {
-                            SkipPage("Only whitespace/casing changed");
-                            return;
-                        }
-
-                        if (chkSkipWhitespace.Checked && TheArticle.OnlyWhiteSpaceChanged)
-                        {
-                            SkipPage("Only whitespace changed");
-                            return;
-                        }
-
-                        if (chkSkipCasing.Checked && TheArticle.OnlyCasingChanged)
-                        {
-                            SkipPage("Only casing changed");
-                            return;
-                        }
-
-                        if (chkSkipMinorGeneralFixes.Checked && chkGeneralFixes.Checked && TheArticle.OnlyMinorGeneralFixesChanged)
-                        {
-                            SkipPage("Only minor general fix changes");
-                            return;
-                        }
-
-                        if (chkSkipGeneralFixes.Checked && chkGeneralFixes.Checked && TheArticle.OnlyGeneralFixesChanged)
-                        {
-                            SkipPage("Only general fix changes");
-                            return;
-                        }
-
-                        if (chkSkipNoPageLinks.Checked
-                            && (WikiRegexes.WikiLinksOnly.Matches(TheArticle.ArticleText).Count == 0))
-                        {
-                            SkipPage("Page contains no links");
-                            return;
-                        }
-
-                        if (chkSkipCosmetic.Checked
-                            && (TheArticle.NoArticleTextChanged || TheArticle.OnlyCosmeticChanged))
-                        {
-                            SkipPage("Only cosmetic changes made");
-                            return;
-                        }
-
-                    }
-
-                    // post-processing
-                    if (chkSkipAfterProcessing.Checked && SkipChecks(true))
-                        return;
-                }
+                RunProcessPageBackground = new BackgroundRequest(RunProcessPageBackgroundComplete);
+                RunProcessPageBackground.Execute(ProcessPageBackground);
+                RunProcessPageBackground.Complete += AutomaticallyDoAnythingComplete;
+                return;
             }
+            else
+                CompleteProcessPage();
+        }
 
-            Variables.Profiler.Profile("Skip checks");
+        /// <summary>
+        /// Runs ProcessPage background thread
+        /// </summary>
+        private void ProcessPageBackground()
+        {
+            StatusLabelText = (preParseModeToolStripMenuItem.Checked ? "Processing page (pre-parse mode)": "Processing page");
+            Application.DoEvents();
 
+            //FIXME: this position is imprefect, since above there is code that can explode, but this way
+            //at least we don't get bogus reports of unrelated pages
+            ErrorHandler.CurrentPage = TheArticle.Name;
+
+            ProcessPage(TheArticle, true);
+        }
+
+        /// <summary>
+        /// Carries out skip checks following ProcessPage
+        /// Calls CompleteProcessPage if page not skipped
+        /// </summary>
+        private void RunSkipChecks()
+        {
+            ErrorHandler.CurrentPage = "";
+
+            UpdateCurrentTypoStats();
+
+            if (!Abort)
+            {
+                if (TheArticle.SkipArticle)
+                {
+                    SkipPageReasonAlreadyProvided(); // Don't send a reason; ProcessPage() should already have logged one
+                    return;
+                }
+
+                if (Skippable)
+                {
+                    if ((chkSkipNoChanges.Checked || BotMode) && TheArticle.NoArticleTextChanged)
+                    {
+                        SkipPage("No change");
+                        return;
+                    }
+
+                    if (chkSkipWhitespace.Checked && chkSkipCasing.Checked && TheArticle.OnlyWhiteSpaceAndCasingChanged)
+                    {
+                        SkipPage("Only whitespace/casing changed");
+                        return;
+                    }
+
+                    if (chkSkipWhitespace.Checked && TheArticle.OnlyWhiteSpaceChanged)
+                    {
+                        SkipPage("Only whitespace changed");
+                        return;
+                    }
+
+                    if (chkSkipCasing.Checked && TheArticle.OnlyCasingChanged)
+                    {
+                        SkipPage("Only casing changed");
+                        return;
+                    }
+
+                    if (chkSkipMinorGeneralFixes.Checked && chkGeneralFixes.Checked && TheArticle.OnlyMinorGeneralFixesChanged)
+                    {
+                        SkipPage("Only minor general fix changes");
+                        return;
+                    }
+
+                    if (chkSkipGeneralFixes.Checked && chkGeneralFixes.Checked && TheArticle.OnlyGeneralFixesChanged)
+                    {
+                        SkipPage("Only general fix changes");
+                        return;
+                    }
+
+                    if (chkSkipNoPageLinks.Checked
+                        && (WikiRegexes.WikiLinksOnly.Matches(TheArticle.ArticleText).Count == 0))
+                    {
+                        SkipPage("Page contains no links");
+                        return;
+                    }
+
+                    if (chkSkipCosmetic.Checked
+                        && (TheArticle.NoArticleTextChanged || TheArticle.OnlyCosmeticChanged))
+                    {
+                        SkipPage("Only cosmetic changes made");
+                        return;
+                    }
+
+                }
+
+                Variables.Profiler.Profile("Skip checks");
+
+                // post-processing
+                if (chkSkipAfterProcessing.Checked && SkipChecks(true))
+                    return;
+
+                CompleteProcessPage();
+            }
+        }
+        
+        /// <summary>
+        /// Event that fires when ProcessPage background thread finishes
+        /// </summary>
+        /// <param name="req"></param>
+        private void AutomaticallyDoAnythingComplete(BackgroundRequest req)
+        {
+            // must use Invoke so that SkipChecks and CompleteProcessPage are done on main GUI thread
+            if (InvokeRequired)
+            {
+                Invoke(new GenericDelegate(RunSkipChecks));
+                return;
+            }
+            RunSkipChecks();
+        }
+
+        /// <summary>
+        /// Runs after ProcessPage to set edit box text, set alerts, call diff/preview, highlight errors, highlight syntax, 
+        /// enable buttons
+        /// </summary>
+        private void CompleteProcessPage()
+        {
             Tools.WriteDebug("PageLoaded", "TheArticle.ArticleText length is " + TheArticle.ArticleText.Length);
             
             // TODO on long articles this takes > 500 ms, why?
