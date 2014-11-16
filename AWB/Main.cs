@@ -730,6 +730,7 @@ namespace AutoWikiBrowser
                 {
                     StopSaveInterval();
                     lblTimer.Text = "";
+                    StopProgressBar();
                     StatusLabelText = "No articles in list, you need to use the Make list";
                     Text = _settingsFileDisplay;
                     listMaker.MakeListEnabled = true;
@@ -1130,6 +1131,7 @@ namespace AutoWikiBrowser
                         if (diffInBotMode)
                         {
                             txtReviewEditSummary.Text = MakeDefaultEditSummary();
+                            StopProgressBar();
                             return;
                         }
 
