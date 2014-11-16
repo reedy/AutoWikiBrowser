@@ -4066,6 +4066,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 return;
 
             StatusLabelText = "Processing page";
+            StartProgressBar();
 
             // refresh text from text box to pick up user changes
             TheArticle.AWBChangeArticleText("Reparse", txtEdit.Text, false);
@@ -4106,6 +4107,7 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
             txtEdit.ScrollToCaret();
             btnSave.Select();
+            StopProgressBar();
             StatusLabelText = "Ready to save";
         }
 
