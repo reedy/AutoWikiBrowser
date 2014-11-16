@@ -4060,6 +4060,11 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             ReparseEditBox();
         }
 
+        private BackgroundRequest RunReparseEditBoxBackground;
+        private event BackgroundRequestComplete ReparseEditBoxBackgroundComplete;
+
+        // run process page step of reparse edit box in a background thread
+        // use .Complete event to do rest of processing (alerts etc.) once thread finished
         private void ReparseEditBox()
         {
             if (TheArticle == null)
@@ -4070,10 +4075,30 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
 
             // refresh text from text box to pick up user changes
             TheArticle.AWBChangeArticleText("Reparse", txtEdit.Text, false);
-            ProcessPage(TheArticle, false);
-            ErrorHandler.CurrentPage = "";
-            UpdateCurrentTypoStats();
 
+            RunReparseEditBoxBackground = new BackgroundRequest(ReparseEditBoxBackgroundComplete);
+            RunReparseEditBoxBackground.Execute(ReparseEditBoxBackground);
+            RunReparseEditBoxBackground.Complete += ReparseEditBoxComplete;
+            return;
+        }
+
+        /// <summary>
+        /// Runs ProcessPage and UpdateCurrentTypoStats as background jobs for reparse edit box
+        /// </summary>
+        private void ReparseEditBoxBackground()
+        {
+            ProcessPage(TheArticle, false);
+
+            ErrorHandler.CurrentPage = "";
+        }
+
+        /// <summary>
+        /// Second part of reparse edit box to update alerts, article stats etc.
+        /// Called after ReparseEditBoxBackground completes
+        /// </summary>
+        private void ReparseEditBoxPart2()
+        {
+            UpdateCurrentTypoStats();
             ArticleInfo(false);
 
             txtEdit.Text = TheArticle.ArticleText;
@@ -4109,6 +4134,22 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             btnSave.Select();
             StopProgressBar();
             StatusLabelText = "Ready to save";
+        }
+
+        /// <summary>
+        /// Called by ReparseEditBox complete event
+        /// Calls ReparseEditBoxPart2 to update alerts etc. after re-processing page
+        /// </summary>
+        /// <param name="req"></param>
+        private void ReparseEditBoxComplete(BackgroundRequest req)
+        {
+            // must use Invoke so that ReparseEditBoxPart2 is done on main GUI thread
+            if (InvokeRequired)
+            {
+                Invoke(new GenericDelegate(ReparseEditBoxPart2));
+                return;
+            }
+            ReparseEditBoxPart2();
         }
 
         private void replaceTextWithLastEditToolStripMenuItem_Click(object sender, EventArgs e)
