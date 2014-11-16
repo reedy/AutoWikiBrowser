@@ -823,8 +823,6 @@ namespace AutoWikiBrowser
 
             Retries = 0;
 
-            StopProgressBar();
-
             if (_stopProcessing)
                 return;
 
@@ -1190,6 +1188,7 @@ namespace AutoWikiBrowser
 
                 btnSave.Select();
                 StatusLabelText = "Ready to save";
+                StopProgressBar();
             }
             else
             {
