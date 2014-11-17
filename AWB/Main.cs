@@ -1112,8 +1112,12 @@ namespace AutoWikiBrowser
                 bool diffInBotMode = (BotMode && doDiffInBotMode);
                 if (BotMode)
                 {
-                    StatusLabelText = "Ready to save";
-                    StartDelayedAutoSaveTimer();
+                    // if user pressed Stop while background thread was running, don't overwrite status or go into bot loop
+                    if(StatusLabelText != "Stopped")
+                    {
+                        StatusLabelText = "Ready to save";
+                        StartDelayedAutoSaveTimer();
+                    }
 
                     if (!diffInBotMode)
                     {
@@ -1189,7 +1193,10 @@ namespace AutoWikiBrowser
                 }
 
                 btnSave.Select();
-                StatusLabelText = "Ready to save";
+
+                // if user pressed Stop while background thread was running, don't overwrite status here
+                if(StatusLabelText != "Stopped")
+                    StatusLabelText = "Ready to save";
                 StopProgressBar();
             }
             else
