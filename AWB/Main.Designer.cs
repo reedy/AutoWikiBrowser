@@ -1327,6 +1327,7 @@ namespace AutoWikiBrowser
             this.preParseModeToolStripMenuItem.Name = "preParseModeToolStripMenuItem";
             this.preParseModeToolStripMenuItem.Size = new System.Drawing.Size(310, 22);
             this.preParseModeToolStripMenuItem.Text = "Use pre-parse m&ode";
+            this.preParseModeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift | System.Windows.Forms.Keys.E)));
             // 
             // toolStripSeparator14
             // 
