@@ -1,4 +1,5 @@
 ﻿using Microsoft.CSharp;
+using System.Collections.Generic;
 
 namespace WikiFunctions.CustomModules
 {
@@ -7,12 +8,19 @@ namespace WikiFunctions.CustomModules
     {
         public CSharpCustomModule()
         {
-            Compiler = new CSharpCodeProvider();
+			if(Globals.SystemCore3500Available)
+			{
+	            Dictionary<string,string> providerOptions = new Dictionary<string,string>();
+	            providerOptions.Add("CompilerVersion", "v3.5");
+	            Compiler = new CSharpCodeProvider(providerOptions);
+ 			}
+			else
+				Compiler = new CSharpCodeProvider();
         }
 
         public override string Name
         {
-            get { return "C# 2.0"; }
+            get { return (Globals.SystemCore3500Available ? "C# 3.5" : "C# 2.0" ); }
         }
 
         public override string CodeStart
@@ -23,7 +31,9 @@ namespace WikiFunctions.CustomModules
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-using WikiFunctions;
+using WikiFunctions;" + (Globals.SystemCore3500Available ? @"
+using System.Linq;" : "") +
+@"
 
 namespace AutoWikiBrowser.CustomModules
 {
