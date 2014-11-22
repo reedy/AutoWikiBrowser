@@ -1179,6 +1179,7 @@ namespace AutoWikiBrowser
             this.sortAlphabeticallyToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.sortAlphabeticallyToolStripMenuItem.Text = "&Keep alphabetized";
             this.sortAlphabeticallyToolStripMenuItem.Click += new System.EventHandler(this.sortAlphabeticallyToolStripMenuItem_Click);
+            this.sortAlphabeticallyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) | System.Windows.Forms.Keys.A)));
             // 
             // removeDuplicatesToolStripMenuItem
             // 
@@ -1187,6 +1188,7 @@ namespace AutoWikiBrowser
             this.removeDuplicatesToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.removeDuplicatesToolStripMenuItem.Text = "Remove &duplicates";
             this.removeDuplicatesToolStripMenuItem.Click += new System.EventHandler(this.removeDuplicatesToolStripMenuItem_Click);
+            this.removeDuplicatesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) | System.Windows.Forms.Keys.U)));
             // 
             // filterOutNonMainSpaceToolStripMenuItem
             // 
@@ -1195,6 +1197,7 @@ namespace AutoWikiBrowser
             this.filterOutNonMainSpaceToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.filterOutNonMainSpaceToolStripMenuItem.Text = "Remove non-&main space";
             this.filterOutNonMainSpaceToolStripMenuItem.CheckedChanged += new System.EventHandler(this.filterOutNonMainSpaceToolStripMenuItem_Click);
+            this.filterOutNonMainSpaceToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) | System.Windows.Forms.Keys.M)));
             // 
             // toolStripSeparator28
             // 
