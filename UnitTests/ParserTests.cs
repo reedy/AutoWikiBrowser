@@ -108,7 +108,11 @@ namespace UnitTests
                             Parsers.FixReferenceListTags(@"<div class=""references-small"" style=""-moz-column-count:2; column-count:2;"">
 <references/>
 </div>"), @"Converts to reflist|2 when column-count:2");
+
+       Assert.AreEqual("{{Reflist}}", Parsers.FixReferenceListTags(@"<small><references/></small>"));
+       Assert.AreEqual("{{Reflist}}", Parsers.FixReferenceListTags(@"<small><references /></small>"));
         }
+        
 
         [Test]
         public void TestFixReferenceTags()

@@ -2843,6 +2843,7 @@ namespace WikiFunctions.Parse
         /// Main regex for {{Reflist}} converter
         /// </summary>
         private static readonly Regex ReferenceListTags = new Regex(@"(<(span|div)( class=""(references-small|small|references-2column)|)?""(?:\s*style\s*=\s*""[^<>""]+?""\s*)?>[\r\n\s]*){1,2}[\r\n\s]*<references[\s]?/>([\r\n\s]*</(span|div)>){1,2}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex ReferenceListSmallTags = new Regex(@"(<small>[\r\n\s]*){1,2}[\r\n\s]*<references[\s]?/>([\r\n\s]*</small>){1,2}", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private static readonly Regex DivStart = new Regex(@"<div\b.*?>", RegexOptions.Compiled);
         private static readonly Regex DivEnd = new Regex(@"< ?/ ?div\b.*?>", RegexOptions.Compiled);
 
@@ -2854,6 +2855,7 @@ namespace WikiFunctions.Parse
         /// <returns>The updated article text</returns>
         public static string FixReferenceListTags(string articleText)
         {
+        	articleText = ReferenceListSmallTags.Replace(articleText, ReflistMatchEvaluator);
             return ReferenceListTags.Replace(articleText, ReflistMatchEvaluator);
         }
 
