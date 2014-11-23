@@ -1229,6 +1229,7 @@ namespace AutoWikiBrowser
             this.specialFilterToolStripMenuItem1.Size = new System.Drawing.Size(206, 22);
             this.specialFilterToolStripMenuItem1.Text = "Fi&lter...";
             this.specialFilterToolStripMenuItem1.Click += new System.EventHandler(this.specialFilterToolStripMenuItem_Click);
+            this.specialFilterToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) | System.Windows.Forms.Keys.F)));
             // 
             // saveListToTextFileToolStripMenuItem
             // 
