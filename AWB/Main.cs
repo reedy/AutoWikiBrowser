@@ -3334,6 +3334,10 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             SetStartButton(listMaker.NumberOfArticles > 0);
 
             lbltsNumberofItems.Text = "Pages: " + listMaker.NumberOfArticles;
+
+			this.specialFilterToolStripMenuItem1.Enabled = this.saveListToTextFileToolStripMenuItem.Enabled  
+				= this.clearCurrentListToolStripMenuItem.Enabled = this.convertFromTalkPagesToolStripMenuItem.Enabled
+				= this.convertToTalkPagesToolStripMenuItem.Enabled = (listMaker.NumberOfArticles > 0);
         }
 
         private void SetStartButton(bool enabled)
