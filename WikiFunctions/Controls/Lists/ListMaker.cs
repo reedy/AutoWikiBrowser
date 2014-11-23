@@ -469,7 +469,7 @@ namespace WikiFunctions.Controls.Lists
 
             // Single page
             specialFilterToolStripMenuItem.Enabled =
-                sortAlphaMenuItem.Enabled =
+                sortAlphaMenuItem.Enabled = sortReverseAlphaMenuItem.Enabled =
                 (lbArticles.Items.Count > 1);
 
             // No pages
