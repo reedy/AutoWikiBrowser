@@ -8,19 +8,18 @@ namespace WikiFunctions.CustomModules
     {
         public CSharpCustomModule()
         {
-			if(Globals.SystemCore3500Available)
-			{
-	            Dictionary<string,string> providerOptions = new Dictionary<string,string>();
-	            providerOptions.Add("CompilerVersion", "v3.5");
-	            Compiler = new CSharpCodeProvider(providerOptions);
- 			}
-			else
-				Compiler = new CSharpCodeProvider();
+            Dictionary<string, string> providerOptions = new Dictionary<string, string>();
+            if (Globals.SystemCore3500Available)
+            {
+                providerOptions.Add("CompilerVersion", "v3.5");
+            }
+
+            Compiler = new CSharpCodeProvider(providerOptions);
         }
 
         public override string Name
         {
-            get { return (Globals.SystemCore3500Available ? "C# 3.5" : "C# 2.0" ); }
+            get { return (Globals.SystemCore3500Available ? "C# 3.5" : "C# 2.0"); }
         }
 
         public override string CodeStart
@@ -33,7 +32,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using WikiFunctions;" + (Globals.SystemCore3500Available ? @"
 using System.Linq;" : "") +
-@"
+                       @"
 
 namespace AutoWikiBrowser.CustomModules
 {
@@ -51,18 +50,16 @@ namespace AutoWikiBrowser.CustomModules
 
         public override string CodeEnd
         {
-            get
-            {
-                return @"    }
-}";
-            }
+            get { return @"    }
+}"; }
         }
 
         public override string CodeExample
         {
             get
             {
-                return @"        public string ProcessArticle(string ArticleText, string ArticleTitle, int wikiNamespace, out string Summary, out bool Skip)
+                return
+                    @"        public string ProcessArticle(string ArticleText, string ArticleTitle, int wikiNamespace, out string Summary, out bool Skip)
         {
             Skip = false;
             Summary = ""test"";
