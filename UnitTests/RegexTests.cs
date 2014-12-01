@@ -443,7 +443,8 @@ Shul, p. 726    </ref>").Groups[2].Value, "ref value doesn't include leading/tra
             TestMatch(WikiRegexes.DoublePipeLink, "[[Bairnsdale!|Victoria?|Bairns, dale]]", "[[Bairnsdale!|Victoria?|Bairns, dale]]");
             TestMatch(WikiRegexes.DoublePipeLink, "[[Foo (1971–1985)|Victoria?|Bairns, dale]]", "[[Foo (1971–1985)|Victoria?|Bairns, dale]]");
             TestMatch(WikiRegexes.DoublePipeLink, "[[Foo (1971–1985)|Victor + Victoria|Bairns, dale]]", "[[Foo (1971–1985)|Victor + Victoria|Bairns, dale]]");
-
+            TestMatch(WikiRegexes.DoublePipeLink, "[[test's test|test1|test2]]", "[[test's test|test1|test2]]");
+            
             TestMatch(WikiRegexes.DoublePipeLink, "[[text|foo bar]]", false);
             TestMatch(WikiRegexes.DoublePipeLink, "[[|linktext]]", false);
             TestMatch(WikiRegexes.DoublePipeLink, "[[foo|bar]]", false);
