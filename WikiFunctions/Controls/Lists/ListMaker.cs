@@ -111,7 +111,9 @@ namespace WikiFunctions.Controls.Lists
                 DefaultProviders.Add(new ImageFileLinksListProvider());
                 DefaultProviders.Add(new MyWatchlistListProvider());
                 DefaultProviders.Add(new WikiSearchListProvider());
+                DefaultProviders.Add(new WikiSearchAllNSListProvider());
                 DefaultProviders.Add(new WikiTitleSearchListProvider());
+                DefaultProviders.Add(new WikiTitleSearchAllNSListProvider());
                 DefaultProviders.Add(RandomPagesLProvider);
                 DefaultProviders.Add(RedirectLProvider);
                 DefaultProviders.Add(new RedirectsAllNSListProvider());

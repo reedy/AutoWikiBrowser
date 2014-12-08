@@ -920,7 +920,7 @@ namespace WikiFunctions.Lists.Providers
     }
 
     /// <summary>
-    /// Gets a list of pages which are returned from a wiki search of the Named Pages
+    /// Gets a list of pages which are returned from a wiki search of the Named Pages, in mainspace only
     /// </summary>
     /// <remarks>Slow query!!</remarks>
     public class WikiSearchListProvider : ApiListProviderBase
@@ -952,7 +952,7 @@ namespace WikiFunctions.Lists.Providers
 
             foreach (string page in searchCriteria)
             {
-                string url = "list=search&srwhat=" + Srwhat + "&srsearch=all:'"
+                string url = "list=search&srwhat=" + Srwhat + "&srsearch='"
                              + HttpUtility.UrlEncode(page) + "'&srlimit=max";
 
                 list.AddRange(ApiMakeList(url, list.Count));
@@ -974,6 +974,36 @@ namespace WikiFunctions.Lists.Providers
         #endregion
     }
 
+
+    /// <summary>
+    /// Gets a list of pages which are returned from a title wiki search of the Named Pages, across all namespaces
+    /// </summary>
+    public class WikiSearchAllNSListProvider : WikiSearchListProvider
+    {
+        public WikiSearchAllNSListProvider()
+        {
+            Srwhat = "text";
+            Limit = 1000;
+        }
+
+        public override List<Article> MakeList(params string[] searchCriteria)
+        {
+            List<Article> list = new List<Article>();
+
+            foreach (string page in searchCriteria)
+            {
+                string url = "list=search&srwhat=" + Srwhat + "&srsearch=all:'"
+                    + HttpUtility.UrlEncode(page) + "'&srlimit=max";
+
+                list.AddRange(ApiMakeList(url, list.Count));
+            }
+            return list;
+        }
+
+        public override string DisplayText
+        { get { return "Wiki search (text) (all ns)"; } }
+    }
+
     /// <summary>
     /// Gets a list of pages which are returned from a title wiki search of the Named Pages
     /// </summary>
@@ -982,6 +1012,36 @@ namespace WikiFunctions.Lists.Providers
         public WikiTitleSearchListProvider()
         {
             Srwhat = "text"; // "title";
+            Limit = 1000;
+        }
+
+        public override List<Article> MakeList(params string[] searchCriteria)
+        {
+            List<Article> list = new List<Article>();
+
+            foreach (string page in searchCriteria)
+            {
+                string url = "list=search&srwhat=" + Srwhat + "&srsearch=intitle:'"
+                    + HttpUtility.UrlEncode(page) + "'&srlimit=max";
+
+                list.AddRange(ApiMakeList(url, list.Count));
+            }
+
+            return list;
+        }
+
+        public override string DisplayText
+        { get { return "Wiki search (title)"; } }
+    }
+
+    /// <summary>
+    /// Gets a list of pages which are returned from a title wiki search of the Named Pages, across all namespaces
+    /// </summary>
+    public class WikiTitleSearchAllNSListProvider : WikiSearchListProvider
+    {
+        public WikiTitleSearchAllNSListProvider()
+        {
+            Srwhat = "text";
             Limit = 1000;
         }
 
@@ -1001,7 +1061,7 @@ namespace WikiFunctions.Lists.Providers
         }
 
         public override string DisplayText
-        { get { return "Wiki search (title)"; } }
+        { get { return "Wiki search (title) (all NS)"; } }
     }
 
     /// <summary>
