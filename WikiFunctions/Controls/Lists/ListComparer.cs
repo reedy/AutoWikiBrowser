@@ -46,6 +46,10 @@ namespace WikiFunctions.Controls.Lists
             listMaker2.MakeListEnabled = true;
             listMaker1.NoOfArticlesChanged +=UpdateButtons;
             listMaker2.NoOfArticlesChanged +=UpdateButtons;
+
+            // ensure button enablement of Remove, Filter correct in list maker when opened with no articles in
+            listMaker1.UpdateNumberOfArticles();
+            listMaker2.UpdateNumberOfArticles();
         }
 
         /// <summary>
