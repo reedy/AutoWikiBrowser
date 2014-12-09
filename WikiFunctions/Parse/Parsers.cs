@@ -728,12 +728,16 @@ namespace WikiFunctions.Parse
             if(existingMultipleIssues) // add each template to MI
             {
                 newsection = WikiRegexes.MultipleIssues.Match(sectionPortionOriginal).Value;
-                bool newstyleMI = WikiRegexes.NestedTemplates.IsMatch(Tools.GetTemplateArgument(Tools.RemoveTemplateParameter(newsection, "section"), 1));
-                
-                foreach(Match m in Templates.Matches(sectionPortion))
+
+                if(newsection.Length > 0)
                 {
-                    if(!newsection.Contains(m.Value))
-                        newsection = newsection.Replace(newsection, Regex.Replace(newsection, @"\s*}}$", (newstyleMI ? "" : "|") + "\r\n" + m.Value + "\r\n}}"));
+                    bool newstyleMI = WikiRegexes.NestedTemplates.IsMatch(Tools.GetTemplateArgument(Tools.RemoveTemplateParameter(newsection, "section"), 1));
+                    
+                    foreach(Match m in Templates.Matches(sectionPortion))
+                    {
+                        if(!newsection.Contains(m.Value))
+                            newsection = newsection.Replace(newsection, Regex.Replace(newsection, @"\s*}}$", (newstyleMI ? "" : "|") + "\r\n" + m.Value + "\r\n}}"));
+                    }
                 }
             }
             else // create new MI and add each template

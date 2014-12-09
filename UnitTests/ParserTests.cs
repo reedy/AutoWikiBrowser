@@ -11053,6 +11053,20 @@ Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesu
             const string dupe  = @"{{unreferenced}}
 {{unreferenced}}";
             Assert.AreEqual(dupe, parser.MultipleIssues(dupe));
+
+            const string LaterInSection = @"Bats.
+
+==Con==
+{{Refimprove section|date=January 2009}}
+The.
+
+{{multiple issues|section = yes|
+{{unreferenced section|date = November 2014}}
+{{confusing section |date = November 2014}}
+}}
+
+Chris.";
+            Assert.AreEqual(LaterInSection, parser.MultipleIssues(LaterInSection));
         }
 
         [Test]
