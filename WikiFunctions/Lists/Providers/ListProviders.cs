@@ -1001,7 +1001,7 @@ namespace WikiFunctions.Lists.Providers
         }
 
         public override string DisplayText
-        { get { return "Wiki search (text) (all ns)"; } }
+        { get { return "Wiki search (text) (all NS)"; } }
     }
 
     /// <summary>
