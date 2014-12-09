@@ -40,6 +40,7 @@ namespace WikiFunctions.Controls.Lists
         {
             InitializeComponent();
             _p = prefs;
+            listMaker1.NoOfArticlesChanged += UpdateButtons;
         }
 
         /// <summary>
@@ -61,6 +62,11 @@ namespace WikiFunctions.Controls.Lists
         private readonly Regex _characterBlacklist = new Regex(@"[""/:*?<>|.]",
                                                                RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
+        private void UpdateButtons(object sender, EventArgs e)
+        {
+            btnSave.Enabled = btnXMLSave.Enabled = listMaker1.Count > 0;
+        }
+
         private void btnSave_Click(object sender, EventArgs e)
         {
             SaveDialog(saveTXT, false);
@@ -73,12 +79,6 @@ namespace WikiFunctions.Controls.Lists
 
         private void SaveDialog(SaveFileDialog sfd, bool xml)
         {
-            if (listMaker1.Count == 0)
-            {
-                MessageBox.Show("Nothing to save", "No items in List Maker");
-                return;
-            }
-
             sfd.FileName = RemoveBadChars();
 
             if (sfd.ShowDialog() == DialogResult.OK && !string.IsNullOrEmpty(sfd.FileName))
