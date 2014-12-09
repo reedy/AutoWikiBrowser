@@ -754,11 +754,11 @@ Jones 2005</ref>"));
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009|authorlink20=Bill}} was"));
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009|contribution=Smith}} was"));
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"{{cite web | periodical=, |journal=, |newspaper=, |magazine= |work= |website= |encyclopedia= |encyclopaedia= |dictionary=
-|chapter=, |contribution=, |entry=, |article=, |section=
+|contribution=, |entry=, |article=, |section=
 |publicationplace=, |publication-place=
 |date=, |year=, |publicationdate=, |publication-date=
 |series= |volume= |issue=, |number= |page=, |pages=, |at=
-|edition= |publisher=, |distributor=, |institution=
+|edition= |publisher=, |institution=
 |chapterurl=, |chapter-url=, |contributionurl=, |contribution-url=, |sectionurl= }}"));
 
             // multiple errors
