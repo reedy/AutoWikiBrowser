@@ -752,14 +752,14 @@ Jones 2005</ref>"));
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009|first1=Foo|last1=Great |first2=Bar|title=here}} was"));
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009|authorlink1=Smith}} was"));
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009|authorlink20=Bill}} was"));
-            Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009|contribution=Smith}} was"));
+            Assert.AreEqual(Found, Parsers.BadCiteParameters(@"now {{cite web|url=bar|date=2009|author=Smith}} was"));
             Assert.AreEqual(Found, Parsers.BadCiteParameters(@"{{cite web | periodical=, |journal=, |newspaper=, |magazine= |work= |website= |encyclopedia= |encyclopaedia= |dictionary=
-|contribution=, |entry=, |article=, |section=
+|arxiv=, |ARXIV=, |ASIN=, |ASIN-TLD=
 |publicationplace=, |publication-place=
 |date=, |year=, |publicationdate=, |publication-date=
 |series= |volume= |issue=, |number= |page=, |pages=, |at=
 |edition= |publisher=, |institution=
-|chapterurl=, |chapter-url=, |contributionurl=, |contribution-url=, |sectionurl= }}"));
+|journal=, |jstor=, |agency=, |archive-date=, |others= }}"));
 
             // multiple errors
             Found.Add(15, 6);
