@@ -1423,7 +1423,7 @@ Message: {2}
 		}
 
 		/// <summary>
-		/// Replaces first occurence of a given text within a string
+		/// Replaces first occurrence of a given text within a string
 		/// </summary>
 		/// <param name="text">Text to be processed</param>
 		/// <param name="oldValue">Text to be replaced</param>
