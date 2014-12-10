@@ -5943,6 +5943,7 @@ namespace WikiFunctions.Parse
             if (articlelength > 5)
                 inFirst5Percent = articleText.Trim().Substring(0, Math.Max(articlelength / 20, 5)).Contains("'''");
 
+            articleText = Hider2.AddBackMore(articleText);
             // check that the bold added is the first bit in bold in the main body of the article, and in first 5% of HideMore article
             return inFirst5Percent && boldAddedPos <= firstBoldPos;
         }
