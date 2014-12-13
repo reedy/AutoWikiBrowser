@@ -4038,6 +4038,13 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
             PageReload = false;
             NudgeTimer.Stop();
 
+            // abort any background thread if running
+            if(RunReparseEditBoxBackground != null)
+                RunReparseEditBoxBackground.Abort();
+
+            if(RunProcessPageBackground != null)
+                RunProcessPageBackground.Abort();
+
             UpdateButtons(null, null);
             DisableButtons();
 

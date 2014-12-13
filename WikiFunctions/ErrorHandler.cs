@@ -75,6 +75,9 @@ namespace WikiFunctions
                 MessageBox.Show(ex.Message, "I/O error",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            // BackGroundRequest Abort called as user pressed stop, this is OK
+            else if (ex is ThreadAbortException && ex.StackTrace.Contains("AutoWikiBrowser.MainForm.ProcessPage"))
+                return true;
             else
             {
                 return false; // We didn't handle the exception
