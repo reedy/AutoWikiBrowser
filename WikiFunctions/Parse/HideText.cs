@@ -130,24 +130,9 @@ namespace WikiFunctions.Parse
         /// <returns></returns>
         private string AddBack(string articleText, List<HideObject> Tokens)
         {
-            MatchCollection mc;
-
-            while ((mc = HiddenRegex.Matches(articleText)).Count > 0)
-            {
-                StringBuilder sb = new StringBuilder(articleText.Length * 2);
-                int pos = 0;
-
-                foreach (Match m in mc)
-                {
-                    sb.Append(articleText, pos, m.Index - pos);
-                    sb.Append(Tokens[int.Parse(m.Groups[1].Value)].Text);
-                    pos = m.Index + m.Value.Length;
-                }
-
-                sb.Append(articleText, pos, articleText.Length - pos);
-
-                articleText = sb.ToString();
-            }
+            // while loop as there can be nested hiding
+            while(HiddenRegex.IsMatch(articleText))
+                articleText = HiddenRegex.Replace(articleText, m => Tokens[int.Parse(m.Groups[1].Value)].Text);
 
             Tokens.Clear();
             return articleText;
@@ -257,10 +242,10 @@ namespace WikiFunctions.Parse
             ReplaceMore(WikiRegexes.AllTags.Matches(articleText), ref articleText);
 
             // gallery tag does not require Image: namespace link before image in gallery, so hide anything before pipe
-           	articleText = WikiRegexes.GalleryTag.Replace(articleText, m => {
-				string res = m.Value;
-				ReplaceMore(ImageToBar.Matches(res), ref res);
-				return res;});
+            articleText = WikiRegexes.GalleryTag.Replace(articleText, m => {
+                string res = m.Value;
+                ReplaceMore(ImageToBar.Matches(res), ref res);
+                return res;});
 
             if (HideExternalLinks)
             {
@@ -319,24 +304,9 @@ namespace WikiFunctions.Parse
         /// </summary>
         public string AddBackMore(string articleText)
         {
-            MatchCollection mc;
-
-            while ((mc = HiddenMoreRegex.Matches(articleText)).Count > 0)
-            {
-                StringBuilder sb = new StringBuilder(articleText.Length * 2);
-                int pos = 0;
-
-                foreach (Match m in mc)
-                {
-                    sb.Append(articleText, pos, m.Index - pos);
-                    sb.Append(MoreHide[int.Parse(m.Groups[1].Value)].Text);
-                    pos = m.Index + m.Value.Length;
-                }
-
-                sb.Append(articleText, pos, articleText.Length - pos);
-
-                articleText = sb.ToString();
-            }
+            // while loop as there can be nested hiding
+            while (HiddenMoreRegex.IsMatch(articleText))
+                articleText = HiddenMoreRegex.Replace(articleText, m => MoreHide[int.Parse(m.Groups[1].Value)].Text);
 
             MoreHide.Clear();
             return articleText;
