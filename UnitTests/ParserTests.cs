@@ -9746,6 +9746,14 @@ Foo
             text = parser.Tagger(ShortText + @"{{unreferenced|date=May 2010}} {{refimprove|date=May 2010}} <ref>foo</ref>", "Test", false, out noChange, ref summary);
             Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(text), "Unref removed when refimprove");
             Assert.AreEqual(1, Tools.NestedTemplateRegex("refimprove").Matches(text).Count);
+
+            text = parser.Tagger(ShortText + @"{{multiple issues|
+{{unreferenced|date=May 2010}}
+{{refimprove|date=May 2010}}
+}} <ref>foo[[bar]]</ref>", "Test", false, out noChange, ref summary);
+            Assert.IsFalse(WikiRegexes.Unreferenced.IsMatch(text), "Unref removed when refimprove");
+            Assert.AreEqual(1, Tools.NestedTemplateRegex("refimprove").Matches(text).Count);
+            Assert.AreEqual(0, Tools.NestedTemplateRegex("multiple issues").Matches(text).Count, "Multiple issues removed if unref removed ant MI no longer needed");
         }
 
         [Test]

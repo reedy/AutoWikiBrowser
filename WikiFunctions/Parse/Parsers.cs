@@ -7725,8 +7725,12 @@ namespace WikiFunctions.Parse
                 articleText = Unreferenced.Replace(articleText, m2 => 
                                                    {
                                                        if(Tools.NestedTemplateRegex("Refimprove").IsMatch(articleText))
+                                                       {
+                                                           tagsRemoved.Add("unreferenced");
                                                            return "";
+                                                       }
 
+                                                       tagsrenamed++;
                                                        return Tools.UpdateTemplateParameterValue(Tools.RenameTemplate(m2.Value, "refimprove"), "date", "{{subst:CURRENTMONTHNAME}} {{subst:CURRENTYEAR}}");
                                                    });
 
