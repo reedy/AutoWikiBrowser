@@ -135,6 +135,18 @@ namespace WikiFunctions.Background
         }
 
         /// <summary>
+        /// Returns ThreadState of the thread, or ThreadState.Unstarted if the thread is null
+        /// </summary>
+        /// <returns>ThreadState of the thread</returns>
+        public ThreadState ThreadStatus()
+        {
+            if (BgThread != null)
+	            return BgThread.ThreadState;
+			
+            return ThreadState.Unstarted;
+        }
+
+        /// <summary>
         /// aborts processing and terminates the thread
         /// </summary>
         public void Abort()

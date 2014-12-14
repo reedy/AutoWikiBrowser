@@ -3560,6 +3560,14 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
                 Profiles.ShowDialog();
                 if (!TheSession.User.IsLoggedIn) return;
             }
+            else if((RunProcessPageBackground != null && (RunProcessPageBackground.ThreadStatus() == System.Threading.ThreadState.Running 
+            || RunProcessPageBackground.ThreadStatus() == System.Threading.ThreadState.Background)) ||
+            (RunReparseEditBoxBackground != null && (RunReparseEditBoxBackground.ThreadStatus() == System.Threading.ThreadState.Running 
+            || RunReparseEditBoxBackground.ThreadStatus() == System.Threading.ThreadState.Background)))
+            {
+                StatusLabelText = "Background process running";
+                return;
+            }
             _stopProcessing = false;
             Start();
         }
@@ -4089,6 +4097,15 @@ font-size: 150%;'>No changes</h2><p>Press the ""Skip"" button below to skip to t
         {
             if (TheArticle == null)
                 return;
+
+            if((RunProcessPageBackground != null && (RunProcessPageBackground.ThreadStatus() == System.Threading.ThreadState.Running 
+            || RunProcessPageBackground.ThreadStatus() == System.Threading.ThreadState.Background)) ||
+            (RunReparseEditBoxBackground != null && (RunReparseEditBoxBackground.ThreadStatus() == System.Threading.ThreadState.Running 
+            || RunReparseEditBoxBackground.ThreadStatus() == System.Threading.ThreadState.Background)))
+            {
+                StatusLabelText = "Background process running";
+            	return;
+            }
 
             StatusLabelText = "Processing page";
             StartProgressBar();
