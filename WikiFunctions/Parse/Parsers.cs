@@ -739,6 +739,8 @@ namespace WikiFunctions.Parse
                             newsection = newsection.Replace(newsection, Regex.Replace(newsection, @"\s*}}$", (newstyleMI ? "" : "|") + "\r\n" + m.Value + "\r\n}}"));
                     }
                 }
+                else // MI template later in section, other text in between, cannot do anything with this
+                    return sectionOriginal;
             }
             else // create new MI and add each template
             {
