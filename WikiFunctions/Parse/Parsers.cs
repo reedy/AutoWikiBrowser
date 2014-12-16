@@ -5794,7 +5794,8 @@ namespace WikiFunctions.Parse
         private static readonly Regex BoldTitleAlready4 = new Regex(@"^\s*'''", RegexOptions.Multiline);
         private static readonly Regex DfnTag = new Regex(@"<\s*dfn\s*>", RegexOptions.IgnoreCase);
         private static readonly Regex NihongoTitle = Tools.NestedTemplateRegex("nihongo title");
-        private static readonly Regex NoBoldTitle = Tools.NestedTemplateRegex("year article header");
+        // bio used on it-wiki, automatically bolds link
+        private static readonly Regex NoBoldTitle = Tools.NestedTemplateRegex(new[] { "year article header", "bio" });
 
         // Covered by: BoldTitleTests
         /// <summary>
