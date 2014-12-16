@@ -1465,6 +1465,9 @@ namespace WikiFunctions
                 {
                     EmboldenTitles(parsers, false);
                     Variables.Profiler.Profile("EmboldenTitles");
+
+                    BulletExternalLinks(skip.SkipNoBulletedLink);
+                    Variables.Profiler.Profile("BulletExternalLinks");
                 }
 
                 FixPeopleCategories(parsers, skip.SkipNoPeopleCategoriesFixed);

@@ -130,6 +130,14 @@ namespace UnitTests
         }
 
         [Test]
+        public void BulletExternalLink()
+        {
+            AssertChange(@"==External link==
+[http://www.site.com Foo]", @"==External links==
+* [http://www.site.com Foo]");
+        }
+
+        [Test]
         public void DateRange()
         {
             AssertChange(@"over July 09-11, 2009", @"over July 9–11, 2009");
