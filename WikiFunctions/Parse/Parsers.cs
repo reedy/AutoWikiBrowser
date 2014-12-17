@@ -5427,22 +5427,20 @@ namespace WikiFunctions.Parse
         /// <returns>The modified article text.</returns>
         public static string BulletExternalLinks(string articleText)
         {
-            Match m = ExternalLinksSection.Match(articleText);
+            int intStart = ExternalLinksSection.Match(articleText).Index;
 
-            if (!m.Success)
-                return articleText;
-
-            int intStart = m.Index;
-
-            string articleTextSubstring = articleText.Substring(intStart);
-            
-            if(NewlinesBeforeHTTP.IsMatch(articleTextSubstring))
+            if(intStart > 0)
             {
-                articleText = articleText.Substring(0, intStart);
-                articleTextSubstring = BulletExternalHider.HideMore(articleTextSubstring);
-                articleTextSubstring = NewlinesBeforeHTTP.Replace(articleTextSubstring, "$2* $3");
+                string articleTextSubstring = articleText.Substring(intStart);
+                
+                if(NewlinesBeforeHTTP.IsMatch(articleTextSubstring))
+                {
+                    articleText = articleText.Substring(0, intStart);
+                    articleTextSubstring = BulletExternalHider.HideMore(articleTextSubstring);
+                    articleTextSubstring = NewlinesBeforeHTTP.Replace(articleTextSubstring, "$2* $3");
 
-                return articleText + BulletExternalHider.AddBackMore(articleTextSubstring);
+                    return articleText + BulletExternalHider.AddBackMore(articleTextSubstring);
+                }
             }
             
             return articleText;
