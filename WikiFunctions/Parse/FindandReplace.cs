@@ -395,7 +395,7 @@ namespace WikiFunctions.Parse
         #region loading/saving
 
         /// <summary>
-        /// 
+        /// Loads a single replacement entry into the find and replace data grid
         /// </summary>
         /// <param name="r"></param>
         public void AddNew(Replacement r)
@@ -411,7 +411,7 @@ namespace WikiFunctions.Parse
         }
 
         /// <summary>
-        /// 
+        /// Loads list of replacement entries into the find and replace data grid
         /// </summary>
         /// <param name="rList"></param>
         public void AddNew(List<Replacement> rList)
