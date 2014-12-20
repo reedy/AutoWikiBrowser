@@ -267,6 +267,8 @@ namespace WikiFunctions.Parse
 	                    editSummary += "retrait: " + RemovedSummary.Trim();
 	                else if (Variables.LangCode.Equals("hy"))
 	                    editSummary += "ջնջվեց: " + RemovedSummary.Trim();
+	                else if (Variables.LangCode.Equals("tr"))
+	                    editSummary += "çıkartıldı:" + RemovedSummary.Trim();
 	                else
 	                    editSummary += "removed: " + RemovedSummary.Trim();
                 }

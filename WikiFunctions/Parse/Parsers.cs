@@ -7915,6 +7915,11 @@ namespace WikiFunctions.Parse
                     articleText = "{{Որբ|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
                     tagsAdded.Add("[[Կատեգորիա:«Որբ» հոդվածներ|Որբ]]");
                 }
+                else if (Variables.LangCode.Equals("tr"))
+                {
+                    articleText = "{{Öksüz|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
+                    tagsAdded.Add("[[CAT:O|orphan]]");
+                }
                 else
                 {
                     articleText = "{{Orphan|" + WikiRegexes.DateYearMonthParameter + "}}\r\n\r\n" + articleText;
@@ -8058,6 +8063,13 @@ namespace WikiFunctions.Parse
                 	summary = "tog bort " + tags;
                 }
 
+                else if (Variables.LangCode.Equals("tr"))
+                {
+                	 if(tagsRemoved.Count == 1)
+						summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " etiketi";
+  					else 
+						summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " etiketleri";
+                }
                 else
                 	summary = "removed " + Tools.ListToStringCommaSeparator(tagsRemoved) + " tag" +
                     (tagsRemoved.Count == 1 ? "" : "s");
@@ -8119,6 +8131,13 @@ namespace WikiFunctions.Parse
                 	else 
                 		tags = Tools.ListToStringWithSeparatorAndWordSuffix(tagsAdded, "-", ", ", " och ") + "mallar";
                 	summary += "lade till " + tags;
+                }
+                else if (Variables.LangCode.Equals("tk"))
+                {
+                	if (tagsAdded.Count == 1)
+	                	summary += "eklendi " + Tools.ListToStringCommaSeparator(tagsAdded) + " etiketi";
+                	else 
+	                	summary += "eklendi " + Tools.ListToStringCommaSeparator(tagsAdded) + " etiketleri";
                 }
                 else
                 	summary += "added " + Tools.ListToStringCommaSeparator(tagsAdded) + " tag" +
