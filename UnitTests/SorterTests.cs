@@ -994,6 +994,17 @@ foo";
 [[Category:Two]]";
 			Assert.AreEqual("[[Category:One]]\r\n[[Category:Two]]\r\n", parser2.Sorter.RemoveCats(ref b, "test"));
 			Assert.AreEqual("Text\r\n\r\n==References==\r\n{{reflist}}\r\n", b, "Blank newline before heading retained");
+
+b = @"A
+==Text==
+{{foo}}[[Category:One]]
+{| class=table |}
+
+==References==
+{{reflist}}
+[[Category:Two]]";
+			Assert.AreEqual("[[Category:One]]\r\n[[Category:Two]]\r\n", parser2.Sorter.RemoveCats(ref b, "test"));
+			Assert.AreEqual("A\r\n==Text==\r\n{{foo}}\r\n{| class=table |}\r\n\r\n==References==\r\n{{reflist}}\r\n", b, "Newline retained when category not on own line");
 		}
 		
 		[Test]
