@@ -1,4 +1,4 @@
-﻿﻿/*
+﻿/*
 AWB unit tests
 Copyright (C) 2008 Max Semenik
 
@@ -4466,41 +4466,40 @@ Now [[A],] was."));
         public void UppercaseCiteFields()
         {
             // single uppercase field
-            Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web|URL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{cite web|foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web|FOO=hello|title=hello}}"));
             Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web|uRL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{citeweb|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{citeweb|URL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{citeweb|foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{citeweb|FOO=hello|title=hello}}"));
             Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web|UrL=http://members.bib-arch.org|title=hello}}"));
             Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web|Url=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{Cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite web|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{cite web | url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web | URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{cite web| url = http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web| URL = http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{cite web|url =http://members.bib-arch.org|title=HELLO}}", Parsers.FixCitationTemplates(@"{{cite web|URL =http://members.bib-arch.org|title=HELLO}}"));
+            Assert.AreEqual(@"{{Cite web|foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite web|FOO=hello|title=hello}}"));
+            Assert.AreEqual(@"{{cite web | foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web | FOO=hello|title=hello}}"));
+            Assert.AreEqual(@"{{cite web | foo = hello|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web | FOO = hello|title=hello}}"));
 
             // multiple uppercase fields
-            Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web|URL=http://members.bib-arch.org|Title=hello}}"));
-            Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web|URL=http://members.bib-arch.org|TITLE=hello}}"));
-            Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello | work=BBC}}", Parsers.FixCitationTemplates(@"{{cite web|URL=http://members.bib-arch.org|TITLE=hello | Work=BBC}}"));
+            Assert.AreEqual(@"{{cite web|foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web|FOO=hello|Title=hello}}"));
+            Assert.AreEqual(@"{{cite web|foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web|FOO=hello|TITLE=hello}}"));
+            Assert.AreEqual(@"{{cite web|foo=hello|title=hello | work=BBC}}", Parsers.FixCitationTemplates(@"{{cite web|FOO=hello|TITLE=hello | Work=BBC}}"));
 
             //other templates
-            Assert.AreEqual(@"{{cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{cite book|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite book|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{cite news|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite news|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{cite journal|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite journal|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{cite paper|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite paper|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{cite press release|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite press release|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{cite hansard|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite hansard|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{cite encyclopedia|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{cite encyclopedia|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{citation|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{citation|URL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{cite web|foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{cite web|FOO=hello|title=hello}}"));
+            Assert.AreEqual(@"{{cite book|foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{cite book|FOO=hello|title=hello}}"));
+            Assert.AreEqual(@"{{cite news|foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{cite news|FOO=hello|title=hello}}"));
+            Assert.AreEqual(@"{{cite journal|foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{cite journal|FOO=hello|title=hello}}"));
+            Assert.AreEqual(@"{{cite paper|foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{cite paper|FOO=hello|title=hello}}"));
+            Assert.AreEqual(@"{{cite press release|foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{cite press release|FOO=hello|title=hello}}"));
+            Assert.AreEqual(@"{{cite hansard|foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{cite hansard|FOO=hello|title=hello}}"));
+            Assert.AreEqual(@"{{cite encyclopedia|foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{cite encyclopedia|FOO=hello|title=hello}}"));
+            Assert.AreEqual(@"{{citation|foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{citation|FOO=hello|title=hello}}"));
 
-            Assert.AreEqual(@"{{Cite web|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite web|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{Cite book|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite book|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{Cite news|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite news|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{Cite journal|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite journal|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{Cite paper|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite paper|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{Cite press release|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite press release|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{Cite hansard|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite hansard|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{Cite encyclopedia|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite encyclopedia|URL=http://members.bib-arch.org|title=hello}}"));
-            Assert.AreEqual(@"{{Citation|url=http://members.bib-arch.org|title=hello}}", Parsers.FixCitationTemplates(@"{{Citation|URL=http://members.bib-arch.org|title=hello}}"));
+            Assert.AreEqual(@"{{Cite web|foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite web|FOO=hello|title=hello}}"));
+            Assert.AreEqual(@"{{Cite book|foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite book|FOO=hello|title=hello}}"));
+            Assert.AreEqual(@"{{Cite news|foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite news|FOO=hello|title=hello}}"));
+            Assert.AreEqual(@"{{Cite journal|foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite journal|FOO=hello|title=hello}}"));
+            Assert.AreEqual(@"{{Cite paper|foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite paper|FOO=hello|title=hello}}"));
+            Assert.AreEqual(@"{{Cite press release|foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite press release|FOO=hello|title=hello}}"));
+            Assert.AreEqual(@"{{Cite hansard|foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite hansard|FOO=hello|title=hello}}"));
+            Assert.AreEqual(@"{{Cite encyclopedia|foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{Cite encyclopedia|FOO=hello|title=hello}}"));
+            Assert.AreEqual(@"{{Citation|foo=hello|title=hello}}", Parsers.FixCitationTemplates(@"{{Citation|FOO=hello|title=hello}}"));
 
             Assert.AreEqual(@"{{cite book | author=Smith | title=Great Book | ISBN=15478454 | date=17 May 2004 }}", Parsers.FixCitationTemplates(@"{{cite book | author=Smith | Title=Great Book | ISBN=15478454 | date=17 May 2004 }}"));
 
