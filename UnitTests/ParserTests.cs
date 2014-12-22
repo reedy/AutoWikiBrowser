@@ -1,4 +1,4 @@
-﻿/*
+﻿﻿/*
 AWB unit tests
 Copyright (C) 2008 Max Semenik
 
@@ -4504,7 +4504,7 @@ Now [[A],] was."));
 
             Assert.AreEqual(@"{{cite book | author=Smith | title=Great Book | ISBN=15478454 | date=17 May 2004 }}", Parsers.FixCitationTemplates(@"{{cite book | author=Smith | Title=Great Book | ISBN=15478454 | date=17 May 2004 }}"));
 
-            // ISBN, DOI, PMID, PMC, LCCN is allowed to be uppercase
+            // ISBN, DOI, PMID, PMC, LCCN, ASIN is allowed to be uppercase
             string ISBN = @"{{cite book | author=Smith | title=Great Book | ISBN=15478454 | date=17 May 2004 }}";
             Assert.AreEqual(ISBN, Parsers.FixCitationTemplates(ISBN));
             string ISSN = @"{{cite book | author=Smith | title=Great Book | ISSN=15478454 | date=17 May 2004 }}";
@@ -4519,6 +4519,8 @@ Now [[A],] was."));
             Assert.AreEqual(PMC, Parsers.FixCitationTemplates(PMC));
             string LCCN = @"{{cite journal| author=Smith | title=Great Book | PMC=15478454 | date=17 May 2004 }}";
             Assert.AreEqual(LCCN, Parsers.FixCitationTemplates(LCCN));
+            string ASIN = @"{{cite journal| author=Smith | title=Great Book | ASIN=15478454 | date=17 May 2004 }}";
+            Assert.AreEqual(ASIN, Parsers.FixCitationTemplates(ASIN));
 
             // don't match on part of URL
             string URL = @"{{cite news|url=http://www.expressbuzz.com/edition/story.aspx?Title=Catching++them+young&artid=rPwTAv2l2BY=&SectionID=fxm0uEWnVpc=&MainSectionID=ngGbWGz5Z14=&SectionName=RtFD/|pZbbWSsbI0jf3F5Q==&SEO=|title=Catching them young|date=August 7, 2009|work=[[The Indian Express]]|accessdate=2009-08-07}}";
