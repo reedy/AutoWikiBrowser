@@ -7447,6 +7447,7 @@ namespace WikiFunctions.Parse
             string lengthtext = WikiRegexes.Persondata.Replace(commentsCategoriesStripped, "");
             lengthtext = WikiRegexes.InfoBox.Replace(lengthtext, "");
             lengthtext = Drugbox.Replace(lengthtext, "");
+            lengthtext = WikiRegexes.ReferenceList.Replace(lengthtext, "");
 
             int length = lengthtext.Length + 1;
             bool underlinked = (wikiLinkCount < 0.0025 * length);
