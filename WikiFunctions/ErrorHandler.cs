@@ -76,7 +76,7 @@ namespace WikiFunctions
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             // BackGroundRequest Abort called as user pressed stop, this is OK
-            else if (ex is ThreadAbortException && ex.StackTrace.Contains("AutoWikiBrowser.MainForm.ProcessPage"))
+			else if (ex is ThreadAbortException && (ex.StackTrace.Contains("AutoWikiBrowser.MainForm.ProcessPage") || ex.StackTrace.Contains("Parsers.TagOrphans")))
                 return true;
             else
             {
