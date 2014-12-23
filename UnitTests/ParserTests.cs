@@ -9965,6 +9965,16 @@ Foo
             Assert.IsTrue(text.Contains(@"{{uncategorized stub"));
             Assert.IsFalse(text.Contains(@"{{improve categories"));
 
+            // Do not add underlinked if page is small with a single wikilink
+            Globals.UnitTestIntValue = 0;
+            text = parser.Tagger(ShortTextWithSingleLink, "Test", false, out noChange, ref summary);
+            Assert.IsTrue(WikiRegexes.Uncat.IsMatch(text),"uncat");
+            Assert.IsFalse(WikiRegexes.Stub.IsMatch(text),"Stub");
+            Assert.IsFalse(WikiRegexes.Wikify.IsMatch(text),"underlinked");
+            Assert.IsFalse(WikiRegexes.DeadEnd.IsMatch(text),"deadend");
+            Assert.IsFalse(WikiRegexes.Orphan.IsMatch(text),"orphan");
+            Assert.IsFalse(text.Contains(UncatStub));
+
             // when no cats from existing page by API call but genfixes adds people categories, don't tag uncat
             Globals.UnitTestIntValue = 1;
             text = parser.Tagger(ShortText + ShortText + @"[[Category:Living people]]", "Test", false, out noChange, ref summary);
@@ -10341,6 +10351,24 @@ Fusce massa. Nullam lacinia purus nec ipsum. Vestibulum ante ipsum primis in fau
 
 Proin in odio. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus bibendum arcu nec risus. Nulla iaculis ligula in purus. Etiam vulputate nibh sit amet lectus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Suspendisse potenti. Suspendisse eleifend. Donec blandit nibh hendrerit turpis. Integer accumsan posuere odio. Ut commodo augue malesuada risus. Curabitur augue. Praesent volutpat nunc a diam. Nulla lobortis interdum dolor. Nunc imperdiet, ipsum ac tempor iaculis, nunc.-->
 ";
+
+        private const string ShortTextWithSingleLink =
+            @"'''KH Fakhruddin''' is regarded as a [[National Hero of Indonesia]].<ref>{{Cite book|last=Mirnawati|title=Kumpulan Pahlawan Indonesia Terlengkap|trans_title=Most Complete Collection of Indonesian Heroes|language=Indonesian|date=2012|location=Jakarta|publisher=CIF|isbn=978-979-788-343-0}}</ref>
+
+==References==
+{{Reflist}}
+
+{{National Heroes of Indonesia}}
+
+{{Persondata
+| NAME              = Fakhruddin, KH
+| ALTERNATIVE NAMES =
+| SHORT DESCRIPTION =
+| DATE OF BIRTH     =
+| PLACE OF BIRTH    =
+| DATE OF DEATH     =
+| PLACE OF DEATH    =
+}}";
 
         [Test]
         public void Remove()

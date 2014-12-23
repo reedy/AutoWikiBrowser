@@ -7663,7 +7663,7 @@ namespace WikiFunctions.Parse
             }
             // add underlinked/wikify tag, don't add underlinked/wikify if {{dead end}} already present
             // Dont' tag SIA pages, may create wikilinks from templates
-            else if (wikiLinkCount < 3 && underlinked && !WikiRegexes.Wikify.IsMatch(articleText)
+            else if (wikiLinkCount < 3 && underlinked &&  length > 400 && !WikiRegexes.Wikify.IsMatch(articleText)
                      && !WikiRegexes.MultipleIssues.Match(articleText).Value.ToLower().Contains("wikify")
                      && !WikiRegexes.DeadEnd.IsMatch(articleText)
                      && !WikiRegexes.SIAs.IsMatch(articleText)
