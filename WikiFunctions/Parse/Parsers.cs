@@ -7349,6 +7349,7 @@ namespace WikiFunctions.Parse
 
             string commentsStripped = WikiRegexes.Comments.Replace(articleText, "");
             string commentsCategoriesStripped = WikiRegexes.Category.Replace(commentsStripped, "");
+            commentsCategoriesStripped = WikiRegexes.Defaultsort.Replace(commentsCategoriesStripped, "");
             Sorter.Interwikis(ref commentsStripped);
 
             // bulleted or indented text should weigh less than simple text.
