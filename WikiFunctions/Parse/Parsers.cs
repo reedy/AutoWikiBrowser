@@ -1801,7 +1801,7 @@ namespace WikiFunctions.Parse
             return articleText;
         }
 
-        private static readonly Regex ShortNameReferenceQuick = new Regex(@">\s*([^<>]{1,9}?|\[?[Ss]ee above\]?|{{\s*[Cc]ite *\w+\s*}})\s*<\s*/\s*ref>");
+        private static readonly Regex ShortNameReference = new Regex(@"(<\s*ref\s+name\s*=\s*(?:""|')?([^<>=\r\n/]+?)(?:""|')?\s*>\s*([^<>]{1,9}?|\[?[Ss]ee above\]?|{{\s*[Cc]ite *\w+\s*}})\s*<\s*/\s*ref>)");
 
         /// <summary>
         /// refs with same name, but one is very short, so just change to &lt;ref name=foo/&gt; notation
@@ -1813,12 +1813,11 @@ namespace WikiFunctions.Parse
             // Peformance: get a list of all the short named refs that could be condensed
             // then only attempt replacement if some found and matching long named refs found
             List<string> ShortNamed = new List<string>();
-            foreach (Match m in WikiRegexes.NamedReferences.Matches(articleText))
+            foreach (Match m in ShortNameReference.Matches(articleText))
             {
                 string refname = m.Groups[2].Value;
 
-                if(m.Groups[3].Value.Length < 30 && ShortNameReferenceQuick.IsMatch(m.Value) 
-                    && !ShortNamed.Contains(refname))
+                if(!ShortNamed.Contains(refname))
                     ShortNamed.Add(refname);
             }
 
