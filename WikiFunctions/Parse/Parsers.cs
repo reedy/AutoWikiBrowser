@@ -5882,6 +5882,10 @@ namespace WikiFunctions.Parse
                     return (zerothSection + restOfArticle);
                 }
             }
+
+            // Performance check: if article title not in zeroth section have nothing further to do
+            if(zerothSection.IndexOf(BracketedAtEndOfLine.Replace(articleTitle, ""), StringComparison.OrdinalIgnoreCase) < 0)
+                return articleTextAtStart;
             
             // 3) '''Emboldens''' the first occurrence of the article title
 
@@ -5913,10 +5917,6 @@ namespace WikiFunctions.Parse
                 return articleTextAtStart;
 
             Regex regexBoldNoBrackets = new Regex(@"([^\[]|^)(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + ")([ ,.:;])");
-
-            // check for performance
-            if(!regexBoldNoBrackets.IsMatch(zerothSection))
-                return articleText;
 
             zerothSectionHidden = Hider3.HideMore(zerothSection);
             zerothSectionHiddenOriginal = zerothSectionHidden;
