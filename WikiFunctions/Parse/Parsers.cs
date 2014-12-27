@@ -6645,9 +6645,9 @@ namespace WikiFunctions.Parse
                 || articleText.Contains(@"-bio-stub}}")
                 || articleText.Contains(@"-politician-stub}}")
                 || articleText.Contains(@"-writer-stub}}")
-                || articleText.Contains(CategoryLivingPeople)
+                || cats.Contains(CategoryLivingPeople)
                 || WikiRegexes.PeopleInfoboxTemplates.Matches(zerothSection).Count == 1
-                || CategoryMatch(articleText, YearOfBirthMissingLivingPeople))
+                || CategoryMatch(cats, YearOfBirthMissingLivingPeople))
                 return true;
 
             // articles with bold linking to another article may be linking to the main article on the person the article is about
@@ -6668,10 +6668,10 @@ namespace WikiFunctions.Parse
             if (WikiRegexes.InfoBox.IsMatch(zerothSection) && !WikiRegexes.PeopleInfoboxTemplates.IsMatch(zerothSection))
                 return false;
 
-            return WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText)
+            return WikiRegexes.DeathsOrLivingCategory.IsMatch(cats)
                 || WikiRegexes.LivingPeopleRegex2.IsMatch(articleText)
-                || WikiRegexes.BirthsCategory.IsMatch(articleText)
-                || WikiRegexes.PeopleFromCategory.IsMatch(articleText)
+                || WikiRegexes.BirthsCategory.IsMatch(cats)
+                || WikiRegexes.PeopleFromCategory.IsMatch(cats)
                 || WikiRegexes.BLPSources.IsMatch(BLPUnsourcedSection.Replace(articleText, ""))
                 || RefImproveBLP.IsMatch(articleText);
         }
