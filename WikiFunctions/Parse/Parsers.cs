@@ -5911,11 +5911,15 @@ namespace WikiFunctions.Parse
 
             if (articleTextNoTemplates.Substring(0, fivepc).Contains("'''"))
                 return articleTextAtStart;
-            
-            zerothSectionHidden = Hider3.HideMore(zerothSection);
-            zerothSectionHiddenOriginal = zerothSectionHidden;
 
             Regex regexBoldNoBrackets = new Regex(@"([^\[]|^)(" + escTitleNoBrackets + "|" + Tools.TurnFirstToLower(escTitleNoBrackets) + ")([ ,.:;])");
+
+            // check for performance
+            if(!regexBoldNoBrackets.IsMatch(zerothSection))
+                return articleText;
+
+            zerothSectionHidden = Hider3.HideMore(zerothSection);
+            zerothSectionHiddenOriginal = zerothSectionHidden;
 
             // first try title with brackets removed
             zerothSectionHidden = regexBoldNoBrackets.Replace(zerothSectionHidden, "$1'''$2'''$3", 1);
