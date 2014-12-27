@@ -6796,8 +6796,11 @@ namespace WikiFunctions.Parse
             if (!Variables.LangCode.Equals("en"))
                 return articleText;
 
-            bool dolmatch = WikiRegexes.DeathsOrLivingCategory.IsMatch(articleText),
-            bimatch = WikiRegexes.BirthsCategory.IsMatch(articleText);
+            // Performance: apply births/deaths category check on categories string, not whole article
+            string cats = GetCats(articleText);
+
+            bool dolmatch = WikiRegexes.DeathsOrLivingCategory.IsMatch(cats),
+            bimatch = WikiRegexes.BirthsCategory.IsMatch(cats);
 
             // no work to do if already has a birth and a death/living cat
             if(dolmatch && bimatch)
