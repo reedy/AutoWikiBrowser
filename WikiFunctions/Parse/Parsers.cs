@@ -5119,6 +5119,7 @@ namespace WikiFunctions.Parse
 
         private static readonly Regex InfoBoxSingleAlbum = Tools.NestedTemplateRegex(new[] { "Infobox Single", "Infobox single", "Infobox album", "Infobox Album" });
         private static readonly Regex TaxoboxColour = Tools.NestedTemplateRegex(new[] { "taxobox colour", "taxobox color" });
+        private static readonly Regex TrailingPipe = new Regex(@"\|\s*\]");
 
         // Partially covered by FixMainArticleTests.SelfLinkRemoval()
         /// <summary>
@@ -5140,8 +5141,10 @@ namespace WikiFunctions.Parse
             // clean up wikilinks: replace underscores, percentages and URL encoded accents etc.
             articleText = WikiRegexes.WikiLink.Replace(articleText, FixLinksWikilinkCanonicalizeME);
             articleText = WikiRegexes.PipedWikiLink.Replace(articleText, FixLinksWikilinkBoldItalicsME);
-            // fix excess trailing pipe
-            articleText = WikiRegexes.PipedWikiLink.Replace(articleText, m => (m.Groups[2].Value.Trim().EndsWith("|") ? "[[" + m.Groups[1].Value + "|" + m.Groups[2].Value.Trim().TrimEnd('|').Trim() + "]]" : m.Value));
+
+            // fix excess trailing pipe, TrailingPipe regex for performance
+            if(TrailingPipe.IsMatch(articleText))
+                articleText = WikiRegexes.PipedWikiLink.Replace(articleText, m => (m.Groups[2].Value.Trim().EndsWith("|") ? "[[" + m.Groups[1].Value + "|" + m.Groups[2].Value.Trim().TrimEnd('|').Trim() + "]]" : m.Value));
 
             // https://en.wikipedia.org/wiki/Wikipedia_talk:AutoWikiBrowser/Bugs/Archive_11#Your_code_creates_page_errors_inside_imagemap_tags.
             // don't apply if there's an imagemap on the page or some noinclude transclusion business
